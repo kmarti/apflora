@@ -1,5 +1,5 @@
 Software zur Verwaltung des Aktionsplans Flora der Fachstelle Naturschutz des Kantons Zürich.
-Bisher auf Microsoft Access, das über ODBC auf eine MySql-Datenbank im Netz greift.
+Die Anwendung gibt es schon, realisiert auf Microsoft Access, das über ODBC auf eine MySql-Datenbank im Netz greift.
 
 #Ziel
 - Die Daten können von ausserhalb und endlich auch innerhalb der Fachstelle Naturschutz bearbeitet werden
