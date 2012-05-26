@@ -10,23 +10,37 @@
     <script type="text/javascript" src="src/jquery.cookie.js"></script>
     <script type="text/javascript" src="src/jquery.hotkeys.js"></script>
     <script>
-      $(document).ready(function(){
-        $("#tree")
-          .jstree({
+      $(document).ready(function () {
+        $("body").on("keyup click", "#suchen", function () {
+          if (this.value.length > 2) {
+            $("#tree").jstree("search", this.value);
+          } else {
+            $("#tree").jstree("clear_search");
+          }
+        });
+
+        $("#tree").jstree({
             "json_data": {
               "ajax": {
-                "url": "ap.php"
+                "url": "ap.php",
+                "data" : function (n) {
+                    return { id : n.attr ? n.attr("id") : 0 };
+                }
               }
             },
-            "plugins" : ["themes", "json_data", "ui","hotkeys"]
+            "search": {
+              "case_insensitive": true,
+              "show_only_matches": true
+            },
+            "plugins" : ["themes", "json_data", "ui", "hotkeys", "search"]
           })
-          .bind("open_node.jstree", function (e) {
+          .bind("open_node.jstree", function (e, data) {
             // `data.rslt.obj` is the jquery extended node that was clicked
             alert(data.rslt.obj.attr("id"));
-            //alert($("*:focus").parent().className);
           });
       });
     </script>
+    <input type="search" id="suchen" placeholder="suchen"/>
     <div id="tree">
     </div>
   </body>
