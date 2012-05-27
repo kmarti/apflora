@@ -1,20 +1,20 @@
 Software zur Verwaltung des Aktionsplans Flora der Fachstelle Naturschutz des Kantons Zürich.
-Die Anwendung gibt es schon, realisiert auf Microsoft Access, das über ODBC auf eine MySql-Datenbank im Netz greift.
+Die Anwendung gibt es schon. Sie basiert auf Microsoft Access, das über ODBC auf eine MySql-Datenbank im Netz greift.
 
 #Ziel
 - Die Daten können von ausserhalb und endlich auch innerhalb der Fachstelle Naturschutz bearbeitet werden
-- Einfachere und übesichtlichere Benutzerführung
+- Einfachere und übersichtlichere Benutzerführung
 - Keine Installation, keine Installationskosten, automatische Updates
 - Schlankes, weniger komplexes Gesamtsystem mit weniger Abhängigkeiten (läuft auch auf Mac und Linux)
 - Darstellung und Lokalisierung auf Luftbildern direkt in der Anwendung
 
 #Idee
-- Steuerung zu 100% über einen dynamisch aufgebauten Strukturbaum. Er ersetzt diese bisherigen Objekte: Baum, Register, Suchfelder und Verschiebe-/Kopierbefehle
+- Steuerung zu 100% über einen dynamisch aufgebauten Strukturbaum. Er ersetzt den bisherigen Baum, die Register, die Suchfelder und die Verschiebe-/Kopierbefehle
 - Rechts neben dem Baum werden die Daten der gewählten Struktur (= "node") angezeigt, z.B. Teilpopulation oder Feldkontrolle.
-- Jeder node enthält die Informationen, mit denen er sich bei Aktivierung seine Daten aus der DB holt > einfachste Abfragen, hoffentlich kurze Ladezeiten
+- Jeder node enthält die Informationen, mit denen er sich bei Aktivierung die Daten der nächsttieferen Ebene aus der Datenbank holt > einfachste Abfragen, hoffentlich kurze Ladezeiten
 - Nodes wie Teilpopulationen und Feldkontrollen können im Baum verschoben oder kopiert werden
 - Steuerung mit Ajax für schnelle Ladezeiten
-- Suchfunktion im Baum?
+- Suchfunktion im Baum
 - eigenes Symbol für AP-Arten, farblich nach Status abgestuft?
 
 #Einschränkungen
