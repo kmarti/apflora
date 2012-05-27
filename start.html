@@ -1,47 +1,49 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>AP Flora Kt ZH</title>
-  </head>
-  <body>
-    <script type="text/javascript" src="src/jquery.js"></script>
-    <script type="text/javascript" src="src/jquery.jstree.js"></script>
-    <script type="text/javascript" src="src/jquery.cookie.js"></script>
-    <script type="text/javascript" src="src/jquery.hotkeys.js"></script>
-    <script>
-      $(document).ready(function () {
-        $("body").on("keyup click", "#suchen", function () {
-          if (this.value.length > 2) {
-            $("#tree").jstree("search", this.value);
-          } else {
-            $("#tree").jstree("clear_search");
-          }
-        });
-
-        $("#tree").jstree({
-            "json_data": {
-              "ajax": {
-                "url": "ap.php",
-                "data" : function (n) {
-                    return { id : n.attr ? n.attr("id") : 0 };
-                }
-              }
-            },
-            "search": {
-              "case_insensitive": true,
-              "show_only_matches": true
-            },
-            "plugins" : ["themes", "json_data", "ui", "hotkeys", "search"]
-          })
-          .bind("open_node.jstree", function (e, data) {
-            // `data.rslt.obj` is the jquery extended node that was clicked
-            alert(data.rslt.obj.attr("id"));
-          });
-      });
-    </script>
-    <input type="search" id="suchen" placeholder="suchen"/>
-    <div id="tree">
-    </div>
-  </body>
+	<head>
+		<meta charset="utf-8">
+		<title>AP Flora Kt ZH</title>
+	</head>
+	<body>
+		<script type="text/javascript" src="src/jquery.js"></script>
+		<script type="text/javascript" src="src/jquery.jstree.js"></script>
+		<script type="text/javascript" src="src/jquery.cookie.js"></script>
+		<script type="text/javascript" src="src/jquery.hotkeys.js"></script>
+		<script>
+			$(document).ready(function () {
+				//Suche steuern
+				$("body").on("keyup click", "#suchen", function () {
+					if (this.value.length > 2) {
+						$("#tree").jstree("search", this.value);
+					} else {
+						$("#tree").jstree("clear_search");
+					}
+				});
+				$("#tree").jstree( {
+					"json_data": {
+						"ajax": {
+							"url": "ap.php",
+							"data" : function (n) {
+								return {id : n.attr ? n.attr("id") : 0};
+							}
+						}
+					},
+					"search": {
+						"case_insensitive": true
+					},
+					"themes": {
+						"icons": false
+					},
+					"plugins" : ["themes", "json_data", "ui", "hotkeys", "search"]
+				})
+				.bind("open_node.jstree", function (e, data) {
+					// `data.rslt.obj` is the jquery extended node that was clicked
+					alert(data.rslt.obj.attr("id"));
+				});
+			});
+		</script>
+		<input type="search" id="suchen" placeholder="suchen"/>
+		<div id="tree">
+		</div>
+	</body>
 </html>
