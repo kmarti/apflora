@@ -4,11 +4,12 @@
 		<meta charset="utf-8">
 		<title>AP Flora Kt ZH</title>
 	</head>
-	<body>
+	<body style="background-color: #FFE; height:100%">
 		<script type="text/javascript" src="src/jquery.js"></script>
 		<script type="text/javascript" src="src/jquery.jstree.js"></script>
 		<script type="text/javascript" src="src/jquery.cookie.js"></script>
 		<script type="text/javascript" src="src/jquery.hotkeys.js"></script>
+		<link rel="stylesheet" href="style/apflora.css" type="text/css"/>
 		<script>
 			$(document).ready(function () {
 				//Suche steuern
@@ -28,6 +29,10 @@
 							}
 						}
 					},
+					"ui": {
+						"select_limit": 1,	//nur ein Datensatz kann aufs mal gewählt werden
+						"selected_parent_open": true	//wenn Code einen node wählt, werden alle parents geöffnet
+					},
 					"search": {
 						"case_insensitive": true
 					},
@@ -42,8 +47,12 @@
 				});
 			});
 		</script>
-		<input type="search" id="suchen" placeholder="suchen"/>
-		<div id="tree">
+		<div id="menu" style="width:300px; float:left; padding-right:5px; background-color:#FFE; border:1px solid; border-color:#A5A59A;">
+			<input type="search" id="suchen" placeholder="suchen" style="background-color:#FFFFF7;"/>
+			<div id="tree"></div>
+		</div>
+		<div id="form" style="display:block; margin-left:auto; padding-left:320px; padding-top:1px;">
+			<p>hier soll der Inhalt kommen</p>
 		</div>
 	</body>
 </html>

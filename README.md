@@ -16,7 +16,8 @@ Die Anwendung gibt es schon. Sie basiert auf Microsoft Access, das über ODBC au
 - Nodes wie Teilpopulationen und Feldkontrollen können im Baum zu anderen nodes desselben Typs verschoben oder kopiert werden
 - Schnelle Ladezeiten: Steuerung mit Ajax, Datensätze und -listen als Objekte im Arbeitsspeicher behalten
 - Suchfunktion im Baum
-- eigenes Symbol für AP-Arten, farblich nach Status abgestuft?
+- Eigenes Symbol für AP-Arten, farblich nach Status abgestuft?
+- Beim erneuten Einstieg weiterarbeiten, wo man aufgehört hat
 
 #Einschränkungen
 - Abfragen und Exporte vorläufig noch in Access ausführen (muss wohl sowieso flexibilisiert werden)
