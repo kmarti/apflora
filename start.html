@@ -23,11 +23,22 @@
 				$("#tree").jstree( {
 					"json_data": {
 						"ajax": {
-							"url": "ap.php",
+							"url": "php/tree.php",
+							//"progressive_render": true,
 							"data" : function (n) {
-								return {id : n.attr ? n.attr("id") : 0};
+								return {
+									id : n.attr ? n.attr("id") : 0,
+									typ : n.attr ? n.attr("typ") : 0
+								};
 							}
 						}
+					},
+					"core": {
+						"open_parents": true,	//wird ein node programmatisch geöffnet, öffnen sich alle parents
+						"strings": {	//Deutsche Übersetzungen
+							loading: "hole Daten...",
+							new_node: "neuer Knoten"
+						},
 					},
 					"ui": {
 						"select_limit": 1,	//nur ein Datensatz kann aufs mal gewählt werden
@@ -39,11 +50,41 @@
 					"themes": {
 						"icons": false
 					},
-					"plugins" : ["themes", "json_data", "ui", "hotkeys", "search"]
+					"types": {
+						"default": {
+							"select_node": function(e) {
+								this.correct_state(e);
+								this.toggle_node(e);
+								return false;
+							}
+						}
+					},
+					"plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "types"]
 				})
 				.bind("open_node.jstree", function (e, data) {
+					var node = data.rslt.obj;
+					//this.open_node(e);
 					// `data.rslt.obj` is the jquery extended node that was clicked
-					alert(data.rslt.obj.attr("id"));
+					//alert(data.rslt.obj.attr("typ") + " mit id " + data.rslt.obj.attr("id"));
+					if (node.attr("typ") === "ap") {
+						$.ajax({
+							type: "GET",
+							url: "php/test.php",
+							data: {
+								"id": node.attr("id"),
+								"typ": node.attr("typ")
+							},
+							success: function (data) {
+								jQuery.jstree._reference(node).create_node(node, "last", JSON.stringify(data));
+							}
+						});
+					}
+					//open_node	soll auch durch click auf node ausgelöst werden
+					//HIER ID UND TYP ÜBERNEHMEN
+					//JE NACH TYP DB ABFRAGEN (POST AN PHP)
+					//DANN MIT DB-ANTWORT NODES AUFBAUEN MIT create_node gemäss http://www.jstree.com/documentation/core#
+					//DANN MIT set_focus FOCUS AUF DEN ERSTEN NODE UND DIESEN ALS DATENSATZ IN FORM ANZEIGEN
+					//mit mysql_num_rows() anzahl Zeilen zählen
 				});
 			});
 		</script>
