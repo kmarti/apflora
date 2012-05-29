@@ -47,9 +47,9 @@ while($r_pop = mysql_fetch_assoc($result_pop)) {
 		    $rows_tpopmassn[] = $tpopmassn;
 		}
 		mysql_free_result($result_tpopmassn);
-		
+
 		//MassnBer dieser TPop abfragen
-		$query_tpopmassnber = "SELECT tblTeilPopMassnBericht.TPopMassnBerId, tblTeilPopMassnBericht.TPopId, tblTeilPopMassnBericht.TPopMassnBerJahr, DomainTPopMassnErfolgsbeurteilung.BeurteilTxt FROM tblTeilPopMassnBericht INNER JOIN DomainTPopMassnErfolgsbeurteilung ON tblTeilPopMassnBericht.TPopMassnBerErfolgsbeurteilung = DomainTPopMassnErfolgsbeurteilung.BeurteilId where TPopId = $TPopId  ORDER BY tblTeilPopMassnBericht.TPopMassnBerJahr, DomainTPopMassnErfolgsbeurteilung.BeurteilTxt";
+		$query_tpopmassnber = "SELECT tblTeilPopMassnBericht.TPopMassnBerId, tblTeilPopMassnBericht.TPopId, tblTeilPopMassnBericht.TPopMassnBerJahr, DomainTPopMassnErfolgsbeurteilung.BeurteilTxt FROM tblTeilPopMassnBericht INNER JOIN DomainTPopMassnErfolgsbeurteilung ON tblTeilPopMassnBericht.TPopMassnBerErfolgsbeurteilung = DomainTPopMassnErfolgsbeurteilung.BeurteilId where TPopId = $TPopId ORDER BY tblTeilPopMassnBericht.TPopMassnBerJahr, DomainTPopMassnErfolgsbeurteilung.BeurteilTxt";
 		$result_tpopmassnber = mysql_query($query_tpopmassnber) or die("Anfrage fehlgeschlagen: " . mysql_error());
 		$anz_tpopmassnber = mysql_num_rows($result_tpopmassnber);
 		//Datenstruktur für tpopmassnber aufbauen
@@ -68,6 +68,26 @@ while($r_pop = mysql_fetch_assoc($result_pop)) {
 		}
 		mysql_free_result($result_tpopmassnber);
 
+		//Feldkontrollen dieser TPop abfragen
+		$query_tpopfeldkontr = "SELECT TPopKontrId, TPopId, TPopKontrJahr, TPopKontrTyp FROM tblTeilPopFeldkontrolle where TPopId = $TPopId ORDER BY TPopKontrJahr, TPopKontrTyp";
+		$result_tpopfeldkontr = mysql_query($query_tpopfeldkontr) or die("Anfrage fehlgeschlagen: " . mysql_error());
+		$anz_tpopfeldkontr = mysql_num_rows($result_tpopfeldkontr);
+		//Datenstruktur für tpopfeldkontr aufbauen
+		$rows_tpopfeldkontr = array();
+		while($r_tpopfeldkontr = mysql_fetch_assoc($result_tpopfeldkontr)) {
+			$TPopKontrId = $r_tpopfeldkontr['TPopKontrId'];
+			settype($TPopKontrId, "integer");
+			$TPopKontrJahr =  $r_tpopfeldkontr['TPopKontrJahr'];
+			settype($TPopKontrJahr, "integer");
+			$TPopKontrTyp = utf8_encode($r_tpop['TPopKontrTyp']);
+			//TPopFeldKontr setzen
+			$attr_tpopfeldkontr = array("id" => $TPopKontrId, "typ" => "tpopfeldkontr");
+			$tpopfeldkontr = array("data" => $TPopKontrJahr." ".$TPopKontrTyp, "attr" => $attr_tpopfeldkontr);
+			//tpopfeldkontr-Array um tpopfeldkontr ergänzen
+		    $rows_tpopfeldkontr[] = $tpopfeldkontr;
+		}
+		mysql_free_result($result_tpopfeldkontr);
+
 		//TPop-Ordner setzen
 		//Massnahmen
 		$tpop_ordner_massn_attr = array("id" => $TPopId, "typ" => "tpop_ordner_massn");
@@ -77,7 +97,7 @@ while($r_pop = mysql_fetch_assoc($result_pop)) {
 		$tpop_ordner_massnber = array("data" => $anz_tpopmassnber." Massnahmen-Berichte", "attr" => $tpop_ordner_massnber_attr, "children" => $rows_tpopmassnber);
 		//Feldkontrollen
 		$tpop_ordner_feldkontr_attr = array("id" => $TPopId, "typ" => "tpop_ordner_feldkontr");
-		$tpop_ordner_feldkontr = array("data" => "Feldkontrollen", "attr" => $tpop_ordner_feldkontr_attr, "children" => $child_dummy);
+		$tpop_ordner_feldkontr = array("data" => $anz_tpopfeldkontr." Feldkontrollen", "attr" => $tpop_ordner_feldkontr_attr, "children" => $rows_tpopfeldkontr);
 		//Freiwilligen-Kontrollen
 		$tpop_ordner_freiwkontr_attr = array("id" => $TPopId, "typ" => "tpop_ordner_freiwkontr");
 		$tpop_ordner_freiwkontr = array("data" => "Freiwilligen-Kontrollen", "attr" => $tpop_ordner_freiwkontr_attr, "children" => $child_dummy);
