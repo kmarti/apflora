@@ -10,21 +10,18 @@ $query = "SELECT Name, ApArtId FROM qryAp1";
 $result = mysql_query($query) or die("Anfrage fehlgeschlagen: " . mysql_error());
 
 //benötigte Datenstruktur aufbauen
-$rows = "[";
+$rows = array();
 while($r = mysql_fetch_assoc($result)) {
 	$ApArtId = $r['ApArtId'];
 	settype($ApArtId, "integer");
-	$attr = array("id" => $ApArtId, "typ" => "ap");
-	$children = array(0 => "Populationen", 1 => "AP-Ziele", 2 => "Erfolgskriterien", 3 => "AP-Berichte", 4 => "Berichte");
-	$row = array("data" => utf8_encode($r['Name']), "attr" => $attr, "state" => "closed", "children" => $children);
-	if ($rows != "[") {
-    	$rows .= ",";
-    }
-    $rows .= json_encode($row);
+	$row = array("ap_name" => utf8_encode($r['Name']), "id" => $ApArtId);
+    $rows[] = $row;
 }
-$rows .= "]";
+//in json verwandeln
+$rows = json_encode($rows);
+$Object = "{\"rows\": $rows}";
 
-print($rows);
+print($Object);
 
 // Resultset freigeben
 mysql_free_result($result);

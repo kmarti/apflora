@@ -12,6 +12,13 @@
 		<link rel="stylesheet" href="style/apflora.css" type="text/css"/>
 		<script>
 			$(document).ready(function () {
+				erstelle_ap_liste();
+
+				$("#menu").on("change", "#ap_waehlen", function () {
+					$("#suchen").css('visibility', 'visible');
+					erstelle_tree(this.value);
+				});
+
 				//Suche steuern
 				$("body").on("keyup click", "#suchen", function () {
 					if (this.value.length > 2) {
@@ -20,15 +27,35 @@
 						$("#tree").jstree("clear_search");
 					}
 				});
+				
+			});
+
+			function erstelle_ap_liste() {
+				$.ajax({
+					url: 'php/ap.php',
+					dataType: 'json',
+					success: function (data) {
+						var html;
+						html = "<option></option>";
+						for (i in data.rows) {
+							if (typeof i !== "undefined") {
+								html += "<option value=\"" + data.rows[i].id + "\">" + data.rows[i].ap_name + "</option>";
+							}
+						}
+						$("#ap_waehlen").html(html);
+					}
+				});
+			}
+
+			function erstelle_tree(ApArtId) {
 				$("#tree").jstree( {
 					"json_data": {
 						"ajax": {
 							"url": "php/tree.php",
-							//"progressive_render": true,
+							"progressive_render": true,
 							"data" : function (n) {
 								return {
-									id : n.attr ? n.attr("id") : 0,
-									typ : n.attr ? n.attr("typ") : 0
+									id : ApArtId
 								};
 							}
 						}
@@ -62,34 +89,22 @@
 					"plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "types"]
 				})
 				.bind("open_node.jstree", function (e, data) {
-					var node = data.rslt.obj;
+					var node;
+					//node = data.rslt.obj;
 					//this.open_node(e);
 					// `data.rslt.obj` is the jquery extended node that was clicked
 					//alert(data.rslt.obj.attr("typ") + " mit id " + data.rslt.obj.attr("id"));
-					if (node.attr("typ") === "ap") {
-						$.ajax({
-							type: "GET",
-							url: "php/test.php",
-							data: {
-								"id": node.attr("id"),
-								"typ": node.attr("typ")
-							},
-							success: function (data) {
-								jQuery.jstree._reference(node).create_node(node, "last", JSON.stringify(data));
-							}
-						});
-					}
-					//open_node	soll auch durch click auf node ausgelöst werden
-					//HIER ID UND TYP ÜBERNEHMEN
-					//JE NACH TYP DB ABFRAGEN (POST AN PHP)
-					//DANN MIT DB-ANTWORT NODES AUFBAUEN MIT create_node gemäss http://www.jstree.com/documentation/core#
-					//DANN MIT set_focus FOCUS AUF DEN ERSTEN NODE UND DIESEN ALS DATENSATZ IN FORM ANZEIGEN
-					//mit mysql_num_rows() anzahl Zeilen zählen
 				});
-			});
+			}
 		</script>
 		<div id="menu" style="width:300px; float:left; padding-right:5px; background-color:#FFE; border:1px solid; border-color:#A5A59A;">
-			<input type="search" id="suchen" placeholder="suchen" style="background-color:#FFFFF7;"/>
+			<div data-role='fieldcontain'>
+				<label for='ap_waehlen' class='select' style="margin-left:6px;">Aktionsplan:</label>
+				<select id="ap_waehlen" style="width:290px; margin-left:5px;">
+					<option></option>
+				</select>
+			</div>
+			<input type="search" id="suchen" placeholder="suchen" style="background-color:#FFFFF7; margin-top:3px; margin-left:5px; visibility:hidden;"/>
 			<div id="tree"></div>
 		</div>
 		<div id="form" style="display:block; margin-left:auto; padding-left:320px; padding-top:1px;">
