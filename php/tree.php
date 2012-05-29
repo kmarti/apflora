@@ -69,7 +69,7 @@ while($r_pop = mysql_fetch_assoc($result_pop)) {
 		mysql_free_result($result_tpopmassnber);
 
 		//Feldkontrollen dieser TPop abfragen
-		$query_tpopfeldkontr = "SELECT TPopKontrId, TPopId, TPopKontrJahr, TPopKontrTyp FROM tblTeilPopFeldkontrolle where TPopId = $TPopId ORDER BY TPopKontrJahr, TPopKontrTyp";
+		$query_tpopfeldkontr = "SELECT TPopKontrId, TPopId, TPopKontrJahr, TPopKontrTyp FROM tblTeilPopFeldkontrolle where (TPopId = $TPopId) AND (TPopKontrTyp<>\"Freiwilligen-Erfolgskontrolle\") ORDER BY TPopKontrJahr, TPopKontrTyp";
 		$result_tpopfeldkontr = mysql_query($query_tpopfeldkontr) or die("Anfrage fehlgeschlagen: " . mysql_error());
 		$anz_tpopfeldkontr = mysql_num_rows($result_tpopfeldkontr);
 		//Datenstruktur für tpopfeldkontr aufbauen
@@ -88,6 +88,64 @@ while($r_pop = mysql_fetch_assoc($result_pop)) {
 		}
 		mysql_free_result($result_tpopfeldkontr);
 
+		//Freiwilligen-kontrollen dieser TPop abfragen
+		$query_tpopfreiwkontr = "SELECT TPopKontrId, TPopId, TPopKontrJahr, TPopKontrTyp FROM tblTeilPopFeldkontrolle where (TPopId = $TPopId) AND (TPopKontrTyp=\"Freiwilligen-Erfolgskontrolle\") ORDER BY TPopKontrJahr, TPopKontrTyp";
+		$result_tpopfreiwkontr = mysql_query($query_tpopfreiwkontr) or die("Anfrage fehlgeschlagen: " . mysql_error());
+		$anz_tpopfreiwkontr = mysql_num_rows($result_tpopfreiwkontr);
+		//Datenstruktur für tpopfreiwkontr aufbauen
+		$rows_tpopfreiwkontr = array();
+		while($r_tpopfreiwkontr = mysql_fetch_assoc($result_tpopfreiwkontr)) {
+			$TPopKontrId = $r_tpopfreiwkontr['TPopKontrId'];
+			settype($TPopKontrId, "integer");
+			$TPopKontrJahr =  $r_tpopfreiwkontr['TPopKontrJahr'];
+			settype($TPopKontrJahr, "integer");
+			$TPopKontrTyp = utf8_encode($r_tpop['TPopKontrTyp']);
+			//TPopFeldKontr setzen
+			$attr_tpopfreiwkontr = array("id" => $TPopKontrId, "typ" => "tpopfreiwkontr");
+			$tpopfreiwkontr = array("data" => $TPopKontrJahr." ".$TPopKontrTyp, "attr" => $attr_tpopfreiwkontr);
+			//tpopfreiwkontr-Array um tpopfreiwkontr ergänzen
+		    $rows_tpopfreiwkontr[] = $tpopfreiwkontr;
+		}
+		mysql_free_result($result_tpopfreiwkontr);
+
+		//TPop-Berichte dieser TPop abfragen
+		$query_tpopber = "SELECT TPopBerId, TPopId, TPopBerJahr, EntwicklungTxt, EntwicklungOrd FROM tblTeilPopBericht INNER JOIN DomainTPopEntwicklung ON TPopBerEntwicklung = EntwicklungCode where TPopId = $TPopId ORDER BY TPopBerJahr, EntwicklungOrd";
+		$result_tpopber = mysql_query($query_tpopber) or die("Anfrage fehlgeschlagen: " . mysql_error());
+		$anz_tpopber = mysql_num_rows($result_tpopber);
+		//Datenstruktur für tpopber aufbauen
+		$rows_tpopber = array();
+		while($r_tpopber = mysql_fetch_assoc($result_tpopber)) {
+			$TPopBerId = $r_tpopber['TPopBerId'];
+			settype($TPopBerId, "integer");
+			$TPopBerJahr =  $r_tpopber['TPopBerJahr'];
+			settype($TPopBerJahr, "integer");
+			$EntwicklungTxt = utf8_encode($r_tpop['EntwicklungTxt']);
+			//TPopFeldKontr setzen
+			$attr_tpopber = array("id" => $TPopBerId, "typ" => "tpopber");
+			$tpopber = array("data" => $TPopBerJahr." ".$EntwicklungTxt, "attr" => $attr_tpopber);
+			//tpopber-Array um tpopber ergänzen
+		    $rows_tpopber[] = $tpopber;
+		}
+		mysql_free_result($result_tpopber);
+
+		//Beobachtungen dieser TPop abfragen
+		$query_beob = "SELECT BeobId, TPopId, Datum, Autor FROM tblBeobachtungen where TPopId = $TPopId ORDER BY Datum DESC, Autor";
+		$result_beob = mysql_query($query_beob) or die("Anfrage fehlgeschlagen: " . mysql_error());
+		$anz_beob = mysql_num_rows($result_beob);
+		//Datenstruktur für beob aufbauen
+		$rows_beob = array();
+		while($r_beob = mysql_fetch_assoc($result_beob)) {
+			$BeobId = $r_beob['BeobId'];
+			settype($BeobId, "integer");
+			$Autor = utf8_encode($r_tpop['Autor']);
+			//TPopFeldKontr setzen
+			$attr_beob = array("id" => $BeobId, "typ" => "beob");
+			$beob = array("data" => $r_beob['Datum'].": ".$Autor, "attr" => $attr_beob);
+			//beob-Array um beob ergänzen
+		    $rows_beob[] = $beob;
+		}
+		mysql_free_result($result_beob);
+
 		//TPop-Ordner setzen
 		//Massnahmen
 		$tpop_ordner_massn_attr = array("id" => $TPopId, "typ" => "tpop_ordner_massn");
@@ -100,13 +158,13 @@ while($r_pop = mysql_fetch_assoc($result_pop)) {
 		$tpop_ordner_feldkontr = array("data" => $anz_tpopfeldkontr." Feldkontrollen", "attr" => $tpop_ordner_feldkontr_attr, "children" => $rows_tpopfeldkontr);
 		//Freiwilligen-Kontrollen
 		$tpop_ordner_freiwkontr_attr = array("id" => $TPopId, "typ" => "tpop_ordner_freiwkontr");
-		$tpop_ordner_freiwkontr = array("data" => "Freiwilligen-Kontrollen", "attr" => $tpop_ordner_freiwkontr_attr, "children" => $child_dummy);
+		$tpop_ordner_freiwkontr = array("data" => $anz_tpopfreiwkontr." Freiwilligen-Kontrollen", "attr" => $tpop_ordner_freiwkontr_attr, "children" => $rows_tpopfreiwkontr);
 		//Teilpopulations-Berichte
 		$tpop_ordner_tpopber_attr = array("id" => $TPopId, "typ" => "tpop_ordner_tpopber");
-		$tpop_ordner_tpopber = array("data" => "Teilpopulations-Berichte", "attr" => $tpop_ordner_tpopber_attr, "children" => $child_dummy);
+		$tpop_ordner_tpopber = array("data" => $anz_tpopber." Teilpopulations-Berichte", "attr" => $tpop_ordner_tpopber_attr, "children" => $rows_tpopber);
 		//Beobachtungen
 		$tpop_ordner_beob_attr = array("id" => $TPopId, "typ" => "tpop_ordner_beob");
-		$tpop_ordner_beob = array("data" => "Beobachtungen", "attr" => $tpop_ordner_beob_attr, "children" => $child_dummy);
+		$tpop_ordner_beob = array("data" => $anz_beob." Beobachtungen", "attr" => $tpop_ordner_beob_attr, "children" => $rows_beob);
 		//zusammensetzen
 		$tpop_ordner = array(0 => $tpop_ordner_massn, 1 => $tpop_ordner_massnber, 2 => $tpop_ordner_feldkontr, 3 => $tpop_ordner_freiwkontr, 4 => $tpop_ordner_tpopber, 5 => $tpop_ordner_beob);
 
