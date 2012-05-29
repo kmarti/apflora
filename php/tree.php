@@ -194,6 +194,24 @@ while($r_pop = mysql_fetch_assoc($result_pop)) {
 	    $rows_popber[] = $popber;
 	}
 	mysql_free_result($result_popber);
+
+	//massnber dieser Pop abfragen
+	$query_massnber = "SELECT PopMassnBerId, PopId, PopMassnBerJahr, BeurteilTxt, BeurteilOrd FROM tblPopMassnBericht LEFT JOIN DomainTPopMassnErfolgsbeurteilung ON PopMassnBerErfolgsbeurteilung = BeurteilId where PopId = $PopId ORDER BY PopMassnBerJahr, BeurteilOrd";
+	$result_massnber = mysql_query($query_massnber) or die("Anfrage fehlgeschlagen: " . mysql_error());
+	$anz_massnber = mysql_num_rows($result_massnber);
+	//Datenstruktur für massnber aufbauen
+	$rows_massnber = array();
+	while($r_massnber = mysql_fetch_assoc($result_massnber)) {
+		$PopMassnBerId = $r_massnber['PopMassnBerId'];
+		settype($PopMassnBerId, "integer");
+		$BeurteilTxt = utf8_encode($r_massnber['BeurteilTxt']);
+		//massnber setzen
+		$attr_massnber = array("id" => $PopMassnBerId, "typ" => "massnber");
+		$massnber = array("data" => $r_massnber['PopMassnBerJahr'].": ".$BeurteilTxt, "attr" => $attr_massnber);
+		//massnber-Array um massnber ergänzen
+	    $rows_massnber[] = $massnber;
+	}
+	mysql_free_result($result_massnber);
 	
 	//pop-ordner setzen
 	//Teilpopulationen
@@ -204,7 +222,7 @@ while($r_pop = mysql_fetch_assoc($result_pop)) {
 	$pop_ordner_popber = array("data" => $anz_popber." Populations-Berichte", "attr" => $pop_ordner_popber_attr, "children" => $rows_popber);
 	//Massnahmen-Berichte
 	$pop_ordner_massnber_attr = array("id" => $PopId, "typ" => "pop_ordner_massnber");
-	$pop_ordner_massnber = array("data" => "Massnahmen-Berichte", "attr" => $pop_ordner_massnber_attr, "children" => $child_dummy);
+	$pop_ordner_massnber = array("data" => $anz_massnber." Massnahmen-Berichte", "attr" => $pop_ordner_massnber_attr, "children" => $rows_massnber);
 	//zusammensetzen
 	$pop_ordner = array(0 => $pop_ordner_tpop, 1 => $pop_ordner_popber, 2 => $pop_ordner_massnber);
 
