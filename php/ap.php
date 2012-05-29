@@ -5,8 +5,15 @@ $link = mysql_connect("barbalex.ch", "alexande", "excalibu")
 //echo "Verbindung zum Datenbankserver erfolgreich";
 mysql_select_db("alexande_apflora") or die("Auswahl der Datenbank fehlgeschlagen");
 
+//ist ap_arten true, sollen nur ap_arten angezeigt werden
+$ap_arten = $_GET["ap_arten"];
+
 // SQL-Anfrage ausführen
-$query = "SELECT Name, ApArtId FROM qryAp1";
+if ($ap_arten) {
+	$query = "SELECT Name, ApArtId FROM qryAp1 WHERE ApStatus BETWEEN 1 AND 3";
+} else {
+	$query = "SELECT Name, ApArtId FROM qryAp1";
+}
 $result = mysql_query($query) or die("Anfrage fehlgeschlagen: " . mysql_error());
 
 //benötigte Datenstruktur aufbauen

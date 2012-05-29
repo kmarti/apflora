@@ -2,20 +2,50 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>AP Flora Kt ZH</title>
-	</head>
-	<body style="background-color: #FFE; height:100%">
 		<script type="text/javascript" src="src/jquery.js"></script>
 		<script type="text/javascript" src="src/jquery.jstree.js"></script>
 		<script type="text/javascript" src="src/jquery.cookie.js"></script>
 		<script type="text/javascript" src="src/jquery.hotkeys.js"></script>
 		<link rel="stylesheet" href="style/apflora.css" type="text/css"/>
+		<title>AP Flora Kt ZH</title>
+	</head>
+	<body style="background-color: #FFE; height:100%">
+		<div id="menu" style="width:350px; float:left; padding-right:5px; background-color:#FFE; border:1px solid; border-color:#A5A59A;">
+			<div data-role='fieldcontain' style="margin-top:3px;">
+				<label id="ap_waehlen_label" for='ap_waehlen' class='select' style="margin-left:6px;margin-top:3px;">Art wählen:</label>
+				<select id="ap_waehlen" style="width:344px; margin-left:5px; margin-top:2px;">
+					<option></option>
+				</select>
+			</div>
+			<div data-role='fieldcontain' style="margin-top:3px; margin-bottom:3px;">
+				<input type="button" id="ap_arten" value="AP-Arten" style="float:left; margin-left:5px; height:26px;">
+				<input type="search" id="suchen" placeholder="suchen" style="background-color:#FFFFF7; margin-left:5px; visibility:hidden;"/>
+			</div>
+			<div id="tree" style="width:330px; margin-bottom:5px;"></div>
+		</div>
+		<div id="form" style="display:block; margin-left:auto; padding-left:370px; padding-top:1px;">
+			<p>hier soll der Inhalt kommen</p>
+		</div>
 		<script>
 			$(document).ready(function () {
 				erstelle_ap_liste();
 
+				$("#menu").on("click", "#ap_arten", function () {
+
+					if ($(this).val() === "AP-Arten") {
+						$(this).val("alle Arten");
+						erstelle_ap_liste("ap_arten");
+					} else {
+						$(this).val("AP-Arten");
+						erstelle_ap_liste();
+					}
+					$('#tree').empty();
+					$("#ap_waehlen_label").show();
+				});
+
 				$("#menu").on("change", "#ap_waehlen", function () {
 					$("#suchen").css('visibility', 'visible');
+					$("#ap_waehlen_label").hide();
 					erstelle_tree(this.value);
 				});
 
@@ -30,9 +60,14 @@
 				
 			});
 
-			function erstelle_ap_liste() {
+			function erstelle_ap_liste(ap_arten) {
+				var url;
+				urll = 'php/ap.php';
+				if (ap_arten) {
+					urll += '?ap_arten=true';
+				}
 				$.ajax({
-					url: 'php/ap.php',
+					url: urll,
 					dataType: 'json',
 					success: function (data) {
 						var html;
@@ -97,18 +132,5 @@
 				});
 			}
 		</script>
-		<div id="menu" style="width:300px; float:left; padding-right:5px; background-color:#FFE; border:1px solid; border-color:#A5A59A;">
-			<div data-role='fieldcontain'>
-				<label for='ap_waehlen' class='select' style="margin-left:6px;">Aktionsplan:</label>
-				<select id="ap_waehlen" style="width:290px; margin-left:5px;">
-					<option></option>
-				</select>
-			</div>
-			<input type="search" id="suchen" placeholder="suchen" style="background-color:#FFFFF7; margin-top:3px; margin-left:5px; visibility:hidden;"/>
-			<div id="tree"></div>
-		</div>
-		<div id="form" style="display:block; margin-left:auto; padding-left:320px; padding-top:1px;">
-			<p>hier soll der Inhalt kommen</p>
-		</div>
 	</body>
 </html>
