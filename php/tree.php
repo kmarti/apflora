@@ -19,6 +19,7 @@ $rows_pop = array();
 while($r_pop = mysql_fetch_assoc($result_pop)) {
 	$PopId = $r_pop['PopId'];
 	settype($PopId, "integer");
+
 	//TPop dieser Pop abfragen
 	$query_tpop = "SELECT TPopFlurname, TPopId, PopId FROM tblTeilpopulation where PopId = $PopId ORDER BY TPopFlurname";
 	$result_tpop = mysql_query($query_tpop) or die("Anfrage fehlgeschlagen: " . mysql_error());
@@ -175,6 +176,24 @@ while($r_pop = mysql_fetch_assoc($result_pop)) {
 	    $rows_tpop[] = $tpop;
 	}
 	mysql_free_result($result_tpop);
+
+	//popber dieser Pop abfragen
+	$query_popber = "SELECT PopBerId, PopId, PopBerJahr, EntwicklungTxt, EntwicklungOrd FROM tblPopBericht INNER JOIN DomainPopEntwicklung ON PopBerEntwicklung = EntwicklungId where PopId = $PopId ORDER BY PopBerJahr, EntwicklungOrd";
+	$result_popber = mysql_query($query_popber) or die("Anfrage fehlgeschlagen: " . mysql_error());
+	$anz_popber = mysql_num_rows($result_popber);
+	//Datenstruktur für popber aufbauen
+	$rows_popber = array();
+	while($r_popber = mysql_fetch_assoc($result_popber)) {
+		$PopBerId = $r_popber['PopBerId'];
+		settype($PopBerId, "integer");
+		$EntwicklungTxt = utf8_encode($r_popber['EntwicklungTxt']);
+		//popber setzen
+		$attr_popber = array("id" => $PopBerId, "typ" => "popber");
+		$popber = array("data" => $r_popber['PopBerJahr'].": ".$EntwicklungTxt, "attr" => $attr_popber);
+		//popber-Array um popber ergänzen
+	    $rows_popber[] = $popber;
+	}
+	mysql_free_result($result_popber);
 	
 	//pop-ordner setzen
 	//Teilpopulationen
@@ -182,7 +201,7 @@ while($r_pop = mysql_fetch_assoc($result_pop)) {
 	$pop_ordner_tpop = array("data" => $anz_tpop." Teilpopulationen", "attr" => $pop_ordner_tpop_attr, "children" => $rows_tpop);
 	//Populations-Berichte
 	$pop_ordner_popber_attr = array("id" => $PopId, "typ" => "pop_ordner_popber");
-	$pop_ordner_popber = array("data" => "Populations-Berichte", "attr" => $pop_ordner_popber_attr, "children" => $child_dummy);
+	$pop_ordner_popber = array("data" => $anz_popber." Populations-Berichte", "attr" => $pop_ordner_popber_attr, "children" => $rows_popber);
 	//Massnahmen-Berichte
 	$pop_ordner_massnber_attr = array("id" => $PopId, "typ" => "pop_ordner_massnber");
 	$pop_ordner_massnber = array("data" => "Massnahmen-Berichte", "attr" => $pop_ordner_massnber_attr, "children" => $child_dummy);
