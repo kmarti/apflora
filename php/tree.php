@@ -28,10 +28,71 @@ while($r_pop = mysql_fetch_assoc($result_pop)) {
 	while($r_tpop = mysql_fetch_assoc($result_tpop)) {
 		$TPopId = $r_tpop['TPopId'];
 		settype($TPopId, "integer");
+		//Massn dieser TPop abfragen
+		$query_tpopmassn = "SELECT tblTeilPopMassnahme.TPopMassnId, tblTeilPopMassnahme.TPopId, tblTeilPopMassnahme.TPopMassnJahr, tblTeilPopMassnahme.TPopMassnDatum, DomainTPopMassnTyp.MassnTypTxt FROM tblTeilPopMassnahme INNER JOIN DomainTPopMassnTyp ON tblTeilPopMassnahme.TPopMassnTyp = DomainTPopMassnTyp.MassnTypCode where TPopId = $TPopId ORDER BY tblTeilPopMassnahme.TPopMassnJahr, tblTeilPopMassnahme.TPopMassnDatum, DomainTPopMassnTyp.MassnTypTxt";
+		$result_tpopmassn = mysql_query($query_tpopmassn) or die("Anfrage fehlgeschlagen: " . mysql_error());
+		$anz_tpopmassn = mysql_num_rows($result_tpopmassn);
+		//Datenstruktur für tpopmassn aufbauen
+		$rows_tpopmassn = array();
+		while($r_tpopmassn = mysql_fetch_assoc($result_tpopmassn)) {
+			$TPopMassnId = $r_tpopmassn['TPopMassnId'];
+			settype($TPopMassnId, "integer");
+			$TPopMassnJahr =  $r_tpopmassn['TPopMassnJahr'];
+			settype($TPopMassnJahr, "integer");
+			$MassnTypTxt = utf8_encode($r_tpop['MassnTypTxt']);
+			//TPopMassn setzen
+			$attr_tpopmassn = array("id" => $TPopMassnId, "typ" => "tpopmassn");
+			$tpopmassn = array("data" => $TPopMassnJahr." ".$MassnTypTxt, "attr" => $attr_tpopmassn);
+			//tpopmassn-Array um tpopmassn ergänzen
+		    $rows_tpopmassn[] = $tpopmassn;
+		}
+		mysql_free_result($result_tpopmassn);
+		
+		//MassnBer dieser TPop abfragen
+		$query_tpopmassnber = "SELECT tblTeilPopMassnBericht.TPopMassnBerId, tblTeilPopMassnBericht.TPopId, tblTeilPopMassnBericht.TPopMassnBerJahr, DomainTPopMassnErfolgsbeurteilung.BeurteilTxt FROM tblTeilPopMassnBericht INNER JOIN DomainTPopMassnErfolgsbeurteilung ON tblTeilPopMassnBericht.TPopMassnBerErfolgsbeurteilung = DomainTPopMassnErfolgsbeurteilung.BeurteilId where TPopId = $TPopId  ORDER BY tblTeilPopMassnBericht.TPopMassnBerJahr, DomainTPopMassnErfolgsbeurteilung.BeurteilTxt";
+		$result_tpopmassnber = mysql_query($query_tpopmassnber) or die("Anfrage fehlgeschlagen: " . mysql_error());
+		$anz_tpopmassnber = mysql_num_rows($result_tpopmassnber);
+		//Datenstruktur für tpopmassnber aufbauen
+		$rows_tpopmassnber = array();
+		while($r_tpopmassnber = mysql_fetch_assoc($result_tpopmassnber)) {
+			$TPopMassnBerId = $r_tpopmassnber['TPopMassnBerId'];
+			settype($TPopMassnBerId, "integer");
+			$TPopMassnBerJahr =  $r_tpopmassnber['TPopMassnBerJahr'];
+			settype($TPopMassnBerJahr, "integer");
+			$BeurteilTxt = utf8_encode($r_tpop['BeurteilTxt']);
+			//TPopMassn setzen
+			$attr_tpopmassnber = array("id" => $TPopMassnBerId, "typ" => "tpopmassnber");
+			$tpopmassnber = array("data" => $TPopMassnBerJahr." ".$BeurteilTxt, "attr" => $attr_tpopmassnber);
+			//tpopmassnber-Array um tpopmassnber ergänzen
+		    $rows_tpopmassnber[] = $tpopmassnber;
+		}
+		mysql_free_result($result_tpopmassnber);
+
+		//TPop-Ordner setzen
+		//Massnahmen
+		$tpop_ordner_massn_attr = array("id" => $TPopId, "typ" => "tpop_ordner_massn");
+		$tpop_ordner_massn = array("data" => $anz_tpopmassn." Massnahmen", "attr" => $tpop_ordner_massn_attr, "children" => $rows_tpopmassn);
+		//Massnahmen-Berichte
+		$tpop_ordner_massnber_attr = array("id" => $TPopId, "typ" => "tpop_ordner_massnber");
+		$tpop_ordner_massnber = array("data" => $anz_tpopmassnber." Massnahmen-Berichte", "attr" => $tpop_ordner_massnber_attr, "children" => $rows_tpopmassnber);
+		//Feldkontrollen
+		$tpop_ordner_feldkontr_attr = array("id" => $TPopId, "typ" => "tpop_ordner_feldkontr");
+		$tpop_ordner_feldkontr = array("data" => "Feldkontrollen", "attr" => $tpop_ordner_feldkontr_attr, "children" => $child_dummy);
+		//Freiwilligen-Kontrollen
+		$tpop_ordner_freiwkontr_attr = array("id" => $TPopId, "typ" => "tpop_ordner_freiwkontr");
+		$tpop_ordner_freiwkontr = array("data" => "Freiwilligen-Kontrollen", "attr" => $tpop_ordner_freiwkontr_attr, "children" => $child_dummy);
+		//Teilpopulations-Berichte
+		$tpop_ordner_tpopber_attr = array("id" => $TPopId, "typ" => "tpop_ordner_tpopber");
+		$tpop_ordner_tpopber = array("data" => "Teilpopulations-Berichte", "attr" => $tpop_ordner_tpopber_attr, "children" => $child_dummy);
+		//Beobachtungen
+		$tpop_ordner_beob_attr = array("id" => $TPopId, "typ" => "tpop_ordner_beob");
+		$tpop_ordner_beob = array("data" => "Beobachtungen", "attr" => $tpop_ordner_beob_attr, "children" => $child_dummy);
+		//zusammensetzen
+		$tpop_ordner = array(0 => $tpop_ordner_massn, 1 => $tpop_ordner_massnber, 2 => $tpop_ordner_feldkontr, 3 => $tpop_ordner_freiwkontr, 4 => $tpop_ordner_tpopber, 5 => $tpop_ordner_beob);
+
 		//TPop setzen
 		$attr_tpop = array("id" => $TPopId, "typ" => "tpop");
-		$children_tpop = array(0 => "dummy");
-		$tpop = array("data" => utf8_encode($r_tpop['TPopFlurname']), "attr" => $attr_tpop, "children" => $children_tpop);
+		$tpop = array("data" => utf8_encode($r_tpop['TPopFlurname']), "attr" => $attr_tpop, "children" => $tpop_ordner);
 		//tpop-Array um tpop ergänzen
 	    $rows_tpop[] = $tpop;
 	}
@@ -39,7 +100,7 @@ while($r_pop = mysql_fetch_assoc($result_pop)) {
 	
 	//pop-ordner setzen
 	//Teilpopulationen
-	$pop_ordner_tpop_attr = array("id" => $PopId, "typ" => "ap_ordner_tpop");
+	$pop_ordner_tpop_attr = array("id" => $PopId, "typ" => "pop_ordner_tpop");
 	$pop_ordner_tpop = array("data" => $anz_tpop." Teilpopulationen", "attr" => $pop_ordner_tpop_attr, "children" => $rows_tpop);
 	//Populations-Berichte
 	$pop_ordner_popber_attr = array("id" => $PopId, "typ" => "pop_ordner_popber");
