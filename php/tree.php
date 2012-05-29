@@ -285,13 +285,87 @@ $rows_erfkrit = array();
 while($r_erfkrit = mysql_fetch_assoc($result_erfkrit)) {
 	$ErfBeurtZielSkalaId = $r_erfkrit['ErfBeurtZielSkalaId'];
 	settype($ErfBeurtZielSkalaId, "integer");
-	//Pop setzen
+	//erfkrit setzen
 	$attr_erfkrit = array("id" => $ErfBeurtZielSkalaId, "typ" => "erfkrit");
 	$erfkrit = array("data" => utf8_encode($r_erfkrit['BeurteilTxt']), "attr" => $attr_erfkrit);
 	//erfkrit-Array um erfkrit ergänzen
     $rows_erfkrit[] = $erfkrit;
 }
 mysql_free_result($result_erfkrit);
+
+//apber dieses AP abfragen
+$query_apber = "SELECT ApBerId, ApArtId, ApBerJahr FROM tblApBericht where ApArtId = $ApArtId ORDER BY ApBerJahr";
+$result_apber = mysql_query($query_apber) or die("Anfrage fehlgeschlagen: " . mysql_error());
+$anz_apber = mysql_num_rows($result_apber);
+//apber aufbauen
+$rows_apber = array();
+while($r_apber = mysql_fetch_assoc($result_apber)) {
+	$ApBerId = $r_apber['ApBerId'];
+	settype($ApBerId, "integer");
+	//apber setzen
+	$attr_apber = array("id" => $ApBerId, "typ" => "apber");
+	$apber = array("data" => $r_apber['ApBerJahr'], "attr" => $attr_apber);
+	//apber-Array um apber ergänzen
+    $rows_apber[] = $apber;
+}
+mysql_free_result($result_apber);
+
+//ber dieses AP abfragen
+$query_ber = "SELECT BerId, ApArtId, BerJahr, BerTitel FROM tblBericht where ApArtId = $ApArtId ORDER BY BerJahr DESC, BerTitel";
+$result_ber = mysql_query($query_ber) or die("Anfrage fehlgeschlagen: " . mysql_error());
+$anz_ber = mysql_num_rows($result_ber);
+//ber aufbauen
+$rows_ber = array();
+while($r_ber = mysql_fetch_assoc($result_ber)) {
+	$BerId = $r_ber['BerId'];
+	settype($BerId, "integer");
+	//ber setzen
+	$attr_ber = array("id" => $BerId, "typ" => "ber");
+	$ber = array("data" => $r_ber['BerJahr'].": ".utf8_encode($r_ber['BerTitel']), "attr" => $attr_ber);
+	//ber-Array um ber ergänzen
+    $rows_ber[] = $ber;
+}
+mysql_free_result($result_ber);
+
+//iballg dieses AP abfragen
+$query_iballg = "SELECT IbApArtId FROM tblIbAllg where IbApArtId = $ApArtId";
+$result_iballg = mysql_query($query_iballg) or die("Anfrage fehlgeschlagen: " . mysql_error());
+$anz_iballg = mysql_num_rows($result_iballg);
+mysql_free_result($result_iballg);
+
+//ibb dieses AP abfragen
+$query_ibb = "SELECT IbbId, IbApArtId, IbbName, IbbVegTyp FROM tblIbBiotope where IbbId = $ApArtId ORDER BY IbbName, IbbVegTyp";
+$result_ibb = mysql_query($query_ibb) or die("Anfrage fehlgeschlagen: " . mysql_error());
+$anz_ibb = mysql_num_rows($result_ibb);
+//ibb aufbauen
+$rows_ibb = array();
+while($r_ibb = mysql_fetch_assoc($result_ibb)) {
+	$IbbId = $r_ibb['IbbId'];
+	settype($IbbId, "integer");
+	//ibb setzen
+	$attr_ibb = array("id" => $IbbId, "typ" => "ibb");
+	$ibb = array("data" => utf8_encode($r_ibb['IbbName']).": ".utf8_encode($r_ibb['IbbVegTyp']), "attr" => $attr_ibb);
+	//ibb-Array um ibb ergänzen
+    $rows_ibb[] = $ibb;
+}
+mysql_free_result($result_ibb);
+
+//ibartenassoz dieses AP abfragen
+$query_ibartenassoz = "SELECT IbaassId, IbaassApArtId, Name FROM tblIbArtenAssoz INNER JOIN ArtenDb_tblFloraSisf ON IbaassSisfNr = NR where IbaassApArtId = $ApArtId ORDER BY Name";
+$result_ibartenassoz = mysql_query($query_ibartenassoz) or die("Anfrage fehlgeschlagen: " . mysql_error());
+$anz_ibartenassoz = mysql_num_rows($result_ibartenassoz);
+//ibartenassoz aufbauen
+$rows_ibartenassoz = array();
+while($r_ibartenassoz = mysql_fetch_assoc($result_ibartenassoz)) {
+	$IbaassId = $r_ibartenassoz['IbaassId'];
+	settype($IbaassId, "integer");
+	//ibartenassoz setzen
+	$attr_ibartenassoz = array("id" => $IbaassId, "typ" => "ibartenassoz");
+	$ibartenassoz = array("data" => utf8_encode($r_ibartenassoz['Name']), "attr" => $attr_ibartenassoz);
+	//ibartenassoz-Array um ibartenassoz ergänzen
+    $rows_ibartenassoz[] = $ibartenassoz;
+}
+mysql_free_result($result_ibartenassoz);
 	
 
 //AP-Ordner setzen
@@ -306,12 +380,26 @@ $ap_ordner_erfkrit_attr = array("id" => $ApArtId, "typ" => "ap_ordner_erfkrit");
 $ap_ordner_erfkrit = array("data" => $anz_erfkrit." Erfolgskriterien", "attr" => $ap_ordner_erfkrit_attr, "children" => $rows_erfkrit);
 //AP-Berichte
 $ap_ordner_apber_attr = array("id" => $ApArtId, "typ" => "ap_ordner_apber");
-$ap_ordner_apber = array("data" => "AP-Berichte", "attr" => $ap_ordner_apber_attr, "children" => $child_dummy);
+$ap_ordner_apber = array("data" => $anz_apber." AP-Berichte", "attr" => $ap_ordner_apber_attr, "children" => $rows_apber);
 //Berichte
 $ap_ordner_ber_attr = array("id" => $ApArtId, "typ" => "ap_ordner_ber");
-$ap_ordner_ber = array("data" => "Berichte", "attr" => $ap_ordner_ber_attr, "children" => $child_dummy);
+$ap_ordner_ber = array("data" => $anz_ber." Berichte", "attr" => $ap_ordner_ber_attr, "children" => $rows_ber);
+//Ideale Umweltfaktoren
+if ($anz_iballg) {
+	$label_iballg = "1 ideale Umweltfaktoren";
+} else {
+	$label_iballg = "0 ideale Umweltfaktoren";
+}
+$ap_ordner_iballg_attr = array("id" => $ApArtId, "typ" => "ap_ordner_iballg");
+$ap_ordner_iballg = array("data" => $label_iballg, "attr" => $ap_ordner_iballg_attr);
+//Ideale Biotoptypen
+$ap_ordner_ibb_attr = array("id" => $ApArtId, "typ" => "ap_ordner_ibb");
+$ap_ordner_ibb = array("data" => $anz_ibb." ideale Biotoptypen", "attr" => $ap_ordner_ibb_attr, "children" => $rows_ibb);
+//assoziierte Arten
+$ap_ordner_ibartenassoz_attr = array("id" => $ApArtId, "typ" => "ap_ordner_ibartenassoz");
+$ap_ordner_ibartenassoz = array("data" => $anz_ibartenassoz." assoziierte Arten", "attr" => $ap_ordner_ibartenassoz_attr, "children" => $rows_ibartenassoz);
 //zusammensetzen
-$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziele, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_apber, 4 => $ap_ordner_ber);
+$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziele, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_apibartenassoz, 4 => $ap_ordner_ber, 5 => $ap_ordner_iballg, 6 => $ap_ordner_ibb, 7 => $ap_ordner_ibartenassoz);
 
 	
 //in json verwandeln
