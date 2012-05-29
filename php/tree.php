@@ -254,12 +254,37 @@ while($r_apzielejahr = mysql_fetch_assoc($result_apzielejahr)) {
 	//Datenstruktur apzielejahr aufbauen
 	$rows_apziele = array();
 	while($r_apziele = mysql_fetch_assoc($result_apziele)) {
-		//TPop setzen
+		$ZielId = $r_erfkrit['ZielId'];
+		settype($ZielId, "integer");
+
+		//zielber dieses Ziels abfragen
+		$query_zielber = "SELECT ZielBerId, ZielId, ZielBerJahr, ZielBerErreichung FROM tblZielBericht where ZielId = $ZielId ORDER BY ZielBerJahr, ZielBerErreichung";
+		$result_zielber = mysql_query($query_zielber) or die("Anfrage fehlgeschlagen: " . mysql_error());
+		$anz_zielber = mysql_num_rows($result_zielber);
+		//zielber aufbauen
+		$rows_zielber = array();
+		while($r_zielber = mysql_fetch_assoc($result_zielber)) {
+			$ZielBerId = $r_zielber['ZielBerId'];
+			settype($ZielBerId, "integer");
+			//zielber setzen
+			$attr_zielber = array("id" => $ZielBerId, "typ" => "zielber");
+			$zielber = array("data" => $r_zielber['ZielBerJahr'].": ".utf8_encode($r_zielber['ZielBerErreichung']), "attr" => $attr_zielber);
+			//zielber-Array um zielber ergänzen
+		    $rows_zielber[] = $zielber;
+		}
+		mysql_free_result($result_zielber);
+
+		//Ziel-Ordner setzen
+		$ziel_ordner_attr = array("id" => $ApArtId, "typ" => "ziel_ordner");
+		$ziel_ordner = array("data" => $anz_zielber." Ziel-Berichte", "attr" => $ziel_ordner_attr, "children" => $rows_zielber);
+		//zusammensetzen
+		$ziel_ordner = array(0 => $ziel_ordner);
+
+		//apziele setzen
 		$ZielBezeichnung = utf8_encode($r_apziele['ZielBezeichnung']);
 		$ZielTyp = utf8_encode($r_apziele['ZielTyp']);
 		$attr_apziele = array("id" => $r_apziele['ZielId'], "typ" => "apziele");
-		$children_apziele = array(0 => "dummy");
-		$apziele = array("data" => $ZielBezeichnung, "attr" => $attr_apziele, "children" => $children_apziele);
+		$apziele = array("data" => $ZielBezeichnung, "attr" => $attr_apziele, "children" => $ziel_ordner);
 		//Array um apziele ergänzen
 	    $rows_apziele[] = $apziele;
 	}
@@ -394,7 +419,7 @@ $ap_ordner_iballg_attr = array("id" => $ApArtId, "typ" => "ap_ordner_iballg");
 $ap_ordner_iballg = array("data" => $label_iballg, "attr" => $ap_ordner_iballg_attr);
 //Ideale Biotoptypen
 $ap_ordner_ibb_attr = array("id" => $ApArtId, "typ" => "ap_ordner_ibb");
-$ap_ordner_ibb = array("data" => $anz_ibb." ideale Biotoptypen", "attr" => $ap_ordner_ibb_attr, "children" => $rows_ibb);
+$ap_ordner_ibb = array("data" => $anz_ibb." ideale Biotope", "attr" => $ap_ordner_ibb_attr, "children" => $rows_ibb);
 //assoziierte Arten
 $ap_ordner_ibartenassoz_attr = array("id" => $ApArtId, "typ" => "ap_ordner_ibartenassoz");
 $ap_ordner_ibartenassoz = array("data" => $anz_ibartenassoz." assoziierte Arten", "attr" => $ap_ordner_ibartenassoz_attr, "children" => $rows_ibartenassoz);
