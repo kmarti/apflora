@@ -273,6 +273,25 @@ while($r_apzielejahr = mysql_fetch_assoc($result_apzielejahr)) {
     $rows_apzielejahr[] = $apzielejahr;
 }
 mysql_free_result($result_apzielejahr);
+
+//erfkrit dieses AP abfragen
+$query_erfkrit = "SELECT ErfBeurtZielSkalaId, ApArtId, BeurteilTxt, BeurteilOrd
+FROM tblErfBeurtZielSkala LEFT JOIN DomainApBeurteilungsskala ON ErfBeurtZielSkalaErreichungsgrad = BeurteilId
+where ApArtId = $ApArtId ORDER BY BeurteilOrd";
+$result_erfkrit = mysql_query($query_erfkrit) or die("Anfrage fehlgeschlagen: " . mysql_error());
+$anz_erfkrit = mysql_num_rows($result_erfkrit);
+//erfkrit aufbauen
+$rows_erfkrit = array();
+while($r_erfkrit = mysql_fetch_assoc($result_erfkrit)) {
+	$ErfBeurtZielSkalaId = $r_erfkrit['ErfBeurtZielSkalaId'];
+	settype($ErfBeurtZielSkalaId, "integer");
+	//Pop setzen
+	$attr_erfkrit = array("id" => $ErfBeurtZielSkalaId, "typ" => "erfkrit");
+	$erfkrit = array("data" => utf8_encode($r_erfkrit['BeurteilTxt']), "attr" => $attr_erfkrit);
+	//erfkrit-Array um erfkrit ergänzen
+    $rows_erfkrit[] = $erfkrit;
+}
+mysql_free_result($result_erfkrit);
 	
 
 //AP-Ordner setzen
@@ -284,7 +303,7 @@ $ap_ordner_apziele_attr = array("id" => $ApArtId, "typ" => "ap_ordner_apziele");
 $ap_ordner_apziele = array("data" => $anz_apzielejahr." AP-Ziele", "attr" => $ap_ordner_apziele_attr, "children" => $rows_apzielejahr);
 //Erfolgskriterien
 $ap_ordner_erfkrit_attr = array("id" => $ApArtId, "typ" => "ap_ordner_erfkrit");
-$ap_ordner_erfkrit = array("data" => "Erfolgskriterien", "attr" => $ap_ordner_erfkrit_attr, "children" => $child_dummy);
+$ap_ordner_erfkrit = array("data" => $anz_erfkrit." Erfolgskriterien", "attr" => $ap_ordner_erfkrit_attr, "children" => $rows_erfkrit);
 //AP-Berichte
 $ap_ordner_apber_attr = array("id" => $ApArtId, "typ" => "ap_ordner_apber");
 $ap_ordner_apber = array("data" => "AP-Berichte", "attr" => $ap_ordner_apber_attr, "children" => $child_dummy);
