@@ -8,29 +8,26 @@ if ($link->connect_errno) {
     exit();
 }
 
-$ApArtId = $_GET["id"];
-settype($id, "integer");
-
 // SQL-Anfrage ausführen
-$result = mysqli_query($link, "SELECT * FROM tblAktionsplan WHERE ApArtId = $ApArtId");
+$result = mysqli_query($link, "SELECT DomainCode, DomainTxt FROM DomainApUmsetzung ORDER BY DomainOrd");
 
-//$rows = array();
-/*while($r = mysql_fetch_assoc($result)) {
-	$ApArtId = $r['ApArtId'];
-	settype($ApArtId, "integer");
-	$row = array("Artname" => utf8_encode($r['Artname']), "id" => $ApArtId);
-    $rows[] = $row;
-}*/
-
-
+$rows = array();
 while($r = mysqli_fetch_assoc($result)) {
-    $rows[] = $r;
+	$DomainCode = $r['DomainCode'];
+	settype($DomainCode, "integer");
+	$row = array("ApUmsetzung" => utf8_encode($r['DomainTxt']), "id" => $DomainCode);
+    $rows[] = $row;
 }
+
+/*while($r = mysqli_fetch_assoc($result)) {
+    $rows[] = $r;
+}*/
 
 //in json verwandeln
 $return = json_encode($rows);
+$Object = "{\"rows\": $return}";
 
-print($return);
+print($Object);
 
 // Resultset freigeben
 mysqli_free_result($result);

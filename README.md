@@ -6,11 +6,11 @@ Die Anwendung gibt es schon. Sie basiert auf Microsoft Access, das über ODBC au
 - Die Daten können von ausserhalb und endlich auch innerhalb der Fachstelle Naturschutz bearbeitet werden
 - Einfachere und übersichtlichere Benutzerführung
 - "No hassle": Keine Installation, keine Installationskosten, automatische Updates
-- Schlankes, weniger komplexes Gesamtsystem mit weniger Abhängigkeiten (läuft auch auf Mac und Linux)
+- Schlankes, weniger komplexes Gesamtsystem mit weniger Abhängigkeiten (u.a.: läuft auch auf Mac und Linux)
 - Darstellung und Lokalisierung auf Luftbildern direkt in der Anwendung
 
 #Ideen
-- Navigation zu 100% über einen dynamisch aufgebauten Strukturbaum. Er ersetzt den bisherigen Baum, die Register, die Suchfelder und die Verschiebe-/Kopierbefehle
+- Navigation über einen dynamisch aufgebauten Strukturbaum. Er ersetzt den bisherigen Baum, die Register, die Suchfelder und die Verschiebe-/Kopierbefehle
 - Rechts neben dem Baum werden die Daten der gewählten Struktur (= "node") angezeigt, z.B. Teilpopulation oder Feldkontrolle.
 - Jeder node enthält die Informationen, mit denen er sich bei Aktivierung die Daten der nächsttieferen Ebene aus der Datenbank holt > einfachste Abfragen, hoffentlich kurze Ladezeiten
 - Nodes wie Teilpopulationen und Feldkontrollen können im Baum zu anderen nodes desselben Typs verschoben oder kopiert werden
