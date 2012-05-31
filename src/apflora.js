@@ -3,41 +3,49 @@ function initiiere_ap() {
 		//es fehlen benötigte Daten > zurück zum Anfang
 		window.open("index.html", target = "_self");
 	}*/
-
-	//Daten für den AP aus der DB holen
-	$.ajax({
-		url: 'php/ap.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.ApArtId
-		},
-		success: function (data) {
-			//ap bereitstellen
-			window.ap = data;
-			localStorage.ap = JSON.stringify(data);
-			//Felder mit Daten beliefern
-			//Radio Felder initiieren
-			$("#ApStatus" + data.ApStatus).prop("checked",true);
-			$("#ApUmsetzung" + data.ApUmsetzung).prop("checked",true);
-			//übrige Felder initiieren
-			$("#ApArtId").val(data.ApArtId);
-			$("#ApJahr").val(data.ApJahr);
-		}
+	var programm_wahl;
+	programm_wahl = $("[name='programm_wahl']:checked").attr("id");
+	//Felder zurücksetzen
+	$('#ap_form input[type="text"]').each(function(){
+		$(this).val("");  
 	});
-
-
+	$('#ap_form input[type="radio"]:checked').each(function(){
+		$(this).prop('checked', false);  
+	});
+	$('#ap_form select').each(function(){
+		$(this).val("");  
+	});
+	if ($("#ap_waehlen").val() && programm_wahl !== "programm_neu") {
+		//Daten für den ap aus der DB holen
+		$.ajax({
+			url: 'php/ap.php',
+			dataType: 'json',
+			data: {
+				"id": localStorage.ApArtId
+			},
+			success: function (data) {
+				//ap bereitstellen
+				window.ap = data;
+				localStorage.ap = JSON.stringify(data);
+				//Felder mit Daten beliefern
+				$("#ApStatus" + data.ApStatus).prop("checked", true);
+				$("#ApUmsetzung" + data.ApUmsetzung).prop("checked", true);
+				$("#ApArtId").val(data.ApArtId);
+				$("#ApJahr").val(data.ApJahr);
+				$("#ap_form").css("visibility", "visible");
+			}
+		});
+	} else if ($("#ap_waehlen").val() && programm_wahl === "programm_neu") {
+		$("#ApArtId").val($("#ap_waehlen").val());
+		$("#ap_form").css("visibility", "visible");
+	}
 	//tree aufbauen. Wird mit der localStorage übergeben
 	//$.jstree.rollback(JSON.parse(localStorage.rlbk));
 }
 
-function erstelle_ap_liste(ap_arten) {
-	var url;
-	urll = 'php/apliste.php';
-	if (ap_arten) {
-		urll += '?ap_arten=true';
-	}
+function erstelle_ap_liste(programm) {
 	$.ajax({
-		url: urll,
+		url: 'php/apliste.php?programm=' + programm,
 		dataType: 'json',
 		success: function (data) {
 			var html;

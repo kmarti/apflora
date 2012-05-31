@@ -3,10 +3,12 @@
 	<head>
 		<meta charset="utf-8">
 		<script type="text/javascript" src="src/jquery.js"></script>
+		<script type="text/javascript" src="src/jquery-ui-1.8.20.custom.min.js"></script>
 		<script type="text/javascript" src="src/jquery.jstree.js"></script>
 		<script type="text/javascript" src="src/jquery.cookie.js"></script>
 		<script type="text/javascript" src="src/jquery.hotkeys.js"></script>
 		<script type="text/javascript" src="src/apflora.js"></script>
+		<link rel="stylesheet" href="style/jquery-ui-1.8.20.custom.css" type="text/css" rel="Stylesheet"/>
 		<link rel="stylesheet" href="style/apflora.css" type="text/css"/>
 		<title>AP Flora Kt ZH</title>
 	</head>
@@ -19,8 +21,15 @@
 				</select>
 			</div>
 			<div data-role='fieldcontain' style="margin-top:3px; margin-bottom:3px;">
-				<input type="button" id="ap_arten" value="AP-Arten" style="float:left; margin-left:5px; height:26px;">
-				<input type="search" id="suchen" placeholder="suchen" style="background-color:#FFFFF7; margin-left:5px; visibility:hidden;"/>
+				<div id="programm_wahl" style="margin-top:3px; margin-bottom:3px;margin-left:5px;">
+					<input type="radio" id="programm_alle" name="programm_wahl" checked="checked"/>
+					<label for="programm_alle">alle Programme</label>
+					<input type="radio" id="programm_ap" name="programm_wahl" />
+					<label for="programm_ap">AP's</label>
+					<input type="radio" id="programm_neu" name="programm_wahl" />
+					<label for="programm_neu">neu</label>
+					<input type="search" id="suchen" placeholder="suchen" style="background-color:#FFFFF7; margin-left:9px; visibility:hidden; width:151px"/>
+				</div>
 			</div>
 			<div id="tree" style="width:330px; margin-bottom:5px;"></div>
 		</div>
@@ -53,21 +62,17 @@
 		</form>
 		<script>
 			$(document).ready(function () {
-				erstelle_ap_liste();
+				$("#programm_wahl").buttonset();
+				erstelle_ap_liste("programm_alle");
 				erstelle_ApArtId_liste();
 
-				$("#menu").on("click", "#ap_arten", function () {
-
-					if ($(this).val() === "AP-Arten") {
-						$(this).val("alle Arten");
-						erstelle_ap_liste("ap_arten");
-					} else {
-						$(this).val("AP-Arten");
-						erstelle_ap_liste();
-					}
+				$("#menu").on("click", "[name=programm_wahl]", function () {
+					$("#ap_form").css("visibility", "hidden");
+					erstelle_ap_liste($(this).attr("id"));
 					$('#tree').empty();
+					$("#ap_waehlen").val("");
 					$("#ap_waehlen_label").show();
-					ap_sichtbarkeit_setzen();
+					initiiere_ap();
 				});
 
 				$("#menu").on("change", "#ap_waehlen", function () {
@@ -75,7 +80,7 @@
 					$("#ap_waehlen_label").hide();
 					localStorage.ApArtId = this.value;
 					erstelle_tree(this.value);
-					ap_sichtbarkeit_setzen();
+					initiiere_ap();
 				});
 
 				//Suche steuern
@@ -88,15 +93,6 @@
 				});
 				
 			});
-
-			function ap_sichtbarkeit_setzen() {
-				if ($("#ap_waehlen").val()) {
-					$("#ap_form").css("visibility", "visible");
-					initiiere_ap();
-				} else {
-					$("#ap_form").css("visibility", "hidden");
-				}
-			}
 
 			function erstelle_ApArtId_liste() {
 				$.ajax({

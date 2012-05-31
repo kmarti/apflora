@@ -10,23 +10,41 @@ if ($link->connect_errno) {
 }
 
 //ist ap_arten true, sollen nur ap_arten angezeigt werden
-$ap_arten = $_GET["ap_arten"];
+$programm = $_GET["programm"];
 
 // SQL-Anfrage ausführen
-if ($ap_arten) {
+if ($programm == "programm_ap") {
 	$result = mysqli_query($link, "SELECT Name, ApArtId FROM qryAp1 WHERE ApStatus BETWEEN 1 AND 3");
-} else {
+	$rows = array();
+	while($r = mysqli_fetch_assoc($result)) {
+		$ApArtId = $r['ApArtId'];
+		settype($ApArtId, "integer");
+		$ap_name = utf8_encode($r['Name']);
+		$row = array("ap_name" => $ap_name, "id" => $ApArtId);
+	    $rows[] = $row;
+	}
+} else if ($programm == "programm_alle") {
 	$result = mysqli_query($link, "SELECT Name, ApArtId FROM qryAp1");
+	$rows = array();
+	while($r = mysqli_fetch_assoc($result)) {
+		$ApArtId = $r['ApArtId'];
+		settype($ApArtId, "integer");
+		$ap_name = utf8_encode($r['Name']);
+		$row = array("ap_name" => $ap_name, "id" => $ApArtId);
+	    $rows[] = $row;
+	}
+} else {
+	$result = mysqli_query($link, "SELECT IF(Deutsch Is Not Null, CONCAT(Name, ' (', Deutsch, ')   ', StatusText), CONCAT(Name, '   ', StatusText)) AS ApName, NR FROM ArtenDb_tblFloraSisf LEFT JOIN DomainFloraStatus ON Status = StatusWert WHERE NR not in (SELECT ApArtId FROM qryAp1) ORDER BY Name");
+	$rows = array();
+	while($r = mysqli_fetch_assoc($result)) {
+		$ApArtId = $r['NR'];
+		settype($ApArtId, "integer");
+		$ap_name = utf8_encode($r['ApName']);
+		$row = array("ap_name" => $ap_name, "id" => $ApArtId);
+	    $rows[] = $row;
+	}
 }
 
-//benötigte Datenstruktur aufbauen
-$rows = array();
-while($r = mysqli_fetch_assoc($result)) {
-	$ApArtId = $r['ApArtId'];
-	settype($ApArtId, "integer");
-	$row = array("ap_name" => utf8_encode($r['Name']), "id" => $ApArtId);
-    $rows[] = $row;
-}
 //in json verwandeln
 $rows = json_encode($rows);
 $Object = "{\"rows\": $rows}";

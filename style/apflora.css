@@ -11,3 +11,5 @@
 .jstree-search {color: #CC012A !important;}
 
 * {font-family: Arial;}
+
+.ui-button-text {padding:.1em .3em !important; font-size:.8em !important;}
