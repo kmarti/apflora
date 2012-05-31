@@ -3,84 +3,199 @@
 	<head>
 		<meta charset="utf-8">
 		<script type="text/javascript" src="src/jquery.js"></script>
-		<script type="text/javascript" src="src/jquery-ui-1.8.20.custom.min.js"></script>
+		<script type="text/javascript" src="src/jquery-ui.js"></script>
 		<script type="text/javascript" src="src/jquery.jstree.js"></script>
 		<script type="text/javascript" src="src/jquery.cookie.js"></script>
 		<script type="text/javascript" src="src/jquery.hotkeys.js"></script>
 		<script type="text/javascript" src="src/apflora.js"></script>
-		<link rel="stylesheet" href="style/jquery-ui-1.8.20.custom.css" type="text/css" rel="Stylesheet"/>
+		<link rel="stylesheet" href="style/jquery-ui.css" type="text/css" rel="Stylesheet"/>
 		<link rel="stylesheet" href="style/apflora.css" type="text/css"/>
 		<title>AP Flora Kt ZH</title>
 	</head>
 	<body style="background-color: #FFE; height:100%">
 		<div id="menu" style="width:350px; float:left; padding-right:5px; background-color:#FFE; border:1px solid; border-color:#A5A59A;">
 			<div data-role='fieldcontain' style="margin-top:3px;">
-				<label id="ap_waehlen_label" for='ap_waehlen' class='select' style="margin-left:6px;margin-top:3px;">Art wählen:</label>
+				<label id="ap_waehlen_label" for='ap_waehlen' class='select' style="margin-left:6px;margin-top:3px;">Artförderprogramm wählen:</label>
 				<select id="ap_waehlen" style="width:344px; margin-left:5px; margin-top:2px;">
 					<option></option>
 				</select>
 			</div>
 			<div data-role='fieldcontain' style="margin-top:3px; margin-bottom:3px;">
-				<div id="programm_wahl" style="margin-top:3px; margin-bottom:3px;margin-left:5px;">
+				<span id="programm_wahl" style="margin-top:3px; margin-bottom:3px;margin-left:5px;">
 					<input type="radio" id="programm_alle" name="programm_wahl" checked="checked"/>
 					<label for="programm_alle">alle Programme</label>
 					<input type="radio" id="programm_ap" name="programm_wahl" />
-					<label for="programm_ap">AP's</label>
+					<label for="programm_ap">Aktionspläne</label>
 					<input type="radio" id="programm_neu" name="programm_wahl" />
 					<label for="programm_neu">neu</label>
-					<input type="search" id="suchen" placeholder="suchen" style="background-color:#FFFFF7; margin-left:9px; visibility:hidden; width:151px"/>
-				</div>
+				</span>
+				<button id="ap_loeschen">löschen</button>
 			</div>
+			<input type="search" id="suchen" placeholder="suchen" style="background-color:#FFFFF7; margin-left:9px;"/>
 			<div id="tree" style="width:330px; margin-bottom:5px;"></div>
 		</div>
-		<form id="ap_form" style=" visibility:hidden; display:block; margin-left:auto; padding-left:390px; padding-top:1px;" action="#" method="get" autocomplete="off">
+		<form id="ap_form" style="display:block; margin-left:auto; padding-left:390px; padding-top:1px;" action="#" method="get" autocomplete="off">
 			<div data-role='fieldcontain' style="margin-top:6px;">
 				<label id="ApArtId_label" for='ApArtId' style="">Art:</label>
-				<select id="ApArtId" style="width:344px; margin-left:106px; margin-top:2px;">
+				<select id="ApArtId" name="ApArtId" class="speichern" style="width:344px; margin-left:106px; margin-top:2px;">
 					<option></option>
 				</select>
 			</div>
 			<div data-role='fieldcontain' style="margin-top:10px;">
 				<label id="ApStatus_label" for='ApStatus' style="">Aktionsplan:</label>
-				<input type="radio" name="ApStatus" id="ApStatus0" value="0" style="margin-left:45px;" />(kein Eintrag)<br />
-				<input type="radio" name="ApStatus" id="ApStatus4" value="4" style="margin-left:134px;" />keiner<br />
-				<input type="radio" name="ApStatus" id="ApStatus1" value="1" style="margin-left:134px;" />vorgesehen<br />
-				<input type="radio" name="ApStatus" id="ApStatus2" value="2" style="margin-left:134px;" />in Bearbeitung<br />
-				<input type="radio" name="ApStatus" id="ApStatus3" value="3" style="margin-left:134px;" />erstellt
+				<input type="radio" name="ApStatus" id="ApStatus0" class="speichern" value="0" style="margin-left:45px;" />(kein Eintrag)<br />
+				<input type="radio" name="ApStatus" id="ApStatus4" class="speichern" value="4" style="margin-left:134px;" />keiner<br />
+				<input type="radio" name="ApStatus" id="ApStatus1" class="speichern" value="1" style="margin-left:134px;" />vorgesehen<br />
+				<input type="radio" name="ApStatus" id="ApStatus2" class="speichern" value="2" style="margin-left:134px;" />in Bearbeitung<br />
+				<input type="radio" name="ApStatus" id="ApStatus3" class="speichern" value="3" style="margin-left:134px;" />erstellt
 			</div>
 			<div data-role='fieldcontain' style="margin-top:10px;">
 				<label id="ApJahr_label" for='ApJahr' style="">Start im Jahr:</label>
-				<input id="ApJahr" type="number" style="width:344px; margin-left:38px; margin-top:2px;">
+				<input id="ApJahr" name="ApJahr" class="speichern" type="number" style="width:344px; margin-left:38px; margin-top:2px;">
 				</select>
 			</div>
 			<div data-role='fieldcontain' style="margin-top:10px;">
 				<label id="ApUmsetzung_label" for='ApUmsetzung' style="">Stand Umsetzung:</label>
-				<input type="radio" name="ApUmsetzung" id="ApUmsetzung0" value="0" style="margin-left:4px;" />noch keine Umsetzung<br />
-				<input type="radio" name="ApUmsetzung" id="ApUmsetzung1" value="1" style="margin-left:134px;" />in Umsetzung<br />
-				<input type="radio" name="ApUmsetzung" id="ApUmsetzung2" value="2" style="margin-left:134px;" />umgesetzt
+				<input type="radio" name="ApUmsetzung" class="speichern" id="ApUmsetzung0" value="0" style="margin-left:4px;" />noch keine Umsetzung<br />
+				<input type="radio" name="ApUmsetzung" class="speichern" id="ApUmsetzung1" value="1" style="margin-left:134px;" />in Umsetzung<br />
+				<input type="radio" name="ApUmsetzung" class="speichern" id="ApUmsetzung2" value="2" style="margin-left:134px;" />umgesetzt
 			</div>
 		</form>
 		<script>
 			$(document).ready(function () {
+				$("#suchen").hide();
+				$("#ap_form").hide();
 				$("#programm_wahl").buttonset();
+				$("button").button();
 				erstelle_ap_liste("programm_alle");
 				erstelle_ApArtId_liste();
 
+				//Für jedes Feld bei Änderung speichern
+				$("#ap_form").on("change", ".speichern", function () {
+					speichern(this);
+				});
+
 				$("#menu").on("click", "[name=programm_wahl]", function () {
-					$("#ap_form").css("visibility", "hidden");
+					$("#ap_form").hide();
 					erstelle_ap_liste($(this).attr("id"));
-					$('#tree').empty();
+					$('#tree').hide();
+					$("#suchen").hide();
 					$("#ap_waehlen").val("");
+					if ($("[name='programm_wahl']:checked").attr("id") === "programm_neu") {
+						$("#ap_waehlen_label").html("Art für neues Förderprogramm wählen:");
+					} else if ($("[name='programm_wahl']:checked").attr("id") === "programm_ap") {
+						$("#ap_waehlen_label").html("Aktionsplan wählen:");
+					} else {
+						$("#ap_waehlen_label").html("Artförderprogramm wählen:");
+					}
 					$("#ap_waehlen_label").show();
 					initiiere_ap();
 				});
 
+				$("#menu").on("click", "#ap_loeschen", function () {
+					if (!$("#ap_waehlen").val()) {
+						$("#Meldung").html("Bitte wählen Sie vor dem Löschen ein Artförderprogramm");
+						$( "#Meldung" ).dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$( this ).dialog( "close" );
+								}
+							}
+						});
+					} else {
+						$("#Meldung").html("Wollen Sie das Artförderprogramm für " + $("#ap_waehlen option[value='" + $("#ap_waehlen").val() + "']").text() + " wirklich löschen?<br>Alle im Baum darunter befindlichen Daten werden mit gelöscht!");
+						$( "#Meldung" ).dialog({
+							modal: true,
+							buttons: {
+								ja: function() {
+									$.ajax({
+									url: 'php/ap_delete.php',
+									dataType: 'json',
+									data: {
+										"id": localStorage.ApArtId
+									},
+									success: function () {
+										delete localStorage.ApArtId;
+										delete window.ap;
+										delete localStorage.ap;
+										$("#programm_neu").attr("checked", false);
+										$("#programm_alle").attr("checked", true);
+										$("#programm_wahl").buttonset();
+										erstelle_ap_liste("programm_alle");
+										$('#ap_waehlen').val('');
+										$("#ap_waehlen_label").html("Artförderprogramm wählen:").show();
+										$("#tree").hide();
+										$("#suchen").hide();
+										$("#ap_form").hide();
+										//initiiere_ap();
+									},
+									error: function (data) {
+										var Meldung;
+										Meldung = JSON.stringify(data);
+										$("#Meldung").html(data.responseText);
+										$( "#Meldung" ).dialog({
+											modal: true,
+											buttons: {
+												Ok: function() {
+													$( this ).dialog( "close" );
+												}
+											}
+										});
+									}
+								});
+									$(this).dialog( "close" );
+								},
+								nein: function() {
+									$(this).dialog( "close" );
+								}
+							}
+						});
+					}
+				});
+
 				$("#menu").on("change", "#ap_waehlen", function () {
-					$("#suchen").css('visibility', 'visible');
 					$("#ap_waehlen_label").hide();
 					localStorage.ApArtId = this.value;
-					erstelle_tree(this.value);
-					initiiere_ap();
+					if ($("[name='programm_wahl']:checked").attr("id") === "programm_neu") {
+						//zuerst einen neuen Datensatz anlegen
+						$.ajax({
+							url: 'php/ap_insert.php',
+							dataType: 'json',
+							data: {
+								"id": localStorage.ApArtId
+							},
+							success: function () {
+								erstelle_ap_liste("programm_alle");
+								$("#programm_neu").attr("checked", false);
+								$("#programm_alle").attr("checked", true);
+								$("#programm_wahl").buttonset();
+								erstelle_tree(localStorage.ApArtId);
+								setTimeout("$('#ap_waehlen').val(localStorage.ApArtId)", 200);
+								setTimeout("$('#ap_waehlen option[value =' + localStorage.ApArtId + ']').attr('selected', true)", 200);
+								$("#ApArtId").val(localStorage.ApArtId);
+								//$("#ap_form").show();
+								initiiere_ap();
+							},
+							error: function (data) {
+								var Meldung;
+								Meldung = JSON.stringify(data);
+								$("#Meldung").html(data.responseText);
+								$( "#Meldung" ).dialog({
+									modal: true,
+									buttons: {
+										Ok: function() {
+											$( this ).dialog( "close" );
+										}
+									}
+								});
+							}
+						});
+					} else {
+						erstelle_tree(this.value);
+						$("#ap_form").show();
+						initiiere_ap();
+					}
 				});
 
 				//Suche steuern
@@ -110,6 +225,39 @@
 					}
 				});
 			}
+
+			function speichern(that) {
+				var Feldname, Feldjson, Feldwert, Querystring;
+				Feldname = that.name;
+				//nötig, damit Arrays richtig kommen
+				Feldjson = $("[name='" + Feldname + "']").serializeObject();
+				Feldwert = Feldjson[Feldname];
+				$.ajax({
+					url: 'php/ap_update.php',
+					dataType: 'json',
+					data: {
+						"id": localStorage.ApArtId,
+						"Feld": Feldname,
+						"Wert": Feldwert
+					},
+					success: function () {
+					},
+					error: function (data) {
+						var Meldung;
+						Meldung = JSON.stringify(data);
+						$("#Meldung").html(data.responseText);
+						$( "#Meldung" ).dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$( this ).dialog( "close" );
+								}
+							}
+						});
+					}
+				});
+			}
 		</script>
 	</body>
+	<div id="Meldung"></div>
 </html>

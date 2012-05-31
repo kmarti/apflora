@@ -24,20 +24,23 @@ function initiiere_ap() {
 				"id": localStorage.ApArtId
 			},
 			success: function (data) {
-				//ap bereitstellen
-				window.ap = data;
-				localStorage.ap = JSON.stringify(data);
-				//Felder mit Daten beliefern
-				$("#ApStatus" + data.ApStatus).prop("checked", true);
-				$("#ApUmsetzung" + data.ApUmsetzung).prop("checked", true);
-				$("#ApArtId").val(data.ApArtId);
-				$("#ApJahr").val(data.ApJahr);
-				$("#ap_form").css("visibility", "visible");
+				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+				if (data) {
+					//ap bereitstellen
+					window.ap = data;
+					localStorage.ap = JSON.stringify(data);
+					//Felder mit Daten beliefern
+					$("#ApStatus" + data.ApStatus).prop("checked", true);
+					$("#ApUmsetzung" + data.ApUmsetzung).prop("checked", true);
+					$("#ApArtId").val(data.ApArtId);
+					$("#ApJahr").val(data.ApJahr);
+					$("#ap_form").show();
+				}
 			}
 		});
 	} else if ($("#ap_waehlen").val() && programm_wahl === "programm_neu") {
 		$("#ApArtId").val($("#ap_waehlen").val());
-		$("#ap_form").css("visibility", "visible");
+		$("#ap_form").show();
 	}
 	//tree aufbauen. Wird mit der localStorage übergeben
 	//$.jstree.rollback(JSON.parse(localStorage.rlbk));
@@ -101,40 +104,38 @@ function erstelle_tree(ApArtId) {
 		},
 		"plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "types"]
 	})
+	.show()
 	.bind("open_node.jstree", function (e, data) {
-		var node;
+		//var node;
 		//node = data.rslt.obj;
 		//this.open_node(e);
 		// `data.rslt.obj` is the jquery extended node that was clicked
 		//alert(data.rslt.obj.attr("typ") + " mit id " + data.rslt.obj.attr("id"));
 	});
+	$("#suchen").show();
 }
 
-//generiert den html-Inhalt für Optionen von Radio
-//wird von generiereHtmlFuerRadio aufgerufen
-function generiereHtmlFuerRadioOptionen(FeldName, FeldWert, Optionen) {
-	var i, HtmlContainer, Optionn, ListItem;
-	HtmlContainer = "";
-	for (i in Optionen.rows) {
-		if (typeof i !== "function") {
-			Optionn = Optionen.rows[i];
-			ListItem = "<label for='";
-			ListItem += Optionn['id'];
-			ListItem += "'>";
-			ListItem += "</label>";
-			ListItem += "<input class='speichern' type='radio' name='";
-			ListItem += FeldName;
-			ListItem += "' id='";
-			ListItem += Optionn['id'];
-			ListItem += "' value='";
-			ListItem += Optionn['id'];
-			if (FeldWert === Optionn['id']) {
-				ListItem += "' checked='checked";
+(function ($) {
+	// friendly helper http://tinyurl.com/6aow6yn
+	//Läuft durch alle Felder im Formular
+	//Wenn ein Wert enthalten ist, wird Feldname und Wert ins Objekt geschrieben
+	//nicht vergessen: Typ, _id und _rev dazu geben, um zu speichern
+	$.fn.serializeObject = function () {
+		var o, a;
+		o = {};
+		a = this.serializeArray();
+		$.each(a, function () {
+			if (this.value) {
+				if (o[this.name]) {
+					if (!o[this.name].push) {
+						o[this.name] = [o[this.name]];
+					}
+					o[this.name].push(this.value);
+				} else {
+					o[this.name] = this.value;
+				}
 			}
-			ListItem += "'/>";
-			ListItem += Optionn[FeldName];
-			HtmlContainer += ListItem;
-		}
-	}
-	return HtmlContainer;
-}
+		});
+		return o;
+	};
+})(jQuery);
