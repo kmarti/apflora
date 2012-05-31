@@ -1,9 +1,13 @@
 <?php
 // Verbindung aufbauen, Datenbank auswählen
-$link = mysql_connect("barbalex.ch", "alexande", "excalibu")
-    or die("Keine Verbindung möglich: " . mysql_error());
-//echo "Verbindung zum Datenbankserver erfolgreich";
-mysql_select_db("alexande_apflora") or die("Auswahl der Datenbank fehlgeschlagen");
+//$link = new mysqli("barbalex.ch", "alexande", "excalibu", "alexande_apflora");
+$link = new mysqli("127.0.0.1", "root", "admin", "apflora");
+
+/* check connection */
+if ($link->connect_errno) {
+    printf("Connect failed: %s\n", $link->connect_error);
+    exit();
+}
 
 $ApArtId = $_GET["id"];
 settype($id, "integer");
@@ -11,31 +15,28 @@ settype($id, "integer");
 $child_dummy = array(0 => "dummy");
 	
 //pop dieses AP abfragen
-$query_pop = "SELECT PopName, PopId, ApArtId FROM tblPopulation where ApArtId = $ApArtId ORDER BY PopName";
-$result_pop = mysql_query($query_pop) or die("Anfrage fehlgeschlagen: " . mysql_error());
-$anz_pop = mysql_num_rows($result_pop);
+$result_pop = mysqli_query($link, "SELECT PopName, PopId, ApArtId FROM tblPopulation where ApArtId = $ApArtId ORDER BY PopName");
+$anz_pop = mysqli_num_rows($result_pop);
 //Datenstruktur für pop aufbauen
 $rows_pop = array();
-while($r_pop = mysql_fetch_assoc($result_pop)) {
+while($r_pop = mysqli_fetch_assoc($result_pop)) {
 	$PopId = $r_pop['PopId'];
 	settype($PopId, "integer");
 
 	//TPop dieser Pop abfragen
-	$query_tpop = "SELECT TPopFlurname, TPopId, PopId FROM tblTeilpopulation where PopId = $PopId ORDER BY TPopFlurname";
-	$result_tpop = mysql_query($query_tpop) or die("Anfrage fehlgeschlagen: " . mysql_error());
-	$anz_tpop = mysql_num_rows($result_tpop);
+	$result_tpop = mysqli_query($link, "SELECT TPopFlurname, TPopId, PopId FROM tblTeilpopulation where PopId = $PopId ORDER BY TPopFlurname");
+	$anz_tpop = mysqli_num_rows($result_tpop);
 	//Datenstruktur für tpop aufbauen
 	$rows_tpop = array();
-	while($r_tpop = mysql_fetch_assoc($result_tpop)) {
+	while($r_tpop = mysqli_fetch_assoc($result_tpop)) {
 		$TPopId = $r_tpop['TPopId'];
 		settype($TPopId, "integer");
 		//Massn dieser TPop abfragen
-		$query_tpopmassn = "SELECT tblTeilPopMassnahme.TPopMassnId, tblTeilPopMassnahme.TPopId, tblTeilPopMassnahme.TPopMassnJahr, tblTeilPopMassnahme.TPopMassnDatum, DomainTPopMassnTyp.MassnTypTxt FROM tblTeilPopMassnahme INNER JOIN DomainTPopMassnTyp ON tblTeilPopMassnahme.TPopMassnTyp = DomainTPopMassnTyp.MassnTypCode where TPopId = $TPopId ORDER BY tblTeilPopMassnahme.TPopMassnJahr, tblTeilPopMassnahme.TPopMassnDatum, DomainTPopMassnTyp.MassnTypTxt";
-		$result_tpopmassn = mysql_query($query_tpopmassn) or die("Anfrage fehlgeschlagen: " . mysql_error());
-		$anz_tpopmassn = mysql_num_rows($result_tpopmassn);
+		$result_tpopmassn = mysqli_query($link, "SELECT tblTeilPopMassnahme.TPopMassnId, tblTeilPopMassnahme.TPopId, tblTeilPopMassnahme.TPopMassnJahr, tblTeilPopMassnahme.TPopMassnDatum, DomainTPopMassnTyp.MassnTypTxt FROM tblTeilPopMassnahme INNER JOIN DomainTPopMassnTyp ON tblTeilPopMassnahme.TPopMassnTyp = DomainTPopMassnTyp.MassnTypCode where TPopId = $TPopId ORDER BY tblTeilPopMassnahme.TPopMassnJahr, tblTeilPopMassnahme.TPopMassnDatum, DomainTPopMassnTyp.MassnTypTxt");
+		$anz_tpopmassn = mysqli_num_rows($result_tpopmassn);
 		//Datenstruktur für tpopmassn aufbauen
 		$rows_tpopmassn = array();
-		while($r_tpopmassn = mysql_fetch_assoc($result_tpopmassn)) {
+		while($r_tpopmassn = mysqli_fetch_assoc($result_tpopmassn)) {
 			$TPopMassnId = $r_tpopmassn['TPopMassnId'];
 			settype($TPopMassnId, "integer");
 			$TPopMassnJahr =  $r_tpopmassn['TPopMassnJahr'];
@@ -47,15 +48,14 @@ while($r_pop = mysql_fetch_assoc($result_pop)) {
 			//tpopmassn-Array um tpopmassn ergänzen
 		    $rows_tpopmassn[] = $tpopmassn;
 		}
-		mysql_free_result($result_tpopmassn);
+		mysqli_free_result($result_tpopmassn);
 
 		//MassnBer dieser TPop abfragen
-		$query_tpopmassnber = "SELECT tblTeilPopMassnBericht.TPopMassnBerId, tblTeilPopMassnBericht.TPopId, tblTeilPopMassnBericht.TPopMassnBerJahr, DomainTPopMassnErfolgsbeurteilung.BeurteilTxt FROM tblTeilPopMassnBericht INNER JOIN DomainTPopMassnErfolgsbeurteilung ON tblTeilPopMassnBericht.TPopMassnBerErfolgsbeurteilung = DomainTPopMassnErfolgsbeurteilung.BeurteilId where TPopId = $TPopId ORDER BY tblTeilPopMassnBericht.TPopMassnBerJahr, DomainTPopMassnErfolgsbeurteilung.BeurteilTxt";
-		$result_tpopmassnber = mysql_query($query_tpopmassnber) or die("Anfrage fehlgeschlagen: " . mysql_error());
-		$anz_tpopmassnber = mysql_num_rows($result_tpopmassnber);
+		$result_tpopmassnber = mysqli_query($link, "SELECT tblTeilPopMassnBericht.TPopMassnBerId, tblTeilPopMassnBericht.TPopId, tblTeilPopMassnBericht.TPopMassnBerJahr, DomainTPopMassnErfolgsbeurteilung.BeurteilTxt FROM tblTeilPopMassnBericht INNER JOIN DomainTPopMassnErfolgsbeurteilung ON tblTeilPopMassnBericht.TPopMassnBerErfolgsbeurteilung = DomainTPopMassnErfolgsbeurteilung.BeurteilId where TPopId = $TPopId ORDER BY tblTeilPopMassnBericht.TPopMassnBerJahr, DomainTPopMassnErfolgsbeurteilung.BeurteilTxt");
+		$anz_tpopmassnber = mysqli_num_rows($result_tpopmassnber);
 		//Datenstruktur für tpopmassnber aufbauen
 		$rows_tpopmassnber = array();
-		while($r_tpopmassnber = mysql_fetch_assoc($result_tpopmassnber)) {
+		while($r_tpopmassnber = mysqli_fetch_assoc($result_tpopmassnber)) {
 			$TPopMassnBerId = $r_tpopmassnber['TPopMassnBerId'];
 			settype($TPopMassnBerId, "integer");
 			$TPopMassnBerJahr =  $r_tpopmassnber['TPopMassnBerJahr'];
@@ -67,15 +67,14 @@ while($r_pop = mysql_fetch_assoc($result_pop)) {
 			//tpopmassnber-Array um tpopmassnber ergänzen
 		    $rows_tpopmassnber[] = $tpopmassnber;
 		}
-		mysql_free_result($result_tpopmassnber);
+		mysqli_free_result($result_tpopmassnber);
 
 		//Feldkontrollen dieser TPop abfragen
-		$query_tpopfeldkontr = "SELECT TPopKontrId, TPopId, TPopKontrJahr, TPopKontrTyp FROM tblTeilPopFeldkontrolle where (TPopId = $TPopId) AND (TPopKontrTyp<>\"Freiwilligen-Erfolgskontrolle\") ORDER BY TPopKontrJahr, TPopKontrTyp";
-		$result_tpopfeldkontr = mysql_query($query_tpopfeldkontr) or die("Anfrage fehlgeschlagen: " . mysql_error());
-		$anz_tpopfeldkontr = mysql_num_rows($result_tpopfeldkontr);
+		$result_tpopfeldkontr = mysqli_query($link, "SELECT TPopKontrId, TPopId, TPopKontrJahr, TPopKontrTyp FROM tblTeilPopFeldkontrolle where (TPopId = $TPopId) AND (TPopKontrTyp<>\"Freiwilligen-Erfolgskontrolle\") ORDER BY TPopKontrJahr, TPopKontrTyp");
+		$anz_tpopfeldkontr = mysqli_num_rows($result_tpopfeldkontr);
 		//Datenstruktur für tpopfeldkontr aufbauen
 		$rows_tpopfeldkontr = array();
-		while($r_tpopfeldkontr = mysql_fetch_assoc($result_tpopfeldkontr)) {
+		while($r_tpopfeldkontr = mysqli_fetch_assoc($result_tpopfeldkontr)) {
 			$TPopKontrId = $r_tpopfeldkontr['TPopKontrId'];
 			settype($TPopKontrId, "integer");
 			$TPopKontrJahr =  $r_tpopfeldkontr['TPopKontrJahr'];
@@ -87,15 +86,14 @@ while($r_pop = mysql_fetch_assoc($result_pop)) {
 			//tpopfeldkontr-Array um tpopfeldkontr ergänzen
 		    $rows_tpopfeldkontr[] = $tpopfeldkontr;
 		}
-		mysql_free_result($result_tpopfeldkontr);
+		mysqli_free_result($result_tpopfeldkontr);
 
 		//Freiwilligen-kontrollen dieser TPop abfragen
-		$query_tpopfreiwkontr = "SELECT TPopKontrId, TPopId, TPopKontrJahr, TPopKontrTyp FROM tblTeilPopFeldkontrolle where (TPopId = $TPopId) AND (TPopKontrTyp=\"Freiwilligen-Erfolgskontrolle\") ORDER BY TPopKontrJahr, TPopKontrTyp";
-		$result_tpopfreiwkontr = mysql_query($query_tpopfreiwkontr) or die("Anfrage fehlgeschlagen: " . mysql_error());
-		$anz_tpopfreiwkontr = mysql_num_rows($result_tpopfreiwkontr);
+		$result_tpopfreiwkontr = mysqli_query($link, "SELECT TPopKontrId, TPopId, TPopKontrJahr, TPopKontrTyp FROM tblTeilPopFeldkontrolle where (TPopId = $TPopId) AND (TPopKontrTyp=\"Freiwilligen-Erfolgskontrolle\") ORDER BY TPopKontrJahr, TPopKontrTyp");
+		$anz_tpopfreiwkontr = mysqli_num_rows($result_tpopfreiwkontr);
 		//Datenstruktur für tpopfreiwkontr aufbauen
 		$rows_tpopfreiwkontr = array();
-		while($r_tpopfreiwkontr = mysql_fetch_assoc($result_tpopfreiwkontr)) {
+		while($r_tpopfreiwkontr = mysqli_fetch_assoc($result_tpopfreiwkontr)) {
 			$TPopKontrId = $r_tpopfreiwkontr['TPopKontrId'];
 			settype($TPopKontrId, "integer");
 			$TPopKontrJahr =  $r_tpopfreiwkontr['TPopKontrJahr'];
@@ -107,15 +105,14 @@ while($r_pop = mysql_fetch_assoc($result_pop)) {
 			//tpopfreiwkontr-Array um tpopfreiwkontr ergänzen
 		    $rows_tpopfreiwkontr[] = $tpopfreiwkontr;
 		}
-		mysql_free_result($result_tpopfreiwkontr);
+		mysqli_free_result($result_tpopfreiwkontr);
 
 		//TPop-Berichte dieser TPop abfragen
-		$query_tpopber = "SELECT TPopBerId, TPopId, TPopBerJahr, EntwicklungTxt, EntwicklungOrd FROM tblTeilPopBericht INNER JOIN DomainTPopEntwicklung ON TPopBerEntwicklung = EntwicklungCode where TPopId = $TPopId ORDER BY TPopBerJahr, EntwicklungOrd";
-		$result_tpopber = mysql_query($query_tpopber) or die("Anfrage fehlgeschlagen: " . mysql_error());
-		$anz_tpopber = mysql_num_rows($result_tpopber);
+		$result_tpopber = mysqli_query($link, "SELECT TPopBerId, TPopId, TPopBerJahr, EntwicklungTxt, EntwicklungOrd FROM tblTeilPopBericht INNER JOIN DomainTPopEntwicklung ON TPopBerEntwicklung = EntwicklungCode where TPopId = $TPopId ORDER BY TPopBerJahr, EntwicklungOrd");
+		$anz_tpopber = mysqli_num_rows($result_tpopber);
 		//Datenstruktur für tpopber aufbauen
 		$rows_tpopber = array();
-		while($r_tpopber = mysql_fetch_assoc($result_tpopber)) {
+		while($r_tpopber = mysqli_fetch_assoc($result_tpopber)) {
 			$TPopBerId = $r_tpopber['TPopBerId'];
 			settype($TPopBerId, "integer");
 			$TPopBerJahr =  $r_tpopber['TPopBerJahr'];
@@ -127,15 +124,14 @@ while($r_pop = mysql_fetch_assoc($result_pop)) {
 			//tpopber-Array um tpopber ergänzen
 		    $rows_tpopber[] = $tpopber;
 		}
-		mysql_free_result($result_tpopber);
+		mysqli_free_result($result_tpopber);
 
 		//Beobachtungen dieser TPop abfragen
-		$query_beob = "SELECT BeobId, TPopId, Datum, Autor FROM tblBeobachtungen where TPopId = $TPopId ORDER BY Datum DESC, Autor";
-		$result_beob = mysql_query($query_beob) or die("Anfrage fehlgeschlagen: " . mysql_error());
-		$anz_beob = mysql_num_rows($result_beob);
+		$result_beob = mysqli_query($link, "SELECT BeobId, TPopId, Datum, Autor FROM tblBeobachtungen where TPopId = $TPopId ORDER BY Datum DESC, Autor");
+		$anz_beob = mysqli_num_rows($result_beob);
 		//Datenstruktur für beob aufbauen
 		$rows_beob = array();
-		while($r_beob = mysql_fetch_assoc($result_beob)) {
+		while($r_beob = mysqli_fetch_assoc($result_beob)) {
 			$BeobId = $r_beob['BeobId'];
 			settype($BeobId, "integer");
 			$Autor = utf8_encode($r_tpop['Autor']);
@@ -145,7 +141,7 @@ while($r_pop = mysql_fetch_assoc($result_pop)) {
 			//beob-Array um beob ergänzen
 		    $rows_beob[] = $beob;
 		}
-		mysql_free_result($result_beob);
+		mysqli_free_result($result_beob);
 
 		//TPop-Ordner setzen
 		//Massnahmen
@@ -199,15 +195,14 @@ while($r_pop = mysql_fetch_assoc($result_pop)) {
 		//tpop-Array um tpop ergänzen
 	    $rows_tpop[] = $tpop;
 	}
-	mysql_free_result($result_tpop);
+	mysqli_free_result($result_tpop);
 
 	//popber dieser Pop abfragen
-	$query_popber = "SELECT PopBerId, PopId, PopBerJahr, EntwicklungTxt, EntwicklungOrd FROM tblPopBericht INNER JOIN DomainPopEntwicklung ON PopBerEntwicklung = EntwicklungId where PopId = $PopId ORDER BY PopBerJahr, EntwicklungOrd";
-	$result_popber = mysql_query($query_popber) or die("Anfrage fehlgeschlagen: " . mysql_error());
-	$anz_popber = mysql_num_rows($result_popber);
+	$result_popber = mysqli_query($link, "SELECT PopBerId, PopId, PopBerJahr, EntwicklungTxt, EntwicklungOrd FROM tblPopBericht INNER JOIN DomainPopEntwicklung ON PopBerEntwicklung = EntwicklungId where PopId = $PopId ORDER BY PopBerJahr, EntwicklungOrd");
+	$anz_popber = mysqli_num_rows($result_popber);
 	//Datenstruktur für popber aufbauen
 	$rows_popber = array();
-	while($r_popber = mysql_fetch_assoc($result_popber)) {
+	while($r_popber = mysqli_fetch_assoc($result_popber)) {
 		$PopBerId = $r_popber['PopBerId'];
 		settype($PopBerId, "integer");
 		$EntwicklungTxt = utf8_encode($r_popber['EntwicklungTxt']);
@@ -217,15 +212,14 @@ while($r_pop = mysql_fetch_assoc($result_pop)) {
 		//popber-Array um popber ergänzen
 	    $rows_popber[] = $popber;
 	}
-	mysql_free_result($result_popber);
+	mysqli_free_result($result_popber);
 
 	//massnber dieser Pop abfragen
-	$query_massnber = "SELECT PopMassnBerId, PopId, PopMassnBerJahr, BeurteilTxt, BeurteilOrd FROM tblPopMassnBericht LEFT JOIN DomainTPopMassnErfolgsbeurteilung ON PopMassnBerErfolgsbeurteilung = BeurteilId where PopId = $PopId ORDER BY PopMassnBerJahr, BeurteilOrd";
-	$result_massnber = mysql_query($query_massnber) or die("Anfrage fehlgeschlagen: " . mysql_error());
-	$anz_massnber = mysql_num_rows($result_massnber);
+	$result_massnber = mysqli_query($link, "SELECT PopMassnBerId, PopId, PopMassnBerJahr, BeurteilTxt, BeurteilOrd FROM tblPopMassnBericht LEFT JOIN DomainTPopMassnErfolgsbeurteilung ON PopMassnBerErfolgsbeurteilung = BeurteilId where PopId = $PopId ORDER BY PopMassnBerJahr, BeurteilOrd");
+	$anz_massnber = mysqli_num_rows($result_massnber);
 	//Datenstruktur für massnber aufbauen
 	$rows_massnber = array();
-	while($r_massnber = mysql_fetch_assoc($result_massnber)) {
+	while($r_massnber = mysqli_fetch_assoc($result_massnber)) {
 		$PopMassnBerId = $r_massnber['PopMassnBerId'];
 		settype($PopMassnBerId, "integer");
 		$BeurteilTxt = utf8_encode($r_massnber['BeurteilTxt']);
@@ -235,7 +229,7 @@ while($r_pop = mysql_fetch_assoc($result_pop)) {
 		//massnber-Array um massnber ergänzen
 	    $rows_massnber[] = $massnber;
 	}
-	mysql_free_result($result_massnber);
+	mysqli_free_result($result_massnber);
 	
 	//pop-ordner setzen
 	//Teilpopulationen
@@ -269,37 +263,34 @@ while($r_pop = mysql_fetch_assoc($result_pop)) {
 	//pop-Array um pop ergänzen
     $rows_pop[] = $pop;
 }
-mysql_free_result($result_pop);
+mysqli_free_result($result_pop);
 
 //AP-Ziele
 //Jahre
-$query_apzielejahr = "SELECT ZielJahr FROM tblZiel where ApArtId = $ApArtId GROUP BY ZielJahr";
-$result_apzielejahr = mysql_query($query_apzielejahr) or die("Anfrage fehlgeschlagen: " . mysql_error());
+$result_apzielejahr = mysqli_query($link, "SELECT ZielJahr FROM tblZiel where ApArtId = $ApArtId GROUP BY ZielJahr");
 $anz_apzielejahr = 0;
 //Datenstruktur apzielejahr aufbauen
 $rows_apzielejahr = array();
-while($r_apzielejahr = mysql_fetch_assoc($result_apzielejahr)) {
+while($r_apzielejahr = mysqli_fetch_assoc($result_apzielejahr)) {
 	$apzielejahr_jahr = $r_apzielejahr['ZielJahr'];
 	settype($apzielejahr_jahr, "integer");
 
 	//Typen
-	$query_apziele = "SELECT ZielId, ZielTyp, ZielBezeichnung FROM tblZiel WHERE (ApArtId = $ApArtId) AND (ZielJahr = ".$r_apzielejahr['ZielJahr'].") ORDER BY ZielTyp, ZielBezeichnung";
-	$result_apziele = mysql_query($query_apziele) or die("Anfrage fehlgeschlagen: " . mysql_error());
-	$anz_apziele = mysql_num_rows($result_apziele);
+	$result_apziele = mysqli_query($link, "SELECT ZielId, ZielTyp, ZielBezeichnung FROM tblZiel WHERE (ApArtId = $ApArtId) AND (ZielJahr = ".$r_apzielejahr['ZielJahr'].") ORDER BY ZielTyp, ZielBezeichnung");
+	$anz_apziele = mysqli_num_rows($result_apziele);
 	$anz_apzielejahr = $anz_apzielejahr + $anz_apziele;
 	//Datenstruktur apzielejahr aufbauen
 	$rows_apziele = array();
-	while($r_apziele = mysql_fetch_assoc($result_apziele)) {
+	while($r_apziele = mysqli_fetch_assoc($result_apziele)) {
 		$ZielId = $r_erfkrit['ZielId'];
 		settype($ZielId, "integer");
 
 		//zielber dieses Ziels abfragen
-		$query_zielber = "SELECT ZielBerId, ZielId, ZielBerJahr, ZielBerErreichung FROM tblZielBericht where ZielId = $ZielId ORDER BY ZielBerJahr, ZielBerErreichung";
-		$result_zielber = mysql_query($query_zielber) or die("Anfrage fehlgeschlagen: " . mysql_error());
-		$anz_zielber = mysql_num_rows($result_zielber);
+		$result_zielber = mysqli_query($link, "SELECT ZielBerId, ZielId, ZielBerJahr, ZielBerErreichung FROM tblZielBericht where ZielId = $ZielId ORDER BY ZielBerJahr, ZielBerErreichung");
+		$anz_zielber = mysqli_num_rows($result_zielber);
 		//zielber aufbauen
 		$rows_zielber = array();
-		while($r_zielber = mysql_fetch_assoc($result_zielber)) {
+		while($r_zielber = mysqli_fetch_assoc($result_zielber)) {
 			$ZielBerId = $r_zielber['ZielBerId'];
 			settype($ZielBerId, "integer");
 			//zielber setzen
@@ -308,7 +299,7 @@ while($r_apzielejahr = mysql_fetch_assoc($result_apzielejahr)) {
 			//zielber-Array um zielber ergänzen
 		    $rows_zielber[] = $zielber;
 		}
-		mysql_free_result($result_zielber);
+		mysqli_free_result($result_zielber);
 
 		//Ziel-Ordner setzen
 		$ziel_ordner_datatext = $anz_zielber." Ziel-Berichte";
@@ -328,7 +319,7 @@ while($r_apzielejahr = mysql_fetch_assoc($result_apzielejahr)) {
 		//Array um apziele ergänzen
 	    $rows_apziele[] = $apziele;
 	}
-	mysql_free_result($result_apziele);
+	mysqli_free_result($result_apziele);
 
 	//apzielejahr setzen
 	$attr_apzielejahr = array("id" => $apzielejahr_jahr, "typ" => "apzielejahr");
@@ -337,17 +328,16 @@ while($r_apzielejahr = mysql_fetch_assoc($result_apzielejahr)) {
 	//tpop-Array um tpop ergänzen
     $rows_apzielejahr[] = $apzielejahr;
 }
-mysql_free_result($result_apzielejahr);
+mysqli_free_result($result_apzielejahr);
 
 //erfkrit dieses AP abfragen
-$query_erfkrit = "SELECT ErfBeurtZielSkalaId, ApArtId, BeurteilTxt, BeurteilOrd
+$result_erfkrit = mysqli_query($link, "SELECT ErfBeurtZielSkalaId, ApArtId, BeurteilTxt, BeurteilOrd
 FROM tblErfBeurtZielSkala LEFT JOIN DomainApBeurteilungsskala ON ErfBeurtZielSkalaErreichungsgrad = BeurteilId
-where ApArtId = $ApArtId ORDER BY BeurteilOrd";
-$result_erfkrit = mysql_query($query_erfkrit) or die("Anfrage fehlgeschlagen: " . mysql_error());
-$anz_erfkrit = mysql_num_rows($result_erfkrit);
+where ApArtId = $ApArtId ORDER BY BeurteilOrd");
+$anz_erfkrit = mysqli_num_rows($result_erfkrit);
 //erfkrit aufbauen
 $rows_erfkrit = array();
-while($r_erfkrit = mysql_fetch_assoc($result_erfkrit)) {
+while($r_erfkrit = mysqli_fetch_assoc($result_erfkrit)) {
 	$ErfBeurtZielSkalaId = $r_erfkrit['ErfBeurtZielSkalaId'];
 	settype($ErfBeurtZielSkalaId, "integer");
 	//erfkrit setzen
@@ -356,15 +346,14 @@ while($r_erfkrit = mysql_fetch_assoc($result_erfkrit)) {
 	//erfkrit-Array um erfkrit ergänzen
     $rows_erfkrit[] = $erfkrit;
 }
-mysql_free_result($result_erfkrit);
+mysqli_free_result($result_erfkrit);
 
 //apber dieses AP abfragen
-$query_apber = "SELECT ApBerId, ApArtId, ApBerJahr FROM tblApBericht where ApArtId = $ApArtId ORDER BY ApBerJahr";
-$result_apber = mysql_query($query_apber) or die("Anfrage fehlgeschlagen: " . mysql_error());
-$anz_apber = mysql_num_rows($result_apber);
+$result_apber = mysqli_query($link, "SELECT ApBerId, ApArtId, ApBerJahr FROM tblApBericht where ApArtId = $ApArtId ORDER BY ApBerJahr");
+$anz_apber = mysqli_num_rows($result_apber);
 //apber aufbauen
 $rows_apber = array();
-while($r_apber = mysql_fetch_assoc($result_apber)) {
+while($r_apber = mysqli_fetch_assoc($result_apber)) {
 	$ApBerId = $r_apber['ApBerId'];
 	settype($ApBerId, "integer");
 	//apber setzen
@@ -373,15 +362,14 @@ while($r_apber = mysql_fetch_assoc($result_apber)) {
 	//apber-Array um apber ergänzen
     $rows_apber[] = $apber;
 }
-mysql_free_result($result_apber);
+mysqli_free_result($result_apber);
 
 //ber dieses AP abfragen
-$query_ber = "SELECT BerId, ApArtId, BerJahr, BerTitel FROM tblBericht where ApArtId = $ApArtId ORDER BY BerJahr DESC, BerTitel";
-$result_ber = mysql_query($query_ber) or die("Anfrage fehlgeschlagen: " . mysql_error());
-$anz_ber = mysql_num_rows($result_ber);
+$result_ber = mysqli_query($link, "SELECT BerId, ApArtId, BerJahr, BerTitel FROM tblBericht where ApArtId = $ApArtId ORDER BY BerJahr DESC, BerTitel");
+$anz_ber = mysqli_num_rows($result_ber);
 //ber aufbauen
 $rows_ber = array();
-while($r_ber = mysql_fetch_assoc($result_ber)) {
+while($r_ber = mysqli_fetch_assoc($result_ber)) {
 	$BerId = $r_ber['BerId'];
 	settype($BerId, "integer");
 	//ber setzen
@@ -390,21 +378,19 @@ while($r_ber = mysql_fetch_assoc($result_ber)) {
 	//ber-Array um ber ergänzen
     $rows_ber[] = $ber;
 }
-mysql_free_result($result_ber);
+mysqli_free_result($result_ber);
 
 //iballg dieses AP abfragen
-$query_iballg = "SELECT IbApArtId FROM tblIbAllg where IbApArtId = $ApArtId";
-$result_iballg = mysql_query($query_iballg) or die("Anfrage fehlgeschlagen: " . mysql_error());
-$anz_iballg = mysql_num_rows($result_iballg);
-mysql_free_result($result_iballg);
+$result_iballg = mysqli_query($link, "SELECT IbApArtId FROM tblIbAllg where IbApArtId = $ApArtId");
+$anz_iballg = mysqli_num_rows($result_iballg);
+mysqli_free_result($result_iballg);
 
 //ibb dieses AP abfragen
-$query_ibb = "SELECT IbbId, IbApArtId, IbbName, IbbVegTyp FROM tblIbBiotope where IbbId = $ApArtId ORDER BY IbbName, IbbVegTyp";
-$result_ibb = mysql_query($query_ibb) or die("Anfrage fehlgeschlagen: " . mysql_error());
-$anz_ibb = mysql_num_rows($result_ibb);
+$result_ibb = mysqli_query($link, "SELECT IbbId, IbApArtId, IbbName, IbbVegTyp FROM tblIbBiotope where IbbId = $ApArtId ORDER BY IbbName, IbbVegTyp");
+$anz_ibb = mysqli_num_rows($result_ibb);
 //ibb aufbauen
 $rows_ibb = array();
-while($r_ibb = mysql_fetch_assoc($result_ibb)) {
+while($r_ibb = mysqli_fetch_assoc($result_ibb)) {
 	$IbbId = $r_ibb['IbbId'];
 	settype($IbbId, "integer");
 	//ibb setzen
@@ -413,15 +399,14 @@ while($r_ibb = mysql_fetch_assoc($result_ibb)) {
 	//ibb-Array um ibb ergänzen
     $rows_ibb[] = $ibb;
 }
-mysql_free_result($result_ibb);
+mysqli_free_result($result_ibb);
 
 //ibartenassoz dieses AP abfragen
-$query_ibartenassoz = "SELECT IbaassId, IbaassApArtId, Name FROM tblIbArtenAssoz INNER JOIN ArtenDb_tblFloraSisf ON IbaassSisfNr = NR where IbaassApArtId = $ApArtId ORDER BY Name";
-$result_ibartenassoz = mysql_query($query_ibartenassoz) or die("Anfrage fehlgeschlagen: " . mysql_error());
-$anz_ibartenassoz = mysql_num_rows($result_ibartenassoz);
+$result_ibartenassoz = mysqli_query($link, "SELECT IbaassId, IbaassApArtId, Name FROM tblIbArtenAssoz INNER JOIN ArtenDb_tblFloraSisf ON IbaassSisfNr = NR where IbaassApArtId = $ApArtId ORDER BY Name");
+$anz_ibartenassoz = mysqli_num_rows($result_ibartenassoz);
 //ibartenassoz aufbauen
 $rows_ibartenassoz = array();
-while($r_ibartenassoz = mysql_fetch_assoc($result_ibartenassoz)) {
+while($r_ibartenassoz = mysqli_fetch_assoc($result_ibartenassoz)) {
 	$IbaassId = $r_ibartenassoz['IbaassId'];
 	settype($IbaassId, "integer");
 	//ibartenassoz setzen
@@ -430,7 +415,7 @@ while($r_ibartenassoz = mysql_fetch_assoc($result_ibartenassoz)) {
 	//ibartenassoz-Array um ibartenassoz ergänzen
     $rows_ibartenassoz[] = $ibartenassoz;
 }
-mysql_free_result($result_ibartenassoz);
+mysqli_free_result($result_ibartenassoz);
 	
 
 //AP-Ordner setzen
@@ -501,7 +486,5 @@ $rows = json_encode($ap_ordner);
 print($rows);
 
 // Verbindung schliessen
-if ($link) {
-	mysql_close($link);
-}
+mysqli_close($link);
 ?>

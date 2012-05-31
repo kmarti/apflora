@@ -33,11 +33,11 @@
 			</div>
 			<div data-role='fieldcontain' style="margin-top:10px;">
 				<label id="ApStatus_label" for='ApStatus' style="">Aktionsplan:</label>
-				<input type="radio" name="ApStatus" id="0" value="0" style="margin-left:45px;" />(kein Eintrag)<br />
-				<input type="radio" name="ApStatus" id="4" value="4" style="margin-left:134px;" />keiner<br />
-				<input type="radio" name="ApStatus" id="1" value="1" style="margin-left:134px;" />vorgesehen<br />
-				<input type="radio" name="ApStatus" id="2" value="2" style="margin-left:134px;" />in Bearbeitung<br />
-				<input type="radio" name="ApStatus" id="3" value="3" style="margin-left:134px;" />erstellt
+				<input type="radio" name="ApStatus" id="ApStatus0" value="0" style="margin-left:45px;" />(kein Eintrag)<br />
+				<input type="radio" name="ApStatus" id="ApStatus4" value="4" style="margin-left:134px;" />keiner<br />
+				<input type="radio" name="ApStatus" id="ApStatus1" value="1" style="margin-left:134px;" />vorgesehen<br />
+				<input type="radio" name="ApStatus" id="ApStatus2" value="2" style="margin-left:134px;" />in Bearbeitung<br />
+				<input type="radio" name="ApStatus" id="ApStatus3" value="3" style="margin-left:134px;" />erstellt
 			</div>
 			<div data-role='fieldcontain' style="margin-top:10px;">
 				<label id="ApJahr_label" for='ApJahr' style="">Start im Jahr:</label>
@@ -46,9 +46,9 @@
 			</div>
 			<div data-role='fieldcontain' style="margin-top:10px;">
 				<label id="ApUmsetzung_label" for='ApUmsetzung' style="">Stand Umsetzung:</label>
-				<input type="radio" name="ApUmsetzung" id="0" value="0" style="margin-left:4px;" />noch keine Umsetzung<br />
-				<input type="radio" name="ApUmsetzung" id="1" value="1" style="margin-left:134px;" />in Umsetzung<br />
-				<input type="radio" name="ApUmsetzung" id="2" value="2" style="margin-left:134px;" />umgesetzt
+				<input type="radio" name="ApUmsetzung" id="ApUmsetzung0" value="0" style="margin-left:4px;" />noch keine Umsetzung<br />
+				<input type="radio" name="ApUmsetzung" id="ApUmsetzung1" value="1" style="margin-left:134px;" />in Umsetzung<br />
+				<input type="radio" name="ApUmsetzung" id="ApUmsetzung2" value="2" style="margin-left:134px;" />umgesetzt
 			</div>
 		</form>
 		<script>
@@ -73,6 +73,7 @@
 				$("#menu").on("change", "#ap_waehlen", function () {
 					$("#suchen").css('visibility', 'visible');
 					$("#ap_waehlen_label").hide();
+					localStorage.ApArtId = this.value;
 					erstelle_tree(this.value);
 					ap_sichtbarkeit_setzen();
 				});
@@ -91,6 +92,7 @@
 			function ap_sichtbarkeit_setzen() {
 				if ($("#ap_waehlen").val()) {
 					$("#ap_form").css("visibility", "visible");
+					initiiere_ap();
 				} else {
 					$("#ap_form").css("visibility", "hidden");
 				}

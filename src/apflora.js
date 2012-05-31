@@ -1,8 +1,8 @@
 function initiiere_ap() {
-	if (!localStorage.ApArtId || !localStorage.rlbk) {
+	/*if (!localStorage.ApArtId || !localStorage.rlbk) {
 		//es fehlen benötigte Daten > zurück zum Anfang
 		window.open("index.html", target = "_self");
-	}
+	}*/
 
 	//Daten für den AP aus der DB holen
 	$.ajax({
@@ -16,13 +16,18 @@ function initiiere_ap() {
 			window.ap = data;
 			localStorage.ap = JSON.stringify(data);
 			//Felder mit Daten beliefern
-
+			//Radio Felder initiieren
+			$("#ApStatus" + data.ApStatus).prop("checked",true);
+			$("#ApUmsetzung" + data.ApUmsetzung).prop("checked",true);
+			//übrige Felder initiieren
+			$("#ApArtId").val(data.ApArtId);
+			$("#ApJahr").val(data.ApJahr);
 		}
 	});
 
 
 	//tree aufbauen. Wird mit der localStorage übergeben
-	$.jstree.rollback(JSON.parse(localStorage.rlbk));
+	//$.jstree.rollback(JSON.parse(localStorage.rlbk));
 }
 
 function erstelle_ap_liste(ap_arten) {

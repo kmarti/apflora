@@ -1,24 +1,27 @@
 <?php
 // Verbindung aufbauen, Datenbank auswählen
-$link = mysql_connect("barbalex.ch", "alexande", "excalibu")
-    or die("Keine Verbindung möglich: " . mysql_error());
-//echo "Verbindung zum Datenbankserver erfolgreich";
-mysql_select_db("alexande_apflora") or die("Auswahl der Datenbank fehlgeschlagen");
+//$link = new mysqli("barbalex.ch", "alexande", "excalibu", "alexande_apflora");
+$link = new mysqli("127.0.0.1", "root", "admin", "apflora");
+
+/* check connection */
+if ($link->connect_errno) {
+    printf("Connect failed: %s\n", $link->connect_error);
+    exit();
+}
 
 //ist ap_arten true, sollen nur ap_arten angezeigt werden
 $ap_arten = $_GET["ap_arten"];
 
 // SQL-Anfrage ausführen
 if ($ap_arten) {
-	$query = "SELECT Name, ApArtId FROM qryAp1 WHERE ApStatus BETWEEN 1 AND 3";
+	$result = mysqli_query($link, "SELECT Name, ApArtId FROM qryAp1 WHERE ApStatus BETWEEN 1 AND 3");
 } else {
-	$query = "SELECT Name, ApArtId FROM qryAp1";
+	$result = mysqli_query($link, "SELECT Name, ApArtId FROM qryAp1");
 }
-$result = mysql_query($query) or die("Anfrage fehlgeschlagen: " . mysql_error());
 
 //benötigte Datenstruktur aufbauen
 $rows = array();
-while($r = mysql_fetch_assoc($result)) {
+while($r = mysqli_fetch_assoc($result)) {
 	$ApArtId = $r['ApArtId'];
 	settype($ApArtId, "integer");
 	$row = array("ap_name" => utf8_encode($r['Name']), "id" => $ApArtId);
@@ -31,8 +34,8 @@ $Object = "{\"rows\": $rows}";
 print($Object);
 
 // Resultset freigeben
-mysql_free_result($result);
+mysqli_free_result($result);
 
 // Verbindung schliessen
-mysql_close($link);
+mysqli_close($link);
 ?>

@@ -1,6 +1,7 @@
 <?php
 // Verbindung aufbauen, Datenbank auswählen
-$link = new mysqli("barbalex.ch", "alexande", "excalibu", "alexande_apflora");
+//$link = new mysqli("barbalex.ch", "alexande", "excalibu", "alexande_apflora");
+$link = new mysqli("127.0.0.1", "root", "admin", "apflora");
 
 /* check connection */
 if ($link->connect_errno) {
@@ -14,7 +15,7 @@ settype($id, "integer");
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, "SELECT * FROM tblAktionsplan WHERE ApArtId = $ApArtId");
 
-//$rows = array();
+$rows = "";
 /*while($r = mysql_fetch_assoc($result)) {
 	$ApArtId = $r['ApArtId'];
 	settype($ApArtId, "integer");
@@ -22,13 +23,13 @@ $result = mysqli_query($link, "SELECT * FROM tblAktionsplan WHERE ApArtId = $ApA
     $rows[] = $row;
 }*/
 
-
-while($r = mysqli_fetch_assoc($result)) {
+$row = mysqli_fetch_assoc($result);
+/*while($r = mysqli_fetch_assoc($result)) {
     $rows[] = $r;
-}
+}*/
 
 //in json verwandeln
-$return = json_encode($rows);
+$return = json_encode($row);
 
 print($return);
 

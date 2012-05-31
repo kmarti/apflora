@@ -1,17 +1,20 @@
 <?php
 // Verbindung aufbauen, Datenbank auswählen
-$link = mysql_connect("barbalex.ch", "alexande", "excalibu")
-    or die("Keine Verbindung möglich: " . mysql_error());
-//echo "Verbindung zum Datenbankserver erfolgreich";
-mysql_select_db("alexande_apflora") or die("Auswahl der Datenbank fehlgeschlagen");
+//$link = new mysqli("barbalex.ch", "alexande", "excalibu", "alexande_apflora");
+$link = new mysqli("127.0.0.1", "root", "admin", "apflora");
+
+/* check connection */
+if ($link->connect_errno) {
+    printf("Connect failed: %s\n", $link->connect_error);
+    exit();
+}
 
 // SQL-Anfrage ausführen
-$query = "SELECT NR, IF(Deutsch Is Not Null, CONCAT(Name, ' (', Deutsch, ')   ', StatusText), CONCAT(Name, '   ', StatusText)) AS Artname FROM ArtenDb_tblFloraSisf LEFT JOIN DomainFloraStatus ON Status = StatusWert ORDER BY Artname";
-$result = mysql_query($query) or die("Anfrage fehlgeschlagen: " . mysql_error());
+$result = mysqli_query($link, "SELECT NR, IF(Deutsch Is Not Null, CONCAT(Name, ' (', Deutsch, ')   ', StatusText), CONCAT(Name, '   ', StatusText)) AS Artname FROM ArtenDb_tblFloraSisf LEFT JOIN DomainFloraStatus ON Status = StatusWert ORDER BY Artname");
 
 //benötigte Datenstruktur aufbauen
 $rows = array();
-while($r = mysql_fetch_assoc($result)) {
+while($r = mysqli_fetch_assoc($result)) {
 	$ApArtId = $r['NR'];
 	settype($ApArtId, "integer");
 	$row = array("Artname" => utf8_encode($r['Artname']), "id" => $ApArtId);
@@ -25,8 +28,8 @@ $Object = "{\"rows\": $rows}";
 print($Object);
 
 // Resultset freigeben
-mysql_free_result($result);
+mysqli_free_result($result);
 
 // Verbindung schliessen
-mysql_close($link);
+mysqli_close($link);
 ?>
