@@ -168,7 +168,9 @@ function erstelle_tree(ApArtId) {
 		"themes": {
 			"icons": false
 		},
-		"types": {
+		"contextmenu": {
+			"items": treeKontextmenu
+		},"types": {
 			"default": {
 				"select_node": function(e) {
 					this.correct_state(e);
@@ -177,7 +179,7 @@ function erstelle_tree(ApArtId) {
 				}
 			}
 		},
-		"plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "types"]
+		"plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "contextmenu", "types"]
 	})
 	.show()
 	.bind("select_node.jstree", function (e, data) {
@@ -186,10 +188,20 @@ function erstelle_tree(ApArtId) {
 		if (node.attr("typ") === "pop") {
 			localStorage.pop_id = node.attr("id");
 			initiiere_pop();
-		} else if (node.attr("typ").slice(0, 2) === "ap") {
+		} else if (node.attr("typ").slice(0, 3) === "ap_") {
 			localStorage.ap_id = node.attr("id");
 			delete localStorage.pop_id;
 			initiiere_ap();
+		} else {
+			$("#Meldung").html("Diese Seite ist noch nicht gebaut");
+			$("#Meldung").dialog({
+				modal: true,
+				buttons: {
+					Ok: function() {
+						$(this).dialog("close");
+					}
+				}
+			});
 		}
 	})
 	.bind("open_node.jstree", function (e, data) {
@@ -200,6 +212,27 @@ function erstelle_tree(ApArtId) {
 		//alert(data.rslt.obj.attr("typ") + " mit id " + data.rslt.obj.attr("id"));
 	});
 	$("#suchen").show();
+}
+
+function treeKontextmenu(node) {
+    // The default set of all items
+    var items = {
+        neu: { // The "rename" menu item
+            label: "neu",
+            action: function () {}
+        },
+        loeschen: { // The "delete" menu item
+            label: "löschen",
+            action: function () {}
+        }
+    };
+
+    if ($(node).attr("Ordner")) {
+        // Delete the "delete" menu item
+        delete items.loeschen;
+    }
+
+    return items;
 }
 
 //wird von allen Formularen benutzt
