@@ -259,7 +259,12 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 	//Pop setzen
 	$attr_pop = array("id" => $PopId, "typ" => "pop");
 	$children_pop = $pop_ordner;
-	$pop = array("data" => $r_pop['PopName'], "attr" => $attr_pop, "children" => $children_pop);
+	if ($r_pop['PopName']) {
+		$data = $r_pop['PopName'];
+	} else {
+		$data = "namenlos";
+	}
+	$pop = array("data" => $data, "attr" => $attr_pop, "children" => $children_pop);
 	//pop-Array um pop ergänzen
     $rows_pop[] = $pop;
 }

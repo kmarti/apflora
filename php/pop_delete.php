@@ -11,16 +11,14 @@ if ($link->connect_errno) {
 
 $id = $_GET["id"];
 settype($id, "integer");
-$Feld = $_GET["Feld"];
-$Wert = $_GET["Wert"];
 
-$Querystring = 'UPDATE tblPopulation SET '.$Feld.' = "'.$Wert.'" WHERE PopId = '.$id;
+$Querystring = "DELETE FROM tblPopulation WHERE PopId = ".$id;
 
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);
 
 if (!$result) {
-	print "Fehler: Wert ".$Wert." konnte nicht im Feld ".$Feld." gespeichert werden";
+	print "Fehler: Das Artförderungsprogramm wurde nicht gelöscht";
 }
 
 // Verbindung schliessen

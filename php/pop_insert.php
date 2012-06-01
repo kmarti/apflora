@@ -5,23 +5,23 @@ $link = new mysqli("127.0.0.1", "root", "admin", "apflora");
 
 /* check connection */
 if ($link->connect_errno) {
-    printf("Connect failed: %s\n", $link->connect_error);
-    exit();
+	printf("Connect failed: %s\n", $link->connect_error);
+	exit();
 }
 
 $id = $_GET["id"];
 settype($id, "integer");
-$Feld = $_GET["Feld"];
-$Wert = $_GET["Wert"];
 
-$Querystring = 'UPDATE tblPopulation SET '.$Feld.' = "'.$Wert.'" WHERE PopId = '.$id;
+$Querystring = "INSERT INTO tblPopulation SET ApArtId = ".$id;	//muss die neue PopId erhalten!
 
-// SQL-Anfrage ausführen
+//SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);
 
-if (!$result) {
-	print "Fehler: Wert ".$Wert." konnte nicht im Feld ".$Feld." gespeichert werden";
-}
+/*if (!$result) {
+	print "Fehler: Es wurde kein neues Programm gespeichert";
+} else {*/
+print mysqli_insert_id($link);
+//}
 
 // Verbindung schliessen
 mysqli_close($link);

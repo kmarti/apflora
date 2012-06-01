@@ -32,7 +32,7 @@
 				</span>
 				<button id="ap_loeschen">löschen</button>
 			</div>
-			<input type="search" id="suchen" placeholder="suchen" style="background-color:#FFFFF7; margin-left:9px;"/>
+			<input type="search" id="suchen" placeholder="suchen" style="background-color:#FFFFF7; margin-left:6px;"/>
 			<div id="tree" style="width:330px; margin-bottom:5px;"></div>
 		</div>
 		<form id="ap" class="form" action="#" method="get" autocomplete="off">
@@ -192,39 +192,39 @@
 							buttons: {
 								ja: function() {
 									$.ajax({
-									url: 'php/ap_delete.php',
-									dataType: 'json',
-									data: {
-										"id": localStorage.ap_id
-									},
-									success: function () {
-										delete localStorage.ap_id;
-										delete window.ap;
-										delete localStorage.ap;
-										$("#programm_neu").attr("checked", false);
-										$("#programm_alle").attr("checked", true);
-										$("#programm_wahl").buttonset();
-										erstelle_ap_liste("programm_alle");
-										$('#ap_waehlen').val('');
-										$("#ap_waehlen_label").html("Artförderprogramm wählen:").show();
-										$("#tree").hide();
-										$("#suchen").hide();
-										$("#ap").hide();
-									},
-									error: function (data) {
-										var Meldung;
-										Meldung = JSON.stringify(data);
-										$("#Meldung").html(data.responseText);
-										$( "#Meldung" ).dialog({
-											modal: true,
-											buttons: {
-												Ok: function() {
-													$(this).dialog("close");
+										url: 'php/ap_delete.php',
+										dataType: 'json',
+										data: {
+											"id": localStorage.ap_id
+										},
+										success: function () {
+											delete localStorage.ap_id;
+											delete window.ap;
+											delete localStorage.ap;
+											$("#programm_neu").attr("checked", false);
+											$("#programm_alle").attr("checked", true);
+											$("#programm_wahl").buttonset();
+											erstelle_ap_liste("programm_alle");
+											$('#ap_waehlen').val('');
+											$("#ap_waehlen_label").html("Artförderprogramm wählen:").show();
+											$("#tree").hide();
+											$("#suchen").hide();
+											$("#ap").hide();
+										},
+										error: function (data) {
+											var Meldung;
+											Meldung = JSON.stringify(data);
+											$("#Meldung").html(data.responseText);
+											$("#Meldung").dialog({
+												modal: true,
+												buttons: {
+													Ok: function() {
+														$(this).dialog("close");
+													}
 												}
-											}
-										});
-									}
-								});
+											});
+										}
+									});
 									$(this).dialog("close");
 								},
 								nein: function() {

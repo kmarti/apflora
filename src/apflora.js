@@ -215,24 +215,159 @@ function erstelle_tree(ApArtId) {
 }
 
 function treeKontextmenu(node) {
-    // The default set of all items
-    var items = {
-        neu: { // The "rename" menu item
-            label: "neu",
-            action: function () {}
-        },
-        loeschen: { // The "delete" menu item
-            label: "löschen",
-            action: function () {}
-        }
-    };
-
-    if ($(node).attr("Ordner")) {
-        // Delete the "delete" menu item
-        delete items.loeschen;
-    }
-
-    return items;
+	var items;
+	switch($(node).attr("typ")) {
+	case "ap_ordner_pop":
+		items = {
+			neu: {
+				label: "neue Population",
+				action: function () {
+					$.ajax({
+						url: 'php/pop_insert.php',
+						dataType: 'json',
+						data: {
+							"id": localStorage.ap_id
+						},
+						success: function (data) {
+							var NeuerNode, anzPop, anzPopTxt;
+							localStorage.pop_id = data;
+							delete window.pop;
+							delete localStorage.pop;
+							NeuerNode = jQuery.jstree._reference(node).create_node(node, "last", {
+								"data": "neue Population",
+								"attr": {
+									"id": data,
+									"typ": "pop"
+								}
+							});
+							//Node-Beschriftung: Anzahl anpassen
+							anzPop = $(node).find("> ul > li").length;
+							if (anzPop === 1) {
+								anzPopTxt = anzPop + " Population";
+							} else {
+								anzPopTxt = anzPop + " Populationen";
+							}
+							jQuery.jstree._reference(node).rename_node(node, anzPopTxt);
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							$("#ap").hide();
+							$("#pop").show();
+							$('#PopName').focus();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine neue Population erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		};
+		return items;
+	case "pop":
+		items = {
+			neu: {
+				label: "neue Population",
+				action: function () {
+					$.ajax({
+						url: 'php/pop_insert.php',
+						dataType: 'json',
+						data: {
+							"id": localStorage.ap_id
+						},
+						success: function (data) {
+							var ParentNode, NeuerNode, anzPop, anzPopTxt;
+							localStorage.pop_id = data;
+							delete window.pop;
+							delete localStorage.pop;
+							ParentNode = jQuery.jstree._reference(node)._get_parent(node);
+							NeuerNode = jQuery.jstree._reference(ParentNode).create_node(ParentNode, "last", {
+								"data": "neue Population",
+								"attr": {
+									"id": data,
+									"typ": "pop"
+								}
+							});
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anzPop = $(ParentNode).find("> ul > li").length;
+							if (anzPop === 1) {
+								anzPopTxt = anzPop + " Population";
+							} else {
+								anzPopTxt = anzPop + " Populationen";
+							}
+							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzPopTxt);
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							$("#ap").hide();
+							$("#pop").show();
+							$('#PopName').focus();
+							/*setTimeout(function () { 
+								$('#PopName').focus();
+							}, 50);*/
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine neue Population erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},
+			loeschen: {
+				label: "lösche Population",
+				action: function () {
+					$.ajax({
+						url: 'php/pop_delete.php',
+						dataType: 'json',
+						data: {
+							"id": localStorage.pop_id
+						},
+						success: function () {
+							var ParentNode, anzPop, anzPopTxt;
+							delete localStorage.pop_id;
+							delete window.pop;
+							delete localStorage.pop;
+							ParentNode = jQuery.jstree._reference(node)._get_parent(node);
+							jQuery.jstree._reference(ParentNode).select_node(ParentNode);
+							jQuery.jstree._reference(node).delete_node(node);
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anzPop = $(ParentNode).find("> ul > li").length;
+							if (anzPop === 1) {
+								anzPopTxt = anzPop + " Population";
+							} else {
+								anzPopTxt = anzPop + " Populationen";
+							}
+							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzPopTxt);
+							$("#pop").hide();
+							$("#ap").show();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Die Population wurde nicht gelöscht");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		};
+		return items;
+	}		
 }
 
 //wird von allen Formularen benutzt
@@ -269,6 +404,12 @@ function speichern(that) {
 			});
 		}
 	});
+	//nodes im Tree updaten, wenn deren Bezeichnung ändert
+	switch(Feldname) {
+		case "PopName":
+			jQuery("#tree").jstree("rename_node", "#" + localStorage.pop_id, Feldwert);
+			break;
+	}
 }
 
 (function ($) {
