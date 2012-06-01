@@ -139,3 +139,62 @@ function erstelle_tree(ApArtId) {
 		return o;
 	};
 })(jQuery);
+
+function authentifiziereUser() {
+	$("#Anmeldeformular").dialog( {
+		autoOpen: true,
+		height: 350,
+		width: 350,
+		modal: true,
+		buttons: {
+			"anmelden": function() {
+				if ($("#anmeldung_name").val() && $("#anmeldung_passwort").val()) {
+					$.ajax({
+						url: 'php/anmeldung.php',
+						dataType: 'json',
+						data: {
+							"Name": $("#anmeldung_name").val(),
+							"pwd": $("#anmeldung_passwort").val()
+						},
+						success: function (data) {
+							alert(data);
+							if (data && data > 0) {
+								localStorage.User = $("#anmeldung_name").val();
+								$("#Anmeldeformular").dialog("close");
+								/*$("#anmeldung_rueckmeldung").html("Willkommen " + $("#anmeldung_name").val()).addClass( "ui-state-highlight" );
+								setTimeout(function() {
+									$(this).dialog( "close", 1500 );
+								}, 500 );*/
+							} else {
+								$("#anmeldung_rueckmeldung").html("Anmeldung gescheitert").addClass( "ui-state-highlight" );
+								setTimeout(function() {
+									$("#anmeldung_rueckmeldung").removeClass( "ui-state-highlight", 1500 );
+								}, 500 );
+							}
+						},
+						error: function () {
+							$("#Meldung").html("Anmeldung gescheitert");
+							$( "#Meldung" ).dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				} else {
+					$("#anmeldung_rueckmeldung").html("Bitte Name und Passwort ausfüllen").addClass( "ui-state-highlight" );
+					setTimeout(function() {
+						$("#anmeldung_rueckmeldung").removeClass( "ui-state-highlight", 1500 );
+					}, 500 );
+				}
+			},
+			abbrechen: function() {
+				$(this).dialog("close");
+			}
+		}
+	});
+	//$("#Anmeldeformular").dialog('open');
+}
