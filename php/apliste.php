@@ -19,7 +19,7 @@ if ($programm == "programm_ap") {
 	while($r = mysqli_fetch_assoc($result)) {
 		$ApArtId = $r['ApArtId'];
 		settype($ApArtId, "integer");
-		$ap_name = utf8_encode($r['Name']);
+		$ap_name = $r['Name'];
 		$row = array("ap_name" => $ap_name, "id" => $ApArtId);
 	    $rows[] = $row;
 	}
@@ -29,7 +29,7 @@ if ($programm == "programm_ap") {
 	while($r = mysqli_fetch_assoc($result)) {
 		$ApArtId = $r['ApArtId'];
 		settype($ApArtId, "integer");
-		$ap_name = utf8_encode($r['Name']);
+		$ap_name = $r['Name'];
 		$row = array("ap_name" => $ap_name, "id" => $ApArtId);
 	    $rows[] = $row;
 	}
@@ -39,7 +39,7 @@ if ($programm == "programm_ap") {
 	while($r = mysqli_fetch_assoc($result)) {
 		$ApArtId = $r['NR'];
 		settype($ApArtId, "integer");
-		$ap_name = utf8_encode($r['ApName']);
+		$ap_name = $r['ApName'];
 		$row = array("ap_name" => $ap_name, "id" => $ApArtId);
 	    $rows[] = $row;
 	}

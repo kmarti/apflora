@@ -1,4 +1,17 @@
-function initiiere_ap() {
+function initialisiere_ap() {
+	$("#suchen").hide();
+	//alle Formulare verstecken
+	$("#ap").hide();
+	$("#pop").hide();
+	//jQuery ui buttons initiieren
+	$("#programm_wahl").buttonset();
+	$("button").button();
+	//Auswahllisten aufbauen
+	erstelle_ap_liste("programm_alle");
+	erstelle_ApArtId_liste();
+}
+
+function aktualisiere_ap() {
 	/*if (!localStorage.ap_id || !localStorage.rlbk) {
 		//es fehlen benötigte Daten > zurück zum Anfang
 		window.open("index.html", target = "_self");

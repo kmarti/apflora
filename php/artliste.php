@@ -17,7 +17,7 @@ $rows = array();
 while($r = mysqli_fetch_assoc($result)) {
 	$ApArtId = $r['NR'];
 	settype($ApArtId, "integer");
-	$row = array("Artname" => utf8_encode($r['Artname']), "id" => $ApArtId);
+	$row = array("Artname" => $r['Artname'], "id" => $ApArtId);
     $rows[] = $row;
 }
 

@@ -41,7 +41,7 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 			settype($TPopMassnId, "integer");
 			$TPopMassnJahr =  $r_tpopmassn['TPopMassnJahr'];
 			settype($TPopMassnJahr, "integer");
-			$MassnTypTxt = utf8_encode($r_tpop['MassnTypTxt']);
+			$MassnTypTxt = $r_tpop['MassnTypTxt'];
 			//TPopMassn setzen
 			$attr_tpopmassn = array("id" => $TPopMassnId, "typ" => "tpopmassn");
 			$tpopmassn = array("data" => $TPopMassnJahr." ".$MassnTypTxt, "attr" => $attr_tpopmassn);
@@ -60,7 +60,7 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 			settype($TPopMassnBerId, "integer");
 			$TPopMassnBerJahr =  $r_tpopmassnber['TPopMassnBerJahr'];
 			settype($TPopMassnBerJahr, "integer");
-			$BeurteilTxt = utf8_encode($r_tpop['BeurteilTxt']);
+			$BeurteilTxt = $r_tpop['BeurteilTxt'];
 			//TPopMassn setzen
 			$attr_tpopmassnber = array("id" => $TPopMassnBerId, "typ" => "tpopmassnber");
 			$tpopmassnber = array("data" => $TPopMassnBerJahr." ".$BeurteilTxt, "attr" => $attr_tpopmassnber);
@@ -79,7 +79,7 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 			settype($TPopKontrId, "integer");
 			$TPopKontrJahr =  $r_tpopfeldkontr['TPopKontrJahr'];
 			settype($TPopKontrJahr, "integer");
-			$TPopKontrTyp = utf8_encode($r_tpop['TPopKontrTyp']);
+			$TPopKontrTyp = $r_tpop['TPopKontrTyp'];
 			//TPopFeldKontr setzen
 			$attr_tpopfeldkontr = array("id" => $TPopKontrId, "typ" => "tpopfeldkontr");
 			$tpopfeldkontr = array("data" => $TPopKontrJahr." ".$TPopKontrTyp, "attr" => $attr_tpopfeldkontr);
@@ -98,7 +98,7 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 			settype($TPopKontrId, "integer");
 			$TPopKontrJahr =  $r_tpopfreiwkontr['TPopKontrJahr'];
 			settype($TPopKontrJahr, "integer");
-			$TPopKontrTyp = utf8_encode($r_tpop['TPopKontrTyp']);
+			$TPopKontrTyp = $r_tpop['TPopKontrTyp'];
 			//TPopFeldKontr setzen
 			$attr_tpopfreiwkontr = array("id" => $TPopKontrId, "typ" => "tpopfreiwkontr");
 			$tpopfreiwkontr = array("data" => $TPopKontrJahr." ".$TPopKontrTyp, "attr" => $attr_tpopfreiwkontr);
@@ -117,7 +117,7 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 			settype($TPopBerId, "integer");
 			$TPopBerJahr =  $r_tpopber['TPopBerJahr'];
 			settype($TPopBerJahr, "integer");
-			$EntwicklungTxt = utf8_encode($r_tpop['EntwicklungTxt']);
+			$EntwicklungTxt = $r_tpop['EntwicklungTxt'];
 			//TPopFeldKontr setzen
 			$attr_tpopber = array("id" => $TPopBerId, "typ" => "tpopber");
 			$tpopber = array("data" => $TPopBerJahr." ".$EntwicklungTxt, "attr" => $attr_tpopber);
@@ -134,7 +134,7 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 		while($r_beob = mysqli_fetch_assoc($result_beob)) {
 			$BeobId = $r_beob['BeobId'];
 			settype($BeobId, "integer");
-			$Autor = utf8_encode($r_tpop['Autor']);
+			$Autor = $r_tpop['Autor'];
 			//TPopFeldKontr setzen
 			$attr_beob = array("id" => $BeobId, "typ" => "beob");
 			$beob = array("data" => $r_beob['Datum'].": ".$Autor, "attr" => $attr_beob);
@@ -191,7 +191,7 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 
 		//TPop setzen
 		$attr_tpop = array("id" => $TPopId, "typ" => "tpop");
-		$tpop = array("data" => utf8_encode($r_tpop['TPopFlurname']), "attr" => $attr_tpop, "children" => $tpop_ordner);
+		$tpop = array("data" => $r_tpop['TPopFlurname'], "attr" => $attr_tpop, "children" => $tpop_ordner);
 		//tpop-Array um tpop ergänzen
 	    $rows_tpop[] = $tpop;
 	}
@@ -205,7 +205,7 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 	while($r_popber = mysqli_fetch_assoc($result_popber)) {
 		$PopBerId = $r_popber['PopBerId'];
 		settype($PopBerId, "integer");
-		$EntwicklungTxt = utf8_encode($r_popber['EntwicklungTxt']);
+		$EntwicklungTxt = $r_popber['EntwicklungTxt'];
 		//popber setzen
 		$attr_popber = array("id" => $PopBerId, "typ" => "popber");
 		$popber = array("data" => $r_popber['PopBerJahr'].": ".$EntwicklungTxt, "attr" => $attr_popber);
@@ -222,7 +222,7 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 	while($r_massnber = mysqli_fetch_assoc($result_massnber)) {
 		$PopMassnBerId = $r_massnber['PopMassnBerId'];
 		settype($PopMassnBerId, "integer");
-		$BeurteilTxt = utf8_encode($r_massnber['BeurteilTxt']);
+		$BeurteilTxt = $r_massnber['BeurteilTxt'];
 		//massnber setzen
 		$attr_massnber = array("id" => $PopMassnBerId, "typ" => "massnber");
 		$massnber = array("data" => $r_massnber['PopMassnBerJahr'].": ".$BeurteilTxt, "attr" => $attr_massnber);
@@ -259,7 +259,7 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 	//Pop setzen
 	$attr_pop = array("id" => $PopId, "typ" => "pop");
 	$children_pop = $pop_ordner;
-	$pop = array("data" => utf8_encode($r_pop['PopName']), "attr" => $attr_pop, "children" => $children_pop);
+	$pop = array("data" => $r_pop['PopName'], "attr" => $attr_pop, "children" => $children_pop);
 	//pop-Array um pop ergänzen
     $rows_pop[] = $pop;
 }
@@ -295,7 +295,7 @@ while($r_apzielejahr = mysqli_fetch_assoc($result_apzielejahr)) {
 			settype($ZielBerId, "integer");
 			//zielber setzen
 			$attr_zielber = array("id" => $ZielBerId, "typ" => "zielber");
-			$zielber = array("data" => $r_zielber['ZielBerJahr'].": ".utf8_encode($r_zielber['ZielBerErreichung']), "attr" => $attr_zielber);
+			$zielber = array("data" => $r_zielber['ZielBerJahr'].": ".$r_zielber['ZielBerErreichung'], "attr" => $attr_zielber);
 			//zielber-Array um zielber ergänzen
 		    $rows_zielber[] = $zielber;
 		}
@@ -312,8 +312,8 @@ while($r_apzielejahr = mysqli_fetch_assoc($result_apzielejahr)) {
 		$ziel_ordner = array(0 => $ziel_ordner);
 
 		//apziele setzen
-		$ZielBezeichnung = utf8_encode($r_apziele['ZielBezeichnung']);
-		$ZielTyp = utf8_encode($r_apziele['ZielTyp']);
+		$ZielBezeichnung = $r_apziele['ZielBezeichnung'];
+		$ZielTyp = $r_apziele['ZielTyp'];
 		$attr_apziele = array("id" => $r_apziele['ZielId'], "typ" => "apziele");
 		$apziele = array("data" => $ZielBezeichnung, "attr" => $attr_apziele, "children" => $ziel_ordner);
 		//Array um apziele ergänzen
@@ -342,7 +342,7 @@ while($r_erfkrit = mysqli_fetch_assoc($result_erfkrit)) {
 	settype($ErfBeurtZielSkalaId, "integer");
 	//erfkrit setzen
 	$attr_erfkrit = array("id" => $ErfBeurtZielSkalaId, "typ" => "erfkrit");
-	$erfkrit = array("data" => utf8_encode($r_erfkrit['BeurteilTxt']), "attr" => $attr_erfkrit);
+	$erfkrit = array("data" => $r_erfkrit['BeurteilTxt'], "attr" => $attr_erfkrit);
 	//erfkrit-Array um erfkrit ergänzen
     $rows_erfkrit[] = $erfkrit;
 }
@@ -374,7 +374,7 @@ while($r_ber = mysqli_fetch_assoc($result_ber)) {
 	settype($BerId, "integer");
 	//ber setzen
 	$attr_ber = array("id" => $BerId, "typ" => "ber");
-	$ber = array("data" => $r_ber['BerJahr'].": ".utf8_encode($r_ber['BerTitel']), "attr" => $attr_ber);
+	$ber = array("data" => $r_ber['BerJahr'].": ".$r_ber['BerTitel'], "attr" => $attr_ber);
 	//ber-Array um ber ergänzen
     $rows_ber[] = $ber;
 }
@@ -395,7 +395,7 @@ while($r_ibb = mysqli_fetch_assoc($result_ibb)) {
 	settype($IbbId, "integer");
 	//ibb setzen
 	$attr_ibb = array("id" => $IbbId, "typ" => "ibb");
-	$ibb = array("data" => utf8_encode($r_ibb['IbbName']).": ".utf8_encode($r_ibb['IbbVegTyp']), "attr" => $attr_ibb);
+	$ibb = array("data" => $r_ibb['IbbName'].": ".$r_ibb['IbbVegTyp'], "attr" => $attr_ibb);
 	//ibb-Array um ibb ergänzen
     $rows_ibb[] = $ibb;
 }
@@ -411,7 +411,7 @@ while($r_ibartenassoz = mysqli_fetch_assoc($result_ibartenassoz)) {
 	settype($IbaassId, "integer");
 	//ibartenassoz setzen
 	$attr_ibartenassoz = array("id" => $IbaassId, "typ" => "ibartenassoz");
-	$ibartenassoz = array("data" => utf8_encode($r_ibartenassoz['Name']), "attr" => $attr_ibartenassoz);
+	$ibartenassoz = array("data" => $r_ibartenassoz['Name'], "attr" => $attr_ibartenassoz);
 	//ibartenassoz-Array um ibartenassoz ergänzen
     $rows_ibartenassoz[] = $ibartenassoz;
 }
