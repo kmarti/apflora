@@ -1,27 +1,23 @@
 function initiiere_ap() {
-	/*if (!localStorage.ApArtId || !localStorage.rlbk) {
+	/*if (!localStorage.ap_id || !localStorage.rlbk) {
 		//es fehlen benötigte Daten > zurück zum Anfang
 		window.open("index.html", target = "_self");
 	}*/
+	//Programm-Wahl konfigurieren
 	var programm_wahl;
 	programm_wahl = $("[name='programm_wahl']:checked").attr("id");
+	//alle anderen Formulare ausblenden
+	$("pop").hide();
 	//Felder zurücksetzen
-	$('#ap_form input[type="text"]').each(function(){
-		$(this).val("");  
-	});
-	$('#ap_form input[type="radio"]:checked').each(function(){
-		$(this).prop('checked', false);  
-	});
-	$('#ap_form select').each(function(){
-		$(this).val("");  
-	});
+	leereFelderVonFormular("ap");
+	//Wenn ein ap ausgewählt ist: Seine Daten anzeigen
 	if ($("#ap_waehlen").val() && programm_wahl !== "programm_neu") {
 		//Daten für den ap aus der DB holen
 		$.ajax({
 			url: 'php/ap.php',
 			dataType: 'json',
 			data: {
-				"id": localStorage.ApArtId
+				"id": localStorage.ap_id
 			},
 			success: function (data) {
 				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
@@ -34,16 +30,82 @@ function initiiere_ap() {
 					$("#ApUmsetzung" + data.ApUmsetzung).prop("checked", true);
 					$("#ApArtId").val(data.ApArtId);
 					$("#ApJahr").val(data.ApJahr);
-					$("#ap_form").show();
+					$("#ap").show();
 				}
 			}
 		});
 	} else if ($("#ap_waehlen").val() && programm_wahl === "programm_neu") {
 		$("#ApArtId").val($("#ap_waehlen").val());
-		$("#ap_form").show();
+		$("#ap").show();
 	}
-	//tree aufbauen. Wird mit der localStorage übergeben
-	//$.jstree.rollback(JSON.parse(localStorage.rlbk));
+}
+
+//wird benutzt von Formular pop
+//baut für das select $("#ApArtId") eine Artliste auf
+function erstelle_ApArtId_liste() {
+	$.ajax({
+		url: 'php/artliste.php',
+		dataType: 'json',
+		success: function (data) {
+			var html;
+			html = "<option></option>";
+			for (i in data.rows) {
+				if (typeof i !== "undefined") {
+					html += "<option value=\"" + data.rows[i].id + "\">" + data.rows[i].Artname + "</option>";
+				}
+			}
+			$("#ApArtId").html(html);
+		}
+	});
+}
+
+function initiiere_pop() {
+	if (!localStorage.pop_id || !localStorage.rlbk) {
+		//es fehlen benötigte Daten > zurück zum Anfang
+		window.open("index.html", target = "_self");
+	}
+	//Felder zurücksetzen
+	leereFelderVonFormular("pop");
+	//Wenn eine pop ausgewählt ist: Ihre Daten anzeigen
+	if ($("#ap_waehlen").val() && programm_wahl !== "programm_neu") {
+		//Daten für den ap aus der DB holen
+		$.ajax({
+			url: 'php/ap.php',
+			dataType: 'json',
+			data: {
+				"id": localStorage.ap_id
+			},
+			success: function (data) {
+				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+				if (data) {
+					//ap bereitstellen
+					window.ap = data;
+					localStorage.ap = JSON.stringify(data);
+					//Felder mit Daten beliefern
+					$("#ApStatus" + data.ApStatus).prop("checked", true);
+					$("#ApUmsetzung" + data.ApUmsetzung).prop("checked", true);
+					$("#ApArtId").val(data.ApArtId);
+					$("#ApJahr").val(data.ApJahr);
+					$("#ap").show();
+				}
+			}
+		});
+	} else if ($("#ap_waehlen").val() && programm_wahl === "programm_neu") {
+		$("#ApArtId").val($("#ap_waehlen").val());
+		$("#ap").show();
+	}
+}
+
+function leereFelderVonFormular(Formular) {
+	$('#' + Formular + ' input[type="text"]').each(function(){
+		$(this).val("");  
+	});
+	$('#' + Formular + ' input[type="radio"]:checked').each(function(){
+		$(this).prop('checked', false);  
+	});
+	$('#' + Formular + ' select').each(function(){
+		$(this).val("");  
+	});
 }
 
 function erstelle_ap_liste(programm) {
@@ -115,6 +177,42 @@ function erstelle_tree(ApArtId) {
 	$("#suchen").show();
 }
 
+//wird von allen Formularen benutzt
+//speichert den Wert eines Feldes in einem Formular
+//übernimmt das Objekt, in dem geändert wurde
+function speichern(that) {
+	var Formular, Feldname, Feldjson, Feldwert, Querystring;
+	Formular = $(that).attr("formular");
+	Feldname = that.name;
+	//nötig, damit Arrays richtig kommen
+	Feldjson = $("[name='" + Feldname + "']").serializeObject();
+	Feldwert = Feldjson[Feldname];
+	$.ajax({
+		url: 'php/' + Formular + '_update.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage[Formular + "_id"],
+			"Feld": Feldname,
+			"Wert": Feldwert
+		},
+		success: function () {
+		},
+		error: function (data) {
+			var Meldung;
+			Meldung = JSON.stringify(data);
+			$("#Meldung").html(data.responseText);
+			$("#Meldung").dialog({
+				modal: true,
+				buttons: {
+					Ok: function() {
+						$(this).dialog("close");
+					}
+				}
+			});
+		}
+	});
+}
+
 (function ($) {
 	// friendly helper http://tinyurl.com/6aow6yn
 	//Läuft durch alle Felder im Formular
@@ -139,57 +237,3 @@ function erstelle_tree(ApArtId) {
 		return o;
 	};
 })(jQuery);
-
-function authentifiziereUser() {
-	$("#Anmeldeformular").dialog( {
-		autoOpen: false,
-		height: 350,
-		width: 350,
-		modal: true,
-		buttons: {
-			"anmelden": function() {
-				if ($("#anmeldung_name").val() && $("#anmeldung_passwort").val()) {
-					$.ajax({
-						url: 'php/anmeldung.php',
-						dataType: 'json',
-						data: {
-							"Name": $("#anmeldung_name").val(),
-							"pwd": $("#anmeldung_passwort").val()
-						},
-						success: function (data) {
-							if (data && data > 0) {
-								sessionStorage.User = $("#anmeldung_name").val();
-								//$("#Anmeldeformular").dialog("close");
-								$("#anmeldung_rueckmeldung").html("Willkommen " + $("#anmeldung_name").val()).addClass( "ui-state-highlight" );
-								setTimeout(function() {
-									$("#Anmeldeformular").dialog("close", 2000);
-								}, 1000);
-							} else {
-								$("#anmeldung_rueckmeldung").html("Anmeldung gescheitert").addClass( "ui-state-highlight" );
-								setTimeout(function() {
-									$("#anmeldung_rueckmeldung").removeClass( "ui-state-highlight", 1500 );
-								}, 500 );
-							}
-						},
-						error: function () {
-							$("#Meldung").html("Anmeldung gescheitert");
-							$( "#Meldung" ).dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										//$("#Anmeldeformular").dialog("close");
-									}
-								}
-							});
-						}
-					});
-				} else {
-					$("#anmeldung_rueckmeldung").html("Bitte Name und Passwort ausfüllen").addClass( "ui-state-highlight" );
-					setTimeout(function() {
-						$("#anmeldung_rueckmeldung").removeClass( "ui-state-highlight", 1500 );
-					}, 500 );
-				}
-			}
-		}
-	});
-}
