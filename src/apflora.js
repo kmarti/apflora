@@ -142,7 +142,7 @@ function erstelle_tree(ApArtId) {
 
 function authentifiziereUser() {
 	$("#Anmeldeformular").dialog( {
-		autoOpen: true,
+		autoOpen: false,
 		height: 350,
 		width: 350,
 		modal: true,
@@ -157,14 +157,13 @@ function authentifiziereUser() {
 							"pwd": $("#anmeldung_passwort").val()
 						},
 						success: function (data) {
-							alert(data);
 							if (data && data > 0) {
-								localStorage.User = $("#anmeldung_name").val();
-								$("#Anmeldeformular").dialog("close");
-								/*$("#anmeldung_rueckmeldung").html("Willkommen " + $("#anmeldung_name").val()).addClass( "ui-state-highlight" );
+								sessionStorage.User = $("#anmeldung_name").val();
+								//$("#Anmeldeformular").dialog("close");
+								$("#anmeldung_rueckmeldung").html("Willkommen " + $("#anmeldung_name").val()).addClass( "ui-state-highlight" );
 								setTimeout(function() {
-									$(this).dialog( "close", 1500 );
-								}, 500 );*/
+									$("#Anmeldeformular").dialog("close", 2000);
+								}, 1000);
 							} else {
 								$("#anmeldung_rueckmeldung").html("Anmeldung gescheitert").addClass( "ui-state-highlight" );
 								setTimeout(function() {
@@ -178,7 +177,7 @@ function authentifiziereUser() {
 								modal: true,
 								buttons: {
 									Ok: function() {
-										$(this).dialog("close");
+										//$("#Anmeldeformular").dialog("close");
 									}
 								}
 							});
@@ -190,11 +189,7 @@ function authentifiziereUser() {
 						$("#anmeldung_rueckmeldung").removeClass( "ui-state-highlight", 1500 );
 					}, 500 );
 				}
-			},
-			abbrechen: function() {
-				$(this).dialog("close");
 			}
 		}
 	});
-	//$("#Anmeldeformular").dialog('open');
 }

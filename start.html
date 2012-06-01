@@ -62,65 +62,10 @@
 			</div>
 		</form>
 		<script>
-			$(document).on("pageshow", function () {
-				
-			});
 			$(document).ready(function () {
-				var $Anmeldedialog = $("#Anmeldeformular").dialog( {
-					autoOpen: false,
-					height: 350,
-					width: 350,
-					modal: true,
-					buttons: {
-						"anmelden": function() {
-							if ($("#anmeldung_name").val() && $("#anmeldung_passwort").val()) {
-								$.ajax({
-									url: 'php/anmeldung.php',
-									dataType: 'json',
-									data: {
-										"Name": $("#anmeldung_name").val(),
-										"pwd": $("#anmeldung_passwort").val()
-									},
-									success: function (data) {
-										if (data && data > 0) {
-											sessionStorage.User = $("#anmeldung_name").val();
-											//$("#Anmeldeformular").dialog("close");
-											$("#anmeldung_rueckmeldung").html("Willkommen " + $("#anmeldung_name").val()).addClass( "ui-state-highlight" );
-											setTimeout(function() {
-												$("#Anmeldeformular").dialog("close", 2000);
-											}, 1000);
-										} else {
-											$("#anmeldung_rueckmeldung").html("Anmeldung gescheitert").addClass( "ui-state-highlight" );
-											setTimeout(function() {
-												$("#anmeldung_rueckmeldung").removeClass( "ui-state-highlight", 1500 );
-											}, 500 );
-										}
-									},
-									error: function () {
-										$("#Meldung").html("Anmeldung gescheitert");
-										$( "#Meldung" ).dialog({
-											modal: true,
-											buttons: {
-												Ok: function() {
-													//$("#Anmeldeformular").dialog("close");
-												}
-											}
-										});
-									}
-								});
-							} else {
-								$("#anmeldung_rueckmeldung").html("Bitte Name und Passwort ausfüllen").addClass( "ui-state-highlight" );
-								setTimeout(function() {
-									$("#anmeldung_rueckmeldung").removeClass( "ui-state-highlight", 1500 );
-								}, 500 );
-							}
-						}
-					}
-				});
-
 				if (!sessionStorage.User) {
-					//authentifiziereUser();
-					$Anmeldedialog.dialog("open");
+					authentifiziereUser();
+					$("#Anmeldeformular").dialog("open");
 				}
 
 				//$("#Anmeldeformular").dialog("destroy");
