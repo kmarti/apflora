@@ -1,4 +1,4 @@
-function initialisiere_ap() {
+function initiiere_index() {
 	$("#suchen").hide();
 	//alle Formulare verstecken
 	$("#ap").hide();
@@ -11,7 +11,7 @@ function initialisiere_ap() {
 	erstelle_ApArtId_liste();
 }
 
-function aktualisiere_ap() {
+function initiiere_ap() {
 	/*if (!localStorage.ap_id || !localStorage.rlbk) {
 		//es fehlen benötigte Daten > zurück zum Anfang
 		window.open("index.html", target = "_self");
@@ -43,13 +43,17 @@ function aktualisiere_ap() {
 					$("#ApUmsetzung" + data.ApUmsetzung).prop("checked", true);
 					$("#ApArtId").val(data.ApArtId);
 					$("#ApJahr").val(data.ApJahr);
+					//Formulare blenden
 					$("#ap").show();
+					$("#pop").hide();
 				}
 			}
 		});
 	} else if ($("#ap_waehlen").val() && programm_wahl === "programm_neu") {
 		$("#ApArtId").val($("#ap_waehlen").val());
+		//Formulare blenden
 		$("#ap").show();
+		$("#pop").hide();
 	}
 }
 
@@ -73,40 +77,36 @@ function erstelle_ApArtId_liste() {
 }
 
 function initiiere_pop() {
-	if (!localStorage.pop_id || !localStorage.rlbk) {
+	/*if (!localStorage.pop_id) {
 		//es fehlen benötigte Daten > zurück zum Anfang
 		window.open("index.html", target = "_self");
-	}
+	}*/
 	//Felder zurücksetzen
 	leereFelderVonFormular("pop");
-	//Wenn eine pop ausgewählt ist: Ihre Daten anzeigen
-	if ($("#ap_waehlen").val() && programm_wahl !== "programm_neu") {
-		//Daten für den ap aus der DB holen
-		$.ajax({
-			url: 'php/ap.php',
-			dataType: 'json',
-			data: {
-				"id": localStorage.ap_id
-			},
-			success: function (data) {
-				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-				if (data) {
-					//ap bereitstellen
-					window.ap = data;
-					localStorage.ap = JSON.stringify(data);
-					//Felder mit Daten beliefern
-					$("#ApStatus" + data.ApStatus).prop("checked", true);
-					$("#ApUmsetzung" + data.ApUmsetzung).prop("checked", true);
-					$("#ApArtId").val(data.ApArtId);
-					$("#ApJahr").val(data.ApJahr);
-					$("#ap").show();
-				}
+	//Daten für die pop aus der DB holen
+	$.ajax({
+		url: 'php/pop.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.pop_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//ap bereitstellen
+				window.pop = data;
+				localStorage.pop = JSON.stringify(data);
+				//Felder mit Daten beliefern
+				$("#PopHerkunft" + data.PopHerkunft).prop("checked", true);
+				$("#PopName").val(data.PopName);
+				$("#PopNr").val(data.PopNr);
+				$("#PopBekanntSeit").val(data.PopBekanntSeit);
+				//Formulare blenden
+				$("#ap").hide();
+				$("#pop").show();
 			}
-		});
-	} else if ($("#ap_waehlen").val() && programm_wahl === "programm_neu") {
-		$("#ApArtId").val($("#ap_waehlen").val());
-		$("#ap").show();
-	}
+		}
+	});
 }
 
 function leereFelderVonFormular(Formular) {
@@ -180,6 +180,18 @@ function erstelle_tree(ApArtId) {
 		"plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "types"]
 	})
 	.show()
+	.bind("select_node.jstree", function (e, data) {
+		var node;
+		node = data.rslt.obj;
+		if (node.attr("typ") === "pop") {
+			localStorage.pop_id = node.attr("id");
+			initiiere_pop();
+		} else if (node.attr("typ").slice(0, 2) === "ap") {
+			localStorage.ap_id = node.attr("id");
+			delete localStorage.pop_id;
+			initiiere_ap();
+		}
+	})
 	.bind("open_node.jstree", function (e, data) {
 		//var node;
 		//node = data.rslt.obj;

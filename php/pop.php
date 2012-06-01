@@ -9,11 +9,11 @@ if ($link->connect_errno) {
     exit();
 }
 
-$ApArtId = $_GET["id"];
+$PopId = $_GET["id"];
 settype($id, "integer");
 
 // SQL-Anfrage ausführen
-$result = mysqli_query($link, "SELECT * FROM tblAktionsplan WHERE ApArtId = $ApArtId");
+$result = mysqli_query($link, "SELECT * FROM tblPopulation WHERE PopId = $PopId");
 
 $row = mysqli_fetch_assoc($result);
 

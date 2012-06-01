@@ -9,21 +9,19 @@ if ($link->connect_errno) {
     exit();
 }
 
-$ApArtId = $_GET["id"];
+$id = $_GET["id"];
 settype($id, "integer");
+$Feld = $_GET["Feld"];
+$Wert = $_GET["Wert"];
+
+$Querystring = "UPDATE tblPopulation SET ".$Feld." = ".$Wert." WHERE PopId = ".$id;
 
 // SQL-Anfrage ausführen
-$result = mysqli_query($link, "SELECT * FROM tblAktionsplan WHERE ApArtId = $ApArtId");
+$result = mysqli_query($link, $Querystring);
 
-$row = mysqli_fetch_assoc($result);
-
-//in json verwandeln
-$return = json_encode($row);
-
-print($return);
-
-// Resultset freigeben
-mysqli_free_result($result);
+if (!$result) {
+	print "Fehler: Wert ".$Wert." konnte nicht im Feld ".$Feld." gespeichert werden";
+}
 
 // Verbindung schliessen
 mysqli_close($link);

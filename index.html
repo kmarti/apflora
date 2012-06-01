@@ -65,17 +65,17 @@
 		<form id="pop" class="form" action="#" method="get" autocomplete="off">
 			<div data-role='fieldcontain' style="margin-top:10px;">
 				<label id="PopName_label" for='PopName' style="">Name:</label>
-				<input id="PopName" name="PopName" class="speichern" formular="pop" type="number" style="width:344px; margin-left:38px; margin-top:2px;">
+				<input id="PopName" name="PopName" class="speichern" formular="pop" type="text" style="width:344px; margin-left:84px; margin-top:2px;">
 				</select>
 			</div>
 			<div data-role='fieldcontain' style="margin-top:10px;">
 				<label id="PopNr_label" for='PopNr' style="">Nr.:</label>
-				<input id="PopNr" name="PopNr" class="speichern" formular="pop" type="number" style="width:344px; margin-left:38px; margin-top:2px;">
+				<input id="PopNr" name="PopNr" class="speichern" formular="pop" type="number" style="width:344px; margin-left:106px; margin-top:2px;">
 				</select>
 			</div>
 			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="PopHerkunft_label" for='PopHerkunft' style="">Aktionsplan:</label>
-				<input type="radio" name="PopHerkunft" id="PopHerkunft1" class="speichern" formular="pop" value="1" style="margin-left:45px;" />autochthon<br />
+				<label id="PopHerkunft_label" for='PopHerkunft' style="">Status:</label>
+				<input type="radio" name="PopHerkunft" id="PopHerkunft1" class="speichern" formular="pop" value="1" style="margin-left:82px;" />autochthon<br />
 				<input type="radio" name="PopHerkunft" id="PopHerkunft6" class="speichern" formular="pop" value="6" style="margin-left:134px;" />neu entdeckt, autochthon<br />
 				<input type="radio" name="PopHerkunft" id="PopHerkunft9" class="speichern" formular="pop" value="9" style="margin-left:134px;" />neu entdeckt, angesiedelt<br />
 				<input type="radio" name="PopHerkunft" id="PopHerkunft8" class="speichern" formular="pop" value="8" style="margin-left:134px;" />angesiedelt, vor Beginn Aktionsplan<br />
@@ -87,8 +87,8 @@
 				<input type="radio" name="PopHerkunft" id="PopHerkunft10" class="speichern" formular="pop" value="10" style="margin-left:134px;" />überprüft, kein Vorkommen
 			</div>
 			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="PopBekanntSeit_label" for='PopBekanntSeit' style="">Start im Jahr:</label>
-				<input id="PopBekanntSeit" name="PopBekanntSeit" class="speichern" formular="pop" type="number" style="width:344px; margin-left:38px; margin-top:2px;">
+				<label id="PopBekanntSeit_label" for='PopBekanntSeit' style="">Bekannt seit:</label>
+				<input id="PopBekanntSeit" name="PopBekanntSeit" class="speichern" formular="pop" type="number" style="width:344px; margin-left:42px; margin-top:2px;">
 				</select>
 			</div>
 		</form>
@@ -150,10 +150,10 @@
 					$Useranmeldung.dialog("open");
 				}
 
-				initialisiere_ap();
+				initiiere_index();
 
 				//Für jedes Feld bei Änderung speichern
-				$("#ap").on("change", ".speichern", function () {
+				$(".form").on("change", ".speichern", function () {
 					speichern(this);
 				});
 
@@ -171,7 +171,7 @@
 						$("#ap_waehlen_label").html("Artförderprogramm wählen:");
 					}
 					$("#ap_waehlen_label").show();
-					aktualisiere_ap();
+					initiiere_ap();
 				});
 
 				$("#menu").on("click", "#ap_loeschen", function () {
@@ -255,7 +255,7 @@
 								setTimeout("$('#ap_waehlen').val(localStorage.ap_id)", 200);
 								setTimeout("$('#ap_waehlen option[value =' + localStorage.ap_id + ']').attr('selected', true)", 200);
 								$("#ApArtId").val(localStorage.ap_id);
-								aktualisiere_ap();
+								initiiere_ap();
 							},
 							error: function (data) {
 								var Meldung;
@@ -274,7 +274,7 @@
 					} else {
 						erstelle_tree(this.value);
 						$("#ap").show();
-						aktualisiere_ap();
+						initiiere_ap();
 					}
 				});
 
