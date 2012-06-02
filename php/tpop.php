@@ -9,17 +9,21 @@ if ($link->connect_errno) {
     exit();
 }
 
-$id = $_GET["id"];
+$TPopId = $_GET["id"];
 settype($id, "integer");
 
-$Querystring = "DELETE FROM tblPopulation WHERE PopId = ".$id;
-
 // SQL-Anfrage ausführen
-$result = mysqli_query($link, $Querystring);
+$result = mysqli_query($link, "SELECT * FROM tblTeilpopulation WHERE TPopId = $TPopId");
 
-if (!$result) {
-	print "Fehler: Die Population wurde nicht gelöscht";
-}
+$row = mysqli_fetch_assoc($result);
+
+//in json verwandeln
+$return = json_encode($row);
+
+print($return);
+
+// Resultset freigeben
+mysqli_free_result($result);
 
 // Verbindung schliessen
 mysqli_close($link);

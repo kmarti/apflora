@@ -12,17 +12,17 @@
 		<link rel="stylesheet" href="style/apflora.css" type="text/css"/>
 		<title>AP Flora Kt ZH</title>
 	</head>
-	<body style="background-color: #FFE; height:100%">
-		<div id="menu" style="width:350px; float:left; padding-right:5px; background-color:#FFE; border:1px solid; border-color:#A5A59A;">
-			<div data-role='fieldcontain' style="margin-top:3px;">
-				<label id="ap_waehlen_label" for='ap_waehlen' class='select' style="margin-left:6px;margin-top:3px;">Artförderprogramm wählen:</label>
-				<select id="ap_waehlen" style="width:344px; margin-left:5px; margin-top:2px;">
+	<body>
+		<fieldset id="menu" style="width:370px; float:left;">
+			<div class='fieldcontain'>
+				<label id="ap_waehlen_label" for='ap_waehlen' class='select' style="color:#6F6F66;">Artförderprogramm wählen:</label>
+				<select id="ap_waehlen" style="width:357px; font-size:17px;">
 					<option></option>
 				</select>
 			</div>
-			<div data-role='fieldcontain' style="margin-top:3px; margin-bottom:3px; margin-left:5px;">
-				<label for="programm_wahl">Programme: </label>
-				<span id="programm_wahl" style="margin-top:3px; margin-bottom:3px;margin-left:5px;">
+			<div class='fieldcontain' style="margin-top:3px; margin-bottom:3px;">
+				<label for="programm_wahl" style="color:#6F6F66;">Programme:</label>
+				<span id="programm_wahl">
 					<input type="radio" id="programm_alle" name="programm_wahl" checked="checked"/>
 					<label for="programm_alle">alle</label>
 					<input type="radio" id="programm_ap" name="programm_wahl" />
@@ -32,212 +32,232 @@
 				</span>
 				<button id="ap_loeschen">löschen</button>
 			</div>
-			<input type="search" id="suchen" placeholder="suchen" style="background-color:#FFFFF7; margin-left:6px;"/>
+			<input type="search" id="suchen" placeholder="suchen"/>
 			<div id="tree" style="width:330px; margin-bottom:5px;"></div>
-		</div>
+		</fieldset>
 
 		<form id="ap" class="form" action="#" method="get" autocomplete="off">
-			<div data-role='fieldcontain' style="margin-top:6px;">
-				<label id="ApArtId_label" for='ApArtId' style="">Art:</label>
-				<select id="ApArtId" name="ApArtId" class="speichern" formular="ap" style="width:344px; margin-left:106px; margin-top:2px;">
-					<option></option>
-				</select>
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="ApStatus_label" for='ApStatus' style="">Aktionsplan:</label>
-				<input type="radio" name="ApStatus" id="ApStatus0" class="speichern" formular="ap" value="0" style="margin-left:45px;" />(kein Eintrag)<br />
-				<input type="radio" name="ApStatus" id="ApStatus4" class="speichern" formular="ap" value="4" style="margin-left:134px;" />keiner<br />
-				<input type="radio" name="ApStatus" id="ApStatus1" class="speichern" formular="ap" value="1" style="margin-left:134px;" />vorgesehen<br />
-				<input type="radio" name="ApStatus" id="ApStatus2" class="speichern" formular="ap" value="2" style="margin-left:134px;" />in Bearbeitung<br />
-				<input type="radio" name="ApStatus" id="ApStatus3" class="speichern" formular="ap" value="3" style="margin-left:134px;" />erstellt
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="ApJahr_label" for='ApJahr' style="">Start im Jahr:</label>
-				<input id="ApJahr" name="ApJahr" class="speichern" formular="ap" type="number" style="width:344px; margin-left:38px; margin-top:2px;">
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="ApUmsetzung_label" for='ApUmsetzung' style="">Stand Umsetzung:</label>
-				<input type="radio" name="ApUmsetzung" class="speichern" formular="ap" id="ApUmsetzung0" value="0" style="margin-left:4px;" />noch keine Umsetzung<br />
-				<input type="radio" name="ApUmsetzung" class="speichern" formular="ap" id="ApUmsetzung1" value="1" style="margin-left:134px;" />in Umsetzung<br />
-				<input type="radio" name="ApUmsetzung" class="speichern" formular="ap" id="ApUmsetzung2" value="2" style="margin-left:134px;" />umgesetzt
-			</div>
+			<fieldset>
+				<div class='fieldcontain'>
+					<label id="ApArtId_label" for='ApArtId'>Art:</label>
+					<select id="ApArtId" name="ApArtId" class="speichern Datenfelder" formular="ap">
+						<option></option>
+					</select>
+				</div>
+				<div class='fieldcontain'>
+					<label id="ApStatus_label" for='ApStatus'>Aktionsplan:</label>
+					<div class="Datenfelder">
+						<input type="radio" name="ApStatus" id="ApStatus0" class="speichern" formular="ap" value="0" />(kein Eintrag)<br />
+						<input type="radio" name="ApStatus" id="ApStatus4" class="speichern" formular="ap" value="4" />keiner<br />
+						<input type="radio" name="ApStatus" id="ApStatus1" class="speichern" formular="ap" value="1" />vorgesehen<br />
+						<input type="radio" name="ApStatus" id="ApStatus2" class="speichern" formular="ap" value="2" />in Bearbeitung<br />
+						<input type="radio" name="ApStatus" id="ApStatus3" class="speichern" formular="ap" value="3" />erstellt
+					</div>
+				</div>
+				<div class='fieldcontain'>
+					<label id="ApJahr_label" for='ApJahr'>Start im Jahr:</label>
+					<input id="ApJahr" name="ApJahr" class="speichern Datenfelder" formular="ap" type="number">
+				</div>
+				<div class='fieldcontain'>
+					<label id="ApUmsetzung_label" for='ApUmsetzung'>Stand Umsetzung:</label>
+					<div class="Datenfelder">
+						<input type="radio" name="ApUmsetzung" class="speichern" formular="ap" id="ApUmsetzung0" value="0" />noch keine Umsetzung<br />
+						<input type="radio" name="ApUmsetzung" class="speichern" formular="ap" id="ApUmsetzung1" value="1" />in Umsetzung<br />
+						<input type="radio" name="ApUmsetzung" class="speichern" formular="ap" id="ApUmsetzung2" value="2" />umgesetzt
+					</div>
+				</div>
+			</fieldset>
 		</form>
 
 		<form id="pop" class="form" action="#" method="get" autocomplete="off">
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="PopName_label" for='PopName' style="">Name:</label>
-				<input id="PopName" name="PopName" class="speichern" formular="pop" type="text" style="width:344px; margin-left:84px; margin-top:2px;">
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="PopNr_label" for='PopNr' style="">Nr.:</label>
-				<input id="PopNr" name="PopNr" class="speichern" formular="pop" type="number" style="width:344px; margin-left:106px; margin-top:2px;">
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="PopHerkunft_label" for='PopHerkunft' style="">Status:</label>
-				<input type="radio" name="PopHerkunft" id="PopHerkunft1" class="speichern" formular="pop" value="1" style="margin-left:82px;" />autochthon<br />
-				<input type="radio" name="PopHerkunft" id="PopHerkunft6" class="speichern" formular="pop" value="6" style="margin-left:134px;" />neu entdeckt, autochthon<br />
-				<input type="radio" name="PopHerkunft" id="PopHerkunft9" class="speichern" formular="pop" value="9" style="margin-left:134px;" />neu entdeckt, angesiedelt<br />
-				<input type="radio" name="PopHerkunft" id="PopHerkunft8" class="speichern" formular="pop" value="8" style="margin-left:134px;" />angesiedelt, vor Beginn Aktionsplan<br />
-				<input type="radio" name="PopHerkunft" id="PopHerkunft2" class="speichern" formular="pop" value="2" style="margin-left:134px;" />angesiedelt, nach Beginn Aktionsplan<br />
-				<input type="radio" name="PopHerkunft" id="PopHerkunft1198167213" class="speichern" formular="pop" value="1198167213" style="margin-left:134px;" />nur angesät<br />
-				<input type="radio" name="PopHerkunft" id="PopHerkunft4" class="speichern" formular="pop" value="4" style="margin-left:134px;" />erloschen, zuvor autochthon<br />
-				<input type="radio" name="PopHerkunft" id="PopHerkunft1200498803" class="speichern" formular="pop" value="1200498803" style="margin-left:134px;" />erloschen, vor AP angesiedelt<br />
-				<input type="radio" name="PopHerkunft" id="PopHerkunft7" class="speichern" formular="pop" value="7" style="margin-left:134px;" />erloschen, nach Beginn Aktionsplan angesiedelt<br />
-				<input type="radio" name="PopHerkunft" id="PopHerkunft10" class="speichern" formular="pop" value="10" style="margin-left:134px;" />überprüft, kein Vorkommen
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="PopBekanntSeit_label" for='PopBekanntSeit' style="">Bekannt seit:</label>
-				<input id="PopBekanntSeit" name="PopBekanntSeit" class="speichern" formular="pop" type="number" style="width:344px; margin-left:42px; margin-top:2px;">
-			</div>
+			<fieldset>
+				<div class='fieldcontain'>
+					<label id="PopName_label" for='PopName'>Name:</label>
+					<input id="PopName" name="PopName" class="speichern Datenfelder" formular="pop" type="text">
+				</div>
+				<div class='fieldcontain'>
+					<label id="PopNr_label" for='PopNr'>Nr.:</label>
+					<input id="PopNr" name="PopNr" class="speichern Datenfelder" formular="pop" type="number">
+				</div>
+				<div class='fieldcontain'>
+					<label id="PopHerkunft_label" for='PopHerkunft'>Status:</label>
+					<div class="Datenfelder">
+						<input type="radio" name="PopHerkunft" id="PopHerkunft1" class="speichern" formular="pop" value="1" />autochthon<br />
+						<input type="radio" name="PopHerkunft" id="PopHerkunft6" class="speichern" formular="pop" value="6" />neu entdeckt, autochthon<br />
+						<input type="radio" name="PopHerkunft" id="PopHerkunft9" class="speichern" formular="pop" value="9" />neu entdeckt, angesiedelt<br />
+						<input type="radio" name="PopHerkunft" id="PopHerkunft8" class="speichern" formular="pop" value="8" />angesiedelt, vor Beginn Aktionsplan<br />
+						<input type="radio" name="PopHerkunft" id="PopHerkunft2" class="speichern" formular="pop" value="2" />angesiedelt, nach Beginn Aktionsplan<br />
+						<input type="radio" name="PopHerkunft" id="PopHerkunft1198167213" class="speichern" formular="pop" value="1198167213"/>nur angesät<br />
+						<input type="radio" name="PopHerkunft" id="PopHerkunft4" class="speichern" formular="pop" value="4" />erloschen, zuvor autochthon<br />
+						<input type="radio" name="PopHerkunft" id="PopHerkunft1200498803" class="speichern" formular="pop" value="1200498803" />erloschen, vor AP angesiedelt<br />
+						<input type="radio" name="PopHerkunft" id="PopHerkunft7" class="speichern" formular="pop" value="7" />erloschen, nach Beginn Aktionsplan angesiedelt<br />
+						<input type="radio" name="PopHerkunft" id="PopHerkunft10" class="speichern" formular="pop" value="10" />überprüft, kein Vorkommen
+					</div>
+				</div>
+				<div class='fieldcontain'>
+					<label id="PopBekanntSeit_label" for='PopBekanntSeit'>Bekannt seit:</label>
+					<input id="PopBekanntSeit" name="PopBekanntSeit" class="speichern Datenfelder" formular="pop" type="number">
+				</div>
+			</fieldset>
 		</form>
 
 		<form id="tpop" class="form" action="#" method="get" autocomplete="off">
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="TPopFlurname_label" for='TPopFlurname' style="">Flurname:</label>
-				<input id="TPopFlurname" name="TPopFlurname" class="speichern" formular="tpop" type="text" style="width:344px; margin-left:63px; margin-top:2px;">
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="TPopNr_label" for='TPopNr' style="">Nr.:</label>
-				<input id="TPopNr" name="TPopNr" class="speichern" formular="tpop" type="number" style="width:344px; margin-left:108px; margin-top:2px;">
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="TPopHerkunft_label" for='TPopHerkunft' style="">Status:</label>
-				<input type="radio" name="TPopHerkunft" id="TPopHerkunft1" class="speichern" formular="tpop" value="1" style="margin-left:82px;" />autochthon<br />
-				<input type="radio" name="TPopHerkunft" id="TPopHerkunft6" class="speichern" formular="tpop" value="6" style="margin-left:134px;" />neu entdeckt, autochthon<br />
-				<input type="radio" name="TPopHerkunft" id="TPopHerkunft9" class="speichern" formular="tpop" value="9" style="margin-left:134px;" />neu entdeckt, angesiedelt<br />
-				<input type="radio" name="TPopHerkunft" id="TPopHerkunft8" class="speichern" formular="tpop" value="8" style="margin-left:134px;" />angesiedelt, vor Beginn Aktionsplan<br />
-				<input type="radio" name="TPopHerkunft" id="TPopHerkunft2" class="speichern" formular="tpop" value="2" style="margin-left:134px;" />angesiedelt, nach Beginn Aktionsplan<br />
-				<input type="radio" name="TPopHerkunft" id="TPopHerkunft1198167213" class="speichern" formular="tpop" value="1198167213" style="margin-left:134px;" />nur angesät<br />
-				<input type="radio" name="TPopHerkunft" id="TPopHerkunft4" class="speichern" formular="tpop" value="4" style="margin-left:134px;" />erloschen, zuvor autochthon<br />
-				<input type="radio" name="TPopHerkunft" id="TPopHerkunft1200498803" class="speichern" formular="tpop" value="1200498803" style="margin-left:134px;" />erloschen, vor AP angesiedelt<br />
-				<input type="radio" name="TPopHerkunft" id="TPopHerkunft7" class="speichern" formular="tpop" value="7" style="margin-left:134px;" />erloschen, nach Beginn Aktionsplan angesiedelt<br />
-				<input type="radio" name="TPopHerkunft" id="TPopHerkunft10" class="speichern" formular="tpop" value="10" style="margin-left:134px;" />überprüft, kein Vorkommen
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="TPopHerkunftUnklar_label" for='TPopHerkunftUnklar' style="visibility:hidden;">Status unklar:</label>
-				<input type="radio" name="TPopHerkunftUnklar" id="TPopHerkunftUnklar" class="speichern" formular="tpop" value="true" style="margin-left:39px;" />Status unklar
-			</div>
-			<div data-role='fieldcontain' style="margin-top:2px;">
-				<label id="TPopHerkunftUnklarBegründung_label" for='TPopHerkunftUnklarBegründung' style="">Begründung für<br>unklaren Status:</label>
-				<input type="textarea" name="TPopHerkunftUnklarBegründung" id="TPopHerkunftUnklarBegründung" class="speichern" formular="tpop" value="" style="width:344px; margin-left:24px;" />
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="TPopApBerichtRelevant_label" for='TPopApBerichtRelevant' style="">Für AP-Bericht<br>relevant?</label>
-				<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant1" class="speichern" formular="tpop" value="1" style="margin-left:67px;" />ja<br />
-				<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant2" class="speichern" formular="tpop" value="2" style="margin-left:134px;" />Nein (historisch)<br />
-				<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant3" class="speichern" formular="tpop" value="3" style="margin-left:134px;" />Nein (ausserkantonal)<br />
-				<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant4" class="speichern" formular="tpop" value="4" style="margin-left:134px;" />Nein (Status unklar, keine glaubwürdigen Beobachtungen)<br />
-				<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant5" class="speichern" formular="tpop" value="5" style="margin-left:134px;" />Nein (kein Vorkommen)
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="TPopBekanntSeit_label" for='TPopBekanntSeit' style="">Bekannt seit:</label>
-				<input id="TPopBekanntSeit" name="TPopBekanntSeit" class="speichern" formular="tpop" type="number" style="width:344px; margin-left:42px; margin-top:2px;">
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="TPopFlurname_label" for='TPopFlurname' style="">Gemeinde:</label>
-				<input id="TPopFlurname" name="TPopFlurname" class="speichern" formular="tpop" type="text" style="width:344px; margin-left:55px; margin-top:2px;">
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="TPopXKoord_label" for='TPopXKoord' style="">X-Koordinaten:</label>
-				<input id="TPopXKoord" name="TPopXKoord" class="speichern" formular="tpop" type="number" style="width:344px; margin-left:27px; margin-top:2px;">
-			</div>
-			<div data-role='fieldcontain' style="margin-top:2px;">
-				<label id="TPopYKoord_label" for='TPopYKoord' style="">Y-Koordinaten:</label>
-				<input id="TPopYKoord" name="TPopYKoord" class="speichern" formular="tpop" type="number" style="width:344px; margin-left:29px; margin-top:2px;">
-			</div>
-			<div data-role='fieldcontain' style="margin-top:2px;">
-				<label id="TPopPop_label" for='TPopPop' style="visibility:hidden;">Lage repräsentiert Population:</label>
-				<input type="radio" name="TPopPop" id="TPopPop" class="speichern" formular="tpop" value="true" style="margin-left:-78px;" />Lage repräsentiert Population
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="TPopRadius_label" for='TPopRadius' style="">Radius (m):</label>
-				<input id="TPopRadius" name="TPopRadius" class="speichern" formular="tpop" type="number" style="width:344px; margin-left:52px; margin-top:2px;">
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="TPopHoehe_label" for='TPopHoehe' style="">Höhe (m.ü.M.):</label>
-				<input id="TPopHoehe" name="TPopHoehe" class="speichern" formular="tpop" type="number" style="width:344px; margin-left:31px; margin-top:2px;">
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="TPopExposition_label" for='TPopExposition' style="">Exposition,<br>Besonnung:</label>
-				<input id="TPopExposition" name="TPopExposition" class="speichern" formular="tpop" type="text" style="width:344px; margin-left:50px; margin-top:2px;">
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="TPopKlima_label" for='TPopKlima' style="">Klima:</label>
-				<input id="TPopKlima" name="TPopKlima" class="speichern" formular="tpop" type="text" style="width:344px; margin-left:88px; margin-top:2px;">
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="TPopNeigung_label" for='TPopNeigung' style="">Hangneigung:</label>
-				<input id="TPopNeigung" name="TPopNeigung" class="speichern" formular="tpop" type="text" style="width:344px; margin-left:36px; margin-top:2px;">
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="TPopBeschr_label" for='TPopBeschr' style="">Beschreibung:</label>
-				<textarea id="TPopBeschr" name="TPopBeschr" class="speichern" formular="tpop" type="text" style="width:344px; margin-left:32px; margin-top:2px;"/>
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="TPopKatNr_label" for='TPopKatNr' style="">Kataster-Nr.:</label>
-				<input id="TPopKatNr" name="TPopKatNr" class="speichern" formular="tpop" type="text" style="width:344px; margin-left:84px; margin-top:2px;">
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="TPopVerantw_label" for='TPopVerantw' style="">Verantwortlich:</label>
-				<select id="TPopVerantw" name="TPopVerantw" class="speichern" formular="tpop" style="width:344px; margin-left:106px; margin-top:2px;">
-					<option></option>
-				</select>
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="TPopEigen_label" for='TPopEigen' style="">EigentümerIn:</label>
-				<input id="TPopEigen" name="TPopEigen" class="speichern" formular="tpop" type="text" style="width:344px; margin-left:84px; margin-top:2px;">
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="TPopKontakt_label" for='TPopKontakt' style="">Kontakt vor Ort:</label>
-				<input id="TPopKontakt" name="TPopKontakt" class="speichern" formular="tpop" type="text" style="width:344px; margin-left:84px; margin-top:2px;">
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="TPopNutzungszone_label" for='TPopNutzungszone' style="">Nutzungszone:</label>
-				<input id="TPopNutzungszone" name="TPopNutzungszone" class="speichern" formular="tpop" type="text" style="width:344px; margin-left:84px; margin-top:2px;">
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="TPopBewirtschafterIn_label" for='TPopBewirtschafterIn' style="">BewirtschafterIn:</label>
-				<input id="TPopBewirtschafterIn" name="TPopBewirtschafterIn" class="speichern" formular="tpop" type="text" style="width:344px; margin-left:84px; margin-top:2px;">
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="TPopBewirtschaftung_label" for='TPopBewirtschaftung' style="">Bewirtschaftung:</label>
-				<input id="TPopBewirtschaftung" name="TPopBewirtschaftung" class="speichern" formular="tpop" type="text" style="width:344px; margin-left:84px; margin-top:2px;">
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="TPopTxt_label" for='TPopTxt' style="">xxx:</label>
-				<textarea id="TPopTxt" name="TPopTxt" class="speichern" formular="tpop" type="text" style="width:344px; margin-left:84px; margin-top:2px;"/>
-			</div>
+			<fieldset>
+				<div class='fieldcontain'>
+					<label id="TPopFlurname_label" for='TPopFlurname'>Flurname:</label>
+					<input id="TPopFlurname" name="TPopFlurname" class="speichern Datenfelder" formular="tpop" type="text">
+				</div>
+				<div class='fieldcontain'>
+					<label id="TPopNr_label" for='TPopNr'>Nr.:</label>
+					<input id="TPopNr" name="TPopNr" class="speichern Datenfelder" formular="tpop" type="number">
+				</div>
+				<div class='fieldcontain'>
+					<label id="TPopHerkunft_label" for='TPopHerkunft'>Status:</label>
+					<div class="Datenfelder">
+						<input type="radio" name="TPopHerkunft" id="TPopHerkunft1" class="speichern" formular="tpop" value="1" />autochthon<br />
+						<input type="radio" name="TPopHerkunft" id="TPopHerkunft6" class="speichern" formular="tpop" value="6" />neu entdeckt, autochthon<br />
+						<input type="radio" name="TPopHerkunft" id="TPopHerkunft9" class="speichern" formular="tpop" value="9" />neu entdeckt, angesiedelt<br />
+						<input type="radio" name="TPopHerkunft" id="TPopHerkunft8" class="speichern" formular="tpop" value="8" />angesiedelt, vor Beginn Aktionsplan<br />
+						<input type="radio" name="TPopHerkunft" id="TPopHerkunft2" class="speichern" formular="tpop" value="2" />angesiedelt, nach Beginn Aktionsplan<br />
+						<input type="radio" name="TPopHerkunft" id="TPopHerkunft1198167213" class="speichern" formular="tpop" value="1198167213" />nur angesät<br />
+						<input type="radio" name="TPopHerkunft" id="TPopHerkunft4" class="speichern" formular="tpop" value="4" />erloschen, zuvor autochthon<br />
+						<input type="radio" name="TPopHerkunft" id="TPopHerkunft1200498803" class="speichern" formular="tpop" value="1200498803" />erloschen, vor AP angesiedelt<br />
+						<input type="radio" name="TPopHerkunft" id="TPopHerkunft7" class="speichern" formular="tpop" value="7" />erloschen, nach Beginn Aktionsplan angesiedelt<br />
+						<input type="radio" name="TPopHerkunft" id="TPopHerkunft10" class="speichern" formular="tpop" value="10" />überprüft, kein Vorkommen
+					</div>
+				</div>
+				<div class='fieldcontain'>
+					<label id="TPopHerkunftUnklar_label" for='TPopHerkunftUnklar' style="visibility:hidden;">Status unklar:</label>
+					<input type="radio" name="TPopHerkunftUnklar" id="TPopHerkunftUnklar" class="speichern Datenfelder" formular="tpop" value="true" />Status unklar
+				</div>
+				<div class='fieldcontain'>
+					<label id="TPopHerkunftUnklarBegründung_label" for='TPopHerkunftUnklarBegründung'>Begründung:</label>
+					<textarea name="TPopHerkunftUnklarBegründung" id="TPopHerkunftUnklarBegründung" class="speichern Datenfelder" formular="tpop" value="" placeholder="...für unklaren Status"></textarea>
+				</div>
+				<div class='fieldcontain'>
+					<label id="TPopApBerichtRelevant_label" for='TPopApBerichtRelevant'>Für AP-Bericht<br>relevant?</label>
+					<div class="Datenfelder">
+						<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant1" class="speichern" formular="tpop" value="1" />ja<br />
+						<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant2" class="speichern" formular="tpop" value="2" />Nein (historisch)<br />
+						<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant3" class="speichern" formular="tpop" value="3" />Nein (ausserkantonal)<br />
+						<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant4" class="speichern" formular="tpop" value="4" />Nein (Status unklar, keine glaubwürdigen Beobachtungen)<br />
+						<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant5" class="speichern" formular="tpop" value="5" />Nein (kein Vorkommen)
+					</div>
+				</div>
+				<div class='fieldcontain'>
+					<label id="TPopBekanntSeit_label" for='TPopBekanntSeit'>Bekannt seit:</label>
+					<input id="TPopBekanntSeit" name="TPopBekanntSeit" class="speichern Datenfelder" formular="tpop" type="number">
+				</div>
+				<div class='fieldcontain'>
+					<label id="TPopFlurname_label" for='TPopFlurname'>Gemeinde:</label>
+					<input id="TPopFlurname" name="TPopFlurname" class="speichern Datenfelder" formular="tpop" type="text">
+				</div>
+				<div class='fieldcontain'>
+					<label id="TPopXKoord_label" for='TPopXKoord'>X-Koordinaten:</label>
+					<input id="TPopXKoord" name="TPopXKoord" class="speichern Datenfelder" formular="tpop" type="number">
+				</div>
+				<div class='fieldcontain'>
+					<label id="TPopYKoord_label" for='TPopYKoord'>Y-Koordinaten:</label>
+					<input id="TPopYKoord" name="TPopYKoord" class="speichern Datenfelder" formular="tpop" type="number">
+				</div>
+				<div class='fieldcontain'>
+					<label id="TPopPop_label" for='TPopPop' style="visibility:hidden;">Lage repräsentiert Population:</label>
+					<input type="radio" name="TPopPop" id="TPopPop" class="speichern Datenfelder" formular="tpop" value="true" />Lage repräsentiert Population
+				</div>
+				<div class='fieldcontain'>
+					<label id="TPopRadius_label" for='TPopRadius'>Radius (m):</label>
+					<input id="TPopRadius" name="TPopRadius" class="speichern Datenfelder" formular="tpop" type="number">
+				</div>
+				<div class='fieldcontain'>
+					<label id="TPopHoehe_label" for='TPopHoehe'>Höhe (m.ü.M.):</label>
+					<input id="TPopHoehe" name="TPopHoehe" class="speichern Datenfelder" formular="tpop" type="number">
+				</div>
+				<div class='fieldcontain'>
+					<label id="TPopExposition_label" for='TPopExposition'>Exposition,<br>Besonnung:</label>
+					<input id="TPopExposition" name="TPopExposition" class="speichern Datenfelder" formular="tpop" type="text">
+				</div>
+				<div class='fieldcontain'>
+					<label id="TPopKlima_label" for='TPopKlima'>Klima:</label>
+					<input id="TPopKlima" name="TPopKlima" class="speichern Datenfelder" formular="tpop" type="text">
+				</div>
+				<div class='fieldcontain'>
+					<label id="TPopNeigung_label" for='TPopNeigung'>Hangneigung:</label>
+					<input id="TPopNeigung" name="TPopNeigung" class="speichern Datenfelder" formular="tpop" type="text">
+				</div>
+				<div class='fieldcontain'>
+					<label id="TPopBeschr_label" for='TPopBeschr'>Beschreibung:</label>
+					<textarea id="TPopBeschr" name="TPopBeschr" class="speichern Datenfelder" formular="tpop" type="text"></textarea>
+				</div>
+				<div class='fieldcontain'>
+					<label id="TPopKatNr_label" for='TPopKatNr'>Kataster-Nr.:</label>
+					<input id="TPopKatNr" name="TPopKatNr" class="speichern Datenfelder" formular="tpop" type="text">
+				</div>
+				<div class='fieldcontain'>
+					<label id="TPopVerantw_label" for='TPopVerantw'>Verantwortlich:</label>
+					<select id="TPopVerantw" name="TPopVerantw" class="speichern Datenfelder" formular="tpop">
+						<option></option>
+					</select>
+				</div>
+				<div class='fieldcontain'>
+					<label id="TPopEigen_label" for='TPopEigen'>EigentümerIn:</label>
+					<input id="TPopEigen" name="TPopEigen" class="speichern Datenfelder" formular="tpop" type="text">
+				</div>
+				<div class='fieldcontain'>
+					<label id="TPopKontakt_label" for='TPopKontakt'>Kontakt vor Ort:</label>
+					<input id="TPopKontakt" name="TPopKontakt" class="speichern Datenfelder" formular="tpop" type="text">
+				</div>
+				<div class='fieldcontain'>
+					<label id="TPopNutzungszone_label" for='TPopNutzungszone'>Nutzungszone:</label>
+					<input id="TPopNutzungszone" name="TPopNutzungszone" class="speichern Datenfelder" formular="tpop" type="text">
+				</div>
+				<div class='fieldcontain'>
+					<label id="TPopBewirtschafterIn_label" for='TPopBewirtschafterIn'>BewirtschafterIn:</label>
+					<input id="TPopBewirtschafterIn" name="TPopBewirtschafterIn" class="speichern Datenfelder" formular="tpop" type="text">
+				</div>
+				<div class='fieldcontain'>
+					<label id="TPopBewirtschaftung_label" for='TPopBewirtschaftung'>Bewirtschaftung:</label>
+					<input id="TPopBewirtschaftung" name="TPopBewirtschaftung" class="speichern Datenfelder" formular="tpop" type="text">
+				</div>
+				<div class='fieldcontain'>
+					<label id="TPopTxt_label" for='TPopTxt'>Bemerkungen:</label>
+					<textarea id="TPopTxt" name="TPopTxt" class="speichern Datenfelder" formular="tpop" type="text"></textarea>
+				</div>
+			</fieldset>
 		</form>
 
 		<form id="vorlage" class="form" action="#" method="get" autocomplete="off">
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="xxxxx_label" for='xxxxx' style="">textinput:</label>
-				<input id="xxxxx" name="xxxxx" class="speichern" formular="vorlage" type="text" style="width:344px; margin-left:84px; margin-top:2px;">
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="xxxxx_label" for='xxxxx' style="">Number:</label>
-				<input id="xxxxx" name="xxxxx" class="speichern" formular="vorlage" type="number" style="width:344px; margin-left:106px; margin-top:2px;">
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="xxxxx_label" for='xxxxx' style="">Status:</label>
-				<input type="radio" name="xxxxx" id="xxxxx1" class="speichern" formular="vorlage" value="1" style="margin-left:82px;" />autochthon<br />
-				<input type="radio" name="xxxxx" id="xxxxx6" class="speichern" formular="vorlage" value="6" style="margin-left:134px;" />neu entdeckt, autochthon<br />
-				<input type="radio" name="xxxxx" id="vorlageHerkunft10" class="speichern" formular="vorlage" value="10" style="margin-left:134px;" />überprüft, kein Vorkommen
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="xxxxx_label" for='xxxxx' style="">ja-nein:</label>
-				<input type="radio" name="xxxxx" id="xxxxx" class="speichern" formular="vorlage" value="true" style="margin-left:134px;" />Das ist ein ja-nein
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="xxxxx_label" for='xxxxx' style="">Textarea:</label>
-				<input type="textarea" name="xxxxx" id="xxxxx" class="speichern" formular="vorlage" value="" style="margin-left:134px;" />
-			</div>
-			<div data-role='fieldcontain' style="margin-top:10px;">
-				<label id="xxxxx_label" for='xxxxx' style="">Selectfeld:</label>
-				<select id="xxxxx" name="xxxxx" class="speichern" formular="vorlage" style="width:344px; margin-left:106px; margin-top:2px;">
-					<option></option>
-				</select>
-			</div>
+			<fieldset>
+				<div class='fieldcontain'>
+					<label id="xxxxx_label" for='xxxxx'>textinput:</label>
+					<input id="xxxxx" name="xxxxx" class="speichern Datenfelder" formular="vorlage" type="text">
+				</div>
+				<div class='fieldcontain'>
+					<label id="xxxxx_label" for='xxxxx'>Number:</label>
+					<input id="xxxxx" name="xxxxx" class="speichern Datenfelder" formular="vorlage" type="number">
+				</div>
+				<div class='fieldcontain'>
+					<label id="xxxxx_label" for='xxxxx'>Status:</label>
+					<div class="Datenfelder">
+						<input type="radio" name="xxxxx" id="xxxxx1" class="speichern" formular="vorlage" value="1" />autochthon<br />
+						<input type="radio" name="xxxxx" id="xxxxx6" class="speichern" formular="vorlage" value="6" />neu entdeckt, autochthon<br />
+						<input type="radio" name="xxxxx" id="vorlageHerkunft10" class="speichern" formular="vorlage" value="10" />überprüft, kein Vorkommen
+					</div>
+				</div>
+				<div class='fieldcontain'>
+					<label id="xxxxx_label" for='xxxxx'>ja-nein:</label>
+					<input type="radio" name="xxxxx" id="xxxxx" class="speichern Datenfelder" formular="vorlage" value="true"  />Das ist ein ja-nein
+				</div>
+				<div class='fieldcontain'>
+					<label id="xxxxx_label" for='xxxxx'>Textarea:</label>
+					<textarea name="xxxxx" id="xxxxx" class="speichern Datenfelder" formular="vorlage" value=""  /></textarea>
+				</div>
+				<div class='fieldcontain'>
+					<label id="xxxxx_label" for='xxxxx'>Selectfeld:</label>
+					<select id="xxxxx" name="xxxxx" class="speichern Datenfelder" formular="vorlage">
+						<option></option>
+					</select>
+				</div>
+			</fieldset>
 		</form>
 
 		<script>
@@ -297,7 +317,7 @@
 				if (!sessionStorage.User) {
 					$Useranmeldung.dialog("open");
 				}
-				alert("hallo");
+
 				initiiere_index();
 
 				//Für jedes Feld bei Änderung speichern

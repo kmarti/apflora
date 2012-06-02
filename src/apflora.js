@@ -278,13 +278,26 @@ function erstelle_tree(ApArtId) {
 	.bind("select_node.jstree", function (e, data) {
 		var node;
 		node = data.rslt.obj;
-		if (node.attr("typ") === "pop") {
-			localStorage.pop_id = node.attr("id");
-			initiiere_pop();
+		jQuery.jstree._reference(node).open_node(node);
+		if (node.attr("typ") === "pop" || node.attr("typ").slice(0, 4) === "pop_") {
+			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			if (!$("#pop").is(':visible') || localStorage.pop_id !== node.attr("id")) {
+				localStorage.pop_id = node.attr("id");
+				initiiere_pop();
+			}
 		} else if (node.attr("typ").slice(0, 3) === "ap_") {
-			localStorage.ap_id = node.attr("id");
-			delete localStorage.pop_id;
-			initiiere_ap();
+			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			if (!$("#ap").is(':visible') || localStorage.ap_id !== node.attr("id")) {
+				localStorage.ap_id = node.attr("id");
+				delete localStorage.pop_id;
+				initiiere_ap();
+			}
+		} else if (node.attr("typ") === "tpop" || node.attr("typ").slice(0, 5) === "tpop_") {
+			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			if (!$("#tpop").is(':visible') || localStorage.tpop_id !== node.attr("id")) {
+				localStorage.tpop_id = node.attr("id");
+				initiiere_tpop();
+			}
 		} else {
 			$("#Meldung").html("Diese Seite ist noch nicht gebaut");
 			$("#Meldung").dialog({

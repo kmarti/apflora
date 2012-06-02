@@ -32,7 +32,7 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 		$TPopId = $r_tpop['TPopId'];
 		settype($TPopId, "integer");
 		//Massn dieser TPop abfragen
-		$result_tpopmassn = mysqli_query($link, "SELECT tblTeilPopMassnahme.TPopMassnId, tblTeilPopMassnahme.TPopId, tblTeilPopMassnahme.TPopMassnJahr, tblTeilPopMassnahme.TPopMassnDatum, DomainTPopMassnTyp.MassnTypTxt FROM tblTeilPopMassnahme INNER JOIN DomainTPopMassnTyp ON tblTeilPopMassnahme.TPopMassnTyp = DomainTPopMassnTyp.MassnTypCode where TPopId = $TPopId ORDER BY tblTeilPopMassnahme.TPopMassnJahr, tblTeilPopMassnahme.TPopMassnDatum, DomainTPopMassnTyp.MassnTypTxt");
+		$result_tpopmassn = mysqli_query($link, "SELECT TPopMassnId, TPopId, TPopMassnJahr, TPopMassnDatum, MassnTypTxt FROM tblTeilPopMassnahme INNER JOIN DomainTPopMassnTyp ON TPopMassnTyp = MassnTypCode where TPopId = $TPopId ORDER BY TPopMassnJahr, TPopMassnDatum, MassnTypTxt");
 		$anz_tpopmassn = mysqli_num_rows($result_tpopmassn);
 		//Datenstruktur für tpopmassn aufbauen
 		$rows_tpopmassn = array();

@@ -12,13 +12,13 @@ if ($link->connect_errno) {
 $id = $_GET["id"];
 settype($id, "integer");
 
-$Querystring = "DELETE FROM tblPopulation WHERE PopId = ".$id;
+$Querystring = "DELETE FROM tblTeilpopulation WHERE TPopId = ".$id;
 
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);
 
 if (!$result) {
-	print "Fehler: Die Population wurde nicht gelöscht";
+	print "Fehler: Die Teilpopulation wurde nicht gelöscht";
 }
 
 // Verbindung schliessen
