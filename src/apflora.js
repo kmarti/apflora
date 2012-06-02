@@ -3,6 +3,8 @@ function initiiere_index() {
 	//alle Formulare verstecken
 	$("#ap").hide();
 	$("#pop").hide();
+	$("#tpop").hide();
+	$("#vorlage").hide();
 	//jQuery ui buttons initiieren
 	$("#programm_wahl").buttonset();
 	$("button").button();
@@ -12,10 +14,11 @@ function initiiere_index() {
 }
 
 function initiiere_ap() {
-	/*if (!localStorage.ap_id || !localStorage.rlbk) {
+	if (!localStorage.ap_id) {
 		//es fehlen benötigte Daten > zurück zum Anfang
-		window.open("index.html", target = "_self");
-	}*/
+		initiiere_index();
+		return;
+	}
 	//Programm-Wahl konfigurieren
 	var programm_wahl;
 	programm_wahl = $("[name='programm_wahl']:checked").attr("id");
@@ -46,6 +49,8 @@ function initiiere_ap() {
 					//Formulare blenden
 					$("#ap").show();
 					$("#pop").hide();
+					$("#tpop").hide();
+					$("#vorlage").hide();
 					$("#ap_loeschen").show();
 				}
 			}
@@ -55,6 +60,8 @@ function initiiere_ap() {
 		//Formulare blenden
 		$("#ap").show();
 		$("#pop").hide();
+		$("#tpop").hide();
+		$("#vorlage").hide();
 		$("#ap_loeschen").show();
 	}
 }
@@ -79,10 +86,11 @@ function erstelle_ApArtId_liste() {
 }
 
 function initiiere_pop() {
-	/*if (!localStorage.pop_id) {
-		//es fehlen benötigte Daten > zurück zum Anfang
-		window.open("index.html", target = "_self");
-	}*/
+	if (!localStorage.pop_id) {
+		//es fehlen benötigte Daten > eine Ebene höher
+		initiiere_ap();
+		return;
+	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("pop");
 	//Daten für die pop aus der DB holen
@@ -106,6 +114,89 @@ function initiiere_pop() {
 				//Formulare blenden
 				$("#ap").hide();
 				$("#pop").show();
+				$("#tpop").hide();
+				$("#vorlage").hide();
+			}
+		}
+	});
+}
+
+function initiiere_tpop() {
+	if (!localStorage.tpop_id) {
+		//es fehlen benötigte Daten > eine Ebene höher
+		initiiere_pop();
+		return;
+	}
+	//Felder zurücksetzen
+	leereFelderVonFormular("tpop");
+	//Daten für die pop aus der DB holen
+	$.ajax({
+		url: 'php/tpop.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.tpop_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//ap bereitstellen
+				window.tpop = data;
+				localStorage.tpop = JSON.stringify(data);
+				//Felder mit Daten beliefern
+				$("#xxxx" + data.xxxx).prop("checked", true);
+				$("#xxxx").val(data.xxxx);
+
+				$("#TPopFlurname").val(data.TPopFlurname);
+				$("#TPopNr").val(data.TPopNr);
+				$("#TPopHerkunft" + data.TPopHerkunft).prop("checked", true);
+				$("#TPopHerkunftUnklar" + data.TPopHerkunftUnklar).prop("checked", true);
+				$("#TPopHerkunftUnklarBegründung").val(data.TPopHerkunftUnklarBegründung);
+				$("#TPopApBerichtRelevant" + data.TPopApBerichtRelevant).prop("checked", true);
+				$("#TPopBekanntSeit").val(data.TPopBekanntSeit);
+				$("#TPopFlurname").val(data.TPopFlurname);
+				$("#TPopXKoord").val(data.TPopXKoord);
+				$("#TPopYKoord").val(data.TPopYKoord);
+				$("#TPopPop" + data.TPopPop).prop("checked", true);
+				$("#TPopRadius").val(data.TPopRadius);
+				$("#TPopHoehe").val(data.TPopHoehe);
+				$("#TPopExposition").val(data.TPopExposition);
+				$("#TPopKlima").val(data.TPopKlima);
+				$("#TPopNeigung").val(data.TPopNeigung);
+				$("#TPopBeschr").val(data.TPopBeschr);
+				$("#TPopKatNr").val(data.TPopKatNr);
+				$("#TPopEigen").val(data.TPopEigen);
+				$("#TPopKontakt").val(data.TPopKontakt);
+				$("#TPopNutzungszone").val(data.TPopNutzungszone);
+				$("#TPopBewirtschafterIn").val(data.TPopBewirtschafterIn);
+				$("#TPopBewirtschaftung").val(data.TPopBewirtschaftung);
+				$("#TPopTxt").val(data.TPopTxt);
+				//für select Daten holen
+				$.ajax({
+					url: 'php/adressen.php',
+					dataType: 'json',
+					success: function (data2) {
+						if (data2) {
+							//ap bereitstellen
+							window.adressen = data2;
+							localStorage.adressen = JSON.stringify(data2);
+							//Feld mit Daten beliefern
+							var html;
+							html = "<option></option>";
+							for (i in data2.rows) {
+								if (typeof i !== "undefined") {
+									html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
+								}
+							}
+							$("#TPopVerantw").html(html);
+							$("#TPopVerantw").val(window.tpop.TPopVerantw);
+						}
+					}
+				});
+				//Formulare blenden
+				$("#ap").hide();
+				$("#pop").hide();
+				$("#tpop").show();
+				$("#vorlage").hide();
 			}
 		}
 	});
