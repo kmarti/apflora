@@ -11,8 +11,10 @@ if ($link->connect_errno) {
 
 $id = $_GET["id"];
 settype($id, "integer");
+$user = $_GET["user"];
+$time = date('Y-m-d H:i:s');
 
-$Querystring = "INSERT INTO tblAktionsplan SET ApArtId = ".$id;
+$Querystring = 'INSERT INTO tblAktionsplan (ApArtId, MutWann, MutWer) VALUES ('.$id.', "'.$time.'", "'.$user.'")';
 
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);

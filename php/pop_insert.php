@@ -11,8 +11,10 @@ if ($link->connect_errno) {
 
 $id = $_GET["id"];
 settype($id, "integer");
+$user = $_GET["user"];
+$time = date('Y-m-d H:i:s');
 
-$Querystring = "INSERT INTO tblPopulation SET ApArtId = ".$id;	//muss die neue PopId erhalten!
+$Querystring = 'INSERT INTO tblPopulation (ApArtId, MutWann, MutWer) VALUES ('.$id.', "'.$time.'", "'.$user.'")';	//muss die neue PopId erhalten!
 
 //SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);

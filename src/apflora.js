@@ -46,6 +46,7 @@ function initiiere_ap() {
 					//Formulare blenden
 					$("#ap").show();
 					$("#pop").hide();
+					$("#ap_loeschen").show();
 				}
 			}
 		});
@@ -54,6 +55,7 @@ function initiiere_ap() {
 		//Formulare blenden
 		$("#ap").show();
 		$("#pop").hide();
+		$("#ap_loeschen").show();
 	}
 }
 
@@ -226,7 +228,8 @@ function treeKontextmenu(node) {
 						url: 'php/pop_insert.php',
 						dataType: 'json',
 						data: {
-							"id": localStorage.ap_id
+							"id": localStorage.ap_id,
+							"user": sessionStorage.User
 						},
 						success: function (data) {
 							var NeuerNode, anzPop, anzPopTxt;
@@ -278,7 +281,8 @@ function treeKontextmenu(node) {
 						url: 'php/pop_insert.php',
 						dataType: 'json',
 						data: {
-							"id": localStorage.ap_id
+							"id": localStorage.ap_id,
+							"user": sessionStorage.User
 						},
 						success: function (data) {
 							var ParentNode, NeuerNode, anzPop, anzPopTxt;
@@ -386,7 +390,8 @@ function speichern(that) {
 		data: {
 			"id": localStorage[Formular + "_id"],
 			"Feld": Feldname,
-			"Wert": Feldwert
+			"Wert": Feldwert,
+			"user": sessionStorage.User
 		},
 		success: function () {
 		},

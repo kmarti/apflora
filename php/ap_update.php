@@ -13,8 +13,10 @@ $id = $_GET["id"];
 settype($id, "integer");
 $Feld = $_GET["Feld"];
 $Wert = $_GET["Wert"];
+$user = $_GET["user"];
+$time = date('Y-m-d H:i:s');
 
-$Querystring = "UPDATE tblAktionsplan SET ".$Feld." = ".$Wert." WHERE ApArtId = ".$id;
+$Querystring = 'UPDATE tblAktionsplan SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE ApArtId = '.$id;
 
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);
