@@ -11,13 +11,11 @@ Die Anwendung gibt es schon. Sie basiert auf Microsoft Access, das über ODBC au
 
 #Ideen
 - Navigation über einen dynamisch aufgebauten Strukturbaum. Er ersetzt den bisherigen Baum, die Register, die Suchfelder und die Verschiebe-/Kopierbefehle
-- Rechts neben dem Baum werden die Daten der gewählten Struktur (= "node") angezeigt, z.B. Teilpopulation oder Feldkontrolle.
-- Jeder node enthält die Informationen, mit denen er sich bei Aktivierung die Daten der nächsttieferen Ebene aus der Datenbank holt > einfachste Abfragen, hoffentlich kurze Ladezeiten
+- Rechts neben dem Baum werden die Daten der gewählten Struktur (= "node") angezeigt, z.B. Teilpopulation oder Feldkontrolle
 - Nodes wie Teilpopulationen und Feldkontrollen können im Baum zu anderen nodes desselben Typs verschoben oder kopiert werden
 - Schnelle Ladezeiten: Steuerung mit Ajax, Datensätze und -listen als Objekte im Arbeitsspeicher behalten
 - Suchfunktion im Baum
-- Eigenes Symbol für AP-Arten, farblich nach Status abgestuft?
-- Beim erneuten Einstieg weiterarbeiten, wo man aufgehört hat
+- Beim erneuten Einstieg weiterarbeiten, wo man aufgehört hat?
 
 #Einschränkungen
 - Abfragen und Exporte vorläufig noch in Access ausführen (muss wohl sowieso flexibilisiert werden)
