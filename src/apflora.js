@@ -858,6 +858,52 @@ function treeKontextmenu(node) {
 				}
 			}
 		};
+		if (window.NodeAusgeschnnitten) {
+			items.einfuegen = {
+				label: "einfügen",
+				action: function () {
+					$.ajax({
+						url: 'php/tpopfeldkontr_einfuegen.php',
+						dataType: 'json',
+						data: {
+							"tpop_id": $(AktiverNode).attr("id"),
+							"tpopfeldkontr_id": $(window.NodeAusgeschnnitten).attr("id"),
+							"user": sessionStorage.User
+						},
+						success: function () {
+							var anz, anzTxt;
+							//node verschieben
+							jQuery.jstree._reference(AktiverNode).move_node(window.NodeAusgeschnnitten, AktiverNode, "last", false);
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anz = $(AktiverNode).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Feldkontrolle";
+							} else {
+								anzTxt = anz + " Feldkontrollen";
+							}
+							jQuery.jstree._reference(AktiverNode).rename_node(AktiverNode, anzTxt);
+							jQuery.jstree._reference(AktiverNode).select_node(window.NodeAusgeschnnitten);
+							//Variabeln aufräumen
+							localStorage.tpopfeldkontr_id = $(window.NodeAusgeschnnitten).attr("id");
+							delete window.tpopfeldkontr;
+							delete window.NodeAusgeschnnitten;
+							initiiere_tpopfeldkontr();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Die Feldkontrolle wurde nicht verschoben");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		}
 		return items;
 	case "tpopfeldkontr":
 		items = {
@@ -1002,8 +1048,6 @@ function treeKontextmenu(node) {
 					});
 				}
 			}
-		} else {
-			delete items.einfuegen;
 		}
 		return items;
 	}		
