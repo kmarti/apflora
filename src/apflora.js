@@ -260,6 +260,23 @@ function initiiere_tpopfeldkontr() {
 				$("#TPopKontrAendKontr").val(data.TPopKontrAendKontr);
 				$("#TPopKontrTxt").val(data.TPopKontrTxt);
 				$("#TPopKontrGuid").val(data.TPopKontrGuid);
+				$("#TPopKontrFlaeche").val(data.TPopKontrFlaeche);
+				$("#TPopKontrVegTyp").val(data.TPopKontrVegTyp);
+				$("#TPopKontrKonkurrenz").val(data.TPopKontrKonkurrenz);
+				$("#TPopKontrMoosschicht").val(data.TPopKontrMoosschicht);
+				$("#TPopKontrKrautschicht").val(data.TPopKontrKrautschicht);
+				$("#TPopKontrStrauchschicht").val(data.TPopKontrStrauchschicht);
+				$("#TPopKontrBaumschicht").val(data.TPopKontrBaumschicht);
+				$("#TPopKontrBodenTyp").val(data.TPopKontrBodenTyp);
+				$("#TPopKontrBodenKalkgehalt").val(data.TPopKontrBodenKalkgehalt);
+				$("#TPopKontrBodenDurchlässigkeit").val(data.TPopKontrBodenDurchlässigkeit);
+				$("#TPopKontrBodenHumus").val(data.TPopKontrBodenHumus);
+				$("#TPopKontrBodenNährstoffgehalt").val(data.TPopKontrBodenNährstoffgehalt);
+				$("#TPopKontrBodenAbtrag").val(data.TPopKontrBodenAbtrag);
+				$("#TPopKontrWasserhaushalt").val(data.TPopKontrWasserhaushalt);
+				$("#TPopKontrHandlungsbedarf").val(data.TPopKontrHandlungsbedarf);
+				$("#TPopKontrIdealBiotopÜbereinst" + data.TPopKontrIdealBiotopÜbereinst).prop("checked", true);
+				
 				//für select TPopKontrBearb Daten holen - oder vorhandene nutzen
 				if (!window.adressen_html) {
 					$.ajax({
@@ -286,6 +303,7 @@ function initiiere_tpopfeldkontr() {
 					$("#TPopKontrBearb").html(window.adressen_html);
 					$("#TPopKontrBearb").val(window.tpopfeldkontr.TPopKontrBearb);
 				}
+
 				//für 3 selectfelder TPopKontrZaehleinheit Daten holen - oder vorhandene nutzen
 				if (!window.TPopKontrZaehleinheit_html) {
 					$.ajax({
@@ -321,6 +339,37 @@ function initiiere_tpopfeldkontr() {
 					$("#TPopKontrZaehleinheit2").val(window.tpopfeldkontr.TPopKontrZaehleinheit2);
 					$("#TPopKontrZaehleinheit3").html(window.TPopKontrZaehleinheit_html);
 					$("#TPopKontrZaehleinheit3").val(window.tpopfeldkontr.TPopKontrZaehleinheit3);
+				}
+
+				//für select TPopKontrLeb Daten holen - oder vorhandene nutzen
+				if (!window.tpopfeldkontr_lrdelarze_html) {
+					$.ajax({
+						url: 'php/tpopfeldkontr_lrdelarze.php',
+						dataType: 'json',
+						success: function (data4) {
+							if (data4) {
+								//ap bereitstellen
+								//Feld mit Daten beliefern
+								var html;
+								html = "<option></option>";
+								for (i in data4.rows) {
+									if (typeof i !== "undefined") {
+										html += "<option value=\"" + data4.rows[i].id + "\">" + data4.rows[i].Einheit + "</option>";
+									}
+								}
+								window.tpopfeldkontr_lrdelarze_html = html;
+								$("#TPopKontrLeb").html(html);
+								$("#TPopKontrLeb").val(window.tpopfeldkontr.TPopKontrLeb);
+								$("#TPopKontrLebUmg").html(html);
+								$("#TPopKontrLebUmg").val(window.tpopfeldkontr.TPopKontrLebUmg);
+							}
+						}
+					});
+				} else {
+					$("#TPopKontrLeb").html(window.tpopfeldkontr_lrdelarze_html);
+					$("#TPopKontrLeb").val(window.tpopfeldkontr.TPopKontrLeb);
+					$("#TPopKontrLebUmg").html(window.tpopfeldkontr_lrdelarze_html);
+					$("#TPopKontrLebUmg").val(window.tpopfeldkontr.TPopKontrLebUmg);
 				}
 				//Formulare blenden
 				$("#ap").hide();

@@ -370,35 +370,83 @@
 					</div>
 					<div id="tpopfeldkontr_tabs_biotop">
 						<div class='fieldcontain'>
-							<label id="xxxxx_label" for='xxxxx'>textinput:</label>
-							<input id="xxxxx" name="xxxxx" class="speichern Datenfelder" formular="tpopfeldkontr" type="text">
+							<label id="TPopKontrFlaeche_label" for='TPopKontrFlaeche'>Fläche:</label>
+							<input id="TPopKontrFlaeche" name="TPopKontrFlaeche" class="speichern Datenfelder" formular="tpopfeldkontr" type="text">
 						</div>
-						<div class='fieldcontain'>
-							<label id="xxxxx_label" for='xxxxx'>Number:</label>
-							<input id="xxxxx" name="xxxxx" class="speichern Datenfelder" formular="tpopfeldkontr" type="number">
-						</div>
-						<div class='fieldcontain'>
-							<label id="xxxxx_label" for='xxxxx'>Status:</label>
-							<div class="Datenfelder">
-								<input type="radio" name="xxxxx" id="xxxxx1" class="speichern" formular="tpopfeldkontr" value="1" />autochthon<br />
-								<input type="radio" name="xxxxx" id="xxxxx2" class="speichern" formular="tpopfeldkontr" value="6" />neu entdeckt, autochthon<br />
-								<input type="radio" name="xxxxx" id="xxxxx3" class="speichern" formular="tpopfeldkontr" value="10" />überprüft, kein Vorkommen
+						<fieldset>
+							<legend>Vegetation</legend>
+							<div class='fieldcontain'>
+								<label id="TPopKontrLeb_label" for='TPopKontrLeb'>Lebensraum nach Delarze:</label>
+								<select id="TPopKontrLeb" name="TPopKontrLeb" class="speichern Datenfelder" formular="tpopfeldkontr" style="white-space:pre;">
+									<option></option>
+								</select>
 							</div>
-						</div>
-						<div class='fieldcontain'>
-							<label id="xxxxx_label" for='xxxxx'>ja-nein:</label>
-							<input type="checkbox" name="xxxxx" id="xxxxx" class="speichern Datenfelder" formular="tpopfeldkontr" />Das ist ein ja-nein
-						</div>
-						<div class='fieldcontain'>
-							<label id="xxxxx_label" for='xxxxx'>Textarea:</label>
-							<textarea name="xxxxx" id="xxxxx" class="speichern Datenfelder" formular="tpopfeldkontr" value=""  /></textarea>
-						</div>
-						<div class='fieldcontain'>
-							<label id="xxxxx_label" for='xxxxx'>Selectfeld:</label>
-							<select id="xxxxx" name="xxxxx" class="speichern Datenfelder" formular="tpopfeldkontr">
-								<option></option>
-							</select>
-						</div>
+							<div class='fieldcontain'>
+								<label id="TPopKontrLebUmg_label" for='TPopKontrLebUmg'>Umgebung:</label>
+								<select id="TPopKontrLebUmg" name="TPopKontrLebUmg" class="speichern Datenfelder" formular="tpopfeldkontr" style="white-space:pre;">
+									<option></option>
+								</select>
+							</div>
+							<div class='fieldcontain'>
+								<label id="TPopKontrVegTyp_label" for='TPopKontrVegTyp'>Vegetationstyp:</label>
+								<input id="TPopKontrVegTyp" name="TPopKontrVegTyp" class="speichern Datenfelder" formular="tpopfeldkontr" type="text">
+							</div>
+							<div class='fieldcontain'>
+								<label id="TPopKontrKonkurrenz_label" for='TPopKontrKonkurrenz'>Konkurrenz:</label>
+								<input id="TPopKontrKonkurrenz" name="TPopKontrKonkurrenz" class="speichern Datenfelder" formular="tpopfeldkontr" type="text">
+							</div>
+							<div class='fieldcontain'>
+								<label id="TPopKontrMoosschicht_label" for='TPopKontrMoosschicht'>Moosschicht:</label>
+								<input id="TPopKontrMoosschicht" name="TPopKontrMoosschicht" class="speichern Datenfelder" formular="tpopfeldkontr" type="text">
+							</div>
+							<div class='fieldcontain'>
+								<label id="TPopKontrKrautschicht_label" for='TPopKontrKrautschicht'>Krautschicht:</label>
+								<input id="TPopKontrKrautschicht" name="TPopKontrKrautschicht" class="speichern Datenfelder" formular="tpopfeldkontr" type="text">
+							</div>
+							<div class='fieldcontain'>
+								<label id="TPopKontrStrauchschicht_label" for='TPopKontrStrauchschicht'>Strauchschicht:</label>
+								<input id="TPopKontrStrauchschicht" name="TPopKontrStrauchschicht" class="speichern Datenfelder" formular="tpopfeldkontr" type="text">
+							</div>
+							<div class='fieldcontain'>
+								<label id="TPopKontrBaumschicht_label" for='TPopKontrBaumschicht'>Baumschicht:</label>
+								<input id="TPopKontrBaumschicht" name="TPopKontrBaumschicht" class="speichern Datenfelder" formular="tpopfeldkontr" type="text">
+							</div>
+						</fieldset>
+						<fieldset>
+							<legend>Boden</legend>
+							<div class='fieldcontain'>
+								<label id="TPopKontrBodenTyp_label" for='TPopKontrBodenTyp'>Typ:</label>
+								<input id="TPopKontrBodenTyp" name="TPopKontrBodenTyp" class="speichern Datenfelder" formular="tpopfeldkontr" type="text">
+							</div>
+							<div class='fieldcontain'>
+								<label id="TPopKontrBodenKalkgehalt_label" for='TPopKontrBodenKalkgehalt'>Kalkgehalt:</label>
+								<input id="TPopKontrBodenKalkgehalt" name="TPopKontrBodenKalkgehalt" class="speichern Datenfelder" formular="tpopfeldkontr" type="text">
+							</div>
+							<div class='fieldcontain'>
+								<label id="TPopKontrBodenDurchlässigkeit_label" for='TPopKontrBodenDurchlässigkeit'>Durchlässigkeit:</label>
+								<input id="TPopKontrBodenDurchlässigkeit" name="TPopKontrBodenDurchlässigkeit" class="speichern Datenfelder" formular="tpopfeldkontr" type="text">
+							</div>
+							<div class='fieldcontain'>
+								<label id="TPopKontrBodenHumus_label" for='TPopKontrBodenHumus'>Humusgehalt:</label>
+								<input id="TPopKontrBodenHumus" name="TPopKontrBodenHumus" class="speichern Datenfelder" formular="tpopfeldkontr" type="text">
+							</div>
+							<div class='fieldcontain'>
+								<label id="TPopKontrBodenNährstoffgehalt_label" for='TPopKontrBodenNährstoffgehalt'>Nährstoffgehalt:</label>
+								<input id="TPopKontrBodenNährstoffgehalt" name="TPopKontrBodenNährstoffgehalt" class="speichern Datenfelder" formular="tpopfeldkontr" type="text">
+							</div>
+							<div class='fieldcontain'>
+								<label id="TPopKontrBodenAbtrag_label" for='TPopKontrBodenAbtrag'>Bodenabtrag:</label>
+								<input id="TPopKontrBodenAbtrag" name="TPopKontrBodenAbtrag" class="speichern Datenfelder" formular="tpopfeldkontr" type="text">
+							</div>
+							<div class='fieldcontain'>
+								<label id="TPopKontrWasserhaushalt_label" for='TPopKontrWasserhaushalt'>Wasserhaushalt:</label>
+								<input id="TPopKontrWasserhaushalt" name="TPopKontrWasserhaushalt" class="speichern Datenfelder" formular="tpopfeldkontr" type="text">
+							</div>
+							<div class='fieldcontain'>
+								<label id="TPopKontrHandlungsbedarf_label" for='TPopKontrHandlungsbedarf'>Handlungsbedarf:</label>
+								<textarea name="TPopKontrHandlungsbedarf" id="TPopKontrHandlungsbedarf" class="speichern Datenfelder" formular="tpopfeldkontr" /></textarea>
+							</div>
+						</fieldset>
 					</div>
 				</div>
 			</fieldset>

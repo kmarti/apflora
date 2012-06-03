@@ -20,11 +20,11 @@ fieldset {
 	border:1px solid;
 	border-color:#A5A59A;
 
-	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size:16px;
+	font-family: Arial, Verdana, Helvetica, sans-serif !important;
+	font-size:16px !important;
 
-	margin:10px 10px 10px 10px;
-	padding: 10px 10px 10px 15px;
+	margin:10px 10px 20px 10px;
+	padding: 20px 10px 10px 15px;
 	display:block;
 }
 
@@ -38,8 +38,9 @@ fieldset {
 	margin:2px 7px 0px 0px;
 }
 
-legend {
+fieldset legend {
 	color:#6F6F66;
+	font-weight:bold;
 }
 
 input {
@@ -49,6 +50,7 @@ input {
 /*alle Datenfelder links ausrichten*/
 .Datenfelder {
 	float:left;
+	margin:0px 5px 10px 0px;
 }
 
 .form [type=text], .form textarea, .form select {
@@ -71,7 +73,6 @@ input {
 
 /*alle Datenfelder von den letzten absetzen*/
 .form .fieldcontain {
-	padding-top:10px;
 	/*floaten von label und Datenfeld des letzten Feldes aufheben*/
 	clear:both;
 }
@@ -87,4 +88,13 @@ input {
 
 .ui-widget-content {
 	background:#FAF3D9 !important;
+}
+
+option {
+	white-space:pre;
+}
+
+.ui-widget .fieldcontain {
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size:16px;
 }
