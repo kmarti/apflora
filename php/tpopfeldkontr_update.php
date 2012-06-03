@@ -11,19 +11,19 @@ if ($link->connect_errno) {
 
 $id = $_GET["id"];
 settype($id, "integer");
+$Feld = $_GET["Feld"];
+$Wert = $_GET["Wert"];
+$user = $_GET["user"];
+$time = date('Y-m-d H:i:s');
+
+$Querystring = 'UPDATE tblTeilPopFeldkontrolle SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopKontrId = '.$id;
 
 // SQL-Anfrage ausführen
-$result = mysqli_query($link, "SELECT * FROM tblTeilpopulation WHERE TPopId = $id");
+$result = mysqli_query($link, $Querystring);
 
-$row = mysqli_fetch_assoc($result);
-
-//in json verwandeln
-$return = json_encode($row);
-
-print($return);
-
-// Resultset freigeben
-mysqli_free_result($result);
+if (!$result) {
+	print "Fehler: Wert ".$Wert." konnte nicht im Feld ".$Feld." gespeichert werden";
+}
 
 // Verbindung schliessen
 mysqli_close($link);

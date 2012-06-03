@@ -12,18 +12,14 @@ if ($link->connect_errno) {
 $id = $_GET["id"];
 settype($id, "integer");
 
+$Querystring = "DELETE FROM tblTeilPopFeldkontrolle WHERE TPopKontrId = ".$id;
+
 // SQL-Anfrage ausführen
-$result = mysqli_query($link, "SELECT * FROM tblTeilpopulation WHERE TPopId = $id");
+$result = mysqli_query($link, $Querystring);
 
-$row = mysqli_fetch_assoc($result);
-
-//in json verwandeln
-$return = json_encode($row);
-
-print($return);
-
-// Resultset freigeben
-mysqli_free_result($result);
+if (!$result) {
+	print "Fehler: Die Feldkontrolle wurde nicht gelöscht";
+}
 
 // Verbindung schliessen
 mysqli_close($link);

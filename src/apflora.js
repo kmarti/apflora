@@ -4,10 +4,13 @@ function initiiere_index() {
 	$("#ap").hide();
 	$("#pop").hide();
 	$("#tpop").hide();
+	$("#tpopfeldkontr").hide();
 	$("#vorlage").hide();
 	//jQuery ui buttons initiieren
 	$("#programm_wahl").buttonset();
 	$("button").button();
+	$("#tpopfeldkontr_tabs").tabs();
+	$("#TPopKontrDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopKontrJahr", altFormat: "yy" });
 	//Auswahllisten aufbauen
 	erstelle_ap_liste("programm_alle");
 	erstelle_ApArtId_liste();
@@ -23,7 +26,10 @@ function initiiere_ap() {
 	var programm_wahl;
 	programm_wahl = $("[name='programm_wahl']:checked").attr("id");
 	//alle anderen Formulare ausblenden
-	$("pop").hide();
+	$("#pop").hide();
+	$("#tpop").hide();
+	$("#vorlage").hide();
+	$("#tpopfeldkontr").hide();
 	//Felder zurücksetzen
 	leereFelderVonFormular("ap");
 	//Wenn ein ap ausgewählt ist: Seine Daten anzeigen
@@ -40,7 +46,6 @@ function initiiere_ap() {
 				if (data) {
 					//ap bereitstellen
 					window.ap = data;
-					localStorage.ap = JSON.stringify(data);
 					//Felder mit Daten beliefern
 					$("#ApStatus" + data.ApStatus).prop("checked", true);
 					$("#ApUmsetzung" + data.ApUmsetzung).prop("checked", true);
@@ -50,6 +55,7 @@ function initiiere_ap() {
 					$("#ap").show();
 					$("#pop").hide();
 					$("#tpop").hide();
+					$("#tpopfeldkontr").hide();
 					$("#vorlage").hide();
 					$("#ap_loeschen").show();
 				}
@@ -61,6 +67,7 @@ function initiiere_ap() {
 		$("#ap").show();
 		$("#pop").hide();
 		$("#tpop").hide();
+		$("#tpopfeldkontr").hide();
 		$("#vorlage").hide();
 		$("#ap_loeschen").show();
 	}
@@ -105,7 +112,6 @@ function initiiere_pop() {
 			if (data) {
 				//ap bereitstellen
 				window.pop = data;
-				localStorage.pop = JSON.stringify(data);
 				//Felder mit Daten beliefern
 				$("#PopHerkunft" + data.PopHerkunft).prop("checked", true);
 				$("#PopName").val(data.PopName);
@@ -115,6 +121,7 @@ function initiiere_pop() {
 				$("#ap").hide();
 				$("#pop").show();
 				$("#tpop").hide();
+				$("#tpopfeldkontr").hide();
 				$("#vorlage").hide();
 			}
 		}
@@ -141,22 +148,26 @@ function initiiere_tpop() {
 			if (data) {
 				//ap bereitstellen
 				window.tpop = data;
-				localStorage.tpop = JSON.stringify(data);
 				//Felder mit Daten beliefern
-				$("#xxxx" + data.xxxx).prop("checked", true);
-				$("#xxxx").val(data.xxxx);
-
 				$("#TPopFlurname").val(data.TPopFlurname);
 				$("#TPopNr").val(data.TPopNr);
 				$("#TPopHerkunft" + data.TPopHerkunft).prop("checked", true);
-				$("#TPopHerkunftUnklar" + data.TPopHerkunftUnklar).prop("checked", true);
+				if (data.TPopHerkunftUnklar == -1) {
+					$("#TPopHerkunftUnklar").prop("checked", true);
+				} else {
+					$("#TPopHerkunftUnklar").prop("checked", false);
+				}
 				$("#TPopHerkunftUnklarBegründung").val(data.TPopHerkunftUnklarBegründung);
 				$("#TPopApBerichtRelevant" + data.TPopApBerichtRelevant).prop("checked", true);
 				$("#TPopBekanntSeit").val(data.TPopBekanntSeit);
 				$("#TPopFlurname").val(data.TPopFlurname);
 				$("#TPopXKoord").val(data.TPopXKoord);
 				$("#TPopYKoord").val(data.TPopYKoord);
-				$("#TPopPop" + data.TPopPop).prop("checked", true);
+				if (data.TPopPop == -1) {
+					$("#TPopPop").prop("checked", true);
+				} else {
+					$("#TPopPop").prop("checked", false);
+				}
 				$("#TPopRadius").val(data.TPopRadius);
 				$("#TPopHoehe").val(data.TPopHoehe);
 				$("#TPopExposition").val(data.TPopExposition);
@@ -170,32 +181,152 @@ function initiiere_tpop() {
 				$("#TPopBewirtschafterIn").val(data.TPopBewirtschafterIn);
 				$("#TPopBewirtschaftung").val(data.TPopBewirtschaftung);
 				$("#TPopTxt").val(data.TPopTxt);
-				//für select Daten holen
-				$.ajax({
-					url: 'php/adressen.php',
-					dataType: 'json',
-					success: function (data2) {
-						if (data2) {
-							//ap bereitstellen
-							window.adressen = data2;
-							localStorage.adressen = JSON.stringify(data2);
-							//Feld mit Daten beliefern
-							var html;
-							html = "<option></option>";
-							for (i in data2.rows) {
-								if (typeof i !== "undefined") {
-									html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
+				//für select Daten holen - oder vorhandene nutzen
+				if (!window.adressen_html) {
+					$.ajax({
+						url: 'php/adressen.php',
+						dataType: 'json',
+						success: function (data2) {
+							if (data2) {
+								//ap bereitstellen
+								window.adressen = data2;
+								localStorage.adressen = JSON.stringify(data2);
+								//Feld mit Daten beliefern
+								var html;
+								html = "<option></option>";
+								for (i in data2.rows) {
+									if (typeof i !== "undefined") {
+										html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
+									}
 								}
+								window.adressen_html = html;
+								$("#TPopVerantw").html(html);
+								$("#TPopVerantw").val(window.tpop.TPopVerantw);
 							}
-							$("#TPopVerantw").html(html);
-							$("#TPopVerantw").val(window.tpop.TPopVerantw);
 						}
-					}
-				});
+					});
+				} else {
+					$("#TPopVerantw").html(window.adressen_html);
+					$("#TPopVerantw").val(window.tpop.TPopVerantw);
+				}
 				//Formulare blenden
 				$("#ap").hide();
 				$("#pop").hide();
 				$("#tpop").show();
+				$("#tpopfeldkontr").hide();
+				$("#vorlage").hide();
+			}
+		}
+	});
+}
+
+function initiiere_tpopfeldkontr() {
+	if (!localStorage.tpopfeldkontr_id) {
+		//es fehlen benötigte Daten > eine Ebene höher
+		initiiere_pop();
+		return;
+	}
+	//Felder zurücksetzen
+	leereFelderVonFormular("tpopfeldkontr");
+	//Daten für die pop aus der DB holen
+	$.ajax({
+		url: 'php/tpopfeldkontr.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.tpopfeldkontr_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//ap bereitstellen
+				window.tpopfeldkontr = data;
+				//Felder mit Daten beliefern
+				$("#TPopKontrTyp" + data.TPopKontrTyp).prop("checked", true);
+				$("#TPopKontrJahr").val(data.TPopKontrJahr);
+				$("#TPopKontrDatum").val(data.TPopKontrDatum);
+				$("#TPopKontrMethode1" + data.TPopKontrMethode1).prop("checked", true);
+				$("#TPopKontrAnz1").val(data.TPopKontrAnz1);
+				$("#TPopKontrMethode2" + data.TPopKontrMethode2).prop("checked", true);
+				$("#TPopKontrAnz2").val(data.TPopKontrAnz2);
+				$("#TPopKontrMethode3" + data.TPopKontrMethode3).prop("checked", true);
+				$("#TPopKontrAnz3").val(data.TPopKontrAnz3);
+				$("#TPopKontrJungpfl").val(data.TPopKontrJungpfl);
+				$("#TPopKontrVitalitaet").val(data.TPopKontrVitalitaet);
+				$("#TPopKontrUeberleb").val(data.TPopKontrUeberleb);
+				$("#TPopKontrEntwicklung" + data.TPopKontrEntwicklung).prop("checked", true);
+				$("#TPopKontrUrsach").val(data.TPopKontrUrsach);
+				$("#TPopKontrUrteil").val(data.TPopKontrUrteil);
+				$("#TPopKontrAendUms").val(data.TPopKontrAendUms);
+				$("#TPopKontrAendKontr").val(data.TPopKontrAendKontr);
+				$("#TPopKontrTxt").val(data.TPopKontrTxt);
+				$("#TPopKontrGuid").val(data.TPopKontrGuid);
+				//für select TPopKontrBearb Daten holen - oder vorhandene nutzen
+				if (!window.adressen_html) {
+					$.ajax({
+						url: 'php/adressen.php',
+						dataType: 'json',
+						success: function (data2) {
+							if (data2) {
+								//ap bereitstellen
+								//Feld mit Daten beliefern
+								var html;
+								html = "<option></option>";
+								for (i in data2.rows) {
+									if (typeof i !== "undefined") {
+										html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
+									}
+								}
+								window.adressen_html = html;
+								$("#TPopKontrBearb").html(html);
+								$("#TPopKontrBearb").val(window.tpopfeldkontr.TPopKontrBearb);
+							}
+						}
+					});
+				} else {
+					$("#TPopKontrBearb").html(window.adressen_html);
+					$("#TPopKontrBearb").val(window.tpopfeldkontr.TPopKontrBearb);
+				}
+				//für 3 selectfelder TPopKontrZaehleinheit Daten holen - oder vorhandene nutzen
+				if (!window.TPopKontrZaehleinheit_html) {
+					$.ajax({
+						url: 'php/tpopfeldkontr_zaehleinheit.php',
+						dataType: 'json',
+						success: function (data3) {
+							if (data3) {
+								//ap bereitstellen
+								//Feld mit Daten beliefern
+								var html;
+								html = "<option></option>";
+								for (i in data3.rows) {
+									if (typeof i !== "undefined") {
+										html += "<option value=\"" + data3.rows[i].id + "\">" + data3.rows[i].ZaehleinheitTxt + "</option>";
+									}
+								}
+								window.TPopKontrZaehleinheit_html = html;
+								//alle 3 Felder setzen
+								$("#TPopKontrZaehleinheit1").html(html);
+								$("#TPopKontrZaehleinheit1").val(window.tpopfeldkontr.TPopKontrZaehleinheit1);
+								$("#TPopKontrZaehleinheit2").html(html);
+								$("#TPopKontrZaehleinheit2").val(window.tpopfeldkontr.TPopKontrZaehleinheit2);
+								$("#TPopKontrZaehleinheit3").html(html);
+								$("#TPopKontrZaehleinheit3").val(window.tpopfeldkontr.TPopKontrZaehleinheit3);
+							}
+						}
+					});
+				} else {
+					//alle 3 Felder setzen
+					$("#TPopKontrZaehleinheit1").html(window.TPopKontrZaehleinheit_html);
+					$("#TPopKontrZaehleinheit1").val(window.tpopfeldkontr.TPopKontrZaehleinheit1);
+					$("#TPopKontrZaehleinheit2").html(window.TPopKontrZaehleinheit_html);
+					$("#TPopKontrZaehleinheit2").val(window.tpopfeldkontr.TPopKontrZaehleinheit2);
+					$("#TPopKontrZaehleinheit3").html(window.TPopKontrZaehleinheit_html);
+					$("#TPopKontrZaehleinheit3").val(window.tpopfeldkontr.TPopKontrZaehleinheit3);
+				}
+				//Formulare blenden
+				$("#ap").hide();
+				$("#pop").hide();
+				$("#tpop").hide();
+				$("#tpopfeldkontr").show();
 				$("#vorlage").hide();
 			}
 		}
@@ -297,6 +428,12 @@ function erstelle_tree(ApArtId) {
 			if (!$("#tpop").is(':visible') || localStorage.tpop_id !== node.attr("id")) {
 				localStorage.tpop_id = node.attr("id");
 				initiiere_tpop();
+			}
+		} else if (node.attr("typ") === "tpopfeldkontr") {
+			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			if (!$("#tpopfeldkontr").is(':visible') || localStorage.tpopfeldkontr_id !== node.attr("id")) {
+				localStorage.tpopfeldkontr_id = node.attr("id");
+				initiiere_tpopfeldkontr();
 			}
 		} else {
 			$("#Meldung").html("Diese Seite ist noch nicht gebaut");
@@ -439,7 +576,6 @@ function treeKontextmenu(node) {
 							var ParentNode, anzPop, anzPopTxt;
 							delete localStorage.pop_id;
 							delete window.pop;
-							delete localStorage.pop;
 							ParentNode = jQuery.jstree._reference(node)._get_parent(node);
 							jQuery.jstree._reference(ParentNode).select_node(ParentNode);
 							jQuery.jstree._reference(node).delete_node(node);
@@ -451,8 +587,7 @@ function treeKontextmenu(node) {
 								anzPopTxt = anzPop + " Populationen";
 							}
 							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzPopTxt);
-							$("#pop").hide();
-							$("#ap").show();
+							initiiere_ap();
 						},
 						error: function (data) {
 							$("#Meldung").html("Fehler: Die Population wurde nicht gelöscht");
@@ -574,35 +709,125 @@ function treeKontextmenu(node) {
 				}
 			},
 			loeschen: {
-				label: "lösche Population",
+				label: "lösche Teilpopulation",
 				action: function () {
 					$.ajax({
-						url: 'php/pop_delete.php',
+						url: 'php/tpop_delete.php',
 						dataType: 'json',
 						data: {
-							"id": localStorage.pop_id
+							"id": localStorage.tpop_id
 						},
 						success: function () {
 							var ParentNode, anzTPop, anzTPopTxt;
-							delete localStorage.pop_id;
-							delete window.pop;
-							delete localStorage.pop;
+							delete localStorage.tpop_id;
+							delete window.tpop;
 							ParentNode = jQuery.jstree._reference(node)._get_parent(node);
 							jQuery.jstree._reference(ParentNode).select_node(ParentNode);
 							jQuery.jstree._reference(node).delete_node(node);
 							//Parent Node-Beschriftung: Anzahl anpassen
 							anzTPop = $(ParentNode).find("> ul > li").length;
 							if (anzTPop === 1) {
-								anzTPopTxt = anzTPop + " Population";
+								anzTPopTxt = anzTPop + " Teilpopulation";
 							} else {
-								anzTPopTxt = anzTPop + " Populationen";
+								anzTPopTxt = anzTPop + " Teilpopulationen";
 							}
 							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzTPopTxt);
-							$("#pop").hide();
-							$("#ap").show();
+							initiiere_pop();
 						},
 						error: function (data) {
-							$("#Meldung").html("Fehler: Die Population wurde nicht gelöscht");
+							$("#Meldung").html("Fehler: Die Teilpopulation wurde nicht gelöscht");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		};
+		return items;
+	case "tpopfeldkontr":
+		items = {
+			neu: {
+				label: "neue Feldkontrolle",
+				action: function () {
+					$.ajax({
+						url: 'php/tpopfeldkontr_insert.php',
+						dataType: 'json',
+						data: {
+							"id": localStorage.pop_id,
+							"user": sessionStorage.User
+						},
+						success: function (data) {
+							var ParentNode, NeuerNode, anz, anzTxt;
+							localStorage.tpopfeldkontr_id = data;
+							delete window.tpopfeldkontr;
+							ParentNode = jQuery.jstree._reference(node)._get_parent(node);
+							NeuerNode = jQuery.jstree._reference(ParentNode).create_node(ParentNode, "last", {
+								"data": "neue Feldkontrolle",
+								"attr": {
+									"id": data,
+									"typ": "tpopfeldkontr"
+								}
+							});
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anz = $(ParentNode).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Feldkontrolle";
+							} else {
+								anzTxt = anz + " Feldkontrollen";
+							}
+							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzTxt);
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_tpopfeldkontr();
+							$('#TPopKontrTyp').focus();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine neue Feldkontrolle erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},
+			loeschen: {
+				label: "lösche Feldkontrolle",
+				action: function () {
+					$.ajax({
+						url: 'php/tpopfeldkontr_delete.php',
+						dataType: 'json',
+						data: {
+							"id": localStorage.tpopfeldkontr_id
+						},
+						success: function () {
+							var ParentNode, anz, anzTxt;
+							delete localStorage.tpopfeldkontr_id;
+							delete window.tpopfeldkontr;
+							ParentNode = jQuery.jstree._reference(node)._get_parent(node);
+							jQuery.jstree._reference(ParentNode).select_node(ParentNode);
+							jQuery.jstree._reference(node).delete_node(node);
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anz = $(ParentNode).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Feldkontrolle";
+							} else {
+								anzTxt = anz + " Feldkontrollen";
+							}
+							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzTxt);
+							initiiere_tpop();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Die Feldkontrolle wurde nicht gelöscht");
 							$("#Meldung").dialog({
 								modal: true,
 								buttons: {
@@ -624,12 +849,22 @@ function treeKontextmenu(node) {
 //speichert den Wert eines Feldes in einem Formular
 //übernimmt das Objekt, in dem geändert wurde
 function speichern(that) {
-	var Formular, Feldname, Feldjson, Feldwert, Querystring;
+	var Formular, Feldname, Feldjson, Feldwert, Querystring, Objekt;
 	Formular = $(that).attr("formular");
 	Feldname = that.name;
 	//nötig, damit Arrays richtig kommen
 	Feldjson = $("[name='" + Feldname + "']").serializeObject();
 	Feldwert = Feldjson[Feldname];
+	if (Feldname === "TPopHerkunftUnklar" || Feldname === "TPopPop") {
+		if (Feldwert) {
+			Feldwert = -1;
+		} else {
+			Feldwert = 0;
+		}
+	}
+	if (Feldname === "TPopKontrGuid") {
+		return;
+	}
 	$.ajax({
 		url: 'php/' + Formular + '_update.php',
 		dataType: 'json',
@@ -640,6 +875,13 @@ function speichern(that) {
 			"user": sessionStorage.User
 		},
 		success: function () {
+			//Wenn in feldkontr Datum erfasst, auch Jahr speichern
+			if (Feldname === "TPopKontrDatum" && Feldwert) {
+				Objekt = {};
+				Objekt.name = "TPopKontrJahr";
+				Objekt.formular = "tpopfeldkontr";
+				speichern(Objekt);
+			}
 		},
 		error: function (data) {
 			var Meldung;
@@ -662,6 +904,9 @@ function speichern(that) {
 			break;
 		case "TPopFlurname":
 			jQuery("#tree").jstree("rename_node", "#" + localStorage.tpop_id, Feldwert);
+			break;
+		case "TPopKontrJahr":
+			jQuery("#tree").jstree("rename_node", "#" + localStorage.tpopfeldkontr_id, Feldwert);
 			break;
 	}
 }

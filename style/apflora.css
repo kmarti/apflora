@@ -38,6 +38,10 @@ fieldset {
 	margin:2px 7px 0px 0px;
 }
 
+legend {
+	color:#6F6F66;
+}
+
 input {
 	background-color: #FFFFF7;
 }
