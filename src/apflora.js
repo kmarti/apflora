@@ -534,14 +534,13 @@ function treeKontextmenu(node) {
 						url: 'php/pop_insert.php',
 						dataType: 'json',
 						data: {
-							"id": localStorage.ap_id,
+							"id": $(AktiverNode).attr("id"),
 							"user": sessionStorage.User
 						},
 						success: function (data) {
 							var NeuerNode, anzPop, anzPopTxt;
 							localStorage.pop_id = data;
 							delete window.pop;
-							delete localStorage.pop;
 							NeuerNode = jQuery.jstree._reference(AktiverNode).create_node(AktiverNode, "last", {
 								"data": "neue Population",
 								"attr": {
@@ -559,7 +558,6 @@ function treeKontextmenu(node) {
 							jQuery.jstree._reference(AktiverNode).rename_node(AktiverNode, anzPopTxt);
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							initiiere_pop();
-							$('#PopName').focus();
 						},
 						error: function (data) {
 							$("#Meldung").html("Fehler: Keine neue Population erstellt");
@@ -586,7 +584,7 @@ function treeKontextmenu(node) {
 						url: 'php/pop_insert.php',
 						dataType: 'json',
 						data: {
-							"id": localStorage.ap_id,
+							"id": $(ParentNode).attr("id"),
 							"user": sessionStorage.User
 						},
 						success: function (data) {
@@ -633,7 +631,7 @@ function treeKontextmenu(node) {
 						url: 'php/pop_delete.php',
 						dataType: 'json',
 						data: {
-							"id": localStorage.pop_id
+							"id": $(AktiverNode).attr("id")
 						},
 						success: function () {
 							var anzPop, anzPopTxt;
@@ -676,14 +674,13 @@ function treeKontextmenu(node) {
 						url: 'php/tpop_insert.php',
 						dataType: 'json',
 						data: {
-							"id": localStorage.pop_id,
+							"id": $(AktiverNode).attr("id"),
 							"user": sessionStorage.User
 						},
 						success: function (data) {
 							var NeuerNode, anzTPop, anzTPopTxt;
 							localStorage.tpop_id = data;
 							delete window.tpop;
-							delete localStorage.tpop;
 							NeuerNode = jQuery.jstree._reference(AktiverNode).create_node(AktiverNode, "last", {
 								"data": "neue Teilpopulation",
 								"attr": {
@@ -727,14 +724,13 @@ function treeKontextmenu(node) {
 						url: 'php/tpop_insert.php',
 						dataType: 'json',
 						data: {
-							"id": localStorage.pop_id,
+							"id": $(ParentNode).attr("id"),
 							"user": sessionStorage.User
 						},
 						success: function (data) {
 							var NeuerNode, anzTPop, anzTPopTxt;
 							localStorage.tpop_id = data;
 							delete window.tpop;
-							delete localStorage.tpop;
 							NeuerNode = jQuery.jstree._reference(ParentNode).create_node(ParentNode, "last", {
 								"data": "neue Teilpopulation",
 								"attr": {
@@ -774,7 +770,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpop_delete.php',
 						dataType: 'json',
 						data: {
-							"id": localStorage.tpop_id
+							"id": $(AktiverNode).attr("id")
 						},
 						success: function () {
 							var anzTPop, anzTPopTxt;
@@ -817,7 +813,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopfeldkontr_insert.php',
 						dataType: 'json',
 						data: {
-							"id": localStorage.tpop_id,
+							"id": $(AktiverNode).attr("id"),
 							"user": sessionStorage.User
 						},
 						success: function (data) {
@@ -841,7 +837,6 @@ function treeKontextmenu(node) {
 							jQuery.jstree._reference(AktiverNode).rename_node(AktiverNode, anzTxt);
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							initiiere_tpopfeldkontr();
-							$('#TPopKontrTyp').focus();
 						},
 						error: function (data) {
 							$("#Meldung").html("Fehler: Keine neue Feldkontrolle erstellt");
@@ -914,7 +909,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopfeldkontr_insert.php',
 						dataType: 'json',
 						data: {
-							"id": localStorage.tpop_id,
+							"id": $(ParentNode).attr("id"),
 							"user": sessionStorage.User
 						},
 						success: function (data) {
@@ -938,7 +933,6 @@ function treeKontextmenu(node) {
 							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzTxt);
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							initiiere_tpopfeldkontr();
-							$('#TPopKontrTyp').focus();
 						},
 						error: function (data) {
 							$("#Meldung").html("Fehler: Keine neue Feldkontrolle erstellt");
@@ -961,7 +955,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopfeldkontr_delete.php',
 						dataType: 'json',
 						data: {
-							"id": localStorage.tpopfeldkontr_id
+							"id": $(AktiverNode).attr("id")
 						},
 						success: function () {
 							var anz, anzTxt;
@@ -1010,7 +1004,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopfeldkontr_einfuegen.php',
 						dataType: 'json',
 						data: {
-							"tpop_id": localStorage.tpop_id,
+							"tpop_id": $(ParentNode).attr("id"),
 							"tpopfeldkontr_id": $(AktiverNode).attr("id"),
 							"user": sessionStorage.User
 						},
