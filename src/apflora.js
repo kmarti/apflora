@@ -10,7 +10,7 @@ function initiiere_index() {
 	$("#programm_wahl").buttonset();
 	$("button").button();
 	$("#tpopfeldkontr_tabs").tabs();
-	$("#TPopKontrDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopKontrJahr", altFormat: "yy" });
+	$("#TPopKontrDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopKontrJahr", altFormat: "yy", defaultDate: +0 });
 	//Auswahllisten aufbauen
 	erstelle_ap_liste("programm_alle");
 	erstelle_ApArtId_liste();
@@ -634,7 +634,7 @@ function treeKontextmenu(node) {
 							if (anzTPop === 1) {
 								anzTPopTxt = anzTPop + " Teilpopulation";
 							} else {
-								anzTPopTxt = anzTPop + " TEilpopulationen";
+								anzTPopTxt = anzTPop + " Teilpopulationen";
 							}
 							jQuery.jstree._reference(node).rename_node(node, anzTPopTxt);
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -750,6 +750,57 @@ function treeKontextmenu(node) {
 			}
 		};
 		return items;
+	case "tpop_ordner_feldkontr":
+		items = {
+			neu: {
+				label: "neue Feldkontrolle",
+				action: function () {
+					$.ajax({
+						url: 'php/tpopfeldkontr_insert.php',
+						dataType: 'json',
+						data: {
+							"id": localStorage.tpop_id,
+							"user": sessionStorage.User
+						},
+						success: function (data) {
+							var NeuerNode, anz, anzTxt;
+							localStorage.tpopfeldkontr_id = data;
+							delete window.tpopfeldkontr;
+							NeuerNode = jQuery.jstree._reference(node).create_node(node, "last", {
+								"data": "neue Feldkontrolle",
+								"attr": {
+									"id": data,
+									"typ": "tpopfeldkontr"
+								}
+							});
+							//Node-Beschriftung: Anzahl anpassen
+							anz = $(node).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Feldkontrolle";
+							} else {
+								anzTxt = anz + " Feldkontrollen";
+							}
+							jQuery.jstree._reference(node).rename_node(node, anzTxt);
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_tpopfeldkontr();
+							$('#TPopKontrTyp').focus();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine neue Feldkontrolle erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		};
+		return items;
 	case "tpopfeldkontr":
 		items = {
 			neu: {
@@ -759,7 +810,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopfeldkontr_insert.php',
 						dataType: 'json',
 						data: {
-							"id": localStorage.pop_id,
+							"id": localStorage.tpop_id,
 							"user": sessionStorage.User
 						},
 						success: function (data) {
@@ -861,9 +912,6 @@ function speichern(that) {
 		} else {
 			Feldwert = 0;
 		}
-	}
-	if (Feldname === "TPopKontrGuid") {
-		return;
 	}
 	$.ajax({
 		url: 'php/' + Formular + '_update.php',

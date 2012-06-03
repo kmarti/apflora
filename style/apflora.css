@@ -52,8 +52,7 @@ input {
 }
 
 .form [type=text], .form textarea, .form select {
-	width:100%;
-	max-width: 700px;
+	width:700px;
 }
 
 .form [type=number] {
@@ -85,3 +84,7 @@ input {
 .ui-button-text {padding:.1em .5em !important; font-size:.8em !important;}
 
 .form {display:block; margin-left:auto; padding-left:390px; padding-top:1px;}
+
+.ui-widget-content {
+	background:#FAF3D9 !important;
+}

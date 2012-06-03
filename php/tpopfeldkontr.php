@@ -16,6 +16,12 @@ settype($id, "integer");
 $result = mysqli_query($link, "SELECT * FROM tblTeilPopFeldkontrolle WHERE TPopKontrId = $id");
 
 $row = mysqli_fetch_assoc($result);
+$TPopKontrDatum = $row["TPopKontrDatum"];
+//leerwerte nicht antasten - werden sonst zu 1.1.1970
+if ($TPopKontrDatum) {
+	$TPopKontrDatumFormatiert = date("d.m.Y", strtotime($TPopKontrDatum));
+	$row["TPopKontrDatum"] = $TPopKontrDatumFormatiert;
+}
 
 //in json verwandeln
 $return = json_encode($row);

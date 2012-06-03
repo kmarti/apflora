@@ -226,13 +226,13 @@
 		</form>
 
 		<form id="tpopfeldkontr" class="form" action="#" method="get" autocomplete="off">
-			<div id="tpopfeldkontr_tabs">
-				<ul>
-					<li><a href="#tpopfeldkontr_tabs_entwicklung">Entwicklung</a></li>
-					<li><a href="#tpopfeldkontr_tabs_biotop">Biotop</a></li>
-				</ul>
-				<div id="tpopfeldkontr_tabs_entwicklung">
-					<fieldset>
+			<fieldset>
+				<div id="tpopfeldkontr_tabs">
+					<ul>
+						<li><a href="#tpopfeldkontr_tabs_entwicklung">Entwicklung</a></li>
+						<li><a href="#tpopfeldkontr_tabs_biotop">Biotop</a></li>
+					</ul>
+					<div id="tpopfeldkontr_tabs_entwicklung">
 						<div class='fieldcontain'>
 							<label id="TPopKontrTyp_label" for='TPopKontrTyp'>Kontrolltyp:</label>
 							<div class="Datenfelder">
@@ -251,12 +251,12 @@
 							<input id="TPopKontrDatum" name="TPopKontrDatum" class="speichern Datenfelder" formular="tpopfeldkontr" type="text">
 						</div>
 						<div class='fieldcontain'>
-							<label id="TPopKontrBearb_label" for='TPopKontrBearb'>Selectfeld:</label>
+							<label id="TPopKontrBearb_label" for='TPopKontrBearb'>BearbeiterIn:</label>
 							<select id="TPopKontrBearb" name="TPopKontrBearb" class="speichern Datenfelder" formular="tpopfeldkontr">
 								<option></option>
 							</select>
 						</div>
-						<fieldset class="clear">
+						<fieldset class="clear" style="background:none;">
 							<legend>1. Zähleinheit</legend>
 							<div class='fieldcontain'>
 								<label id="TPopKontrZaehleinheit1_label" for='TPopKontrZaehleinheit1'>Einheit:</label>
@@ -277,7 +277,7 @@
 								<input id="TPopKontrAnz1" name="TPopKontrAnz1" class="speichern Datenfelder" formular="tpopfeldkontr" type="number">
 							</div>
 						</fieldset>
-						<fieldset class="clear">
+						<fieldset class="clear" style="background:none;">
 							<legend>2. Zähleinheit</legend>
 							<div class='fieldcontain'>
 								<label id="TPopKontrZaehleinheit2_label" for='TPopKontrZaehleinheit2'>Einheit:</label>
@@ -297,8 +297,8 @@
 								<label id="TPopKontrAnz2_label" for='TPopKontrAnz2'>Anzahl:</label>
 								<input id="TPopKontrAnz2" name="TPopKontrAnz2" class="speichern Datenfelder" formular="tpopfeldkontr" type="number">
 							</div>
-						</fieldset class="clear">
-						<fieldset>
+						</fieldset>
+						<fieldset class="clear" style="background:none;">
 							<legend>3. Zähleinheit</legend>
 							<div class='fieldcontain'>
 								<label id="TPopKontrZaehleinheit3_label" for='TPopKontrZaehleinheit3'>Einheit:</label>
@@ -367,10 +367,8 @@
 							<label id="TPopKontrGuid_label" for='TPopKontrGuid'>GUID:</label>
 							<input id="TPopKontrGuid" name="TPopKontrGuid" class="speichern Datenfelder" formular="tpopfeldkontr" type="text" readonly="readonly">
 						</div>
-					</fieldset>
-				</div>
-				<div id="tpopfeldkontr_tabs_biotop">
-					<fieldset>
+					</div>
+					<div id="tpopfeldkontr_tabs_biotop">
 						<div class='fieldcontain'>
 							<label id="xxxxx_label" for='xxxxx'>textinput:</label>
 							<input id="xxxxx" name="xxxxx" class="speichern Datenfelder" formular="tpopfeldkontr" type="text">
@@ -401,9 +399,9 @@
 								<option></option>
 							</select>
 						</div>
-					</fieldset>
+					</div>
 				</div>
-			</div>
+			</fieldset>
 		</form>
 
 		<form id="vorlage" class="form" action="#" method="get" autocomplete="off">
