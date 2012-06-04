@@ -25,3 +25,4 @@ Die Anwendung gibt es schon. Sie basiert auf Microsoft Access, das über ODBC au
 
 #Roadmap
 Ist momentan bloss ein Versuch, ob die Idee funktioniert. Ausgang offen.
+Hm. Mittlerweile ist klar, dass die Sache funktioniert. Der Aufwand ist aber beträchtlich. U.a. weil vieles für mich neu ist. Und die Anwendung 20 Seiten hat!
