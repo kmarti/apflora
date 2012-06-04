@@ -6,6 +6,7 @@ function initiiere_index() {
 	$("#pop").hide();
 	$("#tpop").hide();
 	$("#tpopfeldkontr").hide();
+	$("#tpopfreiwkontr").hide();
 	$("#vorlage").hide();
 	$("#loeschen_dialog").hide();
 	//jQuery ui buttons initiieren
@@ -32,6 +33,7 @@ function initiiere_ap() {
 	$("#tpop").hide();
 	$("#vorlage").hide();
 	$("#tpopfeldkontr").hide();
+	$("#tpopfreiwkontr").hide();
 	//Felder zurücksetzen
 	leereFelderVonFormular("ap");
 	//Wenn ein ap ausgewählt ist: Seine Daten anzeigen
@@ -59,6 +61,7 @@ function initiiere_ap() {
 					$("#pop").hide();
 					$("#tpop").hide();
 					$("#tpopfeldkontr").hide();
+					$("#tpopfreiwkontr").hide();
 					$("#vorlage").hide();
 					$("#ap_loeschen").show();
 				}
@@ -72,6 +75,7 @@ function initiiere_ap() {
 		$("#pop").hide();
 		$("#tpop").hide();
 		$("#tpopfeldkontr").hide();
+		$("#tpopfreiwkontr").hide();
 		$("#vorlage").hide();
 		$("#ap_loeschen").show();
 	}
@@ -126,6 +130,7 @@ function initiiere_pop() {
 				$("#pop").show();
 				$("#tpop").hide();
 				$("#tpopfeldkontr").hide();
+				$("#tpopfreiwkontr").hide();
 				$("#vorlage").hide();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#PopName").val()) {
@@ -222,6 +227,7 @@ function initiiere_tpop() {
 				$("#pop").hide();
 				$("#tpop").show();
 				$("#tpopfeldkontr").hide();
+				$("#tpopfreiwkontr").hide();
 				$("#vorlage").hide();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#TPopFlurname").val()) {
@@ -388,6 +394,7 @@ function initiiere_tpopfeldkontr() {
 				$("#pop").hide();
 				$("#tpop").hide();
 				$("#tpopfeldkontr").show();
+				$("#tpopfreiwkontr").hide();
 				$("#vorlage").hide();
 			}
 		}
@@ -1254,9 +1261,6 @@ function speichern(that) {
 	Formular = $(that).attr("formular");
 	Feldname = that.name;
 	Feldtyp = $(that).attr("type") || null;
-	//nötig, damit Arrays richtig kommen
-	Feldjson = $("[name='" + Feldname + "']").serializeObject();
-	Feldwert = Feldjson[Feldname];
 	//Feldwert ermitteln
 	if (Feldtyp && Feldtyp === "checkbox") {
 		Feldwert = $('input:checkbox[name=' + Feldname + ']:checked').val();
