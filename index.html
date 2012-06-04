@@ -481,7 +481,7 @@
 
 		<script>
 			$(document).ready(function () {
-				var $Useranmeldung = $("#Anmeldeformular").dialog( {
+				var $Useranmeldung = $("#anmelde_dialog").dialog( {
 					autoOpen: false,
 					height: 350,
 					width: 350,
@@ -499,16 +499,15 @@
 									success: function (data) {
 										if (data && data > 0) {
 											sessionStorage.User = $("#anmeldung_name").val();
-											//$("#Anmeldeformular").dialog("close");
-											$("#anmeldung_rueckmeldung").html("Willkommen " + $("#anmeldung_name").val()).addClass( "ui-state-highlight" );
+											$("#anmeldung_rueckmeldung").html("Willkommen " + $("#anmeldung_name").val()).addClass("ui-state-highlight");
 											setTimeout(function() {
-												$("#Anmeldeformular").dialog("close", 2000);
+												$("#anmelde_dialog").dialog("close", 2000);
 											}, 1000);
 										} else {
-											$("#anmeldung_rueckmeldung").html("Anmeldung gescheitert").addClass( "ui-state-highlight" );
+											$("#anmeldung_rueckmeldung").html("Anmeldung gescheitert").addClass("ui-state-highlight");
 											setTimeout(function() {
-												$("#anmeldung_rueckmeldung").removeClass( "ui-state-highlight", 1500 );
-											}, 500 );
+												$("#anmeldung_rueckmeldung").removeClass("ui-state-highlight", 1500);
+											}, 500);
 										}
 									},
 									error: function () {
@@ -517,7 +516,6 @@
 											modal: true,
 											buttons: {
 												Ok: function() {
-													//$("#Anmeldeformular").dialog("close");
 												}
 											}
 										});
@@ -526,8 +524,8 @@
 							} else {
 								$("#anmeldung_rueckmeldung").html("Bitte Name und Passwort ausfüllen").addClass( "ui-state-highlight" );
 								setTimeout(function() {
-									$("#anmeldung_rueckmeldung").removeClass( "ui-state-highlight", 1500 );
-								}, 500 );
+									$("#anmeldung_rueckmeldung").removeClass("ui-state-highlight", 1500);
+								}, 500);
 							}
 						}
 					}
@@ -690,16 +688,18 @@
 			});
 		</script>
 	</body>
+
 	<div id="Meldung"></div>
-	<div id="Anmeldeformular" title="Anmeldung erforderlich" style="background:#EEE">
-		<p id="anmeldung_rueckmeldung" class="validateTips">Logins werden von Topos vergeben</p>
-		<form>
-			<fieldset id="Anmeldeformular_fieldset" style="padding:0; border:0; margin-top:25px; background-color:#FAF3D9 ;">
-				<label for="anmeldung_name" style="display:block;">Name</label>
-				<input type="text" name="anmeldung_name" id="anmeldung_name" class="text ui-widget-content ui-corner-all" style="display:block; margin-bottom:12px; width:95%; padding:.4em; background-color: #FFFFEE;" />
-				<label for="anmeldung_passwort" style="display:block;">Passwort</label>
-				<input type="password" name="anmeldung_passwort" id="anmeldung_passwort" value="" class="text ui-widget-content ui-corner-all" style="display:block; margin-bottom:12px; width:95%; padding:.4em; background-color: #FFFFEE;" />
-			</fieldset>
-		</form>
+
+	<div id="anmelde_dialog" title="Anmeldung erforderlich">
+		<p id="anmeldung_rueckmeldung">Logins werden von Topos vergeben</p>
+		<label for="anmeldung_name" style="display:block;">Name</label>
+		<input type="text" id="anmeldung_name" />
+		<label for="anmeldung_passwort" style="display:block;">Passwort</label>
+		<input type="password" id="anmeldung_passwort" />
+	</div>
+
+	<div id="loeschen_dialog" title="Sind sie sicher?">
+		<p id="loeschen_dialog_mitteilung">Dieser Knoten und alle darunter befindlichen werden unwiederbringlich gelöscht.</p>
 	</div>
 </html>
