@@ -483,51 +483,23 @@
 			$(document).ready(function () {
 				var $Useranmeldung = $("#anmelde_dialog").dialog( {
 					autoOpen: false,
-					height: 350,
-					width: 350,
+					height: 320,
+					width: 310,
 					modal: true,
+					closeOnEscape: false,
 					buttons: {
 						"anmelden": function() {
-							if ($("#anmeldung_name").val() && $("#anmeldung_passwort").val()) {
-								$.ajax({
-									url: 'php/anmeldung.php',
-									dataType: 'json',
-									data: {
-										"Name": $("#anmeldung_name").val(),
-										"pwd": $("#anmeldung_passwort").val()
-									},
-									success: function (data) {
-										if (data && data > 0) {
-											sessionStorage.User = $("#anmeldung_name").val();
-											$("#anmeldung_rueckmeldung").html("Willkommen " + $("#anmeldung_name").val()).addClass("ui-state-highlight");
-											setTimeout(function() {
-												$("#anmelde_dialog").dialog("close", 2000);
-											}, 1000);
-										} else {
-											$("#anmeldung_rueckmeldung").html("Anmeldung gescheitert").addClass("ui-state-highlight");
-											setTimeout(function() {
-												$("#anmeldung_rueckmeldung").removeClass("ui-state-highlight", 1500);
-											}, 500);
-										}
-									},
-									error: function () {
-										$("#Meldung").html("Anmeldung gescheitert");
-										$( "#Meldung" ).dialog({
-											modal: true,
-											buttons: {
-												Ok: function() {
-												}
-											}
-										});
-									}
-								});
-							} else {
-								$("#anmeldung_rueckmeldung").html("Bitte Name und Passwort ausfüllen").addClass( "ui-state-highlight" );
-								setTimeout(function() {
-									$("#anmeldung_rueckmeldung").removeClass("ui-state-highlight", 1500);
-								}, 500);
-							}
+							pruefe_anmeldung();
 						}
+					},
+					open: function(event, ui) {
+						$(".ui-dialog-titlebar-close", ui.dialog).hide();
+						//Reaktion auf Enter-Taste in anmelde_dialog
+						$("#anmelde_dialog").on("keydown", function (e) {
+							if (e.keyCode == $.ui.keyCode.ENTER) {
+								pruefe_anmeldung();
+							}
+						});
 					}
 				});
 
@@ -686,6 +658,48 @@
 					}
 				});
 			});
+
+			function pruefe_anmeldung() {
+				if ($("#anmeldung_name").val() && $("#anmeldung_passwort").val()) {
+					$.ajax({
+						url: 'php/anmeldung.php',
+						dataType: 'json',
+						data: {
+							"Name": $("#anmeldung_name").val(),
+							"pwd": $("#anmeldung_passwort").val()
+						},
+						success: function (data) {
+							if (data && data > 0) {
+								sessionStorage.User = $("#anmeldung_name").val();
+								$("#anmeldung_rueckmeldung").html("Willkommen " + $("#anmeldung_name").val()).addClass("ui-state-highlight");
+								setTimeout(function() {
+									$("#anmelde_dialog").dialog("close", 2000);
+								}, 1000);
+							} else {
+								$("#anmeldung_rueckmeldung").html("Anmeldung gescheitert").addClass("ui-state-highlight");
+								setTimeout(function() {
+									$("#anmeldung_rueckmeldung").removeClass("ui-state-highlight", 1500);
+								}, 500);
+							}
+						},
+						error: function () {
+							$("#Meldung").html("Anmeldung gescheitert");
+							$( "#Meldung" ).dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+									}
+								}
+							});
+						}
+					});
+				} else {
+					$("#anmeldung_rueckmeldung").html("Bitte Name und Passwort ausfüllen").addClass( "ui-state-highlight" );
+					setTimeout(function() {
+						$("#anmeldung_rueckmeldung").removeClass("ui-state-highlight", 1500);
+					}, 500);
+				}
+			}
 		</script>
 	</body>
 
@@ -694,9 +708,9 @@
 	<div id="anmelde_dialog" title="Anmeldung erforderlich">
 		<p id="anmeldung_rueckmeldung">Logins werden von Topos vergeben</p>
 		<label for="anmeldung_name" style="display:block;">Name</label>
-		<input type="text" id="anmeldung_name" />
+		<input type="text" id="anmeldung_name" style="width:270px;"/>
 		<label for="anmeldung_passwort" style="display:block;">Passwort</label>
-		<input type="password" id="anmeldung_passwort" />
+		<input type="password" id="anmeldung_passwort" style="width:270px;" />
 	</div>
 
 	<div id="loeschen_dialog" title="Sind sie sicher?">
