@@ -18,7 +18,11 @@ $time = date('Y-m-d H:i:s');
 
 //zeit muss umgewandelt werden!
 if ($Feld == "TPopKontrDatum") {
-	$Wert = date("Y-m-d H:i:s", strtotime($Wert));
+	if ($Wert) {
+		$Wert = date("Y-m-d H:i:s", strtotime($Wert));
+	} else {
+		$Wert = null;
+	}
 }
 
 $Querystring = 'UPDATE tblTeilPopFeldkontrolle SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopKontrId = '.$id;

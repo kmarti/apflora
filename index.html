@@ -315,7 +315,7 @@
 						</fieldset>
 
 						<div class='fieldcontain TPopKontrPlan'>
-							<label id="TPopKontrPlan_label" for='TPopKontrPlan' style="visible:hidden;">Auf Plan eingezeichnet?</label>
+							<label id="TPopKontrPlan_label" for='TPopKontrPlan' style="visibility:hidden;">Auf Plan eingezeichnet?</label>
 							<input type="checkbox" name="TPopKontrPlan" id="TPopKontrPlan" class="speichern Datenfelder" formular="tpopfeldkontr" />Auf Plan eingezeichnet?
 						</div>
 						<div class='fieldcontain TPopKontrÜbFläche'>
@@ -486,43 +486,82 @@
 
 			<form id="tpopmassn" class="form" action="#" method="get" autocomplete="off">
 				<div class='fieldcontain TPopMassnTyp'>
-					<label id="xxxxx_label" for='TPopMassnTyp'>Typ:</label>
+					<label id="TPopMassnTyp_label" for='TPopMassnTyp'>Typ:</label>
 					<select id="TPopMassnTyp" name="TPopMassnTyp" class="speichern Datenfelder" formular="tpopmassn">
 						<option></option>
 					</select>
 				</div>
-
-
-
-				<div class='fieldcontain xxxxx'>
-					<label id="xxxxx_label" for='xxxxx'>textinput:</label>
-					<input id="xxxxx" name="xxxxx" class="speichern Datenfelder" formular="tpopmassn" type="text">
+				<div class='fieldcontain TPopMassnTxt'>
+					<label id="TPopMassnTxt_label" for='TPopMassnTxt'>Massnahme:</label>
+					<input id="TPopMassnTxt" name="TPopMassnTxt" class="speichern Datenfelder" formular="tpopmassn" type="text">
 				</div>
-				<div class='fieldcontain xxxxx'>
-					<label id="xxxxx_label" for='xxxxx'>Number:</label>
-					<input id="xxxxx" name="xxxxx" class="speichern Datenfelder" formular="tpopmassn" type="number">
+				<div class='fieldcontain TPopMassnJahr'>
+					<label id="TPopMassnJahr_label" for='TPopMassnJahr'>Jahr:</label>
+					<input id="TPopMassnJahr" name="TPopMassnJahr" class="speichern Datenfelder" formular="tpopmassn" type="number">
 				</div>
-				<div class='fieldcontain xxxxx'>
-					<label id="xxxxx_label" for='xxxxx'>Status:</label>
-					<div class="Datenfelder">
-						<input type="radio" name="xxxxx" id="xxxxx1" class="speichern" formular="tpopmassn" value="1" />autochthon<br />
-						<input type="radio" name="xxxxx" id="xxxxx2" class="speichern" formular="tpopmassn" value="2" />neu entdeckt, autochthon<br />
-						<input type="radio" name="xxxxx" id="xxxxx3" class="speichern" formular="tpopmassn" value="3" />überprüft, kein Vorkommen
-					</div>
+				<div class='fieldcontain TPopMassnDatum'>
+					<label id="TPopMassnDatum_label" for='TPopMassnDatum'>Datum:</label>
+					<input id="TPopMassnDatum" name="TPopMassnDatum" class="speichern Datenfelder" formular="tpopmassn" type="text">
 				</div>
-				<div class='fieldcontain xxxxx'>
-					<label id="xxxxx_label" for='xxxxx'>ja-nein:</label>
-					<input type="checkbox" name="xxxxx" id="xxxxx" class="speichern Datenfelder" formular="tpopmassn" />Das ist ein ja-nein
-				</div>
-				<div class='fieldcontain xxxxx'>
-					<label id="xxxxx_label" for='xxxxx'>Textarea:</label>
-					<textarea name="xxxxx" id="xxxxx" class="speichern Datenfelder" formular="tpopmassn" /></textarea>
-				</div>
-				<div class='fieldcontain xxxxx'>
-					<label id="xxxxx_label" for='xxxxx'>Selectfeld:</label>
-					<select id="xxxxx" name="xxxxx" class="speichern Datenfelder" formular="tpopmassn">
+				<div class='fieldcontain TPopMassnBearb'>
+					<label id="TPopMassnBearb_label" for='TPopMassnBearb'>BearbeiterIn:</label>
+					<select id="TPopMassnBearb" name="TPopMassnBearb" class="speichern Datenfelder" formular="tpopmassn">
 						<option></option>
 					</select>
+				</div>
+				<div class='fieldcontain TPopMassnBemTxt'>
+					<label id="TPopMassnBemTxt_label" for='TPopMassnBemTxt'>Bemerkungen:</label>
+					<textarea name="TPopMassnBemTxt" id="TPopMassnBemTxt" class="speichern Datenfelder" formular="tpopmassn" /></textarea>
+				</div>
+				<div class='fieldcontain TPopMassnPlan'>
+					<label id="TPopMassnPlan_label" for='TPopMassnPlan' style="visibility:hidden">Plan vorhanden:</label>
+					<input type="checkbox" name="TPopMassnPlan" id="TPopMassnPlan" class="speichern Datenfelder" formular="tpopmassn" />Plan vorhanden
+				</div>
+				<div class='fieldcontain TPopMassnPlanBez'>
+					<label id="TPopMassnPlanBez_label" for='TPopMassnPlanBez'>Plan Bezeichnung:</label>
+					<input id="TPopMassnPlanBez" name="TPopMassnPlanBez" class="speichern Datenfelder" formular="tpopmassn" type="text">
+				</div>
+				<div class='fieldcontain TPopMassnFlaeche'>
+					<label id="TPopMassnFlaeche_label" for='TPopMassnFlaeche'>Fläche (m2):</label>
+					<input id="TPopMassnFlaeche" name="TPopMassnFlaeche" class="speichern Datenfelder" formular="tpopmassn" type="number">
+				</div>
+				<div class='fieldcontain TPopMassnAnsiedForm'>
+					<label id="TPopMassnAnsiedForm_label" for='TPopMassnAnsiedForm'>Form der Ansiedlung:</label>
+					<input id="TPopMassnAnsiedForm" name="TPopMassnAnsiedForm" class="speichern Datenfelder" formular="tpopmassn" type="text">
+				</div>
+				<div class='fieldcontain TPopMassnAnsiedPflanzanordnung'>
+					<label id="TPopMassnAnsiedPflanzanordnung_label" for='TPopMassnAnsiedPflanzanordnung'>Pflanzanordnung:</label>
+					<input id="TPopMassnAnsiedPflanzanordnung" name="TPopMassnAnsiedPflanzanordnung" class="speichern Datenfelder" formular="tpopmassn" type="text">
+				</div>
+				<div class='fieldcontain TPopMassnMarkierung'>
+					<label id="TPopMassnMarkierung_label" for='TPopMassnMarkierung'>Markierung:</label>
+					<input id="TPopMassnMarkierung" name="TPopMassnMarkierung" class="speichern Datenfelder" formular="tpopmassn" type="text">
+				</div>
+				<div class='fieldcontain TPopMassnAnsiedAnzTriebe'>
+					<label id="TPopMassnAnsiedAnzTriebe_label" for='TPopMassnAnsiedAnzTriebe'>Anzahl Triebe:</label>
+					<input id="TPopMassnAnsiedAnzTriebe" name="TPopMassnAnsiedAnzTriebe" class="speichern Datenfelder" formular="tpopmassn" type="number">
+				</div>
+				<div class='fieldcontain TPopMassnAnsiedAnzPfl'>
+					<label id="TPopMassnAnsiedAnzPfl_label" for='TPopMassnAnsiedAnzPfl'>Anzahl Pflanzen:</label>
+					<input id="TPopMassnAnsiedAnzPfl" name="TPopMassnAnsiedAnzPfl" class="speichern Datenfelder" formular="tpopmassn" type="number">
+				</div>
+				<div class='fieldcontain TPopMassnAnzPflanzstellen'>
+					<label id="TPopMassnAnzPflanzstellen_label" for='TPopMassnAnzPflanzstellen'>Anz. Pflanzstellen:</label>
+					<input id="TPopMassnAnzPflanzstellen" name="TPopMassnAnzPflanzstellen" class="speichern Datenfelder" formular="tpopmassn" type="number">
+				</div>
+				<div class='fieldcontain TPopMassnAnsiedWirtspfl'>
+					<label id="TPopMassnAnsiedWirtspfl_label" for='TPopMassnAnsiedWirtspfl'>Wirtspflanze:</label>
+					<select id="TPopMassnAnsiedWirtspfl" name="TPopMassnAnsiedWirtspfl" class="speichern Datenfelder" formular="tpopmassn">
+						<option></option>
+					</select>
+				</div>
+				<div class='fieldcontain TPopMassnAnsiedHerkunftPop'>
+					<label id="TPopMassnAnsiedHerkunftPop_label" for='TPopMassnAnsiedHerkunftPop'>Herkunftspopulation:</label>
+					<input id="TPopMassnAnsiedHerkunftPop" name="TPopMassnAnsiedHerkunftPop" class="speichern Datenfelder" formular="tpopmassn" type="text">
+				</div>
+				<div class='fieldcontain TPopMassnAnsiedDatSamm'>
+					<label id="TPopMassnAnsiedDatSamm_label" for='TPopMassnAnsiedDatSamm'>Sammeldatum:</label>
+					<input id="TPopMassnAnsiedDatSamm" name="TPopMassnAnsiedDatSamm" class="speichern Datenfelder" formular="tpopmassn" type="text">
 				</div>
 			</form>
 
@@ -546,7 +585,7 @@
 					</div>
 				</div>
 				<div class='fieldcontain xxxxx'>
-					<label id="xxxxx_label" for='xxxxx'>ja-nein:</label>
+					<label id="xxxxx_label" for='xxxxx' style="visibility:hidden">ja-nein:</label>
 					<input type="checkbox" name="xxxxx" id="xxxxx" class="speichern Datenfelder" formular="vorlage" />Das ist ein ja-nein
 				</div>
 				<div class='fieldcontain xxxxx'>
@@ -740,6 +779,29 @@
 						$("#tree").jstree("clear_search");
 					}
 				});
+			});
+
+			//Paarige Jahr/Datumfelder: Datum zurückstellen, wenn Jahr verändert wurde
+			$("#tpopfeldkontr").on("change", "#TPopKontrJahr", function () {
+				var Objekt;
+				if ($("#TPopKontrDatum").val()) {
+					$("#TPopKontrDatum").val(null);
+					Objekt = {};
+					Objekt.name = "TPopKontrDatum";
+					Objekt.formular = "tpopfeldkontr";
+					speichern(Objekt);
+				}
+			});
+			//Paarige Jahr/Datumfelder: Datum zurückstellen, wenn Jahr verändert wurde
+			$("#tpopmassn").on("change", "#TPopMassnJahr", function () {
+				var Objekt;
+				if ($("#TPopMassnDatum").val()) {
+					$("#TPopMassnDatum").val(null);
+					Objekt = {};
+					Objekt.name = "TPopMassnDatum";
+					Objekt.formular = "tpopmassn";
+					speichern(Objekt);
+				}
 			});
 
 			function pruefe_anmeldung() {

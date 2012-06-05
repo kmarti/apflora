@@ -13,7 +13,7 @@ $id = $_GET["id"];
 settype($id, "integer");
 
 // SQL-Anfrage ausführen
-$result = mysqli_query($link, "SELECT * FROM tblTeilPopFeldkontrolle WHERE TPopKontrId = $id");
+$result = mysqli_query($link, "SELECT * FROM tblTeilPopFeldkontrolle WHERE TPopKontrId=".$id);
 
 $row = mysqli_fetch_assoc($result);
 $TPopKontrDatum = $row["TPopKontrDatum"];
