@@ -6,7 +6,7 @@ function initiiere_index() {
 	$("#pop").hide();
 	$("#tpop").hide();
 	$("#tpopfeldkontr").hide();
-	$("#tpopfreiwkontr").hide();
+	$("#tpopmassn").hide();
 	$("#vorlage").hide();
 	$("#loeschen_dialog").hide();
 	//jQuery ui buttons initiieren
@@ -33,7 +33,7 @@ function initiiere_ap() {
 	$("#tpop").hide();
 	$("#vorlage").hide();
 	$("#tpopfeldkontr").hide();
-	$("#tpopfreiwkontr").hide();
+	$("#tpopmassn").hide();
 	//Felder zurücksetzen
 	leereFelderVonFormular("ap");
 	//Wenn ein ap ausgewählt ist: Seine Daten anzeigen
@@ -61,7 +61,7 @@ function initiiere_ap() {
 					$("#pop").hide();
 					$("#tpop").hide();
 					$("#tpopfeldkontr").hide();
-					$("#tpopfreiwkontr").hide();
+					$("#tpopmassn").hide();
 					$("#vorlage").hide();
 					$("#ap_loeschen").show();
 				}
@@ -75,7 +75,7 @@ function initiiere_ap() {
 		$("#pop").hide();
 		$("#tpop").hide();
 		$("#tpopfeldkontr").hide();
-		$("#tpopfreiwkontr").hide();
+		$("#tpopmassn").hide();
 		$("#vorlage").hide();
 		$("#ap_loeschen").show();
 	}
@@ -84,20 +84,25 @@ function initiiere_ap() {
 //wird benutzt von Formular pop
 //baut für das select $("#ApArtId") eine Artliste auf
 function erstelle_ApArtId_liste() {
-	$.ajax({
-		url: 'php/artliste.php',
-		dataType: 'json',
-		success: function (data) {
-			var html;
-			html = "<option></option>";
-			for (i in data.rows) {
-				if (typeof i !== "undefined") {
-					html += "<option value=\"" + data.rows[i].id + "\">" + data.rows[i].Artname + "</option>";
+	if (!window.artliste_html) {
+		$.ajax({
+			url: 'php/artliste.php',
+			dataType: 'json',
+			success: function (data) {
+				var html;
+				html = "<option></option>";
+				for (i in data.rows) {
+					if (typeof i !== "undefined") {
+						html += "<option value=\"" + data.rows[i].id + "\">" + data.rows[i].Artname + "</option>";
+					}
 				}
+				window.artliste_html = html;
+				$("#ApArtId").html(html);
 			}
-			$("#ApArtId").html(html);
-		}
-	});
+		});
+	} else {
+		$("#ApArtId").html(window.artliste_html);
+	}
 }
 
 function initiiere_pop() {
@@ -130,7 +135,7 @@ function initiiere_pop() {
 				$("#pop").show();
 				$("#tpop").hide();
 				$("#tpopfeldkontr").hide();
-				$("#tpopfreiwkontr").hide();
+				$("#tpopmassn").hide();
 				$("#vorlage").hide();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#PopName").val()) {
@@ -227,7 +232,7 @@ function initiiere_tpop() {
 				$("#pop").hide();
 				$("#tpop").show();
 				$("#tpopfeldkontr").hide();
-				$("#tpopfreiwkontr").hide();
+				$("#tpopmassn").hide();
 				$("#vorlage").hide();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#TPopFlurname").val()) {
@@ -401,11 +406,19 @@ function initiiere_tpopfeldkontr() {
 				}
 				//Felder, die nur in freiwkontr vorkommen
 				if (localStorage.freiwkontr) {
-					$("#TPopKontrPlan" + data.TPopKontrPlan).prop("checked", true);
+					if (data.TPopKontrPlan == -1) {
+						$("#TPopKontrPlan").prop("checked", true);
+					} else {
+						$("#TPopKontrPlan").prop("checked", false);
+					}
 					$("#TPopKontrÜbFläche").val(data.TPopKontrÜbFläche);
 					$("#TPopKontrÜbPfl").val(data.TPopKontrÜbPfl);
 					$("#TPopKontrNaBo").val(data.TPopKontrNaBo);
-					$("#TPopKontrJungPflJN" + data.TPopKontrJungPflJN).prop("checked", true);
+					if (data.TPopKontrJungPflJN == -1) {
+						$("#TPopKontrJungPflJN").prop("checked", true);
+					} else {
+						$("#TPopKontrJungPflJN").prop("checked", false);
+					}
 					$("#TPopKontrVegHöMax").val(data.TPopKontrVegHöMax);
 					$("#TPopKontrVegHöMit").val(data.TPopKontrVegHöMit);
 					$("#TPopKontrGefährdung").val(data.TPopKontrGefährdung);
@@ -429,11 +442,140 @@ function initiiere_tpopfeldkontr() {
 					$("#biotop_tab_li").show();
 				}
 				$("#tpopfeldkontr").show();
+				$("#tpopmassn").hide();
 				$("#vorlage").hide();
 				//bei neuen Freiwilligen-Kontrollen Fokus steuern
 				if (!$("#TPopKontrJahr").val() && localStorage.freiwkontr) {
 					$("#TPopKontrJahr").focus();
 				}
+			}
+		}
+	});
+}
+
+function initiiere_tpopmassn() {
+	if (!localStorage.tpopmassn_id) {
+		//es fehlen benötigte Daten > eine Ebene höher
+		initiiere_pop();
+		return;
+	}
+	//Felder zurücksetzen
+	leereFelderVonFormular("tpopmassn");
+	//Daten für die pop aus der DB holen
+	$.ajax({
+		url: 'php/tpopmassn.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.tpopmassn_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//ap bereitstellen
+				window.tpopmassn = data;
+				//Felder mit Daten beliefern
+				//für select TPopMassnTyp Daten holen - oder vorhandene nutzen
+				if (!window.tpopmassn_typ_html) {
+					$.ajax({
+						url: 'php/tpopmassn_typ.php',
+						dataType: 'json',
+						success: function (data2) {
+							if (data2) {
+								//ap bereitstellen
+								window.tpopmassn_typ = data2;
+								//Feld mit Daten beliefern
+								var html;
+								html = "<option></option>";
+								for (i in data2.rows) {
+									if (typeof i !== "undefined") {
+										html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].MassnTypTxt + "</option>";
+									}
+								}
+								window.tpopmassn_typ_html = html;
+								$("#TPopMassnTyp").html(html);
+								$("#TPopMassnTyp").val(window.tpopmassn.TPopMassnTyp);
+							}
+						}
+					});
+				} else {
+					$("#TPopMassnTyp").html(window.tpopmassn_typ_html);
+					$("#TPopMassnTyp").val(window.tpopmassn.TPopMassnTyp);
+				}
+				$("#TPopMassnTxt").val(data.TPopMassnTxt);
+				$("#TPopMassnJahr").val(data.TPopMassnJahr);
+				$("#TPopMassnDatum").val(data.TPopMassnDatum);
+				//TPopMassnBearb: Daten holen - oder vorhandene nutzen
+				if (!window.adressen_html) {
+					$.ajax({
+						url: 'php/adressen.php',
+						dataType: 'json',
+						success: function (data2) {
+							if (data2) {
+								//ap bereitstellen
+								//Feld mit Daten beliefern
+								var html;
+								html = "<option></option>";
+								for (i in data2.rows) {
+									if (typeof i !== "undefined") {
+										html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
+									}
+								}
+								window.adressen_html = html;
+								$("#TPopMassnBearb").html(html);
+								$("#TPopMassnBearb").val(window.tpopmassn.TPopMassnBearb);
+							}
+						}
+					});
+				} else {
+					$("#TPopMassnBearb").html(window.adressen_html);
+					$("#TPopMassnBearb").val(window.tpopmassn.TPopMassnBearb);
+				}
+				$("#TPopMassnBemTxt").val(data.TPopMassnBemTxt);
+				if (data.TPopMassnPlan == -1) {
+					$("#TPopMassnPlan").prop("checked", true);
+				} else {
+					$("#TPopMassnPlan").prop("checked", false);
+				}
+				$("#TPopMassnPlanBez").val(data.TPopMassnPlanBez);
+				$("#TPopMassnFlaeche").val(data.TPopMassnFlaeche);
+				$("#TPopMassnAnsiedForm").val(data.TPopMassnAnsiedForm);
+				$("#TPopMassnAnsiedPflanzanordnung").val(data.TPopMassnAnsiedPflanzanordnung);
+				$("#TPopMassnMarkierung").val(data.TPopMassnMarkierung);
+				$("#TPopMassnAnsiedAnzTriebe").val(data.TPopMassnAnsiedAnzTriebe);
+				$("#TPopMassnAnsiedAnzPfl").val(data.TPopMassnAnsiedAnzPfl);
+				$("#TPopMassnAnzPflanzstellen").val(data.TPopMassnAnzPflanzstellen);
+				//für TPopMassnAnsiedWirtspfl Artliste bereitstellen
+				if (!window.artliste_html) {
+					$.ajax({
+						url: 'php/artliste.php',
+						dataType: 'json',
+						success: function (data) {
+							var html;
+							html = "<option></option>";
+							for (i in data.rows) {
+								if (typeof i !== "undefined") {
+									html += "<option value=\"" + data.rows[i].id + "\">" + data.rows[i].Artname + "</option>";
+								}
+							}
+							window.artliste_html = html;
+							$("#TPopMassnAnsiedWirtspfl").html(html);
+						}
+					});
+				} else {
+					$("#TPopMassnAnsiedWirtspfl").html(window.artliste_html);
+				}
+				$("#TPopMassnAnsiedHerkunftPop").val(data.TPopMassnAnsiedHerkunftPop);
+				$("#TPopMassnAnsiedDatSamm").val(data.TPopMassnAnsiedDatSamm);
+				//Formulare blenden
+				$("#ap").hide();
+				$("#pop").hide();
+				$("#tpop").hide();
+				$("#tpopfeldkontr").hide();
+				$("#tpopfreiwkontr").hide();
+				$("#vorlage").hide();
+				$("#tpopmassn").show();
+				//bei neuen Datensätzen Fokus steuern
+				$('#TPopMassnTyp').focus();
 			}
 		}
 	});
@@ -1822,6 +1964,22 @@ function speichern(that) {
 		case "TPopKontrJahr":
 			jQuery("#tree").jstree("rename_node", "#" + localStorage.tpopfeldkontr_id, Feldwert);
 			break;
+		case "TPopMassnJahr":
+			jQuery("#tree").jstree("rename_node", "#" + localStorage.tpopmassn_id, Feldwert);
+			break;
+		case "TPopMassnTyp":
+			var massn_typ_text;
+			for (i in window.tpopmassn_typ.rows) {
+				if (typeof i !== "undefined") {
+					if (i === Feldwert) {
+						massn_typ_text = window.tpopmassn_typ.rows[i].MassnTypTx;
+						break;
+					}
+				}
+			}
+			jQuery("#tree").jstree("rename_node", "#" + localStorage.tpopmassn_id, massn_typ_text);
+			break;
+	}
 	}
 }
 
