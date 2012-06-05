@@ -98,3 +98,7 @@ option {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	font-size:16px;
 }
+
+#vakata-contextmenu {
+	width:230px;
+}

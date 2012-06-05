@@ -13,8 +13,14 @@ $id = $_GET["id"];
 settype($id, "integer");
 $user = $_GET["user"];
 $time = date('Y-m-d H:i:s');
+$TPopKontrTyp = $_GET["TPopKontrTyp"];
 
-$Querystring = 'INSERT INTO tblTeilPopFeldkontrolle (TPopId, MutWann, MutWer) VALUES ('.$id.', "'.$time.'", "'.$user.'")';	//muss die neue TPopKontrId erhalten!
+if ($TPopKontrTyp) {
+	//das ist eine Freiwilligen-Erfolgskontrolle
+	$Querystring = 'INSERT INTO tblTeilPopFeldkontrolle (TPopId, TPopKontrTyp, MutWann, MutWer) VALUES ('.$id.', "'.$TPopKontrTyp.'", "'.$time.'", "'.$user.'")';	//muss die neue TPopKontrId erhalten!
+} else {
+	$Querystring = 'INSERT INTO tblTeilPopFeldkontrolle (TPopId, MutWann, MutWer) VALUES ('.$id.', "'.$time.'", "'.$user.'")';	//muss die neue TPopKontrId erhalten!
+}
 
 //SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);

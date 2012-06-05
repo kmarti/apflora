@@ -239,13 +239,21 @@ function initiiere_tpop() {
 }
 
 function initiiere_tpopfeldkontr() {
+	//wird gemeinsam für Feld- und Freiwilligenkontrollen verwendet
+	//Feldkontrollen: Felder der Freiwilligenkontrollen ausblenden
+	//Freiwilligenkontrollen: Felde der Feldkontrollen ausblenen plus Register Biotop
+	var feldliste_feldkontr, feldliste_freiwkontr;
 	if (!localStorage.tpopfeldkontr_id) {
 		//es fehlen benötigte Daten > eine Ebene höher
 		initiiere_pop();
 		return;
 	}
+	feldliste_feldkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrTyp', 'TPopKontrJungpfl', 'TPopKontrVitalitaet', 'TPopKontrUeberleb', 'TPopKontrEntwicklung', 'TPopKontrUrsach', 'TPopKontrUrteil', 'TPopKontrAendUms', 'TPopKontrAendKontr', 'TPopKontrGuid', 'TPopKontrFlaeche', 'TPopKontrVegTyp', 'TPopKontrKonkurrenz', 'TPopKontrMoosschicht', 'TPopKontrKrautschicht', 'TPopKontrStrauchschicht', 'TPopKontrBaumschicht', 'TPopKontrBodenTyp', 'TPopKontrBodenKalkgehalt', 'TPopKontrBodenDurchlässigkeit', 'TPopKontrBodenHumus', 'TPopKontrBodenNährstoffgehalt', 'TPopKontrBodenAbtrag', 'TPopKontrWasserhaushalt', 'TPopKontrHandlungsbedarf', 'TPopKontrIdealBiotopÜbereinst', 'TPopKontrLeb', 'TPopKontrLebUmg'];
+	feldliste_freiwkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrPlan', 'TPopKontrÜbFläche', 'TPopKontrÜbPfl', 'TPopKontrNaBo', 'TPopKontrJungPflJN', 'TPopKontrVegHöMax', 'TPopKontrVegHöMit', 'TPopKontrGefährdung'];
 	//Felder zurücksetzen
 	leereFelderVonFormular("tpopfeldkontr");
+	//alle Felder ausblenden. Später werden die benötigten eingeblendet
+	blendeFelderVonFormularAus("tpopfeldkontr");
 	//Daten für die pop aus der DB holen
 	$.ajax({
 		url: 'php/tpopfeldkontr.php',
@@ -258,8 +266,8 @@ function initiiere_tpopfeldkontr() {
 			if (data) {
 				//ap bereitstellen
 				window.tpopfeldkontr = data;
-				//Felder mit Daten beliefern
-				$("#TPopKontrTyp" + data.TPopKontrTyp).prop("checked", true);
+				//gemeinsame Felder
+				//mit Daten beliefern
 				$("#TPopKontrJahr").val(data.TPopKontrJahr);
 				$("#TPopKontrDatum").val(data.TPopKontrDatum);
 				$("#TPopKontrMethode1" + data.TPopKontrMethode1).prop("checked", true);
@@ -268,34 +276,8 @@ function initiiere_tpopfeldkontr() {
 				$("#TPopKontrAnz2").val(data.TPopKontrAnz2);
 				$("#TPopKontrMethode3" + data.TPopKontrMethode3).prop("checked", true);
 				$("#TPopKontrAnz3").val(data.TPopKontrAnz3);
-				$("#TPopKontrJungpfl").val(data.TPopKontrJungpfl);
-				$("#TPopKontrVitalitaet").val(data.TPopKontrVitalitaet);
-				$("#TPopKontrUeberleb").val(data.TPopKontrUeberleb);
-				$("#TPopKontrEntwicklung" + data.TPopKontrEntwicklung).prop("checked", true);
-				$("#TPopKontrUrsach").val(data.TPopKontrUrsach);
-				$("#TPopKontrUrteil").val(data.TPopKontrUrteil);
-				$("#TPopKontrAendUms").val(data.TPopKontrAendUms);
-				$("#TPopKontrAendKontr").val(data.TPopKontrAendKontr);
 				$("#TPopKontrTxt").val(data.TPopKontrTxt);
-				$("#TPopKontrGuid").val(data.TPopKontrGuid);
-				$("#TPopKontrFlaeche").val(data.TPopKontrFlaeche);
-				$("#TPopKontrVegTyp").val(data.TPopKontrVegTyp);
-				$("#TPopKontrKonkurrenz").val(data.TPopKontrKonkurrenz);
-				$("#TPopKontrMoosschicht").val(data.TPopKontrMoosschicht);
-				$("#TPopKontrKrautschicht").val(data.TPopKontrKrautschicht);
-				$("#TPopKontrStrauchschicht").val(data.TPopKontrStrauchschicht);
-				$("#TPopKontrBaumschicht").val(data.TPopKontrBaumschicht);
-				$("#TPopKontrBodenTyp").val(data.TPopKontrBodenTyp);
-				$("#TPopKontrBodenKalkgehalt").val(data.TPopKontrBodenKalkgehalt);
-				$("#TPopKontrBodenDurchlässigkeit").val(data.TPopKontrBodenDurchlässigkeit);
-				$("#TPopKontrBodenHumus").val(data.TPopKontrBodenHumus);
-				$("#TPopKontrBodenNährstoffgehalt").val(data.TPopKontrBodenNährstoffgehalt);
-				$("#TPopKontrBodenAbtrag").val(data.TPopKontrBodenAbtrag);
-				$("#TPopKontrWasserhaushalt").val(data.TPopKontrWasserhaushalt);
-				$("#TPopKontrHandlungsbedarf").val(data.TPopKontrHandlungsbedarf);
-				$("#TPopKontrIdealBiotopÜbereinst" + data.TPopKontrIdealBiotopÜbereinst).prop("checked", true);
-				
-				//für select TPopKontrBearb Daten holen - oder vorhandene nutzen
+				//TPopKontrBearb: Daten holen - oder vorhandene nutzen
 				if (!window.adressen_html) {
 					$.ajax({
 						url: 'php/adressen.php',
@@ -321,7 +303,6 @@ function initiiere_tpopfeldkontr() {
 					$("#TPopKontrBearb").html(window.adressen_html);
 					$("#TPopKontrBearb").val(window.tpopfeldkontr.TPopKontrBearb);
 				}
-
 				//für 3 selectfelder TPopKontrZaehleinheit Daten holen - oder vorhandene nutzen
 				if (!window.TPopKontrZaehleinheit_html) {
 					$.ajax({
@@ -358,44 +339,101 @@ function initiiere_tpopfeldkontr() {
 					$("#TPopKontrZaehleinheit3").html(window.TPopKontrZaehleinheit_html);
 					$("#TPopKontrZaehleinheit3").val(window.tpopfeldkontr.TPopKontrZaehleinheit3);
 				}
-
-				//für select TPopKontrLeb Daten holen - oder vorhandene nutzen
-				if (!window.tpopfeldkontr_lrdelarze_html) {
-					$.ajax({
-						url: 'php/tpopfeldkontr_lrdelarze.php',
-						dataType: 'json',
-						success: function (data4) {
-							if (data4) {
-								//ap bereitstellen
-								//Feld mit Daten beliefern
-								var html;
-								html = "<option></option>";
-								for (i in data4.rows) {
-									if (typeof i !== "undefined") {
-										html += "<option value=\"" + data4.rows[i].id + "\">" + data4.rows[i].Einheit + "</option>";
+				//Felder, die nur in der Feldkontrolle vorkommen
+				if (!localStorage.freiwkontr) {
+					$("#TPopKontrTyp" + data.TPopKontrTyp).prop("checked", true);
+					$("#TPopKontrJungpfl").val(data.TPopKontrJungpfl);
+					$("#TPopKontrVitalitaet").val(data.TPopKontrVitalitaet);
+					$("#TPopKontrUeberleb").val(data.TPopKontrUeberleb);
+					$("#TPopKontrEntwicklung" + data.TPopKontrEntwicklung).prop("checked", true);
+					$("#TPopKontrUrsach").val(data.TPopKontrUrsach);
+					$("#TPopKontrUrteil").val(data.TPopKontrUrteil);
+					$("#TPopKontrAendUms").val(data.TPopKontrAendUms);
+					$("#TPopKontrAendKontr").val(data.TPopKontrAendKontr);
+					$("#TPopKontrGuid").val(data.TPopKontrGuid);
+					//Biotop
+					$("#TPopKontrFlaeche").val(data.TPopKontrFlaeche);
+					$("#TPopKontrVegTyp").val(data.TPopKontrVegTyp);
+					$("#TPopKontrKonkurrenz").val(data.TPopKontrKonkurrenz);
+					$("#TPopKontrMoosschicht").val(data.TPopKontrMoosschicht);
+					$("#TPopKontrKrautschicht").val(data.TPopKontrKrautschicht);
+					$("#TPopKontrStrauchschicht").val(data.TPopKontrStrauchschicht);
+					$("#TPopKontrBaumschicht").val(data.TPopKontrBaumschicht);
+					$("#TPopKontrBodenTyp").val(data.TPopKontrBodenTyp);
+					$("#TPopKontrBodenKalkgehalt").val(data.TPopKontrBodenKalkgehalt);
+					$("#TPopKontrBodenDurchlässigkeit").val(data.TPopKontrBodenDurchlässigkeit);
+					$("#TPopKontrBodenHumus").val(data.TPopKontrBodenHumus);
+					$("#TPopKontrBodenNährstoffgehalt").val(data.TPopKontrBodenNährstoffgehalt);
+					$("#TPopKontrBodenAbtrag").val(data.TPopKontrBodenAbtrag);
+					$("#TPopKontrWasserhaushalt").val(data.TPopKontrWasserhaushalt);
+					$("#TPopKontrHandlungsbedarf").val(data.TPopKontrHandlungsbedarf);
+					$("#TPopKontrIdealBiotopÜbereinst" + data.TPopKontrIdealBiotopÜbereinst).prop("checked", true);
+					//TPopKontrLeb: Daten holen - oder vorhandene nutzen
+					if (!window.tpopfeldkontr_lrdelarze_html) {
+						$.ajax({
+							url: 'php/tpopfeldkontr_lrdelarze.php',
+							dataType: 'json',
+							success: function (data4) {
+								if (data4) {
+									//ap bereitstellen
+									//Feld mit Daten beliefern
+									var html;
+									html = "<option></option>";
+									for (i in data4.rows) {
+										if (typeof i !== "undefined") {
+											html += "<option value=\"" + data4.rows[i].id + "\">" + data4.rows[i].Einheit + "</option>";
+										}
 									}
+									window.tpopfeldkontr_lrdelarze_html = html;
+									$("#TPopKontrLeb").html(html);
+									$("#TPopKontrLeb").val(window.tpopfeldkontr.TPopKontrLeb);
+									$("#TPopKontrLebUmg").html(html);
+									$("#TPopKontrLebUmg").val(window.tpopfeldkontr.TPopKontrLebUmg);
 								}
-								window.tpopfeldkontr_lrdelarze_html = html;
-								$("#TPopKontrLeb").html(html);
-								$("#TPopKontrLeb").val(window.tpopfeldkontr.TPopKontrLeb);
-								$("#TPopKontrLebUmg").html(html);
-								$("#TPopKontrLebUmg").val(window.tpopfeldkontr.TPopKontrLebUmg);
 							}
-						}
-					});
+						});
+					} else {
+						$("#TPopKontrLeb").html(window.tpopfeldkontr_lrdelarze_html);
+						$("#TPopKontrLeb").val(window.tpopfeldkontr.TPopKontrLeb);
+						$("#TPopKontrLebUmg").html(window.tpopfeldkontr_lrdelarze_html);
+						$("#TPopKontrLebUmg").val(window.tpopfeldkontr.TPopKontrLebUmg);
+					}
+				}
+				//Felder, die nur in freiwkontr vorkommen
+				if (localStorage.freiwkontr) {
+					$("#TPopKontrPlan" + data.TPopKontrPlan).prop("checked", true);
+					$("#TPopKontrÜbFläche").val(data.TPopKontrÜbFläche);
+					$("#TPopKontrÜbPfl").val(data.TPopKontrÜbPfl);
+					$("#TPopKontrNaBo").val(data.TPopKontrNaBo);
+					$("#TPopKontrJungPflJN" + data.TPopKontrJungPflJN).prop("checked", true);
+					$("#TPopKontrVegHöMax").val(data.TPopKontrVegHöMax);
+					$("#TPopKontrVegHöMit").val(data.TPopKontrVegHöMit);
+					$("#TPopKontrGefährdung").val(data.TPopKontrGefährdung);
+				}
+				//benötigte Felder einblenden
+				if (localStorage.freiwkontr) {
+					blendeFelderEin(feldliste_freiwkontr);
 				} else {
-					$("#TPopKontrLeb").html(window.tpopfeldkontr_lrdelarze_html);
-					$("#TPopKontrLeb").val(window.tpopfeldkontr.TPopKontrLeb);
-					$("#TPopKontrLebUmg").html(window.tpopfeldkontr_lrdelarze_html);
-					$("#TPopKontrLebUmg").val(window.tpopfeldkontr.TPopKontrLebUmg);
+					blendeFelderEin(feldliste_feldkontr);
 				}
 				//Formulare blenden
 				$("#ap").hide();
 				$("#pop").hide();
 				$("#tpop").hide();
+				//Register in Feldkontr blenden
+				if (localStorage.freiwkontr) {
+					$("#tpopfeldkontr_tabs_biotop").hide();
+					$("#biotop_tab_li").hide();
+				} else {
+					$("#tpopfeldkontr_tabs_biotop").show();
+					$("#biotop_tab_li").show();
+				}
 				$("#tpopfeldkontr").show();
-				$("#tpopfreiwkontr").hide();
 				$("#vorlage").hide();
+				//bei neuen Freiwilligen-Kontrollen Fokus steuern
+				if (!$("#TPopKontrJahr").val() && localStorage.freiwkontr) {
+					$("#TPopKontrJahr").focus();
+				}
 			}
 		}
 	});
@@ -411,6 +449,24 @@ function leereFelderVonFormular(Formular) {
 	$('#' + Formular + ' select').each(function(){
 		$(this).val("");  
 	});
+}
+
+//wird benutzt von Formular Feldkontrolle
+function blendeFelderVonFormularAus(Formular) {
+	$('#' + Formular + ' .fieldcontain').each(function() {
+		$(this).hide();
+	});
+}
+
+//übernimmt einen Array mit Feldnamen
+//blendet die fieldcontain-divs dieser Felder ein
+//wird benutzt von Formular Feldkontrolle
+function blendeFelderEin(Felderarray) {
+	for (i in Felderarray) {
+		if (typeof i !== "function") {
+			$("." + Felderarray[i]).show();
+		}
+	}
 }
 
 function erstelle_ap_liste(programm) {
@@ -477,6 +533,8 @@ function erstelle_tree(ApArtId) {
 	.show()
 	.bind("select_node.jstree", function (e, data) {
 		var node;
+		//Erinnerung an letzten Klick im Baum löschen
+		delete localStorage.freiwkontr;
 		node = data.rslt.obj;
 		jQuery.jstree._reference(node).open_node(node);
 		if (node.attr("typ") === "pop" || node.attr("typ").slice(0, 4) === "pop_") {
@@ -504,6 +562,13 @@ function erstelle_tree(ApArtId) {
 				localStorage.tpopfeldkontr_id = node.attr("id");
 				initiiere_tpopfeldkontr();
 			}
+		} else if (node.attr("typ") === "tpopfreiwkontr") {
+			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			if (!$("#tpopfeldkontr").is(':visible') || localStorage.tpopfeldkontr_id !== node.attr("id")) {
+				localStorage.tpopfeldkontr_id = node.attr("id");
+				localStorage.freiwkontr = true;
+				initiiere_tpopfeldkontr();
+			}
 		} else {
 			$("#Meldung").html("Diese Seite ist noch nicht gebaut");
 			$("#Meldung").dialog({
@@ -515,13 +580,6 @@ function erstelle_tree(ApArtId) {
 				}
 			});
 		}
-	})
-	.bind("open_node.jstree", function (e, data) {
-		//var node;
-		//node = data.rslt.obj;
-		//this.open_node(e);
-		// `data.rslt.obj` is the jquery extended node that was clicked
-		//alert(data.rslt.obj.attr("typ") + " mit id " + data.rslt.obj.attr("id"));
 	});
 	$("#suchen").show();
 }
@@ -531,13 +589,16 @@ function treeKontextmenu(node) {
 	//relevante nodes zwischenspeichern
 	AktiverNode = node;
 	AktiverNodeText = jQuery.jstree._reference(AktiverNode).get_text(AktiverNode);
-	ParentNode = jQuery.jstree._reference(AktiverNode)._get_parent(AktiverNode);
-	ParentNodeText = jQuery.jstree._reference(ParentNode).get_text(ParentNode);
+	if ($(AktiverNode).attr("typ") !== "ap_ordner_pop") {
+		ParentNode = jQuery.jstree._reference(AktiverNode)._get_parent(AktiverNode);
+		ParentNodeText = jQuery.jstree._reference(ParentNode).get_text(ParentNode);
+	}
 	switch($(AktiverNode).attr("typ")) {
 	case "ap_ordner_pop":
 		items = {
 			neu: {
 				label: "neue Population",
+				"icon": "style/images/neu.png",
 				action: function () {
 					$.ajax({
 						url: 'php/pop_insert.php',
@@ -588,6 +649,7 @@ function treeKontextmenu(node) {
 		items = {
 			neu: {
 				label: "neue Population",
+				"icon": "style/images/neu.png",
 				action: function () {
 					$.ajax({
 						url: 'php/pop_insert.php',
@@ -634,7 +696,9 @@ function treeKontextmenu(node) {
 				}
 			},
 			loeschen: {
-				label: "lösche Population",
+				label: "löschen",
+				"separator_before": true,
+				"icon": "style/images/loeschen.png",
 				action: function () {
 					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
 					jQuery.jstree._reference(AktiverNode).deselect_all();
@@ -698,6 +762,7 @@ function treeKontextmenu(node) {
 		items = {
 			neu: {
 				label: "neue Teilpopulation",
+				"icon": "style/images/neu.png",
 				action: function () {
 					$.ajax({
 						url: 'php/tpop_insert.php',
@@ -748,6 +813,7 @@ function treeKontextmenu(node) {
 		items = {
 			neu: {
 				label: "neue Teilpopulation",
+				"icon": "style/images/neu.png",
 				action: function () {
 					$.ajax({
 						url: 'php/tpop_insert.php',
@@ -793,7 +859,9 @@ function treeKontextmenu(node) {
 				}
 			},
 			loeschen: {
-				label: "lösche Teilpopulation",
+				label: "löschen",
+				"separator_before": true,
+				"icon": "style/images/loeschen.png",
 				action: function () {
 					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
 					jQuery.jstree._reference(AktiverNode).deselect_all();
@@ -858,6 +926,7 @@ function treeKontextmenu(node) {
 		items = {
 			neu: {
 				label: "neue Feldkontrolle",
+				"icon": "style/images/neu.png",
 				action: function () {
 					$.ajax({
 						url: 'php/tpopfeldkontr_insert.php',
@@ -903,22 +972,24 @@ function treeKontextmenu(node) {
 				}
 			}
 		};
-		if (window.NodeAusgeschnnitten) {
+		if (window.tpopfeldkontr_node_ausgeschnitten) {
 			items.einfuegen = {
-				label: jQuery.jstree._reference(window.NodeAusgeschnnitten).get_Text(window.NodeAusgeschnnitten) + " einfügen",
+				label: jQuery.jstree._reference(window.tpopfeldkontr_node_ausgeschnitten).get_text(window.tpopfeldkontr_node_ausgeschnitten) + " einfügen",
+				"separator_before": true,
+				"icon": "style/images/einfuegen.png",
 				action: function () {
 					$.ajax({
 						url: 'php/tpopfeldkontr_einfuegen.php',
 						dataType: 'json',
 						data: {
 							"tpop_id": $(AktiverNode).attr("id"),
-							"tpopfeldkontr_id": $(window.NodeAusgeschnnitten).attr("id"),
+							"tpopfeldkontr_id": $(window.tpopfeldkontr_node_ausgeschnitten).attr("id"),
 							"user": sessionStorage.User
 						},
 						success: function () {
 							var anz, anzTxt;
 							//node verschieben
-							jQuery.jstree._reference(AktiverNode).move_node(window.NodeAusgeschnnitten, AktiverNode, "last", false);
+							jQuery.jstree._reference(AktiverNode).move_node(window.tpopfeldkontr_node_ausgeschnitten, AktiverNode, "last", false);
 							//Parent Node-Beschriftung: Anzahl anpassen
 							anz = $(AktiverNode).find("> ul > li").length;
 							if (anz === 1) {
@@ -927,11 +998,11 @@ function treeKontextmenu(node) {
 								anzTxt = anz + " Feldkontrollen";
 							}
 							jQuery.jstree._reference(AktiverNode).rename_node(AktiverNode, anzTxt);
-							jQuery.jstree._reference(AktiverNode).select_node(window.NodeAusgeschnnitten);
+							jQuery.jstree._reference(AktiverNode).select_node(window.tpopfeldkontr_node_ausgeschnitten);
 							//Variabeln aufräumen
-							localStorage.tpopfeldkontr_id = $(window.NodeAusgeschnnitten).attr("id");
+							localStorage.tpopfeldkontr_id = $(window.tpopfeldkontr_node_ausgeschnitten).attr("id");
 							delete window.tpopfeldkontr;
-							delete window.NodeAusgeschnnitten;
+							delete window.tpopfeldkontr_node_ausgeschnitten;
 							initiiere_tpopfeldkontr();
 						},
 						error: function (data) {
@@ -949,25 +1020,27 @@ function treeKontextmenu(node) {
 				}
 			}
 		}
-		if (window.NodeKopiert) {
+		if (window.tpopfeldkontr_node_kopiert) {
 			items.einfuegen = {
-				label: jQuery.jstree._reference(window.NodeKopiert).get_text(window.NodeKopiert) + " einfügen",
+				label: jQuery.jstree._reference(window.tpopfeldkontr_node_kopiert).get_text(window.tpopfeldkontr_node_kopiert) + " einfügen",
+				"separator_before": true,
+				"icon": "style/images/einfuegen.png",
 				action: function () {
 					var dataUrl;
 					//User und neue TPopId mitgeben
 					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(AktiverNode).attr("id");
 					//die alten id's entfernen
-					delete window.ObjektKopiert.TPopId;
-					delete window.ObjektKopiert.TPopKontrId;
+					delete tpopfeldkontr_objekt_kopiert.TPopId;
+					delete tpopfeldkontr_objekt_kopiert.TPopKontrId;
 					//das wird gleich neu gesetzt, alte Werte verwerfen
-					delete window.ObjektKopiert.MutWann;
-					delete window.ObjektKopiert.MutWer;
+					delete tpopfeldkontr_objekt_kopiert.MutWann;
+					delete tpopfeldkontr_objekt_kopiert.MutWer;
 					//alle verbliebenen Felder an die url hängen
-					for (i in window.ObjektKopiert) {
+					for (i in tpopfeldkontr_objekt_kopiert) {
 						if (typeof i !== "function") {
 							//Nullwerte ausschliessen
-							if (window.ObjektKopiert[i] !== null) {
-								dataUrl += "&" + i + "=" + window.ObjektKopiert[i];
+							if (tpopfeldkontr_objekt_kopiert[i] !== null) {
+								dataUrl += "&" + i + "=" + tpopfeldkontr_objekt_kopiert[i];
 							}
 						}
 					}
@@ -980,7 +1053,7 @@ function treeKontextmenu(node) {
 							localStorage.tpopfeldkontr_id = data;
 							delete window.tpopfeldkontr;
 							NeuerNode = jQuery.jstree._reference(AktiverNode).create_node(AktiverNode, "last", {
-								"data": window.ObjektKopiert.TPopKontrJahr,
+								"data": tpopfeldkontr_objekt_kopiert.TPopKontrJahr,
 								"attr": {
 									"id": data,
 									"typ": "tpopfeldkontr"
@@ -1016,7 +1089,8 @@ function treeKontextmenu(node) {
 	case "tpopfeldkontr":
 		items = {
 			neu: {
-				label: "neu",
+				label: "neue Feldkontrolle",
+				"icon": "style/images/neu.png",
 				action: function () {
 					$.ajax({
 						url: 'php/tpopfeldkontr_insert.php',
@@ -1063,6 +1137,8 @@ function treeKontextmenu(node) {
 			},
 			loeschen: {
 				label: "löschen",
+				"separator_before": true,
+				"icon": "style/images/loeschen.png",
 				action: function () {
 					$.ajax({
 						url: 'php/tpopfeldkontr_delete.php',
@@ -1101,28 +1177,32 @@ function treeKontextmenu(node) {
 				}
 			}
 		};
-		if (!window.NodeAusgeschnnitten) {
+		if (!window.tpopfeldkontr_node_ausgeschnitten) {
 			items.ausschneiden = {
 				label: "ausschneiden",
+				"separator_before": true,
+				"icon": "style/images/ausschneiden.png",
 				action: function () {
-					window.NodeAusgeschnnitten = AktiverNode;
+					window.tpopfeldkontr_node_ausgeschnitten = AktiverNode;
 				}
 			}
 		}
-		if (!window.NodeAusgeschnnitten) {
+		if (!window.tpopfeldkontr_node_ausgeschnitten) {
 			items.kopieren = {
 				label: "kopieren",
+				"separator_before": true,
+				"icon": "style/images/kopieren.png",
 				action: function () {
-					window.NodeKopiert = AktiverNode;
+					window.tpopfeldkontr_node_kopiert = AktiverNode;
 					//Daten des Objekts holen
 					$.ajax({
 						url: 'php/tpopfeldkontr.php',
 						dataType: 'json',
 						data: {
-							"id": $(window.NodeKopiert).attr("id")
+							"id": $(window.tpopfeldkontr_node_kopiert).attr("id")
 						},
 						success: function (data) {
-							window.ObjektKopiert = data;
+							tpopfeldkontr_objekt_kopiert = data;
 						},
 						error: function () {
 							$("#Meldung").html("Fehler: Die Feldkontrolle wurde nicht kopiert");
@@ -1139,9 +1219,11 @@ function treeKontextmenu(node) {
 				}
 			}
 		}
-		if (window.NodeAusgeschnnitten) {
+		if (window.tpopfeldkontr_node_ausgeschnitten) {
 			items.einfuegen = {
-				label: jQuery.jstree._reference(window.NodeAusgeschnnitten).get_Text(window.NodeAusgeschnnitten) + " einfügen",
+				label: jQuery.jstree._reference(window.tpopfeldkontr_node_ausgeschnitten).get_text(window.tpopfeldkontr_node_ausgeschnitten) + " einfügen",
+				"separator_before": true,
+				"icon": "style/images/einfuegen.png",
 				action: function () {
 					$.ajax({
 						url: 'php/tpopfeldkontr_einfuegen.php',
@@ -1155,7 +1237,7 @@ function treeKontextmenu(node) {
 							var anz, anzTxt;
 							//node verschieben
 							ParentNode = jQuery.jstree._reference(AktiverNode)._get_parent(AktiverNode);
-							jQuery.jstree._reference(ParentNode).move_node(window.NodeAusgeschnnitten, ParentNode, "last", false);
+							jQuery.jstree._reference(ParentNode).move_node(window.tpopfeldkontr_node_ausgeschnitten, ParentNode, "last", false);
 							//Parent Node-Beschriftung: Anzahl anpassen
 							anz = $(ParentNode).find("> ul > li").length;
 							if (anz === 1) {
@@ -1164,11 +1246,11 @@ function treeKontextmenu(node) {
 								anzTxt = anz + " Feldkontrollen";
 							}
 							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzTxt);
-							jQuery.jstree._reference(ParentNode).select_node(window.NodeAusgeschnnitten);
+							jQuery.jstree._reference(ParentNode).select_node(window.tpopfeldkontr_node_ausgeschnitten);
 							//Variabeln aufräumen
-							localStorage.tpopfeldkontr_id = $(window.NodeAusgeschnnitten).attr("id");
+							localStorage.tpopfeldkontr_id = $(window.tpopfeldkontr_node_ausgeschnitten).attr("id");
 							delete window.tpopfeldkontr;
-							delete window.NodeAusgeschnnitten;
+							delete window.tpopfeldkontr_node_ausgeschnitten;
 							initiiere_tpopfeldkontr();
 						},
 						error: function (data) {
@@ -1186,25 +1268,27 @@ function treeKontextmenu(node) {
 				}
 			}
 		}
-		if (window.NodeKopiert) {
+		if (window.tpopfeldkontr_node_kopiert) {
 			items.einfuegen = {
-				label: jQuery.jstree._reference(window.NodeKopiert).get_text(window.NodeKopiert) + " einfügen",
+				label: jQuery.jstree._reference(window.tpopfeldkontr_node_kopiert).get_text(window.tpopfeldkontr_node_kopiert) + " einfügen",
+				"separator_before": true,
+				"icon": "style/images/einfuegen.png",
 				action: function () {
 					var dataUrl;
 					//User und neue TPopId mitgeben
 					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(ParentNode).attr("id");
 					//die alten id's entfernen
-					delete window.ObjektKopiert.TPopId;
-					delete window.ObjektKopiert.TPopKontrId;
+					delete tpopfeldkontr_objekt_kopiert.TPopId;
+					delete tpopfeldkontr_objekt_kopiert.TPopKontrId;
 					//das wird gleich neu gesetzt, alte Werte verwerfen
-					delete window.ObjektKopiert.MutWann;
-					delete window.ObjektKopiert.MutWer;
+					delete tpopfeldkontr_objekt_kopiert.MutWann;
+					delete tpopfeldkontr_objekt_kopiert.MutWer;
 					//alle verbliebenen Felder an die url hängen
-					for (i in window.ObjektKopiert) {
+					for (i in tpopfeldkontr_objekt_kopiert) {
 						if (typeof i !== "function") {
 							//Nullwerte ausschliessen
-							if (window.ObjektKopiert[i] !== null) {
-								dataUrl += "&" + i + "=" + window.ObjektKopiert[i];
+							if (tpopfeldkontr_objekt_kopiert[i] !== null) {
+								dataUrl += "&" + i + "=" + tpopfeldkontr_objekt_kopiert[i];
 							}
 						}
 					}
@@ -1217,7 +1301,7 @@ function treeKontextmenu(node) {
 							localStorage.tpopfeldkontr_id = data;
 							delete window.tpopfeldkontr;
 							NeuerNode = jQuery.jstree._reference(ParentNode).create_node(ParentNode, "last", {
-								"data": window.ObjektKopiert.TPopKontrJahr,
+								"data": tpopfeldkontr_objekt_kopiert.TPopKontrJahr,
 								"attr": {
 									"id": data,
 									"typ": "tpopfeldkontr"
@@ -1250,7 +1334,425 @@ function treeKontextmenu(node) {
 			}
 		}
 		return items;
-	}		
+	case "tpop_ordner_freiwkontr":
+		items = {
+			neu: {
+				label: "neue Freiwilligen-Kontrolle",
+				"icon": "style/images/neu.png",
+				action: function () {
+					$.ajax({
+						url: 'php/tpopfeldkontr_insert.php',
+						dataType: 'json',
+						data: {
+							"id": $(AktiverNode).attr("id"),
+							"user": sessionStorage.User,
+							"TPopKontrTyp": "Freiwilligen-Erfolgskontrolle"
+						},
+						success: function (data) {
+							var NeuerNode, anz, anzTxt;
+							localStorage.tpopfeldkontr_id = data;
+							localStorage.freiwkontr = true;
+							delete window.tpopfeldkontr;
+							NeuerNode = jQuery.jstree._reference(AktiverNode).create_node(AktiverNode, "last", {
+								"data": "neue Freiwilligen-Kontrolle",
+								"attr": {
+									"id": data,
+									"typ": "tpopfreiwkontr"
+								}
+							});
+							//Node-Beschriftung: Anzahl anpassen
+							anz = $(AktiverNode).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Freiwilligen-Kontrolle";
+							} else {
+								anzTxt = anz + " Freiwilligen-Kontrollen";
+							}
+							jQuery.jstree._reference(AktiverNode).rename_node(AktiverNode, anzTxt);
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_tpopfeldkontr();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		};
+		if (window.tpopfreiwkontr_node_ausgeschnitten) {
+			items.einfuegen = {
+				label: jQuery.jstree._reference(window.tpopfreiwkontr_node_ausgeschnitten).get_text(window.tpopfreiwkontr_node_ausgeschnitten) + " einfügen",
+				"separator_before": true,
+				"icon": "style/images/einfuegen.png",
+				action: function () {
+					$.ajax({
+						url: 'php/tpopfeldkontr_einfuegen.php',
+						dataType: 'json',
+						data: {
+							"tpop_id": $(AktiverNode).attr("id"),
+							"tpopfeldkontr_id": $(window.tpopfreiwkontr_node_ausgeschnitten).attr("id"),
+							"user": sessionStorage.User
+						},
+						success: function () {
+							var anz, anzTxt;
+							//node verschieben
+							jQuery.jstree._reference(AktiverNode).move_node(window.tpopfreiwkontr_node_ausgeschnitten, AktiverNode, "last", false);
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anz = $(AktiverNode).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Freiwilligen-Kontrolle";
+							} else {
+								anzTxt = anz + " Freiwilligen-Kontrollen";
+							}
+							jQuery.jstree._reference(AktiverNode).rename_node(AktiverNode, anzTxt);
+							jQuery.jstree._reference(AktiverNode).select_node(window.tpopfreiwkontr_node_ausgeschnitten);
+							//Variabeln aufräumen
+							localStorage.tpopfeldkontr_id = $(window.tpopfreiwkontr_node_ausgeschnitten).attr("id");
+							delete window.tpopfeldkontr;
+							delete window.tpopfreiwkontr_node_ausgeschnitten;
+							initiiere_tpopfeldkontr();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		}
+		if (window.tpopfreiwkontr_node_kopiert) {
+			items.einfuegen = {
+				label: jQuery.jstree._reference(window.tpopfreiwkontr_node_kopiert).get_text(window.tpopfreiwkontr_node_kopiert) + " einfügen",
+				"separator_before": true,
+				"icon": "style/images/einfuegen.png",
+				action: function () {
+					var dataUrl;
+					//User und neue TPopId mitgeben
+					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(AktiverNode).attr("id");
+					//die alten id's entfernen
+					delete tpopfreiwkontr_objekt_kopiert.TPopId;
+					delete tpopfreiwkontr_objekt_kopiert.TPopKontrId;
+					//das wird gleich neu gesetzt, alte Werte verwerfen
+					delete tpopfreiwkontr_objekt_kopiert.MutWann;
+					delete tpopfreiwkontr_objekt_kopiert.MutWer;
+					//alle verbliebenen Felder an die url hängen
+					for (i in tpopfreiwkontr_objekt_kopiert) {
+						if (typeof i !== "function") {
+							//Nullwerte ausschliessen
+							if (tpopfreiwkontr_objekt_kopiert[i] !== null) {
+								dataUrl += "&" + i + "=" + tpopfreiwkontr_objekt_kopiert[i];
+							}
+						}
+					}
+					//und an die DB schicken
+					$.ajax({
+						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
+						dataType: 'json',
+						success: function (data) {
+							var NeuerNode, anz, anzTxt;
+							localStorage.tpopfeldkontr_id = data;
+							localStorage.freiwkontr = true;
+							delete window.tpopfeldkontr;
+							NeuerNode = jQuery.jstree._reference(AktiverNode).create_node(AktiverNode, "last", {
+								"data": tpopfreiwkontr_objekt_kopiert.TPopKontrJahr,
+								"attr": {
+									"id": data,
+									"typ": "tpopfreiwkontr"
+								}
+							});
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anz = $(AktiverNode).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Freiwilligen-Kontrolle";
+							} else {
+								anzTxt = anz + " Freiwilligen-Kontrollen";
+							}
+							jQuery.jstree._reference(AktiverNode).rename_node(AktiverNode, anzTxt);
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_tpopfeldkontr();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		}
+		return items;
+	case "tpopfreiwkontr":
+		items = {
+			neu: {
+				label: "neue Freiwilligen-Kontrolle",
+				"icon": "style/images/neu.png",
+				action: function () {
+					$.ajax({
+						url: 'php/tpopfeldkontr_insert.php',
+						dataType: 'json',
+						data: {
+							"id": $(ParentNode).attr("id"),
+							"user": sessionStorage.User,
+							"TPopKontrTyp": "Freiwilligen-Erfolgskontrolle"
+						},
+						success: function (data) {
+							var NeuerNode, anz, anzTxt;
+							localStorage.tpopfeldkontr_id = data;
+							localStorage.tpopfreiwkontr = true;
+							delete window.tpopfeldkontr;
+							NeuerNode = jQuery.jstree._reference(ParentNode).create_node(ParentNode, "last", {
+								"data": "neue Freiwilligen-Kontrolle",
+								"attr": {
+									"id": data,
+									"typ": "tpopfreiwkontr"
+								}
+							});
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anz = $(ParentNode).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Feldkontrolle";
+							} else {
+								anzTxt = anz + " Feldkontrollen";
+							}
+							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzTxt);
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_tpopfeldkontr();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},
+			loeschen: {
+				label: "löschen",
+				"separator_before": true,
+				"icon": "style/images/loeschen.png",
+				action: function () {
+					$.ajax({
+						url: 'php/tpopfeldkontr_delete.php',
+						dataType: 'json',
+						data: {
+							"id": $(AktiverNode).attr("id")
+						},
+						success: function () {
+							var anz, anzTxt;
+							delete localStorage.tpopfeldkontr_id;
+							delete localStorage.freiwkontr;
+							delete window.tpopfeldkontr;
+							jQuery.jstree._reference(ParentNode).select_node(ParentNode);
+							jQuery.jstree._reference(AktiverNode).delete_node(AktiverNode);
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anz = $(ParentNode).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Freiwilligen-Kontrolle";
+							} else {
+								anzTxt = anz + " Freiwilligen-Kontrollen";
+							}
+							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzTxt);
+							initiiere_tpop();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Die Freiwilligen-Kontrolle wurde nicht gelöscht");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		};
+		if (!window.tpopfreiwkontr_node_ausgeschnitten) {
+			items.ausschneiden = {
+				label: "ausschneiden",
+				"separator_before": true,
+				"icon": "style/images/ausschneiden.png",
+				action: function () {
+					window.tpopfreiwkontr_node_ausgeschnitten = AktiverNode;
+				}
+			}
+		}
+		if (!window.tpopfreiwkontr_node_ausgeschnitten) {
+			items.kopieren = {
+				label: "kopieren",
+				"separator_before": true,
+				"icon": "style/images/kopieren.png",
+				action: function () {
+					window.tpopfreiwkontr_node_kopiert = AktiverNode;
+					//Daten des Objekts holen
+					$.ajax({
+						url: 'php/tpopfeldkontr.php',
+						dataType: 'json',
+						data: {
+							"id": $(window.tpopfreiwkontr_node_kopiert).attr("id")
+						},
+						success: function (data) {
+							tpopfreiwkontr_objekt_kopiert = data;
+						},
+						error: function () {
+							$("#Meldung").html("Fehler: Die Freiwilligen-Kontrolle wurde nicht kopiert");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		}
+		if (window.tpopfreiwkontr_node_ausgeschnitten) {
+			items.einfuegen = {
+				label: jQuery.jstree._reference(window.tpopfreiwkontr_node_ausgeschnitten).get_text(window.tpopfreiwkontr_node_ausgeschnitten) + " einfügen",
+				"separator_before": true,
+				"icon": "style/images/einfuegen.png",
+				action: function () {
+					$.ajax({
+						url: 'php/tpopfeldkontr_einfuegen.php',
+						dataType: 'json',
+						data: {
+							"tpop_id": $(ParentNode).attr("id"),
+							"tpopfeldkontr_id": $(AktiverNode).attr("id"),
+							"user": sessionStorage.User
+						},
+						success: function () {
+							var anz, anzTxt;
+							//node verschieben
+							ParentNode = jQuery.jstree._reference(AktiverNode)._get_parent(AktiverNode);
+							jQuery.jstree._reference(ParentNode).move_node(window.tpopfreiwkontr_node_ausgeschnitten, ParentNode, "last", false);
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anz = $(ParentNode).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Freiwilligen-Kontrolle";
+							} else {
+								anzTxt = anz + " Freiwilligen-Kontrollen";
+							}
+							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzTxt);
+							jQuery.jstree._reference(ParentNode).select_node(window.tpopfreiwkontr_node_ausgeschnitten);
+							//Variabeln aufräumen
+							localStorage.tpopfeldkontr_id = $(window.tpopfreiwkontr_node_ausgeschnitten).attr("id");
+							delete window.tpopfeldkontr;
+							delete window.tpopfreiwkontr_node_ausgeschnitten;
+							initiiere_tpopfeldkontr();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		}
+		if (window.tpopfreiwkontr_node_kopiert) {
+			items.einfuegen = {
+				label: jQuery.jstree._reference(window.tpopfreiwkontr_node_kopiert).get_text(window.tpopfreiwkontr_node_kopiert) + " einfügen",
+				"separator_before": true,
+				"icon": "style/images/einfuegen.png",
+				action: function () {
+					var dataUrl;
+					//User und neue TPopId mitgeben
+					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(ParentNode).attr("id");
+					//die alten id's entfernen
+					delete tpopfreiwkontr_objekt_kopiert.TPopId;
+					delete tpopfreiwkontr_objekt_kopiert.TPopKontrId;
+					//das wird gleich neu gesetzt, alte Werte verwerfen
+					delete tpopfreiwkontr_objekt_kopiert.MutWann;
+					delete tpopfreiwkontr_objekt_kopiert.MutWer;
+					//alle verbliebenen Felder an die url hängen
+					for (i in tpopfreiwkontr_objekt_kopiert) {
+						if (typeof i !== "function") {
+							//Nullwerte ausschliessen
+							if (tpopfreiwkontr_objekt_kopiert[i] !== null) {
+								dataUrl += "&" + i + "=" + tpopfreiwkontr_objekt_kopiert[i];
+							}
+						}
+					}
+					//und an die DB schicken
+					$.ajax({
+						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
+						dataType: 'json',
+						success: function (data) {
+							var NeuerNode, anz, anzTxt;
+							localStorage.tpopfeldkontr_id = data;
+							delete window.tpopfeldkontr;
+							NeuerNode = jQuery.jstree._reference(ParentNode).create_node(ParentNode, "last", {
+								"data": tpopfreiwkontr_objekt_kopiert.TPopKontrJahr,
+								"attr": {
+									"id": data,
+									"typ": "tpopfreiwkontr"
+								}
+							});
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anz = $(ParentNode).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Freiwilligen-Kontrolle";
+							} else {
+								anzTxt = anz + " Freiwilligen-Kontrollen";
+							}
+							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzTxt);
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_tpopfeldkontr();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		}
+		return items;
+	}
 }
 
 //wird von allen Formularen benutzt
