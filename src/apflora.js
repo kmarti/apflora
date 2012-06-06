@@ -922,6 +922,14 @@ function treeKontextmenu(node) {
 							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//jetzt Unterordner anlegen
+							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
+								"data": "0 Ziel-Berichte",
+								"attr": {
+									"id": data,
+									"typ": "ziel_ordner"
+								}
+							});
 							initiiere_apziel();
 						},
 						error: function (data) {
@@ -981,6 +989,14 @@ function treeKontextmenu(node) {
 							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//jetzt Unterordner anlegen
+							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
+								"data": "0 Ziel-Berichte",
+								"attr": {
+									"id": data,
+									"typ": "ziel_ordner"
+								}
+							});
 							initiiere_apziel();
 							//IDEE: JETZT DAS JAHR EINFÜGEN
 							setTimeout(function() {
@@ -1049,6 +1065,14 @@ function treeKontextmenu(node) {
 							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
 							jQuery.jstree._reference(parent_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//jetzt Unterordner anlegen
+							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
+								"data": "0 Ziel-Berichte",
+								"attr": {
+									"id": data,
+									"typ": "ziel_ordner"
+								}
+							});
 							initiiere_apziel();
 						},
 						error: function (data) {
