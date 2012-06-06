@@ -605,7 +605,7 @@
 
 			<form id="erfkrit" class="form" action="#" method="get" autocomplete="off">
 				<div class='fieldcontain ErfBeurtZielSkalaErreichungsgrad'>
-					<label id="ErfBeurtZielSkalaErreichungsgrad_label" for='ErfBeurtZielSkalaErreichungsgrad'>Status:</label>
+					<label id="ErfBeurtZielSkalaErreichungsgrad_label" for='ErfBeurtZielSkalaErreichungsgrad'>Beurteilung:</label>
 					<div class="Datenfelder">
 						<input type="radio" name="ErfBeurtZielSkalaErreichungsgrad" id="ErfBeurtZielSkalaErreichungsgrad4" class="speichern" formular="erfkrit" value="4"/><span id="SpanErfBeurtZielSkalaErreichungsgrad4">sehr erfolgreich</span><br />
 						<input type="radio" name="ErfBeurtZielSkalaErreichungsgrad" id="ErfBeurtZielSkalaErreichungsgrad1" class="speichern" formular="erfkrit" value="1"/><span id="SpanErfBeurtZielSkalaErreichungsgrad1">erfolgreich</span><br />
@@ -618,6 +618,112 @@
 				<div class='fieldcontain ErfBeurtZielSkalaTxt'>
 					<label id="ErfBeurtZielSkalaTxt_label" for='ErfBeurtZielSkalaTxt'>Kriterien:</label>
 					<textarea name="ErfBeurtZielSkalaTxt" id="ErfBeurtZielSkalaTxt" class="speichern Datenfelder" formular="erfkrit" /></textarea>
+				</div>
+			</form>
+
+			<form id="apber" class="form" action="#" method="get" autocomplete="off">
+				<div class='fieldcontain ApBerJahr'>
+					<label id="ApBerJahr_label" for='ApBerJahr'>Jahr:</label>
+					<input id="ApBerJahr" name="ApBerJahr" class="speichern Datenfelder" formular="apber" type="number">
+				</div>
+				<div class='fieldcontain ApBerSituation'>
+					<label id="ApBerSituation_label" for='ApBerSituation'>Situation:</label>
+					<textarea name="ApBerSituation" id="ApBerSituation" class="speichern Datenfelder" formular="apber" /></textarea>
+				</div>
+				<div class='fieldcontain ApBerVergleichVorjahrGesamtziel'>
+					<label id="ApBerVergleichVorjahrGesamtziel_label" for='ApBerVergleichVorjahrGesamtziel'>Vergleich Vorjahr - Gesamtziel:</label>
+					<textarea name="ApBerVergleichVorjahrGesamtziel" id="ApBerVergleichVorjahrGesamtziel" class="speichern Datenfelder" formular="apber" /></textarea>
+				</div>
+				<div class='fieldcontain ApBerBeurteilung'>
+					<label id="ApBerBeurteilung_label" for='ApBerBeurteilung'>Beurteilung:</label>
+					<div class="Datenfelder">
+						<input type="radio" name="ApBerBeurteilung" id="ApBerBeurteilung4" class="speichern" formular="erfkrit" value="4"/><span id="SpanApBerBeurteilung4">sehr erfolgreich</span><br />
+						<input type="radio" name="ApBerBeurteilung" id="ApBerBeurteilung1" class="speichern" formular="erfkrit" value="1"/><span id="SpanApBerBeurteilung1">erfolgreich</span><br />
+						<input type="radio" name="ApBerBeurteilung" id="ApBerBeurteilung5" class="speichern" formular="erfkrit" value="5"/><span id="SpanApBerBeurteilung5">mässig erfolgreich</span><br />
+						<input type="radio" name="ApBerBeurteilung" id="ApBerBeurteilung6" class="speichern" formular="erfkrit" value="6"/><span id="SpanApBerBeurteilung6">wenig erfolgreich</span><br />
+						<input type="radio" name="ApBerBeurteilung" id="ApBerBeurteilung3" class="speichern" formular="erfkrit" value="3"/><span id="SpanApBerBeurteilung3">nicht erfolgreich</span><br />
+						<input type="radio" name="ApBerBeurteilung" id="ApBerBeurteilung1168274204" class="speichern" formular="apber" value="1168274204"/><span id="SpanApBerBeurteilung1168274204">unsichere Entwicklung</span>
+					</div>
+				</div>
+				<div class='fieldcontain ApBerVeraenGegenVorjahr'>
+					<label id="ApBerVeraenGegenVorjahr_label" for='ApBerVeraenGegenVorjahr'>Veränderung zum Vorjahr:</label>
+					<div class="Datenfelder">
+						<input type="radio" name="ApBerVeraenGegenVorjahr" id="ApBerVeraenGegenVorjahr" class="speichern" formular="apber" value="" /><br />
+						<input type="radio" name="ApBerVeraenGegenVorjahr" id="ApBerVeraenGegenVorjahr+" class="speichern" formular="apber" value="+" />+<br />
+						<input type="radio" name="ApBerVeraenGegenVorjahr" id="ApBerVeraenGegenVorjahr-" class="speichern" formular="apber" value="-" />-
+					</div>
+				</div>
+				<div class='fieldcontain ApBerAnalyse'>
+					<label id="ApBerAnalyse_label" for='ApBerAnalyse'>Analyse:</label>
+					<textarea name="ApBerAnalyse" id="ApBerAnalyse" class="speichern Datenfelder" formular="apber" /></textarea>
+				</div>
+				<div class='fieldcontain ApBerUmsetzung'>
+					<label id="ApBerUmsetzung_label" for='ApBerUmsetzung'>Konsequenzen Umsetzung:</label>
+					<textarea name="ApBerUmsetzung" id="ApBerUmsetzung" class="speichern Datenfelder" formular="apber" /></textarea>
+				</div>
+				<div class='fieldcontain ApBerErfko'>
+					<label id="ApBerErfko_label" for='ApBerErfko'>Konsequenzen Erfolgskontrolle:</label>
+					<textarea name="ApBerErfko" id="ApBerErfko" class="speichern Datenfelder" formular="apber" /></textarea>
+				</div>
+				<div class='fieldcontain ApBerATxt'>
+					<label id="ApBerATxt_label" for='ApBerATxt'>Bemerkungen zum Aussagebereich A (neue Biotope):</label>
+					<textarea name="ApBerATxt" id="ApBerATxt" class="speichern Datenfelder" formular="apber" /></textarea>
+				</div>
+				<div class='fieldcontain ApBerBTxt'>
+					<label id="ApBerBTxt_label" for='ApBerBTxt'>Bemerkungen zum Aussagebereich B (Optimierung Biotope):</label>
+					<textarea name="ApBerBTxt" id="ApBerBTxt" class="speichern Datenfelder" formular="apber" /></textarea>
+				</div>
+				<div class='fieldcontain ApBerCTxt'>
+					<label id="ApBerCTxt_label" for='ApBerCTxt'>Bemerkungen zum Aussagebereich C (Optimierung Massnahmen):</label>
+					<textarea name="ApBerCTxt" id="ApBerCTxt" class="speichern Datenfelder" formular="apber" /></textarea>
+				</div>
+				<div class='fieldcontain xxxxx'>
+					<label id="xxxxx_label" for='xxxxx'>Bemerkungen zum Aussagebereich D:</label>
+					<textarea name="xxxxx" id="xxxxx" class="speichern Datenfelder" formular="apber" /></textarea>
+				</div>
+				<div class='fieldcontain xxxxx'>
+					<label id="xxxxx_label" for='xxxxx'>textinput:</label>
+					<input id="xxxxx" name="xxxxx" class="speichern Datenfelder" formular="apber" type="text">
+				</div>
+				<div class='fieldcontain xxxxx'>
+					<label id="xxxxx_label" for='xxxxx'>Selectfeld:</label>
+					<select id="xxxxx" name="xxxxx" class="speichern Datenfelder" formular="apber">
+						<option></option>
+					</select>
+				</div>
+
+
+
+
+				<div class='fieldcontain xxxxx'>
+					<label id="xxxxx_label" for='xxxxx'>textinput:</label>
+					<input id="xxxxx" name="xxxxx" class="speichern Datenfelder" formular="apber" type="text">
+				</div>
+				<div class='fieldcontain xxxxx'>
+					<label id="xxxxx_label" for='xxxxx'>Number:</label>
+					<input id="xxxxx" name="xxxxx" class="speichern Datenfelder" formular="apber" type="number">
+				</div>
+				<div class='fieldcontain xxxxx'>
+					<label id="xxxxx_label" for='xxxxx'>Status:</label>
+					<div class="Datenfelder">
+						<input type="radio" name="xxxxx" id="xxxxx1" class="speichern" formular="apber" value="1" />autochthon<br />
+						<input type="radio" name="xxxxx" id="xxxxx2" class="speichern" formular="apber" value="2" />neu entdeckt, autochthon<br />
+						<input type="radio" name="xxxxx" id="xxxxx3" class="speichern" formular="apber" value="3" />überprüft, kein Vorkommen
+					</div>
+				</div>
+				<div class='fieldcontain xxxxx'>
+					<label id="xxxxx_label" for='xxxxx'>ja-nein:</label>
+					<input type="checkbox" name="xxxxx" id="xxxxx" class="speichern Datenfelder" formular="apber" />
+				</div>
+				<div class='fieldcontain xxxxx'>
+					<label id="xxxxx_label" for='xxxxx'>Textarea:</label>
+					<textarea name="xxxxx" id="xxxxx" class="speichern Datenfelder" formular="apber" /></textarea>
+				</div>
+				<div class='fieldcontain xxxxx'>
+					<label id="xxxxx_label" for='xxxxx'>Selectfeld:</label>
+					<select id="xxxxx" name="xxxxx" class="speichern Datenfelder" formular="apber">
+						<option></option>
+					</select>
 				</div>
 			</form>
 
