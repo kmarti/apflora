@@ -196,6 +196,41 @@ function initiiere_zielber() {
 	});
 }
 
+function initiiere_erfkrit() {
+	if (!localStorage.erfkrit_id) {
+		//es fehlen benötigte Daten > eine Ebene höher
+		initiiere_ap();
+		return;
+	}
+	//Felder zurücksetzen
+	leereFelderVonFormular("erfkrit");
+	setzeFeldbreiten();
+	//Daten für die erfkrit aus der DB holen
+	$.ajax({
+		url: 'php/erfkrit.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.erfkrit_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//ap bereitstellen
+				window.erfkrit = data;
+				//Felder mit Daten beliefern
+				$("#ErfBeurtZielSkalaErreichungsgrad" + data.ErfBeurtZielSkalaErreichungsgrad).prop("checked", true);
+				$("#ErfBeurtZielSkalaTxt").val(data.ErfBeurtZielSkalaTxt);
+				//Formulare blenden
+				zeigeFormular("erfkrit");
+				//bei neuen Datensätzen Fokus steuern
+				if (!$("#ErfBeurtZielSkalaErreichungsgrad").val()) {
+					$("#ErfBeurtZielSkalaErreichungsgrad").focus();
+				}
+			}
+		}
+	});
+}
+
 function initiiere_tpop() {
 	if (!localStorage.tpop_id) {
 		//es fehlen benötigte Daten > eine Ebene höher
@@ -788,6 +823,12 @@ function erstelle_tree(ApArtId) {
 				localStorage.zielber_id = node.attr("id");
 				initiiere_zielber();
 			}
+		} else if (node.attr("typ") === "erfkrit") {
+			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			if (!$("#erfkrit").is(':visible') || localStorage.erfkrit_id !== node.attr("id")) {
+				localStorage.erfkrit_id = node.attr("id");
+				initiiere_erfkrit();
+			}
 		} else if (node.attr("typ").slice(0, 3) === "ap_" || node.attr("typ") === "apzieljahr") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#ap").is(':visible') || localStorage.ap_id !== node.attr("id")) {
@@ -1370,6 +1411,175 @@ function treeKontextmenu(node) {
 			}
 		};
 		return items;
+	case "ap_ordner_erfkrit":
+		items = {
+			"neu": {
+				"label": "neues Erfolgskriterium",
+				"icon": "style/images/neu.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/erfkrit_insert.php',
+						dataType: 'json',
+						data: {
+							"id": $(aktiver_node).attr("id"),
+							"user": sessionStorage.User
+						},
+						success: function (data) {
+							var NeuerNode, anz, anzTxt;
+							localStorage.erfkrit_id = data;
+							delete window.erfkrit;
+							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+								"data": "neues Erfolgskriterium",
+								"attr": {
+									"id": data,
+									"typ": "erfkrit"
+								}
+							});
+							//Node-Beschriftung: Anzahl anpassen
+							anz = $(aktiver_node).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Erfolgskriterium";
+							} else {
+								anzTxt = anz + " Erfolgskriterien";
+							}
+							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_erfkrit();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Kein neues Erfolgskriterium erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		};
+		return items;
+	case "erfkrit":
+		items = {
+			"neu": {
+				"label": "neues Erfolgskriterium",
+				"icon": "style/images/neu.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/erfkrit_insert.php',
+						dataType: 'json',
+						data: {
+							"id": $(parent_node).attr("id"),
+							"typ": "erfkrit",
+							"user": sessionStorage.User
+						},
+						success: function (data) {
+							var NeuerNode, anz, anzTxt;
+							localStorage.erfkrit_id = data;
+							delete window.erfkrit;
+							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
+								"data": "neues Erfolgskriterium",
+								"attr": {
+									"id": data,
+									"typ": "erfkrit"
+								}
+							});
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anz = $(parent_node).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Erfolgskriterium";
+							} else {
+								anzTxt = anz + " Erfolgskriterien";
+							}
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_erfkrit();
+						},
+						error: function () {
+							$("#Meldung").html("Fehler: Kein neues Erfolgskriterium erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},
+			"loeschen": {
+				"label": "löschen",
+				"separator_before": true,
+				"icon": "style/images/loeschen.png",
+				"action": function () {
+					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
+					jQuery.jstree._reference(aktiver_node).deselect_all();
+					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
+					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
+					jQuery.jstree._reference(aktiver_node).deselect_all();
+					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
+					$("#loeschen_dialog_mitteilung").html("Das Erfolgskriterium \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
+					$("#loeschen_dialog").dialog({
+						resizable: false,
+						height:'auto',
+						width: 400,
+						modal: true,
+						buttons: {
+							"ja, löschen!": function() {
+								$(this).dialog("close");
+								$.ajax({
+									url: 'php/erfkrit_delete.php',
+									dataType: 'json',
+									data: {
+										"id": $(aktiver_node).attr("id")
+									},
+									success: function () {
+										var anz, anzTxt;
+										delete localStorage.erfkrit_id;
+										delete window.erfkrit;
+										jQuery.jstree._reference(parent_node).deselect_all();
+										jQuery.jstree._reference(parent_node).select_node(parent_node);
+										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+										//Parent Node-Beschriftung: Anzahl anpassen
+										anz = $(parent_node).find("> ul > li").length;
+										if (anz === 1) {
+											anzTxt = anz + " Erfolgskriterium";
+										} else {
+											anzTxt = anz + " Erfolgskriterien";
+										}
+										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+										initiiere_pop();
+									},
+									error: function (data) {
+										$("#Meldung").html("Fehler: Das Erfolgskriterium wurde nicht gelöscht");
+										$("#Meldung").dialog({
+											modal: true,
+											buttons: {
+												Ok: function() {
+													$(this).dialog("close");
+												}
+											}
+										});
+									}
+								});
+							},
+							"abbrechen": function() {
+								$(this).dialog("close");
+							}
+						}
+					});			
+				}
+			}
+		};
+		return items;
+
 
 
 
@@ -3299,6 +3509,9 @@ function speichern(that) {
 		case "ZielBerJahr":
 		case "ZielBerErreichung":
 			jQuery("#tree").jstree("rename_node", "#" + localStorage.zielber_id, $("#ZielBerJahr").val() + ": " + $("#ZielBerErreichung").val());
+			break;
+		case "ErfBeurtZielSkalaErreichungsgrad":
+			jQuery("#tree").jstree("rename_node", "#" + localStorage.erfkrit_id, $("#SpanErfBeurtZielSkalaErreichungsgrad" + Feldwert).text());
 			break;
 	}
 }
