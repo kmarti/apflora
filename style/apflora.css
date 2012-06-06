@@ -56,11 +56,11 @@ input {
 .form {margin-left:auto; padding-top:1px;}
 
 [type=text], [type=url], textarea, select {
-	width:500px;
+	width:100px;
 }
 
 [type=number] {
-	width: 200px;
+	width: 100px;
 }
 
 #forms input, #forms select, #forms textarea {
