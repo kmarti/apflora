@@ -618,7 +618,7 @@ function leereFelderVonFormular(Formular) {
 function setzeFeldbreiten() {
 	$('#forms input[type="text"], #forms input[type="number"], #forms select, #forms textarea').each(function() {
 		if ($(this).attr("formular") !== "tpopfeldkontr") {
-			$(this).width($(window).width() - 640);
+			$(this).width($(window).width() - 650);
 		} else {
 			$(this).width($(window).width() - 715);
 		}
