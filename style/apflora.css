@@ -55,7 +55,7 @@ input {
 /*keine Ahnung, wieso es ohne das nicht geht*/
 .form {margin-left:auto; padding-top:1px;}
 
-[type=text], textarea, select {
+[type=text], [type=url], textarea, select {
 	width:500px;
 }
 

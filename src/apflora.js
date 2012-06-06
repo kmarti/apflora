@@ -310,6 +310,53 @@ function initiiere_apber() {
 	});
 }
 
+function initiiere_ber() {
+	if (!localStorage.ber_id) {
+		//es fehlen benötigte Daten > eine Ebene höher
+		initiiere_ap();
+		return;
+	}
+	//Felder zurücksetzen
+	leereFelderVonFormular("ber");
+	setzeFeldbreiten();
+	//Daten für die ber aus der DB holen
+	$.ajax({
+		url: 'php/ber.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.ber_id
+		},
+		success: function (data) {
+			var tempUrl;
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//ap bereitstellen
+				window.ber = data;
+				//Felder mit Daten beliefern
+				$("#BerAutor").val(data.BerAutor);
+				$("#BerJahr").val(data.BerJahr);
+				$("#BerTitel").val(data.BerTitel);
+				$("#BerURL").val(data.BerURL);
+				//$('#BerURLHref').attr('onClick', "document.location.href='" + data.BerURL + "';");
+				//die Daten enthalten # an Anfang und Ende (Access-Macke)
+				tempUrl = data.BerURL;
+				if (data.BerURL && data.BerURL.slice(0, 1) === "#") {
+					tempUrl = data.BerURL.slice(1, (data.BerURL.length -1));
+				}
+				$('#BerURLHref').attr('onClick', "window.open('" + tempUrl + "', target='_blank')");
+				//Formulare blenden
+				zeigeFormular("ber");
+				//bei neuen Datensätzen Fokus steuern
+				setTimeout(function () {
+					if (!$("#BerAutor").val()) {
+						$("#BerAutor").focus();
+					}
+				}, 100);
+			}
+		}
+	});
+}
+
 function initiiere_tpop() {
 	if (!localStorage.tpop_id) {
 		//es fehlen benötigte Daten > eine Ebene höher
@@ -780,11 +827,27 @@ function leereFelderVonFormular(Formular) {
 }
 
 function setzeFeldbreiten() {
-	$('#forms input[type="text"], #forms input[type="number"], #forms select, #forms textarea').each(function() {
+	$('#forms input[type="text"], #forms input[type="url"], #forms select, #forms textarea').each(function() {
 		if ($(this).attr("formular") !== "tpopfeldkontr") {
 			$(this).width($(window).width() - 650);
 		} else {
 			$(this).width($(window).width() - 715);
+		}
+	});
+	//Zahlenfelder sollen nicht breiter als 200px sein
+	$('#forms input[type="number"]').each(function() {
+		if ($(this).attr("formular") !== "tpopfeldkontr") {
+			if (($(window).width() - 650) > 200) {
+				$(this).width(200);
+			} else {
+				$(this).width($(window).width() - 650);
+			}
+		} else {
+			if (($(window).width() - 715) > 200) {
+				$(this).width(200);
+			} else {
+				$(this).width($(window).width() - 715);
+			}
 		}
 	});
 }
@@ -913,6 +976,12 @@ function erstelle_tree(ApArtId) {
 			if (!$("#apber").is(':visible') || localStorage.apber_id !== node.attr("id")) {
 				localStorage.apber_id = node.attr("id");
 				initiiere_apber();
+			}
+		} else if (node.attr("typ") === "ber") {
+			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			if (!$("#ber").is(':visible') || localStorage.ber_id !== node.attr("id")) {
+				localStorage.ber_id = node.attr("id");
+				initiiere_ber();
 			}
 		} else if (node.attr("typ").slice(0, 3) === "ap_" || node.attr("typ") === "apzieljahr") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -1365,7 +1434,7 @@ function treeKontextmenu(node) {
 							initiiere_zielber();
 						},
 						error: function (data) {
-							$("#Meldung").html("Fehler: Kein neuer Ziel-Bericht erstellt");
+							$("#Meldung").html("Fehler: Keinen neuen Ziel-Bericht erstellt");
 							$("#Meldung").dialog({
 								modal: true,
 								buttons: {
@@ -1418,7 +1487,7 @@ function treeKontextmenu(node) {
 							initiiere_zielber();
 						},
 						error: function () {
-							$("#Meldung").html("Fehler: Kein neuer Ziel-Bericht erstellt");
+							$("#Meldung").html("Fehler: Keinen neuen Ziel-Bericht erstellt");
 							$("#Meldung").dialog({
 								modal: true,
 								buttons: {
@@ -1472,7 +1541,7 @@ function treeKontextmenu(node) {
 											anzTxt = anz + " Ziel-Berichte";
 										}
 										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-										initiiere_pop();
+										initiiere_ap();
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Der Ziel-Bericht wurde nicht gelöscht");
@@ -1640,7 +1709,7 @@ function treeKontextmenu(node) {
 											anzTxt = anz + " Erfolgskriterien";
 										}
 										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-										initiiere_pop();
+										initiiere_ap();
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Das Erfolgskriterium wurde nicht gelöscht");
@@ -1754,7 +1823,7 @@ function treeKontextmenu(node) {
 							initiiere_apber();
 						},
 						error: function () {
-							$("#Meldung").html("Fehler: Kein neues Erfolgskriterium erstellt");
+							$("#Meldung").html("Fehler: Keinen neuen AP-Bericht erstellt");
 							$("#Meldung").dialog({
 								modal: true,
 								buttons: {
@@ -1803,15 +1872,183 @@ function treeKontextmenu(node) {
 										//Parent Node-Beschriftung: Anzahl anpassen
 										anz = $(parent_node).find("> ul > li").length;
 										if (anz === 1) {
-											anzTxt = anz + " Erfolgskriterium";
+											anzTxt = anz + " AP-Bericht";
 										} else {
-											anzTxt = anz + " Erfolgskriterien";
+											anzTxt = anz + " AP-Berichte";
 										}
 										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-										initiiere_pop();
+										initiiere_ap();
 									},
 									error: function (data) {
-										$("#Meldung").html("Fehler: Das Erfolgskriterium wurde nicht gelöscht");
+										$("#Meldung").html("Fehler: Der AP-Bericht wurde nicht gelöscht");
+										$("#Meldung").dialog({
+											modal: true,
+											buttons: {
+												Ok: function() {
+													$(this).dialog("close");
+												}
+											}
+										});
+									}
+								});
+							},
+							"abbrechen": function() {
+								$(this).dialog("close");
+							}
+						}
+					});			
+				}
+			}
+		};
+		return items;
+	case "ap_ordner_ber":
+		items = {
+			"neu": {
+				"label": "neuer Bericht",
+				"icon": "style/images/neu.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/ber_insert.php',
+						dataType: 'json',
+						data: {
+							"id": $(aktiver_node).attr("id"),
+							"user": sessionStorage.User
+						},
+						success: function (data) {
+							var NeuerNode, anz, anzTxt;
+							localStorage.ber_id = data;
+							delete window.ber;
+							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+								"data": "neuer Bericht",
+								"attr": {
+									"id": data,
+									"typ": "ber"
+								}
+							});
+							//Node-Beschriftung: Anzahl anpassen
+							anz = $(aktiver_node).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Bericht";
+							} else {
+								anzTxt = anz + " Berichte";
+							}
+							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_ber();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keinen neuen Bericht erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		};
+		return items;
+	case "ber":
+		items = {
+			"neu": {
+				"label": "Neuer Bericht",
+				"icon": "style/images/neu.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/ber_insert.php',
+						dataType: 'json',
+						data: {
+							"id": $(parent_node).attr("id"),
+							"typ": "ber",
+							"user": sessionStorage.User
+						},
+						success: function (data) {
+							var NeuerNode, anz, anzTxt;
+							localStorage.ber_id = data;
+							delete window.ber;
+							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
+								"data": "Neuer Bericht",
+								"attr": {
+									"id": data,
+									"typ": "ber"
+								}
+							});
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anz = $(parent_node).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Bericht";
+							} else {
+								anzTxt = anz + " Berichte";
+							}
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_ber();
+						},
+						error: function () {
+							$("#Meldung").html("Fehler: Keinen neuen Bericht erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},
+			"loeschen": {
+				"label": "löschen",
+				"separator_before": true,
+				"icon": "style/images/loeschen.png",
+				"action": function () {
+					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
+					jQuery.jstree._reference(aktiver_node).deselect_all();
+					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
+					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
+					jQuery.jstree._reference(aktiver_node).deselect_all();
+					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
+					$("#loeschen_dialog_mitteilung").html("Der Bericht \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
+					$("#loeschen_dialog").dialog({
+						resizable: false,
+						height:'auto',
+						width: 400,
+						modal: true,
+						buttons: {
+							"ja, löschen!": function() {
+								$(this).dialog("close");
+								$.ajax({
+									url: 'php/ber_delete.php',
+									dataType: 'json',
+									data: {
+										"id": $(aktiver_node).attr("id")
+									},
+									success: function () {
+										var anz, anzTxt;
+										delete localStorage.ber_id;
+										delete window.ber;
+										jQuery.jstree._reference(parent_node).deselect_all();
+										jQuery.jstree._reference(parent_node).select_node(parent_node);
+										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+										//Parent Node-Beschriftung: Anzahl anpassen
+										anz = $(parent_node).find("> ul > li").length;
+										if (anz === 1) {
+											anzTxt = anz + " Bericht";
+										} else {
+											anzTxt = anz + " Berichte";
+										}
+										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+										initiiere_ap();
+									},
+									error: function (data) {
+										$("#Meldung").html("Fehler: Der Bericht wurde nicht gelöscht");
 										$("#Meldung").dialog({
 											modal: true,
 											buttons: {
@@ -3769,69 +4006,11 @@ function speichern(that) {
 		case "ApBerJahr":
 			jQuery("#tree").jstree("rename_node", "#" + localStorage.apber_id, Feldwert);
 			break;
+		case "BerJahr":
+			jQuery("#tree").jstree("rename_node", "#" + localStorage.ber_id, Feldwert);
+			break;
 	}
 }
-
-
-/*function speichern(that) {
-	var Formular, Feldname, Feldjson, Feldwert, Querystring, Objekt;
-	Formular = $(that).attr("formular");
-	Feldname = that.name;
-	//nötig, damit Arrays richtig kommen
-	Feldjson = $("[name='" + Feldname + "']").serializeObject();
-	Feldwert = Feldjson[Feldname];
-	if (Feldname === "TPopHerkunftUnklar" || Feldname === "TPopPop") {
-		if (Feldwert) {
-			Feldwert = -1;
-		} else {
-			Feldwert = 0;
-		}
-	}
-	$.ajax({
-		url: 'php/' + Formular + '_update.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage[Formular + "_id"],
-			"Feld": Feldname,
-			"Wert": Feldwert,
-			"user": sessionStorage.User
-		},
-		success: function () {
-			//Wenn in feldkontr Datum erfasst, auch Jahr speichern
-			if (Feldname === "TPopKontrDatum" && Feldwert) {
-				Objekt = {};
-				Objekt.name = "TPopKontrJahr";
-				Objekt.formular = "tpopfeldkontr";
-				speichern(Objekt);
-			}
-		},
-		error: function (data) {
-			var Meldung;
-			Meldung = JSON.stringify(data);
-			$("#Meldung").html(data.responseText);
-			$("#Meldung").dialog({
-				modal: true,
-				buttons: {
-					Ok: function() {
-						$(this).dialog("close");
-					}
-				}
-			});
-		}
-	});
-	//nodes im Tree updaten, wenn deren Bezeichnung ändert
-	switch(Feldname) {
-		case "PopName":
-			jQuery("#tree").jstree("rename_node", "#" + localStorage.pop_id, Feldwert);
-			break;
-		case "TPopFlurname":
-			jQuery("#tree").jstree("rename_node", "#" + localStorage.tpop_id, Feldwert);
-			break;
-		case "TPopKontrJahr":
-			jQuery("#tree").jstree("rename_node", "#" + localStorage.tpopfeldkontr_id, Feldwert);
-			break;
-	}
-}*/
 
 (function ($) {
 	// friendly helper http://tinyurl.com/6aow6yn
