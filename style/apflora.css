@@ -29,7 +29,6 @@ fieldset {
 }
 
 #forms label {
-	display:block;
 	float:left;
 	width:140px;
 	text-align:right;
@@ -54,10 +53,10 @@ input {
 }
 
 /*keine Ahnung, wieso es ohne das nicht geht*/
-.form {display:block; margin-left:auto; padding-top:1px;}
+.form {margin-left:auto; padding-top:1px;}
 
 [type=text], textarea, select {
-	width:700px;
+	width:500px;
 }
 
 [type=number] {
@@ -78,6 +77,7 @@ textarea {
 .fieldcontain {
 	/*floaten von label und Datenfeld des letzten Feldes aufheben*/
 	clear:both;
+	display:block;
 }
 
 .clear {

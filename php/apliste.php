@@ -14,7 +14,7 @@ $programm = $_GET["programm"];
 
 // SQL-Anfrage ausführen
 if ($programm == "programm_ap") {
-	$result = mysqli_query($link, "SELECT Name, ApArtId FROM qryAp1 WHERE ApStatus BETWEEN 1 AND 3");
+	$result = mysqli_query($link, "SELECT Name, ApArtId FROM ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON NR=ApArtId WHERE ApStatus BETWEEN 1 AND 3 ORDER BY Name");
 	$rows = array();
 	while($r = mysqli_fetch_assoc($result)) {
 		$ApArtId = $r['ApArtId'];
@@ -24,7 +24,7 @@ if ($programm == "programm_ap") {
 	    $rows[] = $row;
 	}
 } else if ($programm == "programm_alle") {
-	$result = mysqli_query($link, "SELECT Name, ApArtId FROM qryAp1");
+	$result = mysqli_query($link, "SELECT Name, ApArtId FROM ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON NR=ApArtId ORDER BY Name");
 	$rows = array();
 	while($r = mysqli_fetch_assoc($result)) {
 		$ApArtId = $r['ApArtId'];
@@ -34,7 +34,7 @@ if ($programm == "programm_ap") {
 	    $rows[] = $row;
 	}
 } else {
-	$result = mysqli_query($link, "SELECT IF(Deutsch Is Not Null, CONCAT(Name, ' (', Deutsch, ')   ', StatusText), CONCAT(Name, '   ', StatusText)) AS ApName, NR FROM ArtenDb_tblFloraSisf LEFT JOIN DomainFloraStatus ON Status = StatusWert WHERE NR not in (SELECT ApArtId FROM qryAp1) ORDER BY Name");
+	$result = mysqli_query($link, "SELECT IF(Deutsch Is Not Null, CONCAT(Name, ' (', Deutsch, ')   ', StatusText), CONCAT(Name, '   ', StatusText)) AS ApName, NR FROM ArtenDb_tblFloraSisf LEFT JOIN DomainFloraStatus ON Status = StatusWert WHERE NR not in (SELECT ApArtId FROM ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON NR=ApArtId) ORDER BY Name");
 	$rows = array();
 	while($r = mysqli_fetch_assoc($result)) {
 		$ApArtId = $r['NR'];
