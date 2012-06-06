@@ -13,6 +13,7 @@ function initiiere_index() {
 	});
 	$("#TPopKontrDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopKontrJahr", altFormat: "yy", defaultDate: +0 });
 	$("#TPopMassnDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopMassnJahr", altFormat: "yy", defaultDate: +0 });
+	$("#ApBerDatum").datepicker({ dateFormat: "dd.mm.yy", defaultDate: +0 });
 	//Auswahllisten aufbauen
 	erstelle_ap_liste("programm_alle");
 	erstelle_ApArtId_liste();
@@ -225,6 +226,84 @@ function initiiere_erfkrit() {
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#ErfBeurtZielSkalaErreichungsgrad").val()) {
 					$("#ErfBeurtZielSkalaErreichungsgrad").focus();
+				}
+			}
+		}
+	});
+}
+
+function initiiere_apber() {
+	if (!localStorage.apber_id) {
+		//es fehlen benötigte Daten > eine Ebene höher
+		initiiere_ap();
+		return;
+	}
+	//Felder zurücksetzen
+	leereFelderVonFormular("apber");
+	setzeFeldbreiten();
+	//Daten für die apber aus der DB holen
+	$.ajax({
+		url: 'php/apber.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.apber_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//ap bereitstellen
+				window.apber = data;
+				//Felder mit Daten beliefern
+				$("#ApBerJahr").val(data.ApBerJahr);
+				$("#ApBerSituation").val(data.ApBerSituation);
+				$("#ApBerVergleichVorjahrGesamtziel").val(data.ApBerVergleichVorjahrGesamtziel);
+				$("#ApBerBeurteilung" + data.ApBerBeurteilung).prop("checked", true);
+				//escapen, + und - werden sonst verändert
+				$("#ApBerVeraenGegenVorjahr\\" + data.ApBerVeraenGegenVorjahr).prop("checked", true);
+				$("#ApBerAnalyse").val(data.ApBerAnalyse);
+				$("#ApBerUmsetzung").val(data.ApBerUmsetzung);
+				$("#ApBerErfko").val(data.ApBerErfko);
+				$("#ApBerATxt").val(data.ApBerATxt);
+				$("#ApBerBTxt").val(data.ApBerBTxt);
+				$("#ApBerCTxt").val(data.ApBerCTxt);
+				$("#ApBerDTxt").val(data.ApBerDTxt);
+				if (data.ApBerDatum !== "01.01.1970") {
+					//php macht aus einem Nullwert im Datum den 1.1.1970!!!
+					$("#ApBerDatum").val(data.ApBerDatum);
+				} else {
+					$("#ApBerDatum").val("");
+				}
+				//ApBerBearb: Daten holen - oder vorhandene nutzen
+				if (!window.adressen_html) {
+					$.ajax({
+						url: 'php/adressen.php',
+						dataType: 'json',
+						success: function (data2) {
+							if (data2) {
+								//ap bereitstellen
+								//Feld mit Daten beliefern
+								var html;
+								html = "<option></option>";
+								for (i in data2.rows) {
+									if (typeof i !== "undefined") {
+										html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
+									}
+								}
+								window.adressen_html = html;
+								$("#ApBerBearb").html(html);
+								$("#ApBerBearb").val(window.apber.ApBerBearb);
+							}
+						}
+					});
+				} else {
+					$("#ApBerBearb").html(window.adressen_html);
+					$("#ApBerBearb").val(window.apber.ApBerBearb);
+				}
+				//Formulare blenden
+				zeigeFormular("apber");
+				//bei neuen Datensätzen Fokus steuern
+				if (!$("#ApBerJahr").val()) {
+					$("#ApBerJahr").focus();
 				}
 			}
 		}
@@ -828,6 +907,12 @@ function erstelle_tree(ApArtId) {
 			if (!$("#erfkrit").is(':visible') || localStorage.erfkrit_id !== node.attr("id")) {
 				localStorage.erfkrit_id = node.attr("id");
 				initiiere_erfkrit();
+			}
+		} else if (node.attr("typ") === "apber") {
+			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			if (!$("#apber").is(':visible') || localStorage.apber_id !== node.attr("id")) {
+				localStorage.apber_id = node.attr("id");
+				initiiere_apber();
 			}
 		} else if (node.attr("typ").slice(0, 3) === "ap_" || node.attr("typ") === "apzieljahr") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -1544,6 +1629,174 @@ function treeKontextmenu(node) {
 										var anz, anzTxt;
 										delete localStorage.erfkrit_id;
 										delete window.erfkrit;
+										jQuery.jstree._reference(parent_node).deselect_all();
+										jQuery.jstree._reference(parent_node).select_node(parent_node);
+										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+										//Parent Node-Beschriftung: Anzahl anpassen
+										anz = $(parent_node).find("> ul > li").length;
+										if (anz === 1) {
+											anzTxt = anz + " Erfolgskriterium";
+										} else {
+											anzTxt = anz + " Erfolgskriterien";
+										}
+										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+										initiiere_pop();
+									},
+									error: function (data) {
+										$("#Meldung").html("Fehler: Das Erfolgskriterium wurde nicht gelöscht");
+										$("#Meldung").dialog({
+											modal: true,
+											buttons: {
+												Ok: function() {
+													$(this).dialog("close");
+												}
+											}
+										});
+									}
+								});
+							},
+							"abbrechen": function() {
+								$(this).dialog("close");
+							}
+						}
+					});			
+				}
+			}
+		};
+		return items;
+	case "ap_ordner_apber":
+		items = {
+			"neu": {
+				"label": "neuer AP-Bericht",
+				"icon": "style/images/neu.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/apber_insert.php',
+						dataType: 'json',
+						data: {
+							"id": $(aktiver_node).attr("id"),
+							"user": sessionStorage.User
+						},
+						success: function (data) {
+							var NeuerNode, anz, anzTxt;
+							localStorage.apber_id = data;
+							delete window.apber;
+							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+								"data": "neuer AP-Bericht",
+								"attr": {
+									"id": data,
+									"typ": "apber"
+								}
+							});
+							//Node-Beschriftung: Anzahl anpassen
+							anz = $(aktiver_node).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " AP-Bericht";
+							} else {
+								anzTxt = anz + " AP-Berichte";
+							}
+							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_apber();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keinen neuen AP-Bericht erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		};
+		return items;
+	case "apber":
+		items = {
+			"neu": {
+				"label": "Neuer AP-Bericht",
+				"icon": "style/images/neu.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/apber_insert.php',
+						dataType: 'json',
+						data: {
+							"id": $(parent_node).attr("id"),
+							"typ": "apber",
+							"user": sessionStorage.User
+						},
+						success: function (data) {
+							var NeuerNode, anz, anzTxt;
+							localStorage.apber_id = data;
+							delete window.apber;
+							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
+								"data": "Neuer AP-Bericht",
+								"attr": {
+									"id": data,
+									"typ": "apber"
+								}
+							});
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anz = $(parent_node).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " AP-Bericht";
+							} else {
+								anzTxt = anz + " AP-Berichte";
+							}
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_apber();
+						},
+						error: function () {
+							$("#Meldung").html("Fehler: Kein neues Erfolgskriterium erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},
+			"loeschen": {
+				"label": "löschen",
+				"separator_before": true,
+				"icon": "style/images/loeschen.png",
+				"action": function () {
+					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
+					jQuery.jstree._reference(aktiver_node).deselect_all();
+					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
+					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
+					jQuery.jstree._reference(aktiver_node).deselect_all();
+					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
+					$("#loeschen_dialog_mitteilung").html("Der AP-Bericht \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
+					$("#loeschen_dialog").dialog({
+						resizable: false,
+						height:'auto',
+						width: 400,
+						modal: true,
+						buttons: {
+							"ja, löschen!": function() {
+								$(this).dialog("close");
+								$.ajax({
+									url: 'php/apber_delete.php',
+									dataType: 'json',
+									data: {
+										"id": $(aktiver_node).attr("id")
+									},
+									success: function () {
+										var anz, anzTxt;
+										delete localStorage.apber_id;
+										delete window.apber;
 										jQuery.jstree._reference(parent_node).deselect_all();
 										jQuery.jstree._reference(parent_node).select_node(parent_node);
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -3512,6 +3765,9 @@ function speichern(that) {
 			break;
 		case "ErfBeurtZielSkalaErreichungsgrad":
 			jQuery("#tree").jstree("rename_node", "#" + localStorage.erfkrit_id, $("#SpanErfBeurtZielSkalaErreichungsgrad" + Feldwert).text());
+			break;
+		case "ApBerJahr":
+			jQuery("#tree").jstree("rename_node", "#" + localStorage.apber_id, Feldwert);
 			break;
 	}
 }

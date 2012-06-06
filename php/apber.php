@@ -16,6 +16,11 @@ settype($ApBerId, "integer");
 $result = mysqli_query($link, "SELECT * FROM tblApBericht WHERE ApBerId=".$ApBerId);
 
 $row = mysqli_fetch_assoc($result);
+$ApBerDatum = $row["ApBerDatum"];
+//leerwerte nicht antasten - werden sonst zu 1.1.1970
+if ($ApBerDatum) {
+	$row["ApBerDatum"] = date("d.m.Y", strtotime($ApBerDatum));
+}
 
 //in json verwandeln
 $return = json_encode($row);

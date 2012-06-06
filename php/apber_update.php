@@ -16,6 +16,15 @@ $Wert = $_GET["Wert"];
 $user = $_GET["user"];
 $time = date('Y-m-d H:i:s');
 
+//zeit muss umgewandelt werden!
+if ($Feld == "ApBerDatum") {
+	if ($Wert) {
+		$Wert = date("Y-m-d H:i:s", strtotime($Wert));
+	} else {
+		$Wert = null;
+	}
+}
+
 $Querystring = 'UPDATE tblApBericht SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE ApBerId = '.$id;
 
 // SQL-Anfrage ausführen
