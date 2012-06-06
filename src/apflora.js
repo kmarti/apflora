@@ -124,6 +124,42 @@ function initiiere_pop() {
 	});
 }
 
+function initiiere_apziel() {
+	if (!localStorage.apziel_id) {
+		//es fehlen benötigte Daten > eine Ebene höher
+		initiiere_ap();
+		return;
+	}
+	//Felder zurücksetzen
+	leereFelderVonFormular("apziel");
+	setzeFeldbreiten();
+	//Daten für die apziel aus der DB holen
+	$.ajax({
+		url: 'php/apziel.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.apziel_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//ap bereitstellen
+				window.apziel = data;
+				//Felder mit Daten beliefern
+				$("#ZielJahr").val(data.ZielJahr);
+				$("#ZielTyp" + data.ZielTyp).prop("checked", true);
+				$("#ZielBezeichnung").val(data.ZielBezeichnung);
+				//Formulare blenden
+				zeigeFormular("apziel");
+				//bei neuen Datensätzen Fokus steuern
+				if (!$("#ZielJahr").val()) {
+					$("#ZielJahr").focus();
+				}
+			}
+		}
+	});
+}
+
 function initiiere_tpop() {
 	if (!localStorage.tpop_id) {
 		//es fehlen benötigte Daten > eine Ebene höher
@@ -695,8 +731,7 @@ function erstelle_tree(ApArtId) {
 	.show()
 	.bind("select_node.jstree", function (e, data) {
 		var node;
-		//Erinnerung an letzten Klick im Baum löschen
-		delete localStorage.freiwkontr;
+		delete localStorage.freiwkontr;	//Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
 		jQuery.jstree._reference(node).open_node(node);
 		if (node.attr("typ") === "pop" || node.attr("typ").slice(0, 4) === "pop_") {
@@ -704,6 +739,12 @@ function erstelle_tree(ApArtId) {
 			if (!$("#pop").is(':visible') || localStorage.pop_id !== node.attr("id")) {
 				localStorage.pop_id = node.attr("id");
 				initiiere_pop();
+			}
+		} else if (node.attr("typ") === "apziel") {
+			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			if (!$("#apziel").is(':visible') || localStorage.apziel_id !== node.attr("id")) {
+				localStorage.apziel_id = node.attr("id");
+				initiiere_apziel();
 			}
 		} else if (node.attr("typ").slice(0, 3) === "ap_") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -737,7 +778,8 @@ function erstelle_tree(ApArtId) {
 				localStorage.tpopmassn_id = node.attr("id");
 				initiiere_tpopmassn();
 			}
-		} else {
+		//bei apzieljahren kommt kein Formular
+		} else if (node.attr("typ") !== "apzieljahr") {
 			$("#Meldung").html("Diese Seite ist noch nicht gebaut");
 			$("#Meldung").dialog({
 				modal: true,
@@ -753,15 +795,15 @@ function erstelle_tree(ApArtId) {
 }
 
 function treeKontextmenu(node) {
-	var items, AktiverNode, ParentNode;
+	var items, aktiver_node, parent_node, grandparent_node, neue_apziele_node;
 	//relevante nodes zwischenspeichern
-	AktiverNode = node;
-	AktiverNodeText = jQuery.jstree._reference(AktiverNode).get_text(AktiverNode);
-	if ($(AktiverNode).attr("typ") !== "ap_ordner_pop") {
-		ParentNode = jQuery.jstree._reference(AktiverNode)._get_parent(AktiverNode);
-		ParentNodeText = jQuery.jstree._reference(ParentNode).get_text(ParentNode);
+	aktiver_node = node;
+	aktiver_nodeText = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+	if ($(aktiver_node).attr("typ").slice(0, 9) !== "ap_ordner") {
+		parent_node = jQuery.jstree._reference(aktiver_node)._get_parent(aktiver_node);
+		parent_nodeText = jQuery.jstree._reference(parent_node).get_text(parent_node);
 	}
-	switch($(AktiverNode).attr("typ")) {
+	switch($(aktiver_node).attr("typ")) {
 	case "ap_ordner_pop":
 		items = {
 			"neu": {
@@ -772,7 +814,7 @@ function treeKontextmenu(node) {
 						url: 'php/pop_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(AktiverNode).attr("id"),
+							"id": $(aktiver_node).attr("id"),
 							"typ": "pop",
 							"user": sessionStorage.User
 						},
@@ -780,7 +822,7 @@ function treeKontextmenu(node) {
 							var NeuerNode, anz, anzTxt;
 							localStorage.pop_id = data;
 							delete window.pop;
-							NeuerNode = jQuery.jstree._reference(AktiverNode).create_node(AktiverNode, "last", {
+							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
 								"data": "neue Population",
 								"attr": {
 									"id": data,
@@ -810,13 +852,14 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Node-Beschriftung: Anzahl anpassen
-							anz = $(AktiverNode).find("> ul > li").length;
+							anz = $(aktiver_node).find("> ul > li").length;
 							if (anz === 1) {
 								anzTxt = anz + " Population";
 							} else {
 								anzTxt = anz + " Populationen";
 							}
-							jQuery.jstree._reference(AktiverNode).rename_node(AktiverNode, anzTxt);
+							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							initiiere_pop();
 						},
@@ -836,6 +879,263 @@ function treeKontextmenu(node) {
 			}
 		};
 		return items;
+	case "ap_ordner_apziel":
+		items = {
+			"neu": {
+				"label": "neues Ziel",
+				"icon": "style/images/neu.png",
+				"action": function () {
+					//temporären Unterordner anlegen
+					neue_apziele_node = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+						"data": "neue AP-Ziele",
+						"attr": {
+							"id": $(aktiver_node).attr("id"),
+							"typ": "apzieljahr"
+						}
+					});
+					$.ajax({
+						url: 'php/apziel_insert.php',
+						dataType: 'json',
+						data: {
+							"id": $(aktiver_node).attr("id"),
+							"typ": "apziel",
+							"user": sessionStorage.User
+						},
+						success: function (data) {
+							var NeuerNode, anz, anzTxt;
+							localStorage.apziel_id = data;
+							delete window.apziel;
+							NeuerNode = jQuery.jstree._reference(neue_apziele_node).create_node(neue_apziele_node, "last", {
+								"data": "neues Ziel",
+								"attr": {
+									"id": data,
+									"typ": "apziel"
+								}
+							});
+							//Node-Beschriftung: Anzahl anpassen
+							anz = $(aktiver_node).find("> ul > li > ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " AP-Ziel";
+							} else {
+								anzTxt = anz + " AP-Ziele";
+							}
+							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_apziel();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine neues AP-Ziel erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		};
+		return items;
+	case "apzieljahr":
+		items = {
+			"neu": {
+				"label": "neues Ziel",
+				"icon": "style/images/neu.png",
+				"action": function () {
+					$.ajax( {
+						url: 'php/apziel_insert.php',
+						dataType: 'json',
+						data: {
+							"id": $(parent_node).attr("id"),
+							"typ": "apziel",
+							"user": sessionStorage.User
+						},
+						success: function (data) {
+							var NeuerNode, anz, anzTxt;
+							localStorage.apziel_id = data;
+							delete window.apziel;
+							delete localStorage.apziel;
+							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+								"data": "neues Ziel",
+								"attr": {
+									"id": data,
+									"typ": "apziel"
+								}
+							});
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anz = $(parent_node).find("> ul > li > ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " AP-Ziel";
+							} else {
+								anzTxt = anz + " AP-Ziele";
+							}
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							//aktiver Node-Beschriftung: Anzahl anpassen
+							anz = $(aktiver_node).find("> ul > li").length;
+							anzTxt = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node).slice(0, 6);
+							anzTxt += anz;
+							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_apziel();
+							//IDEE: JETZT DAS JAHR EINFÜGEN
+							setTimeout(function() {
+								$("#ZielJahr").val(jQuery.jstree._reference(aktiver_node).get_text(aktiver_node).slice(0, 4));
+								var Objekt = {};
+								Objekt.name = "ZielJahr";
+								Objekt.formular = "apziel";
+								speichern(Objekt);
+								$("#ZielTyp").focus();
+							}, 100);
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine neues Ziel erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		};
+		return items;
+	case "apziel":
+		items = {
+			"neu": {
+				"label": "neues Ziel",
+				"icon": "style/images/neu.png",
+				"action": function () {
+					grandparent_node = jQuery.jstree._reference(parent_node)._get_parent(parent_node);
+					$.ajax( {
+						url: 'php/apziel_insert.php',
+						dataType: 'json',
+						data: {
+							"id": $(grandparent_node).attr("id"),
+							"user": sessionStorage.User
+						},
+						success: function (data) {
+							var NeuerNode, anz, anzTxt;
+							localStorage.apziel_id = data;
+							delete window.apziel;
+							delete localStorage.apziel;
+							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
+								"data": "neues Ziel",
+								"attr": {
+									"id": data,
+									"typ": "apziel"
+								}
+							});
+							//grandparent Node-Beschriftung: Anzahl anpassen
+							anz = $(grandparent_node).find("> ul > li > ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " AP-Ziel";
+							} else {
+								anzTxt = anz + " AP-Ziele";
+							}
+							jQuery.jstree._reference(grandparent_node).rename_node(grandparent_node, anzTxt);
+							//parent Node-Beschriftung: Anzahl anpassen
+							anz = $(parent_node).find("> ul > li").length;
+							anzTxt = jQuery.jstree._reference(parent_node).get_text(parent_node).slice(0, 6);
+							anzTxt += anz;
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							jQuery.jstree._reference(parent_node).deselect_all();
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_apziel();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Kein neues AP-Ziel erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},
+			"loeschen": {
+				"label": "löschen",
+				"separator_before": true,
+				"icon": "style/images/loeschen.png",
+				"action": function () {
+					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
+					jQuery.jstree._reference(aktiver_node).deselect_all();
+					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
+					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
+					jQuery.jstree._reference(aktiver_node).deselect_all();
+					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
+					$("#loeschen_dialog_mitteilung").html("Das Ziel \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" und alle darunter befindlichen Knoten werden unwiederbringlich gelöscht.");
+					$("#loeschen_dialog").dialog({
+						resizable: false,
+						height:'auto',
+						width: 400,
+						modal: true,
+						buttons: {
+							"ja, löschen!": function() {
+								$(this).dialog("close");
+								$.ajax({
+									url: 'php/apziel_delete.php',
+									dataType: 'json',
+									data: {
+										"id": $(aktiver_node).attr("id")
+									},
+									success: function () {
+										var anz, anzTxt;
+										delete localStorage.apziel_id;
+										delete window.apziel;
+										jQuery.jstree._reference(aktiver_node).deselect_all();
+										jQuery.jstree._reference(parent_node).select_node(parent_node);
+										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+										//grandparent Node-Beschriftung: Anzahl anpassen
+										grandparent_node = jQuery.jstree._reference(parent_node)._get_parent(parent_node);
+										anz = $(grandparent_node).find("> ul > li > ul > li").length;
+										if (anz === 1) {
+											anzTxt = anz + " AP-Ziel";
+										} else {
+											anzTxt = anz + " AP-Ziele";
+										}
+										jQuery.jstree._reference(grandparent_node).rename_node(grandparent_node, anzTxt);
+										//parent Node-Beschriftung: Anzahl anpassen
+										anz = $(parent_node).find("> ul > li").length;
+										anzTxt = jQuery.jstree._reference(parent_node).get_text(parent_node).slice(0, 6);
+										anzTxt += anz;
+										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+										initiiere_ap();
+									},
+									error: function (data) {
+										$("#Meldung").html("Fehler: Das AP-Ziel wurde nicht gelöscht");
+										$("#Meldung").dialog({
+											modal: true,
+											buttons: {
+												Ok: function() {
+													$(this).dialog("close");
+												}
+											}
+										});
+									}
+								});
+							},
+							"abbrechen": function() {
+								$(this).dialog("close");
+							}
+						}
+					});
+				}
+			}
+		};
+		return items;
 	case "pop":
 		items = {
 			"neu": {
@@ -846,7 +1146,7 @@ function treeKontextmenu(node) {
 						url: 'php/pop_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(ParentNode).attr("id"),
+							"id": $(parent_node).attr("id"),
 							"typ": "pop",
 							"user": sessionStorage.User
 						},
@@ -855,7 +1155,7 @@ function treeKontextmenu(node) {
 							localStorage.pop_id = data;
 							delete window.pop;
 							delete localStorage.pop;
-							NeuerNode = jQuery.jstree._reference(ParentNode).create_node(ParentNode, "last", {
+							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
 								"data": "neue Population",
 								"attr": {
 									"id": data,
@@ -885,13 +1185,14 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(ParentNode).find("> ul > li").length;
+							anz = $(parent_node).find("> ul > li").length;
 							if (anz === 1) {
 								anzTxt = anz + " Population";
 							} else {
 								anzTxt = anz + " Populationen";
 							}
-							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzTxt);
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							jQuery.jstree._reference(parent_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							initiiere_pop();
 						},
@@ -915,11 +1216,12 @@ function treeKontextmenu(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function () {
 					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
-					jQuery.jstree._reference(AktiverNode).deselect_all();
+					jQuery.jstree._reference(aktiver_node).deselect_all();
 					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
-					jQuery.jstree._reference(AktiverNode).open_all(AktiverNode);
-					jQuery.jstree._reference(AktiverNode).select_node(AktiverNode);
-					$("#loeschen_dialog_mitteilung").html("Die Population \"" + jQuery.jstree._reference(AktiverNode).get_text(AktiverNode) + "\" und alle darunter befindlichen Knoten werden unwiederbringlich gelöscht.");
+					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
+					jQuery.jstree._reference(aktiver_node).deselect_all();
+					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
+					$("#loeschen_dialog_mitteilung").html("Die Population \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" und alle darunter befindlichen Knoten werden unwiederbringlich gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
 						height:'auto',
@@ -932,22 +1234,23 @@ function treeKontextmenu(node) {
 									url: 'php/pop_delete.php',
 									dataType: 'json',
 									data: {
-										"id": $(AktiverNode).attr("id")
+										"id": $(aktiver_node).attr("id")
 									},
 									success: function () {
 										var anz, anzTxt;
 										delete localStorage.pop_id;
 										delete window.pop;
-										jQuery.jstree._reference(ParentNode).select_node(ParentNode);
-										jQuery.jstree._reference(AktiverNode).delete_node(AktiverNode);
+										jQuery.jstree._reference(aktiver_node).deselect_all();
+										jQuery.jstree._reference(parent_node).select_node(parent_node);
+										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
-										anz = $(ParentNode).find("> ul > li").length;
+										anz = $(parent_node).find("> ul > li").length;
 										if (anz === 1) {
 											anzTxt = anz + " Population";
 										} else {
 											anzTxt = anz + " Populationen";
 										}
-										jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzTxt);
+										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
 										initiiere_ap();
 									},
 									error: function (data) {
@@ -982,7 +1285,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpop_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(AktiverNode).attr("id"),
+							"id": $(aktiver_node).attr("id"),
 							"typ": "tpop",
 							"user": sessionStorage.User
 						},
@@ -990,7 +1293,7 @@ function treeKontextmenu(node) {
 							var NeuerNode, anz, anzTxt;
 							localStorage.tpop_id = data;
 							delete window.tpop;
-							NeuerNode = jQuery.jstree._reference(AktiverNode).create_node(AktiverNode, "last", {
+							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
 								"data": "neue Teilpopulation",
 								"attr": {
 									"id": data,
@@ -1041,13 +1344,14 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Node-Beschriftung: Anzahl anpassen
-							anz = $(AktiverNode).find("> ul > li").length;
+							anz = $(aktiver_node).find("> ul > li").length;
 							if (anz === 1) {
 								anzTxt = anz + " Teilpopulation";
 							} else {
 								anzTxt = anz + " Teilpopulationen";
 							}
-							jQuery.jstree._reference(AktiverNode).rename_node(AktiverNode, anzTxt);
+							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							initiiere_tpop();
 						},
@@ -1077,7 +1381,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpop_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(ParentNode).attr("id"),
+							"id": $(parent_node).attr("id"),
 							"typ": "tpop",
 							"user": sessionStorage.User
 						},
@@ -1085,7 +1389,7 @@ function treeKontextmenu(node) {
 							var NeuerNode, anz, anzTxt;
 							localStorage.tpop_id = data;
 							delete window.tpop;
-							NeuerNode = jQuery.jstree._reference(ParentNode).create_node(ParentNode, "last", {
+							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
 								"data": "neue Teilpopulation",
 								"attr": {
 									"id": data,
@@ -1136,13 +1440,14 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(ParentNode).find("> ul > li").length;
+							anz = $(parent_node).find("> ul > li").length;
 							if (anz === 1) {
 								anzTxt = anz + " Teilpopulation";
 							} else {
 								anzTxt = anz + " Teilpopulationen";
 							}
-							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzTxt);
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							initiiere_tpop();
 						},
@@ -1166,11 +1471,12 @@ function treeKontextmenu(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function () {
 					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
-					jQuery.jstree._reference(AktiverNode).deselect_all();
+					jQuery.jstree._reference(aktiver_node).deselect_all();
 					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
-					jQuery.jstree._reference(AktiverNode).open_all(AktiverNode);
-					jQuery.jstree._reference(AktiverNode).select_node(AktiverNode);
-					$("#loeschen_dialog_mitteilung").html("Die Teilpopulation \"" + jQuery.jstree._reference(AktiverNode).get_text(AktiverNode) + "\" und alle darunter befindlichen Knoten werden unwiederbringlich gelöscht.");
+					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
+					jQuery.jstree._reference(aktiver_node).deselect_all();
+					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
+					$("#loeschen_dialog_mitteilung").html("Die Teilpopulation \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" und alle darunter befindlichen Knoten werden unwiederbringlich gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
 						height:'auto',
@@ -1183,23 +1489,23 @@ function treeKontextmenu(node) {
 									url: 'php/tpop_delete.php',
 									dataType: 'json',
 									data: {
-										"id": $(AktiverNode).attr("id")
+										"id": $(aktiver_node).attr("id")
 									},
 									success: function () {
 										var anz, anzTxt;
 										delete localStorage.tpop_id;
 										delete window.tpop;
-										jQuery.jstree._reference(ParentNode).deselect_all();
-										jQuery.jstree._reference(ParentNode).select_node(ParentNode);
-										jQuery.jstree._reference(AktiverNode).delete_node(AktiverNode);
+										jQuery.jstree._reference(parent_node).deselect_all();
+										jQuery.jstree._reference(parent_node).select_node(parent_node);
+										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
-										anz = $(ParentNode).find("> ul > li").length;
+										anz = $(parent_node).find("> ul > li").length;
 										if (anz === 1) {
 											anzTxt = anz + " Teilpopulation";
 										} else {
 											anzTxt = anz + " Teilpopulationen";
 										}
-										jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzTxt);
+										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
 										initiiere_pop();
 									},
 									error: function (data) {
@@ -1229,7 +1535,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
-					window.tpop_node_ausgeschnitten = AktiverNode;
+					window.tpop_node_ausgeschnitten = aktiver_node;
 				}
 			}
 		}
@@ -1239,7 +1545,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/kopieren.png",
 				"action": function () {
-					window.tpop_node_kopiert = AktiverNode;
+					window.tpop_node_kopiert = aktiver_node;
 					//Daten des Objekts holen
 					$.ajax({
 						url: 'php/tpop.php',
@@ -1275,24 +1581,25 @@ function treeKontextmenu(node) {
 						url: 'php/tpop_einfuegen.php',
 						dataType: 'json',
 						data: {
-							"pop_id": $(ParentNode).attr("id"),
-							"tpop_id": $(AktiverNode).attr("id"),
+							"pop_id": $(parent_node).attr("id"),
+							"tpop_id": $(aktiver_node).attr("id"),
 							"user": sessionStorage.User
 						},
 						success: function () {
 							var anz, anzTxt;
 							//node verschieben
-							ParentNode = jQuery.jstree._reference(AktiverNode)._get_parent(AktiverNode);
-							jQuery.jstree._reference(ParentNode).move_node(window.tpop_node_ausgeschnitten, ParentNode, "last", false);
+							parent_node = jQuery.jstree._reference(aktiver_node)._get_parent(aktiver_node);
+							jQuery.jstree._reference(parent_node).move_node(window.tpop_node_ausgeschnitten, parent_node, "last", false);
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(ParentNode).find("> ul > li").length;
+							anz = $(parent_node).find("> ul > li").length;
 							if (anz === 1) {
 								anzTxt = anz + " Teilpopulation";
 							} else {
 								anzTxt = anz + " Teilpopulationen";
 							}
-							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzTxt);
-							jQuery.jstree._reference(ParentNode).select_node(window.tpop_node_ausgeschnitten);
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(parent_node).select_node(window.tpop_node_ausgeschnitten);
 							//Variabeln aufräumen
 							localStorage.tpop_id = $(window.tpop_node_ausgeschnitten).attr("id");
 							delete window.tpop;
@@ -1322,7 +1629,7 @@ function treeKontextmenu(node) {
 				"action": function () {
 					var dataUrl;
 					//User und neue PopId mitgeben
-					dataUrl = "?MutWer=" + sessionStorage.User + "&PopId=" + $(ParentNode).attr("id");
+					dataUrl = "?MutWer=" + sessionStorage.User + "&PopId=" + $(parent_node).attr("id");
 					//die alten id's entfernen
 					delete window.tpop_objekt_kopiert.PopId;
 					delete window.tpop_objekt_kopiert.TPopId;
@@ -1346,7 +1653,7 @@ function treeKontextmenu(node) {
 							var NeuerNode, anz, anzTxt;
 							localStorage.tpop_id = data;
 							delete window.tpop;
-							NeuerNode = jQuery.jstree._reference(ParentNode).create_node(ParentNode, "last", {
+							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
 								"data": window.tpop_objekt_kopiert.TPopFlurname,
 								"attr": {
 									"id": data,
@@ -1354,13 +1661,14 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(ParentNode).find("> ul > li").length;
+							anz = $(parent_node).find("> ul > li").length;
 							if (anz === 1) {
 								anzTxt = anz + " Teilpopulation";
 							} else {
 								anzTxt = anz + " Teilpopulationen";
 							}
-							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzTxt);
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							initiiere_tpop();
 						},
@@ -1390,7 +1698,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopfeldkontr_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(AktiverNode).attr("id"),
+							"id": $(aktiver_node).attr("id"),
 							"typ": "tpopfeldkontr",
 							"user": sessionStorage.User
 						},
@@ -1398,7 +1706,7 @@ function treeKontextmenu(node) {
 							var NeuerNode, anz, anzTxt;
 							localStorage.tpopfeldkontr_id = data;
 							delete window.tpopfeldkontr;
-							NeuerNode = jQuery.jstree._reference(AktiverNode).create_node(AktiverNode, "last", {
+							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
 								"data": "neue Feldkontrolle",
 								"attr": {
 									"id": data,
@@ -1406,13 +1714,14 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Node-Beschriftung: Anzahl anpassen
-							anz = $(AktiverNode).find("> ul > li").length;
+							anz = $(aktiver_node).find("> ul > li").length;
 							if (anz === 1) {
 								anzTxt = anz + " Feldkontrolle";
 							} else {
 								anzTxt = anz + " Feldkontrollen";
 							}
-							jQuery.jstree._reference(AktiverNode).rename_node(AktiverNode, anzTxt);
+							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							initiiere_tpopfeldkontr();
 						},
@@ -1441,23 +1750,24 @@ function treeKontextmenu(node) {
 						url: 'php/tpopfeldkontr_einfuegen.php',
 						dataType: 'json',
 						data: {
-							"tpop_id": $(AktiverNode).attr("id"),
+							"tpop_id": $(aktiver_node).attr("id"),
 							"tpopfeldkontr_id": $(window.tpopfeldkontr_node_ausgeschnitten).attr("id"),
 							"user": sessionStorage.User
 						},
 						success: function () {
 							var anz, anzTxt;
 							//node verschieben
-							jQuery.jstree._reference(AktiverNode).move_node(window.tpopfeldkontr_node_ausgeschnitten, AktiverNode, "last", false);
+							jQuery.jstree._reference(aktiver_node).move_node(window.tpopfeldkontr_node_ausgeschnitten, aktiver_node, "last", false);
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(AktiverNode).find("> ul > li").length;
+							anz = $(aktiver_node).find("> ul > li").length;
 							if (anz === 1) {
 								anzTxt = anz + " Feldkontrolle";
 							} else {
 								anzTxt = anz + " Feldkontrollen";
 							}
-							jQuery.jstree._reference(AktiverNode).rename_node(AktiverNode, anzTxt);
-							jQuery.jstree._reference(AktiverNode).select_node(window.tpopfeldkontr_node_ausgeschnitten);
+							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(aktiver_node).select_node(window.tpopfeldkontr_node_ausgeschnitten);
 							//Variabeln aufräumen
 							localStorage.tpopfeldkontr_id = $(window.tpopfeldkontr_node_ausgeschnitten).attr("id");
 							delete window.tpopfeldkontr;
@@ -1487,7 +1797,7 @@ function treeKontextmenu(node) {
 				"action": function () {
 					var dataUrl;
 					//User und neue TPopId mitgeben
-					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(AktiverNode).attr("id");
+					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(aktiver_node).attr("id");
 					//die alten id's entfernen
 					delete window.tpopfeldkontr_objekt_kopiert.TPopId;
 					delete window.tpopfeldkontr_objekt_kopiert.TPopKontrId;
@@ -1511,7 +1821,7 @@ function treeKontextmenu(node) {
 							var NeuerNode, anz, anzTxt;
 							localStorage.tpopfeldkontr_id = data;
 							delete window.tpopfeldkontr;
-							NeuerNode = jQuery.jstree._reference(AktiverNode).create_node(AktiverNode, "last", {
+							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
 								"data": window.tpopfeldkontr_objekt_kopiert.TPopKontrJahr,
 								"attr": {
 									"id": data,
@@ -1519,13 +1829,14 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(AktiverNode).find("> ul > li").length;
+							anz = $(aktiver_node).find("> ul > li").length;
 							if (anz === 1) {
 								anzTxt = anz + " Feldkontrolle";
 							} else {
 								anzTxt = anz + " Feldkontrollen";
 							}
-							jQuery.jstree._reference(AktiverNode).rename_node(AktiverNode, anzTxt);
+							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							initiiere_tpopfeldkontr();
 						},
@@ -1555,7 +1866,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopfeldkontr_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(ParentNode).attr("id"),
+							"id": $(parent_node).attr("id"),
 							"typ": "tpopfeldkontr",
 							"user": sessionStorage.User
 						},
@@ -1563,7 +1874,7 @@ function treeKontextmenu(node) {
 							var NeuerNode, anz, anzTxt;
 							localStorage.tpopfeldkontr_id = data;
 							delete window.tpopfeldkontr;
-							NeuerNode = jQuery.jstree._reference(ParentNode).create_node(ParentNode, "last", {
+							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
 								"data": "neue Feldkontrolle",
 								"attr": {
 									"id": data,
@@ -1571,13 +1882,14 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(ParentNode).find("> ul > li").length;
+							anz = $(parent_node).find("> ul > li").length;
 							if (anz === 1) {
 								anzTxt = anz + " Feldkontrolle";
 							} else {
 								anzTxt = anz + " Feldkontrollen";
 							}
-							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzTxt);
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							initiiere_tpopfeldkontr();
 						},
@@ -1604,22 +1916,23 @@ function treeKontextmenu(node) {
 						url: 'php/tpopfeldkontr_delete.php',
 						dataType: 'json',
 						data: {
-							"id": $(AktiverNode).attr("id")
+							"id": $(aktiver_node).attr("id")
 						},
 						success: function () {
 							var anz, anzTxt;
 							delete localStorage.tpopfeldkontr_id;
 							delete window.tpopfeldkontr;
-							jQuery.jstree._reference(ParentNode).select_node(ParentNode);
-							jQuery.jstree._reference(AktiverNode).delete_node(AktiverNode);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(parent_node).select_node(parent_node);
+							jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(ParentNode).find("> ul > li").length;
+							anz = $(parent_node).find("> ul > li").length;
 							if (anz === 1) {
 								anzTxt = anz + " Feldkontrolle";
 							} else {
 								anzTxt = anz + " Feldkontrollen";
 							}
-							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzTxt);
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
 							initiiere_tpop();
 						},
 						error: function (data) {
@@ -1643,7 +1956,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
-					window.tpopfeldkontr_node_ausgeschnitten = AktiverNode;
+					window.tpopfeldkontr_node_ausgeschnitten = aktiver_node;
 				}
 			}
 		}
@@ -1653,7 +1966,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/kopieren.png",
 				"action": function () {
-					window.tpopfeldkontr_node_kopiert = AktiverNode;
+					window.tpopfeldkontr_node_kopiert = aktiver_node;
 					//Daten des Objekts holen
 					$.ajax({
 						url: 'php/tpopfeldkontr.php',
@@ -1689,24 +2002,25 @@ function treeKontextmenu(node) {
 						url: 'php/tpopfeldkontr_einfuegen.php',
 						dataType: 'json',
 						data: {
-							"tpop_id": $(ParentNode).attr("id"),
-							"tpopfeldkontr_id": $(AktiverNode).attr("id"),
+							"tpop_id": $(parent_node).attr("id"),
+							"tpopfeldkontr_id": $(aktiver_node).attr("id"),
 							"user": sessionStorage.User
 						},
 						success: function () {
 							var anz, anzTxt;
 							//node verschieben
-							ParentNode = jQuery.jstree._reference(AktiverNode)._get_parent(AktiverNode);
-							jQuery.jstree._reference(ParentNode).move_node(window.tpopfeldkontr_node_ausgeschnitten, ParentNode, "last", false);
+							parent_node = jQuery.jstree._reference(aktiver_node)._get_parent(aktiver_node);
+							jQuery.jstree._reference(parent_node).move_node(window.tpopfeldkontr_node_ausgeschnitten, parent_node, "last", false);
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(ParentNode).find("> ul > li").length;
+							anz = $(parent_node).find("> ul > li").length;
 							if (anz === 1) {
 								anzTxt = anz + " Feldkontrolle";
 							} else {
 								anzTxt = anz + " Feldkontrollen";
 							}
-							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzTxt);
-							jQuery.jstree._reference(ParentNode).select_node(window.tpopfeldkontr_node_ausgeschnitten);
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(parent_node).select_node(window.tpopfeldkontr_node_ausgeschnitten);
 							//Variabeln aufräumen
 							localStorage.tpopfeldkontr_id = $(window.tpopfeldkontr_node_ausgeschnitten).attr("id");
 							delete window.tpopfeldkontr;
@@ -1736,7 +2050,7 @@ function treeKontextmenu(node) {
 				"action": function () {
 					var dataUrl;
 					//User und neue TPopId mitgeben
-					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(ParentNode).attr("id");
+					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(parent_node).attr("id");
 					//die alten id's entfernen
 					delete window.tpopfeldkontr_objekt_kopiert.TPopId;
 					delete window.tpopfeldkontr_objekt_kopiert.TPopKontrId;
@@ -1760,7 +2074,7 @@ function treeKontextmenu(node) {
 							var NeuerNode, anz, anzTxt;
 							localStorage.tpopfeldkontr_id = data;
 							delete window.tpopfeldkontr;
-							NeuerNode = jQuery.jstree._reference(ParentNode).create_node(ParentNode, "last", {
+							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
 								"data": window.tpopfeldkontr_objekt_kopiert.TPopKontrJahr,
 								"attr": {
 									"id": data,
@@ -1768,13 +2082,14 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(ParentNode).find("> ul > li").length;
+							anz = $(parent_node).find("> ul > li").length;
 							if (anz === 1) {
 								anzTxt = anz + " Feldkontrolle";
 							} else {
 								anzTxt = anz + " Feldkontrollen";
 							}
-							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzTxt);
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							initiiere_tpopfeldkontr();
 						},
@@ -1804,7 +2119,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopfeldkontr_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(AktiverNode).attr("id"),
+							"id": $(aktiver_node).attr("id"),
 							"typ": "tpopfreiwkontr",
 							"user": sessionStorage.User,
 							"TPopKontrTyp": "Freiwilligen-Erfolgskontrolle"
@@ -1814,7 +2129,7 @@ function treeKontextmenu(node) {
 							localStorage.tpopfeldkontr_id = data;
 							localStorage.freiwkontr = true;
 							delete window.tpopfeldkontr;
-							NeuerNode = jQuery.jstree._reference(AktiverNode).create_node(AktiverNode, "last", {
+							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
 								"data": "neue Freiwilligen-Kontrolle",
 								"attr": {
 									"id": data,
@@ -1822,13 +2137,14 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Node-Beschriftung: Anzahl anpassen
-							anz = $(AktiverNode).find("> ul > li").length;
+							anz = $(aktiver_node).find("> ul > li").length;
 							if (anz === 1) {
 								anzTxt = anz + " Freiwilligen-Kontrolle";
 							} else {
 								anzTxt = anz + " Freiwilligen-Kontrollen";
 							}
-							jQuery.jstree._reference(AktiverNode).rename_node(AktiverNode, anzTxt);
+							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							initiiere_tpopfeldkontr();
 						},
@@ -1857,23 +2173,24 @@ function treeKontextmenu(node) {
 						url: 'php/tpopfeldkontr_einfuegen.php',
 						dataType: 'json',
 						data: {
-							"tpop_id": $(AktiverNode).attr("id"),
+							"tpop_id": $(aktiver_node).attr("id"),
 							"tpopfeldkontr_id": $(window.tpopfreiwkontr_node_ausgeschnitten).attr("id"),
 							"user": sessionStorage.User
 						},
 						success: function () {
 							var anz, anzTxt;
 							//node verschieben
-							jQuery.jstree._reference(AktiverNode).move_node(window.tpopfreiwkontr_node_ausgeschnitten, AktiverNode, "last", false);
+							jQuery.jstree._reference(aktiver_node).move_node(window.tpopfreiwkontr_node_ausgeschnitten, aktiver_node, "last", false);
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(AktiverNode).find("> ul > li").length;
+							anz = $(aktiver_node).find("> ul > li").length;
 							if (anz === 1) {
 								anzTxt = anz + " Freiwilligen-Kontrolle";
 							} else {
 								anzTxt = anz + " Freiwilligen-Kontrollen";
 							}
-							jQuery.jstree._reference(AktiverNode).rename_node(AktiverNode, anzTxt);
-							jQuery.jstree._reference(AktiverNode).select_node(window.tpopfreiwkontr_node_ausgeschnitten);
+							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(aktiver_node).select_node(window.tpopfreiwkontr_node_ausgeschnitten);
 							//Variabeln aufräumen
 							localStorage.tpopfeldkontr_id = $(window.tpopfreiwkontr_node_ausgeschnitten).attr("id");
 							delete window.tpopfeldkontr;
@@ -1903,7 +2220,7 @@ function treeKontextmenu(node) {
 				"action": function () {
 					var dataUrl;
 					//User und neue TPopId mitgeben
-					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(AktiverNode).attr("id");
+					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(aktiver_node).attr("id");
 					//die alten id's entfernen
 					delete tpopfreiwkontr_objekt_kopiert.TPopId;
 					delete tpopfreiwkontr_objekt_kopiert.TPopKontrId;
@@ -1928,7 +2245,7 @@ function treeKontextmenu(node) {
 							localStorage.tpopfeldkontr_id = data;
 							localStorage.freiwkontr = true;
 							delete window.tpopfeldkontr;
-							NeuerNode = jQuery.jstree._reference(AktiverNode).create_node(AktiverNode, "last", {
+							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
 								"data": tpopfreiwkontr_objekt_kopiert.TPopKontrJahr,
 								"attr": {
 									"id": data,
@@ -1936,13 +2253,14 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(AktiverNode).find("> ul > li").length;
+							anz = $(aktiver_node).find("> ul > li").length;
 							if (anz === 1) {
 								anzTxt = anz + " Freiwilligen-Kontrolle";
 							} else {
 								anzTxt = anz + " Freiwilligen-Kontrollen";
 							}
-							jQuery.jstree._reference(AktiverNode).rename_node(AktiverNode, anzTxt);
+							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							initiiere_tpopfeldkontr();
 						},
@@ -1972,7 +2290,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopfeldkontr_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(ParentNode).attr("id"),
+							"id": $(parent_node).attr("id"),
 							"typ": "tpopfreiwkontr",
 							"user": sessionStorage.User,
 							"TPopKontrTyp": "Freiwilligen-Erfolgskontrolle"
@@ -1982,7 +2300,7 @@ function treeKontextmenu(node) {
 							localStorage.tpopfeldkontr_id = data;
 							localStorage.tpopfreiwkontr = true;
 							delete window.tpopfeldkontr;
-							NeuerNode = jQuery.jstree._reference(ParentNode).create_node(ParentNode, "last", {
+							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
 								"data": "neue Freiwilligen-Kontrolle",
 								"attr": {
 									"id": data,
@@ -1990,13 +2308,14 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(ParentNode).find("> ul > li").length;
+							anz = $(parent_node).find("> ul > li").length;
 							if (anz === 1) {
 								anzTxt = anz + " Feldkontrolle";
 							} else {
 								anzTxt = anz + " Feldkontrollen";
 							}
-							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzTxt);
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							initiiere_tpopfeldkontr();
 						},
@@ -2023,23 +2342,24 @@ function treeKontextmenu(node) {
 						url: 'php/tpopfeldkontr_delete.php',
 						dataType: 'json',
 						data: {
-							"id": $(AktiverNode).attr("id")
+							"id": $(aktiver_node).attr("id")
 						},
 						success: function () {
 							var anz, anzTxt;
 							delete localStorage.tpopfeldkontr_id;
 							delete localStorage.freiwkontr;
 							delete window.tpopfeldkontr;
-							jQuery.jstree._reference(ParentNode).select_node(ParentNode);
-							jQuery.jstree._reference(AktiverNode).delete_node(AktiverNode);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(parent_node).select_node(parent_node);
+							jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(ParentNode).find("> ul > li").length;
+							anz = $(parent_node).find("> ul > li").length;
 							if (anz === 1) {
 								anzTxt = anz + " Freiwilligen-Kontrolle";
 							} else {
 								anzTxt = anz + " Freiwilligen-Kontrollen";
 							}
-							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzTxt);
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
 							initiiere_tpop();
 						},
 						error: function (data) {
@@ -2063,7 +2383,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
-					window.tpopfreiwkontr_node_ausgeschnitten = AktiverNode;
+					window.tpopfreiwkontr_node_ausgeschnitten = aktiver_node;
 				}
 			}
 		}
@@ -2073,7 +2393,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/kopieren.png",
 				"action": function () {
-					window.tpopfreiwkontr_node_kopiert = AktiverNode;
+					window.tpopfreiwkontr_node_kopiert = aktiver_node;
 					//Daten des Objekts holen
 					$.ajax({
 						url: 'php/tpopfeldkontr.php',
@@ -2109,24 +2429,25 @@ function treeKontextmenu(node) {
 						url: 'php/tpopfeldkontr_einfuegen.php',
 						dataType: 'json',
 						data: {
-							"tpop_id": $(ParentNode).attr("id"),
-							"tpopfeldkontr_id": $(AktiverNode).attr("id"),
+							"tpop_id": $(parent_node).attr("id"),
+							"tpopfeldkontr_id": $(aktiver_node).attr("id"),
 							"user": sessionStorage.User
 						},
 						success: function () {
 							var anz, anzTxt;
 							//node verschieben
-							ParentNode = jQuery.jstree._reference(AktiverNode)._get_parent(AktiverNode);
-							jQuery.jstree._reference(ParentNode).move_node(window.tpopfreiwkontr_node_ausgeschnitten, ParentNode, "last", false);
+							parent_node = jQuery.jstree._reference(aktiver_node)._get_parent(aktiver_node);
+							jQuery.jstree._reference(parent_node).move_node(window.tpopfreiwkontr_node_ausgeschnitten, parent_node, "last", false);
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(ParentNode).find("> ul > li").length;
+							anz = $(parent_node).find("> ul > li").length;
 							if (anz === 1) {
 								anzTxt = anz + " Freiwilligen-Kontrolle";
 							} else {
 								anzTxt = anz + " Freiwilligen-Kontrollen";
 							}
-							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzTxt);
-							jQuery.jstree._reference(ParentNode).select_node(window.tpopfreiwkontr_node_ausgeschnitten);
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(parent_node).select_node(window.tpopfreiwkontr_node_ausgeschnitten);
 							//Variabeln aufräumen
 							localStorage.tpopfeldkontr_id = $(window.tpopfreiwkontr_node_ausgeschnitten).attr("id");
 							delete window.tpopfeldkontr;
@@ -2156,7 +2477,7 @@ function treeKontextmenu(node) {
 				"action": function () {
 					var dataUrl;
 					//User und neue TPopId mitgeben
-					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(ParentNode).attr("id");
+					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(parent_node).attr("id");
 					//die alten id's entfernen
 					delete tpopfreiwkontr_objekt_kopiert.TPopId;
 					delete tpopfreiwkontr_objekt_kopiert.TPopKontrId;
@@ -2180,7 +2501,7 @@ function treeKontextmenu(node) {
 							var NeuerNode, anz, anzTxt;
 							localStorage.tpopfeldkontr_id = data;
 							delete window.tpopfeldkontr;
-							NeuerNode = jQuery.jstree._reference(ParentNode).create_node(ParentNode, "last", {
+							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
 								"data": tpopfreiwkontr_objekt_kopiert.TPopKontrJahr,
 								"attr": {
 									"id": data,
@@ -2188,13 +2509,14 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(ParentNode).find("> ul > li").length;
+							anz = $(parent_node).find("> ul > li").length;
 							if (anz === 1) {
 								anzTxt = anz + " Freiwilligen-Kontrolle";
 							} else {
 								anzTxt = anz + " Freiwilligen-Kontrollen";
 							}
-							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzTxt);
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							initiiere_tpopfeldkontr();
 						},
@@ -2224,7 +2546,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopmassn_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(AktiverNode).attr("id"),
+							"id": $(aktiver_node).attr("id"),
 							"typ": "tpopmassn",
 							"user": sessionStorage.User
 						},
@@ -2232,7 +2554,7 @@ function treeKontextmenu(node) {
 							var NeuerNode, anz, anzTxt;
 							localStorage.tpopmassn_id = data;
 							delete window.tpopmassn;
-							NeuerNode = jQuery.jstree._reference(AktiverNode).create_node(AktiverNode, "last", {
+							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
 								"data": "neue Massnahme",
 								"attr": {
 									"id": data,
@@ -2240,13 +2562,14 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Node-Beschriftung: Anzahl anpassen
-							anz = $(AktiverNode).find("> ul > li").length;
+							anz = $(aktiver_node).find("> ul > li").length;
 							if (anz === 1) {
 								anzTxt = anz + " Massnahme";
 							} else {
 								anzTxt = anz + " Massnahmen";
 							}
-							jQuery.jstree._reference(AktiverNode).rename_node(AktiverNode, anzTxt);
+							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							initiiere_tpopmassn();
 						},
@@ -2275,23 +2598,24 @@ function treeKontextmenu(node) {
 						url: 'php/tpopmassn_einfuegen.php',
 						dataType: 'json',
 						data: {
-							"tpop_id": $(AktiverNode).attr("id"),
+							"tpop_id": $(aktiver_node).attr("id"),
 							"tpopmassn_id": $(window.tpopmassn_node_ausgeschnitten).attr("id"),
 							"user": sessionStorage.User
 						},
 						success: function () {
 							var anz, anzTxt;
 							//node verschieben
-							jQuery.jstree._reference(AktiverNode).move_node(window.tpopmassn_node_ausgeschnitten, AktiverNode, "last", false);
+							jQuery.jstree._reference(aktiver_node).move_node(window.tpopmassn_node_ausgeschnitten, aktiver_node, "last", false);
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(AktiverNode).find("> ul > li").length;
+							anz = $(aktiver_node).find("> ul > li").length;
 							if (anz === 1) {
 								anzTxt = anz + " Massnahme";
 							} else {
 								anzTxt = anz + " Massnahmen";
 							}
-							jQuery.jstree._reference(AktiverNode).rename_node(AktiverNode, anzTxt);
-							jQuery.jstree._reference(AktiverNode).select_node(window.tpopmassn_node_ausgeschnitten);
+							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(aktiver_node).select_node(window.tpopmassn_node_ausgeschnitten);
 							//Variabeln aufräumen
 							localStorage.tpopmassn_id = $(window.tpopmassn_node_ausgeschnitten).attr("id");
 							delete window.tpopmassn;
@@ -2321,7 +2645,7 @@ function treeKontextmenu(node) {
 				"action": function () {
 					var dataUrl;
 					//User und neue TPopId mitgeben
-					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(AktiverNode).attr("id");
+					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(aktiver_node).attr("id");
 					//die alten id's entfernen
 					delete window.tpopmassn_objekt_kopiert.TPopId;
 					delete window.tpopmassn_objekt_kopiert.TPopMassnId;
@@ -2345,7 +2669,7 @@ function treeKontextmenu(node) {
 							var NeuerNode, anz, anzTxt;
 							localStorage.tpopmassn_id = data;
 							delete window.tpopmassn;
-							NeuerNode = jQuery.jstree._reference(AktiverNode).create_node(AktiverNode, "last", {
+							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
 								"data": window.tpopmassn_objekt_kopiert.TPopMassnJahr,
 								"attr": {
 									"id": data,
@@ -2353,13 +2677,14 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(AktiverNode).find("> ul > li").length;
+							anz = $(aktiver_node).find("> ul > li").length;
 							if (anz === 1) {
 								anzTxt = anz + " Massnahme";
 							} else {
 								anzTxt = anz + " Massnahmen";
 							}
-							jQuery.jstree._reference(AktiverNode).rename_node(AktiverNode, anzTxt);
+							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							initiiere_tpopmassn();
 						},
@@ -2389,7 +2714,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopmassn_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(ParentNode).attr("id"),
+							"id": $(parent_node).attr("id"),
 							"typ": "tpopmassn",
 							"user": sessionStorage.User
 						},
@@ -2397,7 +2722,7 @@ function treeKontextmenu(node) {
 							var NeuerNode, anz, anzTxt;
 							localStorage.tpopmassn_id = data;
 							delete window.tpopmassn;
-							NeuerNode = jQuery.jstree._reference(ParentNode).create_node(ParentNode, "last", {
+							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
 								"data": "neue Massnahme",
 								"attr": {
 									"id": data,
@@ -2405,13 +2730,14 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(ParentNode).find("> ul > li").length;
+							anz = $(parent_node).find("> ul > li").length;
 							if (anz === 1) {
 								anzTxt = anz + " Massnahme";
 							} else {
 								anzTxt = anz + " Massnahmen";
 							}
-							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzTxt);
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							initiiere_tpopmassn();
 						},
@@ -2438,22 +2764,23 @@ function treeKontextmenu(node) {
 						url: 'php/tpopmassn_delete.php',
 						dataType: 'json',
 						data: {
-							"id": $(AktiverNode).attr("id")
+							"id": $(aktiver_node).attr("id")
 						},
 						success: function () {
 							var anz, anzTxt;
 							delete localStorage.tpopmassn_id;
 							delete window.tpopmassn;
-							jQuery.jstree._reference(ParentNode).select_node(ParentNode);
-							jQuery.jstree._reference(AktiverNode).delete_node(AktiverNode);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(parent_node).select_node(parent_node);
+							jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(ParentNode).find("> ul > li").length;
+							anz = $(parent_node).find("> ul > li").length;
 							if (anz === 1) {
 								anzTxt = anz + " Massnahme";
 							} else {
 								anzTxt = anz + " Massnahmen";
 							}
-							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzTxt);
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
 							initiiere_tpop();
 						},
 						error: function (data) {
@@ -2477,7 +2804,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
-					window.tpopmassn_node_ausgeschnitten = AktiverNode;
+					window.tpopmassn_node_ausgeschnitten = aktiver_node;
 				}
 			}
 		}
@@ -2487,7 +2814,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/kopieren.png",
 				"action": function () {
-					window.tpopmassn_node_kopiert = AktiverNode;
+					window.tpopmassn_node_kopiert = aktiver_node;
 					//Daten des Objekts holen
 					$.ajax({
 						url: 'php/tpopmassn.php',
@@ -2523,24 +2850,25 @@ function treeKontextmenu(node) {
 						url: 'php/tpopmassn_einfuegen.php',
 						dataType: 'json',
 						data: {
-							"tpop_id": $(ParentNode).attr("id"),
-							"tpopmassn_id": $(AktiverNode).attr("id"),
+							"tpop_id": $(parent_node).attr("id"),
+							"tpopmassn_id": $(aktiver_node).attr("id"),
 							"user": sessionStorage.User
 						},
 						success: function () {
 							var anz, anzTxt;
 							//node verschieben
-							ParentNode = jQuery.jstree._reference(AktiverNode)._get_parent(AktiverNode);
-							jQuery.jstree._reference(ParentNode).move_node(window.tpopmassn_node_ausgeschnitten, ParentNode, "last", false);
+							parent_node = jQuery.jstree._reference(aktiver_node)._get_parent(aktiver_node);
+							jQuery.jstree._reference(parent_node).move_node(window.tpopmassn_node_ausgeschnitten, parent_node, "last", false);
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(ParentNode).find("> ul > li").length;
+							anz = $(parent_node).find("> ul > li").length;
 							if (anz === 1) {
 								anzTxt = anz + " Massnahme";
 							} else {
 								anzTxt = anz + " Massnahmen";
 							}
-							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzTxt);
-							jQuery.jstree._reference(ParentNode).select_node(window.tpopmassn_node_ausgeschnitten);
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(parent_node).select_node(window.tpopmassn_node_ausgeschnitten);
 							//Variabeln aufräumen
 							localStorage.tpopmassn_id = $(window.tpopmassn_node_ausgeschnitten).attr("id");
 							delete window.tpopmassn;
@@ -2570,7 +2898,7 @@ function treeKontextmenu(node) {
 				"action": function () {
 					var dataUrl;
 					//User und neue TPopId mitgeben
-					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(ParentNode).attr("id");
+					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(parent_node).attr("id");
 					//die alten id's entfernen
 					delete window.tpopmassn_objekt_kopiert.TPopId;
 					delete window.tpopmassn_objekt_kopiert.TPopMassnId;
@@ -2594,7 +2922,7 @@ function treeKontextmenu(node) {
 							var NeuerNode, anz, anzTxt;
 							localStorage.tpopmassn_id = data;
 							delete window.tpopmassn;
-							NeuerNode = jQuery.jstree._reference(ParentNode).create_node(ParentNode, "last", {
+							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
 								"data": window.tpopmassn_objekt_kopiert.TPopMassnJahr,
 								"attr": {
 									"id": data,
@@ -2602,13 +2930,14 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(ParentNode).find("> ul > li").length;
+							anz = $(parent_node).find("> ul > li").length;
 							if (anz === 1) {
 								anzTxt = anz + " Massnahme";
 							} else {
 								anzTxt = anz + " Massnahmen";
 							}
-							jQuery.jstree._reference(ParentNode).rename_node(ParentNode, anzTxt);
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							initiiere_tpopmassn();
 						},
@@ -2719,6 +3048,9 @@ function speichern(that) {
 				}
 			}
 			jQuery("#tree").jstree("rename_node", "#" + localStorage.tpopmassn_id, massn_typ_text);
+			break;
+		case "ZielBezeichnung":
+			jQuery("#tree").jstree("rename_node", "#" + localStorage.apziel_id, Feldwert);
 			break;
 	}
 }

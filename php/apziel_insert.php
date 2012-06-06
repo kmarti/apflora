@@ -19,11 +19,7 @@ $Querystring = 'INSERT INTO tblZiel (ApArtId, MutWann, MutWer) VALUES ('.$id.', 
 //SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);
 
-/*if (!$result) {
-	print "Fehler: Es wurde kein neues Programm gespeichert";
-} else {*/
 print mysqli_insert_id($link);
-//}
 
 // Verbindung schliessen
 mysqli_close($link);

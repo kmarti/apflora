@@ -284,6 +284,7 @@ while($r_apzieljahr = mysqli_fetch_assoc($result_apzieljahr)) {
 	$result_apziel = mysqli_query($link, "SELECT ZielId, ZielTyp, ZielBezeichnung FROM tblZiel WHERE (ApArtId = $ApArtId) AND (ZielJahr = ".$r_apzieljahr['ZielJahr'].") ORDER BY ZielTyp, ZielBezeichnung");
 	$anz_apziel = mysqli_num_rows($result_apziel);
 	$anz_apzieljahr = $anz_apzieljahr + $anz_apziel;
+
 	//Datenstruktur apzieljahr aufbauen
 	$rows_apziel = array();
 	while($r_apziel = mysqli_fetch_assoc($result_apziel)) {
@@ -317,7 +318,12 @@ while($r_apzieljahr = mysqli_fetch_assoc($result_apzieljahr)) {
 		$ziel_ordner = array(0 => $ziel_ordner);
 
 		//apziel setzen
-		$ZielBezeichnung = $r_apziel['ZielBezeichnung'];
+		//abfangen, wenn Ziel (noch) nicht beschrieben ist
+		if ($r_apziel['ZielBezeichnung']) {
+			$ZielBezeichnung = $r_apziel['ZielBezeichnung'];
+		} else {
+			$ZielBezeichnung = "unbeschriebenes Ziel";
+		}
 		$ZielTyp = $r_apziel['ZielTyp'];
 		$attr_apziel = array("id" => $r_apziel['ZielId'], "typ" => "apziel");
 		$apziel = array("data" => $ZielBezeichnung, "attr" => $attr_apziel, "children" => $ziel_ordner);
@@ -327,9 +333,10 @@ while($r_apzieljahr = mysqli_fetch_assoc($result_apzieljahr)) {
 	mysqli_free_result($result_apziel);
 
 	//apzieljahr setzen
+	$metadata = array("ApArtId" => $ApArtId);
 	$attr_apzieljahr = array("id" => $apzieljahr_jahr, "typ" => "apzieljahr");
 	$data_apzieljahr = $apzieljahr_jahr.": ".$anz_apziel;
-	$apzieljahr = array("data" => $data_apzieljahr, "attr" => $attr_apzieljahr, "children" => $rows_apziel);
+	$apzieljahr = array("data" => $data_apzieljahr, "attr" => $attr_apzieljahr, "metadata" => $metadata, "children" => $rows_apziel);
 	//tpop-Array um tpop ergänzen
     $rows_apzieljahr[] = $apzieljahr;
 }

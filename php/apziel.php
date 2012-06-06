@@ -9,11 +9,11 @@ if ($link->connect_errno) {
     exit();
 }
 
-$ApArtId = $_GET["id"];
-settype($ApArtId, "integer");
+$ZielId = $_GET["id"];
+settype($ZielId, "integer");
 
 // SQL-Anfrage ausführen
-$result = mysqli_query($link, "SELECT * FROM tblZiel WHERE ApArtId=".$ApArtId);
+$result = mysqli_query($link, "SELECT * FROM tblZiel WHERE ZielId=".$ZielId);
 
 $row = mysqli_fetch_assoc($result);
 
