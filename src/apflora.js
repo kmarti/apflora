@@ -1,13 +1,7 @@
 function initiiere_index() {
 	$("#suchen").hide();
 	//alle Formulare verstecken
-	$("#forms").hide();
-	$("#ap").hide();
-	$("#pop").hide();
-	$("#tpop").hide();
-	$("#tpopfeldkontr").hide();
-	$("#tpopmassn").hide();
-	$("#vorlage").hide();
+	zeigeFormular();
 	$("#loeschen_dialog").hide();
 	//jQuery ui buttons initiieren
 	$("#programm_wahl").buttonset();
@@ -33,12 +27,6 @@ function initiiere_ap() {
 	//Programm-Wahl konfigurieren
 	var programm_wahl;
 	programm_wahl = $("[name='programm_wahl']:checked").attr("id");
-	//alle anderen Formulare ausblenden
-	$("#pop").hide();
-	$("#tpop").hide();
-	$("#vorlage").hide();
-	$("#tpopfeldkontr").hide();
-	$("#tpopmassn").hide();
 	//Felder zurücksetzen
 	leereFelderVonFormular("ap");
 	setzeFeldbreiten();
@@ -62,13 +50,7 @@ function initiiere_ap() {
 					$("#ApArtId").val(data.ApArtId);
 					$("#ApJahr").val(data.ApJahr);
 					//Formulare blenden
-					$("#forms").show();
-					$("#ap").show();
-					$("#pop").hide();
-					$("#tpop").hide();
-					$("#tpopfeldkontr").hide();
-					$("#tpopmassn").hide();
-					$("#vorlage").hide();
+					zeigeFormular("ap");
 					$("#ap_loeschen").show();
 				}
 			}
@@ -76,13 +58,7 @@ function initiiere_ap() {
 	} else if ($("#ap_waehlen").val() && programm_wahl === "programm_neu") {
 		$("#ApArtId").val($("#ap_waehlen").val());
 		//Formulare blenden
-		$("#forms").show();
-		$("#ap").show();
-		$("#pop").hide();
-		$("#tpop").hide();
-		$("#tpopfeldkontr").hide();
-		$("#tpopmassn").hide();
-		$("#vorlage").hide();
+		zeigeFormular("ap");
 		$("#ap_loeschen").show();
 	}
 }
@@ -138,12 +114,7 @@ function initiiere_pop() {
 				$("#PopNr").val(data.PopNr);
 				$("#PopBekanntSeit").val(data.PopBekanntSeit);
 				//Formulare blenden
-				$("#ap").hide();
-				$("#pop").show();
-				$("#tpop").hide();
-				$("#tpopfeldkontr").hide();
-				$("#tpopmassn").hide();
-				$("#vorlage").hide();
+				zeigeFormular("pop");
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#PopName").val()) {
 					$("#PopName").focus();
@@ -236,12 +207,7 @@ function initiiere_tpop() {
 					$("#TPopVerantw").val(window.tpop.TPopVerantw);
 				}
 				//Formulare blenden
-				$("#ap").hide();
-				$("#pop").hide();
-				$("#tpop").show();
-				$("#tpopfeldkontr").hide();
-				$("#tpopmassn").hide();
-				$("#vorlage").hide();
+				zeigeFormular("tpop");
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#TPopFlurname").val()) {
 					$('#TPopFlurname').focus();
@@ -444,20 +410,15 @@ function initiiere_tpopfeldkontr() {
 					blendeFelderEin(feldliste_feldkontr);
 				}
 				//Formulare blenden
-				$("#ap").hide();
-				$("#pop").hide();
-				$("#tpop").hide();
+				zeigeFormular("tpopfeldkontr");
 				//Register in Feldkontr blenden
 				if (localStorage.freiwkontr) {
-					$("#tpopfeldkontr_tabs_biotop").hide();
+					$("#tpopfeldkontr_tabs_biotop").show();
 					$("#biotop_tab_li").hide();
 				} else {
 					$("#tpopfeldkontr_tabs_biotop").show();
 					$("#biotop_tab_li").show();
 				}
-				$("#tpopfeldkontr").show();
-				$("#tpopmassn").hide();
-				$("#vorlage").hide();
 				//bei neuen Freiwilligen-Kontrollen Fokus steuern
 				if (!$("#TPopKontrJahr").val() && localStorage.freiwkontr) {
 					$("#TPopKontrJahr").focus();
@@ -588,18 +549,35 @@ function initiiere_tpopmassn() {
 				$("#TPopMassnAnsiedDatSamm").val(data.TPopMassnAnsiedDatSamm);
 				$("#TPopMassnGuid").val(data.TPopMassnGuid);
 				//Formulare blenden
-				$("#ap").hide();
-				$("#pop").hide();
-				$("#tpop").hide();
-				$("#tpopfeldkontr").hide();
-				$("#tpopfreiwkontr").hide();
-				$("#vorlage").hide();
-				$("#tpopmassn").show();
+				zeigeFormular("tpopmassn");
 				//bei neuen Datensätzen Fokus steuern
 				$('#TPopMassnTyp').focus();
 			}
 		}
 	});
+}
+
+//managed die Sichtbarkeit von Formularen
+//wird von allen initiiere_-Funktionen verwendet
+//wird ein Formularname übergeben, wird dieses Formular gezeigt
+//und alle anderen ausgeblendet
+function zeigeFormular(Formularname) {
+	if (Formularname) {
+		$("#forms").show();
+		$('form').each(function() {
+			if ($(this).attr("id") === Formularname) {
+				$(this).show();
+			} else {
+				$(this).hide();
+			}
+			
+		});
+	} else {
+		$("#forms").hide();
+		$('form').each(function() {
+			$(this).hide();
+		});
+	}
 }
 
 //leert alle Felder und stellt ihre Breite ein

@@ -272,21 +272,21 @@ mysqli_free_result($result_pop);
 
 //AP-Ziele
 //Jahre
-$result_apzielejahr = mysqli_query($link, "SELECT ZielJahr FROM tblZiel where ApArtId = $ApArtId GROUP BY ZielJahr");
-$anz_apzielejahr = 0;
-//Datenstruktur apzielejahr aufbauen
-$rows_apzielejahr = array();
-while($r_apzielejahr = mysqli_fetch_assoc($result_apzielejahr)) {
-	$apzielejahr_jahr = $r_apzielejahr['ZielJahr'];
-	settype($apzielejahr_jahr, "integer");
+$result_apzieljahr = mysqli_query($link, "SELECT ZielJahr FROM tblZiel where ApArtId = $ApArtId GROUP BY ZielJahr");
+$anz_apzieljahr = 0;
+//Datenstruktur apzieljahr aufbauen
+$rows_apzieljahr = array();
+while($r_apzieljahr = mysqli_fetch_assoc($result_apzieljahr)) {
+	$apzieljahr_jahr = $r_apzieljahr['ZielJahr'];
+	settype($apzieljahr_jahr, "integer");
 
 	//Typen
-	$result_apziele = mysqli_query($link, "SELECT ZielId, ZielTyp, ZielBezeichnung FROM tblZiel WHERE (ApArtId = $ApArtId) AND (ZielJahr = ".$r_apzielejahr['ZielJahr'].") ORDER BY ZielTyp, ZielBezeichnung");
-	$anz_apziele = mysqli_num_rows($result_apziele);
-	$anz_apzielejahr = $anz_apzielejahr + $anz_apziele;
-	//Datenstruktur apzielejahr aufbauen
-	$rows_apziele = array();
-	while($r_apziele = mysqli_fetch_assoc($result_apziele)) {
+	$result_apziel = mysqli_query($link, "SELECT ZielId, ZielTyp, ZielBezeichnung FROM tblZiel WHERE (ApArtId = $ApArtId) AND (ZielJahr = ".$r_apzieljahr['ZielJahr'].") ORDER BY ZielTyp, ZielBezeichnung");
+	$anz_apziel = mysqli_num_rows($result_apziel);
+	$anz_apzieljahr = $anz_apzieljahr + $anz_apziel;
+	//Datenstruktur apzieljahr aufbauen
+	$rows_apziel = array();
+	while($r_apziel = mysqli_fetch_assoc($result_apziel)) {
 		$ZielId = $r_erfkrit['ZielId'];
 		settype($ZielId, "integer");
 
@@ -316,24 +316,24 @@ while($r_apzielejahr = mysqli_fetch_assoc($result_apzielejahr)) {
 		//zusammensetzen
 		$ziel_ordner = array(0 => $ziel_ordner);
 
-		//apziele setzen
-		$ZielBezeichnung = $r_apziele['ZielBezeichnung'];
-		$ZielTyp = $r_apziele['ZielTyp'];
-		$attr_apziele = array("id" => $r_apziele['ZielId'], "typ" => "apziele");
-		$apziele = array("data" => $ZielBezeichnung, "attr" => $attr_apziele, "children" => $ziel_ordner);
-		//Array um apziele ergänzen
-	    $rows_apziele[] = $apziele;
+		//apziel setzen
+		$ZielBezeichnung = $r_apziel['ZielBezeichnung'];
+		$ZielTyp = $r_apziel['ZielTyp'];
+		$attr_apziel = array("id" => $r_apziel['ZielId'], "typ" => "apziel");
+		$apziel = array("data" => $ZielBezeichnung, "attr" => $attr_apziel, "children" => $ziel_ordner);
+		//Array um apziel ergänzen
+	    $rows_apziel[] = $apziel;
 	}
-	mysqli_free_result($result_apziele);
+	mysqli_free_result($result_apziel);
 
-	//apzielejahr setzen
-	$attr_apzielejahr = array("id" => $apzielejahr_jahr, "typ" => "apzielejahr");
-	$data_apzielejahr = $apzielejahr_jahr.": ".$anz_apziele;
-	$apzielejahr = array("data" => $data_apzielejahr, "attr" => $attr_apzielejahr, "children" => $rows_apziele);
+	//apzieljahr setzen
+	$attr_apzieljahr = array("id" => $apzieljahr_jahr, "typ" => "apzieljahr");
+	$data_apzieljahr = $apzieljahr_jahr.": ".$anz_apziel;
+	$apzieljahr = array("data" => $data_apzieljahr, "attr" => $attr_apzieljahr, "children" => $rows_apziel);
 	//tpop-Array um tpop ergänzen
-    $rows_apzielejahr[] = $apzielejahr;
+    $rows_apzieljahr[] = $apzieljahr;
 }
-mysqli_free_result($result_apzielejahr);
+mysqli_free_result($result_apzieljahr);
 
 //erfkrit dieses AP abfragen
 $result_erfkrit = mysqli_query($link, "SELECT ErfBeurtZielSkalaId, ApArtId, BeurteilTxt, BeurteilOrd
@@ -432,12 +432,12 @@ if ($anz_pop === 1) {
 $ap_ordner_pop_attr = array("id" => $ApArtId, "typ" => "ap_ordner_pop", "Ordner" => true);
 $ap_ordner_pop = array("data" => $ap_ordner_pop_datatext, "attr" => $ap_ordner_pop_attr, "children" => $rows_pop);
 //AP-Ziele
-$ap_ordner_apziele_datatext = $anz_apzielejahr." AP-Ziele";
-if ($anz_apzielejahr === 1) {
-	$ap_ordner_apziele_datatext = $anz_apzielejahr." AP-Ziel";
+$ap_ordner_apziel_datatext = $anz_apzieljahr." AP-Ziele";
+if ($anz_apzieljahr === 1) {
+	$ap_ordner_apziel_datatext = $anz_apzieljahr." AP-Ziel";
 }
-$ap_ordner_apziele_attr = array("id" => $ApArtId, "typ" => "ap_ordner_apziele", "Ordner" => true);
-$ap_ordner_apziele = array("data" => $ap_ordner_apziele_datatext, "attr" => $ap_ordner_apziele_attr, "children" => $rows_apzielejahr);
+$ap_ordner_apziel_attr = array("id" => $ApArtId, "typ" => "ap_ordner_apziel", "Ordner" => true);
+$ap_ordner_apziel = array("data" => $ap_ordner_apziel_datatext, "attr" => $ap_ordner_apziel_attr, "children" => $rows_apzieljahr);
 //Erfolgskriterien
 $ap_ordner_erfkrit_datatext = $anz_erfkrit." Erfolgskriterien";
 if ($anz_erfkrit === 1) {
@@ -482,7 +482,7 @@ if ($anz_ibartenassoz === 1) {
 $ap_ordner_ibartenassoz_attr = array("id" => $ApArtId, "typ" => "ap_ordner_ibartenassoz", "Ordner" => true);
 $ap_ordner_ibartenassoz = array("data" => $ap_ordner_ibartenassoz_datatext, "attr" => $ap_ordner_ibartenassoz_attr, "children" => $rows_ibartenassoz);
 //zusammensetzen
-$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziele, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_apibartenassoz, 4 => $ap_ordner_ber, 5 => $ap_ordner_iballg, 6 => $ap_ordner_ibb, 7 => $ap_ordner_ibartenassoz);
+$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_apibartenassoz, 4 => $ap_ordner_ber, 5 => $ap_ordner_iballg, 6 => $ap_ordner_ibb, 7 => $ap_ordner_ibartenassoz);
 
 	
 //in json verwandeln

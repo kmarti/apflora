@@ -34,7 +34,7 @@ fieldset {
 	text-align:right;
 	vertical-align: top;
 	color:#6F6F66;
-	margin:2px 7px 0px 0px;
+	margin:0px 7px 0px 0px;
 }
 
 fieldset legend {
@@ -63,8 +63,10 @@ input {
 	width: 200px;
 }
 
-#forms input, #forms select {
+#forms input, #forms select, #forms textarea {
 	font-size:17px;
+	/*alle inputs genau links ausrichten*/
+	margin-left:2px;
 }
 
 /*komischerweise kommen textareas in anderer Schrift*/
