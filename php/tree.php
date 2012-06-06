@@ -489,7 +489,7 @@ if ($anz_ibartenassoz === 1) {
 $ap_ordner_ibartenassoz_attr = array("id" => $ApArtId, "typ" => "ap_ordner_ibartenassoz", "Ordner" => true);
 $ap_ordner_ibartenassoz = array("data" => $ap_ordner_ibartenassoz_datatext, "attr" => $ap_ordner_ibartenassoz_attr, "children" => $rows_ibartenassoz);
 //zusammensetzen
-$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_apibartenassoz, 4 => $ap_ordner_ber, 5 => $ap_ordner_iballg, 6 => $ap_ordner_ibb, 7 => $ap_ordner_ibartenassoz);
+$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_apber, 4 => $ap_ordner_ber, 5 => $ap_ordner_iballg, 6 => $ap_ordner_ibb, 7 => $ap_ordner_ibartenassoz);
 
 	
 //in json verwandeln
