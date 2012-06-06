@@ -160,6 +160,42 @@ function initiiere_apziel() {
 	});
 }
 
+function initiiere_zielber() {
+	if (!localStorage.zielber_id) {
+		//es fehlen benötigte Daten > eine Ebene höher
+		initiiere_ap();
+		return;
+	}
+	//Felder zurücksetzen
+	leereFelderVonFormular("zielber");
+	setzeFeldbreiten();
+	//Daten für die zielber aus der DB holen
+	$.ajax({
+		url: 'php/zielber.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.zielber_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//ap bereitstellen
+				window.zielber = data;
+				//Felder mit Daten beliefern
+				$("#ZielBerJahr").val(data.ZielBerJahr);
+				$("#ZielBerErreichung").val(data.ZielBerErreichung);
+				$("#ZielBerTxt").val(data.ZielBerTxt);
+				//Formulare blenden
+				zeigeFormular("zielber");
+				//bei neuen Datensätzen Fokus steuern
+				if (!$("#ZielBerJahr").val()) {
+					$("#ZielBerJahr").focus();
+				}
+			}
+		}
+	});
+}
+
 function initiiere_tpop() {
 	if (!localStorage.tpop_id) {
 		//es fehlen benötigte Daten > eine Ebene höher
@@ -740,13 +776,19 @@ function erstelle_tree(ApArtId) {
 				localStorage.pop_id = node.attr("id");
 				initiiere_pop();
 			}
-		} else if (node.attr("typ") === "apziel") {
+		} else if (node.attr("typ") === "apziel" || node.attr("typ") === "zielber_ordner") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#apziel").is(':visible') || localStorage.apziel_id !== node.attr("id")) {
 				localStorage.apziel_id = node.attr("id");
 				initiiere_apziel();
 			}
-		} else if (node.attr("typ").slice(0, 3) === "ap_") {
+		} else if (node.attr("typ") === "zielber") {
+			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			if (!$("#zielber").is(':visible') || localStorage.zielber_id !== node.attr("id")) {
+				localStorage.zielber_id = node.attr("id");
+				initiiere_zielber();
+			}
+		} else if (node.attr("typ").slice(0, 3) === "ap_" || node.attr("typ") === "apzieljahr") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#ap").is(':visible') || localStorage.ap_id !== node.attr("id")) {
 				localStorage.ap_id = node.attr("id");
@@ -778,8 +820,8 @@ function erstelle_tree(ApArtId) {
 				localStorage.tpopmassn_id = node.attr("id");
 				initiiere_tpopmassn();
 			}
-		//bei apzieljahren kommt kein Formular
-		} else if (node.attr("typ") !== "apzieljahr") {
+		//bei apzieljahren und zielber kommt kein Formular
+		} else {
 			$("#Meldung").html("Diese Seite ist noch nicht gebaut");
 			$("#Meldung").dialog({
 				modal: true,
@@ -1160,6 +1202,184 @@ function treeKontextmenu(node) {
 			}
 		};
 		return items;
+	case "zielber_ordner":
+		items = {
+			"neu": {
+				"label": "neuer Ziel-Bericht",
+				"icon": "style/images/neu.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/zielber_insert.php',
+						dataType: 'json',
+						data: {
+							"id": $(aktiver_node).attr("id"),
+							"user": sessionStorage.User
+						},
+						success: function (data) {
+							var NeuerNode, anz, anzTxt;
+							localStorage.zielber_id = data;
+							delete window.zielber;
+							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+								"data": "neuer Ziel-Bericht",
+								"attr": {
+									"id": data,
+									"typ": "zielber"
+								}
+							});
+							//Node-Beschriftung: Anzahl anpassen
+							anz = $(aktiver_node).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Ziel-Bericht";
+							} else {
+								anzTxt = anz + " Ziel-Berichte";
+							}
+							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_zielber();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Kein neuer Ziel-Bericht erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		};
+		return items;
+	case "zielber":
+		items = {
+			"neu": {
+				"label": "neuer Ziel-Bericht",
+				"icon": "style/images/neu.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/zielber_insert.php',
+						dataType: 'json',
+						data: {
+							"id": $(parent_node).attr("id"),
+							"typ": "zielber",
+							"user": sessionStorage.User
+						},
+						success: function (data) {
+							var NeuerNode, anz, anzTxt;
+							localStorage.zielber_id = data;
+							delete window.zielber;
+							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
+								"data": "neuer Ziel-Bericht",
+								"attr": {
+									"id": data,
+									"typ": "zielber"
+								}
+							});
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anz = $(parent_node).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Ziel-Bericht";
+							} else {
+								anzTxt = anz + " Ziel-Berichte";
+							}
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_zielber();
+						},
+						error: function () {
+							$("#Meldung").html("Fehler: Kein neuer Ziel-Bericht erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},
+			"loeschen": {
+				"label": "löschen",
+				"separator_before": true,
+				"icon": "style/images/loeschen.png",
+				"action": function () {
+					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
+					jQuery.jstree._reference(aktiver_node).deselect_all();
+					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
+					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
+					jQuery.jstree._reference(aktiver_node).deselect_all();
+					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
+					$("#loeschen_dialog_mitteilung").html("Der Ziel-Bericht \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
+					$("#loeschen_dialog").dialog({
+						resizable: false,
+						height:'auto',
+						width: 400,
+						modal: true,
+						buttons: {
+							"ja, löschen!": function() {
+								$(this).dialog("close");
+								$.ajax({
+									url: 'php/zielber_delete.php',
+									dataType: 'json',
+									data: {
+										"id": $(aktiver_node).attr("id")
+									},
+									success: function () {
+										var anz, anzTxt;
+										delete localStorage.zielber_id;
+										delete window.zielber;
+										jQuery.jstree._reference(parent_node).deselect_all();
+										jQuery.jstree._reference(parent_node).select_node(parent_node);
+										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+										//Parent Node-Beschriftung: Anzahl anpassen
+										anz = $(parent_node).find("> ul > li").length;
+										if (anz === 1) {
+											anzTxt = anz + " Ziel-Bericht";
+										} else {
+											anzTxt = anz + " Ziel-Berichte";
+										}
+										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+										initiiere_pop();
+									},
+									error: function (data) {
+										$("#Meldung").html("Fehler: Der Ziel-Bericht wurde nicht gelöscht");
+										$("#Meldung").dialog({
+											modal: true,
+											buttons: {
+												Ok: function() {
+													$(this).dialog("close");
+												}
+											}
+										});
+									}
+								});
+							},
+							"abbrechen": function() {
+								$(this).dialog("close");
+							}
+						}
+					});			
+				}
+			}
+		};
+		return items;
+
+
+
+
+
+
+
+
+
+
 	case "pop":
 		items = {
 			"neu": {
@@ -3075,6 +3295,10 @@ function speichern(that) {
 			break;
 		case "ZielBezeichnung":
 			jQuery("#tree").jstree("rename_node", "#" + localStorage.apziel_id, Feldwert);
+			break;
+		case "ZielBerJahr":
+		case "ZielBerErreichung":
+			jQuery("#tree").jstree("rename_node", "#" + localStorage.zielber_id, $("#ZielBerJahr").val() + ": " + $("#ZielBerErreichung").val());
 			break;
 	}
 }

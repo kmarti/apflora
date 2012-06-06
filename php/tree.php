@@ -288,7 +288,7 @@ while($r_apzieljahr = mysqli_fetch_assoc($result_apzieljahr)) {
 	//Datenstruktur apzieljahr aufbauen
 	$rows_apziel = array();
 	while($r_apziel = mysqli_fetch_assoc($result_apziel)) {
-		$ZielId = $r_erfkrit['ZielId'];
+		$ZielId = $r_apziel['ZielId'];
 		settype($ZielId, "integer");
 
 		//zielber dieses Ziels abfragen
@@ -307,15 +307,15 @@ while($r_apzieljahr = mysqli_fetch_assoc($result_apzieljahr)) {
 		}
 		mysqli_free_result($result_zielber);
 
-		//Ziel-Ordner setzen
-		$ziel_ordner_datatext = $anz_zielber." Ziel-Berichte";
+		//Zielber-Ordner setzen
+		$zielber_ordner_datatext = $anz_zielber." Ziel-Berichte";
 		if ($anz_zielber === 1) {
-			$ziel_ordner_datatext = $anz_zielber." Ziel-Bericht";
+			$zielber_ordner_datatext = $anz_zielber." Ziel-Bericht";
 		}
-		$ziel_ordner_attr = array("id" => $ApArtId, "typ" => "ziel_ordner", "Ordner" => true);
-		$ziel_ordner = array("data" => $ziel_ordner_datatext, "attr" => $ziel_ordner_attr, "children" => $rows_zielber);
+		$zielber_ordner_attr = array("id" => $ZielId, "typ" => "zielber_ordner", "Ordner" => true);
+		$zielber_ordner = array("data" => $zielber_ordner_datatext, "attr" => $zielber_ordner_attr, "children" => $rows_zielber);
 		//zusammensetzen
-		$ziel_ordner = array(0 => $ziel_ordner);
+		$zielber_ordner = array(0 => $zielber_ordner);
 
 		//apziel setzen
 		//abfangen, wenn Ziel (noch) nicht beschrieben ist
@@ -326,7 +326,7 @@ while($r_apzieljahr = mysqli_fetch_assoc($result_apzieljahr)) {
 		}
 		$ZielTyp = $r_apziel['ZielTyp'];
 		$attr_apziel = array("id" => $r_apziel['ZielId'], "typ" => "apziel");
-		$apziel = array("data" => $ZielBezeichnung, "attr" => $attr_apziel, "children" => $ziel_ordner);
+		$apziel = array("data" => $ZielBezeichnung, "attr" => $attr_apziel, "children" => $zielber_ordner);
 		//Array um apziel ergänzen
 	    $rows_apziel[] = $apziel;
 	}
