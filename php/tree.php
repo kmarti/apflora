@@ -395,10 +395,11 @@ mysqli_free_result($result_ber);
 //iballg dieses AP abfragen
 $result_iballg = mysqli_query($link, "SELECT IbApArtId FROM tblIbAllg where IbApArtId = $ApArtId");
 $anz_iballg = mysqli_num_rows($result_iballg);
+
 mysqli_free_result($result_iballg);
 
 //ibb dieses AP abfragen
-$result_ibb = mysqli_query($link, "SELECT IbbId, IbApArtId, IbbName, IbbVegTyp FROM tblIbBiotope where IbbId = $ApArtId ORDER BY IbbName, IbbVegTyp");
+$result_ibb = mysqli_query($link, "SELECT IbbId, IbApArtId, IbbName, IbbVegTyp FROM tblIbBiotope where IbApArtId = $ApArtId ORDER BY IbbName, IbbVegTyp");
 $anz_ibb = mysqli_num_rows($result_ibb);
 //ibb aufbauen
 $rows_ibb = array();
@@ -407,7 +408,7 @@ while($r_ibb = mysqli_fetch_assoc($result_ibb)) {
 	settype($IbbId, "integer");
 	//ibb setzen
 	$attr_ibb = array("id" => $IbbId, "typ" => "ibb");
-	$ibb = array("data" => $r_ibb['IbbName'].": ".$r_ibb['IbbVegTyp'], "attr" => $attr_ibb);
+	$ibb = array("data" => $r_ibb['IbbName'], "attr" => $attr_ibb);
 	//ibb-Array um ibb ergänzen
     $rows_ibb[] = $ibb;
 }
@@ -467,13 +468,8 @@ if ($anz_ber === 1) {
 $ap_ordner_ber_attr = array("id" => $ApArtId, "typ" => "ap_ordner_ber");
 $ap_ordner_ber = array("data" => $ap_ordner_ber_datatext, "attr" => $ap_ordner_ber_attr, "children" => $rows_ber);
 //Ideale Umweltfaktoren
-if ($anz_iballg) {
-	$label_iballg = "1 ideale Umweltfaktoren";
-} else {
-	$label_iballg = "0 ideale Umweltfaktoren";
-}
-$ap_ordner_iballg_attr = array("id" => $ApArtId, "typ" => "ap_ordner_iballg");
-$ap_ordner_iballg = array("data" => $label_iballg, "attr" => $ap_ordner_iballg_attr);
+$ap_ordner_iballg_attr = array("id" => $ApArtId, "typ" => "iballg");
+$ap_ordner_iballg = array("data" => "ideale Umweltfaktoren", "attr" => $ap_ordner_iballg_attr);
 //Ideale Biotoptypen
 $ap_ordner_ibb_datatext = $anz_ibb." ideale Biotope";
 if ($anz_ibb === 1) {

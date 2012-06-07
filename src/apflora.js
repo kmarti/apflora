@@ -14,6 +14,7 @@ function initiiere_index() {
 	$("#TPopKontrDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopKontrJahr", altFormat: "yy", defaultDate: +0 });
 	$("#TPopMassnDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopMassnJahr", altFormat: "yy", defaultDate: +0 });
 	$("#ApBerDatum").datepicker({ dateFormat: "dd.mm.yy", defaultDate: +0 });
+	$("#IbErstelldatum").datepicker({ dateFormat: "dd.mm.yy", defaultDate: +0 });
 	//Auswahllisten aufbauen
 	erstelle_ap_liste("programm_alle");
 	erstelle_ApArtId_liste();
@@ -357,6 +358,125 @@ function initiiere_ber() {
 	});
 }
 
+function initiiere_iballg() {
+	if (!localStorage.iballg_id) {
+		//es fehlen benötigte Daten > eine Ebene höher
+		initiiere_ap();
+		return;
+	}
+	//Felder zurücksetzen
+	leereFelderVonFormular("iballg");
+	setzeFeldbreiten();
+	//Daten für die iballg aus der DB holen
+	$.ajax({
+		url: 'php/iballg.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.iballg_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//ap bereitstellen
+				window.iballg = data;
+				//Felder mit Daten beliefern
+				if (data.IbErstelldatum !== "01.01.1970") {
+					//php macht aus einem Nullwert im Datum den 1.1.1970!!!
+					$("#IbErstelldatum").val(data.IbErstelldatum);
+				}
+				$("#IbHöhenlage").val(data.IbHöhenlage);
+				$("#IbRegion").val(data.IbRegion);
+				$("#IbExposition").val(data.IbExposition);
+				$("#IbBesonnung").val(data.IbBesonnung);
+				$("#IbHangneigung").val(data.IbHangneigung);
+				$("#IbBodenTyp").val(data.IbBodenTyp);
+				$("#IbBodenKalkgehalt").val(data.IbBodenKalkgehalt);
+				$("#IbBodenDurchlässigkeit").val(data.IbBodenDurchlässigkeit);
+				$("#IbBodenHumus").val(data.IbBodenHumus);
+				$("#IbBodenNährstoffgehalt").val(data.IbBodenNährstoffgehalt);
+				$("#IbWasserhaushalt").val(data.IbWasserhaushalt);
+				$("#IbKonkurrenz").val(data.IbKonkurrenz);
+				$("#IbMoosschicht").val(data.IbMoosschicht);
+				$("#IbKrautschicht").val(data.IbKrautschicht);
+				$("#IbStrauchschicht").val(data.IbStrauchschicht);
+				$("#IbBaumschicht").val(data.IbBaumschicht);
+				$("#IbBemerkungen").val(data.IbBemerkungen);
+				//Formulare blenden
+				zeigeFormular("iballg");
+				//bei neuen Datensätzen Fokus steuern
+				if (!$("#IbErstelldatum").val()) {
+					$("#IbErstelldatum").focus();
+				}
+			}
+		}
+	});
+}
+
+function initiiere_ibb() {
+	if (!localStorage.ibb_id) {
+		//es fehlen benötigte Daten > eine Ebene höher
+		initiiere_ap();
+		return;
+	}
+	//Felder zurücksetzen
+	leereFelderVonFormular("ibb");
+	setzeFeldbreiten();
+	//Daten für die ibb aus der DB holen
+	$.ajax({
+		url: 'php/ibb.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.ibb_id
+		},
+		success: function (data) {
+			var tempUrl;
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//ap bereitstellen
+				window.ibb = data;
+				//Felder mit Daten beliefern
+				$("#IbbName").val(data.IbbName);
+				//IbbVegTyp: Daten holen - oder vorhandene nutzen
+				if (!window.lrdelarze_html) {
+					$.ajax({
+						url: 'php/lrdelarze.php',
+						dataType: 'json',
+						success: function (data4) {
+							if (data4) {
+								//ap bereitstellen
+								//Feld mit Daten beliefern
+								var html;
+								html = "<option></option>";
+								for (i in data4.rows) {
+									if (typeof i !== "undefined") {
+										html += "<option value=\"" + data4.rows[i].id + "\">" + data4.rows[i].Einheit + "</option>";
+									}
+								}
+								window.lrdelarze_html = html;
+								$("#IbbVegTyp").html(html);
+								$("#IbbVegTyp").val(data.IbbVegTyp);
+							}
+						}
+					});
+				} else {
+					$("#IbbVegTyp").html(window.lrdelarze_html);
+					$("#IbbVegTyp").val(data.IbbVegTyp);
+				}
+				$("#IbbBewPflege").val(data.IbbBewPflege);
+				$("#IbbBemerkungen").val(data.IbbBemerkungen);
+				//Formulare blenden
+				zeigeFormular("ibb");
+				//bei neuen Datensätzen Fokus steuern
+				setTimeout(function () {
+					if (!$("#IbbName").val()) {
+						$("#IbbName").focus();
+					}
+				}, 100);
+			}
+		}
+	});
+}
+
 function initiiere_tpop() {
 	if (!localStorage.tpop_id) {
 		//es fehlen benötigte Daten > eine Ebene höher
@@ -587,9 +707,9 @@ function initiiere_tpopfeldkontr() {
 					$("#TPopKontrHandlungsbedarf").val(data.TPopKontrHandlungsbedarf);
 					$("#TPopKontrIdealBiotopÜbereinst" + data.TPopKontrIdealBiotopÜbereinst).prop("checked", true);
 					//TPopKontrLeb: Daten holen - oder vorhandene nutzen
-					if (!window.tpopfeldkontr_lrdelarze_html) {
+					if (!window.lrdelarze_html) {
 						$.ajax({
-							url: 'php/tpopfeldkontr_lrdelarze.php',
+							url: 'php/lrdelarze.php',
 							dataType: 'json',
 							success: function (data4) {
 								if (data4) {
@@ -602,7 +722,7 @@ function initiiere_tpopfeldkontr() {
 											html += "<option value=\"" + data4.rows[i].id + "\">" + data4.rows[i].Einheit + "</option>";
 										}
 									}
-									window.tpopfeldkontr_lrdelarze_html = html;
+									window.lrdelarze_html = html;
 									$("#TPopKontrLeb").html(html);
 									$("#TPopKontrLeb").val(window.tpopfeldkontr.TPopKontrLeb);
 									$("#TPopKontrLebUmg").html(html);
@@ -611,9 +731,9 @@ function initiiere_tpopfeldkontr() {
 							}
 						});
 					} else {
-						$("#TPopKontrLeb").html(window.tpopfeldkontr_lrdelarze_html);
+						$("#TPopKontrLeb").html(window.lrdelarze_html);
 						$("#TPopKontrLeb").val(window.tpopfeldkontr.TPopKontrLeb);
-						$("#TPopKontrLebUmg").html(window.tpopfeldkontr_lrdelarze_html);
+						$("#TPopKontrLebUmg").html(window.lrdelarze_html);
 						$("#TPopKontrLebUmg").val(window.tpopfeldkontr.TPopKontrLebUmg);
 					}
 				}
@@ -828,25 +948,37 @@ function leereFelderVonFormular(Formular) {
 
 function setzeFeldbreiten() {
 	$('#forms input[type="text"], #forms input[type="url"], #forms select, #forms textarea').each(function() {
-		if ($(this).attr("formular") !== "tpopfeldkontr") {
-			$(this).width($(window).width() - 650);
-		} else {
+		if ($(this).attr("formular") === "tpopfeldkontr") {
+			//hier hats tabs, Felder müssen schmaler sein als normal
 			$(this).width($(window).width() - 715);
+		} else if ($(this).attr("formular") === "iballg") {
+			//hier hats fieldsets, Felder müssen schmaler sein als normal
+			$(this).width($(window).width() - 690);
+		} else {
+			$(this).width($(window).width() - 650);
 		}
 	});
 	//Zahlenfelder sollen nicht breiter als 200px sein
 	$('#forms input[type="number"]').each(function() {
-		if ($(this).attr("formular") !== "tpopfeldkontr") {
-			if (($(window).width() - 650) > 200) {
-				$(this).width(200);
-			} else {
-				$(this).width($(window).width() - 650);
-			}
-		} else {
+		if ($(this).attr("formular") === "tpopfeldkontr") {
+			//hier hats tabs, Felder müssen schmaler sein als normal
 			if (($(window).width() - 715) > 200) {
 				$(this).width(200);
 			} else {
 				$(this).width($(window).width() - 715);
+			}
+		} else if ($(this).attr("formular") === "iballg") {
+			//hier hats fieldsets, Felder müssen schmaler sein als normal
+			if (($(window).width() - 690) > 200) {
+				$(this).width(200);
+			} else {
+				$(this).width($(window).width() - 690);
+			}
+		} else {
+			if (($(window).width() - 650) > 200) {
+				$(this).width(200);
+			} else {
+				$(this).width($(window).width() - 650);
 			}
 		}
 	});
@@ -947,7 +1079,14 @@ function erstelle_tree(ApArtId) {
 		delete localStorage.freiwkontr;	//Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
 		jQuery.jstree._reference(node).open_node(node);
-		if (node.attr("typ") === "pop" || node.attr("typ").slice(0, 4) === "pop_") {
+		if (node.attr("typ").slice(0, 3) === "ap_" || node.attr("typ") === "apzieljahr") {
+			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			if (!$("#ap").is(':visible') || localStorage.ap_id !== node.attr("id")) {
+				localStorage.ap_id = node.attr("id");
+				delete localStorage.pop_id;
+				initiiere_ap();
+			}
+		} else if (node.attr("typ") === "pop" || node.attr("typ").slice(0, 4) === "pop_") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#pop").is(':visible') || localStorage.pop_id !== node.attr("id")) {
 				localStorage.pop_id = node.attr("id");
@@ -983,12 +1122,44 @@ function erstelle_tree(ApArtId) {
 				localStorage.ber_id = node.attr("id");
 				initiiere_ber();
 			}
-		} else if (node.attr("typ").slice(0, 3) === "ap_" || node.attr("typ") === "apzieljahr") {
+		} else if (node.attr("typ") === "iballg") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#ap").is(':visible') || localStorage.ap_id !== node.attr("id")) {
-				localStorage.ap_id = node.attr("id");
-				delete localStorage.pop_id;
-				initiiere_ap();
+			if (!$("#iballg").is(':visible') || localStorage.iballg_id !== node.attr("id")) {
+				localStorage.iballg_id = node.attr("id");
+				//prüfen, ob eine idallg schon existiert
+				if (jQuery.jstree._reference(node).get_text(node) === "- ideale Umweltfaktoren") {
+					//nein? neu machen:
+					$.ajax({
+						url: 'php/iballg_insert.php',
+						dataType: 'json',
+						data: {
+							"id": $(node).attr("id"),
+							"user": sessionStorage.User
+						},
+						success: function (data) {
+							initiiere_iballg();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine Umweltfaktoren erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				} else {
+					initiiere_iballg();
+				}
+			}
+		} else if (node.attr("typ") === "ibb") {
+			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			if (!$("#ibb").is(':visible') || localStorage.ibb_id !== node.attr("id")) {
+				localStorage.ibb_id = node.attr("id");
+				initiiere_ibb();
 			}
 		} else if (node.attr("typ") === "tpop" || node.attr("typ").slice(0, 5) === "tpop_") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -2069,6 +2240,175 @@ function treeKontextmenu(node) {
 			}
 		};
 		return items;
+	case "ap_ordner_ibb":
+		items = {
+			"neu": {
+				"label": "neues Idealbiotop",
+				"icon": "style/images/neu.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/ibb_insert.php',
+						dataType: 'json',
+						data: {
+							"id": $(aktiver_node).attr("id"),
+							"user": sessionStorage.User
+						},
+						success: function (data) {
+							var NeuerNode, anz, anzTxt;
+							localStorage.ibb_id = data;
+							delete window.ibb;
+							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+								"data": "neues Idealbiotop",
+								"attr": {
+									"id": data,
+									"typ": "ibb"
+								}
+							});
+							//Node-Beschriftung: Anzahl anpassen
+							anz = $(aktiver_node).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Idealbiotop";
+							} else {
+								anzTxt = anz + " Idealbiotope";
+							}
+							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_ibb();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Kein neues Idealbiotop erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		};
+		return items;
+	case "ibb":
+		items = {
+			"neu": {
+				"label": "Neues Idealbiotop",
+				"icon": "style/images/neu.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/ibb_insert.php',
+						dataType: 'json',
+						data: {
+							"id": $(parent_node).attr("id"),
+							"typ": "ibb",
+							"user": sessionStorage.User
+						},
+						success: function (data) {
+							var NeuerNode, anz, anzTxt;
+							localStorage.ibb_id = data;
+							delete window.ibb;
+							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
+								"data": "Neues Idealbiotop",
+								"attr": {
+									"id": data,
+									"typ": "ibb"
+								}
+							});
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anz = $(parent_node).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Idealbiotop";
+							} else {
+								anzTxt = anz + " Idealbiotope";
+							}
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_ibb();
+						},
+						error: function () {
+							$("#Meldung").html("Fehler: Kein neues Idealbiotop erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},
+			"loeschen": {
+				"label": "löschen",
+				"separator_before": true,
+				"icon": "style/images/loeschen.png",
+				"action": function () {
+					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
+					jQuery.jstree._reference(aktiver_node).deselect_all();
+					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
+					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
+					jQuery.jstree._reference(aktiver_node).deselect_all();
+					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
+					$("#loeschen_dialog_mitteilung").html("Das Idealbiotop \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
+					$("#loeschen_dialog").dialog({
+						resizable: false,
+						height:'auto',
+						width: 400,
+						modal: true,
+						buttons: {
+							"ja, löschen!": function() {
+								$(this).dialog("close");
+								$.ajax({
+									url: 'php/ibb_delete.php',
+									dataType: 'json',
+									data: {
+										"id": $(aktiver_node).attr("id")
+									},
+									success: function () {
+										var anz, anzTxt;
+										delete localStorage.ibb_id;
+										delete window.ibb;
+										jQuery.jstree._reference(parent_node).deselect_all();
+										jQuery.jstree._reference(parent_node).select_node(parent_node);
+										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+										//Parent Node-Beschriftung: Anzahl anpassen
+										anz = $(parent_node).find("> ul > li").length;
+										if (anz === 1) {
+											anzTxt = anz + " Idealbiotop";
+										} else {
+											anzTxt = anz + " Idealbiotope";
+										}
+										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+										initiiere_ap();
+									},
+									error: function (data) {
+										$("#Meldung").html("Fehler: Das Idealbiotop wurde nicht gelöscht");
+										$("#Meldung").dialog({
+											modal: true,
+											buttons: {
+												Ok: function() {
+													$(this).dialog("close");
+												}
+											}
+										});
+									}
+								});
+							},
+							"abbrechen": function() {
+								$(this).dialog("close");
+							}
+						}
+					});			
+				}
+			}
+		};
+		return items;
+
 
 
 
@@ -2430,13 +2770,6 @@ function treeKontextmenu(node) {
 			}
 		}
 		return items;
-
-
-
-
-
-
-
 	case "tpop":
 		items = {
 			"neu": {
@@ -4153,6 +4486,9 @@ function speichern(that) {
 			break;
 		case "BerJahr":
 			jQuery("#tree").jstree("rename_node", "#" + localStorage.ber_id, Feldwert);
+			break;
+		case "IbbName":
+			jQuery("#tree").jstree("rename_node", "#" + localStorage.ibb_id, Feldwert);
 			break;
 	}
 }
