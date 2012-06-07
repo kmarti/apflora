@@ -415,16 +415,21 @@ while($r_ibb = mysqli_fetch_assoc($result_ibb)) {
 mysqli_free_result($result_ibb);
 
 //ibartenassoz dieses AP abfragen
-$result_ibartenassoz = mysqli_query($link, "SELECT IbaassId, IbaassApArtId, Name FROM tblIbArtenAssoz INNER JOIN ArtenDb_tblFloraSisf ON IbaassSisfNr = NR where IbaassApArtId = $ApArtId ORDER BY Name");
+$result_ibartenassoz = mysqli_query($link, "SELECT IbaassId, IbaassApArtId, Name FROM tblIbArtenAssoz LEFT JOIN ArtenDb_tblFloraSisf ON IbaassSisfNr = NR where IbaassApArtId = $ApArtId ORDER BY Name");
 $anz_ibartenassoz = mysqli_num_rows($result_ibartenassoz);
 //ibartenassoz aufbauen
 $rows_ibartenassoz = array();
 while($r_ibartenassoz = mysqli_fetch_assoc($result_ibartenassoz)) {
 	$IbaassId = $r_ibartenassoz['IbaassId'];
 	settype($IbaassId, "integer");
+	if ($r_ibartenassoz['Name']) {
+		$IbartenassozName = $r_ibartenassoz['Name'];
+	} else {
+		$IbartenassozName = "Assoziation ohne Art";
+	}
 	//ibartenassoz setzen
 	$attr_ibartenassoz = array("id" => $IbaassId, "typ" => "ibartenassoz");
-	$ibartenassoz = array("data" => $r_ibartenassoz['Name'], "attr" => $attr_ibartenassoz);
+	$ibartenassoz = array("data" => $IbartenassozName, "attr" => $attr_ibartenassoz);
 	//ibartenassoz-Array um ibartenassoz ergänzen
     $rows_ibartenassoz[] = $ibartenassoz;
 }

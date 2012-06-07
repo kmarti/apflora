@@ -82,10 +82,12 @@ function erstelle_ApArtId_liste() {
 				}
 				window.artliste_html = html;
 				$("#ApArtId").html(html);
+				$("#IbaassSisfNr").html(html);
 			}
 		});
 	} else {
 		$("#ApArtId").html(window.artliste_html);
+		$("#IbaassSisfNr").html(window.artliste_html);
 	}
 }
 
@@ -359,7 +361,7 @@ function initiiere_ber() {
 }
 
 function initiiere_iballg() {
-	if (!localStorage.iballg_id) {
+	if (!localStorage.ap_id) {
 		//es fehlen benötigte Daten > eine Ebene höher
 		initiiere_ap();
 		return;
@@ -372,12 +374,12 @@ function initiiere_iballg() {
 		url: 'php/iballg.php',
 		dataType: 'json',
 		data: {
-			"id": localStorage.iballg_id
+			"id": localStorage.ap_id
 		},
 		success: function (data) {
 			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//ap bereitstellen
+				//iballg bereitstellen
 				window.iballg = data;
 				//Felder mit Daten beliefern
 				if (data.IbErstelldatum !== "01.01.1970") {
@@ -407,7 +409,56 @@ function initiiere_iballg() {
 				if (!$("#IbErstelldatum").val()) {
 					$("#IbErstelldatum").focus();
 				}
+			} else {
+				//null zurückgekommen > Datesatz schaffen
+				$.ajax({
+					url: 'php/iballg_insert.php',
+					dataType: 'json',
+					data: {
+						"id": localStorage.ap_id,
+						"user": sessionStorage.User
+					},
+					success: function (data) {
+						initiiere_iballg();
+					},
+					error: function (data) {
+						$("#Meldung").html("Fehler: Keine Umweltfaktoren erstellt");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+					}
+				});
 			}
+		},
+		error: function () {
+			//noch kein Datensatz > einen anlegen
+			$.ajax({
+				url: 'php/iballg_insert.php',
+				dataType: 'json',
+				data: {
+					"id": localStorage.ap_id,
+					"user": sessionStorage.User
+				},
+				success: function (data) {
+					initiiere_iballg();
+				},
+				error: function (data) {
+					$("#Meldung").html("Fehler: Keine Umweltfaktoren erstellt");
+					$("#Meldung").dialog({
+						modal: true,
+						buttons: {
+							Ok: function() {
+								$(this).dialog("close");
+							}
+						}
+					});
+				}
+			});
 		}
 	});
 }
@@ -470,6 +521,44 @@ function initiiere_ibb() {
 				setTimeout(function () {
 					if (!$("#IbbName").val()) {
 						$("#IbbName").focus();
+					}
+				}, 100);
+			}
+		}
+	});
+}
+
+function initiiere_ibartenassoz() {
+	if (!localStorage.ibartenassoz_id) {
+		//es fehlen benötigte Daten > eine Ebene höher
+		initiiere_ap();
+		return;
+	}
+	//Felder zurücksetzen
+	leereFelderVonFormular("ibartenassoz");
+	setzeFeldbreiten();
+	//Daten für die ibartenassoz aus der DB holen
+	$.ajax({
+		url: 'php/ibartenassoz.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.ibartenassoz_id
+		},
+		success: function (data) {
+			var tempUrl;
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//ap bereitstellen
+				window.ibartenassoz = data;
+				//Felder mit Daten beliefern
+				$("#IbaassSisfNr").val(data.IbaassSisfNr);
+				$("#IbaassBem").val(data.IbaassBem);
+				//Formulare blenden
+				zeigeFormular("ibartenassoz");
+				//bei neuen Datensätzen Fokus steuern
+				setTimeout(function () {
+					if (!$("#IbaassSisfNr").val()) {
+						$("#IbaassSisfNr").focus();
 					}
 				}, 100);
 			}
@@ -773,8 +862,16 @@ function initiiere_tpopfeldkontr() {
 					$("#biotop_tab_li").show();
 				}
 				//bei neuen Freiwilligen-Kontrollen Fokus steuern
-				if (!$("#TPopKontrJahr").val() && localStorage.freiwkontr) {
-					$("#TPopKontrJahr").focus();
+				if (localStorage.freiwkontr) {
+					if (!$("#TPopKontrJahr").val()) {
+						setTimeout(function() {
+							$("#TPopKontrJahr").focus();
+						}, 100);
+					}
+				} else {
+					setTimeout(function() {
+						$("#TPopKontrTyp").focus();
+					}, 100);
 				}
 			}
 		}
@@ -904,7 +1001,9 @@ function initiiere_tpopmassn() {
 				//Formulare blenden
 				zeigeFormular("tpopmassn");
 				//bei neuen Datensätzen Fokus steuern
-				$('#TPopMassnTyp').focus();
+				setTimeout(function() {
+					$('#TPopMassnTyp').focus();
+				}, 100);
 			}
 		}
 	});
@@ -1124,42 +1223,23 @@ function erstelle_tree(ApArtId) {
 			}
 		} else if (node.attr("typ") === "iballg") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#iballg").is(':visible') || localStorage.iballg_id !== node.attr("id")) {
-				localStorage.iballg_id = node.attr("id");
-				//prüfen, ob eine idallg schon existiert
-				if (jQuery.jstree._reference(node).get_text(node) === "- ideale Umweltfaktoren") {
-					//nein? neu machen:
-					$.ajax({
-						url: 'php/iballg_insert.php',
-						dataType: 'json',
-						data: {
-							"id": $(node).attr("id"),
-							"user": sessionStorage.User
-						},
-						success: function (data) {
-							initiiere_iballg();
-						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine Umweltfaktoren erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
-						}
-					});
-				} else {
-					initiiere_iballg();
-				}
+			if (!$("#iballg").is(':visible')) {
+				//eigene id nicht nötig
+				//1:1 mit ap verbunden, gleich id
+				//wenn noch kein Datensatz existiert erstellt ihn initiiere_iballg
+				initiiere_iballg();
 			}
 		} else if (node.attr("typ") === "ibb") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#ibb").is(':visible') || localStorage.ibb_id !== node.attr("id")) {
 				localStorage.ibb_id = node.attr("id");
 				initiiere_ibb();
+			}
+		} else if (node.attr("typ") === "ibartenassoz") {
+			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			if (!$("#ibartenassoz").is(':visible') || localStorage.ibartenassoz_id !== node.attr("id")) {
+				localStorage.ibartenassoz_id = node.attr("id");
+				initiiere_ibartenassoz();
 			}
 		} else if (node.attr("typ") === "tpop" || node.attr("typ").slice(0, 5) === "tpop_") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -1478,7 +1558,7 @@ function treeKontextmenu(node) {
 								"data": "0 Ziel-Berichte",
 								"attr": {
 									"id": data,
-									"typ": "ziel_ordner"
+									"typ": "zielber_ordner"
 								}
 							});
 							initiiere_apziel();
@@ -2388,6 +2468,174 @@ function treeKontextmenu(node) {
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Das Idealbiotop wurde nicht gelöscht");
+										$("#Meldung").dialog({
+											modal: true,
+											buttons: {
+												Ok: function() {
+													$(this).dialog("close");
+												}
+											}
+										});
+									}
+								});
+							},
+							"abbrechen": function() {
+								$(this).dialog("close");
+							}
+						}
+					});			
+				}
+			}
+		};
+		return items;
+	case "ap_ordner_ibartenassoz":
+		items = {
+			"neu": {
+				"label": "neue assoziierte Art",
+				"icon": "style/images/neu.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/ibartenassoz_insert.php',
+						dataType: 'json',
+						data: {
+							"id": $(aktiver_node).attr("id"),
+							"user": sessionStorage.User
+						},
+						success: function (data) {
+							var NeuerNode, anz, anzTxt;
+							localStorage.ibartenassoz_id = data;
+							delete window.ibartenassoz;
+							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+								"data": "neue assoziierte Art",
+								"attr": {
+									"id": data,
+									"typ": "ibartenassoz"
+								}
+							});
+							//Node-Beschriftung: Anzahl anpassen
+							anz = $(aktiver_node).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " assoziierte Art";
+							} else {
+								anzTxt = anz + " assoziierte Arten";
+							}
+							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_ibartenassoz();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: keine assoziierte Art erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		};
+		return items;
+	case "ibartenassoz":
+		items = {
+			"neu": {
+				"label": "neue assoziierte Art",
+				"icon": "style/images/neu.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/ibartenassoz_insert.php',
+						dataType: 'json',
+						data: {
+							"id": $(parent_node).attr("id"),
+							"typ": "ibartenassoz",
+							"user": sessionStorage.User
+						},
+						success: function (data) {
+							var NeuerNode, anz, anzTxt;
+							localStorage.ibartenassoz_id = data;
+							delete window.ibartenassoz;
+							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
+								"data": "neue assoziierte Art",
+								"attr": {
+									"id": data,
+									"typ": "ibartenassoz"
+								}
+							});
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anz = $(parent_node).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " assoziierte Art";
+							} else {
+								anzTxt = anz + " assoziierte Arten";
+							}
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_ibartenassoz();
+						},
+						error: function () {
+							$("#Meldung").html("Fehler: Keine assoziierte Art erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},
+			"loeschen": {
+				"label": "löschen",
+				"separator_before": true,
+				"icon": "style/images/loeschen.png",
+				"action": function () {
+					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
+					jQuery.jstree._reference(aktiver_node).deselect_all();
+					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
+					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
+					jQuery.jstree._reference(aktiver_node).deselect_all();
+					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
+					$("#loeschen_dialog_mitteilung").html("Die assoziierte Art \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
+					$("#loeschen_dialog").dialog({
+						resizable: false,
+						height:'auto',
+						width: 400,
+						modal: true,
+						buttons: {
+							"ja, löschen!": function() {
+								$(this).dialog("close");
+								$.ajax({
+									url: 'php/ibartenassoz_delete.php',
+									dataType: 'json',
+									data: {
+										"id": $(aktiver_node).attr("id")
+									},
+									success: function () {
+										var anz, anzTxt;
+										delete localStorage.ibartenassoz_id;
+										delete window.ibartenassoz;
+										jQuery.jstree._reference(parent_node).deselect_all();
+										jQuery.jstree._reference(parent_node).select_node(parent_node);
+										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+										//Parent Node-Beschriftung: Anzahl anpassen
+										anz = $(parent_node).find("> ul > li").length;
+										if (anz === 1) {
+											anzTxt = anz + " assoziierte Art";
+										} else {
+											anzTxt = anz + " assoziierte Arten";
+										}
+										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+										initiiere_ap();
+									},
+									error: function (data) {
+										$("#Meldung").html("Fehler: Die assoziierte Art wurde nicht gelöscht");
 										$("#Meldung").dialog({
 											modal: true,
 											buttons: {
@@ -4448,47 +4696,45 @@ function speichern(that) {
 	//nodes im Tree updaten, wenn deren Bezeichnung ändert
 	switch(Feldname) {
 		case "PopName":
-			jQuery("#tree").jstree("rename_node", "#" + localStorage.pop_id, Feldwert);
+			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_pop'] #" + localStorage.pop_id, Feldwert);
 			break;
 		case "TPopFlurname":
-			jQuery("#tree").jstree("rename_node", "#" + localStorage.tpop_id, Feldwert);
+			jQuery("#tree").jstree("rename_node", "[typ='pop_ordner_tpop'] #" + localStorage.tpop_id, Feldwert);
 			break;
 		case "TPopKontrJahr":
-			jQuery("#tree").jstree("rename_node", "#" + localStorage.tpopfeldkontr_id, Feldwert);
+			if (localStorage.freiwkontr) {
+				jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_freiwkontr'] #" + localStorage.tpopfeldkontr_id, Feldwert);
+			} else {
+				jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_feldkontr'] #" + localStorage.tpopfeldkontr_id, Feldwert);
+			}
 			break;
 		case "TPopMassnJahr":
-			jQuery("#tree").jstree("rename_node", "#" + localStorage.tpopmassn_id, Feldwert);
+			jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_massn'] #" + localStorage.tpopmassn_id, Feldwert);
 			break;
 		case "TPopMassnTyp":
-			var massn_typ_text;
-			for (i in window.tpopmassn_typ.rows) {
-				if (typeof i !== "undefined") {
-					if (i === Feldwert) {
-						massn_typ_text = window.tpopmassn_typ.rows[i].MassnTypTx;
-						break;
-					}
-				}
-			}
-			jQuery("#tree").jstree("rename_node", "#" + localStorage.tpopmassn_id, massn_typ_text);
+			jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_massn'] #" + localStorage.tpopmassn_id, $("#TPopMassnTyp option[value='" + Feldwert + "']").text());
 			break;
 		case "ZielBezeichnung":
-			jQuery("#tree").jstree("rename_node", "#" + localStorage.apziel_id, Feldwert);
+			jQuery("#tree").jstree("rename_node", "[typ='apzieljahr'] #" + localStorage.apziel_id, Feldwert);
 			break;
 		case "ZielBerJahr":
 		case "ZielBerErreichung":
-			jQuery("#tree").jstree("rename_node", "#" + localStorage.zielber_id, $("#ZielBerJahr").val() + ": " + $("#ZielBerErreichung").val());
+			jQuery("#tree").jstree("rename_node", "[typ='zielber_ordner'] #" + localStorage.zielber_id, $("#ZielBerJahr").val() + ": " + $("#ZielBerErreichung").val());
 			break;
 		case "ErfBeurtZielSkalaErreichungsgrad":
-			jQuery("#tree").jstree("rename_node", "#" + localStorage.erfkrit_id, $("#SpanErfBeurtZielSkalaErreichungsgrad" + Feldwert).text());
+			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_erfkrit'] #" + localStorage.erfkrit_id, $("#SpanErfBeurtZielSkalaErreichungsgrad" + Feldwert).text());
 			break;
 		case "ApBerJahr":
-			jQuery("#tree").jstree("rename_node", "#" + localStorage.apber_id, Feldwert);
+			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_apber'] #" + localStorage.apber_id, Feldwert);
 			break;
 		case "BerJahr":
-			jQuery("#tree").jstree("rename_node", "#" + localStorage.ber_id, Feldwert);
+			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_ber'] #" + localStorage.ber_id, Feldwert);
 			break;
 		case "IbbName":
-			jQuery("#tree").jstree("rename_node", "#" + localStorage.ibb_id, Feldwert);
+			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_ibb'] #" + localStorage.ibb_id, Feldwert);
+			break;
+		case "IbaassSisfNr":
+			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_ibartenassoz'] #" + localStorage.ibartenassoz_id, $("#IbaassSisfNr option[value='" + Feldwert + "']").text());
 			break;
 	}
 }
