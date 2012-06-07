@@ -2314,7 +2314,129 @@ function treeKontextmenu(node) {
 				}
 			}
 		};
+		if (window.tpop_node_ausgeschnitten) {
+			items.einfuegen = {
+				"label": jQuery.jstree._reference(window.tpop_node_ausgeschnitten).get_text(window.tpop_node_ausgeschnitten) + " einfügen",
+				"separator_before": true,
+				"icon": "style/images/einfuegen.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/tpop_einfuegen.php',
+						dataType: 'json',
+						data: {
+							"pop_id": $(aktiver_node).attr("id"),
+							"tpop_id": $(window.tpop_node_ausgeschnitten).attr("id"),
+							"user": sessionStorage.User
+						},
+						success: function () {
+							var anz, anzTxt;
+							//node verschieben
+							jQuery.jstree._reference(aktiver_node).move_node(window.tpop_node_ausgeschnitten, aktiver_node, "last", false);
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anz = $(aktiver_node).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Teilpopulation";
+							} else {
+								anzTxt = anz + " Teilpopulationen";
+							}
+							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(aktiver_node).select_node(window.tpop_node_ausgeschnitten);
+							//Variabeln aufräumen
+							localStorage.tpop_id = $(window.tpop_node_ausgeschnitten).attr("id");
+							delete window.tpop;
+							delete window.tpop_node_ausgeschnitten;
+							initiiere_tpop();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Die Teilpopulation wurde nicht verschoben");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		}
+		if (window.tpop_node_kopiert) {
+			items.einfuegen = {
+				"label": jQuery.jstree._reference(window.tpop_node_kopiert).get_text(window.tpop_node_kopiert) + " einfügen",
+				"separator_before": true,
+				"icon": "style/images/einfuegen.png",
+				"action": function () {
+					var dataUrl;
+					//User und neue PopId mitgeben
+					dataUrl = "?MutWer=" + sessionStorage.User + "&PopId=" + $(aktiver_node).attr("id");
+					//die alten id's entfernen
+					delete window.tpop_objekt_kopiert.PopId;
+					delete window.tpop_objekt_kopiert.TPopId;
+					//das wird gleich neu gesetzt, alte Werte verwerfen
+					delete window.tpop_objekt_kopiert.MutWann;
+					delete window.tpop_objekt_kopiert.MutWer;
+					//alle verbliebenen Felder an die url hängen
+					for (i in window.tpop_objekt_kopiert) {
+						if (typeof i !== "function") {
+							//Nullwerte ausschliessen
+							if (window.tpop_objekt_kopiert[i] !== null) {
+								dataUrl += "&" + i + "=" + window.tpop_objekt_kopiert[i];
+							}
+						}
+					}
+					//und an die DB schicken
+					$.ajax({
+						url: 'php/tpop_insert_kopie.php' + dataUrl,
+						dataType: 'json',
+						success: function (data) {
+							var NeuerNode, anz, anzTxt;
+							localStorage.tpop_id = data;
+							delete window.tpop;
+							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+								"data": window.tpop_objekt_kopiert.TPopFlurname,
+								"attr": {
+									"id": data,
+									"typ": "tpop"
+								}
+							});
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anz = $(aktiver_node).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Teilpopulation";
+							} else {
+								anzTxt = anz + " Teilpopulationen";
+							}
+							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_tpop();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Die Teilpopulation wurde nicht erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		}
 		return items;
+
+
+
+
+
+
+
 	case "tpop":
 		items = {
 			"neu": {
@@ -2480,6 +2602,10 @@ function treeKontextmenu(node) {
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
 					window.tpop_node_ausgeschnitten = aktiver_node;
+					//es macht keinen Sinn mehr, den kopierten node zu behalten
+					//und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
+					delete window.tpop_node_kopiert;
+					delete window.tpop_objekt_kopiert;
 				}
 			}
 		}
@@ -2632,6 +2758,13 @@ function treeKontextmenu(node) {
 			}
 		}
 		return items;
+
+
+
+
+
+
+
 	case "tpop_ordner_feldkontr":
 		items = {
 			"neu": {
@@ -2901,6 +3034,10 @@ function treeKontextmenu(node) {
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
 					window.tpopfeldkontr_node_ausgeschnitten = aktiver_node;
+					//es macht keinen Sinn mehr, den kopierten node zu behalten
+					//und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
+					delete window.tpopfeldkontr_node_kopiert;
+					delete window.tpopfeldkontr_objekt_kopiert;
 				}
 			}
 		}
@@ -3328,6 +3465,10 @@ function treeKontextmenu(node) {
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
 					window.tpopfreiwkontr_node_ausgeschnitten = aktiver_node;
+					//es macht keinen Sinn mehr, den kopierten node zu behalten
+					//und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
+					delete window.tpopfreiwkontr_node_kopiert;
+					delete window.tpopfreiwkontr_objekt_kopiert;
 				}
 			}
 		}
@@ -3749,6 +3890,10 @@ function treeKontextmenu(node) {
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
 					window.tpopmassn_node_ausgeschnitten = aktiver_node;
+					//es macht keinen Sinn mehr, den kopierten node zu behalten
+					//und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
+					delete window.tpopmassn_node_kopiert;
+					delete window.tpopmassn_objekt_kopiert;
 				}
 			}
 		}
