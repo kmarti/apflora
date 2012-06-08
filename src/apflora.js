@@ -695,6 +695,42 @@ function initiiere_tpop() {
 	});
 }
 
+function initiiere_popber() {
+	if (!localStorage.popber_id) {
+		//es fehlen benötigte Daten > eine Ebene höher
+		initiiere_pop();
+		return;
+	}
+	//Felder zurücksetzen
+	leereFelderVonFormular("popber");
+	setzeFeldbreiten();
+	//Daten für die popber aus der DB holen
+	$.ajax({
+		url: 'php/popber.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.popber_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//ap bereitstellen
+				window.popber = data;
+				//Felder mit Daten beliefern
+				$("#PopBerJahr").val(data.PopBerJahr);
+				$("#PopBerEntwicklung" + data.PopBerEntwicklung).prop("checked", true);
+				$("#PopBerTxt").val(data.PopBerTxt);
+				//Formulare blenden
+				zeigeFormular("popber");	
+				//bei neuen Datensätzen Fokus steuern
+				setTimeout(function() {
+					$('#PopBerJahr').focus();
+				}, 100);
+			}
+		}
+	});
+}
+
 function initiiere_tpopfeldkontr() {
 	//wird gemeinsam für Feld- und Freiwilligenkontrollen verwendet
 	//Feldkontrollen: Felder der Freiwilligenkontrollen ausblenden
@@ -1045,6 +1081,42 @@ function initiiere_tpopmassn() {
 	});
 }
 
+function initiiere_tpopber() {
+	if (!localStorage.tpopber_id) {
+		//es fehlen benötigte Daten > eine Ebene höher
+		initiiere_pop();
+		return;
+	}
+	//Felder zurücksetzen
+	leereFelderVonFormular("tpopber");
+	setzeFeldbreiten();
+	//Daten für die tpopber aus der DB holen
+	$.ajax({
+		url: 'php/tpopber.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.tpopber_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//tpopber bereitstellen
+				window.tpopber = data;
+				//Felder mit Daten beliefern
+				$("#TPopBerJahr").val(data.TPopBerJahr);
+				$("#TPopBerEntwicklung" + data.TPopBerEntwicklung).prop("checked", true);
+				$("#TPopBerTxt").val(data.TPopBerTxt);
+				//Formulare blenden
+				zeigeFormular("tpopber");	
+				//bei neuen Datensätzen Fokus steuern
+				setTimeout(function() {
+					$('#TPopBerJahr').focus();
+				}, 100);
+			}
+		}
+	});
+}
+
 function initiiere_tpopmassnber() {
 	if (!localStorage.tpopmassnber_id) {
 		//es fehlen benötigte Daten > eine Ebene höher
@@ -1075,42 +1147,6 @@ function initiiere_tpopmassnber() {
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function() {
 					$('#TPopMassnBerJahr').focus();
-				}, 100);
-			}
-		}
-	});
-}
-
-function initiiere_popber() {
-	if (!localStorage.popber_id) {
-		//es fehlen benötigte Daten > eine Ebene höher
-		initiiere_pop();
-		return;
-	}
-	//Felder zurücksetzen
-	leereFelderVonFormular("popber");
-	setzeFeldbreiten();
-	//Daten für die popber aus der DB holen
-	$.ajax({
-		url: 'php/popber.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.popber_id
-		},
-		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				//ap bereitstellen
-				window.popber = data;
-				//Felder mit Daten beliefern
-				$("#PopBerJahr").val(data.PopBerJahr);
-				$("#PopBerEntwicklung" + data.PopBerEntwicklung).prop("checked", true);
-				$("#PopBerTxt").val(data.PopBerTxt);
-				//Formulare blenden
-				zeigeFormular("popber");	
-				//bei neuen Datensätzen Fokus steuern
-				setTimeout(function() {
-					$('#PopBerJahr').focus();
 				}, 100);
 			}
 		}
@@ -1258,7 +1294,7 @@ function erstelle_tree(ApArtId) {
 		},
 		"ui": {
 			"select_limit": 1,	//nur ein Datensatz kann aufs mal gewählt werden
-			"selected_parent_open": true	//wenn Code einen node wählt, werden alle parents geöffnet
+			"selected_parent_open": true,	//wenn Code einen node wählt, werden alle parents geöffnet
 		},
 		"search": {
 			"case_insensitive": true
@@ -1385,6 +1421,12 @@ function erstelle_tree(ApArtId) {
 			if (!$("#tpopmassn").is(':visible') || localStorage.tpopmassn_id !== node.attr("id")) {
 				localStorage.tpopmassn_id = node.attr("id");
 				initiiere_tpopmassn();
+			}
+		} else if (node.attr("typ") === "tpopber") {
+			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			if (!$("#tpopber").is(':visible') || localStorage.tpopber_id !== node.attr("id")) {
+				localStorage.tpopber_id = node.attr("id");
+				initiiere_tpopber();
 			}
 		} else if (node.attr("typ") === "tpopmassnber") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -3759,18 +3801,6 @@ function treeKontextmenu(node) {
 			}
 		};
 		return items;
-
-
-
-
-
-
-
-
-
-
-
-
 	case "tpop_ordner_feldkontr":
 		items = {
 			"neu": {
@@ -5052,6 +5082,163 @@ function treeKontextmenu(node) {
 			}
 		}
 		return items;
+	case "tpop_ordner_tpopber":
+		items = {
+			"neu": {
+				"label": "neuer Teilpopulations-Bericht",
+				"icon": "style/images/neu.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/tpopber_insert.php',
+						dataType: 'json',
+						data: {
+							"id": $(aktiver_node).attr("id"),
+							"user": sessionStorage.User
+						},
+						success: function (data) {
+							var NeuerNode, anz, anzTxt;
+							localStorage.tpopber_id = data;
+							delete window.tpopber;
+							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+								"data": "neuer Teilpopulations-Bericht",
+								"attr": {
+									"id": localStorage.tpopber_id,
+									"typ": "tpopber"
+								}
+							});
+							//Node-Beschriftung: Anzahl anpassen
+							anz = $(aktiver_node).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Teilpopulations-Bericht";
+							} else {
+								anzTxt = anz + " Teilpopulations-Berichte";
+							}
+							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_tpopber();
+						},
+						error: function () {
+							$("#Meldung").html("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		};
+		return items;
+	case "tpopber":
+		items = {
+			"neu": {
+				"label": "neuer Teilpopulations-Bericht",
+				"icon": "style/images/neu.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/tpopber_insert.php',
+						dataType: 'json',
+						data: {
+							"id": $(parent_node).attr("id"),
+							"typ": "tpopber",
+							"user": sessionStorage.User
+						},
+						success: function (data) {
+							var NeuerNode, anz, anzTxt;
+							localStorage.tpopber_id = data;
+							delete window.tpopber;
+							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
+								"data": "neuer Teilpopulations-Bericht",
+								"attr": {
+									"id": data,
+									"typ": "tpopber"
+								}
+							});
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anz = $(parent_node).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Teilpopulations-Bericht";
+							} else {
+								anzTxt = anz + " Teilpopulations-Berichte";
+							}
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_tpopber();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},
+			"loeschen": {
+				"label": "löschen",
+				"separator_before": true,
+				"icon": "style/images/loeschen.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/tpopber_delete.php',
+						dataType: 'json',
+						data: {
+							"id": $(aktiver_node).attr("id")
+						},
+						success: function () {
+							var anz, anzTxt;
+							delete localStorage.tpopber_id;
+							delete window.tpopber;
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(parent_node).select_node(parent_node);
+							jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anz = $(parent_node).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Teilpopulations-Bericht";
+							} else {
+								anzTxt = anz + " Teilpopulations-Berichte";
+							}
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							initiiere_tpop();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Der Teilpopulations-Bericht wurde nicht gelöscht");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		};
+		return items;
+
+
+
+
+
+
+
+
+
+
 	case "tpop_ordner_massnber":
 		items = {
 			"neu": {
@@ -5287,6 +5474,10 @@ function speichern(that) {
 			} else {
 				jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_feldkontr'] #" + localStorage.tpopfeldkontr_id, Feldwert);
 			}
+			break;
+		case "TPopBerJahr":
+		case "TPopBerEntwicklung":
+			jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_tpopber'] #" + localStorage.tpopber_id, $("#TPopBerJahr").val() + ": " + $("#spanTPopBerEntwicklung" + $('input[name="TPopBerEntwicklung"]:checked').val()).text());
 			break;
 		case "TPopMassnJahr":
 		case "TPopMassnTyp":
