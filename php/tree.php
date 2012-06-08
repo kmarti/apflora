@@ -127,21 +127,21 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 		mysqli_free_result($result_tpopber);
 
 		//Beobachtungen dieser TPop abfragen
-		$result_beob = mysqli_query($link, "SELECT BeobId, TPopId, Datum, Autor FROM tblBeobachtungen where TPopId = $TPopId ORDER BY Datum DESC, Autor");
-		$anz_beob = mysqli_num_rows($result_beob);
-		//Datenstruktur für beob aufbauen
-		$rows_beob = array();
-		while($r_beob = mysqli_fetch_assoc($result_beob)) {
-			$BeobId = $r_beob['BeobId'];
+		$result_tpopbeob = mysqli_query($link, "SELECT BeobId, TPopId, Datum, Autor FROM tblBeobachtungen where TPopId = $TPopId ORDER BY Datum DESC, Autor");
+		$anz_tpopbeob = mysqli_num_rows($result_tpopbeob);
+		//Datenstruktur für tpopbeob aufbauen
+		$rows_tpopbeob = array();
+		while($r_tpopbeob = mysqli_fetch_assoc($result_tpopbeob)) {
+			$BeobId = $r_tpopbeob['BeobId'];
 			settype($BeobId, "integer");
-			$Autor = $r_tpop['Autor'];
+			$Autor = $r_tpopbeob['Autor'];
 			//TPopFeldKontr setzen
-			$attr_beob = array("id" => $BeobId, "typ" => "beob");
-			$beob = array("data" => $r_beob['Datum'].": ".$Autor, "attr" => $attr_beob);
-			//beob-Array um beob ergänzen
-		    $rows_beob[] = $beob;
+			$attr_tpopbeob = array("id" => $BeobId, "typ" => "tpopbeob");
+			$tpopbeob = array("data" => $r_tpopbeob['Datum'].": ".$Autor, "attr" => $attr_tpopbeob);
+			//tpopbeob-Array um tpopbeob ergänzen
+		    $rows_tpopbeob[] = $tpopbeob;
 		}
-		mysqli_free_result($result_beob);
+		mysqli_free_result($result_tpopbeob);
 
 		//TPop-Ordner setzen
 		//Massnahmen
@@ -180,14 +180,14 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 		$tpop_ordner_tpopber_attr = array("id" => $TPopId, "typ" => "tpop_ordner_tpopber");
 		$tpop_ordner_tpopber = array("data" => $tpop_ordner_tpopber_datatext, "attr" => $tpop_ordner_tpopber_attr, "children" => $rows_tpopber);
 		//Beobachtungen
-		$tpop_ordner_beob_datatext = $anz_beob." Beobachtungen";
-		if ($anz_beob === 1) {
-			$tpop_ordner_beob_datatext = $anz_beob." Beobachtung";
+		$tpop_ordner_tpopbeob_datatext = $anz_tpopbeob." Beobachtungen";
+		if ($anz_tpopbeob === 1) {
+			$tpop_ordner_tpopbeob_datatext = $anz_tpopbeob." Beobachtung";
 		}
-		$tpop_ordner_beob_attr = array("id" => $TPopId, "typ" => "tpop_ordner_beob");
-		$tpop_ordner_beob = array("data" => $tpop_ordner_beob_datatext, "attr" => $tpop_ordner_beob_attr, "children" => $rows_beob);
+		$tpop_ordner_tpopbeob_attr = array("id" => $TPopId, "typ" => "tpop_ordner_tpopbeob");
+		$tpop_ordner_tpopbeob = array("data" => $tpop_ordner_tpopbeob_datatext, "attr" => $tpop_ordner_tpopbeob_attr, "children" => $rows_tpopbeob);
 		//zusammensetzen
-		$tpop_ordner = array(0 => $tpop_ordner_massn, 1 => $tpop_ordner_massnber, 2 => $tpop_ordner_feldkontr, 3 => $tpop_ordner_freiwkontr, 4 => $tpop_ordner_tpopber, 5 => $tpop_ordner_beob);
+		$tpop_ordner = array(0 => $tpop_ordner_massn, 1 => $tpop_ordner_massnber, 2 => $tpop_ordner_feldkontr, 3 => $tpop_ordner_freiwkontr, 4 => $tpop_ordner_tpopber, 5 => $tpop_ordner_tpopbeob);
 
 		//TPop setzen
 		$attr_tpop = array("id" => $TPopId, "typ" => "tpop");

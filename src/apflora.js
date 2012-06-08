@@ -1117,6 +1117,49 @@ function initiiere_tpopber() {
 	});
 }
 
+function initiiere_tpopbeob() {
+	if (!localStorage.tpopbeob_id) {
+		//es fehlen benötigte Daten > eine Ebene höher
+		initiiere_pop();
+		return;
+	}
+	//Felder zurücksetzen
+	leereFelderVonFormular("tpopbeob");
+	setzeFeldbreiten();
+	//Daten für die tpopbeob aus der DB holen
+	$.ajax({
+		url: 'php/tpopbeob.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.tpopbeob_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//tpopbeob bereitstellen
+				window.tpopbeob = data;
+				//Felder mit Daten beliefern
+				$("#tpopbeob_ArtName").val(data.Name + " " + data.StatusText);
+				$("#IdZdsf").val(data.IdZdsf);
+				$("#IdEvab").val(data.IdEvab);
+				$("#Projekt").val(data.Projekt);
+				$("#RaumGde").val(data.RaumGde);
+				$("#Ort").val(data.Ort);
+				$("#X").val(data.X);
+				$("#Y").val(data.Y);
+				$("#Datum").val(data.Datum);
+				$("#Jahr").val(data.Jahr);
+				$("#Anzahl").val(data.Anzahl);
+				$("#Autor").val(data.Autor);
+				$("#Herkunft").val(data.Herkunft);
+				$("#DistZurTPop").val(data.DistZurTPop);
+				//Formulare blenden
+				zeigeFormular("tpopbeob");
+			}
+		}
+	});
+}
+
 function initiiere_tpopmassnber() {
 	if (!localStorage.tpopmassnber_id) {
 		//es fehlen benötigte Daten > eine Ebene höher
@@ -1427,6 +1470,12 @@ function erstelle_tree(ApArtId) {
 			if (!$("#tpopber").is(':visible') || localStorage.tpopber_id !== node.attr("id")) {
 				localStorage.tpopber_id = node.attr("id");
 				initiiere_tpopber();
+			}
+		} else if (node.attr("typ") === "tpopbeob") {
+			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			if (!$("#tpopbeob").is(':visible') || localStorage.tpopbeob_id !== node.attr("id")) {
+				localStorage.tpopbeob_id = node.attr("id");
+				initiiere_tpopbeob();
 			}
 		} else if (node.attr("typ") === "tpopmassnber") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -2824,18 +2873,6 @@ function treeKontextmenu(node) {
 			}
 		};
 		return items;
-
-
-
-
-
-
-
-
-
-
-
-
 	case "pop":
 		items = {
 			"neu": {
@@ -3040,7 +3077,7 @@ function treeKontextmenu(node) {
 								"data": "Beobachtungen",
 								"attr": {
 									"id": data,
-									"typ": "tpop_ordner_beob"
+									"typ": "tpop_ordner_tpopbeob"
 								}
 							});
 							//Node-Beschriftung: Anzahl anpassen
@@ -3251,7 +3288,7 @@ function treeKontextmenu(node) {
 								"data": "Beobachtungen",
 								"attr": {
 									"id": data,
-									"typ": "tpop_ordner_beob"
+									"typ": "tpop_ordner_tpopbeob"
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
@@ -5229,6 +5266,125 @@ function treeKontextmenu(node) {
 			}
 		};
 		return items;
+	case "tpop_ordner_tpopbeob":
+		if (window.tpopbeob_node_ausgeschnitten) {
+			items = {};
+			items.einfuegen = {
+				"label": jQuery.jstree._reference(window.tpopbeob_node_ausgeschnitten).get_text(window.tpopbeob_node_ausgeschnitten) + " einfügen",
+				"separator_before": true,
+				"icon": "style/images/einfuegen.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/tpopbeob_einfuegen.php',
+						dataType: 'json',
+						data: {
+							"tpop_id": $(aktiver_node).attr("id"),
+							"tpopbeob_id": $(window.tpopbeob_node_ausgeschnitten).attr("id"),
+							"user": sessionStorage.User
+						},
+						success: function () {
+							var anz, anzTxt;
+							//node verschieben
+							jQuery.jstree._reference(aktiver_node).move_node(window.tpopbeob_node_ausgeschnitten, aktiver_node, "last", false);
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anz = $(aktiver_node).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Beobachtung";
+							} else {
+								anzTxt = anz + " Beobachtungen";
+							}
+							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(aktiver_node).select_node(window.tpopbeob_node_ausgeschnitten);
+							//Variabeln aufräumen
+							localStorage.tpopbeob_id = $(window.tpopbeob_node_ausgeschnitten).attr("id");
+							delete window.tpopbeob;
+							delete window.tpopbeob_node_ausgeschnitten;
+							//jetzt die neue Distanz zur Teilpopulation berechnen und speichern
+							setzeDistanzZurTeilpop(localStorage.tpopbeob_id, localStorage.tpop_id);
+							initiiere_tpopbeob();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Die Beobachtung wurde nicht verschoben");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		}
+		return items;
+	case "tpopbeob":
+		items = {};
+		if (!window.tpopbeob_node_ausgeschnitten) {
+			items.ausschneiden = {
+				"label": "ausschneiden",
+				"separator_before": true,
+				"icon": "style/images/ausschneiden.png",
+				"action": function () {
+					window.tpopbeob_node_ausgeschnitten = aktiver_node;
+				}
+			}
+		}
+		if (window.tpopbeob_node_ausgeschnitten) {
+			items.einfuegen = {
+				"label": jQuery.jstree._reference(window.tpopbeob_node_ausgeschnitten).get_text(window.tpopbeob_node_ausgeschnitten) + " einfügen",
+				"separator_before": true,
+				"icon": "style/images/einfuegen.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/tpopbeob_einfuegen.php',
+						dataType: 'json',
+						data: {
+							"tpop_id": $(parent_node).attr("id"),
+							"tpopbeob_id": $(aktiver_node).attr("id"),
+							"user": sessionStorage.User
+						},
+						success: function () {
+							var anz, anzTxt;
+							//node verschieben
+							parent_node = jQuery.jstree._reference(aktiver_node)._get_parent(aktiver_node);
+							jQuery.jstree._reference(parent_node).move_node(window.tpopbeob_node_ausgeschnitten, parent_node, "last", false);
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anz = $(parent_node).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Beobachtung";
+							} else {
+								anzTxt = anz + " Beobachtungen";
+							}
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(parent_node).select_node(window.tpopbeob_node_ausgeschnitten);
+							//Variabeln aufräumen
+							localStorage.tpopbeob_id = $(window.tpopbeob_node_ausgeschnitten).attr("id");
+							delete window.tpopbeob;
+							delete window.tpopbeob_node_ausgeschnitten;
+							//jetzt die neue Distanz zur Teilpopulation berechnen und speichern
+							setzeDistanzZurTeilpop(localStorage.tpopbeob_id, localStorage.tpop_id);
+							initiiere_tpopbeob();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Die Beobachtung wurde nicht verschoben");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		}
+		return items;
 
 
 
@@ -5387,6 +5543,80 @@ function treeKontextmenu(node) {
 		};
 		return items;
 	}
+}
+
+//übernimmt id von tpopbeob und Objekt von tpop
+//Berechnet den Abstand der beob von der tpop
+//aktualisiert den Wert in der DB
+//und aktualisiert ihn im Feld?
+function setzeDistanzZurTeilpop(tpopbeob_id, tpop_id) {
+	var Distanz;
+	$.ajax({
+		url: 'php/tpop.php',
+		dataType: 'json',
+		data: {
+			"id": tpop_id
+		},
+		success: function (tpop) {
+			$.ajax({
+				url: 'php/tpopbeob.php',
+				dataType: 'json',
+				data: {
+					"id": tpopbeob_id
+				},
+				success: function (tpopbeob) {
+					Distanz = Math.floor(Math.sqrt((tpop.TPopXKoord - tpopbeob.X)*(tpop.TPopXKoord - tpopbeob.X) + (tpop.TPopYKoord - tpopbeob.Y)*(tpop.TPopYKoord - tpopbeob.Y)));
+					$.ajax({
+						url: 'php/tpopbeob_update.php',
+						dataType: 'json',
+						data: {
+							"id": tpopbeob.BeobId,
+							"Feld": "DistZurTPop",
+							"Wert": Distanz,
+							"user": sessionStorage.User
+						},
+						success: function () {
+							$("#DistZurTPop").val(Distanz);
+						},
+						error: function () {
+							$("#Meldung").html("Fehler: Die Distanz zur Teilpopulation wurde nicht aktualisiert");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				},
+				error: function (data) {
+					$("#Meldung").html("Fehler: Die Distanz zur Teilpopulation wurde nicht aktualisiert");
+					$("#Meldung").dialog({
+						modal: true,
+						buttons: {
+							Ok: function() {
+								$(this).dialog("close");
+							}
+						}
+					});
+				}
+			});
+		},
+		error: function (data) {
+			$("#Meldung").html("Fehler: Die Distanz zur Teilpopulation wurde nicht aktualisiert");
+			$("#Meldung").dialog({
+				modal: true,
+				buttons: {
+					Ok: function() {
+						$(this).dialog("close");
+					}
+				}
+			});
+		}
+	});
+
 }
 
 //wird von allen Formularen benutzt
