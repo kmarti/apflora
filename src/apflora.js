@@ -1045,6 +1045,42 @@ function initiiere_tpopmassnber() {
 	});
 }
 
+function initiiere_popber() {
+	if (!localStorage.popber_id) {
+		//es fehlen benötigte Daten > eine Ebene höher
+		initiiere_pop();
+		return;
+	}
+	//Felder zurücksetzen
+	leereFelderVonFormular("popber");
+	setzeFeldbreiten();
+	//Daten für die popber aus der DB holen
+	$.ajax({
+		url: 'php/popber.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.popber_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//ap bereitstellen
+				window.popber = data;
+				//Felder mit Daten beliefern
+				$("#PopBerJahr").val(data.PopBerJahr);
+				$("#PopBerEntwicklung" + data.PopBerEntwicklung).prop("checked", true);
+				$("#PopBerTxt").val(data.PopBerTxt);
+				//Formulare blenden
+				zeigeFormular("popber");	
+				//bei neuen Datensätzen Fokus steuern
+				setTimeout(function() {
+					$('#PopBerJahr').focus();
+				}, 100);
+			}
+		}
+	});
+}
+
 //managed die Sichtbarkeit von Formularen
 //wird von allen initiiere_-Funktionen verwendet
 //wird ein Formularname übergeben, wird dieses Formular gezeigt
@@ -1276,6 +1312,12 @@ function erstelle_tree(ApArtId) {
 			if (!$("#ibartenassoz").is(':visible') || localStorage.ibartenassoz_id !== node.attr("id")) {
 				localStorage.ibartenassoz_id = node.attr("id");
 				initiiere_ibartenassoz();
+			}
+		} else if (node.attr("typ") === "popber") {
+			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			if (!$("#popber").is(':visible') || localStorage.popber_id !== node.attr("id")) {
+				localStorage.popber_id = node.attr("id");
+				initiiere_popber();
 			}
 		} else if (node.attr("typ") === "tpop" || node.attr("typ").slice(0, 5) === "tpop_") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -3381,6 +3423,158 @@ function treeKontextmenu(node) {
 			}
 		}
 		return items;
+	case "pop_ordner_popber":
+		items = {
+			"neu": {
+				"label": "neuer Populations-Bericht",
+				"icon": "style/images/neu.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/popber_insert.php',
+						dataType: 'json',
+						data: {
+							"id": $(aktiver_node).attr("id"),
+							"user": sessionStorage.User
+						},
+						success: function (data) {
+							var NeuerNode, anz, anzTxt;
+							localStorage.popber_id = data;
+							delete window.popber;
+							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+								"data": "neuer Populations-Bericht",
+								"attr": {
+									"id": localStorage.popber_id,
+									"typ": "popber"
+								}
+							});
+							//Node-Beschriftung: Anzahl anpassen
+							anz = $(aktiver_node).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Populations-Bericht";
+							} else {
+								anzTxt = anz + " Populations-Berichte";
+							}
+							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_popber();
+						},
+						error: function () {
+							$("#Meldung").html("Fehler: Keinen neuen Populations-Bericht erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		};
+		return items;
+	case "popber":
+		items = {
+			"neu": {
+				"label": "neuer Populations-Bericht",
+				"icon": "style/images/neu.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/popber_insert.php',
+						dataType: 'json',
+						data: {
+							"id": $(parent_node).attr("id"),
+							"typ": "popber",
+							"user": sessionStorage.User
+						},
+						success: function (data) {
+							var NeuerNode, anz, anzTxt;
+							localStorage.popber_id = data;
+							delete window.popber;
+							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
+								"data": "neuer Populations-Bericht",
+								"attr": {
+									"id": data,
+									"typ": "popber"
+								}
+							});
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anz = $(parent_node).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Populations-Bericht";
+							} else {
+								anzTxt = anz + " Populations-Berichte";
+							}
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_popber();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keinen neuen Populations-Bericht erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},
+			"loeschen": {
+				"label": "löschen",
+				"separator_before": true,
+				"icon": "style/images/loeschen.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/popber_delete.php',
+						dataType: 'json',
+						data: {
+							"id": $(aktiver_node).attr("id")
+						},
+						success: function () {
+							var anz, anzTxt;
+							delete localStorage.popber_id;
+							delete window.popber;
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(parent_node).select_node(parent_node);
+							jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anz = $(parent_node).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Populations-Bericht";
+							} else {
+								anzTxt = anz + " Populations-Berichte";
+							}
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							initiiere_tpop();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Der Populations-Bericht wurde nicht gelöscht");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		};
+		return items;
+
+
+
+
+
 
 
 
@@ -4886,6 +5080,10 @@ function speichern(that) {
 	switch(Feldname) {
 		case "PopName":
 			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_pop'] #" + localStorage.pop_id, Feldwert);
+			break;
+		case "PopBerJahr":
+		case "PopBerEntwicklung":
+			jQuery("#tree").jstree("rename_node", "[typ='pop_ordner_popber'] #" + localStorage.popber_id, $("#PopBerJahr").val() + ": " + $("#spanPopBerEntwicklung" + $('input[name="PopBerEntwicklung"]:checked').val()).text());
 			break;
 		case "TPopFlurname":
 			jQuery("#tree").jstree("rename_node", "[typ='pop_ordner_tpop'] #" + localStorage.tpop_id, Feldwert);

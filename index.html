@@ -832,6 +832,29 @@
 				</div>
 			</form>
 
+			<form id="popber" class="form" action="#" method="get" autocomplete="off">
+				<div class='fieldcontain PopBerJahr'>
+					<label id="PopBerJahr_label" for='PopBerJahr'>Jahr:</label>
+					<input id="PopBerJahr" name="PopBerJahr" class="speichern Datenfelder" formular="popber" type="number"/>
+				</div>
+				<div class='fieldcontain PopBerEntwicklung'>
+					<label id="PopBerEntwicklung_label" for='PopBerEntwicklung'>Entwicklung:</label>
+					<div class="Datenfelder">
+						<input type="radio" name="PopBerEntwicklung" id="PopBerEntwicklung3" class="speichern" formular="popber" value="3" /><span id="spanPopBerEntwicklung3">zunehmend</span><br />
+						<input type="radio" name="PopBerEntwicklung" id="PopBerEntwicklung2" class="speichern" formular="popber" value="2" /><span id="spanPopBerEntwicklung2">stabil</span><br />
+						<input type="radio" name="PopBerEntwicklung" id="PopBerEntwicklung1" class="speichern" formular="popber" value="1" /><span id="spanPopBerEntwicklung1">abnehmend</span><br />
+						<input type="radio" name="PopBerEntwicklung" id="PopBerEntwicklung8" class="speichern" formular="popber" value="8" /><span id="spanPopBerEntwicklung8">erloschen / nicht etabliert</span><br />
+						<input type="radio" name="PopBerEntwicklung" id="PopBerEntwicklung4" class="speichern" formular="popber" value="4" /><span id="spanPopBerEntwicklung4">unsicher</span><br />
+						<input type="radio" name="PopBerEntwicklung" id="PopBerEntwicklung9" class="speichern" formular="popber" value="9" /><span id="spanPopBerEntwicklung9">neu entdeckt (unsicher)</span><br />
+						<input type="radio" name="PopBerEntwicklung" id="PopBerEntwicklung99" class="speichern" formular="popber" value="99" /><span id="spanPopBerEntwicklung99">andere Einstufung</span>
+					</div>
+				</div>
+				<div class='fieldcontain PopBerTxt'>
+					<label id="PopBerTxt_label" for='PopBerTxt'>Bemerkungen:</label>
+					<textarea name="PopBerTxt" id="PopBerTxt" class="speichern Datenfelder" formular="popber" /></textarea>
+				</div>
+			</form>
+
 			<form id="tpopmassnber" class="form" action="#" method="get" autocomplete="off">
 				<div class='fieldcontain TPopMassnBerJahr'>
 					<label id="TPopMassnBerJahr_label" for='TPopMassnBerJahr'>Jahr:</label>
