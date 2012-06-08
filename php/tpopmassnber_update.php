@@ -16,20 +16,7 @@ $Wert = $_GET["Wert"];
 $user = $_GET["user"];
 $time = date('Y-m-d H:i:s');
 
-//zeit muss umgewandelt werden!
-if ($Feld == "TPopMassnDatum") {
-	if ($Wert) {
-		$Wert = date("Y-m-d H:i:s", strtotime($Wert));
-	} else {
-		$Wert = null;
-	}
-}
-
-if (!$Wert) {
-	$Wert == null;
-}
-
-$Querystring = 'UPDATE tblTeilPopMassnahme SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopMassnId = '.$id;
+$Querystring = 'UPDATE tblTeilPopMassnBericht SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopMassnBerId = '.$id;
 
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);

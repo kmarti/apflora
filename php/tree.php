@@ -32,7 +32,7 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 		$TPopId = $r_tpop['TPopId'];
 		settype($TPopId, "integer");
 		//Massn dieser TPop abfragen
-		$result_tpopmassn = mysqli_query($link, "SELECT TPopMassnId, TPopId, TPopMassnJahr, TPopMassnDatum, MassnTypTxt FROM tblTeilPopMassnahme INNER JOIN DomainTPopMassnTyp ON TPopMassnTyp = MassnTypCode where TPopId = $TPopId ORDER BY TPopMassnJahr, TPopMassnDatum, MassnTypTxt");
+		$result_tpopmassn = mysqli_query($link, "SELECT TPopMassnId, TPopId, TPopMassnJahr, TPopMassnDatum, MassnTypTxt FROM tblTeilPopMassnahme LEFT JOIN DomainTPopMassnTyp ON TPopMassnTyp = MassnTypCode where TPopId = $TPopId ORDER BY TPopMassnJahr, TPopMassnDatum, MassnTypTxt");
 		$anz_tpopmassn = mysqli_num_rows($result_tpopmassn);
 		//Datenstruktur für tpopmassn aufbauen
 		$rows_tpopmassn = array();
@@ -41,17 +41,17 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 			settype($TPopMassnId, "integer");
 			$TPopMassnJahr =  $r_tpopmassn['TPopMassnJahr'];
 			settype($TPopMassnJahr, "integer");
-			$MassnTypTxt = $r_tpop['MassnTypTxt'];
+			$MassnTypTxt = $r_tpopmassn['MassnTypTxt'];
 			//TPopMassn setzen
 			$attr_tpopmassn = array("id" => $TPopMassnId, "typ" => "tpopmassn");
-			$tpopmassn = array("data" => $TPopMassnJahr." ".$MassnTypTxt, "attr" => $attr_tpopmassn);
+			$tpopmassn = array("data" => $TPopMassnJahr.": ".$MassnTypTxt, "attr" => $attr_tpopmassn);
 			//tpopmassn-Array um tpopmassn ergänzen
 		    $rows_tpopmassn[] = $tpopmassn;
 		}
 		mysqli_free_result($result_tpopmassn);
 
 		//MassnBer dieser TPop abfragen
-		$result_tpopmassnber = mysqli_query($link, "SELECT tblTeilPopMassnBericht.TPopMassnBerId, tblTeilPopMassnBericht.TPopId, tblTeilPopMassnBericht.TPopMassnBerJahr, DomainTPopMassnErfolgsbeurteilung.BeurteilTxt FROM tblTeilPopMassnBericht INNER JOIN DomainTPopMassnErfolgsbeurteilung ON tblTeilPopMassnBericht.TPopMassnBerErfolgsbeurteilung = DomainTPopMassnErfolgsbeurteilung.BeurteilId where TPopId = $TPopId ORDER BY tblTeilPopMassnBericht.TPopMassnBerJahr, DomainTPopMassnErfolgsbeurteilung.BeurteilTxt");
+		$result_tpopmassnber = mysqli_query($link, "SELECT TPopMassnBerId, TPopId, TPopMassnBerJahr, BeurteilTxt FROM tblTeilPopMassnBericht LEFT JOIN DomainTPopMassnErfolgsbeurteilung ON TPopMassnBerErfolgsbeurteilung = BeurteilId where TPopId = $TPopId ORDER BY TPopMassnBerJahr, BeurteilTxt");
 		$anz_tpopmassnber = mysqli_num_rows($result_tpopmassnber);
 		//Datenstruktur für tpopmassnber aufbauen
 		$rows_tpopmassnber = array();
@@ -60,10 +60,10 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 			settype($TPopMassnBerId, "integer");
 			$TPopMassnBerJahr =  $r_tpopmassnber['TPopMassnBerJahr'];
 			settype($TPopMassnBerJahr, "integer");
-			$BeurteilTxt = $r_tpop['BeurteilTxt'];
+			$BeurteilTxt = $r_tpopmassnber['BeurteilTxt'];
 			//TPopMassn setzen
 			$attr_tpopmassnber = array("id" => $TPopMassnBerId, "typ" => "tpopmassnber");
-			$tpopmassnber = array("data" => $TPopMassnBerJahr." ".$BeurteilTxt, "attr" => $attr_tpopmassnber);
+			$tpopmassnber = array("data" => $TPopMassnBerJahr.": ".$BeurteilTxt, "attr" => $attr_tpopmassnber);
 			//tpopmassnber-Array um tpopmassnber ergänzen
 		    $rows_tpopmassnber[] = $tpopmassnber;
 		}
