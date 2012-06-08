@@ -566,6 +566,42 @@ function initiiere_ibartenassoz() {
 	});
 }
 
+function initiiere_popmassnber() {
+	if (!localStorage.popmassnber_id) {
+		//es fehlen benötigte Daten > eine Ebene höher
+		initiiere_pop();
+		return;
+	}
+	//Felder zurücksetzen
+	leereFelderVonFormular("popmassnber");
+	setzeFeldbreiten();
+	//Daten für die pop aus der DB holen
+	$.ajax({
+		url: 'php/popmassnber.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.popmassnber_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//ap bereitstellen
+				window.popmassnber = data;
+				//Felder mit Daten beliefern
+				$("#PopMassnBerJahr").val(data.PopMassnBerJahr);
+				$("#PopMassnBerErfolgsbeurteilung" + data.PopMassnBerErfolgsbeurteilung).prop("checked", true);
+				$("#PopMassnBerTxt").val(data.PopMassnBerTxt);
+				//Formulare blenden
+				zeigeFormular("popmassnber");	
+				//bei neuen Datensätzen Fokus steuern
+				setTimeout(function() {
+					$('#PopMassnBerJahr').focus();
+				}, 100);
+			}
+		}
+	});
+}
+
 function initiiere_tpop() {
 	if (!localStorage.tpop_id) {
 		//es fehlen benötigte Daten > eine Ebene höher
@@ -1318,6 +1354,12 @@ function erstelle_tree(ApArtId) {
 			if (!$("#popber").is(':visible') || localStorage.popber_id !== node.attr("id")) {
 				localStorage.popber_id = node.attr("id");
 				initiiere_popber();
+			}
+		} else if (node.attr("typ") === "popmassnber") {
+			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			if (!$("#popmassnber").is(':visible') || localStorage.popmassnber_id !== node.attr("id")) {
+				localStorage.popmassnber_id = node.attr("id");
+				initiiere_popmassnber();
 			}
 		} else if (node.attr("typ") === "tpop" || node.attr("typ").slice(0, 5) === "tpop_") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -3570,6 +3612,153 @@ function treeKontextmenu(node) {
 			}
 		};
 		return items;
+	case "pop_ordner_massnber":
+		items = {
+			"neu": {
+				"label": "neuer Massnahmen-Bericht",
+				"icon": "style/images/neu.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/popmassnber_insert.php',
+						dataType: 'json',
+						data: {
+							"id": $(aktiver_node).attr("id"),
+							"user": sessionStorage.User
+						},
+						success: function (data) {
+							var NeuerNode, anz, anzTxt;
+							localStorage.popmassnber_id = data;
+							delete window.popmassnber;
+							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+								"data": "neuer Massnahmen-Bericht",
+								"attr": {
+									"id": localStorage.popmassnber_id,
+									"typ": "popmassnber"
+								}
+							});
+							//Node-Beschriftung: Anzahl anpassen
+							anz = $(aktiver_node).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Massnahmen-Bericht";
+							} else {
+								anzTxt = anz + " Massnahmen-Berichte";
+							}
+							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_popmassnber();
+						},
+						error: function () {
+							$("#Meldung").html("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		};
+		return items;
+	case "popmassnber":
+		items = {
+			"neu": {
+				"label": "neuer Massnahmen-Bericht",
+				"icon": "style/images/neu.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/popmassnber_insert.php',
+						dataType: 'json',
+						data: {
+							"id": $(parent_node).attr("id"),
+							"typ": "popmassnber",
+							"user": sessionStorage.User
+						},
+						success: function (data) {
+							var NeuerNode, anz, anzTxt;
+							localStorage.popmassnber_id = data;
+							delete window.popmassnber;
+							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
+								"data": "neuer Massnahmen-Bericht",
+								"attr": {
+									"id": data,
+									"typ": "popmassnber"
+								}
+							});
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anz = $(parent_node).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Massnahmen-Bericht";
+							} else {
+								anzTxt = anz + " Massnahmen-Berichte";
+							}
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_popmassnber();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},
+			"loeschen": {
+				"label": "löschen",
+				"separator_before": true,
+				"icon": "style/images/loeschen.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/popmassnber_delete.php',
+						dataType: 'json',
+						data: {
+							"id": $(aktiver_node).attr("id")
+						},
+						success: function () {
+							var anz, anzTxt;
+							delete localStorage.popmassnber_id;
+							delete window.popmassnber;
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(parent_node).select_node(parent_node);
+							jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anz = $(parent_node).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Massnahmen-Bericht";
+							} else {
+								anzTxt = anz + " Massnahmen-Berichte";
+							}
+							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							initiiere_tpop();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		};
+		return items;
 
 
 
@@ -5084,6 +5273,10 @@ function speichern(that) {
 		case "PopBerJahr":
 		case "PopBerEntwicklung":
 			jQuery("#tree").jstree("rename_node", "[typ='pop_ordner_popber'] #" + localStorage.popber_id, $("#PopBerJahr").val() + ": " + $("#spanPopBerEntwicklung" + $('input[name="PopBerEntwicklung"]:checked').val()).text());
+			break;
+		case "PopMassnBerJahr":
+		case "PopMassnBerErfolgsbeurteilung":
+			jQuery("#tree").jstree("rename_node", "[typ='pop_ordner_massnber'] #" + localStorage.popmassnber_id, $("#PopMassnBerJahr").val() + ": " + $("#spanPopMassnBerErfolgsbeurteilung" + $('input[name="PopMassnBerErfolgsbeurteilung"]:checked').val()).text());
 			break;
 		case "TPopFlurname":
 			jQuery("#tree").jstree("rename_node", "[typ='pop_ordner_tpop'] #" + localStorage.tpop_id, Feldwert);
