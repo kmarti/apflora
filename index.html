@@ -1115,8 +1115,58 @@
 					speichern(this);
 				});
 
-				$(".form").on("change", ".DistZuTPop", function () {
-					
+				$("#beob").on("change", "[name='DistZuTPop']", function () {
+					var tpop_id = $(this).val();
+					$.ajax({
+						url: 'php/beob_insert.php',
+						dataType: 'json',
+						data: {
+							"id": localStorage.NO_NOTE,
+							"tpop_id": tpop_id,
+							"dist_zu_tpop": parseInt($(this).attr("distzutpop")),
+							"user": sessionStorage.User
+						},
+						success: function (data) {
+							var anz, anzTxt, neuerNode, neuerParentNode, aktuellerNode;
+							localStorage.tpopbeob_id = data;
+							//Node verschieben
+							jQuery.jstree._reference("#tree").rename_node("[typ='beob'] #" + localStorage.NO_NOTE, "so ein Mist");
+							//jQuery("#tree").jstree("delete_node", "[typ='beob'] #" + localStorage.NO_NOTE);
+							//jQuery("#tree").jstree("rename_node", "[typ='beob'] #" + localStorage.NO_NOTE, "weg mit dir");
+							neuerParentNode = jQuery("#tree").jstree("select_node", "[typ='tpop_ordner_tpopbeob'] #" + tpop_id);
+							jQuery.jstree._reference(neuerParentNode).open_node(neuerParentNode);
+							neuerNode = jQuery.jstree._reference(neuerParentNode).create_node(neuerParentNode, "last", {
+								"data": $("#beob_Datum").val() + ": " + $("#beob_Autor").val(),
+								"attr": {
+									"id": data,
+									"typ": "tpopbeob"
+									}
+								});
+							jQuery.jstree._reference(neuerNode).deselect_all(neuerNode);
+							//jQuery.jstree._reference(neuerNode).refresh(neuerNode);
+							jQuery.jstree._reference(neuerParentNode).select_node(neuerNode);
+							//Parent Node-Beschriftung: Anzahl anpassen
+							anz = $(neuerParentNode).find("> ul > li").length;
+							if (anz === 1) {
+								anzTxt = anz + " Beobachtung";
+							} else {
+								anzTxt = anz + " Beobachtungen";
+							}
+							jQuery.jstree._reference(neuerParentNode).rename_node(neuerParentNode, anzTxt);
+							initiiere_tpopbeob();
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Die Beobachtung wurde nicht zugeordnet");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
 				});
 
 				$("#menu").on("click", "[name=programm_wahl]", function () {

@@ -1214,7 +1214,9 @@ function initiiere_beob() {
 									html += data[i].TPopId;
 									html += '" class="DistZuTPop" formular="beob" value="'
 									html += data[i].TPopId;
-									html += '" />'
+									html += '" DistZuTPop="';
+									html += data[i].DistZuTPop;
+									html += '" />';
 									html += parseInt(data[i].DistZuTPop) + "m: " + data[i].TPopFlurname;
 
 								}
