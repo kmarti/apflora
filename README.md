@@ -19,10 +19,8 @@ Die Anwendung gibt es schon. Sie basiert auf Microsoft Access, das über ODBC au
 
 #Einschränkungen
 - Abfragen und Exporte vorläufig noch in Access ausführen (muss wohl sowieso flexibilisiert werden)
-- Artbeobachtungen vorläufig noch in Access zuweisen
-- Artbeobachtungen aus EvAB ev. länger weiterhin in Access zuweisen (oder Uploadtool und Zuweisung im Web?)
+- Artbeobachtungen aus EvAB weiterhin in Access zuweisen (oder Uploadtool und Zuweisung im Web?)
 - Berichte vermutlich langfristig weiterhin in Access erstellen (aufwändig und schwierig umzusetzen)
 
 #Roadmap
-Ist momentan bloss ein Versuch, ob die Idee funktioniert. Ausgang offen.
-Hm. Mittlerweile ist klar, dass die Sache funktioniert. Der Aufwand ist aber beträchtlich. U.a. weil vieles für mich neu ist. Und die Anwendung 20 Seiten hat!
+Das hängt von der verfügbaren Freizeit ab...
