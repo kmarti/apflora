@@ -1140,21 +1140,91 @@ function initiiere_tpopbeob() {
 				window.tpopbeob = data;
 				//Felder mit Daten beliefern
 				$("#tpopbeob_ArtName").val(data.Name + " " + data.StatusText);
-				$("#IdZdsf").val(data.IdZdsf);
-				$("#IdEvab").val(data.IdEvab);
-				$("#Projekt").val(data.Projekt);
-				$("#RaumGde").val(data.RaumGde);
-				$("#Ort").val(data.Ort);
-				$("#X").val(data.X);
-				$("#Y").val(data.Y);
-				$("#Datum").val(data.Datum);
-				$("#Jahr").val(data.Jahr);
-				$("#Anzahl").val(data.Anzahl);
-				$("#Autor").val(data.Autor);
-				$("#Herkunft").val(data.Herkunft);
-				$("#DistZurTPop").val(data.DistZurTPop);
+				$("#tpopbeob_IdZdsf").val(data.IdZdsf);
+				$("#tpopbeob_IdEvab").val(data.IdEvab);
+				$("#tpopbeob_Projekt").val(data.Projekt);
+				$("#tpopbeob_RaumGde").val(data.RaumGde);
+				$("#tpopbeob_Ort").val(data.Ort);
+				$("#tpopbeob_X").val(data.X);
+				$("#tpopbeob_Y").val(data.Y);
+				$("#tpopbeob_Datum").val(data.Datum);
+				$("#tpopbeob_Jahr").val(data.Jahr);
+				$("#tpopbeob_Anzahl").val(data.Anzahl);
+				$("#tpopbeob_Autor").val(data.Autor);
+				$("#tpopbeob_Herkunft").val(data.Herkunft);
+				$("#tpopbeob_DistZurTPop").val(data.DistZurTPop);
 				//Formulare blenden
 				zeigeFormular("tpopbeob");
+			}
+		}
+	});
+}
+
+function initiiere_beob() {
+	if (!localStorage.NO_NOTE) {
+		//es fehlen benötigte Daten > eine Ebene höher
+		initiiere_pop();
+		return;
+	}
+	//Felder zurücksetzen
+	leereFelderVonFormular("beob");
+	setzeFeldbreiten();
+	//Daten für die beob aus der DB holen
+	$.ajax({
+		url: 'php/beob.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.NO_NOTE
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//beob bereitstellen
+				window.beob = data;
+				//Felder mit Daten beliefern
+				$("#beob_ArtName").val(data.Name + " " + data.StatusText);
+				$("#beob_IdZdsf").val(data.IdZdsf);
+				$("#beob_IdEvab").val(data.IdEvab);
+				$("#beob_Projekt").val(data.Projekt);
+				$("#beob_RaumGde").val(data.RaumGde);
+				$("#beob_Ort").val(data.Ort);
+				$("#beob_X").val(data.X);
+				$("#beob_Y").val(data.Y);
+				$("#beob_Datum").val(data.Datum);
+				$("#beob_Jahr").val(data.Jahr);
+				$("#beob_Anzahl").val(data.Anzahl);
+				$("#beob_Autor").val(data.Autor);
+				$("#beob_Herkunft").val(data.Herkunft);
+				//Distanzen zu TPop berechnen
+				$.ajax({
+					url: 'php/beob_zuweisen.php',
+					dataType: 'json',
+					data: {
+						"no_note": localStorage.NO_NOTE
+					},
+					success: function (data) {
+						var html = "";
+						if (data) {
+							for (i in data) {
+								if (typeof i !== "function") {
+									if (html) {
+										html += "<br>";
+									}
+									html += '<input type="radio" name="DistZuTPop" id="DistZuTPop';
+									html += data[i].TPopId;
+									html += '" class="DistZuTPop" formular="beob" value="'
+									html += data[i].TPopId;
+									html += '" />'
+									html += parseInt(data[i].DistZuTPop) + "m: " + data[i].TPopFlurname;
+
+								}
+							}
+							$("#DistZuTPop_Felder").html(html);
+							//Formulare blenden
+							zeigeFormular("beob");
+						}
+					}
+				});
 			}
 		}
 	});
@@ -1476,6 +1546,12 @@ function erstelle_tree(ApArtId) {
 			if (!$("#tpopbeob").is(':visible') || localStorage.tpopbeob_id !== node.attr("id")) {
 				localStorage.tpopbeob_id = node.attr("id");
 				initiiere_tpopbeob();
+			}
+		} else if (node.attr("typ") === "beob") {
+			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			if (!$("#beob").is(':visible') || localStorage.NO_NOTE !== node.attr("id")) {
+				localStorage.NO_NOTE = node.attr("id");
+				initiiere_beob();
 			}
 		} else if (node.attr("typ") === "tpopmassnber") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden

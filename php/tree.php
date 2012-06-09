@@ -392,6 +392,38 @@ while($r_ber = mysqli_fetch_assoc($result_ber)) {
 }
 mysqli_free_result($result_ber);
 
+//beob dieses AP abfragen
+$result_beob = mysqli_query($link, "SELECT NO_NOTE, NOM_PERSONNE_OBS, PRENOM_PERSONNE_OBS, J_NOTE, M_NOTE, A_NOTE FROM BeobachtungenZdsf_ZdsfBeob WHERE NO_NOTE NOT IN (SELECT IdZdsf FROM tblBeobachtungen WHERE NR=$ApArtId) AND ISFS =$ApArtId ORDER BY A_NOTE DESC, M_NOTE DESC, J_NOTE DESC");
+$anz_beob = mysqli_num_rows($result_beob);
+//beob aufbauen
+$rows_beob = array();
+while($r_beob = mysqli_fetch_assoc($result_beob)) {
+	$no_note = $r_beob['NO_NOTE'];
+	settype($no_note, "integer");
+	$beobAutor = $r_beob['NOM_PERSONNE_OBS']." ".$r_beob['PRENOM_PERSONNE_OBS'];
+	if ($r_beob['M_NOTE'] < 10) {
+		$Monat = "0".$r_beob['M_NOTE'];
+	} else {
+		$Monat = $r_beob['M_NOTE'];
+	}
+	if ($r_beob['J_NOTE'] < 10) {
+		$Tag = "0".$r_beob['J_NOTE'];
+	} else {
+		$Tag = $r_beob['J_NOTE'];
+	}
+	if (!$r_beob['M_NOTE']) {
+		$beobDatum = $r_beob['A_NOTE'];
+	} else {
+		$beobDatum = $r_beob['A_NOTE'].".".$Monat.".".$Tag;
+	}
+	//beob setzen
+	$attr_beob = array("id" => $no_note, "typ" => "beob");
+	$beob = array("data" => $beobDatum.": ".$beobAutor, "attr" => $attr_beob);
+	//beob-Array um beob ergänzen
+    $rows_beob[] = $beob;
+}
+mysqli_free_result($result_beob);
+
 //iballg dieses AP abfragen
 $result_iballg = mysqli_query($link, "SELECT IbApArtId FROM tblIbAllg where IbApArtId = $ApArtId");
 $anz_iballg = mysqli_num_rows($result_iballg);
@@ -472,6 +504,13 @@ if ($anz_ber === 1) {
 }
 $ap_ordner_ber_attr = array("id" => $ApArtId, "typ" => "ap_ordner_ber");
 $ap_ordner_ber = array("data" => $ap_ordner_ber_datatext, "attr" => $ap_ordner_ber_attr, "children" => $rows_ber);
+//Beobachtungen
+$ap_ordner_beob_datatext = $anz_beob." nicht zugewiesene Beobachtungen";
+if ($anz_beob === 1) {
+	$ap_ordner_beob_datatext = $anz_beob." nicht zugewiesene Beobachtung";
+}
+$ap_ordner_beob_attr = array("id" => $ApArtId, "typ" => "ap_ordner_beob");
+$ap_ordner_beob = array("data" => $ap_ordner_beob_datatext, "attr" => $ap_ordner_beob_attr, "children" => $rows_beob);
 //Ideale Umweltfaktoren
 $ap_ordner_iballg_attr = array("id" => $ApArtId, "typ" => "iballg");
 $ap_ordner_iballg = array("data" => "ideale Umweltfaktoren", "attr" => $ap_ordner_iballg_attr);
@@ -490,7 +529,7 @@ if ($anz_ibartenassoz === 1) {
 $ap_ordner_ibartenassoz_attr = array("id" => $ApArtId, "typ" => "ap_ordner_ibartenassoz");
 $ap_ordner_ibartenassoz = array("data" => $ap_ordner_ibartenassoz_datatext, "attr" => $ap_ordner_ibartenassoz_attr, "children" => $rows_ibartenassoz);
 //zusammensetzen
-$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_apber, 4 => $ap_ordner_ber, 5 => $ap_ordner_iballg, 6 => $ap_ordner_ibb, 7 => $ap_ordner_ibartenassoz);
+$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_apber, 4 => $ap_ordner_ber, 5 => $ap_ordner_beob, 6 => $ap_ordner_iballg, 7 => $ap_ordner_ibb, 8 => $ap_ordner_ibartenassoz);
 
 	
 //in json verwandeln
