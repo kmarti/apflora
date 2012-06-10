@@ -1222,8 +1222,12 @@ function initiiere_beob() {
 									html += '" DistZuTPop="';
 									html += data[i].DistZuTPop;
 									html += '" />';
-									html += parseInt(data[i].DistZuTPop) + "m: " + data[i].TPopFlurname;
-
+									//Wenn TPop keine Koordinaten haben, dies anzeigen und Anzeige von NAN verhindern
+									if (parseInt(data[i].DistZuTPop)) {
+										html += parseInt(data[i].DistZuTPop) + "m: " + data[i].TPopFlurname;
+									} else {
+										html += "ohne Koordinaten: " + data[i].TPopFlurname;
+									}
 								}
 							}
 							$("#DistZuTPop_Felder").html(html);
@@ -1322,7 +1326,7 @@ function setzeFeldbreiten() {
 		}
 	});
 	//Zahlenfelder sollen nicht breiter als 200px sein
-	$('#forms input[type="number"]').each(function() {
+	$('#forms input[type="number"], #forms input[type="date"]').each(function() {
 		if ($(this).attr("formular") === "tpopfeldkontr") {
 			//hier hats tabs, Felder müssen schmaler sein als normal
 			if (($(window).width() - 715) > 200) {
