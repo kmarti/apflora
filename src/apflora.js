@@ -340,7 +340,6 @@ function initiiere_ber() {
 				$("#BerJahr").val(data.BerJahr);
 				$("#BerTitel").val(data.BerTitel);
 				$("#BerURL").val(data.BerURL);
-				//$('#BerURLHref').attr('onClick', "document.location.href='" + data.BerURL + "';");
 				//die Daten enthalten # an Anfang und Ende (Access-Macke)
 				tempUrl = data.BerURL;
 				if (data.BerURL && data.BerURL.slice(0, 1) === "#") {
@@ -1134,6 +1133,7 @@ function initiiere_tpopbeob() {
 			"id": localStorage.tpopbeob_id
 		},
 		success: function (data) {
+			var GisBrowserUrl;
 			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
 				//tpopbeob bereitstellen
@@ -1147,6 +1147,8 @@ function initiiere_tpopbeob() {
 				$("#tpopbeob_Ort").val(data.Ort);
 				$("#tpopbeob_X").val(data.X);
 				$("#tpopbeob_Y").val(data.Y);
+				GisBrowserUrl = "http://www.gis.zh.ch/gb/gb.asp?YKoord=" + data.X + "&XKoord=" + data.Y + "&Massstab=3000+app=GB-SWISSIMAGE+rn=5$7";
+				$('#tpopbeob_lnkGisBrowser').attr('onClick', "window.open('" + GisBrowserUrl + "', target='_blank')");
 				$("#tpopbeob_Datum").val(data.Datum);
 				$("#tpopbeob_Jahr").val(data.Jahr);
 				$("#tpopbeob_Anzahl").val(data.Anzahl);
@@ -1177,6 +1179,7 @@ function initiiere_beob() {
 			"id": localStorage.NO_NOTE
 		},
 		success: function (data) {
+			var GisBrowserUrl;
 			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
 				//beob bereitstellen
@@ -1190,6 +1193,8 @@ function initiiere_beob() {
 				$("#beob_Ort").val(data.Ort);
 				$("#beob_X").val(data.X);
 				$("#beob_Y").val(data.Y);
+				GisBrowserUrl = "http://www.gis.zh.ch/gb/gb.asp?YKoord=" + data.X + "&XKoord=" + data.Y + "&Massstab=3000+app=GB-SWISSIMAGE+rn=5$7";
+				$('#beob_lnkGisBrowser').attr('onClick', "window.open('" + GisBrowserUrl + "', target='_blank')");
 				$("#beob_Datum").val(data.Datum);
 				$("#beob_Jahr").val(data.Jahr);
 				$("#beob_Anzahl").val(data.Anzahl);
