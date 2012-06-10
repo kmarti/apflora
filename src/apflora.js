@@ -1419,6 +1419,7 @@ function erstelle_tree(ApArtId) {
 		"ui": {
 			"select_limit": 1,	//nur ein Datensatz kann aufs mal gewählt werden
 			"selected_parent_open": true,	//wenn Code einen node wählt, werden alle parents geöffnet
+			"select_prev_on_delete": true
 		},
 		"search": {
 			"case_insensitive": true
@@ -1911,8 +1912,6 @@ function treeKontextmenu(node) {
 										var anz, anzTxt;
 										delete localStorage.apziel_id;
 										delete window.apziel;
-										jQuery.jstree._reference(aktiver_node).deselect_all();
-										jQuery.jstree._reference(parent_node).select_node(parent_node);
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//grandparent Node-Beschriftung: Anzahl anpassen
 										grandparent_node = jQuery.jstree._reference(parent_node)._get_parent(parent_node);
@@ -1928,7 +1927,6 @@ function treeKontextmenu(node) {
 										anzTxt = jQuery.jstree._reference(parent_node).get_text(parent_node).slice(0, 6);
 										anzTxt += anz;
 										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-										initiiere_ap();
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Das AP-Ziel wurde nicht gelöscht");
@@ -2085,8 +2083,6 @@ function treeKontextmenu(node) {
 										var anz, anzTxt;
 										delete localStorage.zielber_id;
 										delete window.zielber;
-										jQuery.jstree._reference(parent_node).deselect_all();
-										jQuery.jstree._reference(parent_node).select_node(parent_node);
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
 										anz = $(parent_node).find("> ul > li").length;
@@ -2096,7 +2092,6 @@ function treeKontextmenu(node) {
 											anzTxt = anz + " Ziel-Berichte";
 										}
 										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-										initiiere_ap();
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Der Ziel-Bericht wurde nicht gelöscht");
@@ -2253,8 +2248,6 @@ function treeKontextmenu(node) {
 										var anz, anzTxt;
 										delete localStorage.erfkrit_id;
 										delete window.erfkrit;
-										jQuery.jstree._reference(parent_node).deselect_all();
-										jQuery.jstree._reference(parent_node).select_node(parent_node);
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
 										anz = $(parent_node).find("> ul > li").length;
@@ -2264,7 +2257,6 @@ function treeKontextmenu(node) {
 											anzTxt = anz + " Erfolgskriterien";
 										}
 										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-										initiiere_ap();
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Das Erfolgskriterium wurde nicht gelöscht");
@@ -2421,8 +2413,6 @@ function treeKontextmenu(node) {
 										var anz, anzTxt;
 										delete localStorage.apber_id;
 										delete window.apber;
-										jQuery.jstree._reference(parent_node).deselect_all();
-										jQuery.jstree._reference(parent_node).select_node(parent_node);
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
 										anz = $(parent_node).find("> ul > li").length;
@@ -2432,7 +2422,6 @@ function treeKontextmenu(node) {
 											anzTxt = anz + " AP-Berichte";
 										}
 										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-										initiiere_ap();
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Der AP-Bericht wurde nicht gelöscht");
@@ -2589,8 +2578,6 @@ function treeKontextmenu(node) {
 										var anz, anzTxt;
 										delete localStorage.ber_id;
 										delete window.ber;
-										jQuery.jstree._reference(parent_node).deselect_all();
-										jQuery.jstree._reference(parent_node).select_node(parent_node);
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
 										anz = $(parent_node).find("> ul > li").length;
@@ -2600,7 +2587,6 @@ function treeKontextmenu(node) {
 											anzTxt = anz + " Berichte";
 										}
 										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-										initiiere_ap();
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Der Bericht wurde nicht gelöscht");
@@ -2757,8 +2743,6 @@ function treeKontextmenu(node) {
 										var anz, anzTxt;
 										delete localStorage.ibb_id;
 										delete window.ibb;
-										jQuery.jstree._reference(parent_node).deselect_all();
-										jQuery.jstree._reference(parent_node).select_node(parent_node);
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
 										anz = $(parent_node).find("> ul > li").length;
@@ -2768,7 +2752,6 @@ function treeKontextmenu(node) {
 											anzTxt = anz + " Idealbiotope";
 										}
 										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-										initiiere_ap();
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Das Idealbiotop wurde nicht gelöscht");
@@ -2925,8 +2908,6 @@ function treeKontextmenu(node) {
 										var anz, anzTxt;
 										delete localStorage.ibartenassoz_id;
 										delete window.ibartenassoz;
-										jQuery.jstree._reference(parent_node).deselect_all();
-										jQuery.jstree._reference(parent_node).select_node(parent_node);
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
 										anz = $(parent_node).find("> ul > li").length;
@@ -2936,7 +2917,6 @@ function treeKontextmenu(node) {
 											anzTxt = anz + " assoziierte Arten";
 										}
 										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-										initiiere_ap();
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Die assoziierte Art wurde nicht gelöscht");
@@ -3064,8 +3044,6 @@ function treeKontextmenu(node) {
 										var anz, anzTxt;
 										delete localStorage.pop_id;
 										delete window.pop;
-										jQuery.jstree._reference(aktiver_node).deselect_all();
-										jQuery.jstree._reference(parent_node).select_node(parent_node);
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
 										anz = $(parent_node).find("> ul > li").length;
@@ -3075,7 +3053,6 @@ function treeKontextmenu(node) {
 											anzTxt = anz + " Populationen";
 										}
 										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-										initiiere_ap();
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Die Population wurde nicht gelöscht");
@@ -3434,8 +3411,6 @@ function treeKontextmenu(node) {
 										var anz, anzTxt;
 										delete localStorage.tpop_id;
 										delete window.tpop;
-										jQuery.jstree._reference(parent_node).deselect_all();
-										jQuery.jstree._reference(parent_node).select_node(parent_node);
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
 										anz = $(parent_node).find("> ul > li").length;
@@ -3445,7 +3420,6 @@ function treeKontextmenu(node) {
 											anzTxt = anz + " Teilpopulationen";
 										}
 										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-										initiiere_pop();
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Die Teilpopulation wurde nicht gelöscht");
@@ -3749,8 +3723,6 @@ function treeKontextmenu(node) {
 							var anz, anzTxt;
 							delete localStorage.popber_id;
 							delete window.popber;
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(parent_node).select_node(parent_node);
 							jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 							//Parent Node-Beschriftung: Anzahl anpassen
 							anz = $(parent_node).find("> ul > li").length;
@@ -3760,7 +3732,6 @@ function treeKontextmenu(node) {
 								anzTxt = anz + " Populations-Berichte";
 							}
 							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-							initiiere_tpop();
 						},
 						error: function (data) {
 							$("#Meldung").html("Fehler: Der Populations-Bericht wurde nicht gelöscht");
@@ -3896,8 +3867,6 @@ function treeKontextmenu(node) {
 							var anz, anzTxt;
 							delete localStorage.popmassnber_id;
 							delete window.popmassnber;
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(parent_node).select_node(parent_node);
 							jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 							//Parent Node-Beschriftung: Anzahl anpassen
 							anz = $(parent_node).find("> ul > li").length;
@@ -3907,7 +3876,6 @@ function treeKontextmenu(node) {
 								anzTxt = anz + " Massnahmen-Berichte";
 							}
 							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-							initiiere_tpop();
 						},
 						error: function (data) {
 							$("#Meldung").html("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
@@ -4159,8 +4127,6 @@ function treeKontextmenu(node) {
 							var anz, anzTxt;
 							delete localStorage.tpopfeldkontr_id;
 							delete window.tpopfeldkontr;
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(parent_node).select_node(parent_node);
 							jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 							//Parent Node-Beschriftung: Anzahl anpassen
 							anz = $(parent_node).find("> ul > li").length;
@@ -4170,7 +4136,6 @@ function treeKontextmenu(node) {
 								anzTxt = anz + " Feldkontrollen";
 							}
 							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-							initiiere_tpop();
 						},
 						error: function (data) {
 							$("#Meldung").html("Fehler: Die Feldkontrolle wurde nicht gelöscht");
@@ -4590,8 +4555,6 @@ function treeKontextmenu(node) {
 							delete localStorage.tpopfeldkontr_id;
 							delete localStorage.tpopfreiwkontr;
 							delete window.tpopfeldkontr;
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(parent_node).select_node(parent_node);
 							jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 							//Parent Node-Beschriftung: Anzahl anpassen
 							anz = $(parent_node).find("> ul > li").length;
@@ -4601,7 +4564,6 @@ function treeKontextmenu(node) {
 								anzTxt = anz + " Freiwilligen-Kontrollen";
 							}
 							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-							initiiere_tpop();
 						},
 						error: function (data) {
 							$("#Meldung").html("Fehler: Die Freiwilligen-Kontrolle wurde nicht gelöscht");
@@ -5015,8 +4977,6 @@ function treeKontextmenu(node) {
 							var anz, anzTxt;
 							delete localStorage.tpopmassn_id;
 							delete window.tpopmassn;
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(parent_node).select_node(parent_node);
 							jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 							//Parent Node-Beschriftung: Anzahl anpassen
 							anz = $(parent_node).find("> ul > li").length;
@@ -5026,7 +4986,6 @@ function treeKontextmenu(node) {
 								anzTxt = anz + " Massnahmen";
 							}
 							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-							initiiere_tpop();
 						},
 						error: function (data) {
 							$("#Meldung").html("Fehler: Die Massnahme wurde nicht gelöscht");
@@ -5324,8 +5283,6 @@ function treeKontextmenu(node) {
 							var anz, anzTxt;
 							delete localStorage.tpopber_id;
 							delete window.tpopber;
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(parent_node).select_node(parent_node);
 							jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 							//Parent Node-Beschriftung: Anzahl anpassen
 							anz = $(parent_node).find("> ul > li").length;
@@ -5335,7 +5292,6 @@ function treeKontextmenu(node) {
 								anzTxt = anz + " Teilpopulations-Berichte";
 							}
 							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-							initiiere_tpop();
 						},
 						error: function (data) {
 							$("#Meldung").html("Fehler: Der Teilpopulations-Bericht wurde nicht gelöscht");
@@ -5600,8 +5556,6 @@ function treeKontextmenu(node) {
 							var anz, anzTxt;
 							delete localStorage.tpopmassnber_id;
 							delete window.tpopmassnber;
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(parent_node).select_node(parent_node);
 							jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 							//Parent Node-Beschriftung: Anzahl anpassen
 							anz = $(parent_node).find("> ul > li").length;
@@ -5611,7 +5565,6 @@ function treeKontextmenu(node) {
 								anzTxt = anz + " Massnahmen-Berichte";
 							}
 							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-							initiiere_tpop();
 						},
 						error: function (data) {
 							$("#Meldung").html("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
