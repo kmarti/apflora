@@ -1147,8 +1147,6 @@ function initiiere_tpopbeob() {
 				$("#tpopbeob_Ort").val(data.TPop);
 				$("#tpopbeob_X").val(data.X);
 				$("#tpopbeob_Y").val(data.Y);
-				GisBrowserUrl = "http://www.gis.zh.ch/gb/gb.asp?YKoord=" + data.X + "&XKoord=" + data.Y + "&Massstab=3000+app=GB-SWISSIMAGE+rn=5$7";
-				$('#tpopbeob_lnkGisBrowser').attr('onClick', "window.open('" + GisBrowserUrl + "', target='_blank')");
 				$("#tpopbeob_Datum").val(data.Datum);
 				$("#tpopbeob_Jahr").val(data.Jahr);
 				$("#tpopbeob_Anzahl").val(data.Anzahl);
@@ -1193,8 +1191,6 @@ function initiiere_beob() {
 				$("#beob_Ort").val(data.TPop);
 				$("#beob_X").val(data.X);
 				$("#beob_Y").val(data.Y);
-				GisBrowserUrl = "http://www.gis.zh.ch/gb/gb.asp?YKoord=" + data.X + "&XKoord=" + data.Y + "&Massstab=3000+app=GB-SWISSIMAGE+rn=5$7";
-				$('#beob_lnkGisBrowser').attr('onClick', "window.open('" + GisBrowserUrl + "', target='_blank')");
 				$("#beob_Datum").val(data.Datum);
 				$("#beob_Jahr").val(data.Jahr);
 				$("#beob_Anzahl").val(data.Anzahl);
