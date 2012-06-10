@@ -1144,7 +1144,7 @@ function initiiere_tpopbeob() {
 				$("#tpopbeob_IdEvab").val(data.IdEvab);
 				$("#tpopbeob_Projekt").val(data.Projekt);
 				$("#tpopbeob_RaumGde").val(data.RaumGde);
-				$("#tpopbeob_Ort").val(data.Ort);
+				$("#tpopbeob_Ort").val(data.TPop);
 				$("#tpopbeob_X").val(data.X);
 				$("#tpopbeob_Y").val(data.Y);
 				GisBrowserUrl = "http://www.gis.zh.ch/gb/gb.asp?YKoord=" + data.X + "&XKoord=" + data.Y + "&Massstab=3000+app=GB-SWISSIMAGE+rn=5$7";
@@ -1190,7 +1190,7 @@ function initiiere_beob() {
 				$("#beob_IdEvab").val(data.IdEvab);
 				$("#beob_Projekt").val(data.Projekt);
 				$("#beob_RaumGde").val(data.RaumGde);
-				$("#beob_Ort").val(data.Ort);
+				$("#beob_Ort").val(data.TPop);
 				$("#beob_X").val(data.X);
 				$("#beob_Y").val(data.Y);
 				GisBrowserUrl = "http://www.gis.zh.ch/gb/gb.asp?YKoord=" + data.X + "&XKoord=" + data.Y + "&Massstab=3000+app=GB-SWISSIMAGE+rn=5$7";
@@ -1658,6 +1658,45 @@ function treeKontextmenu(node) {
 						},
 						error: function (data) {
 							$("#Meldung").html("Fehler: Keine neue Population erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},
+			"GoogleMaps": {
+				"label": "auf Luftbild darstellen",
+				"icon": "style/images/flora_icon.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/ap_karte.php',
+						dataType: 'json',
+						data: {
+							"id": $(aktiver_node).attr("id")
+						},
+						success: function (data) {
+							if (data.rows.length > 0) {
+								erstelleKarteFuerVieleTPop(data);
+							} else {
+								$("#Meldung").html("Es gibt keine Teilpopulation mit Koordinaten");
+								$("#Meldung").dialog({
+									modal: true,
+									buttons: {
+										Ok: function() {
+											$(this).dialog("close");
+										}
+									}
+								});
+							}
+						},	
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine Daten erhalten");
 							$("#Meldung").dialog({
 								modal: true,
 								buttons: {
@@ -5818,3 +5857,263 @@ function speichern(that) {
 		return o;
 	};
 })(jQuery);
+
+//wandelt decimal degrees (vom GPS) in WGS84 um
+function DdInWgs84BreiteGrad(Breite) {
+	var BreiteGrad;
+ 	BreiteGrad = Math.floor(Breite);
+	return BreiteGrad;
+}
+
+function DdInWgs84BreiteMin(Breite) {
+	var BreiteGrad, BreiteMin;
+ 	BreiteGrad = Math.floor(Breite);
+	BreiteMin = Math.floor((Breite-BreiteGrad)*60);
+	return BreiteMin;
+}
+
+function DdInWgs84BreiteSec(Breite) {
+	var BreiteGrad, BreiteMin, BreiteSec;
+ 	BreiteGrad = Math.floor(Breite);
+	BreiteMin = Math.floor((Breite-BreiteGrad)*60);
+	BreiteSec =  (Math.round((((Breite - BreiteGrad) - (BreiteMin/60)) * 60 * 60) * 100) / 100);
+	return BreiteSec;
+}
+
+function DdInWgs84LaengeGrad(Laenge) {
+	var LaengeGrad;
+	LaengeGrad = Math.floor(Laenge);
+	return LaengeGrad;
+}
+
+function DdInWgs84LaengeMin(Laenge) {
+	var LaengeGrad, LaengeMin;
+	LaengeGrad = Math.floor(Laenge);
+	LaengeMin = Math.floor((Laenge-LaengeGrad)*60);
+	return LaengeMin;
+}
+
+function DdInWgs84LaengeSec(Laenge) {
+	var LaengeGrad, LaengeMin, LaengeSec;
+	LaengeGrad = Math.floor(Laenge);
+	LaengeMin = Math.floor((Laenge-LaengeGrad)*60);
+	LaengeSec = (Math.round((((Laenge - LaengeGrad) - (LaengeMin/60)) * 60 * 60) * 100 ) / 100);
+	return LaengeSec;
+}
+
+// Wandelt WGS84 lat/long (° dec) in CH-Landeskoordinaten um
+function Wgs84InChX(BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, LaengeSec) {
+	var lat_aux, lng_aux;
+	// Converts degrees dec to sex
+	lat = BreiteSec + BreiteMin*60 + BreiteGrad*3600;
+	lng = LaengeSec + LaengeMin*60 + LaengeGrad*3600;
+  
+	// Axiliary values (% Bern)
+	lat_aux = (lat - 169028.66)/10000;
+	lng_aux = (lng - 26782.5)/10000;
+
+	x = 200147.07
+	  + 308807.95 * lat_aux 
+	  +   3745.25 * Math.pow(lng_aux,2)
+	  +     76.63 * Math.pow(lat_aux,2)
+	  -    194.56 * Math.pow(lng_aux,2) * lat_aux
+	  +    119.79 * Math.pow(lat_aux,3);
+ 
+	return x;
+}
+
+//Wandelt WGS84 in CH-Landeskoordinaten um
+function Wgs84InChY(BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, LaengeSec) {
+	var lat_aux, lng_aux;
+	// Converts degrees dec to sex
+	lat = BreiteSec + BreiteMin*60 + BreiteGrad*3600;
+	lng = LaengeSec + LaengeMin*60 + LaengeGrad*3600;
+
+	// Axiliary values (% Bern)
+	lat_aux = (lat - 169028.66)/10000;
+	lng_aux = (lng - 26782.5)/10000;
+
+	// Process Y
+	y = 600072.37 
+	   + 211455.93 * lng_aux 
+	   -  10938.51 * lng_aux * lat_aux
+	   -      0.36 * lng_aux * Math.pow(lat_aux,2)
+	   -     44.54 * Math.pow(lng_aux,3);
+	
+	return y;
+}
+
+//wandelt decimal degrees (vom GPS) in CH-Landeskoordinaten um
+function DdInChX(Breite, Laenge) {
+	var BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, LaengeSec, x;
+	BreiteGrad = DdInWgs84BreiteGrad(Breite);
+	BreiteMin = DdInWgs84BreiteMin(Breite);
+	BreiteSec = DdInWgs84BreiteSec(Breite);
+	LaengeGrad = DdInWgs84LaengeGrad(Laenge);
+	LaengeMin = DdInWgs84LaengeMin(Laenge);
+	LaengeSec = DdInWgs84LaengeSec(Laenge);
+	x = Math.floor(Wgs84InChX(BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, LaengeSec));
+	return x;
+}
+
+function DdInChY(Breite, Laenge) {
+	var BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, LaengeSec, y;
+	BreiteGrad = DdInWgs84BreiteGrad(Breite);
+	BreiteMin = DdInWgs84BreiteMin(Breite);
+	BreiteSec = DdInWgs84BreiteSec(Breite);
+	LaengeGrad = DdInWgs84LaengeGrad(Laenge);
+	LaengeMin = DdInWgs84LaengeMin(Laenge);
+	LaengeSec = DdInWgs84LaengeSec(Laenge);
+	y = Math.floor(Wgs84InChY(BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, LaengeSec));
+	return y;
+}
+
+//von CH-Landeskoord zu DecDeg
+
+// Convert CH y/x to WGS lat
+function CHtoWGSlat(y, x) {
+	// Converts militar to civil and to unit = 1000km
+	var y_aux, x_aux;
+	// Axiliary values (% Bern)
+	y_aux = (y - 600000)/1000000;
+	x_aux = (x - 200000)/1000000;
+
+	// Process lat
+	lat = 16.9023892
+	     +  3.238272 * x_aux
+	     -  0.270978 * Math.pow(y_aux,2)
+	     -  0.002528 * Math.pow(x_aux,2)
+	     -  0.0447   * Math.pow(y_aux,2) * x_aux
+	     -  0.0140   * Math.pow(x_aux,3);
+	
+	// Unit 10000" to 1 " and converts seconds to degrees (dec)
+	lat = lat * 100/36;
+	return lat;
+}
+
+// Convert CH y/x to WGS long
+function CHtoWGSlng(y, x) {
+	// Converts militar to civil and to unit = 1000km
+	var y_aux, x_aux;
+	// Axiliary values (% Bern)
+	y_aux = (y - 600000)/1000000;
+	x_aux = (x - 200000)/1000000;
+
+	// Process long
+	lng = 2.6779094
+	    + 4.728982 * y_aux
+	    + 0.791484 * y_aux * x_aux
+	    + 0.1306   * y_aux * Math.pow(x_aux,2)
+	    - 0.0436   * Math.pow(y_aux,3);
+	
+	// Unit 10000" to 1 " and converts seconds to degrees (dec)
+	lng = lng * 100/36;
+	return lng;
+}
+
+function erstelleKarteFuerVieleTPop(TPopListe) {
+	var anzTPop, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe;
+	window.markersArray = [];
+	window.InfoWindowArray = [];
+	Kartenhoehe = $(window).height() - 50;
+	infowindow = new google.maps.InfoWindow();
+	$("#Karte").css("height", Kartenhoehe + "px");
+	//TPopListe bearbeiten:
+	//Objekte löschen, die keine Koordinaten haben
+	//Lat und Lng ergänzen
+	for (i in TPopListe.rows) {
+		TPop = TPopListe.rows[i];
+		if (!TPop.TPopXKoord || !TPop.TPopYKoord) {
+			delete TPop;
+		} else {
+			TPop.Lat = CHtoWGSlat(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
+			TPop.Lng = CHtoWGSlng(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
+		}
+	}
+	//TPop zählen
+	anzTPop = TPopListe.rows.length;
+	//Karte mal auf Zürich zentrieren, falls in den TPopListe.rows keine Koordinaten kommen
+	//auf die die Karte ausgerichtet werden kann
+	lat = 47.383333;
+	lng = 8.533333;
+	latlng = new google.maps.LatLng(lat, lng);
+	options = {
+		zoom: 15,
+		center: latlng,
+		streetViewControl: false,
+		mapTypeId: google.maps.MapTypeId.HYBRID
+	};
+	map = new google.maps.Map(document.getElementById("Karte"),options);
+	//google.maps.event.trigger(map,'resize');
+	bounds = new google.maps.LatLngBounds();
+	//für alle Orte Marker erstellen
+	markers = [];
+	for (i in TPopListe.rows) {
+		TPop = TPopListe.rows[i];
+		TPopId = TPop.TPopId;
+		latlng2 = new google.maps.LatLng(TPop.Lat, TPop.Lng);
+		if (anzTPop === 1) {
+			//map.fitbounds setzt zu hohen zoom, wenn nur eine TPop Koordinaten hat > verhindern
+			latlng = latlng2;
+		} else {
+			//Kartenausschnitt um diese Koordinate erweitern
+			bounds.extend(latlng2);
+		}
+		marker = new MarkerWithLabel({
+			map: map,
+			position: latlng2,
+			//title muss String sein
+			title: TPop.TPopFlurname.toString() || "",
+			labelContent: TPop.PopNr + "/" + TPopNr,
+			labelAnchor: new google.maps.Point(22, 0),
+			labelClass: "MapLabel", // the CSS class for the label
+			labelStyle: {opacity: 0.75},
+			icon: "img/flora_icon.png"
+		});
+		markers.push(marker);
+		contentString = '<div id="content">'+
+			'<div id="siteNotice">'+
+			'</div>'+
+			'<div id="bodyContent" class="GmInfowindow">'+
+			'<h3>' + TPop.Name + '</h3>'+
+			'<p>Population: ' + TPop.PopName + '</p>'+
+			'<p>TPop: ' + TPop.TPopFlurname + '</p>'+
+			'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
+			"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">bearbeiten<\/a></p>"+
+			'</div>'+
+			'</div>';
+		makeListener(map, marker, contentString);
+	}
+	mcOptions = {
+		maxZoom: 17, 
+		styles: [{
+				height: 53,
+				url: "img/m5.png",
+				width: 53
+			}]
+	};
+	markerCluster = new MarkerClusterer(map, markers, mcOptions);
+	if (anzTPop === 1) {
+		//map.fitbounds setzt zu hohen zoom, wenn nur eine Beobachtung erfasst wurde > verhindern
+		map.setCenter(latlng);
+		map.setZoom(18);
+	} else {
+		//Karte auf Ausschnitt anpassen
+		map.fitBounds(bounds);
+	}
+	zeigeFormular("Karte");
+
+	//diese Funktion muss hier sein, damit infowindow bekannt ist
+	function makeListener(map, marker, contentString) {
+		google.maps.event.addListener(marker, 'click', function () {
+			infowindow.setContent(contentString);
+			infowindow.open(map,marker);
+		});
+	}
+}
+
+function oeffneTPop(TPopId) {
+	localStorage.tpop_id = TPopId;
+	initiiere_tpop();
+	jQuery("#tree").jstree("select_node", "[typ='tpop']#" + localStorage.tpop_id);
+}
