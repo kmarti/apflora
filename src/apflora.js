@@ -3618,6 +3618,28 @@ function treeKontextmenu(node) {
 						}
 					});
 				}
+			},
+			"GisBrowser": {
+				"label": "im GIS-Browser darstellen",
+				"separator_before": true,
+				"icon": "style/images/wappen_zuerich.png",
+				"action": function () {
+					var URL;
+					if ($("#TPopXKoord").val() && $("#TPopYKoord").val()) {
+						URL = "http://www.gis.zh.ch/gb/gb.asp?YKoord=" + $("#TPopXKoord").val() + "&XKoord=" + $("#TPopYKoord").val() + "&Massstab=3000+app=GB-SWISSIMAGE+rn=5$7";
+						window.open(URL, target = "_blank");
+					} else {
+						$("#Meldung").html("Fehler: Keine Koordinaten zum Anzeigen");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+					}
+				}
 			}
 		};
 		if (!window.tpop_node_ausgeschnitten) {
@@ -5488,6 +5510,48 @@ function treeKontextmenu(node) {
 		};
 		return items;
 	case "tpop_ordner_tpopbeob":
+		items = {
+			"GoogleMaps": {
+				"label": "auf Luftbild darstellen",
+				"separator_before": true,
+				"icon": "style/images/flora_icon.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/tpopbeob_karte.php',
+						dataType: 'json',
+						data: {
+							"tpop_id": $(aktiver_node).attr("id")
+						},
+						success: function (data) {
+							if (data.rows.length > 0) {
+								zeigeTPopBeobAufKarte(data);
+							} else {
+								$("#Meldung").html("Es gibt keine Beobachtungen mit Koordinaten");
+								$("#Meldung").dialog({
+									modal: true,
+									buttons: {
+										Ok: function() {
+											$(this).dialog("close");
+										}
+									}
+								});
+							}
+						},	
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine Daten erhalten");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		};
 		if (window.tpopbeob_node_ausgeschnitten) {
 			items = {};
 			items.einfuegen = {
@@ -5542,7 +5606,70 @@ function treeKontextmenu(node) {
 		}
 		return items;
 	case "tpopbeob":
-		items = {};
+		items = {
+			"GoogleMaps": {
+				"label": "auf Luftbild darstellen",
+				"separator_before": true,
+				"icon": "style/images/flora_icon.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/tpopbeob_karte.php',
+						dataType: 'json',
+						data: {
+							"beob_id": $(aktiver_node).attr("id"),
+						},
+						success: function (data) {
+							if (data.rows.length > 0) {
+								zeigeTPopBeobAufKarte(data);
+							} else {
+								$("#Meldung").html("Die Beobachtung hat keine Koordinaten");
+								$("#Meldung").dialog({
+									modal: true,
+									buttons: {
+										Ok: function() {
+											$(this).dialog("close");
+										}
+									}
+								});
+							}
+						},	
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine Daten erhalten");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},
+			"GisBrowser": {
+				"label": "im GIS-Browser darstellen",
+				"separator_before": true,
+				"icon": "style/images/wappen_zuerich.png",
+				"action": function () {
+					var URL;
+					if ($("#tpopbeob_X").val() && $("#tpopbeob_Y").val()) {
+						URL = "http://www.gis.zh.ch/gb/gb.asp?YKoord=" + $("#tpopbeob_X").val() + "&XKoord=" + $("#tpopbeob_Y").val() + "&Massstab=3000+app=GB-SWISSIMAGE+rn=5$7";
+						window.open(URL, target = "_blank");
+					} else {
+						$("#Meldung").html("Die Beobachtung hat keine Koordinaten");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+					}
+				}
+			}
+		};
 		if (!window.tpopbeob_node_ausgeschnitten) {
 			items.ausschneiden = {
 				"label": "ausschneiden",
@@ -5606,16 +5733,6 @@ function treeKontextmenu(node) {
 			}
 		}
 		return items;
-
-
-
-
-
-
-
-
-
-
 	case "tpop_ordner_massnber":
 		items = {
 			"neu": {
@@ -5759,6 +5876,119 @@ function treeKontextmenu(node) {
 				}
 			}
 		};
+		return items;
+	case "ap_ordner_beob":
+		items = {
+			"GoogleMaps": {
+				"label": "auf Luftbild darstellen",
+				"separator_before": true,
+				"icon": "style/images/flora_icon_violett.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/beob_karte.php',
+						dataType: 'json',
+						data: {
+							"id": $(aktiver_node).attr("id")
+						},
+						success: function (data) {
+							if (data.rows.length > 0) {
+								zeigeBeobAufKarte(data);
+							} else {
+								$("#Meldung").html("Es gibt keine Beobachtung mit Koordinaten");
+								$("#Meldung").dialog({
+									modal: true,
+									buttons: {
+										Ok: function() {
+											$(this).dialog("close");
+										}
+									}
+								});
+							}
+						},	
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine Daten erhalten");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		}
+		return items;
+	case "beob":
+		items = {
+			"GoogleMaps": {
+				"label": "auf Luftbild darstellen",
+				"separator_before": true,
+				"icon": "style/images/flora_icon_violett.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/beob_karte.php',
+						dataType: 'json',
+						data: {
+							"id": $(parent_node).attr("id"),
+							"no_note": $(aktiver_node).attr("id")
+						},
+						success: function (data) {
+							if (data.rows.length > 0) {
+								zeigeBeobAufKarte(data);
+							} else {
+								$("#Meldung").html("Es gibt keine Beobachtung mit Koordinaten");
+								$("#Meldung").dialog({
+									modal: true,
+									buttons: {
+										Ok: function() {
+											$(this).dialog("close");
+										}
+									}
+								});
+							}
+						},	
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine Daten erhalten");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},
+			"GisBrowser": {
+				"label": "im GIS-Browser darstellen",
+				"separator_before": true,
+				"icon": "style/images/wappen_zuerich.png",
+				"action": function () {
+					var URL;
+					if ($("#beob_X").val() && $("#beob_Y").val()) {
+						URL = "http://www.gis.zh.ch/gb/gb.asp?YKoord=" + $("#beob_X").val() + "&XKoord=" + $("#beob_Y").val() + "&Massstab=3000+app=GB-SWISSIMAGE+rn=5$7";
+						window.open(URL, target = "_blank");
+					} else {
+						$("#Meldung").html("Fehler: Keine Koordinaten zum Anzeigen");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+					}
+				}
+			}
+		}
+
+		
 		return items;
 	}
 }
@@ -6205,10 +6435,9 @@ function zeigeTPopAufKarte(TPopListe) {
 			position: latlng2,
 			//title muss String sein
 			title: TPop.TPopFlurname.toString() || "",
-			labelContent: TPop.PopNr + "/" + TPopNr,
-			labelAnchor: new google.maps.Point(22, 0),
-			labelClass: "MapLabel", // the CSS class for the label
-			labelStyle: {opacity: 0.75},
+			labelContent: TPop.TPopFlurname,
+			labelAnchor: new google.maps.Point(75, 0),
+			labelClass: "MapLabel",
 			icon: "img/flora_icon.png"
 		});
 		markers.push(marker);
@@ -6229,12 +6458,219 @@ function zeigeTPopAufKarte(TPopListe) {
 		maxZoom: 17, 
 		styles: [{
 				height: 53,
-				url: "img/m5.png",
+				url: "img/m8.png",
 				width: 53
 			}]
 	};
 	markerCluster = new MarkerClusterer(map, markers, mcOptions);
 	if (anzTPop === 1) {
+		//map.fitbounds setzt zu hohen zoom, wenn nur eine Beobachtung erfasst wurde > verhindern
+		map.setCenter(latlng);
+		map.setZoom(18);
+	} else {
+		//Karte auf Ausschnitt anpassen
+		map.fitBounds(bounds);
+	}
+	//diese Funktion muss hier sein, damit infowindow bekannt ist
+	function makeListener(map, marker, contentString) {
+		google.maps.event.addListener(marker, 'click', function () {
+			infowindow.setContent(contentString);
+			infowindow.open(map,marker);
+		});
+	}
+}
+
+function zeigeBeobAufKarte(BeobListe) {
+	var anzBeob, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe;
+	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
+	zeigeFormular("Karte");
+	window.markersArray = [];
+	window.InfoWindowArray = [];
+	Kartenhoehe = $(window).height() - 50;
+	infowindow = new google.maps.InfoWindow();
+	$("#Karte").css("height", Kartenhoehe + "px");
+	//TPopListe bearbeiten:
+	//Objekte löschen, die keine Koordinaten haben
+	//Lat und Lng ergänzen
+	for (i in BeobListe.rows) {
+		Beob = BeobListe.rows[i];
+		Beob.Lat = CHtoWGSlat(parseInt(Beob.xGIS), parseInt(Beob.yGIS));
+		Beob.Lng = CHtoWGSlng(parseInt(Beob.xGIS), parseInt(Beob.yGIS));
+	}
+	//TPop zählen
+	anzBeob = BeobListe.rows.length;
+	//Karte mal auf Zürich zentrieren, falls in den BeobListe.rows keine Koordinaten kommen
+	//auf die die Karte ausgerichtet werden kann
+	lat = 47.383333;
+	lng = 8.533333;
+	latlng = new google.maps.LatLng(lat, lng);
+	options = {
+		zoom: 15,
+		center: latlng,
+		streetViewControl: false,
+		mapTypeId: google.maps.MapTypeId.HYBRID
+	};
+	map = new google.maps.Map(document.getElementById("Karte"), options);
+	//google.maps.event.trigger(map,'resize');
+	bounds = new google.maps.LatLngBounds();
+	//für alle Orte Marker erstellen
+	markers = [];
+	for (i in BeobListe.rows) {
+		Beob = BeobListe.rows[i];
+		if (Beob.J_NOTE && Beob.M_NOTE > 0) {
+			if (Beob.J_NOTE < 10) {
+				Beob.J_NOTE = "0" + Beob.J_NOTE;
+			}
+			if (Beob.M_NOTE < 10) {
+				Beob.M_NOTE = "0" + Beob.M_NOTE;
+			}
+			Beob.Datum = Beob.J_NOTE + "." + Beob.M_NOTE + "." + Beob.A_NOTE;
+		} else {
+			Beob.Datum = Beob.A_NOTE;
+		}
+		latlng2 = new google.maps.LatLng(Beob.Lat, Beob.Lng);
+		if (anzBeob === 1) {
+			//map.fitbounds setzt zu hohen zoom, wenn nur eine Beob Koordinaten hat > verhindern
+			latlng = latlng2;
+		} else {
+			//Kartenausschnitt um diese Koordinate erweitern
+			bounds.extend(latlng2);
+		}
+		marker = new MarkerWithLabel({
+			map: map,
+			position: latlng2,
+			//title muss String sein
+			title: Beob.Datum.toString(),
+			labelContent: Beob.A_NOTE.toString(),
+			labelAnchor: new google.maps.Point(75, 0),
+			labelClass: "MapLabel",
+			icon: "img/flora_icon_violett.png"
+		});
+		markers.push(marker);
+		contentString = '<div id="content">'+
+			'<div id="siteNotice">'+
+			'</div>'+
+			'<div id="bodyContent" class="GmInfowindow">'+
+			'<h3>' + Beob.Datum + '</h3>'+
+			'<p>Autor: ' + Beob.NOM_PERSONNE_OBS + " " + Beob.PRENOM_PERSONNE_OBS + '</p>'+
+			'<p>Projekt: ' + Beob.PROJET + '</p>'+
+			'<p>Ort: ' + Beob.DESC_LOCALITE + '</p>'+
+			'<p>Koordinaten: ' + Beob.xGIS + ' / ' + Beob.yGIS + '</p>'+
+			"<p><a href=\"#\" onclick=\"oeffneBeob('" + Beob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
+			'</div>'+
+			'</div>';
+		makeListener(map, marker, contentString);
+	}
+	mcOptions = {
+		maxZoom: 17, 
+		styles: [{
+				height: 53,
+				url: "img/m5.png",
+				width: 53
+			}]
+	};
+	markerCluster = new MarkerClusterer(map, markers, mcOptions);
+	if (anzBeob === 1) {
+		//map.fitbounds setzt zu hohen zoom, wenn nur eine Beobachtung erfasst wurde > verhindern
+		map.setCenter(latlng);
+		map.setZoom(18);
+	} else {
+		//Karte auf Ausschnitt anpassen
+		map.fitBounds(bounds);
+	}
+	//diese Funktion muss hier sein, damit infowindow bekannt ist
+	function makeListener(map, marker, contentString) {
+		google.maps.event.addListener(marker, 'click', function () {
+			infowindow.setContent(contentString);
+			infowindow.open(map,marker);
+		});
+	}
+}
+
+function zeigeTPopBeobAufKarte(TPopBeobListe) {
+	var anzBeob, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe;
+	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
+	zeigeFormular("Karte");
+	window.markersArray = [];
+	window.InfoWindowArray = [];
+	Kartenhoehe = $(window).height() - 50;
+	infowindow = new google.maps.InfoWindow();
+	$("#Karte").css("height", Kartenhoehe + "px");
+	//TPopListe bearbeiten:
+	//Objekte löschen, die keine Koordinaten haben
+	//Lat und Lng ergänzen
+	for (i in TPopBeobListe.rows) {
+		TPopBeob = TPopBeobListe.rows[i];
+		TPopBeob.Lat = CHtoWGSlat(parseInt(TPopBeob.X), parseInt(TPopBeob.Y));
+		TPopBeob.Lng = CHtoWGSlng(parseInt(TPopBeob.X), parseInt(TPopBeob.Y));
+	}
+	//TPop zählen
+	anzTPopBeob = TPopBeobListe.rows.length;
+	//Karte mal auf Zürich zentrieren, falls in den TPopBeobListe.rows keine Koordinaten kommen
+	//auf die die Karte ausgerichtet werden kann
+	lat = 47.383333;
+	lng = 8.533333;
+	latlng = new google.maps.LatLng(lat, lng);
+	options = {
+		zoom: 15,
+		center: latlng,
+		streetViewControl: false,
+		mapTypeId: google.maps.MapTypeId.HYBRID
+	};
+	map = new google.maps.Map(document.getElementById("Karte"), options);
+	//google.maps.event.trigger(map,'resize');
+	bounds = new google.maps.LatLngBounds();
+	//für alle Orte Marker erstellen
+	markers = [];
+	for (i in TPopBeobListe.rows) {
+		TPopBeob = TPopBeobListe.rows[i];
+		if (!TPopBeob.Datum) {
+			TPopBeob.Datum = TPopBeob.Jahr;
+		}
+		latlng2 = new google.maps.LatLng(TPopBeob.Lat, TPopBeob.Lng);
+		if (anzTPopBeob === 1) {
+			//map.fitbounds setzt zu hohen zoom, wenn nur eine TPopBeob Koordinaten hat > verhindern
+			latlng = latlng2;
+		} else {
+			//Kartenausschnitt um diese Koordinate erweitern
+			bounds.extend(latlng2);
+		}
+		marker = new MarkerWithLabel({
+			map: map,
+			position: latlng2,
+			//title muss String sein
+			title: TPopBeob.Datum.toString(),
+			labelContent: TPopBeob.Jahr.toString(),
+			labelAnchor: new google.maps.Point(75, 0),
+			labelClass: "MapLabel",
+			icon: "img/flora_icon_violett.png"
+		});
+		markers.push(marker);
+		contentString = '<div id="content">'+
+			'<div id="siteNotice">'+
+			'</div>'+
+			'<div id="bodyContent" class="GmInfowindow">'+
+			'<h3>' + TPopBeob.Datum + '</h3>'+
+			'<p>Autor: ' + TPopBeob.Autor + '</p>'+
+			'<p>Projekt: ' + TPopBeob.Projekt + '</p>'+
+			'<p>Raum/Gmde: ' + TPopBeob.RaumGde + '</p>'+
+			'<p>Ort: ' + TPopBeob.Ort + '</p>'+
+			'<p>Koordinaten: ' + TPopBeob.X + ' / ' + TPopBeob.Y + '</p>'+
+			"<p><a href=\"#\" onclick=\"oeffneTPopBeob('" + TPopBeob.BeobId + "')\">Formular öffnen<\/a></p>"+
+			'</div>'+
+			'</div>';
+		makeListener(map, marker, contentString);
+	}
+	mcOptions = {
+		maxZoom: 17, 
+		styles: [{
+				height: 53,
+				url: "img/m5.png",
+				width: 53
+			}]
+	};
+	markerCluster = new MarkerClusterer(map, markers, mcOptions);
+	if (anzTPopBeob === 1) {
 		//map.fitbounds setzt zu hohen zoom, wenn nur eine Beobachtung erfasst wurde > verhindern
 		map.setCenter(latlng);
 		map.setZoom(18);
@@ -6332,7 +6768,7 @@ function placeMarkerTPop(location, map, marker, TPop) {
 		map: map,
 		//title muss String sein
 		title: title,
-		icon: "img/flora_icon.png",
+		icon: "img/flora_icon_rot.png",
 		draggable: true
 	});
 	//Marker in Array speichern, damit er gelöscht werden kann
@@ -6420,5 +6856,20 @@ function clearInfoWindows() {
 function oeffneTPop(TPopId) {
 	localStorage.tpop_id = TPopId;
 	initiiere_tpop();
-	jQuery("#tree").jstree("select_node", "[typ='tpop']#" + localStorage.tpop_id);
+	jQuery.jstree._reference("[typ='tpop']#" + TPopId).deselect_all();
+	jQuery("#tree").jstree("select_node", "[typ='tpop']#" + TPopId);
+}
+
+function oeffneBeob(NO_NOTE) {
+	localStorage.NO_NOTE = NO_NOTE;
+	initiiere_beob();
+	jQuery.jstree._reference("[typ='beob']#" + NO_NOTE).deselect_all();
+	jQuery("#tree").jstree("select_node", "[typ='beob']#" + NO_NOTE);
+}
+
+function oeffneTPopBeob(BeobId) {
+	localStorage.tpopbeob_id = BeobId;
+	initiiere_tpopbeob();
+	jQuery.jstree._reference("[typ='tpopbeob']#" + BeobId).deselect_all();
+	jQuery("#tree").jstree("select_node", "[typ='tpopbeob']#" + BeobId);
 }
