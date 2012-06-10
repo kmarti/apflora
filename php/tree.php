@@ -334,7 +334,7 @@ while($r_apzieljahr = mysqli_fetch_assoc($result_apzieljahr)) {
 
 	//apzieljahr setzen
 	$metadata = array("ApArtId" => $ApArtId);
-	$attr_apzieljahr = array("id" => $apzieljahr_jahr, "typ" => "apzieljahr");
+	$attr_apzieljahr = array("id" => $ApArtId, "typ" => "apzieljahr");
 	$data_apzieljahr = $apzieljahr_jahr.": ".$anz_apziel;
 	$apzieljahr = array("data" => $data_apzieljahr, "attr" => $attr_apzieljahr, "metadata" => $metadata, "children" => $rows_apziel);
 	//tpop-Array um tpop ergänzen

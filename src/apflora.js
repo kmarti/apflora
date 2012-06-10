@@ -838,7 +838,7 @@ function initiiere_tpopfeldkontr() {
 					$("#TPopKontrZaehleinheit3").val(window.tpopfeldkontr.TPopKontrZaehleinheit3);
 				}
 				//Felder, die nur in der Feldkontrolle vorkommen
-				if (!localStorage.freiwkontr) {
+				if (!localStorage.tpopfreiwkontr) {
 					$("#TPopKontrTyp" + data.TPopKontrTyp).prop("checked", true);
 					$("#TPopKontrJungpfl").val(data.TPopKontrJungpfl);
 					$("#TPopKontrVitalitaet").val(data.TPopKontrVitalitaet);
@@ -898,7 +898,7 @@ function initiiere_tpopfeldkontr() {
 					}
 				}
 				//Felder, die nur in freiwkontr vorkommen
-				if (localStorage.freiwkontr) {
+				if (localStorage.tpopfreiwkontr) {
 					if (data.TPopKontrPlan == -1) {
 						$("#TPopKontrPlan").prop("checked", true);
 					} else {
@@ -917,7 +917,7 @@ function initiiere_tpopfeldkontr() {
 					$("#TPopKontrGefährdung").val(data.TPopKontrGefährdung);
 				}
 				//benötigte Felder einblenden
-				if (localStorage.freiwkontr) {
+				if (localStorage.tpopfreiwkontr) {
 					blendeFelderEin(feldliste_freiwkontr);
 				} else {
 					blendeFelderEin(feldliste_feldkontr);
@@ -925,7 +925,7 @@ function initiiere_tpopfeldkontr() {
 				//Formulare blenden
 				zeigeFormular("tpopfeldkontr");
 				//Register in Feldkontr blenden
-				if (localStorage.freiwkontr) {
+				if (localStorage.tpopfreiwkontr) {
 					$("#tpopfeldkontr_tabs_biotop").show();
 					$("#biotop_tab_li").hide();
 				} else {
@@ -933,7 +933,7 @@ function initiiere_tpopfeldkontr() {
 					$("#biotop_tab_li").show();
 				}
 				//bei neuen Freiwilligen-Kontrollen Fokus steuern
-				if (localStorage.freiwkontr) {
+				if (localStorage.tpopfreiwkontr) {
 					if (!$("#TPopKontrJahr").val()) {
 						setTimeout(function() {
 							$("#TPopKontrJahr").focus();
@@ -1439,7 +1439,7 @@ function erstelle_tree(ApArtId) {
 	.show()
 	.bind("select_node.jstree", function (e, data) {
 		var node;
-		delete localStorage.freiwkontr;	//Erinnerung an letzten Klick im Baum löschen
+		delete localStorage.tpopfreiwkontr;	//Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
 		jQuery.jstree._reference(node).open_node(node);
 		if (node.attr("typ").slice(0, 3) === "ap_" || node.attr("typ") === "apzieljahr") {
@@ -1533,7 +1533,7 @@ function erstelle_tree(ApArtId) {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#tpopfeldkontr").is(':visible') || localStorage.tpopfeldkontr_id !== node.attr("id")) {
 				localStorage.tpopfeldkontr_id = node.attr("id");
-				localStorage.freiwkontr = true;
+				localStorage.tpopfreiwkontr = true;
 				initiiere_tpopfeldkontr();
 			}
 		} else if (node.attr("typ") === "tpopmassn") {
@@ -4364,7 +4364,7 @@ function treeKontextmenu(node) {
 						success: function (data) {
 							var NeuerNode, anz, anzTxt;
 							localStorage.tpopfeldkontr_id = data;
-							localStorage.freiwkontr = true;
+							localStorage.tpopfreiwkontr = true;
 							delete window.tpopfeldkontr;
 							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
 								"data": "neue Freiwilligen-Kontrolle",
@@ -4480,7 +4480,7 @@ function treeKontextmenu(node) {
 						success: function (data) {
 							var NeuerNode, anz, anzTxt;
 							localStorage.tpopfeldkontr_id = data;
-							localStorage.freiwkontr = true;
+							localStorage.tpopfreiwkontr = true;
 							delete window.tpopfeldkontr;
 							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
 								"data": tpopfreiwkontr_objekt_kopiert.TPopKontrJahr,
@@ -4584,7 +4584,7 @@ function treeKontextmenu(node) {
 						success: function () {
 							var anz, anzTxt;
 							delete localStorage.tpopfeldkontr_id;
-							delete localStorage.freiwkontr;
+							delete localStorage.tpopfreiwkontr;
 							delete window.tpopfeldkontr;
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(parent_node).select_node(parent_node);
@@ -5794,7 +5794,7 @@ function speichern(that) {
 			jQuery("#tree").jstree("rename_node", "[typ='pop_ordner_tpop'] #" + localStorage.tpop_id, Feldwert);
 			break;
 		case "TPopKontrJahr":
-			if (localStorage.freiwkontr) {
+			if (localStorage.tpopfreiwkontr) {
 				jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_freiwkontr'] #" + localStorage.tpopfeldkontr_id, Feldwert);
 			} else {
 				jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_feldkontr'] #" + localStorage.tpopfeldkontr_id, Feldwert);
