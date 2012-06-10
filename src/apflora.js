@@ -1317,49 +1317,39 @@ function setzeFeldbreiten() {
 	$('#forms input[type="text"], #forms input[type="url"], #forms select, #forms textarea').each(function() {
 		if ($(this).attr("formular") === "tpopfeldkontr") {
 			//hier hats tabs, Felder müssen schmaler sein als normal
-			$(this).width($(window).width() - 715);
+			$(this).width($(window).width() - 730);
 		} else if ($(this).attr("formular") === "iballg") {
 			//hier hats fieldsets, Felder müssen schmaler sein als normal
-			$(this).width($(window).width() - 690);
+			$(this).width($(window).width() - 695);
 		} else {
-			$(this).width($(window).width() - 650);
+			$(this).width($(window).width() - 660);
 		}
 	});
 	//Zahlenfelder sollen nicht breiter als 200px sein
 	$('#forms input[type="number"], #forms input[type="date"]').each(function() {
 		if ($(this).attr("formular") === "tpopfeldkontr") {
 			//hier hats tabs, Felder müssen schmaler sein als normal
-			if (($(window).width() - 715) > 200) {
+			if (($(window).width() - 730) > 200) {
 				$(this).width(200);
 			} else {
-				$(this).width($(window).width() - 715);
+				$(this).width($(window).width() - 730);
 			}
 		} else if ($(this).attr("formular") === "iballg") {
 			//hier hats fieldsets, Felder müssen schmaler sein als normal
-			if (($(window).width() - 690) > 200) {
+			if (($(window).width() - 695) > 200) {
 				$(this).width(200);
 			} else {
-				$(this).width($(window).width() - 690);
+				$(this).width($(window).width() - 695);
 			}
 		} else {
-			if (($(window).width() - 650) > 200) {
+			if (($(window).width() - 655) > 200) {
 				$(this).width(200);
 			} else {
-				$(this).width($(window).width() - 650);
+				$(this).width($(window).width() - 660);
 			}
 		}
 	});
 }
-
-/*function setzeFeldbreiten() {
-	$('#forms input[type="text"]:visible, #forms input[type="number"]:visible, #forms select:visible, #forms textarea:visible').each(function() {
-		if ($(this).attr("formular") !== "tpopfeldkontr") {
-			$(this).width($(window).width() - 640);
-		} else {
-			$(this).width($(window).width() - 715);
-		}
-	});
-}*/
 
 //wird benutzt von Formular Feldkontrolle
 function blendeFelderVonFormularAus(Formular) {
@@ -1672,6 +1662,7 @@ function treeKontextmenu(node) {
 			},
 			"GoogleMaps": {
 				"label": "auf Luftbild darstellen",
+				"separator_before": true,
 				"icon": "style/images/flora_icon.png",
 				"action": function () {
 					$.ajax({
@@ -1682,7 +1673,7 @@ function treeKontextmenu(node) {
 						},
 						success: function (data) {
 							if (data.rows.length > 0) {
-								erstelleKarteFuerVieleTPop(data);
+								zeigeTPopAufKarte(data);
 							} else {
 								$("#Meldung").html("Es gibt keine Teilpopulation mit Koordinaten");
 								$("#Meldung").dialog({
@@ -3112,6 +3103,46 @@ function treeKontextmenu(node) {
 						}
 					});
 				}
+			},
+			"GoogleMaps": {
+				"label": "auf Luftbild darstellen",
+				"separator_before": true,
+				"icon": "style/images/flora_icon.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/pop_karte.php',
+						dataType: 'json',
+						data: {
+							"id": $(aktiver_node).attr("id")
+						},
+						success: function (data) {
+							if (data.rows.length > 0) {
+								zeigeTPopAufKarte(data);
+							} else {
+								$("#Meldung").html("Es gibt keine Teilpopulation mit Koordinaten");
+								$("#Meldung").dialog({
+									modal: true,
+									buttons: {
+										Ok: function() {
+											$(this).dialog("close");
+										}
+									}
+								});
+							}
+						},	
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine Daten erhalten");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
 			}
 		};
 		return items;
@@ -3197,6 +3228,46 @@ function treeKontextmenu(node) {
 						},
 						error: function (data) {
 							$("#Meldung").html("Fehler: Keine neue Teilpopulation erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},
+			"GoogleMaps": {
+				"label": "auf Luftbild darstellen",
+				"separator_before": true,
+				"icon": "style/images/flora_icon.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/pop_karte.php',
+						dataType: 'json',
+						data: {
+							"id": $(aktiver_node).attr("id")
+						},
+						success: function (data) {
+							if (data.rows.length > 0) {
+								zeigeTPopAufKarte(data);
+							} else {
+								$("#Meldung").html("Es gibt keine Teilpopulation mit Koordinaten");
+								$("#Meldung").dialog({
+									modal: true,
+									buttons: {
+										Ok: function() {
+											$(this).dialog("close");
+										}
+									}
+								});
+							}
+						},	
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine Daten erhalten");
 							$("#Meldung").dialog({
 								modal: true,
 								buttons: {
@@ -3478,6 +3549,74 @@ function treeKontextmenu(node) {
 							}
 						}
 					});			
+				}
+			},
+			"GoogleMaps": {
+				"label": "auf Luftbild darstellen",
+				"separator_before": true,
+				"icon": "style/images/flora_icon.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/tpop_karte.php',
+						dataType: 'json',
+						data: {
+							"id": $(aktiver_node).attr("id")
+						},
+						success: function (data) {
+							if (data.rows.length > 0) {
+								zeigeTPopAufKarte(data);
+							} else {
+								$("#Meldung").html("Es gibt keine Teilpopulation mit Koordinaten");
+								$("#Meldung").dialog({
+									modal: true,
+									buttons: {
+										Ok: function() {
+											$(this).dialog("close");
+										}
+									}
+								});
+							}
+						},	
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine Daten erhalten");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},
+			"verorten": {
+				"label": "auf Luftbild verorten",
+				"separator_before": true,
+				"icon": "style/images/flora_icon_rot.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/tpop.php',
+						dataType: 'json',
+						data: {
+							"id": $(aktiver_node).attr("id")
+						},
+						success: function (data) {
+							verorteTPopAufKarte(data);
+						},	
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine Daten erhalten");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
 				}
 			}
 		};
@@ -6011,8 +6150,10 @@ function CHtoWGSlng(y, x) {
 	return lng;
 }
 
-function erstelleKarteFuerVieleTPop(TPopListe) {
+function zeigeTPopAufKarte(TPopListe) {
 	var anzTPop, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe;
+	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
+	zeigeFormular("Karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
 	Kartenhoehe = $(window).height() - 50;
@@ -6043,7 +6184,7 @@ function erstelleKarteFuerVieleTPop(TPopListe) {
 		streetViewControl: false,
 		mapTypeId: google.maps.MapTypeId.HYBRID
 	};
-	map = new google.maps.Map(document.getElementById("Karte"),options);
+	map = new google.maps.Map(document.getElementById("Karte"), options);
 	//google.maps.event.trigger(map,'resize');
 	bounds = new google.maps.LatLngBounds();
 	//für alle Orte Marker erstellen
@@ -6101,14 +6242,178 @@ function erstelleKarteFuerVieleTPop(TPopListe) {
 		//Karte auf Ausschnitt anpassen
 		map.fitBounds(bounds);
 	}
-	zeigeFormular("Karte");
-
 	//diese Funktion muss hier sein, damit infowindow bekannt ist
 	function makeListener(map, marker, contentString) {
 		google.maps.event.addListener(marker, 'click', function () {
 			infowindow.setContent(contentString);
 			infowindow.open(map,marker);
 		});
+	}
+}
+
+function verorteTPopAufKarte(TPop) {
+	var anzTPop, infowindow, lat, lng, latlng, options, map, verorted, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe;
+	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
+	zeigeFormular("Karte");
+	window.markersArray = [];
+	window.InfoWindowArray = [];
+	Kartenhoehe = $(window).height() - 50;
+	infowindow = new google.maps.InfoWindow();
+	$("#Karte").css("height", Kartenhoehe + "px");
+	if (TPop && TPop.TPopXKoord && TPop.TPopYKoord) {
+		//Wenn Koordinaten vorhanden, Lat und Lng ergänzen
+		lat = CHtoWGSlat(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
+		lng = CHtoWGSlng(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
+		ZoomLevel = 15;
+		verorted = true;
+	} else {
+		//sonst auf Zürich zentrieren
+		lat = 47.360566;
+		lng = 8.542829;
+		ZoomLevel = 12;
+		verorted = false;
+	}
+	latlng = new google.maps.LatLng(lat, lng);
+	options = {
+		zoom: ZoomLevel,
+		center: latlng,
+		streetViewControl: false,
+		mapTypeId: google.maps.MapTypeId.HYBRID
+	};
+	mapcanvas = $('#Karte');
+	map = new google.maps.Map(mapcanvas[0],options);
+	if (verorted === true) {
+		marker = new google.maps.Marker({
+			position: latlng, 
+			map: map,
+			//title muss String sein
+			title: TPop.TPopFlurname.toString() || "",
+			icon: "img/flora_icon_rot.png",
+			draggable: true
+		});
+		//Marker in Array speichern, damit er gelöscht werden kann
+		markersArray.push(marker); 
+		contentString = '<div id="content">'+
+			'<div id="siteNotice">'+
+			'</div>'+
+			'<div id="bodyContent" class="GmInfowindow">'+
+			'<h3>' + TPop.TPopFlurname + '</h3>'+
+			'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
+			"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">bearbeiten<\/a></p>"+
+			'</div>'+
+			'</div>';
+		infowindow = new google.maps.InfoWindow({
+			content: contentString
+		});
+		InfoWindowArray.push(infowindow);
+		google.maps.event.addListener(marker, 'click', function () {
+			infowindow.open(map,marker);
+		});
+		google.maps.event.addListener(marker, "dragend", function (event) {
+			SetLocationTPop(event.latLng, map, marker, TPop);
+		});
+	}
+	google.maps.event.addListener(map, 'click', function (event) {
+		placeMarkerTPop(event.latLng, map, marker, TPop);
+	});
+}
+
+function placeMarkerTPop(location, map, marker, TPop) {
+	var title;
+	if (TPop && TPop.TPopFlurname) {
+		title = TPop.TPopFlurname;
+	} else {
+		title = "neue Teilpopulation";
+	}
+	//zuerst bisherigen Marker löschen
+	clearMarkers();
+	var marker = new google.maps.Marker({
+		position: location, 
+		map: map,
+		//title muss String sein
+		title: title,
+		icon: "img/flora_icon.png",
+		draggable: true
+	});
+	//Marker in Array speichern, damit er gelöscht werden kann
+	markersArray.push(marker);
+	google.maps.event.addListener(marker, "dragend", function (event) {
+		SetLocationTPop(event.latLng, map, marker, TPop);
+	});
+	SetLocationTPop(location, map, marker);
+}
+
+function SetLocationTPop(LatLng, map, marker, TPop) {
+	var lat, lng, contentString, infowindow, Objekt, title, X, Y;
+	if (TPop && TPop.TPopFlurname) {
+		title = TPop.TPopFlurname;
+	} else {
+		title = "neue Teilpopulation";
+	}
+	lat = LatLng.lat();
+	lng = LatLng.lng();
+	X = DdInChY(lat, lng);
+	Y = DdInChX(lat, lng);
+	$.ajax({
+		url: 'php/tpop_update.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.tpop_id,
+			"Feld": "TPopXKoord",
+			"Wert": X,
+			"user": sessionStorage.User
+		},
+		success: function () {
+			$.ajax({
+				url: 'php/tpop_update.php',
+				dataType: 'json',
+				data: {
+					"id": localStorage.tpop_id,
+					"Feld": "TPopYKoord",
+					"Wert": Y,
+					"user": sessionStorage.User
+				},
+				success: function () {
+					clearInfoWindows();
+					contentString = '<div id="content">'+
+						'<div id="siteNotice">'+
+						'</div>'+
+						'<div id="bodyContent" class="GmInfowindow">'+
+						'<h3>' + title + '</h3>'+
+						'<p>Koordinaten: ' + X + ' / ' + Y + '</p>'+
+						"<p><a href=\"#\" onclick=\"oeffneTPop('" + localStorage.tpop_id + "')\">bearbeiten<\/a></p>"+
+						'</div>'+
+						'</div>';
+					infowindow = new google.maps.InfoWindow({
+						content: contentString
+					});
+					InfoWindowArray.push(infowindow);
+					google.maps.event.addListener(marker, 'click', function () {
+						infowindow.open(map,marker);
+					});
+				}
+			});
+		}
+	});
+}
+
+//GoogleMap: alle Marker löschen
+//benutzt wo in GoogleMaps Marker gesetzt und verschoben werden
+function clearMarkers() {
+	if (markersArray) {
+		for (i in markersArray) {
+			markersArray[i].setMap(null);
+		}
+	}
+}
+
+//GoogleMap: alle InfoWindows löschen
+//benutzt wo in GoogleMaps Infowindows neu gesetzt werden müssen, weil die Daten verändert wurden
+function clearInfoWindows() {
+	if (InfoWindowArray) {
+		for (i in InfoWindowArray) {
+			InfoWindowArray[i].setMap(null);
+		}
 	}
 }
 
