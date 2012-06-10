@@ -5750,6 +5750,18 @@ function speichern(that) {
 				Objekt.formular = "tpopmassn";
 				speichern(Objekt);
 			}
+			if (Feldname === "TPopPop" && Feldwert === -1) {
+				//allfällige andere als repräsentativ bezeichnete TPop derselben Pop zurücksetzen
+				$.ajax({
+					url: 'php/tpop_tpoppop.php',
+					dataType: 'json',
+					data: {
+						"pop_id": localStorage.pop_id,
+						"tpop_id": localStorage.tpop_id,
+						"user": sessionStorage.User
+					},
+				});
+			}
 		},
 		error: function (data) {
 			var Meldung;
