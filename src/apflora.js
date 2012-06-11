@@ -1309,6 +1309,20 @@ function leereFelderVonFormular(Formular) {
 	});
 }
 
+function setzeTreehoehe() {
+	if (($("#tree").height() + 142) > $(window).height()) {
+		$("#tree").height($(window).height() - 142);
+	} else if ($('#tree').hasScrollBar()) {
+		$("#tree").height($(window).height() - 142);
+	}
+}
+
+(function($) {
+    $.fn.hasScrollBar = function() {
+        return this.get(0).scrollHeight > this.height();
+    }
+})(jQuery);
+
 function setzeFeldbreiten() {
 	$('#forms input[type="text"], #forms input[type="url"], #forms select, #forms textarea').each(function() {
 		if ($(this).attr("formular") === "tpopfeldkontr") {
@@ -1416,7 +1430,11 @@ function erstelle_tree(ApArtId) {
 		"contextmenu": {
 			"items": treeKontextmenu,
 			"select_node": true
-		},"types": {
+		},
+		"dnd": {
+
+		},
+		"types": {
 			"default": {
 				"select_node": function(e) {
 					this.correct_state(e);
@@ -1569,6 +1587,10 @@ function erstelle_tree(ApArtId) {
 				}
 			});
 		}
+		setTimeout("setzeTreehoehe()", 200);
+	})
+	.bind("open_node.jstree", function (e, data) {
+		setTimeout("setzeTreehoehe()", 200);
 	});
 	$("#suchen").show();
 }

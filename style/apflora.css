@@ -28,6 +28,17 @@ fieldset {
 	display:block;
 }
 
+#tree {
+	overflow: auto;
+}
+
+/*damit bleibt form immer im Blickfeld - bloss kann man in form selbst nicht mehr runterscrollen!*/
+#forms {
+	/*position:fixed;*/
+	margin-left:430px;
+	margin-top:0px;
+}
+
 #forms label {
 	float:left;
 	width:140px;
