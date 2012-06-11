@@ -1153,8 +1153,46 @@ function initiiere_tpopbeob() {
 				$("#tpopbeob_Autor").val(data.Autor);
 				$("#tpopbeob_Herkunft").val(data.Herkunft);
 				$("#tpopbeob_DistZurTPop").val(data.DistZurTPop);
-				//Formulare blenden
-				zeigeFormular("tpopbeob");
+				//Distanzen zu TPop berechnen
+				$.ajax({
+					url: 'php/tpopbeob_zuweisen.php',
+					dataType: 'json',
+					data: {
+						"beob_id": data.BeobId
+					},
+					success: function (data2) {
+						var html = "";
+						if (data2) {
+							for (i in data2) {
+								if (typeof i !== "function") {
+									if (html) {
+										html += "<br>";
+									}
+									html += '<input type="radio" name="tpopbeob_DistZuTPop" id="tpopbeob_DistZuTPop';
+									html += data2[i].TPopId;
+									html += '" class="tpopbeob_DistZuTPop" formular="tpopbeob" value="'
+									html += data2[i].TPopId;
+									html += '" DistZuTPop="';
+									html += data2[i].DistZuTPop;
+									if (data2[i].TPopId === data.TPopId) {
+										html += '" checked="checked" />';
+									} else {
+										html += '" />';
+									}
+									//Wenn TPop keine Koordinaten haben, dies anzeigen und Anzeige von NAN verhindern
+									if (parseInt(data2[i].DistZuTPop)) {
+										html += parseInt(data2[i].DistZuTPop) + "m: " + data2[i].TPopFlurname;
+									} else {
+										html += "ohne Koordinaten: " + data2[i].TPopFlurname;
+									}
+								}
+							}
+							$("#tpopbeob_DistZuTPop_Felder").html(html);
+							//Formulare blenden
+							zeigeFormular("tpopbeob");
+						}
+					}
+				});
 			}
 		}
 	});
