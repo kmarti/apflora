@@ -313,6 +313,42 @@ function initiiere_apber() {
 	});
 }
 
+function initiiere_apber_uebersicht() {
+	if (!localStorage.apber_uebersicht_id) {
+		//es fehlen benötigte Daten > eine Ebene höher
+		initiiere_ap();
+		return;
+	}
+	//Felder zurücksetzen
+	leereFelderVonFormular("apber_uebersicht");
+	setzeFeldbreiten();
+	//Daten für die apber_uebersicht aus der DB holen
+	$.ajax({
+		url: 'php/apber_uebersicht.php',
+		dataType: 'json',
+		data: {
+			"jahr": localStorage.apber_uebersicht_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//ap bereitstellen
+				window.apber_uebersicht = data;
+				//Felder mit Daten beliefern
+				$("#Jahr").val(data.Jahr);
+				$("#Bemerkungen").val(data.Bemerkungen);
+				//FitToContent("Bemerkungen", document.documentElement.clientHeight);
+				//Formulare blenden
+				zeigeFormular("apber_uebersicht");
+				//bei neuen Datensätzen Fokus steuern
+				if (!$("#Jahr").val()) {
+					$("#Jahr").focus();
+				}
+			}
+		}
+	});
+}
+
 function initiiere_ber() {
 	if (!localStorage.ber_id) {
 		//es fehlen benötigte Daten > eine Ebene höher
@@ -1315,12 +1351,16 @@ function initiiere_tpopmassnber() {
 //wird von allen initiiere_-Funktionen verwendet
 //wird ein Formularname übergeben, wird dieses Formular gezeigt
 //und alle anderen ausgeblendet
+//zusätzlich wird die Höhe von textinput-Feldern an den Textinhalt angepasst
 function zeigeFormular(Formularname) {
 	if (Formularname) {
 		$("#forms").show();
 		$('form').each(function() {
 			if ($(this).attr("id") === Formularname) {
 				$(this).show();
+				$('textarea').each(function () {
+					$(this).trigger('focus');
+				});
 			} else {
 				$(this).hide();
 			}
@@ -1399,6 +1439,41 @@ function setzeFeldbreiten() {
 	});
 }
 
+function FitToContent(id, maxHeight)
+{
+   var text = id && id.style ? id : document.getElementById(id);
+   if ( !text )
+      return;
+
+   /* Accounts for rows being deleted, pixel value may need adjusting */
+   if (text.clientHeight == text.scrollHeight) {
+      text.style.height = "30px";
+   }       
+
+   var adjustedHeight = text.clientHeight;
+   if ( !maxHeight || maxHeight > adjustedHeight )
+   {
+      adjustedHeight = Math.max(text.scrollHeight, adjustedHeight);
+      if ( maxHeight )
+         adjustedHeight = Math.min(maxHeight, adjustedHeight);
+      if ( adjustedHeight > text.clientHeight )
+         text.style.height = adjustedHeight + "px";
+   }
+}
+
+//passt die Höhe einer Textarea so an, dass der ganze Text sichtbar ist
+/*function resizeTextarea(id) {
+	var str = $("#" + id).val();
+	alert("str = " + str);
+	var cols = $("#" + id).attr("cols");
+	alert("cols = " + cols);
+	var linecount = 0;
+	$A(str.split("\n")).each( function(l) {
+		linecount += Math.ceil( l.length / cols ); // take into account long lines
+	})
+	$("#" + id).rows = linecount + 1;
+}*/
+
 //wird benutzt von Formular Feldkontrolle
 function blendeFelderVonFormularAus(Formular) {
 	$('#' + Formular + ' .fieldcontain').each(function() {
@@ -1450,8 +1525,8 @@ function erstelle_tree(ApArtId) {
 		"core": {
 			"open_parents": true,	//wird ein node programmatisch geöffnet, öffnen sich alle parents
 			"strings": {	//Deutsche Übersetzungen
-				loading: "hole Daten...",
-				new_node: "neuer Knoten"
+				"loading": "hole Daten...",
+				"new_node": "neuer Knoten"
 			},
 		},
 		"ui": {
@@ -1469,18 +1544,145 @@ function erstelle_tree(ApArtId) {
 			"items": treeKontextmenu,
 			"select_node": true
 		},
-		"dnd": {
-		},
-		"rules": {
-			draggable: ["tpop"],
-			droppable: ["pop_ordner_tpop"]
-		},
 		"types": {
-			"default": {
-				"select_node": function(e) {
-					this.correct_state(e);
-					this.toggle_node(e);
-					return false;
+			"type_attr": "typ",
+			"max_children": -2,
+			"max_depth": -2,
+			"valid_children": ["ap_ordner_pop", "ap_ordner_apziel", "ap_ordner_erfkrit", "ap_ordner_apber", "ap_ordner_ber", "ap_ordner_beob", "iballg", "ap_ordner_ibb", "ap_ordner_ibartenassoz"],
+			"types": {
+				"ap_ordner_pop": {
+					"valid_children": "pop"
+				},
+				"pop": {
+					"valid_children": ["pop_ordner_tpop", "pop_ordner_popber", "pop_ordner_massnber"],
+					"new_node": "neue Population"
+				},
+				"pop_ordner_tpop": {
+					"valid_children": "tpop"
+				},
+				"tpop": {
+					"valid_children": ["tpop_ordner_massn", "tpop_ordner_massnber", "tpop_ordner_feldkontr", "tpop_ordner_freiwkontr", "tpop_ordner_tpopber", "tpop_ordner_tpopbeob"],
+					"new_node": "neue Teilpopulation"
+				},
+				"tpop_ordner_massn": {
+					"valid_children": "tpopmassn"
+				},
+				"tpopmassn": {
+					"valid_children": "none",
+					"new_node": "neue Massnahme"
+				},
+				"tpop_ordner_massnber": {
+					"valid_children": "tpopmassnber"
+				},
+				"tpopmassnber": {
+					"valid_children": "none",
+					"new_node": "neuer Massnahmen-Bericht"
+				},
+				"tpop_ordner_feldkontr": {
+					"valid_children": "tpopfeldkontr"
+				},
+				"tpopfeldkontr": {
+					"valid_children": "none",
+					"new_node": "neue Feldkontrolle"
+				},
+				"tpop_ordner_freiwkontr": {
+					"valid_children": "tpopfreiwkontr"
+				},
+				"tpopfreiwkontr": {
+					"valid_children": "none",
+					"new_node": "neue Freiwilligen-Kontrolle"
+				},
+				"tpop_ordner_tpopber": {
+					"valid_children": "tpopber"
+				},
+				"tpopber": {
+					"valid_children": "none",
+					"new_node": "neuer Teilpopulations-Bericht"
+				},
+				"tpop_ordner_tpopbeob": {
+					"valid_children": "tpopbeob"
+				},
+				"tpopbeob": {
+					"valid_children": "none"
+				},
+				"pop_ordner_popber": {
+					"valid_children": "popber"
+				},
+				"popber": {
+					"valid_children": "none",
+					"new_node": "neuer Populations-Bericht"
+				},
+				"pop_ordner_massnber": {
+					"valid_children": "massnber"
+				},
+				"massnber": {
+					"valid_children": "none",
+					"new_node": "neuer Massnahmen-Bericht"
+				},
+				"ap_ordner_apziel": {
+					"valid_children": "apzieljahr"
+				},
+				"apzieljahr": {
+					"valid_children": "apziel"
+				},
+				"apziel": {
+					"valid_children": "ziel_ordner",
+					"new_node": "neues AP-Ziel"
+				},
+				"ziel_ordner": {
+					"valid_children": "zielber"
+				},
+				"zielber": {
+					"valid_children": "none",
+					"new_node": "neuer Ziel-Bericht"
+				},
+				"ap_ordner_erfkrit": {
+					"valid_children": "erfkrit"
+				},
+				"erfkrit": {
+					"valid_children": "none",
+					"new_node": "neues Erfolgskriterium"
+				},
+				"ap_ordner_apber": {
+					"valid_children": "apber"
+				},
+				"apber": {
+					"valid_children": "apber_uebersicht",
+					"new_node": "neuer AP-Bericht"
+				},
+				"apber_uebersicht": {
+					"valid_children": "none",
+					"new_node": "neue Übersicht zu allen Arten"
+				},
+				"ap_ordner_ber": {
+					"valid_children": "ber"
+				},
+				"ber": {
+					"valid_children": "none",
+					"new_node": "neuer Bericht"
+				},
+				"ap_ordner_beob": {
+					"valid_children": "beob"
+				},
+				"beob": {
+					"valid_children": "none"
+				},
+				"iballg": {
+					"valid_children": "none"
+				},
+				"ap_ordner_ibb": {
+					"valid_children": "ibb"
+				},
+				"ibb": {
+					"valid_children": "none",
+					"new_node": "neues ideales Biotop"
+				},
+				"ap_ordner_ibartenassoz": {
+					"valid_children": "ibartenassoz"
+				},
+				"ibartenassoz": {
+					"valid_children": "none",
+					"new_node": "neue assoziierte Art"
 				}
 			}
 		},
@@ -1505,7 +1707,7 @@ function erstelle_tree(ApArtId) {
 				localStorage.pop_id = node.attr("id");
 				initiiere_pop();
 			}
-		} else if (node.attr("typ") === "apziel" || node.attr("typ") === "zielber_ordner") {
+		} else if (node.attr("typ") === "apziel" || node.attr("typ") === "ziel_ordner") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#apziel").is(':visible') || localStorage.apziel_id !== node.attr("id")) {
 				localStorage.apziel_id = node.attr("id");
@@ -1528,6 +1730,12 @@ function erstelle_tree(ApArtId) {
 			if (!$("#apber").is(':visible') || localStorage.apber_id !== node.attr("id")) {
 				localStorage.apber_id = node.attr("id");
 				initiiere_apber();
+			}
+		} else if (node.attr("typ") === "apber_uebersicht") {
+			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			if (!$("#apber_uebersicht").is(':visible') || localStorage.apber_uebersicht_id !== node.attr("id")) {
+				localStorage.apber_uebersicht_id = node.attr("id");
+				initiiere_apber_uebersicht();
 			}
 		} else if (node.attr("typ") === "ber") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -1616,17 +1824,6 @@ function erstelle_tree(ApArtId) {
 				localStorage.tpopmassnber_id = node.attr("id");
 				initiiere_tpopmassnber();
 			}
-		} else {
-			//bei apzieljahren und zielber kommt kein Formular
-			$("#Meldung").html("Diese Seite ist noch nicht gebaut");
-			$("#Meldung").dialog({
-				modal: true,
-				buttons: {
-					Ok: function() {
-						$(this).dialog("close");
-					}
-				}
-			});
 		}
 		setTimeout("setzeTreehoehe()", 200);
 	})
@@ -1634,7 +1831,7 @@ function erstelle_tree(ApArtId) {
 		setTimeout("setzeTreehoehe()", 200);
 	})
 	.bind("prepare_move.jstree", function (e, data) {
-		if (data.rslt.o.attr("typ") === "tpop") {
+		/*if (data.rslt.o.attr("typ") === "tpop") {
 			if (data.rslt.r.attr("typ") === "tpop") {
 				return {
 					after: true,
@@ -1651,7 +1848,7 @@ function erstelle_tree(ApArtId) {
 				return false;
 			}
 		}
-		return false;
+		return false;*/
 	})
 	.bind("move_node.jstree", function (e, data) {
 		
@@ -1975,7 +2172,7 @@ function treeKontextmenu(node) {
 								"data": "0 Ziel-Berichte",
 								"attr": {
 									"id": data,
-									"typ": "zielber_ordner"
+									"typ": "ziel_ordner"
 								}
 							});
 							initiiere_apziel();
@@ -2062,7 +2259,7 @@ function treeKontextmenu(node) {
 			}
 		};
 		return items;
-	case "zielber_ordner":
+	case "ziel_ordner":
 		items = {
 			"neu": {
 				"label": "neuer Ziel-Bericht",
@@ -2447,7 +2644,7 @@ function treeKontextmenu(node) {
 	case "apber":
 		items = {
 			"neu": {
-				"label": "Neuer AP-Bericht",
+				"label": "neuer AP-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
 					$.ajax({
@@ -2537,6 +2734,104 @@ function treeKontextmenu(node) {
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Der AP-Bericht wurde nicht gelöscht");
+										$("#Meldung").dialog({
+											modal: true,
+											buttons: {
+												Ok: function() {
+													$(this).dialog("close");
+												}
+											}
+										});
+									}
+								});
+							},
+							"abbrechen": function() {
+								$(this).dialog("close");
+							}
+						}
+					});			
+				}
+			}
+		};
+		//Wenn noch keine existiert, kann einen neue Übersicht zu allen Arten erstellt werden
+		if (jQuery.jstree._reference(aktiver_node)._get_children(aktiver_node).length === 0) {
+			items.neu_apber_uebersicht = {
+				"label": "neue Übersicht zu allen Arten",
+				"separator_before": true,
+				"icon": "style/images/neu.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/apber_uebersicht_insert.php',
+						dataType: 'json',
+						data: {
+							"jahr": jQuery.jstree._reference(aktiver_node).get_text(aktiver_node),
+							"user": sessionStorage.User
+						},
+						success: function (data) {
+							var NeuerNode;
+							localStorage.apber_uebersicht_id = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+							delete window.apber_uebersicht;
+							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+								"data": "neue Übersicht zu allen Arten",
+								"attr": {
+									"id": jQuery.jstree._reference(aktiver_node).get_text(aktiver_node),
+									"typ": "apber_uebersicht"
+								}
+							});
+							jQuery.jstree._reference(aktiver_node).deselect_all();
+							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							initiiere_apber_uebersicht();
+						},
+						error: function () {
+							$("#Meldung").html("Fehler: Keine Übersicht zu allen Arten erstellt");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		}
+		return items;
+	case "apber_uebersicht":
+		items = {
+			"loeschen": {
+				"label": "lösche Übersicht zu allen Arten",
+				"icon": "style/images/loeschen.png",
+				"action": function () {
+					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
+					jQuery.jstree._reference(aktiver_node).deselect_all();
+					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
+					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
+					jQuery.jstree._reference(aktiver_node).deselect_all();
+					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
+					$("#loeschen_dialog_mitteilung").html("Die Übersicht zu allen Arten wird unwiederbringlich gelöscht");
+					$("#loeschen_dialog").dialog({
+						resizable: false,
+						height:'auto',
+						width: 400,
+						modal: true,
+						buttons: {
+							"ja, löschen!": function() {
+								$(this).dialog("close");
+								$.ajax({
+									url: 'php/apber_uebersicht_delete.php',
+									dataType: 'json',
+									data: {
+										"jahr": $(aktiver_node).attr("id")
+									},
+									success: function () {
+										delete localStorage.apber_uebersicht_id;
+										delete window.apber_uebersicht;
+										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									},
+									error: function (data) {
+										$("#Meldung").html("Fehler: Die Übersicht zu allen Arten wurde nicht gelöscht");
 										$("#Meldung").dialog({
 											modal: true,
 											buttons: {
@@ -6288,7 +6583,7 @@ function speichern(that) {
 			break;
 		case "ZielBerJahr":
 		case "ZielBerErreichung":
-			jQuery("#tree").jstree("rename_node", "[typ='zielber_ordner'] #" + localStorage.zielber_id, $("#ZielBerJahr").val() + ": " + $("#ZielBerErreichung").val());
+			jQuery("#tree").jstree("rename_node", "[typ='ziel_ordner'] #" + localStorage.zielber_id, $("#ZielBerJahr").val() + ": " + $("#ZielBerErreichung").val());
 			break;
 		case "ErfBeurtZielSkalaErreichungsgrad":
 			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_erfkrit'] #" + localStorage.erfkrit_id, $("#SpanErfBeurtZielSkalaErreichungsgrad" + Feldwert).text());

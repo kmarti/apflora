@@ -696,6 +696,17 @@
 				</div>
 			</form>
 
+			<form id="apber_uebersicht" class="form" action="#" method="get" autocomplete="off">
+				<div class='fieldcontain Jahr'>
+					<label id="Jahr_label" for='Jahr'>Jahr:</label>
+					<input id="Jahr" name="Jahr" class="speichern Datenfelder" formular="apber_uebersicht" type="number">
+				</div>
+				<div class='fieldcontain Bemerkungen'>
+					<label id="Bemerkungen_label" for='Bemerkungen'>Bemerkungen:</label>
+					<textarea name="Bemerkungen" id="Bemerkungen" class="speichern Datenfelder" formular="apber_uebersicht"/></textarea>
+				</div>
+			</form>
+
 			<form id="ber" class="form" action="#" method="get" autocomplete="off">
 				<div class='fieldcontain BerAutor'>
 					<label id="BerAutor_label" for='BerAutor'>AutorIn:</label>
@@ -1051,44 +1062,6 @@
 
 			<form id="Karte" style="width:100%; height:100%;"></div>
 
-
-
-
-
-			
-
-			<form id="vorlage" class="form" action="#" method="get" autocomplete="off">
-				<div class='fieldcontain xxxxx'>
-					<label id="xxxxx_label" for='xxxxx'>textinput:</label>
-					<input id="xxxxx" name="xxxxx" class="speichern Datenfelder" formular="vorlage" type="text"/>
-				</div>
-				<div class='fieldcontain xxxxx'>
-					<label id="xxxxx_label" for='xxxxx'>Number:</label>
-					<input id="xxxxx" name="xxxxx" class="speichern Datenfelder" formular="vorlage" type="number"/>
-				</div>
-				<div class='fieldcontain xxxxx'>
-					<label id="xxxxx_label" for='xxxxx'>Status:</label>
-					<div class="Datenfelder">
-						<input type="radio" name="xxxxx" id="xxxxx1" class="speichern" formular="vorlage" value="1" />autochthon<br />
-						<input type="radio" name="xxxxx" id="xxxxx2" class="speichern" formular="vorlage" value="2" />neu entdeckt, autochthon<br />
-						<input type="radio" name="xxxxx" id="xxxxx3" class="speichern" formular="vorlage" value="3" />überprüft, kein Vorkommen
-					</div>
-				</div>
-				<div class='fieldcontain xxxxx'>
-					<label id="xxxxx_label" for='xxxxx'>ja-nein:</label>
-					<input type="checkbox" name="xxxxx" id="xxxxx" class="speichern Datenfelder" formular="vorlage" />
-				</div>
-				<div class='fieldcontain xxxxx'>
-					<label id="xxxxx_label" for='xxxxx'>Textarea:</label>
-					<textarea name="xxxxx" id="xxxxx" class="speichern Datenfelder" formular="vorlage" /></textarea>
-				</div>
-				<div class='fieldcontain xxxxx'>
-					<label id="xxxxx_label" for='xxxxx'>Selectfeld:</label>
-					<select id="xxxxx" name="xxxxx" class="speichern Datenfelder" formular="vorlage">
-						<option></option>
-					</select>
-				</div>
-			</form>
 		</fieldset>
 
 		<script>
@@ -1124,6 +1097,10 @@
 				//Für jedes Feld bei Änderung speichern
 				$(".form").on("change", ".speichern", function () {
 					speichern(this);
+				});
+
+				$(".form").on("keyup focus", "textarea", function () {
+					FitToContent(this, document.documentElement.clientHeight);
 				});
 
 				$("#beob").on("change", "[name='DistZuTPop']", function () {
