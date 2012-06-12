@@ -224,7 +224,7 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 		settype($PopMassnBerId, "integer");
 		$BeurteilTxt = $r_massnber['BeurteilTxt'];
 		//massnber setzen
-		$attr_massnber = array("id" => $PopMassnBerId, "typ" => "massnber");
+		$attr_massnber = array("id" => $PopMassnBerId, "typ" => "popmassnber");
 		$massnber = array("data" => $r_massnber['PopMassnBerJahr'].": ".$BeurteilTxt, "attr" => $attr_massnber);
 		//massnber-Array um massnber ergänzen
 	    $rows_massnber[] = $massnber;
@@ -368,9 +368,23 @@ $rows_apber = array();
 while($r_apber = mysqli_fetch_assoc($result_apber)) {
 	$ApBerId = $r_apber['ApBerId'];
 	settype($ApBerId, "integer");
+	//apber_uebersicht dieses Jahrs abfragen
+	$result_apber_uebersicht = mysqli_query($link, "SELECT Jahr, Bemerkungen FROM tblApBerUebersicht WHERE Jahr=".$r_apber['ApBerJahr']);
+	//apber_uebersicht aufbauen
+	$rows_apber_uebersicht = array();
+	while($r_apber_uebersicht = mysqli_fetch_assoc($result_apber_uebersicht)) {
+		$Jahr = $r_apber_uebersicht['Jahr'];
+		settype($Jahr, "integer");
+		//apber_uebersicht setzen
+		$attr_apber_uebersicht = array("id" => $Jahr, "typ" => "apber_uebersicht");
+		$apber_uebersicht = array("data" => "Übersicht zu allen Arten", "attr" => $attr_apber_uebersicht);
+		//apber_uebersicht-Array um apber_uebersicht ergänzen
+	    $rows_apber_uebersicht[] = $apber_uebersicht;
+	}
+	mysqli_free_result($result_apber_uebersicht);
 	//apber setzen
 	$attr_apber = array("id" => $ApBerId, "typ" => "apber");
-	$apber = array("data" => $r_apber['ApBerJahr'], "attr" => $attr_apber);
+	$apber = array("data" => $r_apber['ApBerJahr'], "attr" => $attr_apber, "children" => $rows_apber_uebersicht);
 	//apber-Array um apber ergänzen
     $rows_apber[] = $apber;
 }
