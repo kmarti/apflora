@@ -1,13 +1,15 @@
 <?php
 // Verbindung aufbauen, Datenbank auswählen
-//$link = new mysqli("barbalex.ch", "alexande", "excalibu", "alexande_apflora");
-$link = new mysqli("127.0.0.1", "root", "admin", "apflora");
+$link = new mysqli("barbalex.ch", "alexande", "excalibu", "alexande_apflora");
+//$link = new mysqli("127.0.0.1", "root", "admin", "apflora");
 
 /* check connection */
 if ($link->connect_errno) {
     printf("Connect failed: %s\n", $link->connect_error);
     exit();
 }
+
+mysqli_set_charset($link, "utf8");
 
 //ist ap_arten true, sollen nur ap_arten angezeigt werden
 $programm = $_GET["programm"];

@@ -1,7 +1,7 @@
 <?php
 // Verbindung aufbauen, Datenbank auswählen
-//$link = new mysqli("barbalex.ch", "alexande", "excalibu", "alexande_apflora");
-$link = new mysqli("127.0.0.1", "root", "admin", "apflora");
+$link = new mysqli("barbalex.ch", "alexande", "excalibu", "alexande_beob");
+//$link = new mysqli("127.0.0.1", "root", "admin", "apflora");
 
 /* check connection */
 if ($link->connect_errno) {
@@ -9,11 +9,13 @@ if ($link->connect_errno) {
     exit();
 }
 
+mysqli_set_charset($link, "utf8");
+
 $no_note = $_GET["no_note"];
 settype($no_note, "integer");
 
 // SQL-Anfrage ausführen
-$result = mysqli_query($link, 'SELECT ISFS, TPopId, xGIS, yGIS, TPopXKoord, TPopYKoord, TPopFlurname, SQRT((xGIS-TPopXKoord)*(xGIS-TPopXKoord)+(yGIS-TPopYKoord)*(yGIS-TPopYKoord)) AS DistZuTPop FROM BeobachtungenZdsf_ZdsfBeob INNER JOIN (tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) ON ISFS = ApArtId WHERE NO_NOTE ='.$no_note.' ORDER BY DistzuTPop, TPopFlurname');
+$result = mysqli_query($link, 'SELECT NO_ISFS, TPopId, xGIS, yGIS, TPopXKoord, TPopYKoord, TPopFlurname, SQRT((xGIS-TPopXKoord)*(xGIS-TPopXKoord)+(yGIS-TPopYKoord)*(yGIS-TPopYKoord)) AS DistZuTPop FROM beob INNER JOIN (tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) ON NO_ISFS = ApArtId WHERE NO_NOTE ='.$no_note.' ORDER BY DistzuTPop, TPopFlurname');
 $rows = array();
 while($r = mysqli_fetch_assoc($result)) {
 	$row = array("TPopFlurname" => $r['TPopFlurname'], "TPopId" => $r['TPopId'], "DistZuTPop" => $r['DistZuTPop']);

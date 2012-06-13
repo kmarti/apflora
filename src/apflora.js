@@ -415,6 +415,7 @@ function initiiere_iballg() {
 			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
 				//iballg bereitstellen
+				localStorage.iballg_id = data.IbApArtId;
 				window.iballg = data;
 				//Felder mit Daten beliefern
 				if (data.IbErstelldatum !== "01.01.1970") {
@@ -454,6 +455,7 @@ function initiiere_iballg() {
 						"user": sessionStorage.User
 					},
 					success: function (data) {
+						localStorage.iballg_id = data.IbApArtId;
 						initiiere_iballg();
 					},
 					error: function (data) {
@@ -471,29 +473,8 @@ function initiiere_iballg() {
 			}
 		},
 		error: function () {
-			//noch kein Datensatz > einen anlegen
-			$.ajax({
-				url: 'php/iballg_insert.php',
-				dataType: 'json',
-				data: {
-					"id": localStorage.ap_id,
-					"user": sessionStorage.User
-				},
-				success: function (data) {
-					initiiere_iballg();
-				},
-				error: function (data) {
-					$("#Meldung").html("Fehler: Keine Umweltfaktoren erstellt");
-					$("#Meldung").dialog({
-						modal: true,
-						buttons: {
-							Ok: function() {
-								$(this).dialog("close");
-							}
-						}
-					});
-				}
-			});
+			//nichts machen, sonst gibt es eine Endlosschlaufe
+			
 		}
 	});
 }
@@ -1460,19 +1441,6 @@ function FitToContent(id, maxHeight)
          text.style.height = adjustedHeight + "px";
    }
 }
-
-//passt die Höhe einer Textarea so an, dass der ganze Text sichtbar ist
-/*function resizeTextarea(id) {
-	var str = $("#" + id).val();
-	alert("str = " + str);
-	var cols = $("#" + id).attr("cols");
-	alert("cols = " + cols);
-	var linecount = 0;
-	$A(str.split("\n")).each( function(l) {
-		linecount += Math.ceil( l.length / cols ); // take into account long lines
-	})
-	$("#" + id).rows = linecount + 1;
-}*/
 
 //wird benutzt von Formular Feldkontrolle
 function blendeFelderVonFormularAus(Formular) {
@@ -4099,36 +4067,51 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
-					$.ajax({
-						url: 'php/popber_delete.php',
-						dataType: 'json',
-						data: {
-							"id": $(aktiver_node).attr("id")
-						},
-						success: function () {
-							var anz, anzTxt;
-							delete localStorage.popber_id;
-							delete window.popber;
-							jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Populations-Bericht";
-							} else {
-								anzTxt = anz + " Populations-Berichte";
-							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Der Populations-Bericht wurde nicht gelöscht");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
+					$("#loeschen_dialog_mitteilung").html("Der Populations-Bericht \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
+					$("#loeschen_dialog").dialog({
+						resizable: false,
+						height:'auto',
+						width: 400,
+						modal: true,
+						buttons: {
+							"ja, löschen!": function() {
+								$(this).dialog("close");
+								$.ajax({
+									url: 'php/popber_delete.php',
+									dataType: 'json',
+									data: {
+										"id": $(aktiver_node).attr("id")
+									},
+									success: function () {
+										var anz, anzTxt;
+										delete localStorage.popber_id;
+										delete window.popber;
+										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+										//Parent Node-Beschriftung: Anzahl anpassen
+										anz = $(parent_node).find("> ul > li").length;
+										if (anz === 1) {
+											anzTxt = anz + " Populations-Bericht";
+										} else {
+											anzTxt = anz + " Populations-Berichte";
+										}
+										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+									},
+									error: function (data) {
+										$("#Meldung").html("Fehler: Der Populations-Bericht wurde nicht gelöscht");
+										$("#Meldung").dialog({
+											modal: true,
+											buttons: {
+												Ok: function() {
+													$(this).dialog("close");
+												}
+											}
+										});
 									}
-								}
-							});
+								});
+							},
+							"abbrechen": function() {
+								$(this).dialog("close");
+							}
 						}
 					});
 				}
@@ -4243,36 +4226,51 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
-					$.ajax({
-						url: 'php/popmassnber_delete.php',
-						dataType: 'json',
-						data: {
-							"id": $(aktiver_node).attr("id")
-						},
-						success: function () {
-							var anz, anzTxt;
-							delete localStorage.popmassnber_id;
-							delete window.popmassnber;
-							jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Massnahmen-Bericht";
-							} else {
-								anzTxt = anz + " Massnahmen-Berichte";
-							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
+					$("#loeschen_dialog_mitteilung").html("Der Massnahmen-Bericht \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
+					$("#loeschen_dialog").dialog({
+						resizable: false,
+						height:'auto',
+						width: 400,
+						modal: true,
+						buttons: {
+							"ja, löschen!": function() {
+								$(this).dialog("close");
+								$.ajax({
+									url: 'php/popmassnber_delete.php',
+									dataType: 'json',
+									data: {
+										"id": $(aktiver_node).attr("id")
+									},
+									success: function () {
+										var anz, anzTxt;
+										delete localStorage.popmassnber_id;
+										delete window.popmassnber;
+										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+										//Parent Node-Beschriftung: Anzahl anpassen
+										anz = $(parent_node).find("> ul > li").length;
+										if (anz === 1) {
+											anzTxt = anz + " Massnahmen-Bericht";
+										} else {
+											anzTxt = anz + " Massnahmen-Berichte";
+										}
+										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+									},
+									error: function (data) {
+										$("#Meldung").html("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
+										$("#Meldung").dialog({
+											modal: true,
+											buttons: {
+												Ok: function() {
+													$(this).dialog("close");
+												}
+											}
+										});
 									}
-								}
-							});
+								});
+							},
+							"abbrechen": function() {
+								$(this).dialog("close");
+							}
 						}
 					});
 				}
@@ -4503,36 +4501,51 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
-					$.ajax({
-						url: 'php/tpopfeldkontr_delete.php',
-						dataType: 'json',
-						data: {
-							"id": $(aktiver_node).attr("id")
-						},
-						success: function () {
-							var anz, anzTxt;
-							delete localStorage.tpopfeldkontr_id;
-							delete window.tpopfeldkontr;
-							jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Feldkontrolle";
-							} else {
-								anzTxt = anz + " Feldkontrollen";
-							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Die Feldkontrolle wurde nicht gelöscht");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
+					$("#loeschen_dialog_mitteilung").html("Die Feldkontrolle \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
+					$("#loeschen_dialog").dialog({
+						resizable: false,
+						height:'auto',
+						width: 400,
+						modal: true,
+						buttons: {
+							"ja, löschen!": function() {
+								$(this).dialog("close");
+								$.ajax({
+									url: 'php/tpopfeldkontr_delete.php',
+									dataType: 'json',
+									data: {
+										"id": $(aktiver_node).attr("id")
+									},
+									success: function () {
+										var anz, anzTxt;
+										delete localStorage.tpopfeldkontr_id;
+										delete window.tpopfeldkontr;
+										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+										//Parent Node-Beschriftung: Anzahl anpassen
+										anz = $(parent_node).find("> ul > li").length;
+										if (anz === 1) {
+											anzTxt = anz + " Feldkontrolle";
+										} else {
+											anzTxt = anz + " Feldkontrollen";
+										}
+										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+									},
+									error: function (data) {
+										$("#Meldung").html("Fehler: Die Feldkontrolle wurde nicht gelöscht");
+										$("#Meldung").dialog({
+											modal: true,
+											buttons: {
+												Ok: function() {
+													$(this).dialog("close");
+												}
+											}
+										});
 									}
-								}
-							});
+								});
+							},
+							"abbrechen": function() {
+								$(this).dialog("close");
+							}
 						}
 					});
 				}
@@ -4930,37 +4943,52 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
-					$.ajax({
-						url: 'php/tpopfeldkontr_delete.php',
-						dataType: 'json',
-						data: {
-							"id": $(aktiver_node).attr("id")
-						},
-						success: function () {
-							var anz, anzTxt;
-							delete localStorage.tpopfeldkontr_id;
-							delete localStorage.tpopfreiwkontr;
-							delete window.tpopfeldkontr;
-							jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Freiwilligen-Kontrolle";
-							} else {
-								anzTxt = anz + " Freiwilligen-Kontrollen";
-							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Die Freiwilligen-Kontrolle wurde nicht gelöscht");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
+					$("#loeschen_dialog_mitteilung").html("Die Freiwilligen-Kontrolle \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
+					$("#loeschen_dialog").dialog({
+						resizable: false,
+						height:'auto',
+						width: 400,
+						modal: true,
+						buttons: {
+							"ja, löschen!": function() {
+								$(this).dialog("close");
+								$.ajax({
+									url: 'php/tpopfeldkontr_delete.php',
+									dataType: 'json',
+									data: {
+										"id": $(aktiver_node).attr("id")
+									},
+									success: function () {
+										var anz, anzTxt;
+										delete localStorage.tpopfeldkontr_id;
+										delete localStorage.tpopfreiwkontr;
+										delete window.tpopfeldkontr;
+										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+										//Parent Node-Beschriftung: Anzahl anpassen
+										anz = $(parent_node).find("> ul > li").length;
+										if (anz === 1) {
+											anzTxt = anz + " Freiwilligen-Kontrolle";
+										} else {
+											anzTxt = anz + " Freiwilligen-Kontrollen";
+										}
+										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+									},
+									error: function (data) {
+										$("#Meldung").html("Fehler: Die Freiwilligen-Kontrolle wurde nicht gelöscht");
+										$("#Meldung").dialog({
+											modal: true,
+											buttons: {
+												Ok: function() {
+													$(this).dialog("close");
+												}
+											}
+										});
 									}
-								}
-							});
+								});
+							},
+							"abbrechen": function() {
+								$(this).dialog("close");
+							}
 						}
 					});
 				}
@@ -5353,36 +5381,51 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
-					$.ajax({
-						url: 'php/tpopmassn_delete.php',
-						dataType: 'json',
-						data: {
-							"id": $(aktiver_node).attr("id")
-						},
-						success: function () {
-							var anz, anzTxt;
-							delete localStorage.tpopmassn_id;
-							delete window.tpopmassn;
-							jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Massnahme";
-							} else {
-								anzTxt = anz + " Massnahmen";
-							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Die Massnahme wurde nicht gelöscht");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
+					$("#loeschen_dialog_mitteilung").html("Die Massnahme \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
+					$("#loeschen_dialog").dialog({
+						resizable: false,
+						height:'auto',
+						width: 400,
+						modal: true,
+						buttons: {
+							"ja, löschen!": function() {
+								$(this).dialog("close");
+								$.ajax({
+									url: 'php/tpopmassn_delete.php',
+									dataType: 'json',
+									data: {
+										"id": $(aktiver_node).attr("id")
+									},
+									success: function () {
+										var anz, anzTxt;
+										delete localStorage.tpopmassn_id;
+										delete window.tpopmassn;
+										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+										//Parent Node-Beschriftung: Anzahl anpassen
+										anz = $(parent_node).find("> ul > li").length;
+										if (anz === 1) {
+											anzTxt = anz + " Massnahme";
+										} else {
+											anzTxt = anz + " Massnahmen";
+										}
+										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+									},
+									error: function (data) {
+										$("#Meldung").html("Fehler: Die Massnahme wurde nicht gelöscht");
+										$("#Meldung").dialog({
+											modal: true,
+											buttons: {
+												Ok: function() {
+													$(this).dialog("close");
+												}
+											}
+										});
 									}
-								}
-							});
+								});
+							},
+							"abbrechen": function() {
+								$(this).dialog("close");
+							}
 						}
 					});
 				}
@@ -5659,36 +5702,51 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
-					$.ajax({
-						url: 'php/tpopber_delete.php',
-						dataType: 'json',
-						data: {
-							"id": $(aktiver_node).attr("id")
-						},
-						success: function () {
-							var anz, anzTxt;
-							delete localStorage.tpopber_id;
-							delete window.tpopber;
-							jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Teilpopulations-Bericht";
-							} else {
-								anzTxt = anz + " Teilpopulations-Berichte";
-							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Der Teilpopulations-Bericht wurde nicht gelöscht");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
+					$("#loeschen_dialog_mitteilung").html("Der Teilpopulations-Bericht \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
+					$("#loeschen_dialog").dialog({
+						resizable: false,
+						height:'auto',
+						width: 400,
+						modal: true,
+						buttons: {
+							"ja, löschen!": function() {
+								$(this).dialog("close");
+								$.ajax({
+									url: 'php/tpopber_delete.php',
+									dataType: 'json',
+									data: {
+										"id": $(aktiver_node).attr("id")
+									},
+									success: function () {
+										var anz, anzTxt;
+										delete localStorage.tpopber_id;
+										delete window.tpopber;
+										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+										//Parent Node-Beschriftung: Anzahl anpassen
+										anz = $(parent_node).find("> ul > li").length;
+										if (anz === 1) {
+											anzTxt = anz + " Teilpopulations-Bericht";
+										} else {
+											anzTxt = anz + " Teilpopulations-Berichte";
+										}
+										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+									},
+									error: function (data) {
+										$("#Meldung").html("Fehler: Der Teilpopulations-Bericht wurde nicht gelöscht");
+										$("#Meldung").dialog({
+											modal: true,
+											buttons: {
+												Ok: function() {
+													$(this).dialog("close");
+												}
+											}
+										});
 									}
-								}
-							});
+								});
+							},
+							"abbrechen": function() {
+								$(this).dialog("close");
+							}
 						}
 					});
 				}
@@ -6027,36 +6085,51 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
-					$.ajax({
-						url: 'php/tpopmassnber_delete.php',
-						dataType: 'json',
-						data: {
-							"id": $(aktiver_node).attr("id")
-						},
-						success: function () {
-							var anz, anzTxt;
-							delete localStorage.tpopmassnber_id;
-							delete window.tpopmassnber;
-							jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Massnahmen-Bericht";
-							} else {
-								anzTxt = anz + " Massnahmen-Berichte";
-							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
+					$("#loeschen_dialog_mitteilung").html("Der Massnahmen-Bericht \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
+					$("#loeschen_dialog").dialog({
+						resizable: false,
+						height:'auto',
+						width: 400,
+						modal: true,
+						buttons: {
+							"ja, löschen!": function() {
+								$(this).dialog("close");
+								$.ajax({
+									url: 'php/tpopmassnber_delete.php',
+									dataType: 'json',
+									data: {
+										"id": $(aktiver_node).attr("id")
+									},
+									success: function () {
+										var anz, anzTxt;
+										delete localStorage.tpopmassnber_id;
+										delete window.tpopmassnber;
+										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+										//Parent Node-Beschriftung: Anzahl anpassen
+										anz = $(parent_node).find("> ul > li").length;
+										if (anz === 1) {
+											anzTxt = anz + " Massnahmen-Bericht";
+										} else {
+											anzTxt = anz + " Massnahmen-Berichte";
+										}
+										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+									},
+									error: function (data) {
+										$("#Meldung").html("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
+										$("#Meldung").dialog({
+											modal: true,
+											buttons: {
+												Ok: function() {
+													$(this).dialog("close");
+												}
+											}
+										});
 									}
-								}
-							});
+								});
+							},
+							"abbrechen": function() {
+								$(this).dialog("close");
+							}
 						}
 					});
 				}
