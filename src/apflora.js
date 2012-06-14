@@ -1171,7 +1171,6 @@ function initiiere_tpopbeob() {
 				$("#tpopbeob_Anzahl").val(data.Anzahl);
 				$("#tpopbeob_Autor").val(data.Autor);
 				$("#tpopbeob_Herkunft").val(data.Herkunft);
-				$("#tpopbeob_DistZurTPop").val(data.DistZurTPop);
 				//nochmals tpop_id setzen, damit es sicher da ist
 				//wird benötigt, falls node verschoben wird
 				localStorage.tpop_id = data.TPopId;
@@ -1183,7 +1182,7 @@ function initiiere_tpopbeob() {
 						"no_note": data.NO_NOTE
 					},
 					success: function (data2) {
-						var html = "";
+						var html = '<input type="radio" name="tpopbeob_DistZuTPop" id="tpopbeob_DistZuTPop0" class="tpopbeob_DistZuTPop" formular="tpopbeob" value="0"/>Keiner';
 						if (data2) {
 							for (i in data2) {
 								if (typeof i !== "function") {
