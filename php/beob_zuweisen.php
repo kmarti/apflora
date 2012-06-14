@@ -1,7 +1,7 @@
 <?php
 // Verbindung aufbauen, Datenbank auswählen
 $link = new mysqli("barbalex.ch", "alexande", "excalibu", "alexande_beob");
-$link = new mysqli("barbalex.ch", "alexande", "excalibu", "alexande_apflora");
+$link2 = new mysqli("barbalex.ch", "alexande", "excalibu", "alexande_apflora");
 //$link = new mysqli("127.0.0.1", "root", "admin", "apflora");
 
 /* check connection */
@@ -11,6 +11,7 @@ if ($link->connect_errno) {
 }
 
 mysqli_set_charset($link, "utf8");
+mysqli_set_charset($link2, "utf8");
 
 $no_note = $_GET["no_note"];
 settype($no_note, "integer");

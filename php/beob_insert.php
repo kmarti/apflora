@@ -11,6 +11,7 @@ if ($link->connect_errno) {
 }
 
 mysqli_set_charset($link, "utf8");
+mysqli_set_charset($link2, "utf8");
 
 $id = $_GET["id"];
 settype($id, "integer");
@@ -19,7 +20,7 @@ $dist_zu_tpop = $_GET['dist_zu_tpop'];
 $user = $_GET["user"];
 $time = date('Y-m-d H:i:s');
 
-$beob_result = mysqli_query($link, 'SELECT NO_NOTE, Name, StatusText, NO_NOTE AS IdZdsf, NO_ISFS AS NR, PROJET AS Projekt, NOM_COMMUNE AS RaumGde, DESC_LOCALITE AS Ort, xGIS AS X, yGIS AS Y, IF(M_NOTE>0, IF(M_NOTE>9, CONCAT(J_NOTE, ".", M_NOTE, ".", A_NOTE), CONCAT(J_NOTE, ".0", M_NOTE, ".", A_NOTE)), A_NOTE) AS Datum, A_NOTE AS Jahr, CONCAT(NOM_PERSONNE_OBS, " ", PRENOM_PERSONNE_OBS) AS Autor, "Info Flora" AS Herkunft FROM (ArtenDb_tblFloraSisf INNER JOIN beob ON ArtenDb_tblFloraSisf.NR = beob.NO_ISFS) LEFT JOIN DomainFloraStatus ON Status = StatusWert WHERE NO_NOTE='.$id);
+$beob_result = mysqli_query($link, 'SELECT NO_NOTE, Name, StatusText, NO_NOTE AS IdZdsf, NO_ISFS AS NR, PROJET AS Projekt, NOM_COMMUNE AS RaumGde, DESC_LOCALITE AS Ort, xGIS AS X, yGIS AS Y, IF(M_NOTE>0, IF(M_NOTE>9, CONCAT(J_NOTE, ".", M_NOTE, ".", A_NOTE), CONCAT(J_NOTE, ".0", M_NOTE, ".", A_NOTE)), A_NOTE) AS Datum, A_NOTE AS Jahr, CONCAT(alexande_beob.beob.NOM_PERSONNE_OBS, " ", alexande_beob.beob.PRENOM_PERSONNE_OBS) AS Autor, "ZDSF" AS Herkunft FROM (alexande_beob.ArtenDb_tblFloraSisf INNER JOIN alexande_beob.beob ON alexande_beob.ArtenDb_tblFloraSisf.NR = alexande_beob.beob.NO_ISFS) LEFT JOIN alexande_beob.DomainFloraStatus ON Status = StatusWert WHERE NO_NOTE='.$id);
 $beob_row = mysqli_fetch_assoc($beob_result);
 
 $IdZdsf = $beob_row['IdZdsf'];
@@ -34,12 +35,12 @@ $Jahr = $beob_row['Jahr'];
 $Autor = $beob_row['Autor'];
 $Herkunft = $beob_row['Herkunft'];
 
-$Querystring = 'INSERT INTO tblBeobachtungen (TPopId, IdZdsf, NR, Projekt, RaumGde, Ort, X, Y, Datum, Jahr, Autor, Herkunft, DistZurTPop, MutWann, MutWer) VALUES ("'.$tpop_id.'", "'.$IdZdsf.'", "'.$NR.'", "'.$Projekt.'", "'.$RaumGde.'", "'.$Ort.'", "'.$X.'", "'.$Y.'", "'.$Datum.'", "'.$Jahr.'", "'.$Autor.'", "'.$Herkunft.'", "'.$dist_zu_tpop.'", "'.$time.'", "'.$user.'")';
+$Querystring = 'INSERT INTO alexande_apflora.tblBeobachtungen (TPopId, IdZdsf, NR, Projekt, RaumGde, Ort, X, Y, Datum, Jahr, Autor, Herkunft, DistZurTPop, MutWann, MutWer) VALUES ("'.$tpop_id.'", "'.$IdZdsf.'", "'.$NR.'", "'.$Projekt.'", "'.$RaumGde.'", "'.$Ort.'", "'.$X.'", "'.$Y.'", "'.$Datum.'", "'.$Jahr.'", "'.$Autor.'", "'.$Herkunft.'", "'.$dist_zu_tpop.'", "'.$time.'", "'.$user.'")';
 
 //SQL-Anfrage ausführen
 $result = mysqli_query($link2, $Querystring);
 
-print mysqli_insert_id($link);
+print mysqli_insert_id($link2);
 
 // Verbindung schliessen
 mysqli_close($link);

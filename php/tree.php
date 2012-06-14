@@ -426,7 +426,7 @@ while($r_tblbeob = mysqli_fetch_assoc($result_tblbeob)) {
 $id_liste_tblbeob = implode("','", $rows_tblbeob);
 mysqli_free_result($result_tblbeob);
 
-$result_beob = mysqli_query($link_beob, "SELECT NO_NOTE, NOM_PERSONNE_OBS, PRENOM_PERSONNE_OBS, J_NOTE, M_NOTE, A_NOTE FROM beob WHERE NO_NOTE NOT IN ('".$id_liste_tblbeob."') AND NO_ISFS=$ApArtId ORDER BY A_NOTE DESC, M_NOTE DESC, J_NOTE DESC");
+$result_beob = mysqli_query($link_beob, "SELECT NO_NOTE, NOM_PERSONNE_OBS, PRENOM_PERSONNE_OBS, J_NOTE, M_NOTE, A_NOTE FROM alexande_beob.beob WHERE NO_NOTE NOT IN ('".$id_liste_tblbeob."') AND NO_ISFS=$ApArtId ORDER BY A_NOTE DESC, M_NOTE DESC, J_NOTE DESC");
 $anz_beob = mysqli_num_rows($result_beob);
 //beob aufbauen
 $rows_beob = array();
