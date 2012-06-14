@@ -135,17 +135,32 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 		mysqli_free_result($result_tpopber);
 
 		//Beobachtungen dieser TPop abfragen
-		$result_tpopbeob = mysqli_query($link, "SELECT BeobId, TPopId, Datum, Autor FROM tblBeobachtungen where TPopId = $TPopId ORDER BY Datum DESC, Autor");
+		$result_tpopbeob = mysqli_query($link, "SELECT NO_NOTE, NOM_PERSONNE_OBS, PRENOM_PERSONNE_OBS, J_NOTE, M_NOTE, A_NOTE FROM alexande_beob.beob WHERE TPopId = $TPopId ORDER BY A_NOTE DESC, M_NOTE DESC, J_NOTE DESC");
 		$anz_tpopbeob = mysqli_num_rows($result_tpopbeob);
 		//Datenstruktur für tpopbeob aufbauen
 		$rows_tpopbeob = array();
 		while($r_tpopbeob = mysqli_fetch_assoc($result_tpopbeob)) {
-			$BeobId = $r_tpopbeob['BeobId'];
-			settype($BeobId, "integer");
-			$Autor = $r_tpopbeob['Autor'];
+			$NO_NOTE = $r_tpopbeob['NO_NOTE'];
+			settype($NO_NOTE, "integer");
+			$Autor = $r_tpopbeob['NOM_PERSONNE_OBS']." ".$r_tpopbeob['PRENOM_PERSONNE_OBS'];
+			if ($r_tpopbeob['M_NOTE'] < 10) {
+				$Monat = "0".$r_tpopbeob['M_NOTE'];
+			} else {
+				$Monat = $r_tpopbeob['M_NOTE'];
+			}
+			if ($r_tpopbeob['J_NOTE'] < 10) {
+				$Tag = "0".$r_tpopbeob['J_NOTE'];
+			} else {
+				$Tag = $r_tpopbeob['J_NOTE'];
+			}
+			if (!$r_tpopbeob['M_NOTE']) {
+				$beobDatum = $r_tpopbeob['A_NOTE'];
+			} else {
+				$beobDatum = $r_tpopbeob['A_NOTE'].".".$Monat.".".$Tag;
+			}
 			//TPopFeldKontr setzen
-			$attr_tpopbeob = array("id" => $BeobId, "typ" => "tpopbeob");
-			$tpopbeob = array("data" => $r_tpopbeob['Datum'].": ".$Autor, "attr" => $attr_tpopbeob);
+			$attr_tpopbeob = array("id" => $NO_NOTE, "typ" => "tpopbeob");
+			$tpopbeob = array("data" => $beobDatum.": ".$Autor, "attr" => $attr_tpopbeob);
 			//tpopbeob-Array um tpopbeob ergänzen
 		    $rows_tpopbeob[] = $tpopbeob;
 		}
@@ -415,18 +430,7 @@ while($r_ber = mysqli_fetch_assoc($result_ber)) {
 mysqli_free_result($result_ber);
 
 //beob dieses AP abfragen
-//da beob und tblBeobachtungen in verschiedenen DB's sind, können sie nicht in derselben Abfrage genannt werden
-$result_tblbeob = mysqli_query($link, "SELECT IdZdsf FROM tblBeobachtungen WHERE NR=".$ApArtId);
-$rows_tblbeob = array();
-while($r_tblbeob = mysqli_fetch_assoc($result_tblbeob)) {
-	$IdZdsf = $r_tblbeob['IdZdsf'];
-	settype($IdZdsf, "integer");
-    $rows_tblbeob[] = $IdZdsf;
-}
-$id_liste_tblbeob = implode("','", $rows_tblbeob);
-mysqli_free_result($result_tblbeob);
-
-$result_beob = mysqli_query($link_beob, "SELECT NO_NOTE, NOM_PERSONNE_OBS, PRENOM_PERSONNE_OBS, J_NOTE, M_NOTE, A_NOTE FROM alexande_beob.beob WHERE NO_NOTE NOT IN ('".$id_liste_tblbeob."') AND NO_ISFS=$ApArtId ORDER BY A_NOTE DESC, M_NOTE DESC, J_NOTE DESC");
+$result_beob = mysqli_query($link_beob, "SELECT NO_NOTE, NOM_PERSONNE_OBS, PRENOM_PERSONNE_OBS, J_NOTE, M_NOTE, A_NOTE FROM alexande_beob.beob WHERE TPopId IS NULL AND NO_ISFS=$ApArtId ORDER BY A_NOTE DESC, M_NOTE DESC, J_NOTE DESC");
 $anz_beob = mysqli_num_rows($result_beob);
 //beob aufbauen
 $rows_beob = array();

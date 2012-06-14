@@ -28,13 +28,21 @@ fieldset {
 	display:block;
 }
 
+#menu {
+	width:370px; 
+	float:left; 
+	margin-top:0px; 
+	position:fixed;
+}
+
 #tree {
 	overflow: auto;
 }
 
 /*damit bleibt form immer im Blickfeld - bloss kann man in form selbst nicht mehr runterscrollen!*/
 #forms {
-	/*position:fixed;*/
+	/*overflow:auto; 
+	position:fixed;*/
 	margin-left:430px;
 	margin-top:0px;
 }
@@ -43,9 +51,15 @@ fieldset {
 	float:left;
 	width:140px;
 	text-align:right;
-	vertical-align: top;
+	vertical-align:top;
 	color:#6F6F66;
 	margin:0px 7px 0px 0px;
+}
+
+/*im tab soll der zusätzliche Rand klein sein*/
+.ui-tabs-panel {
+	padding-left: 5px !important;
+	padding-right: 5px !important;
 }
 
 fieldset legend {

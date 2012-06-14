@@ -1146,7 +1146,7 @@ function initiiere_tpopbeob() {
 	setzeFeldbreiten();
 	//Daten für die tpopbeob aus der DB holen
 	$.ajax({
-		url: 'php/tpopbeob.php',
+		url: 'php/beob.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.tpopbeob_id
@@ -1172,12 +1172,15 @@ function initiiere_tpopbeob() {
 				$("#tpopbeob_Autor").val(data.Autor);
 				$("#tpopbeob_Herkunft").val(data.Herkunft);
 				$("#tpopbeob_DistZurTPop").val(data.DistZurTPop);
+				//nochmals tpop_id setzen, damit es sicher da ist
+				//wird benötigt, falls node verschoben wird
+				localStorage.tpop_id = data.TPopId;
 				//Distanzen zu TPop berechnen
 				$.ajax({
-					url: 'php/tpopbeob_zuweisen.php',
+					url: 'php/beob_zuweisen.php',
 					dataType: 'json',
 					data: {
-						"beob_id": data.BeobId
+						"no_note": data.NO_NOTE
 					},
 					success: function (data2) {
 						var html = "";
@@ -1234,7 +1237,7 @@ function initiiere_beob() {
 			"id": localStorage.NO_NOTE
 		},
 		success: function (data) {
-			var GisBrowserUrl;
+			var GisBrowserUrl, Datum;
 			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
 				//beob bereitstellen
@@ -1250,7 +1253,7 @@ function initiiere_beob() {
 				$("#beob_Y").val(data.Y);
 				$("#beob_Datum").val(data.Datum);
 				$("#beob_Jahr").val(data.Jahr);
-				$("#beob_Anzahl").val(data.Anzahl);
+				//$("#beob_Anzahl").val(data.Anzahl);
 				$("#beob_Autor").val(data.Autor);
 				$("#beob_Herkunft").val(data.Herkunft);
 				//Distanzen zu TPop berechnen
@@ -1355,6 +1358,9 @@ function zeigeFormular(Formularname) {
 			$(this).hide();
 		});
 	}
+	//setzeFormhoehe();
+	//$("#forms").scrollTop(0);
+	$(window).scrollTop(0);
 }
 
 //leert alle Felder und stellt ihre Breite ein
@@ -1375,6 +1381,19 @@ function setzeTreehoehe() {
 		$("#tree").height($(window).height() - 142);
 	} else if ($('#tree').hasScrollBar()) {
 		$("#tree").height($(window).height() - 142);
+	}
+}
+
+function setzeFormhoehe() {
+	//zunächst mal an formhöhe anpassen
+	$('form').each(function() {
+		if ($(this).is(":visible")) {
+			$("#forms").height($(this).height() + 75);
+		}
+	});
+	//verhindern, dass grösser als Bildschirm
+	if (($("#forms").height() + 50) > $(window).height()) {
+		$("#forms").height($(window).height() - 50);
 	}
 }
 
@@ -1420,8 +1439,10 @@ function setzeFeldbreiten() {
 			}
 		}
 	});
+	$("#forms").width($(window).width() - 490);
 }
 
+//setzt die Höhe von textareas so, dass der Text genau rein passt
 function FitToContent(id, maxHeight)
 {
    var text = id && id.style ? id : document.getElementById(id);
@@ -5761,7 +5782,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/flora_icon.png",
 				"action": function () {
 					$.ajax({
-						url: 'php/tpopbeob_karte.php',
+						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
 							"tpop_id": $(aktiver_node).attr("id")
@@ -5804,11 +5825,12 @@ function treeKontextmenu(node) {
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
 					$.ajax({
-						url: 'php/tpopbeob_einfuegen.php',
+						url: 'php/beob_update.php',
 						dataType: 'json',
 						data: {
-							"tpop_id": $(aktiver_node).attr("id"),
-							"tpopbeob_id": $(window.tpopbeob_node_ausgeschnitten).attr("id"),
+							"id": $(window.tpopbeob_node_ausgeschnitten).attr("id"),
+							"Feld": "TPopId",
+							"Wert": $(aktiver_node).attr("id"),
 							"user": sessionStorage.User
 						},
 						success: function () {
@@ -5857,10 +5879,10 @@ function treeKontextmenu(node) {
 				"icon": "style/images/flora_icon.png",
 				"action": function () {
 					$.ajax({
-						url: 'php/tpopbeob_karte.php',
+						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
-							"beob_id": $(aktiver_node).attr("id"),
+							"no_note": $(aktiver_node).attr("id"),
 						},
 						success: function (data) {
 							if (data.rows.length > 0) {
@@ -5931,11 +5953,12 @@ function treeKontextmenu(node) {
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
 					$.ajax({
-						url: 'php/tpopbeob_einfuegen.php',
+						url: 'php/beob_update.php',
 						dataType: 'json',
 						data: {
-							"tpop_id": $(parent_node).attr("id"),
-							"tpopbeob_id": $(aktiver_node).attr("id"),
+							"id": $(aktiver_node).attr("id"),
+							"Feld": "TPopId",
+							"Wert": $(parent_node).attr("id"),
 							"user": sessionStorage.User
 						},
 						success: function () {
@@ -5961,7 +5984,7 @@ function treeKontextmenu(node) {
 							setzeDistanzZurTeilpop(localStorage.tpopbeob_id, localStorage.tpop_id);
 							initiiere_tpopbeob();
 						},
-						error: function (data) {
+						error: function () {
 							$("#Meldung").html("Fehler: Die Beobachtung wurde nicht verschoben");
 							$("#Meldung").dialog({
 								modal: true,
@@ -6147,7 +6170,7 @@ function treeKontextmenu(node) {
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
-							"id": $(aktiver_node).attr("id")
+							"apart_id": $(aktiver_node).attr("id")
 						},
 						success: function (data) {
 							if (data.rows.length > 0) {
@@ -6191,7 +6214,6 @@ function treeKontextmenu(node) {
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
-							"id": $(parent_node).attr("id"),
 							"no_note": $(aktiver_node).attr("id")
 						},
 						success: function (data) {
@@ -6266,7 +6288,7 @@ function setzeDistanzZurTeilpop(tpopbeob_id, tpop_id) {
 		},
 		success: function (tpop) {
 			$.ajax({
-				url: 'php/tpopbeob.php',
+				url: 'php/beob.php',
 				dataType: 'json',
 				data: {
 					"id": tpopbeob_id
@@ -6274,10 +6296,10 @@ function setzeDistanzZurTeilpop(tpopbeob_id, tpop_id) {
 				success: function (tpopbeob) {
 					Distanz = Math.floor(Math.sqrt((tpop.TPopXKoord - tpopbeob.X)*(tpop.TPopXKoord - tpopbeob.X) + (tpop.TPopYKoord - tpopbeob.Y)*(tpop.TPopYKoord - tpopbeob.Y)));
 					$.ajax({
-						url: 'php/tpopbeob_update.php',
+						url: 'php/beob_update.php',
 						dataType: 'json',
 						data: {
-							"id": tpopbeob.BeobId,
+							"id": tpopbeob.NO_NOTE,
 							"Feld": "DistZurTPop",
 							"Wert": Distanz,
 							"user": sessionStorage.User
@@ -7062,7 +7084,7 @@ function zeigeBeobAufKarte(BeobListe) {
 }
 
 function zeigeTPopBeobAufKarte(TPopBeobListe) {
-	var anzBeob, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe;
+	var anzBeob, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe, Datum;
 	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("Karte");
 	window.markersArray = [];
@@ -7098,8 +7120,20 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 	markers = [];
 	for (i in TPopBeobListe.rows) {
 		TPopBeob = TPopBeobListe.rows[i];
-		if (!TPopBeob.Datum) {
-			TPopBeob.Datum = TPopBeob.Jahr;
+		if (TPopBeob.M_NOTE < 10) {
+			Monat = "0".TPopBeob.M_NOTE;
+		} else {
+			Monat = TPopBeob.M_NOTE;
+		}
+		if (TPopBeob.J_NOTE < 10) {
+			Tag = "0".TPopBeob.J_NOTE;
+		} else {
+			Tag = TPopBeob.J_NOTE;
+		}
+		if (!TPopBeob.M_NOTE) {
+			Datum = TPopBeob.A_NOTE;
+		} else {
+			Datum = TPopBeob.A_NOTE + "." + Monat + "." + Tag;
 		}
 		latlng2 = new google.maps.LatLng(TPopBeob.Lat, TPopBeob.Lng);
 		if (anzTPopBeob === 1) {
@@ -7113,24 +7147,25 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 			map: map,
 			position: latlng2,
 			//title muss String sein
-			title: TPopBeob.Datum.toString(),
-			labelContent: TPopBeob.Jahr.toString(),
+			title: Datum.toString(),
+			labelContent: Datum.toString(),
 			labelAnchor: new google.maps.Point(75, 0),
 			labelClass: "MapLabel",
 			icon: "img/flora_icon_violett.png"
 		});
 		markers.push(marker);
+		
 		contentString = '<div id="content">'+
 			'<div id="siteNotice">'+
 			'</div>'+
 			'<div id="bodyContent" class="GmInfowindow">'+
-			'<h3>' + TPopBeob.Datum + '</h3>'+
-			'<p>Autor: ' + TPopBeob.Autor + '</p>'+
+			'<h3>' + Datum + '</h3>'+
+			'<p>Autor: ' + TPopBeob.NOM_PERSONNE_OBS + " " + TPopBeob.PRENOM_PERSONNE_OBS + '</p>'+
 			'<p>Projekt: ' + TPopBeob.Projekt + '</p>'+
 			'<p>Raum/Gmde: ' + TPopBeob.RaumGde + '</p>'+
 			'<p>Ort: ' + TPopBeob.Ort + '</p>'+
 			'<p>Koordinaten: ' + TPopBeob.X + ' / ' + TPopBeob.Y + '</p>'+
-			"<p><a href=\"#\" onclick=\"oeffneTPopBeob('" + TPopBeob.BeobId + "')\">Formular öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"oeffneTPopBeob('" + TPopBeob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
 		makeListener(map, marker, contentString);
@@ -7341,9 +7376,9 @@ function oeffneBeob(NO_NOTE) {
 	jQuery("#tree").jstree("select_node", "[typ='beob']#" + NO_NOTE);
 }
 
-function oeffneTPopBeob(BeobId) {
-	localStorage.tpopbeob_id = BeobId;
+function oeffneTPopBeob(NO_NOTE) {
+	localStorage.tpopbeob_id = NO_NOTE;
 	initiiere_tpopbeob();
-	jQuery.jstree._reference("[typ='tpopbeob']#" + BeobId).deselect_all();
-	jQuery("#tree").jstree("select_node", "[typ='tpopbeob']#" + BeobId);
+	jQuery.jstree._reference("[typ='tpopbeob']#" + NO_NOTE).deselect_all();
+	jQuery("#tree").jstree("select_node", "[typ='tpopbeob']#" + NO_NOTE);
 }

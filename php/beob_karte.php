@@ -1,7 +1,6 @@
 <?php
 // Verbindung aufbauen, Datenbank auswählen
 $link = new mysqli("barbalex.ch", "alexande", "excalibu", "alexande_beob");
-$link2 = new mysqli("barbalex.ch", "alexande", "excalibu", "alexande_apflora");
 //$link = new mysqli("127.0.0.1", "root", "admin", "apflora");
 
 /* check connection */
@@ -11,18 +10,21 @@ if ($link->connect_errno) {
 }
 
 mysqli_set_charset($link, "utf8");
-mysqli_set_charset($link2, "utf8");
 
-$ApArtId = $_GET["id"];
-settype($id, "integer");
 $no_note = $_GET["no_note"];
 settype($no_note, "integer");
+$tpop_id = $_GET["tpop_id"];
+settype($tpop_id, "integer");
+$apart_id = $_GET["apart_id"];
+settype($apart_id, "integer");
 //beob dieses AP abfragen
 if ($no_note) {
 	//no_note wurde übergeben > auf eine Beobachtung filtern
-	$result_beob = mysqli_query($link, "SELECT * FROM alexande_beob.beob WHERE NO_NOTE = $no_note AND NO_ISFS = $ApArtId AND xGIS > 0 AND yGIS > 0");
-} else {
-	$result_beob = mysqli_query($link, "SELECT * FROM alexande_beob.beob WHERE NO_NOTE NOT IN (SELECT IdZdsf FROM alexande_apflora.tblBeobachtungen WHERE NR=$ApArtId) AND NO_ISFS = $ApArtId AND xGIS > 0 AND yGIS > 0");
+	$result_beob = mysqli_query($link, "SELECT * FROM beob WHERE NO_NOTE = $no_note AND xGIS > 0 AND yGIS > 0");
+} else if ($tpop_id) {
+	$result_beob = mysqli_query($link, "SELECT * FROM beob WHERE TPopId=".$tpop_id." AND xGIS > 0 AND yGIS > 0");
+} else if ($apart_id) {
+	$result_beob = mysqli_query($link, "SELECT * FROM beob WHERE NO_ISFS=".$apart_id." AND xGIS > 0 AND yGIS > 0");
 }
 //beob aufbauen
 $rows_beob = array();
