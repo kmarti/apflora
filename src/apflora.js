@@ -651,7 +651,7 @@ function initiiere_tpop() {
 				$("#TPopHerkunftUnklarBegründung").val(data.TPopHerkunftUnklarBegründung);
 				$("#TPopApBerichtRelevant" + data.TPopApBerichtRelevant).prop("checked", true);
 				$("#TPopBekanntSeit").val(data.TPopBekanntSeit);
-				$("#TPopFlurname").val(data.TPopFlurname);
+				$("#TPopGemeinde").val(data.TPopGemeinde);
 				$("#TPopXKoord").val(data.TPopXKoord);
 				$("#TPopYKoord").val(data.TPopYKoord);
 				if (data.TPopPop == -1) {
@@ -1078,10 +1078,12 @@ function initiiere_tpopmassn() {
 							}
 							window.artliste_html = html;
 							$("#TPopMassnAnsiedWirtspfl").html(html);
+							$("#TPopMassnAnsiedWirtspfl").val(data.TPopMassnAnsiedWirtspfl);
 						}
 					});
 				} else {
 					$("#TPopMassnAnsiedWirtspfl").html(window.artliste_html);
+					$("#TPopMassnAnsiedWirtspfl").val(data.TPopMassnAnsiedWirtspfl);
 				}
 				$("#TPopMassnAnsiedHerkunftPop").val(data.TPopMassnAnsiedHerkunftPop);
 				$("#TPopMassnAnsiedDatSamm").val(data.TPopMassnAnsiedDatSamm);
@@ -1386,7 +1388,7 @@ function setzeFeldbreiten() {
 	$('#forms input[type="text"], #forms input[type="url"], #forms select, #forms textarea').each(function() {
 		if ($(this).attr("formular") === "tpopfeldkontr") {
 			//hier hats tabs, Felder müssen schmaler sein als normal
-			$(this).width($(window).width() - 730);
+			$(this).width($(window).width() - 735);
 		} else if ($(this).attr("formular") === "iballg") {
 			//hier hats fieldsets, Felder müssen schmaler sein als normal
 			$(this).width($(window).width() - 705);
@@ -1398,7 +1400,7 @@ function setzeFeldbreiten() {
 	$('#forms input[type="number"], #forms input[type="date"]').each(function() {
 		if ($(this).attr("formular") === "tpopfeldkontr") {
 			//hier hats tabs, Felder müssen schmaler sein als normal
-			if (($(window).width() - 730) > 200) {
+			if (($(window).width() - 735) > 200) {
 				$(this).width(200);
 			} else {
 				$(this).width($(window).width() - 730);
@@ -4725,7 +4727,6 @@ function treeKontextmenu(node) {
 						dataType: 'json',
 						data: {
 							"id": $(aktiver_node).attr("id"),
-							"typ": "tpopfreiwkontr",
 							"user": sessionStorage.User,
 							"TPopKontrTyp": "Freiwilligen-Erfolgskontrolle"
 						},
@@ -4896,7 +4897,6 @@ function treeKontextmenu(node) {
 						dataType: 'json',
 						data: {
 							"id": $(parent_node).attr("id"),
-							"typ": "tpopfreiwkontr",
 							"user": sessionStorage.User,
 							"TPopKontrTyp": "Freiwilligen-Erfolgskontrolle"
 						},
@@ -4915,9 +4915,9 @@ function treeKontextmenu(node) {
 							//Parent Node-Beschriftung: Anzahl anpassen
 							anz = $(parent_node).find("> ul > li").length;
 							if (anz === 1) {
-								anzTxt = anz + " Feldkontrolle";
+								anzTxt = anz + " Freiwilligen-Kontrolle";
 							} else {
-								anzTxt = anz + " Feldkontrollen";
+								anzTxt = anz + " Freiwilligen-Kontrollen";
 							}
 							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
 							jQuery.jstree._reference(aktiver_node).deselect_all();
@@ -6558,7 +6558,7 @@ function speichern(that) {
 		//textarea, input, select
 		Feldwert = $("#" + Feldname).val();
 	}
-	if (Feldname === "TPopHerkunftUnklar" || Feldname === "TPopPop" || Feldname === "TPopMassnPlan") {
+	if (Feldname === "TPopHerkunftUnklar" || Feldname === "TPopPop" || Feldname === "TPopMassnPlan" || Feldname === "TPopKontrPlan" || Feldname === "TPopKontrJungPflJN") {
 		if (Feldwert) {
 			Feldwert = -1;
 		} else {

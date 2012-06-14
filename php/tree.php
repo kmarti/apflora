@@ -1,6 +1,7 @@
 <?php
 // Verbindung aufbauen, Datenbank auswählen
 $link = new mysqli("barbalex.ch", "alexande", "excalibu", "alexande_apflora");
+$link_beob = new mysqli("barbalex.ch", "alexande", "excalibu", "alexande_beob");
 //$link = new mysqli("127.0.0.1", "root", "admin", "apflora");
 
 /* check connection */
@@ -8,8 +9,13 @@ if ($link->connect_errno) {
     printf("Connect failed: %s\n", $link->connect_error);
     exit();
 }
+if ($link_beob->connect_errno) {
+    printf("Connect failed: %s\n", $link_beob->connect_error);
+    exit();
+}
 
 mysqli_set_charset($link, "utf8");
+mysqli_set_charset($link_beob, "utf8");
 
 $ApArtId = $_GET["id"];
 settype($id, "integer");
@@ -409,7 +415,18 @@ while($r_ber = mysqli_fetch_assoc($result_ber)) {
 mysqli_free_result($result_ber);
 
 //beob dieses AP abfragen
-$result_beob = mysqli_query($link, "SELECT NO_NOTE, NOM_PERSONNE_OBS, PRENOM_PERSONNE_OBS, J_NOTE, M_NOTE, A_NOTE FROM BeobachtungenZdsf_ZdsfBeob WHERE NO_NOTE NOT IN (SELECT IdZdsf FROM tblBeobachtungen WHERE NR=$ApArtId) AND ISFS =$ApArtId ORDER BY A_NOTE DESC, M_NOTE DESC, J_NOTE DESC");
+//da beob und tblBeobachtungen in verschiedenen DB's sind, können sie nicht in derselben Abfrage genannt werden
+$result_tblbeob = mysqli_query($link, "SELECT IdZdsf FROM tblBeobachtungen WHERE NR=".$ApArtId);
+$rows_tblbeob = array();
+while($r_tblbeob = mysqli_fetch_assoc($result_tblbeob)) {
+	$IdZdsf = $r_tblbeob['IdZdsf'];
+	settype($IdZdsf, "integer");
+    $rows_tblbeob[] = $IdZdsf;
+}
+$id_liste_tblbeob = implode("','", $rows_tblbeob);
+mysqli_free_result($result_tblbeob);
+
+$result_beob = mysqli_query($link_beob, "SELECT NO_NOTE, NOM_PERSONNE_OBS, PRENOM_PERSONNE_OBS, J_NOTE, M_NOTE, A_NOTE FROM beob WHERE NO_NOTE NOT IN ('".$id_liste_tblbeob."') AND NO_ISFS=$ApArtId ORDER BY A_NOTE DESC, M_NOTE DESC, J_NOTE DESC");
 $anz_beob = mysqli_num_rows($result_beob);
 //beob aufbauen
 $rows_beob = array();
@@ -555,4 +572,5 @@ print($rows);
 
 // Verbindung schliessen
 mysqli_close($link);
+mysqli_close($link_beob);
 ?>

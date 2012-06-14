@@ -7,7 +7,7 @@ $link = new mysqli("barbalex.ch", "alexande", "excalibu", "alexande_apflora");
 if ($link->connect_errno) {
     printf("Connect failed: %s\n", $link->connect_error);
     exit();
-
+}
 
 mysqli_set_charset($link, "utf8");
 

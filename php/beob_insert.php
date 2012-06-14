@@ -1,6 +1,7 @@
 <?php
 // Verbindung aufbauen, Datenbank auswählen
 $link = new mysqli("barbalex.ch", "alexande", "excalibu", "alexande_beob");
+$link2 = new mysqli("barbalex.ch", "alexande", "excalibu", "alexande_apflora");
 //$link = new mysqli("127.0.0.1", "root", "admin", "apflora");
 
 /* check connection */
@@ -36,10 +37,11 @@ $Herkunft = $beob_row['Herkunft'];
 $Querystring = 'INSERT INTO tblBeobachtungen (TPopId, IdZdsf, NR, Projekt, RaumGde, Ort, X, Y, Datum, Jahr, Autor, Herkunft, DistZurTPop, MutWann, MutWer) VALUES ("'.$tpop_id.'", "'.$IdZdsf.'", "'.$NR.'", "'.$Projekt.'", "'.$RaumGde.'", "'.$Ort.'", "'.$X.'", "'.$Y.'", "'.$Datum.'", "'.$Jahr.'", "'.$Autor.'", "'.$Herkunft.'", "'.$dist_zu_tpop.'", "'.$time.'", "'.$user.'")';
 
 //SQL-Anfrage ausführen
-$result = mysqli_query($link, $Querystring);
+$result = mysqli_query($link2, $Querystring);
 
 print mysqli_insert_id($link);
 
 // Verbindung schliessen
 mysqli_close($link);
+mysqli_close($link2);
 ?>
