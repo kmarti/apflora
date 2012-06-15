@@ -20,7 +20,7 @@ $dist_zu_tpop = $_GET['dist_zu_tpop'];
 $user = $_GET["user"];
 $time = date('Y-m-d H:i:s');
 
-$beob_result = mysqli_query($link, 'SELECT NO_NOTE, Name, StatusText, NO_NOTE AS IdZdsf, NO_ISFS AS NR, PROJET AS Projekt, NOM_COMMUNE AS RaumGde, DESC_LOCALITE AS Ort, xGIS AS X, yGIS AS Y, IF(M_NOTE>0, IF(M_NOTE>9, CONCAT(J_NOTE, ".", M_NOTE, ".", A_NOTE), CONCAT(J_NOTE, ".0", M_NOTE, ".", A_NOTE)), A_NOTE) AS Datum, A_NOTE AS Jahr, CONCAT(alexande_beob.tblBeob.NOM_PERSONNE_OBS, " ", alexande_beob.tblBeob.PRENOM_PERSONNE_OBS) AS Autor, "ZDSF" AS Herkunft FROM (alexande_beob.ArtenDb_tblFloraSisf INNER JOIN alexande_beob.tblBeob ON alexande_beob.ArtenDb_tblFloraSisf.NR = alexande_beob.tblBeob.NO_ISFS) LEFT JOIN alexande_beob.DomainFloraStatus ON Status = StatusWert WHERE NO_NOTE='.$id);
+$beob_result = mysqli_query($link, 'SELECT BeobId, Name, StatusText, NO_NOTE AS IdZdsf, IdEvab, NO_ISFS AS NR, PROJET AS Projekt, NOM_COMMUNE AS RaumGde, DESC_LOCALITE AS Ort, xGIS AS X, yGIS AS Y, IF(M_NOTE>0, IF(M_NOTE>9, CONCAT(J_NOTE, ".", M_NOTE, ".", A_NOTE), CONCAT(J_NOTE, ".0", M_NOTE, ".", A_NOTE)), A_NOTE) AS Datum, A_NOTE AS Jahr, CONCAT(alexande_beob.tblBeob.NOM_PERSONNE_OBS, " ", alexande_beob.tblBeob.PRENOM_PERSONNE_OBS) AS Autor, IF(IdEvab, "EvAB", "ZDSF") AS Herkunft FROM (alexande_beob.ArtenDb_tblFloraSisf INNER JOIN alexande_beob.tblBeob ON alexande_beob.ArtenDb_tblFloraSisf.NR = alexande_beob.tblBeob.NO_ISFS) LEFT JOIN alexande_beob.DomainFloraStatus ON Status = StatusWert WHERE BeobId='.$id);
 $beob_row = mysqli_fetch_assoc($beob_result);
 
 $IdZdsf = $beob_row['IdZdsf'];

@@ -11,19 +11,21 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
-$no_note = $_GET["no_note"];
-settype($no_note, "integer");
+$beobid = $_GET["beobid"];
+settype($beobid, "integer");
 $tpop_id = $_GET["tpop_id"];
 settype($tpop_id, "integer");
 $apart_id = $_GET["apart_id"];
 settype($apart_id, "integer");
 //beob dieses AP abfragen
-if ($no_note) {
-	//no_note wurde übergeben > auf eine Beobachtung filtern
-	$result_beob = mysqli_query($link, "SELECT * FROM tblBeob WHERE NO_NOTE = $no_note AND xGIS > 0 AND yGIS > 0");
+if ($beobid) {
+	//beobid wurde übergeben > auf eine Beobachtung filtern
+	$result_beob = mysqli_query($link, "SELECT * FROM tblBeob WHERE BeobId = $beobid AND xGIS > 0 AND yGIS > 0");
 } else if ($tpop_id) {
+	//tpop_id wurde übergeben > auf tpop filtern
 	$result_beob = mysqli_query($link, "SELECT * FROM tblBeob WHERE TPopId=".$tpop_id." AND xGIS > 0 AND yGIS > 0");
 } else if ($apart_id) {
+	//apart_id wurde übergeben > auf Art filtern
 	$result_beob = mysqli_query($link, "SELECT * FROM tblBeob WHERE NO_ISFS=".$apart_id." AND xGIS > 0 AND yGIS > 0");
 }
 //beob aufbauen

@@ -135,13 +135,13 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 		mysqli_free_result($result_tpopber);
 
 		//Beobachtungen dieser TPop abfragen
-		$result_tpopbeob = mysqli_query($link, "SELECT NO_NOTE, NOM_PERSONNE_OBS, PRENOM_PERSONNE_OBS, J_NOTE, M_NOTE, A_NOTE FROM alexande_beob.tblBeob WHERE TPopId = $TPopId ORDER BY A_NOTE DESC, M_NOTE DESC, J_NOTE DESC");
+		$result_tpopbeob = mysqli_query($link, "SELECT BeobId, NOM_PERSONNE_OBS, PRENOM_PERSONNE_OBS, J_NOTE, M_NOTE, A_NOTE FROM alexande_beob.tblBeob WHERE TPopId = $TPopId ORDER BY A_NOTE DESC, M_NOTE DESC, J_NOTE DESC");
 		$anz_tpopbeob = mysqli_num_rows($result_tpopbeob);
 		//Datenstruktur für tpopbeob aufbauen
 		$rows_tpopbeob = array();
 		while($r_tpopbeob = mysqli_fetch_assoc($result_tpopbeob)) {
-			$NO_NOTE = $r_tpopbeob['NO_NOTE'];
-			settype($NO_NOTE, "integer");
+			$BeobId = $r_tpopbeob['BeobId'];
+			settype($BeobId, "integer");
 			$Autor = $r_tpopbeob['NOM_PERSONNE_OBS']." ".$r_tpopbeob['PRENOM_PERSONNE_OBS'];
 			if ($r_tpopbeob['M_NOTE'] < 10) {
 				$Monat = "0".$r_tpopbeob['M_NOTE'];
@@ -159,7 +159,7 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 				$beobDatum = $r_tpopbeob['A_NOTE'].".".$Monat.".".$Tag;
 			}
 			//TPopFeldKontr setzen
-			$attr_tpopbeob = array("id" => $NO_NOTE, "typ" => "tpopbeob");
+			$attr_tpopbeob = array("id" => $BeobId, "typ" => "tpopbeob");
 			$tpopbeob = array("data" => $beobDatum.": ".$Autor, "attr" => $attr_tpopbeob);
 			//tpopbeob-Array um tpopbeob ergänzen
 		    $rows_tpopbeob[] = $tpopbeob;
@@ -430,13 +430,13 @@ while($r_ber = mysqli_fetch_assoc($result_ber)) {
 mysqli_free_result($result_ber);
 
 //beob dieses AP abfragen
-$result_beob = mysqli_query($link_beob, "SELECT NO_NOTE, NOM_PERSONNE_OBS, PRENOM_PERSONNE_OBS, J_NOTE, M_NOTE, A_NOTE FROM alexande_beob.tblBeob WHERE TPopId IS NULL AND NO_ISFS=$ApArtId ORDER BY A_NOTE DESC, M_NOTE DESC, J_NOTE DESC");
+$result_beob = mysqli_query($link_beob, "SELECT BeobId, NOM_PERSONNE_OBS, PRENOM_PERSONNE_OBS, J_NOTE, M_NOTE, A_NOTE FROM alexande_beob.tblBeob WHERE TPopId IS NULL AND NO_ISFS=$ApArtId ORDER BY A_NOTE DESC, M_NOTE DESC, J_NOTE DESC");
 $anz_beob = mysqli_num_rows($result_beob);
 //beob aufbauen
 $rows_beob = array();
 while($r_beob = mysqli_fetch_assoc($result_beob)) {
-	$no_note = $r_beob['NO_NOTE'];
-	settype($no_note, "integer");
+	$beobid = $r_beob['BeobId'];
+	settype($beobid, "integer");
 	$beobAutor = $r_beob['NOM_PERSONNE_OBS']." ".$r_beob['PRENOM_PERSONNE_OBS'];
 	if ($r_beob['M_NOTE'] < 10) {
 		$Monat = "0".$r_beob['M_NOTE'];
@@ -454,7 +454,7 @@ while($r_beob = mysqli_fetch_assoc($result_beob)) {
 		$beobDatum = $r_beob['A_NOTE'].".".$Monat.".".$Tag;
 	}
 	//beob setzen
-	$attr_beob = array("id" => $no_note, "typ" => "beob");
+	$attr_beob = array("id" => $beobid, "typ" => "beob");
 	$beob = array("data" => $beobDatum.": ".$beobAutor, "attr" => $attr_beob);
 	//beob-Array um beob ergänzen
     $rows_beob[] = $beob;

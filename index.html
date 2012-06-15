@@ -1105,7 +1105,7 @@
 						url: 'php/beob_update.php',
 						dataType: 'json',
 						data: {
-							"id": localStorage.NO_NOTE,
+							"id": localStorage.BeobId,
 							"Feld": "TPopId",
 							"Wert": tpop_id,
 							"user": sessionStorage.User
@@ -1113,10 +1113,10 @@
 						success: function (data) {
 							var anz, anzTxt, neuerNode, neuerParentNode, aktuellerNode, neuerNodeTxt, vorigerNode;
 							localStorage.tpopbeob_id = data;
-							vorigerNode = jQuery.jstree._reference("[typ='ap_ordner_beob'] #" + localStorage.NO_NOTE)._get_prev("[typ='ap_ordner_beob'] #" + localStorage.NO_NOTE);
-							aktuellerNode = jQuery("#tree").jstree("move_node", "[typ='ap_ordner_beob'] #" + localStorage.NO_NOTE, "[typ='tpop_ordner_tpopbeob']#" + tpop_id, "last");
+							vorigerNode = jQuery.jstree._reference("[typ='ap_ordner_beob'] #" + localStorage.BeobId)._get_prev("[typ='ap_ordner_beob'] #" + localStorage.BeobId);
+							aktuellerNode = jQuery("#tree").jstree("move_node", "[typ='ap_ordner_beob'] #" + localStorage.BeobId, "[typ='tpop_ordner_tpopbeob']#" + tpop_id, "last");
 							//typ des nodes anpassen
-							$("[typ='tpop_ordner_tpopbeob'] #" + localStorage.NO_NOTE).attr("typ", "tpopbeob");
+							$("[typ='tpop_ordner_tpopbeob'] #" + localStorage.BeobId).attr("typ", "tpopbeob");
 							jQuery.jstree._reference(vorigerNode).select_node(vorigerNode);
 							//Parent Node-Beschriftung am Zielort: Anzahl anpassen
 							anz = $("[typ='pop_ordner_tpop'] #" + tpop_id + " [typ='tpop_ordner_tpopbeob']").find("> ul > li").length;
@@ -1212,7 +1212,7 @@
 								vorigerNode = jQuery.jstree._reference("[typ='tpop_ordner_tpopbeob'] #" + localStorage.tpopbeob_id)._get_prev("[typ='tpop_ordner_tpopbeob'] #" + localStorage.tpopbeob_id);
 								jQuery("#tree").jstree("move_node", "[typ='tpop_ordner_tpopbeob'] #" + localStorage.tpopbeob_id, "[typ='ap_ordner_beob']#" + localStorage.ap_id, "last");
 								//typ des nodes anpassen
-								$("[typ='ap_ordner_beob'] #" + localStorage.NO_NOTE).attr("typ", "beob");
+								$("[typ='ap_ordner_beob'] #" + localStorage.BeobId).attr("typ", "beob");
 								jQuery.jstree._reference(vorigerNode).select_node(vorigerNode);
 								//Parent Node-Beschriftung am Zielort: Anzahl anpassen
 								anz = $("[typ='ap_ordner_beob']").find("> ul > li").length;

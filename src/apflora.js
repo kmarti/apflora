@@ -1179,7 +1179,7 @@ function initiiere_tpopbeob() {
 					url: 'php/beob_zuweisen.php',
 					dataType: 'json',
 					data: {
-						"no_note": data.NO_NOTE
+						"beobid": data.BeobId
 					},
 					success: function (data2) {
 						var html = '<input type="radio" name="tpopbeob_DistZuTPop" id="tpopbeob_DistZuTPop0" class="tpopbeob_DistZuTPop" formular="tpopbeob" value="0"/>Keiner';
@@ -1220,7 +1220,7 @@ function initiiere_tpopbeob() {
 }
 
 function initiiere_beob() {
-	if (!localStorage.NO_NOTE) {
+	if (!localStorage.BeobId) {
 		//es fehlen benötigte Daten > eine Ebene höher
 		initiiere_pop();
 		return;
@@ -1233,7 +1233,7 @@ function initiiere_beob() {
 		url: 'php/beob.php',
 		dataType: 'json',
 		data: {
-			"id": localStorage.NO_NOTE
+			"id": localStorage.BeobId
 		},
 		success: function (data) {
 			var GisBrowserUrl, Datum;
@@ -1260,7 +1260,7 @@ function initiiere_beob() {
 					url: 'php/beob_zuweisen.php',
 					dataType: 'json',
 					data: {
-						"no_note": localStorage.NO_NOTE
+						"beobid": localStorage.BeobId
 					},
 					success: function (data) {
 						var html = "";
@@ -1804,8 +1804,8 @@ function erstelle_tree(ApArtId) {
 			}
 		} else if (node.attr("typ") === "beob") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#beob").is(':visible') || localStorage.NO_NOTE !== node.attr("id")) {
-				localStorage.NO_NOTE = node.attr("id");
+			if (!$("#beob").is(':visible') || localStorage.BeobId !== node.attr("id")) {
+				localStorage.BeobId = node.attr("id");
 				initiiere_beob();
 			}
 		} else if (node.attr("typ") === "tpopmassnber") {
@@ -5881,7 +5881,7 @@ function treeKontextmenu(node) {
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
-							"no_note": $(aktiver_node).attr("id"),
+							"beobid": $(aktiver_node).attr("id"),
 						},
 						success: function (data) {
 							if (data.rows.length > 0) {
@@ -6213,7 +6213,7 @@ function treeKontextmenu(node) {
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
-							"no_note": $(aktiver_node).attr("id")
+							"beobid": $(aktiver_node).attr("id")
 						},
 						success: function (data) {
 							if (data.rows.length > 0) {
@@ -6298,7 +6298,7 @@ function setzeDistanzZurTeilpop(tpopbeob_id, tpop_id) {
 						url: 'php/beob_update.php',
 						dataType: 'json',
 						data: {
-							"id": tpopbeob.NO_NOTE,
+							"id": tpopbeob.BeobId,
 							"Feld": "DistZurTPop",
 							"Wert": Distanz,
 							"user": sessionStorage.User
@@ -6976,7 +6976,7 @@ function zeigeTPopAufKarte(TPopListe) {
 }
 
 function zeigeBeobAufKarte(BeobListe) {
-	var anzBeob, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe;
+	var anzBeob, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe, Datum;
 	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("Karte");
 	window.markersArray = [];
@@ -6984,9 +6984,7 @@ function zeigeBeobAufKarte(BeobListe) {
 	Kartenhoehe = $(window).height() - 50;
 	infowindow = new google.maps.InfoWindow();
 	$("#Karte").css("height", Kartenhoehe + "px");
-	//TPopListe bearbeiten:
-	//Objekte löschen, die keine Koordinaten haben
-	//Lat und Lng ergänzen
+	//Lat und Lng in BeobListe ergänzen
 	for (i in BeobListe.rows) {
 		Beob = BeobListe.rows[i];
 		Beob.Lat = CHtoWGSlat(parseInt(Beob.xGIS), parseInt(Beob.yGIS));
@@ -7019,9 +7017,9 @@ function zeigeBeobAufKarte(BeobListe) {
 			if (Beob.M_NOTE < 10) {
 				Beob.M_NOTE = "0" + Beob.M_NOTE;
 			}
-			Beob.Datum = Beob.J_NOTE + "." + Beob.M_NOTE + "." + Beob.A_NOTE;
+			Datum = Beob.J_NOTE + "." + Beob.M_NOTE + "." + Beob.A_NOTE;
 		} else {
-			Beob.Datum = Beob.A_NOTE;
+			Datum = Beob.A_NOTE;
 		}
 		latlng2 = new google.maps.LatLng(Beob.Lat, Beob.Lng);
 		if (anzBeob === 1) {
@@ -7035,7 +7033,7 @@ function zeigeBeobAufKarte(BeobListe) {
 			map: map,
 			position: latlng2,
 			//title muss String sein
-			title: Beob.Datum.toString(),
+			title: Datum.toString(),
 			labelContent: Beob.A_NOTE.toString(),
 			labelAnchor: new google.maps.Point(75, 0),
 			labelClass: "MapLabel",
@@ -7046,12 +7044,12 @@ function zeigeBeobAufKarte(BeobListe) {
 			'<div id="siteNotice">'+
 			'</div>'+
 			'<div id="bodyContent" class="GmInfowindow">'+
-			'<h3>' + Beob.Datum + '</h3>'+
-			'<p>Autor: ' + Beob.NOM_PERSONNE_OBS + " " + Beob.PRENOM_PERSONNE_OBS + '</p>'+
+			'<h3>' + Datum + '</h3>'+
+			'<p>Autor: ' + Beob.Autor + '</p>'+
 			'<p>Projekt: ' + Beob.PROJET + '</p>'+
 			'<p>Ort: ' + Beob.DESC_LOCALITE + '</p>'+
 			'<p>Koordinaten: ' + Beob.xGIS + ' / ' + Beob.yGIS + '</p>'+
-			"<p><a href=\"#\" onclick=\"oeffneBeob('" + Beob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"oeffneBeob('" + Beob.BeobId + "')\">Formular öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
 		makeListener(map, marker, contentString);
@@ -7096,8 +7094,8 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 	//Lat und Lng ergänzen
 	for (i in TPopBeobListe.rows) {
 		TPopBeob = TPopBeobListe.rows[i];
-		TPopBeob.Lat = CHtoWGSlat(parseInt(TPopBeob.X), parseInt(TPopBeob.Y));
-		TPopBeob.Lng = CHtoWGSlng(parseInt(TPopBeob.X), parseInt(TPopBeob.Y));
+		TPopBeob.Lat = CHtoWGSlat(parseInt(TPopBeob.xGIS), parseInt(TPopBeob.yGIS));
+		TPopBeob.Lng = CHtoWGSlng(parseInt(TPopBeob.xGIS), parseInt(TPopBeob.yGIS));
 	}
 	//TPop zählen
 	anzTPopBeob = TPopBeobListe.rows.length;
@@ -7119,19 +7117,19 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 	markers = [];
 	for (i in TPopBeobListe.rows) {
 		TPopBeob = TPopBeobListe.rows[i];
-		if (TPopBeob.M_NOTE < 10) {
-			Monat = "0".TPopBeob.M_NOTE;
-		} else {
-			Monat = TPopBeob.M_NOTE;
-		}
-		if (TPopBeob.J_NOTE < 10) {
-			Tag = "0".TPopBeob.J_NOTE;
-		} else {
-			Tag = TPopBeob.J_NOTE;
-		}
 		if (!TPopBeob.M_NOTE) {
 			Datum = TPopBeob.A_NOTE;
 		} else {
+			if (TPopBeob.M_NOTE < 10) {
+				Monat = "0" + TPopBeob.M_NOTE;
+			} else {
+				Monat = TPopBeob.M_NOTE;
+			}
+			if (TPopBeob.J_NOTE < 10) {
+				Tag = "0" + TPopBeob.J_NOTE;
+			} else {
+				Tag = TPopBeob.J_NOTE;
+			}
 			Datum = TPopBeob.A_NOTE + "." + Monat + "." + Tag;
 		}
 		latlng2 = new google.maps.LatLng(TPopBeob.Lat, TPopBeob.Lng);
@@ -7159,12 +7157,11 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 			'</div>'+
 			'<div id="bodyContent" class="GmInfowindow">'+
 			'<h3>' + Datum + '</h3>'+
-			'<p>Autor: ' + TPopBeob.NOM_PERSONNE_OBS + " " + TPopBeob.PRENOM_PERSONNE_OBS + '</p>'+
+			'<p>Autor: ' + TPopBeob.Autor + '</p>'+
 			'<p>Projekt: ' + TPopBeob.Projekt + '</p>'+
-			'<p>Raum/Gmde: ' + TPopBeob.RaumGde + '</p>'+
-			'<p>Ort: ' + TPopBeob.Ort + '</p>'+
-			'<p>Koordinaten: ' + TPopBeob.X + ' / ' + TPopBeob.Y + '</p>'+
-			"<p><a href=\"#\" onclick=\"oeffneTPopBeob('" + TPopBeob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
+			'<p>Ort: ' + TPopBeob.DESC_LOCALITE + '</p>'+
+			'<p>Koordinaten: ' + TPopBeob.xGIS + ' / ' + TPopBeob.yGIS + '</p>'+
+			"<p><a href=\"#\" onclick=\"oeffneTPopBeob('" + TPopBeob.BeobId + "')\">Formular öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
 		makeListener(map, marker, contentString);
@@ -7368,16 +7365,16 @@ function oeffneTPop(TPopId) {
 	jQuery("#tree").jstree("select_node", "[typ='tpop']#" + TPopId);
 }
 
-function oeffneBeob(NO_NOTE) {
-	localStorage.NO_NOTE = NO_NOTE;
+function oeffneBeob(BeobId) {
+	localStorage.BeobId = BeobId;
 	initiiere_beob();
-	jQuery.jstree._reference("[typ='beob']#" + NO_NOTE).deselect_all();
-	jQuery("#tree").jstree("select_node", "[typ='beob']#" + NO_NOTE);
+	jQuery.jstree._reference("[typ='beob']#" + BeobId).deselect_all();
+	jQuery("#tree").jstree("select_node", "[typ='beob']#" + BeobId);
 }
 
-function oeffneTPopBeob(NO_NOTE) {
-	localStorage.tpopbeob_id = NO_NOTE;
+function oeffneTPopBeob(BeobId) {
+	localStorage.tpopbeob_id = BeobId;
 	initiiere_tpopbeob();
-	jQuery.jstree._reference("[typ='tpopbeob']#" + NO_NOTE).deselect_all();
-	jQuery("#tree").jstree("select_node", "[typ='tpopbeob']#" + NO_NOTE);
+	jQuery.jstree._reference("[typ='tpopbeob']#" + BeobId).deselect_all();
+	jQuery("#tree").jstree("select_node", "[typ='tpopbeob']#" + BeobId);
 }

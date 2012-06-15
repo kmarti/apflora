@@ -13,11 +13,11 @@ if ($link->connect_errno) {
 mysqli_set_charset($link, "utf8");
 mysqli_set_charset($link2, "utf8");
 
-$no_note = $_GET["no_note"];
-settype($no_note, "integer");
+$beobid = $_GET["beobid"];
+settype($beobid, "integer");
 
 // SQL-Anfrage ausführen
-$result = mysqli_query($link, 'SELECT NO_ISFS, alexande_apflora.tblTeilpopulation.TPopId, xGIS, yGIS, TPopXKoord, TPopYKoord, TPopFlurname, SQRT((xGIS-TPopXKoord)*(xGIS-TPopXKoord)+(yGIS-TPopYKoord)*(yGIS-TPopYKoord)) AS DistZuTPop FROM alexande_beob.tblBeob INNER JOIN (alexande_apflora.tblPopulation INNER JOIN alexande_apflora.tblTeilpopulation ON alexande_apflora.tblPopulation.PopId = alexande_apflora.tblTeilpopulation.PopId) ON NO_ISFS = ApArtId WHERE NO_NOTE ='.$no_note.' ORDER BY DistzuTPop, TPopFlurname');
+$result = mysqli_query($link, 'SELECT NO_ISFS, alexande_apflora.tblTeilpopulation.TPopId, xGIS, yGIS, TPopXKoord, TPopYKoord, TPopFlurname, SQRT((xGIS-TPopXKoord)*(xGIS-TPopXKoord)+(yGIS-TPopYKoord)*(yGIS-TPopYKoord)) AS DistZuTPop FROM alexande_beob.tblBeob INNER JOIN (alexande_apflora.tblPopulation INNER JOIN alexande_apflora.tblTeilpopulation ON alexande_apflora.tblPopulation.PopId = alexande_apflora.tblTeilpopulation.PopId) ON NO_ISFS = ApArtId WHERE BeobId ='.$beobid.' ORDER BY DistzuTPop, TPopFlurname');
 $rows = array();
 while($r = mysqli_fetch_assoc($result)) {
 	$row = array("TPopFlurname" => $r['TPopFlurname'], "TPopId" => $r['TPopId'], "DistZuTPop" => $r['DistZuTPop']);
