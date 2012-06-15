@@ -135,14 +135,17 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 		mysqli_free_result($result_tpopber);
 
 		//Beobachtungen dieser TPop abfragen
-		$result_tpopbeob = mysqli_query($link, "SELECT BeobId, NOM_PERSONNE_OBS, PRENOM_PERSONNE_OBS, J_NOTE, M_NOTE, A_NOTE FROM alexande_beob.tblBeob WHERE TPopId = $TPopId ORDER BY A_NOTE DESC, M_NOTE DESC, J_NOTE DESC");
+		$result_tpopbeob = mysqli_query($link, "SELECT BeobId, Autor, J_NOTE, M_NOTE, A_NOTE FROM alexande_beob.tblBeob WHERE TPopId = $TPopId ORDER BY A_NOTE DESC, M_NOTE DESC, J_NOTE DESC");
 		$anz_tpopbeob = mysqli_num_rows($result_tpopbeob);
 		//Datenstruktur für tpopbeob aufbauen
 		$rows_tpopbeob = array();
 		while($r_tpopbeob = mysqli_fetch_assoc($result_tpopbeob)) {
 			$BeobId = $r_tpopbeob['BeobId'];
-			settype($BeobId, "integer");
-			$Autor = $r_tpopbeob['NOM_PERSONNE_OBS']." ".$r_tpopbeob['PRENOM_PERSONNE_OBS'];
+			if ($r_tpopbeob['Autor'] && $r_tpopbeob['Autor'] <> " ") {
+				$Autor = $r_tpopbeob['Autor'];
+			} else {
+				$Autor = "(kein Autor)";
+			}
 			if ($r_tpopbeob['M_NOTE'] < 10) {
 				$Monat = "0".$r_tpopbeob['M_NOTE'];
 			} else {
@@ -430,14 +433,17 @@ while($r_ber = mysqli_fetch_assoc($result_ber)) {
 mysqli_free_result($result_ber);
 
 //beob dieses AP abfragen
-$result_beob = mysqli_query($link_beob, "SELECT BeobId, NOM_PERSONNE_OBS, PRENOM_PERSONNE_OBS, J_NOTE, M_NOTE, A_NOTE FROM alexande_beob.tblBeob WHERE TPopId IS NULL AND NO_ISFS=$ApArtId ORDER BY A_NOTE DESC, M_NOTE DESC, J_NOTE DESC");
+$result_beob = mysqli_query($link_beob, "SELECT BeobId, Autor, J_NOTE, M_NOTE, A_NOTE FROM alexande_beob.tblBeob WHERE TPopId IS NULL AND NO_ISFS=$ApArtId ORDER BY A_NOTE DESC, M_NOTE DESC, J_NOTE DESC");
 $anz_beob = mysqli_num_rows($result_beob);
 //beob aufbauen
 $rows_beob = array();
 while($r_beob = mysqli_fetch_assoc($result_beob)) {
 	$beobid = $r_beob['BeobId'];
-	settype($beobid, "integer");
-	$beobAutor = $r_beob['NOM_PERSONNE_OBS']." ".$r_beob['PRENOM_PERSONNE_OBS'];
+	if ($r_beob['Autor'] && $r_beob['Autor'] <> " ") {
+		$beobAutor = $r_beob['Autor'];
+	} else {
+		$beobAutor = "(kein Autor)";
+	}
 	if ($r_beob['M_NOTE'] < 10) {
 		$Monat = "0".$r_beob['M_NOTE'];
 	} else {

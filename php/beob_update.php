@@ -12,13 +12,12 @@ if ($link->connect_errno) {
 mysqli_set_charset($link, "utf8");
 
 $id = $_GET["id"];
-settype($id, "integer");
 $Feld = $_GET["Feld"];
 $Wert = $_GET["Wert"];
 $user = $_GET["user"];
 $time = date('Y-m-d H:i:s');
 
-$Querystring = 'UPDATE tblBeob SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE BeobId = '.$id;
+$Querystring = 'UPDATE tblBeob SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE BeobId = "'.$id.'"';
 
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);

@@ -1163,14 +1163,13 @@ function initiiere_tpopbeob() {
 				$("#tpopbeob_IdEvab").val(data.IdEvab);
 				$("#tpopbeob_Projekt").val(data.Projekt);
 				$("#tpopbeob_RaumGde").val(data.RaumGde);
-				$("#tpopbeob_Ort").val(data.TPop);
+				$("#tpopbeob_Ort").val(data.Ort);
 				$("#tpopbeob_X").val(data.X);
 				$("#tpopbeob_Y").val(data.Y);
 				$("#tpopbeob_Datum").val(data.Datum);
 				$("#tpopbeob_Jahr").val(data.Jahr);
 				$("#tpopbeob_Anzahl").val(data.Anzahl);
 				$("#tpopbeob_Autor").val(data.Autor);
-				$("#tpopbeob_Herkunft").val(data.Herkunft);
 				//nochmals tpop_id setzen, damit es sicher da ist
 				//wird benötigt, falls node verschoben wird
 				localStorage.tpop_id = data.TPopId;
@@ -1247,14 +1246,13 @@ function initiiere_beob() {
 				$("#beob_IdEvab").val(data.IdEvab);
 				$("#beob_Projekt").val(data.Projekt);
 				$("#beob_RaumGde").val(data.RaumGde);
-				$("#beob_Ort").val(data.TPop);
+				$("#beob_Ort").val(data.Ort);
 				$("#beob_X").val(data.X);
 				$("#beob_Y").val(data.Y);
 				$("#beob_Datum").val(data.Datum);
 				$("#beob_Jahr").val(data.Jahr);
 				//$("#beob_Anzahl").val(data.Anzahl);
 				$("#beob_Autor").val(data.Autor);
-				$("#beob_Herkunft").val(data.Herkunft);
 				//Distanzen zu TPop berechnen
 				$.ajax({
 					url: 'php/beob_zuweisen.php',
@@ -7040,14 +7038,17 @@ function zeigeBeobAufKarte(BeobListe) {
 			icon: "img/flora_icon_violett.png"
 		});
 		markers.push(marker);
+		var Autor = Beob.Autor || "(keiner)";
+		var Projekt = Beob.PROJET || "(keines)";
+		var Ort = Beob.DESC_LOCALITE || "(keiner)";
 		contentString = '<div id="content">'+
 			'<div id="siteNotice">'+
 			'</div>'+
 			'<div id="bodyContent" class="GmInfowindow">'+
 			'<h3>' + Datum + '</h3>'+
-			'<p>Autor: ' + Beob.Autor + '</p>'+
-			'<p>Projekt: ' + Beob.PROJET + '</p>'+
-			'<p>Ort: ' + Beob.DESC_LOCALITE + '</p>'+
+			'<p>Autor: ' + Autor + '</p>'+
+			'<p>Projekt: ' + Projekt + '</p>'+
+			'<p>Ort: ' + Ort + '</p>'+
 			'<p>Koordinaten: ' + Beob.xGIS + ' / ' + Beob.yGIS + '</p>'+
 			"<p><a href=\"#\" onclick=\"oeffneBeob('" + Beob.BeobId + "')\">Formular öffnen<\/a></p>"+
 			'</div>'+
@@ -7151,15 +7152,17 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 			icon: "img/flora_icon_violett.png"
 		});
 		markers.push(marker);
-		
+		var Autor = TPopBeob.Autor || "(keiner)";
+		var Projekt = TPopBeob.Projekt || "(keines)";
+		var Ort = TPopBeob.DESC_LOCALITE || "(keiner)";
 		contentString = '<div id="content">'+
 			'<div id="siteNotice">'+
 			'</div>'+
 			'<div id="bodyContent" class="GmInfowindow">'+
 			'<h3>' + Datum + '</h3>'+
-			'<p>Autor: ' + TPopBeob.Autor + '</p>'+
-			'<p>Projekt: ' + TPopBeob.Projekt + '</p>'+
-			'<p>Ort: ' + TPopBeob.DESC_LOCALITE + '</p>'+
+			'<p>Autor: ' + Autor + '</p>'+
+			'<p>Projekt: ' + Projekt + '</p>'+
+			'<p>Ort: ' + Ort + '</p>'+
 			'<p>Koordinaten: ' + TPopBeob.xGIS + ' / ' + TPopBeob.yGIS + '</p>'+
 			"<p><a href=\"#\" onclick=\"oeffneTPopBeob('" + TPopBeob.BeobId + "')\">Formular öffnen<\/a></p>"+
 			'</div>'+
@@ -7361,20 +7364,20 @@ function clearInfoWindows() {
 function oeffneTPop(TPopId) {
 	localStorage.tpop_id = TPopId;
 	initiiere_tpop();
-	jQuery.jstree._reference("[typ='tpop']#" + TPopId).deselect_all();
+	jQuery.jstree._reference("[typ='tpop']#" + TPopId).deselect_all("[typ='tpop']#" + TPopId);
 	jQuery("#tree").jstree("select_node", "[typ='tpop']#" + TPopId);
 }
 
 function oeffneBeob(BeobId) {
 	localStorage.BeobId = BeobId;
 	initiiere_beob();
-	jQuery.jstree._reference("[typ='beob']#" + BeobId).deselect_all();
+	jQuery.jstree._reference("[typ='beob']#" + BeobId).deselect_all("[typ='beob']#" + BeobId);
 	jQuery("#tree").jstree("select_node", "[typ='beob']#" + BeobId);
 }
 
 function oeffneTPopBeob(BeobId) {
 	localStorage.tpopbeob_id = BeobId;
 	initiiere_tpopbeob();
-	jQuery.jstree._reference("[typ='tpopbeob']#" + BeobId).deselect_all();
+	jQuery.jstree._reference("[typ='tpopbeob']#" + BeobId).deselect_all("[typ='tpopbeob']#" + BeobId);
 	jQuery("#tree").jstree("select_node", "[typ='tpopbeob']#" + BeobId);
 }
