@@ -1676,7 +1676,7 @@ function erstelle_tree(ApArtId) {
 				}
 			}
 		},
-		"plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "contextmenu", "dnd", "types"]
+		"plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "contextmenu", "types"]
 	})
 	.show()
 	.bind("select_node.jstree", function (e, data) {
