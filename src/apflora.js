@@ -4569,8 +4569,102 @@ function treeKontextmenu(node) {
 						}
 					});
 				}
+			},
+			"biotop_kopieren": {
+				"label": "Biotop kopieren",
+				"separator_before": true,
+				"icon": "style/images/kopieren.png",
+				"action": function () {
+					delete window.feldkontr_biotop;
+					window.feldkontr_biotop = {};
+					if ($("#TPopKontrFlaeche").val()) {
+						window.feldkontr_biotop.TPopKontrFlaeche = $("#TPopKontrFlaeche").val();
+					}
+					if ($("#TPopKontrLeb").val()) {
+						window.feldkontr_biotop.TPopKontrLeb = $("#TPopKontrLeb").val();
+					}
+					if ($("#TPopKontrLebUmg").val()) {
+						window.feldkontr_biotop.TPopKontrLebUmg = $("#TPopKontrLebUmg").val();
+					}
+					if ($("#TPopKontrVegTyp").val()) {
+						window.feldkontr_biotop.TPopKontrVegTyp = $("#TPopKontrVegTyp").val();
+					}
+					if ($("#TPopKontrKonkurrenz").val()) {
+						window.feldkontr_biotop.TPopKontrKonkurrenz = $("#TPopKontrKonkurrenz").val();
+					}
+					if ($("#TPopKontrMoosschicht").val()) {
+						window.feldkontr_biotop.TPopKontrMoosschicht = $("#TPopKontrMoosschicht").val();
+					}
+					if ($("#TPopKontrKrautschicht").val()) {
+						window.feldkontr_biotop.TPopKontrKrautschicht = $("#TPopKontrKrautschicht").val();
+					}
+					if ($("#TPopKontrStrauchschicht").val()) {
+						window.feldkontr_biotop.TPopKontrStrauchschicht = $("#TPopKontrStrauchschicht").val();
+					}
+					if ($("#TPopKontrBaumschicht").val()) {
+						window.feldkontr_biotop.TPopKontrBaumschicht = $("#TPopKontrBaumschicht").val();
+					}
+					if ($("#TPopKontrBodenTyp").val()) {
+						window.feldkontr_biotop.TPopKontrBodenTyp = $("#TPopKontrBodenTyp").val();
+					}
+					if ($("#TPopKontrBodenKalkgehalt").val()) {
+						window.feldkontr_biotop.TPopKontrBodenKalkgehalt = $("#TPopKontrBodenKalkgehalt").val();
+					}
+					if ($("#TPopKontrBodenDurchlässigkeit").val()) {
+						window.feldkontr_biotop.TPopKontrBodenDurchlässigkeit = $("#TPopKontrBodenDurchlässigkeit").val();
+					}
+					if ($("#TPopKontrBodenHumus").val()) {
+						window.feldkontr_biotop.TPopKontrBodenHumus = $("#TPopKontrBodenHumus").val();
+					}
+					if ($("#TPopKontrBodenNährstoffgehalt").val()) {
+						window.feldkontr_biotop.TPopKontrBodenNährstoffgehalt = $("#TPopKontrBodenNährstoffgehalt").val();
+					}
+					if ($("#TPopKontrBodenAbtrag").val()) {
+						window.feldkontr_biotop.TPopKontrBodenAbtrag = $("#TPopKontrBodenAbtrag").val();
+					}
+					if ($("#TPopKontrWasserhaushalt").val()) {
+						window.feldkontr_biotop.TPopKontrWasserhaushalt = $("#TPopKontrWasserhaushalt").val();
+					}
+					if ($("#TPopKontrHandlungsbedarf").val()) {
+						window.feldkontr_biotop.TPopKontrHandlungsbedarf = $("#TPopKontrHandlungsbedarf").val();
+					}
+				}
 			}
 		};
+		if (window.feldkontr_biotop) {
+			items.biotop_einfuegen = {
+				"label": "Biotop einfügen",
+				"separator_before": true,
+				"icon": "style/images/einfuegen.png",
+				"action": function () {
+					var url_string = "?id=" + $(aktiver_node).attr("id") + "&user=" + sessionStorage.User;
+					for (i in window.feldkontr_biotop) {
+						if (typeof i !== "function") {
+							$("#" + i).val(window.feldkontr_biotop[i]);
+							url_string += "&" + i + "=" + window.feldkontr_biotop[i];
+						}
+					}
+					//jetzt alles speichern
+					$.ajax({
+						url: 'php/tpopfeldkontr_update_multiple.php' + url_string,
+						dataType: 'json',
+						success: function () {
+						},
+						error: function (data) {
+							$("#Meldung").html("Fehler: Das kopierte Biotop wurde nicht in der Datenbank gespeichert");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		}
 		if (!window.tpopfeldkontr_node_ausgeschnitten) {
 			items.ausschneiden = {
 				"label": "ausschneiden",
