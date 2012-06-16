@@ -69,6 +69,10 @@
 						<input type="radio" name="ApUmsetzung" class="speichern" formular="ap" id="ApUmsetzung2" value="2" />umgesetzt
 					</div>
 				</div>
+				<div class='fieldcontain'>
+					<label id="ApArtwert_label" for='ApArtwert'>Artwert:</label>
+					<input id="ApArtwert" name="ApArtwert" class="speichern Datenfelder" formular="ap" type="number" readonly="readonly"/>
+				</div>
 			</form>
 
 			<form id="pop" class="form" action="#" method="get" autocomplete="off">
@@ -409,7 +413,7 @@
 							<label id="TPopKontrFlaeche_label" for='TPopKontrFlaeche'>Fläche:</label>
 							<input id="TPopKontrFlaeche" name="TPopKontrFlaeche" class="speichern Datenfelder" formular="tpopfeldkontr" type="number"/>
 						</div>
-						<fieldset>
+						<fieldset style="background:none;">
 							<legend>Vegetation</legend>
 							<div class='fieldcontain TPopKontrLeb'>
 								<label id="TPopKontrLeb_label" for='TPopKontrLeb' style="width:115px">Lebensraum nach Delarze:</label>
@@ -448,7 +452,7 @@
 								<input id="TPopKontrBaumschicht" name="TPopKontrBaumschicht" class="speichern Datenfelder" formular="tpopfeldkontr" type="text"/>
 							</div>
 						</fieldset>
-						<fieldset>
+						<fieldset style="background:none;">
 							<legend>Boden</legend>
 							<div class='fieldcontain TPopKontrBodenTyp'>
 								<label id="TPopKontrBodenTyp_label" for='TPopKontrBodenTyp' style="width:115px">Typ:</label>
@@ -984,7 +988,7 @@
 					<input id="tpopbeob_Autor" name="tpopbeob_Autor" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly"/>
 				</div>
 				<div class='fieldcontain tpopbeob_DistZuTPop'>
-					<label id="tpopbeob_DistZuTPop_label" for='tpopbeob_DistZuTPop'>Einer Teilpopulation zuweisen:</label>
+					<label id="tpopbeob_DistZuTPop_label" for='tpopbeob_DistZuTPop' style="font-weight:bold;">Einer Teilpopulation zuweisen:</label>
 					<div class="Datenfelder" id="tpopbeob_DistZuTPop_Felder">
 						
 					</div>
@@ -1041,7 +1045,7 @@
 					<input id="beob_Autor" name="beob_Autor" class="Datenfelder" formular="beob" type="text" readonly="readonly"/>
 				</div>
 				<div class='fieldcontain DistZuTPop'>
-					<label id="DistZuTPop_label" for='DistZuTPop'>Einer Teilpopulation zuweisen:</label>
+					<label id="DistZuTPop_label" for='DistZuTPop' style="font-weight:bold;">Einer Teilpopulation zuweisen:</label>
 					<div class="Datenfelder" id="DistZuTPop_Felder">
 						
 					</div>
@@ -1295,6 +1299,7 @@
 											$("#suchen").hide();
 											$("#ap_loeschen").hide();
 											$("#ap").hide();
+											$("#forms").hide();
 										},
 										error: function (data) {
 											var Meldung;

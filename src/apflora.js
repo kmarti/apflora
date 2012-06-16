@@ -17,6 +17,7 @@ function initiiere_index() {
 	$("#IbErstelldatum").datepicker({ dateFormat: "dd.mm.yy", defaultDate: +0 });
 	//Auswahllisten aufbauen
 	erstelle_ap_liste("programm_alle");
+	$("#ap_loeschen").hide();
 	erstelle_ApArtId_liste();
 }
 
@@ -51,6 +52,7 @@ function initiiere_ap() {
 					$("#ApUmsetzung" + data.ApUmsetzung).prop("checked", true);
 					$("#ApArtId").val(data.ApArtId);
 					$("#ApJahr").val(data.ApJahr);
+					$("#ApArtwert").val(data.ApArtwert);
 					//Formulare blenden
 					zeigeFormular("ap");
 					$("#ap_loeschen").show();
@@ -764,7 +766,7 @@ function initiiere_tpopfeldkontr() {
 	setzeFeldbreiten();
 	//alle Felder ausblenden. Später werden die benötigten eingeblendet
 	blendeFelderVonFormularAus("tpopfeldkontr");
-	//Daten für die pop aus der DB holen
+	//Daten für die tpopfeldkontr aus der DB holen
 	$.ajax({
 		url: 'php/tpopfeldkontr.php',
 		dataType: 'json',
@@ -772,6 +774,7 @@ function initiiere_tpopfeldkontr() {
 			"id": localStorage.tpopfeldkontr_id
 		},
 		success: function (data) {
+			var Felderarray;
 			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
 				//ap bereitstellen
@@ -933,32 +936,46 @@ function initiiere_tpopfeldkontr() {
 					$("#TPopKontrVegHöMit").val(data.TPopKontrVegHöMit);
 					$("#TPopKontrGefährdung").val(data.TPopKontrGefährdung);
 				}
-				//benötigte Felder einblenden
+				//fieldcontain-divs der benötigten Felder einblenden
 				if (localStorage.tpopfreiwkontr) {
-					blendeFelderEin(feldliste_freiwkontr);
+					Felderarray = feldliste_freiwkontr;
 				} else {
-					blendeFelderEin(feldliste_feldkontr);
+					Felderarray = feldliste_feldkontr;
+				}
+				for (i in Felderarray) {
+					if (typeof i !== "function") {
+						$("." + Felderarray[i]).show();
+					}
 				}
 				//Formulare blenden
 				zeigeFormular("tpopfeldkontr");
 				//Register in Feldkontr blenden
 				if (localStorage.tpopfreiwkontr) {
+					//$("#tpopfeldkontr_tabs_biotop").hide();
 					$("#tpopfeldkontr_tabs_biotop").show();
 					$("#biotop_tab_li").hide();
 				} else {
+					//$("#tpopfeldkontr_tabs_biotop").hide();
 					$("#tpopfeldkontr_tabs_biotop").show();
+					//$("#biotop_tab_li").hide();
 					$("#biotop_tab_li").show();
 				}
 				//bei neuen Freiwilligen-Kontrollen Fokus steuern
 				if (localStorage.tpopfreiwkontr) {
-					if (!$("#TPopKontrJahr").val()) {
+					setTimeout(function() {
+						$("#TPopKontrJahr").focus();
+						$(window).scrollTop(0);
+					}, 100);
+					/*if (!$("#TPopKontrJahr").val()) {
 						setTimeout(function() {
 							$("#TPopKontrJahr").focus();
+							$(window).scrollTop(0);
 						}, 100);
-					}
+					}*/
 				} else {
 					setTimeout(function() {
 						$("#TPopKontrTyp").focus();
+						$(window).scrollTop(0);
 					}, 100);
 				}
 			}
@@ -1339,15 +1356,15 @@ function zeigeFormular(Formularname) {
 	if (Formularname) {
 		$("#forms").show();
 		$('form').each(function() {
+			$(this).hide();
+		});
+		$('form').each(function() {
 			if ($(this).attr("id") === Formularname) {
 				$(this).show();
 				$('textarea').each(function () {
 					$(this).trigger('focus');
 				});
-			} else {
-				$(this).hide();
 			}
-			
 		});
 	} else {
 		$("#forms").hide();
@@ -1355,8 +1372,6 @@ function zeigeFormular(Formularname) {
 			$(this).hide();
 		});
 	}
-	//setzeFormhoehe();
-	//$("#forms").scrollTop(0);
 	$(window).scrollTop(0);
 }
 
@@ -1404,7 +1419,7 @@ function setzeFeldbreiten() {
 	$('#forms input[type="text"], #forms input[type="url"], #forms select, #forms textarea').each(function() {
 		if ($(this).attr("formular") === "tpopfeldkontr") {
 			//hier hats tabs, Felder müssen schmaler sein als normal
-			$(this).width($(window).width() - 735);
+			$(this).width($(window).width() - 705);
 		} else if ($(this).attr("formular") === "iballg") {
 			//hier hats fieldsets, Felder müssen schmaler sein als normal
 			$(this).width($(window).width() - 705);
@@ -1416,10 +1431,10 @@ function setzeFeldbreiten() {
 	$('#forms input[type="number"], #forms input[type="date"]').each(function() {
 		if ($(this).attr("formular") === "tpopfeldkontr") {
 			//hier hats tabs, Felder müssen schmaler sein als normal
-			if (($(window).width() - 735) > 200) {
+			if (($(window).width() - 705) > 200) {
 				$(this).width(200);
 			} else {
-				$(this).width($(window).width() - 730);
+				$(this).width($(window).width() - 705);
 			}
 		} else if ($(this).attr("formular") === "iballg") {
 			//hier hats fieldsets, Felder müssen schmaler sein als normal
@@ -1467,17 +1482,6 @@ function blendeFelderVonFormularAus(Formular) {
 	$('#' + Formular + ' .fieldcontain').each(function() {
 		$(this).hide();
 	});
-}
-
-//übernimmt einen Array mit Feldnamen
-//blendet die fieldcontain-divs dieser Felder ein
-//wird benutzt von Formular Feldkontrolle
-function blendeFelderEin(Felderarray) {
-	for (i in Felderarray) {
-		if (typeof i !== "function") {
-			$("." + Felderarray[i]).show();
-		}
-	}
 }
 
 function erstelle_ap_liste(programm) {
@@ -4517,7 +4521,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"loeschen": {
-				"label": "löschen",
+				"label": "Feldkontrolle löschen",
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
@@ -4667,7 +4671,7 @@ function treeKontextmenu(node) {
 		}
 		if (!window.tpopfeldkontr_node_ausgeschnitten) {
 			items.ausschneiden = {
-				"label": "ausschneiden",
+				"label": "Feldkontrolle ausschneiden",
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
@@ -4681,7 +4685,7 @@ function treeKontextmenu(node) {
 		}
 		if (!window.tpopfeldkontr_node_ausgeschnitten) {
 			items.kopieren = {
-				"label": "kopieren",
+				"label": "Feldkontrolle kopieren",
 				"separator_before": true,
 				"icon": "style/images/kopieren.png",
 				"action": function () {

@@ -17,9 +17,16 @@ $user = $_GET["user"];
 $time = date('Y-m-d H:i:s');
 
 $Querystring = 'INSERT INTO tblAktionsplan (ApArtId, MutWann, MutWer) VALUES ('.$id.', "'.$time.'", "'.$user.'")';
-
-// SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);
+
+$Querystring2 = 'SELECT AwArtwert FROM ArtenDb_tblFloraFnsArtwert WHERE SisfNr='.$id;
+$result2 = mysqli_query($link, $Querystring2);
+$row = mysqli_fetch_assoc($result2);
+$Artwert = $row["AwArtwert"];
+
+$Querystring3 = 'UPDATE tblAktionsplan SET ApArtwert="'.$Artwert.'" WHERE ApArtId = '.$id;
+$result3 = mysqli_query($link, $Querystring3);
+
 
 if (!$result) {
 	print "Fehler: Es wurde kein neues Programm gespeichert";
