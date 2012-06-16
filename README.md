@@ -15,13 +15,16 @@ Die Anwendung gibt es schon. Sie basiert auf Microsoft Access, das über ODBC au
 - Nodes wie Teilpopulationen und Feldkontrollen können im Baum zu anderen nodes desselben Typs verschoben oder kopiert werden (Klick auf den node mit der rechten Maustaste)
 - Schnelle Ladezeiten: Steuerung mit Ajax, Datensätze und -listen als Objekte im Arbeitsspeicher behalten
 - Suchfunktion im Baum
+- Artbeobachtungen aus EvAB: Zuerst mit Access uploaden, dann in dieser Anwendung zuweisen
 - Beim erneuten Einstieg weiterarbeiten, wo man aufgehört hat?
 
 #Einschränkungen
-- Abfragen und Exporte vorläufig noch in Access ausführen (muss wohl sowieso flexibilisiert werden)
-- Artbeobachtungen aus EvAB: Zuerst mit Access uploaden, dann in dieser Anwendung zuweisen
+- Abfragen und Exporte weiterhin noch in Access ausführen (muss wohl sowieso flexibilisiert werden)
 - Berichte vermutlich langfristig weiterhin in Access erstellen (aufwändig und schwierig umzusetzen)
 
 #Roadmap
 Jetzt beginnt die Phase, in der die Anwendung durch die AnwenderInnen getestet wird.
 Bewährt sie sich, wird sie die alte Anwendung ersetzen.
+
+#Open source
+Die verwendete Lizenz ist sehr freizügig. Neben dem Code steht auch die Datenstruktur als Download zur Verfügung. Die eigentlichen Daten aber, mit denen gearbeitet wird, gehören der Fachstelle Naturschutz des Kantons Zürich und stehen nicht zur freien Verfügung.
