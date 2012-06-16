@@ -24,7 +24,7 @@ Die Anwendung gibt es schon. Sie basiert auf Microsoft Access, das über ODBC au
 
 #Roadmap
 Jetzt beginnt die Phase, in der die Anwendung durch die AnwenderInnen getestet wird.
-Bewährt sie sich, wird sie die alte Anwendung ersetzen.
+Bewährt sie sich, wird sie die alte Access-Anwendung ersetzen.
 
 #Open source
 Die verwendete Lizenz ist sehr freizügig. Neben dem Code steht auch die Datenstruktur als Download zur Verfügung. Die eigentlichen Daten aber, mit denen gearbeitet wird, gehören der Fachstelle Naturschutz des Kantons Zürich und stehen nicht zur freien Verfügung.
