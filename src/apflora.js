@@ -4596,7 +4596,7 @@ function treeKontextmenu(node) {
 		};
 		if (!window.tpop_node_ausgeschnitten) {
 			items.ausschneiden = {
-				"label": "ausschneiden",
+				"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
@@ -5310,7 +5310,7 @@ function treeKontextmenu(node) {
 		}
 		if (!window.tpopfeldkontr_node_ausgeschnitten) {
 			items.ausschneiden = {
-				"label": "Feldkontrolle ausschneiden",
+				"label": "Feldkontrolle ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
@@ -5673,7 +5673,7 @@ function treeKontextmenu(node) {
 		};
 		if (!window.tpopfreiwkontr_node_ausgeschnitten) {
 			items.ausschneiden = {
-				"label": "ausschneiden",
+				"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
@@ -6033,7 +6033,7 @@ function treeKontextmenu(node) {
 		};
 		if (!window.tpopmassn_node_ausgeschnitten) {
 			items.ausschneiden = {
-				"label": "ausschneiden",
+				"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
@@ -6445,7 +6445,7 @@ function treeKontextmenu(node) {
 		};
 		if (!window.tpopbeob_node_ausgeschnitten) {
 			items.ausschneiden = {
-				"label": "ausschneiden",
+				"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
@@ -6754,7 +6754,7 @@ function treeKontextmenu(node) {
 		}
 		if (!window.beob_node_ausgeschnitten) {
 			items.ausschneiden = {
-				"label": "ausschneiden",
+				"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
