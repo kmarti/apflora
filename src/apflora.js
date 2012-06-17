@@ -1540,6 +1540,7 @@ function erstelle_tree(ApArtId) {
 			"move": {
 				"default_position": "last",
 				"check_move": function (m) {
+					//hier wird bestimmt, welche drag-drop-Kombinationen zulässig sind
 					if (m.o.attr("typ") === "tpop") {
 						if (m.r.attr("typ") === "tpop") {
 							return {
@@ -1548,6 +1549,22 @@ function erstelle_tree(ApArtId) {
 								inside: false
 							};
 						} else if (m.r.attr("typ") === "pop_ordner_tpop") {
+							return {
+								after: false,
+								before: false,
+								inside: true
+							};
+						} else {
+							return false;
+						}
+					} else if (m.o.attr("typ") === "tpopmassn") {
+						if (m.r.attr("typ") === "tpopmassn") {
+							return {
+								after: true,
+								before: true,
+								inside: false
+							};
+						} else if (m.r.attr("typ") === "tpop_ordner_massn") {
 							return {
 								after: false,
 								before: false,
@@ -1930,7 +1947,78 @@ function erstelle_tree(ApArtId) {
 			}
 		}
 		if (herkunft_node.attr("typ") === "tpopmassn") {
-			
+			if (ziel_node.attr("typ") === "tpopmassn") {
+				$.ajax({
+					url: 'php/tpopmassn_einfuegen.php',
+					dataType: 'json',
+					data: {
+						"tpop_id": $(ziel_parent_node).attr("id"),
+						"tpopmassn_id": $(herkunft_node).attr("id"),
+						"user": sessionStorage.User
+					},
+					success: function () {
+						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+						beschrifte_tpop_ordner_massn(ziel_parent_node);
+						beschrifte_tpop_ordner_massn(window.herkunft_parent_node);
+						//selection steuern
+						jQuery.jstree._reference(herkunft_node).deselect_all();
+						jQuery.jstree._reference(ziel_parent_node).select_node(herkunft_node);
+						//Variabeln aufräumen
+						localStorage.tpopmassn_id = $(herkunft_node).attr("id");
+						delete window.tpopmassn;
+						delete window.tpopmassn_node_ausgeschnitten;
+						delete window.herkunft_parent_node;
+						initiiere_tpopmassn();
+					},
+					error: function (data) {
+						$("#Meldung").html("Fehler: Die Massnahme wurde nicht verschoben");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+					}
+				});
+			}
+			if (ziel_node.attr("typ") === "tpop_ordner_massn") {
+				$.ajax({
+					url: 'php/tpopmassn_einfuegen.php',
+					dataType: 'json',
+					data: {
+						"tpop_id": $(ziel_node).attr("id"),
+						"tpopmassn_id": $(herkunft_node).attr("id"),
+						"user": sessionStorage.User
+					},
+					success: function () {
+						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+						beschrifte_tpop_ordner_massn(ziel_node);
+						beschrifte_tpop_ordner_massn(window.herkunft_parent_node);
+						//selection steuern
+						jQuery.jstree._reference(herkunft_node).deselect_all();
+						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+						//Variabeln aufräumen
+						localStorage.tpopmassn_id = $(herkunft_node).attr("id");
+						delete window.tpopmassn;
+						delete window.tpopmassn_node_ausgeschnitten;
+						delete window.herkunft_parent_node;
+						initiiere_tpopmassn();
+					},
+					error: function (data) {
+						$("#Meldung").html("Fehler: Die Massnahme wurde nicht verschoben");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+					}
+				});
+			}
 		}
 		if (herkunft_node.attr("typ") === "tpopfeldkontr") {
 
@@ -1939,6 +2027,9 @@ function erstelle_tree(ApArtId) {
 
 		}
 		if (herkunft_node.attr("typ") === "tpopbeob") {
+
+		}
+		if (herkunft_node.attr("typ") === "beob") {
 
 		}
 	})
@@ -1953,6 +2044,18 @@ function beschrifte_pop_ordner_tpop(node) {
 		anzTxt = anz + " Teilpopulation";
 	} else {
 		anzTxt = anz + " Teilpopulationen";
+	}
+	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+}
+
+//übernimmt einen node
+//zählt dessen children und passt die Beschriftung an
+function beschrifte_tpop_ordner_massn(node) {
+	anz = $(node).find("> ul > li").length;
+	if (anz === 1) {
+		anzTxt = anz + " Massnahme";
+	} else {
+		anzTxt = anz + " Massnahmen";
 	}
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
@@ -5440,46 +5543,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					$.ajax({
-						url: 'php/tpopmassn_einfuegen.php',
-						dataType: 'json',
-						data: {
-							"tpop_id": $(aktiver_node).attr("id"),
-							"tpopmassn_id": $(window.tpopmassn_node_ausgeschnitten).attr("id"),
-							"user": sessionStorage.User
-						},
-						success: function () {
-							var anz, anzTxt;
-							//node verschieben
-							jQuery.jstree._reference(aktiver_node).move_node(window.tpopmassn_node_ausgeschnitten, aktiver_node, "last", false);
-							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(aktiver_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Massnahme";
-							} else {
-								anzTxt = anz + " Massnahmen";
-							}
-							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(aktiver_node).select_node(window.tpopmassn_node_ausgeschnitten);
-							//Variabeln aufräumen
-							localStorage.tpopmassn_id = $(window.tpopmassn_node_ausgeschnitten).attr("id");
-							delete window.tpopmassn;
-							delete window.tpopmassn_node_ausgeschnitten;
-							initiiere_tpopmassn();
-						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Die Massnahme wurde nicht verschoben");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
-						}
-					});
+					jQuery.jstree._reference(aktiver_node).move_node(window.tpopmassn_node_ausgeschnitten, aktiver_node, "last", false);
 				}
 			}
 		}
@@ -5708,47 +5772,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					$.ajax({
-						url: 'php/tpopmassn_einfuegen.php',
-						dataType: 'json',
-						data: {
-							"tpop_id": $(parent_node).attr("id"),
-							"tpopmassn_id": $(aktiver_node).attr("id"),
-							"user": sessionStorage.User
-						},
-						success: function () {
-							var anz, anzTxt;
-							//node verschieben
-							parent_node = jQuery.jstree._reference(aktiver_node)._get_parent(aktiver_node);
-							jQuery.jstree._reference(parent_node).move_node(window.tpopmassn_node_ausgeschnitten, parent_node, "last", false);
-							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Massnahme";
-							} else {
-								anzTxt = anz + " Massnahmen";
-							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(parent_node).select_node(window.tpopmassn_node_ausgeschnitten);
-							//Variabeln aufräumen
-							localStorage.tpopmassn_id = $(window.tpopmassn_node_ausgeschnitten).attr("id");
-							delete window.tpopmassn;
-							delete window.tpopmassn_node_ausgeschnitten;
-							initiiere_tpopmassn();
-						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Die Massnahme wurde nicht verschoben");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
-						}
-					});
+					jQuery.jstree._reference(parent_node).move_node(window.tpopmassn_node_ausgeschnitten, parent_node, "last", false);
 				}
 			}
 		}
