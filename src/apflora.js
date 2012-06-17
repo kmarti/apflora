@@ -1643,10 +1643,10 @@ function erstelle_tree(ApArtId) {
 					"valid_children": "apziel"
 				},
 				"apziel": {
-					"valid_children": "ziel_ordner",
+					"valid_children": "zielber_ordner",
 					"new_node": "neues AP-Ziel"
 				},
-				"ziel_ordner": {
+				"zielber_ordner": {
 					"valid_children": "zielber"
 				},
 				"zielber": {
@@ -1724,7 +1724,7 @@ function erstelle_tree(ApArtId) {
 				localStorage.pop_id = node.attr("id");
 				initiiere_pop();
 			}
-		} else if (node.attr("typ") === "apziel" || node.attr("typ") === "ziel_ordner") {
+		} else if (node.attr("typ") === "apziel" || node.attr("typ") === "zielber_ordner") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#apziel").is(':visible') || localStorage.apziel_id !== node.attr("id")) {
 				localStorage.apziel_id = node.attr("id");
@@ -1929,6 +1929,18 @@ function erstelle_tree(ApArtId) {
 				});
 			}
 		}
+		if (herkunft_node.attr("typ") === "tpopmassn") {
+			
+		}
+		if (herkunft_node.attr("typ") === "tpopfeldkontr") {
+
+		}
+		if (herkunft_node.attr("typ") === "tpopfreiwkontr") {
+
+		}
+		if (herkunft_node.attr("typ") === "tpopbeob") {
+
+		}
 	})
 	$("#suchen").show();
 }
@@ -2118,7 +2130,7 @@ function treeKontextmenu(node) {
 								"data": "0 Ziel-Berichte",
 								"attr": {
 									"id": data,
-									"typ": "ziel_ordner"
+									"typ": "zielber_ordner"
 								}
 							});
 							initiiere_apziel();
@@ -2185,7 +2197,7 @@ function treeKontextmenu(node) {
 								"data": "0 Ziel-Berichte",
 								"attr": {
 									"id": data,
-									"typ": "ziel_ordner"
+									"typ": "zielber_ordner"
 								}
 							});
 							initiiere_apziel();
@@ -2261,7 +2273,7 @@ function treeKontextmenu(node) {
 								"data": "0 Ziel-Berichte",
 								"attr": {
 									"id": data,
-									"typ": "ziel_ordner"
+									"typ": "zielber_ordner"
 								}
 							});
 							initiiere_apziel();
@@ -2348,7 +2360,7 @@ function treeKontextmenu(node) {
 			}
 		};
 		return items;
-	case "ziel_ordner":
+	case "zielber_ordner":
 		items = {
 			"neu": {
 				"label": "neuer Ziel-Bericht",
@@ -6779,7 +6791,7 @@ function speichern(that) {
 			break;
 		case "ZielBerJahr":
 		case "ZielBerErreichung":
-			jQuery("#tree").jstree("rename_node", "[typ='ziel_ordner'] #" + localStorage.zielber_id, $("#ZielBerJahr").val() + ": " + $("#ZielBerErreichung").val());
+			jQuery("#tree").jstree("rename_node", "[typ='zielber_ordner'] #" + localStorage.zielber_id, $("#ZielBerJahr").val() + ": " + $("#ZielBerErreichung").val());
 			break;
 		case "ErfBeurtZielSkalaErreichungsgrad":
 			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_erfkrit'] #" + localStorage.erfkrit_id, $("#SpanErfBeurtZielSkalaErreichungsgrad" + Feldwert).text());
