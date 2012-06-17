@@ -1954,7 +1954,7 @@ function erstelle_tree(ApArtId) {
 		var herkunft_node, ziel_node, ziel_parent_node;
 		herkunft_node = data.rslt.o;
 		ziel_node = data.rslt.r;
-		ziel_parent_node = jQuery.jstree._reference(ziel_node)._get_parent(ziel_node);
+		ziel_parent_node = jQuery.jstree._reference(data.rslt.r)._get_parent(data.rslt.r);
 		if (herkunft_node.attr("typ") === "tpop") {
 			if (ziel_node.attr("typ") === "tpop") {
 				$.ajax({
@@ -2369,17 +2369,85 @@ function erstelle_tree(ApArtId) {
 			}
 		}
 		if (herkunft_node.attr("typ") === "beob") {
-			if (ziel_node.attr("typ") === "beob") {
-				
-			}
 			if (ziel_node.attr("typ") === "tpopbeob") {
-				
+				$.ajax({
+					url: 'php/beob_update.php',
+					dataType: 'json',
+					data: {
+						"id": $(herkunft_node).attr("id"),
+						"Feld": "TPopId",
+						"Wert": $(ziel_parent_node).attr("id"),
+						"user": sessionStorage.User
+					},
+					success: function () {
+						var anz, anzTxt, neuerNode, neuerParentNode, aktuellerNode, neuerNodeTxt, vorigerNode;
+						//typ des nodes anpassen
+						$(herkunft_node).attr("typ", "tpopbeob");
+						//selecten
+						jQuery.jstree._reference(herkunft_node).deselect_all();
+						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+						beschrifte_ap_ordner_beob(window.herkunft_parent_node);
+						beschrifte_tpop_ordner_tpopbeob(ziel_parent_node);
+						//Variablen aufräumen
+						localStorage.tpopbeob_id = $(herkunft_node).attr("id");
+						delete window.beob;
+						delete window.beob_node_ausgeschnitten;
+						delete window.herkunft_parent_node;
+						initiiere_tpopbeob();
+					},
+					error: function (data) {
+						$("#Meldung").html("Fehler: Die Beobachtung wurde nicht zugeordnet");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+					}
+				});
 			}
 			if (ziel_node.attr("typ") === "tpop_ordner_tpopbeob") {
-
-			}
-			if (ziel_node.attr("typ") === "ap_ordner_beob") {
-
+				$.ajax({
+					url: 'php/beob_update.php',
+					dataType: 'json',
+					data: {
+						"id": $(herkunft_node).attr("id"),
+						"Feld": "TPopId",
+						"Wert": $(ziel_node).attr("id"),
+						"user": sessionStorage.User
+					},
+					success: function () {
+						var anz, anzTxt, neuerNode, neuerParentNode, aktuellerNode, neuerNodeTxt, vorigerNode;
+						//typ des nodes anpassen
+						$(herkunft_node).attr("typ", "tpopbeob");
+						//selecten
+						jQuery.jstree._reference(herkunft_node).deselect_all();
+						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+						beschrifte_ap_ordner_beob(window.herkunft_parent_node);
+						beschrifte_tpop_ordner_tpopbeob(ziel_node);
+						//Variablen aufräumen
+						localStorage.tpopbeob_id = $(herkunft_node).attr("id");
+						delete window.beob;
+						delete window.beob_node_ausgeschnitten;
+						delete window.herkunft_parent_node;
+						initiiere_tpopbeob();
+					},
+					error: function (data) {
+						$("#Meldung").html("Fehler: Die Beobachtung wurde nicht zugeordnet");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+					}
+				});
 			}
 		}
 	})
@@ -4266,7 +4334,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					jQuery.jstree._reference(aktiver_node).move_node(window.tpop_node_ausgeschnitten, aktiver_node, "last", false);
+					jQuery.jstree._reference(aktiver_node).move_node(window.tpop_node_ausgeschnitten, aktiver_node, "first", false);
 				}
 			}
 		}
@@ -4578,7 +4646,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					jQuery.jstree._reference(parent_node).move_node(window.tpop_node_ausgeschnitten, parent_node, "last", false);
+					jQuery.jstree._reference(parent_node).move_node(window.tpop_node_ausgeschnitten, parent_node, "first", false);
 				}
 			}
 		}
@@ -4969,7 +5037,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					jQuery.jstree._reference(aktiver_node).move_node(window.tpopfeldkontr_node_ausgeschnitten, aktiver_node, "last", false);
+					jQuery.jstree._reference(aktiver_node).move_node(window.tpopfeldkontr_node_ausgeschnitten, aktiver_node, "first", false);
 				}
 			}
 		}
@@ -5292,7 +5360,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					jQuery.jstree._reference(parent_node).move_node(window.tpopfeldkontr_node_ausgeschnitten, parent_node, "last", false);
+					jQuery.jstree._reference(parent_node).move_node(window.tpopfeldkontr_node_ausgeschnitten, parent_node, "first", false);
 				}
 			}
 		}
@@ -5422,7 +5490,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					jQuery.jstree._reference(aktiver_node).move_node(window.tpopfreiwkontr_node_ausgeschnitten, aktiver_node, "last", false);
+					jQuery.jstree._reference(aktiver_node).move_node(window.tpopfreiwkontr_node_ausgeschnitten, aktiver_node, "first", false);
 				}
 			}
 		}
@@ -5655,7 +5723,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					jQuery.jstree._reference(parent_node).move_node(window.tpopfreiwkontr_node_ausgeschnitten, parent_node, "last", false);
+					jQuery.jstree._reference(parent_node).move_node(window.tpopfreiwkontr_node_ausgeschnitten, parent_node, "first", false);
 					localStorage.tpopfreiwkontr = true;
 				}
 			}
@@ -5786,7 +5854,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					jQuery.jstree._reference(aktiver_node).move_node(window.tpopmassn_node_ausgeschnitten, aktiver_node, "last", false);
+					jQuery.jstree._reference(aktiver_node).move_node(window.tpopmassn_node_ausgeschnitten, aktiver_node, "first", false);
 				}
 			}
 		}
@@ -6015,7 +6083,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					jQuery.jstree._reference(parent_node).move_node(window.tpopmassn_node_ausgeschnitten, parent_node, "last", false);
+					jQuery.jstree._reference(parent_node).move_node(window.tpopmassn_node_ausgeschnitten, parent_node, "first", false);
 				}
 			}
 		}
@@ -6295,7 +6363,17 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					jQuery.jstree._reference(aktiver_node).move_node(window.tpopbeob_node_ausgeschnitten, aktiver_node, "last", false);
+					jQuery.jstree._reference(aktiver_node).move_node(window.tpopbeob_node_ausgeschnitten, aktiver_node, "first", false);
+				}
+			}
+		}
+		if (window.beob_node_ausgeschnitten) {
+			items.einfuegen = {
+				"label": jQuery.jstree._reference(window.beob_node_ausgeschnitten).get_text(window.beob_node_ausgeschnitten) + " einfügen",
+				"separator_before": true,
+				"icon": "style/images/einfuegen.png",
+				"action": function () {
+					jQuery("#tree").jstree("move_node", window.beob_node_ausgeschnitten, aktiver_node, "first");
 				}
 			}
 		}
@@ -6376,12 +6454,22 @@ function treeKontextmenu(node) {
 			}
 		}
 		if (window.tpopbeob_node_ausgeschnitten) {
-			items.einfuegen = {
+			items.einfuegen_tpopbeob = {
 				"label": jQuery.jstree._reference(window.tpopbeob_node_ausgeschnitten).get_text(window.tpopbeob_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					jQuery.jstree._reference(parent_node).move_node(window.tpopbeob_node_ausgeschnitten, parent_node, "last", false);
+					jQuery.jstree._reference(parent_node).move_node(window.tpopbeob_node_ausgeschnitten, parent_node, "first", false);
+				}
+			}
+		}
+		if (window.beob_node_ausgeschnitten) {
+			items.einfuegen_beob = {
+				"label": jQuery.jstree._reference(window.beob_node_ausgeschnitten).get_text(window.beob_node_ausgeschnitten) + " einfügen",
+				"separator_before": true,
+				"icon": "style/images/einfuegen.png",
+				"action": function () {
+					jQuery.jstree._reference(parent_node).move_node(window.beob_node_ausgeschnitten, parent_node, "first", false);
 				}
 			}
 		}
@@ -6594,7 +6682,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					jQuery("#tree").jstree("move_node", "[typ='tpop_ordner_tpopbeob'] #" + localStorage.tpopbeob_id, "[typ='ap_ordner_beob']", "first");
+					jQuery("#tree").jstree("move_node", window.tpopbeob_node_ausgeschnitten, aktiver_node, "first");
 				}
 			}
 		}
@@ -6664,13 +6752,23 @@ function treeKontextmenu(node) {
 				}
 			}
 		}
+		if (!window.beob_node_ausgeschnitten) {
+			items.ausschneiden = {
+				"label": "ausschneiden",
+				"separator_before": true,
+				"icon": "style/images/ausschneiden.png",
+				"action": function () {
+					window.beob_node_ausgeschnitten = aktiver_node;
+				}
+			}
+		}
 		if (window.tpopbeob_node_ausgeschnitten) {
 			items.einfuegen = {
 				"label": jQuery.jstree._reference(window.tpopbeob_node_ausgeschnitten).get_text(window.tpopbeob_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					jQuery("#tree").jstree("move_node", "[typ='tpop_ordner_tpopbeob'] #" + localStorage.tpopbeob_id, "[typ='ap_ordner_beob']", "first");
+					jQuery("#tree").jstree("move_node", window.tpopbeob_node_ausgeschnitten, parent_node, "first");
 				}
 			}
 		}
