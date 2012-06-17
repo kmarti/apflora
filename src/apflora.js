@@ -1216,11 +1216,11 @@ function initiiere_tpopbeob() {
 									} else {
 										html += '" />';
 									}
-									//Wenn TPop keine Koordinaten haben, dies anzeigen und Anzeige von NAN verhindern
+									//Wenn TPop keine Koordinaten haben, Anzeige von NAN verhindern
 									if (parseInt(data2[i].DistZuTPop)) {
 										html += parseInt(data2[i].DistZuTPop) + "m: " + data2[i].TPopFlurname;
 									} else {
-										html += "ohne Koordinaten: " + data2[i].TPopFlurname;
+										html += data2[i].TPopFlurname;
 									}
 								}
 							}
@@ -1296,7 +1296,7 @@ function initiiere_beob() {
 									if (parseInt(data[i].DistZuTPop)) {
 										html += parseInt(data[i].DistZuTPop) + "m: " + data[i].TPopFlurname;
 									} else {
-										html += "ohne Koordinaten: " + data[i].TPopFlurname;
+										html += data[i].TPopFlurname;
 									}
 								}
 							}
@@ -1538,7 +1538,7 @@ function erstelle_tree(ApArtId) {
 		},
 		"crrm": {
 			"move": {
-				"default_position": "last",
+				"default_position": "first",
 				"check_move": function (m) {
 					//hier wird bestimmt, welche drag-drop-Kombinationen zulässig sind
 					if (m.o.attr("typ") === "tpop") {
@@ -1617,6 +1617,40 @@ function erstelle_tree(ApArtId) {
 								after: false,
 								before: false,
 								inside: true
+							};
+						} else if (m.r.attr("typ") === "ap_ordner_beob") {
+							return {
+								after: false,
+								before: false,
+								inside: true
+							};
+						} else if (m.r.attr("typ") === "beob") {
+							return {
+								after: true,
+								before: true,
+								inside: false
+							};
+						} else {
+							return false;
+						}
+					} else if (m.o.attr("typ") === "beob") {
+						if (m.r.attr("typ") === "tpopbeob") {
+							return {
+								after: true,
+								before: true,
+								inside: false
+							};
+						} else if (m.r.attr("typ") === "tpop_ordner_tpopbeob") {
+							return {
+								after: false,
+								before: false,
+								inside: true
+							};
+						} else if (m.r.attr("typ") === "beob") {
+							return {
+								after: true,
+								before: true,
+								inside: false
 							};
 						} else {
 							return false;
@@ -2219,8 +2253,45 @@ function erstelle_tree(ApArtId) {
 			}
 		}
 		if (herkunft_node.attr("typ") === "tpopbeob") {
-			if (ziel_node.attr("typ") === "beob") {
-				
+			if (ziel_node.attr("typ") === "beob" || ziel_node.attr("typ") === "ap_ordner_beob") {
+				$.ajax({
+					url: 'php/beob_update.php',
+					dataType: 'json',
+					data: {
+						"id": $(herkunft_node).attr("id"),
+						"Feld": "TPopId",
+						"Wert": "",
+						"user": sessionStorage.User
+					},
+					success: function () {
+						var anz, anzTxt, neuerNode, neuerParentNode, aktuellerNode, neuerNodeTxt, vorigerNode;
+						//typ des nodes anpassen
+						$("[typ='ap_ordner_beob'] #" + localStorage.tpopbeob_id).attr("typ", "beob");
+						//selecten
+						jQuery.jstree._reference(herkunft_node).deselect_all();
+						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+						beschrifte_ap_ordner_beob($("[typ='ap_ordner_beob']"));
+						beschrifte_tpop_ordner_tpopbeob($("[typ='pop_ordner_tpop'] #" + localStorage.tpop_id + " [typ='tpop_ordner_tpopbeob']"));
+						//Variablen aufräumen
+						localStorage.beob_id = $(herkunft_node).attr("id");
+						delete window.tpopbeob;
+						delete window.tpopbeob_node_ausgeschnitten;
+						delete window.herkunft_parent_node;
+						initiiere_beob();
+					},
+					error: function (data) {
+						$("#Meldung").html("Fehler: Die Beobachtung wurde nicht zugeordnet");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+					}
+				});
 			}
 			if (ziel_node.attr("typ") === "tpopbeob") {
 				$.ajax({
@@ -2295,9 +2366,6 @@ function erstelle_tree(ApArtId) {
 						});
 					}
 				});
-			}
-			if (ziel_node.attr("typ") === "ap_ordner_beob") {
-
 			}
 		}
 		if (herkunft_node.attr("typ") === "beob") {
@@ -2380,7 +2448,7 @@ function beschrifte_tpop_ordner_tpopbeob(node) {
 
 //übernimmt einen node
 //zählt dessen children und passt die Beschriftung an
-function beschrifte_tpop_ordner_beob(node) {
+function beschrifte_ap_ordner_beob(node) {
 	anz = $(node).find("> ul > li").length;
 	if (anz === 1) {
 		anzTxt = anz + " nicht zugewiesene Beobachtung";
@@ -6520,6 +6588,16 @@ function treeKontextmenu(node) {
 				}
 			}
 		}
+		if (window.tpopbeob_node_ausgeschnitten) {
+			items.einfuegen = {
+				"label": jQuery.jstree._reference(window.tpopbeob_node_ausgeschnitten).get_text(window.tpopbeob_node_ausgeschnitten) + " einfügen",
+				"separator_before": true,
+				"icon": "style/images/einfuegen.png",
+				"action": function () {
+					jQuery("#tree").jstree("move_node", "[typ='tpop_ordner_tpopbeob'] #" + localStorage.tpopbeob_id, "[typ='ap_ordner_beob']", "first");
+				}
+			}
+		}
 		return items;
 	case "beob":
 		items = {
@@ -6583,6 +6661,16 @@ function treeKontextmenu(node) {
 							}
 						});
 					}
+				}
+			}
+		}
+		if (window.tpopbeob_node_ausgeschnitten) {
+			items.einfuegen = {
+				"label": jQuery.jstree._reference(window.tpopbeob_node_ausgeschnitten).get_text(window.tpopbeob_node_ausgeschnitten) + " einfügen",
+				"separator_before": true,
+				"icon": "style/images/einfuegen.png",
+				"action": function () {
+					jQuery("#tree").jstree("move_node", "[typ='tpop_ordner_tpopbeob'] #" + localStorage.tpopbeob_id, "[typ='ap_ordner_beob']", "first");
 				}
 			}
 		}
