@@ -1573,6 +1573,22 @@ function erstelle_tree(ApArtId) {
 						} else {
 							return false;
 						}
+					} else if (m.o.attr("typ") === "tpopfeldkontr") {
+						if (m.r.attr("typ") === "tpopfeldkontr") {
+							return {
+								after: true,
+								before: true,
+								inside: false
+							};
+						} else if (m.r.attr("typ") === "tpop_ordner_feldkontr") {
+							return {
+								after: false,
+								before: false,
+								inside: true
+							};
+						} else {
+							return false;
+						}
 					}
 					return false;
 				}
@@ -2021,16 +2037,114 @@ function erstelle_tree(ApArtId) {
 			}
 		}
 		if (herkunft_node.attr("typ") === "tpopfeldkontr") {
-
+			if (ziel_node.attr("typ") === "tpopfeldkontr") {
+				$.ajax({
+					url: 'php/tpopfeldkontr_einfuegen.php',
+					dataType: 'json',
+					data: {
+						"tpop_id": $(ziel_parent_node).attr("id"),
+						"tpopfeldkontr_id": $(herkunft_node).attr("id"),
+						"user": sessionStorage.User
+					},
+					success: function () {
+						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+						beschrifte_tpop_ordner_feldkontr(ziel_parent_node);
+						beschrifte_tpop_ordner_feldkontr(window.herkunft_parent_node);
+						//selection steuern
+						jQuery.jstree._reference(herkunft_node).deselect_all();
+						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+						//Variabeln aufräumen
+						localStorage.tpopfeldkontr_id = $(herkunft_node).attr("id");
+						delete window.tpopfeldkontr;
+						delete window.tpopfeldkontr_node_ausgeschnitten;
+						delete window.herkunft_parent_node;
+						initiiere_tpopfeldkontr();
+					},
+					error: function (data) {
+						$("#Meldung").html("Fehler: Die Feldkontrolle wurde nicht verschoben");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+					}
+				});
+			}
+			if (ziel_node.attr("typ") === "tpop_ordner_feldkontr") {
+				$.ajax({
+					url: 'php/tpopfeldkontr_einfuegen.php',
+					dataType: 'json',
+					data: {
+						"tpop_id": $(herkunft_node).attr("id"),
+						"tpopfeldkontr_id": $(herkunft_node).attr("id"),
+						"user": sessionStorage.User
+					},
+					success: function () {
+						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+						beschrifte_tpop_ordner_feldkontr(ziel_node);
+						beschrifte_tpop_ordner_feldkontr(window.herkunft_parent_node);
+						//selection steuern
+						jQuery.jstree._reference(herkunft_node).deselect_all();
+						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+						//Variabeln aufräumen
+						localStorage.tpopfeldkontr_id = $(herkunft_node).attr("id");
+						delete window.tpopfeldkontr;
+						delete window.tpopfeldkontr_node_ausgeschnitten;
+						delete window.herkunft_parent_node;
+						initiiere_tpopfeldkontr();
+					},
+					error: function (data) {
+						$("#Meldung").html("Fehler: Die Feldkontrolle wurde nicht verschoben");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+					}
+				});
+			}
 		}
 		if (herkunft_node.attr("typ") === "tpopfreiwkontr") {
+			if (ziel_node.attr("typ") === "tpopfreiwkontr") {
 
+			}
+			if (ziel_node.attr("typ") === "tpop_ordner_freiwkontr") {
+
+			}
 		}
 		if (herkunft_node.attr("typ") === "tpopbeob") {
+			if (ziel_node.attr("typ") === "beob") {
+				
+			}
+			if (ziel_node.attr("typ") === "tpopbeob") {
+				
+			}
+			if (ziel_node.attr("typ") === "tpop_ordner_tpopbeob") {
 
+			}
+			if (ziel_node.attr("typ") === "ap_ordner_beob") {
+
+			}
 		}
 		if (herkunft_node.attr("typ") === "beob") {
+			if (ziel_node.attr("typ") === "beob") {
+				
+			}
+			if (ziel_node.attr("typ") === "tpopbeob") {
+				
+			}
+			if (ziel_node.attr("typ") === "tpop_ordner_tpopbeob") {
 
+			}
+			if (ziel_node.attr("typ") === "ap_ordner_beob") {
+
+			}
 		}
 	})
 	$("#suchen").show();
@@ -2056,6 +2170,18 @@ function beschrifte_tpop_ordner_massn(node) {
 		anzTxt = anz + " Massnahme";
 	} else {
 		anzTxt = anz + " Massnahmen";
+	}
+	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+}
+
+//übernimmt einen node
+//zählt dessen children und passt die Beschriftung an
+function beschrifte_tpop_ordner_feldkontr(node) {
+	anz = $(node).find("> ul > li").length;
+	if (anz === 1) {
+		anzTxt = anz + " Feldkontrolle";
+	} else {
+		anzTxt = anz + " Feldkontrollen";
 	}
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
@@ -4571,46 +4697,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					$.ajax({
-						url: 'php/tpopfeldkontr_einfuegen.php',
-						dataType: 'json',
-						data: {
-							"tpop_id": $(aktiver_node).attr("id"),
-							"tpopfeldkontr_id": $(window.tpopfeldkontr_node_ausgeschnitten).attr("id"),
-							"user": sessionStorage.User
-						},
-						success: function () {
-							var anz, anzTxt;
-							//node verschieben
-							jQuery.jstree._reference(aktiver_node).move_node(window.tpopfeldkontr_node_ausgeschnitten, aktiver_node, "last", false);
-							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(aktiver_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Feldkontrolle";
-							} else {
-								anzTxt = anz + " Feldkontrollen";
-							}
-							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(aktiver_node).select_node(window.tpopfeldkontr_node_ausgeschnitten);
-							//Variabeln aufräumen
-							localStorage.tpopfeldkontr_id = $(window.tpopfeldkontr_node_ausgeschnitten).attr("id");
-							delete window.tpopfeldkontr;
-							delete window.tpopfeldkontr_node_ausgeschnitten;
-							initiiere_tpopfeldkontr();
-						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Die Feldkontrolle wurde nicht verschoben");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
-						}
-					});
+					jQuery.jstree._reference(aktiver_node).move_node(window.tpopfeldkontr_node_ausgeschnitten, aktiver_node, "last", false);
 				}
 			}
 		}
@@ -4933,47 +5020,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					$.ajax({
-						url: 'php/tpopfeldkontr_einfuegen.php',
-						dataType: 'json',
-						data: {
-							"tpop_id": $(parent_node).attr("id"),
-							"tpopfeldkontr_id": $(aktiver_node).attr("id"),
-							"user": sessionStorage.User
-						},
-						success: function () {
-							var anz, anzTxt;
-							//node verschieben
-							parent_node = jQuery.jstree._reference(aktiver_node)._get_parent(aktiver_node);
-							jQuery.jstree._reference(parent_node).move_node(window.tpopfeldkontr_node_ausgeschnitten, parent_node, "last", false);
-							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Feldkontrolle";
-							} else {
-								anzTxt = anz + " Feldkontrollen";
-							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(parent_node).select_node(window.tpopfeldkontr_node_ausgeschnitten);
-							//Variabeln aufräumen
-							localStorage.tpopfeldkontr_id = $(window.tpopfeldkontr_node_ausgeschnitten).attr("id");
-							delete window.tpopfeldkontr;
-							delete window.tpopfeldkontr_node_ausgeschnitten;
-							initiiere_tpopfeldkontr();
-						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Die Feldkontrolle wurde nicht verschoben");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
-						}
-					});
+					jQuery.jstree._reference(parent_node).move_node(window.tpopfeldkontr_node_ausgeschnitten, parent_node, "last", false);
 				}
 			}
 		}
