@@ -1847,19 +1847,102 @@ function erstelle_tree(ApArtId) {
 	.bind("open_node.jstree", function (e, data) {
 		setTimeout("setzeTreehoehe()", 200);
 	})
+	.bind("prepare_move.jstree", function (e, data) {
+		//herkunft_parent_node muss vor dem move ermittelt werden - danach ist der parent ein anderer!
+		window.herkunft_parent_node = jQuery.jstree._reference(data.rslt.o)._get_parent(data.rslt.o);
+	})
 	.bind("move_node.jstree", function (e, data) {
-		if (data.rslt.o.attr("typ") === "tpop") {
-			if (data.rslt.r.attr("typ") === "tpop") {
-				window.tpop_node_ausgeschnitten = data.rslt.o;
-				tpop_ausgeschnitten_in_tpop_einfuegen(data.rslt.r);
+		var herkunft_node, ziel_node, ziel_parent_node;
+		herkunft_node = data.rslt.o;
+		ziel_node = data.rslt.r;
+		ziel_parent_node = jQuery.jstree._reference(ziel_node)._get_parent(ziel_node);
+		if (herkunft_node.attr("typ") === "tpop") {
+			if (ziel_node.attr("typ") === "tpop") {
+				$.ajax({
+					url: 'php/tpop_einfuegen.php',
+					dataType: 'json',
+					data: {
+						"pop_id": $(ziel_parent_node).attr("id"),
+						"tpop_id": $(ziel_node).attr("id"),
+						"user": sessionStorage.User
+					},
+					success: function () {
+						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+						beschrifte_pop_ordner_tpop(ziel_parent_node);
+						beschrifte_pop_ordner_tpop(window.herkunft_parent_node);
+						//selection steuern
+						jQuery.jstree._reference(ziel_node).deselect_all();
+						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+						//Variabeln aufräumen
+						localStorage.tpop_id = $(herkunft_node).attr("id");
+						delete window.tpop;
+						delete window.tpop_node_ausgeschnitten;
+						delete window.herkunft_parent_node;
+						initiiere_tpop();
+					},
+					error: function (data) {
+						$("#Meldung").html("Fehler: Die Teilpopulation wurde nicht verschoben");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+					}
+				});
 			}
-			if (data.rslt.r.attr("typ") === "pop_ordner_tpop") {
-				window.tpop_node_ausgeschnitten = data.rslt.o;
-				tpop_ausgeschnitten_in_pop_ordner_tpop_einfuegen(data.rslt.r);
+			if (ziel_node.attr("typ") === "pop_ordner_tpop") {
+				$.ajax({
+					url: 'php/tpop_einfuegen.php',
+					dataType: 'json',
+					data: {
+						"pop_id": $(ziel_node).attr("id"),
+						"tpop_id": $(herkunft_node).attr("id"),
+						"user": sessionStorage.User
+					},
+					success: function () {
+						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+						beschrifte_pop_ordner_tpop(ziel_node);
+						beschrifte_pop_ordner_tpop(window.herkunft_parent_node);
+						//select steuern
+						jQuery.jstree._reference(ziel_node).deselect_all();
+						jQuery.jstree._reference(ziel_node).select_node(herkunft_node);
+						//Variabeln aufräumen
+						localStorage.tpop_id = $(herkunft_node).attr("id");
+						delete window.tpop;
+						delete window.tpop_node_ausgeschnitten;
+						initiiere_tpop();
+					},
+					error: function (data) {
+						$("#Meldung").html("Fehler: Die Teilpopulation wurde nicht verschoben");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+					}
+				});
 			}
 		}
 	})
 	$("#suchen").show();
+}
+
+//übernimmt einen node
+//zählt dessen children und passt die Beschriftung an
+function beschrifte_pop_ordner_tpop(node) {
+	anz = $(node).find("> ul > li").length;
+	if (anz === 1) {
+		anzTxt = anz + " Teilpopulation";
+	} else {
+		anzTxt = anz + " Teilpopulationen";
+	}
+	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
 function treeKontextmenu(node) {
@@ -6457,48 +6540,6 @@ function setzeDistanzZurTeilpop(tpopbeob_id, tpop_id) {
 
 }
 
-function tpop_ausgeschnitten_in_pop_ordner_tpop_einfuegen(aktiver_node) {
-	$.ajax({
-		url: 'php/tpop_einfuegen.php',
-		dataType: 'json',
-		data: {
-			"pop_id": $(aktiver_node).attr("id"),
-			"tpop_id": $(window.tpop_node_ausgeschnitten).attr("id"),
-			"user": sessionStorage.User
-		},
-		success: function () {
-			var anz, anzTxt;
-			//node verschieben ist nicht nötig - diese Funktion wird als Reaktion auf eine Verschiebung aufgerufen!
-			//Parent Node-Beschriftung: Anzahl anpassen
-			anz = $(aktiver_node).find("> ul > li").length;
-			if (anz === 1) {
-				anzTxt = anz + " Teilpopulation";
-			} else {
-				anzTxt = anz + " Teilpopulationen";
-			}
-			jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
-			jQuery.jstree._reference(aktiver_node).deselect_all();
-			jQuery.jstree._reference(aktiver_node).select_node(window.tpop_node_ausgeschnitten);
-			//Variabeln aufräumen
-			localStorage.tpop_id = $(window.tpop_node_ausgeschnitten).attr("id");
-			delete window.tpop;
-			delete window.tpop_node_ausgeschnitten;
-			initiiere_tpop();
-		},
-		error: function (data) {
-			$("#Meldung").html("Fehler: Die Teilpopulation wurde nicht verschoben");
-			$("#Meldung").dialog({
-				modal: true,
-				buttons: {
-					Ok: function() {
-						$(this).dialog("close");
-					}
-				}
-			});
-		}
-	});
-}
-
 function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 	var dataUrl;
 	//User und neue PopId mitgeben
@@ -6547,53 +6588,6 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 		},
 		error: function (data) {
 			$("#Meldung").html("Fehler: Die Teilpopulation wurde nicht erstellt");
-			$("#Meldung").dialog({
-				modal: true,
-				buttons: {
-					Ok: function() {
-						$(this).dialog("close");
-					}
-				}
-			});
-		}
-	});
-}
-
-function tpop_ausgeschnitten_in_tpop_einfuegen(aktiver_node, parent_node) {
-	//drop kennt den parent nicht
-	if (!parent_node) {
-		parent_node = jQuery.jstree._reference(aktiver_node)._get_parent(aktiver_node);
-	}
-	$.ajax({
-		url: 'php/tpop_einfuegen.php',
-		dataType: 'json',
-		data: {
-			"pop_id": $(parent_node).attr("id"),
-			"tpop_id": $(aktiver_node).attr("id"),
-			"user": sessionStorage.User
-		},
-		success: function () {
-			var anz, anzTxt;
-			//node verschieben
-			//jQuery.jstree._reference(parent_node).move_node(window.tpop_node_ausgeschnitten, parent_node, "last", false);
-			//Parent Node-Beschriftung: Anzahl anpassen
-			anz = $(parent_node).find("> ul > li").length;
-			if (anz === 1) {
-				anzTxt = anz + " Teilpopulation";
-			} else {
-				anzTxt = anz + " Teilpopulationen";
-			}
-			jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
-			jQuery.jstree._reference(aktiver_node).deselect_all();
-			jQuery.jstree._reference(parent_node).select_node(window.tpop_node_ausgeschnitten);
-			//Variabeln aufräumen
-			localStorage.tpop_id = $(window.tpop_node_ausgeschnitten).attr("id");
-			delete window.tpop;
-			delete window.tpop_node_ausgeschnitten;
-			initiiere_tpop();
-		},
-		error: function (data) {
-			$("#Meldung").html("Fehler: Die Teilpopulation wurde nicht verschoben");
 			$("#Meldung").dialog({
 				modal: true,
 				buttons: {
