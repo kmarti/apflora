@@ -1536,6 +1536,31 @@ function erstelle_tree(ApArtId) {
 			"items": treeKontextmenu,
 			"select_node": true
 		},
+		"crrm": {
+			"move": {
+				"default_position": "last",
+				"check_move": function (m) {
+					if (m.o.attr("typ") === "tpop") {
+						if (m.r.attr("typ") === "tpop") {
+							return {
+								after: true,
+								before: true,
+								inside: false
+							};
+						} else if (m.r.attr("typ") === "pop_ordner_tpop") {
+							return {
+								after: false,
+								before: false,
+								inside: true
+							};
+						} else {
+							return false;
+						}
+					}
+					return false;
+				}
+			}
+		},
 		"types": {
 			"type_attr": "typ",
 			"max_children": -2,
@@ -1678,7 +1703,7 @@ function erstelle_tree(ApArtId) {
 				}
 			}
 		},
-		"plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "contextmenu", "types"]
+		"plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "contextmenu", "crrm", "dnd", "types"]
 	})
 	.show()
 	.bind("select_node.jstree", function (e, data) {
@@ -1822,29 +1847,18 @@ function erstelle_tree(ApArtId) {
 	.bind("open_node.jstree", function (e, data) {
 		setTimeout("setzeTreehoehe()", 200);
 	})
-	.bind("prepare_move.jstree", function (e, data) {
-		/*if (data.rslt.o.attr("typ") === "tpop") {
+	.bind("move_node.jstree", function (e, data) {
+		if (data.rslt.o.attr("typ") === "tpop") {
 			if (data.rslt.r.attr("typ") === "tpop") {
-				return {
-					after: true,
-					before: true,
-					inside: false
-				};
-			} else if (data.rslt.r.attr("typ") === "pop_ordner_tpop") {
-				return {
-					after: false,
-					before: false,
-					inside: true
-				};
-			} else {
-				return false;
+				window.tpop_node_ausgeschnitten = data.rslt.o;
+				tpop_ausgeschnitten_in_tpop_einfuegen(data.rslt.r);
+			}
+			if (data.rslt.r.attr("typ") === "pop_ordner_tpop") {
+				window.tpop_node_ausgeschnitten = data.rslt.o;
+				tpop_ausgeschnitten_in_pop_ordner_tpop_einfuegen(data.rslt.r);
 			}
 		}
-		return false;*/
 	})
-	.bind("move_node.jstree", function (e, data) {
-		
-	});
 	$("#suchen").show();
 }
 
@@ -3656,7 +3670,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					tpop_ausgeschnitten_in_pop_ordner_tpop_einfuegen(aktiver_node);
+					jQuery.jstree._reference(aktiver_node).move_node(window.tpop_node_ausgeschnitten, aktiver_node, "last", false);
 				}
 			}
 		}
@@ -3968,7 +3982,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					tpop_ausgeschnitten_in_tpop_einfuegen(aktiver_node, parent_node);
+					jQuery.jstree._reference(parent_node).move_node(window.tpop_node_ausgeschnitten, parent_node, "last", false);
 				}
 			}
 		}
@@ -6454,8 +6468,7 @@ function tpop_ausgeschnitten_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 		},
 		success: function () {
 			var anz, anzTxt;
-			//node verschieben
-			jQuery.jstree._reference(aktiver_node).move_node(window.tpop_node_ausgeschnitten, aktiver_node, "last", false);
+			//node verschieben ist nicht nötig - diese Funktion wird als Reaktion auf eine Verschiebung aufgerufen!
 			//Parent Node-Beschriftung: Anzahl anpassen
 			anz = $(aktiver_node).find("> ul > li").length;
 			if (anz === 1) {
@@ -6562,8 +6575,7 @@ function tpop_ausgeschnitten_in_tpop_einfuegen(aktiver_node, parent_node) {
 		success: function () {
 			var anz, anzTxt;
 			//node verschieben
-			parent_node = jQuery.jstree._reference(aktiver_node)._get_parent(aktiver_node);
-			jQuery.jstree._reference(parent_node).move_node(window.tpop_node_ausgeschnitten, parent_node, "last", false);
+			//jQuery.jstree._reference(parent_node).move_node(window.tpop_node_ausgeschnitten, parent_node, "last", false);
 			//Parent Node-Beschriftung: Anzahl anpassen
 			anz = $(parent_node).find("> ul > li").length;
 			if (anz === 1) {
