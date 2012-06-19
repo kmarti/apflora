@@ -1217,7 +1217,7 @@ function initiiere_tpopbeob() {
 										html += '" />';
 									}
 									//Wenn TPop keine Koordinaten haben, Anzeige von NAN verhindern
-									if (parseInt(data2[i].DistZuTPop)) {
+									if (parseInt(data2[i].DistZuTPop) >= 0) {
 										html += parseInt(data2[i].DistZuTPop) + "m: " + data2[i].TPopFlurname;
 									} else {
 										html += data2[i].TPopFlurname;
@@ -1293,7 +1293,7 @@ function initiiere_beob() {
 									html += data[i].DistZuTPop;
 									html += '" />';
 									//Wenn TPop keine Koordinaten haben, dies anzeigen und Anzeige von NAN verhindern
-									if (parseInt(data[i].DistZuTPop)) {
+									if (parseInt(data[i].DistZuTPop) >= 0) {
 										html += parseInt(data[i].DistZuTPop) + "m: " + data[i].TPopFlurname;
 									} else {
 										html += data[i].TPopFlurname;
@@ -6674,6 +6674,59 @@ function treeKontextmenu(node) {
 						}
 					});
 				}
+			},
+			"GoogleMapsMitTPop": {
+				"label": "auf Luftbild, mit Teilpopulationen",
+				"separator_before": true,
+				"icon": "style/images/flora_icon_violett.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/beob_karte.php',
+						dataType: 'json',
+						data: {
+							"apart_id": $(aktiver_node).attr("id")
+						},
+						success: function (beob) {
+							if (beob.rows.length > 0) {
+								$.ajax({
+									url: 'php/ap_karte.php',
+									dataType: 'json',
+									data: {
+										"id": $(aktiver_node).attr("id")
+									},
+									success: function (tpop) {
+										if (tpop.rows.length > 0) {
+											zeigeBeobUndTPopAufKarte(beob, tpop);
+										} else {
+											zeigeBeobAufKarte(beob);
+										}
+									}
+								});
+							} else {
+								$("#Meldung").html("Es gibt keine Beobachtung mit Koordinaten");
+								$("#Meldung").dialog({
+									modal: true,
+									buttons: {
+										Ok: function() {
+											$(this).dialog("close");
+										}
+									}
+								});
+							}
+						},	
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine Daten erhalten");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
 			}
 		}
 		if (window.tpopbeob_node_ausgeschnitten) {
@@ -7250,7 +7303,7 @@ function zeigeTPopAufKarte(TPopListe) {
 	map = new google.maps.Map(document.getElementById("Karte"), options);
 	//google.maps.event.trigger(map,'resize');
 	bounds = new google.maps.LatLngBounds();
-	//für alle Orte Marker erstellen
+	//für alle TPop Marker erstellen
 	markers = [];
 	for (i in TPopListe.rows) {
 		TPop = TPopListe.rows[i];
@@ -7309,6 +7362,178 @@ function zeigeTPopAufKarte(TPopListe) {
 		google.maps.event.addListener(marker, 'click', function () {
 			infowindow.setContent(contentString);
 			infowindow.open(map,marker);
+		});
+	}
+}
+
+function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
+	var anzBeob, infowindowBeob, infowindowTPop, TPop, lat, lng, latlng, options, map, bounds, markersBeob, markersTPop, TPopId, latlng2, markerBeob, markerTPop, contentStringBeob, contentStringTPop, mcOptionsBeob, mcOptionsTPop, markerClusterBeob, markerClusterTPop, Kartenhoehe, Datum;
+	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
+	zeigeFormular("Karte");
+	window.markersArrayBeob = [];
+	window.InfoWindowArray = [];
+	Kartenhoehe = $(window).height() - 50;
+	infowindowBeob = new google.maps.InfoWindow();
+	infowindowTPop = new google.maps.InfoWindow();
+	$("#Karte").css("height", Kartenhoehe + "px");
+	//Lat und Lng in BeobListe ergänzen
+	for (i in BeobListe.rows) {
+		Beob = BeobListe.rows[i];
+		Beob.Lat = CHtoWGSlat(parseInt(Beob.xGIS), parseInt(Beob.yGIS));
+		Beob.Lng = CHtoWGSlng(parseInt(Beob.xGIS), parseInt(Beob.yGIS));
+	}
+	//dito in TPopListe
+	for (i in TPopListe.rows) {
+		TPop = TPopListe.rows[i];
+		if (!TPop.TPopXKoord || !TPop.TPopYKoord) {
+			delete TPop;
+		} else {
+			TPop.Lat = CHtoWGSlat(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
+			TPop.Lng = CHtoWGSlng(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
+		}
+	}
+	//Beob zählen
+	anzBeob = BeobListe.rows.length;
+	//TPop zählen
+	anzTPop = TPopListe.rows.length;
+	//Karte mal auf Zürich zentrieren, falls in den BeobListe.rows keine Koordinaten kommen
+	//auf die die Karte ausgerichtet werden kann
+	lat = 47.383333;
+	lng = 8.533333;
+	latlng = new google.maps.LatLng(lat, lng);
+	options = {
+		zoom: 15,
+		center: latlng,
+		streetViewControl: false,
+		mapTypeId: google.maps.MapTypeId.HYBRID
+	};
+	map = new google.maps.Map(document.getElementById("Karte"), options);
+	//google.maps.event.trigger(map,'resize');
+	bounds = new google.maps.LatLngBounds();
+
+	//für alle TPop Marker erstellen
+	markersTPop = [];
+	for (i in TPopListe.rows) {
+		TPop = TPopListe.rows[i];
+		TPopId = TPop.TPopId;
+		latlng2 = new google.maps.LatLng(TPop.Lat, TPop.Lng);
+		//Kartenausschnitt um diese Koordinate erweitern
+		bounds.extend(latlng2);
+		markerTPop = new MarkerWithLabel({
+			map: map,
+			position: latlng2,
+			//title muss String sein
+			title: TPop.TPopFlurname.toString() || "",
+			labelContent: TPop.TPopFlurname,
+			labelAnchor: new google.maps.Point(75, 0),
+			labelClass: "MapLabel",
+			icon: "img/flora_icon.png"
+		});
+		markersTPop.push(markerTPop);
+		contentStringTPop = '<div id="content">'+
+			'<div id="siteNotice">'+
+			'</div>'+
+			'<div id="bodyContent" class="GmInfowindow">'+
+			'<h3>' + TPop.Name + '</h3>'+
+			'<p>Population: ' + TPop.PopName + '</p>'+
+			'<p>TPop: ' + TPop.TPopFlurname + '</p>'+
+			'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
+			"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">bearbeiten<\/a></p>"+
+			'</div>'+
+			'</div>';
+		makeListener(map, markerTPop, contentStringTPop);
+	}
+	mcOptionsTPop = {
+		maxZoom: 17, 
+		styles: [{
+				height: 53,
+				url: "img/m8.png",
+				width: 53
+			}]
+	};
+	markerClusterTPop = new MarkerClusterer(map, markersTPop, mcOptionsTPop);
+	if (anzTPop + anzBeob === 1) {
+		//map.fitbounds setzt zu hohen zoom, wenn nur ein Punkt dargestellt wird > verhindern
+		map.setCenter(latlng);
+		map.setZoom(18);
+	} else {
+		//Karte auf Ausschnitt anpassen
+		map.fitBounds(bounds);
+	}
+	//diese Funktion muss hier sein, damit infowindow bekannt ist
+	function makeListener(map, markerTPop, contentStringTPop) {
+		google.maps.event.addListener(markerTPop, 'click', function () {
+			infowindowTPop.setContent(contentStringTPop);
+			infowindowTPop.open(map,markerTPop);
+		});
+	}
+
+	//für alle Beob Marker erstellen
+	markersBeob = [];
+	for (i in BeobListe.rows) {
+		Beob = BeobListe.rows[i];
+		if (Beob.J_NOTE && Beob.M_NOTE > 0) {
+			if (Beob.J_NOTE < 10) {
+				Beob.J_NOTE = "0" + Beob.J_NOTE;
+			}
+			if (Beob.M_NOTE < 10) {
+				Beob.M_NOTE = "0" + Beob.M_NOTE;
+			}
+			Datum = Beob.J_NOTE + "." + Beob.M_NOTE + "." + Beob.A_NOTE;
+		} else {
+			Datum = Beob.A_NOTE;
+		}
+		latlng2 = new google.maps.LatLng(Beob.Lat, Beob.Lng);
+		if (anzBeob === 1) {
+			//map.fitbounds setzt zu hohen zoom, wenn nur eine Beob Koordinaten hat > verhindern
+			latlng = latlng2;
+		} else {
+			//Kartenausschnitt um diese Koordinate erweitern
+			bounds.extend(latlng2);
+		}
+		markerBeob = new MarkerWithLabel({
+			map: map,
+			position: latlng2,
+			//title muss String sein
+			title: Datum.toString(),
+			labelContent: Beob.A_NOTE.toString(),
+			labelAnchor: new google.maps.Point(75, 0),
+			labelClass: "MapLabel",
+			icon: "img/flora_icon_violett.png"
+		});
+		markersBeob.push(markerBeob);
+		var Autor = Beob.Autor || "(keiner)";
+		var Projekt = Beob.PROJET || "(keines)";
+		var Ort = Beob.DESC_LOCALITE || "(keiner)";
+		contentStringBeob = '<div id="content">'+
+			'<div id="siteNotice">'+
+			'</div>'+
+			'<div id="bodyContent" class="GmInfowindow">'+
+			'<h3>' + Datum + '</h3>'+
+			'<p>Autor: ' + Autor + '</p>'+
+			'<p>Projekt: ' + Projekt + '</p>'+
+			'<p>Ort: ' + Ort + '</p>'+
+			'<p>Koordinaten: ' + Beob.xGIS + ' / ' + Beob.yGIS + '</p>'+
+			"<p><a href=\"#\" onclick=\"oeffneBeob('" + Beob.BeobId + "')\">Formular öffnen<\/a></p>"+
+			'</div>'+
+			'</div>';
+		makeListenerBeob(map, markerBeob, contentStringBeob);
+	}
+	mcOptionsBeob = {
+		maxZoom: 17, 
+		styles: [{
+				height: 53,
+				url: "img/m5.png",
+				width: 53
+			}]
+	};
+	markerClusterBeob = new MarkerClusterer(map, markersBeob, mcOptionsBeob);
+	
+	//diese Funktion muss hier sein, damit infowindow bekannt ist
+	function makeListenerBeob(map, markerBeob, contentStringBeob) {
+		google.maps.event.addListener(markerBeob, 'click', function () {
+			infowindowBeob.setContent(contentStringBeob);
+			infowindowBeob.open(map,markerBeob);
 		});
 	}
 }
@@ -7452,7 +7677,8 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 		mapTypeId: google.maps.MapTypeId.HYBRID
 	};
 	map = new google.maps.Map(document.getElementById("Karte"), options);
-	//google.maps.event.trigger(map,'resize');
+	//Versuch: SVO einblenden
+	//loadWMS(map, "http://www.gis.zh.ch/scripts/wmsFNSSVO2.asp?");
 	bounds = new google.maps.LatLngBounds();
 	//für alle Orte Marker erstellen
 	markers = [];
@@ -7720,4 +7946,161 @@ function oeffneTPopBeob(BeobId) {
 	initiiere_tpopbeob();
 	jQuery.jstree._reference("[typ='tpopbeob']#" + BeobId).deselect_all("[typ='tpopbeob']#" + BeobId);
 	jQuery("#tree").jstree("select_node", "[typ='tpopbeob']#" + BeobId);
+}
+
+
+
+
+
+
+/* 
+    Document   : wms.js
+    Created on : Feb 16, 2011, 3:25:27 PM
+    Author     : "Gavin Jackson <Gavin.Jackson@csiro.au>"
+
+    Refactored code from http://lyceum.massgis.state.ma.us/wiki/doku.php?id=googlemapsv3:home
+
+    example: loadWMS(map, "http://spatial.ala.org.au/geoserver/wms?", customParams);
+
+    You can easily add a WMS overlay by calling the loadWMS(map, baseURL, customParams) function, where:
+
+	map - is an instance of Google.maps.Map
+	baseURL - is the base URL of your WMS server (eg geoserver)
+	customParams - Additional WMS parameters
+*/
+
+function bound(value, opt_min, opt_max) {
+    if (opt_min != null) value = Math.max(value, opt_min);
+    if (opt_max != null) value = Math.min(value, opt_max);
+    return value;
+}
+
+function degreesToRadians(deg) {
+    return deg * (Math.PI / 180);
+}
+
+function radiansToDegrees(rad) {
+    return rad / (Math.PI / 180);
+}
+
+function MercatorProjection() {
+    var MERCATOR_RANGE = 256;
+    this.pixelOrigin_ = new google.maps.Point(
+        MERCATOR_RANGE / 2, MERCATOR_RANGE / 2);
+    this.pixelsPerLonDegree_ = MERCATOR_RANGE / 360;
+    this.pixelsPerLonRadian_ = MERCATOR_RANGE / (2 * Math.PI);
+};
+
+MercatorProjection.prototype.fromLatLngToPoint = function(latLng, opt_point) {
+    var me = this;
+
+    var point = opt_point || new google.maps.Point(0, 0);
+
+    var origin = me.pixelOrigin_;
+    point.x = origin.x + latLng.lng() * me.pixelsPerLonDegree_;
+    // NOTE(appleton): Truncating to 0.9999 effectively limits latitude to
+    // 89.189.  This is about a third of a tile past the edge of the world tile.
+    var siny = bound(Math.sin(degreesToRadians(latLng.lat())), -0.9999, 0.9999);
+    point.y = origin.y + 0.5 * Math.log((1 + siny) / (1 - siny)) * -me.pixelsPerLonRadian_;
+    return point;
+};
+
+MercatorProjection.prototype.fromDivPixelToLatLng = function(pixel, zoom) {
+    var me = this;
+
+    var origin = me.pixelOrigin_;
+    var scale = Math.pow(2, zoom);
+    var lng = (pixel.x / scale - origin.x) / me.pixelsPerLonDegree_;
+    var latRadians = (pixel.y / scale - origin.y) / -me.pixelsPerLonRadian_;
+    var lat = radiansToDegrees(2 * Math.atan(Math.exp(latRadians)) - Math.PI / 2);
+    return new google.maps.LatLng(lat, lng);
+};
+
+MercatorProjection.prototype.fromDivPixelToSphericalMercator = function(pixel, zoom) {
+    var me = this;
+    var coord = me.fromDivPixelToLatLng(pixel, zoom);
+
+    var r= 6378137.0;
+    var x = r* degreesToRadians(coord.lng());
+    var latRad = degreesToRadians(coord.lat());
+    var y = (r/2) * Math.log((1+Math.sin(latRad))/ (1-Math.sin(latRad)));
+
+    return new google.maps.Point(x,y);
+};
+
+function loadWMS(map, baseURL, customParams){
+    var tileHeight = 256;
+    var tileWidth = 256;
+    var opacityLevel = 0.75;
+    var isPng = true;
+    var minZoomLevel = 2;
+    var maxZoomLevel = 28;
+
+    //var baseURL = "";
+    var wmsParams = [
+    "REQUEST=GetMap",
+    "SERVICE=WMS",
+    "VERSION=1.1.1",
+    "STYLES=default",
+    "LAYERS=GISZH",
+    "FORMAT=image/png",
+    "TRANSPARENT=TRUE",
+    "SRS=EPSG:4326",
+    "WIDTH="+ tileWidth,
+    "HEIGHT="+ tileHeight
+    ];
+
+    //add additional parameters
+    var wmsParams = wmsParams.concat(customParams);
+
+    var overlayOptions =
+    {
+        getTileUrl: function(coord, zoom)
+        {
+            var lULP = new google.maps.Point(coord.x*256,(coord.y+1)*256);
+            var lLRP = new google.maps.Point((coord.x+1)*256,coord.y*256);
+
+            var projectionMap = new MercatorProjection();
+
+            var lULg = projectionMap.fromDivPixelToSphericalMercator(lULP, zoom);
+            var lLRg  = projectionMap.fromDivPixelToSphericalMercator(lLRP, zoom);
+
+            var lUL_Latitude = lULg.y;
+            var lUL_Longitude = lULg.x;
+            var lLR_Latitude = lLRg.y;
+            var lLR_Longitude = lLRg.x;
+            //GJ: there is a bug when crossing the -180 longitude border (tile does not render) - this check seems to fix it
+            if (lLR_Longitude < lUL_Longitude){
+              lLR_Longitude = Math.abs(lLR_Longitude);
+            }
+            var urlResult = baseURL + wmsParams.join("&") + "&bbox=" + lUL_Longitude + "," + lUL_Latitude + "," + lLR_Longitude + "," + lLR_Latitude;
+
+            return urlResult;
+        },
+
+        tileSize: new google.maps.Size(tileHeight, tileWidth),
+
+        minZoom: minZoomLevel,
+        maxZoom: maxZoomLevel,
+
+        opacity: opacityLevel,
+
+        isPng: isPng
+    };
+
+    overlayWMS = new google.maps.ImageMapType(overlayOptions);
+
+    map.overlayMapTypes.insertAt(0, overlayWMS);
+
+    map.setOptions({
+        mapTypeControlOptions: {
+            mapTypeIds: [
+            google.maps.MapTypeId.ROADMAP,
+            google.maps.MapTypeId.TERRAIN,
+            google.maps.MapTypeId.SATELLITE,
+            google.maps.MapTypeId.HYBRID
+            ],
+            style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+        }
+    });
 }
