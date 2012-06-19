@@ -87,10 +87,10 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 			settype($TPopKontrId, "integer");
 			$TPopKontrJahr =  $r_tpopfeldkontr['TPopKontrJahr'];
 			settype($TPopKontrJahr, "integer");
-			$TPopKontrTyp = $r_tpop['TPopKontrTyp'];
+			$TPopKontrTyp = $r_tpopfeldkontr['TPopKontrTyp'];
 			//TPopFeldKontr setzen
 			$attr_tpopfeldkontr = array("id" => $TPopKontrId, "typ" => "tpopfeldkontr");
-			$tpopfeldkontr = array("data" => $TPopKontrJahr." ".$TPopKontrTyp, "attr" => $attr_tpopfeldkontr);
+			$tpopfeldkontr = array("data" => $TPopKontrJahr.": ".$TPopKontrTyp, "attr" => $attr_tpopfeldkontr);
 			//tpopfeldkontr-Array um tpopfeldkontr ergänzen
 		    $rows_tpopfeldkontr[] = $tpopfeldkontr;
 		}
@@ -104,12 +104,16 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 		while($r_tpopfreiwkontr = mysqli_fetch_assoc($result_tpopfreiwkontr)) {
 			$TPopKontrId = $r_tpopfreiwkontr['TPopKontrId'];
 			settype($TPopKontrId, "integer");
-			$TPopKontrJahr =  $r_tpopfreiwkontr['TPopKontrJahr'];
-			settype($TPopKontrJahr, "integer");
-			$TPopKontrTyp = $r_tpop['TPopKontrTyp'];
+			if ($r_tpopfreiwkontr['TPopKontrJahr'] > 0) {
+				$TPopKontrJahr =  $r_tpopfreiwkontr['TPopKontrJahr'];
+			} else {
+				$TPopKontrJahr =  "(kein Jahr)";
+			}
+			//settype($TPopKontrJahr, "integer");
+			$TPopKontrTyp = $r_tpopfreiwkontr['TPopKontrTyp'];
 			//TPopFeldKontr setzen
 			$attr_tpopfreiwkontr = array("id" => $TPopKontrId, "typ" => "tpopfreiwkontr");
-			$tpopfreiwkontr = array("data" => $TPopKontrJahr." ".$TPopKontrTyp, "attr" => $attr_tpopfreiwkontr);
+			$tpopfreiwkontr = array("data" => $TPopKontrJahr, "attr" => $attr_tpopfreiwkontr);
 			//tpopfreiwkontr-Array um tpopfreiwkontr ergänzen
 		    $rows_tpopfreiwkontr[] = $tpopfreiwkontr;
 		}
@@ -125,10 +129,10 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 			settype($TPopBerId, "integer");
 			$TPopBerJahr =  $r_tpopber['TPopBerJahr'];
 			settype($TPopBerJahr, "integer");
-			$EntwicklungTxt = $r_tpop['EntwicklungTxt'];
+			$EntwicklungTxt = $r_tpopber['EntwicklungTxt'];
 			//TPopFeldKontr setzen
 			$attr_tpopber = array("id" => $TPopBerId, "typ" => "tpopber");
-			$tpopber = array("data" => $TPopBerJahr." ".$EntwicklungTxt, "attr" => $attr_tpopber);
+			$tpopber = array("data" => $TPopBerJahr.": ".$EntwicklungTxt, "attr" => $attr_tpopber);
 			//tpopber-Array um tpopber ergänzen
 		    $rows_tpopber[] = $tpopber;
 		}
@@ -307,7 +311,7 @@ while($r_apzieljahr = mysqli_fetch_assoc($result_apzieljahr)) {
 	settype($apzieljahr_jahr, "integer");
 
 	//Typen
-	$result_apziel = mysqli_query($link, "SELECT ZielId, ZielTyp, ZielBezeichnung FROM tblZiel WHERE (ApArtId = $ApArtId) AND (ZielJahr = ".$r_apzieljahr['ZielJahr'].") ORDER BY ZielTyp, ZielBezeichnung");
+	$result_apziel = mysqli_query($link, "SELECT ZielId, ZielTyp, ZielBezeichnung FROM tblZiel WHERE (ApArtId = $ApArtId) AND (ZielJahr = '".$r_apzieljahr['ZielJahr']."') ORDER BY ZielTyp, ZielBezeichnung");
 	$anz_apziel = mysqli_num_rows($result_apziel);
 	$anz_apzieljahr = $anz_apzieljahr + $anz_apziel;
 

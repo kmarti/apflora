@@ -2266,13 +2266,17 @@ function erstelle_tree(ApArtId) {
 					success: function () {
 						var anz, anzTxt, neuerNode, neuerParentNode, aktuellerNode, neuerNodeTxt, vorigerNode;
 						//typ des nodes anpassen
-						$("[typ='ap_ordner_beob'] #" + localStorage.tpopbeob_id).attr("typ", "beob");
+						$(herkunft_node).attr("typ", "beob");
 						//selecten
 						jQuery.jstree._reference(herkunft_node).deselect_all();
 						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
 						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-						beschrifte_ap_ordner_beob($("[typ='ap_ordner_beob']"));
-						beschrifte_tpop_ordner_tpopbeob($("[typ='pop_ordner_tpop'] #" + localStorage.tpop_id + " [typ='tpop_ordner_tpopbeob']"));
+						if (ziel_node.attr("typ") === "beob") {
+							beschrifte_ap_ordner_beob(ziel_parent_node);
+						} else {
+							beschrifte_ap_ordner_beob(ziel_node);
+						}
+						beschrifte_tpop_ordner_tpopbeob(window.herkunft_parent_node);
 						//Variablen aufräumen
 						localStorage.beob_id = $(herkunft_node).attr("id");
 						delete window.tpopbeob;
@@ -2456,7 +2460,135 @@ function erstelle_tree(ApArtId) {
 
 //übernimmt einen node
 //zählt dessen children und passt die Beschriftung an
+function beschrifte_ap_ordner_pop(node) {
+	var anz, anzTxt;
+	anz = $(node).find("> ul > li").length;
+	if (anz === 1) {
+		anzTxt = anz + " Population";
+	} else {
+		anzTxt = anz + " Populationen";
+	}
+	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+}
+
+//übernimmt einen node
+//zählt dessen children und passt die Beschriftung an
+function beschrifte_ap_ordner_apziel(node) {
+	var anz, anzTxt;
+	anz = $(node).find("> ul > li").length;
+	if (anz === 1) {
+		anzTxt = anz + " AP-Ziel";
+	} else {
+		anzTxt = anz + " AP-Ziele";
+	}
+	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+}
+
+//übernimmt einen node
+//zählt dessen children und passt die Beschriftung an
+function beschrifte_apzieljahr(node) {
+	var anz, anzTxt;
+	anz = $(node).find("> ul > li").length;
+	anzTxt = jQuery.jstree._reference(node).get_text(node).slice(0, 6);
+	anzTxt += anz;
+	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+}
+
+//übernimmt einen node
+//zählt dessen children und passt die Beschriftung an
+function beschrifte_zielber_ordner(node) {
+	var anz, anzTxt;
+	anz = $(node).find("> ul > li").length;
+	if (anz === 1) {
+		anzTxt = anz + " Ziel-Bericht";
+	} else {
+		anzTxt = anz + " Ziel-Berichte";
+	}
+	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+}
+
+//übernimmt einen node
+//zählt dessen children und passt die Beschriftung an
+function beschrifte_ap_ordner_erfkrit(node) {
+	var anz, anzTxt;
+	anz = $(node).find("> ul > li").length;
+	if (anz === 1) {
+		anzTxt = anz + " Erfolgskriterium";
+	} else {
+		anzTxt = anz + " Erfolgskriterien";
+	}
+	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+}
+
+//übernimmt einen node
+//zählt dessen children und passt die Beschriftung an
+function beschrifte_ap_ordner_apber(node) {
+	var anz, anzTxt;
+	anz = $(node).find("> ul > li").length;
+	if (anz === 1) {
+		anzTxt = anz + " AP-Bericht";
+	} else {
+		anzTxt = anz + " AP-Berichte";
+	}
+	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+}
+
+//übernimmt einen node
+//zählt dessen children und passt die Beschriftung an
+function beschrifte_ap_ordner_ber(node) {
+	var anz, anzTxt;
+	anz = $(node).find("> ul > li").length;
+	if (anz === 1) {
+		anzTxt = anz + " Bericht";
+	} else {
+		anzTxt = anz + " Berichte";
+	}
+	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+}
+
+//übernimmt einen node
+//zählt dessen children und passt die Beschriftung an
+function beschrifte_ap_ordner_ibb(node) {
+	var anz, anzTxt;
+	anz = $(node).find("> ul > li").length;
+	if (anz === 1) {
+		anzTxt = anz + " Idealbiotop";
+	} else {
+		anzTxt = anz + " Idealbiotope";
+	}
+	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+}
+
+//übernimmt einen node
+//zählt dessen children und passt die Beschriftung an
+function beschrifte_ap_ordner_ibartenassoz(node) {
+	var anz, anzTxt;
+	anz = $(node).find("> ul > li").length;
+	if (anz === 1) {
+		anzTxt = anz + " assoziierte Art";
+	} else {
+		anzTxt = anz + " assoziierte Arten";
+	}
+	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+}
+
+//übernimmt einen node
+//zählt dessen children und passt die Beschriftung an
+function beschrifte_pop(node) {
+	var anz, anzTxt;
+	anz = $(node).find("> ul > li").length;
+	if (anz === 1) {
+		anzTxt = anz + " Population";
+	} else {
+		anzTxt = anz + " Populationen";
+	}
+	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+}
+
+//übernimmt einen node
+//zählt dessen children und passt die Beschriftung an
 function beschrifte_pop_ordner_tpop(node) {
+	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	if (anz === 1) {
 		anzTxt = anz + " Teilpopulation";
@@ -2468,7 +2600,34 @@ function beschrifte_pop_ordner_tpop(node) {
 
 //übernimmt einen node
 //zählt dessen children und passt die Beschriftung an
+function beschrifte_pop_ordner_popber(node) {
+	var anz, anzTxt;
+	anz = $(node).find("> ul > li").length;
+	if (anz === 1) {
+		anzTxt = anz + " Populations-Bericht";
+	} else {
+		anzTxt = anz + " Populations-Berichte";
+	}
+	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+}
+
+//übernimmt einen node
+//zählt dessen children und passt die Beschriftung an
+function beschrifte_pop_ordner_massnber(node) {
+	var anz, anzTxt;
+	anz = $(node).find("> ul > li").length;
+	if (anz === 1) {
+		anzTxt = anz + " Massnahmen-Bericht";
+	} else {
+		anzTxt = anz + " Massnahmen-Berichte";
+	}
+	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+}
+
+//übernimmt einen node
+//zählt dessen children und passt die Beschriftung an
 function beschrifte_tpop_ordner_massn(node) {
+	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	if (anz === 1) {
 		anzTxt = anz + " Massnahme";
@@ -2480,7 +2639,34 @@ function beschrifte_tpop_ordner_massn(node) {
 
 //übernimmt einen node
 //zählt dessen children und passt die Beschriftung an
+function beschrifte_tpop_ordner_massnber(node) {
+	var anz, anzTxt;
+	anz = $(node).find("> ul > li").length;
+	if (anz === 1) {
+		anzTxt = anz + " Massnahmen-Bericht";
+	} else {
+		anzTxt = anz + " Massnahmen-Berichte";
+	}
+	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+}
+
+//übernimmt einen node
+//zählt dessen children und passt die Beschriftung an
+function beschrifte_tpop_ordner_tpopber(node) {
+	var anz, anzTxt;
+	anz = $(node).find("> ul > li").length;
+	if (anz === 1) {
+		anzTxt = anz + " Teilpopulations-Bericht";
+	} else {
+		anzTxt = anz + " Teilpopulations-Berichte";
+	}
+	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+}
+
+//übernimmt einen node
+//zählt dessen children und passt die Beschriftung an
 function beschrifte_tpop_ordner_feldkontr(node) {
+	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	if (anz === 1) {
 		anzTxt = anz + " Feldkontrolle";
@@ -2493,6 +2679,7 @@ function beschrifte_tpop_ordner_feldkontr(node) {
 //übernimmt einen node
 //zählt dessen children und passt die Beschriftung an
 function beschrifte_tpop_ordner_freiwkontr(node) {
+	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	if (anz === 1) {
 		anzTxt = anz + " Freiwilligen-Kontrolle";
@@ -2505,6 +2692,7 @@ function beschrifte_tpop_ordner_freiwkontr(node) {
 //übernimmt einen node
 //zählt dessen children und passt die Beschriftung an
 function beschrifte_tpop_ordner_tpopbeob(node) {
+	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	if (anz === 1) {
 		anzTxt = anz + " Beobachtung";
@@ -2517,6 +2705,7 @@ function beschrifte_tpop_ordner_tpopbeob(node) {
 //übernimmt einen node
 //zählt dessen children und passt die Beschriftung an
 function beschrifte_ap_ordner_beob(node) {
+	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	if (anz === 1) {
 		anzTxt = anz + " nicht zugewiesene Beobachtung";
@@ -2551,7 +2740,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.pop_id = data;
 							delete window.pop;
 							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
@@ -2584,15 +2773,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Node-Beschriftung: Anzahl anpassen
-							anz = $(aktiver_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Population";
-							} else {
-								anzTxt = anz + " Populationen";
-							}
-							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							beschrifte_ap_ordner_pop(aktiver_node);
+							//nodes selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular aufbauen
 							initiiere_pop();
 						},
 						error: function (data) {
@@ -2674,7 +2859,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.apziel_id = data;
 							delete window.apziel;
 							NeuerNode = jQuery.jstree._reference(neue_apziele_node).create_node(neue_apziele_node, "last", {
@@ -2685,13 +2870,8 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Node-Beschriftung: Anzahl anpassen
-							anz = $(aktiver_node).find("> ul > li > ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " AP-Ziel";
-							} else {
-								anzTxt = anz + " AP-Ziele";
-							}
-							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							beschrifte_ap_ordner_apziel(aktiver_node);
+							//node selektieren
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							//jetzt Unterordner anlegen
@@ -2735,7 +2915,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.apziel_id = data;
 							delete window.apziel;
 							delete localStorage.apziel;
@@ -2746,19 +2926,13 @@ function treeKontextmenu(node) {
 									"typ": "apziel"
 								}
 							});
-							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li > ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " AP-Ziel";
-							} else {
-								anzTxt = anz + " AP-Ziele";
+							//Parent Node-Beschriftung: Anzahl anpassen, wenns nicht der neue Ordner ist
+							if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
+								beschrifte_ap_ordner_apziel(parent_node);
 							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
 							//aktiver Node-Beschriftung: Anzahl anpassen
-							anz = $(aktiver_node).find("> ul > li").length;
-							anzTxt = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node).slice(0, 6);
-							anzTxt += anz;
-							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							beschrifte_apzieljahr(aktiver_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							//jetzt Unterordner anlegen
@@ -2770,7 +2944,7 @@ function treeKontextmenu(node) {
 								}
 							});
 							initiiere_apziel();
-							//IDEE: JETZT DAS JAHR EINFÜGEN
+							//jetzt das Jahr einfügen
 							setTimeout(function() {
 								$("#ZielJahr").val(jQuery.jstree._reference(aktiver_node).get_text(aktiver_node).slice(0, 4));
 								var Objekt = {};
@@ -2811,7 +2985,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.apziel_id = data;
 							delete window.apziel;
 							delete localStorage.apziel;
@@ -2823,18 +2997,13 @@ function treeKontextmenu(node) {
 								}
 							});
 							//grandparent Node-Beschriftung: Anzahl anpassen
-							anz = $(grandparent_node).find("> ul > li > ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " AP-Ziel";
-							} else {
-								anzTxt = anz + " AP-Ziele";
-							}
-							jQuery.jstree._reference(grandparent_node).rename_node(grandparent_node, anzTxt);
+							beschrifte_ap_ordner_apziel(grandparent_node);
 							//parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							anzTxt = jQuery.jstree._reference(parent_node).get_text(parent_node).slice(0, 6);
-							anzTxt += anz;
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							//nur, wenn es nicht der Ordner ist, der "neue AP-Ziele" heisst
+							if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
+								beschrifte_apzieljahr(parent_node);
+							}
+							//node selecten
 							jQuery.jstree._reference(parent_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							//jetzt Unterordner anlegen
@@ -2894,18 +3063,11 @@ function treeKontextmenu(node) {
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//grandparent Node-Beschriftung: Anzahl anpassen
 										grandparent_node = jQuery.jstree._reference(parent_node)._get_parent(parent_node);
-										anz = $(grandparent_node).find("> ul > li > ul > li").length;
-										if (anz === 1) {
-											anzTxt = anz + " AP-Ziel";
-										} else {
-											anzTxt = anz + " AP-Ziele";
-										}
-										jQuery.jstree._reference(grandparent_node).rename_node(grandparent_node, anzTxt);
+										beschrifte_ap_ordner_apziel(grandparent_node);
 										//parent Node-Beschriftung: Anzahl anpassen
-										anz = $(parent_node).find("> ul > li").length;
-										anzTxt = jQuery.jstree._reference(parent_node).get_text(parent_node).slice(0, 6);
-										anzTxt += anz;
-										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+										if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
+											beschrifte_apzieljahr(parent_node);
+										}
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Das AP-Ziel wurde nicht gelöscht");
@@ -2954,15 +3116,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Node-Beschriftung: Anzahl anpassen
-							anz = $(aktiver_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Ziel-Bericht";
-							} else {
-								anzTxt = anz + " Ziel-Berichte";
-							}
-							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							beschrifte_zielber_ordner(aktiver_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//formular initiieren
 							initiiere_zielber();
 						},
 						error: function (data) {
@@ -3007,15 +3165,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Ziel-Bericht";
-							} else {
-								anzTxt = anz + " Ziel-Berichte";
-							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							beschrifte_zielber_ordner(parent_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//formular initiieren
 							initiiere_zielber();
 						},
 						error: function () {
@@ -3064,13 +3218,7 @@ function treeKontextmenu(node) {
 										delete window.zielber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
-										anz = $(parent_node).find("> ul > li").length;
-										if (anz === 1) {
-											anzTxt = anz + " Ziel-Bericht";
-										} else {
-											anzTxt = anz + " Ziel-Berichte";
-										}
-										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+										beschrifte_zielber_ordner(parent_node);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Der Ziel-Bericht wurde nicht gelöscht");
@@ -3119,15 +3267,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Node-Beschriftung: Anzahl anpassen
-							anz = $(aktiver_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Erfolgskriterium";
-							} else {
-								anzTxt = anz + " Erfolgskriterien";
-							}
-							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							beschrifte_ap_ordner_erfkrit(aktiver_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_erfkrit();
 						},
 						error: function (data) {
@@ -3172,15 +3316,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Erfolgskriterium";
-							} else {
-								anzTxt = anz + " Erfolgskriterien";
-							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							beschrifte_ap_ordner_erfkrit(parent_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_erfkrit();
 						},
 						error: function () {
@@ -3229,13 +3369,7 @@ function treeKontextmenu(node) {
 										delete window.erfkrit;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
-										anz = $(parent_node).find("> ul > li").length;
-										if (anz === 1) {
-											anzTxt = anz + " Erfolgskriterium";
-										} else {
-											anzTxt = anz + " Erfolgskriterien";
-										}
-										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+										beschrifte_ap_ordner_erfkrit(parent_node);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Das Erfolgskriterium wurde nicht gelöscht");
@@ -3284,15 +3418,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Node-Beschriftung: Anzahl anpassen
-							anz = $(aktiver_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " AP-Bericht";
-							} else {
-								anzTxt = anz + " AP-Berichte";
-							}
-							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							beschrifte_ap_ordner_apber(aktiver_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_apber();
 						},
 						error: function (data) {
@@ -3337,15 +3467,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " AP-Bericht";
-							} else {
-								anzTxt = anz + " AP-Berichte";
-							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							beschrifte_ap_ordner_apber(parent_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_apber();
 						},
 						error: function () {
@@ -3394,13 +3520,7 @@ function treeKontextmenu(node) {
 										delete window.apber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
-										anz = $(parent_node).find("> ul > li").length;
-										if (anz === 1) {
-											anzTxt = anz + " AP-Bericht";
-										} else {
-											anzTxt = anz + " AP-Berichte";
-										}
-										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+										beschrifte_ap_ordner_apber(parent_node);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Der AP-Bericht wurde nicht gelöscht");
@@ -3419,7 +3539,7 @@ function treeKontextmenu(node) {
 								$(this).dialog("close");
 							}
 						}
-					});			
+					});
 				}
 			}
 		};
@@ -3547,15 +3667,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Node-Beschriftung: Anzahl anpassen
-							anz = $(aktiver_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Bericht";
-							} else {
-								anzTxt = anz + " Berichte";
-							}
-							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							beschrifte_ap_ordner_ber(aktiver_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_ber();
 						},
 						error: function (data) {
@@ -3600,15 +3716,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Bericht";
-							} else {
-								anzTxt = anz + " Berichte";
-							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							beschrifte_ap_ordner_ber(parent_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_ber();
 						},
 						error: function () {
@@ -3657,13 +3769,7 @@ function treeKontextmenu(node) {
 										delete window.ber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
-										anz = $(parent_node).find("> ul > li").length;
-										if (anz === 1) {
-											anzTxt = anz + " Bericht";
-										} else {
-											anzTxt = anz + " Berichte";
-										}
-										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+										beschrifte_ap_ordner_ber(parent_node);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Der Bericht wurde nicht gelöscht");
@@ -3712,15 +3818,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Node-Beschriftung: Anzahl anpassen
-							anz = $(aktiver_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Idealbiotop";
-							} else {
-								anzTxt = anz + " Idealbiotope";
-							}
-							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							beschrifte_ap_ordner_ibb(aktiver_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_ibb();
 						},
 						error: function (data) {
@@ -3765,15 +3867,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Idealbiotop";
-							} else {
-								anzTxt = anz + " Idealbiotope";
-							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							beschrifte_ap_ordner_ibb(parent_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_ibb();
 						},
 						error: function () {
@@ -3822,13 +3920,7 @@ function treeKontextmenu(node) {
 										delete window.ibb;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
-										anz = $(parent_node).find("> ul > li").length;
-										if (anz === 1) {
-											anzTxt = anz + " Idealbiotop";
-										} else {
-											anzTxt = anz + " Idealbiotope";
-										}
-										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+										beschrifte_ap_ordner_ibb(parent_node);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Das Idealbiotop wurde nicht gelöscht");
@@ -3877,15 +3969,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Node-Beschriftung: Anzahl anpassen
-							anz = $(aktiver_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " assoziierte Art";
-							} else {
-								anzTxt = anz + " assoziierte Arten";
-							}
-							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							beschrifte_ap_ordner_ibartenassoz(aktiver_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_ibartenassoz();
 						},
 						error: function (data) {
@@ -3930,15 +4018,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " assoziierte Art";
-							} else {
-								anzTxt = anz + " assoziierte Arten";
-							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							beschrifte_ap_ordner_ibartenassoz(parent_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_ibartenassoz();
 						},
 						error: function () {
@@ -3987,13 +4071,7 @@ function treeKontextmenu(node) {
 										delete window.ibartenassoz;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
-										anz = $(parent_node).find("> ul > li").length;
-										if (anz === 1) {
-											anzTxt = anz + " assoziierte Art";
-										} else {
-											anzTxt = anz + " assoziierte Arten";
-										}
-										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+										beschrifte_ap_ordner_ibartenassoz(parent_node);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Die assoziierte Art wurde nicht gelöscht");
@@ -4066,15 +4144,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Population";
-							} else {
-								anzTxt = anz + " Populationen";
-							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							beschrifte_ap_ordner_pop(parent_node);
+							//node selecten
 							jQuery.jstree._reference(parent_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_pop();
 						},
 						error: function (data) {
@@ -4123,13 +4197,7 @@ function treeKontextmenu(node) {
 										delete window.pop;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
-										anz = $(parent_node).find("> ul > li").length;
-										if (anz === 1) {
-											anzTxt = anz + " Population";
-										} else {
-											anzTxt = anz + " Populationen";
-										}
-										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+										beschrifte_ap_ordner_pop(parent_node);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Die Population wurde nicht gelöscht");
@@ -4262,15 +4330,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Node-Beschriftung: Anzahl anpassen
-							anz = $(aktiver_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Teilpopulation";
-							} else {
-								anzTxt = anz + " Teilpopulationen";
-							}
-							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							beschrifte_pop_ordner_tpop(aktiver_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_tpop();
 						},
 						error: function (data) {
@@ -4418,15 +4482,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Teilpopulation";
-							} else {
-								anzTxt = anz + " Teilpopulationen";
-							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							beschrifte_pop_ordner_tpop(parent_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_tpop();
 						},
 						error: function () {
@@ -4475,13 +4535,7 @@ function treeKontextmenu(node) {
 										delete window.tpop;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
-										anz = $(parent_node).find("> ul > li").length;
-										if (anz === 1) {
-											anzTxt = anz + " Teilpopulation";
-										} else {
-											anzTxt = anz + " Teilpopulationen";
-										}
-										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+										beschrifte_pop_ordner_tpop(parent_node);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Die Teilpopulation wurde nicht gelöscht");
@@ -4686,15 +4740,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Node-Beschriftung: Anzahl anpassen
-							anz = $(aktiver_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Populations-Bericht";
-							} else {
-								anzTxt = anz + " Populations-Berichte";
-							}
-							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							beschrifte_pop_ordner_popber(aktiver_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_popber();
 						},
 						error: function () {
@@ -4739,15 +4789,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Populations-Bericht";
-							} else {
-								anzTxt = anz + " Populations-Berichte";
-							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							beschrifte_pop_ordner_popber(parent_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_popber();
 						},
 						error: function (data) {
@@ -4790,13 +4836,7 @@ function treeKontextmenu(node) {
 										delete window.popber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
-										anz = $(parent_node).find("> ul > li").length;
-										if (anz === 1) {
-											anzTxt = anz + " Populations-Bericht";
-										} else {
-											anzTxt = anz + " Populations-Berichte";
-										}
-										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+										beschrifte_pop_ordner_popber(parent_node);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Der Populations-Bericht wurde nicht gelöscht");
@@ -4845,15 +4885,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Node-Beschriftung: Anzahl anpassen
-							anz = $(aktiver_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Massnahmen-Bericht";
-							} else {
-								anzTxt = anz + " Massnahmen-Berichte";
-							}
-							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							beschrifte_pop_ordner_massnber(aktiver_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_popmassnber();
 						},
 						error: function () {
@@ -4898,15 +4934,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Massnahmen-Bericht";
-							} else {
-								anzTxt = anz + " Massnahmen-Berichte";
-							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							beschrifte_pop_ordner_massnber(parent_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_popmassnber();
 						},
 						error: function (data) {
@@ -4949,13 +4981,7 @@ function treeKontextmenu(node) {
 										delete window.popmassnber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
-										anz = $(parent_node).find("> ul > li").length;
-										if (anz === 1) {
-											anzTxt = anz + " Massnahmen-Bericht";
-										} else {
-											anzTxt = anz + " Massnahmen-Berichte";
-										}
-										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+										beschrifte_pop_ordner_massnber(parent_node);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
@@ -5005,15 +5031,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Node-Beschriftung: Anzahl anpassen
-							anz = $(aktiver_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Feldkontrolle";
-							} else {
-								anzTxt = anz + " Feldkontrollen";
-							}
-							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							beschrifte_tpop_ordner_feldkontr(aktiver_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_tpopfeldkontr();
 						},
 						error: function (data) {
@@ -5070,7 +5092,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
 						dataType: 'json',
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.tpopfeldkontr_id = data;
 							delete window.tpopfeldkontr;
 							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
@@ -5080,16 +5102,12 @@ function treeKontextmenu(node) {
 									"typ": "tpopfeldkontr"
 								}
 							});
-							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(aktiver_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Feldkontrolle";
-							} else {
-								anzTxt = anz + " Feldkontrollen";
-							}
-							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							//Node-Beschriftung: Anzahl anpassen
+							beschrifte_tpop_ordner_feldkontr(aktiver_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_tpopfeldkontr();
 						},
 						error: function (data) {
@@ -5123,7 +5141,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.tpopfeldkontr_id = data;
 							delete window.tpopfeldkontr;
 							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
@@ -5134,15 +5152,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Feldkontrolle";
-							} else {
-								anzTxt = anz + " Feldkontrollen";
-							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							beschrifte_tpop_ordner_feldkontr(parent_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_tpopfeldkontr();
 						},
 						error: function (data) {
@@ -5185,13 +5199,7 @@ function treeKontextmenu(node) {
 										delete window.tpopfeldkontr;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
-										anz = $(parent_node).find("> ul > li").length;
-										if (anz === 1) {
-											anzTxt = anz + " Feldkontrolle";
-										} else {
-											anzTxt = anz + " Feldkontrollen";
-										}
-										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+										beschrifte_tpop_ordner_feldkontr(parent_node);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Die Feldkontrolle wurde nicht gelöscht");
@@ -5404,15 +5412,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Feldkontrolle";
-							} else {
-								anzTxt = anz + " Feldkontrollen";
-							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							beschrifte_tpop_ordner_feldkontr(parent_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_tpopfeldkontr();
 						},
 						error: function (data) {
@@ -5458,15 +5462,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Node-Beschriftung: Anzahl anpassen
-							anz = $(aktiver_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Freiwilligen-Kontrolle";
-							} else {
-								anzTxt = anz + " Freiwilligen-Kontrollen";
-							}
-							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							beschrifte_tpop_ordner_freiwkontr(aktiver_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_tpopfeldkontr();
 						},
 						error: function (data) {
@@ -5534,16 +5534,12 @@ function treeKontextmenu(node) {
 									"typ": "tpopfreiwkontr"
 								}
 							});
-							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(aktiver_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Freiwilligen-Kontrolle";
-							} else {
-								anzTxt = anz + " Freiwilligen-Kontrollen";
-							}
-							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							//Node-Beschriftung: Anzahl anpassen
+							beschrifte_tpop_ordner_freiwkontr(aktiver_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							localStorage.tpopfreiwkontr = true;
 							initiiere_tpopfeldkontr();
 						},
@@ -5590,15 +5586,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Freiwilligen-Kontrolle";
-							} else {
-								anzTxt = anz + " Freiwilligen-Kontrollen";
-							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							beschrifte_tpop_ordner_freiwkontr(parent_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_tpopfeldkontr();
 						},
 						error: function (data) {
@@ -5642,13 +5634,7 @@ function treeKontextmenu(node) {
 										delete window.tpopfeldkontr;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
-										anz = $(parent_node).find("> ul > li").length;
-										if (anz === 1) {
-											anzTxt = anz + " Freiwilligen-Kontrolle";
-										} else {
-											anzTxt = anz + " Freiwilligen-Kontrollen";
-										}
-										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+										beschrifte_tpop_ordner_freiwkontr(parent_node);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Die Freiwilligen-Kontrolle wurde nicht gelöscht");
@@ -5768,15 +5754,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Freiwilligen-Kontrolle";
-							} else {
-								anzTxt = anz + " Freiwilligen-Kontrollen";
-							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							beschrifte_tpop_ordner_freiwkontr(parent_node);
+							//node selectieren
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							localStorage.tpopfreiwkontr = true;
 							initiiere_tpopfeldkontr();
 						},
@@ -5822,15 +5804,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Node-Beschriftung: Anzahl anpassen
-							anz = $(aktiver_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Massnahme";
-							} else {
-								anzTxt = anz + " Massnahmen";
-							}
-							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							beschrifte_tpop_ordner_massn(aktiver_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_tpopmassn();
 						},
 						error: function (data) {
@@ -5887,7 +5865,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopmassn_insert_kopie.php' + dataUrl,
 						dataType: 'json',
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.tpopmassn_id = data;
 							delete window.tpopmassn;
 							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
@@ -5897,16 +5875,12 @@ function treeKontextmenu(node) {
 									"typ": "tpopmassn"
 								}
 							});
-							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(aktiver_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Massnahme";
-							} else {
-								anzTxt = anz + " Massnahmen";
-							}
-							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							//Node-Beschriftung: Anzahl anpassen
+							beschrifte_tpop_ordner_massn(aktiver_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_tpopmassn();
 						},
 						error: function (data) {
@@ -5951,15 +5925,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Massnahme";
-							} else {
-								anzTxt = anz + " Massnahmen";
-							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							beschrifte_tpop_ordner_massn(parent_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_tpopmassn();
 						},
 						error: function (data) {
@@ -6002,13 +5972,7 @@ function treeKontextmenu(node) {
 										delete window.tpopmassn;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
-										anz = $(parent_node).find("> ul > li").length;
-										if (anz === 1) {
-											anzTxt = anz + " Massnahme";
-										} else {
-											anzTxt = anz + " Massnahmen";
-										}
-										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+										beschrifte_tpop_ordner_massn(parent_node);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Die Massnahme wurde nicht gelöscht");
@@ -6127,15 +6091,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Massnahme";
-							} else {
-								anzTxt = anz + " Massnahmen";
-							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							beschrifte_tpop_ordner_massn(parent_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_tpopmassn();
 						},
 						error: function (data) {
@@ -6179,15 +6139,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Node-Beschriftung: Anzahl anpassen
-							anz = $(aktiver_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Teilpopulations-Bericht";
-							} else {
-								anzTxt = anz + " Teilpopulations-Berichte";
-							}
-							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							beschrifte_tpop_ordner_tpopber(aktiver_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_tpopber();
 						},
 						error: function () {
@@ -6232,15 +6188,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Teilpopulations-Bericht";
-							} else {
-								anzTxt = anz + " Teilpopulations-Berichte";
-							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							beschrifte_tpop_ordner_tpopber(parent_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_tpopber();
 						},
 						error: function (data) {
@@ -6278,18 +6230,11 @@ function treeKontextmenu(node) {
 										"id": $(aktiver_node).attr("id")
 									},
 									success: function () {
-										var anz, anzTxt;
 										delete localStorage.tpopber_id;
 										delete window.tpopber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
-										anz = $(parent_node).find("> ul > li").length;
-										if (anz === 1) {
-											anzTxt = anz + " Teilpopulations-Bericht";
-										} else {
-											anzTxt = anz + " Teilpopulations-Berichte";
-										}
-										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+										beschrifte_tpop_ordner_tpopber(parent_node);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Der Teilpopulations-Bericht wurde nicht gelöscht");
@@ -6499,15 +6444,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Node-Beschriftung: Anzahl anpassen
-							anz = $(aktiver_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Massnahmen-Bericht";
-							} else {
-								anzTxt = anz + " Massnahmen-Berichte";
-							}
-							jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+							beschrifte_tpop_ordner_massnber(aktiver_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_tpopmassnber();
 						},
 						error: function () {
@@ -6552,15 +6493,11 @@ function treeKontextmenu(node) {
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							anz = $(parent_node).find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Massnahmen-Bericht";
-							} else {
-								anzTxt = anz + " Massnahmen-Berichte";
-							}
-							jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+							beschrifte_tpop_ordner_massnber(parent_node);
+							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							//Formular initiieren
 							initiiere_tpopmassnber();
 						},
 						error: function (data) {
@@ -6603,13 +6540,7 @@ function treeKontextmenu(node) {
 										delete window.tpopmassnber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
-										anz = $(parent_node).find("> ul > li").length;
-										if (anz === 1) {
-											anzTxt = anz + " Massnahmen-Bericht";
-										} else {
-											anzTxt = anz + " Massnahmen-Berichte";
-										}
-										jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+										beschrifte_tpop_ordner_massnber(parent_node);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
@@ -7044,11 +6975,12 @@ function speichern(that) {
 		case "TPopFlurname":
 			jQuery("#tree").jstree("rename_node", "[typ='pop_ordner_tpop'] #" + localStorage.tpop_id, Feldwert);
 			break;
+		case "TPopKontrTyp":
 		case "TPopKontrJahr":
 			if (localStorage.tpopfreiwkontr) {
 				jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_freiwkontr'] #" + localStorage.tpopfeldkontr_id, Feldwert);
 			} else {
-				jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_feldkontr'] #" + localStorage.tpopfeldkontr_id, Feldwert);
+				jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_feldkontr'] #" + localStorage.tpopfeldkontr_id, $("#TPopKontrJahr").val() + ": " + $("#spanTPopKontrTyp" + $('input[name="TPopKontrTyp"]:checked').val()).text());
 			}
 			break;
 		case "TPopBerJahr":
@@ -7076,8 +7008,9 @@ function speichern(that) {
 		case "ApBerJahr":
 			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_apber'] #" + localStorage.apber_id, Feldwert);
 			break;
+		case "BerAutor":
 		case "BerJahr":
-			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_ber'] #" + localStorage.ber_id, Feldwert);
+			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_ber'] #" + localStorage.ber_id, $("#BerJahr").val() + ": " + $("#BerAutor").val());
 			break;
 		case "IbbName":
 			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_ibb'] #" + localStorage.ibb_id, Feldwert);
