@@ -1107,29 +1107,17 @@
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var anz, anzTxt, neuerNode, neuerParentNode, aktuellerNode, neuerNodeTxt, vorigerNode;
+							var vorigerNode;
 							localStorage.tpopbeob_id = data;
 							vorigerNode = jQuery.jstree._reference("[typ='ap_ordner_beob'] #" + localStorage.BeobId)._get_prev("[typ='ap_ordner_beob'] #" + localStorage.BeobId);
-							aktuellerNode = jQuery("#tree").jstree("move_node", "[typ='ap_ordner_beob'] #" + localStorage.BeobId, "[typ='tpop_ordner_tpopbeob']#" + tpop_id, "last");
+							jQuery("#tree").jstree("move_node", "[typ='ap_ordner_beob'] #" + localStorage.BeobId, "[typ='tpop_ordner_tpopbeob']#" + tpop_id, "last");
 							//typ des nodes anpassen
 							$("[typ='tpop_ordner_tpopbeob'] #" + localStorage.BeobId).attr("typ", "tpopbeob");
 							jQuery.jstree._reference(vorigerNode).select_node(vorigerNode);
 							//Parent Node-Beschriftung am Zielort: Anzahl anpassen
-							anz = $("[typ='pop_ordner_tpop'] #" + tpop_id + " [typ='tpop_ordner_tpopbeob']").find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " Beobachtung";
-							} else {
-								anzTxt = anz + " Beobachtungen";
-							}
-							jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_tpopbeob']#" + tpop_id, anzTxt);
+							beschrifte_tpop_ordner_tpopbeob($("[typ='pop_ordner_tpop'] #" + tpop_id + " [typ='tpop_ordner_tpopbeob']"));
 							//Parent Node-Beschriftung am Herkunftort: Anzahl anpassen
-							anz = $("[typ='ap_ordner_beob']").find("> ul > li").length;
-							if (anz === 1) {
-								anzTxt = anz + " nicht zugewiesene Beobachtung";
-							} else {
-								anzTxt = anz + " nicht zugewiesene Beobachtungen";
-							}
-							jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_beob']#" + localStorage.ap_id, anzTxt);
+							beschrifte_ap_ordner_beob($("[typ='ap_ordner_beob']"));
 						},
 						error: function (data) {
 							$("#Meldung").html("Fehler: Die Beobachtung wurde nicht zugeordnet");
@@ -1159,7 +1147,7 @@
 								"user": sessionStorage.User
 							},
 							success: function () {
-								var anz, anzTxt, neuerNode, neuerParentNode, aktuellerNode, neuerNodeTxt, vorigerNode;
+								var vorigerNode;
 								vorigerNode = jQuery.jstree._reference("[typ='tpop_ordner_tpopbeob'] #" + localStorage.tpopbeob_id)._get_prev("[typ='tpop_ordner_tpopbeob'] #" + localStorage.tpopbeob_id);
 								jQuery("#tree").jstree("move_node", "[typ='tpop_ordner_tpopbeob'] #" + localStorage.tpopbeob_id, "[typ='tpop_ordner_tpopbeob']#" + tpop_id, "last");
 								jQuery.jstree._reference(vorigerNode).select_node(vorigerNode);
@@ -1191,7 +1179,7 @@
 								"user": sessionStorage.User
 							},
 							success: function () {
-								var anz, anzTxt, neuerNode, neuerParentNode, aktuellerNode, neuerNodeTxt, vorigerNode;
+								var vorigerNode;
 								vorigerNode = jQuery.jstree._reference("[typ='tpop_ordner_tpopbeob'] #" + localStorage.tpopbeob_id)._get_prev("[typ='tpop_ordner_tpopbeob'] #" + localStorage.tpopbeob_id);
 								jQuery("#tree").jstree("move_node", "[typ='tpop_ordner_tpopbeob'] #" + localStorage.tpopbeob_id, "[typ='ap_ordner_beob']", "first");
 								//typ des nodes anpassen

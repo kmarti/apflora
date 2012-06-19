@@ -2264,7 +2264,6 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					},
 					success: function () {
-						var anz, anzTxt, neuerNode, neuerParentNode, aktuellerNode, neuerNodeTxt, vorigerNode;
 						//typ des nodes anpassen
 						$(herkunft_node).attr("typ", "beob");
 						//selecten
@@ -2384,7 +2383,6 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					},
 					success: function () {
-						var anz, anzTxt, neuerNode, neuerParentNode, aktuellerNode, neuerNodeTxt, vorigerNode;
 						//typ des nodes anpassen
 						$(herkunft_node).attr("typ", "tpopbeob");
 						//selecten
@@ -2424,7 +2422,6 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					},
 					success: function () {
-						var anz, anzTxt, neuerNode, neuerParentNode, aktuellerNode, neuerNodeTxt, vorigerNode;
 						//typ des nodes anpassen
 						$(herkunft_node).attr("typ", "tpopbeob");
 						//selecten
@@ -3057,7 +3054,6 @@ function treeKontextmenu(node) {
 										"id": $(aktiver_node).attr("id")
 									},
 									success: function () {
-										var anz, anzTxt;
 										delete localStorage.apziel_id;
 										delete window.apziel;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -3105,7 +3101,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.zielber_id = data;
 							delete window.zielber;
 							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
@@ -3154,7 +3150,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.zielber_id = data;
 							delete window.zielber;
 							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
@@ -3213,7 +3209,6 @@ function treeKontextmenu(node) {
 										"id": $(aktiver_node).attr("id")
 									},
 									success: function () {
-										var anz, anzTxt;
 										delete localStorage.zielber_id;
 										delete window.zielber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -3256,7 +3251,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.erfkrit_id = data;
 							delete window.erfkrit;
 							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
@@ -3305,7 +3300,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.erfkrit_id = data;
 							delete window.erfkrit;
 							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
@@ -3364,7 +3359,6 @@ function treeKontextmenu(node) {
 										"id": $(aktiver_node).attr("id")
 									},
 									success: function () {
-										var anz, anzTxt;
 										delete localStorage.erfkrit_id;
 										delete window.erfkrit;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -3407,7 +3401,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.apber_id = data;
 							delete window.apber;
 							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
@@ -3456,7 +3450,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.apber_id = data;
 							delete window.apber;
 							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
@@ -3515,7 +3509,6 @@ function treeKontextmenu(node) {
 										"id": $(aktiver_node).attr("id")
 									},
 									success: function () {
-										var anz, anzTxt;
 										delete localStorage.apber_id;
 										delete window.apber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -3656,7 +3649,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.ber_id = data;
 							delete window.ber;
 							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
@@ -3705,7 +3698,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.ber_id = data;
 							delete window.ber;
 							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
@@ -3764,7 +3757,6 @@ function treeKontextmenu(node) {
 										"id": $(aktiver_node).attr("id")
 									},
 									success: function () {
-										var anz, anzTxt;
 										delete localStorage.ber_id;
 										delete window.ber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -3807,7 +3799,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.ibb_id = data;
 							delete window.ibb;
 							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
@@ -3856,7 +3848,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.ibb_id = data;
 							delete window.ibb;
 							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
@@ -3915,7 +3907,6 @@ function treeKontextmenu(node) {
 										"id": $(aktiver_node).attr("id")
 									},
 									success: function () {
-										var anz, anzTxt;
 										delete localStorage.ibb_id;
 										delete window.ibb;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -3958,7 +3949,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.ibartenassoz_id = data;
 							delete window.ibartenassoz;
 							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
@@ -4007,7 +3998,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.ibartenassoz_id = data;
 							delete window.ibartenassoz;
 							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
@@ -4066,7 +4057,6 @@ function treeKontextmenu(node) {
 										"id": $(aktiver_node).attr("id")
 									},
 									success: function () {
-										var anz, anzTxt;
 										delete localStorage.ibartenassoz_id;
 										delete window.ibartenassoz;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -4110,7 +4100,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.pop_id = data;
 							delete window.pop;
 							delete localStorage.pop;
@@ -4192,7 +4182,6 @@ function treeKontextmenu(node) {
 										"id": $(aktiver_node).attr("id")
 									},
 									success: function () {
-										var anz, anzTxt;
 										delete localStorage.pop_id;
 										delete window.pop;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -4276,7 +4265,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.tpop_id = data;
 							delete window.tpop;
 							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
@@ -4428,7 +4417,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.tpop_id = data;
 							delete window.tpop;
 							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
@@ -4530,7 +4519,6 @@ function treeKontextmenu(node) {
 										"id": $(aktiver_node).attr("id")
 									},
 									success: function () {
-										var anz, anzTxt;
 										delete localStorage.tpop_id;
 										delete window.tpop;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -4729,7 +4717,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.popber_id = data;
 							delete window.popber;
 							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
@@ -4778,7 +4766,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode
 							localStorage.popber_id = data;
 							delete window.popber;
 							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
@@ -4831,7 +4819,6 @@ function treeKontextmenu(node) {
 										"id": $(aktiver_node).attr("id")
 									},
 									success: function () {
-										var anz, anzTxt;
 										delete localStorage.popber_id;
 										delete window.popber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -4874,7 +4861,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.popmassnber_id = data;
 							delete window.popmassnber;
 							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
@@ -4923,7 +4910,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.popmassnber_id = data;
 							delete window.popmassnber;
 							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
@@ -4976,7 +4963,6 @@ function treeKontextmenu(node) {
 										"id": $(aktiver_node).attr("id")
 									},
 									success: function () {
-										var anz, anzTxt;
 										delete localStorage.popmassnber_id;
 										delete window.popmassnber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -5020,7 +5006,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.tpopfeldkontr_id = data;
 							delete window.tpopfeldkontr;
 							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
@@ -5194,7 +5180,6 @@ function treeKontextmenu(node) {
 										"id": $(aktiver_node).attr("id")
 									},
 									success: function () {
-										var anz, anzTxt;
 										delete localStorage.tpopfeldkontr_id;
 										delete window.tpopfeldkontr;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -5401,7 +5386,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
 						dataType: 'json',
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.tpopfeldkontr_id = data;
 							delete window.tpopfeldkontr;
 							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
@@ -5450,7 +5435,7 @@ function treeKontextmenu(node) {
 							"TPopKontrTyp": "Freiwilligen-Erfolgskontrolle"
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.tpopfeldkontr_id = data;
 							localStorage.tpopfreiwkontr = true;
 							delete window.tpopfeldkontr;
@@ -5523,7 +5508,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
 						dataType: 'json',
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.tpopfeldkontr_id = data;
 							localStorage.tpopfreiwkontr = true;
 							delete window.tpopfeldkontr;
@@ -5574,7 +5559,7 @@ function treeKontextmenu(node) {
 							"TPopKontrTyp": "Freiwilligen-Erfolgskontrolle"
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.tpopfeldkontr_id = data;
 							localStorage.tpopfreiwkontr = true;
 							delete window.tpopfeldkontr;
@@ -5628,7 +5613,6 @@ function treeKontextmenu(node) {
 										"id": $(aktiver_node).attr("id")
 									},
 									success: function () {
-										var anz, anzTxt;
 										delete localStorage.tpopfeldkontr_id;
 										delete localStorage.tpopfreiwkontr;
 										delete window.tpopfeldkontr;
@@ -5743,7 +5727,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
 						dataType: 'json',
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.tpopfeldkontr_id = data;
 							delete window.tpopfeldkontr;
 							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
@@ -5793,7 +5777,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.tpopmassn_id = data;
 							delete window.tpopmassn;
 							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
@@ -5914,7 +5898,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.tpopmassn_id = data;
 							delete window.tpopmassn;
 							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
@@ -5967,7 +5951,6 @@ function treeKontextmenu(node) {
 										"id": $(aktiver_node).attr("id")
 									},
 									success: function () {
-										var anz, anzTxt;
 										delete localStorage.tpopmassn_id;
 										delete window.tpopmassn;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -6080,7 +6063,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopmassn_insert_kopie.php' + dataUrl,
 						dataType: 'json',
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.tpopmassn_id = data;
 							delete window.tpopmassn;
 							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
@@ -6128,7 +6111,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.tpopber_id = data;
 							delete window.tpopber;
 							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
@@ -6177,7 +6160,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.tpopber_id = data;
 							delete window.tpopber;
 							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
@@ -6433,7 +6416,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.tpopmassnber_id = data;
 							delete window.tpopmassnber;
 							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
@@ -6482,7 +6465,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function (data) {
-							var NeuerNode, anz, anzTxt;
+							var NeuerNode;
 							localStorage.tpopmassnber_id = data;
 							delete window.tpopmassnber;
 							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
@@ -6535,7 +6518,6 @@ function treeKontextmenu(node) {
 										"id": $(aktiver_node).attr("id")
 									},
 									success: function () {
-										var anz, anzTxt;
 										delete localStorage.tpopmassnber_id;
 										delete window.tpopmassnber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -6784,7 +6766,7 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 		url: 'php/tpop_insert_kopie.php' + dataUrl,
 		dataType: 'json',
 		success: function (data) {
-			var NeuerNode, anz, anzTxt;
+			var NeuerNode;
 			localStorage.tpop_id = data;
 			delete window.tpop;
 			NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
@@ -6794,16 +6776,12 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 					"typ": "tpop"
 				}
 			});
-			//Parent Node-Beschriftung: Anzahl anpassen
-			anz = $(aktiver_node).find("> ul > li").length;
-			if (anz === 1) {
-				anzTxt = anz + " Teilpopulation";
-			} else {
-				anzTxt = anz + " Teilpopulationen";
-			}
-			jQuery.jstree._reference(aktiver_node).rename_node(aktiver_node, anzTxt);
+			//Node-Beschriftung: Anzahl anpassen
+			beschrifte_pop_ordner_tpop(aktiver_node);
+			//node selecten
 			jQuery.jstree._reference(aktiver_node).deselect_all();
 			jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+			//Formular initiieren
 			initiiere_tpop();
 		},
 		error: function (data) {
@@ -6848,7 +6826,7 @@ function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 		url: 'php/tpop_insert_kopie.php' + dataUrl,
 		dataType: 'json',
 		success: function (data) {
-			var NeuerNode, anz, anzTxt;
+			var NeuerNode;
 			localStorage.tpop_id = data;
 			delete window.tpop;
 			NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
@@ -6859,15 +6837,11 @@ function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 				}
 			});
 			//Parent Node-Beschriftung: Anzahl anpassen
-			anz = $(parent_node).find("> ul > li").length;
-			if (anz === 1) {
-				anzTxt = anz + " Teilpopulation";
-			} else {
-				anzTxt = anz + " Teilpopulationen";
-			}
-			jQuery.jstree._reference(parent_node).rename_node(parent_node, anzTxt);
+			beschrifte_pop_ordner_tpop(parent_node);
+			//node selecten
 			jQuery.jstree._reference(aktiver_node).deselect_all();
 			jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+			//Formular initiieren
 			initiiere_tpop();
 		},
 		error: function (data) {
