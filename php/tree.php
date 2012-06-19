@@ -564,7 +564,7 @@ $ap_ordner_iballg = array("data" => "ideale Umweltfaktoren", "attr" => $ap_ordne
 //Ideale Biotoptypen
 $ap_ordner_ibb_datatext = $anz_ibb." ideale Biotope";
 if ($anz_ibb === 1) {
-	$ap_ordner_ibb_datatext = $anz_ibb." ideale Biotop";
+	$ap_ordner_ibb_datatext = $anz_ibb." ideales Biotop";
 }
 $ap_ordner_ibb_attr = array("id" => $ApArtId, "typ" => "ap_ordner_ibb");
 $ap_ordner_ibb = array("data" => $ap_ordner_ibb_datatext, "attr" => $ap_ordner_ibb_attr, "children" => $rows_ibb);

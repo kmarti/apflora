@@ -2549,9 +2549,9 @@ function beschrifte_ap_ordner_ibb(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	if (anz === 1) {
-		anzTxt = anz + " Idealbiotop";
+		anzTxt = anz + " ideales Biotop";
 	} else {
-		anzTxt = anz + " Idealbiotope";
+		anzTxt = anz + " ideale Biotope";
 	}
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
