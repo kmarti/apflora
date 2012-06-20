@@ -1,29 +1,33 @@
 Software zur Verwaltung des Aktionsplans Flora der Fachstelle Naturschutz des Kantons Zürich.
 
-Die Anwendung gibt es schon. Sie basiert auf Microsoft Access, das über ODBC auf eine MySql-Datenbank im Netz greift.
-
-#Ziel
-- Die Daten können von ausserhalb und endlich auch innerhalb der Fachstelle Naturschutz bearbeitet werden
-- Einfachere und übersichtlichere Benutzerführung
+#Was kann AP Flora Web?
+- Die Daten können von ausserhalb und endlich auch innerhalb der Fachstelle Naturschutz bearbeitet werden (Firewall, du bist überlistet!)
 - "No hassle": Keine Installation, keine Installationskosten, automatische Updates
 - Schlankes, weniger komplexes Gesamtsystem mit weniger Abhängigkeiten (u.a.: läuft auch auf Mac und Linux)
-- Darstellung und Lokalisierung auf Luftbildern direkt in der Anwendung
-
-#Ideen
-- Navigation über einen dynamisch aufgebauten Strukturbaum. Er ersetzt den bisherigen Baum, die Register, die Suchfelder und die Verschiebe-/Kopierbefehle
+- Die Anwendung ist professioneller aufgebaut, im Code besser dokumentiert und einfacher zu warten
+- Navigation über einen dynamisch aufgebauten Strukturbaum
 - Rechts neben dem Baum werden die Daten der gewählten Struktur (= "node") angezeigt, z.B. Feldkontrolle
-- Nodes wie Teilpopulationen und Feldkontrollen können im Baum zu anderen nodes desselben Typs verschoben oder kopiert werden (Klick auf den node mit der rechten Maustaste)
+- Nodes wie Teilpopulationen und Feldkontrollen können im Baum zu anderen nodes desselben Typs verschoben oder kopiert werden: Klick auf den node mit der rechten Maustaste oder: node mit drag and drop verschieben
 - Schnelle Ladezeiten: Steuerung mit Ajax, Datensätze und -listen als Objekte im Arbeitsspeicher behalten
 - Suchfunktion im Baum
-- Artbeobachtungen aus EvAB: Zuerst mit Access uploaden, dann in dieser Anwendung zuweisen
-- Beim erneuten Einstieg weiterarbeiten, wo man aufgehört hat?
+- Programme, Populationen, Teilpopulationen und Beobachtungen können auf Luftbildern angezeigt werden
+- Nicht zugeordnete Beobachtungen und Teilpopulationen können gemeinsam auf dem Luftbild angezeigt werden
+- Teilpopulationen können auf Luftbildern verortet werden
+- Teilpopulationen und Beobachtungen können im GIS-Browser des Kt. Zürich angezeigt werden
+- Beobachtungen der Info Flora Teilpopulationen zuordnen
+- Artbeobachtungen aus EvAB: Zuerst mit Access uploaden, dann in AP Flora Web Teilpopulationen zuordnen
+- Daten löschen: Bei den gehaltvollen Daten (Pop, TPop, Feldkontrollen, Freiwilligen-Kontrollen, Massnahmen, AP-Berichte) kann das Löschen nachträglich rückgängig gemacht werden
 
 #Einschränkungen
-- Abfragen und Exporte weiterhin noch in Access ausführen (muss wohl sowieso flexibilisiert werden)
-- Berichte vermutlich langfristig weiterhin in Access erstellen (aufwändig und schwierig umzusetzen)
+- Abfragen und Exporte weiterhin in Access ausführen (muss sowieso flexibilisiert werden)
+- Berichte weiterhin in Access erstellen (aufwändig und schwierig umzusetzen)
+
+#Technische Voraussetzungen
+- Ein moderner Browser. Getestet auf Google Chrome, Firefox und Safari (neuste Versionen)
+- Funktioniert nicht auf Internet Explorer bis Version 9 (auf 10 nicht getestet)
 
 #Roadmap
-Jetzt beginnt die Phase, in der die Anwendung durch die AnwenderInnen getestet wird.
+Jetzt beginnt die Phase, in der die AP Flora Web durch die AnwenderInnen getestet wird.
 Bewährt sie sich, wird sie die alte Access-Anwendung ersetzen.
 
 #Open source
