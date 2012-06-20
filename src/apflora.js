@@ -2711,7 +2711,8 @@ function treeKontextmenu(node) {
 	//relevante nodes zwischenspeichern
 	aktiver_node = node;
 	aktiver_nodeText = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
-	if ($(aktiver_node).attr("typ").slice(0, 9) !== "ap_ordner") {
+	//parent nur ermitteln, wenn parents exisiteren - sonst gibt es einen Fehler
+	if ($(aktiver_node).attr("typ").slice(0, 9) !== "ap_ordner" && $(aktiver_node).attr("typ") !== "iballg") {
 		parent_node = jQuery.jstree._reference(aktiver_node)._get_parent(aktiver_node);
 		parent_nodeText = jQuery.jstree._reference(parent_node).get_text(parent_node);
 	}
