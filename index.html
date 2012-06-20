@@ -41,7 +41,7 @@
 		</fieldset>
 
 		<fieldset id="forms">
-			<div id="undelete_div" style="text-align:center; margin:0px 0px 10px 0px; display:block; font-weight:bold; font-style:italic;"></div>
+			<div id="undelete_div" style="text-align:center; margin:0px 120px 10px 148px; border-radius:0.5em; font-weight:bold; background-color:#FFCC33;"></div>
 			<form id="ap" class="form" action="#" method="get" autocomplete="off">
 				<div class='fieldcontain'>
 					<label id="ApArtId_label" for='ApArtId'>Art:</label>
@@ -1438,8 +1438,51 @@
 								});
 							}
 						});
-					} else if (window.deleted.typ === "tpopfeldkontr") {
+					} else if (window.deleted.typ === "tpopmassn") {
 						//typ gehört nicht zum Datensatz
+						delete window.deleted.typ;
+						var url_string = "?";
+						for (i in window.deleted) {
+							if (typeof i !== "function") {
+								if (window.deleted[i]) {
+									if (url_string === "?") {
+										url_string += i + "=" + window.deleted[i];
+									} else {
+										url_string += "&" + i + "=" + window.deleted[i];
+									}
+								}
+							}
+						}
+						//jetzt alles speichern
+						$.ajax({
+							url: 'php/tpopmassn_insert_multiple.php' + url_string,
+							dataType: 'json',
+							success: function () {
+								$("#undelete_div").hide();
+								//refresh tree
+								jQuery("#tree").jstree("refresh");
+								setTimeout(function() {
+									jQuery("#tree").jstree("deselect_all");
+									jQuery("#tree").jstree("close_all", -1);
+									jQuery("#tree").jstree("select_node", "[typ='tpopmassn']#" + window.deleted.TPopMassnId);
+								}, 1000);
+							},
+							error: function (data) {
+								$("#Meldung").html("Fehler: Wiederherstellung gescheitert");
+								$("#Meldung").dialog({
+									modal: true,
+									buttons: {
+										Ok: function() {
+											$(this).dialog("close");
+										}
+									}
+								});
+							}
+						});
+					} else if (window.deleted.typ === "tpopfeldkontr" || window.deleted.typ === "tpopfreiwkontr") {
+						//hier werden auch Freiwilligenkontrollen hergestellt
+						//typ gehört nicht zum Datensatz
+						var typ = window.deleted.typ;
 						delete window.deleted.typ;
 						var url_string = "?";
 						for (i in window.deleted) {
@@ -1464,7 +1507,7 @@
 								setTimeout(function() {
 									jQuery("#tree").jstree("deselect_all");
 									jQuery("#tree").jstree("close_all", -1);
-									jQuery("#tree").jstree("select_node", "[typ='tpopfeldkontr']#" + window.deleted.TPopKontrId);
+									jQuery("#tree").jstree("select_node", "[typ='" + typ + "']#" + window.deleted.TPopKontrId);
 								}, 1000);
 							},
 							error: function (data) {

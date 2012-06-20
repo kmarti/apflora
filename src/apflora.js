@@ -966,12 +966,6 @@ function initiiere_tpopfeldkontr() {
 						$("#TPopKontrJahr").focus();
 						$(window).scrollTop(0);
 					}, 100);
-					/*if (!$("#TPopKontrJahr").val()) {
-						setTimeout(function() {
-							$("#TPopKontrJahr").focus();
-							$(window).scrollTop(0);
-						}, 100);
-					}*/
 				} else {
 					setTimeout(function() {
 						$("#TPopKontrTyp").focus();
@@ -5590,7 +5584,6 @@ function treeKontextmenu(node) {
 						success: function (data) {
 							var NeuerNode;
 							localStorage.tpopfeldkontr_id = data;
-							localStorage.tpopfreiwkontr = true;
 							delete window.tpopfeldkontr;
 							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
 								"data": "neue Freiwilligen-Kontrolle",
@@ -5605,6 +5598,7 @@ function treeKontextmenu(node) {
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							//Formular initiieren
+							localStorage.tpopfreiwkontr = "true";
 							initiiere_tpopfeldkontr();
 						},
 						error: function (data) {
@@ -5635,6 +5629,9 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
+								//Variable zum rückgängig machen erstellen
+								window.deleted = window.tpopfeldkontr;
+								window.deleted.typ = "tpopfreiwkontr";
 								$.ajax({
 									url: 'php/tpopfeldkontr_delete.php',
 									dataType: 'json',
@@ -5648,6 +5645,13 @@ function treeKontextmenu(node) {
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_tpop_ordner_freiwkontr(parent_node);
+										//Hinweis zum rückgängig machen anzeigen
+										$("#undelete_div").html("Freiwilligen-Kontrolle '" + window.deleted.TPopKontrJahr + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
+										$("#undelete_div").show();
+										setTimeout(function () {
+											$("#undelete_div").html("");
+											$("#undelete_div").hide();
+										}, 20000);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Die Freiwilligen-Kontrolle wurde nicht gelöscht");
@@ -5973,6 +5977,9 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
+								//Variable zum rückgängig machen erstellen
+								window.deleted = window.tpopmassn;
+								window.deleted.typ = "tpopmassn";
 								$.ajax({
 									url: 'php/tpopmassn_delete.php',
 									dataType: 'json',
@@ -5985,6 +5992,13 @@ function treeKontextmenu(node) {
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_tpop_ordner_massn(parent_node);
+										//Hinweis zum rückgängig machen anzeigen
+										$("#undelete_div").html("Massnahme '" + window.deleted.TPopMassnJahr + ": " + window.deleted.TPopMassnTyp + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
+										$("#undelete_div").show();
+										setTimeout(function () {
+											$("#undelete_div").html("");
+											$("#undelete_div").hide();
+										}, 20000);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Die Massnahme wurde nicht gelöscht");
