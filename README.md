@@ -15,10 +15,10 @@ Sie löst die bestehende Access-Anwendung ab.
 **Beobachtungen den Teilpopulationen zuordnen:**
 - Alle Beobachtungen der Info Flora innerhalb des Kantons Zürich
 - Alle Beobachtungen aus Projekten der Fachstelle Naturschutz des Kantons Zürich
-- Eigene Beobachtungen aus EvAB: Mit Access uploaden, dann zuordnen
+- Eigene Beobachtungen aus EvAB (vorgängig mit Access uploaden)
 
 **Auf Luftbildern und Karten darstellen:**
-- Programme, Populationen, Teilpopulationen und Beobachtungen auf Luftbildern anzeigen
+- Aktionspläne, Populationen, Teilpopulationen und Beobachtungen auf Luftbildern anzeigen
 - Nicht zugeordnete Beobachtungen und Teilpopulationen gemeinsam auf dem Luftbild anzeigen
 - Teilpopulationen auf Luftbildern verorten
 - Teilpopulationen und Beobachtungen im GIS-Browser des Kt. Zürich anzeigen
@@ -39,7 +39,7 @@ Sie löst die bestehende Access-Anwendung ab.
 - Daten löschen: Bei den gehaltvollen Daten (Pop, TPop, Feldkontrollen, Freiwilligen-Kontrollen, Massnahmen, AP-Berichte) kann das Löschen nachträglich rückgängig gemacht werden
 
 **Anwendung effizient unterhalten:**
-- Schlankes, weniger komplexes Gesamtsystem mit weniger Abhängigkeiten
+- Einfacheres Gesamtsystem mit weniger Abhängigkeiten
 - Die Anwendung ist professioneller aufgebaut, im Code besser dokumentiert und einfacher zu warten
 
 #Einschränkungen
