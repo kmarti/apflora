@@ -4160,7 +4160,7 @@ function treeKontextmenu(node) {
 					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
-					$("#loeschen_dialog_mitteilung").html("Die Population \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" und alle darunter befindlichen Knoten werden unwiederbringlich gelöscht.");
+					$("#loeschen_dialog_mitteilung").html("Die Population \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" und alle darunter befindlichen Knoten werden gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
 						height:'auto',
@@ -4169,6 +4169,7 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
+								//Variable zum rückgängig machen erstellen
 								window.deleted = window.pop;
 								window.deleted.typ = "pop";
 								$.ajax({
@@ -4183,6 +4184,7 @@ function treeKontextmenu(node) {
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_ap_ordner_pop(parent_node);
+										//Hinweis zum rückgängig machen anzeigen
 										$("#undelete_div").html("Population '" + window.deleted.PopName + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
 										$("#undelete_div").show();
 										setTimeout(function () {
@@ -4505,7 +4507,7 @@ function treeKontextmenu(node) {
 					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
-					$("#loeschen_dialog_mitteilung").html("Die Teilpopulation \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" und alle darunter befindlichen Knoten werden unwiederbringlich gelöscht.");
+					$("#loeschen_dialog_mitteilung").html("Die Teilpopulation \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" und alle darunter befindlichen Knoten werden gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
 						height:'auto',
@@ -5177,7 +5179,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
-					$("#loeschen_dialog_mitteilung").html("Die Feldkontrolle \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
+					$("#loeschen_dialog_mitteilung").html("Die Feldkontrolle \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
 						height:'auto',
@@ -5620,7 +5622,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
-					$("#loeschen_dialog_mitteilung").html("Die Freiwilligen-Kontrolle \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
+					$("#loeschen_dialog_mitteilung").html("Die Freiwilligen-Kontrolle \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
 						height:'auto',
@@ -5968,7 +5970,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
-					$("#loeschen_dialog_mitteilung").html("Die Massnahme \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
+					$("#loeschen_dialog_mitteilung").html("Die Massnahme \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
 						height:'auto',
