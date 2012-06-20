@@ -4520,6 +4520,10 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
+								//Variable zum rückgängig machen erstellen
+								window.deleted = window.tpop;
+								window.deleted.typ = "tpop";
+								//löschen
 								$.ajax({
 									url: 'php/tpop_delete.php',
 									dataType: 'json',
@@ -4532,6 +4536,13 @@ function treeKontextmenu(node) {
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_pop_ordner_tpop(parent_node);
+										//Hinweis zum rückgängig machen anzeigen
+										$("#undelete_div").html("Teilpopulation '" + window.deleted.TPopFlurname + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
+										$("#undelete_div").show();
+										setTimeout(function () {
+											$("#undelete_div").html("");
+											$("#undelete_div").hide();
+										}, 20000);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Die Teilpopulation wurde nicht gelöscht");
@@ -5181,6 +5192,9 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
+								//Variable zum rückgängig machen erstellen
+								window.deleted = window.tpopfeldkontr;
+								window.deleted.typ = "tpopfeldkontr";
 								$.ajax({
 									url: 'php/tpopfeldkontr_delete.php',
 									dataType: 'json',
@@ -5193,6 +5207,13 @@ function treeKontextmenu(node) {
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_tpop_ordner_feldkontr(parent_node);
+										//Hinweis zum rückgängig machen anzeigen
+										$("#undelete_div").html("Feldkontrolle '" + window.deleted.TPopKontrJahr + ": " + window.deleted.TPopKontrTyp + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
+										$("#undelete_div").show();
+										setTimeout(function () {
+											$("#undelete_div").html("");
+											$("#undelete_div").hide();
+										}, 20000);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Die Feldkontrolle wurde nicht gelöscht");
@@ -6900,6 +6921,8 @@ function speichern(that) {
 			"user": sessionStorage.User
 		},
 		success: function () {
+			//Variable für Objekt nachführen
+			window[Formular][Feldname] = Feldwert;
 			//Wenn in feldkontr Datum erfasst, auch Jahr speichern
 			if (Feldname === "TPopKontrDatum" && Feldwert) {
 				Objekt = {};

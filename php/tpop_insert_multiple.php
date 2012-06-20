@@ -11,17 +11,19 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
-$id = $_GET["id"];
-settype($id, "integer");
-$user = $_GET["user"];
-$time = date('Y-m-d H:i:s');
+//in diesem Array sammeln wir alle upzudatenden Felder
+$Felderarray = $_GET;
 
-$Querystring = 'INSERT INTO tblBericht (ApArtId, MutWann, MutWer) VALUES ('.$id.', "'.$time.'", "'.$user.'")';	//muss die neue PopId erhalten!
+$Keystring = implode(',', array_keys($_GET));
+$Valuestring = implode('","', array_values($_GET));
+
+//jetzt den Querystring aufbauen
+$Querystring = 'INSERT INTO tblTeilpopulation ('.$Keystring.') VALUES ("'.$Valuestring.'")';
 
 //SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);
 
-print mysqli_insert_id($link);
+print($result);
 
 // Verbindung schliessen
 mysqli_close($link);
