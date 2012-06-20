@@ -4175,6 +4175,8 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
+								window.deleted = window.pop;
+								window.deleted.typ = "pop";
 								$.ajax({
 									url: 'php/pop_delete.php',
 									dataType: 'json',
@@ -4187,6 +4189,12 @@ function treeKontextmenu(node) {
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_ap_ordner_pop(parent_node);
+										$("#undelete_div").html("Population '" + window.deleted.PopName + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
+										$("#undelete_div").show();
+										setTimeout(function () {
+											$("#undelete_div").html("");
+											$("#undelete_div").hide();
+										}, 20000);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Die Population wurde nicht gelöscht");
@@ -7359,14 +7367,7 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 			}]
 	};
 	markerClusterTPop = new MarkerClusterer(map, markersTPop, mcOptionsTPop);
-	if (anzTPop + anzBeob === 1) {
-		//map.fitbounds setzt zu hohen zoom, wenn nur ein Punkt dargestellt wird > verhindern
-		map.setCenter(latlng);
-		map.setZoom(18);
-	} else {
-		//Karte auf Ausschnitt anpassen
-		map.fitBounds(bounds);
-	}
+	
 	//diese Funktion muss hier sein, damit infowindow bekannt ist
 	function makeListener(map, markerTPop, contentStringTPop) {
 		google.maps.event.addListener(markerTPop, 'click', function () {
@@ -7442,6 +7443,15 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 			infowindowBeob.setContent(contentStringBeob);
 			infowindowBeob.open(map,markerBeob);
 		});
+	}
+
+	if (anzTPop + anzBeob === 1) {
+		//map.fitbounds setzt zu hohen zoom, wenn nur ein Punkt dargestellt wird > verhindern
+		map.setCenter(latlng);
+		map.setZoom(18);
+	} else {
+		//Karte auf Ausschnitt anpassen
+		map.fitBounds(bounds);
 	}
 }
 
