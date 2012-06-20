@@ -3487,7 +3487,7 @@ function treeKontextmenu(node) {
 					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
-					$("#loeschen_dialog_mitteilung").html("Der AP-Bericht \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
+					$("#loeschen_dialog_mitteilung").html("Der AP-Bericht \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
 						height:'auto',
@@ -3496,6 +3496,9 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
+								//Variable zum rückgängig machen erstellen
+								window.deleted = window.apber;
+								window.deleted.typ = "apber";
 								$.ajax({
 									url: 'php/apber_delete.php',
 									dataType: 'json',
@@ -3508,6 +3511,13 @@ function treeKontextmenu(node) {
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_ap_ordner_apber(parent_node);
+										//Hinweis zum rückgängig machen anzeigen
+										$("#undelete_div").html("AP-Bericht '" + window.deleted.ApBerJahr + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
+										$("#undelete_div").show();
+										setTimeout(function () {
+											$("#undelete_div").html("");
+											$("#undelete_div").hide();
+										}, 20000);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Der AP-Bericht wurde nicht gelöscht");
