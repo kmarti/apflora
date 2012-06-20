@@ -4,35 +4,37 @@ Sie löst die bestehende Access-Anwendung ab.
 
 #Was kann man mit AP Flora Web?
 
-**schnell loslegen:**
-- "No hassle": Keine Installation, keine Installationskosten, automatische Updates
-- von ausserhalb und endlich auch innerhalb der Fachstelle Naturschutz arbeiten
-- Ein moderner Browser wird vorausgesetzt. Getestet auf Google Chrome, Firefox und Safari (neuste Versionen). Funktioniert nicht auf Internet Explorer bis Version 9 (auf 10 nicht getestet)
-
-**sich rasch zurechtfinden:**
-- über einen dynamisch aufgebauten Strukturbaum navigieren
-- Rechts daneben die Daten der gewählten Struktur (= "node") bearbeiten
-- Nodes wie Teilpopulationen und Feldkontrollen im Baum zu anderen nodes desselben Typs verschieben oder kopieren (rechte Maustaste oder drag and drop)
-- im Baum suchen
-
 **Aktionspläne verwalten:**
-Populationen und Teilpopulationen dokumentieren
-Massnahmen zur Förderung dokumentieren
-Erfolg der Massnahmen und die Entwicklung der Teilpopulationen beurteilen
-
-**auf Luftbildern und Karten darstellen:**
-- Programme, Populationen, Teilpopulationen und Beobachtungen auf Luftbildern anzeigen
-- Nicht zugeordnete Beobachtungen und Teilpopulationen gemeinsam auf dem Luftbild anzeigen
-- Teilpopulationen auf Luftbildern verorten
-- Teilpopulationen und Beobachtungen im GIS-Browser des Kt. Zürich anzeigen
-
+- Populationen und Teilpopulationen beschreiben
+- Massnahmen zur Förderung dokumentieren
+- Die Entwicklung der Teilpopulationen und den Erfolg der Massnahmen beurteilen
+- Ziele und Erfolgskriterien bestimmen
+- Jährliche Berichte verfassen
+- Ideale Umweltfaktoren, ideale Biotope und assoziierte Arten beschreiben
 
 **Beobachtungen den Teilpopulationen zuordnen:**
 - Alle Beobachtungen der Info Flora innerhalb des Kantons Zürich
 - Alle Beobachtungen aus Projekten der Fachstelle Naturschutz des Kantons Zürich
 - Eigene Beobachtungen aus EvAB: Mit Access uploaden, dann zuordnen
 
-**effizient arbeiten:**
+**Auf Luftbildern und Karten darstellen:**
+- Programme, Populationen, Teilpopulationen und Beobachtungen auf Luftbildern anzeigen
+- Nicht zugeordnete Beobachtungen und Teilpopulationen gemeinsam auf dem Luftbild anzeigen
+- Teilpopulationen auf Luftbildern verorten
+- Teilpopulationen und Beobachtungen im GIS-Browser des Kt. Zürich anzeigen
+
+**Rasch loslegen:**
+- "No hassle": Keine Installation, keine Installationskosten, automatische Updates
+- Von ausserhalb und endlich auch innerhalb der Fachstelle Naturschutz arbeiten
+- Ein moderner Browser wird vorausgesetzt. Getestet auf Google Chrome, Firefox und Safari (neuste Versionen). Funktioniert nicht auf Internet Explorer bis Version 9 (auf 10 nicht getestet)
+
+**Sich rasch zurechtfinden:**
+- Über einen dynamisch aufgebauten Strukturbaum navigieren und dabei die Übersicht über die komplexe Hierarchie behalten
+- Rechts neben dem Baum die Daten der gewählten Struktur (= "node") bearbeiten
+- Nodes wie z.B. Teilpopulationen im Baum zu anderen nodes desselben Typs verschieben oder kopieren (rechte Maustaste oder drag and drop)
+- im Baum suchen
+
+**Effizient arbeiten:**
 - Die Anwendung wird mit AJAX gesteuert, um rasche Ladezeiten zu gewährleisten
 - Daten löschen: Bei den gehaltvollen Daten (Pop, TPop, Feldkontrollen, Freiwilligen-Kontrollen, Massnahmen, AP-Berichte) kann das Löschen nachträglich rückgängig gemacht werden
 
@@ -42,11 +44,11 @@ Erfolg der Massnahmen und die Entwicklung der Teilpopulationen beurteilen
 
 #Einschränkungen
 - Abfragen und Exporte weiterhin in Access ausführen (muss sowieso flexibilisiert werden)
-- Berichte weiterhin in Access erstellen (aufwändig und schwierig umzusetzen)
+- Jahresberichte weiterhin von Access aus exportieren
 
 #Roadmap
-- Die anwendung enthält alle geplanten Funktionen
-- Jetzt beginnt die Phase, in der sie durch die AnwenderInnen getestet wird
+- Die Anwendung enthält alle geplanten Funktionen
+- Jetzt wird sie durch die AnwenderInnen getestet
 - Bewährt sie sich, wird sie die bisherige Access-Anwendung ersetzen
 
 #Open source
