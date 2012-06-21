@@ -36,6 +36,7 @@ Sie löst die bestehende Access-Anwendung ab.
 
 **Effizient arbeiten:**
 - Die Anwendung wird mit AJAX gesteuert, um rasche Ladezeiten zu gewährleisten
+- Beobachtungen Teilpopulationen zuordnen: Mit drag and drop im Strukturbaum, in einer nach Abstand zu den Teilpopulationen geordneten Liste im Formular oder auch mit drag and drop im Luftbild
 - Daten löschen: Bei den gehaltvollen Daten (Pop, TPop, Feldkontrollen, Freiwilligen-Kontrollen, Massnahmen, AP-Berichte) kann das Löschen nachträglich rückgängig gemacht werden
 
 **Anwendung effizient unterhalten:**

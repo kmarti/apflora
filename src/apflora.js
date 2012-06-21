@@ -2800,7 +2800,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"GoogleMaps": {
-				"label": "auf Luftbild darstellen",
+				"label": "auf Luftbild zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon.png",
 				"action": function () {
@@ -4237,7 +4237,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"GoogleMaps": {
-				"label": "auf Luftbild darstellen",
+				"label": "auf Luftbild zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon.png",
 				"action": function () {
@@ -4369,7 +4369,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"GoogleMaps": {
-				"label": "auf Luftbild darstellen",
+				"label": "auf Luftbild zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon.png",
 				"action": function () {
@@ -4585,7 +4585,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"GoogleMaps": {
-				"label": "auf Luftbild darstellen",
+				"label": "auf Luftbild zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon.png",
 				"action": function () {
@@ -4653,7 +4653,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"GisBrowser": {
-				"label": "im GIS-Browser darstellen",
+				"label": "im GIS-Browser zeigen",
 				"separator_before": true,
 				"icon": "style/images/wappen_zuerich.png",
 				"action": function () {
@@ -6313,7 +6313,7 @@ function treeKontextmenu(node) {
 	case "tpop_ordner_tpopbeob":
 		items = {
 			"GoogleMaps": {
-				"label": "auf Luftbild darstellen",
+				"label": "auf Luftbild zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon.png",
 				"action": function () {
@@ -6378,7 +6378,7 @@ function treeKontextmenu(node) {
 	case "tpopbeob":
 		items = {
 			"GoogleMaps": {
-				"label": "auf Luftbild darstellen",
+				"label": "auf Luftbild zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon.png",
 				"action": function () {
@@ -6418,7 +6418,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"GisBrowser": {
-				"label": "im GIS-Browser darstellen",
+				"label": "im GIS-Browser zeigen",
 				"separator_before": true,
 				"icon": "style/images/wappen_zuerich.png",
 				"action": function () {
@@ -6618,7 +6618,7 @@ function treeKontextmenu(node) {
 	case "ap_ordner_beob":
 		items = {
 			"GoogleMaps": {
-				"label": "auf Luftbild darstellen",
+				"label": "auf Luftbild zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon_violett.png",
 				"action": function () {
@@ -6725,7 +6725,7 @@ function treeKontextmenu(node) {
 	case "beob":
 		items = {
 			"GoogleMaps": {
-				"label": "auf Luftbild darstellen",
+				"label": "auf Luftbild zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon_violett.png",
 				"action": function () {
@@ -6765,7 +6765,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"GisBrowser": {
-				"label": "im GIS-Browser darstellen",
+				"label": "im GIS-Browser zeigen",
 				"separator_before": true,
 				"icon": "style/images/wappen_zuerich.png",
 				"action": function () {
