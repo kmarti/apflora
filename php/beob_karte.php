@@ -24,8 +24,8 @@ if ($beobid) {
 	//tpop_id wurde übergeben > auf tpop filtern
 	$result_beob = mysqli_query($link, "SELECT * FROM tblBeob WHERE TPopId=".$tpop_id." AND xGIS > 0 AND yGIS > 0");
 } else if ($apart_id) {
-	//apart_id wurde übergeben > auf Art filtern
-	$result_beob = mysqli_query($link, "SELECT * FROM tblBeob WHERE NO_ISFS=".$apart_id." AND xGIS > 0 AND yGIS > 0");
+	//apart_id wurde übergeben > auf Art filtern, nur die nicht zugewiesenen
+	$result_beob = mysqli_query($link, "SELECT * FROM tblBeob WHERE NO_ISFS=".$apart_id." AND xGIS > 0 AND yGIS > 0 AND (TPopId IS NULL OR TPopId = '')");
 }
 //beob aufbauen
 $rows_beob = array();
