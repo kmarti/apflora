@@ -2,7 +2,7 @@ Software zur Verwaltung des Aktionsplans Flora der Fachstelle Naturschutz des Ka
 
 Sie löst die bestehende Access-Anwendung ab.
 
-#Was kann man mit AP Flora Web?
+#Was kann man mit AP Flora Web machen?
 
 **Aktionspläne verwalten:**
 - Populationen und Teilpopulationen beschreiben
