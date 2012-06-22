@@ -23,7 +23,7 @@ Sie löst die bestehende Access-Anwendung ab.
 - Teilpopulationen auf Luftbildern verorten
 - Teilpopulationen und Beobachtungen im GIS-Browser des Kt. Zürich anzeigen
 
-**Rasch loslegen:**
+**Auf die Plätze, fertig, los!**
 - "No hassle": Keine Installation, keine Installationskosten, automatische Updates
 - Von ausserhalb und endlich auch innerhalb der Fachstelle Naturschutz arbeiten
 - Ein moderner Browser wird vorausgesetzt. Getestet auf Google Chrome, Firefox und Safari (neuste Versionen). Funktioniert nicht auf Internet Explorer bis Version 9 (auf 10 nicht getestet)
@@ -31,7 +31,7 @@ Sie löst die bestehende Access-Anwendung ab.
 **Sich rasch zurechtfinden:**
 - Über einen dynamisch aufgebauten Strukturbaum navigieren und dabei die Übersicht über die komplexe Hierarchie behalten
 - Rechts neben dem Baum die Daten der gewählten Struktur (= "node") bearbeiten
-- Nodes wie z.B. Teilpopulationen im Baum zu anderen nodes desselben Typs verschieben oder kopieren (rechte Maustaste oder drag and drop)
+- Nodes wie z.B. Teilpopulationen im Baum zu anderen nodes desselben Typs verschieben oder kopieren (rechte Maustaste oder drag and drop, wie im Windows explorer)
 - im Baum suchen
 
 **Effizient arbeiten:**
