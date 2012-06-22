@@ -1,6 +1,7 @@
 function initiiere_index() {
 	$("#suchen").hide();
 	$("#undelete_div").hide();
+	$("#hilfe").hide();
 	//alle Formulare verstecken
 	zeigeFormular();
 	$("#loeschen_dialog").hide();
@@ -1384,10 +1385,10 @@ function leereFelderVonFormular(Formular) {
 }
 
 function setzeTreehoehe() {
-	if (($("#tree").height() + 142) > $(window).height()) {
-		$("#tree").height($(window).height() - 142);
+	if (($("#tree").height() + 157) > $(window).height()) {
+		$("#tree").height($(window).height() - 157);
 	} else if ($('#tree').hasScrollBar()) {
-		$("#tree").height($(window).height() - 142);
+		$("#tree").height($(window).height() - 157);
 	}
 }
 
@@ -1800,6 +1801,10 @@ function erstelle_tree(ApArtId) {
 		"plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "contextmenu", "crrm", "dnd", "types"]
 	})
 	.show()
+	.bind("loaded.jstree", function (event, data) {
+		$("#suchen").show();
+		$("#hilfe").show();
+	})
 	.bind("select_node.jstree", function (e, data) {
 		var node;
 		delete localStorage.tpopfreiwkontr;	//Erinnerung an letzten Klick im Baum löschen
@@ -2459,7 +2464,8 @@ function erstelle_tree(ApArtId) {
 			}
 		}
 	})
-	$("#suchen").show();
+	//$("#suchen").show();
+	//$("#hilfe").show();
 }
 
 //übernimmt einen node
