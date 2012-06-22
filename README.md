@@ -31,17 +31,17 @@ Sie löst die bestehende Access-Anwendung ab.
 **Sich rasch zurechtfinden:**
 - Über einen dynamisch aufgebauten Strukturbaum navigieren und dabei die Übersicht über die komplexe Hierarchie behalten
 - Rechts neben dem Baum die Daten der gewählten Struktur (= "node") bearbeiten
-- Nodes wie z.B. Teilpopulationen im Baum zu anderen nodes desselben Typs verschieben oder kopieren (rechte Maustaste oder drag and drop, wie im Windows explorer)
-- im Baum suchen
 
 **Effizient arbeiten:**
 - Die Anwendung wird mit AJAX gesteuert, um rasche Ladezeiten zu gewährleisten
+- Nodes wie z.B. Teilpopulationen im Baum zu anderen nodes desselben Typs verschieben oder kopieren (rechte Maustaste oder drag and drop, wie im Windows explorer)
+- im Baum suchen
 - Beobachtungen Teilpopulationen zuordnen: Mit drag and drop im Strukturbaum, in einer nach Abstand zu den Teilpopulationen geordneten Liste im Formular oder auch mit drag and drop im Luftbild
 - Daten löschen: Bei den gehaltvollen Daten (Pop, TPop, Feldkontrollen, Freiwilligen-Kontrollen, Massnahmen, AP-Berichte) kann das Löschen nachträglich rückgängig gemacht werden
 
 **Anwendung effizient unterhalten:**
 - Einfacheres Gesamtsystem mit weniger Abhängigkeiten
-- Die Anwendung ist professioneller aufgebaut, im Code besser dokumentiert und einfacher zu warten
+- Die Anwendung ist professioneller aufgebaut, im Code dokumentiert und einfacher zu warten
 
 #Einschränkungen
 - Abfragen und Exporte weiterhin in Access ausführen (muss sowieso flexibilisiert werden)
