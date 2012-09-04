@@ -7,6 +7,7 @@ Sie löst die bestehende Access-Anwendung ab.
 * <a href="#machen">Was kann man mit AP Flora Web machen?</a>
 * <a href="#Einschränkungen">Einschränkungen</a>
 * <a href="#Roadmap">Roadmap</a>
+* <a href="#Technik">Technische Umsetzung</a>
 * <a href="#OpenSource">Open source</a>
 
 
@@ -79,8 +80,15 @@ Sie löst die bestehende Access-Anwendung ab.
 <a href="#top">&#8593; top</a>
 
 
+<a name="Technik"></a>
+#Technische Umsetzung
+Die Weboberfläche ([HTML](http://de.wikipedia.org/wiki/Hypertext_Markup_Language), [CSS](http://de.wikipedia.org/wiki/Cascading_Style_Sheets), [JavaScript](http://de.wikipedia.org/wiki/JavaScript), [jQuery](http://jquery.com/) und [jsTree](http://www.jstree.com/)) greift mithilfe von [PHP](http://de.wikipedia.org/wiki/PHP) auf eine [mySql-Datenbank](http://de.wikipedia.org/wiki/MySQL).
+
+<a href="#top">&#8593; top</a>
+
+
 <a name="OpenSource"></a>
 #Open source
-Die verwendete [Lizenz](https://github.com/barbalex/apflora/blob/master/License.md) ist sehr freizügig. Neben dem Code steht auch die Datenstruktur als [Download](https://github.com/barbalex/apflora/downloads) zur Verfügung. Die eigentlichen Daten aber, mit denen gearbeitet wird, gehören der Fachstelle Naturschutz des Kantons Zürich und stehen nicht zur freien Verfügung.
+Die verwendete [Lizenz](https://github.com/barbalex/apflora/blob/master/License.md) ist sehr freizügig. Sie dürfen den Code sogar nehmen, weiterentwickeln und die verbesserte Anwendung der Fachstelle Naturschutz verkaufen! Neben dem Code steht auch die Datenstruktur als [Download](https://github.com/barbalex/apflora/downloads) zur Verfügung. Die eigentlichen Daten aber, mit denen gearbeitet wird, gehören der Fachstelle Naturschutz des Kantons Zürich und stehen nicht zur freien Verfügung.
 
 <a href="#top">&#8593; top</a>
