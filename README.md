@@ -2,6 +2,16 @@ Software zur Verwaltung des Aktionsplans Flora der Fachstelle Naturschutz des Ka
 
 Sie löst die bestehende Access-Anwendung ab.
 
+<a name="top"></a>
+## Inhalt ##
+* <a href="#machen">Was kann man mit AP Flora Web machen?</a>
+* <a href="#Ausgangslage">Ausgangslage</a>
+* <a href="#Einschränkungen">Einschränkungen</a>
+* <a href="#Roadmap">Roadmap</a>
+* <a href="#OpenSource">Open source</a>
+
+
+<a name="machen"></a>
 #Was kann man mit AP Flora Web machen?
 
 **Aktionspläne verwalten:**
@@ -43,14 +53,26 @@ Sie löst die bestehende Access-Anwendung ab.
 - Einfacheres Gesamtsystem mit weniger Abhängigkeiten
 - Die Anwendung ist professioneller aufgebaut, im Code dokumentiert und einfacher zu warten
 
+<a href="#top">&#8593; top</a>
+
+
+<a name="Einschränkungen"></a>
 #Einschränkungen
 - Abfragen und Exporte weiterhin in Access ausführen (muss sowieso flexibilisiert werden)
 - Jahresberichte weiterhin von Access aus exportieren
 
+<a href="#top">&#8593; top</a>
+
+
+<a name="Roadmap"></a>
 #Roadmap
 - Die Anwendung enthält alle geplanten Funktionen
 - Jetzt wird sie durch die AnwenderInnen getestet
 - Bewährt sie sich, wird sie die bisherige Access-Anwendung ersetzen
 
+<a href="#top">&#8593; top</a>
+
+
+<a name="OpenSource"></a>
 #Open source
 Die verwendete [Lizenz](https://github.com/barbalex/apflora/blob/master/License.md) ist sehr freizügig. Neben dem Code steht auch die Datenstruktur als [Download](https://github.com/barbalex/apflora/downloads) zur Verfügung. Die eigentlichen Daten aber, mit denen gearbeitet wird, gehören der Fachstelle Naturschutz des Kantons Zürich und stehen nicht zur freien Verfügung.
