@@ -5,7 +5,6 @@ Sie löst die bestehende Access-Anwendung ab.
 <a name="top"></a>
 ## Inhalt ##
 * <a href="#machen">Was kann man mit AP Flora Web machen?</a>
-* <a href="#Ausgangslage">Ausgangslage</a>
 * <a href="#Einschränkungen">Einschränkungen</a>
 * <a href="#Roadmap">Roadmap</a>
 * <a href="#OpenSource">Open source</a>
