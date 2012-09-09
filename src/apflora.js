@@ -55,6 +55,32 @@ function initiiere_ap() {
 					$("#ApArtId").val(data.ApArtId);
 					$("#ApJahr").val(data.ApJahr);
 					$("#ApArtwert").val(data.ApArtwert);
+					//ApBearb: Daten holen - oder vorhandene nutzen
+					if (!window.adressen_html) {
+						$.ajax({
+							url: 'php/adressen.php',
+							dataType: 'json',
+							success: function (data2) {
+								if (data2) {
+									//ap bereitstellen
+									//Feld mit Daten beliefern
+									var html;
+									html = "<option></option>";
+									for (i in data2.rows) {
+										if (typeof i !== "undefined") {
+											html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
+										}
+									}
+									window.adressen_html = html;
+									$("#ApBearb").html(html);
+									$("#ApBearb").val(window.ap.ApBearb);
+								}
+							}
+						});
+					} else {
+						$("#ApBearb").html(window.adressen_html);
+						$("#ApBearb").val(window.ap.ApBearb);
+					}
 					//Formulare blenden
 					zeigeFormular("ap");
 					$("#ap_loeschen").show();

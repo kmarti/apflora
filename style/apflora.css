@@ -67,6 +67,11 @@ fieldset legend {
 	font-weight:bold;
 }
 
+
+fieldset legend .wichtig {
+	color:#F53D00;
+}
+
 input {
 	background-color: #FFFFF7;
 }
