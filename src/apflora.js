@@ -694,7 +694,32 @@ function initiiere_tpop() {
 				$("#TPopHerkunftUnklarBegründung").val(data.TPopHerkunftUnklarBegründung);
 				$("#TPopApBerichtRelevant" + data.TPopApBerichtRelevant).prop("checked", true);
 				$("#TPopBekanntSeit").val(data.TPopBekanntSeit);
-				$("#TPopGemeinde").val(data.TPopGemeinde);
+				//Gemeindeliste: Daten holen - oder vorhandene nutzen
+				if (!window.tpopgde_html) {
+					$.ajax({
+						url: 'php/tpopgde.php',
+						dataType: 'json',
+						success: function (data0) {
+							if (data0) {
+								//ap bereitstellen
+								//Feld mit Daten beliefern
+								var html;
+								html = "<option></option>";
+								for (i in data0.rows) {
+									if (typeof i !== "undefined" && data0.rows[i].TPopGemeinde) {
+										html += "<option value=\"" + data0.rows[i].TPopGemeinde + "\">" + data0.rows[i].TPopGemeinde + "</option>";
+									}
+								}
+								window.tpopgde_html = html;
+								$("#TPopGemeinde").html(html);
+								$("#TPopGemeinde").val(data.TPopGemeinde);
+							}
+						}
+					});
+				} else {
+					$("#TPopGemeinde").html(window.tpopgde_html);
+					$("#TPopGemeinde").val(data.TPopGemeinde);
+				}
 				$("#TPopXKoord").val(data.TPopXKoord);
 				$("#TPopYKoord").val(data.TPopYKoord);
 				if (data.TPopPop == -1) {
