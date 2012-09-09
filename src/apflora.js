@@ -1414,36 +1414,36 @@ function setzeFormhoehe() {
 function setzeFeldbreiten() {
 	$('#forms input[type="text"], #forms input[type="url"], #forms select, #forms textarea').each(function() {
 		if ($(this).attr("formular") === "tpopfeldkontr") {
-			//hier hats tabs, Felder müssen schmaler sein als normal
-			$(this).width($(window).width() - 705);
+			//hier hatt's tabs, Felder müssen schmaler sein als normal
+			$(this).width($(window).width() - 715);
 		} else if ($(this).attr("formular") === "iballg") {
 			//hier hats fieldsets, Felder müssen schmaler sein als normal
-			$(this).width($(window).width() - 705);
+			$(this).width($(window).width() - 715);
 		} else {
-			$(this).width($(window).width() - 670);
+			$(this).width($(window).width() - 650);
 		}
 	});
 	//Zahlenfelder sollen nicht breiter als 200px sein
 	$('#forms input[type="number"], #forms input[type="date"]').each(function() {
 		if ($(this).attr("formular") === "tpopfeldkontr") {
 			//hier hats tabs, Felder müssen schmaler sein als normal
-			if (($(window).width() - 705) > 200) {
+			if (($(window).width() - 725) > 200) {
 				$(this).width(200);
 			} else {
-				$(this).width($(window).width() - 705);
+				$(this).width($(window).width() - 725);
 			}
 		} else if ($(this).attr("formular") === "iballg") {
 			//hier hats fieldsets, Felder müssen schmaler sein als normal
-			if (($(window).width() - 695) > 200) {
+			if (($(window).width() - 705) > 200) {
 				$(this).width(200);
 			} else {
-				$(this).width($(window).width() - 705);
+				$(this).width($(window).width() - 715);
 			}
 		} else {
-			if (($(window).width() - 655) > 200) {
+			if (($(window).width() - 665) > 200) {
 				$(this).width(200);
 			} else {
-				$(this).width($(window).width() - 670);
+				$(this).width($(window).width() - 680);
 			}
 		}
 	});
