@@ -476,6 +476,19 @@ function initiiere_iballg() {
 					$("#IbErstelldatum").focus();
 				}
 			} else {
+				//nur aktualisieren, wenn Schreibrechte bestehen
+				if (sessionStorage.NurLesen) {
+					$("#Meldung").html("Sie haben keine Schreibrechte");
+					$("#Meldung").dialog({
+						modal: true,
+						buttons: {
+							Ok: function() {
+								$(this).dialog("close");
+							}
+						}
+					});
+					return;
+				}
 				//null zurückgekommen > Datesatz schaffen
 				$.ajax({
 					url: 'php/iballg_insert.php',
@@ -1978,6 +1991,19 @@ function erstelle_tree(ApArtId) {
 	})
 	.bind("move_node.jstree", function (e, data) {
 		var herkunft_node, ziel_node, ziel_parent_node;
+		//nur aktualisieren, wenn Schreibrechte bestehen
+		if (sessionStorage.NurLesen) {
+			$("#Meldung").html("Sie haben keine Schreibrechte");
+			$("#Meldung").dialog({
+				modal: true,
+				buttons: {
+					Ok: function() {
+						$(this).dialog("close");
+					}
+				}
+			});
+			return;
+		}
 		herkunft_node = data.rslt.o;
 		ziel_node = data.rslt.r;
 		ziel_parent_node = jQuery.jstree._reference(data.rslt.r)._get_parent(data.rslt.r);
@@ -2490,8 +2516,6 @@ function erstelle_tree(ApArtId) {
 			}
 		}
 	})
-	//$("#suchen").show();
-	//$("#hilfe").show();
 }
 
 //übernimmt einen node
@@ -2768,6 +2792,19 @@ function treeKontextmenu(node) {
 				"label": "neue Population",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/pop_insert.php',
 						dataType: 'json',
@@ -2879,6 +2916,19 @@ function treeKontextmenu(node) {
 				"label": "neues Ziel",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					//temporären Unterordner anlegen
 					neue_apziele_node = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
 						"data": "neue AP-Ziele",
@@ -2943,6 +2993,19 @@ function treeKontextmenu(node) {
 				"label": "neues Ziel",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax( {
 						url: 'php/apziel_insert.php',
 						dataType: 'json',
@@ -3013,6 +3076,19 @@ function treeKontextmenu(node) {
 				"label": "neues Ziel",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					grandparent_node = jQuery.jstree._reference(parent_node)._get_parent(parent_node);
 					$.ajax( {
 						url: 'php/apziel_insert.php',
@@ -3072,6 +3148,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
@@ -3133,6 +3222,19 @@ function treeKontextmenu(node) {
 				"label": "neuer Ziel-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/zielber_insert.php',
 						dataType: 'json',
@@ -3181,6 +3283,19 @@ function treeKontextmenu(node) {
 				"label": "neuer Ziel-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/zielber_insert.php',
 						dataType: 'json',
@@ -3227,6 +3342,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
@@ -3283,6 +3411,19 @@ function treeKontextmenu(node) {
 				"label": "neues Erfolgskriterium",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/erfkrit_insert.php',
 						dataType: 'json',
@@ -3331,6 +3472,19 @@ function treeKontextmenu(node) {
 				"label": "neues Erfolgskriterium",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/erfkrit_insert.php',
 						dataType: 'json',
@@ -3377,6 +3531,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
@@ -3433,6 +3600,19 @@ function treeKontextmenu(node) {
 				"label": "neuer AP-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/apber_insert.php',
 						dataType: 'json',
@@ -3481,6 +3661,19 @@ function treeKontextmenu(node) {
 				"label": "neuer AP-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/apber_insert.php',
 						dataType: 'json',
@@ -3527,6 +3720,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
@@ -3593,6 +3799,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/apber_uebersicht_insert.php',
 						dataType: 'json',
@@ -3637,6 +3856,19 @@ function treeKontextmenu(node) {
 				"label": "lösche Übersicht zu allen Arten",
 				"icon": "style/images/loeschen.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
@@ -3691,6 +3923,19 @@ function treeKontextmenu(node) {
 				"label": "neuer Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/ber_insert.php',
 						dataType: 'json',
@@ -3739,6 +3984,19 @@ function treeKontextmenu(node) {
 				"label": "Neuer Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/ber_insert.php',
 						dataType: 'json',
@@ -3785,6 +4043,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
@@ -3841,6 +4112,19 @@ function treeKontextmenu(node) {
 				"label": "neues Idealbiotop",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/ibb_insert.php',
 						dataType: 'json',
@@ -3889,6 +4173,19 @@ function treeKontextmenu(node) {
 				"label": "Neues Idealbiotop",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/ibb_insert.php',
 						dataType: 'json',
@@ -3935,6 +4232,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
@@ -3991,6 +4301,19 @@ function treeKontextmenu(node) {
 				"label": "neue assoziierte Art",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/ibartenassoz_insert.php',
 						dataType: 'json',
@@ -4039,6 +4362,19 @@ function treeKontextmenu(node) {
 				"label": "neue assoziierte Art",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/ibartenassoz_insert.php',
 						dataType: 'json',
@@ -4085,6 +4421,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
@@ -4141,6 +4490,19 @@ function treeKontextmenu(node) {
 				"label": "neue Population",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax( {
 						url: 'php/pop_insert.php',
 						dataType: 'json',
@@ -4210,6 +4572,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
@@ -4316,6 +4691,19 @@ function treeKontextmenu(node) {
 				"label": "neue Teilpopulation",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/tpop_insert.php',
 						dataType: 'json',
@@ -4468,6 +4856,19 @@ function treeKontextmenu(node) {
 				"label": "neue Teilpopulation",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/tpop_insert.php',
 						dataType: 'json',
@@ -4557,6 +4958,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
@@ -4661,6 +5075,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/flora_icon_rot.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/tpop.php',
 						dataType: 'json',
@@ -4713,6 +5140,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					window.tpop_node_ausgeschnitten = aktiver_node;
 					//es macht keinen Sinn mehr, den kopierten node zu behalten
 					//und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
@@ -4727,6 +5167,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/kopieren.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					window.tpop_node_kopiert = aktiver_node;
 					//Daten des Objekts holen
 					$.ajax({
@@ -4780,6 +5233,19 @@ function treeKontextmenu(node) {
 				"label": "neuer Populations-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/popber_insert.php',
 						dataType: 'json',
@@ -4828,6 +5294,19 @@ function treeKontextmenu(node) {
 				"label": "neuer Populations-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/popber_insert.php',
 						dataType: 'json',
@@ -4874,6 +5353,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$("#loeschen_dialog_mitteilung").html("Der Populations-Bericht \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
@@ -4924,6 +5416,19 @@ function treeKontextmenu(node) {
 				"label": "neuer Massnahmen-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/popmassnber_insert.php',
 						dataType: 'json',
@@ -4972,6 +5477,19 @@ function treeKontextmenu(node) {
 				"label": "neuer Massnahmen-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/popmassnber_insert.php',
 						dataType: 'json',
@@ -5018,6 +5536,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$("#loeschen_dialog_mitteilung").html("Der Massnahmen-Bericht \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
@@ -5068,6 +5599,19 @@ function treeKontextmenu(node) {
 				"label": "neue Feldkontrolle",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/tpopfeldkontr_insert.php',
 						dataType: 'json',
@@ -5127,6 +5671,19 @@ function treeKontextmenu(node) {
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
 					var dataUrl;
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					//User und neue TPopId mitgeben
 					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(aktiver_node).attr("id");
 					//die alten id's entfernen
@@ -5189,6 +5746,19 @@ function treeKontextmenu(node) {
 				"label": "neue Feldkontrolle",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/tpopfeldkontr_insert.php',
 						dataType: 'json',
@@ -5235,6 +5805,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$("#loeschen_dialog_mitteilung").html("Die Feldkontrolle \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
@@ -5292,6 +5875,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/kopieren.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					delete window.feldkontr_biotop;
 					window.feldkontr_biotop = {};
 					if ($("#TPopKontrFlaeche").val()) {
@@ -5355,6 +5951,19 @@ function treeKontextmenu(node) {
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
 					var url_string = "?id=" + $(aktiver_node).attr("id") + "&user=" + sessionStorage.User;
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					for (i in window.feldkontr_biotop) {
 						if (typeof i !== "function") {
 							$("#" + i).val(window.feldkontr_biotop[i]);
@@ -5388,6 +5997,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					window.tpopfeldkontr_node_ausgeschnitten = aktiver_node;
 					//es macht keinen Sinn mehr, den kopierten node zu behalten
 					//und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
@@ -5402,6 +6024,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/kopieren.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					window.tpopfeldkontr_node_kopiert = aktiver_node;
 					//Daten des Objekts holen
 					$.ajax({
@@ -5445,6 +6080,19 @@ function treeKontextmenu(node) {
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
 					var dataUrl;
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					//User und neue TPopId mitgeben
 					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(parent_node).attr("id");
 					//die alten id's entfernen
@@ -5507,6 +6155,19 @@ function treeKontextmenu(node) {
 				"label": "neue Freiwilligen-Kontrolle",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/tpopfeldkontr_insert.php',
 						dataType: 'json',
@@ -5567,6 +6228,19 @@ function treeKontextmenu(node) {
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
 					var dataUrl;
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					//User und neue TPopId mitgeben
 					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(aktiver_node).attr("id");
 					//die alten id's entfernen
@@ -5631,6 +6305,19 @@ function treeKontextmenu(node) {
 				"label": "neue Freiwilligen-Kontrolle",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/tpopfeldkontr_insert.php',
 						dataType: 'json',
@@ -5678,6 +6365,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$("#loeschen_dialog_mitteilung").html("Die Freiwilligen-Kontrolle \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
@@ -5738,6 +6438,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					window.tpopfreiwkontr_node_ausgeschnitten = aktiver_node;
 					//es macht keinen Sinn mehr, den kopierten node zu behalten
 					//und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
@@ -5752,6 +6465,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/kopieren.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					window.tpopfreiwkontr_node_kopiert = aktiver_node;
 					//Daten des Objekts holen
 					$.ajax({
@@ -5796,6 +6522,19 @@ function treeKontextmenu(node) {
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
 					var dataUrl;
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					//User und neue TPopId mitgeben
 					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(parent_node).attr("id");
 					//die alten id's entfernen
@@ -5859,6 +6598,19 @@ function treeKontextmenu(node) {
 				"label": "neue Massnahme",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/tpopmassn_insert.php',
 						dataType: 'json',
@@ -5917,6 +6669,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					var dataUrl;
 					//User und neue TPopId mitgeben
 					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(aktiver_node).attr("id");
@@ -5980,6 +6745,19 @@ function treeKontextmenu(node) {
 				"label": "neue Massnahme",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/tpopmassn_insert.php',
 						dataType: 'json',
@@ -6026,6 +6804,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$("#loeschen_dialog_mitteilung").html("Die Massnahme \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
@@ -6085,6 +6876,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					window.tpopmassn_node_ausgeschnitten = aktiver_node;
 					//es macht keinen Sinn mehr, den kopierten node zu behalten
 					//und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
@@ -6099,6 +6903,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/kopieren.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					window.tpopmassn_node_kopiert = aktiver_node;
 					//Daten des Objekts holen
 					$.ajax({
@@ -6141,6 +6958,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					var dataUrl;
 					//User und neue TPopId mitgeben
 					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(parent_node).attr("id");
@@ -6204,6 +7034,19 @@ function treeKontextmenu(node) {
 				"label": "neuer Teilpopulations-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/tpopber_insert.php',
 						dataType: 'json',
@@ -6252,6 +7095,19 @@ function treeKontextmenu(node) {
 				"label": "neuer Teilpopulations-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/tpopber_insert.php',
 						dataType: 'json',
@@ -6298,6 +7154,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$("#loeschen_dialog_mitteilung").html("Der Teilpopulations-Bericht \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
@@ -6478,6 +7347,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					window.tpopbeob_node_ausgeschnitten = aktiver_node;
 				}
 			}
@@ -6509,6 +7391,19 @@ function treeKontextmenu(node) {
 				"label": "neuer Massnahmen-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/tpopmassnber_insert.php',
 						dataType: 'json',
@@ -6557,6 +7452,19 @@ function treeKontextmenu(node) {
 				"label": "neuer Massnahmen-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$.ajax({
 						url: 'php/tpopmassnber_insert.php',
 						dataType: 'json',
@@ -6603,6 +7511,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					$("#loeschen_dialog_mitteilung").html("Der Massnahmen-Bericht \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
@@ -6825,6 +7746,19 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
 					window.beob_node_ausgeschnitten = aktiver_node;
 				}
 			}
@@ -6845,6 +7779,19 @@ function treeKontextmenu(node) {
 
 function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 	var dataUrl;
+	//nur aktualisieren, wenn Schreibrechte bestehen
+	if (sessionStorage.NurLesen) {
+		$("#Meldung").html("Sie haben keine Schreibrechte");
+		$("#Meldung").dialog({
+			modal: true,
+			buttons: {
+				Ok: function() {
+					$(this).dialog("close");
+				}
+			}
+		});
+		return;
+	}
 	//User und neue PopId mitgeben
 	dataUrl = "?MutWer=" + sessionStorage.User + "&PopId=" + $(aktiver_node).attr("id");
 	//die alten id's entfernen
@@ -6901,6 +7848,19 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 
 function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 	var dataUrl;
+	//nur aktualisieren, wenn Schreibrechte bestehen
+	if (sessionStorage.NurLesen) {
+		$("#Meldung").html("Sie haben keine Schreibrechte");
+		$("#Meldung").dialog({
+			modal: true,
+			buttons: {
+				Ok: function() {
+					$(this).dialog("close");
+				}
+			}
+		});
+		return;
+	}
 	//drop kennt den parent nicht
 	if (!parent_node) {
 		parent_node = jQuery.jstree._reference(aktiver_node)._get_parent(aktiver_node);
@@ -6964,6 +7924,19 @@ function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 //übernimmt das Objekt, in dem geändert wurde
 function speichern(that) {
 	var Feldtyp, Formular, Feldname, Feldjson, Feldwert, Querystring, Objekt;
+	//nur speichern, wenn Schreibrechte bestehen
+	if (sessionStorage.NurLesen) {
+		$("#Meldung").html("Sie haben keine Schreibrechte");
+		$("#Meldung").dialog({
+			modal: true,
+			buttons: {
+				Ok: function() {
+					$(this).dialog("close");
+				}
+			}
+		});
+		return;
+	}
 	Formular = $(that).attr("formular");
 	Feldname = that.name;
 	Feldtyp = $(that).attr("type") || null;
@@ -7950,6 +8923,19 @@ function placeMarkerTPop(location, map, marker, TPop) {
 
 function SetLocationTPop(LatLng, map, marker, TPop) {
 	var lat, lng, contentString, infowindow, Objekt, title, X, Y;
+	//nur aktualisieren, wenn Schreibrechte bestehen
+	if (sessionStorage.NurLesen) {
+		$("#Meldung").html("Sie haben keine Schreibrechte");
+		$("#Meldung").dialog({
+			modal: true,
+			buttons: {
+				Ok: function() {
+					$(this).dialog("close");
+				}
+			}
+		});
+		return;
+	}
 	if (TPop && TPop.TPopFlurname) {
 		title = TPop.TPopFlurname;
 	} else {

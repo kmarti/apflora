@@ -1641,6 +1641,8 @@
 			});
 
 			function pruefe_anmeldung() {
+				//Leserechte zurücksetzen
+				delete sessionStorage.NurLesen;
 				if ($("#anmeldung_name").val() && $("#anmeldung_passwort").val()) {
 					$.ajax({
 						url: 'php/anmeldung.php',
@@ -1650,8 +1652,12 @@
 							"pwd": $("#anmeldung_passwort").val()
 						},
 						success: function (data) {
-							if (data && data > 0) {
+							if (data && data.anzUser > 0) {
 								sessionStorage.User = $("#anmeldung_name").val();
+								//wenn NurLesen, globale Variable setzen
+								if (data.NurLesen && data.NurLesen === -1) {
+									sessionStorage.NurLesen = true;
+								}
 								$("#anmeldung_rueckmeldung").html("Willkommen " + $("#anmeldung_name").val()).addClass("ui-state-highlight");
 								setTimeout(function() {
 									$("#anmelde_dialog").dialog("close", 2000);
