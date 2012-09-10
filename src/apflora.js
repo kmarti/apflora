@@ -8037,7 +8037,10 @@ function speichern(that) {
 	//nodes im Tree updaten, wenn deren Bezeichnung ändert
 	switch(Feldname) {
 		case "PopName":
-			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_pop'] #" + localStorage.pop_id, Feldwert);
+			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_pop'] #" + localStorage.pop_id, $("#PopNr").val() + " " + Feldwert);
+			break;
+		case "PopNr":
+			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_pop'] #" + localStorage.pop_id, Feldwert + " " + $("#PopName").val());
 			break;
 		case "PopBerJahr":
 		case "PopBerEntwicklung":
@@ -8048,7 +8051,10 @@ function speichern(that) {
 			jQuery("#tree").jstree("rename_node", "[typ='pop_ordner_massnber'] #" + localStorage.popmassnber_id, $("#PopMassnBerJahr").val() + ": " + $("#spanPopMassnBerErfolgsbeurteilung" + $('input[name="PopMassnBerErfolgsbeurteilung"]:checked').val()).text());
 			break;
 		case "TPopFlurname":
-			jQuery("#tree").jstree("rename_node", "[typ='pop_ordner_tpop'] #" + localStorage.tpop_id, Feldwert);
+			jQuery("#tree").jstree("rename_node", "[typ='pop_ordner_tpop'] #" + localStorage.tpop_id, $("#TPopNr").val() + " " + Feldwert);
+			break;
+		case "TPopNr":
+			jQuery("#tree").jstree("rename_node", "[typ='pop_ordner_tpop'] #" + localStorage.tpop_id, Feldwert + " " + $("#TPopFlurname").val());
 			break;
 		case "TPopKontrTyp":
 		case "TPopKontrJahr":

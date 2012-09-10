@@ -23,16 +23,44 @@ settype($id, "integer");
 $child_dummy = array(0 => "dummy");
 	
 //pop dieses AP abfragen
-$result_pop = mysqli_query($link, "SELECT PopName, PopId, ApArtId FROM tblPopulation where ApArtId = $ApArtId ORDER BY PopName");
+$result_pop = mysqli_query($link, "SELECT PopNr, PopName, PopId, ApArtId FROM tblPopulation where ApArtId = $ApArtId ORDER BY PopNr, PopName");
+$PopNr_max0 = mysqli_query($link, "SELECT MAX(PopNr) as PopNr_max FROM tblPopulation where ApArtId = $ApArtId");
+$PopNr_max = strval($r_pop['PopNr_max']);
 $anz_pop = mysqli_num_rows($result_pop);
 //Datenstruktur für pop aufbauen
 $rows_pop = array();
 while($r_pop = mysqli_fetch_assoc($result_pop)) {
 	$PopId = $r_pop['PopId'];
 	settype($PopId, "integer");
-
+	
+	//PopNr: Je nach Anzahl Stellen der maximalen PopNr bei denjenigen mit weniger Nullen
+	//Nullen voranstellen, damit sie im tree auch als String richtig sortiert werden   FUNKTIONIERT NICHT!!!!
+	$PopNr_number = strval($r_pop['PopNr']);
+	$Stellendifferenz = strlen($PopNr_max) - strlen($PopNr_number);
+	$PopNr = strval($PopNr_number);
+	switch ($Stellendifferenz) {
+		case 0:
+			//belassen
+			break;
+		case 1:
+			$PopNr = "0".$PopNr;
+			break;
+		case 2:
+			$PopNr = "00".$PopNr;
+			break;
+		case 3:
+			$PopNr = "000".$PopNr;
+			break;
+		case 4:
+			$PopNr = "0000".$PopNr;
+			break;
+		case 5:
+			$PopNr = "00000".$PopNr;
+			break;
+	}
+	
 	//TPop dieser Pop abfragen
-	$result_tpop = mysqli_query($link, "SELECT TPopFlurname, TPopId, PopId FROM tblTeilpopulation where PopId = $PopId ORDER BY TPopFlurname");
+	$result_tpop = mysqli_query($link, "SELECT TPopNr, TPopFlurname, TPopId, PopId FROM tblTeilpopulation where PopId = $PopId ORDER BY TPopNr, TPopFlurname");
 	$anz_tpop = mysqli_num_rows($result_tpop);
 	//Datenstruktur für tpop aufbauen
 	$rows_tpop = array();
@@ -221,7 +249,7 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 
 		//TPop setzen
 		$attr_tpop = array("id" => $TPopId, "typ" => "tpop");
-		$tpop = array("data" => $r_tpop['TPopFlurname'], "attr" => $attr_tpop, "children" => $tpop_ordner);
+		$tpop = array("data" => $r_tpop['TPopNr'] . " " . $r_tpop['TPopFlurname'], "attr" => $attr_tpop, "children" => $tpop_ordner);
 		//tpop-Array um tpop ergänzen
 	    $rows_tpop[] = $tpop;
 	}
@@ -290,7 +318,7 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 	$attr_pop = array("id" => $PopId, "typ" => "pop");
 	$children_pop = $pop_ordner;
 	if ($r_pop['PopName']) {
-		$data = $r_pop['PopName'];
+		$data = $PopNr . " " . $r_pop['PopName'];
 	} else {
 		$data = "namenlos";
 	}
