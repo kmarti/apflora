@@ -8084,7 +8084,10 @@ function speichern(that) {
 			jQuery("#tree").jstree("rename_node", "[typ='zielber_ordner'] #" + localStorage.zielber_id, $("#ZielBerJahr").val() + ": " + $("#ZielBerErreichung").val());
 			break;
 		case "ErfBeurtZielSkalaErreichungsgrad":
-			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_erfkrit'] #" + localStorage.erfkrit_id, $("#SpanErfBeurtZielSkalaErreichungsgrad" + Feldwert).text());
+			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_erfkrit'] #" + localStorage.erfkrit_id, $("#SpanErfBeurtZielSkalaErreichungsgrad" + Feldwert).text() + ": " + $("#ErfBeurtZielSkalaTxt").val());
+			break;
+		case "ErfBeurtZielSkalaTxt":
+			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_erfkrit'] #" + localStorage.erfkrit_id, $("#SpanErfBeurtZielSkalaErreichungsgrad" + $("input:radio[name='ErfBeurtZielSkalaErreichungsgrad']:checked").val()).text() + ": " + Feldwert);
 			break;
 		case "ApBerJahr":
 			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_apber'] #" + localStorage.apber_id, Feldwert);
