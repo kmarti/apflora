@@ -1601,7 +1601,17 @@ function erstelle_tree(ApArtId) {
 				"default_position": "first",
 				"check_move": function (m) {
 					//hier wird bestimmt, welche drag-drop-Kombinationen zulässig sind
-					if (m.o.attr("typ") === "tpop") {
+					if (m.o.attr("typ") === "pop") {
+						if (m.r.attr("typ") === "pop") {
+							return {
+								after: true,
+								before: true,
+								inside: false
+							};
+						} else {
+							return false;
+						}
+					} else if (m.o.attr("typ") === "tpop") {
 						if (m.r.attr("typ") === "tpop") {
 							return {
 								after: true,
@@ -2032,7 +2042,43 @@ function erstelle_tree(ApArtId) {
 		herkunft_node = data.rslt.o;
 		ziel_node = data.rslt.r;
 		ziel_parent_node = jQuery.jstree._reference(data.rslt.r)._get_parent(data.rslt.r);
-		if (herkunft_node.attr("typ") === "tpop") {
+		if (herkunft_node.attr("typ") === "pop") {
+			if (ziel_node.attr("typ") === "pop") {
+				$.ajax({
+					url: 'php/pop_einfuegen.php',		//TO DO: PHP
+					dataType: 'json',
+					data: {
+						"ap_art_id": $(ziel_parent_node).attr("id"),
+						"pop_id": $(ziel_node).attr("id"),
+						"user": sessionStorage.User
+					},
+					success: function () {
+						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+						beschrifte_ap_ordner_pop(ziel_parent_node);
+						beschrifte_ap_ordner_pop(window.herkunft_parent_node);
+						//selection steuern
+						jQuery.jstree._reference(ziel_node).deselect_all();
+						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+						//Variablen aufräumen
+						localStorage.pop_id = $(herkunft_node).attr("id");
+						delete window.pop;
+						delete window.pop_node_ausgeschnitten;
+						delete window.herkunft_parent_node;
+						initiiere_pop();
+					},
+					error: function (data) {
+						$("#Meldung").html("Fehler: Die Teilpopulation wurde nicht verschoben");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+					}
+				});
+			}
 			if (ziel_node.attr("typ") === "tpop") {
 				$.ajax({
 					url: 'php/tpop_einfuegen.php',
@@ -4709,6 +4755,108 @@ function treeKontextmenu(node) {
 				}
 			}
 		};
+		if (!window.pop_zum_verschieben_gemerkt) {
+			items.ausschneiden = {
+				"label": "zum Verschieben merken",
+				"separator_before": true,
+				"icon": "style/images/ausschneiden.png",
+				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
+					//Jetzt die PopId merken - ihr muss danach eine andere ApArtId zugeteilt werden
+					window.pop_id = $(aktiver_node).attr("id");
+					//merken, dass ein node ausgeschnitten wurde
+					window.pop_zum_verschieben_gemerkt = true;
+					//und wie er heisst (um es später im Kontextmenü anzuzeigen)
+					window.pop_bezeichnung = $("#PopNr").val() + " " + $("#PopName").val();
+
+				}
+			}
+		}
+		if (window.pop_zum_verschieben_gemerkt) {
+			items.einfuegen = {
+				"label": "'" + window.pop_bezeichnung + "' einfügen",
+				"separator_before": true,
+				"icon": "style/images/einfuegen.png",
+				"action": function () {
+					//db aktualisieren
+					$.ajax({
+						url: 'php/pop_update.php',
+						dataType: 'json',
+						data: {
+							"id": window.pop_id,
+							"Feld": "ApArtId",
+							"Wert": $(parent_node).attr("id"),
+							"user": sessionStorage.User
+						},
+						success: function () {
+							//Baum neu aufbauen
+							//jQuery("#tree").jstree("destroy")
+							erstelle_tree($(parent_node).attr("id"));
+							//richtigen node markieren
+							/*jQuery("#tree").bind("reselect.jstree", function () { 
+								jQuery("#tree").jstree("deselect_all");
+								jQuery("#tree").jstree("close_all", -1);
+								jQuery("#tree").jstree("select_node", "[typ='pop']#" + window.pop_id); 
+							});*/
+
+							/*$(function () { 
+								var ready = false; 
+								$("#tree")
+									.bind("reselect.jstree", function() { ready = true; }) 
+									.bind("select_node.jstree", function() { 
+										if(ready) { 
+											setTimeout(function() {
+												jQuery("#tree").jstree("deselect_all");
+												jQuery("#tree").jstree("close_all", -1);
+												jQuery("#tree").jstree("select_node", "[typ='pop']#" + window.pop_id);
+												ready = false;
+												alert("hop");
+											}, 700); 
+										}
+									}); 
+
+							}); */
+							/*setTimeout(function() {
+								jQuery("#tree").jstree("deselect_all");
+								jQuery("#tree").jstree("close_all", -1);
+								jQuery("#tree").jstree("select_node", "[typ='pop']#" + window.pop_id);
+								alert("hop");
+							}, 500);*/
+							//einfügen soll nicht mehr angezeigt werden
+							delete window.pop_zum_verschieben_gemerkt;
+							//nicht mehr benötigte Variabeln entfernen
+							delete window.pop_bezeichnung;
+							delete window.pop_id;
+						},
+						error: function (data) {
+							var Meldung;
+							Meldung = JSON.stringify(data);
+							$("#Meldung").html(data.responseText);
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
+		};
 		return items;
 	case "pop_ordner_tpop":
 		items = {
@@ -5158,7 +5306,7 @@ function treeKontextmenu(node) {
 					}
 				}
 			}
-		};
+		}
 		if (!window.tpop_node_ausgeschnitten) {
 			items.ausschneiden = {
 				"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
@@ -5240,17 +5388,7 @@ function treeKontextmenu(node) {
 					jQuery.jstree._reference(parent_node).move_node(window.tpop_node_ausgeschnitten, parent_node, "first", false);
 				}
 			}
-		}
-		if (window.tpop_node_kopiert) {
-			items.einfuegen = {
-				"label": jQuery.jstree._reference(window.tpop_node_kopiert).get_text(window.tpop_node_kopiert) + " einfügen",
-				"separator_before": true,
-				"icon": "style/images/einfuegen.png",
-				"action": function () {
-					tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node);
-				}
-			}
-		}
+		};
 		return items;
 	case "pop_ordner_popber":
 		items = {
@@ -7871,6 +8009,79 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 	});
 }
 
+function pop_kopiert_in_pop_einfuegen(aktiver_node, parent_node) {
+	var dataUrl;
+	//nur aktualisieren, wenn Schreibrechte bestehen
+	if (sessionStorage.NurLesen) {
+		$("#Meldung").html("Sie haben keine Schreibrechte");
+		$("#Meldung").dialog({
+			modal: true,
+			buttons: {
+				Ok: function() {
+					$(this).dialog("close");
+				}
+			}
+		});
+		return;
+	}
+	//drop kennt den parent nicht
+	if (!parent_node) {
+		parent_node = jQuery.jstree._reference(aktiver_node)._get_parent(aktiver_node);
+	}
+	//User und neue ApArtId mitgeben
+	dataUrl = "?MutWer=" + sessionStorage.User + "&ApArtId=" + $(parent_node).attr("id");
+	//die alten id's entfernen
+	delete window.pop_objekt_kopiert.ApArtId;
+	delete window.pop_objekt_kopiert.PopId;
+	//das wird gleich neu gesetzt, alte Werte verwerfen
+	delete window.pop_objekt_kopiert.MutWann;
+	delete window.pop_objekt_kopiert.MutWer;
+	//alle verbliebenen Felder an die url hängen
+	for (i in window.pop_objekt_kopiert) {
+		if (typeof i !== "function") {
+			//Nullwerte ausschliessen
+			if (window.pop_objekt_kopiert[i] !== null) {
+				dataUrl += "&" + i + "=" + window.pop_objekt_kopiert[i];
+			}
+		}
+	}
+	//und an die DB schicken
+	$.ajax({
+		url: 'php/pop_insert_kopie.php' + dataUrl,
+		dataType: 'json',
+		success: function (data) {
+			var NeuerNode;
+			localStorage.pop_id = data;
+			delete window.pop;
+			NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
+				"data": window.pop_objekt_kopiert.PopNr + " " + window.pop_objekt_kopiert.PopName,
+				"attr": {
+					"id": data,
+					"typ": "pop"
+				}
+			});
+			//Parent Node-Beschriftung: Anzahl anpassen
+			beschrifte_ap_ordner_pop(parent_node);
+			//node selecten
+			jQuery.jstree._reference(aktiver_node).deselect_all();
+			jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+			//Formular initiieren
+			initiiere_pop();
+		},
+		error: function (data) {
+			$("#Meldung").html("Fehler: Die Population wurde nicht erstellt");
+			$("#Meldung").dialog({
+				modal: true,
+				buttons: {
+					Ok: function() {
+						$(this).dialog("close");
+					}
+				}
+			});
+		}
+	});
+}
+
 function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 	var dataUrl;
 	//nur aktualisieren, wenn Schreibrechte bestehen
@@ -7916,7 +8127,7 @@ function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 			localStorage.tpop_id = data;
 			delete window.tpop;
 			NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-				"data": window.tpop_objekt_kopiert.TPopFlurname,
+				"data": window.tpop_objekt_kopiert.TPopNr + " " + window.tpop_objekt_kopiert.TPopFlurname,
 				"attr": {
 					"id": data,
 					"typ": "tpop"
