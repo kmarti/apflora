@@ -2979,6 +2979,82 @@ function treeKontextmenu(node) {
 					});
 				}
 			}
+		}
+		if (window.pop_zum_verschieben_gemerkt) {
+			items.einfuegen = {
+				"label": "'" + window.pop_bezeichnung + "' einfügen",
+				"separator_before": true,
+				"icon": "style/images/einfuegen.png",
+				"action": function () {
+					//db aktualisieren
+					$.ajax({
+						url: 'php/pop_update.php',
+						dataType: 'json',
+						data: {
+							"id": window.pop_id,
+							"Feld": "ApArtId",
+							"Wert": $(aktiver_node).attr("id"),
+							"user": sessionStorage.User
+						},
+						success: function () {
+							//Baum neu aufbauen
+							//jQuery("#tree").jstree("destroy")
+							//erstelle_tree($(parent_node).attr("id"));
+							setTimeout(function() {
+								erstelle_tree($(aktiver_node).attr("id"));
+							}, 500);
+							//richtigen node markieren
+							/*jQuery("#tree").bind("reselect.jstree", function () { 
+								jQuery("#tree").jstree("deselect_all");
+								jQuery("#tree").jstree("close_all", -1);
+								jQuery("#tree").jstree("select_node", "[typ='pop']#" + window.pop_id); 
+							});*/
+
+							/*$(function () { 
+								var ready = false; 
+								$("#tree")
+									.bind("reselect.jstree", function() { ready = true; }) 
+									.bind("select_node.jstree", function() { 
+										if(ready) { 
+											setTimeout(function() {
+												jQuery("#tree").jstree("deselect_all");
+												jQuery("#tree").jstree("close_all", -1);
+												jQuery("#tree").jstree("select_node", "[typ='pop']#" + window.pop_id);
+												ready = false;
+												alert("hop");
+											}, 700); 
+										}
+									}); 
+
+							}); */
+							/*setTimeout(function() {
+								jQuery("#tree").jstree("deselect_all");
+								jQuery("#tree").jstree("close_all", -1);
+								jQuery("#tree").jstree("select_node", "[typ='pop']#" + window.pop_id);
+								alert("hop");
+							}, 500);*/
+							//einfügen soll nicht mehr angezeigt werden
+							delete window.pop_zum_verschieben_gemerkt;
+							//nicht mehr benötigte Variabeln entfernen
+							delete window.pop_bezeichnung;
+							delete window.pop_id;
+						},
+						error: function (data) {
+							var Meldung;
+							Meldung = JSON.stringify(data);
+							$("#Meldung").html(data.responseText);
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			}
 		};
 		return items;
 	case "ap_ordner_apziel":
