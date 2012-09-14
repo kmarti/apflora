@@ -36,6 +36,12 @@ Sie löst die bestehende Access-Anwendung ab.
 - Teilpopulationen auf Luftbildern verorten
 - Teilpopulationen und Beobachtungen im GIS-Browser des Kt. Zürich anzeigen
 
+**Sich anleiten lassen**
+
+- Wichtige Felder, die in aller Regel auszufüllen sind, werden farblich hervorgehoben
+- Bei erklärungsbedürftigen Feldern werden Informationen angezeigt, wenn man mit der Maus über den Feldnamen fährt
+Diese beiden Features sind noch im Aufbau.
+
 **Daten exportieren:**
 
 - In den nächsten Tagen werden Exporte bereitgestellt
