@@ -156,6 +156,10 @@ Quelle: http://sixrevisions.com/css/css-only-tooltips*/
 	cursor: help; text-decoration: none;
 	position: relative;
 }
+
+.legendiert {
+	color: #6F6F66;
+}
 .tooltip span {
 	margin-left: -999em;
 	position: absolute;
@@ -165,7 +169,7 @@ Quelle: http://sixrevisions.com/css/css-only-tooltips*/
 	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1); -webkit-box-shadow: 5px 5px rgba(0, 0, 0, 0.1); -moz-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
 	font-family: Calibri, Tahoma, Geneva, sans-serif;
 	position: absolute; left: 1em; top: 2em; z-index: 99;
-	margin-left: 0; width: 250px;
+	margin-left: -360px; width: 350px;
 	text-align: left;
 }
 .tooltip:hover img {
@@ -184,3 +188,13 @@ Quelle: http://sixrevisions.com/css/css-only-tooltips*/
 .help { background: #9FDAEE; border: 1px solid #2BB0D7;	}
 .info { background: #9FDAEE; border: 1px solid #2BB0D7;	}
 .warning { background: #FFFFAA; border: 1px solid #FFAD33; }
+
+.legendentitel {
+	vertical-align:top;
+	color: #000000;
+	font-weight:bold;
+}
+
+.legende {
+	color: #000000;
+}

@@ -51,7 +51,18 @@
 					</select>
 				</div>
 				<div class='fieldcontain'>
-					<label id="ApStatus_label" for='ApStatus'><a class="tooltip" href="#">Aktionsplan:<span class="custom info"><img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen</span></a></label>
+					<label id="ApStatus_label" for='ApStatus'>
+						<a class="tooltip" href="#">Aktionsplan:
+							<span class="custom info">
+								<img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen
+								<p class='legendentitel'>Legende:</p>
+								<ul class='legende'>
+									<li>keiner: kein Aktionsplan vorgesehen</li>
+									<li>erstellt: Aktionsplan fertig, auf der Website der FNS</li>
+								</ul>
+							</span>
+						</a>
+					</label>
 					<div class="Datenfelder">
 						<input type="radio" name="ApStatus" id="ApStatus0" class="speichern" formular="ap" value="0" />(kein Eintrag)<br />
 						<input type="radio" name="ApStatus" id="ApStatus4" class="speichern" formular="ap" value="4" />keiner<br />
@@ -65,7 +76,18 @@
 					<input id="ApJahr" name="ApJahr" class="speichern Datenfelder" formular="ap" type="number"/>
 				</div>
 				<div class='fieldcontain'>
-					<label id="ApUmsetzung_label" for='ApUmsetzung'>Stand Umsetzung:</label>
+					<label id="ApUmsetzung_label" for='ApUmsetzung'>
+						<a class="tooltip legendiert" href="#">Stand Umsetzung:
+							<span class="custom info">
+								<img src="img/Info.png" alt="Information" height="48" width="48" />
+								<p class='legendentitel'>Legende:</p>
+								<ul class='legende'>
+									<li>noch keine Umsetzung: noch keine Massnahmen ausgeführt</li>
+									<li>in Umsetzung: bereits Massnahmen ausgeführt (auch wenn AP noch nicht erstellt)</li>
+								</ul>
+							</span>
+						</a>
+					</label>
 					<div class="Datenfelder">
 						<input type="radio" name="ApUmsetzung" class="speichern" formular="ap" id="ApUmsetzung0" value="0" />noch keine Umsetzung<br />
 						<input type="radio" name="ApUmsetzung" class="speichern" formular="ap" id="ApUmsetzung1" value="1" />in Umsetzung<br />
@@ -86,7 +108,13 @@
 
 			<form id="pop" class="form" action="#" method="get" autocomplete="off">
 				<div class='fieldcontain'>
-					<label id="PopName_label" for='PopName'><a class="tooltip" href="#">Name:<span class="custom info"><img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen</span></a></label>
+					<label id="PopName_label" for='PopName'>
+						<a class="tooltip" href="#">Name:
+							<span class="custom info">
+								<img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen
+							</span>
+						</a>
+					</label>
 					<input id="PopName" name="PopName" class="speichern Datenfelder" formular="pop" type="text"/>
 				</div>
 				<div class='fieldcontain'>
@@ -94,7 +122,21 @@
 					<input id="PopNr" name="PopNr" class="speichern Datenfelder" formular="pop" type="number">
 				</div>
 				<div class='fieldcontain'>
-					<label id="PopHerkunft_label" for='PopHerkunft'><a class="tooltip" href="#">Status:<span class="custom info"><img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen</span></a></label>
+					<label id="PopHerkunft_label" for='PopHerkunft'>
+						<a class="tooltip" href="#">Status:
+							<span class="custom info">
+								<img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen
+								<p class='legendentitel'>Legende:</p>
+								<ul class='legende'>
+									<li>autochthon: Population ist rezent zum Zeitpunkt der Erstellung des Aktionsplanes</li>
+									<li>neu entdeckt, autochthon: Population neu entdeckt, vorher nicht schon lange bekannt. Unabhängig davon, ob schon ein Aktionsplan besteht oder nicht</li>
+									<li>neu entdeckt, angesiedelt: Ab Aktionsplan neu entdeckt</li>
+									<li>nur angesät: wenn alle Teilpopulationen nur angesät sind und noch keine Kontrollen mit Pflanzenfunden durchgeführt wurden, oder wenn zwar Kontrollen durchgeführt aber keine Pflanzen gefunden wurden und noch nicht entschieden wurde, dass Population nicht etabliert ist</li>
+									<li>überprüft, kein Vorkommen: Dies sind Orte, die ohne dass vorher Angaben darüber vorhanden gewesen wären, explizit auf eine Art hin untersucht wurden und diese Art dort aber nicht gefunden wurde</li>
+								</ul>
+							</span>
+						</a>
+					</label>
 					<div class="Datenfelder">
 						<input type="radio" name="PopHerkunft" id="PopHerkunft1" class="speichern" formular="pop" value="1" />autochthon<br />
 						<input type="radio" name="PopHerkunft" id="PopHerkunft6" class="speichern" formular="pop" value="6" />neu entdeckt, autochthon<br />
@@ -124,7 +166,21 @@
 					<input id="TPopNr" name="TPopNr" class="speichern Datenfelder" formular="tpop" type="number">
 				</div>
 				<div class='fieldcontain'>
-					<label id="TPopHerkunft_label" for='TPopHerkunft'><a class="tooltip" href="#">Status:<span class="custom info"><img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen</span></a></label>
+					<label id="TPopHerkunft_label" for='TPopHerkunft'>
+						<a class="tooltip" href="#">Status:
+							<span class="custom info">
+								<img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen
+								<p class='legendentitel'>Legende:</p>
+								<ul class='legende'>
+									<li>autochthon: Population ist rezent zum Zeitpunkt der Erstellung des Aktionsplanes</li>
+									<li>neu entdeckt, autochthon: Population neu entdeckt, vorher nicht schon lange bekannt. Unabhängig davon, ob schon ein Aktionsplan besteht oder nicht</li>
+									<li>neu entdeckt, angesiedelt: Ab Aktionsplan neu entdeckt</li>
+									<li>nur angesät: wenn alle Teilpopulationen nur angesät sind und noch keine Kontrollen mit Pflanzenfunden durchgeführt wurden, oder wenn zwar Kontrollen durchgeführt aber keine Pflanzen gefunden wurden und noch nicht entschieden wurde, dass Population nicht etabliert ist</li>
+									<li>überprüft, kein Vorkommen: Dies sind Orte, die ohne dass vorher Angaben darüber vorhanden gewesen wären, explizit auf eine Art hin untersucht wurden und diese Art dort aber nicht gefunden wurde</li>
+								</ul>
+							</span>
+						</a>
+					</label>
 					<div class="Datenfelder">
 						<input type="radio" name="TPopHerkunft" id="TPopHerkunft1" class="speichern" formular="tpop" value="1" />autochthon<br />
 						<input type="radio" name="TPopHerkunft" id="TPopHerkunft6" class="speichern" formular="tpop" value="6" />neu entdeckt, autochthon<br />
@@ -147,13 +203,23 @@
 					<textarea name="TPopHerkunftUnklarBegründung" id="TPopHerkunftUnklarBegründung" class="speichern Datenfelder" formular="tpop" placeholder="...für unklaren Status"></textarea>
 				</div>
 				<div class='fieldcontain'>
-					<label id="TPopApBerichtRelevant_label" for='TPopApBerichtRelevant'><a class="tooltip" href="#">Für AP-Bericht<br>relevant?<span class="custom info"><img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen</span></a></label>
+					<label id="TPopApBerichtRelevant_label" for='TPopApBerichtRelevant'>
+						<a class="tooltip" href="#">Für AP-Bericht<br>relevant?
+							<span class="custom info"><img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen
+								<p class='legendentitel'>Legende:</p>
+								<ul class='legende'>
+									<li>nein (historisch): vor 1950 ohne Kontrolle (historisch = erloschen)</li>
+									<li>nein (kein Vorkommen): siehe bei Populationen "überprüft kein Vorkommen" oder autochthone Populationen, die wieder kontrolliert wurden und kein Vorkommen mehr aufweisen</li>
+								</ul>
+							</span>
+						</a>
+					</label>
 					<div class="Datenfelder">
 						<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant1" class="speichern" formular="tpop" value="1" />ja<br />
-						<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant2" class="speichern" formular="tpop" value="2" />Nein (historisch)<br />
-						<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant3" class="speichern" formular="tpop" value="3" />Nein (ausserkantonal)<br />
-						<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant4" class="speichern" formular="tpop" value="4" />Nein (Status unklar, keine glaubwürdigen Beobachtungen)<br />
-						<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant5" class="speichern" formular="tpop" value="5" />Nein (kein Vorkommen)
+						<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant2" class="speichern" formular="tpop" value="2" />nein (historisch)<br />
+						<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant3" class="speichern" formular="tpop" value="3" />nein (ausserkantonal)<br />
+						<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant4" class="speichern" formular="tpop" value="4" />nein (Status unklar, keine glaubwürdigen Beobachtungen)<br />
+						<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant5" class="speichern" formular="tpop" value="5" />nein (kein Vorkommen)
 					</div>
 				</div>
 				<div class='fieldcontain'>
@@ -386,7 +452,23 @@
 							<input id="TPopKontrUeberleb" name="TPopKontrUeberleb" class="speichern Datenfelder" formular="tpopfeldkontr" type="text"/>
 						</div>
 						<div class='fieldcontain TPopKontrEntwicklung'>
-							<label id="TPopKontrEntwicklung_label" for='TPopKontrEntwicklung'>Entwicklung:</label>
+							<label id="TPopKontrEntwicklung_label" for='TPopKontrEntwicklung'>
+								<a class="tooltip legendiert" href="#">Entwicklung:
+									<span class="custom info">
+										<img src="img/Info.png" alt="Information" height="48" width="48" />
+										<p class='legendentitel'>Legende:</p>
+										<p>Im 1. Jahr der Beobachtung die Entwicklung an der Massnahme beurteilen, nachher an vorhergehenden EK</p>
+										<ul class='legende'>
+											<li>zunehmend: > 10% Zunahme</li>
+											<li>stabil: ± 10%</li>
+											<li>abnehmend: > 10% Abnahme</li>
+											<li>erloschen / nicht etabliert: nach 2 aufeinander folgenden Kontrollen ohne Funde oder nach Einschätzung AP-VerantwortlicheR</li>
+											<li>unsicher: keine Funde aber noch nicht erloschen (nach zwei Kontrollen ohne Funde kann Status erloschen/nicht etabliert gewählt werden)</li>
+											<li>neu entdeckt (unsicher): neu autochthone Standorte im 1. Jahr (es kann noch keine Aussage zur Entwicklung gemacht werden)</li>
+										</ul>
+									</span>
+								</a>
+							</label>
 							<div class="Datenfelder">
 								<input type="radio" name="TPopKontrEntwicklung" id="TPopKontrEntwicklung3" class="speichern" formular="tpopfeldkontr" value="3" />zunehmend<br />
 								<input type="radio" name="TPopKontrEntwicklung" id="TPopKontrEntwicklung2" class="speichern" formular="tpopfeldkontr" value="2" />stabil<br />
@@ -899,12 +981,19 @@
 					<input id="PopMassnBerJahr" name="PopMassnBerJahr" class="speichern Datenfelder" formular="popmassnber" type="number"/>
 				</div>
 				<div class='fieldcontain PopMassnBerErfolgsbeurteilung'>
-					<label id="PopMassnBerErfolgsbeurteilung_label" for='PopMassnBerErfolgsbeurteilung'>Entwicklung:</label>
+					<label id="PopMassnBerErfolgsbeurteilung_label" for='PopMassnBerErfolgsbeurteilung'>
+						<a class="tooltip legendiert" href="#">Entwicklung:
+							<span class="custom info legende">
+								<img src="img/Info.png" alt="Information" height="48" width="48" />
+								<p>Die aktuelle Kontrolle wird im Vergleich zu den Massnahmen beurteilt</p>
+							</span>
+						</a>
+					</label>
 					<div class="Datenfelder">
-						<input type="radio" name="PopMassnBerErfolgsbeurteilung" id="PopMassnBerErfolgsbeurteilung1" class="speichern" formular="popmassnber" value="1" /><span id="spanPopMassnBerErfolgsbeurteilung1">sehr erfolgreich</span><br />
-						<input type="radio" name="PopMassnBerErfolgsbeurteilung" id="PopMassnBerErfolgsbeurteilung2" class="speichern" formular="popmassnber" value="2" /><span id="spanPopMassnBerErfolgsbeurteilung2">erfolgreich</span><br />
-						<input type="radio" name="PopMassnBerErfolgsbeurteilung" id="PopMassnBerErfolgsbeurteilung3" class="speichern" formular="popmassnber" value="3" /><span id="spanPopMassnBerErfolgsbeurteilung3">weniger erfolgreich</span><br />
-						<input type="radio" name="PopMassnBerErfolgsbeurteilung" id="PopMassnBerErfolgsbeurteilung4" class="speichern" formular="popmassnber" value="4" /><span id="spanPopMassnBerErfolgsbeurteilung4">nicht erfolgreich</span><br />
+						<input type="radio" name="PopMassnBerErfolgsbeurteilung" id="PopMassnBerErfolgsbeurteilung1" class="speichern" formular="popmassnber" value="1" /><span id="spanPopMassnBerErfolgsbeurteilung1">sehr erfolgreich (>= 150%)</span><br />
+						<input type="radio" name="PopMassnBerErfolgsbeurteilung" id="PopMassnBerErfolgsbeurteilung2" class="speichern" formular="popmassnber" value="2" /><span id="spanPopMassnBerErfolgsbeurteilung2">erfolgreich (90 - 149%)</span><br />
+						<input type="radio" name="PopMassnBerErfolgsbeurteilung" id="PopMassnBerErfolgsbeurteilung3" class="speichern" formular="popmassnber" value="3" /><span id="spanPopMassnBerErfolgsbeurteilung3">weniger erfolgreich (1 - 89%)</span><br />
+						<input type="radio" name="PopMassnBerErfolgsbeurteilung" id="PopMassnBerErfolgsbeurteilung4" class="speichern" formular="popmassnber" value="4" /><span id="spanPopMassnBerErfolgsbeurteilung4">nicht erfolgreich (0%)</span><br />
 						<input type="radio" name="PopMassnBerErfolgsbeurteilung" id="PopMassnBerErfolgsbeurteilung5" class="speichern" formular="popmassnber" value="5" /><span id="spanPopMassnBerErfolgsbeurteilung5">unsicher</span>
 					</div>
 				</div>
@@ -943,12 +1032,19 @@
 					<input id="TPopMassnBerJahr" name="TPopMassnBerJahr" class="speichern Datenfelder" formular="tpopmassnber" type="number"/>
 				</div>
 				<div class='fieldcontain TPopMassnBerErfolgsbeurteilung'>
-					<label id="TPopMassnBerErfolgsbeurteilung_label" for='TPopMassnBerErfolgsbeurteilung'>Entwicklung:</label>
+					<label id="TPopMassnBerErfolgsbeurteilung_label" for='TPopMassnBerErfolgsbeurteilung'>
+						<a class="tooltip legendiert" href="#">Entwicklung:
+							<span class="custom info legende">
+								<img src="img/Info.png" alt="Information" height="48" width="48" />
+								<p>Die aktuelle Kontrolle wird im Vergleich zu den Massnahmen beurteilt</p>
+							</span>
+						</a>
+					</label>
 					<div class="Datenfelder">
-						<input type="radio" name="TPopMassnBerErfolgsbeurteilung" id="TPopMassnBerErfolgsbeurteilung1" class="speichern" formular="tpopmassnber" value="1" /><span id="spanTPopMassnBerErfolgsbeurteilung1">sehr erfolgreich</span><br />
-						<input type="radio" name="TPopMassnBerErfolgsbeurteilung" id="TPopMassnBerErfolgsbeurteilung2" class="speichern" formular="tpopmassnber" value="2" /><span id="spanTPopMassnBerErfolgsbeurteilung2">erfolgreich</span><br />
-						<input type="radio" name="TPopMassnBerErfolgsbeurteilung" id="TPopMassnBerErfolgsbeurteilung3" class="speichern" formular="tpopmassnber" value="3" /><span id="spanTPopMassnBerErfolgsbeurteilung3">weniger erfolgreich</span><br />
-						<input type="radio" name="TPopMassnBerErfolgsbeurteilung" id="TPopMassnBerErfolgsbeurteilung4" class="speichern" formular="tpopmassnber" value="4" /><span id="spanTPopMassnBerErfolgsbeurteilung4">nicht erfolgreich</span><br />
+						<input type="radio" name="TPopMassnBerErfolgsbeurteilung" id="TPopMassnBerErfolgsbeurteilung1" class="speichern" formular="tpopmassnber" value="1" /><span id="spanTPopMassnBerErfolgsbeurteilung1">sehr erfolgreich (>= 150%)</span><br />
+						<input type="radio" name="TPopMassnBerErfolgsbeurteilung" id="TPopMassnBerErfolgsbeurteilung2" class="speichern" formular="tpopmassnber" value="2" /><span id="spanTPopMassnBerErfolgsbeurteilung2">erfolgreich (90 - 149%)</span><br />
+						<input type="radio" name="TPopMassnBerErfolgsbeurteilung" id="TPopMassnBerErfolgsbeurteilung3" class="speichern" formular="tpopmassnber" value="3" /><span id="spanTPopMassnBerErfolgsbeurteilung3">weniger erfolgreich (1 - 89%)</span><br />
+						<input type="radio" name="TPopMassnBerErfolgsbeurteilung" id="TPopMassnBerErfolgsbeurteilung4" class="speichern" formular="tpopmassnber" value="4" /><span id="spanTPopMassnBerErfolgsbeurteilung4">nicht erfolgreich (0%)</span><br />
 						<input type="radio" name="TPopMassnBerErfolgsbeurteilung" id="TPopMassnBerErfolgsbeurteilung5" class="speichern" formular="tpopmassnber" value="5" /><span id="spanTPopMassnBerErfolgsbeurteilung5">unsicher</span>
 					</div>
 				</div>
