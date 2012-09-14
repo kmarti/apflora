@@ -36,6 +36,10 @@ Sie löst die bestehende Access-Anwendung ab.
 - Teilpopulationen auf Luftbildern verorten
 - Teilpopulationen und Beobachtungen im GIS-Browser des Kt. Zürich anzeigen
 
+**Daten exportieren:**
+
+- In den nächsten Tagen werden Exporte bereitgestellt
+
 **Auf die Plätze, fertig, los!**
 
 - "No hassle": Keine Installation, keine Installationskosten, automatische Updates
@@ -65,7 +69,7 @@ Sie löst die bestehende Access-Anwendung ab.
 
 <a name="Einschränkungen"></a>
 #Einschränkungen
-- Abfragen und Exporte weiterhin in Access ausführen (muss sowieso flexibilisiert werden)
+
 - Jahresberichte weiterhin von Access aus exportieren
 
 <a href="#top">&#8593; top</a>

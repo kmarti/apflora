@@ -825,7 +825,7 @@ function initiiere_tpopfeldkontr() {
 		initiiere_pop();
 		return;
 	}
-	feldliste_feldkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrTyp', 'TPopKontrJungpfl', 'TPopKontrVitalitaet', 'TPopKontrUeberleb', 'TPopKontrEntwicklung', 'TPopKontrUrsach', 'TPopKontrUrteil', 'TPopKontrAendUms', 'TPopKontrAendKontr', 'TPopKontrGuid', 'TPopKontrFlaeche', 'TPopKontrVegTyp', 'TPopKontrKonkurrenz', 'TPopKontrMoosschicht', 'TPopKontrKrautschicht', 'TPopKontrStrauchschicht', 'TPopKontrBaumschicht', 'TPopKontrBodenTyp', 'TPopKontrBodenKalkgehalt', 'TPopKontrBodenDurchlässigkeit', 'TPopKontrBodenHumus', 'TPopKontrBodenNährstoffgehalt', 'TPopKontrBodenAbtrag', 'TPopKontrWasserhaushalt', 'TPopKontrHandlungsbedarf', 'TPopKontrIdealBiotopÜbereinst', 'TPopKontrLeb', 'TPopKontrLebUmg'];
+	feldliste_feldkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrTyp', 'TPopKontrJungpfl', 'TPopKontrVitalitaet', 'TPopKontrUeberleb', 'TPopKontrEntwicklung', 'TPopKontrUrsach', 'TPopKontrUrteil', 'TPopKontrAendUms', 'TPopKontrAendKontr', 'TPopKontrGuid', 'TPopKontrFlaeche', 'TPopKontrVegTyp', 'TPopKontrKonkurrenz', 'TPopKontrMoosschicht', 'TPopKontrKrautschicht', 'TPopKontrStrauchschicht', 'TPopKontrBaumschicht', 'TPopKontrBodenTyp', 'TPopKontrBodenKalkgehalt', 'TPopKontrBodenDurchlässigkeit', 'TPopKontrBodenHumus', 'TPopKontrBodenNährstoffgehalt', 'TPopKontrBodenAbtrag', 'TPopKontrWasserhaushalt', 'TPopKontrHandlungsbedarf', 'TPopKontrIdealBiotopÜbereinst', 'TPopKontrLeb', 'TPopKontrLebUmg', 'TPopKontrIdealBiotopÜbereinst'];
 	feldliste_freiwkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrPlan', 'TPopKontrÜbFläche', 'TPopKontrÜbPfl', 'TPopKontrNaBo', 'TPopKontrJungPflJN', 'TPopKontrVegHöMax', 'TPopKontrVegHöMit', 'TPopKontrGefährdung', 'TPopKontrGuid'];
 	//Felder zurücksetzen
 	leereFelderVonFormular("tpopfeldkontr");
@@ -982,6 +982,32 @@ function initiiere_tpopfeldkontr() {
 						$("#TPopKontrLebUmg").html(window.lrdelarze_html);
 						$("#TPopKontrLebUmg").val(window.tpopfeldkontr.TPopKontrLebUmg);
 					}
+				}
+				//TPopKontrIdealBiotopÜbereinst: Daten holen - oder vorhandene nutzen
+				if (!window.IdealBiotopÜbereinst_html) {
+					$.ajax({
+						url: 'php/idealbiotopuebereinst.php',
+						dataType: 'json',
+						success: function (data5) {
+							if (data5) {
+								//ap bereitstellen
+								//Feld mit Daten beliefern
+								var html;
+								html = "<option></option>";
+								for (i in data5.rows) {
+									if (typeof i !== "undefined") {
+										html += "<option value=\"" + data5.rows[i].id + "\">" + data5.rows[i].DomainTxt + "</option>";
+									}
+								}
+								window.IdealBiotopÜbereinst_html = html;
+								$("#TPopKontrIdealBiotopÜbereinst").html(html);
+								$("#TPopKontrIdealBiotopÜbereinst").val(window.tpopfeldkontr.TPopKontrIdealBiotopÜbereinst);
+							}
+						}
+					});
+				} else {
+					$("#TPopKontrIdealBiotopÜbereinst").html(window.IdealBiotopÜbereinst_html);
+					$("#TPopKontrIdealBiotopÜbereinst").val(window.tpopfeldkontr.TPopKontrIdealBiotopÜbereinst);
 				}
 				//Felder, die nur in freiwkontr vorkommen
 				if (localStorage.tpopfreiwkontr) {
