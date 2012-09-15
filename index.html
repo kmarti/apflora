@@ -1175,7 +1175,7 @@
 				<h2 style='-webkit-margin-before: 0em;'>Exporte</h2>
 				<ul>
 					<li><a href="#Anleitung">So geht's</a></li>
-					<li><a href="#ProgrammArt">Programm/Art</a></li>
+					<li><a href="#ProgrammArt">Programm / Art</a></li>
 					<li><a href="#Populationen">Populationen</a></li>
 					<li><a href="#Teilpopulationen">Teilpopulationen</a></li>
 					<li><a href="#Beobachtungen">Beobachtungen</a></li>
@@ -1202,10 +1202,12 @@
 				<a href="#top">top</a>
 
 				<a name="ProgrammArt"></a>
-				<h2>Programm/Art</h2>
-				<br><button id="export_test">test</button>
+				<h2>Programm / Art</h2>
+				<button id="export_ap">Programme</button><br>
+				<button id="export_ap_ohne_pop">Programme ohne Populationen</button><br>
+				<button id="export_ap_jb">Jahresberichte</button>
 
-				<br><a href="#top">top</a>
+				<br><br><a href="#top">top</a>
 
 				<a name="Populationen"></a>
 				<h2>Populationen</h2>
@@ -1851,8 +1853,14 @@
 					}, 500);
 				}
 			}
-			$("#exporte").on("click", "#export_test", function() {
-				window.open("php/export_test.php", target="_blank");
+			$("#exporte").on("click", "#export_ap", function() {
+				window.open("php/export_ap.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_ap_ohne_pop", function() {
+				window.open("php/export_ap_ohne_pop.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_ap_jb", function() {
+				window.open("php/export_ap_jb.php", target="_blank");
 			});
 
 		</script>

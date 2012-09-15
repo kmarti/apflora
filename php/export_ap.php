@@ -11,8 +11,8 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
-$view = 'qryKontrApArtTPopOhneStatus'; // view you want to export
-$file = 'ApArtTPopOhneStatus'; // csv name.
+$view = 'qryAuswProgramme'; // view you want to export
+$file = 'Programme'; // csv name.
 
 $result = mysqli_query($link, "SHOW COLUMNS FROM ".$view."");
 $i = 0;
