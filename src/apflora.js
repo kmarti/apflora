@@ -1043,9 +1043,10 @@ function initiiere_tpopfeldkontr() {
 				zeigeFormular("tpopfeldkontr");
 				//Register in Feldkontr blenden
 				if (localStorage.tpopfreiwkontr) {
-					//$("#tpopfeldkontr_tabs_biotop").hide();
-					$("#tpopfeldkontr_tabs_biotop").show();
+					$("#tpopfeldkontr_tabs_biotop").hide();
 					$("#biotop_tab_li").hide();
+					$("#tpopfeldkontr_tabs_entwicklung").show();
+					$("#tpopfeldkontr_tabs").tabs("select", 0);
 				} else {
 					//$("#tpopfeldkontr_tabs_biotop").hide();
 					$("#tpopfeldkontr_tabs_biotop").show();
@@ -1537,7 +1538,7 @@ function setzeFeldbreiten() {
 			}
 		}
 	});
-	$("#forms").width($(window).width() - 490);
+	$("#forms").width($(window).width() - 440);
 }
 
 //setzt die Höhe von textareas so, dass der Text genau rein passt
