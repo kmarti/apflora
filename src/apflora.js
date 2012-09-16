@@ -1045,7 +1045,7 @@ function initiiere_tpopfeldkontr() {
 				if (localStorage.tpopfreiwkontr) {
 					$("#tpopfeldkontr_tabs_biotop").hide();
 					$("#biotop_tab_li").hide();
-					$("#tpopfeldkontr_tabs_entwicklung").show();
+					//$("#tpopfeldkontr_tabs_entwicklung").show();
 					$("#tpopfeldkontr_tabs").tabs("select", 0);
 				} else {
 					//$("#tpopfeldkontr_tabs_biotop").hide();
@@ -1616,6 +1616,11 @@ function erstelle_tree(ApArtId) {
 		"search": {
 			"case_insensitive": true
 		},
+		"sort": function (a, b) {
+			if ($(this).attr("typ") === "pop") {
+				return this.get_text(a) > this.get_text(b) ? 1 : -1;
+			}
+		},
 		"themes": {
 			"icons": false
 		},
@@ -2050,6 +2055,15 @@ function erstelle_tree(ApArtId) {
 	.bind("prepare_move.jstree", function (e, data) {
 		//herkunft_parent_node muss vor dem move ermittelt werden - danach ist der parent ein anderer!
 		window.herkunft_parent_node = jQuery.jstree._reference(data.rslt.o)._get_parent(data.rslt.o);
+	})
+	.bind("rename_node.jstree", function (e, data) {
+		var parent;
+		node = data.rslt.obj;
+		parent = jQuery.jstree._reference(node)._get_parent();
+		jQuery.jstree._focused()._get_settings().sort = function(a,b) {
+				return jQuery.jstree._reference(a).get_text(a) > jQuery.jstree._reference(b).get_text(b) ? 1 : -1;
+			};
+		jQuery.jstree._focused().sort(parent);
 	})
 	.bind("move_node.jstree", function (e, data) {
 		var herkunft_node, ziel_node, ziel_parent_node;
