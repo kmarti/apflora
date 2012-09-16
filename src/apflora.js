@@ -151,7 +151,7 @@ function initiiere_pop() {
 				zeigeFormular("pop");
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#PopName").val()) {
-					$("#PopName").focus();
+					$("#PopNr").focus();
 				}
 			}
 		}
@@ -772,7 +772,7 @@ function initiiere_tpop() {
 				zeigeFormular("tpop");
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#TPopFlurname").val()) {
-					$('#TPopFlurname').focus();
+					$('#TPopNr').focus();
 				}
 			}
 		}
@@ -1053,18 +1053,9 @@ function initiiere_tpopfeldkontr() {
 					//$("#biotop_tab_li").hide();
 					$("#biotop_tab_li").show();
 				}
-				//bei neuen Freiwilligen-Kontrollen Fokus steuern
-				if (localStorage.tpopfreiwkontr) {
-					setTimeout(function() {
-						$("#TPopKontrJahr").focus();
-						$(window).scrollTop(0);
-					}, 100);
-				} else {
-					setTimeout(function() {
-						$("#TPopKontrTyp").focus();
-						$(window).scrollTop(0);
-					}, 100);
-				}
+				//Fokus steuern
+				$("#TPopKontrJahr").focus();
+				$(window).scrollTop(0);
 			}
 		}
 	});
@@ -1196,7 +1187,7 @@ function initiiere_tpopmassn() {
 				zeigeFormular("tpopmassn");
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function() {
-					$('#TPopMassnTyp').focus();
+					$('#TPopMassnJahr').focus();
 				}, 100);
 			}
 		}
@@ -1616,11 +1607,13 @@ function erstelle_tree(ApArtId) {
 		"search": {
 			"case_insensitive": true
 		},
-		"sort": function (a, b) {
-			if ($(this).attr("typ") === "pop") {
+		/*"sort": function (a, b) {
+			if ($(this).attr("typ") && $(this).attr("typ") === "pop") {
+			//node = data.rslt.obj;
+			//if (node.attr("typ") === "pop") {
 				return this.get_text(a) > this.get_text(b) ? 1 : -1;
 			}
-		},
+		},*/
 		"themes": {
 			"icons": false
 		},
@@ -2056,15 +2049,15 @@ function erstelle_tree(ApArtId) {
 		//herkunft_parent_node muss vor dem move ermittelt werden - danach ist der parent ein anderer!
 		window.herkunft_parent_node = jQuery.jstree._reference(data.rslt.o)._get_parent(data.rslt.o);
 	})
-	.bind("rename_node.jstree", function (e, data) {
-		var parent;
+	/*.bind("rename_node.jstree", function (e, data) {
+		var parent_node;
 		node = data.rslt.obj;
-		parent = jQuery.jstree._reference(node)._get_parent();
+		parent_node = jQuery.jstree._reference(node)._get_parent();
 		jQuery.jstree._focused()._get_settings().sort = function(a,b) {
-				return jQuery.jstree._reference(a).get_text(a) > jQuery.jstree._reference(b).get_text(b) ? 1 : -1;
+				return this.get_text(a) > this.get_text(b) ? 1 : -1;
 			};
-		jQuery.jstree._focused().sort(parent);
-	})
+		jQuery.jstree._reference(parent_node).sort(parent_node);
+	})*/
 	.bind("move_node.jstree", function (e, data) {
 		var herkunft_node, ziel_node, ziel_parent_node;
 		//nur aktualisieren, wenn Schreibrechte bestehen
@@ -3255,7 +3248,7 @@ function treeKontextmenu(node) {
 								Objekt.name = "ZielJahr";
 								Objekt.formular = "apziel";
 								speichern(Objekt);
-								$("#ZielTyp").focus();
+								$("#ZielJahr").focus();
 							}, 100);
 						},
 						error: function (data) {
