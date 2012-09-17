@@ -39,9 +39,7 @@ Sie löst die bestehende Access-Anwendung ab.
 **Sich anleiten lassen:**
 
 - Wichtige Felder, die in aller Regel auszufüllen sind, werden farblich hervorgehoben
-- Bei erklärungsbedürftigen Feldern werden Informationen angezeigt, wenn man mit der Maus über den Feldnamen fährt
-
-Diese beiden Features sind noch im Aufbau.
+- Wo hilfreich werden Informationen angezeigt, wenn man mit der Maus über den Feldnamen fährt
 
 **Daten exportieren:**
 
@@ -63,13 +61,14 @@ Diese beiden Features sind noch im Aufbau.
 - Die Anwendung wird mit AJAX gesteuert, um rasche Ladezeiten zu gewährleisten
 - Nodes wie z.B. Teilpopulationen im Baum zu anderen nodes desselben Typs verschieben oder kopieren (rechte Maustaste oder drag and drop, wie im Windows explorer)
 - im Baum suchen
-- Beobachtungen Teilpopulationen zuordnen: Mit drag and drop im Strukturbaum, in einer nach Abstand zu den Teilpopulationen geordneten Liste im Formular oder auch mit drag and drop im Luftbild
-- Daten löschen: Bei den gehaltvollen Daten (Programme, Populationen, Teilpopulationen, Feldkontrollen, Freiwilligen-Kontrollen, Massnahmen, AP-Berichten) kann das Löschen nachträglich rückgängig gemacht werden
+- Beobachtungen Teilpopulationen zuordnen: Mit drag and drop im Strukturbaum, in einer nach Abstand zu den Teilpopulationen geordneten Liste im Formular oder mit drag and drop im Luftbild
+- Daten löschen: Bei den gehaltvollen Daten (Programme/Arten, Populationen, Teilpopulationen, Feldkontrollen, Freiwilligen-Kontrollen, Massnahmen, AP-Berichten) kann das Löschen nachträglich während 25 Sekunden rückgängig gemacht werden
 
 **Anwendung effizient unterhalten:**
 
 - Einfacheres Gesamtsystem mit weniger Abhängigkeiten
-- Die Anwendung ist professioneller aufgebaut, im Code dokumentiert und einfacher zu warten
+- Die Anwendung ist professioneller aufgebaut, im Code dokumentiert und einfacher zu warten 
+Beides: verglichen mit der ehemaligen Access-Anwendung.
 
 <a href="#top">&#8593; top</a>
 
@@ -77,7 +76,7 @@ Diese beiden Features sind noch im Aufbau.
 <a name="Einschränkungen"></a>
 #Einschränkungen
 
-- Jahresberichte weiterhin von Access aus exportieren
+- Jahresberichte weiterhin in einer stark entschlackten Access-Anwendung erzeugen
 
 <a href="#top">&#8593; top</a>
 
@@ -86,7 +85,6 @@ Diese beiden Features sind noch im Aufbau.
 #Roadmap
 - Die Anwendung enthält alle geplanten Funktionen
 - Jetzt wird sie durch die AnwenderInnen getestet
-- Bewährt sie sich, wird sie die bisherige Access-Anwendung ersetzen
 
 <a href="#top">&#8593; top</a>
 
