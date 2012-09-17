@@ -4022,7 +4022,7 @@ function treeKontextmenu(node) {
 										setTimeout(function () {
 											$("#undelete_div").html("");
 											$("#undelete_div").hide();
-										}, 20000);
+										}, 25000);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Der AP-Bericht wurde nicht gelöscht");
@@ -4930,7 +4930,7 @@ function treeKontextmenu(node) {
 										setTimeout(function () {
 											$("#undelete_div").html("");
 											$("#undelete_div").hide();
-										}, 20000);
+										}, 25000);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Die Population wurde nicht gelöscht");
@@ -5435,7 +5435,7 @@ function treeKontextmenu(node) {
 										setTimeout(function () {
 											$("#undelete_div").html("");
 											$("#undelete_div").hide();
-										}, 20000);
+										}, 25000);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Die Teilpopulation wurde nicht gelöscht");
@@ -6313,7 +6313,7 @@ function treeKontextmenu(node) {
 										setTimeout(function () {
 											$("#undelete_div").html("");
 											$("#undelete_div").hide();
-										}, 20000);
+										}, 25000);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Die Feldkontrolle wurde nicht gelöscht");
@@ -6890,7 +6890,7 @@ function treeKontextmenu(node) {
 										setTimeout(function () {
 											$("#undelete_div").html("");
 											$("#undelete_div").hide();
-										}, 20000);
+										}, 25000);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Die Freiwilligen-Kontrolle wurde nicht gelöscht");
@@ -7344,7 +7344,7 @@ function treeKontextmenu(node) {
 										setTimeout(function () {
 											$("#undelete_div").html("");
 											$("#undelete_div").hide();
-										}, 20000);
+										}, 25000);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Die Massnahme wurde nicht gelöscht");

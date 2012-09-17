@@ -1433,6 +1433,11 @@
 							modal: true,
 							buttons: {
 								ja: function() {
+									//Variable zum rückgängig machen erstellen
+									window.deleted = window.ap;
+									window.deleted.typ = "ap";
+									//Artname in Textform merken
+									window.deleted.Artname = $("#ap_waehlen option[value='" + $("#ap_waehlen").val() + "']").text();
 									$.ajax({
 										url: 'php/ap_delete.php',
 										dataType: 'json',
@@ -1455,6 +1460,21 @@
 											$("#ap_loeschen").hide();
 											$("#ap").hide();
 											$("#forms").hide();
+											//Hinweis zum rückgängig machen anzeigen
+											$("#undelete_div").html("Das Programm der Art '" + window.deleted.Artname + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
+											//Artname wird nicht mehr gebraucht und soll später nicht in Datensatz eingefügt werden
+											delete window.deleted.Artname;
+											//forms muss eingeblendet sein, weil undelete_div darin ist
+											zeigeFormular("keines");
+											//$("#forms").show();
+											$("#undelete_div").show();
+											setTimeout(function () {
+												$("#undelete_div").html("");
+												$("#undelete_div").hide();
+												//Formulare wieder ausblenden
+												zeigeFormular();
+												//$("#forms").hide();
+											}, 25000);
 										},
 										error: function (data) {
 											var Meldung;
@@ -1545,6 +1565,46 @@
 								Ok: function() {
 									$(this).dialog("close");
 								}
+							}
+						});
+					} else if (window.deleted.typ === "ap") {
+						//typ gehört nicht zum Datensatz
+						delete window.deleted.typ;
+						//Artname wurde für die Anzeige in undelete_div gespeichert - entfernen, da kein Feld in Tabelle
+						delete window.deleted.Artname;
+						var url_string = "?";
+						for (i in window.deleted) {
+							if (typeof i !== "function") {
+								if (window.deleted[i]) {
+									if (url_string === "?") {
+										url_string += i + "=" + window.deleted[i];
+									} else {
+										url_string += "&" + i + "=" + window.deleted[i];
+									}
+								}
+							}
+						}
+						//jetzt alles speichern
+						$.ajax({
+							url: 'php/ap_insert_multiple.php' + url_string,
+							dataType: 'json',
+							success: function () {
+								$("#undelete_div").hide();
+								//Formulare ausblenden
+								zeigeFormular();
+								//neu initiieren, damit die gelöschte Art gewählt werden kann
+								initiiere_index();
+							},
+							error: function (data) {
+								$("#Meldung").html("Fehler: Wiederherstellung gescheitert");
+								$("#Meldung").dialog({
+									modal: true,
+									buttons: {
+										Ok: function() {
+											$(this).dialog("close");
+										}
+									}
+								});
 							}
 						});
 					} else if (window.deleted.typ === "pop") {
