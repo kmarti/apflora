@@ -83,6 +83,7 @@ function initiiere_ap() {
 					}
 					//Formulare blenden
 					zeigeFormular("ap");
+					setzeFeldbreiten();
 					$("#ap_loeschen").show();
 				}
 			}
@@ -149,6 +150,7 @@ function initiiere_pop() {
 				$("#PopBekanntSeit").val(data.PopBekanntSeit);
 				//Formulare blenden
 				zeigeFormular("pop");
+				setzeFeldbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#PopName").val()) {
 					$("#PopNr").focus();
@@ -185,6 +187,7 @@ function initiiere_apziel() {
 				$("#ZielBezeichnung").val(data.ZielBezeichnung);
 				//Formulare blenden
 				zeigeFormular("apziel");
+				setzeFeldbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#ZielJahr").val()) {
 					$("#ZielJahr").focus();
@@ -221,6 +224,7 @@ function initiiere_zielber() {
 				$("#ZielBerTxt").val(data.ZielBerTxt);
 				//Formulare blenden
 				zeigeFormular("zielber");
+				setzeFeldbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#ZielBerJahr").val()) {
 					$("#ZielBerJahr").focus();
@@ -256,6 +260,7 @@ function initiiere_erfkrit() {
 				$("#ErfBeurtZielSkalaTxt").val(data.ErfBeurtZielSkalaTxt);
 				//Formulare blenden
 				zeigeFormular("erfkrit");
+				setzeFeldbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#ErfBeurtZielSkalaErreichungsgrad").val()) {
 					$("#ErfBeurtZielSkalaErreichungsgrad").focus();
@@ -334,6 +339,7 @@ function initiiere_apber() {
 				}
 				//Formulare blenden
 				zeigeFormular("apber");
+				setzeFeldbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#ApBerJahr").val()) {
 					$("#ApBerJahr").focus();
@@ -370,6 +376,7 @@ function initiiere_apber_uebersicht() {
 				//FitToContent("Bemerkungen", document.documentElement.clientHeight);
 				//Formulare blenden
 				zeigeFormular("apber_uebersicht");
+				setzeFeldbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#Jahr").val()) {
 					$("#Jahr").focus();
@@ -414,6 +421,7 @@ function initiiere_ber() {
 				$('#BerURLHref').attr('onClick', "window.open('" + tempUrl + "', target='_blank')");
 				//Formulare blenden
 				zeigeFormular("ber");
+				setzeFeldbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function () {
 					if (!$("#BerAutor").val()) {
@@ -471,6 +479,7 @@ function initiiere_iballg() {
 				$("#IbBemerkungen").val(data.IbBemerkungen);
 				//Formulare blenden
 				zeigeFormular("iballg");
+				setzeFeldbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#IbErstelldatum").val()) {
 					$("#IbErstelldatum").focus();
@@ -576,6 +585,7 @@ function initiiere_ibb() {
 				$("#IbbBemerkungen").val(data.IbbBemerkungen);
 				//Formulare blenden
 				zeigeFormular("ibb");
+				setzeFeldbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function () {
 					if (!$("#IbbName").val()) {
@@ -614,6 +624,7 @@ function initiiere_ibartenassoz() {
 				$("#IbaassBem").val(data.IbaassBem);
 				//Formulare blenden
 				zeigeFormular("ibartenassoz");
+				setzeFeldbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function () {
 					if (!$("#IbaassSisfNr").val()) {
@@ -651,7 +662,8 @@ function initiiere_popmassnber() {
 				$("#PopMassnBerErfolgsbeurteilung" + data.PopMassnBerErfolgsbeurteilung).prop("checked", true);
 				$("#PopMassnBerTxt").val(data.PopMassnBerTxt);
 				//Formulare blenden
-				zeigeFormular("popmassnber");	
+				zeigeFormular("popmassnber");
+				setzeFeldbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function() {
 					$('#PopMassnBerJahr').focus();
@@ -670,6 +682,9 @@ function initiiere_tpop() {
 	//Felder zurücksetzen
 	leereFelderVonFormular("tpop");
 	setzeFeldbreiten();
+	/*setTimeout(function() {
+		setzeFeldbreiten();
+	}, 500);*/
 	//Daten für die pop aus der DB holen
 	$.ajax({
 		url: 'php/tpop.php',
@@ -770,6 +785,7 @@ function initiiere_tpop() {
 				}
 				//Formulare blenden
 				zeigeFormular("tpop");
+				setzeFeldbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#TPopFlurname").val()) {
 					$('#TPopNr').focus();
@@ -805,7 +821,8 @@ function initiiere_popber() {
 				$("#PopBerEntwicklung" + data.PopBerEntwicklung).prop("checked", true);
 				$("#PopBerTxt").val(data.PopBerTxt);
 				//Formulare blenden
-				zeigeFormular("popber");	
+				zeigeFormular("popber");
+				setzeFeldbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function() {
 					$('#PopBerJahr').focus();
@@ -1041,6 +1058,7 @@ function initiiere_tpopfeldkontr() {
 				}
 				//Formulare blenden
 				zeigeFormular("tpopfeldkontr");
+				setzeFeldbreiten();
 				//Register in Feldkontr blenden
 				if (localStorage.tpopfreiwkontr) {
 					$("#tpopfeldkontr_tabs_biotop").hide();
@@ -1185,6 +1203,7 @@ function initiiere_tpopmassn() {
 				$("#TPopMassnGuid").val(data.TPopMassnGuid);
 				//Formulare blenden
 				zeigeFormular("tpopmassn");
+				setzeFeldbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function() {
 					$('#TPopMassnJahr').focus();
@@ -1220,7 +1239,8 @@ function initiiere_tpopber() {
 				$("#TPopBerEntwicklung" + data.TPopBerEntwicklung).prop("checked", true);
 				$("#TPopBerTxt").val(data.TPopBerTxt);
 				//Formulare blenden
-				zeigeFormular("tpopber");	
+				zeigeFormular("tpopber");
+				setzeFeldbreiten();	
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function() {
 					$('#TPopBerJahr').focus();
@@ -1305,6 +1325,7 @@ function initiiere_tpopbeob() {
 							$("#tpopbeob_DistZuTPop_Felder").html(html);
 							//Formulare blenden
 							zeigeFormular("tpopbeob");
+							setzeFeldbreiten();
 						}
 					}
 				});
@@ -1381,6 +1402,7 @@ function initiiere_beob() {
 							$("#DistZuTPop_Felder").html(html);
 							//Formulare blenden
 							zeigeFormular("beob");
+							setzeFeldbreiten();
 						}
 					}
 				});
@@ -1415,7 +1437,8 @@ function initiiere_tpopmassnber() {
 				$("#TPopMassnBerErfolgsbeurteilung" + data.TPopMassnBerErfolgsbeurteilung).prop("checked", true);
 				$("#TPopMassnBerTxt").val(data.TPopMassnBerTxt);
 				//Formulare blenden
-				zeigeFormular("tpopmassnber");	
+				zeigeFormular("tpopmassnber");
+				setzeFeldbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function() {
 					$('#TPopMassnBerJahr').focus();
@@ -1497,35 +1520,35 @@ function setzeFeldbreiten() {
 	$('#forms input[type="text"], #forms input[type="url"], #forms select, #forms textarea').each(function() {
 		if ($(this).attr("formular") === "tpopfeldkontr") {
 			//hier hatt's tabs, Felder müssen schmaler sein als normal
-			$(this).width($(window).width() - 715);
+			$(this).width($(window).width() - 650);
 		} else if ($(this).attr("formular") === "iballg") {
 			//hier hats fieldsets, Felder müssen schmaler sein als normal
-			$(this).width($(window).width() - 715);
+			$(this).width($(window).width() - 640);
 		} else {
-			$(this).width($(window).width() - 650);
+			$(this).width($(window).width() - 630);
 		}
 	});
 	//Zahlenfelder sollen nicht breiter als 200px sein
 	$('#forms input[type="number"], #forms input[type="date"]').each(function() {
 		if ($(this).attr("formular") === "tpopfeldkontr") {
 			//hier hats tabs, Felder müssen schmaler sein als normal
-			if (($(window).width() - 725) > 200) {
+			if (($(window).width() - 650) > 200) {
 				$(this).width(200);
 			} else {
-				$(this).width($(window).width() - 725);
+				$(this).width($(window).width() - 650);
 			}
 		} else if ($(this).attr("formular") === "iballg") {
 			//hier hats fieldsets, Felder müssen schmaler sein als normal
-			if (($(window).width() - 705) > 200) {
+			if (($(window).width() - 640) > 200) {
 				$(this).width(200);
 			} else {
-				$(this).width($(window).width() - 715);
+				$(this).width($(window).width() - 640);
 			}
 		} else {
-			if (($(window).width() - 665) > 200) {
+			if (($(window).width() - 660) > 200) {
 				$(this).width(200);
 			} else {
-				$(this).width($(window).width() - 680);
+				$(this).width($(window).width() - 660);
 			}
 		}
 	});
@@ -1533,10 +1556,9 @@ function setzeFeldbreiten() {
 }
 
 //setzt die Höhe von textareas so, dass der Text genau rein passt
-function FitToContent(id, maxHeight)
-{
+function FitToContent(id, maxHeight) {
    var text = id && id.style ? id : document.getElementById(id);
-   if ( !text )
+   if (!text)
       return;
 
    /* Accounts for rows being deleted, pixel value may need adjusting */
@@ -1545,12 +1567,11 @@ function FitToContent(id, maxHeight)
    }       
 
    var adjustedHeight = text.clientHeight;
-   if ( !maxHeight || maxHeight > adjustedHeight )
-   {
+   if (!maxHeight || maxHeight > adjustedHeight) {
       adjustedHeight = Math.max(text.scrollHeight, adjustedHeight);
-      if ( maxHeight )
+      if (maxHeight)
          adjustedHeight = Math.min(maxHeight, adjustedHeight);
-      if ( adjustedHeight > text.clientHeight )
+      if (adjustedHeight > text.clientHeight)
          text.style.height = adjustedHeight + "px";
    }
 }

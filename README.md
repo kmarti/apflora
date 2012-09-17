@@ -64,7 +64,7 @@ Diese beiden Features sind noch im Aufbau.
 - Nodes wie z.B. Teilpopulationen im Baum zu anderen nodes desselben Typs verschieben oder kopieren (rechte Maustaste oder drag and drop, wie im Windows explorer)
 - im Baum suchen
 - Beobachtungen Teilpopulationen zuordnen: Mit drag and drop im Strukturbaum, in einer nach Abstand zu den Teilpopulationen geordneten Liste im Formular oder auch mit drag and drop im Luftbild
-- Daten löschen: Bei den gehaltvollen Daten (Pop, TPop, Feldkontrollen, Freiwilligen-Kontrollen, Massnahmen, AP-Berichte) kann das Löschen nachträglich rückgängig gemacht werden
+- Daten löschen: Bei den gehaltvollen Daten (Programme, Populationen, Teilpopulationen, Feldkontrollen, Freiwilligen-Kontrollen, Massnahmen, AP-Berichten) kann das Löschen nachträglich rückgängig gemacht werden
 
 **Anwendung effizient unterhalten:**
 
