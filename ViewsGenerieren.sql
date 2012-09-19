@@ -40,14 +40,6 @@ GROUP BY tblAktionsplan.ApArtId, ArtenDb_tblFloraSisf.Name, tblPopulation.PopId,
 HAVING (((Max(tblTeilPopFeldkontrolle.TPopKontrJahr)) Is Not Null))
 ORDER BY ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr, tblTeilpopulation.TPopNr;
 
-bisher:
-SELECT tblAktionsplan.ApArtId, ArtenDb_tblFloraSisf.Name, tblPopulation.PopId, tblPopulation.PopNr, tblTeilpopulation.TPopId, tblTeilpopulation.TPopNr, Max(tblTeilPopFeldkontrolle.TPopKontrId) AS MaxvonTPopKontrId, Max(tblTeilPopFeldkontrolle.TPopKontrJahr) AS MaxvonTPopKontrJahr
-FROM ArtenDb_tblFloraSisf INNER JOIN (((tblAktionsplan INNER JOIN tblPopulation ON tblAktionsplan.ApArtId = tblPopulation.ApArtId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) INNER JOIN tblTeilPopFeldkontrolle ON tblTeilpopulation.TPopId = tblTeilPopFeldkontrolle.TPopId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId
-WHERE (((tblTeilPopFeldkontrolle.TPopKontrTyp) Not Like "Ziel" And (tblTeilPopFeldkontrolle.TPopKontrTyp) Not Like "Zwischenziel"))
-GROUP BY tblAktionsplan.ApArtId, ArtenDb_tblFloraSisf.Name, tblPopulation.PopId, tblPopulation.PopNr, tblTeilpopulation.TPopId, tblTeilpopulation.TPopNr
-HAVING (((Max(tblTeilPopFeldkontrolle.TPopKontrJahr)) Is Not Null))
-ORDER BY ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr, tblTeilpopulation.TPopNr;
-
 CREATE VIEW qryAuswLetzteAnzLetzteKontrollen AS 
 SELECT tblAktionsplan.ApArtId, ArtenDb_tblFloraSisf.Name, DomainApBearbeitungsstand.DomainTxt AS "Bearbeitungsstand AP", tblPopulation.PopId, tblPopulation.PopNr, tblPopulation.PopName, tblTeilpopulation.TPopId, tblTeilpopulation.TPopNr, DomainPopHerkunft.HerkunftTxt AS TPopHerkunft, tblTeilpopulation.TPopGemeinde, tblTeilpopulation.TPopFlurname, tblTeilPopFeldkontrolle.TPopKontrId, tblTeilPopFeldkontrolle.TPopKontrTyp, tblTeilPopFeldkontrolle.TPopKontrDatum, tblTeilPopFeldkontrolle.TPopKontrJahr, tblAdresse.AdrName AS TPopKontrBearb, DomainTPopKontrZaehleinheit.ZaehleinheitTxt AS TPopKontrZaehleinheit1, DomainTPopKontrMethode.BeurteilTxt AS TPopKontrMethode1, tblTeilPopFeldkontrolle.TPopKontrAnz1, DomainTPopKontrZaehleinheit_1.ZaehleinheitTxt AS TPopKontrZaehleinheit2, DomainTPopKontrMethode_1.BeurteilTxt AS TPopKontrMethode2, tblTeilPopFeldkontrolle.TPopKontrAnz2, DomainTPopKontrZaehleinheit_2.ZaehleinheitTxt AS TPopKontrZaehleinheit3, DomainTPopKontrMethode_2.BeurteilTxt AS TPopKontrMethode3, tblTeilPopFeldkontrolle.TPopKontrAnz3, tblTeilPopFeldkontrolle.TPopKontrJungpfl, tblTeilPopFeldkontrolle.TPopKontrVitalitaet, tblTeilPopFeldkontrolle.TPopKontrUeberleb, DomainTPopEntwicklung.EntwicklungTxt AS TPopKontrEntwicklung, tblTeilPopFeldkontrolle.TPopKontrUrsach, tblTeilPopFeldkontrolle.TPopKontrUrteil, tblTeilPopFeldkontrolle.TPopKontrAendUms, tblTeilPopFeldkontrolle.TPopKontrAendKontr, tblTeilPopFeldkontrolle.TPopKontrTxt, tblTeilPopFeldkontrolle.TPopKontrLeb, tblTeilPopFeldkontrolle.TPopKontrFlaeche, tblTeilPopFeldkontrolle.TPopKontrLebUmg, tblTeilPopFeldkontrolle.TPopKontrStrauchschicht, tblTeilPopFeldkontrolle.TPopKontrBodenTyp, tblTeilPopFeldkontrolle.TPopKontrBodenAbtrag, tblTeilPopFeldkontrolle.TPopKontrWasserhaushalt, tblTeilPopFeldkontrolle.TPopKontrHandlungsbedarf, tblTeilPopFeldkontrolle.TPopKontrUebFlaeche, tblTeilPopFeldkontrolle.TPopKontrPlan, tblTeilPopFeldkontrolle.TPopKontrVeg, tblTeilPopFeldkontrolle.TPopKontrNaBo, tblTeilPopFeldkontrolle.TPopKontrUebPfl, tblTeilPopFeldkontrolle.TPopKontrJungPflJN, tblTeilPopFeldkontrolle.TPopKontrVegHoeMax, tblTeilPopFeldkontrolle.TPopKontrVegHoeMit, tblTeilPopFeldkontrolle.TPopKontrGefaehrdung, tblTeilPopFeldkontrolle.TPopKontrMutDat
 FROM qryAuswLetzteAnzahlLetzteKontrolle INNER JOIN ((((((((((((ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) INNER JOIN (tblPopulation INNER JOIN (tblTeilpopulation INNER JOIN tblTeilPopFeldkontrolle ON tblTeilpopulation.TPopId = tblTeilPopFeldkontrolle.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId) ON tblAktionsplan.ApArtId = tblPopulation.ApArtId) LEFT JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode) LEFT JOIN tblAdresse ON tblTeilPopFeldkontrolle.TPopKontrBearb = tblAdresse.AdrId) LEFT JOIN DomainTPopKontrZaehleinheit ON tblTeilPopFeldkontrolle.TPopKontrZaehleinheit1 = DomainTPopKontrZaehleinheit.ZaehleinheitCode) LEFT JOIN DomainTPopKontrMethode ON tblTeilPopFeldkontrolle.TPopKontrMethode1 = DomainTPopKontrMethode.BeurteilCode) LEFT JOIN DomainTPopKontrZaehleinheit AS DomainTPopKontrZaehleinheit_1 ON tblTeilPopFeldkontrolle.TPopKontrZaehleinheit2 = DomainTPopKontrZaehleinheit_1.ZaehleinheitCode) LEFT JOIN DomainTPopKontrMethode AS DomainTPopKontrMethode_1 ON tblTeilPopFeldkontrolle.TPopKontrMethode2 = DomainTPopKontrMethode_1.BeurteilCode) LEFT JOIN DomainTPopKontrZaehleinheit AS DomainTPopKontrZaehleinheit_2 ON tblTeilPopFeldkontrolle.TPopKontrZaehleinheit3 = DomainTPopKontrZaehleinheit_2.ZaehleinheitCode) LEFT JOIN DomainTPopKontrMethode AS DomainTPopKontrMethode_2 ON tblTeilPopFeldkontrolle.TPopKontrMethode3 = DomainTPopKontrMethode_2.BeurteilCode) LEFT JOIN DomainTPopEntwicklung ON tblTeilPopFeldkontrolle.TPopKontrEntwicklung = DomainTPopEntwicklung.EntwicklungCode) LEFT JOIN DomainPopHerkunft ON tblTeilpopulation.TPopHerkunft = DomainPopHerkunft.HerkunftId) ON (qryAuswLetzteAnzahlLetzteKontrolle.MaxvonTPopKontrJahr = tblTeilPopFeldkontrolle.TPopKontrJahr) AND (qryAuswLetzteAnzahlLetzteKontrolle.TPopId = tblTeilPopFeldkontrolle.TPopId)
@@ -188,85 +180,9 @@ SELECT ArtenDb_tblFloraSisf.Name AS Art, DomainApBearbeitungsstand.DomainTxt AS 
 FROM (ArtenDb_tblFloraSisf INNER JOIN (((tblAktionsplan INNER JOIN tblPopulation ON tblAktionsplan.ApArtId = tblPopulation.ApArtId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) INNER JOIN alexande_beob.tblBeob ON tblTeilpopulation.TPopId = alexande_beob.tblBeob.TPopId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) INNER JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode
 ORDER BY ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr, tblPopulation.PopName, tblTeilpopulation.TPopNr, tblTeilpopulation.TPopGemeinde, tblTeilpopulation.TPopFlurname;
 
-
-
 CREATE VIEW qryBerJbZielBer AS 
 SELECT tblZielBericht.*
 FROM tblZielBericht INNER JOIN tblKonstanten ON tblZielBericht.ZielBerJahr = tblKonstanten.ApBerJahr;
-
-Create View qryFrmApBerUebersicht AS SELECT tblApBerUebersicht.* FROM tblApBerUebersicht ORDER BY tblApBerUebersicht.Jahr DESC;
-
-CREATE VIEW qryFrmApBericht AS 
-SELECT tblApBericht.*
-FROM tblApBericht
-ORDER BY tblApBericht.ApBerJahr DESC;
-
-CREATE VIEW qryFrmBericht AS 
-SELECT tblBericht.*
-FROM tblBericht
-ORDER BY tblBericht.BerAutor, tblBericht.BerJahr, tblBericht.BerTitel;
-
-CREATE VIEW qryFrmErfBeurtZielSkala AS
-SELECT tblErfBeurtZielSkala.*
-FROM tblErfBeurtZielSkala INNER JOIN DomainApBeurteilungsskala ON tblErfBeurtZielSkala.ErfBeurtZielSkalaErreichungsgrad = DomainApBeurteilungsskala.BeurteilId
-ORDER BY DomainApBeurteilungsskala.BeurteilOrd;
-
-CREATE VIEW qryFrmPopBer AS 
-SELECT tblPopBericht.*
-FROM tblPopBericht
-ORDER BY tblPopBericht.PopBerJahr;
-
-CREATE VIEW qryFrmTPopBer AS
-SELECT tblTeilPopBericht.*
-FROM tblTeilPopBericht
-ORDER BY tblTeilPopBericht.TPopBerJahr;
-
-CREATE VIEW qryFrmPopMassnBer AS 
-SELECT tblPopMassnBericht.*
-FROM tblPopMassnBericht
-ORDER BY tblPopMassnBericht.PopMassnBerJahr, tblPopMassnBericht.PopMassnBerErfolgsbeurteilung;
-
-CREATE VIEW qryFrmPopulation AS 
-SELECT tblPopulation.*
-FROM tblPopulation
-ORDER BY tblPopulation.PopNr, tblPopulation.PopName;
-
-CREATE VIEW qryFrmTPop AS 
-SELECT tblTeilpopulation.*
-FROM tblTeilpopulation
-ORDER BY tblTeilpopulation.TPopNr, tblTeilpopulation.TPopGemeinde;
-
-CREATE VIEW qryFrmTPopFeldkontr AS 
-SELECT tblTeilPopFeldkontrolle.*
-FROM tblTeilPopFeldkontrolle
-WHERE (((tblTeilPopFeldkontrolle.TPopKontrTyp) Not Like "Freiwilligen-Erfolgskontrolle"))
-ORDER BY tblTeilPopFeldkontrolle.TPopKontrJahr, tblTeilPopFeldkontrolle.TPopKontrTyp;
-
-CREATE VIEW qryFrmTPopFreiwKontr AS 
-SELECT tblTeilPopFeldkontrolle.*
-FROM tblTeilPopFeldkontrolle
-WHERE (((tblTeilPopFeldkontrolle.TPopKontrTyp)="Freiwilligen-Erfolgskontrolle"))
-ORDER BY tblTeilPopFeldkontrolle.TPopKontrJahr, tblTeilPopFeldkontrolle.TPopKontrTyp;
-
-CREATE VIEW qryFrmTPopMassn AS 
-SELECT tblTeilPopMassnahme.*
-FROM tblTeilPopMassnahme
-ORDER BY tblTeilPopMassnahme.TPopMassnDatum, tblTeilPopMassnahme.TPopMassnJahr, tblTeilPopMassnahme.TPopMassnTyp, tblTeilPopMassnahme.TPopMassnTxt;
-
-CREATE VIEW qryFrmTPopMassnBer AS 
-SELECT tblTeilPopMassnBericht.*
-FROM tblTeilPopMassnBericht
-ORDER BY tblTeilPopMassnBericht.TPopMassnBerJahr, tblTeilPopMassnBericht.TPopMassnBerErfolgsbeurteilung;
-
-CREATE VIEW qryFrmZiel AS 
-SELECT tblZiel.*
-FROM tblZiel
-ORDER BY tblZiel.ZielJahr, tblZiel.ZielBezeichnung;
-
-CREATE VIEW qryFrmZielBer AS 
-SELECT tblZielBericht.*
-FROM tblZielBericht
-ORDER BY tblZielBericht.ZielBerJahr;
 
 CREATE VIEW qryBerJbZiel AS 
 SELECT tblZiel.*, DomainZielTyp.ZieltypTxt
@@ -515,7 +431,7 @@ WHERE (((tblAktionsplan.ApStatus) Between 1 And 3))
 ORDER BY ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr, tblPopulation.PopName, tblTeilpopulation.TPopNr, tblTeilpopulation.TPopGemeinde, tblTeilpopulation.TPopFlurname;
 
 CREATE VIEW qryAuswArtPopTPopMassnBerFuerAktArt0 AS
-SELECT tblAktionsplan.ApArtId, ArtenDb_tblFloraSisf.Name AS Art, DomainApBearbeitungsstand.DomainTxt AS "Aktionsplan-Status", tblAktionsplan.ApJahr AS "Aktionsplan-Jahr", DomainApUmsetzung.DomainTxt AS "Aktionsplan-Umsetzung", tblPopulation.PopNr AS "Population-Nr", tblPopulation.PopName AS "Population-Name", DomainPopHerkunft.HerkunftTxt AS "Population-Herkunft", tblPopulation.PopBekanntSeit AS "Population - bekannt seit", tblTeilpopulation.TPopNr AS "Teilpopulation-Nr", tblTeilpopulation.TPopGemeinde AS "Teilpopulation-Gemeinde", tblTeilpopulation.TPopFlurname AS "Teilpopulation-Flurname", tblTeilpopulation.TPopXKoord AS "Teilpopulation-X-Koodinate", tblTeilpopulation.TPopYKoord AS "Teilpopulation-Y-Koordinate", tblTeilpopulation.TPopRadius AS "Teilpopulation-Radius", tblTeilpopulation.TPopHoehe AS "Teilpopulation-Höhe", tblTeilpopulation.TPopBeschr AS "Teilpopulation-Beschreibung", tblTeilpopulation.TPopKatNr AS "Teilpopulation-Kataster-Nr", tblAdresse.AdrName AS "Teilpopulation-Verantwortlich", DomainPopHerkunft_1.HerkunftTxt AS "Teilpopulation-Herkunft", tblTeilpopulation.TPopHerkunftUnklar AS "Teilpopulation - Herkunft unklar", tblTeilpopulation.TPopHerkunftUnklarBegruendung AS "Teilpopulation - Herkunft unklar Begründung", DomainTPopApBerichtRelevant.DomainTxt AS "Teilpopulation - Für Bericht relevant", tblTeilpopulation.TPopBekanntSeit AS "Teilpopulation - bekannt seit", tblTeilpopulation.TPopEigen AS "Teilpopulation-Eigentümer", tblTeilpopulation.TPopKontakt AS "Teilpopulation-Kontakt", tblTeilpopulation.TPopNutzungszone AS "Teilpopulation-Nutzungszone", tblTeilpopulation.TPopBewirtschafterIn AS "Teilpopulation-Bewirtschafter", tblTeilpopulation.TPopBewirtschaftung AS "Teilpopulation-Bewirtschaftung", tblTeilpopulation.TPopTxt AS "Teilpopulation-Bemerkungen", tblTeilPopMassnBericht.TPopMassnBerJahr AS "Massnahmenbericht-Jahr", DomainTPopMassnErfolgsbeurteilung.BeurteilTxt AS "Massnahmenbericht-Erfolgsberuteilung", tblTeilPopMassnBericht.TPopMassnBerTxt AS "Massnahmenbericht-Interpretation"
+SELECT tblAktionsplan.ApArtId, ArtenDb_tblFloraSisf.Name AS Art, DomainApBearbeitungsstand.DomainTxt AS "Aktionsplan-Status", tblAktionsplan.ApJahr AS "Aktionsplan-Jahr", DomainApUmsetzung.DomainTxt AS "Aktionsplan-Umsetzung", tblPopulation.PopNr AS "Population-Nr", tblPopulation.PopName AS "Population-Name", DomainPopHerkunft.HerkunftTxt AS "Population-Herkunft", tblPopulation.PopBekanntSeit AS "Population - bekannt seit", tblTeilpopulation.TPopNr AS "Teilpopulation-Nr", tblTeilpopulation.TPopGemeinde AS "Teilpopulation-Gemeinde", tblTeilpopulation.TPopFlurname AS "Teilpopulation-Flurname", tblTeilpopulation.TPopXKoord AS "Teilpopulation-X-Koodinate", tblTeilpopulation.TPopYKoord AS "Teilpopulation-Y-Koordinate", tblTeilpopulation.TPopRadius AS "Teilpopulation-Radius", tblTeilpopulation.TPopHoehe AS "Teilpopulation-Hoehe", tblTeilpopulation.TPopBeschr AS "Teilpopulation-Beschreibung", tblTeilpopulation.TPopKatNr AS "Teilpopulation-Kataster-Nr", tblAdresse.AdrName AS "Teilpopulation-Verantwortlich", DomainPopHerkunft_1.HerkunftTxt AS "Teilpopulation-Herkunft", tblTeilpopulation.TPopHerkunftUnklar AS "Teilpopulation - Herkunft unklar", tblTeilpopulation.TPopHerkunftUnklarBegruendung AS "Teilpopulation - Herkunft unklar Begründung", DomainTPopApBerichtRelevant.DomainTxt AS "Teilpopulation - Für Bericht relevant", tblTeilpopulation.TPopBekanntSeit AS "Teilpopulation - bekannt seit", tblTeilpopulation.TPopEigen AS "Teilpopulation-Eigentümer", tblTeilpopulation.TPopKontakt AS "Teilpopulation-Kontakt", tblTeilpopulation.TPopNutzungszone AS "Teilpopulation-Nutzungszone", tblTeilpopulation.TPopBewirtschafterIn AS "Teilpopulation-Bewirtschafter", tblTeilpopulation.TPopBewirtschaftung AS "Teilpopulation-Bewirtschaftung", tblTeilpopulation.TPopTxt AS "Teilpopulation-Bemerkungen", tblTeilPopMassnBericht.TPopMassnBerJahr AS "Massnahmenbericht-Jahr", DomainTPopMassnErfolgsbeurteilung.BeurteilTxt AS "Massnahmenbericht-Erfolgsberuteilung", tblTeilPopMassnBericht.TPopMassnBerTxt AS "Massnahmenbericht-Interpretation"
 FROM (((ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode) LEFT JOIN DomainApUmsetzung ON tblAktionsplan.ApUmsetzung = DomainApUmsetzung.DomainCode) INNER JOIN (((tblPopulation LEFT JOIN DomainPopHerkunft ON tblPopulation.PopHerkunft = DomainPopHerkunft.HerkunftId) INNER JOIN (((tblTeilpopulation LEFT JOIN tblAdresse ON tblTeilpopulation.TPopVerantw = tblAdresse.AdrId) LEFT JOIN DomainPopHerkunft AS DomainPopHerkunft_1 ON tblTeilpopulation.TPopHerkunft = DomainPopHerkunft_1.HerkunftId) LEFT JOIN DomainTPopApBerichtRelevant ON tblTeilpopulation.TPopApBerichtRelevant = DomainTPopApBerichtRelevant.DomainCode) ON tblPopulation.PopId = tblTeilpopulation.PopId) INNER JOIN (tblTeilPopMassnBericht INNER JOIN DomainTPopMassnErfolgsbeurteilung ON tblTeilPopMassnBericht.TPopMassnBerErfolgsbeurteilung = DomainTPopMassnErfolgsbeurteilung.BeurteilId) ON tblTeilpopulation.TPopId = tblTeilPopMassnBericht.TPopId) ON tblAktionsplan.ApArtId = tblPopulation.ApArtId
 ORDER BY ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr, tblTeilpopulation.TPopNr, tblTeilPopMassnBericht.TPopMassnBerJahr;
 
@@ -974,12 +890,12 @@ ORDER BY tblAdresse.AdrName, tblTeilpopulation.TPopGemeinde, tblTeilpopulation.T
 CREATE VIEW qryAuswFreiwKontrAnzBestJahr01 AS 
 SELECT ArtenDb_tblFloraSisf.Name, DomainApBearbeitungsstand.DomainTxt AS BearbeitungsstandAp, tblTeilPopFeldkontrolle.TPopKontrJahr, tblTeilPopFeldkontrolle.TPopKontrTyp, DomainTPopKontrZaehleinheit.ZaehleinheitTxt AS Zaehleinheit, tblTeilPopFeldkontrolle.TPopKontrAnz1 AS Anzahl
 FROM (DomainApBearbeitungsstand INNER JOIN (ArtenDb_tblFloraSisf INNER JOIN (((tblAktionsplan INNER JOIN tblPopulation ON tblAktionsplan.ApArtId = tblPopulation.ApArtId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) INNER JOIN tblTeilPopFeldkontrolle ON tblTeilpopulation.TPopId = tblTeilPopFeldkontrolle.TPopId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) ON DomainApBearbeitungsstand.DomainCode = tblAktionsplan.ApStatus) INNER JOIN DomainTPopKontrZaehleinheit ON tblTeilPopFeldkontrolle.TPopKontrZaehleinheit1 = DomainTPopKontrZaehleinheit.ZaehleinheitCode
-WHERE (((tblTeilPopFeldkontrolle.TPopKontrTyp)="Freiwilligen-Erfolgskontrolle"));
+WHERE (tblTeilPopFeldkontrolle.TPopKontrTyp="Freiwilligen-Erfolgskontrolle");
 
 CREATE VIEW qryAuswFreiwKontrAnzBestJahr02 AS
 SELECT ArtenDb_tblFloraSisf.Name, DomainApBearbeitungsstand.DomainTxt AS BearbeitungsstandAp, tblTeilPopFeldkontrolle.TPopKontrJahr, tblTeilPopFeldkontrolle.TPopKontrTyp, DomainTPopKontrZaehleinheit.ZaehleinheitTxt AS Zaehleinheit, tblTeilPopFeldkontrolle.TPopKontrAnz2 AS Anzahl
 FROM (DomainApBearbeitungsstand INNER JOIN (ArtenDb_tblFloraSisf INNER JOIN (((tblAktionsplan INNER JOIN tblPopulation ON tblAktionsplan.ApArtId = tblPopulation.ApArtId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) INNER JOIN tblTeilPopFeldkontrolle ON tblTeilpopulation.TPopId = tblTeilPopFeldkontrolle.TPopId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) ON DomainApBearbeitungsstand.DomainCode = tblAktionsplan.ApStatus) INNER JOIN DomainTPopKontrZaehleinheit ON tblTeilPopFeldkontrolle.TPopKontrZaehleinheit2 = DomainTPopKontrZaehleinheit.ZaehleinheitCode
-WHERE (((tblTeilPopFeldkontrolle.TPopKontrTyp)="Freiwilligen-Erfolgskontrolle"));
+WHERE (tblTeilPopFeldkontrolle.TPopKontrTyp="Freiwilligen-Erfolgskontrolle");
 
 CREATE VIEW qryAuswFreiwKontrAnzBestJahr03 AS 
 SELECT ArtenDb_tblFloraSisf.Name, DomainApBearbeitungsstand.DomainTxt AS BearbeitungsstandAp, tblTeilPopFeldkontrolle.TPopKontrJahr, tblTeilPopFeldkontrolle.TPopKontrTyp, DomainTPopKontrZaehleinheit.ZaehleinheitTxt AS Zaehleinheit, tblTeilPopFeldkontrolle.TPopKontrAnz3 AS Anzahl
