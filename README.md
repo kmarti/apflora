@@ -83,8 +83,9 @@ Beides: verglichen mit der ehemaligen Access-Anwendung.
 
 <a name="Roadmap"></a>
 #Roadmap
-- Die Anwendung enthält alle geplanten Funktionen
+- Die Anwendung enthält alle geplanten Funktionen (die Exporte werden laufend ergänzt)
 - Jetzt wird sie durch die AnwenderInnen getestet
+- Ev. gelingt es mir, sie einigermassen mobilfähig hinzukriegen. Wär doch toll, wenn man im Feld mit einem Tablett erfassen könnte...
 
 <a href="#top">&#8593; top</a>
 
