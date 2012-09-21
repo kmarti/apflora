@@ -8688,10 +8688,22 @@ function speichern(that) {
 			break;
 		case "TPopKontrTyp":
 		case "TPopKontrJahr":
+			//wenn kein Typ/Jahr gewählt: "(kein Typ/Jahr)"
+			var tpopkontrjahr, tpopkontrtyp;
+			if ($("#TPopKontrJahr").val()) {
+				tpopkontrjahr = $("#TPopKontrJahr").val();
+			} else {
+				tpopkontrjahr = "(kein Jahr)";
+			}
+			if ($("#spanTPopKontrTyp" + $('input[name="TPopKontrTyp"]:checked').val()).text()) {
+				tpopkontrtyp = $("#spanTPopKontrTyp" + $('input[name="TPopKontrTyp"]:checked').val()).text();
+			} else {
+				tpopkontrtyp = "(kein Typ)";
+			}
 			if (localStorage.tpopfreiwkontr) {
 				jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_freiwkontr'] #" + localStorage.tpopfeldkontr_id, Feldwert);
 			} else {
-				jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_feldkontr'] #" + localStorage.tpopfeldkontr_id, $("#TPopKontrJahr").val() + ": " + $("#spanTPopKontrTyp" + $('input[name="TPopKontrTyp"]:checked').val()).text());
+				jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_feldkontr'] #" + localStorage.tpopfeldkontr_id, tpopkontrjahr + ": " + tpopkontrtyp);
 			}
 			break;
 		case "TPopBerJahr":

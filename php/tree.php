@@ -75,14 +75,14 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 		while($r_tpopmassn = mysqli_fetch_assoc($result_tpopmassn)) {
 			$TPopMassnId = $r_tpopmassn['TPopMassnId'];
 			settype($TPopMassnId, "integer");
-			//TPopMassnJahr und MassnTypTxt sollen immer existieren
+			//TPopMassnJahr soll immer existieren
 			if ($r_tpopmassn['TPopMassnJahr']) {
 				$TPopMassnJahr = $r_tpopmassn['TPopMassnJahr'];
 				settype($TPopMassnJahr, "integer");
 			} else {
 				$TPopMassnJahr = "(kein Jahr)";
 			}
-			//massntyp soll immer existieren
+			//MassnTypTxt soll immer existieren
 			if ($r_tpopmassn['MassnTypTxt']) {
 				$MassnTypTxt = $r_tpopmassn['MassnTypTxt'];
 			} else {
@@ -126,16 +126,26 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 		mysqli_free_result($result_tpopmassnber);
 
 		//Feldkontrollen dieser TPop abfragen
-		$result_tpopfeldkontr = mysqli_query($link, "SELECT TPopKontrId, TPopId, TPopKontrJahr, TPopKontrTyp FROM tblTeilPopFeldkontrolle where (TPopId = $TPopId) AND (TPopKontrTyp<>\"Freiwilligen-Erfolgskontrolle\") ORDER BY TPopKontrJahr, TPopKontrTyp");
+		$result_tpopfeldkontr = mysqli_query($link, "SELECT TPopKontrId, TPopId, TPopKontrJahr, TPopKontrTyp FROM tblTeilPopFeldkontrolle where (TPopId = $TPopId) AND (TPopKontrTyp<>\"Freiwilligen-Erfolgskontrolle\" OR TPopKontrTyp IS NULL) ORDER BY TPopKontrJahr, TPopKontrTyp");
 		$anz_tpopfeldkontr = mysqli_num_rows($result_tpopfeldkontr);
 		//Datenstruktur für tpopfeldkontr aufbauen
 		$rows_tpopfeldkontr = array();
 		while($r_tpopfeldkontr = mysqli_fetch_assoc($result_tpopfeldkontr)) {
 			$TPopKontrId = $r_tpopfeldkontr['TPopKontrId'];
 			settype($TPopKontrId, "integer");
-			$TPopKontrJahr =  $r_tpopfeldkontr['TPopKontrJahr'];
-			settype($TPopKontrJahr, "integer");
-			$TPopKontrTyp = $r_tpopfeldkontr['TPopKontrTyp'];
+			//TPopKontrJahr soll immer existieren
+			if ($r_tpopfeldkontr['TPopKontrJahr']) {
+				$TPopKontrJahr = $r_tpopfeldkontr['TPopKontrJahr'];
+				settype($TPopKontrJahr, "integer");
+			} else {
+				$TPopKontrJahr = "(kein Jahr)";
+			}
+			//TPopKontrTyp soll immer existieren
+			if ($r_tpopfeldkontr['TPopKontrTyp']) {
+				$TPopKontrTyp = $r_tpopfeldkontr['TPopKontrTyp'];
+			} else {
+				$TPopKontrTyp = "(kein Typ)";
+			}
 			//TPopFeldKontr setzen
 			$attr_tpopfeldkontr = array("id" => $TPopKontrId, "typ" => "tpopfeldkontr");
 			$tpopfeldkontr = array("data" => $TPopKontrJahr.": ".$TPopKontrTyp, "attr" => $attr_tpopfeldkontr);
