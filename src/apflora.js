@@ -8914,7 +8914,7 @@ function CHtoWGSlng(y, x) {
 }
 
 function zeigeTPopAufKarte(TPopListe) {
-	var anzTPop, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe;
+	var anzTPop, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe, titel;
 	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("Karte");
 	window.markersArray = [];
@@ -8963,12 +8963,17 @@ function zeigeTPopAufKarte(TPopListe) {
 			//Kartenausschnitt um diese Koordinate erweitern
 			bounds.extend(latlng2);
 		}
+		//title muss String sein
+		if (TPop.TPopFlurname) {
+			titel = TPop.TPopFlurname.toString();
+		} else {
+			titel = "";
+		}
 		marker = new MarkerWithLabel({
 			map: map,
 			position: latlng2,
-			//title muss String sein
-			title: TPop.TPopFlurname.toString() || "",
-			labelContent: TPop.TPopFlurname,
+			title: titel,
+			labelContent: titel,
 			labelAnchor: new google.maps.Point(75, 0),
 			labelClass: "MapLabel",
 			icon: "img/flora_icon.png"
@@ -9014,7 +9019,7 @@ function zeigeTPopAufKarte(TPopListe) {
 }
 
 function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
-	var anzBeob, infowindowBeob, infowindowTPop, TPop, lat, lng, latlng, options, map, bounds, markersTPop, TPopId, latlng2, markerBeob, markerTPop, contentStringBeob, contentStringTPop, mcOptionsBeob, mcOptionsTPop, markerClusterBeob, markerClusterTPop, Kartenhoehe, Datum;
+	var anzBeob, infowindowBeob, infowindowTPop, TPop, lat, lng, latlng, options, map, bounds, markersTPop, TPopId, latlng2, markerBeob, markerTPop, contentStringBeob, contentStringTPop, mcOptionsBeob, mcOptionsTPop, markerClusterBeob, markerClusterTPop, Kartenhoehe, Datum, titel, titel_beob, a_note;
 	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("Karte");
 	window.markersArray = [];
@@ -9066,12 +9071,17 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 		latlng2 = new google.maps.LatLng(TPop.Lat, TPop.Lng);
 		//Kartenausschnitt um diese Koordinate erweitern
 		bounds.extend(latlng2);
+		//title muss String sein
+		if (TPop.TPopFlurname) {
+			titel = TPop.TPopFlurname.toString();
+		} else {
+			titel = "";
+		}
 		markerTPop = new MarkerWithLabel({
 			map: map,
 			position: latlng2,
-			//title muss String sein
-			title: TPop.TPopFlurname.toString() || "",
-			labelContent: TPop.TPopFlurname,
+			title: titel,
+			labelContent: titel,
 			labelAnchor: new google.maps.Point(75, 0),
 			labelClass: "MapLabel",
 			icon: "img/flora_icon.png"
@@ -9131,12 +9141,23 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 			//Kartenausschnitt um diese Koordinate erweitern
 			bounds.extend(latlng2);
 		}
+		//title muss String sein
+		if (Datum) {
+			titel_beob = Datum.toString();
+		} else {
+			titel_beob = "";
+		}
+		//A_NOTE muss String sein
+		if (Beob.A_NOTE) {
+			a_note = Beob.A_NOTE.toString();
+		} else {
+			a_note = "";
+		}
 		markerBeob = new MarkerWithLabel({
 			map: map,
 			position: latlng2,
-			//title muss String sein
-			title: Datum.toString(),
-			labelContent: Beob.A_NOTE.toString(),
+			title: titel_beob,
+			labelContent: a_note,
 			labelAnchor: new google.maps.Point(75, 0),
 			labelClass: "MapLabel",
 			icon: "img/flora_icon_violett.png",
@@ -9250,7 +9271,7 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 }
 
 function zeigeBeobAufKarte(BeobListe) {
-	var anzBeob, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe, Datum;
+	var anzBeob, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe, Datum, titel, a_note;
 	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("Karte");
 	window.markersArray = [];
@@ -9311,12 +9332,23 @@ function zeigeBeobAufKarte(BeobListe) {
 			//Kartenausschnitt um diese Koordinate erweitern
 			bounds.extend(latlng2);
 		}
+		//title muss String sein
+		if (Datum) {
+			titel = Datum.toString();
+		} else {
+			titel = "";
+		}
+		//A_NOTE muss String sein
+		if (Beob.A_NOTE) {
+			a_note = Beob.A_NOTE.toString();
+		} else {
+			a_note = "";
+		}
 		marker = new MarkerWithLabel({
 			map: map,
 			position: latlng2,
-			//title muss String sein
-			title: Datum.toString(),
-			labelContent: Beob.A_NOTE.toString(),
+			title: titel,
+			labelContent: a_note,
 			labelAnchor: new google.maps.Point(75, 0),
 			labelClass: "MapLabel",
 			icon: "img/flora_icon_violett.png"
@@ -9371,7 +9403,7 @@ function zeigeBeobAufKarte(BeobListe) {
 }
 
 function zeigeTPopBeobAufKarte(TPopBeobListe) {
-	var anzBeob, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe, Datum;
+	var anzBeob, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe, Datum, titel;
 	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("Karte");
 	window.markersArray = [];
@@ -9439,12 +9471,18 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 			//Kartenausschnitt um diese Koordinate erweitern
 			bounds.extend(latlng2);
 		}
+		//title muss String sein
+		if (Datum) {
+			titel = Datum.toString();
+		} else {
+			titel = "";
+		}
 		marker = new MarkerWithLabel({
 			map: map,
 			position: latlng2,
 			//title muss String sein
-			title: Datum.toString(),
-			labelContent: Datum.toString(),
+			title: titel,
+			labelContent: titel,
 			labelAnchor: new google.maps.Point(75, 0),
 			labelClass: "MapLabel",
 			icon: "img/flora_icon_violett.png"
@@ -9494,7 +9532,7 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 }
 
 function verorteTPopAufKarte(TPop) {
-	var anzTPop, infowindow, lat, lng, latlng, options, map, verorted, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe;
+	var anzTPop, infowindow, lat, lng, latlng, options, map, verorted, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe, titel;
 	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("Karte");
 	window.markersArray = [];
@@ -9525,11 +9563,16 @@ function verorteTPopAufKarte(TPop) {
 	mapcanvas = $('#Karte');
 	map = new google.maps.Map(mapcanvas[0],options);
 	if (verorted === true) {
+		//title muss String sein
+		if (TPop.TPopFlurname) {
+			titel = TPop.TPopFlurname.toString();
+		} else {
+			titel = "";
+		}
 		marker = new google.maps.Marker({
 			position: latlng, 
 			map: map,
-			//title muss String sein
-			title: TPop.TPopFlurname.toString() || "",
+			title: titel,
 			icon: "img/flora_icon_rot.png",
 			draggable: true
 		});
@@ -9562,6 +9605,7 @@ function verorteTPopAufKarte(TPop) {
 
 function placeMarkerTPop(location, map, marker, TPop) {
 	var title;
+	//title muss String sein
 	if (TPop && TPop.TPopFlurname) {
 		title = TPop.TPopFlurname;
 	} else {
@@ -9572,7 +9616,6 @@ function placeMarkerTPop(location, map, marker, TPop) {
 	var marker = new google.maps.Marker({
 		position: location, 
 		map: map,
-		//title muss String sein
 		title: title,
 		icon: "img/flora_icon_rot.png",
 		draggable: true
