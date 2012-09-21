@@ -75,9 +75,19 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 		while($r_tpopmassn = mysqli_fetch_assoc($result_tpopmassn)) {
 			$TPopMassnId = $r_tpopmassn['TPopMassnId'];
 			settype($TPopMassnId, "integer");
-			$TPopMassnJahr =  $r_tpopmassn['TPopMassnJahr'];
-			settype($TPopMassnJahr, "integer");
-			$MassnTypTxt = $r_tpopmassn['MassnTypTxt'];
+			//TPopMassnJahr und MassnTypTxt sollen immer existieren
+			if ($r_tpopmassn['TPopMassnJahr']) {
+				$TPopMassnJahr = $r_tpopmassn['TPopMassnJahr'];
+				settype($TPopMassnJahr, "integer");
+			} else {
+				$TPopMassnJahr = "(kein Jahr)";
+			}
+			//massntyp soll immer existieren
+			if ($r_tpopmassn['MassnTypTxt']) {
+				$MassnTypTxt = $r_tpopmassn['MassnTypTxt'];
+			} else {
+				$MassnTypTxt = "(kein Typ)";
+			}
 			//TPopMassn setzen
 			$attr_tpopmassn = array("id" => $TPopMassnId, "typ" => "tpopmassn");
 			$tpopmassn = array("data" => $TPopMassnJahr.": ".$MassnTypTxt, "attr" => $attr_tpopmassn);
@@ -94,9 +104,19 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 		while($r_tpopmassnber = mysqli_fetch_assoc($result_tpopmassnber)) {
 			$TPopMassnBerId = $r_tpopmassnber['TPopMassnBerId'];
 			settype($TPopMassnBerId, "integer");
-			$TPopMassnBerJahr =  $r_tpopmassnber['TPopMassnBerJahr'];
-			settype($TPopMassnBerJahr, "integer");
-			$BeurteilTxt = $r_tpopmassnber['BeurteilTxt'];
+			//TPopMassnBerJahr soll immer existieren
+			if ($r_tpopmassnber['TPopMassnBerJahr']) {
+				$TPopMassnBerJahr =  $r_tpopmassnber['TPopMassnBerJahr'];
+				settype($TPopMassnBerJahr, "integer");
+			} else {
+				$TPopMassnBerJahr = "(kein Jahr)";
+			}
+			//BeurteilTxt soll immer existieren
+			if ($r_tpopmassnber['BeurteilTxt']) {
+				$BeurteilTxt = $r_tpopmassnber['BeurteilTxt'];
+			} else {
+				$BeurteilTxt = "(keine Beurteilung)";
+			}
 			//TPopMassn setzen
 			$attr_tpopmassnber = array("id" => $TPopMassnBerId, "typ" => "tpopmassnber");
 			$tpopmassnber = array("data" => $TPopMassnBerJahr.": ".$BeurteilTxt, "attr" => $attr_tpopmassnber);

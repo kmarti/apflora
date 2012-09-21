@@ -8700,11 +8700,35 @@ function speichern(that) {
 			break;
 		case "TPopMassnJahr":
 		case "TPopMassnTyp":
-			jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_massn'] #" + localStorage.tpopmassn_id, $("#TPopMassnJahr").val() + ": " + $("#TPopMassnTyp option:checked").text());
+			//wenn kein Typ/Jahr gewählt: "(kein Typ/Jahr)"
+			var tpopmassnjahr, tpopmassntyp;
+			if ($("#TPopMassnJahr").val()) {
+				tpopmassnjahr = $("#TPopMassnJahr").val();
+			} else {
+				tpopmassnjahr = "(kein Jahr)";
+			}
+			if ($("#TPopMassnTyp option:checked").text()) {
+				tpopmassntyp = $("#TPopMassnTyp option:checked").text();
+			} else {
+				tpopmassntyp = "(kein Typ)";
+			}
+			jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_massn'] #" + localStorage.tpopmassn_id, tpopmassnjahr + ": " + tpopmassntyp);
 			break;
 		case "TPopMassnBerJahr":
 		case "TPopMassnBerErfolgsbeurteilung":
-			jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_massnber'] #" + localStorage.tpopmassnber_id, $("#TPopMassnBerJahr").val() + ": " + $("#spanTPopMassnBerErfolgsbeurteilung" + $('input[name="TPopMassnBerErfolgsbeurteilung"]:checked').val()).text());
+			//wenn kein Jahr/Beurteilung: "(kein Jahr/Beurteilung)"
+			var tpopmassnberjahr, tpopmassnbererfolgsbeurteilung;
+			if ($("#TPopMassnBerJahr").val()) {
+				tpopmassnberjahr = $("#TPopMassnBerJahr").val();
+			} else {
+				tpopmassnberjahr = "(kein Jahr)";
+			}
+			if ($("#spanTPopMassnBerErfolgsbeurteilung" + $('input[name="TPopMassnBerErfolgsbeurteilung"]:checked').val()).text()) {
+				tpopmassnbererfolgsbeurteilung = $("#spanTPopMassnBerErfolgsbeurteilung" + $('input[name="TPopMassnBerErfolgsbeurteilung"]:checked').val()).text();
+			} else {
+				tpopmassnbererfolgsbeurteilung = "(keine Beurteilung)";
+			}
+			jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_massnber'] #" + localStorage.tpopmassnber_id, tpopmassnberjahr + ": " + tpopmassnbererfolgsbeurteilung);
 			break;
 		case "ZielBezeichnung":
 			jQuery("#tree").jstree("rename_node", "[typ='apzieljahr'] #" + localStorage.apziel_id, Feldwert);
@@ -9532,7 +9556,7 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 }
 
 function verorteTPopAufKarte(TPop) {
-	var anzTPop, infowindow, lat, lng, latlng, options, map, verorted, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe, titel;
+	var anzTPop, infowindow, lat, lng, latlng, ZoomLevel, options, map, verorted, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe, titel;
 	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("Karte");
 	window.markersArray = [];
