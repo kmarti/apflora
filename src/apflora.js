@@ -8708,7 +8708,19 @@ function speichern(that) {
 			break;
 		case "TPopBerJahr":
 		case "TPopBerEntwicklung":
-			jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_tpopber'] #" + localStorage.tpopber_id, $("#TPopBerJahr").val() + ": " + $("#spanTPopBerEntwicklung" + $('input[name="TPopBerEntwicklung"]:checked').val()).text());
+			//wenn kein Jahr/Entwicklung gewählt: "(kein Jahr/Entwicklung)"
+			var tpopberjahr, tpopberentwicklung;
+			if ($("#TPopBerJahr").val()) {
+				tpopberjahr = $("#TPopBerJahr").val();
+			} else {
+				tpopberjahr = "(kein Jahr)";
+			}
+			if ($("#spanTPopBerEntwicklung" + $('input[name="TPopBerEntwicklung"]:checked').val()).text()) {
+				tpopberentwicklung = $("#spanTPopBerEntwicklung" + $('input[name="TPopBerEntwicklung"]:checked').val()).text();
+			} else {
+				tpopberentwicklung = "(keine Beurteilung)";
+			}
+			jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_tpopber'] #" + localStorage.tpopber_id, tpopberjahr + ": " + tpopberentwicklung);
 			break;
 		case "TPopMassnJahr":
 		case "TPopMassnTyp":

@@ -178,16 +178,26 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 		mysqli_free_result($result_tpopfreiwkontr);
 
 		//TPop-Berichte dieser TPop abfragen
-		$result_tpopber = mysqli_query($link, "SELECT TPopBerId, TPopId, TPopBerJahr, EntwicklungTxt, EntwicklungOrd FROM tblTeilPopBericht INNER JOIN DomainTPopEntwicklung ON TPopBerEntwicklung = EntwicklungCode where TPopId = $TPopId ORDER BY TPopBerJahr, EntwicklungOrd");
+		$result_tpopber = mysqli_query($link, "SELECT TPopBerId, TPopId, TPopBerJahr, EntwicklungTxt, EntwicklungOrd FROM tblTeilPopBericht LEFT JOIN DomainTPopEntwicklung ON TPopBerEntwicklung = EntwicklungCode where TPopId = $TPopId ORDER BY TPopBerJahr, EntwicklungOrd");
 		$anz_tpopber = mysqli_num_rows($result_tpopber);
 		//Datenstruktur für tpopber aufbauen
 		$rows_tpopber = array();
 		while($r_tpopber = mysqli_fetch_assoc($result_tpopber)) {
 			$TPopBerId = $r_tpopber['TPopBerId'];
 			settype($TPopBerId, "integer");
-			$TPopBerJahr =  $r_tpopber['TPopBerJahr'];
-			settype($TPopBerJahr, "integer");
-			$EntwicklungTxt = $r_tpopber['EntwicklungTxt'];
+			//TPopBerJahr soll immer existieren
+			if ($r_tpopber['TPopBerJahr']) {
+				$TPopBerJahr = $r_tpopber['TPopBerJahr'];
+				settype($TPopBerJahr, "integer");
+			} else {
+				$TPopBerJahr = "(kein Jahr)";
+			}
+			//EntwicklungTxt soll immer existieren
+			if ($r_tpopber['EntwicklungTxt']) {
+				$EntwicklungTxt = $r_tpopber['EntwicklungTxt'];
+			} else {
+				$EntwicklungTxt = "(keine Beurteilung)";
+			}
 			//TPopFeldKontr setzen
 			$attr_tpopber = array("id" => $TPopBerId, "typ" => "tpopber");
 			$tpopber = array("data" => $TPopBerJahr.": ".$EntwicklungTxt, "attr" => $attr_tpopber);
