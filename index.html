@@ -8,6 +8,8 @@
 		<script type="text/javascript" src="src/jquery.jstree.js"></script>
 		<script type="text/javascript" src="src/jquery.cookie.js"></script>
 		<script type="text/javascript" src="src/jquery.hotkeys.js"></script>
+		<script type="text/javascript" src="src/hammer.js"></script>
+		<script type="text/javascript" src="src/jquery.hammer.js"></script>
 		<script type="text/javascript" src="src/apflora.js"></script>
 		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 		<script type="text/javascript" src="src/markerclusterer.js"></script>
@@ -1846,6 +1848,7 @@
 					speichern(Objekt);
 				}
 			});
+
 			//Paarige Jahr/Datumfelder: Datum zurückstellen, wenn Jahr verändert wurde
 			$("#tpopmassn").on("change", "#TPopMassnJahr", function () {
 				var Objekt;
@@ -1861,7 +1864,6 @@
 			$(window).resize(function () {
 				setzeFeldbreiten();
 				setzeTreehoehe();
-				//setzeFormhoehe();
 			});
 
 			function pruefe_anmeldung() {

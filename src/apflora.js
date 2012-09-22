@@ -1925,6 +1925,12 @@ function erstelle_tree(ApArtId) {
 		$("#suchen").show();
 		$("#hilfe").show();
 	})
+	//auch auf Mobilgeräten soll das Kontextmenü zugänglich sein!
+	.hammer().bind("hold doubletap", function (ev) {
+		jQuery("#tree").jstree('get_selected').children('a').trigger('contextmenu');
+		//Versuch, auf iOS das Öffnen des System-Kontextmenüs zu verhindern
+		//ev.originalEvent.stopPropagation();
+	})
 	.bind("select_node.jstree", function (e, data) {
 		var node;
 		delete localStorage.tpopfreiwkontr;	//Erinnerung an letzten Klick im Baum löschen
@@ -2904,7 +2910,8 @@ function beschrifte_ap_ordner_beob(node) {
 function treeKontextmenu(node) {
 	var items, aktiver_node, parent_node, grandparent_node, neue_apziele_node;
 	//relevante nodes zwischenspeichern
-	aktiver_node = node;
+	//aktiver_node = node;     das hat auch funktioniert
+	aktiver_node = jQuery("#tree").jstree('get_selected');
 	aktiver_nodeText = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
 	//parent nur ermitteln, wenn parents exisiteren - sonst gibt es einen Fehler
 	if ($(aktiver_node).attr("typ").slice(0, 9) !== "ap_ordner" && $(aktiver_node).attr("typ") !== "iballg") {
