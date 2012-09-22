@@ -1926,10 +1926,13 @@ function erstelle_tree(ApArtId) {
 		$("#hilfe").show();
 	})
 	//auch auf Mobilgeräten soll das Kontextmenü zugänglich sein!
+	//Problem: Referenz auf selected führt dazu, dass erst nach selection das richtige Kontextmenü geöffnet wird
+	//vorher wird das falsche geöffnet!
+	//TO DO: Hier direkt auf den aktiven Node greifen. Wie????
 	.hammer().bind("hold doubletap", function (ev) {
-		jQuery("#tree").jstree('get_selected').children('a').trigger('contextmenu');
-		//Versuch, auf iOS das Öffnen des System-Kontextmenüs zu verhindern
-		//ev.originalEvent.stopPropagation();
+		setTimeout(function() {
+			jQuery("#tree").jstree('get_selected').children('a').trigger('contextmenu');
+		}, 500);
 	})
 	.bind("select_node.jstree", function (e, data) {
 		var node;

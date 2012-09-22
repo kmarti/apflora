@@ -198,3 +198,9 @@ Quelle: http://sixrevisions.com/css/css-only-tooltips*/
 .legende {
 	color: #000000;
 }
+
+/*Auf iOS soll bei taphold im Baum das Systemmenu nicht öffnen*/
+/*funktioniert, wenn man wenig lang drück. Bei sehr lang wird das Kontextmenu gar nicht aufgerufen, dafür das Systemmenu...*/
+body {
+    -webkit-touch-callout: none !important;
+}
