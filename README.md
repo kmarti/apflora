@@ -5,7 +5,6 @@ Sie löst die bestehende Access-Anwendung ab.
 <a name="top"></a>
 ## Inhalt ##
 * <a href="#machen">Was kann man mit AP Flora Web machen?</a>
-* <a href="#ApFloraAdmin">Admin Tool</a>
 * <a href="#Roadmap">Roadmap</a>
 * <a href="#Technik">Technische Umsetzung</a>
 * <a href="#OpenSource">Open source</a>
@@ -69,17 +68,7 @@ Sie löst die bestehende Access-Anwendung ab.
 - Die Menubefehle reagieren auch auf langen Fingerdruck oder doppelten Finger-Tap. Die Darstellung passt sich an schmale Bildschirme an, indem die Formulare unter den Strukturbaum wechseln. Damit ist die App mindestens theoretisch mobilfähig. Auf meinem iPad3 läuft sie unter WLAN auch schnell genug, sodass sie brauchbar ist. Einen echten Feldtest habe ich aber nicht machen können
 - Für ein Handy enthält die Benutzeroberfläche definitiv zu kleine Elemente
 
-**Anwendung effizient unterhalten:**
-
-- Einfacheres Gesamtsystem mit weniger Abhängigkeiten
-- Die Anwendung ist professioneller aufgebaut, im Code dokumentiert und einfacher zu warten 
-Beides: verglichen mit der ehemaligen Access-Anwendung.
-
-<a href="#top">&#8593; top</a>
-
-
-<a name="ApFloraAdmin"></a>
-#Admin Tool
+**Projektdaten verwalten**
 
 Die nachfolgend aufgelisteten Funktionen werden nur von Topos in einer neuen Access-Anwendung verwendet:
 
@@ -87,6 +76,12 @@ Die nachfolgend aufgelisteten Funktionen werden nur von Topos in einer neuen Acc
 - Adressen verwalten
 - Daten für das GIS bereitstellen
 - Logins kreieren
+
+**Anwendung effizient unterhalten:**
+
+- Einfacheres Gesamtsystem mit weniger Abhängigkeiten
+- Die Anwendung ist professioneller aufgebaut, im Code dokumentiert und einfacher zu warten 
+Beides: verglichen mit der ehemaligen Access-Anwendung.
 
 <a href="#top">&#8593; top</a>
 
