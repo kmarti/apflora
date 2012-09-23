@@ -1063,12 +1063,9 @@ function initiiere_tpopfeldkontr() {
 				if (localStorage.tpopfreiwkontr) {
 					$("#tpopfeldkontr_tabs_biotop").hide();
 					$("#biotop_tab_li").hide();
-					//$("#tpopfeldkontr_tabs_entwicklung").show();
 					$("#tpopfeldkontr_tabs").tabs("select", 0);
 				} else {
-					//$("#tpopfeldkontr_tabs_biotop").hide();
 					$("#tpopfeldkontr_tabs_biotop").show();
-					//$("#biotop_tab_li").hide();
 					$("#biotop_tab_li").show();
 				}
 				//Fokus steuern
@@ -1516,43 +1513,57 @@ function setzeFormhoehe() {
     }
 })(jQuery);
 
+//wenn $("#forms").width() > 444: forms unter menu setzen, 
 function setzeFeldbreiten() {
-	$('#forms input[type="text"], #forms input[type="url"], #forms select, #forms textarea').each(function() {
-		if ($(this).attr("formular") === "tpopfeldkontr") {
-			//hier hatt's tabs, Felder müssen schmaler sein als normal
-			$(this).width($(window).width() - 650);
-		} else if ($(this).attr("formular") === "iballg") {
-			//hier hats fieldsets, Felder müssen schmaler sein als normal
-			$(this).width($(window).width() - 640);
-		} else {
-			$(this).width($(window).width() - 630);
-		}
-	});
-	//Zahlenfelder sollen nicht breiter als 200px sein
-	$('#forms input[type="number"], #forms input[type="date"]').each(function() {
-		if ($(this).attr("formular") === "tpopfeldkontr") {
-			//hier hats tabs, Felder müssen schmaler sein als normal
-			if (($(window).width() - 650) > 200) {
-				$(this).width(200);
+	/*if ($("#forms").width() > 444) {
+		$("#forms").width($(window).width() - 445);
+	} else {
+		$("#forms").width($(window).width() - 37);
+	}*/
+
+	if ($(window).width() > 855) {
+		$("#forms").width($(window).width() - 427);
+	} else {
+		$("#forms").width($(window).width() - 37);
+	}
+
+	setTimeout(function() {
+		$('#forms input[type="text"], #forms input[type="url"], #forms select, #forms textarea').each(function() {
+			if ($(this).attr("formular") === "tpopfeldkontr") {
+				//hier hatt's tabs, Felder müssen schmaler sein als normal
+				$(this).width($("#forms").width() - 190);
+			} else if ($(this).attr("formular") === "iballg") {
+				//hier hats fieldsets, Felder müssen schmaler sein als normal
+				$(this).width($("#forms").width() - 180);
 			} else {
-				$(this).width($(window).width() - 650);
+				$(this).width($("#forms").width() - 170);
 			}
-		} else if ($(this).attr("formular") === "iballg") {
-			//hier hats fieldsets, Felder müssen schmaler sein als normal
-			if (($(window).width() - 640) > 200) {
-				$(this).width(200);
+		});
+		//Zahlenfelder sollen nicht breiter als 200px sein
+		$('#forms input[type="number"], #forms input[type="date"]').each(function() {
+			if ($(this).attr("formular") === "tpopfeldkontr") {
+				//hier hats tabs, Felder müssen schmaler sein als normal
+				if (($("#forms").width() - 190) > 200) {
+					$(this).width(200);
+				} else {
+					$(this).width($("#forms").width() - 200);
+				}
+			} else if ($(this).attr("formular") === "iballg") {
+				//hier hats fieldsets, Felder müssen schmaler sein als normal
+				if (($("#forms").width() - 180) > 200) {
+					$(this).width(200);
+				} else {
+					$(this).width($("#forms").width() - 180);
+				}
 			} else {
-				$(this).width($(window).width() - 640);
+				if (($("#forms").width() - 200) > 200) {
+					$(this).width(200);
+				} else {
+					$(this).width($("#forms").width() - 200);
+				}
 			}
-		} else {
-			if (($(window).width() - 660) > 200) {
-				$(this).width(200);
-			} else {
-				$(this).width($(window).width() - 660);
-			}
-		}
-	});
-	$("#forms").width($(window).width() - 440);
+		});
+	}, 300);
 }
 
 //setzt die Höhe von textareas so, dass der Text genau rein passt
@@ -1926,10 +1937,7 @@ function erstelle_tree(ApArtId) {
 		$("#hilfe").show();
 	})
 	//auch auf Mobilgeräten soll das Kontextmenü zugänglich sein!
-	//Problem: Referenz auf selected führt dazu, dass erst nach selection das richtige Kontextmenü geöffnet wird
-	//vorher wird das falsche geöffnet!
-	//TO DO: Hier direkt auf den aktiven Node greifen. Wie????
-	.hammer().bind("hold doubletap", function (ev) {
+	.hammer().bind("hold doubletap", function (event) {
 		setTimeout(function() {
 			jQuery("#tree").jstree('get_selected').children('a').trigger('contextmenu');
 		}, 500);
