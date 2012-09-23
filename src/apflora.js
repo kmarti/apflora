@@ -1536,7 +1536,7 @@ function setzeFeldbreiten() {
 				//hier hats fieldsets, Felder müssen schmaler sein als normal
 				$(this).width($("#forms").width() - 180);
 			} else {
-				$(this).width($("#forms").width() - 170);
+				$(this).width($("#forms").width() - 180);
 			}
 		});
 		//Zahlenfelder sollen nicht breiter als 200px sein
