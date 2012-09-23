@@ -68,7 +68,7 @@ Sie löst die bestehende Access-Anwendung ab.
 - Die Menubefehle reagieren auch auf langen Fingerdruck oder doppelten Finger-Tap. Die Darstellung passt sich an schmale Bildschirme an, indem die Formulare unter den Strukturbaum wechseln. Damit ist die App mindestens theoretisch mobilfähig. Auf meinem iPad3 läuft sie unter WLAN auch schnell genug, sodass sie brauchbar ist. Einen echten Feldtest habe ich aber nicht machen können
 - Für ein Handy enthält die Benutzeroberfläche definitiv zu kleine Elemente
 
-**Projektdaten verwalten**
+**Projektdaten verwalten:**
 
 Die nachfolgend aufgelisteten Funktionen werden nur von Topos in einer neuen Access-Anwendung verwendet:
 
