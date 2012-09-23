@@ -64,6 +64,11 @@ Sie löst die bestehende Access-Anwendung ab.
 - Beobachtungen Teilpopulationen zuordnen: Mit drag and drop im Strukturbaum, in einer nach Abstand zu den Teilpopulationen geordneten Liste im Formular oder mit drag and drop im Luftbild
 - Daten löschen: Bei den gehaltvollen Daten (Programme/Arten, Populationen, Teilpopulationen, Feldkontrollen, Freiwilligen-Kontrollen, Massnahmen, AP-Berichten) kann das Löschen nachträglich während 25 Sekunden rückgängig gemacht werden
 
+**Im Feld arbeiten?**
+
+- Die Menubefehle reagieren auch auf langen Fingerdruck oder doppelten Finger-Tap. Die Darstellung passt sich an schmale Bildschirme an, indem die Formulare unter den Strukturbaum wechseln. Damit ist die App mindestens theoretisch mobilfähig. Auf meinem iPad3 läuft sie unter WLAN auch schnell genug, sodass sie brauchbar ist. Einen echten Feldtest habe ich aber nicht machen können
+- Für ein Handy enthält die Benutzeroberfläche definitiv zu kleine Elemente
+
 **Anwendung effizient unterhalten:**
 
 - Einfacheres Gesamtsystem mit weniger Abhängigkeiten
