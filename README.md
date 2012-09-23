@@ -5,7 +5,7 @@ Sie löst die bestehende Access-Anwendung ab.
 <a name="top"></a>
 ## Inhalt ##
 * <a href="#machen">Was kann man mit AP Flora Web machen?</a>
-* <a href="#Einschränkungen">Einschränkungen</a>
+* <a href="#ApFloraAdmin">Admin Tool</a>
 * <a href="#Roadmap">Roadmap</a>
 * <a href="#Technik">Technische Umsetzung</a>
 * <a href="#OpenSource">Open source</a>
@@ -78,10 +78,15 @@ Beides: verglichen mit der ehemaligen Access-Anwendung.
 <a href="#top">&#8593; top</a>
 
 
-<a name="Einschränkungen"></a>
-#Einschränkungen
+<a name="ApFloraAdmin"></a>
+#Admin Tool
 
-- Jahresberichte weiterhin in einer stark entschlackten Access-Anwendung erzeugen
+Die nachfolgend aufgelisteten Funktionen werden nur von Topos in einer neuen Access-Anwendung verwendet:
+
+- pdf-Datei für den Jahresbericht erstellen
+- Adressen verwalten
+- Daten für das GIS bereitstellen
+- Logins kreieren
 
 <a href="#top">&#8593; top</a>
 
@@ -90,7 +95,7 @@ Beides: verglichen mit der ehemaligen Access-Anwendung.
 #Roadmap
 - Die Anwendung enthält alle geplanten Funktionen (die Exporte werden laufend ergänzt)
 - Jetzt wird sie durch die AnwenderInnen getestet
-- Ev. gelingt es mir, sie einigermassen mobilfähig hinzukriegen. Wär doch toll, wenn man im Feld mit einem Tablett erfassen könnte...
+- Ev. lässt sich mittelfristig die Mobilfähigkeit steigern. Wär doch toll, wenn man im Feld mit einem Tablett erfassen könnte...
 
 <a href="#top">&#8593; top</a>
 
