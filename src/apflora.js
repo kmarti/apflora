@@ -35,6 +35,14 @@ function initiiere_ap() {
 	//Felder zurücksetzen
 	leereFelderVonFormular("ap");
 	setzeFeldbreiten();
+	//Bei Testarten Hinweis anzeigen
+	$("#testart_div").hide();
+	if ($("#ap_waehlen").val()) {
+		if ($("#ap_waehlen").val() <= 150) {
+			$("#testart_div").show();
+			$("#testart_div").html("Das ist eine Testart - hier können Sie alles ausprobieren!");
+		}
+	}
 	//Wenn ein ap ausgewählt ist: Seine Daten anzeigen
 	if ($("#ap_waehlen").val() && programm_wahl !== "programm_neu") {
 		//Daten für den ap aus der DB holen
