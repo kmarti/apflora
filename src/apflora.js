@@ -1453,6 +1453,12 @@ function initiiere_tpopmassnber() {
 	});
 }
 
+function initiiere_exporte() {
+	$("#testart_div").hide();
+	zeigeFormular("exporte");
+	setzeFeldbreiten();
+}
+
 //managed die Sichtbarkeit von Formularen
 //wird von allen initiiere_-Funktionen verwendet
 //wird ein Formularname übergeben, wird dieses Formular gezeigt
@@ -3065,8 +3071,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		}
@@ -3227,8 +3232,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -3319,8 +3323,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -3474,8 +3477,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -3544,8 +3546,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -3681,8 +3682,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -3751,8 +3751,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -3888,8 +3887,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -3958,8 +3956,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -4105,8 +4102,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -4238,8 +4234,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -4436,8 +4431,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -4506,8 +4500,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -4643,8 +4636,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -4713,8 +4705,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -4850,8 +4841,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -5060,8 +5050,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -5316,8 +5305,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -5630,8 +5618,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		}
@@ -5782,8 +5769,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -5913,8 +5899,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -5983,8 +5968,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -6114,8 +6098,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -6185,8 +6168,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -6411,8 +6393,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			},
 			"biotop_kopieren": {
@@ -6760,8 +6741,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -6990,8 +6970,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -7220,8 +7199,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -7446,8 +7424,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -7673,8 +7650,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -7804,8 +7780,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -7944,8 +7919,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -8057,8 +8031,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -8188,8 +8161,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		};
@@ -8294,8 +8266,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		}
@@ -8379,8 +8350,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
-					zeigeFormular("exporte");
-					setzeFeldbreiten();
+					initiiere_exporte();
 				}
 			}
 		}
