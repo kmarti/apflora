@@ -40,7 +40,7 @@ function initiiere_ap() {
 	if ($("#ap_waehlen").val()) {
 		if ($("#ap_waehlen").val() <= 150) {
 			$("#testart_div").show();
-			$("#testart_div").html("Das ist eine Testart - hier können Sie alles ausprobieren!");
+			$("#testart_div").html("Das ist eine Testart - hier kann man alles ausprobieren!");
 		}
 	}
 	//Wenn ein ap ausgewählt ist: Seine Daten anzeigen

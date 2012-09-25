@@ -133,6 +133,12 @@ option {
 	font-size:16px;
 }
 
+.border_top {
+	border-top: 1px solid #999;
+	padding-top: 10px;
+	margin-right: 10px;
+}
+
 #vakata-contextmenu {
 	width:230px;
 }
