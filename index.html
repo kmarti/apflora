@@ -1179,6 +1179,8 @@
 					<li><a href="#ProgrammArt">Programm / Art</a></li>
 					<li><a href="#Populationen">Populationen</a></li>
 					<li><a href="#Teilpopulationen">Teilpopulationen</a></li>
+					<li><a href="#Kontrollen">Kontrollen</a></li>
+					<li><a href="#Massnahmen">Massnahmen</a></li>
 					<li><a href="#Beobachtungen">Beobachtungen</a></li>
 				</ul>
 
@@ -1187,10 +1189,10 @@
 				<p>Hier sind alle Auswertungen (bzw. Abfragen, Kontrollen, Listen).</p>
 				<p>Die Daten werden direkt als tabulatorgetrennte .csv-Datei heruntergeladen.</p>
 				<p>Diese Datei kann nach dem Download auf zwei Arten geöffnet werden:</p>
-				<ul>
+				<ol>
 					<li>Gewünschtes Programm öffnen (z.B. Excel) und damit die heruntergeladene Datei öffnen</li>
 					<li>Heruntergeladene Datei doppelklicken. Meist wählt das Betriebssystem ein geeignetes Programm, um die Datei damit zu öffnen</li>
-				</ul>
+				</ol>
 				<p>Fragt das Programm, mit welchem Zeichen die einzelnen Felder getrennt werden? Es sind Tabulator-Zeichen.</p>
 				<p>Zeigt das Programm nach dem Öffnen ungeordnete Daten an? Dann muss die Datei nochmals geöffnet werden und dabei ist die Option zu suchen, mit der eine Trennung der Felder mittels Tabulator-Zeichen erzwungen werden kann.</p>
 				<div style="padding:10px 5px 10px 5px; margin-right:10px; border-radius:5px; background-color: #FFDA8F; box-shadow: 5px 5px 5px #888;"><b>Enthält der Export zuviele Daten?</b>
@@ -1212,18 +1214,33 @@
 
 				<a name="Populationen"></a>
 				<h2 class="border_top">Populationen</h2>
+				<button id="export_populationen">Populationen</button><br>
 
 				<br><a href="#top">&uArr;&nbsp;top</a>
 
 
 				<a name="Teilpopulationen"></a>
 				<h2 class="border_top">Teilpopulationen</h2>
+				<button id="export_teilpopulationen">Teilpopulationen</button><br>
+
+				<br><a href="#top">&uArr;&nbsp;top</a>
+
+				<a name="Kontrollen"></a>
+				<h2 class="border_top">Kontrollen</h2>
+				<button id="export_kontrollen">Kontrollen</button><br>
+
+				<br><a href="#top">&uArr;&nbsp;top</a>
+
+				<a name="Massnahmen"></a>
+				<h2 class="border_top">Massnahmen</h2>
+				<button id="export_massnahmen">Massnahmen</button><br>
 
 				<br><a href="#top">&uArr;&nbsp;top</a>
 
 
 				<a name="Beobachtungen"></a>
 				<h2 class="border_top">Beobachtungen</h2>
+				<button id="export_beobachtungen">zugeordnete Beobachtungen</button><br>
 
 				<br><a href="#top">&uArr;&nbsp;top</a>
 			</form>
@@ -1920,6 +1937,21 @@
 			});
 			$("#exporte").on("click", "#export_ap_jb", function() {
 				window.open("php/export_ap_jb.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_populationen", function() {
+				window.open("php/export_populationen.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_teilpopulationen", function() {
+				window.open("php/export_teilpopulationen.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_kontrollen", function() {
+				window.open("php/export_kontrollen.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_massnahmen", function() {
+				window.open("php/export_massnahmen.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_beobachtungen", function() {
+				window.open("php/export_beobachtungen.php", target="_blank");
 			});
 
 		</script>
