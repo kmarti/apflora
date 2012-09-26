@@ -1301,7 +1301,7 @@ function initiiere_tpopbeob() {
 						"beobid": data.BeobId
 					},
 					success: function (data2) {
-						var html = '<input type="radio" name="tpopbeob_DistZuTPop" id="tpopbeob_DistZuTPop0" class="tpopbeob_DistZuTPop" formular="tpopbeob" value="0"/>Keiner';
+						var html = '<input type="radio" name="tpopbeob_DistZuTPop" id="tpopbeob_DistZuTPop0" class="tpopbeob_DistZuTPop" formular="tpopbeob" value="0"/>keiner';
 						if (data2) {
 							for (i in data2) {
 								if (typeof i !== "function") {
