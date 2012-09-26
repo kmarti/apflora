@@ -19,7 +19,7 @@ $user = $_GET["user"];
 $time = date('Y-m-d H:i:s');
 
 // SQL-Anfrage ausführen
-$result = mysqli_query($link, "SELECT TPopId FROM tblTeilpopulation WHERE TPopPop='-1' AND PopId=".$pop_id." AND TPopId<>".$tpop_id);
+$result = mysqli_query($link, "SELECT TPopId FROM tblTeilpopulation WHERE TPopPop='1' AND PopId=".$pop_id." AND TPopId<>".$tpop_id);
 while($r = mysqli_fetch_assoc($result)) {
 	// bestehende TPopPop ausschalten
 	$result2 = mysqli_query($link, 'UPDATE tblTeilpopulation SET TPopPop=0, MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopId='.$r['TPopId']);

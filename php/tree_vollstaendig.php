@@ -12,7 +12,7 @@ $typ = $_GET["typ"] || null;
 $child_dummy = array(0 => "dummy");
 
 //ap abfragen
-$query_ap = "SELECT Name, ApArtId FROM qryAp1";
+$query_ap = "SELECT Name, ApArtId FROM vAp1";
 $result_ap = mysql_query($query_ap) or die("Anfrage fehlgeschlagen: " . mysql_error());
 //benötigte Datenstruktur aufbauen
 $rows = array();

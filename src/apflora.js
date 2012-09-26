@@ -745,7 +745,7 @@ function initiiere_tpop() {
 				}
 				$("#TPopXKoord").val(data.TPopXKoord);
 				$("#TPopYKoord").val(data.TPopYKoord);
-				if (data.TPopPop == -1) {
+				if (data.TPopPop == 1) {
 					$("#TPopPop").prop("checked", true);
 				} else {
 					$("#TPopPop").prop("checked", false);
@@ -8636,9 +8636,17 @@ function speichern(that) {
 		//textarea, input, select
 		Feldwert = $("#" + Feldname).val();
 	}
-	if (Feldname === "TPopHerkunftUnklar" || Feldname === "TPopPop" || Feldname === "TPopMassnPlan" || Feldname === "TPopKontrPlan" || Feldname === "TPopKontrJungPflJN") {
+	if (Feldname === "TPopHerkunftUnklar" || Feldname === "TPopMassnPlan" || Feldname === "TPopKontrPlan" || Feldname === "TPopKontrJungPflJN") {
 		if (Feldwert) {
 			Feldwert = -1;
+		} else {
+			Feldwert = 0;
+		}
+	}
+	//ja/nein Felder zu boolean umbauen
+	if (Feldname === "TPopPop") {
+		if (Feldwert) {
+			Feldwert = 1;
 		} else {
 			Feldwert = 0;
 		}
@@ -8669,7 +8677,7 @@ function speichern(that) {
 				Objekt.formular = "tpopmassn";
 				speichern(Objekt);
 			}
-			if (Feldname === "TPopPop" && Feldwert === -1) {
+			if (Feldname === "TPopPop" && Feldwert === 1) {
 				//allfällige andere als repräsentativ bezeichnete TPop derselben Pop zurücksetzen
 				$.ajax({
 					url: 'php/tpop_tpoppop.php',
