@@ -1190,13 +1190,20 @@
 				<p>Die Daten werden direkt als tabulatorgetrennte .csv-Datei heruntergeladen.</p>
 				<p>Diese Datei kann nach dem Download auf zwei Arten geöffnet werden:</p>
 				<ol>
-					<li>Gewünschtes Programm öffnen (z.B. Excel) und damit die heruntergeladene Datei öffnen</li>
-					<li>Heruntergeladene Datei doppelklicken. Meist wählt das Betriebssystem ein geeignetes Programm, um die Datei damit zu öffnen</li>
+					<li>Gewünschtes Programm öffnen und damit die heruntergeladene Datei öffnen</li>
+					<li>Heruntergeladene Datei doppelklicken. Meist wählt das Betriebssystem ein geeignetes Programm, um die Datei damit zu öffnen und dieses Programm erkennt am Datenformat, dass der Importassistent geöffnet werden muss. In neuen Excel-Versionen funktioniert dies leider nicht mehr!</li>
 				</ol>
+				<div style="padding:10px 5px 10px 5px; margin-right:10px; border-radius:5px; background-color: #FFDA8F; box-shadow: 5px 5px 5px #888;"><b>ACHTUNG: Microsoft Excel braucht Streicheleinheiten:</b>
+					<ol style="-webkit-margin-after: 0em; -webkit-margin-before: 0.5em;">
+						<li>Excel öffnen</li>
+						<li>"Daten" > "Externe Daten abrufen" > "Aus Text" wählen</li>
+						<li>Nun erscheit der Textkonvertierungs-Assistent. Im Schritt 1 als Dateiursprung statt dem vorgegebenen "Windows (ANSI)" dies hier wählen: "65001 : Unicode (UTF-8)". Excel versteht sonst partout keine Umlaute</li>
+					</ol>
+				</div>
 				<p>Fragt das Programm, mit welchem Zeichen die einzelnen Felder getrennt werden? Es sind Tabulator-Zeichen.</p>
-				<p>Zeigt das Programm nach dem Öffnen ungeordnete Daten an? Dann muss die Datei nochmals geöffnet werden und dabei ist die Option zu suchen, mit der eine Trennung der Felder mittels Tabulator-Zeichen erzwungen werden kann.</p>
+				<p>Zeigt das Programm nach dem Öffnen ungeordnete Daten an? Dann muss die Datei nochmals geöffnet werden und dabei ist die Option zu suchen, mit der eine Trennung der Felder mittels Tabulator-Zeichen erzwungen werden kann. Vielleicht muss wie in Excel statt dem Öffnen-Befehl ein Import-Befehl verwendet werden.</p>
 				<div style="padding:10px 5px 10px 5px; margin-right:10px; border-radius:5px; background-color: #FFDA8F; box-shadow: 5px 5px 5px #888;"><b>Enthält der Export zuviele Daten?</b>
-					<ul style="-webkit-margin-after: 0em;">
+					<ul style="-webkit-margin-after: 0em; -webkit-margin-before: 0.5em;">
 						<li>Filtere die Zeilen nach den gewünschten Kriterien</li>
 						<li>Blende die unerwünschten Spalten aus (oder lösche sie)</li>
 					</ul>

@@ -34,9 +34,11 @@ while ($rowr = mysqli_fetch_row($values)) {
  
 $filename = $file."_".date("Y-m-d_H-i",time());
 
-header('Content-Type: text/x-csv');
+header('Content-Type: text/x-csv;  charset=utf-8');
+//header('Content-Type: application/vnd.ms-excel; charset=utf-8');
 header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 header('Content-Disposition: attachment; filename='.$filename.'.csv');
+//header('Content-Disposition: attachment; filename='.$filename.'.xls');
 header('Pragma: no-cache');
 
 print($csv_output);
