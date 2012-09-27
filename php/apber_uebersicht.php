@@ -15,7 +15,7 @@ $jahr = $_GET["jahr"];
 settype($jahr, "integer");
 
 // SQL-Anfrage ausführen
-$result = mysqli_query($link, "SELECT * FROM tblApBerUebersicht WHERE Jahr=".$jahr);
+$result = mysqli_query($link, "SELECT * FROM tblApJBerUebersicht WHERE Jahr=".$jahr);
 
 $row = mysqli_fetch_assoc($result);
 

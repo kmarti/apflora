@@ -459,7 +459,7 @@ while($r_erfkrit = mysqli_fetch_assoc($result_erfkrit)) {
 mysqli_free_result($result_erfkrit);
 
 //apber dieses AP abfragen
-$result_apber = mysqli_query($link, "SELECT ApBerId, ApArtId, ApBerJahr FROM tblApBericht where ApArtId = $ApArtId ORDER BY ApBerJahr");
+$result_apber = mysqli_query($link, "SELECT ApBerId, ApArtId, ApBerJahr FROM tblApJBer where ApArtId = $ApArtId ORDER BY ApBerJahr");
 $anz_apber = mysqli_num_rows($result_apber);
 //apber aufbauen
 $rows_apber = array();
@@ -467,7 +467,7 @@ while($r_apber = mysqli_fetch_assoc($result_apber)) {
 	$ApBerId = $r_apber['ApBerId'];
 	settype($ApBerId, "integer");
 	//apber_uebersicht dieses Jahrs abfragen
-	$result_apber_uebersicht = mysqli_query($link, "SELECT Jahr, Bemerkungen FROM tblApBerUebersicht WHERE Jahr=".$r_apber['ApBerJahr']);
+	$result_apber_uebersicht = mysqli_query($link, "SELECT Jahr, Bemerkungen FROM tblApJBerUebersicht WHERE Jahr=".$r_apber['ApBerJahr']);
 	//apber_uebersicht aufbauen
 	$rows_apber_uebersicht = array();
 	while($r_apber_uebersicht = mysqli_fetch_assoc($result_apber_uebersicht)) {
@@ -489,7 +489,7 @@ while($r_apber = mysqli_fetch_assoc($result_apber)) {
 mysqli_free_result($result_apber);
 
 //ber dieses AP abfragen
-$result_ber = mysqli_query($link, "SELECT BerId, ApArtId, BerJahr, BerTitel FROM tblBericht where ApArtId = $ApArtId ORDER BY BerJahr DESC, BerTitel");
+$result_ber = mysqli_query($link, "SELECT BerId, ApArtId, BerJahr, BerTitel FROM tblApBer where ApArtId = $ApArtId ORDER BY BerJahr DESC, BerTitel");
 $anz_ber = mysqli_num_rows($result_ber);
 //ber aufbauen
 $rows_ber = array();

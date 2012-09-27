@@ -16,7 +16,7 @@ settype($jahr, "integer");
 $user = $_GET["user"];
 $time = date('Y-m-d H:i:s');
 
-$Querystring = 'INSERT INTO tblApBerUebersicht (Jahr, MutWann, MutWer) VALUES ('.$jahr.', "'.$time.'", "'.$user.'")';	//muss die neue PopId erhalten!
+$Querystring = 'INSERT INTO tblApJBerUebersicht (Jahr, MutWann, MutWer) VALUES ('.$jahr.', "'.$time.'", "'.$user.'")';	//muss die neue PopId erhalten!
 
 //SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);

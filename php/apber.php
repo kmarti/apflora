@@ -15,7 +15,7 @@ $ApBerId = $_GET["id"];
 settype($ApBerId, "integer");
 
 // SQL-Anfrage ausführen
-$result = mysqli_query($link, "SELECT * FROM tblApBericht WHERE ApBerId=".$ApBerId);
+$result = mysqli_query($link, "SELECT * FROM tblApJBer WHERE ApBerId=".$ApBerId);
 
 $row = mysqli_fetch_assoc($result);
 $ApBerDatum = $row["ApBerDatum"];

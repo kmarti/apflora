@@ -18,7 +18,7 @@ $Wert = $_GET["Wert"];
 $user = $_GET["user"];
 $time = date('Y-m-d H:i:s');
 
-$Querystring = 'UPDATE tblApBerUebersicht SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE jahr = '.$id;
+$Querystring = 'UPDATE tblApJBerUebersicht SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE jahr = '.$id;
 
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);

@@ -11,7 +11,7 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
-$view = 'vBeobachtungen'; // view you want to export
+$view = 'vBeob'; // view you want to export
 $file = 'Beobachtungen'; // csv name.
 
 $result = mysqli_query($link, "SHOW COLUMNS FROM ".$view."");

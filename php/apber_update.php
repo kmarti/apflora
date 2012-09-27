@@ -27,7 +27,7 @@ if ($Feld == "ApBerDatum") {
 	}
 }
 
-$Querystring = 'UPDATE tblApBericht SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE ApBerId = '.$id;
+$Querystring = 'UPDATE tblApJBer SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE ApBerId = '.$id;
 
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);

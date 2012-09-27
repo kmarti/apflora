@@ -29,7 +29,7 @@ $Keystring = implode(',', array_keys($_GET));
 $Valuestring = implode('","', array_values($_GET));
 
 //jetzt den Querystring aufbauen
-$Querystring = 'INSERT INTO tblApBericht ('.$Keystring.') VALUES ("'.$Valuestring.'")';
+$Querystring = 'INSERT INTO tblApJBer ('.$Keystring.') VALUES ("'.$Valuestring.'")';
 
 //SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);

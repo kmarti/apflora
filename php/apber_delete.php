@@ -14,7 +14,7 @@ mysqli_set_charset($link, "utf8");
 $id = $_GET["id"];
 settype($id, "integer");
 
-$Querystring = "DELETE FROM tblApBericht WHERE ApBerId=".$id;
+$Querystring = "DELETE FROM tblApJBer WHERE ApBerId=".$id;
 
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);

@@ -14,7 +14,7 @@ mysqli_set_charset($link, "utf8");
 $jahr = $_GET["jahr"];
 settype($jahr, "integer");
 
-$Querystring = "DELETE FROM tblApBerUebersicht WHERE Jahr=".$jahr;
+$Querystring = "DELETE FROM tblApJBerUebersicht WHERE Jahr=".$jahr;
 
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);
