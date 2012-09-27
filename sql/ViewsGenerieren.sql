@@ -169,6 +169,20 @@ FROM ArtenDb_tblFloraSisf INNER JOIN (tblAktionsplan INNER JOIN tblPopulation ON
 WHERE (((tblAktionsplan.ApStatus)=3) AND ((tblPopulation.PopHerkunft) Is Null))
 ORDER BY ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr;
 
+CREATE VIEW vPopMassnberAnzMassn0 AS
+SELECT tblPopMassnBericht.PopId, tblPopMassnBericht.PopMassnBerJahr, Count(tblTeilPopMassnahme.TPopMassnId) AS AnzahlvonTPopMassnId
+FROM tblPopMassnBericht INNER JOIN (tblTeilpopulation LEFT JOIN tblTeilPopMassnahme ON tblTeilpopulation.TPopId = tblTeilPopMassnahme.TPopId) ON tblPopMassnBericht.PopId = tblTeilpopulation.PopId
+WHERE tblTeilPopMassnahme.TPopMassnJahr=tblPopMassnBericht.PopMassnBerJahr Or tblTeilPopMassnahme.TPopMassnJahr Is Null
+GROUP BY tblPopMassnBericht.PopId, tblPopMassnBericht.PopMassnBerJahr
+ORDER BY tblPopMassnBericht.PopId, tblPopMassnBericht.PopMassnBerJahr;
+
+CREATE VIEW vPopMassnberAnzMassn AS
+SELECT ArtenDb_tblFloraSisf.NR AS ApArtId, ArtenDb_tblFloraSisf.Name AS "AP Art", DomainApBearbeitungsstand.DomainTxt AS "AP Status", tblAktionsplan.ApJahr AS "AP Start im Jahr", DomainApUmsetzung.DomainTxt AS "AP Stand Umsetzung", tblPopulation.PopGuid AS "Pop Guid", tblPopulation.PopNr AS "Pop Nr", tblPopulation.PopName AS "Pop Name", DomainPopHerkunft.HerkunftTxt AS "Pop Status", tblPopulation.PopBekanntSeit AS "Pop bekannt seit", vPopMassnberAnzMassn0.PopMassnBerJahr AS "MassnBer Jahr", vPopMassnberAnzMassn0.AnzahlvonTPopMassnId AS "Anz. Massnahmen in diesem Jahr"
+FROM (((((ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) INNER JOIN tblPopulation ON tblAktionsplan.ApArtId = tblPopulation.ApArtId) LEFT JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode) LEFT JOIN DomainApUmsetzung ON tblAktionsplan.ApUmsetzung = DomainApUmsetzung.DomainCode) LEFT JOIN DomainPopHerkunft ON tblPopulation.PopHerkunft = DomainPopHerkunft.HerkunftId) INNER JOIN vPopMassnberAnzMassn0 ON tblPopulation.PopId = vPopMassnberAnzMassn0.PopId
+ORDER BY ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr, vPopMassnberAnzMassn0.PopMassnBerJahr;
+
+
+
 CREATE VIEW vKontrApArtPopulationOhneStatus AS 
 SELECT ArtenDb_tblFloraSisf.Name AS Art, DomainApBearbeitungsstand.DomainTxt AS "Bearbeitungsstand AP", tblPopulation.PopNr, tblPopulation.PopName, tblPopulation.PopHerkunft AS Status
 FROM (ArtenDb_tblFloraSisf INNER JOIN (tblAktionsplan INNER JOIN tblPopulation ON tblAktionsplan.ApArtId = tblPopulation.ApArtId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) INNER JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode
@@ -410,12 +424,12 @@ FROM (((ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.N
 WHERE (((tblAktionsplan.ApStatus) Between 1 And 3))
 ORDER BY ArtenDb_tblFloraSisf.Name;
 
-CREATE VIEW vAuswProgramme AS 
+CREATE VIEW vProgramme AS 
 SELECT tblAktionsplan.ApArtId, ArtenDb_tblFloraSisf.Name AS Art, DomainApBearbeitungsstand.DomainTxt AS "Bearbeitungsstand AP", tblAktionsplan.ApJahr AS "Start AP im Jahr", DomainApUmsetzung.DomainTxt AS "Stand Umsetzung AP", tblAdresse.AdrName AS "Verantwortlich", tblAktionsplan.MutWann AS "Letzte Änderung", tblAktionsplan.MutWer AS "Letzte(r) Bearbeiter(in)"
 FROM (((ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) INNER JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode) LEFT JOIN DomainApUmsetzung ON tblAktionsplan.ApUmsetzung = DomainApUmsetzung.DomainCode) LEFT JOIN tblAdresse ON tblAktionsplan.ApBearb = tblAdresse.AdrId
 ORDER BY ArtenDb_tblFloraSisf.Name;
 
-CREATE VIEW vAuswProgrammeOhnePop AS 
+CREATE VIEW vApOhnePop AS 
 SELECT tblAktionsplan.ApArtId, ArtenDb_tblFloraSisf.Name AS Art, DomainApBearbeitungsstand.DomainTxt AS "Bearbeitungsstand AP", tblAktionsplan.ApJahr AS "Start AP im Jahr", DomainApUmsetzung.DomainTxt AS "Stand Umsetzung AP", tblAdresse.AdrName AS "Verantwortlich", tblPopulation.ApArtId AS "Population"
 FROM ((((ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) INNER JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode) LEFT JOIN DomainApUmsetzung ON tblAktionsplan.ApUmsetzung = DomainApUmsetzung.DomainCode) LEFT JOIN tblAdresse ON tblAktionsplan.ApBearb = tblAdresse.AdrId) LEFT JOIN tblPopulation ON tblAktionsplan.ApArtId = tblPopulation.ApArtId
 WHERE (((tblPopulation.ApArtId) Is Null))
