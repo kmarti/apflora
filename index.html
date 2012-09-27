@@ -1216,39 +1216,43 @@
 				<button id="export_ap">Programme</button><br>
 				<button id="export_ap_ohne_pop">Programme ohne Populationen</button><br>
 				<button id="export_ap_jb">Jahresberichte</button><br>
-				<button id="export_ap_ziele">Programm-Ziele</button>
+				<button id="export_ap_jb_massn">Jahresberichte und Massnahmen</button><br>
+				<button id="export_ap_ziele">Ziele</button>
 
 				<br><br><a href="#top">&uArr;&nbsp;top</a>
 
 				<a name="Populationen"></a>
 				<h2 class="border_top">Populationen</h2>
-				<button id="export_populationen">Populationen</button><br>
+				<button id="export_pop">Populationen</button><br>
+				<button id="export_pop_ohne_tpop">Populationen ohne Teilpopulationen</button><br>
+				<button id="export_pop_von_ap_ohne_status">Populationen von AP-Arten ohne "Status"</button><br>
 
 				<br><a href="#top">&uArr;&nbsp;top</a>
 
 
 				<a name="Teilpopulationen"></a>
 				<h2 class="border_top">Teilpopulationen</h2>
-				<button id="export_teilpopulationen">Teilpopulationen</button><br>
+				<button id="export_tpop">Teilpopulationen</button><br>
+				<button id="export_tpop_ohne_bekannt_seit">Teilpopulationen von AP-Arten ohne "Bekannt seit"</button><br>
 
 				<br><a href="#top">&uArr;&nbsp;top</a>
 
 				<a name="Kontrollen"></a>
 				<h2 class="border_top">Kontrollen</h2>
-				<button id="export_kontrollen">Kontrollen</button><br>
+				<button id="export_kontr">Kontrollen</button><br>
 
 				<br><a href="#top">&uArr;&nbsp;top</a>
 
 				<a name="Massnahmen"></a>
 				<h2 class="border_top">Massnahmen</h2>
-				<button id="export_massnahmen">Massnahmen</button><br>
+				<button id="export_massn">Massnahmen</button><br>
 
 				<br><a href="#top">&uArr;&nbsp;top</a>
 
 
 				<a name="Beobachtungen"></a>
 				<h2 class="border_top">Beobachtungen</h2>
-				<button id="export_beobachtungen">zugeordnete Beobachtungen</button><br>
+				<button id="export_beob">zugeordnete Beobachtungen</button><br>
 
 				<br><a href="#top">&uArr;&nbsp;top</a>
 			</form>
@@ -1946,23 +1950,35 @@
 			$("#exporte").on("click", "#export_ap_jb", function() {
 				window.open("php/export_ap_jb.php", target="_blank");
 			});
+			$("#exporte").on("click", "#export_ap_jb_massn", function() {
+				window.open("php/export_ap_jb_massn.php", target="_blank");
+			});
 			$("#exporte").on("click", "#export_ap_ziele", function() {
 				window.open("php/export_ap_ziele.php", target="_blank");
 			});
-			$("#exporte").on("click", "#export_populationen", function() {
-				window.open("php/export_populationen.php", target="_blank");
+			$("#exporte").on("click", "#export_pop", function() {
+				window.open("php/export_pop.php", target="_blank");
 			});
-			$("#exporte").on("click", "#export_teilpopulationen", function() {
-				window.open("php/export_teilpopulationen.php", target="_blank");
+			$("#exporte").on("click", "#export_pop_ohne_tpop", function() {
+				window.open("php/export_pop_ohne_tpop.php", target="_blank");
 			});
-			$("#exporte").on("click", "#export_kontrollen", function() {
-				window.open("php/export_kontrollen.php", target="_blank");
+			$("#exporte").on("click", "#export_pop_von_ap_ohne_status", function() {
+				window.open("php/export_pop_von_ap_ohne_status.php", target="_blank");
 			});
-			$("#exporte").on("click", "#export_massnahmen", function() {
-				window.open("php/export_massnahmen.php", target="_blank");
+			$("#exporte").on("click", "#export_tpop", function() {
+				window.open("php/export_tpop.php", target="_blank");
 			});
-			$("#exporte").on("click", "#export_beobachtungen", function() {
-				window.open("php/export_beobachtungen.php", target="_blank");
+			$("#exporte").on("click", "#export_tpop_ohne_bekannt_seit", function() {
+				window.open("php/export_tpop_ohne_bekannt_seit.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_kontr", function() {
+				window.open("php/export_kontr.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_massn", function() {
+				window.open("php/export_massn.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_beob", function() {
+				window.open("php/export_beob.php", target="_blank");
 			});
 
 		</script>
