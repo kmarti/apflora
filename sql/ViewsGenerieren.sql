@@ -860,7 +860,7 @@ GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 CREATE VIEW vJbC1lTPop AS
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM ((tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) INNER JOIN tblTeilPopMassnahme ON tblTeilpopulation.TPopId = tblTeilPopMassnahme.TPopId) INNER JOIN tblKonstanten ON tblTeilPopMassnahme.TPopMassnJahr = tblKonstanten.ApBerJahr
-WHERE (((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE tblTeilpopulation.TPopApBerichtRelevant=1
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vAuswAnzProTPopAngezArtBestJahr0 AS 
@@ -871,11 +871,11 @@ CREATE VIEW vAuswPopBerAngezArtBestJahr0 AS
 SELECT tblAktionsplan.ApArtId, tblPopulation.PopId, tblPopBericht.PopBerId, ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr, tblPopulation.PopName, DomainPopHerkunft.HerkunftTxt AS PopHerkunft, tblPopBericht.PopBerJahr, DomainPopEntwicklung.EntwicklungTxt AS PopBerEntwicklung, tblPopBericht.PopBerTxt
 FROM ((ArtenDb_tblFloraSisf INNER JOIN ((tblAktionsplan INNER JOIN tblPopulation ON tblAktionsplan.ApArtId = tblPopulation.ApArtId) INNER JOIN tblPopBericht ON tblPopulation.PopId = tblPopBericht.PopId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN DomainPopHerkunft ON tblPopulation.PopHerkunft = DomainPopHerkunft.HerkunftId) LEFT JOIN DomainPopEntwicklung ON tblPopBericht.PopBerEntwicklung = DomainPopEntwicklung.EntwicklungId;
 
-CREATE VIEW vAuswZieleApArtenBestJahr0 AS 
-SELECT tblAktionsplan.ApArtId, tblZiel.ZielId, ArtenDb_tblFloraSisf.Name, DomainApBearbeitungsstand.DomainTxt AS ApStatus, DomainApUmsetzung.DomainTxt AS ApUmsetzung, DomainZielTyp.ZieltypTxt AS ZielTyp, tblZiel.ZielJahr, tblZiel.ZielBezeichnung
-FROM (((ArtenDb_tblFloraSisf INNER JOIN (tblAktionsplan INNER JOIN tblZiel ON tblAktionsplan.ApArtId = tblZiel.ApArtId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode) LEFT JOIN DomainApUmsetzung ON tblAktionsplan.ApUmsetzung = DomainApUmsetzung.DomainCode) LEFT JOIN DomainZielTyp ON tblZiel.ZielTyp = DomainZielTyp.ZieltypId
-WHERE (((tblAktionsplan.ApStatus) Between 1 And 3))
+CREATE VIEW vApZiele AS 
+SELECT tblAktionsplan.ApArtId, tblZiel.ZielId, ArtenDb_tblFloraSisf.Name AS Art, DomainApBearbeitungsstand.DomainTxt AS "AP Status", tblAktionsplan.ApJahr AS "AP Start im Jahr", DomainApUmsetzung.DomainTxt AS "AP Stand Umsetzung", tblAdresse.AdrName AS "AP Verantwortlich", tblAktionsplan.ApArtwert AS Artwert, tblZiel.ZielJahr AS "Ziel Jahr", DomainZielTyp.ZieltypTxt AS "Ziel Typ", tblZiel.ZielBezeichnung AS "Ziel Beschreibung"
+FROM ((((ArtenDb_tblFloraSisf INNER JOIN (tblAktionsplan INNER JOIN tblZiel ON tblAktionsplan.ApArtId = tblZiel.ApArtId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode) LEFT JOIN DomainApUmsetzung ON tblAktionsplan.ApUmsetzung = DomainApUmsetzung.DomainCode) LEFT JOIN DomainZielTyp ON tblZiel.ZielTyp = DomainZielTyp.ZieltypId) LEFT JOIN tblAdresse ON tblAktionsplan.ApBearb = tblAdresse.AdrId
 ORDER BY ArtenDb_tblFloraSisf.Name, tblZiel.ZielJahr, tblZiel.ZielBezeichnung;
+
 
 CREATE VIEW vBerTPopFuerAngezeigteArt0 AS
 SELECT tblAktionsplan.ApArtId, tblPopulation.PopId, tblTeilpopulation.TPopId, ArtenDb_tblFloraSisf.Name, DomainApBearbeitungsstand.DomainTxt AS ApStatus, tblAktionsplan.ApJahr, DomainApUmsetzung.DomainTxt AS ApUmsetzung, tblPopulation.PopNr, tblPopulation.PopName, DomainPopHerkunft.HerkunftTxt AS PopHerkunft, tblPopulation.PopBekanntSeit, tblTeilpopulation.TPopNr, tblTeilpopulation.TPopGemeinde, tblTeilpopulation.TPopFlurname, tblTeilpopulation.TPopXKoord, tblTeilpopulation.TPopYKoord, tblTeilpopulation.TPopBekanntSeit, DomainPopHerkunft_1.HerkunftTxt AS TPopHerkunft, tblTeilpopulation.TPopApBerichtRelevant

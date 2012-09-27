@@ -1215,7 +1215,8 @@
 				<h2 class="border_top">Programm / Art</h2>
 				<button id="export_ap">Programme</button><br>
 				<button id="export_ap_ohne_pop">Programme ohne Populationen</button><br>
-				<button id="export_ap_jb">Jahresberichte</button>
+				<button id="export_ap_jb">Jahresberichte</button><br>
+				<button id="export_ap_ziele">Programm-Ziele</button>
 
 				<br><br><a href="#top">&uArr;&nbsp;top</a>
 
@@ -1944,6 +1945,9 @@
 			});
 			$("#exporte").on("click", "#export_ap_jb", function() {
 				window.open("php/export_ap_jb.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_ap_ziele", function() {
+				window.open("php/export_ap_ziele.php", target="_blank");
 			});
 			$("#exporte").on("click", "#export_populationen", function() {
 				window.open("php/export_populationen.php", target="_blank");
