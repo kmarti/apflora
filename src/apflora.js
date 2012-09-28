@@ -709,7 +709,7 @@ function initiiere_tpop() {
 				$("#TPopFlurname").val(data.TPopFlurname);
 				$("#TPopNr").val(data.TPopNr);
 				$("#TPopHerkunft" + data.TPopHerkunft).prop("checked", true);
-				if (data.TPopHerkunftUnklar == -1) {
+				if (data.TPopHerkunftUnklar == 1) {
 					$("#TPopHerkunftUnklar").prop("checked", true);
 				} else {
 					$("#TPopHerkunftUnklar").prop("checked", false);
@@ -1036,7 +1036,7 @@ function initiiere_tpopfeldkontr() {
 				}
 				//Felder, die nur in freiwkontr vorkommen
 				if (localStorage.tpopfreiwkontr) {
-					if (data.TPopKontrPlan == -1) {
+					if (data.TPopKontrPlan == 1) {
 						$("#TPopKontrPlan").prop("checked", true);
 					} else {
 						$("#TPopKontrPlan").prop("checked", false);
@@ -1044,7 +1044,7 @@ function initiiere_tpopfeldkontr() {
 					$("#TPopKontrUebFlaeche").val(data.TPopKontrUebFlaeche);
 					$("#TPopKontrUebPfl").val(data.TPopKontrUebPfl);
 					$("#TPopKontrNaBo").val(data.TPopKontrNaBo);
-					if (data.TPopKontrJungPflJN == -1) {
+					if (data.TPopKontrJungPflJN == 1) {
 						$("#TPopKontrJungPflJN").prop("checked", true);
 					} else {
 						$("#TPopKontrJungPflJN").prop("checked", false);
@@ -1168,7 +1168,7 @@ function initiiere_tpopmassn() {
 					$("#TPopMassnBearb").val(window.tpopmassn.TPopMassnBearb);
 				}
 				$("#TPopMassnBemTxt").val(data.TPopMassnBemTxt);
-				if (data.TPopMassnPlan == -1) {
+				if (data.TPopMassnPlan == 1) {
 					$("#TPopMassnPlan").prop("checked", true);
 				} else {
 					$("#TPopMassnPlan").prop("checked", false);
@@ -8636,15 +8636,8 @@ function speichern(that) {
 		//textarea, input, select
 		Feldwert = $("#" + Feldname).val();
 	}
-	if (Feldname === "TPopHerkunftUnklar" || Feldname === "TPopMassnPlan" || Feldname === "TPopKontrPlan" || Feldname === "TPopKontrJungPflJN") {
-		if (Feldwert) {
-			Feldwert = -1;
-		} else {
-			Feldwert = 0;
-		}
-	}
 	//ja/nein Felder zu boolean umbauen
-	if (Feldname === "TPopPop") {
+	if (Feldname === "TPopPop" || Feldname === "TPopHerkunftUnklar" || Feldname === "TPopMassnPlan" || Feldname === "TPopKontrPlan" || Feldname === "TPopKontrJungPflJN") {
 		if (Feldwert) {
 			Feldwert = 1;
 		} else {
