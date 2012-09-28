@@ -27,14 +27,12 @@ fieldset {
 	margin:10px 0px 10px 0px;
 	padding: 10px 10px 10px 10px;
 	float:left;
-	/*display:block; ausgeschaltet am 23.9.2012*/
 }
 
 #menu {
 	width:370px; 
 	float:left; 
 	margin-top:0px; 
-	/*position:fixed;  ausgeschaltet 23.9.2012*/
 }
 
 #tree {
@@ -43,10 +41,6 @@ fieldset {
 
 /*damit bleibt form immer im Blickfeld - bloss kann man in form selbst nicht mehr runterscrollen!*/
 #forms {
-	/*overflow:auto; 
-	position:fixed;*/
-	/*margin-left:400px; ausgeschaltet 23.9.2012*/
-	/*margin-left:7px;*/
 	margin-top:0px;
 }
 

@@ -1486,6 +1486,12 @@ function zeigeFormular(Formularname) {
 			$(this).hide();
 		});
 	}
+	if (Formularname === "Karte") {
+		//Karte wird sonst unter dem Menu angezeigt
+		setTimeout(function() {
+			setzeFeldbreiten();
+		}, 5);
+	}
 	$(window).scrollTop(0);
 }
 
@@ -1531,14 +1537,8 @@ function setzeFormhoehe() {
 
 //wenn $("#forms").width() > 444: forms unter menu setzen, 
 function setzeFeldbreiten() {
-	/*if ($("#forms").width() > 444) {
-		$("#forms").width($(window).width() - 445);
-	} else {
-		$("#forms").width($(window).width() - 37);
-	}*/
-
 	if ($(window).width() > 855) {
-		$("#forms").width($(window).width() - 427);
+		$("#forms").width($(window).width() - 438);
 	} else {
 		$("#forms").width($(window).width() - 37);
 	}
