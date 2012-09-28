@@ -156,6 +156,8 @@ function initiiere_pop() {
 				$("#PopName").val(data.PopName);
 				$("#PopNr").val(data.PopNr);
 				$("#PopBekanntSeit").val(data.PopBekanntSeit);
+				$("#PopXKoord").val(data.PopXKoord);
+				$("#PopYKoord").val(data.PopYKoord);
 				//Formulare blenden
 				zeigeFormular("pop");
 				setzeFeldbreiten();
@@ -8670,7 +8672,7 @@ function speichern(that) {
 				Objekt.formular = "tpopmassn";
 				speichern(Objekt);
 			}
-			if (Feldname === "TPopPop" && Feldwert === 1) {
+			if (Feldname === "TPopPop" && Feldwert == 1) {
 				//allfällige andere als repräsentativ bezeichnete TPop derselben Pop zurücksetzen
 				$.ajax({
 					url: 'php/tpop_tpoppop.php',

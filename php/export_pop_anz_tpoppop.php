@@ -11,8 +11,8 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
-$view = 'vPopTPopPopFehlt'; // view you want to export
-$file = 'PopulationenOhneRepraesentativeTPop'; // csv name.
+$view = 'vPopAnzTPopPop'; // view you want to export
+$file = 'PopulationenAnzahlRepraesentativeTPop'; // csv name.
 
 $result = mysqli_query($link, "SHOW COLUMNS FROM ".$view."");
 $i = 0;

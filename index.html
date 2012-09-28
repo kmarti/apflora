@@ -157,6 +157,14 @@
 					<label id="PopBekanntSeit_label" for='PopBekanntSeit'><a class="tooltip" href="#">Bekannt seit:<span class="custom info"><img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen</span></a></label>
 					<input id="PopBekanntSeit" name="PopBekanntSeit" class="speichern Datenfelder" formular="pop" type="number">
 				</div>
+				<div class='fieldcontain'>
+					<label id="PopXKoord_label" for='PopXKoord'>X-Koordinaten:</label>
+					<input id="PopXKoord" name="PopXKoord" class="speichern Datenfelder" formular="pop" type="number">
+				</div>
+				<div class='fieldcontain'>
+					<label id="PopYKoord_label" for='PopYKoord'>Y-Koordinaten:</label>
+					<input id="PopYKoord" name="PopYKoord" class="speichern Datenfelder" formular="pop" type="number">
+				</div>
 			</form>
 
 			<form id="tpop" class="form" action="#" method="get" autocomplete="off">
@@ -241,9 +249,6 @@
 						<option></option>
 					</select>
 				</div>
-				
-
-
 				<div class='fieldcontain'>
 					<label id="TPopXKoord_label" for='TPopXKoord'>X-Koordinaten:</label>
 					<input id="TPopXKoord" name="TPopXKoord" class="speichern Datenfelder" formular="tpop" type="number">
@@ -1233,7 +1238,7 @@
 				<button id="export_pop_ohne_tpop">Populationen ohne Teilpopulationen</button><br>
 				<button id="export_pop_von_ap_ohne_status">Populationen von AP-Arten ohne "Status"</button><br>
 				<button id="export_pop_mit_massnber_anz_massn">Populationen mit Massnahmen-Berichten: Anzahl Massnahmen im Berichtsjahr</button><br>
-				<button id="export_pop_tpoppop_fehlt">Populationen ohne repräsentative Teilpopulation</button><br>
+				<button id="export_pop_anz_tpoppop">Populationen: Anzahl repräsentativer Teilpopulation</button><br>
 
 				<br><a href="#top">&uArr;&nbsp;top</a>
 
@@ -1315,7 +1320,84 @@
 
 				//Für jedes Feld bei Änderung speichern
 				$(".form").on("change", ".speichern", function () {
-					speichern(this);
+					var Feldwert;
+					var that = this;
+					if (this.name === "TPopPop") {
+						Feldwert = $('input:checkbox[name=TPopPop]:checked').val()
+						if (Feldwert) {
+							Feldwert = 1;
+							//Jetzt der Population die Koordinaten vergeben
+							//prüfen, ob X- und Y-Koordinaten vergeben sind
+							if ($("#TPopXKoord").val() > 100000 && $("#TPopXKoord").val() > 100000) {
+								//Koordinaten der Pop nachführen
+								$.ajax({
+									url: 'php/pop_update.php',
+									dataType: 'json',
+									data: {
+										"id": localStorage.pop_id,
+										"Feld": "PopXKoord",
+										"Wert": $("#TPopXKoord").val(),
+										"user": sessionStorage.User
+									},
+									success: function () {
+										$.ajax({
+											url: 'php/pop_update.php',
+											dataType: 'json',
+											data: {
+												"id": localStorage.pop_id,
+												"Feld": "PopYKoord",
+												"Wert": $("#TPopYKoord").val(),
+												"user": sessionStorage.User
+											},
+											error: function (data) {
+												var Meldung;
+												Meldung = JSON.stringify(data);
+												$("#Meldung").html(data.responseText);
+												$("#Meldung").dialog({
+													modal: true,
+													buttons: {
+														Ok: function() {
+															$(this).dialog("close");
+														}
+													}
+												});
+											}
+										});
+									},
+									error: function (data) {
+										var Meldung;
+										Meldung = JSON.stringify(data);
+										$("#Meldung").html(data.responseText);
+										$("#Meldung").dialog({
+											modal: true,
+											buttons: {
+												Ok: function() {
+													$(this).dialog("close");
+												}
+											}
+										});
+									}
+								});
+								speichern(that);
+							} else {
+								//auffordern, die Koordinaten zu vergeben und Speichern abbrechen
+								$("#TPopPop").attr("checked", false)
+								$("#Meldung").html("Sie müssen zuerst Koordinaten erfassen");
+								$("#Meldung").dialog({
+									modal: true,
+									buttons: {
+										Ok: function() {
+											$(this).dialog("close");
+										}
+									}
+								});
+							}
+						} else {
+							speichern(that);
+						}
+					} else {
+						speichern(that);
+					}
 				});
 
 				$(".form").on("keyup focus", "textarea", function () {
@@ -1977,8 +2059,8 @@
 			$("#exporte").on("click", "#export_pop_mit_massnber_anz_massn", function() {
 				window.open("php/export_pop_mit_massnber_anz_massn.php", target="_blank");
 			});
-			$("#exporte").on("click", "#export_pop_tpoppop_fehlt", function() {
-				window.open("php/export_pop_tpoppop_fehlt.php", target="_blank");
+			$("#exporte").on("click", "#export_pop_anz_tpoppop", function() {
+				window.open("php/export_pop_anz_tpoppop.php", target="_blank");
 			});
 			$("#exporte").on("click", "#export_tpop", function() {
 				window.open("php/export_tpop.php", target="_blank");
