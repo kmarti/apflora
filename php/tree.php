@@ -540,7 +540,7 @@ while($r_beob = mysqli_fetch_assoc($result_beob)) {
 mysqli_free_result($result_beob);
 
 //umwfakt dieses AP abfragen
-$result_umwfakt = mysqli_query($link, "SELECT UfApArtId FROM tblApUmwFakt where UfApArtId = $ApArtId");
+$result_umwfakt = mysqli_query($link, "SELECT UfApArtId FROM tblUmweltFaktoren where UfApArtId = $ApArtId");
 $anz_umwfakt = mysqli_num_rows($result_umwfakt);
 
 mysqli_free_result($result_umwfakt);

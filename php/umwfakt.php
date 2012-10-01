@@ -15,7 +15,7 @@ $id = $_GET["id"];
 settype($id, "integer");
 
 // SQL-Anfrage ausführen
-$result = mysqli_query($link, "SELECT * FROM tblApUmwFakt WHERE UfApArtId=".$id);
+$result = mysqli_query($link, "SELECT * FROM tblUmweltFaktoren WHERE UfApArtId=".$id);
 
 $row = mysqli_fetch_assoc($result);
 $UfErstelldatum = $row["UfErstelldatum"];

@@ -27,7 +27,7 @@ if ($Feld == "UfErstelldatum") {
 	}
 }
 
-$Querystring = 'UPDATE tblApUmwFakt SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE UfApArtId = '.$id;
+$Querystring = 'UPDATE tblUmweltFaktoren SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE UfApArtId = '.$id;
 
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);

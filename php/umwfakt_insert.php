@@ -16,7 +16,7 @@ settype($id, "integer");
 $user = $_GET["user"];
 $time = date('Y-m-d H:i:s');
 
-$Querystring = 'INSERT INTO tblApUmwFakt (UfApArtId, MutWann, MutWer) VALUES ('.$id.', "'.$time.'", "'.$user.'")';	//muss die neue PopId erhalten!
+$Querystring = 'INSERT INTO tblUmweltFaktoren (UfApArtId, MutWann, MutWer) VALUES ('.$id.', "'.$time.'", "'.$user.'")';	//muss die neue PopId erhalten!
 
 //SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);
