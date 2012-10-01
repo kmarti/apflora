@@ -442,7 +442,7 @@ mysqli_free_result($result_apzieljahr);
 
 //erfkrit dieses AP abfragen
 $result_erfkrit = mysqli_query($link, "SELECT ErfBeurtZielSkalaId, ApArtId, BeurteilTxt, ErfBeurtZielSkalaTxt, BeurteilOrd
-FROM tblErfBeurtZielSkala LEFT JOIN DomainApBeurteilungsskala ON ErfBeurtZielSkalaErreichungsgrad = BeurteilId
+FROM tblApErfKrit LEFT JOIN DomainApErfKrit ON ErfBeurtZielSkalaErreichungsgrad = BeurteilId
 where ApArtId = $ApArtId ORDER BY BeurteilOrd");
 $anz_erfkrit = mysqli_num_rows($result_erfkrit);
 //erfkrit aufbauen

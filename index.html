@@ -1229,7 +1229,8 @@
 				<button id="export_ap_jb">Jahresberichte</button><br>
 				<button id="export_ap_jb_massn">Jahresberichte und Massnahmen</button><br>
 				<button id="export_ap_ziele">Ziele</button><br>
-				<button id="export_ap_zielber">Ziel-Berichte</button>
+				<button id="export_ap_zielber">Ziel-Berichte</button><br>
+				<button id="export_ap_erfkrit">Erfolgskriterien</button>
 
 				<br><br><a href="#top">&uArr;&nbsp;top</a>
 
@@ -2052,6 +2053,9 @@
 			});
 			$("#exporte").on("click", "#export_ap_zielber", function() {
 				window.open("php/export_ap_zielber.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_ap_erfkrit", function() {
+				window.open("php/export_ap_erfkrit.php", target="_blank");
 			});
 			$("#exporte").on("click", "#export_pop", function() {
 				window.open("php/export_pop.php", target="_blank");

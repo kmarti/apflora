@@ -14,7 +14,7 @@ mysqli_set_charset($link, "utf8");
 $id = $_GET["id"];
 settype($id, "integer");
 
-$Querystring = "DELETE FROM tblErfBeurtZielSkala WHERE ErfBeurtZielSkalaId=".$id;
+$Querystring = "DELETE FROM tblApErfKrit WHERE ErfBeurtZielSkalaId=".$id;
 
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);

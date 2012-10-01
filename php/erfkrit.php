@@ -15,7 +15,7 @@ $ErfBeurtZielSkalaId = $_GET["id"];
 settype($ErfBeurtZielSkalaId, "integer");
 
 // SQL-Anfrage ausführen
-$result = mysqli_query($link, "SELECT * FROM tblErfBeurtZielSkala WHERE ErfBeurtZielSkalaId=".$ErfBeurtZielSkalaId);
+$result = mysqli_query($link, "SELECT * FROM tblApErfKrit WHERE ErfBeurtZielSkalaId=".$ErfBeurtZielSkalaId);
 
 $row = mysqli_fetch_assoc($result);
 
