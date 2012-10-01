@@ -545,21 +545,21 @@ $anz_umwfakt = mysqli_num_rows($result_umwfakt);
 
 mysqli_free_result($result_umwfakt);
 
-//ibb dieses AP abfragen
-$result_ibb = mysqli_query($link, "SELECT IbbId, IbApArtId, IbbName, IbbVegTyp FROM tblIbBiotope where IbApArtId = $ApArtId ORDER BY IbbName, IbbVegTyp");
-$anz_ibb = mysqli_num_rows($result_ibb);
-//ibb aufbauen
-$rows_ibb = array();
-while($r_ibb = mysqli_fetch_assoc($result_ibb)) {
-	$IbbId = $r_ibb['IbbId'];
-	settype($IbbId, "integer");
-	//ibb setzen
-	$attr_ibb = array("id" => $IbbId, "typ" => "ibb");
-	$ibb = array("data" => $r_ibb['IbbName'], "attr" => $attr_ibb);
-	//ibb-Array um ibb ergänzen
-    $rows_ibb[] = $ibb;
+//ib dieses AP abfragen
+$result_ib = mysqli_query($link, "SELECT IbId, IbApArtId, IbName, IbVegTyp FROM tblIdealBiotope where IbApArtId = $ApArtId ORDER BY IbName, IbVegTyp");
+$anz_ib = mysqli_num_rows($result_ib);
+//ib aufbauen
+$rows_ib = array();
+while($r_ib = mysqli_fetch_assoc($result_ib)) {
+	$IbId = $r_ib['IbId'];
+	settype($IbId, "integer");
+	//ib setzen
+	$attr_ib = array("id" => $IbId, "typ" => "ib");
+	$ib = array("data" => $r_ib['IbName'], "attr" => $attr_ib);
+	//ib-Array um ib ergänzen
+    $rows_ib[] = $ib;
 }
-mysqli_free_result($result_ibb);
+mysqli_free_result($result_ib);
 
 //ibartenassoz dieses AP abfragen
 $result_ibartenassoz = mysqli_query($link, "SELECT IbaassId, IbaassApArtId, Name FROM tblIbArtenAssoz LEFT JOIN ArtenDb_tblFloraSisf ON IbaassSisfNr = NR where IbaassApArtId = $ApArtId ORDER BY Name");
@@ -630,12 +630,12 @@ $ap_ordner_beob = array("data" => $ap_ordner_beob_datatext, "attr" => $ap_ordner
 $ap_ordner_umwfakt_attr = array("id" => $ApArtId, "typ" => "umwfakt");
 $ap_ordner_umwfakt = array("data" => "ideale Umweltfaktoren", "attr" => $ap_ordner_umwfakt_attr);
 //Ideale Biotoptypen
-$ap_ordner_ibb_datatext = $anz_ibb." ideale Biotope";
-if ($anz_ibb === 1) {
-	$ap_ordner_ibb_datatext = $anz_ibb." ideales Biotop";
+$ap_ordner_ib_datatext = $anz_ib." ideale Biotope";
+if ($anz_ib === 1) {
+	$ap_ordner_ib_datatext = $anz_ib." ideales Biotop";
 }
-$ap_ordner_ibb_attr = array("id" => $ApArtId, "typ" => "ap_ordner_ibb");
-$ap_ordner_ibb = array("data" => $ap_ordner_ibb_datatext, "attr" => $ap_ordner_ibb_attr, "children" => $rows_ibb);
+$ap_ordner_ib_attr = array("id" => $ApArtId, "typ" => "ap_ordner_ib");
+$ap_ordner_ib = array("data" => $ap_ordner_ib_datatext, "attr" => $ap_ordner_ib_attr, "children" => $rows_ib);
 //assoziierte Arten
 $ap_ordner_ibartenassoz_datatext = $anz_ibartenassoz." assoziierte Arten";
 if ($anz_ibartenassoz === 1) {
@@ -644,7 +644,7 @@ if ($anz_ibartenassoz === 1) {
 $ap_ordner_ibartenassoz_attr = array("id" => $ApArtId, "typ" => "ap_ordner_ibartenassoz");
 $ap_ordner_ibartenassoz = array("data" => $ap_ordner_ibartenassoz_datatext, "attr" => $ap_ordner_ibartenassoz_attr, "children" => $rows_ibartenassoz);
 //zusammensetzen
-$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_apber, 4 => $ap_ordner_ber, 5 => $ap_ordner_beob, 6 => $ap_ordner_umwfakt, 7 => $ap_ordner_ibb, 8 => $ap_ordner_ibartenassoz);
+$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_apber, 4 => $ap_ordner_ber, 5 => $ap_ordner_beob, 6 => $ap_ordner_umwfakt, 7 => $ap_ordner_ib, 8 => $ap_ordner_ibartenassoz);
 
 	
 //in json verwandeln
