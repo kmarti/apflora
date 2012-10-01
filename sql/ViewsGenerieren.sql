@@ -229,25 +229,31 @@ ORDER BY ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr, tblPopulation.PopName, 
 
 CREATE VIEW vBerJbZielBer AS 
 SELECT tblZielBericht.*
-FROM tblZielBericht INNER JOIN tblKonstanten ON tblZielBericht.ZielBerJahr = tblKonstanten.ApBerJahr;
+FROM tblZielBericht INNER JOIN tblKonstanten ON tblZielBericht.ZielBerJahr = tblKonstanten.JBerJahr;
 
 CREATE VIEW vBerJbZiel AS
 SELECT tblZiel.*, DomainZielTyp.ZieltypTxt
-FROM tblKonstanten INNER JOIN (tblZiel INNER JOIN DomainZielTyp ON tblZiel.ZielTyp = DomainZielTyp.ZieltypId) ON tblKonstanten.ApBerJahr = tblZiel.ZielJahr
+FROM tblKonstanten INNER JOIN (tblZiel INNER JOIN DomainZielTyp ON tblZiel.ZielTyp = DomainZielTyp.ZieltypId) ON tblKonstanten.JBerJahr = tblZiel.ZielJahr
 WHERE (tblZiel.ZielTyp=1 Or tblZiel.ZielTyp=2) OR (tblZiel.ZielTyp=1170775556)
 ORDER BY tblZiel.ZielTyp, tblZiel.ZielBezeichnung;
 
+CREATE VIEW vJBerOhneAp AS
+SELECT tblJBer.JBerId AS "JBer Id", tblJBer.ApArtId AS "JBer ApArtId", tblJBer.JBerJahr AS "JBer Jahr", tblJBer.JBerSituation AS "JBer Situation", tblJBer.JBerVergleichVorjahrGesamtziel AS "JBer Vergleich Vorjahr-Gesamtziel", DomainApErfKrit.BeurteilTxt AS "JBer Beurteilung", tblJBer.JBerVeraenGegenVorjahr AS "JBer Veraend zum Vorjahr", tblJBer.JBerAnalyse AS "JBer Analyse", tblJBer.JBerUmsetzung AS "JBer Konsequenzen Umsetzung", tblJBer.JBerErfko AS "JBer Konsequenzen Erfolgskontrolle", tblJBer.JBerATxt AS "JBer Bemerkungen zu A", tblJBer.JBerBTxt AS "JBer Bemerkungen zu B", tblJBer.JBerCTxt AS "JBer Bemerkungen zu C", tblJBer.JBerDTxt AS "JBer Bemerkungen zu D", tblJBer.JBerDatum AS "JBer Datum", tblAdresse.AdrName AS "JBer BearbeiterIn", tblJBer.MutWann AS "JBer MutWann", tblJBer.MutWer AS "JBer MutWer"
+FROM ((tblAktionsplan RIGHT JOIN tblJBer ON tblAktionsplan.ApArtId = tblJBer.ApArtId) LEFT JOIN tblAdresse ON tblJBer.JBerBearb = tblAdresse.AdrId) LEFT JOIN DomainApErfKrit ON tblJBer.JBerBeurteilung = DomainApErfKrit.BeurteilId
+WHERE tblAktionsplan.ApArtId Is Null
+ORDER BY tblJBer.ApArtId, tblJBer.JBerJahr, tblJBer.JBerDatum;
+
 CREATE VIEW vBerJbArtD AS 
-SELECT tblAktionsplan.*, CAST(CONCAT(ArtenDb_tblFloraSisf.Name, If(ArtenDb_tblFloraSisf.Deutsch Is Not Null,CONCAT(" (", ArtenDb_tblFloraSisf.Deutsch, ")"),"")) AS CHAR) AS Art, tblApJBer.ApBerId, tblApJBer.ApBerJahr, tblApJBer.ApBerSituation, tblApJBer.ApBerVergleichVorjahrGesamtziel, tblApJBer.ApBerBeurteilung, tblApJBer.ApBerAnalyse, tblApJBer.ApBerUmsetzung, tblApJBer.ApBerErfko, tblApJBer.ApBerATxt, tblApJBer.ApBerBTxt, tblApJBer.ApBerCTxt, tblApJBer.ApBerDTxt, tblApJBer.ApBerDatum, tblApJBer.ApBerBearb, tblAdresse.AdrName AS Bearbeiter, DomainApErfKrit.BeurteilTxt
-FROM (ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR=tblAktionsplan.ApArtId) INNER JOIN (((tblApJBer LEFT JOIN tblAdresse ON tblApJBer.ApBerBearb=tblAdresse.AdrId) LEFT JOIN DomainApErfKrit ON tblApJBer.ApBerBeurteilung=DomainApErfKrit.BeurteilId) INNER JOIN tblKonstanten ON tblApJBer.ApBerJahr=tblKonstanten.ApBerJahr) ON tblAktionsplan.ApArtId=tblApJBer.ApArtId;
+SELECT tblAktionsplan.*, CAST(CONCAT(ArtenDb_tblFloraSisf.Name, If(ArtenDb_tblFloraSisf.Deutsch Is Not Null,CONCAT(" (", ArtenDb_tblFloraSisf.Deutsch, ")"),"")) AS CHAR) AS Art, tblJBer.JBerId, tblJBer.JBerJahr, tblJBer.JBerSituation, tblJBer.JBerVergleichVorjahrGesamtziel, tblJBer.JBerBeurteilung, tblJBer.JBerAnalyse, tblJBer.JBerUmsetzung, tblJBer.JBerErfko, tblJBer.JBerATxt, tblJBer.JBerBTxt, tblJBer.JBerCTxt, tblJBer.JBerDTxt, tblJBer.JBerDatum, tblJBer.JBerBearb, tblAdresse.AdrName AS Bearbeiter, DomainApErfKrit.BeurteilTxt
+FROM (ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR=tblAktionsplan.ApArtId) INNER JOIN (((tblJBer LEFT JOIN tblAdresse ON tblJBer.JBerBearb=tblAdresse.AdrId) LEFT JOIN DomainApErfKrit ON tblJBer.JBerBeurteilung=DomainApErfKrit.BeurteilId) INNER JOIN tblKonstanten ON tblJBer.JBerJahr=tblKonstanten.JBerJahr) ON tblAktionsplan.ApArtId=tblJBer.ApArtId;
 
 CREATE VIEW vFnsJahrespflanzen AS 
 SELECT distinct ArtenDb_tblFloraFnsJahresarten.SisfNr, If(ArtenDb_tblFloraFnsJahresarten.Jahr>0,"Ja","") AS Jahresart, ArtenDb_tblFloraFnsJahresarten.Jahr
 FROM ArtenDb_tblFloraFnsJahresarten, tblKonstanten
-WHERE ((ArtenDb_tblFloraFnsJahresarten.Jahr=tblKonstanten.ApBerJahr));
+WHERE ArtenDb_tblFloraFnsJahresarten.Jahr=tblKonstanten.JBerJahr;
 
 CREATE VIEW vFnsKef AS 
-SELECT ArtenDb_tblFloraFnsKef.SisfNr, If(ArtenDb_tblFloraFnsKef.KefArt=-1,"Ja","") AS FnsKefArt2, If(Round((tblKonstanten.ApBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,0)=(tblKonstanten.ApBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,"Ja","") AS FnsKefKontrJahr2
+SELECT ArtenDb_tblFloraFnsKef.SisfNr, If(ArtenDb_tblFloraFnsKef.KefArt=-1,"Ja","") AS FnsKefArt2, If(Round((tblKonstanten.JBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,0)=(tblKonstanten.JBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,"Ja","") AS FnsKefKontrJahr2
 FROM ArtenDb_tblFloraFnsKef, tblKonstanten
 ORDER BY ArtenDb_tblFloraFnsKef.SisfNr;
 
@@ -273,7 +279,6 @@ WHERE (((tblTeilPopMassnBericht.TPopMassnBerJahr)>=tblAktionsplan.ApJahr) AND ((
 GROUP BY ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr, tblPopulation.PopName, tblTeilpopulation.TPopNr, tblTeilPopMassnBericht.TPopMassnBerJahr
 ORDER BY ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr, tblTeilpopulation.TPopNr, tblTeilPopMassnBericht.TPopMassnBerJahr DESC;
 
-
 CREATE VIEW vApAnzMassnProJahr AS 
 SELECT tblAktionsplan.ApArtId, tblTeilPopMassnahme.TPopMassnJahr, Count(tblTeilPopMassnahme.TPopMassnId) AS AnzahlvonTPopMassnId
 FROM tblAktionsplan INNER JOIN ((tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) INNER JOIN tblTeilPopMassnahme ON tblTeilpopulation.TPopId = tblTeilPopMassnahme.TPopId) ON tblAktionsplan.ApArtId = tblPopulation.ApArtId
@@ -289,19 +294,19 @@ WHERE vApAnzMassnProJahr_1.TPopMassnJahr<=vApAnzMassnProJahr.TPopMassnJahr
 GROUP BY vApAnzMassnProJahr.ApArtId, vApAnzMassnProJahr.TPopMassnJahr;
 
 CREATE VIEW vApJahresberichte AS 
-select tblAktionsplan.ApArtId AS ApArtId, tblApJBer.ApBerId AS ApBerId, ArtenDb_tblFloraSisf.Name AS Name, tblApJBer.ApBerJahr AS ApBerJahr, tblApJBer.ApBerSituation AS ApBerSituation, tblApJBer.ApBerVergleichVorjahrGesamtziel AS ApBerVergleichVorjahrGesamtziel, DomainApErfKrit.BeurteilTxt AS ApBerBeurteilung,tblApJBer.ApBerVeraenGegenVorjahr AS ApBerVeraenGegenVorjahr,tblApJBer.ApBerAnalyse AS ApBerAnalyse,tblApJBer.ApBerUmsetzung AS ApBerUmsetzung,tblApJBer.ApBerErfko AS ApBerErfko,tblApJBer.ApBerATxt AS ApBerATxt,tblApJBer.ApBerBTxt AS ApBerBTxt,tblApJBer.ApBerCTxt AS ApBerCTxt,tblApJBer.ApBerDTxt AS ApBerDTxt,tblApJBer.ApBerDatum AS ApBerDatum,tblAdresse.AdrName AS ApBerBearb 
-from ((tblAktionsplan join ArtenDb_tblFloraSisf on(tblAktionsplan.ApArtId = ArtenDb_tblFloraSisf.NR)) join ((tblApJBer left join DomainApErfKrit on((tblApJBer.ApBerBeurteilung = DomainApErfKrit.BeurteilId))) left join tblAdresse on(tblApJBer.ApBerBearb = tblAdresse.AdrId)) on(tblAktionsplan.ApArtId = tblApJBer.ApArtId)) 
+select tblAktionsplan.ApArtId AS ApArtId, tblJBer.JBerId AS JBerId, ArtenDb_tblFloraSisf.Name AS Name, tblJBer.JBerJahr AS JBerJahr, tblJBer.JBerSituation AS JBerSituation, tblJBer.JBerVergleichVorjahrGesamtziel AS JBerVergleichVorjahrGesamtziel, DomainApErfKrit.BeurteilTxt AS JBerBeurteilung,tblJBer.JBerVeraenGegenVorjahr AS JBerVeraenGegenVorjahr,tblJBer.JBerAnalyse AS JBerAnalyse,tblJBer.JBerUmsetzung AS JBerUmsetzung,tblJBer.JBerErfko AS JBerErfko,tblJBer.JBerATxt AS JBerATxt,tblJBer.JBerBTxt AS JBerBTxt,tblJBer.JBerCTxt AS JBerCTxt,tblJBer.JBerDTxt AS JBerDTxt,tblJBer.JBerDatum AS JBerDatum,tblAdresse.AdrName AS JBerBearb 
+from ((tblAktionsplan join ArtenDb_tblFloraSisf on(tblAktionsplan.ApArtId = ArtenDb_tblFloraSisf.NR)) join ((tblJBer left join DomainApErfKrit on (tblJBer.JBerBeurteilung = DomainApErfKrit.BeurteilId)) left join tblAdresse on(tblJBer.JBerBearb = tblAdresse.AdrId)) on (tblAktionsplan.ApArtId = tblJBer.ApArtId)) 
 order by ArtenDb_tblFloraSisf.Name;
 
 CREATE VIEW vApJahresberichteUndMassnahmen AS
-SELECT tblAktionsplan.ApArtId, ArtenDb_tblFloraSisf.Name AS Art, DomainApBearbeitungsstand.DomainTxt AS "AP Status", tblAktionsplan.ApJahr AS "AP Start im Jahr", DomainApUmsetzung.DomainTxt AS "AP Stand Umsetzung", tblAdresse.AdrName AS "AP Verantwortlich", tblAktionsplan.ApArtwert AS Artwert, vApAnzMassnProJahr.TPopMassnJahr AS Jahr, vApAnzMassnProJahr.AnzahlvonTPopMassnId AS "Anzahl Massnahmen", vApAnzMassnBisJahr.AnzahlMassnahmen AS "Anzahl Massnahmen bisher", If(tblApJBer.ApBerJahr>0,"Ja","Nein") AS "Bericht erstellt"
-FROM ((((((ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode) LEFT JOIN DomainApUmsetzung ON tblAktionsplan.ApUmsetzung = DomainApUmsetzung.DomainCode) LEFT JOIN tblAdresse ON tblAktionsplan.ApBearb = tblAdresse.AdrId) INNER JOIN vApAnzMassnProJahr ON tblAktionsplan.ApArtId = vApAnzMassnProJahr.ApArtId) INNER JOIN vApAnzMassnBisJahr ON (vApAnzMassnProJahr.TPopMassnJahr = vApAnzMassnBisJahr.TPopMassnJahr) AND (vApAnzMassnProJahr.ApArtId = vApAnzMassnBisJahr.ApArtId)) LEFT JOIN tblApJBer ON (vApAnzMassnBisJahr.TPopMassnJahr = tblApJBer.ApBerJahr) AND (vApAnzMassnBisJahr.ApArtId = tblApJBer.ApArtId)
+SELECT tblAktionsplan.ApArtId, ArtenDb_tblFloraSisf.Name AS Art, DomainApBearbeitungsstand.DomainTxt AS "AP Status", tblAktionsplan.ApJahr AS "AP Start im Jahr", DomainApUmsetzung.DomainTxt AS "AP Stand Umsetzung", tblAdresse.AdrName AS "AP Verantwortlich", tblAktionsplan.ApArtwert AS Artwert, vApAnzMassnProJahr.TPopMassnJahr AS Jahr, vApAnzMassnProJahr.AnzahlvonTPopMassnId AS "Anzahl Massnahmen", vApAnzMassnBisJahr.AnzahlMassnahmen AS "Anzahl Massnahmen bisher", If(tblJBer.JBerJahr>0,"Ja","Nein") AS "Bericht erstellt"
+FROM ((((((ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode) LEFT JOIN DomainApUmsetzung ON tblAktionsplan.ApUmsetzung = DomainApUmsetzung.DomainCode) LEFT JOIN tblAdresse ON tblAktionsplan.ApBearb = tblAdresse.AdrId) INNER JOIN vApAnzMassnProJahr ON tblAktionsplan.ApArtId = vApAnzMassnProJahr.ApArtId) INNER JOIN vApAnzMassnBisJahr ON (vApAnzMassnProJahr.TPopMassnJahr = vApAnzMassnBisJahr.TPopMassnJahr) AND (vApAnzMassnProJahr.ApArtId = vApAnzMassnBisJahr.ApArtId)) LEFT JOIN tblJBer ON (vApAnzMassnBisJahr.TPopMassnJahr = tblJBer.JBerJahr) AND (vApAnzMassnBisJahr.ApArtId = tblJBer.ApArtId)
 ORDER BY ArtenDb_tblFloraSisf.Name;
 
 CREATE VIEW vLetzterTPopMassnBericht0 AS 
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId, tblTeilPopMassnBericht.TPopMassnBerJahr
 FROM tblKonstanten, ((tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) INNER JOIN tblTeilPopMassnBericht ON tblTeilpopulation.TPopId = tblTeilPopMassnBericht.TPopId) INNER JOIN tblTeilPopMassnahme ON tblTeilpopulation.TPopId = tblTeilPopMassnahme.TPopId
-WHERE (((tblTeilPopMassnBericht.TPopMassnBerJahr)<=tblKonstanten.ApBerJahr) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1) AND ((tblTeilPopMassnahme.TPopMassnJahr)<=tblKonstanten.ApBerJahr));
+WHERE (tblTeilPopMassnBericht.TPopMassnBerJahr<=tblKonstanten.JBerJahr) AND (tblTeilpopulation.TPopApBerichtRelevant=1) AND (tblTeilPopMassnahme.TPopMassnJahr<=tblKonstanten.JBerJahr);
 
 CREATE VIEW vLetzterTPopMassnBericht AS
 SELECT vLetzterTPopMassnBericht0.ApArtId, vLetzterTPopMassnBericht0.TPopId, Max(vLetzterTPopMassnBericht0.TPopMassnBerJahr) AS MaxvonTPopMassnBerJahr
@@ -311,7 +316,7 @@ GROUP BY vLetzterTPopMassnBericht0.ApArtId, vLetzterTPopMassnBericht0.TPopId;
 CREATE VIEW vLetzterTPopBericht0 AS
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId, tblTeilPopBericht.TPopBerJahr
 FROM tblKonstanten, tblAktionsplan INNER JOIN (tblPopulation INNER JOIN (tblTeilpopulation INNER JOIN tblTeilPopBericht ON tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId) ON tblAktionsplan.ApArtId = tblPopulation.ApArtId
-WHERE (((tblTeilPopBericht.TPopBerJahr)<=tblKonstanten.ApBerJahr And (tblTeilPopBericht.TPopBerJahr)>=tblAktionsplan.ApJahr) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1));
+WHERE (tblTeilPopBericht.TPopBerJahr<=tblKonstanten.JBerJahr And tblTeilPopBericht.TPopBerJahr>=tblAktionsplan.ApJahr) AND (tblTeilpopulation.TPopApBerichtRelevant=1);
 
 CREATE VIEW vLetzterTPopBericht AS 
 SELECT vLetzterTPopBericht0.ApArtId, vLetzterTPopBericht0.TPopId, Max(vLetzterTPopBericht0.TPopBerJahr) AS MaxvonTPopBerJahr
@@ -321,7 +326,7 @@ GROUP BY vLetzterTPopBericht0.ApArtId, vLetzterTPopBericht0.TPopId;
 CREATE VIEW vLetzterPopMassnBericht0 AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId, tblPopMassnBericht.PopMassnBerJahr
 FROM tblKonstanten, ((tblPopulation INNER JOIN tblPopMassnBericht ON tblPopulation.PopId = tblPopMassnBericht.PopId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) INNER JOIN tblTeilPopMassnahme ON tblTeilpopulation.TPopId = tblTeilPopMassnahme.TPopId
-WHERE (((tblPopMassnBericht.PopMassnBerJahr)<=tblKonstanten.ApBerJahr) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1) AND ((tblTeilPopMassnahme.TPopMassnJahr)<=tblKonstanten.ApBerJahr));
+WHERE (tblPopMassnBericht.PopMassnBerJahr<=tblKonstanten.JBerJahr) AND (tblTeilpopulation.TPopApBerichtRelevant=1) AND (tblTeilPopMassnahme.TPopMassnJahr<=tblKonstanten.JBerJahr);
 
 CREATE VIEW vLetzterPopMassnBericht AS 
 SELECT vLetzterPopMassnBericht0.ApArtId, vLetzterPopMassnBericht0.PopId, Max(vLetzterPopMassnBericht0.PopMassnBerJahr) AS MaxvonPopMassnBerJahr
@@ -331,7 +336,7 @@ GROUP BY vLetzterPopMassnBericht0.ApArtId, vLetzterPopMassnBericht0.PopId;
 CREATE VIEW vLetzterPopBericht0 AS
 SELECT tblPopulation.ApArtId, tblPopulation.PopId, tblPopBericht.PopBerJahr
 FROM tblKonstanten, (tblPopulation INNER JOIN tblPopBericht ON tblPopulation.PopId = tblPopBericht.PopId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblPopBericht.PopBerJahr)<=tblKonstanten.ApBerJahr) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1));
+WHERE (tblPopBericht.PopBerJahr<=tblKonstanten.JBerJahr) AND (tblTeilpopulation.TPopApBerichtRelevant=1);
 
 CREATE VIEW vLetzterPopBericht AS
 SELECT vLetzterPopBericht0.ApArtId, vLetzterPopBericht0.PopId, Max(vLetzterPopBericht0.PopBerJahr) AS MaxvonPopBerJahr
@@ -339,72 +344,72 @@ FROM vLetzterPopBericht0
 GROUP BY vLetzterPopBericht0.ApArtId, vLetzterPopBericht0.PopId;
 
 CREATE VIEW vJbUebE AS 
-SELECT tblApJBer.*, CAST(If(ArtenDb_tblFloraSisf.Deutsch Is Null,ArtenDb_tblFloraSisf.Name,CONCAT(ArtenDb_tblFloraSisf.Name,' (',ArtenDb_tblFloraSisf.Deutsch,')')) AS CHAR) AS Artname, If(ArtenDb_tblFloraFnsKef.KefArt=-1,"Ja","") AS FnsKefArt2, ArtenDb_tblFloraFnsKef.KefKontrolljahr, If(Round((tblKonstanten.ApBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,0)=(tblKonstanten.ApBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,"Ja","") AS FnsKefKontrJahr2, vFnsJahrespflanzen.Jahr AS FnsJahrespflanze, vFnsJahrespflanzen.Jahresart AS FnsJahrespflanze2, vApAnzMassnBisJahr.AnzahlMassnahmen
-FROM tblKonstanten AS tblKonstanten_1 INNER JOIN ((((ArtenDb_tblFloraSisf INNER JOIN (tblAktionsplan INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN ArtenDb_tblFloraFnsKef ON tblAktionsplan.ApArtId = ArtenDb_tblFloraFnsKef.SisfNr) LEFT JOIN vFnsJahrespflanzen ON tblAktionsplan.ApArtId = vFnsJahrespflanzen.SisfNr) INNER JOIN (tblKonstanten INNER JOIN (tblApJBer INNER JOIN vApAnzMassnBisJahr ON tblApJBer.ApArtId = vApAnzMassnBisJahr.ApArtId) ON tblKonstanten.ApBerJahr = tblApJBer.ApBerJahr) ON tblAktionsplan.ApArtId = tblApJBer.ApArtId) ON tblKonstanten_1.ApBerJahr = vApAnzMassnBisJahr.TPopMassnJahr
-WHERE ((vApAnzMassnBisJahr.AnzahlMassnahmen>0) AND (tblApJBer.ApBerBeurteilung=1) AND (tblAktionsplan.ApStatus Between 1 And 3))
+SELECT tblJBer.*, CAST(If(ArtenDb_tblFloraSisf.Deutsch Is Null,ArtenDb_tblFloraSisf.Name,CONCAT(ArtenDb_tblFloraSisf.Name,' (',ArtenDb_tblFloraSisf.Deutsch,')')) AS CHAR) AS Artname, If(ArtenDb_tblFloraFnsKef.KefArt=-1,"Ja","") AS FnsKefArt2, ArtenDb_tblFloraFnsKef.KefKontrolljahr, If(Round((tblKonstanten.JBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,0)=(tblKonstanten.JBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,"Ja","") AS FnsKefKontrJahr2, vFnsJahrespflanzen.Jahr AS FnsJahrespflanze, vFnsJahrespflanzen.Jahresart AS FnsJahrespflanze2, vApAnzMassnBisJahr.AnzahlMassnahmen
+FROM tblKonstanten AS tblKonstanten_1 INNER JOIN ((((ArtenDb_tblFloraSisf INNER JOIN (tblAktionsplan INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN ArtenDb_tblFloraFnsKef ON tblAktionsplan.ApArtId = ArtenDb_tblFloraFnsKef.SisfNr) LEFT JOIN vFnsJahrespflanzen ON tblAktionsplan.ApArtId = vFnsJahrespflanzen.SisfNr) INNER JOIN (tblKonstanten INNER JOIN (tblJBer INNER JOIN vApAnzMassnBisJahr ON tblJBer.ApArtId = vApAnzMassnBisJahr.ApArtId) ON tblKonstanten.JBerJahr = tblJBer.JBerJahr) ON tblAktionsplan.ApArtId = tblJBer.ApArtId) ON tblKonstanten_1.JBerJahr = vApAnzMassnBisJahr.TPopMassnJahr
+WHERE ((vApAnzMassnBisJahr.AnzahlMassnahmen>0) AND (tblJBer.JBerBeurteilung=1) AND (tblAktionsplan.ApStatus Between 1 And 3))
 ORDER BY ArtenDb_tblFloraSisf.Name;
 
 CREATE VIEW vJbUebKm AS 
-SELECT CAST(If(ArtenDb_tblFloraSisf.Deutsch is null,ArtenDb_tblFloraSisf.Name, CONCAT(ArtenDb_tblFloraSisf.Name, ' (', ArtenDb_tblFloraSisf.Deutsch, ')')) AS CHAR) AS Artname, If(ArtenDb_tblFloraFnsKef.KefArt=-1,"Ja","") AS FnsKefArt2, If(Round((tblKonstanten.ApBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,0)=(tblKonstanten.ApBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,"Ja","") AS FnsKefKontrJahr2, ArtenDb_tblFloraFnsJahresarten.Jahr AS FnsJahrespflanze, vFnsJahrespflanzen.Jahresart AS FnsJahrespflanze2
-FROM ((((ArtenDb_tblFloraSisf INNER JOIN ((vApAnzMassnBisJahr AS vApAnzMassnBisJahr_1 RIGHT JOIN tblAktionsplan ON vApAnzMassnBisJahr_1.ApArtId = tblAktionsplan.ApArtId) INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN ArtenDb_tblFloraFnsJahresarten ON tblAktionsplan.ApArtId = ArtenDb_tblFloraFnsJahresarten.SisfNr) LEFT JOIN ArtenDb_tblFloraFnsKef ON tblAktionsplan.ApArtId = ArtenDb_tblFloraFnsKef.SisfNr) LEFT JOIN vFnsJahrespflanzen ON tblAktionsplan.ApArtId = vFnsJahrespflanzen.SisfNr) INNER JOIN (tblApJBer INNER JOIN tblKonstanten ON tblApJBer.ApBerJahr = tblKonstanten.ApBerJahr) ON tblAktionsplan.ApArtId = tblApJBer.ApArtId
+SELECT CAST(If(ArtenDb_tblFloraSisf.Deutsch is null,ArtenDb_tblFloraSisf.Name, CONCAT(ArtenDb_tblFloraSisf.Name, ' (', ArtenDb_tblFloraSisf.Deutsch, ')')) AS CHAR) AS Artname, If(ArtenDb_tblFloraFnsKef.KefArt=-1,"Ja","") AS FnsKefArt2, If(Round((tblKonstanten.JBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,0)=(tblKonstanten.JBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,"Ja","") AS FnsKefKontrJahr2, ArtenDb_tblFloraFnsJahresarten.Jahr AS FnsJahrespflanze, vFnsJahrespflanzen.Jahresart AS FnsJahrespflanze2
+FROM ((((ArtenDb_tblFloraSisf INNER JOIN ((vApAnzMassnBisJahr AS vApAnzMassnBisJahr_1 RIGHT JOIN tblAktionsplan ON vApAnzMassnBisJahr_1.ApArtId = tblAktionsplan.ApArtId) INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN ArtenDb_tblFloraFnsJahresarten ON tblAktionsplan.ApArtId = ArtenDb_tblFloraFnsJahresarten.SisfNr) LEFT JOIN ArtenDb_tblFloraFnsKef ON tblAktionsplan.ApArtId = ArtenDb_tblFloraFnsKef.SisfNr) LEFT JOIN vFnsJahrespflanzen ON tblAktionsplan.ApArtId = vFnsJahrespflanzen.SisfNr) INNER JOIN (tblJBer INNER JOIN tblKonstanten ON tblJBer.JBerJahr = tblKonstanten.JBerJahr) ON tblAktionsplan.ApArtId = tblJBer.ApArtId
 WHERE ((tblAktionsplan.ApStatus Between 1 And 3) AND (vApAnzMassnBisJahr_1.AnzahlMassnahmen=0)) OR ((tblAktionsplan.ApStatus Between 1 And 3) AND (vApAnzMassnBisJahr_1.AnzahlMassnahmen Is Null))
 ORDER BY ArtenDb_tblFloraSisf.Name;
 
 CREATE VIEW vJbUebMa AS 
 SELECT CAST(If(ArtenDb_tblFloraSisf.Deutsch Is Null,ArtenDb_tblFloraSisf.Name,CONCAT(ArtenDb_tblFloraSisf.Name,' (',ArtenDb_tblFloraSisf.Deutsch,')')) AS CHAR) AS Artname, vApAnzMassnBisJahr.AnzahlMassnahmen
-FROM tblKonstanten INNER JOIN ((ArtenDb_tblFloraSisf INNER JOIN (tblAktionsplan INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) INNER JOIN vApAnzMassnBisJahr ON tblAktionsplan.ApArtId = vApAnzMassnBisJahr.ApArtId) ON tblKonstanten.ApBerJahr = vApAnzMassnBisJahr.TPopMassnJahr
+FROM tblKonstanten INNER JOIN ((ArtenDb_tblFloraSisf INNER JOIN (tblAktionsplan INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) INNER JOIN vApAnzMassnBisJahr ON tblAktionsplan.ApArtId = vApAnzMassnBisJahr.ApArtId) ON tblKonstanten.JBerJahr = vApAnzMassnBisJahr.TPopMassnJahr
 WHERE (vApAnzMassnBisJahr.AnzahlMassnahmen>0) AND (tblAktionsplan.ApStatus Between 1 And 3)
 ORDER BY ArtenDb_tblFloraSisf.Name;
 
 CREATE VIEW vJbUebMe AS
-SELECT tblApJBer.*, CAST(If(ArtenDb_tblFloraSisf.Deutsch Is Null,ArtenDb_tblFloraSisf.Name,CONCAT(ArtenDb_tblFloraSisf.Name,' (',ArtenDb_tblFloraSisf.Deutsch,')')) AS CHAR) AS Artname, If("KefArt"=-1,"Ja","") AS FnsKefArt2, If(Round((tblKonstanten.ApBerJahr-"KefKontrolljahr")/4,0)=(tblKonstanten.ApBerJahr-"KefKontrolljahr")/4,"Ja","") AS FnsKefKontrJahr2, vFnsJahrespflanzen.Jahr AS FnsJahrespflanze, vFnsJahrespflanzen.Jahresart AS FnsJahrespflanze2
-FROM tblKonstanten AS tblKonstanten_1 INNER JOIN ((((ArtenDb_tblFloraSisf INNER JOIN (tblAktionsplan INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN vFnsJahrespflanzen ON tblAktionsplan.ApArtId = vFnsJahrespflanzen.SisfNr) INNER JOIN ((tblApJBer INNER JOIN vApAnzMassnBisJahr ON tblApJBer.ApArtId = vApAnzMassnBisJahr.ApArtId) INNER JOIN tblKonstanten ON tblApJBer.ApBerJahr = tblKonstanten.ApBerJahr) ON tblAktionsplan.ApArtId = tblApJBer.ApArtId) LEFT JOIN ArtenDb_tblFloraFnsKef ON ArtenDb_tblFloraSisf.NR = ArtenDb_tblFloraFnsKef.SisfNr) ON tblKonstanten_1.ApBerJahr = vApAnzMassnBisJahr.TPopMassnJahr
-WHERE (tblApJBer.ApBerBeurteilung=5) AND (vApAnzMassnBisJahr.AnzahlMassnahmen>0) AND (tblAktionsplan.ApStatus Between 1 And 3)
+SELECT tblJBer.*, CAST(If(ArtenDb_tblFloraSisf.Deutsch Is Null,ArtenDb_tblFloraSisf.Name,CONCAT(ArtenDb_tblFloraSisf.Name,' (',ArtenDb_tblFloraSisf.Deutsch,')')) AS CHAR) AS Artname, If("KefArt"=-1,"Ja","") AS FnsKefArt2, If(Round((tblKonstanten.JBerJahr-"KefKontrolljahr")/4,0)=(tblKonstanten.JBerJahr-"KefKontrolljahr")/4,"Ja","") AS FnsKefKontrJahr2, vFnsJahrespflanzen.Jahr AS FnsJahrespflanze, vFnsJahrespflanzen.Jahresart AS FnsJahrespflanze2
+FROM tblKonstanten AS tblKonstanten_1 INNER JOIN ((((ArtenDb_tblFloraSisf INNER JOIN (tblAktionsplan INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN vFnsJahrespflanzen ON tblAktionsplan.ApArtId = vFnsJahrespflanzen.SisfNr) INNER JOIN ((tblJBer INNER JOIN vApAnzMassnBisJahr ON tblJBer.ApArtId = vApAnzMassnBisJahr.ApArtId) INNER JOIN tblKonstanten ON tblJBer.JBerJahr = tblKonstanten.JBerJahr) ON tblAktionsplan.ApArtId = tblJBer.ApArtId) LEFT JOIN ArtenDb_tblFloraFnsKef ON ArtenDb_tblFloraSisf.NR = ArtenDb_tblFloraFnsKef.SisfNr) ON tblKonstanten_1.JBerJahr = vApAnzMassnBisJahr.TPopMassnJahr
+WHERE (tblJBer.JBerBeurteilung=5) AND (vApAnzMassnBisJahr.AnzahlMassnahmen>0) AND (tblAktionsplan.ApStatus Between 1 And 3)
 ORDER BY ArtenDb_tblFloraSisf.Name;
 
 CREATE VIEW vJbUebNe AS
-SELECT tblApJBer.*, CAST(If(ArtenDb_tblFloraSisf.Deutsch Is Null,ArtenDb_tblFloraSisf.Name,CONCAT(ArtenDb_tblFloraSisf.Name,' (',ArtenDb_tblFloraSisf.Deutsch,')')) AS CHAR) AS Artname, If(ArtenDb_tblFloraFnsKef.KefArt=-1,"Ja","") AS FnsKefArt2, If(Round((tblKonstanten.ApBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,0)=(tblKonstanten.ApBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,"Ja","") AS FnsKefKontrJahr2, vFnsJahrespflanzen.Jahr AS FnsJahrespflanze, vFnsJahrespflanzen.Jahresart AS FnsJahrespflanze2
-FROM tblKonstanten AS tblKonstanten_1 INNER JOIN (((((ArtenDb_tblFloraSisf INNER JOIN (tblAktionsplan INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN vFnsJahrespflanzen ON tblAktionsplan.ApArtId = vFnsJahrespflanzen.SisfNr) LEFT JOIN ArtenDb_tblFloraFnsJahresarten ON ArtenDb_tblFloraSisf.NR = ArtenDb_tblFloraFnsJahresarten.SisfNr) LEFT JOIN ArtenDb_tblFloraFnsKef ON ArtenDb_tblFloraSisf.NR = ArtenDb_tblFloraFnsKef.SisfNr) INNER JOIN ((tblApJBer INNER JOIN vApAnzMassnBisJahr ON tblApJBer.ApArtId = vApAnzMassnBisJahr.ApArtId) INNER JOIN tblKonstanten ON tblApJBer.ApBerJahr = tblKonstanten.ApBerJahr) ON tblAktionsplan.ApArtId = tblApJBer.ApArtId) ON tblKonstanten_1.ApBerJahr = vApAnzMassnBisJahr.TPopMassnJahr
-WHERE (tblApJBer.ApBerBeurteilung=3) AND (tblAktionsplan.ApStatus Between 1 And 3) AND (vApAnzMassnBisJahr.AnzahlMassnahmen>0)
+SELECT tblJBer.*, CAST(If(ArtenDb_tblFloraSisf.Deutsch Is Null,ArtenDb_tblFloraSisf.Name,CONCAT(ArtenDb_tblFloraSisf.Name,' (',ArtenDb_tblFloraSisf.Deutsch,')')) AS CHAR) AS Artname, If(ArtenDb_tblFloraFnsKef.KefArt=-1,"Ja","") AS FnsKefArt2, If(Round((tblKonstanten.JBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,0)=(tblKonstanten.JBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,"Ja","") AS FnsKefKontrJahr2, vFnsJahrespflanzen.Jahr AS FnsJahrespflanze, vFnsJahrespflanzen.Jahresart AS FnsJahrespflanze2
+FROM tblKonstanten AS tblKonstanten_1 INNER JOIN (((((ArtenDb_tblFloraSisf INNER JOIN (tblAktionsplan INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN vFnsJahrespflanzen ON tblAktionsplan.ApArtId = vFnsJahrespflanzen.SisfNr) LEFT JOIN ArtenDb_tblFloraFnsJahresarten ON ArtenDb_tblFloraSisf.NR = ArtenDb_tblFloraFnsJahresarten.SisfNr) LEFT JOIN ArtenDb_tblFloraFnsKef ON ArtenDb_tblFloraSisf.NR = ArtenDb_tblFloraFnsKef.SisfNr) INNER JOIN ((tblJBer INNER JOIN vApAnzMassnBisJahr ON tblJBer.ApArtId = vApAnzMassnBisJahr.ApArtId) INNER JOIN tblKonstanten ON tblJBer.JBerJahr = tblKonstanten.JBerJahr) ON tblAktionsplan.ApArtId = tblJBer.ApArtId) ON tblKonstanten_1.JBerJahr = vApAnzMassnBisJahr.TPopMassnJahr
+WHERE (tblJBer.JBerBeurteilung=3) AND (tblAktionsplan.ApStatus Between 1 And 3) AND (vApAnzMassnBisJahr.AnzahlMassnahmen>0)
 ORDER BY ArtenDb_tblFloraSisf.Name;
 
 CREATE VIEW vJbUebSe AS 
-SELECT tblApJBer.*, CAST(If(ArtenDb_tblFloraSisf.Deutsch Is Null,ArtenDb_tblFloraSisf.Name,CONCAT(ArtenDb_tblFloraSisf.Name,' (',ArtenDb_tblFloraSisf.Deutsch,')')) AS CHAR) AS Artname, If(ArtenDb_tblFloraFnsKef.KefArt=-1,"Ja","") AS FnsKefArt2, If(Round((tblKonstanten.ApBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,0)=(tblKonstanten.ApBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,"Ja","") AS FnsKefKontrJahr2, vFnsJahrespflanzen.Jahr AS FnsJahrespflanze, vFnsJahrespflanzen.Jahresart AS FnsJahrespflanze2
-FROM tblKonstanten AS tblKonstanten_1 INNER JOIN ((((ArtenDb_tblFloraSisf INNER JOIN (tblAktionsplan INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN vFnsJahrespflanzen ON tblAktionsplan.ApArtId = vFnsJahrespflanzen.SisfNr) LEFT JOIN ArtenDb_tblFloraFnsKef ON ArtenDb_tblFloraSisf.NR = ArtenDb_tblFloraFnsKef.SisfNr) INNER JOIN ((tblApJBer INNER JOIN vApAnzMassnBisJahr ON tblApJBer.ApArtId = vApAnzMassnBisJahr.ApArtId) INNER JOIN tblKonstanten ON tblApJBer.ApBerJahr = tblKonstanten.ApBerJahr) ON tblAktionsplan.ApArtId = tblApJBer.ApArtId) ON tblKonstanten_1.ApBerJahr = vApAnzMassnBisJahr.TPopMassnJahr
-WHERE (tblApJBer.ApBerBeurteilung=4) AND (vApAnzMassnBisJahr.AnzahlMassnahmen>0) AND (tblAktionsplan.ApStatus Between 1 And 3)
+SELECT tblJBer.*, CAST(If(ArtenDb_tblFloraSisf.Deutsch Is Null,ArtenDb_tblFloraSisf.Name,CONCAT(ArtenDb_tblFloraSisf.Name,' (',ArtenDb_tblFloraSisf.Deutsch,')')) AS CHAR) AS Artname, If(ArtenDb_tblFloraFnsKef.KefArt=-1,"Ja","") AS FnsKefArt2, If(Round((tblKonstanten.JBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,0)=(tblKonstanten.JBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,"Ja","") AS FnsKefKontrJahr2, vFnsJahrespflanzen.Jahr AS FnsJahrespflanze, vFnsJahrespflanzen.Jahresart AS FnsJahrespflanze2
+FROM tblKonstanten AS tblKonstanten_1 INNER JOIN ((((ArtenDb_tblFloraSisf INNER JOIN (tblAktionsplan INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN vFnsJahrespflanzen ON tblAktionsplan.ApArtId = vFnsJahrespflanzen.SisfNr) LEFT JOIN ArtenDb_tblFloraFnsKef ON ArtenDb_tblFloraSisf.NR = ArtenDb_tblFloraFnsKef.SisfNr) INNER JOIN ((tblJBer INNER JOIN vApAnzMassnBisJahr ON tblJBer.ApArtId = vApAnzMassnBisJahr.ApArtId) INNER JOIN tblKonstanten ON tblJBer.JBerJahr = tblKonstanten.JBerJahr) ON tblAktionsplan.ApArtId = tblJBer.ApArtId) ON tblKonstanten_1.JBerJahr = vApAnzMassnBisJahr.TPopMassnJahr
+WHERE (tblJBer.JBerBeurteilung=4) AND (vApAnzMassnBisJahr.AnzahlMassnahmen>0) AND (tblAktionsplan.ApStatus Between 1 And 3)
 ORDER BY ArtenDb_tblFloraSisf.Name;
 
 CREATE VIEW vJbUebUn AS
-SELECT tblApJBer.*, CAST(If(ArtenDb_tblFloraSisf.Deutsch Is Null,ArtenDb_tblFloraSisf.Name,CONCAT(ArtenDb_tblFloraSisf.Name,' (',ArtenDb_tblFloraSisf.Deutsch,')')) AS CHAR) AS Artname, If(ArtenDb_tblFloraFnsKef.KefArt=-1,"Ja","") AS FnsKefArt2, If(Round((tblKonstanten.ApBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,0)=(tblKonstanten.ApBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,"Ja","") AS FnsKefKontrJahr2, vFnsJahrespflanzen.Jahr AS FnsJahrespflanze, vFnsJahrespflanzen.Jahresart AS FnsJahrespflanze2
-FROM tblKonstanten AS tblKonstanten_1 INNER JOIN ((((ArtenDb_tblFloraSisf INNER JOIN (tblAktionsplan INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN vFnsJahrespflanzen ON tblAktionsplan.ApArtId = vFnsJahrespflanzen.SisfNr) LEFT JOIN ArtenDb_tblFloraFnsKef ON ArtenDb_tblFloraSisf.NR = ArtenDb_tblFloraFnsKef.SisfNr) INNER JOIN ((tblApJBer INNER JOIN vApAnzMassnBisJahr ON tblApJBer.ApArtId = vApAnzMassnBisJahr.ApArtId) INNER JOIN tblKonstanten ON tblApJBer.ApBerJahr = tblKonstanten.ApBerJahr) ON tblAktionsplan.ApArtId = tblApJBer.ApArtId) ON tblKonstanten_1.ApBerJahr = vApAnzMassnBisJahr.TPopMassnJahr
-WHERE (tblApJBer.ApBerBeurteilung=1168274204) AND (vApAnzMassnBisJahr.AnzahlMassnahmen>0) AND (tblAktionsplan.ApStatus Between 1 And 3)
+SELECT tblJBer.*, CAST(If(ArtenDb_tblFloraSisf.Deutsch Is Null,ArtenDb_tblFloraSisf.Name,CONCAT(ArtenDb_tblFloraSisf.Name,' (',ArtenDb_tblFloraSisf.Deutsch,')')) AS CHAR) AS Artname, If(ArtenDb_tblFloraFnsKef.KefArt=-1,"Ja","") AS FnsKefArt2, If(Round((tblKonstanten.JBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,0)=(tblKonstanten.JBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,"Ja","") AS FnsKefKontrJahr2, vFnsJahrespflanzen.Jahr AS FnsJahrespflanze, vFnsJahrespflanzen.Jahresart AS FnsJahrespflanze2
+FROM tblKonstanten AS tblKonstanten_1 INNER JOIN ((((ArtenDb_tblFloraSisf INNER JOIN (tblAktionsplan INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN vFnsJahrespflanzen ON tblAktionsplan.ApArtId = vFnsJahrespflanzen.SisfNr) LEFT JOIN ArtenDb_tblFloraFnsKef ON ArtenDb_tblFloraSisf.NR = ArtenDb_tblFloraFnsKef.SisfNr) INNER JOIN ((tblJBer INNER JOIN vApAnzMassnBisJahr ON tblJBer.ApArtId = vApAnzMassnBisJahr.ApArtId) INNER JOIN tblKonstanten ON tblJBer.JBerJahr = tblKonstanten.JBerJahr) ON tblAktionsplan.ApArtId = tblJBer.ApArtId) ON tblKonstanten_1.JBerJahr = vApAnzMassnBisJahr.TPopMassnJahr
+WHERE (tblJBer.JBerBeurteilung=1168274204) AND (vApAnzMassnBisJahr.AnzahlMassnahmen>0) AND (tblAktionsplan.ApStatus Between 1 And 3)
 ORDER BY ArtenDb_tblFloraSisf.Name;
 
 CREATE VIEW vJbUebWe AS 
-SELECT tblApJBer.*, CAST(If(ArtenDb_tblFloraSisf.Deutsch Is Null,ArtenDb_tblFloraSisf.Name,CONCAT(ArtenDb_tblFloraSisf.Name,' (',ArtenDb_tblFloraSisf.Deutsch,')')) AS CHAR) AS Artname, If(ArtenDb_tblFloraFnsKef.KefArt=-1,"Ja","") AS FnsKefArt2, If(Round((tblKonstanten.ApBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,0)=(tblKonstanten.ApBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,"Ja","") AS FnsKefKontrJahr2, vFnsJahrespflanzen.Jahr AS FnsJahrespflanze, vFnsJahrespflanzen.Jahresart AS FnsJahrespflanze2
-FROM tblKonstanten AS tblKonstanten_1 INNER JOIN ((((ArtenDb_tblFloraSisf INNER JOIN (tblAktionsplan INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN vFnsJahrespflanzen ON tblAktionsplan.ApArtId = vFnsJahrespflanzen.SisfNr) LEFT JOIN ArtenDb_tblFloraFnsKef ON ArtenDb_tblFloraSisf.NR = ArtenDb_tblFloraFnsKef.SisfNr) INNER JOIN ((tblApJBer INNER JOIN vApAnzMassnBisJahr ON tblApJBer.ApArtId = vApAnzMassnBisJahr.ApArtId) INNER JOIN tblKonstanten ON tblApJBer.ApBerJahr = tblKonstanten.ApBerJahr) ON tblAktionsplan.ApArtId = tblApJBer.ApArtId) ON tblKonstanten_1.ApBerJahr = vApAnzMassnBisJahr.TPopMassnJahr
-WHERE (tblApJBer.ApBerBeurteilung=6) AND (vApAnzMassnBisJahr.AnzahlMassnahmen>0) AND (tblAktionsplan.ApStatus Between 1 And 3)
+SELECT tblJBer.*, CAST(If(ArtenDb_tblFloraSisf.Deutsch Is Null,ArtenDb_tblFloraSisf.Name,CONCAT(ArtenDb_tblFloraSisf.Name,' (',ArtenDb_tblFloraSisf.Deutsch,')')) AS CHAR) AS Artname, If(ArtenDb_tblFloraFnsKef.KefArt=-1,"Ja","") AS FnsKefArt2, If(Round((tblKonstanten.JBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,0)=(tblKonstanten.JBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,"Ja","") AS FnsKefKontrJahr2, vFnsJahrespflanzen.Jahr AS FnsJahrespflanze, vFnsJahrespflanzen.Jahresart AS FnsJahrespflanze2
+FROM tblKonstanten AS tblKonstanten_1 INNER JOIN ((((ArtenDb_tblFloraSisf INNER JOIN (tblAktionsplan INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN vFnsJahrespflanzen ON tblAktionsplan.ApArtId = vFnsJahrespflanzen.SisfNr) LEFT JOIN ArtenDb_tblFloraFnsKef ON ArtenDb_tblFloraSisf.NR = ArtenDb_tblFloraFnsKef.SisfNr) INNER JOIN ((tblJBer INNER JOIN vApAnzMassnBisJahr ON tblJBer.ApArtId = vApAnzMassnBisJahr.ApArtId) INNER JOIN tblKonstanten ON tblJBer.JBerJahr = tblKonstanten.JBerJahr) ON tblAktionsplan.ApArtId = tblJBer.ApArtId) ON tblKonstanten_1.JBerJahr = vApAnzMassnBisJahr.TPopMassnJahr
+WHERE (tblJBer.JBerBeurteilung=6) AND (vApAnzMassnBisJahr.AnzahlMassnahmen>0) AND (tblAktionsplan.ApStatus Between 1 And 3)
 ORDER BY ArtenDb_tblFloraSisf.Name;
 
 CREATE VIEW vJbUebNichtBeurteilt000 AS 
 SELECT tblAktionsplan.ApArtId
-FROM (((tblAktionsplan INNER JOIN vApAnzMassnBisJahr ON tblAktionsplan.ApArtId = vApAnzMassnBisJahr.ApArtId) INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) LEFT JOIN tblApJBer ON tblAktionsplan.ApArtId = tblApJBer.ApArtId) INNER JOIN tblKonstanten ON vApAnzMassnBisJahr.TPopMassnJahr = tblKonstanten.ApBerJahr
-WHERE (tblApJBer.ApArtId Is Null) AND (tblAktionsplan.ApStatus Between 1 And 3);
+FROM (((tblAktionsplan INNER JOIN vApAnzMassnBisJahr ON tblAktionsplan.ApArtId = vApAnzMassnBisJahr.ApArtId) INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) LEFT JOIN tblJBer ON tblAktionsplan.ApArtId = tblJBer.ApArtId) INNER JOIN tblKonstanten ON vApAnzMassnBisJahr.TPopMassnJahr = tblKonstanten.JBerJahr
+WHERE (tblJBer.ApArtId Is Null) AND (tblAktionsplan.ApStatus Between 1 And 3);
 
 alt:
 SELECT tblAktionsplan.ApArtId
-FROM ((tblAktionsplan INNER JOIN vApAnzMassnBisJahr ON tblAktionsplan.ApArtId = vApAnzMassnBisJahr.ApArtId) INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) LEFT JOIN tblApJBer ON tblAktionsplan.ApArtId = tblApJBer.ApArtId
-WHERE ((tblApJBer.ApArtId Is Null) AND (tblAktionsplan.ApStatus Between 1 And 3));
+FROM ((tblAktionsplan INNER JOIN vApAnzMassnBisJahr ON tblAktionsplan.ApArtId = vApAnzMassnBisJahr.ApArtId) INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) LEFT JOIN tblJBer ON tblAktionsplan.ApArtId = tblJBer.ApArtId
+WHERE ((tblJBer.ApArtId Is Null) AND (tblAktionsplan.ApStatus Between 1 And 3));
 
 CREATE VIEW vJbUebNichtBeurteilt00 AS 
 SELECT tblAktionsplan.ApArtId
-FROM tblKonstanten AS tblKonstanten_1 INNER JOIN (((tblAktionsplan INNER JOIN vApAnzMassnBisJahr ON tblAktionsplan.ApArtId = vApAnzMassnBisJahr.ApArtId) INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) INNER JOIN (tblApJBer INNER JOIN tblKonstanten ON tblApJBer.ApBerJahr = tblKonstanten.ApBerJahr) ON tblAktionsplan.ApArtId = tblApJBer.ApArtId) ON tblKonstanten_1.ApBerJahr = vApAnzMassnBisJahr.TPopMassnJahr
-WHERE (tblAktionsplan.ApStatus Between 1 And 3) AND (tblApJBer.ApBerBeurteilung Is Null);
+FROM tblKonstanten AS tblKonstanten_1 INNER JOIN (((tblAktionsplan INNER JOIN vApAnzMassnBisJahr ON tblAktionsplan.ApArtId = vApAnzMassnBisJahr.ApArtId) INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) INNER JOIN (tblJBer INNER JOIN tblKonstanten ON tblJBer.JBerJahr = tblKonstanten.JBerJahr) ON tblAktionsplan.ApArtId = tblJBer.ApArtId) ON tblKonstanten_1.JBerJahr = vApAnzMassnBisJahr.TPopMassnJahr
+WHERE (tblAktionsplan.ApStatus Between 1 And 3) AND (tblJBer.JBerBeurteilung Is Null);
 
 alt:
 SELECT tblAktionsplan.ApArtId
-FROM ((tblAktionsplan INNER JOIN vApAnzMassnBisJahr ON tblAktionsplan.ApArtId = vApAnzMassnBisJahr.ApArtId) INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) INNER JOIN (tblApJBer INNER JOIN tblKonstanten ON tblApJBer.ApBerJahr = tblKonstanten.ApBerJahr) ON tblAktionsplan.ApArtId = tblApJBer.ApArtId
-WHERE (((tblApJBer.ApBerJahr)=tblKonstanten.ApBerJahr) AND ((tblAktionsplan.ApStatus) Between 1 And 3) AND ((tblApJBer.ApBerBeurteilung) Is Null));
+FROM ((tblAktionsplan INNER JOIN vApAnzMassnBisJahr ON tblAktionsplan.ApArtId = vApAnzMassnBisJahr.ApArtId) INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) INNER JOIN (tblJBer INNER JOIN tblKonstanten ON tblJBer.JBerJahr = tblKonstanten.JBerJahr) ON tblAktionsplan.ApArtId = tblJBer.ApArtId
+WHERE (((tblJBer.JBerJahr)=tblKonstanten.JBerJahr) AND ((tblAktionsplan.ApStatus) Between 1 And 3) AND ((tblJBer.JBerBeurteilung) Is Null));
 
 CREATE VIEW vJbUebNichtBeurteilt0 AS 
 select ApArtId from vJbUebNichtBeurteilt000
@@ -451,8 +456,8 @@ WHERE (((tblAktionsplan.ApStatus) Between 1 And 3) AND ((tblTeilpopulation.TPopH
 ORDER BY ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr, tblPopulation.PopName, tblTeilpopulation.TPopNr, tblTeilpopulation.TPopGemeinde, tblTeilpopulation.TPopFlurname;
 
 CREATE VIEW vBerJb AS 
-SELECT tblAktionsplan.*, If(ArtenDb_tblFloraSisf.Deutsch is null,ArtenDb_tblFloraSisf.Name, CONCAT(ArtenDb_tblFloraSisf.Name, ' (', ArtenDb_tblFloraSisf.Deutsch, ')')) AS Art, tblApJBer.ApBerId, tblApJBer.ApBerJahr, tblApJBer.ApBerSituation, tblApJBer.ApBerVergleichVorjahrGesamtziel, tblApJBer.ApBerBeurteilung, tblApJBer.ApBerAnalyse, tblApJBer.ApBerUmsetzung, tblApJBer.ApBerErfko, tblApJBer.ApBerATxt, tblApJBer.ApBerBTxt, tblApJBer.ApBerCTxt, tblApJBer.ApBerDTxt, tblApJBer.ApBerDatum, tblApJBer.ApBerBearb, tblAdresse.AdrName & ", " & tblAdresse.AdrAdresse AS Bearbeiter, tblApJBerUebersicht.Jahr, tblApJBerUebersicht.Bemerkungen, vErsteMassnahmeProArt.MinvonTPopMassnJahr AS ErsteMassnahmeImJahr
-FROM (ArtenDb_tblFloraSisf INNER JOIN (tblAktionsplan LEFT JOIN vErsteMassnahmeProArt ON tblAktionsplan.ApArtId=vErsteMassnahmeProArt.ApArtId) ON ArtenDb_tblFloraSisf.NR=tblAktionsplan.ApArtId) INNER JOIN (((tblApJBer LEFT JOIN tblAdresse ON tblApJBer.ApBerBearb=tblAdresse.AdrId) LEFT JOIN tblApJBerUebersicht ON tblApJBer.ApBerJahr=tblApJBerUebersicht.Jahr) INNER JOIN tblKonstanten ON tblApJBer.ApBerJahr=tblKonstanten.ApBerJahr) ON tblAktionsplan.ApArtId=tblApJBer.ApArtId
+SELECT tblAktionsplan.*, If(ArtenDb_tblFloraSisf.Deutsch is null,ArtenDb_tblFloraSisf.Name, CONCAT(ArtenDb_tblFloraSisf.Name, ' (', ArtenDb_tblFloraSisf.Deutsch, ')')) AS Art, tblJBer.JBerId, tblJBer.JBerJahr, tblJBer.JBerSituation, tblJBer.JBerVergleichVorjahrGesamtziel, tblJBer.JBerBeurteilung, tblJBer.JBerAnalyse, tblJBer.JBerUmsetzung, tblJBer.JBerErfko, tblJBer.JBerATxt, tblJBer.JBerBTxt, tblJBer.JBerCTxt, tblJBer.JBerDTxt, tblJBer.JBerDatum, tblJBer.JBerBearb, tblAdresse.AdrName & ", " & tblAdresse.AdrAdresse AS Bearbeiter, tblJBerUebersicht.JbuJahr, tblJBerUebersicht.JbuBemerkungen, vErsteMassnahmeProArt.MinvonTPopMassnJahr AS ErsteMassnahmeImJahr
+FROM (ArtenDb_tblFloraSisf INNER JOIN (tblAktionsplan LEFT JOIN vErsteMassnahmeProArt ON tblAktionsplan.ApArtId=vErsteMassnahmeProArt.ApArtId) ON ArtenDb_tblFloraSisf.NR=tblAktionsplan.ApArtId) INNER JOIN (((tblJBer LEFT JOIN tblAdresse ON tblJBer.JBerBearb=tblAdresse.AdrId) LEFT JOIN tblJBerUebersicht ON tblJBer.JBerJahr=tblJBerUebersicht.JbuJahr) INNER JOIN tblKonstanten ON tblJBer.JBerJahr=tblKonstanten.JBerJahr) ON tblAktionsplan.ApArtId=tblJBer.ApArtId
 ORDER BY ArtenDb_tblFloraSisf.Name;
 
 CREATE VIEW vAuswAp AS 
@@ -593,13 +598,13 @@ GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 CREATE VIEW vJbB1rPop AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM tblKonstanten, (tblPopulation INNER JOIN tblPopBericht ON tblPopulation.PopId = tblPopBericht.PopId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblTeilpopulation.TPopApBerichtRelevant)=1) AND ((tblPopBericht.PopBerJahr)<=tblKonstanten.ApBerJahr))
+WHERE (tblTeilpopulation.TPopApBerichtRelevant=1) AND (tblPopBericht.PopBerJahr<=tblKonstanten.JBerJahr)
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbB2rPop AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM ((vLetzterPopBericht INNER JOIN tblPopulation ON vLetzterPopBericht.ApArtId = tblPopulation.ApArtId) INNER JOIN tblPopBericht ON (tblPopulation.PopId = tblPopBericht.PopId) AND (vLetzterPopBericht.PopId = tblPopBericht.PopId) AND (vLetzterPopBericht.MaxvonPopBerJahr = tblPopBericht.PopBerJahr)) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblPopBericht.PopBerEntwicklung)=3) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE (tblPopBericht.PopBerEntwicklung=3) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbB3rPop AS
@@ -629,13 +634,13 @@ GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 CREATE VIEW vJbB1rTPop AS 
 SELECT tblPopulation.ApArtId, tblTeilPopBericht.TPopId
 FROM tblKonstanten, tblPopulation INNER JOIN (tblTeilpopulation INNER JOIN tblTeilPopBericht ON tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblTeilpopulation.TPopApBerichtRelevant)=1) AND ((tblTeilPopBericht.TPopBerJahr)<=tblKonstanten.ApBerJahr))
+WHERE (tblTeilpopulation.TPopApBerichtRelevant=1) AND (tblTeilPopBericht.TPopBerJahr<=tblKonstanten.JBerJahr)
 GROUP BY tblPopulation.ApArtId, tblTeilPopBericht.TPopId;
 
 CREATE VIEW vJbB2rTPop AS 
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM tblTeilpopulation INNER JOIN (tblTeilPopBericht INNER JOIN (tblPopulation INNER JOIN vLetzterTPopBericht ON tblPopulation.ApArtId = vLetzterTPopBericht.ApArtId) ON (tblTeilPopBericht.TPopId = vLetzterTPopBericht.TPopId) AND (tblTeilPopBericht.TPopBerJahr = vLetzterTPopBericht.MaxvonTPopBerJahr)) ON (tblTeilpopulation.PopId = tblPopulation.PopId) AND (tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId)
-WHERE (((tblTeilPopBericht.TPopBerEntwicklung)=3) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE (tblTeilPopBericht.TPopBerEntwicklung=3) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbB3rTPop AS 
@@ -665,13 +670,13 @@ GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 CREATE VIEW vJbC1rPop AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM tblKonstanten, (tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) INNER JOIN tblTeilPopMassnahme ON tblTeilpopulation.TPopId = tblTeilPopMassnahme.TPopId
-WHERE (((tblTeilPopMassnahme.TPopMassnJahr)<=tblKonstanten.ApBerJahr) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE (tblTeilPopMassnahme.TPopMassnJahr<=tblKonstanten.JBerJahr) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbC3rPop AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM (vLetzterPopMassnBericht INNER JOIN tblPopulation ON vLetzterPopMassnBericht.ApArtId = tblPopulation.ApArtId) INNER JOIN tblPopMassnBericht ON (tblPopulation.PopId = tblPopMassnBericht.PopId) AND (vLetzterPopMassnBericht.MaxvonPopMassnBerJahr = tblPopMassnBericht.PopMassnBerJahr) AND (vLetzterPopMassnBericht.PopId = tblPopMassnBericht.PopId)
-WHERE (((tblPopMassnBericht.PopMassnBerErfolgsbeurteilung)=1))
+WHERE tblPopMassnBericht.PopMassnBerErfolgsbeurteilung=1
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbC4rPop AS 
@@ -701,13 +706,13 @@ GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 CREATE VIEW vJbC1rTPop AS 
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM tblKonstanten, (tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) INNER JOIN tblTeilPopMassnahme ON tblTeilpopulation.TPopId = tblTeilPopMassnahme.TPopId
-WHERE (((tblTeilPopMassnahme.TPopMassnJahr)<=tblKonstanten.ApBerJahr) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE (tblTeilPopMassnahme.TPopMassnJahr<=tblKonstanten.JBerJahr) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbC3rTPop AS 
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM ((vLetzterTPopMassnBericht INNER JOIN tblPopulation ON vLetzterTPopMassnBericht.ApArtId = tblPopulation.ApArtId) INNER JOIN tblTeilPopMassnBericht ON (vLetzterTPopMassnBericht.MaxvonTPopMassnBerJahr = tblTeilPopMassnBericht.TPopMassnBerJahr) AND (vLetzterTPopMassnBericht.TPopId = tblTeilPopMassnBericht.TPopId)) INNER JOIN tblTeilpopulation ON (tblTeilPopMassnBericht.TPopId = tblTeilpopulation.TPopId) AND (tblPopulation.PopId = tblTeilpopulation.PopId)
-WHERE (((tblTeilPopMassnBericht.TPopMassnBerErfolgsbeurteilung)=1))
+WHERE tblTeilPopMassnBericht.TPopMassnBerErfolgsbeurteilung=1
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbC4rTPop AS 
@@ -844,38 +849,38 @@ GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbB1lPop AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
-FROM (tblPopulation INNER JOIN (tblPopBericht INNER JOIN tblKonstanten ON tblPopBericht.PopBerJahr = tblKonstanten.ApBerJahr) ON tblPopulation.PopId = tblPopBericht.PopId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblTeilpopulation.TPopApBerichtRelevant)=1))
+FROM (tblPopulation INNER JOIN (tblPopBericht INNER JOIN tblKonstanten ON tblPopBericht.PopBerJahr = tblKonstanten.JBerJahr) ON tblPopulation.PopId = tblPopBericht.PopId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
+WHERE tblTeilpopulation.TPopApBerichtRelevant=1
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbB2lPop AS
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
-FROM (tblPopulation INNER JOIN (tblPopBericht INNER JOIN tblKonstanten ON tblPopBericht.PopBerJahr = tblKonstanten.ApBerJahr) ON tblPopulation.PopId = tblPopBericht.PopId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblPopBericht.PopBerEntwicklung)=3) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+FROM (tblPopulation INNER JOIN (tblPopBericht INNER JOIN tblKonstanten ON tblPopBericht.PopBerJahr = tblKonstanten.JBerJahr) ON tblPopulation.PopId = tblPopBericht.PopId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
+WHERE (tblPopBericht.PopBerEntwicklung=3) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbB3lPop AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
-FROM (tblPopulation INNER JOIN (tblPopBericht INNER JOIN tblKonstanten ON tblPopBericht.PopBerJahr = tblKonstanten.ApBerJahr) ON tblPopulation.PopId = tblPopBericht.PopId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblPopBericht.PopBerEntwicklung)=2) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+FROM (tblPopulation INNER JOIN (tblPopBericht INNER JOIN tblKonstanten ON tblPopBericht.PopBerJahr = tblKonstanten.JBerJahr) ON tblPopulation.PopId = tblPopBericht.PopId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
+WHERE (tblPopBericht.PopBerEntwicklung=2) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbB4lPop AS
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
-FROM (tblPopulation INNER JOIN (tblPopBericht INNER JOIN tblKonstanten ON tblPopBericht.PopBerJahr = tblKonstanten.ApBerJahr) ON tblPopulation.PopId = tblPopBericht.PopId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblPopBericht.PopBerEntwicklung)=1) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+FROM (tblPopulation INNER JOIN (tblPopBericht INNER JOIN tblKonstanten ON tblPopBericht.PopBerJahr = tblKonstanten.JBerJahr) ON tblPopulation.PopId = tblPopBericht.PopId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
+WHERE (tblPopBericht.PopBerEntwicklung=1) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbB5lPop AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
-FROM (tblPopulation INNER JOIN (tblPopBericht INNER JOIN tblKonstanten ON tblPopBericht.PopBerJahr = tblKonstanten.ApBerJahr) ON tblPopulation.PopId = tblPopBericht.PopId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblPopBericht.PopBerEntwicklung)=4 Or (tblPopBericht.PopBerEntwicklung)=9) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+FROM (tblPopulation INNER JOIN (tblPopBericht INNER JOIN tblKonstanten ON tblPopBericht.PopBerJahr = tblKonstanten.JBerJahr) ON tblPopulation.PopId = tblPopBericht.PopId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
+WHERE (tblPopBericht.PopBerEntwicklung=4 Or tblPopBericht.PopBerEntwicklung=9) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbB6lPop AS
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
-FROM (tblPopulation INNER JOIN (tblPopBericht INNER JOIN tblKonstanten ON tblPopBericht.PopBerJahr = tblKonstanten.ApBerJahr) ON tblPopulation.PopId = tblPopBericht.PopId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblPopBericht.PopBerEntwicklung)=8) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+FROM (tblPopulation INNER JOIN (tblPopBericht INNER JOIN tblKonstanten ON tblPopBericht.PopBerJahr = tblKonstanten.JBerJahr) ON tblPopulation.PopId = tblPopBericht.PopId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
+WHERE (tblPopBericht.PopBerEntwicklung=8) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbB7lPop AS 
@@ -886,38 +891,38 @@ GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbB1lTPop AS
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
-FROM tblPopulation INNER JOIN (tblTeilpopulation INNER JOIN (tblTeilPopBericht INNER JOIN tblKonstanten ON tblTeilPopBericht.TPopBerJahr = tblKonstanten.ApBerJahr) ON tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblTeilpopulation.TPopApBerichtRelevant)=1))
+FROM tblPopulation INNER JOIN (tblTeilpopulation INNER JOIN (tblTeilPopBericht INNER JOIN tblKonstanten ON tblTeilPopBericht.TPopBerJahr = tblKonstanten.JBerJahr) ON tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId
+WHERE tblTeilpopulation.TPopApBerichtRelevant=1
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbB2lTPop AS 
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
-FROM tblPopulation INNER JOIN (tblTeilpopulation INNER JOIN (tblTeilPopBericht INNER JOIN tblKonstanten ON tblTeilPopBericht.TPopBerJahr = tblKonstanten.ApBerJahr) ON tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblTeilPopBericht.TPopBerEntwicklung)=3) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+FROM tblPopulation INNER JOIN (tblTeilpopulation INNER JOIN (tblTeilPopBericht INNER JOIN tblKonstanten ON tblTeilPopBericht.TPopBerJahr = tblKonstanten.JBerJahr) ON tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId
+WHERE (tblTeilPopBericht.TPopBerEntwicklung=3) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbB3lTPop AS
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
-FROM tblPopulation INNER JOIN (tblTeilpopulation INNER JOIN (tblTeilPopBericht INNER JOIN tblKonstanten ON tblTeilPopBericht.TPopBerJahr = tblKonstanten.ApBerJahr) ON tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblTeilPopBericht.TPopBerEntwicklung)=2) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+FROM tblPopulation INNER JOIN (tblTeilpopulation INNER JOIN (tblTeilPopBericht INNER JOIN tblKonstanten ON tblTeilPopBericht.TPopBerJahr = tblKonstanten.JBerJahr) ON tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId
+WHERE (tblTeilPopBericht.TPopBerEntwicklung=2) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbB4lTPop AS 
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
-FROM tblPopulation INNER JOIN (tblTeilpopulation INNER JOIN (tblTeilPopBericht INNER JOIN tblKonstanten ON tblTeilPopBericht.TPopBerJahr = tblKonstanten.ApBerJahr) ON tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblTeilPopBericht.TPopBerEntwicklung)=1) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+FROM tblPopulation INNER JOIN (tblTeilpopulation INNER JOIN (tblTeilPopBericht INNER JOIN tblKonstanten ON tblTeilPopBericht.TPopBerJahr = tblKonstanten.JBerJahr) ON tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId
+WHERE (tblTeilPopBericht.TPopBerEntwicklung=1) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbB5lTPop AS
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
-FROM tblPopulation INNER JOIN (tblTeilpopulation INNER JOIN (tblTeilPopBericht INNER JOIN tblKonstanten ON tblTeilPopBericht.TPopBerJahr = tblKonstanten.ApBerJahr) ON tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblTeilPopBericht.TPopBerEntwicklung)=4 Or (tblTeilPopBericht.TPopBerEntwicklung)=9) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+FROM tblPopulation INNER JOIN (tblTeilpopulation INNER JOIN (tblTeilPopBericht INNER JOIN tblKonstanten ON tblTeilPopBericht.TPopBerJahr = tblKonstanten.JBerJahr) ON tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId
+WHERE (tblTeilPopBericht.TPopBerEntwicklung=4 Or tblTeilPopBericht.TPopBerEntwicklung=9) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbB6lTPop AS 
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
-FROM tblPopulation INNER JOIN (tblTeilpopulation INNER JOIN (tblTeilPopBericht INNER JOIN tblKonstanten ON tblTeilPopBericht.TPopBerJahr = tblKonstanten.ApBerJahr) ON tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblTeilPopBericht.TPopBerEntwicklung)=8) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+FROM tblPopulation INNER JOIN (tblTeilpopulation INNER JOIN (tblTeilPopBericht INNER JOIN tblKonstanten ON tblTeilPopBericht.TPopBerJahr = tblKonstanten.JBerJahr) ON tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId
+WHERE (tblTeilPopBericht.TPopBerEntwicklung=8) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbB7lTPop AS
@@ -928,13 +933,13 @@ GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbC1lPop AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
-FROM (tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) INNER JOIN (tblTeilPopMassnahme INNER JOIN tblKonstanten ON tblTeilPopMassnahme.TPopMassnJahr = tblKonstanten.ApBerJahr) ON tblTeilpopulation.TPopId = tblTeilPopMassnahme.TPopId
-WHERE (((tblTeilpopulation.TPopApBerichtRelevant)=1))
+FROM (tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) INNER JOIN (tblTeilPopMassnahme INNER JOIN tblKonstanten ON tblTeilPopMassnahme.TPopMassnJahr = tblKonstanten.JBerJahr) ON tblTeilpopulation.TPopId = tblTeilPopMassnahme.TPopId
+WHERE tblTeilpopulation.TPopApBerichtRelevant=1
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbC1lTPop AS
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
-FROM ((tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) INNER JOIN tblTeilPopMassnahme ON tblTeilpopulation.TPopId = tblTeilPopMassnahme.TPopId) INNER JOIN tblKonstanten ON tblTeilPopMassnahme.TPopMassnJahr = tblKonstanten.ApBerJahr
+FROM ((tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) INNER JOIN tblTeilPopMassnahme ON tblTeilpopulation.TPopId = tblTeilPopMassnahme.TPopId) INNER JOIN tblKonstanten ON tblTeilPopMassnahme.TPopMassnJahr = tblKonstanten.JBerJahr
 WHERE tblTeilpopulation.TPopApBerichtRelevant=1
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 

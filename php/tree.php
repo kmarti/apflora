@@ -458,35 +458,35 @@ while($r_erfkrit = mysqli_fetch_assoc($result_erfkrit)) {
 }
 mysqli_free_result($result_erfkrit);
 
-//apber dieses AP abfragen
-$result_apber = mysqli_query($link, "SELECT ApBerId, ApArtId, ApBerJahr FROM tblApJBer where ApArtId = $ApArtId ORDER BY ApBerJahr");
-$anz_apber = mysqli_num_rows($result_apber);
-//apber aufbauen
-$rows_apber = array();
-while($r_apber = mysqli_fetch_assoc($result_apber)) {
-	$ApBerId = $r_apber['ApBerId'];
-	settype($ApBerId, "integer");
-	//apber_uebersicht dieses Jahrs abfragen
-	$result_apber_uebersicht = mysqli_query($link, "SELECT Jahr, Bemerkungen FROM tblApJBerUebersicht WHERE Jahr=".$r_apber['ApBerJahr']);
-	//apber_uebersicht aufbauen
-	$rows_apber_uebersicht = array();
-	while($r_apber_uebersicht = mysqli_fetch_assoc($result_apber_uebersicht)) {
-		$Jahr = $r_apber_uebersicht['Jahr'];
-		settype($Jahr, "integer");
-		//apber_uebersicht setzen
-		$attr_apber_uebersicht = array("id" => $Jahr, "typ" => "apber_uebersicht");
-		$apber_uebersicht = array("data" => "Übersicht zu allen Arten", "attr" => $attr_apber_uebersicht);
-		//apber_uebersicht-Array um apber_uebersicht ergänzen
-	    $rows_apber_uebersicht[] = $apber_uebersicht;
+//jber dieses AP abfragen
+$result_jber = mysqli_query($link, "SELECT JBerId, ApArtId, JBerJahr FROM tblJBer where ApArtId = $ApArtId ORDER BY JBerJahr");
+$anz_jber = mysqli_num_rows($result_jber);
+//jber aufbauen
+$rows_jber = array();
+while($r_jber = mysqli_fetch_assoc($result_jber)) {
+	$JBerId = $r_jber['JBerId'];
+	settype($JBerId, "integer");
+	//jber_uebersicht dieses Jahrs abfragen
+	$result_jber_uebersicht = mysqli_query($link, "SELECT JbuJahr, JbuBemerkungen FROM tblJBerUebersicht WHERE JbuJahr=".$r_jber['JBerJahr']);
+	//jber_uebersicht aufbauen
+	$rows_jber_uebersicht = array();
+	while($r_jber_uebersicht = mysqli_fetch_assoc($result_jber_uebersicht)) {
+		$JbuJahr = $r_jber_uebersicht['JbuJahr'];
+		settype($JbuJahr, "integer");
+		//jber_uebersicht setzen
+		$attr_jber_uebersicht = array("id" => $JbuJahr, "typ" => "jber_uebersicht");
+		$jber_uebersicht = array("data" => "Übersicht zu allen Arten", "attr" => $attr_jber_uebersicht);
+		//jber_uebersicht-Array um jber_uebersicht ergänzen
+	    $rows_jber_uebersicht[] = $jber_uebersicht;
 	}
-	mysqli_free_result($result_apber_uebersicht);
-	//apber setzen
-	$attr_apber = array("id" => $ApBerId, "typ" => "apber");
-	$apber = array("data" => $r_apber['ApBerJahr'], "attr" => $attr_apber, "children" => $rows_apber_uebersicht);
-	//apber-Array um apber ergänzen
-    $rows_apber[] = $apber;
+	mysqli_free_result($result_jber_uebersicht);
+	//jber setzen
+	$attr_jber = array("id" => $JBerId, "typ" => "jber");
+	$jber = array("data" => $r_jber['JBerJahr'], "attr" => $attr_jber, "children" => $rows_jber_uebersicht);
+	//jber-Array um jber ergänzen
+    $rows_jber[] = $jber;
 }
-mysqli_free_result($result_apber);
+mysqli_free_result($result_jber);
 
 //ber dieses AP abfragen
 $result_ber = mysqli_query($link, "SELECT BerId, ApArtId, BerJahr, BerTitel FROM tblApBer where ApArtId = $ApArtId ORDER BY BerJahr DESC, BerTitel");
@@ -606,12 +606,12 @@ if ($anz_erfkrit === 1) {
 $ap_ordner_erfkrit_attr = array("id" => $ApArtId, "typ" => "ap_ordner_erfkrit");
 $ap_ordner_erfkrit = array("data" => $ap_ordner_erfkrit_datatext, "attr" => $ap_ordner_erfkrit_attr, "children" => $rows_erfkrit);
 //AP-Berichte
-$ap_ordner_apber_datatext = $anz_apber." AP-Berichte";
-if ($anz_apber === 1) {
-	$ap_ordner_apber_datatext = $anz_apber." AP-Bericht";
+$ap_ordner_jber_datatext = $anz_jber." AP-Berichte";
+if ($anz_jber === 1) {
+	$ap_ordner_jber_datatext = $anz_jber." AP-Bericht";
 }
-$ap_ordner_apber_attr = array("id" => $ApArtId, "typ" => "ap_ordner_apber");
-$ap_ordner_apber = array("data" => $ap_ordner_apber_datatext, "attr" => $ap_ordner_apber_attr, "children" => $rows_apber);
+$ap_ordner_jber_attr = array("id" => $ApArtId, "typ" => "ap_ordner_jber");
+$ap_ordner_jber = array("data" => $ap_ordner_jber_datatext, "attr" => $ap_ordner_jber_attr, "children" => $rows_jber);
 //Berichte
 $ap_ordner_ber_datatext = $anz_ber." Berichte";
 if ($anz_ber === 1) {
@@ -644,7 +644,7 @@ if ($anz_assozarten === 1) {
 $ap_ordner_assozarten_attr = array("id" => $ApArtId, "typ" => "ap_ordner_assozarten");
 $ap_ordner_assozarten = array("data" => $ap_ordner_assozarten_datatext, "attr" => $ap_ordner_assozarten_attr, "children" => $rows_assozarten);
 //zusammensetzen
-$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_apber, 4 => $ap_ordner_ber, 5 => $ap_ordner_beob, 6 => $ap_ordner_umwfakt, 7 => $ap_ordner_ib, 8 => $ap_ordner_assozarten);
+$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_jber, 4 => $ap_ordner_ber, 5 => $ap_ordner_beob, 6 => $ap_ordner_umwfakt, 7 => $ap_ordner_ib, 8 => $ap_ordner_assozarten);
 
 	
 //in json verwandeln

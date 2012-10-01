@@ -16,7 +16,7 @@ $Felderarray = $_GET;
 
 //zeit muss umgewandelt werden!
 /*foreach ($_GET as $key => $value) {
-	if ($key == "ApBerDatum") {
+	if ($key == "JBerDatum") {
 		if ($value) {
 			$value = date("Y-m-d H:i:s", strtotime($value));
 		} else {

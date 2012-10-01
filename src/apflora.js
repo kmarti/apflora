@@ -15,7 +15,7 @@ function initiiere_index() {
 	});
 	$("#TPopKontrDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopKontrJahr", altFormat: "yy", defaultDate: +0 });
 	$("#TPopMassnDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopMassnJahr", altFormat: "yy", defaultDate: +0 });
-	$("#ApBerDatum").datepicker({ dateFormat: "dd.mm.yy", defaultDate: +0 });
+	$("#JBerDatum").datepicker({ dateFormat: "dd.mm.yy", defaultDate: +0 });
 	$("#UfErstelldatum").datepicker({ dateFormat: "dd.mm.yy", defaultDate: +0 });
 	//Auswahllisten aufbauen
 	erstelle_ap_liste("programm_alle");
@@ -280,48 +280,48 @@ function initiiere_erfkrit() {
 	});
 }
 
-function initiiere_apber() {
-	if (!localStorage.apber_id) {
+function initiiere_jber() {
+	if (!localStorage.jber_id) {
 		//es fehlen benötigte Daten > eine Ebene höher
 		initiiere_ap();
 		return;
 	}
 	//Felder zurücksetzen
-	leereFelderVonFormular("apber");
+	leereFelderVonFormular("jber");
 	setzeFeldbreiten();
-	//Daten für die apber aus der DB holen
+	//Daten für die jber aus der DB holen
 	$.ajax({
-		url: 'php/apber.php',
+		url: 'php/jber.php',
 		dataType: 'json',
 		data: {
-			"id": localStorage.apber_id
+			"id": localStorage.jber_id
 		},
 		success: function (data) {
 			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
 				//ap bereitstellen
-				window.apber = data;
+				window.jber = data;
 				//Felder mit Daten beliefern
-				$("#ApBerJahr").val(data.ApBerJahr);
-				$("#ApBerSituation").val(data.ApBerSituation);
-				$("#ApBerVergleichVorjahrGesamtziel").val(data.ApBerVergleichVorjahrGesamtziel);
-				$("#ApBerBeurteilung" + data.ApBerBeurteilung).prop("checked", true);
+				$("#JBerJahr").val(data.JBerJahr);
+				$("#JBerSituation").val(data.JBerSituation);
+				$("#JBerVergleichVorjahrGesamtziel").val(data.JBerVergleichVorjahrGesamtziel);
+				$("#JBerBeurteilung" + data.JBerBeurteilung).prop("checked", true);
 				//escapen, + und - werden sonst verändert
-				$("#ApBerVeraenGegenVorjahr\\" + data.ApBerVeraenGegenVorjahr).prop("checked", true);
-				$("#ApBerAnalyse").val(data.ApBerAnalyse);
-				$("#ApBerUmsetzung").val(data.ApBerUmsetzung);
-				$("#ApBerErfko").val(data.ApBerErfko);
-				$("#ApBerATxt").val(data.ApBerATxt);
-				$("#ApBerBTxt").val(data.ApBerBTxt);
-				$("#ApBerCTxt").val(data.ApBerCTxt);
-				$("#ApBerDTxt").val(data.ApBerDTxt);
-				if (data.ApBerDatum !== "01.01.1970") {
+				$("#JBerVeraenGegenVorjahr\\" + data.JBerVeraenGegenVorjahr).prop("checked", true);
+				$("#JBerAnalyse").val(data.JBerAnalyse);
+				$("#JBerUmsetzung").val(data.JBerUmsetzung);
+				$("#JBerErfko").val(data.JBerErfko);
+				$("#JBerATxt").val(data.JBerATxt);
+				$("#JBerBTxt").val(data.JBerBTxt);
+				$("#JBerCTxt").val(data.JBerCTxt);
+				$("#JBerDTxt").val(data.JBerDTxt);
+				if (data.JBerDatum !== "01.01.1970") {
 					//php macht aus einem Nullwert im Datum den 1.1.1970!!!
-					$("#ApBerDatum").val(data.ApBerDatum);
+					$("#JBerDatum").val(data.JBerDatum);
 				} else {
-					$("#ApBerDatum").val("");
+					$("#JBerDatum").val("");
 				}
-				//ApBerBearb: Daten holen - oder vorhandene nutzen
+				//JBerBearb: Daten holen - oder vorhandene nutzen
 				if (!window.adressen_html) {
 					$.ajax({
 						url: 'php/adressen.php',
@@ -338,58 +338,58 @@ function initiiere_apber() {
 									}
 								}
 								window.adressen_html = html;
-								$("#ApBerBearb").html(html);
-								$("#ApBerBearb").val(window.apber.ApBerBearb);
+								$("#JBerBearb").html(html);
+								$("#JBerBearb").val(window.jber.JBerBearb);
 							}
 						}
 					});
 				} else {
-					$("#ApBerBearb").html(window.adressen_html);
-					$("#ApBerBearb").val(window.apber.ApBerBearb);
+					$("#JBerBearb").html(window.adressen_html);
+					$("#JBerBearb").val(window.jber.JBerBearb);
 				}
 				//Formulare blenden
-				zeigeFormular("apber");
+				zeigeFormular("jber");
 				setzeFeldbreiten();
 				//bei neuen Datensätzen Fokus steuern
-				if (!$("#ApBerJahr").val()) {
-					$("#ApBerJahr").focus();
+				if (!$("#JBerJahr").val()) {
+					$("#JBerJahr").focus();
 				}
 			}
 		}
 	});
 }
 
-function initiiere_apber_uebersicht() {
-	if (!localStorage.apber_uebersicht_id) {
+function initiiere_jber_uebersicht() {
+	if (!localStorage.jber_uebersicht_id) {
 		//es fehlen benötigte Daten > eine Ebene höher
 		initiiere_ap();
 		return;
 	}
 	//Felder zurücksetzen
-	leereFelderVonFormular("apber_uebersicht");
+	leereFelderVonFormular("jber_uebersicht");
 	setzeFeldbreiten();
-	//Daten für die apber_uebersicht aus der DB holen
+	//Daten für die jber_uebersicht aus der DB holen
 	$.ajax({
-		url: 'php/apber_uebersicht.php',
+		url: 'php/jber_uebersicht.php',
 		dataType: 'json',
 		data: {
-			"jahr": localStorage.apber_uebersicht_id
+			"JbuJahr": localStorage.jber_uebersicht_id
 		},
 		success: function (data) {
 			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
 				//ap bereitstellen
-				window.apber_uebersicht = data;
+				window.jber_uebersicht = data;
 				//Felder mit Daten beliefern
-				$("#Jahr").val(data.Jahr);
-				$("#Bemerkungen").val(data.Bemerkungen);
+				$("#JbuJahr").val(data.JbuJahr);
+				$("#JbuBemerkungen").val(data.JbuBemerkungen);
 				//FitToContent("Bemerkungen", document.documentElement.clientHeight);
 				//Formulare blenden
-				zeigeFormular("apber_uebersicht");
+				zeigeFormular("jber_uebersicht");
 				setzeFeldbreiten();
 				//bei neuen Datensätzen Fokus steuern
-				if (!$("#Jahr").val()) {
-					$("#Jahr").focus();
+				if (!$("#JbuJahr").val()) {
+					$("#JbuJahr").focus();
 				}
 			}
 		}
@@ -1807,7 +1807,7 @@ function erstelle_tree(ApArtId) {
 			"type_attr": "typ",
 			"max_children": -2,
 			"max_depth": -2,
-			"valid_children": ["ap_ordner_pop", "ap_ordner_apziel", "ap_ordner_erfkrit", "ap_ordner_apber", "ap_ordner_ber", "ap_ordner_beob", "umwfakt", "ap_ordner_ib", "ap_ordner_assozarten"],
+			"valid_children": ["ap_ordner_pop", "ap_ordner_apziel", "ap_ordner_erfkrit", "ap_ordner_jber", "ap_ordner_ber", "ap_ordner_beob", "umwfakt", "ap_ordner_ib", "ap_ordner_assozarten"],
 			"types": {
 				"ap_ordner_pop": {
 					"valid_children": "pop"
@@ -1902,14 +1902,14 @@ function erstelle_tree(ApArtId) {
 					"valid_children": "none",
 					"new_node": "neues Erfolgskriterium"
 				},
-				"ap_ordner_apber": {
-					"valid_children": "apber"
+				"ap_ordner_jber": {
+					"valid_children": "jber"
 				},
-				"apber": {
-					"valid_children": "apber_uebersicht",
+				"jber": {
+					"valid_children": "jber_uebersicht",
 					"new_node": "neuer AP-Bericht"
 				},
-				"apber_uebersicht": {
+				"jber_uebersicht": {
 					"valid_children": "none",
 					"new_node": "neue Übersicht zu allen Arten"
 				},
@@ -1994,17 +1994,17 @@ function erstelle_tree(ApArtId) {
 				localStorage.erfkrit_id = node.attr("id");
 				initiiere_erfkrit();
 			}
-		} else if (node.attr("typ") === "apber") {
+		} else if (node.attr("typ") === "jber") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#apber").is(':visible') || localStorage.apber_id !== node.attr("id")) {
-				localStorage.apber_id = node.attr("id");
-				initiiere_apber();
+			if (!$("#jber").is(':visible') || localStorage.jber_id !== node.attr("id")) {
+				localStorage.jber_id = node.attr("id");
+				initiiere_jber();
 			}
-		} else if (node.attr("typ") === "apber_uebersicht") {
+		} else if (node.attr("typ") === "jber_uebersicht") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#apber_uebersicht").is(':visible') || localStorage.apber_uebersicht_id !== node.attr("id")) {
-				localStorage.apber_uebersicht_id = node.attr("id");
-				initiiere_apber_uebersicht();
+			if (!$("#jber_uebersicht").is(':visible') || localStorage.jber_uebersicht_id !== node.attr("id")) {
+				localStorage.jber_uebersicht_id = node.attr("id");
+				initiiere_jber_uebersicht();
 			}
 		} else if (node.attr("typ") === "ber") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -2741,7 +2741,7 @@ function beschrifte_ap_ordner_erfkrit(node) {
 
 //übernimmt einen node
 //zählt dessen children und passt die Beschriftung an
-function beschrifte_ap_ordner_apber(node) {
+function beschrifte_ap_ordner_jber(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	if (anz === 1) {
@@ -3894,7 +3894,7 @@ function treeKontextmenu(node) {
 			}
 		};
 		return items;
-	case "ap_ordner_apber":
+	case "ap_ordner_jber":
 		items = {
 			"neu": {
 				"label": "neuer AP-Bericht",
@@ -3914,7 +3914,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
-						url: 'php/apber_insert.php',
+						url: 'php/jber_insert.php',
 						dataType: 'json',
 						data: {
 							"id": $(aktiver_node).attr("id"),
@@ -3922,22 +3922,22 @@ function treeKontextmenu(node) {
 						},
 						success: function (data) {
 							var NeuerNode;
-							localStorage.apber_id = data;
-							delete window.apber;
+							localStorage.jber_id = data;
+							delete window.jber;
 							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
 								"data": "neuer AP-Bericht",
 								"attr": {
 									"id": data,
-									"typ": "apber"
+									"typ": "jber"
 								}
 							});
 							//Node-Beschriftung: Anzahl anpassen
-							beschrifte_ap_ordner_apber(aktiver_node);
+							beschrifte_ap_ordner_jber(aktiver_node);
 							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							//Formular initiieren
-							initiiere_apber();
+							initiiere_jber();
 						},
 						error: function (data) {
 							$("#Meldung").html("Fehler: Keinen neuen AP-Bericht erstellt");
@@ -3963,7 +3963,7 @@ function treeKontextmenu(node) {
 			}
 		};
 		return items;
-	case "apber":
+	case "jber":
 		items = {
 			"neu": {
 				"label": "neuer AP-Bericht",
@@ -3983,31 +3983,31 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
-						url: 'php/apber_insert.php',
+						url: 'php/jber_insert.php',
 						dataType: 'json',
 						data: {
 							"id": $(parent_node).attr("id"),
-							"typ": "apber",
+							"typ": "jber",
 							"user": sessionStorage.User
 						},
 						success: function (data) {
 							var NeuerNode;
-							localStorage.apber_id = data;
-							delete window.apber;
+							localStorage.jber_id = data;
+							delete window.jber;
 							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
 								"data": "Neuer AP-Bericht",
 								"attr": {
 									"id": data,
-									"typ": "apber"
+									"typ": "jber"
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							beschrifte_ap_ordner_apber(parent_node);
+							beschrifte_ap_ordner_jber(parent_node);
 							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							//Formular initiieren
-							initiiere_apber();
+							initiiere_jber();
 						},
 						error: function () {
 							$("#Meldung").html("Fehler: Keinen neuen AP-Bericht erstellt");
@@ -4057,22 +4057,22 @@ function treeKontextmenu(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								//Variable zum rückgängig machen erstellen
-								window.deleted = window.apber;
-								window.deleted.typ = "apber";
+								window.deleted = window.jber;
+								window.deleted.typ = "jber";
 								$.ajax({
-									url: 'php/apber_delete.php',
+									url: 'php/jber_delete.php',
 									dataType: 'json',
 									data: {
 										"id": $(aktiver_node).attr("id")
 									},
 									success: function () {
-										delete localStorage.apber_id;
-										delete window.apber;
+										delete localStorage.jber_id;
+										delete window.jber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
-										beschrifte_ap_ordner_apber(parent_node);
+										beschrifte_ap_ordner_jber(parent_node);
 										//Hinweis zum rückgängig machen anzeigen
-										$("#undelete_div").html("AP-Bericht '" + window.deleted.ApBerJahr + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
+										$("#undelete_div").html("AP-Bericht '" + window.deleted.JBerJahr + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
 										$("#undelete_div").show();
 										setTimeout(function () {
 											$("#undelete_div").html("");
@@ -4110,7 +4110,7 @@ function treeKontextmenu(node) {
 		};
 		//Wenn noch keine existiert, kann einen neue Übersicht zu allen Arten erstellt werden
 		if (jQuery.jstree._reference(aktiver_node)._get_children(aktiver_node).length === 0) {
-			items.neu_apber_uebersicht = {
+			items.neu_jber_uebersicht = {
 				"label": "neue Übersicht zu allen Arten",
 				"separator_before": true,
 				"icon": "style/images/neu.png",
@@ -4129,7 +4129,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
-						url: 'php/apber_uebersicht_insert.php',
+						url: 'php/jber_uebersicht_insert.php',
 						dataType: 'json',
 						data: {
 							"jahr": jQuery.jstree._reference(aktiver_node).get_text(aktiver_node),
@@ -4137,18 +4137,18 @@ function treeKontextmenu(node) {
 						},
 						success: function (data) {
 							var NeuerNode;
-							localStorage.apber_uebersicht_id = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
-							delete window.apber_uebersicht;
+							localStorage.jber_uebersicht_id = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+							delete window.jber_uebersicht;
 							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
 								"data": "neue Übersicht zu allen Arten",
 								"attr": {
 									"id": jQuery.jstree._reference(aktiver_node).get_text(aktiver_node),
-									"typ": "apber_uebersicht"
+									"typ": "jber_uebersicht"
 								}
 							});
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							initiiere_apber_uebersicht();
+							initiiere_jber_uebersicht();
 						},
 						error: function () {
 							$("#Meldung").html("Fehler: Keine Übersicht zu allen Arten erstellt");
@@ -4166,7 +4166,7 @@ function treeKontextmenu(node) {
 			}
 		}
 		return items;
-	case "apber_uebersicht":
+	case "jber_uebersicht":
 		items = {
 			"loeschen": {
 				"label": "lösche Übersicht zu allen Arten",
@@ -4201,14 +4201,14 @@ function treeKontextmenu(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								$.ajax({
-									url: 'php/apber_uebersicht_delete.php',
+									url: 'php/jber_uebersicht_delete.php',
 									dataType: 'json',
 									data: {
 										"jahr": $(aktiver_node).attr("id")
 									},
 									success: function () {
-										delete localStorage.apber_uebersicht_id;
-										delete window.apber_uebersicht;
+										delete localStorage.jber_uebersicht_id;
+										delete window.jber_uebersicht;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									},
 									error: function (data) {
@@ -8802,8 +8802,8 @@ function speichern(that) {
 		case "ErfBeurtZielSkalaTxt":
 			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_erfkrit'] #" + localStorage.erfkrit_id, $("#SpanErfBeurtZielSkalaErreichungsgrad" + $("input:radio[name='ErfBeurtZielSkalaErreichungsgrad']:checked").val()).text() + ": " + Feldwert);
 			break;
-		case "ApBerJahr":
-			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_apber'] #" + localStorage.apber_id, Feldwert);
+		case "JBerJahr":
+			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_jber'] #" + localStorage.jber_id, Feldwert);
 			break;
 		case "BerAutor":
 		case "BerJahr":

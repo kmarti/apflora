@@ -80,13 +80,13 @@ while($r_ap = mysql_fetch_assoc($result_ap)) {
 	$ap_ordner_erfkrit_attr = array("id" => $ApArtId, "typ" => "ap_ordner_erfkrit");
 	$ap_ordner_erfkrit = array("data" => "Erfolgskriterien", "attr" => $ap_ordner_erfkrit_attr, "children" => $child_dummy);
 	//AP-Berichte
-	$ap_ordner_apber_attr = array("id" => $ApArtId, "typ" => "ap_ordner_apber");
-	$ap_ordner_apber = array("data" => "AP-Berichte", "attr" => $ap_ordner_apber_attr, "children" => $child_dummy);
+	$ap_ordner_jber_attr = array("id" => $ApArtId, "typ" => "ap_ordner_jber");
+	$ap_ordner_jber = array("data" => "AP-Berichte", "attr" => $ap_ordner_jber_attr, "children" => $child_dummy);
 	//Berichte
 	$ap_ordner_ber_attr = array("id" => $ApArtId, "typ" => "ap_ordner_ber");
 	$ap_ordner_ber = array("data" => "Berichte", "attr" => $ap_ordner_ber_attr, "children" => $child_dummy);
 	//zusammensetzen
-	$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziele, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_apber, 4 => $ap_ordner_ber);
+	$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziele, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_jber, 4 => $ap_ordner_ber);
 
 	//ap setzen
 	$attr_ap = array("id" => $ApArtId, "typ" => "ap");
