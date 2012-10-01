@@ -1231,7 +1231,8 @@
 				<button id="export_ap_ziele">Ziele</button><br>
 				<button id="export_ap_zielber">Ziel-Berichte</button><br>
 				<button id="export_ap_ber">Berichte</button><br>
-				<button id="export_ap_erfkrit">Erfolgskriterien</button>
+				<button id="export_ap_erfkrit">Erfolgskriterien</button><br>
+				<button id="export_idealbiotope">Idealbiotope</button>
 
 				<br><br><a href="#top">&uArr;&nbsp;top</a>
 
@@ -2060,6 +2061,9 @@
 			});
 			$("#exporte").on("click", "#export_ap_erfkrit", function() {
 				window.open("php/export_ap_erfkrit.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_idealbiotope", function() {
+				window.open("php/export_idealbiotope.php", target="_blank");
 			});
 			$("#exporte").on("click", "#export_pop", function() {
 				window.open("php/export_pop.php", target="_blank");

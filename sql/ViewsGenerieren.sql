@@ -471,6 +471,12 @@ SELECT tblAktionsplan.ApArtId, ArtenDb_tblFloraSisf.Name AS "AP Art", DomainApBe
 FROM ((((ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) INNER JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode) LEFT JOIN DomainApUmsetzung ON tblAktionsplan.ApUmsetzung = DomainApUmsetzung.DomainCode) LEFT JOIN tblAdresse ON tblAktionsplan.ApBearb = tblAdresse.AdrId) INNER JOIN tblApBer ON tblAktionsplan.ApArtId = tblApBer.ApArtId
 ORDER BY ArtenDb_tblFloraSisf.Name;
 
+CREATE VIEW vIdealBiotope AS
+SELECT tblAktionsplan.ApArtId, ArtenDb_tblFloraSisf.Name AS "AP Art", DomainApBearbeitungsstand.DomainTxt AS "AP Bearbeitungsstand", tblAktionsplan.ApJahr AS "AP Start im Jahr", DomainApUmsetzung.DomainTxt AS "AP Stand Umsetzung", tblAdresse.AdrName AS "AP verantwortlich", tblIdealBiotope.IbId AS "IB Id", tblIdealBiotope.IbName AS "IB Name", tblIdealBiotope.IbVegTyp AS "IB VegTyp", tblIdealBiotope.IbBewPflege AS "IB Pflege", tblIdealBiotope.IbBemerkungen AS "IB Bemerkungen", tblIdealBiotope.MutWann AS "IB MutWann", tblIdealBiotope.MutWer AS "IB MutWer"
+FROM ((((ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) INNER JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode) LEFT JOIN DomainApUmsetzung ON tblAktionsplan.ApUmsetzung = DomainApUmsetzung.DomainCode) LEFT JOIN tblAdresse ON tblAktionsplan.ApBearb = tblAdresse.AdrId) INNER JOIN tblIdealBiotope ON tblAktionsplan.ApArtId = tblIdealBiotope.IbApArtId
+ORDER BY ArtenDb_tblFloraSisf.Name;
+
+
 
 CREATE VIEW vApOhnePop AS 
 SELECT tblAktionsplan.ApArtId, ArtenDb_tblFloraSisf.Name AS Art, DomainApBearbeitungsstand.DomainTxt AS "Bearbeitungsstand AP", tblAktionsplan.ApJahr AS "Start AP im Jahr", DomainApUmsetzung.DomainTxt AS "Stand Umsetzung AP", tblAdresse.AdrName AS "Verantwortlich", tblPopulation.ApArtId AS "Population"
