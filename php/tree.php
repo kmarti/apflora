@@ -539,11 +539,11 @@ while($r_beob = mysqli_fetch_assoc($result_beob)) {
 }
 mysqli_free_result($result_beob);
 
-//iballg dieses AP abfragen
-$result_iballg = mysqli_query($link, "SELECT IbApArtId FROM tblIbAllg where IbApArtId = $ApArtId");
-$anz_iballg = mysqli_num_rows($result_iballg);
+//umwfakt dieses AP abfragen
+$result_umwfakt = mysqli_query($link, "SELECT UfApArtId FROM tblApUmwFakt where UfApArtId = $ApArtId");
+$anz_umwfakt = mysqli_num_rows($result_umwfakt);
 
-mysqli_free_result($result_iballg);
+mysqli_free_result($result_umwfakt);
 
 //ibb dieses AP abfragen
 $result_ibb = mysqli_query($link, "SELECT IbbId, IbApArtId, IbbName, IbbVegTyp FROM tblIbBiotope where IbApArtId = $ApArtId ORDER BY IbbName, IbbVegTyp");
@@ -627,8 +627,8 @@ if ($anz_beob === 1) {
 $ap_ordner_beob_attr = array("id" => $ApArtId, "typ" => "ap_ordner_beob");
 $ap_ordner_beob = array("data" => $ap_ordner_beob_datatext, "attr" => $ap_ordner_beob_attr, "children" => $rows_beob);
 //Ideale Umweltfaktoren
-$ap_ordner_iballg_attr = array("id" => $ApArtId, "typ" => "iballg");
-$ap_ordner_iballg = array("data" => "ideale Umweltfaktoren", "attr" => $ap_ordner_iballg_attr);
+$ap_ordner_umwfakt_attr = array("id" => $ApArtId, "typ" => "umwfakt");
+$ap_ordner_umwfakt = array("data" => "ideale Umweltfaktoren", "attr" => $ap_ordner_umwfakt_attr);
 //Ideale Biotoptypen
 $ap_ordner_ibb_datatext = $anz_ibb." ideale Biotope";
 if ($anz_ibb === 1) {
@@ -644,7 +644,7 @@ if ($anz_ibartenassoz === 1) {
 $ap_ordner_ibartenassoz_attr = array("id" => $ApArtId, "typ" => "ap_ordner_ibartenassoz");
 $ap_ordner_ibartenassoz = array("data" => $ap_ordner_ibartenassoz_datatext, "attr" => $ap_ordner_ibartenassoz_attr, "children" => $rows_ibartenassoz);
 //zusammensetzen
-$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_apber, 4 => $ap_ordner_ber, 5 => $ap_ordner_beob, 6 => $ap_ordner_iballg, 7 => $ap_ordner_ibb, 8 => $ap_ordner_ibartenassoz);
+$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_apber, 4 => $ap_ordner_ber, 5 => $ap_ordner_beob, 6 => $ap_ordner_umwfakt, 7 => $ap_ordner_ibb, 8 => $ap_ordner_ibartenassoz);
 
 	
 //in json verwandeln

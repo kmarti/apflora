@@ -16,7 +16,7 @@ function initiiere_index() {
 	$("#TPopKontrDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopKontrJahr", altFormat: "yy", defaultDate: +0 });
 	$("#TPopMassnDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopMassnJahr", altFormat: "yy", defaultDate: +0 });
 	$("#ApBerDatum").datepicker({ dateFormat: "dd.mm.yy", defaultDate: +0 });
-	$("#IbErstelldatum").datepicker({ dateFormat: "dd.mm.yy", defaultDate: +0 });
+	$("#UfErstelldatum").datepicker({ dateFormat: "dd.mm.yy", defaultDate: +0 });
 	//Auswahllisten aufbauen
 	erstelle_ap_liste("programm_alle");
 	$("#ap_loeschen").hide();
@@ -443,18 +443,18 @@ function initiiere_ber() {
 	});
 }
 
-function initiiere_iballg() {
+function initiiere_umwfakt() {
 	if (!localStorage.ap_id) {
 		//es fehlen benötigte Daten > eine Ebene höher
 		initiiere_ap();
 		return;
 	}
 	//Felder zurücksetzen
-	leereFelderVonFormular("iballg");
+	leereFelderVonFormular("umwfakt");
 	setzeFeldbreiten();
-	//Daten für die iballg aus der DB holen
+	//Daten für die umwfakt aus der DB holen
 	$.ajax({
-		url: 'php/iballg.php',
+		url: 'php/umwfakt.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.ap_id
@@ -462,37 +462,37 @@ function initiiere_iballg() {
 		success: function (data) {
 			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//iballg bereitstellen
-				localStorage.iballg_id = data.IbApArtId;
-				window.iballg = data;
+				//umwfakt bereitstellen
+				localStorage.umwfakt_id = data.UfApArtId;
+				window.umwfakt = data;
 				//Felder mit Daten beliefern
-				if (data.IbErstelldatum !== "01.01.1970") {
+				if (data.UfErstelldatum !== "01.01.1970") {
 					//php macht aus einem Nullwert im Datum den 1.1.1970!!!
-					$("#IbErstelldatum").val(data.IbErstelldatum);
+					$("#UfErstelldatum").val(data.UfErstelldatum);
 				}
-				$("#IbHoehenlage").val(data.IbHoehenlage);
-				$("#IbRegion").val(data.IbRegion);
-				$("#IbExposition").val(data.IbExposition);
-				$("#IbBesonnung").val(data.IbBesonnung);
-				$("#IbHangneigung").val(data.IbHangneigung);
-				$("#IbBodenTyp").val(data.IbBodenTyp);
-				$("#IbBodenKalkgehalt").val(data.IbBodenKalkgehalt);
-				$("#IbBodenDurchlaessigkeit").val(data.IbBodenDurchlaessigkeit);
-				$("#IbBodenHumus").val(data.IbBodenHumus);
-				$("#IbBodenNaehrstoffgehalt").val(data.IbBodenNaehrstoffgehalt);
-				$("#IbWasserhaushalt").val(data.IbWasserhaushalt);
-				$("#IbKonkurrenz").val(data.IbKonkurrenz);
-				$("#IbMoosschicht").val(data.IbMoosschicht);
-				$("#IbKrautschicht").val(data.IbKrautschicht);
-				$("#IbStrauchschicht").val(data.IbStrauchschicht);
-				$("#IbBaumschicht").val(data.IbBaumschicht);
-				$("#IbBemerkungen").val(data.IbBemerkungen);
+				$("#UfHoehenlage").val(data.UfHoehenlage);
+				$("#UfRegion").val(data.UfRegion);
+				$("#UfExposition").val(data.UfExposition);
+				$("#UfBesonnung").val(data.UfBesonnung);
+				$("#UfHangneigung").val(data.UfHangneigung);
+				$("#UfBodenTyp").val(data.UfBodenTyp);
+				$("#UfBodenKalkgehalt").val(data.UfBodenKalkgehalt);
+				$("#UfBodenDurchlaessigkeit").val(data.UfBodenDurchlaessigkeit);
+				$("#UfBodenHumus").val(data.UfBodenHumus);
+				$("#UfBodenNaehrstoffgehalt").val(data.UfBodenNaehrstoffgehalt);
+				$("#UfWasserhaushalt").val(data.UfWasserhaushalt);
+				$("#UfKonkurrenz").val(data.UfKonkurrenz);
+				$("#UfMoosschicht").val(data.UfMoosschicht);
+				$("#UfKrautschicht").val(data.UfKrautschicht);
+				$("#UfStrauchschicht").val(data.UfStrauchschicht);
+				$("#UfBaumschicht").val(data.UfBaumschicht);
+				$("#UfBemerkungen").val(data.UfBemerkungen);
 				//Formulare blenden
-				zeigeFormular("iballg");
+				zeigeFormular("umwfakt");
 				setzeFeldbreiten();
 				//bei neuen Datensätzen Fokus steuern
-				if (!$("#IbErstelldatum").val()) {
-					$("#IbErstelldatum").focus();
+				if (!$("#UfErstelldatum").val()) {
+					$("#UfErstelldatum").focus();
 				}
 			} else {
 				//nur aktualisieren, wenn Schreibrechte bestehen
@@ -510,15 +510,15 @@ function initiiere_iballg() {
 				}
 				//null zurückgekommen > Datesatz schaffen
 				$.ajax({
-					url: 'php/iballg_insert.php',
+					url: 'php/umwfakt_insert.php',
 					dataType: 'json',
 					data: {
 						"id": localStorage.ap_id,
 						"user": sessionStorage.User
 					},
 					success: function (data) {
-						localStorage.iballg_id = data.IbApArtId;
-						initiiere_iballg();
+						localStorage.umwfakt_id = data.UfApArtId;
+						initiiere_umwfakt();
 					},
 					error: function (data) {
 						$("#Meldung").html("Fehler: Keine Umweltfaktoren erstellt");
@@ -1548,7 +1548,7 @@ function setzeFeldbreiten() {
 			if ($(this).attr("formular") === "tpopfeldkontr") {
 				//hier hatt's tabs, Felder müssen schmaler sein als normal
 				$(this).width($("#forms").width() - 190);
-			} else if ($(this).attr("formular") === "iballg") {
+			} else if ($(this).attr("formular") === "umwfakt") {
 				//hier hats fieldsets, Felder müssen schmaler sein als normal
 				$(this).width($("#forms").width() - 180);
 			} else {
@@ -1564,7 +1564,7 @@ function setzeFeldbreiten() {
 				} else {
 					$(this).width($("#forms").width() - 200);
 				}
-			} else if ($(this).attr("formular") === "iballg") {
+			} else if ($(this).attr("formular") === "umwfakt") {
 				//hier hats fieldsets, Felder müssen schmaler sein als normal
 				if (($("#forms").width() - 180) > 200) {
 					$(this).width(200);
@@ -1807,7 +1807,7 @@ function erstelle_tree(ApArtId) {
 			"type_attr": "typ",
 			"max_children": -2,
 			"max_depth": -2,
-			"valid_children": ["ap_ordner_pop", "ap_ordner_apziel", "ap_ordner_erfkrit", "ap_ordner_apber", "ap_ordner_ber", "ap_ordner_beob", "iballg", "ap_ordner_ibb", "ap_ordner_ibartenassoz"],
+			"valid_children": ["ap_ordner_pop", "ap_ordner_apziel", "ap_ordner_erfkrit", "ap_ordner_apber", "ap_ordner_ber", "ap_ordner_beob", "umwfakt", "ap_ordner_ibb", "ap_ordner_ibartenassoz"],
 			"types": {
 				"ap_ordner_pop": {
 					"valid_children": "pop"
@@ -1926,7 +1926,7 @@ function erstelle_tree(ApArtId) {
 				"beob": {
 					"valid_children": "none"
 				},
-				"iballg": {
+				"umwfakt": {
 					"valid_children": "none"
 				},
 				"ap_ordner_ibb": {
@@ -2012,13 +2012,13 @@ function erstelle_tree(ApArtId) {
 				localStorage.ber_id = node.attr("id");
 				initiiere_ber();
 			}
-		} else if (node.attr("typ") === "iballg") {
+		} else if (node.attr("typ") === "umwfakt") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#iballg").is(':visible')) {
+			if (!$("#umwfakt").is(':visible')) {
 				//eigene id nicht nötig
 				//1:1 mit ap verbunden, gleich id
-				//wenn noch kein Datensatz existiert erstellt ihn initiiere_iballg
-				initiiere_iballg();
+				//wenn noch kein Datensatz existiert erstellt ihn initiiere_umwfakt
+				initiiere_umwfakt();
 			}
 		} else if (node.attr("typ") === "ibb") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -2941,7 +2941,7 @@ function treeKontextmenu(node) {
 	aktiver_node = jQuery("#tree").jstree('get_selected');
 	aktiver_nodeText = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
 	//parent nur ermitteln, wenn parents exisiteren - sonst gibt es einen Fehler
-	if ($(aktiver_node).attr("typ").slice(0, 9) !== "ap_ordner" && $(aktiver_node).attr("typ") !== "iballg") {
+	if ($(aktiver_node).attr("typ").slice(0, 9) !== "ap_ordner" && $(aktiver_node).attr("typ") !== "umwfakt") {
 		parent_node = jQuery.jstree._reference(aktiver_node)._get_parent(aktiver_node);
 		parent_nodeText = jQuery.jstree._reference(parent_node).get_text(parent_node);
 	}
