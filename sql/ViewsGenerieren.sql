@@ -232,6 +232,12 @@ SELECT tblZielBericht.*
 FROM tblZielBericht INNER JOIN tblKonstanten ON tblZielBericht.ZielBerJahr = tblKonstanten.ApBerJahr;
 
 CREATE VIEW vBerJbZiel AS 
+SELECT tblAktionsplan.ApArtId, ArtenDb_tblFloraSisf.Name AS Art, DomainApBearbeitungsstand.DomainTxt AS "Bearbeitungsstand AP", tblAktionsplan.ApJahr AS "Start AP im Jahr", DomainApUmsetzung.DomainTxt AS "Stand Umsetzung AP", tblAdresse.AdrName AS "Verantwortlich", tblAktionsplan.MutWann AS "Letzte Änderung", tblAktionsplan.MutWer AS "Letzte(r) Bearbeiter(in)", tblZiel.ZielId AS "Ziel Id", tblZiel.ZielJahr AS "Ziel Jahr", DomainZielTyp.ZieltypTxt AS "Ziel Typ", tblZiel.ZielBezeichnung AS "Ziel Beschreibung"
+FROM (((((ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) INNER JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode) LEFT JOIN DomainApUmsetzung ON tblAktionsplan.ApUmsetzung = DomainApUmsetzung.DomainCode) LEFT JOIN tblAdresse ON tblAktionsplan.ApBearb = tblAdresse.AdrId) INNER JOIN tblZiel ON tblAktionsplan.ApArtId = tblZiel.ApArtId) LEFT JOIN DomainZielTyp ON tblZiel.ZielTyp = DomainZielTyp.ZieltypId
+WHERE tblZiel.ZielTyp=1 Or tblZiel.ZielTyp=2 Or tblZiel.ZielTyp=1170775556
+ORDER BY ArtenDb_tblFloraSisf.Name, tblZiel.ZielJahr, DomainZielTyp.ZieltypTxt, tblZiel.ZielTyp;
+
+
 SELECT tblZiel.*, DomainZielTyp.ZieltypTxt
 FROM (tblZiel INNER JOIN DomainZielTyp ON tblZiel.ZielTyp = DomainZielTyp.ZieltypId) INNER JOIN tblKonstanten ON tblZiel.ZielJahr = tblKonstanten.ApBerJahr
 WHERE (((tblZiel.ZielTyp)=1 Or (tblZiel.ZielTyp)=2 Or (tblZiel.ZielTyp)=1170775556))
