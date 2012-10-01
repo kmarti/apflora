@@ -121,12 +121,12 @@ function erstelle_ApArtId_liste() {
 				}
 				window.artliste_html = html;
 				$("#ApArtId").html(html);
-				$("#IbaassSisfNr").html(html);
+				$("#AaSisfNr").html(html);
 			}
 		});
 	} else {
 		$("#ApArtId").html(window.artliste_html);
-		$("#IbaassSisfNr").html(window.artliste_html);
+		$("#AaSisfNr").html(window.artliste_html);
 	}
 }
 
@@ -607,38 +607,38 @@ function initiiere_ib() {
 	});
 }
 
-function initiiere_ibartenassoz() {
-	if (!localStorage.ibartenassoz_id) {
+function initiiere_assozarten() {
+	if (!localStorage.assozarten_id) {
 		//es fehlen benötigte Daten > eine Ebene höher
 		initiiere_ap();
 		return;
 	}
 	//Felder zurücksetzen
-	leereFelderVonFormular("ibartenassoz");
+	leereFelderVonFormular("assozarten");
 	setzeFeldbreiten();
-	//Daten für die ibartenassoz aus der DB holen
+	//Daten für die assozarten aus der DB holen
 	$.ajax({
-		url: 'php/ibartenassoz.php',
+		url: 'php/assozarten.php',
 		dataType: 'json',
 		data: {
-			"id": localStorage.ibartenassoz_id
+			"id": localStorage.assozarten_id
 		},
 		success: function (data) {
 			var tempUrl;
 			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
 				//ap bereitstellen
-				window.ibartenassoz = data;
+				window.assozarten = data;
 				//Felder mit Daten beliefern
-				$("#IbaassSisfNr").val(data.IbaassSisfNr);
-				$("#IbaassBem").val(data.IbaassBem);
+				$("#AaSisfNr").val(data.AaSisfNr);
+				$("#AaBem").val(data.AaBem);
 				//Formulare blenden
-				zeigeFormular("ibartenassoz");
+				zeigeFormular("assozarten");
 				setzeFeldbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function () {
-					if (!$("#IbaassSisfNr").val()) {
-						$("#IbaassSisfNr").focus();
+					if (!$("#AaSisfNr").val()) {
+						$("#AaSisfNr").focus();
 					}
 				}, 100);
 			}
@@ -1807,7 +1807,7 @@ function erstelle_tree(ApArtId) {
 			"type_attr": "typ",
 			"max_children": -2,
 			"max_depth": -2,
-			"valid_children": ["ap_ordner_pop", "ap_ordner_apziel", "ap_ordner_erfkrit", "ap_ordner_apber", "ap_ordner_ber", "ap_ordner_beob", "umwfakt", "ap_ordner_ib", "ap_ordner_ibartenassoz"],
+			"valid_children": ["ap_ordner_pop", "ap_ordner_apziel", "ap_ordner_erfkrit", "ap_ordner_apber", "ap_ordner_ber", "ap_ordner_beob", "umwfakt", "ap_ordner_ib", "ap_ordner_assozarten"],
 			"types": {
 				"ap_ordner_pop": {
 					"valid_children": "pop"
@@ -1936,10 +1936,10 @@ function erstelle_tree(ApArtId) {
 					"valid_children": "none",
 					"new_node": "neues ideales Biotop"
 				},
-				"ap_ordner_ibartenassoz": {
-					"valid_children": "ibartenassoz"
+				"ap_ordner_assozarten": {
+					"valid_children": "assozarten"
 				},
-				"ibartenassoz": {
+				"assozarten": {
 					"valid_children": "none",
 					"new_node": "neue assoziierte Art"
 				}
@@ -2026,11 +2026,11 @@ function erstelle_tree(ApArtId) {
 				localStorage.ib_id = node.attr("id");
 				initiiere_ib();
 			}
-		} else if (node.attr("typ") === "ibartenassoz") {
+		} else if (node.attr("typ") === "assozarten") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#ibartenassoz").is(':visible') || localStorage.ibartenassoz_id !== node.attr("id")) {
-				localStorage.ibartenassoz_id = node.attr("id");
-				initiiere_ibartenassoz();
+			if (!$("#assozarten").is(':visible') || localStorage.assozarten_id !== node.attr("id")) {
+				localStorage.assozarten_id = node.attr("id");
+				initiiere_assozarten();
 			}
 		} else if (node.attr("typ") === "popber") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -2780,7 +2780,7 @@ function beschrifte_ap_ordner_ib(node) {
 
 //übernimmt einen node
 //zählt dessen children und passt die Beschriftung an
-function beschrifte_ap_ordner_ibartenassoz(node) {
+function beschrifte_ap_ordner_assozarten(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	if (anz === 1) {
@@ -4643,7 +4643,7 @@ function treeKontextmenu(node) {
 			}
 		};
 		return items;
-	case "ap_ordner_ibartenassoz":
+	case "ap_ordner_assozarten":
 		items = {
 			"neu": {
 				"label": "neue assoziierte Art",
@@ -4663,7 +4663,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
-						url: 'php/ibartenassoz_insert.php',
+						url: 'php/assozarten_insert.php',
 						dataType: 'json',
 						data: {
 							"id": $(aktiver_node).attr("id"),
@@ -4671,22 +4671,22 @@ function treeKontextmenu(node) {
 						},
 						success: function (data) {
 							var NeuerNode;
-							localStorage.ibartenassoz_id = data;
-							delete window.ibartenassoz;
+							localStorage.assozarten_id = data;
+							delete window.assozarten;
 							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
 								"data": "neue assoziierte Art",
 								"attr": {
 									"id": data,
-									"typ": "ibartenassoz"
+									"typ": "assozarten"
 								}
 							});
 							//Node-Beschriftung: Anzahl anpassen
-							beschrifte_ap_ordner_ibartenassoz(aktiver_node);
+							beschrifte_ap_ordner_assozarten(aktiver_node);
 							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							//Formular initiieren
-							initiiere_ibartenassoz();
+							initiiere_assozarten();
 						},
 						error: function (data) {
 							$("#Meldung").html("Fehler: keine assoziierte Art erstellt");
@@ -4712,7 +4712,7 @@ function treeKontextmenu(node) {
 			}
 		};
 		return items;
-	case "ibartenassoz":
+	case "assozarten":
 		items = {
 			"neu": {
 				"label": "neue assoziierte Art",
@@ -4732,31 +4732,31 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
-						url: 'php/ibartenassoz_insert.php',
+						url: 'php/assozarten_insert.php',
 						dataType: 'json',
 						data: {
 							"id": $(parent_node).attr("id"),
-							"typ": "ibartenassoz",
+							"typ": "assozarten",
 							"user": sessionStorage.User
 						},
 						success: function (data) {
 							var NeuerNode;
-							localStorage.ibartenassoz_id = data;
-							delete window.ibartenassoz;
+							localStorage.assozarten_id = data;
+							delete window.assozarten;
 							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
 								"data": "neue assoziierte Art",
 								"attr": {
 									"id": data,
-									"typ": "ibartenassoz"
+									"typ": "assozarten"
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
-							beschrifte_ap_ordner_ibartenassoz(parent_node);
+							beschrifte_ap_ordner_assozarten(parent_node);
 							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							//Formular initiieren
-							initiiere_ibartenassoz();
+							initiiere_assozarten();
 						},
 						error: function () {
 							$("#Meldung").html("Fehler: Keine assoziierte Art erstellt");
@@ -4806,17 +4806,17 @@ function treeKontextmenu(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								$.ajax({
-									url: 'php/ibartenassoz_delete.php',
+									url: 'php/assozarten_delete.php',
 									dataType: 'json',
 									data: {
 										"id": $(aktiver_node).attr("id")
 									},
 									success: function () {
-										delete localStorage.ibartenassoz_id;
-										delete window.ibartenassoz;
+										delete localStorage.assozarten_id;
+										delete window.assozarten;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
-										beschrifte_ap_ordner_ibartenassoz(parent_node);
+										beschrifte_ap_ordner_assozarten(parent_node);
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Die assoziierte Art wurde nicht gelöscht");
@@ -8812,8 +8812,8 @@ function speichern(that) {
 		case "IbName":
 			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_ib'] #" + localStorage.ib_id, Feldwert);
 			break;
-		case "IbaassSisfNr":
-			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_ibartenassoz'] #" + localStorage.ibartenassoz_id, $("#IbaassSisfNr option[value='" + Feldwert + "']").text());
+		case "AaSisfNr":
+			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_assozarten'] #" + localStorage.assozarten_id, $("#AaSisfNr option[value='" + Feldwert + "']").text());
 			break;
 	}
 }

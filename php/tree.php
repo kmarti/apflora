@@ -561,26 +561,26 @@ while($r_ib = mysqli_fetch_assoc($result_ib)) {
 }
 mysqli_free_result($result_ib);
 
-//ibartenassoz dieses AP abfragen
-$result_ibartenassoz = mysqli_query($link, "SELECT IbaassId, IbaassApArtId, Name FROM tblIbArtenAssoz LEFT JOIN ArtenDb_tblFloraSisf ON IbaassSisfNr = NR where IbaassApArtId = $ApArtId ORDER BY Name");
-$anz_ibartenassoz = mysqli_num_rows($result_ibartenassoz);
-//ibartenassoz aufbauen
-$rows_ibartenassoz = array();
-while($r_ibartenassoz = mysqli_fetch_assoc($result_ibartenassoz)) {
-	$IbaassId = $r_ibartenassoz['IbaassId'];
-	settype($IbaassId, "integer");
-	if ($r_ibartenassoz['Name']) {
-		$IbartenassozName = $r_ibartenassoz['Name'];
+//assozarten dieses AP abfragen
+$result_assozarten = mysqli_query($link, "SELECT AaId, AaApArtId, Name FROM tblAssozArten LEFT JOIN ArtenDb_tblFloraSisf ON AaSisfNr = NR where AaApArtId = $ApArtId ORDER BY Name");
+$anz_assozarten = mysqli_num_rows($result_assozarten);
+//assozarten aufbauen
+$rows_assozarten = array();
+while($r_assozarten = mysqli_fetch_assoc($result_assozarten)) {
+	$AaId = $r_assozarten['AaId'];
+	settype($AaId, "integer");
+	if ($r_assozarten['Name']) {
+		$assozartenName = $r_assozarten['Name'];
 	} else {
-		$IbartenassozName = "Assoziation ohne Art";
+		$assozartenName = "Assoziation ohne Art";
 	}
-	//ibartenassoz setzen
-	$attr_ibartenassoz = array("id" => $IbaassId, "typ" => "ibartenassoz");
-	$ibartenassoz = array("data" => $IbartenassozName, "attr" => $attr_ibartenassoz);
-	//ibartenassoz-Array um ibartenassoz ergänzen
-    $rows_ibartenassoz[] = $ibartenassoz;
+	//assozarten setzen
+	$attr_assozarten = array("id" => $AaId, "typ" => "assozarten");
+	$assozarten = array("data" => $assozartenName, "attr" => $attr_assozarten);
+	//assozarten-Array um assozarten ergänzen
+    $rows_assozarten[] = $assozarten;
 }
-mysqli_free_result($result_ibartenassoz);
+mysqli_free_result($result_assozarten);
 	
 
 //AP-Ordner setzen
@@ -637,14 +637,14 @@ if ($anz_ib === 1) {
 $ap_ordner_ib_attr = array("id" => $ApArtId, "typ" => "ap_ordner_ib");
 $ap_ordner_ib = array("data" => $ap_ordner_ib_datatext, "attr" => $ap_ordner_ib_attr, "children" => $rows_ib);
 //assoziierte Arten
-$ap_ordner_ibartenassoz_datatext = $anz_ibartenassoz." assoziierte Arten";
-if ($anz_ibartenassoz === 1) {
-	$ap_ordner_ibartenassoz_datatext = $anz_ibartenassoz." assoziierte Art";
+$ap_ordner_assozarten_datatext = $anz_assozarten." assoziierte Arten";
+if ($anz_assozarten === 1) {
+	$ap_ordner_assozarten_datatext = $anz_assozarten." assoziierte Art";
 }
-$ap_ordner_ibartenassoz_attr = array("id" => $ApArtId, "typ" => "ap_ordner_ibartenassoz");
-$ap_ordner_ibartenassoz = array("data" => $ap_ordner_ibartenassoz_datatext, "attr" => $ap_ordner_ibartenassoz_attr, "children" => $rows_ibartenassoz);
+$ap_ordner_assozarten_attr = array("id" => $ApArtId, "typ" => "ap_ordner_assozarten");
+$ap_ordner_assozarten = array("data" => $ap_ordner_assozarten_datatext, "attr" => $ap_ordner_assozarten_attr, "children" => $rows_assozarten);
 //zusammensetzen
-$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_apber, 4 => $ap_ordner_ber, 5 => $ap_ordner_beob, 6 => $ap_ordner_umwfakt, 7 => $ap_ordner_ib, 8 => $ap_ordner_ibartenassoz);
+$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_apber, 4 => $ap_ordner_ber, 5 => $ap_ordner_beob, 6 => $ap_ordner_umwfakt, 7 => $ap_ordner_ib, 8 => $ap_ordner_assozarten);
 
 	
 //in json verwandeln

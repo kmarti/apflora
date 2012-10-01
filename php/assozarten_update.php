@@ -18,7 +18,7 @@ $Wert = $_GET["Wert"];
 $user = $_GET["user"];
 $time = date('Y-m-d H:i:s');
 
-$Querystring = 'UPDATE tblIbArtenAssoz SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE IbaassId = '.$id;
+$Querystring = 'UPDATE tblAssozArten SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE AaId = '.$id;
 
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);
