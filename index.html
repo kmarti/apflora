@@ -1216,7 +1216,7 @@
 				<div style="padding:10px 5px 10px 5px; margin-right:10px; border-radius:5px; background-color: #FFDA8F; box-shadow: 5px 5px 5px #888;"><b>Enthält der Export zuviele Daten?</b>
 					<ul style="-webkit-margin-after: 0em; -webkit-margin-before: 0.5em;">
 						<li>Filtere die Zeilen nach den gewünschten Kriterien</li>
-						<li>Blende die unerwünschten Spalten aus (oder lösche sie)</li>
+						<li>Blende unerwünschte Spalten aus (oder lösche sie)</li>
 					</ul>
 				</div>
 
@@ -1232,7 +1232,8 @@
 				<button id="export_ap_zielber">Ziel-Berichte</button><br>
 				<button id="export_ap_ber">Berichte</button><br>
 				<button id="export_ap_erfkrit">Erfolgskriterien</button><br>
-				<button id="export_idealbiotope">Idealbiotope</button>
+				<button id="export_idealbiotope">Idealbiotope</button><br>
+				<button id="export_assoz_arten">Assoziierte Arten</button>
 
 				<br><br><a href="#top">&uArr;&nbsp;top</a>
 
@@ -2064,6 +2065,9 @@
 			});
 			$("#exporte").on("click", "#export_idealbiotope", function() {
 				window.open("php/export_idealbiotope.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_assoz_arten", function() {
+				window.open("php/export_assoz_arten.php", target="_blank");
 			});
 			$("#exporte").on("click", "#export_pop", function() {
 				window.open("php/export_pop.php", target="_blank");
