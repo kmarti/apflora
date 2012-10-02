@@ -1246,6 +1246,7 @@
 				<button id="export_pop_von_ap_ohne_status">Populationen von AP-Arten ohne "Status"</button><br>
 				<button id="export_pop_mit_massnber_anz_massn">Populationen mit Massnahmen-Berichten: Anzahl Massnahmen im Berichtsjahr</button><br>
 				<button id="export_pop_anz_tpoppop">Populationen: Anzahl repräsentativer Teilpopulation</button><br>
+				<button id="export_popber">Populations-Berichte</button><br>
 
 				<br><a href="#top">&uArr;&nbsp;top</a>
 
@@ -2090,6 +2091,9 @@
 			});
 			$("#exporte").on("click", "#export_pop_anz_tpoppop", function() {
 				window.open("php/export_pop_anz_tpoppop.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_popber", function() {
+				window.open("php/export_popber.php", target="_blank");
 			});
 			$("#exporte").on("click", "#export_tpop", function() {
 				window.open("php/export_tpop.php", target="_blank");
