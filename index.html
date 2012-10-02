@@ -1249,6 +1249,7 @@
 				<button id="export_popber">Populations-Berichte</button><br>
 				<button id="export_popber_ohne_pop">Populations-Berichte ohne Population (Datenwaisen)</button><br>
 				<button id="export_popmassnber">Massnahmen-Berichte</button><br>
+				<button id="export_popmassnber_ohne_pop">Massnahmen-Berichte ohne Population (Datenwaisen)</button><br>
 
 				<br><a href="#top">&uArr;&nbsp;top</a>
 
@@ -2102,6 +2103,9 @@
 			});
 			$("#exporte").on("click", "#export_popmassnber", function() {
 				window.open("php/export_popmassnber.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_popmassnber_ohne_pop", function() {
+				window.open("php/export_popmassnber_ohne_pop.php", target="_blank");
 			});
 			$("#exporte").on("click", "#export_tpop", function() {
 				window.open("php/export_tpop.php", target="_blank");
