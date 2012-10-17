@@ -599,9 +599,9 @@ if ($anz_apzieljahr === 1) {
 $ap_ordner_apziel_attr = array("id" => $ApArtId, "typ" => "ap_ordner_apziel");
 $ap_ordner_apziel = array("data" => $ap_ordner_apziel_datatext, "attr" => $ap_ordner_apziel_attr, "children" => $rows_apzieljahr);
 //Erfolgskriterien
-$ap_ordner_erfkrit_datatext = $anz_erfkrit." Erfolgskriterien";
+$ap_ordner_erfkrit_datatext = $anz_erfkrit." AP-Erfolgskriterien";
 if ($anz_erfkrit === 1) {
-	$ap_ordner_erfkrit_datatext = $anz_erfkrit." Erfolgskriterium";
+	$ap_ordner_erfkrit_datatext = $anz_erfkrit." AP-Erfolgskriterium";
 }
 $ap_ordner_erfkrit_attr = array("id" => $ApArtId, "typ" => "ap_ordner_erfkrit");
 $ap_ordner_erfkrit = array("data" => $ap_ordner_erfkrit_datatext, "attr" => $ap_ordner_erfkrit_attr, "children" => $rows_erfkrit);

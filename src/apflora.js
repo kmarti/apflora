@@ -2732,9 +2732,9 @@ function beschrifte_ap_ordner_erfkrit(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	if (anz === 1) {
-		anzTxt = anz + " Erfolgskriterium";
+		anzTxt = anz + " AP-Erfolgskriterium";
 	} else {
-		anzTxt = anz + " Erfolgskriterien";
+		anzTxt = anz + " AP-Erfolgskriterien";
 	}
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
