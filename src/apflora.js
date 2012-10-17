@@ -13,6 +13,41 @@ function initiiere_index() {
 			setzeFeldbreiten();
 		}
 	});
+	//Gemeindeliste erstellen, wenn nötig
+	if (!window.Gemeinden) {
+		$.ajax({
+			url: 'php/gemeinden.php',
+			dataType: 'json',
+			success: function (data) {
+				if (data) {
+					//Gemeinden bereitstellen
+					//Feld mit Daten beliefern
+					var Gemeinden;
+					Gemeinden = [];
+					for (i in data.rows) {
+						if (typeof i !== "undefined" && data.rows[i].GmdName) {
+							Gemeinden.push(data.rows[i].GmdName);
+						}
+					}
+					window.Gemeinden = Gemeinden;
+					//autocomplete-widget für Gemeinden initiieren
+					$("#TPopGemeinde").autocomplete({
+						source: Gemeinden,
+						delay: 0,
+						//Change-Event wird nicht ausgelöst > hier aufrufen
+						change: function(event, ui) {
+							speichern(event.target);
+						}
+					});
+				}
+			}
+		});
+	} else {
+		//autocomplete-widget für Gemeinden initiieren
+		$("#TPopGemeinde").autocomplete({
+			source: window.Gemeinden
+		});
+	}
 	$("#TPopKontrDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopKontrJahr", altFormat: "yy", defaultDate: +0 });
 	$("#TPopMassnDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopMassnJahr", altFormat: "yy", defaultDate: +0 });
 	$("#JBerDatum").datepicker({ dateFormat: "dd.mm.yy", defaultDate: +0 });
@@ -692,9 +727,6 @@ function initiiere_tpop() {
 	//Felder zurücksetzen
 	leereFelderVonFormular("tpop");
 	setzeFeldbreiten();
-	/*setTimeout(function() {
-		setzeFeldbreiten();
-	}, 500);*/
 	//Daten für die pop aus der DB holen
 	$.ajax({
 		url: 'php/tpop.php',
@@ -719,32 +751,7 @@ function initiiere_tpop() {
 				$("#TPopHerkunftUnklarBegruendung").val(data.TPopHerkunftUnklarBegruendung);
 				$("#TPopApBerichtRelevant" + data.TPopApBerichtRelevant).prop("checked", true);
 				$("#TPopBekanntSeit").val(data.TPopBekanntSeit);
-				//Gemeindeliste: Daten holen - oder vorhandene nutzen
-				if (!window.tpopgde_html) {
-					$.ajax({
-						url: 'php/tpopgde.php',
-						dataType: 'json',
-						success: function (data0) {
-							if (data0) {
-								//ap bereitstellen
-								//Feld mit Daten beliefern
-								var html;
-								html = "<option></option>";
-								for (i in data0.rows) {
-									if (typeof i !== "undefined" && data0.rows[i].TPopGemeinde) {
-										html += "<option value=\"" + data0.rows[i].TPopGemeinde + "\">" + data0.rows[i].TPopGemeinde + "</option>";
-									}
-								}
-								window.tpopgde_html = html;
-								$("#TPopGemeinde").html(html);
-								$("#TPopGemeinde").val(data.TPopGemeinde);
-							}
-						}
-					});
-				} else {
-					$("#TPopGemeinde").html(window.tpopgde_html);
-					$("#TPopGemeinde").val(data.TPopGemeinde);
-				}
+				$("#TPopGemeinde").val(data.TPopGemeinde);
 				$("#TPopXKoord").val(data.TPopXKoord);
 				$("#TPopYKoord").val(data.TPopYKoord);
 				if (data.TPopPop == 1) {
