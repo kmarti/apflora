@@ -26,7 +26,11 @@ $csv_output .= "\n";
 $values = mysqli_query($link, "SELECT * FROM ".$view."");
  
 while ($rowr = mysqli_fetch_row($values)) {
+	//In den Daten sind Zeilenumbrüche
+	//sie müssen entfernt werden, sonst bricht die Tabelle auch daran um
+	$Ersetzungen = array("\r\n", "\r", "\n");
 	for ($j=0;$j<$i;$j++) {
+		$rowr[$j] = str_replace($Ersetzungen, ' ', $rowr[$j]);
 		$csv_output .= $rowr[$j]."\t";
 	}
 	$csv_output .= "\n";
@@ -34,7 +38,8 @@ while ($rowr = mysqli_fetch_row($values)) {
  
 $filename = $file."_".date("Y-m-d_H-i",time());
 
-header('Content-Type: text/x-csv');
+header('Content-Type: text/x-csv; charset=utf-8');
+//header('Content-Type: application/vnd.ms-excel; charset=utf-8');
 header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 header('Content-Disposition: attachment; filename='.$filename.'.csv');
 header('Pragma: no-cache');
