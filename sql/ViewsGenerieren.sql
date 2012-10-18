@@ -508,7 +508,7 @@ ORDER BY ArtenDb_tblFloraSisf.Name;
 
 CREATE VIEW vProgramme AS 
 SELECT tblAktionsplan.ApArtId, ArtenDb_tblFloraSisf.Name AS "AP Art", DomainApBearbeitungsstand.DomainTxt AS "AP Bearbeitungsstand", tblAktionsplan.ApJahr AS "AP Start im Jahr", DomainApUmsetzung.DomainTxt AS "AP Stand Umsetzung", tblAdresse.AdrName AS "AP verantwortlich", tblAktionsplan.MutWann AS "AP Letzte Änderung", tblAktionsplan.MutWer AS "AP Letzte(r) Bearbeiter(in)"
-FROM (((ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) INNER JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode) LEFT JOIN DomainApUmsetzung ON tblAktionsplan.ApUmsetzung = DomainApUmsetzung.DomainCode) LEFT JOIN tblAdresse ON tblAktionsplan.ApBearb = tblAdresse.AdrId
+FROM (((ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode) LEFT JOIN DomainApUmsetzung ON tblAktionsplan.ApUmsetzung = DomainApUmsetzung.DomainCode) LEFT JOIN tblAdresse ON tblAktionsplan.ApBearb = tblAdresse.AdrId
 ORDER BY ArtenDb_tblFloraSisf.Name;
 
 CREATE VIEW vApBer AS
