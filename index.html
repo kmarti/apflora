@@ -1226,6 +1226,7 @@
 				<h2 class="border_top">Programm / Art</h2>
 				<button id="export_ap">Programme</button><br>
 				<button id="export_ap_ohne_pop">Programme ohne Populationen</button><br>
+				<button id="export_ap_anz_massn">Anzahl Massnahmen pro Programm</button><br>
 				<button id="export_ap_jb">Jahresberichte</button><br>
 				<button id="export_jber_ohne_ap">Jahresberichte ohne Programm (Datenwaisen)</button><br>
 				<button id="export_ap_jb_massn">Jahresberichte und Massnahmen</button><br>
@@ -2051,6 +2052,9 @@
 			});
 			$("#exporte").on("click", "#export_ap_ohne_pop", function() {
 				window.open("php/export_ap_ohne_pop.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_ap_anz_massn", function() {
+				window.open("php/export_ap_anz_massn.php", target="_blank");
 			});
 			$("#exporte").on("click", "#export_ap_jb", function() {
 				window.open("php/export_ap_jb.php", target="_blank");
