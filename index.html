@@ -1227,11 +1227,15 @@
 				<button id="export_ap">Programme</button><br>
 				<button id="export_ap_ohne_pop">Programme ohne Populationen</button><br>
 				<button id="export_ap_anz_massn">Anzahl Massnahmen pro Programm</button><br>
+				<button id="export_ap_anz_kontr">Anzahl Kontrollen pro Programm</button><br><br>
+
 				<button id="export_ap_jb">Jahresberichte</button><br>
 				<button id="export_jber_ohne_ap">Jahresberichte ohne Programm (Datenwaisen)</button><br>
-				<button id="export_ap_jb_massn">Jahresberichte und Massnahmen</button><br>
+				<button id="export_ap_jb_massn">Jahresberichte und Massnahmen</button><br><br>
+
 				<button id="export_ap_ziele">Ziele</button><br>
-				<button id="export_ap_zielber">Ziel-Berichte</button><br>
+				<button id="export_ap_zielber">Ziel-Berichte</button><br><br>
+
 				<button id="export_ap_ber">Berichte</button><br>
 				<button id="export_ap_erfkrit">Erfolgskriterien</button><br>
 				<button id="export_idealbiotope">Idealbiotope</button><br>
@@ -1248,9 +1252,9 @@
 				<button id="export_pop_mit_massnber_anz_massn">Populationen mit Massnahmen-Berichten: Anzahl Massnahmen im Berichtsjahr</button><br>
 				<button id="export_pop_anz_tpoppop">Anzahl repräsentativer Teilpopulationen pro Population</button><br>
 				<button id="export_pop_anz_massn">Anzahl Massnahmen pro Population</button><br>
-				<button id="export_pop_anz_kontr">Anzahl Kontrollen pro Population</button><br>
+				<button id="export_pop_anz_kontr">Anzahl Kontrollen pro Population</button><br><br>
 				<button id="export_popber">Populations-Berichte</button><br>
-				<button id="export_popber_ohne_pop">Populations-Berichte ohne Population (Datenwaisen)</button><br>
+				<button id="export_popber_ohne_pop">Populations-Berichte ohne Population (Datenwaisen)</button><br><br>
 				<button id="export_popmassnber">Massnahmen-Berichte</button><br>
 				<button id="export_popmassnber_ohne_pop">Massnahmen-Berichte ohne Population (Datenwaisen)</button><br>
 
@@ -2057,6 +2061,9 @@
 			});
 			$("#exporte").on("click", "#export_ap_anz_massn", function() {
 				window.open("php/export_ap_anz_massn.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_ap_anz_kontr", function() {
+				window.open("php/export_ap_anz_kontr.php", target="_blank");
 			});
 			$("#exporte").on("click", "#export_ap_jb", function() {
 				window.open("php/export_ap_jb.php", target="_blank");

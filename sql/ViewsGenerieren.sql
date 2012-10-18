@@ -171,6 +171,12 @@ FROM (((ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.N
 GROUP BY ArtenDb_tblFloraSisf.NR, ArtenDb_tblFloraSisf.Name, DomainApBearbeitungsstand.DomainTxt, tblAktionsplan.ApJahr, DomainApUmsetzung.DomainTxt
 ORDER BY ArtenDb_tblFloraSisf.Name;
 
+CREATE VIEW vApAnzKontr AS
+SELECT ArtenDb_tblFloraSisf.NR AS ApArtId, ArtenDb_tblFloraSisf.Name AS "AP Art", DomainApBearbeitungsstand.DomainTxt AS "AP Status", tblAktionsplan.ApJahr AS "AP Start im Jahr", DomainApUmsetzung.DomainTxt AS "AP Stand Umsetzung", Count(tblTeilPopFeldkontrolle.TPopKontrId) AS "Anzahl Kontrollen"
+FROM (((ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN ((tblPopulation LEFT JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) LEFT JOIN tblTeilPopFeldkontrolle ON tblTeilpopulation.TPopId = tblTeilPopFeldkontrolle.TPopId) ON tblAktionsplan.ApArtId = tblPopulation.ApArtId) LEFT JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode) LEFT JOIN DomainApUmsetzung ON tblAktionsplan.ApUmsetzung = DomainApUmsetzung.DomainCode
+GROUP BY ArtenDb_tblFloraSisf.NR, ArtenDb_tblFloraSisf.Name, DomainApBearbeitungsstand.DomainTxt, tblAktionsplan.ApJahr, DomainApUmsetzung.DomainTxt
+ORDER BY ArtenDb_tblFloraSisf.Name;
+
 CREATE VIEW vPop AS
 SELECT ArtenDb_tblFloraSisf.NR AS ApArtId, ArtenDb_tblFloraSisf.Name AS "AP Art", DomainApBearbeitungsstand.DomainTxt AS "AP Status", tblAktionsplan.ApJahr AS "AP Start im Jahr", DomainApUmsetzung.DomainTxt AS "AP Stand Umsetzung", tblPopulation.PopGuid AS "Pop Guid", tblPopulation.PopNr AS "Pop Nr", tblPopulation.PopName AS "Pop Name", DomainPopHerkunft.HerkunftTxt AS "Pop Status", tblPopulation.PopBekanntSeit AS "Pop bekannt seit", tblPopulation.PopXKoord AS "Pop X-Koordinaten", tblPopulation.PopYKoord AS "Pop Y-Koordinaten", tblPopulation.MutWann AS "Pop MutWann", tblPopulation.MutWer AS "Pop MutWer"
 FROM ((((ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) INNER JOIN tblPopulation ON tblAktionsplan.ApArtId = tblPopulation.ApArtId) LEFT JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode) LEFT JOIN DomainApUmsetzung ON tblAktionsplan.ApUmsetzung = DomainApUmsetzung.DomainCode) LEFT JOIN DomainPopHerkunft ON tblPopulation.PopHerkunft = DomainPopHerkunft.HerkunftId
