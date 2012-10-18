@@ -528,7 +528,7 @@ function initiiere_umwfakt() {
 				setzeFeldbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#UfErstelldatum").val()) {
-					$("#UfErstelldatum").focus();
+					//$("#UfErstelldatum").focus();
 				}
 			} else {
 				//nur aktualisieren, wenn Schreibrechte bestehen
