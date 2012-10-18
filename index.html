@@ -1248,6 +1248,7 @@
 				<button id="export_pop_mit_massnber_anz_massn">Populationen mit Massnahmen-Berichten: Anzahl Massnahmen im Berichtsjahr</button><br>
 				<button id="export_pop_anz_tpoppop">Anzahl repräsentativer Teilpopulationen pro Population</button><br>
 				<button id="export_pop_anz_massn">Anzahl Massnahmen pro Population</button><br>
+				<button id="export_pop_anz_kontr">Anzahl Kontrollen pro Population</button><br>
 				<button id="export_popber">Populations-Berichte</button><br>
 				<button id="export_popber_ohne_pop">Populations-Berichte ohne Population (Datenwaisen)</button><br>
 				<button id="export_popmassnber">Massnahmen-Berichte</button><br>
@@ -2104,6 +2105,9 @@
 			});
 			$("#exporte").on("click", "#export_pop_anz_massn", function() {
 				window.open("php/export_pop_anz_massn.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_pop_anz_kontr", function() {
+				window.open("php/export_pop_anz_kontr.php", target="_blank");
 			});
 			$("#exporte").on("click", "#export_popber", function() {
 				window.open("php/export_popber.php", target="_blank");
