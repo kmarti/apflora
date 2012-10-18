@@ -1547,8 +1547,12 @@ function setzeFormhoehe() {
 function setzeFeldbreiten() {
 	if ($(window).width() > 855) {
 		$("#forms").width($(window).width() - 438);
+		$("#ap_waehlen").width(367);
+		$("#tree").width(367);
 	} else {
 		$("#forms").width($(window).width() - 37);
+		$("#ap_waehlen").width($(window).width() - 37);
+		$("#tree").width($(window).width() - 37);
 	}
 
 	setTimeout(function() {

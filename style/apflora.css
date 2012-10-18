@@ -28,34 +28,42 @@ fieldset {
 	padding: 10px 10px 10px 10px;
 }
 
+#menu {
+	margin-top:0px; 
+}
+
+#forms {
+	margin-top:0px;
+}
+
 /*unter 850px übereinander*/
-@media only screen and (max-width: 853px) {
+@media only screen and (max-width: 855px) {
 	#menu {
-		width:97%; 
-		margin-top:0px; 
+		left: 7px;
+		right: 0px;
 		/*float:left;*/
 	}
 
-	/*damit bleibt form immer im Blickfeld - bloss kann man in form selbst nicht mehr runterscrollen!*/
-	#forms {
-		margin-top:0px;
+	#tree {
+		width: 100%;
 	}
 }
 
 /*über 850px nebeneinander*/
-@media only screen and (min-width: 854px) {
+@media only screen and (min-width: 856px) {
 	#menu {
-		width:370px; 
-		margin-top:0px;
+		width:370px;
 		position: absolute;
-		top: 7px; 
 		left: 7px;
+		right: 7px;
+	}
+
+	#tree {
+		width: 367px;
 	}
 
 	#forms {
-		margin-top:0px;
 		position: absolute;
-		top: 7px;
 		left: 407px;
 	}
 }
