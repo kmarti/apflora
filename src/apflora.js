@@ -48,6 +48,7 @@ function initiiere_index() {
 			source: window.Gemeinden
 		});
 	}
+	//$('[type="number"]').spinner();    ausgeschaltet, da die Optik unschön verändert wird und browsereigene auch sichtbar bleiben
 	$("#TPopKontrDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopKontrJahr", altFormat: "yy", defaultDate: +0 });
 	$("#TPopMassnDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopMassnJahr", altFormat: "yy", defaultDate: +0 });
 	$("#JBerDatum").datepicker({ dateFormat: "dd.mm.yy", defaultDate: +0 });
