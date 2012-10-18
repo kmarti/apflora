@@ -1262,6 +1262,7 @@
 				<button id="export_tpop_ohne_bekannt_seit">Teilpopulationen von AP-Arten ohne "Bekannt seit"</button><br>
 				<button id="export_tpop_ohne_pop">Teilpopulationen ohne Population (Datenwaisen)</button><br>
 				<button id="export_tpop_anz_massn">Anzahl Massnahmen pro Teilpopulation</button><br>
+				<button id="export_tpop_anz_kontr">Anzahl Kontrollen pro Teilpopulation</button><br>
 
 				<br><a href="#top">&uArr;&nbsp;top</a>
 
@@ -2127,6 +2128,9 @@
 			});
 			$("#exporte").on("click", "#export_tpop_anz_massn", function() {
 				window.open("php/export_tpop_anz_massn.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_tpop_anz_kontr", function() {
+				window.open("php/export_tpop_anz_kontr.php", target="_blank");
 			});
 			$("#exporte").on("click", "#export_kontr", function() {
 				window.open("php/export_kontr.php", target="_blank");
