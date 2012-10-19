@@ -44,11 +44,11 @@
 		</fieldset>
 
 		<fieldset id="forms">
-			<div id="undelete_div" style="text-align:center; margin:0px 30px 10px 148px; border-radius:0.5em; font-weight:bold; background-color:#FFCC33;"></div>
-			<div id="testart_div" style="margin:0px 30px 5px 148px; border-radius:0.5em; font-weight:bold; color:#196319;"></div>
+			<div id="undelete_div" style="text-align:center; margin:0px 30px 10px 7px; border-radius:0.5em; font-weight:bold; background-color:#FFCC33;"></div>
+			<div id="testart_div" style="margin:0px 30px 5px 7px; border-radius:0.5em; font-weight:bold; color:#196319;"></div>
 			<form id="ap" class="form" action="#" method="get" autocomplete="off">
 				<table>
-					<tr>
+					<tr class="fieldcontain">
 						<td class="label">
 							<label id="ApArtId_label" for='ApArtId'>Art:</label>
 						</td>
@@ -58,8 +58,7 @@
 							</select>
 						</td>
 					</tr>
-				
-					<tr>
+					<tr class="fieldcontain">
 						<td class="label">
 							<label id="ApStatus_label" for='ApStatus'>
 								<a class="tooltip" href="#">Aktionsplan:
@@ -82,7 +81,7 @@
 							<input type="radio" name="ApStatus" id="ApStatus3" class="speichern" formular="ap" value="3" />erstellt
 						<td>
 					</tr>
-					<tr>
+					<tr class="fieldcontain">
 						<td class="label">
 							<label id="ApJahr_label" for='ApJahr'>Start im Jahr:</label>
 						</td>
@@ -90,7 +89,7 @@
 							<input id="ApJahr" name="ApJahr" class="speichern" formular="ap" type="number"/>
 						</td>
 					</tr>
-					<tr>
+					<tr class="fieldcontain">
 						<td class="label">
 							<label id="ApUmsetzung_label" for='ApUmsetzung'>
 								<a class="tooltip legendiert" href="#">Stand Umsetzung:
@@ -111,7 +110,7 @@
 							<input type="radio" name="ApUmsetzung" class="speichern" formular="ap" id="ApUmsetzung2" value="2" />umgesetzt
 						</td>
 					</tr>
-					<tr>
+					<tr class="fieldcontain">
 						<td class="label">
 							<label id="ApBearb_label" for='ApBearb'>Verantwortlich:</label>
 						</td>
@@ -121,7 +120,7 @@
 							</select>
 						</td>
 					</tr>
-					<tr>
+					<tr class="fieldcontain">
 						<td class="label">
 							<label id="ApArtwert_label" for='ApArtwert'>Artwert:</label>
 						</td>
@@ -134,7 +133,7 @@
 
 			<form id="pop" class="form" action="#" method="get" autocomplete="off">
 				<table>
-					<tr>
+					<tr class="fieldcontain">
 						<td class="label">
 							<label id="PopNr_label" for='PopNr'>Nr.:</label>
 						</td>
@@ -142,7 +141,7 @@
 							<input id="PopNr" name="PopNr" class="speichern" formular="pop" type="number">
 						</td>
 					</tr>
-					<tr>
+					<tr class="fieldcontain">
 						<td class="label">
 							<label id="PopName_label" for='PopName'>
 								<a class="tooltip" href="#">Name:
@@ -156,7 +155,7 @@
 							<input id="PopName" name="PopName" class="speichern" formular="pop" type="text"/>
 						</td>
 					</tr>
-					<tr>
+					<tr class="fieldcontain">
 						<td class="label">
 							<label id="PopHerkunft_label" for='PopHerkunft'>
 								<a class="tooltip" href="#">Status:
@@ -187,7 +186,7 @@
 							<input type="radio" name="PopHerkunft" id="PopHerkunft10" class="speichern" formular="pop" value="10" />überprüft, kein Vorkommen
 						</td>
 					</tr>
-					<tr>
+					<tr class="fieldcontain">
 						<td class="label">
 							<label id="PopBekanntSeit_label" for='PopBekanntSeit'><a class="tooltip" href="#">Bekannt seit:<span class="custom info"><img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen</span></a></label>
 						</td>
@@ -195,7 +194,7 @@
 							<input id="PopBekanntSeit" name="PopBekanntSeit" class="speichern" formular="pop" type="number">
 						</td>
 					</tr>
-					<tr>
+					<tr class="fieldcontain">
 						<td class="label">
 							<label id="PopXKoord_label" for='PopXKoord'>X-Koordinaten:</label>
 						</td>
@@ -203,7 +202,7 @@
 							<input id="PopXKoord" name="PopXKoord" class="speichern" formular="pop" type="number">
 						</td>
 					</tr>
-					<tr>
+					<tr class="fieldcontain">
 						<td class="label">
 							<label id="PopYKoord_label" for='PopYKoord'>Y-Koordinaten:</label>
 						</td>
@@ -215,155 +214,253 @@
 			</form>
 
 			<form id="tpop" class="form" action="#" method="get" autocomplete="off">
-				<div class='fieldcontain'>
-					<label id="TPopNr_label" for='TPopNr'>Nr.:</label>
-					<input id="TPopNr" name="TPopNr" class="speichern Datenfelder" formular="tpop" type="number">
-				</div>
-				<div class='fieldcontain'>
-					<label id="TPopFlurname_label" for='TPopFlurname'><a class="tooltip" href="#">Flurname:<span class="custom info"><img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen</span></a></label>
-					<input id="TPopFlurname" name="TPopFlurname" class="speichern Datenfelder" formular="tpop" type="text"/>
-				</div>
-				<div class='fieldcontain'>
-					<label id="TPopHerkunft_label" for='TPopHerkunft'>
-						<a class="tooltip" href="#">Status:
-							<span class="custom info">
-								<img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen
-								<p class='legendentitel'>Legende:</p>
-								<ul class='legende'>
-									<li>autochthon: Population ist rezent zum Zeitpunkt der Erstellung des Aktionsplanes</li>
-									<li>neu entdeckt, autochthon: Population neu entdeckt, vorher nicht schon lange bekannt. Unabhängig davon, ob schon ein Aktionsplan besteht oder nicht</li>
-									<li>neu entdeckt, angesiedelt: Ab Aktionsplan neu entdeckt</li>
-									<li>nur angesät: wenn alle Teilpopulationen nur angesät sind und noch keine Kontrollen mit Pflanzenfunden durchgeführt wurden, oder wenn zwar Kontrollen durchgeführt aber keine Pflanzen gefunden wurden und noch nicht entschieden wurde, dass Population nicht etabliert ist</li>
-									<li>überprüft, kein Vorkommen: Dies sind Orte, die ohne dass vorher Angaben darüber vorhanden gewesen wären, explizit auf eine Art hin untersucht wurden und diese Art dort aber nicht gefunden wurde</li>
-								</ul>
-							</span>
-						</a>
-					</label>
-					<div class="Datenfelder">
-						<input type="radio" name="TPopHerkunft" id="TPopHerkunft1" class="speichern" formular="tpop" value="1" />autochthon<br />
-						<input type="radio" name="TPopHerkunft" id="TPopHerkunft6" class="speichern" formular="tpop" value="6" />neu entdeckt, autochthon<br />
-						<input type="radio" name="TPopHerkunft" id="TPopHerkunft9" class="speichern" formular="tpop" value="9" />neu entdeckt, angesiedelt<br />
-						<input type="radio" name="TPopHerkunft" id="TPopHerkunft8" class="speichern" formular="tpop" value="8" />angesiedelt, vor Beginn AP<br />
-						<input type="radio" name="TPopHerkunft" id="TPopHerkunft2" class="speichern" formular="tpop" value="2" />angesiedelt, nach Beginn AP<br />
-						<input type="radio" name="TPopHerkunft" id="TPopHerkunft1198167213" class="speichern" formular="tpop" value="1198167213" />nur angesät<br />
-						<input type="radio" name="TPopHerkunft" id="TPopHerkunft4" class="speichern" formular="tpop" value="4" />erloschen, zuvor autochthon<br />
-						<input type="radio" name="TPopHerkunft" id="TPopHerkunft1200498803" class="speichern" formular="tpop" value="1200498803" />erloschen, vor AP angesiedelt<br />
-						<input type="radio" name="TPopHerkunft" id="TPopHerkunft7" class="speichern" formular="tpop" value="7" />erloschen, nach Beginn AP angesiedelt<br />
-						<input type="radio" name="TPopHerkunft" id="TPopHerkunft10" class="speichern" formular="tpop" value="10" />überprüft, kein Vorkommen
-					</div>
-				</div>
-				<div class='fieldcontain'>
-					<label id="TPopHerkunftUnklar_label" for='TPopHerkunftUnklar'>
-						<a class="tooltip" href="#">Status unklar:
-							<span class="custom info legende"><img src="img/Info.png" alt="Information" height="48" width="48" />
-								Will heissen: Die Aussage zum Status ist unsicher<br>Bitte auch einen Status wählen
-							</span>
-						</a>
-					</label>
-					<input type="checkbox" name="TPopHerkunftUnklar" id="TPopHerkunftUnklar" class="speichern Datenfelder" formular="tpop" />
-				</div>
-				<div class='fieldcontain'>
-					<label id="TPopHerkunftUnklarBegruendung_label" for='TPopHerkunftUnklarBegruendung'>Begründung:</label>
-					<textarea name="TPopHerkunftUnklarBegruendung" id="TPopHerkunftUnklarBegruendung" class="speichern Datenfelder" formular="tpop" placeholder="...für unklaren Status"></textarea>
-				</div>
-				<div class='fieldcontain'>
-					<label id="TPopApBerichtRelevant_label" for='TPopApBerichtRelevant'>
-						<a class="tooltip" href="#">Für AP-Bericht<br>relevant?
-							<span class="custom info"><img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen
-								<p class='legendentitel'>Legende:</p>
-								<ul class='legende'>
-									<li>nein (historisch): vor 1950 ohne Kontrolle (historisch = erloschen)</li>
-									<li>nein (kein Vorkommen): siehe bei Populationen "überprüft kein Vorkommen" oder autochthone Populationen, die wieder kontrolliert wurden und kein Vorkommen mehr aufweisen</li>
-								</ul>
-							</span>
-						</a>
-					</label>
-					<div class="Datenfelder">
-						<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant1" class="speichern" formular="tpop" value="1" />ja<br />
-						<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant2" class="speichern" formular="tpop" value="2" />nein (historisch)<br />
-						<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant3" class="speichern" formular="tpop" value="3" />nein (ausserkantonal)<br />
-						<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant4" class="speichern" formular="tpop" value="4" />nein (Status unklar)<br />
-						<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant5" class="speichern" formular="tpop" value="5" />nein (kein Vorkommen)
-					</div>
-				</div>
-				<div class='fieldcontain'>
-					<label id="TPopBekanntSeit_label" for='TPopBekanntSeit'><a class="tooltip" href="#">Bekannt seit:<span class="custom info"><img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen</span></a></label>
-					<input id="TPopBekanntSeit" name="TPopBekanntSeit" class="speichern Datenfelder" formular="tpop" type="number">
-				</div>
-				<div class='fieldcontain TPopGemeinde'>
-					<label id="TPopGemeinde_label" for='TPopGemeinde'>Gemeinde:</label>
-					<Input id="TPopGemeinde" name="TPopGemeinde" class="speichern Datenfelder" formular="tpop" type="text"/>
-				</div>
-				<div class='fieldcontain'>
-					<label id="TPopXKoord_label" for='TPopXKoord'>X-Koordinaten:</label>
-					<input id="TPopXKoord" name="TPopXKoord" class="speichern Datenfelder" formular="tpop" type="number">
-				</div>
-				<div class='fieldcontain'>
-					<label id="TPopYKoord_label" for='TPopYKoord'>Y-Koordinaten:</label>
-					<input id="TPopYKoord" name="TPopYKoord" class="speichern Datenfelder" formular="tpop" type="number">
-				</div>
-				<div class='fieldcontain'>
-					<label id="TPopPop_label" for='TPopPop'>Lage repräsentiert Population:</label>
-					<input type="checkbox" name="TPopPop" id="TPopPop" class="speichern Datenfelder" formular="tpop"/>
-				</div>
-				<div class='fieldcontain'>
-					<label id="TPopRadius_label" for='TPopRadius'>Radius (m):</label>
-					<input id="TPopRadius" name="TPopRadius" class="speichern Datenfelder" formular="tpop" type="number">
-				</div>
-				<div class='fieldcontain'>
-					<label id="TPopHoehe_label" for='TPopHoehe'>Höhe (m.ü.M.):</label>
-					<input id="TPopHoehe" name="TPopHoehe" class="speichern Datenfelder" formular="tpop" type="number">
-				</div>
-				<div class='fieldcontain'>
-					<label id="TPopExposition_label" for='TPopExposition'>Exposition,<br>Besonnung:</label>
-					<input id="TPopExposition" name="TPopExposition" class="speichern Datenfelder" formular="tpop" type="text"/>
-				</div>
-				<div class='fieldcontain'>
-					<label id="TPopKlima_label" for='TPopKlima'>Klima:</label>
-					<input id="TPopKlima" name="TPopKlima" class="speichern Datenfelder" formular="tpop" type="text"/>
-				</div>
-				<div class='fieldcontain'>
-					<label id="TPopNeigung_label" for='TPopNeigung'>Hangneigung:</label>
-					<input id="TPopNeigung" name="TPopNeigung" class="speichern Datenfelder" formular="tpop" type="text"/>
-				</div>
-				<div class='fieldcontain'>
-					<label id="TPopBeschr_label" for='TPopBeschr'>Beschreibung:</label>
-					<textarea id="TPopBeschr" name="TPopBeschr" class="speichern Datenfelder" formular="tpop" type="text"/></textarea>
-				</div>
-				<div class='fieldcontain'>
-					<label id="TPopKatNr_label" for='TPopKatNr'>Kataster-Nr.:</label>
-					<input id="TPopKatNr" name="TPopKatNr" class="speichern Datenfelder" formular="tpop" type="text"/>
-				</div>
-				<div class='fieldcontain'>
-					<label id="TPopVerantw_label" for='TPopVerantw'>Verantwortlich:</label>
-					<select id="TPopVerantw" name="TPopVerantw" class="speichern Datenfelder" formular="tpop">
-						<option></option>
-					</select>
-				</div>
-				<div class='fieldcontain'>
-					<label id="TPopEigen_label" for='TPopEigen'>EigentümerIn:</label>
-					<input id="TPopEigen" name="TPopEigen" class="speichern Datenfelder" formular="tpop" type="text"/>
-				</div>
-				<div class='fieldcontain'>
-					<label id="TPopKontakt_label" for='TPopKontakt'>Kontakt vor Ort:</label>
-					<input id="TPopKontakt" name="TPopKontakt" class="speichern Datenfelder" formular="tpop" type="text"/>
-				</div>
-				<div class='fieldcontain'>
-					<label id="TPopNutzungszone_label" for='TPopNutzungszone'>Nutzungszone:</label>
-					<input id="TPopNutzungszone" name="TPopNutzungszone" class="speichern Datenfelder" formular="tpop" type="text"/>
-				</div>
-				<div class='fieldcontain'>
-					<label id="TPopBewirtschafterIn_label" for='TPopBewirtschafterIn'>BewirtschafterIn:</label>
-					<input id="TPopBewirtschafterIn" name="TPopBewirtschafterIn" class="speichern Datenfelder" formular="tpop" type="text"/>
-				</div>
-				<div class='fieldcontain'>
-					<label id="TPopBewirtschaftung_label" for='TPopBewirtschaftung'>Bewirtschaftung:</label>
-					<input id="TPopBewirtschaftung" name="TPopBewirtschaftung" class="speichern Datenfelder" formular="tpop" type="text"/>
-				</div>
-				<div class='fieldcontain'>
-					<label id="TPopTxt_label" for='TPopTxt'>Bemerkungen:</label>
-					<textarea id="TPopTxt" name="TPopTxt" class="speichern Datenfelder" formular="tpop" type="text"></textarea>
-				</div>
+				<table>
+					<tr class="fieldcontain">
+						<td class="label">
+							<label id="TPopNr_label" for='TPopNr'>Nr.:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopNr" name="TPopNr" class="speichern" formular="tpop" type="number">
+						</td>
+					</tr>
+					<tr class="fieldcontain">
+						<td class="label">
+							<label id="TPopFlurname_label" for='TPopFlurname'><a class="tooltip" href="#">Flurname:<span class="custom info"><img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen</span></a></label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopFlurname" name="TPopFlurname" class="speichern" formular="tpop" type="text"/>
+						</td>
+					</tr>
+					<tr class="fieldcontain">
+						<td class="label">
+							<label id="TPopHerkunft_label" for='TPopHerkunft'>
+								<a class="tooltip" href="#">Status:
+									<span class="custom info">
+										<img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen
+										<p class='legendentitel'>Legende:</p>
+										<ul class='legende'>
+											<li>autochthon: Population ist rezent zum Zeitpunkt der Erstellung des Aktionsplanes</li>
+											<li>neu entdeckt, autochthon: Population neu entdeckt, vorher nicht schon lange bekannt. Unabhängig davon, ob schon ein Aktionsplan besteht oder nicht</li>
+											<li>neu entdeckt, angesiedelt: Ab Aktionsplan neu entdeckt</li>
+											<li>nur angesät: wenn alle Teilpopulationen nur angesät sind und noch keine Kontrollen mit Pflanzenfunden durchgeführt wurden, oder wenn zwar Kontrollen durchgeführt aber keine Pflanzen gefunden wurden und noch nicht entschieden wurde, dass Population nicht etabliert ist</li>
+											<li>überprüft, kein Vorkommen: Dies sind Orte, die ohne dass vorher Angaben darüber vorhanden gewesen wären, explizit auf eine Art hin untersucht wurden und diese Art dort aber nicht gefunden wurde</li>
+										</ul>
+									</span>
+								</a>
+							</label>
+						</td>
+						<td class="Datenfelder">
+							<input type="radio" name="TPopHerkunft" id="TPopHerkunft1" class="speichern" formular="tpop" value="1" />autochthon<br />
+							<input type="radio" name="TPopHerkunft" id="TPopHerkunft6" class="speichern" formular="tpop" value="6" />neu entdeckt, autochthon<br />
+							<input type="radio" name="TPopHerkunft" id="TPopHerkunft9" class="speichern" formular="tpop" value="9" />neu entdeckt, angesiedelt<br />
+							<input type="radio" name="TPopHerkunft" id="TPopHerkunft8" class="speichern" formular="tpop" value="8" />angesiedelt, vor Beginn AP<br />
+							<input type="radio" name="TPopHerkunft" id="TPopHerkunft2" class="speichern" formular="tpop" value="2" />angesiedelt, nach Beginn AP<br />
+							<input type="radio" name="TPopHerkunft" id="TPopHerkunft1198167213" class="speichern" formular="tpop" value="1198167213" />nur angesät<br />
+							<input type="radio" name="TPopHerkunft" id="TPopHerkunft4" class="speichern" formular="tpop" value="4" />erloschen, zuvor autochthon<br />
+							<input type="radio" name="TPopHerkunft" id="TPopHerkunft1200498803" class="speichern" formular="tpop" value="1200498803" />erloschen, vor AP angesiedelt<br />
+							<input type="radio" name="TPopHerkunft" id="TPopHerkunft7" class="speichern" formular="tpop" value="7" />erloschen, nach Beginn AP angesiedelt<br />
+							<input type="radio" name="TPopHerkunft" id="TPopHerkunft10" class="speichern" formular="tpop" value="10" />überprüft, kein Vorkommen
+						</td>
+					</tr>
+					<tr class="fieldcontain">
+						<td class="label">
+							<label id="TPopHerkunftUnklar_label" for='TPopHerkunftUnklar'>
+								<a class="tooltip" href="#">Status unklar:
+									<span class="custom info legende"><img src="img/Info.png" alt="Information" height="48" width="48" />
+										Will heissen: Die Aussage zum Status ist unsicher<br>Bitte auch einen Status wählen
+									</span>
+								</a>
+							</label>
+						</td>
+						<td class="Datenfelder">
+							<input type="checkbox" name="TPopHerkunftUnklar" id="TPopHerkunftUnklar" class="speichern" formular="tpop" />
+						</td>
+					</tr>
+					<tr class="fieldcontain">
+						<td class="label">
+							<label id="TPopHerkunftUnklarBegruendung_label" for='TPopHerkunftUnklarBegruendung'>Begründung:</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea name="TPopHerkunftUnklarBegruendung" id="TPopHerkunftUnklarBegruendung" class="speichern" formular="tpop" placeholder="...für unklaren Status"></textarea>
+						</td>
+					</tr>
+					<tr class="fieldcontain">
+						<td class="label">
+							<label id="TPopApBerichtRelevant_label" for='TPopApBerichtRelevant'>
+								<a class="tooltip" href="#">Für AP-Bericht<br>relevant?
+									<span class="custom info"><img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen
+										<p class='legendentitel'>Legende:</p>
+										<ul class='legende'>
+											<li>nein (historisch): vor 1950 ohne Kontrolle (historisch = erloschen)</li>
+											<li>nein (kein Vorkommen): siehe bei Populationen "überprüft kein Vorkommen" oder autochthone Populationen, die wieder kontrolliert wurden und kein Vorkommen mehr aufweisen</li>
+										</ul>
+									</span>
+								</a>
+							</label>
+						</td>
+						<td class="Datenfelder">
+							<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant1" class="speichern" formular="tpop" value="1" />ja<br />
+							<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant2" class="speichern" formular="tpop" value="2" />nein (historisch)<br />
+							<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant3" class="speichern" formular="tpop" value="3" />nein (ausserkantonal)<br />
+							<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant4" class="speichern" formular="tpop" value="4" />nein (Status unklar)<br />
+							<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant5" class="speichern" formular="tpop" value="5" />nein (kein Vorkommen)
+						</td>
+					</tr>
+					<tr class="fieldcontain">
+						<td class="label">
+							<label id="TPopBekanntSeit_label" for='TPopBekanntSeit'><a class="tooltip" href="#">Bekannt seit:<span class="custom info"><img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen</span></a></label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopBekanntSeit" name="TPopBekanntSeit" class="speichern" formular="tpop" type="number">
+						</td>
+					</tr>
+					<tr class='fieldcontain TPopGemeinde'>
+						<td class="label">
+							<label id="TPopGemeinde_label" for='TPopGemeinde'>Gemeinde:</label>
+						</td>
+						<td class="Datenfelder">
+							<Input id="TPopGemeinde" name="TPopGemeinde" class="speichern" formular="tpop" type="text"/>
+						</td>
+					</tr>
+					<tr class="fieldcontain">
+						<td class="label">
+							<label id="TPopXKoord_label" for='TPopXKoord'>X-Koordinaten:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopXKoord" name="TPopXKoord" class="speichern" formular="tpop" type="number">
+						</td>
+					</tr>
+					<tr class="fieldcontain">
+						<td class="label">
+							<label id="TPopYKoord_label" for='TPopYKoord'>Y-Koordinaten:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopYKoord" name="TPopYKoord" class="speichern" formular="tpop" type="number">
+						</td>
+					</tr>
+					<tr class="fieldcontain">
+						<td class="label">
+							<label id="TPopPop_label" for='TPopPop'>Lage repräsentiert Population:</label>
+						</td>
+						<td class="Datenfelder">
+							<input type="checkbox" name="TPopPop" id="TPopPop" class="speichern" formular="tpop"/>
+						</td>
+					</tr>
+					<tr class="fieldcontain">
+						<td class="label">
+							<label id="TPopRadius_label" for='TPopRadius'>Radius (m):</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopRadius" name="TPopRadius" class="speichern" formular="tpop" type="number">
+						</td>
+					</tr>
+					<tr class="fieldcontain">
+						<td class="label">
+							<label id="TPopHoehe_label" for='TPopHoehe'>Höhe (m.ü.M.):</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopHoehe" name="TPopHoehe" class="speichern" formular="tpop" type="number">
+						</td>
+					</tr>
+					<tr class="fieldcontain">
+						<td class="label">
+							<label id="TPopExposition_label" for='TPopExposition'>Exposition,<br>Besonnung:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopExposition" name="TPopExposition" class="speichern" formular="tpop" type="text"/>
+						</td>
+					</tr>
+					<tr class="fieldcontain">
+						<td class="label">
+							<label id="TPopKlima_label" for='TPopKlima'>Klima:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopKlima" name="TPopKlima" class="speichern" formular="tpop" type="text"/>
+						</td>
+					</tr>
+					<tr class="fieldcontain">
+						<td class="label">
+							<label id="TPopNeigung_label" for='TPopNeigung'>Hangneigung:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopNeigung" name="TPopNeigung" class="speichern" formular="tpop" type="text"/>
+						</td>
+					</tr>
+					<tr class="fieldcontain">
+						<td class="label">
+							<label id="TPopBeschr_label" for='TPopBeschr'>Beschreibung:</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea id="TPopBeschr" name="TPopBeschr" class="speichern" formular="tpop" type="text"/></textarea>
+						</td>
+					</tr>
+					<tr class="fieldcontain">
+						<td class="label">
+							<label id="TPopKatNr_label" for='TPopKatNr'>Kataster-Nr.:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopKatNr" name="TPopKatNr" class="speichern" formular="tpop" type="text"/>
+						</td>
+					</tr>
+					<tr class="fieldcontain">
+						<td class="label">
+							<label id="TPopVerantw_label" for='TPopVerantw'>Verantwortlich:</label>
+						</td>
+						<td class="Datenfelder">
+							<select id="TPopVerantw" name="TPopVerantw" class="speichern" formular="tpop">
+								<option></option>
+							</select>
+						</td>
+					</tr>
+					<tr class="fieldcontain">
+						<td class="label">
+							<label id="TPopEigen_label" for='TPopEigen'>EigentümerIn:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopEigen" name="TPopEigen" class="speichern" formular="tpop" type="text"/>
+						</td>
+					</tr>
+					<tr class="fieldcontain">
+						<td class="label">
+							<label id="TPopKontakt_label" for='TPopKontakt'>Kontakt vor Ort:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopKontakt" name="TPopKontakt" class="speichern" formular="tpop" type="text"/>
+						</td>
+					</tr>
+					<tr class="fieldcontain">
+						<td class="label">
+							<label id="TPopNutzungszone_label" for='TPopNutzungszone'>Nutzungszone:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopNutzungszone" name="TPopNutzungszone" class="speichern" formular="tpop" type="text"/>
+						</td>
+					</tr>
+					<tr class="fieldcontain">
+						<td class="label">
+							<label id="TPopBewirtschafterIn_label" for='TPopBewirtschafterIn'>BewirtschafterIn:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopBewirtschafterIn" name="TPopBewirtschafterIn" class="speichern" formular="tpop" type="text"/>
+						</td>
+					</tr>
+					<tr class="fieldcontain">
+						<td class="label">
+							<label id="TPopBewirtschaftung_label" for='TPopBewirtschaftung'>Bewirtschaftung:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopBewirtschaftung" name="TPopBewirtschaftung" class="speichern" formular="tpop" type="text"/>
+						</td>
+					</tr>
+					<tr class="fieldcontain">
+						<td class="label">
+							<label id="TPopTxt_label" for='TPopTxt'>Bemerkungen:</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea id="TPopTxt" name="TPopTxt" class="speichern" formular="tpop" type="text"></textarea>
+						</td>
+					</tr>
+				</table>
 			</form>
 
 			<form id="tpopfeldkontr" class="form" action="#" method="get" autocomplete="off">
@@ -373,856 +470,1521 @@
 						<li id="biotop_tab_li"><a href="#tpopfeldkontr_tabs_biotop">Biotop</a></li>
 					</ul>
 					<div id="tpopfeldkontr_tabs_entwicklung">
-						<div class='fieldcontain TPopKontrJahr'>
-							<label id="TPopKontrJahr_label" for='TPopKontrJahr'>Jahr:</label>
-							<input id="TPopKontrJahr" name="TPopKontrJahr" class="speichern Datenfelder" formular="tpopfeldkontr" type="number">
-						</div>
-						<div class='fieldcontain TPopKontrDatum'>
-							<label id="TPopKontrDatum_label" for='TPopKontrDatum'>Datum:</label>
-							<input type="date" id="TPopKontrDatum" name="TPopKontrDatum" class="speichern Datenfelder" formular="tpopfeldkontr" type="text"/>
-						</div>
-						<div class='fieldcontain TPopKontrTyp'>
-							<label id="TPopKontrTyp_label" for='TPopKontrTyp'>Kontrolltyp:</label>
-							<div class="Datenfelder">
-								<input type="radio" name="TPopKontrTyp" id="TPopKontrTypAusgangszustand" class="speichern" formular="tpopfeldkontr" value="Ausgangszustand" /><span id="spanTPopKontrTypAusgangszustand">Ausgangszustand</span><br />
-								<input type="radio" name="TPopKontrTyp" id="TPopKontrTypZwischenbeurteilung" class="speichern" formular="tpopfeldkontr" value="Zwischenbeurteilung" /><span id="spanTPopKontrTypZwischenbeurteilung">Zwischenbeurteilung</span><br />
-								<input type="radio" name="TPopKontrTyp" id="TPopKontrTypZwischenziel" class="speichern" formular="tpopfeldkontr" value="Zwischenziel" /><span id="spanTPopKontrTypZwischenziel">Zwischenziel</span><br />
-								<input type="radio" name="TPopKontrTyp" id="TPopKontrTypZiel" class="speichern" formular="tpopfeldkontr" value="Ziel" /><span id="spanTPopKontrTypZiel">Ziel</span>
-							</div>
-						</div>
-						<div class='fieldcontain TPopKontrBearb'>
-							<label id="TPopKontrBearb_label" for='TPopKontrBearb'>BearbeiterIn:</label>
-							<select id="TPopKontrBearb" name="TPopKontrBearb" class="speichern Datenfelder" formular="tpopfeldkontr">
-								<option></option>
-							</select>
-						</div>
-						<fieldset class="clear" style="background:none;">
+						<table>
+							<tr class='fieldcontain feld_tpopfeldkontr feld_tpopfeldkontrTPopKontrJahr'>
+								<td class="label">
+									<label id="TPopKontrJahr_label" for='TPopKontrJahr'>Jahr:</label>
+								</td>
+								<td class="Datenfelder">
+									<input id="TPopKontrJahr" name="TPopKontrJahr" class="speichern" formular="tpopfeldkontr" type="number">
+								</td>
+							</tr>
+							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrDatum'>
+								<td class="label">
+									<label id="TPopKontrDatum_label" for='TPopKontrDatum'>Datum:</label>
+								</td>
+								<td class="Datenfelder">
+									<input type="date" id="TPopKontrDatum" name="TPopKontrDatum" class="speichern" formular="tpopfeldkontr" type="text"/>
+								</td>
+							</tr>
+							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrTyp'>
+								<td class="label">
+									<label id="TPopKontrTyp_label" for='TPopKontrTyp'>Kontrolltyp:</label>
+								</td>
+								<td class="Datenfelder">
+									<input type="radio" name="TPopKontrTyp" id="TPopKontrTypAusgangszustand" class="speichern" formular="tpopfeldkontr" value="Ausgangszustand" /><span id="spanTPopKontrTypAusgangszustand">Ausgangszustand</span><br />
+									<input type="radio" name="TPopKontrTyp" id="TPopKontrTypZwischenbeurteilung" class="speichern" formular="tpopfeldkontr" value="Zwischenbeurteilung" /><span id="spanTPopKontrTypZwischenbeurteilung">Zwischenbeurteilung</span><br />
+									<input type="radio" name="TPopKontrTyp" id="TPopKontrTypZwischenziel" class="speichern" formular="tpopfeldkontr" value="Zwischenziel" /><span id="spanTPopKontrTypZwischenziel">Zwischenziel</span><br />
+									<input type="radio" name="TPopKontrTyp" id="TPopKontrTypZiel" class="speichern" formular="tpopfeldkontr" value="Ziel" /><span id="spanTPopKontrTypZiel">Ziel</span>
+								</td>
+							</tr>
+							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrBearb'>
+								<td class="label">
+									<label id="TPopKontrBearb_label" for='TPopKontrBearb'>BearbeiterIn:</label>
+								</td>
+								<td class="Datenfelder">
+									<select id="TPopKontrBearb" name="TPopKontrBearb" class="speichern" formular="tpopfeldkontr">
+										<option></option>
+									</select>
+								</td>
+							</tr>
+						</table>
+						<fieldset style="background:none;">
 							<legend>1. Zähleinheit</legend>
-							<div class='fieldcontain TPopKontrZaehleinheit1'>
-								<label id="TPopKontrZaehleinheit1_label" for='TPopKontrZaehleinheit1' style="width:115px">Einheit:</label>
-								<select id="TPopKontrZaehleinheit1" name="TPopKontrZaehleinheit1" class="speichern Datenfelder" formular="tpopfeldkontr">
-									<option></option>
-								</select>
-							</div>
-							<div class='fieldcontain TPopKontrMethode1'>
-								<label id="TPopKontrMethode1_label" for='TPopKontrMethode1' style="width:115px">Methode:</label>
-								<div class="Datenfelder">
-									<input type="radio" name="TPopKontrMethode1" id="TPopKontrMethode11" class="speichern" formular="tpopfeldkontr" value="1" />geschätzt<br />
-									<input type="radio" name="TPopKontrMethode1" id="TPopKontrMethode12" class="speichern" formular="tpopfeldkontr" value="2" />gezählt<br />
-									<input type="radio" name="TPopKontrMethode1" id="TPopKontrMethode13" class="speichern" formular="tpopfeldkontr" value="3" />geschätzt/gezählt
-								</div>
-							</div>
-							<div class='fieldcontain TPopKontrAnz1'>
-								<label id="TPopKontrAnz1_label" for='TPopKontrAnz1' style="width:115px">Anzahl:</label>
-								<input id="TPopKontrAnz1" name="TPopKontrAnz1" class="speichern Datenfelder" formular="tpopfeldkontr" type="number">
-							</div>
+							<table>
+								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrZaehleinheit1'>
+									<td class="label">
+										<label id="TPopKontrZaehleinheit1_label" for='TPopKontrZaehleinheit1' style="width:115px">Einheit:</label>
+									</td>
+									<td class="Datenfelder">
+										<select id="TPopKontrZaehleinheit1" name="TPopKontrZaehleinheit1" class="speichern" formular="tpopfeldkontr">
+											<option></option>
+										</select>
+									</td>
+								</tr>
+								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrMethode1'>
+									<td class="label">
+										<label id="TPopKontrMethode1_label" for='TPopKontrMethode1' style="width:115px">Methode:</label>
+									</td>
+									<td class="Datenfelder">
+										<input type="radio" name="TPopKontrMethode1" id="TPopKontrMethode11" class="speichern" formular="tpopfeldkontr" value="1" />geschätzt<br />
+										<input type="radio" name="TPopKontrMethode1" id="TPopKontrMethode12" class="speichern" formular="tpopfeldkontr" value="2" />gezählt<br />
+										<input type="radio" name="TPopKontrMethode1" id="TPopKontrMethode13" class="speichern" formular="tpopfeldkontr" value="3" />geschätzt/gezählt
+									</td>
+								</tr>
+								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrAnz1'>
+									<td class="label">
+										<label id="TPopKontrAnz1_label" for='TPopKontrAnz1' style="width:115px">Anzahl:</label>
+									</td>
+									<td class="Datenfelder">
+										<input id="TPopKontrAnz1" name="TPopKontrAnz1" class="speichern" formular="tpopfeldkontr" type="number">
+									</td>
+								</tr>
+							</table>
 						</fieldset>
-						<fieldset class="clear" style="background:none;">
+						<fieldset style="background:none;">
 							<legend>2. Zähleinheit</legend>
-							<div class='fieldcontain TPopKontrZaehleinheit2'>
-								<label id="TPopKontrZaehleinheit2_label" for='TPopKontrZaehleinheit2' style="width:115px">Einheit:</label>
-								<select id="TPopKontrZaehleinheit2" name="TPopKontrZaehleinheit2" class="speichern Datenfelder" formular="tpopfeldkontr">
-									<option></option>
-								</select>
-							</div>
-							<div class='fieldcontain TPopKontrMethode2'>
-								<label id="TPopKontrMethode2_label" for='TPopKontrMethode2' style="width:115px">Methode:</label>
-								<div class="Datenfelder">
-									<input type="radio" name="TPopKontrMethode2" id="TPopKontrMethode21" class="speichern" formular="tpopfeldkontr" value="1" />geschätzt<br />
-									<input type="radio" name="TPopKontrMethode2" id="TPopKontrMethode22" class="speichern" formular="tpopfeldkontr" value="2" />gezählt<br />
-									<input type="radio" name="TPopKontrMethode2" id="TPopKontrMethode23" class="speichern" formular="tpopfeldkontr" value="3" />geschätzt/gezählt
-								</div>
-							</div>
-							<div class='fieldcontain TPopKontrAnz2'>
-								<label id="TPopKontrAnz2_label" for='TPopKontrAnz2' style="width:115px">Anzahl:</label>
-								<input id="TPopKontrAnz2" name="TPopKontrAnz2" class="speichern Datenfelder" formular="tpopfeldkontr" type="number">
-							</div>
+							<table>
+								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrZaehleinheit2'>
+									<td class="label">
+										<label id="TPopKontrZaehleinheit2_label" for='TPopKontrZaehleinheit2' style="width:115px">Einheit:</label>
+									</td>
+									<td class="Datenfelder">
+										<select id="TPopKontrZaehleinheit2" name="TPopKontrZaehleinheit2" class="speichern" formular="tpopfeldkontr">
+											<option></option>
+										</select>
+									</td>
+								</tr>
+								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrMethode2'>
+									<td class="label">
+										<label id="TPopKontrMethode2_label" for='TPopKontrMethode2' style="width:115px">Methode:</label>
+									</td>
+									<td class="Datenfelder">
+										<input type="radio" name="TPopKontrMethode2" id="TPopKontrMethode21" class="speichern" formular="tpopfeldkontr" value="1" />geschätzt<br />
+										<input type="radio" name="TPopKontrMethode2" id="TPopKontrMethode22" class="speichern" formular="tpopfeldkontr" value="2" />gezählt<br />
+										<input type="radio" name="TPopKontrMethode2" id="TPopKontrMethode23" class="speichern" formular="tpopfeldkontr" value="3" />geschätzt/gezählt
+									</td>
+								</tr>
+								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrAnz2'>
+									<td class="label">
+										<label id="TPopKontrAnz2_label" for='TPopKontrAnz2' style="width:115px">Anzahl:</label>
+									</td>
+									<td class="Datenfelder">
+										<input id="TPopKontrAnz2" name="TPopKontrAnz2" class="speichern" formular="tpopfeldkontr" type="number">
+									</td>
+								</tr>
+							</table>
 						</fieldset>
-						<fieldset class="clear" style="background:none;">
+						<fieldset style="background:none;">
 							<legend>3. Zähleinheit</legend>
-							<div class='fieldcontain TPopKontrZaehleinheit3'>
-								<label id="TPopKontrZaehleinheit3_label" for='TPopKontrZaehleinheit3' style="width:115px">Einheit:</label>
-								<select id="TPopKontrZaehleinheit3" name="TPopKontrZaehleinheit3" class="speichern Datenfelder" formular="tpopfeldkontr">
-									<option></option>
-								</select>
-							</div>
-							<div class='fieldcontain TPopKontrMethode3'>
-								<label id="TPopKontrMethode3_label" for='TPopKontrMethode3' style="width:115px">Methode:</label>
-								<div class="Datenfelder">
-									<input type="radio" name="TPopKontrMethode3" id="TPopKontrMethode31" class="speichern" formular="tpopfeldkontr" value="1" />geschätzt<br />
-									<input type="radio" name="TPopKontrMethode3" id="TPopKontrMethode32" class="speichern" formular="tpopfeldkontr" value="2" />gezählt<br />
-									<input type="radio" name="TPopKontrMethode3" id="TPopKontrMethode33" class="speichern" formular="tpopfeldkontr" value="3" />geschätzt/gezählt
-								</div>
-							</div>
-							<div class='fieldcontain TPopKontrAnz3'>
-								<label id="TPopKontrAnz3_label" for='TPopKontrAnz3' style="width:115px">Anzahl:</label>
-								<input id="TPopKontrAnz3" name="TPopKontrAnz3" class="speichern Datenfelder" formular="tpopfeldkontr" type="number"/>
-							</div>
+							<table>
+								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrZaehleinheit3'>
+									<td class="label">
+										<label id="TPopKontrZaehleinheit3_label" for='TPopKontrZaehleinheit3' style="width:115px">Einheit:</label>
+									</td>
+									<td class="Datenfelder">
+										<select id="TPopKontrZaehleinheit3" name="TPopKontrZaehleinheit3" class="speichern" formular="tpopfeldkontr">
+											<option></option>
+										</select>
+									</td>
+								</tr>
+								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrMethode3'>
+									<td class="label">
+										<label id="TPopKontrMethode3_label" for='TPopKontrMethode3' style="width:115px">Methode:</label>
+									</td>
+									<td class="Datenfelder">
+										<input type="radio" name="TPopKontrMethode3" id="TPopKontrMethode31" class="speichern" formular="tpopfeldkontr" value="1" />geschätzt<br />
+										<input type="radio" name="TPopKontrMethode3" id="TPopKontrMethode32" class="speichern" formular="tpopfeldkontr" value="2" />gezählt<br />
+										<input type="radio" name="TPopKontrMethode3" id="TPopKontrMethode33" class="speichern" formular="tpopfeldkontr" value="3" />geschätzt/gezählt
+									</td>
+								</tr>
+								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrAnz3'>
+									<td class="label">
+										<label id="TPopKontrAnz3_label" for='TPopKontrAnz3' style="width:115px">Anzahl:</label>
+									</td>
+									<td class="Datenfelder">
+										<input id="TPopKontrAnz3" name="TPopKontrAnz3" class="speichern" formular="tpopfeldkontr" type="number"/>
+									</td>
+								</tr>
+							</table>
 						</fieldset>
-
-						<div class='fieldcontain TPopKontrPlan'>
-							<label id="TPopKontrPlan_label" for='TPopKontrPlan'>Auf Plan eingezeichnet?</label>
-							<input type="checkbox" name="TPopKontrPlan" id="TPopKontrPlan" class="speichern Datenfelder" formular="tpopfeldkontr" />
-						</div>
-						<div class='fieldcontain TPopKontrUebFlaeche'>
-							<label id="TPopKontrUebFlaeche_label" for='TPopKontrUebFlaeche'>Überprüfte Fläche in m2:</label>
-							<input id="TPopKontrUebFlaeche" name="TPopKontrUebFlaeche" class="speichern Datenfelder" formular="tpopfeldkontr" type="number">
-						</div>
-						<div class='fieldcontain TPopKontrUebPfl'>
-							<label id="TPopKontrUebPfl_label" for='TPopKontrUebPfl'>Deckung überprüfte Art (%):</label>
-							<input id="TPopKontrUebPfl" name="TPopKontrUebPfl" class="speichern Datenfelder" formular="tpopfeldkontr" type="number">
-						</div>
-						<div class='fieldcontain TPopKontrNaBo'>
-							<label id="TPopKontrNaBo_label" for='TPopKontrNaBo'>Deckung nackter Boden (%):</label>
-							<input id="TPopKontrNaBo" name="TPopKontrNaBo" class="speichern Datenfelder" formular="tpopfeldkontr" type="number">
-						</div>
-						<div class='fieldcontain TPopKontrVeg'>
-							<label id="TPopKontrVeg_label" for='TPopKontrVeg'>Deckung Pflanzen, Streu u. Moos (%):</label>
-							<input id="TPopKontrVeg" name="TPopKontrVeg" class="speichern Datenfelder" formular="tpopfeldkontr" type="number">
-						</div>
-						<div class='fieldcontain TPopKontrJungPflJN'>
-							<label id="TPopKontrJungPflJN_label" for='TPopKontrJungPflJN'>Auch junge Pflanzen vorhanden?</label>
-							<input type="checkbox" name="TPopKontrJungPflJN" id="TPopKontrJungPflJN" class="speichern Datenfelder" formular="tpopfeldkontr" />
-						</div>
-						<div class='fieldcontain TPopKontrVegHoeMax'>
-							<label id="TPopKontrVegHoeMax_label" for='TPopKontrVegHoeMax'>Vegetationshöhe Maximum in cm:</label>
-							<input id="TPopKontrVegHoeMax" name="TPopKontrVegHoeMax" class="speichern Datenfelder" formular="tpopfeldkontr" type="number">
-						</div>
-						<div class='fieldcontain TPopKontrVegHoeMit'>
-							<label id="TPopKontrVegHoeMit_label" for='TPopKontrVegHoeMit'>Vegetationshöhe Mittelwert in cm:</label>
-							<input id="TPopKontrVegHoeMit" name="TPopKontrVegHoeMit" class="speichern Datenfelder" formular="tpopfeldkontr" type="number">
-						</div>
-						<div class='fieldcontain TPopKontrGefaehrdung'>
-							<label id="TPopKontrGefaehrdung_label" for='TPopKontrGefaehrdung'>Gefährdung:</label>
-							<textarea name="TPopKontrGefaehrdung" id="TPopKontrGefaehrdung" class="speichern Datenfelder" formular="tpopfeldkontr" /></textarea>
-						</div>
-						<div class='fieldcontain TPopKontrJungpfl'>
-							<label id="TPopKontrJungpfl_label" for='TPopKontrJungpfl'>Anzahl Jungpflanzen:</label>
-							<input id="TPopKontrJungpfl" name="TPopKontrJungpfl" class="speichern Datenfelder" formular="tpopfeldkontr" type="number">
-						</div>
-						<div class='fieldcontain TPopKontrVitalitaet'>
-							<label id="TPopKontrVitalitaet_label" for='TPopKontrVitalitaet'>Vitalität:</label>
-							<input id="TPopKontrVitalitaet" name="TPopKontrVitalitaet" class="speichern Datenfelder" formular="tpopfeldkontr" type="text"/>
-						</div>
-						<div class='fieldcontain TPopKontrUeberleb'>
-							<label id="TPopKontrUeberleb_label" for='TPopKontrUeberleb'>Überlebensrate:</label>
-							<input id="TPopKontrUeberleb" name="TPopKontrUeberleb" class="speichern Datenfelder" formular="tpopfeldkontr" type="text"/>
-						</div>
-						<div class='fieldcontain TPopKontrEntwicklung'>
-							<label id="TPopKontrEntwicklung_label" for='TPopKontrEntwicklung'>
-								<a class="tooltip legendiert" href="#">Entwicklung:
-									<span class="custom info">
-										<img src="img/Info.png" alt="Information" height="48" width="48" />
-										<p class='legendentitel'>Legende:</p>
-										<p>Im 1. Jahr der Beobachtung die Entwicklung an der Massnahme beurteilen, nachher an vorhergehenden EK</p>
-										<ul class='legende'>
-											<li>zunehmend: > 10% Zunahme</li>
-											<li>stabil: ± 10%</li>
-											<li>abnehmend: > 10% Abnahme</li>
-											<li>erloschen / nicht etabliert: nach 2 aufeinander folgenden Kontrollen ohne Funde oder nach Einschätzung AP-VerantwortlicheR</li>
-											<li>unsicher: keine Funde aber noch nicht erloschen (nach zwei Kontrollen ohne Funde kann Status erloschen/nicht etabliert gewählt werden)</li>
-											<li>neu entdeckt (unsicher): neu autochthone Standorte im 1. Jahr (es kann noch keine Aussage zur Entwicklung gemacht werden)</li>
-										</ul>
-									</span>
-								</a>
-							</label>
-							<div class="Datenfelder">
-								<input type="radio" name="TPopKontrEntwicklung" id="TPopKontrEntwicklung3" class="speichern" formular="tpopfeldkontr" value="3" />zunehmend<br />
-								<input type="radio" name="TPopKontrEntwicklung" id="TPopKontrEntwicklung2" class="speichern" formular="tpopfeldkontr" value="2" />stabil<br />
-								<input type="radio" name="TPopKontrEntwicklung" id="TPopKontrEntwicklung1" class="speichern" formular="tpopfeldkontr" value="1" />abnehmend<br />
-								<input type="radio" name="TPopKontrEntwicklung" id="TPopKontrEntwicklung8" class="speichern" formular="tpopfeldkontr" value="8" />erloschen / nicht etabliert<br />
-								<input type="radio" name="TPopKontrEntwicklung" id="TPopKontrEntwicklung4" class="speichern" formular="tpopfeldkontr" value="4" />unsicher<br />
-								<input type="radio" name="TPopKontrEntwicklung" id="TPopKontrEntwicklung9" class="speichern" formular="tpopfeldkontr" value="9" />neu entdeckt (unsicher)<br />
-								<input type="radio" name="TPopKontrEntwicklung" id="TPopKontrEntwicklung99" class="speichern" formular="tpopfeldkontr" value="99" />andere Einstufung
-							</div>
-						</div>
-						<div class='fieldcontain TPopKontrUrsach'>
-							<label id="TPopKontrUrsach_label" for='TPopKontrUrsach'>Ursachen:</label>
-							<textarea id="TPopKontrUrsach" name="TPopKontrUrsach" class="speichern Datenfelder" formular="tpopfeldkontr" type="text" placeholder="Standort: ... / Klima: ... / anderes: ..."></textarea>
-						</div>
-						<div class='fieldcontain TPopKontrUrteil'>
-							<label id="TPopKontrUrteil_label" for='TPopKontrUrteil'>Erfolgsbeurteilung:</label>
-							<textarea name="TPopKontrUrteil" id="TPopKontrUrteil" class="speichern Datenfelder" formular="tpopfeldkontr" /></textarea>
-						</div>
-						<div class='fieldcontain TPopKontrAendUms'>
-							<label id="TPopKontrAendUms_label" for='TPopKontrAendUms'>Änd.-vorschläge Umsetzung:</label>
-							<textarea name="TPopKontrAendUms" id="TPopKontrAendUms" class="speichern Datenfelder" formular="tpopfeldkontr" /></textarea>
-						</div>
-						<div class='fieldcontain TPopKontrAendKontr'>
-							<label id="TPopKontrAendKontr_label" for='TPopKontrAendKontr'>Änd.-vorschläge Kontrolle:</label>
-							<textarea name="TPopKontrAendKontr" id="TPopKontrAendKontr" class="speichern Datenfelder" formular="tpopfeldkontr" /></textarea>
-						</div>
-						<div class='fieldcontain TPopKontrTxt'>
-							<label id="TPopKontrTxt_label" for='TPopKontrTxt'>Bemerkungen:</label>
-							<textarea name="TPopKontrTxt" id="TPopKontrTxt" class="speichern Datenfelder" formular="tpopfeldkontr" /></textarea>
-						</div>
-						<div class='fieldcontain TPopKontrGuid'>
-							<label id="TPopKontrGuid_label" for='TPopKontrGuid'>GUID:</label>
-							<input id="TPopKontrGuid" name="TPopKontrGuid" class="speichern Datenfelder" formular="tpopfeldkontr" type="text" readonly="readonly">
-						</div>
+						<table>
+							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrPlan'>
+								<td class="label">
+									<label id="TPopKontrPlan_label" for='TPopKontrPlan'>Auf Plan eingezeichnet?</label>
+								</td>
+								<td class="Datenfelder">
+									<input type="checkbox" name="TPopKontrPlan" id="TPopKontrPlan" class="speichern" formular="tpopfeldkontr" />
+								</td>
+							</tr>
+							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrUebFlaeche'>
+								<td class="label">
+									<label id="TPopKontrUebFlaeche_label" for='TPopKontrUebFlaeche'>Überprüfte Fläche in m2:</label>
+								</td>
+								<td class="Datenfelder">
+									<input id="TPopKontrUebFlaeche" name="TPopKontrUebFlaeche" class="speichern" formular="tpopfeldkontr" type="number">
+								</td>
+							</tr>
+							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrUebPfl'>
+								<td class="label">
+									<label id="TPopKontrUebPfl_label" for='TPopKontrUebPfl'>Deckung überprüfte Art (%):</label>
+								</td>
+								<td class="Datenfelder">
+									<input id="TPopKontrUebPfl" name="TPopKontrUebPfl" class="speichern" formular="tpopfeldkontr" type="number">
+								</td>
+							</tr>
+							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrNaBo'>
+								<td class="label">
+									<label id="TPopKontrNaBo_label" for='TPopKontrNaBo'>Deckung nackter Boden (%):</label>
+								</td>
+								<td class="Datenfelder">
+									<input id="TPopKontrNaBo" name="TPopKontrNaBo" class="speichern" formular="tpopfeldkontr" type="number">
+								</td>
+							</tr>
+							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrVeg'>
+								<td class="label">
+									<label id="TPopKontrVeg_label" for='TPopKontrVeg'>Deckung Pflanzen, Streu u. Moos (%):</label>
+								</td>
+								<td class="Datenfelder">
+									<input id="TPopKontrVeg" name="TPopKontrVeg" class="speichern" formular="tpopfeldkontr" type="number">
+								</td>
+							</tr>
+							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrJungPflJN'>
+								<td class="label">
+									<label id="TPopKontrJungPflJN_label" for='TPopKontrJungPflJN'>Auch junge Pflanzen vorhanden?</label>
+								</td>
+								<td class="Datenfelder">
+									<input type="checkbox" name="TPopKontrJungPflJN" id="TPopKontrJungPflJN" class="speichern" formular="tpopfeldkontr" />
+								</td>
+							</tr>
+							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrVegHoeMax'>
+								<td class="label">
+									<label id="TPopKontrVegHoeMax_label" for='TPopKontrVegHoeMax'>Vegetationshöhe Maximum in cm:</label>
+								</td>
+								<td class="Datenfelder">
+									<input id="TPopKontrVegHoeMax" name="TPopKontrVegHoeMax" class="speichern" formular="tpopfeldkontr" type="number">
+								</td>
+							</tr>
+							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrVegHoeMit'>
+								<td class="label">
+									<label id="TPopKontrVegHoeMit_label" for='TPopKontrVegHoeMit'>Vegetationshöhe Mittelwert in cm:</label>
+								</td>
+								<td class="Datenfelder">
+									<input id="TPopKontrVegHoeMit" name="TPopKontrVegHoeMit" class="speichern" formular="tpopfeldkontr" type="number">
+								</td>
+							</tr>
+							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrGefaehrdung'>
+								<td class="label">
+									<label id="TPopKontrGefaehrdung_label" for='TPopKontrGefaehrdung'>Gefährdung:</label>
+								</td>
+								<td class="Datenfelder">
+									<textarea name="TPopKontrGefaehrdung" id="TPopKontrGefaehrdung" class="speichern" formular="tpopfeldkontr" /></textarea>
+								</td>
+							</tr>
+							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrJungpfl'>
+								<td class="label">
+									<label id="TPopKontrJungpfl_label" for='TPopKontrJungpfl'>Anzahl Jungpflanzen:</label>
+								</td>
+								<td class="Datenfelder">
+									<input id="TPopKontrJungpfl" name="TPopKontrJungpfl" class="speichern" formular="tpopfeldkontr" type="number">
+								</td>
+							</tr>
+							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrVitalitaet'>
+								<td class="label">
+									<label id="TPopKontrVitalitaet_label" for='TPopKontrVitalitaet'>Vitalität:</label>
+								</td>
+								<td class="Datenfelder">
+									<input id="TPopKontrVitalitaet" name="TPopKontrVitalitaet" class="speichern" formular="tpopfeldkontr" type="text"/>
+								</td>
+							</tr>
+							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrUeberleb'>
+								<td class="label">
+									<label id="TPopKontrUeberleb_label" for='TPopKontrUeberleb'>Überlebensrate:</label>
+								</td>
+								<td class="Datenfelder">
+									<input id="TPopKontrUeberleb" name="TPopKontrUeberleb" class="speichern" formular="tpopfeldkontr" type="text"/>
+								</td>
+							</tr>
+							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrEntwicklung'>
+								<td class="label">
+									<label id="TPopKontrEntwicklung_label" for='TPopKontrEntwicklung'>
+										<a class="tooltip legendiert" href="#">Entwicklung:
+											<span class="custom info">
+												<img src="img/Info.png" alt="Information" height="48" width="48" />
+												<p class='legendentitel'>Legende:</p>
+												<p>Im 1. Jahr der Beobachtung die Entwicklung an der Massnahme beurteilen, nachher an vorhergehenden EK</p>
+												<ul class='legende'>
+													<li>zunehmend: > 10% Zunahme</li>
+													<li>stabil: ± 10%</li>
+													<li>abnehmend: > 10% Abnahme</li>
+													<li>erloschen / nicht etabliert: nach 2 aufeinander folgenden Kontrollen ohne Funde oder nach Einschätzung AP-VerantwortlicheR</li>
+													<li>unsicher: keine Funde aber noch nicht erloschen (nach zwei Kontrollen ohne Funde kann Status erloschen/nicht etabliert gewählt werden)</li>
+													<li>neu entdeckt (unsicher): neu autochthone Standorte im 1. Jahr (es kann noch keine Aussage zur Entwicklung gemacht werden)</li>
+												</ul>
+											</span>
+										</a>
+									</label>
+								</td>
+								<td class="Datenfelder">
+									<input type="radio" name="TPopKontrEntwicklung" id="TPopKontrEntwicklung3" class="speichern" formular="tpopfeldkontr" value="3" />zunehmend<br />
+									<input type="radio" name="TPopKontrEntwicklung" id="TPopKontrEntwicklung2" class="speichern" formular="tpopfeldkontr" value="2" />stabil<br />
+									<input type="radio" name="TPopKontrEntwicklung" id="TPopKontrEntwicklung1" class="speichern" formular="tpopfeldkontr" value="1" />abnehmend<br />
+									<input type="radio" name="TPopKontrEntwicklung" id="TPopKontrEntwicklung8" class="speichern" formular="tpopfeldkontr" value="8" />erloschen / nicht etabliert<br />
+									<input type="radio" name="TPopKontrEntwicklung" id="TPopKontrEntwicklung4" class="speichern" formular="tpopfeldkontr" value="4" />unsicher<br />
+									<input type="radio" name="TPopKontrEntwicklung" id="TPopKontrEntwicklung9" class="speichern" formular="tpopfeldkontr" value="9" />neu entdeckt (unsicher)<br />
+									<input type="radio" name="TPopKontrEntwicklung" id="TPopKontrEntwicklung99" class="speichern" formular="tpopfeldkontr" value="99" />andere Einstufung
+								</td>
+							</tr>
+							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrUrsach'>
+								<td class="label">
+									<label id="TPopKontrUrsach_label" for='TPopKontrUrsach'>Ursachen:</label>
+								</td>
+								<td class="Datenfelder">
+									<textarea id="TPopKontrUrsach" name="TPopKontrUrsach" class="speichern" formular="tpopfeldkontr" type="text" placeholder="Standort: ... / Klima: ... / anderes: ..."></textarea>
+								</td>
+							</tr>
+							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrUrteil'>
+								<td class="label">
+									<label id="TPopKontrUrteil_label" for='TPopKontrUrteil'>Erfolgsbeurteilung:</label>
+								</td>
+								<td class="Datenfelder">
+									<textarea name="TPopKontrUrteil" id="TPopKontrUrteil" class="speichern" formular="tpopfeldkontr" /></textarea>
+								</td>
+							</tr>
+							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrAendUms'>
+								<td class="label">
+									<label id="TPopKontrAendUms_label" for='TPopKontrAendUms'>Änd.-vorschläge Umsetzung:</label>
+								</td>
+								<td class="Datenfelder">
+									<textarea name="TPopKontrAendUms" id="TPopKontrAendUms" class="speichern" formular="tpopfeldkontr" /></textarea>
+								</td>
+							</tr>
+							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrAendKontr'>
+								<td class="label">
+									<label id="TPopKontrAendKontr_label" for='TPopKontrAendKontr'>Änd.-vorschläge Kontrolle:</label>
+								</td>
+								<td class="Datenfelder">
+									<textarea name="TPopKontrAendKontr" id="TPopKontrAendKontr" class="speichern" formular="tpopfeldkontr" /></textarea>
+								</td>
+							</tr>
+							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrTxt'>
+								<td class="label">
+									<label id="TPopKontrTxt_label" for='TPopKontrTxt'>Bemerkungen:</label>
+								</td>
+								<td class="Datenfelder">
+									<textarea name="TPopKontrTxt" id="TPopKontrTxt" class="speichern" formular="tpopfeldkontr" /></textarea>
+								</td>
+							</tr>
+							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrGuid'>
+								<td class="label">
+									<label id="TPopKontrGuid_label" for='TPopKontrGuid'>GUID:</label>
+								</td>
+								<td class="Datenfelder">
+									<input id="TPopKontrGuid" name="TPopKontrGuid" class="speichern" formular="tpopfeldkontr" type="text" readonly="readonly">
+								</td>
+							</tr>
+						</table>
 					</div>
 					<div id="tpopfeldkontr_tabs_biotop">
-						<div class='fieldcontain TPopKontrFlaeche'>
-							<label id="TPopKontrFlaeche_label" for='TPopKontrFlaeche'>Fläche:</label>
-							<input id="TPopKontrFlaeche" name="TPopKontrFlaeche" class="speichern Datenfelder" formular="tpopfeldkontr" type="number"/>
-						</div>
+						<table>
+							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrFlaeche'>
+								<td class="label">
+									<label id="TPopKontrFlaeche_label" for='TPopKontrFlaeche'>Fläche:</label>
+								</td>
+								<td class="Datenfelder">
+									<input id="TPopKontrFlaeche" name="TPopKontrFlaeche" class="speichern" formular="tpopfeldkontr" type="number"/>
+								</td>
+							</tr>
+						</table>
 						<fieldset style="background:none;">
 							<legend>Vegetation</legend>
-							<div class='fieldcontain TPopKontrLeb'>
-								<label id="TPopKontrLeb_label" for='TPopKontrLeb' style="width:115px">Lebensraum nach Delarze:</label>
-								<select id="TPopKontrLeb" name="TPopKontrLeb" class="speichern Datenfelder" formular="tpopfeldkontr" style="white-space:pre;">
-									<option></option>
-								</select>
-							</div>
-							<div class='fieldcontain TPopKontrLebUmg'>
-								<label id="TPopKontrLebUmg_label" for='TPopKontrLebUmg' style="width:115px">Umgebung:</label>
-								<select id="TPopKontrLebUmg" name="TPopKontrLebUmg" class="speichern Datenfelder" formular="tpopfeldkontr" style="white-space:pre;">
-									<option></option>
-								</select>
-							</div>
-							<div class='fieldcontain TPopKontrVegTyp'>
-								<label id="TPopKontrVegTyp_label" for='TPopKontrVegTyp' style="width:115px">Vegetationstyp:</label>
-								<input id="TPopKontrVegTyp" name="TPopKontrVegTyp" class="speichern Datenfelder" formular="tpopfeldkontr" type="text"/>
-							</div>
-							<div class='fieldcontain TPopKontrKonkurrenz'>
-								<label id="TPopKontrKonkurrenz_label" for='TPopKontrKonkurrenz' style="width:115px">Konkurrenz:</label>
-								<input id="TPopKontrKonkurrenz" name="TPopKontrKonkurrenz" class="speichern Datenfelder" formular="tpopfeldkontr" type="text"/>
-							</div>
-							<div class='fieldcontain TPopKontrMoosschicht'>
-								<label id="TPopKontrMoosschicht_label" for='TPopKontrMoosschicht' style="width:115px">Moosschicht:</label>
-								<input id="TPopKontrMoosschicht" name="TPopKontrMoosschicht" class="speichern Datenfelder" formular="tpopfeldkontr" type="text"/>
-							</div>
-							<div class='fieldcontain TPopKontrKrautschicht'>
-								<label id="TPopKontrKrautschicht_label" for='TPopKontrKrautschicht' style="width:115px">Krautschicht:</label>
-								<input id="TPopKontrKrautschicht" name="TPopKontrKrautschicht" class="speichern Datenfelder" formular="tpopfeldkontr" type="text"/>
-							</div>
-							<div class='fieldcontain TPopKontrStrauchschicht'>
-								<label id="TPopKontrStrauchschicht_label" for='TPopKontrStrauchschicht' style="width:115px">Strauchschicht:</label>
-								<input id="TPopKontrStrauchschicht" name="TPopKontrStrauchschicht" class="speichern Datenfelder" formular="tpopfeldkontr" type="text"/>
-							</div>
-							<div class='fieldcontain TPopKontrBaumschicht'>
-								<label id="TPopKontrBaumschicht_label" for='TPopKontrBaumschicht' style="width:115px">Baumschicht:</label>
-								<input id="TPopKontrBaumschicht" name="TPopKontrBaumschicht" class="speichern Datenfelder" formular="tpopfeldkontr" type="text"/>
-							</div>
+							<table>
+								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrLeb'>
+									<td class="label">
+										<label id="TPopKontrLeb_label" for='TPopKontrLeb' style="width:115px">Lebensraum nach Delarze:</label>
+									</td>
+									<td class="Datenfelder">
+										<select id="TPopKontrLeb" name="TPopKontrLeb" class="speichern" formular="tpopfeldkontr" style="white-space:pre;">
+											<option></option>
+										</select>
+									</td>
+								</tr>
+								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrLebUmg'>
+									<td class="label">
+										<label id="TPopKontrLebUmg_label" for='TPopKontrLebUmg' style="width:115px">Umgebung:</label>
+									</td>
+									<td class="Datenfelder">
+										<select id="TPopKontrLebUmg" name="TPopKontrLebUmg" class="speichern" formular="tpopfeldkontr" style="white-space:pre;">
+											<option></option>
+										</select>
+									</td>
+								</tr>
+								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrVegTyp'>
+									<td class="label">
+										<label id="TPopKontrVegTyp_label" for='TPopKontrVegTyp' style="width:115px">Vegetationstyp:</label>
+									</td>
+									<td class="Datenfelder">
+										<input id="TPopKontrVegTyp" name="TPopKontrVegTyp" class="speichern" formular="tpopfeldkontr" type="text"/>
+									</td>
+								</tr>
+								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrKonkurrenz'>
+									<td class="label">
+										<label id="TPopKontrKonkurrenz_label" for='TPopKontrKonkurrenz' style="width:115px">Konkurrenz:</label>
+									</td>
+									<td class="Datenfelder">
+										<input id="TPopKontrKonkurrenz" name="TPopKontrKonkurrenz" class="speichern" formular="tpopfeldkontr" type="text"/>
+									</td>
+								</tr>
+								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrMoosschicht'>
+									<td class="label">
+										<label id="TPopKontrMoosschicht_label" for='TPopKontrMoosschicht' style="width:115px">Moosschicht:</label>
+									</td>
+									<td class="Datenfelder">
+										<input id="TPopKontrMoosschicht" name="TPopKontrMoosschicht" class="speichern" formular="tpopfeldkontr" type="text"/>
+									</td>
+								</tr>
+								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrKrautschicht'>
+									<td class="label">
+										<label id="TPopKontrKrautschicht_label" for='TPopKontrKrautschicht' style="width:115px">Krautschicht:</label>
+									</td>
+									<td class="Datenfelder">
+										<input id="TPopKontrKrautschicht" name="TPopKontrKrautschicht" class="speichern" formular="tpopfeldkontr" type="text"/>
+									</td>
+								</tr>
+								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrStrauchschicht'>
+									<td class="label">
+										<label id="TPopKontrStrauchschicht_label" for='TPopKontrStrauchschicht' style="width:115px">Strauchschicht:</label>
+									</td>
+									<td class="Datenfelder">
+										<input id="TPopKontrStrauchschicht" name="TPopKontrStrauchschicht" class="speichern" formular="tpopfeldkontr" type="text"/>
+									</td>
+								</tr>
+								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrBaumschicht'>
+									<td class="label">
+										<label id="TPopKontrBaumschicht_label" for='TPopKontrBaumschicht' style="width:115px">Baumschicht:</label>
+									</td>
+									<td class="Datenfelder">
+										<input id="TPopKontrBaumschicht" name="TPopKontrBaumschicht" class="speichern" formular="tpopfeldkontr" type="text"/>
+									</td>
+								</tr>
+							</table>
 						</fieldset>
 						<fieldset style="background:none;">
 							<legend>Boden</legend>
-							<div class='fieldcontain TPopKontrBodenTyp'>
-								<label id="TPopKontrBodenTyp_label" for='TPopKontrBodenTyp' style="width:115px">Typ:</label>
-								<input id="TPopKontrBodenTyp" name="TPopKontrBodenTyp" class="speichern Datenfelder" formular="tpopfeldkontr" type="text"/>
-							</div>
-							<div class='fieldcontain TPopKontrBodenKalkgehalt'>
-								<label id="TPopKontrBodenKalkgehalt_label" for='TPopKontrBodenKalkgehalt' style="width:115px">Kalkgehalt:</label>
-								<input id="TPopKontrBodenKalkgehalt" name="TPopKontrBodenKalkgehalt" class="speichern Datenfelder" formular="tpopfeldkontr" type="text"/>
-							</div>
-							<div class='fieldcontain TPopKontrBodenDurchlaessigkeit'>
-								<label id="TPopKontrBodenDurchlaessigkeit_label" for='TPopKontrBodenDurchlaessigkeit' style="width:115px">Durchlässigkeit:</label>
-								<input id="TPopKontrBodenDurchlaessigkeit" name="TPopKontrBodenDurchlaessigkeit" class="speichern Datenfelder" formular="tpopfeldkontr" type="text"/>
-							</div>
-							<div class='fieldcontain TPopKontrBodenHumus'>
-								<label id="TPopKontrBodenHumus_label" for='TPopKontrBodenHumus' style="width:115px">Humusgehalt:</label>
-								<input id="TPopKontrBodenHumus" name="TPopKontrBodenHumus" class="speichern Datenfelder" formular="tpopfeldkontr" type="text"/>
-							</div>
-							<div class='fieldcontain TPopKontrBodenNaehrstoffgehalt'>
-								<label id="TPopKontrBodenNaehrstoffgehalt_label" for='TPopKontrBodenNaehrstoffgehalt' style="width:115px">Nährstoffgehalt:</label>
-								<input id="TPopKontrBodenNaehrstoffgehalt" name="TPopKontrBodenNaehrstoffgehalt" class="speichern Datenfelder" formular="tpopfeldkontr" type="text"/>
-							</div>
-							<div class='fieldcontain TPopKontrBodenAbtrag'>
-								<label id="TPopKontrBodenAbtrag_label" for='TPopKontrBodenAbtrag' style="width:115px">Bodenabtrag:</label>
-								<input id="TPopKontrBodenAbtrag" name="TPopKontrBodenAbtrag" class="speichern Datenfelder" formular="tpopfeldkontr" type="text"/>
-							</div>
-							<div class='fieldcontain TPopKontrWasserhaushalt'>
-								<label id="TPopKontrWasserhaushalt_label" for='TPopKontrWasserhaushalt' style="width:115px">Wasserhaushalt:</label>
-								<input id="TPopKontrWasserhaushalt" name="TPopKontrWasserhaushalt" class="speichern Datenfelder" formular="tpopfeldkontr" type="text"/>
-							</div>
-							<div class='fieldcontain TPopKontrHandlungsbedarf'>
-								<label id="TPopKontrHandlungsbedarf_label" for='TPopKontrHandlungsbedarf' style="width:115px">Handlungsbedarf:</label>
-								<textarea name="TPopKontrHandlungsbedarf" id="TPopKontrHandlungsbedarf" class="speichern Datenfelder" formular="tpopfeldkontr" /></textarea>
-							</div>
-							<div class='fieldcontain TPopKontrIdealBiotopUebereinst'>
-								<label id="TPopKontrIdealBiotopUebereinst_label" for='TPopKontrIdealBiotopUebereinst' style="width:115px">Übereinst. mit Idealbiotop:</label>
-								<select id="TPopKontrIdealBiotopUebereinst" name="TPopKontrIdealBiotopUebereinst" class="speichern Datenfelder" formular="tpopfeldkontr" style="white-space:pre;">
-									<option></option>
-								</select>
-							</div>
+							<table>
+								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrBodenTyp'>
+									<td class="label">
+										<label id="TPopKontrBodenTyp_label" for='TPopKontrBodenTyp' style="width:115px">Typ:</label>
+									</td>
+									<td class="Datenfelder">
+										<input id="TPopKontrBodenTyp" name="TPopKontrBodenTyp" class="speichern" formular="tpopfeldkontr" type="text"/>
+									</td>
+								</tr>
+								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrBodenKalkgehalt'>
+									<td class="label">
+										<label id="TPopKontrBodenKalkgehalt_label" for='TPopKontrBodenKalkgehalt' style="width:115px">Kalkgehalt:</label>
+									</td>
+									<td class="Datenfelder">
+										<input id="TPopKontrBodenKalkgehalt" name="TPopKontrBodenKalkgehalt" class="speichern" formular="tpopfeldkontr" type="text"/>
+									</td>
+								</tr>
+								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrBodenDurchlaessigkeit'>
+									<td class="label">
+										<label id="TPopKontrBodenDurchlaessigkeit_label" for='TPopKontrBodenDurchlaessigkeit' style="width:115px">Durchlässigkeit:</label>
+									</td>
+									<td class="Datenfelder">
+										<input id="TPopKontrBodenDurchlaessigkeit" name="TPopKontrBodenDurchlaessigkeit" class="speichern" formular="tpopfeldkontr" type="text"/>
+									</td>
+								</tr>
+								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrBodenHumus'>
+									<td class="label">
+										<label id="TPopKontrBodenHumus_label" for='TPopKontrBodenHumus' style="width:115px">Humusgehalt:</label>
+									</td>
+									<td class="Datenfelder">
+										<input id="TPopKontrBodenHumus" name="TPopKontrBodenHumus" class="speichern" formular="tpopfeldkontr" type="text"/>
+									</td>
+								</tr>
+								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrBodenNaehrstoffgehalt'>
+									<td class="label">
+										<label id="TPopKontrBodenNaehrstoffgehalt_label" for='TPopKontrBodenNaehrstoffgehalt' style="width:115px">Nährstoffgehalt:</label>
+									</td>
+									<td class="Datenfelder">
+										<input id="TPopKontrBodenNaehrstoffgehalt" name="TPopKontrBodenNaehrstoffgehalt" class="speichern" formular="tpopfeldkontr" type="text"/>
+									</td>
+								</tr>
+								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrBodenAbtrag'>
+									<td class="label">
+										<label id="TPopKontrBodenAbtrag_label" for='TPopKontrBodenAbtrag' style="width:115px">Bodenabtrag:</label>
+									</td>
+									<td class="Datenfelder">
+										<input id="TPopKontrBodenAbtrag" name="TPopKontrBodenAbtrag" class="speichern" formular="tpopfeldkontr" type="text"/>
+									</td>
+								</tr>
+								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrWasserhaushalt'>
+									<td class="label">
+										<label id="TPopKontrWasserhaushalt_label" for='TPopKontrWasserhaushalt' style="width:115px">Wasserhaushalt:</label>
+									</td>
+									<td class="Datenfelder">
+										<input id="TPopKontrWasserhaushalt" name="TPopKontrWasserhaushalt" class="speichern" formular="tpopfeldkontr" type="text"/>
+									</td>
+								</tr>
+								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrHandlungsbedarf'>
+									<td class="label">
+										<label id="TPopKontrHandlungsbedarf_label" for='TPopKontrHandlungsbedarf' style="width:115px">Handlungsbedarf:</label>
+									</td>
+									<td class="Datenfelder">
+										<textarea name="TPopKontrHandlungsbedarf" id="TPopKontrHandlungsbedarf" class="speichern" formular="tpopfeldkontr" /></textarea>
+									</td>
+								</tr>
+								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrIdealBiotopUebereinst'>
+									<td class="label">
+										<label id="TPopKontrIdealBiotopUebereinst_label" for='TPopKontrIdealBiotopUebereinst' style="width:115px">Übereinst. mit Idealbiotop:</label>
+									</td>
+									<td class="Datenfelder">
+										<select id="TPopKontrIdealBiotopUebereinst" name="TPopKontrIdealBiotopUebereinst" class="speichern" formular="tpopfeldkontr" style="white-space:pre;">
+											<option></option>
+										</select>
+									</td>
+								</tr>
+							</table>
 						</fieldset>
 					</div>
 				</div>
 			</form>
 
 			<form id="tpopmassn" class="form" action="#" method="get" autocomplete="off">
-				<div class='fieldcontain TPopMassnJahr'>
-					<label id="TPopMassnJahr_label" for='TPopMassnJahr'>Jahr:</label>
-					<input id="TPopMassnJahr" name="TPopMassnJahr" class="speichern Datenfelder" formular="tpopmassn" type="number">
-				</div>
-				<div class='fieldcontain TPopMassnTyp'>
-					<label id="TPopMassnTyp_label" for='TPopMassnTyp'>Typ:</label>
-					<select id="TPopMassnTyp" name="TPopMassnTyp" class="speichern Datenfelder" formular="tpopmassn">
-						<option></option>
-					</select>
-				</div>
-				<div class='fieldcontain TPopMassnTxt'>
-					<label id="TPopMassnTxt_label" for='TPopMassnTxt'>Massnahme:</label>
-					<input id="TPopMassnTxt" name="TPopMassnTxt" class="speichern Datenfelder" formular="tpopmassn" type="text"/>
-				</div>
-				<div class='fieldcontain TPopMassnDatum'>
-					<label id="TPopMassnDatum_label" for='TPopMassnDatum'>Datum:</label>
-					<input type="date" id="TPopMassnDatum" name="TPopMassnDatum" class="speichern Datenfelder" formular="tpopmassn" type="text"/>
-				</div>
-				<div class='fieldcontain TPopMassnBearb'>
-					<label id="TPopMassnBearb_label" for='TPopMassnBearb'>BearbeiterIn:</label>
-					<select id="TPopMassnBearb" name="TPopMassnBearb" class="speichern Datenfelder" formular="tpopmassn">
-						<option></option>
-					</select>
-				</div>
-				<div class='fieldcontain TPopMassnBemTxt'>
-					<label id="TPopMassnBemTxt_label" for='TPopMassnBemTxt'>Bemerkungen:</label>
-					<textarea name="TPopMassnBemTxt" id="TPopMassnBemTxt" class="speichern Datenfelder" formular="tpopmassn" /></textarea>
-				</div>
-				<div class='fieldcontain TPopMassnPlan'>
-					<label id="TPopMassnPlan_label" for='TPopMassnPlan'>Plan vorhanden:</label>
-					<input type="checkbox" name="TPopMassnPlan" id="TPopMassnPlan" class="speichern Datenfelder" formular="tpopmassn" />
-				</div>
-				<div class='fieldcontain TPopMassnPlanBez'>
-					<label id="TPopMassnPlanBez_label" for='TPopMassnPlanBez'>Plan Bezeichnung:</label>
-					<input id="TPopMassnPlanBez" name="TPopMassnPlanBez" class="speichern Datenfelder" formular="tpopmassn" type="text"/>
-				</div>
-				<div class='fieldcontain TPopMassnFlaeche'>
-					<label id="TPopMassnFlaeche_label" for='TPopMassnFlaeche'>Fläche (m2):</label>
-					<input id="TPopMassnFlaeche" name="TPopMassnFlaeche" class="speichern Datenfelder" formular="tpopmassn" type="number">
-				</div>
-				<div class='fieldcontain TPopMassnAnsiedForm'>
-					<label id="TPopMassnAnsiedForm_label" for='TPopMassnAnsiedForm'>Form der Ansiedlung:</label>
-					<input id="TPopMassnAnsiedForm" name="TPopMassnAnsiedForm" class="speichern Datenfelder" formular="tpopmassn" type="text"/>
-				</div>
-				<div class='fieldcontain TPopMassnAnsiedPflanzanordnung'>
-					<label id="TPopMassnAnsiedPflanzanordnung_label" for='TPopMassnAnsiedPflanzanordnung'>Pflanzanordnung:</label>
-					<input id="TPopMassnAnsiedPflanzanordnung" name="TPopMassnAnsiedPflanzanordnung" class="speichern Datenfelder" formular="tpopmassn" type="text"/>
-				</div>
-				<div class='fieldcontain TPopMassnMarkierung'>
-					<label id="TPopMassnMarkierung_label" for='TPopMassnMarkierung'>Markierung:</label>
-					<input id="TPopMassnMarkierung" name="TPopMassnMarkierung" class="speichern Datenfelder" formular="tpopmassn" type="text"/>
-				</div>
-				<div class='fieldcontain TPopMassnAnsiedAnzTriebe'>
-					<label id="TPopMassnAnsiedAnzTriebe_label" for='TPopMassnAnsiedAnzTriebe'>Anzahl Triebe:</label>
-					<input id="TPopMassnAnsiedAnzTriebe" name="TPopMassnAnsiedAnzTriebe" class="speichern Datenfelder" formular="tpopmassn" type="number">
-				</div>
-				<div class='fieldcontain TPopMassnAnsiedAnzPfl'>
-					<label id="TPopMassnAnsiedAnzPfl_label" for='TPopMassnAnsiedAnzPfl'>Anzahl Pflanzen:</label>
-					<input id="TPopMassnAnsiedAnzPfl" name="TPopMassnAnsiedAnzPfl" class="speichern Datenfelder" formular="tpopmassn" type="number">
-				</div>
-				<div class='fieldcontain TPopMassnAnzPflanzstellen'>
-					<label id="TPopMassnAnzPflanzstellen_label" for='TPopMassnAnzPflanzstellen'>Anz. Pflanzstellen:</label>
-					<input id="TPopMassnAnzPflanzstellen" name="TPopMassnAnzPflanzstellen" class="speichern Datenfelder" formular="tpopmassn" type="number">
-				</div>
-				<div class='fieldcontain TPopMassnAnsiedWirtspfl'>
-					<label id="TPopMassnAnsiedWirtspfl_label" for='TPopMassnAnsiedWirtspfl'>Wirtspflanze:</label>
-					<select id="TPopMassnAnsiedWirtspfl" name="TPopMassnAnsiedWirtspfl" class="speichern Datenfelder" formular="tpopmassn">
-						<option></option>
-					</select>
-				</div>
-				<div class='fieldcontain TPopMassnAnsiedHerkunftPop'>
-					<label id="TPopMassnAnsiedHerkunftPop_label" for='TPopMassnAnsiedHerkunftPop'>Herkunftspopulation:</label>
-					<input id="TPopMassnAnsiedHerkunftPop" name="TPopMassnAnsiedHerkunftPop" class="speichern Datenfelder" formular="tpopmassn" type="text"/>
-				</div>
-				<div class='fieldcontain TPopMassnAnsiedDatSamm'>
-					<label id="TPopMassnAnsiedDatSamm_label" for='TPopMassnAnsiedDatSamm'>Sammeldatum:</label>
-					<input id="TPopMassnAnsiedDatSamm" name="TPopMassnAnsiedDatSamm" class="speichern Datenfelder" formular="tpopmassn" type="text"/>
-				</div>
-				<div class='fieldcontain TPopMassnGuid'>
-					<label id="TPopMassnGuid_label" for='TPopMassnGuid'>GUID:</label>
-					<input id="TPopMassnGuid" name="TPopMassnGuid" class="speichern Datenfelder" formular="tpopmassn" type="text" readonly="readonly">
-				</div>
+				<table>
+					<tr class='fieldcontain TPopMassnJahr'>
+						<td class="label">
+							<label id="TPopMassnJahr_label" for='TPopMassnJahr'>Jahr:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopMassnJahr" name="TPopMassnJahr" class="speichern" formular="tpopmassn" type="number">
+						</td>
+					</tr>
+					<tr class='fieldcontain TPopMassnTyp'>
+						<td class="label">
+							<label id="TPopMassnTyp_label" for='TPopMassnTyp'>Typ:</label>
+						</td>
+						<td class="Datenfelder">
+							<select id="TPopMassnTyp" name="TPopMassnTyp" class="speichern" formular="tpopmassn">
+								<option></option>
+							</select>
+						</td>
+					</tr>
+					<tr class='fieldcontain TPopMassnTxt'>
+						<td class="label">
+							<label id="TPopMassnTxt_label" for='TPopMassnTxt'>Massnahme:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopMassnTxt" name="TPopMassnTxt" class="speichern" formular="tpopmassn" type="text"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain TPopMassnDatum'>
+						<td class="label">
+							<label id="TPopMassnDatum_label" for='TPopMassnDatum'>Datum:</label>
+						</td>
+						<td class="Datenfelder">
+							<input type="date" id="TPopMassnDatum" name="TPopMassnDatum" class="speichern" formular="tpopmassn" type="text"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain TPopMassnBearb'>
+						<td class="label">
+							<label id="TPopMassnBearb_label" for='TPopMassnBearb'>BearbeiterIn:</label>
+						</td>
+						<td class="Datenfelder">
+							<select id="TPopMassnBearb" name="TPopMassnBearb" class="speichern" formular="tpopmassn">
+								<option></option>
+							</select>
+						</td>
+					</tr>
+					<tr class='fieldcontain TPopMassnBemTxt'>
+						<td class="label">
+							<label id="TPopMassnBemTxt_label" for='TPopMassnBemTxt'>Bemerkungen:</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea name="TPopMassnBemTxt" id="TPopMassnBemTxt" class="speichern" formular="tpopmassn" /></textarea>
+						</td>
+					</tr>
+					<tr class='fieldcontain TPopMassnPlan'>
+						<td class="label">
+							<label id="TPopMassnPlan_label" for='TPopMassnPlan'>Plan vorhanden:</label>
+						</td>
+						<td class="Datenfelder">
+							<input type="checkbox" name="TPopMassnPlan" id="TPopMassnPlan" class="speichern" formular="tpopmassn" />
+						</td>
+					</tr>
+					<tr class='fieldcontain TPopMassnPlanBez'>
+						<td class="label">
+							<label id="TPopMassnPlanBez_label" for='TPopMassnPlanBez'>Plan Bezeichnung:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopMassnPlanBez" name="TPopMassnPlanBez" class="speichern" formular="tpopmassn" type="text"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain TPopMassnFlaeche'>
+						<td class="label">
+							<label id="TPopMassnFlaeche_label" for='TPopMassnFlaeche'>Fläche (m2):</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopMassnFlaeche" name="TPopMassnFlaeche" class="speichern" formular="tpopmassn" type="number">
+						</td>
+					</tr>
+					<tr class='fieldcontain TPopMassnAnsiedForm'>
+						<td class="label">
+							<label id="TPopMassnAnsiedForm_label" for='TPopMassnAnsiedForm'>Form der Ansiedlung:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopMassnAnsiedForm" name="TPopMassnAnsiedForm" class="speichern" formular="tpopmassn" type="text"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain TPopMassnAnsiedPflanzanordnung'>
+						<td class="label">
+							<label id="TPopMassnAnsiedPflanzanordnung_label" for='TPopMassnAnsiedPflanzanordnung'>Pflanzanordnung:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopMassnAnsiedPflanzanordnung" name="TPopMassnAnsiedPflanzanordnung" class="speichern" formular="tpopmassn" type="text"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain TPopMassnMarkierung'>
+						<td class="label">
+							<label id="TPopMassnMarkierung_label" for='TPopMassnMarkierung'>Markierung:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopMassnMarkierung" name="TPopMassnMarkierung" class="speichern" formular="tpopmassn" type="text"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain TPopMassnAnsiedAnzTriebe'>
+						<td class="label">
+							<label id="TPopMassnAnsiedAnzTriebe_label" for='TPopMassnAnsiedAnzTriebe'>Anzahl Triebe:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopMassnAnsiedAnzTriebe" name="TPopMassnAnsiedAnzTriebe" class="speichern" formular="tpopmassn" type="number">
+						</td>
+					</tr>
+					<tr class='fieldcontain TPopMassnAnsiedAnzPfl'>
+						<td class="label">
+							<label id="TPopMassnAnsiedAnzPfl_label" for='TPopMassnAnsiedAnzPfl'>Anzahl Pflanzen:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopMassnAnsiedAnzPfl" name="TPopMassnAnsiedAnzPfl" class="speichern" formular="tpopmassn" type="number">
+						</td>
+					</tr>
+					<tr class='fieldcontain TPopMassnAnzPflanzstellen'>
+						<td class="label">
+							<label id="TPopMassnAnzPflanzstellen_label" for='TPopMassnAnzPflanzstellen'>Anz. Pflanzstellen:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopMassnAnzPflanzstellen" name="TPopMassnAnzPflanzstellen" class="speichern" formular="tpopmassn" type="number">
+						</td>
+					</tr>
+					<tr class='fieldcontain TPopMassnAnsiedWirtspfl'>
+						<td class="label">
+							<label id="TPopMassnAnsiedWirtspfl_label" for='TPopMassnAnsiedWirtspfl'>Wirtspflanze:</label>
+						</td>
+						<td class="Datenfelder">
+							<select id="TPopMassnAnsiedWirtspfl" name="TPopMassnAnsiedWirtspfl" class="speichern" formular="tpopmassn">
+								<option></option>
+							</select>
+						</td>
+					</tr>
+					<tr class='fieldcontain TPopMassnAnsiedHerkunftPop'>
+						<td class="label">
+							<label id="TPopMassnAnsiedHerkunftPop_label" for='TPopMassnAnsiedHerkunftPop'>Herkunftspopulation:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopMassnAnsiedHerkunftPop" name="TPopMassnAnsiedHerkunftPop" class="speichern" formular="tpopmassn" type="text"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain TPopMassnAnsiedDatSamm'>
+						<td class="label">
+							<label id="TPopMassnAnsiedDatSamm_label" for='TPopMassnAnsiedDatSamm'>Sammeldatum:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopMassnAnsiedDatSamm" name="TPopMassnAnsiedDatSamm" class="speichern" formular="tpopmassn" type="text"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain TPopMassnGuid'>
+						<td class="label">
+							<label id="TPopMassnGuid_label" for='TPopMassnGuid'>GUID:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopMassnGuid" name="TPopMassnGuid" class="speichern" formular="tpopmassn" type="text" readonly="readonly">
+						</td>
+					</tr>
+				</table>
 			</form>
 
 			<form id="apziel" class="form" action="#" method="get" autocomplete="off">
-				<div class='fieldcontain ZielJahr'>
-					<label id="ZielJahr_label" for='ZielJahr'>Jahr:</label>
-					<input id="ZielJahr" name="ZielJahr" class="speichern Datenfelder" formular="apziel" type="number">
-				</div>
-				<div class='fieldcontain ZielTyp'>
-					<label id="ZielTyp_label" for='ZielTyp'>Zieltyp:</label>
-					<div class="Datenfelder">
-						<input type="radio" name="ZielTyp" id="ZielTyp1170775556" class="speichern" formular="apziel" value="1170775556" />Zwischenziel<br />
-						<input type="radio" name="ZielTyp" id="ZielTyp1" class="speichern" formular="apziel" value="1" />10-Jahresziel<br />
-						<input type="radio" name="ZielTyp" id="ZielTyp2" class="speichern" formular="apziel" value="2" />Gesamtziel
-					</div>
-				</div>
-				<div class='fieldcontain ZielBezeichnung'>
-					<label id="ZielBezeichnung_label" for='ZielBezeichnung'>Ziel:</label>
-					<textarea name="ZielBezeichnung" id="ZielBezeichnung" class="speichern Datenfelder" formular="apziel" /></textarea>
-				</div>
+				<table>
+					<tr class='fieldcontain ZielJahr'>
+						<td class="label">
+							<label id="ZielJahr_label" for='ZielJahr'>Jahr:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="ZielJahr" name="ZielJahr" class="speichern" formular="apziel" type="number">
+						</td>
+					</tr>
+					<tr class='fieldcontain ZielTyp'>
+						<td class="label">
+							<label id="ZielTyp_label" for='ZielTyp'>Zieltyp:</label>
+						</td>
+						<td class="Datenfelder">
+							<input type="radio" name="ZielTyp" id="ZielTyp1170775556" class="speichern" formular="apziel" value="1170775556" />Zwischenziel<br />
+							<input type="radio" name="ZielTyp" id="ZielTyp1" class="speichern" formular="apziel" value="1" />10-Jahresziel<br />
+							<input type="radio" name="ZielTyp" id="ZielTyp2" class="speichern" formular="apziel" value="2" />Gesamtziel
+						</td>
+					</tr>
+					<tr class='fieldcontain ZielBezeichnung'>
+						<td class="label">
+							<label id="ZielBezeichnung_label" for='ZielBezeichnung'>Ziel:</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea name="ZielBezeichnung" id="ZielBezeichnung" class="speichern" formular="apziel" /></textarea>
+						</td>
+					</tr>
+				</table>
 			</form>
 
 			<form id="zielber" class="form" action="#" method="get" autocomplete="off">
-				<div class='fieldcontain ZielBerJahr'>
-					<label id="ZielBerJahr_label" for='ZielBerJahr'>Jahr:</label>
-					<input id="ZielBerJahr" name="ZielBerJahr" class="speichern Datenfelder" formular="zielber" type="number">
-				</div>
-				<div class='fieldcontain ZielBerErreichung'>
-					<label id="ZielBerErreichung_label" for='ZielBerErreichung'>Entwicklung:</label>
-					<input id="ZielBerErreichung" name="ZielBerErreichung" class="speichern Datenfelder" formular="zielber" type="text"/>
-				</div>
-				<div class='fieldcontain ZielBerTxt'>
-					<label id="ZielBerTxt_label" for='ZielBerTxt'>Bemerkungen:</label>
-					<textarea name="ZielBerTxt" id="ZielBerTxt" class="speichern Datenfelder" formular="zielber" /></textarea>
-				</div>
+				<table>
+					<tr class='fieldcontain ZielBerJahr'>
+						<td class="label">
+							<label id="ZielBerJahr_label" for='ZielBerJahr'>Jahr:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="ZielBerJahr" name="ZielBerJahr" class="speichern" formular="zielber" type="number">
+						</td>
+					</tr>
+					<tr class='fieldcontain ZielBerErreichung'>
+						<td class="label">
+							<label id="ZielBerErreichung_label" for='ZielBerErreichung'>Entwicklung:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="ZielBerErreichung" name="ZielBerErreichung" class="speichern" formular="zielber" type="text"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain ZielBerTxt'>
+						<td class="label">
+							<label id="ZielBerTxt_label" for='ZielBerTxt'>Bemerkungen:</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea name="ZielBerTxt" id="ZielBerTxt" class="speichern" formular="zielber" /></textarea>
+						</td>
+					</tr>
+				</table>
 			</form>
 
 			<form id="erfkrit" class="form" action="#" method="get" autocomplete="off">
-				<div class='fieldcontain ErfBeurtZielSkalaErreichungsgrad'>
-					<label id="ErfBeurtZielSkalaErreichungsgrad_label" for='ErfBeurtZielSkalaErreichungsgrad'>Beurteilung:</label>
-					<div class="Datenfelder">
-						<input type="radio" name="ErfBeurtZielSkalaErreichungsgrad" id="ErfBeurtZielSkalaErreichungsgrad4" class="speichern" formular="erfkrit" value="4"/><span id="SpanErfBeurtZielSkalaErreichungsgrad4">sehr erfolgreich</span><br />
-						<input type="radio" name="ErfBeurtZielSkalaErreichungsgrad" id="ErfBeurtZielSkalaErreichungsgrad1" class="speichern" formular="erfkrit" value="1"/><span id="SpanErfBeurtZielSkalaErreichungsgrad1">erfolgreich</span><br />
-						<input type="radio" name="ErfBeurtZielSkalaErreichungsgrad" id="ErfBeurtZielSkalaErreichungsgrad5" class="speichern" formular="erfkrit" value="5"/><span id="SpanErfBeurtZielSkalaErreichungsgrad5">mässig erfolgreich</span><br />
-						<input type="radio" name="ErfBeurtZielSkalaErreichungsgrad" id="ErfBeurtZielSkalaErreichungsgrad6" class="speichern" formular="erfkrit" value="6"/><span id="SpanErfBeurtZielSkalaErreichungsgrad6">wenig erfolgreich</span><br />
-						<input type="radio" name="ErfBeurtZielSkalaErreichungsgrad" id="ErfBeurtZielSkalaErreichungsgrad3" class="speichern" formular="erfkrit" value="3"/><span id="SpanErfBeurtZielSkalaErreichungsgrad3">nicht erfolgreich</span><br />
-						<input type="radio" name="ErfBeurtZielSkalaErreichungsgrad" id="ErfBeurtZielSkalaErreichungsgrad1168274204" class="speichern" formular="erfkrit" value="1168274204"/><span id="SpanErfBeurtZielSkalaErreichungsgrad1168274204">unsichere Entwicklung</span>
-					</div>
-				</div>
-				<div class='fieldcontain ErfBeurtZielSkalaTxt'>
-					<label id="ErfBeurtZielSkalaTxt_label" for='ErfBeurtZielSkalaTxt'>Kriterien:</label>
-					<textarea name="ErfBeurtZielSkalaTxt" id="ErfBeurtZielSkalaTxt" class="speichern Datenfelder" formular="erfkrit" /></textarea>
-				</div>
+				<table>
+					<tr class='fieldcontain ErfBeurtZielSkalaErreichungsgrad'>
+						<td class="label">
+							<label id="ErfBeurtZielSkalaErreichungsgrad_label" for='ErfBeurtZielSkalaErreichungsgrad'>Beurteilung:</label>
+						</td>
+						<td class="Datenfelder">
+							<input type="radio" name="ErfBeurtZielSkalaErreichungsgrad" id="ErfBeurtZielSkalaErreichungsgrad4" class="speichern" formular="erfkrit" value="4"/><span id="SpanErfBeurtZielSkalaErreichungsgrad4">sehr erfolgreich</span><br />
+							<input type="radio" name="ErfBeurtZielSkalaErreichungsgrad" id="ErfBeurtZielSkalaErreichungsgrad1" class="speichern" formular="erfkrit" value="1"/><span id="SpanErfBeurtZielSkalaErreichungsgrad1">erfolgreich</span><br />
+							<input type="radio" name="ErfBeurtZielSkalaErreichungsgrad" id="ErfBeurtZielSkalaErreichungsgrad5" class="speichern" formular="erfkrit" value="5"/><span id="SpanErfBeurtZielSkalaErreichungsgrad5">mässig erfolgreich</span><br />
+							<input type="radio" name="ErfBeurtZielSkalaErreichungsgrad" id="ErfBeurtZielSkalaErreichungsgrad6" class="speichern" formular="erfkrit" value="6"/><span id="SpanErfBeurtZielSkalaErreichungsgrad6">wenig erfolgreich</span><br />
+							<input type="radio" name="ErfBeurtZielSkalaErreichungsgrad" id="ErfBeurtZielSkalaErreichungsgrad3" class="speichern" formular="erfkrit" value="3"/><span id="SpanErfBeurtZielSkalaErreichungsgrad3">nicht erfolgreich</span><br />
+							<input type="radio" name="ErfBeurtZielSkalaErreichungsgrad" id="ErfBeurtZielSkalaErreichungsgrad1168274204" class="speichern" formular="erfkrit" value="1168274204"/><span id="SpanErfBeurtZielSkalaErreichungsgrad1168274204">unsichere Entwicklung</span>
+						</td>
+					</tr>
+					<tr class='fieldcontain ErfBeurtZielSkalaTxt'>
+						<td class="label">
+							<label id="ErfBeurtZielSkalaTxt_label" for='ErfBeurtZielSkalaTxt'>Kriterien:</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea name="ErfBeurtZielSkalaTxt" id="ErfBeurtZielSkalaTxt" class="speichern" formular="erfkrit" /></textarea>
+						</td>
+					</tr>
+				</table>
 			</form>
 
 			<form id="jber" class="form" action="#" method="get" autocomplete="off">
-				<div class='fieldcontain JBerJahr'>
-					<label id="JBerJahr_label" for='JBerJahr'>Jahr:</label>
-					<input id="JBerJahr" name="JBerJahr" class="speichern Datenfelder" formular="jber" type="number">
-				</div>
-				<div class='fieldcontain JBerSituation'>
-					<label id="JBerSituation_label" for='JBerSituation'>Situation:</label>
-					<textarea name="JBerSituation" id="JBerSituation" class="speichern Datenfelder" formular="jber" /></textarea>
-				</div>
-				<div class='fieldcontain JBerVergleichVorjahrGesamtziel'>
-					<label id="JBerVergleichVorjahrGesamtziel_label" for='JBerVergleichVorjahrGesamtziel'>Vergleich Vorjahr - Gesamtziel:</label>
-					<textarea name="JBerVergleichVorjahrGesamtziel" id="JBerVergleichVorjahrGesamtziel" class="speichern Datenfelder" formular="jber" /></textarea>
-				</div>
-				<div class='fieldcontain JBerBeurteilung'>
-					<label id="JBerBeurteilung_label" for='JBerBeurteilung'>Beurteilung:</label>
-					<div class="Datenfelder">
-						<input type="radio" name="JBerBeurteilung" id="JBerBeurteilung4" class="speichern" formular="jber" value="4"/><span id="SpanJBerBeurteilung4">sehr erfolgreich</span><br />
-						<input type="radio" name="JBerBeurteilung" id="JBerBeurteilung1" class="speichern" formular="jber" value="1"/><span id="SpanJBerBeurteilung1">erfolgreich</span><br />
-						<input type="radio" name="JBerBeurteilung" id="JBerBeurteilung5" class="speichern" formular="jber" value="5"/><span id="SpanJBerBeurteilung5">mässig erfolgreich</span><br />
-						<input type="radio" name="JBerBeurteilung" id="JBerBeurteilung6" class="speichern" formular="jber" value="6"/><span id="SpanJBerBeurteilung6">wenig erfolgreich</span><br />
-						<input type="radio" name="JBerBeurteilung" id="JBerBeurteilung3" class="speichern" formular="jber" value="3"/><span id="SpanJBerBeurteilung3">nicht erfolgreich</span><br />
-						<input type="radio" name="JBerBeurteilung" id="JBerBeurteilung1168274204" class="speichern" formular="jber" value="1168274204"/><span id="SpanJBerBeurteilung1168274204">unsichere Entwicklung</span>
-					</div>
-				</div>
-				<div class='fieldcontain JBerVeraenGegenVorjahr'>
-					<label id="JBerVeraenGegenVorjahr_label" for='JBerVeraenGegenVorjahr'>Veränderung zum Vorjahr:</label>
-					<div class="Datenfelder">
-						<input type="radio" name="JBerVeraenGegenVorjahr" id="JBerVeraenGegenVorjahr" class="speichern" formular="jber" value="" /><br />
-						<input type="radio" name="JBerVeraenGegenVorjahr" id="JBerVeraenGegenVorjahr+" class="speichern" formular="jber" value="+" />+<br />
-						<input type="radio" name="JBerVeraenGegenVorjahr" id="JBerVeraenGegenVorjahr-" class="speichern" formular="jber" value="-" />-
-					</div>
-				</div>
-				<div class='fieldcontain JBerAnalyse'>
-					<label id="JBerAnalyse_label" for='JBerAnalyse'>Analyse:</label>
-					<textarea name="JBerAnalyse" id="JBerAnalyse" class="speichern Datenfelder" formular="jber" /></textarea>
-				</div>
-				<div class='fieldcontain JBerUmsetzung'>
-					<label id="ApBerUmsetzung_label" for='JBerUmsetzung'>Konsequenzen Umsetzung:</label>
-					<textarea name="JBerUmsetzung" id="JBerUmsetzung" class="speichern Datenfelder" formular="jber" /></textarea>
-				</div>
-				<div class='fieldcontain JBerErfko'>
-					<label id="JBerErfko_label" for='JBerErfko'>Konsequenzen Erfolgskontrolle:</label>
-					<textarea name="JBerErfko" id="JBerErfko" class="speichern Datenfelder" formular="jber" /></textarea>
-				</div>
-				<div class='fieldcontain JBerATxt'>
-					<label id="JBerATxt_label" for='JBerATxt'>Bemerkungen zum Aussagebereich A (neue Biotope):</label>
-					<textarea name="JBerATxt" id="JBerATxt" class="speichern Datenfelder" formular="jber" /></textarea>
-				</div>
-				<div class='fieldcontain JBerBTxt'>
-					<label id="JBerBTxt_label" for='JBerBTxt'>Bemerkungen zum Aussagebereich B (Optimierung Biotope):</label>
-					<textarea name="JBerBTxt" id="JBerBTxt" class="speichern Datenfelder" formular="jber" /></textarea>
-				</div>
-				<div class='fieldcontain JBerCTxt'>
-					<label id="JBerCTxt_label" for='JBerCTxt'>Bemerkungen zum Aussagebereich C (Optimierung Massnahmen):</label>
-					<textarea name="JBerCTxt" id="JBerCTxt" class="speichern Datenfelder" formular="jber" /></textarea>
-				</div>
-				<div class='fieldcontain JBerDTxt'>
-					<label id="JBerDTxt_label" for='JBerDTxt'>Bemerkungen zum Aussagebereich D:</label>
-					<textarea name="JBerDTxt" id="JBerDTxt" class="speichern Datenfelder" formular="jber" /></textarea>
-				</div>
-				<div class='fieldcontain JBerDatum'>
-					<label id="JBerDatum_label" for='JBerDatum'>Datum:</label>
-					<input type="date" id="JBerDatum" name="JBerDatum" class="speichern Datenfelder" formular="jber" type="text"/>
-				</div>
-				<div class='fieldcontain JBerBearb'>
-					<label id="JBerBearb_label" for='JBerBearb'>BearbeiterIn:</label>
-					<select id="JBerBearb" name="JBerBearb" class="speichern Datenfelder" formular="jber">
-						<option></option>
-					</select>
-				</div>
+				<table>
+					<tr class='fieldcontain JBerJahr'>
+						<td class="label">
+							<label id="JBerJahr_label" for='JBerJahr'>Jahr:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="JBerJahr" name="JBerJahr" class="speichern" formular="jber" type="number">
+						</td>
+					</tr>
+					<tr class='fieldcontain JBerSituation'>
+						<td class="label">
+							<label id="JBerSituation_label" for='JBerSituation'>Situation:</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea name="JBerSituation" id="JBerSituation" class="speichern" formular="jber" /></textarea>
+						</td>
+					</tr>
+					<tr class='fieldcontain JBerVergleichVorjahrGesamtziel'>
+						<td class="label">
+							<label id="JBerVergleichVorjahrGesamtziel_label" for='JBerVergleichVorjahrGesamtziel'>Vergleich Vorjahr - Gesamtziel:</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea name="JBerVergleichVorjahrGesamtziel" id="JBerVergleichVorjahrGesamtziel" class="speichern" formular="jber" /></textarea>
+						</td>
+					</tr>
+					<tr class='fieldcontain JBerBeurteilung'>
+						<td class="label">
+							<label id="JBerBeurteilung_label" for='JBerBeurteilung'>Beurteilung:</label>
+						</td>
+						<td class="Datenfelder">
+							<input type="radio" name="JBerBeurteilung" id="JBerBeurteilung4" class="speichern" formular="jber" value="4"/><span id="SpanJBerBeurteilung4">sehr erfolgreich</span><br />
+							<input type="radio" name="JBerBeurteilung" id="JBerBeurteilung1" class="speichern" formular="jber" value="1"/><span id="SpanJBerBeurteilung1">erfolgreich</span><br />
+							<input type="radio" name="JBerBeurteilung" id="JBerBeurteilung5" class="speichern" formular="jber" value="5"/><span id="SpanJBerBeurteilung5">mässig erfolgreich</span><br />
+							<input type="radio" name="JBerBeurteilung" id="JBerBeurteilung6" class="speichern" formular="jber" value="6"/><span id="SpanJBerBeurteilung6">wenig erfolgreich</span><br />
+							<input type="radio" name="JBerBeurteilung" id="JBerBeurteilung3" class="speichern" formular="jber" value="3"/><span id="SpanJBerBeurteilung3">nicht erfolgreich</span><br />
+							<input type="radio" name="JBerBeurteilung" id="JBerBeurteilung1168274204" class="speichern" formular="jber" value="1168274204"/><span id="SpanJBerBeurteilung1168274204">unsichere Entwicklung</span>
+						</td>
+					</tr>
+					<tr class='fieldcontain JBerVeraenGegenVorjahr'>
+						<td class="label">
+							<label id="JBerVeraenGegenVorjahr_label" for='JBerVeraenGegenVorjahr'>Veränderung zum Vorjahr:</label>
+						</td>
+						<td class="Datenfelder">
+							<input type="radio" name="JBerVeraenGegenVorjahr" id="JBerVeraenGegenVorjahr" class="speichern" formular="jber" value="" /><br />
+							<input type="radio" name="JBerVeraenGegenVorjahr" id="JBerVeraenGegenVorjahr+" class="speichern" formular="jber" value="+" />+<br />
+							<input type="radio" name="JBerVeraenGegenVorjahr" id="JBerVeraenGegenVorjahr-" class="speichern" formular="jber" value="-" />-
+						</td>
+					</tr>
+					<tr class='fieldcontain JBerAnalyse'>
+						<td class="label">
+							<label id="JBerAnalyse_label" for='JBerAnalyse'>Analyse:</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea name="JBerAnalyse" id="JBerAnalyse" class="speichern" formular="jber" /></textarea>
+						</td>
+					</tr>
+					<tr class='fieldcontain JBerUmsetzung'>
+						<td class="label">
+							<label id="ApBerUmsetzung_label" for='JBerUmsetzung'>Konsequenzen Umsetzung:</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea name="JBerUmsetzung" id="JBerUmsetzung" class="speichern" formular="jber" /></textarea>
+						</td>
+					</tr>
+					<tr class='fieldcontain JBerErfko'>
+						<td class="label">
+							<label id="JBerErfko_label" for='JBerErfko'>Konsequenzen Erfolgskontrolle:</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea name="JBerErfko" id="JBerErfko" class="speichern" formular="jber" /></textarea>
+						</td>
+					</tr>
+					<tr class='fieldcontain JBerATxt'>
+						<td class="label">
+							<label id="JBerATxt_label" for='JBerATxt'>Bemerkungen zum Aussagebereich A (neue Biotope):</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea name="JBerATxt" id="JBerATxt" class="speichern" formular="jber" /></textarea>
+						</td>
+					</tr>
+					<tr class='fieldcontain JBerBTxt'>
+						<td class="label">
+							<label id="JBerBTxt_label" for='JBerBTxt'>Bemerkungen zum Aussagebereich B (Optimierung Biotope):</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea name="JBerBTxt" id="JBerBTxt" class="speichern" formular="jber" /></textarea>
+						</td>
+					</tr>
+					<tr class='fieldcontain JBerCTxt'>
+						<td class="label">
+							<label id="JBerCTxt_label" for='JBerCTxt'>Bemerkungen zum Aussagebereich C (Optimierung Massnahmen):</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea name="JBerCTxt" id="JBerCTxt" class="speichern" formular="jber" /></textarea>
+						</td>
+					</tr>
+					<tr class='fieldcontain JBerDTxt'>
+						<td class="label">
+							<label id="JBerDTxt_label" for='JBerDTxt'>Bemerkungen zum Aussagebereich D:</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea name="JBerDTxt" id="JBerDTxt" class="speichern" formular="jber" /></textarea>
+						</td>
+					</tr>
+					<tr class='fieldcontain JBerDatum'>
+						<td class="label">
+							<label id="JBerDatum_label" for='JBerDatum'>Datum:</label>
+						</td>
+						<td class="Datenfelder">
+							<input type="date" id="JBerDatum" name="JBerDatum" class="speichern" formular="jber" type="text"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain JBerBearb'>
+						<td class="label">
+							<label id="JBerBearb_label" for='JBerBearb'>BearbeiterIn:</label>
+						</td>
+						<td class="Datenfelder">
+							<select id="JBerBearb" name="JBerBearb" class="speichern" formular="jber">
+								<option></option>
+							</select>
+						</td>
+					</tr>
+				</table>
 			</form>
 
 			<form id="jber_uebersicht" class="form" action="#" method="get" autocomplete="off">
-				<div class='fieldcontain Jahr'>
-					<label id="JbuJahr_label" for='JbuJahr'>Jahr:</label>
-					<input id="JbuJahr" name="JbuJahr" class="speichern Datenfelder" formular="jber_uebersicht" type="number">
-				</div>
-				<div class='fieldcontain Bemerkungen'>
-					<label id="JbuBemerkungen_label" for='JbuBemerkungen'>Bemerkungen:</label>
-					<textarea name="JbuBemerkungen" id="JbuBemerkungen" class="speichern Datenfelder" formular="jber_uebersicht"/></textarea>
-				</div>
+				<table>
+					<tr class='fieldcontain Jahr'>
+						<td class="label">
+							<label id="JbuJahr_label" for='JbuJahr'>Jahr:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="JbuJahr" name="JbuJahr" class="speichern" formular="jber_uebersicht" type="number">
+						</td>
+					</tr>
+					<tr class='fieldcontain Bemerkungen'>
+						<td class="label">
+							<label id="JbuBemerkungen_label" for='JbuBemerkungen'>Bemerkungen:</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea name="JbuBemerkungen" id="JbuBemerkungen" class="speichern" formular="jber_uebersicht"/></textarea>
+						</td>
+					</tr>
+				</table>
 			</form>
 
 			<form id="ber" class="form" action="#" method="get" autocomplete="off">
-				<div class='fieldcontain BerAutor'>
-					<label id="BerAutor_label" for='BerAutor'>AutorIn:</label>
-					<input id="BerAutor" name="BerAutor" class="speichern Datenfelder" formular="ber" type="text"/>
-				</div>
-				<div class='fieldcontain BerJahr'>
-					<label id="BerJahr_label" for='BerJahr'>Jahr:</label>
-					<input id="BerJahr" name="BerJahr" class="speichern Datenfelder" formular="ber" type="number">
-				</div>
-				<div class='fieldcontain BerTitel'>
-					<label id="BerTitel_label" for='BerTitel'>Titel:</label>
-					<textarea name="BerTitel" id="BerTitel" class="speichern Datenfelder" formular="ber"></textarea>
-				</div>
-				<div class='fieldcontain BerURL'>
-					<label id="BerURL_label" for='BerURL'>URL:</label>
-					<textarea name="BerURL" id="BerURL" class="speichern Datenfelder" formular="ber"></textarea>
-					<label for='BerURLHref' style="visibility:hidden;">URL folgen</label>
-					<input type="button" id="BerURLHref" onclick="" value="URL folgen"/>
-				</div>
+				<table>
+					<tr class='fieldcontain BerAutor'>
+						<td class="label">
+							<label id="BerAutor_label" for='BerAutor'>AutorIn:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="BerAutor" name="BerAutor" class="speichern" formular="ber" type="text"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain BerJahr'>
+						<td class="label">
+							<label id="BerJahr_label" for='BerJahr'>Jahr:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="BerJahr" name="BerJahr" class="speichern" formular="ber" type="number">
+						</td>
+					</tr>
+					<tr class='fieldcontain BerTitel'>
+						<td class="label">
+							<label id="BerTitel_label" for='BerTitel'>Titel:</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea name="BerTitel" id="BerTitel" class="speichern" formular="ber"></textarea>
+						</td>
+					</tr>
+					<tr class='fieldcontain BerURL'>
+						<td class="label">
+							<label id="BerURL_label" for='BerURL'>URL:</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea name="BerURL" id="BerURL" class="speichern" formular="ber"></textarea>
+							<label for='BerURLHref' style="visibility:hidden;">URL folgen</label>
+							<input type="button" id="BerURLHref" onclick="" value="URL folgen"/>
+						</td>
+					</tr>
+				</table>
 			</form>
 
 			<form id="umwfakt" class="form" action="#" method="get" autocomplete="off">
-				<div class='fieldcontain UfErstelldatum'>
-					<label id="UfErstelldatum_label" for='UfErstelldatum'>Erstelldatum:</label>
-					<input type="date" id="UfErstelldatum" name="UfErstelldatum" class="speichern Datenfelder" formular="umwfakt" type="text"/>
-				</div>
+				<table>
+					<tr class='fieldcontain UfErstelldatum'>
+						<td class="label">
+							<label id="UfErstelldatum_label" for='UfErstelldatum'>Erstelldatum:</label>
+						</td>
+						<td class="Datenfelder">
+							<input type="date" id="UfErstelldatum" name="UfErstelldatum" class="speichern" formular="umwfakt" type="text"/>
+						</td>
+					</tr>
+				</table>
 				<fieldset>
 					<legend>Lage</legend>
-					<div class='fieldcontain UfHoehenlage'>
-						<label id="UfHoehenlage_label" for='UfHoehenlage' style="width:115px">Höhe:</label>
-						<input id="UfHoehenlage" name="UfHoehenlage" class="speichern Datenfelder" formular="umwfakt" type="text"/>
-					</div>
-					<div class='fieldcontain UfRegion'>
-						<label id="UfRegion_label" for='UfRegion' style="width:115px">Region:</label>
-						<input id="UfRegion" name="UfRegion" class="speichern Datenfelder" formular="umwfakt" type="text"/>
-					</div>
-					<div class='fieldcontain UfExposition'>
-						<label id="UfExposition_label" for='UfExposition' style="width:115px">Exposition:</label>
-						<input id="UfExposition" name="UfExposition" class="speichern Datenfelder" formular="umwfakt" type="text"/>
-					</div>
-					<div class='fieldcontain UfBesonnung'>
-						<label id="UfBesonnung_label" for='UfBesonnung' style="width:115px">Besonnung:</label>
-						<input id="UfBesonnung" name="UfBesonnung" class="speichern Datenfelder" formular="umwfakt" type="text"/>
-					</div>
-					<div class='fieldcontain UfHangneigung'>
-						<label id="UfHangneigung_label" for='UfHangneigung' style="width:115px">Hangneigung:</label>
-						<input id="UfHangneigung" name="UfHangneigung" class="speichern Datenfelder" formular="umwfakt" type="text"/>
-					</div>
+					<table>
+						<tr class='fieldcontain UfHoehenlage'>
+							<td class="label">
+								<label id="UfHoehenlage_label" for='UfHoehenlage' style="width:115px">Höhe:</label>
+							</td>
+							<td class="Datenfelder">
+								<input id="UfHoehenlage" name="UfHoehenlage" class="speichern" formular="umwfakt" type="text"/>
+							</td>
+						</tr>
+						<tr class='fieldcontain UfRegion'>
+							<td class="label">
+								<label id="UfRegion_label" for='UfRegion' style="width:115px">Region:</label>
+							</td>
+							<td class="Datenfelder">
+								<input id="UfRegion" name="UfRegion" class="speichern" formular="umwfakt" type="text"/>
+							</td>
+						</tr>
+						<tr class='fieldcontain UfExposition'>
+							<td class="label">
+								<label id="UfExposition_label" for='UfExposition' style="width:115px">Exposition:</label>
+							</td>
+							<td class="Datenfelder">
+								<input id="UfExposition" name="UfExposition" class="speichern" formular="umwfakt" type="text"/>
+							</td>
+						</tr>
+						<tr class='fieldcontain UfBesonnung'>
+							<td class="label">
+								<label id="UfBesonnung_label" for='UfBesonnung' style="width:115px">Besonnung:</label>
+							</td>
+							<td class="Datenfelder">
+								<input id="UfBesonnung" name="UfBesonnung" class="speichern" formular="umwfakt" type="text"/>
+							</td>
+						</tr>
+						<tr class='fieldcontain UfHangneigung'>
+							<td class="label">
+								<label id="UfHangneigung_label" for='UfHangneigung' style="width:115px">Hangneigung:</label>
+							</td>
+							<td class="Datenfelder">
+								<input id="UfHangneigung" name="UfHangneigung" class="speichern" formular="umwfakt" type="text"/>
+							</td>
+						</tr>
+					</table>
 				</fieldset>
 				<fieldset>
 					<legend>Boden</legend>
-					<div class='fieldcontain UfBodenTyp'>
-						<label id="UfBodenTyp_label" for='UfBodenTyp' style="width:115px">Typ:</label>
-						<input id="UfBodenTyp" name="UfBodenTyp" class="speichern Datenfelder" formular="umwfakt" type="text"/>
-					</div>
-					<div class='fieldcontain UfBodenKalkgehalt'>
-						<label id="UfBodenKalkgehalt_label" for='UfBodenKalkgehalt' style="width:115px">Kalkgehalt:</label>
-						<input id="UfBodenKalkgehalt" name="UfBodenKalkgehalt" class="speichern Datenfelder" formular="umwfakt" type="text"/>
-					</div>
-					<div class='fieldcontain UfBodenDurchlaessigkeit'>
-						<label id="UfBodenDurchlaessigkeit_label" for='UfBodenDurchlaessigkeit' style="width:115px">Durchlässigkeit:</label>
-						<input id="UfBodenDurchlaessigkeit" name="UfBodenDurchlaessigkeit" class="speichern Datenfelder" formular="umwfakt" type="text"/>
-					</div>
-					<div class='fieldcontain UfBodenHumus'>
-						<label id="UfBodenHumus_label" for='UfBodenHumus' style="width:115px">Humus:</label>
-						<input id="UfBodenHumus" name="UfBodenHumus" class="speichern Datenfelder" formular="umwfakt" type="text"/>
-					</div>
-					<div class='fieldcontain UfBodenNaehrstoffgehalt'>
-						<label id="UfBodenNaehrstoffgehalt_label" for='UfBodenNaehrstoffgehalt' style="width:115px">Nährstoffgehalt:</label>
-						<input id="UfBodenNaehrstoffgehalt" name="UfBodenNaehrstoffgehalt" class="speichern Datenfelder" formular="umwfakt" type="text"/>
-					</div>
-					<div class='fieldcontain UfWasserhaushalt'>
-						<label id="UfWasserhaushalt_label" for='UfWasserhaushalt' style="width:115px">Wasserhaushalt:</label>
-						<input id="UfWasserhaushalt" name="UfWasserhaushalt" class="speichern Datenfelder" formular="umwfakt" type="text"/>
-					</div>
+					<table>
+						<tr class='fieldcontain UfBodenTyp'>
+							<td class="label">
+								<label id="UfBodenTyp_label" for='UfBodenTyp' style="width:115px">Typ:</label>
+							</td>
+							<td class="Datenfelder">
+								<input id="UfBodenTyp" name="UfBodenTyp" class="speichern" formular="umwfakt" type="text"/>
+							</td>
+						</tr>
+						<tr class='fieldcontain UfBodenKalkgehalt'>
+							<td class="label">
+								<label id="UfBodenKalkgehalt_label" for='UfBodenKalkgehalt' style="width:115px">Kalkgehalt:</label>
+							</td>
+							<td class="Datenfelder">
+								<input id="UfBodenKalkgehalt" name="UfBodenKalkgehalt" class="speichern" formular="umwfakt" type="text"/>
+							</td>
+						</tr>
+						<tr class='fieldcontain UfBodenDurchlaessigkeit'>
+							<td class="label">
+								<label id="UfBodenDurchlaessigkeit_label" for='UfBodenDurchlaessigkeit' style="width:115px">Durchlässigkeit:</label>
+							</td>
+							<td class="Datenfelder">
+								<input id="UfBodenDurchlaessigkeit" name="UfBodenDurchlaessigkeit" class="speichern" formular="umwfakt" type="text"/>
+							</td>
+						</tr>
+						<tr class='fieldcontain UfBodenHumus'>
+							<td class="label">
+								<label id="UfBodenHumus_label" for='UfBodenHumus' style="width:115px">Humus:</label>
+							</td>
+							<td class="Datenfelder">
+								<input id="UfBodenHumus" name="UfBodenHumus" class="speichern" formular="umwfakt" type="text"/>
+							</td>
+						</tr>
+						<tr class='fieldcontain UfBodenNaehrstoffgehalt'>
+							<td class="label">
+								<label id="UfBodenNaehrstoffgehalt_label" for='UfBodenNaehrstoffgehalt' style="width:115px">Nährstoffgehalt:</label>
+							</td>
+							<td class="Datenfelder">
+								<input id="UfBodenNaehrstoffgehalt" name="UfBodenNaehrstoffgehalt" class="speichern" formular="umwfakt" type="text"/>
+							</td>
+						</tr>
+						<tr class='fieldcontain UfWasserhaushalt'>
+							<td class="label">
+								<label id="UfWasserhaushalt_label" for='UfWasserhaushalt' style="width:115px">Wasserhaushalt:</label>
+							</td>
+							<td class="Datenfelder">
+								<input id="UfWasserhaushalt" name="UfWasserhaushalt" class="speichern" formular="umwfakt" type="text"/>
+							</td>
+						</tr>
+					</table>
 				</fieldset>
 				<fieldset>
 					<legend>Vegetation</legend>
-					<div class='fieldcontain UfKonkurrenz'>
-						<label id="UfKonkurrenz_label" for='UfKonkurrenz' style="width:115px">Konkurrenz:</label>
-						<input id="UfKonkurrenz" name="UfKonkurrenz" class="speichern Datenfelder" formular="umwfakt" type="text"/>
-					</div>
-					<div class='fieldcontain UfMoosschicht'>
-						<label id="UfMoosschicht_label" for='UfMoosschicht' style="width:115px">Moosschicht:</label>
-						<input id="UfMoosschicht" name="UfMoosschicht" class="speichern Datenfelder" formular="umwfakt" type="text"/>
-					</div>
-					<div class='fieldcontain UfKrautschicht'>
-						<label id="UfKrautschicht_label" for='UfKrautschicht' style="width:115px">Krautschicht:</label>
-						<input id="UfKrautschicht" name="UfKrautschicht" class="speichern Datenfelder" formular="umwfakt" type="text"/>
-					</div>
-					<div class='fieldcontain UfStrauchschicht'>
-						<label id="UfStrauchschicht_label" for='UfStrauchschicht' style="width:115px">Strauchschicht:</label>
-						<input id="UfStrauchschicht" name="UfStrauchschicht" class="speichern Datenfelder" formular="umwfakt" type="text"/>
-					</div>
-					<div class='fieldcontain UfBaumschicht'>
-						<label id="UfBaumschicht_label" for='UfBaumschicht' style="width:115px">Baumschicht:</label>
-						<input id="UfBaumschicht" name="UfBaumschicht" class="speichern Datenfelder" formular="umwfakt" type="text"/>
-					</div>
+					<table>
+						<tr class='fieldcontain UfKonkurrenz'>
+							<td class="label">
+								<label id="UfKonkurrenz_label" for='UfKonkurrenz' style="width:115px">Konkurrenz:</label>
+							</td>
+							<td class="Datenfelder">
+								<input id="UfKonkurrenz" name="UfKonkurrenz" class="speichern" formular="umwfakt" type="text"/>
+							</td>
+						</tr>
+						<tr class='fieldcontain UfMoosschicht'>
+							<td class="label">
+								<label id="UfMoosschicht_label" for='UfMoosschicht' style="width:115px">Moosschicht:</label>
+							</td>
+							<td class="Datenfelder">
+								<input id="UfMoosschicht" name="UfMoosschicht" class="speichern" formular="umwfakt" type="text"/>
+							</td>
+						</tr>
+						<tr class='fieldcontain UfKrautschicht'>
+							<td class="label">
+								<label id="UfKrautschicht_label" for='UfKrautschicht' style="width:115px">Krautschicht:</label>
+							</td>
+							<td class="Datenfelder">
+								<input id="UfKrautschicht" name="UfKrautschicht" class="speichern" formular="umwfakt" type="text"/>
+							</td>
+						</tr>
+						<tr class='fieldcontain UfStrauchschicht'>
+							<td class="label">
+								<label id="UfStrauchschicht_label" for='UfStrauchschicht' style="width:115px">Strauchschicht:</label>
+							</td>
+							<td class="Datenfelder">
+								<input id="UfStrauchschicht" name="UfStrauchschicht" class="speichern" formular="umwfakt" type="text"/>
+							</td>
+						</tr>
+						<tr class='fieldcontain UfBaumschicht'>
+							<td class="label">
+								<label id="UfBaumschicht_label" for='UfBaumschicht' style="width:115px">Baumschicht:</label>
+							</td>
+							<td class="Datenfelder">
+								<input id="UfBaumschicht" name="UfBaumschicht" class="speichern" formular="umwfakt" type="text"/>
+							</td>
+						</tr>
+					</table>
 				</fieldset>
-				<div class='fieldcontain UfBemerkungen'>
-					<label id="UfBemerkungen_label" for='UfBemerkungen'>Bemerkungen:</label>
-					<textarea name="UfBemerkungen" id="UfBemerkungen" class="speichern Datenfelder" formular="umwfakt" /></textarea>
-				</div>
+				<table>
+					<tr class='fieldcontain UfBemerkungen'>
+						<td class="label">
+							<label id="UfBemerkungen_label" for='UfBemerkungen'>Bemerkungen:</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea name="UfBemerkungen" id="UfBemerkungen" class="speichern" formular="umwfakt" /></textarea>
+						</td>
+					</tr>
+				</table>
 			</form>
 
 			<form id="ib" class="form" action="#" method="get" autocomplete="off">
-				<div class='fieldcontain IbName'>
-					<label id="IbName_label" for='IbName'>Name:</label>
-					<input id="IbName" name="IbName" class="speichern Datenfelder" formular="ib" type="text"/>
-				</div>
-				<div class='fieldcontain IbVegTyp'>
-					<label id="IbVegTyp_label" for='IbVegTyp'>Vegetationstyp:</label>
-					<select id="IbVegTyp" name="IbVegTyp" class="speichern Datenfelder" formular="ib">
-						<option></option>
-					</select>
-				</div>
-				<div class='fieldcontain IbBewPflege'>
-					<label id="IbBewPflege_label" for='IbBewPflege'>Bewirtschaftung, Pflege:</label>
-					<textarea name="IbBewPflege" id="IbBewPflege" class="speichern Datenfelder" formular="ib" /></textarea>
-				</div>
-				<div class='fieldcontain IbBemerkungen'>
-					<label id="IbBemerkungen_label" for='IbBemerkungen'>Bemerkungen:</label>
-					<textarea name="IbBemerkungen" id="IbBemerkungen" class="speichern Datenfelder" formular="ib" /></textarea>
-				</div>
+				<table>
+					<tr class='fieldcontain IbName'>
+						<td class="label">
+							<label id="IbName_label" for='IbName'>Name:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="IbName" name="IbName" class="speichern" formular="ib" type="text"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain IbVegTyp'>
+						<td class="label">
+							<label id="IbVegTyp_label" for='IbVegTyp'>Vegetationstyp:</label>
+						</td>
+						<td class="Datenfelder">
+							<select id="IbVegTyp" name="IbVegTyp" class="speichern" formular="ib">
+								<option></option>
+							</select>
+						</td>
+					</tr>
+					<tr class='fieldcontain IbBewPflege'>
+						<td class="label">
+							<label id="IbBewPflege_label" for='IbBewPflege'>Bewirtschaftung, Pflege:</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea name="IbBewPflege" id="IbBewPflege" class="speichern" formular="ib" /></textarea>
+						</td>
+					</tr>
+					<tr class='fieldcontain IbBemerkungen'>
+						<td class="label">
+							<label id="IbBemerkungen_label" for='IbBemerkungen'>Bemerkungen:</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea name="IbBemerkungen" id="IbBemerkungen" class="speichern" formular="ib" /></textarea>
+						</td>
+					</tr>
+				</table>
 			</form>
 
 			<form id="assozarten" class="form" action="#" method="get" autocomplete="off">
-				<div class='fieldcontain AaSisfNr'>
-					<label id="AaSisfNr_label" for='AaSisfNr'>Art:</label>
-					<select id="AaSisfNr" name="AaSisfNr" class="speichern Datenfelder" formular="assozarten">
-						<option></option>
-					</select>
-				</div>
-				<div class='fieldcontain AaBem'>
-					<label id="AaBem_label" for='AaBem'>Bemerkungen zur Assoziation:</label>
-					<textarea name="AaBem" id="AaBem" class="speichern Datenfelder" formular="assozarten" /></textarea>
-				</div>
+				<table>
+					<tr class='fieldcontain AaSisfNr'>
+						<td class="label">
+							<label id="AaSisfNr_label" for='AaSisfNr'>Art:</label>
+						</td>
+						<td class="Datenfelder">
+							<select id="AaSisfNr" name="AaSisfNr" class="speichern" formular="assozarten">
+								<option></option>
+							</select>
+						</td>
+					</tr>
+					<tr class='fieldcontain AaBem'>
+						<td class="label">
+							<label id="AaBem_label" for='AaBem'>Bemerkungen zur Assoziation:</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea name="AaBem" id="AaBem" class="speichern" formular="assozarten" /></textarea>
+						</td>
+					</tr>
+				</table>
 			</form>
 
 			<form id="popber" class="form" action="#" method="get" autocomplete="off">
-				<div class='fieldcontain PopBerJahr'>
-					<label id="PopBerJahr_label" for='PopBerJahr'>Jahr:</label>
-					<input id="PopBerJahr" name="PopBerJahr" class="speichern Datenfelder" formular="popber" type="number"/>
-				</div>
-				<div class='fieldcontain PopBerEntwicklung'>
-					<label id="PopBerEntwicklung_label" for='PopBerEntwicklung'>Entwicklung:</label>
-					<div class="Datenfelder">
-						<input type="radio" name="PopBerEntwicklung" id="PopBerEntwicklung3" class="speichern" formular="popber" value="3" /><span id="spanPopBerEntwicklung3">zunehmend</span><br />
-						<input type="radio" name="PopBerEntwicklung" id="PopBerEntwicklung2" class="speichern" formular="popber" value="2" /><span id="spanPopBerEntwicklung2">stabil</span><br />
-						<input type="radio" name="PopBerEntwicklung" id="PopBerEntwicklung1" class="speichern" formular="popber" value="1" /><span id="spanPopBerEntwicklung1">abnehmend</span><br />
-						<input type="radio" name="PopBerEntwicklung" id="PopBerEntwicklung8" class="speichern" formular="popber" value="8" /><span id="spanPopBerEntwicklung8">erloschen / nicht etabliert</span><br />
-						<input type="radio" name="PopBerEntwicklung" id="PopBerEntwicklung4" class="speichern" formular="popber" value="4" /><span id="spanPopBerEntwicklung4">unsicher</span><br />
-						<input type="radio" name="PopBerEntwicklung" id="PopBerEntwicklung9" class="speichern" formular="popber" value="9" /><span id="spanPopBerEntwicklung9">neu entdeckt (unsicher)</span><br />
-						<input type="radio" name="PopBerEntwicklung" id="PopBerEntwicklung99" class="speichern" formular="popber" value="99" /><span id="spanPopBerEntwicklung99">andere Einstufung</span>
-					</div>
-				</div>
-				<div class='fieldcontain PopBerTxt'>
-					<label id="PopBerTxt_label" for='PopBerTxt'>Bemerkungen:</label>
-					<textarea name="PopBerTxt" id="PopBerTxt" class="speichern Datenfelder" formular="popber" /></textarea>
-				</div>
+				<table>
+					<tr class='fieldcontain PopBerJahr'>
+						<td class="label">
+							<label id="PopBerJahr_label" for='PopBerJahr'>Jahr:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="PopBerJahr" name="PopBerJahr" class="speichern" formular="popber" type="number"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain PopBerEntwicklung'>
+						<td class="label">
+							<label id="PopBerEntwicklung_label" for='PopBerEntwicklung'>Entwicklung:</label>
+						</td>
+						<td class="Datenfelder">
+							<input type="radio" name="PopBerEntwicklung" id="PopBerEntwicklung3" class="speichern" formular="popber" value="3" /><span id="spanPopBerEntwicklung3">zunehmend</span><br />
+							<input type="radio" name="PopBerEntwicklung" id="PopBerEntwicklung2" class="speichern" formular="popber" value="2" /><span id="spanPopBerEntwicklung2">stabil</span><br />
+							<input type="radio" name="PopBerEntwicklung" id="PopBerEntwicklung1" class="speichern" formular="popber" value="1" /><span id="spanPopBerEntwicklung1">abnehmend</span><br />
+							<input type="radio" name="PopBerEntwicklung" id="PopBerEntwicklung8" class="speichern" formular="popber" value="8" /><span id="spanPopBerEntwicklung8">erloschen / nicht etabliert</span><br />
+							<input type="radio" name="PopBerEntwicklung" id="PopBerEntwicklung4" class="speichern" formular="popber" value="4" /><span id="spanPopBerEntwicklung4">unsicher</span><br />
+							<input type="radio" name="PopBerEntwicklung" id="PopBerEntwicklung9" class="speichern" formular="popber" value="9" /><span id="spanPopBerEntwicklung9">neu entdeckt (unsicher)</span><br />
+							<input type="radio" name="PopBerEntwicklung" id="PopBerEntwicklung99" class="speichern" formular="popber" value="99" /><span id="spanPopBerEntwicklung99">andere Einstufung</span>
+						</td>
+					</tr>
+					<tr class='fieldcontain PopBerTxt'>
+						<td class="label">
+							<label id="PopBerTxt_label" for='PopBerTxt'>Bemerkungen:</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea name="PopBerTxt" id="PopBerTxt" class="speichern" formular="popber" /></textarea>
+						</td>
+					</tr>
+				</table>
 			</form>
 
 			<form id="popmassnber" class="form" action="#" method="get" autocomplete="off">
-				<div class='fieldcontain PopMassnBerJahr'>
-					<label id="PopMassnBerJahr_label" for='PopMassnBerJahr'>Jahr:</label>
-					<input id="PopMassnBerJahr" name="PopMassnBerJahr" class="speichern Datenfelder" formular="popmassnber" type="number"/>
-				</div>
-				<div class='fieldcontain PopMassnBerErfolgsbeurteilung'>
-					<label id="PopMassnBerErfolgsbeurteilung_label" for='PopMassnBerErfolgsbeurteilung'>
-						<a class="tooltip legendiert" href="#">Entwicklung:
-							<span class="custom info legende">
-								<img src="img/Info.png" alt="Information" height="48" width="48" />
-								<p>Die aktuelle Kontrolle wird im Vergleich zu allen bisherigen Massnahmen beurteilt</p>
-							</span>
-						</a>
-					</label>
-					<div class="Datenfelder">
-						<input type="radio" name="PopMassnBerErfolgsbeurteilung" id="PopMassnBerErfolgsbeurteilung1" class="speichern" formular="popmassnber" value="1" /><span id="spanPopMassnBerErfolgsbeurteilung1">sehr erfolgreich (>= 150%)</span><br />
-						<input type="radio" name="PopMassnBerErfolgsbeurteilung" id="PopMassnBerErfolgsbeurteilung2" class="speichern" formular="popmassnber" value="2" /><span id="spanPopMassnBerErfolgsbeurteilung2">erfolgreich (90 - 149%)</span><br />
-						<input type="radio" name="PopMassnBerErfolgsbeurteilung" id="PopMassnBerErfolgsbeurteilung3" class="speichern" formular="popmassnber" value="3" /><span id="spanPopMassnBerErfolgsbeurteilung3">weniger erfolgreich (1 - 89%)</span><br />
-						<input type="radio" name="PopMassnBerErfolgsbeurteilung" id="PopMassnBerErfolgsbeurteilung4" class="speichern" formular="popmassnber" value="4" /><span id="spanPopMassnBerErfolgsbeurteilung4">nicht erfolgreich (0%)</span><br />
-						<input type="radio" name="PopMassnBerErfolgsbeurteilung" id="PopMassnBerErfolgsbeurteilung5" class="speichern" formular="popmassnber" value="5" /><span id="spanPopMassnBerErfolgsbeurteilung5">unsicher</span>
-					</div>
-				</div>
-				<div class='fieldcontain PopMassnBerTxt'>
-					<label id="PopMassnBerTxt_label" for='PopMassnBerTxt'>Interpretation:</label>
-					<textarea name="PopMassnBerTxt" id="PopMassnBerTxt" class="speichern Datenfelder" formular="popmassnber" /></textarea>
-				</div>
+				<table>
+					<tr class='fieldcontain PopMassnBerJahr'>
+						<td class="label">
+							<label id="PopMassnBerJahr_label" for='PopMassnBerJahr'>Jahr:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="PopMassnBerJahr" name="PopMassnBerJahr" class="speichern" formular="popmassnber" type="number"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain PopMassnBerErfolgsbeurteilung'>
+						<td class="label">
+							<label id="PopMassnBerErfolgsbeurteilung_label" for='PopMassnBerErfolgsbeurteilung'>
+								<a class="tooltip legendiert" href="#">Entwicklung:
+									<span class="custom info legende">
+										<img src="img/Info.png" alt="Information" height="48" width="48" />
+										<p>Die aktuelle Kontrolle wird im Vergleich zu allen bisherigen Massnahmen beurteilt</p>
+									</span>
+								</a>
+							</label>
+						</td>
+						<td class="Datenfelder">
+							<input type="radio" name="PopMassnBerErfolgsbeurteilung" id="PopMassnBerErfolgsbeurteilung1" class="speichern" formular="popmassnber" value="1" /><span id="spanPopMassnBerErfolgsbeurteilung1">sehr erfolgreich (>= 150%)</span><br />
+							<input type="radio" name="PopMassnBerErfolgsbeurteilung" id="PopMassnBerErfolgsbeurteilung2" class="speichern" formular="popmassnber" value="2" /><span id="spanPopMassnBerErfolgsbeurteilung2">erfolgreich (90 - 149%)</span><br />
+							<input type="radio" name="PopMassnBerErfolgsbeurteilung" id="PopMassnBerErfolgsbeurteilung3" class="speichern" formular="popmassnber" value="3" /><span id="spanPopMassnBerErfolgsbeurteilung3">weniger erfolgreich (1 - 89%)</span><br />
+							<input type="radio" name="PopMassnBerErfolgsbeurteilung" id="PopMassnBerErfolgsbeurteilung4" class="speichern" formular="popmassnber" value="4" /><span id="spanPopMassnBerErfolgsbeurteilung4">nicht erfolgreich (0%)</span><br />
+							<input type="radio" name="PopMassnBerErfolgsbeurteilung" id="PopMassnBerErfolgsbeurteilung5" class="speichern" formular="popmassnber" value="5" /><span id="spanPopMassnBerErfolgsbeurteilung5">unsicher</span>
+						</td>
+					</tr>
+					<tr class='fieldcontain PopMassnBerTxt'>
+						<td class="label">
+							<label id="PopMassnBerTxt_label" for='PopMassnBerTxt'>Interpretation:</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea name="PopMassnBerTxt" id="PopMassnBerTxt" class="speichern" formular="popmassnber" /></textarea>
+						</td>
+					</tr>
+				</table>
 			</form>
 
 			<form id="tpopber" class="form" action="#" method="get" autocomplete="off">
-				<div class='fieldcontain TPopBerJahr'>
-					<label id="TPopBerJahr_label" for='TPopBerJahr'>Jahr:</label>
-					<input id="TPopBerJahr" name="TPopBerJahr" class="speichern Datenfelder" formular="tpopber" type="number"/>
-				</div>
-				<div class='fieldcontain TPopBerEntwicklung'>
-					<label id="TPopBerEntwicklung_label" for='TPopBerEntwicklung'>Entwicklung:</label>
-					<div class="Datenfelder">
-						<input type="radio" name="TPopBerEntwicklung" id="TPopBerEntwicklung3" class="speichern" formular="tpopber" value="3" /><span id="spanTPopBerEntwicklung3">zunehmend</span><br />
-						<input type="radio" name="TPopBerEntwicklung" id="TPopBerEntwicklung2" class="speichern" formular="tpopber" value="2" /><span id="spanTPopBerEntwicklung2">stabil</span><br />
-						<input type="radio" name="TPopBerEntwicklung" id="TPopBerEntwicklung1" class="speichern" formular="tpopber" value="1" /><span id="spanTPopBerEntwicklung1">abnehmend</span><br />
-						<input type="radio" name="TPopBerEntwicklung" id="TPopBerEntwicklung8" class="speichern" formular="tpopber" value="8" /><span id="spanTPopBerEntwicklung8">erloschen / nicht etabliert</span><br />
-						<input type="radio" name="TPopBerEntwicklung" id="TPopBerEntwicklung4" class="speichern" formular="tpopber" value="4" /><span id="spanTPopBerEntwicklung4">unsicher</span><br />
-						<input type="radio" name="TPopBerEntwicklung" id="TPopBerEntwicklung9" class="speichern" formular="tpopber" value="9" /><span id="spanTPopBerEntwicklung9">neu entdeckt (unsicher)</span><br />
-						<input type="radio" name="TPopBerEntwicklung" id="TPopBerEntwicklung99" class="speichern" formular="tpopber" value="99" /><span id="spanTPopBerEntwicklung99">andere Einstufung</span>
-					</div>
-				</div>
-				<div class='fieldcontain TPopBerTxt'>
-					<label id="TPopBerTxt_label" for='TPopBerTxt'>Bemerkungen:</label>
-					<textarea name="TPopBerTxt" id="TPopBerTxt" class="speichern Datenfelder" formular="tpopber" /></textarea>
-				</div>
+				<table>
+					<tr class='fieldcontain TPopBerJahr'>
+						<td class="label">
+							<label id="TPopBerJahr_label" for='TPopBerJahr'>Jahr:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopBerJahr" name="TPopBerJahr" class="speichern" formular="tpopber" type="number"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain TPopBerEntwicklung'>
+						<td class="label">
+							<label id="TPopBerEntwicklung_label" for='TPopBerEntwicklung'>Entwicklung:</label>
+						</td>
+						<td class="Datenfelder">
+							<input type="radio" name="TPopBerEntwicklung" id="TPopBerEntwicklung3" class="speichern" formular="tpopber" value="3" /><span id="spanTPopBerEntwicklung3">zunehmend</span><br />
+							<input type="radio" name="TPopBerEntwicklung" id="TPopBerEntwicklung2" class="speichern" formular="tpopber" value="2" /><span id="spanTPopBerEntwicklung2">stabil</span><br />
+							<input type="radio" name="TPopBerEntwicklung" id="TPopBerEntwicklung1" class="speichern" formular="tpopber" value="1" /><span id="spanTPopBerEntwicklung1">abnehmend</span><br />
+							<input type="radio" name="TPopBerEntwicklung" id="TPopBerEntwicklung8" class="speichern" formular="tpopber" value="8" /><span id="spanTPopBerEntwicklung8">erloschen / nicht etabliert</span><br />
+							<input type="radio" name="TPopBerEntwicklung" id="TPopBerEntwicklung4" class="speichern" formular="tpopber" value="4" /><span id="spanTPopBerEntwicklung4">unsicher</span><br />
+							<input type="radio" name="TPopBerEntwicklung" id="TPopBerEntwicklung9" class="speichern" formular="tpopber" value="9" /><span id="spanTPopBerEntwicklung9">neu entdeckt (unsicher)</span><br />
+							<input type="radio" name="TPopBerEntwicklung" id="TPopBerEntwicklung99" class="speichern" formular="tpopber" value="99" /><span id="spanTPopBerEntwicklung99">andere Einstufung</span>
+						</td>
+					</tr>
+					<tr class='fieldcontain TPopBerTxt'>
+						<td class="label">
+							<label id="TPopBerTxt_label" for='TPopBerTxt'>Bemerkungen:</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea name="TPopBerTxt" id="TPopBerTxt" class="speichern" formular="tpopber" /></textarea>
+						</td>
+					</tr>
+				</table>
 			</form>
 
 			<form id="tpopmassnber" class="form" action="#" method="get" autocomplete="off">
-				<div class='fieldcontain TPopMassnBerJahr'>
-					<label id="TPopMassnBerJahr_label" for='TPopMassnBerJahr'>Jahr:</label>
-					<input id="TPopMassnBerJahr" name="TPopMassnBerJahr" class="speichern Datenfelder" formular="tpopmassnber" type="number"/>
-				</div>
-				<div class='fieldcontain TPopMassnBerErfolgsbeurteilung'>
-					<label id="TPopMassnBerErfolgsbeurteilung_label" for='TPopMassnBerErfolgsbeurteilung'>
-						<a class="tooltip legendiert" href="#">Entwicklung:
-							<span class="custom info legende">
-								<img src="img/Info.png" alt="Information" height="48" width="48" />
-								<p>Die aktuelle Kontrolle wird im Vergleich zu allen bisherigen Massnahmen beurteilt</p>
-							</span>
-						</a>
-					</label>
-					<div class="Datenfelder">
-						<input type="radio" name="TPopMassnBerErfolgsbeurteilung" id="TPopMassnBerErfolgsbeurteilung1" class="speichern" formular="tpopmassnber" value="1" /><span id="spanTPopMassnBerErfolgsbeurteilung1">sehr erfolgreich (>= 150%)</span><br />
-						<input type="radio" name="TPopMassnBerErfolgsbeurteilung" id="TPopMassnBerErfolgsbeurteilung2" class="speichern" formular="tpopmassnber" value="2" /><span id="spanTPopMassnBerErfolgsbeurteilung2">erfolgreich (90 - 149%)</span><br />
-						<input type="radio" name="TPopMassnBerErfolgsbeurteilung" id="TPopMassnBerErfolgsbeurteilung3" class="speichern" formular="tpopmassnber" value="3" /><span id="spanTPopMassnBerErfolgsbeurteilung3">weniger erfolgreich (1 - 89%)</span><br />
-						<input type="radio" name="TPopMassnBerErfolgsbeurteilung" id="TPopMassnBerErfolgsbeurteilung4" class="speichern" formular="tpopmassnber" value="4" /><span id="spanTPopMassnBerErfolgsbeurteilung4">nicht erfolgreich (0%)</span><br />
-						<input type="radio" name="TPopMassnBerErfolgsbeurteilung" id="TPopMassnBerErfolgsbeurteilung5" class="speichern" formular="tpopmassnber" value="5" /><span id="spanTPopMassnBerErfolgsbeurteilung5">unsicher</span>
-					</div>
-				</div>
-				<div class='fieldcontain TPopMassnBerTxt'>
-					<label id="TPopMassnBerTxt_label" for='TPopMassnBerTxt'>Interpretation:</label>
-					<textarea name="TPopMassnBerTxt" id="TPopMassnBerTxt" class="speichern Datenfelder" formular="tpopmassnber" /></textarea>
-				</div>
+				<table>
+					<tr class='fieldcontain TPopMassnBerJahr'>
+						<td class="label">
+							<label id="TPopMassnBerJahr_label" for='TPopMassnBerJahr'>Jahr:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="TPopMassnBerJahr" name="TPopMassnBerJahr" class="speichern" formular="tpopmassnber" type="number"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain TPopMassnBerErfolgsbeurteilung'>
+						<td class="label">
+							<label id="TPopMassnBerErfolgsbeurteilung_label" for='TPopMassnBerErfolgsbeurteilung'>
+								<a class="tooltip legendiert" href="#">Entwicklung:
+									<span class="custom info legende">
+										<img src="img/Info.png" alt="Information" height="48" width="48" />
+										<p>Die aktuelle Kontrolle wird im Vergleich zu allen bisherigen Massnahmen beurteilt</p>
+									</span>
+								</a>
+							</label>
+						</td>
+						<td class="Datenfelder">
+							<input type="radio" name="TPopMassnBerErfolgsbeurteilung" id="TPopMassnBerErfolgsbeurteilung1" class="speichern" formular="tpopmassnber" value="1" /><span id="spanTPopMassnBerErfolgsbeurteilung1">sehr erfolgreich (>= 150%)</span><br />
+							<input type="radio" name="TPopMassnBerErfolgsbeurteilung" id="TPopMassnBerErfolgsbeurteilung2" class="speichern" formular="tpopmassnber" value="2" /><span id="spanTPopMassnBerErfolgsbeurteilung2">erfolgreich (90 - 149%)</span><br />
+							<input type="radio" name="TPopMassnBerErfolgsbeurteilung" id="TPopMassnBerErfolgsbeurteilung3" class="speichern" formular="tpopmassnber" value="3" /><span id="spanTPopMassnBerErfolgsbeurteilung3">weniger erfolgreich (1 - 89%)</span><br />
+							<input type="radio" name="TPopMassnBerErfolgsbeurteilung" id="TPopMassnBerErfolgsbeurteilung4" class="speichern" formular="tpopmassnber" value="4" /><span id="spanTPopMassnBerErfolgsbeurteilung4">nicht erfolgreich (0%)</span><br />
+							<input type="radio" name="TPopMassnBerErfolgsbeurteilung" id="TPopMassnBerErfolgsbeurteilung5" class="speichern" formular="tpopmassnber" value="5" /><span id="spanTPopMassnBerErfolgsbeurteilung5">unsicher</span>
+						</td>
+					</tr>
+					<tr class='fieldcontain TPopMassnBerTxt'>
+						<td class="label">
+							<label id="TPopMassnBerTxt_label" for='TPopMassnBerTxt'>Interpretation:</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea name="TPopMassnBerTxt" id="TPopMassnBerTxt" class="speichern" formular="tpopmassnber" /></textarea>
+						</td>
+					</tr>
+				</table>
 			</form>
 
 			<form id="tpopbeob" class="form" action="#" method="get" autocomplete="off">
-				<div class='fieldcontain tpopbeob_ArtName'>
-					<label id="tpopbeob_ArtName_label" for='tpopbeob_ArtName'>Art:</label>
-					<input id="tpopbeob_ArtName" name="tpopbeob_ArtName" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly"/>
-				</div>
-				<div class='fieldcontain IdZdsf'>
-					<label id="tpopbeob_IdZdsf_label" for='tpopbeob_IdZdsf'>ID Info Flora:</label>
-					<input id="tpopbeob_IdZdsf" name="tpopbeob_IdZdsf" class="Datenfelder" formular="tpopbeob" type="number" readonly="readonly"/>
-				</div>
-				<div class='fieldcontain IdEvab'>
-					<label id="tpopbeob_IdEvab_label" for='tpopbeob_IdEvab'>ID EvAB:</label>
-					<input id="tpopbeob_IdEvab" name="tpopbeob_IdEvab" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly"/>
-				</div>
-				<div class='fieldcontain Projekt'>
-					<label id="tpopbeob_Projekt_label" for='tpopbeob_Projekt'>Projekt:</label>
-					<input id="tpopbeob_Projekt" name="tpopbeob_Projekt" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly"/>
-				</div>
-				<div class='fieldcontain RaumGde'>
-					<label id="tpopbeob_RaumGde_label" for='tpopbeob_RaumGde'>Raum / Gemeinde:</label>
-					<input id="tpopbeob_RaumGde" name="tpopbeob_RaumGde" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly"/>
-				</div>
-				<div class='fieldcontain Ort'>
-					<label id="tpopbeob_Ort_label" for='tpopbeob_Ort'>Ort:</label>
-					<input id="tpopbeob_Ort" name="tpopbeob_Ort" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly"/>
-				</div>
-				<div class='fieldcontain X'>
-					<label id="tpopbeob_X_label" for='tpopbeob_X'>X-Koordinate:</label>
-					<input id="tpopbeob_X" name="tpopbeob_X" class="Datenfelder" formular="tpopbeob" type="number" readonly="readonly"/>
-				</div>
-				<div class='fieldcontain Y'>
-					<label id="tpopbeob_Y_label" for='tpopbeob_Y'>Y-Koordinate:</label>
-					<input id="tpopbeob_Y" name="tpopbeob_Y" class="Datenfelder" formular="tpopbeob" type="number" readonly="readonly"/>
-				</div>
-				<div class='fieldcontain Datum'>
-					<label id="tpopbeob_Datum_label" for='tpopbeob_Datum'>Datum:</label>
-					<input type="date" id="tpopbeob_Datum" name="tpopbeob_Datum" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly"/>
-				</div>
-				<div class='fieldcontain Jahr'>
-					<label id="tpopbeob_Jahr_label" for='tpopbeob_Jahr'>Jahr:</label>
-					<input id="tpopbeob_Jahr" name="tpopbeob_Jahr" class="Datenfelder" formular="tpopbeob" type="number" readonly="readonly"/>
-				</div>
-				<div class='fieldcontain Anzahl'>
-					<label id="tpopbeob_Anzahl_label" for='tpopbeob_Anzahl'>Anzahl:</label>
-					<input id="tpopbeob_Anzahl" name="tpopbeob_Anzahl" class="Datenfelder" formular="tpopbeob" type="number" readonly="readonly"/>
-				</div>
-				<div class='fieldcontain Autor'>
-					<label id="tpopbeob_Autor_label" for='tpopbeob_Autor'>Autor:</label>
-					<input id="tpopbeob_Autor" name="tpopbeob_Autor" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly"/>
-				</div>
-				<div class='fieldcontain tpopbeob_DistZuTPop'>
-					<label id="tpopbeob_DistZuTPop_label" for='tpopbeob_DistZuTPop' style="font-weight:bold;">Einer Teilpopulation zuweisen:</label>
-					<div class="Datenfelder" id="tpopbeob_DistZuTPop_Felder">
-						
-					</div>
-				</div>
+				<table>
+					<tr class='fieldcontain tpopbeob_ArtName'>
+						<td class="label">
+							<label id="tpopbeob_ArtName_label" for='tpopbeob_ArtName'>Art:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="tpopbeob_ArtName" name="tpopbeob_ArtName" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain IdZdsf'>
+						<td class="label">
+							<label id="tpopbeob_IdZdsf_label" for='tpopbeob_IdZdsf'>ID Info Flora:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="tpopbeob_IdZdsf" name="tpopbeob_IdZdsf" class="Datenfelder" formular="tpopbeob" type="number" readonly="readonly"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain IdEvab'>
+						<td class="label">
+							<label id="tpopbeob_IdEvab_label" for='tpopbeob_IdEvab'>ID EvAB:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="tpopbeob_IdEvab" name="tpopbeob_IdEvab" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain Projekt'>
+						<td class="label">
+							<label id="tpopbeob_Projekt_label" for='tpopbeob_Projekt'>Projekt:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="tpopbeob_Projekt" name="tpopbeob_Projekt" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain RaumGde'>
+						<td class="label">
+							<label id="tpopbeob_RaumGde_label" for='tpopbeob_RaumGde'>Raum / Gemeinde:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="tpopbeob_RaumGde" name="tpopbeob_RaumGde" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain Ort'>
+						<td class="label">
+							<label id="tpopbeob_Ort_label" for='tpopbeob_Ort'>Ort:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="tpopbeob_Ort" name="tpopbeob_Ort" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain X'>
+						<td class="label">
+							<label id="tpopbeob_X_label" for='tpopbeob_X'>X-Koordinate:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="tpopbeob_X" name="tpopbeob_X" class="Datenfelder" formular="tpopbeob" type="number" readonly="readonly"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain Y'>
+						<td class="label">
+							<label id="tpopbeob_Y_label" for='tpopbeob_Y'>Y-Koordinate:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="tpopbeob_Y" name="tpopbeob_Y" class="Datenfelder" formular="tpopbeob" type="number" readonly="readonly"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain Datum'>
+						<td class="label">
+							<label id="tpopbeob_Datum_label" for='tpopbeob_Datum'>Datum:</label>
+						</td>
+						<td class="Datenfelder">
+							<input type="date" id="tpopbeob_Datum" name="tpopbeob_Datum" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain Jahr'>
+						<td class="label">
+							<label id="tpopbeob_Jahr_label" for='tpopbeob_Jahr'>Jahr:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="tpopbeob_Jahr" name="tpopbeob_Jahr" class="Datenfelder" formular="tpopbeob" type="number" readonly="readonly"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain Anzahl'>
+						<td class="label">
+							<label id="tpopbeob_Anzahl_label" for='tpopbeob_Anzahl'>Anzahl:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="tpopbeob_Anzahl" name="tpopbeob_Anzahl" class="Datenfelder" formular="tpopbeob" type="number" readonly="readonly"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain Autor'>
+						<td class="label">
+							<label id="tpopbeob_Autor_label" for='tpopbeob_Autor'>Autor:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="tpopbeob_Autor" name="tpopbeob_Autor" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain tpopbeob_DistZuTPop'>
+						<td class="label">
+							<label id="tpopbeob_DistZuTPop_label" for='tpopbeob_DistZuTPop' style="font-weight:bold;">Einer Teilpopulation zuweisen:</label>
+						</td>
+						<td class="Datenfelder">
+							<div class="Datenfelder" id="tpopbeob_DistZuTPop_Felder">
+								
+							</div>
+						</td>
+					</tr>
+				</table>
 			</form>
 
 			<form id="beob" class="form" action="#" method="get" autocomplete="off">
-				<div class='fieldcontain beob_ArtName'>
-					<label id="beob_ArtName_label" for='beob_ArtName'>Art:</label>
-					<input id="beob_ArtName" name="beob_ArtName" class="Datenfelder" formular="beob" type="text" readonly="readonly"/>
-				</div>
-				<div class='fieldcontain IdZdsf'>
-					<label id="beob_IdZdsf_label" for='beob_IdZdsf'>ID Info Flora:</label>
-					<input id="beob_IdZdsf" name="beob_IdZdsf" class="Datenfelder" formular="beob" type="number" readonly="readonly"/>
-				</div>
-				<div class='fieldcontain IdEvab'>
-					<label id="beob_IdEvab_label" for='beob_IdEvab'>ID EvAB:</label>
-					<input id="beob_IdEvab" name="beob_IdEvab" class="Datenfelder" formular="beob" type="text" readonly="readonly"/>
-				</div>
-				<div class='fieldcontain Projekt'>
-					<label id="beob_Projekt_label" for='beob_Projekt'>Projekt:</label>
-					<input id="beob_Projekt" name="beob_Projekt" class="Datenfelder" formular="beob" type="text" readonly="readonly"/>
-				</div>
-				<div class='fieldcontain RaumGde'>
-					<label id="beob_RaumGde_label" for='beob_RaumGde'>Raum / Gemeinde:</label>
-					<input id="beob_RaumGde" name="beob_RaumGde" class="Datenfelder" formular="beob" type="text" readonly="readonly"/>
-				</div>
-				<div class='fieldcontain Ort'>
-					<label id="beob_Ort_label" for='beob_Ort'>Ort:</label>
-					<input id="beob_Ort" name="beob_Ort" class="Datenfelder" formular="beob" type="text" readonly="readonly"/>
-				</div>
-				<div class='fieldcontain X'>
-					<label id="beob_X_label" for='beob_X'>X-Koordinate:</label>
-					<input id="beob_X" name="beob_X" class="Datenfelder" formular="beob" type="number" readonly="readonly"/>
-				</div>
-				<div class='fieldcontain Y'>
-					<label id="beob_Y_label" for='beob_Y'>Y-Koordinate:</label>
-					<input id="beob_Y" name="beob_Y" class="Datenfelder" formular="beob" type="number" readonly="readonly"/>
-				</div>
-				<div class='fieldcontain Datum'>
-					<label id="beob_Datum_label" for='beob_Datum'>Datum:</label>
-					<input type="date" id="beob_Datum" name="beob_Datum" class="Datenfelder" formular="beob" type="text" readonly="readonly"/>
-				</div>
-				<div class='fieldcontain Jahr'>
-					<label id="beob_Jahr_label" for='beob_Jahr'>Jahr:</label>
-					<input id="beob_Jahr" name="beob_Jahr" class="Datenfelder" formular="beob" type="number" readonly="readonly"/>
-				</div>
-				<div class='fieldcontain Anzahl'>
-					<label id="beob_Anzahl_label" for='beob_Anzahl'>Anzahl:</label>
-					<input id="beob_Anzahl" name="beob_Anzahl" class="Datenfelder" formular="beob" type="number" readonly="readonly"/>
-				</div>
-				<div class='fieldcontain Autor'>
-					<label id="beob_Autor_label" for='beob_Autor'>Autor:</label>
-					<input id="beob_Autor" name="beob_Autor" class="Datenfelder" formular="beob" type="text" readonly="readonly"/>
-				</div>
-				<div class='fieldcontain DistZuTPop'>
-					<label id="DistZuTPop_label" for='DistZuTPop' style="font-weight:bold;">Einer Teilpopulation zuweisen:</label>
-					<div class="Datenfelder" id="DistZuTPop_Felder">
-						
-					</div>
-				</div>
+				<table>
+					<tr class='fieldcontain beob_ArtName'>
+						<td class="label">
+							<label id="beob_ArtName_label" for='beob_ArtName'>Art:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="beob_ArtName" name="beob_ArtName" class="Datenfelder" formular="beob" type="text" readonly="readonly"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain IdZdsf'>
+						<td class="label">
+							<label id="beob_IdZdsf_label" for='beob_IdZdsf'>ID Info Flora:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="beob_IdZdsf" name="beob_IdZdsf" class="Datenfelder" formular="beob" type="number" readonly="readonly"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain IdEvab'>
+						<td class="label">
+							<label id="beob_IdEvab_label" for='beob_IdEvab'>ID EvAB:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="beob_IdEvab" name="beob_IdEvab" class="Datenfelder" formular="beob" type="text" readonly="readonly"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain Projekt'>
+						<td class="label">
+							<label id="beob_Projekt_label" for='beob_Projekt'>Projekt:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="beob_Projekt" name="beob_Projekt" class="Datenfelder" formular="beob" type="text" readonly="readonly"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain RaumGde'>
+						<td class="label">
+							<label id="beob_RaumGde_label" for='beob_RaumGde'>Raum / Gemeinde:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="beob_RaumGde" name="beob_RaumGde" class="Datenfelder" formular="beob" type="text" readonly="readonly"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain Ort'>
+						<td class="label">
+							<label id="beob_Ort_label" for='beob_Ort'>Ort:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="beob_Ort" name="beob_Ort" class="Datenfelder" formular="beob" type="text" readonly="readonly"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain X'>
+						<td class="label">
+							<label id="beob_X_label" for='beob_X'>X-Koordinate:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="beob_X" name="beob_X" class="Datenfelder" formular="beob" type="number" readonly="readonly"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain Y'>
+						<td class="label">
+							<label id="beob_Y_label" for='beob_Y'>Y-Koordinate:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="beob_Y" name="beob_Y" class="Datenfelder" formular="beob" type="number" readonly="readonly"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain Datum'>
+						<td class="label">
+							<label id="beob_Datum_label" for='beob_Datum'>Datum:</label>
+						</td>
+						<td class="Datenfelder">
+							<input type="date" id="beob_Datum" name="beob_Datum" class="Datenfelder" formular="beob" type="text" readonly="readonly"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain Jahr'>
+						<td class="label">
+							<label id="beob_Jahr_label" for='beob_Jahr'>Jahr:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="beob_Jahr" name="beob_Jahr" class="Datenfelder" formular="beob" type="number" readonly="readonly"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain Anzahl'>
+						<td class="label">
+							<label id="beob_Anzahl_label" for='beob_Anzahl'>Anzahl:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="beob_Anzahl" name="beob_Anzahl" class="Datenfelder" formular="beob" type="number" readonly="readonly"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain Autor'>
+						<td class="label">
+							<label id="beob_Autor_label" for='beob_Autor'>Autor:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="beob_Autor" name="beob_Autor" class="Datenfelder" formular="beob" type="text" readonly="readonly"/>
+						</td>
+					</tr>
+					<tr class='fieldcontain DistZuTPop'>
+						<td class="label">
+							<label id="DistZuTPop_label" for='DistZuTPop' style="font-weight:bold;">Einer Teilpopulation zuweisen:</label>
+						</td>
+						<td class="Datenfelder">
+							<div class="Datenfelder" id="DistZuTPop_Felder">
+								
+							</div>
+						</td>
+					</tr>
+				</table>
 			</form>
 
 			<form id="Karte" style="width:100%; height:100%;"></form>
@@ -2049,7 +2811,7 @@
 			});
 
 			$(window).resize(function () {
-				setzeFeldbreiten();
+				setzeSpaltenbreiten();
 				setzeTreehoehe();
 			});
 

@@ -24,12 +24,25 @@ fieldset {
 	font-family: Arial, Verdana, Helvetica, sans-serif !important;
 	font-size:16px !important;
 
-	margin:10px 0px 10px 0px;
-	padding: 10px 10px 10px 10px;
+	margin: 10px 0px 10px 0px;
+	padding: 10px 5px 10px 5px;
+}
+
+form fieldset {
+	background-color: #FFE;
+	border:1px solid;
+	border-color:#A5A59A;
+	border-radius: 8px;
+
+	font-family: Arial, Verdana, Helvetica, sans-serif !important;
+	font-size:16px !important;
+
+	margin: 10px 0px 10px 0px;
+	padding: 10px 5px 10px 5px;
 }
 
 #menu {
-	margin-top:0px; 
+	margin-top:0px;
 }
 
 #forms {
@@ -41,7 +54,6 @@ fieldset {
 	#menu {
 		left: 7px;
 		right: 0px;
-		/*float:left;*/
 	}
 
 	#tree {
@@ -64,7 +76,7 @@ fieldset {
 
 	#forms {
 		position: absolute;
-		left: 407px;
+		left: 397px;
 	}
 }
 
@@ -98,6 +110,7 @@ form table tr {
 td.Datenfelder {
 	padding-left:5px;
 	width:100%;
+	padding-right: 10px;
 }
 
 #tree {
@@ -148,17 +161,6 @@ input {
 textarea {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	font-size:17px;
-}
-
-/*alle Datenfelder von den letzten absetzen*/
-.fieldcontain {
-	/*floaten von label und Datenfeld des letzten Feldes aufheben*/
-	clear:both;
-	display:block;
-}
-
-.clear {
-	clear:both;
 }
 
 .ui-button-text {padding:.1em .5em !important; font-size:.8em !important;}

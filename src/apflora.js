@@ -10,7 +10,7 @@ function initiiere_index() {
 	$("button").button();
 	$("#tpopfeldkontr_tabs").tabs({
 		show: function(event, ui) {
-			setzeFeldbreiten();
+			setzeSpaltenbreiten();
 		}
 	});
 	//Gemeindeliste erstellen, wenn nötig
@@ -70,7 +70,7 @@ function initiiere_ap() {
 	programm_wahl = $("[name='programm_wahl']:checked").attr("id");
 	//Felder zurücksetzen
 	leereFelderVonFormular("ap");
-	setzeFeldbreiten();
+	setzeSpaltenbreiten();
 	//Bei Testarten Hinweis anzeigen
 	$("#testart_div").hide();
 	if ($("#ap_waehlen").val()) {
@@ -127,7 +127,7 @@ function initiiere_ap() {
 					}
 					//Formulare blenden
 					zeigeFormular("ap");
-					setzeFeldbreiten();
+					setzeSpaltenbreiten();
 					$("#ap_loeschen").show();
 				}
 			}
@@ -174,7 +174,7 @@ function initiiere_pop() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("pop");
-	setzeFeldbreiten();
+	setzeSpaltenbreiten();
 	//Daten für die pop aus der DB holen
 	$.ajax({
 		url: 'php/pop.php',
@@ -196,7 +196,7 @@ function initiiere_pop() {
 				$("#PopYKoord").val(data.PopYKoord);
 				//Formulare blenden
 				zeigeFormular("pop");
-				setzeFeldbreiten();
+				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#PopName").val()) {
 					$("#PopNr").focus();
@@ -214,7 +214,7 @@ function initiiere_apziel() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("apziel");
-	setzeFeldbreiten();
+	setzeSpaltenbreiten();
 	//Daten für die apziel aus der DB holen
 	$.ajax({
 		url: 'php/apziel.php',
@@ -233,7 +233,7 @@ function initiiere_apziel() {
 				$("#ZielBezeichnung").val(data.ZielBezeichnung);
 				//Formulare blenden
 				zeigeFormular("apziel");
-				setzeFeldbreiten();
+				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#ZielJahr").val()) {
 					$("#ZielJahr").focus();
@@ -251,7 +251,7 @@ function initiiere_zielber() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("zielber");
-	setzeFeldbreiten();
+	setzeSpaltenbreiten();
 	//Daten für die zielber aus der DB holen
 	$.ajax({
 		url: 'php/zielber.php',
@@ -270,7 +270,7 @@ function initiiere_zielber() {
 				$("#ZielBerTxt").val(data.ZielBerTxt);
 				//Formulare blenden
 				zeigeFormular("zielber");
-				setzeFeldbreiten();
+				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#ZielBerJahr").val()) {
 					$("#ZielBerJahr").focus();
@@ -288,7 +288,7 @@ function initiiere_erfkrit() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("erfkrit");
-	setzeFeldbreiten();
+	setzeSpaltenbreiten();
 	//Daten für die erfkrit aus der DB holen
 	$.ajax({
 		url: 'php/erfkrit.php',
@@ -306,7 +306,7 @@ function initiiere_erfkrit() {
 				$("#ErfBeurtZielSkalaTxt").val(data.ErfBeurtZielSkalaTxt);
 				//Formulare blenden
 				zeigeFormular("erfkrit");
-				setzeFeldbreiten();
+				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#ErfBeurtZielSkalaErreichungsgrad").val()) {
 					$("#ErfBeurtZielSkalaErreichungsgrad").focus();
@@ -324,7 +324,7 @@ function initiiere_jber() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("jber");
-	setzeFeldbreiten();
+	setzeSpaltenbreiten();
 	//Daten für die jber aus der DB holen
 	$.ajax({
 		url: 'php/jber.php',
@@ -385,7 +385,7 @@ function initiiere_jber() {
 				}
 				//Formulare blenden
 				zeigeFormular("jber");
-				setzeFeldbreiten();
+				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#JBerJahr").val()) {
 					$("#JBerJahr").focus();
@@ -403,7 +403,7 @@ function initiiere_jber_uebersicht() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("jber_uebersicht");
-	setzeFeldbreiten();
+	setzeSpaltenbreiten();
 	//Daten für die jber_uebersicht aus der DB holen
 	$.ajax({
 		url: 'php/jber_uebersicht.php',
@@ -422,7 +422,7 @@ function initiiere_jber_uebersicht() {
 				//FitToContent("Bemerkungen", document.documentElement.clientHeight);
 				//Formulare blenden
 				zeigeFormular("jber_uebersicht");
-				setzeFeldbreiten();
+				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#JbuJahr").val()) {
 					$("#JbuJahr").focus();
@@ -440,7 +440,7 @@ function initiiere_ber() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("ber");
-	setzeFeldbreiten();
+	setzeSpaltenbreiten();
 	//Daten für die ber aus der DB holen
 	$.ajax({
 		url: 'php/ber.php',
@@ -467,7 +467,7 @@ function initiiere_ber() {
 				$('#BerURLHref').attr('onClick', "window.open('" + tempUrl + "', target='_blank')");
 				//Formulare blenden
 				zeigeFormular("ber");
-				setzeFeldbreiten();
+				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function () {
 					if (!$("#BerAutor").val()) {
@@ -487,7 +487,7 @@ function initiiere_umwfakt() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("umwfakt");
-	setzeFeldbreiten();
+	setzeSpaltenbreiten();
 	//Daten für die umwfakt aus der DB holen
 	$.ajax({
 		url: 'php/umwfakt.php',
@@ -525,7 +525,7 @@ function initiiere_umwfakt() {
 				$("#UfBemerkungen").val(data.UfBemerkungen);
 				//Formulare blenden
 				zeigeFormular("umwfakt");
-				setzeFeldbreiten();
+				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#UfErstelldatum").val()) {
 					//$("#UfErstelldatum").focus();
@@ -585,7 +585,7 @@ function initiiere_ib() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("ib");
-	setzeFeldbreiten();
+	setzeSpaltenbreiten();
 	//Daten für die ib aus der DB holen
 	$.ajax({
 		url: 'php/ib.php',
@@ -631,7 +631,7 @@ function initiiere_ib() {
 				$("#IbBemerkungen").val(data.IbBemerkungen);
 				//Formulare blenden
 				zeigeFormular("ib");
-				setzeFeldbreiten();
+				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function () {
 					if (!$("#IbName").val()) {
@@ -651,7 +651,7 @@ function initiiere_assozarten() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("assozarten");
-	setzeFeldbreiten();
+	setzeSpaltenbreiten();
 	//Daten für die assozarten aus der DB holen
 	$.ajax({
 		url: 'php/assozarten.php',
@@ -670,7 +670,7 @@ function initiiere_assozarten() {
 				$("#AaBem").val(data.AaBem);
 				//Formulare blenden
 				zeigeFormular("assozarten");
-				setzeFeldbreiten();
+				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function () {
 					if (!$("#AaSisfNr").val()) {
@@ -690,7 +690,7 @@ function initiiere_popmassnber() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("popmassnber");
-	setzeFeldbreiten();
+	setzeSpaltenbreiten();
 	//Daten für die pop aus der DB holen
 	$.ajax({
 		url: 'php/popmassnber.php',
@@ -709,7 +709,7 @@ function initiiere_popmassnber() {
 				$("#PopMassnBerTxt").val(data.PopMassnBerTxt);
 				//Formulare blenden
 				zeigeFormular("popmassnber");
-				setzeFeldbreiten();
+				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function() {
 					$('#PopMassnBerJahr').focus();
@@ -727,7 +727,7 @@ function initiiere_tpop() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("tpop");
-	setzeFeldbreiten();
+	setzeSpaltenbreiten();
 	//Daten für die pop aus der DB holen
 	$.ajax({
 		url: 'php/tpop.php',
@@ -803,7 +803,7 @@ function initiiere_tpop() {
 				}
 				//Formulare blenden
 				zeigeFormular("tpop");
-				setzeFeldbreiten();
+				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#TPopFlurname").val()) {
 					$('#TPopNr').focus();
@@ -821,7 +821,7 @@ function initiiere_popber() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("popber");
-	setzeFeldbreiten();
+	setzeSpaltenbreiten();
 	//Daten für die popber aus der DB holen
 	$.ajax({
 		url: 'php/popber.php',
@@ -840,7 +840,7 @@ function initiiere_popber() {
 				$("#PopBerTxt").val(data.PopBerTxt);
 				//Formulare blenden
 				zeigeFormular("popber");
-				setzeFeldbreiten();
+				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function() {
 					$('#PopBerJahr').focus();
@@ -864,9 +864,11 @@ function initiiere_tpopfeldkontr() {
 	feldliste_freiwkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrPlan', 'TPopKontrUebFlaeche', 'TPopKontrUebPfl', 'TPopKontrNaBo', 'TPopKontrJungPflJN', 'TPopKontrVegHoeMax', 'TPopKontrVegHoeMit', 'TPopKontrGefaehrdung', 'TPopKontrGuid'];
 	//Felder zurücksetzen
 	leereFelderVonFormular("tpopfeldkontr");
-	setzeFeldbreiten();
+	setzeSpaltenbreiten();
 	//alle Felder ausblenden. Später werden die benötigten eingeblendet
-	blendeFelderVonFormularAus("tpopfeldkontr");
+	$('.feld_tpopfeldkontr').each(function() {
+		$(this).hide();
+	});
 	//Daten für die tpopfeldkontr aus der DB holen
 	$.ajax({
 		url: 'php/tpopfeldkontr.php',
@@ -1076,7 +1078,7 @@ function initiiere_tpopfeldkontr() {
 				}
 				//Formulare blenden
 				zeigeFormular("tpopfeldkontr");
-				setzeFeldbreiten();
+				setzeSpaltenbreiten();
 				//Register in Feldkontr blenden
 				if (localStorage.tpopfreiwkontr) {
 					$("#tpopfeldkontr_tabs_biotop").hide();
@@ -1102,7 +1104,7 @@ function initiiere_tpopmassn() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("tpopmassn");
-	setzeFeldbreiten();
+	setzeSpaltenbreiten();
 	//Daten für die pop aus der DB holen
 	$.ajax({
 		url: 'php/tpopmassn.php',
@@ -1218,7 +1220,7 @@ function initiiere_tpopmassn() {
 				$("#TPopMassnGuid").val(data.TPopMassnGuid);
 				//Formulare blenden
 				zeigeFormular("tpopmassn");
-				setzeFeldbreiten();
+				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function() {
 					$('#TPopMassnJahr').focus();
@@ -1236,7 +1238,7 @@ function initiiere_tpopber() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("tpopber");
-	setzeFeldbreiten();
+	setzeSpaltenbreiten();
 	//Daten für die tpopber aus der DB holen
 	$.ajax({
 		url: 'php/tpopber.php',
@@ -1255,7 +1257,7 @@ function initiiere_tpopber() {
 				$("#TPopBerTxt").val(data.TPopBerTxt);
 				//Formulare blenden
 				zeigeFormular("tpopber");
-				setzeFeldbreiten();	
+				setzeSpaltenbreiten();	
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function() {
 					$('#TPopBerJahr').focus();
@@ -1273,7 +1275,7 @@ function initiiere_tpopbeob() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("tpopbeob");
-	setzeFeldbreiten();
+	setzeSpaltenbreiten();
 	//Daten für die tpopbeob aus der DB holen
 	$.ajax({
 		url: 'php/beob.php',
@@ -1340,7 +1342,7 @@ function initiiere_tpopbeob() {
 							$("#tpopbeob_DistZuTPop_Felder").html(html);
 							//Formulare blenden
 							zeigeFormular("tpopbeob");
-							setzeFeldbreiten();
+							setzeSpaltenbreiten();
 						}
 					}
 				});
@@ -1357,7 +1359,7 @@ function initiiere_beob() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("beob");
-	setzeFeldbreiten();
+	setzeSpaltenbreiten();
 	//Daten für die beob aus der DB holen
 	$.ajax({
 		url: 'php/beob.php',
@@ -1417,7 +1419,7 @@ function initiiere_beob() {
 							$("#DistZuTPop_Felder").html(html);
 							//Formulare blenden
 							zeigeFormular("beob");
-							setzeFeldbreiten();
+							setzeSpaltenbreiten();
 						}
 					}
 				});
@@ -1434,7 +1436,7 @@ function initiiere_tpopmassnber() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("tpopmassnber");
-	setzeFeldbreiten();
+	setzeSpaltenbreiten();
 	//Daten für die pop aus der DB holen
 	$.ajax({
 		url: 'php/tpopmassnber.php',
@@ -1453,7 +1455,7 @@ function initiiere_tpopmassnber() {
 				$("#TPopMassnBerTxt").val(data.TPopMassnBerTxt);
 				//Formulare blenden
 				zeigeFormular("tpopmassnber");
-				setzeFeldbreiten();
+				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function() {
 					$('#TPopMassnBerJahr').focus();
@@ -1466,7 +1468,7 @@ function initiiere_tpopmassnber() {
 function initiiere_exporte() {
 	$("#testart_div").hide();
 	zeigeFormular("exporte");
-	setzeFeldbreiten();
+	setzeSpaltenbreiten();
 }
 
 //managed die Sichtbarkeit von Formularen
@@ -1497,7 +1499,7 @@ function zeigeFormular(Formularname) {
 	if (Formularname === "Karte") {
 		//Karte wird sonst unter dem Menu angezeigt
 		setTimeout(function() {
-			setzeFeldbreiten();
+			setzeSpaltenbreiten();
 		}, 5);
 	}
 	$(window).scrollTop(0);
@@ -1518,9 +1520,9 @@ function leereFelderVonFormular(Formular) {
 
 function setzeTreehoehe() {
 	if (($("#tree").height() + 157) > $(window).height()) {
-		$("#tree").height($(window).height() - 157);
+		$("#tree").height($(window).height() - 145);
 	} else if ($('#tree').hasScrollBar()) {
-		$("#tree").height($(window).height() - 157);
+		$("#tree").height($(window).height() - 145);
 	}
 }
 
@@ -1544,58 +1546,14 @@ function setzeFormhoehe() {
 })(jQuery);
 
 //wenn $("#forms").width() > 444: forms unter menu setzen, 
-function setzeFeldbreiten() {
+function setzeSpaltenbreiten() {
 	if ($(window).width() > 855) {
-		$("#forms").width($(window).width() - 438);
-		//$("#ap_waehlen").width(367);
-		//Firefox auf Mac: ap_waehlen ist zu breit, verbreitert #menu
-		//$("#ap_waehlen").width(347);
+		$("#forms").width($(window).width() - 417);
 		$("#tree").width(367);
 	} else {
 		$("#forms").width($(window).width() - 37);
-		//$("#ap_waehlen").width($(window).width() - 37);
-		//Firefox auf Mac: ap_waehlen ist zu breit, verbreitert #menu
-		//$("#ap_waehlen").width($(window).width() - 57);
 		$("#tree").width($(window).width() - 37);
 	}
-
-	/*setTimeout(function() {
-		$('#forms input[type="text"], #forms input[type="url"], #forms select, #forms textarea').each(function() {
-			if ($(this).attr("formular") === "tpopfeldkontr") {
-				//hier hatt's tabs, Felder müssen schmaler sein als normal
-				$(this).width($("#forms").width() - 190);
-			} else if ($(this).attr("formular") === "umwfakt") {
-				//hier hats fieldsets, Felder müssen schmaler sein als normal
-				$(this).width($("#forms").width() - 180);
-			} else {
-				$(this).width($("#forms").width() - 180);
-			}
-		});
-		//Zahlenfelder sollen nicht breiter als 200px sein
-		$('#forms input[type="number"], #forms input[type="date"]').each(function() {
-			if ($(this).attr("formular") === "tpopfeldkontr") {
-				//hier hats tabs, Felder müssen schmaler sein als normal
-				if (($("#forms").width() - 190) > 200) {
-					$(this).width(200);
-				} else {
-					$(this).width($("#forms").width() - 200);
-				}
-			} else if ($(this).attr("formular") === "umwfakt") {
-				//hier hats fieldsets, Felder müssen schmaler sein als normal
-				if (($("#forms").width() - 180) > 200) {
-					$(this).width(200);
-				} else {
-					$(this).width($("#forms").width() - 180);
-				}
-			} else {
-				if (($("#forms").width() - 200) > 200) {
-					$(this).width(200);
-				} else {
-					$(this).width($("#forms").width() - 200);
-				}
-			}
-		});
-	}, 300);*/
 }
 
 //setzt die Höhe von textareas so, dass der Text genau rein passt
@@ -1617,13 +1575,6 @@ function FitToContent(id, maxHeight) {
       if (adjustedHeight > text.clientHeight)
          text.style.height = adjustedHeight + "px";
    }
-}
-
-//wird benutzt von Formular Feldkontrolle
-function blendeFelderVonFormularAus(Formular) {
-	$('#' + Formular + ' .fieldcontain').each(function() {
-		$(this).hide();
-	});
 }
 
 function erstelle_ap_liste(programm) {
