@@ -22,7 +22,7 @@
 		<fieldset id="menu">
 			<div class='fieldcontain'>
 				<label id="ap_waehlen_label" for='ap_waehlen' class='select' style="color:#6F6F66;">Artförderprogramm wählen:</label>
-				<select id="ap_waehlen" style="font-size:17px;">
+				<select id="ap_waehlen" style="width:100%; font-size:17px;">
 					<option></option>
 				</select>
 			</div>
@@ -47,124 +47,171 @@
 			<div id="undelete_div" style="text-align:center; margin:0px 30px 10px 148px; border-radius:0.5em; font-weight:bold; background-color:#FFCC33;"></div>
 			<div id="testart_div" style="margin:0px 30px 5px 148px; border-radius:0.5em; font-weight:bold; color:#196319;"></div>
 			<form id="ap" class="form" action="#" method="get" autocomplete="off">
-				<div class='fieldcontain'>
-					<label id="ApArtId_label" for='ApArtId'>Art:</label>
-					<select id="ApArtId" name="ApArtId" class="speichern Datenfelder" formular="ap">
-						<option></option>
-					</select>
-				</div>
-				<div class='fieldcontain'>
-					<label id="ApStatus_label" for='ApStatus'>
-						<a class="tooltip" href="#">Aktionsplan:
-							<span class="custom info">
-								<img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen
-								<p class='legendentitel'>Legende:</p>
-								<ul class='legende'>
-									<li>keiner: kein Aktionsplan vorgesehen</li>
-									<li>erstellt: Aktionsplan fertig, auf der Website der FNS</li>
-								</ul>
-							</span>
-						</a>
-					</label>
-					<div class="Datenfelder">
-						<input type="radio" name="ApStatus" id="ApStatus0" class="speichern" formular="ap" value="0" />(kein Eintrag)<br />
-						<input type="radio" name="ApStatus" id="ApStatus4" class="speichern" formular="ap" value="4" />keiner<br />
-						<input type="radio" name="ApStatus" id="ApStatus1" class="speichern" formular="ap" value="1" />vorgesehen<br />
-						<input type="radio" name="ApStatus" id="ApStatus2" class="speichern" formular="ap" value="2" />in Bearbeitung<br />
-						<input type="radio" name="ApStatus" id="ApStatus3" class="speichern" formular="ap" value="3" />erstellt
-					</div>
-				</div>
-				<div class='fieldcontain'>
-					<label id="ApJahr_label" for='ApJahr'>Start im Jahr:</label>
-					<input id="ApJahr" name="ApJahr" class="speichern Datenfelder" formular="ap" type="number"/>
-				</div>
-				<div class='fieldcontain'>
-					<label id="ApUmsetzung_label" for='ApUmsetzung'>
-						<a class="tooltip legendiert" href="#">Stand Umsetzung:
-							<span class="custom info">
-								<img src="img/Info.png" alt="Information" height="48" width="48" />
-								<p class='legendentitel'>Legende:</p>
-								<ul class='legende'>
-									<li>noch keine Umsetzung: noch keine Massnahmen ausgeführt</li>
-									<li>in Umsetzung: bereits Massnahmen ausgeführt (auch wenn AP noch nicht erstellt)</li>
-								</ul>
-							</span>
-						</a>
-					</label>
-					<div class="Datenfelder">
-						<input type="radio" name="ApUmsetzung" class="speichern" formular="ap" id="ApUmsetzung0" value="0" />noch keine Umsetzung<br />
-						<input type="radio" name="ApUmsetzung" class="speichern" formular="ap" id="ApUmsetzung1" value="1" />in Umsetzung<br />
-						<input type="radio" name="ApUmsetzung" class="speichern" formular="ap" id="ApUmsetzung2" value="2" />umgesetzt
-					</div>
-				</div>
-				<div class='fieldcontain ApBearb'>
-							<label id="ApBearb_label" for='ApBearb'>Verantwortlich:</label>
-							<select id="ApBearb" name="ApBearb" class="speichern Datenfelder" formular="ap">
+				<table>
+					<tr>
+						<td class="label">
+							<label id="ApArtId_label" for='ApArtId'>Art:</label>
+						</td>
+						<td>
+							<select id="ApArtId" name="ApArtId" class="speichern Datenfelder" formular="ap">
 								<option></option>
 							</select>
-						</div>
-				<div class='fieldcontain'>
-					<label id="ApArtwert_label" for='ApArtwert'>Artwert:</label>
-					<input id="ApArtwert" name="ApArtwert" class="speichern Datenfelder" formular="ap" type="number" readonly="readonly"/>
-				</div>
+						</td>
+					</tr>
+				
+					<tr>
+						<td class="label">
+							<label id="ApStatus_label" for='ApStatus'>
+								<a class="tooltip" href="#">Aktionsplan:
+									<span class="custom info">
+										<img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen
+										<p class='legendentitel'>Legende:</p>
+										<ul class='legende'>
+											<li>keiner: kein Aktionsplan vorgesehen</li>
+											<li>erstellt: Aktionsplan fertig, auf der Website der FNS</li>
+										</ul>
+									</span>
+								</a>
+							</label>
+						</td>
+						<td class="Datenfelder">
+							<input type="radio" name="ApStatus" id="ApStatus0" class="speichern" formular="ap" value="0" />(kein Eintrag)<br />
+							<input type="radio" name="ApStatus" id="ApStatus4" class="speichern" formular="ap" value="4" />keiner<br />
+							<input type="radio" name="ApStatus" id="ApStatus1" class="speichern" formular="ap" value="1" />vorgesehen<br />
+							<input type="radio" name="ApStatus" id="ApStatus2" class="speichern" formular="ap" value="2" />in Bearbeitung<br />
+							<input type="radio" name="ApStatus" id="ApStatus3" class="speichern" formular="ap" value="3" />erstellt
+						<td>
+					</tr>
+					<tr>
+						<td class="label">
+							<label id="ApJahr_label" for='ApJahr'>Start im Jahr:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="ApJahr" name="ApJahr" class="speichern" formular="ap" type="number"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">
+							<label id="ApUmsetzung_label" for='ApUmsetzung'>
+								<a class="tooltip legendiert" href="#">Stand Umsetzung:
+									<span class="custom info">
+										<img src="img/Info.png" alt="Information" height="48" width="48" />
+										<p class='legendentitel'>Legende:</p>
+										<ul class='legende'>
+											<li>noch keine Umsetzung: noch keine Massnahmen ausgeführt</li>
+											<li>in Umsetzung: bereits Massnahmen ausgeführt (auch wenn AP noch nicht erstellt)</li>
+										</ul>
+									</span>
+								</a>
+							</label>
+						</td>
+						<td class="Datenfelder">
+							<input type="radio" name="ApUmsetzung" class="speichern" formular="ap" id="ApUmsetzung0" value="0" />noch keine Umsetzung<br />
+							<input type="radio" name="ApUmsetzung" class="speichern" formular="ap" id="ApUmsetzung1" value="1" />in Umsetzung<br />
+							<input type="radio" name="ApUmsetzung" class="speichern" formular="ap" id="ApUmsetzung2" value="2" />umgesetzt
+						</td>
+					</tr>
+					<tr>
+						<td class="label">
+							<label id="ApBearb_label" for='ApBearb'>Verantwortlich:</label>
+						</td>
+						<td class="Datenfelder">
+							<select id="ApBearb" name="ApBearb" class="speichern" formular="ap">
+								<option></option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">
+							<label id="ApArtwert_label" for='ApArtwert'>Artwert:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="ApArtwert" name="ApArtwert" class="speichern" formular="ap" type="number" readonly="readonly"/>
+						</td>
+					</tr>
+				</table>
 			</form>
 
 			<form id="pop" class="form" action="#" method="get" autocomplete="off">
-				<div class='fieldcontain'>
-					<label id="PopNr_label" for='PopNr'>Nr.:</label>
-					<input id="PopNr" name="PopNr" class="speichern Datenfelder" formular="pop" type="number">
-				</div>
-				<div class='fieldcontain'>
-					<label id="PopName_label" for='PopName'>
-						<a class="tooltip" href="#">Name:
-							<span class="custom info">
-								<img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen
-							</span>
-						</a>
-					</label>
-					<input id="PopName" name="PopName" class="speichern Datenfelder" formular="pop" type="text"/>
-				</div>
-				<div class='fieldcontain'>
-					<label id="PopHerkunft_label" for='PopHerkunft'>
-						<a class="tooltip" href="#">Status:
-							<span class="custom info">
-								<img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen
-								<p class='legendentitel'>Legende:</p>
-								<ul class='legende'>
-									<li>autochthon: Population ist rezent zum Zeitpunkt der Erstellung des Aktionsplanes</li>
-									<li>neu entdeckt, autochthon: Population neu entdeckt, vorher nicht schon lange bekannt. Unabhängig davon, ob schon ein Aktionsplan besteht oder nicht</li>
-									<li>neu entdeckt, angesiedelt: Ab Aktionsplan neu entdeckt</li>
-									<li>nur angesät: wenn alle Teilpopulationen nur angesät sind und noch keine Kontrollen mit Pflanzenfunden durchgeführt wurden, oder wenn zwar Kontrollen durchgeführt aber keine Pflanzen gefunden wurden und noch nicht entschieden wurde, dass Population nicht etabliert ist</li>
-									<li>überprüft, kein Vorkommen: Dies sind Orte, die ohne dass vorher Angaben darüber vorhanden gewesen wären, explizit auf eine Art hin untersucht wurden und diese Art dort aber nicht gefunden wurde</li>
-								</ul>
-							</span>
-						</a>
-					</label>
-					<div class="Datenfelder">
-						<input type="radio" name="PopHerkunft" id="PopHerkunft1" class="speichern" formular="pop" value="1" />autochthon<br />
-						<input type="radio" name="PopHerkunft" id="PopHerkunft6" class="speichern" formular="pop" value="6" />neu entdeckt, autochthon<br />
-						<input type="radio" name="PopHerkunft" id="PopHerkunft9" class="speichern" formular="pop" value="9" />neu entdeckt, angesiedelt<br />
-						<input type="radio" name="PopHerkunft" id="PopHerkunft8" class="speichern" formular="pop" value="8" />angesiedelt, vor Beginn AP<br />
-						<input type="radio" name="PopHerkunft" id="PopHerkunft2" class="speichern" formular="pop" value="2" />angesiedelt, nach Beginn AP<br />
-						<input type="radio" name="PopHerkunft" id="PopHerkunft1198167213" class="speichern" formular="pop" value="1198167213"/>nur angesät<br />
-						<input type="radio" name="PopHerkunft" id="PopHerkunft4" class="speichern" formular="pop" value="4" />erloschen, zuvor autochthon<br />
-						<input type="radio" name="PopHerkunft" id="PopHerkunft1200498803" class="speichern" formular="pop" value="1200498803" />erloschen, vor AP angesiedelt<br />
-						<input type="radio" name="PopHerkunft" id="PopHerkunft7" class="speichern" formular="pop" value="7" />erloschen, nach Beginn AP angesiedelt<br />
-						<input type="radio" name="PopHerkunft" id="PopHerkunft10" class="speichern" formular="pop" value="10" />überprüft, kein Vorkommen
-					</div>
-				</div>
-				<div class='fieldcontain'>
-					<label id="PopBekanntSeit_label" for='PopBekanntSeit'><a class="tooltip" href="#">Bekannt seit:<span class="custom info"><img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen</span></a></label>
-					<input id="PopBekanntSeit" name="PopBekanntSeit" class="speichern Datenfelder" formular="pop" type="number">
-				</div>
-				<div class='fieldcontain'>
-					<label id="PopXKoord_label" for='PopXKoord'>X-Koordinaten:</label>
-					<input id="PopXKoord" name="PopXKoord" class="speichern Datenfelder" formular="pop" type="number">
-				</div>
-				<div class='fieldcontain'>
-					<label id="PopYKoord_label" for='PopYKoord'>Y-Koordinaten:</label>
-					<input id="PopYKoord" name="PopYKoord" class="speichern Datenfelder" formular="pop" type="number">
-				</div>
+				<table>
+					<tr>
+						<td class="label">
+							<label id="PopNr_label" for='PopNr'>Nr.:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="PopNr" name="PopNr" class="speichern" formular="pop" type="number">
+						</td>
+					</tr>
+					<tr>
+						<td class="label">
+							<label id="PopName_label" for='PopName'>
+								<a class="tooltip" href="#">Name:
+									<span class="custom info">
+										<img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen
+									</span>
+								</a>
+							</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="PopName" name="PopName" class="speichern" formular="pop" type="text"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="label">
+							<label id="PopHerkunft_label" for='PopHerkunft'>
+								<a class="tooltip" href="#">Status:
+									<span class="custom info">
+										<img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen
+										<p class='legendentitel'>Legende:</p>
+										<ul class='legende'>
+											<li>autochthon: Population ist rezent zum Zeitpunkt der Erstellung des Aktionsplanes</li>
+											<li>neu entdeckt, autochthon: Population neu entdeckt, vorher nicht schon lange bekannt. Unabhängig davon, ob schon ein Aktionsplan besteht oder nicht</li>
+											<li>neu entdeckt, angesiedelt: Ab Aktionsplan neu entdeckt</li>
+											<li>nur angesät: wenn alle Teilpopulationen nur angesät sind und noch keine Kontrollen mit Pflanzenfunden durchgeführt wurden, oder wenn zwar Kontrollen durchgeführt aber keine Pflanzen gefunden wurden und noch nicht entschieden wurde, dass Population nicht etabliert ist</li>
+											<li>überprüft, kein Vorkommen: Dies sind Orte, die ohne dass vorher Angaben darüber vorhanden gewesen wären, explizit auf eine Art hin untersucht wurden und diese Art dort aber nicht gefunden wurde</li>
+										</ul>
+									</span>
+								</a>
+							</label>
+						</td>
+						<td class="Datenfelder">
+							<input type="radio" name="PopHerkunft" id="PopHerkunft1" class="speichern" formular="pop" value="1" />autochthon<br />
+							<input type="radio" name="PopHerkunft" id="PopHerkunft6" class="speichern" formular="pop" value="6" />neu entdeckt, autochthon<br />
+							<input type="radio" name="PopHerkunft" id="PopHerkunft9" class="speichern" formular="pop" value="9" />neu entdeckt, angesiedelt<br />
+							<input type="radio" name="PopHerkunft" id="PopHerkunft8" class="speichern" formular="pop" value="8" />angesiedelt, vor Beginn AP<br />
+							<input type="radio" name="PopHerkunft" id="PopHerkunft2" class="speichern" formular="pop" value="2" />angesiedelt, nach Beginn AP<br />
+							<input type="radio" name="PopHerkunft" id="PopHerkunft1198167213" class="speichern" formular="pop" value="1198167213"/>nur angesät<br />
+							<input type="radio" name="PopHerkunft" id="PopHerkunft4" class="speichern" formular="pop" value="4" />erloschen, zuvor autochthon<br />
+							<input type="radio" name="PopHerkunft" id="PopHerkunft1200498803" class="speichern" formular="pop" value="1200498803" />erloschen, vor AP angesiedelt<br />
+							<input type="radio" name="PopHerkunft" id="PopHerkunft7" class="speichern" formular="pop" value="7" />erloschen, nach Beginn AP angesiedelt<br />
+							<input type="radio" name="PopHerkunft" id="PopHerkunft10" class="speichern" formular="pop" value="10" />überprüft, kein Vorkommen
+						</td>
+					</tr>
+					<tr>
+						<td class="label">
+							<label id="PopBekanntSeit_label" for='PopBekanntSeit'><a class="tooltip" href="#">Bekannt seit:<span class="custom info"><img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen</span></a></label>
+						</td>
+						<td class="Datenfelder">
+							<input id="PopBekanntSeit" name="PopBekanntSeit" class="speichern" formular="pop" type="number">
+						</td>
+					</tr>
+					<tr>
+						<td class="label">
+							<label id="PopXKoord_label" for='PopXKoord'>X-Koordinaten:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="PopXKoord" name="PopXKoord" class="speichern" formular="pop" type="number">
+						</td>
+					</tr>
+					<tr>
+						<td class="label">
+							<label id="PopYKoord_label" for='PopYKoord'>Y-Koordinaten:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="PopYKoord" name="PopYKoord" class="speichern" formular="pop" type="number">
+						</td>
+					</tr>
+				</table>
 			</form>
 
 			<form id="tpop" class="form" action="#" method="get" autocomplete="off">

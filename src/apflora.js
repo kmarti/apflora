@@ -1547,15 +1547,19 @@ function setzeFormhoehe() {
 function setzeFeldbreiten() {
 	if ($(window).width() > 855) {
 		$("#forms").width($(window).width() - 438);
-		$("#ap_waehlen").width(367);
+		//$("#ap_waehlen").width(367);
+		//Firefox auf Mac: ap_waehlen ist zu breit, verbreitert #menu
+		//$("#ap_waehlen").width(347);
 		$("#tree").width(367);
 	} else {
 		$("#forms").width($(window).width() - 37);
-		$("#ap_waehlen").width($(window).width() - 37);
+		//$("#ap_waehlen").width($(window).width() - 37);
+		//Firefox auf Mac: ap_waehlen ist zu breit, verbreitert #menu
+		//$("#ap_waehlen").width($(window).width() - 57);
 		$("#tree").width($(window).width() - 37);
 	}
 
-	setTimeout(function() {
+	/*setTimeout(function() {
 		$('#forms input[type="text"], #forms input[type="url"], #forms select, #forms textarea').each(function() {
 			if ($(this).attr("formular") === "tpopfeldkontr") {
 				//hier hatt's tabs, Felder müssen schmaler sein als normal
@@ -1591,7 +1595,7 @@ function setzeFeldbreiten() {
 				}
 			}
 		});
-	}, 300);
+	}, 300);*/
 }
 
 //setzt die Höhe von textareas so, dass der Text genau rein passt
