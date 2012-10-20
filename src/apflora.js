@@ -1551,8 +1551,8 @@ function setzeSpaltenbreiten() {
 		$("#forms").width($(window).width() - 417);
 		$("#tree").width(367);
 	} else {
-		$("#forms").width($(window).width() - 37);
-		$("#tree").width($(window).width() - 37);
+		$("#forms").width($(window).width() - 27);
+		$("#tree").width($(window).width() - 36);
 	}
 }
 
