@@ -2188,6 +2188,80 @@ function erstelle_tree(ApArtId) {
 				});
 			}
 		}
+		if (herkunft_node.attr("typ") === "tpop") {
+			if (ziel_node.attr("typ") === "tpop") {
+				$.ajax({
+					url: 'php/tpop_einfuegen.php',
+					dataType: 'json',
+					data: {
+						"pop_id": $(ziel_parent_node).attr("id"),
+						"tpop_id": $(herkunft_node).attr("id"),
+						"user": sessionStorage.User
+					},
+					success: function () {
+						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+						beschrifte_pop_ordner_tpop(ziel_parent_node);
+						beschrifte_pop_ordner_tpop(window.herkunft_parent_node);
+						//selection steuern
+						jQuery.jstree._reference(herkunft_node).deselect_all();
+						jQuery.jstree._reference(ziel_parent_node).select_node(herkunft_node);
+						//Variablen aufräumen
+						localStorage.tpop_id = $(herkunft_node).attr("id");
+						delete window.tpop;
+						delete window.tpop_node_ausgeschnitten;
+						delete window.herkunft_parent_node;
+						initiiere_tpop();
+					},
+					error: function (data) {
+						$("#Meldung").html("Fehler: Die Teilpopulation wurde nicht verschoben");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+					}
+				});
+			}
+			if (ziel_node.attr("typ") === "pop_ordner_tpop") {
+				$.ajax({
+					url: 'php/tpop_einfuegen.php',
+					dataType: 'json',
+					data: {
+						"pop_id": $(ziel_node).attr("id"),
+						"tpop_id": $(herkunft_node).attr("id"),
+						"user": sessionStorage.User
+					},
+					success: function () {
+						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+						beschrifte_pop_ordner_tpop(ziel_node);
+						beschrifte_pop_ordner_tpop(window.herkunft_parent_node);
+						//selection steuern
+						jQuery.jstree._reference(herkunft_node).deselect_all();
+						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+						//Variablen aufräumen
+						localStorage.tpop_id = $(herkunft_node).attr("id");
+						delete window.tpop;
+						delete window.tpop_node_ausgeschnitten;
+						delete window.herkunft_parent_node;
+						initiiere_tpop();
+					},
+					error: function (data) {
+						$("#Meldung").html("Fehler: Die Teilpopulation wurde nicht verschoben");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+					}
+				});
+			}
+		}
 		if (herkunft_node.attr("typ") === "tpopmassn") {
 			if (ziel_node.attr("typ") === "tpopmassn") {
 				$.ajax({
