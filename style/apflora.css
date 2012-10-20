@@ -24,8 +24,8 @@ fieldset {
 	font-family: Arial, Verdana, Helvetica, sans-serif !important;
 	font-size:16px !important;
 
-	margin: 10px 0px 10px 0px;
-	padding: 10px 5px 10px 5px;
+	margin: 0px 0px 10px 0px;
+	padding: 10px 5px 0px 5px;
 }
 
 form fieldset {
@@ -41,18 +41,18 @@ form fieldset {
 	padding: 10px 5px 10px 5px;
 }
 
-#menu {
-	margin-top:0px;
+#forms {
+	margin-bottom:7px;
 }
 
-#forms {
-	margin-top:0px;
+#menu {
+	left: 7px;
+	padding-bottom: 10px;
 }
 
 /*unter 850px übereinander*/
 @media only screen and (max-width: 855px) {
 	#menu {
-		left: 7px;
 		right: 0px;
 	}
 
@@ -66,7 +66,6 @@ form fieldset {
 	#menu {
 		width:370px;
 		position: absolute;
-		left: 7px;
 		right: 7px;
 	}
 
@@ -135,9 +134,6 @@ input {
 [readonly='readonly'] {
 	color:#6F6F66;
 }
-
-/*keine Ahnung, wieso es ohne das nicht geht*/
-.form {margin-left:auto; padding-top:1px;}
 
 [type=text], [type=url], textarea, select {
 	width:100%;

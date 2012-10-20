@@ -2234,6 +2234,10 @@
 					FitToContent(this, document.documentElement.clientHeight);
 				});
 
+				$( "[type='number']" ).mousewheel(function(){
+				   event.preventDefault() ;
+				});
+
 				$("#beob").on("change", "[name='DistZuTPop']", function () {
 					var tpop_id = $(this).val();
 					$.ajax({
