@@ -147,6 +147,10 @@ input {
 	width: 150px;
 }
 
+.Datum {
+	width: 150px;
+}
+
 #forms input, #forms select, #forms textarea {
 	font-size:17px;
 	/*alle inputs genau links ausrichten - sind sonst nicht alle gleich weit links*/
