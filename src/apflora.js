@@ -1548,11 +1548,11 @@ function setzeFormhoehe() {
 //wenn $("#forms").width() > 444: forms unter menu setzen, 
 function setzeSpaltenbreiten() {
 	if ($(window).width() > 855) {
-		$("#forms").width($(window).width() - 417);
-		$("#tree").width(367);
+		$("#forms").width($(window).width() - 425);
+		$("#tree").width(370);
 	} else {
-		$("#forms").width($(window).width() - 27);
-		$("#tree").width($(window).width() - 27);
+		$("#forms").width($(window).width() - 31);
+		$("#tree").width($(window).width() - 31);
 	}
 }
 

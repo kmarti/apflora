@@ -24,21 +24,12 @@ fieldset {
 	font-family: Arial, Verdana, Helvetica, sans-serif !important;
 	font-size:16px !important;
 
-	margin: 0px 0px 10px 0px;
-	padding: 10px 5px 0px 5px;
+	margin: 0px 7px 10px 0px;
+	padding: 10px 7px 0px 7px;
 }
 
 form fieldset {
-	background-color: #FFE;
-	border:1px solid;
-	border-color:#A5A59A;
-	border-radius: 8px;
-
-	font-family: Arial, Verdana, Helvetica, sans-serif !important;
-	font-size:16px !important;
-
-	margin: 10px 0px 10px 0px;
-	padding: 10px 5px 10px 5px;
+	padding-bottom: 10px;
 }
 
 #forms {
@@ -46,7 +37,6 @@ form fieldset {
 }
 
 #menu {
-	/*float:left;*/
 	left: 7px;
 	padding-bottom: 10px;
 }
@@ -55,7 +45,6 @@ form fieldset {
 @media only screen and (max-width: 855px) {
 	#menu {
 		right: 0px;
-		/*position: absolute;*/
 		float:left;
 	}
 
@@ -73,8 +62,6 @@ form fieldset {
 	#menu {
 		width:370px;
 		position:fixed;
-		/*position: absolute;*/
-		/*right: 7px;*/
 	}
 
 	#tree {
@@ -83,7 +70,7 @@ form fieldset {
 
 	#forms {
 		position: absolute;
-		left: 397px;
+		left: 401px;
 	}
 }
 
@@ -94,20 +81,24 @@ form table {
 form table label {
 	display:block;
 	margin-top:2px;
+	text-align:right;
+	vertical-align:top;
+	color:#6F6F66;
+}
+
+.label {
+	width:140px;
+	display:block;
+}
+
+/*Bei Feldern, die eingerahmt sind (Fieldset) muss das Label schmaler sein, damit alle Felder ausgerichtet sind*/
+.label_fieldset {
+	width:129px;
+	display:block;
 }
 
 form table td {
 	padding-bottom: 8px;
-}
-
-form label {
-	width:140px;
-}
-
-td.label {
-	text-align:right;
-	vertical-align:top;
-	color:#6F6F66;
 }
 
 form table tr {
@@ -125,9 +116,9 @@ td.Datenfelder {
 }
 
 /*im tab soll der zusätzliche Rand klein sein*/
-.ui-tabs-panel {
-	padding-left: 5px !important;
-	padding-right: 5px !important;
+.ui-tabs .ui-tabs-panel {
+	padding-left: 0px;
+	padding-right: 0px;
 }
 
 fieldset legend {
@@ -140,7 +131,8 @@ input {
 }
 
 [readonly='readonly'] {
-	color:#6F6F66;
+	/*color:#6F6F66;*/
+	background-color: #FFE;
 }
 
 [type=text], [type=url], textarea, select {
