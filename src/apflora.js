@@ -1552,7 +1552,7 @@ function setzeSpaltenbreiten() {
 		$("#tree").width(367);
 	} else {
 		$("#forms").width($(window).width() - 27);
-		$("#tree").width($(window).width() - 36);
+		$("#tree").width($(window).width() - 27);
 	}
 }
 

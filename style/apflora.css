@@ -47,7 +47,6 @@ form fieldset {
 
 #menu {
 	/*float:left;*/
-	position:fixed;
 	left: 7px;
 	padding-bottom: 10px;
 }
@@ -56,6 +55,12 @@ form fieldset {
 @media only screen and (max-width: 855px) {
 	#menu {
 		right: 0px;
+		/*position: absolute;*/
+		float:left;
+	}
+
+	#forms {
+		float:left;
 	}
 
 	#tree {
@@ -67,6 +72,7 @@ form fieldset {
 @media only screen and (min-width: 856px) {
 	#menu {
 		width:370px;
+		position:fixed;
 		/*position: absolute;*/
 		/*right: 7px;*/
 	}
