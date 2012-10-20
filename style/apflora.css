@@ -163,7 +163,10 @@ textarea {
 	font-size:17px;
 }
 
-.ui-button-text {padding:.1em .5em !important; font-size:.8em !important;}
+.ui-button-text {
+	padding:.1em .5em !important; 
+	font-size:.8em !important;
+}
 
 .ui-widget-content {
 	background:#FAF3D9!important;

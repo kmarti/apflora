@@ -8,11 +8,7 @@ function initiiere_index() {
 	//jQuery ui buttons initiieren
 	$("#programm_wahl").buttonset();
 	$("button").button();
-	$("#tpopfeldkontr_tabs").tabs({
-		show: function(event, ui) {
-			setzeSpaltenbreiten();
-		}
-	});
+	$("#tpopfeldkontr_tabs").tabs();
 	//Gemeindeliste erstellen, wenn nötig
 	if (!window.Gemeinden) {
 		$.ajax({
@@ -70,7 +66,6 @@ function initiiere_ap() {
 	programm_wahl = $("[name='programm_wahl']:checked").attr("id");
 	//Felder zurücksetzen
 	leereFelderVonFormular("ap");
-	setzeSpaltenbreiten();
 	//Bei Testarten Hinweis anzeigen
 	$("#testart_div").hide();
 	if ($("#ap_waehlen").val()) {
@@ -174,7 +169,6 @@ function initiiere_pop() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("pop");
-	setzeSpaltenbreiten();
 	//Daten für die pop aus der DB holen
 	$.ajax({
 		url: 'php/pop.php',
@@ -214,7 +208,6 @@ function initiiere_apziel() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("apziel");
-	setzeSpaltenbreiten();
 	//Daten für die apziel aus der DB holen
 	$.ajax({
 		url: 'php/apziel.php',
@@ -251,7 +244,6 @@ function initiiere_zielber() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("zielber");
-	setzeSpaltenbreiten();
 	//Daten für die zielber aus der DB holen
 	$.ajax({
 		url: 'php/zielber.php',
@@ -288,7 +280,6 @@ function initiiere_erfkrit() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("erfkrit");
-	setzeSpaltenbreiten();
 	//Daten für die erfkrit aus der DB holen
 	$.ajax({
 		url: 'php/erfkrit.php',
@@ -324,7 +315,6 @@ function initiiere_jber() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("jber");
-	setzeSpaltenbreiten();
 	//Daten für die jber aus der DB holen
 	$.ajax({
 		url: 'php/jber.php',
@@ -403,7 +393,6 @@ function initiiere_jber_uebersicht() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("jber_uebersicht");
-	setzeSpaltenbreiten();
 	//Daten für die jber_uebersicht aus der DB holen
 	$.ajax({
 		url: 'php/jber_uebersicht.php',
@@ -440,7 +429,6 @@ function initiiere_ber() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("ber");
-	setzeSpaltenbreiten();
 	//Daten für die ber aus der DB holen
 	$.ajax({
 		url: 'php/ber.php',
@@ -487,7 +475,6 @@ function initiiere_umwfakt() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("umwfakt");
-	setzeSpaltenbreiten();
 	//Daten für die umwfakt aus der DB holen
 	$.ajax({
 		url: 'php/umwfakt.php',
@@ -585,7 +572,6 @@ function initiiere_ib() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("ib");
-	setzeSpaltenbreiten();
 	//Daten für die ib aus der DB holen
 	$.ajax({
 		url: 'php/ib.php',
@@ -651,7 +637,6 @@ function initiiere_assozarten() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("assozarten");
-	setzeSpaltenbreiten();
 	//Daten für die assozarten aus der DB holen
 	$.ajax({
 		url: 'php/assozarten.php',
@@ -690,7 +675,6 @@ function initiiere_popmassnber() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("popmassnber");
-	setzeSpaltenbreiten();
 	//Daten für die pop aus der DB holen
 	$.ajax({
 		url: 'php/popmassnber.php',
@@ -727,7 +711,6 @@ function initiiere_tpop() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("tpop");
-	setzeSpaltenbreiten();
 	//Daten für die pop aus der DB holen
 	$.ajax({
 		url: 'php/tpop.php',
@@ -821,7 +804,6 @@ function initiiere_popber() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("popber");
-	setzeSpaltenbreiten();
 	//Daten für die popber aus der DB holen
 	$.ajax({
 		url: 'php/popber.php',
@@ -853,7 +835,7 @@ function initiiere_popber() {
 function initiiere_tpopfeldkontr() {
 	//wird gemeinsam für Feld- und Freiwilligenkontrollen verwendet
 	//Feldkontrollen: Felder der Freiwilligenkontrollen ausblenden
-	//Freiwilligenkontrollen: Felde der Feldkontrollen ausblenen plus Register Biotop
+	//Freiwilligenkontrollen: Felder der Feldkontrollen ausblenen plus Register Biotop
 	var feldliste_feldkontr, feldliste_freiwkontr;
 	if (!localStorage.tpopfeldkontr_id) {
 		//es fehlen benötigte Daten > eine Ebene höher
@@ -864,7 +846,6 @@ function initiiere_tpopfeldkontr() {
 	feldliste_freiwkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrPlan', 'TPopKontrUebFlaeche', 'TPopKontrUebPfl', 'TPopKontrNaBo', 'TPopKontrJungPflJN', 'TPopKontrVegHoeMax', 'TPopKontrVegHoeMit', 'TPopKontrGefaehrdung', 'TPopKontrGuid'];
 	//Felder zurücksetzen
 	leereFelderVonFormular("tpopfeldkontr");
-	setzeSpaltenbreiten();
 	//alle Felder ausblenden. Später werden die benötigten eingeblendet
 	$('.feld_tpopfeldkontr').each(function() {
 		$(this).hide();
@@ -877,7 +858,6 @@ function initiiere_tpopfeldkontr() {
 			"id": localStorage.tpopfeldkontr_id
 		},
 		success: function (data) {
-			var Felderarray;
 			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
 				//ap bereitstellen
@@ -1067,13 +1047,16 @@ function initiiere_tpopfeldkontr() {
 				}
 				//fieldcontain-divs der benötigten Felder einblenden
 				if (localStorage.tpopfreiwkontr) {
-					Felderarray = feldliste_freiwkontr;
+					for (i in feldliste_freiwkontr) {
+						if (typeof i !== "function") {
+							$("." + feldliste_freiwkontr[i]).show();
+						}
+					}
 				} else {
-					Felderarray = feldliste_feldkontr;
-				}
-				for (i in Felderarray) {
-					if (typeof i !== "function") {
-						$("." + Felderarray[i]).show();
+					for (i in feldliste_feldkontr) {
+						if (typeof i !== "function") {
+							$("." + feldliste_feldkontr[i]).show();
+						}
 					}
 				}
 				//Formulare blenden
@@ -1087,6 +1070,10 @@ function initiiere_tpopfeldkontr() {
 				} else {
 					$("#tpopfeldkontr_tabs_biotop").show();
 					$("#biotop_tab_li").show();
+					//Dieses Element wird fälschlicherweise in Entwicklung eingeblendet
+					//keine Ahnung wiese
+					//ausblenden!
+					$("#tpopfeldkontr_tabs_biotop").hide();
 				}
 				//Fokus steuern
 				$("#TPopKontrJahr").focus();
@@ -1104,7 +1091,6 @@ function initiiere_tpopmassn() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("tpopmassn");
-	setzeSpaltenbreiten();
 	//Daten für die pop aus der DB holen
 	$.ajax({
 		url: 'php/tpopmassn.php',
@@ -1238,7 +1224,6 @@ function initiiere_tpopber() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("tpopber");
-	setzeSpaltenbreiten();
 	//Daten für die tpopber aus der DB holen
 	$.ajax({
 		url: 'php/tpopber.php',
@@ -1275,7 +1260,6 @@ function initiiere_tpopbeob() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("tpopbeob");
-	setzeSpaltenbreiten();
 	//Daten für die tpopbeob aus der DB holen
 	$.ajax({
 		url: 'php/beob.php',
@@ -1359,7 +1343,6 @@ function initiiere_beob() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("beob");
-	setzeSpaltenbreiten();
 	//Daten für die beob aus der DB holen
 	$.ajax({
 		url: 'php/beob.php',
@@ -1436,7 +1419,6 @@ function initiiere_tpopmassnber() {
 	}
 	//Felder zurücksetzen
 	leereFelderVonFormular("tpopmassnber");
-	setzeSpaltenbreiten();
 	//Daten für die pop aus der DB holen
 	$.ajax({
 		url: 'php/tpopmassnber.php',
