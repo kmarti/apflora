@@ -42,7 +42,7 @@ Sie löst die bestehende Access-Anwendung ab.
 
 **Daten exportieren:**
 
-- In den nächsten Tagen werden Exporte bereitgestellt
+- Die vorhandenen Exporte werden momentan noch erweitert
 
 **Auf die Plätze, fertig, los!**
 
@@ -73,7 +73,7 @@ Die nachfolgend aufgelisteten Funktionen werden nur von Topos in einer neuen Acc
 
 - pdf-Datei für den Jahresbericht erstellen
 - Adressen verwalten
-- Daten für das GIS bereitstellen
+- Mit dem GIS auf die Daten zugreifen
 - Logins kreieren
 
 **Anwendung effizient unterhalten:**
@@ -87,7 +87,7 @@ Beides: verglichen mit der ehemaligen Access-Anwendung.
 
 <a name="Roadmap"></a>
 #Roadmap
-- Die Anwendung enthält alle geplanten Funktionen (die Exporte werden laufend ergänzt)
+- Die Anwendung enthält fast alle geplanten Funktionen
 - Jetzt wird sie durch die AnwenderInnen getestet
 - Ev. lässt sich mittelfristig die Mobilfähigkeit steigern. Wär doch toll, wenn man im Feld mit einem Tablett erfassen könnte...
 
