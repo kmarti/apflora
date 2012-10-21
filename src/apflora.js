@@ -4487,14 +4487,14 @@ function treeKontextmenu(node) {
 							"id": $(aktiver_node).attr("id"),
 							"user": sessionStorage.User
 						},
-						success: function (data) {
+						success: function (IbId) {
 							var NeuerNode;
-							localStorage.ib_id = data;
+							localStorage.ib_id = IbId;
 							delete window.ib;
 							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
 								"data": "neues Idealbiotop",
 								"attr": {
-									"id": data,
+									"id": IbId,
 									"typ": "ib"
 								}
 							});
@@ -4533,7 +4533,7 @@ function treeKontextmenu(node) {
 	case "ib":
 		items = {
 			"neu": {
-				"label": "Neues Idealbiotop",
+				"label": "neues Idealbiotop",
 				"icon": "style/images/neu.png",
 				"action": function () {
 					//nur aktualisieren, wenn Schreibrechte bestehen
@@ -4554,17 +4554,16 @@ function treeKontextmenu(node) {
 						dataType: 'json',
 						data: {
 							"id": $(parent_node).attr("id"),
-							"typ": "ib",
 							"user": sessionStorage.User
 						},
-						success: function (data) {
+						success: function (IbId) {
 							var NeuerNode;
-							localStorage.ib_id = data;
+							localStorage.ib_id = IbId;
 							delete window.ib;
 							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
 								"data": "Neues Idealbiotop",
 								"attr": {
-									"id": data,
+									"id": IbId,
 									"typ": "ib"
 								}
 							});
