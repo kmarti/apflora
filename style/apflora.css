@@ -46,10 +46,12 @@ form fieldset {
 	#menu {
 		right: 0px;
 		float:left;
+		/*position:absolute;*/
 	}
 
 	#forms {
-		float:left;
+		/*float:left;*/
+		position:relative;
 	}
 
 	#tree {

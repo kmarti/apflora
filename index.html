@@ -2047,7 +2047,7 @@
 
 				<button id="export_ap_ber">Berichte</button><br>
 				<button id="export_ap_erfkrit">Erfolgskriterien</button><br>
-				<button id="export_idealbiotope">Idealbiotope</button><br>
+				<button id="export_idealbiotope">Ideale Biotope</button><br>
 				<button id="export_assoz_arten">Assoziierte Arten</button>
 
 				<br><br><a href="#top">&uArr;&nbsp;top</a>
@@ -2832,8 +2832,7 @@
 						},
 						success: function (data) {
 							if (data && data.anzUser > 0) {
-								alert($("#anmeldung_name").val());
-								sessionStorage.User = $("#anmeldung_name").val();  //Hier hänge ich iOs Safari ab!!!!
+								sessionStorage.User = $("#anmeldung_name").val();
 								//wenn NurLesen, globale Variable setzen
 								if (data.NurLesen && data.NurLesen === -1) {
 									sessionStorage.NurLesen = true;
