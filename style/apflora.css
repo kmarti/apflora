@@ -43,7 +43,7 @@ form fieldset {
 
 /*unter 1000px übereinander*/
 /*855px ist auf PC's optimal. Mein Handy hat 1280px!*/
-@media only screen and (max-width: 1000px) {
+@media handheld, only screen and (max-width: 1000px) {
 	#menu {
 		right: 0px;
 		float:left;
@@ -62,7 +62,7 @@ form fieldset {
 
 /*über 1000px nebeneinander*/
 /*@media only screen and (min-width: 856px) {*/
-@media only screen and (min-width: 1001px) {
+@media screen and (min-width: 1001px) {
 	#menu {
 		width:370px;
 		position:fixed;
