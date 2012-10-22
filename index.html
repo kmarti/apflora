@@ -2234,7 +2234,7 @@
 					FitToContent(this, document.documentElement.clientHeight);
 				});
 
-				$( "[type='number']" ).mousewheel(function(){
+				$( "[type='number']" ).mousewheel(function(event){
 				   event.preventDefault() ;
 				});
 
@@ -2832,7 +2832,8 @@
 						},
 						success: function (data) {
 							if (data && data.anzUser > 0) {
-								sessionStorage.User = $("#anmeldung_name").val();
+								alert($("#anmeldung_name").val());
+								sessionStorage.User = $("#anmeldung_name").val();  //Hier hänge ich iOs Safari ab!!!!
 								//wenn NurLesen, globale Variable setzen
 								if (data.NurLesen && data.NurLesen === -1) {
 									sessionStorage.NurLesen = true;
@@ -2842,6 +2843,7 @@
 									$("#anmelde_dialog").dialog("close", 2000);
 								}, 1000);
 							} else {
+								alert("Anmeldung gescheitert");
 								$("#anmeldung_rueckmeldung").html("Anmeldung gescheitert").addClass("ui-state-highlight");
 								setTimeout(function() {
 									$("#anmeldung_rueckmeldung").removeClass("ui-state-highlight", 1500);

@@ -74,7 +74,7 @@ Die nachfolgend aufgelisteten Funktionen werden nur von Topos in einer neuen Acc
 - pdf-Datei für den Jahresbericht erstellen
 - Adressen verwalten
 - Mit dem GIS auf die Daten zugreifen
-- Logins kreieren
+- Logins kreieren und Schreibrechte vergeben
 
 **Anwendung effizient unterhalten:**
 
