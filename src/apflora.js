@@ -1527,9 +1527,9 @@ function setzeFormhoehe() {
     }
 })(jQuery);
 
-//wenn $("#forms").width() > 444: forms unter menu setzen, 
+//ab minimaler Breite forms unter menu setzen, 
 function setzeSpaltenbreiten() {
-	if ($(window).width() > 855) {
+	if ($(window).width() > 1000) {
 		$("#forms").width($(window).width() - 425);
 		$("#tree").width(370);
 	} else {

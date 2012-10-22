@@ -41,8 +41,9 @@ form fieldset {
 	padding-bottom: 10px;
 }
 
-/*unter 850px übereinander*/
-@media only screen and (max-width: 855px) {
+/*unter 1000px übereinander*/
+/*855px ist auf PC's optimal. Mein Handy hat 1280px!*/
+@media only screen and (max-width: 1000px) {
 	#menu {
 		right: 0px;
 		float:left;
@@ -59,8 +60,9 @@ form fieldset {
 	}
 }
 
-/*über 850px nebeneinander*/
-@media only screen and (min-width: 856px) {
+/*über 1000px nebeneinander*/
+/*@media only screen and (min-width: 856px) {*/
+@media only screen and (min-width: 1001px) {
 	#menu {
 		width:370px;
 		position:fixed;
