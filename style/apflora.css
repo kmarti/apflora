@@ -41,8 +41,11 @@ form fieldset {
 	padding-bottom: 10px;
 }
 
-/*unter 1000px übereinander*/
-/*855px ist auf PC's optimal. Mein Handy hat 1280px!*/
+/*
+* unter 1000px beide Spalten übereinander setzen
+* 855px ist auf PC's optimal. Mein Handy hat 1280px, reagiert aber auf handheld
+* iPhone ignoriert handheld leider
+*/
 @media handheld, only screen and (max-width: 1000px) {
 	#menu {
 		right: 0px;

@@ -1379,8 +1379,8 @@
 							<label id="BerURL_label" for='BerURL'>URL:</label>
 						</td>
 						<td class="Datenfelder">
-							<textarea name="BerURL" id="BerURL" class="speichern" formular="ber"></textarea>
-							<label for='BerURLHref' style="visibility:hidden;">URL folgen</label>
+							<input type="url" name="BerURL" id="BerURL" class="speichern" formular="ber"/>
+							<label for='BerURLHref' style="display:none;">URL folgen</label>
 							<input type="button" id="BerURLHref" onclick="" value="URL folgen"/>
 						</td>
 					</tr>
@@ -2147,6 +2147,17 @@
 				}
 
 				initiiere_index();
+
+				$("#ber").on("change", "#BerURL", function (event) {
+					var url;
+					url = $("#BerURL").val();
+					if (url.substring(0,3) === "www") {
+						$("#BerURL").val("http://" + url);
+					} else if (url.substring(0,4) !== "http") {
+						$("#BerURL").val("http://www." + url);
+					}
+					$('#BerURLHref').attr('onClick', "window.open('" + $("#BerURL").val() + "', target='_blank')")
+				});
 
 				//Für jedes Feld bei Änderung speichern
 				$(".form").on("change", ".speichern", function () {

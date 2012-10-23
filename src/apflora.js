@@ -447,12 +447,8 @@ function initiiere_ber() {
 				$("#BerJahr").val(data.BerJahr);
 				$("#BerTitel").val(data.BerTitel);
 				$("#BerURL").val(data.BerURL);
-				//die Daten enthalten # an Anfang und Ende (Access-Macke)
-				tempUrl = data.BerURL;
-				if (data.BerURL && data.BerURL.slice(0, 1) === "#") {
-					tempUrl = data.BerURL.slice(1, (data.BerURL.length -1));
-				}
-				$('#BerURLHref').attr('onClick', "window.open('" + tempUrl + "', target='_blank')");
+				//URL-Link initialisieren, wird bei Änderung der URL in index.html angepasst
+				$('#BerURLHref').attr('onClick', "window.open('" + data.BerURL + "', target='_blank')");
 				//Formulare blenden
 				zeigeFormular("ber");
 				setzeSpaltenbreiten();

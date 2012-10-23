@@ -65,7 +65,7 @@ Sie löst die bestehende Access-Anwendung ab.
 
 **Im Feld arbeiten?**
 
-Mit einen leistungsstarken Tablett mit genügend grossem Bildschirm und in Gebieten mit gutem Datenempfang könnte die Anwendung vermutlich auch im Feld benutzt werden. Mehr dazu [hier](https://github.com/barbalex/apflora/wiki/3-Daten-direkt-im-Feld-erfassen).
+Mit einen leistungsstarken Tablett mit genügend grossem Bildschirm und in Gebieten mit gutem Datenempfang könnte die Anwendung vermutlich auch im Feld benutzt werden. Allenfalls auch mit einem grossen Smartphone mit Stift. Ohne Stift ist die Sache etwas gar fummellig. Mehr dazu [hier](https://github.com/barbalex/apflora/wiki/3-Daten-direkt-im-Feld-erfassen).
 
 **Projektdaten verwalten:**
 
