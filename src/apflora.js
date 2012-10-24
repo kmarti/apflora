@@ -1457,6 +1457,8 @@ function initiiere_exporte() {
 function zeigeFormular(Formularname) {
 	if (Formularname) {
 		$("#forms").show();
+		$("#distanz_messen").hide();
+		$("#distanz_messen_entfernen").hide();
 		$('form').each(function() {
 			$(this).hide();
 		});
@@ -1479,6 +1481,8 @@ function zeigeFormular(Formularname) {
 		setTimeout(function() {
 			setzeSpaltenbreiten();
 		}, 5);
+		$("#distanz_messen").show();
+		$("#distanz_messen_entfernen").show();
 	}
 	$(window).scrollTop(0);
 }
@@ -9049,7 +9053,7 @@ function zeigeTPopAufKarte(TPopListe) {
 		mapTypeId: google.maps.MapTypeId.SATELLITE
 	};
 	map = new google.maps.Map(document.getElementById("Karte"), options);
-	//google.maps.event.trigger(map,'resize');
+	window.map = map;
 	bounds = new google.maps.LatLngBounds();
 	//für alle TPop Marker erstellen
 	markers = [];
@@ -9161,7 +9165,7 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 		mapTypeId: google.maps.MapTypeId.SATELLITE
 	};
 	map = new google.maps.Map(document.getElementById("Karte"), options);
-	//google.maps.event.trigger(map,'resize');
+	window.map = map;
 	bounds = new google.maps.LatLngBounds();
 
 	//für alle TPop Marker erstellen
@@ -9408,7 +9412,7 @@ function zeigeBeobAufKarte(BeobListe) {
 		}
 	};
 	map = new google.maps.Map(document.getElementById("Karte"), options);
-	//google.maps.event.trigger(map,'resize');
+	window.map = map;
 	bounds = new google.maps.LatLngBounds();
 	//für alle Orte Marker erstellen
 	markers = [];
@@ -9542,6 +9546,7 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 		}
 	};
 	map = new google.maps.Map(document.getElementById("Karte"), options);
+	window.map = map;
 	//Versuch: SVO einblenden
 	//loadWMS(map, "http://www.gis.zh.ch/scripts/wmsFNSSVO2.asp?");
 	bounds = new google.maps.LatLngBounds();
@@ -9663,6 +9668,7 @@ function verorteTPopAufKarte(TPop) {
 	};
 	mapcanvas = $('#Karte');
 	map = new google.maps.Map(mapcanvas[0],options);
+	window.map = map;
 	if (verorted === true) {
 		//title muss String sein
 		if (TPop.TPopFlurname) {
