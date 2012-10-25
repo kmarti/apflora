@@ -2090,6 +2090,7 @@
 				<h2 class="border_top">Kontrollen</h2>
 				<button id="export_kontr">Kontrollen</button><br>
 				<button id="export_kontr_ohne_tpop">Kontrollen ohne Teilpopulation (Datenwaisen)</button><br>
+				<button id="export_kontr_letzte">Letzte Kontrolle pro Teilpopulation</button><br>
 
 				<br><a href="#top">&uArr;&nbsp;top</a>
 
@@ -2979,6 +2980,9 @@
 			});
 			$("#exporte").on("click", "#export_kontr_ohne_tpop", function() {
 				window.open("php/export_kontr_ohne_tpop.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_kontr_letzte", function() {
+				window.open("php/export_kontr_letzte.php", target="_blank");
 			});
 			$("#exporte").on("click", "#export_massn", function() {
 				window.open("php/export_massn.php", target="_blank");
