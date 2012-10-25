@@ -7,7 +7,6 @@
 
 */
 function addruler() {
-	//removeruler();
 	var map_ne, map_center, map_mess_position_beginn, lat_map_mess_position_beginn, lng_map_mess_position_beginn, map_mess_position_ende, lng_map_mess_position_ende;
 	map_center = map.getCenter();
 	map_ne = map.getBounds().getNorthEast();
