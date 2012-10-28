@@ -2088,6 +2088,7 @@
 				<button id="export_tpop_anz_massn">Anzahl Massnahmen pro Teilpopulation</button><br>
 				<button id="export_tpop_anz_kontr">Anzahl Kontrollen pro Teilpopulation</button><br>
 				<button id="export_kontr_letzte">Letzte Kontrolle pro Teilpopulation</button><br>
+				<button id="export_tpop_anz_kontr_inkl_letzte">Anzahl Kontrollen pro Teilpopulation inklusive der letzten Kontrolle</button><br>
 
 				<br><a href="#top">&uArr;&nbsp;top</a>
 
@@ -2981,6 +2982,9 @@
 			});
 			$("#exporte").on("click", "#export_kontr_letzte", function() {
 				window.open("php/export_kontr_letzte.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_tpop_anz_kontr_inkl_letzte", function() {
+				window.open("php/export_tpop_anz_kontr_inkl_letzte.php", target="_blank");
 			});
 			$("#exporte").on("click", "#export_kontr", function() {
 				window.open("php/export_kontr.php", target="_blank");

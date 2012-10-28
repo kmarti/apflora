@@ -12,7 +12,9 @@
 
 body {
 	background-color: #FFFFF7;
-	height:100%;
+	/*height:100%;
+	margin-bottom: 7px;
+	padding-bottom: 7px;*/
 }
 
 fieldset {
@@ -34,7 +36,7 @@ form fieldset {
 
 #forms {
 	margin-bottom:7px;
-	padding-bottom:7px;
+	padding-bottom:4px;
 }
 
 #menu {
@@ -162,7 +164,7 @@ input {
 #forms input, #forms select, #forms textarea {
 	font-size:17px;
 	/*alle inputs genau links ausrichten - sind sonst nicht alle gleich weit links*/
-	margin-left:2px;*/
+	margin-left:2px;
 }
 
 /*komischerweise kommen textareas in anderer Schrift*/
@@ -295,7 +297,7 @@ Quelle: http://sixrevisions.com/css/css-only-tooltips*/
 }
 
 /*Auf iOS soll bei taphold im Baum das Systemmenu nicht öffnen*/
-/*funktioniert, wenn man wenig lang drück. Bei sehr lang wird das Kontextmenu gar nicht aufgerufen, dafür das Systemmenu...*/
+/*funktioniert, wenn man wenig lang drückt. Bei sehr lang wird das Kontextmenu gar nicht aufgerufen, dafür das Systemmenu...*/
 body {
     -webkit-touch-callout: none !important;
 }
