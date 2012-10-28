@@ -44,7 +44,6 @@ function initiiere_index() {
 			source: window.Gemeinden
 		});
 	}
-	//$('[type="number"]').spinner();    ausgeschaltet, da die Optik unschön verändert wird und browsereigene auch sichtbar bleiben
 	$("#TPopKontrDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopKontrJahr", altFormat: "yy", defaultDate: +0 });
 	$("#TPopMassnDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopMassnJahr", altFormat: "yy", defaultDate: +0 });
 	$("#JBerDatum").datepicker({ dateFormat: "dd.mm.yy", defaultDate: +0 });
@@ -1505,19 +1504,6 @@ function setzeTreehoehe() {
 		$("#tree").height($(window).height() - 145);
 	} else if ($('#tree').hasScrollBar()) {
 		$("#tree").height($(window).height() - 145);
-	}
-}
-
-function setzeFormhoehe() {
-	//zunächst mal an formhöhe anpassen
-	$('form').each(function() {
-		if ($(this).is(":visible")) {
-			$("#forms").height($(this).height() + 75);
-		}
-	});
-	//verhindern, dass grösser als Bildschirm
-	if (($("#forms").height() + 50) > $(window).height()) {
-		$("#forms").height($(window).height() - 50);
 	}
 }
 
