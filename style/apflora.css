@@ -304,3 +304,9 @@ body {
 a { 
 	-webkit-user-select: none !important; 
 }
+
+/*Eigene Icons für jQuery ui*/
+/*funktioniert nicht: Icon wir über Text geblendet!*/
+/*.ui-icon-ge18 {
+    background-image: url('images/GoogleEarth18.png') !important;
+}*/

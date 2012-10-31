@@ -2062,6 +2062,7 @@
 				<a name="Populationen"></a>
 				<h2 class="border_top">Populationen</h2>
 				<button id="export_pop">Populationen</button><br>
+				<button id="export_pop_fuer_kml" class="GoogleEarthButton">Populationen für Google Earth</button><br>
 				<button id="export_pop_ohne_ap">Populationen ohne Programm (Datenwaisen)</button><br>
 				<button id="export_pop_ohne_tpop">Populationen ohne Teilpopulationen</button><br>
 				<button id="export_pop_von_ap_ohne_status">Populationen von AP-Arten ohne "Status"</button><br><br>
@@ -2082,6 +2083,7 @@
 				<a name="Teilpopulationen"></a>
 				<h2 class="border_top">Teilpopulationen</h2>
 				<button id="export_tpop">Teilpopulationen</button><br>
+				<button id="export_tpop_fuer_kml">Teilpopulationen für Google Earth</button><br>
 				<button id="export_tpop_ohne_bekannt_seit">Teilpopulationen von AP-Arten ohne "Bekannt seit"</button><br>
 				<button id="export_tpop_ohne_pop">Teilpopulationen ohne Population (Datenwaisen)</button><br><br>
 
@@ -2932,6 +2934,9 @@
 			$("#exporte").on("click", "#export_pop", function() {
 				window.open("php/export_pop.php", target="_blank");
 			});
+			$("#exporte").on("click", "#export_pop_fuer_kml", function() {
+				window.open("php/export_pop_fuer_kml.php", target="_blank");
+			});
 			$("#exporte").on("click", "#export_pop_ohne_ap", function() {
 				window.open("php/export_pop_ohne_ap.php", target="_blank");
 			});
@@ -2967,6 +2972,9 @@
 			});
 			$("#exporte").on("click", "#export_tpop", function() {
 				window.open("php/export_tpop.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_tpop_fuer_kml", function() {
+				window.open("php/export_tpop_fuer_kml.php", target="_blank");
 			});
 			$("#exporte").on("click", "#export_tpop_ohne_bekannt_seit", function() {
 				window.open("php/export_tpop_ohne_bekannt_seit.php", target="_blank");

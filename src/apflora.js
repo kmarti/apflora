@@ -8,6 +8,12 @@ function initiiere_index() {
 	//jQuery ui buttons initiieren
 	$("#programm_wahl").buttonset();
 	$("button").button();
+	/*funktioniert nicht: Icon wir über Text geblendet!*/
+	/*$(".GoogleEarthButton").button({
+        icons: {
+        	secondary:'ui-icon-ge18'
+        }
+    });*/
 	$("#tpopfeldkontr_tabs").tabs();
 	//Gemeindeliste erstellen, wenn nötig
 	if (!window.Gemeinden) {
