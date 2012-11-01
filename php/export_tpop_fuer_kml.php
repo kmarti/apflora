@@ -39,9 +39,13 @@ while ($r = mysqli_fetch_assoc($values)) {
 	$Zeile .= "\t\t<Placemark><name>";
 	$Zeile .= $r['Label'];
 	$Zeile .= "</name>";
-	$Zeile .= "<description>";
+	//html in xml muss in cdata gewickelt werden
+	$Zeile .= "<description><![CDATA[";
 	$Zeile .= $r['Inhalte'];
-	$Zeile .= "</description>";
+	$Zeile .= "<br><a href='";
+	$Zeile .= $r['URL'];
+	$Zeile .= "'>Formular öffnen</a>";
+	$Zeile .= "]]></description>";
 	$Zeile .= "<styleUrl>#default+nicon=http://maps.google.com/mapfiles/kml/pal3/icon63.png+hicon=http://maps.google.com/mapfiles/kml/pal3/icon55.png</styleUrl>";
 	$Zeile .= "<Point><coordinates>";
 	$Zeile .= $r['Laengengrad'];
