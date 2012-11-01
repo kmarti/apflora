@@ -39,13 +39,14 @@ while ($r = mysqli_fetch_assoc($values)) {
 	$Zeile .= "\t\t<Placemark><name>";
 	$Zeile .= $r['Label'];
 	$Zeile .= "</name>";
+	//html in xml muss in cdata gewickelt werden
 	$Zeile .= "<description><![CDATA[";
 	$Zeile .= $r['Inhalte'];
 	$Zeile .= "<br><a href='";
 	$Zeile .= $r['URL'];
 	$Zeile .= "'>Formular öffnen</a>";
 	$Zeile .= "]]></description>";
-	$Zeile .= "<styleUrl>#default+nicon=http://maps.google.com/mapfiles/kml/pal3/icon63.png+hicon=http://maps.google.com/mapfiles/kml/pal3/icon55.png</styleUrl>";
+	$Zeile .= "<styleUrl>#MyStyle</styleUrl>";
 	$Zeile .= "<Point><coordinates>";
 	$Zeile .= $r['Laengengrad'];
 	$Zeile .= ",";
@@ -58,7 +59,7 @@ while ($r = mysqli_fetch_assoc($values)) {
 $Zeilen .= "\t</Folder>\n";
  
 $filename = $file."_".date("Y-m-d_H-i-s",time());
-$Kopf = "<?xml version='1.0' encoding='UTF-8'?><kml xmlns='http://earth.google.com/kml/2.1'>\n<Document>\n<name>".$filename."</name>\n";
+$Kopf = "<?xml version='1.0' encoding='UTF-8'?><kml xmlns='http://earth.google.com/kml/2.1'>\n<Document>\n<name>".$filename."</name>\n<Style id='MyStyle'><IconStyle><Icon><href>http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png</href></Icon></IconStyle></Style>";
 $Fuss = "</Document>\n</kml>";
 $Output = $Kopf;
 $Output .= $Zeilen;
