@@ -19,7 +19,7 @@ $values = mysqli_query($link, "SELECT * FROM ".$view."");
 $Zeilen = "";
 //In den Daten sind Zeichen, die Google Earth nicht erträgt
 //sie müssen entfernt werden
-$Ersetzungen = array("&");
+$Ersetzungen = array("&", ">>>", "<<<");
 $Art = "";
 while ($r = mysqli_fetch_assoc($values)) {
 	$r['Label'] = str_replace($Ersetzungen, ' ', $r['Label']);

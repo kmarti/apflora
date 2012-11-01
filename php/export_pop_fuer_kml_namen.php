@@ -11,8 +11,8 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
-$view = 'vPopFuerKml'; // view you want to export
-$file = 'ApFloraPopulationen'; // csv name.
+$view = 'vPopFuerKmlNamen'; // view you want to export
+$file = 'ApFloraPopulationenNachNamen'; // csv name.
  
 $values = mysqli_query($link, "SELECT * FROM ".$view."");
  

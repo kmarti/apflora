@@ -34,6 +34,7 @@ Sie löst die bestehende Access-Anwendung ab.
 - Nicht zugeordnete Beobachtungen und Teilpopulationen gemeinsam auf dem Luftbild anzeigen
 - Teilpopulationen auf Luftbildern verorten
 - Teilpopulationen und Beobachtungen im GIS-Browser des Kt. Zürich anzeigen
+- Populationen und Teilpopulationen aller Arten als kml-Datei für Google Earth exportieren
 
 **Sich anleiten lassen:**
 
