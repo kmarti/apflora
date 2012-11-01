@@ -17,6 +17,7 @@
 		<script type="text/javascript" src="src/markerclusterer.js"></script>
 		<script type="text/javascript" src="src/markerwithlabel.js"></script>
 		<script type="text/javascript" src="src/ruler.js"></script>
+		<script type="text/javascript" src="src/jsuri.js"></script>
 		<title>AP Flora Kt ZH</title>
 	</head>
 	<body>
@@ -2479,6 +2480,7 @@
 				});
 
 				$("#menu").on("change", "#ap_waehlen", function () {
+					//alert(this.value);
 					if (this.value) {
 						//einen AP gewählt
 						$("#ap_waehlen_label").hide();

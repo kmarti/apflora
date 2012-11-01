@@ -58,6 +58,10 @@ function initiiere_index() {
 	erstelle_ap_liste("programm_alle");
 	$("#ap_loeschen").hide();
 	erstelle_ApArtId_liste();
+	//falls eine Unteradresse angewählt wurde, diese öffnen
+	setTimeout(function() {
+		oeffneUri();
+	}, 500);
 }
 
 function initiiere_ap() {
@@ -127,6 +131,7 @@ function initiiere_ap() {
 					}
 					//Formulare blenden
 					zeigeFormular("ap");
+					history.replaceState({ap: "ap"}, "ap", "index.html?ap=" + data.ApArtId);
 					setzeSpaltenbreiten();
 					$("#ap_loeschen").show();
 				}
@@ -185,6 +190,7 @@ function initiiere_pop() {
 			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
 				//ap bereitstellen
+				//alert("aha");
 				window.pop = data;
 				//Felder mit Daten beliefern
 				$("#PopHerkunft" + data.PopHerkunft).prop("checked", true);
@@ -195,6 +201,7 @@ function initiiere_pop() {
 				$("#PopYKoord").val(data.PopYKoord);
 				//Formulare blenden
 				zeigeFormular("pop");
+				history.replaceState({pop: "pop"}, "pop", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id);
 				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#PopName").val()) {
@@ -231,6 +238,7 @@ function initiiere_apziel() {
 				$("#ZielBezeichnung").val(data.ZielBezeichnung);
 				//Formulare blenden
 				zeigeFormular("apziel");
+				history.replaceState({apziel: "apziel"}, "apziel", "index.html?ap=" + localStorage.ap_id + "&apziel=" + localStorage.apziel_id);
 				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#ZielJahr").val()) {
@@ -267,6 +275,7 @@ function initiiere_zielber() {
 				$("#ZielBerTxt").val(data.ZielBerTxt);
 				//Formulare blenden
 				zeigeFormular("zielber");
+				history.replaceState({zielber: "zielber"}, "zielber", "index.html?ap=" + localStorage.ap_id + "&zielber=" + localStorage.zielber_id);
 				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#ZielBerJahr").val()) {
@@ -302,6 +311,7 @@ function initiiere_erfkrit() {
 				$("#ErfBeurtZielSkalaTxt").val(data.ErfBeurtZielSkalaTxt);
 				//Formulare blenden
 				zeigeFormular("erfkrit");
+				history.replaceState({erfkrit: "erfkrit"}, "erfkrit", "index.html?ap=" + localStorage.ap_id + "&erfkrit=" + localStorage.erfkrit_id);
 				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#ErfBeurtZielSkalaErreichungsgrad").val()) {
@@ -380,6 +390,7 @@ function initiiere_jber() {
 				}
 				//Formulare blenden
 				zeigeFormular("jber");
+				history.replaceState({jber: "jber"}, "jber", "index.html?ap=" + localStorage.ap_id + "&jber=" + localStorage.jber_id);
 				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#JBerJahr").val()) {
@@ -416,6 +427,7 @@ function initiiere_jber_uebersicht() {
 				//FitToContent("Bemerkungen", document.documentElement.clientHeight);
 				//Formulare blenden
 				zeigeFormular("jber_uebersicht");
+				history.replaceState({jber_uebersicht: "jber_uebersicht"}, "jber_uebersicht", "index.html?ap=" + localStorage.ap_id + "&jber_uebersicht=" + localStorage.jber_uebersicht_id);
 				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#JbuJahr").val()) {
@@ -456,6 +468,7 @@ function initiiere_ber() {
 				$('#BerURLHref').attr('onClick', "window.open('" + data.BerURL + "', target='_blank')");
 				//Formulare blenden
 				zeigeFormular("ber");
+				history.replaceState({ber: "ber"}, "ber", "index.html?ap=" + localStorage.ap_id + "&ber=" + localStorage.ber_id);
 				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function () {
@@ -513,6 +526,7 @@ function initiiere_umwfakt() {
 				$("#UfBemerkungen").val(data.UfBemerkungen);
 				//Formulare blenden
 				zeigeFormular("umwfakt");
+				history.replaceState({umwfakt: "umwfakt"}, "umwfakt", "index.html?ap=" + localStorage.ap_id + "&umwfakt=" + localStorage.umwfakt_id);
 				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#UfErstelldatum").val()) {
@@ -618,6 +632,7 @@ function initiiere_ib() {
 				$("#IbBemerkungen").val(data.IbBemerkungen);
 				//Formulare blenden
 				zeigeFormular("ib");
+				history.replaceState({ib: "ib"}, "ib", "index.html?ap=" + localStorage.ap_id + "&ib=" + localStorage.ib_id);
 				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function () {
@@ -656,6 +671,7 @@ function initiiere_assozarten() {
 				$("#AaBem").val(data.AaBem);
 				//Formulare blenden
 				zeigeFormular("assozarten");
+				history.replaceState({assozarten: "assozarten"}, "assozarten", "index.html?ap=" + localStorage.ap_id + "&assozarten=" + localStorage.assozarten_id);
 				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function () {
@@ -787,6 +803,7 @@ function initiiere_tpop() {
 				}
 				//Formulare blenden
 				zeigeFormular("tpop");
+				history.replaceState({tpop: "tpop"}, "tpop", "index.html?ap=" + localStorage.ap_id + "&tpop=" + localStorage.tpop_id);
 				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#TPopFlurname").val()) {
@@ -823,6 +840,7 @@ function initiiere_popber() {
 				$("#PopBerTxt").val(data.PopBerTxt);
 				//Formulare blenden
 				zeigeFormular("popber");
+				history.replaceState({tpopber: "popber"}, "popber", "index.html?ap=" + localStorage.ap_id + "&popber=" + localStorage.popber_id);
 				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function() {
@@ -1062,6 +1080,11 @@ function initiiere_tpopfeldkontr() {
 				}
 				//Formulare blenden
 				zeigeFormular("tpopfeldkontr");
+				if (!localStorage.tpopfreiwkontr) {
+					history.replaceState({tpopfeldkontr: "tpopfeldkontr"}, "tpopfeldkontr", "index.html?ap=" + localStorage.ap_id + "&tpopfeldkontr=" + localStorage.tpopfeldkontr_id);
+				} else {
+					history.replaceState({tpopfreiwkontr: "tpopfreiwkontr"}, "tpopfreiwkontr", "index.html?ap=" + localStorage.ap_id + "&tpopfreiwkontr=" + localStorage.tpopfeldkontr_id);
+				}
 				setzeSpaltenbreiten();
 				//Register in Feldkontr blenden
 				if (localStorage.tpopfreiwkontr) {
@@ -1207,6 +1230,7 @@ function initiiere_tpopmassn() {
 				$("#TPopMassnGuid").val(data.TPopMassnGuid);
 				//Formulare blenden
 				zeigeFormular("tpopmassn");
+				history.replaceState({tpopmassn: "tpopmassn"}, "tpopmassn", "index.html?ap=" + localStorage.ap_id + "&tpopmassn=" + localStorage.tpopmassn_id);
 				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function() {
@@ -1243,6 +1267,7 @@ function initiiere_tpopber() {
 				$("#TPopBerTxt").val(data.TPopBerTxt);
 				//Formulare blenden
 				zeigeFormular("tpopber");
+				history.replaceState({tpopber: "tpopber"}, "tpopber", "index.html?ap=" + localStorage.ap_id + "&tpopber=" + localStorage.tpopber_id);
 				setzeSpaltenbreiten();	
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function() {
@@ -1327,6 +1352,7 @@ function initiiere_tpopbeob() {
 							$("#tpopbeob_DistZuTPop_Felder").html(html);
 							//Formulare blenden
 							zeigeFormular("tpopbeob");
+							history.replaceState({tpopbeob: "tpopbeob"}, "tpopbeob", "index.html?ap=" + localStorage.ap_id + "&tpopbeob=" + localStorage.tpopbeob_id);
 							setzeSpaltenbreiten();
 						}
 					}
@@ -1403,46 +1429,11 @@ function initiiere_beob() {
 							$("#DistZuTPop_Felder").html(html);
 							//Formulare blenden
 							zeigeFormular("beob");
+							history.replaceState({beob: "beob"}, "beob", "index.html?ap=" + localStorage.ap_id + "&beob=" + localStorage.BeobId);
 							setzeSpaltenbreiten();
 						}
 					}
 				});
-			}
-		}
-	});
-}
-
-function initiiere_tpopmassnber() {
-	if (!localStorage.tpopmassnber_id) {
-		//es fehlen benötigte Daten > eine Ebene höher
-		initiiere_pop();
-		return;
-	}
-	//Felder zurücksetzen
-	leereFelderVonFormular("tpopmassnber");
-	//Daten für die pop aus der DB holen
-	$.ajax({
-		url: 'php/tpopmassnber.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.tpopmassnber_id
-		},
-		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				//ap bereitstellen
-				window.tpopmassnber = data;
-				//Felder mit Daten beliefern
-				$("#TPopMassnBerJahr").val(data.TPopMassnBerJahr);
-				$("#TPopMassnBerErfolgsbeurteilung" + data.TPopMassnBerErfolgsbeurteilung).prop("checked", true);
-				$("#TPopMassnBerTxt").val(data.TPopMassnBerTxt);
-				//Formulare blenden
-				zeigeFormular("tpopmassnber");
-				setzeSpaltenbreiten();
-				//bei neuen Datensätzen Fokus steuern
-				setTimeout(function() {
-					$('#TPopMassnBerJahr').focus();
-				}, 100);
 			}
 		}
 	});
@@ -1772,9 +1763,9 @@ function erstelle_tree(ApArtId) {
 					"new_node": "neue Massnahme"
 				},
 				"tpop_ordner_massnber": {
-					"valid_children": "tpopmassnber"
+					"valid_children": "apziel"
 				},
-				"tpopmassnber": {
+				"apziel": {
 					"valid_children": "none",
 					"new_node": "neuer Massnahmen-Bericht"
 				},
@@ -1892,6 +1883,125 @@ function erstelle_tree(ApArtId) {
 	.bind("loaded.jstree", function (event, data) {
 		$("#suchen").show();
 		$("#hilfe").show();
+		if (window.pop_zeigen) {
+			jQuery("#tree").jstree("select_node", "[typ='pop']#" + localStorage.pop_id);
+			initiiere_pop();
+			//diese Markierung entfernen, damit das nächste mal nicht mehr diese Pop geöffnet wird
+			delete window.pop_zeigen;
+		}
+		if (window.popber_zeigen) {
+			jQuery("#tree").jstree("select_node", "[typ='popber']#" + localStorage.popber_id);
+			initiiere_popber();
+			//diese Markierung entfernen, damit das nächste mal nicht mehr diese Popber geöffnet wird
+			delete window.popber_zeigen;
+		}
+		if (window.tpop_zeigen) {
+			jQuery("#tree").jstree("select_node", "[typ='tpop']#" + localStorage.tpop_id);
+			initiiere_tpop();
+			//diese Markierung entfernen, damit das nächste mal nicht mehr diese TPop geöffnet wird
+			delete window.tpop_zeigen;
+		}
+		if (window.tpopfeldkontr_zeigen) {
+			jQuery("#tree").jstree("select_node", "[typ='tpopfeldkontr']#" + localStorage.tpopfeldkontr_id);
+			initiiere_tpopfeldkontr();
+			//diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopfeldkontr geöffnet wird
+			delete window.tpopfeldkontr_zeigen;
+		}
+		if (window.tpopfreiwkontr_zeigen) {
+			jQuery("#tree").jstree("select_node", "[typ='tpopfreiwkontr']#" + localStorage.tpopfeldkontr_id);
+			initiiere_tpopfeldkontr();
+			//diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopfreiwkontr geöffnet wird
+			delete window.tpopfreiwkontr_zeigen;
+		}
+		if (window.tpopmassn_zeigen) {
+			jQuery("#tree").jstree("select_node", "[typ='tpopmassn']#" + localStorage.tpopmassn_id);
+			initiiere_tpopmassn();
+			//diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopmassn geöffnet wird
+			delete window.tpopmassn_zeigen;
+		}
+		if (window.tpopber_zeigen) {
+			jQuery("#tree").jstree("select_node", "[typ='tpopber']#" + localStorage.tpopber_id);
+			initiiere_tpopber();
+			//diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopber geöffnet wird
+			delete window.tpopber_zeigen;
+		}
+		if (window.tpopbeob_zeigen) {
+			jQuery("#tree").jstree("select_node", "[typ='tpopbeob']#" + localStorage.tpopbeob_id);
+			initiiere_tpopbeob();
+			//diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopbeob geöffnet wird
+			delete window.tpopbeob_zeigen;
+		}
+		if (window.tpopmassnber_zeigen) {
+			jQuery("#tree").jstree("select_node", "[typ='tpopmassnber']#" + localStorage.tpopmassnber_id);
+			initiiere_tpopmassnber();
+			//diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopmassnber geöffnet wird
+			delete window.tpopmassnber_zeigen;
+		}
+		if (window.apziel_zeigen) {
+			jQuery("#tree").jstree("select_node", "[typ='apziel']#" + localStorage.apziel_id);
+			initiiere_apziel();
+			//diese Markierung entfernen, damit das nächste mal nicht mehr diese apziel geöffnet wird
+			delete window.apziel_zeigen;
+		}
+		if (window.zielber_zeigen) {
+			jQuery("#tree").jstree("select_node", "[typ='zielber']#" + localStorage.zielber_id);
+			initiiere_zielber();
+			//diese Markierung entfernen, damit das nächste mal nicht mehr diese zielber geöffnet wird
+			delete window.zielber_zeigen;
+		}
+		if (window.erfkrit_zeigen) {
+			jQuery("#tree").jstree("select_node", "[typ='erfkrit']#" + localStorage.erfkrit_id);
+			initiiere_erfkrit();
+			//diese Markierung entfernen, damit das nächste mal nicht mehr diese erfkrit geöffnet wird
+			delete window.erfkrit_zeigen;
+		}
+		if (window.jber_zeigen) {
+			jQuery("#tree").jstree("select_node", "[typ='jber']#" + localStorage.jber_id);
+			initiiere_jber();
+			//diese Markierung entfernen, damit das nächste mal nicht mehr diese jber geöffnet wird
+			delete window.jber_zeigen;
+		}
+		if (window.jber_uebersicht_zeigen) {
+			jQuery("#tree").jstree("select_node", "[typ='jber_uebersicht']#" + localStorage.jber_uebersicht_id);
+			initiiere_jber_uebersicht();
+			//diese Markierung entfernen, damit das nächste mal nicht mehr diese jber_uebersicht geöffnet wird
+			delete window.jber_uebersicht_zeigen;
+		}
+		if (window.ber_zeigen) {
+			jQuery("#tree").jstree("select_node", "[typ='ber']#" + localStorage.ber_id);
+			initiiere_ber();
+			//diese Markierung entfernen, damit das nächste mal nicht mehr diese ber geöffnet wird
+			delete window.ber_zeigen;
+		}
+		if (window.umwfakt_zeigen) {
+			jQuery("#tree").jstree("select_node", "[typ='umwfakt']#" + localStorage.umwfakt_id);
+			initiiere_umwfakt();
+			//diese Markierung entfernen, damit das nächste mal nicht mehr diese umwfakt geöffnet wird
+			delete window.umwfakt_zeigen;
+		}
+		if (window.ib_zeigen) {
+			jQuery("#tree").jstree("select_node", "[typ='ib']#" + localStorage.ib_id);
+			initiiere_ib();
+			//diese Markierung entfernen, damit das nächste mal nicht mehr diese ib geöffnet wird
+			delete window.ib_zeigen;
+		}
+		if (window.assozarten_zeigen) {
+			jQuery("#tree").jstree("select_node", "[typ='assozarten']#" + localStorage.assozarten_id);
+			initiiere_assozarten();
+			//diese Markierung entfernen, damit das nächste mal nicht mehr diese assozarten geöffnet wird
+			delete window.assozarten_zeigen;
+		}
+		if (window.beob_zeigen) {
+			jQuery("#tree").jstree("select_node", "[typ='beob']#" + localStorage.BeobId);
+			initiiere_beob();
+			//diese Markierung entfernen, damit das nächste mal nicht mehr diese beob geöffnet wird
+			delete window.beob_zeigen;
+		}
+		if (window.ap_zeigen) {
+			initiiere_ap();
+			//diese Markierung entfernen, damit das nächste mal nicht mehr dieser AP geöffnet wird
+			delete window.ap_zeigen;
+		}
 	})
 	//auch auf Mobilgeräten soll das Kontextmenü zugänglich sein!
 	.hammer().bind("hold doubletap", function (event) {
@@ -2028,11 +2138,11 @@ function erstelle_tree(ApArtId) {
 				localStorage.BeobId = node.attr("id");
 				initiiere_beob();
 			}
-		} else if (node.attr("typ") === "tpopmassnber") {
+		} else if (node.attr("typ") === "apziel") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#tpopmassnber").is(':visible') || localStorage.tpopmassnber_id !== node.attr("id")) {
-				localStorage.tpopmassnber_id = node.attr("id");
-				initiiere_tpopmassnber();
+			if (!$("#apziel").is(':visible') || localStorage.apziel_id !== node.attr("id")) {
+				localStorage.apziel_id = node.attr("id");
+				initiiere_apziel();
 			}
 		}
 		setTimeout("setzeTreehoehe()", 200);
@@ -8003,7 +8113,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
-						url: 'php/tpopmassnber_insert.php',
+						url: 'php/apziel_insert.php',
 						dataType: 'json',
 						data: {
 							"id": $(aktiver_node).attr("id"),
@@ -8011,13 +8121,13 @@ function treeKontextmenu(node) {
 						},
 						success: function (data) {
 							var NeuerNode;
-							localStorage.tpopmassnber_id = data;
-							delete window.tpopmassnber;
+							localStorage.apziel_id = data;
+							delete window.apziel;
 							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
 								"data": "neuer Massnahmen-Bericht",
 								"attr": {
-									"id": localStorage.tpopmassnber_id,
-									"typ": "tpopmassnber"
+									"id": localStorage.apziel_id,
+									"typ": "apziel"
 								}
 							});
 							//Node-Beschriftung: Anzahl anpassen
@@ -8026,7 +8136,7 @@ function treeKontextmenu(node) {
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							//Formular initiieren
-							initiiere_tpopmassnber();
+							initiiere_apziel();
 						},
 						error: function () {
 							$("#Meldung").html("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
@@ -8052,7 +8162,7 @@ function treeKontextmenu(node) {
 			}
 		};
 		return items;
-	case "tpopmassnber":
+	case "apziel":
 		items = {
 			"neu": {
 				"label": "neuer Massnahmen-Bericht",
@@ -8072,22 +8182,22 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
-						url: 'php/tpopmassnber_insert.php',
+						url: 'php/apziel_insert.php',
 						dataType: 'json',
 						data: {
 							"id": $(parent_node).attr("id"),
-							"typ": "tpopmassnber",
+							"typ": "apziel",
 							"user": sessionStorage.User
 						},
 						success: function (data) {
 							var NeuerNode;
-							localStorage.tpopmassnber_id = data;
-							delete window.tpopmassnber;
+							localStorage.apziel_id = data;
+							delete window.apziel;
 							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
 								"data": "neuer Massnahmen-Bericht",
 								"attr": {
 									"id": data,
-									"typ": "tpopmassnber"
+									"typ": "apziel"
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
@@ -8096,7 +8206,7 @@ function treeKontextmenu(node) {
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							//Formular initiieren
-							initiiere_tpopmassnber();
+							initiiere_apziel();
 						},
 						error: function (data) {
 							$("#Meldung").html("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
@@ -8140,14 +8250,14 @@ function treeKontextmenu(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								$.ajax({
-									url: 'php/tpopmassnber_delete.php',
+									url: 'php/apziel_delete.php',
 									dataType: 'json',
 									data: {
 										"id": $(aktiver_node).attr("id")
 									},
 									success: function () {
-										delete localStorage.tpopmassnber_id;
-										delete window.tpopmassnber;
+										delete localStorage.apziel_id;
+										delete window.apziel;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_tpop_ordner_massnber(parent_node);
@@ -8787,21 +8897,21 @@ function speichern(that) {
 			}
 			jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_massn'] #" + localStorage.tpopmassn_id, tpopmassnjahr + ": " + tpopmassntyp);
 			break;
-		case "TPopMassnBerJahr":
-		case "TPopMassnBerErfolgsbeurteilung":
+		case "apzielJahr":
+		case "apzielErfolgsbeurteilung":
 			//wenn kein Jahr/Beurteilung: "(kein Jahr/Beurteilung)"
-			var tpopmassnberjahr, tpopmassnbererfolgsbeurteilung;
-			if ($("#TPopMassnBerJahr").val()) {
-				tpopmassnberjahr = $("#TPopMassnBerJahr").val();
+			var apzieljahr, apzielerfolgsbeurteilung;
+			if ($("#apzielJahr").val()) {
+				apzieljahr = $("#apzielJahr").val();
 			} else {
-				tpopmassnberjahr = "(kein Jahr)";
+				apzieljahr = "(kein Jahr)";
 			}
-			if ($("#spanTPopMassnBerErfolgsbeurteilung" + $('input[name="TPopMassnBerErfolgsbeurteilung"]:checked').val()).text()) {
-				tpopmassnbererfolgsbeurteilung = $("#spanTPopMassnBerErfolgsbeurteilung" + $('input[name="TPopMassnBerErfolgsbeurteilung"]:checked').val()).text();
+			if ($("#spanapzielErfolgsbeurteilung" + $('input[name="apzielErfolgsbeurteilung"]:checked').val()).text()) {
+				apzielerfolgsbeurteilung = $("#spanapzielErfolgsbeurteilung" + $('input[name="apzielErfolgsbeurteilung"]:checked').val()).text();
 			} else {
-				tpopmassnbererfolgsbeurteilung = "(keine Beurteilung)";
+				apzielerfolgsbeurteilung = "(keine Beurteilung)";
 			}
-			jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_massnber'] #" + localStorage.tpopmassnber_id, tpopmassnberjahr + ": " + tpopmassnbererfolgsbeurteilung);
+			jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_massnber'] #" + localStorage.apziel_id, apzieljahr + ": " + apzielerfolgsbeurteilung);
 			break;
 		case "ZielBezeichnung":
 			jQuery("#tree").jstree("rename_node", "[typ='apzieljahr'] #" + localStorage.apziel_id, Feldwert);
@@ -9816,22 +9926,19 @@ function clearInfoWindows() {
 
 function oeffneTPop(TPopId) {
 	localStorage.tpop_id = TPopId;
-	initiiere_tpop();
-	jQuery.jstree._reference("[typ='tpop']#" + TPopId).deselect_all("[typ='tpop']#" + TPopId);
+	jQuery.jstree._reference("[typ='tpop']#" + TPopId).deselect_all();
 	jQuery("#tree").jstree("select_node", "[typ='tpop']#" + TPopId);
 }
 
 function oeffneBeob(BeobId) {
 	localStorage.BeobId = BeobId;
-	initiiere_beob();
-	jQuery.jstree._reference("[typ='beob']#" + BeobId).deselect_all("[typ='beob']#" + BeobId);
+	jQuery.jstree._reference("[typ='beob']#" + BeobId).deselect_all();
 	jQuery("#tree").jstree("select_node", "[typ='beob']#" + BeobId);
 }
 
 function oeffneTPopBeob(BeobId) {
 	localStorage.tpopbeob_id = BeobId;
-	initiiere_tpopbeob();
-	jQuery.jstree._reference("[typ='tpopbeob']#" + BeobId).deselect_all("[typ='tpopbeob']#" + BeobId);
+	jQuery.jstree._reference("[typ='tpopbeob']#" + BeobId).deselect_all();
 	jQuery("#tree").jstree("select_node", "[typ='tpopbeob']#" + BeobId);
 }
 
@@ -10079,3 +10186,207 @@ function handler(event) {
 }
 
 })(jQuery);
+
+function oeffneUri() {
+	var uri = new Uri($(location).attr('href'));
+	if (uri.getQueryParamValue('pop')) {
+		//url-Variabeln holen
+		localStorage.ap_id = uri.getQueryParamValue('ap');
+		localStorage.pop_id = uri.getQueryParamValue('pop');
+		//markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
+		//Die Markierung wird im load-Event wieder entfernt
+		window.pop_zeigen = true;
+		//ap initiieren und damit den loaded-event auslösen
+		$("#ap_waehlen").val(localStorage.ap_id);
+		$("#ap_waehlen").trigger("change");
+	} else if (uri.getQueryParamValue('popber')) {
+		//url-Variabeln holen
+		localStorage.ap_id = uri.getQueryParamValue('ap');
+		localStorage.popber_id = uri.getQueryParamValue('popber');
+		//markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
+		//Die Markierung wird im load-Event wieder entfernt
+		window.popber_zeigen = true;
+		//ap initiieren und damit den loaded-event auslösen
+		$("#ap_waehlen").val(localStorage.ap_id);
+		$("#ap_waehlen").trigger("change");
+	} else if (uri.getQueryParamValue('tpop')) {
+		//url-Variabeln holen
+		localStorage.ap_id = uri.getQueryParamValue('ap');
+		localStorage.tpop_id = uri.getQueryParamValue('tpop');
+		//markieren, dass nach dem loaded-event im Tree die TPop angezeigt werden soll 
+		//Die Markierung wird im load-Event wieder entfernt
+		window.tpop_zeigen = true;
+		//ap initiieren und damit den loaded-event auslösen
+		$("#ap_waehlen").val(localStorage.ap_id);
+		$("#ap_waehlen").trigger("change");
+	} else if (uri.getQueryParamValue('tpopfeldkontr')) {
+		//url-Variabeln holen
+		localStorage.ap_id = uri.getQueryParamValue('ap');
+		localStorage.tpopfeldkontr_id = uri.getQueryParamValue('tpopfeldkontr');
+		//markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
+		//Die Markierung wird im load-Event wieder entfernt
+		window.tpopfeldkontr_zeigen = true;
+		//ap initiieren und damit den loaded-event auslösen
+		$("#ap_waehlen").val(localStorage.ap_id);
+		$("#ap_waehlen").trigger("change");
+	} else if (uri.getQueryParamValue('tpopfreiwkontr')) {
+		//url-Variabeln holen
+		localStorage.ap_id = uri.getQueryParamValue('ap');
+		localStorage.tpopfeldkontr_id = uri.getQueryParamValue('tpopfreiwkontr');
+		//markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
+		//Die Markierung wird im load-Event wieder entfernt
+		window.tpopfreiwkontr_zeigen = true;
+		//ap initiieren und damit den loaded-event auslösen
+		$("#ap_waehlen").val(localStorage.ap_id);
+		$("#ap_waehlen").trigger("change");
+	} else if (uri.getQueryParamValue('tpopmassn')) {
+		//url-Variabeln holen
+		localStorage.ap_id = uri.getQueryParamValue('ap');
+		localStorage.tpopmassn_id = uri.getQueryParamValue('tpopmassn');
+		//markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
+		//Die Markierung wird im load-Event wieder entfernt
+		window.tpopmassn_zeigen = true;
+		//ap initiieren und damit den loaded-event auslösen
+		$("#ap_waehlen").val(localStorage.ap_id);
+		$("#ap_waehlen").trigger("change");
+	} else if (uri.getQueryParamValue('tpopber')) {
+		//url-Variabeln holen
+		localStorage.ap_id = uri.getQueryParamValue('ap');
+		localStorage.tpopber_id = uri.getQueryParamValue('tpopber');
+		//markieren, dass nach dem loaded-event im Tree die tpopber angezeigt werden soll 
+		//Die Markierung wird im load-Event wieder entfernt
+		window.tpopber_zeigen = true;
+		//ap initiieren und damit den loaded-event auslösen
+		$("#ap_waehlen").val(localStorage.ap_id);
+		$("#ap_waehlen").trigger("change");
+	} else if (uri.getQueryParamValue('tpopbeob')) {
+		//url-Variabeln holen
+		localStorage.ap_id = uri.getQueryParamValue('ap');
+		localStorage.tpopbeob_id = uri.getQueryParamValue('tpopbeob');
+		//markieren, dass nach dem loaded-event im Tree die tpopbeob angezeigt werden soll 
+		//Die Markierung wird im load-Event wieder entfernt
+		window.tpopbeob_zeigen = true;
+		//ap initiieren und damit den loaded-event auslösen
+		$("#ap_waehlen").val(localStorage.ap_id);
+		$("#ap_waehlen").trigger("change");
+	} else if (uri.getQueryParamValue('tpopmassnber')) {
+		//url-Variabeln holen
+		localStorage.ap_id = uri.getQueryParamValue('ap');
+		localStorage.tpopmassnber_id = uri.getQueryParamValue('tpopmassnber');
+		//markieren, dass nach dem loaded-event im Tree die tpopmassnber angezeigt werden soll 
+		//Die Markierung wird im load-Event wieder entfernt
+		window.tpopmassnber_zeigen = true;
+		//ap initiieren und damit den loaded-event auslösen
+		$("#ap_waehlen").val(localStorage.ap_id);
+		$("#ap_waehlen").trigger("change");
+	} else if (uri.getQueryParamValue('apziel')) {
+		//url-Variabeln holen
+		localStorage.ap_id = uri.getQueryParamValue('ap');
+		localStorage.apziel_id = uri.getQueryParamValue('apziel');
+		//markieren, dass nach dem loaded-event im Tree die apziel angezeigt werden soll 
+		//Die Markierung wird im load-Event wieder entfernt
+		window.apziel_zeigen = true;
+		//ap initiieren und damit den loaded-event auslösen
+		$("#ap_waehlen").val(localStorage.ap_id);
+		$("#ap_waehlen").trigger("change");
+	} else if (uri.getQueryParamValue('zielber')) {
+		//url-Variabeln holen
+		localStorage.ap_id = uri.getQueryParamValue('ap');
+		localStorage.zielber_id = uri.getQueryParamValue('zielber');
+		//markieren, dass nach dem loaded-event im Tree die zielber angezeigt werden soll 
+		//Die Markierung wird im load-Event wieder entfernt
+		window.zielber_zeigen = true;
+		//ap initiieren und damit den loaded-event auslösen
+		$("#ap_waehlen").val(localStorage.ap_id);
+		$("#ap_waehlen").trigger("change");
+	} else if (uri.getQueryParamValue('erfkrit')) {
+		//url-Variabeln holen
+		localStorage.ap_id = uri.getQueryParamValue('ap');
+		localStorage.erfkrit_id = uri.getQueryParamValue('erfkrit');
+		//markieren, dass nach dem loaded-event im Tree die erfkrit angezeigt werden soll 
+		//Die Markierung wird im load-Event wieder entfernt
+		window.erfkrit_zeigen = true;
+		//ap initiieren und damit den loaded-event auslösen
+		$("#ap_waehlen").val(localStorage.ap_id);
+		$("#ap_waehlen").trigger("change");
+	} else if (uri.getQueryParamValue('jber')) {
+		//url-Variabeln holen
+		localStorage.ap_id = uri.getQueryParamValue('ap');
+		localStorage.jber_id = uri.getQueryParamValue('jber');
+		//markieren, dass nach dem loaded-event im Tree die jber angezeigt werden soll 
+		//Die Markierung wird im load-Event wieder entfernt
+		window.jber_zeigen = true;
+		//ap initiieren und damit den loaded-event auslösen
+		$("#ap_waehlen").val(localStorage.ap_id);
+		$("#ap_waehlen").trigger("change");
+	} else if (uri.getQueryParamValue('jber_uebersicht')) {
+		//url-Variabeln holen
+		localStorage.ap_id = uri.getQueryParamValue('ap');
+		localStorage.jber_uebersicht_id = uri.getQueryParamValue('jber_uebersicht');
+		//markieren, dass nach dem loaded-event im Tree die jber_uebersicht angezeigt werden soll 
+		//Die Markierung wird im load-Event wieder entfernt
+		window.jber_uebersicht_zeigen = true;
+		//ap initiieren und damit den loaded-event auslösen
+		$("#ap_waehlen").val(localStorage.ap_id);
+		$("#ap_waehlen").trigger("change");
+	} else if (uri.getQueryParamValue('ber')) {
+		//url-Variabeln holen
+		localStorage.ap_id = uri.getQueryParamValue('ap');
+		localStorage.ber_id = uri.getQueryParamValue('ber');
+		//markieren, dass nach dem loaded-event im Tree die ber angezeigt werden soll 
+		//Die Markierung wird im load-Event wieder entfernt
+		window.ber_zeigen = true;
+		//ap initiieren und damit den loaded-event auslösen
+		$("#ap_waehlen").val(localStorage.ap_id);
+		$("#ap_waehlen").trigger("change");
+	} else if (uri.getQueryParamValue('umwfakt')) {
+		//url-Variabeln holen
+		localStorage.ap_id = uri.getQueryParamValue('ap');
+		localStorage.umwfakt_id = uri.getQueryParamValue('umwfakt');
+		//markieren, dass nach dem loaded-event im Tree die umwfakt angezeigt werden soll 
+		//Die Markierung wird im load-Event wieder entfernt
+		window.umwfakt_zeigen = true;
+		//ap initiieren und damit den loaded-event auslösen
+		$("#ap_waehlen").val(localStorage.ap_id);
+		$("#ap_waehlen").trigger("change");
+	} else if (uri.getQueryParamValue('ib')) {
+		//url-Variabeln holen
+		localStorage.ap_id = uri.getQueryParamValue('ap');
+		localStorage.ib_id = uri.getQueryParamValue('ib');
+		//markieren, dass nach dem loaded-event im Tree die ib angezeigt werden soll 
+		//Die Markierung wird im load-Event wieder entfernt
+		window.ib_zeigen = true;
+		//ap initiieren und damit den loaded-event auslösen
+		$("#ap_waehlen").val(localStorage.ap_id);
+		$("#ap_waehlen").trigger("change");
+	} else if (uri.getQueryParamValue('assozarten')) {
+		//url-Variabeln holen
+		localStorage.ap_id = uri.getQueryParamValue('ap');
+		localStorage.assozarten_id = uri.getQueryParamValue('assozarten');
+		//markieren, dass nach dem loaded-event im Tree die assozarten angezeigt werden soll 
+		//Die Markierung wird im load-Event wieder entfernt
+		window.assozarten_zeigen = true;
+		//ap initiieren und damit den loaded-event auslösen
+		$("#ap_waehlen").val(localStorage.ap_id);
+		$("#ap_waehlen").trigger("change");
+	} else if (uri.getQueryParamValue('beob')) {
+		//url-Variabeln holen
+		localStorage.ap_id = uri.getQueryParamValue('ap');
+		localStorage.BeobId = uri.getQueryParamValue('beob');
+		//markieren, dass nach dem loaded-event im Tree die beob angezeigt werden soll 
+		//Die Markierung wird im load-Event wieder entfernt
+		window.beob_zeigen = true;
+		//ap initiieren und damit den loaded-event auslösen
+		$("#ap_waehlen").val(localStorage.ap_id);
+		$("#ap_waehlen").trigger("change");
+	} else if (uri.getQueryParamValue('ap')) {
+		//ap zuletzt, wiel die ap immer in der URL ist und sonst bloss die AP angezeigt würde
+		//url-Variabeln holen
+		localStorage.ap_id = uri.getQueryParamValue('ap');
+		//markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
+		//Die Markierung wird im load-Event wieder entfernt
+		window.ap_zeigen = true;
+		$("#ap_waehlen").val(localStorage.ap_id);
+		$("#ap_waehlen").trigger("change");
+	}
+}
