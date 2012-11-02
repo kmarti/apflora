@@ -75,14 +75,6 @@ function initiiere_ap() {
 	programm_wahl = $("[name='programm_wahl']:checked").attr("id");
 	//Felder zurücksetzen
 	leereFelderVonFormular("ap");
-	//Bei Testarten Hinweis anzeigen
-	$("#testart_div").hide();
-	if ($("#ap_waehlen").val()) {
-		if ($("#ap_waehlen").val() <= 150) {
-			$("#testart_div").show();
-			$("#testart_div").html("Das ist eine Testart - hier kann man alles ausprobieren!");
-		}
-	}
 	//Wenn ein ap ausgewählt ist: Seine Daten anzeigen
 	if ($("#ap_waehlen").val() && programm_wahl !== "programm_neu") {
 		//Daten für den ap aus der DB holen
@@ -1451,6 +1443,21 @@ function initiiere_exporte() {
 //und alle anderen ausgeblendet
 //zusätzlich wird die Höhe von textinput-Feldern an den Textinhalt angepasst
 function zeigeFormular(Formularname) {
+
+	//Bei Testarten Hinweis anzeigen
+	$("#testart_div").hide();
+	if ($("#ap_waehlen").val()) {
+		if ($("#ap_waehlen").val() <= 150 && Formularname !== "jber_uebersicht") {
+			$("#testart_div").css("color", "#03970F");
+			$("#testart_div").show();
+			$("#testart_div").html("Das ist eine Testart - hier kann man alles ausprobieren!");
+		} else if ($("#ap_waehlen").val() <= 150 && Formularname === "jber_uebersicht") {
+			$("#testart_div").css("color", "#DF0303");
+			$("#testart_div").show();
+			$("#testart_div").html("VORSICHT: Die Übericht ist für alle Arten, daher HIER NICHT TESTEN");
+		}
+	}
+
 	if (Formularname) {
 		$("#forms").show();
 		$("#distanz_messen").hide();
