@@ -442,7 +442,7 @@ mysqli_free_result($result_apzieljahr);
 
 //erfkrit dieses AP abfragen
 $result_erfkrit = mysqli_query($link, "SELECT ErfkritId, ApArtId, BeurteilTxt, ErfkritTxt, BeurteilOrd
-FROM tblApErfKrit LEFT JOIN DomainApErfKrit ON ErfkritErreichungsgrad = BeurteilId
+FROM tblErfKrit LEFT JOIN DomainApErfKrit ON ErfkritErreichungsgrad = BeurteilId
 where ApArtId = $ApArtId ORDER BY BeurteilOrd");
 $anz_erfkrit = mysqli_num_rows($result_erfkrit);
 //erfkrit aufbauen
@@ -489,7 +489,7 @@ while($r_jber = mysqli_fetch_assoc($result_jber)) {
 mysqli_free_result($result_jber);
 
 //ber dieses AP abfragen
-$result_ber = mysqli_query($link, "SELECT BerId, ApArtId, BerJahr, BerTitel FROM tblApBer where ApArtId = $ApArtId ORDER BY BerJahr DESC, BerTitel");
+$result_ber = mysqli_query($link, "SELECT BerId, ApArtId, BerJahr, BerTitel FROM tblBer where ApArtId = $ApArtId ORDER BY BerJahr DESC, BerTitel");
 $anz_ber = mysqli_num_rows($result_ber);
 //ber aufbauen
 $rows_ber = array();

@@ -15,7 +15,7 @@ $BerId = $_GET["id"];
 settype($BerId, "integer");
 
 // SQL-Anfrage ausführen
-$result = mysqli_query($link, "SELECT * FROM tblApBer WHERE BerId=".$BerId);
+$result = mysqli_query($link, "SELECT * FROM tblBer WHERE BerId=".$BerId);
 
 $row = mysqli_fetch_assoc($result);
 
