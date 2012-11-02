@@ -11,11 +11,11 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
-$ErfBeurtZielSkalaId = $_GET["id"];
-settype($ErfBeurtZielSkalaId, "integer");
+$ErfkritId = $_GET["id"];
+settype($ErfkritId, "integer");
 
 // SQL-Anfrage ausführen
-$result = mysqli_query($link, "SELECT * FROM tblApErfKrit WHERE ErfBeurtZielSkalaId=".$ErfBeurtZielSkalaId);
+$result = mysqli_query($link, "SELECT * FROM tblApErfKrit WHERE ErfkritId=".$ErfkritId);
 
 $row = mysqli_fetch_assoc($result);
 

@@ -441,18 +441,18 @@ while($r_apzieljahr = mysqli_fetch_assoc($result_apzieljahr)) {
 mysqli_free_result($result_apzieljahr);
 
 //erfkrit dieses AP abfragen
-$result_erfkrit = mysqli_query($link, "SELECT ErfBeurtZielSkalaId, ApArtId, BeurteilTxt, ErfBeurtZielSkalaTxt, BeurteilOrd
-FROM tblApErfKrit LEFT JOIN DomainApErfKrit ON ErfBeurtZielSkalaErreichungsgrad = BeurteilId
+$result_erfkrit = mysqli_query($link, "SELECT ErfkritId, ApArtId, BeurteilTxt, ErfkritTxt, BeurteilOrd
+FROM tblApErfKrit LEFT JOIN DomainApErfKrit ON ErfkritErreichungsgrad = BeurteilId
 where ApArtId = $ApArtId ORDER BY BeurteilOrd");
 $anz_erfkrit = mysqli_num_rows($result_erfkrit);
 //erfkrit aufbauen
 $rows_erfkrit = array();
 while($r_erfkrit = mysqli_fetch_assoc($result_erfkrit)) {
-	$ErfBeurtZielSkalaId = $r_erfkrit['ErfBeurtZielSkalaId'];
-	settype($ErfBeurtZielSkalaId, "integer");
+	$ErfkritId = $r_erfkrit['ErfkritId'];
+	settype($ErfkritId, "integer");
 	//erfkrit setzen
-	$attr_erfkrit = array("id" => $ErfBeurtZielSkalaId, "typ" => "erfkrit");
-	$erfkrit = array("data" => $r_erfkrit['BeurteilTxt'] . ": " . $r_erfkrit['ErfBeurtZielSkalaTxt'], "attr" => $attr_erfkrit);
+	$attr_erfkrit = array("id" => $ErfkritId, "typ" => "erfkrit");
+	$erfkrit = array("data" => $r_erfkrit['BeurteilTxt'] . ": " . $r_erfkrit['ErfkritTxt'], "attr" => $attr_erfkrit);
 	//erfkrit-Array um erfkrit ergänzen
     $rows_erfkrit[] = $erfkrit;
 }

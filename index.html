@@ -1183,25 +1183,25 @@
 
 			<form id="erfkrit" class="form" action="#" method="get" autocomplete="off">
 				<table>
-					<tr class='fieldcontain ErfBeurtZielSkalaErreichungsgrad'>
+					<tr class='fieldcontain ErfkritErreichungsgrad'>
 						<td class="label">
-							<label id="ErfBeurtZielSkalaErreichungsgrad_label" for='ErfBeurtZielSkalaErreichungsgrad'>Beurteilung:</label>
+							<label id="ErfkritErreichungsgrad_label" for='ErfkritErreichungsgrad'>Beurteilung:</label>
 						</td>
 						<td class="Datenfelder">
-							<input type="radio" name="ErfBeurtZielSkalaErreichungsgrad" id="ErfBeurtZielSkalaErreichungsgrad4" class="speichern" formular="erfkrit" value="4"/><span id="SpanErfBeurtZielSkalaErreichungsgrad4">sehr erfolgreich</span><br />
-							<input type="radio" name="ErfBeurtZielSkalaErreichungsgrad" id="ErfBeurtZielSkalaErreichungsgrad1" class="speichern" formular="erfkrit" value="1"/><span id="SpanErfBeurtZielSkalaErreichungsgrad1">erfolgreich</span><br />
-							<input type="radio" name="ErfBeurtZielSkalaErreichungsgrad" id="ErfBeurtZielSkalaErreichungsgrad5" class="speichern" formular="erfkrit" value="5"/><span id="SpanErfBeurtZielSkalaErreichungsgrad5">mässig erfolgreich</span><br />
-							<input type="radio" name="ErfBeurtZielSkalaErreichungsgrad" id="ErfBeurtZielSkalaErreichungsgrad6" class="speichern" formular="erfkrit" value="6"/><span id="SpanErfBeurtZielSkalaErreichungsgrad6">wenig erfolgreich</span><br />
-							<input type="radio" name="ErfBeurtZielSkalaErreichungsgrad" id="ErfBeurtZielSkalaErreichungsgrad3" class="speichern" formular="erfkrit" value="3"/><span id="SpanErfBeurtZielSkalaErreichungsgrad3">nicht erfolgreich</span><br />
-							<input type="radio" name="ErfBeurtZielSkalaErreichungsgrad" id="ErfBeurtZielSkalaErreichungsgrad1168274204" class="speichern" formular="erfkrit" value="1168274204"/><span id="SpanErfBeurtZielSkalaErreichungsgrad1168274204">unsichere Entwicklung</span>
+							<input type="radio" name="ErfkritErreichungsgrad" id="ErfkritErreichungsgrad4" class="speichern" formular="erfkrit" value="4"/><span id="SpanErfkritErreichungsgrad4">sehr erfolgreich</span><br />
+							<input type="radio" name="ErfkritErreichungsgrad" id="ErfkritErreichungsgrad1" class="speichern" formular="erfkrit" value="1"/><span id="SpanErfkritErreichungsgrad1">erfolgreich</span><br />
+							<input type="radio" name="ErfkritErreichungsgrad" id="ErfkritErreichungsgrad5" class="speichern" formular="erfkrit" value="5"/><span id="SpanErfkritErreichungsgrad5">mässig erfolgreich</span><br />
+							<input type="radio" name="ErfkritErreichungsgrad" id="ErfkritErreichungsgrad6" class="speichern" formular="erfkrit" value="6"/><span id="SpanErfkritErreichungsgrad6">wenig erfolgreich</span><br />
+							<input type="radio" name="ErfkritErreichungsgrad" id="ErfkritErreichungsgrad3" class="speichern" formular="erfkrit" value="3"/><span id="SpanErfkritErreichungsgrad3">nicht erfolgreich</span><br />
+							<input type="radio" name="ErfkritErreichungsgrad" id="ErfkritErreichungsgrad1168274204" class="speichern" formular="erfkrit" value="1168274204"/><span id="SpanErfkritErreichungsgrad1168274204">unsichere Entwicklung</span>
 						</td>
 					</tr>
-					<tr class='fieldcontain ErfBeurtZielSkalaTxt'>
+					<tr class='fieldcontain ErfkritTxt'>
 						<td class="label">
-							<label id="ErfBeurtZielSkalaTxt_label" for='ErfBeurtZielSkalaTxt'>Kriterien:</label>
+							<label id="ErfkritTxt_label" for='ErfkritTxt'>Kriterien:</label>
 						</td>
 						<td class="Datenfelder">
-							<textarea name="ErfBeurtZielSkalaTxt" id="ErfBeurtZielSkalaTxt" class="speichern" formular="erfkrit"></textarea>
+							<textarea name="ErfkritTxt" id="ErfkritTxt" class="speichern" formular="erfkrit"></textarea>
 						</td>
 					</tr>
 				</table>
@@ -2046,17 +2046,30 @@
 				<button id="export_ap_anz_massn">Anzahl Massnahmen pro Programm</button><br>
 				<button id="export_ap_anz_kontr">Anzahl Kontrollen pro Programm</button><br><br>
 
-				<button id="export_ap_jb">Jahresberichte</button><br>
-				<button id="export_jber_ohne_ap">Jahresberichte ohne Programm (Datenwaisen)</button><br>
-				<button id="export_ap_jb_massn">Jahresberichte und Massnahmen</button><br><br>
+				<button id="export_jber">AP-Berichte (Jahresberichte)</button><br>
+				<button id="export_jber_ohne_ap">AP-Berichte ohne Programm (Datenwaisen)</button><br>
+				<button id="export_jber_massn">AP-Berichte und Massnahmen</button><br><br>
 
-				<button id="export_ap_ziele">Ziele</button><br>
-				<button id="export_ap_zielber">Ziel-Berichte</button><br><br>
+				<button id="export_apziel">Ziele</button><br>
+				<button id="export_apziel_ohne_ap">Ziele ohne Programm (Datenwaisen)</button><br><br>
 
-				<button id="export_ap_ber">Berichte</button><br>
-				<button id="export_ap_erfkrit">Erfolgskriterien</button><br>
+				<button id="export_zielber">Ziel-Berichte</button><br>
+				<button id="export_zielber_ohne_ziel">Ziel-Berichte ohne Ziele (Datenwaisen)</button><br><br>
+
+				<button id="export_ber">Berichte</button><br>
+				<button id="export_ber_ohne_ap">Berichte ohne Programm (Datenwaisen)</button><br><br>
+
+				<button id="export_erfkrit">Erfolgskriterien</button><br>
+				<button id="export_erfkrit_ohne_ap">Erfolgskriterien ohne Programm (Datenwaisen)</button><br><br>
+
+				<button id="export_umwfakt">Umweltfaktoren</button><br>
+				<button id="export_umwfakt_ohne_ap">Umweltfaktoren ohne Programm (Datenwaisen)</button><br><br>
+
 				<button id="export_idealbiotope">Ideale Biotope</button><br>
-				<button id="export_assoz_arten">Assoziierte Arten</button>
+				<button id="export_ib_ohne_ap">Ideale Biotope ohne Programm (Datenwaisen)</button><br><br>
+
+				<button id="export_assoz_arten">Assoziierte Arten</button><br>
+				<button id="export_assoz_arten_ohne_ap">Assoziierte Arten ohne Programm (Datenwaisen)</button><br>
 
 				<br><br><a href="#top">&uArr;&nbsp;top</a>
 
@@ -2912,32 +2925,56 @@
 			$("#exporte").on("click", "#export_ap_anz_kontr", function() {
 				window.open("php/export_ap_anz_kontr.php", target="_blank");
 			});
-			$("#exporte").on("click", "#export_ap_jb", function() {
-				window.open("php/export_ap_jb.php", target="_blank");
+			$("#exporte").on("click", "#export_jber", function() {
+				window.open("php/export_jber.php", target="_blank");
 			});
 			$("#exporte").on("click", "#export_jber_ohne_ap", function() {
 				window.open("php/export_jber_ohne_ap.php", target="_blank");
 			});
-			$("#exporte").on("click", "#export_ap_jb_massn", function() {
-				window.open("php/export_ap_jb_massn.php", target="_blank");
+			$("#exporte").on("click", "#export_jber_massn", function() {
+				window.open("php/export_jber_massn.php", target="_blank");
 			});
-			$("#exporte").on("click", "#export_ap_ziele", function() {
-				window.open("php/export_ap_ziele.php", target="_blank");
+			$("#exporte").on("click", "#export_apziel", function() {
+				window.open("php/export_apziel.php", target="_blank");
 			});
-			$("#exporte").on("click", "#export_ap_zielber", function() {
-				window.open("php/export_ap_zielber.php", target="_blank");
+			$("#exporte").on("click", "#export_apziel_ohne_ap", function() {
+				window.open("php/export_apziel_ohne_ap.php", target="_blank");
 			});
-			$("#exporte").on("click", "#export_ap_ber", function() {
-				window.open("php/export_ap_ber.php", target="_blank");
+			$("#exporte").on("click", "#export_zielber", function() {
+				window.open("php/export_zielber.php", target="_blank");
 			});
-			$("#exporte").on("click", "#export_ap_erfkrit", function() {
-				window.open("php/export_ap_erfkrit.php", target="_blank");
+			$("#exporte").on("click", "#export_zielber_ohne_ziel", function() {
+				window.open("php/export_zielber_ohne_ziel.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_ber", function() {
+				window.open("php/export_ber.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_ber_ohne_ap", function() {
+				window.open("php/export_ber_ohne_ap.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_erfkrit", function() {
+				window.open("php/export_erfkrit.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_erfkrit_ohne_ap", function() {
+				window.open("php/export_erfkrit_ohne_ap.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_umwfakt", function() {
+				window.open("php/export_umwfakt.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_umwfakt_ohne_ap", function() {
+				window.open("php/export_umwfakt_ohne_ap.php", target="_blank");
 			});
 			$("#exporte").on("click", "#export_idealbiotope", function() {
 				window.open("php/export_idealbiotope.php", target="_blank");
 			});
+			$("#exporte").on("click", "#export_ib_ohne_ap", function() {
+				window.open("php/export_ib_ohne_ap.php", target="_blank");
+			});
 			$("#exporte").on("click", "#export_assoz_arten", function() {
 				window.open("php/export_assoz_arten.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_assoz_arten_ohne_ap", function() {
+				window.open("php/export_assoz_arten_ohne_ap.php", target="_blank");
 			});
 			$("#exporte").on("click", "#export_pop", function() {
 				window.open("php/export_pop.php", target="_blank");

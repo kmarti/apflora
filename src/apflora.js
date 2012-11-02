@@ -299,15 +299,15 @@ function initiiere_erfkrit() {
 				//ap bereitstellen
 				window.erfkrit = data;
 				//Felder mit Daten beliefern
-				$("#ErfBeurtZielSkalaErreichungsgrad" + data.ErfBeurtZielSkalaErreichungsgrad).prop("checked", true);
-				$("#ErfBeurtZielSkalaTxt").val(data.ErfBeurtZielSkalaTxt);
+				$("#ErfkritErreichungsgrad" + data.ErfkritErreichungsgrad).prop("checked", true);
+				$("#ErfkritTxt").val(data.ErfkritTxt);
 				//Formulare blenden
 				zeigeFormular("erfkrit");
 				history.replaceState({erfkrit: "erfkrit"}, "erfkrit", "index.html?ap=" + localStorage.ap_id + "&erfkrit=" + localStorage.erfkrit_id);
 				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
-				if (!$("#ErfBeurtZielSkalaErreichungsgrad").val()) {
-					$("#ErfBeurtZielSkalaErreichungsgrad").focus();
+				if (!$("#ErfkritErreichungsgrad").val()) {
+					$("#ErfkritErreichungsgrad").focus();
 				}
 			}
 		}
@@ -1233,6 +1233,43 @@ function initiiere_tpopmassn() {
 	});
 }
 
+function initiiere_tpopmassnber() {
+	if (!localStorage.tpopmassnber_id) {
+		//es fehlen benötigte Daten > eine Ebene höher
+		initiiere_pop();
+		return;
+	}
+	//Felder zurücksetzen
+	leereFelderVonFormular("tpopmassnber");
+	//Daten für die pop aus der DB holen
+	$.ajax({
+		url: 'php/tpopmassnber.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.tpopmassnber_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//ap bereitstellen
+				window.tpopmassnber = data;
+				//Felder mit Daten beliefern
+				$("#TPopMassnBerJahr").val(data.TPopMassnBerJahr);
+				$("#TPopMassnBerErfolgsbeurteilung" + data.TPopMassnBerErfolgsbeurteilung).prop("checked", true);
+				$("#TPopMassnBerTxt").val(data.TPopMassnBerTxt);
+				//Formulare blenden
+				zeigeFormular("tpopmassnber");
+				history.replaceState({tpopmassnber: "tpopmassnber"}, "tpopmassnber", "index.html?ap=" + localStorage.ap_id + "&tpopmassnber=" + localStorage.tpopmassnber_id);
+				setzeSpaltenbreiten();
+				//bei neuen Datensätzen Fokus steuern
+				setTimeout(function() {
+					$('#TPopMassnBerJahr').focus();
+				}, 100);
+			}
+		}
+	});
+}
+
 function initiiere_tpopber() {
 	if (!localStorage.tpopber_id) {
 		//es fehlen benötigte Daten > eine Ebene höher
@@ -1443,18 +1480,22 @@ function initiiere_exporte() {
 //und alle anderen ausgeblendet
 //zusätzlich wird die Höhe von textinput-Feldern an den Textinhalt angepasst
 function zeigeFormular(Formularname) {
-
-	//Bei Testarten Hinweis anzeigen
 	$("#testart_div").hide();
+	//Bei Testarten Hinweis anzeigen
 	if ($("#ap_waehlen").val()) {
-		if ($("#ap_waehlen").val() <= 150 && Formularname !== "jber_uebersicht") {
+		//titelzeile inline, sonst gibt es einen unschönen Abstand nach oben
+		$("#forms_titelzeile").css("display", "inline");
+		if ($("#ap_waehlen").val() <= 150 && Formularname !== "jber_uebersicht" && Formularname !== "exporte") {
 			$("#testart_div").css("color", "#03970F");
+			//titelzeile inline-block, sonst werden Tabs nach rechts verschoben
+			$("#forms_titelzeile").css("display", "inline-block");
 			$("#testart_div").show();
 			$("#testart_div").html("Das ist eine Testart - hier kann man alles ausprobieren!");
 		} else if ($("#ap_waehlen").val() <= 150 && Formularname === "jber_uebersicht") {
 			$("#testart_div").css("color", "#DF0303");
+			$("#forms_titelzeile").css("display", "inline-block");
 			$("#testart_div").show();
-			$("#testart_div").html("VORSICHT: Die Übericht ist für alle Arten, daher HIER NICHT TESTEN");
+			$("#testart_div").html("Vorsicht: Die Übericht ist für alle Arten, daher HIER NICHT TESTEN");
 		}
 	}
 
@@ -1770,9 +1811,9 @@ function erstelle_tree(ApArtId) {
 					"new_node": "neue Massnahme"
 				},
 				"tpop_ordner_massnber": {
-					"valid_children": "apziel"
+					"valid_children": "tpopmassnber"
 				},
-				"apziel": {
+				"tpopmassnber": {
 					"valid_children": "none",
 					"new_node": "neuer Massnahmen-Bericht"
 				},
@@ -2145,11 +2186,11 @@ function erstelle_tree(ApArtId) {
 				localStorage.BeobId = node.attr("id");
 				initiiere_beob();
 			}
-		} else if (node.attr("typ") === "apziel") {
+		} else if (node.attr("typ") === "tpopmassnber") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#apziel").is(':visible') || localStorage.apziel_id !== node.attr("id")) {
-				localStorage.apziel_id = node.attr("id");
-				initiiere_apziel();
+			if (!$("#tpopmassnber").is(':visible') || localStorage.tpopmassnber_id !== node.attr("id")) {
+				localStorage.tpopmassnber_id = node.attr("id");
+				initiiere_tpopmassnber();
 			}
 		}
 		setTimeout("setzeTreehoehe()", 200);
@@ -7525,7 +7566,7 @@ function treeKontextmenu(node) {
 										//Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_tpop_ordner_massn(parent_node);
 										//Hinweis zum rückgängig machen anzeigen
-										$("#undelete_div").html("Massnahme '" + window.deleted.TPopMassnJahr + ": " + window.deleted.TPopMassnTyp + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
+										$("#undelete_div").html("Massnahme '" + window.deleted.TPopMassnJahr + ": " + window.deleted.TPopMassnTyp + "' wurde gelöscht. <a href='#' id='undelete'>Wiederherstellen?</a>");
 										$("#undelete_div").show();
 										setTimeout(function () {
 											$("#undelete_div").html("");
@@ -8120,7 +8161,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
-						url: 'php/apziel_insert.php',
+						url: 'php/tpopmassnber_insert.php',
 						dataType: 'json',
 						data: {
 							"id": $(aktiver_node).attr("id"),
@@ -8128,13 +8169,13 @@ function treeKontextmenu(node) {
 						},
 						success: function (data) {
 							var NeuerNode;
-							localStorage.apziel_id = data;
-							delete window.apziel;
+							localStorage.tpopmassnber_id = data;
+							delete window.tpopmassnber;
 							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
 								"data": "neuer Massnahmen-Bericht",
 								"attr": {
-									"id": localStorage.apziel_id,
-									"typ": "apziel"
+									"id": localStorage.tpopmassnber_id,
+									"typ": "tpopmassnber"
 								}
 							});
 							//Node-Beschriftung: Anzahl anpassen
@@ -8143,7 +8184,7 @@ function treeKontextmenu(node) {
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							//Formular initiieren
-							initiiere_apziel();
+							initiiere_tpopmassnber();
 						},
 						error: function () {
 							$("#Meldung").html("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
@@ -8169,7 +8210,7 @@ function treeKontextmenu(node) {
 			}
 		};
 		return items;
-	case "apziel":
+	case "tpopmassnber":
 		items = {
 			"neu": {
 				"label": "neuer Massnahmen-Bericht",
@@ -8189,22 +8230,22 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
-						url: 'php/apziel_insert.php',
+						url: 'php/tpopmassnber_insert.php',
 						dataType: 'json',
 						data: {
 							"id": $(parent_node).attr("id"),
-							"typ": "apziel",
+							"typ": "tpopmassnber",
 							"user": sessionStorage.User
 						},
 						success: function (data) {
 							var NeuerNode;
-							localStorage.apziel_id = data;
-							delete window.apziel;
+							localStorage.tpopmassnber_id = data;
+							delete window.tpopmassnber;
 							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
 								"data": "neuer Massnahmen-Bericht",
 								"attr": {
 									"id": data,
-									"typ": "apziel"
+									"typ": "tpopmassnber"
 								}
 							});
 							//Parent Node-Beschriftung: Anzahl anpassen
@@ -8213,7 +8254,7 @@ function treeKontextmenu(node) {
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							//Formular initiieren
-							initiiere_apziel();
+							initiiere_tpopmassnber();
 						},
 						error: function (data) {
 							$("#Meldung").html("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
@@ -8257,14 +8298,14 @@ function treeKontextmenu(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								$.ajax({
-									url: 'php/apziel_delete.php',
+									url: 'php/tpopmassnber_delete.php',
 									dataType: 'json',
 									data: {
 										"id": $(aktiver_node).attr("id")
 									},
 									success: function () {
-										delete localStorage.apziel_id;
-										delete window.apziel;
+										delete localStorage.tpopmassnber_id;
+										delete window.tpopmassnber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										//Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_tpop_ordner_massnber(parent_node);
@@ -8904,21 +8945,21 @@ function speichern(that) {
 			}
 			jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_massn'] #" + localStorage.tpopmassn_id, tpopmassnjahr + ": " + tpopmassntyp);
 			break;
-		case "apzielJahr":
-		case "apzielErfolgsbeurteilung":
+		case "TPopMassnBerJahr":
+		case "TPopMassnBerErfolgsbeurteilung":
 			//wenn kein Jahr/Beurteilung: "(kein Jahr/Beurteilung)"
-			var apzieljahr, apzielerfolgsbeurteilung;
-			if ($("#apzielJahr").val()) {
-				apzieljahr = $("#apzielJahr").val();
+			var tpopmassnberjahr, tpopmassnbererfolgsbeurteilung;
+			if ($("#TPopMassnBerJahr").val()) {
+				tpopmassnberjahr = $("#TPopMassnBerJahr").val();
 			} else {
-				apzieljahr = "(kein Jahr)";
+				tpopmassnberjahr = "(kein Jahr)";
 			}
-			if ($("#spanapzielErfolgsbeurteilung" + $('input[name="apzielErfolgsbeurteilung"]:checked').val()).text()) {
-				apzielerfolgsbeurteilung = $("#spanapzielErfolgsbeurteilung" + $('input[name="apzielErfolgsbeurteilung"]:checked').val()).text();
+			if ($("#spanTPopMassnBerErfolgsbeurteilung" + $('input[name="TPopMassnBerErfolgsbeurteilung"]:checked').val()).text()) {
+				tpopmassnbererfolgsbeurteilung = $("#spanTPopMassnBerErfolgsbeurteilung" + $('input[name="TPopMassnBerErfolgsbeurteilung"]:checked').val()).text();
 			} else {
-				apzielerfolgsbeurteilung = "(keine Beurteilung)";
+				tpopmassnbererfolgsbeurteilung = "(keine Beurteilung)";
 			}
-			jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_massnber'] #" + localStorage.apziel_id, apzieljahr + ": " + apzielerfolgsbeurteilung);
+			jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_massnber'] #" + localStorage.tpopmassnber_id, tpopmassnberjahr + ": " + tpopmassnbererfolgsbeurteilung);
 			break;
 		case "ZielBezeichnung":
 			jQuery("#tree").jstree("rename_node", "[typ='apzieljahr'] #" + localStorage.apziel_id, Feldwert);
@@ -8927,11 +8968,11 @@ function speichern(that) {
 		case "ZielBerErreichung":
 			jQuery("#tree").jstree("rename_node", "[typ='zielber_ordner'] #" + localStorage.zielber_id, $("#ZielBerJahr").val() + ": " + $("#ZielBerErreichung").val());
 			break;
-		case "ErfBeurtZielSkalaErreichungsgrad":
-			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_erfkrit'] #" + localStorage.erfkrit_id, $("#SpanErfBeurtZielSkalaErreichungsgrad" + Feldwert).text() + ": " + $("#ErfBeurtZielSkalaTxt").val());
+		case "ErfkritErreichungsgrad":
+			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_erfkrit'] #" + localStorage.erfkrit_id, $("#SpanErfkritErreichungsgrad" + Feldwert).text() + ": " + $("#ErfkritTxt").val());
 			break;
-		case "ErfBeurtZielSkalaTxt":
-			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_erfkrit'] #" + localStorage.erfkrit_id, $("#SpanErfBeurtZielSkalaErreichungsgrad" + $("input:radio[name='ErfBeurtZielSkalaErreichungsgrad']:checked").val()).text() + ": " + Feldwert);
+		case "ErfkritTxt":
+			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_erfkrit'] #" + localStorage.erfkrit_id, $("#SpanErfkritErreichungsgrad" + $("input:radio[name='ErfkritErreichungsgrad']:checked").val()).text() + ": " + Feldwert);
 			break;
 		case "JBerJahr":
 			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_jber'] #" + localStorage.jber_id, Feldwert);
