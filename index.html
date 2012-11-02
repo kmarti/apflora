@@ -2091,9 +2091,7 @@
 				<button id="export_tpop_ohne_pop">Teilpopulationen ohne Population (Datenwaisen)</button><br><br>
 
 				<button id="export_tpop_anz_massn">Anzahl Massnahmen pro Teilpopulation</button><br>
-				<button id="export_tpop_anz_kontr">Anzahl Kontrollen pro Teilpopulation</button><br>
-				<button id="export_kontr_letzte">Letzte Kontrolle pro Teilpopulation</button><br>
-				<button id="export_tpop_anz_kontr_inkl_letzte">Anzahl Kontrollen pro Teilpopulation inklusive der letzten Kontrolle</button><br>
+				<button id="export_tpop_anz_kontr_inkl_letzte">Anzahl Kontrollen pro Teilpopulation, inklusive der letzten Kontrolle</button><br>
 
 				<br><a href="#top">&uArr;&nbsp;top</a>
 
@@ -2262,8 +2260,14 @@
 					FitToContent(this, document.documentElement.clientHeight);
 				});
 
-				$( "[type='number']" ).mousewheel(function(event){
+				$("[type='number']").mousewheel(function(event){
 				   event.preventDefault() ;
+				});
+
+				$("#menu").on("keydown", "#suchen", function(event) {
+					if (event.keyCode === 46) {
+						event.stopPropagation();	
+					}
 				});
 
 				$("#beob").on("change", "[name='DistZuTPop']", function () {
@@ -2994,12 +2998,6 @@
 			});
 			$("#exporte").on("click", "#export_tpop_anz_massn", function() {
 				window.open("php/export_tpop_anz_massn.php", target="_blank");
-			});
-			$("#exporte").on("click", "#export_tpop_anz_kontr", function() {
-				window.open("php/export_tpop_anz_kontr.php", target="_blank");
-			});
-			$("#exporte").on("click", "#export_kontr_letzte", function() {
-				window.open("php/export_kontr_letzte.php", target="_blank");
 			});
 			$("#exporte").on("click", "#export_tpop_anz_kontr_inkl_letzte", function() {
 				window.open("php/export_tpop_anz_kontr_inkl_letzte.php", target="_blank");
