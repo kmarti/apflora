@@ -1255,7 +1255,7 @@ function initiiere_tpopmassnber() {
 				window.tpopmassnber = data;
 				//Felder mit Daten beliefern
 				$("#TPopMassnBerJahr").val(data.TPopMassnBerJahr);
-				$("#TPopMassnBerErfolgsbeurteilung" + data.TPopMassnBerErfolgsbeurteilung).prop("checked", true);
+				$("#zielbererreichung" + data.zielbererreichung).prop("checked", true);
 				$("#TPopMassnBerTxt").val(data.TPopMassnBerTxt);
 				//Formulare blenden
 				zeigeFormular("tpopmassnber");
@@ -8887,7 +8887,18 @@ function speichern(that) {
 			break;
 		case "PopBerJahr":
 		case "PopBerEntwicklung":
-			jQuery("#tree").jstree("rename_node", "[typ='pop_ordner_popber'] #" + localStorage.popber_id, $("#PopBerJahr").val() + ": " + $("#spanPopBerEntwicklung" + $('input[name="PopBerEntwicklung"]:checked').val()).text());
+			var popberbeschriftung;
+			if ($("#PopBerJahr").val() && $("#spanPopBerEntwicklung" + $('input[name="PopBerEntwicklung"]:checked').val()).text()) {
+				popberbeschriftung = $("#PopBerJahr").val() + ": " + $("#spanPopBerEntwicklung" + $('input[name="PopBerEntwicklung"]:checked').val()).text();
+			} else if ($("#PopBerJahr").val()) {
+				popberbeschriftung = $("#PopBerJahr").val() + ": (kein Status)";
+			} else if ($("#spanPopBerEntwicklung" + $('input[name="PopBerEntwicklung"]:checked').val()).text()) {
+				popberbeschriftung = "(kein Jahr): " + $("#spanPopBerEntwicklung" + $('input[name="PopBerEntwicklung"]:checked').val()).text();
+			} else {
+				popberbeschriftung = "(kein Jahr): (kein Status)";
+			}
+			jQuery("#tree").jstree("rename_node", "[typ='pop_ordner_popber'] #" + localStorage.popber_id, popberbeschriftung);
+			//jQuery("#tree").jstree("rename_node", "[typ='pop_ordner_popber'] #" + localStorage.popber_id, $("#PopBerJahr").val() + ": " + $("#spanPopBerEntwicklung" + $('input[name="PopBerEntwicklung"]:checked').val()).text());
 			break;
 		case "PopMassnBerJahr":
 		case "PopMassnBerErfolgsbeurteilung":
@@ -8952,27 +8963,41 @@ function speichern(that) {
 			jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_massn'] #" + localStorage.tpopmassn_id, tpopmassnjahr + ": " + tpopmassntyp);
 			break;
 		case "TPopMassnBerJahr":
-		case "TPopMassnBerErfolgsbeurteilung":
+		case "zielbererreichung":
 			//wenn kein Jahr/Beurteilung: "(kein Jahr/Beurteilung)"
-			var tpopmassnberjahr, tpopmassnbererfolgsbeurteilung;
+			var tpopmassnberjahr, zielbererreichung;
 			if ($("#TPopMassnBerJahr").val()) {
 				tpopmassnberjahr = $("#TPopMassnBerJahr").val();
 			} else {
 				tpopmassnberjahr = "(kein Jahr)";
 			}
-			if ($("#spanTPopMassnBerErfolgsbeurteilung" + $('input[name="TPopMassnBerErfolgsbeurteilung"]:checked').val()).text()) {
-				tpopmassnbererfolgsbeurteilung = $("#spanTPopMassnBerErfolgsbeurteilung" + $('input[name="TPopMassnBerErfolgsbeurteilung"]:checked').val()).text();
+			if ($("#spanTPopMassnBerErfolgsbeurteilung" + $('input[name="zielbererreichung"]:checked').val()).text()) {
+				zielbererreichung = $("#spanTPopMassnBerErfolgsbeurteilung" + $('input[name="zielbererreichung"]:checked').val()).text();
 			} else {
-				tpopmassnbererfolgsbeurteilung = "(keine Beurteilung)";
+				zielbererreichung = "(keine Beurteilung)";
 			}
-			jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_massnber'] #" + localStorage.tpopmassnber_id, tpopmassnberjahr + ": " + tpopmassnbererfolgsbeurteilung);
+			jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_massnber'] #" + localStorage.tpopmassnber_id, tpopmassnberjahr + ": " + zielbererreichung);
 			break;
 		case "ZielBezeichnung":
-			jQuery("#tree").jstree("rename_node", "[typ='apzieljahr'] #" + localStorage.apziel_id, Feldwert);
+			if ($("#ZielBezeichnung").val()) {
+				jQuery("#tree").jstree("rename_node", "[typ='apzieljahr'] #" + localStorage.apziel_id, Feldwert);
+			} else {
+				jQuery("#tree").jstree("rename_node", "[typ='apzieljahr'] #" + localStorage.apziel_id, "(kein Ziel)");
+			}
 			break;
 		case "ZielBerJahr":
 		case "ZielBerErreichung":
-			jQuery("#tree").jstree("rename_node", "[typ='zielber_ordner'] #" + localStorage.zielber_id, $("#ZielBerJahr").val() + ": " + $("#ZielBerErreichung").val());
+			var zielberbeschriftung;
+			if ($("#ZielBerJahr").val() && $("#ZielBerErreichung").val()) {
+				zielberbeschriftung = $("#ZielBerJahr").val() + ": " + $("#ZielBerErreichung").val();
+			} else if ($("#ZielBerJahr").val()) {
+				zielberbeschriftung = $("#ZielBerJahr").val() + ": (keine Beurteilung)";
+			} else if ($("#ZielBerErreichung").val()) {
+				zielberbeschriftung = "(kein Jahr): " + $("#ZielBerErreichung").val();
+			} else {
+				zielberbeschriftung = "(kein Jahr): (keine Beurteilung)";
+			}
+			jQuery("#tree").jstree("rename_node", "[typ='zielber_ordner'] #" + localStorage.zielber_id, zielberbeschriftung);
 			break;
 		case "ErfkritErreichungsgrad":
 			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_erfkrit'] #" + localStorage.erfkrit_id, $("#SpanErfkritErreichungsgrad" + Feldwert).text() + ": " + $("#ErfkritTxt").val());

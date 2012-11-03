@@ -424,7 +424,7 @@ while($r_apzieljahr = mysqli_fetch_assoc($result_apzieljahr)) {
 		if ($r_apziel['ZielBezeichnung']) {
 			$ZielBezeichnung = $r_apziel['ZielBezeichnung'];
 		} else {
-			$ZielBezeichnung = "unbeschriebenes Ziel";
+			$ZielBezeichnung = "(kein Ziel)";
 		}
 		$ZielTyp = $r_apziel['ZielTyp'];
 		$attr_apziel = array("id" => $r_apziel['ZielId'], "typ" => "apziel");
