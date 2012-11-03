@@ -4305,7 +4305,7 @@ function treeKontextmenu(node) {
 						url: 'php/jber_uebersicht_insert.php',
 						dataType: 'json',
 						data: {
-							"jahr": jQuery.jstree._reference(aktiver_node).get_text(aktiver_node),
+							"JbuJahr": jQuery.jstree._reference(aktiver_node).get_text(aktiver_node),
 							"user": sessionStorage.User
 						},
 						success: function (data) {

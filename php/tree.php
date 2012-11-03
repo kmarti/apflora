@@ -303,10 +303,18 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 	while($r_popber = mysqli_fetch_assoc($result_popber)) {
 		$PopBerId = $r_popber['PopBerId'];
 		settype($PopBerId, "integer");
-		$EntwicklungTxt = $r_popber['EntwicklungTxt'];
 		//popber setzen
 		$attr_popber = array("id" => $PopBerId, "typ" => "popber");
-		$popber = array("data" => $r_popber['PopBerJahr'].": ".$EntwicklungTxt, "attr" => $attr_popber);
+		if ($r_popber['PopBerJahr'] & $r_popber['EntwicklungTxt']) {
+			$PopBerBezeichnung = $r_popber['PopBerJahr'].": ".$r_popber['EntwicklungTxt'];
+		} else if ($r_popber['PopBerJahr']) {
+			$PopBerBezeichnung = $r_popber['PopBerJahr'].": (nicht beurteilt)";
+		} else if ($r_popber['EntwicklungTxt']) {
+			$PopBerBezeichnung = "(kein Jahr): ".$r_popber['EntwicklungTxt'];
+		} else {
+			$PopBerBezeichnung = "(kein Jahr): (nicht beurteilt)";
+		}
+		$popber = array("data" => $PopBerBezeichnung, "attr" => $attr_popber);
 		//popber-Array um popber ergänzen
 	    $rows_popber[] = $popber;
 	}
