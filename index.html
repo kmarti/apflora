@@ -2277,7 +2277,14 @@
 				   event.preventDefault() ;
 				});
 
+				//Wenn im Suchfeld oder in einem Datenfeld die Taste Delete gedrückt wird,
+				//wird anschliessend im Baum die markierte node entfernt!
 				$("#menu").on("keydown", "#suchen", function(event) {
+					if (event.keyCode === 46) {
+						event.stopPropagation();	
+					}
+				});
+				$("#forms").on("keydown", ".form", function(event) {
 					if (event.keyCode === 46) {
 						event.stopPropagation();	
 					}
