@@ -357,10 +357,14 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 	//Pop setzen
 	$attr_pop = array("id" => $PopId, "typ" => "pop");
 	$children_pop = $pop_ordner;
-	if ($r_pop['PopName']) {
+	if ($r_pop['PopName'] & $PopNr) {
 		$data = $PopNr . " " . $r_pop['PopName'];
+	} else if ($PopNr) {
+		$data = $PopNr . " (kein Name)";
+	} else if ($r_pop['PopName']) {
+		$data = "(keine Nr) " . $r_pop['PopName'];
 	} else {
-		$data = "namenlos";
+		$data = "(keine Nr, kein Name)";
 	}
 	$pop = array("data" => $data, "attr" => $attr_pop, "children" => $children_pop);
 	//pop-Array um pop ergänzen
