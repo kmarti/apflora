@@ -1256,7 +1256,7 @@ function initiiere_tpopmassnber() {
 				window.tpopmassnber = data;
 				//Felder mit Daten beliefern
 				$("#TPopMassnBerJahr").val(data.TPopMassnBerJahr);
-				$("#zielbererreichung" + data.zielbererreichung).prop("checked", true);
+				$("#TPopMassnBerErfolgsbeurteilung" + data.TPopMassnBerErfolgsbeurteilung).prop("checked", true);
 				$("#TPopMassnBerTxt").val(data.TPopMassnBerTxt);
 				//Formulare blenden
 				zeigeFormular("tpopmassnber");
@@ -8988,27 +8988,28 @@ function speichern(that) {
 			jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_massn'] #" + localStorage.tpopmassn_id, tpopmassnbezeichnung);
 			break;
 		case "TPopMassnBerJahr":
-		case "zielbererreichung":
+		case "TPopMassnBerErfolgsbeurteilung":
 			//wenn kein Jahr/Beurteilung: "(kein Jahr/Beurteilung)"
-			var tpopmassnberjahr, zielbererreichung;
-			if ($("#TPopMassnBerJahr").val()) {
-				tpopmassnberjahr = $("#TPopMassnBerJahr").val();
+			var tpopmassberbeschriftung;
+			if ($("#TPopMassnBerJahr").val() && $("#spanTPopMassnBerErfolgsbeurteilung" + $('input[name="TPopMassnBerErfolgsbeurteilung"]:checked').val()).text()) {
+				tpopmassberbeschriftung = $("#TPopMassnBerJahr").val() + ": " + $("#spanTPopMassnBerErfolgsbeurteilung" + $('input[name="TPopMassnBerErfolgsbeurteilung"]:checked').val()).text();
+			} else if ($("#TPopMassnBerJahr").val()) {
+				tpopmassberbeschriftung = $("#TPopMassnBerJahr").val() + ": (keine Beurteilung)";
+			} else if ($("#spanTPopMassnBerErfolgsbeurteilung" + $('input[name="TPopMassnBerErfolgsbeurteilung"]:checked').val()).text()) {
+				tpopmassberbeschriftung = "(kein Jahr): " + $("#spanTPopMassnBerErfolgsbeurteilung" + $('input[name="TPopMassnBerErfolgsbeurteilung"]:checked').val()).text();
 			} else {
-				tpopmassnberjahr = "(kein Jahr)";
+				tpopmassberbeschriftung = "(kein Jahr): (keine Beurteilung)";
 			}
-			if ($("#spanTPopMassnBerErfolgsbeurteilung" + $('input[name="zielbererreichung"]:checked').val()).text()) {
-				zielbererreichung = $("#spanTPopMassnBerErfolgsbeurteilung" + $('input[name="zielbererreichung"]:checked').val()).text();
-			} else {
-				zielbererreichung = "(keine Beurteilung)";
-			}
-			jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_massnber'] #" + localStorage.tpopmassnber_id, tpopmassnberjahr + ": " + zielbererreichung);
+			jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_massnber'] #" + localStorage.tpopmassnber_id, tpopmassberbeschriftung);
 			break;
 		case "ZielBezeichnung":
-			if ($("#ZielBezeichnung").val()) {
-				jQuery("#tree").jstree("rename_node", "[typ='apzieljahr'] #" + localStorage.apziel_id, Feldwert);
+			var zielbeschriftung;
+			if (Feldwert) {
+				zielbeschriftung = Feldwert;
 			} else {
-				jQuery("#tree").jstree("rename_node", "[typ='apzieljahr'] #" + localStorage.apziel_id, "(kein Ziel)");
+				zielbeschriftung = "(Ziel nicht beschrieben)";
 			}
+			jQuery("#tree").jstree("rename_node", "[typ='apzieljahr'] #" + localStorage.apziel_id, zielbeschriftung);
 			break;
 		case "ZielBerJahr":
 		case "ZielBerErreichung":
