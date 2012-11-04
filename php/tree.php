@@ -641,7 +641,7 @@ while($r_assozarten = mysqli_fetch_assoc($result_assozarten)) {
 	if ($r_assozarten['Name']) {
 		$assozartenName = $r_assozarten['Name'];
 	} else {
-		$assozartenName = "Assoziation ohne Art";
+		$assozartenName = "(kein Artname)";
 	}
 	//assozarten setzen
 	$attr_assozarten = array("id" => $AaId, "typ" => "assozarten");

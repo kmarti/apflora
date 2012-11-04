@@ -9072,7 +9072,13 @@ function speichern(that) {
 			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_ib'] #" + localStorage.ib_id, ibbeschriftung);
 			break;
 		case "AaSisfNr":
-			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_assozarten'] #" + localStorage.assozarten_id, $("#AaSisfNr option[value='" + Feldwert + "']").text());
+			var aabeschriftung;
+			if (Feldwert) {
+				aabeschriftung = $("#AaSisfNr option[value='" + Feldwert + "']").text();
+			} else {
+				aabeschriftung = "(kein Artname)";
+			}
+			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_assozarten'] #" + localStorage.assozarten_id, aabeschriftung);
 			break;
 	}
 }
