@@ -528,7 +528,13 @@ while($r_jber = mysqli_fetch_assoc($result_jber)) {
 	} else {
 		//jber setzen
 		$attr_jber = array("id" => $JBerId, "typ" => "jber");
-		$jber = array("data" => $r_jber['JBerJahr'], "attr" => $attr_jber);
+		//Baum-node sinnvoll beschriften, auch wenn JBerJahr leer
+		if ($r_jber['JBerJahr']) {
+			$jberbeschriftung = $r_jber['JBerJahr'];
+		} else {
+			$jberbeschriftung = "(kein Jahr)";
+		}
+		$jber = array("data" => $jberbeschriftung, "attr" => $attr_jber);
 	}
 	//jber-Array um jber ergänzen
     $rows_jber[] = $jber;

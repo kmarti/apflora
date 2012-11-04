@@ -9039,10 +9039,14 @@ function speichern(that) {
 			}
 			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_erfkrit'] #" + localStorage.erfkrit_id, erfkritbeschriftung);
 			break;
-		
-			//jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_erfkrit'] #" + localStorage.erfkrit_id, $("#SpanErfkritErreichungsgrad" + $("input:radio[name='ErfkritErreichungsgrad']:checked").val()).text() + ": " + Feldwert);
 		case "JBerJahr":
-			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_jber'] #" + localStorage.jber_id, Feldwert);
+			var jberbeschriftung;
+			if (Feldwert) {
+				jberbeschriftung = Feldwert;
+			} else {
+				jberbeschriftung = "(kein Jahr)";
+			}
+			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_jber'] #" + localStorage.jber_id, jberbeschriftung);
 			break;
 		case "BerAutor":
 		case "BerJahr":
