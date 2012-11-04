@@ -477,22 +477,29 @@ while($r_jber = mysqli_fetch_assoc($result_jber)) {
 	$JBerId = $r_jber['JBerId'];
 	settype($JBerId, "integer");
 	//jber_uebersicht dieses Jahrs abfragen
-	$result_jber_uebersicht = mysqli_query($link, "SELECT JbuJahr, JbuBemerkungen FROM tblJBerUebersicht WHERE JbuJahr=".$r_jber['JBerJahr']);
-	//jber_uebersicht aufbauen
-	$rows_jber_uebersicht = array();
-	while($r_jber_uebersicht = mysqli_fetch_assoc($result_jber_uebersicht)) {
-		$JbuJahr = $r_jber_uebersicht['JbuJahr'];
-		settype($JbuJahr, "integer");
-		//jber_uebersicht setzen
-		$attr_jber_uebersicht = array("id" => $JbuJahr, "typ" => "jber_uebersicht");
-		$jber_uebersicht = array("data" => "Übersicht zu allen Arten", "attr" => $attr_jber_uebersicht);
-		//jber_uebersicht-Array um jber_uebersicht ergänzen
-	    $rows_jber_uebersicht[] = $jber_uebersicht;
+	//nur, wenn JBerJahr nicht null ist, sont gibt das einen Fehler!
+	if ($r_jber['JBerJahr']) {
+		$result_jber_uebersicht = mysqli_query($link, "SELECT JbuJahr, JbuBemerkungen FROM tblJBerUebersicht WHERE JbuJahr=".$r_jber['JBerJahr']);
+		//jber_uebersicht aufbauen
+		$rows_jber_uebersicht = array();
+		while($r_jber_uebersicht = mysqli_fetch_assoc($result_jber_uebersicht)) {
+			$JbuJahr = $r_jber_uebersicht['JbuJahr'];
+			settype($JbuJahr, "integer");
+			//jber_uebersicht setzen
+			$attr_jber_uebersicht = array("id" => $JbuJahr, "typ" => "jber_uebersicht");
+			$jber_uebersicht = array("data" => "Übersicht zu allen Arten", "attr" => $attr_jber_uebersicht);
+			//jber_uebersicht-Array um jber_uebersicht ergänzen
+		    $rows_jber_uebersicht[] = $jber_uebersicht;
+		}
+		mysqli_free_result($result_jber_uebersicht);
+		//jber setzen
+		$attr_jber = array("id" => $JBerId, "typ" => "jber");
+		$jber = array("data" => $r_jber['JBerJahr'], "attr" => $attr_jber, "children" => $rows_jber_uebersicht);
+	} else {
+		//jber setzen
+		$attr_jber = array("id" => $JBerId, "typ" => "jber");
+		$jber = array("data" => $r_jber['JBerJahr'], "attr" => $attr_jber);
 	}
-	mysqli_free_result($result_jber_uebersicht);
-	//jber setzen
-	$attr_jber = array("id" => $JBerId, "typ" => "jber");
-	$jber = array("data" => $r_jber['JBerJahr'], "attr" => $attr_jber, "children" => $rows_jber_uebersicht);
 	//jber-Array um jber ergänzen
     $rows_jber[] = $jber;
 }
