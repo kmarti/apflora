@@ -289,7 +289,17 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 
 		//TPop setzen
 		$attr_tpop = array("id" => $TPopId, "typ" => "tpop");
-		$tpop = array("data" => $r_tpop['TPopNr'] . " " . $r_tpop['TPopFlurname'], "attr" => $attr_tpop, "children" => $tpop_ordner);
+		//Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
+		if ($r_tpop['TPopNr'] & $r_tpop['TPopFlurname']) {
+			$TPopBezeichnung = $r_tpop['TPopNr'].": ".$r_tpop['TPopFlurname'];
+		} else if ($r_tpop['TPopNr']) {
+			$TPopBezeichnung = $r_tpop['TPopNr'].": (kein Flurname)";
+		} else if ($r_tpop['TPopFlurname']) {
+			$TPopBezeichnung = "(keine Nr): ".$r_tpop['TPopFlurname'];
+		} else {
+			$TPopBezeichnung = "(keine Nr): (kein Flurname)";
+		}
+		$tpop = array("data" => $TPopBezeichnung, "attr" => $attr_tpop, "children" => $tpop_ordner);
 		//tpop-Array um tpop ergänzen
 	    $rows_tpop[] = $tpop;
 	}

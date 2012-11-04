@@ -8882,7 +8882,7 @@ function speichern(that) {
 	switch(Feldname) {
 		case "PopNr":
 		case "PopName":
-		var popbeschriftung;
+			var popbeschriftung;
 			if ($("#PopName").val() && $("#PopNr").val()) {
 				popbeschriftung = $("#PopNr").val() + " " + $("#PopName").val();
 			} else if ($("#PopName").val()) {
@@ -8922,11 +8922,19 @@ function speichern(that) {
 			}
 			jQuery("#tree").jstree("rename_node", "[typ='pop_ordner_massnber'] #" + localStorage.popmassnber_id, popmassnberbeschriftung);
 			break;
-		case "TPopFlurname":
-			jQuery("#tree").jstree("rename_node", "[typ='pop_ordner_tpop'] #" + localStorage.tpop_id, $("#TPopNr").val() + " " + Feldwert);
-			break;
 		case "TPopNr":
-			jQuery("#tree").jstree("rename_node", "[typ='pop_ordner_tpop'] #" + localStorage.tpop_id, Feldwert + " " + $("#TPopFlurname").val());
+		case "TPopFlurname":
+			var tpopbeschriftung;
+			if ($("#TPopNr").val() && $("#TPopFlurname").val()) {
+				tpopbeschriftung = $("#TPopNr").val() + " " + $("#TPopFlurname").val();
+			} else if ($("#TPopFlurname").val()) {
+				tpopbeschriftung = "(keine Nr) " + $("#TPopFlurname").val();
+			} else if ($("#TPopNr").val()) {
+				tpopbeschriftung = $("#TPopNr").val() + " (kein Flurname)";
+			} else {
+				tpopbeschriftung = "(keine Nr, kein Flurname)";
+			}
+			jQuery("#tree").jstree("rename_node", "[typ='pop_ordner_tpop'] #" + localStorage.tpop_id, tpopbeschriftung);
 			break;
 		case "TPopKontrTyp":
 		case "TPopKontrJahr":
