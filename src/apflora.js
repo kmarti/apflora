@@ -8975,18 +8975,17 @@ function speichern(that) {
 		case "TPopMassnJahr":
 		case "TPopMassnTyp":
 			//wenn kein Typ/Jahr gewählt: "(kein Typ/Jahr)"
-			var tpopmassnjahr, tpopmassntyp;
-			if ($("#TPopMassnJahr").val()) {
-				tpopmassnjahr = $("#TPopMassnJahr").val();
+			var tpopmassnbezeichnung;
+			if ($("#TPopMassnJahr").val() && $("#TPopMassnTyp option:checked").text()) {
+				tpopmassnbezeichnung = $("#TPopMassnJahr").val() + ": " + $("#TPopMassnTyp option:checked").text();
+			} else if ($("#TPopMassnJahr").val()) {
+				tpopmassnbezeichnung = $("#TPopMassnJahr").val() + ": (kein Typ)";
+			} else if ($("#TPopMassnTyp option:checked").text()) {
+				tpopmassnbezeichnung = "(kein Jahr): " + $("#TPopMassnTyp option:checked").text();
 			} else {
-				tpopmassnjahr = "(kein Jahr)";
+				tpopmassnbezeichnung = "(kein Jahr): (kein Typ)";
 			}
-			if ($("#TPopMassnTyp option:checked").text()) {
-				tpopmassntyp = $("#TPopMassnTyp option:checked").text();
-			} else {
-				tpopmassntyp = "(kein Typ)";
-			}
-			jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_massn'] #" + localStorage.tpopmassn_id, tpopmassnjahr + ": " + tpopmassntyp);
+			jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_massn'] #" + localStorage.tpopmassn_id, tpopmassnbezeichnung);
 			break;
 		case "TPopMassnBerJahr":
 		case "zielbererreichung":
