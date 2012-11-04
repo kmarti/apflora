@@ -482,7 +482,17 @@ while($r_erfkrit = mysqli_fetch_assoc($result_erfkrit)) {
 	settype($ErfkritId, "integer");
 	//erfkrit setzen
 	$attr_erfkrit = array("id" => $ErfkritId, "typ" => "erfkrit");
-	$erfkrit = array("data" => $r_erfkrit['BeurteilTxt'] . ": " . $r_erfkrit['ErfkritTxt'], "attr" => $attr_erfkrit);
+	//Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
+	if ($r_erfkrit['BeurteilTxt'] & $r_erfkrit['ErfkritTxt']) {
+		$erfkritbeschriftung = $r_erfkrit['BeurteilTxt'].": ".$r_erfkrit['ErfkritTxt'];
+	} else if ($r_erfkrit['BeurteilTxt']) {
+		$erfkritbeschriftung = $r_erfkrit['BeurteilTxt'].": (kein Kriterium)";
+	} else if ($r_erfkrit['ErfkritTxt']) {
+		$erfkritbeschriftung = "(keine Beurteilung): ".$r_erfkrit['ErfkritTxt'];
+	} else {
+		$erfkritbeschriftung = "(keine Beurteilung): (kein Kriterium)";
+	}
+	$erfkrit = array("data" => $erfkritbeschriftung, "attr" => $attr_erfkrit);
 	//erfkrit-Array um erfkrit ergänzen
     $rows_erfkrit[] = $erfkrit;
 }
