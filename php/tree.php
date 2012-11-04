@@ -608,7 +608,13 @@ while($r_ib = mysqli_fetch_assoc($result_ib)) {
 	settype($IbId, "integer");
 	//ib setzen
 	$attr_ib = array("id" => $IbId, "typ" => "ib");
-	$ib = array("data" => $r_ib['IbName'], "attr" => $attr_ib);
+	//ib sinnvoll beschriften, auch wenn name leer
+	if ($r_ib['IbName']) {
+		$ibbeschriftung = $r_ib['IbName'];
+	} else {
+		$ibbeschriftung = "(kein Name)";
+	}
+	$ib = array("data" => $ibbeschriftung, "attr" => $attr_ib);
 	//ib-Array um ib ergänzen
     $rows_ib[] = $ib;
 }

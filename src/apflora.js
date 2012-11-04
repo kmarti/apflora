@@ -9053,7 +9053,13 @@ function speichern(that) {
 			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_ber'] #" + localStorage.ber_id, $("#BerJahr").val() + ": " + $("#BerAutor").val());
 			break;
 		case "IbName":
-			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_ib'] #" + localStorage.ib_id, Feldwert);
+			var ibbeschriftung;
+			if (Feldwert) {
+				ibbeschriftung = Feldwert;
+			} else {
+				ibbeschriftung = "(kein Name)";
+			}
+			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_ib'] #" + localStorage.ib_id, ibbeschriftung);
 			break;
 		case "AaSisfNr":
 			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_assozarten'] #" + localStorage.assozarten_id, $("#AaSisfNr option[value='" + Feldwert + "']").text());
