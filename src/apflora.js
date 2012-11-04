@@ -702,6 +702,7 @@ function initiiere_popmassnber() {
 				$("#PopMassnBerTxt").val(data.PopMassnBerTxt);
 				//Formulare blenden
 				zeigeFormular("popmassnber");
+				history.replaceState({popmassnber: "popmassnber"}, "popmassnber", "index.html?ap=" + localStorage.ap_id + "&popmassnber=" + localStorage.popmassnber_id);
 				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function() {
@@ -1942,6 +1943,12 @@ function erstelle_tree(ApArtId) {
 			initiiere_popber();
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese Popber geöffnet wird
 			delete window.popber_zeigen;
+		}
+		if (window.popmassnber_zeigen) {
+			jQuery("#tree").jstree("select_node", "[typ='popmassnber']#" + localStorage.popmassnber_id);
+			initiiere_popmassnber();
+			//diese Markierung entfernen, damit das nächste mal nicht mehr diese popmassnber geöffnet wird
+			delete window.popmassnber_zeigen;
 		}
 		if (window.tpop_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='tpop']#" + localStorage.tpop_id);
@@ -8898,11 +8905,20 @@ function speichern(that) {
 				popberbeschriftung = "(kein Jahr): (kein Status)";
 			}
 			jQuery("#tree").jstree("rename_node", "[typ='pop_ordner_popber'] #" + localStorage.popber_id, popberbeschriftung);
-			//jQuery("#tree").jstree("rename_node", "[typ='pop_ordner_popber'] #" + localStorage.popber_id, $("#PopBerJahr").val() + ": " + $("#spanPopBerEntwicklung" + $('input[name="PopBerEntwicklung"]:checked').val()).text());
 			break;
 		case "PopMassnBerJahr":
 		case "PopMassnBerErfolgsbeurteilung":
-			jQuery("#tree").jstree("rename_node", "[typ='pop_ordner_massnber'] #" + localStorage.popmassnber_id, $("#PopMassnBerJahr").val() + ": " + $("#spanPopMassnBerErfolgsbeurteilung" + $('input[name="PopMassnBerErfolgsbeurteilung"]:checked').val()).text());
+			var popmassnberbeschriftung;
+			if ($("#PopMassnBerJahr").val() && $("#spanPopMassnBerErfolgsbeurteilung" + $('input[name="PopMassnBerErfolgsbeurteilung"]:checked').val()).text()) {
+				popmassnberbeschriftung = $("#PopMassnBerJahr").val() + ": " + $("#spanPopMassnBerErfolgsbeurteilung" + $('input[name="PopMassnBerErfolgsbeurteilung"]:checked').val()).text();
+			} else if ($("#PopMassnBerJahr").val()) {
+				popmassnberbeschriftung = $("#PopMassnBerJahr").val() + ": (nicht beurteilt)";
+			} else if ($("#spanPopMassnBerErfolgsbeurteilung" + $('input[name="PopMassnBerErfolgsbeurteilung"]:checked').val()).text()) {
+				popmassnberbeschriftung = "(kein Jahr): " + $("#spanPopMassnBerErfolgsbeurteilung" + $('input[name="PopMassnBerErfolgsbeurteilung"]:checked').val()).text();
+			} else {
+				popmassnberbeschriftung = "(kein Jahr): (nicht beurteilt)";
+			}
+			jQuery("#tree").jstree("rename_node", "[typ='pop_ordner_massnber'] #" + localStorage.popmassnber_id, popmassnberbeschriftung);
 			break;
 		case "TPopFlurname":
 			jQuery("#tree").jstree("rename_node", "[typ='pop_ordner_tpop'] #" + localStorage.tpop_id, $("#TPopNr").val() + " " + Feldwert);
@@ -9729,7 +9745,9 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 	map = new google.maps.Map(document.getElementById("Karte"), options);
 	window.map = map;
 	//Versuch: SVO einblenden
-	//loadWMS(map, "http://www.gis.zh.ch/scripts/wmsFNSSVO2.asp?");
+	//loadWMS(map, "http://wms.zh.ch/FnsSVOZHWMS?");
+	//Versuch: AV einblenden
+	//loadWMS(map, "http://wms.zh.ch/avwms?");
 	bounds = new google.maps.LatLngBounds();
 	//für alle Orte Marker erstellen
 	markers = [];
@@ -10110,18 +10128,22 @@ function loadWMS(map, baseURL, customParams){
 	var maxZoomLevel = 28;
 
 	//var baseURL = "";
+	//für SVO
 	var wmsParams = [
-	"REQUEST=GetMap",
-	"SERVICE=WMS",
-	"VERSION=1.1.1",
-	"STYLES=default",
-	"LAYERS=GISZH",
-	"FORMAT=image/png",
-	"TRANSPARENT=TRUE",
-	"SRS=EPSG:4326",
+	"REQUEST=GetCapabilities",
+	"SERVICE=WFS",
+	"VERSION=1.1.0",
 	"WIDTH="+ tileWidth,
 	"HEIGHT="+ tileHeight
 	];
+	//für av
+	/*var wmsParams = [
+	//"REQUEST=GetCapabilities",
+	//"SERVICE=WMS",
+	//"VERSION=1.3.0",
+	"WIDTH="+ tileWidth,
+	"HEIGHT="+ tileHeight
+	];*/
 
 	//add additional parameters
 	var wmsParams = wmsParams.concat(customParams);
@@ -10285,6 +10307,16 @@ function oeffneUri() {
 		//markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
 		//Die Markierung wird im load-Event wieder entfernt
 		window.popber_zeigen = true;
+		//ap initiieren und damit den loaded-event auslösen
+		$("#ap_waehlen").val(localStorage.ap_id);
+		$("#ap_waehlen").trigger("change");
+	} else if (uri.getQueryParamValue('popmassnber')) {
+		//url-Variabeln holen
+		localStorage.ap_id = uri.getQueryParamValue('ap');
+		localStorage.popmassnber_id = uri.getQueryParamValue('popmassnber');
+		//markieren, dass nach dem loaded-event im Tree die popmassnber angezeigt werden soll 
+		//Die Markierung wird im load-Event wieder entfernt
+		window.popmassnber_zeigen = true;
 		//ap initiieren und damit den loaded-event auslösen
 		$("#ap_waehlen").val(localStorage.ap_id);
 		$("#ap_waehlen").trigger("change");

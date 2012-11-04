@@ -305,6 +305,7 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 		settype($PopBerId, "integer");
 		//popber setzen
 		$attr_popber = array("id" => $PopBerId, "typ" => "popber");
+		//Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
 		if ($r_popber['PopBerJahr'] & $r_popber['EntwicklungTxt']) {
 			$PopBerBezeichnung = $r_popber['PopBerJahr'].": ".$r_popber['EntwicklungTxt'];
 		} else if ($r_popber['PopBerJahr']) {
@@ -328,10 +329,19 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 	while($r_massnber = mysqli_fetch_assoc($result_massnber)) {
 		$PopMassnBerId = $r_massnber['PopMassnBerId'];
 		settype($PopMassnBerId, "integer");
-		$BeurteilTxt = $r_massnber['BeurteilTxt'];
 		//massnber setzen
 		$attr_massnber = array("id" => $PopMassnBerId, "typ" => "popmassnber");
-		$massnber = array("data" => $r_massnber['PopMassnBerJahr'].": ".$BeurteilTxt, "attr" => $attr_massnber);
+		//Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
+		if ($r_massnber['PopMassnBerJahr'] & $r_massnber['BeurteilTxt']) {
+			$PopMassnBerBezeichnung = $r_massnber['PopMassnBerJahr'].": ".$r_massnber['BeurteilTxt'];
+		} else if ($r_massnber['PopMassnBerJahr']) {
+			$PopMassnBerBezeichnung = $r_massnber['PopMassnBerJahr'].": (nicht beurteilt)";
+		} else if ($r_massnber['BeurteilTxt']) {
+			$PopMassnBerBezeichnung = "(kein Jahr): ".$r_massnber['BeurteilTxt'];
+		} else {
+			$PopMassnBerBezeichnung = "(kein Jahr): (nicht beurteilt)";
+		}
+		$massnber = array("data" => $PopMassnBerBezeichnung, "attr" => $attr_massnber);
 		//massnber-Array um massnber ergänzen
 	    $rows_massnber[] = $massnber;
 	}
