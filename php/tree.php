@@ -551,7 +551,17 @@ while($r_ber = mysqli_fetch_assoc($result_ber)) {
 	settype($BerId, "integer");
 	//ber setzen
 	$attr_ber = array("id" => $BerId, "typ" => "ber");
-	$ber = array("data" => $r_ber['BerJahr'].": ".$r_ber['BerTitel'], "attr" => $attr_ber);
+	//Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
+	if ($r_ber['BerJahr'] & $r_ber['BerTitel']) {
+		$berbeschriftung = $r_ber['BerJahr'].": ".$r_ber['BerTitel'];
+	} else if ($r_ber['BerJahr']) {
+		$berbeschriftung = $r_ber['BerJahr'].": (kein Titel)";
+	} else if ($r_ber['BerTitel']) {
+		$berbeschriftung = "(kein Jahr): ".$r_ber['BerTitel'];
+	} else {
+		$berbeschriftung = "(kein Jahr): (kein Titel)";
+	}
+	$ber = array("data" => $berbeschriftung, "attr" => $attr_ber);
 	//ber-Array um ber ergänzen
     $rows_ber[] = $ber;
 }

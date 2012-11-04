@@ -9048,9 +9048,19 @@ function speichern(that) {
 			}
 			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_jber'] #" + localStorage.jber_id, jberbeschriftung);
 			break;
-		case "BerAutor":
+		case "BerTitel":
 		case "BerJahr":
-			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_ber'] #" + localStorage.ber_id, $("#BerJahr").val() + ": " + $("#BerAutor").val());
+			var berbeschriftung;
+			if ($("#BerJahr").val() && $("#BerTitel").val()) {
+				berbeschriftung = $("#BerJahr").val() + ": " + $("#BerTitel").val();
+			} else if ($("#BerJahr").val()) {
+				berbeschriftung = $("#BerJahr").val() + ": (kein Titel)";
+			} else if ($("#BerTitel").val()) {
+				berbeschriftung = "(kein Jahr): " + $("#BerTitel").val();
+			} else {
+				berbeschriftung = "(kein Jahr): (kein Titel)";
+			}
+			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_ber'] #" + localStorage.ber_id, berbeschriftung);
 			break;
 		case "IbName":
 			var ibbeschriftung;
