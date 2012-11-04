@@ -31,7 +31,12 @@ if (!$Wert) {
 	$Wert == null;
 }
 
-$Querystring = 'UPDATE tblTeilPopMassnahme SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopMassnId = '.$id;
+if ($Wert) {
+	$Querystring = 'UPDATE tblTeilPopMassnahme SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopMassnId = '.$id;
+} else {
+	//Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
+	$Querystring = 'UPDATE tblTeilPopMassnahme SET '.$Feld.'=null, MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopMassnId = '.$id;
+}
 
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);

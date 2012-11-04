@@ -18,7 +18,12 @@ $Wert = $_GET["Wert"];
 $user = $_GET["user"];
 $time = date('Y-m-d H:i:s');
 
-$Querystring = 'UPDATE tblPopulation SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE PopId = '.$id;
+if ($Wert) {
+	$Querystring = 'UPDATE tblPopulation SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE PopId = '.$id;
+} else {
+	//Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
+	$Querystring = 'UPDATE tblPopulation SET '.$Feld.'=null, MutWann="'.$time.'", MutWer="'.$user.'" WHERE PopId = '.$id;
+}
 
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);

@@ -32,9 +32,15 @@ foreach ($Felderarray as $key => $value) {
 
 //jetzt den Querystring aufbauen
 $Querystring = 'UPDATE tblTeilPopFeldkontrolle SET MutWann="'.$time.'", MutWer="'.$user.'"';
+
 //jetzt Querystring entwickeln
 foreach ($Felderarray as $key => $value) {
-	$Querystring .= ','.$key.'="'.$value.'"';
+	if ($value) {
+		$Querystring .= ','.$key.'="'.$value.'"';
+	} else {
+		//Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
+		$Querystring .= ','.$key.'=null';
+	}
 }
 //MutWann, MutWer und Where ergänzen
 $Querystring .= ' WHERE TPopKontrId='.$id;

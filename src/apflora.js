@@ -8882,15 +8882,17 @@ function speichern(that) {
 	switch(Feldname) {
 		case "PopNr":
 		case "PopName":
+		var popbeschriftung;
 			if ($("#PopName").val() && $("#PopNr").val()) {
-				jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_pop'] #" + localStorage.pop_id, $("#PopNr").val() + " " + $("#PopName").val());
+				popbeschriftung = $("#PopNr").val() + " " + $("#PopName").val();
 			} else if ($("#PopName").val()) {
-				jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_pop'] #" + localStorage.pop_id, "(keine Nr) " + $("#PopName").val());
+				popbeschriftung = "(keine Nr) " + $("#PopName").val();
 			} else if ($("#PopNr").val()) {
-				jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_pop'] #" + localStorage.pop_id, $("#PopNr").val() + " (kein Name)");
+				popbeschriftung = $("#PopNr").val() + " (kein Name)";
 			} else {
-				jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_pop'] #" + localStorage.pop_id, "(keine Nr, kein Name)");
+				popbeschriftung = "(keine Nr, kein Name)";
 			}
+			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_pop'] #" + localStorage.pop_id, popbeschriftung);
 			break;
 		case "PopBerJahr":
 		case "PopBerEntwicklung":

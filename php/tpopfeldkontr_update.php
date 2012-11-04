@@ -27,7 +27,12 @@ if ($Feld == "TPopKontrDatum") {
 	}
 }
 
-$Querystring = 'UPDATE tblTeilPopFeldkontrolle SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopKontrId = '.$id;
+if ($Wert) {
+	$Querystring = 'UPDATE tblTeilPopFeldkontrolle SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopKontrId = '.$id;
+} else {
+	//Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
+	$Querystring = 'UPDATE tblTeilPopFeldkontrolle SET '.$Feld.'=null, MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopKontrId = '.$id;
+}
 
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);

@@ -18,7 +18,12 @@ $Wert = $_GET["Wert"];
 $user = $_GET["user"];
 $time = date('Y-m-d H:i:s');
 
-$Querystring = 'UPDATE tblZiel SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE ZielId = '.$id;
+if ($Wert) {
+	$Querystring = 'UPDATE tblZiel SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE ZielId = '.$id;
+} else {
+	//Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
+	$Querystring = 'UPDATE tblZiel SET '.$Feld.'=null, MutWann="'.$time.'", MutWer="'.$user.'" WHERE ZielId = '.$id;
+}
 
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);

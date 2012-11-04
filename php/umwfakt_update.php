@@ -27,7 +27,12 @@ if ($Feld == "UfErstelldatum") {
 	}
 }
 
-$Querystring = 'UPDATE tblUmweltFaktoren SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE UfApArtId = '.$id;
+if ($Wert) {
+	$Querystring = 'UPDATE tblUmweltFaktoren SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE UfApArtId = '.$id;
+} else {
+	//Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
+	$Querystring = 'UPDATE tblUmweltFaktoren SET '.$Feld.'=null, MutWann="'.$time.'", MutWer="'.$user.'" WHERE UfApArtId = '.$id;
+}
 
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);
