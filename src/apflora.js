@@ -9792,6 +9792,7 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 	window.map = map;
 	//Versuch: SVO einblenden
 	//loadWMS(map, "http://wms.zh.ch/FnsSVOZHWMS?");
+	//loadWMS(map, "http://www.gis.zh.ch/scripts/wmsfnssvo2.asp?");
 	//Versuch: AV einblenden
 	//loadWMS(map, "http://wms.zh.ch/avwms?");
 	bounds = new google.maps.LatLngBounds();
@@ -10176,11 +10177,16 @@ function loadWMS(map, baseURL, customParams){
 	//var baseURL = "";
 	//für SVO
 	var wmsParams = [
-	"REQUEST=GetCapabilities",
-	"SERVICE=WFS",
-	"VERSION=1.1.0",
-	"WIDTH="+ tileWidth,
-	"HEIGHT="+ tileHeight
+	"REQUEST=GetMap",
+	"SERVICE=WMS",
+	"VERSION=1.1.1",
+	"WIDTH=512",
+	"HEIGHT=512",
+	"SRS=EPSG:4326",
+	"LAYERS=zonen-schutzverordnungen",
+	"STYLES=default",
+	"TRANSPARENT=TRUE",
+	"FORMAT=image/gif"
 	];
 	//für av
 	/*var wmsParams = [
