@@ -15,14 +15,7 @@ import sys, os
 
 # Designed to prevent Open Proxy type stuff.
 
-allowedHosts = ['www.openlayers.org', 'openlayers.org', 
-                'labs.metacarta.com', 'world.freemap.in', 
-                'prototype.openmnnd.org', 'geo.openplans.org',
-                'sigma.openplans.org', 'demo.opengeo.org',
-                'www.openstreetmap.org', 'sample.azavea.com',
-                'v2.suite.opengeo.org', 'v-swe.uni-muenster.de:8080', 
-                'vmap0.tiles.osgeo.org', 'www.openrouteservice.org',
-                'maps.wien.gv.at', 'www.gis.zh.ch', 'opengeo.org']
+allowedHosts = ['www.openlayers.org', 'http://www.opengis.net', 'www.gis.zh.ch', 'http://maps.zh.ch/', 'http://wms.zh.ch', 'wmts.geo.admin.ch', 'http://geo.admin.ch']
 
 method = os.environ["REQUEST_METHOD"]
 
