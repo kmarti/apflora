@@ -1,7 +1,5 @@
 Software zur Verwaltung des Aktionsplans Flora der Fachstelle Naturschutz des Kantons Zürich.
 
-Sie löst die bestehende Access-Anwendung ab.
-
 <a name="top"></a>
 ## Inhalt ##
 * <a href="#machen">Was kann man mit AP Flora Web machen?</a>
