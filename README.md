@@ -90,6 +90,7 @@ Beides: verglichen mit der ehemaligen Access-Anwendung.
 #Roadmap
 - Die Anwendung enthält fast alle geplanten Funktionen
 - Jetzt wird sie durch die AnwenderInnen getestet
+- Bald sollen die Kartenfunktionen erweitert werden
 - Ev. lässt sich mittelfristig die Mobilfähigkeit steigern. Wär doch toll, wenn man im Feld mit einem Tablett erfassen könnte...
 
 <a href="#top">&#8593; top</a>
