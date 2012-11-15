@@ -35,6 +35,8 @@ Sie löst die bestehende Access-Anwendung ab.
 - Teilpopulationen auf Luftbildern verorten
 - Teilpopulationen und Beobachtungen im GIS-Browser des Kt. Zürich anzeigen
 - Populationen und Teilpopulationen aller Arten als kml-Datei für Google Earth exportieren
+- Bald: Anzeigen auf dem Übersichtsplan des Kt. Zürich, ev. auf Landeskarten
+- Bald: Diverse Ebenen einblenden (Bundesinventare, Kantonale Inventare, Parzellen)
 
 **Sich anleiten lassen:**
 
