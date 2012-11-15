@@ -51,7 +51,7 @@ Sie löst die bestehende Access-Anwendung ab.
 
 - "No hassle": Keine Installation, keine Installationskosten, automatische Updates
 - Von ausserhalb und endlich auch innerhalb der Fachstelle Naturschutz arbeiten
-- Ein moderner Browser wird vorausgesetzt. Getestet auf Google Chrome, Firefox und Safari (neuste Versionen). Funktioniert nicht auf Internet Explorer bis Version 9 (auf 10 nicht getestet)
+- Ein moderner Browser wird vorausgesetzt. Getestet auf Google Chrome, Firefox und Safari (neuste Versionen). Funktioniert nicht auf Internet Explorer (nicht einmal auf Version 10!)
 
 **Sich rasch zurechtfinden:**
 
@@ -77,12 +77,13 @@ Die nachfolgend aufgelisteten Funktionen werden nur von Topos in einer neuen Acc
 - pdf-Datei für den Jahresbericht erstellen
 - Adressen verwalten
 - Mit dem GIS auf die Daten zugreifen
-- Logins kreieren und Schreibrechte vergeben
+- Logins verwalten und Schreibrechte vergeben
 
 **Anwendung effizient unterhalten:**
 
 - Einfacheres Gesamtsystem mit weniger Abhängigkeiten
 - Die Anwendung ist professioneller aufgebaut, im Code dokumentiert und einfacher zu warten 
+
 Beides: verglichen mit der ehemaligen Access-Anwendung.
 
 <a href="#top">&#8593; top</a>
@@ -91,7 +92,7 @@ Beides: verglichen mit der ehemaligen Access-Anwendung.
 <a name="Roadmap"></a>
 #Roadmap
 - Die Anwendung enthält fast alle geplanten Funktionen
-- Jetzt wird sie durch die AnwenderInnen getestet
+- Jetzt wird sie durch die AnwenderInnen getestet und laufend angepasst
 - Bald sollen die Kartenfunktionen erweitert werden
 - Ev. lässt sich mittelfristig die Mobilfähigkeit steigern. Wär doch toll, wenn man im Feld mit einem Tablett erfassen könnte...
 
