@@ -2386,9 +2386,12 @@
 							ml.hide();
 						}
 					}, this))
-				.delegate("a", "mousedown.jstree", $.proxy(function (e) { 
+				.delegate("a", "mousedown.jstree", $.proxy(function (e) {
 						if(e.which === 1) {
 							this.start_drag(e.currentTarget, e);
+							//DIESE ZEILE VERHINDERT, DASS ÄNDERUNGEN IM LETZTEN FELD GESPEICHERT WERDEN!
+							//KOMMENTIERT MAN DIE ZEILE AUS, WERDEN ÄNDERUNGEN WIEDER GESPEICHERT
+							//DRAG AND DROP FUNKTIONIERT ABER NICHT MEHR!
 							return false;
 						}
 					}, this))

@@ -1926,7 +1926,8 @@ function erstelle_tree(ApArtId) {
 				}
 			}
 		},
-		"plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "contextmenu", "crrm", "dnd", "types"]
+		//"plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "contextmenu", "crrm", "dnd", "types"]
+		"plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "contextmenu", "crrm", "types"]
 	})
 	.show()
 	.bind("loaded.jstree", function (event, data) {
@@ -2065,7 +2066,7 @@ function erstelle_tree(ApArtId) {
 		}, 500);
 	})
 	.bind("select_node.jstree", function (e, data) {
-		var node;
+		var node;		
 		delete localStorage.tpopfreiwkontr;	//Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
 		jQuery.jstree._reference(node).open_node(node);
@@ -2209,15 +2210,6 @@ function erstelle_tree(ApArtId) {
 		//herkunft_parent_node muss vor dem move ermittelt werden - danach ist der parent ein anderer!
 		window.herkunft_parent_node = jQuery.jstree._reference(data.rslt.o)._get_parent(data.rslt.o);
 	})
-	/*.bind("rename_node.jstree", function (e, data) {
-		var parent_node;
-		node = data.rslt.obj;
-		parent_node = jQuery.jstree._reference(node)._get_parent();
-		jQuery.jstree._focused()._get_settings().sort = function(a,b) {
-				return this.get_text(a) > this.get_text(b) ? 1 : -1;
-			};
-		jQuery.jstree._reference(parent_node).sort(parent_node);
-	})*/
 	.bind("move_node.jstree", function (e, data) {
 		var herkunft_node, ziel_node, ziel_parent_node;
 		//nur aktualisieren, wenn Schreibrechte bestehen
@@ -5805,7 +5797,8 @@ function treeKontextmenu(node) {
 		}
 		if (!window.tpop_node_ausgeschnitten) {
 			items.ausschneiden = {
-				"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
+				//"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
+				"label": "ausschneiden",
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
@@ -6700,7 +6693,8 @@ function treeKontextmenu(node) {
 		}
 		if (!window.tpopfeldkontr_node_ausgeschnitten) {
 			items.ausschneiden = {
-				"label": "Feldkontrolle ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
+				//"label": "Feldkontrolle ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
+				"label": "Feldkontrolle ausschneiden",
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
@@ -7157,7 +7151,8 @@ function treeKontextmenu(node) {
 		};
 		if (!window.tpopfreiwkontr_node_ausgeschnitten) {
 			items.ausschneiden = {
-				"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
+				//"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
+				"label": "ausschneiden",
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
@@ -7611,7 +7606,8 @@ function treeKontextmenu(node) {
 		};
 		if (!window.tpopmassn_node_ausgeschnitten) {
 			items.ausschneiden = {
-				"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
+				//"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
+				"label": "ausschneiden",
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
@@ -8106,7 +8102,8 @@ function treeKontextmenu(node) {
 		};
 		if (!window.tpopbeob_node_ausgeschnitten) {
 			items.ausschneiden = {
-				"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
+				//"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
+				"label": "ausschneiden",
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
@@ -8537,7 +8534,8 @@ function treeKontextmenu(node) {
 		}
 		if (!window.beob_node_ausgeschnitten) {
 			items.ausschneiden = {
-				"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
+				//"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
+				"label": "ausschneiden",
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {

@@ -2273,12 +2273,13 @@
 					FitToContent(this, document.documentElement.clientHeight);
 				});
 
+				//verhindern, dass Zahlen durch Scrollen am Mausrad aus Versehen verändert werden
 				$("[type='number']").mousewheel(function(event){
 				   event.preventDefault() ;
 				});
 
 				//Wenn im Suchfeld oder in einem Datenfeld die Taste Delete gedrückt wird,
-				//wird anschliessend im Baum die markierte node entfernt!
+				//wird anschliessend im Baum der markierte node entfernt!
 				$("#menu").on("keydown", "#suchen", function(event) {
 					if (event.keyCode === 46) {
 						event.stopPropagation();	
