@@ -64,6 +64,8 @@ Software zur Verwaltung des Aktionsplans Flora der Fachstelle Naturschutz des Ka
 - Beobachtungen Teilpopulationen zuordnen: Mit drag and drop im Strukturbaum, in einer nach Abstand zu den Teilpopulationen geordneten Liste im Formular oder mit drag and drop im Luftbild
 - Daten löschen: Bei den gehaltvollen Daten (Programme/Arten, Populationen, Teilpopulationen, Feldkontrollen, Freiwilligen-Kontrollen, Massnahmen, AP-Berichten) kann das Löschen nachträglich während 25 Sekunden rückgängig gemacht werden
 
+Update vom 16.11.12: Drag and drop vorläufig ausgeschaltet, wegen Fehler im externen Modul.
+
 **Im Feld arbeiten?**
 
 Mit einen leistungsstarken Tablett mit genügend grossem Bildschirm und in Gebieten mit gutem Datenempfang könnte die Anwendung vermutlich auch im Feld benutzt werden. Allenfalls auch mit einem grossen Smartphone mit Stift. Ohne Stift ist die Sache etwas gar fummellig. Mehr dazu [hier](https://github.com/barbalex/apflora/wiki/3-Daten-direkt-im-Feld-erfassen).

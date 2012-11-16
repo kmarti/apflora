@@ -8,12 +8,6 @@ function initiiere_index() {
 	//jQuery ui buttons initiieren
 	$("#programm_wahl").buttonset();
 	$("button").button();
-	/*funktioniert nicht: Icon wir über Text geblendet!*/
-	/*$(".GoogleEarthButton").button({
-        icons: {
-        	secondary:'ui-icon-ge18'
-        }
-    });*/
 	$("#tpopfeldkontr_tabs").tabs();
 	//Gemeindeliste erstellen, wenn nötig
 	if (!window.Gemeinden) {
@@ -5815,6 +5809,21 @@ function treeKontextmenu(node) {
 						});
 						return;
 					}
+					//kontrollieren, ob diese TPop die Pop repräsentiert. Wenn ja, melden
+					if ($("#TPopPop").prop("checked", true)) {
+						$("#Meldung").html("Sie verschieben die repräsentative Teilpopulation.<br><br>Die Population hat darum keine Koordinaten mehr und erscheint nicht mehr in Plänen.<br><br>Bitte klicken Sie in einer geeigneten verbliebenen Teilpopulation auf 'Lage repräsentiert Population'.<br><br>Das können Sie gut jetzt machen, vor dem Einfügen in die neue Population.");
+						$("#Meldung").dialog({
+							modal: true,
+							width: 450,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+									//jetzt Koordinaten aus Population löschen
+									loescheKoordAusPop($(parent_node).attr('id'));
+								}
+							}
+						});
+					}
 					window.tpop_node_ausgeschnitten = aktiver_node;
 					//es macht keinen Sinn mehr, den kopierten node zu behalten
 					//und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
@@ -8861,6 +8870,10 @@ function speichern(that) {
 					},
 				});
 			}
+			if (Feldname === "TPopPop" && Feldwert == 0) {
+				//In Pop Koordinaten leeren
+				loescheKoordAusPop(localStorage.pop_id);
+			}
 		},
 		error: function (data) {
 			var Meldung;
@@ -10550,4 +10563,29 @@ function oeffneUri() {
 		$("#ap_waehlen").val(localStorage.ap_id);
 		$("#ap_waehlen").trigger("change");
 	}
+}
+
+function loescheKoordAusPop(popid) {
+	$.ajax({
+		url: 'php/pop_update.php',
+		dataType: 'json',
+		data: {
+			"id": popid,
+			"Feld": "PopXKoord",
+			"Wert": "",
+			"user": sessionStorage.User
+		},
+		success: function () {
+			$.ajax({
+				url: 'php/pop_update.php',
+				dataType: 'json',
+				data: {
+					"id": popid,
+					"Feld": "PopYKoord",
+					"Wert": "",
+					"user": sessionStorage.User
+				}
+			});
+		}
+	});
 }
