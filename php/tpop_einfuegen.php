@@ -18,7 +18,8 @@ settype($TPopId, "integer");
 $user = $_GET["user"];
 $time = date('Y-m-d H:i:s');
 
-$Querystring = 'UPDATE tblTeilpopulation SET PopId="'.$PopId.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopId='.$TPopId;
+//TPopPop 0 setzen, falls es bisher -1 war (neue TPop soll nicht die bisherige repräsentative ersetzen und es gibt bestimmt schon eine)
+$Querystring = 'UPDATE tblTeilpopulation SET PopId="'.$PopId.'", TPopPop="0", MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopId='.$TPopId;
 
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);
