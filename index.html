@@ -2099,6 +2099,7 @@
 				<a name="Kontrollen"></a>
 				<h2 class="border_top">Kontrollen</h2>
 				<button id="export_kontr">Kontrollen</button><br>
+				<button id="export_kontr_anz_pro_zaehleinheit">Kontrollen: Anzahl pro Zähleinheit</button><br>
 
 				<br><a href="#top">&uArr;&nbsp;top</a>
 
@@ -3000,6 +3001,9 @@
 			});
 			$("#exporte").on("click", "#export_kontr", function() {
 				window.open("php/export_kontr.php", target="_blank");
+			});
+			$("#exporte").on("click", "#export_kontr_anz_pro_zaehleinheit", function() {
+				window.open("php/export_kontr_anz_pro_zaehleinheit.php", target="_blank");
 			});
 			$("#exporte").on("click", "#export_massn", function() {
 				window.open("php/export_massn.php", target="_blank");
