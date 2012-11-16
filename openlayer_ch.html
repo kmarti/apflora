@@ -5,19 +5,45 @@
 		<link rel="SHORTCUT ICON" href="img/favicon.ico">
 		<style>
 			html,body {
-				height: 99%;
-				width: 99%;
-			}
-			#map {
-				width: 800px;
 				height: 100%;
-				border: 1px solid grey;
-				padding: 0 0 0 0;
-				margin: 10px 5px 10px 10px !important;
+				width: 100%;
+				min-width: 700px;
+			}
+			body {
+				
+			}
+			#container {
+				padding-left: 0px;
+				padding-right: 302px;
+				height: 100%;
+			}
+			#container .column {
+				position: relative;
 				float: left;
 			}
+			#layertree {
+				width: 302px;
+				margin-right: -302px;
+				overflow:auto;
+				height:100%;
+			}
+			#map {
+				width: 100%;
+				height: 100%;
+			}
+			/*Ebenen-Liste soll ganze Höhe nutzen*/
 			.x-panel-body {
 				height: 100% !important;
+			}
+			/*Ebenentitel fett hervorheben*/
+			div.x-tree-node-leaf a.x-tree-node-anchor span {
+				font-weight:900;
+			}
+			/*Koordinatenanzeige gestalten*/
+			.olControlMousePosition, .olControlPermalink a {
+				color: #FF3300;
+				font-weight:900;
+				font-family: Arial, Verdana, Helvetica, sans-serif;
 			}
 		</style>
 		<script type="text/javascript" src="https://api.geo.admin.ch/loader.js"></script>
@@ -25,10 +51,9 @@
 		<script type="text/javascript" src="src/ol_ch.js"></script>
 	</head>
 	<body onload="init()">
-		<div id='map'></div>
-		<div id='parent' style='overflow: hidden; float: left;'>
-			<div id="layertree" style="float:left; margin:10px 5px 10px 5px !important; width:285px; height:100%;"></div>
-			<div id='mymouseposition' style="clear:left; float:left; margin-left: 5px;"></div>
+		<div id='container'>
+			<div id='map' class='column'></div>
+			<div id="layertree" class='column'></div>
 		</div>
 	</body>
 </html>

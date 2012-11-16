@@ -17,11 +17,6 @@ function init() {
 		zoom: 4
 	});
 
-	var mouseposition  = new GeoAdmin.MousePositionBox({
-		renderTo: "mymouseposition",
-		map: api.map
-	});
-
 	var zh_uep = new OpenLayers.Layer.WMS("Übersichtsplan Kt. Zürich", "http://wms.zh.ch/upwms", {
 		layers: 'upwms',
 		//projection: new OpenLayers.Projection("EPSG:4326"),
@@ -146,6 +141,10 @@ function init() {
 		renderTo: "layertree",
 		width: 285
 	});
+
+	$(".x-panel-header-text").text("Ebenen");
+
+	api.map.addControl(new OpenLayers.Control.MousePosition({numDigits: 0, separator: ' / '}));
 
 
 };
