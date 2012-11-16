@@ -7,10 +7,8 @@
 			html,body {
 				height: 100%;
 				width: 100%;
+				/*Ebenenliste darf Karte auf kleinen Bildschirmen nicht konkurrenzieren*/
 				min-width: 700px;
-			}
-			body {
-				
 			}
 			#container {
 				padding-left: 0px;
@@ -31,7 +29,7 @@
 				width: 100%;
 				height: 100%;
 			}
-			/*Ebenen-Liste soll ganze Höhe nutzen*/
+			/*Ebenenliste soll die ganze Höhe nutzen*/
 			.x-panel-body {
 				height: 100% !important;
 			}
@@ -41,9 +39,10 @@
 			}
 			/*Koordinatenanzeige gestalten*/
 			.olControlMousePosition, .olControlPermalink a {
-				color: #FF3300;
 				font-weight:900;
 				font-family: Arial, Verdana, Helvetica, sans-serif;
+				/*Koordinaten weiss hinterlegen, damit sie auf jedem Hintergrund gut sichtbar sind*/
+				text-shadow: 0 1px 0 white,1px 0 0 white,0 -1px 0 white,-1px 0 0 white,0 2px 0 white,2px 0 0 white,0 -2px 0 white,-2px 0 0 white;
 			}
 		</style>
 		<script type="text/javascript" src="https://api.geo.admin.ch/loader.js"></script>
