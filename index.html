@@ -2047,29 +2047,21 @@
 				<button id="export_ap_anz_kontr">Anzahl Kontrollen pro Programm</button><br><br>
 
 				<button id="export_jber">AP-Berichte (Jahresberichte)</button><br>
-				<button id="export_jber_ohne_ap">AP-Berichte ohne Programm (Datenwaisen)</button><br>
 				<button id="export_jber_massn">AP-Berichte und Massnahmen</button><br><br>
 
-				<button id="export_apziel">Ziele</button><br>
-				<button id="export_apziel_ohne_ap">Ziele ohne Programm (Datenwaisen)</button><br><br>
+				<button id="export_apziel">Ziele</button><br><br>
 
-				<button id="export_zielber">Ziel-Berichte</button><br>
-				<button id="export_zielber_ohne_ziel">Ziel-Berichte ohne Ziele (Datenwaisen)</button><br><br>
+				<button id="export_zielber">Ziel-Berichte</button><br><br>
 
-				<button id="export_ber">Berichte</button><br>
-				<button id="export_ber_ohne_ap">Berichte ohne Programm (Datenwaisen)</button><br><br>
+				<button id="export_ber">Berichte</button><br><br>
 
-				<button id="export_erfkrit">Erfolgskriterien</button><br>
-				<button id="export_erfkrit_ohne_ap">Erfolgskriterien ohne Programm (Datenwaisen)</button><br><br>
+				<button id="export_erfkrit">Erfolgskriterien</button><br><br>
 
-				<button id="export_umwfakt">Umweltfaktoren</button><br>
-				<button id="export_umwfakt_ohne_ap">Umweltfaktoren ohne Programm (Datenwaisen)</button><br><br>
+				<button id="export_umwfakt">Umweltfaktoren</button><br><br>
 
-				<button id="export_idealbiotope">Ideale Biotope</button><br>
-				<button id="export_ib_ohne_ap">Ideale Biotope ohne Programm (Datenwaisen)</button><br><br>
+				<button id="export_idealbiotope">Ideale Biotope</button><br><br>
 
 				<button id="export_assoz_arten">Assoziierte Arten</button><br>
-				<button id="export_assoz_arten_ohne_ap">Assoziierte Arten ohne Programm (Datenwaisen)</button><br>
 
 				<br><br><a href="#top">&uArr;&nbsp;top</a>
 
@@ -2078,7 +2070,6 @@
 				<button id="export_pop">Populationen</button><br>
 				<button id="export_pop_fuer_kml" class="GoogleEarthButton">Populationen für Google Earth (beschriftet mit PopNr)</button><br>
 				<button id="export_pop_fuer_kml_namen" class="GoogleEarthButton">Populationen für Google Earth (beschriftet mit Artname, PopNr)</button><br>
-				<button id="export_pop_ohne_ap">Populationen ohne Programm (Datenwaisen)</button><br>
 				<button id="export_pop_ohne_tpop">Populationen ohne Teilpopulationen</button><br>
 				<button id="export_pop_von_ap_ohne_status">Populationen von AP-Arten ohne "Status"</button><br><br>
 
@@ -2088,9 +2079,7 @@
 				<button id="export_pop_anz_kontr">Anzahl Kontrollen pro Population</button><br><br>
 
 				<button id="export_popber">Populations-Berichte</button><br>
-				<button id="export_popber_ohne_pop">Populations-Berichte ohne Population (Datenwaisen)</button><br><br>
 				<button id="export_popmassnber">Massnahmen-Berichte</button><br>
-				<button id="export_popmassnber_ohne_pop">Massnahmen-Berichte ohne Population (Datenwaisen)</button><br>
 
 				<br><a href="#top">&uArr;&nbsp;top</a>
 
@@ -2100,8 +2089,7 @@
 				<button id="export_tpop">Teilpopulationen</button><br>
 				<button id="export_tpop_fuer_kml">Teilpopulationen für Google Earth (beschriftet mit PopNr/TPopNr)</button><br>
 				<button id="export_tpop_fuer_kml_namen">Teilpopulationen für Google Earth (beschriftet mit Artname, PopNr/TPopNr)</button><br>
-				<button id="export_tpop_ohne_bekannt_seit">Teilpopulationen von AP-Arten ohne "Bekannt seit"</button><br>
-				<button id="export_tpop_ohne_pop">Teilpopulationen ohne Population (Datenwaisen)</button><br><br>
+				<button id="export_tpop_ohne_bekannt_seit">Teilpopulationen von AP-Arten ohne "Bekannt seit"</button><br><br>
 
 				<button id="export_tpop_anz_massn">Anzahl Massnahmen pro Teilpopulation</button><br>
 				<button id="export_tpop_anz_kontr_inkl_letzte">Anzahl Kontrollen pro Teilpopulation, inklusive der letzten Kontrolle</button><br>
@@ -2111,7 +2099,6 @@
 				<a name="Kontrollen"></a>
 				<h2 class="border_top">Kontrollen</h2>
 				<button id="export_kontr">Kontrollen</button><br>
-				<button id="export_kontr_ohne_tpop">Kontrollen ohne Teilpopulation (Datenwaisen)</button><br>
 
 				<br><a href="#top">&uArr;&nbsp;top</a>
 
@@ -2936,53 +2923,29 @@
 			$("#exporte").on("click", "#export_jber", function() {
 				window.open("php/export_jber.php", target="_blank");
 			});
-			$("#exporte").on("click", "#export_jber_ohne_ap", function() {
-				window.open("php/export_jber_ohne_ap.php", target="_blank");
-			});
 			$("#exporte").on("click", "#export_jber_massn", function() {
 				window.open("php/export_jber_massn.php", target="_blank");
 			});
 			$("#exporte").on("click", "#export_apziel", function() {
 				window.open("php/export_apziel.php", target="_blank");
 			});
-			$("#exporte").on("click", "#export_apziel_ohne_ap", function() {
-				window.open("php/export_apziel_ohne_ap.php", target="_blank");
-			});
 			$("#exporte").on("click", "#export_zielber", function() {
 				window.open("php/export_zielber.php", target="_blank");
-			});
-			$("#exporte").on("click", "#export_zielber_ohne_ziel", function() {
-				window.open("php/export_zielber_ohne_ziel.php", target="_blank");
 			});
 			$("#exporte").on("click", "#export_ber", function() {
 				window.open("php/export_ber.php", target="_blank");
 			});
-			$("#exporte").on("click", "#export_ber_ohne_ap", function() {
-				window.open("php/export_ber_ohne_ap.php", target="_blank");
-			});
 			$("#exporte").on("click", "#export_erfkrit", function() {
 				window.open("php/export_erfkrit.php", target="_blank");
-			});
-			$("#exporte").on("click", "#export_erfkrit_ohne_ap", function() {
-				window.open("php/export_erfkrit_ohne_ap.php", target="_blank");
 			});
 			$("#exporte").on("click", "#export_umwfakt", function() {
 				window.open("php/export_umwfakt.php", target="_blank");
 			});
-			$("#exporte").on("click", "#export_umwfakt_ohne_ap", function() {
-				window.open("php/export_umwfakt_ohne_ap.php", target="_blank");
-			});
 			$("#exporte").on("click", "#export_idealbiotope", function() {
 				window.open("php/export_idealbiotope.php", target="_blank");
 			});
-			$("#exporte").on("click", "#export_ib_ohne_ap", function() {
-				window.open("php/export_ib_ohne_ap.php", target="_blank");
-			});
 			$("#exporte").on("click", "#export_assoz_arten", function() {
 				window.open("php/export_assoz_arten.php", target="_blank");
-			});
-			$("#exporte").on("click", "#export_assoz_arten_ohne_ap", function() {
-				window.open("php/export_assoz_arten_ohne_ap.php", target="_blank");
 			});
 			$("#exporte").on("click", "#export_pop", function() {
 				window.open("php/export_pop.php", target="_blank");
@@ -2992,9 +2955,6 @@
 			});
 			$("#exporte").on("click", "#export_pop_fuer_kml_namen", function() {
 				window.open("php/export_pop_fuer_kml_namen.php", target="_blank");
-			});
-			$("#exporte").on("click", "#export_pop_ohne_ap", function() {
-				window.open("php/export_pop_ohne_ap.php", target="_blank");
 			});
 			$("#exporte").on("click", "#export_pop_ohne_tpop", function() {
 				window.open("php/export_pop_ohne_tpop.php", target="_blank");
@@ -3017,14 +2977,8 @@
 			$("#exporte").on("click", "#export_popber", function() {
 				window.open("php/export_popber.php", target="_blank");
 			});
-			$("#exporte").on("click", "#export_popber_ohne_pop", function() {
-				window.open("php/export_popber_ohne_pop.php", target="_blank");
-			});
 			$("#exporte").on("click", "#export_popmassnber", function() {
 				window.open("php/export_popmassnber.php", target="_blank");
-			});
-			$("#exporte").on("click", "#export_popmassnber_ohne_pop", function() {
-				window.open("php/export_popmassnber_ohne_pop.php", target="_blank");
 			});
 			$("#exporte").on("click", "#export_tpop", function() {
 				window.open("php/export_tpop.php", target="_blank");
@@ -3038,9 +2992,6 @@
 			$("#exporte").on("click", "#export_tpop_ohne_bekannt_seit", function() {
 				window.open("php/export_tpop_ohne_bekannt_seit.php", target="_blank");
 			});
-			$("#exporte").on("click", "#export_tpop_ohne_pop", function() {
-				window.open("php/export_tpop_ohne_pop.php", target="_blank");
-			});
 			$("#exporte").on("click", "#export_tpop_anz_massn", function() {
 				window.open("php/export_tpop_anz_massn.php", target="_blank");
 			});
@@ -3049,9 +3000,6 @@
 			});
 			$("#exporte").on("click", "#export_kontr", function() {
 				window.open("php/export_kontr.php", target="_blank");
-			});
-			$("#exporte").on("click", "#export_kontr_ohne_tpop", function() {
-				window.open("php/export_kontr_ohne_tpop.php", target="_blank");
 			});
 			$("#exporte").on("click", "#export_massn", function() {
 				window.open("php/export_massn.php", target="_blank");
