@@ -64,7 +64,7 @@ function init() {
 		'format': 'png'
 	}, {
 		singleTile: true,
-		visibility: true
+		visibility: false
 	});
 
 	//wms hinzufügen
@@ -115,7 +115,7 @@ function init() {
 		visibility: false
 	});
 
-	api.map.addLayers([ch_ktgrenzen, zh_av, zh_avnr, zh_svo, ch_tww, ch_hm, ch_fm, ch_au, ch_alg]);
+	api.map.addLayers([ch_ktgrenzen, zh_av, zh_avnr, zh_svo, ch_tww, ch_fm, ch_hm, ch_au, ch_alg]);
 
 	api.createLayerTree({
 		renderTo: "layertree",
