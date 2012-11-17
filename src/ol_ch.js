@@ -5,13 +5,11 @@ function init() {
 
 	//buttons initiieren
 	$("#messen").buttonset();
-	//tooltips initiieren
-	$(document).tooltip();
 
 	var api = new GeoAdmin.API();
 
 	api.createMap({
-		div: "map",
+		div: "ga_map",
 		easting: 693000,
 		northing: 253000,
 		zoom: 4
@@ -203,9 +201,9 @@ function handleMeasurements(event) {
 	var element = document.getElementById('ergebnisMessung');
 	var out = "";
 	if(order == 1) {
-		out += "Distanz: " + measure.toFixed(3) + " " + units;
+		out += measure.toFixed(3) + " " + units;
 	} else {
-		out += "Fläche: " + measure.toFixed(3) + " " + units + "<sup>2</" + "sup>";
+		out += measure.toFixed(3) + " " + units + "<sup>2</" + "sup>";
 	}
 	element.innerHTML = out;
 }
@@ -217,6 +215,7 @@ function messe(element) {
 			control.activate();
 		} else {
 			control.deactivate();
+			$("#ergebnisMessung").text("");
 		}
 	}
 }
