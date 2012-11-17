@@ -2143,11 +2143,12 @@
 					}
 				});
 
-				/*if (navigator.appName === "Microsoft Internet Explorer") {
-					$("#Meldung").html("Sie verwenden " + navigator.appName + ".<br><br>Leider unterstützt er nicht alle Funktionen, die AP Flora Web benutzt.<br><br>Um mit AP Flora Web zu arbeiten, müssen Sie <a href='http://www.google.de/chrome/'>Google Chrome</a> oder <a href='http://www.mozilla.org/de/firefox/new/'>Firefox</a> benutzen.");
+				if (navigator.appName === "Microsoft Internet Explorer" && getInternetExplorerVersion() < 10) {
+					$("#Meldung").html("Sie verwenden " + navigator.appName + " in der Version " + getInternetExplorerVersion() + ".<br><br>Leider unterstützt diese Version nicht alle Funktionen, die AP Flora Web benutzt.<br><br>Um mit AP Flora Web zu arbeiten, müssen Sie <a href='http://www.google.de/chrome/'>Google Chrome</a> oder <a href='http://www.mozilla.org/de/firefox/new/'>Firefox</a> benutzen oder den Internet Explorer ab Version 10.");
 					$("#Meldung").dialog({
 						modal: true,
 						title: "inkompatibler Browser",
+						width: 500,
 						buttons: {
 							Ok: function() {
 								$(this).dialog("close");
@@ -2156,7 +2157,7 @@
 					});
 					initiiere_index();
 					return;
-				}*/
+				}
 
 				if (!sessionStorage.User) {
 					$Useranmeldung.dialog("open");

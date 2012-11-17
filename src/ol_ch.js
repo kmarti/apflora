@@ -5,6 +5,7 @@ function init() {
 
 	//buttons initiieren
 	$("#messen").buttonset();
+	//$("#toggleLayertree").button();
 
 	var api = new GeoAdmin.API();
 
@@ -124,6 +125,7 @@ function init() {
 	$(".x-panel-header-text").text("Ebenen");
 
 	api.map.addControl(new OpenLayers.Control.MousePosition({numDigits: 0, separator: ' / '}));
+	//api.map.addControl(new OpenLayers.Control.KeyboardDefaults());    scheint nicht zu funktionieren
 
 	//messen
 	// style the sketch fancy
@@ -191,7 +193,20 @@ function init() {
 	}
 	
 	$('karteSchieben').checked = true;
+
+	$("#layertree").on("click", "#toggleLayertree", function() {
+		oeffneSchliesseLayertree();
+	});
 };
+
+function oeffneSchliesseLayertree() {
+	//ein hübscher Übergang wäre nett
+	if ($(".x-panel-bwrap").css('display') !== 'none') {
+		$(".x-panel-bwrap").css('display', 'none')
+	} else {
+		$(".x-panel-bwrap").css('display', 'inline')
+	}
+}
 
 function handleMeasurements(event) {
 	var geometry = event.geometry;
