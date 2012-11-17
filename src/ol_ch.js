@@ -4,8 +4,9 @@ function init() {
 	//var zh_bbox_1903 = new OpenLayers.Bounds(669000, 222000, 717000, 284000);
 
 	//buttons initiieren
-	//$("button").button();
 	$("#messen").buttonset();
+	//tooltips initiieren
+	$(document).tooltip();
 
 	var api = new GeoAdmin.API();
 
