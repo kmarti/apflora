@@ -1,4 +1,7 @@
 function initiiere_index() {
+	//Versuch, damit $.ajax auch in IE funktioniert
+	$.ajaxSetup({cache:false})
+	
 	$("#suchen").hide();
 	$("#undelete_div").hide();
 	$("#hilfe").hide();
