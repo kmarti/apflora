@@ -121,6 +121,8 @@ function init() {
 		renderTo: "layertree",
 		width: 285
 	});
+	//layertree minimieren
+	$(".x-panel-bwrap").css('display', 'none');
 
 	$(".x-panel-header-text").text("Ebenen");
 
@@ -202,9 +204,9 @@ function init() {
 function oeffneSchliesseLayertree() {
 	//ein hübscher Übergang wäre nett
 	if ($(".x-panel-bwrap").css('display') !== 'none') {
-		$(".x-panel-bwrap").css('display', 'none')
+		$(".x-panel-bwrap").css('display', 'none');
 	} else {
-		$(".x-panel-bwrap").css('display', 'inline')
+		$(".x-panel-bwrap").css('display', 'inline');
 	}
 }
 

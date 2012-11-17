@@ -10,24 +10,14 @@
 				/*Ebenenliste darf Karte auf kleinen Bildschirmen nicht konkurrenzieren*/
 				min-width: 700px;
 			}
-			#map_container {
-				padding-left: 0px;
-				padding-right: 302px;
-				height: 100%;
-			}
-			#map_container .column {
-				position: relative;
-				float: left;
-			}
 			#layertree {
 				width: 302px;
-				margin-right: -302px;
 				overflow:auto;
-				height:100%;
-			}
-			#map_container_left {
-				width: 100%;
-				height: 100%;
+				position:absolute;
+				right: 0px;
+				z-index: 1009;
+				top: 23px;
+				max-height: 90%;
 			}
 			#ga_map {
 				width: 100%;
@@ -53,13 +43,14 @@
 				font-family: Arial, Verdana, Helvetica, sans-serif;
 				/*Koordinaten weiss hinterlegen, damit sie auf jedem Hintergrund gut sichtbar sind*/
 				text-shadow: 0 1px 0 white,1px 0 0 white,0 -1px 0 white,-1px 0 0 white,0 2px 0 white,2px 0 0 white,0 -2px 0 white,-2px 0 0 white;
-				top: 4px !important;
+				top: 27px !important;
+				right: 315px !important;
 			}
 			.ui-button-text {
 				padding:.1em .5em !important; 
 				font-size:.8em !important;
 			}
-			#map_container_left #ergebnisMessung {
+			#ga_map #ergebnisMessung {
 				font-weight:900;
 				font-family: Arial, Verdana, Helvetica, sans-serif;
 				/*weiss hinterlegen, damit auf jedem Hintergrund gut sichtbar*/
@@ -81,24 +72,20 @@
 		<script type="text/javascript" src="src/ol_ch.js"></script>
 	</head>
 	<body onload="init()">
-		<div id='map_container'>
-			<div id='map_container_left' class='column'>
-				<div id='menuleiste'>
-					<span id="messen">
-						<input type="radio" name="type" value="none" id="karteSchieben" onclick="messe(this);" checked="checked"/>
-						<label for="karteSchieben">Karte schieben</label>
-						<input type="radio" name="type" value="line" id="distanzMessen" onclick="messe(this);"/>
-						<label for="distanzMessen">Distanz messen</label>
-						<input type="radio" name="type" value="polygon" id="flaecheMessen" onclick="messe(this);" />
-						<label for="flaecheMessen">Fläche messen</label>
-					</span>
-					<div id='ergebnisMessung'></div>
-				</div>
-				<div id='ga_map'></div>
+		<div id='ga_map'>
+			<div id='menuleiste'>
+				<span id="messen">
+					<input type="radio" name="type" value="none" id="karteSchieben" onclick="messe(this);" checked="checked"/>
+					<label for="karteSchieben">Karte schieben</label>
+					<input type="radio" name="type" value="line" id="distanzMessen" onclick="messe(this);"/>
+					<label for="distanzMessen">Distanz messen</label>
+					<input type="radio" name="type" value="polygon" id="flaecheMessen" onclick="messe(this);" />
+					<label for="flaecheMessen">Fläche messen</label>
+				</span>
+				<div id='ergebnisMessung'></div>
 			</div>
 			
-			<div id="layertree" class='column'>
-				<!--button id="toggleLayertree">jn</button-->
+			<div id="layertree">
 				<img id="toggleLayertree" src="style/images/updown.png" alt="öffnen/schliessen" height="14" width="14">
 			</div>
 		</div>
