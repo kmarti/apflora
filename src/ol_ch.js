@@ -3,13 +3,12 @@ function init() {
 	//OpenLayers.ProxyHost = "../cgi-bin/proxy.cgi?url=";
 	//var zh_bbox_1903 = new OpenLayers.Bounds(669000, 222000, 717000, 284000);
 
+	//buttons initiieren
+	//$("button").button();
+	$("#messen").buttonset();
+
 	var api = new GeoAdmin.API();
 
-	/*map = new GeoAdmin.Map("map", {
-		easting: 693000,
-		northing: 253000,
-		zoom: 4
-	});*/
 	api.createMap({
 		div: "map",
 		easting: 693000,
@@ -25,7 +24,6 @@ function init() {
 	}, {
 		visibility: true,
 		singleTile: true
-		//ratio: 1.0
 	});
     var zh_av = new OpenLayers.Layer.WMS("ZH Parzellen", "http://wms.zh.ch/avwms", {
 		layers: 'RESF',
@@ -119,24 +117,6 @@ function init() {
 
 	api.map.addLayers([ch_ktgrenzen, zh_av, zh_avnr, zh_svo, ch_tww, ch_hm, ch_fm, ch_au, ch_alg]);
 
-	//Add layer in the map
-	/*api.map.addLayerByName('ch.bafu.bundesinventare-amphibien');
-	api.map.addLayerByName('ch.swisstopo.swissboundaries3d-kanton-flaeche.fill');
-	api.map.addLayerByName('ch.bafu.bundesinventare-flachmoore');
-	api.map.addLayerByName('ch.bafu.bundesinventare-auen');
-	api.map.addLayerByName('ch.swisstopo.vec25-heckenbaeume');
-	api.map.addLayerByName('ch.bafu.bundesinventare-moorlandschaften');
-	api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe-pk1000.noscale');
-	api.map.addLayerByName('ch.swisstopo.pixelkarte-grau-pk1000.noscale');
-	api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe-pk25.noscale');
-	api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe-pk100.noscale');
-	api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe-pk200.noscale');
-	api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe-pk50.noscale');
-	api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe-pk500.noscale');
-	api.map.addLayerByName('ch.bafu.bundesinventare-hochmoore');
-	api.map.addLayerByName('ch.vbs.territorialregionen');
-	api.map.addLayerByName('ch.swisstopo.swisstlm3d-karte');*/
-
 	api.createLayerTree({
 		renderTo: "layertree",
 		width: 285
@@ -146,5 +126,96 @@ function init() {
 
 	api.map.addControl(new OpenLayers.Control.MousePosition({numDigits: 0, separator: ' / '}));
 
+	//messen
+	// style the sketch fancy
+	var sketchSymbolizers = {
+		"Point": {
+			pointRadius: 4,
+			graphicName: "square",
+			fillColor: "white",
+			fillOpacity: 1,
+			strokeWidth: 1,
+			strokeOpacity: 1,
+			strokeColor: "#333333"
+		},
+		"Line": {
+			strokeWidth: 3,
+			strokeOpacity: 1,
+			strokeColor: "red",
+			strokeDashstyle: "dash"
+		},
+		"Polygon": {
+			strokeWidth: 2,
+			strokeOpacity: 1,
+			strokeColor: "red",
+			fillColor: "red",
+			fillOpacity: 0.3
+		}
+	};
+	var style = new OpenLayers.Style();
+	style.addRules([
+		new OpenLayers.Rule({symbolizer: sketchSymbolizers})
+	]);
+	var styleMap = new OpenLayers.StyleMap({"default": style});
 
+	measureControls = {
+		line: new OpenLayers.Control.Measure(
+			OpenLayers.Handler.Path, {
+				persist: true,
+				handlerOptions: {
+					layerOptions: {
+						styleMap: styleMap
+					}
+				}
+			}
+		),
+		polygon: new OpenLayers.Control.Measure(
+			OpenLayers.Handler.Polygon, {
+				persist: true,
+				handlerOptions: {
+					layerOptions: {
+						styleMap: styleMap
+					}
+				}
+			}
+		)
+	};
+	
+	var control;
+	for(var key in measureControls) {
+		control = measureControls[key];
+		control.events.on({
+			"measure": handleMeasurements,
+			"measurepartial": handleMeasurements
+		});
+		api.map.addControl(control);
+	}
+	
+	$('karteSchieben').checked = true;
 };
+
+function handleMeasurements(event) {
+	var geometry = event.geometry;
+	var units = event.units;
+	var order = event.order;
+	var measure = event.measure;
+	var element = document.getElementById('ergebnisMessung');
+	var out = "";
+	if(order == 1) {
+		out += "Distanz: " + measure.toFixed(3) + " " + units;
+	} else {
+		out += "Fläche: " + measure.toFixed(3) + " " + units + "<sup>2</" + "sup>";
+	}
+	element.innerHTML = out;
+}
+
+function messe(element) {
+	for(key in measureControls) {
+		var control = measureControls[key];
+		if(element.value == key && element.checked) {
+			control.activate();
+		} else {
+			control.deactivate();
+		}
+	}
+}
