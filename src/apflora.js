@@ -1056,16 +1056,12 @@ function initiiere_tpopfeldkontr() {
 				}
 				//fieldcontain-divs der benötigten Felder einblenden
 				if (localStorage.tpopfreiwkontr) {
-					for (i in feldliste_freiwkontr) {
-						if (typeof i !== "function") {
-							$("." + feldliste_freiwkontr[i]).show();
-						}
+					for (var h = 0; h < feldliste_freiwkontr.length; h++) {
+						$("#fieldcontain_" + feldliste_freiwkontr[h]).show();
 					}
 				} else {
-					for (i in feldliste_feldkontr) {
-						if (typeof i !== "function") {
-							$("." + feldliste_feldkontr[i]).show();
-						}
+					for (var g = 0; g < feldliste_feldkontr.length; g++) {
+						$("#fieldcontain_" + feldliste_feldkontr[g]).show();
 					}
 				}
 				//Formulare blenden
@@ -5681,7 +5677,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"GoogleMaps": {
-				"label": "auf Luftbild zeigen",
+				"label": "auf GoogleMap zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon.png",
 				"action": function () {
@@ -5694,6 +5690,46 @@ function treeKontextmenu(node) {
 						success: function (data) {
 							if (data.rows.length > 0) {
 								zeigeTPopAufKarte(data);
+							} else {
+								$("#Meldung").html("Es gibt keine Teilpopulation mit Koordinaten");
+								$("#Meldung").dialog({
+									modal: true,
+									buttons: {
+										Ok: function() {
+											$(this).dialog("close");
+										}
+									}
+								});
+							}
+						},	
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine Daten erhalten");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},
+			"GeoAdminMaps": {
+				"label": "auf Übersichtsplan zeigen",
+				"separator_before": true,
+				"icon": "style/images/flora_icon.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/tpop_karte.php',
+						dataType: 'json',
+						data: {
+							"id": $(aktiver_node).attr("id")
+						},
+						success: function (data) {
+							if (data.rows.length > 0) {
+								zeigeTPopAufGeoAdmin(data);
 							} else {
 								$("#Meldung").html("Es gibt keine Teilpopulation mit Koordinaten");
 								$("#Meldung").dialog({
@@ -9317,6 +9353,113 @@ function zeigeTPopAufKarte(TPopListe) {
 	for (i in TPopListe.rows) {
 		TPop = TPopListe.rows[i];
 		TPopId = TPop.TPopId;
+		latlng2 = new google.maps.LatLng(TPop.Lat, TPop.Lng);
+		if (anzTPop === 1) {
+			//map.fitbounds setzt zu hohen zoom, wenn nur eine TPop Koordinaten hat > verhindern
+			latlng = latlng2;
+		} else {
+			//Kartenausschnitt um diese Koordinate erweitern
+			bounds.extend(latlng2);
+		}
+		//title muss String sein
+		if (TPop.TPopFlurname) {
+			titel = TPop.TPopFlurname.toString();
+		} else {
+			titel = "";
+		}
+		marker = new MarkerWithLabel({
+			map: map,
+			position: latlng2,
+			title: titel,
+			labelContent: titel,
+			labelAnchor: new google.maps.Point(75, 0),
+			labelClass: "MapLabel",
+			icon: "img/flora_icon.png"
+		});
+		markers.push(marker);
+		contentString = '<div id="content">'+
+			'<div id="siteNotice">'+
+			'</div>'+
+			'<div id="bodyContent" class="GmInfowindow">'+
+			'<h3>' + TPop.Name + '</h3>'+
+			'<p>Population: ' + TPop.PopName + '</p>'+
+			'<p>TPop: ' + TPop.TPopFlurname + '</p>'+
+			'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
+			"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">bearbeiten<\/a></p>"+
+			'</div>'+
+			'</div>';
+		makeListener(map, marker, contentString);
+	}
+	mcOptions = {
+		maxZoom: 17, 
+		styles: [{
+				height: 53,
+				url: "img/m8.png",
+				width: 53
+			}]
+	};
+	markerCluster = new MarkerClusterer(map, markers, mcOptions);
+	if (anzTPop === 1) {
+		//map.fitbounds setzt zu hohen zoom, wenn nur eine Beobachtung erfasst wurde > verhindern
+		map.setCenter(latlng);
+		map.setZoom(18);
+	} else {
+		//Karte auf Ausschnitt anpassen
+		map.fitBounds(bounds);
+	}
+	//diese Funktion muss hier sein, damit infowindow bekannt ist
+	function makeListener(map, marker, contentString) {
+		google.maps.event.addListener(marker, 'click', function () {
+			infowindow.setContent(contentString);
+			infowindow.open(map,marker);
+		});
+	}
+}
+
+function zeigeTPopAufGeoAdmin(TPopListe) {
+	var anzTPop, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe, titel;
+	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
+	zeigeFormular("GeoAdminKarte");
+
+	window.markersArray = [];
+	window.InfoWindowArray = [];
+
+	Kartenhoehe = $(window).height() - 50;
+	infowindow = new google.maps.InfoWindow();
+	$("#Karte").css("height", Kartenhoehe + "px");
+	//TPopListe bearbeiten:
+	//Objekte löschen, die keine Koordinaten haben
+	for (i in TPopListe.rows) {
+		TPop = TPopListe.rows[i];
+		if (!TPop.TPopXKoord || !TPop.TPopYKoord) {
+			delete TPop;
+		}
+	}
+	//TPop zählen
+	anzTPop = TPopListe.rows.length;
+	//Karte mal auf Zürich zentrieren, falls in den TPopListe.rows keine Koordinaten kommen
+	//auf die die Karte ausgerichtet werden kann
+
+	lat = 47.383333;
+	lng = 8.533333;
+	latlng = new google.maps.LatLng(lat, lng);
+	options = {
+		zoom: 15,
+		center: latlng,
+		streetViewControl: false,
+		mapTypeId: google.maps.MapTypeId.SATELLITE
+	};
+	map = new google.maps.Map(document.getElementById("Karte"), options);
+	window.map = map;
+	bounds = new google.maps.LatLngBounds();
+
+	//für alle TPop Marker erstellen
+	markers = [];
+
+	for (i in TPopListe.rows) {
+		TPop = TPopListe.rows[i];
+		TPopId = TPop.TPopId;
+		
 		latlng2 = new google.maps.LatLng(TPop.Lat, TPop.Lng);
 		if (anzTPop === 1) {
 			//map.fitbounds setzt zu hohen zoom, wenn nur eine TPop Koordinaten hat > verhindern

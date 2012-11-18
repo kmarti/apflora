@@ -305,8 +305,74 @@ a {
 	-webkit-user-select: none !important; 
 }
 
-/*Eigene Icons für jQuery ui*/
-/*funktioniert nicht: Icon wir über Text geblendet!*/
-/*.ui-icon-ge18 {
-    background-image: url('images/GoogleEarth18.png') !important;
-}*/
+/*GeoAdmin-Karten stylen*/
+
+#GeoAdminKarte {
+	height: 100%;
+	width: 100%;
+	/*Ebenenliste darf Karte auf kleinen Bildschirmen nicht konkurrenzieren*/
+	min-width: 700px;
+}
+#layertree {
+	width: 302px;
+	overflow:auto;
+	position:absolute;
+	right: 10px;
+	z-index: 1009;
+	top: 19px;
+	max-height: 90%;
+	/*border-bottom: #DDD solid 1px;   leider nicht schön, wenn kein overflow*/
+}
+#menuleiste {
+	position: absolute;
+	top: 19px;
+	left: 60px;
+	z-index: 1009;
+}
+/*Ebenenliste soll die ganze Höhe nutzen*/
+.x-panel-body {
+	height: 100% !important;
+}
+/*Ebenentitel fett hervorheben*/
+div.x-tree-node-leaf a.x-tree-node-anchor span {
+	font-weight:900;
+}
+/*zoombar so weit wie möglich rauf*/
+.olControlPanZoomBar {
+	top: 0px !important;
+}
+/*Schaltfläche, um auf die ganze Schweiz zu zoomen ausblenden*/
+.olControlZoomToMaxExtentItemActive {
+	display: none;
+}
+/*Koordinatenanzeige gestalten*/
+.olControlMousePosition, .olControlPermalink a {
+	font-weight:900;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	/*Koordinaten weiss hinterlegen, damit sie auf jedem Hintergrund gut sichtbar sind*/
+	text-shadow: 0 1px 0 white,1px 0 0 white,0 -1px 0 white,-1px 0 0 white,0 2px 0 white,2px 0 0 white,0 -2px 0 white,-2px 0 0 white;
+	top: 23px !important;
+	right: 325px !important;
+}
+.ui-button-text {
+	padding:.1em .5em !important; 
+	font-size:.8em !important;
+}
+#GeoAdminKarte #ergebnisMessung {
+	font-weight:900;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	/*weiss hinterlegen, damit auf jedem Hintergrund gut sichtbar*/
+	text-shadow: 0 1px 0 white,1px 0 0 white,0 -1px 0 white,-1px 0 0 white,0 2px 0 white,2px 0 0 white,0 -2px 0 white,-2px 0 0 white;
+	margin-top: 5px;
+	padding-left: 7px;
+}
+#toggleLayertree {
+	position: absolute;
+	left: 4px;
+	top: 6px;
+}
+
+/*drüberstylen, weil GeoAdmin-Aufruf dies nötig macht*/
+input[type="radio"] {
+	margin: 3px 3px 0px 5px;
+}

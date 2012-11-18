@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<link rel="SHORTCUT ICON" href="img/favicon.ico">
 		<link rel="stylesheet" href="style/jquery-ui.css" type="text/css"/>
-		<link rel="stylesheet" href="style/apflora.css" type="text/css"/>
+		
 		<script type="text/javascript" src="src/jquery.js"></script>
 		<script type="text/javascript" src="src/jquery-ui.js"></script>
 		<script type="text/javascript" src="src/jquery.jstree.js"></script>
@@ -12,12 +12,14 @@
 		<script type="text/javascript" src="src/jquery.hotkeys.js"></script>
 		<script type="text/javascript" src="src/hammer.js"></script>
 		<script type="text/javascript" src="src/jquery.hammer.js"></script>
-		<script type="text/javascript" src="src/apflora.js"></script>
 		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+		<script type="text/javascript" src="https://api.geo.admin.ch/loader.js"></script>
 		<script type="text/javascript" src="src/markerclusterer.js"></script>
 		<script type="text/javascript" src="src/markerwithlabel.js"></script>
 		<script type="text/javascript" src="src/ruler.js"></script>
 		<script type="text/javascript" src="src/jsuri.js"></script>
+		<script type="text/javascript" src="src/apflora.js"></script>
+		<link rel="stylesheet" href="style/apflora.css" type="text/css"/>
 		<title>AP Flora Kt ZH</title>
 	</head>
 	<body>
@@ -477,7 +479,7 @@
 					</ul>
 					<div id="tpopfeldkontr_tabs_entwicklung">
 						<table>
-							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrJahr'>
+							<tr id='fieldcontain_TPopKontrJahr' class='fieldcontain feld_tpopfeldkontr TPopKontrJahr'>
 								<td class="label">
 									<label id="TPopKontrJahr_label" for='TPopKontrJahr'>Jahr:</label>
 								</td>
@@ -485,7 +487,7 @@
 									<input id="TPopKontrJahr" name="TPopKontrJahr" class="speichern" formular="tpopfeldkontr" type="number">
 								</td>
 							</tr>
-							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrDatum'>
+							<tr id='fieldcontain_TPopKontrDatum' class='fieldcontain feld_tpopfeldkontr TPopKontrDatum'>
 								<td class="label">
 									<label id="TPopKontrDatum_label" for='TPopKontrDatum'>Datum:</label>
 								</td>
@@ -493,7 +495,7 @@
 									<input id="TPopKontrDatum" name="TPopKontrDatum" class="speichern Datum" formular="tpopfeldkontr" type="text"/>
 								</td>
 							</tr>
-							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrTyp'>
+							<tr id='fieldcontain_TPopKontrTyp' class='fieldcontain feld_tpopfeldkontr TPopKontrTyp'>
 								<td class="label">
 									<label id="TPopKontrTyp_label" for='TPopKontrTyp'>Kontrolltyp:</label>
 								</td>
@@ -504,7 +506,7 @@
 									<input type="radio" name="TPopKontrTyp" id="TPopKontrTypZiel" class="speichern" formular="tpopfeldkontr" value="Ziel" /><span id="spanTPopKontrTypZiel">Ziel</span>
 								</td>
 							</tr>
-							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrBearb'>
+							<tr id='fieldcontain_TPopKontrBearb' class='fieldcontain feld_tpopfeldkontr TPopKontrBearb'>
 								<td class="label">
 									<label id="TPopKontrBearb_label" for='TPopKontrBearb'>BearbeiterIn:</label>
 								</td>
@@ -518,7 +520,7 @@
 						<fieldset style="background:none;">
 							<legend>1. Zähleinheit</legend>
 							<table>
-								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrZaehleinheit1'>
+								<tr id='fieldcontain_TPopKontrZaehleinheit1' class='fieldcontain feld_tpopfeldkontr TPopKontrZaehleinheit1'>
 									<td class="label_fieldset">
 										<label id="TPopKontrZaehleinheit1_label" for='TPopKontrZaehleinheit1' style="width:115px">Einheit:</label>
 									</td>
@@ -528,7 +530,7 @@
 										</select>
 									</td>
 								</tr>
-								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrMethode1'>
+								<tr id='fieldcontain_TPopKontrMethode1' class='fieldcontain feld_tpopfeldkontr TPopKontrMethode1'>
 									<td class="label_fieldset">
 										<label id="TPopKontrMethode1_label" for='TPopKontrMethode1' style="width:115px">Methode:</label>
 									</td>
@@ -538,7 +540,7 @@
 										<input type="radio" name="TPopKontrMethode1" id="TPopKontrMethode13" class="speichern" formular="tpopfeldkontr" value="3" />geschätzt/gezählt
 									</td>
 								</tr>
-								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrAnz1'>
+								<tr id='fieldcontain_TPopKontrAnz1' class='fieldcontain feld_tpopfeldkontr TPopKontrAnz1'>
 									<td class="label_fieldset">
 										<label id="TPopKontrAnz1_label" for='TPopKontrAnz1' style="width:115px">Anzahl:</label>
 									</td>
@@ -551,7 +553,7 @@
 						<fieldset style="background:none;">
 							<legend>2. Zähleinheit</legend>
 							<table>
-								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrZaehleinheit2'>
+								<tr id='fieldcontain_TPopKontrZaehleinheit2' class='fieldcontain feld_tpopfeldkontr TPopKontrZaehleinheit2'>
 									<td class="label_fieldset">
 										<label id="TPopKontrZaehleinheit2_label" for='TPopKontrZaehleinheit2' style="width:115px">Einheit:</label>
 									</td>
@@ -561,7 +563,7 @@
 										</select>
 									</td>
 								</tr>
-								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrMethode2'>
+								<tr id='fieldcontain_TPopKontrMethode2' class='fieldcontain feld_tpopfeldkontr TPopKontrMethode2'>
 									<td class="label_fieldset">
 										<label id="TPopKontrMethode2_label" for='TPopKontrMethode2' style="width:115px">Methode:</label>
 									</td>
@@ -571,7 +573,7 @@
 										<input type="radio" name="TPopKontrMethode2" id="TPopKontrMethode23" class="speichern" formular="tpopfeldkontr" value="3" />geschätzt/gezählt
 									</td>
 								</tr>
-								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrAnz2'>
+								<tr id='fieldcontain_TPopKontrAnz2' class='fieldcontain feld_tpopfeldkontr TPopKontrAnz2'>
 									<td class="label_fieldset">
 										<label id="TPopKontrAnz2_label" for='TPopKontrAnz2' style="width:115px">Anzahl:</label>
 									</td>
@@ -584,7 +586,7 @@
 						<fieldset style="background:none;">
 							<legend>3. Zähleinheit</legend>
 							<table>
-								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrZaehleinheit3'>
+								<tr id='fieldcontain_TPopKontrZaehleinheit3' class='fieldcontain feld_tpopfeldkontr TPopKontrZaehleinheit3'>
 									<td class="label_fieldset">
 										<label id="TPopKontrZaehleinheit3_label" for='TPopKontrZaehleinheit3' style="width:115px">Einheit:</label>
 									</td>
@@ -594,7 +596,7 @@
 										</select>
 									</td>
 								</tr>
-								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrMethode3'>
+								<tr id='fieldcontain_TPopKontrMethode3' class='fieldcontain feld_tpopfeldkontr TPopKontrMethode3'>
 									<td class="label_fieldset">
 										<label id="TPopKontrMethode3_label" for='TPopKontrMethode3' style="width:115px">Methode:</label>
 									</td>
@@ -604,7 +606,7 @@
 										<input type="radio" name="TPopKontrMethode3" id="TPopKontrMethode33" class="speichern" formular="tpopfeldkontr" value="3" />geschätzt/gezählt
 									</td>
 								</tr>
-								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrAnz3'>
+								<tr id='fieldcontain_TPopKontrAnz3' class='fieldcontain feld_tpopfeldkontr TPopKontrAnz3'>
 									<td class="label_fieldset">
 										<label id="TPopKontrAnz3_label" for='TPopKontrAnz3' style="width:115px">Anzahl:</label>
 									</td>
@@ -615,7 +617,7 @@
 							</table>
 						</fieldset>
 						<table>
-							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrPlan'>
+							<tr id='fieldcontain_TPopKontrPlan' class='fieldcontain feld_tpopfeldkontr TPopKontrPlan'>
 								<td class="label">
 									<label id="TPopKontrPlan_label" for='TPopKontrPlan'>Auf Plan eingezeichnet?</label>
 								</td>
@@ -623,7 +625,7 @@
 									<input type="checkbox" name="TPopKontrPlan" id="TPopKontrPlan" class="speichern" formular="tpopfeldkontr" />
 								</td>
 							</tr>
-							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrUebFlaeche'>
+							<tr id='fieldcontain_TPopKontrUebFlaeche' class='fieldcontain feld_tpopfeldkontr TPopKontrUebFlaeche'>
 								<td class="label">
 									<label id="TPopKontrUebFlaeche_label" for='TPopKontrUebFlaeche'>Überprüfte Fläche in m2:</label>
 								</td>
@@ -631,7 +633,7 @@
 									<input id="TPopKontrUebFlaeche" name="TPopKontrUebFlaeche" class="speichern" formular="tpopfeldkontr" type="number">
 								</td>
 							</tr>
-							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrUebPfl'>
+							<tr id='fieldcontain_TPopKontrUebPfl' class='fieldcontain feld_tpopfeldkontr TPopKontrUebPfl'>
 								<td class="label">
 									<label id="TPopKontrUebPfl_label" for='TPopKontrUebPfl'>Deckung überprüfte Art (%):</label>
 								</td>
@@ -639,7 +641,7 @@
 									<input id="TPopKontrUebPfl" name="TPopKontrUebPfl" class="speichern" formular="tpopfeldkontr" type="number">
 								</td>
 							</tr>
-							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrNaBo'>
+							<tr id='fieldcontain_TPopKontrNaBo' class='fieldcontain feld_tpopfeldkontr TPopKontrNaBo'>
 								<td class="label">
 									<label id="TPopKontrNaBo_label" for='TPopKontrNaBo'>Deckung nackter Boden (%):</label>
 								</td>
@@ -647,7 +649,7 @@
 									<input id="TPopKontrNaBo" name="TPopKontrNaBo" class="speichern" formular="tpopfeldkontr" type="number">
 								</td>
 							</tr>
-							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrVeg'>
+							<tr id='fieldcontain_TPopKontrVeg' class='fieldcontain feld_tpopfeldkontr TPopKontrVeg'>
 								<td class="label">
 									<label id="TPopKontrVeg_label" for='TPopKontrVeg'>Deckung Pflanzen, Streu u. Moos (%):</label>
 								</td>
@@ -655,7 +657,7 @@
 									<input id="TPopKontrVeg" name="TPopKontrVeg" class="speichern" formular="tpopfeldkontr" type="number">
 								</td>
 							</tr>
-							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrJungPflJN'>
+							<tr id='fieldcontain_TPopKontrJungPflJN' class='fieldcontain feld_tpopfeldkontr TPopKontrJungPflJN'>
 								<td class="label">
 									<label id="TPopKontrJungPflJN_label" for='TPopKontrJungPflJN'>Auch junge Pflanzen vorhanden?</label>
 								</td>
@@ -663,7 +665,7 @@
 									<input type="checkbox" name="TPopKontrJungPflJN" id="TPopKontrJungPflJN" class="speichern" formular="tpopfeldkontr" />
 								</td>
 							</tr>
-							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrVegHoeMax'>
+							<tr id='fieldcontain_TPopKontrVegHoeMax' class='fieldcontain feld_tpopfeldkontr TPopKontrVegHoeMax'>
 								<td class="label">
 									<label id="TPopKontrVegHoeMax_label" for='TPopKontrVegHoeMax'>Vegetationshöhe Maximum in cm:</label>
 								</td>
@@ -671,7 +673,7 @@
 									<input id="TPopKontrVegHoeMax" name="TPopKontrVegHoeMax" class="speichern" formular="tpopfeldkontr" type="number">
 								</td>
 							</tr>
-							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrVegHoeMit'>
+							<tr id='fieldcontain_TPopKontrVegHoeMit' class='fieldcontain feld_tpopfeldkontr TPopKontrVegHoeMit'>
 								<td class="label">
 									<label id="TPopKontrVegHoeMit_label" for='TPopKontrVegHoeMit'>Vegetationshöhe Mittelwert in cm:</label>
 								</td>
@@ -679,7 +681,7 @@
 									<input id="TPopKontrVegHoeMit" name="TPopKontrVegHoeMit" class="speichern" formular="tpopfeldkontr" type="number">
 								</td>
 							</tr>
-							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrGefaehrdung'>
+							<tr id='fieldcontain_TPopKontrGefaehrdung' class='fieldcontain feld_tpopfeldkontr TPopKontrGefaehrdung'>
 								<td class="label">
 									<label id="TPopKontrGefaehrdung_label" for='TPopKontrGefaehrdung'>Gefährdung:</label>
 								</td>
@@ -687,7 +689,7 @@
 									<textarea name="TPopKontrGefaehrdung" id="TPopKontrGefaehrdung" class="speichern" formular="tpopfeldkontr"></textarea>
 								</td>
 							</tr>
-							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrJungpfl'>
+							<tr id='fieldcontain_TPopKontrJungpfl' class='fieldcontain feld_tpopfeldkontr TPopKontrJungpfl'>
 								<td class="label">
 									<label id="TPopKontrJungpfl_label" for='TPopKontrJungpfl'>Anzahl Jungpflanzen:</label>
 								</td>
@@ -695,7 +697,7 @@
 									<input id="TPopKontrJungpfl" name="TPopKontrJungpfl" class="speichern" formular="tpopfeldkontr" type="number">
 								</td>
 							</tr>
-							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrVitalitaet'>
+							<tr id='fieldcontain_TPopKontrVitalitaet' class='fieldcontain feld_tpopfeldkontr TPopKontrVitalitaet'>
 								<td class="label">
 									<label id="TPopKontrVitalitaet_label" for='TPopKontrVitalitaet'>Vitalität:</label>
 								</td>
@@ -703,7 +705,7 @@
 									<input id="TPopKontrVitalitaet" name="TPopKontrVitalitaet" class="speichern" formular="tpopfeldkontr" type="text"/>
 								</td>
 							</tr>
-							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrUeberleb'>
+							<tr id='fieldcontain_TPopKontrUeberleb' class='fieldcontain feld_tpopfeldkontr TPopKontrUeberleb'>
 								<td class="label">
 									<label id="TPopKontrUeberleb_label" for='TPopKontrUeberleb'>Überlebensrate:</label>
 								</td>
@@ -711,7 +713,7 @@
 									<input id="TPopKontrUeberleb" name="TPopKontrUeberleb" class="speichern" formular="tpopfeldkontr" type="text"/>
 								</td>
 							</tr>
-							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrEntwicklung'>
+							<tr id='fieldcontain_TPopKontrEntwicklung' class='fieldcontain feld_tpopfeldkontr TPopKontrEntwicklung'>
 								<td class="label">
 									<label id="TPopKontrEntwicklung_label" for='TPopKontrEntwicklung'>
 										<a class="tooltip legendiert" href="#">Entwicklung:
@@ -741,7 +743,7 @@
 									<input type="radio" name="TPopKontrEntwicklung" id="TPopKontrEntwicklung99" class="speichern" formular="tpopfeldkontr" value="99" />andere Einstufung
 								</td>
 							</tr>
-							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrUrsach'>
+							<tr id='fieldcontain_TPopKontrUrsach' class='fieldcontain feld_tpopfeldkontr TPopKontrUrsach'>
 								<td class="label">
 									<label id="TPopKontrUrsach_label" for='TPopKontrUrsach'>Ursachen:</label>
 								</td>
@@ -749,7 +751,7 @@
 									<textarea id="TPopKontrUrsach" name="TPopKontrUrsach" class="speichern" formular="tpopfeldkontr" type="text" placeholder="Standort: ... / Klima: ... / anderes: ..."></textarea>
 								</td>
 							</tr>
-							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrUrteil'>
+							<tr id='fieldcontain_TPopKontrUrteil' class='fieldcontain feld_tpopfeldkontr TPopKontrUrteil'>
 								<td class="label">
 									<label id="TPopKontrUrteil_label" for='TPopKontrUrteil'>Erfolgsbeurteilung:</label>
 								</td>
@@ -757,7 +759,7 @@
 									<textarea name="TPopKontrUrteil" id="TPopKontrUrteil" class="speichern" formular="tpopfeldkontr"></textarea>
 								</td>
 							</tr>
-							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrAendUms'>
+							<tr id='fieldcontain_TPopKontrAendUms' class='fieldcontain feld_tpopfeldkontr TPopKontrAendUms'>
 								<td class="label">
 									<label id="TPopKontrAendUms_label" for='TPopKontrAendUms'>Änd.-vorschläge Umsetzung:</label>
 								</td>
@@ -765,7 +767,7 @@
 									<textarea name="TPopKontrAendUms" id="TPopKontrAendUms" class="speichern" formular="tpopfeldkontr"></textarea>
 								</td>
 							</tr>
-							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrAendKontr'>
+							<tr id='fieldcontain_TPopKontrAendKontr' class='fieldcontain feld_tpopfeldkontr TPopKontrAendKontr'>
 								<td class="label">
 									<label id="TPopKontrAendKontr_label" for='TPopKontrAendKontr'>Änd.-vorschläge Kontrolle:</label>
 								</td>
@@ -773,7 +775,7 @@
 									<textarea name="TPopKontrAendKontr" id="TPopKontrAendKontr" class="speichern" formular="tpopfeldkontr"></textarea>
 								</td>
 							</tr>
-							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrTxt'>
+							<tr id='fieldcontain_TPopKontrTxt' class='fieldcontain feld_tpopfeldkontr TPopKontrTxt'>
 								<td class="label">
 									<label id="TPopKontrTxt_label" for='TPopKontrTxt'>Bemerkungen:</label>
 								</td>
@@ -781,7 +783,7 @@
 									<textarea name="TPopKontrTxt" id="TPopKontrTxt" class="speichern" formular="tpopfeldkontr"></textarea>
 								</td>
 							</tr>
-							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrGuid'>
+							<tr id='fieldcontain_TPopKontrGuid' class='fieldcontain feld_tpopfeldkontr TPopKontrGuid'>
 								<td class="label">
 									<label id="TPopKontrGuid_label" for='TPopKontrGuid'>GUID:</label>
 								</td>
@@ -793,7 +795,7 @@
 					</div>
 					<div id="tpopfeldkontr_tabs_biotop">
 						<table>
-							<tr class='fieldcontain feld_tpopfeldkontr TPopKontrFlaeche'>
+							<tr id='fieldcontain_TPopKontrFlaeche' class='fieldcontain feld_tpopfeldkontr TPopKontrFlaeche'>
 								<td class="label">
 									<label id="TPopKontrFlaeche_label" for='TPopKontrFlaeche'>Fläche:</label>
 								</td>
@@ -805,7 +807,7 @@
 						<fieldset style="background:none;">
 							<legend>Vegetation</legend>
 							<table>
-								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrLeb'>
+								<tr id='fieldcontain_TPopKontrLeb' class='fieldcontain feld_tpopfeldkontr TPopKontrLeb'>
 									<td class="label_fieldset">
 										<label id="TPopKontrLeb_label" for='TPopKontrLeb' style="width:115px">Lebensraum nach Delarze:</label>
 									</td>
@@ -815,7 +817,7 @@
 										</select>
 									</td>
 								</tr>
-								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrLebUmg'>
+								<tr id='fieldcontain_TPopKontrLebUmg' class='fieldcontain feld_tpopfeldkontr TPopKontrLebUmg'>
 									<td class="label_fieldset">
 										<label id="TPopKontrLebUmg_label" for='TPopKontrLebUmg' style="width:115px">Umgebung:</label>
 									</td>
@@ -825,7 +827,7 @@
 										</select>
 									</td>
 								</tr>
-								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrVegTyp'>
+								<tr id='fieldcontain_TPopKontrVegTyp' class='fieldcontain feld_tpopfeldkontr TPopKontrVegTyp'>
 									<td class="label_fieldset">
 										<label id="TPopKontrVegTyp_label" for='TPopKontrVegTyp' style="width:115px">Vegetationstyp:</label>
 									</td>
@@ -833,7 +835,7 @@
 										<input id="TPopKontrVegTyp" name="TPopKontrVegTyp" class="speichern" formular="tpopfeldkontr" type="text"/>
 									</td>
 								</tr>
-								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrKonkurrenz'>
+								<tr id='fieldcontain_TPopKontrKonkurrenz' class='fieldcontain feld_tpopfeldkontr TPopKontrKonkurrenz'>
 									<td class="label_fieldset">
 										<label id="TPopKontrKonkurrenz_label" for='TPopKontrKonkurrenz' style="width:115px">Konkurrenz:</label>
 									</td>
@@ -841,7 +843,7 @@
 										<input id="TPopKontrKonkurrenz" name="TPopKontrKonkurrenz" class="speichern" formular="tpopfeldkontr" type="text"/>
 									</td>
 								</tr>
-								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrMoosschicht'>
+								<tr id='fieldcontain_TPopKontrMoosschicht' class='fieldcontain feld_tpopfeldkontr TPopKontrMoosschicht'>
 									<td class="label_fieldset">
 										<label id="TPopKontrMoosschicht_label" for='TPopKontrMoosschicht' style="width:115px">Moosschicht:</label>
 									</td>
@@ -849,7 +851,7 @@
 										<input id="TPopKontrMoosschicht" name="TPopKontrMoosschicht" class="speichern" formular="tpopfeldkontr" type="text"/>
 									</td>
 								</tr>
-								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrKrautschicht'>
+								<tr id='fieldcontain_TPopKontrKrautschicht' class='fieldcontain feld_tpopfeldkontr TPopKontrKrautschicht'>
 									<td class="label_fieldset">
 										<label id="TPopKontrKrautschicht_label" for='TPopKontrKrautschicht' style="width:115px">Krautschicht:</label>
 									</td>
@@ -857,7 +859,7 @@
 										<input id="TPopKontrKrautschicht" name="TPopKontrKrautschicht" class="speichern" formular="tpopfeldkontr" type="text"/>
 									</td>
 								</tr>
-								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrStrauchschicht'>
+								<tr id='fieldcontain_TPopKontrStrauchschicht' class='fieldcontain feld_tpopfeldkontr TPopKontrStrauchschicht'>
 									<td class="label_fieldset">
 										<label id="TPopKontrStrauchschicht_label" for='TPopKontrStrauchschicht' style="width:115px">Strauchschicht:</label>
 									</td>
@@ -865,7 +867,7 @@
 										<input id="TPopKontrStrauchschicht" name="TPopKontrStrauchschicht" class="speichern" formular="tpopfeldkontr" type="text"/>
 									</td>
 								</tr>
-								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrBaumschicht'>
+								<tr id='fieldcontain_TPopKontrBaumschicht' class='fieldcontain feld_tpopfeldkontr TPopKontrBaumschicht'>
 									<td class="label_fieldset">
 										<label id="TPopKontrBaumschicht_label" for='TPopKontrBaumschicht' style="width:115px">Baumschicht:</label>
 									</td>
@@ -878,7 +880,7 @@
 						<fieldset style="background:none;">
 							<legend>Boden</legend>
 							<table>
-								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrBodenTyp'>
+								<tr id='fieldcontain_TPopKontrBodenTyp' class='fieldcontain feld_tpopfeldkontr TPopKontrBodenTyp'>
 									<td class="label_fieldset">
 										<label id="TPopKontrBodenTyp_label" for='TPopKontrBodenTyp' style="width:115px">Typ:</label>
 									</td>
@@ -886,7 +888,7 @@
 										<input id="TPopKontrBodenTyp" name="TPopKontrBodenTyp" class="speichern" formular="tpopfeldkontr" type="text"/>
 									</td>
 								</tr>
-								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrBodenKalkgehalt'>
+								<tr id='fieldcontain_TPopKontrBodenKalkgehalt' class='fieldcontain feld_tpopfeldkontr TPopKontrBodenKalkgehalt'>
 									<td class="label_fieldset">
 										<label id="TPopKontrBodenKalkgehalt_label" for='TPopKontrBodenKalkgehalt' style="width:115px">Kalkgehalt:</label>
 									</td>
@@ -894,7 +896,7 @@
 										<input id="TPopKontrBodenKalkgehalt" name="TPopKontrBodenKalkgehalt" class="speichern" formular="tpopfeldkontr" type="text"/>
 									</td>
 								</tr>
-								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrBodenDurchlaessigkeit'>
+								<tr id='fieldcontain_TPopKontrBodenDurchlaessigkeit' class='fieldcontain feld_tpopfeldkontr TPopKontrBodenDurchlaessigkeit'>
 									<td class="label_fieldset">
 										<label id="TPopKontrBodenDurchlaessigkeit_label" for='TPopKontrBodenDurchlaessigkeit' style="width:115px">Durchlässigkeit:</label>
 									</td>
@@ -902,7 +904,7 @@
 										<input id="TPopKontrBodenDurchlaessigkeit" name="TPopKontrBodenDurchlaessigkeit" class="speichern" formular="tpopfeldkontr" type="text"/>
 									</td>
 								</tr>
-								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrBodenHumus'>
+								<tr id='fieldcontain_TPopKontrBodenHumus' class='fieldcontain feld_tpopfeldkontr TPopKontrBodenHumus'>
 									<td class="label_fieldset">
 										<label id="TPopKontrBodenHumus_label" for='TPopKontrBodenHumus' style="width:115px">Humusgehalt:</label>
 									</td>
@@ -910,7 +912,7 @@
 										<input id="TPopKontrBodenHumus" name="TPopKontrBodenHumus" class="speichern" formular="tpopfeldkontr" type="text"/>
 									</td>
 								</tr>
-								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrBodenNaehrstoffgehalt'>
+								<tr id='fieldcontain_TPopKontrBodenNaehrstoffgehalt' class='fieldcontain feld_tpopfeldkontr TPopKontrBodenNaehrstoffgehalt'>
 									<td class="label_fieldset">
 										<label id="TPopKontrBodenNaehrstoffgehalt_label" for='TPopKontrBodenNaehrstoffgehalt' style="width:115px">Nährstoffgehalt:</label>
 									</td>
@@ -918,7 +920,7 @@
 										<input id="TPopKontrBodenNaehrstoffgehalt" name="TPopKontrBodenNaehrstoffgehalt" class="speichern" formular="tpopfeldkontr" type="text"/>
 									</td>
 								</tr>
-								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrBodenAbtrag'>
+								<tr id='fieldcontain_TPopKontrBodenAbtrag' class='fieldcontain feld_tpopfeldkontr TPopKontrBodenAbtrag'>
 									<td class="label_fieldset">
 										<label id="TPopKontrBodenAbtrag_label" for='TPopKontrBodenAbtrag' style="width:115px">Bodenabtrag:</label>
 									</td>
@@ -926,7 +928,7 @@
 										<input id="TPopKontrBodenAbtrag" name="TPopKontrBodenAbtrag" class="speichern" formular="tpopfeldkontr" type="text"/>
 									</td>
 								</tr>
-								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrWasserhaushalt'>
+								<tr id='fieldcontain_TPopKontrWasserhaushalt' class='fieldcontain feld_tpopfeldkontr TPopKontrWasserhaushalt'>
 									<td class="label_fieldset">
 										<label id="TPopKontrWasserhaushalt_label" for='TPopKontrWasserhaushalt' style="width:115px">Wasserhaushalt:</label>
 									</td>
@@ -934,7 +936,7 @@
 										<input id="TPopKontrWasserhaushalt" name="TPopKontrWasserhaushalt" class="speichern" formular="tpopfeldkontr" type="text"/>
 									</td>
 								</tr>
-								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrHandlungsbedarf'>
+								<tr id='fieldcontain_TPopKontrHandlungsbedarf' class='fieldcontain feld_tpopfeldkontr TPopKontrHandlungsbedarf'>
 									<td class="label_fieldset">
 										<label id="TPopKontrHandlungsbedarf_label" for='TPopKontrHandlungsbedarf' style="width:115px">Handlungsbedarf:</label>
 									</td>
@@ -942,7 +944,7 @@
 										<textarea name="TPopKontrHandlungsbedarf" id="TPopKontrHandlungsbedarf" class="speichern" formular="tpopfeldkontr"></textarea>
 									</td>
 								</tr>
-								<tr class='fieldcontain feld_tpopfeldkontr TPopKontrIdealBiotopUebereinst'>
+								<tr id='fieldcontain_TPopKontrIdealBiotopUebereinst' class='fieldcontain feld_tpopfeldkontr TPopKontrIdealBiotopUebereinst'>
 									<td class="label_fieldset">
 										<label id="TPopKontrIdealBiotopUebereinst_label" for='TPopKontrIdealBiotopUebereinst' style="width:115px">Übereinst. mit Idealbiotop:</label>
 									</td>
@@ -1993,7 +1995,23 @@
 				</table>
 			</form>
 
-			<form id="Karte" style="width:100%; height:100%;">
+			<form id="Karte" style="width:100%; height:100%;"></form>
+			<form id="GeoAdminKarte">
+				<div id='menuleiste'>
+					<span id="messen">
+						<input type="radio" name="type" value="none" id="karteSchieben" onclick="messe(this);" checked="checked"/>
+						<label for="karteSchieben">Karte schieben</label>
+						<input type="radio" name="type" value="line" id="distanzMessen" onclick="messe(this);"/>
+						<label for="distanzMessen">Distanz messen</label>
+						<input type="radio" name="type" value="polygon" id="flaecheMessen" onclick="messe(this);" />
+						<label for="flaecheMessen">Fläche messen</label>
+					</span>
+					<div id='ergebnisMessung'></div>
+				</div>
+				
+				<div id="layertree">
+					<img id="toggleLayertree" src="style/images/updown.png" alt="öffnen/schliessen" height="14" width="14">
+				</div>
 			</form>
 
 			<form id="exporte">
