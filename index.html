@@ -2587,14 +2587,13 @@
 						//Artname wurde für die Anzeige in undelete_div gespeichert - entfernen, da kein Feld in Tabelle
 						delete window.deleted.Artname;
 						var url_string = "?";
-						for (i in window.deleted) {
-							if (typeof i !== "function") {
-								if (window.deleted[i]) {
-									if (url_string === "?") {
-										url_string += i + "=" + window.deleted[i];
-									} else {
-										url_string += "&" + i + "=" + window.deleted[i];
-									}
+						//for (i in window.deleted) {
+						for (var i = 0; i < window.deleted.length; i++) {
+							if (window.deleted[i]) {
+								if (url_string === "?") {
+									url_string += i + "=" + window.deleted[i];
+								} else {
+									url_string += "&" + i + "=" + window.deleted[i];
 								}
 							}
 						}
@@ -2625,14 +2624,13 @@
 						//typ gehört nicht zum Datensatz
 						delete window.deleted.typ;
 						var url_string = "?";
-						for (i in window.deleted) {
-							if (typeof i !== "function") {
-								if (window.deleted[i]) {
-									if (url_string === "?") {
-										url_string += i + "=" + window.deleted[i];
-									} else {
-										url_string += "&" + i + "=" + window.deleted[i];
-									}
+						//for (i in window.deleted) {
+						for (var i = 0; i < window.deleted.length; i++) {
+							if (window.deleted[i]) {
+								if (url_string === "?") {
+									url_string += i + "=" + window.deleted[i];
+								} else {
+									url_string += "&" + i + "=" + window.deleted[i];
 								}
 							}
 						}
@@ -2666,14 +2664,13 @@
 						//typ gehört nicht zum Datensatz
 						delete window.deleted.typ;
 						var url_string = "?";
-						for (i in window.deleted) {
-							if (typeof i !== "function") {
-								if (window.deleted[i]) {
-									if (url_string === "?") {
-										url_string += i + "=" + window.deleted[i];
-									} else {
-										url_string += "&" + i + "=" + window.deleted[i];
-									}
+						//for (i in window.deleted) {
+						for (var i = 0; i < window.deleted.length; i++) {
+							if (window.deleted[i]) {
+								if (url_string === "?") {
+									url_string += i + "=" + window.deleted[i];
+								} else {
+									url_string += "&" + i + "=" + window.deleted[i];
 								}
 							}
 						}
@@ -2707,14 +2704,13 @@
 						//typ gehört nicht zum Datensatz
 						delete window.deleted.typ;
 						var url_string = "?";
-						for (i in window.deleted) {
-							if (typeof i !== "function") {
-								if (window.deleted[i]) {
-									if (url_string === "?") {
-										url_string += i + "=" + window.deleted[i];
-									} else {
-										url_string += "&" + i + "=" + window.deleted[i];
-									}
+						//for (i in window.deleted) {
+						for (var i = 0; i < window.deleted.length; i++) {
+							if (window.deleted[i]) {
+								if (url_string === "?") {
+									url_string += i + "=" + window.deleted[i];
+								} else {
+									url_string += "&" + i + "=" + window.deleted[i];
 								}
 							}
 						}
@@ -2750,14 +2746,13 @@
 						var typ = window.deleted.typ;
 						delete window.deleted.typ;
 						var url_string = "?";
-						for (i in window.deleted) {
-							if (typeof i !== "function") {
-								if (window.deleted[i]) {
-									if (url_string === "?") {
-										url_string += i + "=" + window.deleted[i];
-									} else {
-										url_string += "&" + i + "=" + window.deleted[i];
-									}
+						//for (i in window.deleted) {
+						for (var i = 0; i < window.deleted.length; i++) {
+							if (window.deleted[i]) {
+								if (url_string === "?") {
+									url_string += i + "=" + window.deleted[i];
+								} else {
+									url_string += "&" + i + "=" + window.deleted[i];
 								}
 							}
 						}
@@ -2791,14 +2786,13 @@
 						//typ gehört nicht zum Datensatz
 						delete window.deleted.typ;
 						var url_string = "?";
-						for (i in window.deleted) {
-							if (typeof i !== "function") {
-								if (window.deleted[i]) {
-									if (url_string === "?") {
-										url_string += i + "=" + window.deleted[i];
-									} else {
-										url_string += "&" + i + "=" + window.deleted[i];
-									}
+						//for (i in window.deleted) {
+						for (var i = 0; i < window.deleted.length; i++) {
+							if (window.deleted[i]) {
+								if (url_string === "?") {
+									url_string += i + "=" + window.deleted[i];
+								} else {
+									url_string += "&" + i + "=" + window.deleted[i];
 								}
 							}
 						}

@@ -1,5 +1,9 @@
 function initiiere_index() {
+	//Variabeln setzen für Formular Feldkontrollen, hier damit nur ein mal
+	window.feldliste_feldkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrTyp', 'TPopKontrJungpfl', 'TPopKontrVitalitaet', 'TPopKontrUeberleb', 'TPopKontrEntwicklung', 'TPopKontrUrsach', 'TPopKontrUrteil', 'TPopKontrAendUms', 'TPopKontrAendKontr', 'TPopKontrGuid', 'TPopKontrFlaeche', 'TPopKontrVegTyp', 'TPopKontrKonkurrenz', 'TPopKontrMoosschicht', 'TPopKontrKrautschicht', 'TPopKontrStrauchschicht', 'TPopKontrBaumschicht', 'TPopKontrBodenTyp', 'TPopKontrBodenKalkgehalt', 'TPopKontrBodenDurchlaessigkeit', 'TPopKontrBodenHumus', 'TPopKontrBodenNaehrstoffgehalt', 'TPopKontrBodenAbtrag', 'TPopKontrWasserhaushalt', 'TPopKontrHandlungsbedarf', 'TPopKontrIdealBiotopUebereinst', 'TPopKontrLeb', 'TPopKontrLebUmg'];
+	window.feldliste_freiwkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrPlan', 'TPopKontrUebFlaeche', 'TPopKontrUebPfl', 'TPopKontrNaBo', 'TPopKontrJungPflJN', 'TPopKontrVegHoeMax', 'TPopKontrVegHoeMit', 'TPopKontrGefaehrdung', 'TPopKontrGuid'];
 	//Versuch, damit $.ajax auch in IE funktioniert
+	//jQuery hängt an jede Anfrage ein &_= und lange Zufahlszahl
 	$.ajaxSetup({cache:false})
 	
 	$("#suchen").hide();
@@ -23,8 +27,9 @@ function initiiere_index() {
 					//Feld mit Daten beliefern
 					var Gemeinden;
 					Gemeinden = [];
-					for (i in data.rows) {
-						if (typeof i !== "undefined" && data.rows[i].GmdName) {
+					//for (i in data.rows) {
+					for (var i = 0; i < data.rows.length; i++) {
+						if (data.rows[i].GmdName) {
 							Gemeinden.push(data.rows[i].GmdName);
 						}
 					}
@@ -103,10 +108,9 @@ function initiiere_ap() {
 									//Feld mit Daten beliefern
 									var html;
 									html = "<option></option>";
-									for (i in data2.rows) {
-										if (typeof i !== "undefined") {
-											html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
-										}
+									//for (i in data2.rows) {
+									for (var i = 0; i < data2.rows.length; i++) {
+										html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
 									}
 									window.adressen_html = html;
 									$("#ApBearb").html(html);
@@ -144,10 +148,9 @@ function erstelle_ApArtId_liste() {
 			success: function (data) {
 				var html;
 				html = "<option></option>";
-				for (i in data.rows) {
-					if (typeof i !== "undefined") {
-						html += "<option value=\"" + data.rows[i].id + "\">" + data.rows[i].Artname + "</option>";
-					}
+				//for (i in data.rows) {
+				for (var i = 0; i < data.rows.length; i++) {
+					html += "<option value=\"" + data.rows[i].id + "\">" + data.rows[i].Artname + "</option>";
 				}
 				window.artliste_html = html;
 				$("#ApArtId").html(html);
@@ -179,7 +182,6 @@ function initiiere_pop() {
 			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
 				//ap bereitstellen
-				//alert("aha");
 				window.pop = data;
 				//Felder mit Daten beliefern
 				$("#PopHerkunft" + data.PopHerkunft).prop("checked", true);
@@ -362,10 +364,9 @@ function initiiere_jber() {
 								//Feld mit Daten beliefern
 								var html;
 								html = "<option></option>";
-								for (i in data2.rows) {
-									if (typeof i !== "undefined") {
-										html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
-									}
+								//for (i in data2.rows) {
+								for (var i = 0; i < data2.rows.length; i++) {
+									html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
 								}
 								window.adressen_html = html;
 								$("#JBerBearb").html(html);
@@ -602,10 +603,9 @@ function initiiere_ib() {
 								//Feld mit Daten beliefern
 								var html;
 								html = "<option></option>";
-								for (i in data4.rows) {
-									if (typeof i !== "undefined") {
-										html += "<option value=\"" + data4.rows[i].id + "\">" + data4.rows[i].Einheit + "</option>";
-									}
+								//for (i in data4.rows) {
+								for (var i = 0; i < data4.length; i++) {
+									html += "<option value=\"" + data4.rows[i].id + "\">" + data4.rows[i].Einheit + "</option>";
 								}
 								window.lrdelarze_html = html;
 								$("#IbVegTyp").html(html);
@@ -776,10 +776,9 @@ function initiiere_tpop() {
 								//Feld mit Daten beliefern
 								var html;
 								html = "<option></option>";
-								for (i in data2.rows) {
-									if (typeof i !== "undefined") {
-										html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
-									}
+								//for (i in data2.rows) {
+								for (var i = 0; i < data2.rows.length; i++) {
+									html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
 								}
 								window.adressen_html = html;
 								$("#TPopVerantw").html(html);
@@ -845,14 +844,11 @@ function initiiere_tpopfeldkontr() {
 	//wird gemeinsam für Feld- und Freiwilligenkontrollen verwendet
 	//Feldkontrollen: Felder der Freiwilligenkontrollen ausblenden
 	//Freiwilligenkontrollen: Felder der Feldkontrollen ausblenen plus Register Biotop
-	var feldliste_feldkontr, feldliste_freiwkontr;
 	if (!localStorage.tpopfeldkontr_id) {
 		//es fehlen benötigte Daten > eine Ebene höher
 		initiiere_pop();
 		return;
 	}
-	feldliste_feldkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrTyp', 'TPopKontrJungpfl', 'TPopKontrVitalitaet', 'TPopKontrUeberleb', 'TPopKontrEntwicklung', 'TPopKontrUrsach', 'TPopKontrUrteil', 'TPopKontrAendUms', 'TPopKontrAendKontr', 'TPopKontrGuid', 'TPopKontrFlaeche', 'TPopKontrVegTyp', 'TPopKontrKonkurrenz', 'TPopKontrMoosschicht', 'TPopKontrKrautschicht', 'TPopKontrStrauchschicht', 'TPopKontrBaumschicht', 'TPopKontrBodenTyp', 'TPopKontrBodenKalkgehalt', 'TPopKontrBodenDurchlaessigkeit', 'TPopKontrBodenHumus', 'TPopKontrBodenNaehrstoffgehalt', 'TPopKontrBodenAbtrag', 'TPopKontrWasserhaushalt', 'TPopKontrHandlungsbedarf', 'TPopKontrIdealBiotopUebereinst', 'TPopKontrLeb', 'TPopKontrLebUmg'];
-	feldliste_freiwkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrPlan', 'TPopKontrUebFlaeche', 'TPopKontrUebPfl', 'TPopKontrNaBo', 'TPopKontrJungPflJN', 'TPopKontrVegHoeMax', 'TPopKontrVegHoeMit', 'TPopKontrGefaehrdung', 'TPopKontrGuid'];
 	//Felder zurücksetzen
 	leereFelderVonFormular("tpopfeldkontr");
 	//alle Felder ausblenden. Später werden die benötigten eingeblendet
@@ -899,10 +895,9 @@ function initiiere_tpopfeldkontr() {
 								//Feld mit Daten beliefern
 								var html;
 								html = "<option></option>";
-								for (i in data2.rows) {
-									if (typeof i !== "undefined") {
-										html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
-									}
+								//for (i in data2.rows) {
+								for (var i = 0; i < data2.rows.length; i++) {
+									html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
 								}
 								window.adressen_html = html;
 								$("#TPopKontrBearb").html(html);
@@ -925,10 +920,9 @@ function initiiere_tpopfeldkontr() {
 								//Feld mit Daten beliefern
 								var html;
 								html = "<option></option>";
-								for (i in data3.rows) {
-									if (typeof i !== "undefined") {
-										html += "<option value=\"" + data3.rows[i].id + "\">" + data3.rows[i].ZaehleinheitTxt + "</option>";
-									}
+								//for (i in data3.rows) {
+								for (var i = 0; i < data3.rows.length; i++) {
+									html += "<option value=\"" + data3.rows[i].id + "\">" + data3.rows[i].ZaehleinheitTxt + "</option>";
 								}
 								window.TPopKontrZaehleinheit_html = html;
 								//alle 3 Felder setzen
@@ -989,10 +983,9 @@ function initiiere_tpopfeldkontr() {
 									//Feld mit Daten beliefern
 									var html;
 									html = "<option></option>";
-									for (i in data4.rows) {
-										if (typeof i !== "undefined") {
-											html += "<option value=\"" + data4.rows[i].id + "\">" + data4.rows[i].Einheit + "</option>";
-										}
+									//for (i in data4.rows) {
+									for (var i = 0; i < data4.rows.length; i++) {
+										html += "<option value=\"" + data4.rows[i].id + "\">" + data4.rows[i].Einheit + "</option>";
 									}
 									window.lrdelarze_html = html;
 									$("#TPopKontrLeb").html(html);
@@ -1020,10 +1013,9 @@ function initiiere_tpopfeldkontr() {
 								//Feld mit Daten beliefern
 								var html;
 								html = "<option></option>";
-								for (i in data5.rows) {
-									if (typeof i !== "undefined") {
-										html += "<option value=\"" + data5.rows[i].id + "\">" + data5.rows[i].DomainTxt + "</option>";
-									}
+								//for (i in data5.rows) {
+								for (var i = 0; i < data5.rows.length; i++) {
+									html += "<option value=\"" + data5.rows[i].id + "\">" + data5.rows[i].DomainTxt + "</option>";
 								}
 								window.IdealBiotopÜbereinst_html = html;
 								$("#TPopKontrIdealBiotopUebereinst").html(html);
@@ -1126,10 +1118,9 @@ function initiiere_tpopmassn() {
 								//Feld mit Daten beliefern
 								var html;
 								html = "<option></option>";
-								for (i in data2.rows) {
-									if (typeof i !== "undefined") {
-										html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].MassnTypTxt + "</option>";
-									}
+								//for (i in data2.rows) {
+								for (var i = 0; i < data2.rows.length; i++) {
+									html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].MassnTypTxt + "</option>";
 								}
 								window.tpopmassntyp_html = html;
 								$("#TPopMassnTyp").html(html);
@@ -1160,10 +1151,9 @@ function initiiere_tpopmassn() {
 								//Feld mit Daten beliefern
 								var html;
 								html = "<option></option>";
-								for (i in data2.rows) {
-									if (typeof i !== "undefined") {
-										html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
-									}
+								//for (i in data2.rows) {
+								for (var i = 0; i < data2.rows.length; i++) {
+									html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
 								}
 								window.adressen_html = html;
 								$("#TPopMassnBearb").html(html);
@@ -1197,10 +1187,9 @@ function initiiere_tpopmassn() {
 						success: function (data) {
 							var html;
 							html = "<option></option>";
-							for (i in data.rows) {
-								if (typeof i !== "undefined") {
-									html += "<option value=\"" + data.rows[i].id + "\">" + data.rows[i].Artname + "</option>";
-								}
+							//for (i in data.rows) {
+							for (var i = 0; i < data.rows.length; i++) {
+								html += "<option value=\"" + data.rows[i].id + "\">" + data.rows[i].Artname + "</option>";
 							}
 							window.artliste_html = html;
 							$("#TPopMassnAnsiedWirtspfl").html(html);
@@ -1348,28 +1337,27 @@ function initiiere_tpopbeob() {
 					success: function (data2) {
 						var html = '<input type="radio" name="tpopbeob_DistZuTPop" id="tpopbeob_DistZuTPop0" class="tpopbeob_DistZuTPop" formular="tpopbeob" value="0"/>keiner';
 						if (data2) {
-							for (i in data2) {
-								if (typeof i !== "function") {
-									if (html) {
-										html += "<br>";
-									}
-									html += '<input type="radio" name="tpopbeob_DistZuTPop" id="tpopbeob_DistZuTPop';
-									html += data2[i].TPopId;
-									html += '" class="tpopbeob_DistZuTPop" formular="tpopbeob" value="'
-									html += data2[i].TPopId;
-									html += '" DistZuTPop="';
-									html += data2[i].DistZuTPop;
-									if (data2[i].TPopId === data.TPopId) {
-										html += '" checked="checked" />';
-									} else {
-										html += '" />';
-									}
-									//Wenn TPop keine Koordinaten haben, Anzeige von NAN verhindern
-									if (parseInt(data2[i].DistZuTPop) >= 0) {
-										html += parseInt(data2[i].DistZuTPop) + "m: " + data2[i].TPopFlurname;
-									} else {
-										html += data2[i].TPopFlurname;
-									}
+							//for (i in data2) {
+							for (var i = 0; i < data2.length; i++) {
+								if (html) {
+									html += "<br>";
+								}
+								html += '<input type="radio" name="tpopbeob_DistZuTPop" id="tpopbeob_DistZuTPop';
+								html += data2[i].TPopId;
+								html += '" class="tpopbeob_DistZuTPop" formular="tpopbeob" value="'
+								html += data2[i].TPopId;
+								html += '" DistZuTPop="';
+								html += data2[i].DistZuTPop;
+								if (data2[i].TPopId === data.TPopId) {
+									html += '" checked="checked" />';
+								} else {
+									html += '" />';
+								}
+								//Wenn TPop keine Koordinaten haben, Anzeige von NAN verhindern
+								if (parseInt(data2[i].DistZuTPop) >= 0) {
+									html += parseInt(data2[i].DistZuTPop) + "m: " + data2[i].TPopFlurname;
+								} else {
+									html += data2[i].TPopFlurname;
 								}
 							}
 							$("#tpopbeob_DistZuTPop_Felder").html(html);
@@ -1429,24 +1417,23 @@ function initiiere_beob() {
 					success: function (data) {
 						var html = "";
 						if (data) {
-							for (i in data) {
-								if (typeof i !== "function") {
-									if (html) {
-										html += "<br>";
-									}
-									html += '<input type="radio" name="DistZuTPop" id="DistZuTPop';
-									html += data[i].TPopId;
-									html += '" class="DistZuTPop" formular="beob" value="'
-									html += data[i].TPopId;
-									html += '" DistZuTPop="';
-									html += data[i].DistZuTPop;
-									html += '" />';
-									//Wenn TPop keine Koordinaten haben, dies anzeigen und Anzeige von NAN verhindern
-									if (parseInt(data[i].DistZuTPop) >= 0) {
-										html += parseInt(data[i].DistZuTPop) + "m: " + data[i].TPopFlurname;
-									} else {
-										html += data[i].TPopFlurname;
-									}
+							//for (i in data) {
+							for (var i = 0; i < data.length; i++) {
+								if (html) {
+									html += "<br>";
+								}
+								html += '<input type="radio" name="DistZuTPop" id="DistZuTPop';
+								html += data[i].TPopId;
+								html += '" class="DistZuTPop" formular="beob" value="'
+								html += data[i].TPopId;
+								html += '" DistZuTPop="';
+								html += data[i].DistZuTPop;
+								html += '" />';
+								//Wenn TPop keine Koordinaten haben, dies anzeigen und Anzeige von NAN verhindern
+								if (parseInt(data[i].DistZuTPop) >= 0) {
+									html += parseInt(data[i].DistZuTPop) + "m: " + data[i].TPopFlurname;
+								} else {
+									html += data[i].TPopFlurname;
 								}
 							}
 							$("#DistZuTPop_Felder").html(html);
@@ -1591,10 +1578,9 @@ function erstelle_ap_liste(programm) {
 		success: function (data) {
 			var html;
 			html = "<option></option>";
-			for (i in data.rows) {
-				if (typeof i !== "undefined") {
-					html += "<option value=\"" + data.rows[i].id + "\">" + data.rows[i].ap_name + "</option>";
-				}
+			//for (i in data.rows) {
+			for (var i = 0; i < data.rows.length; i++) {
+				html += "<option value=\"" + data.rows[i].id + "\">" + data.rows[i].ap_name + "</option>";
 			}
 			$("#ap_waehlen").html(html);
 		}
@@ -6433,12 +6419,11 @@ function treeKontextmenu(node) {
 					delete window.tpopfeldkontr_objekt_kopiert.MutWann;
 					delete window.tpopfeldkontr_objekt_kopiert.MutWer;
 					//alle verbliebenen Felder an die url hängen
-					for (i in window.tpopfeldkontr_objekt_kopiert) {
-						if (typeof i !== "function") {
-							//Nullwerte ausschliessen
-							if (window.tpopfeldkontr_objekt_kopiert[i] !== null) {
-								dataUrl += "&" + i + "=" + window.tpopfeldkontr_objekt_kopiert[i];
-							}
+					//for (i in window.tpopfeldkontr_objekt_kopiert) {
+					for (var i = 0; i < window.tpopfeldkontr_objekt_kopiert.length; i++) {
+						//Nullwerte ausschliessen
+						if (window.tpopfeldkontr_objekt_kopiert[i] !== null) {
+							dataUrl += "&" + i + "=" + window.tpopfeldkontr_objekt_kopiert[i];
 						}
 					}
 					//und an die DB schicken
@@ -6712,11 +6697,10 @@ function treeKontextmenu(node) {
 						});
 						return;
 					}
-					for (i in window.feldkontr_biotop) {
-						if (typeof i !== "function") {
-							$("#" + i).val(window.feldkontr_biotop[i]);
-							url_string += "&" + i + "=" + window.feldkontr_biotop[i];
-						}
+					//for (i in window.feldkontr_biotop) {
+					for (var i = 0; i < window.feldkontr_biotop.length; i++) {
+						$("#" + i).val(window.feldkontr_biotop[i]);
+						url_string += "&" + i + "=" + window.feldkontr_biotop[i];
 					}
 					//jetzt alles speichern
 					$.ajax({
@@ -6851,12 +6835,11 @@ function treeKontextmenu(node) {
 					delete window.tpopfeldkontr_objekt_kopiert.MutWann;
 					delete window.tpopfeldkontr_objekt_kopiert.MutWer;
 					//alle verbliebenen Felder an die url hängen
-					for (i in window.tpopfeldkontr_objekt_kopiert) {
-						if (typeof i !== "function") {
-							//Nullwerte ausschliessen
-							if (window.tpopfeldkontr_objekt_kopiert[i] !== null) {
-								dataUrl += "&" + i + "=" + window.tpopfeldkontr_objekt_kopiert[i];
-							}
+					//for (i in window.tpopfeldkontr_objekt_kopiert) {
+					for (var i = 0; i < window.tpopfeldkontr_objekt_kopiert.length; i++) {
+						//Nullwerte ausschliessen
+						if (window.tpopfeldkontr_objekt_kopiert[i] !== null) {
+							dataUrl += "&" + i + "=" + window.tpopfeldkontr_objekt_kopiert[i];
 						}
 					}
 					//und an die DB schicken
@@ -7007,12 +6990,11 @@ function treeKontextmenu(node) {
 					delete tpopfreiwkontr_objekt_kopiert.MutWann;
 					delete tpopfreiwkontr_objekt_kopiert.MutWer;
 					//alle verbliebenen Felder an die url hängen
-					for (i in tpopfreiwkontr_objekt_kopiert) {
-						if (typeof i !== "function") {
-							//Nullwerte ausschliessen
-							if (tpopfreiwkontr_objekt_kopiert[i] !== null) {
-								dataUrl += "&" + i + "=" + tpopfreiwkontr_objekt_kopiert[i];
-							}
+					//for (i in tpopfreiwkontr_objekt_kopiert) {
+					for (var i = 0; i < tpopfreiwkontr_objekt_kopiert.length; i++) {
+						//Nullwerte ausschliessen
+						if (tpopfreiwkontr_objekt_kopiert[i] !== null) {
+							dataUrl += "&" + i + "=" + tpopfreiwkontr_objekt_kopiert[i];
 						}
 					}
 					//und an die DB schicken
@@ -7310,12 +7292,11 @@ function treeKontextmenu(node) {
 					delete tpopfreiwkontr_objekt_kopiert.MutWann;
 					delete tpopfreiwkontr_objekt_kopiert.MutWer;
 					//alle verbliebenen Felder an die url hängen
-					for (i in tpopfreiwkontr_objekt_kopiert) {
-						if (typeof i !== "function") {
-							//Nullwerte ausschliessen
-							if (tpopfreiwkontr_objekt_kopiert[i] !== null) {
-								dataUrl += "&" + i + "=" + tpopfreiwkontr_objekt_kopiert[i];
-							}
+					//for (i in tpopfreiwkontr_objekt_kopiert) {
+					for (var i = 0; i < tpopfreiwkontr_objekt_kopiert.length; i++) {
+						//Nullwerte ausschliessen
+						if (tpopfreiwkontr_objekt_kopiert[i] !== null) {
+							dataUrl += "&" + i + "=" + tpopfreiwkontr_objekt_kopiert[i];
 						}
 					}
 					//und an die DB schicken
@@ -7466,12 +7447,11 @@ function treeKontextmenu(node) {
 					delete window.tpopmassn_objekt_kopiert.MutWann;
 					delete window.tpopmassn_objekt_kopiert.MutWer;
 					//alle verbliebenen Felder an die url hängen
-					for (i in window.tpopmassn_objekt_kopiert) {
-						if (typeof i !== "function") {
-							//Nullwerte ausschliessen
-							if (window.tpopmassn_objekt_kopiert[i] !== null) {
-								dataUrl += "&" + i + "=" + window.tpopmassn_objekt_kopiert[i];
-							}
+					//for (i in window.tpopmassn_objekt_kopiert) {
+					for (var i = 0; i < window.tpopmassn_objekt_kopiert.length; i++) {
+						//Nullwerte ausschliessen
+						if (window.tpopmassn_objekt_kopiert[i] !== null) {
+							dataUrl += "&" + i + "=" + window.tpopmassn_objekt_kopiert[i];
 						}
 					}
 					//und an die DB schicken
@@ -7764,12 +7744,11 @@ function treeKontextmenu(node) {
 					delete window.tpopmassn_objekt_kopiert.MutWann;
 					delete window.tpopmassn_objekt_kopiert.MutWer;
 					//alle verbliebenen Felder an die url hängen
-					for (i in window.tpopmassn_objekt_kopiert) {
-						if (typeof i !== "function") {
-							//Nullwerte ausschliessen
-							if (window.tpopmassn_objekt_kopiert[i] !== null) {
-								dataUrl += "&" + i + "=" + window.tpopmassn_objekt_kopiert[i];
-							}
+					//for (i in window.tpopmassn_objekt_kopiert) {
+					for (var i = 0; i < window.tpopmassn_objekt_kopiert.length; i++) {
+						//Nullwerte ausschliessen
+						if (window.tpopmassn_objekt_kopiert[i] !== null) {
+							dataUrl += "&" + i + "=" + window.tpopmassn_objekt_kopiert[i];
 						}
 					}
 					//und an die DB schicken
@@ -8642,12 +8621,11 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 	delete window.tpop_objekt_kopiert.MutWann;
 	delete window.tpop_objekt_kopiert.MutWer;
 	//alle verbliebenen Felder an die url hängen
-	for (i in window.tpop_objekt_kopiert) {
-		if (typeof i !== "function") {
-			//Nullwerte ausschliessen
-			if (window.tpop_objekt_kopiert[i] !== null) {
-				dataUrl += "&" + i + "=" + window.tpop_objekt_kopiert[i];
-			}
+	//for (i in window.tpop_objekt_kopiert) {
+	for (var i = 0; i < window.tpop_objekt_kopiert.length; i++) {
+		//Nullwerte ausschliessen
+		if (window.tpop_objekt_kopiert[i] !== null) {
+			dataUrl += "&" + i + "=" + window.tpop_objekt_kopiert[i];
 		}
 	}
 	//und an die DB schicken
@@ -8715,12 +8693,11 @@ function pop_kopiert_in_pop_einfuegen(aktiver_node, parent_node) {
 	delete window.pop_objekt_kopiert.MutWann;
 	delete window.pop_objekt_kopiert.MutWer;
 	//alle verbliebenen Felder an die url hängen
-	for (i in window.pop_objekt_kopiert) {
-		if (typeof i !== "function") {
-			//Nullwerte ausschliessen
-			if (window.pop_objekt_kopiert[i] !== null) {
-				dataUrl += "&" + i + "=" + window.pop_objekt_kopiert[i];
-			}
+	//for (i in window.pop_objekt_kopiert) {
+	for (var i = 0; i < window.pop_objekt_kopiert.length; i++) {
+		//Nullwerte ausschliessen
+		if (window.pop_objekt_kopiert[i] !== null) {
+			dataUrl += "&" + i + "=" + window.pop_objekt_kopiert[i];
 		}
 	}
 	//und an die DB schicken
@@ -8788,12 +8765,11 @@ function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 	delete window.tpop_objekt_kopiert.MutWann;
 	delete window.tpop_objekt_kopiert.MutWer;
 	//alle verbliebenen Felder an die url hängen
-	for (i in window.tpop_objekt_kopiert) {
-		if (typeof i !== "function") {
-			//Nullwerte ausschliessen
-			if (window.tpop_objekt_kopiert[i] !== null) {
-				dataUrl += "&" + i + "=" + window.tpop_objekt_kopiert[i];
-			}
+	//for (i in window.tpop_objekt_kopiert) {
+	for (var i = 0; i < window.tpop_objekt_kopiert.length; i++) {
+		//Nullwerte ausschliessen
+		if (window.tpop_objekt_kopiert[i] !== null) {
+			dataUrl += "&" + i + "=" + window.tpop_objekt_kopiert[i];
 		}
 	}
 	//und an die DB schicken
@@ -9323,8 +9299,8 @@ function zeigeTPopAufKarte(TPopListe) {
 	//TPopListe bearbeiten:
 	//Objekte löschen, die keine Koordinaten haben
 	//Lat und Lng ergänzen
-	for (i in TPopListe.rows) {
-		TPop = TPopListe.rows[i];
+	for (var v = 0; v < TPopListe.rows.length; v++) {
+		TPop = TPopListe.rows[v];
 		if (!TPop.TPopXKoord || !TPop.TPopYKoord) {
 			delete TPop;
 		} else {
@@ -9350,8 +9326,8 @@ function zeigeTPopAufKarte(TPopListe) {
 	bounds = new google.maps.LatLngBounds();
 	//für alle TPop Marker erstellen
 	markers = [];
-	for (i in TPopListe.rows) {
-		TPop = TPopListe.rows[i];
+	for (var u = 0; u < TPopListe.rows.length; u++) {
+		TPop = TPopListe.rows[u];
 		TPopId = TPop.TPopId;
 		latlng2 = new google.maps.LatLng(TPop.Lat, TPop.Lng);
 		if (anzTPop === 1) {
@@ -9416,7 +9392,7 @@ function zeigeTPopAufKarte(TPopListe) {
 	}
 }
 
-function zeigeTPopAufGeoAdmin(TPopListe) {
+/*function zeigeTPopAufGeoAdmin(TPopListe) {
 	var anzTPop, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe, titel;
 	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("GeoAdminKarte");
@@ -9459,7 +9435,7 @@ function zeigeTPopAufGeoAdmin(TPopListe) {
 	for (i in TPopListe.rows) {
 		TPop = TPopListe.rows[i];
 		TPopId = TPop.TPopId;
-		
+
 		latlng2 = new google.maps.LatLng(TPop.Lat, TPop.Lng);
 		if (anzTPop === 1) {
 			//map.fitbounds setzt zu hohen zoom, wenn nur eine TPop Koordinaten hat > verhindern
@@ -9521,7 +9497,7 @@ function zeigeTPopAufGeoAdmin(TPopListe) {
 			infowindow.open(map,marker);
 		});
 	}
-}
+}*/
 
 function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 	var anzBeob, infowindowBeob, infowindowTPop, TPop, lat, lng, latlng, options, map, bounds, markersTPop, TPopId, latlng2, markerBeob, markerTPop, contentStringBeob, contentStringTPop, mcOptionsBeob, mcOptionsTPop, markerClusterBeob, markerClusterTPop, Kartenhoehe, Datum, titel, titel_beob, a_note;
@@ -9534,13 +9510,15 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 	infowindowTPop = new google.maps.InfoWindow();
 	$("#Karte").css("height", Kartenhoehe + "px");
 	//Lat und Lng in BeobListe ergänzen
-	for (i in BeobListe.rows) {
+	//for (i in BeobListe.rows) {
+	for (var i = 0; i < BeobListe.rows.length; i++) {
 		Beob = BeobListe.rows[i];
 		Beob.Lat = CHtoWGSlat(parseInt(Beob.xGIS), parseInt(Beob.yGIS));
 		Beob.Lng = CHtoWGSlng(parseInt(Beob.xGIS), parseInt(Beob.yGIS));
 	}
 	//dito in TPopListe
-	for (i in TPopListe.rows) {
+	//for (i in TPopListe.rows) {
+	for (var i = 0; i < TPopListe.rows.length; i++) {
 		TPop = TPopListe.rows[i];
 		if (!TPop.TPopXKoord || !TPop.TPopYKoord) {
 			delete TPop;
@@ -9570,7 +9548,8 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 
 	//für alle TPop Marker erstellen
 	markersTPop = [];
-	for (i in TPopListe.rows) {
+	//for (i in TPopListe.rows) {
+	for (var i = 0; i < TPopListe.rows.length; i++) {
 		TPop = TPopListe.rows[i];
 		TPopId = TPop.TPopId;
 		latlng2 = new google.maps.LatLng(TPop.Lat, TPop.Lng);
@@ -9625,7 +9604,8 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 
 	//für alle Beob Marker erstellen
 	window.markersBeob = [];
-	for (i in BeobListe.rows) {
+	//for (i in BeobListe.rows) {
+	for (var i = 0; i < BeobListe.rows.length; i++) {
 		Beob = BeobListe.rows[i];
 		if (Beob.J_NOTE && Beob.M_NOTE > 0) {
 			if (Beob.J_NOTE < 10) {
@@ -9785,7 +9765,8 @@ function zeigeBeobAufKarte(BeobListe) {
 	infowindow = new google.maps.InfoWindow();
 	$("#Karte").css("height", Kartenhoehe + "px");
 	//Lat und Lng in BeobListe ergänzen
-	for (i in BeobListe.rows) {
+	//for (i in BeobListe.rows) {
+	for (var i = 0; i < BeobListe.rows.length; i++) {
 		Beob = BeobListe.rows[i];
 		Beob.Lat = CHtoWGSlat(parseInt(Beob.xGIS), parseInt(Beob.yGIS));
 		Beob.Lng = CHtoWGSlng(parseInt(Beob.xGIS), parseInt(Beob.yGIS));
@@ -9816,7 +9797,8 @@ function zeigeBeobAufKarte(BeobListe) {
 	bounds = new google.maps.LatLngBounds();
 	//für alle Orte Marker erstellen
 	markers = [];
-	for (i in BeobListe.rows) {
+	//for (i in BeobListe.rows) {
+	for (var i = 0; i < BeobListe.rows.length; i++) {
 		Beob = BeobListe.rows[i];
 		if (Beob.J_NOTE && Beob.M_NOTE > 0) {
 			if (Beob.J_NOTE < 10) {
@@ -9919,7 +9901,8 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 	//TPopListe bearbeiten:
 	//Objekte löschen, die keine Koordinaten haben
 	//Lat und Lng ergänzen
-	for (i in TPopBeobListe.rows) {
+	//for (i in TPopBeobListe.rows) {
+	for (var i = 0; i < TPopBeobListe.rows.length; i++) {
 		TPopBeob = TPopBeobListe.rows[i];
 		TPopBeob.Lat = CHtoWGSlat(parseInt(TPopBeob.xGIS), parseInt(TPopBeob.yGIS));
 		TPopBeob.Lng = CHtoWGSlng(parseInt(TPopBeob.xGIS), parseInt(TPopBeob.yGIS));
@@ -9955,7 +9938,8 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 	bounds = new google.maps.LatLngBounds();
 	//für alle Orte Marker erstellen
 	markers = [];
-	for (i in TPopBeobListe.rows) {
+	//for (i in TPopBeobListe.rows) {
+	for (var i = 0; i < TPopBeobListe.rows.length; i++) {
 		TPopBeob = TPopBeobListe.rows[i];
 		if (!TPopBeob.M_NOTE) {
 			Datum = TPopBeob.A_NOTE;
@@ -10209,7 +10193,8 @@ function SetLocationTPop(LatLng, map, marker, TPop) {
 //benutzt wo in GoogleMaps Marker gesetzt und verschoben werden
 function clearMarkers() {
 	if (markersArray) {
-		for (i in markersArray) {
+		//for (i in markersArray) {
+		for (var i = 0; i < markersArray.length; i++) {
 			markersArray[i].setMap(null);
 		}
 	}
@@ -10219,7 +10204,8 @@ function clearMarkers() {
 //benutzt wo in GoogleMaps Infowindows neu gesetzt werden müssen, weil die Daten verändert wurden
 function clearInfoWindows() {
 	if (InfoWindowArray) {
-		for (i in InfoWindowArray) {
+		//for (i in InfoWindowArray) {
+		for (var i = 0; i < InfoWindowArray.length; i++) {
 			InfoWindowArray[i].setMap(null);
 		}
 	}
