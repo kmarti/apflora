@@ -9305,7 +9305,7 @@ function zeigeTPopAufKarte(TPopListe) {
 	zeigeFormular("Karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
-	Kartenhoehe = $(window).height() - 50;
+	Kartenhoehe = $(window).height() - 62;
 	infowindow = new google.maps.InfoWindow();
 	$("#Karte").css("height", Kartenhoehe + "px");
 	//TPopListe bearbeiten:
@@ -9454,7 +9454,7 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 	zeigeFormular("Karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
-	Kartenhoehe = $(window).height() - 50;
+	Kartenhoehe = $(window).height() - 62;
 	infowindowBeob = new google.maps.InfoWindow();
 	infowindowTPop = new google.maps.InfoWindow();
 	$("#Karte").css("height", Kartenhoehe + "px");
@@ -9710,7 +9710,7 @@ function zeigeBeobAufKarte(BeobListe) {
 	zeigeFormular("Karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
-	Kartenhoehe = $(window).height() - 50;
+	Kartenhoehe = $(window).height() - 62;
 	infowindow = new google.maps.InfoWindow();
 	$("#Karte").css("height", Kartenhoehe + "px");
 	//Lat und Lng in BeobListe ergänzen
@@ -9844,7 +9844,7 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 	zeigeFormular("Karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
-	Kartenhoehe = $(window).height() - 50;
+	Kartenhoehe = $(window).height() - 62;
 	infowindow = new google.maps.InfoWindow();
 	$("#Karte").css("height", Kartenhoehe + "px");
 	//TPopListe bearbeiten:
@@ -9979,7 +9979,7 @@ function verorteTPopAufKarte(TPop) {
 	zeigeFormular("Karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
-	Kartenhoehe = $(window).height() - 50;
+	Kartenhoehe = $(window).height() - 62;
 	infowindow = new google.maps.InfoWindow();
 	$("#Karte").css("height", Kartenhoehe + "px");
 	if (TPop && TPop.TPopXKoord && TPop.TPopYKoord) {
