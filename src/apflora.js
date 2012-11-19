@@ -14,8 +14,11 @@ function initiiere_index() {
 	$("#loeschen_dialog").hide();
 	//jQuery ui buttons initiieren
 	$("#programm_wahl").buttonset();
+	$("#messen").buttonset();
 	$("button").button();
 	$("#tpopfeldkontr_tabs").tabs();
+	//GeoAdmin-Karte initiieren
+	initiiereGeoAdminKarte();
 	//Gemeindeliste erstellen, wenn nötig
 	if (!window.Gemeinden) {
 		$.ajax({
@@ -1466,7 +1469,7 @@ function zeigeFormular(Formularname) {
 	if ($("#ap_waehlen").val()) {
 		//titelzeile inline, sonst gibt es einen unschönen Abstand nach oben
 		$("#forms_titelzeile").css("display", "inline");
-		if ($("#ap_waehlen").val() <= 150 && Formularname !== "jber_uebersicht" && Formularname !== "exporte") {
+		if ($("#ap_waehlen").val() <= 150 && Formularname !== "jber_uebersicht" && Formularname !== "exporte" && Formularname !== "GeoAdminKarte") {
 			$("#testart_div").css("color", "#03970F");
 			//titelzeile inline-block, sonst werden Tabs nach rechts verschoben
 			$("#forms_titelzeile").css("display", "inline-block");
@@ -1484,6 +1487,8 @@ function zeigeFormular(Formularname) {
 		$("#forms").show();
 		$("#distanz_messen").hide();
 		$("#distanz_messen_entfernen").hide();
+		//GeoAdminKarte ist in div statt form, wegen des CSS
+		$("#GeoAdminKarte").hide();
 		$('form').each(function() {
 			$(this).hide();
 		});
@@ -1508,6 +1513,13 @@ function zeigeFormular(Formularname) {
 		}, 5);
 		$("#distanz_messen").show();
 		$("#distanz_messen_entfernen").show();
+	}
+	if (Formularname === "GeoAdminKarte") {
+		$("#GeoAdminKarte").show();
+		//Karte wird sonst unter dem Menu angezeigt
+		setTimeout(function() {
+			setzeSpaltenbreiten();
+		}, 5);
 	}
 	$(window).scrollTop(0);
 }
@@ -5663,7 +5675,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"GoogleMaps": {
-				"label": "auf GoogleMap zeigen",
+				"label": "auf Luftbild zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon.png",
 				"action": function () {
@@ -9395,12 +9407,13 @@ function zeigeTPopAufKarte(TPopListe) {
 function zeigeTPopAufGeoAdmin(TPopListe) {
 	var TPop, anzTPop, bounds, markers, TPopId, html;
 	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-	initiiereGeoAdminKarte();
-	zeigeFormular("GeoAdminKarte");
-	Kartenhoehe = $(window).height() - 50;
+	//zeigeFormular("GeoAdminKarte");
+	Kartenhoehe = $(window).height() - 10;
 	$("#GeoAdminKarte").css("height", Kartenhoehe + "px");
+	$("#ga_karten_div").css("height", Kartenhoehe - 10 + "px");
+	zeigeFormular("GeoAdminKarte");
 	//TPopListe bearbeiten: Objekte löschen, die keine Koordinaten haben
-	for (var i = 0; u < TPopListe.rows.length; i++) {
+	/*for (var i = 0; u < TPopListe.rows.length; i++) {
 		TPop = TPopListe.rows[i];
 		if (!TPop.TPopXKoord || !TPop.TPopYKoord) {
 			delete TPop;
@@ -9432,7 +9445,7 @@ function zeigeTPopAufGeoAdmin(TPopListe) {
 		//bounds.extend(new OpenLayers.LonLat(TPop.TPopYKoord, TPop.TPopXKoord));
 		markers.push(marker);
 	}
-	//bounds.toBBOX();
+	//bounds.toBBOX();*/
 }
 
 function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
@@ -10678,13 +10691,10 @@ function initiiereGeoAdminKarte() {
 	//OpenLayers.ProxyHost = "../cgi-bin/proxy.cgi?url=";
 	//var zh_bbox_1903 = new OpenLayers.Bounds(669000, 222000, 717000, 284000);
 
-	//buttons initiieren
-	$("#messen").buttonset();
-
 	var api = new GeoAdmin.API();
 
 	api.createMap({
-		div: "GeoAdminKarte",
+		div: "ga_karten_div",
 		easting: 693000,
 		northing: 253000,
 		zoom: 4
@@ -10864,7 +10874,7 @@ function initiiereGeoAdminKarte() {
 		api.map.addControl(control);
 	}
 	
-	$('karteSchieben').checked = true;
+	$('#karteSchieben').checked = true;	//scheint nicht zu funktionieren?
 
 	$("#layertree").on("click", "#toggleLayertree", function() {
 		oeffneSchliesseLayertree();

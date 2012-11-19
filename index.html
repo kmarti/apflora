@@ -12,7 +12,7 @@
 		<script type="text/javascript" src="src/hammer.js"></script>
 		<script type="text/javascript" src="src/jquery.hammer.js"></script>
 		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
-		<script type="text/javascript" src="https://api.geo.admin.ch/loader.js"></script>
+		<script type="text/javascript" src="https://api.geo.admin.ch/loader.js?mode=debug"></script>
 		<script type="text/javascript" src="src/markerclusterer.js"></script>
 		<script type="text/javascript" src="src/markerwithlabel.js"></script>
 		<script type="text/javascript" src="src/ruler.js"></script>
@@ -1995,23 +1995,24 @@
 			</form>
 
 			<form id="Karte" style="width:100%; height:100%;"></form>
-			<form id="GeoAdminKarte">
-				<div id='menuleiste'>
-					<span id="messen">
-						<input type="radio" name="type" value="none" id="karteSchieben" onclick="messe(this);" checked="checked"/>
-						<label for="karteSchieben">Karte schieben</label>
-						<input type="radio" name="type" value="line" id="distanzMessen" onclick="messe(this);"/>
-						<label for="distanzMessen">Distanz messen</label>
-						<input type="radio" name="type" value="polygon" id="flaecheMessen" onclick="messe(this);" />
-						<label for="flaecheMessen">Fläche messen</label>
-					</span>
-					<div id='ergebnisMessung'></div>
+			<div id="GeoAdminKarte">
+				<div id="ga_karten_div" style="width:100%; height:100%;">
+					<div id='menuleiste'>
+						<span id="messen">
+							<input type="radio" name="type" value="none" id="karteSchieben" onclick="messe(this);" checked="checked"/>
+							<label for="karteSchieben">Karte schieben</label>
+							<input type="radio" name="type" value="line" id="distanzMessen" onclick="messe(this);"/>
+							<label for="distanzMessen">Distanz messen</label>
+							<input type="radio" name="type" value="polygon" id="flaecheMessen" onclick="messe(this);" />
+							<label for="flaecheMessen">Fläche messen</label>
+						</span>
+						<div id='ergebnisMessung'></div>
+					</div>
+					<div id="layertree">
+						<img id="toggleLayertree" src="style/images/updown.png" alt="öffnen/schliessen" height="14" width="14">
+					</div>
 				</div>
-				
-				<div id="layertree">
-					<img id="toggleLayertree" src="style/images/updown.png" alt="öffnen/schliessen" height="14" width="14">
-				</div>
-			</form>
+			</div>
 
 			<form id="exporte">
 				<a name="top"></a>
