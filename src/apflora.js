@@ -5702,7 +5702,7 @@ function treeKontextmenu(node) {
 					});
 				}
 			},
-			"GeoAdminMaps": {
+			/*"GeoAdminMaps": {
 				"label": "auf Übersichtsplan zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon.png",
@@ -5741,7 +5741,7 @@ function treeKontextmenu(node) {
 						}
 					});
 				}
-			},
+			},*/
 			"verorten": {
 				"label": "auf Luftbild verorten",
 				"separator_before": true,
@@ -6697,8 +6697,8 @@ function treeKontextmenu(node) {
 						});
 						return;
 					}
-					//for (i in window.feldkontr_biotop) {
-					for (var i = 0; i < window.feldkontr_biotop.length; i++) {
+					for (i in window.feldkontr_biotop) {
+					//for (var i = 0; i < window.feldkontr_biotop.length; i++) {
 						$("#" + i).val(window.feldkontr_biotop[i]);
 						url_string += "&" + i + "=" + window.feldkontr_biotop[i];
 					}
@@ -9392,20 +9392,15 @@ function zeigeTPopAufKarte(TPopListe) {
 	}
 }
 
-/*function zeigeTPopAufGeoAdmin(TPopListe) {
-	var anzTPop, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe, titel;
+function zeigeTPopAufGeoAdmin(TPopListe) {
+	var TPop, anzTPop, bounds, markers, TPopId, html;
 	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
+	initiiereGeoAdminKarte();
 	zeigeFormular("GeoAdminKarte");
-
-	window.markersArray = [];
-	window.InfoWindowArray = [];
-
 	Kartenhoehe = $(window).height() - 50;
-	infowindow = new google.maps.InfoWindow();
-	$("#Karte").css("height", Kartenhoehe + "px");
-	//TPopListe bearbeiten:
-	//Objekte löschen, die keine Koordinaten haben
-	for (i in TPopListe.rows) {
+	$("#GeoAdminKarte").css("height", Kartenhoehe + "px");
+	//TPopListe bearbeiten: Objekte löschen, die keine Koordinaten haben
+	for (var i = 0; u < TPopListe.rows.length; i++) {
 		TPop = TPopListe.rows[i];
 		if (!TPop.TPopXKoord || !TPop.TPopYKoord) {
 			delete TPop;
@@ -9413,91 +9408,32 @@ function zeigeTPopAufKarte(TPopListe) {
 	}
 	//TPop zählen
 	anzTPop = TPopListe.rows.length;
-	//Karte mal auf Zürich zentrieren, falls in den TPopListe.rows keine Koordinaten kommen
-	//auf die die Karte ausgerichtet werden kann
-
-	lat = 47.383333;
-	lng = 8.533333;
-	latlng = new google.maps.LatLng(lat, lng);
-	options = {
-		zoom: 15,
-		center: latlng,
-		streetViewControl: false,
-		mapTypeId: google.maps.MapTypeId.SATELLITE
-	};
-	map = new google.maps.Map(document.getElementById("Karte"), options);
-	window.map = map;
-	bounds = new google.maps.LatLngBounds();
+	//bounds = new OpenLayers.Bounds();
 
 	//für alle TPop Marker erstellen
 	markers = [];
 
-	for (i in TPopListe.rows) {
-		TPop = TPopListe.rows[i];
+	//for (i in TPopListe.rows) {
+	for (var b = 0; u < TPopListe.rows.length; b++) {
+		TPop = TPopListe.rows[b];
 		TPopId = TPop.TPopId;
-
-		latlng2 = new google.maps.LatLng(TPop.Lat, TPop.Lng);
-		if (anzTPop === 1) {
-			//map.fitbounds setzt zu hohen zoom, wenn nur eine TPop Koordinaten hat > verhindern
-			latlng = latlng2;
-		} else {
-			//Kartenausschnitt um diese Koordinate erweitern
-			bounds.extend(latlng2);
-		}
-		//title muss String sein
-		if (TPop.TPopFlurname) {
-			titel = TPop.TPopFlurname.toString();
-		} else {
-			titel = "";
-		}
-		marker = new MarkerWithLabel({
-			map: map,
-			position: latlng2,
-			title: titel,
-			labelContent: titel,
-			labelAnchor: new google.maps.Point(75, 0),
-			labelClass: "MapLabel",
-			icon: "img/flora_icon.png"
-		});
-		markers.push(marker);
-		contentString = '<div id="content">'+
-			'<div id="siteNotice">'+
-			'</div>'+
-			'<div id="bodyContent" class="GmInfowindow">'+
-			'<h3>' + TPop.Name + '</h3>'+
+		html = '<h3>' + TPop.Name + '</h3>'+
 			'<p>Population: ' + TPop.PopName + '</p>'+
 			'<p>TPop: ' + TPop.TPopFlurname + '</p>'+
 			'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
-			"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">bearbeiten<\/a></p>"+
-			'</div>'+
-			'</div>';
-		makeListener(map, marker, contentString);
-	}
-	mcOptions = {
-		maxZoom: 17, 
-		styles: [{
-				height: 53,
-				url: "img/m8.png",
-				width: 53
-			}]
-	};
-	markerCluster = new MarkerClusterer(map, markers, mcOptions);
-	if (anzTPop === 1) {
-		//map.fitbounds setzt zu hohen zoom, wenn nur eine Beobachtung erfasst wurde > verhindern
-		map.setCenter(latlng);
-		map.setZoom(18);
-	} else {
-		//Karte auf Ausschnitt anpassen
-		map.fitBounds(bounds);
-	}
-	//diese Funktion muss hier sein, damit infowindow bekannt ist
-	function makeListener(map, marker, contentString) {
-		google.maps.event.addListener(marker, 'click', function () {
-			infowindow.setContent(contentString);
-			infowindow.open(map,marker);
+			"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">bearbeiten<\/a></p>";
+		api.showMarker({
+			renderTo: "GeoAdminKarte",
+			easting: TPop.TPopYKoord,
+			northing: TPop.TPopXKoord,
+			iconPath: "img/flora_icon.png",
+			html: html
 		});
+		//bounds.extend(new OpenLayers.LonLat(TPop.TPopYKoord, TPop.TPopXKoord));
+		markers.push(marker);
 	}
-}*/
+	//bounds.toBBOX();
+}
 
 function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 	var anzBeob, infowindowBeob, infowindowTPop, TPop, lat, lng, latlng, options, map, bounds, markersTPop, TPopId, latlng2, markerBeob, markerTPop, contentStringBeob, contentStringTPop, mcOptionsBeob, mcOptionsTPop, markerClusterBeob, markerClusterTPop, Kartenhoehe, Datum, titel, titel_beob, a_note;
@@ -10735,4 +10671,238 @@ function getInternetExplorerVersion()
       rv = parseFloat( RegExp.$1 );
   }
   return rv;
+}
+
+function initiiereGeoAdminKarte() {
+	//Proxy Host for Ajax Requests to overcome Cross-Domain HTTTP Requests
+	//OpenLayers.ProxyHost = "../cgi-bin/proxy.cgi?url=";
+	//var zh_bbox_1903 = new OpenLayers.Bounds(669000, 222000, 717000, 284000);
+
+	//buttons initiieren
+	$("#messen").buttonset();
+
+	var api = new GeoAdmin.API();
+
+	api.createMap({
+		div: "GeoAdminKarte",
+		easting: 693000,
+		northing: 253000,
+		zoom: 4
+	});
+
+	var zh_uep = new OpenLayers.Layer.WMS("Übersichtsplan Kt. Zürich", "http://wms.zh.ch/upwms", {
+		layers: 'upwms',
+		isBaseLayer: true
+	}, {
+		visibility: true,
+		singleTile: true
+	});
+    var zh_av = new OpenLayers.Layer.WMS("ZH Parzellen", "http://wms.zh.ch/avwms", {
+		layers: 'RESF',
+		transparent: true
+	}, {
+		opacity: 0.7,
+		visibility: false,
+		singleTile: true
+	});
+	var zh_avnr = new OpenLayers.Layer.WMS("ZH Parzellen-Nummern", "http://wms.zh.ch/avwms", {
+		layers: 'OSNR',
+		transparent: true
+	}, {
+		opacity: 0.7,
+		visibility: false,
+		singleTile: true
+	});
+	var zh_svo = new OpenLayers.Layer.WMS("ZH SVO", "http://wms.zh.ch/FnsSVOZHWMS", {
+		layers: 'FnsSVOZHWMS',
+		transparent: true
+	}, {
+		singleTile: true,
+		opacity: 0.7,
+		visibility: false
+	});
+
+	var ch_lk1000 = new OpenLayers.Layer.WMS("Landeskarte 1:1'000'000", "http://wms.geo.admin.ch?", {
+		layers: 'ch.swisstopo.pixelkarte-farbe-pk1000.noscale',
+		srs: 'EPSG:21781',
+		'format': 'png'
+	}, {
+		singleTile: true,
+		visibility: false
+	});
+	var ch_ktgrenzen = new OpenLayers.Layer.WMS("Kantone", "http://wms.geo.admin.ch?", {
+		layers: 'ch.swisstopo.swissboundaries3d-kanton-flaeche.fill',
+		srs: 'EPSG:21781',
+		'format': 'png'
+	}, {
+		singleTile: true,
+		visibility: false
+	});
+
+	//wms hinzufügen
+	var ch_tww = new OpenLayers.Layer.WMS("CH TWW", "http://wms.geo.admin.ch", {
+		layers: 'ch.bafu.bundesinventare-trockenwiesen_trockenweiden',
+		transparent: true
+	}, {
+		opacity: 0.7,
+		visibility: false
+	});
+	var ch_hm = new OpenLayers.Layer.WMS("CH Hochmoore", "http://wms.geo.admin.ch", {
+		layers: 'ch.bafu.bundesinventare-hochmoore',
+		transparent: true
+	}, {
+		opacity: 0.7,
+		visibility: false
+	});	
+	var ch_fm = new OpenLayers.Layer.WMS("CH Flachmoore", "http://wms.geo.admin.ch", {
+		layers: 'ch.bafu.bundesinventare-flachmoore',
+		transparent: true
+	}, {
+		opacity: 0.7,
+		visibility: false
+	});
+	var ch_au = new OpenLayers.Layer.WMS("CH Auen", "http://wms.geo.admin.ch", {
+		layers: 'ch.bafu.bundesinventare-auen',
+		transparent: true
+	}, {
+		opacity: 0.7,
+		visibility: false
+	});
+	var ch_alg = new OpenLayers.Layer.WMS("CH Amphibien", "http://wms.geo.admin.ch", {
+		layers: 'ch.bafu.bundesinventare-amphibien',
+		transparent: true
+	}, {
+		visibility: false,
+		opacity: 0.7
+	});
+
+	//The complementary layer is per default the color pixelmap
+	api.map.switchComplementaryLayer("voidLayer", {opacity: 1});
+
+	api.map.addLayers([zh_uep, ch_lk1000]);
+
+	api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe-pk25.noscale', {
+		visibility: false
+	});
+
+	api.map.addLayers([ch_ktgrenzen, zh_av, zh_avnr, zh_svo, ch_tww, ch_fm, ch_hm, ch_au, ch_alg]);
+
+	api.createLayerTree({
+		renderTo: "layertree",
+		width: 285
+	});
+	//layertree minimieren
+	$(".x-panel-bwrap").css('display', 'none');
+
+	$(".x-panel-header-text").text("Ebenen");
+
+	api.map.addControl(new OpenLayers.Control.MousePosition({numDigits: 0, separator: ' / '}));
+	//api.map.addControl(new OpenLayers.Control.KeyboardDefaults());    scheint nicht zu funktionieren
+
+	//messen
+	// style the sketch fancy
+	var sketchSymbolizers = {
+		"Point": {
+			pointRadius: 4,
+			graphicName: "square",
+			fillColor: "white",
+			fillOpacity: 1,
+			strokeWidth: 1,
+			strokeOpacity: 1,
+			strokeColor: "#333333"
+		},
+		"Line": {
+			strokeWidth: 3,
+			strokeOpacity: 1,
+			strokeColor: "red",
+			strokeDashstyle: "dash"
+		},
+		"Polygon": {
+			strokeWidth: 2,
+			strokeOpacity: 1,
+			strokeColor: "red",
+			fillColor: "red",
+			fillOpacity: 0.3
+		}
+	};
+	var style = new OpenLayers.Style();
+	style.addRules([
+		new OpenLayers.Rule({symbolizer: sketchSymbolizers})
+	]);
+	var styleMap = new OpenLayers.StyleMap({"default": style});
+
+	measureControls = {
+		line: new OpenLayers.Control.Measure(
+			OpenLayers.Handler.Path, {
+				persist: true,
+				handlerOptions: {
+					layerOptions: {
+						styleMap: styleMap
+					}
+				}
+			}
+		),
+		polygon: new OpenLayers.Control.Measure(
+			OpenLayers.Handler.Polygon, {
+				persist: true,
+				handlerOptions: {
+					layerOptions: {
+						styleMap: styleMap
+					}
+				}
+			}
+		)
+	};
+	
+	var control;
+	for(var key in measureControls) {
+		control = measureControls[key];
+		control.events.on({
+			"measure": handleMeasurements,
+			"measurepartial": handleMeasurements
+		});
+		api.map.addControl(control);
+	}
+	
+	$('karteSchieben').checked = true;
+
+	$("#layertree").on("click", "#toggleLayertree", function() {
+		oeffneSchliesseLayertree();
+	});
+};
+
+function oeffneSchliesseLayertree() {
+	//ein hübscher Übergang wäre nett
+	if ($(".x-panel-bwrap").css('display') !== 'none') {
+		$(".x-panel-bwrap").css('display', 'none');
+	} else {
+		$(".x-panel-bwrap").css('display', 'inline');
+	}
+}
+
+function handleMeasurements(event) {
+	var geometry = event.geometry;
+	var units = event.units;
+	var order = event.order;
+	var measure = event.measure;
+	var element = document.getElementById('ergebnisMessung');
+	var out = "";
+	if(order == 1) {
+		out += measure.toFixed(3) + " " + units;
+	} else {
+		out += measure.toFixed(3) + " " + units + "<sup>2</" + "sup>";
+	}
+	element.innerHTML = out;
+}
+
+function messe(element) {
+	for(key in measureControls) {
+		var control = measureControls[key];
+		if(element.value == key && element.checked) {
+			control.activate();
+		} else {
+			control.deactivate();
+			$("#ergebnisMessung").text("");
+		}
+	}
 }
