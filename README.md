@@ -33,8 +33,7 @@ Software zur Verwaltung des Aktionsplans Flora der Fachstelle Naturschutz des Ka
 - Teilpopulationen auf Luftbildern verorten
 - Teilpopulationen und Beobachtungen im GIS-Browser des Kt. Zürich anzeigen
 - Populationen und Teilpopulationen aller Arten als kml-Datei für Google Earth exportieren
-- Bald: Anzeigen auf dem Übersichtsplan des Kt. Zürich, ev. auf Landeskarten
-- Bald: Diverse Ebenen einblenden (Bundesinventare, Kantonale Inventare, Parzellen)
+- Bald: Anzeigen auf dem Übersichtsplan des Kt. Zürich, ev. auf Landeskarten und diverse Ebenen einblenden (Bundesinventare, Kantonale Inventare, Parzellen)
 
 **Sich anleiten lassen:**
 
