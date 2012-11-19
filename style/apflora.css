@@ -12,6 +12,7 @@
 
 body {
 	background-color: #FFFFF7;
+	margin: 8px 8px 8px 8px;
 	/*height:100%;
 	margin-bottom: 7px;
 	padding-bottom: 7px;*/
@@ -26,7 +27,7 @@ fieldset {
 	font-family: Arial, Verdana, Helvetica, sans-serif !important;
 	font-size:16px !important;
 
-	margin: 0px 7px 10px 0px;
+	margin: 0px 7px 10px 0px !important;
 	padding: 10px 7px 0px 7px;
 }
 
@@ -162,9 +163,9 @@ input {
 }
 
 #forms input, #forms select, #forms textarea {
-	font-size:17px;
+	font-size:17px !important;
 	/*alle inputs genau links ausrichten - sind sonst nicht alle gleich weit links*/
-	margin-left:2px;
+	margin-left:2px !important;
 }
 
 /*komischerweise kommen textareas in anderer Schrift*/
@@ -375,4 +376,31 @@ div.x-tree-node-leaf a.x-tree-node-anchor span {
 /*drüberstylen, weil GeoAdmin-Aufruf dies nötig macht*/
 input[type="radio"] {
 	margin: 3px 3px 0px 5px;
+}
+
+form ol li {
+	margin-bottom: 2px;
+	padding-bottom: 2px;
+}
+
+form ol {
+	list-style-type: decimal;
+	padding-left: 40px;
+}
+
+form ul {
+	padding-left: 40px;
+}
+
+form ul li {
+	list-style-type: disc;
+	margin-bottom: 2px;
+}
+
+form p {
+	margin: 16px 0px 16px 0px;
+}
+
+form h2 {
+	font-size: 24px;
 }
