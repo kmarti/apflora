@@ -311,8 +311,12 @@ a {
 #GeoAdminKarte {
 	height: 100%;
 	width: 100%;
-	/*Ebenenliste darf Karte auf kleinen Bildschirmen nicht konkurrenzieren*/
-	min-width: 700px;
+	border-radius: 8px;
+}
+#ga_karten_div {
+	height: 100%;
+	width: 100%;
+	border-radius: 8px;
 }
 #layertree {
 	width: 302px;

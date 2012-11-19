@@ -9407,13 +9407,16 @@ function zeigeTPopAufKarte(TPopListe) {
 function zeigeTPopAufGeoAdmin(TPopListe) {
 	var TPop, anzTPop, bounds, markers, TPopId, html;
 	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-	//zeigeFormular("GeoAdminKarte");
-	Kartenhoehe = $(window).height() - 10;
-	$("#GeoAdminKarte").css("height", Kartenhoehe + "px");
-	$("#ga_karten_div").css("height", Kartenhoehe - 10 + "px");
 	zeigeFormular("GeoAdminKarte");
+	Kartenhoehe = $(window).height() - 31;
+	$("#GeoAdminKarte").css("height", Kartenhoehe + "px");
+	//$("#ga_karten_div").css("height", Kartenhoehe - 10 + "px");
+	zeigeFormular("GeoAdminKarte");
+	$("#GeoAdminKarte").focus();
+	$("#ga_karten_div").focus();
+
 	//TPopListe bearbeiten: Objekte löschen, die keine Koordinaten haben
-	/*for (var i = 0; u < TPopListe.rows.length; i++) {
+	for (var i = 0; i < TPopListe.rows.length; i++) {
 		TPop = TPopListe.rows[i];
 		if (!TPop.TPopXKoord || !TPop.TPopYKoord) {
 			delete TPop;
@@ -9423,11 +9426,8 @@ function zeigeTPopAufGeoAdmin(TPopListe) {
 	anzTPop = TPopListe.rows.length;
 	//bounds = new OpenLayers.Bounds();
 
-	//für alle TPop Marker erstellen
-	markers = [];
-
 	//for (i in TPopListe.rows) {
-	for (var b = 0; u < TPopListe.rows.length; b++) {
+	for (var b = 0; b < TPopListe.rows.length; b++) {
 		TPop = TPopListe.rows[b];
 		TPopId = TPop.TPopId;
 		html = '<h3>' + TPop.Name + '</h3>'+
@@ -9435,17 +9435,16 @@ function zeigeTPopAufGeoAdmin(TPopListe) {
 			'<p>TPop: ' + TPop.TPopFlurname + '</p>'+
 			'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
 			"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">bearbeiten<\/a></p>";
-		api.showMarker({
+		window.api.showMarker({
 			renderTo: "GeoAdminKarte",
 			easting: TPop.TPopYKoord,
 			northing: TPop.TPopXKoord,
-			iconPath: "img/flora_icon.png",
+			iconPath: "http://www.barbalex.ch/apflora/img/flora_icon.png",
 			html: html
 		});
 		//bounds.extend(new OpenLayers.LonLat(TPop.TPopYKoord, TPop.TPopXKoord));
-		markers.push(marker);
 	}
-	//bounds.toBBOX();*/
+	//bounds.toBBOX();
 }
 
 function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
@@ -10691,9 +10690,9 @@ function initiiereGeoAdminKarte() {
 	//OpenLayers.ProxyHost = "../cgi-bin/proxy.cgi?url=";
 	//var zh_bbox_1903 = new OpenLayers.Bounds(669000, 222000, 717000, 284000);
 
-	var api = new GeoAdmin.API();
+	window.api = new GeoAdmin.API();
 
-	api.createMap({
+	window.api.createMap({
 		div: "ga_karten_div",
 		easting: 693000,
 		northing: 253000,
@@ -10787,17 +10786,17 @@ function initiiereGeoAdminKarte() {
 	});
 
 	//The complementary layer is per default the color pixelmap
-	api.map.switchComplementaryLayer("voidLayer", {opacity: 1});
+	window.api.map.switchComplementaryLayer("voidLayer", {opacity: 1});
 
-	api.map.addLayers([zh_uep, ch_lk1000]);
+	window.api.map.addLayers([zh_uep, ch_lk1000]);
 
-	api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe-pk25.noscale', {
+	window.api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe-pk25.noscale', {
 		visibility: false
 	});
 
-	api.map.addLayers([ch_ktgrenzen, zh_av, zh_avnr, zh_svo, ch_tww, ch_fm, ch_hm, ch_au, ch_alg]);
+	window.api.map.addLayers([ch_ktgrenzen, zh_av, zh_avnr, zh_svo, ch_tww, ch_fm, ch_hm, ch_au, ch_alg]);
 
-	api.createLayerTree({
+	window.api.createLayerTree({
 		renderTo: "layertree",
 		width: 285
 	});
@@ -10806,8 +10805,8 @@ function initiiereGeoAdminKarte() {
 
 	$(".x-panel-header-text").text("Ebenen");
 
-	api.map.addControl(new OpenLayers.Control.MousePosition({numDigits: 0, separator: ' / '}));
-	//api.map.addControl(new OpenLayers.Control.KeyboardDefaults());    scheint nicht zu funktionieren
+	window.api.map.addControl(new OpenLayers.Control.MousePosition({numDigits: 0, separator: ' / '}));
+	//window.api.map.addControl(new OpenLayers.Control.KeyboardDefaults());    scheint nicht zu funktionieren
 
 	//messen
 	// style the sketch fancy
@@ -10871,7 +10870,7 @@ function initiiereGeoAdminKarte() {
 			"measure": handleMeasurements,
 			"measurepartial": handleMeasurements
 		});
-		api.map.addControl(control);
+		window.api.map.addControl(control);
 	}
 	
 	$('#karteSchieben').checked = true;	//scheint nicht zu funktionieren?
