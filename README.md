@@ -77,6 +77,7 @@ Die nachfolgend aufgelisteten Funktionen werden nur von Topos in einer neuen Acc
 - Adressen verwalten
 - Mit dem GIS auf die Daten zugreifen
 - Logins verwalten und Schreibrechte vergeben
+- Datenwaisen ermitteln und bearbeiten oder löschen
 
 **Anwendung effizient unterhalten:**
 
