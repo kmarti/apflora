@@ -59,7 +59,7 @@ Software zur Verwaltung des Aktionsplans Flora der Fachstelle Naturschutz des Ka
 
 - Die Anwendung wird mit AJAX gesteuert, um rasche Ladezeiten zu gewährleisten
 - Nodes wie z.B. Teilpopulationen im Baum zu anderen nodes desselben Typs verschieben oder kopieren (rechte Maustaste oder drag and drop, wie im Windows explorer)
-- im Baum suchen
+- Im Baum suchen
 - Beobachtungen Teilpopulationen zuordnen: Mit drag and drop im Strukturbaum, in einer nach Abstand zu den Teilpopulationen geordneten Liste im Formular oder mit drag and drop im Luftbild
 - Daten löschen: Bei den gehaltvollen Daten (Programme/Arten, Populationen, Teilpopulationen, Feldkontrollen, Freiwilligen-Kontrollen, Massnahmen, AP-Berichten) kann das Löschen nachträglich während 25 Sekunden rückgängig gemacht werden
 
