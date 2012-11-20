@@ -308,16 +308,16 @@ a {
 
 /*GeoAdmin-Karten stylen*/
 
-#GeoAdminKarte {
-	height: 100%;
-	width: 100%;
-	border-radius: 8px;
+/*#GeoAdminKarte {
+	height: 100% !important;
+	width: 100% !important;
+	border-radius: 8px !important;
 }
 #ga_karten_div {
-	height: 100%;
-	width: 100%;
-	border-radius: 8px;
-}
+	height: 100% !important;
+	width: 100% !important;
+	border-radius: 8px !important;
+}*/
 #layertree {
 	width: 302px;
 	overflow:auto;
@@ -359,11 +359,7 @@ div.x-tree-node-leaf a.x-tree-node-anchor span {
 	top: 23px !important;
 	right: 325px !important;
 }
-.ui-button-text {
-	padding:.1em .5em !important; 
-	font-size:.8em !important;
-}
-#GeoAdminKarte #ergebnisMessung {
+#ergebnisMessung {
 	font-weight:900;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	/*weiss hinterlegen, damit auf jedem Hintergrund gut sichtbar*/

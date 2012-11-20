@@ -4,7 +4,7 @@ function initiiere_index() {
 	window.feldliste_freiwkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrPlan', 'TPopKontrUebFlaeche', 'TPopKontrUebPfl', 'TPopKontrNaBo', 'TPopKontrJungPflJN', 'TPopKontrVegHoeMax', 'TPopKontrVegHoeMit', 'TPopKontrGefaehrdung', 'TPopKontrGuid'];
 	//Versuch, damit $.ajax auch in IE funktioniert
 	//jQuery hängt an jede Anfrage ein &_= und lange Zufahlszahl
-	$.ajaxSetup({cache:false})
+	//$.ajaxSetup({cache:false})
 	
 	$("#suchen").hide();
 	$("#undelete_div").hide();
@@ -17,8 +17,10 @@ function initiiere_index() {
 	$("#messen").buttonset();
 	$("button").button();
 	$("#tpopfeldkontr_tabs").tabs();
+
 	//GeoAdmin-Karte initiieren
 	initiiereGeoAdminKarte();
+
 	//Gemeindeliste erstellen, wenn nötig
 	if (!window.Gemeinden) {
 		$.ajax({
