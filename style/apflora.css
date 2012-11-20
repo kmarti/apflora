@@ -250,9 +250,14 @@ option {
 /*Für Tool-Tipps
 Quelle: http://sixrevisions.com/css/css-only-tooltips*/
 .tooltip {
-	border-bottom: 1px dotted #000000; color: #800000; outline: none;
+	border-bottom: 1px dotted #000000; color: #6F6F66; outline: none;
 	cursor: help; text-decoration: none;
 	position: relative;
+}
+
+/*erforderliche Felder rot markieren*/
+.tooltip.erforderlich {
+	color: #800000;
 }
 
 .legendiert {

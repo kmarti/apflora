@@ -3,8 +3,8 @@ function initiiere_index() {
 	window.feldliste_feldkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrTyp', 'TPopKontrJungpfl', 'TPopKontrVitalitaet', 'TPopKontrUeberleb', 'TPopKontrEntwicklung', 'TPopKontrUrsach', 'TPopKontrUrteil', 'TPopKontrAendUms', 'TPopKontrAendKontr', 'TPopKontrGuid', 'TPopKontrFlaeche', 'TPopKontrVegTyp', 'TPopKontrKonkurrenz', 'TPopKontrMoosschicht', 'TPopKontrKrautschicht', 'TPopKontrStrauchschicht', 'TPopKontrBaumschicht', 'TPopKontrBodenTyp', 'TPopKontrBodenKalkgehalt', 'TPopKontrBodenDurchlaessigkeit', 'TPopKontrBodenHumus', 'TPopKontrBodenNaehrstoffgehalt', 'TPopKontrBodenAbtrag', 'TPopKontrWasserhaushalt', 'TPopKontrHandlungsbedarf', 'TPopKontrIdealBiotopUebereinst', 'TPopKontrLeb', 'TPopKontrLebUmg'];
 	window.feldliste_freiwkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrPlan', 'TPopKontrUebFlaeche', 'TPopKontrUebPfl', 'TPopKontrNaBo', 'TPopKontrJungPflJN', 'TPopKontrVegHoeMax', 'TPopKontrVegHoeMit', 'TPopKontrGefaehrdung', 'TPopKontrGuid'];
 	//Versuch, damit $.ajax auch in IE funktioniert
-	//jQuery hängt an jede Anfrage ein &_= und lange Zufahlszahl
-	//$.ajaxSetup({cache:false})
+	//jQuery hängt an jede Anfrage ein &_= und Zufahlszahl
+	//$.ajaxSetup({cache:false})	AUSGESCHALTET, WEIL TPOPFELDKONTR_UPDATE_MULTIPLE.PHP NICHT MEHR FUNKTIONIERTE (UND MEHR?)
 	
 	$("#suchen").hide();
 	$("#undelete_div").hide();
@@ -6433,8 +6433,8 @@ function treeKontextmenu(node) {
 					delete window.tpopfeldkontr_objekt_kopiert.MutWann;
 					delete window.tpopfeldkontr_objekt_kopiert.MutWer;
 					//alle verbliebenen Felder an die url hängen
-					//for (i in window.tpopfeldkontr_objekt_kopiert) {
-					for (var i = 0; i < window.tpopfeldkontr_objekt_kopiert.length; i++) {
+					for (i in window.tpopfeldkontr_objekt_kopiert) {
+					//for (var i = 0; i < window.tpopfeldkontr_objekt_kopiert.length; i++) {	KLAPPT NICHT: I IST KEIN FELDNAME MEHR SONDERN EINE NUMMER!
 						//Nullwerte ausschliessen
 						if (window.tpopfeldkontr_objekt_kopiert[i] !== null) {
 							dataUrl += "&" + i + "=" + window.tpopfeldkontr_objekt_kopiert[i];
@@ -6849,8 +6849,8 @@ function treeKontextmenu(node) {
 					delete window.tpopfeldkontr_objekt_kopiert.MutWann;
 					delete window.tpopfeldkontr_objekt_kopiert.MutWer;
 					//alle verbliebenen Felder an die url hängen
-					//for (i in window.tpopfeldkontr_objekt_kopiert) {
-					for (var i = 0; i < window.tpopfeldkontr_objekt_kopiert.length; i++) {
+					for (i in window.tpopfeldkontr_objekt_kopiert) {
+					//for (var i = 0; i < window.tpopfeldkontr_objekt_kopiert.length; i++) {
 						//Nullwerte ausschliessen
 						if (window.tpopfeldkontr_objekt_kopiert[i] !== null) {
 							dataUrl += "&" + i + "=" + window.tpopfeldkontr_objekt_kopiert[i];
@@ -7004,8 +7004,8 @@ function treeKontextmenu(node) {
 					delete tpopfreiwkontr_objekt_kopiert.MutWann;
 					delete tpopfreiwkontr_objekt_kopiert.MutWer;
 					//alle verbliebenen Felder an die url hängen
-					//for (i in tpopfreiwkontr_objekt_kopiert) {
-					for (var i = 0; i < tpopfreiwkontr_objekt_kopiert.length; i++) {
+					for (i in tpopfreiwkontr_objekt_kopiert) {
+					//for (var i = 0; i < tpopfreiwkontr_objekt_kopiert.length; i++) {
 						//Nullwerte ausschliessen
 						if (tpopfreiwkontr_objekt_kopiert[i] !== null) {
 							dataUrl += "&" + i + "=" + tpopfreiwkontr_objekt_kopiert[i];
@@ -7306,8 +7306,8 @@ function treeKontextmenu(node) {
 					delete tpopfreiwkontr_objekt_kopiert.MutWann;
 					delete tpopfreiwkontr_objekt_kopiert.MutWer;
 					//alle verbliebenen Felder an die url hängen
-					//for (i in tpopfreiwkontr_objekt_kopiert) {
-					for (var i = 0; i < tpopfreiwkontr_objekt_kopiert.length; i++) {
+					for (i in tpopfreiwkontr_objekt_kopiert) {
+					//for (var i = 0; i < tpopfreiwkontr_objekt_kopiert.length; i++) {
 						//Nullwerte ausschliessen
 						if (tpopfreiwkontr_objekt_kopiert[i] !== null) {
 							dataUrl += "&" + i + "=" + tpopfreiwkontr_objekt_kopiert[i];
@@ -7461,8 +7461,8 @@ function treeKontextmenu(node) {
 					delete window.tpopmassn_objekt_kopiert.MutWann;
 					delete window.tpopmassn_objekt_kopiert.MutWer;
 					//alle verbliebenen Felder an die url hängen
-					//for (i in window.tpopmassn_objekt_kopiert) {
-					for (var i = 0; i < window.tpopmassn_objekt_kopiert.length; i++) {
+					for (i in window.tpopmassn_objekt_kopiert) {
+					//for (var i = 0; i < window.tpopmassn_objekt_kopiert.length; i++) {
 						//Nullwerte ausschliessen
 						if (window.tpopmassn_objekt_kopiert[i] !== null) {
 							dataUrl += "&" + i + "=" + window.tpopmassn_objekt_kopiert[i];
@@ -7758,8 +7758,8 @@ function treeKontextmenu(node) {
 					delete window.tpopmassn_objekt_kopiert.MutWann;
 					delete window.tpopmassn_objekt_kopiert.MutWer;
 					//alle verbliebenen Felder an die url hängen
-					//for (i in window.tpopmassn_objekt_kopiert) {
-					for (var i = 0; i < window.tpopmassn_objekt_kopiert.length; i++) {
+					for (i in window.tpopmassn_objekt_kopiert) {
+					//for (var i = 0; i < window.tpopmassn_objekt_kopiert.length; i++) {
 						//Nullwerte ausschliessen
 						if (window.tpopmassn_objekt_kopiert[i] !== null) {
 							dataUrl += "&" + i + "=" + window.tpopmassn_objekt_kopiert[i];
@@ -8635,8 +8635,8 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 	delete window.tpop_objekt_kopiert.MutWann;
 	delete window.tpop_objekt_kopiert.MutWer;
 	//alle verbliebenen Felder an die url hängen
-	//for (i in window.tpop_objekt_kopiert) {
-	for (var i = 0; i < window.tpop_objekt_kopiert.length; i++) {
+	for (i in window.tpop_objekt_kopiert) {
+	//for (var i = 0; i < window.tpop_objekt_kopiert.length; i++) {
 		//Nullwerte ausschliessen
 		if (window.tpop_objekt_kopiert[i] !== null) {
 			dataUrl += "&" + i + "=" + window.tpop_objekt_kopiert[i];
@@ -8707,8 +8707,8 @@ function pop_kopiert_in_pop_einfuegen(aktiver_node, parent_node) {
 	delete window.pop_objekt_kopiert.MutWann;
 	delete window.pop_objekt_kopiert.MutWer;
 	//alle verbliebenen Felder an die url hängen
-	//for (i in window.pop_objekt_kopiert) {
-	for (var i = 0; i < window.pop_objekt_kopiert.length; i++) {
+	for (i in window.pop_objekt_kopiert) {
+	//for (var i = 0; i < window.pop_objekt_kopiert.length; i++) {
 		//Nullwerte ausschliessen
 		if (window.pop_objekt_kopiert[i] !== null) {
 			dataUrl += "&" + i + "=" + window.pop_objekt_kopiert[i];
@@ -8779,8 +8779,8 @@ function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 	delete window.tpop_objekt_kopiert.MutWann;
 	delete window.tpop_objekt_kopiert.MutWer;
 	//alle verbliebenen Felder an die url hängen
-	//for (i in window.tpop_objekt_kopiert) {
-	for (var i = 0; i < window.tpop_objekt_kopiert.length; i++) {
+	for (i in window.tpop_objekt_kopiert) {
+	//for (var i = 0; i < window.tpop_objekt_kopiert.length; i++) {
 		//Nullwerte ausschliessen
 		if (window.tpop_objekt_kopiert[i] !== null) {
 			dataUrl += "&" + i + "=" + window.tpop_objekt_kopiert[i];
