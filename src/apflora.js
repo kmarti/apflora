@@ -10703,6 +10703,8 @@ function initiiereGeoAdminKarte() {
 
 	var zh_uep = new OpenLayers.Layer.WMS("Übersichtsplan Kt. Zürich", "http://wms.zh.ch/upwms", {
 		layers: 'upwms',
+		//projection: new OpenLayers.Projection("EPSG:4326"),
+		//projection: "EPSG:21781",
 		isBaseLayer: true
 	}, {
 		visibility: true,
@@ -10724,15 +10726,40 @@ function initiiereGeoAdminKarte() {
 		visibility: false,
 		singleTile: true
 	});
-	var zh_svo = new OpenLayers.Layer.WMS("ZH SVO", "http://wms.zh.ch/FnsSVOZHWMS", {
-		layers: 'FnsSVOZHWMS',
+	var ch_gem2 = new OpenLayers.Layer.WMS("CH Gemeinden 2", "http://wms.geo.admin.ch?", {
+		layers: 'ch.swisstopo.swissboundaries3d-gemeinde-flaeche.fill',
 		transparent: true
 	}, {
 		singleTile: true,
 		opacity: 0.7,
 		visibility: false
 	});
-
+	var zh_svo = new OpenLayers.Layer.WMS("ZH SVO farbig", "http://wms.zh.ch/FnsSVOZHWMS", {
+		//layers: 'FnsSVOZHWMS',
+		layers: 'zonen-schutzverordnungen,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr',
+		transparent: true
+	}, {
+		singleTile: true,
+		opacity: 0.7,
+		visibility: false
+	});
+	var zh_svo_raster = new OpenLayers.Layer.WMS("ZH SVO Raster", "http://wms.zh.ch/FnsSVOZHWMS", {
+		//layers: 'FnsSVOZHWMS',
+		layers: 'zonen-schutzverordnungen-raster,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr',
+		transparent: true
+	}, {
+		singleTile: true,
+		//opacity: 0.7,
+		visibility: false
+	});
+	var ch_gemeinden = new OpenLayers.Layer.WMS("CH Gemeinden", "http://wms.geo.admin.ch?", {
+		//layers: 'FnsSVOZHWMS',
+		layers: 'ch.swisstopo-vd.geometa-gemeinde',
+		transparent: true
+	}, {
+		singleTile: true,
+		visibility: false
+	});
 	var ch_lk1000 = new OpenLayers.Layer.WMS("Landeskarte 1:1'000'000", "http://wms.geo.admin.ch?", {
 		layers: 'ch.swisstopo.pixelkarte-farbe-pk1000.noscale',
 		srs: 'EPSG:21781',
@@ -10753,6 +10780,7 @@ function initiiereGeoAdminKarte() {
 	//wms hinzufügen
 	var ch_tww = new OpenLayers.Layer.WMS("CH TWW", "http://wms.geo.admin.ch", {
 		layers: 'ch.bafu.bundesinventare-trockenwiesen_trockenweiden',
+		//projection: new OpenLayers.Projection("EPSG:4326"),
 		transparent: true
 	}, {
 		opacity: 0.7,
@@ -10760,6 +10788,7 @@ function initiiereGeoAdminKarte() {
 	});
 	var ch_hm = new OpenLayers.Layer.WMS("CH Hochmoore", "http://wms.geo.admin.ch", {
 		layers: 'ch.bafu.bundesinventare-hochmoore',
+		//projection: new OpenLayers.Projection("EPSG:4326"),
 		transparent: true
 	}, {
 		opacity: 0.7,
@@ -10787,7 +10816,7 @@ function initiiereGeoAdminKarte() {
 		opacity: 0.7
 	});
 
-	//The complementary layer is per default the color pixelmap
+	//The complementary layer is per default the color pixelmap.
 	window.api.map.switchComplementaryLayer("voidLayer", {opacity: 1});
 
 	window.api.map.addLayers([zh_uep, ch_lk1000]);
@@ -10796,7 +10825,7 @@ function initiiereGeoAdminKarte() {
 		visibility: false
 	});
 
-	window.api.map.addLayers([ch_ktgrenzen, zh_av, zh_avnr, zh_svo, ch_tww, ch_fm, ch_hm, ch_au, ch_alg]);
+	window.api.map.addLayers([ch_ktgrenzen, zh_av, zh_avnr, ch_gemeinden, zh_svo, zh_svo_raster, ch_tww, ch_fm, ch_hm, ch_au, ch_alg]);
 
 	window.api.createLayerTree({
 		renderTo: "layertree",

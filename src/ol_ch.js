@@ -41,15 +41,40 @@ function init() {
 		visibility: false,
 		singleTile: true
 	});
-	var zh_svo = new OpenLayers.Layer.WMS("ZH SVO", "http://wms.zh.ch/FnsSVOZHWMS", {
-		layers: 'FnsSVOZHWMS',
+	var ch_gem2 = new OpenLayers.Layer.WMS("CH Gemeinden 2", "http://wms.geo.admin.ch?", {
+		layers: 'ch.swisstopo.swissboundaries3d-gemeinde-flaeche.fill',
 		transparent: true
 	}, {
 		singleTile: true,
 		opacity: 0.7,
 		visibility: false
 	});
-
+	var zh_svo = new OpenLayers.Layer.WMS("ZH SVO farbig", "http://wms.zh.ch/FnsSVOZHWMS", {
+		//layers: 'FnsSVOZHWMS',
+		layers: 'zonen-schutzverordnungen,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr',
+		transparent: true
+	}, {
+		singleTile: true,
+		opacity: 0.7,
+		visibility: false
+	});
+	var zh_svo_raster = new OpenLayers.Layer.WMS("ZH SVO Raster", "http://wms.zh.ch/FnsSVOZHWMS", {
+		//layers: 'FnsSVOZHWMS',
+		layers: 'zonen-schutzverordnungen-raster,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr',
+		transparent: true
+	}, {
+		singleTile: true,
+		//opacity: 0.7,
+		visibility: false
+	});
+	var ch_gemeinden = new OpenLayers.Layer.WMS("CH Gemeinden", "http://wms.geo.admin.ch?", {
+		//layers: 'FnsSVOZHWMS',
+		layers: 'ch.swisstopo-vd.geometa-gemeinde',
+		transparent: true
+	}, {
+		singleTile: true,
+		visibility: false
+	});
 	var ch_lk1000 = new OpenLayers.Layer.WMS("Landeskarte 1:1'000'000", "http://wms.geo.admin.ch?", {
 		layers: 'ch.swisstopo.pixelkarte-farbe-pk1000.noscale',
 		srs: 'EPSG:21781',
@@ -115,7 +140,7 @@ function init() {
 		visibility: false
 	});
 
-	api.map.addLayers([ch_ktgrenzen, zh_av, zh_avnr, zh_svo, ch_tww, ch_fm, ch_hm, ch_au, ch_alg]);
+	api.map.addLayers([ch_ktgrenzen, zh_av, zh_avnr, ch_gemeinden, zh_svo, zh_svo_raster, ch_tww, ch_fm, ch_hm, ch_au, ch_alg]);
 
 	api.createLayerTree({
 		renderTo: "layertree",
