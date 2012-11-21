@@ -20,14 +20,14 @@ $time = date('Y-m-d H:i:s');
 
 //zeit muss umgewandelt werden!
 if ($Feld == "UfErstelldatum") {
-	if ($Wert) {
+	if ($Wert || $Wert == 0) {
 		$Wert = date("Y-m-d H:i:s", strtotime($Wert));
 	} else {
 		$Wert = null;
 	}
 }
 
-if ($Wert) {
+if ($Wert || $Wert == 0) {
 	$Querystring = 'UPDATE tblUmweltFaktoren SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE UfApArtId = '.$id;
 } else {
 	//Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht

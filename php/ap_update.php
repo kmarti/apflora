@@ -18,7 +18,7 @@ $Wert = $_GET["Wert"];
 $user = $_GET["user"];
 $time = date('Y-m-d H:i:s');
 
-if ($Wert) {
+if ($Wert || $Wert == 0) {
 	$Querystring = 'UPDATE tblAktionsplan SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE ApArtId = '.$id;
 } else {
 	//Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
