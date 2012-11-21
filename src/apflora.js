@@ -19,7 +19,7 @@ function initiiere_index() {
 	$("#tpopfeldkontr_tabs").tabs();
 
 	//GeoAdmin-Karte initiieren
-	initiiereGeoAdminKarte();
+	//initiiereGeoAdminKarte();
 
 	//Gemeindeliste erstellen, wenn nötig
 	if (!window.Gemeinden) {
@@ -1486,6 +1486,7 @@ function zeigeFormular(Formularname) {
 	}
 
 	if (Formularname) {
+		$("#forms").css("background-color", "#FFE")
 		$("#forms").show();
 		$("#distanz_messen").hide();
 		$("#distanz_messen_entfernen").hide();
@@ -1518,6 +1519,7 @@ function zeigeFormular(Formularname) {
 	}
 	if (Formularname === "GeoAdminKarte") {
 		$("#GeoAdminKarte").show();
+		$("#forms").css("background-color", "#FFFFFF")
 		//Karte wird sonst unter dem Menu angezeigt
 		setTimeout(function() {
 			setzeSpaltenbreiten();
@@ -5716,7 +5718,7 @@ function treeKontextmenu(node) {
 					});
 				}
 			},
-			/*"GeoAdminMaps": {
+			"GeoAdminMaps": {
 				"label": "auf Übersichtsplan zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon.png",
@@ -5755,7 +5757,7 @@ function treeKontextmenu(node) {
 						}
 					});
 				}
-			},*/
+			},
 			"verorten": {
 				"label": "auf Luftbild verorten",
 				"separator_before": true,
@@ -9407,15 +9409,14 @@ function zeigeTPopAufKarte(TPopListe) {
 }
 
 function zeigeTPopAufGeoAdmin(TPopListe) {
-	var TPop, anzTPop, bounds, markers, TPopId, html;
+	var TPop, anzTPop, bounds, markers, TPopId, html, x_max, y_max, x_min, y_min;
 	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-	zeigeFormular("GeoAdminKarte");
+
+	//zeigeFormular("GeoAdminKarte");
 	Kartenhoehe = $(window).height() - 31;
 	$("#GeoAdminKarte").css("height", Kartenhoehe + "px");
-	//$("#ga_karten_div").css("height", Kartenhoehe - 10 + "px");
 	zeigeFormular("GeoAdminKarte");
-	$("#GeoAdminKarte").focus();
-	$("#ga_karten_div").focus();
+	initiiereGeoAdminKarte();
 
 	//TPopListe bearbeiten: Objekte löschen, die keine Koordinaten haben
 	for (var i = 0; i < TPopListe.rows.length; i++) {
@@ -9426,27 +9427,43 @@ function zeigeTPopAufGeoAdmin(TPopListe) {
 	}
 	//TPop zählen
 	anzTPop = TPopListe.rows.length;
-	//bounds = new OpenLayers.Bounds();
+	bounds = new OpenLayers.Bounds();
 
-	//for (i in TPopListe.rows) {
-	for (var b = 0; b < TPopListe.rows.length; b++) {
-		TPop = TPopListe.rows[b];
-		TPopId = TPop.TPopId;
-		html = '<h3>' + TPop.Name + '</h3>'+
-			'<p>Population: ' + TPop.PopName + '</p>'+
-			'<p>TPop: ' + TPop.TPopFlurname + '</p>'+
-			'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
-			"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">bearbeiten<\/a></p>";
-		window.api.showMarker({
-			renderTo: "GeoAdminKarte",
-			easting: TPop.TPopYKoord,
-			northing: TPop.TPopXKoord,
-			iconPath: "http://www.barbalex.ch/apflora/img/flora_icon.png",
-			html: html
-		});
-		//bounds.extend(new OpenLayers.LonLat(TPop.TPopYKoord, TPop.TPopXKoord));
+	for (b in TPopListe.rows) {
+	//for (var b = 0; b < TPopListe.rows.length; b++) {
+		//alert(typeof b);
+		//alert("b = " + b);
+		if (TPopListe.rows.hasOwnProperty(b)) {
+			TPop = TPopListe.rows[b];
+			TPopId = TPop.TPopId;
+			html = '<h3>' + TPop.Name + '</h3>'+
+				'<p>Population: ' + TPop.PopName + '</p>'+
+				'<p>TPop: ' + TPop.TPopFlurname + '</p>'+
+				'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
+				"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">bearbeiten<\/a></p>";
+			//alert(html);
+			window.api.showMarker({
+				renderTo: "ga_karten_div",
+				easting: TPop.TPopYKoord,
+				northing: TPop.TPopXKoord,
+				iconPath: "http://www.barbalex.ch/apflora/img/flora_icon.png",
+				//recenter: "true",
+				html: html,
+			});
+			bounds.extend(new OpenLayers.LonLat(TPop.TPopYKoord, TPop.TPopXKoord));
+			if (anzTPop === 1) {
+				//bounds vernünftig erweitern
+				x_max = parseInt(TPop.TPopXKoord) + 300;
+				x_min = parseInt(TPop.TPopXKoord) - 300;
+				y_max = parseInt(TPop.TPopYKoord) + 300;
+				y_min = parseInt(TPop.TPopYKoord) - 300;
+				bounds.extend(new OpenLayers.LonLat(y_max, x_max));
+				bounds.extend(new OpenLayers.LonLat(y_min, x_min));
+			}
+		}
 	}
 	//bounds.toBBOX();
+	window.api.map.zoomToExtent(bounds);
 }
 
 function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
@@ -10692,6 +10709,18 @@ function initiiereGeoAdminKarte() {
 	//OpenLayers.ProxyHost = "../cgi-bin/proxy.cgi?url=";
 	//var zh_bbox_1903 = new OpenLayers.Bounds(669000, 222000, 717000, 284000);
 
+	//Prüfen, ob schon eine Karte aufgebaut wurde
+	if (window.api) {
+		if (window.api.map) {
+			//falls ja: entfernen. Sonst werden sie mehrfach untereinander angezeigt
+			window.api.map.destroy();
+			//layertree muss auch entfernt werden
+			$("#layertree").html('<img id="toggleLayertree" src="style/images/updown.png" alt="öffnen/schliessen" height="14" width="14">');
+			//und auch sein event-handler
+			$("#layertree").off("click", "#toggleLayertree");
+		}
+	}
+	
 	window.api = new GeoAdmin.API();
 
 	window.api.createMap({
@@ -10703,8 +10732,7 @@ function initiiereGeoAdminKarte() {
 
 	var zh_uep = new OpenLayers.Layer.WMS("Übersichtsplan Kt. Zürich", "http://wms.zh.ch/upwms", {
 		layers: 'upwms',
-		//projection: new OpenLayers.Projection("EPSG:4326"),
-		//projection: "EPSG:21781",
+		//transparent: true,
 		isBaseLayer: true
 	}, {
 		visibility: true,
@@ -10714,7 +10742,6 @@ function initiiereGeoAdminKarte() {
 		layers: 'RESF',
 		transparent: true
 	}, {
-		opacity: 0.7,
 		visibility: false,
 		singleTile: true
 	});
@@ -10722,7 +10749,6 @@ function initiiereGeoAdminKarte() {
 		layers: 'OSNR',
 		transparent: true
 	}, {
-		opacity: 0.7,
 		visibility: false,
 		singleTile: true
 	});
@@ -10837,7 +10863,7 @@ function initiiereGeoAdminKarte() {
 	$(".x-panel-header-text").text("Ebenen");
 
 	window.api.map.addControl(new OpenLayers.Control.MousePosition({numDigits: 0, separator: ' / '}));
-	//window.api.map.addControl(new OpenLayers.Control.KeyboardDefaults());    scheint nicht zu funktionieren
+	window.api.map.addControl(new OpenLayers.Control.KeyboardDefaults());
 
 	//messen
 	// style the sketch fancy
