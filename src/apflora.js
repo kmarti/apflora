@@ -10752,14 +10752,7 @@ function initiiereGeoAdminKarte() {
 		visibility: false,
 		singleTile: true
 	});
-	var ch_gem2 = new OpenLayers.Layer.WMS("CH Gemeinden 2", "http://wms.geo.admin.ch?", {
-		layers: 'ch.swisstopo.swissboundaries3d-gemeinde-flaeche.fill',
-		transparent: true
-	}, {
-		singleTile: true,
-		opacity: 0.7,
-		visibility: false
-	});
+
 	var zh_svo = new OpenLayers.Layer.WMS("ZH SVO farbig", "http://wms.zh.ch/FnsSVOZHWMS", {
 		//layers: 'FnsSVOZHWMS',
 		layers: 'zonen-schutzverordnungen,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr',
@@ -10778,80 +10771,52 @@ function initiiereGeoAdminKarte() {
 		//opacity: 0.7,
 		visibility: false
 	});
-	var ch_gemeinden = new OpenLayers.Layer.WMS("CH Gemeinden", "http://wms.geo.admin.ch?", {
-		//layers: 'FnsSVOZHWMS',
-		layers: 'ch.swisstopo-vd.geometa-gemeinde',
-		transparent: true
-	}, {
-		singleTile: true,
-		visibility: false
-	});
-	var ch_lk1000 = new OpenLayers.Layer.WMS("Landeskarte 1:1'000'000", "http://wms.geo.admin.ch?", {
+	
+	/*var ch_lk1000 = new OpenLayers.Layer.WMS("Landeskarte 1:1'000'000", "http://wms.geo.admin.ch?", {
 		layers: 'ch.swisstopo.pixelkarte-farbe-pk1000.noscale',
 		srs: 'EPSG:21781',
 		'format': 'png'
 	}, {
 		singleTile: true,
 		visibility: false
-	});
-	var ch_ktgrenzen = new OpenLayers.Layer.WMS("Kantone", "http://wms.geo.admin.ch?", {
-		layers: 'ch.swisstopo.swissboundaries3d-kanton-flaeche.fill',
-		srs: 'EPSG:21781',
-		'format': 'png'
-	}, {
-		singleTile: true,
-		visibility: false
-	});
-
-	//wms hinzufügen
-	var ch_tww = new OpenLayers.Layer.WMS("CH TWW", "http://wms.geo.admin.ch", {
-		layers: 'ch.bafu.bundesinventare-trockenwiesen_trockenweiden',
-		//projection: new OpenLayers.Projection("EPSG:4326"),
-		transparent: true
-	}, {
-		opacity: 0.7,
-		visibility: false
-	});
-	var ch_hm = new OpenLayers.Layer.WMS("CH Hochmoore", "http://wms.geo.admin.ch", {
-		layers: 'ch.bafu.bundesinventare-hochmoore',
-		//projection: new OpenLayers.Projection("EPSG:4326"),
-		transparent: true
-	}, {
-		opacity: 0.7,
-		visibility: false
-	});	
-	var ch_fm = new OpenLayers.Layer.WMS("CH Flachmoore", "http://wms.geo.admin.ch", {
-		layers: 'ch.bafu.bundesinventare-flachmoore',
-		transparent: true
-	}, {
-		opacity: 0.7,
-		visibility: false
-	});
-	var ch_au = new OpenLayers.Layer.WMS("CH Auen", "http://wms.geo.admin.ch", {
-		layers: 'ch.bafu.bundesinventare-auen',
-		transparent: true
-	}, {
-		opacity: 0.7,
-		visibility: false
-	});
-	var ch_alg = new OpenLayers.Layer.WMS("CH Amphibien", "http://wms.geo.admin.ch", {
-		layers: 'ch.bafu.bundesinventare-amphibien',
-		transparent: true
-	}, {
-		visibility: false,
-		opacity: 0.7
-	});
+	});*/
 
 	//The complementary layer is per default the color pixelmap.
 	window.api.map.switchComplementaryLayer("voidLayer", {opacity: 1});
 
-	window.api.map.addLayers([zh_uep, ch_lk1000]);
-
+	window.api.map.addLayers([zh_uep]);
+	window.api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe-pk1000.noscale', {
+		visibility: false
+	});	//wieso klappt das nicht???
 	window.api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe-pk25.noscale', {
 		visibility: false
 	});
-
-	window.api.map.addLayers([ch_ktgrenzen, zh_av, zh_avnr, ch_gemeinden, zh_svo, zh_svo_raster, ch_tww, ch_fm, ch_hm, ch_au, ch_alg]);
+	window.api.map.addLayerByName('ch.swisstopo.swissboundaries3d-kanton-flaeche.fill', {
+		visibility: false
+	});
+	window.api.map.addLayers([zh_av, zh_avnr]);
+	window.api.map.addLayerByName('ch.swisstopo-vd.geometa-gemeinde', {visibility: false});
+	window.api.map.addLayers([zh_svo, zh_svo_raster]);
+	window.api.map.addLayerByName('ch.bafu.bundesinventare-trockenwiesen_trockenweiden', {
+		visibility: false,
+		opacity: 0.7
+	});
+	window.api.map.addLayerByName('ch.bafu.bundesinventare-flachmoore', {
+		visibility: false,
+		opacity: 0.7
+	});
+	window.api.map.addLayerByName('ch.bafu.bundesinventare-hochmoore', {
+		visibility: false,
+		opacity: 0.7
+	});
+	window.api.map.addLayerByName('ch.bafu.bundesinventare-auen', {
+		visibility: false,
+		opacity: 0.7
+	});
+	window.api.map.addLayerByName('ch.bafu.bundesinventare-amphibien', {
+		visibility: false,
+		opacity: 0.7
+	});
 
 	window.api.createLayerTree({
 		renderTo: "layertree",
@@ -10935,6 +10900,13 @@ function initiiereGeoAdminKarte() {
 	$("#layertree").on("click", "#toggleLayertree", function() {
 		oeffneSchliesseLayertree();
 	});
+
+	//im layertree gewissen Namen anders schreiben
+	$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
+		if ($(this).text() === "GeoMeta Gemeinden") {
+			$(this).text("CH Gemeinden");
+		}
+	})
 };
 
 function oeffneSchliesseLayertree() {
