@@ -9418,6 +9418,23 @@ function zeigeTPopAufGeoAdmin(TPopListe) {
 	zeigeFormular("GeoAdminKarte");
 	initiiereGeoAdminKarte();
 
+	// overlay layer für Marker vorbereiten
+    var overlay_tpop = new OpenLayers.Layer.Vector('Teilpopulationen', {
+    	/*eventListeners: {
+			'featureselected': function(evt) {
+				geoadminOnFeatureSelect(evt.feature);
+			},
+			'featureunselected': function(evt) {
+				geoadminOnFeatureUnselect(evt.feature);
+			}
+		},*/
+        styleMap: new OpenLayers.StyleMap({
+            externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon.png',
+            graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
+            title: '${tooltip}'
+        })
+	});
+
 	//TPopListe bearbeiten: Objekte löschen, die keine Koordinaten haben
 	for (var i = 0; i < TPopListe.rows.length; i++) {
 		TPop = TPopListe.rows[i];
@@ -9427,43 +9444,83 @@ function zeigeTPopAufGeoAdmin(TPopListe) {
 	}
 	//TPop zählen
 	anzTPop = TPopListe.rows.length;
+
+	//bound eröffnen
 	bounds = new OpenLayers.Bounds();
 
-	for (b in TPopListe.rows) {
-	//for (var b = 0; b < TPopListe.rows.length; b++) {
-		//alert(typeof b);
-		//alert("b = " + b);
+	//for (b in TPopListe.rows) {
+	for (var b = 0; b < TPopListe.rows.length; b++) {
 		if (TPopListe.rows.hasOwnProperty(b)) {
 			TPop = TPopListe.rows[b];
-			TPopId = TPop.TPopId;
 			html = '<h3>' + TPop.Name + '</h3>'+
 				'<p>Population: ' + TPop.PopName + '</p>'+
 				'<p>TPop: ' + TPop.TPopFlurname + '</p>'+
 				'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
 				"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">bearbeiten<\/a></p>";
-			//alert(html);
-			window.api.showMarker({
-				renderTo: "ga_karten_div",
-				easting: TPop.TPopYKoord,
-				northing: TPop.TPopXKoord,
-				iconPath: "http://www.barbalex.ch/apflora/img/flora_icon.png",
-				//recenter: "true",
-				html: html,
+			
+			var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
+
+			//marker zum overlay hinzufügen
+			var feature = new OpenLayers.Feature.Vector(myLocation, {
+				//tooltip: TPop.PopNr + '/' + TPop.TPopNr + ' ' + TPop.TPopFlurname,
+				message: html
 			});
-			bounds.extend(new OpenLayers.LonLat(TPop.TPopYKoord, TPop.TPopXKoord));
-			if (anzTPop === 1) {
-				//bounds vernünftig erweitern
-				x_max = parseInt(TPop.TPopXKoord) + 300;
-				x_min = parseInt(TPop.TPopXKoord) - 300;
-				y_max = parseInt(TPop.TPopYKoord) + 300;
-				y_min = parseInt(TPop.TPopYKoord) - 300;
-				bounds.extend(new OpenLayers.LonLat(y_max, x_max));
-				bounds.extend(new OpenLayers.LonLat(y_min, x_min));
-			}
+			overlay_tpop.addFeatures(feature);
+
+			var selectControl = new OpenLayers.Control.SelectFeature(overlay_tpop, {
+				onSelect: geoadminOnFeatureSelect(feature), 
+				onUnselect: geoadminOnFeatureUnselect(feature)
+			});
+
+			//control zur Karte hinzufügen
+			window.api.map.addControl(selectControl);
+
+			//bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
+			x_max = parseInt(TPop.TPopXKoord) + 300;
+			x_min = parseInt(TPop.TPopXKoord) - 300;
+			y_max = parseInt(TPop.TPopYKoord) + 300;
+			y_min = parseInt(TPop.TPopYKoord) - 300;
+			bounds.extend(new OpenLayers.LonLat(x_max, y_max));
+			bounds.extend(new OpenLayers.LonLat(x_min, y_min));
 		}
 	}
-	//bounds.toBBOX();
+
+	//selectFeature control erstellen
+	/*var selector = new OpenLayers.Control.SelectFeature(overlay_tpop, {
+		hover: true,
+		autoActivate: true
+	});*/
+
+	
+
+	//overlay zur Karte hinzufügen
+	window.api.map.addLayers([overlay_tpop]);
+
+	//Punkt(e) zoomen
 	window.api.map.zoomToExtent(bounds);
+}
+
+function geoadminOnFeatureSelect(feature) {
+	alert('feature.geometry = ' + feature.geometry);
+	var popup = new OpenLayers.Popup.FramedCloud("popup",
+		OpenLayers.LonLat.fromString(feature.geometry.toShortString()),
+		null,
+		feature.attributes.message,
+		null,
+		true
+	);
+	popup.autoSize = true;
+	popup.maxSize = new OpenLayers.Size(400,800);
+	popup.fixedRelativePosition = true;
+	feature.popup = popup;
+	//alert(JSON.stringify(popup));
+	window.api.map.addPopup(popup);
+}
+
+function geoadminOnFeatureUnselect(feature) {
+	window.api.map.removePopup(feature.popup);
+	feature.popup.destroy();
+	feature.popup = null;
 }
 
 function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
