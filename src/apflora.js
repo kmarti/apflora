@@ -9410,9 +9410,6 @@ function zeigeTPopAufKarte(TPopListe) {
 
 function zeigeTPopAufGeoAdmin(TPopListe) {
 	var TPop, anzTPop, bounds, markers, TPopId, html, x_max, y_max, x_min, y_min;
-	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-
-	//zeigeFormular("GeoAdminKarte");
 	Kartenhoehe = $(window).height() - 31;
 	$("#GeoAdminKarte").css("height", Kartenhoehe + "px");
 	zeigeFormular("GeoAdminKarte");
@@ -9420,14 +9417,14 @@ function zeigeTPopAufGeoAdmin(TPopListe) {
 
 	// overlay layer für Marker vorbereiten
     var overlay_tpop = new OpenLayers.Layer.Vector('Teilpopulationen', {
-    	/*eventListeners: {
+    	eventListeners: {
 			'featureselected': function(evt) {
 				geoadminOnFeatureSelect(evt.feature);
 			},
 			'featureunselected': function(evt) {
 				geoadminOnFeatureUnselect(evt.feature);
 			}
-		},*/
+		},
         styleMap: new OpenLayers.StyleMap({
             externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon.png',
             graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
@@ -9448,10 +9445,13 @@ function zeigeTPopAufGeoAdmin(TPopListe) {
 	//bound eröffnen
 	bounds = new OpenLayers.Bounds();
 
-	//for (b in TPopListe.rows) {
-	for (var b = 0; b < TPopListe.rows.length; b++) {
+	//Array gründen, um marker darin zu sammeln
+	var markers = [];
+
+	for (b in TPopListe.rows) {
+	//for (var b = 0; b < TPopListe.rows.length; b++) {
 		if (TPopListe.rows.hasOwnProperty(b)) {
-			TPop = TPopListe.rows[b];
+			TPop = TPopListe.rows[0];
 			html = '<h3>' + TPop.Name + '</h3>'+
 				'<p>Population: ' + TPop.PopName + '</p>'+
 				'<p>TPop: ' + TPop.TPopFlurname + '</p>'+
@@ -9459,21 +9459,15 @@ function zeigeTPopAufGeoAdmin(TPopListe) {
 				"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">bearbeiten<\/a></p>";
 			
 			var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
+			var myLatLong = new OpenLayers.LonLat(TPop.TPopXKoord, TPop.TPopYKoord);
 
 			//marker zum overlay hinzufügen
-			var feature = new OpenLayers.Feature.Vector(myLocation, {
-				//tooltip: TPop.PopNr + '/' + TPop.TPopNr + ' ' + TPop.TPopFlurname,
+			var marker = new OpenLayers.Feature.Vector(myLocation, {
+				tooltip: TPop.PopNr + '/' + TPop.TPopNr + ' ' + TPop.TPopFlurname,
 				message: html
 			});
-			overlay_tpop.addFeatures(feature);
 
-			var selectControl = new OpenLayers.Control.SelectFeature(overlay_tpop, {
-				onSelect: geoadminOnFeatureSelect(feature), 
-				onUnselect: geoadminOnFeatureUnselect(feature)
-			});
-
-			//control zur Karte hinzufügen
-			window.api.map.addControl(selectControl);
+			markers.push(marker);
 
 			//bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
 			x_max = parseInt(TPop.TPopXKoord) + 300;
@@ -9485,25 +9479,25 @@ function zeigeTPopAufGeoAdmin(TPopListe) {
 		}
 	}
 
-	//selectFeature control erstellen
-	/*var selector = new OpenLayers.Control.SelectFeature(overlay_tpop, {
-		hover: true,
-		autoActivate: true
-	});*/
-
-	
-
 	//overlay zur Karte hinzufügen
 	window.api.map.addLayers([overlay_tpop]);
 
-	//Punkt(e) zoomen
+	var selectControl = new OpenLayers.Control.SelectFeature(overlay_tpop);
+
+	//control zur Karte hinzufügen
+	window.api.map.addControl(selectControl);
+	selectControl.activate();
+
+	//marker zum overlay hinzufügen
+	overlay_tpop.addFeatures(markers);
+
+	//Karte zum richtigen Ausschnitt zoomen
 	window.api.map.zoomToExtent(bounds);
 }
 
 function geoadminOnFeatureSelect(feature) {
-	alert('feature.geometry = ' + feature.geometry);
 	var popup = new OpenLayers.Popup.FramedCloud("popup",
-		OpenLayers.LonLat.fromString(feature.geometry.toShortString()),
+		feature.geometry.getBounds().getCenterLonLat(),
 		null,
 		feature.attributes.message,
 		null,
@@ -9513,7 +9507,6 @@ function geoadminOnFeatureSelect(feature) {
 	popup.maxSize = new OpenLayers.Size(400,800);
 	popup.fixedRelativePosition = true;
 	feature.popup = popup;
-	//alert(JSON.stringify(popup));
 	window.api.map.addPopup(popup);
 }
 
@@ -10767,8 +10760,10 @@ function initiiereGeoAdminKarte() {
 	//var zh_bbox_1903 = new OpenLayers.Bounds(669000, 222000, 717000, 284000);
 
 	//Prüfen, ob schon eine Karte aufgebaut wurde
-	if (window.api) {
-		if (window.api.map) {
+	if (typeof window.api != "undefined") {
+		if (typeof window.api.map != "undefined") {
+			//weitermachen unnötig, das Karte schon existiert
+			return;
 			//falls ja: entfernen. Sonst werden sie mehrfach untereinander angezeigt
 			window.api.map.destroy();
 			//layertree muss auch entfernt werden
