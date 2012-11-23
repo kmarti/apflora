@@ -9408,91 +9408,159 @@ function zeigeTPopAufKarte(TPopListe) {
 	}
 }
 
-function zeigeTPopAufGeoAdmin(TPopListe) {
-	var TPop, anzTPop, bounds, markers, TPopId, html, x_max, y_max, x_min, y_min;
-	Kartenhoehe = $(window).height() - 31;
-	$("#GeoAdminKarte").css("height", Kartenhoehe + "px");
-	zeigeFormular("GeoAdminKarte");
-	initiiereGeoAdminKarte();
-
-	// overlay layer für Marker vorbereiten
-    var overlay_tpop = new OpenLayers.Layer.Vector('Teilpopulationen', {
-    	eventListeners: {
-			'featureselected': function(evt) {
-				geoadminOnFeatureSelect(evt.feature);
-			},
-			'featureunselected': function(evt) {
-				geoadminOnFeatureUnselect(evt.feature);
-			}
+function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
+	var TPop, anzTPopMarkiert, bounds, markers, TPopId, html, x_max, y_max, x_min, y_min;
+	//alle tpop holen
+	$.ajax({
+		url: 'php/tpop_karte_alle.php',
+		dataType: 'json',
+		data: {
+			"ApArtId": window.ap.ApArtId
 		},
-        styleMap: new OpenLayers.StyleMap({
-            externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon.png',
-            graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
-            title: '${tooltip}'
-        })
-	});
+		success: function (TPopListe) {
+			Kartenhoehe = $(window).height() - 31;
+			$("#GeoAdminKarte").css("height", Kartenhoehe + "px");
+			zeigeFormular("GeoAdminKarte");
+			initiiereGeoAdminKarte();
 
-	//TPopListe bearbeiten: Objekte löschen, die keine Koordinaten haben
-	for (var i = 0; i < TPopListe.rows.length; i++) {
-		TPop = TPopListe.rows[i];
-		if (!TPop.TPopXKoord || !TPop.TPopYKoord) {
-			delete TPop;
-		}
-	}
-	//TPop zählen
-	anzTPop = TPopListe.rows.length;
+			//schon existierende Marker-Ebene entfernen
+			var layers = window.api.map.getLayersByName('Teilpopulationen');
+			for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
+				window.api.map.removeLayer(layers[layerIndex]);
+			}
 
-	//bound eröffnen
-	bounds = new OpenLayers.Bounds();
-
-	//Array gründen, um marker darin zu sammeln
-	var markers = [];
-
-	for (b in TPopListe.rows) {
-	//for (var b = 0; b < TPopListe.rows.length; b++) {
-		if (TPopListe.rows.hasOwnProperty(b)) {
-			TPop = TPopListe.rows[0];
-			html = '<h3>' + TPop.Name + '</h3>'+
-				'<p>Population: ' + TPop.PopName + '</p>'+
-				'<p>TPop: ' + TPop.TPopFlurname + '</p>'+
-				'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
-				"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">bearbeiten<\/a></p>";
-			
-			var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
-			var myLatLong = new OpenLayers.LonLat(TPop.TPopXKoord, TPop.TPopYKoord);
-
-			//marker zum overlay hinzufügen
-			var marker = new OpenLayers.Feature.Vector(myLocation, {
-				tooltip: TPop.PopNr + '/' + TPop.TPopNr + ' ' + TPop.TPopFlurname,
-				message: html
+			//styles für overlay_top definieren
+			var defaultStyle = new OpenLayers.Style({
+				externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon.png',
+				graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
+				title: '${tooltip}'
+			});
+			var selectStyle = new OpenLayers.Style({
+				externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_gelb.png',
+				graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
+				title: '${tooltip}'
 			});
 
-			markers.push(marker);
+			// overlay layer für Marker vorbereiten
+			var overlay_tpop = new OpenLayers.Layer.Vector('Teilpopulationen', {
+				eventListeners: {
+					'featureselected': function(evt) {
+						geoadminOnFeatureSelect(evt.feature);
+					},
+					'featureunselected': function(evt) {
+						geoadminOnFeatureUnselect(evt.feature);   //nein: Man kann den Popup nur ein mal öffnen
+					}
+				},
+				styleMap: new OpenLayers.StyleMap({
+					'default': defaultStyle,
+					'select': selectStyle
+				})
+			});
 
-			//bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
-			x_max = parseInt(TPop.TPopXKoord) + 300;
-			x_min = parseInt(TPop.TPopXKoord) - 300;
-			y_max = parseInt(TPop.TPopYKoord) + 300;
-			y_min = parseInt(TPop.TPopYKoord) - 300;
-			bounds.extend(new OpenLayers.LonLat(x_max, y_max));
-			bounds.extend(new OpenLayers.LonLat(x_min, y_min));
+			//TPop markierte zählen
+			anzTPopMarkiert = TPopListeMarkieren.rows.length;
+			anzTPop = TPopListe.rows.length;
+
+			//bound eröffnen
+			bounds = new OpenLayers.Bounds();
+
+			//jetzt bounds der anzuzeigenden bestimmen
+			var tpoptooltip_array = [];	//damit kann weiter unten nach Vergleich mit tooltip der gewählte marker selektiert werden
+			var tpopid_array = []; //damit kann weiter unten für den gewählten marker der gelbe Stil gewählt werden
+			for (b in TPopListeMarkieren.rows) {
+				if (TPopListeMarkieren.rows.hasOwnProperty(b)) {
+					TPop = TPopListeMarkieren.rows[b];
+					tpoptooltip_array.push(TPop.PopNr + '/' + TPop.TPopNr + ' ' + TPop.TPopFlurname);
+					tpopid_array.push(TPop.TPopId);
+					//bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
+					x_max = parseInt(TPop.TPopXKoord) + 300;
+					x_min = parseInt(TPop.TPopXKoord) - 300;
+					y_max = parseInt(TPop.TPopYKoord) + 300;
+					y_min = parseInt(TPop.TPopYKoord) - 300;
+					bounds.extend(new OpenLayers.LonLat(x_max, y_max));
+					bounds.extend(new OpenLayers.LonLat(x_min, y_min));
+				}
+			}
+
+			//Array gründen, um marker darin zu sammeln
+			var markers = [];
+
+			for (b in TPopListe.rows) {
+				if (TPopListe.rows.hasOwnProperty(b)) {
+					TPop = TPopListe.rows[b];
+					html = '<h3>' + TPop.Name + '</h3>'+
+						'<p>Population: ' + TPop.PopName + '</p>'+
+						'<p>TPop: ' + TPop.TPopFlurname + '</p>'+
+						'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
+						"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">bearbeiten<\/a></p>";
+					
+					var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
+					var myLatLong = new OpenLayers.LonLat(TPop.TPopXKoord, TPop.TPopYKoord);
+
+					//marker erstellen...
+					//gewählte erhalten style gelb
+					if (tpopid_array.indexOf(TPop.TPopId) !== -1) {
+						var marker = new OpenLayers.Feature.Vector(myLocation, {
+							tooltip: TPop.PopNr + '/' + TPop.TPopNr + ' ' + TPop.TPopFlurname,
+							message: html
+						}, {
+							externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_gelb.png',
+							graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
+							title: '${tooltip}'
+						});
+					} else {
+						var marker = new OpenLayers.Feature.Vector(myLocation, {
+							tooltip: TPop.PopNr + '/' + TPop.TPopNr + ' ' + TPop.TPopFlurname,
+							message: html
+						});
+					}
+
+					//...und in Array speichern
+					markers.push(marker);
+				}
+			}
+
+			//die marker der Ebene hinzufügen
+			overlay_tpop.addFeatures(markers);
+
+			//overlay zur Karte hinzufügen
+			window.api.map.addLayers([overlay_tpop]);
+
+			selectControl = new OpenLayers.Control.SelectFeature(overlay_tpop, {clickout: true});
+
+			//alle marker markieren, die markiert werden sollen
+			/*for (var i = 0; i < overlay_tpop.features.length; i++) {
+				if (tpoptooltip_array.indexOf(overlay_tpop.features[i].attributes.tooltip) !== -1) {
+					selectControl.select(overlay_tpop.features[i]);
+				}
+			}*/
+
+			//control zur Karte hinzufügen
+			window.api.map.addControl(selectControl);
+			selectControl.activate();
+
+			//ausgewählte Marker markieren
+			for (b in TPopListeMarkieren.rows) {
+				if (TPopListeMarkieren.rows.hasOwnProperty(b)) {
+
+				}
+			}
+
+			//Karte zum richtigen Ausschnitt zoomen
+			window.api.map.zoomToExtent(bounds);
+		},	
+		error: function (data) {
+			$("#Meldung").html("Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden");
+			$("#Meldung").dialog({
+				modal: true,
+				buttons: {
+					Ok: function() {
+						$(this).dialog("close");
+					}
+				}
+			});
 		}
-	}
-
-	//overlay zur Karte hinzufügen
-	window.api.map.addLayers([overlay_tpop]);
-
-	var selectControl = new OpenLayers.Control.SelectFeature(overlay_tpop);
-
-	//control zur Karte hinzufügen
-	window.api.map.addControl(selectControl);
-	selectControl.activate();
-
-	//marker zum overlay hinzufügen
-	overlay_tpop.addFeatures(markers);
-
-	//Karte zum richtigen Ausschnitt zoomen
-	window.api.map.zoomToExtent(bounds);
+	});
 }
 
 function geoadminOnFeatureSelect(feature) {
@@ -9501,19 +9569,21 @@ function geoadminOnFeatureSelect(feature) {
 		null,
 		feature.attributes.message,
 		null,
-		true
+		false	//true zeigt Schliess-Schalftläche an. Schliessen zerstört aber event-listener > popup kann nur ein mal angezeigt werden!
 	);
 	popup.autoSize = true;
-	popup.maxSize = new OpenLayers.Size(400,800);
+	popup.maxSize = new OpenLayers.Size(300,400);
 	popup.fixedRelativePosition = true;
 	feature.popup = popup;
 	window.api.map.addPopup(popup);
 }
 
 function geoadminOnFeatureUnselect(feature) {
-	window.api.map.removePopup(feature.popup);
+	feature.popup.hide();
+	//NICHT löschen, sonst kann das popup kein zweites mal geöffnet werden
+	/*window.api.map.removePopup(feature.popup);
 	feature.popup.destroy();
-	feature.popup = null;
+	feature.popup = null;*/
 }
 
 function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
@@ -10759,29 +10829,7 @@ function initiiereGeoAdminKarte() {
 	//OpenLayers.ProxyHost = "../cgi-bin/proxy.cgi?url=";
 	//var zh_bbox_1903 = new OpenLayers.Bounds(669000, 222000, 717000, 284000);
 
-	//Prüfen, ob schon eine Karte aufgebaut wurde
-	if (typeof window.api != "undefined") {
-		if (typeof window.api.map != "undefined") {
-			//weitermachen unnötig, das Karte schon existiert
-			return;
-			//falls ja: entfernen. Sonst werden sie mehrfach untereinander angezeigt
-			window.api.map.destroy();
-			//layertree muss auch entfernt werden
-			$("#layertree").html('<img id="toggleLayertree" src="style/images/updown.png" alt="öffnen/schliessen" height="14" width="14">');
-			//und auch sein event-handler
-			$("#layertree").off("click", "#toggleLayertree");
-		}
-	}
-	
-	window.api = new GeoAdmin.API();
-
-	window.api.createMap({
-		div: "ga_karten_div",
-		easting: 693000,
-		northing: 253000,
-		zoom: 4
-	});
-
+	//Zunächst alle Layer definieren
 	var zh_uep = new OpenLayers.Layer.WMS("Übersichtsplan Kt. Zürich", "http://wms.zh.ch/upwms", {
 		layers: 'upwms',
 		//transparent: true,
@@ -10823,7 +10871,6 @@ function initiiereGeoAdminKarte() {
 		//opacity: 0.7,
 		visibility: false
 	});
-	
 	/*var ch_lk1000 = new OpenLayers.Layer.WMS("Landeskarte 1:1'000'000", "http://wms.geo.admin.ch?", {
 		layers: 'ch.swisstopo.pixelkarte-farbe-pk1000.noscale',
 		srs: 'EPSG:21781',
@@ -10832,43 +10879,135 @@ function initiiereGeoAdminKarte() {
 		singleTile: true,
 		visibility: false
 	});*/
+	
+	//api nur definieren, wenn dies nicht schon passiert ist
+	if (typeof window.api == "undefined") {
+		window.api = new GeoAdmin.API();
+	}
 
-	//The complementary layer is per default the color pixelmap.
-	window.api.map.switchComplementaryLayer("voidLayer", {opacity: 1});
+	//Karte nur aufbauen, wenn dies nicht schon passiert ist
+	if (!window.api.map) {
+		window.api.createMap({
+			div: "ga_karten_div",
+			easting: 693000,
+			northing: 253000,
+			zoom: 4
+		});
 
-	window.api.map.addLayers([zh_uep]);
-	window.api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe-pk1000.noscale', {
-		visibility: false
-	});	//wieso klappt das nicht???
-	window.api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe-pk25.noscale', {
-		visibility: false
-	});
-	window.api.map.addLayerByName('ch.swisstopo.swissboundaries3d-kanton-flaeche.fill', {
-		visibility: false
-	});
-	window.api.map.addLayers([zh_av, zh_avnr]);
-	window.api.map.addLayerByName('ch.swisstopo-vd.geometa-gemeinde', {visibility: false});
-	window.api.map.addLayers([zh_svo, zh_svo_raster]);
-	window.api.map.addLayerByName('ch.bafu.bundesinventare-trockenwiesen_trockenweiden', {
-		visibility: false,
-		opacity: 0.7
-	});
-	window.api.map.addLayerByName('ch.bafu.bundesinventare-flachmoore', {
-		visibility: false,
-		opacity: 0.7
-	});
-	window.api.map.addLayerByName('ch.bafu.bundesinventare-hochmoore', {
-		visibility: false,
-		opacity: 0.7
-	});
-	window.api.map.addLayerByName('ch.bafu.bundesinventare-auen', {
-		visibility: false,
-		opacity: 0.7
-	});
-	window.api.map.addLayerByName('ch.bafu.bundesinventare-amphibien', {
-		visibility: false,
-		opacity: 0.7
-	});
+		//The complementary layer is per default the color pixelmap.
+		window.api.map.switchComplementaryLayer("voidLayer", {opacity: 1});
+
+		window.api.map.addLayers([zh_uep]);
+		window.api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe-pk1000.noscale', {
+			visibility: false
+		});	//wieso klappt das nicht???
+		window.api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe-pk25.noscale', {
+			visibility: false
+		});
+		window.api.map.addLayerByName('ch.swisstopo.swissboundaries3d-kanton-flaeche.fill', {
+			visibility: false
+		});
+		window.api.map.addLayers([zh_av, zh_avnr]);
+		window.api.map.addLayerByName('ch.swisstopo-vd.geometa-gemeinde', {visibility: false});
+		window.api.map.addLayers([zh_svo, zh_svo_raster]);
+		window.api.map.addLayerByName('ch.bafu.bundesinventare-trockenwiesen_trockenweiden', {
+			visibility: false,
+			opacity: 0.7
+		});
+		window.api.map.addLayerByName('ch.bafu.bundesinventare-flachmoore', {
+			visibility: false,
+			opacity: 0.7
+		});
+		window.api.map.addLayerByName('ch.bafu.bundesinventare-hochmoore', {
+			visibility: false,
+			opacity: 0.7
+		});
+		window.api.map.addLayerByName('ch.bafu.bundesinventare-auen', {
+			visibility: false,
+			opacity: 0.7
+		});
+		window.api.map.addLayerByName('ch.bafu.bundesinventare-amphibien', {
+			visibility: false,
+			opacity: 0.7
+		});
+
+		window.api.map.addControl(new OpenLayers.Control.MousePosition({numDigits: 0, separator: ' / '}));
+		window.api.map.addControl(new OpenLayers.Control.KeyboardDefaults());
+
+		//messen
+		// style the sketch fancy
+		var sketchSymbolizers = {
+			"Point": {
+				pointRadius: 4,
+				graphicName: "square",
+				fillColor: "white",
+				fillOpacity: 0.4,
+				strokeWidth: 1,
+				strokeOpacity: 1,
+				//strokeColor: "#333333"
+				strokeColor: "red"
+			},
+			"Line": {
+				strokeWidth: 3,
+				strokeOpacity: 1,
+				strokeColor: "red",
+				strokeDashstyle: "dash"
+			},
+			"Polygon": {
+				strokeWidth: 2,
+				strokeOpacity: 1,
+				strokeColor: "red",
+				fillColor: "red",
+				fillOpacity: 0.3
+			}
+		};
+		var style = new OpenLayers.Style();
+		style.addRules([
+			new OpenLayers.Rule({symbolizer: sketchSymbolizers})
+		]);
+		var styleMap = new OpenLayers.StyleMap({"default": style});
+
+		measureControls = {
+			line: new OpenLayers.Control.Measure(
+				OpenLayers.Handler.Path, {
+					persist: true,
+					handlerOptions: {
+						layerOptions: {
+							styleMap: styleMap
+						}
+					}
+				}
+			),
+			polygon: new OpenLayers.Control.Measure(
+				OpenLayers.Handler.Polygon, {
+					persist: true,
+					handlerOptions: {
+						layerOptions: {
+							styleMap: styleMap
+						}
+					}
+				}
+			)
+		};
+		
+		var control;
+		for(var key in measureControls) {
+			control = measureControls[key];
+			control.events.on({
+				"measure": handleMeasurements,
+				"measurepartial": handleMeasurements
+			});
+			window.api.map.addControl(control);
+		}
+		
+		$('#karteSchieben').checked = true;	//scheint nicht zu funktionieren?
+	}
+
+	//layertree immer neu aufbauen, weil dieselbe Ebene (TPop) immer wieder anders dazukommt
+	//layertree entfernen, falls schon vorhanden
+	$("#layertree").html('<img id="toggleLayertree" src="style/images/updown.png" alt="öffnen/schliessen" height="14" width="14">');
+	//und auch sein event-handler
+	$("#layertree").off("click", "#toggleLayertree");
 
 	window.api.createLayerTree({
 		renderTo: "layertree",
@@ -10878,76 +11017,6 @@ function initiiereGeoAdminKarte() {
 	$(".x-panel-bwrap").css('display', 'none');
 
 	$(".x-panel-header-text").text("Ebenen");
-
-	window.api.map.addControl(new OpenLayers.Control.MousePosition({numDigits: 0, separator: ' / '}));
-	window.api.map.addControl(new OpenLayers.Control.KeyboardDefaults());
-
-	//messen
-	// style the sketch fancy
-	var sketchSymbolizers = {
-		"Point": {
-			pointRadius: 4,
-			graphicName: "square",
-			fillColor: "white",
-			fillOpacity: 1,
-			strokeWidth: 1,
-			strokeOpacity: 1,
-			strokeColor: "#333333"
-		},
-		"Line": {
-			strokeWidth: 3,
-			strokeOpacity: 1,
-			strokeColor: "red",
-			strokeDashstyle: "dash"
-		},
-		"Polygon": {
-			strokeWidth: 2,
-			strokeOpacity: 1,
-			strokeColor: "red",
-			fillColor: "red",
-			fillOpacity: 0.3
-		}
-	};
-	var style = new OpenLayers.Style();
-	style.addRules([
-		new OpenLayers.Rule({symbolizer: sketchSymbolizers})
-	]);
-	var styleMap = new OpenLayers.StyleMap({"default": style});
-
-	measureControls = {
-		line: new OpenLayers.Control.Measure(
-			OpenLayers.Handler.Path, {
-				persist: true,
-				handlerOptions: {
-					layerOptions: {
-						styleMap: styleMap
-					}
-				}
-			}
-		),
-		polygon: new OpenLayers.Control.Measure(
-			OpenLayers.Handler.Polygon, {
-				persist: true,
-				handlerOptions: {
-					layerOptions: {
-						styleMap: styleMap
-					}
-				}
-			}
-		)
-	};
-	
-	var control;
-	for(var key in measureControls) {
-		control = measureControls[key];
-		control.events.on({
-			"measure": handleMeasurements,
-			"measurepartial": handleMeasurements
-		});
-		window.api.map.addControl(control);
-	}
-	
-	$('#karteSchieben').checked = true;	//scheint nicht zu funktionieren?
 
 	$("#layertree").on("click", "#toggleLayertree", function() {
 		oeffneSchliesseLayertree();
