@@ -9409,7 +9409,7 @@ function zeigeTPopAufKarte(TPopListe) {
 }
 
 function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
-	var TPop, anzTPopMarkiert, bounds, markers, TPopId, html, x_max, y_max, x_min, y_min;
+	var TPop, bounds, markers, TPopId, html, x_max, y_max, x_min, y_min;
 	//alle tpop holen
 	$.ajax({
 		url: 'php/tpop_karte_alle.php',
@@ -9422,56 +9422,6 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 			$("#GeoAdminKarte").css("height", Kartenhoehe + "px");
 			zeigeFormular("GeoAdminKarte");
 			initiiereGeoAdminKarte();
-
-			//schon existierende Marker-Ebene entfernen
-			var layers = window.api.map.getLayersByName('Teilpopulationen');
-			for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
-				window.api.map.removeLayer(layers[layerIndex]);
-			}
-
-			//styles für overlay_top definieren
-			var defaultStyle = new OpenLayers.Style({
-				externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon.png',
-				graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
-				title: '${tooltip}',
-				label: '${tooltip}',
-				fontColor: "black",
-				fontSize: "10px",
-				fontFamily: "Arial, Verdana, Helvetica, sans-serif",
-				fontWeight: "bold",
-				labelAlign: "cm",
-				// positive value moves the label to the right
-				labelXOffset: 0,
-				// negative value moves the label down
-				labelYOffset: -8,
-				labelOutlineColor: "white",
-				labelOutlineWidth: 3
-			});
-			var selectStyle = new OpenLayers.Style({
-				externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_gelb.png',
-				graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37
-			});
-
-			// overlay layer für Marker vorbereiten
-			var overlay_tpop = new OpenLayers.Layer.Vector('Teilpopulationen', {
-				eventListeners: {
-					'featureselected': function(evt) {
-						geoadminOnFeatureSelect(evt.feature);
-					},
-					'featureunselected': function(evt) {
-						geoadminOnFeatureUnselect(evt.feature);   //nein: Man kann den Popup nur ein mal öffnen
-					}
-				},
-				styleMap: new OpenLayers.StyleMap({
-					'default': defaultStyle,
-					'select': selectStyle
-				}),
-				rendererOptions: {yOrdering: true, zIndexing: true}
-			});
-
-			//TPop markierte zählen
-			anzTPopMarkiert = TPopListeMarkieren.rows.length;
-			anzTPop = TPopListe.rows.length;
 
 			//bound eröffnen
 			bounds = new OpenLayers.Bounds();
@@ -9494,76 +9444,10 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 				}
 			}
 
-			//Array gründen, um marker darin zu sammeln
-			var markers = [];
-
-			for (b in TPopListe.rows) {
-				if (TPopListe.rows.hasOwnProperty(b)) {
-					TPop = TPopListe.rows[b];
-					html = '<h3>' + TPop.Name + '</h3>'+
-						'<p>Population: ' + TPop.PopName + '</p>'+
-						'<p>TPop: ' + TPop.TPopFlurname + '</p>'+
-						'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
-						"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">bearbeiten<\/a></p>";
-					
-					var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
-
-					//marker erstellen...
-					//gewählte erhalten style gelb und zuoberst
-					if (tpopid_array.indexOf(TPop.TPopId) !== -1) {
-						var marker = new OpenLayers.Feature.Vector(myLocation, {
-							tooltip: TPop.PopNr + '/' + TPop.TPopNr + '\n' + TPop.TPopFlurname,
-							message: html
-						}, {
-							externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_gelb.png',
-							graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
-							title: TPop.PopNr + '/' + TPop.TPopNr + '\n' + TPop.TPopFlurname,
-							graphicZIndex: 50,
-							label: TPop.PopNr + '/' + TPop.TPopNr + '\n' + TPop.TPopFlurname,
-							fontColor: "black",
-							fontSize: "10px",
-							fontFamily: "Arial, Verdana, Helvetica, sans-serif",
-							fontWeight: "bold",
-							labelAlign: "cm",
-							// positive value moves the label to the right
-							labelXOffset: 0,
-							// negative value moves the label down
-							labelYOffset: -8,
-							labelOutlineColor: "white",
-							labelOutlineWidth: 3
-						});
-					} else {
-						var marker = new OpenLayers.Feature.Vector(myLocation, {
-							tooltip: TPop.PopNr + '/' + TPop.TPopNr + '\n' + TPop.TPopFlurname,
-							message: html
-						});
-					}
-
-					//...und in Array speichern
-					markers.push(marker);
-				}
-			}
-
-			//die marker der Ebene hinzufügen
-			overlay_tpop.addFeatures(markers);
-
-			//overlay zur Karte hinzufügen
-			window.api.map.addLayers([overlay_tpop]);
-
-			selectControl = new OpenLayers.Control.SelectFeature(overlay_tpop, {clickout: true});
-
-			//alle marker markieren, die markiert werden sollen
-			//nicht schön, weil auch das Popup geöffnet wird
-			/*for (var i = 0; i < overlay_tpop.features.length; i++) {
-				if (tpoptooltip_array.indexOf(overlay_tpop.features[i].attributes.tooltip) !== -1) {
-					selectControl.select(overlay_tpop.features[i]);
-				}
-			}*/
-
-			//control zur Karte hinzufügen
-			window.api.map.addControl(selectControl);
-			selectControl.activate();
-
+			erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_array);
+			erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_array);
+			erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array);
+			
 			//Karte zum richtigen Ausschnitt zoomen
 			window.api.map.zoomToExtent(bounds);
 		},	
@@ -9579,6 +9463,230 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 			});
 		}
 	});
+}
+
+function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
+	//schon existierende Marker-Ebene entfernen
+	var layers = window.api.map.getLayersByName('Teilpopulationen');
+	for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
+		window.api.map.removeLayer(layers[layerIndex]);
+	}
+
+	//styles für overlay_top definieren
+	var defaultStyle = new OpenLayers.Style({
+		externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon.png',
+		graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
+		title: '${tooltip}'
+	});
+	var selectStyle = new OpenLayers.Style({
+		externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_gelb.png'
+	});
+
+	var strategy = new OpenLayers.Strategy.Cluster({
+		distance: 30, 
+		threshold: 2
+	});
+
+	// overlay layer für Marker vorbereiten
+	var overlay_tpop = new OpenLayers.Layer.Vector('Teilpopulationen', {
+		strategies: [strategy],
+		eventListeners: {
+			'featureselected': function(evt) {
+				geoadminOnFeatureSelect(evt.feature);
+			},
+			'featureunselected': function(evt) {
+				geoadminOnFeatureUnselect(evt.feature);
+			}
+		},
+		styleMap: new OpenLayers.StyleMap({
+			'default': defaultStyle,
+			'select': selectStyle
+		}),
+		rendererOptions: {
+			//yOrdering: true, 
+			zIndexing: true
+		}
+	});
+
+	//Array gründen, um marker darin zu sammeln
+	var markers = [];
+
+	for (b in TPopListe.rows) {
+		if (TPopListe.rows.hasOwnProperty(b)) {
+			TPop = TPopListe.rows[b];
+			html = '<h3>' + TPop.Name + '</h3>'+
+				'<p>Population: ' + TPop.PopName + '</p>'+
+				'<p>TPop: ' + TPop.TPopFlurname + '</p>'+
+				'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
+				"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">bearbeiten<\/a></p>";
+			
+			var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
+
+			//marker erstellen...
+			//gewählte erhalten style gelb und zuoberst
+			if (tpopid_array.indexOf(TPop.TPopId) !== -1) {
+				var marker = new OpenLayers.Feature.Vector(myLocation, {
+					tooltip: TPop.PopNr + '/' + TPop.TPopNr,
+					message: html
+				}, {
+					externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_gelb.png',
+					graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
+					title: TPop.TPopFlurname,
+					graphicZIndex: 5000
+				});
+			} else {
+				var marker = new OpenLayers.Feature.Vector(myLocation, {
+					tooltip: TPop.TPopFlurname,
+					message: html,
+					label: TPop.PopNr + '/' + TPop.TPopNr,
+				});
+			}
+
+			//...und in Array speichern
+			markers.push(marker);
+		}
+	}
+
+	//die marker der Ebene hinzufügen
+	overlay_tpop.addFeatures(markers);
+
+	//overlay zur Karte hinzufügen
+	window.api.map.addLayers([overlay_tpop]);
+
+	selectControl = new OpenLayers.Control.SelectFeature(overlay_tpop, {clickout: true});
+
+	//alle marker markieren, die markiert werden sollen
+	//nicht schön, weil auch das Popup geöffnet wird
+	/*for (var i = 0; i < overlay_tpop.features.length; i++) {
+		if (tpoptooltip_array.indexOf(overlay_tpop.features[i].attributes.tooltip) !== -1) {
+			selectControl.select(overlay_tpop.features[i]);
+		}
+	}*/
+
+	//control zur Karte hinzufügen
+	window.api.map.addControl(selectControl);
+	selectControl.activate();
+}
+
+function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_array) {
+	//schon existierende Marker-Ebene entfernen
+	var layers = window.api.map.getLayersByName('Teilpopulationen Nummern');
+	for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
+		window.api.map.removeLayer(layers[layerIndex]);
+	}
+
+	//styles für overlay_top definieren
+	var defaultStyle = new OpenLayers.Style({
+		externalGraphic: 'http://www.barbalex.ch/apflora/img/leer.png',
+		graphicWidth: 1, graphicHeight: 1, graphicYOffset: 0,
+		title: null,
+		label: '${label}',
+		fontColor: "black",
+		fontSize: "11px",
+		fontFamily: "Arial, Verdana, Helvetica, sans-serif",
+		fontWeight: "bold",
+		labelAlign: "cm",
+		// positive value moves the label to the right
+		labelXOffset: 0,
+		// negative value moves the label down
+		labelYOffset: -8,
+		labelOutlineColor: "white",
+		labelOutlineWidth: 3
+	});
+
+	// overlay layer für Marker vorbereiten
+	var overlay_tpop_beschriftungen = new OpenLayers.Layer.Vector('Teilpopulationen Nummern', {
+		styleMap: new OpenLayers.StyleMap({
+			'default': defaultStyle
+		})
+	});
+
+	//Array gründen, um marker darin zu sammeln
+	var markers = [];
+
+	for (b in TPopListe.rows) {
+		if (TPopListe.rows.hasOwnProperty(b)) {
+			TPop = TPopListe.rows[b];
+			
+			var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
+
+			//marker erstellen...
+			//gewählte erhalten style gelb und zuoberst
+			var marker = new OpenLayers.Feature.Vector(myLocation, {
+				label: TPop.PopNr + '/' + TPop.TPopNr,
+			});
+
+			//...und in Array speichern
+			markers.push(marker);
+		}
+	}
+
+	//die marker der Ebene hinzufügen
+	overlay_tpop_beschriftungen.addFeatures(markers);
+
+	//overlay zur Karte hinzufügen
+	window.api.map.addLayers([overlay_tpop_beschriftungen]);
+}
+
+function erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_array) {
+	//schon existierende Marker-Ebene entfernen
+	var layers = window.api.map.getLayersByName('Teilpopulationen Namen');
+	for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
+		window.api.map.removeLayer(layers[layerIndex]);
+	}
+
+	//styles für overlay_top definieren
+	var defaultStyle = new OpenLayers.Style({
+		externalGraphic: 'http://www.barbalex.ch/apflora/img/leer.png',
+		graphicWidth: 1, graphicHeight: 1, graphicYOffset: 0,
+		title: null,
+		label: '${label}',
+		fontColor: "black",
+		fontSize: "11px",
+		fontFamily: "Arial, Verdana, Helvetica, sans-serif",
+		fontWeight: "bold",
+		labelAlign: "cm",
+		// positive value moves the label to the right
+		labelXOffset: 0,
+		// negative value moves the label down
+		labelYOffset: -8,
+		labelOutlineColor: "white",
+		labelOutlineWidth: 3
+	});
+
+	// overlay layer für Marker vorbereiten
+	var overlay_tpop_beschriftungen = new OpenLayers.Layer.Vector('Teilpopulationen Namen', {
+		styleMap: new OpenLayers.StyleMap({
+			'default': defaultStyle
+		}),
+		visibility: false
+	});
+
+	//Array gründen, um marker darin zu sammeln
+	var markers = [];
+
+	for (b in TPopListe.rows) {
+		if (TPopListe.rows.hasOwnProperty(b)) {
+			TPop = TPopListe.rows[b];
+			
+			var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
+
+			//marker erstellen...
+			//gewählte erhalten style gelb und zuoberst
+			var marker = new OpenLayers.Feature.Vector(myLocation, {
+				label: TPop.TPopFlurname,
+			});
+
+			//...und in Array speichern
+			markers.push(marker);
+		}
+	}
+
+	//die marker der Ebene hinzufügen
+	overlay_tpop_beschriftungen.addFeatures(markers);
+
+	//overlay zur Karte hinzufügen
+	window.api.map.addLayers([overlay_tpop_beschriftungen]);
 }
 
 function geoadminOnFeatureSelect(feature) {
