@@ -9433,12 +9433,23 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 			var defaultStyle = new OpenLayers.Style({
 				externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon.png',
 				graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
-				title: '${tooltip}'
+				title: '${tooltip}',
+				label: '${tooltip}',
+				fontColor: "black",
+				fontSize: "10px",
+				fontFamily: "Arial, Verdana, Helvetica, sans-serif",
+				fontWeight: "bold",
+				labelAlign: "cm",
+				// positive value moves the label to the right
+				labelXOffset: 0,
+				// negative value moves the label down
+				labelYOffset: -8,
+				labelOutlineColor: "white",
+				labelOutlineWidth: 3
 			});
 			var selectStyle = new OpenLayers.Style({
 				externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_gelb.png',
-				graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
-				title: '${tooltip}'
+				graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37
 			});
 
 			// overlay layer für Marker vorbereiten
@@ -9454,7 +9465,8 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 				styleMap: new OpenLayers.StyleMap({
 					'default': defaultStyle,
 					'select': selectStyle
-				})
+				}),
+				rendererOptions: {yOrdering: true, zIndexing: true}
 			});
 
 			//TPop markierte zählen
@@ -9465,12 +9477,12 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 			bounds = new OpenLayers.Bounds();
 
 			//jetzt bounds der anzuzeigenden bestimmen
-			var tpoptooltip_array = [];	//damit kann weiter unten nach Vergleich mit tooltip der gewählte marker selektiert werden
+			//var tpoptooltip_array = [];	//damit kann weiter unten nach Vergleich mit tooltip der gewählte marker selektiert werden
 			var tpopid_array = []; //damit kann weiter unten für den gewählten marker der gelbe Stil gewählt werden
 			for (b in TPopListeMarkieren.rows) {
 				if (TPopListeMarkieren.rows.hasOwnProperty(b)) {
 					TPop = TPopListeMarkieren.rows[b];
-					tpoptooltip_array.push(TPop.PopNr + '/' + TPop.TPopNr + ' ' + TPop.TPopFlurname);
+					//tpoptooltip_array.push(TPop.PopNr + '/' + TPop.TPopNr + '\n' + TPop.TPopFlurname);
 					tpopid_array.push(TPop.TPopId);
 					//bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
 					x_max = parseInt(TPop.TPopXKoord) + 300;
@@ -9495,22 +9507,34 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 						"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">bearbeiten<\/a></p>";
 					
 					var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
-					var myLatLong = new OpenLayers.LonLat(TPop.TPopXKoord, TPop.TPopYKoord);
 
 					//marker erstellen...
-					//gewählte erhalten style gelb
+					//gewählte erhalten style gelb und zuoberst
 					if (tpopid_array.indexOf(TPop.TPopId) !== -1) {
 						var marker = new OpenLayers.Feature.Vector(myLocation, {
-							tooltip: TPop.PopNr + '/' + TPop.TPopNr + ' ' + TPop.TPopFlurname,
+							tooltip: TPop.PopNr + '/' + TPop.TPopNr + '\n' + TPop.TPopFlurname,
 							message: html
 						}, {
 							externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_gelb.png',
 							graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
-							title: '${tooltip}'
+							title: TPop.PopNr + '/' + TPop.TPopNr + '\n' + TPop.TPopFlurname,
+							graphicZIndex: 50,
+							label: TPop.PopNr + '/' + TPop.TPopNr + '\n' + TPop.TPopFlurname,
+							fontColor: "black",
+							fontSize: "10px",
+							fontFamily: "Arial, Verdana, Helvetica, sans-serif",
+							fontWeight: "bold",
+							labelAlign: "cm",
+							// positive value moves the label to the right
+							labelXOffset: 0,
+							// negative value moves the label down
+							labelYOffset: -8,
+							labelOutlineColor: "white",
+							labelOutlineWidth: 3
 						});
 					} else {
 						var marker = new OpenLayers.Feature.Vector(myLocation, {
-							tooltip: TPop.PopNr + '/' + TPop.TPopNr + ' ' + TPop.TPopFlurname,
+							tooltip: TPop.PopNr + '/' + TPop.TPopNr + '\n' + TPop.TPopFlurname,
 							message: html
 						});
 					}
@@ -9529,6 +9553,7 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 			selectControl = new OpenLayers.Control.SelectFeature(overlay_tpop, {clickout: true});
 
 			//alle marker markieren, die markiert werden sollen
+			//nicht schön, weil auch das Popup geöffnet wird
 			/*for (var i = 0; i < overlay_tpop.features.length; i++) {
 				if (tpoptooltip_array.indexOf(overlay_tpop.features[i].attributes.tooltip) !== -1) {
 					selectControl.select(overlay_tpop.features[i]);
@@ -9538,13 +9563,6 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 			//control zur Karte hinzufügen
 			window.api.map.addControl(selectControl);
 			selectControl.activate();
-
-			//ausgewählte Marker markieren
-			for (b in TPopListeMarkieren.rows) {
-				if (TPopListeMarkieren.rows.hasOwnProperty(b)) {
-
-				}
-			}
 
 			//Karte zum richtigen Ausschnitt zoomen
 			window.api.map.zoomToExtent(bounds);
@@ -9580,10 +9598,6 @@ function geoadminOnFeatureSelect(feature) {
 
 function geoadminOnFeatureUnselect(feature) {
 	feature.popup.hide();
-	//NICHT löschen, sonst kann das popup kein zweites mal geöffnet werden
-	/*window.api.map.removePopup(feature.popup);
-	feature.popup.destroy();
-	feature.popup = null;*/
 }
 
 function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
