@@ -18,9 +18,6 @@ function initiiere_index() {
 	$("button").button();
 	$("#tpopfeldkontr_tabs").tabs();
 
-	//GeoAdmin-Karte initiieren
-	//initiiereGeoAdminKarte();
-
 	//Gemeindeliste erstellen, wenn nötig
 	if (!window.Gemeinden) {
 		$.ajax({
@@ -1550,9 +1547,9 @@ function setzeTreehoehe() {
 }
 
 (function($) {
-    $.fn.hasScrollBar = function() {
-        return this.get(0).scrollHeight > this.height();
-    }
+	$.fn.hasScrollBar = function() {
+		return this.get(0).scrollHeight > this.height();
+	}
 })(jQuery);
 
 //ab minimaler Breite forms unter menu setzen, 
@@ -1570,20 +1567,20 @@ function setzeSpaltenbreiten() {
 function FitToContent(id, maxHeight) {
    var text = id && id.style ? id : document.getElementById(id);
    if (!text)
-      return;
+	  return;
 
    /* Accounts for rows being deleted, pixel value may need adjusting */
    if (text.clientHeight == text.scrollHeight) {
-      text.style.height = "30px";
-   }       
+	  text.style.height = "30px";
+   }	   
 
    var adjustedHeight = text.clientHeight;
    if (!maxHeight || maxHeight > adjustedHeight) {
-      adjustedHeight = Math.max(text.scrollHeight, adjustedHeight);
-      if (maxHeight)
-         adjustedHeight = Math.min(maxHeight, adjustedHeight);
-      if (adjustedHeight > text.clientHeight)
-         text.style.height = adjustedHeight + "px";
+	  adjustedHeight = Math.max(text.scrollHeight, adjustedHeight);
+	  if (maxHeight)
+		 adjustedHeight = Math.min(maxHeight, adjustedHeight);
+	  if (adjustedHeight > text.clientHeight)
+		 text.style.height = adjustedHeight + "px";
    }
 }
 
@@ -3104,7 +3101,7 @@ function beschrifte_ap_ordner_beob(node) {
 function treeKontextmenu(node) {
 	var items, aktiver_node, parent_node, grandparent_node, neue_apziele_node;
 	//relevante nodes zwischenspeichern
-	//aktiver_node = node;     das hat auch funktioniert
+	//aktiver_node = node;	 das hat auch funktioniert
 	aktiver_node = jQuery("#tree").jstree('get_selected');
 	aktiver_nodeText = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
 	//parent nur ermitteln, wenn parents exisiteren - sonst gibt es einen Fehler
@@ -5784,6 +5781,47 @@ function treeKontextmenu(node) {
 						},
 						success: function (data) {
 							verorteTPopAufKarte(data);
+						},	
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine Daten erhalten");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},
+			"verortenGeoAdmin": {
+				"label": "auf Übersichtsplan verorten",
+				"separator_before": true,
+				"icon": "style/images/flora_icon_rot.png",
+				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
+					$.ajax({
+						url: 'php/tpop.php',
+						dataType: 'json',
+						data: {
+							"id": $(aktiver_node).attr("id")
+						},
+						success: function (data) {
+							verorteTPopAufGeoAdmin(data);
 						},	
 						error: function (data) {
 							$("#Meldung").html("Fehler: Keine Daten erhalten");
@@ -9207,9 +9245,9 @@ function Wgs84InChX(BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, Lae
 	x = 200147.07
 	  + 308807.95 * lat_aux 
 	  +   3745.25 * Math.pow(lng_aux,2)
-	  +     76.63 * Math.pow(lat_aux,2)
-	  -    194.56 * Math.pow(lng_aux,2) * lat_aux
-	  +    119.79 * Math.pow(lat_aux,3);
+	  +	 76.63 * Math.pow(lat_aux,2)
+	  -	194.56 * Math.pow(lng_aux,2) * lat_aux
+	  +	119.79 * Math.pow(lat_aux,3);
  
 	return x;
 }
@@ -9229,8 +9267,8 @@ function Wgs84InChY(BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, Lae
 	y = 600072.37 
 	   + 211455.93 * lng_aux 
 	   -  10938.51 * lng_aux * lat_aux
-	   -      0.36 * lng_aux * Math.pow(lat_aux,2)
-	   -     44.54 * Math.pow(lng_aux,3);
+	   -	  0.36 * lng_aux * Math.pow(lat_aux,2)
+	   -	 44.54 * Math.pow(lng_aux,3);
 	
 	return y;
 }
@@ -9272,11 +9310,11 @@ function CHtoWGSlat(y, x) {
 
 	// Process lat
 	lat = 16.9023892
-	     +  3.238272 * x_aux
-	     -  0.270978 * Math.pow(y_aux,2)
-	     -  0.002528 * Math.pow(x_aux,2)
-	     -  0.0447   * Math.pow(y_aux,2) * x_aux
-	     -  0.0140   * Math.pow(x_aux,3);
+		 +  3.238272 * x_aux
+		 -  0.270978 * Math.pow(y_aux,2)
+		 -  0.002528 * Math.pow(x_aux,2)
+		 -  0.0447   * Math.pow(y_aux,2) * x_aux
+		 -  0.0140   * Math.pow(x_aux,3);
 	
 	// Unit 10000" to 1 " and converts seconds to degrees (dec)
 	lat = lat * 100/36;
@@ -9293,10 +9331,10 @@ function CHtoWGSlng(y, x) {
 
 	// Process long
 	lng = 2.6779094
-	    + 4.728982 * y_aux
-	    + 0.791484 * y_aux * x_aux
-	    + 0.1306   * y_aux * Math.pow(x_aux,2)
-	    - 0.0436   * Math.pow(y_aux,3);
+		+ 4.728982 * y_aux
+		+ 0.791484 * y_aux * x_aux
+		+ 0.1306   * y_aux * Math.pow(x_aux,2)
+		- 0.0436   * Math.pow(y_aux,3);
 	
 	// Unit 10000" to 1 " and converts seconds to degrees (dec)
 	lng = lng * 100/36;
@@ -9408,6 +9446,148 @@ function zeigeTPopAufKarte(TPopListe) {
 	}
 }
 
+function entferneMarkerEbenen() {
+	if (window.api.map.getLayersByName('Teilpopulation')) {
+		var layers = window.api.map.getLayersByName('Teilpopulation');
+		for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
+			window.api.map.removeLayer(layers[layerIndex]);
+		}
+	}
+	if (window.api.map.getLayersByName('Teilpopulationen')) {
+		var layers = window.api.map.getLayersByName('Teilpopulationen');
+		for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
+			window.api.map.removeLayer(layers[layerIndex]);
+		}
+	}
+	if (window.api.map.getLayersByName('Teilpopulationen Nummern')) {
+		var layers = window.api.map.getLayersByName('Teilpopulationen Nummern');
+		for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
+			window.api.map.removeLayer(layers[layerIndex]);
+		}
+	}
+	if (window.api.map.getLayersByName('Teilpopulationen Namen')) {
+		var layers = window.api.map.getLayersByName('Teilpopulationen Namen');
+		for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
+			window.api.map.removeLayer(layers[layerIndex]);
+		}
+	}
+	//jetzt auch popups entfernen
+}
+
+function verorteTPopAufGeoAdmin(TPop) {
+	var bounds;
+	Kartenhoehe = $(window).height() - 31;
+	$("#GeoAdminKarte").css("height", Kartenhoehe + "px");
+	zeigeFormular("GeoAdminKarte");
+	initiiereGeoAdminKarte();
+	//entferneMarkerEbenen();
+
+	//bound eröffnen
+	bounds = new OpenLayers.Bounds();
+	//bounds bestimmen
+	if (TPop && TPop.TPopXKoord && TPop.TPopYKoord) {
+		verorted = true;
+		//bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
+		x_max = parseInt(TPop.TPopXKoord) + 300;
+		x_min = parseInt(TPop.TPopXKoord) - 300;
+		y_max = parseInt(TPop.TPopYKoord) + 300;
+		y_min = parseInt(TPop.TPopYKoord) - 300;
+		bounds.extend(new OpenLayers.LonLat(x_max, y_max));
+		bounds.extend(new OpenLayers.LonLat(x_min, y_min));
+		//marker aufbauen
+		erstelleTPopulationFuerGeoAdmin(TPop);
+	} else {
+		//sonst Kanton ZH anzeigen
+		verorted = false;
+		bounds.extend(new OpenLayers.LonLat(669000, 284000));
+		bounds.extend(new OpenLayers.LonLat(717000, 222000));
+	}
+
+	//jetzt einen listener für den Klick aufbauen
+	OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {				
+		defaultHandlerOptions: {
+			'single': true,
+			'double': false,
+			'pixelTolerance': 0,
+			'stopSingle': false,
+			'stopDouble': false
+		},
+
+		initialize: function(options) {
+			this.handlerOptions = OpenLayers.Util.extend(
+				{}, this.defaultHandlerOptions
+			);
+			OpenLayers.Control.prototype.initialize.apply(
+				this, arguments
+			); 
+			this.handler = new OpenLayers.Handler.Click(
+				this, {
+					'click': this.trigger
+				}, this.handlerOptions
+			);
+		}, 
+
+		trigger: function(e) {
+			var lonlat = window.api.map.getLonLatFromPixel(e.xy);
+			//alert("You clicked near " + lonlat.lat + " N, " +
+			//						  + lonlat.lon + " E");
+			//x und y merken
+			TPop.TPopXKoord = lonlat.lon;
+			TPop.TPopYKoord = lonlat.lat;
+			//Datensatz updaten
+			$.ajax({
+				url: 'php/tpop_update.php',
+				dataType: 'json',
+				data: {
+					"id": localStorage.tpop_id,
+					"Feld": "TPopXKoord",
+					"Wert": TPop.TPopXKoord,
+					"user": sessionStorage.User
+				},
+				success: function () {
+					$.ajax({
+						url: 'php/tpop_update.php',
+						dataType: 'json',
+						data: {
+							"id": localStorage.tpop_id,
+							"Feld": "TPopYKoord",
+							"Wert": TPop.TPopYKoord,
+							"user": sessionStorage.User
+						},
+						success: function () {
+							//markerebenen entfernen
+							entferneMarkerEbenen();
+							//alten listener entfernen, neuer wird mit dem nächsten Befehl erstellt 
+							window.api.map.removeControl(click);
+							//markerebene neu aufbauen
+							erstelleTPopulationFuerGeoAdmin(TPop);
+						}
+					});
+				}
+			});
+		}
+
+	});
+
+	var click = new OpenLayers.Control.Click();
+	window.api.map.addControl(click);
+	click.activate();
+
+
+/*
+
+		google.maps.event.addListener(marker, "dragend", function (event) {
+			SetLocationTPop(event.latLng, map, marker, TPop);
+		});
+	}
+	google.maps.event.addListener(map, 'click', function (event) {
+		placeMarkerTPop(event.latLng, map, marker, TPop);
+	});*/
+	
+	//Karte zum richtigen Ausschnitt zoomen
+	window.api.map.zoomToExtent(bounds);
+}
+
 function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 	var TPop, bounds, markers, TPopId, html, x_max, y_max, x_min, y_min;
 	//alle tpop holen
@@ -9465,13 +9645,87 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 	});
 }
 
-function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
-	//schon existierende Marker-Ebene entfernen
-	var layers = window.api.map.getLayersByName('Teilpopulationen');
-	for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
-		window.api.map.removeLayer(layers[layerIndex]);
-	}
+function erstelleTPopulationFuerGeoAdmin(TPop) {
+	//styles für overlay_top definieren
+	var defaultStyle = new OpenLayers.Style({
+		externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_rot.png',
+		graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
+		title: '${tooltip}'
+	});
 
+	// overlay layer für Marker vorbereiten
+	var overlay_tpopulation = new OpenLayers.Layer.Vector('Teilpopulation', {
+		styleMap: new OpenLayers.StyleMap({
+			'default': defaultStyle
+		})
+	});
+
+	html = '<h3>' + TPop.Name + '</h3>'+
+		'<p>Population: ' + TPop.PopName + '</p>'+
+		'<p>TPop: ' + TPop.TPopFlurname + '</p>'+
+		'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
+		"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">bearbeiten<\/a></p>";
+	
+	var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
+
+	//marker erstellen...
+	//gewählte erhalten style gelb und zuoberst
+	var marker = new OpenLayers.Feature.Vector(myLocation, {
+		tooltip: TPop.TPopFlurname,
+		message: html,
+		label: TPop.PopNr + '/' + TPop.TPopNr
+	});
+
+	//die marker der Ebene hinzufügen
+	overlay_tpopulation.addFeatures(marker);
+
+	var dragControl = new OpenLayers.Control.DragFeature(overlay_tpopulation, {
+		onComplete: function(feature) {
+			//x und y merken
+			TPop.TPopXKoord = feature.geometry.x;
+			TPop.TPopYKoord = feature.geometry.y;
+			//Datensatz updaten
+			$.ajax({
+				url: 'php/tpop_update.php',
+				dataType: 'json',
+				data: {
+					"id": localStorage.tpop_id,
+					"Feld": "TPopXKoord",
+					"Wert": TPop.TPopXKoord,
+					"user": sessionStorage.User
+				},
+				success: function () {
+					$.ajax({
+						url: 'php/tpop_update.php',
+						dataType: 'json',
+						data: {
+							"id": localStorage.tpop_id,
+							"Feld": "TPopYKoord",
+							"Wert": TPop.TPopYKoord,
+							"user": sessionStorage.User
+						},
+						success: function () {
+							//muss nichts machen (marker muss nicht entfernt werden, listener auch nicht)
+						}
+					});
+				}
+			});
+		}
+	});
+	window.api.map.addControl(dragControl);
+	dragControl.activate();
+
+	//overlay zur Karte hinzufügen
+	window.api.map.addLayers([overlay_tpopulation]);
+
+	selectControl = new OpenLayers.Control.SelectFeature(overlay_tpopulation, {clickout: true});
+
+	//control zur Karte hinzufügen
+	window.api.map.addControl(selectControl);
+	selectControl.activate();
+}
+
+function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 	//styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
 		externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon.png',
@@ -9569,12 +9823,6 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 }
 
 function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_array) {
-	//schon existierende Marker-Ebene entfernen
-	var layers = window.api.map.getLayersByName('Teilpopulationen Nummern');
-	for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
-		window.api.map.removeLayer(layers[layerIndex]);
-	}
-
 	//styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
 		externalGraphic: 'http://www.barbalex.ch/apflora/img/leer.png',
@@ -9629,12 +9877,6 @@ function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_array) {
 }
 
 function erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_array) {
-	//schon existierende Marker-Ebene entfernen
-	var layers = window.api.map.getLayersByName('Teilpopulationen Namen');
-	for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
-		window.api.map.removeLayer(layers[layerIndex]);
-	}
-
 	//styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
 		externalGraphic: 'http://www.barbalex.ch/apflora/img/leer.png',
@@ -10624,70 +10866,70 @@ function loadWMS(map, baseURL, customParams){
 var types = ['DOMMouseScroll', 'mousewheel'];
 
 if ($.event.fixHooks) {
-    for ( var i=types.length; i; ) {
-        $.event.fixHooks[ types[--i] ] = $.event.mouseHooks;
-    }
+	for ( var i=types.length; i; ) {
+		$.event.fixHooks[ types[--i] ] = $.event.mouseHooks;
+	}
 }
 
 $.event.special.mousewheel = {
-    setup: function() {
-        if ( this.addEventListener ) {
-            for ( var i=types.length; i; ) {
-                this.addEventListener( types[--i], handler, false );
-            }
-        } else {
-            this.onmousewheel = handler;
-        }
-    },
-    
-    teardown: function() {
-        if ( this.removeEventListener ) {
-            for ( var i=types.length; i; ) {
-                this.removeEventListener( types[--i], handler, false );
-            }
-        } else {
-            this.onmousewheel = null;
-        }
-    }
+	setup: function() {
+		if ( this.addEventListener ) {
+			for ( var i=types.length; i; ) {
+				this.addEventListener( types[--i], handler, false );
+			}
+		} else {
+			this.onmousewheel = handler;
+		}
+	},
+	
+	teardown: function() {
+		if ( this.removeEventListener ) {
+			for ( var i=types.length; i; ) {
+				this.removeEventListener( types[--i], handler, false );
+			}
+		} else {
+			this.onmousewheel = null;
+		}
+	}
 };
 
 $.fn.extend({
-    mousewheel: function(fn) {
-        return fn ? this.bind("mousewheel", fn) : this.trigger("mousewheel");
-    },
-    
-    unmousewheel: function(fn) {
-        return this.unbind("mousewheel", fn);
-    }
+	mousewheel: function(fn) {
+		return fn ? this.bind("mousewheel", fn) : this.trigger("mousewheel");
+	},
+	
+	unmousewheel: function(fn) {
+		return this.unbind("mousewheel", fn);
+	}
 });
 
 
 function handler(event) {
-    var orgEvent = event || window.event, args = [].slice.call( arguments, 1 ), delta = 0, returnValue = true, deltaX = 0, deltaY = 0;
-    event = $.event.fix(orgEvent);
-    event.type = "mousewheel";
-    
-    // Old school scrollwheel delta
-    if ( orgEvent.wheelDelta ) { delta = orgEvent.wheelDelta/120; }
-    if ( orgEvent.detail     ) { delta = -orgEvent.detail/3; }
-    
-    // New school multidimensional scroll (touchpads) deltas
-    deltaY = delta;
-    
-    // Gecko
-    if ( orgEvent.axis !== undefined && orgEvent.axis === orgEvent.HORIZONTAL_AXIS ) {
-        deltaY = 0;
-        deltaX = -1*delta;
-    }
-    
-    // Webkit
-    if ( orgEvent.wheelDeltaY !== undefined ) { deltaY = orgEvent.wheelDeltaY/120; }
-    if ( orgEvent.wheelDeltaX !== undefined ) { deltaX = -1*orgEvent.wheelDeltaX/120; }
-    
-    // Add event and delta to the front of the arguments
-    args.unshift(event, delta, deltaX, deltaY);
-    
-    return ($.event.dispatch || $.event.handle).apply(this, args);
+	var orgEvent = event || window.event, args = [].slice.call( arguments, 1 ), delta = 0, returnValue = true, deltaX = 0, deltaY = 0;
+	event = $.event.fix(orgEvent);
+	event.type = "mousewheel";
+	
+	// Old school scrollwheel delta
+	if ( orgEvent.wheelDelta ) { delta = orgEvent.wheelDelta/120; }
+	if ( orgEvent.detail	 ) { delta = -orgEvent.detail/3; }
+	
+	// New school multidimensional scroll (touchpads) deltas
+	deltaY = delta;
+	
+	// Gecko
+	if ( orgEvent.axis !== undefined && orgEvent.axis === orgEvent.HORIZONTAL_AXIS ) {
+		deltaY = 0;
+		deltaX = -1*delta;
+	}
+	
+	// Webkit
+	if ( orgEvent.wheelDeltaY !== undefined ) { deltaY = orgEvent.wheelDeltaY/120; }
+	if ( orgEvent.wheelDeltaX !== undefined ) { deltaX = -1*orgEvent.wheelDeltaX/120; }
+	
+	// Add event and delta to the front of the arguments
+	args.unshift(event, delta, deltaX, deltaY);
+	
+	return ($.event.dispatch || $.event.handle).apply(this, args);
 }
 
 })(jQuery);
@@ -10938,10 +11180,10 @@ function getInternetExplorerVersion()
   var rv = -1; // Return value assumes failure.
   if (navigator.appName == 'Microsoft Internet Explorer')
   {
-    var ua = navigator.userAgent;
-    var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
-    if (re.exec(ua) != null)
-      rv = parseFloat( RegExp.$1 );
+	var ua = navigator.userAgent;
+	var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+	if (re.exec(ua) != null)
+	  rv = parseFloat( RegExp.$1 );
   }
   return rv;
 }
@@ -10960,7 +11202,7 @@ function initiiereGeoAdminKarte() {
 		visibility: true,
 		singleTile: true
 	});
-    var zh_av = new OpenLayers.Layer.WMS("ZH Parzellen", "http://wms.zh.ch/avwms", {
+	var zh_av = new OpenLayers.Layer.WMS("ZH Parzellen", "http://wms.zh.ch/avwms", {
 		layers: 'RESF',
 		transparent: true
 	}, {
@@ -11001,6 +11243,14 @@ function initiiereGeoAdminKarte() {
 		singleTile: true,
 		visibility: false
 	});*/
+
+	//allfällige Marker-Ebenen entfernen
+	//aber nur möglich, wenn api und map existieren
+	if (typeof window.api != "undefined") {
+		if (window.api.map) {
+			entferneMarkerEbenen();
+		}
+	}
 	
 	//api nur definieren, wenn dies nicht schon passiert ist
 	if (typeof window.api == "undefined") {
