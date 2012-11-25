@@ -140,6 +140,26 @@ function initiiere_ap() {
 	}
 }
 
+//setzt window.ap und localStorage.ap_id
+//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+function setzeWindowAp(id) {
+	localStorage.ap_id = id;
+	$.ajax({
+			url: 'php/ap.php',
+			dataType: 'json',
+			data: {
+				"id": localStorage.ap_id
+			},
+			success: function (data) {
+				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+				if (data) {
+					//ap bereitstellen
+					window.ap = data;
+				}
+			}
+		});
+}
+
 //wird benutzt von Formular pop
 //baut für das select $("#ApArtId") eine Artliste auf
 function erstelle_ApArtId_liste() {
@@ -205,6 +225,26 @@ function initiiere_pop() {
 	});
 }
 
+//setzt window.pop und localStorage.pop_id
+//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+function setzeWindowPop(id) {
+	localStorage.pop_id = id;
+	$.ajax({
+			url: 'php/pop.php',
+			dataType: 'json',
+			data: {
+				"id": localStorage.pop_id
+			},
+			success: function (data) {
+				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+				if (data) {
+					//pop bereitstellen
+					window.pop = data;
+				}
+			}
+		});
+}
+
 function initiiere_apziel() {
 	if (!localStorage.apziel_id) {
 		//es fehlen benötigte Daten > eine Ebene höher
@@ -242,6 +282,26 @@ function initiiere_apziel() {
 	});
 }
 
+//setzt window.apziel und localStorage.apziel_id
+//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+function setzeWindowApziel(id) {
+	localStorage.apziel_id = id;
+	$.ajax({
+			url: 'php/apziel.php',
+			dataType: 'json',
+			data: {
+				"id": localStorage.apziel_id
+			},
+			success: function (data) {
+				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+				if (data) {
+					//apziel bereitstellen
+					window.apziel = data;
+				}
+			}
+		});
+}
+
 function initiiere_zielber() {
 	if (!localStorage.zielber_id) {
 		//es fehlen benötigte Daten > eine Ebene höher
@@ -268,7 +328,7 @@ function initiiere_zielber() {
 				$("#ZielBerTxt").val(data.ZielBerTxt);
 				//Formulare blenden
 				zeigeFormular("zielber");
-				history.replaceState({zielber: "zielber"}, "zielber", "index.html?ap=" + localStorage.ap_id + "&zielber=" + localStorage.zielber_id);
+				history.replaceState({zielber: "zielber"}, "zielber", "index.html?ap=" + localStorage.ap_id + "&apziel=" + localStorage.apziel_id + "&zielber=" + localStorage.zielber_id);
 				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#ZielBerJahr").val()) {
@@ -277,6 +337,26 @@ function initiiere_zielber() {
 			}
 		}
 	});
+}
+
+//setzt window.zielber und localStorage.zielber_id
+//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+function setzeWindowZielber(id) {
+	localStorage.zielber_id = id;
+	$.ajax({
+			url: 'php/zielber.php',
+			dataType: 'json',
+			data: {
+				"id": localStorage.zielber_id
+			},
+			success: function (data) {
+				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+				if (data) {
+					//zielber bereitstellen
+					window.zielber = data;
+				}
+			}
+		});
 }
 
 function initiiere_erfkrit() {
@@ -313,6 +393,26 @@ function initiiere_erfkrit() {
 			}
 		}
 	});
+}
+
+//setzt window.erfkrit und localStorage.erfkrit_id
+//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+function setzeWindowErfkrit(id) {
+	localStorage.erfkrit_id = id;
+	$.ajax({
+			url: 'php/erfkrit.php',
+			dataType: 'json',
+			data: {
+				"id": localStorage.erfkrit_id
+			},
+			success: function (data) {
+				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+				if (data) {
+					//erfkrit bereitstellen
+					window.erfkrit = data;
+				}
+			}
+		});
 }
 
 function initiiere_jber() {
@@ -393,6 +493,26 @@ function initiiere_jber() {
 	});
 }
 
+//setzt window.jber und localStorage.jber_id
+//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+function setzeWindowJber(id) {
+	localStorage.jber_id = id;
+	$.ajax({
+			url: 'php/jber.php',
+			dataType: 'json',
+			data: {
+				"id": localStorage.jber_id
+			},
+			success: function (data) {
+				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+				if (data) {
+					//jber bereitstellen
+					window.jber = data;
+				}
+			}
+		});
+}
+
 function initiiere_jber_uebersicht() {
 	if (!localStorage.jber_uebersicht_id) {
 		//es fehlen benötigte Daten > eine Ebene höher
@@ -428,6 +548,26 @@ function initiiere_jber_uebersicht() {
 			}
 		}
 	});
+}
+
+//setzt window.jber_uebersicht und localStorage.jber_uebersicht_id
+//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+function setzeWindowJberUebersicht(id) {
+	localStorage.jber_uebersicht_id = id;
+	$.ajax({
+			url: 'php/jber_uebersicht.php',
+			dataType: 'json',
+			data: {
+				"id": localStorage.jber_uebersicht_id
+			},
+			success: function (data) {
+				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+				if (data) {
+					//jber_uebersicht bereitstellen
+					window.jber_uebersicht = data;
+				}
+			}
+		});
 }
 
 function initiiere_ber() {
@@ -471,6 +611,26 @@ function initiiere_ber() {
 			}
 		}
 	});
+}
+
+//setzt window.ber und localStorage.ber_id
+//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+function setzeWindowBer(id) {
+	localStorage.ber_id = id;
+	$.ajax({
+			url: 'php/ber.php',
+			dataType: 'json',
+			data: {
+				"id": localStorage.ber_id
+			},
+			success: function (data) {
+				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+				if (data) {
+					//ber bereitstellen
+					window.ber = data;
+				}
+			}
+		});
 }
 
 function initiiere_umwfakt() {
@@ -571,6 +731,26 @@ function initiiere_umwfakt() {
 	});
 }
 
+//setzt window.umwfakt und localStorage.umwfakt_id
+//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+function setzeWindowUmwfakt(id) {
+	localStorage.umwfakt_id = id;
+	$.ajax({
+			url: 'php/umwfakt.php',
+			dataType: 'json',
+			data: {
+				"id": localStorage.umwfakt_id
+			},
+			success: function (data) {
+				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+				if (data) {
+					//umwfakt bereitstellen
+					window.umwfakt = data;
+				}
+			}
+		});
+}
+
 function initiiere_ib() {
 	if (!localStorage.ib_id) {
 		//es fehlen benötigte Daten > eine Ebene höher
@@ -636,6 +816,26 @@ function initiiere_ib() {
 	});
 }
 
+//setzt window.ib und localStorage.ib_id
+//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+function setzeWindowIb(id) {
+	localStorage.ib_id = id;
+	$.ajax({
+			url: 'php/ib.php',
+			dataType: 'json',
+			data: {
+				"id": localStorage.ib_id
+			},
+			success: function (data) {
+				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+				if (data) {
+					//ib bereitstellen
+					window.ib = data;
+				}
+			}
+		});
+}
+
 function initiiere_assozarten() {
 	if (!localStorage.assozarten_id) {
 		//es fehlen benötigte Daten > eine Ebene höher
@@ -675,6 +875,26 @@ function initiiere_assozarten() {
 	});
 }
 
+//setzt window.assozarten und localStorage.assozarten_id
+//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+function setzeWindowAssozarten(id) {
+	localStorage.assozarten_id = id;
+	$.ajax({
+			url: 'php/assozarten.php',
+			dataType: 'json',
+			data: {
+				"id": localStorage.assozarten_id
+			},
+			success: function (data) {
+				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+				if (data) {
+					//assozarten bereitstellen
+					window.assozarten = data;
+				}
+			}
+		});
+}
+
 function initiiere_popmassnber() {
 	if (!localStorage.popmassnber_id) {
 		//es fehlen benötigte Daten > eine Ebene höher
@@ -701,7 +921,7 @@ function initiiere_popmassnber() {
 				$("#PopMassnBerTxt").val(data.PopMassnBerTxt);
 				//Formulare blenden
 				zeigeFormular("popmassnber");
-				history.replaceState({popmassnber: "popmassnber"}, "popmassnber", "index.html?ap=" + localStorage.ap_id + "&popmassnber=" + localStorage.popmassnber_id);
+				history.replaceState({popmassnber: "popmassnber"}, "popmassnber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&popmassnber=" + localStorage.popmassnber_id);
 				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function() {
@@ -710,6 +930,26 @@ function initiiere_popmassnber() {
 			}
 		}
 	});
+}
+
+//setzt window.popmassnber und localStorage.popmassnber_id
+//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+function setzeWindowPopmassnber(id) {
+	localStorage.popmassnber_id = id;
+	$.ajax({
+			url: 'php/popmassnber.php',
+			dataType: 'json',
+			data: {
+				"id": localStorage.popmassnber_id
+			},
+			success: function (data) {
+				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+				if (data) {
+					//popmassnber bereitstellen
+					window.popmassnber = data;
+				}
+			}
+		});
 }
 
 function initiiere_tpop() {
@@ -794,7 +1034,7 @@ function initiiere_tpop() {
 				}
 				//Formulare blenden
 				zeigeFormular("tpop");
-				history.replaceState({tpop: "tpop"}, "tpop", "index.html?ap=" + localStorage.ap_id + "&tpop=" + localStorage.tpop_id);
+				history.replaceState({tpop: "tpop"}, "tpop", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id);
 				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#TPopFlurname").val()) {
@@ -803,6 +1043,26 @@ function initiiere_tpop() {
 			}
 		}
 	});
+}
+
+//setzt window.tpop und localStorage.tpop_id
+//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+function setzeWindowTpop(id) {
+	localStorage.tpop_id = id;
+	$.ajax({
+			url: 'php/tpop.php',
+			dataType: 'json',
+			data: {
+				"id": localStorage.tpop_id
+			},
+			success: function (data) {
+				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+				if (data) {
+					//tpop bereitstellen
+					window.tpop = data;
+				}
+			}
+		});
 }
 
 function initiiere_popber() {
@@ -831,7 +1091,7 @@ function initiiere_popber() {
 				$("#PopBerTxt").val(data.PopBerTxt);
 				//Formulare blenden
 				zeigeFormular("popber");
-				history.replaceState({tpopber: "popber"}, "popber", "index.html?ap=" + localStorage.ap_id + "&popber=" + localStorage.popber_id);
+				history.replaceState({tpopber: "popber"}, "popber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&popber=" + localStorage.popber_id);
 				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function() {
@@ -840,6 +1100,26 @@ function initiiere_popber() {
 			}
 		}
 	});
+}
+
+//setzt window.popber und localStorage.popber_id
+//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+function setzeWindowPopber(id) {
+	localStorage.popber_id = id;
+	$.ajax({
+			url: 'php/popber.php',
+			dataType: 'json',
+			data: {
+				"id": localStorage.popber_id
+			},
+			success: function (data) {
+				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+				if (data) {
+					//popber bereitstellen
+					window.popber = data;
+				}
+			}
+		});
 }
 
 function initiiere_tpopfeldkontr() {
@@ -1061,9 +1341,9 @@ function initiiere_tpopfeldkontr() {
 				//Formulare blenden
 				zeigeFormular("tpopfeldkontr");
 				if (!localStorage.tpopfreiwkontr) {
-					history.replaceState({tpopfeldkontr: "tpopfeldkontr"}, "tpopfeldkontr", "index.html?ap=" + localStorage.ap_id + "&tpopfeldkontr=" + localStorage.tpopfeldkontr_id);
+					history.replaceState({tpopfeldkontr: "tpopfeldkontr"}, "tpopfeldkontr", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopfeldkontr=" + localStorage.tpopfeldkontr_id);
 				} else {
-					history.replaceState({tpopfreiwkontr: "tpopfreiwkontr"}, "tpopfreiwkontr", "index.html?ap=" + localStorage.ap_id + "&tpopfreiwkontr=" + localStorage.tpopfeldkontr_id);
+					history.replaceState({tpopfreiwkontr: "tpopfreiwkontr"}, "tpopfreiwkontr", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopfreiwkontr=" + localStorage.tpopfeldkontr_id);
 				}
 				setzeSpaltenbreiten();
 				//Register in Feldkontr blenden
@@ -1085,6 +1365,26 @@ function initiiere_tpopfeldkontr() {
 			}
 		}
 	});
+}
+
+//setzt window.tpopfeldkontr und localStorage.tpopfeldkontr_id
+//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+function setzeWindowTpopfeldkontr(id) {
+	localStorage.tpopfeldkontr_id = id;
+	$.ajax({
+			url: 'php/tpopfeldkontr.php',
+			dataType: 'json',
+			data: {
+				"id": localStorage.tpopfeldkontr_id
+			},
+			success: function (data) {
+				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+				if (data) {
+					//tpopfeldkontr bereitstellen
+					window.tpopfeldkontr = data;
+				}
+			}
+		});
 }
 
 function initiiere_tpopmassn() {
@@ -1207,7 +1507,7 @@ function initiiere_tpopmassn() {
 				$("#TPopMassnGuid").val(data.TPopMassnGuid);
 				//Formulare blenden
 				zeigeFormular("tpopmassn");
-				history.replaceState({tpopmassn: "tpopmassn"}, "tpopmassn", "index.html?ap=" + localStorage.ap_id + "&tpopmassn=" + localStorage.tpopmassn_id);
+				history.replaceState({tpopmassn: "tpopmassn"}, "tpopmassn", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopmassn=" + localStorage.tpopmassn_id);
 				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function() {
@@ -1216,6 +1516,26 @@ function initiiere_tpopmassn() {
 			}
 		}
 	});
+}
+
+//setzt window.tpopmassn und localStorage.tpopmassn_id
+//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+function setzeWindowTpopmassn(id) {
+	localStorage.tpopmassn_id = id;
+	$.ajax({
+			url: 'php/tpopmassn.php',
+			dataType: 'json',
+			data: {
+				"id": localStorage.tpopmassn_id
+			},
+			success: function (data) {
+				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+				if (data) {
+					//tpopmassn bereitstellen
+					window.tpopmassn = data;
+				}
+			}
+		});
 }
 
 function initiiere_tpopmassnber() {
@@ -1244,7 +1564,7 @@ function initiiere_tpopmassnber() {
 				$("#TPopMassnBerTxt").val(data.TPopMassnBerTxt);
 				//Formulare blenden
 				zeigeFormular("tpopmassnber");
-				history.replaceState({tpopmassnber: "tpopmassnber"}, "tpopmassnber", "index.html?ap=" + localStorage.ap_id + "&tpopmassnber=" + localStorage.tpopmassnber_id);
+				history.replaceState({tpopmassnber: "tpopmassnber"}, "tpopmassnber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopmassnber=" + localStorage.tpopmassnber_id);
 				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function() {
@@ -1253,6 +1573,26 @@ function initiiere_tpopmassnber() {
 			}
 		}
 	});
+}
+
+//setzt window.tpopmassnber und localStorage.tpopmassnber_id
+//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+function setzeWindowTpopmassnber(id) {
+	localStorage.tpopmassnber_id = id;
+	$.ajax({
+			url: 'php/tpopmassnber.php',
+			dataType: 'json',
+			data: {
+				"id": localStorage.tpopmassnber_id
+			},
+			success: function (data) {
+				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+				if (data) {
+					//tpopmassnber bereitstellen
+					window.tpopmassnber = data;
+				}
+			}
+		});
 }
 
 function initiiere_tpopber() {
@@ -1281,7 +1621,7 @@ function initiiere_tpopber() {
 				$("#TPopBerTxt").val(data.TPopBerTxt);
 				//Formulare blenden
 				zeigeFormular("tpopber");
-				history.replaceState({tpopber: "tpopber"}, "tpopber", "index.html?ap=" + localStorage.ap_id + "&tpopber=" + localStorage.tpopber_id);
+				history.replaceState({tpopber: "tpopber"}, "tpopber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopber=" + localStorage.tpopber_id);
 				setzeSpaltenbreiten();	
 				//bei neuen Datensätzen Fokus steuern
 				setTimeout(function() {
@@ -1290,6 +1630,26 @@ function initiiere_tpopber() {
 			}
 		}
 	});
+}
+
+//setzt window.tpopber und localStorage.tpopber_id
+//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+function setzeWindowTpopber(id) {
+	localStorage.tpopber_id = id;
+	$.ajax({
+			url: 'php/tpopber.php',
+			dataType: 'json',
+			data: {
+				"id": localStorage.tpopber_id
+			},
+			success: function (data) {
+				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+				if (data) {
+					//tpopber bereitstellen
+					window.tpopber = data;
+				}
+			}
+		});
 }
 
 function initiiere_tpopbeob() {
@@ -1365,7 +1725,7 @@ function initiiere_tpopbeob() {
 							$("#tpopbeob_DistZuTPop_Felder").html(html);
 							//Formulare blenden
 							zeigeFormular("tpopbeob");
-							history.replaceState({tpopbeob: "tpopbeob"}, "tpopbeob", "index.html?ap=" + localStorage.ap_id + "&tpopbeob=" + localStorage.tpopbeob_id);
+							history.replaceState({tpopbeob: "tpopbeob"}, "tpopbeob", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopbeob=" + localStorage.tpopbeob_id);
 							setzeSpaltenbreiten();
 						}
 					}
@@ -1373,6 +1733,26 @@ function initiiere_tpopbeob() {
 			}
 		}
 	});
+}
+
+//setzt window.tpopbeob und localStorage.tpopbeob_id
+//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+function setzeWindowTpopbeob(id) {
+	localStorage.tpopbeob_id = id;
+	$.ajax({
+			url: 'php/tpopbeob.php',
+			dataType: 'json',
+			data: {
+				"id": localStorage.tpopbeob_id
+			},
+			success: function (data) {
+				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+				if (data) {
+					//tpopbeob bereitstellen
+					window.tpopbeob = data;
+				}
+			}
+		});
 }
 
 function initiiere_beob() {
@@ -1450,6 +1830,27 @@ function initiiere_beob() {
 		}
 	});
 }
+
+//setzt window.beob und localStorage.beob_id
+//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+function setzeWindowBeob(id) {
+	localStorage.beob_id = id;
+	$.ajax({
+			url: 'php/beob.php',
+			dataType: 'json',
+			data: {
+				"id": localStorage.beob_id
+			},
+			success: function (data) {
+				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+				if (data) {
+					//beob bereitstellen
+					window.beob = data;
+				}
+			}
+		});
+}
+
 
 function initiiere_exporte() {
 	$("#testart_div").hide();
@@ -9572,17 +9973,6 @@ function verorteTPopAufGeoAdmin(TPop) {
 	var click = new OpenLayers.Control.Click();
 	window.api.map.addControl(click);
 	click.activate();
-
-
-/*
-
-		google.maps.event.addListener(marker, "dragend", function (event) {
-			SetLocationTPop(event.latLng, map, marker, TPop);
-		});
-	}
-	google.maps.event.addListener(map, 'click', function (event) {
-		placeMarkerTPop(event.latLng, map, marker, TPop);
-	});*/
 	
 	//Karte zum richtigen Ausschnitt zoomen
 	window.api.map.zoomToExtent(bounds);
@@ -9612,7 +10002,6 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 			for (b in TPopListeMarkieren.rows) {
 				if (TPopListeMarkieren.rows.hasOwnProperty(b)) {
 					TPop = TPopListeMarkieren.rows[b];
-					//tpoptooltip_array.push(TPop.PopNr + '/' + TPop.TPopNr + '\n' + TPop.TPopFlurname);
 					tpopid_array.push(TPop.TPopId);
 					//bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
 					x_max = parseInt(TPop.TPopXKoord) + 300;
@@ -9652,28 +10041,24 @@ function erstelleTPopulationFuerGeoAdmin(TPop) {
 		graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
 		title: '${tooltip}'
 	});
+	var selectStyle = new OpenLayers.Style({
+		externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_gelb.png'
+	});
 
 	// overlay layer für Marker vorbereiten
 	var overlay_tpopulation = new OpenLayers.Layer.Vector('Teilpopulation', {
 		styleMap: new OpenLayers.StyleMap({
-			'default': defaultStyle
+			'default': defaultStyle,
+			'select': defaultStyle
 		})
 	});
-
-	html = '<h3>' + TPop.Name + '</h3>'+
-		'<p>Population: ' + TPop.PopName + '</p>'+
-		'<p>TPop: ' + TPop.TPopFlurname + '</p>'+
-		'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
-		"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">bearbeiten<\/a></p>";
 	
 	var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
 
 	//marker erstellen...
 	//gewählte erhalten style gelb und zuoberst
 	var marker = new OpenLayers.Feature.Vector(myLocation, {
-		tooltip: TPop.TPopFlurname,
-		message: html,
-		label: TPop.PopNr + '/' + TPop.TPopNr
+		tooltip: window.pop.PopNr + '/' + TPop.TPopNr + ' ' + TPop.TPopFlurname
 	});
 
 	//die marker der Ebene hinzufügen
@@ -9685,31 +10070,8 @@ function erstelleTPopulationFuerGeoAdmin(TPop) {
 			TPop.TPopXKoord = feature.geometry.x;
 			TPop.TPopYKoord = feature.geometry.y;
 			//Datensatz updaten
-			$.ajax({
-				url: 'php/tpop_update.php',
-				dataType: 'json',
-				data: {
-					"id": localStorage.tpop_id,
-					"Feld": "TPopXKoord",
-					"Wert": TPop.TPopXKoord,
-					"user": sessionStorage.User
-				},
-				success: function () {
-					$.ajax({
-						url: 'php/tpop_update.php',
-						dataType: 'json',
-						data: {
-							"id": localStorage.tpop_id,
-							"Feld": "TPopYKoord",
-							"Wert": TPop.TPopYKoord,
-							"user": sessionStorage.User
-						},
-						success: function () {
-							//muss nichts machen (marker muss nicht entfernt werden, listener auch nicht)
-						}
-					});
-				}
-			});
+			speichereWert('tpop', localStorage.tpop_id, 'TPopXKoord', TPop.TPopXKoord);
+			speichereWert('tpop', localStorage.tpop_id, 'TPopYKoord', TPop.TPopYKoord);
 		}
 	});
 	window.api.map.addControl(dragControl);
@@ -9723,6 +10085,49 @@ function erstelleTPopulationFuerGeoAdmin(TPop) {
 	//control zur Karte hinzufügen
 	window.api.map.addControl(selectControl);
 	selectControl.activate();
+}
+
+//dieser Funktion kann man einen Wert zum speichern übergeben
+function speichereWert(tabelle, id, feld, wert) {
+	//nur speichern, wenn Schreibrechte bestehen
+	if (sessionStorage.NurLesen) {
+		$("#Meldung").html("Sie haben keine Schreibrechte");
+		$("#Meldung").dialog({
+			modal: true,
+			buttons: {
+				Ok: function() {
+					$(this).dialog("close");
+				}
+			}
+		});
+		return;
+	}
+	$.ajax({
+		url: 'php/' + tabelle + '_update.php',
+		dataType: 'json',
+		data: {
+			"id": id,
+			"Feld": feld,
+			"Wert": wert,
+			"user": sessionStorage.User
+		},
+		success: function () {
+			//muss nichts machen
+		},
+		error: function (data) {
+			var Meldung;
+			Meldung = JSON.stringify(data);
+			$("#Meldung").html(data.responseText);
+			$("#Meldung").dialog({
+				modal: true,
+				buttons: {
+					Ok: function() {
+						$(this).dialog("close");
+					}
+				}
+			});
+		}
+	});
 }
 
 function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
@@ -9780,7 +10185,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 			//gewählte erhalten style gelb und zuoberst
 			if (tpopid_array.indexOf(TPop.TPopId) !== -1) {
 				var marker = new OpenLayers.Feature.Vector(myLocation, {
-					tooltip: TPop.PopNr + '/' + TPop.TPopNr,
+					tooltip: window.pop.PopNr + '/' + TPop.TPopNr,
 					message: html
 				}, {
 					externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_gelb.png',
@@ -9792,7 +10197,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 				var marker = new OpenLayers.Feature.Vector(myLocation, {
 					tooltip: TPop.TPopFlurname,
 					message: html,
-					label: TPop.PopNr + '/' + TPop.TPopNr,
+					label: window.pop.PopNr + '/' + TPop.TPopNr,
 				});
 			}
 
@@ -9861,7 +10266,7 @@ function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_array) {
 			//marker erstellen...
 			//gewählte erhalten style gelb und zuoberst
 			var marker = new OpenLayers.Feature.Vector(myLocation, {
-				label: TPop.PopNr + '/' + TPop.TPopNr,
+				label: window.pop.PopNr + '/' + TPop.TPopNr,
 			});
 
 			//...und in Array speichern
@@ -10936,215 +11341,207 @@ function handler(event) {
 
 function oeffneUri() {
 	var uri = new Uri($(location).attr('href'));
-	if (uri.getQueryParamValue('pop')) {
-		//url-Variabeln holen
-		localStorage.ap_id = uri.getQueryParamValue('ap');
-		localStorage.pop_id = uri.getQueryParamValue('pop');
-		//markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
-		//Die Markierung wird im load-Event wieder entfernt
-		window.pop_zeigen = true;
-		//ap initiieren und damit den loaded-event auslösen
-		$("#ap_waehlen").val(localStorage.ap_id);
-		$("#ap_waehlen").trigger("change");
-	} else if (uri.getQueryParamValue('popber')) {
-		//url-Variabeln holen
-		localStorage.ap_id = uri.getQueryParamValue('ap');
-		localStorage.popber_id = uri.getQueryParamValue('popber');
-		//markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
-		//Die Markierung wird im load-Event wieder entfernt
-		window.popber_zeigen = true;
-		//ap initiieren und damit den loaded-event auslösen
-		$("#ap_waehlen").val(localStorage.ap_id);
-		$("#ap_waehlen").trigger("change");
-	} else if (uri.getQueryParamValue('popmassnber')) {
-		//url-Variabeln holen
-		localStorage.ap_id = uri.getQueryParamValue('ap');
-		localStorage.popmassnber_id = uri.getQueryParamValue('popmassnber');
-		//markieren, dass nach dem loaded-event im Tree die popmassnber angezeigt werden soll 
-		//Die Markierung wird im load-Event wieder entfernt
-		window.popmassnber_zeigen = true;
-		//ap initiieren und damit den loaded-event auslösen
-		$("#ap_waehlen").val(localStorage.ap_id);
-		$("#ap_waehlen").trigger("change");
-	} else if (uri.getQueryParamValue('tpop')) {
-		//url-Variabeln holen
-		localStorage.ap_id = uri.getQueryParamValue('ap');
-		localStorage.tpop_id = uri.getQueryParamValue('tpop');
-		//markieren, dass nach dem loaded-event im Tree die TPop angezeigt werden soll 
-		//Die Markierung wird im load-Event wieder entfernt
-		window.tpop_zeigen = true;
-		//ap initiieren und damit den loaded-event auslösen
-		$("#ap_waehlen").val(localStorage.ap_id);
-		$("#ap_waehlen").trigger("change");
-	} else if (uri.getQueryParamValue('tpopfeldkontr')) {
-		//url-Variabeln holen
-		localStorage.ap_id = uri.getQueryParamValue('ap');
-		localStorage.tpopfeldkontr_id = uri.getQueryParamValue('tpopfeldkontr');
-		//markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
-		//Die Markierung wird im load-Event wieder entfernt
-		window.tpopfeldkontr_zeigen = true;
-		//ap initiieren und damit den loaded-event auslösen
-		$("#ap_waehlen").val(localStorage.ap_id);
-		$("#ap_waehlen").trigger("change");
-	} else if (uri.getQueryParamValue('tpopfreiwkontr')) {
-		//url-Variabeln holen
-		localStorage.ap_id = uri.getQueryParamValue('ap');
-		localStorage.tpopfeldkontr_id = uri.getQueryParamValue('tpopfreiwkontr');
-		//markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
-		//Die Markierung wird im load-Event wieder entfernt
-		window.tpopfreiwkontr_zeigen = true;
-		//ap initiieren und damit den loaded-event auslösen
-		$("#ap_waehlen").val(localStorage.ap_id);
-		$("#ap_waehlen").trigger("change");
-	} else if (uri.getQueryParamValue('tpopmassn')) {
-		//url-Variabeln holen
-		localStorage.ap_id = uri.getQueryParamValue('ap');
-		localStorage.tpopmassn_id = uri.getQueryParamValue('tpopmassn');
-		//markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
-		//Die Markierung wird im load-Event wieder entfernt
-		window.tpopmassn_zeigen = true;
-		//ap initiieren und damit den loaded-event auslösen
-		$("#ap_waehlen").val(localStorage.ap_id);
-		$("#ap_waehlen").trigger("change");
-	} else if (uri.getQueryParamValue('tpopber')) {
-		//url-Variabeln holen
-		localStorage.ap_id = uri.getQueryParamValue('ap');
-		localStorage.tpopber_id = uri.getQueryParamValue('tpopber');
-		//markieren, dass nach dem loaded-event im Tree die tpopber angezeigt werden soll 
-		//Die Markierung wird im load-Event wieder entfernt
-		window.tpopber_zeigen = true;
-		//ap initiieren und damit den loaded-event auslösen
-		$("#ap_waehlen").val(localStorage.ap_id);
-		$("#ap_waehlen").trigger("change");
-	} else if (uri.getQueryParamValue('tpopbeob')) {
-		//url-Variabeln holen
-		localStorage.ap_id = uri.getQueryParamValue('ap');
-		localStorage.tpopbeob_id = uri.getQueryParamValue('tpopbeob');
-		//markieren, dass nach dem loaded-event im Tree die tpopbeob angezeigt werden soll 
-		//Die Markierung wird im load-Event wieder entfernt
-		window.tpopbeob_zeigen = true;
-		//ap initiieren und damit den loaded-event auslösen
-		$("#ap_waehlen").val(localStorage.ap_id);
-		$("#ap_waehlen").trigger("change");
-	} else if (uri.getQueryParamValue('tpopmassnber')) {
-		//url-Variabeln holen
-		localStorage.ap_id = uri.getQueryParamValue('ap');
-		localStorage.tpopmassnber_id = uri.getQueryParamValue('tpopmassnber');
-		//markieren, dass nach dem loaded-event im Tree die tpopmassnber angezeigt werden soll 
-		//Die Markierung wird im load-Event wieder entfernt
-		window.tpopmassnber_zeigen = true;
-		//ap initiieren und damit den loaded-event auslösen
-		$("#ap_waehlen").val(localStorage.ap_id);
-		$("#ap_waehlen").trigger("change");
-	} else if (uri.getQueryParamValue('apziel')) {
-		//url-Variabeln holen
-		localStorage.ap_id = uri.getQueryParamValue('ap');
-		localStorage.apziel_id = uri.getQueryParamValue('apziel');
-		//markieren, dass nach dem loaded-event im Tree die apziel angezeigt werden soll 
-		//Die Markierung wird im load-Event wieder entfernt
-		window.apziel_zeigen = true;
-		//ap initiieren und damit den loaded-event auslösen
-		$("#ap_waehlen").val(localStorage.ap_id);
-		$("#ap_waehlen").trigger("change");
-	} else if (uri.getQueryParamValue('zielber')) {
-		//url-Variabeln holen
-		localStorage.ap_id = uri.getQueryParamValue('ap');
-		localStorage.zielber_id = uri.getQueryParamValue('zielber');
-		//markieren, dass nach dem loaded-event im Tree die zielber angezeigt werden soll 
-		//Die Markierung wird im load-Event wieder entfernt
-		window.zielber_zeigen = true;
-		//ap initiieren und damit den loaded-event auslösen
-		$("#ap_waehlen").val(localStorage.ap_id);
-		$("#ap_waehlen").trigger("change");
-	} else if (uri.getQueryParamValue('erfkrit')) {
-		//url-Variabeln holen
-		localStorage.ap_id = uri.getQueryParamValue('ap');
-		localStorage.erfkrit_id = uri.getQueryParamValue('erfkrit');
-		//markieren, dass nach dem loaded-event im Tree die erfkrit angezeigt werden soll 
-		//Die Markierung wird im load-Event wieder entfernt
-		window.erfkrit_zeigen = true;
-		//ap initiieren und damit den loaded-event auslösen
-		$("#ap_waehlen").val(localStorage.ap_id);
-		$("#ap_waehlen").trigger("change");
-	} else if (uri.getQueryParamValue('jber')) {
-		//url-Variabeln holen
-		localStorage.ap_id = uri.getQueryParamValue('ap');
-		localStorage.jber_id = uri.getQueryParamValue('jber');
-		//markieren, dass nach dem loaded-event im Tree die jber angezeigt werden soll 
-		//Die Markierung wird im load-Event wieder entfernt
-		window.jber_zeigen = true;
-		//ap initiieren und damit den loaded-event auslösen
-		$("#ap_waehlen").val(localStorage.ap_id);
-		$("#ap_waehlen").trigger("change");
-	} else if (uri.getQueryParamValue('jber_uebersicht')) {
-		//url-Variabeln holen
-		localStorage.ap_id = uri.getQueryParamValue('ap');
-		localStorage.jber_uebersicht_id = uri.getQueryParamValue('jber_uebersicht');
-		//markieren, dass nach dem loaded-event im Tree die jber_uebersicht angezeigt werden soll 
-		//Die Markierung wird im load-Event wieder entfernt
-		window.jber_uebersicht_zeigen = true;
-		//ap initiieren und damit den loaded-event auslösen
-		$("#ap_waehlen").val(localStorage.ap_id);
-		$("#ap_waehlen").trigger("change");
-	} else if (uri.getQueryParamValue('ber')) {
-		//url-Variabeln holen
-		localStorage.ap_id = uri.getQueryParamValue('ap');
-		localStorage.ber_id = uri.getQueryParamValue('ber');
-		//markieren, dass nach dem loaded-event im Tree die ber angezeigt werden soll 
-		//Die Markierung wird im load-Event wieder entfernt
-		window.ber_zeigen = true;
-		//ap initiieren und damit den loaded-event auslösen
-		$("#ap_waehlen").val(localStorage.ap_id);
-		$("#ap_waehlen").trigger("change");
-	} else if (uri.getQueryParamValue('umwfakt')) {
-		//url-Variabeln holen
-		localStorage.ap_id = uri.getQueryParamValue('ap');
-		localStorage.umwfakt_id = uri.getQueryParamValue('umwfakt');
-		//markieren, dass nach dem loaded-event im Tree die umwfakt angezeigt werden soll 
-		//Die Markierung wird im load-Event wieder entfernt
-		window.umwfakt_zeigen = true;
-		//ap initiieren und damit den loaded-event auslösen
-		$("#ap_waehlen").val(localStorage.ap_id);
-		$("#ap_waehlen").trigger("change");
-	} else if (uri.getQueryParamValue('ib')) {
-		//url-Variabeln holen
-		localStorage.ap_id = uri.getQueryParamValue('ap');
-		localStorage.ib_id = uri.getQueryParamValue('ib');
-		//markieren, dass nach dem loaded-event im Tree die ib angezeigt werden soll 
-		//Die Markierung wird im load-Event wieder entfernt
-		window.ib_zeigen = true;
-		//ap initiieren und damit den loaded-event auslösen
-		$("#ap_waehlen").val(localStorage.ap_id);
-		$("#ap_waehlen").trigger("change");
-	} else if (uri.getQueryParamValue('assozarten')) {
-		//url-Variabeln holen
-		localStorage.ap_id = uri.getQueryParamValue('ap');
-		localStorage.assozarten_id = uri.getQueryParamValue('assozarten');
-		//markieren, dass nach dem loaded-event im Tree die assozarten angezeigt werden soll 
-		//Die Markierung wird im load-Event wieder entfernt
-		window.assozarten_zeigen = true;
-		//ap initiieren und damit den loaded-event auslösen
-		$("#ap_waehlen").val(localStorage.ap_id);
-		$("#ap_waehlen").trigger("change");
-	} else if (uri.getQueryParamValue('beob')) {
-		//url-Variabeln holen
-		localStorage.ap_id = uri.getQueryParamValue('ap');
-		localStorage.BeobId = uri.getQueryParamValue('beob');
-		//markieren, dass nach dem loaded-event im Tree die beob angezeigt werden soll 
-		//Die Markierung wird im load-Event wieder entfernt
-		window.beob_zeigen = true;
-		//ap initiieren und damit den loaded-event auslösen
-		$("#ap_waehlen").val(localStorage.ap_id);
-		$("#ap_waehlen").trigger("change");
-	} else if (uri.getQueryParamValue('ap')) {
-		//ap zuletzt, wiel die ap immer in der URL ist und sonst bloss die AP angezeigt würde
-		//url-Variabeln holen
-		localStorage.ap_id = uri.getQueryParamValue('ap');
-		//markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
-		//Die Markierung wird im load-Event wieder entfernt
-		window.ap_zeigen = true;
-		$("#ap_waehlen").val(localStorage.ap_id);
-		$("#ap_waehlen").trigger("change");
+	if (uri.getQueryParamValue('ap')) {
+		//globale Variabeln setzen
+		setzeWindowAp(uri.getQueryParamValue('ap'));
+		if (uri.getQueryParamValue('tpop')) {
+			//globale Variabeln setzen
+			setzeWindowPop(uri.getQueryParamValue('pop'));
+			setzeWindowTpop(uri.getQueryParamValue('tpop'));
+			if (uri.getQueryParamValue('tpopfeldkontr')) {
+				//globale Variabeln setzen
+				setzeWindowTpopfeldkontr(uri.getQueryParamValue('tpopfeldkontr'));
+				//markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
+				//Die Markierung wird im load-Event wieder entfernt
+				window.tpopfeldkontr_zeigen = true;
+				//ap initiieren und damit den loaded-event auslösen
+				$("#ap_waehlen").val(localStorage.ap_id);
+				$("#ap_waehlen").trigger("change");
+			} else if (uri.getQueryParamValue('tpopfreiwkontr')) {
+				//globale Variabeln setzen
+				setzeWindowTpopfeldkontr(uri.getQueryParamValue('tpopfreiwkontr'));
+				//markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
+				//Die Markierung wird im load-Event wieder entfernt
+				window.tpopfreiwkontr_zeigen = true;
+				//ap initiieren und damit den loaded-event auslösen
+				$("#ap_waehlen").val(localStorage.ap_id);
+				$("#ap_waehlen").trigger("change");
+			} else if (uri.getQueryParamValue('tpopmassn')) {
+				//globale Variabeln setzen
+				setzeWindowTpopmassn(uri.getQueryParamValue('tpopmassn'));
+				//markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
+				//Die Markierung wird im load-Event wieder entfernt
+				window.tpopmassn_zeigen = true;
+				//ap initiieren und damit den loaded-event auslösen
+				$("#ap_waehlen").val(localStorage.ap_id);
+				$("#ap_waehlen").trigger("change");
+			} else if (uri.getQueryParamValue('tpopber')) {
+				//globale Variabeln setzen
+				setzeWindowTpopber(uri.getQueryParamValue('tpopber'));
+				//markieren, dass nach dem loaded-event im Tree die tpopber angezeigt werden soll 
+				//Die Markierung wird im load-Event wieder entfernt
+				window.tpopber_zeigen = true;
+				//ap initiieren und damit den loaded-event auslösen
+				$("#ap_waehlen").val(localStorage.ap_id);
+				$("#ap_waehlen").trigger("change");
+			} else if (uri.getQueryParamValue('tpopbeob')) {
+				//globale Variabeln setzen
+				setzeWindowTpopbeob(uri.getQueryParamValue('tpopbeob'));
+				//markieren, dass nach dem loaded-event im Tree die tpopbeob angezeigt werden soll 
+				//Die Markierung wird im load-Event wieder entfernt
+				window.tpopbeob_zeigen = true;
+				//ap initiieren und damit den loaded-event auslösen
+				$("#ap_waehlen").val(localStorage.ap_id);
+				$("#ap_waehlen").trigger("change");
+			} else if (uri.getQueryParamValue('tpopmassnber')) {
+				//globale Variabeln setzen
+				setzeWindowTpopmassnber(uri.getQueryParamValue('tpopmassnber'));
+				//markieren, dass nach dem loaded-event im Tree die tpopmassnber angezeigt werden soll 
+				//Die Markierung wird im load-Event wieder entfernt
+				window.tpopmassnber_zeigen = true;
+				//ap initiieren und damit den loaded-event auslösen
+				$("#ap_waehlen").val(localStorage.ap_id);
+				$("#ap_waehlen").trigger("change");
+			} else {
+				//muss tpop sein
+				//markieren, dass nach dem loaded-event im Tree die TPop angezeigt werden soll 
+				//Die Markierung wird im load-Event wieder entfernt
+				window.tpop_zeigen = true;
+				//ap initiieren und damit den loaded-event auslösen
+				$("#ap_waehlen").val(localStorage.ap_id);
+				$("#ap_waehlen").trigger("change");
+			}
+		} else if (uri.getQueryParamValue('pop')) {
+			//globale Variabeln setzen
+			setzeWindowPop(uri.getQueryParamValue('pop'));
+			if (uri.getQueryParamValue('popber')) {
+				//globale Variabeln setzen
+				setzeWindowPopber(uri.getQueryParamValue('popber'));
+				//markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
+				//Die Markierung wird im load-Event wieder entfernt
+				window.popber_zeigen = true;
+				//ap initiieren und damit den loaded-event auslösen
+				$("#ap_waehlen").val(localStorage.ap_id);
+				$("#ap_waehlen").trigger("change");
+			} else if (uri.getQueryParamValue('popmassnber')) {
+				//globale Variabeln setzen
+				setzeWindowPopmassnber(uri.getQueryParamValue('popmassnber'));
+				//markieren, dass nach dem loaded-event im Tree die popmassnber angezeigt werden soll 
+				//Die Markierung wird im load-Event wieder entfernt
+				window.popmassnber_zeigen = true;
+				//ap initiieren und damit den loaded-event auslösen
+				$("#ap_waehlen").val(localStorage.ap_id);
+				$("#ap_waehlen").trigger("change");
+			} else {
+				//muss pop sein
+				//markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
+				//Die Markierung wird im load-Event wieder entfernt
+				window.pop_zeigen = true;
+				//ap initiieren und damit den loaded-event auslösen
+				$("#ap_waehlen").val(localStorage.ap_id);
+				$("#ap_waehlen").trigger("change");
+			}
+		} else if (uri.getQueryParamValue('apziel')) {
+			//globale Variabeln setzen
+			setzeWindowApziel(uri.getQueryParamValue('apziel'));
+			if (uri.getQueryParamValue('zielber')) {
+				//globale Variabeln setzen
+				setzeWindowZielber(uri.getQueryParamValue('zielber'));
+				//markieren, dass nach dem loaded-event im Tree die zielber angezeigt werden soll 
+				//Die Markierung wird im load-Event wieder entfernt
+				window.zielber_zeigen = true;
+				//ap initiieren und damit den loaded-event auslösen
+				$("#ap_waehlen").val(localStorage.ap_id);
+				$("#ap_waehlen").trigger("change");
+			} else {
+				//muss ein apziel sein
+				//markieren, dass nach dem loaded-event im Tree die apziel angezeigt werden soll 
+				//Die Markierung wird im load-Event wieder entfernt
+				window.apziel_zeigen = true;
+				//ap initiieren und damit den loaded-event auslösen
+				$("#ap_waehlen").val(localStorage.ap_id);
+				$("#ap_waehlen").trigger("change");
+			}
+		} else if (uri.getQueryParamValue('erfkrit')) {
+			//globale Variabeln setzen
+			setzeWindowErfkrit(uri.getQueryParamValue('erfkrit'));
+			//markieren, dass nach dem loaded-event im Tree die erfkrit angezeigt werden soll 
+			//Die Markierung wird im load-Event wieder entfernt
+			window.erfkrit_zeigen = true;
+			//ap initiieren und damit den loaded-event auslösen
+			$("#ap_waehlen").val(localStorage.ap_id);
+			$("#ap_waehlen").trigger("change");
+		} else if (uri.getQueryParamValue('jber')) {
+			//globale Variabeln setzen
+			setzeWindowJber(uri.getQueryParamValue('jber'));
+			//markieren, dass nach dem loaded-event im Tree die jber angezeigt werden soll 
+			//Die Markierung wird im load-Event wieder entfernt
+			window.jber_zeigen = true;
+			//ap initiieren und damit den loaded-event auslösen
+			$("#ap_waehlen").val(localStorage.ap_id);
+			$("#ap_waehlen").trigger("change");
+		} else if (uri.getQueryParamValue('jber_uebersicht')) {
+			//globale Variabeln setzen
+			setzeWindowJberUebersicht(uri.getQueryParamValue('jber_uebersicht'));
+			//markieren, dass nach dem loaded-event im Tree die jber_uebersicht angezeigt werden soll 
+			//Die Markierung wird im load-Event wieder entfernt
+			window.jber_uebersicht_zeigen = true;
+			//ap initiieren und damit den loaded-event auslösen
+			$("#ap_waehlen").val(localStorage.ap_id);
+			$("#ap_waehlen").trigger("change");
+		} else if (uri.getQueryParamValue('ber')) {
+			//globale Variabeln setzen
+			setzeWindowBer(uri.getQueryParamValue('ber'));
+			//markieren, dass nach dem loaded-event im Tree die ber angezeigt werden soll 
+			//Die Markierung wird im load-Event wieder entfernt
+			window.ber_zeigen = true;
+			//ap initiieren und damit den loaded-event auslösen
+			$("#ap_waehlen").val(localStorage.ap_id);
+			$("#ap_waehlen").trigger("change");
+		} else if (uri.getQueryParamValue('umwfakt')) {
+			//globale Variabeln setzen
+			setzeWindowUmwfakt(uri.getQueryParamValue('umwfakt'));
+			//markieren, dass nach dem loaded-event im Tree die umwfakt angezeigt werden soll 
+			//Die Markierung wird im load-Event wieder entfernt
+			window.umwfakt_zeigen = true;
+			//ap initiieren und damit den loaded-event auslösen
+			$("#ap_waehlen").val(localStorage.ap_id);
+			$("#ap_waehlen").trigger("change");
+		} else if (uri.getQueryParamValue('ib')) {
+			//globale Variabeln setzen
+			setzeWindowIb(uri.getQueryParamValue('ib'));
+			//markieren, dass nach dem loaded-event im Tree die ib angezeigt werden soll 
+			//Die Markierung wird im load-Event wieder entfernt
+			window.ib_zeigen = true;
+			//ap initiieren und damit den loaded-event auslösen
+			$("#ap_waehlen").val(localStorage.ap_id);
+			$("#ap_waehlen").trigger("change");
+		} else if (uri.getQueryParamValue('assozarten')) {
+			//globale Variabeln setzen
+			setzeWindowAssozarten(uri.getQueryParamValue('assozarten'));
+			//markieren, dass nach dem loaded-event im Tree die assozarten angezeigt werden soll 
+			//Die Markierung wird im load-Event wieder entfernt
+			window.assozarten_zeigen = true;
+			//ap initiieren und damit den loaded-event auslösen
+			$("#ap_waehlen").val(localStorage.ap_id);
+			$("#ap_waehlen").trigger("change");
+		} else if (uri.getQueryParamValue('beob')) {
+			//globale Variabeln setzen
+			setzeWindowBeob(uri.getQueryParamValue('beob'));
+			//markieren, dass nach dem loaded-event im Tree die beob angezeigt werden soll 
+			//Die Markierung wird im load-Event wieder entfernt
+			window.beob_zeigen = true;
+			//ap initiieren und damit den loaded-event auslösen
+			$("#ap_waehlen").val(localStorage.ap_id);
+			$("#ap_waehlen").trigger("change");
+		} else {
+			//muss ap sein
+			//markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
+			//Die Markierung wird im load-Event wieder entfernt
+			window.ap_zeigen = true;
+			$("#ap_waehlen").val(localStorage.ap_id);
+			$("#ap_waehlen").trigger("change");
+		}
 	}
 }
 

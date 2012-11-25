@@ -306,7 +306,7 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 	mysqli_free_result($result_tpop);
 
 	//popber dieser Pop abfragen
-	$result_popber = mysqli_query($link, "SELECT PopBerId, PopId, PopBerJahr, EntwicklungTxt, EntwicklungOrd FROM tblPopBericht INNER JOIN DomainPopEntwicklung ON PopBerEntwicklung = EntwicklungId where PopId = $PopId ORDER BY PopBerJahr, EntwicklungOrd");
+	$result_popber = mysqli_query($link, "SELECT PopBerId, PopId, PopBerJahr, EntwicklungTxt, EntwicklungOrd FROM tblPopBericht LEFT JOIN DomainPopEntwicklung ON PopBerEntwicklung = EntwicklungId where PopId = $PopId ORDER BY PopBerJahr, EntwicklungOrd");
 	$anz_popber = mysqli_num_rows($result_popber);
 	//Datenstruktur für popber aufbauen
 	$rows_popber = array();
