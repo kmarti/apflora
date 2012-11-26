@@ -1864,6 +1864,17 @@ function initiiere_exporte() {
 //und alle anderen ausgeblendet
 //zusätzlich wird die Höhe von textinput-Feldern an den Textinhalt angepasst
 function zeigeFormular(Formularname) {
+	//handler von openlayers entfernen, falls vorhanden
+	/*if (typeof OpenLayers.Control.Click != "undefined" && OpenLayers.Control.Click.length > 0) {
+		alert(OpenLayers.Control.Click.length);
+			//while (OpenLayers.Control.Click.length) {
+			//delete OpenLayers.Control.Click[0];
+			alert(OpenLayers.Control.Click.handler.click);
+			//OpenLayers.Control.Click[0].deactivate();
+			//OpenLayers.Control.Click['click'].deactivate();
+		//}
+	}*/
+
 	$("#testart_div").hide();
 	//Bei Testarten Hinweis anzeigen
 	if ($("#ap_waehlen").val()) {
@@ -6091,7 +6102,7 @@ function treeKontextmenu(node) {
 							if (data.rows.length > 0) {
 								zeigeTPopAufKarte(data);
 							} else {
-								$("#Meldung").html("Es gibt keine Teilpopulation mit Koordinaten");
+								$("#Meldung").html("Die Teilpopulation hat keine Koordinaten");
 								$("#Meldung").dialog({
 									modal: true,
 									buttons: {
@@ -6131,7 +6142,7 @@ function treeKontextmenu(node) {
 							if (data.rows.length > 0) {
 								zeigeTPopAufGeoAdmin(data);
 							} else {
-								$("#Meldung").html("Es gibt keine Teilpopulation mit Koordinaten");
+								$("#Meldung").html("Die Teilpopulation hat keine Koordinaten");
 								$("#Meldung").dialog({
 									modal: true,
 									buttons: {
@@ -9743,7 +9754,7 @@ function CHtoWGSlng(y, x) {
 }
 
 function zeigeTPopAufKarte(TPopListe) {
-	var anzTPop, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe, titel;
+	var anzTPop, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe, titel, myFlurname;
 	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("Karte");
 	window.markersArray = [];
@@ -9808,13 +9819,14 @@ function zeigeTPopAufKarte(TPopListe) {
 			icon: "img/flora_icon.png"
 		});
 		markers.push(marker);
+		myFlurname = TPop.TPopFlurname || '(kein Flurname)';
 		contentString = '<div id="content">'+
 			'<div id="siteNotice">'+
 			'</div>'+
 			'<div id="bodyContent" class="GmInfowindow">'+
 			'<h3>' + TPop.Name + '</h3>'+
 			'<p>Population: ' + TPop.PopName + '</p>'+
-			'<p>TPop: ' + TPop.TPopFlurname + '</p>'+
+			'<p>TPop: ' + myFlurname + '</p>'+
 			'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
 			"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">bearbeiten<\/a></p>"+
 			'</div>'+
@@ -9881,7 +9893,6 @@ function verorteTPopAufGeoAdmin(TPop) {
 	$("#GeoAdminKarte").css("height", Kartenhoehe + "px");
 	zeigeFormular("GeoAdminKarte");
 	initiiereGeoAdminKarte();
-	//entferneMarkerEbenen();
 
 	//bound eröffnen
 	bounds = new OpenLayers.Bounds();
@@ -9904,7 +9915,7 @@ function verorteTPopAufGeoAdmin(TPop) {
 		bounds.extend(new OpenLayers.LonLat(717000, 222000));
 	}
 
-	//jetzt einen listener für den Klick aufbauen
+	//jetzt einen Handler für den Klick aufbauen
 	OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {				
 		defaultHandlerOptions: {
 			'single': true,
@@ -9920,18 +9931,22 @@ function verorteTPopAufGeoAdmin(TPop) {
 			);
 			OpenLayers.Control.prototype.initialize.apply(
 				this, arguments
-			); 
+			);
 			this.handler = new OpenLayers.Handler.Click(
 				this, {
 					'click': this.trigger
 				}, this.handlerOptions
 			);
-		}, 
+			//letzten Klick-Handler deaktivieren, sonst wird für jede Verortung ein neuer event-handler aufgebaut
+			if (window.LetzterKlickHandler) {
+				window.LetzterKlickHandler.deactivate();
+			}
+			//Klick-Handler in Variable speichern, damit er beim nächsten Aufruf deaktiviert werden kann
+			window.LetzterKlickHandler = this;
+		},
 
 		trigger: function(e) {
 			var lonlat = window.api.map.getLonLatFromPixel(e.xy);
-			//alert("You clicked near " + lonlat.lat + " N, " +
-			//						  + lonlat.lon + " E");
 			//x und y merken
 			TPop.TPopXKoord = lonlat.lon;
 			TPop.TPopYKoord = lonlat.lat;
@@ -10055,10 +10070,22 @@ function erstelleTPopulationFuerGeoAdmin(TPop) {
 	
 	var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
 
+	//tooltip bzw. label vorbereiten: nullwerte ausblenden
+	var myTooltip;
+	if (window.pop.PopNr & TPop.TPopNr) {
+		myTooltip = window.pop.PopNr + '/' + TPop.TPopNr + ' ' + TPop.TPopFlurname;
+	} else if (window.pop.PopNr) {
+		myTooltip = window.pop.PopNr + '/?' + ' ' + TPop.TPopFlurname;
+	} else if (TPop.TPopNr) {
+		myTooltip = '?/' + TPop.TPopNr + ' ' + TPop.TPopFlurname;
+	} else {
+		myTooltip = '?/?' + ' ' + TPop.TPopFlurname;
+	}
+
 	//marker erstellen...
 	//gewählte erhalten style gelb und zuoberst
 	var marker = new OpenLayers.Feature.Vector(myLocation, {
-		tooltip: window.pop.PopNr + '/' + TPop.TPopNr + ' ' + TPop.TPopFlurname
+		tooltip: myTooltip
 	});
 
 	//die marker der Ebene hinzufügen
@@ -10169,23 +10196,37 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 
 	//Array gründen, um marker darin zu sammeln
 	var markers = [];
+	var myLabel;
+	var myFlurname;
 
 	for (b in TPopListe.rows) {
 		if (TPopListe.rows.hasOwnProperty(b)) {
 			TPop = TPopListe.rows[b];
+			myFlurname = TPop.TPopFlurname || '(kein Flurname)';
 			html = '<h3>' + TPop.Name + '</h3>'+
 				'<p>Population: ' + TPop.PopName + '</p>'+
-				'<p>TPop: ' + TPop.TPopFlurname + '</p>'+
+				'<p>Teilpopulation: ' + myFlurname + '</p>'+
 				'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
 				"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">bearbeiten<\/a></p>";
 			
 			var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
 
+			//tooltip bzw. label vorbereiten: nullwerte ausblenden
+			if (window.pop.PopNr && TPop.TPopNr) {
+				myLabel = window.pop.PopNr + '/' + TPop.TPopNr;
+			} else if (window.pop.PopNr) {
+				myLabel = window.pop.PopNr + '/?';
+			} else if (TPop.TPopNr) {
+				myLabel = '?/' + TPop.TPopNr;
+			} else {
+				myLabel = '?/?';
+			}
+
 			//marker erstellen...
 			//gewählte erhalten style gelb und zuoberst
 			if (tpopid_array.indexOf(TPop.TPopId) !== -1) {
 				var marker = new OpenLayers.Feature.Vector(myLocation, {
-					tooltip: window.pop.PopNr + '/' + TPop.TPopNr,
+					tooltip: myLabel,
 					message: html
 				}, {
 					externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_gelb.png',
@@ -10197,7 +10238,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 				var marker = new OpenLayers.Feature.Vector(myLocation, {
 					tooltip: TPop.TPopFlurname,
 					message: html,
-					label: window.pop.PopNr + '/' + TPop.TPopNr,
+					label: myLabel,
 				});
 			}
 
@@ -10256,6 +10297,7 @@ function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_array) {
 
 	//Array gründen, um marker darin zu sammeln
 	var markers = [];
+	var myLabel;
 
 	for (b in TPopListe.rows) {
 		if (TPopListe.rows.hasOwnProperty(b)) {
@@ -10263,10 +10305,21 @@ function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_array) {
 			
 			var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
 
+			//tooltip bzw. label vorbereiten: nullwerte ausblenden
+			if (window.pop.PopNr && TPop.TPopNr) {
+				myLabel = window.pop.PopNr + '/' + TPop.TPopNr;
+			} else if (window.pop.PopNr) {
+				myLabel = window.pop.PopNr + '/?';
+			} else if (TPop.TPopNr) {
+				myLabel = '?/' + TPop.TPopNr;
+			} else {
+				myLabel = '?/?';
+			}
+
 			//marker erstellen...
 			//gewählte erhalten style gelb und zuoberst
 			var marker = new OpenLayers.Feature.Vector(myLocation, {
-				label: window.pop.PopNr + '/' + TPop.TPopNr,
+				label: myLabel,
 			});
 
 			//...und in Array speichern
@@ -10345,7 +10398,7 @@ function geoadminOnFeatureSelect(feature) {
 		false	//true zeigt Schliess-Schalftläche an. Schliessen zerstört aber event-listener > popup kann nur ein mal angezeigt werden!
 	);
 	popup.autoSize = true;
-	popup.maxSize = new OpenLayers.Size(300,400);
+	popup.maxSize = new OpenLayers.Size(600,600);
 	popup.fixedRelativePosition = true;
 	feature.popup = popup;
 	window.api.map.addPopup(popup);
@@ -10356,7 +10409,7 @@ function geoadminOnFeatureUnselect(feature) {
 }
 
 function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
-	var anzBeob, infowindowBeob, infowindowTPop, TPop, lat, lng, latlng, options, map, bounds, markersTPop, TPopId, latlng2, markerBeob, markerTPop, contentStringBeob, contentStringTPop, mcOptionsBeob, mcOptionsTPop, markerClusterBeob, markerClusterTPop, Kartenhoehe, Datum, titel, titel_beob, a_note;
+	var anzBeob, infowindowBeob, infowindowTPop, TPop, lat, lng, latlng, options, map, bounds, markersTPop, TPopId, latlng2, markerBeob, markerTPop, contentStringBeob, contentStringTPop, mcOptionsBeob, mcOptionsTPop, markerClusterBeob, markerClusterTPop, Kartenhoehe, Datum, titel, titel_beob, a_note, myFlurname;
 	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("Karte");
 	window.markersArray = [];
@@ -10427,13 +10480,14 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 			icon: "img/flora_icon.png"
 		});
 		markersTPop.push(markerTPop);
+		myFlurname = TPop.TPopFlurname || '(kein Flurname)';
 		contentStringTPop = '<div id="content">'+
 			'<div id="siteNotice">'+
 			'</div>'+
 			'<div id="bodyContent" class="GmInfowindow">'+
 			'<h3>' + TPop.Name + '</h3>'+
 			'<p>Population: ' + TPop.PopName + '</p>'+
-			'<p>TPop: ' + TPop.TPopFlurname + '</p>'+
+			'<p>TPop: ' + myFlurname + '</p>'+
 			'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
 			"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">bearbeiten<\/a></p>"+
 			'</div>'+
@@ -10881,7 +10935,7 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 }
 
 function verorteTPopAufKarte(TPop) {
-	var anzTPop, infowindow, lat, lng, latlng, ZoomLevel, options, map, verorted, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe, titel;
+	var anzTPop, infowindow, lat, lng, latlng, ZoomLevel, options, map, verorted, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe, titel, myFlurname;
 	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("Karte");
 	window.markersArray = [];
@@ -10928,11 +10982,12 @@ function verorteTPopAufKarte(TPop) {
 		});
 		//Marker in Array speichern, damit er gelöscht werden kann
 		markersArray.push(marker); 
+		myFlurname = TPop.TPopFlurname || '(kein Flurname)';
 		contentString = '<div id="content">'+
 			'<div id="siteNotice">'+
 			'</div>'+
 			'<div id="bodyContent" class="GmInfowindow">'+
-			'<h3>' + TPop.TPopFlurname + '</h3>'+
+			'<h3>' + myFlurname + '</h3>'+
 			'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
 			"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">bearbeiten<\/a></p>"+
 			'</div>'+
@@ -11643,9 +11698,12 @@ function initiiereGeoAdminKarte() {
 
 	//allfällige Marker-Ebenen entfernen
 	//aber nur möglich, wenn api und map existieren
-	if (typeof window.api != "undefined") {
-		if (window.api.map) {
+	if (typeof window.api !== "undefined") {
+		if (window.api.map !== "undefined") {
 			entferneMarkerEbenen();
+			while(window.api.map.popups.length) {
+		         window.api.map.removePopup(window.api.map.popups[0]);
+		    }
 		}
 	}
 	

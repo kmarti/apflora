@@ -397,3 +397,26 @@ form p {
 form h2 {
 	font-size: 24px;
 }
+
+.GmInfowindow h3, .GmInfowindow p, .GmInfowindow a {
+	font-size: 14px;
+	margin: 3px 0px 3px 0px;
+	line-height: 16px;
+}
+
+.GmInfowindow h3 {
+	font-size: 16px;
+	line-height: 20px;
+}
+
+.olFramedCloudPopupContent h3, .olFramedCloudPopupContent p, .olFramedCloudPopupContent a {
+	font-size: 14px;
+	margin: 3px 0px 3px 0px;
+	line-height: 16px;
+}
+
+.olFramedCloudPopupContent h3 {
+	font-size: 16px;
+	margin-top: 6px;
+	line-height: 20px;
+}
