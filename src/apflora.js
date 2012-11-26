@@ -1864,17 +1864,6 @@ function initiiere_exporte() {
 //und alle anderen ausgeblendet
 //zusätzlich wird die Höhe von textinput-Feldern an den Textinhalt angepasst
 function zeigeFormular(Formularname) {
-	//handler von openlayers entfernen, falls vorhanden
-	/*if (typeof OpenLayers.Control.Click != "undefined" && OpenLayers.Control.Click.length > 0) {
-		alert(OpenLayers.Control.Click.length);
-			//while (OpenLayers.Control.Click.length) {
-			//delete OpenLayers.Control.Click[0];
-			alert(OpenLayers.Control.Click.handler.click);
-			//OpenLayers.Control.Click[0].deactivate();
-			//OpenLayers.Control.Click['click'].deactivate();
-		//}
-	}*/
-
 	$("#testart_div").hide();
 	//Bei Testarten Hinweis anzeigen
 	if ($("#ap_waehlen").val()) {
@@ -9898,7 +9887,6 @@ function verorteTPopAufGeoAdmin(TPop) {
 	bounds = new OpenLayers.Bounds();
 	//bounds bestimmen
 	if (TPop && TPop.TPopXKoord && TPop.TPopYKoord) {
-		verorted = true;
 		//bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
 		x_max = parseInt(TPop.TPopXKoord) + 300;
 		x_min = parseInt(TPop.TPopXKoord) - 300;
@@ -9910,7 +9898,6 @@ function verorteTPopAufGeoAdmin(TPop) {
 		erstelleTPopulationFuerGeoAdmin(TPop);
 	} else {
 		//sonst Kanton ZH anzeigen
-		verorted = false;
 		bounds.extend(new OpenLayers.LonLat(669000, 284000));
 		bounds.extend(new OpenLayers.LonLat(717000, 222000));
 	}
@@ -10091,6 +10078,7 @@ function erstelleTPopulationFuerGeoAdmin(TPop) {
 	//die marker der Ebene hinzufügen
 	overlay_tpopulation.addFeatures(marker);
 
+	//die marker sollen verschoben werdeen können
 	var dragControl = new OpenLayers.Control.DragFeature(overlay_tpopulation, {
 		onComplete: function(feature) {
 			//x und y merken
@@ -10238,7 +10226,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 				var marker = new OpenLayers.Feature.Vector(myLocation, {
 					tooltip: TPop.TPopFlurname,
 					message: html,
-					label: myLabel,
+					label: myLabel
 				});
 			}
 
@@ -10249,6 +10237,81 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 
 	//die marker der Ebene hinzufügen
 	overlay_tpop.addFeatures(markers);
+
+	//die marker sollen verschoben werdeen können
+	var dragControl = new OpenLayers.Control.DragFeature(overlay_tpop, {
+		onStart: function(feature) {
+			//Variable zum rückgängig machen erstellen
+			window.tpop_vorher = {};
+			tpop_vorher.TPopXKoord = feature.geometry.x;
+			tpop_vorher.TPopYKoord = feature.geometry.y;
+			tpop_vorher.TPopId = "?";
+		},
+		onComplete: function(feature) {
+			//Verschieben muss bestätigt werden
+			
+			$("#loeschen_dialog_mitteilung").html("Sie verschieben die Teilpopulation " + feature.attributes.label + ", " + feature.attributes.title);
+			$("#loeschen_dialog").dialog({
+				resizable: false,
+				height:'auto',
+				width: 400,
+				modal: true,
+				buttons: {
+					"ja, verschieben!": function() {
+						$(this).dialog("close");
+						//neue Koordinaten speichern
+						//x und y merken
+						TPop.TPopXKoord = feature.geometry.x;
+						TPop.TPopYKoord = feature.geometry.y;
+						//Datensatz updaten
+						speichereWert('tpop', localStorage.tpop_id, 'TPopXKoord', TPop.TPopXKoord);
+						speichereWert('tpop', localStorage.tpop_id, 'TPopYKoord', TPop.TPopYKoord);
+						//jetzt alle marker entfernen...
+						entferneMarkerEbenen();
+						//...und neu aufbauen
+						//dazu die tpopliste neu abrufen, da Koordinaten geändert haben! tpopid_array bleibt gleich
+						$.ajax({
+							url: 'php/tpop_karte_alle.php',
+							dataType: 'json',
+							data: {
+								"ApArtId": window.ap.ApArtId
+							},
+							success: function (TPopListe) {
+								erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_array);
+								erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_array);
+								erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array);
+							},	
+							error: function (data) {
+								$("#Meldung").html("Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden");
+								$("#Meldung").dialog({
+									modal: true,
+									buttons: {
+										Ok: function() {
+											$(this).dialog("close");
+										}
+									}
+								});
+							}
+						});
+					},
+					"nein, nicht verschieben": function() {
+						$(this).dialog("close");
+						//overlay entfernen...
+						if (window.api.map.getLayersByName('Teilpopulationen')) {
+							var layers = window.api.map.getLayersByName('Teilpopulationen');
+							for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
+								window.api.map.removeLayer(layers[layerIndex]);
+							}
+						}
+						//...und neu erstellen
+						erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array);
+					}
+				}
+			});
+		}
+	});
+	window.api.map.addControl(dragControl);
+	dragControl.activate();
 
 	//overlay zur Karte hinzufügen
 	window.api.map.addLayers([overlay_tpop]);
@@ -11701,9 +11764,9 @@ function initiiereGeoAdminKarte() {
 	if (typeof window.api !== "undefined") {
 		if (window.api.map !== "undefined") {
 			entferneMarkerEbenen();
-			while(window.api.map.popups.length) {
+			/*while(window.api.map.popups.length) {
 		         window.api.map.removePopup(window.api.map.popups[0]);
-		    }
+		    }*/
 		}
 	}
 	
@@ -11835,6 +11898,7 @@ function initiiereGeoAdminKarte() {
 	$("#layertree").html('<img id="toggleLayertree" src="style/images/updown.png" alt="öffnen/schliessen" height="14" width="14">');
 	//und auch sein event-handler
 	$("#layertree").off("click", "#toggleLayertree");
+	$("#layertree").off("click", ".x-panel-header");
 
 	window.api.createLayerTree({
 		renderTo: "layertree",
@@ -11843,9 +11907,11 @@ function initiiereGeoAdminKarte() {
 	//layertree minimieren
 	$(".x-panel-bwrap").css('display', 'none');
 
+	//verständlich beschreiben
 	$(".x-panel-header-text").text("Ebenen");
-
-	$("#layertree").on("click", "#toggleLayertree", function() {
+	
+	//ganze Titelzeile: mit Klick vergrössern bzw. verkleinern
+	$("#layertree").on("click", "#toggleLayertree, .x-panel-header", function() {
 		oeffneSchliesseLayertree();
 	});
 
