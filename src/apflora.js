@@ -10229,6 +10229,8 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 					label: myLabel
 				});
 			}
+			marker.attributes.myTyp = "tpop";
+			marker.attributes.myId = TPop.TPopId;
 
 			//...und in Array speichern
 			markers.push(marker);
@@ -10246,10 +10248,33 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 			tpop_vorher.TPopXKoord = feature.geometry.x;
 			tpop_vorher.TPopYKoord = feature.geometry.y;
 			tpop_vorher.TPopId = "?";
+			//alert(feature.attributes.myTyp);
+			//alert(feature.attributes.myId);
 		},
 		onComplete: function(feature) {
+			//nur zulassen, wenn Schreibrechte bestehen
+			if (sessionStorage.NurLesen) {
+				$("#Meldung").html("Sie haben keine Schreibrechte");
+				$("#Meldung").dialog({
+					modal: true,
+					buttons: {
+						Ok: function() {
+							$(this).dialog("close");
+							//overlay entfernen...
+							if (window.api.map.getLayersByName('Teilpopulationen')) {
+								var layers = window.api.map.getLayersByName('Teilpopulationen');
+								for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
+									window.api.map.removeLayer(layers[layerIndex]);
+								}
+							}
+							//...und neu erstellen
+							erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array);
+						}
+					}
+				});
+				return;
+			}
 			//Verschieben muss bestätigt werden
-			
 			$("#loeschen_dialog_mitteilung").html("Sie verschieben die Teilpopulation " + feature.attributes.label + ", " + feature.attributes.title);
 			$("#loeschen_dialog").dialog({
 				resizable: false,
