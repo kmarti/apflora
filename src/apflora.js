@@ -10243,13 +10243,13 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 	//die marker sollen verschoben werdeen können
 	var dragControl = new OpenLayers.Control.DragFeature(overlay_tpop, {
 		onStart: function(feature) {
-			//Variable zum rückgängig machen erstellen
+			//TO DO: Variable zum rückgängig machen erstellen
 			window.tpop_vorher = {};
 			tpop_vorher.TPopXKoord = feature.geometry.x;
 			tpop_vorher.TPopYKoord = feature.geometry.y;
-			tpop_vorher.TPopId = "?";
-			//alert(feature.attributes.myTyp);
-			//alert(feature.attributes.myId);
+			tpop_vorher.TPopId = feature.attributes.myId;
+			//meldung anzeigen, wie bei anderen Wiederherstellungen
+			//wenn wiederherstellen: function verschiebeTPop(id, x, y)
 		},
 		onComplete: function(feature) {
 			//nur zulassen, wenn Schreibrechte bestehen
@@ -10275,11 +10275,16 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 				return;
 			}
 			//Verschieben muss bestätigt werden
-			$("#loeschen_dialog_mitteilung").html("Sie verschieben die Teilpopulation " + feature.attributes.label + ", " + feature.attributes.title);
+			//Mitteilung formulieren. Gewählte hat keinen label und tooltip ist wie sonst label
+			if (feature.attributes.label) {
+				$("#loeschen_dialog_mitteilung").html("Sie verschieben die Teilpopulation " + feature.attributes.label + ", " + feature.attributes.tooltip);
+			} else {
+				$("#loeschen_dialog_mitteilung").html("Sie verschieben die Teilpopulation " + feature.attributes.tooltip);
+			}
 			$("#loeschen_dialog").dialog({
 				resizable: false,
 				height:'auto',
-				width: 400,
+				width: 500,
 				modal: true,
 				buttons: {
 					"ja, verschieben!": function() {
@@ -10289,8 +10294,8 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 						TPop.TPopXKoord = feature.geometry.x;
 						TPop.TPopYKoord = feature.geometry.y;
 						//Datensatz updaten
-						speichereWert('tpop', localStorage.tpop_id, 'TPopXKoord', TPop.TPopXKoord);
-						speichereWert('tpop', localStorage.tpop_id, 'TPopYKoord', TPop.TPopYKoord);
+						speichereWert('tpop', feature.attributes.myId, 'TPopXKoord', TPop.TPopXKoord);
+						speichereWert('tpop', feature.attributes.myId, 'TPopYKoord', TPop.TPopYKoord);
 						//jetzt alle marker entfernen...
 						entferneMarkerEbenen();
 						//...und neu aufbauen
