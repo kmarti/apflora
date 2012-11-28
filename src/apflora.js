@@ -10015,6 +10015,7 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 				}
 			}
 
+			//Layer für Symbole und Beschriftung erstellen
 			erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_array);
 			erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_array);
 			erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array);
@@ -10164,6 +10165,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 	// overlay layer für Marker vorbereiten
 	var overlay_tpop = new OpenLayers.Layer.Vector('Teilpopulationen', {
 		strategies: [strategy],
+		//popup bei select
 		eventListeners: {
 			'featureselected': function(evt) {
 				geoadminOnFeatureSelect(evt.feature);
@@ -10172,10 +10174,12 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 				geoadminOnFeatureUnselect(evt.feature);
 			}
 		},
+		//normal = grün, markiert = gelb
 		styleMap: new OpenLayers.StyleMap({
 			'default': defaultStyle,
 			'select': selectStyle
 		}),
+		//ermöglicht, dass die markierte TPop über den anderen angezeigt wird
 		rendererOptions: {
 			//yOrdering: true, 
 			zIndexing: true
@@ -10244,10 +10248,10 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 	var dragControl = new OpenLayers.Control.DragFeature(overlay_tpop, {
 		onStart: function(feature) {
 			//TO DO: Variable zum rückgängig machen erstellen
-			window.tpop_vorher = {};
+			/*window.tpop_vorher = {};
 			tpop_vorher.TPopXKoord = feature.geometry.x;
 			tpop_vorher.TPopYKoord = feature.geometry.y;
-			tpop_vorher.TPopId = feature.attributes.myId;
+			tpop_vorher.TPopId = feature.attributes.myId;*/
 			//meldung anzeigen, wie bei anderen Wiederherstellungen
 			//wenn wiederherstellen: function verschiebeTPop(id, x, y)
 		},
@@ -10340,13 +10344,25 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 			});
 		}
 	});
+	//versuch, dass selectfeature nicht durch dragfeature blockiert wird
+	//Quelle: http://stackoverflow.com/questions/6953907/make-marker-dragable-and-clickable
+	dragControl.handlers['drag'].stopDown = false;
+	dragControl.handlers['drag'].stopUp = false;
+	dragControl.handlers['drag'].stopClick = false;
+	dragControl.handlers['feature'].stopDown = false;
+	dragControl.handlers['feature'].stopUp = false;
+	dragControl.handlers['feature'].stopClick = false;
+
 	window.api.map.addControl(dragControl);
 	dragControl.activate();
 
 	//overlay zur Karte hinzufügen
 	window.api.map.addLayers([overlay_tpop]);
 
+	//Infoblase erstellen und zur Karte hinzufügen
 	selectControl = new OpenLayers.Control.SelectFeature(overlay_tpop, {clickout: true});
+	window.api.map.addControl(selectControl);
+	selectControl.activate();
 
 	//alle marker markieren, die markiert werden sollen
 	//nicht schön, weil auch das Popup geöffnet wird
@@ -10355,10 +10371,6 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 			selectControl.select(overlay_tpop.features[i]);
 		}
 	}*/
-
-	//control zur Karte hinzufügen
-	window.api.map.addControl(selectControl);
-	selectControl.activate();
 }
 
 function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_array) {
@@ -10384,7 +10396,8 @@ function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_array) {
 	// overlay layer für Marker vorbereiten
 	var overlay_tpop_beschriftungen = new OpenLayers.Layer.Vector('Teilpopulationen Nummern', {
 		styleMap: new OpenLayers.StyleMap({
-			'default': defaultStyle
+			'default': defaultStyle,
+			'select': defaultStyle
 		})
 	});
 
@@ -10450,7 +10463,8 @@ function erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_array) {
 	// overlay layer für Marker vorbereiten
 	var overlay_tpop_beschriftungen = new OpenLayers.Layer.Vector('Teilpopulationen Namen', {
 		styleMap: new OpenLayers.StyleMap({
-			'default': defaultStyle
+			'default': defaultStyle,
+			'select': defaultStyle
 		}),
 		visibility: false
 	});
@@ -10483,6 +10497,7 @@ function erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_array) {
 }
 
 function geoadminOnFeatureSelect(feature) {
+	//alert('select');
 	var popup = new OpenLayers.Popup.FramedCloud("popup",
 		feature.geometry.getBounds().getCenterLonLat(),
 		null,
@@ -11939,7 +11954,7 @@ function initiiereGeoAdminKarte() {
 
 	//verständlich beschreiben
 	$(".x-panel-header-text").text("Ebenen");
-	
+
 	//ganze Titelzeile: mit Klick vergrössern bzw. verkleinern
 	$("#layertree").on("click", "#toggleLayertree, .x-panel-header", function() {
 		oeffneSchliesseLayertree();
