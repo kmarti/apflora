@@ -48,7 +48,7 @@ Software zur Verwaltung des Aktionsplans Flora der Fachstelle Naturschutz des Ka
 
 - "No hassle": Keine Installation, keine Installationskosten, automatische Updates
 - Von ausserhalb und endlich auch innerhalb der Fachstelle Naturschutz arbeiten
-- Ein moderner Browser wird vorausgesetzt. Getestet auf Google Chrome, Firefox und Safari (neuste Versionen). Auf Internet Explorer funktioniert AP Flora Web erst ab Version 10
+- Ein moderner Browser wird vorausgesetzt. Getestet auf Google Chrome, Firefox und Safari (neuste Versionen). Auf Internet Explorer funktioniert AP Flora nicht (nicht einmal in 10)
 
 **Sich rasch zurechtfinden:**
 
@@ -93,7 +93,7 @@ Beides: verglichen mit der ehemaligen Access-Anwendung.
 #Roadmap
 - Die Anwendung enthält fast alle geplanten Funktionen
 - Jetzt wird sie durch die AnwenderInnen getestet und laufend angepasst
-- Bald sollen die Kartenfunktionen erweitert werden
+- Die Kartenfunktionen werden erweitert
 - Ev. lässt sich mittelfristig die Mobilfähigkeit steigern. Wär doch toll, wenn man im Feld mit einem Tablett erfassen könnte...
 
 <a href="#top">&#8593; top</a>
