@@ -9873,7 +9873,12 @@ function entferneMarkerEbenen() {
 			window.api.map.removeLayer(layers[layerIndex]);
 		}
 	}
-	//jetzt auch popups entfernen
+	
+	//ganze Titelzeile: mit Klick vergrössern bzw. verkleinern
+	//dieser listener wird offenbar mit dem Entfernen der Layer gestoppt, daher hier wieder hinzufügen???
+	$("#layertree").on("click", "#toggleLayertree, .x-panel-header", function() {
+		oeffneSchliesseLayertree();
+	});
 }
 
 function verorteTPopAufGeoAdmin(TPop) {
@@ -9982,6 +9987,12 @@ function verorteTPopAufGeoAdmin(TPop) {
 
 function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 	var TPop, bounds, markers, TPopId, html, x_max, y_max, x_min, y_min;
+
+	//Falls noch aus dem Verorten ein Klick-Handler besteht: deaktivieren
+	if (window.LetzterKlickHandler) {
+		window.LetzterKlickHandler.deactivate();
+	}
+
 	//alle tpop holen
 	$.ajax({
 		url: 'php/tpop_karte_alle.php',
@@ -10344,7 +10355,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 			});
 		}
 	});
-	//versuch, dass selectfeature nicht durch dragfeature blockiert wird
+	//selectfeature (Infoblase) soll nicht durch dragfeature blockiert werden
 	//Quelle: http://stackoverflow.com/questions/6953907/make-marker-dragable-and-clickable
 	dragControl.handlers['drag'].stopDown = false;
 	dragControl.handlers['drag'].stopUp = false;
@@ -10353,13 +10364,14 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 	dragControl.handlers['feature'].stopUp = false;
 	dragControl.handlers['feature'].stopClick = false;
 
+	//dragControl einschalten
 	window.api.map.addControl(dragControl);
 	dragControl.activate();
 
 	//overlay zur Karte hinzufügen
 	window.api.map.addLayers([overlay_tpop]);
 
-	//Infoblase erstellen und zur Karte hinzufügen
+	//SelectControl erstellen (mit dem Eventlistener öffnet das die Infoblase) und zur Karte hinzufügen
 	selectControl = new OpenLayers.Control.SelectFeature(overlay_tpop, {clickout: true});
 	window.api.map.addControl(selectControl);
 	selectControl.activate();
@@ -11942,8 +11954,8 @@ function initiiereGeoAdminKarte() {
 	//layertree entfernen, falls schon vorhanden
 	$("#layertree").html('<img id="toggleLayertree" src="style/images/updown.png" alt="öffnen/schliessen" height="14" width="14">');
 	//und auch sein event-handler
-	$("#layertree").off("click", "#toggleLayertree");
-	$("#layertree").off("click", ".x-panel-header");
+	/*$("#layertree").off("click", "#toggleLayertree");
+	$("#layertree").off("click", ".x-panel-header");*/
 
 	window.api.createLayerTree({
 		renderTo: "layertree",
