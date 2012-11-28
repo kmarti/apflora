@@ -10215,10 +10215,10 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 			var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
 
 			//tooltip bzw. label vorbereiten: nullwerte ausblenden
-			if (window.pop.PopNr && TPop.TPopNr) {
-				myLabel = window.pop.PopNr + '/' + TPop.TPopNr;
-			} else if (window.pop.PopNr) {
-				myLabel = window.pop.PopNr + '/?';
+			if (TPop.PopNr && TPop.TPopNr) {
+				myLabel = TPop.PopNr + '/' + TPop.TPopNr;
+			} else if (TPop.PopNr) {
+				myLabel = TPop.PopNr + '/?';
 			} else if (TPop.TPopNr) {
 				myLabel = '?/' + TPop.TPopNr;
 			} else {
@@ -10424,10 +10424,10 @@ function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_array) {
 			var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
 
 			//tooltip bzw. label vorbereiten: nullwerte ausblenden
-			if (window.pop.PopNr && TPop.TPopNr) {
-				myLabel = window.pop.PopNr + '/' + TPop.TPopNr;
-			} else if (window.pop.PopNr) {
-				myLabel = window.pop.PopNr + '/?';
+			if (TPop.PopNr && TPop.TPopNr) {
+				myLabel = TPop.PopNr + '/' + TPop.TPopNr;
+			} else if (TPop.PopNr) {
+				myLabel = TPop.PopNr + '/?';
 			} else if (TPop.TPopNr) {
 				myLabel = '?/' + TPop.TPopNr;
 			} else {
