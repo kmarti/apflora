@@ -54,14 +54,19 @@ function initiiere_index() {
 			source: window.Gemeinden
 		});
 	}
-	$("#TPopKontrDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopKontrJahr", altFormat: "yy", defaultDate: +0 });
-	$("#TPopMassnDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopMassnJahr", altFormat: "yy", defaultDate: +0 });
-	$("#JBerDatum").datepicker({ dateFormat: "dd.mm.yy", defaultDate: +0 });
-	$("#UfErstelldatum").datepicker({ dateFormat: "dd.mm.yy", defaultDate: +0 });
+
+	//Datumsfelder: Widget initiieren
+	var Monate = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+	var wochentageKurz = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+	var wochentageLang = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
+	$("#TPopKontrDatum, #TPopMassnDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopKontrJahr", altFormat: "yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: Monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
+	$("#JBerDatum, #UfErstelldatum").datepicker({ dateFormat: "dd.mm.yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: Monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
+
 	//Auswahllisten aufbauen
 	erstelle_ap_liste("programm_alle");
 	$("#ap_loeschen").hide();
 	erstelle_ApArtId_liste();
+	
 	//falls eine Unteradresse angewählt wurde, diese öffnen
 	setTimeout(function() {
 		oeffneUri();
