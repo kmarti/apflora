@@ -1922,6 +1922,7 @@ function zeigeFormular(Formularname) {
 	}
 	if (Formularname === "GeoAdminKarte") {
 		$("#GeoAdminKarte").show();
+		initiiereGeoAdminKarte();
 		$("#forms").css("background-color", "#FFFFFF")
 		//Karte wird sonst unter dem Menu angezeigt
 		setTimeout(function() {
@@ -9854,36 +9855,23 @@ function zeigeTPopAufKarte(TPopListe) {
 }
 
 function entferneMarkerEbenen() {
-	if (window.api.map.getLayersByName('Teilpopulation')) {
-		var layers = window.api.map.getLayersByName('Teilpopulation');
-		for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
-			window.api.map.removeLayer(layers[layerIndex]);
+	console.log('entferneMarkerEbenen ausgelöst');
+	var Ebenennamen = ["Teilpopulation", "Teilpopulationen", "Teilpopulationen Nummern", "Teilpopulationen Namen"];
+	for (i in Ebenennamen) {
+		if (window.api.map.getLayersByName(Ebenennamen[i])) {
+			var layers = window.api.map.getLayersByName(Ebenennamen[i]);
+			for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
+				window.api.map.removeLayer(layers[layerIndex]);
+			}
 		}
 	}
-	if (window.api.map.getLayersByName('Teilpopulationen')) {
-		var layers = window.api.map.getLayersByName('Teilpopulationen');
-		for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
-			window.api.map.removeLayer(layers[layerIndex]);
+
+	//auch aus layertree entfernen
+	$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
+		if (Ebenennamen.indexOf($(this).text()) !== -1) {
+			$(this).parent().parent().remove();
 		}
-	}
-	if (window.api.map.getLayersByName('Teilpopulationen Nummern')) {
-		var layers = window.api.map.getLayersByName('Teilpopulationen Nummern');
-		for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
-			window.api.map.removeLayer(layers[layerIndex]);
-		}
-	}
-	if (window.api.map.getLayersByName('Teilpopulationen Namen')) {
-		var layers = window.api.map.getLayersByName('Teilpopulationen Namen');
-		for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
-			window.api.map.removeLayer(layers[layerIndex]);
-		}
-	}
-	
-	//ganze Titelzeile: mit Klick vergrössern bzw. verkleinern
-	//dieser listener wird offenbar mit dem Entfernen der Layer gestoppt, daher hier wieder hinzufügen???
-	$("#layertree").on("click", "#toggleLayertree, .x-panel-header", function() {
-		oeffneSchliesseLayertree();
-	});
+	})
 }
 
 function verorteTPopAufGeoAdmin(TPop) {
@@ -9891,7 +9879,6 @@ function verorteTPopAufGeoAdmin(TPop) {
 	Kartenhoehe = $(window).height() - 31;
 	$("#GeoAdminKarte").css("height", Kartenhoehe + "px");
 	zeigeFormular("GeoAdminKarte");
-	initiiereGeoAdminKarte();
 
 	//bound eröffnen
 	bounds = new OpenLayers.Bounds();
@@ -10009,14 +9996,12 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 			Kartenhoehe = $(window).height() - 31;
 			$("#GeoAdminKarte").css("height", Kartenhoehe + "px");
 			zeigeFormular("GeoAdminKarte");
-			initiiereGeoAdminKarte();
 
 			//bound eröffnen
 			bounds = new OpenLayers.Bounds();
 
 			//jetzt bounds der anzuzeigenden bestimmen
-			//var tpoptooltip_array = [];	//damit kann weiter unten nach Vergleich mit tooltip der gewählte marker selektiert werden
-			var tpopid_array = []; //damit kann weiter unten für den gewählten marker der gelbe Stil gewählt werden
+			var tpopid_array = [];
 			for (b in TPopListeMarkieren.rows) {
 				if (TPopListeMarkieren.rows.hasOwnProperty(b)) {
 					TPop = TPopListeMarkieren.rows[b];
@@ -10112,9 +10097,8 @@ function erstelleTPopulationFuerGeoAdmin(TPop) {
 	//overlay zur Karte hinzufügen
 	window.api.map.addLayers([overlay_tpopulation]);
 
-	selectControl = new OpenLayers.Control.SelectFeature(overlay_tpopulation, {clickout: true});
-
 	//control zur Karte hinzufügen
+	selectControl = new OpenLayers.Control.SelectFeature(overlay_tpopulation, {clickout: true});
 	window.api.map.addControl(selectControl);
 	selectControl.activate();
 }
@@ -11951,38 +11935,33 @@ function initiiereGeoAdminKarte() {
 			});
 			window.api.map.addControl(control);
 		}
+
+		//layertree aufbauen
+		window.api.createLayerTree({
+			renderTo: "layertree",
+			width: 285
+		});
+		//layertree minimieren
+		$(".x-panel-bwrap").css('display', 'none');
+
+		//verständlich beschreiben
+		$(".x-panel-header-text").text("Ebenen");
+
+		//ganze Titelzeile: mit Klick vergrössern bzw. verkleinern
+		$("#layertree").on("click", "#toggleLayertree, .x-panel-header", function() {
+			console.log("layertree event-handler aus initiiereGeoAdminKarte ausgelöst");
+			oeffneSchliesseLayertree();
+		});
+
+		//im layertree gewissen Namen anders schreiben
+		$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
+			if ($(this).text() === "GeoMeta Gemeinden") {
+				$(this).text("CH Gemeinden");
+			}
+		})
 		
 		$('#karteSchieben').checked = true;	//scheint nicht zu funktionieren?
 	}
-
-	//layertree immer neu aufbauen, weil dieselbe Ebene (TPop) immer wieder anders dazukommt
-	//layertree entfernen, falls schon vorhanden
-	$("#layertree").html('<img id="toggleLayertree" src="style/images/updown.png" alt="öffnen/schliessen" height="14" width="14">');
-	//und auch sein event-handler
-	/*$("#layertree").off("click", "#toggleLayertree");
-	$("#layertree").off("click", ".x-panel-header");*/
-
-	window.api.createLayerTree({
-		renderTo: "layertree",
-		width: 285
-	});
-	//layertree minimieren
-	$(".x-panel-bwrap").css('display', 'none');
-
-	//verständlich beschreiben
-	$(".x-panel-header-text").text("Ebenen");
-
-	//ganze Titelzeile: mit Klick vergrössern bzw. verkleinern
-	$("#layertree").on("click", "#toggleLayertree, .x-panel-header", function() {
-		oeffneSchliesseLayertree();
-	});
-
-	//im layertree gewissen Namen anders schreiben
-	$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
-		if ($(this).text() === "GeoMeta Gemeinden") {
-			$(this).text("CH Gemeinden");
-		}
-	})
 };
 
 function oeffneSchliesseLayertree() {
