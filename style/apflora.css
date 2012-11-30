@@ -353,7 +353,8 @@ div.x-tree-node-leaf a.x-tree-node-anchor span {
 	font-weight:900;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	/*Koordinaten weiss hinterlegen, damit sie auf jedem Hintergrund gut sichtbar sind*/
-	text-shadow: 0 2px 0 white,2px 0 0 white,0 -2px 0 white,-1px 0 0 white,0 3px 0 white,3px 0 0 white,0 -3px 0 white,-3px 0 0 white;
+	/*text-shadow: 0 2px 0 white,2px 0 0 white,0 -2px 0 white,-1px 0 0 white,0 3px 0 white,3px 0 0 white,0 -3px 0 white,-3px 0 0 white;*/
+	text-shadow: 0 1px 0 white,1px 0 0 white,0 -1px 0 white,-1px 0 0 white,0 2px 0 white,2px 0 0 white,0 -2px 0 white,-2px 0 0 white;
 	top: 14px !important;
 	right: 322px !important;
 }

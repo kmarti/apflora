@@ -9855,23 +9855,31 @@ function zeigeTPopAufKarte(TPopListe) {
 }
 
 function entferneMarkerEbenen() {
-	console.log('entferneMarkerEbenen ausgelöst');
 	var Ebenennamen = ["Teilpopulation", "Teilpopulationen", "Teilpopulationen Nummern", "Teilpopulationen Namen"];
-	for (i in Ebenennamen) {
-		if (window.api.map.getLayersByName(Ebenennamen[i])) {
-			var layers = window.api.map.getLayersByName(Ebenennamen[i]);
-			for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
-				window.api.map.removeLayer(layers[layerIndex]);
+	//nur möglich, wenn api und map existieren
+	if (typeof window.api !== "undefined") {
+		if (window.api.map !== "undefined") {
+			for (i in Ebenennamen) {
+				if (window.api.map.getLayersByName(Ebenennamen[i])) {
+					var layers = window.api.map.getLayersByName(Ebenennamen[i]);
+					for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
+						window.api.map.removeLayer(layers[layerIndex]);
+					}
+				}
 			}
+
+			/*while(window.api.map.popups.length) {
+		         window.api.map.removePopup(window.api.map.popups[0]);
+		    }*/
+
+			//auch aus layertree entfernen
+			$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
+				if (Ebenennamen.indexOf($(this).text()) !== -1) {
+					$(this).parent().parent().remove();
+				}
+			})
 		}
 	}
-
-	//auch aus layertree entfernen
-	$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
-		if (Ebenennamen.indexOf($(this).text()) !== -1) {
-			$(this).parent().parent().remove();
-		}
-	})
 }
 
 function verorteTPopAufGeoAdmin(TPop) {
@@ -9893,6 +9901,9 @@ function verorteTPopAufGeoAdmin(TPop) {
 		bounds.extend(new OpenLayers.LonLat(x_min, y_min));
 		//marker aufbauen
 		erstelleTPopulationFuerGeoAdmin(TPop);
+		//alle layeroptionen schliessen
+		schliesseLayeroptionen();
+
 	} else {
 		//sonst Kanton ZH anzeigen
 		bounds.extend(new OpenLayers.LonLat(669000, 284000));
@@ -10020,6 +10031,9 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 			erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_array);
 			erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_array);
 			erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array);
+
+			//alle layeroptionen schliessen
+			schliesseLayeroptionen();
 			
 			//Karte zum richtigen Ausschnitt zoomen
 			window.api.map.zoomToExtent(bounds);
@@ -11755,20 +11769,100 @@ function initiiereGeoAdminKarte() {
 	//var zh_bbox_1903 = new OpenLayers.Bounds(669000, 222000, 717000, 284000);
 
 	//Zunächst alle Layer definieren
-	var zh_uep = new OpenLayers.Layer.WMS("Übersichtsplan Kt. Zürich", "http://wms.zh.ch/upwms", {
-		layers: 'upwms',
+	var zh_ortho = new OpenLayers.Layer.WMS("Luftbild ZH", "http://agabriel:4zC6MgjM@wms.zh.ch/OrthoZHWMS", {
+		layers: 'orthophotos',
 		//transparent: true,
 		isBaseLayer: true
 	}, {
 		visibility: true,
 		singleTile: true
 	});
+	var zh_uep24 = new OpenLayers.Layer.WMS("Übersichtsplan ZH 1:2'500", "http://agabriel:4zC6MgjM@wms.zh.ch/RasterWMS", {
+		layers: 'up24',
+		transparent: true,
+		isBaseLayer: false
+	}, {
+		visibility: true,
+		singleTile: true
+		//minScale: 1200.5,
+		//maxScale: 1
+	});
+	var zh_uep8 = new OpenLayers.Layer.WMS("Übersichtsplan ZH 1:5'000", "http://agabriel:4zC6MgjM@wms.zh.ch/RasterWMS", {
+		layers: 'up8',
+		transparent: true,
+		isBaseLayer: false
+	}, {
+		visibility: true,
+		singleTile: true
+		//minScale: 5000.5,
+		//maxScale: 1200.5
+	});
+	var zh_lk25 = new OpenLayers.Layer.WMS("LK 1:25'000 sw", "http://agabriel:4zC6MgjM@wms.zh.ch/RasterWMS", {
+		layers: 'lk25',
+		transparent: true,
+		isBaseLayer: false
+	}, {
+		visibility: true,
+		singleTile: true
+		//minScale: 20000.5,
+		//maxScale: 5000.5
+	});
+	var zh_lk50 = new OpenLayers.Layer.WMS("LK 1:50'000 sw", "http://agabriel:4zC6MgjM@wms.zh.ch/RasterWMS", {
+		layers: 'lk50',
+		transparent: true,
+		isBaseLayer: false
+	}, {
+		visibility: true,
+		singleTile: true
+		//minScale: 40000.5,
+		//maxScale: 20000.5
+	});
+	var zh_lk100 = new OpenLayers.Layer.WMS("LK 1:100'000 sw", "http://agabriel:4zC6MgjM@wms.zh.ch/RasterWMS", {
+		layers: 'lk100',
+		transparent: true,
+		isBaseLayer: false
+	}, {
+		visibility: true,
+		singleTile: true
+		//minScale: 100000.5,
+		//maxScale: 40000.5
+	});
+	var zh_lk200 = new OpenLayers.Layer.WMS("LK 1:200'000 sw", "http://agabriel:4zC6MgjM@wms.zh.ch/RasterWMS", {
+		layers: 'lk200',
+		transparent: true,
+		isBaseLayer: false
+	}, {
+		visibility: true,
+		singleTile: true
+		//minScale: 300000.5,
+		//maxScale: 100000.5
+	});
+	var zh_lk500 = new OpenLayers.Layer.WMS("LK 1:500'000 sw", "http://agabriel:4zC6MgjM@wms.zh.ch/RasterWMS", {
+		layers: 'lk500',
+		transparent: true,
+		isBaseLayer: false
+	}, {
+		visibility: true,
+		singleTile: true
+		//minScale: 100000.5
+	});
+	/*var zh_uep = new OpenLayers.Layer.WMS("Übersichtsplan Kt. Zürich", "http://wms.zh.ch/upwms", {
+		layers: 'upwms',
+		transparent: true,
+		isBaseLayer: false
+	}, {
+		visibility: true,
+		singleTile: true,
+		minScale: 22000,
+		maxScale: 1
+	});*/
 	var zh_av = new OpenLayers.Layer.WMS("ZH Parzellen", "http://wms.zh.ch/avwms", {
-		layers: 'RESF',
+		layers: 'Liegenschaften',
 		transparent: true
 	}, {
 		visibility: false,
 		singleTile: true
+		//maxScale: 5000
 	});
 	var zh_avnr = new OpenLayers.Layer.WMS("ZH Parzellen-Nummern", "http://wms.zh.ch/avwms", {
 		layers: 'OSNR',
@@ -11806,15 +11900,7 @@ function initiiereGeoAdminKarte() {
 	});*/
 
 	//allfällige Marker-Ebenen entfernen
-	//aber nur möglich, wenn api und map existieren
-	if (typeof window.api !== "undefined") {
-		if (window.api.map !== "undefined") {
-			entferneMarkerEbenen();
-			/*while(window.api.map.popups.length) {
-		         window.api.map.removePopup(window.api.map.popups[0]);
-		    }*/
-		}
-	}
+	entferneMarkerEbenen();
 	
 	//api nur definieren, wenn dies nicht schon passiert ist
 	if (typeof window.api == "undefined") {
@@ -11833,19 +11919,18 @@ function initiiereGeoAdminKarte() {
 		//The complementary layer is per default the color pixelmap.
 		window.api.map.switchComplementaryLayer("voidLayer", {opacity: 1});
 
-		window.api.map.addLayers([zh_uep]);
+		window.api.map.addLayers([zh_ortho, zh_uep24, zh_uep8, zh_lk25, zh_lk50, zh_lk100, zh_lk200, zh_lk500]);
 		window.api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe-pk1000.noscale', {
 			visibility: false
 		});	//wieso klappt das nicht???
-		window.api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe-pk25.noscale', {
+		/*window.api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe-pk25.noscale', {
 			visibility: false
-		});
+		});*/
 		window.api.map.addLayerByName('ch.swisstopo.swissboundaries3d-kanton-flaeche.fill', {
 			visibility: false
 		});
-		window.api.map.addLayers([zh_av, zh_avnr]);
 		window.api.map.addLayerByName('ch.swisstopo-vd.geometa-gemeinde', {visibility: false});
-		window.api.map.addLayers([zh_svo, zh_svo_raster]);
+		window.api.map.addLayers([zh_av, zh_avnr, zh_svo, zh_svo_raster]);
 		window.api.map.addLayerByName('ch.bafu.bundesinventare-trockenwiesen_trockenweiden', {
 			visibility: false,
 			opacity: 0.7
@@ -11941,6 +12026,7 @@ function initiiereGeoAdminKarte() {
 			renderTo: "layertree",
 			width: 285
 		});
+
 		//layertree minimieren
 		$(".x-panel-bwrap").css('display', 'none');
 
@@ -11955,14 +12041,53 @@ function initiiereGeoAdminKarte() {
 
 		//im layertree gewissen Namen anders schreiben
 		$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
-			if ($(this).text() === "GeoMeta Gemeinden") {
+			/*if ($(this).text() === "GeoMeta Gemeinden") {
 				$(this).text("CH Gemeinden");
+			}*/
+			switch ($(this).text()) {
+				case "Amphibien Ortsfeste Objekte":
+					$(this).text("CH Amphibien ortsfest");
+					break;
+				case "Auengebiete":
+					$(this).text("CH Auengebiete");
+					break;
+				case "Hochmoore":
+					$(this).text("CH Hochmoore");
+					break;
+				case "Flachmoore":
+					$(this).text("CH Flachmoore");
+					break;
+				case "Trockenwiesen und -weiden (TWW)":
+					$(this).text("CH Trockenwiesen (TWW)");
+					break;
+				case "Kantonsgrenzen":
+					$(this).text("Kantone");
+					break;
+				case "Gemeindeinformationen":
+					$(this).text("Gemeinden");
+					break;
 			}
+
+			//alle layeroptionen schliessen
+			//schliesseLayeroptionen();	wird erst nach Zufügen Marker-Layer ausgelöst, daher ausgeschaltet
 		})
 		
 		$('#karteSchieben').checked = true;	//scheint nicht zu funktionieren?
 	}
 };
+
+function schliesseLayeroptionen() {
+	$(".x-panel-body .x-tree-node .gx-tree-layer-action.close").each(function() {
+		$(this).css("visibility", "hidden");
+	});
+	$(".x-panel-body .x-tree-node .gx-tree-layer-action.open").each(function() {
+		$(this).css("visibility", "visible");
+		$(this).css("display", "block");
+	});
+	$(".x-panel-body .x-tree-node .x-toolbar.x-small-editor.geoadmin-toolbar.x-toolbar-layout-ct").each(function() {
+		$(this).addClass("x-hide-display");
+	});
+}
 
 function oeffneSchliesseLayertree() {
 	//ein hübscher Übergang wäre nett
