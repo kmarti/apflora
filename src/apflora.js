@@ -11777,74 +11777,13 @@ function initiiereGeoAdminKarte() {
 		visibility: true,
 		singleTile: true
 	});
-	var zh_uep24 = new OpenLayers.Layer.WMS("Übersichtsplan ZH 1:2'500", "http://agabriel:4zC6MgjM@wms.zh.ch/RasterWMS", {
-		layers: 'up24',
+	var zh_lk_sw = new OpenLayers.Layer.WMS("Landeskarten sw", "http://agabriel:4zC6MgjM@wms.zh.ch/RasterWMS", {
+		layers: 'up24,up8,lk25,lk50,lk100,lk200,lk500',
 		transparent: true,
 		isBaseLayer: false
 	}, {
-		visibility: true,
-		singleTile: true
-		//minScale: 1200.5,
-		//maxScale: 1
-	});
-	var zh_uep8 = new OpenLayers.Layer.WMS("Übersichtsplan ZH 1:5'000", "http://agabriel:4zC6MgjM@wms.zh.ch/RasterWMS", {
-		layers: 'up8',
-		transparent: true,
-		isBaseLayer: false
-	}, {
-		visibility: true,
-		singleTile: true
-		//minScale: 5000.5,
-		//maxScale: 1200.5
-	});
-	var zh_lk25 = new OpenLayers.Layer.WMS("LK 1:25'000 sw", "http://agabriel:4zC6MgjM@wms.zh.ch/RasterWMS", {
-		layers: 'lk25',
-		transparent: true,
-		isBaseLayer: false
-	}, {
-		visibility: true,
-		singleTile: true
-		//minScale: 20000.5,
-		//maxScale: 5000.5
-	});
-	var zh_lk50 = new OpenLayers.Layer.WMS("LK 1:50'000 sw", "http://agabriel:4zC6MgjM@wms.zh.ch/RasterWMS", {
-		layers: 'lk50',
-		transparent: true,
-		isBaseLayer: false
-	}, {
-		visibility: true,
-		singleTile: true
-		//minScale: 40000.5,
-		//maxScale: 20000.5
-	});
-	var zh_lk100 = new OpenLayers.Layer.WMS("LK 1:100'000 sw", "http://agabriel:4zC6MgjM@wms.zh.ch/RasterWMS", {
-		layers: 'lk100',
-		transparent: true,
-		isBaseLayer: false
-	}, {
-		visibility: true,
-		singleTile: true
-		//minScale: 100000.5,
-		//maxScale: 40000.5
-	});
-	var zh_lk200 = new OpenLayers.Layer.WMS("LK 1:200'000 sw", "http://agabriel:4zC6MgjM@wms.zh.ch/RasterWMS", {
-		layers: 'lk200',
-		transparent: true,
-		isBaseLayer: false
-	}, {
-		visibility: true,
-		singleTile: true
-		//minScale: 300000.5,
-		//maxScale: 100000.5
-	});
-	var zh_lk500 = new OpenLayers.Layer.WMS("LK 1:500'000 sw", "http://agabriel:4zC6MgjM@wms.zh.ch/RasterWMS", {
-		layers: 'lk500',
-		transparent: true,
-		isBaseLayer: false
-	}, {
-		visibility: true,
-		singleTile: true
-		//minScale: 100000.5
+		singleTile: true,
+		visibility: true
 	});
 	/*var zh_uep = new OpenLayers.Layer.WMS("Übersichtsplan Kt. Zürich", "http://wms.zh.ch/upwms", {
 		layers: 'upwms',
@@ -11873,7 +11812,6 @@ function initiiereGeoAdminKarte() {
 	});
 
 	var zh_svo = new OpenLayers.Layer.WMS("ZH SVO farbig", "http://wms.zh.ch/FnsSVOZHWMS", {
-		//layers: 'FnsSVOZHWMS',
 		layers: 'zonen-schutzverordnungen,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr',
 		transparent: true
 	}, {
@@ -11882,12 +11820,17 @@ function initiiereGeoAdminKarte() {
 		visibility: false
 	});
 	var zh_svo_raster = new OpenLayers.Layer.WMS("ZH SVO Raster", "http://wms.zh.ch/FnsSVOZHWMS", {
-		//layers: 'FnsSVOZHWMS',
 		layers: 'zonen-schutzverordnungen-raster,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr',
 		transparent: true
 	}, {
 		singleTile: true,
-		//opacity: 0.7,
+		visibility: false
+	});
+	var zh_waldgesellschaften = new OpenLayers.Layer.WMS("ZH Waldgesellschaften", "http://agabriel:4zC6MgjM@wms.zh.ch/WaldVKoverlayZH", {
+		layers: 'waldgesellschaften,beschriftung-einheit-nach-ek72',
+		transparent: true
+	}, {
+		singleTile: true,
 		visibility: false
 	});
 	/*var ch_lk1000 = new OpenLayers.Layer.WMS("Landeskarte 1:1'000'000", "http://wms.geo.admin.ch?", {
@@ -11919,7 +11862,7 @@ function initiiereGeoAdminKarte() {
 		//The complementary layer is per default the color pixelmap.
 		window.api.map.switchComplementaryLayer("voidLayer", {opacity: 1});
 
-		window.api.map.addLayers([zh_ortho, zh_uep24, zh_uep8, zh_lk25, zh_lk50, zh_lk100, zh_lk200, zh_lk500]);
+		window.api.map.addLayers([zh_ortho, zh_lk_sw]);
 		window.api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe-pk1000.noscale', {
 			visibility: false
 		});	//wieso klappt das nicht???
@@ -11930,7 +11873,7 @@ function initiiereGeoAdminKarte() {
 			visibility: false
 		});
 		window.api.map.addLayerByName('ch.swisstopo-vd.geometa-gemeinde', {visibility: false});
-		window.api.map.addLayers([zh_av, zh_avnr, zh_svo, zh_svo_raster]);
+		window.api.map.addLayers([zh_av, zh_avnr, zh_svo, zh_svo_raster, zh_waldgesellschaften]);
 		window.api.map.addLayerByName('ch.bafu.bundesinventare-trockenwiesen_trockenweiden', {
 			visibility: false,
 			opacity: 0.7
@@ -12035,7 +11978,6 @@ function initiiereGeoAdminKarte() {
 
 		//ganze Titelzeile: mit Klick vergrössern bzw. verkleinern
 		$("#layertree").on("click", "#toggleLayertree, .x-panel-header", function() {
-			console.log("layertree event-handler aus initiiereGeoAdminKarte ausgelöst");
 			oeffneSchliesseLayertree();
 		});
 
