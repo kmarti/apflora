@@ -48,7 +48,7 @@
 
 		<fieldset id="forms">
 			<div id="forms_titelzeile" style="margin:0px 0px 0px 0px; line-height:27px;">
-				<div id="undelete_div" style="text-align:center; border-radius:0.5em; font-weight:bold; background-color:#FFCC33; padding-right:7px;"></div>
+				<div id="undelete_div" style="text-align:center !important; border-radius:0.5em !important; font-weight:bold !important; background-color:#FFCC33 !important; padding-right:7px !important;"></div>
 				<div id="testart_div" style="font-weight:bold; color:#196319; float:left; padding-right:7px;"></div>
 				<button id='distanz_messen' onclick='addruler();' style="display:none; float:left;">Distanz messen</button>
 				<button id='distanz_messen_entfernen' onclick='removeruler();' style="display:none; float:left;">Messung entfernen</button>
@@ -2682,8 +2682,7 @@
 						//Artname wurde für die Anzeige in undelete_div gespeichert - entfernen, da kein Feld in Tabelle
 						delete window.deleted.Artname;
 						var url_string = "?";
-						//for (i in window.deleted) {
-						for (var i = 0; i < window.deleted.length; i++) {
+						for (i in window.deleted) {
 							if (window.deleted[i]) {
 								if (url_string === "?") {
 									url_string += i + "=" + window.deleted[i];
@@ -2719,8 +2718,7 @@
 						//typ gehört nicht zum Datensatz
 						delete window.deleted.typ;
 						var url_string = "?";
-						//for (i in window.deleted) {
-						for (var i = 0; i < window.deleted.length; i++) {
+						for (i in window.deleted) {
 							if (window.deleted[i]) {
 								if (url_string === "?") {
 									url_string += i + "=" + window.deleted[i];
@@ -2759,8 +2757,7 @@
 						//typ gehört nicht zum Datensatz
 						delete window.deleted.typ;
 						var url_string = "?";
-						//for (i in window.deleted) {
-						for (var i = 0; i < window.deleted.length; i++) {
+						for (i in window.deleted) {
 							if (window.deleted[i]) {
 								if (url_string === "?") {
 									url_string += i + "=" + window.deleted[i];
@@ -2799,8 +2796,7 @@
 						//typ gehört nicht zum Datensatz
 						delete window.deleted.typ;
 						var url_string = "?";
-						//for (i in window.deleted) {
-						for (var i = 0; i < window.deleted.length; i++) {
+						for (i in window.deleted) {
 							if (window.deleted[i]) {
 								if (url_string === "?") {
 									url_string += i + "=" + window.deleted[i];
@@ -2841,8 +2837,7 @@
 						var typ = window.deleted.typ;
 						delete window.deleted.typ;
 						var url_string = "?";
-						//for (i in window.deleted) {
-						for (var i = 0; i < window.deleted.length; i++) {
+						for (i in window.deleted) {
 							if (window.deleted[i]) {
 								if (url_string === "?") {
 									url_string += i + "=" + window.deleted[i];
@@ -2881,8 +2876,7 @@
 						//typ gehört nicht zum Datensatz
 						delete window.deleted.typ;
 						var url_string = "?";
-						//for (i in window.deleted) {
-						for (var i = 0; i < window.deleted.length; i++) {
+						for (i in window.deleted) {
 							if (window.deleted[i]) {
 								if (url_string === "?") {
 									url_string += i + "=" + window.deleted[i];
