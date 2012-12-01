@@ -11933,6 +11933,7 @@ function initiiereGeoAdminKarte() {
 				fillOpacity: 0.3
 			}
 		};
+
 		var style = new OpenLayers.Style();
 		style.addRules([
 			new OpenLayers.Rule({symbolizer: sketchSymbolizers})
@@ -11989,42 +11990,42 @@ function initiiereGeoAdminKarte() {
 			oeffneSchliesseLayertree();
 		});
 
-		//im layertree gewissen Namen anders schreiben
-		$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
-			/*if ($(this).text() === "GeoMeta Gemeinden") {
-				$(this).text("CH Gemeinden");
-			}*/
-			switch ($(this).text()) {
-				case "Amphibien Ortsfeste Objekte":
-					$(this).text("CH Amphibien ortsfest");
-					break;
-				case "Auengebiete":
-					$(this).text("CH Auengebiete");
-					break;
-				case "Hochmoore":
-					$(this).text("CH Hochmoore");
-					break;
-				case "Flachmoore":
-					$(this).text("CH Flachmoore");
-					break;
-				case "Trockenwiesen und -weiden (TWW)":
-					$(this).text("CH Trockenwiesen (TWW)");
-					break;
-				case "Kantonsgrenzen":
-					$(this).text("Kantone");
-					break;
-				case "Gemeindeinformationen":
-					$(this).text("Gemeinden");
-					break;
-			}
-
-			//alle layeroptionen schliessen
-			//schliesseLayeroptionen();	wird erst nach Zufügen Marker-Layer ausgelöst, daher ausgeschaltet
-		})
-		
-		$('#karteSchieben').checked = true;	//scheint nicht zu funktionieren?
+		//alle layeroptionen schliessen
+		//schliesseLayeroptionen();	wird erst nach Zufügen Marker-Layer ausgelöst, daher ausgeschaltet
 	}
+	
+	$('#karteSchieben').checked = true;	//scheint nicht zu funktionieren?
+	korrigiereLayernamenImLayertree();
 };
+
+function korrigiereLayernamenImLayertree() {
+	//im layertree gewissen Namen anders schreiben
+	$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
+		switch ($(this).text()) {
+			case "Amphibien Ortsfeste Objekte":
+				$(this).text("CH Amphibien ortsfest");
+				break;
+			case "Auengebiete":
+				$(this).text("CH Auengebiete");
+				break;
+			case "Hochmoore":
+				$(this).text("CH Hochmoore");
+				break;
+			case "Flachmoore":
+				$(this).text("CH Flachmoore");
+				break;
+			case "Trockenwiesen und -weiden (TWW)":
+				$(this).text("CH Trockenwiesen (TWW)");
+				break;
+			case "Kantonsgrenzen":
+				$(this).text("Kantone");
+				break;
+			case "Gemeindeinformationen":
+				$(this).text("Gemeinden");
+				break;
+		}
+	});
+}
 
 function schliesseLayeroptionen() {
 	$(".x-panel-body .x-tree-node").each(function() {
