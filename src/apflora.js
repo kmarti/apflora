@@ -6082,48 +6082,8 @@ function treeKontextmenu(node) {
 					});			
 				}
 			},
-			"GoogleMaps": {
-				"label": "auf Luftbild zeigen",
-				"separator_before": true,
-				"icon": "style/images/flora_icon.png",
-				"action": function () {
-					$.ajax({
-						url: 'php/tpop_karte.php',
-						dataType: 'json',
-						data: {
-							"id": $(aktiver_node).attr("id")
-						},
-						success: function (data) {
-							if (data.rows.length > 0) {
-								zeigeTPopAufKarte(data);
-							} else {
-								$("#Meldung").html("Die Teilpopulation hat keine Koordinaten");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
-							}
-						},	
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine Daten erhalten");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
-						}
-					});
-				}
-			},
 			"GeoAdminMaps": {
-				"label": "auf Übersichtsplan zeigen",
+				"label": "auf CH/ZH-Karten zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon.png",
 				"action": function () {
@@ -6162,49 +6122,8 @@ function treeKontextmenu(node) {
 					});
 				}
 			},
-			"verorten": {
-				"label": "auf Luftbild verorten",
-				"separator_before": true,
-				"icon": "style/images/flora_icon_rot.png",
-				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
-						return;
-					}
-					$.ajax({
-						url: 'php/tpop.php',
-						dataType: 'json',
-						data: {
-							"id": $(aktiver_node).attr("id")
-						},
-						success: function (data) {
-							verorteTPopAufKarte(data);
-						},	
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine Daten erhalten");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
-						}
-					});
-				}
-			},
 			"verortenGeoAdmin": {
-				"label": "auf Übersichtsplan verorten",
+				"label": "auf CH/ZH-Karten verorten",
 				"separator_before": true,
 				"icon": "style/images/flora_icon_rot.png",
 				"action": function () {
@@ -6229,6 +6148,87 @@ function treeKontextmenu(node) {
 						},
 						success: function (data) {
 							verorteTPopAufGeoAdmin(data);
+						},	
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine Daten erhalten");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},
+			"GoogleMaps": {
+				"label": "auf Google-Luftbild zeigen",
+				"separator_before": true,
+				"icon": "style/images/flora_icon.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/tpop_karte.php',
+						dataType: 'json',
+						data: {
+							"id": $(aktiver_node).attr("id")
+						},
+						success: function (data) {
+							if (data.rows.length > 0) {
+								zeigeTPopAufKarte(data);
+							} else {
+								$("#Meldung").html("Die Teilpopulation hat keine Koordinaten");
+								$("#Meldung").dialog({
+									modal: true,
+									buttons: {
+										Ok: function() {
+											$(this).dialog("close");
+										}
+									}
+								});
+							}
+						},	
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine Daten erhalten");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},		
+			"verorten": {
+				"label": "auf Google-Luftbild verorten",
+				"separator_before": true,
+				"icon": "style/images/flora_icon_rot.png",
+				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
+					$.ajax({
+						url: 'php/tpop.php',
+						dataType: 'json',
+						data: {
+							"id": $(aktiver_node).attr("id")
+						},
+						success: function (data) {
+							verorteTPopAufKarte(data);
 						},	
 						error: function (data) {
 							$("#Meldung").html("Fehler: Keine Daten erhalten");
@@ -10177,8 +10177,8 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 	});
 
 	// overlay layer für Marker vorbereiten
-	var overlay_tpop = new OpenLayers.Layer.Vector('Teilpopulationen', {
-		strategies: [strategy],
+	overlay_tpop = new OpenLayers.Layer.Vector('Teilpopulationen', {
+		//strategies: [strategy],	funktioniert gar nicht!!
 		//popup bei select
 		eventListeners: {
 			'featureselected': function(evt) {
@@ -10358,6 +10358,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 			});
 		}
 	});
+
 	//selectfeature (Infoblase) soll nicht durch dragfeature blockiert werden
 	//Quelle: http://stackoverflow.com/questions/6953907/make-marker-dragable-and-clickable
 	dragControl.handlers['drag'].stopDown = false;
@@ -10378,6 +10379,31 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 	selectControl = new OpenLayers.Control.SelectFeature(overlay_tpop, {clickout: true});
 	window.api.map.addControl(selectControl);
 	selectControl.activate();
+
+	//mit Polygon auswählen
+	var auswahlPolygonLayer = new OpenLayers.Layer.Vector("Auswahl-Polygon", {projection: new OpenLayers.Projection("EPSG:21781")});
+	window.api.map.addLayers([auswahlPolygonLayer]);
+	drawControl = new OpenLayers.Control.DrawFeature(auswahlPolygonLayer, OpenLayers.Handler.Polygon);
+	drawControl.events.register("featureadded", this, function (event) {
+		//Auswahl ermitteln und in speichern
+		overlay_tpop.filter = new OpenLayers.Filter.Spatial({ 
+			type: OpenLayers.Filter.Spatial.INTERSECTS, 
+			value: event.feature.geometry 
+		});
+		overlay_tpop.refresh({force: true});	//wirkt nicht!
+		$.each(overlay_tpop.features, function(index, value) {
+			console.log(this.attributes.label);
+		});
+
+		//das gezeichnete Polygon entfernen
+		auswahlPolygonLayer.removeFeatures(event.feature);
+		//control deaktivieren
+		window.drawControl.deactivate();
+		//Schaltfläche Karte schieben aktivieren
+		$("#karteSchieben").attr("checked", true);
+		$("#karteSchieben").button("enable").button("refresh");
+	});
+	window.api.map.addControl(drawControl);
 
 	//alle marker markieren, die markiert werden sollen
 	//nicht schön, weil auch das Popup geöffnet wird
@@ -11997,6 +12023,11 @@ function initiiereGeoAdminKarte() {
 	$('#karteSchieben').checked = true;	//scheint nicht zu funktionieren?
 	korrigiereLayernamenImLayertree();
 };
+
+function waehleMitPolygon() {
+	//den vorbereiteten drawControl aktivieren
+	window.drawControl.activate();
+}
 
 function korrigiereLayernamenImLayertree() {
 	//im layertree gewissen Namen anders schreiben
