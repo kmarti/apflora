@@ -11771,7 +11771,6 @@ function initiiereGeoAdminKarte() {
 	//Zunächst alle Layer definieren
 	var zh_ortho = new OpenLayers.Layer.WMS("Luftbild ZH", "http://agabriel:4zC6MgjM@wms.zh.ch/OrthoZHWMS", {
 		layers: 'orthophotos',
-		//transparent: true,
 		isBaseLayer: true
 	}, {
 		visibility: true,
@@ -11810,7 +11809,6 @@ function initiiereGeoAdminKarte() {
 		visibility: false,
 		singleTile: true
 	});
-
 	var zh_svo = new OpenLayers.Layer.WMS("ZH SVO farbig", "http://wms.zh.ch/FnsSVOZHWMS", {
 		layers: 'zonen-schutzverordnungen,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr',
 		transparent: true
@@ -11825,6 +11823,16 @@ function initiiereGeoAdminKarte() {
 	}, {
 		singleTile: true,
 		visibility: false
+	});
+	//Verträge als WFS hinzufügen
+	var zh_vertraege = new OpenLayers.Layer.Vector("ZH Verträge", {
+	    strategies: [new OpenLayers.Strategy.BBOX()],
+	    protocol: new OpenLayers.Protocol.WFS.v1_1_0({
+	        url:  "http://agabriel:4zC6MgjM@maps.zh.ch/wfs/FnsVertraegeWFS",
+	        featureType: "vertraege_f",
+	        featureNs: "http://www.opengis.net/gml"
+	        //featureNs: "http://www.intergraph.com/geomedia/gml"
+	    })
 	});
 	var zh_waldgesellschaften = new OpenLayers.Layer.WMS("ZH Waldgesellschaften", "http://agabriel:4zC6MgjM@wms.zh.ch/WaldVKoverlayZH", {
 		layers: 'waldgesellschaften,beschriftung-einheit-nach-ek72',
@@ -12019,15 +12027,19 @@ function initiiereGeoAdminKarte() {
 };
 
 function schliesseLayeroptionen() {
-	$(".x-panel-body .x-tree-node .gx-tree-layer-action.close").each(function() {
-		$(this).css("visibility", "hidden");
-	});
-	$(".x-panel-body .x-tree-node .gx-tree-layer-action.open").each(function() {
-		$(this).css("visibility", "visible");
-		$(this).css("display", "block");
-	});
-	$(".x-panel-body .x-tree-node .x-toolbar.x-small-editor.geoadmin-toolbar.x-toolbar-layout-ct").each(function() {
-		$(this).addClass("x-hide-display");
+	$(".x-panel-body .x-tree-node").each(function() {
+		if ($(".x-tree-node-anchor span", this).text() !== "Luftbild ZH") {
+			$(".gx-tree-layer-action.close", this).each(function() {
+				$(this).css("visibility", "hidden");
+			});
+			$(".gx-tree-layer-action.open", this).each(function() {
+				$(this).css("visibility", "visible");
+				$(this).css("display", "block");
+			});
+			$(".x-toolbar.x-small-editor.geoadmin-toolbar.x-toolbar-layout-ct", this).each(function() {
+				$(this).addClass("x-hide-display");
+			});
+		}
 	});
 }
 
