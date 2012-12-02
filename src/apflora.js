@@ -10383,7 +10383,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 
 	//mit Polygon auswählen
 	var auswahlPolygonLayer = new OpenLayers.Layer.Vector("Auswahl-Polygon", {projection: new OpenLayers.Projection("EPSG:21781")});
-	window.api.map.addLayers([auswahlPolygonLayer]);
+	//window.api.map.addLayers([auswahlPolygonLayer]);	VORLÄUFIG AUSGESCHALTET. UNSCHÖN: TAUCHT IM LAYERTOOL AUF
 	drawControl = new OpenLayers.Control.DrawFeature(auswahlPolygonLayer, OpenLayers.Handler.Polygon);
 	drawControl.events.register("featureadded", this, function (event) {
 		//Auswahl ermitteln und in speichern
@@ -10405,14 +10405,6 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 		$("#karteSchieben").button("enable").button("refresh");
 	});
 	window.api.map.addControl(drawControl);
-
-	//alle marker markieren, die markiert werden sollen
-	//nicht schön, weil auch das Popup geöffnet wird
-	/*for (var i = 0; i < overlay_tpop.features.length; i++) {
-		if (tpoptooltip_array.indexOf(overlay_tpop.features[i].attributes.tooltip) !== -1) {
-			selectControl.select(overlay_tpop.features[i]);
-		}
-	}*/
 }
 
 function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_array) {
@@ -11991,7 +11983,7 @@ function initiiereGeoAdminKarte() {
 		}
 
 		//layertree aufbauen
-		window.api.createLayerTree({
+		window.layertree = window.api.createLayerTree({
 			renderTo: "layertree",
 			width: 285
 		});
