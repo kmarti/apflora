@@ -3640,7 +3640,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -3801,7 +3801,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -3892,7 +3892,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -4046,7 +4046,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -4115,7 +4115,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -4251,7 +4251,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -4320,7 +4320,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -4456,7 +4456,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -4525,7 +4525,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -4671,7 +4671,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -4803,7 +4803,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -5000,7 +5000,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -5069,7 +5069,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -5204,7 +5204,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -5273,7 +5273,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -5409,7 +5409,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -5618,7 +5618,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -5873,7 +5873,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -6164,7 +6164,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"GoogleMaps": {
-				"label": "auf Google-Luftbild zeigen",
+				"label": "auf Google-Karten zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon.png",
 				"action": function () {
@@ -6204,7 +6204,7 @@ function treeKontextmenu(node) {
 				}
 			},		
 			"verorten": {
-				"label": "auf Google-Luftbild verorten",
+				"label": "auf Google-Karten verorten",
 				"separator_before": true,
 				"icon": "style/images/flora_icon_rot.png",
 				"action": function () {
@@ -6267,7 +6267,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -6434,7 +6434,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -6564,7 +6564,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -6633,7 +6633,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -6763,7 +6763,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -6833,7 +6833,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -7057,7 +7057,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -7404,7 +7404,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -7632,7 +7632,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -7861,7 +7861,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -8085,7 +8085,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -8311,7 +8311,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -8441,7 +8441,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -8580,7 +8580,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -8693,7 +8693,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -8823,7 +8823,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -8928,7 +8928,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
@@ -9012,7 +9012,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"Exporte": {
-				"label": "Exporte",
+				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/exporte.png",
 				"action": function () {
