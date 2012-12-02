@@ -9906,8 +9906,10 @@ function verorteTPopAufGeoAdmin(TPop) {
 
 	} else {
 		//sonst Kanton ZH anzeigen
-		bounds.extend(new OpenLayers.LonLat(669000, 284000));
-		bounds.extend(new OpenLayers.LonLat(717000, 222000));
+		//bounds.extend(new OpenLayers.LonLat(669000, 284000));
+		//bounds.extend(new OpenLayers.LonLat(717000, 222000));
+		bounds.extend(new OpenLayers.LonLat(679000, 274000));
+		bounds.extend(new OpenLayers.LonLat(707000, 232000));
 	}
 
 	//jetzt einen Handler für den Klick aufbauen
@@ -11867,14 +11869,6 @@ function initiiereGeoAdminKarte() {
 		singleTile: true,
 		visibility: false
 	});
-	/*var ch_lk1000 = new OpenLayers.Layer.WMS("Landeskarte 1:1'000'000", "http://wms.geo.admin.ch?", {
-		layers: 'ch.swisstopo.pixelkarte-farbe-pk1000.noscale',
-		srs: 'EPSG:21781',
-		'format': 'png'
-	}, {
-		singleTile: true,
-		visibility: false
-	});*/
 
 	//allfällige Marker-Ebenen entfernen
 	entferneMarkerEbenen();
