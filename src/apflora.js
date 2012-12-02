@@ -9906,8 +9906,6 @@ function verorteTPopAufGeoAdmin(TPop) {
 
 	} else {
 		//sonst Kanton ZH anzeigen
-		//bounds.extend(new OpenLayers.LonLat(669000, 284000));
-		//bounds.extend(new OpenLayers.LonLat(717000, 222000));
 		bounds.extend(new OpenLayers.LonLat(679000, 274000));
 		bounds.extend(new OpenLayers.LonLat(707000, 232000));
 	}
@@ -9988,6 +9986,7 @@ function verorteTPopAufGeoAdmin(TPop) {
 	
 	//Karte zum richtigen Ausschnitt zoomen
 	window.api.map.zoomToExtent(bounds);
+	schliesseLayeroptionen();
 }
 
 function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
@@ -10260,7 +10259,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 	//die marker der Ebene hinzufügen
 	overlay_tpop.addFeatures(markers);
 
-	//die marker sollen verschoben werdeen können
+	//die marker sollen verschoben werden können
 	var dragControl = new OpenLayers.Control.DragFeature(overlay_tpop, {
 		onStart: function(feature) {
 			//TO DO: Variable zum rückgängig machen erstellen
@@ -11888,12 +11887,10 @@ function initiiereGeoAdminKarte() {
 		});
 
 		//The complementary layer is per default the color pixelmap.
-		window.api.map.switchComplementaryLayer("voidLayer", {opacity: 1});
-
+		//window.api.map.switchComplementaryLayer("voidLayer", {opacity: 0});
+		window.api.setBgLayer('voidLayer', {opacity: 0});
+		
 		window.api.map.addLayers([zh_ortho, zh_lk_sw]);
-		window.api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe-pk1000.noscale', {
-			visibility: false
-		});	//wieso klappt das nicht???
 		/*window.api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe-pk25.noscale', {
 			visibility: false
 		});*/
