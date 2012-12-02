@@ -426,3 +426,8 @@ form h2 {
 	margin-top: 6px;
 	line-height: 20px;
 }
+
+/*Im Kontextmenu des Baums die Bilder etwas nach unten schieben*/
+#vakata-contextmenu ins {
+	margin-top: 2px;
+}

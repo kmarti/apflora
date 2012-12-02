@@ -3642,7 +3642,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -3803,7 +3803,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -3894,7 +3894,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -4048,7 +4048,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -4117,7 +4117,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -4253,7 +4253,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -4322,7 +4322,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -4458,7 +4458,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -4527,7 +4527,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -4673,7 +4673,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -4805,7 +4805,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -5002,7 +5002,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -5071,7 +5071,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -5206,7 +5206,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -5275,7 +5275,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -5411,7 +5411,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -5620,7 +5620,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -5875,7 +5875,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -6085,7 +6085,7 @@ function treeKontextmenu(node) {
 			"GeoAdminMaps": {
 				"label": "auf CH/ZH-Karten zeigen",
 				"separator_before": true,
-				"icon": "style/images/flora_icon.png",
+				"icon": "style/images/flora_icon_gelb.png",
 				"action": function () {
 					$.ajax({
 						url: 'php/tpop_karte.php',
@@ -6269,7 +6269,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -6436,7 +6436,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -6566,7 +6566,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -6635,7 +6635,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -6765,7 +6765,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -6835,7 +6835,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -7059,7 +7059,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -7406,7 +7406,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -7634,7 +7634,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -7863,7 +7863,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -8087,7 +8087,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -8313,7 +8313,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -8443,7 +8443,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -8582,7 +8582,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -8695,7 +8695,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -8825,7 +8825,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -8930,7 +8930,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
@@ -9014,7 +9014,7 @@ function treeKontextmenu(node) {
 			"Exporte": {
 				"label": "exportieren",
 				"separator_before": true,
-				"icon": "style/images/exporte.png",
+				"icon": "style/images/download.png",
 				"action": function () {
 					initiiere_exporte();
 				}
