@@ -1872,6 +1872,11 @@ function initiiere_exporte() {
 //zusätzlich wird die Höhe von textinput-Feldern an den Textinhalt angepasst
 function zeigeFormular(Formularname) {
 	var Kartenhoehe;
+	//damit kann bei Grössenänderung die Formularhöhe von Karten gemanagt werden
+	window.formularhoehe_manuell_GoogleKarte = false;
+	window.formularhoehe_manuell_GeoAdminKarte = false;
+	//höhe von forms auf auto setzen, weil dies von den Kartenansichten verändert wird
+	$("#forms").height('auto');
 	$("#testart_div").hide();
 	//Bei Testarten Hinweis anzeigen
 	if ($("#ap_waehlen").val()) {
@@ -1922,6 +1927,7 @@ function zeigeFormular(Formularname) {
 		}, 5);
 		$("#distanz_messen").show();
 		$("#distanz_messen_entfernen").show();
+		window.formularhoehe_manuell_GoogleKarte = true;
 	}
 	if (Formularname === "GeoAdminKarte") {
 		Kartenhoehe = $(window).height() - 31;
@@ -1933,6 +1939,7 @@ function zeigeFormular(Formularname) {
 		setTimeout(function() {
 			setzeSpaltenbreiten();
 		}, 5);
+		window.formularhoehe_manuell_GeoAdminKarte = true;
 	}
 	$(window).scrollTop(0);
 }
@@ -1955,6 +1962,24 @@ function setzeTreehoehe() {
 		$("#tree").height($(window).height() - 145);
 	} else if ($('#tree').hasScrollBar()) {
 		$("#tree").height($(window).height() - 145);
+	}
+}
+
+function setzeKartenhoehe() {
+	if (window.formularhoehe_manuell_GeoAdminKarte) {
+		$("#forms").height($(window).height() - 31);
+		$("#GeoAdminKarte").height($(window).height() - 31);
+		$("#ga_karten_div").height($(window).height() - 31);
+		window.api.map.updateSize();
+	} else if (window.formularhoehe_manuell_GoogleKarte) {
+		$("#forms").height($(window).height() - 31);
+		$("#Karte").height($(window).height() - 62);
+		google.maps.event.trigger(map, 'resize');
+	} else {
+		$("#forms").height('auto');
+		/*$("#GeoAdminKarte").height('auto');
+		$("#ga_karten_div").height('auto');
+		$("#Karte").height('auto');*/
 	}
 }
 
