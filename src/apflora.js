@@ -10511,11 +10511,12 @@ function erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_array) {
 			TPop = TPopListe.rows[b];
 			
 			var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
+			var myTPopFlurname = TPop.TPopFlurname || '(kein Name)';
 
 			//marker erstellen...
 			//gewählte erhalten style gelb und zuoberst
 			var marker = new OpenLayers.Feature.Vector(myLocation, {
-				label: TPop.TPopFlurname,
+				label: myTPopFlurname,
 			});
 
 			//...und in Array speichern
