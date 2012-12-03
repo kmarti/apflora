@@ -12,11 +12,13 @@ function initiiere_index() {
 	//alle Formulare verstecken
 	zeigeFormular();
 	$("#loeschen_dialog").hide();
-	//jQuery ui buttons initiieren
+	//jQuery ui widgets initiieren
 	$("#programm_wahl").buttonset();
 	$("#messen").buttonset();
 	$("button").button();
 	$("#tpopfeldkontr_tabs").tabs();
+	//tooltip: Klasse zuweisen, damit gestylt werden kann
+	$("#label_karteSchieben").tooltip({tooltipClass: "custom-tooltip-styling"});
 
 	//Gemeindeliste erstellen, wenn nötig
 	if (!window.Gemeinden) {

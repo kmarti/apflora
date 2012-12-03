@@ -353,8 +353,7 @@ div.x-tree-node-leaf a.x-tree-node-anchor span {
 	font-weight:900;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	/*Koordinaten weiss hinterlegen, damit sie auf jedem Hintergrund gut sichtbar sind*/
-	/*text-shadow: 0 2px 0 white,2px 0 0 white,0 -2px 0 white,-1px 0 0 white,0 3px 0 white,3px 0 0 white,0 -3px 0 white,-3px 0 0 white;*/
-	text-shadow: 0 1px 0 white,1px 0 0 white,0 -1px 0 white,-1px 0 0 white,0 2px 0 white,2px 0 0 white,0 -2px 0 white,-2px 0 0 white;
+	text-shadow: 0 1px 0.5px white,1px 0 0.5px white,0 -1px 0.5px white,-1px 0 0.5px white,0 2px 0.5px white,2px 0 0.5px white,0 -2px 0.5px white,-2px 0 0.5px white;
 	top: 14px !important;
 	right: 322px !important;
 }
@@ -362,7 +361,7 @@ div.x-tree-node-leaf a.x-tree-node-anchor span {
 	font-weight:900;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	/*weiss hinterlegen, damit auf jedem Hintergrund gut sichtbar*/
-	text-shadow: 0 1px 0 white,1px 0 0 white,0 -1px 0 white,-1px 0 0 white,0 2px 0 white,2px 0 0 white,0 -2px 0 white,-2px 0 0 white;
+	text-shadow: 0 1px 0.5px white,1px 0 0.5px white,0 -1px 0.5px white,-1px 0 0.5px white,0 2px 0.5px white,2px 0 0.5px white,0 -2px 0.5px white,-2px 0 0.5px white;
 	margin-top: 5px;
 	padding-left: 7px;
 }
@@ -430,4 +429,20 @@ form h2 {
 /*Im Kontextmenu des Baums die Bilder etwas nach unten schieben*/
 #vakata-contextmenu ins {
 	margin-top: 2px;
+}
+
+/*tooltip gestalten, jQuery ui überprägen*/
+.custom-tooltip-styling {
+	font-weight:800;
+	font-color: #000000 !important;
+	max-width: 500px !important;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	/*weiss hinterlegen, damit auf jedem Hintergrund gut sichtbar*/
+	text-shadow: 0 1px 0.5px white,1px 0 0.5px white,0 -1px 0.5px white,-1px 0 0.5px white,0 2px 0.5px white,2px 0 0.5px white,0 -2px 0.5px white,-2px 0 0.5px white;
+	padding-top: 8px !important;
+	font-size: 16px;
+	border: 0px solid transparent !important;
+	background: transparent none no-repeat fixed center !important;
+	box-shadow: none !important;
+	webkit-box-shadow: none !important;
 }

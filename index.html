@@ -2095,10 +2095,10 @@
 					<div id='menuleiste'>
 						<span id="messen">
 							<input type="radio" name="type" value="none" id="karteSchieben" onclick="messe(this);" checked="checked"/>
-							<label for="karteSchieben">Karte schieben</label>
+							<label id="label_karteSchieben" for="karteSchieben" title="zum Zoomen: Shift-Taste halten und mit der Maus ziehen">Karte schieben</label>
 							<input type="radio" name="type" value="line" id="distanzMessen" onclick="messe(this);"/>
 							<label for="distanzMessen">Distanz messen</label>
-							<input type="radio" name="type" value="polygon" id="flaecheMessen" onclick="messe(this);" />
+							<input type="radio" name="type" value="polygon" id="flaecheMessen" onclick="messe(this);"/>
 							<label for="flaecheMessen">Fläche messen</label>
 							<!--input type="radio" name="type" value="drawPolygon" id="mitPolygonWaehlen" onclick="waehleMitPolygon();"/>
 							<label for="mitPolygonWaehlen">mit Polygon auswählen</label-->
