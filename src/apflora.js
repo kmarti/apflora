@@ -18,7 +18,7 @@ function initiiere_index() {
 	$("button").button();
 	$("#tpopfeldkontr_tabs").tabs();
 	//tooltip: Klasse zuweisen, damit gestylt werden kann
-	$("#label_karteSchieben").tooltip({tooltipClass: "custom-tooltip-styling"});
+	$("#label_karteSchieben, #label_distanzMessen, #label_flaecheMessen").tooltip({tooltipClass: "tooltip-styling-nur-text"});
 
 	//Gemeindeliste erstellen, wenn nötig
 	if (!window.Gemeinden) {
@@ -9860,13 +9860,13 @@ function zeigeTPopAufKarte(TPopListe) {
 }
 
 function entferneMarkerEbenen() {
-	var Ebenennamen = ["Teilpopulation", "Teilpopulationen", "Teilpopulationen Nummern", "Teilpopulationen Namen"];
+	var layername = ["Teilpopulation", "Teilpopulationen", "Teilpopulationen Nummern", "Teilpopulationen Namen"];
 	//nur möglich, wenn api und map existieren
 	if (typeof window.api !== "undefined") {
 		if (window.api.map !== "undefined") {
-			for (i in Ebenennamen) {
-				if (window.api.map.getLayersByName(Ebenennamen[i])) {
-					var layers = window.api.map.getLayersByName(Ebenennamen[i]);
+			for (i in layername) {
+				if (window.api.map.getLayersByName(layername[i])) {
+					var layers = window.api.map.getLayersByName(layername[i]);
 					for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
 						window.api.map.removeLayer(layers[layerIndex]);
 					}
@@ -9879,7 +9879,20 @@ function entferneMarkerEbenen() {
 
 			//auch aus layertree entfernen
 			$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
-				if (Ebenennamen.indexOf($(this).text()) !== -1) {
+				if (layername.indexOf($(this).text()) !== -1) {
+					$(this).parent().parent().remove();
+				}
+			})
+		}
+	}
+}
+
+function entferneUebergebeneMarkerEbeneAusLayertree(layername) {
+	//nur möglich, wenn api und map existieren
+	if (typeof window.api !== "undefined") {
+		if (window.api.map !== "undefined") {
+			$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
+				if ($(this).text() === layername) {
 					$(this).parent().parent().remove();
 				}
 			})
@@ -10389,7 +10402,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 
 	//mit Polygon auswählen
 	var auswahlPolygonLayer = new OpenLayers.Layer.Vector("Auswahl-Polygon", {projection: new OpenLayers.Projection("EPSG:21781")});
-	//window.api.map.addLayers([auswahlPolygonLayer]);	VORLÄUFIG AUSGESCHALTET. UNSCHÖN: TAUCHT IM LAYERTOOL AUF
+	window.api.map.addLayers([auswahlPolygonLayer]);	//VORLÄUFIG AUSGESCHALTET. UNSCHÖN: TAUCHT IM LAYERTOOL AUF
 	drawControl = new OpenLayers.Control.DrawFeature(auswahlPolygonLayer, OpenLayers.Handler.Polygon);
 	drawControl.events.register("featureadded", this, function (event) {
 		//Auswahl ermitteln und in speichern
@@ -10411,6 +10424,8 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 		$("#karteSchieben").button("enable").button("refresh");
 	});
 	window.api.map.addControl(drawControl);
+	//den Auswahl-Layer aus dem Layertree entfernen, ist nicht praktisch
+	entferneUebergebeneMarkerEbeneAusLayertree('Auswahl-Polygon');
 }
 
 function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_array) {

@@ -2094,12 +2094,12 @@
 				<div id="ga_karten_div" style="width:100%; height:100%;">
 					<div id='menuleiste'>
 						<span id="messen">
-							<input type="radio" name="type" value="none" id="karteSchieben" onclick="messe(this);" checked="checked"/>
+							<input type="radio" name="type" value="karteSchieben" id="karteSchieben" onclick="messe(this);" checked="checked"/>
 							<label id="label_karteSchieben" for="karteSchieben" title="zum Zoomen: Shift-Taste halten und mit der Maus ziehen">Karte schieben</label>
 							<input type="radio" name="type" value="line" id="distanzMessen" onclick="messe(this);"/>
-							<label for="distanzMessen">Distanz messen</label>
+							<label id="label_distanzMessen" for="distanzMessen" title="Klicken um den nächsten Punkt zu setzen<br>Doppelklicken um die Messung abzuschliessen">Distanz messen</label>
 							<input type="radio" name="type" value="polygon" id="flaecheMessen" onclick="messe(this);"/>
-							<label for="flaecheMessen">Fläche messen</label>
+							<label id="label_flaecheMessen" for="flaecheMessen" title="Klicken um den nächsten Punkt zu setzen<br>Doppelklicken um die Messung abzuschliessen">Fläche messen</label>
 							<!--input type="radio" name="type" value="drawPolygon" id="mitPolygonWaehlen" onclick="waehleMitPolygon();"/>
 							<label for="mitPolygonWaehlen">mit Polygon auswählen</label-->
 						</span>

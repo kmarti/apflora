@@ -432,7 +432,7 @@ form h2 {
 }
 
 /*tooltip gestalten, jQuery ui überprägen*/
-.custom-tooltip-styling {
+.tooltip-styling-nur-text {
 	font-weight:800;
 	font-color: #000000 !important;
 	max-width: 500px !important;
@@ -440,7 +440,7 @@ form h2 {
 	/*weiss hinterlegen, damit auf jedem Hintergrund gut sichtbar*/
 	text-shadow: 0 1px 0.5px white,1px 0 0.5px white,0 -1px 0.5px white,-1px 0 0.5px white,0 2px 0.5px white,2px 0 0.5px white,0 -2px 0.5px white,-2px 0 0.5px white;
 	padding-top: 8px !important;
-	font-size: 16px;
+	font-size: 14px;
 	border: 0px solid transparent !important;
 	background: transparent none no-repeat fixed center !important;
 	box-shadow: none !important;
