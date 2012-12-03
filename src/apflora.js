@@ -1869,6 +1869,7 @@ function initiiere_exporte() {
 //und alle anderen ausgeblendet
 //zusätzlich wird die Höhe von textinput-Feldern an den Textinhalt angepasst
 function zeigeFormular(Formularname) {
+	var Kartenhoehe;
 	$("#testart_div").hide();
 	//Bei Testarten Hinweis anzeigen
 	if ($("#ap_waehlen").val()) {
@@ -1921,6 +1922,8 @@ function zeigeFormular(Formularname) {
 		$("#distanz_messen_entfernen").show();
 	}
 	if (Formularname === "GeoAdminKarte") {
+		Kartenhoehe = $(window).height() - 31;
+		$("#GeoAdminKarte").css("height", Kartenhoehe + "px");
 		$("#GeoAdminKarte").show();
 		initiiereGeoAdminKarte();
 		$("#forms").css("background-color", "#FFFFFF")
@@ -9884,8 +9887,6 @@ function entferneMarkerEbenen() {
 
 function verorteTPopAufGeoAdmin(TPop) {
 	var bounds;
-	Kartenhoehe = $(window).height() - 31;
-	$("#GeoAdminKarte").css("height", Kartenhoehe + "px");
 	zeigeFormular("GeoAdminKarte");
 
 	//bound eröffnen
@@ -10005,8 +10006,6 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 			"ApArtId": window.ap.ApArtId
 		},
 		success: function (TPopListe) {
-			Kartenhoehe = $(window).height() - 31;
-			$("#GeoAdminKarte").css("height", Kartenhoehe + "px");
 			zeigeFormular("GeoAdminKarte");
 
 			//bound eröffnen
@@ -10073,17 +10072,17 @@ function erstelleTPopulationFuerGeoAdmin(TPop) {
 	});
 	
 	var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
-
+	var myTPopFlurname = TPop.TPopFlurname || '(kein Flurname)';
 	//tooltip bzw. label vorbereiten: nullwerte ausblenden
 	var myTooltip;
 	if (window.pop.PopNr & TPop.TPopNr) {
-		myTooltip = window.pop.PopNr + '/' + TPop.TPopNr + ' ' + TPop.TPopFlurname;
+		myTooltip = window.pop.PopNr + '/' + TPop.TPopNr + ' ' + myTPopFlurname;
 	} else if (window.pop.PopNr) {
-		myTooltip = window.pop.PopNr + '/?' + ' ' + TPop.TPopFlurname;
+		myTooltip = window.pop.PopNr + '/?' + ' ' + myTPopFlurname;
 	} else if (TPop.TPopNr) {
-		myTooltip = '?/' + TPop.TPopNr + ' ' + TPop.TPopFlurname;
+		myTooltip = '?/' + TPop.TPopNr + ' ' + myTPopFlurname;
 	} else {
-		myTooltip = '?/?' + ' ' + TPop.TPopFlurname;
+		myTooltip = '?/?' + ' ' + myTPopFlurname;
 	}
 
 	//marker erstellen...
@@ -10558,9 +10557,9 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 	window.markersArray = [];
 	window.InfoWindowArray = [];
 	Kartenhoehe = $(window).height() - 62;
+	$("#Karte").css("height", Kartenhoehe + "px");
 	infowindowBeob = new google.maps.InfoWindow();
 	infowindowTPop = new google.maps.InfoWindow();
-	$("#Karte").css("height", Kartenhoehe + "px");
 	//Lat und Lng in BeobListe ergänzen
 	//for (i in BeobListe.rows) {
 	for (var i = 0; i < BeobListe.rows.length; i++) {
