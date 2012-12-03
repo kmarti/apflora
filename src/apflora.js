@@ -10244,7 +10244,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 				});
 			} else {
 				var marker = new OpenLayers.Feature.Vector(myLocation, {
-					tooltip: TPop.TPopFlurname,
+					tooltip: myFlurname,
 					message: html,
 					label: myLabel
 				});
@@ -10270,6 +10270,9 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 			tpop_vorher.TPopId = feature.attributes.myId;*/
 			//meldung anzeigen, wie bei anderen Wiederherstellungen
 			//wenn wiederherstellen: function verschiebeTPop(id, x, y)
+			
+			//allfällig geöffnete Popups schliessen - ist unschön, wenn die offen bleiben
+			window.selectControl.unselectAll();
 		},
 		onComplete: function(feature) {
 			//nur zulassen, wenn Schreibrechte bestehen
@@ -10378,7 +10381,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 	window.api.map.addLayers([overlay_tpop]);
 
 	//SelectControl erstellen (mit dem Eventlistener öffnet das die Infoblase) und zur Karte hinzufügen
-	selectControl = new OpenLayers.Control.SelectFeature(overlay_tpop, {clickout: true});
+	window.selectControl = new OpenLayers.Control.SelectFeature(overlay_tpop, {clickout: true});
 	window.api.map.addControl(selectControl);
 	selectControl.activate();
 
