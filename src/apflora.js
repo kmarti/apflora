@@ -9907,8 +9907,10 @@ function verorteTPopAufGeoAdmin(TPop) {
 
 	} else {
 		//sonst Kanton ZH anzeigen
-		bounds.extend(new OpenLayers.LonLat(679000, 274000));
-		bounds.extend(new OpenLayers.LonLat(707000, 232000));
+		//bounds.extend(new OpenLayers.LonLat(679000, 274000));
+		//bounds.extend(new OpenLayers.LonLat(707000, 232000));
+		bounds.extend(new OpenLayers.LonLat(689000, 264000));
+		bounds.extend(new OpenLayers.LonLat(697000, 242000));
 	}
 
 	//jetzt einen Handler für den Klick aufbauen
@@ -11886,10 +11888,10 @@ function initiiereGeoAdminKarte() {
 		/*window.api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe-pk25.noscale', {
 			visibility: false
 		});*/
+		window.api.map.addLayerByName('ch.swisstopo-vd.geometa-gemeinde', {visibility: false});
 		window.api.map.addLayerByName('ch.swisstopo.swissboundaries3d-kanton-flaeche.fill', {
 			visibility: false
 		});
-		window.api.map.addLayerByName('ch.swisstopo-vd.geometa-gemeinde', {visibility: false});
 		window.api.map.addLayers([zh_av, zh_avnr, zh_svo, zh_svo_raster, zh_waldgesellschaften]);
 		window.api.map.addLayerByName('ch.bafu.bundesinventare-trockenwiesen_trockenweiden', {
 			visibility: false,
