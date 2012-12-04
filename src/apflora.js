@@ -10219,8 +10219,9 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 	});
 
 	// overlay layer für Marker vorbereiten
-	overlay_tpop = new OpenLayers.Layer.Vector('Teilpopulationen', {
-		//strategies: [strategy],	funktioniert gar nicht!!
+	window.overlay_tpop = new OpenLayers.Layer.Vector('Teilpopulationen', {
+		//strategies: [strategy],
+		filter: '',	//ist wohl nicht nötig und nützt auch nichts, um später einen Filter anzufügen
 		//popup bei select
 		eventListeners: {
 			'featureselected': function(evt) {
@@ -10274,7 +10275,8 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 			//gewählte erhalten style gelb und zuoberst
 			if (tpopid_array.indexOf(TPop.TPopId) !== -1) {
 				var marker = new OpenLayers.Feature.Vector(myLocation, {
-					tooltip: myLabel,
+					tooltip: myFlurname,
+					label: myLabel,
 					message: html
 				}, {
 					externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_gelb.png',
@@ -10430,16 +10432,44 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 	window.api.map.addLayers([auswahlPolygonLayer]);	//VORLÄUFIG AUSGESCHALTET. UNSCHÖN: TAUCHT IM LAYERTOOL AUF
 	drawControl = new OpenLayers.Control.DrawFeature(auswahlPolygonLayer, OpenLayers.Handler.Polygon);
 	drawControl.events.register("featureadded", this, function (event) {
-		//Auswahl ermitteln und in speichern
-		overlay_tpop.filter = new OpenLayers.Filter.Spatial({ 
+		var filter = new OpenLayers.Filter.Spatial({ 
 			type: OpenLayers.Filter.Spatial.INTERSECTS, 
-			value: event.feature.geometry 
+			value: event.feature.geometry
 		});
-		overlay_tpop.refresh({force: true});	//wirkt nicht!
-		$.each(overlay_tpop.features, function(index, value) {
-			console.log(this.attributes.label);
+		//Auswahl ermitteln und einen Array von ID's in window.tpop_array speichern
+		window.tpop_array = [];
+		window.tpop_id_array = [];
+		$.each(overlay_tpop.features, function() {
+			if (filter.evaluate(this)) {
+				window.tpop_array.push(this.attributes);
+				window.tpop_id_array.push(parseInt(this.attributes.myId));
+			}
 		});
-
+		//rückmelden, welche Objekte gewählt wurden
+		var rueckmeldung = "<table>";
+		for (var i = 0; i < window.tpop_array.length; i++) {
+			rueckmeldung += "<tr><td>" + window.tpop_array[i]['label'] + ":</td><td>" + window.tpop_array[i].tooltip + "</td></tr>";
+		}
+		rueckmeldung += "</table>";
+		//Höhe der Meldung begrenzen. Leider funktioniert maxHeight nicht
+		var height = "auto";
+		if (window.tpop_array.length > 25) {
+			height = 650;
+		}
+		$("#Meldung").html(rueckmeldung);
+		$("#Meldung").dialog({
+			modal: true,
+			buttons: {
+				Ok: function() {
+					$(this).dialog("close");
+				}
+			},
+			width: 430,
+			height: height,
+			title: window.tpop_array.length + " Teilpopulationen wurden gewählt:",
+			//vor die Schaltflächen stellen
+			zIndex: 1500
+		});
 		//das gezeichnete Polygon entfernen
 		auswahlPolygonLayer.removeFeatures(event.feature);
 		//control deaktivieren

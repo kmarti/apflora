@@ -2101,8 +2101,8 @@
 							<label id="label_distanzMessen" for="distanzMessen" title="Klicken um den nächsten Punkt zu setzen<br>Doppelklicken um die Messung abzuschliessen">Distanz messen</label>
 							<input type="radio" name="type" value="polygon" id="flaecheMessen" onclick="messe(this);"/>
 							<label id="label_flaecheMessen" for="flaecheMessen" title="Klicken um den nächsten Punkt zu setzen<br>Doppelklicken um die Messung abzuschliessen">Fläche messen</label>
-							<!--input type="radio" name="type" value="drawPolygon" id="mitPolygonWaehlen" onclick="waehleMitPolygon();"/>
-							<label for="mitPolygonWaehlen">mit Polygon auswählen</label-->
+							<input type="radio" name="type" value="drawPolygon" id="mitPolygonWaehlen" onclick="waehleMitPolygon();"/>
+							<label for="mitPolygonWaehlen">mit Polygon auswählen</label>
 						</span>
 						<div id='ergebnisMessung'></div>
 					</div>
@@ -3088,7 +3088,20 @@
 				window.open("php/export_popmassnber.php", target="_blank");
 			});
 			$("#exporte").on("click", "#export_tpop", function() {
-				window.open("php/export_tpop.php", target="_blank");
+				//wenn tpop ausgewählt, diese übergeben
+				var tpop_id_liste = "";
+				var url = "php/export_tpop.php";
+				if (window.tpop_id_array) {
+					for (var i = 0; i < window.tpop_id_array.length; i++) {
+						tpop_id_liste +=  window.tpop_id_array[i];
+						if (i + 1 < window.tpop_id_array.length) {
+							tpop_id_liste += ",";
+						}
+					}
+					url += "?tpop_id_liste=" + tpop_id_liste;
+				}
+				window.open(url, target="_blank");
+				//alert(url);
 			});
 			$("#exporte").on("click", "#export_tpop_fuer_kml", function() {
 				window.open("php/export_tpop_fuer_kml.php", target="_blank");

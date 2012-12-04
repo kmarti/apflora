@@ -11,19 +11,28 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
+//manchmal wird eine kommagetrennte Liste von TPopId's übergebeben
+$tpop_id_liste = $_GET["tpop_id_liste"];
+
 $view = 'vTPop'; // view you want to export
 $file = 'Teilpopulationen'; // csv name.
 
 $result = mysqli_query($link, "SHOW COLUMNS FROM ".$view."");
 $i = 0;
- 
+$arraykey_von_TPopId = 0;
 if (mysqli_num_rows($result) > 0) {
 	while ($row = mysqli_fetch_assoc($result)) {
 		$csv_output .= $row['Field']."\t";
-	$i++;}
+		$i++;
+	}
 }
 $csv_output .= "\n";
-$values = mysqli_query($link, "SELECT * FROM ".$view."");
+//$values = mysqli_query($link, "SELECT * FROM ".$view."");
+if ($tpop_id_liste) {
+	$values = mysqli_query($link, "SELECT * FROM ".$view." WHERE TPopId IN (".$tpop_id_liste.")");
+} else {
+	$values = mysqli_query($link, "SELECT * FROM ".$view."");
+}
  
 while ($rowr = mysqli_fetch_row($values)) {
 	//In den Daten sind Zeilenumbrüche

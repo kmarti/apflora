@@ -446,3 +446,13 @@ form h2 {
 	box-shadow: none !important;
 	webkit-box-shadow: none !important;
 }
+
+/*Tabelle in Dialog stylen*/
+.ui-dialog-content td:first-child {
+	text-align: right;
+	padding-right: 8px;
+}
+
+.ui-dialog-content td {
+	font-size: 16px;
+}
