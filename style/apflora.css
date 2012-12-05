@@ -370,6 +370,10 @@ div.x-tree-node-leaf a.x-tree-node-anchor span {
 	left: 4px;
 	top: 6px;
 }
+/*'(c) Daten' ausblenden*/
+.olControlAttribution.olControlNoSelect {
+	display: none;
+}
 
 /*drüberstylen, weil GeoAdmin-Aufruf dies nötig macht*/
 input[type="radio"] {

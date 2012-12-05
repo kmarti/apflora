@@ -18,7 +18,7 @@ function initiiere_index() {
 	$("button").button();
 	$("#tpopfeldkontr_tabs").tabs();
 	//tooltip: Klasse zuweisen, damit gestylt werden kann
-	$("#label_karteSchieben, #label_distanzMessen, #label_flaecheMessen").tooltip({tooltipClass: "tooltip-styling-nur-text"});
+	$("#label_karteSchieben, #label_distanzMessen, #label_flaecheMessen, #label_mitPolygonWaehlen").tooltip({tooltipClass: "tooltip-styling-nur-text"});
 
 	//Gemeindeliste erstellen, wenn nötig
 	if (!window.Gemeinden) {
