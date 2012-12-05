@@ -51,6 +51,7 @@ header('Content-Type: text/x-csv; charset=utf-8');
 header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 header('Content-Disposition: attachment; filename='.$filename.'.csv');
 header('Pragma: no-cache');
+header('Set-Cookie: fileDownload=true; path=/');
 
 print($csv_output);
 

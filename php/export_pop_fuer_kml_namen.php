@@ -69,6 +69,7 @@ header('Content-Type: application/vnd.google-earth.kml+xml kml; charset=utf-8');
 header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 header('Content-Disposition: attachment; filename='.$filename.'.kml');
 header('Pragma: no-cache');
+header('Set-Cookie: fileDownload=true; path=/');
 
 print($Output);
 
