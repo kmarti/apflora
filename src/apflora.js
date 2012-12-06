@@ -12049,14 +12049,14 @@ function initiiereGeoAdminKarte() {
 			)
 		};
 		
-		var control;
+		window.controlMessung;
 		for(var key in measureControls) {
-			control = measureControls[key];
-			control.events.on({
+			controlMessung = measureControls[key];
+			controlMessung.events.on({
 				"measure": handleMeasurements,
 				"measurepartial": handleMeasurements
 			});
-			window.api.map.addControl(control);
+			window.api.map.addControl(controlMessung);
 		}
 
 		//layertree aufbauen
@@ -12087,6 +12087,9 @@ function initiiereGeoAdminKarte() {
 function waehleMitPolygon() {
 	//den vorbereiteten drawControl aktivieren
 	window.drawControl.activate();
+	//allfällige Messung deaktivieren
+	measureControls['line'].deactivate();
+	measureControls['polygon'].deactivate();
 }
 
 function korrigiereLayernamenImLayertree() {
@@ -12161,14 +12164,16 @@ function handleMeasurements(event) {
 
 function messe(element) {
 	for(key in measureControls) {
-		var control = measureControls[key];
+		var controlMessung = measureControls[key];
 		if(element.value == key && element.checked) {
-			control.activate();
+			controlMessung.activate();
 		} else {
-			control.deactivate();
+			controlMessung.deactivate();
 			$("#ergebnisMessung").text("");
 		}
 	}
+	//einen allfällig aktiven drawControl aktivieren
+	window.drawControl.deactivate();
 }
 
 
