@@ -2226,14 +2226,14 @@
 
 				<a name="Kontrollen"></a>
 				<h2 class="border_top">Kontrollen</h2>
-				<button id="export_kontr">Kontrollen</button><br>
+				<button id="export_kontr" class="export_kontr">Kontrollen</button><br>
 				<button id="export_kontr_anz_pro_zaehleinheit">Kontrollen: Anzahl pro Zähleinheit</button><br>
 
 				<br><a href="#top">&uArr;&nbsp;top</a>
 
 				<a name="Massnahmen"></a>
 				<h2 class="border_top">Massnahmen</h2>
-				<button id="export_massn">Massnahmen</button><br>
+				<button id="export_massn" class="export_massn">Massnahmen</button><br>
 
 				<br><a href="#top">&uArr;&nbsp;top</a>
 
@@ -3281,8 +3281,19 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
-			$("#exporte").on("click", "#export_kontr", function() {
+			$("#forms").on("click", ".export_kontr", function() {
+				//wenn tpop ausgewählt, diese übergeben
+				var tpop_id_liste = "";
 				var url = "php/export_kontr.php";
+				if (window.tpop_id_array) {
+					for (var i = 0; i < window.tpop_id_array.length; i++) {
+						tpop_id_liste +=  window.tpop_id_array[i];
+						if (i + 1 < window.tpop_id_array.length) {
+							tpop_id_liste += ",";
+						}
+					}
+					url += "?tpop_id_liste=" + tpop_id_liste;
+				}
 				$.fileDownload(url, {
 					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
@@ -3297,8 +3308,19 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
-			$("#exporte").on("click", "#export_massn", function() {
+			$("#forms").on("click", ".export_massn", function() {
+				//wenn tpop ausgewählt, diese übergeben
+				var tpop_id_liste = "";
 				var url = "php/export_massn.php";
+				if (window.tpop_id_array) {
+					for (var i = 0; i < window.tpop_id_array.length; i++) {
+						tpop_id_liste +=  window.tpop_id_array[i];
+						if (i + 1 < window.tpop_id_array.length) {
+							tpop_id_liste += ",";
+						}
+					}
+					url += "?tpop_id_liste=" + tpop_id_liste;
+				}
 				$.fileDownload(url, {
 					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."

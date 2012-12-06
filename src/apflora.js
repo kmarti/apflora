@@ -10460,7 +10460,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 		}
 		$("#ergebnisAuswahlHeaderText").html(window.tpop_array.length + " Teilpopulationen wurden gewählt:");
 		$("#ergebnisAuswahlListe").html(rueckmeldung);
-		var ergebnisExporte = "Exportieren: <a href='#' class='export_tpop'>Teilpopulationen</a>"
+		var ergebnisExporte = "Exportieren: <a href='#' class='export_tpop'>Teilpopulationen</a>, <a href='#' class='export_kontr'>Kontrollen</a>, <a href='#' class='export_massn'>Massnahmen</a>"
 		$("#ergebnisAuswahlFooter").html(ergebnisExporte);
 		//Ergebnis-Div einblenden
 		$("#ergebnisAuswahl").css("display", "block");
@@ -10490,6 +10490,8 @@ function vergleicheTPopZumSortierenNachTooltip(a,b) {
 function deaktiviereGeoAdminAuswahl() {
 	window.drawControl.deactivate();
 	$("#ergebnisAuswahl").css("display", "none");
+	delete window.tpop_id_array;
+	delete window.tpop_id_liste;
 }
 
 function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_array) {

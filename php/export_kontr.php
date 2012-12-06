@@ -11,6 +11,9 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
+//manchmal wird eine kommagetrennte Liste von TPopId's übergebeben
+$tpop_id_liste = $_GET["tpop_id_liste"];
+
 $view = 'vKontr'; // view you want to export
 $file = 'Kontrollen'; // csv name.
 
@@ -23,7 +26,12 @@ if (mysqli_num_rows($result) > 0) {
 	$i++;}
 }
 $csv_output .= "\n";
-$values = mysqli_query($link, "SELECT * FROM ".$view."");
+
+if ($tpop_id_liste) {
+	$values = mysqli_query($link, "SELECT * FROM ".$view." WHERE TPopId IN (".$tpop_id_liste.")");
+} else {
+	$values = mysqli_query($link, "SELECT * FROM ".$view."");
+}
  
 while ($rowr = mysqli_fetch_row($values)) {
 	//In den Daten sind Zeilenumbrüche

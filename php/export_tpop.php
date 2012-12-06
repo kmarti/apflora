@@ -27,7 +27,7 @@ if (mysqli_num_rows($result) > 0) {
 	}
 }
 $csv_output .= "\n";
-//$values = mysqli_query($link, "SELECT * FROM ".$view."");
+
 if ($tpop_id_liste) {
 	$values = mysqli_query($link, "SELECT * FROM ".$view." WHERE TPopId IN (".$tpop_id_liste.")");
 } else {
