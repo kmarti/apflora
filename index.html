@@ -2210,7 +2210,7 @@
 
 				<a name="Teilpopulationen"></a>
 				<h2 class="border_top">Teilpopulationen</h2>
-				<button id="export_tpop">Teilpopulationen</button><br>
+				<button id="export_tpop" class="export_tpop">Teilpopulationen</button><br>
 				<button id="export_tpop_fuer_kml">Teilpopulationen für Google Earth (beschriftet mit PopNr/TPopNr)</button><br>
 				<button id="export_tpop_fuer_kml_namen">Teilpopulationen für Google Earth (beschriftet mit Artname, PopNr/TPopNr)</button><br>
 				<button id="export_tpop_ohne_bekannt_seit">Teilpopulationen von AP-Arten ohne "Bekannt seit"</button><br><br>
@@ -3220,7 +3220,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
-			$("#forms").on("click", "#export_tpop", function() {
+			$("#forms").on("click", ".export_tpop", function() {
 				//wenn tpop ausgewählt, diese übergeben
 				var tpop_id_liste = "";
 				var url = "php/export_tpop.php";

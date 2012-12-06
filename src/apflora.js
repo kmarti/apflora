@@ -10459,7 +10459,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 		}
 		$("#ergebnisAuswahlHeader").html(window.tpop_array.length + " Teilpopulationen wurden gewählt:");
 		$("#ergebnisAuswahlListe").html(rueckmeldung);
-		var ergebnisExporte = "Exportieren:<button id='export_tpop'>Teilpopulationen</button>"
+		var ergebnisExporte = "Exportieren: <a href='#' class='export_tpop'>Teilpopulationen</a>"
 		$("#ergebnisAuswahlFooter").html(ergebnisExporte);
 		//Ergebnis-Div einblenden
 		$("#ergebnisAuswahl").css("display", "block");

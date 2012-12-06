@@ -393,6 +393,9 @@ div.x-tree-node-leaf a.x-tree-node-anchor span {
 #ergebnisAuswahlFooter {
 	padding: 3px 6px 3px 6px;
 }
+#ergebnisAuswahlFooter a {
+	color: #1E1B1D;
+}
 #toggleLayertree {
 	position: absolute;
 	left: 4px;
