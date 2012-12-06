@@ -18,7 +18,8 @@ function initiiere_index() {
 	$("button").button();
 	$("#tpopfeldkontr_tabs").tabs();
 	//tooltip: Klasse zuweisen, damit gestylt werden kann
-	$("#label_karteSchieben, #label_distanzMessen, #label_flaecheMessen, #label_mitPolygonWaehlen").tooltip({tooltipClass: "tooltip-styling-nur-text"});
+	//$("#label_karteSchieben, #label_distanzMessen, #label_flaecheMessen, #label_mitPolygonWaehlen").tooltip({tooltipClass: "tooltip-styling-nur-text"});
+	$("#label_karteSchieben, #label_distanzMessen, #label_flaecheMessen, #label_mitPolygonWaehlen").tooltip({tooltipClass: "tooltip-styling-hinterlegt"});
 
 	//Gemeindeliste erstellen, wenn nötig
 	if (!window.Gemeinden) {
@@ -10456,20 +10457,13 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 		if (window.tpop_array.length > 25) {
 			height = 650;
 		}
-		$("#Meldung").html(rueckmeldung);
-		$("#Meldung").dialog({
-			modal: true,
-			buttons: {
-				Ok: function() {
-					$(this).dialog("close");
-				}
-			},
-			width: 430,
-			height: height,
-			title: window.tpop_array.length + " Teilpopulationen wurden gewählt:",
-			//vor die Schaltflächen stellen
-			zIndex: 1500
-		});
+		$("#ergebnisAuswahlHeader").html(window.tpop_array.length + " Teilpopulationen wurden gewählt:");
+		$("#ergebnisAuswahlListe").html(rueckmeldung);
+		var ergebnisExporte = "Exportieren:<button id='export_tpop'>Teilpopulationen</button>"
+		$("#ergebnisAuswahlFooter").html(ergebnisExporte);
+		//Ergebnis-Div einblenden
+		$("#ergebnisAuswahl").css("display", "block");
+
 		//das gezeichnete Polygon entfernen
 		auswahlPolygonLayer.removeFeatures(event.feature);
 		//control deaktivieren
@@ -10481,6 +10475,11 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 	window.api.map.addControl(drawControl);
 	//den Auswahl-Layer aus dem Layertree entfernen, ist nicht praktisch
 	entferneUebergebeneMarkerEbeneAusLayertree('Auswahl-Polygon');
+}
+
+function deaktiviereGeoAdminAuswahl() {
+	window.drawControl.deactivate();
+	$("#ergebnisAuswahl").css("display", "none");
 }
 
 function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_array) {
@@ -12049,7 +12048,7 @@ function initiiereGeoAdminKarte() {
 			)
 		};
 		
-		window.controlMessung;
+		var controlMessung;
 		for(var key in measureControls) {
 			controlMessung = measureControls[key];
 			controlMessung.events.on({
@@ -12173,7 +12172,7 @@ function messe(element) {
 		}
 	}
 	//einen allfällig aktiven drawControl aktivieren
-	window.drawControl.deactivate();
+	deaktiviereGeoAdminAuswahl();
 }
 
 

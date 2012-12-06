@@ -2105,6 +2105,14 @@
 							<label id="label_mitPolygonWaehlen" for="mitPolygonWaehlen" title="Teilpopulationen durch Zeichnen eines Polygons auswählen<br>Anschliessend können diese Teilpopulationen im Menu 'Exporte' mit dem Export 'Teilpopulationen' exportiert werden">auswählen</label>
 						</span>
 						<div id='ergebnisMessung'></div>
+						<div id='ergebnisAuswahl'>
+							<div id='ergebnisAuswahlHeader'>
+							</div>
+							<div id='ergebnisAuswahlListe'>
+							</div>
+							<div id='ergebnisAuswahlFooter'>
+							</div>
+						</div>
 					</div>
 					<div id="layertree">
 						<img id="toggleLayertree" src="style/images/updown.png" alt="öffnen/schliessen" height="14" width="14">
@@ -2967,6 +2975,11 @@
 				setzeKartenhoehe();
 			});
 
+			$("#forms").on("click", "#GeoAdminKarte", function() {
+				//wenn AuswahlErgebnis angezeigt wird soll man durch Klick ausserhalb das Fenster schliessen können
+				//$("#ergebnisAuswahl").css("display", "none");	ausgeschaltet, weil anders lösen
+			})
+
 			function pruefe_anmeldung() {
 				//Leserechte zurücksetzen
 				delete sessionStorage.NurLesen;
@@ -3207,7 +3220,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
-			$("#exporte").on("click", "#export_tpop", function() {
+			$("#forms").on("click", "#export_tpop", function() {
 				//wenn tpop ausgewählt, diese übergeben
 				var tpop_id_liste = "";
 				var url = "php/export_tpop.php";
