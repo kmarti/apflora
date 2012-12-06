@@ -330,7 +330,8 @@ a {
 	position: absolute;
 	top: 20px;
 	left: 60px;
-	z-index: 1009;
+	/*vor die Karte aber nicht vor die Meldungen*/
+	z-index: 800;
 }
 /*Ebenenliste soll die ganze Höhe nutzen*/
 .x-panel-body {
@@ -374,11 +375,27 @@ div.x-tree-node-leaf a.x-tree-node-anchor span {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	font-size: 13px;
 }
-#ergebnisAuswahlHeader {
-	padding: 3px 6px 3px 6px;
+#ergebnisAuswahl #ergebnisAuswahlHeader {
+	padding: 3px 1px 3px 9px;
 	font-weight: bold;
 	border-bottom: 1px solid #e0cfc2;
 }
+#ergebnisAuswahlHeaderText {
+	display: inline;
+}
+#ergebnisAuswahlHeader a {
+	/*color: #1E1B1D;*/
+}
+#ergebnisAuswahlHeader .ui-icon.ui-icon-closethick {
+	float: right;
+	margin: 0px 0px 1px 1px;
+	background-image: url(images/ui-icons_1E1B1D_256x240.png);
+	height: 18px;
+}
+#ergebnisAuswahlHeader .ui-icon.ui-icon-closethick:hover {
+	background-image: url(images/ui-icons_f08000_256x240.png);
+}
+
 #ergebnisAuswahlListe {
 	overflow: auto;
 	max-height: 400px;

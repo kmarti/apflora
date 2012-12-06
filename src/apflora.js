@@ -10446,6 +10446,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 				window.tpop_id_array.push(parseInt(this.attributes.myId));
 			}
 		});
+		window.tpop_array.sort(vergleicheTPopZumSortierenNachTooltip);
 		//rückmelden, welche Objekte gewählt wurden
 		var rueckmeldung = "<table>";
 		for (var i = 0; i < window.tpop_array.length; i++) {
@@ -10457,7 +10458,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 		if (window.tpop_array.length > 25) {
 			height = 650;
 		}
-		$("#ergebnisAuswahlHeader").html(window.tpop_array.length + " Teilpopulationen wurden gewählt:");
+		$("#ergebnisAuswahlHeaderText").html(window.tpop_array.length + " Teilpopulationen wurden gewählt:");
 		$("#ergebnisAuswahlListe").html(rueckmeldung);
 		var ergebnisExporte = "Exportieren: <a href='#' class='export_tpop'>Teilpopulationen</a>"
 		$("#ergebnisAuswahlFooter").html(ergebnisExporte);
@@ -10475,6 +10476,15 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 	window.api.map.addControl(drawControl);
 	//den Auswahl-Layer aus dem Layertree entfernen, ist nicht praktisch
 	entferneUebergebeneMarkerEbeneAusLayertree('Auswahl-Polygon');
+}
+
+//ermöglicht es, 
+function vergleicheTPopZumSortierenNachTooltip(a,b) {
+	if (a.tooltip < b.tooltip)
+		 return -1;
+	if (a.tooltip > b.tooltip)
+		return 1;
+	return 0;
 }
 
 function deaktiviereGeoAdminAuswahl() {

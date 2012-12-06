@@ -2107,6 +2107,10 @@
 						<div id='ergebnisMessung'></div>
 						<div id='ergebnisAuswahl'>
 							<div id='ergebnisAuswahlHeader'>
+								<div id='ergebnisAuswahlHeaderText'></div>
+								<a href="#" class="ui-dialog-titlebar-close ui-corner-all" role="button">
+									<span class="ui-icon ui-icon-closethick">schliessen</span>
+								</a>
 							</div>
 							<div id='ergebnisAuswahlListe'>
 							</div>
@@ -2975,11 +2979,6 @@
 				setzeKartenhoehe();
 			});
 
-			$("#forms").on("click", "#GeoAdminKarte", function() {
-				//wenn AuswahlErgebnis angezeigt wird soll man durch Klick ausserhalb das Fenster schliessen können
-				//$("#ergebnisAuswahl").css("display", "none");	ausgeschaltet, weil anders lösen
-			})
-
 			function pruefe_anmeldung() {
 				//Leserechte zurücksetzen
 				delete sessionStorage.NurLesen;
@@ -3238,6 +3237,9 @@
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
+			});
+			$("#ergebnisAuswahlHeader").on("click", ".ui-icon.ui-icon-closethick", function() {
+				deaktiviereGeoAdminAuswahl();
 			});
 			$("#exporte").on("click", "#export_tpop_fuer_kml", function() {
 				var url = "php/export_tpop_fuer_kml.php";
