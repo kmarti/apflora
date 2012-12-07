@@ -10429,7 +10429,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 	selectControl.activate();
 
 	//mit Polygon auswählen
-	var auswahlPolygonLayer = new OpenLayers.Layer.Vector("Auswahl-Polygon", {projection: new OpenLayers.Projection("EPSG:21781")});
+	window.auswahlPolygonLayer = new OpenLayers.Layer.Vector("Auswahl-Polygon", {projection: new OpenLayers.Projection("EPSG:21781")});
 	window.api.map.addLayers([auswahlPolygonLayer]);	//VORLÄUFIG AUSGESCHALTET. UNSCHÖN: TAUCHT IM LAYERTOOL AUF
 	drawControl = new OpenLayers.Control.DrawFeature(auswahlPolygonLayer, OpenLayers.Handler.Polygon);
 	drawControl.events.register("featureadded", this, function (event) {
@@ -10466,7 +10466,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 		$("#ergebnisAuswahl").css("display", "block");
 
 		//das gezeichnete Polygon entfernen
-		auswahlPolygonLayer.removeFeatures(event.feature);
+		//auswahlPolygonLayer.removeFeatures(event.feature);
 		//control deaktivieren
 		window.drawControl.deactivate();
 		//Schaltfläche Karte schieben aktivieren
@@ -10488,6 +10488,7 @@ function vergleicheTPopZumSortierenNachTooltip(a,b) {
 }
 
 function deaktiviereGeoAdminAuswahl() {
+	window.auswahlPolygonLayer.removeAllFeatures();
 	window.drawControl.deactivate();
 	$("#ergebnisAuswahl").css("display", "none");
 	delete window.tpop_id_array;
@@ -12101,6 +12102,12 @@ function waehleMitPolygon() {
 	//allfällige Messung deaktivieren
 	measureControls['line'].deactivate();
 	measureControls['polygon'].deactivate();
+	//allfällige bisherige Auswahl entfernen
+	window.auswahlPolygonLayer.removeAllFeatures();
+	//allfälliges Ergebnisfenster ausblenden
+	$("#ergebnisAuswahl").css("display", "none");
+	delete window.tpop_id_array;
+	delete window.tpop_id_liste;
 }
 
 function korrigiereLayernamenImLayertree() {
@@ -12183,8 +12190,10 @@ function messe(element) {
 			$("#ergebnisMessung").text("");
 		}
 	}
-	//einen allfällig aktiven drawControl aktivieren
+	//einen allfällig aktiven drawControl deaktivieren
 	deaktiviereGeoAdminAuswahl();
+	//und allfällig verbliebene Auswahlpolygon entfernen
+	window.auswahlPolygonLayer.removeAllFeatures();
 }
 
 
