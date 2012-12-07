@@ -1931,6 +1931,10 @@ function zeigeFormular(Formularname) {
 		window.formularhoehe_manuell_GoogleKarte = true;
 	}
 	if (Formularname === "GeoAdminKarte") {
+		//auswählen deaktivieren und allfällige Liste ausblenden
+		$("#mitPolygonWaehlen").button({ disabled: false });
+		deaktiviereGeoAdminAuswahl();
+
 		Kartenhoehe = $(window).height() - 31;
 		$("#GeoAdminKarte").css("height", Kartenhoehe + "px");
 		$("#GeoAdminKarte").show();
@@ -9929,6 +9933,10 @@ function entferneUebergebeneMarkerEbeneAusLayertree(layername) {
 function verorteTPopAufGeoAdmin(TPop) {
 	var bounds;
 	zeigeFormular("GeoAdminKarte");
+	setTimeout(function() {
+		//$("#mitPolygonWaehlen").css("display", "none");
+		$("#mitPolygonWaehlen").button({ disabled: true });
+	}, 100);
 
 	//bound eröffnen
 	bounds = new OpenLayers.Bounds();
@@ -10437,7 +10445,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 	if (!window.auswahlPolygonLayer) {
 		window.auswahlPolygonLayer = new OpenLayers.Layer.Vector("Auswahl-Polygon", {
 			projection: new OpenLayers.Projection("EPSG:21781"), 
-			//displayInLayerSwitcher: false
+			displayInLayerSwitcher: false
 		});
 		window.api.map.addLayers([auswahlPolygonLayer]);
 	}
@@ -10497,8 +10505,12 @@ function vergleicheTPopZumSortierenNachTooltip(a,b) {
 }
 
 function deaktiviereGeoAdminAuswahl() {
-	window.auswahlPolygonLayer.removeAllFeatures();
-	window.drawControl.deactivate();
+	if (window.auswahlPolygonLayer) {
+		window.auswahlPolygonLayer.removeAllFeatures();
+	}
+	if (window.drawControl) {
+		window.drawControl.deactivate();
+	}
 	$("#ergebnisAuswahl").css("display", "none");
 	delete window.tpop_id_array;
 	delete window.tpop_id_liste;
