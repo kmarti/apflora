@@ -395,13 +395,21 @@ div.x-tree-node-leaf a.x-tree-node-anchor span {
 #ergebnisAuswahlHeader .ui-icon.ui-icon-closethick:hover {
 	background-image: url(images/ui-icons_f08000_256x240.png);
 }
-
 #ergebnisAuswahlListe {
 	overflow: auto;
 	max-height: 400px;
 	padding: 3px 6px 3px 6px;
 	font-weight: normal;
 	border-bottom: 1px solid #e0cfc2;
+	line-height: 16px;
+}
+#ergebnisAuswahlListe a {
+	color: #1E1B1D;
+	text-decoration: none;
+}
+#ergebnisAuswahlListe a:hover {
+	/*text-decoration: underline;*/
+	border-bottom: 1px #848384 dotted;
 }
 #ergebnisAuswahlListe td:first-child {
 	text-align: right;

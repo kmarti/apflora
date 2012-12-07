@@ -10079,7 +10079,12 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 			schliesseLayeroptionen();
 			
 			//Karte zum richtigen Ausschnitt zoomen
-			window.api.map.zoomToExtent(bounds);
+			//aber nur, wenn keine Auswahl aktiv
+			if (window.auswahlPolygonLayer && window.auswahlPolygonLayer.features.length > 0) {
+				//Auswahl aktiv, Zoomstufe belassen
+			} else {
+				window.api.map.zoomToExtent(bounds);
+			}
 		},	
 		error: function (data) {
 			$("#Meldung").html("Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden");
@@ -10428,54 +10433,58 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 	window.api.map.addControl(selectControl);
 	selectControl.activate();
 
-	//mit Polygon auswählen
-	window.auswahlPolygonLayer = new OpenLayers.Layer.Vector("Auswahl-Polygon", {projection: new OpenLayers.Projection("EPSG:21781")});
-	window.api.map.addLayers([auswahlPolygonLayer]);	//VORLÄUFIG AUSGESCHALTET. UNSCHÖN: TAUCHT IM LAYERTOOL AUF
-	drawControl = new OpenLayers.Control.DrawFeature(auswahlPolygonLayer, OpenLayers.Handler.Polygon);
-	drawControl.events.register("featureadded", this, function (event) {
-		var filter = new OpenLayers.Filter.Spatial({ 
-			type: OpenLayers.Filter.Spatial.INTERSECTS, 
-			value: event.feature.geometry
+	//mit Polygon auswählen, nur wenn noch nicht existent
+	if (!window.auswahlPolygonLayer) {
+		window.auswahlPolygonLayer = new OpenLayers.Layer.Vector("Auswahl-Polygon", {
+			projection: new OpenLayers.Projection("EPSG:21781"), 
+			//displayInLayerSwitcher: false
 		});
-		//Auswahl ermitteln und einen Array von ID's in window.tpop_array speichern
-		window.tpop_array = [];
-		window.tpop_id_array = [];
-		$.each(overlay_tpop.features, function() {
-			if (filter.evaluate(this)) {
-				window.tpop_array.push(this.attributes);
-				window.tpop_id_array.push(parseInt(this.attributes.myId));
+		window.api.map.addLayers([auswahlPolygonLayer]);
+	}
+	//drawControl erstellen, nur wenn noch nicht existent
+	if (!window.drawControl) {
+		window.drawControl = new OpenLayers.Control.DrawFeature(auswahlPolygonLayer, OpenLayers.Handler.Polygon);
+		drawControl.events.register("featureadded", this, function (event) {
+			var filter = new OpenLayers.Filter.Spatial({ 
+				type: OpenLayers.Filter.Spatial.INTERSECTS, 
+				value: event.feature.geometry
+			});
+			//Auswahl ermitteln und einen Array von ID's in window.tpop_array speichern
+			window.tpop_array = [];
+			window.tpop_id_array = [];
+			$.each(overlay_tpop.features, function() {
+				if (filter.evaluate(this)) {
+					window.tpop_array.push(this.attributes);
+					window.tpop_id_array.push(parseInt(this.attributes.myId));
+				}
+			});
+			window.tpop_array.sort(vergleicheTPopZumSortierenNachTooltip);
+			//rückmelden, welche Objekte gewählt wurden
+			var rueckmeldung = "<table>";
+			for (var i = 0; i < window.tpop_array.length; i++) {
+				rueckmeldung += "<tr><td><a href=\"#\" onclick=\"oeffneTPop('" + window.tpop_array[i]['myId'] + "')\">" + window.tpop_array[i]['label'] + ":<\/a></td><td><a href=\"#\" onclick=\"oeffneTPop('" + window.tpop_array[i]['myId'] + "')\">" + window.tpop_array[i].tooltip + "<\/a></td></tr>";
 			}
-		});
-		window.tpop_array.sort(vergleicheTPopZumSortierenNachTooltip);
-		//rückmelden, welche Objekte gewählt wurden
-		var rueckmeldung = "<table>";
-		for (var i = 0; i < window.tpop_array.length; i++) {
-			rueckmeldung += "<tr><td>" + window.tpop_array[i]['label'] + ":</td><td>" + window.tpop_array[i].tooltip + "</td></tr>";
-		}
-		rueckmeldung += "</table>";
-		//Höhe der Meldung begrenzen. Leider funktioniert maxHeight nicht
-		var height = "auto";
-		if (window.tpop_array.length > 25) {
-			height = 650;
-		}
-		$("#ergebnisAuswahlHeaderText").html(window.tpop_array.length + " Teilpopulationen wurden gewählt:");
-		$("#ergebnisAuswahlListe").html(rueckmeldung);
-		var ergebnisExporte = "Exportieren: <a href='#' class='export_tpop'>Teilpopulationen</a>, <a href='#' class='export_kontr'>Kontrollen</a>, <a href='#' class='export_massn'>Massnahmen</a>"
-		$("#ergebnisAuswahlFooter").html(ergebnisExporte);
-		//Ergebnis-Div einblenden
-		$("#ergebnisAuswahl").css("display", "block");
+			rueckmeldung += "</table>";
+			//Höhe der Meldung begrenzen. Leider funktioniert maxHeight nicht
+			var height = "auto";
+			if (window.tpop_array.length > 25) {
+				height = 650;
+			}
+			$("#ergebnisAuswahlHeaderText").html(window.tpop_array.length + " Teilpopulationen wurden gewählt:");
+			$("#ergebnisAuswahlListe").html(rueckmeldung);
+			var ergebnisExporte = "Exportieren: <a href='#' class='export_tpop'>Teilpopulationen</a>, <a href='#' class='export_kontr'>Kontrollen</a>, <a href='#' class='export_massn'>Massnahmen</a>"
+			$("#ergebnisAuswahlFooter").html(ergebnisExporte);
+			//Ergebnis-Div einblenden
+			$("#ergebnisAuswahl").css("display", "block");
 
-		//das gezeichnete Polygon entfernen
-		//auswahlPolygonLayer.removeFeatures(event.feature);
-		//control deaktivieren
-		window.drawControl.deactivate();
-		//Schaltfläche Karte schieben aktivieren
-		$("#karteSchieben").attr("checked", true);
-		$("#karteSchieben").button("enable").button("refresh");
-	});
-	window.api.map.addControl(drawControl);
-	//den Auswahl-Layer aus dem Layertree entfernen, ist nicht praktisch
-	entferneUebergebeneMarkerEbeneAusLayertree('Auswahl-Polygon');
+			//control deaktivieren
+			window.drawControl.deactivate();
+			//Schaltfläche Karte schieben aktivieren
+			$("#karteSchieben").attr("checked", true);
+			$("#karteSchieben").button("enable").button("refresh");
+		});
+		window.api.map.addControl(drawControl);
+	}
 }
 
 //ermöglicht es, 
@@ -12087,9 +12096,6 @@ function initiiereGeoAdminKarte() {
 		$("#layertree").on("click", "#toggleLayertree, .x-panel-header", function() {
 			oeffneSchliesseLayertree();
 		});
-
-		//alle layeroptionen schliessen
-		//schliesseLayeroptionen();	wird erst nach Zufügen Marker-Layer ausgelöst, daher ausgeschaltet
 	}
 	
 	$('#karteSchieben').checked = true;	//scheint nicht zu funktionieren?
