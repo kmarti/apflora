@@ -9889,7 +9889,7 @@ function zeigeTPopAufKarte(TPopListe) {
 	}
 }
 
-function entferneMarkerEbenen() {
+function entferneTPopMarkerEbenen() {
 	var layername = ["Teilpopulation", "Teilpopulationen", "Teilpopulationen Nummern", "Teilpopulationen Namen"];
 	//nur möglich, wenn api und map existieren
 	if (typeof window.api !== "undefined") {
@@ -9906,6 +9906,30 @@ function entferneMarkerEbenen() {
 			/*while(window.api.map.popups.length) {
 		         window.api.map.removePopup(window.api.map.popups[0]);
 		    }*/
+
+			//auch aus layertree entfernen
+			$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
+				if (layername.indexOf($(this).text()) !== -1) {
+					$(this).parent().parent().remove();
+				}
+			})
+		}
+	}
+}
+
+function entfernePopMarkerEbenen() {
+	var layername = ["Population", "Populationen", "Populationen Nummern", "Populationen Namen"];
+	//nur möglich, wenn api und map existieren
+	if (typeof window.api !== "undefined") {
+		if (window.api.map !== "undefined") {
+			for (i in layername) {
+				if (window.api.map.getLayersByName(layername[i])) {
+					var layers = window.api.map.getLayersByName(layername[i]);
+					for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
+						window.api.map.removeLayer(layers[layerIndex]);
+					}
+				}
+			}
 
 			//auch aus layertree entfernen
 			$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
@@ -10019,7 +10043,7 @@ function verorteTPopAufGeoAdmin(TPop) {
 						},
 						success: function () {
 							//markerebenen entfernen
-							entferneMarkerEbenen();
+							entferneTPopMarkerEbenen();
 							//alten listener entfernen, neuer wird mit dem nächsten Befehl erstellt 
 							window.api.map.removeControl(click);
 							//markerebene neu aufbauen
@@ -10106,6 +10130,43 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 			});
 		}
 	});
+
+	//alle Pop holen
+	$.ajax({
+		url: 'php/pop_karte_alle.php',
+		dataType: 'json',
+		data: {
+			"ApArtId": window.ap.ApArtId
+		},
+		success: function (PopListe) {
+			//jetzt popid_array erstellen
+			var popid_array = [];
+			for (b in PopListe.rows) {
+				if (PopListe.rows.hasOwnProperty(b)) {
+					Pop = PopListe.rows[b];
+					popid_array.push(Pop.PopId);
+				}
+			}
+			//Layer für Symbole und Beschriftung erstellen
+			//erstellePopNrFuerGeoAdmin(PopListe);
+			//erstellePopNamenFuerGeoAdmin(PopListe);
+			erstellePopSymboleFuerGeoAdmin(PopListe, null, false);
+
+			//alle layeroptionen schliessen
+			schliesseLayeroptionen();
+		},	
+		error: function (data) {
+			$("#Meldung").html("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
+			$("#Meldung").dialog({
+				modal: true,
+				buttons: {
+					Ok: function() {
+						$(this).dialog("close");
+					}
+				}
+			});
+		}
+	});
 }
 
 function erstelleTPopulationFuerGeoAdmin(TPop) {
@@ -10168,9 +10229,9 @@ function erstelleTPopulationFuerGeoAdmin(TPop) {
 	window.api.map.addLayers([overlay_tpopulation]);
 
 	//control zur Karte hinzufügen
-	selectControl = new OpenLayers.Control.SelectFeature(overlay_tpopulation, {clickout: true});
-	window.api.map.addControl(selectControl);
-	selectControl.activate();
+	window.selectControlTPop = new OpenLayers.Control.SelectFeature(overlay_tpopulation, {clickout: true});
+	window.api.map.addControl(window.selectControlTPop);
+	window.selectControlTPop.activate();
 }
 
 //dieser Funktion kann man einen Wert zum speichern übergeben
@@ -10328,7 +10389,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 			//wenn wiederherstellen: function verschiebeTPop(id, x, y)
 			
 			//allfällig geöffnete Popups schliessen - ist unschön, wenn die offen bleiben
-			window.selectControl.unselectAll();
+			window.selectControlTPop.unselectAll();
 		},
 		onComplete: function(feature) {
 			//nur zulassen, wenn Schreibrechte bestehen
@@ -10376,7 +10437,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 						speichereWert('tpop', feature.attributes.myId, 'TPopXKoord', TPop.TPopXKoord);
 						speichereWert('tpop', feature.attributes.myId, 'TPopYKoord', TPop.TPopYKoord);
 						//jetzt alle marker entfernen...
-						entferneMarkerEbenen();
+						entferneTPopMarkerEbenen();
 						//...und neu aufbauen
 						//dazu die tpopliste neu abrufen, da Koordinaten geändert haben! tpopid_array bleibt gleich
 						$.ajax({
@@ -10437,9 +10498,9 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 	window.api.map.addLayers([overlay_tpop]);
 
 	//SelectControl erstellen (mit dem Eventlistener öffnet das die Infoblase) und zur Karte hinzufügen
-	window.selectControl = new OpenLayers.Control.SelectFeature(overlay_tpop, {clickout: true});
-	window.api.map.addControl(selectControl);
-	selectControl.activate();
+	window.selectControlTPop = new OpenLayers.Control.SelectFeature(overlay_tpop, {clickout: true});
+	window.api.map.addControl(window.selectControlTPop);
+	window.selectControlTPop.activate();
 
 	//mit Polygon auswählen, nur wenn noch nicht existent
 	if (!window.auswahlPolygonLayer) {
@@ -10493,6 +10554,222 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 		});
 		window.api.map.addControl(drawControl);
 	}
+}
+
+//übernimmt drei Variabeln: PopListe ist das Objekt mit den Populationen
+//popid_array der Array mit den ausgewählten Pop
+//visible: Ob die Ebene sichtbar geschaltet wird (oder bloss im Layertree verfügbar ist)
+function erstellePopSymboleFuerGeoAdmin(PopListe, popid_array, visible) {
+	//styles für overlay_pop definieren
+	var defaultStyle = new OpenLayers.Style({
+		externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_violett.png',
+		graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
+		title: '${tooltip}'
+	});
+	var selectStyle = new OpenLayers.Style({
+		externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_gelb.png'
+	});
+
+	// overlay layer für Marker vorbereiten
+	window.overlay_pop = new OpenLayers.Layer.Vector('Populationen', {
+		//popup bei select
+		eventListeners: {
+			'featureselected': function(evt) {
+				geoadminOnFeatureSelect(evt.feature);
+			},
+			'featureunselected': function(evt) {
+				geoadminOnFeatureUnselect(evt.feature);
+			}
+		},
+		//normal = grün, markiert = gelb
+		styleMap: new OpenLayers.StyleMap({
+			'default': defaultStyle,
+			'select': selectStyle
+		}),
+		//ermöglicht, dass die markierte Pop über den anderen angezeigt wird
+		rendererOptions: {
+			zIndexing: true
+		},
+		visibility: visible
+	});
+
+	//Array gründen, um marker darin zu sammeln
+	var markers = [];
+	var myLabel;
+	var myName;
+
+	for (b in PopListe.rows) {
+		if (PopListe.rows.hasOwnProperty(b)) {
+			Pop = PopListe.rows[b];
+			myName = Pop.PopName || '(kein Name)';
+			html = '<h3>' + myName + '</h3>'+
+				'<p>Koordinaten: ' + Pop.PopXKoord + ' / ' + Pop.PopYKoord + '</p>'+
+				"<p><a href=\"#\" onclick=\"oeffnePop('" + Pop.PopId + "')\">bearbeiten<\/a></p>";
+			
+			var myLocation = new OpenLayers.Geometry.Point(Pop.PopXKoord, Pop.PopYKoord);
+
+			//tooltip bzw. label vorbereiten: nullwerte ausblenden
+			if (Pop.PopNr) {
+				myLabel = Pop.PopNr;
+			} else {
+				myLabel = '?';
+			}
+
+			//marker erstellen...
+			//gewählte erhalten style gelb und zuoberst
+			if (popid_array && popid_array.indexOf(Pop.PopId) !== -1) {
+				var marker = new OpenLayers.Feature.Vector(myLocation, {
+					tooltip: myName,
+					label: myLabel,
+					message: html
+				}, {
+					externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_gelb.png',
+					graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
+					title: myName,
+					graphicZIndex: 5000
+				});
+			} else {
+				var marker = new OpenLayers.Feature.Vector(myLocation, {
+					tooltip: myName,
+					message: html,
+					label: myLabel
+				});
+			}
+			marker.attributes.myTyp = "pop";
+			marker.attributes.myId = Pop.PopId;
+
+			//...und in Array speichern
+			markers.push(marker);
+		}
+	}
+
+	//die marker der Ebene hinzufügen
+	overlay_pop.addFeatures(markers);
+
+	//die marker sollen verschoben werden können
+	var dragControl = new OpenLayers.Control.DragFeature(overlay_pop, {
+		onStart: function(feature) {
+			//TO DO: Variable zum rückgängig machen erstellen
+			/*window.tpop_vorher = {};
+			tpop_vorher.TPopXKoord = feature.geometry.x;
+			tpop_vorher.TPopYKoord = feature.geometry.y;
+			tpop_vorher.TPopId = feature.attributes.myId;*/
+			//meldung anzeigen, wie bei anderen Wiederherstellungen
+			//wenn wiederherstellen: function verschiebeTPop(id, x, y)
+			
+			//allfällig geöffnete Popups schliessen - ist unschön, wenn die offen bleiben
+			window.selectControlPop.unselectAll();
+		},
+		onComplete: function(feature) {
+			//nur zulassen, wenn Schreibrechte bestehen
+			if (sessionStorage.NurLesen) {
+				$("#Meldung").html("Sie haben keine Schreibrechte");
+				$("#Meldung").dialog({
+					modal: true,
+					buttons: {
+						Ok: function() {
+							$(this).dialog("close");
+							//overlay entfernen...
+							if (window.api.map.getLayersByName('Populationen')) {
+								var layers = window.api.map.getLayersByName('Populationen');
+								for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
+									window.api.map.removeLayer(layers[layerIndex]);
+								}
+							}
+							//...und neu erstellen
+							erstellePopSymboleFuerGeoAdmin(PopListe);
+						}
+					}
+				});
+				return;
+			}
+			//Verschieben muss bestätigt werden
+			//Mitteilung formulieren. Gewählte hat keinen label und tooltip ist wie sonst label
+			if (feature.attributes.label) {
+				$("#loeschen_dialog_mitteilung").html("Sie verschieben die Population " + feature.attributes.label + ", " + feature.attributes.tooltip);
+			} else {
+				$("#loeschen_dialog_mitteilung").html("Sie verschieben die Population " + feature.attributes.tooltip);
+			}
+			$("#loeschen_dialog").dialog({
+				resizable: false,
+				height:'auto',
+				width: 500,
+				modal: true,
+				buttons: {
+					"ja, verschieben!": function() {
+						$(this).dialog("close");
+						//neue Koordinaten speichern
+						//x und y merken
+						Pop.PopXKoord = feature.geometry.x;
+						Pop.PopYKoord = feature.geometry.y;
+						//Datensatz updaten
+						speichereWert('pop', feature.attributes.myId, 'PopXKoord', Pop.PopXKoord);
+						speichereWert('pop', feature.attributes.myId, 'PopYKoord', Pop.PopYKoord);
+						//jetzt alle marker entfernen...
+						entfernePopMarkerEbenen();
+						//...und neu aufbauen
+						//dazu die popliste neu abrufen, da Koordinaten geändert haben! popid_array bleibt gleich
+						$.ajax({
+							url: 'php/pop_karte_alle.php',
+							dataType: 'json',
+							data: {
+								"ApArtId": window.ap.ApArtId
+							},
+							success: function (PopListe) {
+								erstellePopNrFuerGeoAdmin(PopListe, popid_array);
+								erstellePopNamenFuerGeoAdmin(PopListe, popid_array);
+								erstellePopSymboleFuerGeoAdmin(PopListe, popid_array);
+							},	
+							error: function (data) {
+								$("#Meldung").html("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
+								$("#Meldung").dialog({
+									modal: true,
+									buttons: {
+										Ok: function() {
+											$(this).dialog("close");
+										}
+									}
+								});
+							}
+						});
+					},
+					"nein, nicht verschieben": function() {
+						$(this).dialog("close");
+						//overlay entfernen...
+						if (window.api.map.getLayersByName('Populationen')) {
+							var layers = window.api.map.getLayersByName('Populationen');
+							for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
+								window.api.map.removeLayer(layers[layerIndex]);
+							}
+						}
+						//...und neu erstellen
+						erstellePopSymboleFuerGeoAdmin(PopListe, popid_array);
+					}
+				}
+			});
+		}
+	});
+
+	//selectfeature (Infoblase) soll nicht durch dragfeature blockiert werden
+	//Quelle: http://stackoverflow.com/questions/6953907/make-marker-dragable-and-clickable
+	dragControl.handlers['drag'].stopDown = false;
+	dragControl.handlers['drag'].stopUp = false;
+	dragControl.handlers['drag'].stopClick = false;
+	dragControl.handlers['feature'].stopDown = false;
+	dragControl.handlers['feature'].stopUp = false;
+	dragControl.handlers['feature'].stopClick = false;
+
+	//dragControl einschalten
+	window.api.map.addControl(dragControl);
+	dragControl.activate();
+
+	//overlay zur Karte hinzufügen
+	window.api.map.addLayers([overlay_pop]);
+
+	//SelectControl erstellen (mit dem Eventlistener öffnet das die Infoblase) und zur Karte hinzufügen
+	window.selectControlPop = new OpenLayers.Control.SelectFeature(overlay_pop, {clickout: true});
+	window.api.map.addControl(window.selectControlPop);
+	window.selectControlPop.activate();
 }
 
 //ermöglicht es, 
@@ -11380,6 +11657,12 @@ function oeffneTPop(TPopId) {
 	jQuery("#tree").jstree("select_node", "[typ='tpop']#" + TPopId);
 }
 
+function oeffnePop(PopId) {
+	localStorage.pop_id = PopId;
+	jQuery.jstree._reference("[typ='pop']#" + PopId).deselect_all();
+	jQuery("#tree").jstree("select_node", "[typ='pop']#" + PopId);
+}
+
 function oeffneBeob(BeobId) {
 	localStorage.BeobId = BeobId;
 	jQuery.jstree._reference("[typ='beob']#" + BeobId).deselect_all();
@@ -11972,7 +12255,8 @@ function initiiereGeoAdminKarte() {
 	});
 
 	//allfällige Marker-Ebenen entfernen
-	entferneMarkerEbenen();
+	entferneTPopMarkerEbenen();
+	entfernePopMarkerEbenen();
 	
 	//api nur definieren, wenn dies nicht schon passiert ist
 	if (typeof window.api == "undefined") {
