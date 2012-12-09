@@ -10066,7 +10066,7 @@ function verorteTPopAufGeoAdmin(TPop) {
 	schliesseLayeroptionen();
 }
 
-function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
+function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
 	//Falls noch aus dem Verorten ein Klick-Handler besteht: deaktivieren
 	if (window.LetzterKlickHandler) {
 		window.LetzterKlickHandler.deactivate();
@@ -10086,32 +10086,14 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 				"ApArtId": window.ap.ApArtId
 			}
 		});
-		
-		tpop_aufruf.done(function (TPopListe) {
-			var TPop, bounds, x_max, y_max, x_min, y_min;
-			//bound eröffnen
-			bounds = new OpenLayers.Bounds();
 
-			//jetzt bounds der anzuzeigenden bestimmen
-			var tpopid_markiert = [];
-			for (b in TPopListeMarkieren.rows) {
-				if (TPopListeMarkieren.rows.hasOwnProperty(b)) {
-					TPop = TPopListeMarkieren.rows[b];
-					tpopid_markiert.push(TPop.TPopId);
-					//bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
-					x_max = parseInt(TPop.TPopXKoord) + 300;
-					x_min = parseInt(TPop.TPopXKoord) - 300;
-					y_max = parseInt(TPop.TPopYKoord) + 300;
-					y_min = parseInt(TPop.TPopYKoord) - 300;
-					bounds.extend(new OpenLayers.LonLat(x_max, y_max));
-					bounds.extend(new OpenLayers.LonLat(x_min, y_min));
-				}
-			}
+		tpop_aufruf.done(function (TPopListe) {
+			var markierte_tpop = waehleAusschnittFuerUebergebeneTPop(TPopListeMarkiert);
 
 			//Layer für Symbole und Beschriftung erstellen
-			erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_markiert);
-			erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_markiert);
-			erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert);
+			erstelleTPopNrFuerGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert);
+			erstelleTPopNamenFuerGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert);
+			erstelleTPopSymboleFuerGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert);
 			//alle Pop holen, aber nur und erst, wenn window.api.map erstellt ist!
 			zeigePopInTPopKarte();
 
@@ -10123,7 +10105,7 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 			if (window.auswahlPolygonLayer && window.auswahlPolygonLayer.features.length > 0) {
 				//Auswahl aktiv, Zoomstufe belassen
 			} else {
-				window.api.map.zoomToExtent(bounds);
+				window.api.map.zoomToExtent(markierte_tpop.bounds);
 			}
 		});
 
@@ -10139,6 +10121,32 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 			});
 		});
 	});	
+}
+
+//übernimmt eine Liste von (markierten) TPop
+//retourniert den Ausschnitt = bounds der angezeigt werden soll
+//und einen array mit den tpop_id's der liste
+function waehleAusschnittFuerUebergebeneTPop(TPopListeMarkiert) {
+	var TPop, bounds, x_max, y_max, x_min, y_min;
+	//bound eröffnen
+	bounds = new OpenLayers.Bounds();
+
+	//jetzt bounds der anzuzeigenden bestimmen
+	var tpopid_markiert = [];
+	for (b in TPopListeMarkiert.rows) {
+		if (TPopListeMarkiert.rows.hasOwnProperty(b)) {
+			TPop = TPopListeMarkiert.rows[b];
+			tpopid_markiert.push(TPop.TPopId);
+			//bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
+			x_max = parseInt(TPop.TPopXKoord) + 300;
+			x_min = parseInt(TPop.TPopXKoord) - 300;
+			y_max = parseInt(TPop.TPopYKoord) + 300;
+			y_min = parseInt(TPop.TPopYKoord) - 300;
+			bounds.extend(new OpenLayers.LonLat(x_max, y_max));
+			bounds.extend(new OpenLayers.LonLat(x_min, y_min));
+		}
+	}
+	return {bounds: bounds, tpopid_markiert: tpopid_markiert};
 }
 
 function zeigePopInTPopKarte() {
