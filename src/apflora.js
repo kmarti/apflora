@@ -1933,7 +1933,7 @@ function zeigeFormular(Formularname) {
 	if (Formularname === "GeoAdminKarte") {
 		//auswählen deaktivieren und allfällige Liste ausblenden
 		$("#mitPolygonWaehlen").button({ disabled: false });
-		deaktiviereGeoAdminAuswahl();
+		//deaktiviereGeoAdminAuswahl();
 
 		Kartenhoehe = $(window).height() - 31;
 		$("#GeoAdminKarte").css("height", Kartenhoehe + "px");
@@ -10070,6 +10070,16 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
 	if (window.LetzterKlickHandler) {
 		window.LetzterKlickHandler.deactivate();
 	}
+	var overlay_pop_visible = false;
+	if (typeof overlay_pop !== "undefined" && overlay_pop.visibility === true) {
+		overlay_pop_visible = true;
+	}
+	var overlay_popbeschriftung_visible = false;
+	if (typeof overlay_pop_beschriftungen !== "undefined" && overlay_pop_beschriftungen.visibility === true) {
+		overlay_popbeschriftung_visible = true;
+	}
+	
+	var markierte_tpop = waehleAusschnittFuerUebergebeneTPop(TPopListeMarkiert);
 
 	//Grundkarte aufbauen
 	var formular_sichtbar = $.Deferred();
@@ -10087,7 +10097,7 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
 		});
 
 		tpop_aufruf.done(function (TPopListe) {
-			var markierte_tpop = waehleAusschnittFuerUebergebeneTPop(TPopListeMarkiert);
+			//var markierte_tpop = waehleAusschnittFuerUebergebeneTPop(TPopListeMarkiert);
 
 			//Layer für Symbole und Beschriftung erstellen
 			erstelleTPopNrFuerGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert);
@@ -10104,7 +10114,7 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
 
 			//alle Pop holen
 			var pop_in_karte_gezeigt = $.Deferred();
-			pop_in_karte_gezeigt.resolve(zeigePopInTPopKarte());
+			pop_in_karte_gezeigt.resolve(zeigePopInTPopKarte(overlay_pop_visible, overlay_popbeschriftung_visible));
 			pop_in_karte_gezeigt.then(function() {
 				//alle layeroptionen schliessen
 				schliesseLayeroptionen();
@@ -10151,7 +10161,7 @@ function waehleAusschnittFuerUebergebeneTPop(TPopListeMarkiert) {
 	return {bounds: bounds, tpopid_markiert: tpopid_markiert};
 }
 
-function zeigePopInTPopKarte() {
+function zeigePopInTPopKarte(overlay_pop_visible, overlay_popbeschriftungen_visible) {
 	var pop_aufruf = $.ajax({
 		url: 'php/pop_karte_alle.php',
 		dataType: 'json',
@@ -10162,9 +10172,9 @@ function zeigePopInTPopKarte() {
 
 	pop_aufruf.done(function(PopListe) {
 		//Layer für Symbole und Beschriftung erstellen
-		erstellePopNrFuerGeoAdmin(PopListe, false);
+		erstellePopNrFuerGeoAdmin(PopListe, overlay_popbeschriftungen_visible);
 		erstellePopNamenFuerGeoAdmin(PopListe);
-		erstellePopSymboleFuerGeoAdmin(PopListe, null, false);
+		erstellePopSymboleFuerGeoAdmin(PopListe, null, overlay_pop_visible);
 
 		schliesseLayeroptionen();
 	});
@@ -12586,7 +12596,6 @@ function initiiereGeoAdminKarte() {
 	
 	$('#karteSchieben').checked = true;	//scheint nicht zu funktionieren?
 	korrigiereLayernamenImLayertree();
-	return window.api.map;
 };
 
 function waehleMitPolygon() {
