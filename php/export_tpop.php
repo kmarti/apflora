@@ -19,7 +19,7 @@ $file = 'Teilpopulationen'; // csv name.
 
 $result = mysqli_query($link, "SHOW COLUMNS FROM ".$view."");
 $i = 0;
-$arraykey_von_TPopId = 0;
+
 if (mysqli_num_rows($result) > 0) {
 	while ($row = mysqli_fetch_assoc($result)) {
 		$csv_output .= $row['Field']."\t";

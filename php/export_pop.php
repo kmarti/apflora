@@ -11,19 +11,28 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
+//manchmal wird eine kommagetrennte Liste von PopId's übergebeben
+$pop_id_liste = $_GET["pop_id_liste"];
+
 $view = 'vPop'; // view you want to export
 $file = 'Populationen'; // csv name.
 
 $result = mysqli_query($link, "SHOW COLUMNS FROM ".$view."");
 $i = 0;
- 
+$arraykey_von_PopId = 0;
 if (mysqli_num_rows($result) > 0) {
 	while ($row = mysqli_fetch_assoc($result)) {
 		$csv_output .= $row['Field']."\t";
-	$i++;}
+		$i++;
+	}
 }
 $csv_output .= "\n";
-$values = mysqli_query($link, "SELECT * FROM ".$view."");
+
+if ($pop_id_liste) {
+	$values = mysqli_query($link, "SELECT * FROM ".$view." WHERE PopId IN (".$pop_id_liste.")");
+} else {
+	$values = mysqli_query($link, "SELECT * FROM ".$view."");
+}
  
 while ($rowr = mysqli_fetch_row($values)) {
 	//In den Daten sind Zeilenumbrüche

@@ -10531,31 +10531,83 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert) {
 				type: OpenLayers.Filter.Spatial.INTERSECTS, 
 				value: event.feature.geometry
 			});
-			//Auswahl ermitteln und einen Array von ID's in window.tpop_array speichern
+			//Teilpopulationen: Auswahl ermitteln und einen Array von ID's in window.tpop_array speichern
 			window.tpop_array = [];
 			window.tpop_id_array = [];
-			$.each(overlay_tpop.features, function() {
-				if (filter.evaluate(this)) {
-					window.tpop_array.push(this.attributes);
-					window.tpop_id_array.push(parseInt(this.attributes.myId));
-				}
-			});
-			window.tpop_array.sort(vergleicheTPopZumSortierenNachTooltip);
-			//rückmelden, welche Objekte gewählt wurden
-			var rueckmeldung = "<table>";
-			for (var i = 0; i < window.tpop_array.length; i++) {
-				rueckmeldung += "<tr><td><a href=\"#\" onclick=\"oeffneTPop('" + window.tpop_array[i]['myId'] + "')\">" + window.tpop_array[i]['label'] + ":<\/a></td><td><a href=\"#\" onclick=\"oeffneTPop('" + window.tpop_array[i]['myId'] + "')\">" + window.tpop_array[i].tooltip + "<\/a></td></tr>";
+			if (overlay_tpop.visibility === true) {
+				$.each(overlay_tpop.features, function() {
+					if (filter.evaluate(this)) {
+						window.tpop_array.push(this.attributes);
+						window.tpop_id_array.push(parseInt(this.attributes.myId));
+					}
+				});
+				window.tpop_array.sort(vergleicheTPopZumSortierenNachTooltip);
 			}
-			rueckmeldung += "</table>";
+
+			//Populationen: Auswahl ermitteln und einen Array von ID's in window.pop_array speichern
+			window.pop_array = [];
+			window.pop_id_array = [];
+			if (overlay_pop.visibility === true) {
+				$.each(overlay_pop.features, function() {
+					if (filter.evaluate(this)) {
+						window.pop_array.push(this.attributes);
+						window.pop_id_array.push(parseInt(this.attributes.myId));
+					}
+				});
+				window.pop_array.sort(vergleicheTPopZumSortierenNachTooltip);
+			}
+			
+			//rückmelden, welche Objekte gewählt wurden
+			var rueckmeldung = "";
+			if (window.pop_array.length > 0) {
+				if (window.tpop_array.length > 0) {
+					//tpop und pop betitteln
+					rueckmeldung += "<p class='ergebnisAuswahlListeTitel'>" + window.pop_array.length + " Populationen: </p>";
+				}
+				rueckmeldung += "<table>";
+				for (var i = 0; i < window.pop_array.length; i++) {
+					rueckmeldung += "<tr><td><a href=\"#\" onclick=\"oeffnePop('" + window.pop_array[i]['myId'] + "')\">" + window.pop_array[i]['label'] + ":<\/a></td><td><a href=\"#\" onclick=\"oeffnePop('" + window.pop_array[i]['myId'] + "')\">" + window.pop_array[i].tooltip + "<\/a></td></tr>";
+				}
+				rueckmeldung += "</table>";
+			}
+			if (window.tpop_array.length > 0) {
+				if (window.pop_array.length > 0) {
+					//tpop und pop betitteln
+					rueckmeldung += "<p class='ergebnisAuswahlListeTitel ergebnisAuswahlListeTitelTPop'>" + window.tpop_array.length + " Teilpopulationen: </p>";
+				}
+				rueckmeldung += "<table>";
+				for (var i = 0; i < window.tpop_array.length; i++) {
+					rueckmeldung += "<tr><td><a href=\"#\" onclick=\"oeffneTPop('" + window.tpop_array[i]['myId'] + "')\">" + window.tpop_array[i]['label'] + ":<\/a></td><td><a href=\"#\" onclick=\"oeffneTPop('" + window.tpop_array[i]['myId'] + "')\">" + window.tpop_array[i].tooltip + "<\/a></td></tr>";
+				}
+				rueckmeldung += "</table>";
+			}
 			//Höhe der Meldung begrenzen. Leider funktioniert maxHeight nicht
 			var height = "auto";
 			if (window.tpop_array.length > 25) {
 				height = 650;
 			}
-			$("#ergebnisAuswahlHeaderText").html(window.tpop_array.length + " Teilpopulationen wurden gewählt:");
+
+			//Listentitel erstellen
+			var Listentitel;
+			var exportieren = "Exportieren: ";
+			var exportierenPop = "<a href='#' class='export_pop'>Populationen</a>";
+			var exportierenTPop = "<a href='#' class='export_tpop'>Teilpopulationen</a>, <a href='#' class='export_kontr'>Kontrollen</a>, <a href='#' class='export_massn'>Massnahmen</a>";
+			if (window.pop_array.length > 0 && window.tpop_array.length > 0) {
+				Listentitel = "Gewählt wurden " + window.pop_array.length + " Populationen und " + window.tpop_array.length + " Teilpopulationen";
+				exportieren += exportierenPop + ", " + exportierenTPop;
+			} else if (window.pop_array.length > 0) {
+				Listentitel = "Gewählt wurden " + window.pop_array.length + " Populationen:";
+				exportieren += exportierenPop;
+			} else if (window.tpop_array.length > 0) {
+				Listentitel = "Gewählt wurden " + window.tpop_array.length + " Teilpopulationen:";
+				exportieren += exportierenTPop;
+			} else {
+				Listentitel = "Keine Populationen/Teilpopulationen gewählt";
+				exportieren = "";
+			}
+			$("#ergebnisAuswahlHeaderText").html(Listentitel);
 			$("#ergebnisAuswahlListe").html(rueckmeldung);
-			var ergebnisExporte = "Exportieren: <a href='#' class='export_tpop'>Teilpopulationen</a>, <a href='#' class='export_kontr'>Kontrollen</a>, <a href='#' class='export_massn'>Massnahmen</a>"
-			$("#ergebnisAuswahlFooter").html(ergebnisExporte);
+			$("#ergebnisAuswahlFooter").html(exportieren);
 			//Ergebnis-Div einblenden
 			$("#ergebnisAuswahl").css("display", "block");
 
@@ -10723,7 +10775,7 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 							success: function (PopListe) {
 								erstellePopNrFuerGeoAdmin(PopListe, visible);
 								erstellePopNamenFuerGeoAdmin(PopListe);
-								erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible);
+								erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, true);
 							},	
 							error: function (data) {
 								$("#Meldung").html("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
@@ -10748,7 +10800,7 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 							}
 						}
 						//...und neu erstellen
-						erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible);
+						erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, true);
 					}
 				}
 			});
@@ -10798,13 +10850,23 @@ function erstellePopNrFuerGeoAdmin(PopListe, visible) {
 	});
 
 	// overlay layer für Marker vorbereiten
-	var overlay_pop_beschriftungen = new OpenLayers.Layer.Vector('Populationen Nummern', {
-		styleMap: new OpenLayers.StyleMap({
-			'default': defaultStyle,
-			'select': defaultStyle
-		}),
-		visibility: visible
-	});
+	//wurde visible mitgegeben verwenden, sonst nicht
+	if (visible !== null) {
+		var overlay_pop_beschriftungen = new OpenLayers.Layer.Vector('Populationen Nummern', {
+			styleMap: new OpenLayers.StyleMap({
+				'default': defaultStyle,
+				'select': defaultStyle
+			}),
+			visibility: visible
+		});
+	} else {
+		var overlay_pop_beschriftungen = new OpenLayers.Layer.Vector('Populationen Nummern', {
+			styleMap: new OpenLayers.StyleMap({
+				'default': defaultStyle,
+				'select': defaultStyle
+			})
+		});
+	}
 
 	//Array gründen, um marker darin zu sammeln
 	var markers = [];
@@ -10917,6 +10979,8 @@ function deaktiviereGeoAdminAuswahl() {
 	$("#ergebnisAuswahl").css("display", "none");
 	delete window.tpop_id_array;
 	delete window.tpop_id_liste;
+	delete window.pop_id_array;
+	delete window.pop_id_liste;
 }
 
 function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_markiert) {

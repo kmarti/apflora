@@ -2195,7 +2195,7 @@
 
 				<a name="Populationen"></a>
 				<h2 class="border_top">Populationen</h2>
-				<button id="export_pop">Populationen</button><br>
+				<button id="export_pop" class="export_pop">Populationen</button><br>
 				<button id="export_pop_fuer_kml" class="GoogleEarthButton">Populationen für Google Earth (beschriftet mit PopNr)</button><br>
 				<button id="export_pop_fuer_kml_namen" class="GoogleEarthButton">Populationen für Google Earth (beschriftet mit Artname, PopNr)</button><br>
 				<button id="export_pop_ohne_tpop">Populationen ohne Teilpopulationen</button><br>
@@ -3131,8 +3131,19 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
-			$("#exporte").on("click", "#export_pop", function() {
+			$("#forms").on("click", ".export_pop", function() {
+				//wenn pop ausgewählt, diese übergeben
+				var pop_id_liste = "";
 				var url = "php/export_pop.php";
+				if (window.pop_id_array) {
+					for (var i = 0; i < window.pop_id_array.length; i++) {
+						pop_id_liste +=  window.pop_id_array[i];
+						if (i + 1 < window.pop_id_array.length) {
+							pop_id_liste += ",";
+						}
+					}
+					url += "?pop_id_liste=" + pop_id_liste;
+				}
 				$.fileDownload(url, {
 					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."

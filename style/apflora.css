@@ -376,15 +376,12 @@ div.x-tree-node-leaf a.x-tree-node-anchor span {
 	font-size: 13px;
 }
 #ergebnisAuswahl #ergebnisAuswahlHeader {
-	padding: 3px 1px 3px 9px;
+	padding: 3px 1px 3px 6px;
 	font-weight: bold;
 	border-bottom: 1px solid #e0cfc2;
 }
 #ergebnisAuswahlHeaderText {
 	display: inline;
-}
-#ergebnisAuswahlHeader a {
-	/*color: #1E1B1D;*/
 }
 #ergebnisAuswahlHeader .ui-icon.ui-icon-closethick {
 	float: right;
@@ -398,10 +395,21 @@ div.x-tree-node-leaf a.x-tree-node-anchor span {
 #ergebnisAuswahlListe {
 	overflow: auto;
 	max-height: 400px;
-	padding: 3px 6px 3px 6px;
+	/*padding: 3px 6px 3px 6px;*/
+	padding-top: 3px;
+	padding-bottom: 3px;
 	font-weight: normal;
 	border-bottom: 1px solid #e0cfc2;
 	line-height: 16px;
+}
+p.ergebnisAuswahlListeTitel {
+	font-weight: bold;
+	padding-left: 6px;
+	padding-right: 6px;
+}
+p.ergebnisAuswahlListeTitelTPop {
+	padding-top: 3px;
+	border-top: 1px solid #e0cfc2;
 }
 #ergebnisAuswahlListe a {
 	color: #1E1B1D;
@@ -414,6 +422,10 @@ div.x-tree-node-leaf a.x-tree-node-anchor span {
 #ergebnisAuswahlListe td:first-child {
 	text-align: right;
 	padding-right: 8px;
+}
+#ergebnisAuswahlListe td {
+	padding-left: 6px;
+	padding-right: 6px;
 }
 #ergebnisAuswahlFooter {
 	padding: 3px 6px 3px 6px;
