@@ -1947,7 +1947,6 @@ function zeigeFormular(Formularname) {
 		window.formularhoehe_manuell_GeoAdminKarte = true;
 	}
 	$(window).scrollTop(0);
-	return true;
 }
 
 //leert alle Felder und stellt ihre Breite ein
@@ -10067,7 +10066,7 @@ function verorteTPopAufGeoAdmin(TPop) {
 }
 
 function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
-	//Falls noch aus dem Verorten ein Klick-Handler besteht: deaktivieren
+	//falls noch aus dem Verorten ein Klick-Handler besteht: deaktivieren
 	if (window.LetzterKlickHandler) {
 		window.LetzterKlickHandler.deactivate();
 	}
@@ -10094,11 +10093,6 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
 			erstelleTPopNrFuerGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert);
 			erstelleTPopNamenFuerGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert);
 			erstelleTPopSymboleFuerGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert);
-			//alle Pop holen, aber nur und erst, wenn window.api.map erstellt ist!
-			zeigePopInTPopKarte();
-
-			//alle layeroptionen schliessen
-			schliesseLayeroptionen();
 			
 			//Karte zum richtigen Ausschnitt zoomen
 			//aber nur, wenn keine Auswahl aktiv
@@ -10107,6 +10101,14 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
 			} else {
 				window.api.map.zoomToExtent(markierte_tpop.bounds);
 			}
+
+			//alle Pop holen
+			var pop_in_karte_gezeigt = $.Deferred();
+			pop_in_karte_gezeigt.resolve(zeigePopInTPopKarte());
+			pop_in_karte_gezeigt.then(function() {
+				//alle layeroptionen schliessen
+				schliesseLayeroptionen();
+			})
 		});
 
 		tpop_aufruf.fail(function() {
@@ -10150,33 +10152,34 @@ function waehleAusschnittFuerUebergebeneTPop(TPopListeMarkiert) {
 }
 
 function zeigePopInTPopKarte() {
-	$.ajax({
+	var pop_aufruf = $.ajax({
 		url: 'php/pop_karte_alle.php',
 		dataType: 'json',
 		data: {
 			"ApArtId": window.ap.ApArtId
-		},
-		success: function (PopListe) {
-			//Layer für Symbole und Beschriftung erstellen
-			//erstellePopNrFuerGeoAdmin(PopListe);
-			//erstellePopNamenFuerGeoAdmin(PopListe);
-			erstellePopSymboleFuerGeoAdmin(PopListe, null, false);
-
-			//alle layeroptionen schliessen
-			schliesseLayeroptionen();
-		},
-		error: function (data) {
-			$("#Meldung").html("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
-			$("#Meldung").dialog({
-				modal: true,
-				buttons: {
-					Ok: function() {
-						$(this).dialog("close");
-					}
-				}
-			});
 		}
-	})
+	});
+
+	pop_aufruf.done(function(PopListe) {
+		//Layer für Symbole und Beschriftung erstellen
+		erstellePopNrFuerGeoAdmin(PopListe, false);
+		erstellePopNamenFuerGeoAdmin(PopListe);
+		erstellePopSymboleFuerGeoAdmin(PopListe, null, false);
+
+		schliesseLayeroptionen();
+	});
+
+	pop_aufruf.fail(function() {
+		$("#Meldung").html("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
+		$("#Meldung").dialog({
+			modal: true,
+			buttons: {
+				Ok: function() {
+					$(this).dialog("close");
+				}
+			}
+		});
+	});
 }
 
 function erstelleTPopulationFuerGeoAdmin(TPop) {
@@ -10569,7 +10572,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert) {
 //übernimmt drei Variabeln: PopListe ist das Objekt mit den Populationen
 //popid_array der Array mit den ausgewählten Pop
 //visible: Ob die Ebene sichtbar geschaltet wird (oder bloss im Layertree verfügbar ist)
-function erstellePopSymboleFuerGeoAdmin(PopListe, popid_array, visible) {
+function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 	//styles für overlay_pop definieren
 	var defaultStyle = new OpenLayers.Style({
 		externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_braun.png',
@@ -10627,7 +10630,7 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_array, visible) {
 
 			//marker erstellen...
 			//gewählte erhalten style gelb und zuoberst
-			if (popid_array && popid_array.indexOf(Pop.PopId) !== -1) {
+			if (popid_markiert && popid_markiert.indexOf(Pop.PopId) !== -1) {
 				var marker = new OpenLayers.Feature.Vector(myLocation, {
 					tooltip: myName,
 					label: myLabel,
@@ -10679,7 +10682,7 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_array, visible) {
 								}
 							}
 							//...und neu erstellen
-							erstellePopSymboleFuerGeoAdmin(PopListe);
+							erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, true);
 						}
 					}
 				});
@@ -10710,7 +10713,7 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_array, visible) {
 						//jetzt alle marker entfernen...
 						entfernePopMarkerEbenen();
 						//...und neu aufbauen
-						//dazu die popliste neu abrufen, da Koordinaten geändert haben! popid_array bleibt gleich
+						//dazu die popliste neu abrufen, da Koordinaten geändert haben! popid_markiert bleibt gleich
 						$.ajax({
 							url: 'php/pop_karte_alle.php',
 							dataType: 'json',
@@ -10718,9 +10721,9 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_array, visible) {
 								"ApArtId": window.ap.ApArtId
 							},
 							success: function (PopListe) {
-								//erstellePopNrFuerGeoAdmin(PopListe, popid_array);
-								//erstellePopNamenFuerGeoAdmin(PopListe, popid_array);
-								erstellePopSymboleFuerGeoAdmin(PopListe, popid_array);
+								erstellePopNrFuerGeoAdmin(PopListe, visible);
+								erstellePopNamenFuerGeoAdmin(PopListe);
+								erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible);
 							},	
 							error: function (data) {
 								$("#Meldung").html("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
@@ -10745,7 +10748,7 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_array, visible) {
 							}
 						}
 						//...und neu erstellen
-						erstellePopSymboleFuerGeoAdmin(PopListe, popid_array);
+						erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible);
 					}
 				}
 			});
@@ -10774,7 +10777,128 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_array, visible) {
 	window.selectControlPop.activate();
 }
 
-//ermöglicht es, 
+function erstellePopNrFuerGeoAdmin(PopListe, visible) {
+	//styles für overlay_top definieren
+	var defaultStyle = new OpenLayers.Style({
+		externalGraphic: 'http://www.barbalex.ch/apflora/img/leer.png',
+		graphicWidth: 1, graphicHeight: 1, graphicYOffset: 0,
+		title: null,
+		label: '${label}',
+		fontColor: "black",
+		fontSize: "11px",
+		fontFamily: "Arial, Verdana, Helvetica, sans-serif",
+		fontWeight: "bold",
+		labelAlign: "cm",
+		// positive value moves the label to the right
+		labelXOffset: 0,
+		// negative value moves the label down
+		labelYOffset: -8,
+		labelOutlineColor: "white",
+		labelOutlineWidth: 3
+	});
+
+	// overlay layer für Marker vorbereiten
+	var overlay_pop_beschriftungen = new OpenLayers.Layer.Vector('Populationen Nummern', {
+		styleMap: new OpenLayers.StyleMap({
+			'default': defaultStyle,
+			'select': defaultStyle
+		}),
+		visibility: visible
+	});
+
+	//Array gründen, um marker darin zu sammeln
+	var markers = [];
+	var myLabel;
+
+	for (b in PopListe.rows) {
+		if (PopListe.rows.hasOwnProperty(b)) {
+			Pop = PopListe.rows[b];
+			
+			var myLocation = new OpenLayers.Geometry.Point(Pop.PopXKoord, Pop.PopYKoord);
+
+			//tooltip bzw. label vorbereiten: nullwerte ausblenden
+			if (Pop.PopNr) {
+				myLabel = Pop.PopNr ;
+			} else {
+				myLabel = '?';
+			}
+
+			//marker erstellen...
+			//gewählte erhalten style gelb und zuoberst
+			var marker = new OpenLayers.Feature.Vector(myLocation, {
+				label: myLabel,
+			});
+
+			//...und in Array speichern
+			markers.push(marker);
+		}
+	}
+
+	//die marker der Ebene hinzufügen
+	overlay_pop_beschriftungen.addFeatures(markers);
+
+	//overlay zur Karte hinzufügen
+	window.api.map.addLayers([overlay_pop_beschriftungen]);
+}
+
+function erstellePopNamenFuerGeoAdmin(PopListe) {
+	//styles für overlay_top definieren
+	var defaultStyle = new OpenLayers.Style({
+		externalGraphic: 'http://www.barbalex.ch/apflora/img/leer.png',
+		graphicWidth: 1, graphicHeight: 1, graphicYOffset: 0,
+		title: null,
+		label: '${label}',
+		fontColor: "black",
+		fontSize: "11px",
+		fontFamily: "Arial, Verdana, Helvetica, sans-serif",
+		fontWeight: "bold",
+		labelAlign: "cm",
+		// positive value moves the label to the right
+		labelXOffset: 0,
+		// negative value moves the label down
+		labelYOffset: -8,
+		labelOutlineColor: "white",
+		labelOutlineWidth: 3
+	});
+
+	// overlay layer für Marker vorbereiten
+	var overlay_pop_beschriftungen = new OpenLayers.Layer.Vector('Populationen Namen', {
+		styleMap: new OpenLayers.StyleMap({
+			'default': defaultStyle,
+			'select': defaultStyle
+		}),
+		visibility: false
+	});
+
+	//Array gründen, um marker darin zu sammeln
+	var markers = [];
+
+	for (b in PopListe.rows) {
+		if (PopListe.rows.hasOwnProperty(b)) {
+			Pop = PopListe.rows[b];
+			
+			var myLocation = new OpenLayers.Geometry.Point(Pop.PopXKoord, Pop.PopYKoord);
+			var myPopName = Pop.TPopName || '(kein Name)';
+
+			//marker erstellen...
+			//gewählte erhalten style gelb und zuoberst
+			var marker = new OpenLayers.Feature.Vector(myLocation, {
+				label: myPopName,
+			});
+
+			//...und in Array speichern
+			markers.push(marker);
+		}
+	}
+
+	//die marker der Ebene hinzufügen
+	overlay_pop_beschriftungen.addFeatures(markers);
+
+	//overlay zur Karte hinzufügen
+	window.api.map.addLayers([overlay_pop_beschriftungen]);
+}
+
+//ermöglicht es, nach dem toolip zu sortieren
 function vergleicheTPopZumSortierenNachTooltip(a,b) {
 	if (a.tooltip < b.tooltip)
 		 return -1;
