@@ -1947,6 +1947,7 @@ function zeigeFormular(Formularname) {
 		window.formularhoehe_manuell_GeoAdminKarte = true;
 	}
 	$(window).scrollTop(0);
+	return true;
 }
 
 //leert alle Felder und stellt ihre Breite ein
@@ -10066,32 +10067,37 @@ function verorteTPopAufGeoAdmin(TPop) {
 }
 
 function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
-	var TPop, bounds, markers, TPopId, html, x_max, y_max, x_min, y_min;
-
 	//Falls noch aus dem Verorten ein Klick-Handler besteht: deaktivieren
 	if (window.LetzterKlickHandler) {
 		window.LetzterKlickHandler.deactivate();
 	}
 
-	//alle tpop holen
-	$.ajax({
-		url: 'php/tpop_karte_alle.php',
-		dataType: 'json',
-		data: {
-			"ApArtId": window.ap.ApArtId
-		},
-		success: function (TPopListe) {
-			zeigeFormular("GeoAdminKarte");
+	//Grundkarte aufbauen
+	var formular_sichtbar = $.Deferred();
+	formular_sichtbar.resolve(zeigeFormular("GeoAdminKarte"));
 
+	//tpop und pop ergänzen
+	formular_sichtbar.then(function() {
+		//alle tpop holen
+		var tpop_aufruf = $.ajax({
+			url: 'php/tpop_karte_alle.php',
+			dataType: 'json',
+			data: {
+				"ApArtId": window.ap.ApArtId
+			}
+		});
+		
+		tpop_aufruf.done(function (TPopListe) {
+			var TPop, bounds, x_max, y_max, x_min, y_min;
 			//bound eröffnen
 			bounds = new OpenLayers.Bounds();
 
 			//jetzt bounds der anzuzeigenden bestimmen
-			var tpopid_array = [];
+			var tpopid_markiert = [];
 			for (b in TPopListeMarkieren.rows) {
 				if (TPopListeMarkieren.rows.hasOwnProperty(b)) {
 					TPop = TPopListeMarkieren.rows[b];
-					tpopid_array.push(TPop.TPopId);
+					tpopid_markiert.push(TPop.TPopId);
 					//bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
 					x_max = parseInt(TPop.TPopXKoord) + 300;
 					x_min = parseInt(TPop.TPopXKoord) - 300;
@@ -10103,9 +10109,11 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 			}
 
 			//Layer für Symbole und Beschriftung erstellen
-			erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_array);
-			erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_array);
-			erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array);
+			erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_markiert);
+			erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_markiert);
+			erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert);
+			//alle Pop holen, aber nur und erst, wenn window.api.map erstellt ist!
+			zeigePopInTPopKarte();
 
 			//alle layeroptionen schliessen
 			schliesseLayeroptionen();
@@ -10117,8 +10125,9 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 			} else {
 				window.api.map.zoomToExtent(bounds);
 			}
-		},	
-		error: function (data) {
+		});
+
+		tpop_aufruf.fail(function() {
 			$("#Meldung").html("Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden");
 			$("#Meldung").dialog({
 				modal: true,
@@ -10128,10 +10137,11 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 					}
 				}
 			});
-		}
-	});
+		});
+	});	
+}
 
-	//alle Pop holen
+function zeigePopInTPopKarte() {
 	$.ajax({
 		url: 'php/pop_karte_alle.php',
 		dataType: 'json',
@@ -10139,14 +10149,6 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 			"ApArtId": window.ap.ApArtId
 		},
 		success: function (PopListe) {
-			//jetzt popid_array erstellen
-			var popid_array = [];
-			for (b in PopListe.rows) {
-				if (PopListe.rows.hasOwnProperty(b)) {
-					Pop = PopListe.rows[b];
-					popid_array.push(Pop.PopId);
-				}
-			}
 			//Layer für Symbole und Beschriftung erstellen
 			//erstellePopNrFuerGeoAdmin(PopListe);
 			//erstellePopNamenFuerGeoAdmin(PopListe);
@@ -10154,7 +10156,7 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 
 			//alle layeroptionen schliessen
 			schliesseLayeroptionen();
-		},	
+		},
 		error: function (data) {
 			$("#Meldung").html("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
 			$("#Meldung").dialog({
@@ -10166,7 +10168,7 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkieren) {
 				}
 			});
 		}
-	});
+	})
 }
 
 function erstelleTPopulationFuerGeoAdmin(TPop) {
@@ -10277,7 +10279,7 @@ function speichereWert(tabelle, id, feld, wert) {
 	});
 }
 
-function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
+function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert) {
 	//styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
 		externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon.png',
@@ -10348,7 +10350,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 
 			//marker erstellen...
 			//gewählte erhalten style gelb und zuoberst
-			if (tpopid_array.indexOf(TPop.TPopId) !== -1) {
+			if (tpopid_markiert.indexOf(TPop.TPopId) !== -1) {
 				var marker = new OpenLayers.Feature.Vector(myLocation, {
 					tooltip: myFlurname,
 					label: myLabel,
@@ -10408,7 +10410,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 								}
 							}
 							//...und neu erstellen
-							erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array);
+							erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert);
 						}
 					}
 				});
@@ -10439,7 +10441,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 						//jetzt alle marker entfernen...
 						entferneTPopMarkerEbenen();
 						//...und neu aufbauen
-						//dazu die tpopliste neu abrufen, da Koordinaten geändert haben! tpopid_array bleibt gleich
+						//dazu die tpopliste neu abrufen, da Koordinaten geändert haben! tpopid_markiert bleibt gleich
 						$.ajax({
 							url: 'php/tpop_karte_alle.php',
 							dataType: 'json',
@@ -10447,9 +10449,9 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 								"ApArtId": window.ap.ApArtId
 							},
 							success: function (TPopListe) {
-								erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_array);
-								erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_array);
-								erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array);
+								erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_markiert);
+								erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_markiert);
+								erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert);
 							},	
 							error: function (data) {
 								$("#Meldung").html("Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden");
@@ -10474,7 +10476,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 							}
 						}
 						//...und neu erstellen
-						erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array);
+						erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert);
 					}
 				}
 			});
@@ -10562,12 +10564,12 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_array) {
 function erstellePopSymboleFuerGeoAdmin(PopListe, popid_array, visible) {
 	//styles für overlay_pop definieren
 	var defaultStyle = new OpenLayers.Style({
-		externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_violett.png',
+		externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_braun.png',
 		graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
 		title: '${tooltip}'
 	});
 	var selectStyle = new OpenLayers.Style({
-		externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_gelb.png'
+		externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_orange.png'
 	});
 
 	// overlay layer für Marker vorbereiten
@@ -10581,7 +10583,7 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_array, visible) {
 				geoadminOnFeatureUnselect(evt.feature);
 			}
 		},
-		//normal = grün, markiert = gelb
+		//normal = braun, markiert = orange
 		styleMap: new OpenLayers.StyleMap({
 			'default': defaultStyle,
 			'select': selectStyle
@@ -10623,7 +10625,7 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_array, visible) {
 					label: myLabel,
 					message: html
 				}, {
-					externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_gelb.png',
+					externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_orange.png',
 					graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
 					title: myName,
 					graphicZIndex: 5000
@@ -10649,14 +10651,6 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_array, visible) {
 	//die marker sollen verschoben werden können
 	var dragControl = new OpenLayers.Control.DragFeature(overlay_pop, {
 		onStart: function(feature) {
-			//TO DO: Variable zum rückgängig machen erstellen
-			/*window.tpop_vorher = {};
-			tpop_vorher.TPopXKoord = feature.geometry.x;
-			tpop_vorher.TPopYKoord = feature.geometry.y;
-			tpop_vorher.TPopId = feature.attributes.myId;*/
-			//meldung anzeigen, wie bei anderen Wiederherstellungen
-			//wenn wiederherstellen: function verschiebeTPop(id, x, y)
-			
 			//allfällig geöffnete Popups schliessen - ist unschön, wenn die offen bleiben
 			window.selectControlPop.unselectAll();
 		},
@@ -10716,8 +10710,8 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_array, visible) {
 								"ApArtId": window.ap.ApArtId
 							},
 							success: function (PopListe) {
-								erstellePopNrFuerGeoAdmin(PopListe, popid_array);
-								erstellePopNamenFuerGeoAdmin(PopListe, popid_array);
+								//erstellePopNrFuerGeoAdmin(PopListe, popid_array);
+								//erstellePopNamenFuerGeoAdmin(PopListe, popid_array);
 								erstellePopSymboleFuerGeoAdmin(PopListe, popid_array);
 							},	
 							error: function (data) {
@@ -10793,7 +10787,7 @@ function deaktiviereGeoAdminAuswahl() {
 	delete window.tpop_id_liste;
 }
 
-function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_array) {
+function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_markiert) {
 	//styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
 		externalGraphic: 'http://www.barbalex.ch/apflora/img/leer.png',
@@ -10860,7 +10854,7 @@ function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_array) {
 	window.api.map.addLayers([overlay_tpop_beschriftungen]);
 }
 
-function erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_array) {
+function erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_markiert) {
 	//styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
 		externalGraphic: 'http://www.barbalex.ch/apflora/img/leer.png',
@@ -12396,6 +12390,7 @@ function initiiereGeoAdminKarte() {
 	
 	$('#karteSchieben').checked = true;	//scheint nicht zu funktionieren?
 	korrigiereLayernamenImLayertree();
+	return window.api.map;
 };
 
 function waehleMitPolygon() {
