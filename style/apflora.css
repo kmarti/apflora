@@ -316,6 +316,11 @@ a {
 	-webkit-user-select: none !important; 
 }
 
+/*CH-Übersicht mit runden Ecken*/
+.olControlOverviewMapElement {
+	border-radius: 8px;
+}
+
 #layertree {
 	width: 302px;
 	overflow:auto;
@@ -324,7 +329,7 @@ a {
 	z-index: 1009;
 	top: 19px;
 	max-height: 90%;
-	/*border-bottom: #DDD solid 1px;   leider nicht schön, wenn kein overflow*/
+	border-radius: 6px;
 }
 #menuleiste {
 	position: absolute;
@@ -333,9 +338,17 @@ a {
 	/*vor die Karte aber nicht vor die Meldungen*/
 	z-index: 800;
 }
-/*Ebenenliste soll die ganze Höhe nutzen*/
+/*Ebenen-Header soll oben gerundet sein*/
+.x-panel-header {
+	/*border-top-right-radius: 6px;
+	border-top-left-radius: 6px;*/
+	border-radius: 6px;
+}
+/*Ebenenliste soll die ganze Höhe nutzen und unten gerundet sein*/
 .x-panel-body {
 	height: 100% !important;
+	border-bottom-right-radius: 6px;
+	border-bottom-left-radius: 6px;
 }
 /*Ebenentitel fett hervorheben*/
 div.x-tree-node-leaf a.x-tree-node-anchor span {

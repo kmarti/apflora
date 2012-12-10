@@ -12662,8 +12662,12 @@ function oeffneSchliesseLayertree() {
 	//ein hübscher Übergang wäre nett
 	if ($(".x-panel-bwrap").css('display') !== 'none') {
 		$(".x-panel-bwrap").css('display', 'none');
+		$("#layertree .x-panel-header").css('border-bottom-right-radius', '6px');
+		$("#layertree .x-panel-header").css('border-bottom-left-radius', '6px');
 	} else {
 		$(".x-panel-bwrap").css('display', 'inline');
+		$("#layertree .x-panel-header").css('border-bottom-right-radius', 0);
+		$("#layertree .x-panel-header").css('border-bottom-left-radius', 0);
 	}
 }
 
