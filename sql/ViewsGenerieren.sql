@@ -193,23 +193,26 @@ FROM ((tblPopulation RIGHT JOIN tblTeilpopulation ON tblPopulation.PopId = tblTe
 WHERE tblPopulation.PopId Is Null
 ORDER BY tblTeilpopulation.TPopGemeinde, tblTeilpopulation.TPopFlurname, tblTeilpopulation.TPopNr;
 
+im Gebrauch:
 CREATE VIEW vPopAnzTPopPop0 AS
 SELECT tblPopulation.PopId, Sum(If(tblTeilpopulation.TPopPop Is Null,0,tblTeilpopulation.TPopPop)) AS "AnzTPopPop"
 FROM tblTeilpopulation RIGHT JOIN tblPopulation ON tblTeilpopulation.PopId = tblPopulation.PopId
 GROUP BY tblPopulation.PopId;
 
+im Gebrauch:
 CREATE VIEW vPopAnzTPopPop AS
 SELECT ArtenDb_tblFloraSisf.NR AS ApArtId, ArtenDb_tblFloraSisf.Name AS "AP Art", DomainApBearbeitungsstand.DomainTxt AS "AP Status", tblAktionsplan.ApJahr AS "AP Start im Jahr", DomainApUmsetzung.DomainTxt AS "AP Stand Umsetzung", tblPopulation.PopGuid AS "Pop Guid", tblPopulation.PopNr AS "Pop Nr", tblPopulation.PopName AS "Pop Name", DomainPopHerkunft.HerkunftTxt AS "Pop Status", tblPopulation.PopBekanntSeit AS "Pop bekannt seit", vPopAnzTPopPop0.AnzTPopPop AS "Anz TPopPop"
 FROM (((((ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) INNER JOIN tblPopulation ON tblAktionsplan.ApArtId = tblPopulation.ApArtId) LEFT JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode) LEFT JOIN DomainApUmsetzung ON tblAktionsplan.ApUmsetzung = DomainApUmsetzung.DomainCode) LEFT JOIN DomainPopHerkunft ON tblPopulation.PopHerkunft = DomainPopHerkunft.HerkunftId) INNER JOIN vPopAnzTPopPop0 ON tblPopulation.PopId = vPopAnzTPopPop0.PopId
 ORDER BY ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr;
 
-
+im Gebrauch durch export_pop_von_ap_ohne_status.php:
 CREATE VIEW vPopVonApOhneStatus AS 
 SELECT ArtenDb_tblFloraSisf.Name AS Art, tblAktionsplan.ApStatus AS "Bearbeitungsstand AP", tblPopulation.PopNr, tblPopulation.PopName, tblPopulation.PopHerkunft AS Status
 FROM ArtenDb_tblFloraSisf INNER JOIN (tblAktionsplan INNER JOIN tblPopulation ON tblAktionsplan.ApArtId = tblPopulation.ApArtId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId
 WHERE (((tblAktionsplan.ApStatus)=3) AND ((tblPopulation.PopHerkunft) Is Null))
 ORDER BY ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr;
 
+im Gebrauch durch export_pop_mit_massnber_anz_massn.php:
 CREATE VIEW vPopMassnberAnzMassn0 AS
 SELECT tblPopMassnBericht.PopId, tblPopMassnBericht.PopMassnBerJahr, Count(tblTeilPopMassnahme.TPopMassnId) AS AnzahlvonTPopMassnId
 FROM tblPopMassnBericht INNER JOIN (tblTeilpopulation LEFT JOIN tblTeilPopMassnahme ON tblTeilpopulation.TPopId = tblTeilPopMassnahme.TPopId) ON tblPopMassnBericht.PopId = tblTeilpopulation.PopId
@@ -217,23 +220,13 @@ WHERE tblTeilPopMassnahme.TPopMassnJahr=tblPopMassnBericht.PopMassnBerJahr Or tb
 GROUP BY tblPopMassnBericht.PopId, tblPopMassnBericht.PopMassnBerJahr
 ORDER BY tblPopMassnBericht.PopId, tblPopMassnBericht.PopMassnBerJahr;
 
+im Gebrauch durch export_pop_mit_massnber_anz_massn.php:
 CREATE VIEW vPopMassnberAnzMassn AS
 SELECT ArtenDb_tblFloraSisf.NR AS ApArtId, ArtenDb_tblFloraSisf.Name AS "AP Art", DomainApBearbeitungsstand.DomainTxt AS "AP Status", tblAktionsplan.ApJahr AS "AP Start im Jahr", DomainApUmsetzung.DomainTxt AS "AP Stand Umsetzung", tblPopulation.PopGuid AS "Pop Guid", tblPopulation.PopNr AS "Pop Nr", tblPopulation.PopName AS "Pop Name", DomainPopHerkunft.HerkunftTxt AS "Pop Status", tblPopulation.PopBekanntSeit AS "Pop bekannt seit", vPopMassnberAnzMassn0.PopMassnBerJahr AS "MassnBer Jahr", vPopMassnberAnzMassn0.AnzahlvonTPopMassnId AS "Anz Massnahmen in diesem Jahr"
 FROM (((((ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) INNER JOIN tblPopulation ON tblAktionsplan.ApArtId = tblPopulation.ApArtId) LEFT JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode) LEFT JOIN DomainApUmsetzung ON tblAktionsplan.ApUmsetzung = DomainApUmsetzung.DomainCode) LEFT JOIN DomainPopHerkunft ON tblPopulation.PopHerkunft = DomainPopHerkunft.HerkunftId) INNER JOIN vPopMassnberAnzMassn0 ON tblPopulation.PopId = vPopMassnberAnzMassn0.PopId
 ORDER BY ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr, vPopMassnberAnzMassn0.PopMassnBerJahr;
 
-CREATE VIEW vKontrApArtPopulationOhneStatus AS 
-SELECT ArtenDb_tblFloraSisf.Name AS Art, DomainApBearbeitungsstand.DomainTxt AS "Bearbeitungsstand AP", tblPopulation.PopNr, tblPopulation.PopName, tblPopulation.PopHerkunft AS Status
-FROM (ArtenDb_tblFloraSisf INNER JOIN (tblAktionsplan INNER JOIN tblPopulation ON tblAktionsplan.ApArtId = tblPopulation.ApArtId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) INNER JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode
-WHERE (((tblPopulation.PopHerkunft) Is Null) AND ((tblAktionsplan.ApStatus)=3))
-ORDER BY ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr;
-
-CREATE VIEW vKontrApOhnePop AS 
-SELECT ArtenDb_tblFloraSisf.Name AS Art, DomainApBearbeitungsstand.DomainTxt AS ApStatus, tblPopulation.PopNr
-FROM (ArtenDb_tblFloraSisf INNER JOIN (tblAktionsplan LEFT JOIN tblPopulation ON tblAktionsplan.ApArtId = tblPopulation.ApArtId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) INNER JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode
-WHERE (((tblPopulation.PopNr) Is Null))
-ORDER BY ArtenDb_tblFloraSisf.Name, DomainApBearbeitungsstand.DomainTxt;
-
+vorsichtshalber behalten, nicht mehr im Gebrauch:
 CREATE VIEW vKontrBeobDistanzZurTPop AS
 SELECT ArtenDb_tblFloraSisf.Name AS Art, DomainApBearbeitungsstand.DomainTxt AS ApStatus, tblPopulation.PopNr, tblPopulation.PopName, tblTeilpopulation.TPopNr, tblTeilpopulation.TPopGemeinde, tblTeilpopulation.TPopFlurname, tblTeilpopulation.TPopXKoord, tblTeilpopulation.TPopYKoord, alexande_beob.tblBeob.NO_NOTE AS IdZdsf, alexande_beob.tblBeob.IdEvab, alexande_beob.tblBeob.xGIS AS Beob_X, alexande_beob.tblBeob.yGIS AS Beob_Y, SQRT((alexande_beob.tblBeob.xGIS-tblTeilpopulation.TPopXKoord)*(alexande_beob.tblBeob.xGIS-tblTeilpopulation.TPopXKoord)+(alexande_beob.tblBeob.yGIS-tblTeilpopulation.TPopYKoord)*(alexande_beob.tblBeob.yGIS-tblTeilpopulation.TPopYKoord)) AS Beob_DistZurTPop, alexande_beob.tblBeob.PROJET AS Beob_Projekt, alexande_beob.tblBeob.NOM_COMMUNE AS Beob_RaumGde, alexande_beob.tblBeob.DESC_LOCALITE AS Beob_Ort, CAST(IF(alexande_beob.tblBeob.M_NOTE>0, IF(alexande_beob.tblBeob.M_NOTE>9, CONCAT(alexande_beob.tblBeob.J_NOTE, ".", alexande_beob.tblBeob.M_NOTE, ".", alexande_beob.tblBeob.A_NOTE), CONCAT(alexande_beob.tblBeob.J_NOTE, ".0", alexande_beob.tblBeob.M_NOTE, ".", alexande_beob.tblBeob.A_NOTE)), alexande_beob.tblBeob.A_NOTE) AS CHAR) AS Beob_Datum, alexande_beob.tblBeob.Autor AS Beob_Autor
 FROM (ArtenDb_tblFloraSisf INNER JOIN (((tblAktionsplan INNER JOIN tblPopulation ON tblAktionsplan.ApArtId = tblPopulation.ApArtId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) INNER JOIN alexande_beob.tblBeob ON tblTeilpopulation.TPopId = alexande_beob.tblBeob.TPopId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) INNER JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode
