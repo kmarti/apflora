@@ -1878,6 +1878,7 @@ function zeigeFormular(Formularname) {
 	window.formularhoehe_manuell_GeoAdminKarte = false;
 	//höhe von forms auf auto setzen, weil dies von den Kartenansichten verändert wird
 	$("#forms").height('auto');
+	$("#forms").css('padding', '10px 7px 0px 7px');
 	$("#testart_div").hide();
 	//Bei Testarten Hinweis anzeigen
 	if ($("#ap_waehlen").val()) {
@@ -1931,20 +1932,20 @@ function zeigeFormular(Formularname) {
 		window.formularhoehe_manuell_GoogleKarte = true;
 	}
 	if (Formularname === "GeoAdminKarte") {
+		//markieren, dass die Formularhöhe anders gesetzt werden soll
+		window.formularhoehe_manuell_GeoAdminKarte = true;
 		//auswählen deaktivieren und allfällige Liste ausblenden
 		$("#mitPolygonWaehlen").button({ disabled: false });
 		//deaktiviereGeoAdminAuswahl();
-
-		Kartenhoehe = $(window).height() - 31;
+		$("#forms").css('padding', '0px 0px 0px 0px');
+		Kartenhoehe = $(window).height() - 17;
 		$("#GeoAdminKarte").css("height", Kartenhoehe + "px");
 		$("#GeoAdminKarte").show();
-		initiiereGeoAdminKarte();
-		$("#forms").css("background-color", "#FFFFFF")
-		//Karte wird sonst unter dem Menu angezeigt
-		setTimeout(function() {
+		var karte_initiiert = $.Deferred();
+		karte_initiiert.resolve(initiiereGeoAdminKarte());
+		karte_initiiert.then(function() {
 			setzeSpaltenbreiten();
-		}, 5);
-		window.formularhoehe_manuell_GeoAdminKarte = true;
+		});
 	}
 	$(window).scrollTop(0);
 }
@@ -1972,9 +1973,9 @@ function setzeTreehoehe() {
 
 function setzeKartenhoehe() {
 	if (window.formularhoehe_manuell_GeoAdminKarte) {
-		$("#forms").height($(window).height() - 31);
-		$("#GeoAdminKarte").height($(window).height() - 31);
-		$("#ga_karten_div").height($(window).height() - 31);
+		$("#forms").height($(window).height() - 17);
+		$("#GeoAdminKarte").height($(window).height() - 17);
+		$("#ga_karten_div").height($(window).height() - 17);
 		window.api.map.updateSize();
 	} else if (window.formularhoehe_manuell_GoogleKarte) {
 		$("#forms").height($(window).height() - 31);
@@ -1982,9 +1983,6 @@ function setzeKartenhoehe() {
 		google.maps.event.trigger(map, 'resize');
 	} else {
 		$("#forms").height('auto');
-		/*$("#GeoAdminKarte").height('auto');
-		$("#ga_karten_div").height('auto');
-		$("#Karte").height('auto');*/
 	}
 }
 
@@ -1997,10 +1995,20 @@ function setzeKartenhoehe() {
 //ab minimaler Breite forms unter menu setzen, 
 function setzeSpaltenbreiten() {
 	if ($(window).width() > 1000) {
-		$("#forms").width($(window).width() - 425);
+		if (window.formularhoehe_manuell_GeoAdminKarte) {
+			//Karte füllt den ganzen Fieldset aus
+			$("#forms").width($(window).width() - 411);
+		} else {
+			$("#forms").width($(window).width() - 425);
+		}
 		$("#tree").width(370);
 	} else {
-		$("#forms").width($(window).width() - 31);
+		if (window.formularhoehe_manuell_GeoAdminKarte) {
+			//Karte füllt den ganzen Fieldset aus
+			$("#forms").width($(window).width() - 17);
+		} else {
+			$("#forms").width($(window).width() - 31);
+		}
 		$("#tree").width($(window).width() - 31);
 	}
 }
