@@ -1878,8 +1878,10 @@ function zeigeFormular(Formularname) {
 	window.formularhoehe_manuell_GeoAdminKarte = false;
 	//höhe von forms auf auto setzen, weil dies von den Kartenansichten verändert wird
 	$("#forms").height('auto');
+	//padding von forms wieder setzen, weil es bei der Kartenanzeige entfernt wird, damit die Karte den ganzen Platz einnehmen kann
 	$("#forms").css('padding', '10px 7px 0px 7px');
 	$("#testart_div").hide();
+	//Titelzeile anzeigen, weil sie für die Kartenanzeige entfernt wird
 	$("#forms_titelzeile").css("display", "inline-block");
 	//Bei Testarten Hinweis anzeigen
 	if ($("#ap_waehlen").val()) {
@@ -1922,8 +1924,9 @@ function zeigeFormular(Formularname) {
 		});
 	}
 	if (Formularname === "Karte") {
-		//$("#testart_div").hide();
+		//Titelzeile entfernen
 		$("#forms_titelzeile").css("display", "none");
+		//padding von forms entfernen, damit die Karte den ganzen Platz einnehmen kann
 		$("#forms").css('padding', '0px 0px 0px 0px');
 		//markieren, dass die Formularhöhe anders gesetzt werden soll
 		window.formularhoehe_manuell_GoogleKarte = true;
@@ -1937,6 +1940,7 @@ function zeigeFormular(Formularname) {
 		window.formularhoehe_manuell_GeoAdminKarte = true;
 		//auswählen deaktivieren und allfällige Liste ausblenden
 		$("#mitPolygonWaehlen").button({ disabled: false });
+		//padding von forms entfernen, damit die Karte den ganzen Platz einnehmen kann
 		$("#forms").css('padding', '0px 0px 0px 0px');
 		Kartenhoehe = $(window).height() - 17;
 		$("#GeoAdminKarte").css("height", Kartenhoehe + "px");
