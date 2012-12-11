@@ -315,9 +315,27 @@ body {
 a {
 	-webkit-user-select: none !important; 
 }
+#Karte {
+	border-radius: 8px;
+	overflow: hidden;
+}
+#distanz_messen {
+	position: absolute;
+	top: 4px;
+	left: 100px;
+	/*vor die Karte aber nicht vor die Meldungen*/
+	z-index: 800;
+}
+#distanz_messen_entfernen {
+	position: absolute;
+	top: 4px;
+	left: 220px;
+	/*vor die Karte aber nicht vor die Meldungen*/
+	z-index: 800;
+}
 
 #ga_karten_div, .olMapViewport {
-	border-radius: 6px;
+	border-radius: 8px;
 	overflow: hidden;
 }
 /*CH-Übersicht mit runden Ecken*/

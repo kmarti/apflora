@@ -50,8 +50,6 @@
 			<div id="forms_titelzeile" style="margin:0px 0px 0px 0px; line-height:27px;">
 				<div id="undelete_div" style="text-align:center !important; border-radius:0.5em !important; font-weight:bold !important; background-color:#FFCC33 !important; padding-right:7px !important;"></div>
 				<div id="testart_div" style="font-weight:bold; color:#196319; float:left; padding-right:7px;"></div>
-				<button id='distanz_messen' onclick='addruler();' style="display:none; float:left;">Distanz messen</button>
-				<button id='distanz_messen_entfernen' onclick='removeruler();' style="display:none; float:left;">Messung entfernen</button>
 			</div>
 			<form id="ap" class="form" action="#" method="get" autocomplete="off">
 				<table>
@@ -2089,7 +2087,12 @@
 				</table>
 			</form>
 
-			<form id="Karte" style="width:100%; height:100%;"></form>
+			<form id="Karte" style="width:100%; height:100%;">
+				<button id='distanz_messen'>Distanz messen</button>
+				<button id='distanz_messen_entfernen'>Messung entfernen</button>
+				<div id="google_karten_div" style="width:100%; height:100%;">
+				</div>
+			</form>
 			
 			<div id="GeoAdminKarte" style="width:100%; height:100%;">
 				<div id="ga_karten_div" style="width:100%; height:100%;">
@@ -2517,6 +2520,16 @@
 						});
 					}
 						
+				});
+
+				$("#Karte").on("click", "#distanz_messen", function(event) {
+					event.preventDefault();
+					addruler();
+				});
+
+				$("#Karte").on("click", "#distanz_messen_entfernen", function(event) {
+					event.preventDefault();
+					removeruler();
 				});
 
 				$("#menu").on("click", "[name=programm_wahl]", function () {

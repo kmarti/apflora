@@ -1880,6 +1880,7 @@ function zeigeFormular(Formularname) {
 	$("#forms").height('auto');
 	$("#forms").css('padding', '10px 7px 0px 7px');
 	$("#testart_div").hide();
+	$("#forms_titelzeile").css("display", "inline-block");
 	//Bei Testarten Hinweis anzeigen
 	if ($("#ap_waehlen").val()) {
 		//titelzeile inline, sonst gibt es einen unschönen Abstand nach oben
@@ -1901,8 +1902,6 @@ function zeigeFormular(Formularname) {
 	if (Formularname) {
 		$("#forms").css("background-color", "#FFE")
 		$("#forms").show();
-		$("#distanz_messen").hide();
-		$("#distanz_messen_entfernen").hide();
 		//GeoAdminKarte ist in div statt form, wegen des CSS
 		$("#GeoAdminKarte").hide();
 		$('form').each(function() {
@@ -1923,20 +1922,21 @@ function zeigeFormular(Formularname) {
 		});
 	}
 	if (Formularname === "Karte") {
+		//$("#testart_div").hide();
+		$("#forms_titelzeile").css("display", "none");
+		$("#forms").css('padding', '0px 0px 0px 0px');
+		//markieren, dass die Formularhöhe anders gesetzt werden soll
+		window.formularhoehe_manuell_GoogleKarte = true;
 		//Karte wird sonst unter dem Menu angezeigt
 		setTimeout(function() {
 			setzeSpaltenbreiten();
 		}, 5);
-		$("#distanz_messen").show();
-		$("#distanz_messen_entfernen").show();
-		window.formularhoehe_manuell_GoogleKarte = true;
 	}
 	if (Formularname === "GeoAdminKarte") {
 		//markieren, dass die Formularhöhe anders gesetzt werden soll
 		window.formularhoehe_manuell_GeoAdminKarte = true;
 		//auswählen deaktivieren und allfällige Liste ausblenden
 		$("#mitPolygonWaehlen").button({ disabled: false });
-		//deaktiviereGeoAdminAuswahl();
 		$("#forms").css('padding', '0px 0px 0px 0px');
 		Kartenhoehe = $(window).height() - 17;
 		$("#GeoAdminKarte").css("height", Kartenhoehe + "px");
@@ -1978,8 +1978,9 @@ function setzeKartenhoehe() {
 		$("#ga_karten_div").height($(window).height() - 17);
 		window.api.map.updateSize();
 	} else if (window.formularhoehe_manuell_GoogleKarte) {
-		$("#forms").height($(window).height() - 31);
-		$("#Karte").height($(window).height() - 62);
+		$("#forms").height($(window).height() - 17);
+		$("#Karte").height($(window).height() - 17);
+		$("#google_karten_div").height($(window).height() - 17);
 		google.maps.event.trigger(map, 'resize');
 	} else {
 		$("#forms").height('auto');
@@ -1995,7 +1996,7 @@ function setzeKartenhoehe() {
 //ab minimaler Breite forms unter menu setzen, 
 function setzeSpaltenbreiten() {
 	if ($(window).width() > 1000) {
-		if (window.formularhoehe_manuell_GeoAdminKarte) {
+		if (window.formularhoehe_manuell_GeoAdminKarte || window.formularhoehe_manuell_GoogleKarte) {
 			//Karte füllt den ganzen Fieldset aus
 			$("#forms").width($(window).width() - 411);
 		} else {
@@ -2003,7 +2004,7 @@ function setzeSpaltenbreiten() {
 		}
 		$("#tree").width(370);
 	} else {
-		if (window.formularhoehe_manuell_GeoAdminKarte) {
+		if (window.formularhoehe_manuell_GeoAdminKarte || window.formularhoehe_manuell_GoogleKarte) {
 			//Karte füllt den ganzen Fieldset aus
 			$("#forms").width($(window).width() - 17);
 		} else {
@@ -9797,7 +9798,7 @@ function zeigeTPopAufKarte(TPopListe) {
 	zeigeFormular("Karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
-	Kartenhoehe = $(window).height() - 62;
+	Kartenhoehe = $(window).height() - 17;
 	infowindow = new google.maps.InfoWindow();
 	$("#Karte").css("height", Kartenhoehe + "px");
 	//TPopListe bearbeiten:
@@ -9825,7 +9826,7 @@ function zeigeTPopAufKarte(TPopListe) {
 		streetViewControl: false,
 		mapTypeId: google.maps.MapTypeId.SATELLITE
 	};
-	map = new google.maps.Map(document.getElementById("Karte"), options);
+	map = new google.maps.Map(document.getElementById("google_karten_div"), options);
 	window.map = map;
 	bounds = new google.maps.LatLngBounds();
 	//für alle TPop Marker erstellen
@@ -11151,7 +11152,7 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 	zeigeFormular("Karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
-	Kartenhoehe = $(window).height() - 62;
+	Kartenhoehe = $(window).height() - 17;
 	$("#Karte").css("height", Kartenhoehe + "px");
 	infowindowBeob = new google.maps.InfoWindow();
 	infowindowTPop = new google.maps.InfoWindow();
@@ -11188,7 +11189,7 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 		streetViewControl: false,
 		mapTypeId: google.maps.MapTypeId.SATELLITE
 	};
-	map = new google.maps.Map(document.getElementById("Karte"), options);
+	map = new google.maps.Map(document.getElementById("google_karten_div"), options);
 	window.map = map;
 	bounds = new google.maps.LatLngBounds();
 
@@ -11408,7 +11409,7 @@ function zeigeBeobAufKarte(BeobListe) {
 	zeigeFormular("Karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
-	Kartenhoehe = $(window).height() - 62;
+	Kartenhoehe = $(window).height() - 17;
 	infowindow = new google.maps.InfoWindow();
 	$("#Karte").css("height", Kartenhoehe + "px");
 	//Lat und Lng in BeobListe ergänzen
@@ -11439,7 +11440,7 @@ function zeigeBeobAufKarte(BeobListe) {
 			]
 		}
 	};
-	map = new google.maps.Map(document.getElementById("Karte"), options);
+	map = new google.maps.Map(document.getElementById("google_karten_div"), options);
 	window.map = map;
 	bounds = new google.maps.LatLngBounds();
 	//für alle Orte Marker erstellen
@@ -11542,7 +11543,7 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 	zeigeFormular("Karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
-	Kartenhoehe = $(window).height() - 62;
+	Kartenhoehe = $(window).height() - 17;
 	infowindow = new google.maps.InfoWindow();
 	$("#Karte").css("height", Kartenhoehe + "px");
 	//TPopListe bearbeiten:
@@ -11575,7 +11576,7 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 			]
 		}
 	};
-	map = new google.maps.Map(document.getElementById("Karte"), options);
+	map = new google.maps.Map(document.getElementById("google_karten_div"), options);
 	window.map = map;
 	//Versuch: SVO einblenden
 	//loadWMS(map, "http://wms.zh.ch/FnsSVOZHWMS?");
@@ -11677,7 +11678,7 @@ function verorteTPopAufKarte(TPop) {
 	zeigeFormular("Karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
-	Kartenhoehe = $(window).height() - 62;
+	Kartenhoehe = $(window).height() - 17;
 	infowindow = new google.maps.InfoWindow();
 	$("#Karte").css("height", Kartenhoehe + "px");
 	if (TPop && TPop.TPopXKoord && TPop.TPopYKoord) {
@@ -11700,7 +11701,7 @@ function verorteTPopAufKarte(TPop) {
 		streetViewControl: false,
 		mapTypeId: google.maps.MapTypeId.SATELLITE
 	};
-	mapcanvas = $('#Karte');
+	mapcanvas = $('#google_karten_div');
 	map = new google.maps.Map(mapcanvas[0],options);
 	window.map = map;
 	if (verorted === true) {
