@@ -2986,6 +2986,28 @@
 				}
 			});
 
+			//Bei aktivieren/deaktivieren von Pop oder TPop im Layertree soll Auwahl erneuert werden
+			$("#layertree").on("click", "button.x-btn-text", function() {
+				//wenn ein Auswahlpolygon existiert
+				if (window.auswahlPolygonLayer && window.auswahlPolygonLayer.features.length > 0) {
+					//Layer ermitteln
+					var Layername = $(this).parents().eq(19).children(".x-tree-node-anchor").children().text();
+					//Wenn Layer Pop oder TPop ist
+					if (Layername === "Populationen" || Layername === "Teilpopulationen") {
+						//...Auswahl auffrischen
+						if (Layername === "Populationen") {
+							//Populationen: Auswahl ermitteln und einen Array von ID's in window.pop_array speichern
+							erstellePopAuswahlArrays();
+						} else if (Layername === "Teilpopulationen") {
+							//Teilpopulationen: Auswahl ermitteln und einen Array von ID's in window.tpop_array speichern
+							erstelleTPopAuswahlArrays();
+						}
+						//Liste erstellen, welche die Auswahl anzeigt, Pop/TPop verlinkt und Exporte anbietet
+						erstelleListeDerAusgewaehltenPopTPop();
+					}
+				}	
+			});
+
 			$(window).resize(function () {
 				setzeSpaltenbreiten();
 				setzeTreehoehe();

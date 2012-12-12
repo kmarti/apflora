@@ -10551,89 +10551,16 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert) {
 	if (!window.drawControl) {
 		window.drawControl = new OpenLayers.Control.DrawFeature(auswahlPolygonLayer, OpenLayers.Handler.Polygon);
 		drawControl.events.register("featureadded", this, function (event) {
-			var filter = new OpenLayers.Filter.Spatial({ 
+			window.PopTPopAuswahlFilter = new OpenLayers.Filter.Spatial({ 
 				type: OpenLayers.Filter.Spatial.INTERSECTS, 
 				value: event.feature.geometry
 			});
 			//Teilpopulationen: Auswahl ermitteln und einen Array von ID's in window.tpop_array speichern
-			window.tpop_array = [];
-			window.tpop_id_array = [];
-			if (overlay_tpop.visibility === true) {
-				$.each(overlay_tpop.features, function() {
-					if (filter.evaluate(this)) {
-						window.tpop_array.push(this.attributes);
-						window.tpop_id_array.push(parseInt(this.attributes.myId));
-					}
-				});
-				window.tpop_array.sort(vergleicheTPopZumSortierenNachTooltip);
-			}
-
+			erstelleTPopAuswahlArrays();
 			//Populationen: Auswahl ermitteln und einen Array von ID's in window.pop_array speichern
-			window.pop_array = [];
-			window.pop_id_array = [];
-			if (overlay_pop.visibility === true) {
-				$.each(overlay_pop.features, function() {
-					if (filter.evaluate(this)) {
-						window.pop_array.push(this.attributes);
-						window.pop_id_array.push(parseInt(this.attributes.myId));
-					}
-				});
-				window.pop_array.sort(vergleicheTPopZumSortierenNachTooltip);
-			}
-			
-			//rückmelden, welche Objekte gewählt wurden
-			var rueckmeldung = "";
-			if (window.pop_array.length > 0) {
-				if (window.tpop_array.length > 0) {
-					//tpop und pop betitteln
-					rueckmeldung += "<p class='ergebnisAuswahlListeTitel'>" + window.pop_array.length + " Populationen: </p>";
-				}
-				rueckmeldung += "<table>";
-				for (var i = 0; i < window.pop_array.length; i++) {
-					rueckmeldung += "<tr><td><a href=\"#\" onclick=\"oeffnePop('" + window.pop_array[i]['myId'] + "')\">" + window.pop_array[i]['label'] + ":<\/a></td><td><a href=\"#\" onclick=\"oeffnePop('" + window.pop_array[i]['myId'] + "')\">" + window.pop_array[i].tooltip + "<\/a></td></tr>";
-				}
-				rueckmeldung += "</table>";
-			}
-			if (window.tpop_array.length > 0) {
-				if (window.pop_array.length > 0) {
-					//tpop und pop betitteln
-					rueckmeldung += "<p class='ergebnisAuswahlListeTitel ergebnisAuswahlListeTitelTPop'>" + window.tpop_array.length + " Teilpopulationen: </p>";
-				}
-				rueckmeldung += "<table>";
-				for (var i = 0; i < window.tpop_array.length; i++) {
-					rueckmeldung += "<tr><td><a href=\"#\" onclick=\"oeffneTPop('" + window.tpop_array[i]['myId'] + "')\">" + window.tpop_array[i]['label'] + ":<\/a></td><td><a href=\"#\" onclick=\"oeffneTPop('" + window.tpop_array[i]['myId'] + "')\">" + window.tpop_array[i].tooltip + "<\/a></td></tr>";
-				}
-				rueckmeldung += "</table>";
-			}
-			//Höhe der Meldung begrenzen. Leider funktioniert maxHeight nicht
-			var height = "auto";
-			if (window.tpop_array.length > 25) {
-				height = 650;
-			}
-
-			//Listentitel erstellen
-			var Listentitel;
-			var exportieren = "Exportieren: ";
-			var exportierenPop = "<a href='#' class='export_pop'>Populationen</a>";
-			var exportierenTPop = "<a href='#' class='export_tpop'>Teilpopulationen</a>, <a href='#' class='export_kontr'>Kontrollen</a>, <a href='#' class='export_massn'>Massnahmen</a>";
-			if (window.pop_array.length > 0 && window.tpop_array.length > 0) {
-				Listentitel = "Gewählt wurden " + window.pop_array.length + " Populationen und " + window.tpop_array.length + " Teilpopulationen";
-				exportieren += exportierenPop + ", " + exportierenTPop;
-			} else if (window.pop_array.length > 0) {
-				Listentitel = "Gewählt wurden " + window.pop_array.length + " Populationen:";
-				exportieren += exportierenPop;
-			} else if (window.tpop_array.length > 0) {
-				Listentitel = "Gewählt wurden " + window.tpop_array.length + " Teilpopulationen:";
-				exportieren += exportierenTPop;
-			} else {
-				Listentitel = "Keine Populationen/Teilpopulationen gewählt";
-				exportieren = "";
-			}
-			$("#ergebnisAuswahlHeaderText").html(Listentitel);
-			$("#ergebnisAuswahlListe").html(rueckmeldung);
-			$("#ergebnisAuswahlFooter").html(exportieren);
-			//Ergebnis-Div einblenden
-			$("#ergebnisAuswahl").css("display", "block");
+			erstellePopAuswahlArrays();
+			//Liste erstellen, welche die Auswahl anzeigt, Pop/TPop verlinkt und Exporte anbietet
+			erstelleListeDerAusgewaehltenPopTPop();
 
 			//control deaktivieren
 			window.drawControl.deactivate();
@@ -10643,6 +10570,92 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert) {
 		});
 		window.api.map.addControl(drawControl);
 	}
+}
+
+function erstelleTPopAuswahlArrays() {
+	//Teilpopulationen: Auswahl ermitteln und einen Array von ID's in window.tpop_array speichern
+	window.tpop_array = [];
+	window.tpop_id_array = [];
+	if (overlay_tpop.visibility === true) {
+		$.each(overlay_tpop.features, function() {
+			if (window.PopTPopAuswahlFilter.evaluate(this)) {
+				window.tpop_array.push(this.attributes);
+				window.tpop_id_array.push(parseInt(this.attributes.myId));
+			}
+		});
+		window.tpop_array.sort(vergleicheTPopZumSortierenNachTooltip);
+	}
+}
+
+function erstellePopAuswahlArrays() {
+	//Populationen: Auswahl ermitteln und einen Array von ID's in window.pop_array speichern
+	window.pop_array = [];
+	window.pop_id_array = [];
+	if (overlay_pop.visibility === true) {
+		$.each(overlay_pop.features, function() {
+			if (window.PopTPopAuswahlFilter.evaluate(this)) {
+				window.pop_array.push(this.attributes);
+				window.pop_id_array.push(parseInt(this.attributes.myId));
+			}
+		});
+		window.pop_array.sort(vergleicheTPopZumSortierenNachTooltip);
+	}
+}
+
+function erstelleListeDerAusgewaehltenPopTPop() {
+	//rückmelden, welche Objekte gewählt wurden
+	var rueckmeldung = "";
+	if (window.pop_array.length > 0) {
+		if (window.tpop_array.length > 0) {
+			//tpop und pop betitteln
+			rueckmeldung += "<p class='ergebnisAuswahlListeTitel'>" + window.pop_array.length + " Populationen: </p>";
+		}
+		rueckmeldung += "<table>";
+		for (var i = 0; i < window.pop_array.length; i++) {
+			rueckmeldung += "<tr><td><a href=\"#\" onclick=\"oeffnePop('" + window.pop_array[i]['myId'] + "')\">" + window.pop_array[i]['label'] + ":<\/a></td><td><a href=\"#\" onclick=\"oeffnePop('" + window.pop_array[i]['myId'] + "')\">" + window.pop_array[i].tooltip + "<\/a></td></tr>";
+		}
+		rueckmeldung += "</table>";
+	}
+	if (window.tpop_array.length > 0) {
+		if (window.pop_array.length > 0) {
+			//tpop und pop betitteln
+			rueckmeldung += "<p class='ergebnisAuswahlListeTitel ergebnisAuswahlListeTitelTPop'>" + window.tpop_array.length + " Teilpopulationen: </p>";
+		}
+		rueckmeldung += "<table>";
+		for (var i = 0; i < window.tpop_array.length; i++) {
+			rueckmeldung += "<tr><td><a href=\"#\" onclick=\"oeffneTPop('" + window.tpop_array[i]['myId'] + "')\">" + window.tpop_array[i]['label'] + ":<\/a></td><td><a href=\"#\" onclick=\"oeffneTPop('" + window.tpop_array[i]['myId'] + "')\">" + window.tpop_array[i].tooltip + "<\/a></td></tr>";
+		}
+		rueckmeldung += "</table>";
+	}
+	//Höhe der Meldung begrenzen. Leider funktioniert maxHeight nicht
+	var height = "auto";
+	if (window.tpop_array.length > 25) {
+		height = 650;
+	}
+
+	//Listentitel erstellen
+	var Listentitel;
+	var exportieren = "Exportieren: ";
+	var exportierenPop = "<a href='#' class='export_pop'>Populationen</a>";
+	var exportierenTPop = "<a href='#' class='export_tpop'>Teilpopulationen</a>, <a href='#' class='export_kontr'>Kontrollen</a>, <a href='#' class='export_massn'>Massnahmen</a>";
+	if (window.pop_array.length > 0 && window.tpop_array.length > 0) {
+		Listentitel = "Gewählt wurden " + window.pop_array.length + " Populationen und " + window.tpop_array.length + " Teilpopulationen";
+		exportieren += exportierenPop + ", " + exportierenTPop;
+	} else if (window.pop_array.length > 0) {
+		Listentitel = "Gewählt wurden " + window.pop_array.length + " Populationen:";
+		exportieren += exportierenPop;
+	} else if (window.tpop_array.length > 0) {
+		Listentitel = "Gewählt wurden " + window.tpop_array.length + " Teilpopulationen:";
+		exportieren += exportierenTPop;
+	} else {
+		Listentitel = "Keine Populationen/Teilpopulationen gewählt";
+		exportieren = "";
+	}
+	$("#ergebnisAuswahlHeaderText").html(Listentitel);
+	$("#ergebnisAuswahlListe").html(rueckmeldung);
+	$("#ergebnisAuswahlFooter").html(exportieren);
+	//Ergebnis-Div einblenden
+	$("#ergebnisAuswahl").css("display", "block");
 }
 
 //übernimmt drei Variabeln: PopListe ist das Objekt mit den Populationen
