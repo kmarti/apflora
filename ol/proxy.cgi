@@ -15,7 +15,7 @@ import sys, os
 
 # Designed to prevent Open Proxy type stuff.
 
-allowedHosts = ['www.openlayers.org', 'http://www.opengis.net', 'www.gis.zh.ch', 'http://maps.zh.ch/', 'http://wms.zh.ch', 'wmts.geo.admin.ch', 'http://geo.admin.ch']
+allowedHosts = ['www.openlayers.org', 'http://www.opengis.net', 'www.gis.zh.ch', 'maps.zh.ch', 'http://maps.zh.ch/', 'wms.zh.ch', 'http://wms.zh.ch', 'wmts.geo.admin.ch', 'http://geo.admin.ch']
 
 method = os.environ["REQUEST_METHOD"]
 

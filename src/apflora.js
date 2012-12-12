@@ -62,7 +62,8 @@ function initiiere_index() {
 	var Monate = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
 	var wochentageKurz = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
 	var wochentageLang = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
-	$("#TPopKontrDatum, #TPopMassnDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopKontrJahr", altFormat: "yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: Monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
+	$("#TPopKontrDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopKontrJahr", altFormat: "yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: Monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
+	$("#TPopMassnDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopMassnJahr", altFormat: "yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: Monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
 	$("#JBerDatum, #UfErstelldatum").datepicker({ dateFormat: "dd.mm.yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: Monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
 
 	//Auswahllisten aufbauen
@@ -1444,7 +1445,7 @@ function initiiere_tpopmassn() {
 				}
 				$("#TPopMassnTxt").val(data.TPopMassnTxt);
 				$("#TPopMassnJahr").val(data.TPopMassnJahr);
-				if (data.TPopKontrDatum !== "01.01.1970") {
+				if (data.TPopMassnDatum !== "01.01.1970") {
 					//php macht aus einem Nullwert im Datum den 1.1.1970!!!
 					$("#TPopMassnDatum").val(data.TPopMassnDatum);
 				} else {
@@ -12488,11 +12489,32 @@ function initiiereGeoAdminKarte() {
 		//The complementary layer is per default the color pixelmap.
 		//window.api.map.switchComplementaryLayer("voidLayer", {opacity: 0});
 		window.api.setBgLayer('voidLayer', {opacity: 0});
+
+		/*console.log('$.support.cors', $.support.cors);
+
+		$.ajax({
+			type: 'GET',
+			url: "http://wms.zh.ch/OrthoZHWMS",
+			xhrFields: {
+				withCredentials: true
+			},
+			headers: {'Authorization': 'Basic YWdhYnJpZWw6NHpDNk1nak0='},
+			data: {
+					layers: 'orthophotos',
+					isBaseLayer: true
+				},
+			error: function(jqXHR, textStatus, errorThrown){
+				// Handle not authoruzed here
+				window.api.map.addLayers([zh_ortho, zh_lk_sw]);
+			},
+			success: function(){
+				// Yuppieeeeee!
+				window.api.map.addLayers([zh_ortho, zh_lk_sw]);	// The browser wil set up the 
+										  // authentication in the request for you
+			}
+		});*/
 		
 		window.api.map.addLayers([zh_ortho, zh_lk_sw]);
-		/*window.api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe-pk25.noscale', {
-			visibility: false
-		});*/
 		window.api.map.addLayerByName('ch.swisstopo-vd.geometa-gemeinde', {visibility: false});
 		window.api.map.addLayerByName('ch.swisstopo.swissboundaries3d-kanton-flaeche.fill', {
 			visibility: false
