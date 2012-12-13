@@ -239,6 +239,7 @@ function initiiere_apziel() {
 		initiiere_ap();
 		return;
 	}
+	var apziel_initiiert = $.Deferred();
 	//Felder zurücksetzen
 	leereFelderVonFormular("apziel");
 	//Daten für die apziel aus der DB holen
@@ -265,9 +266,11 @@ function initiiere_apziel() {
 				if (!$("#ZielJahr").val()) {
 					$("#ZielJahr").focus();
 				}
+				apziel_initiiert.resolve();
 			}
 		}
 	});
+	return apziel_initiiert.promise();
 }
 
 //setzt window.apziel und localStorage.apziel_id
@@ -1920,11 +1923,6 @@ function zeigeFormular(Formularname) {
 		Kartenhoehe = $(window).height() - 17;
 		$("#GeoAdminKarte").css("height", Kartenhoehe + "px");
 		$("#GeoAdminKarte").show();
-		/*var karte_initiiert = $.Deferred();
-		karte_initiiert.resolve(initiiereGeoAdminKarte());
-		karte_initiiert.then(function() {
-			setzeSpaltenbreiten();
-		});*/
 		initiiereGeoAdminKarte();
 		setTimeout(function() {
 			setzeSpaltenbreiten();
@@ -2037,6 +2035,7 @@ function erstelle_ap_liste(programm) {
 }
 
 function erstelle_tree(ApArtId) {
+	var jstree_erstellt = $.Deferred();
 	$("#tree").jstree( {
 		"json_data": {
 			"ajax": {
@@ -2359,6 +2358,8 @@ function erstelle_tree(ApArtId) {
 	})
 	.show()
 	.bind("loaded.jstree", function (event, data) {
+		console.log('jstree loaded');
+		jstree_erstellt.resolve();
 		$("#suchen").show();
 		$("#hilfe").show();
 		if (window.pop_zeigen) {
@@ -2617,6 +2618,17 @@ function erstelle_tree(ApArtId) {
 	.bind("prepare_move.jstree", function (e, data) {
 		//herkunft_parent_node muss vor dem move ermittelt werden - danach ist der parent ein anderer!
 		window.herkunft_parent_node = jQuery.jstree._reference(data.rslt.o)._get_parent(data.rslt.o);
+	})
+	.bind("create_node.jstree", function (e, data) {
+		if (data.rslt.parent[0].attributes.typ.nodeValue === "apzieljahr") {
+			console.log(data.rslt.parent[0].innerText.slice(1, 5));
+			$("#ZielJahr").val(data.rslt.parent[0].innerText.slice(1, 5));
+			var Objekt = {};
+			Objekt.name = "ZielJahr";
+			Objekt.formular = "apziel";
+			speichern(Objekt);
+			$("#ZielJahr").focus();
+		}
 	})
 	.bind("move_node.jstree", function (e, data) {
 		var herkunft_node, ziel_node, ziel_parent_node;
@@ -3255,6 +3267,7 @@ function erstelle_tree(ApArtId) {
 			}
 		}
 	})
+	return jstree_erstellt.promise();
 }
 
 //übernimmt einen node
@@ -3675,41 +3688,11 @@ function treeKontextmenu(node) {
 						},
 						success: function () {
 							//Baum neu aufbauen
-							//jQuery("#tree").jstree("destroy")
-							//erstelle_tree($(parent_node).attr("id"));
-							setTimeout(function() {
-								erstelle_tree($(aktiver_node).attr("id"));
-							}, 500);
-							//richtigen node markieren
-							/*jQuery("#tree").bind("reselect.jstree", function () { 
-								jQuery("#tree").jstree("deselect_all");
-								jQuery("#tree").jstree("close_all", -1);
-								jQuery("#tree").jstree("select_node", "[typ='pop']#" + window.pop_id); 
-							});*/
-
-							/*$(function () { 
-								var ready = false; 
-								$("#tree")
-									.bind("reselect.jstree", function() { ready = true; }) 
-									.bind("select_node.jstree", function() { 
-										if(ready) { 
-											setTimeout(function() {
-												jQuery("#tree").jstree("deselect_all");
-												jQuery("#tree").jstree("close_all", -1);
-												jQuery("#tree").jstree("select_node", "[typ='pop']#" + window.pop_id);
-												ready = false;
-												alert("hop");
-											}, 700); 
-										}
-									}); 
-
-							}); */
-							/*setTimeout(function() {
-								jQuery("#tree").jstree("deselect_all");
-								jQuery("#tree").jstree("close_all", -1);
-								jQuery("#tree").jstree("select_node", "[typ='pop']#" + window.pop_id);
-								alert("hop");
-							}, 500);*/
+							$.when(erstelle_tree($(aktiver_node).attr("id")))
+								.then(function() {
+									//dann den eingefügten Node wählen
+									$("#tree").jstree("select_node", "[typ='pop']#" + localStorage.pop_id); 
+								});
 							//einfügen soll nicht mehr angezeigt werden
 							delete window.pop_zum_verschieben_gemerkt;
 							//nicht mehr benötigte Variabeln entfernen
@@ -3851,6 +3834,7 @@ function treeKontextmenu(node) {
 							localStorage.apziel_id = data;
 							delete window.apziel;
 							delete localStorage.apziel;
+
 							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
 								"data": "neues Ziel",
 								"attr": {
@@ -3858,6 +3842,7 @@ function treeKontextmenu(node) {
 									"typ": "apziel"
 								}
 							});
+
 							//Parent Node-Beschriftung: Anzahl anpassen, wenns nicht der neue Ordner ist
 							if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
 								beschrifte_ap_ordner_apziel(parent_node);
@@ -3867,6 +3852,7 @@ function treeKontextmenu(node) {
 							//node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+							
 							//jetzt Unterordner anlegen
 							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
 								"data": "0 Ziel-Berichte",
@@ -3875,16 +3861,8 @@ function treeKontextmenu(node) {
 									"typ": "zielber_ordner"
 								}
 							});
-							initiiere_apziel();
-							//jetzt das Jahr einfügen
-							setTimeout(function() {
-								$("#ZielJahr").val(jQuery.jstree._reference(aktiver_node).get_text(aktiver_node).slice(0, 4));
-								var Objekt = {};
-								Objekt.name = "ZielJahr";
-								Objekt.formular = "apziel";
-								speichern(Objekt);
-								$("#ZielJahr").focus();
-							}, 100);
+							
+							//im create_node-Event von jstree wird Jahr eingefügt und gespeichert
 						},
 						error: function (data) {
 							$("#Meldung").html("Fehler: Keine neues Ziel erstellt");
@@ -5670,50 +5648,25 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
+					var popid = window.pop_id;
+					var apartid = $(parent_node).attr("id");
 					//db aktualisieren
 					$.ajax({
 						url: 'php/pop_update.php',
 						dataType: 'json',
 						data: {
-							"id": window.pop_id,
+							"id": popid,
 							"Feld": "ApArtId",
-							"Wert": $(parent_node).attr("id"),
+							"Wert": apartid,
 							"user": sessionStorage.User
 						},
 						success: function () {
-							//Baum neu aufbauen
-							//jQuery("#tree").jstree("destroy")
-							erstelle_tree($(parent_node).attr("id"));
-							//richtigen node markieren
-							/*jQuery("#tree").bind("reselect.jstree", function () { 
-								jQuery("#tree").jstree("deselect_all");
-								jQuery("#tree").jstree("close_all", -1);
-								jQuery("#tree").jstree("select_node", "[typ='pop']#" + window.pop_id); 
-							});*/
-
-							/*$(function () { 
-								var ready = false; 
-								$("#tree")
-									.bind("reselect.jstree", function() { ready = true; }) 
-									.bind("select_node.jstree", function() { 
-										if(ready) { 
-											setTimeout(function() {
-												jQuery("#tree").jstree("deselect_all");
-												jQuery("#tree").jstree("close_all", -1);
-												jQuery("#tree").jstree("select_node", "[typ='pop']#" + window.pop_id);
-												ready = false;
-												alert("hop");
-											}, 700); 
-										}
-									}); 
-
-							}); */
-							/*setTimeout(function() {
-								jQuery("#tree").jstree("deselect_all");
-								jQuery("#tree").jstree("close_all", -1);
-								jQuery("#tree").jstree("select_node", "[typ='pop']#" + window.pop_id);
-								alert("hop");
-							}, 500);*/
+							//Baum wieder aufbauen
+							$.when(erstelle_tree(apartid))
+								.then(function() {
+									//dann den eingefügten Node wählen
+									$("#tree").jstree("select_node", "[typ='pop']#" + popid); 
+								});
 							//einfügen soll nicht mehr angezeigt werden
 							delete window.pop_zum_verschieben_gemerkt;
 							//nicht mehr benötigte Variabeln entfernen

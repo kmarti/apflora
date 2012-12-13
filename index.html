@@ -2552,14 +2552,12 @@
 											delete window.deleted.Artname;
 											//forms muss eingeblendet sein, weil undelete_div darin ist
 											zeigeFormular("keines");
-											//$("#forms").show();
 											$("#undelete_div").show();
 											setTimeout(function () {
 												$("#undelete_div").html("");
 												$("#undelete_div").hide();
 												//Formulare wieder ausblenden
 												zeigeFormular();
-												//$("#forms").hide();
 											}, 25000);
 										},
 										error: function (data) {
