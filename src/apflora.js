@@ -9,8 +9,7 @@ function initiiere_index() {
 	$("#suchen").hide();
 	$("#undelete_div").hide();
 	$("#hilfe").hide();
-	//alle Formulare verstecken
-	zeigeFormular();
+	
 	$("#loeschen_dialog").hide();
 	//jQuery ui widgets initiieren
 	$("#programm_wahl").buttonset();
@@ -23,39 +22,7 @@ function initiiere_index() {
 
 	//Gemeindeliste erstellen, wenn nötig
 	if (!window.Gemeinden) {
-		$.ajax({
-			url: 'php/gemeinden.php',
-			dataType: 'json',
-			success: function (data) {
-				if (data) {
-					//Gemeinden bereitstellen
-					//Feld mit Daten beliefern
-					var Gemeinden;
-					Gemeinden = [];
-					//for (i in data.rows) {
-					for (var i = 0; i < data.rows.length; i++) {
-						if (data.rows[i].GmdName) {
-							Gemeinden.push(data.rows[i].GmdName);
-						}
-					}
-					window.Gemeinden = Gemeinden;
-					//autocomplete-widget für Gemeinden initiieren
-					$("#TPopGemeinde").autocomplete({
-						source: Gemeinden,
-						delay: 0,
-						//Change-Event wird nicht ausgelöst > hier aufrufen
-						change: function(event, ui) {
-							speichern(event.target);
-						}
-					});
-				}
-			}
-		});
-	} else {
-		//autocomplete-widget für Gemeinden initiieren
-		$("#TPopGemeinde").autocomplete({
-			source: window.Gemeinden
-		});
+		erstelleGemeindeliste();
 	}
 
 	//Datumsfelder: Widget initiieren
@@ -67,14 +34,18 @@ function initiiere_index() {
 	$("#JBerDatum, #UfErstelldatum").datepicker({ dateFormat: "dd.mm.yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: Monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
 
 	//Auswahllisten aufbauen
-	erstelle_ap_liste("programm_alle");
+	//erstelle_ap_liste("programm_alle");
 	$("#ap_loeschen").hide();
 	erstelle_ApArtId_liste();
 	
-	//falls eine Unteradresse angewählt wurde, diese öffnen
-	setTimeout(function() {
-		oeffneUri();
-	}, 500);
+	//alle Formulare verstecken
+	zeigeFormular();
+	
+	$.when(erstelle_ap_liste("programm_alle"))
+		.then(function() {
+			//falls eine Unteradresse angewählt wurde, diese öffnen
+			oeffneUri();
+		});
 }
 
 function initiiere_ap() {
@@ -186,11 +157,13 @@ function erstelle_ApArtId_liste() {
 				window.artliste_html = html;
 				$("#ApArtId").html(html);
 				$("#AaSisfNr").html(html);
+				return html;
 			}
 		});
 	} else {
 		$("#ApArtId").html(window.artliste_html);
 		$("#AaSisfNr").html(window.artliste_html);
+		return window.artliste_html;
 	}
 }
 
@@ -2041,19 +2014,21 @@ function FitToContent(id, maxHeight) {
 }
 
 function erstelle_ap_liste(programm) {
+	var apliste_erstellt = $.Deferred();
 	$.ajax({
 		url: 'php/apliste.php?programm=' + programm,
 		dataType: 'json',
 		success: function (data) {
 			var html;
 			html = "<option></option>";
-			//for (i in data.rows) {
 			for (var i = 0; i < data.rows.length; i++) {
 				html += "<option value=\"" + data.rows[i].id + "\">" + data.rows[i].ap_name + "</option>";
 			}
 			$("#ap_waehlen").html(html);
+			apliste_erstellt.resolve();
 		}
 	});
+	return apliste_erstellt.promise();
 }
 
 function erstelle_tree(ApArtId) {
@@ -12158,75 +12133,58 @@ function handler(event) {
 
 function oeffneUri() {
 	var uri = new Uri($(location).attr('href'));
-	if (uri.getQueryParamValue('ap')) {
+	var ap_id = uri.getQueryParamValue('ap');
+	if (ap_id) {
 		//globale Variabeln setzen
-		setzeWindowAp(uri.getQueryParamValue('ap'));
+		setzeWindowAp(ap_id);
+		//Dem Feld im Formular den Wert zuweisen
+		$("#ap_waehlen").val(ap_id);
 		if (uri.getQueryParamValue('tpop')) {
 			//globale Variabeln setzen
 			setzeWindowPop(uri.getQueryParamValue('pop'));
 			setzeWindowTpop(uri.getQueryParamValue('tpop'));
-			if (uri.getQueryParamValue('tpopfeldkontr')) {
+			var tpopfeldkontr_id = uri.getQueryParamValue('tpopfeldkontr');
+			if (tpopfeldkontr_id) {
 				//globale Variabeln setzen
-				setzeWindowTpopfeldkontr(uri.getQueryParamValue('tpopfeldkontr'));
+				setzeWindowTpopfeldkontr(tpopfeldkontr_id);
 				//markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
 				//Die Markierung wird im load-Event wieder entfernt
 				window.tpopfeldkontr_zeigen = true;
-				//ap initiieren und damit den loaded-event auslösen
-				$("#ap_waehlen").val(localStorage.ap_id);
-				$("#ap_waehlen").trigger("change");
 			} else if (uri.getQueryParamValue('tpopfreiwkontr')) {
 				//globale Variabeln setzen
 				setzeWindowTpopfeldkontr(uri.getQueryParamValue('tpopfreiwkontr'));
 				//markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
 				//Die Markierung wird im load-Event wieder entfernt
 				window.tpopfreiwkontr_zeigen = true;
-				//ap initiieren und damit den loaded-event auslösen
-				$("#ap_waehlen").val(localStorage.ap_id);
-				$("#ap_waehlen").trigger("change");
 			} else if (uri.getQueryParamValue('tpopmassn')) {
 				//globale Variabeln setzen
 				setzeWindowTpopmassn(uri.getQueryParamValue('tpopmassn'));
 				//markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
 				//Die Markierung wird im load-Event wieder entfernt
 				window.tpopmassn_zeigen = true;
-				//ap initiieren und damit den loaded-event auslösen
-				$("#ap_waehlen").val(localStorage.ap_id);
-				$("#ap_waehlen").trigger("change");
 			} else if (uri.getQueryParamValue('tpopber')) {
 				//globale Variabeln setzen
 				setzeWindowTpopber(uri.getQueryParamValue('tpopber'));
 				//markieren, dass nach dem loaded-event im Tree die tpopber angezeigt werden soll 
 				//Die Markierung wird im load-Event wieder entfernt
 				window.tpopber_zeigen = true;
-				//ap initiieren und damit den loaded-event auslösen
-				$("#ap_waehlen").val(localStorage.ap_id);
-				$("#ap_waehlen").trigger("change");
 			} else if (uri.getQueryParamValue('tpopbeob')) {
 				//globale Variabeln setzen
 				setzeWindowTpopbeob(uri.getQueryParamValue('tpopbeob'));
 				//markieren, dass nach dem loaded-event im Tree die tpopbeob angezeigt werden soll 
 				//Die Markierung wird im load-Event wieder entfernt
 				window.tpopbeob_zeigen = true;
-				//ap initiieren und damit den loaded-event auslösen
-				$("#ap_waehlen").val(localStorage.ap_id);
-				$("#ap_waehlen").trigger("change");
 			} else if (uri.getQueryParamValue('tpopmassnber')) {
 				//globale Variabeln setzen
 				setzeWindowTpopmassnber(uri.getQueryParamValue('tpopmassnber'));
 				//markieren, dass nach dem loaded-event im Tree die tpopmassnber angezeigt werden soll 
 				//Die Markierung wird im load-Event wieder entfernt
 				window.tpopmassnber_zeigen = true;
-				//ap initiieren und damit den loaded-event auslösen
-				$("#ap_waehlen").val(localStorage.ap_id);
-				$("#ap_waehlen").trigger("change");
 			} else {
 				//muss tpop sein
 				//markieren, dass nach dem loaded-event im Tree die TPop angezeigt werden soll 
 				//Die Markierung wird im load-Event wieder entfernt
 				window.tpop_zeigen = true;
-				//ap initiieren und damit den loaded-event auslösen
-				$("#ap_waehlen").val(localStorage.ap_id);
-				$("#ap_waehlen").trigger("change");
 			}
 		} else if (uri.getQueryParamValue('pop')) {
 			//globale Variabeln setzen
@@ -12237,26 +12195,17 @@ function oeffneUri() {
 				//markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
 				//Die Markierung wird im load-Event wieder entfernt
 				window.popber_zeigen = true;
-				//ap initiieren und damit den loaded-event auslösen
-				$("#ap_waehlen").val(localStorage.ap_id);
-				$("#ap_waehlen").trigger("change");
 			} else if (uri.getQueryParamValue('popmassnber')) {
 				//globale Variabeln setzen
 				setzeWindowPopmassnber(uri.getQueryParamValue('popmassnber'));
 				//markieren, dass nach dem loaded-event im Tree die popmassnber angezeigt werden soll 
 				//Die Markierung wird im load-Event wieder entfernt
 				window.popmassnber_zeigen = true;
-				//ap initiieren und damit den loaded-event auslösen
-				$("#ap_waehlen").val(localStorage.ap_id);
-				$("#ap_waehlen").trigger("change");
 			} else {
 				//muss pop sein
 				//markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
 				//Die Markierung wird im load-Event wieder entfernt
 				window.pop_zeigen = true;
-				//ap initiieren und damit den loaded-event auslösen
-				$("#ap_waehlen").val(localStorage.ap_id);
-				$("#ap_waehlen").trigger("change");
 			}
 		} else if (uri.getQueryParamValue('apziel')) {
 			//globale Variabeln setzen
@@ -12267,17 +12216,11 @@ function oeffneUri() {
 				//markieren, dass nach dem loaded-event im Tree die zielber angezeigt werden soll 
 				//Die Markierung wird im load-Event wieder entfernt
 				window.zielber_zeigen = true;
-				//ap initiieren und damit den loaded-event auslösen
-				$("#ap_waehlen").val(localStorage.ap_id);
-				$("#ap_waehlen").trigger("change");
 			} else {
 				//muss ein apziel sein
 				//markieren, dass nach dem loaded-event im Tree die apziel angezeigt werden soll 
 				//Die Markierung wird im load-Event wieder entfernt
 				window.apziel_zeigen = true;
-				//ap initiieren und damit den loaded-event auslösen
-				$("#ap_waehlen").val(localStorage.ap_id);
-				$("#ap_waehlen").trigger("change");
 			}
 		} else if (uri.getQueryParamValue('erfkrit')) {
 			//globale Variabeln setzen
@@ -12285,81 +12228,57 @@ function oeffneUri() {
 			//markieren, dass nach dem loaded-event im Tree die erfkrit angezeigt werden soll 
 			//Die Markierung wird im load-Event wieder entfernt
 			window.erfkrit_zeigen = true;
-			//ap initiieren und damit den loaded-event auslösen
-			$("#ap_waehlen").val(localStorage.ap_id);
-			$("#ap_waehlen").trigger("change");
 		} else if (uri.getQueryParamValue('jber')) {
 			//globale Variabeln setzen
 			setzeWindowJber(uri.getQueryParamValue('jber'));
 			//markieren, dass nach dem loaded-event im Tree die jber angezeigt werden soll 
 			//Die Markierung wird im load-Event wieder entfernt
 			window.jber_zeigen = true;
-			//ap initiieren und damit den loaded-event auslösen
-			$("#ap_waehlen").val(localStorage.ap_id);
-			$("#ap_waehlen").trigger("change");
 		} else if (uri.getQueryParamValue('jber_uebersicht')) {
 			//globale Variabeln setzen
 			setzeWindowJberUebersicht(uri.getQueryParamValue('jber_uebersicht'));
 			//markieren, dass nach dem loaded-event im Tree die jber_uebersicht angezeigt werden soll 
 			//Die Markierung wird im load-Event wieder entfernt
 			window.jber_uebersicht_zeigen = true;
-			//ap initiieren und damit den loaded-event auslösen
-			$("#ap_waehlen").val(localStorage.ap_id);
-			$("#ap_waehlen").trigger("change");
 		} else if (uri.getQueryParamValue('ber')) {
 			//globale Variabeln setzen
 			setzeWindowBer(uri.getQueryParamValue('ber'));
 			//markieren, dass nach dem loaded-event im Tree die ber angezeigt werden soll 
 			//Die Markierung wird im load-Event wieder entfernt
 			window.ber_zeigen = true;
-			//ap initiieren und damit den loaded-event auslösen
-			$("#ap_waehlen").val(localStorage.ap_id);
-			$("#ap_waehlen").trigger("change");
 		} else if (uri.getQueryParamValue('umwfakt')) {
 			//globale Variabeln setzen
 			setzeWindowUmwfakt(uri.getQueryParamValue('umwfakt'));
 			//markieren, dass nach dem loaded-event im Tree die umwfakt angezeigt werden soll 
 			//Die Markierung wird im load-Event wieder entfernt
 			window.umwfakt_zeigen = true;
-			//ap initiieren und damit den loaded-event auslösen
-			$("#ap_waehlen").val(localStorage.ap_id);
-			$("#ap_waehlen").trigger("change");
 		} else if (uri.getQueryParamValue('ib')) {
 			//globale Variabeln setzen
 			setzeWindowIb(uri.getQueryParamValue('ib'));
 			//markieren, dass nach dem loaded-event im Tree die ib angezeigt werden soll 
 			//Die Markierung wird im load-Event wieder entfernt
 			window.ib_zeigen = true;
-			//ap initiieren und damit den loaded-event auslösen
-			$("#ap_waehlen").val(localStorage.ap_id);
-			$("#ap_waehlen").trigger("change");
 		} else if (uri.getQueryParamValue('assozarten')) {
 			//globale Variabeln setzen
 			setzeWindowAssozarten(uri.getQueryParamValue('assozarten'));
 			//markieren, dass nach dem loaded-event im Tree die assozarten angezeigt werden soll 
 			//Die Markierung wird im load-Event wieder entfernt
 			window.assozarten_zeigen = true;
-			//ap initiieren und damit den loaded-event auslösen
-			$("#ap_waehlen").val(localStorage.ap_id);
-			$("#ap_waehlen").trigger("change");
 		} else if (uri.getQueryParamValue('beob')) {
 			//globale Variabeln setzen
 			setzeWindowBeob(uri.getQueryParamValue('beob'));
 			//markieren, dass nach dem loaded-event im Tree die beob angezeigt werden soll 
 			//Die Markierung wird im load-Event wieder entfernt
 			window.beob_zeigen = true;
-			//ap initiieren und damit den loaded-event auslösen
-			$("#ap_waehlen").val(localStorage.ap_id);
-			$("#ap_waehlen").trigger("change");
 		} else {
 			//muss ap sein
 			//markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
 			//Die Markierung wird im load-Event wieder entfernt
 			window.ap_zeigen = true;
-			$("#ap_waehlen").val(localStorage.ap_id);
-			$("#ap_waehlen").trigger("change");
 		}
 	}
+	$("#ap_waehlen_label").hide();
+	erstelle_tree(ap_id);
 }
 
 function loescheKoordAusPop(popid) {
@@ -12750,6 +12669,91 @@ function messe(element) {
 	window.auswahlPolygonLayer.removeAllFeatures();
 }
 
+function erstelleGemeindeliste() {
+	$.ajax({
+		url: 'php/gemeinden.php',
+		dataType: 'json',
+		success: function (data) {
+			if (data) {
+				//Gemeinden bereitstellen
+				//Feld mit Daten beliefern
+				var Gemeinden;
+				Gemeinden = [];
+				//for (i in data.rows) {
+				for (var i = 0; i < data.rows.length; i++) {
+					if (data.rows[i].GmdName) {
+						Gemeinden.push(data.rows[i].GmdName);
+					}
+				}
+				window.Gemeinden = Gemeinden;
+				//autocomplete-widget für Gemeinden initiieren
+				$("#TPopGemeinde").autocomplete({
+					source: Gemeinden,
+					delay: 0,
+					//Change-Event wird nicht ausgelöst > hier aufrufen
+					change: function(event, ui) {
+						speichern(event.target);
+					}
+				});
+			}
+		}
+	});
+}
+
+function waehleAp(ap_id) {
+	if (ap_id) {
+		//einen AP gewählt
+		$("#ap_waehlen_label").hide();
+		localStorage.ap_id = ap_id;
+		if ($("[name='programm_wahl']:checked").attr("id") === "programm_neu") {
+			//zuerst einen neuen Datensatz anlegen
+			$.ajax({
+				url: 'php/ap_insert.php',
+				dataType: 'json',
+				data: {
+					"id": localStorage.ap_id,
+					"user": sessionStorage.User
+				},
+				success: function () {
+					erstelle_ap_liste("programm_alle");
+					$("#programm_neu").attr("checked", false);
+					$("#programm_alle").attr("checked", true);
+					$("#programm_wahl").buttonset();
+					erstelle_tree(localStorage.ap_id);
+					setTimeout("$('#ap_waehlen').val(localStorage.ap_id)", 200);
+					setTimeout("$('#ap_waehlen option[value =' + localStorage.ap_id + ']').attr('selected', true)", 200);
+					$("#ApArtId").val(localStorage.ap_id);
+					initiiere_ap();
+				},
+				error: function (data) {
+					var Meldung;
+					Meldung = JSON.stringify(data);
+					$("#Meldung").html(data.responseText);
+					$( "#Meldung" ).dialog({
+						modal: true,
+						buttons: {
+							Ok: function() {
+								$( this ).dialog( "close" );
+							}
+						}
+					});
+				}
+			});
+		} else {
+			erstelle_tree(ap_id);
+			$("#ap").show();
+			initiiere_ap();
+		}
+	} else {
+		//leeren Wert gewählt
+		$("#ap_waehlen_label").html("Artförderprogramm wählen:").show();
+		$("#tree").hide();
+		$("#suchen").hide();
+		$("#hilfe").hide();
+		$("#ap_loeschen").hide();
+		$("#ap").hide();
+	}
+}
 
 
 /*411 Zeilen lang

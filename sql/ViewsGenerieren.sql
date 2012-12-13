@@ -2,7 +2,7 @@ im Gebrauch:
 CREATE VIEW vApApBerichtRelevant AS 
 SELECT tblAktionsplan.ApArtId
 FROM tblAktionsplan INNER JOIN (tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) ON tblAktionsplan.ApArtId = tblPopulation.ApArtId
-WHERE (((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE tblTeilpopulation.TPopApBerichtRelevant=1
 GROUP BY tblAktionsplan.ApArtId;
 
 im Gebrauch:

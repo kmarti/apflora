@@ -1,7 +1,7 @@
 <?php
 // Verbindung aufbauen, Datenbank auswählen
-$link = new mysqli("barbalex.ch", "alexande", "excalibu", "alexande_beob");
-//$link = new mysqli("127.0.0.1", "root", "admin", "apflora");
+
+$link = new mysqli("127.0.0.1", "root", "admin", "alexande_beob");
 
 /* check connection */
 if ($link->connect_errno) {

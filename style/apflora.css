@@ -479,6 +479,12 @@ p.ergebnisAuswahlListeTitelTPop {
 }
 
 /*drüberstylen, weil GeoAdmin-Aufruf dies nötig macht*/
+
+form input {
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
 input[type="radio"] {
 	margin: 3px 3px 0px 5px;
 }

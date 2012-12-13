@@ -2638,58 +2638,7 @@
 
 				$("#menu").on("change", "#ap_waehlen", function () {
 					//alert(this.value);
-					if (this.value) {
-						//einen AP gewählt
-						$("#ap_waehlen_label").hide();
-						localStorage.ap_id = this.value;
-						if ($("[name='programm_wahl']:checked").attr("id") === "programm_neu") {
-							//zuerst einen neuen Datensatz anlegen
-							$.ajax({
-								url: 'php/ap_insert.php',
-								dataType: 'json',
-								data: {
-									"id": localStorage.ap_id,
-									"user": sessionStorage.User
-								},
-								success: function () {
-									erstelle_ap_liste("programm_alle");
-									$("#programm_neu").attr("checked", false);
-									$("#programm_alle").attr("checked", true);
-									$("#programm_wahl").buttonset();
-									erstelle_tree(localStorage.ap_id);
-									setTimeout("$('#ap_waehlen').val(localStorage.ap_id)", 200);
-									setTimeout("$('#ap_waehlen option[value =' + localStorage.ap_id + ']').attr('selected', true)", 200);
-									$("#ApArtId").val(localStorage.ap_id);
-									initiiere_ap();
-								},
-								error: function (data) {
-									var Meldung;
-									Meldung = JSON.stringify(data);
-									$("#Meldung").html(data.responseText);
-									$( "#Meldung" ).dialog({
-										modal: true,
-										buttons: {
-											Ok: function() {
-												$( this ).dialog( "close" );
-											}
-										}
-									});
-								}
-							});
-						} else {
-							erstelle_tree(this.value);
-							$("#ap").show();
-							initiiere_ap();
-						}
-					} else {
-						//leeren Wert gewählt
-						$("#ap_waehlen_label").html("Artförderprogramm wählen:").show();
-						$("#tree").hide();
-						$("#suchen").hide();
-						$("#hilfe").hide();
-						$("#ap_loeschen").hide();
-						$("#ap").hide();
-					}
+					waehleAp(this.value);
 				});
 
 				$("#forms").on("click", "#undelete", function (event) {
