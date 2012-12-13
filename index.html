@@ -345,10 +345,10 @@
 					</tr>
 					<tr class="fieldcontain">
 						<td class="label">
-							<label id="TPopPop_label" for='TPopPop'>Lage repräsentiert Population:</label>
 						</td>
 						<td class="Datenfelder">
-							<input type="checkbox" name="TPopPop" id="TPopPop" class="speichern" formular="tpop"/>
+							<button id="kopiereKoordinatenInPop" type="button" style="float:left;">Koordinaten in die Population kopieren</button>
+							<div id="kopiereKoordinatenInPopRueckmeldung" style="display:none; line-height:26px; margin-left:35px;">&nbsp;&nbsp;Koordinaten kopiert</div>
 						</td>
 					</tr>
 					<tr class="fieldcontain">
@@ -2205,7 +2205,6 @@
 				<button id="export_pop_von_ap_ohne_status">Populationen von AP-Arten ohne "Status"</button><br><br>
 
 				<button id="export_pop_mit_massnber_anz_massn">Populationen mit Massnahmen-Berichten: Anzahl Massnahmen im Berichtsjahr</button><br>
-				<button id="export_pop_anz_tpoppop">Anzahl repräsentativer Teilpopulationen pro Population</button><br>
 				<button id="export_pop_anz_massn">Anzahl Massnahmen pro Population</button><br>
 				<button id="export_pop_anz_kontr">Anzahl Kontrollen pro Population</button><br><br>
 
@@ -2310,83 +2309,11 @@
 				//Für jedes Feld bei Änderung speichern
 				$(".form").on("change", ".speichern", function () {
 					var Feldwert;
-					var that = this;
-					if (this.name === "TPopPop") {
-						Feldwert = $('input:checkbox[name=TPopPop]:checked').val()
-						if (Feldwert) {
-							Feldwert = 1;
-							//Jetzt der Population die Koordinaten vergeben
-							//prüfen, ob X- und Y-Koordinaten vergeben sind
-							if ($("#TPopXKoord").val() > 100000 && $("#TPopXKoord").val() > 100000) {
-								//Koordinaten der Pop nachführen
-								$.ajax({
-									url: 'php/pop_update.php',
-									dataType: 'json',
-									data: {
-										"id": localStorage.pop_id,
-										"Feld": "PopXKoord",
-										"Wert": $("#TPopXKoord").val(),
-										"user": sessionStorage.User
-									},
-									success: function () {
-										$.ajax({
-											url: 'php/pop_update.php',
-											dataType: 'json',
-											data: {
-												"id": localStorage.pop_id,
-												"Feld": "PopYKoord",
-												"Wert": $("#TPopYKoord").val(),
-												"user": sessionStorage.User
-											},
-											error: function (data) {
-												var Meldung;
-												Meldung = JSON.stringify(data);
-												$("#Meldung").html(data.responseText);
-												$("#Meldung").dialog({
-													modal: true,
-													buttons: {
-														Ok: function() {
-															$(this).dialog("close");
-														}
-													}
-												});
-											}
-										});
-									},
-									error: function (data) {
-										var Meldung;
-										Meldung = JSON.stringify(data);
-										$("#Meldung").html(data.responseText);
-										$("#Meldung").dialog({
-											modal: true,
-											buttons: {
-												Ok: function() {
-													$(this).dialog("close");
-												}
-											}
-										});
-									}
-								});
-								speichern(that);
-							} else {
-								//auffordern, die Koordinaten zu vergeben und Speichern abbrechen
-								$("#TPopPop").attr("checked", false)
-								$("#Meldung").html("Sie müssen zuerst Koordinaten erfassen");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
-							}
-						} else {
-							speichern(that);
-						}
-					} else {
-						speichern(that);
-					}
+					speichern(this);
+				});
+
+				$(".form").on("click", "#kopiereKoordinatenInPop", function () {
+					kopiereKoordinatenInPop($("#TPopXKoord").val(), $("#TPopYKoord").val());
 				});
 
 				$(".form").on("keyup focus", "textarea", function () {
@@ -3168,14 +3095,6 @@
 			});
 			$("#exporte").on("click", "#export_pop_mit_massnber_anz_massn", function() {
 				var url = "php/export_pop_mit_massnber_anz_massn.php";
-				$.fileDownload(url, {
-					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
-			});
-			$("#exporte").on("click", "#export_pop_anz_tpoppop", function() {
-				var url = "php/export_pop_anz_tpoppop.php";
 				$.fileDownload(url, {
 					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."

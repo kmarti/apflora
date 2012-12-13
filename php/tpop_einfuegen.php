@@ -1,7 +1,7 @@
 <?php
 // Verbindung aufbauen, Datenbank auswählen
 
-$link = new mysqli("127.0.0.1", "root", "admin", "alexande_apflora");
+$link = new mysqli("barbalex.ch", "alexande", "excalibu", "alexande_apflora");
 
 /* check connection */
 if ($link->connect_errno) {
@@ -18,8 +18,7 @@ settype($TPopId, "integer");
 $user = $_GET["user"];
 $time = date('Y-m-d H:i:s');
 
-//TPopPop 0 setzen, falls es bisher -1 war (neue TPop soll nicht die bisherige repräsentative ersetzen und es gibt bestimmt schon eine)
-$Querystring = 'UPDATE tblTeilpopulation SET PopId="'.$PopId.'", TPopPop="0", MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopId='.$TPopId;
+$Querystring = 'UPDATE tblTeilpopulation SET PopId="'.$PopId.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopId='.$TPopId;
 
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);

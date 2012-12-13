@@ -969,11 +969,6 @@ function initiiere_tpop() {
 				$("#TPopGemeinde").val(data.TPopGemeinde);
 				$("#TPopXKoord").val(data.TPopXKoord);
 				$("#TPopYKoord").val(data.TPopYKoord);
-				if (data.TPopPop == 1) {
-					$("#TPopPop").prop("checked", true);
-				} else {
-					$("#TPopPop").prop("checked", false);
-				}
 				$("#TPopRadius").val(data.TPopRadius);
 				$("#TPopHoehe").val(data.TPopHoehe);
 				$("#TPopExposition").val(data.TPopExposition);
@@ -1919,11 +1914,15 @@ function zeigeFormular(Formularname) {
 		Kartenhoehe = $(window).height() - 17;
 		$("#GeoAdminKarte").css("height", Kartenhoehe + "px");
 		$("#GeoAdminKarte").show();
-		var karte_initiiert = $.Deferred();
+		/*var karte_initiiert = $.Deferred();
 		karte_initiiert.resolve(initiiereGeoAdminKarte());
 		karte_initiiert.then(function() {
 			setzeSpaltenbreiten();
-		});
+		});*/
+		initiiereGeoAdminKarte();
+		setTimeout(function() {
+			setzeSpaltenbreiten();
+		}, 5);
 	}
 	$(window).scrollTop(0);
 }
@@ -6299,21 +6298,6 @@ function treeKontextmenu(node) {
 						});
 						return;
 					}
-					//kontrollieren, ob diese TPop die Pop repräsentiert. Wenn ja, melden
-					if ($("#TPopPop").prop("checked", true)) {
-						$("#Meldung").html("Sie verschieben die repräsentative Teilpopulation.<br><br>Die Population hat darum keine Koordinaten mehr und erscheint nicht mehr in Plänen.<br><br>Bitte klicken Sie in einer geeigneten verbliebenen Teilpopulation auf 'Lage repräsentiert Population'.<br><br>Das können Sie gut jetzt machen, vor dem Einfügen in die neue Population.");
-						$("#Meldung").dialog({
-							modal: true,
-							width: 450,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-									//jetzt Koordinaten aus Population löschen
-									loescheKoordAusPop($(parent_node).attr('id'));
-								}
-							}
-						});
-					}
 					window.tpop_node_ausgeschnitten = aktiver_node;
 					//es macht keinen Sinn mehr, den kopierten node zu behalten
 					//und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
@@ -9305,7 +9289,7 @@ function speichern(that) {
 		Feldwert = $("#" + Feldname).val();
 	}
 	//ja/nein Felder zu boolean umbauen
-	if (Feldname === "TPopPop" || Feldname === "TPopHerkunftUnklar" || Feldname === "TPopMassnPlan" || Feldname === "TPopKontrPlan" || Feldname === "TPopKontrJungPflJN") {
+	if (Feldname === "TPopHerkunftUnklar" || Feldname === "TPopMassnPlan" || Feldname === "TPopKontrPlan" || Feldname === "TPopKontrJungPflJN") {
 		if (Feldwert) {
 			Feldwert = 1;
 		} else {
@@ -9337,22 +9321,6 @@ function speichern(that) {
 				Objekt.name = "TPopMassnJahr";
 				Objekt.formular = "tpopmassn";
 				speichern(Objekt);
-			}
-			if (Feldname === "TPopPop" && Feldwert == 1) {
-				//allfällige andere als repräsentativ bezeichnete TPop derselben Pop zurücksetzen
-				$.ajax({
-					url: 'php/tpop_tpoppop.php',
-					dataType: 'json',
-					data: {
-						"pop_id": localStorage.pop_id,
-						"tpop_id": localStorage.tpop_id,
-						"user": sessionStorage.User
-					},
-				});
-			}
-			if (Feldname === "TPopPop" && Feldwert == 0) {
-				//In Pop Koordinaten leeren
-				loescheKoordAusPop(localStorage.pop_id);
 			}
 		},
 		error: function (data) {
@@ -12261,31 +12229,6 @@ function oeffneUri() {
 	erstelle_tree(ap_id);
 }
 
-function loescheKoordAusPop(popid) {
-	$.ajax({
-		url: 'php/pop_update.php',
-		dataType: 'json',
-		data: {
-			"id": popid,
-			"Feld": "PopXKoord",
-			"Wert": "",
-			"user": sessionStorage.User
-		},
-		success: function () {
-			$.ajax({
-				url: 'php/pop_update.php',
-				dataType: 'json',
-				data: {
-					"id": popid,
-					"Feld": "PopYKoord",
-					"Wert": "",
-					"user": sessionStorage.User
-				}
-			});
-		}
-	});
-}
-
 function getInternetExplorerVersion()
 // Returns the version of Internet Explorer or a -1
 // (indicating the use of another browser).
@@ -12732,6 +12675,78 @@ function waehleAp(ap_id) {
 		$("#hilfe").hide();
 		$("#ap_loeschen").hide();
 		$("#ap").hide();
+	}
+}
+
+function kopiereKoordinatenInPop(TPopXKoord, TPopYKoord) {
+	//prüfen, ob X- und Y-Koordinaten vergeben sind
+	if (TPopXKoord > 100000 && TPopYKoord > 100000) {
+		//Koordinaten der Pop nachführen
+		$.ajax({
+			url: 'php/pop_update.php',
+			dataType: 'json',
+			data: {
+				"id": localStorage.pop_id,
+				"Feld": "PopXKoord",
+				"Wert": TPopXKoord,
+				"user": sessionStorage.User
+			},
+			success: function () {
+				$.ajax({
+					url: 'php/pop_update.php',
+					dataType: 'json',
+					data: {
+						"id": localStorage.pop_id,
+						"Feld": "PopYKoord",
+						"Wert": TPopYKoord,
+						"user": sessionStorage.User
+					},
+					success: function () {
+						$("#kopiereKoordinatenInPopRueckmeldung").fadeIn('slow');
+						setTimeout(function() {
+							$("#kopiereKoordinatenInPopRueckmeldung").fadeOut('slow');
+						}, 3000);
+					},
+					error: function (data) {
+						var Meldung;
+						Meldung = JSON.stringify(data);
+						$("#Meldung").html(data.responseText);
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+					}
+				});
+			},
+			error: function (data) {
+				var Meldung;
+				Meldung = JSON.stringify(data);
+				$("#Meldung").html(data.responseText);
+				$("#Meldung").dialog({
+					modal: true,
+					buttons: {
+						Ok: function() {
+							$(this).dialog("close");
+						}
+					}
+				});
+			}
+		});
+	} else {
+		//auffordern, die Koordinaten zu vergeben und Speichern abbrechen
+		$("#Meldung").html("Sie müssen zuerst Koordinaten erfassen");
+		$("#Meldung").dialog({
+			modal: true,
+			buttons: {
+				Ok: function() {
+					$(this).dialog("close");
+				}
+			}
+		});
 	}
 }
 
