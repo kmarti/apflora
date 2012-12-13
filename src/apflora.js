@@ -189,6 +189,12 @@ function initiiere_pop() {
 				window.pop = data;
 				//Felder mit Daten beliefern
 				$("#PopHerkunft" + data.PopHerkunft).prop("checked", true);
+				if (data.PopHerkunftUnklar == 1) {
+					$("#PopHerkunftUnklar").prop("checked", true);
+				} else {
+					$("#PopHerkunftUnklar").prop("checked", false);
+				}
+				$("#PopHerkunftUnklarBegruendung").val(data.PopHerkunftUnklarBegruendung);
 				$("#PopName").val(data.PopName);
 				$("#PopNr").val(data.PopNr);
 				$("#PopBekanntSeit").val(data.PopBekanntSeit);
@@ -9289,7 +9295,7 @@ function speichern(that) {
 		Feldwert = $("#" + Feldname).val();
 	}
 	//ja/nein Felder zu boolean umbauen
-	if (Feldname === "TPopHerkunftUnklar" || Feldname === "TPopMassnPlan" || Feldname === "TPopKontrPlan" || Feldname === "TPopKontrJungPflJN") {
+	if (Feldname === "PopHerkunftUnklar" || Feldname === "TPopHerkunftUnklar" || Feldname === "TPopMassnPlan" || Feldname === "TPopKontrPlan" || Feldname === "TPopKontrJungPflJN") {
 		if (Feldwert) {
 			Feldwert = 1;
 		} else {

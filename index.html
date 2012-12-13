@@ -193,6 +193,28 @@
 					</tr>
 					<tr class="fieldcontain">
 						<td class="label">
+							<label id="PopHerkunftUnklar_label" for='PopHerkunftUnklar'>
+								<a class="tooltip" href="#">Status unklar:
+									<span class="custom info legende"><img src="img/Info.png" alt="Information" height="48" width="48" />
+										Will heissen: Die Aussage zum Status ist unsicher<br>Bitte auch einen Status wählen
+									</span>
+								</a>
+							</label>
+						</td>
+						<td class="Datenfelder">
+							<input type="checkbox" name="PopHerkunftUnklar" id="PopHerkunftUnklar" class="speichern" formular="pop" />
+						</td>
+					</tr>
+					<tr class="fieldcontain">
+						<td class="label">
+							<label id="PopHerkunftUnklarBegruendung_label" for='PopHerkunftUnklarBegruendung'>Begründung:</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea name="PopHerkunftUnklarBegruendung" id="PopHerkunftUnklarBegruendung" class="speichern" formular="pop" placeholder="...für unklaren Status"></textarea>
+						</td>
+					</tr>
+					<tr class="fieldcontain">
+						<td class="label">
 							<label id="PopBekanntSeit_label" for='PopBekanntSeit'><a class="tooltip erforderlich" href="#">Bekannt seit:<span class="custom info"><img src="img/Info.png" alt="Information" height="48" width="48" />Dieses Feld möglichst immer ausfüllen</span></a></label>
 						</td>
 						<td class="Datenfelder">
@@ -2202,7 +2224,8 @@
 				<button id="export_pop_fuer_kml" class="GoogleEarthButton">Populationen für Google Earth (beschriftet mit PopNr)</button><br>
 				<button id="export_pop_fuer_kml_namen" class="GoogleEarthButton">Populationen für Google Earth (beschriftet mit Artname, PopNr)</button><br>
 				<button id="export_pop_ohne_tpop">Populationen ohne Teilpopulationen</button><br>
-				<button id="export_pop_von_ap_ohne_status">Populationen von AP-Arten ohne "Status"</button><br><br>
+				<button id="export_pop_von_ap_ohne_status">Populationen von AP-Arten ohne "Status"</button><br>
+				<button id="export_pop_ohne_koord">Populationen ohne Koordinaten</button><br><br>
 
 				<button id="export_pop_mit_massnber_anz_massn">Populationen mit Massnahmen-Berichten: Anzahl Massnahmen im Berichtsjahr</button><br>
 				<button id="export_pop_anz_massn">Anzahl Massnahmen pro Population</button><br>
@@ -3087,6 +3110,15 @@
 			});
 			$("#exporte").on("click", "#export_pop_von_ap_ohne_status", function() {
 				var url = "php/export_pop_von_ap_ohne_status.php";
+				$.fileDownload(url, {
+					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
+					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
+				});
+				return false; //this is critical to stop the click event which will trigger a normal file download!
+			});
+			
+			$("#exporte").on("click", "#export_pop_ohne_koord", function() {
+				var url = "php/export_pop_ohne_koord.php";
 				$.fileDownload(url, {
 					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."

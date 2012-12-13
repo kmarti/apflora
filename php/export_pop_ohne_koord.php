@@ -11,8 +11,8 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
-$view = 'vJBerOhneAp'; // view you want to export
-$file = 'JahresberichteOhneProgramm'; // csv name.
+$view = 'vPopOhneKoord'; // view you want to export
+$file = 'PopulationenOhneKoordinaten'; // csv name.
 
 $result = mysqli_query($link, "SHOW COLUMNS FROM ".$view."");
 $i = 0;
