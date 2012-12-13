@@ -2358,121 +2358,101 @@ function erstelle_tree(ApArtId) {
 		$("#hilfe").show();
 		if (window.pop_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='pop']#" + localStorage.pop_id);
-			initiiere_pop();
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese Pop geöffnet wird
 			delete window.pop_zeigen;
 		}
 		if (window.popber_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='popber']#" + localStorage.popber_id);
-			initiiere_popber();
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese Popber geöffnet wird
 			delete window.popber_zeigen;
 		}
 		if (window.popmassnber_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='popmassnber']#" + localStorage.popmassnber_id);
-			initiiere_popmassnber();
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese popmassnber geöffnet wird
 			delete window.popmassnber_zeigen;
 		}
 		if (window.tpop_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='tpop']#" + localStorage.tpop_id);
-			initiiere_tpop();
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese TPop geöffnet wird
 			delete window.tpop_zeigen;
 		}
 		if (window.tpopfeldkontr_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='tpopfeldkontr']#" + localStorage.tpopfeldkontr_id);
-			initiiere_tpopfeldkontr();
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopfeldkontr geöffnet wird
 			delete window.tpopfeldkontr_zeigen;
 		}
 		if (window.tpopfreiwkontr_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='tpopfreiwkontr']#" + localStorage.tpopfeldkontr_id);
-			initiiere_tpopfeldkontr();
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopfreiwkontr geöffnet wird
 			delete window.tpopfreiwkontr_zeigen;
 		}
 		if (window.tpopmassn_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='tpopmassn']#" + localStorage.tpopmassn_id);
-			initiiere_tpopmassn();
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopmassn geöffnet wird
 			delete window.tpopmassn_zeigen;
 		}
 		if (window.tpopber_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='tpopber']#" + localStorage.tpopber_id);
-			initiiere_tpopber();
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopber geöffnet wird
 			delete window.tpopber_zeigen;
 		}
 		if (window.tpopbeob_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='tpopbeob']#" + localStorage.tpopbeob_id);
-			initiiere_tpopbeob();
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopbeob geöffnet wird
 			delete window.tpopbeob_zeigen;
 		}
 		if (window.tpopmassnber_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='tpopmassnber']#" + localStorage.tpopmassnber_id);
-			initiiere_tpopmassnber();
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopmassnber geöffnet wird
 			delete window.tpopmassnber_zeigen;
 		}
 		if (window.apziel_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='apziel']#" + localStorage.apziel_id);
-			initiiere_apziel();
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese apziel geöffnet wird
 			delete window.apziel_zeigen;
 		}
 		if (window.zielber_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='zielber']#" + localStorage.zielber_id);
-			initiiere_zielber();
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese zielber geöffnet wird
 			delete window.zielber_zeigen;
 		}
 		if (window.erfkrit_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='erfkrit']#" + localStorage.erfkrit_id);
-			initiiere_erfkrit();
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese erfkrit geöffnet wird
 			delete window.erfkrit_zeigen;
 		}
 		if (window.jber_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='jber']#" + localStorage.jber_id);
-			initiiere_jber();
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese jber geöffnet wird
 			delete window.jber_zeigen;
 		}
 		if (window.jber_uebersicht_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='jber_uebersicht']#" + localStorage.jber_uebersicht_id);
-			initiiere_jber_uebersicht();
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese jber_uebersicht geöffnet wird
 			delete window.jber_uebersicht_zeigen;
 		}
 		if (window.ber_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='ber']#" + localStorage.ber_id);
-			initiiere_ber();
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese ber geöffnet wird
 			delete window.ber_zeigen;
 		}
 		if (window.umwfakt_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='umwfakt']#" + localStorage.umwfakt_id);
-			initiiere_umwfakt();
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese umwfakt geöffnet wird
 			delete window.umwfakt_zeigen;
 		}
 		if (window.ib_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='ib']#" + localStorage.ib_id);
-			initiiere_ib();
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese ib geöffnet wird
 			delete window.ib_zeigen;
 		}
 		if (window.assozarten_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='assozarten']#" + localStorage.assozarten_id);
-			initiiere_assozarten();
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese assozarten geöffnet wird
 			delete window.assozarten_zeigen;
 		}
 		if (window.beob_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='beob']#" + localStorage.BeobId);
-			initiiere_beob();
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese beob geöffnet wird
 			delete window.beob_zeigen;
 		}
