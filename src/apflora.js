@@ -11872,18 +11872,25 @@ function initiiereGeoAdminKarte() {
 	//var zh_bbox_1903 = new OpenLayers.Bounds(669000, 222000, 717000, 284000);
 
 	//Zunächst alle Layer definieren
-	var zh_ortho = new OpenLayers.Layer.WMS("Luftbild ZH", "http://agabriel:4zC6MgjM@wms.zh.ch/OrthoZHWMS", {
+	var zh_ortho = new OpenLayers.Layer.WMS("ZH Luftbild", "http://agabriel:4zC6MgjM@wms.zh.ch/OrthoZHWMS", {
 		layers: 'orthophotos',
 		isBaseLayer: true
 	}, {
 		visibility: true,
 		singleTile: true
 	});
-	var zh_ortho_2 = new OpenLayers.Layer.WMS("Luftbild ZH", "http://maps.zh.ch/wms/OrthoBackgroundZH", {
+	var zh_ortho_2 = new OpenLayers.Layer.WMS("ZH Luftbild", "http://maps.zh.ch/wms/OrthoBackgroundZH", {
 		layers: 'orthoaktuell',
 		isBaseLayer: true
 	}, {
 		visibility: true,
+		singleTile: true
+	});
+	var zh_hoehenmodell = new OpenLayers.Layer.WMS("ZH Höhenmodell", "http://maps.zh.ch/wms/DTMBackgroundZH", {
+		layers: 'dtm',
+		isBaseLayer: true
+	}, {
+		visibility: false,
 		singleTile: true
 	});
 	var zh_lk_sw = new OpenLayers.Layer.WMS("Landeskarten sw", "http://agabriel:4zC6MgjM@wms.zh.ch/RasterWMS", {
@@ -12005,7 +12012,7 @@ function initiiereGeoAdminKarte() {
 		//window.api.map.switchComplementaryLayer("voidLayer", {opacity: 0});
 		window.api.setBgLayer('voidLayer', {opacity: 0});
 		
-		window.api.map.addLayers([zh_ortho_2, zh_lk_sw2, zh_lk]);
+		window.api.map.addLayers([zh_ortho_2, zh_hoehenmodell, zh_lk_sw2, zh_lk]);
 		window.api.map.addLayerByName('ch.swisstopo-vd.geometa-gemeinde', {visibility: false});
 		window.api.map.addLayers([zh_grenzen]);
 		/*window.api.map.addLayerByName('ch.swisstopo.swissboundaries3d-kanton-flaeche.fill', {
