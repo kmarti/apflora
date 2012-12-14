@@ -673,7 +673,7 @@ function initiiere_umwfakt() {
 				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#UfErstelldatum").val()) {
-					//$("#UfErstelldatum").focus();
+					$("#UfErstelldatum").focus();
 				}
 			} else {
 				//nur aktualisieren, wenn Schreibrechte bestehen
@@ -702,7 +702,7 @@ function initiiere_umwfakt() {
 						initiiere_umwfakt();
 					},
 					error: function (data) {
-						$("#Meldung").html("Fehler: Keine Umweltfaktoren erstellt");
+						$("#Meldung").html("Fehler: Kein Idealbiotop erstellt");
 						$("#Meldung").dialog({
 							modal: true,
 							buttons: {
@@ -717,7 +717,6 @@ function initiiere_umwfakt() {
 		},
 		error: function () {
 			//nichts machen, sonst gibt es eine Endlosschlaufe
-			
 		}
 	});
 }
@@ -737,91 +736,6 @@ function setzeWindowUmwfakt(id) {
 				if (data) {
 					//umwfakt bereitstellen
 					window.umwfakt = data;
-				}
-			}
-		});
-}
-
-function initiiere_ib() {
-	if (!localStorage.ib_id) {
-		//es fehlen benötigte Daten > eine Ebene höher
-		initiiere_ap();
-		return;
-	}
-	//Felder zurücksetzen
-	leereFelderVonFormular("ib");
-	//Daten für die ib aus der DB holen
-	$.ajax({
-		url: 'php/ib.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.ib_id
-		},
-		success: function (data) {
-			var tempUrl;
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				//ap bereitstellen
-				window.ib = data;
-				//Felder mit Daten beliefern
-				$("#IbName").val(data.IbName);
-				//IbVegTyp: Daten holen - oder vorhandene nutzen
-				if (!window.lrdelarze_html) {
-					$.ajax({
-						url: 'php/lrdelarze.php',
-						dataType: 'json',
-						success: function (data4) {
-							if (data4) {
-								//ap bereitstellen
-								//Feld mit Daten beliefern
-								var html;
-								html = "<option></option>";
-								//for (i in data4.rows) {
-								for (var i = 0; i < data4.length; i++) {
-									html += "<option value=\"" + data4.rows[i].id + "\">" + data4.rows[i].Einheit + "</option>";
-								}
-								window.lrdelarze_html = html;
-								$("#IbVegTyp").html(html);
-								$("#IbVegTyp").val(data.IbVegTyp);
-							}
-						}
-					});
-				} else {
-					$("#IbVegTyp").html(window.lrdelarze_html);
-					$("#IbVegTyp").val(data.IbVegTyp);
-				}
-				$("#IbBewPflege").val(data.IbBewPflege);
-				$("#IbBemerkungen").val(data.IbBemerkungen);
-				//Formulare blenden
-				zeigeFormular("ib");
-				history.replaceState({ib: "ib"}, "ib", "index.html?ap=" + localStorage.ap_id + "&ib=" + localStorage.ib_id);
-				setzeSpaltenbreiten();
-				//bei neuen Datensätzen Fokus steuern
-				setTimeout(function () {
-					if (!$("#IbName").val()) {
-						$("#IbName").focus();
-					}
-				}, 100);
-			}
-		}
-	});
-}
-
-//setzt window.ib und localStorage.ib_id
-//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-function setzeWindowIb(id) {
-	localStorage.ib_id = id;
-	$.ajax({
-			url: 'php/ib.php',
-			dataType: 'json',
-			data: {
-				"id": localStorage.ib_id
-			},
-			success: function (data) {
-				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-				if (data) {
-					//ib bereitstellen
-					window.ib = data;
 				}
 			}
 		});
@@ -2215,7 +2129,7 @@ function erstelle_tree(ApArtId) {
 			"type_attr": "typ",
 			"max_children": -2,
 			"max_depth": -2,
-			"valid_children": ["ap_ordner_pop", "ap_ordner_apziel", "ap_ordner_erfkrit", "ap_ordner_jber", "ap_ordner_ber", "ap_ordner_beob", "umwfakt", "ap_ordner_ib", "ap_ordner_assozarten"],
+			"valid_children": ["ap_ordner_pop", "ap_ordner_apziel", "ap_ordner_erfkrit", "ap_ordner_jber", "ap_ordner_ber", "ap_ordner_beob", "umwfakt", "ap_ordner_assozarten"],
 			"types": {
 				"ap_ordner_pop": {
 					"valid_children": "pop"
@@ -2337,13 +2251,6 @@ function erstelle_tree(ApArtId) {
 				"umwfakt": {
 					"valid_children": "none"
 				},
-				"ap_ordner_ib": {
-					"valid_children": "ib"
-				},
-				"ib": {
-					"valid_children": "none",
-					"new_node": "neues ideales Biotop"
-				},
 				"ap_ordner_assozarten": {
 					"valid_children": "assozarten"
 				},
@@ -2446,11 +2353,6 @@ function erstelle_tree(ApArtId) {
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese umwfakt geöffnet wird
 			delete window.umwfakt_zeigen;
 		}
-		if (window.ib_zeigen) {
-			jQuery("#tree").jstree("select_node", "[typ='ib']#" + localStorage.ib_id);
-			//diese Markierung entfernen, damit das nächste mal nicht mehr diese ib geöffnet wird
-			delete window.ib_zeigen;
-		}
 		if (window.assozarten_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='assozarten']#" + localStorage.assozarten_id);
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese assozarten geöffnet wird
@@ -2534,12 +2436,6 @@ function erstelle_tree(ApArtId) {
 				//1:1 mit ap verbunden, gleich id
 				//wenn noch kein Datensatz existiert erstellt ihn initiiere_umwfakt
 				initiiere_umwfakt();
-			}
-		} else if (node.attr("typ") === "ib") {
-			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#ib").is(':visible') || localStorage.ib_id !== node.attr("id")) {
-				localStorage.ib_id = node.attr("id");
-				initiiere_ib();
 			}
 		} else if (node.attr("typ") === "assozarten") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -3353,19 +3249,6 @@ function beschrifte_ap_ordner_ber(node) {
 		anzTxt = anz + " Bericht";
 	} else {
 		anzTxt = anz + " Berichte";
-	}
-	jQuery.jstree._reference(node).rename_node(node, anzTxt);
-}
-
-//übernimmt einen node
-//zählt dessen children und passt die Beschriftung an
-function beschrifte_ap_ordner_ib(node) {
-	var anz, anzTxt;
-	anz = $(node).find("> ul > li").length;
-	if (anz === 1) {
-		anzTxt = anz + " ideales Biotop";
-	} else {
-		anzTxt = anz + " ideale Biotope";
 	}
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
@@ -4967,210 +4850,6 @@ function treeKontextmenu(node) {
 									},
 									error: function (data) {
 										$("#Meldung").html("Fehler: Der Bericht wurde nicht gelöscht");
-										$("#Meldung").dialog({
-											modal: true,
-											buttons: {
-												Ok: function() {
-													$(this).dialog("close");
-												}
-											}
-										});
-									}
-								});
-							},
-							"abbrechen": function() {
-								$(this).dialog("close");
-							}
-						}
-					});			
-				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function () {
-					initiiere_exporte();
-				}
-			}
-		};
-		return items;
-	case "ap_ordner_ib":
-		items = {
-			"neu": {
-				"label": "neues Idealbiotop",
-				"icon": "style/images/neu.png",
-				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
-						return;
-					}
-					$.ajax({
-						url: 'php/ib_insert.php',
-						dataType: 'json',
-						data: {
-							"id": $(aktiver_node).attr("id"),
-							"user": sessionStorage.User
-						},
-						success: function (IbId) {
-							var NeuerNode;
-							localStorage.ib_id = IbId;
-							delete window.ib;
-							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-								"data": "neues Idealbiotop",
-								"attr": {
-									"id": IbId,
-									"typ": "ib"
-								}
-							});
-							//Node-Beschriftung: Anzahl anpassen
-							beschrifte_ap_ordner_ib(aktiver_node);
-							//node selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
-							initiiere_ib();
-						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Kein neues Idealbiotop erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
-						}
-					});
-				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function () {
-					initiiere_exporte();
-				}
-			}
-		};
-		return items;
-	case "ib":
-		items = {
-			"neu": {
-				"label": "neues Idealbiotop",
-				"icon": "style/images/neu.png",
-				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
-						return;
-					}
-					$.ajax({
-						url: 'php/ib_insert.php',
-						dataType: 'json',
-						data: {
-							"id": $(parent_node).attr("id"),
-							"user": sessionStorage.User
-						},
-						success: function (IbId) {
-							var NeuerNode;
-							localStorage.ib_id = IbId;
-							delete window.ib;
-							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-								"data": "Neues Idealbiotop",
-								"attr": {
-									"id": IbId,
-									"typ": "ib"
-								}
-							});
-							//Parent Node-Beschriftung: Anzahl anpassen
-							beschrifte_ap_ordner_ib(parent_node);
-							//node selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
-							initiiere_ib();
-						},
-						error: function () {
-							$("#Meldung").html("Fehler: Kein neues Idealbiotop erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
-						}
-					});
-				}
-			},
-			"loeschen": {
-				"label": "löschen",
-				"separator_before": true,
-				"icon": "style/images/loeschen.png",
-				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
-						return;
-					}
-					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
-					jQuery.jstree._reference(aktiver_node).deselect_all();
-					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
-					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
-					jQuery.jstree._reference(aktiver_node).deselect_all();
-					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
-					$("#loeschen_dialog_mitteilung").html("Das Idealbiotop \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
-					$("#loeschen_dialog").dialog({
-						resizable: false,
-						height:'auto',
-						width: 400,
-						modal: true,
-						buttons: {
-							"ja, löschen!": function() {
-								$(this).dialog("close");
-								$.ajax({
-									url: 'php/ib_delete.php',
-									dataType: 'json',
-									data: {
-										"id": $(aktiver_node).attr("id")
-									},
-									success: function () {
-										delete localStorage.ib_id;
-										delete window.ib;
-										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										//Parent Node-Beschriftung: Anzahl anpassen
-										beschrifte_ap_ordner_ib(parent_node);
-									},
-									error: function (data) {
-										$("#Meldung").html("Fehler: Das Idealbiotop wurde nicht gelöscht");
 										$("#Meldung").dialog({
 											modal: true,
 											buttons: {
@@ -9479,15 +9158,6 @@ function speichern(that) {
 			}
 			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_ber'] #" + localStorage.ber_id, berbeschriftung);
 			break;
-		case "IbName":
-			var ibbeschriftung;
-			if (Feldwert) {
-				ibbeschriftung = Feldwert;
-			} else {
-				ibbeschriftung = "(kein Name)";
-			}
-			jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_ib'] #" + localStorage.ib_id, ibbeschriftung);
-			break;
 		case "AaSisfNr":
 			var aabeschriftung;
 			if (Feldwert) {
@@ -12158,12 +11828,6 @@ function oeffneUri() {
 			//markieren, dass nach dem loaded-event im Tree die umwfakt angezeigt werden soll 
 			//Die Markierung wird im load-Event wieder entfernt
 			window.umwfakt_zeigen = true;
-		} else if (uri.getQueryParamValue('ib')) {
-			//globale Variabeln setzen
-			setzeWindowIb(uri.getQueryParamValue('ib'));
-			//markieren, dass nach dem loaded-event im Tree die ib angezeigt werden soll 
-			//Die Markierung wird im load-Event wieder entfernt
-			window.ib_zeigen = true;
 		} else if (uri.getQueryParamValue('assozarten')) {
 			//globale Variabeln setzen
 			setzeWindowAssozarten(uri.getQueryParamValue('assozarten'));

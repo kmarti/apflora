@@ -1648,45 +1648,6 @@
 				</table>
 			</form>
 
-			<form id="ib" class="form" action="#" method="get" autocomplete="off">
-				<table>
-					<tr class='fieldcontain IbName'>
-						<td class="label">
-							<label id="IbName_label" for='IbName'>Name:</label>
-						</td>
-						<td class="Datenfelder">
-							<input id="IbName" name="IbName" class="speichern" formular="ib" type="text"/>
-						</td>
-					</tr>
-					<tr class='fieldcontain IbVegTyp'>
-						<td class="label">
-							<label id="IbVegTyp_label" for='IbVegTyp'>Vegetationstyp:</label>
-						</td>
-						<td class="Datenfelder">
-							<select id="IbVegTyp" name="IbVegTyp" class="speichern" formular="ib">
-								<option></option>
-							</select>
-						</td>
-					</tr>
-					<tr class='fieldcontain IbBewPflege'>
-						<td class="label">
-							<label id="IbBewPflege_label" for='IbBewPflege'>Bewirtschaftung, Pflege:</label>
-						</td>
-						<td class="Datenfelder">
-							<textarea name="IbBewPflege" id="IbBewPflege" class="speichern" formular="ib"></textarea>
-						</td>
-					</tr>
-					<tr class='fieldcontain IbBemerkungen'>
-						<td class="label">
-							<label id="IbBemerkungen_label" for='IbBemerkungen'>Bemerkungen:</label>
-						</td>
-						<td class="Datenfelder">
-							<textarea name="IbBemerkungen" id="IbBemerkungen" class="speichern" formular="ib"></textarea>
-						</td>
-					</tr>
-				</table>
-			</form>
-
 			<form id="assozarten" class="form" action="#" method="get" autocomplete="off">
 				<table>
 					<tr class='fieldcontain AaSisfNr'>
@@ -2212,9 +2173,7 @@
 
 				<button id="export_erfkrit">Erfolgskriterien</button><br><br>
 
-				<button id="export_umwfakt">Umweltfaktoren</button><br><br>
-
-				<button id="export_idealbiotope">Ideale Biotope</button><br><br>
+				<button id="export_umwfakt">Idealbiotope</button><br><br>
 
 				<button id="export_assoz_arten">Assoziierte Arten</button><br>
 
@@ -3043,14 +3002,6 @@
 			});
 			$("#exporte").on("click", "#export_umwfakt", function() {
 				var url = "php/export_umwfakt.php";
-				$.fileDownload(url, {
-					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
-			});
-			$("#exporte").on("click", "#export_idealbiotope", function() {
-				var url = "php/export_idealbiotope.php";
 				$.fileDownload(url, {
 					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."

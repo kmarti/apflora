@@ -608,28 +608,6 @@ $anz_umwfakt = mysqli_num_rows($result_umwfakt);
 
 mysqli_free_result($result_umwfakt);
 
-//ib dieses AP abfragen
-$result_ib = mysqli_query($link, "SELECT IbId, IbApArtId, IbName, IbVegTyp FROM tblIdealBiotope where IbApArtId = $ApArtId ORDER BY IbName, IbVegTyp");
-$anz_ib = mysqli_num_rows($result_ib);
-//ib aufbauen
-$rows_ib = array();
-while($r_ib = mysqli_fetch_assoc($result_ib)) {
-	$IbId = $r_ib['IbId'];
-	settype($IbId, "integer");
-	//ib setzen
-	$attr_ib = array("id" => $IbId, "typ" => "ib");
-	//ib sinnvoll beschriften, auch wenn name leer
-	if ($r_ib['IbName']) {
-		$ibbeschriftung = $r_ib['IbName'];
-	} else {
-		$ibbeschriftung = "(kein Name)";
-	}
-	$ib = array("data" => $ibbeschriftung, "attr" => $attr_ib);
-	//ib-Array um ib ergänzen
-    $rows_ib[] = $ib;
-}
-mysqli_free_result($result_ib);
-
 //assozarten dieses AP abfragen
 $result_assozarten = mysqli_query($link, "SELECT AaId, AaApArtId, Name FROM tblAssozArten LEFT JOIN ArtenDb_tblFloraSisf ON AaSisfNr = NR where AaApArtId = $ApArtId ORDER BY Name");
 $anz_assozarten = mysqli_num_rows($result_assozarten);
@@ -695,16 +673,9 @@ if ($anz_beob === 1) {
 }
 $ap_ordner_beob_attr = array("id" => $ApArtId, "typ" => "ap_ordner_beob");
 $ap_ordner_beob = array("data" => $ap_ordner_beob_datatext, "attr" => $ap_ordner_beob_attr, "children" => $rows_beob);
-//Ideale Umweltfaktoren
+//Ideale Umweltfaktoren, jetzt Idealbiotop genannt
 $ap_ordner_umwfakt_attr = array("id" => $ApArtId, "typ" => "umwfakt");
-$ap_ordner_umwfakt = array("data" => "ideale Umweltfaktoren", "attr" => $ap_ordner_umwfakt_attr);
-//Ideale Biotoptypen
-$ap_ordner_ib_datatext = $anz_ib." ideale Biotope";
-if ($anz_ib === 1) {
-	$ap_ordner_ib_datatext = $anz_ib." ideales Biotop";
-}
-$ap_ordner_ib_attr = array("id" => $ApArtId, "typ" => "ap_ordner_ib");
-$ap_ordner_ib = array("data" => $ap_ordner_ib_datatext, "attr" => $ap_ordner_ib_attr, "children" => $rows_ib);
+$ap_ordner_umwfakt = array("data" => "Idealbiotop", "attr" => $ap_ordner_umwfakt_attr);
 //assoziierte Arten
 $ap_ordner_assozarten_datatext = $anz_assozarten." assoziierte Arten";
 if ($anz_assozarten === 1) {
@@ -713,7 +684,7 @@ if ($anz_assozarten === 1) {
 $ap_ordner_assozarten_attr = array("id" => $ApArtId, "typ" => "ap_ordner_assozarten");
 $ap_ordner_assozarten = array("data" => $ap_ordner_assozarten_datatext, "attr" => $ap_ordner_assozarten_attr, "children" => $rows_assozarten);
 //zusammensetzen
-$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_jber, 4 => $ap_ordner_ber, 5 => $ap_ordner_beob, 6 => $ap_ordner_umwfakt, 7 => $ap_ordner_ib, 8 => $ap_ordner_assozarten);
+$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_jber, 4 => $ap_ordner_ber, 5 => $ap_ordner_beob, 6 => $ap_ordner_umwfakt, 7 => $ap_ordner_assozarten);
 
 	
 //in json verwandeln

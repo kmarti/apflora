@@ -466,17 +466,6 @@ FROM ((((ArtenDb_tblFloraSisf RIGHT JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.
 WHERE tblAktionsplan.ApArtId is Null
 ORDER BY ArtenDb_tblFloraSisf.Name;
 
-CREATE VIEW vIdealBiotope AS
-SELECT tblAktionsplan.ApArtId, ArtenDb_tblFloraSisf.Name AS "AP Art", DomainApBearbeitungsstand.DomainTxt AS "AP Bearbeitungsstand", tblAktionsplan.ApJahr AS "AP Start im Jahr", DomainApUmsetzung.DomainTxt AS "AP Stand Umsetzung", tblAdresse.AdrName AS "AP verantwortlich", tblIdealBiotope.IbId AS "IB Id", tblIdealBiotope.IbName AS "IB Name", tblIdealBiotope.IbVegTyp AS "IB VegTyp", tblIdealBiotope.IbBewPflege AS "IB Pflege", tblIdealBiotope.IbBemerkungen AS "IB Bemerkungen", tblIdealBiotope.MutWann AS "IB MutWann", tblIdealBiotope.MutWer AS "IB MutWer"
-FROM ((((ArtenDb_tblFloraSisf RIGHT JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode) LEFT JOIN DomainApUmsetzung ON tblAktionsplan.ApUmsetzung = DomainApUmsetzung.DomainCode) LEFT JOIN tblAdresse ON tblAktionsplan.ApBearb = tblAdresse.AdrId) RIGHT JOIN tblIdealBiotope ON tblAktionsplan.ApArtId = tblIdealBiotope.IbApArtId
-ORDER BY ArtenDb_tblFloraSisf.Name;
-
-CREATE VIEW vIdealBiotopeOhneAp AS
-SELECT tblAktionsplan.ApArtId AS "AP ApArtId", tblIdealBiotope.IbId AS "IB Id", tblIdealBiotope.IbApArtId AS "IB ApArtId", tblIdealBiotope.IbName AS "IB Name", tblIdealBiotope.IbVegTyp AS "IB VegTyp", tblIdealBiotope.IbBewPflege AS "IB Pflege", tblIdealBiotope.IbBemerkungen AS "IB Bemerkungen", tblIdealBiotope.MutWann AS "IB MutWann", tblIdealBiotope.MutWer AS "IB MutWer"
-FROM ((((ArtenDb_tblFloraSisf RIGHT JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode) LEFT JOIN DomainApUmsetzung ON tblAktionsplan.ApUmsetzung = DomainApUmsetzung.DomainCode) LEFT JOIN tblAdresse ON tblAktionsplan.ApBearb = tblAdresse.AdrId) RIGHT JOIN tblIdealBiotope ON tblAktionsplan.ApArtId = tblIdealBiotope.IbApArtId
-WHERE tblAktionsplan.ApArtId is Null
-ORDER BY ArtenDb_tblFloraSisf.Name;
-
 CREATE VIEW vAssozArten AS
 SELECT tblAktionsplan.ApArtId, ArtenDb_tblFloraSisf.Name AS "AP Art", DomainApBearbeitungsstand.DomainTxt AS "AP Bearbeitungsstand", tblAktionsplan.ApJahr AS "AP Start im Jahr", DomainApUmsetzung.DomainTxt AS "AP Stand Umsetzung", tblAdresse.AdrName AS "AP verantwortlich", tblAssozArten.AaId AS "AA Id", ArtenDb_tblFloraSisf_1.Name AS "AA Art", tblAssozArten.AaBem AS "AA Bemerkungen", tblAssozArten.MutWann AS "AA MutWann", tblAssozArten.MutWer AS "AA MutWer"
 FROM ArtenDb_tblFloraSisf AS ArtenDb_tblFloraSisf_1 RIGHT JOIN (((((ArtenDb_tblFloraSisf RIGHT JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode) LEFT JOIN DomainApUmsetzung ON tblAktionsplan.ApUmsetzung = DomainApUmsetzung.DomainCode) LEFT JOIN tblAdresse ON tblAktionsplan.ApBearb = tblAdresse.AdrId) RIGHT JOIN tblAssozArten ON tblAktionsplan.ApArtId = tblAssozArten.AaApArtId) ON ArtenDb_tblFloraSisf_1.NR = tblAssozArten.AaSisfNr

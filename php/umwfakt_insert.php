@@ -21,7 +21,7 @@ $Querystring = 'INSERT INTO tblUmweltFaktoren (UfApArtId, MutWann, MutWer) VALUE
 //SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);
 
-//speziell: bei IbAllg ist die ApArtId = der id (1:1)
+//speziell: bei UmwFakt ist die ApArtId = der id (1:1)
 print $id;
 
 // Verbindung schliessen
