@@ -2358,7 +2358,6 @@ function erstelle_tree(ApArtId) {
 	})
 	.show()
 	.bind("loaded.jstree", function (event, data) {
-		console.log('jstree loaded');
 		jstree_erstellt.resolve();
 		$("#suchen").show();
 		$("#hilfe").show();
