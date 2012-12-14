@@ -11975,6 +11975,13 @@ function initiiereGeoAdminKarte() {
 		singleTile: true,
 		visibility: false
 	});
+	var zh_liwa = new OpenLayers.Layer.WMS("ZH Lichte Wälder", "http://maps.zh.ch/wms/FnsLWZH", {
+		layers: 'objekte-lichte-waelder-kanton-zuerich',
+		transparent: true
+	}, {
+		singleTile: true,
+		visibility: false
+	});
 
 	//allfällige Marker-Ebenen entfernen
 	entferneTPopMarkerEbenen();
@@ -12004,7 +12011,7 @@ function initiiereGeoAdminKarte() {
 		/*window.api.map.addLayerByName('ch.swisstopo.swissboundaries3d-kanton-flaeche.fill', {
 			visibility: false
 		});*/
-		window.api.map.addLayers([zh_av, zh_avnr, zh_svo, zh_svo_raster, zh_waldgesellschaften]);
+		window.api.map.addLayers([zh_av, zh_avnr, zh_svo, zh_svo_raster, zh_waldgesellschaften, zh_liwa]);
 		/*window.api.map.addLayerByName('ch.bafu.bundesinventare-trockenwiesen_trockenweiden', {
 			visibility: false,
 			opacity: 0.7
