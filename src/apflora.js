@@ -1797,11 +1797,9 @@ function zeigeFormular(Formularname) {
 		$("#forms").css("background-color", "#FFE")
 		$("#forms").show();
 		//GeoAdminKarte ist in div statt form, wegen des CSS
-		$("#GeoAdminKarte").hide();
+		//$("#GeoAdminKarte").hide();
 		$('form').each(function() {
 			$(this).hide();
-		});
-		$('form').each(function() {
 			if ($(this).attr("id") === Formularname) {
 				$(this).show();
 				$('textarea').each(function () {
@@ -1809,13 +1807,22 @@ function zeigeFormular(Formularname) {
 				});
 			}
 		});
+		//Karten sind in div statt form
+		$('.karte').each(function() {
+			$(this).hide();
+		});
 	} else {
 		$("#forms").hide();
 		$('form').each(function() {
 			$(this).hide();
 		});
+		//Karten sind in div statt form
+		$('.karte').each(function() {
+			$(this).hide();
+		});
 	}
 	if (Formularname === "google_karte") {
+		$("#google_karte").show();
 		//Titelzeile entfernen
 		$("#forms_titelzeile").css("display", "none");
 		//padding von forms entfernen, damit die Karte den ganzen Platz einnehmen kann

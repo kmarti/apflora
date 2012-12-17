@@ -315,7 +315,7 @@ body {
 a {
 	-webkit-user-select: none !important; 
 }
-#Karte {
+#google_karte {
 	border-radius: 8px;
 	overflow: hidden;
 }
