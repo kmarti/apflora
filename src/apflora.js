@@ -108,7 +108,6 @@ function initiiere_ap() {
 					zeigeFormular("ap");
 					history.replaceState({ap: "ap"}, "ap", "index.html?ap=" + data.ApArtId);
 					setzeSpaltenbreiten();
-					$("#ap_loeschen").show();
 				}
 			}
 		});
@@ -116,7 +115,6 @@ function initiiere_ap() {
 		$("#ApArtId").val($("#ap_waehlen").val());
 		//Formulare blenden
 		zeigeFormular("ap");
-		$("#ap_loeschen").show();
 	}
 }
 
@@ -1764,9 +1762,8 @@ function initiiere_exporte() {
 //und alle anderen ausgeblendet
 //zusätzlich wird die Höhe von textinput-Feldern an den Textinhalt angepasst
 function zeigeFormular(Formularname) {
-	var Kartenhoehe;
-
-	//alle Formulare ausblenden
+	var formular_angezeigt = $.Deferred();
+	//zuerst alle Formulare ausblenden
 	$("#forms").hide();
 	$('form').each(function() {
 		$(this).hide();
@@ -1777,7 +1774,7 @@ function zeigeFormular(Formularname) {
 	});
 
 	//damit kann bei Grössenänderung die Formularhöhe von Karten gemanagt werden
-	window.formularhoehe_manuell_Karte = false;
+	window.kartenhoehe_manuell = false;
 	//höhe von forms auf auto setzen, weil dies von den Kartenansichten verändert wird
 	$("#forms").height('auto');
 	//padding von forms wieder setzen, weil es bei der Kartenanzeige entfernt wird, damit die Karte den ganzen Platz einnehmen kann
@@ -1805,6 +1802,7 @@ function zeigeFormular(Formularname) {
 
 	if (Formularname) {
 		$("#forms").show();
+		$("#ap_loeschen").show();
 		if (Formularname === "google_karte" || Formularname === "GeoAdminKarte") {
 			//padding von forms entfernen, damit die Karte den ganzen Platz einnehmen kann
 			$("#forms").css('padding', '0px 0px 0px 0px');
@@ -1813,7 +1811,7 @@ function zeigeFormular(Formularname) {
 			//höhe einstellen
 			$("#" + Formularname).css("height", $(window).height()-17 + "px");
 			//markieren, dass die Formularhöhe anders gesetzt werden soll
-			window.formularhoehe_manuell_Karte = true;
+			window.kartenhoehe_manuell = true;
 			$("#" + Formularname).show();
 			if (Formularname === "GeoAdminKarte") {
 				//auswählen deaktivieren und allfällige Liste ausblenden
@@ -1821,9 +1819,8 @@ function zeigeFormular(Formularname) {
 				initiiereGeoAdminKarte();
 			}
 			//Karte ist sonst zu schmal
-			//setTimeout(function() {
-				setzeSpaltenbreiten();
-			//}, 5);
+			setzeSpaltenbreiten();
+			formular_angezeigt.resolve();
 		} else {
 			$("#forms").css("background-color", "#FFE")
 			$('form').each(function() {
@@ -1836,8 +1833,10 @@ function zeigeFormular(Formularname) {
 				}
 			});
 			$(window).scrollTop(0);
+			formular_angezeigt.resolve();
 		}
 	}
+	return formular_angezeigt.promise();
 }
 
 //leert alle Felder und stellt ihre Breite ein
@@ -1862,7 +1861,7 @@ function setzeTreehoehe() {
 }
 
 function setzeKartenhoehe() {
-	if (window.formularhoehe_manuell_Karte) {
+	if (window.kartenhoehe_manuell) {
 		$("#forms").height($(window).height() - 17);
 		if (typeof window.api !== "undefined" && window.api.map) {
 			$("#GeoAdminKarte").height($(window).height() - 17);
@@ -1886,7 +1885,7 @@ function setzeKartenhoehe() {
 //ab minimaler Breite forms unter menu setzen, 
 function setzeSpaltenbreiten() {
 	if ($(window).width() > 1000) {
-		if (window.formularhoehe_manuell_Karte) {
+		if (window.kartenhoehe_manuell) {
 			//Karte füllt den ganzen Fieldset aus
 			$("#forms").width($(window).width() - 411);
 		} else {
@@ -1894,7 +1893,7 @@ function setzeSpaltenbreiten() {
 		}
 		$("#tree").width(370);
 	} else {
-		if (window.formularhoehe_manuell_Karte) {
+		if (window.kartenhoehe_manuell) {
 			//Karte füllt den ganzen Fieldset aus
 			$("#forms").width($(window).width() - 17);
 		} else {
@@ -11994,10 +11993,10 @@ function initiiereGeoAdminKarte() {
 		});
 
 		//The complementary layer is per default the color pixelmap.
-		//window.api.map.switchComplementaryLayer("voidLayer", {opacity: 0});
-		window.api.setBgLayer('voidLayer', {opacity: 0});
+		window.api.map.switchComplementaryLayer("voidLayer", {opacity: 0});
+		//window.api.setBgLayer('voidLayer', {opacity: 0});
 		
-		window.api.map.addLayers([zh_ortho_2, zh_hoehenmodell, zh_lk_sw2, zh_lk]);
+		window.api.map.addLayers([zh_ortho, zh_lk_sw]);
 		window.api.map.addLayerByName('ch.swisstopo-vd.geometa-gemeinde', {visibility: false});
 		window.api.map.addLayers([zh_grenzen]);
 		/*window.api.map.addLayerByName('ch.swisstopo.swissboundaries3d-kanton-flaeche.fill', {
@@ -12154,7 +12153,7 @@ function korrigiereLayernamenImLayertree() {
 				$(this).text("Kantone");
 				break;
 			case "Gemeindeinformationen":
-				$(this).text("Gemeinden CH");
+				$(this).text("CH Gemeinden");
 				break;
 		}
 	});
@@ -12162,7 +12161,7 @@ function korrigiereLayernamenImLayertree() {
 
 function schliesseLayeroptionen() {
 	$(".x-panel-body .x-tree-node").each(function() {
-		if ($(".x-tree-node-anchor span", this).text() !== "Luftbild ZH") {
+		if ($(".x-tree-node-anchor span", this).text() !== "ZH Luftbild") {
 			$(".gx-tree-layer-action.close", this).each(function() {
 				$(this).css("visibility", "hidden");
 			});

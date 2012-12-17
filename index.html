@@ -2478,6 +2478,7 @@
 						$("#Meldung").html("Wollen Sie das Artförderprogramm für " + $("#ap_waehlen option[value='" + $("#ap_waehlen").val() + "']").text() + " wirklich löschen?<br>Alle im Baum darunter befindlichen Daten werden mit gelöscht!");
 						$("#Meldung").dialog({
 							modal: true,
+							width: 500,
 							buttons: {
 								ja: function() {
 									//Variable zum rückgängig machen erstellen
@@ -2552,6 +2553,7 @@
 
 				$("#forms").on("click", "#undelete", function (event) {
 					event.preventDefault();
+					var apartid = window.ap.ApArtId;
 					if (!window.deleted) {
 						$("#Meldung").html("Fehler: Wiederherstellung gescheitert");
 						$("#Meldung").dialog({
@@ -2619,13 +2621,11 @@
 							dataType: 'json',
 							success: function () {
 								$("#undelete_div").hide();
-								//refresh tree
-								jQuery("#tree").jstree("refresh");
-								setTimeout(function() {
-									jQuery("#tree").jstree("deselect_all");
-									jQuery("#tree").jstree("close_all", -1);
-									jQuery("#tree").jstree("select_node", "[typ='pop']#" + window.deleted.PopId);
-								}, 1000);
+								//tree neu aufbauen
+								$.when(erstelle_tree(apartid))
+									.then(function() {
+										$("#tree").jstree("select_node", "[typ='pop']#" + window.deleted.PopId);
+									});
 							},
 							error: function (data) {
 								$("#Meldung").html("Fehler: Wiederherstellung gescheitert");
@@ -2658,13 +2658,11 @@
 							dataType: 'json',
 							success: function () {
 								$("#undelete_div").hide();
-								//refresh tree
-								jQuery("#tree").jstree("refresh");
-								setTimeout(function() {
-									jQuery("#tree").jstree("deselect_all");
-									jQuery("#tree").jstree("close_all", -1);
-									jQuery("#tree").jstree("select_node", "[typ='tpop']#" + window.deleted.TPopId);
-								}, 1000);
+								//tree neu aufbauen
+								$.when(erstelle_tree(apartid))
+									.then(function() {
+										$("#tree").jstree("select_node", "[typ='tpop']#" + window.deleted.TPopId);
+									});
 							},
 							error: function (data) {
 								$("#Meldung").html("Fehler: Wiederherstellung gescheitert");
@@ -2697,13 +2695,11 @@
 							dataType: 'json',
 							success: function () {
 								$("#undelete_div").hide();
-								//refresh tree
-								jQuery("#tree").jstree("refresh");
-								setTimeout(function() {
-									jQuery("#tree").jstree("deselect_all");
-									jQuery("#tree").jstree("close_all", -1);
-									jQuery("#tree").jstree("select_node", "[typ='tpopmassn']#" + window.deleted.TPopMassnId);
-								}, 1000);
+								//tree neu aufbauen
+								$.when(erstelle_tree(apartid))
+									.then(function() {
+										$("#tree").jstree("select_node", "[typ='tpopmassn']#" + window.deleted.TPopMassnId);
+									});
 							},
 							error: function (data) {
 								$("#Meldung").html("Fehler: Wiederherstellung gescheitert");
@@ -2738,13 +2734,11 @@
 							dataType: 'json',
 							success: function () {
 								$("#undelete_div").hide();
-								//refresh tree
-								jQuery("#tree").jstree("refresh");
-								setTimeout(function() {
-									jQuery("#tree").jstree("deselect_all");
-									jQuery("#tree").jstree("close_all", -1);
-									jQuery("#tree").jstree("select_node", "[typ='" + typ + "']#" + window.deleted.TPopKontrId);
-								}, 1000);
+								//tree neu aufbauen
+								$.when(erstelle_tree(apartid))
+									.then(function() {
+										$("#tree").jstree("select_node", "[typ='" + typ + "']#" + window.deleted.TPopKontrId);
+									});
 							},
 							error: function (data) {
 								$("#Meldung").html("Fehler: Wiederherstellung gescheitert");
@@ -2777,13 +2771,11 @@
 							dataType: 'json',
 							success: function () {
 								$("#undelete_div").hide();
-								//refresh tree
-								jQuery("#tree").jstree("refresh");
-								setTimeout(function() {
-									jQuery("#tree").jstree("deselect_all");
-									jQuery("#tree").jstree("close_all", -1);
-									jQuery("#tree").jstree("select_node", "[typ='jber']#" + window.deleted.JBerId);
-								}, 1000);
+								//tree neu aufbauen
+								$.when(erstelle_tree(apartid))
+									.then(function() {
+										$("#tree").jstree("select_node", "[typ='jber']#" + window.deleted.JBerId);
+									});
 							},
 							error: function (data) {
 								$("#Meldung").html("Fehler: Wiederherstellung gescheitert");
