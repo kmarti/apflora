@@ -1765,9 +1765,19 @@ function initiiere_exporte() {
 //zusätzlich wird die Höhe von textinput-Feldern an den Textinhalt angepasst
 function zeigeFormular(Formularname) {
 	var Kartenhoehe;
+
+	//alle Formulare ausblenden
+	$("#forms").hide();
+	$('form').each(function() {
+		$(this).hide();
+	});
+	//Karten sind in div statt form
+	$('.karte').each(function() {
+		$(this).hide();
+	});
+
 	//damit kann bei Grössenänderung die Formularhöhe von Karten gemanagt werden
-	window.formularhoehe_manuell_GoogleKarte = false;
-	window.formularhoehe_manuell_GeoAdminKarte = false;
+	window.formularhoehe_manuell_Karte = false;
 	//höhe von forms auf auto setzen, weil dies von den Kartenansichten verändert wird
 	$("#forms").height('auto');
 	//padding von forms wieder setzen, weil es bei der Kartenanzeige entfernt wird, damit die Karte den ganzen Platz einnehmen kann
@@ -1794,62 +1804,40 @@ function zeigeFormular(Formularname) {
 	}
 
 	if (Formularname) {
-		$("#forms").css("background-color", "#FFE")
 		$("#forms").show();
-		//GeoAdminKarte ist in div statt form, wegen des CSS
-		//$("#GeoAdminKarte").hide();
-		$('form').each(function() {
-			$(this).hide();
-			if ($(this).attr("id") === Formularname) {
-				$(this).show();
-				$('textarea').each(function () {
-					$(this).trigger('focus');
-				});
+		if (Formularname === "google_karte" || Formularname === "GeoAdminKarte") {
+			//padding von forms entfernen, damit die Karte den ganzen Platz einnehmen kann
+			$("#forms").css('padding', '0px 0px 0px 0px');
+			//Titelzeile entfernen
+			$("#forms_titelzeile").css("display", "none");
+			//höhe einstellen
+			$("#" + Formularname).css("height", $(window).height()-17 + "px");
+			//markieren, dass die Formularhöhe anders gesetzt werden soll
+			window.formularhoehe_manuell_Karte = true;
+			$("#" + Formularname).show();
+			if (Formularname === "GeoAdminKarte") {
+				//auswählen deaktivieren und allfällige Liste ausblenden
+				$("#mitPolygonWaehlen").button({ disabled: false });
+				initiiereGeoAdminKarte();
 			}
-		});
-		//Karten sind in div statt form
-		$('.karte').each(function() {
-			$(this).hide();
-		});
-	} else {
-		$("#forms").hide();
-		$('form').each(function() {
-			$(this).hide();
-		});
-		//Karten sind in div statt form
-		$('.karte').each(function() {
-			$(this).hide();
-		});
+			//Karte ist sonst zu schmal
+			//setTimeout(function() {
+				setzeSpaltenbreiten();
+			//}, 5);
+		} else {
+			$("#forms").css("background-color", "#FFE")
+			$('form').each(function() {
+				$(this).hide();
+				if ($(this).attr("id") === Formularname) {
+					$(this).show();
+					$('textarea').each(function () {
+						$(this).trigger('focus');
+					});
+				}
+			});
+			$(window).scrollTop(0);
+		}
 	}
-	if (Formularname === "google_karte") {
-		$("#google_karte").show();
-		//Titelzeile entfernen
-		$("#forms_titelzeile").css("display", "none");
-		//padding von forms entfernen, damit die Karte den ganzen Platz einnehmen kann
-		$("#forms").css('padding', '0px 0px 0px 0px');
-		//markieren, dass die Formularhöhe anders gesetzt werden soll
-		window.formularhoehe_manuell_GoogleKarte = true;
-		//Karte wird sonst unter dem Menu angezeigt
-		setTimeout(function() {
-			setzeSpaltenbreiten();
-		}, 5);
-	}
-	if (Formularname === "GeoAdminKarte") {
-		//markieren, dass die Formularhöhe anders gesetzt werden soll
-		window.formularhoehe_manuell_GeoAdminKarte = true;
-		//auswählen deaktivieren und allfällige Liste ausblenden
-		$("#mitPolygonWaehlen").button({ disabled: false });
-		//padding von forms entfernen, damit die Karte den ganzen Platz einnehmen kann
-		$("#forms").css('padding', '0px 0px 0px 0px');
-		Kartenhoehe = $(window).height() - 17;
-		$("#GeoAdminKarte").css("height", Kartenhoehe + "px");
-		$("#GeoAdminKarte").show();
-		initiiereGeoAdminKarte();
-		setTimeout(function() {
-			setzeSpaltenbreiten();
-		}, 5);
-	}
-	$(window).scrollTop(0);
 }
 
 //leert alle Felder und stellt ihre Breite ein
@@ -1874,16 +1862,16 @@ function setzeTreehoehe() {
 }
 
 function setzeKartenhoehe() {
-	if (window.formularhoehe_manuell_GeoAdminKarte) {
+	if (window.formularhoehe_manuell_Karte) {
 		$("#forms").height($(window).height() - 17);
-		$("#GeoAdminKarte").height($(window).height() - 17);
-		$("#ga_karten_div").height($(window).height() - 17);
-		window.api.map.updateSize();
-	} else if (window.formularhoehe_manuell_GoogleKarte) {
-		$("#forms").height($(window).height() - 17);
-		$("#google_karte").height($(window).height() - 17);
-		$("#google_karten_div").height($(window).height() - 17);
-		google.maps.event.trigger(map, 'resize');
+		if (typeof window.api !== "undefined" && window.api.map) {
+			$("#GeoAdminKarte").height($(window).height() - 17);
+			window.api.map.updateSize();
+		}
+		if (typeof google !== "undefined" && google.maps && typeof map !== "undefined") {
+			$("#google_karte").height($(window).height() - 17);
+			google.maps.event.trigger(map, 'resize');
+		}
 	} else {
 		$("#forms").height('auto');
 	}
@@ -1898,7 +1886,7 @@ function setzeKartenhoehe() {
 //ab minimaler Breite forms unter menu setzen, 
 function setzeSpaltenbreiten() {
 	if ($(window).width() > 1000) {
-		if (window.formularhoehe_manuell_GeoAdminKarte || window.formularhoehe_manuell_GoogleKarte) {
+		if (window.formularhoehe_manuell_Karte) {
 			//Karte füllt den ganzen Fieldset aus
 			$("#forms").width($(window).width() - 411);
 		} else {
@@ -1906,7 +1894,7 @@ function setzeSpaltenbreiten() {
 		}
 		$("#tree").width(370);
 	} else {
-		if (window.formularhoehe_manuell_GeoAdminKarte || window.formularhoehe_manuell_GoogleKarte) {
+		if (window.formularhoehe_manuell_Karte) {
 			//Karte füllt den ganzen Fieldset aus
 			$("#forms").width($(window).width() - 17);
 		} else {
@@ -9356,14 +9344,12 @@ function CHtoWGSlng(y, x) {
 }
 
 function zeigeTPopAufKarte(TPopListe) {
-	var anzTPop, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe, titel, myFlurname;
+	var anzTPop, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, titel, myFlurname;
 	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("google_karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
-	Kartenhoehe = $(window).height() - 17;
 	infowindow = new google.maps.InfoWindow();
-	$("#google_karte").css("height", Kartenhoehe + "px");
 	//TPopListe bearbeiten:
 	//Objekte löschen, die keine Koordinaten haben
 	//Lat und Lng ergänzen
@@ -10723,13 +10709,11 @@ function geoadminOnFeatureUnselect(feature) {
 }
 
 function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
-	var anzBeob, infowindowBeob, infowindowTPop, TPop, lat, lng, latlng, options, map, bounds, markersTPop, TPopId, latlng2, markerBeob, markerTPop, contentStringBeob, contentStringTPop, mcOptionsBeob, mcOptionsTPop, markerClusterBeob, markerClusterTPop, Kartenhoehe, Datum, titel, titel_beob, a_note, myFlurname;
+	var anzBeob, infowindowBeob, infowindowTPop, TPop, lat, lng, latlng, options, map, bounds, markersTPop, TPopId, latlng2, markerBeob, markerTPop, contentStringBeob, contentStringTPop, mcOptionsBeob, mcOptionsTPop, markerClusterBeob, markerClusterTPop, Datum, titel, titel_beob, a_note, myFlurname;
 	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("google_karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
-	Kartenhoehe = $(window).height() - 17;
-	$("#google_karte").css("height", Kartenhoehe + "px");
 	infowindowBeob = new google.maps.InfoWindow();
 	infowindowTPop = new google.maps.InfoWindow();
 	//Lat und Lng in BeobListe ergänzen
@@ -10980,14 +10964,12 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 }
 
 function zeigeBeobAufKarte(BeobListe) {
-	var anzBeob, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe, Datum, titel, a_note;
+	var anzBeob, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Datum, titel, a_note;
 	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("google_karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
-	Kartenhoehe = $(window).height() - 17;
 	infowindow = new google.maps.InfoWindow();
-	$("#google_karte").css("height", Kartenhoehe + "px");
 	//Lat und Lng in BeobListe ergänzen
 	//for (i in BeobListe.rows) {
 	for (var i = 0; i < BeobListe.rows.length; i++) {
@@ -11114,14 +11096,12 @@ function zeigeBeobAufKarte(BeobListe) {
 }
 
 function zeigeTPopBeobAufKarte(TPopBeobListe) {
-	var anzBeob, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe, Datum, titel;
+	var anzBeob, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Datum, titel;
 	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("google_karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
-	Kartenhoehe = $(window).height() - 17;
 	infowindow = new google.maps.InfoWindow();
-	$("#google_karte").css("height", Kartenhoehe + "px");
 	//TPopListe bearbeiten:
 	//Objekte löschen, die keine Koordinaten haben
 	//Lat und Lng ergänzen
@@ -11249,14 +11229,12 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 }
 
 function verorteTPopAufKarte(TPop) {
-	var anzTPop, infowindow, lat, lng, latlng, ZoomLevel, options, map, verorted, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe, titel, myFlurname;
+	var anzTPop, infowindow, lat, lng, latlng, ZoomLevel, options, map, verorted, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, titel, myFlurname;
 	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("google_karte");
 	window.markersArray = [];
-	window.InfoWindowArray = [];
-	Kartenhoehe = $(window).height() - 17;
+	//window.InfoWindowArray = [];
 	infowindow = new google.maps.InfoWindow();
-	$("#google_karte").css("height", Kartenhoehe + "px");
 	if (TPop && TPop.TPopXKoord && TPop.TPopYKoord) {
 		//Wenn Koordinaten vorhanden, Lat und Lng ergänzen
 		lat = CHtoWGSlat(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
