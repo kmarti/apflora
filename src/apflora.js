@@ -107,7 +107,6 @@ function initiiere_ap() {
 					//Formulare blenden
 					zeigeFormular("ap");
 					history.replaceState({ap: "ap"}, "ap", "index.html?ap=" + data.ApArtId);
-					setzeSpaltenbreiten();
 				}
 			}
 		});
@@ -201,7 +200,6 @@ function initiiere_pop() {
 				//Formulare blenden
 				zeigeFormular("pop");
 				history.replaceState({pop: "pop"}, "pop", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id);
-				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#PopName").val()) {
 					$("#PopNr").focus();
@@ -259,7 +257,6 @@ function initiiere_apziel() {
 				//Formulare blenden
 				zeigeFormular("apziel");
 				history.replaceState({apziel: "apziel"}, "apziel", "index.html?ap=" + localStorage.ap_id + "&apziel=" + localStorage.apziel_id);
-				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#ZielJahr").val()) {
 					$("#ZielJahr").focus();
@@ -318,7 +315,6 @@ function initiiere_zielber() {
 				//Formulare blenden
 				zeigeFormular("zielber");
 				history.replaceState({zielber: "zielber"}, "zielber", "index.html?ap=" + localStorage.ap_id + "&apziel=" + localStorage.apziel_id + "&zielber=" + localStorage.zielber_id);
-				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#ZielBerJahr").val()) {
 					$("#ZielBerJahr").focus();
@@ -374,7 +370,6 @@ function initiiere_erfkrit() {
 				//Formulare blenden
 				zeigeFormular("erfkrit");
 				history.replaceState({erfkrit: "erfkrit"}, "erfkrit", "index.html?ap=" + localStorage.ap_id + "&erfkrit=" + localStorage.erfkrit_id);
-				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#ErfkritErreichungsgrad").val()) {
 					$("#ErfkritErreichungsgrad").focus();
@@ -472,7 +467,6 @@ function initiiere_jber() {
 				//Formulare blenden
 				zeigeFormular("jber");
 				history.replaceState({jber: "jber"}, "jber", "index.html?ap=" + localStorage.ap_id + "&jber=" + localStorage.jber_id);
-				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#JBerJahr").val()) {
 					$("#JBerJahr").focus();
@@ -529,7 +523,6 @@ function initiiere_jber_uebersicht() {
 				//Formulare blenden
 				zeigeFormular("jber_uebersicht");
 				history.replaceState({jber_uebersicht: "jber_uebersicht"}, "jber_uebersicht", "index.html?ap=" + localStorage.ap_id + "&jber_uebersicht=" + localStorage.jber_uebersicht_id);
-				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#JbuJahr").val()) {
 					$("#JbuJahr").focus();
@@ -590,13 +583,16 @@ function initiiere_ber() {
 				//Formulare blenden
 				zeigeFormular("ber");
 				history.replaceState({ber: "ber"}, "ber", "index.html?ap=" + localStorage.ap_id + "&ber=" + localStorage.ber_id);
-				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
-				setTimeout(function () {
-					if (!$("#BerAutor").val()) {
-						$("#BerAutor").focus();
-					}
-				}, 100);
+				if (!$("#BerAutor").val()) {
+					$("#BerAutor").focus();
+				} else if (!$("#BerJahr").val()) {
+					$("#BerJahr").focus();
+				} else if (!$("#BerTitel").val()) {
+					$("#BerTitel").focus();
+				} else if (!$("#BerURL").val()) {
+					$("#BerURL").focus();
+				}
 			}
 		}
 	});
@@ -668,7 +664,6 @@ function initiiere_umwfakt() {
 				//Formulare blenden
 				zeigeFormular("umwfakt");
 				history.replaceState({umwfakt: "umwfakt"}, "umwfakt", "index.html?ap=" + localStorage.ap_id + "&umwfakt=" + localStorage.umwfakt_id);
-				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#UfErstelldatum").val()) {
 					$("#UfErstelldatum").focus();
@@ -766,13 +761,10 @@ function initiiere_assozarten() {
 				//Formulare blenden
 				zeigeFormular("assozarten");
 				history.replaceState({assozarten: "assozarten"}, "assozarten", "index.html?ap=" + localStorage.ap_id + "&assozarten=" + localStorage.assozarten_id);
-				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
-				setTimeout(function () {
-					if (!$("#AaSisfNr").val()) {
-						$("#AaSisfNr").focus();
-					}
-				}, 100);
+				if (!$("#AaSisfNr").val()) {
+					$("#AaSisfNr").focus();
+				}
 			}
 		}
 	});
@@ -825,11 +817,8 @@ function initiiere_popmassnber() {
 				//Formulare blenden
 				zeigeFormular("popmassnber");
 				history.replaceState({popmassnber: "popmassnber"}, "popmassnber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&popmassnber=" + localStorage.popmassnber_id);
-				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
-				setTimeout(function() {
-					$('#PopMassnBerJahr').focus();
-				}, 100);
+				$('#PopMassnBerJahr').focus();
 			}
 		}
 	});
@@ -933,7 +922,6 @@ function initiiere_tpop() {
 				//Formulare blenden
 				zeigeFormular("tpop");
 				history.replaceState({tpop: "tpop"}, "tpop", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id);
-				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
 				if (!$("#TPopFlurname").val()) {
 					$('#TPopNr').focus();
@@ -990,11 +978,8 @@ function initiiere_popber() {
 				//Formulare blenden
 				zeigeFormular("popber");
 				history.replaceState({tpopber: "popber"}, "popber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&popber=" + localStorage.popber_id);
-				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
-				setTimeout(function() {
-					$('#PopBerJahr').focus();
-				}, 100);
+				$('#PopBerJahr').focus();
 			}
 		}
 	});
@@ -1243,7 +1228,6 @@ function initiiere_tpopfeldkontr() {
 				} else {
 					history.replaceState({tpopfreiwkontr: "tpopfreiwkontr"}, "tpopfreiwkontr", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopfreiwkontr=" + localStorage.tpopfeldkontr_id);
 				}
-				setzeSpaltenbreiten();
 				//Register in Feldkontr blenden
 				if (localStorage.tpopfreiwkontr) {
 					$("#tpopfeldkontr_tabs_biotop").hide();
@@ -1406,11 +1390,8 @@ function initiiere_tpopmassn() {
 				//Formulare blenden
 				zeigeFormular("tpopmassn");
 				history.replaceState({tpopmassn: "tpopmassn"}, "tpopmassn", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopmassn=" + localStorage.tpopmassn_id);
-				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
-				setTimeout(function() {
-					$('#TPopMassnJahr').focus();
-				}, 100);
+				$('#TPopMassnJahr').focus();
 			}
 		}
 	});
@@ -1463,11 +1444,8 @@ function initiiere_tpopmassnber() {
 				//Formulare blenden
 				zeigeFormular("tpopmassnber");
 				history.replaceState({tpopmassnber: "tpopmassnber"}, "tpopmassnber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopmassnber=" + localStorage.tpopmassnber_id);
-				setzeSpaltenbreiten();
 				//bei neuen Datensätzen Fokus steuern
-				setTimeout(function() {
-					$('#TPopMassnBerJahr').focus();
-				}, 100);
+				$('#TPopMassnBerJahr').focus();
 			}
 		}
 	});
@@ -1520,11 +1498,8 @@ function initiiere_tpopber() {
 				//Formulare blenden
 				zeigeFormular("tpopber");
 				history.replaceState({tpopber: "tpopber"}, "tpopber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopber=" + localStorage.tpopber_id);
-				setzeSpaltenbreiten();	
 				//bei neuen Datensätzen Fokus steuern
-				setTimeout(function() {
-					$('#TPopBerJahr').focus();
-				}, 100);
+				$('#TPopBerJahr').focus();
 			}
 		}
 	});
@@ -1624,7 +1599,6 @@ function initiiere_tpopbeob() {
 							//Formulare blenden
 							zeigeFormular("tpopbeob");
 							history.replaceState({tpopbeob: "tpopbeob"}, "tpopbeob", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopbeob=" + localStorage.tpopbeob_id);
-							setzeSpaltenbreiten();
 						}
 					}
 				});
@@ -1720,7 +1694,6 @@ function initiiere_beob() {
 							//Formulare blenden
 							zeigeFormular("beob");
 							history.replaceState({beob: "beob"}, "beob", "index.html?ap=" + localStorage.ap_id + "&beob=" + localStorage.BeobId);
-							setzeSpaltenbreiten();
 						}
 					}
 				});
@@ -1853,11 +1826,15 @@ function leereFelderVonFormular(Formular) {
 }
 
 function setzeTreehoehe() {
-	if (($("#tree").height() + 157) > $(window).height()) {
+	if (($(".jstree-no-icons").height() + 157) > $(window).height()) {
 		$("#tree").height($(window).height() - 145);
-	} else if ($('#tree').hasScrollBar()) {
-		$("#tree").height($(window).height() - 145);
+	} else {
+		$("#tree").height($(".jstree-no-icons").height());
 	}
+
+	/*else if ($('#tree').hasScrollBar()) {
+		$("#tree").height($(window).height() - 145);
+	}*/
 }
 
 function setzeKartenhoehe() {
@@ -1884,7 +1861,7 @@ function setzeKartenhoehe() {
 
 //ab minimaler Breite forms unter menu setzen, 
 function setzeSpaltenbreiten() {
-	if ($(window).width() > 1000) {
+	if ($(window).width() > 950) {
 		if (window.kartenhoehe_manuell) {
 			//Karte füllt den ganzen Fieldset aus
 			$("#forms").width($(window).width() - 411);
@@ -2260,6 +2237,8 @@ function erstelle_tree(ApArtId) {
 	.show()
 	.bind("loaded.jstree", function (event, data) {
 		jstree_erstellt.resolve();
+		//setTimeout("setzeTreehoehe()", 100);
+		setzeTreehoehe();
 		$("#suchen").show();
 		$("#hilfe").show();
 		if (window.pop_zeigen) {
@@ -2499,10 +2478,13 @@ function erstelle_tree(ApArtId) {
 				initiiere_tpopmassnber();
 			}
 		}
-		setTimeout("setzeTreehoehe()", 200);
+		//setTimeout("setzeTreehoehe()", 200);
 	})
 	.bind("open_node.jstree", function (e, data) {
 		setTimeout("setzeTreehoehe()", 200);
+	})
+	.bind("close_node.jstree", function (e, data) {
+		setTimeout("setzeTreehoehe()", 500);
 	})
 	.bind("prepare_move.jstree", function (e, data) {
 		//herkunft_parent_node muss vor dem move ermittelt werden - danach ist der parent ein anderer!
