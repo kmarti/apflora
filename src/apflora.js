@@ -1815,7 +1815,7 @@ function zeigeFormular(Formularname) {
 			$(this).hide();
 		});
 	}
-	if (Formularname === "Karte") {
+	if (Formularname === "google_karte") {
 		//Titelzeile entfernen
 		$("#forms_titelzeile").css("display", "none");
 		//padding von forms entfernen, damit die Karte den ganzen Platz einnehmen kann
@@ -1874,7 +1874,7 @@ function setzeKartenhoehe() {
 		window.api.map.updateSize();
 	} else if (window.formularhoehe_manuell_GoogleKarte) {
 		$("#forms").height($(window).height() - 17);
-		$("#Karte").height($(window).height() - 17);
+		$("#google_karte").height($(window).height() - 17);
 		$("#google_karten_div").height($(window).height() - 17);
 		google.maps.event.trigger(map, 'resize');
 	} else {
@@ -9351,12 +9351,12 @@ function CHtoWGSlng(y, x) {
 function zeigeTPopAufKarte(TPopListe) {
 	var anzTPop, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe, titel, myFlurname;
 	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-	zeigeFormular("Karte");
+	zeigeFormular("google_karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
 	Kartenhoehe = $(window).height() - 17;
 	infowindow = new google.maps.InfoWindow();
-	$("#Karte").css("height", Kartenhoehe + "px");
+	$("#google_karte").css("height", Kartenhoehe + "px");
 	//TPopListe bearbeiten:
 	//Objekte löschen, die keine Koordinaten haben
 	//Lat und Lng ergänzen
@@ -10718,11 +10718,11 @@ function geoadminOnFeatureUnselect(feature) {
 function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 	var anzBeob, infowindowBeob, infowindowTPop, TPop, lat, lng, latlng, options, map, bounds, markersTPop, TPopId, latlng2, markerBeob, markerTPop, contentStringBeob, contentStringTPop, mcOptionsBeob, mcOptionsTPop, markerClusterBeob, markerClusterTPop, Kartenhoehe, Datum, titel, titel_beob, a_note, myFlurname;
 	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-	zeigeFormular("Karte");
+	zeigeFormular("google_karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
 	Kartenhoehe = $(window).height() - 17;
-	$("#Karte").css("height", Kartenhoehe + "px");
+	$("#google_karte").css("height", Kartenhoehe + "px");
 	infowindowBeob = new google.maps.InfoWindow();
 	infowindowTPop = new google.maps.InfoWindow();
 	//Lat und Lng in BeobListe ergänzen
@@ -10975,12 +10975,12 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 function zeigeBeobAufKarte(BeobListe) {
 	var anzBeob, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe, Datum, titel, a_note;
 	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-	zeigeFormular("Karte");
+	zeigeFormular("google_karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
 	Kartenhoehe = $(window).height() - 17;
 	infowindow = new google.maps.InfoWindow();
-	$("#Karte").css("height", Kartenhoehe + "px");
+	$("#google_karte").css("height", Kartenhoehe + "px");
 	//Lat und Lng in BeobListe ergänzen
 	//for (i in BeobListe.rows) {
 	for (var i = 0; i < BeobListe.rows.length; i++) {
@@ -11109,12 +11109,12 @@ function zeigeBeobAufKarte(BeobListe) {
 function zeigeTPopBeobAufKarte(TPopBeobListe) {
 	var anzBeob, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe, Datum, titel;
 	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-	zeigeFormular("Karte");
+	zeigeFormular("google_karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
 	Kartenhoehe = $(window).height() - 17;
 	infowindow = new google.maps.InfoWindow();
-	$("#Karte").css("height", Kartenhoehe + "px");
+	$("#google_karte").css("height", Kartenhoehe + "px");
 	//TPopListe bearbeiten:
 	//Objekte löschen, die keine Koordinaten haben
 	//Lat und Lng ergänzen
@@ -11244,12 +11244,12 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 function verorteTPopAufKarte(TPop) {
 	var anzTPop, infowindow, lat, lng, latlng, ZoomLevel, options, map, verorted, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Kartenhoehe, titel, myFlurname;
 	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-	zeigeFormular("Karte");
+	zeigeFormular("google_karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
 	Kartenhoehe = $(window).height() - 17;
 	infowindow = new google.maps.InfoWindow();
-	$("#Karte").css("height", Kartenhoehe + "px");
+	$("#google_karte").css("height", Kartenhoehe + "px");
 	if (TPop && TPop.TPopXKoord && TPop.TPopYKoord) {
 		//Wenn Koordinaten vorhanden, Lat und Lng ergänzen
 		lat = CHtoWGSlat(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
