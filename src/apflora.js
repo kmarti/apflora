@@ -1825,11 +1825,10 @@ function leereFelderVonFormular(Formular) {
 	});
 }
 
+//begrenzt die maximale Höhe des Baums auf die Seitenhöhe, wenn nötig
 function setzeTreehoehe() {
 	if (($(".jstree-no-icons").height() + 157) > $(window).height()) {
-		$("#tree").height($(window).height() - 145);
-	} else {
-		$("#tree").height($(".jstree-no-icons").height());
+		$("#tree").css("max-height", $(window).height() - 145);
 	}
 }
 
