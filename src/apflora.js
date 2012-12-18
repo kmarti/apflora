@@ -3471,8 +3471,48 @@ function treeKontextmenu(node) {
 					});
 				}
 			},
+			"GeoAdminMaps": {
+				"label": "auf CH-Karten zeigen",
+				"separator_before": true,
+				"icon": "style/images/flora_icon_gelb.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/pops_ch_karte.php',
+						dataType: 'json',
+						data: {
+							"ApArtId": $(aktiver_node).attr("id")
+						},
+						success: function (data) {
+							if (data.rows.length > 0) {
+								zeigePopAufGeoAdmin(data);
+							} else {
+								$("#Meldung").html("Die Population hat keine Koordinaten");
+								$("#Meldung").dialog({
+									modal: true,
+									buttons: {
+										Ok: function() {
+											$(this).dialog("close");
+										}
+									}
+								});
+							}
+						},	
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine Daten erhalten");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},
 			"GoogleMaps": {
-				"label": "auf Luftbild zeigen",
+				"label": "auf Goolge-Karten zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon.png",
 				"action": function () {
@@ -5251,7 +5291,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"GoogleMaps": {
-				"label": "auf Luftbild zeigen",
+				"label": "auf Google-Karten zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon.png",
 				"action": function () {
@@ -9777,7 +9817,7 @@ function zeigePopAufGeoAdmin(PopListeMarkiert) {
 					erstelleTPopNamenFuerGeoAdmin(TPopListe, null, false),
 					erstelleTPopSymboleFuerGeoAdmin(TPopListe, null, false),
 					//alle Pop holen, symbole und nr sichtbar schalten
-					zeigePopInTPopKarte(true, true)
+					zeigePopInTPopKarte(true, true, markierte_pop.popid_markiert)
 				)
 				.then(function() {
 					//alle layeroptionen schliessen
@@ -9863,7 +9903,7 @@ function waehleAusschnittFuerUebergebenePop(PopListeMarkiert) {
 	return {bounds: bounds, popid_markiert: popid_markiert};
 }
 
-function zeigePopInTPopKarte(overlay_pop_visible, overlay_popbeschriftungen_visible) {
+function zeigePopInTPopKarte(overlay_pop_visible, overlay_popbeschriftungen_visible, popid_markiert) {
 	var pop_gezeigt = $.Deferred();
 	var pop_aufruf = $.ajax({
 		url: 'php/pop_karte_alle.php',
@@ -9878,7 +9918,7 @@ function zeigePopInTPopKarte(overlay_pop_visible, overlay_popbeschriftungen_visi
 		$.when(
 			erstellePopNrFuerGeoAdmin(PopListe, overlay_popbeschriftungen_visible),
 			erstellePopNamenFuerGeoAdmin(PopListe),
-			erstellePopSymboleFuerGeoAdmin(PopListe, null, overlay_pop_visible)
+			erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, overlay_pop_visible)
 			)
 			.then(function() {
 				schliesseLayeroptionen();
