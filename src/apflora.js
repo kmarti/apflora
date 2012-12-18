@@ -3512,7 +3512,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"GoogleMaps": {
-				"label": "auf Goolge-Karten zeigen",
+				"label": "auf Google-Karten zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon.png",
 				"action": function () {
@@ -9755,9 +9755,9 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
 			tpop_aufruf.done(function (TPopListe) {
 				$.when(
 					//Layer für Symbole und Beschriftung erstellen
-					erstelleTPopNrFuerGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert),
-					erstelleTPopNamenFuerGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert),
-					erstelleTPopSymboleFuerGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert),
+					erstelleTPopNrFuerGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert, true),
+					erstelleTPopNamenFuerGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert, false),
+					erstelleTPopSymboleFuerGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert, true),
 					//alle Pop holen
 					zeigePopInTPopKarte(overlay_pop_visible, overlay_popbeschriftung_visible)
 				)
