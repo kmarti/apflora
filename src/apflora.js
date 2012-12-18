@@ -9816,7 +9816,7 @@ function zeigePopAufGeoAdmin(PopListeMarkiert) {
 					erstelleTPopNrFuerGeoAdmin(TPopListe, null, false),
 					erstelleTPopNamenFuerGeoAdmin(TPopListe, null, false),
 					erstelleTPopSymboleFuerGeoAdmin(TPopListe, null, false),
-					//alle Pop holen, symbole und nr sichtbar schalten
+					//alle Pop holen, symbole und nr sichtbar schalten, Markierung übergeben
 					zeigePopInTPopKarte(true, true, markierte_pop.popid_markiert)
 				)
 				.then(function() {
