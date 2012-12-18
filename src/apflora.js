@@ -9490,11 +9490,10 @@ function entferneUebergebeneMarkerEbeneAusLayertree(layername) {
 
 function verorteTPopAufGeoAdmin(TPop) {
 	var bounds;
-	zeigeFormular("GeoAdminKarte");
-	setTimeout(function() {
-		//$("#mitPolygonWaehlen").css("display", "none");
-		$("#mitPolygonWaehlen").button({ disabled: true });
-	}, 100);
+	$.when(zeigeFormular("GeoAdminKarte"))
+		.then(function() {
+			$("#mitPolygonWaehlen").button({ disabled: true });
+		});
 
 	//bound eröffnen
 	bounds = new OpenLayers.Bounds();
@@ -12276,11 +12275,13 @@ function waehleAp(ap_id) {
 					$("#programm_neu").attr("checked", false);
 					$("#programm_alle").attr("checked", true);
 					$("#programm_wahl").buttonset();
-					erstelle_tree(localStorage.ap_id);
-					setTimeout("$('#ap_waehlen').val(localStorage.ap_id)", 200);
-					setTimeout("$('#ap_waehlen option[value =' + localStorage.ap_id + ']').attr('selected', true)", 200);
-					$("#ApArtId").val(localStorage.ap_id);
-					initiiere_ap();
+					$.when(erstelle_tree(localStorage.ap_id))
+						.then(function() {
+							$('#ap_waehlen').val(localStorage.ap_id);
+							$('#ap_waehlen option[value =' + localStorage.ap_id + ']').attr('selected', true);
+							$("#ApArtId").val(localStorage.ap_id);
+							initiiere_ap();
+						});
 				},
 				error: function (data) {
 					var Meldung;
