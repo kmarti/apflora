@@ -2475,11 +2475,11 @@ function erstelle_tree(ApArtId) {
 			}
 		}
 	})
-	.bind("open_node.jstree", function (e, data) {
-		setTimeout("setzeTreehoehe()", 200);
+	.bind("after_open.jstree", function (e, data) {
+		setzeTreehoehe();
 	})
-	.bind("close_node.jstree", function (e, data) {
-		setTimeout("setzeTreehoehe()", 500);
+	.bind("after_close.jstree", function (e, data) {
+		setzeTreehoehe();
 	})
 	.bind("prepare_move.jstree", function (e, data) {
 		//herkunft_parent_node muss vor dem move ermittelt werden - danach ist der parent ein anderer!
