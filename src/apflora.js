@@ -5443,8 +5443,48 @@ function treeKontextmenu(node) {
 					});
 				}
 			},
+			"GeoAdminMaps": {
+				"label": "auf CH-Karten zeigen",
+				"separator_before": true,
+				"icon": "style/images/flora_icon_gelb.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/tpops_karte.php',
+						dataType: 'json',
+						data: {
+							"id": $(aktiver_node).attr("id")
+						},
+						success: function (data) {
+							if (data.rows.length > 0) {
+								zeigeTPopAufGeoAdmin(data);
+							} else {
+								$("#Meldung").html("Es gibt keine Teilpopulation mit Koordinaten");
+								$("#Meldung").dialog({
+									modal: true,
+									buttons: {
+										Ok: function() {
+											$(this).dialog("close");
+										}
+									}
+								});
+							}
+						},	
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine Daten erhalten");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},
 			"GoogleMaps": {
-				"label": "auf Luftbild zeigen",
+				"label": "auf Google-Karten zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon.png",
 				"action": function () {
@@ -5694,7 +5734,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"GeoAdminMaps": {
-				"label": "auf CH/ZH-Karten zeigen",
+				"label": "auf CH-Karten zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon_gelb.png",
 				"action": function () {
