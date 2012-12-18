@@ -1831,16 +1831,13 @@ function setzeTreehoehe() {
 	} else {
 		$("#tree").height($(".jstree-no-icons").height());
 	}
-
-	/*else if ($('#tree').hasScrollBar()) {
-		$("#tree").height($(window).height() - 145);
-	}*/
 }
 
 function setzeKartenhoehe() {
 	if (window.kartenhoehe_manuell) {
 		$("#forms").height($(window).height() - 17);
 		if (typeof window.api !== "undefined" && window.api.map) {
+			console.log('update height geoadminmap');
 			$("#GeoAdminKarte").height($(window).height() - 17);
 			window.api.map.updateSize();
 		}
@@ -1861,7 +1858,7 @@ function setzeKartenhoehe() {
 
 //ab minimaler Breite forms unter menu setzen, 
 function setzeSpaltenbreiten() {
-	if ($(window).width() > 950) {
+	if ($(window).width() > 1000) {
 		if (window.kartenhoehe_manuell) {
 			//Karte füllt den ganzen Fieldset aus
 			$("#forms").width($(window).width() - 411);
@@ -2237,7 +2234,6 @@ function erstelle_tree(ApArtId) {
 	.show()
 	.bind("loaded.jstree", function (event, data) {
 		jstree_erstellt.resolve();
-		//setTimeout("setzeTreehoehe()", 100);
 		setzeTreehoehe();
 		$("#suchen").show();
 		$("#hilfe").show();
@@ -2478,7 +2474,6 @@ function erstelle_tree(ApArtId) {
 				initiiere_tpopmassnber();
 			}
 		}
-		//setTimeout("setzeTreehoehe()", 200);
 	})
 	.bind("open_node.jstree", function (e, data) {
 		setTimeout("setzeTreehoehe()", 200);
@@ -9621,57 +9616,53 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
 	var markierte_tpop = waehleAusschnittFuerUebergebeneTPop(TPopListeMarkiert);
 
 	//Grundkarte aufbauen
-	var formular_sichtbar = $.Deferred();
-	formular_sichtbar.resolve(zeigeFormular("GeoAdminKarte"));
-
-	//tpop und pop ergänzen
-	formular_sichtbar.then(function() {
-		//alle tpop holen
-		var tpop_aufruf = $.ajax({
-			url: 'php/tpop_karte_alle.php',
-			dataType: 'json',
-			data: {
-				"ApArtId": window.ap.ApArtId
-			}
-		});
-
-		tpop_aufruf.done(function (TPopListe) {
-			//var markierte_tpop = waehleAusschnittFuerUebergebeneTPop(TPopListeMarkiert);
-
-			//Layer für Symbole und Beschriftung erstellen
-			erstelleTPopNrFuerGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert);
-			erstelleTPopNamenFuerGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert);
-			erstelleTPopSymboleFuerGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert);
-			
+	$.when(zeigeFormular("GeoAdminKarte"))
+		.then(function() {
 			//Karte zum richtigen Ausschnitt zoomen
 			//aber nur, wenn keine Auswahl aktiv
 			if (window.auswahlPolygonLayer && window.auswahlPolygonLayer.features.length > 0) {
 				//Auswahl aktiv, Zoomstufe belassen
 			} else {
+				window.api.map.updateSize();
 				window.api.map.zoomToExtent(markierte_tpop.bounds);
 			}
-
-			//alle Pop holen
-			var pop_in_karte_gezeigt = $.Deferred();
-			pop_in_karte_gezeigt.resolve(zeigePopInTPopKarte(overlay_pop_visible, overlay_popbeschriftung_visible));
-			pop_in_karte_gezeigt.then(function() {
-				//alle layeroptionen schliessen
-				schliesseLayeroptionen();
-			})
-		});
-
-		tpop_aufruf.fail(function() {
-			$("#Meldung").html("Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden");
-			$("#Meldung").dialog({
-				modal: true,
-				buttons: {
-					Ok: function() {
-						$(this).dialog("close");
-					}
+			//tpop und pop ergänzen
+			//alle tpop holen
+			var tpop_aufruf = $.ajax({
+				url: 'php/tpop_karte_alle.php',
+				dataType: 'json',
+				data: {
+					"ApArtId": window.ap.ApArtId
 				}
 			});
-		});
-	});	
+
+			tpop_aufruf.done(function (TPopListe) {
+				$.when(
+					//Layer für Symbole und Beschriftung erstellen
+					erstelleTPopNrFuerGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert),
+					erstelleTPopNamenFuerGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert),
+					erstelleTPopSymboleFuerGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert),
+					//alle Pop holen
+					zeigePopInTPopKarte(overlay_pop_visible, overlay_popbeschriftung_visible)
+				)
+				.then(function() {
+					//alle layeroptionen schliessen
+					schliesseLayeroptionen();
+				});
+			});
+
+			tpop_aufruf.fail(function() {
+				$("#Meldung").html("Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden");
+				$("#Meldung").dialog({
+					modal: true,
+					buttons: {
+						Ok: function() {
+							$(this).dialog("close");
+						}
+					}
+				});
+			});
+	});
 }
 
 //übernimmt eine Liste von (markierten) TPop
@@ -9684,23 +9675,30 @@ function waehleAusschnittFuerUebergebeneTPop(TPopListeMarkiert) {
 
 	//jetzt bounds der anzuzeigenden bestimmen
 	var tpopid_markiert = [];
-	for (b in TPopListeMarkiert.rows) {
-		if (TPopListeMarkiert.rows.hasOwnProperty(b)) {
-			TPop = TPopListeMarkiert.rows[b];
-			tpopid_markiert.push(TPop.TPopId);
-			//bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
-			x_max = parseInt(TPop.TPopXKoord) + 300;
-			x_min = parseInt(TPop.TPopXKoord) - 300;
-			y_max = parseInt(TPop.TPopYKoord) + 300;
-			y_min = parseInt(TPop.TPopYKoord) - 300;
-			bounds.extend(new OpenLayers.LonLat(x_max, y_max));
-			bounds.extend(new OpenLayers.LonLat(x_min, y_min));
+	if (TPopListeMarkiert.rows.length > 0) {
+		for (b in TPopListeMarkiert.rows) {
+			if (TPopListeMarkiert.rows.hasOwnProperty(b)) {
+				TPop = TPopListeMarkiert.rows[b];
+				tpopid_markiert.push(TPop.TPopId);
+				//bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
+				x_max = parseInt(TPop.TPopXKoord) + 300;
+				x_min = parseInt(TPop.TPopXKoord) - 300;
+				y_max = parseInt(TPop.TPopYKoord) + 300;
+				y_min = parseInt(TPop.TPopYKoord) - 300;
+				bounds.extend(new OpenLayers.LonLat(x_max, y_max));
+				bounds.extend(new OpenLayers.LonLat(x_min, y_min));
+			}
 		}
+	} else {
+		//keine tpop übergeben, Kanton anzeigen
+		bounds.extend(new OpenLayers.LonLat(717000, 284000));
+		bounds.extend(new OpenLayers.LonLat(669000, 222000));
 	}
 	return {bounds: bounds, tpopid_markiert: tpopid_markiert};
 }
 
 function zeigePopInTPopKarte(overlay_pop_visible, overlay_popbeschriftungen_visible) {
+	var pop_gezeigt = $.Deferred();
 	var pop_aufruf = $.ajax({
 		url: 'php/pop_karte_alle.php',
 		dataType: 'json',
@@ -9711,11 +9709,15 @@ function zeigePopInTPopKarte(overlay_pop_visible, overlay_popbeschriftungen_visi
 
 	pop_aufruf.done(function(PopListe) {
 		//Layer für Symbole und Beschriftung erstellen
-		erstellePopNrFuerGeoAdmin(PopListe, overlay_popbeschriftungen_visible);
-		erstellePopNamenFuerGeoAdmin(PopListe);
-		erstellePopSymboleFuerGeoAdmin(PopListe, null, overlay_pop_visible);
-
-		schliesseLayeroptionen();
+		$.when(
+			erstellePopNrFuerGeoAdmin(PopListe, overlay_popbeschriftungen_visible),
+			erstellePopNamenFuerGeoAdmin(PopListe),
+			erstellePopSymboleFuerGeoAdmin(PopListe, null, overlay_pop_visible)
+			)
+			.then(function() {
+				schliesseLayeroptionen();
+				pop_gezeigt.resolve();
+			});
 	});
 
 	pop_aufruf.fail(function() {
@@ -9728,7 +9730,9 @@ function zeigePopInTPopKarte(overlay_pop_visible, overlay_popbeschriftungen_visi
 				}
 			}
 		});
+		pop_gezeigt.resolve();
 	});
+	return pop_gezeigt.promise();
 }
 
 function erstelleTPopulationFuerGeoAdmin(TPop) {
@@ -9840,6 +9844,7 @@ function speichereWert(tabelle, id, feld, wert) {
 }
 
 function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert) {
+	var tpopsymbole_erstellt = $.Deferred();
 	//styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
 		externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon.png',
@@ -10095,6 +10100,9 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert) {
 		});
 		window.api.map.addControl(drawControl);
 	}
+
+	tpopsymbole_erstellt.resolve();
+	return tpopsymbole_erstellt.promise();
 }
 
 function erstelleTPopAuswahlArrays() {
@@ -10187,6 +10195,7 @@ function erstelleListeDerAusgewaehltenPopTPop() {
 //popid_array der Array mit den ausgewählten Pop
 //visible: Ob die Ebene sichtbar geschaltet wird (oder bloss im Layertree verfügbar ist)
 function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
+	var PopSymbole_erstellt = $.Deferred();
 	//styles für overlay_pop definieren
 	var defaultStyle = new OpenLayers.Style({
 		externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_braun.png',
@@ -10389,9 +10398,12 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 	window.selectControlPop = new OpenLayers.Control.SelectFeature(overlay_pop, {clickout: true});
 	window.api.map.addControl(window.selectControlPop);
 	window.selectControlPop.activate();
+	PopSymbole_erstellt.resolve();
+	return PopSymbole_erstellt.promise();
 }
 
 function erstellePopNrFuerGeoAdmin(PopListe, visible) {
+	var PopNr_erstellt = $.Deferred();
 	//styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
 		externalGraphic: 'http://www.barbalex.ch/apflora/img/leer.png',
@@ -10463,9 +10475,12 @@ function erstellePopNrFuerGeoAdmin(PopListe, visible) {
 
 	//overlay zur Karte hinzufügen
 	window.api.map.addLayers([overlay_pop_beschriftungen]);
+	PopNr_erstellt.resolve();
+	return PopNr_erstellt.promise();
 }
 
 function erstellePopNamenFuerGeoAdmin(PopListe) {
+	var PopNamen_erstellt = $.Deferred();
 	//styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
 		externalGraphic: 'http://www.barbalex.ch/apflora/img/leer.png',
@@ -10520,6 +10535,8 @@ function erstellePopNamenFuerGeoAdmin(PopListe) {
 
 	//overlay zur Karte hinzufügen
 	window.api.map.addLayers([overlay_pop_beschriftungen]);
+	PopNamen_erstellt.resolve();
+	return PopNamen_erstellt.promise();
 }
 
 //ermöglicht es, nach dem toolip zu sortieren
@@ -10546,6 +10563,7 @@ function deaktiviereGeoAdminAuswahl() {
 }
 
 function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_markiert) {
+	var tpopnr_erstellt = $.Deferred();
 	//styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
 		externalGraphic: 'http://www.barbalex.ch/apflora/img/leer.png',
@@ -10610,9 +10628,12 @@ function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_markiert) {
 
 	//overlay zur Karte hinzufügen
 	window.api.map.addLayers([overlay_tpop_beschriftungen]);
+	tpopnr_erstellt.resolve();
+	return tpopnr_erstellt.promise();
 }
 
 function erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_markiert) {
+	var tpopnamen_erstellt = $.Deferred();
 	//styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
 		externalGraphic: 'http://www.barbalex.ch/apflora/img/leer.png',
@@ -10667,6 +10688,9 @@ function erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_markiert) {
 
 	//overlay zur Karte hinzufügen
 	window.api.map.addLayers([overlay_tpop_beschriftungen]);
+
+	tpopnamen_erstellt.resolve();
+	return tpopnamen_erstellt.promise();
 }
 
 function geoadminOnFeatureSelect(feature) {
@@ -11867,7 +11891,7 @@ function initiiereGeoAdminKarte() {
 		singleTile: true,
 		visibility: true
 	});
-	var zh_lk_sw2 = new OpenLayers.Layer.WMS("Landeskarten überlagernd", "http://maps.zh.ch/wms/BASISKARTEZH", {
+	var zh_lk_sw_2 = new OpenLayers.Layer.WMS("Landeskarten überlagernd", "http://maps.zh.ch/wms/BASISKARTEZH", {
 		layers: 'lk500,lk200,lk100,lk50,lk25,up8,up24',
 		transparent: true,
 		isBaseLayer: false
@@ -11975,10 +11999,10 @@ function initiiereGeoAdminKarte() {
 		});
 
 		//The complementary layer is per default the color pixelmap.
-		window.api.map.switchComplementaryLayer("voidLayer", {opacity: 0});
-		//window.api.setBgLayer('voidLayer', {opacity: 0});
+		//window.api.map.switchComplementaryLayer("voidLayer", {opacity: 0});
+		window.api.setBgLayer('voidLayer', {opacity: 0});	//wichtig, weil sonst Daten von GeoAdmin geladen werden
 		
-		window.api.map.addLayers([zh_ortho, zh_lk_sw]);
+		window.api.map.addLayers([zh_ortho, zh_lk_sw, zh_lk]);
 		window.api.map.addLayerByName('ch.swisstopo-vd.geometa-gemeinde', {visibility: false});
 		window.api.map.addLayers([zh_grenzen]);
 		/*window.api.map.addLayerByName('ch.swisstopo.swissboundaries3d-kanton-flaeche.fill', {

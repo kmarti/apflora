@@ -347,7 +347,7 @@ a {
 	width: 302px;
 	overflow:auto;
 	position:absolute;
-	right: 10px;
+	right: -5px;
 	z-index: 1009;
 	top: 19px;
 	max-height: 90%;
@@ -356,7 +356,7 @@ a {
 #menuleiste {
 	position: absolute;
 	top: 20px;
-	left: 60px;
+	left: 57px;
 	/*vor die Karte aber nicht vor die Meldungen*/
 	z-index: 800;
 }
@@ -390,8 +390,8 @@ div.x-tree-node-leaf a.x-tree-node-anchor span {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	/*Koordinaten weiss hinterlegen, damit sie auf jedem Hintergrund gut sichtbar sind*/
 	text-shadow: 0 1px 0.5px white,1px 0 0.5px white,0 -1px 0.5px white,-1px 0 0.5px white,0 2px 0.5px white,2px 0 0.5px white,0 -2px 0.5px white,-2px 0 0.5px white;
-	top: 23px !important;
-	right: 322px !important;
+	top: 23px;
+	right: 312px;
 }
 #ergebnisMessung {
 	font-weight:900;
