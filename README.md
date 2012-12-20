@@ -95,6 +95,7 @@ Beides: verglichen mit der ehemaligen Access-Anwendung.
 - Die Anwendung enthält fast alle geplanten Funktionen
 - Jetzt wird sie durch die AnwenderInnen getestet und laufend angepasst
 - Die Kartenfunktionen werden erweitert
+- Bald sollen mit [QGIS](http://www.qgis.org) Massnahmen und Kontrollen digitalisiert werden können
 - Ev. lässt sich mittelfristig die Mobilfähigkeit steigern. Wär doch toll, wenn man im Feld mit einem Tablett erfassen könnte...
 
 <a href="#top">&#8593; top</a>
