@@ -12069,9 +12069,9 @@ function oeffneUri() {
 			//Die Markierung wird im load-Event wieder entfernt
 			window.ap_zeigen = true;
 		}
+		erstelle_tree(ap_id);
+		$("#ap_waehlen_label").hide();
 	}
-	$("#ap_waehlen_label").hide();
-	erstelle_tree(ap_id);
 }
 
 function getInternetExplorerVersion()
