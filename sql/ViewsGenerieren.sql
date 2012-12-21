@@ -132,12 +132,6 @@ FROM ((((ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.
 WHERE tblPopulation.PopXKoord > 0 AND tblPopulation.PopYKoord > 0
 ORDER BY ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr;
 
-CREATE VIEW vPopFuerGisTest AS
-SELECT ArtenDb_tblFloraSisf.NR AS ApArtId, ArtenDb_tblFloraSisf.Name AS "AP Art", DomainApBearbeitungsstand.DomainTxt AS "AP Status", tblAktionsplan.ApJahr AS "AP Start im Jahr", DomainApUmsetzung.DomainTxt AS "AP Stand Umsetzung", tblPopulation.PopGuid AS "Pop Guid", tblPopulation.PopNr AS "Pop Nr", tblPopulation.PopName AS "Pop Name", DomainPopHerkunft.HerkunftTxt AS "Pop Status", tblPopulation.PopHerkunftUnklar AS "Pop Status unklar", tblPopulation.PopHerkunftUnklarBegruendung AS "Pop Begründung für unklaren Status", tblPopulation.PopBekanntSeit AS "Pop bekannt seit", tblPopulation.PopXKoord AS "XKoordinaten", tblPopulation.PopYKoord AS "YKoordinaten", tblPopulation.PopGeometriepolygon, tblPopulation.MutWann AS "Pop MutWann", tblPopulation.MutWer AS "Pop MutWer"
-FROM ((((ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) INNER JOIN tblPopulation ON tblAktionsplan.ApArtId = tblPopulation.ApArtId) LEFT JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode) LEFT JOIN DomainApUmsetzung ON tblAktionsplan.ApUmsetzung = DomainApUmsetzung.DomainCode) LEFT JOIN DomainPopHerkunft ON tblPopulation.PopHerkunft = DomainPopHerkunft.HerkunftId
-WHERE tblPopulation.PopXKoord > 0 AND tblPopulation.PopYKoord > 0
-ORDER BY ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr;
-
 im Gebrauch (Access):
 CREATE VIEW vPopOhneAp AS
 SELECT tblPopulation.PopGuid AS "Pop Guid", tblPopulation.PopNr AS "Pop Nr", tblPopulation.PopName AS "Pop Name", DomainPopHerkunft.HerkunftTxt AS "Pop Status", tblPopulation.PopHerkunftUnklar AS "Pop Status unklar", tblPopulation.PopHerkunftUnklarBegruendung AS "Pop Begründung für unklaren Status", tblPopulation.PopBekanntSeit AS "Pop bekannt seit", tblPopulation.PopXKoord AS "Pop X-Koordinaten", tblPopulation.PopYKoord AS "Pop Y-Koordinaten", tblPopulation.MutWann AS "Pop MutWann", tblPopulation.MutWer AS "Pop MutWer", tblAktionsplan.ApArtId
