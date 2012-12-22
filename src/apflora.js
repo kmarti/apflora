@@ -1791,9 +1791,6 @@ function zeigeFormular(Formularname) {
 				$("#mitPolygonWaehlen").button({ disabled: false });
 				initiiereGeoAdminKarte();
 			}
-			//Karte ist sonst zu schmal
-			setzeSpaltenbreiten();
-			formular_angezeigt.resolve();
 		} else {
 			$("#forms").css("background-color", "#FFE")
 			$('form').each(function() {
@@ -1806,8 +1803,9 @@ function zeigeFormular(Formularname) {
 				}
 			});
 			$(window).scrollTop(0);
-			formular_angezeigt.resolve();
 		}
+		setzeSpaltenbreiten();
+		formular_angezeigt.resolve();
 	}
 	return formular_angezeigt.promise();
 }
