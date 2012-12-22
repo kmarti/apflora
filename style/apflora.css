@@ -13,9 +13,6 @@
 body {
 	background-color: #FFFFF7;
 	margin: 8px 8px 8px 8px;
-	/*height:100%;
-	margin-bottom: 7px;
-	padding-bottom: 7px;*/
 }
 
 fieldset {
@@ -28,21 +25,21 @@ fieldset {
 	font-size:16px !important;
 
 	margin: 0px 7px 10px 0px !important;
-	padding: 10px 7px 0px 7px;
 }
 
 form fieldset {
 	padding-bottom: 10px;
+	padding-left: 10px;
+	padding-bottom:4px;
 }
 
 #forms {
 	margin-bottom:7px;
-	padding-bottom:4px;
 }
 
 #menu {
 	left: 7px;
-	padding-bottom: 10px;
+	padding: 10px 7px 10px 7px;
 }
 
 /*
@@ -53,17 +50,17 @@ form fieldset {
 @media handheld, only screen and (max-width: 1000px) {
 	#menu {
 		right: 0px;
-		float:left;
-		/*position:absolute;*/
+		float: left;
+		width: -webkit-calc(100% - 15px);
+		width: -o-calc(100% - 15px);
+		width: calc(100% - 15px);
 	}
 
 	#forms {
-		/*float:left;*/
-		position:relative;
-	}
-
-	#tree {
-		width: 100%;
+		position: relative;
+		width: -webkit-calc(100% - 1px);
+		width: -o-calc(100% - 1px);
+		width: calc(100% - 1px);
 	}
 }
 
@@ -75,14 +72,21 @@ form fieldset {
 		position:fixed;
 	}
 
-	#tree {
-		width: 367px;
-	}
-
 	#forms {
 		position: absolute;
 		left: 401px;
+		width: -webkit-calc(100% - 411px);
+		width: -o-calc(100% - 411px);
+		width: calc(100% - 411px);
 	}
+}
+
+#forms form {
+	padding: 0px 7px 0px 7px;
+}
+
+#forms #exporte {
+	padding: 10px 0px 10px 10px;
 }
 
 form table {

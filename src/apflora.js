@@ -1726,7 +1726,6 @@ function setzeWindowBeob(id) {
 function initiiere_exporte() {
 	$("#testart_div").hide();
 	zeigeFormular("exporte");
-	setzeSpaltenbreiten();
 }
 
 //managed die Sichtbarkeit von Formularen
@@ -1750,8 +1749,6 @@ function zeigeFormular(Formularname) {
 	window.kartenhoehe_manuell = false;
 	//höhe von forms auf auto setzen, weil dies von den Kartenansichten verändert wird
 	$("#forms").height('auto');
-	//padding von forms wieder setzen, weil es bei der Kartenanzeige entfernt wird, damit die Karte den ganzen Platz einnehmen kann
-	$("#forms").css('padding', '10px 7px 0px 7px');
 	$("#testart_div").hide();
 	//Titelzeile anzeigen, weil sie für die Kartenanzeige entfernt wird
 	$("#forms_titelzeile").css("display", "inline-block");
@@ -1778,7 +1775,7 @@ function zeigeFormular(Formularname) {
 		$("#ap_loeschen").show();
 		if (Formularname === "google_karte" || Formularname === "GeoAdminKarte") {
 			//padding von forms entfernen, damit die Karte den ganzen Platz einnehmen kann
-			$("#forms").css('padding', '0px 0px 0px 0px');
+			//$("#forms").css('padding', '0px 0px 0px 0px');
 			//Titelzeile entfernen
 			$("#forms_titelzeile").css("display", "none");
 			//höhe einstellen
@@ -1804,7 +1801,6 @@ function zeigeFormular(Formularname) {
 			});
 			$(window).scrollTop(0);
 		}
-		setzeSpaltenbreiten();
 		formular_angezeigt.resolve();
 	}
 	return formular_angezeigt.promise();
@@ -1851,27 +1847,6 @@ function setzeKartenhoehe() {
 		return this.get(0).scrollHeight > this.height();
 	}
 })(jQuery);
-
-//ab minimaler Breite forms unter menu setzen, 
-function setzeSpaltenbreiten() {
-	if ($(window).width() > 1000) {
-		if (window.kartenhoehe_manuell) {
-			//Karte füllt den ganzen Fieldset aus
-			$("#forms").width($(window).width() - 411);
-		} else {
-			$("#forms").width($(window).width() - 425);
-		}
-		$("#tree").width(370);
-	} else {
-		if (window.kartenhoehe_manuell) {
-			//Karte füllt den ganzen Fieldset aus
-			$("#forms").width($(window).width() - 17);
-		} else {
-			$("#forms").width($(window).width() - 31);
-		}
-		$("#tree").width($(window).width() - 31);
-	}
-}
 
 //setzt die Höhe von textareas so, dass der Text genau rein passt
 function FitToContent(id, maxHeight) {
