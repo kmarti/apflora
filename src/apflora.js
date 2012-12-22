@@ -1774,14 +1774,13 @@ function zeigeFormular(Formularname) {
 		$("#forms").show();
 		$("#ap_loeschen").show();
 		if (Formularname === "google_karte" || Formularname === "GeoAdminKarte") {
-			//padding von forms entfernen, damit die Karte den ganzen Platz einnehmen kann
-			//$("#forms").css('padding', '0px 0px 0px 0px');
 			//Titelzeile entfernen
 			$("#forms_titelzeile").css("display", "none");
 			//höhe einstellen
 			$("#" + Formularname).css("height", $(window).height()-17 + "px");
 			//markieren, dass die Formularhöhe anders gesetzt werden soll
 			window.kartenhoehe_manuell = true;
+			setzeKartenhoehe();
 			$("#" + Formularname).show();
 			if (Formularname === "GeoAdminKarte") {
 				//auswählen deaktivieren und allfällige Liste ausblenden
@@ -1827,14 +1826,15 @@ function setzeTreehoehe() {
 }
 
 function setzeKartenhoehe() {
+	//Formulare sind unbegrenzt hoch aber Karten sollen das nicht sein
 	if (window.kartenhoehe_manuell) {
 		$("#forms").height($(window).height() - 17);
 		if (typeof window.api !== "undefined" && window.api.map) {
-			$("#GeoAdminKarte").height($(window).height() - 17);
+			//$("#GeoAdminKarte").height($(window).height() - 17);
 			window.api.map.updateSize();
 		}
 		if (typeof google !== "undefined" && google.maps && typeof map !== "undefined") {
-			$("#google_karte").height($(window).height() - 17);
+			//$("#google_karte").height($(window).height() - 17);
 			google.maps.event.trigger(map, 'resize');
 		}
 	} else {

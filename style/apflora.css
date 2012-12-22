@@ -130,6 +130,10 @@ td.Datenfelder {
 	overflow: auto;
 }
 
+#GeoAdminKarte, #google_karte {
+	height: 100% !important;
+}
+
 /*im tab soll der zusätzliche Rand klein sein*/
 .ui-tabs .ui-tabs-panel {
 	padding-left: 0px;
