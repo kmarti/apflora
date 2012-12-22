@@ -2311,9 +2311,12 @@ function erstelle_tree(ApArtId) {
 	})
 	//auch auf Mobilgeräten soll das Kontextmenü zugänglich sein!
 	.hammer().bind("hold doubletap", function (event) {
-		setTimeout(function() {
-			jQuery("#tree").jstree('get_selected').children('a').trigger('contextmenu');
-		}, 500);
+		//auf PC's verhindern: Menu erscheint sonst beim Scrollen
+		if ($(window).width() < 1000) {
+			setTimeout(function() {
+				jQuery("#tree").jstree('get_selected').children('a').trigger('contextmenu');
+			}, 500);
+		}
 	})
 	.bind("select_node.jstree", function (e, data) {
 		var node;		
