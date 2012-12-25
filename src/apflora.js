@@ -1820,8 +1820,15 @@ function leereFelderVonFormular(Formular) {
 
 //begrenzt die maximale Höhe des Baums auf die Seitenhöhe, wenn nötig
 function setzeTreehoehe() {
-	if (($(".jstree-no-icons").height() + 157) > $(window).height()) {
-		$("#tree").css("max-height", $(window).height() - 145);
+	if ($(window).width() > 1000) {
+		if (($(".jstree-no-icons").height() + 157) > $(window).height()) {
+			$("#tree").css("max-height", $(window).height() - 145);
+		}
+	} else {
+		//Spalten sind untereinander. Baum weniger hoch, damit Formulare immer erreicht werden können
+		if (($(".jstree-no-icons").height() + 157) > $(window).height()-75) {
+			$("#tree").css("max-height", $(window).height() - 220);
+		}
 	}
 }
 
