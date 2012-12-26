@@ -1825,7 +1825,7 @@ function setzeTreehoehe() {
 			$("#tree").css("max-height", $(window).height() - 145);
 		}
 	} else {
-		//Spalten sind untereinander. Baum weniger hoch, damit Formulare immer erreicht werden können
+		//Spalten sind untereinander. Baum 75px weniger hoch, damit Formulare immer erreicht werden können
 		if (($(".jstree-no-icons").height() + 157) > $(window).height()-75) {
 			$("#tree").css("max-height", $(window).height() - 220);
 		}

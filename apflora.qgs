@@ -4,52 +4,187 @@
     <mapcanvas>
         <units>meters</units>
         <extent>
-            <xmin>683763.004970</xmin>
-            <ymin>245268.622718</ymin>
-            <xmax>687230.366447</xmax>
-            <ymax>245656.192065</ymax>
+            <xmin>968320.556528</xmin>
+            <ymin>5997307.879850</ymin>
+            <xmax>970317.646326</xmax>
+            <ymax>5998410.535332</ymax>
         </extent>
         <projections>1</projections>
         <destinationsrs>
             <spatialrefsys>
-                <proj4>+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=600000 +y_0=200000 +ellps=bessel +towgs84=674.4,15.1,405.3,0,0,0,0 +units=m +no_defs</proj4>
-                <srsid>1919</srsid>
-                <srid>21781</srid>
-                <authid>EPSG:21781</authid>
-                <description>CH1903 / LV03</description>
-                <projectionacronym>somerc</projectionacronym>
-                <ellipsoidacronym>bessel</ellipsoidacronym>
+                <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs</proj4>
+                <srsid>3857</srsid>
+                <srid>3857</srid>
+                <authid>EPSG:3857</authid>
+                <description>WGS 84 / Pseudo Mercator</description>
+                <projectionacronym>merc</projectionacronym>
+                <ellipsoidacronym>WGS84</ellipsoidacronym>
                 <geographicflag>false</geographicflag>
             </spatialrefsys>
         </destinationsrs>
     </mapcanvas>
     <legend updateDrawingOrder="false">
-        <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="vPopFuerGisPoint" showFeatureCount="0">
+        <legendlayer drawingOrder="0" open="true" checked="Qt::Checked" name="tpm_polygon" showFeatureCount="0">
             <filegroup open="true" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="vPopFuerGisPoint20121220141601189" visible="0"/>
+                <legendlayerfile isInOverview="0" layerid="tpm_polygon20121226010108083" visible="1"/>
             </filegroup>
         </legendlayer>
-        <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="tblPopPolygon" showFeatureCount="0">
+        <legendlayer drawingOrder="1" open="true" checked="Qt::Checked" name="tpm_point" showFeatureCount="0">
             <filegroup open="true" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="tblPopPolygon20121220224525615" visible="1"/>
+                <legendlayerfile isInOverview="0" layerid="tpm_point20121226010059833" visible="1"/>
             </filegroup>
         </legendlayer>
-        <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="vPopFuerGisPolygon" showFeatureCount="0">
+        <legendlayer drawingOrder="2" open="true" checked="Qt::Checked" name="tpm_line" showFeatureCount="0">
             <filegroup open="true" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="vPopFuerGisPolygon20121220143723728" visible="0"/>
+                <legendlayerfile isInOverview="0" layerid="tpm_line20121226010051580" visible="1"/>
             </filegroup>
         </legendlayer>
-        <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="vPopFuerGisLine" showFeatureCount="0">
-            <filegroup open="true" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="vPopFuerGisLine20121220141551693" visible="0"/>
-            </filegroup>
-        </legendlayer>
-        <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="tblTeilpopulation" showFeatureCount="1">
-            <filegroup open="true" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="tblTeilpopulation20121219223218605" visible="0"/>
-            </filegroup>
-        </legendlayer>
-        <legendgroup open="true" checked="Qt::Unchecked" name="WMS - Basiskarten">
+        <legendgroup open="false" checked="Qt::Unchecked" name="WFS - Fachkartierungen">
+            <legendlayer drawingOrder="19" open="true" checked="Qt::Unchecked" name="reptilieninv_93" showFeatureCount="0">
+                <filegroup open="true" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="reptilieninv_9320121109135905764" visible="0"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="20" open="true" checked="Qt::Unchecked" name="heuschreckeninv_90_98" showFeatureCount="0">
+                <filegroup open="true" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="heuschreckeninv_90_9820121109135947183" visible="0"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="21" open="true" checked="Qt::Unchecked" name="libelleninv_84" showFeatureCount="0">
+                <filegroup open="true" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="libelleninv_8420121109135936684" visible="0"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="22" open="true" checked="Qt::Unchecked" name="tagfalterinv_92" showFeatureCount="0">
+                <filegroup open="true" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="tagfalterinv_9220121109135844987" visible="0"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="8" open="true" checked="Qt::Unchecked" name="feuchtgebietinv_79_90" showFeatureCount="0">
+                <filegroup open="true" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="feuchtgebietinv_79_9020121109164027773" visible="0"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="7" open="true" checked="Qt::Unchecked" name="lichtwaelder_teilobj" showFeatureCount="0">
+                <filegroup open="true" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="lichtwaelder_teilobj20121109164330673" visible="0"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="23" open="true" checked="Qt::Unchecked" name="geomorph_inventar" showFeatureCount="0">
+                <filegroup open="true" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="geomorph_inventar20121109140036698" visible="0"/>
+                </filegroup>
+            </legendlayer>
+        </legendgroup>
+        <legendgroup open="false" checked="Qt::Unchecked" name="WFS/WMS überkommunale Schutzverordnungen">
+            <legendlayer drawingOrder="31" open="true" checked="Qt::Unchecked" name="Zonendaten mit PDF Links" showFeatureCount="0">
+                <filegroup open="true" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="svo_zonen20121022083834590" visible="0"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="24" open="false" checked="Qt::Unchecked" name="altrechtliche-schutzverordnungen" showFeatureCount="0">
+                <filegroup open="false" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="altrechtliche_schutzverordnungen20121101154146962" visible="0"/>
+                </filegroup>
+            </legendlayer>
+            <legendgroup open="false" checked="Qt::Unchecked" name="Schutzverordnungsobjekte">
+                <legendlayer drawingOrder="25" open="false" checked="Qt::Unchecked" name="schutzverordnungsobjekte" showFeatureCount="0">
+                    <filegroup open="false" hidden="false">
+                        <legendlayerfile isInOverview="0" layerid="schutzverordnungsobjekte20121101154154965" visible="0"/>
+                    </filegroup>
+                </legendlayer>
+                <legendlayer drawingOrder="26" open="false" checked="Qt::Unchecked" name="schutzverordnungsobjekt-nr" showFeatureCount="0">
+                    <filegroup open="false" hidden="false">
+                        <legendlayerfile isInOverview="0" layerid="schutzverordnungsobjekt_nr20121101154203186" visible="0"/>
+                    </filegroup>
+                </legendlayer>
+            </legendgroup>
+            <legendlayer drawingOrder="27" open="false" checked="Qt::Unchecked" name="ueberlagernde-schutzzonen" showFeatureCount="0">
+                <filegroup open="false" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="ueberlagernde_schutzzonen20121101154151065" visible="0"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="28" open="false" checked="Qt::Unchecked" name="svo-zonen-labels" showFeatureCount="0">
+                <filegroup open="false" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="svo_zonen_labels20121101154159115" visible="0"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="29" open="false" checked="Qt::Unchecked" name="zonen-schutzverordnungen-raster" showFeatureCount="0">
+                <filegroup open="false" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="zonen_schutzverordnungen_raster20121101154139053" visible="0"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="30" open="false" checked="Qt::Unchecked" name="zonen-schutzverordnungen" showFeatureCount="0">
+                <filegroup open="false" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="zonen_schutzverordnungen20121101154212500" visible="0"/>
+                </filegroup>
+            </legendlayer>
+        </legendgroup>
+        <legendgroup open="false" checked="Qt::Unchecked" name="WFS - Naturschutzobjekte">
+            <legendlayer drawingOrder="33" open="true" checked="Qt::Unchecked" name="Kant. Bedeutung" showFeatureCount="0">
+                <filegroup open="true" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="nso_2011_kantonal_f20121022082321248" visible="0"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="34" open="true" checked="Qt::Unchecked" name="Naturschutzobjekte" showFeatureCount="0">
+                <filegroup open="true" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="naturschutzobjekte_f20121022081912859" visible="0"/>
+                </filegroup>
+            </legendlayer>
+        </legendgroup>
+        <legendgroup open="false" checked="Qt::Unchecked" name="WMS - Bundesinventare (wms.geo.admin)">
+            <legendlayer drawingOrder="13" open="false" checked="Qt::Unchecked" name="ch.bafu.bundesinventare-vogelreservate" showFeatureCount="0">
+                <filegroup open="false" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="ch_bafu_bundesinventare_vogelreservate20121109154014187" visible="0"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="14" open="false" checked="Qt::Unchecked" name="ch.bafu.bundesinventare-moorlandschaften" showFeatureCount="0">
+                <filegroup open="false" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="ch_bafu_bundesinventare_moorlandschaften20121109154021611" visible="0"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="15" open="false" checked="Qt::Unchecked" name="ch.bafu.bundesinventare-bln" showFeatureCount="0">
+                <filegroup open="false" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="ch_bafu_bundesinventare_bln20121109154040634" visible="0"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="9" open="false" checked="Qt::Unchecked" name="ch.bafu.bundesinventare-trockenwiesen_trockenweiden/ch.bafu.bundesinventare-amphibien" showFeatureCount="0">
+                <filegroup open="false" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="ch_bafu_bundesinventare_trockenwiesen_trockenweiden_ch_bafu_bundesinventare_amphibien20121109154135695" visible="0"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="10" open="false" checked="Qt::Unchecked" name="ch.bafu.bundesinventare-amphibien" showFeatureCount="0">
+                <filegroup open="false" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="ch_bafu_bundesinventare_amphibien20121109154100841" visible="0"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="11" open="false" checked="Qt::Unchecked" name="ch.bafu.bundesinventare-amphibien_wanderobjekte" showFeatureCount="0">
+                <filegroup open="false" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="ch_bafu_bundesinventare_amphibien_wanderobjekte20121109154053177" visible="0"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="12" open="false" checked="Qt::Unchecked" name="ch.bafu.bundesinventare-auen" showFeatureCount="0">
+                <filegroup open="false" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="ch_bafu_bundesinventare_auen20121109154047081" visible="0"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="16" open="false" checked="Qt::Unchecked" name="ch.bafu.bundesinventare-flachmoore" showFeatureCount="0">
+                <filegroup open="false" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="ch_bafu_bundesinventare_flachmoore20121109154032922" visible="0"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="17" open="false" checked="Qt::Unchecked" name="ch.bafu.schutzgebiete-paerke_nationaler_bedeutung" showFeatureCount="0">
+                <filegroup open="false" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="ch_bafu_schutzgebiete_paerke_nationaler_bedeutung20121109153950597" visible="0"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="18" open="false" checked="Qt::Unchecked" name="ch.bafu.bundesinventare-hochmoore" showFeatureCount="0">
+                <filegroup open="false" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="ch_bafu_bundesinventare_hochmoore20121109154027307" visible="0"/>
+                </filegroup>
+            </legendlayer>
+        </legendgroup>
+        <legendgroup open="false" checked="Qt::PartiallyChecked" name="WMS - Basiskarten">
             <legendlayer drawingOrder="32" open="false" checked="Qt::Unchecked" name="Uebersichtsplan" showFeatureCount="0">
                 <filegroup open="false" hidden="false">
                     <legendlayerfile isInOverview="0" layerid="Uebersichtsplan20121022081634213" visible="0"/>
@@ -60,35 +195,57 @@
                     <legendlayerfile isInOverview="0" layerid="Bodenbedeckung20121022082711860" visible="0"/>
                 </filegroup>
             </legendlayer>
+            <legendlayer drawingOrder="3" open="true" checked="Qt::Unchecked" name="Google Satellite" showFeatureCount="0">
+                <filegroup open="true" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="OpenLayers_plugin_layer20121226005710099" visible="0"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="4" open="true" checked="Qt::Checked" name="Google Hybrid" showFeatureCount="0">
+                <filegroup open="true" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="OpenLayers_plugin_layer20121226005701068" visible="1"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="5" open="true" checked="Qt::Unchecked" name="Google Streets" showFeatureCount="0">
+                <filegroup open="true" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="OpenLayers_plugin_layer20121226005655708" visible="0"/>
+                </filegroup>
+            </legendlayer>
+            <legendlayer drawingOrder="6" open="true" checked="Qt::Unchecked" name="Google Physical" showFeatureCount="0">
+                <filegroup open="true" hidden="false">
+                    <legendlayerfile isInOverview="0" layerid="OpenLayers_plugin_layer20121226005647460" visible="0"/>
+                </filegroup>
+            </legendlayer>
         </legendgroup>
     </legend>
     <Composer title="Druckzusammenstellung 2" visible="0">
         <ComposerLegend symbolWidth="4" title="Legende" boxSpace="2" titleFont="MS Shell Dlg 2,8,-1,5,50,0,0,0,0,0" map="0" groupFont="MS Shell Dlg 2,8,-1,5,50,0,0,0,0,0" layerFont="MS Shell Dlg 2,8,-1,5,50,0,0,0,0,0" groupSpace="2" symbolSpace="1" symbolHeight="2" layerSpace="1" iconLabelSpace="2" wrapChar="" itemFont="MS Shell Dlg 2,8,-1,5,50,0,0,0,0,0">
             <Model autoUpdate="1">
+                <LayerItem layerId="ueberlagernde_schutzzonen20121101154151065" text="ueberlagernde-schutzzonen"/>
+                <LayerItem layerId="svo_zonen_labels20121101154159115" text="svo-zonen-labels"/>
+                <LayerItem layerId="zonen_schutzverordnungen_raster20121101154139053" text="zonen-schutzverordnungen-raster"/>
                 <LayerItem layerId="Uebersichtsplan20121022081634213" text="Uebersichtsplan"/>
-                <LayerItem layerId="Bodenbedeckung20121022082711860" text="Bodenbedeckung"/>
-                <LayerItem layerId="tblTeilpopulation20121219223218605" text="tblTeilpopulation">
+                <LayerItem layerId="nso_2011_kantonal_f20121022082321248" text="Kant. Bedeutung">
                     <VectorClassificationItemNg text="">
                         <symbols>
-                            <symbol outputUnit="MM" alpha="1" type="marker" name="classificationSymbol">
-                                <layer pass="0" class="SimpleMarker" locked="0">
-                                    <prop k="angle" v="0"/>
-                                    <prop k="color" v="38,38,142,255"/>
-                                    <prop k="color_border" v="0,0,0,255"/>
-                                    <prop k="name" v="circle"/>
+                            <symbol outputUnit="MM" alpha="1" type="fill" name="classificationSymbol">
+                                <layer pass="0" class="SimpleFill" locked="0">
+                                    <prop k="color" v="152,8,147,255"/>
+                                    <prop k="color_border" v="0,85,0,255"/>
                                     <prop k="offset" v="0,0"/>
-                                    <prop k="size" v="2"/>
+                                    <prop k="style" v="no"/>
+                                    <prop k="style_border" v="solid"/>
+                                    <prop k="width_border" v="0.7"/>
                                 </layer>
                             </symbol>
                         </symbols>
                     </VectorClassificationItemNg>
                 </LayerItem>
-                <LayerItem layerId="vPopFuerGisTest20121219235608427" text="vPopFuerGisTest">
+                <LayerItem layerId="naturschutzobjekte_f20121022081912859" text="Naturschutzobjekte">
                     <VectorClassificationItemNg text="">
                         <symbols>
                             <symbol outputUnit="MM" alpha="1" type="fill" name="classificationSymbol">
                                 <layer pass="0" class="SimpleFill" locked="0">
-                                    <prop k="color" v="70,164,49,255"/>
+                                    <prop k="color" v="247,251,255,255"/>
                                     <prop k="color_border" v="0,0,0,255"/>
                                     <prop k="offset" v="0,0"/>
                                     <prop k="style" v="solid"/>
@@ -98,14 +255,72 @@
                             </symbol>
                         </symbols>
                     </VectorClassificationItemNg>
+                    <VectorClassificationItemNg text="a">
+                        <symbols>
+                            <symbol outputUnit="MM" alpha="0.243137" type="fill" name="classificationSymbol">
+                                <layer pass="0" class="LinePatternFill" locked="0">
+                                    <prop k="color" v="0,170,127,255"/>
+                                    <prop k="distance" v="4"/>
+                                    <prop k="lineangle" v="45"/>
+                                    <prop k="linewidth" v="2"/>
+                                    <prop k="offset" v="0"/>
+                                </layer>
+                            </symbol>
+                            <symbol outputUnit="MM" alpha="1" type="line" name="@classificationSymbol@0">
+                                <layer pass="0" class="SimpleLine" locked="0">
+                                    <prop k="capstyle" v="square"/>
+                                    <prop k="color" v="0,0,0,255"/>
+                                    <prop k="customdash" v="5;2"/>
+                                    <prop k="joinstyle" v="bevel"/>
+                                    <prop k="offset" v="0"/>
+                                    <prop k="penstyle" v="no"/>
+                                    <prop k="use_custom_dash" v="0"/>
+                                    <prop k="width" v="0.26"/>
+                                </layer>
+                            </symbol>
+                        </symbols>
+                    </VectorClassificationItemNg>
+                    <VectorClassificationItemNg text="k">
+                        <symbols>
+                            <symbol outputUnit="MM" alpha="0.498039" type="fill" name="classificationSymbol">
+                                <layer pass="0" class="SimpleFill" locked="0">
+                                    <prop k="color" v="85,170,0,127"/>
+                                    <prop k="color_border" v="0,0,0,127"/>
+                                    <prop k="offset" v="0,0"/>
+                                    <prop k="style" v="solid"/>
+                                    <prop k="style_border" v="no"/>
+                                    <prop k="width_border" v="0.26"/>
+                                </layer>
+                            </symbol>
+                        </symbols>
+                    </VectorClassificationItemNg>
+                    <VectorClassificationItemNg text="u">
+                        <symbols>
+                            <symbol outputUnit="MM" alpha="0.243137" type="fill" name="classificationSymbol">
+                                <layer pass="0" class="SimpleFill" locked="0">
+                                    <prop k="color" v="0,170,0,62"/>
+                                    <prop k="color_border" v="0,0,0,62"/>
+                                    <prop k="offset" v="0,0"/>
+                                    <prop k="style" v="solid"/>
+                                    <prop k="style_border" v="no"/>
+                                    <prop k="width_border" v="0.26"/>
+                                </layer>
+                            </symbol>
+                        </symbols>
+                    </VectorClassificationItemNg>
                 </LayerItem>
-                <LayerItem layerId="vPopFuerGisLine20121220141551693" text="vPopFuerGisLine">
+                <LayerItem layerId="Bodenbedeckung20121022082711860" text="Bodenbedeckung"/>
+                <LayerItem layerId="OpenLayers_plugin_layer20121226005647460" text="Google Physical"/>
+                <LayerItem layerId="OpenLayers_plugin_layer20121226005655708" text="Google Streets"/>
+                <LayerItem layerId="OpenLayers_plugin_layer20121226005701068" text="Google Hybrid"/>
+                <LayerItem layerId="OpenLayers_plugin_layer20121226005710099" text="Google Satellite"/>
+                <LayerItem layerId="tpm_line20121226010051580" text="tpm_line">
                     <VectorClassificationItemNg text="">
                         <symbols>
                             <symbol outputUnit="MM" alpha="1" type="line" name="classificationSymbol">
                                 <layer pass="0" class="SimpleLine" locked="0">
                                     <prop k="capstyle" v="square"/>
-                                    <prop k="color" v="214,190,104,255"/>
+                                    <prop k="color" v="180,129,175,255"/>
                                     <prop k="customdash" v="5;2"/>
                                     <prop k="joinstyle" v="bevel"/>
                                     <prop k="offset" v="0"/>
@@ -117,13 +332,13 @@
                         </symbols>
                     </VectorClassificationItemNg>
                 </LayerItem>
-                <LayerItem layerId="vPopFuerGisPoint20121220141601189" text="vPopFuerGisPoint">
+                <LayerItem layerId="tpm_point20121226010059833" text="tpm_point">
                     <VectorClassificationItemNg text="">
                         <symbols>
                             <symbol outputUnit="MM" alpha="1" type="marker" name="classificationSymbol">
                                 <layer pass="0" class="SimpleMarker" locked="0">
                                     <prop k="angle" v="0"/>
-                                    <prop k="color" v="190,27,101,255"/>
+                                    <prop k="color" v="71,84,152,255"/>
                                     <prop k="color_border" v="0,0,0,255"/>
                                     <prop k="name" v="circle"/>
                                     <prop k="offset" v="0,0"/>
@@ -133,28 +348,12 @@
                         </symbols>
                     </VectorClassificationItemNg>
                 </LayerItem>
-                <LayerItem layerId="vPopFuerGisPolygon20121220143723728" text="vPopFuerGisPolygon">
+                <LayerItem layerId="tpm_polygon20121226010108083" text="tpm_polygon">
                     <VectorClassificationItemNg text="">
                         <symbols>
                             <symbol outputUnit="MM" alpha="1" type="fill" name="classificationSymbol">
                                 <layer pass="0" class="SimpleFill" locked="0">
-                                    <prop k="color" v="124,194,181,255"/>
-                                    <prop k="color_border" v="0,0,0,255"/>
-                                    <prop k="offset" v="0,0"/>
-                                    <prop k="style" v="solid"/>
-                                    <prop k="style_border" v="solid"/>
-                                    <prop k="width_border" v="0.26"/>
-                                </layer>
-                            </symbol>
-                        </symbols>
-                    </VectorClassificationItemNg>
-                </LayerItem>
-                <LayerItem layerId="tblPopPolygon20121220224525615" text="tblPopPolygon">
-                    <VectorClassificationItemNg text="">
-                        <symbols>
-                            <symbol outputUnit="MM" alpha="1" type="fill" name="classificationSymbol">
-                                <layer pass="0" class="SimpleFill" locked="0">
-                                    <prop k="color" v="173,156,85,255"/>
+                                    <prop k="color" v="130,77,159,255"/>
                                     <prop k="color_border" v="0,0,0,255"/>
                                     <prop k="offset" v="0,0"/>
                                     <prop k="style" v="solid"/>
@@ -166,7 +365,7 @@
                     </VectorClassificationItemNg>
                 </LayerItem>
             </Model>
-            <ComposerItem width="4" x="354.653" y="6.87692" rotation="0" height="37" frame="false" outlineWidth="0.3" zValue="1" lastValidViewScaleFactor="3.05369" id="" positionLock="false">
+            <ComposerItem width="4" x="354.653" y="6.87692" rotation="0" height="52" frame="false" outlineWidth="0.3" zValue="1" lastValidViewScaleFactor="3.05369" id="" positionLock="false">
                 <FrameColor alpha="255" red="0" blue="0" green="0"/>
                 <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
             </ComposerItem>
@@ -191,7 +390,7 @@
         </ComposerMap>
         <Composition printResolution="300" paperWidth="420" snapGridOffsetX="0" snapGridResolution="0" snapGridOffsetY="0" snapping="0" paperHeight="297" printAsRaster="0"/>
     </Composer>
-    <projectlayers layercount="7">
+    <projectlayers layercount="36">
         <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
             <id>Bodenbedeckung20121022082711860</id>
             <datasource>http://wms.zh.ch/avwms</datasource>
@@ -246,6 +445,90 @@
                     <pixelListEntry red="0.000000" blue="0.000000" green="0.000000" percentTransparent="100"/>
                 </threeValuePixelList>
             </rasterproperties>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" ol_layer_type="0" type="plugin" hasScaleBasedVisibilityFlag="0" name="openlayers">
+            <id>OpenLayers_plugin_layer20121226005647460</id>
+            <datasource></datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>Google Physical</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs</proj4>
+                    <srsid>3857</srsid>
+                    <srid>3857</srid>
+                    <authid>EPSG:3857</authid>
+                    <description>WGS 84 / Pseudo Mercator</description>
+                    <projectionacronym>merc</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <customproperties/>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" ol_layer_type="1" type="plugin" hasScaleBasedVisibilityFlag="0" name="openlayers">
+            <id>OpenLayers_plugin_layer20121226005655708</id>
+            <datasource></datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>Google Streets</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs</proj4>
+                    <srsid>3857</srsid>
+                    <srid>3857</srid>
+                    <authid>EPSG:3857</authid>
+                    <description>WGS 84 / Pseudo Mercator</description>
+                    <projectionacronym>merc</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <customproperties/>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" ol_layer_type="2" type="plugin" hasScaleBasedVisibilityFlag="0" name="openlayers">
+            <id>OpenLayers_plugin_layer20121226005701068</id>
+            <datasource></datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>Google Hybrid</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs</proj4>
+                    <srsid>3857</srsid>
+                    <srid>3857</srid>
+                    <authid>EPSG:3857</authid>
+                    <description>WGS 84 / Pseudo Mercator</description>
+                    <projectionacronym>merc</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <customproperties/>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" ol_layer_type="3" type="plugin" hasScaleBasedVisibilityFlag="0" name="openlayers">
+            <id>OpenLayers_plugin_layer20121226005710099</id>
+            <datasource></datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>Google Satellite</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs</proj4>
+                    <srsid>3857</srsid>
+                    <srid>3857</srid>
+                    <authid>EPSG:3857</authid>
+                    <description>WGS 84 / Pseudo Mercator</description>
+                    <projectionacronym>merc</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <customproperties/>
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
             <id>Uebersichtsplan20121022081634213</id>
@@ -302,12 +585,566 @@
                 </threeValuePixelList>
             </rasterproperties>
         </maplayer>
-        <maplayer minimumScale="0" maximumScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0">
-            <id>tblPopPolygon20121220224525615</id>
-            <datasource>MySQL:alexande_apflora,host=barbalex.ch,user=alexande,password=excalibu|layername=tblPopPolygon</datasource>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>altrechtliche_schutzverordnungen20121101154146962</id>
+            <datasource>http://wms.zh.ch/FnsSVOZHWMS?VERSION=1.1.0</datasource>
             <title></title>
             <abstract></abstract>
-            <layername>tblPopPolygon</layername>
+            <layername>altrechtliche-schutzverordnungen</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+                    <srsid>3452</srsid>
+                    <srid>4326</srid>
+                    <authid>EPSG:4326</authid>
+                    <description>WGS 84</description>
+                    <projectionacronym>longlat</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
+                    <geographicflag>true</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <customproperties/>
+            <provider>wms</provider>
+            <rasterproperties>
+                <wmsSublayer>
+                    <name>altrechtliche-schutzverordnungen</name>
+                    <style></style>
+                </wmsSublayer>
+                <wmsFormat>image/png</wmsFormat>
+                <mDrawingStyle>SingleBandColorDataStyle</mDrawingStyle>
+                <mColorShadingAlgorithm>UndefinedShader</mColorShadingAlgorithm>
+                <mInvertColor boolean="false"/>
+                <mRedBandName>Not Set</mRedBandName>
+                <mGreenBandName>Not Set</mGreenBandName>
+                <mBlueBandName>Not Set</mBlueBandName>
+                <mGrayBandName>Kanal 1</mGrayBandName>
+                <mStandardDeviations>0</mStandardDeviations>
+                <mUserDefinedRGBMinimumMaximum boolean="false"/>
+                <mRGBMinimumMaximumEstimated boolean="true"/>
+                <mUserDefinedGrayMinimumMaximum boolean="false"/>
+                <mGrayMinimumMaximumEstimated boolean="true"/>
+                <mContrastEnhancementAlgorithm>NoEnhancement</mContrastEnhancementAlgorithm>
+                <contrastEnhancementMinMaxValues>
+                    <minMaxEntry>
+                        <min>-1.79769e+308</min>
+                        <max>1.79769e+308</max>
+                    </minMaxEntry>
+                </contrastEnhancementMinMaxValues>
+                <mNoDataValue mValidNoDataValue="false">0.000000</mNoDataValue>
+                <singleValuePixelList>
+                    <pixelListEntry pixelValue="0.000000" percentTransparent="100"/>
+                </singleValuePixelList>
+                <threeValuePixelList>
+                    <pixelListEntry red="0.000000" blue="0.000000" green="0.000000" percentTransparent="100"/>
+                </threeValuePixelList>
+            </rasterproperties>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>ch_bafu_bundesinventare_amphibien20121109154100841</id>
+            <datasource>http://wms.geo.admin.ch/?VERSION=1.0.0</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>ch.bafu.bundesinventare-amphibien</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+                    <srsid>3452</srsid>
+                    <srid>4326</srid>
+                    <authid>EPSG:4326</authid>
+                    <description>WGS 84</description>
+                    <projectionacronym>longlat</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
+                    <geographicflag>true</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <customproperties/>
+            <provider>wms</provider>
+            <rasterproperties>
+                <wmsSublayer>
+                    <name>ch.bafu.bundesinventare-amphibien</name>
+                    <style></style>
+                </wmsSublayer>
+                <wmsFormat>image/png</wmsFormat>
+                <mDrawingStyle>SingleBandColorDataStyle</mDrawingStyle>
+                <mColorShadingAlgorithm>UndefinedShader</mColorShadingAlgorithm>
+                <mInvertColor boolean="false"/>
+                <mRedBandName>Not Set</mRedBandName>
+                <mGreenBandName>Not Set</mGreenBandName>
+                <mBlueBandName>Not Set</mBlueBandName>
+                <mGrayBandName>Kanal 1</mGrayBandName>
+                <mStandardDeviations>0</mStandardDeviations>
+                <mUserDefinedRGBMinimumMaximum boolean="false"/>
+                <mRGBMinimumMaximumEstimated boolean="true"/>
+                <mUserDefinedGrayMinimumMaximum boolean="false"/>
+                <mGrayMinimumMaximumEstimated boolean="true"/>
+                <mContrastEnhancementAlgorithm>NoEnhancement</mContrastEnhancementAlgorithm>
+                <contrastEnhancementMinMaxValues>
+                    <minMaxEntry>
+                        <min>-1.79769e+308</min>
+                        <max>1.79769e+308</max>
+                    </minMaxEntry>
+                </contrastEnhancementMinMaxValues>
+                <mNoDataValue mValidNoDataValue="false">0.000000</mNoDataValue>
+                <singleValuePixelList>
+                    <pixelListEntry pixelValue="0.000000" percentTransparent="100"/>
+                </singleValuePixelList>
+                <threeValuePixelList>
+                    <pixelListEntry red="0.000000" blue="0.000000" green="0.000000" percentTransparent="100"/>
+                </threeValuePixelList>
+            </rasterproperties>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>ch_bafu_bundesinventare_amphibien_wanderobjekte20121109154053177</id>
+            <datasource>http://wms.geo.admin.ch/?VERSION=1.0.0</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>ch.bafu.bundesinventare-amphibien_wanderobjekte</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+                    <srsid>3452</srsid>
+                    <srid>4326</srid>
+                    <authid>EPSG:4326</authid>
+                    <description>WGS 84</description>
+                    <projectionacronym>longlat</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
+                    <geographicflag>true</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <customproperties/>
+            <provider>wms</provider>
+            <rasterproperties>
+                <wmsSublayer>
+                    <name>ch.bafu.bundesinventare-amphibien_wanderobjekte</name>
+                    <style></style>
+                </wmsSublayer>
+                <wmsFormat>image/png</wmsFormat>
+                <mDrawingStyle>SingleBandColorDataStyle</mDrawingStyle>
+                <mColorShadingAlgorithm>UndefinedShader</mColorShadingAlgorithm>
+                <mInvertColor boolean="false"/>
+                <mRedBandName>Not Set</mRedBandName>
+                <mGreenBandName>Not Set</mGreenBandName>
+                <mBlueBandName>Not Set</mBlueBandName>
+                <mGrayBandName>Kanal 1</mGrayBandName>
+                <mStandardDeviations>0</mStandardDeviations>
+                <mUserDefinedRGBMinimumMaximum boolean="false"/>
+                <mRGBMinimumMaximumEstimated boolean="true"/>
+                <mUserDefinedGrayMinimumMaximum boolean="false"/>
+                <mGrayMinimumMaximumEstimated boolean="true"/>
+                <mContrastEnhancementAlgorithm>NoEnhancement</mContrastEnhancementAlgorithm>
+                <contrastEnhancementMinMaxValues>
+                    <minMaxEntry>
+                        <min>-1.79769e+308</min>
+                        <max>1.79769e+308</max>
+                    </minMaxEntry>
+                </contrastEnhancementMinMaxValues>
+                <mNoDataValue mValidNoDataValue="false">0.000000</mNoDataValue>
+                <singleValuePixelList>
+                    <pixelListEntry pixelValue="0.000000" percentTransparent="100"/>
+                </singleValuePixelList>
+                <threeValuePixelList>
+                    <pixelListEntry red="0.000000" blue="0.000000" green="0.000000" percentTransparent="100"/>
+                </threeValuePixelList>
+            </rasterproperties>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>ch_bafu_bundesinventare_auen20121109154047081</id>
+            <datasource>http://wms.geo.admin.ch/?VERSION=1.0.0</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>ch.bafu.bundesinventare-auen</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+                    <srsid>3452</srsid>
+                    <srid>4326</srid>
+                    <authid>EPSG:4326</authid>
+                    <description>WGS 84</description>
+                    <projectionacronym>longlat</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
+                    <geographicflag>true</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <customproperties/>
+            <provider>wms</provider>
+            <rasterproperties>
+                <wmsSublayer>
+                    <name>ch.bafu.bundesinventare-auen</name>
+                    <style></style>
+                </wmsSublayer>
+                <wmsFormat>image/png</wmsFormat>
+                <mDrawingStyle>SingleBandColorDataStyle</mDrawingStyle>
+                <mColorShadingAlgorithm>UndefinedShader</mColorShadingAlgorithm>
+                <mInvertColor boolean="false"/>
+                <mRedBandName>Not Set</mRedBandName>
+                <mGreenBandName>Not Set</mGreenBandName>
+                <mBlueBandName>Not Set</mBlueBandName>
+                <mGrayBandName>Kanal 1</mGrayBandName>
+                <mStandardDeviations>0</mStandardDeviations>
+                <mUserDefinedRGBMinimumMaximum boolean="false"/>
+                <mRGBMinimumMaximumEstimated boolean="true"/>
+                <mUserDefinedGrayMinimumMaximum boolean="false"/>
+                <mGrayMinimumMaximumEstimated boolean="true"/>
+                <mContrastEnhancementAlgorithm>NoEnhancement</mContrastEnhancementAlgorithm>
+                <contrastEnhancementMinMaxValues>
+                    <minMaxEntry>
+                        <min>-1.79769e+308</min>
+                        <max>1.79769e+308</max>
+                    </minMaxEntry>
+                </contrastEnhancementMinMaxValues>
+                <mNoDataValue mValidNoDataValue="false">0.000000</mNoDataValue>
+                <singleValuePixelList>
+                    <pixelListEntry pixelValue="0.000000" percentTransparent="100"/>
+                </singleValuePixelList>
+                <threeValuePixelList>
+                    <pixelListEntry red="0.000000" blue="0.000000" green="0.000000" percentTransparent="100"/>
+                </threeValuePixelList>
+            </rasterproperties>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>ch_bafu_bundesinventare_bln20121109154040634</id>
+            <datasource>http://wms.geo.admin.ch/?VERSION=1.0.0</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>ch.bafu.bundesinventare-bln</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+                    <srsid>3452</srsid>
+                    <srid>4326</srid>
+                    <authid>EPSG:4326</authid>
+                    <description>WGS 84</description>
+                    <projectionacronym>longlat</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
+                    <geographicflag>true</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <customproperties/>
+            <provider>wms</provider>
+            <rasterproperties>
+                <wmsSublayer>
+                    <name>ch.bafu.bundesinventare-bln</name>
+                    <style></style>
+                </wmsSublayer>
+                <wmsFormat>image/png</wmsFormat>
+                <mDrawingStyle>SingleBandColorDataStyle</mDrawingStyle>
+                <mColorShadingAlgorithm>UndefinedShader</mColorShadingAlgorithm>
+                <mInvertColor boolean="false"/>
+                <mRedBandName>Not Set</mRedBandName>
+                <mGreenBandName>Not Set</mGreenBandName>
+                <mBlueBandName>Not Set</mBlueBandName>
+                <mGrayBandName>Kanal 1</mGrayBandName>
+                <mStandardDeviations>0</mStandardDeviations>
+                <mUserDefinedRGBMinimumMaximum boolean="false"/>
+                <mRGBMinimumMaximumEstimated boolean="true"/>
+                <mUserDefinedGrayMinimumMaximum boolean="false"/>
+                <mGrayMinimumMaximumEstimated boolean="true"/>
+                <mContrastEnhancementAlgorithm>NoEnhancement</mContrastEnhancementAlgorithm>
+                <contrastEnhancementMinMaxValues>
+                    <minMaxEntry>
+                        <min>-1.79769e+308</min>
+                        <max>1.79769e+308</max>
+                    </minMaxEntry>
+                </contrastEnhancementMinMaxValues>
+                <mNoDataValue mValidNoDataValue="false">0.000000</mNoDataValue>
+                <singleValuePixelList>
+                    <pixelListEntry pixelValue="0.000000" percentTransparent="100"/>
+                </singleValuePixelList>
+                <threeValuePixelList>
+                    <pixelListEntry red="0.000000" blue="0.000000" green="0.000000" percentTransparent="100"/>
+                </threeValuePixelList>
+            </rasterproperties>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>ch_bafu_bundesinventare_flachmoore20121109154032922</id>
+            <datasource>http://wms.geo.admin.ch/?VERSION=1.0.0</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>ch.bafu.bundesinventare-flachmoore</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+                    <srsid>3452</srsid>
+                    <srid>4326</srid>
+                    <authid>EPSG:4326</authid>
+                    <description>WGS 84</description>
+                    <projectionacronym>longlat</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
+                    <geographicflag>true</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <customproperties/>
+            <provider>wms</provider>
+            <rasterproperties>
+                <wmsSublayer>
+                    <name>ch.bafu.bundesinventare-flachmoore</name>
+                    <style></style>
+                </wmsSublayer>
+                <wmsFormat>image/png</wmsFormat>
+                <mDrawingStyle>SingleBandColorDataStyle</mDrawingStyle>
+                <mColorShadingAlgorithm>UndefinedShader</mColorShadingAlgorithm>
+                <mInvertColor boolean="false"/>
+                <mRedBandName>Not Set</mRedBandName>
+                <mGreenBandName>Not Set</mGreenBandName>
+                <mBlueBandName>Not Set</mBlueBandName>
+                <mGrayBandName>Kanal 1</mGrayBandName>
+                <mStandardDeviations>0</mStandardDeviations>
+                <mUserDefinedRGBMinimumMaximum boolean="false"/>
+                <mRGBMinimumMaximumEstimated boolean="true"/>
+                <mUserDefinedGrayMinimumMaximum boolean="false"/>
+                <mGrayMinimumMaximumEstimated boolean="true"/>
+                <mContrastEnhancementAlgorithm>NoEnhancement</mContrastEnhancementAlgorithm>
+                <contrastEnhancementMinMaxValues>
+                    <minMaxEntry>
+                        <min>-1.79769e+308</min>
+                        <max>1.79769e+308</max>
+                    </minMaxEntry>
+                </contrastEnhancementMinMaxValues>
+                <mNoDataValue mValidNoDataValue="true">0.000000</mNoDataValue>
+                <singleValuePixelList>
+                    <pixelListEntry pixelValue="0.000000" percentTransparent="100"/>
+                </singleValuePixelList>
+                <threeValuePixelList>
+                    <pixelListEntry red="0.000000" blue="0.000000" green="0.000000" percentTransparent="100"/>
+                </threeValuePixelList>
+            </rasterproperties>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>ch_bafu_bundesinventare_hochmoore20121109154027307</id>
+            <datasource>http://wms.geo.admin.ch/?VERSION=1.0.0</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>ch.bafu.bundesinventare-hochmoore</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+                    <srsid>3452</srsid>
+                    <srid>4326</srid>
+                    <authid>EPSG:4326</authid>
+                    <description>WGS 84</description>
+                    <projectionacronym>longlat</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
+                    <geographicflag>true</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <customproperties/>
+            <provider>wms</provider>
+            <rasterproperties>
+                <wmsSublayer>
+                    <name>ch.bafu.bundesinventare-hochmoore</name>
+                    <style></style>
+                </wmsSublayer>
+                <wmsFormat>image/png</wmsFormat>
+                <mDrawingStyle>SingleBandColorDataStyle</mDrawingStyle>
+                <mColorShadingAlgorithm>UndefinedShader</mColorShadingAlgorithm>
+                <mInvertColor boolean="false"/>
+                <mRedBandName>Not Set</mRedBandName>
+                <mGreenBandName>Not Set</mGreenBandName>
+                <mBlueBandName>Not Set</mBlueBandName>
+                <mGrayBandName>Kanal 1</mGrayBandName>
+                <mStandardDeviations>0</mStandardDeviations>
+                <mUserDefinedRGBMinimumMaximum boolean="false"/>
+                <mRGBMinimumMaximumEstimated boolean="true"/>
+                <mUserDefinedGrayMinimumMaximum boolean="false"/>
+                <mGrayMinimumMaximumEstimated boolean="true"/>
+                <mContrastEnhancementAlgorithm>NoEnhancement</mContrastEnhancementAlgorithm>
+                <contrastEnhancementMinMaxValues>
+                    <minMaxEntry>
+                        <min>-1.79769e+308</min>
+                        <max>1.79769e+308</max>
+                    </minMaxEntry>
+                </contrastEnhancementMinMaxValues>
+                <mNoDataValue mValidNoDataValue="true">0.000000</mNoDataValue>
+                <singleValuePixelList>
+                    <pixelListEntry pixelValue="0.000000" percentTransparent="100"/>
+                </singleValuePixelList>
+                <threeValuePixelList>
+                    <pixelListEntry red="0.000000" blue="0.000000" green="0.000000" percentTransparent="100"/>
+                </threeValuePixelList>
+            </rasterproperties>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>ch_bafu_bundesinventare_moorlandschaften20121109154021611</id>
+            <datasource>http://wms.geo.admin.ch/?VERSION=1.0.0</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>ch.bafu.bundesinventare-moorlandschaften</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+                    <srsid>3452</srsid>
+                    <srid>4326</srid>
+                    <authid>EPSG:4326</authid>
+                    <description>WGS 84</description>
+                    <projectionacronym>longlat</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
+                    <geographicflag>true</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <customproperties/>
+            <provider>wms</provider>
+            <rasterproperties>
+                <wmsSublayer>
+                    <name>ch.bafu.bundesinventare-moorlandschaften</name>
+                    <style></style>
+                </wmsSublayer>
+                <wmsFormat>image/png</wmsFormat>
+                <mDrawingStyle>SingleBandColorDataStyle</mDrawingStyle>
+                <mColorShadingAlgorithm>UndefinedShader</mColorShadingAlgorithm>
+                <mInvertColor boolean="false"/>
+                <mRedBandName>Not Set</mRedBandName>
+                <mGreenBandName>Not Set</mGreenBandName>
+                <mBlueBandName>Not Set</mBlueBandName>
+                <mGrayBandName>Kanal 1</mGrayBandName>
+                <mStandardDeviations>0</mStandardDeviations>
+                <mUserDefinedRGBMinimumMaximum boolean="false"/>
+                <mRGBMinimumMaximumEstimated boolean="true"/>
+                <mUserDefinedGrayMinimumMaximum boolean="false"/>
+                <mGrayMinimumMaximumEstimated boolean="true"/>
+                <mContrastEnhancementAlgorithm>NoEnhancement</mContrastEnhancementAlgorithm>
+                <contrastEnhancementMinMaxValues>
+                    <minMaxEntry>
+                        <min>-1.79769e+308</min>
+                        <max>1.79769e+308</max>
+                    </minMaxEntry>
+                </contrastEnhancementMinMaxValues>
+                <mNoDataValue mValidNoDataValue="false">0.000000</mNoDataValue>
+                <singleValuePixelList>
+                    <pixelListEntry pixelValue="0.000000" percentTransparent="100"/>
+                </singleValuePixelList>
+                <threeValuePixelList>
+                    <pixelListEntry red="0.000000" blue="0.000000" green="0.000000" percentTransparent="100"/>
+                </threeValuePixelList>
+            </rasterproperties>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>ch_bafu_bundesinventare_trockenwiesen_trockenweiden_ch_bafu_bundesinventare_amphibien20121109154135695</id>
+            <datasource>http://wms.geo.admin.ch/?VERSION=1.0.0</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>ch.bafu.bundesinventare-trockenwiesen_trockenweiden/ch.bafu.bundesinventare-amphibien</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+                    <srsid>3452</srsid>
+                    <srid>4326</srid>
+                    <authid>EPSG:4326</authid>
+                    <description>WGS 84</description>
+                    <projectionacronym>longlat</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
+                    <geographicflag>true</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <customproperties/>
+            <provider>wms</provider>
+            <rasterproperties>
+                <wmsSublayer>
+                    <name>ch.bafu.bundesinventare-trockenwiesen_trockenweiden</name>
+                    <style></style>
+                </wmsSublayer>
+                <wmsSublayer>
+                    <name>ch.bafu.bundesinventare-amphibien</name>
+                    <style></style>
+                </wmsSublayer>
+                <wmsFormat>image/png</wmsFormat>
+                <mDrawingStyle>SingleBandColorDataStyle</mDrawingStyle>
+                <mColorShadingAlgorithm>UndefinedShader</mColorShadingAlgorithm>
+                <mInvertColor boolean="false"/>
+                <mRedBandName>Not Set</mRedBandName>
+                <mGreenBandName>Not Set</mGreenBandName>
+                <mBlueBandName>Not Set</mBlueBandName>
+                <mGrayBandName>Kanal 1</mGrayBandName>
+                <mStandardDeviations>0</mStandardDeviations>
+                <mUserDefinedRGBMinimumMaximum boolean="false"/>
+                <mRGBMinimumMaximumEstimated boolean="true"/>
+                <mUserDefinedGrayMinimumMaximum boolean="false"/>
+                <mGrayMinimumMaximumEstimated boolean="true"/>
+                <mContrastEnhancementAlgorithm>NoEnhancement</mContrastEnhancementAlgorithm>
+                <contrastEnhancementMinMaxValues>
+                    <minMaxEntry>
+                        <min>-1.79769e+308</min>
+                        <max>1.79769e+308</max>
+                    </minMaxEntry>
+                </contrastEnhancementMinMaxValues>
+                <mNoDataValue mValidNoDataValue="false">0.000000</mNoDataValue>
+                <singleValuePixelList>
+                    <pixelListEntry pixelValue="0.000000" percentTransparent="100"/>
+                </singleValuePixelList>
+                <threeValuePixelList>
+                    <pixelListEntry red="0.000000" blue="0.000000" green="0.000000" percentTransparent="100"/>
+                </threeValuePixelList>
+            </rasterproperties>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>ch_bafu_bundesinventare_vogelreservate20121109154014187</id>
+            <datasource>http://wms.geo.admin.ch/?VERSION=1.0.0</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>ch.bafu.bundesinventare-vogelreservate</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+                    <srsid>3452</srsid>
+                    <srid>4326</srid>
+                    <authid>EPSG:4326</authid>
+                    <description>WGS 84</description>
+                    <projectionacronym>longlat</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
+                    <geographicflag>true</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <customproperties/>
+            <provider>wms</provider>
+            <rasterproperties>
+                <wmsSublayer>
+                    <name>ch.bafu.bundesinventare-vogelreservate</name>
+                    <style></style>
+                </wmsSublayer>
+                <wmsFormat>image/png</wmsFormat>
+                <mDrawingStyle>SingleBandColorDataStyle</mDrawingStyle>
+                <mColorShadingAlgorithm>UndefinedShader</mColorShadingAlgorithm>
+                <mInvertColor boolean="false"/>
+                <mRedBandName>Not Set</mRedBandName>
+                <mGreenBandName>Not Set</mGreenBandName>
+                <mBlueBandName>Not Set</mBlueBandName>
+                <mGrayBandName>Kanal 1</mGrayBandName>
+                <mStandardDeviations>0</mStandardDeviations>
+                <mUserDefinedRGBMinimumMaximum boolean="false"/>
+                <mRGBMinimumMaximumEstimated boolean="true"/>
+                <mUserDefinedGrayMinimumMaximum boolean="false"/>
+                <mGrayMinimumMaximumEstimated boolean="true"/>
+                <mContrastEnhancementAlgorithm>NoEnhancement</mContrastEnhancementAlgorithm>
+                <contrastEnhancementMinMaxValues>
+                    <minMaxEntry>
+                        <min>-1.79769e+308</min>
+                        <max>1.79769e+308</max>
+                    </minMaxEntry>
+                </contrastEnhancementMinMaxValues>
+                <mNoDataValue mValidNoDataValue="false">0.000000</mNoDataValue>
+                <singleValuePixelList>
+                    <pixelListEntry pixelValue="0.000000" percentTransparent="100"/>
+                </singleValuePixelList>
+                <threeValuePixelList>
+                    <pixelListEntry red="0.000000" blue="0.000000" green="0.000000" percentTransparent="100"/>
+                </threeValuePixelList>
+            </rasterproperties>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>ch_bafu_schutzgebiete_paerke_nationaler_bedeutung20121109153950597</id>
+            <datasource>http://wms.geo.admin.ch/?VERSION=1.0.0</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>ch.bafu.schutzgebiete-paerke_nationaler_bedeutung</layername>
             <srs>
                 <spatialrefsys>
                     <proj4>+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=600000 +y_0=200000 +ellps=bessel +towgs84=674.4,15.1,405.3,0,0,0,0 +units=m +no_defs</proj4>
@@ -321,16 +1158,71 @@
                 </spatialrefsys>
             </srs>
             <transparencyLevelInt>255</transparencyLevelInt>
-            <provider encoding="UTF-8">ogr</provider>
+            <customproperties/>
+            <provider>wms</provider>
+            <rasterproperties>
+                <wmsSublayer>
+                    <name>ch.bafu.schutzgebiete-paerke_nationaler_bedeutung</name>
+                    <style></style>
+                </wmsSublayer>
+                <wmsFormat>image/png</wmsFormat>
+                <mDrawingStyle>SingleBandColorDataStyle</mDrawingStyle>
+                <mColorShadingAlgorithm>UndefinedShader</mColorShadingAlgorithm>
+                <mInvertColor boolean="false"/>
+                <mRedBandName>Not Set</mRedBandName>
+                <mGreenBandName>Not Set</mGreenBandName>
+                <mBlueBandName>Not Set</mBlueBandName>
+                <mGrayBandName>Kanal 1</mGrayBandName>
+                <mStandardDeviations>0</mStandardDeviations>
+                <mUserDefinedRGBMinimumMaximum boolean="false"/>
+                <mRGBMinimumMaximumEstimated boolean="true"/>
+                <mUserDefinedGrayMinimumMaximum boolean="false"/>
+                <mGrayMinimumMaximumEstimated boolean="true"/>
+                <mContrastEnhancementAlgorithm>NoEnhancement</mContrastEnhancementAlgorithm>
+                <contrastEnhancementMinMaxValues>
+                    <minMaxEntry>
+                        <min>-1.79769e+308</min>
+                        <max>1.79769e+308</max>
+                    </minMaxEntry>
+                </contrastEnhancementMinMaxValues>
+                <mNoDataValue mValidNoDataValue="false">0.000000</mNoDataValue>
+                <singleValuePixelList>
+                    <pixelListEntry pixelValue="0.000000" percentTransparent="100"/>
+                </singleValuePixelList>
+                <threeValuePixelList>
+                    <pixelListEntry red="0.000000" blue="0.000000" green="0.000000" percentTransparent="100"/>
+                </threeValuePixelList>
+            </rasterproperties>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0">
+            <id>feuchtgebietinv_79_9020121109164027773</id>
+            <datasource>http://maps.zh.ch/wfs/FnsNSWFS?VERSION=1.1.0&amp;SERVICE=WFS&amp;VERSION=1.0.0&amp;REQUEST=GetFeature&amp;TYPENAME=feuchtgebietinv_79_90&amp;SRSNAME=EPSG:21781</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>feuchtgebietinv_79_90</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=600000 +y_0=200000 +ellps=bessel +towgs84=674.4,15.1,405.3,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>1919</srsid>
+                    <srid>21781</srid>
+                    <authid>EPSG:21781</authid>
+                    <description>CH1903 / LV03</description>
+                    <projectionacronym>somerc</projectionacronym>
+                    <ellipsoidacronym>bessel</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <provider encoding="System">WFS</provider>
             <vectorjoins/>
             <renderer-v2 symbollevels="0" type="singleSymbol">
                 <symbols>
                     <symbol outputUnit="MM" alpha="1" type="fill" name="0">
                         <layer pass="0" class="SimpleFill" locked="0">
-                            <prop k="color" v="173,156,85,255"/>
-                            <prop k="color_border" v="0,0,0,255"/>
+                            <prop k="color" v="155,244,60,255"/>
+                            <prop k="color_border" v="0,85,255,255"/>
                             <prop k="offset" v="0,0"/>
-                            <prop k="style" v="solid"/>
+                            <prop k="style" v="no"/>
                             <prop k="style_border" v="solid"/>
                             <prop k="width_border" v="0.26"/>
                         </layer>
@@ -340,7 +1232,7 @@
                 <sizescale field=""/>
             </renderer-v2>
             <customproperties/>
-            <displayfield>PopId</displayfield>
+            <displayfield>geodb_oid</displayfield>
             <label>0</label>
             <labelattributes>
                 <label fieldname="" text="Beschriftung"/>
@@ -363,11 +1255,27 @@
                 <selectedonly on=""/>
             </labelattributes>
             <edittypes>
-                <edittype type="0" name="PopId"/>
+                <edittype type="0" name="first_bewert79"/>
+                <edittype type="0" name="first_bewert90"/>
+                <edittype type="0" name="first_flaeche_ha"/>
+                <edittype type="0" name="first_gemeinde1"/>
+                <edittype type="0" name="first_gemeinde2"/>
+                <edittype type="0" name="first_lage"/>
+                <edittype type="0" name="first_mahd90"/>
+                <edittype type="0" name="first_objektnr"/>
+                <edittype type="0" name="first_veg_lat"/>
+                <edittype type="0" name="first_vegetation"/>
+                <edittype type="0" name="first_verbusch90"/>
+                <edittype type="0" name="first_x"/>
+                <edittype type="0" name="first_y"/>
+                <edittype type="0" name="first_zustand90"/>
+                <edittype type="0" name="geodb_oid"/>
+                <edittype type="0" name="idobjekt"/>
+                <edittype type="0" name="objectid"/>
             </edittypes>
-            <editform></editform>
+            <editform>../../Downloads</editform>
             <editforminit></editforminit>
-            <annotationform></annotationform>
+            <annotationform>../../Downloads</annotationform>
             <attributeactions/>
             <overlay display="false" type="diagram">
                 <renderer item_interpretation="linear">
@@ -381,12 +1289,12 @@
                 <scalingAttribute>0</scalingAttribute>
             </overlay>
         </maplayer>
-        <maplayer minimumScale="0" maximumScale="1e+08" geometry="Point" type="vector" hasScaleBasedVisibilityFlag="0">
-            <id>tblTeilpopulation20121219223218605</id>
-            <datasource>MySQL:alexande_apflora,host=barbalex.ch,user=alexande,password=excalibu|layername=tblTeilpopulation</datasource>
+        <maplayer minimumScale="0" maximumScale="1e+08" minLabelScale="0" maxLabelScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0" scaleBasedLabelVisibilityFlag="0">
+            <id>geomorph_inventar20121109140036698</id>
+            <datasource>http://maps.zh.ch/wfs/FnsNSWFS?VERSION=1.1.0&amp;SERVICE=WFS&amp;VERSION=1.0.0&amp;REQUEST=GetFeature&amp;TYPENAME=geomorph_inventar&amp;SRSNAME=EPSG:21781</datasource>
             <title></title>
             <abstract></abstract>
-            <layername>tblTeilpopulation</layername>
+            <layername>geomorph_inventar</layername>
             <srs>
                 <spatialrefsys>
                     <proj4>+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=600000 +y_0=200000 +ellps=bessel +towgs84=674.4,15.1,405.3,0,0,0,0 +units=m +no_defs</proj4>
@@ -399,31 +1307,613 @@
                     <geographicflag>false</geographicflag>
                 </spatialrefsys>
             </srs>
-            <transparencyLevelInt>255</transparencyLevelInt>
-            <provider encoding="UTF-8">ogr</provider>
+            <transparencyLevelInt>62</transparencyLevelInt>
+            <provider encoding="System">WFS</provider>
             <vectorjoins/>
-            <renderer-v2 symbollevels="0" type="singleSymbol">
-                <symbols>
-                    <symbol outputUnit="MM" alpha="1" type="marker" name="0">
-                        <layer pass="0" class="SimpleMarker" locked="0">
-                            <prop k="angle" v="0"/>
-                            <prop k="color" v="38,38,142,255"/>
-                            <prop k="color_border" v="0,0,0,255"/>
-                            <prop k="name" v="circle"/>
-                            <prop k="offset" v="0,0"/>
-                            <prop k="size" v="2"/>
-                        </layer>
-                    </symbol>
-                </symbols>
-                <rotation field=""/>
-                <sizescale field=""/>
-            </renderer-v2>
+            <classificationattribute>objekt_typtxt</classificationattribute>
+            <uniquevalue>
+                <classificationfield>objekt_typtxt</classificationfield>
+                <symbol>
+                    <lowervalue null="1"></lowervalue>
+                    <uppervalue></uppervalue>
+                    <label>Andere</label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="149" blue="47" green="162"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Altlauf</lowervalue>
+                    <uppervalue>Altlauf</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="105" blue="235" green="109"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Aufschluss</lowervalue>
+                    <uppervalue>Aufschluss</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="83" blue="166" green="234"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Bach</lowervalue>
+                    <uppervalue>Bach</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="230" blue="122" green="105"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Bergsturz</lowervalue>
+                    <uppervalue>Bergsturz</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="252" blue="26" green="12"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Bergwerk</lowervalue>
+                    <uppervalue>Bergwerk</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="165" blue="29" green="27"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Drumlin</lowervalue>
+                    <uppervalue>Drumlin</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="2" blue="65" green="243"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Eggenbildung</lowervalue>
+                    <uppervalue>Eggenbildung</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="37" blue="35" green="54"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Erratiker</lowervalue>
+                    <uppervalue>Erratiker</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="138" blue="72" green="102"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Findling</lowervalue>
+                    <uppervalue>Findling</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="88" blue="102" green="154"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Fossil-/Mineralfund</lowervalue>
+                    <uppervalue>Fossil-/Mineralfund</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="164" blue="60" green="63"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Grundwasseraufstoss</lowervalue>
+                    <uppervalue>Grundwasseraufstoss</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="145" blue="117" green="88"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Höhle</lowervalue>
+                    <uppervalue>Höhle</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="80" blue="108" green="19"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Kalkalgenblöcke</lowervalue>
+                    <uppervalue>Kalkalgenblöcke</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="211" blue="107" green="251"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Kar</lowervalue>
+                    <uppervalue>Kar</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="205" blue="192" green="219"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Kiesgrube</lowervalue>
+                    <uppervalue>Kiesgrube</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="21" blue="171" green="243"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Moräne</lowervalue>
+                    <uppervalue>Moräne</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="175" blue="103" green="35"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Nagelfluh</lowervalue>
+                    <uppervalue>Nagelfluh</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="174" blue="178" green="194"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Objektperimeter</lowervalue>
+                    <uppervalue>Objektperimeter</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="55" blue="135" green="90"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Oser</lowervalue>
+                    <uppervalue>Oser</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="110" blue="127" green="90"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Prallhang</lowervalue>
+                    <uppervalue>Prallhang</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="107" blue="145" green="175"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Riet</lowervalue>
+                    <uppervalue>Riet</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="221" blue="155" green="132"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Rundhöcker</lowervalue>
+                    <uppervalue>Rundhöcker</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="108" blue="78" green="84"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Rutschung</lowervalue>
+                    <uppervalue>Rutschung</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="106" blue="147" green="102"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Schichtrippe</lowervalue>
+                    <uppervalue>Schichtrippe</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="43" blue="106" green="60"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Schmelzwasserrinnen</lowervalue>
+                    <uppervalue>Schmelzwasserrinnen</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="11" blue="144" green="60"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Schotter</lowervalue>
+                    <uppervalue>Schotter</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="140" blue="61" green="135"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Soell</lowervalue>
+                    <uppervalue>Soell</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="243" blue="148" green="114"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Steinbruch</lowervalue>
+                    <uppervalue>Steinbruch</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="105" blue="50" green="152"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Strandplatte</lowervalue>
+                    <uppervalue>Strandplatte</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="191" blue="26" green="87"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Strudelloch</lowervalue>
+                    <uppervalue>Strudelloch</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="176" blue="82" green="201"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Terrasse</lowervalue>
+                    <uppervalue>Terrasse</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="82" blue="154" green="236"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Tongrube</lowervalue>
+                    <uppervalue>Tongrube</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="5" blue="201" green="178"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Wasserfall</lowervalue>
+                    <uppervalue>Wasserfall</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="211" blue="4" green="36"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+                <symbol>
+                    <lowervalue>Zungenbecken</lowervalue>
+                    <uppervalue>Zungenbecken</uppervalue>
+                    <label></label>
+                    <pointsymbol>hard:circle</pointsymbol>
+                    <pointsize>2</pointsize>
+                    <pointsizeunits>pixels</pointsizeunits>
+                    <rotationclassificationfieldname></rotationclassificationfieldname>
+                    <scaleclassificationfieldname></scaleclassificationfieldname>
+                    <symbolfieldname></symbolfieldname>
+                    <outlinecolor red="0" blue="0" green="0"/>
+                    <outlinestyle>SolidLine</outlinestyle>
+                    <outlinewidth>0.26</outlinewidth>
+                    <fillcolor red="38" blue="194" green="204"/>
+                    <fillpattern>SolidPattern</fillpattern>
+                    <texturepath>../../Downloads</texturepath>
+                </symbol>
+            </uniquevalue>
             <customproperties/>
-            <displayfield>TPopFlurname</displayfield>
+            <displayfield>geodb_oid</displayfield>
             <label>0</label>
-            <labelfield>TPopNr</labelfield>
             <labelattributes>
-                <label fieldname="TPopNr" text="Beschriftung"/>
+                <label fieldname="" text="Beschriftung"/>
                 <family fieldname="" name="MS Shell Dlg 2"/>
                 <size fieldname="" units="pt" value="12"/>
                 <bold fieldname="" on="0"/>
@@ -443,39 +1933,1064 @@
                 <selectedonly on=""/>
             </labelattributes>
             <edittypes>
-                <edittype type="0" name="MutWann"/>
-                <edittype type="0" name="MutWer"/>
-                <edittype type="0" name="PopId"/>
-                <edittype type="0" name="TPopApBerichtRelevant"/>
-                <edittype type="0" name="TPopAuswahl"/>
-                <edittype type="0" name="TPopBekanntSeit"/>
-                <edittype type="0" name="TPopBeschr"/>
-                <edittype type="0" name="TPopBewirtschafterIn"/>
-                <edittype type="0" name="TPopBewirtschaftung"/>
-                <edittype type="0" name="TPopEigen"/>
-                <edittype type="0" name="TPopExposition"/>
-                <edittype type="0" name="TPopFlurname"/>
-                <edittype type="0" name="TPopGemeinde"/>
-                <edittype type="0" name="TPopGuid"/>
-                <edittype type="0" name="TPopHerkunft"/>
-                <edittype type="0" name="TPopHerkunftUnklar"/>
-                <edittype type="0" name="TPopHerkunftUnklarBegruendung"/>
-                <edittype type="0" name="TPopHoehe"/>
-                <edittype type="0" name="TPopKatNr"/>
-                <edittype type="0" name="TPopKlima"/>
-                <edittype type="0" name="TPopKontakt"/>
-                <edittype type="0" name="TPopNeigung"/>
-                <edittype type="0" name="TPopNr"/>
-                <edittype type="0" name="TPopNutzungszone"/>
-                <edittype type="0" name="TPopRadius"/>
-                <edittype type="0" name="TPopTxt"/>
-                <edittype type="0" name="TPopVerantw"/>
-                <edittype type="0" name="TPopXKoord"/>
-                <edittype type="0" name="TPopYKoord"/>
+                <edittype type="0" name="bedeutung"/>
+                <edittype type="0" name="bedeutung_txt"/>
+                <edittype type="0" name="geodb_oid"/>
+                <edittype type="0" name="obj_bez"/>
+                <edittype type="0" name="objectid"/>
+                <edittype type="0" name="objekt_nr"/>
+                <edittype type="0" name="objekt_typ"/>
+                <edittype type="0" name="objekt_typtxt"/>
             </edittypes>
-            <editform>.</editform>
+            <editform>../../Downloads</editform>
             <editforminit></editforminit>
-            <annotationform>.</annotationform>
+            <annotationform>../../Downloads</annotationform>
+            <attributeactions/>
+            <overlay display="false" type="diagram">
+                <renderer item_interpretation="linear">
+                    <diagramitem size="0" value="0"/>
+                    <diagramitem size="0" value="0"/>
+                </renderer>
+                <factory sizeUnits="MM" type="Pie">
+                    <wellknownname>Pie</wellknownname>
+                    <classificationfield>0</classificationfield>
+                </factory>
+                <scalingAttribute>0</scalingAttribute>
+            </overlay>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0">
+            <id>heuschreckeninv_90_9820121109135947183</id>
+            <datasource>http://maps.zh.ch/wfs/FnsNSWFS?VERSION=1.1.0&amp;SERVICE=WFS&amp;VERSION=1.0.0&amp;REQUEST=GetFeature&amp;TYPENAME=heuschreckeninv_90_98&amp;SRSNAME=EPSG:21781</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>heuschreckeninv_90_98</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=600000 +y_0=200000 +ellps=bessel +towgs84=674.4,15.1,405.3,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>1919</srsid>
+                    <srid>21781</srid>
+                    <authid>EPSG:21781</authid>
+                    <description>CH1903 / LV03</description>
+                    <projectionacronym>somerc</projectionacronym>
+                    <ellipsoidacronym>bessel</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <provider encoding="System">WFS</provider>
+            <vectorjoins/>
+            <renderer-v2 symbollevels="0" type="singleSymbol">
+                <symbols>
+                    <symbol outputUnit="MM" alpha="1" type="fill" name="0">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="color" v="237,168,122,255"/>
+                            <prop k="color_border" v="170,85,0,255"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="style" v="no"/>
+                            <prop k="style_border" v="solid"/>
+                            <prop k="width_border" v="0.5"/>
+                        </layer>
+                    </symbol>
+                </symbols>
+                <rotation field=""/>
+                <sizescale field=""/>
+            </renderer-v2>
+            <customproperties/>
+            <displayfield>geodb_oid</displayfield>
+            <label>0</label>
+            <labelattributes>
+                <label fieldname="" text="Beschriftung"/>
+                <family fieldname="" name="MS Shell Dlg 2"/>
+                <size fieldname="" units="pt" value="12"/>
+                <bold fieldname="" on="0"/>
+                <italic fieldname="" on="0"/>
+                <underline fieldname="" on="0"/>
+                <strikeout fieldname="" on="0"/>
+                <color fieldname="" red="0" blue="0" green="0"/>
+                <x fieldname=""/>
+                <y fieldname=""/>
+                <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+                <angle fieldname="" value="0" auto="0"/>
+                <alignment fieldname="" value="center"/>
+                <buffercolor fieldname="" red="255" blue="255" green="255"/>
+                <buffersize fieldname="" units="pt" value="1"/>
+                <bufferenabled fieldname="" on=""/>
+                <multilineenabled fieldname="" on=""/>
+                <selectedonly on=""/>
+            </labelattributes>
+            <edittypes>
+                <edittype type="0" name="art1"/>
+                <edittype type="0" name="art2"/>
+                <edittype type="0" name="art3"/>
+                <edittype type="0" name="geodb_oid"/>
+                <edittype type="0" name="idflaeche"/>
+                <edittype type="0" name="inventar"/>
+                <edittype type="0" name="objectid"/>
+            </edittypes>
+            <editform>../../Downloads</editform>
+            <editforminit></editforminit>
+            <annotationform>../../Downloads</annotationform>
+            <attributeactions/>
+            <overlay display="false" type="diagram">
+                <renderer item_interpretation="linear">
+                    <diagramitem size="0" value="0"/>
+                    <diagramitem size="0" value="0"/>
+                </renderer>
+                <factory sizeUnits="MM" type="Pie">
+                    <wellknownname>Pie</wellknownname>
+                    <classificationfield>0</classificationfield>
+                </factory>
+                <scalingAttribute>0</scalingAttribute>
+            </overlay>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0">
+            <id>libelleninv_8420121109135936684</id>
+            <datasource>http://maps.zh.ch/wfs/FnsNSWFS?VERSION=1.1.0&amp;SERVICE=WFS&amp;VERSION=1.0.0&amp;REQUEST=GetFeature&amp;TYPENAME=libelleninv_84&amp;SRSNAME=EPSG:21781</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>libelleninv_84</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=600000 +y_0=200000 +ellps=bessel +towgs84=674.4,15.1,405.3,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>1919</srsid>
+                    <srid>21781</srid>
+                    <authid>EPSG:21781</authid>
+                    <description>CH1903 / LV03</description>
+                    <projectionacronym>somerc</projectionacronym>
+                    <ellipsoidacronym>bessel</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <provider encoding="System">WFS</provider>
+            <vectorjoins/>
+            <renderer-v2 symbollevels="0" type="singleSymbol">
+                <symbols>
+                    <symbol outputUnit="MM" alpha="1" type="fill" name="0">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="color" v="160,87,194,255"/>
+                            <prop k="color_border" v="170,0,255,255"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="style" v="no"/>
+                            <prop k="style_border" v="solid"/>
+                            <prop k="width_border" v="0.5"/>
+                        </layer>
+                    </symbol>
+                </symbols>
+                <rotation field=""/>
+                <sizescale field=""/>
+            </renderer-v2>
+            <customproperties/>
+            <displayfield>name</displayfield>
+            <label>0</label>
+            <labelattributes>
+                <label fieldname="" text="Beschriftung"/>
+                <family fieldname="" name="MS Shell Dlg 2"/>
+                <size fieldname="" units="pt" value="12"/>
+                <bold fieldname="" on="0"/>
+                <italic fieldname="" on="0"/>
+                <underline fieldname="" on="0"/>
+                <strikeout fieldname="" on="0"/>
+                <color fieldname="" red="0" blue="0" green="0"/>
+                <x fieldname=""/>
+                <y fieldname=""/>
+                <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+                <angle fieldname="" value="0" auto="0"/>
+                <alignment fieldname="" value="center"/>
+                <buffercolor fieldname="" red="255" blue="255" green="255"/>
+                <buffersize fieldname="" units="pt" value="1"/>
+                <bufferenabled fieldname="" on=""/>
+                <multilineenabled fieldname="" on=""/>
+                <selectedonly on=""/>
+            </labelattributes>
+            <edittypes>
+                <edittype type="0" name="datum"/>
+                <edittype type="0" name="fkobjekt"/>
+                <edittype type="0" name="flaeche"/>
+                <edittype type="0" name="gemeinde_1"/>
+                <edittype type="0" name="gemeinde_2"/>
+                <edittype type="0" name="geodb_oid"/>
+                <edittype type="0" name="hektaren"/>
+                <edittype type="0" name="name"/>
+                <edittype type="0" name="objectid"/>
+                <edittype type="0" name="plan_nr"/>
+                <edittype type="0" name="radius"/>
+                <edittype type="0" name="x"/>
+                <edittype type="0" name="y"/>
+                <edittype type="0" name="z"/>
+            </edittypes>
+            <editform>../../Downloads</editform>
+            <editforminit></editforminit>
+            <annotationform>../../Downloads</annotationform>
+            <attributeactions/>
+            <overlay display="false" type="diagram">
+                <renderer item_interpretation="linear">
+                    <diagramitem size="0" value="0"/>
+                    <diagramitem size="0" value="0"/>
+                </renderer>
+                <factory sizeUnits="MM" type="Pie">
+                    <wellknownname>Pie</wellknownname>
+                    <classificationfield>0</classificationfield>
+                </factory>
+                <scalingAttribute>0</scalingAttribute>
+            </overlay>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0">
+            <id>lichtwaelder_teilobj20121109164330673</id>
+            <datasource>http://maps.zh.ch/wfs/FnsNSWFS?VERSION=1.1.0&amp;SERVICE=WFS&amp;VERSION=1.0.0&amp;REQUEST=GetFeature&amp;TYPENAME=lichtwaelder_teilobj&amp;SRSNAME=EPSG:21781</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>lichtwaelder_teilobj</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=600000 +y_0=200000 +ellps=bessel +towgs84=674.4,15.1,405.3,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>1919</srsid>
+                    <srid>21781</srid>
+                    <authid>EPSG:21781</authid>
+                    <description>CH1903 / LV03</description>
+                    <projectionacronym>somerc</projectionacronym>
+                    <ellipsoidacronym>bessel</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <provider encoding="System">WFS</provider>
+            <vectorjoins/>
+            <renderer-v2 symbollevels="0" type="singleSymbol">
+                <symbols>
+                    <symbol outputUnit="MM" alpha="1" type="fill" name="0">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="color" v="84,177,112,255"/>
+                            <prop k="color_border" v="85,255,127,255"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="style" v="no"/>
+                            <prop k="style_border" v="solid"/>
+                            <prop k="width_border" v="1"/>
+                        </layer>
+                    </symbol>
+                </symbols>
+                <rotation field=""/>
+                <sizescale field=""/>
+            </renderer-v2>
+            <customproperties/>
+            <displayfield>tobjname</displayfield>
+            <label>0</label>
+            <labelattributes>
+                <label fieldname="" text="Beschriftung"/>
+                <family fieldname="" name="MS Shell Dlg 2"/>
+                <size fieldname="" units="pt" value="12"/>
+                <bold fieldname="" on="0"/>
+                <italic fieldname="" on="0"/>
+                <underline fieldname="" on="0"/>
+                <strikeout fieldname="" on="0"/>
+                <color fieldname="" red="0" blue="0" green="0"/>
+                <x fieldname=""/>
+                <y fieldname=""/>
+                <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+                <angle fieldname="" value="0" auto="0"/>
+                <alignment fieldname="" value="center"/>
+                <buffercolor fieldname="" red="255" blue="255" green="255"/>
+                <buffersize fieldname="" units="pt" value="1"/>
+                <bufferenabled fieldname="" on=""/>
+                <multilineenabled fieldname="" on=""/>
+                <selectedonly on=""/>
+            </labelattributes>
+            <edittypes>
+                <edittype type="0" name="aream2"/>
+                <edittype type="0" name="forstkreis"/>
+                <edittype type="0" name="gemeinde"/>
+                <edittype type="0" name="geodb_oid"/>
+                <edittype type="0" name="liwapte"/>
+                <edittype type="0" name="nrlabel"/>
+                <edittype type="0" name="objectid"/>
+                <edittype type="0" name="objname"/>
+                <edittype type="0" name="objnr"/>
+                <edittype type="0" name="projname"/>
+                <edittype type="0" name="projnr"/>
+                <edittype type="0" name="tobjname"/>
+                <edittype type="0" name="tobjnr"/>
+                <edittype type="0" name="untstber"/>
+            </edittypes>
+            <editform>../../Downloads</editform>
+            <editforminit></editforminit>
+            <annotationform>../../Downloads</annotationform>
+            <attributeactions/>
+            <overlay display="false" type="diagram">
+                <renderer item_interpretation="linear">
+                    <diagramitem size="0" value="0"/>
+                    <diagramitem size="0" value="0"/>
+                </renderer>
+                <factory sizeUnits="MM" type="Pie">
+                    <wellknownname>Pie</wellknownname>
+                    <classificationfield>0</classificationfield>
+                </factory>
+                <scalingAttribute>0</scalingAttribute>
+            </overlay>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0">
+            <id>naturschutzobjekte_f20121022081912859</id>
+            <datasource>http://maps.zh.ch/wfs/FnsNSWFS?VERSION=1.1.0&amp;SERVICE=WFS&amp;VERSION=1.0.0&amp;REQUEST=GetFeature&amp;TYPENAME=naturschutzobjekte_f&amp;SRSNAME=EPSG:21781</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>Naturschutzobjekte</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=600000 +y_0=200000 +ellps=bessel +towgs84=674.4,15.1,405.3,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>1919</srsid>
+                    <srid>21781</srid>
+                    <authid>EPSG:21781</authid>
+                    <description>CH1903 / LV03</description>
+                    <projectionacronym>somerc</projectionacronym>
+                    <ellipsoidacronym>bessel</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <provider encoding="System">WFS</provider>
+            <vectorjoins/>
+            <renderer-v2 attr="bereich" symbollevels="0" type="categorizedSymbol">
+                <categories>
+                    <category symbol="0" value="" label=""/>
+                    <category symbol="1" value="a" label="a"/>
+                    <category symbol="2" value="k" label="k"/>
+                    <category symbol="3" value="u" label="u"/>
+                </categories>
+                <symbols>
+                    <symbol outputUnit="MM" alpha="1" type="fill" name="0">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="color" v="247,251,255,255"/>
+                            <prop k="color_border" v="0,0,0,255"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="style" v="solid"/>
+                            <prop k="style_border" v="solid"/>
+                            <prop k="width_border" v="0.26"/>
+                        </layer>
+                    </symbol>
+                    <symbol outputUnit="MM" alpha="0.243137" type="fill" name="1">
+                        <layer pass="0" class="LinePatternFill" locked="0">
+                            <prop k="color" v="0,170,127,255"/>
+                            <prop k="distance" v="4"/>
+                            <prop k="lineangle" v="45"/>
+                            <prop k="linewidth" v="2"/>
+                            <prop k="offset" v="0"/>
+                        </layer>
+                    </symbol>
+                    <symbol outputUnit="MM" alpha="0.498039" type="fill" name="2">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="color" v="85,170,0,127"/>
+                            <prop k="color_border" v="0,0,0,127"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="style" v="solid"/>
+                            <prop k="style_border" v="no"/>
+                            <prop k="width_border" v="0.26"/>
+                        </layer>
+                    </symbol>
+                    <symbol outputUnit="MM" alpha="0.243137" type="fill" name="3">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="color" v="0,170,0,62"/>
+                            <prop k="color_border" v="0,0,0,62"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="style" v="solid"/>
+                            <prop k="style_border" v="no"/>
+                            <prop k="width_border" v="0.26"/>
+                        </layer>
+                    </symbol>
+                    <symbol outputUnit="MM" alpha="1" type="line" name="@1@0">
+                        <layer pass="0" class="SimpleLine" locked="0">
+                            <prop k="capstyle" v="square"/>
+                            <prop k="color" v="0,0,0,255"/>
+                            <prop k="customdash" v="5;2"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0"/>
+                            <prop k="penstyle" v="no"/>
+                            <prop k="use_custom_dash" v="0"/>
+                            <prop k="width" v="0.26"/>
+                        </layer>
+                    </symbol>
+                </symbols>
+                <source-symbol>
+                    <symbol outputUnit="MM" alpha="1" type="fill" name="0">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="color" v="60,206,170,255"/>
+                            <prop k="color_border" v="0,0,0,255"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="style" v="solid"/>
+                            <prop k="style_border" v="solid"/>
+                            <prop k="width_border" v="0.26"/>
+                        </layer>
+                    </symbol>
+                </source-symbol>
+                <colorramp type="gradient" name="[source]">
+                    <prop k="color1" v="247,251,255,255"/>
+                    <prop k="color2" v="8,48,107,255"/>
+                    <prop k="stops" v="0.13;222,235,247,255:0.26;198,219,239,255:0.39;158,202,225,255:0.52;107,174,214,255:0.65;66,146,198,255:0.78;33,113,181,255:0.9;8,81,156,255"/>
+                </colorramp>
+                <rotation field=""/>
+                <sizescale field=""/>
+            </renderer-v2>
+            <customproperties/>
+            <displayfield>nso_name</displayfield>
+            <label>0</label>
+            <labelattributes>
+                <label fieldname="" text="Beschriftung"/>
+                <family fieldname="" name="MS Shell Dlg 2"/>
+                <size fieldname="" units="pt" value="8"/>
+                <bold fieldname="" on="1"/>
+                <italic fieldname="" on="0"/>
+                <underline fieldname="" on="0"/>
+                <strikeout fieldname="" on="0"/>
+                <color fieldname="" red="0" blue="0" green="170"/>
+                <x fieldname=""/>
+                <y fieldname=""/>
+                <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+                <angle fieldname="" value="0" auto="0"/>
+                <alignment fieldname="" value="center"/>
+                <buffercolor fieldname="" red="255" blue="255" green="255"/>
+                <buffersize fieldname="" units="pt" value="1"/>
+                <bufferenabled fieldname="" on="1"/>
+                <multilineenabled fieldname="" on=""/>
+                <selectedonly on=""/>
+            </labelattributes>
+            <edittypes>
+                <edittype type="0" name="b_au"/>
+                <edittype type="0" name="b_fm"/>
+                <edittype type="0" name="b_hm"/>
+                <edittype type="0" name="b_ianb"/>
+                <edittype type="0" name="b_tww"/>
+                <edittype type="0" name="bereich"/>
+                <edittype type="0" name="bvo_relevanz"/>
+                <edittype type="0" name="change_dat"/>
+                <edittype type="0" name="geodb_oid"/>
+                <edittype type="0" name="k_biotop"/>
+                <edittype type="0" name="k_inv80"/>
+                <edittype type="0" name="k_inverg"/>
+                <edittype type="0" name="k_kieskat"/>
+                <edittype type="0" name="k_liwa"/>
+                <edittype type="0" name="k_nhf"/>
+                <edittype type="0" name="k_rppte"/>
+                <edittype type="0" name="k_svo"/>
+                <edittype type="0" name="k_svo_e"/>
+                <edittype type="0" name="k_tww"/>
+                <edittype type="0" name="k_tww_ae"/>
+                <edittype type="0" name="k_uvtr"/>
+                <edittype type="0" name="k_wnb"/>
+                <edittype type="0" name="krp_symbolart"/>
+                <edittype type="0" name="nso_name"/>
+                <edittype type="0" name="nso_nummer"/>
+                <edittype type="0" name="objectid"/>
+                <edittype type="0" name="oid_db"/>
+                <edittype type="0" name="schutz"/>
+                <edittype type="0" name="x_pte"/>
+                <edittype type="0" name="y_pte"/>
+            </edittypes>
+            <editform>../../Downloads</editform>
+            <editforminit></editforminit>
+            <annotationform>../../Downloads</annotationform>
+            <attributeactions/>
+            <overlay display="false" type="diagram">
+                <renderer item_interpretation="linear">
+                    <diagramitem size="0" value="0"/>
+                    <diagramitem size="0" value="0"/>
+                </renderer>
+                <factory sizeUnits="MM" type="Pie">
+                    <wellknownname>Pie</wellknownname>
+                    <classificationfield>0</classificationfield>
+                </factory>
+                <scalingAttribute>0</scalingAttribute>
+            </overlay>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0">
+            <id>nso_2011_kantonal_f20121022082321248</id>
+            <datasource>http://maps.zh.ch/wfs/FnsNSWFS?VERSION=1.1.0&amp;SERVICE=WFS&amp;VERSION=1.0.0&amp;REQUEST=GetFeature&amp;TYPENAME=nso_2011_kantonal_f&amp;SRSNAME=EPSG:21781</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>Kant. Bedeutung</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=600000 +y_0=200000 +ellps=bessel +towgs84=674.4,15.1,405.3,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>1919</srsid>
+                    <srid>21781</srid>
+                    <authid>EPSG:21781</authid>
+                    <description>CH1903 / LV03</description>
+                    <projectionacronym>somerc</projectionacronym>
+                    <ellipsoidacronym>bessel</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <provider encoding="System">WFS</provider>
+            <vectorjoins/>
+            <renderer-v2 symbollevels="0" type="singleSymbol">
+                <symbols>
+                    <symbol outputUnit="MM" alpha="1" type="fill" name="0">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="color" v="152,8,147,255"/>
+                            <prop k="color_border" v="0,85,0,255"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="style" v="no"/>
+                            <prop k="style_border" v="solid"/>
+                            <prop k="width_border" v="0.7"/>
+                        </layer>
+                    </symbol>
+                </symbols>
+                <rotation field=""/>
+                <sizescale field=""/>
+            </renderer-v2>
+            <customproperties/>
+            <displayfield>geodb_oid</displayfield>
+            <label>0</label>
+            <labelattributes>
+                <label fieldname="" text="Beschriftung"/>
+                <family fieldname="" name="MS Shell Dlg 2"/>
+                <size fieldname="" units="pt" value="12"/>
+                <bold fieldname="" on="0"/>
+                <italic fieldname="" on="0"/>
+                <underline fieldname="" on="0"/>
+                <strikeout fieldname="" on="0"/>
+                <color fieldname="" red="0" blue="0" green="0"/>
+                <x fieldname=""/>
+                <y fieldname=""/>
+                <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+                <angle fieldname="" value="0" auto="0"/>
+                <alignment fieldname="" value="center"/>
+                <buffercolor fieldname="" red="255" blue="255" green="255"/>
+                <buffersize fieldname="" units="pt" value="1"/>
+                <bufferenabled fieldname="" on=""/>
+                <multilineenabled fieldname="" on=""/>
+                <selectedonly on=""/>
+            </labelattributes>
+            <edittypes>
+                <edittype type="0" name="change_dat"/>
+                <edittype type="0" name="geodb_oid"/>
+                <edittype type="0" name="objectid"/>
+                <edittype type="0" name="oi_db"/>
+            </edittypes>
+            <editform>../../Downloads</editform>
+            <editforminit></editforminit>
+            <annotationform>../../Downloads</annotationform>
+            <attributeactions/>
+            <overlay display="false" type="diagram">
+                <renderer item_interpretation="linear">
+                    <diagramitem size="0" value="0"/>
+                    <diagramitem size="0" value="0"/>
+                </renderer>
+                <factory sizeUnits="MM" type="Pie">
+                    <wellknownname>Pie</wellknownname>
+                    <classificationfield>0</classificationfield>
+                </factory>
+                <scalingAttribute>0</scalingAttribute>
+            </overlay>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0">
+            <id>reptilieninv_9320121109135905764</id>
+            <datasource>http://maps.zh.ch/wfs/FnsNSWFS?VERSION=1.1.0&amp;SERVICE=WFS&amp;VERSION=1.0.0&amp;REQUEST=GetFeature&amp;TYPENAME=reptilieninv_93&amp;SRSNAME=EPSG:21781</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>reptilieninv_93</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=600000 +y_0=200000 +ellps=bessel +towgs84=674.4,15.1,405.3,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>1919</srsid>
+                    <srid>21781</srid>
+                    <authid>EPSG:21781</authid>
+                    <description>CH1903 / LV03</description>
+                    <projectionacronym>somerc</projectionacronym>
+                    <ellipsoidacronym>bessel</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <provider encoding="System">WFS</provider>
+            <vectorjoins/>
+            <renderer-v2 symbollevels="0" type="singleSymbol">
+                <symbols>
+                    <symbol outputUnit="MM" alpha="1" type="fill" name="0">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="color" v="151,157,231,255"/>
+                            <prop k="color_border" v="85,85,0,255"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="style" v="no"/>
+                            <prop k="style_border" v="solid"/>
+                            <prop k="width_border" v="0.5"/>
+                        </layer>
+                    </symbol>
+                </symbols>
+                <rotation field=""/>
+                <sizescale field=""/>
+            </renderer-v2>
+            <customproperties/>
+            <displayfield>objektname</displayfield>
+            <label>0</label>
+            <labelattributes>
+                <label fieldname="" text="Beschriftung"/>
+                <family fieldname="" name="MS Shell Dlg 2"/>
+                <size fieldname="" units="pt" value="12"/>
+                <bold fieldname="" on="0"/>
+                <italic fieldname="" on="0"/>
+                <underline fieldname="" on="0"/>
+                <strikeout fieldname="" on="0"/>
+                <color fieldname="" red="0" blue="0" green="0"/>
+                <x fieldname=""/>
+                <y fieldname=""/>
+                <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+                <angle fieldname="" value="0" auto="0"/>
+                <alignment fieldname="" value="center"/>
+                <buffercolor fieldname="" red="255" blue="255" green="255"/>
+                <buffersize fieldname="" units="pt" value="1"/>
+                <bufferenabled fieldname="" on=""/>
+                <multilineenabled fieldname="" on=""/>
+                <selectedonly on=""/>
+            </labelattributes>
+            <edittypes>
+                <edittype type="0" name="anzahl_art"/>
+                <edittype type="0" name="anzahl_fs"/>
+                <edittype type="0" name="art_pl"/>
+                <edittype type="0" name="bedrohung"/>
+                <edittype type="0" name="begeh_aus1"/>
+                <edittype type="0" name="begeh_aus2"/>
+                <edittype type="0" name="begeh_aus3"/>
+                <edittype type="0" name="begeh_aus4"/>
+                <edittype type="0" name="begeh_ein1"/>
+                <edittype type="0" name="begeh_ein2"/>
+                <edittype type="0" name="begeh_ein3"/>
+                <edittype type="0" name="begeh_ein4"/>
+                <edittype type="0" name="begeh_t1"/>
+                <edittype type="0" name="begeh_t2"/>
+                <edittype type="0" name="begeh_t3"/>
+                <edittype type="0" name="begeh_t4"/>
+                <edittype type="0" name="besonnung"/>
+                <edittype type="0" name="bezirk"/>
+                <edittype type="0" name="bezug_db"/>
+                <edittype type="0" name="bfs1"/>
+                <edittype type="0" name="bfs2"/>
+                <edittype type="0" name="breite"/>
+                <edittype type="0" name="d_andere"/>
+                <edittype type="0" name="d_baum"/>
+                <edittype type="0" name="d_busch"/>
+                <edittype type="0" name="d_erde"/>
+                <edittype type="0" name="d_fels"/>
+                <edittype type="0" name="d_kraut"/>
+                <edittype type="0" name="d_staude"/>
+                <edittype type="0" name="d_stein"/>
+                <edittype type="0" name="exposition"/>
+                <edittype type="0" name="feldbearbe"/>
+                <edittype type="0" name="flaeche"/>
+                <edittype type="0" name="front"/>
+                <edittype type="0" name="gemeinde1"/>
+                <edittype type="0" name="gemeinde2"/>
+                <edittype type="0" name="geodb_oid"/>
+                <edittype type="0" name="inventarid"/>
+                <edittype type="0" name="laenge"/>
+                <edittype type="0" name="lebensraum"/>
+                <edittype type="0" name="mdg_summe"/>
+                <edittype type="0" name="neigung"/>
+                <edittype type="0" name="o_bedeutu"/>
+                <edittype type="0" name="o_letz_beg"/>
+                <edittype type="0" name="obj_flaech"/>
+                <edittype type="0" name="obj_pl"/>
+                <edittype type="0" name="obj_radius"/>
+                <edittype type="0" name="objectid"/>
+                <edittype type="0" name="objekt"/>
+                <edittype type="0" name="objektname"/>
+                <edittype type="0" name="schutz"/>
+                <edittype type="0" name="stat_bedeu"/>
+                <edittype type="0" name="sum_dauer"/>
+                <edittype type="0" name="sum_echse"/>
+                <edittype type="0" name="sum_fs_ech"/>
+                <edittype type="0" name="sum_fs_sch"/>
+                <edittype type="0" name="sum_schlan"/>
+                <edittype type="0" name="summe_rept"/>
+                <edittype type="0" name="teilobj_pl"/>
+                <edittype type="0" name="umgeb_n1"/>
+                <edittype type="0" name="umgeb_n2"/>
+                <edittype type="0" name="umgeb_o1"/>
+                <edittype type="0" name="umgeb_o2"/>
+                <edittype type="0" name="umgeb_s1"/>
+                <edittype type="0" name="umgeb_s2"/>
+                <edittype type="0" name="umgeb_w1"/>
+                <edittype type="0" name="umgeb_w2"/>
+                <edittype type="0" name="wertung"/>
+                <edittype type="0" name="x"/>
+                <edittype type="0" name="x_obj"/>
+                <edittype type="0" name="y"/>
+                <edittype type="0" name="y_obj"/>
+                <edittype type="0" name="z"/>
+                <edittype type="0" name="z_obj"/>
+                <edittype type="0" name="zeitpkt_be"/>
+            </edittypes>
+            <editform>../../Downloads</editform>
+            <editforminit></editforminit>
+            <annotationform>../../Downloads</annotationform>
+            <attributeactions/>
+            <overlay display="false" type="diagram">
+                <renderer item_interpretation="linear">
+                    <diagramitem size="0" value="0"/>
+                    <diagramitem size="0" value="0"/>
+                </renderer>
+                <factory sizeUnits="MM" type="Pie">
+                    <wellknownname>Pie</wellknownname>
+                    <classificationfield>0</classificationfield>
+                </factory>
+                <scalingAttribute>0</scalingAttribute>
+            </overlay>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>schutzverordnungsobjekt_nr20121101154203186</id>
+            <datasource>http://wms.zh.ch/FnsSVOZHWMS?VERSION=1.1.0</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>schutzverordnungsobjekt-nr</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+                    <srsid>3452</srsid>
+                    <srid>4326</srid>
+                    <authid>EPSG:4326</authid>
+                    <description>WGS 84</description>
+                    <projectionacronym>longlat</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
+                    <geographicflag>true</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <customproperties/>
+            <provider>wms</provider>
+            <rasterproperties>
+                <wmsSublayer>
+                    <name>schutzverordnungsobjekt-nr</name>
+                    <style></style>
+                </wmsSublayer>
+                <wmsFormat>image/png</wmsFormat>
+                <mDrawingStyle>SingleBandColorDataStyle</mDrawingStyle>
+                <mColorShadingAlgorithm>UndefinedShader</mColorShadingAlgorithm>
+                <mInvertColor boolean="false"/>
+                <mRedBandName>Not Set</mRedBandName>
+                <mGreenBandName>Not Set</mGreenBandName>
+                <mBlueBandName>Not Set</mBlueBandName>
+                <mGrayBandName>Kanal 1</mGrayBandName>
+                <mStandardDeviations>0</mStandardDeviations>
+                <mUserDefinedRGBMinimumMaximum boolean="false"/>
+                <mRGBMinimumMaximumEstimated boolean="true"/>
+                <mUserDefinedGrayMinimumMaximum boolean="false"/>
+                <mGrayMinimumMaximumEstimated boolean="true"/>
+                <mContrastEnhancementAlgorithm>NoEnhancement</mContrastEnhancementAlgorithm>
+                <contrastEnhancementMinMaxValues>
+                    <minMaxEntry>
+                        <min>-1.79769e+308</min>
+                        <max>1.79769e+308</max>
+                    </minMaxEntry>
+                </contrastEnhancementMinMaxValues>
+                <mNoDataValue mValidNoDataValue="true">0.000000</mNoDataValue>
+                <singleValuePixelList>
+                    <pixelListEntry pixelValue="0.000000" percentTransparent="100"/>
+                </singleValuePixelList>
+                <threeValuePixelList>
+                    <pixelListEntry red="0.000000" blue="0.000000" green="0.000000" percentTransparent="100"/>
+                </threeValuePixelList>
+            </rasterproperties>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>schutzverordnungsobjekte20121101154154965</id>
+            <datasource>http://wms.zh.ch/FnsSVOZHWMS?VERSION=1.1.0</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>schutzverordnungsobjekte</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+                    <srsid>3452</srsid>
+                    <srid>4326</srid>
+                    <authid>EPSG:4326</authid>
+                    <description>WGS 84</description>
+                    <projectionacronym>longlat</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
+                    <geographicflag>true</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <customproperties/>
+            <provider>wms</provider>
+            <rasterproperties>
+                <wmsSublayer>
+                    <name>schutzverordnungsobjekte</name>
+                    <style></style>
+                </wmsSublayer>
+                <wmsFormat>image/png</wmsFormat>
+                <mDrawingStyle>SingleBandColorDataStyle</mDrawingStyle>
+                <mColorShadingAlgorithm>UndefinedShader</mColorShadingAlgorithm>
+                <mInvertColor boolean="false"/>
+                <mRedBandName>Not Set</mRedBandName>
+                <mGreenBandName>Not Set</mGreenBandName>
+                <mBlueBandName>Not Set</mBlueBandName>
+                <mGrayBandName>Kanal 1</mGrayBandName>
+                <mStandardDeviations>0</mStandardDeviations>
+                <mUserDefinedRGBMinimumMaximum boolean="false"/>
+                <mRGBMinimumMaximumEstimated boolean="true"/>
+                <mUserDefinedGrayMinimumMaximum boolean="false"/>
+                <mGrayMinimumMaximumEstimated boolean="true"/>
+                <mContrastEnhancementAlgorithm>NoEnhancement</mContrastEnhancementAlgorithm>
+                <contrastEnhancementMinMaxValues>
+                    <minMaxEntry>
+                        <min>-1.79769e+308</min>
+                        <max>1.79769e+308</max>
+                    </minMaxEntry>
+                </contrastEnhancementMinMaxValues>
+                <mNoDataValue mValidNoDataValue="false">0.000000</mNoDataValue>
+                <singleValuePixelList>
+                    <pixelListEntry pixelValue="0.000000" percentTransparent="100"/>
+                </singleValuePixelList>
+                <threeValuePixelList>
+                    <pixelListEntry red="0.000000" blue="0.000000" green="0.000000" percentTransparent="100"/>
+                </threeValuePixelList>
+            </rasterproperties>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0">
+            <id>svo_zonen20121022083834590</id>
+            <datasource>http://maps.zh.ch/wfs/FnsNSWFS?VERSION=1.1.0&amp;SERVICE=WFS&amp;VERSION=1.0.0&amp;REQUEST=GetFeature&amp;TYPENAME=svo_zonen&amp;SRSNAME=EPSG:21781</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>Zonendaten mit PDF Links</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=600000 +y_0=200000 +ellps=bessel +towgs84=674.4,15.1,405.3,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>1919</srsid>
+                    <srid>21781</srid>
+                    <authid>EPSG:21781</authid>
+                    <description>CH1903 / LV03</description>
+                    <projectionacronym>somerc</projectionacronym>
+                    <ellipsoidacronym>bessel</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <provider encoding="System">WFS</provider>
+            <vectorjoins/>
+            <renderer-v2 symbollevels="0" type="singleSymbol">
+                <symbols>
+                    <symbol outputUnit="MM" alpha="1" type="fill" name="0">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="color" v="83,96,139,255"/>
+                            <prop k="color_border" v="0,0,255,255"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="style" v="no"/>
+                            <prop k="style_border" v="solid"/>
+                            <prop k="width_border" v="1.1"/>
+                        </layer>
+                    </symbol>
+                </symbols>
+                <rotation field=""/>
+                <sizescale field=""/>
+            </renderer-v2>
+            <customproperties/>
+            <displayfield>geodb_oid</displayfield>
+            <label>0</label>
+            <labelattributes>
+                <label fieldname="" text="Beschriftung"/>
+                <family fieldname="" name="MS Shell Dlg 2"/>
+                <size fieldname="" units="pt" value="12"/>
+                <bold fieldname="" on="0"/>
+                <italic fieldname="" on="0"/>
+                <underline fieldname="" on="0"/>
+                <strikeout fieldname="" on="0"/>
+                <color fieldname="" red="0" blue="0" green="0"/>
+                <x fieldname=""/>
+                <y fieldname=""/>
+                <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+                <angle fieldname="" value="0" auto="0"/>
+                <alignment fieldname="" value="center"/>
+                <buffercolor fieldname="" red="255" blue="255" green="255"/>
+                <buffersize fieldname="" units="pt" value="1"/>
+                <bufferenabled fieldname="" on=""/>
+                <multilineenabled fieldname="" on=""/>
+                <selectedonly on=""/>
+            </labelattributes>
+            <edittypes>
+                <edittype type="0" name="aream2"/>
+                <edittype type="0" name="e_datum"/>
+                <edittype type="0" name="e_kurzti"/>
+                <edittype type="0" name="e_nr"/>
+                <edittype type="0" name="e_objid"/>
+                <edittype type="0" name="e_publ"/>
+                <edittype type="0" name="e_titel"/>
+                <edittype type="0" name="e_typ"/>
+                <edittype type="0" name="e_url"/>
+                <edittype type="0" name="e_vnam"/>
+                <edittype type="0" name="geodb_oid"/>
+                <edittype type="0" name="length"/>
+                <edittype type="0" name="obj_nam"/>
+                <edittype type="0" name="obj_nr"/>
+                <edittype type="0" name="objectid"/>
+                <edittype type="0" name="p_bezirk"/>
+                <edittype type="0" name="p_bfs"/>
+                <edittype type="0" name="p_fm_nat"/>
+                <edittype type="0" name="p_gem"/>
+                <edittype type="0" name="p_hm_nat"/>
+                <edittype type="0" name="p_label"/>
+                <edittype type="0" name="p_labtxt"/>
+                <edittype type="0" name="p_prec_c"/>
+                <edittype type="0" name="p_prec_t"/>
+                <edittype type="0" name="p_spez"/>
+                <edittype type="0" name="svozoneoid"/>
+                <edittype type="0" name="t_kat"/>
+                <edittype type="0" name="t_kattxt"/>
+                <edittype type="0" name="t_label"/>
+                <edittype type="0" name="t_labtxt"/>
+                <edittype type="0" name="t_smassn"/>
+                <edittype type="0" name="t_sziel"/>
+                <edittype type="0" name="t_zone"/>
+                <edittype type="0" name="t_zontxt"/>
+            </edittypes>
+            <editform>../../Downloads</editform>
+            <editforminit></editforminit>
+            <annotationform>../../Downloads</annotationform>
+            <attributeactions>
+                <actionsetting action="[% &quot;e_url&quot; %]" capture="0" type="5" name="SVO Anzeigen"/>
+            </attributeactions>
+            <overlay display="false" type="diagram">
+                <renderer item_interpretation="linear">
+                    <diagramitem size="0" value="0"/>
+                    <diagramitem size="0" value="0"/>
+                </renderer>
+                <factory sizeUnits="MM" type="Pie">
+                    <wellknownname>Pie</wellknownname>
+                    <classificationfield>0</classificationfield>
+                </factory>
+                <scalingAttribute>0</scalingAttribute>
+            </overlay>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>svo_zonen_labels20121101154159115</id>
+            <datasource>http://wms.zh.ch/FnsSVOZHWMS?VERSION=1.1.0</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>svo-zonen-labels</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+                    <srsid>3452</srsid>
+                    <srid>4326</srid>
+                    <authid>EPSG:4326</authid>
+                    <description>WGS 84</description>
+                    <projectionacronym>longlat</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
+                    <geographicflag>true</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <customproperties/>
+            <provider>wms</provider>
+            <rasterproperties>
+                <wmsSublayer>
+                    <name>svo-zonen-labels</name>
+                    <style></style>
+                </wmsSublayer>
+                <wmsFormat>image/png</wmsFormat>
+                <mDrawingStyle>SingleBandColorDataStyle</mDrawingStyle>
+                <mColorShadingAlgorithm>UndefinedShader</mColorShadingAlgorithm>
+                <mInvertColor boolean="false"/>
+                <mRedBandName>Not Set</mRedBandName>
+                <mGreenBandName>Not Set</mGreenBandName>
+                <mBlueBandName>Not Set</mBlueBandName>
+                <mGrayBandName>Kanal 1</mGrayBandName>
+                <mStandardDeviations>0</mStandardDeviations>
+                <mUserDefinedRGBMinimumMaximum boolean="false"/>
+                <mRGBMinimumMaximumEstimated boolean="true"/>
+                <mUserDefinedGrayMinimumMaximum boolean="false"/>
+                <mGrayMinimumMaximumEstimated boolean="true"/>
+                <mContrastEnhancementAlgorithm>NoEnhancement</mContrastEnhancementAlgorithm>
+                <contrastEnhancementMinMaxValues>
+                    <minMaxEntry>
+                        <min>-1.79769e+308</min>
+                        <max>1.79769e+308</max>
+                    </minMaxEntry>
+                </contrastEnhancementMinMaxValues>
+                <mNoDataValue mValidNoDataValue="true">0.000000</mNoDataValue>
+                <singleValuePixelList>
+                    <pixelListEntry pixelValue="0.000000" percentTransparent="100"/>
+                </singleValuePixelList>
+                <threeValuePixelList>
+                    <pixelListEntry red="0.000000" blue="0.000000" green="0.000000" percentTransparent="100"/>
+                </threeValuePixelList>
+            </rasterproperties>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0">
+            <id>tagfalterinv_9220121109135844987</id>
+            <datasource>http://maps.zh.ch/wfs/FnsNSWFS?VERSION=1.1.0&amp;SERVICE=WFS&amp;VERSION=1.0.0&amp;REQUEST=GetFeature&amp;TYPENAME=tagfalterinv_92&amp;SRSNAME=EPSG:21781</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>tagfalterinv_92</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=600000 +y_0=200000 +ellps=bessel +towgs84=674.4,15.1,405.3,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>1919</srsid>
+                    <srid>21781</srid>
+                    <authid>EPSG:21781</authid>
+                    <description>CH1903 / LV03</description>
+                    <projectionacronym>somerc</projectionacronym>
+                    <ellipsoidacronym>bessel</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <provider encoding="System">WFS</provider>
+            <vectorjoins/>
+            <renderer-v2 symbollevels="0" type="singleSymbol">
+                <symbols>
+                    <symbol outputUnit="MM" alpha="1" type="fill" name="0">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="color" v="174,54,27,255"/>
+                            <prop k="color_border" v="255,0,0,255"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="style" v="no"/>
+                            <prop k="style_border" v="solid"/>
+                            <prop k="width_border" v="0.7"/>
+                        </layer>
+                    </symbol>
+                </symbols>
+                <rotation field=""/>
+                <sizescale field=""/>
+            </renderer-v2>
+            <customproperties/>
+            <displayfield>geodb_oid</displayfield>
+            <label>0</label>
+            <labelattributes>
+                <label fieldname="" text="Beschriftung"/>
+                <family fieldname="" name="MS Shell Dlg 2"/>
+                <size fieldname="" units="pt" value="12"/>
+                <bold fieldname="" on="0"/>
+                <italic fieldname="" on="0"/>
+                <underline fieldname="" on="0"/>
+                <strikeout fieldname="" on="0"/>
+                <color fieldname="" red="0" blue="0" green="0"/>
+                <x fieldname=""/>
+                <y fieldname=""/>
+                <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+                <angle fieldname="" value="0" auto="0"/>
+                <alignment fieldname="" value="center"/>
+                <buffercolor fieldname="" red="255" blue="255" green="255"/>
+                <buffersize fieldname="" units="pt" value="1"/>
+                <bufferenabled fieldname="" on=""/>
+                <multilineenabled fieldname="" on=""/>
+                <selectedonly on=""/>
+            </labelattributes>
+            <edittypes>
+                <edittype type="0" name="arp"/>
+                <edittype type="0" name="bewertung"/>
+                <edittype type="0" name="bezirk"/>
+                <edittype type="0" name="bfs"/>
+                <edittype type="0" name="fkobjekt"/>
+                <edittype type="0" name="fundort"/>
+                <edittype type="0" name="gemeinde"/>
+                <edittype type="0" name="geodb_oid"/>
+                <edittype type="0" name="nr_plan"/>
+                <edittype type="0" name="objectid"/>
+                <edittype type="0" name="teilnr_pla"/>
+                <edittype type="0" name="x"/>
+                <edittype type="0" name="y"/>
+            </edittypes>
+            <editform>../../Downloads</editform>
+            <editforminit></editforminit>
+            <annotationform>../../Downloads</annotationform>
             <attributeactions/>
             <overlay display="false" type="diagram">
                 <renderer item_interpretation="linear">
@@ -490,20 +3005,20 @@
             </overlay>
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" geometry="Line" type="vector" hasScaleBasedVisibilityFlag="0">
-            <id>vPopFuerGisLine20121220141551693</id>
-            <datasource>MySQL:alexande_apflora,host=barbalex.ch,user=alexande,password=excalibu|layername=vPopFuerGisLine</datasource>
+            <id>tpm_line20121226010051580</id>
+            <datasource>MySQL:alexande_apflora,host=barbalex.ch,user=alexande,password=excalibu|layername=tpm_line</datasource>
             <title></title>
             <abstract></abstract>
-            <layername>vPopFuerGisLine</layername>
+            <layername>tpm_line</layername>
             <srs>
                 <spatialrefsys>
-                    <proj4>+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=600000 +y_0=200000 +ellps=bessel +towgs84=674.4,15.1,405.3,0,0,0,0 +units=m +no_defs</proj4>
-                    <srsid>1919</srsid>
-                    <srid>21781</srid>
-                    <authid>EPSG:21781</authid>
-                    <description>CH1903 / LV03</description>
-                    <projectionacronym>somerc</projectionacronym>
-                    <ellipsoidacronym>bessel</ellipsoidacronym>
+                    <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs</proj4>
+                    <srsid>3857</srsid>
+                    <srid>3857</srid>
+                    <authid>EPSG:3857</authid>
+                    <description>WGS 84 / Pseudo Mercator</description>
+                    <projectionacronym>merc</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
                     <geographicflag>false</geographicflag>
                 </spatialrefsys>
             </srs>
@@ -515,13 +3030,13 @@
                     <symbol outputUnit="MM" alpha="1" type="line" name="0">
                         <layer pass="0" class="SimpleLine" locked="0">
                             <prop k="capstyle" v="square"/>
-                            <prop k="color" v="214,190,104,255"/>
+                            <prop k="color" v="180,129,175,255"/>
                             <prop k="customdash" v="5;2"/>
                             <prop k="joinstyle" v="bevel"/>
                             <prop k="offset" v="0"/>
                             <prop k="penstyle" v="solid"/>
                             <prop k="use_custom_dash" v="0"/>
-                            <prop k="width" v="1.26"/>
+                            <prop k="width" v="0.26"/>
                         </layer>
                     </symbol>
                 </symbols>
@@ -529,7 +3044,7 @@
                 <sizescale field=""/>
             </renderer-v2>
             <customproperties/>
-            <displayfield>Pop Guid</displayfield>
+            <displayfield></displayfield>
             <label>0</label>
             <labelattributes>
                 <label fieldname="" text="Beschriftung"/>
@@ -551,55 +3066,26 @@
                 <multilineenabled fieldname="" on=""/>
                 <selectedonly on=""/>
             </labelattributes>
-            <edittypes>
-                <edittype type="0" name="AP Art"/>
-                <edittype type="0" name="AP Stand Umsetzung"/>
-                <edittype type="0" name="AP Start im Jahr"/>
-                <edittype type="0" name="AP Status"/>
-                <edittype type="0" name="ApArtId"/>
-                <edittype type="0" name="Pop Begründung für unklaren Status"/>
-                <edittype type="0" name="Pop Guid"/>
-                <edittype type="0" name="Pop MutWann"/>
-                <edittype type="0" name="Pop MutWer"/>
-                <edittype type="0" name="Pop Name"/>
-                <edittype type="0" name="Pop Nr"/>
-                <edittype type="0" name="Pop Status"/>
-                <edittype type="0" name="Pop Status unklar"/>
-                <edittype type="0" name="Pop bekannt seit"/>
-                <edittype type="0" name="XKoordinaten"/>
-                <edittype type="0" name="YKoordinaten"/>
-            </edittypes>
-            <editform>.</editform>
+            <editform></editform>
             <editforminit></editforminit>
-            <annotationform>.</annotationform>
+            <annotationform></annotationform>
             <attributeactions/>
-            <overlay display="false" type="diagram">
-                <renderer item_interpretation="linear">
-                    <diagramitem size="0" value="0"/>
-                    <diagramitem size="0" value="0"/>
-                </renderer>
-                <factory sizeUnits="MM" type="Pie">
-                    <wellknownname>Pie</wellknownname>
-                    <classificationfield>0</classificationfield>
-                </factory>
-                <scalingAttribute>0</scalingAttribute>
-            </overlay>
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" geometry="Point" type="vector" hasScaleBasedVisibilityFlag="0">
-            <id>vPopFuerGisPoint20121220141601189</id>
-            <datasource>MySQL:alexande_apflora,host=barbalex.ch,user=alexande,password=excalibu|layername=vPopFuerGisPoint</datasource>
+            <id>tpm_point20121226010059833</id>
+            <datasource>MySQL:alexande_apflora,host=barbalex.ch,user=alexande,password=excalibu|layername=tpm_point</datasource>
             <title></title>
             <abstract></abstract>
-            <layername>vPopFuerGisPoint</layername>
+            <layername>tpm_point</layername>
             <srs>
                 <spatialrefsys>
-                    <proj4>+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=600000 +y_0=200000 +ellps=bessel +towgs84=674.4,15.1,405.3,0,0,0,0 +units=m +no_defs</proj4>
-                    <srsid>1919</srsid>
-                    <srid>21781</srid>
-                    <authid>EPSG:21781</authid>
-                    <description>CH1903 / LV03</description>
-                    <projectionacronym>somerc</projectionacronym>
-                    <ellipsoidacronym>bessel</ellipsoidacronym>
+                    <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs</proj4>
+                    <srsid>3857</srsid>
+                    <srid>3857</srid>
+                    <authid>EPSG:3857</authid>
+                    <description>WGS 84 / Pseudo Mercator</description>
+                    <projectionacronym>merc</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
                     <geographicflag>false</geographicflag>
                 </spatialrefsys>
             </srs>
@@ -611,7 +3097,7 @@
                     <symbol outputUnit="MM" alpha="1" type="marker" name="0">
                         <layer pass="0" class="SimpleMarker" locked="0">
                             <prop k="angle" v="0"/>
-                            <prop k="color" v="190,27,101,255"/>
+                            <prop k="color" v="71,84,152,255"/>
                             <prop k="color_border" v="0,0,0,255"/>
                             <prop k="name" v="circle"/>
                             <prop k="offset" v="0,0"/>
@@ -623,7 +3109,7 @@
                 <sizescale field=""/>
             </renderer-v2>
             <customproperties/>
-            <displayfield>Pop Guid</displayfield>
+            <displayfield></displayfield>
             <label>0</label>
             <labelattributes>
                 <label fieldname="" text="Beschriftung"/>
@@ -645,26 +3131,26 @@
                 <multilineenabled fieldname="" on=""/>
                 <selectedonly on=""/>
             </labelattributes>
-            <editform>.</editform>
+            <editform></editform>
             <editforminit></editforminit>
-            <annotationform>.</annotationform>
+            <annotationform></annotationform>
             <attributeactions/>
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0">
-            <id>vPopFuerGisPolygon20121220143723728</id>
-            <datasource>MySQL:alexande_apflora,host=barbalex.ch,user=alexande,password=excalibu|layername=vPopFuerGisPolygon</datasource>
+            <id>tpm_polygon20121226010108083</id>
+            <datasource>MySQL:alexande_apflora,host=barbalex.ch,user=alexande,password=excalibu|layername=tpm_polygon</datasource>
             <title></title>
             <abstract></abstract>
-            <layername>vPopFuerGisPolygon</layername>
+            <layername>tpm_polygon</layername>
             <srs>
                 <spatialrefsys>
-                    <proj4>+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=600000 +y_0=200000 +ellps=bessel +towgs84=674.4,15.1,405.3,0,0,0,0 +units=m +no_defs</proj4>
-                    <srsid>1919</srsid>
-                    <srid>21781</srid>
-                    <authid>EPSG:21781</authid>
-                    <description>CH1903 / LV03</description>
-                    <projectionacronym>somerc</projectionacronym>
-                    <ellipsoidacronym>bessel</ellipsoidacronym>
+                    <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs</proj4>
+                    <srsid>3857</srsid>
+                    <srid>3857</srid>
+                    <authid>EPSG:3857</authid>
+                    <description>WGS 84 / Pseudo Mercator</description>
+                    <projectionacronym>merc</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
                     <geographicflag>false</geographicflag>
                 </spatialrefsys>
             </srs>
@@ -675,7 +3161,7 @@
                 <symbols>
                     <symbol outputUnit="MM" alpha="1" type="fill" name="0">
                         <layer pass="0" class="SimpleFill" locked="0">
-                            <prop k="color" v="124,194,181,255"/>
+                            <prop k="color" v="130,77,159,255"/>
                             <prop k="color_border" v="0,0,0,255"/>
                             <prop k="offset" v="0,0"/>
                             <prop k="style" v="solid"/>
@@ -688,7 +3174,7 @@
                 <sizescale field=""/>
             </renderer-v2>
             <customproperties/>
-            <displayfield>Pop Guid</displayfield>
+            <displayfield></displayfield>
             <label>0</label>
             <labelattributes>
                 <label fieldname="" text="Beschriftung"/>
@@ -710,10 +3196,175 @@
                 <multilineenabled fieldname="" on=""/>
                 <selectedonly on=""/>
             </labelattributes>
-            <editform>.</editform>
+            <editform></editform>
             <editforminit></editforminit>
-            <annotationform>.</annotationform>
+            <annotationform></annotationform>
             <attributeactions/>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>ueberlagernde_schutzzonen20121101154151065</id>
+            <datasource>http://wms.zh.ch/FnsSVOZHWMS?VERSION=1.1.0</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>ueberlagernde-schutzzonen</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+                    <srsid>3452</srsid>
+                    <srid>4326</srid>
+                    <authid>EPSG:4326</authid>
+                    <description>WGS 84</description>
+                    <projectionacronym>longlat</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
+                    <geographicflag>true</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <customproperties/>
+            <provider>wms</provider>
+            <rasterproperties>
+                <wmsSublayer>
+                    <name>ueberlagernde-schutzzonen</name>
+                    <style></style>
+                </wmsSublayer>
+                <wmsFormat>image/png</wmsFormat>
+                <mDrawingStyle>SingleBandColorDataStyle</mDrawingStyle>
+                <mColorShadingAlgorithm>UndefinedShader</mColorShadingAlgorithm>
+                <mInvertColor boolean="false"/>
+                <mRedBandName>Not Set</mRedBandName>
+                <mGreenBandName>Not Set</mGreenBandName>
+                <mBlueBandName>Not Set</mBlueBandName>
+                <mGrayBandName>Kanal 1</mGrayBandName>
+                <mStandardDeviations>0</mStandardDeviations>
+                <mUserDefinedRGBMinimumMaximum boolean="false"/>
+                <mRGBMinimumMaximumEstimated boolean="true"/>
+                <mUserDefinedGrayMinimumMaximum boolean="false"/>
+                <mGrayMinimumMaximumEstimated boolean="true"/>
+                <mContrastEnhancementAlgorithm>NoEnhancement</mContrastEnhancementAlgorithm>
+                <contrastEnhancementMinMaxValues>
+                    <minMaxEntry>
+                        <min>-1.79769e+308</min>
+                        <max>1.79769e+308</max>
+                    </minMaxEntry>
+                </contrastEnhancementMinMaxValues>
+                <mNoDataValue mValidNoDataValue="true">0.000000</mNoDataValue>
+                <singleValuePixelList>
+                    <pixelListEntry pixelValue="0.000000" percentTransparent="100"/>
+                </singleValuePixelList>
+                <threeValuePixelList>
+                    <pixelListEntry red="0.000000" blue="0.000000" green="0.000000" percentTransparent="100"/>
+                </threeValuePixelList>
+            </rasterproperties>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>zonen_schutzverordnungen20121101154212500</id>
+            <datasource>http://wms.zh.ch/FnsSVOZHWMS?VERSION=1.1.0</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>zonen-schutzverordnungen</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+                    <srsid>3452</srsid>
+                    <srid>4326</srid>
+                    <authid>EPSG:4326</authid>
+                    <description>WGS 84</description>
+                    <projectionacronym>longlat</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
+                    <geographicflag>true</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>127</transparencyLevelInt>
+            <customproperties/>
+            <provider>wms</provider>
+            <rasterproperties>
+                <wmsSublayer>
+                    <name>zonen-schutzverordnungen</name>
+                    <style></style>
+                </wmsSublayer>
+                <wmsFormat>image/png</wmsFormat>
+                <mDrawingStyle>SingleBandColorDataStyle</mDrawingStyle>
+                <mColorShadingAlgorithm>UndefinedShader</mColorShadingAlgorithm>
+                <mInvertColor boolean="false"/>
+                <mRedBandName>Not Set</mRedBandName>
+                <mGreenBandName>Not Set</mGreenBandName>
+                <mBlueBandName>Not Set</mBlueBandName>
+                <mGrayBandName>Kanal 1</mGrayBandName>
+                <mStandardDeviations>0</mStandardDeviations>
+                <mUserDefinedRGBMinimumMaximum boolean="false"/>
+                <mRGBMinimumMaximumEstimated boolean="true"/>
+                <mUserDefinedGrayMinimumMaximum boolean="false"/>
+                <mGrayMinimumMaximumEstimated boolean="true"/>
+                <mContrastEnhancementAlgorithm>NoEnhancement</mContrastEnhancementAlgorithm>
+                <contrastEnhancementMinMaxValues>
+                    <minMaxEntry>
+                        <min>-1.79769e+308</min>
+                        <max>1.79769e+308</max>
+                    </minMaxEntry>
+                </contrastEnhancementMinMaxValues>
+                <mNoDataValue mValidNoDataValue="false">0.000000</mNoDataValue>
+                <singleValuePixelList>
+                    <pixelListEntry pixelValue="0.000000" percentTransparent="100"/>
+                </singleValuePixelList>
+                <threeValuePixelList>
+                    <pixelListEntry red="0.000000" blue="0.000000" green="0.000000" percentTransparent="100"/>
+                </threeValuePixelList>
+            </rasterproperties>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>zonen_schutzverordnungen_raster20121101154139053</id>
+            <datasource>http://wms.zh.ch/FnsSVOZHWMS?VERSION=1.1.0</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>zonen-schutzverordnungen-raster</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=600000 +y_0=200000 +ellps=bessel +towgs84=674.4,15.1,405.3,0,0,0,0 +units=m +no_defs</proj4>
+                    <srsid>1919</srsid>
+                    <srid>21781</srid>
+                    <authid>EPSG:21781</authid>
+                    <description>CH1903 / LV03</description>
+                    <projectionacronym>somerc</projectionacronym>
+                    <ellipsoidacronym>bessel</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <customproperties/>
+            <provider>wms</provider>
+            <rasterproperties>
+                <wmsSublayer>
+                    <name>zonen-schutzverordnungen-raster</name>
+                    <style></style>
+                </wmsSublayer>
+                <wmsFormat>image/png</wmsFormat>
+                <mDrawingStyle>SingleBandColorDataStyle</mDrawingStyle>
+                <mColorShadingAlgorithm>UndefinedShader</mColorShadingAlgorithm>
+                <mInvertColor boolean="false"/>
+                <mRedBandName>Not Set</mRedBandName>
+                <mGreenBandName>Not Set</mGreenBandName>
+                <mBlueBandName>Not Set</mBlueBandName>
+                <mGrayBandName>Kanal 1</mGrayBandName>
+                <mStandardDeviations>0</mStandardDeviations>
+                <mUserDefinedRGBMinimumMaximum boolean="false"/>
+                <mRGBMinimumMaximumEstimated boolean="true"/>
+                <mUserDefinedGrayMinimumMaximum boolean="false"/>
+                <mGrayMinimumMaximumEstimated boolean="true"/>
+                <mContrastEnhancementAlgorithm>NoEnhancement</mContrastEnhancementAlgorithm>
+                <contrastEnhancementMinMaxValues>
+                    <minMaxEntry>
+                        <min>-1.79769e+308</min>
+                        <max>1.79769e+308</max>
+                    </minMaxEntry>
+                </contrastEnhancementMinMaxValues>
+                <mNoDataValue mValidNoDataValue="false">0.000000</mNoDataValue>
+                <singleValuePixelList>
+                    <pixelListEntry pixelValue="0.000000" percentTransparent="100"/>
+                </singleValuePixelList>
+                <threeValuePixelList>
+                    <pixelListEntry red="0.000000" blue="0.000000" green="0.000000" percentTransparent="100"/>
+                </threeValuePixelList>
+            </rasterproperties>
         </maplayer>
     </projectlayers>
     <properties>
@@ -727,7 +3378,7 @@
         <SpatialRefSys>
             <ProjectCRSProj4String type="QString">+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=600000 +y_0=200000 +ellps=bessel +towgs84=674.4,15.1,405.3,0,0,0,0 +units=m +no_defs</ProjectCRSProj4String>
             <ProjectCrs type="QString">EPSG:4326</ProjectCrs>
-            <ProjectCRSID type="int">1919</ProjectCRSID>
+            <ProjectCRSID type="int">3857</ProjectCRSID>
             <ProjectionsEnabled type="int">1</ProjectionsEnabled>
         </SpatialRefSys>
         <Paths>
