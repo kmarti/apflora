@@ -45,7 +45,7 @@ Software zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschutz des K
 
 - "No hassle": Keine Installation, keine Installationskosten, automatische Updates
 - Von ausserhalb und endlich auch innerhalb der Fachstelle Naturschutz arbeiten
-- Ein moderner Browser wird vorausgesetzt. Getestet auf Google Chrome, Firefox und Safari (neuste Versionen). Auf Internet Explorer funktioniert AP Flora nicht (nicht einmal in 10)
+- Ein moderner Browser wird vorausgesetzt. Entwickelt für Google Chrome. Funktioniert auch auf Chrome für Android und Safari auf iOS. Funktioniert zum grössten Teil auch auf Firefox und Safari für PC (neuste Versionen). Auf Internet Explorer funktioniert AP Flora nicht (nicht einmal in Version 10)
 
 **Sich rasch zurechtfinden:**
 
