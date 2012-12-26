@@ -35,10 +35,6 @@ Software zur Verwaltung des Aktionsplans Flora der Fachstelle Naturschutz des Ka
 - Teilpopulationen und Beobachtungen im GIS-Browser des Kt. Zürich anzeigen
 - Populationen und Teilpopulationen aller Arten als kml-Datei für Google Earth exportieren
 
-**Sich anleiten lassen:**
-
-- Wichtige Felder, die in aller Regel auszufüllen sind, werden farblich hervorgehoben
-- Wo hilfreich werden Informationen angezeigt, wenn man mit der Maus über den Feldnamen fährt
 
 **Daten exportieren:**
 
@@ -55,6 +51,11 @@ Software zur Verwaltung des Aktionsplans Flora der Fachstelle Naturschutz des Ka
 
 - Über einen dynamisch aufgebauten Strukturbaum navigieren und dabei die Übersicht über die komplexe Hierarchie behalten
 - Rechts neben dem Baum die Daten der gewählten Struktur (= "node") bearbeiten
+
+**Sich anleiten lassen:**
+
+- Wichtige Felder, die in aller Regel auszufüllen sind, werden farblich hervorgehoben
+- Wo hilfreich werden Informationen angezeigt, wenn man mit der Maus über den Feldnamen fährt
 
 **Effizient arbeiten:**
 
