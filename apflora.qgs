@@ -4,10 +4,10 @@
     <mapcanvas>
         <units>meters</units>
         <extent>
-            <xmin>968320.556528</xmin>
-            <ymin>5997307.879850</ymin>
-            <xmax>970317.646326</xmax>
-            <ymax>5998410.535332</ymax>
+            <xmin>687890.330382</xmin>
+            <ymin>279316.552901</ymin>
+            <xmax>689153.508691</xmax>
+            <ymax>280013.992991</ymax>
         </extent>
         <projections>1</projections>
         <destinationsrs>
@@ -24,19 +24,24 @@
         </destinationsrs>
     </mapcanvas>
     <legend updateDrawingOrder="false">
-        <legendlayer drawingOrder="0" open="true" checked="Qt::Checked" name="tpm_polygon" showFeatureCount="0">
+        <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="vMassnPolygon" showFeatureCount="0">
             <filegroup open="true" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="tpm_polygon20121226010108083" visible="1"/>
+                <legendlayerfile isInOverview="0" layerid="vMassnPolygon20121226013836217" visible="1"/>
             </filegroup>
         </legendlayer>
-        <legendlayer drawingOrder="1" open="true" checked="Qt::Checked" name="tpm_point" showFeatureCount="0">
+        <legendlayer drawingOrder="0" open="true" checked="Qt::Unchecked" name="tpm_polygon" showFeatureCount="0">
             <filegroup open="true" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="tpm_point20121226010059833" visible="1"/>
+                <legendlayerfile isInOverview="0" layerid="tpm_polygon20121226010108083" visible="0"/>
             </filegroup>
         </legendlayer>
-        <legendlayer drawingOrder="2" open="true" checked="Qt::Checked" name="tpm_line" showFeatureCount="0">
+        <legendlayer drawingOrder="1" open="true" checked="Qt::Unchecked" name="tpm_point" showFeatureCount="0">
             <filegroup open="true" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="tpm_line20121226010051580" visible="1"/>
+                <legendlayerfile isInOverview="0" layerid="tpm_point20121226010059833" visible="0"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="2" open="true" checked="Qt::Unchecked" name="tpm_line" showFeatureCount="0">
+            <filegroup open="true" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="tpm_line20121226010051580" visible="0"/>
             </filegroup>
         </legendlayer>
         <legendgroup open="false" checked="Qt::Unchecked" name="WFS - Fachkartierungen">
@@ -184,7 +189,7 @@
                 </filegroup>
             </legendlayer>
         </legendgroup>
-        <legendgroup open="false" checked="Qt::PartiallyChecked" name="WMS - Basiskarten">
+        <legendgroup open="true" checked="Qt::Unchecked" name="WMS - Basiskarten">
             <legendlayer drawingOrder="32" open="false" checked="Qt::Unchecked" name="Uebersichtsplan" showFeatureCount="0">
                 <filegroup open="false" hidden="false">
                     <legendlayerfile isInOverview="0" layerid="Uebersichtsplan20121022081634213" visible="0"/>
@@ -200,9 +205,9 @@
                     <legendlayerfile isInOverview="0" layerid="OpenLayers_plugin_layer20121226005710099" visible="0"/>
                 </filegroup>
             </legendlayer>
-            <legendlayer drawingOrder="4" open="true" checked="Qt::Checked" name="Google Hybrid" showFeatureCount="0">
+            <legendlayer drawingOrder="4" open="true" checked="Qt::Unchecked" name="Google Hybrid" showFeatureCount="0">
                 <filegroup open="true" hidden="false">
-                    <legendlayerfile isInOverview="0" layerid="OpenLayers_plugin_layer20121226005701068" visible="1"/>
+                    <legendlayerfile isInOverview="0" layerid="OpenLayers_plugin_layer20121226005701068" visible="0"/>
                 </filegroup>
             </legendlayer>
             <legendlayer drawingOrder="5" open="true" checked="Qt::Unchecked" name="Google Streets" showFeatureCount="0">
@@ -364,8 +369,24 @@
                         </symbols>
                     </VectorClassificationItemNg>
                 </LayerItem>
+                <LayerItem layerId="vMassnPolygon20121226013836217" text="vMassnPolygon">
+                    <VectorClassificationItemNg text="">
+                        <symbols>
+                            <symbol outputUnit="MM" alpha="1" type="fill" name="classificationSymbol">
+                                <layer pass="0" class="SimpleFill" locked="0">
+                                    <prop k="color" v="22,167,114,255"/>
+                                    <prop k="color_border" v="0,0,0,255"/>
+                                    <prop k="offset" v="0,0"/>
+                                    <prop k="style" v="solid"/>
+                                    <prop k="style_border" v="solid"/>
+                                    <prop k="width_border" v="0.26"/>
+                                </layer>
+                            </symbol>
+                        </symbols>
+                    </VectorClassificationItemNg>
+                </LayerItem>
             </Model>
-            <ComposerItem width="4" x="354.653" y="6.87692" rotation="0" height="52" frame="false" outlineWidth="0.3" zValue="1" lastValidViewScaleFactor="3.05369" id="" positionLock="false">
+            <ComposerItem width="4" x="354.653" y="6.87692" rotation="0" height="57.5" frame="false" outlineWidth="0.3" zValue="1" lastValidViewScaleFactor="3.05369" id="" positionLock="false">
                 <FrameColor alpha="255" red="0" blue="0" green="0"/>
                 <BackgroundColor alpha="255" red="255" blue="255" green="255"/>
             </ComposerItem>
@@ -390,7 +411,7 @@
         </ComposerMap>
         <Composition printResolution="300" paperWidth="420" snapGridOffsetX="0" snapGridResolution="0" snapGridOffsetY="0" snapping="0" paperHeight="297" printAsRaster="0"/>
     </Composer>
-    <projectlayers layercount="36">
+    <projectlayers layercount="37">
         <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
             <id>Bodenbedeckung20121022082711860</id>
             <datasource>http://wms.zh.ch/avwms</datasource>
@@ -3255,6 +3276,71 @@
                     <pixelListEntry red="0.000000" blue="0.000000" green="0.000000" percentTransparent="100"/>
                 </threeValuePixelList>
             </rasterproperties>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0">
+            <id>vMassnPolygon20121226013836217</id>
+            <datasource>MySQL:alexande_apflora,host=barbalex.ch,user=alexande,password=excalibu|layername=vMassnPolygon</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>vMassnPolygon</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs</proj4>
+                    <srsid>3857</srsid>
+                    <srid>3857</srid>
+                    <authid>EPSG:3857</authid>
+                    <description>WGS 84 / Pseudo Mercator</description>
+                    <projectionacronym>merc</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <provider encoding="UTF-8">ogr</provider>
+            <vectorjoins/>
+            <renderer-v2 symbollevels="0" type="singleSymbol">
+                <symbols>
+                    <symbol outputUnit="MM" alpha="1" type="fill" name="0">
+                        <layer pass="0" class="SimpleFill" locked="0">
+                            <prop k="color" v="22,167,114,255"/>
+                            <prop k="color_border" v="0,0,0,255"/>
+                            <prop k="offset" v="0,0"/>
+                            <prop k="style" v="solid"/>
+                            <prop k="style_border" v="solid"/>
+                            <prop k="width_border" v="0.26"/>
+                        </layer>
+                    </symbol>
+                </symbols>
+                <rotation field=""/>
+                <sizescale field=""/>
+            </renderer-v2>
+            <customproperties/>
+            <displayfield></displayfield>
+            <label>0</label>
+            <labelattributes>
+                <label fieldname="" text="Beschriftung"/>
+                <family fieldname="" name="MS Shell Dlg 2"/>
+                <size fieldname="" units="pt" value="12"/>
+                <bold fieldname="" on="0"/>
+                <italic fieldname="" on="0"/>
+                <underline fieldname="" on="0"/>
+                <strikeout fieldname="" on="0"/>
+                <color fieldname="" red="0" blue="0" green="0"/>
+                <x fieldname=""/>
+                <y fieldname=""/>
+                <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+                <angle fieldname="" value="0" auto="0"/>
+                <alignment fieldname="" value="center"/>
+                <buffercolor fieldname="" red="255" blue="255" green="255"/>
+                <buffersize fieldname="" units="pt" value="1"/>
+                <bufferenabled fieldname="" on=""/>
+                <multilineenabled fieldname="" on=""/>
+                <selectedonly on=""/>
+            </labelattributes>
+            <editform></editform>
+            <editforminit></editforminit>
+            <annotationform></annotationform>
+            <attributeactions/>
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
             <id>zonen_schutzverordnungen20121101154212500</id>
