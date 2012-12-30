@@ -13,7 +13,7 @@ Software zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschutz des K
 
 **Aktionspläne verwalten:**
 
-- Populationen und Teilpopulationen beschreiben
+- Aktionspläne, Populationen und Teilpopulationen beschreiben
 - Massnahmen zur Förderung dokumentieren
 - Die Entwicklung der Teilpopulationen und den Erfolg der Massnahmen beurteilen
 - Ziele und Erfolgskriterien bestimmen
@@ -29,9 +29,9 @@ Software zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschutz des K
 **Auf Luftbildern und Karten darstellen:**
 
 - Aktionspläne, Populationen, Teilpopulationen und Beobachtungen auf Luftbildern anzeigen
+- Aktionspläne, Populationen, Teilpopulationen auf Luftbild, Übersichtsplan und Landeskarten anzeigen und diverse Ebenen einblenden (Bundesinventare, Kantonale Inventare, Parzellen)
 - Nicht zugeordnete Beobachtungen und Teilpopulationen gemeinsam auf dem Luftbild anzeigen
-- Teilpopulationen auf Luftbildern verorten
-- Teilpopulationen auf Luftbild, Übersichtsplan und Landeskarten anzeigen und diverse Ebenen einblenden (Bundesinventare, Kantonale Inventare, Parzellen)
+- Teilpopulationen auf Luftbild, Übersichtsplan und Landeskarte verorten
 - Teilpopulationen und Beobachtungen im GIS-Browser des Kt. Zürich anzeigen
 - Populationen und Teilpopulationen aller Arten als kml-Datei für Google Earth exportieren
 
