@@ -14,7 +14,7 @@ Software zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschutz des K
 **Aktionspläne verwalten:**
 
 - Aktionspläne, Populationen und Teilpopulationen beschreiben
-- Massnahmen zur Förderung dokumentieren
+- Kontrollen der Teilpopulationen und Massnahmen zur Förderung dokumentieren
 - Die Entwicklung der Teilpopulationen und den Erfolg der Massnahmen beurteilen
 - Ziele und Erfolgskriterien bestimmen
 - Jährliche Berichte verfassen
@@ -93,10 +93,10 @@ Beides: verglichen mit der ehemaligen Access-Anwendung.
 
 <a name="Roadmap"></a>
 #Roadmap
-- Die Anwendung enthält fast alle geplanten Funktionen
+- Die Anwendung enthält alle geplanten Funktionen
 - Jetzt wird sie durch die AnwenderInnen getestet und laufend angepasst
 - Die Kartenfunktionen werden erweitert
-- Bald sollen mit [QGIS](http://www.qgis.org) Massnahmen und Kontrollen digitalisiert werden können
+- Bald können mit [QGIS](http://www.qgis.org) Massnahmen digitalisiert werden
 - Ev. lässt sich mittelfristig die Mobilfähigkeit steigern. Wär doch toll, wenn man im Feld mit einem Tablett erfassen könnte...
 
 <a href="#top">&#8593; top</a>
@@ -105,6 +105,8 @@ Beides: verglichen mit der ehemaligen Access-Anwendung.
 <a name="Technik"></a>
 #Technische Umsetzung
 Die Weboberfläche ([HTML](http://de.wikipedia.org/wiki/Hypertext_Markup_Language), [CSS](http://de.wikipedia.org/wiki/Cascading_Style_Sheets), [JavaScript](http://de.wikipedia.org/wiki/JavaScript), [jQuery](http://jquery.com/) und [jsTree](http://www.jstree.com/)) greift mithilfe von [PHP](http://de.wikipedia.org/wiki/PHP) auf eine [mySql-Datenbank](http://de.wikipedia.org/wiki/MySQL).
+
+Für die Karten werden [OpenLayers](http://openlayers.org/) und [GoogleMaps](https://developers.google.com/maps/documentation/javascript/reference) verwendet. Die Kartendaten stammen von Google und dem Kanton Zürich.
 
 <a href="#top">&#8593; top</a>
 
