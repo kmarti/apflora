@@ -104,7 +104,7 @@ Beides: verglichen mit der ehemaligen Access-Anwendung.
 
 <a name="Technik"></a>
 #Technische Umsetzung
-Die Weboberfläche ([HTML5](http://de.wikipedia.org/wiki/Hypertext_Markup_Language), [CSS](http://de.wikipedia.org/wiki/Cascading_Style_Sheets), [JavaScript](http://de.wikipedia.org/wiki/JavaScript), [jQuery](http://jquery.com/) und [jsTree](http://www.jstree.com/)) greift mithilfe von [PHP](http://de.wikipedia.org/wiki/PHP) auf eine [mySql-Datenbank](http://de.wikipedia.org/wiki/MySQL).
+Die Weboberfläche ([HTML5](http://de.wikipedia.org/wiki/HTML5), [CSS](http://de.wikipedia.org/wiki/Cascading_Style_Sheets), [JavaScript](http://de.wikipedia.org/wiki/JavaScript), [jQuery](http://jquery.com/) und [jsTree](http://www.jstree.com/)) greift mithilfe von [PHP](http://de.wikipedia.org/wiki/PHP) auf eine [mySql-Datenbank](http://de.wikipedia.org/wiki/MySQL).
 
 Für die Karten werden [OpenLayers](http://openlayers.org/) und [GoogleMaps](https://developers.google.com/maps/documentation/javascript/reference) verwendet. Die Kartendaten stammen von Google und dem Kanton Zürich.
 
