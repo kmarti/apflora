@@ -91,7 +91,7 @@ Beides: verglichen mit der ehemaligen Access-Anwendung.
 **Daten nach Verlust wiederherstellen:**
 
 - Die Daten werden täglich innerhalb der Site und in einer Dropbox gesichert
-- Ihre Wiederherstellung wird im Rahmen der Entwicklung regelmässig getestet
+- Ihre Wiederherstellung wird im Rahmen der Entwicklung bzw. des Unterhalts regelmässig getestet
 
 <a href="#top">&#8593; top</a>
 
@@ -99,9 +99,8 @@ Beides: verglichen mit der ehemaligen Access-Anwendung.
 <a name="Roadmap"></a>
 #Roadmap
 - Die Anwendung enthält alle geplanten Funktionen
-- Jetzt wird sie durch die AnwenderInnen getestet und laufend angepasst
-- Die Kartenfunktionen werden erweitert
 - Bald können mit [QGIS](http://www.qgis.org) Massnahmen digitalisiert werden
+- Ziel ist es, die Massnahmen direkt in AP Flora Web digitalisieren zu können
 - Ev. lässt sich mittelfristig die Mobilfähigkeit steigern. Wär doch toll, wenn man im Feld mit einem Tablett erfassen könnte...
 
 <a href="#top">&#8593; top</a>
