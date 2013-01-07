@@ -88,6 +88,11 @@ Die nachfolgend aufgelisteten Funktionen werden nur von Topos in einer neuen Acc
 
 Beides: verglichen mit der ehemaligen Access-Anwendung.
 
+**Daten nach Verlust wiederherstellen:**
+
+- Die Daten werden täglich innerhalb der Site und in einer Dropbox gesichert
+- Ihre Wiederherstellung wird im Rahmen der Entwicklung regelmässig getestet
+
 <a href="#top">&#8593; top</a>
 
 
