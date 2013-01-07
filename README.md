@@ -69,7 +69,7 @@ Update vom 16.11.12: Drag and drop vorläufig ausgeschaltet, wegen Fehler im ext
 
 **Im Feld arbeiten?**
 
-Mit einen leistungsstarken Tablett mit genügend grossem Bildschirm und in Gebieten mit gutem Datenempfang könnte die Anwendung vermutlich auch im Feld benutzt werden. Allenfalls auch mit einem grossen Smartphone mit Stift. Ohne Stift ist die Sache etwas gar fummellig. Mehr dazu [hier](https://github.com/barbalex/apflora/wiki/3-Daten-direkt-im-Feld-erfassen).
+Mit Tablett mit genügend grossem Bildschirm oder mit einem grossen Smartphone mit Stift und in Gebieten mit gutem Datenempfang könnte die Anwendung vermutlich auch im Feld benutzt werden. Ohne Stift ist die Sache auf dem Smartphone etwas gar fummellig. Mehr dazu [hier](https://github.com/barbalex/apflora/wiki/3-Daten-direkt-im-Feld-erfassen).
 
 **Projektdaten verwalten:**
 
