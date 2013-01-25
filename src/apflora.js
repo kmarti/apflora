@@ -1570,7 +1570,7 @@ function initiiere_tpopbeob() {
 						"beobid": data.BeobId
 					},
 					success: function (data2) {
-						var html = '<input type="radio" name="tpopbeob_DistZuTPop" id="tpopbeob_DistZuTPop0" class="tpopbeob_DistZuTPop" formular="tpopbeob" value="0"/>keiner';
+						var html = '<input type="radio" name="tpopbeob_DistZuTPop" id="tpopbeob_DistZuTPop0" class="tpopbeob_DistZuTPop" formular="tpopbeob" value="0">keiner';
 						if (data2) {
 							//for (i in data2) {
 							for (var i = 0; i < data2.length; i++) {
@@ -1584,9 +1584,9 @@ function initiiere_tpopbeob() {
 								html += '" DistZuTPop="';
 								html += data2[i].DistZuTPop;
 								if (data2[i].TPopId === data.TPopId) {
-									html += '" checked="checked" />';
+									html += '" checked="checked">';
 								} else {
-									html += '" />';
+									html += '">';
 								}
 								//Wenn TPop keine Koordinaten haben, Anzeige von NAN verhindern
 								if (parseInt(data2[i].DistZuTPop) >= 0) {
@@ -1682,7 +1682,7 @@ function initiiere_beob() {
 								html += data[i].TPopId;
 								html += '" DistZuTPop="';
 								html += data[i].DistZuTPop;
-								html += '" />';
+								html += '">';
 								//Wenn TPop keine Koordinaten haben, dies anzeigen und Anzeige von NAN verhindern
 								if (parseInt(data[i].DistZuTPop) >= 0) {
 									html += parseInt(data[i].DistZuTPop) + "m: " + data[i].TPopFlurname;
@@ -12862,7 +12862,7 @@ $.extend({
                     var value = kvp[1] || '';
                     value = settings.encodeHTMLEntities ? htmlSpecialCharsEntityEncode(decodeURIComponent(kvp[1])) : decodeURIComponent(kvp[1]);
 
-                    formInnerHtml += '<input type="hidden" name="' + key + '" value="' + value + '" />';
+                    formInnerHtml += '<input type="hidden" name="' + key + '" value="' + value + '">';
                 });
             }
 
@@ -13006,7 +13006,7 @@ $.extend({
                 .replace(/\n/gm, "&#10;")
                 .replace(/\r/gm, "&#13;")
                 .replace(/</gm, '&lt;')
-                .replace(/>/gm, '&gt;')
+                .replace(>/gm, '&gt;')
                 .replace(/"/gm, '&quot;')
                 .replace(/'/gm, '&apos;'); //single quotes just to be safe
         }
