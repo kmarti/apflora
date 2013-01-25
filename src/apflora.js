@@ -13006,7 +13006,7 @@ $.extend({
                 .replace(/\n/gm, "&#10;")
                 .replace(/\r/gm, "&#13;")
                 .replace(/</gm, '&lt;')
-                .replace(>/gm, '&gt;')
+                .replace(/>/gm, '&gt;')
                 .replace(/"/gm, '&quot;')
                 .replace(/'/gm, '&apos;'); //single quotes just to be safe
         }
