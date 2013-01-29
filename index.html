@@ -2803,8 +2803,9 @@
 				});
 
 				//Suche steuern
-				$("body").on("keyup click", "#suchen", function () {
-					if (this.value.length > 2) {
+				$("body").on("keyup click", "#suchen", function (e) {
+					//if (this.value.length > 2) {
+					if (e.keyCode === 13) {
 						$("#tree").jstree("search", this.value);
 					} else {
 						$("#tree").jstree("clear_search");

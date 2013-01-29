@@ -89,6 +89,12 @@ form fieldset {
 	padding: 0px 7px 0px 7px;
 }
 
+#suchen {
+	/*komischerweise wird hier Schrift und -grösse verändert*/
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 16px;
+}
+
 #forms #exporte {
 	padding: 10px 0px 10px 10px;
 }
