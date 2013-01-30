@@ -243,47 +243,23 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 
 		//TPop-Ordner setzen
 		//Massnahmen
-		$tpop_ordner_massn_datatext = $anz_tpopmassn." Massnahmen";
-		if ($anz_tpopmassn === 1) {
-			$tpop_ordner_massn_datatext = $anz_tpopmassn." Massnahme";
-		}
 		$tpop_ordner_massn_attr = array("id" => $TPopId, "typ" => "tpop_ordner_massn");
-		$tpop_ordner_massn = array("data" => $tpop_ordner_massn_datatext, "attr" => $tpop_ordner_massn_attr, "children" => $rows_tpopmassn);
+		$tpop_ordner_massn = array("data" => "Massnahmen (".$anz_tpopmassn.")", "attr" => $tpop_ordner_massn_attr, "children" => $rows_tpopmassn);
 		//Massnahmen-Berichte
-		$tpop_ordner_massnber_datatext = $anz_tpopmassnber." Massnahmen-Berichte";
-		if ($anz_tpopmassnber === 1) {
-			$tpop_ordner_massnber_datatext = $anz_tpopmassnber." Massnahmen-Bericht";
-		}
 		$tpop_ordner_massnber_attr = array("id" => $TPopId, "typ" => "tpop_ordner_massnber");
-		$tpop_ordner_massnber = array("data" => $tpop_ordner_massnber_datatext, "attr" => $tpop_ordner_massnber_attr, "children" => $rows_tpopmassnber);
+		$tpop_ordner_massnber = array("data" => "Massnahmen-Berichte (".$anz_tpopmassnber.")", "attr" => $tpop_ordner_massnber_attr, "children" => $rows_tpopmassnber);
 		//Feldkontrollen
-		$tpop_ordner_feldkontr_datatext = $anz_tpopfeldkontr." Feldkontrollen";
-		if ($anz_tpopfeldkontr === 1) {
-			$tpop_ordner_feldkontr_datatext = $anz_tpopfeldkontr." Feldkontrolle";
-		}
 		$tpop_ordner_feldkontr_attr = array("id" => $TPopId, "typ" => "tpop_ordner_feldkontr");
-		$tpop_ordner_feldkontr = array("data" => $tpop_ordner_feldkontr_datatext, "attr" => $tpop_ordner_feldkontr_attr, "children" => $rows_tpopfeldkontr);
+		$tpop_ordner_feldkontr = array("data" => "Feldkontrollen (".$anz_tpopfeldkontr.")", "attr" => $tpop_ordner_feldkontr_attr, "children" => $rows_tpopfeldkontr);
 		//Freiwilligen-Kontrollen
-		$tpop_ordner_freiwkontr_datatext = $anz_tpopfreiwkontr." Freiwilligen-Kontrollen";
-		if ($anz_tpopfreiwkontr === 1) {
-			$tpop_ordner_freiwkontr_datatext = $anz_tpopfreiwkontr." Freiwilligen-Kontrolle";
-		}
 		$tpop_ordner_freiwkontr_attr = array("id" => $TPopId, "typ" => "tpop_ordner_freiwkontr");
-		$tpop_ordner_freiwkontr = array("data" => $tpop_ordner_freiwkontr_datatext, "attr" => $tpop_ordner_freiwkontr_attr, "children" => $rows_tpopfreiwkontr);
+		$tpop_ordner_freiwkontr = array("data" => "Freiwilligen-Kontrollen (".$anz_tpopfreiwkontr.")", "attr" => $tpop_ordner_freiwkontr_attr, "children" => $rows_tpopfreiwkontr);
 		//Teilpopulations-Berichte
-		$tpop_ordner_tpopber_datatext = $anz_tpopber." Teilpopulations-Berichte";
-		if ($anz_tpopber === 1) {
-			$tpop_ordner_tpopber_datatext = $anz_tpopber." Teilpopulations-Bericht";
-		}
 		$tpop_ordner_tpopber_attr = array("id" => $TPopId, "typ" => "tpop_ordner_tpopber");
-		$tpop_ordner_tpopber = array("data" => $tpop_ordner_tpopber_datatext, "attr" => $tpop_ordner_tpopber_attr, "children" => $rows_tpopber);
+		$tpop_ordner_tpopber = array("data" => "Teilpopulations-Berichte (".$anz_tpopber.")", "attr" => $tpop_ordner_tpopber_attr, "children" => $rows_tpopber);
 		//Beobachtungen
-		$tpop_ordner_tpopbeob_datatext = $anz_tpopbeob." Beobachtungen";
-		if ($anz_tpopbeob === 1) {
-			$tpop_ordner_tpopbeob_datatext = $anz_tpopbeob." Beobachtung";
-		}
 		$tpop_ordner_tpopbeob_attr = array("id" => $TPopId, "typ" => "tpop_ordner_tpopbeob");
-		$tpop_ordner_tpopbeob = array("data" => $tpop_ordner_tpopbeob_datatext, "attr" => $tpop_ordner_tpopbeob_attr, "children" => $rows_tpopbeob);
+		$tpop_ordner_tpopbeob = array("data" => "Beobachtungen (".$anz_tpopbeob.")", "attr" => $tpop_ordner_tpopbeob_attr, "children" => $rows_tpopbeob);
 		//zusammensetzen
 		$tpop_ordner = array(0 => $tpop_ordner_massn, 1 => $tpop_ordner_massnber, 2 => $tpop_ordner_feldkontr, 3 => $tpop_ordner_freiwkontr, 4 => $tpop_ordner_tpopber, 5 => $tpop_ordner_tpopbeob);
 
@@ -359,26 +335,14 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 	
 	//pop-ordner setzen
 	//Teilpopulationen
-	$pop_ordner_tpop_datatext = $anz_tpop." Teilpopulationen";
-	if ($anz_tpop === 1) {
-		$pop_ordner_tpop_datatext = $anz_tpop." Teilpopulation";
-	}
 	$pop_ordner_tpop_attr = array("id" => $PopId, "typ" => "pop_ordner_tpop");
-	$pop_ordner_tpop = array("data" => $pop_ordner_tpop_datatext, "attr" => $pop_ordner_tpop_attr, "children" => $rows_tpop);
+	$pop_ordner_tpop = array("data" => "Teilpopulationen (".$anz_tpop.")", "attr" => $pop_ordner_tpop_attr, "children" => $rows_tpop);
 	//Populations-Berichte
-	$pop_ordner_popber_datatext = $anz_popber." Populations-Berichte";
-	if ($anz_popber === 1) {
-		$pop_ordner_popber_datatext = $anz_popber." Populations-Bericht";
-	}
 	$pop_ordner_popber_attr = array("id" => $PopId, "typ" => "pop_ordner_popber");
-	$pop_ordner_popber = array("data" => $pop_ordner_popber_datatext, "attr" => $pop_ordner_popber_attr, "children" => $rows_popber);
+	$pop_ordner_popber = array("data" => "Populations-Berichte (".$anz_popber.")", "attr" => $pop_ordner_popber_attr, "children" => $rows_popber);
 	//Massnahmen-Berichte
-	$pop_ordner_massnber_datatext = $anz_massnber." Massnahmen-Berichte";
-	if ($anz_massnber === 1) {
-		$pop_ordner_massnber_datatext = $anz_massnber." Massnahmen-Bericht";
-	}
 	$pop_ordner_massnber_attr = array("id" => $PopId, "typ" => "pop_ordner_massnber");
-	$pop_ordner_massnber = array("data" => $pop_ordner_massnber_datatext, "attr" => $pop_ordner_massnber_attr, "children" => $rows_massnber);
+	$pop_ordner_massnber = array("data" => "Massnahmen-Berichte (".$anz_massnber.")", "attr" => $pop_ordner_massnber_attr, "children" => $rows_massnber);
 	//zusammensetzen
 	$pop_ordner = array(0 => $pop_ordner_tpop, 1 => $pop_ordner_popber, 2 => $pop_ordner_massnber);
 
@@ -386,11 +350,11 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 	$attr_pop = array("id" => $PopId, "typ" => "pop");
 	$children_pop = $pop_ordner;
 	if ($r_pop['PopName'] & $PopNr) {
-		$data = $PopNr . " " . $r_pop['PopName'];
+		$data = $PopNr . ": " . $r_pop['PopName'];
 	} else if ($PopNr) {
-		$data = $PopNr . " (kein Name)";
+		$data = $PopNr . ": (kein Name)";
 	} else if ($r_pop['PopName']) {
-		$data = "(keine Nr) " . $r_pop['PopName'];
+		$data = "(keine Nr): " . $r_pop['PopName'];
 	} else {
 		$data = "(keine Nr, kein Name)";
 	}
@@ -413,7 +377,7 @@ while($r_apzieljahr = mysqli_fetch_assoc($result_apzieljahr)) {
 	//Typen
 	$result_apziel = mysqli_query($link, "SELECT ZielId, ZielTyp, ZielBezeichnung FROM tblZiel WHERE (ApArtId = $ApArtId) AND (ZielJahr = '".$r_apzieljahr['ZielJahr']."') ORDER BY ZielTyp, ZielBezeichnung");
 	$anz_apziel = mysqli_num_rows($result_apziel);
-	$anz_apzieljahr = $anz_apzieljahr + $anz_apziel;
+	$anz_apzieljahr += $anz_apziel;
 
 	//Datenstruktur apzieljahr aufbauen
 	$rows_apziel = array();
@@ -438,12 +402,8 @@ while($r_apzieljahr = mysqli_fetch_assoc($result_apzieljahr)) {
 		mysqli_free_result($result_zielber);
 
 		//Zielber-Ordner setzen
-		$zielber_ordner_datatext = $anz_zielber." Ziel-Berichte";
-		if ($anz_zielber === 1) {
-			$zielber_ordner_datatext = $anz_zielber." Ziel-Bericht";
-		}
 		$zielber_ordner_attr = array("id" => $ZielId, "typ" => "zielber_ordner");
-		$zielber_ordner = array("data" => $zielber_ordner_datatext, "attr" => $zielber_ordner_attr, "children" => $rows_zielber);
+		$zielber_ordner = array("data" => "Ziel-Berichte (".$anz_zielber.")", "attr" => $zielber_ordner_attr, "children" => $rows_zielber);
 		//zusammensetzen
 		$zielber_ordner = array(0 => $zielber_ordner);
 
@@ -465,7 +425,7 @@ while($r_apzieljahr = mysqli_fetch_assoc($result_apzieljahr)) {
 	//apzieljahr setzen
 	$metadata = array("ApArtId" => $ApArtId);
 	$attr_apzieljahr = array("id" => $ApArtId, "typ" => "apzieljahr");
-	$data_apzieljahr = $apzieljahr_jahr.": ".$anz_apziel;
+	$data_apzieljahr = $apzieljahr_jahr." (".$anz_apziel.")";
 	$apzieljahr = array("data" => $data_apzieljahr, "attr" => $attr_apzieljahr, "metadata" => $metadata, "children" => $rows_apziel);
 	//tpop-Array um tpop ergänzen
     $rows_apzieljahr[] = $apzieljahr;
@@ -632,57 +592,29 @@ mysqli_free_result($result_assozarten);
 
 //AP-Ordner setzen
 //Populationen
-$ap_ordner_pop_datatext = $anz_pop." Populationen";
-if ($anz_pop === 1) {
-	$ap_ordner_pop_datatext = $anz_pop." Population";
-}
 $ap_ordner_pop_attr = array("id" => $ApArtId, "typ" => "ap_ordner_pop");
-$ap_ordner_pop = array("data" => $ap_ordner_pop_datatext, "attr" => $ap_ordner_pop_attr, "children" => $rows_pop);
+$ap_ordner_pop = array("data" => "Populationen (".$anz_pop.")", "attr" => $ap_ordner_pop_attr, "children" => $rows_pop);
 //AP-Ziele
-$ap_ordner_apziel_datatext = $anz_apzieljahr." AP-Ziele";
-if ($anz_apzieljahr === 1) {
-	$ap_ordner_apziel_datatext = $anz_apzieljahr." AP-Ziel";
-}
 $ap_ordner_apziel_attr = array("id" => $ApArtId, "typ" => "ap_ordner_apziel");
-$ap_ordner_apziel = array("data" => $ap_ordner_apziel_datatext, "attr" => $ap_ordner_apziel_attr, "children" => $rows_apzieljahr);
+$ap_ordner_apziel = array("data" => "AP-Ziele (".$anz_apzieljahr.")", "attr" => $ap_ordner_apziel_attr, "children" => $rows_apzieljahr);
 //Erfolgskriterien
-$ap_ordner_erfkrit_datatext = $anz_erfkrit." AP-Erfolgskriterien";
-if ($anz_erfkrit === 1) {
-	$ap_ordner_erfkrit_datatext = $anz_erfkrit." AP-Erfolgskriterium";
-}
 $ap_ordner_erfkrit_attr = array("id" => $ApArtId, "typ" => "ap_ordner_erfkrit");
-$ap_ordner_erfkrit = array("data" => $ap_ordner_erfkrit_datatext, "attr" => $ap_ordner_erfkrit_attr, "children" => $rows_erfkrit);
+$ap_ordner_erfkrit = array("data" => "AP-Erfolgskriterien (".$anz_erfkrit.")", "attr" => $ap_ordner_erfkrit_attr, "children" => $rows_erfkrit);
 //AP-Berichte
-$ap_ordner_jber_datatext = $anz_jber." AP-Berichte";
-if ($anz_jber === 1) {
-	$ap_ordner_jber_datatext = $anz_jber." AP-Bericht";
-}
 $ap_ordner_jber_attr = array("id" => $ApArtId, "typ" => "ap_ordner_jber");
-$ap_ordner_jber = array("data" => $ap_ordner_jber_datatext, "attr" => $ap_ordner_jber_attr, "children" => $rows_jber);
+$ap_ordner_jber = array("data" => "AP-Berichte (".$anz_jber.")", "attr" => $ap_ordner_jber_attr, "children" => $rows_jber);
 //Berichte
-$ap_ordner_ber_datatext = $anz_ber." Berichte";
-if ($anz_ber === 1) {
-	$ap_ordner_ber_datatext = $anz_ber." Bericht";
-}
 $ap_ordner_ber_attr = array("id" => $ApArtId, "typ" => "ap_ordner_ber");
-$ap_ordner_ber = array("data" => $ap_ordner_ber_datatext, "attr" => $ap_ordner_ber_attr, "children" => $rows_ber);
+$ap_ordner_ber = array("data" => "Berichte (".$anz_ber.")", "attr" => $ap_ordner_ber_attr, "children" => $rows_ber);
 //Beobachtungen
-$ap_ordner_beob_datatext = $anz_beob." nicht zugewiesene Beobachtungen";
-if ($anz_beob === 1) {
-	$ap_ordner_beob_datatext = $anz_beob." nicht zugewiesene Beobachtung";
-}
 $ap_ordner_beob_attr = array("id" => $ApArtId, "typ" => "ap_ordner_beob");
-$ap_ordner_beob = array("data" => $ap_ordner_beob_datatext, "attr" => $ap_ordner_beob_attr, "children" => $rows_beob);
+$ap_ordner_beob = array("data" => "nicht zugewiesene Beobachtungen (".$anz_beob.")", "attr" => $ap_ordner_beob_attr, "children" => $rows_beob);
 //Ideale Umweltfaktoren, jetzt Idealbiotop genannt
 $ap_ordner_umwfakt_attr = array("id" => $ApArtId, "typ" => "umwfakt");
 $ap_ordner_umwfakt = array("data" => "Idealbiotop", "attr" => $ap_ordner_umwfakt_attr);
 //assoziierte Arten
-$ap_ordner_assozarten_datatext = $anz_assozarten." assoziierte Arten";
-if ($anz_assozarten === 1) {
-	$ap_ordner_assozarten_datatext = $anz_assozarten." assoziierte Art";
-}
 $ap_ordner_assozarten_attr = array("id" => $ApArtId, "typ" => "ap_ordner_assozarten");
-$ap_ordner_assozarten = array("data" => $ap_ordner_assozarten_datatext, "attr" => $ap_ordner_assozarten_attr, "children" => $rows_assozarten);
+$ap_ordner_assozarten = array("data" => "assoziierte Arten (".$anz_assozarten.")", "attr" => $ap_ordner_assozarten_attr, "children" => $rows_assozarten);
 //zusammensetzen
 $ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_jber, 4 => $ap_ordner_ber, 5 => $ap_ordner_beob, 6 => $ap_ordner_umwfakt, 7 => $ap_ordner_assozarten);
 

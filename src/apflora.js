@@ -3121,11 +3121,7 @@ function erstelle_tree(ApArtId) {
 function beschrifte_ap_ordner_pop(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
-	if (anz === 1) {
-		anzTxt = anz + " Population";
-	} else {
-		anzTxt = anz + " Populationen";
-	}
+	anzTxt = "Populationen (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
@@ -3133,12 +3129,13 @@ function beschrifte_ap_ordner_pop(node) {
 //zählt dessen children und passt die Beschriftung an
 function beschrifte_ap_ordner_apziel(node) {
 	var anz, anzTxt;
-	anz = $(node).find("> ul > li").length;
-	if (anz === 1) {
-		anzTxt = anz + " AP-Ziel";
-	} else {
-		anzTxt = anz + " AP-Ziele";
-	}
+	anz = 0;
+	$(jQuery.jstree._reference(node)._get_children(node)).each(function(index) {
+		$($(this).find("> ul > li")).each(function(index) {
+			anz += 1;
+		});
+	});
+	anzTxt = "AP-Ziele (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
@@ -3148,7 +3145,7 @@ function beschrifte_apzieljahr(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	anzTxt = jQuery.jstree._reference(node).get_text(node).slice(0, 6);
-	anzTxt += anz;
+	anzTxt += anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
@@ -3157,11 +3154,7 @@ function beschrifte_apzieljahr(node) {
 function beschrifte_zielber_ordner(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
-	if (anz === 1) {
-		anzTxt = anz + " Ziel-Bericht";
-	} else {
-		anzTxt = anz + " Ziel-Berichte";
-	}
+	anzTxt = "Ziel-Berichte (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
@@ -3170,11 +3163,7 @@ function beschrifte_zielber_ordner(node) {
 function beschrifte_ap_ordner_erfkrit(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
-	if (anz === 1) {
-		anzTxt = anz + " AP-Erfolgskriterium";
-	} else {
-		anzTxt = anz + " AP-Erfolgskriterien";
-	}
+	anzTxt = "AP-Erfolgskriterien (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
@@ -3183,11 +3172,7 @@ function beschrifte_ap_ordner_erfkrit(node) {
 function beschrifte_ap_ordner_jber(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
-	if (anz === 1) {
-		anzTxt = anz + " AP-Bericht";
-	} else {
-		anzTxt = anz + " AP-Berichte";
-	}
+	anzTxt = "AP-Berichte (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
@@ -3196,11 +3181,7 @@ function beschrifte_ap_ordner_jber(node) {
 function beschrifte_ap_ordner_ber(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
-	if (anz === 1) {
-		anzTxt = anz + " Bericht";
-	} else {
-		anzTxt = anz + " Berichte";
-	}
+	anzTxt = "Berichte (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
@@ -3209,11 +3190,7 @@ function beschrifte_ap_ordner_ber(node) {
 function beschrifte_ap_ordner_assozarten(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
-	if (anz === 1) {
-		anzTxt = anz + " assoziierte Art";
-	} else {
-		anzTxt = anz + " assoziierte Arten";
-	}
+	anzTxt = "assoziierte Arten (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
@@ -3222,11 +3199,7 @@ function beschrifte_ap_ordner_assozarten(node) {
 function beschrifte_pop(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
-	if (anz === 1) {
-		anzTxt = anz + " Population";
-	} else {
-		anzTxt = anz + " Populationen";
-	}
+	anzTxt = "Populationen (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
@@ -3235,11 +3208,7 @@ function beschrifte_pop(node) {
 function beschrifte_pop_ordner_tpop(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
-	if (anz === 1) {
-		anzTxt = anz + " Teilpopulation";
-	} else {
-		anzTxt = anz + " Teilpopulationen";
-	}
+	anzTxt = "Teilpopulationen (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
@@ -3248,11 +3217,7 @@ function beschrifte_pop_ordner_tpop(node) {
 function beschrifte_pop_ordner_popber(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
-	if (anz === 1) {
-		anzTxt = anz + " Populations-Bericht";
-	} else {
-		anzTxt = anz + " Populations-Berichte";
-	}
+	anzTxt = "Populations-Berichte (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
@@ -3261,11 +3226,7 @@ function beschrifte_pop_ordner_popber(node) {
 function beschrifte_pop_ordner_massnber(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
-	if (anz === 1) {
-		anzTxt = anz + " Massnahmen-Bericht";
-	} else {
-		anzTxt = anz + " Massnahmen-Berichte";
-	}
+	anzTxt = "Massnahmen-Berichte (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
@@ -3274,11 +3235,7 @@ function beschrifte_pop_ordner_massnber(node) {
 function beschrifte_tpop_ordner_massn(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
-	if (anz === 1) {
-		anzTxt = anz + " Massnahme";
-	} else {
-		anzTxt = anz + " Massnahmen";
-	}
+	anzTxt = "Massnahmen (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
@@ -3287,11 +3244,7 @@ function beschrifte_tpop_ordner_massn(node) {
 function beschrifte_tpop_ordner_massnber(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
-	if (anz === 1) {
-		anzTxt = anz + " Massnahmen-Bericht";
-	} else {
-		anzTxt = anz + " Massnahmen-Berichte";
-	}
+	anzTxt = "Massnahmen-Berichte (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
@@ -3300,11 +3253,7 @@ function beschrifte_tpop_ordner_massnber(node) {
 function beschrifte_tpop_ordner_tpopber(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
-	if (anz === 1) {
-		anzTxt = anz + " Teilpopulations-Bericht";
-	} else {
-		anzTxt = anz + " Teilpopulations-Berichte";
-	}
+	anzTxt = "Teilpopulations-Berichte (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
@@ -3313,11 +3262,7 @@ function beschrifte_tpop_ordner_tpopber(node) {
 function beschrifte_tpop_ordner_feldkontr(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
-	if (anz === 1) {
-		anzTxt = anz + " Feldkontrolle";
-	} else {
-		anzTxt = anz + " Feldkontrollen";
-	}
+	anzTxt = "Feldkontrollen (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
@@ -3326,11 +3271,7 @@ function beschrifte_tpop_ordner_feldkontr(node) {
 function beschrifte_tpop_ordner_freiwkontr(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
-	if (anz === 1) {
-		anzTxt = anz + " Freiwilligen-Kontrolle";
-	} else {
-		anzTxt = anz + " Freiwilligen-Kontrollen";
-	}
+	anzTxt = "Freiwilligen-Kontrollen (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
@@ -3339,11 +3280,7 @@ function beschrifte_tpop_ordner_freiwkontr(node) {
 function beschrifte_tpop_ordner_tpopbeob(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
-	if (anz === 1) {
-		anzTxt = anz + " Beobachtung";
-	} else {
-		anzTxt = anz + " Beobachtungen";
-	}
+	anzTxt = "Beobachtungen (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
@@ -3352,11 +3289,7 @@ function beschrifte_tpop_ordner_tpopbeob(node) {
 function beschrifte_ap_ordner_beob(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
-	if (anz === 1) {
-		anzTxt = anz + " nicht zugewiesene Beobachtung";
-	} else {
-		anzTxt = anz + " nicht zugewiesene Beobachtungen";
-	}
+	anzTxt = "nicht zugewiesene Beobachtungen (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
@@ -9051,11 +8984,11 @@ function speichern(that) {
 		case "PopName":
 			var popbeschriftung;
 			if ($("#PopName").val() && $("#PopNr").val()) {
-				popbeschriftung = $("#PopNr").val() + " " + $("#PopName").val();
+				popbeschriftung = $("#PopNr").val() + ": " + $("#PopName").val();
 			} else if ($("#PopName").val()) {
-				popbeschriftung = "(keine Nr) " + $("#PopName").val();
+				popbeschriftung = "(keine Nr): " + $("#PopName").val();
 			} else if ($("#PopNr").val()) {
-				popbeschriftung = $("#PopNr").val() + " (kein Name)";
+				popbeschriftung = $("#PopNr").val() + ": (kein Name)";
 			} else {
 				popbeschriftung = "(keine Nr, kein Name)";
 			}
@@ -9093,11 +9026,11 @@ function speichern(that) {
 		case "TPopFlurname":
 			var tpopbeschriftung;
 			if ($("#TPopNr").val() && $("#TPopFlurname").val()) {
-				tpopbeschriftung = $("#TPopNr").val() + " " + $("#TPopFlurname").val();
+				tpopbeschriftung = $("#TPopNr").val() + ": " + $("#TPopFlurname").val();
 			} else if ($("#TPopFlurname").val()) {
-				tpopbeschriftung = "(keine Nr) " + $("#TPopFlurname").val();
+				tpopbeschriftung = "(keine Nr): " + $("#TPopFlurname").val();
 			} else if ($("#TPopNr").val()) {
-				tpopbeschriftung = $("#TPopNr").val() + " (kein Flurname)";
+				tpopbeschriftung = $("#TPopNr").val() + ": (kein Flurname)";
 			} else {
 				tpopbeschriftung = "(keine Nr, kein Flurname)";
 			}
