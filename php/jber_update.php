@@ -27,12 +27,22 @@ if ($Feld == "JBerDatum") {
 	}
 }
 
-if ($Wert || $Wert == 0) {
+if ($Wert == "") {
+	//Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
+	$Querystring = 'UPDATE tblJBer SET '.$Feld.'=null, MutWann="'.$time.'", MutWer="'.$user.'" WHERE JBerId = '.$id;
+} else if ($Wert || $Wert == 0) {
 	$Querystring = 'UPDATE tblJBer SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE JBerId = '.$id;
 } else {
 	//Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
 	$Querystring = 'UPDATE tblJBer SET '.$Feld.'=null, MutWann="'.$time.'", MutWer="'.$user.'" WHERE JBerId = '.$id;
 }
+
+/*if ($Wert || $Wert == 0) {
+	$Querystring = 'UPDATE tblJBer SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE JBerId = '.$id;
+} else {
+	//Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
+	$Querystring = 'UPDATE tblJBer SET '.$Feld.'=null, MutWann="'.$time.'", MutWer="'.$user.'" WHERE JBerId = '.$id;
+}*/
 
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);
