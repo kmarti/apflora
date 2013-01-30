@@ -2206,7 +2206,10 @@
 				<button id="export_tpop_ohne_bekannt_seit">Teilpopulationen von AP-Arten ohne "Bekannt seit"</button><br><br>
 
 				<button id="export_tpop_anz_massn">Anzahl Massnahmen pro Teilpopulation</button><br>
-				<button id="export_tpop_anz_kontr_inkl_letzte">Anzahl Kontrollen pro Teilpopulation, inklusive der letzten Kontrolle</button><br>
+				<button id="export_tpop_anz_kontr_inkl_letzte">Anzahl Kontrollen pro Teilpopulation, inklusive der letzten Kontrolle</button><br><br>
+
+				<button id="export_tpopber">Teilpopulations-Berichte</button><br>
+				<button id="export_tpopmassnber">Massnahmen-Berichte</button><br>
 
 				<br><a href="#top">&uArr;&nbsp;top</a>
 
@@ -3172,6 +3175,24 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
+			$("#exporte").on("click", "#export_tpopber", function() {
+				var url = "php/export_tpopber.php";
+				$.fileDownload(url, {
+					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
+					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
+				});
+				return false; //this is critical to stop the click event which will trigger a normal file download!
+			});
+			$("#exporte").on("click", "#export_tpopmassnber", function() {
+				var url = "php/export_tpopmassnber.php";
+				$.fileDownload(url, {
+					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
+					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
+				});
+				return false; //this is critical to stop the click event which will trigger a normal file download!
+			});
+
 			$("#forms").on("click", ".export_kontr", function() {
 				//wenn tpop ausgewählt, diese übergeben
 				var tpop_id_liste = "";

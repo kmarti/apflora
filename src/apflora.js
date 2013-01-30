@@ -3307,6 +3307,13 @@ function treeKontextmenu(node) {
 	switch($(aktiver_node).attr("typ")) {
 	case "ap_ordner_pop":
 		items = {
+			"untergeordneteKnotenOeffnen": {
+				"label": "untergeordnete Knoten öffnen",
+				"icon": "style/images/tree16x16.png",
+				"action": function () {
+					jQuery.jstree._reference(node).open_all(node);
+				}
+			},
 			"neu": {
 				"label": "neue Population",
 				"icon": "style/images/neu.png",
@@ -3525,6 +3532,13 @@ function treeKontextmenu(node) {
 		return items;
 	case "ap_ordner_apziel":
 		items = {
+			"untergeordneteKnotenOeffnen": {
+				"label": "untergeordnete Knoten öffnen",
+				"icon": "style/images/tree16x16.png",
+				"action": function () {
+					jQuery.jstree._reference(node).open_all(node);
+				}
+			},
 			"neu": {
 				"label": "neues Ziel",
 				"icon": "style/images/neu.png",
@@ -3610,6 +3624,13 @@ function treeKontextmenu(node) {
 		return items;
 	case "apzieljahr":
 		items = {
+			"untergeordneteKnotenOeffnen": {
+				"label": "untergeordnete Knoten öffnen",
+				"icon": "style/images/tree16x16.png",
+				"action": function () {
+					jQuery.jstree._reference(node).open_all(node);
+				}
+			},
 			"neu": {
 				"label": "neues Ziel",
 				"icon": "style/images/neu.png",
@@ -4260,6 +4281,13 @@ function treeKontextmenu(node) {
 		return items;
 	case "ap_ordner_jber":
 		items = {
+			"untergeordneteKnotenOeffnen": {
+				"label": "untergeordnete Knoten öffnen",
+				"icon": "style/images/tree16x16.png",
+				"action": function () {
+					jQuery.jstree._reference(node).open_all(node);
+				}
+			},
 			"neu": {
 				"label": "neuer AP-Bericht",
 				"icon": "style/images/neu.png",
@@ -5335,6 +5363,13 @@ function treeKontextmenu(node) {
 		return items;
 	case "pop_ordner_tpop":
 		items = {
+			"untergeordneteKnotenOeffnen": {
+				"label": "untergeordnete Knoten öffnen",
+				"icon": "style/images/tree16x16.png",
+				"action": function () {
+					jQuery.jstree._reference(node).open_all(node);
+				}
+			},
 			"neu": {
 				"label": "neue Teilpopulation",
 				"icon": "style/images/neu.png",
@@ -5548,6 +5583,13 @@ function treeKontextmenu(node) {
 		return items;
 	case "tpop":
 		items = {
+			"untergeordneteKnotenOeffnen": {
+				"label": "untergeordnete Knoten öffnen",
+				"icon": "style/images/tree16x16.png",
+				"action": function () {
+					jQuery.jstree._reference(node).open_all(node);
+				}
+			},
 			"neu": {
 				"label": "neue Teilpopulation",
 				"icon": "style/images/neu.png",
