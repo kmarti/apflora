@@ -321,6 +321,16 @@ Quelle: http://sixrevisions.com/css/css-only-tooltips*/
 	color: #000000;
 }
 
+.export_abschnitt_exporte {
+	-moz-column-width: 300px;
+	-webkit-column-width: 300px;
+	column-width: 300px;
+}
+
+#exporte button {
+	text-align: left;
+}
+
 /*Auf iOS soll bei taphold im Baum das Systemmenu nicht öffnen*/
 /*funktioniert, wenn man wenig lang drückt. Bei sehr lang wird das Kontextmenu gar nicht aufgerufen, dafür das Systemmenu...*/
 body {
