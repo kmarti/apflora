@@ -8228,6 +8228,59 @@ function treeKontextmenu(node) {
 					});
 				}
 			},
+			"GoogleMapsMitTPopTPopBeob": {
+				"label": "auf Luftbild einer neuen<br>&nbsp;&nbsp;&nbsp;Teilpopulation zuordnen",
+				"separator_before": true,
+				"icon": "style/images/flora_icon_violett.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/beob_karte.php',
+						dataType: 'json',
+						data: {
+							"beobid": $(aktiver_node).attr("id")
+						},
+						success: function (beob) {
+							if (beob.rows.length > 0) {
+								$.ajax({
+									url: 'php/ap_karte.php',
+									dataType: 'json',
+									data: {
+										"id": localStorage.ap_id
+									},
+									success: function (tpop) {
+										if (tpop.rows.length > 0) {
+											zeigeBeobUndTPopAufKarte(beob, tpop);
+										} else {
+											zeigeBeobAufKarte(beob);
+										}
+									}
+								});
+							} else {
+								$("#Meldung").html("Die Beobachtung hat keine Koordinaten<br>Bitte im Formular zuordnen");
+								$("#Meldung").dialog({
+									modal: true,
+									buttons: {
+										Ok: function() {
+											$(this).dialog("close");
+										}
+									}
+								});
+							}
+						},	
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine Daten erhalten");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},
 			"GisBrowser": {
 				"label": "im GIS-Browser zeigen",
 				"separator_before": true,
@@ -11172,7 +11225,11 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 								//dem bind.move_node mitteilen, dass das Formular nicht initiiert werden soll
 								localStorage.karte_fokussieren = true;
 								//Beob der TPop zuweisen
-								jQuery("#tree").jstree("move_node", "[typ='beob']#" + Beob.BeobId, "[typ='tpop_ordner_tpopbeob']#" + data[0].TPopId, "first");
+								if (Beob.TPopId) {
+									$("#tree").jstree("move_node", "[typ='tpop_ordner_tpopbeob'] #" + Beob.BeobId, "[typ='tpop_ordner_tpopbeob']#" + data[0].TPopId, "first");	//FUNKTIONIERT BEI ZUGEORDNETEN BEOB, sonst erscheint ein # vor dem selector
+								} else {
+									$("#tree").jstree("move_node", "[typ='beob']#" + Beob.BeobId, "[typ='tpop_ordner_tpopbeob']#" + data[0].TPopId, "first");	//FUNKTIONIERT BEI NICHT ZUGEORDNETEN BEOB, sonst erscheint ein # vor dem selector
+								}
 								//Den Marker der zugewiesenen Beobachtung entfernen
 								that.setMap(null);
 							},
