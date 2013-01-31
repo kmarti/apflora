@@ -8660,6 +8660,59 @@ function treeKontextmenu(node) {
 					});
 				}
 			},
+			"GoogleMapsMitTPopBeob": {
+				"label": "auf Luftbild einer Teilpopulation<br>&nbsp;&nbsp;&nbsp;zuordnen",
+				"separator_before": true,
+				"icon": "style/images/flora_icon_violett.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/beob_karte.php',
+						dataType: 'json',
+						data: {
+							"beobid": $(aktiver_node).attr("id")
+						},
+						success: function (beob) {
+							if (beob.rows.length > 0) {
+								$.ajax({
+									url: 'php/ap_karte.php',
+									dataType: 'json',
+									data: {
+										"id": $(parent_node).attr("id")
+									},
+									success: function (tpop) {
+										if (tpop.rows.length > 0) {
+											zeigeBeobUndTPopAufKarte(beob, tpop);
+										} else {
+											zeigeBeobAufKarte(beob);
+										}
+									}
+								});
+							} else {
+								$("#Meldung").html("Die Beobachtung hat keine Koordinaten<br>Bitte im Formular zuordnen");
+								$("#Meldung").dialog({
+									modal: true,
+									buttons: {
+										Ok: function() {
+											$(this).dialog("close");
+										}
+									}
+								});
+							}
+						},	
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine Daten erhalten");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},
 			"GisBrowser": {
 				"label": "im GIS-Browser zeigen",
 				"separator_before": true,
