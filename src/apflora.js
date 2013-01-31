@@ -5571,8 +5571,21 @@ function treeKontextmenu(node) {
 			}
 		}
 		if (window.tpop_node_kopiert) {
+			var label = "";
+			if (window.tpop_node_kopiert.TPopNr) {
+				label += window.tpop_node_kopiert.TPopNr;
+			} else {
+				label += "(keine Nr.)";
+			}
+			label += ": ";
+			if (window.tpop_node_kopiert.TPopFlurname) {
+				label += window.tpop_node_kopiert.TPopFlurname;
+			} else {
+				label += "(kein Flurname)";
+			}
 			items.einfuegen = {
-				"label": jQuery.jstree._reference(window.tpop_node_kopiert).get_text(window.tpop_node_kopiert) + " einfügen",
+				//"label": jQuery.jstree._reference(window.tpop_node_kopiert).get_text(window.tpop_node_kopiert) + " einfügen",
+				"label": label + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
