@@ -2192,6 +2192,7 @@
 				<button id="export_pop_anz_massn">Anzahl Massnahmen pro Population</button><br>
 				<button id="export_pop_anz_kontr">Anzahl Kontrollen pro Population</button><br><br>
 
+				<button id="export_popber_massnber">Populationen inkl. Populations- und Massnahmen-Berichten</button><br>
 				<button id="export_popber">Populations-Berichte</button><br>
 				<button id="export_popmassnber">Massnahmen-Berichte</button><br>
 
@@ -2208,6 +2209,7 @@
 				<button id="export_tpop_anz_massn">Anzahl Massnahmen pro Teilpopulation</button><br>
 				<button id="export_tpop_anz_kontr_inkl_letzte">Anzahl Kontrollen pro Teilpopulation, inklusive der letzten Kontrolle</button><br><br>
 
+				<button id="export_tpopber_massnber">Teilpopulationen inkl. Teilpopulations- und Massnahmen-Berichten</button><br>
 				<button id="export_tpopber">Teilpopulations-Berichte</button><br>
 				<button id="export_tpopmassnber">Massnahmen-Berichte</button><br>
 
@@ -3097,6 +3099,14 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+			$("#exporte").on("click", "#export_popber_massnber", function() {
+				var url = "php/export_popber_massnber.php";
+				$.fileDownload(url, {
+					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
+					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
+				});
+				return false; //this is critical to stop the click event which will trigger a normal file download!
+			});
 			$("#exporte").on("click", "#export_popber", function() {
 				var url = "php/export_popber.php";
 				$.fileDownload(url, {
@@ -3175,7 +3185,14 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
-
+			$("#exporte").on("click", "#export_tpopber_massnber", function() {
+				var url = "php/export_tpopber_massnber.php";
+				$.fileDownload(url, {
+					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
+					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
+				});
+				return false; //this is critical to stop the click event which will trigger a normal file download!
+			});
 			$("#exporte").on("click", "#export_tpopber", function() {
 				var url = "php/export_tpopber.php";
 				$.fileDownload(url, {
