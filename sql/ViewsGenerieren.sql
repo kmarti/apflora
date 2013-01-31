@@ -392,29 +392,26 @@ SELECT tblAktionsplan.ApArtId
 FROM (((tblAktionsplan INNER JOIN vApAnzMassnBisJahr ON tblAktionsplan.ApArtId = vApAnzMassnBisJahr.ApArtId) INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) LEFT JOIN tblJBer ON tblAktionsplan.ApArtId = tblJBer.ApArtId) INNER JOIN tblKonstanten ON vApAnzMassnBisJahr.TPopMassnJahr = tblKonstanten.JBerJahr
 WHERE (tblJBer.ApArtId Is Null) AND (tblAktionsplan.ApStatus Between 1 And 3);
 
-alt:
-SELECT tblAktionsplan.ApArtId
-FROM ((tblAktionsplan INNER JOIN vApAnzMassnBisJahr ON tblAktionsplan.ApArtId = vApAnzMassnBisJahr.ApArtId) INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) LEFT JOIN tblJBer ON tblAktionsplan.ApArtId = tblJBer.ApArtId
-WHERE ((tblJBer.ApArtId Is Null) AND (tblAktionsplan.ApStatus Between 1 And 3));
-
 CREATE VIEW vJbUebNichtBeurteilt00 AS 
 SELECT tblAktionsplan.ApArtId
 FROM tblKonstanten AS tblKonstanten_1 INNER JOIN (((tblAktionsplan INNER JOIN vApAnzMassnBisJahr ON tblAktionsplan.ApArtId = vApAnzMassnBisJahr.ApArtId) INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) INNER JOIN (tblJBer INNER JOIN tblKonstanten ON tblJBer.JBerJahr = tblKonstanten.JBerJahr) ON tblAktionsplan.ApArtId = tblJBer.ApArtId) ON tblKonstanten_1.JBerJahr = vApAnzMassnBisJahr.TPopMassnJahr
 WHERE (tblAktionsplan.ApStatus Between 1 And 3) AND (tblJBer.JBerBeurteilung Is Null);
-
-alt:
-SELECT tblAktionsplan.ApArtId
-FROM ((tblAktionsplan INNER JOIN vApAnzMassnBisJahr ON tblAktionsplan.ApArtId = vApAnzMassnBisJahr.ApArtId) INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) INNER JOIN (tblJBer INNER JOIN tblKonstanten ON tblJBer.JBerJahr = tblKonstanten.JBerJahr) ON tblAktionsplan.ApArtId = tblJBer.ApArtId
-WHERE (((tblJBer.JBerJahr)=tblKonstanten.JBerJahr) AND ((tblAktionsplan.ApStatus) Between 1 And 3) AND ((tblJBer.JBerBeurteilung) Is Null));
 
 CREATE VIEW vJbUebNichtBeurteilt0 AS 
 select ApArtId from vJbUebNichtBeurteilt000
 UNION select ApArtId from vJbUebNichtBeurteilt00;
 
 CREATE VIEW vJbUebNichtBeurteilt AS 
-SELECT If(ArtenDb_tblFloraSisf.Deutsch is null,ArtenDb_tblFloraSisf.Name, CONCAT(ArtenDb_tblFloraSisf.Name, ' (', ArtenDb_tblFloraSisf.Deutsch, ')')) AS Artname, vFnsKef.FnsKefArt2, vFnsKef.FnsKefKontrJahr2, vFnsJahrespflanzen.Jahr AS FnsJahrespflanze, vFnsJahrespflanzen.Jahresart AS FnsJahrespflanze2
+SELECT tblAktionsplan.ApArtId, If(ArtenDb_tblFloraSisf.Deutsch is null,ArtenDb_tblFloraSisf.Name, CONCAT(ArtenDb_tblFloraSisf.Name, ' (', ArtenDb_tblFloraSisf.Deutsch, ')')) AS Artname, vFnsKef.FnsKefArt2, vFnsKef.FnsKefKontrJahr2, vFnsJahrespflanzen.Jahr AS FnsJahrespflanze, vFnsJahrespflanzen.Jahresart AS FnsJahrespflanze2
 FROM (((ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN vFnsJahrespflanzen ON tblAktionsplan.ApArtId = vFnsJahrespflanzen.SisfNr) LEFT JOIN vFnsKef ON tblAktionsplan.ApArtId = vFnsKef.SisfNr) INNER JOIN vJbUebNichtBeurteilt0 ON tblAktionsplan.ApArtId = vJbUebNichtBeurteilt0.ApArtId
-WHERE (((tblAktionsplan.ApStatus) Between 1 And 3));
+WHERE (((tblAktionsplan.ApStatus) Between 1 And 3))
+ORDER BY ArtenDb_tblFloraSisf.Name
+
+CREATE VIEW vJbUeT01 AS 
+SELECT tblAktionsplan.ApArtId, ArtenDb_tblFloraSisf.Name
+FROM ((ArtenDb_tblFloraSisf INNER JOIN (tblAktionsplan INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) INNER JOIN vApAnzMassnBisJahr ON tblAktionsplan.ApArtId = vApAnzMassnBisJahr.ApArtId) INNER JOIN tblKonstanten ON vApAnzMassnBisJahr.TPopMassnJahr = tblKonstanten.JBerJahr
+WHERE (tblAktionsplan.ApStatus Between 1 And 3) AND vApAnzMassnBisJahr.AnzahlMassnahmen>"0"
+ORDER BY ArtenDb_tblFloraSisf.Name;
 
 CREATE VIEW vKontrApArtTPopOhneStatus AS 
 SELECT ArtenDb_tblFloraSisf.Name AS Art, DomainApBearbeitungsstand.DomainTxt AS "Bearbeitungsstand AP", tblPopulation.PopNr, tblPopulation.PopName, DomainPopHerkunft.HerkunftTxt AS "Status Population", tblTeilpopulation.TPopNr, tblTeilpopulation.TPopFlurname, tblTeilpopulation.TPopHerkunft AS "Status Teilpopulation"
