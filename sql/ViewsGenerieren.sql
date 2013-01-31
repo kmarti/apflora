@@ -2,7 +2,7 @@ im Gebrauch:
 CREATE VIEW vApApBerichtRelevant AS 
 SELECT tblAktionsplan.ApArtId
 FROM tblAktionsplan INNER JOIN (tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) ON tblAktionsplan.ApArtId = tblPopulation.ApArtId
-WHERE tblTeilpopulation.TPopApBerichtRelevant=1
+WHERE tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblAktionsplan.ApArtId;
 
 im Gebrauch:
@@ -272,7 +272,7 @@ ORDER BY ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr, tblTeilpopulation.TPopN
 CREATE VIEW vApAnzMassnProJahr0 AS 
 SELECT tblAktionsplan.ApArtId, tblTeilPopMassnahme.TPopMassnJahr, Count(tblTeilPopMassnahme.TPopMassnId) AS AnzahlvonTPopMassnId
 FROM tblAktionsplan INNER JOIN ((tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) INNER JOIN tblTeilPopMassnahme ON tblTeilpopulation.TPopId = tblTeilPopMassnahme.TPopId) ON tblAktionsplan.ApArtId = tblPopulation.ApArtId
-WHERE (tblAktionsplan.ApStatus Between 1 And 3) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
+WHERE (tblAktionsplan.ApStatus Between 1 And 3) AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblAktionsplan.ApArtId, tblTeilPopMassnahme.TPopMassnJahr
 HAVING tblTeilPopMassnahme.TPopMassnJahr Is Not Null
 ORDER BY tblAktionsplan.ApArtId, tblTeilPopMassnahme.TPopMassnJahr;
@@ -302,7 +302,7 @@ ORDER BY ArtenDb_tblFloraSisf.Name, vApAnzMassnProJahr.TPopMassnJahr;
 CREATE VIEW vLetzterTPopMassnBericht0 AS 
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId, tblTeilPopMassnBericht.TPopMassnBerJahr
 FROM tblKonstanten, ((tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) INNER JOIN tblTeilPopMassnBericht ON tblTeilpopulation.TPopId = tblTeilPopMassnBericht.TPopId) INNER JOIN tblTeilPopMassnahme ON tblTeilpopulation.TPopId = tblTeilPopMassnahme.TPopId
-WHERE (tblTeilPopMassnBericht.TPopMassnBerJahr<=tblKonstanten.JBerJahr) AND (tblTeilpopulation.TPopApBerichtRelevant=1) AND (tblTeilPopMassnahme.TPopMassnJahr<=tblKonstanten.JBerJahr);
+WHERE tblTeilPopMassnBericht.TPopMassnBerJahr<=tblKonstanten.JBerJahr AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblTeilPopMassnahme.TPopMassnJahr<=tblKonstanten.JBerJahr AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11;
 
 CREATE VIEW vLetzterTPopMassnBericht AS
 SELECT vLetzterTPopMassnBericht0.ApArtId, vLetzterTPopMassnBericht0.TPopId, Max(vLetzterTPopMassnBericht0.TPopMassnBerJahr) AS MaxvonTPopMassnBerJahr
@@ -312,7 +312,7 @@ GROUP BY vLetzterTPopMassnBericht0.ApArtId, vLetzterTPopMassnBericht0.TPopId;
 CREATE VIEW vLetzterTPopBericht0 AS
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId, tblTeilPopBericht.TPopBerJahr
 FROM tblKonstanten, tblAktionsplan INNER JOIN (tblPopulation INNER JOIN (tblTeilpopulation INNER JOIN tblTeilPopBericht ON tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId) ON tblAktionsplan.ApArtId = tblPopulation.ApArtId
-WHERE (tblTeilPopBericht.TPopBerJahr<=tblKonstanten.JBerJahr And tblTeilPopBericht.TPopBerJahr>=tblAktionsplan.ApJahr) AND (tblTeilpopulation.TPopApBerichtRelevant=1);
+WHERE tblTeilPopBericht.TPopBerJahr<=tblKonstanten.JBerJahr And tblTeilPopBericht.TPopBerJahr>=tblAktionsplan.ApJahr AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11;
 
 CREATE VIEW vLetzterTPopBericht AS 
 SELECT vLetzterTPopBericht0.ApArtId, vLetzterTPopBericht0.TPopId, Max(vLetzterTPopBericht0.TPopBerJahr) AS MaxvonTPopBerJahr
@@ -322,7 +322,7 @@ GROUP BY vLetzterTPopBericht0.ApArtId, vLetzterTPopBericht0.TPopId;
 CREATE VIEW vLetzterPopMassnBericht0 AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId, tblPopMassnBericht.PopMassnBerJahr
 FROM tblKonstanten, ((tblPopulation INNER JOIN tblPopMassnBericht ON tblPopulation.PopId = tblPopMassnBericht.PopId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) INNER JOIN tblTeilPopMassnahme ON tblTeilpopulation.TPopId = tblTeilPopMassnahme.TPopId
-WHERE (tblPopMassnBericht.PopMassnBerJahr<=tblKonstanten.JBerJahr) AND (tblTeilpopulation.TPopApBerichtRelevant=1) AND (tblTeilPopMassnahme.TPopMassnJahr<=tblKonstanten.JBerJahr);
+WHERE tblPopMassnBericht.PopMassnBerJahr<=tblKonstanten.JBerJahr AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblTeilPopMassnahme.TPopMassnJahr<=tblKonstanten.JBerJahr AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11;
 
 CREATE VIEW vLetzterPopMassnBericht AS 
 SELECT vLetzterPopMassnBericht0.ApArtId, vLetzterPopMassnBericht0.PopId, Max(vLetzterPopMassnBericht0.PopMassnBerJahr) AS MaxvonPopMassnBerJahr
@@ -332,7 +332,7 @@ GROUP BY vLetzterPopMassnBericht0.ApArtId, vLetzterPopMassnBericht0.PopId;
 CREATE VIEW vLetzterPopBericht0 AS
 SELECT tblPopulation.ApArtId, tblPopulation.PopId, tblPopBericht.PopBerJahr
 FROM tblKonstanten, (tblPopulation INNER JOIN tblPopBericht ON tblPopulation.PopId = tblPopBericht.PopId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (tblPopBericht.PopBerJahr<=tblKonstanten.JBerJahr) AND (tblTeilpopulation.TPopApBerichtRelevant=1);
+WHERE tblPopBericht.PopBerJahr<=tblKonstanten.JBerJahr AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11;
 
 CREATE VIEW vLetzterPopBericht AS
 SELECT vLetzterPopBericht0.ApArtId, vLetzterPopBericht0.PopId, Max(vLetzterPopBericht0.PopBerJahr) AS MaxvonPopBerJahr
@@ -347,8 +347,8 @@ ORDER BY ArtenDb_tblFloraSisf.Name;
 
 CREATE VIEW vJbUebKm AS 
 SELECT CAST(If(ArtenDb_tblFloraSisf.Deutsch is null,ArtenDb_tblFloraSisf.Name, CONCAT(ArtenDb_tblFloraSisf.Name, ' (', ArtenDb_tblFloraSisf.Deutsch, ')')) AS CHAR) AS Artname, If(ArtenDb_tblFloraFnsKef.KefArt=-1,"Ja","") AS FnsKefArt2, If(Round((tblKonstanten.JBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,0)=(tblKonstanten.JBerJahr-ArtenDb_tblFloraFnsKef.KefKontrolljahr)/4,"Ja","") AS FnsKefKontrJahr2, ArtenDb_tblFloraFnsJahresarten.Jahr AS FnsJahrespflanze, vFnsJahrespflanzen.Jahresart AS FnsJahrespflanze2
-FROM ((((ArtenDb_tblFloraSisf INNER JOIN ((vApAnzMassnBisJahr AS vApAnzMassnBisJahr_1 RIGHT JOIN tblAktionsplan ON vApAnzMassnBisJahr_1.ApArtId = tblAktionsplan.ApArtId) INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN ArtenDb_tblFloraFnsJahresarten ON tblAktionsplan.ApArtId = ArtenDb_tblFloraFnsJahresarten.SisfNr) LEFT JOIN ArtenDb_tblFloraFnsKef ON tblAktionsplan.ApArtId = ArtenDb_tblFloraFnsKef.SisfNr) LEFT JOIN vFnsJahrespflanzen ON tblAktionsplan.ApArtId = vFnsJahrespflanzen.SisfNr) INNER JOIN (tblJBer INNER JOIN tblKonstanten ON tblJBer.JBerJahr = tblKonstanten.JBerJahr) ON tblAktionsplan.ApArtId = tblJBer.ApArtId
-WHERE ((tblAktionsplan.ApStatus Between 1 And 3) AND (vApAnzMassnBisJahr_1.AnzahlMassnahmen=0)) OR ((tblAktionsplan.ApStatus Between 1 And 3) AND (vApAnzMassnBisJahr_1.AnzahlMassnahmen Is Null))
+FROM ((((ArtenDb_tblFloraSisf INNER JOIN ((vApAnzMassnBisJahr AS vApAnzMassnBisJahr_1 INNER JOIN tblAktionsplan ON vApAnzMassnBisJahr_1.ApArtId = tblAktionsplan.ApArtId) INNER JOIN vApApBerichtRelevant ON tblAktionsplan.ApArtId = vApApBerichtRelevant.ApArtId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN ArtenDb_tblFloraFnsJahresarten ON tblAktionsplan.ApArtId = ArtenDb_tblFloraFnsJahresarten.SisfNr) LEFT JOIN ArtenDb_tblFloraFnsKef ON tblAktionsplan.ApArtId = ArtenDb_tblFloraFnsKef.SisfNr) LEFT JOIN vFnsJahrespflanzen ON tblAktionsplan.ApArtId = vFnsJahrespflanzen.SisfNr) INNER JOIN (tblJBer INNER JOIN tblKonstanten ON tblJBer.JBerJahr = tblKonstanten.JBerJahr) ON (tblKonstanten.JBerJahr = vApAnzMassnBisJahr_1.TPopMassnJahr) AND (tblAktionsplan.ApArtId = tblJBer.ApArtId)
+WHERE (((tblAktionsplan.ApStatus) Between 1 And 3) AND ((vApAnzMassnBisJahr_1.AnzahlMassnahmen)="0"))
 ORDER BY ArtenDb_tblFloraSisf.Name;
 
 CREATE VIEW vJbUebMa AS 
@@ -442,13 +442,14 @@ GROUP BY tblTeilPopBericht.TPopId;
 CREATE VIEW vKontrTPopStatusErloschen AS 
 SELECT ArtenDb_tblFloraSisf.Name AS Art, DomainApBearbeitungsstand.DomainTxt AS "Bearbeitungsstand AP", tblPopulation.PopNr, tblPopulation.PopName, tblTeilpopulation.TPopNr, tblTeilpopulation.TPopGemeinde, tblTeilpopulation.TPopFlurname, tblTeilpopulation.TPopHerkunft, tblTeilPopBericht.TPopBerEntwicklung, tblTeilPopBericht.TPopBerJahr
 FROM ((ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) INNER JOIN (tblPopulation INNER JOIN (tblTeilpopulation INNER JOIN (tblTeilPopBericht INNER JOIN vTPopBerLetzterBericht ON (tblTeilPopBericht.TPopId = vTPopBerLetzterBericht.TPopId) AND (tblTeilPopBericht.TPopBerJahr = vTPopBerLetzterBericht.MaxvonTPopBerJahr)) ON tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId) ON tblAktionsplan.ApArtId = tblPopulation.ApArtId) INNER JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode
-WHERE (((tblAktionsplan.ApStatus) Between 1 And 3) AND ((tblTeilpopulation.TPopHerkunft)=4 Or (tblTeilpopulation.TPopHerkunft)=7) AND ((tblTeilPopBericht.TPopBerEntwicklung)<>8)) OR (((tblAktionsplan.ApStatus) Between 1 And 3) AND ((tblTeilpopulation.TPopHerkunft) Not Like 4 And (tblTeilpopulation.TPopHerkunft) Not Like 7) AND ((tblTeilPopBericht.TPopBerEntwicklung)=8))
+WHERE ((tblAktionsplan.ApStatus Between 1 And 3) AND ((tblTeilpopulation.TPopHerkunft)=4 Or (tblTeilpopulation.TPopHerkunft)=7) AND ((tblTeilPopBericht.TPopBerEntwicklung)<>8)) OR (((tblAktionsplan.ApStatus) Between 1 And 3) AND ((tblTeilpopulation.TPopHerkunft) Not Like 4 And (tblTeilpopulation.TPopHerkunft) Not Like 7) AND ((tblTeilPopBericht.TPopBerEntwicklung)=8))
 ORDER BY ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr, tblPopulation.PopName, tblTeilpopulation.TPopNr, tblTeilpopulation.TPopGemeinde, tblTeilpopulation.TPopFlurname;
 
 im Gebrauch (Access):
 CREATE VIEW vBerJb AS 
 SELECT tblAktionsplan.*, If(ArtenDb_tblFloraSisf.Deutsch is null,ArtenDb_tblFloraSisf.Name, CONCAT(ArtenDb_tblFloraSisf.Name, ' (', ArtenDb_tblFloraSisf.Deutsch, ')')) AS Art, tblJBer.JBerId, tblJBer.JBerJahr, tblJBer.JBerSituation, tblJBer.JBerVergleichVorjahrGesamtziel, tblJBer.JBerBeurteilung, tblJBer.JBerAnalyse, tblJBer.JBerUmsetzung, tblJBer.JBerErfko, tblJBer.JBerATxt, tblJBer.JBerBTxt, tblJBer.JBerCTxt, tblJBer.JBerDTxt, tblJBer.JBerDatum, tblJBer.JBerBearb, tblAdresse.AdrName & ", " & tblAdresse.AdrAdresse AS Bearbeiter, tblJBerUebersicht.JbuJahr, tblJBerUebersicht.JbuBemerkungen, vErsteMassnahmeProArt.MinvonTPopMassnJahr AS ErsteMassnahmeImJahr
 FROM (ArtenDb_tblFloraSisf INNER JOIN (tblAktionsplan LEFT JOIN vErsteMassnahmeProArt ON tblAktionsplan.ApArtId=vErsteMassnahmeProArt.ApArtId) ON ArtenDb_tblFloraSisf.NR=tblAktionsplan.ApArtId) INNER JOIN (((tblJBer LEFT JOIN tblAdresse ON tblJBer.JBerBearb=tblAdresse.AdrId) LEFT JOIN tblJBerUebersicht ON tblJBer.JBerJahr=tblJBerUebersicht.JbuJahr) INNER JOIN tblKonstanten ON tblJBer.JBerJahr=tblKonstanten.JBerJahr) ON tblAktionsplan.ApArtId=tblJBer.ApArtId
+WHERE tblAktionsplan.ApStatus Between 1 And 3
 ORDER BY ArtenDb_tblFloraSisf.Name;
 
 CREATE VIEW vAuswAp AS 
@@ -582,115 +583,115 @@ ORDER BY ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr, tblTeilpopulation.TPopN
 CREATE VIEW vJbA1rPop AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM tblAktionsplan INNER JOIN (tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) ON tblAktionsplan.ApArtId = tblPopulation.ApArtId
-WHERE (((tblPopulation.PopHerkunft)=1 Or (tblPopulation.PopHerkunft)=4 Or (tblPopulation.PopHerkunft)=8) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE (tblPopulation.PopHerkunft=1 Or tblPopulation.PopHerkunft=4 Or tblPopulation.PopHerkunft=8) AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbA2rPop AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM tblAktionsplan INNER JOIN (tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) ON tblAktionsplan.ApArtId = tblPopulation.ApArtId
-WHERE (((tblPopulation.PopHerkunft)=1 Or (tblPopulation.PopHerkunft)=4) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE (tblPopulation.PopHerkunft=1 Or tblPopulation.PopHerkunft=4) AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbA3rPop AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM tblAktionsplan INNER JOIN (tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) ON tblAktionsplan.ApArtId = tblPopulation.ApArtId
-WHERE (((tblPopulation.PopHerkunft)=8) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE tblPopulation.PopHerkunft=8 AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbA1rTPop AS
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM tblAktionsplan INNER JOIN (tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) ON tblAktionsplan.ApArtId = tblPopulation.ApArtId
-WHERE (((tblTeilpopulation.TPopHerkunft)=1 Or (tblTeilpopulation.TPopHerkunft)=4 Or (tblTeilpopulation.TPopHerkunft)=8) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE (tblTeilpopulation.TPopHerkunft=1 Or tblTeilpopulation.TPopHerkunft=4 Or tblTeilpopulation.TPopHerkunft=8) AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbA2rTPop AS 
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM tblAktionsplan INNER JOIN (tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) ON tblAktionsplan.ApArtId = tblPopulation.ApArtId
-WHERE (((tblTeilpopulation.TPopHerkunft)=1 Or (tblTeilpopulation.TPopHerkunft)=4) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE (tblTeilpopulation.TPopHerkunft=1 Or tblTeilpopulation.TPopHerkunft=4) AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbA3rTPop AS 
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM tblAktionsplan INNER JOIN (tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) ON tblAktionsplan.ApArtId = tblPopulation.ApArtId
-WHERE (((tblTeilpopulation.TPopHerkunft)=8) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE tblTeilpopulation.TPopHerkunft=8 AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbB1rPop AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM tblKonstanten, (tblPopulation INNER JOIN tblPopBericht ON tblPopulation.PopId = tblPopBericht.PopId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (tblTeilpopulation.TPopApBerichtRelevant=1) AND (tblPopBericht.PopBerJahr<=tblKonstanten.JBerJahr)
+WHERE tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11 AND tblPopBericht.PopBerJahr<=tblKonstanten.JBerJahr
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbB2rPop AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM ((vLetzterPopBericht INNER JOIN tblPopulation ON vLetzterPopBericht.ApArtId = tblPopulation.ApArtId) INNER JOIN tblPopBericht ON (tblPopulation.PopId = tblPopBericht.PopId) AND (vLetzterPopBericht.PopId = tblPopBericht.PopId) AND (vLetzterPopBericht.MaxvonPopBerJahr = tblPopBericht.PopBerJahr)) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (tblPopBericht.PopBerEntwicklung=3) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
+WHERE tblPopBericht.PopBerEntwicklung=3 AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbB3rPop AS
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM ((vLetzterPopBericht INNER JOIN tblPopulation ON vLetzterPopBericht.ApArtId = tblPopulation.ApArtId) INNER JOIN tblPopBericht ON (tblPopulation.PopId = tblPopBericht.PopId) AND (vLetzterPopBericht.PopId = tblPopBericht.PopId) AND (vLetzterPopBericht.MaxvonPopBerJahr = tblPopBericht.PopBerJahr)) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblPopBericht.PopBerEntwicklung)=2) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE tblPopBericht.PopBerEntwicklung=2 AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbB4rPop AS
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM ((vLetzterPopBericht INNER JOIN tblPopulation ON vLetzterPopBericht.ApArtId = tblPopulation.ApArtId) INNER JOIN tblPopBericht ON (tblPopulation.PopId = tblPopBericht.PopId) AND (vLetzterPopBericht.PopId = tblPopBericht.PopId) AND (vLetzterPopBericht.MaxvonPopBerJahr = tblPopBericht.PopBerJahr)) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblPopBericht.PopBerEntwicklung)=1) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE tblPopBericht.PopBerEntwicklung=1 AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbB5rPop AS
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM ((vLetzterPopBericht INNER JOIN tblPopulation ON vLetzterPopBericht.ApArtId = tblPopulation.ApArtId) INNER JOIN tblPopBericht ON (tblPopulation.PopId = tblPopBericht.PopId) AND (vLetzterPopBericht.PopId = tblPopBericht.PopId) AND (vLetzterPopBericht.MaxvonPopBerJahr = tblPopBericht.PopBerJahr)) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblPopBericht.PopBerEntwicklung)=4 Or (tblPopBericht.PopBerEntwicklung)=9) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE (tblPopBericht.PopBerEntwicklung=4 Or tblPopBericht.PopBerEntwicklung=9) AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbB6rPop AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM ((vLetzterPopBericht INNER JOIN tblPopulation ON vLetzterPopBericht.ApArtId = tblPopulation.ApArtId) INNER JOIN tblPopBericht ON (tblPopulation.PopId = tblPopBericht.PopId) AND (vLetzterPopBericht.PopId = tblPopBericht.PopId) AND (vLetzterPopBericht.MaxvonPopBerJahr = tblPopBericht.PopBerJahr)) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblPopBericht.PopBerEntwicklung)=8) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE tblPopBericht.PopBerEntwicklung=8 AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbB1rTPop AS 
 SELECT tblPopulation.ApArtId, tblTeilPopBericht.TPopId
 FROM tblKonstanten, tblPopulation INNER JOIN (tblTeilpopulation INNER JOIN tblTeilPopBericht ON tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (tblTeilpopulation.TPopApBerichtRelevant=1) AND (tblTeilPopBericht.TPopBerJahr<=tblKonstanten.JBerJahr)
+WHERE tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11 AND tblTeilPopBericht.TPopBerJahr<=tblKonstanten.JBerJahr
 GROUP BY tblPopulation.ApArtId, tblTeilPopBericht.TPopId;
 
 CREATE VIEW vJbB2rTPop AS 
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM tblTeilpopulation INNER JOIN (tblTeilPopBericht INNER JOIN (tblPopulation INNER JOIN vLetzterTPopBericht ON tblPopulation.ApArtId = vLetzterTPopBericht.ApArtId) ON (tblTeilPopBericht.TPopId = vLetzterTPopBericht.TPopId) AND (tblTeilPopBericht.TPopBerJahr = vLetzterTPopBericht.MaxvonTPopBerJahr)) ON (tblTeilpopulation.PopId = tblPopulation.PopId) AND (tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId)
-WHERE (tblTeilPopBericht.TPopBerEntwicklung=3) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
+WHERE tblTeilPopBericht.TPopBerEntwicklung=3 AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbB3rTPop AS 
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM tblTeilpopulation INNER JOIN (tblTeilPopBericht INNER JOIN (tblPopulation INNER JOIN vLetzterTPopBericht ON tblPopulation.ApArtId = vLetzterTPopBericht.ApArtId) ON (tblTeilPopBericht.TPopId = vLetzterTPopBericht.TPopId) AND (tblTeilPopBericht.TPopBerJahr = vLetzterTPopBericht.MaxvonTPopBerJahr)) ON (tblTeilpopulation.PopId = tblPopulation.PopId) AND (tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId)
-WHERE (((tblTeilPopBericht.TPopBerEntwicklung)=2) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE tblTeilPopBericht.TPopBerEntwicklung=2 AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbB4rTPop AS 
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM tblTeilpopulation INNER JOIN (tblTeilPopBericht INNER JOIN (tblPopulation INNER JOIN vLetzterTPopBericht ON tblPopulation.ApArtId = vLetzterTPopBericht.ApArtId) ON (tblTeilPopBericht.TPopId = vLetzterTPopBericht.TPopId) AND (tblTeilPopBericht.TPopBerJahr = vLetzterTPopBericht.MaxvonTPopBerJahr)) ON (tblTeilpopulation.PopId = tblPopulation.PopId) AND (tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId)
-WHERE (((tblTeilPopBericht.TPopBerEntwicklung)=1) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE tblTeilPopBericht.TPopBerEntwicklung=1 AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbB5rTPop AS 
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM tblTeilpopulation INNER JOIN (tblTeilPopBericht INNER JOIN (tblPopulation INNER JOIN vLetzterTPopBericht ON tblPopulation.ApArtId = vLetzterTPopBericht.ApArtId) ON (tblTeilPopBericht.TPopId = vLetzterTPopBericht.TPopId) AND (tblTeilPopBericht.TPopBerJahr = vLetzterTPopBericht.MaxvonTPopBerJahr)) ON (tblTeilpopulation.PopId = tblPopulation.PopId) AND (tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId)
-WHERE (((tblTeilPopBericht.TPopBerEntwicklung)=4 Or (tblTeilPopBericht.TPopBerEntwicklung)=9) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE (tblTeilPopBericht.TPopBerEntwicklung=4 Or tblTeilPopBericht.TPopBerEntwicklung=9) AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbB6rTPop AS 
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM tblTeilpopulation INNER JOIN (tblTeilPopBericht INNER JOIN (tblPopulation INNER JOIN vLetzterTPopBericht ON tblPopulation.ApArtId = vLetzterTPopBericht.ApArtId) ON (tblTeilPopBericht.TPopId = vLetzterTPopBericht.TPopId) AND (tblTeilPopBericht.TPopBerJahr = vLetzterTPopBericht.MaxvonTPopBerJahr)) ON (tblTeilpopulation.PopId = tblPopulation.PopId) AND (tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId)
-WHERE (((tblTeilPopBericht.TPopBerEntwicklung)=8) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE tblTeilPopBericht.TPopBerEntwicklung=8 AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbC1rPop AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM tblKonstanten, (tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) INNER JOIN tblTeilPopMassnahme ON tblTeilpopulation.TPopId = tblTeilPopMassnahme.TPopId
-WHERE (tblTeilPopMassnahme.TPopMassnJahr<=tblKonstanten.JBerJahr) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
+WHERE tblTeilPopMassnahme.TPopMassnJahr<=tblKonstanten.JBerJahr AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbC3rPop AS 
@@ -726,7 +727,7 @@ GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 CREATE VIEW vJbC1rTPop AS 
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM tblKonstanten, (tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) INNER JOIN tblTeilPopMassnahme ON tblTeilpopulation.TPopId = tblTeilPopMassnahme.TPopId
-WHERE (tblTeilPopMassnahme.TPopMassnJahr<=tblKonstanten.JBerJahr) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
+WHERE tblTeilPopMassnahme.TPopMassnJahr<=tblKonstanten.JBerJahr AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbC3rTPop AS 
@@ -762,7 +763,7 @@ GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 CREATE VIEW vJbA1lPop AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE tblTeilpopulation.TPopApBerichtRelevant=1
+WHERE tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbA2lPop AS
@@ -774,193 +775,193 @@ GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 CREATE VIEW vJbA3lPop AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblPopulation.PopHerkunft)=8) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE tblPopulation.PopHerkunft=8 AND tblTeilpopulation.TPopApBerichtRelevant=1
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbA4lPop AS
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblPopulation.PopHerkunft)=2) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE tblPopulation.PopHerkunft=2 AND tblTeilpopulation.TPopApBerichtRelevant=1
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbA5lPop AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblPopulation.PopHerkunft)=1198167213) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE tblPopulation.PopHerkunft=1198167213 AND tblTeilpopulation.TPopApBerichtRelevant=1
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbA6lPop AS
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblPopulation.PopHerkunft)=6) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE tblPopulation.PopHerkunft=6 AND tblTeilpopulation.TPopApBerichtRelevant=1
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbA7lPop AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblPopulation.PopHerkunft)=9) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE tblPopulation.PopHerkunft=9 AND tblTeilpopulation.TPopApBerichtRelevant=1
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbA8lPop AS
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblPopulation.PopHerkunft)=4 Or (tblPopulation.PopHerkunft)=1200498803) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE (tblPopulation.PopHerkunft=4 Or tblPopulation.PopHerkunft=1200498803) AND tblTeilpopulation.TPopApBerichtRelevant=1
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbA9lPop AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblPopulation.PopHerkunft)=7) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE tblPopulation.PopHerkunft=7 AND tblTeilpopulation.TPopApBerichtRelevant=1
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbA1lTPop AS
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbA2lTPop AS 
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblTeilpopulation.TPopHerkunft)=1) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE tblTeilpopulation.TPopHerkunft=1 AND tblTeilpopulation.TPopApBerichtRelevant=1
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbA3lTPop AS
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblTeilpopulation.TPopHerkunft)=8) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE tblTeilpopulation.TPopHerkunft=8 AND tblTeilpopulation.TPopApBerichtRelevant=1
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbA4lTPop AS 
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblTeilpopulation.TPopHerkunft)=2) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE tblTeilpopulation.TPopHerkunft=2 AND tblTeilpopulation.TPopApBerichtRelevant=1
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbA5lTPop AS
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblTeilpopulation.TPopHerkunft)=1198167213) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE tblTeilpopulation.TPopHerkunft=1198167213 AND tblTeilpopulation.TPopApBerichtRelevant=1
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbA6lTPop AS 
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblTeilpopulation.TPopHerkunft)=6) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE tblTeilpopulation.TPopHerkunft=6 AND tblTeilpopulation.TPopApBerichtRelevant=1
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbA7lTPop AS
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblTeilpopulation.TPopHerkunft)=9) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE tblTeilpopulation.TPopHerkunft=9 AND tblTeilpopulation.TPopApBerichtRelevant=1
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbA8lTPop AS 
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblTeilpopulation.TPopHerkunft)=4 Or (tblTeilpopulation.TPopHerkunft)=1200498803) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE (tblTeilpopulation.TPopHerkunft=4 Or tblTeilpopulation.TPopHerkunft=1200498803) AND tblTeilpopulation.TPopApBerichtRelevant=1
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbA9lTPop AS
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblTeilpopulation.TPopHerkunft)=7) AND ((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE tblTeilpopulation.TPopHerkunft=7 AND tblTeilpopulation.TPopApBerichtRelevant=1
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbB1lPop AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM (tblPopulation INNER JOIN (tblPopBericht INNER JOIN tblKonstanten ON tblPopBericht.PopBerJahr = tblKonstanten.JBerJahr) ON tblPopulation.PopId = tblPopBericht.PopId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE tblTeilpopulation.TPopApBerichtRelevant=1
+WHERE tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbB2lPop AS
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM (tblPopulation INNER JOIN (tblPopBericht INNER JOIN tblKonstanten ON tblPopBericht.PopBerJahr = tblKonstanten.JBerJahr) ON tblPopulation.PopId = tblPopBericht.PopId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (tblPopBericht.PopBerEntwicklung=3) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
+WHERE tblPopBericht.PopBerEntwicklung=3 AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbB3lPop AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM (tblPopulation INNER JOIN (tblPopBericht INNER JOIN tblKonstanten ON tblPopBericht.PopBerJahr = tblKonstanten.JBerJahr) ON tblPopulation.PopId = tblPopBericht.PopId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (tblPopBericht.PopBerEntwicklung=2) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
+WHERE tblPopBericht.PopBerEntwicklung=2 AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbB4lPop AS
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM (tblPopulation INNER JOIN (tblPopBericht INNER JOIN tblKonstanten ON tblPopBericht.PopBerJahr = tblKonstanten.JBerJahr) ON tblPopulation.PopId = tblPopBericht.PopId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (tblPopBericht.PopBerEntwicklung=1) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
+WHERE tblPopBericht.PopBerEntwicklung=1 AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbB5lPop AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM (tblPopulation INNER JOIN (tblPopBericht INNER JOIN tblKonstanten ON tblPopBericht.PopBerJahr = tblKonstanten.JBerJahr) ON tblPopulation.PopId = tblPopBericht.PopId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (tblPopBericht.PopBerEntwicklung=4 Or tblPopBericht.PopBerEntwicklung=9) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
+WHERE (tblPopBericht.PopBerEntwicklung=4 Or tblPopBericht.PopBerEntwicklung=9) AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbB6lPop AS
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM (tblPopulation INNER JOIN (tblPopBericht INNER JOIN tblKonstanten ON tblPopBericht.PopBerJahr = tblKonstanten.JBerJahr) ON tblPopulation.PopId = tblPopBericht.PopId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (tblPopBericht.PopBerEntwicklung=8) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
+WHERE tblPopBericht.PopBerEntwicklung=8 AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbB7lPop AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbB1lTPop AS
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM tblPopulation INNER JOIN (tblTeilpopulation INNER JOIN (tblTeilPopBericht INNER JOIN tblKonstanten ON tblTeilPopBericht.TPopBerJahr = tblKonstanten.JBerJahr) ON tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE tblTeilpopulation.TPopApBerichtRelevant=1
+WHERE tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbB2lTPop AS 
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM tblPopulation INNER JOIN (tblTeilpopulation INNER JOIN (tblTeilPopBericht INNER JOIN tblKonstanten ON tblTeilPopBericht.TPopBerJahr = tblKonstanten.JBerJahr) ON tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (tblTeilPopBericht.TPopBerEntwicklung=3) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
+WHERE tblTeilPopBericht.TPopBerEntwicklung=3 AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbB3lTPop AS
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM tblPopulation INNER JOIN (tblTeilpopulation INNER JOIN (tblTeilPopBericht INNER JOIN tblKonstanten ON tblTeilPopBericht.TPopBerJahr = tblKonstanten.JBerJahr) ON tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (tblTeilPopBericht.TPopBerEntwicklung=2) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
+WHERE tblTeilPopBericht.TPopBerEntwicklung=2 AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbB4lTPop AS 
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM tblPopulation INNER JOIN (tblTeilpopulation INNER JOIN (tblTeilPopBericht INNER JOIN tblKonstanten ON tblTeilPopBericht.TPopBerJahr = tblKonstanten.JBerJahr) ON tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (tblTeilPopBericht.TPopBerEntwicklung=1) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
+WHERE tblTeilPopBericht.TPopBerEntwicklung=1 AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbB5lTPop AS
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM tblPopulation INNER JOIN (tblTeilpopulation INNER JOIN (tblTeilPopBericht INNER JOIN tblKonstanten ON tblTeilPopBericht.TPopBerJahr = tblKonstanten.JBerJahr) ON tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (tblTeilPopBericht.TPopBerEntwicklung=4 Or tblTeilPopBericht.TPopBerEntwicklung=9) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
+WHERE (tblTeilPopBericht.TPopBerEntwicklung=4 Or tblTeilPopBericht.TPopBerEntwicklung=9) AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbB6lTPop AS 
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM tblPopulation INNER JOIN (tblTeilpopulation INNER JOIN (tblTeilPopBericht INNER JOIN tblKonstanten ON tblTeilPopBericht.TPopBerJahr = tblKonstanten.JBerJahr) ON tblTeilpopulation.TPopId = tblTeilPopBericht.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (tblTeilPopBericht.TPopBerEntwicklung=8) AND (tblTeilpopulation.TPopApBerichtRelevant=1)
+WHERE tblTeilPopBericht.TPopBerEntwicklung=8 AND tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbB7lTPop AS
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId
-WHERE (((tblTeilpopulation.TPopApBerichtRelevant)=1))
+WHERE tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vJbC1lPop AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
 FROM (tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) INNER JOIN (tblTeilPopMassnahme INNER JOIN tblKonstanten ON tblTeilPopMassnahme.TPopMassnJahr = tblKonstanten.JBerJahr) ON tblTeilpopulation.TPopId = tblTeilPopMassnahme.TPopId
-WHERE tblTeilpopulation.TPopApBerichtRelevant=1
+WHERE tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblPopulation.PopId;
 
 CREATE VIEW vJbC1lTPop AS
 SELECT tblPopulation.ApArtId, tblTeilpopulation.TPopId
 FROM ((tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) INNER JOIN tblTeilPopMassnahme ON tblTeilpopulation.TPopId = tblTeilPopMassnahme.TPopId) INNER JOIN tblKonstanten ON tblTeilPopMassnahme.TPopMassnJahr = tblKonstanten.JBerJahr
-WHERE tblTeilpopulation.TPopApBerichtRelevant=1
+WHERE tblTeilpopulation.TPopApBerichtRelevant=1 AND tblPopulation.PopHerkunft <> 10 AND tblPopulation.PopHerkunft <> 11
 GROUP BY tblPopulation.ApArtId, tblTeilpopulation.TPopId;
 
 CREATE VIEW vAuswAnzProTPopAngezArtBestJahr0 AS 
@@ -1028,7 +1029,7 @@ FROM ((((tblTeilpopulation RIGHT JOIN ((((((tblTeilPopFeldkontrolle LEFT JOIN Do
 WHERE tblTeilpopulation.TPopId Is Null;
 
 CREATE VIEW vBeob AS
-SELECT alexande_beob.tblBeob.BeobId, alexande_beob.tblBeob.NO_NOTE AS "ID Info Flora", alexande_beob.tblBeob.IdEvab AS "ID EvAB", ArtenDb_tblFloraSisf.NR AS ApArtId, ArtenDb_tblFloraSisf.Name AS Artname, tblPopulation.PopGuid, tblPopulation.PopNr, tblTeilpopulation.TPopGuid, tblTeilpopulation.TPopNr, CONCAT(tblPopulation.PopNr, ".", tblTeilpopulation.TPopNr) AS "TPop-Nr", alexande_beob.tblBeob.PROJET AS Projekt, alexande_beob.tblBeob.NOM_COMMUNE AS RaumGde, alexande_beob.tblBeob.DESC_LOCALITE AS Ort, alexande_beob.tblBeob.xGIS AS X, alexande_beob.tblBeob.yGIS AS Y, alexande_beob.tblBeob.A_NOTE AS "Datum Jahr", alexande_beob.tblBeob.M_NOTE AS "Datum Monat", alexande_beob.tblBeob.J_NOTE AS "Datum Tag", alexande_beob.tblBeob.Autor, alexande_beob.tblBeob.MutWann, alexande_beob.tblBeob.MutWer
+SELECT alexande_beob.tblBeob.BeobId, alexande_beob.tblBeob.NO_NOTE AS "ID Info Flora", alexande_beob.tblBeob.IdEvab AS "ID EvAB", ArtenDb_tblFloraSisf.NR AS ApArtId, ArtenDb_tblFloraSisf.Name AS Artname, tblPopulation.PopGuid, tblPopulation.PopNr, tblTeilpopulation.TPopGuid, tblTeilpopulation.TPopNr, CONCAT(tblPopulation.PopNr, ".", tblTeilpopulation.TPopNr) AS "TPop-Nr", alexande_beob.tblBeob.PROJET AS Projekt, alexande_beob.tblBeob.NOM_COMMUNE AS RaumGde, alexande_beob.tblBeob.DESC_LOCALITE AS Ort, alexande_beob.tblBeob.xGIS AS X, alexande_beob.tblBeob.yGIS AS Y, ROUND(SQRT((alexande_beob.tblBeob.xGIS-tblTeilpopulation.TPopXKoord)*(alexande_beob.tblBeob.xGIS-tblTeilpopulation.TPopXKoord)+(alexande_beob.tblBeob.yGIS-tblTeilpopulation.TPopYKoord)*(alexande_beob.tblBeob.yGIS-tblTeilpopulation.TPopYKoord)), 0) AS "Distanz zur Teilpopulation (m)", alexande_beob.tblBeob.A_NOTE AS "Datum Jahr", alexande_beob.tblBeob.M_NOTE AS "Datum Monat", alexande_beob.tblBeob.J_NOTE AS "Datum Tag", alexande_beob.tblBeob.Autor, alexande_beob.tblBeob.MutWann, alexande_beob.tblBeob.MutWer
 FROM (ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) INNER JOIN (tblPopulation INNER JOIN (tblTeilpopulation INNER JOIN alexande_beob.tblBeob ON tblTeilpopulation.TPopId = alexande_beob.tblBeob.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId) ON tblAktionsplan.ApArtId = tblPopulation.ApArtId
 ORDER BY ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr, tblTeilpopulation.TPopNr, alexande_beob.tblBeob.M_NOTE DESC, alexande_beob.tblBeob.J_NOTE DESC;
 
