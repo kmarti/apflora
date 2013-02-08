@@ -277,14 +277,14 @@ GROUP BY tblAktionsplan.ApArtId, tblTeilPopMassnahme.TPopMassnJahr
 HAVING tblTeilPopMassnahme.TPopMassnJahr Is Not Null
 ORDER BY tblAktionsplan.ApArtId, tblTeilPopMassnahme.TPopMassnJahr;
 
-CREATE VIEW vApAnzMassnProJahr AS 
-SELECT vApMassnJahre.ApArtId, vApMassnJahre.TPopMassnJahr, If(vApAnzMassnProJahr0.AnzahlvonTPopMassnId Is Not Null,vApAnzMassnProJahr0.AnzahlvonTPopMassnId,0) AS "AnzahlMassnahmen" FROM vApMassnJahre LEFT JOIN vApAnzMassnProJahr0 ON (vApMassnJahre.TPopMassnJahr = vApAnzMassnProJahr0.TPopMassnJahr) AND (vApMassnJahre.ApArtId = vApAnzMassnProJahr0.ApArtId) ORDER BY vApMassnJahre.ApArtId, vApMassnJahre.TPopMassnJahr;
-
 CREATE VIEW vMassnJahre AS
 SELECT tblTeilPopMassnahme.TPopMassnJahr FROM tblTeilPopMassnahme GROUP BY tblTeilPopMassnahme.TPopMassnJahr HAVING tblTeilPopMassnahme.TPopMassnJahr Between 1900 And 2100 ORDER BY tblTeilPopMassnahme.TPopMassnJahr
 
 CREATE VIEW vApMassnJahre AS
 SELECT tblAktionsplan.ApArtId, vMassnJahre.TPopMassnJahr FROM tblAktionsplan, vMassnJahre WHERE tblAktionsplan.ApArtId>0 AND tblAktionsplan.ApStatus Between 1 And 3 ORDER BY tblAktionsplan.ApArtId, vMassnJahre.TPopMassnJahr;
+
+CREATE VIEW vApAnzMassnProJahr AS 
+SELECT vApMassnJahre.ApArtId, vApMassnJahre.TPopMassnJahr, If(vApAnzMassnProJahr0.AnzahlvonTPopMassnId Is Not Null,vApAnzMassnProJahr0.AnzahlvonTPopMassnId,0) AS "AnzahlMassnahmen" FROM vApMassnJahre LEFT JOIN vApAnzMassnProJahr0 ON (vApMassnJahre.TPopMassnJahr = vApAnzMassnProJahr0.TPopMassnJahr) AND (vApMassnJahre.ApArtId = vApAnzMassnProJahr0.ApArtId) ORDER BY vApMassnJahre.ApArtId, vApMassnJahre.TPopMassnJahr;
 
 CREATE VIEW vApAnzMassnBisJahr AS
 SELECT vApMassnJahre.ApArtId, vApMassnJahre.TPopMassnJahr, Sum(vApAnzMassnProJahr.AnzahlMassnahmen) AS "AnzahlMassnahmen" FROM vApMassnJahre INNER JOIN vApAnzMassnProJahr ON vApMassnJahre.ApArtId = vApAnzMassnProJahr.ApArtId WHERE vApAnzMassnProJahr.TPopMassnJahr<=vApMassnJahre.TPopMassnJahr GROUP BY vApMassnJahre.ApArtId, vApMassnJahre.TPopMassnJahr ORDER BY vApMassnJahre.ApArtId, vApMassnJahre.TPopMassnJahr;
@@ -559,23 +559,6 @@ SELECT tblAktionsplan.ApArtId, tblPopulation.PopId, tblTeilpopulation.TPopId, tb
 FROM (((((((((ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) INNER JOIN (tblPopulation INNER JOIN (tblTeilpopulation INNER JOIN tblTeilPopFeldkontrolle ON tblTeilpopulation.TPopId = tblTeilPopFeldkontrolle.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId) ON tblAktionsplan.ApArtId = tblPopulation.ApArtId) LEFT JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode) LEFT JOIN tblAdresse ON tblTeilPopFeldkontrolle.TPopKontrBearb = tblAdresse.AdrId) LEFT JOIN DomainTPopKontrZaehleinheit ON tblTeilPopFeldkontrolle.TPopKontrMethode1 = DomainTPopKontrZaehleinheit.ZaehleinheitCode) LEFT JOIN DomainTPopKontrMethode ON tblTeilPopFeldkontrolle.TPopKontrMethode1 = DomainTPopKontrMethode.BeurteilCode) LEFT JOIN DomainTPopKontrZaehleinheit AS DomainTPopKontrZaehleinheit_1 ON tblTeilPopFeldkontrolle.TPopKontrZaehleinheit2 = DomainTPopKontrZaehleinheit_1.ZaehleinheitCode) LEFT JOIN DomainTPopKontrMethode AS DomainTPopKontrMethode_1 ON tblTeilPopFeldkontrolle.TPopKontrMethode2 = DomainTPopKontrMethode_1.BeurteilCode) LEFT JOIN DomainTPopKontrZaehleinheit AS DomainTPopKontrZaehleinheit_2 ON tblTeilPopFeldkontrolle.TPopKontrZaehleinheit3 = DomainTPopKontrZaehleinheit_2.ZaehleinheitCode) LEFT JOIN DomainTPopKontrMethode AS DomainTPopKontrMethode_2 ON tblTeilPopFeldkontrolle.TPopKontrMethode3 = DomainTPopKontrMethode_2.BeurteilCode
 WHERE (((tblTeilPopFeldkontrolle.TPopKontrTyp) Not Like "Ziel"))
 ORDER BY tblTeilpopulation.TPopGemeinde, tblTeilpopulation.TPopFlurname, ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr, tblTeilpopulation.TPopNr, tblTeilPopFeldkontrolle.TPopKontrJahr, tblTeilPopFeldkontrolle.TPopKontrTyp;
-
-CREATE VIEW vAuswLetzteAnzProTPopAktArt0 AS
-SELECT tblAktionsplan.ApArtId, tblPopulation.PopId, tblTeilpopulation.TPopId, tblTeilPopFeldkontrolle.TPopKontrId, ArtenDb_tblFloraSisf.Name, DomainApBearbeitungsstand.DomainTxt AS "Bearbeitungsstand AP", tblPopulation.PopNr, DomainPopHerkunft.HerkunftTxt AS PopHerkunft, tblPopulation.PopName, tblTeilpopulation.TPopNr, DomainPopHerkunft_1.HerkunftTxt AS TPopHerkunft, tblTeilpopulation.TPopBekanntSeit, tblTeilpopulation.TPopFlurname, tblTeilpopulation.TPopGemeinde, tblTeilpopulation.TPopXKoord, tblTeilpopulation.TPopYKoord, vAuswLetzteAnzAnz.Zaehleinheit, vAuswLetzteAnzAnz.Anzahl AS Anzahl, vAuswLetzteAnzAnz.TPopKontrjahr, tblAdresse.AdrName AS BearbeiterIn
-FROM DomainPopHerkunft AS DomainPopHerkunft_1 RIGHT JOIN (tblAdresse RIGHT JOIN (((ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode) INNER JOIN ((tblPopulation LEFT JOIN DomainPopHerkunft ON tblPopulation.PopHerkunft = DomainPopHerkunft.HerkunftId) INNER JOIN (tblTeilpopulation INNER JOIN (vAuswLetzteAnzAnz INNER JOIN tblTeilPopFeldkontrolle ON vAuswLetzteAnzAnz.TPopKontrId = tblTeilPopFeldkontrolle.TPopKontrId) ON tblTeilpopulation.TPopId = tblTeilPopFeldkontrolle.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId) ON tblAktionsplan.ApArtId = tblPopulation.ApArtId) ON tblAdresse.AdrId = tblTeilPopFeldkontrolle.TPopKontrBearb) ON DomainPopHerkunft_1.HerkunftId = tblTeilpopulation.TPopHerkunft
-ORDER BY ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr, tblTeilpopulation.TPopNr;
-
-CREATE VIEW vAuswLetzteAnzProTPopAktArtAlleTPop AS
-SELECT tblAktionsplan.ApArtId, tblPopulation.PopId, tblTeilpopulation.TPopId, tblTeilPopFeldkontrolle.TPopKontrId, ArtenDb_tblFloraSisf.Name, DomainApBearbeitungsstand.DomainTxt AS "Bearbeitungsstand AP", tblPopulation.PopNr, DomainPopHerkunft.HerkunftTxt AS PopHerkunft, tblPopulation.PopName, tblTeilpopulation.TPopNr, DomainPopHerkunft_1.HerkunftTxt AS TPopHerkunft, tblTeilpopulation.TPopBekanntSeit, tblTeilpopulation.TPopFlurname, tblTeilpopulation.TPopGemeinde, tblTeilpopulation.TPopXKoord, tblTeilpopulation.TPopYKoord, vAuswLetzteAnzAnz.Zaehleinheit, vAuswLetzteAnzAnz.Anzahl, vAuswLetzteAnzAnz.TPopKontrjahr, vAuswLetzteAnzAnz.TPopKontrTxt, tblAdresse.AdrName AS BearbeiterIn
-FROM DomainPopHerkunft AS DomainPopHerkunft_1 RIGHT JOIN (tblAdresse RIGHT JOIN (((ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode) INNER JOIN ((tblPopulation LEFT JOIN DomainPopHerkunft ON tblPopulation.PopHerkunft = DomainPopHerkunft.HerkunftId) INNER JOIN (tblTeilpopulation LEFT JOIN (vAuswLetzteAnzAnz INNER JOIN tblTeilPopFeldkontrolle ON vAuswLetzteAnzAnz.TPopKontrId = tblTeilPopFeldkontrolle.TPopKontrId) ON tblTeilpopulation.TPopId = tblTeilPopFeldkontrolle.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId) ON tblAktionsplan.ApArtId = tblPopulation.ApArtId) ON tblAdresse.AdrId = tblTeilPopFeldkontrolle.TPopKontrBearb) ON DomainPopHerkunft_1.HerkunftId = tblTeilpopulation.TPopHerkunft
-ORDER BY ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr, tblTeilpopulation.TPopNr;
-
-bisher:
-SELECT tblAktionsplan.ApArtId, tblPopulation.PopId, tblTeilpopulation.TPopId, tblTeilPopFeldkontrolle.TPopKontrId, ArtenDb_tblFloraSisf.Name, DomainApBearbeitungsstand.DomainTxt AS "Bearbeitungsstand AP", tblPopulation.PopNr, DomainPopHerkunft.HerkunftTxt AS PopHerkunft, tblPopulation.PopName, tblTeilpopulation.TPopNr, DomainPopHerkunft_1.HerkunftTxt AS TPopHerkunft, tblTeilpopulation.TPopBekanntSeit, tblTeilpopulation.TPopFlurname, tblTeilpopulation.TPopGemeinde, tblTeilpopulation.TPopXKoord, tblTeilpopulation.TPopYKoord, vAuswLetzteAnzAnz.Zaehleinheit, vAuswLetzteAnzAnz.Anzahl, vAuswLetzteAnzAnz.TPopKontrjahr, tblAdresse.AdrName AS BearbeiterIn
-FROM DomainPopHerkunft AS DomainPopHerkunft_1 RIGHT JOIN (tblAdresse RIGHT JOIN (((ArtenDb_tblFloraSisf INNER JOIN tblAktionsplan ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) LEFT JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode) INNER JOIN ((tblPopulation LEFT JOIN DomainPopHerkunft ON tblPopulation.PopHerkunft = DomainPopHerkunft.HerkunftId) INNER JOIN (tblTeilpopulation INNER JOIN (vAuswLetzteAnzAnz RIGHT JOIN tblTeilPopFeldkontrolle ON vAuswLetzteAnzAnz.TPopKontrId = tblTeilPopFeldkontrolle.TPopKontrId) ON tblTeilpopulation.TPopId = tblTeilPopFeldkontrolle.TPopId) ON tblPopulation.PopId = tblTeilpopulation.PopId) ON tblAktionsplan.ApArtId = tblPopulation.ApArtId) ON tblAdresse.AdrId = tblTeilPopFeldkontrolle.TPopKontrBearb) ON DomainPopHerkunft_1.HerkunftId = tblTeilpopulation.TPopHerkunft
-ORDER BY ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr, tblTeilpopulation.TPopNr;
-
-
 
 CREATE VIEW vJbA1rPop AS 
 SELECT tblPopulation.ApArtId, tblPopulation.PopId
@@ -1186,20 +1169,3 @@ QWurzel((XKoord-TPopXKoord)*(XKoord-TPopXKoord)+(YKoord-TPopYKoord)*(YKoord-TPop
 
 
 SQRT
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
