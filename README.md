@@ -65,7 +65,7 @@ Software zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschutz des K
 - Beobachtungen Teilpopulationen zuordnen: Mit drag and drop im Strukturbaum, in einer nach Abstand zu den Teilpopulationen geordneten Liste im Formular oder mit drag and drop im Luftbild
 - Daten löschen: Bei den gehaltvollen Daten (Programme/Arten, Populationen, Teilpopulationen, Feldkontrollen, Freiwilligen-Kontrollen, Massnahmen, AP-Berichten) kann das Löschen nachträglich während 25 Sekunden rückgängig gemacht werden
 
-Update vom 16.11.12: Drag and drop vorläufig ausgeschaltet, wegen Fehler im externen Modul.
+Update vom 16.11.12: Drag and drop im Strukturbaum vorläufig ausgeschaltet, wegen Fehler im externen Modul.
 
 **Im Feld arbeiten?**
 
