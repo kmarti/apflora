@@ -1232,10 +1232,10 @@ function initiiere_tpopfeldkontr() {
 				if (localStorage.tpopfreiwkontr) {
 					$("#tpopfeldkontr_tabs_biotop").hide();
 					$("#biotop_tab_li").hide();
-					$("#tpopfeldkontr_tabs").tabs("select", 0);
+					$("#tpopfeldkontr_tabs").tabs("option", "active", 0);
 				} else {
-					$("#tpopfeldkontr_tabs_biotop").show();
-					$("#biotop_tab_li").show();
+					$("#tpopfeldkontr_tabs_biotop").activate();
+					$("#biotop_tab_li").activate();
 					//Dieses Element wird fälschlicherweise in Entwicklung eingeblendet
 					//keine Ahnung wiese
 					//ausblenden!
@@ -11027,7 +11027,6 @@ function erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 }
 
 function geoadminOnFeatureSelect(feature) {
-	//alert('select');
 	var popup = new OpenLayers.Popup.FramedCloud("popup",
 		feature.geometry.getBounds().getCenterLonLat(),
 		null,
