@@ -264,17 +264,21 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 		$tpop_ordner = array(0 => $tpop_ordner_massn, 1 => $tpop_ordner_massnber, 2 => $tpop_ordner_feldkontr, 3 => $tpop_ordner_freiwkontr, 4 => $tpop_ordner_tpopber, 5 => $tpop_ordner_tpopbeob);
 
 		//TPop setzen
-		$attr_tpop = array("id" => $TPopId, "typ" => "tpop");
 		//Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
 		if ($r_tpop['TPopNr'] & $r_tpop['TPopFlurname']) {
 			$TPopBezeichnung = $r_tpop['TPopNr'].": ".$r_tpop['TPopFlurname'];
+			$tpop_sort = $r_tpop['TPopNr'];
 		} else if ($r_tpop['TPopNr']) {
 			$TPopBezeichnung = $r_tpop['TPopNr'].": (kein Flurname)";
+			$tpop_sort = $r_tpop['TPopNr'];
 		} else if ($r_tpop['TPopFlurname']) {
 			$TPopBezeichnung = "(keine Nr): ".$r_tpop['TPopFlurname'];
+			$tpop_sort = 1000;
 		} else {
 			$TPopBezeichnung = "(keine Nr): (kein Flurname)";
+			$tpop_sort = 1000;
 		}
+		$attr_tpop = array("id" => $TPopId, "typ" => "tpop", "sort" => $tpop_sort);
 		$tpop = array("data" => $TPopBezeichnung, "attr" => $attr_tpop, "children" => $tpop_ordner);
 		//tpop-Array um tpop ergänzen
 	    $rows_tpop[] = $tpop;
@@ -347,17 +351,22 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 	$pop_ordner = array(0 => $pop_ordner_tpop, 1 => $pop_ordner_popber, 2 => $pop_ordner_massnber);
 
 	//Pop setzen
-	$attr_pop = array("id" => $PopId, "typ" => "pop");
 	$children_pop = $pop_ordner;
 	if ($r_pop['PopName'] & $PopNr) {
 		$data = $PopNr . ": " . $r_pop['PopName'];
+		$PopSort = $PopNr;
 	} else if ($PopNr) {
 		$data = $PopNr . ": (kein Name)";
+		$PopSort = $PopNr;
 	} else if ($r_pop['PopName']) {
 		$data = "(keine Nr): " . $r_pop['PopName'];
+		$PopSort = 1000;
 	} else {
 		$data = "(keine Nr, kein Name)";
+		$PopSort = 1000;
 	}
+	settype($PopSort, "integer");
+	$attr_pop = array("id" => $PopId, "typ" => "pop", "sort" => $PopSort);
 	$pop = array("data" => $data, "attr" => $attr_pop, "children" => $children_pop);
 	//pop-Array um pop ergänzen
     $rows_pop[] = $pop;

@@ -1923,13 +1923,11 @@ function erstelle_tree(ApArtId) {
 		"search": {
 			"case_insensitive": true
 		},
-		/*"sort": function (a, b) {
-			if ($(this).attr("typ") && $(this).attr("typ") === "pop") {
-			//node = data.rslt.obj;
-			//if (node.attr("typ") === "pop") {
-				return this.get_text(a) > this.get_text(b) ? 1 : -1;
+		"sort": function (a, b) {
+			if ($(a).attr("sort") && $(b).attr("sort")) {
+				return parseInt($(a).attr("sort")) > parseInt($(b).attr("sort")) ? 1 : -1;
 			}
-		},*/
+		},
 		"themes": {
 			"icons": false
 		},
@@ -2207,7 +2205,7 @@ function erstelle_tree(ApArtId) {
 			}
 		},
 		//"plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "contextmenu", "crrm", "dnd", "types"]
-		"plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "contextmenu", "crrm", "types"]
+		"plugins" : ["themes", "json_data", "ui", "hotkeys", "sort", "search", "contextmenu", "crrm", "types"]
 	})
 	.show()
 	.bind("loaded.jstree", function (event, data) {
