@@ -34,7 +34,8 @@ $Querystring = 'INSERT INTO tblTeilPopFeldkontrolle ('.$Keystring.') VALUES ("'.
 //SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);
 
-print($result);
+//print($result);
+print mysqli_insert_id($link);
 
 // Verbindung schliessen
 mysqli_close($link);

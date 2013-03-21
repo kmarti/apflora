@@ -1234,10 +1234,12 @@ function initiiere_tpopfeldkontr() {
 					$("#biotop_tab_li").hide();
 					$("#tpopfeldkontr_tabs").tabs("option", "active", 0);
 				} else {
-					$("#tpopfeldkontr_tabs_biotop").activate();
-					$("#biotop_tab_li").activate();
+					//$("#tpopfeldkontr_tabs_biotop").activate();
+					$("#tpopfeldkontr_tabs_biotop").show();
+					//$("#biotop_tab_li").activate();
+					$("#biotop_tab_li").show();
 					//Dieses Element wird fälschlicherweise in Entwicklung eingeblendet
-					//keine Ahnung wiese
+					//keine Ahnung wieso
 					//ausblenden!
 					$("#tpopfeldkontr_tabs_biotop").hide();
 				}
@@ -6594,7 +6596,7 @@ function treeKontextmenu(node) {
 					}
 					//und an die DB schicken
 					$.ajax({
-						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
+						url: 'php/tpopfeldkontr_insert_multiple.php' + dataUrl,
 						dataType: 'json',
 						success: function (data) {
 							var NeuerNode;
@@ -7010,7 +7012,7 @@ function treeKontextmenu(node) {
 					}
 					//und an die DB schicken
 					$.ajax({
-						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
+						url: 'php/tpopfeldkontr_insert_multiple.php' + dataUrl,
 						dataType: 'json',
 						success: function (data) {
 							var NeuerNode;
@@ -7165,7 +7167,7 @@ function treeKontextmenu(node) {
 					}
 					//und an die DB schicken
 					$.ajax({
-						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
+						url: 'php/tpopfeldkontr_insert_multiple.php' + dataUrl,
 						dataType: 'json',
 						success: function (data) {
 							var NeuerNode;
@@ -7467,7 +7469,7 @@ function treeKontextmenu(node) {
 					}
 					//und an die DB schicken
 					$.ajax({
-						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
+						url: 'php/tpopfeldkontr_insert_multiple.php' + dataUrl,
 						dataType: 'json',
 						success: function (data) {
 							var NeuerNode;

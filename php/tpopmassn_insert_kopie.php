@@ -17,7 +17,11 @@ $Felderarray = $_GET;
 //zunächst mal Daten ins richtige Format bringen
 foreach ($Felderarray as $key => $value) {
     if ($key == "TPopMassnDatum") {
-		$value = date("Y-m-d H:i:s", strtotime($value));
+    	if ($value) {
+			$value = date("Y-m-d H:i:s", strtotime($value));
+		} else {
+			$value = null;
+		}
 	} 
 }
 
