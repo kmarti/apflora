@@ -136,6 +136,10 @@ td.Datenfelder {
 	padding-right: 10px;
 }
 
+.export_abschnitt_tooltip_class {
+	font-size:12px;
+}
+
 #GeoAdminKarte, #google_karte {
 	height: 100% !important;
 }
