@@ -5,11 +5,11 @@ function initiiere_index() {
 	//Versuch, damit $.ajax auch in IE funktioniert
 	//jQuery hängt an jede Anfrage ein &_= und Zufahlszahl
 	//$.ajaxSetup({cache:false})	AUSGESCHALTET, WEIL TPOPFELDKONTR_UPDATE_MULTIPLE.PHP NICHT MEHR FUNKTIONIERTE (UND MEHR?)
-	
+
 	$("#suchen").hide();
 	$("#undelete_div").hide();
 	$("#hilfe").hide();
-	
+
 	$("#loeschen_dialog").hide();
 	//jQuery ui widgets initiieren
 	$("#programm_wahl").buttonset();
@@ -37,10 +37,10 @@ function initiiere_index() {
 	//erstelle_ap_liste("programm_alle");
 	$("#ap_loeschen").hide();
 	erstelle_ApArtId_liste();
-	
+
 	//alle Formulare verstecken
 	zeigeFormular();
-	
+
 	$.when(erstelle_ap_liste("programm_alle"))
 		.then(function() {
 			//falls eine Unteradresse angewählt wurde, diese öffnen
@@ -1581,7 +1581,7 @@ function initiiere_tpopbeob() {
 								}
 								html += '<input type="radio" name="tpopbeob_DistZuTPop" id="tpopbeob_DistZuTPop';
 								html += data2[i].TPopId;
-								html += '" class="tpopbeob_DistZuTPop" formular="tpopbeob" value="'
+								html += '" class="tpopbeob_DistZuTPop" formular="tpopbeob" value="';
 								html += data2[i].TPopId;
 								html += '" DistZuTPop="';
 								html += data2[i].DistZuTPop;
@@ -1591,8 +1591,8 @@ function initiiere_tpopbeob() {
 									html += '">';
 								}
 								//Wenn TPop keine Koordinaten haben, Anzeige von NAN verhindern
-								if (parseInt(data2[i].DistZuTPop) >= 0) {
-									html += parseInt(data2[i].DistZuTPop) + "m: " + data2[i].TPopFlurname;
+								if (parseInt(data2[i].DistZuTPop, 10) >= 0) {
+									html += parseInt(data2[i].DistZuTPop, 10) + "m: " + data2[i].TPopFlurname;
 								} else {
 									html += data2[i].TPopFlurname;
 								}
@@ -1680,13 +1680,13 @@ function initiiere_beob() {
 								}
 								html += '<input type="radio" name="DistZuTPop" id="DistZuTPop';
 								html += data[i].TPopId;
-								html += '" class="DistZuTPop" formular="beob" value="'
+								html += '" class="DistZuTPop" formular="beob" value="';
 								html += data[i].TPopId;
 								html += '" DistZuTPop="';
 								html += data[i].DistZuTPop;
 								html += '">';
 								//Wenn TPop keine Koordinaten haben, dies anzeigen und Anzeige von NAN verhindern
-								if (parseInt(data[i].DistZuTPop) >= 0) {
+								if (parseInt(data[i].DistZuTPop, 10) >= 0) {
 									html += parseInt(data[i].DistZuTPop) + "m: " + data[i].TPopFlurname;
 								} else {
 									html += data[i].TPopFlurname;
@@ -1927,7 +1927,7 @@ function erstelle_tree(ApArtId) {
 		},
 		"sort": function (a, b) {
 			if ($(a).attr("sort") && $(b).attr("sort")) {
-				return parseInt($(a).attr("sort")) > parseInt($(b).attr("sort")) ? 1 : -1;
+				return parseInt($(a).attr("sort"), 10) > parseInt($(b).attr("sort"), 10) ? 1 : -1;
 			}
 		},
 		"themes": {
@@ -2206,8 +2206,8 @@ function erstelle_tree(ApArtId) {
 				}
 			}
 		},
-		//"plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "contextmenu", "crrm", "dnd", "types"]
-		"plugins" : ["themes", "json_data", "ui", "hotkeys", "sort", "search", "contextmenu", "crrm", "types"]
+		"plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "contextmenu", "crrm", "dnd", "types"]
+		//"plugins" : ["themes", "json_data", "ui", "hotkeys", "sort", "search", "contextmenu", "crrm", "types"]
 	})
 	.show()
 	.bind("loaded.jstree", function (event, data) {
