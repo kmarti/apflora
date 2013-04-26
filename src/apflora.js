@@ -1725,10 +1725,13 @@ function setzeWindowBeob(id) {
 }
 
 
-function initiiere_exporte() {
+function initiiere_exporte(anchor) {
 	$("#testart_div").hide();
 	zeigeFormular("exporte");
 	history.replaceState({ex: "ex"}, "ex", "index.html?exporte=true");
+	if (anchor) {
+		location.hash = "#" + anchor;
+	}
 }
 
 //managed die Sichtbarkeit von Formularen
@@ -12040,6 +12043,7 @@ function handler(event) {
 
 function oeffneUri() {
 	var uri = new Uri($(location).attr('href'));
+	var anchor = uri.anchor() || null;
 	var ap_id = uri.getQueryParamValue('ap');
 	if (ap_id) {
 		//globale Variabeln setzen
@@ -12182,7 +12186,7 @@ function oeffneUri() {
 	} else {
 		var exporte = uri.getQueryParamValue('exporte');
 		if (exporte) {
-			initiiere_exporte();
+			initiiere_exporte(anchor);
 		}
 	}
 }
