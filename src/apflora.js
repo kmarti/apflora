@@ -1728,6 +1728,7 @@ function setzeWindowBeob(id) {
 function initiiere_exporte() {
 	$("#testart_div").hide();
 	zeigeFormular("exporte");
+	history.replaceState({ex: "ex"}, "ex", "index.html?exporte=true");
 }
 
 //managed die Sichtbarkeit von Formularen
@@ -12178,6 +12179,11 @@ function oeffneUri() {
 		}
 		erstelle_tree(ap_id);
 		$("#ap_waehlen_label").hide();
+	} else {
+		var exporte = uri.getQueryParamValue('exporte');
+		if (exporte) {
+			initiiere_exporte();
+		}
 	}
 }
 
