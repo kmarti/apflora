@@ -11574,7 +11574,6 @@ function verorteTPopAufKarte(TPop) {
 	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("google_karte");
 	window.markersArray = [];
-	//window.InfoWindowArray = [];
 	infowindow = new google.maps.InfoWindow();
 	if (TPop && TPop.TPopXKoord && TPop.TPopYKoord) {
 		//Wenn Koordinaten vorhanden, Lat und Lng ergänzen
@@ -11628,7 +11627,10 @@ function verorteTPopAufKarte(TPop) {
 		infowindow = new google.maps.InfoWindow({
 			content: contentString
 		});
-		InfoWindowArray.push(infowindow);
+		if (!window.InfoWindowArray) {
+			window.InfoWindowArray = [];
+		}
+		window.InfoWindowArray.push(infowindow);
 		google.maps.event.addListener(marker, 'click', function () {
 			infowindow.open(map,marker);
 		});
@@ -11723,7 +11725,10 @@ function SetLocationTPop(LatLng, map, marker, TPop) {
 					infowindow = new google.maps.InfoWindow({
 						content: contentString
 					});
-					InfoWindowArray.push(infowindow);
+					if (!window.InfoWindowArray) {
+						window.InfoWindowArray = [];
+					}
+					window.InfoWindowArray.push(infowindow);
 					google.maps.event.addListener(marker, 'click', function () {
 						infowindow.open(map, marker);
 					});
@@ -11747,10 +11752,9 @@ function clearMarkers() {
 //GoogleMap: alle InfoWindows löschen
 //benutzt wo in GoogleMaps Infowindows neu gesetzt werden müssen, weil die Daten verändert wurden
 function clearInfoWindows() {
-	if (InfoWindowArray) {
-		//for (i in InfoWindowArray) {
-		for (var i = 0; i < InfoWindowArray.length; i++) {
-			InfoWindowArray[i].setMap(null);
+	if (window.InfoWindowArray) {
+		for (var i = 0; i < window.InfoWindowArray.length; i++) {
+			window.InfoWindowArray[i].setMap(null);
 		}
 	}
 }
