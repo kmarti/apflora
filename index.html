@@ -2888,54 +2888,6 @@
 				setzeKartenhoehe();
 			});
 
-			function pruefe_anmeldung() {
-				//Leserechte zurücksetzen
-				delete sessionStorage.NurLesen;
-				if ($("#anmeldung_name").val() && $("#anmeldung_passwort").val()) {
-					$.ajax({
-						url: 'php/anmeldung.php',
-						dataType: 'json',
-						data: {
-							"Name": $("#anmeldung_name").val(),
-							"pwd": $("#anmeldung_passwort").val()
-						},
-						success: function (data) {
-							if (data && data.anzUser > 0) {
-								sessionStorage.User = $("#anmeldung_name").val();
-								//wenn NurLesen, globale Variable setzen
-								if (data.NurLesen && data.NurLesen === -1) {
-									sessionStorage.NurLesen = true;
-								}
-								$("#anmeldung_rueckmeldung").html("Willkommen " + $("#anmeldung_name").val()).addClass("ui-state-highlight");
-								setTimeout(function() {
-									$("#anmelde_dialog").dialog("close", 2000);
-								}, 1000);
-							} else {
-								alert("Anmeldung gescheitert");
-								$("#anmeldung_rueckmeldung").html("Anmeldung gescheitert").addClass("ui-state-highlight");
-								setTimeout(function() {
-									$("#anmeldung_rueckmeldung").removeClass("ui-state-highlight", 1500);
-								}, 500);
-							}
-						},
-						error: function () {
-							$("#Meldung").html("Anmeldung gescheitert");
-							$( "#Meldung" ).dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-									}
-								}
-							});
-						}
-					});
-				} else {
-					$("#anmeldung_rueckmeldung").html("Bitte Name und Passwort ausfüllen").addClass( "ui-state-highlight" );
-					setTimeout(function() {
-						$("#anmeldung_rueckmeldung").removeClass("ui-state-highlight", 1500);
-					}, 500);
-				}
-			}
 			$("#exporte").on("click", "#export_ap", function() {
 				var url = "php/export_ap.php";
 				$.fileDownload(url, {
@@ -2944,6 +2896,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#exporte").on("click", "#export_ap_ohne_pop", function() {
 				var url = "php/export_ap_ohne_pop.php";
 				$.fileDownload(url, {
@@ -2952,6 +2905,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#exporte").on("click", "#export_ap_anz_massn", function() {
 				var url = "php/export_ap_anz_massn.php";
 				$.fileDownload(url, {
@@ -2960,6 +2914,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#exporte").on("click", "#export_ap_anz_kontr", function() {
 				var url = "php/export_ap_anz_kontr.php";
 				$.fileDownload(url, {
@@ -2968,6 +2923,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#exporte").on("click", "#export_jber", function() {
 				var url = "php/export_jber.php";
 				$.fileDownload(url, {
@@ -2976,6 +2932,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#exporte").on("click", "#export_jber_massn", function() {
 				var url = "php/export_jber_massn.php";
 				$.fileDownload(url, {
@@ -2984,6 +2941,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#exporte").on("click", "#export_apziel", function() {
 				var url = "php/export_apziel.php";
 				$.fileDownload(url, {
@@ -2992,6 +2950,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#exporte").on("click", "#export_zielber", function() {
 				var url = "php/export_zielber.php";
 				$.fileDownload(url, {
@@ -3000,6 +2959,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#exporte").on("click", "#export_ber", function() {
 				var url = "php/export_ber.php";
 				$.fileDownload(url, {
@@ -3008,6 +2968,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#exporte").on("click", "#export_erfkrit", function() {
 				var url = "php/export_erfkrit.php";
 				$.fileDownload(url, {
@@ -3016,6 +2977,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#exporte").on("click", "#export_umwfakt", function() {
 				var url = "php/export_umwfakt.php";
 				$.fileDownload(url, {
@@ -3024,6 +2986,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#exporte").on("click", "#export_assoz_arten", function() {
 				var url = "php/export_assoz_arten.php";
 				$.fileDownload(url, {
@@ -3032,6 +2995,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#forms").on("click", ".export_pop", function() {
 				//wenn pop ausgewählt, diese übergeben
 				var pop_id_liste = "";
@@ -3051,6 +3015,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#exporte").on("click", "#export_pop_fuer_kml", function() {
 				var url = "php/export_pop_fuer_kml.php";
 				$.fileDownload(url, {
@@ -3059,6 +3024,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#exporte").on("click", "#export_pop_fuer_kml_namen", function() {
 				var url = "php/export_pop_fuer_kml_namen.php";
 				$.fileDownload(url, {
@@ -3067,6 +3033,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#exporte").on("click", "#export_pop_ohne_tpop", function() {
 				var url = "php/export_pop_ohne_tpop.php";
 				$.fileDownload(url, {
@@ -3075,6 +3042,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#exporte").on("click", "#export_pop_von_ap_ohne_status", function() {
 				var url = "php/export_pop_von_ap_ohne_status.php";
 				$.fileDownload(url, {
@@ -3092,6 +3060,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#exporte").on("click", "#export_pop_mit_massnber_anz_massn", function() {
 				var url = "php/export_pop_mit_massnber_anz_massn.php";
 				$.fileDownload(url, {
@@ -3100,6 +3069,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#exporte").on("click", "#export_pop_anz_massn", function() {
 				var url = "php/export_pop_anz_massn.php";
 				$.fileDownload(url, {
@@ -3108,6 +3078,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#exporte").on("click", "#export_pop_anz_kontr", function() {
 				var url = "php/export_pop_anz_kontr.php";
 				$.fileDownload(url, {
@@ -3116,6 +3087,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#exporte").on("click", "#export_popber_massnber", function() {
 				var url = "php/export_popber_massnber.php";
 				$.fileDownload(url, {
@@ -3124,6 +3096,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#forms").on("click", ".export_tpop", function() {
 				//wenn tpop ausgewählt, diese übergeben
 				var tpop_id_liste = "";
@@ -3143,9 +3116,11 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#ergebnisAuswahlHeader").on("click", ".ui-icon.ui-icon-closethick", function() {
 				deaktiviereGeoAdminAuswahl();
 			});
+
 			$("#exporte").on("click", "#export_tpop_fuer_kml", function() {
 				var url = "php/export_tpop_fuer_kml.php";
 				$.fileDownload(url, {
@@ -3154,6 +3129,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#exporte").on("click", "#export_tpop_fuer_kml_namen", function() {
 				var url = "php/export_tpop_fuer_kml_namen.php";
 				$.fileDownload(url, {
@@ -3162,6 +3138,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#exporte").on("click", "#export_tpop_ohne_bekannt_seit", function() {
 				var url = "php/export_tpop_ohne_bekannt_seit.php";
 				$.fileDownload(url, {
@@ -3170,6 +3147,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#exporte").on("click", "#export_tpop_anz_massn", function() {
 				var url = "php/export_tpop_anz_massn.php";
 				$.fileDownload(url, {
@@ -3178,6 +3156,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#exporte").on("click", "#export_tpop_anz_kontr_inkl_letzte", function() {
 				var url = "php/export_tpop_anz_kontr_inkl_letzte.php";
 				$.fileDownload(url, {
@@ -3186,6 +3165,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#exporte").on("click", "#export_tpopber_massnber", function() {
 				var url = "php/export_tpopber_massnber.php";
 				$.fileDownload(url, {
@@ -3214,6 +3194,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#exporte").on("click", "#export_kontr_anz_pro_zaehleinheit", function() {
 				var url = "php/export_kontr_anz_pro_zaehleinheit.php";
 				$.fileDownload(url, {
@@ -3222,6 +3203,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#forms").on("click", ".export_massn", function() {
 				//wenn tpop ausgewählt, diese übergeben
 				var tpop_id_liste = "";
@@ -3241,6 +3223,7 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 			$("#exporte").on("click", "#export_beob", function() {
 				var url = "php/export_beob.php";
 				$.fileDownload(url, {
@@ -3249,9 +3232,11 @@
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
 			});
+
 		</script>
 
 		<div id="Meldung"></div>
+		<div id="offline_dialog" title="offline" style="width:350px;"><p>Sie sind nicht mit dem Internet verbunden.<br>Speichern ist nur online möglich</p></div>
 
 		<div id="anmelde_dialog" title="Anmeldung erforderlich">
 			<p id="anmeldung_rueckmeldung" style="margin: 16px 0px 16px 0px;">Logins werden von Topos vergeben</p>
