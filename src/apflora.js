@@ -9087,7 +9087,7 @@ function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 	});
 }
 
-function pruefeSpeichervoraussetzungen() {
+function pruefeLesevoraussetzungen() {
 	//kontrollieren, ob der User offline ist
 	if (!navigator.onLine) {
 		console.log('offline');
@@ -9101,7 +9101,14 @@ function pruefeSpeichervoraussetzungen() {
 			}
 		});
 		return false;
-	} else if (sessionStorage.NurLesen) {
+	} else {
+		return true;
+	}
+}
+
+function pruefeSchreibvoraussetzungen() {
+	//kontrollieren, ob der User offline ist
+	if (sessionStorage.NurLesen) {
 		//nur speichern, wenn Schreibrechte bestehen
 		$("#Meldung").html("Sie haben keine Schreibrechte");
 		$("#Meldung").dialog({
@@ -9123,7 +9130,7 @@ function pruefeSpeichervoraussetzungen() {
 //übernimmt das Objekt, in dem geändert wurde
 function speichern(that) {
 	var Feldtyp, Formular, Feldname, Feldjson, Feldwert, Querystring, Objekt;
-	if (pruefeSpeichervoraussetzungen()) {
+	if (pruefeSchreibvoraussetzungen()) {
 		Formular = $(that).attr("formular");
 		Feldname = that.name;
 		Feldtyp = $(that).attr("type") || null;
@@ -10132,7 +10139,7 @@ function erstelleTPopulationFuerGeoAdmin(TPop) {
 
 //dieser Funktion kann man einen Wert zum speichern übergeben
 function speichereWert(tabelle, id, feld, wert) {
-	if (pruefeSpeichervoraussetzungen()) {
+	if (pruefeSchreibvoraussetzungen()) {
 		$.ajax({
 			url: 'php/' + tabelle + '_update.php',
 			dataType: 'json',
