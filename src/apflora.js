@@ -12722,7 +12722,6 @@ function kopiereKoordinatenInPop(TPopXKoord, TPopYKoord) {
 	}
 }
 
-
 /*411 Zeilen lang
 * jQuery File Download Plugin v1.3.3
 *
