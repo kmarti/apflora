@@ -213,6 +213,14 @@ option {
 	white-space:pre;
 }
 
+.limiter {
+	font-size: 11px;
+	font-style: italic;
+	color: grey;
+	margin-left: 4px;
+	margin-top: -4px;
+}
+
 .ui-widget .fieldcontain {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	font-size:16px;

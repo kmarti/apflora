@@ -192,7 +192,9 @@ function initiiere_pop() {
 					$("#PopHerkunftUnklar").prop("checked", false);
 				}
 				$("#PopHerkunftUnklarBegruendung").val(data.PopHerkunftUnklarBegruendung);
+				$("#PopHerkunftUnklarBegruendung").limiter(255, $("#PopHerkunftUnklarBegruendung_limit"));
 				$("#PopName").val(data.PopName);
+				$("#PopName").limiter(150, $("#PopName_limit"));
 				$("#PopNr").val(data.PopNr);
 				$("#PopBekanntSeit").val(data.PopBekanntSeit);
 				$("#PopXKoord").val(data.PopXKoord);
@@ -367,6 +369,7 @@ function initiiere_erfkrit() {
 				//Felder mit Daten beliefern
 				$("#ErfkritErreichungsgrad" + data.ErfkritErreichungsgrad).prop("checked", true);
 				$("#ErfkritTxt").val(data.ErfkritTxt);
+				$("#ErfkritTxt").limiter(255, $("#ErfkritTxt_limit"));
 				//Formulare blenden
 				zeigeFormular("erfkrit");
 				history.replaceState({erfkrit: "erfkrit"}, "erfkrit", "index.html?ap=" + localStorage.ap_id + "&erfkrit=" + localStorage.erfkrit_id);
@@ -427,6 +430,7 @@ function initiiere_jber() {
 				//escapen, + und - werden sonst verändert
 				$("#JBerVeraenGegenVorjahr\\" + data.JBerVeraenGegenVorjahr).prop("checked", true);
 				$("#JBerAnalyse").val(data.JBerAnalyse);
+				$("#JBerAnalyse").limiter(255, $("#JBerAnalyse_limit"));
 				$("#JBerUmsetzung").val(data.JBerUmsetzung);
 				$("#JBerErfko").val(data.JBerErfko);
 				$("#JBerATxt").val(data.JBerATxt);
@@ -577,7 +581,9 @@ function initiiere_ber() {
 				$("#BerAutor").val(data.BerAutor);
 				$("#BerJahr").val(data.BerJahr);
 				$("#BerTitel").val(data.BerTitel);
+				$("#BerTitel").limiter(255, $("#BerTitel_limit"));
 				$("#BerURL").val(data.BerURL);
+				$("#BerURL").limiter(255, $("#BerURL_limit"));
 				//URL-Link initialisieren, wird bei Änderung der URL in index.html angepasst
 				$('#BerURLHref').attr('onClick', "window.open('" + data.BerURL + "', target='_blank')");
 				//Formulare blenden
@@ -866,6 +872,7 @@ function initiiere_tpop() {
 				window.tpop = data;
 				//Felder mit Daten beliefern
 				$("#TPopFlurname").val(data.TPopFlurname);
+				$("#TPopFlurname").limiter(255, $("#TPopFlurname_limit"));
 				$("#TPopNr").val(data.TPopNr);
 				$("#TPopHerkunft" + data.TPopHerkunft).prop("checked", true);
 				if (data.TPopHerkunftUnklar == 1) {
@@ -874,23 +881,35 @@ function initiiere_tpop() {
 					$("#TPopHerkunftUnklar").prop("checked", false);
 				}
 				$("#TPopHerkunftUnklarBegruendung").val(data.TPopHerkunftUnklarBegruendung);
+				$("#TPopHerkunftUnklarBegruendung").limiter(255, $("#TPopHerkunftUnklarBegruendung_limit"));
 				$("#TPopApBerichtRelevant" + data.TPopApBerichtRelevant).prop("checked", true);
 				$("#TPopBekanntSeit").val(data.TPopBekanntSeit);
 				$("#TPopGemeinde").val(data.TPopGemeinde);
+				$("#TPopGemeinde").limiter(255, $("#TPopGemeinde_limit"));
 				$("#TPopXKoord").val(data.TPopXKoord);
 				$("#TPopYKoord").val(data.TPopYKoord);
 				$("#TPopRadius").val(data.TPopRadius);
 				$("#TPopHoehe").val(data.TPopHoehe);
 				$("#TPopExposition").val(data.TPopExposition);
+				$("#TPopExposition").limiter(50, $("#TPopExposition_limit"));
 				$("#TPopKlima").val(data.TPopKlima);
+				$("#TPopKlima").limiter(50, $("#TPopKlima_limit"));
 				$("#TPopNeigung").val(data.TPopNeigung);
+				$("#TPopNeigung").limiter(50, $("#TPopNeigung_limit"));
 				$("#TPopBeschr").val(data.TPopBeschr);
+				$("#TPopBeschr").limiter(255, $("#TPopBeschr_limit"));
 				$("#TPopKatNr").val(data.TPopKatNr);
+				$("#TPopKatNr").limiter(255, $("#TPopKatNr_limit"));
 				$("#TPopEigen").val(data.TPopEigen);
+				$("#TPopEigen").limiter(255, $("#TPopEigen_limit"));
 				$("#TPopKontakt").val(data.TPopKontakt);
+				$("#TPopKontakt").limiter(255, $("#TPopKontakt_limit"));
 				$("#TPopNutzungszone").val(data.TPopNutzungszone);
+				$("#TPopNutzungszone").limiter(255, $("#TPopNutzungszone_limit"));
 				$("#TPopBewirtschafterIn").val(data.TPopBewirtschafterIn);
+				$("#TPopBewirtschafterIn").limiter(255, $("#TPopBewirtschafterIn_limit"));
 				$("#TPopBewirtschaftung").val(data.TPopBewirtschaftung);
+				$("#TPopBewirtschaftung").limiter(255, $("#TPopBewirtschaftung_limit"));
 				$("#TPopTxt").val(data.TPopTxt);
 				//für select Daten holen - oder vorhandene nutzen
 				if (!window.adressen_html) {
@@ -1114,27 +1133,45 @@ function initiiere_tpopfeldkontr() {
 					$("#TPopKontrTyp" + data.TPopKontrTyp).prop("checked", true);
 					$("#TPopKontrJungpfl").val(data.TPopKontrJungpfl);
 					$("#TPopKontrVitalitaet").val(data.TPopKontrVitalitaet);
+					$("#TPopKontrVitalitaet").limiter(255, $("#TPopKontrVitalitaet_limit"));
 					$("#TPopKontrUeberleb").val(data.TPopKontrUeberleb);
 					$("#TPopKontrEntwicklung" + data.TPopKontrEntwicklung).prop("checked", true);
 					$("#TPopKontrUrsach").val(data.TPopKontrUrsach);
+					$("#TPopKontrUrsach").limiter(255, $("#TPopKontrUrsach_limit"));
 					$("#TPopKontrUrteil").val(data.TPopKontrUrteil);
+					$("#TPopKontrUrteil").limiter(255, $("#TPopKontrUrteil_limit"));
 					$("#TPopKontrAendUms").val(data.TPopKontrAendUms);
+					$("#TPopKontrAendUms").limiter(255, $("#TPopKontrAendUms_limit"));
 					$("#TPopKontrAendKontr").val(data.TPopKontrAendKontr);
+					$("#TPopKontrAendKontr").limiter(255, $("#TPopKontrAendKontr_limit"));
 					//Biotop
 					$("#TPopKontrFlaeche").val(data.TPopKontrFlaeche);
 					$("#TPopKontrVegTyp").val(data.TPopKontrVegTyp);
+					$("#TPopKontrVegTyp").limiter(100, $("#TPopKontrVegTyp_limit"));
 					$("#TPopKontrKonkurrenz").val(data.TPopKontrKonkurrenz);
+					$("#TPopKontrKonkurrenz").limiter(100, $("#TPopKontrKonkurrenz_limit"));
 					$("#TPopKontrMoosschicht").val(data.TPopKontrMoosschicht);
+					$("#TPopKontrMoosschicht").limiter(100, $("#TPopKontrMoosschicht_limit"));
 					$("#TPopKontrKrautschicht").val(data.TPopKontrKrautschicht);
+					$("#TPopKontrKrautschicht").limiter(100, $("#TPopKontrKrautschicht_limit"));
 					$("#TPopKontrStrauchschicht").val(data.TPopKontrStrauchschicht);
+					$("#TPopKontrStrauchschicht").limiter(255, $("#TPopKontrStrauchschicht_limit"));
 					$("#TPopKontrBaumschicht").val(data.TPopKontrBaumschicht);
+					$("#TPopKontrBaumschicht").limiter(100, $("#TPopKontrBaumschicht_limit"));
 					$("#TPopKontrBodenTyp").val(data.TPopKontrBodenTyp);
+					$("#TPopKontrBodenTyp").limiter(255, $("#TPopKontrBodenTyp_limit"));
 					$("#TPopKontrBodenKalkgehalt").val(data.TPopKontrBodenKalkgehalt);
+					$("#TPopKontrBodenKalkgehalt").limiter(100, $("#TPopKontrBodenKalkgehalt_limit"));
 					$("#TPopKontrBodenDurchlaessigkeit").val(data.TPopKontrBodenDurchlaessigkeit);
+					$("#TPopKontrBodenDurchlaessigkeit").limiter(100, $("#TPopKontrBodenDurchlaessigkeit_limit"));
 					$("#TPopKontrBodenHumus").val(data.TPopKontrBodenHumus);
+					$("#TPopKontrBodenHumus").limiter(100, $("#TPopKontrBodenHumus_limit"));
 					$("#TPopKontrBodenNaehrstoffgehalt").val(data.TPopKontrBodenNaehrstoffgehalt);
+					$("#TPopKontrBodenNaehrstoffgehalt").limiter(100, $("#TPopKontrBodenNaehrstoffgehalt_limit"));
 					$("#TPopKontrBodenAbtrag").val(data.TPopKontrBodenAbtrag);
+					$("#TPopKontrBodenAbtrag").limiter(255, $("#TPopKontrBodenAbtrag_limit"));
 					$("#TPopKontrWasserhaushalt").val(data.TPopKontrWasserhaushalt);
+					$("#TPopKontrWasserhaushalt").limiter(255, $("#TPopKontrWasserhaushalt_limit"));
 					$("#TPopKontrHandlungsbedarf").val(data.TPopKontrHandlungsbedarf);
 					$("#TPopKontrIdealBiotopUebereinst" + data.TPopKontrIdealBiotopUebereinst).prop("checked", true);
 					//TPopKontrLeb: Daten holen - oder vorhandene nutzen
@@ -1210,6 +1247,7 @@ function initiiere_tpopfeldkontr() {
 					$("#TPopKontrVegHoeMax").val(data.TPopKontrVegHoeMax);
 					$("#TPopKontrVegHoeMit").val(data.TPopKontrVegHoeMit);
 					$("#TPopKontrGefaehrdung").val(data.TPopKontrGefaehrdung);
+					$("#TPopKontrGefaehrdung").limiter(255, $("#TPopKontrGefaehrdung_limit"));
 				}
 				//fieldcontain-divs der benötigten Felder einblenden
 				if (localStorage.tpopfreiwkontr) {
@@ -1319,6 +1357,7 @@ function initiiere_tpopmassn() {
 					$("#TPopMassnTyp").val(window.tpopmassn.TPopMassnTyp);
 				}
 				$("#TPopMassnTxt").val(data.TPopMassnTxt);
+				$("#TPopMassnTxt").limiter(255, $("#TPopMassnTxt_limit"));
 				$("#TPopMassnJahr").val(data.TPopMassnJahr);
 				if (data.TPopMassnDatum !== "01.01.1970") {
 					//php macht aus einem Nullwert im Datum den 1.1.1970!!!
@@ -1358,10 +1397,14 @@ function initiiere_tpopmassn() {
 					$("#TPopMassnPlan").prop("checked", false);
 				}
 				$("#TPopMassnPlanBez").val(data.TPopMassnPlanBez);
+				$("#TPopMassnPlanBez").limiter(255, $("#TPopMassnPlanBez_limit"));
 				$("#TPopMassnFlaeche").val(data.TPopMassnFlaeche);
 				$("#TPopMassnAnsiedForm").val(data.TPopMassnAnsiedForm);
+				$("#TPopMassnAnsiedForm").limiter(255, $("#TPopMassnAnsiedForm_limit"));
 				$("#TPopMassnAnsiedPflanzanordnung").val(data.TPopMassnAnsiedPflanzanordnung);
+				$("#TPopMassnAnsiedPflanzanordnung").limiter(255, $("#TPopMassnAnsiedPflanzanordnung_limit"));
 				$("#TPopMassnMarkierung").val(data.TPopMassnMarkierung);
+				$("#TPopMassnMarkierung").limiter(255, $("#TPopMassnMarkierung_limit"));
 				$("#TPopMassnAnsiedAnzTriebe").val(data.TPopMassnAnsiedAnzTriebe);
 				$("#TPopMassnAnsiedAnzPfl").val(data.TPopMassnAnsiedAnzPfl);
 				$("#TPopMassnAnzPflanzstellen").val(data.TPopMassnAnzPflanzstellen);
@@ -1387,7 +1430,9 @@ function initiiere_tpopmassn() {
 					$("#TPopMassnAnsiedWirtspfl").val(data.TPopMassnAnsiedWirtspfl);
 				}
 				$("#TPopMassnAnsiedHerkunftPop").val(data.TPopMassnAnsiedHerkunftPop);
+				$("#TPopMassnAnsiedHerkunftPop").limiter(255, $("#TPopMassnAnsiedHerkunftPop_limit"));
 				$("#TPopMassnAnsiedDatSamm").val(data.TPopMassnAnsiedDatSamm);
+				$("#TPopMassnAnsiedDatSamm").limiter(50, $("#TPopMassnAnsiedDatSamm_limit"));
 				$("#TPopMassnGuid").val(data.TPopMassnGuid);
 				//Formulare blenden
 				zeigeFormular("tpopmassn");
@@ -1800,7 +1845,7 @@ function zeigeFormular(Formularname) {
 				if ($(this).attr("id") === Formularname) {
 					$(this).show();
 					$('textarea').each(function () {
-						$(this).trigger('focus');
+						FitToContent(this, document.documentElement.clientHeight);
 					});
 				}
 			});
@@ -12800,6 +12845,25 @@ function pruefe_anmeldung() {
 		}, 500);
 	}
 }
+
+(function($) {
+	$.fn.extend( {
+		limiter: function(limit, elem) {
+			$(this).on("keyup focus", function() {
+				setCount(this, elem);
+			});
+			function setCount(src, elem) {
+				var chars = src.value.length;
+				if (chars > limit) {
+					src.value = src.value.substr(0, limit);
+					chars = limit;
+				}
+				elem.html( limit - chars );
+			}
+			setCount($(this)[0], elem);
+		}
+	});
+})(jQuery);
 
 /*411 Zeilen lang
 * jQuery File Download Plugin v1.3.3

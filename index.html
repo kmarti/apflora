@@ -159,7 +159,8 @@
 							</label>
 						</td>
 						<td class="Datenfelder">
-							<input id="PopName" name="PopName" class="speichern" formular="pop" type="text">
+							<input id="PopName" name="PopName" class="speichern" formular="pop" type="text" maxlength="150">
+							<div id="PopName_limit" class="limiter"></div>
 						</td>
 					</tr>
 					<tr class="fieldcontain">
@@ -213,7 +214,8 @@
 							<label id="PopHerkunftUnklarBegruendung_label" for='PopHerkunftUnklarBegruendung'>Begründung:</label>
 						</td>
 						<td class="Datenfelder">
-							<textarea name="PopHerkunftUnklarBegruendung" id="PopHerkunftUnklarBegruendung" class="speichern" formular="pop" placeholder="...für unklaren Status"></textarea>
+							<textarea name="PopHerkunftUnklarBegruendung" id="PopHerkunftUnklarBegruendung" class="speichern" formular="pop" placeholder="...für unklaren Status" maxlength="255"></textarea>
+							<div id="PopHerkunftUnklarBegruendung_limit" class="limiter"></div>
 						</td>
 					</tr>
 					<tr class="fieldcontain">
@@ -258,7 +260,8 @@
 							<label id="TPopFlurname_label" for='TPopFlurname'><a class="tooltip erforderlich" href="#">Flurname:<span class="custom info"><img src="img/Info.png" alt="Information" height="48" width="48">Dieses Feld möglichst immer ausfüllen</span></a></label>
 						</td>
 						<td class="Datenfelder">
-							<input id="TPopFlurname" name="TPopFlurname" class="speichern" formular="tpop" type="text">
+							<input id="TPopFlurname" name="TPopFlurname" class="speichern" formular="tpop" type="text" maxlength="255">
+							<div id="TPopFlurname_limit" class="limiter"></div>
 						</td>
 					</tr>
 					<tr class="fieldcontain">
@@ -312,7 +315,8 @@
 							<label id="TPopHerkunftUnklarBegruendung_label" for='TPopHerkunftUnklarBegruendung'>Begründung:</label>
 						</td>
 						<td class="Datenfelder">
-							<textarea name="TPopHerkunftUnklarBegruendung" id="TPopHerkunftUnklarBegruendung" class="speichern" formular="tpop" placeholder="...für unklaren Status"></textarea>
+							<textarea name="TPopHerkunftUnklarBegruendung" id="TPopHerkunftUnklarBegruendung" class="speichern" formular="tpop" placeholder="...für unklaren Status" maxlength="255"></textarea>
+							<div id="TPopHerkunftUnklarBegruendung_limit" class="limiter"></div>
 						</td>
 					</tr>
 					<tr class="fieldcontain">
@@ -350,7 +354,8 @@
 							<label id="TPopGemeinde_label" for='TPopGemeinde'>Gemeinde:</label>
 						</td>
 						<td class="Datenfelder">
-							<Input id="TPopGemeinde" name="TPopGemeinde" class="speichern" formular="tpop" type="text">
+							<Input id="TPopGemeinde" name="TPopGemeinde" class="speichern" formular="tpop" type="text" maxlength="255">
+								<div id="TPopGemeinde_limit" class="limiter"></div>
 						</td>
 					</tr>
 					<tr class="fieldcontain">
@@ -398,7 +403,8 @@
 							<label id="TPopExposition_label" for='TPopExposition'>Exposition,<br>Besonnung:</label>
 						</td>
 						<td class="Datenfelder">
-							<input id="TPopExposition" name="TPopExposition" class="speichern" formular="tpop" type="text">
+							<input id="TPopExposition" name="TPopExposition" class="speichern" formular="tpop" type="text" maxlength="50">
+							<div id="TPopExposition_limit" class="limiter"></div>
 						</td>
 					</tr>
 					<tr class="fieldcontain">
@@ -406,7 +412,8 @@
 							<label id="TPopKlima_label" for='TPopKlima'>Klima:</label>
 						</td>
 						<td class="Datenfelder">
-							<input id="TPopKlima" name="TPopKlima" class="speichern" formular="tpop" type="text">
+							<input id="TPopKlima" name="TPopKlima" class="speichern" formular="tpop" type="text" maxlength="50">
+							<div id="TPopKlima_limit" class="limiter"></div>
 						</td>
 					</tr>
 					<tr class="fieldcontain">
@@ -414,7 +421,8 @@
 							<label id="TPopNeigung_label" for='TPopNeigung'>Hangneigung:</label>
 						</td>
 						<td class="Datenfelder">
-							<input id="TPopNeigung" name="TPopNeigung" class="speichern" formular="tpop" type="text">
+							<input id="TPopNeigung" name="TPopNeigung" class="speichern" formular="tpop" type="text" maxlength="50">
+							<div id="TPopNeigung_limit" class="limiter"></div>
 						</td>
 					</tr>
 					<tr class="fieldcontain">
@@ -422,7 +430,8 @@
 							<label id="TPopBeschr_label" for='TPopBeschr'>Beschreibung:</label>
 						</td>
 						<td class="Datenfelder">
-							<textarea id="TPopBeschr" name="TPopBeschr" class="speichern" formular="tpop" type="text"></textarea>
+							<textarea id="TPopBeschr" name="TPopBeschr" class="speichern" formular="tpop" type="text" maxlength="255"></textarea>
+							<div id="TPopBeschr_limit" class="limiter"></div>
 						</td>
 					</tr>
 					<tr class="fieldcontain">
@@ -430,7 +439,8 @@
 							<label id="TPopKatNr_label" for='TPopKatNr'>Kataster-Nr.:</label>
 						</td>
 						<td class="Datenfelder">
-							<input id="TPopKatNr" name="TPopKatNr" class="speichern" formular="tpop" type="text">
+							<input id="TPopKatNr" name="TPopKatNr" class="speichern" formular="tpop" type="text" maxlength="255">
+							<div id="TPopKatNr_limit" class="limiter"></div>
 						</td>
 					</tr>
 					<tr class="fieldcontain">
@@ -448,7 +458,8 @@
 							<label id="TPopEigen_label" for='TPopEigen'>EigentümerIn:</label>
 						</td>
 						<td class="Datenfelder">
-							<input id="TPopEigen" name="TPopEigen" class="speichern" formular="tpop" type="text">
+							<input id="TPopEigen" name="TPopEigen" class="speichern" formular="tpop" type="text" maxlength="255">
+							<div id="TPopEigen_limit" class="limiter"></div>
 						</td>
 					</tr>
 					<tr class="fieldcontain">
@@ -456,7 +467,8 @@
 							<label id="TPopKontakt_label" for='TPopKontakt'>Kontakt vor Ort:</label>
 						</td>
 						<td class="Datenfelder">
-							<input id="TPopKontakt" name="TPopKontakt" class="speichern" formular="tpop" type="text">
+							<input id="TPopKontakt" name="TPopKontakt" class="speichern" formular="tpop" type="text" maxlength="255">
+							<div id="TPopKontakt_limit" class="limiter"></div>
 						</td>
 					</tr>
 					<tr class="fieldcontain">
@@ -464,7 +476,8 @@
 							<label id="TPopNutzungszone_label" for='TPopNutzungszone'>Nutzungszone:</label>
 						</td>
 						<td class="Datenfelder">
-							<input id="TPopNutzungszone" name="TPopNutzungszone" class="speichern" formular="tpop" type="text">
+							<input id="TPopNutzungszone" name="TPopNutzungszone" class="speichern" formular="tpop" type="text" maxlength="255">
+							<div id="TPopNutzungszone_limit" class="limiter"></div>
 						</td>
 					</tr>
 					<tr class="fieldcontain">
@@ -472,7 +485,8 @@
 							<label id="TPopBewirtschafterIn_label" for='TPopBewirtschafterIn'>BewirtschafterIn:</label>
 						</td>
 						<td class="Datenfelder">
-							<input id="TPopBewirtschafterIn" name="TPopBewirtschafterIn" class="speichern" formular="tpop" type="text">
+							<input id="TPopBewirtschafterIn" name="TPopBewirtschafterIn" class="speichern" formular="tpop" type="text" maxlength="255">
+							<div id="TPopBewirtschafterIn_limit" class="limiter"></div>
 						</td>
 					</tr>
 					<tr class="fieldcontain">
@@ -480,7 +494,8 @@
 							<label id="TPopBewirtschaftung_label" for='TPopBewirtschaftung'>Bewirtschaftung:</label>
 						</td>
 						<td class="Datenfelder">
-							<input id="TPopBewirtschaftung" name="TPopBewirtschaftung" class="speichern" formular="tpop" type="text">
+							<input id="TPopBewirtschaftung" name="TPopBewirtschaftung" class="speichern" formular="tpop" type="text" maxlength="255">
+							<div id="TPopBewirtschaftung_limit" class="limiter"></div>
 						</td>
 					</tr>
 					<tr class="fieldcontain">
@@ -775,7 +790,8 @@
 									<label id="TPopKontrGefaehrdung_label" for='TPopKontrGefaehrdung'>Gefährdung:</label>
 								</td>
 								<td class="Datenfelder">
-									<textarea name="TPopKontrGefaehrdung" id="TPopKontrGefaehrdung" class="speichern" formular="tpopfeldkontr"></textarea>
+									<textarea name="TPopKontrGefaehrdung" id="TPopKontrGefaehrdung" class="speichern" formular="tpopfeldkontr" maxlength="255"></textarea>
+									<div id="TPopKontrGefaehrdung_limit" class="limiter"></div>
 								</td>
 							</tr>
 							<tr id='fieldcontain_TPopKontrJungpfl' class='fieldcontain feld_tpopfeldkontr TPopKontrJungpfl'>
@@ -791,7 +807,8 @@
 									<label id="TPopKontrVitalitaet_label" for='TPopKontrVitalitaet'>Vitalität:</label>
 								</td>
 								<td class="Datenfelder">
-									<input id="TPopKontrVitalitaet" name="TPopKontrVitalitaet" class="speichern" formular="tpopfeldkontr" type="text">
+									<input id="TPopKontrVitalitaet" name="TPopKontrVitalitaet" class="speichern" formular="tpopfeldkontr" type="text" maxlength="255">
+									<div id="TPopKontrVitalitaet_limit" class="limiter"></div>
 								</td>
 							</tr>
 							<tr id='fieldcontain_TPopKontrUeberleb' class='fieldcontain feld_tpopfeldkontr TPopKontrUeberleb'>
@@ -799,7 +816,7 @@
 									<label id="TPopKontrUeberleb_label" for='TPopKontrUeberleb'>Überlebensrate:</label>
 								</td>
 								<td class="Datenfelder">
-									<input id="TPopKontrUeberleb" name="TPopKontrUeberleb" class="speichern" formular="tpopfeldkontr" type="text">
+									<input id="TPopKontrUeberleb" name="TPopKontrUeberleb" class="speichern" formular="tpopfeldkontr" type="number">
 								</td>
 							</tr>
 							<tr id='fieldcontain_TPopKontrEntwicklung' class='fieldcontain feld_tpopfeldkontr TPopKontrEntwicklung'>
@@ -837,7 +854,8 @@
 									<label id="TPopKontrUrsach_label" for='TPopKontrUrsach'>Ursachen:</label>
 								</td>
 								<td class="Datenfelder">
-									<textarea id="TPopKontrUrsach" name="TPopKontrUrsach" class="speichern" formular="tpopfeldkontr" type="text" placeholder="Standort: ... / Klima: ... / anderes: ..."></textarea>
+									<textarea id="TPopKontrUrsach" name="TPopKontrUrsach" class="speichern" formular="tpopfeldkontr" type="text" placeholder="Standort: ... / Klima: ... / anderes: ..." maxlength="255"></textarea>
+									<div id="TPopKontrUrsach_limit" class="limiter"></div>
 								</td>
 							</tr>
 							<tr id='fieldcontain_TPopKontrUrteil' class='fieldcontain feld_tpopfeldkontr TPopKontrUrteil'>
@@ -845,7 +863,8 @@
 									<label id="TPopKontrUrteil_label" for='TPopKontrUrteil'>Erfolgsbeurteilung:</label>
 								</td>
 								<td class="Datenfelder">
-									<textarea name="TPopKontrUrteil" id="TPopKontrUrteil" class="speichern" formular="tpopfeldkontr"></textarea>
+									<textarea name="TPopKontrUrteil" id="TPopKontrUrteil" class="speichern" formular="tpopfeldkontr" maxlength="255"></textarea>
+									<div id="TPopKontrUrteil_limit" class="limiter"></div>
 								</td>
 							</tr>
 							<tr id='fieldcontain_TPopKontrAendUms' class='fieldcontain feld_tpopfeldkontr TPopKontrAendUms'>
@@ -853,7 +872,8 @@
 									<label id="TPopKontrAendUms_label" for='TPopKontrAendUms'>Änd.-vorschläge Umsetzung:</label>
 								</td>
 								<td class="Datenfelder">
-									<textarea name="TPopKontrAendUms" id="TPopKontrAendUms" class="speichern" formular="tpopfeldkontr"></textarea>
+									<textarea name="TPopKontrAendUms" id="TPopKontrAendUms" class="speichern" formular="tpopfeldkontr" maxlength="255"></textarea>
+									<div id="TPopKontrAendUms_limit" class="limiter"></div>
 								</td>
 							</tr>
 							<tr id='fieldcontain_TPopKontrAendKontr' class='fieldcontain feld_tpopfeldkontr TPopKontrAendKontr'>
@@ -861,7 +881,8 @@
 									<label id="TPopKontrAendKontr_label" for='TPopKontrAendKontr'>Änd.-vorschläge Kontrolle:</label>
 								</td>
 								<td class="Datenfelder">
-									<textarea name="TPopKontrAendKontr" id="TPopKontrAendKontr" class="speichern" formular="tpopfeldkontr"></textarea>
+									<textarea name="TPopKontrAendKontr" id="TPopKontrAendKontr" class="speichern" formular="tpopfeldkontr" maxlength="255"></textarea>
+									<div id="TPopKontrAendKontr_limit" class="limiter"></div>
 								</td>
 							</tr>
 							<tr id='fieldcontain_TPopKontrTxt' class='fieldcontain feld_tpopfeldkontr TPopKontrTxt'>
@@ -921,7 +942,8 @@
 										<label id="TPopKontrVegTyp_label" for='TPopKontrVegTyp' style="width:115px">Vegetationstyp:</label>
 									</td>
 									<td class="Datenfelder">
-										<input id="TPopKontrVegTyp" name="TPopKontrVegTyp" class="speichern" formular="tpopfeldkontr" type="text">
+										<input id="TPopKontrVegTyp" name="TPopKontrVegTyp" class="speichern" formular="tpopfeldkontr" type="text" maxlength="100">
+										<div id="TPopKontrVegTyp_limit" class="limiter"></div>
 									</td>
 								</tr>
 								<tr id='fieldcontain_TPopKontrKonkurrenz' class='fieldcontain feld_tpopfeldkontr TPopKontrKonkurrenz'>
@@ -929,7 +951,8 @@
 										<label id="TPopKontrKonkurrenz_label" for='TPopKontrKonkurrenz' style="width:115px">Konkurrenz:</label>
 									</td>
 									<td class="Datenfelder">
-										<input id="TPopKontrKonkurrenz" name="TPopKontrKonkurrenz" class="speichern" formular="tpopfeldkontr" type="text">
+										<input id="TPopKontrKonkurrenz" name="TPopKontrKonkurrenz" class="speichern" formular="tpopfeldkontr" type="text" maxlength="100">
+										<div id="TPopKontrKonkurrenz_limit" class="limiter"></div>
 									</td>
 								</tr>
 								<tr id='fieldcontain_TPopKontrMoosschicht' class='fieldcontain feld_tpopfeldkontr TPopKontrMoosschicht'>
@@ -937,7 +960,8 @@
 										<label id="TPopKontrMoosschicht_label" for='TPopKontrMoosschicht' style="width:115px">Moosschicht:</label>
 									</td>
 									<td class="Datenfelder">
-										<input id="TPopKontrMoosschicht" name="TPopKontrMoosschicht" class="speichern" formular="tpopfeldkontr" type="text">
+										<input id="TPopKontrMoosschicht" name="TPopKontrMoosschicht" class="speichern" formular="tpopfeldkontr" type="text" maxlength="100">
+										<div id="TPopKontrMoosschicht_limit" class="limiter"></div>
 									</td>
 								</tr>
 								<tr id='fieldcontain_TPopKontrKrautschicht' class='fieldcontain feld_tpopfeldkontr TPopKontrKrautschicht'>
@@ -945,7 +969,8 @@
 										<label id="TPopKontrKrautschicht_label" for='TPopKontrKrautschicht' style="width:115px">Krautschicht:</label>
 									</td>
 									<td class="Datenfelder">
-										<input id="TPopKontrKrautschicht" name="TPopKontrKrautschicht" class="speichern" formular="tpopfeldkontr" type="text">
+										<input id="TPopKontrKrautschicht" name="TPopKontrKrautschicht" class="speichern" formular="tpopfeldkontr" type="text" maxlength="100">
+										<div id="TPopKontrKrautschicht_limit" class="limiter"></div>
 									</td>
 								</tr>
 								<tr id='fieldcontain_TPopKontrStrauchschicht' class='fieldcontain feld_tpopfeldkontr TPopKontrStrauchschicht'>
@@ -953,7 +978,8 @@
 										<label id="TPopKontrStrauchschicht_label" for='TPopKontrStrauchschicht' style="width:115px">Strauchschicht:</label>
 									</td>
 									<td class="Datenfelder">
-										<input id="TPopKontrStrauchschicht" name="TPopKontrStrauchschicht" class="speichern" formular="tpopfeldkontr" type="text">
+										<input id="TPopKontrStrauchschicht" name="TPopKontrStrauchschicht" class="speichern" formular="tpopfeldkontr" type="text" maxlength="255">
+										<div id="TPopKontrStrauchschicht_limit" class="limiter"></div>
 									</td>
 								</tr>
 								<tr id='fieldcontain_TPopKontrBaumschicht' class='fieldcontain feld_tpopfeldkontr TPopKontrBaumschicht'>
@@ -961,7 +987,8 @@
 										<label id="TPopKontrBaumschicht_label" for='TPopKontrBaumschicht' style="width:115px">Baumschicht:</label>
 									</td>
 									<td class="Datenfelder">
-										<input id="TPopKontrBaumschicht" name="TPopKontrBaumschicht" class="speichern" formular="tpopfeldkontr" type="text">
+										<input id="TPopKontrBaumschicht" name="TPopKontrBaumschicht" class="speichern" formular="tpopfeldkontr" type="text" maxlength="100">
+										<div id="TPopKontrBaumschicht_limit" class="limiter"></div>
 									</td>
 								</tr>
 							</table>
@@ -974,7 +1001,8 @@
 										<label id="TPopKontrBodenTyp_label" for='TPopKontrBodenTyp' style="width:115px">Typ:</label>
 									</td>
 									<td class="Datenfelder">
-										<input id="TPopKontrBodenTyp" name="TPopKontrBodenTyp" class="speichern" formular="tpopfeldkontr" type="text">
+										<input id="TPopKontrBodenTyp" name="TPopKontrBodenTyp" class="speichern" formular="tpopfeldkontr" type="text" maxlength="255">
+										<div id="TPopKontrBodenTyp_limit" class="limiter"></div>
 									</td>
 								</tr>
 								<tr id='fieldcontain_TPopKontrBodenKalkgehalt' class='fieldcontain feld_tpopfeldkontr TPopKontrBodenKalkgehalt'>
@@ -982,7 +1010,8 @@
 										<label id="TPopKontrBodenKalkgehalt_label" for='TPopKontrBodenKalkgehalt' style="width:115px">Kalkgehalt:</label>
 									</td>
 									<td class="Datenfelder">
-										<input id="TPopKontrBodenKalkgehalt" name="TPopKontrBodenKalkgehalt" class="speichern" formular="tpopfeldkontr" type="text">
+										<input id="TPopKontrBodenKalkgehalt" name="TPopKontrBodenKalkgehalt" class="speichern" formular="tpopfeldkontr" type="text" maxlength="100">
+										<div id="TPopKontrBodenKalkgehalt_limit" class="limiter"></div>
 									</td>
 								</tr>
 								<tr id='fieldcontain_TPopKontrBodenDurchlaessigkeit' class='fieldcontain feld_tpopfeldkontr TPopKontrBodenDurchlaessigkeit'>
@@ -990,7 +1019,8 @@
 										<label id="TPopKontrBodenDurchlaessigkeit_label" for='TPopKontrBodenDurchlaessigkeit' style="width:115px">Durchlässigkeit:</label>
 									</td>
 									<td class="Datenfelder">
-										<input id="TPopKontrBodenDurchlaessigkeit" name="TPopKontrBodenDurchlaessigkeit" class="speichern" formular="tpopfeldkontr" type="text">
+										<input id="TPopKontrBodenDurchlaessigkeit" name="TPopKontrBodenDurchlaessigkeit" class="speichern" formular="tpopfeldkontr" type="text" maxlength="100">
+										<div id="TPopKontrBodenDurchlaessigkeit_limit" class="limiter"></div>
 									</td>
 								</tr>
 								<tr id='fieldcontain_TPopKontrBodenHumus' class='fieldcontain feld_tpopfeldkontr TPopKontrBodenHumus'>
@@ -998,7 +1028,8 @@
 										<label id="TPopKontrBodenHumus_label" for='TPopKontrBodenHumus' style="width:115px">Humusgehalt:</label>
 									</td>
 									<td class="Datenfelder">
-										<input id="TPopKontrBodenHumus" name="TPopKontrBodenHumus" class="speichern" formular="tpopfeldkontr" type="text">
+										<input id="TPopKontrBodenHumus" name="TPopKontrBodenHumus" class="speichern" formular="tpopfeldkontr" type="text" maxlength="100">
+										<div id="TPopKontrBodenHumus_limit" class="limiter"></div>
 									</td>
 								</tr>
 								<tr id='fieldcontain_TPopKontrBodenNaehrstoffgehalt' class='fieldcontain feld_tpopfeldkontr TPopKontrBodenNaehrstoffgehalt'>
@@ -1006,7 +1037,8 @@
 										<label id="TPopKontrBodenNaehrstoffgehalt_label" for='TPopKontrBodenNaehrstoffgehalt' style="width:115px">Nährstoffgehalt:</label>
 									</td>
 									<td class="Datenfelder">
-										<input id="TPopKontrBodenNaehrstoffgehalt" name="TPopKontrBodenNaehrstoffgehalt" class="speichern" formular="tpopfeldkontr" type="text">
+										<input id="TPopKontrBodenNaehrstoffgehalt" name="TPopKontrBodenNaehrstoffgehalt" class="speichern" formular="tpopfeldkontr" type="text" maxlength="100">
+										<div id="TPopKontrBodenNaehrstoffgehalt_limit" class="limiter"></div>
 									</td>
 								</tr>
 								<tr id='fieldcontain_TPopKontrBodenAbtrag' class='fieldcontain feld_tpopfeldkontr TPopKontrBodenAbtrag'>
@@ -1014,7 +1046,8 @@
 										<label id="TPopKontrBodenAbtrag_label" for='TPopKontrBodenAbtrag' style="width:115px">Bodenabtrag:</label>
 									</td>
 									<td class="Datenfelder">
-										<input id="TPopKontrBodenAbtrag" name="TPopKontrBodenAbtrag" class="speichern" formular="tpopfeldkontr" type="text">
+										<input id="TPopKontrBodenAbtrag" name="TPopKontrBodenAbtrag" class="speichern" formular="tpopfeldkontr" type="text" maxlength="255">
+										<div id="TPopKontrBodenAbtrag_limit" class="limiter"></div>
 									</td>
 								</tr>
 								<tr id='fieldcontain_TPopKontrWasserhaushalt' class='fieldcontain feld_tpopfeldkontr TPopKontrWasserhaushalt'>
@@ -1022,7 +1055,8 @@
 										<label id="TPopKontrWasserhaushalt_label" for='TPopKontrWasserhaushalt' style="width:115px">Wasserhaushalt:</label>
 									</td>
 									<td class="Datenfelder">
-										<input id="TPopKontrWasserhaushalt" name="TPopKontrWasserhaushalt" class="speichern" formular="tpopfeldkontr" type="text">
+										<input id="TPopKontrWasserhaushalt" name="TPopKontrWasserhaushalt" class="speichern" formular="tpopfeldkontr" type="text" maxlength="255">
+										<div id="TPopKontrWasserhaushalt_limit" class="limiter"></div>
 									</td>
 								</tr>
 								<tr id='fieldcontain_TPopKontrHandlungsbedarf' class='fieldcontain feld_tpopfeldkontr TPopKontrHandlungsbedarf'>
@@ -1082,7 +1116,8 @@
 							<label id="TPopMassnTxt_label" for='TPopMassnTxt'>Massnahme:</label>
 						</td>
 						<td class="Datenfelder">
-							<input id="TPopMassnTxt" name="TPopMassnTxt" class="speichern" formular="tpopmassn" type="text">
+							<input id="TPopMassnTxt" name="TPopMassnTxt" class="speichern" formular="tpopmassn" type="text" maxlength="255">
+							<div id="TPopMassnTxt_limit" class="limiter"></div>
 						</td>
 					</tr>
 					<tr class='fieldcontain TPopMassnBearb'>
@@ -1116,7 +1151,8 @@
 							<label id="TPopMassnPlanBez_label" for='TPopMassnPlanBez'>Plan Bezeichnung:</label>
 						</td>
 						<td class="Datenfelder">
-							<input id="TPopMassnPlanBez" name="TPopMassnPlanBez" class="speichern" formular="tpopmassn" type="text">
+							<input id="TPopMassnPlanBez" name="TPopMassnPlanBez" class="speichern" formular="tpopmassn" type="text" maxlength="255">
+							<div id="TPopMassnPlanBez_limit" class="limiter"></div>
 						</td>
 					</tr>
 					<tr class='fieldcontain TPopMassnFlaeche'>
@@ -1132,7 +1168,8 @@
 							<label id="TPopMassnAnsiedForm_label" for='TPopMassnAnsiedForm'>Form der Ansiedlung:</label>
 						</td>
 						<td class="Datenfelder">
-							<input id="TPopMassnAnsiedForm" name="TPopMassnAnsiedForm" class="speichern" formular="tpopmassn" type="text">
+							<input id="TPopMassnAnsiedForm" name="TPopMassnAnsiedForm" class="speichern" formular="tpopmassn" type="text" maxlength="255">
+							<div id="TPopMassnAnsiedForm_limit" class="limiter"></div>
 						</td>
 					</tr>
 					<tr class='fieldcontain TPopMassnAnsiedPflanzanordnung'>
@@ -1140,7 +1177,8 @@
 							<label id="TPopMassnAnsiedPflanzanordnung_label" for='TPopMassnAnsiedPflanzanordnung'>Pflanzanordnung:</label>
 						</td>
 						<td class="Datenfelder">
-							<input id="TPopMassnAnsiedPflanzanordnung" name="TPopMassnAnsiedPflanzanordnung" class="speichern" formular="tpopmassn" type="text">
+							<input id="TPopMassnAnsiedPflanzanordnung" name="TPopMassnAnsiedPflanzanordnung" class="speichern" formular="tpopmassn" type="text" maxlength="255">
+							<div id="TPopMassnAnsiedPflanzanordnung_limit" class="limiter"></div>
 						</td>
 					</tr>
 					<tr class='fieldcontain TPopMassnMarkierung'>
@@ -1148,7 +1186,8 @@
 							<label id="TPopMassnMarkierung_label" for='TPopMassnMarkierung'>Markierung:</label>
 						</td>
 						<td class="Datenfelder">
-							<input id="TPopMassnMarkierung" name="TPopMassnMarkierung" class="speichern" formular="tpopmassn" type="text">
+							<input id="TPopMassnMarkierung" name="TPopMassnMarkierung" class="speichern" formular="tpopmassn" type="text" maxlength="255">
+							<div id="TPopMassnMarkierung_limit" class="limiter"></div>
 						</td>
 					</tr>
 					<tr class='fieldcontain TPopMassnAnsiedAnzTriebe'>
@@ -1190,7 +1229,8 @@
 							<label id="TPopMassnAnsiedHerkunftPop_label" for='TPopMassnAnsiedHerkunftPop'>Herkunftspopulation:</label>
 						</td>
 						<td class="Datenfelder">
-							<input id="TPopMassnAnsiedHerkunftPop" name="TPopMassnAnsiedHerkunftPop" class="speichern" formular="tpopmassn" type="text">
+							<input id="TPopMassnAnsiedHerkunftPop" name="TPopMassnAnsiedHerkunftPop" class="speichern" formular="tpopmassn" type="text" maxlength="255">
+							<div id="TPopMassnAnsiedHerkunftPop_limit" class="limiter"></div>
 						</td>
 					</tr>
 					<tr class='fieldcontain TPopMassnAnsiedDatSamm'>
@@ -1198,7 +1238,8 @@
 							<label id="TPopMassnAnsiedDatSamm_label" for='TPopMassnAnsiedDatSamm'>Sammeldatum:</label>
 						</td>
 						<td class="Datenfelder">
-							<input id="TPopMassnAnsiedDatSamm" name="TPopMassnAnsiedDatSamm" class="speichern" formular="tpopmassn" type="text">
+							<input id="TPopMassnAnsiedDatSamm" name="TPopMassnAnsiedDatSamm" class="speichern" formular="tpopmassn" type="text" maxlength="50">
+							<div id="TPopMassnAnsiedDatSamm_limit" class="limiter"></div>
 						</td>
 					</tr>
 					<tr class='fieldcontain TPopMassnGuid'>
@@ -1292,7 +1333,8 @@
 							<label id="ErfkritTxt_label" for='ErfkritTxt'>Kriterien:</label>
 						</td>
 						<td class="Datenfelder">
-							<textarea name="ErfkritTxt" id="ErfkritTxt" class="speichern" formular="erfkrit"></textarea>
+							<textarea name="ErfkritTxt" id="ErfkritTxt" class="speichern" formular="erfkrit" maxlength="255"></textarea>
+							<div id="ErfkritTxt_limit" class="limiter"></div>
 						</td>
 					</tr>
 				</table>
@@ -1353,7 +1395,8 @@
 							<label id="JBerAnalyse_label" for='JBerAnalyse'>Analyse:</label>
 						</td>
 						<td class="Datenfelder">
-							<textarea name="JBerAnalyse" id="JBerAnalyse" class="speichern" formular="jber"></textarea>
+							<textarea name="JBerAnalyse" id="JBerAnalyse" class="speichern" formular="jber" maxlength="255"></textarea>
+							<div id="JBerAnalyse_limit" class="limiter"></div>
 						</td>
 					</tr>
 					<tr class='fieldcontain JBerUmsetzung'>
@@ -1469,7 +1512,8 @@
 							<label id="BerTitel_label" for='BerTitel'>Titel:</label>
 						</td>
 						<td class="Datenfelder">
-							<textarea name="BerTitel" id="BerTitel" class="speichern" formular="ber"></textarea>
+							<textarea name="BerTitel" id="BerTitel" class="speichern" formular="ber" maxlength="255"></textarea>
+							<div id="BerTitel_limit" class="limiter"></div>
 						</td>
 					</tr>
 					<tr class='fieldcontain BerURL'>
@@ -1477,7 +1521,8 @@
 							<label id="BerURL_label" for='BerURL'>URL:</label>
 						</td>
 						<td class="Datenfelder">
-							<input type="url" name="BerURL" id="BerURL" class="speichern" formular="ber">
+							<textarea type="url" name="BerURL" id="BerURL" class="speichern" formular="ber" maxlength="255"></textarea>
+							<div id="BerURL_limit" class="limiter"></div>
 							<label for='BerURLHref' style="display:none;">URL folgen</label>
 							<input type="button" id="BerURLHref" onclick="" value="URL folgen">
 						</td>
@@ -1504,7 +1549,7 @@
 								<label id="UfHoehenlage_label" for='UfHoehenlage'>Höhe:</label>
 							</td>
 							<td class="Datenfelder">
-								<input id="UfHoehenlage" name="UfHoehenlage" class="speichern" formular="umwfakt" type="text">
+								<textarea id="UfHoehenlage" name="UfHoehenlage" class="speichern" formular="umwfakt" type="text"></textarea>
 							</td>
 						</tr>
 						<tr class='fieldcontain UfRegion'>
@@ -1512,7 +1557,7 @@
 								<label id="UfRegion_label" for='UfRegion'>Region:</label>
 							</td>
 							<td class="Datenfelder">
-								<input id="UfRegion" name="UfRegion" class="speichern" formular="umwfakt" type="text">
+								<textarea id="UfRegion" name="UfRegion" class="speichern" formular="umwfakt" type="text"></textarea>
 							</td>
 						</tr>
 						<tr class='fieldcontain UfExposition'>
@@ -1520,7 +1565,7 @@
 								<label id="UfExposition_label" for='UfExposition'>Exposition:</label>
 							</td>
 							<td class="Datenfelder">
-								<input id="UfExposition" name="UfExposition" class="speichern" formular="umwfakt" type="text">
+								<textarea id="UfExposition" name="UfExposition" class="speichern" formular="umwfakt" type="text"></textarea>
 							</td>
 						</tr>
 						<tr class='fieldcontain UfBesonnung'>
@@ -1528,7 +1573,7 @@
 								<label id="UfBesonnung_label" for='UfBesonnung'>Besonnung:</label>
 							</td>
 							<td class="Datenfelder">
-								<input id="UfBesonnung" name="UfBesonnung" class="speichern" formular="umwfakt" type="text">
+								<textarea id="UfBesonnung" name="UfBesonnung" class="speichern" formular="umwfakt" type="text"></textarea>
 							</td>
 						</tr>
 						<tr class='fieldcontain UfHangneigung'>
@@ -1536,7 +1581,7 @@
 								<label id="UfHangneigung_label" for='UfHangneigung'>Hangneigung:</label>
 							</td>
 							<td class="Datenfelder">
-								<input id="UfHangneigung" name="UfHangneigung" class="speichern" formular="umwfakt" type="text">
+								<textarea id="UfHangneigung" name="UfHangneigung" class="speichern" formular="umwfakt" type="text"></textarea>
 							</td>
 						</tr>
 					</table>
@@ -1549,7 +1594,7 @@
 								<label id="UfBodenTyp_label" for='UfBodenTyp'>Typ:</label>
 							</td>
 							<td class="Datenfelder">
-								<input id="UfBodenTyp" name="UfBodenTyp" class="speichern" formular="umwfakt" type="text">
+								<textarea id="UfBodenTyp" name="UfBodenTyp" class="speichern" formular="umwfakt" type="text"></textarea>
 							</td>
 						</tr>
 						<tr class='fieldcontain UfBodenKalkgehalt'>
@@ -1557,7 +1602,7 @@
 								<label id="UfBodenKalkgehalt_label" for='UfBodenKalkgehalt'>Kalkgehalt:</label>
 							</td>
 							<td class="Datenfelder">
-								<input id="UfBodenKalkgehalt" name="UfBodenKalkgehalt" class="speichern" formular="umwfakt" type="text">
+								<textarea id="UfBodenKalkgehalt" name="UfBodenKalkgehalt" class="speichern" formular="umwfakt" type="text"></textarea>
 							</td>
 						</tr>
 						<tr class='fieldcontain UfBodenDurchlaessigkeit'>
@@ -1565,7 +1610,7 @@
 								<label id="UfBodenDurchlaessigkeit_label" for='UfBodenDurchlaessigkeit'>Durchlässigkeit:</label>
 							</td>
 							<td class="Datenfelder">
-								<input id="UfBodenDurchlaessigkeit" name="UfBodenDurchlaessigkeit" class="speichern" formular="umwfakt" type="text">
+								<textarea id="UfBodenDurchlaessigkeit" name="UfBodenDurchlaessigkeit" class="speichern" formular="umwfakt" type="text"></textarea>
 							</td>
 						</tr>
 						<tr class='fieldcontain UfBodenHumus'>
@@ -1573,7 +1618,7 @@
 								<label id="UfBodenHumus_label" for='UfBodenHumus'>Humus:</label>
 							</td>
 							<td class="Datenfelder">
-								<input id="UfBodenHumus" name="UfBodenHumus" class="speichern" formular="umwfakt" type="text">
+								<textarea id="UfBodenHumus" name="UfBodenHumus" class="speichern" formular="umwfakt" type="text"></textarea>
 							</td>
 						</tr>
 						<tr class='fieldcontain UfBodenNaehrstoffgehalt'>
@@ -1581,7 +1626,7 @@
 								<label id="UfBodenNaehrstoffgehalt_label" for='UfBodenNaehrstoffgehalt'>Nährstoffgehalt:</label>
 							</td>
 							<td class="Datenfelder">
-								<input id="UfBodenNaehrstoffgehalt" name="UfBodenNaehrstoffgehalt" class="speichern" formular="umwfakt" type="text">
+								<textarea id="UfBodenNaehrstoffgehalt" name="UfBodenNaehrstoffgehalt" class="speichern" formular="umwfakt" type="text"></textarea>
 							</td>
 						</tr>
 						<tr class='fieldcontain UfWasserhaushalt'>
@@ -1589,7 +1634,7 @@
 								<label id="UfWasserhaushalt_label" for='UfWasserhaushalt'>Wasserhaushalt:</label>
 							</td>
 							<td class="Datenfelder">
-								<input id="UfWasserhaushalt" name="UfWasserhaushalt" class="speichern" formular="umwfakt" type="text">
+								<textarea id="UfWasserhaushalt" name="UfWasserhaushalt" class="speichern" formular="umwfakt" type="text"></textarea>
 							</td>
 						</tr>
 					</table>
@@ -1602,7 +1647,7 @@
 								<label id="UfKonkurrenz_label" for='UfKonkurrenz'>Konkurrenz:</label>
 							</td>
 							<td class="Datenfelder">
-								<input id="UfKonkurrenz" name="UfKonkurrenz" class="speichern" formular="umwfakt" type="text">
+								<textarea id="UfKonkurrenz" name="UfKonkurrenz" class="speichern" formular="umwfakt" type="text"></textarea>
 							</td>
 						</tr>
 						<tr class='fieldcontain UfMoosschicht'>
@@ -1610,7 +1655,7 @@
 								<label id="UfMoosschicht_label" for='UfMoosschicht'>Moosschicht:</label>
 							</td>
 							<td class="Datenfelder">
-								<input id="UfMoosschicht" name="UfMoosschicht" class="speichern" formular="umwfakt" type="text">
+								<textarea id="UfMoosschicht" name="UfMoosschicht" class="speichern" formular="umwfakt" type="text"></textarea>
 							</td>
 						</tr>
 						<tr class='fieldcontain UfKrautschicht'>
@@ -1618,7 +1663,7 @@
 								<label id="UfKrautschicht_label" for='UfKrautschicht'>Krautschicht:</label>
 							</td>
 							<td class="Datenfelder">
-								<input id="UfKrautschicht" name="UfKrautschicht" class="speichern" formular="umwfakt" type="text">
+								<textarea id="UfKrautschicht" name="UfKrautschicht" class="speichern" formular="umwfakt" type="text"></textarea>
 							</td>
 						</tr>
 						<tr class='fieldcontain UfStrauchschicht'>
@@ -1626,7 +1671,7 @@
 								<label id="UfStrauchschicht_label" for='UfStrauchschicht'>Strauchschicht:</label>
 							</td>
 							<td class="Datenfelder">
-								<input id="UfStrauchschicht" name="UfStrauchschicht" class="speichern" formular="umwfakt" type="text">
+								<textarea id="UfStrauchschicht" name="UfStrauchschicht" class="speichern" formular="umwfakt" type="text"></textarea>
 							</td>
 						</tr>
 						<tr class='fieldcontain UfBaumschicht'>
@@ -1634,7 +1679,7 @@
 								<label id="UfBaumschicht_label" for='UfBaumschicht'>Baumschicht:</label>
 							</td>
 							<td class="Datenfelder">
-								<input id="UfBaumschicht" name="UfBaumschicht" class="speichern" formular="umwfakt" type="text">
+								<textarea id="UfBaumschicht" name="UfBaumschicht" class="speichern" formular="umwfakt" type="text"></textarea>
 							</td>
 						</tr>
 					</table>
