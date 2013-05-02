@@ -9136,6 +9136,7 @@ function pruefeLesevoraussetzungen() {
 	//kontrollieren, ob der User offline ist
 	if (!navigator.onLine) {
 		console.log('offline');
+		$("#offline_dialog").show();
 		$("#offline_dialog").dialog({
 			modal: true,
 			width: 400,

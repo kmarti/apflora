@@ -2293,6 +2293,23 @@
 
 		</fieldset>
 
+		<div id="anmelde_dialog" title="Anmeldung erforderlich">
+			<p id="anmeldung_rueckmeldung" style="margin: 16px 0px 16px 0px;">Logins werden von Topos vergeben</p>
+			<label for="anmeldung_name" style="display:block;">Name</label>
+			<input type="text" id="anmeldung_name" style="width:270px; margin: 2px 0px 2px 0px;">
+			<label for="anmeldung_passwort" style="display:block;">Passwort</label>
+			<input type="password" id="anmeldung_passwort" style="width:270px; margin: 2px 0px 2px 0px;">
+		</div>
+
+		<div id="loeschen_dialog" title="Sind sie sicher?">
+			<p id="loeschen_dialog_mitteilung">Dieser Knoten und alle darunter befindlichen werden unwiederbringlich gelöscht.</p>
+		</div>
+
+		<div id="Meldung"></div>
+		<div id="offline_dialog" title="offline" style="display:none;">
+			<p>Sie sind nicht mit dem Internet verbunden.<br>Das Speichern und Abfragen von Daten ist nur online möglich</p>
+		</div>
+
 		<script>
 			$(document).ready(function () {
 				var $Useranmeldung = $("#anmelde_dialog").dialog( {
@@ -3290,19 +3307,6 @@
 
 		</script>
 
-		<div id="Meldung"></div>
-		<div id="offline_dialog" title="offline" style="width:350px;"><p>Sie sind nicht mit dem Internet verbunden.<br>Das Speichern und Abfragen von Daten ist nur online möglich</p></div>
-
-		<div id="anmelde_dialog" title="Anmeldung erforderlich">
-			<p id="anmeldung_rueckmeldung" style="margin: 16px 0px 16px 0px;">Logins werden von Topos vergeben</p>
-			<label for="anmeldung_name" style="display:block;">Name</label>
-			<input type="text" id="anmeldung_name" style="width:270px; margin: 2px 0px 2px 0px;">
-			<label for="anmeldung_passwort" style="display:block;">Passwort</label>
-			<input type="password" id="anmeldung_passwort" style="width:270px; margin: 2px 0px 2px 0px;">
-		</div>
-
-		<div id="loeschen_dialog" title="Sind sie sicher?">
-			<p id="loeschen_dialog_mitteilung">Dieser Knoten und alle darunter befindlichen werden unwiederbringlich gelöscht.</p>
-		</div>
+		
 	</body>
 </html>
