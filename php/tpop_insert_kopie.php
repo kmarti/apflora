@@ -13,6 +13,12 @@ mysqli_set_charset($link, "utf8");
 
 //in diesem Array sammeln wir alle upzudatenden Felder
 $Felderarray = $_GET;
+//die id der zu kopierenden TPop wird übernommen
+$TPopId = $_GET["TPopId"];
+settype($TPopId, "integer");
+$PopId = $_GET["PopId"];
+settype($PopId, "integer");
+$user = $_GET["user"];
 
 //MutWann ergänzen
 $time = date('Y-m-d H:i:s');
@@ -21,8 +27,13 @@ $time = date('Y-m-d H:i:s');
 $Feldliste = implode(",", array_keys($Felderarray));
 $Wertliste = "'".implode("','", array_values($Felderarray))."'";
 
-$Querystring = 'INSERT INTO tblTeilpopulation ('.$Feldliste.',MutWann) VALUES ('.$Wertliste.',"'.$time.'")';
-
+$Querystring = 'CREATE TEMPORARY TABLE tmp SELECT * FROM tblTeilpopulation WHERE TPopId = '.$TPopId;
+//SQL-Anfrage ausführen
+$result = mysqli_query($link, $Querystring);
+$Querystring = 'UPDATE tmp SET TPopId = NULL, PopId = '.$PopId.', MutWann="'.$time.'", MutWer="'.$user.'"';
+//SQL-Anfrage ausführen
+$result = mysqli_query($link, $Querystring);
+$Querystring = 'INSERT INTO tblTeilpopulation SELECT * FROM tmp';
 //SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);
 

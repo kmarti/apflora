@@ -5621,14 +5621,14 @@ function treeKontextmenu(node) {
 		}
 		if (window.tpop_node_kopiert) {
 			var label = "";
-			if (window.tpop_node_kopiert.TPopNr) {
-				label += window.tpop_node_kopiert.TPopNr;
+			if (window.window.tpop_objekt_kopiert.TPopNr) {
+				label += window.window.tpop_objekt_kopiert.TPopNr;
 			} else {
 				label += "(keine Nr.)";
 			}
 			label += ": ";
-			if (window.tpop_node_kopiert.TPopFlurname) {
-				label += window.tpop_node_kopiert.TPopFlurname;
+			if (window.window.tpop_objekt_kopiert.TPopFlurname) {
+				label += window.window.tpop_objekt_kopiert.TPopFlurname;
 			} else {
 				label += "(kein Flurname)";
 			}
@@ -6098,19 +6098,18 @@ function treeKontextmenu(node) {
 		}
 		if (window.tpop_node_kopiert) {
 			var label = "";
-			if (window.tpop_node_kopiert.TPopNr) {
-				label += window.tpop_node_kopiert.TPopNr;
+			if (window.tpop_objekt_kopiert.TPopNr) {
+				label += window.tpop_objekt_kopiert.TPopNr;
 			} else {
 				label += "(keine Nr.)";
 			}
 			label += ": ";
-			if (window.tpop_node_kopiert.TPopFlurname) {
-				label += window.tpop_node_kopiert.TPopFlurname;
+			if (window.tpop_objekt_kopiert.TPopFlurname) {
+				label += window.tpop_objekt_kopiert.TPopFlurname;
 			} else {
 				label += "(kein Flurname)";
 			}
 			items.einfuegen = {
-				//"label": jQuery.jstree._reference(window.tpop_node_kopiert).get_text(window.tpop_node_kopiert) + " einfügen",
 				"label": label + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
@@ -8935,32 +8934,23 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 		});
 		return;
 	}
+
 	//User und neue PopId mitgeben
-	dataUrl = "?MutWer=" + sessionStorage.User + "&PopId=" + $(aktiver_node).attr("id");
-	//die alten id's entfernen
-	delete window.tpop_objekt_kopiert.PopId;
-	delete window.tpop_objekt_kopiert.TPopId;
-	//das wird gleich neu gesetzt, alte Werte verwerfen
-	delete window.tpop_objekt_kopiert.MutWann;
-	delete window.tpop_objekt_kopiert.MutWer;
-	//alle verbliebenen Felder an die url hängen
-	for (i in window.tpop_objekt_kopiert) {
-	//for (var i = 0; i < window.tpop_objekt_kopiert.length; i++) {
-		//Nullwerte ausschliessen
-		if (window.tpop_objekt_kopiert[i] !== null) {
-			dataUrl += "&" + i + "=" + window.tpop_objekt_kopiert[i];
-		}
-	}
+	dataUrl = "?user=" + sessionStorage.User + "&PopId=" + $(aktiver_node).attr("id") + "&TPopId=" + $(window.tpop_node_kopiert).attr("id");
 	//und an die DB schicken
 	$.ajax({
 		url: 'php/tpop_insert_kopie.php' + dataUrl,
 		dataType: 'json',
 		success: function (data) {
 			var NeuerNode;
+			var node_data = window.tpop_objekt_kopiert.TPopFlurname;
+			if (window.tpop_objekt_kopiert.TPopNr) {
+				node_data = window.tpop_objekt_kopiert.TPopNr + ': ' + window.tpop_objekt_kopiert.TPopFlurname
+			}
 			localStorage.tpop_id = data;
 			delete window.tpop;
 			NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-				"data": window.tpop_objekt_kopiert.TPopFlurname,
+				"data": node_data,
 				"attr": {
 					"id": data,
 					"typ": "tpop"
