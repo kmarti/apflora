@@ -7869,7 +7869,7 @@ function treeKontextmenu(node) {
 		}
 		if (window.tpopmassn_node_kopiert) {
 			items.einfuegen = {
-				"label": jQuery.jstree._reference(window.tpopmassn_node_kopiert).get_text(window.tpopmassn_node_kopiert) + " einfügen test",
+				"label": jQuery.jstree._reference(window.tpopmassn_node_kopiert).get_text(window.tpopmassn_node_kopiert) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
