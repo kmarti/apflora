@@ -13,32 +13,32 @@ mysqli_set_charset($link, "utf8");
 
 //in diesem Array sammeln wir alle upzudatenden Felder
 $Felderarray = $_GET;
-
-//zunächst mal Daten ins richtige Format bringen
-foreach ($Felderarray as $key => $value) {
-    if ($key == "TPopMassnDatum") {
-    	if ($value) {
-			$value = date("YYYY-MM-DD", strtotime($value));
-			//$value = date_create_from_format('YYYY-MM-DD', $value);
-		} else {
-			$value = null;
-		}
-	} 
-}
+//die id der zu kopierenden TPop wird übernommen
+$TPopId = $_GET["TPopId"];
+settype($TPopId, "integer");
+$TPopMassnId = $_GET["TPopMassnId"];
+settype($TPopMassnId, "integer");
+$user = $_GET["user"];
 
 //MutWann ergänzen
 $time = date('Y-m-d H:i:s');
 
 //Array in zwei kommagetrennte String-Listen verwandeln
 $Feldliste = implode(",", array_keys($Felderarray));
-$Wertliste = '"'.implode('","', array_values($Felderarray)).'"';
+$Wertliste = "'".implode("','", array_values($Felderarray))."'";
 
-$Querystring = 'INSERT INTO tblTeilPopMassnahme ('.$Feldliste.',MutWann) VALUES ('.$Wertliste.',"'.$time.'")';
-
+$Querystring = 'CREATE TEMPORARY TABLE tmp SELECT * FROM tblTeilPopMassnahme WHERE TPopMassnId = '.$TPopMassnId;
+//SQL-Anfrage ausführen
+$result = mysqli_query($link, $Querystring);
+$Querystring = 'UPDATE tmp SET TPopMassnId = NULL, TPopId = '.$TPopId.', MutWann="'.$time.'", MutWer="'.$user.'"';
+//SQL-Anfrage ausführen
+$result = mysqli_query($link, $Querystring);
+$Querystring = 'INSERT INTO tblTeilPopMassnahme SELECT * FROM tmp';
 //SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);
 
 //neue id mitteilen
+//print $result;
 print mysqli_insert_id($link);
 
 

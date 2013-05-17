@@ -6627,31 +6627,17 @@ function treeKontextmenu(node) {
 						return;
 					}
 					//User und neue TPopId mitgeben
-					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(aktiver_node).attr("id");
-					//die alten id's entfernen
-					delete window.tpopfeldkontr_objekt_kopiert.TPopId;
-					delete window.tpopfeldkontr_objekt_kopiert.TPopKontrId;
-					//das wird gleich neu gesetzt, alte Werte verwerfen
-					delete window.tpopfeldkontr_objekt_kopiert.MutWann;
-					delete window.tpopfeldkontr_objekt_kopiert.MutWer;
-					//alle verbliebenen Felder an die url hängen
-					for (i in window.tpopfeldkontr_objekt_kopiert) {
-					//for (var i = 0; i < window.tpopfeldkontr_objekt_kopiert.length; i++) {	KLAPPT NICHT: I IST KEIN FELDNAME MEHR SONDERN EINE NUMMER!
-						//Nullwerte ausschliessen
-						if (window.tpopfeldkontr_objekt_kopiert[i] !== null) {
-							dataUrl += "&" + i + "=" + window.tpopfeldkontr_objekt_kopiert[i];
-						}
-					}
+					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + $(aktiver_node).attr("id") + "&TPopKontrId=" + $(window.tpopfeldkontr_node_kopiert).attr("id");
 					//und an die DB schicken
 					$.ajax({
-						url: 'php/tpopfeldkontr_insert_multiple.php' + dataUrl,
+						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
 						dataType: 'json',
 						success: function (data) {
 							var NeuerNode;
 							localStorage.tpopfeldkontr_id = data;
 							delete window.tpopfeldkontr;
 							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-								"data": window.tpopfeldkontr_objekt_kopiert.TPopKontrJahr,
+								"data": erstelleLabelFuerFeldkontrolle(window.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.tpopfeldkontr_objekt_kopiert.TPopKontrTyp),
 								"attr": {
 									"id": data,
 									"typ": "tpopfeldkontr"
@@ -7043,31 +7029,17 @@ function treeKontextmenu(node) {
 						return;
 					}
 					//User und neue TPopId mitgeben
-					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(parent_node).attr("id");
-					//die alten id's entfernen
-					delete window.tpopfeldkontr_objekt_kopiert.TPopId;
-					delete window.tpopfeldkontr_objekt_kopiert.TPopKontrId;
-					//das wird gleich neu gesetzt, alte Werte verwerfen
-					delete window.tpopfeldkontr_objekt_kopiert.MutWann;
-					delete window.tpopfeldkontr_objekt_kopiert.MutWer;
-					//alle verbliebenen Felder an die url hängen
-					for (i in window.tpopfeldkontr_objekt_kopiert) {
-					//for (var i = 0; i < window.tpopfeldkontr_objekt_kopiert.length; i++) {
-						//Nullwerte ausschliessen
-						if (window.tpopfeldkontr_objekt_kopiert[i] !== null) {
-							dataUrl += "&" + i + "=" + window.tpopfeldkontr_objekt_kopiert[i];
-						}
-					}
+					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + $(parent_node).attr("id") + "&TPopKontrId=" + $(window.tpopfeldkontr_node_kopiert).attr("id");
 					//und an die DB schicken
 					$.ajax({
-						url: 'php/tpopfeldkontr_insert_multiple.php' + dataUrl,
+						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
 						dataType: 'json',
 						success: function (data) {
 							var NeuerNode;
 							localStorage.tpopfeldkontr_id = data;
 							delete window.tpopfeldkontr;
 							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-								"data": window.tpopfeldkontr_objekt_kopiert.TPopKontrJahr,
+								"data": erstelleLabelFuerFeldkontrolle(window.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.tpopfeldkontr_objekt_kopiert.TPopKontrTyp),
 								"attr": {
 									"id": data,
 									"typ": "tpopfeldkontr"
@@ -7198,24 +7170,10 @@ function treeKontextmenu(node) {
 						return;
 					}
 					//User und neue TPopId mitgeben
-					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(aktiver_node).attr("id");
-					//die alten id's entfernen
-					delete tpopfreiwkontr_objekt_kopiert.TPopId;
-					delete tpopfreiwkontr_objekt_kopiert.TPopKontrId;
-					//das wird gleich neu gesetzt, alte Werte verwerfen
-					delete tpopfreiwkontr_objekt_kopiert.MutWann;
-					delete tpopfreiwkontr_objekt_kopiert.MutWer;
-					//alle verbliebenen Felder an die url hängen
-					for (i in tpopfreiwkontr_objekt_kopiert) {
-					//for (var i = 0; i < tpopfreiwkontr_objekt_kopiert.length; i++) {
-						//Nullwerte ausschliessen
-						if (tpopfreiwkontr_objekt_kopiert[i] !== null) {
-							dataUrl += "&" + i + "=" + tpopfreiwkontr_objekt_kopiert[i];
-						}
-					}
+					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + $(aktiver_node).attr("id") + "&TPopKontrId=" + $(window.tpopfreiwkontr_node_kopiert).attr("id");
 					//und an die DB schicken
 					$.ajax({
-						url: 'php/tpopfeldkontr_insert_multiple.php' + dataUrl,
+						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
 						dataType: 'json',
 						success: function (data) {
 							var NeuerNode;
@@ -7500,24 +7458,10 @@ function treeKontextmenu(node) {
 						return;
 					}
 					//User und neue TPopId mitgeben
-					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(parent_node).attr("id");
-					//die alten id's entfernen
-					delete tpopfreiwkontr_objekt_kopiert.TPopId;
-					delete tpopfreiwkontr_objekt_kopiert.TPopKontrId;
-					//das wird gleich neu gesetzt, alte Werte verwerfen
-					delete tpopfreiwkontr_objekt_kopiert.MutWann;
-					delete tpopfreiwkontr_objekt_kopiert.MutWer;
-					//alle verbliebenen Felder an die url hängen
-					for (i in tpopfreiwkontr_objekt_kopiert) {
-					//for (var i = 0; i < tpopfreiwkontr_objekt_kopiert.length; i++) {
-						//Nullwerte ausschliessen
-						if (tpopfreiwkontr_objekt_kopiert[i] !== null) {
-							dataUrl += "&" + i + "=" + tpopfreiwkontr_objekt_kopiert[i];
-						}
-					}
+					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + $(parent_node).attr("id") + "&TPopKontrId=" + $(window.tpopfreiwkontr_node_kopiert).attr("id");
 					//und an die DB schicken
 					$.ajax({
-						url: 'php/tpopfeldkontr_insert_multiple.php' + dataUrl,
+						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
 						dataType: 'json',
 						success: function (data) {
 							var NeuerNode;
@@ -7655,21 +7599,7 @@ function treeKontextmenu(node) {
 					}
 					var dataUrl;
 					//User und neue TPopId mitgeben
-					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(aktiver_node).attr("id");
-					//die alten id's entfernen
-					delete window.tpopmassn_objekt_kopiert.TPopId;
-					delete window.tpopmassn_objekt_kopiert.TPopMassnId;
-					//das wird gleich neu gesetzt, alte Werte verwerfen
-					delete window.tpopmassn_objekt_kopiert.MutWann;
-					delete window.tpopmassn_objekt_kopiert.MutWer;
-					//alle verbliebenen Felder an die url hängen
-					for (i in window.tpopmassn_objekt_kopiert) {
-					//for (var i = 0; i < window.tpopmassn_objekt_kopiert.length; i++) {
-						//Nullwerte ausschliessen
-						if (window.tpopmassn_objekt_kopiert[i] !== null) {
-							dataUrl += "&" + i + "=" + window.tpopmassn_objekt_kopiert[i];
-						}
-					}
+					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + $(aktiver_node).attr("id") + "&TPopMassnId=" + $(window.tpopmassn_node_kopiert).attr("id");
 					//und an die DB schicken
 					$.ajax({
 						url: 'php/tpopmassn_insert_kopie.php' + dataUrl,
@@ -7679,12 +7609,13 @@ function treeKontextmenu(node) {
 							localStorage.tpopmassn_id = data;
 							delete window.tpopmassn;
 							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-								"data": window.tpopmassn_objekt_kopiert.TPopMassnJahr,
+								"data": erstelleLabelFuerMassnahme(window.tpopmassn_objekt_kopiert.TPopMassnJahr, window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt),
 								"attr": {
 									"id": data,
 									"typ": "tpopmassn"
 								}
 							});
+
 							//Node-Beschriftung: Anzahl anpassen
 							beschrifte_tpop_ordner_massn(aktiver_node);
 							//node selecten
@@ -7905,6 +7836,11 @@ function treeKontextmenu(node) {
 						},
 						success: function (data) {
 							window.tpopmassn_objekt_kopiert = data;
+							//den Beurteilungstext holen - ist nur mühsam aus der DB zu holen
+							window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt = "";
+							if ($("#TPopMassnTyp option:checked").text()) {
+								window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt = $("#TPopMassnTyp option:checked").text();
+							}
 						},
 						error: function () {
 							$("#Meldung").html("Fehler: Die Massnahme wurde nicht kopiert");
@@ -7933,7 +7869,7 @@ function treeKontextmenu(node) {
 		}
 		if (window.tpopmassn_node_kopiert) {
 			items.einfuegen = {
-				"label": jQuery.jstree._reference(window.tpopmassn_node_kopiert).get_text(window.tpopmassn_node_kopiert) + " einfügen",
+				"label": jQuery.jstree._reference(window.tpopmassn_node_kopiert).get_text(window.tpopmassn_node_kopiert) + " einfügen test",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
@@ -7952,21 +7888,7 @@ function treeKontextmenu(node) {
 					}
 					var dataUrl;
 					//User und neue TPopId mitgeben
-					dataUrl = "?MutWer=" + sessionStorage.User + "&TPopId=" + $(parent_node).attr("id");
-					//die alten id's entfernen
-					delete window.tpopmassn_objekt_kopiert.TPopId;
-					delete window.tpopmassn_objekt_kopiert.TPopMassnId;
-					//das wird gleich neu gesetzt, alte Werte verwerfen
-					delete window.tpopmassn_objekt_kopiert.MutWann;
-					delete window.tpopmassn_objekt_kopiert.MutWer;
-					//alle verbliebenen Felder an die url hängen
-					for (i in window.tpopmassn_objekt_kopiert) {
-					//for (var i = 0; i < window.tpopmassn_objekt_kopiert.length; i++) {
-						//Nullwerte ausschliessen
-						if (window.tpopmassn_objekt_kopiert[i] !== null) {
-							dataUrl += "&" + i + "=" + window.tpopmassn_objekt_kopiert[i];
-						}
-					}
+					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + $(parent_node).attr("id") + "&TPopMassnId=" + $(window.tpopmassn_node_kopiert).attr("id");
 					//und an die DB schicken
 					$.ajax({
 						url: 'php/tpopmassn_insert_kopie.php' + dataUrl,
@@ -7976,7 +7898,7 @@ function treeKontextmenu(node) {
 							localStorage.tpopmassn_id = data;
 							delete window.tpopmassn;
 							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-								"data": window.tpopmassn_objekt_kopiert.TPopMassnJahr,
+								"data": erstelleLabelFuerMassnahme(window.tpopmassn_objekt_kopiert.TPopMassnJahr, window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt),
 								"attr": {
 									"id": data,
 									"typ": "tpopmassn"
@@ -9289,21 +9211,15 @@ function speichern(that) {
 			case "TPopKontrTyp":
 			case "TPopKontrJahr":
 				//wenn kein Typ/Jahr gewählt: "(kein Typ/Jahr)"
-				var tpopkontrjahr, tpopkontrtyp;
+				var tpopkontrjahr = "(kein Jahr)",
+					tpopfeldkontr_label = erstelleLabelFuerFeldkontrolle($("#TPopKontrJahr").val(), $("#spanTPopKontrTyp" + $('input[name="TPopKontrTyp"]:checked').val()).text());
 				if ($("#TPopKontrJahr").val()) {
 					tpopkontrjahr = $("#TPopKontrJahr").val();
-				} else {
-					tpopkontrjahr = "(kein Jahr)";
-				}
-				if ($("#spanTPopKontrTyp" + $('input[name="TPopKontrTyp"]:checked').val()).text()) {
-					tpopkontrtyp = $("#spanTPopKontrTyp" + $('input[name="TPopKontrTyp"]:checked').val()).text();
-				} else {
-					tpopkontrtyp = "(kein Typ)";
 				}
 				if (localStorage.tpopfreiwkontr) {
 					jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_freiwkontr'] #" + localStorage.tpopfeldkontr_id, tpopkontrjahr);
 				} else {
-					jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_feldkontr'] #" + localStorage.tpopfeldkontr_id, tpopkontrjahr + ": " + tpopkontrtyp);
+					jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_feldkontr'] #" + localStorage.tpopfeldkontr_id, tpopfeldkontr_label);
 				}
 				break;
 			case "TPopBerJahr":
@@ -9335,6 +9251,7 @@ function speichern(that) {
 				} else {
 					tpopmassnbezeichnung = "(kein Jahr): (kein Typ)";
 				}
+				tpopmassnbezeichnung = erstelleLabelFuerMassnahme($("#TPopMassnJahr").val(), $("#TPopMassnTyp option:checked").text());
 				jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_massn'] #" + localStorage.tpopmassn_id, tpopmassnbezeichnung);
 				break;
 			case "TPopMassnBerJahr":
@@ -12835,6 +12752,30 @@ function pruefe_anmeldung() {
 			$("#anmeldung_rueckmeldung").removeClass("ui-state-highlight", 1500);
 		}, 500);
 	}
+}
+
+//erwartet aktuelle Werte für jahr und typ
+//erstellt den label für den Baum
+function erstelleLabelFuerFeldkontrolle(jahr, typ) {
+	if (typeof jahr === "undefined") {
+		jahr = "(kein Jahr)";
+	}
+	if (typeof typ === "undefined") {
+		typ = "(kein Typ)";
+	}
+	return jahr + ": " + typ;
+}
+
+//erwartet aktuelle Werte für jahr und beurteilung
+//erstellt den label für den Baum
+function erstelleLabelFuerMassnahme(jahr, beurteilung) {
+	if (typeof jahr === "undefined") {
+		jahr = "(kein Jahr)";
+	}
+	if (typeof beurteilung === "undefined") {
+		beurteilung = "(keine Beurteilung)";
+	}
+	return jahr + ": " + beurteilung;
 }
 
 (function($) {
