@@ -2255,8 +2255,8 @@ function erstelle_tree(ApArtId) {
 				}
 			}
 		},
-		"plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "contextmenu", "crrm", "dnd", "types"]
-		//"plugins" : ["themes", "json_data", "ui", "hotkeys", "sort", "search", "contextmenu", "crrm", "types"]
+		"plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "contextmenu", "crrm", "types"]
+		//"plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "contextmenu", "crrm", "dnd", "types"]   //dnd ausgeschaltet, weil es Speichern verhindert im letzten Feld vor Klick in Baum
 	})
 	.show()
 	.bind("loaded.jstree", function (event, data) {
