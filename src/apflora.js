@@ -275,19 +275,20 @@ function initiiere_apziel() {
 function setzeWindowApziel(id) {
 	localStorage.apziel_id = id;
 	$.ajax({
-			url: 'php/apziel.php',
-			dataType: 'json',
-			data: {
-				"id": localStorage.apziel_id
-			},
-			success: function (data) {
-				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-				if (data) {
-					//apziel bereitstellen
-					window.apziel = data;
-				}
+		url: 'php/apziel.php',
+		//url: 'http://www.apflora.barbalex.ch/php/apziel.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.apziel_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//apziel bereitstellen
+				window.apziel = data;
 			}
-		});
+		}
+	});
 }
 
 function initiiere_zielber() {
@@ -331,19 +332,19 @@ function initiiere_zielber() {
 function setzeWindowZielber(id) {
 	localStorage.zielber_id = id;
 	$.ajax({
-			url: 'php/zielber.php',
-			dataType: 'json',
-			data: {
-				"id": localStorage.zielber_id
-			},
-			success: function (data) {
-				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-				if (data) {
-					//zielber bereitstellen
-					window.zielber = data;
-				}
+		url: 'php/zielber.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.zielber_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//zielber bereitstellen
+				window.zielber = data;
 			}
-		});
+		}
+	});
 }
 
 function initiiere_erfkrit() {
@@ -387,19 +388,19 @@ function initiiere_erfkrit() {
 function setzeWindowErfkrit(id) {
 	localStorage.erfkrit_id = id;
 	$.ajax({
-			url: 'php/erfkrit.php',
-			dataType: 'json',
-			data: {
-				"id": localStorage.erfkrit_id
-			},
-			success: function (data) {
-				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-				if (data) {
-					//erfkrit bereitstellen
-					window.erfkrit = data;
-				}
+		url: 'php/erfkrit.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.erfkrit_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//erfkrit bereitstellen
+				window.erfkrit = data;
 			}
-		});
+		}
+	});
 }
 
 function initiiere_jber() {
@@ -485,19 +486,19 @@ function initiiere_jber() {
 function setzeWindowJber(id) {
 	localStorage.jber_id = id;
 	$.ajax({
-			url: 'php/jber.php',
-			dataType: 'json',
-			data: {
-				"id": localStorage.jber_id
-			},
-			success: function (data) {
-				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-				if (data) {
-					//jber bereitstellen
-					window.jber = data;
-				}
+		url: 'php/jber.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.jber_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//jber bereitstellen
+				window.jber = data;
 			}
-		});
+		}
+	});
 }
 
 function initiiere_jber_uebersicht() {
@@ -541,19 +542,19 @@ function initiiere_jber_uebersicht() {
 function setzeWindowJberUebersicht(id) {
 	localStorage.jber_uebersicht_id = id;
 	$.ajax({
-			url: 'php/jber_uebersicht.php',
-			dataType: 'json',
-			data: {
-				"id": localStorage.jber_uebersicht_id
-			},
-			success: function (data) {
-				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-				if (data) {
-					//jber_uebersicht bereitstellen
-					window.jber_uebersicht = data;
-				}
+		url: 'php/jber_uebersicht.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.jber_uebersicht_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//jber_uebersicht bereitstellen
+				window.jber_uebersicht = data;
 			}
-		});
+		}
+	});
 }
 
 function initiiere_ber() {
@@ -609,19 +610,19 @@ function initiiere_ber() {
 function setzeWindowBer(id) {
 	localStorage.ber_id = id;
 	$.ajax({
-			url: 'php/ber.php',
-			dataType: 'json',
-			data: {
-				"id": localStorage.ber_id
-			},
-			success: function (data) {
-				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-				if (data) {
-					//ber bereitstellen
-					window.ber = data;
-				}
+		url: 'php/ber.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.ber_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//ber bereitstellen
+				window.ber = data;
 			}
-		});
+		}
+	});
 }
 
 function initiiere_umwfakt() {
@@ -725,19 +726,19 @@ function initiiere_umwfakt() {
 function setzeWindowUmwfakt(id) {
 	localStorage.umwfakt_id = id;
 	$.ajax({
-			url: 'php/umwfakt.php',
-			dataType: 'json',
-			data: {
-				"id": localStorage.umwfakt_id
-			},
-			success: function (data) {
-				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-				if (data) {
-					//umwfakt bereitstellen
-					window.umwfakt = data;
-				}
+		url: 'php/umwfakt.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.umwfakt_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//umwfakt bereitstellen
+				window.umwfakt = data;
 			}
-		});
+		}
+	});
 }
 
 function initiiere_assozarten() {
@@ -781,19 +782,19 @@ function initiiere_assozarten() {
 function setzeWindowAssozarten(id) {
 	localStorage.assozarten_id = id;
 	$.ajax({
-			url: 'php/assozarten.php',
-			dataType: 'json',
-			data: {
-				"id": localStorage.assozarten_id
-			},
-			success: function (data) {
-				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-				if (data) {
-					//assozarten bereitstellen
-					window.assozarten = data;
-				}
+		url: 'php/assozarten.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.assozarten_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//assozarten bereitstellen
+				window.assozarten = data;
 			}
-		});
+		}
+	});
 }
 
 function initiiere_popmassnber() {
@@ -835,19 +836,19 @@ function initiiere_popmassnber() {
 function setzeWindowPopmassnber(id) {
 	localStorage.popmassnber_id = id;
 	$.ajax({
-			url: 'php/popmassnber.php',
-			dataType: 'json',
-			data: {
-				"id": localStorage.popmassnber_id
-			},
-			success: function (data) {
-				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-				if (data) {
-					//popmassnber bereitstellen
-					window.popmassnber = data;
-				}
+		url: 'php/popmassnber.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.popmassnber_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//popmassnber bereitstellen
+				window.popmassnber = data;
 			}
-		});
+		}
+	});
 }
 
 function initiiere_tpop() {
@@ -955,19 +956,19 @@ function initiiere_tpop() {
 function setzeWindowTpop(id) {
 	localStorage.tpop_id = id;
 	$.ajax({
-			url: 'php/tpop.php',
-			dataType: 'json',
-			data: {
-				"id": localStorage.tpop_id
-			},
-			success: function (data) {
-				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-				if (data) {
-					//tpop bereitstellen
-					window.tpop = data;
-				}
+		url: 'php/tpop.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.tpop_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//tpop bereitstellen
+				window.tpop = data;
 			}
-		});
+		}
+	});
 }
 
 function initiiere_popber() {
@@ -1009,19 +1010,19 @@ function initiiere_popber() {
 function setzeWindowPopber(id) {
 	localStorage.popber_id = id;
 	$.ajax({
-			url: 'php/popber.php',
-			dataType: 'json',
-			data: {
-				"id": localStorage.popber_id
-			},
-			success: function (data) {
-				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-				if (data) {
-					//popber bereitstellen
-					window.popber = data;
-				}
+		url: 'php/popber.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.popber_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//popber bereitstellen
+				window.popber = data;
 			}
-		});
+		}
+	});
 }
 
 function initiiere_tpopfeldkontr() {
@@ -1294,19 +1295,19 @@ function initiiere_tpopfeldkontr() {
 function setzeWindowTpopfeldkontr(id) {
 	localStorage.tpopfeldkontr_id = id;
 	$.ajax({
-			url: 'php/tpopfeldkontr.php',
-			dataType: 'json',
-			data: {
-				"id": localStorage.tpopfeldkontr_id
-			},
-			success: function (data) {
-				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-				if (data) {
-					//tpopfeldkontr bereitstellen
-					window.tpopfeldkontr = data;
-				}
+		url: 'php/tpopfeldkontr.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.tpopfeldkontr_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//tpopfeldkontr bereitstellen
+				window.tpopfeldkontr = data;
 			}
-		});
+		}
+	});
 }
 
 function initiiere_tpopmassn() {
@@ -1449,19 +1450,19 @@ function initiiere_tpopmassn() {
 function setzeWindowTpopmassn(id) {
 	localStorage.tpopmassn_id = id;
 	$.ajax({
-			url: 'php/tpopmassn.php',
-			dataType: 'json',
-			data: {
-				"id": localStorage.tpopmassn_id
-			},
-			success: function (data) {
-				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-				if (data) {
-					//tpopmassn bereitstellen
-					window.tpopmassn = data;
-				}
+		url: 'php/tpopmassn.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.tpopmassn_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//tpopmassn bereitstellen
+				window.tpopmassn = data;
 			}
-		});
+		}
+	});
 }
 
 function initiiere_tpopmassnber() {
@@ -1503,19 +1504,19 @@ function initiiere_tpopmassnber() {
 function setzeWindowTpopmassnber(id) {
 	localStorage.tpopmassnber_id = id;
 	$.ajax({
-			url: 'php/tpopmassnber.php',
-			dataType: 'json',
-			data: {
-				"id": localStorage.tpopmassnber_id
-			},
-			success: function (data) {
-				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-				if (data) {
-					//tpopmassnber bereitstellen
-					window.tpopmassnber = data;
-				}
+		url: 'php/tpopmassnber.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.tpopmassnber_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//tpopmassnber bereitstellen
+				window.tpopmassnber = data;
 			}
-		});
+		}
+	});
 }
 
 function initiiere_tpopber() {
@@ -1557,19 +1558,19 @@ function initiiere_tpopber() {
 function setzeWindowTpopber(id) {
 	localStorage.tpopber_id = id;
 	$.ajax({
-			url: 'php/tpopber.php',
-			dataType: 'json',
-			data: {
-				"id": localStorage.tpopber_id
-			},
-			success: function (data) {
-				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-				if (data) {
-					//tpopber bereitstellen
-					window.tpopber = data;
-				}
+		url: 'php/tpopber.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.tpopber_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//tpopber bereitstellen
+				window.tpopber = data;
 			}
-		});
+		}
+	});
 }
 
 function initiiere_tpopbeob() {
@@ -1659,19 +1660,19 @@ function initiiere_tpopbeob() {
 function setzeWindowTpopbeob(id) {
 	localStorage.tpopbeob_id = id;
 	$.ajax({
-			url: 'php/tpopbeob.php',
-			dataType: 'json',
-			data: {
-				"id": localStorage.tpopbeob_id
-			},
-			success: function (data) {
-				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-				if (data) {
-					//tpopbeob bereitstellen
-					window.tpopbeob = data;
-				}
+		url: 'php/tpopbeob.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.tpopbeob_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//tpopbeob bereitstellen
+				window.tpopbeob = data;
 			}
-		});
+		}
+	});
 }
 
 function initiiere_beob() {
@@ -1754,19 +1755,19 @@ function initiiere_beob() {
 function setzeWindowBeob(id) {
 	localStorage.beob_id = id;
 	$.ajax({
-			url: 'php/beob.php',
-			dataType: 'json',
-			data: {
-				"id": localStorage.beob_id
-			},
-			success: function (data) {
-				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-				if (data) {
-					//beob bereitstellen
-					window.beob = data;
-				}
+		url: 'php/beob.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.beob_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//beob bereitstellen
+				window.beob = data;
 			}
-		});
+		}
+	});
 }
 
 
