@@ -18,11 +18,11 @@ $Wert = $_GET["Wert"];
 $user = $_GET["user"];
 $time = date('Y-m-d H:i:s');
 
-if ($Wert || $Wert == 0) {
-	$Querystring = 'UPDATE tblErfKrit SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE ErfkritId = '.$id;
-} else {
+if ($Wert == NULL) {
 	//Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
-	$Querystring = 'UPDATE tblErfKrit SET '.$Feld.'=null, MutWann="'.$time.'", MutWer="'.$user.'" WHERE ErfkritId = '.$id;
+	$Querystring = 'UPDATE tblErfKrit SET '.$Feld.'= NULL, MutWann="'.$time.'", MutWer="'.$user.'" WHERE ErfkritId = '.$id;
+} else {
+	$Querystring = 'UPDATE tblErfKrit SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE ErfkritId = '.$id;
 }
 
 // SQL-Anfrage ausführen

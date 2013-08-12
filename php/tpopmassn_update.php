@@ -31,11 +31,11 @@ if (!$Wert) {
 	$Wert == null;
 }
 
-if ($Wert || $Wert == 0) {
-	$Querystring = 'UPDATE tblTeilPopMassnahme SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopMassnId = '.$id;
-} else {
+if ($Wert == NULL) {
 	//Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
-	$Querystring = 'UPDATE tblTeilPopMassnahme SET '.$Feld.'=null, MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopMassnId = '.$id;
+	$Querystring = 'UPDATE tblTeilPopMassnahme SET '.$Feld.'= NULL, MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopMassnId = '.$id;
+} else {
+	$Querystring = 'UPDATE tblTeilPopMassnahme SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopMassnId = '.$id;
 }
 
 // SQL-Anfrage ausführen

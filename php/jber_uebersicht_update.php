@@ -18,11 +18,11 @@ $Wert = $_GET["Wert"];
 $user = $_GET["user"];
 $time = date('Y-m-d H:i:s');
 
-if ($Wert || $Wert == 0) {
-	$Querystring = 'UPDATE tblJBerUebersicht SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE JbuJahr = '.$id;
-} else {
+if ($Wert == NULL) {
 	//Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
-	$Querystring = 'UPDATE tblJBerUebersicht SET '.$Feld.'=null, MutWann="'.$time.'", MutWer="'.$user.'" WHERE JbuJahr = '.$id;
+	$Querystring = 'UPDATE tblJBerUebersicht SET '.$Feld.'= NULL, MutWann="'.$time.'", MutWer="'.$user.'" WHERE JbuJahr = '.$id;
+} else {
+	$Querystring = 'UPDATE tblJBerUebersicht SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE JbuJahr = '.$id;
 }
 
 // SQL-Anfrage ausführen

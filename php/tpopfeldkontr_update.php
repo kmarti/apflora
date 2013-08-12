@@ -27,11 +27,19 @@ if ($Feld == "TPopKontrDatum") {
 	}
 }
 
-if ($Wert || $Wert == 0) {
+/*if ($Wert || $Wert == 0) {
 	$Querystring = 'UPDATE tblTeilPopFeldkontrolle SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopKontrId = '.$id;
 } else {
 	//Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
-	$Querystring = 'UPDATE tblTeilPopFeldkontrolle SET '.$Feld.'=null, MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopKontrId = '.$id;
+	//$Querystring = 'UPDATE tblTeilPopFeldkontrolle SET '.$Feld.'= NULL, MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopKontrId = '.$id;
+	$Querystring = 'UPDATE tblTeilPopFeldkontrolle SET '.$Feld.'=9999, MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopKontrId = '.$id;
+}*/
+
+if ($Wert == NULL) {
+	//Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
+	$Querystring = 'UPDATE tblTeilPopFeldkontrolle SET '.$Feld.'= NULL, MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopKontrId = '.$id;
+} else {
+	$Querystring = 'UPDATE tblTeilPopFeldkontrolle SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopKontrId = '.$id;
 }
 
 // SQL-Anfrage ausführen

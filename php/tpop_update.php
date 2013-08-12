@@ -18,11 +18,11 @@ $Wert = $_GET["Wert"];
 $user = $_GET["user"];
 $time = date('Y-m-d H:i:s');
 
-if ($Wert || $Wert == 0) {
-	$Querystring = 'UPDATE tblTeilpopulation SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopId = '.$id;
-} else {
+if ($Wert == NULL) {
 	//Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
-	$Querystring = 'UPDATE tblTeilpopulation SET '.$Feld.'=null, MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopId = '.$id;
+	$Querystring = 'UPDATE tblTeilpopulation SET '.$Feld.'= NULL, MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopId = '.$id;
+} else {
+	$Querystring = 'UPDATE tblTeilpopulation SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopId = '.$id;
 }
 
 // SQL-Anfrage ausführen

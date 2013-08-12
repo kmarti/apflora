@@ -27,11 +27,11 @@ if ($Feld == "UfErstelldatum") {
 	}
 }
 
-if ($Wert || $Wert == 0) {
-	$Querystring = 'UPDATE tblUmweltFaktoren SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE UfApArtId = '.$id;
-} else {
+if ($Wert == NULL) {
 	//Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
-	$Querystring = 'UPDATE tblUmweltFaktoren SET '.$Feld.'=null, MutWann="'.$time.'", MutWer="'.$user.'" WHERE UfApArtId = '.$id;
+	$Querystring = 'UPDATE tblUmweltFaktoren SET '.$Feld.'= NULL, MutWann="'.$time.'", MutWer="'.$user.'" WHERE UfApArtId = '.$id;
+} else {
+	$Querystring = 'UPDATE tblUmweltFaktoren SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE UfApArtId = '.$id;
 }
 
 // SQL-Anfrage ausführen
