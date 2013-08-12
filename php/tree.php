@@ -476,7 +476,7 @@ while($r_jber = mysqli_fetch_assoc($result_jber)) {
 	$JBerId = $r_jber['JBerId'];
 	settype($JBerId, "integer");
 	//jber_uebersicht dieses Jahrs abfragen
-	//nur, wenn JBerJahr nicht null ist, sont gibt das einen Fehler!
+	//nur, wenn JBerJahr nicht NULL ist, sont gibt das einen Fehler!
 	if ($r_jber['JBerJahr']) {
 		$result_jber_uebersicht = mysqli_query($link, "SELECT JbuJahr, JbuBemerkungen FROM tblJBerUebersicht WHERE JbuJahr=".$r_jber['JBerJahr']);
 		//jber_uebersicht aufbauen

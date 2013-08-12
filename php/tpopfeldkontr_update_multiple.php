@@ -39,7 +39,7 @@ foreach ($Felderarray as $key => $value) {
 		$Querystring .= ','.$key.'="'.$value.'"';
 	} else {
 		//Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
-		$Querystring .= ','.$key.'=null';
+		$Querystring .= ','.$key.'=NULL';
 	}
 }
 //MutWann, MutWer und Where ergänzen

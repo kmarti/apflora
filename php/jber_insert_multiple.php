@@ -20,7 +20,7 @@ foreach ($_GET as $key => $value) {
 		if ($value) {
 			$value = date("Y-m-d H:i:s", strtotime($value));
 		} else {
-			$value = null;
+			$value = NULL;
 		}
 	}
 }

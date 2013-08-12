@@ -23,7 +23,7 @@ if ($Feld == "UfErstelldatum") {
 	if ($Wert || $Wert == 0) {
 		$Wert = date("Y-m-d H:i:s", strtotime($Wert));
 	} else {
-		$Wert = null;
+		$Wert = NULL;
 	}
 }
 
