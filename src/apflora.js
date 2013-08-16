@@ -9136,6 +9136,64 @@ function speichern(that) {
 					Objekt.formular = "tpopmassn";
 					speichern(Objekt);
 				}
+				//wenn in TPopKontrZaehleinheit 1 bis 3 ein Leerwert eingeführt wurde
+				//sollen auch die Felder TPopKontrMethode 1 bis 3 und TPopKontrAnz 1 bis 3 Leerwerte erhalten
+				if (!Feldwert) {
+					if (Feldname === "TPopKontrZaehleinheit1") {
+						//UI aktualisieren
+						if (window.tpopfeldkontr.TPopKontrMethode1) {
+							$("#TPopKontrMethode1" + window.tpopfeldkontr.TPopKontrMethode1).prop("checked", false);
+						}
+						$("#TPopKontrAnz1").val("");
+						//Datenbank aktualisieren
+						//Feld TPopKontrMethode1
+						Objekt = {};
+						Objekt.name = "TPopKontrMethode1";
+						Objekt.formular = Formular;
+						speichern(Objekt);
+						//Feld TPopKontrAnz1
+						Objekt = {};
+						Objekt.name = "TPopKontrAnz1";
+						Objekt.formular = Formular;
+						speichern(Objekt);
+					}
+					if (Feldname === "TPopKontrZaehleinheit2") {
+						//UI aktualisieren
+						if (window.tpopfeldkontr.TPopKontrMethode2) {
+							$("#TPopKontrMethode2" + window.tpopfeldkontr.TPopKontrMethode2).prop("checked", false);
+						}
+						$("#TPopKontrAnz2").val("");
+						//Datenbank aktualisieren
+						//Feld TPopKontrMethode2
+						Objekt = {};
+						Objekt.name = "TPopKontrMethode2";
+						Objekt.formular = Formular;
+						speichern(Objekt);
+						//Feld TPopKontrAnz2
+						Objekt = {};
+						Objekt.name = "TPopKontrAnz2";
+						Objekt.formular = Formular;
+						speichern(Objekt);
+					}
+					if (Feldname === "TPopKontrZaehleinheit3") {
+						//UI aktualisieren
+						if (window.tpopfeldkontr.TPopKontrMethode3) {
+							$("#TPopKontrMethode3" + window.tpopfeldkontr.TPopKontrMethode3).prop("checked", false);
+						}
+						$("#TPopKontrAnz3").val("");
+						//Datenbank aktualisieren
+						//Feld TPopKontrMethode3
+						Objekt = {};
+						Objekt.name = "TPopKontrMethode3";
+						Objekt.formular = Formular;
+						speichern(Objekt);
+						//Feld TPopKontrAnz3
+						Objekt = {};
+						Objekt.name = "TPopKontrAnz3";
+						Objekt.formular = Formular;
+						speichern(Objekt);
+					}
+				}
 			},
 			error: function (data) {
 				var Meldung;
