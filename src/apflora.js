@@ -11240,6 +11240,7 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 			'<p>Ort: ' + Ort + '</p>'+
 			'<p>Koordinaten: ' + Beob.xGIS + ' / ' + Beob.yGIS + '</p>'+
 			"<p><a href=\"#\" onclick=\"oeffneBeob('" + Beob.BeobId + "')\">Formular öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"oeffneBeobInNeuemTab('" + Beob.BeobId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
 		makeListenerBeob(map, markerBeob, contentStringBeob);
@@ -11438,6 +11439,7 @@ function zeigeBeobAufKarte(BeobListe) {
 			'<p>Ort: ' + Ort + '</p>'+
 			'<p>Koordinaten: ' + Beob.xGIS + ' / ' + Beob.yGIS + '</p>'+
 			"<p><a href=\"#\" onclick=\"oeffneBeob('" + Beob.BeobId + "')\">Formular öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"oeffneBeobInNeuemTab('" + Beob.BeobId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
 		makeListener(map, marker, contentString);
@@ -11571,6 +11573,7 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 			'<p>Ort: ' + Ort + '</p>'+
 			'<p>Koordinaten: ' + TPopBeob.xGIS + ' / ' + TPopBeob.yGIS + '</p>'+
 			"<p><a href=\"#\" onclick=\"oeffneTPopBeob('" + TPopBeob.BeobId + "')\">Formular öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"oeffneTPopBeobInNeuemTab('" + TPopBeob.BeobId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
 		makeListener(map, marker, contentString);
@@ -11809,12 +11812,19 @@ function oeffneBeob(BeobId) {
 	jQuery("#tree").jstree("select_node", "[typ='beob']#" + BeobId);
 }
 
+function oeffneBeobInNeuemTab(BeobId) {
+	window.open("index.html?ap="+localStorage.ap_id+"&beob=" + BeobId, "_blank");
+}
+
 function oeffneTPopBeob(BeobId) {
 	localStorage.tpopbeob_id = BeobId;
 	jQuery.jstree._reference("[typ='tpopbeob']#" + BeobId).deselect_all();
 	jQuery("#tree").jstree("select_node", "[typ='tpopbeob']#" + BeobId);
 }
 
+function oeffneTPopBeobInNeuemTab(BeobId) {
+	window.open("index.html?ap="+localStorage.ap_id+"&beob=" + BeobId, "_blank");
+}
 
 
 
