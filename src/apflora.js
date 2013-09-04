@@ -5457,48 +5457,7 @@ function treeKontextmenu(node) {
 								}
 							});
 							//jetzt alle Unterordner anlegen
-							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-								"data": "Massnahmen",
-								"attr": {
-									"id": data,
-									"typ": "tpop_ordner_massn"
-								}
-							});
-							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-								"data": "Massnahmen-Berichte",
-								"attr": {
-									"id": data,
-									"typ": "tpop_ordner_massnber"
-								}
-							});
-							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-								"data": "Feldkontrollen",
-								"attr": {
-									"id": data,
-									"typ": "tpop_ordner_feldkontr"
-								}
-							});
-							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-								"data": "Freiwilligen-Kontrollen",
-								"attr": {
-									"id": data,
-									"typ": "tpop_ordner_freiwkontr"
-								}
-							});
-							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-								"data": "Teilpopulations-Berichte",
-								"attr": {
-									"id": data,
-									"typ": "tpop_ordner_tpopber"
-								}
-							});
-							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-								"data": "Beobachtungen",
-								"attr": {
-									"id": data,
-									"typ": "tpop_ordner_tpopbeob"
-								}
-							});
+							erstelleUnterordnerFuerTPop(NeuerNode);
 							//Node-Beschriftung: Anzahl anpassen
 							beschrifte_pop_ordner_tpop(aktiver_node);
 							//node selecten
@@ -5690,48 +5649,7 @@ function treeKontextmenu(node) {
 								}
 							});
 							//jetzt alle Unterordner anlegen
-							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-								"data": "Massnahmen",
-								"attr": {
-									"id": data,
-									"typ": "tpop_ordner_massn"
-								}
-							});
-							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-								"data": "Massnahmen-Berichte",
-								"attr": {
-									"id": data,
-									"typ": "tpop_ordner_massnber"
-								}
-							});
-							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-								"data": "Feldkontrollen",
-								"attr": {
-									"id": data,
-									"typ": "tpop_ordner_feldkontr"
-								}
-							});
-							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-								"data": "Freiwilligen-Kontrollen",
-								"attr": {
-									"id": data,
-									"typ": "tpop_ordner_freiwkontr"
-								}
-							});
-							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-								"data": "Teilpopulations-Berichte",
-								"attr": {
-									"id": data,
-									"typ": "tpop_ordner_tpopber"
-								}
-							});
-							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-								"data": "Beobachtungen",
-								"attr": {
-									"id": data,
-									"typ": "tpop_ordner_tpopbeob"
-								}
-							});
+							erstelleUnterordnerFuerTPop(NeuerNode);
 							//Parent Node-Beschriftung: Anzahl anpassen
 							beschrifte_pop_ordner_tpop(parent_node);
 							//node selecten
@@ -8884,6 +8802,8 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 			//node selecten
 			jQuery.jstree._reference(aktiver_node).deselect_all();
 			jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+			//Hierarchisch tiefere Nodes aufbauen
+			erstelleUnterordnerFuerTPop(NeuerNode);
 			//Formular initiieren
 			initiiere_tpop();
 		},
@@ -12845,6 +12765,51 @@ function erstelleLabelFuerMassnahme(jahr, beurteilung) {
 		beurteilung = "(keine Beurteilung)";
 	}
 	return jahr + ": " + beurteilung;
+}
+
+function erstelleUnterordnerFuerTPop(TPopNode) {
+	jQuery.jstree._reference(TPopNode).create_node(TPopNode, "last", {
+		"data": "Massnahmen",
+		"attr": {
+			"id": localStorage.tpop_id,
+			"typ": "tpop_ordner_massn"
+		}
+	});
+	jQuery.jstree._reference(TPopNode).create_node(TPopNode, "last", {
+		"data": "Massnahmen-Berichte",
+		"attr": {
+			"id": localStorage.tpop_id,
+			"typ": "tpop_ordner_massnber"
+		}
+	});
+	jQuery.jstree._reference(TPopNode).create_node(TPopNode, "last", {
+		"data": "Feldkontrollen",
+		"attr": {
+			"id": localStorage.tpop_id,
+			"typ": "tpop_ordner_feldkontr"
+		}
+	});
+	jQuery.jstree._reference(TPopNode).create_node(TPopNode, "last", {
+		"data": "Freiwilligen-Kontrollen",
+		"attr": {
+			"id": localStorage.tpop_id,
+			"typ": "tpop_ordner_freiwkontr"
+		}
+	});
+	jQuery.jstree._reference(TPopNode).create_node(TPopNode, "last", {
+		"data": "Teilpopulations-Berichte",
+		"attr": {
+			"id": localStorage.tpop_id,
+			"typ": "tpop_ordner_tpopber"
+		}
+	});
+	jQuery.jstree._reference(TPopNode).create_node(TPopNode, "last", {
+		"data": "Beobachtungen",
+		"attr": {
+			"id": localStorage.tpop_id,
+			"typ": "tpop_ordner_tpopbeob"
+		}
+	});
 }
 
 (function($) {
