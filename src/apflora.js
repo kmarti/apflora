@@ -9572,7 +9572,8 @@ function zeigeTPopAufKarte(TPopListe) {
 			'<p>Population: ' + TPop.PopName + '</p>'+
 			'<p>TPop: ' + myFlurname + '</p>'+
 			'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
-			"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">bearbeiten<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">Formular öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"oeffneTPopInNeuemTab('" + TPop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
 		makeListener(map, marker, contentString);
@@ -10165,7 +10166,8 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 				'<p>Population: ' + TPop.PopName + '</p>'+
 				'<p>Teilpopulation: ' + myFlurname + '</p>'+
 				'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
-				"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">bearbeiten<\/a></p>";
+				"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">Formular öffnen<\/a></p>"+
+				"<p><a href=\"#\" onclick=\"oeffneTPopInNeuemTab('" + TPop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
 			
 			var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
 
@@ -10423,7 +10425,7 @@ function erstelleListeDerAusgewaehltenPopTPop() {
 		}
 		rueckmeldung += "<table>";
 		for (var i = 0; i < window.tpop_array.length; i++) {
-			rueckmeldung += "<tr><td><a href=\"#\" onclick=\"oeffneTPop('" + window.tpop_array[i]['myId'] + "')\">" + window.tpop_array[i]['label'] + ":<\/a></td><td><a href=\"#\" onclick=\"oeffneTPop('" + window.tpop_array[i]['myId'] + "')\">" + window.tpop_array[i].tooltip + "<\/a></td></tr>";
+			rueckmeldung += "<tr><td><a href=\"#\" onclick=\"oeffneTPopInNeuemTab('" + window.tpop_array[i]['myId'] + "')\">" + window.tpop_array[i]['label'] + ":<\/a></td><td><a href=\"#\" onclick=\"oeffneTPopInNeuemTab('" + window.tpop_array[i]['myId'] + "')\">" + window.tpop_array[i].tooltip + "<\/a></td></tr>";
 		}
 		rueckmeldung += "</table>";
 	}
@@ -10510,7 +10512,8 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 			myName = Pop.PopName || '(kein Name)';
 			html = '<h3>' + myName + '</h3>'+
 				'<p>Koordinaten: ' + Pop.PopXKoord + ' / ' + Pop.PopYKoord + '</p>'+
-				"<p><a href=\"#\" onclick=\"oeffnePop('" + Pop.PopId + "')\">bearbeiten<\/a></p>";
+				"<p><a href=\"#\" onclick=\"oeffnePop('" + Pop.PopId + "')\">Formular öffnen<\/a></p>"+
+				"<p><a href=\"#\" onclick=\"oeffnePopInNeuemTab('" + Pop.PopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
 			
 			var myLocation = new OpenLayers.Geometry.Point(Pop.PopXKoord, Pop.PopYKoord);
 
@@ -11076,7 +11079,8 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 			'<p>Population: ' + TPop.PopName + '</p>'+
 			'<p>TPop: ' + myFlurname + '</p>'+
 			'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
-			"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">bearbeiten<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">Formular öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"oeffneTPopInNeuemTab('" + TPop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
 		makeListener(map, markerTPop, contentStringTPop);
@@ -11576,7 +11580,8 @@ function verorteTPopAufKarte(TPop) {
 			'<div id="bodyContent" class="GmInfowindow">'+
 			'<h3>' + myFlurname + '</h3>'+
 			'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
-			"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">bearbeiten<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">Formular öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"oeffneTPopInNeuemTab('" + TPop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
 		infowindow = new google.maps.InfoWindow({
@@ -11674,7 +11679,8 @@ function SetLocationTPop(LatLng, map, marker, TPop) {
 						'<div id="bodyContent" class="GmInfowindow">'+
 						'<h3>' + title + '</h3>'+
 						'<p>Koordinaten: ' + X + ' / ' + Y + '</p>'+
-						"<p><a href=\"#\" onclick=\"oeffneTPop('" + localStorage.tpop_id + "')\">bearbeiten<\/a></p>"+
+						"<p><a href=\"#\" onclick=\"oeffneTPop('" + localStorage.tpop_id + "')\">Formular öffnen<\/a></p>"+
+						"<p><a href=\"#\" onclick=\"oeffneTPopInNeuemTab('" + localStorage.tpop_id + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 						'</div>'+
 						'</div>';
 					infowindow = new google.maps.InfoWindow({
@@ -11720,10 +11726,18 @@ function oeffneTPop(TPopId) {
 	jQuery("#tree").jstree("select_node", "[typ='tpop']#" + TPopId);
 }
 
+function oeffneTPopInNeuemTab(TPopId) {
+	window.open("index.html?ap="+localStorage.ap_id+"&pop=" + localStorage.pop_id+"&tpop="+TPopId, "_blank");
+}
+
 function oeffnePop(PopId) {
 	localStorage.pop_id = PopId;
 	jQuery.jstree._reference("[typ='pop']#" + PopId).deselect_all();
 	jQuery("#tree").jstree("select_node", "[typ='pop']#" + PopId);
+}
+
+function oeffnePopInNeuemTab(PopId) {
+	window.open("index.html?ap="+localStorage.ap_id+"&pop=" + PopId, "_blank");
 }
 
 function oeffneBeob(BeobId) {

@@ -23,7 +23,8 @@ http://192.168.0.192:80/apflora
 
 nas ftp: 
 Server: 192.168.0.192
-Benutzer: admin
+Benutzer: root
+Passwort: admin
 
 
 nas url phpmyadmin: http://192.168.0.192/phpMyAdmin/
