@@ -766,7 +766,9 @@
 									<label id="TPopKontrJungPflJN_label" for='TPopKontrJungPflJN'>Auch junge Pflanzen vorhanden?</label>
 								</td>
 								<td class="Datenfelder">
-									<input type="checkbox" name="TPopKontrJungPflJN" id="TPopKontrJungPflJN" class="speichern" formular="tpopfeldkontr">
+									<input type="radio" name="TPopKontrJungPflJN" id="TPopKontrJungPflJN_leer" class="speichern" formular="tpopfeldkontr" value="">kein Wert<br>
+									<input type="radio" name="TPopKontrJungPflJN" id="TPopKontrJungPflJN_ja" class="speichern" formular="tpopfeldkontr" value="1">ja<br>
+									<input type="radio" name="TPopKontrJungPflJN" id="TPopKontrJungPflJN_nein" class="speichern" formular="tpopfeldkontr" value="0">nein
 								</td>
 							</tr>
 							<tr id='fieldcontain_TPopKontrVegHoeMax' class='fieldcontain feld_tpopfeldkontr TPopKontrVegHoeMax'>
@@ -2386,7 +2388,6 @@
 
 				//Für jedes Feld bei Änderung speichern
 				$(".form").on("change", ".speichern", function () {
-					var Feldwert;
 					speichern(this);
 				});
 

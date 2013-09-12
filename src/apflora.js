@@ -1240,10 +1240,15 @@ function initiiere_tpopfeldkontr() {
 					$("#TPopKontrUebFlaeche").val(data.TPopKontrUebFlaeche);
 					$("#TPopKontrUebPfl").val(data.TPopKontrUebPfl);
 					$("#TPopKontrNaBo").val(data.TPopKontrNaBo);
+					$("#TPopKontrJungPflJN_ja").prop("checked", false);
+					$("#TPopKontrJungPflJN_nein").prop("checked", false);
+					$("#TPopKontrJungPflJN_leer").prop("checked", false);
 					if (data.TPopKontrJungPflJN == 1) {
-						$("#TPopKontrJungPflJN").prop("checked", true);
+						$("#TPopKontrJungPflJN_ja").prop("checked", true);
+					} else if (data.TPopKontrJungPflJN == 0) {
+						$("#TPopKontrJungPflJN_nein").prop("checked", true);
 					} else {
-						$("#TPopKontrJungPflJN").prop("checked", false);
+						$("#TPopKontrJungPflJN_leer").prop("checked", true);
 					}
 					$("#TPopKontrVegHoeMax").val(data.TPopKontrVegHoeMax);
 					$("#TPopKontrVegHoeMit").val(data.TPopKontrVegHoeMit);
@@ -9023,11 +9028,11 @@ function speichern(that) {
 			Feldwert = $("#" + Feldname).val();
 		}
 		//ja/nein Felder zu boolean umbauen
-		if (Feldname === "PopHerkunftUnklar" || Feldname === "TPopHerkunftUnklar" || Feldname === "TPopMassnPlan" || Feldname === "TPopKontrPlan" || Feldname === "TPopKontrJungPflJN") {
+		if (Feldname === "PopHerkunftUnklar" || Feldname === "TPopHerkunftUnklar" || Feldname === "TPopMassnPlan" || Feldname === "TPopKontrPlan") {
 			if (Feldwert) {
 				Feldwert = 1;
 			} else {
-				Feldwert = 0;
+				Feldwert = "";
 			}
 		}
 		$.ajax({
