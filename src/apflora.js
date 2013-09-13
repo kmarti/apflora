@@ -3344,7 +3344,7 @@ function beschrifte_tpop_ordner_tpopbeob(node) {
 function beschrifte_ap_ordner_beob(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
-	anzTxt = "nicht zugewiesene Beobachtungen (" + anz + ")";
+	anzTxt = "nicht zugeordnete Beobachtungen (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 

@@ -537,35 +537,26 @@ while($r_ber = mysqli_fetch_assoc($result_ber)) {
 mysqli_free_result($result_ber);
 
 //beob dieses AP abfragen
-$result_beob = mysqli_query($link_beob, "SELECT BeobId, Autor, J_NOTE, M_NOTE, A_NOTE FROM alexande_beob.tblBeob WHERE (TPopId IS NULL OR TPopId = '') AND NO_ISFS=$ApArtId ORDER BY A_NOTE DESC, M_NOTE DESC, J_NOTE DESC");
+$result_beob = mysqli_query($link_beob, "SELECT alexande_beob.tblBeobBereitgestellt.NO_NOTE, alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET, alexande_beob.tblBeobBereitgestellt.NO_ISFS, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor FROM (alexande_beob.tblBeobBereitgestellt LEFT JOIN alexande_apflora.tblBeobZuordnung ON alexande_beob.tblBeobBereitgestellt.NO_NOTE = alexande_apflora.tblBeobZuordnung.NO_NOTE) LEFT JOIN alexande_apflora.tblBeobZuordnung AS tblBeobZuordnung_1 ON alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET = tblBeobZuordnung_1.NO_NOTE_PROJET WHERE alexande_beob.tblBeobBereitgestellt.NO_ISFS=$ApArtId AND ((alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET Is Not Null AND tblBeobZuordnung_1.NO_NOTE_PROJET Is Null) OR (alexande_beob.tblBeobBereitgestellt.NO_NOTE Is Not Null AND alexande_apflora.tblBeobZuordnung.NO_NOTE Is Null)) ORDER BY alexande_beob.tblBeobBereitgestellt.Datum DESC");
 $anz_beob = mysqli_num_rows($result_beob);
 //beob aufbauen
 $rows_beob = array();
 while($r_beob = mysqli_fetch_assoc($result_beob)) {
-	$beobid = $r_beob['BeobId'];
+	if ($r_beob['NO_NOTE']) {
+		$beobid = $r_beob['NO_NOTE'];
+		$beobtyp = "infospezies";
+	} else {
+		$beobid = $r_beob['NO_NOTE_PROJET'];
+		$beobtyp = "evab";
+	}
 	if ($r_beob['Autor'] && $r_beob['Autor'] <> " ") {
 		$beobAutor = $r_beob['Autor'];
 	} else {
 		$beobAutor = "(kein Autor)";
 	}
-	if ($r_beob['M_NOTE'] < 10) {
-		$Monat = "0".$r_beob['M_NOTE'];
-	} else {
-		$Monat = $r_beob['M_NOTE'];
-	}
-	if ($r_beob['J_NOTE'] < 10) {
-		$Tag = "0".$r_beob['J_NOTE'];
-	} else {
-		$Tag = $r_beob['J_NOTE'];
-	}
-	if (!$r_beob['M_NOTE']) {
-		$beobDatum = $r_beob['A_NOTE'];
-	} else {
-		$beobDatum = $r_beob['A_NOTE'].".".$Monat.".".$Tag;
-	}
 	//beob setzen
-	$attr_beob = array("id" => $beobid, "typ" => "beob");
-	$beob = array("data" => $beobDatum.": ".$beobAutor, "attr" => $attr_beob);
+	$attr_beob = array("id" => $beobid, "typ" => "beob", "beobtyp" => $beobtyp);
+	$beob = array("data" => $r_beob['Datum'].": ".$beobAutor, "attr" => $attr_beob);
 	//beob-Array um beob ergänzen
     $rows_beob[] = $beob;
 }
@@ -617,7 +608,7 @@ $ap_ordner_ber_attr = array("id" => $ApArtId, "typ" => "ap_ordner_ber");
 $ap_ordner_ber = array("data" => "Berichte (".$anz_ber.")", "attr" => $ap_ordner_ber_attr, "children" => $rows_ber);
 //Beobachtungen
 $ap_ordner_beob_attr = array("id" => $ApArtId, "typ" => "ap_ordner_beob");
-$ap_ordner_beob = array("data" => "nicht zugewiesene Beobachtungen (".$anz_beob.")", "attr" => $ap_ordner_beob_attr, "children" => $rows_beob);
+$ap_ordner_beob = array("data" => "nicht zugeordnete Beobachtungen (".$anz_beob.")", "attr" => $ap_ordner_beob_attr, "children" => $rows_beob);
 //Ideale Umweltfaktoren, jetzt Idealbiotop genannt
 $ap_ordner_umwfakt_attr = array("id" => $ApArtId, "typ" => "umwfakt");
 $ap_ordner_umwfakt = array("data" => "Idealbiotop", "attr" => $ap_ordner_umwfakt_attr);
