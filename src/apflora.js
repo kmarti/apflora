@@ -1680,70 +1680,98 @@ function setzeWindowTpopbeob(id) {
 	});
 }
 
-function initiiere_beob() {
+function initiiere_beob(beobtyp) {
+	var url, url_distzutpop;
 	if (!localStorage.BeobId) {
 		//es fehlen benötigte Daten > eine Ebene höher
 		initiiere_pop();
 		return;
 	}
-	//Felder zurücksetzen
-	leereFelderVonFormular("beob");
+	
+	//EvAB oder Infospezies? > entsprechende url zusammensetzen
+	url = 'php/beob_' + beobtyp + '.php';
 	//Daten für die beob aus der DB holen
 	$.ajax({
-		url: 'php/beob.php',
+		url: url,
 		dataType: 'json',
 		data: {
 			"id": localStorage.BeobId
 		},
 		success: function (data) {
-			var GisBrowserUrl, Datum;
 			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
 				//beob bereitstellen
 				window.beob = data;
-				//Felder mit Daten beliefern
-				$("#beob_ArtName").val(data.Name + " " + data.StatusText);
-				$("#beob_IdZdsf").val(data.IdZdsf);
-				$("#beob_IdEvab").val(data.IdEvab);
-				$("#beob_Projekt").val(data.Projekt);
-				$("#beob_RaumGde").val(data.RaumGde);
-				$("#beob_Ort").val(data.Ort);
-				$("#beob_X").val(data.X);
-				$("#beob_Y").val(data.Y);
-				$("#beob_Datum").val(data.Datum);
-				$("#beob_Jahr").val(data.Jahr);
-				//$("#beob_Anzahl").val(data.Anzahl);
-				$("#beob_Autor").val(data.Autor);
-				//Distanzen zu TPop berechnen
+				//Beob-Felder dynamisch aufbauen
+				/*Muster für das Feld:
+				<table>
+					<tr class='fieldcontain'>
+						<td class="label">
+							<label for='tpopbeob_RaumGde'>Raum / Gemeinde:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="tpopbeob_RaumGde" class="Datenfelder" formular="beob" type="text" readonly="readonly">
+						</td>
+					</tr>
+				</table>*/
+				var html_beobfelder = "";
+				var html_beobfeld;
+				$.each(data, function(index, value) {
+					if (value || value === 0) {
+						//TODO: Zahlen, text und Memofelder unterscheiden
+						//TODO: Felder durch externe Funktion erstellen lassen
+						//ID: beobfelder_ voranstellen, um Namens-Kollisionen zu vermeiden
+						html_beobfeld = "";
+						html_beobfeld = '<tr class="fieldcontain"><td class="label"><label for="beobfelder_';
+						html_beobfeld += index;
+						html_beobfeld += '">';
+						html_beobfeld += index;
+						html_beobfeld += ':</label></td><td class="Datenfelder"><input id="beobfelder_';
+						html_beobfeld += index;
+						html_beobfeld += '" class="Datenfelder" formular="beob" type="text" readonly="readonly" value="';
+						html_beobfeld += value;
+						html_beobfeld += '""></td></tr>';
+						html_beobfelder += html_beobfeld;
+					}
+				});
+				
+				//Abstand zu TPop aus der DB holen
+				url_distzutpop = 'php/beob_distzutpop_' + beobtyp + '.php';
 				$.ajax({
-					url: 'php/beob_zuweisen.php',
+					url: url_distzutpop,
 					dataType: 'json',
 					data: {
 						"beobid": localStorage.BeobId
 					},
 					success: function (data) {
-						var html = "";
+						//Tabellenzeile beginnen
+						var html_distzutpop = '<tr class="fieldcontain DistZuTPop"><td class="label"><label id="DistZuTPop_label" for="DistZuTPop" style="font-weight:bold;">Einer Teilpopulation zuweisen:</label></td><td class="Datenfelder"><div class="Datenfelder" id="DistZuTPop_Felder">';
 						if (data) {
-							//for (i in data) {
 							for (var i = 0; i < data.length; i++) {
-								if (html) {
-									html += "<br>";
+								if (html_distzutpop) {
+									html_distzutpop += "<br>";
 								}
-								html += '<input type="radio" name="DistZuTPop" id="DistZuTPop';
-								html += data[i].TPopId;
-								html += '" class="DistZuTPop" formular="beob" value="';
-								html += data[i].TPopId;
-								html += '" DistZuTPop="';
-								html += data[i].DistZuTPop;
-								html += '">';
+								html_distzutpop += '<input type="radio" name="DistZuTPop" id="DistZuTPop';
+								html_distzutpop += data[i].TPopId;
+								html_distzutpop += '" class="DistZuTPop" formular="beob" value="';
+								html_distzutpop += data[i].TPopId;
+								html_distzutpop += '" DistZuTPop="';
+								html_distzutpop += data[i].DistZuTPop;
+								html_distzutpop += '">';
 								//Wenn TPop keine Koordinaten haben, dies anzeigen und Anzeige von NAN verhindern
 								if (parseInt(data[i].DistZuTPop, 10) >= 0) {
-									html += parseInt(data[i].DistZuTPop) + "m: " + data[i].TPopFlurname;
+									html_distzutpop += parseInt(data[i].DistZuTPop) + "m: " + data[i].TPopFlurname;
 								} else {
-									html += data[i].TPopFlurname;
+									html_distzutpop += data[i].TPopFlurname;
 								}
 							}
-							$("#DistZuTPop_Felder").html(html);
+							//Tabellenzeile abschliessen
+							html_distzutpop += '</div></td></tr>';
+							//distzutpop voranstellen
+							html_beobfelder = html_distzutpop + html_beobfelder;
+							//TODO: Felder für Zuordnung voranstellen
+
+							$("#beob_table").html(html_beobfelder);
 							//Formulare blenden
 							zeigeFormular("beob");
 							history.replaceState({beob: "beob"}, "beob", "index.html?ap=" + localStorage.ap_id + "&beob=" + localStorage.BeobId);
@@ -2501,7 +2529,8 @@ function erstelle_tree(ApArtId) {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#beob").is(':visible') || localStorage.BeobId !== node.attr("id")) {
 				localStorage.BeobId = node.attr("id");
-				initiiere_beob();
+				//den Beobtyp mitgeben
+				initiiere_beob(node.attr("beobtyp"));
 			}
 		} else if (node.attr("typ") === "tpopmassnber") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
