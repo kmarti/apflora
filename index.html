@@ -2012,19 +2012,49 @@
 			</form>
 
 			<form id="beob" class="form" action="#" method="get" autocomplete="off">
-				<table id="beob_table">
-					
-					<tr class='fieldcontain DistZuTPop'>
+				<table>
+					<tr class="fieldcontain">
 						<td class="label">
-							<label id="DistZuTPop_label" for='DistZuTPop' style="font-weight:bold;">Einer Teilpopulation zuweisen:</label>
+							<label id="BeobNichtZuordnen_label" for='BeobNichtZuordnen'>
+								<a class="tooltip" href="#">Nicht zuordnen:
+									<span class="custom info legende"><img src="img/Info.png" alt="Information" height="48" width="48">
+										Will heissen: Die Beobachtung kann nicht zugeordnet werden<br>Mögliche Gründe: Unsichere Bestimmung, nicht lokalisierbar<br>Bitte im Bemerkungsfeld begründen
+									</span>
+								</a>
+							</label>
 						</td>
 						<td class="Datenfelder">
-							<div class="Datenfelder" id="DistZuTPop_Felder">
-								
-							</div>
+							<input type="checkbox" name="BeobNichtZuordnen" id="BeobNichtZuordnen" class="speichern" formular="beob">
+						</td>
+					</tr>
+					<tr class="fieldcontain">
+						<td class="label">
+							<label id="BeobBemerkungen_label" for='BeobBemerkungen'>Bemerkungen zur Zuordnung:</label>
+						</td>
+						<td class="Datenfelder">
+							<textarea name="BeobBemerkungen" id="BeobBemerkungen" class="speichern" formular="beob"></textarea>
+						</td>
+					</tr>
+					<tr class='fieldcontain'>
+						<td class="label">
+							<label for='BeobMutWann'>Zuletzt verändert...</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="BeobMutWann" class="Datenfelder Datum" formular="beob" type="text" readonly="readonly">
+						</td>
+					</tr>
+					<tr class='fieldcontain'>
+						<td class="label">
+							<label for='BeobMutWer'>...von:</label>
+						</td>
+						<td class="Datenfelder">
+							<input id="BeobMutWer" class="Datenfelder" formular="beob" type="text" readonly="readonly">
 						</td>
 					</tr>
 				</table>
+				<hr>
+				<div id="beob_table">
+				</div>
 			</form>
 
 			<div id="google_karte" class="karte" style="width:100%; height:100%;">

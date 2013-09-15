@@ -1702,6 +1702,14 @@ function initiiere_beob(beobtyp) {
 			if (data) {
 				//beob bereitstellen
 				window.beob = data;
+				//Titel für Beob im Formular erstellen
+				var beobtitel = "<h1>Informationen zur Beobachtung (aus ";
+				if (beobtyp === "infospezies") {
+					beobtitel += "Info Spezies";
+				} else {
+					beobtitel += "EvAB";
+				}
+				beobtitel += ")</h1>";
 				//Beob-Felder dynamisch aufbauen
 				/*Muster für das Feld:
 				<table>
@@ -1714,10 +1722,11 @@ function initiiere_beob(beobtyp) {
 						</td>
 					</tr>
 				</table>*/
-				var html_beobfelder = "";
+				var html_beobfelder = "<table>";
 				var html_beobfeld;
+				var nichtAnzuzeigendeFelder = ["NO_ISFS", "ESPECE", "CUSTOM_TEXT_5_"];
 				$.each(data, function(index, value) {
-					if (value || value === 0) {
+					if ((value || value === 0) && nichtAnzuzeigendeFelder.indexOf(index) === -1) {
 						//TODO: Zahlen, text und Memofelder unterscheiden
 						//TODO: Felder durch externe Funktion erstellen lassen
 						//ID: beobfelder_ voranstellen, um Namens-Kollisionen zu vermeiden
@@ -1734,6 +1743,7 @@ function initiiere_beob(beobtyp) {
 						html_beobfelder += html_beobfeld;
 					}
 				});
+				html_beobfelder += "</table>";
 				
 				//Abstand zu TPop aus der DB holen
 				url_distzutpop = 'php/beob_distzutpop_' + beobtyp + '.php';
@@ -1745,7 +1755,7 @@ function initiiere_beob(beobtyp) {
 					},
 					success: function (data) {
 						//Tabellenzeile beginnen
-						var html_distzutpop = '<tr class="fieldcontain DistZuTPop"><td class="label"><label id="DistZuTPop_label" for="DistZuTPop" style="font-weight:bold;">Einer Teilpopulation zuweisen:</label></td><td class="Datenfelder"><div class="Datenfelder" id="DistZuTPop_Felder">';
+						var html_distzutpop = '<table><tr class="fieldcontain DistZuTPop"><td class="label"><label id="DistZuTPop_label" for="DistZuTPop" style="font-weight:bold;">Einer Teilpopulation zuweisen:</label></td><td class="Datenfelder"><div class="Datenfelder" id="DistZuTPop_Felder">';
 						if (data) {
 							for (var i = 0; i < data.length; i++) {
 								if (html_distzutpop) {
@@ -1766,11 +1776,9 @@ function initiiere_beob(beobtyp) {
 								}
 							}
 							//Tabellenzeile abschliessen
-							html_distzutpop += '</div></td></tr>';
+							html_distzutpop += '</div></td></tr></table><hr>';
 							//distzutpop voranstellen
-							html_beobfelder = html_distzutpop + html_beobfelder;
-							//TODO: Felder für Zuordnung voranstellen
-
+							html_beobfelder = html_distzutpop + beobtitel + html_beobfelder;
 							$("#beob_table").html(html_beobfelder);
 							//Formulare blenden
 							zeigeFormular("beob");
