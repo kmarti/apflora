@@ -207,35 +207,27 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 		mysqli_free_result($result_tpopber);
 
 		//Beobachtungen dieser TPop abfragen
-		$result_tpopbeob = mysqli_query($link, "SELECT BeobId, Autor, J_NOTE, M_NOTE, A_NOTE FROM alexande_beob.tblBeob WHERE TPopId = $TPopId ORDER BY A_NOTE DESC, M_NOTE DESC, J_NOTE DESC");
+		//$result_tpopbeob = mysqli_query($link, "SELECT BeobId, Autor, J_NOTE, M_NOTE, A_NOTE FROM alexande_beob.tblBeob WHERE TPopId = $TPopId ORDER BY A_NOTE DESC, M_NOTE DESC, J_NOTE DESC");
+		$result_tpopbeob = mysqli_query($link, "SELECT alexande_apflora.tblBeobZuordnung.NO_NOTE, alexande_apflora.tblBeobZuordnung.NO_NOTE_PROJET, alexande_apflora.tblBeobZuordnung.TPopId, alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen, alexande_apflora.tblBeobZuordnung.BeobBemerkungen, alexande_apflora.tblBeobZuordnung.BeobMutWann, alexande_apflora.tblBeobZuordnung.BeobMutWer, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor FROM alexande_apflora.tblBeobZuordnung INNER JOIN alexande_beob.tblBeobBereitgestellt ON alexande_apflora.tblBeobZuordnung.NO_NOTE_PROJET = alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET WHERE alexande_apflora.tblBeobZuordnung.TPopId=$TPopId UNION SELECT alexande_apflora.tblBeobZuordnung.NO_NOTE, alexande_apflora.tblBeobZuordnung.NO_NOTE_PROJET, alexande_apflora.tblBeobZuordnung.TPopId, alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen, alexande_apflora.tblBeobZuordnung.BeobBemerkungen, alexande_apflora.tblBeobZuordnung.BeobMutWann, alexande_apflora.tblBeobZuordnung.BeobMutWer, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor FROM alexande_apflora.tblBeobZuordnung INNER JOIN alexande_beob.tblBeobBereitgestellt ON alexande_apflora.tblBeobZuordnung.NO_NOTE = alexande_beob.tblBeobBereitgestellt.NO_NOTE WHERE alexande_apflora.tblBeobZuordnung.TPopId=$TPopId ORDER BY Datum DESC");
 		$anz_tpopbeob = mysqli_num_rows($result_tpopbeob);
 		//Datenstruktur für tpopbeob aufbauen
 		$rows_tpopbeob = array();
 		while($r_tpopbeob = mysqli_fetch_assoc($result_tpopbeob)) {
-			$BeobId = $r_tpopbeob['BeobId'];
+			if ($r_tpopbeob['NO_NOTE']) {
+				$BeobId = $r_tpopbeob['NO_NOTE'];
+				$beobtyp = "infospezies";
+			} else {
+				$BeobId = $r_tpopbeob['NO_NOTE_PROJET'];
+				$beobtyp = "evab";
+			}
 			if ($r_tpopbeob['Autor'] && $r_tpopbeob['Autor'] <> " ") {
 				$Autor = $r_tpopbeob['Autor'];
 			} else {
 				$Autor = "(kein Autor)";
 			}
-			if ($r_tpopbeob['M_NOTE'] < 10) {
-				$Monat = "0".$r_tpopbeob['M_NOTE'];
-			} else {
-				$Monat = $r_tpopbeob['M_NOTE'];
-			}
-			if ($r_tpopbeob['J_NOTE'] < 10) {
-				$Tag = "0".$r_tpopbeob['J_NOTE'];
-			} else {
-				$Tag = $r_tpopbeob['J_NOTE'];
-			}
-			if (!$r_tpopbeob['M_NOTE']) {
-				$beobDatum = $r_tpopbeob['A_NOTE'];
-			} else {
-				$beobDatum = $r_tpopbeob['A_NOTE'].".".$Monat.".".$Tag;
-			}
 			//TPopFeldKontr setzen
-			$attr_tpopbeob = array("id" => $BeobId, "typ" => "tpopbeob");
-			$tpopbeob = array("data" => $beobDatum.": ".$Autor, "attr" => $attr_tpopbeob);
+			$attr_tpopbeob = array("id" => $BeobId, "typ" => "tpopbeob", "beobtyp" => $beobtyp);
+			$tpopbeob = array("data" => $r_tpopbeob['Datum'].": ".$Autor, "attr" => $attr_tpopbeob);
 			//tpopbeob-Array um tpopbeob ergänzen
 		    $rows_tpopbeob[] = $tpopbeob;
 		}

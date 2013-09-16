@@ -129,7 +129,7 @@ form table label {
 }
 
 /*in Beob sollen Felder in ganzer Breite sichtbar sein, da hier lange und zusammenhängende Namen vorkommen, die nicht umgebrochen werden*/
-#beob .label {
+#beob .label, #tpopbeob .label {
 	width: 215px;
 	word-wrap: break-word;
 }

@@ -1578,17 +1578,18 @@ function setzeWindowTpopber(id) {
 	});
 }
 
-function initiiere_tpopbeob() {
+function initiiere_tpopbeob(beobtyp) {
 	if (!localStorage.tpopbeob_id) {
 		//es fehlen benötigte Daten > eine Ebene höher
 		initiiere_pop();
 		return;
 	}
-	//Felder zurücksetzen
-	leereFelderVonFormular("tpopbeob");
-	//Daten für die tpopbeob aus der DB holen
+
+	//EvAB oder Infospezies? > entsprechende url zusammensetzen
+	url = 'php/beob_' + beobtyp + '.php';
+	//Daten für die beob aus der DB holen
 	$.ajax({
-		url: 'php/beob.php',
+		url: url,
 		dataType: 'json',
 		data: {
 			"id": localStorage.tpopbeob_id
@@ -1598,59 +1599,73 @@ function initiiere_tpopbeob() {
 			if (data) {
 				//tpopbeob bereitstellen
 				window.tpopbeob = data;
-				//Felder mit Daten beliefern
-				$("#tpopbeob_ArtName").val(data.Name + " " + data.StatusText);
-				$("#tpopbeob_IdZdsf").val(data.IdZdsf);
-				$("#tpopbeob_IdEvab").val(data.IdEvab);
-				$("#tpopbeob_Projekt").val(data.Projekt);
-				$("#tpopbeob_RaumGde").val(data.RaumGde);
-				$("#tpopbeob_Ort").val(data.Ort);
-				$("#tpopbeob_X").val(data.X);
-				$("#tpopbeob_Y").val(data.Y);
-				$("#tpopbeob_Datum").val(data.Datum);
-				$("#tpopbeob_Jahr").val(data.Jahr);
-				$("#tpopbeob_Anzahl").val(data.Anzahl);
-				$("#tpopbeob_Autor").val(data.Autor);
-				//nochmals tpop_id setzen, damit es sicher da ist
-				//wird benötigt, falls node verschoben wird
-				localStorage.tpop_id = data.TPopId;
-				//Distanzen zu TPop berechnen
+
+				//boebfelder bereitstellen
+				var html_beobfelder = erstelleFelderFuerBeob(data, beobtyp);
+				$("#tpopbeob_table").html(html_beobfelder);
+				
+				//Abstand zu TPop aus der DB holen
+				url_distzutpop = 'php/beob_distzutpop_' + beobtyp + '.php';
 				$.ajax({
-					url: 'php/beob_zuweisen.php',
+					url: url_distzutpop,
 					dataType: 'json',
 					data: {
-						"beobid": data.BeobId
+						"beobid": localStorage.tpopbeob_id
 					},
-					success: function (data2) {
-						var html = '<input type="radio" name="tpopbeob_DistZuTPop" id="tpopbeob_DistZuTPop0" class="tpopbeob_DistZuTPop" formular="tpopbeob" value="0">keiner';
-						if (data2) {
-							//for (i in data2) {
-							for (var i = 0; i < data2.length; i++) {
-								if (html) {
-									html += "<br>";
+					success: function (data) {
+						//Tabellenzeile beginnen
+						var html_distzutpop = '<tr class="fieldcontain DistZuTPop"><td class="label"><label id="tpopbeob_DistZuTPop_label" for="tpopbeob_DistZuTPop">Einer Teilpopulation zuordnen:</label></td><td class="Datenfelder"><div class="Datenfelder" id="tpopbeob_DistZuTPop_Felder">';
+						if (data) {
+							for (var i=0; i < data.length; i++) {
+								if (i>0) {
+									html_distzutpop += "<br>";
 								}
-								html += '<input type="radio" name="tpopbeob_DistZuTPop" id="tpopbeob_DistZuTPop';
-								html += data2[i].TPopId;
-								html += '" class="tpopbeob_DistZuTPop" formular="tpopbeob" value="';
-								html += data2[i].TPopId;
-								html += '" DistZuTPop="';
-								html += data2[i].DistZuTPop;
-								if (data2[i].TPopId === data.TPopId) {
-									html += '" checked="checked">';
+								html_distzutpop += '<input type="radio" name="tpopbeob_DistZuTPop" id="tpopbeob_DistZuTPop';
+								html_distzutpop += data[i].TPopId;
+								html_distzutpop += '" class="DistZuTPop" formular="tpopbeob" value="';
+								html_distzutpop += data[i].TPopId;
+								html_distzutpop += '" DistZuTPop="';
+								html_distzutpop += data[i].DistZuTPop;
+								html_distzutpop += '">';
+								//Wenn TPop keine Koordinaten haben, dies anzeigen und Anzeige von NAN verhindern
+								if (parseInt(data[i].DistZuTPop, 10) >= 0) {
+									html_distzutpop += parseInt(data[i].DistZuTPop) + "m: " + data[i].TPopFlurname;
 								} else {
-									html += '">';
-								}
-								//Wenn TPop keine Koordinaten haben, Anzeige von NAN verhindern
-								if (parseInt(data2[i].DistZuTPop, 10) >= 0) {
-									html += parseInt(data2[i].DistZuTPop, 10) + "m: " + data2[i].TPopFlurname;
-								} else {
-									html += data2[i].TPopFlurname;
+									html_distzutpop += data[i].TPopFlurname;
 								}
 							}
-							$("#tpopbeob_DistZuTPop_Felder").html(html);
-							//Formulare blenden
-							zeigeFormular("tpopbeob");
-							history.replaceState({tpopbeob: "tpopbeob"}, "tpopbeob", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopbeob=" + localStorage.tpopbeob_id);
+							//Tabellenzeile abschliessen
+							html_distzutpop += '</div></td></tr>';
+							//distzutpop bereitstellen
+							$("#tpopbeob_zuordnungsfelder").html(html_distzutpop);
+
+							//Daten der Zuordnung holen
+							$.ajax({
+								url: 'php/beob_zuordnung.php',
+								dataType: 'json',
+								data: {
+									"id": localStorage.tpopbeob_id,
+									"beobtyp": beobtyp
+								},
+								success: function (data) {
+									//tpopbeob bereitstellen
+									//window.tpopbeob_zuordnung = data;
+									//Felder mit Daten beliefern
+									if (data.BeobNichtZuordnen == 1) {
+										$("#tpopbeob_BeobNichtZuordnen").prop("checked", true);
+									} else {
+										$("#tpopbeob_BeobNichtZuordnen").prop("checked", false);
+									}
+									$("#tpopbeob_DistZuTPop"+localStorage.tpop_id).prop("checked", true);
+									$("#tpopbeob_BeobBemerkungen").val(data.BeobBemerkungen);
+									$("#tpopbeob_BeobMutWann").val(data.BeobMutWann);
+									$("#tpopbeob_BeobMutWer").val(data.BeobMutWer);
+
+									//Formulare blenden
+									zeigeFormular("tpopbeob");
+									history.replaceState({tpopbeob: "tpopbeob"}, "tpopbeob", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopbeob=" + localStorage.tpopbeob_id);
+								}
+							});
 						}
 					}
 				});
@@ -2572,7 +2587,7 @@ function erstelle_tree(ApArtId) {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#tpopbeob").is(':visible') || localStorage.tpopbeob_id !== node.attr("id")) {
 				localStorage.tpopbeob_id = node.attr("id");
-				initiiere_tpopbeob();
+				initiiere_tpopbeob(node.attr("beobtyp"));
 			}
 		} else if (node.attr("typ") === "beob") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -12923,7 +12938,7 @@ function erstelleFelderFuerBeob(data, beobtyp) {
 	//Beob-Felder dynamisch aufbauen
 	var html_beobfelder = "<table>";
 	var html_beobfeld;
-	var nichtAnzuzeigendeFelder = ["NO_ISFS", "ESPECE", "CUSTOM_TEXT_5_", "OBJECTID", "FNS_GISLAYER", "FNS_ISFS", "ID", "FNS_JAHR"];
+	var nichtAnzuzeigendeFelder = ["NO_ISFS", "ESPECE", "CUSTOM_TEXT_5_", "OBJECTID", "FNS_GISLAYER", "FNS_ISFS", "ID", "FNS_JAHR", "NOM_COMPLET", "FAMILLE"];
 	$.each(data, function(index, value) {
 		if ((value || value === 0) && nichtAnzuzeigendeFelder.indexOf(index) === -1) {
 			//TODO: Zahlen, text und Memofelder unterscheiden
