@@ -132,7 +132,7 @@
 							<label id="ApArtwert_label" for='ApArtwert'>Artwert:</label>
 						</td>
 						<td class="Datenfelder">
-							<input id="ApArtwert" name="ApArtwert" class="speichern" formular="ap" type="number" readonly="readonly">
+							<input id="ApArtwert" name="ApArtwert" class="speichern" formular="ap" type="text" readonly="readonly">
 						</td>
 					</tr>
 				</table>
@@ -1901,117 +1901,56 @@
 			</form>
 
 			<form id="tpopbeob" class="form" action="#" method="get" autocomplete="off">
+				<table id="tpopbeob_zuordnungsfelder">
+				</table>
 				<table>
-					<tr class='fieldcontain tpopbeob_ArtName'>
+					<tr class="fieldcontain">
 						<td class="label">
-							<label id="tpopbeob_ArtName_label" for='tpopbeob_ArtName'>Art:</label>
+							<label id="tpopbeob_BeobNichtZuordnen_label" for='tpopbeob_BeobNichtZuordnen'>
+								<a class="tooltip" href="#">Nicht zuordnen:
+									<span class="custom info legende"><img src="img/Info.png" alt="Information" height="48" width="48">
+										Will heissen: Die Beobachtung kann nicht zugeordnet werden<br>Mögliche Gründe: Unsichere Bestimmung, nicht lokalisierbar<br>Bitte im Bemerkungsfeld begründen
+									</span>
+								</a>
+							</label>
 						</td>
 						<td class="Datenfelder">
-							<input id="tpopbeob_ArtName" name="tpopbeob_ArtName" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly">
+							<input type="checkbox" name="tpopbeob_BeobNichtZuordnen" id="tpopbeob_BeobNichtZuordnen" class="speichern" formular="tpopbeob">
 						</td>
 					</tr>
-					<tr class='fieldcontain IdZdsf'>
+					<tr class="fieldcontain">
 						<td class="label">
-							<label id="tpopbeob_IdZdsf_label" for='tpopbeob_IdZdsf'>ID Info Flora:</label>
+							<label id="tpopbeob_BeobBemerkungen_label" for='tpopbeob_BeobBemerkungen'>Bemerkungen zur Zuordnung:</label>
 						</td>
 						<td class="Datenfelder">
-							<input id="tpopbeob_IdZdsf" name="tpopbeob_IdZdsf" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly">
+							<textarea name="tpopbeob_BeobBemerkungen" id="tpopbeob_BeobBemerkungen" class="speichern" formular="tpopbeob"></textarea>
 						</td>
 					</tr>
-					<tr class='fieldcontain IdEvab'>
+					<tr class="fieldcontain">
 						<td class="label">
-							<label id="tpopbeob_IdEvab_label" for='tpopbeob_IdEvab'>ID EvAB:</label>
+							<label for="tpopbeob_BeobMutWann">Zuletzt verändert...</label>
 						</td>
 						<td class="Datenfelder">
-							<input id="tpopbeob_IdEvab" name="tpopbeob_IdEvab" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly">
+							<input id="tpopbeob_BeobMutWann" class="Datenfelder Datum" formular="tpopbeob" type="text" readonly="readonly" style="border:none;">
 						</td>
 					</tr>
-					<tr class='fieldcontain Projekt'>
+					<tr class="fieldcontain">
 						<td class="label">
-							<label id="tpopbeob_Projekt_label" for='tpopbeob_Projekt'>Projekt:</label>
+							<label for="tpopbeob_BeobMutWer">...von:</label>
 						</td>
 						<td class="Datenfelder">
-							<input id="tpopbeob_Projekt" name="tpopbeob_Projekt" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly">
-						</td>
-					</tr>
-					<tr class='fieldcontain RaumGde'>
-						<td class="label">
-							<label id="tpopbeob_RaumGde_label" for='tpopbeob_RaumGde'>Raum / Gemeinde:</label>
-						</td>
-						<td class="Datenfelder">
-							<input id="tpopbeob_RaumGde" name="tpopbeob_RaumGde" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly">
-						</td>
-					</tr>
-					<tr class='fieldcontain Ort'>
-						<td class="label">
-							<label id="tpopbeob_Ort_label" for='tpopbeob_Ort'>Ort:</label>
-						</td>
-						<td class="Datenfelder">
-							<input id="tpopbeob_Ort" name="tpopbeob_Ort" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly">
-						</td>
-					</tr>
-					<tr class='fieldcontain X'>
-						<td class="label">
-							<label id="tpopbeob_X_label" for='tpopbeob_X'>X-Koordinate:</label>
-						</td>
-						<td class="Datenfelder">
-							<input id="tpopbeob_X" name="tpopbeob_X" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly">
-						</td>
-					</tr>
-					<tr class='fieldcontain Y'>
-						<td class="label">
-							<label id="tpopbeob_Y_label" for='tpopbeob_Y'>Y-Koordinate:</label>
-						</td>
-						<td class="Datenfelder">
-							<input id="tpopbeob_Y" name="tpopbeob_Y" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly">
-						</td>
-					</tr>
-					<tr class='fieldcontain Datum'>
-						<td class="label">
-							<label id="tpopbeob_Datum_label" for='tpopbeob_Datum'>Datum:</label>
-						</td>
-						<td class="Datenfelder">
-							<input id="tpopbeob_Datum" name="tpopbeob_Datum" class="Datenfelder Datum" formular="tpopbeob" type="text" readonly="readonly">
-						</td>
-					</tr>
-					<tr class='fieldcontain Jahr'>
-						<td class="label">
-							<label id="tpopbeob_Jahr_label" for='tpopbeob_Jahr'>Jahr:</label>
-						</td>
-						<td class="Datenfelder">
-							<input id="tpopbeob_Jahr" name="tpopbeob_Jahr" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly">
-						</td>
-					</tr>
-					<tr class='fieldcontain Anzahl'>
-						<td class="label">
-							<label id="tpopbeob_Anzahl_label" for='tpopbeob_Anzahl'>Anzahl:</label>
-						</td>
-						<td class="Datenfelder">
-							<input id="tpopbeob_Anzahl" name="tpopbeob_Anzahl" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly">
-						</td>
-					</tr>
-					<tr class='fieldcontain Autor'>
-						<td class="label">
-							<label id="tpopbeob_Autor_label" for='tpopbeob_Autor'>Autor:</label>
-						</td>
-						<td class="Datenfelder">
-							<input id="tpopbeob_Autor" name="tpopbeob_Autor" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly">
-						</td>
-					</tr>
-					<tr class='fieldcontain tpopbeob_DistZuTPop'>
-						<td class="label">
-							<label id="tpopbeob_DistZuTPop_label" for='tpopbeob_DistZuTPop' style="font-weight:bold;">Einer Teilpopulation zuweisen:</label>
-						</td>
-						<td class="Datenfelder">
-							<div class="Datenfelder" id="tpopbeob_DistZuTPop_Felder">
-								
-							</div>
+							<input id="tpopbeob_BeobMutWer" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly" style="border:none;">
 						</td>
 					</tr>
 				</table>
+				<hr>
+				<div id="tpopbeob_table">
+				</div>
 			</form>
 
 			<form id="beob" class="form" action="#" method="get" autocomplete="off">
+				<table id="beob_zuordnungsfelder">
+				</table>
 				<table>
 					<tr class="fieldcontain">
 						<td class="label">
@@ -2035,20 +1974,20 @@
 							<textarea name="BeobBemerkungen" id="BeobBemerkungen" class="speichern" formular="beob"></textarea>
 						</td>
 					</tr>
-					<tr class='fieldcontain'>
+					<tr class="fieldcontain">
 						<td class="label">
-							<label for='BeobMutWann'>Zuletzt verändert...</label>
+							<label for="BeobMutWann">Zuletzt verändert...</label>
 						</td>
 						<td class="Datenfelder">
-							<input id="BeobMutWann" class="Datenfelder Datum" formular="beob" type="text" readonly="readonly">
+							<input id="BeobMutWann" class="Datenfelder Datum" formular="beob" type="text" readonly="readonly" style="border:none;">
 						</td>
 					</tr>
-					<tr class='fieldcontain'>
+					<tr class="fieldcontain">
 						<td class="label">
-							<label for='BeobMutWer'>...von:</label>
+							<label for="BeobMutWer">...von:</label>
 						</td>
 						<td class="Datenfelder">
-							<input id="BeobMutWer" class="Datenfelder" formular="beob" type="text" readonly="readonly">
+							<input id="BeobMutWer" class="Datenfelder" formular="beob" type="text" readonly="readonly" style="border:none;">
 						</td>
 					</tr>
 				</table>

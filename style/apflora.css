@@ -105,27 +105,39 @@ form fieldset {
 	padding: 10px 0px 10px 10px;
 }
 
+form h1 {
+	margin-bottom: 10px;
+	margin-top: 10px;
+	margin-left: 10px;
+}
+
 form table {
 	width: 100%;
 }
 
 form table label {
-	display:block;
-	margin-top:2px;
-	text-align:right;
-	vertical-align:top;
-	color:#6F6F66;
+	display: block;
+	margin-top: 2px;
+	text-align: right;
+	vertical-align: top;
+	color: #6F6F66;
 }
 
 .label {
-	width:140px;
-	display:block;
+	width: 140px;
+	display: block;
+}
+
+/*in Beob sollen Felder in ganzer Breite sichtbar sein, da hier lange und zusammenhängende Namen vorkommen, die nicht umgebrochen werden*/
+#beob .label {
+	width: 215px;
+	word-wrap: break-word;
 }
 
 /*Bei Feldern, die eingerahmt sind (Fieldset) muss das Label schmaler sein, damit alle Felder ausgerichtet sind*/
 .label_fieldset {
-	width:129px;
-	display:block;
+	width: 129px;
+	display: block;
 }
 
 form table td {
@@ -133,17 +145,17 @@ form table td {
 }
 
 form table tr {
-	width:100%;
+	width: 100%;
 }
 
 td.Datenfelder {
-	padding-left:5px;
-	width:100%;
+	padding-left: 5px;
+	width: 100%;
 	padding-right: 10px;
 }
 
 .export_abschnitt_tooltip_class {
-	font-size:12px;
+	font-size: 12px;
 }
 
 #GeoAdminKarte, #google_karte {
@@ -168,6 +180,7 @@ input {
 [readonly='readonly'] {
 	/*color:#6F6F66;*/
 	background-color: #FFE;
+	border:none;
 }
 
 [type=text], [type=url], textarea, select {

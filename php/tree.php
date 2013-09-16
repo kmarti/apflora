@@ -608,7 +608,7 @@ $ap_ordner_ber_attr = array("id" => $ApArtId, "typ" => "ap_ordner_ber");
 $ap_ordner_ber = array("data" => "Berichte (".$anz_ber.")", "attr" => $ap_ordner_ber_attr, "children" => $rows_ber);
 //Beobachtungen
 $ap_ordner_beob_attr = array("id" => $ApArtId, "typ" => "ap_ordner_beob");
-$ap_ordner_beob = array("data" => "nicht zugeordnete Beobachtungen (".$anz_beob.")", "attr" => $ap_ordner_beob_attr, "children" => $rows_beob);
+$ap_ordner_beob = array("data" => "nicht beurteilte Beobachtungen (".$anz_beob.")", "attr" => $ap_ordner_beob_attr, "children" => $rows_beob);
 //Ideale Umweltfaktoren, jetzt Idealbiotop genannt
 $ap_ordner_umwfakt_attr = array("id" => $ApArtId, "typ" => "umwfakt");
 $ap_ordner_umwfakt = array("data" => "Idealbiotop", "attr" => $ap_ordner_umwfakt_attr);
