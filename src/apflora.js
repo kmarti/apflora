@@ -3381,7 +3381,7 @@ function beschrifte_tpop_ordner_tpopbeob(node) {
 function beschrifte_ap_ordner_beob(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
-	anzTxt = "nicht zugeordnete Beobachtungen (" + anz + ")";
+	anzTxt = "nicht beurteilte Beobachtungen (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
