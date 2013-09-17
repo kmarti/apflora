@@ -15,13 +15,26 @@ $id = $_GET["id"];
 $Feld = $_GET["Feld"];
 $Wert = $_GET["Wert"];
 $user = $_GET["user"];
+$beobtyp = $_GET["beobtyp"];
 $time = date('Y-m-d H:i:s');
 
-if ($Wert == NULL) {
-	//Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
-	$Querystring = 'UPDATE tblBeob SET '.$Feld.'= NULL, MutWann="'.$time.'", MutWer="'.$user.'" WHERE BeobId = "'.$id.'"';
+//ACHTUNG
+//neue zuweisung > Anfügeabfrage nötig
+
+if ($beobtyp == "infospezies") {
+	if ($Wert == NULL) {
+		//Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
+		$Querystring = 'UPDATE tblBeobZuordnung SET '.$Feld.'= NULL, BeobMutWann="'.$time.'", BeobMutWer="'.$user.'" WHERE NO_NOTE='.$id;
+	} else {
+		$Querystring = 'UPDATE tblBeobZuordnung SET '.$Feld.'="'.$Wert.'", BeobMutWann="'.$time.'", BeobMutWer="'.$user.'" WHERE NO_NOTE='.$id;
+	}
 } else {
-	$Querystring = 'UPDATE tblBeob SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE BeobId = "'.$id.'"';
+	if ($Wert == NULL) {
+		//Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
+		$Querystring = 'UPDATE tblBeobZuordnung SET '.$Feld.'= NULL, BeobMutWann="'.$time.'", BeobMutWer="'.$user.'" WHERE NO_NOTE_PROJET = "'.$id.'"';
+	} else {
+		$Querystring = 'UPDATE tblBeobZuordnung SET '.$Feld.'="'.$Wert.'", BeobMutWann="'.$time.'", BeobMutWer="'.$user.'" WHERE NO_NOTE_PROJET = "'.$id.'"';
+	}
 }
 
 // SQL-Anfrage ausführen

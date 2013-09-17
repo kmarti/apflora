@@ -1578,225 +1578,41 @@ function setzeWindowTpopber(id) {
 	});
 }
 
-function initiiere_tpopbeob(beobtyp) {
-	if (!localStorage.tpopbeob_id) {
-		//es fehlen benötigte Daten > eine Ebene höher
-		initiiere_pop();
-		return;
-	}
+function initiiere_beob(beobtyp, beobid, beob_status) {
+	//beob_status markiert, ob die Beobachtung:
+	//- schon zugewiesen ist (zugeordnet)
+	//- noch nicht beurteilt ist (nicht_beurteilt)
+	//- nicht zuzuordnen ist (nicht_zuzuordnen)
+	
+	//beob_status muss gespeichert werden, damit bei Datenänderungen bekannt ist, ob ein bestehender Datensatz bearbeitet oder ein neuer geschaffen werden muss
+	localStorage.beob_status = beob_status;
+	//sicherstellen, dass beobtyp immer bekannt ist
+	localStorage.beobtyp = beobtyp;
 
-	//EvAB oder Infospezies? > entsprechende url zusammensetzen
-	url = 'php/beob_' + beobtyp + '.php';
-	//Daten für die beob aus der DB holen
-	$.ajax({
-		url: url,
-		dataType: 'json',
-		data: {
-			"id": localStorage.tpopbeob_id
-		},
-		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				//tpopbeob bereitstellen
-				window.tpopbeob = data;
-
-				//boebfelder bereitstellen
-				var html_beobfelder = erstelleFelderFuerBeob(data, beobtyp);
-				$("#tpopbeob_table").html(html_beobfelder);
-				
-				//Abstand zu TPop aus der DB holen
-				url_distzutpop = 'php/beob_distzutpop_' + beobtyp + '.php';
-				$.ajax({
-					url: url_distzutpop,
-					dataType: 'json',
-					data: {
-						"beobid": localStorage.tpopbeob_id
-					},
-					success: function (data) {
-						//Tabellenzeile beginnen
-						var html_distzutpop = '<tr class="fieldcontain DistZuTPop"><td class="label"><label id="tpopbeob_DistZuTPop_label" for="tpopbeob_DistZuTPop">Einer Teilpopulation zuordnen:</label></td><td class="Datenfelder"><div class="Datenfelder" id="tpopbeob_DistZuTPop_Felder">';
-						if (data) {
-							for (var i=0; i < data.length; i++) {
-								if (i>0) {
-									html_distzutpop += "<br>";
-								}
-								html_distzutpop += '<input type="radio" name="tpopbeob_DistZuTPop" id="tpopbeob_DistZuTPop';
-								html_distzutpop += data[i].TPopId;
-								html_distzutpop += '" class="DistZuTPop" formular="tpopbeob" value="';
-								html_distzutpop += data[i].TPopId;
-								html_distzutpop += '" DistZuTPop="';
-								html_distzutpop += data[i].DistZuTPop;
-								html_distzutpop += '">';
-								//Wenn TPop keine Koordinaten haben, dies anzeigen und Anzeige von NAN verhindern
-								if (parseInt(data[i].DistZuTPop, 10) >= 0) {
-									html_distzutpop += parseInt(data[i].DistZuTPop) + "m: " + data[i].TPopFlurname;
-								} else {
-									html_distzutpop += data[i].TPopFlurname;
-								}
-							}
-							//Tabellenzeile abschliessen
-							html_distzutpop += '</div></td></tr>';
-							//distzutpop bereitstellen
-							$("#tpopbeob_zuordnungsfelder").html(html_distzutpop);
-
-							//Daten der Zuordnung holen
-							$.ajax({
-								url: 'php/beob_zuordnung.php',
-								dataType: 'json',
-								data: {
-									"id": localStorage.tpopbeob_id,
-									"beobtyp": beobtyp
-								},
-								success: function (data) {
-									//tpopbeob bereitstellen
-									//window.tpopbeob_zuordnung = data;
-									//Felder mit Daten beliefern
-									if (data.BeobNichtZuordnen == 1) {
-										$("#tpopbeob_BeobNichtZuordnen").prop("checked", true);
-									} else {
-										$("#tpopbeob_BeobNichtZuordnen").prop("checked", false);
-									}
-									$("#tpopbeob_DistZuTPop"+localStorage.tpop_id).prop("checked", true);
-									$("#tpopbeob_BeobBemerkungen").val(data.BeobBemerkungen);
-									$("#tpopbeob_BeobMutWann").val(data.BeobMutWann);
-									$("#tpopbeob_BeobMutWer").val(data.BeobMutWer);
-
-									//Formulare blenden
-									zeigeFormular("tpopbeob");
-									history.replaceState({tpopbeob: "tpopbeob"}, "tpopbeob", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopbeob=" + localStorage.tpopbeob_id);
-								}
-							});
-						}
-					}
-				});
-			}
-		}
-	});
-}
-
-/*function initiiere_tpopbeob() {
-	if (!localStorage.tpopbeob_id) {
-		//es fehlen benötigte Daten > eine Ebene höher
-		initiiere_pop();
-		return;
-	}
-	//Felder zurücksetzen
-	leereFelderVonFormular("tpopbeob");
-	//Daten für die tpopbeob aus der DB holen
-	$.ajax({
-		url: 'php/beob.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.tpopbeob_id
-		},
-		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				//tpopbeob bereitstellen
-				window.tpopbeob = data;
-				//Felder mit Daten beliefern
-				$("#tpopbeob_ArtName").val(data.Name + " " + data.StatusText);
-				$("#tpopbeob_IdZdsf").val(data.IdZdsf);
-				$("#tpopbeob_IdEvab").val(data.IdEvab);
-				$("#tpopbeob_Projekt").val(data.Projekt);
-				$("#tpopbeob_RaumGde").val(data.RaumGde);
-				$("#tpopbeob_Ort").val(data.Ort);
-				$("#tpopbeob_X").val(data.X);
-				$("#tpopbeob_Y").val(data.Y);
-				$("#tpopbeob_Datum").val(data.Datum);
-				$("#tpopbeob_Jahr").val(data.Jahr);
-				$("#tpopbeob_Anzahl").val(data.Anzahl);
-				$("#tpopbeob_Autor").val(data.Autor);
-				//nochmals tpop_id setzen, damit es sicher da ist
-				//wird benötigt, falls node verschoben wird
-				localStorage.tpop_id = data.TPopId;
-				//Distanzen zu TPop berechnen
-				$.ajax({
-					url: 'php/beob_zuweisen.php',
-					dataType: 'json',
-					data: {
-						"beobid": data.BeobId
-					},
-					success: function (data2) {
-						var html = '<input type="radio" name="tpopbeob_DistZuTPop" id="tpopbeob_DistZuTPop0" class="tpopbeob_DistZuTPop" formular="tpopbeob" value="0">keiner';
-						if (data2) {
-							//for (i in data2) {
-							for (var i = 0; i < data2.length; i++) {
-								if (html) {
-									html += "<br>";
-								}
-								html += '<input type="radio" name="tpopbeob_DistZuTPop" id="tpopbeob_DistZuTPop';
-								html += data2[i].TPopId;
-								html += '" class="tpopbeob_DistZuTPop" formular="tpopbeob" value="';
-								html += data2[i].TPopId;
-								html += '" DistZuTPop="';
-								html += data2[i].DistZuTPop;
-								if (data2[i].TPopId === data.TPopId) {
-									html += '" checked="checked">';
-								} else {
-									html += '">';
-								}
-								//Wenn TPop keine Koordinaten haben, Anzeige von NAN verhindern
-								if (parseInt(data2[i].DistZuTPop, 10) >= 0) {
-									html += parseInt(data2[i].DistZuTPop, 10) + "m: " + data2[i].TPopFlurname;
-								} else {
-									html += data2[i].TPopFlurname;
-								}
-							}
-							$("#tpopbeob_DistZuTPop_Felder").html(html);
-							//Formulare blenden
-							zeigeFormular("tpopbeob");
-							history.replaceState({tpopbeob: "tpopbeob"}, "tpopbeob", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopbeob=" + localStorage.tpopbeob_id);
-						}
-					}
-				});
-			}
-		}
-	});
-}*/
-
-//setzt window.tpopbeob und localStorage.tpopbeob_id
-//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-function setzeWindowTpopbeob(id) {
-	localStorage.tpopbeob_id = id;
-	$.ajax({
-		url: 'php/tpopbeob.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.tpopbeob_id
-		},
-		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				//tpopbeob bereitstellen
-				window.tpopbeob = data;
-			}
-		}
-	});
-}
-
-function initiiere_beob(beobtyp) {
 	var url, url_distzutpop;
-	if (!localStorage.BeobId) {
+	if (!beobid) {
 		//es fehlen benötigte Daten > eine Ebene höher
-		initiiere_pop();
+		if (beob_status === "nicht_beurteilt" || beob_status === "nicht_zuzuordnen") {
+			initiiere_ap();
+		} else {
+			initiiere_pop();
+		}
 		return;
 	}
 	
 	//EvAB oder Infospezies? > entsprechende url zusammensetzen
 	url = 'php/beob_' + beobtyp + '.php';
+	
 	//Daten für die beob aus der DB holen
 	$.ajax({
 		url: url,
 		dataType: 'json',
 		data: {
-			"id": localStorage.BeobId
+			"id": beobid
 		},
 		success: function (data) {
 			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//beob bereitstellen
-				window.beob = data;
 
 				//boebfelder bereitstellen
 				var html_beobfelder = erstelleFelderFuerBeob(data, beobtyp);
@@ -1808,7 +1624,7 @@ function initiiere_beob(beobtyp) {
 					url: url_distzutpop,
 					dataType: 'json',
 					data: {
-						"beobid": localStorage.BeobId
+						"beobid": beobid
 					},
 					success: function (data) {
 						//Tabellenzeile beginnen
@@ -1824,6 +1640,8 @@ function initiiere_beob(beobtyp) {
 								html_distzutpop += data[i].TPopId;
 								html_distzutpop += '" DistZuTPop="';
 								html_distzutpop += data[i].DistZuTPop;
+								html_distzutpop += '" beob_status="';
+								html_distzutpop += beob_status;
 								html_distzutpop += '">';
 								//Wenn TPop keine Koordinaten haben, dies anzeigen und Anzeige von NAN verhindern
 								if (parseInt(data[i].DistZuTPop, 10) >= 0) {
@@ -1834,11 +1652,45 @@ function initiiere_beob(beobtyp) {
 							}
 							//Tabellenzeile abschliessen
 							html_distzutpop += '</div></td></tr>';
+
 							//distzutpop bereitstellen
 							$("#beob_zuordnungsfelder").html(html_distzutpop);
-							//Formulare blenden
-							zeigeFormular("beob");
-							history.replaceState({beob: "beob"}, "beob", "index.html?ap=" + localStorage.ap_id + "&beob=" + localStorage.BeobId);
+
+							if (beob_status === "zugeordnet" || beob_status === "nicht_zuzuordnen") {
+								//Daten der Zuordnung holen
+								$.ajax({
+									url: 'php/beob_zuordnung.php',
+									dataType: 'json',
+									data: {
+										"id": localStorage.tpopbeob_id,
+										"beobtyp": beobtyp
+									},
+									success: function (data) {
+										//tpopbeob bereitstellen
+										//window.tpopbeob_zuordnung = data;
+										//Felder mit Daten beliefern
+										$("#BeobNichtBeurteilt").prop("checked", false);
+										if (data.BeobNichtZuordnen == 1) {
+											$("#BeobNichtZuordnen").prop("checked", true);
+										} else {
+											$("#BeobNichtZuordnen").prop("checked", false);
+										}
+										$("#DistZuTPop"+localStorage.tpop_id).prop("checked", true);
+										$("#BeobBemerkungen").val(data.BeobBemerkungen);
+										$("#BeobMutWann").val(data.BeobMutWann);
+										$("#BeobMutWer").val(data.BeobMutWer);
+
+										//Formulare blenden
+										zeigeFormular("beob");
+										history.replaceState({tpopbeob: "tpopbeob"}, "tpopbeob", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopbeob=" + beobid);
+									}
+								});
+							} else {
+								$("#BeobNichtBeurteilt").prop("checked", true);
+								//Formulare blenden
+								zeigeFormular("beob");
+								history.replaceState({beob: "beob"}, "beob", "index.html?ap=" + localStorage.ap_id + "&beob=" + beobid);
+							}
 						}
 					}
 				});
@@ -1846,27 +1698,6 @@ function initiiere_beob(beobtyp) {
 		}
 	});
 }
-
-//setzt window.beob und localStorage.beob_id
-//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-function setzeWindowBeob(id) {
-	localStorage.beob_id = id;
-	$.ajax({
-		url: 'php/beob.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.beob_id
-		},
-		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				//beob bereitstellen
-				window.beob = data;
-			}
-		}
-	});
-}
-
 
 function initiiere_exporte(anchor) {
 	$("#testart_div").hide();
@@ -2473,60 +2304,62 @@ function erstelle_tree(ApArtId) {
 		}
 	})
 	.bind("select_node.jstree", function (e, data) {
-		var node;		
+		var node;	
 		delete localStorage.tpopfreiwkontr;	//Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
+		var node_typ = node.attr("typ");
+		var node_id = node.attr("id");
 		jQuery.jstree._reference(node).open_node(node);
-		if (node.attr("typ").slice(0, 3) === "ap_" || node.attr("typ") === "apzieljahr") {
+		if (node_typ.slice(0, 3) === "ap_" || node_typ === "apzieljahr") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#ap").is(':visible') || localStorage.ap_id !== node.attr("id")) {
-				localStorage.ap_id = node.attr("id");
+			if (!$("#ap").is(':visible') || localStorage.ap_id !== node_id) {
+				localStorage.ap_id = node_id;
 				delete localStorage.pop_id;
 				initiiere_ap();
 			}
-		} else if (node.attr("typ") === "pop" || node.attr("typ").slice(0, 4) === "pop_") {
+		} else if (node_typ === "pop" || node_typ.slice(0, 4) === "pop_") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#pop").is(':visible') || localStorage.pop_id !== node.attr("id")) {
-				localStorage.pop_id = node.attr("id");
+			if (!$("#pop").is(':visible') || localStorage.pop_id !== node_id) {
+				localStorage.pop_id = node_id;
 				initiiere_pop();
 			}
-		} else if (node.attr("typ") === "apziel" || node.attr("typ") === "zielber_ordner") {
+		} else if (node_typ === "apziel" || node_typ === "zielber_ordner") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#apziel").is(':visible') || localStorage.apziel_id !== node.attr("id")) {
-				localStorage.apziel_id = node.attr("id");
+			if (!$("#apziel").is(':visible') || localStorage.apziel_id !== node_id) {
+				localStorage.apziel_id = node_id;
 				initiiere_apziel();
 			}
-		} else if (node.attr("typ") === "zielber") {
+		} else if (node_typ === "zielber") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#zielber").is(':visible') || localStorage.zielber_id !== node.attr("id")) {
-				localStorage.zielber_id = node.attr("id");
+			if (!$("#zielber").is(':visible') || localStorage.zielber_id !== node_id) {
+				localStorage.zielber_id = node_id;
 				initiiere_zielber();
 			}
-		} else if (node.attr("typ") === "erfkrit") {
+		} else if (node_typ === "erfkrit") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#erfkrit").is(':visible') || localStorage.erfkrit_id !== node.attr("id")) {
-				localStorage.erfkrit_id = node.attr("id");
+			if (!$("#erfkrit").is(':visible') || localStorage.erfkrit_id !== node_id) {
+				localStorage.erfkrit_id = node_id;
 				initiiere_erfkrit();
 			}
-		} else if (node.attr("typ") === "jber") {
+		} else if (node_typ === "jber") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#jber").is(':visible') || localStorage.jber_id !== node.attr("id")) {
-				localStorage.jber_id = node.attr("id");
+			if (!$("#jber").is(':visible') || localStorage.jber_id !== node_id) {
+				localStorage.jber_id = node_id;
 				initiiere_jber();
 			}
-		} else if (node.attr("typ") === "jber_uebersicht") {
+		} else if (node_typ === "jber_uebersicht") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#jber_uebersicht").is(':visible') || localStorage.jber_uebersicht_id !== node.attr("id")) {
-				localStorage.jber_uebersicht_id = node.attr("id");
+			if (!$("#jber_uebersicht").is(':visible') || localStorage.jber_uebersicht_id !== node_id) {
+				localStorage.jber_uebersicht_id = node_id;
 				initiiere_jber_uebersicht();
 			}
-		} else if (node.attr("typ") === "ber") {
+		} else if (node_typ === "ber") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#ber").is(':visible') || localStorage.ber_id !== node.attr("id")) {
-				localStorage.ber_id = node.attr("id");
+			if (!$("#ber").is(':visible') || localStorage.ber_id !== node_id) {
+				localStorage.ber_id = node_id;
 				initiiere_ber();
 			}
-		} else if (node.attr("typ") === "umwfakt") {
+		} else if (node_typ === "umwfakt") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#umwfakt").is(':visible')) {
 				//eigene id nicht nötig
@@ -2534,72 +2367,74 @@ function erstelle_tree(ApArtId) {
 				//wenn noch kein Datensatz existiert erstellt ihn initiiere_umwfakt
 				initiiere_umwfakt();
 			}
-		} else if (node.attr("typ") === "assozarten") {
+		} else if (node_typ === "assozarten") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#assozarten").is(':visible') || localStorage.assozarten_id !== node.attr("id")) {
-				localStorage.assozarten_id = node.attr("id");
+			if (!$("#assozarten").is(':visible') || localStorage.assozarten_id !== node_id) {
+				localStorage.assozarten_id = node_id;
 				initiiere_assozarten();
 			}
-		} else if (node.attr("typ") === "popber") {
+		} else if (node_typ === "popber") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#popber").is(':visible') || localStorage.popber_id !== node.attr("id")) {
-				localStorage.popber_id = node.attr("id");
+			if (!$("#popber").is(':visible') || localStorage.popber_id !== node_id) {
+				localStorage.popber_id = node_id;
 				initiiere_popber();
 			}
-		} else if (node.attr("typ") === "popmassnber") {
+		} else if (node_typ === "popmassnber") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#popmassnber").is(':visible') || localStorage.popmassnber_id !== node.attr("id")) {
-				localStorage.popmassnber_id = node.attr("id");
+			if (!$("#popmassnber").is(':visible') || localStorage.popmassnber_id !== node_id) {
+				localStorage.popmassnber_id = node_id;
 				initiiere_popmassnber();
 			}
-		} else if (node.attr("typ") === "tpop" || node.attr("typ").slice(0, 5) === "tpop_") {
+		} else if (node_typ === "tpop" || node_typ.slice(0, 5) === "tpop_") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#tpop").is(':visible') || localStorage.tpop_id !== node.attr("id")) {
-				localStorage.tpop_id = node.attr("id");
+			if (!$("#tpop").is(':visible') || localStorage.tpop_id !== node_id) {
+				localStorage.tpop_id = node_id;
 				initiiere_tpop();
 			}
-		} else if (node.attr("typ") === "tpopfeldkontr") {
+		} else if (node_typ === "tpopfeldkontr") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#tpopfeldkontr").is(':visible') || localStorage.tpopfeldkontr_id !== node.attr("id")) {
-				localStorage.tpopfeldkontr_id = node.attr("id");
+			if (!$("#tpopfeldkontr").is(':visible') || localStorage.tpopfeldkontr_id !== node_id) {
+				localStorage.tpopfeldkontr_id = node_id;
 				initiiere_tpopfeldkontr();
 			}
-		} else if (node.attr("typ") === "tpopfreiwkontr") {
+		} else if (node_typ === "tpopfreiwkontr") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#tpopfeldkontr").is(':visible') || localStorage.tpopfeldkontr_id !== node.attr("id")) {
-				localStorage.tpopfeldkontr_id = node.attr("id");
+			if (!$("#tpopfeldkontr").is(':visible') || localStorage.tpopfeldkontr_id !== node_id) {
+				localStorage.tpopfeldkontr_id = node_id;
 				localStorage.tpopfreiwkontr = true;
 				initiiere_tpopfeldkontr();
 			}
-		} else if (node.attr("typ") === "tpopmassn") {
+		} else if (node_typ === "tpopmassn") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#tpopmassn").is(':visible') || localStorage.tpopmassn_id !== node.attr("id")) {
-				localStorage.tpopmassn_id = node.attr("id");
+			if (!$("#tpopmassn").is(':visible') || localStorage.tpopmassn_id !== node_id) {
+				localStorage.tpopmassn_id = node_id;
 				initiiere_tpopmassn();
 			}
-		} else if (node.attr("typ") === "tpopber") {
+		} else if (node_typ === "tpopber") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#tpopber").is(':visible') || localStorage.tpopber_id !== node.attr("id")) {
-				localStorage.tpopber_id = node.attr("id");
+			if (!$("#tpopber").is(':visible') || localStorage.tpopber_id !== node_id) {
+				localStorage.tpopber_id = node_id;
 				initiiere_tpopber();
 			}
-		} else if (node.attr("typ") === "tpopbeob") {
+		} else if (node_typ === "tpopbeob") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#tpopbeob").is(':visible') || localStorage.tpopbeob_id !== node.attr("id")) {
-				localStorage.tpopbeob_id = node.attr("id");
-				initiiere_tpopbeob(node.attr("beobtyp"));
+			if (!$("#beob").is(':visible') || localStorage.tpopbeob_id !== node_id) {
+				localStorage.tpopbeob_id = node_id;
+				localStorage.beobtyp = node.attr("beobtyp");
+				initiiere_beob(node.attr("beobtyp"), node_id, "tpopbeob");
 			}
-		} else if (node.attr("typ") === "beob") {
+		} else if (node_typ === "beob") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#beob").is(':visible') || localStorage.BeobId !== node.attr("id")) {
-				localStorage.BeobId = node.attr("id");
+			if (!$("#beob").is(':visible') || localStorage.BeobId !== node_id) {
+				localStorage.BeobId = node_id;
+				localStorage.beobtyp = node.attr("beobtyp");
 				//den Beobtyp mitgeben
-				initiiere_beob(node.attr("beobtyp"));
+				initiiere_beob(node.attr("beobtyp"), node_id, "beob");
 			}
-		} else if (node.attr("typ") === "tpopmassnber") {
+		} else if (node_typ === "tpopmassnber") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#tpopmassnber").is(':visible') || localStorage.tpopmassnber_id !== node.attr("id")) {
-				localStorage.tpopmassnber_id = node.attr("id");
+			if (!$("#tpopmassnber").is(':visible') || localStorage.tpopmassnber_id !== node_id) {
+				localStorage.tpopmassnber_id = node_id;
 				initiiere_tpopmassnber();
 			}
 		}
@@ -3075,7 +2910,6 @@ function erstelle_tree(ApArtId) {
 						beschrifte_tpop_ordner_tpopbeob(window.herkunft_parent_node);
 						//Variablen aufräumen
 						localStorage.beob_id = $(herkunft_node).attr("id");
-						delete window.tpopbeob;
 						delete window.tpopbeob_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
 						initiiere_beob();
@@ -3112,10 +2946,10 @@ function erstelle_tree(ApArtId) {
 						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
 						//Variablen aufräumen
 						localStorage.tpopbeob_id = $(herkunft_node).attr("id");
-						delete window.tpopbeob;
 						delete window.tpopbeob_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
-						initiiere_tpopbeob();
+						//initiiere_tpopbeob();
+						initiiere_beob($(herkunft_node).attr("beobtyp"), localStorage.tpopbeob_id, "tpopbeob");
 					},
 					error: function () {
 						$("#Meldung").html("Fehler: Die Beobachtung wurde nicht verschoben");
@@ -3149,10 +2983,10 @@ function erstelle_tree(ApArtId) {
 						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
 						//Variablen aufräumen
 						localStorage.tpopbeob_id = $(herkunft_node).attr("id");
-						delete window.tpopbeob;
 						delete window.tpopbeob_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
-						initiiere_tpopbeob();
+						//initiiere_tpopbeob();
+						initiiere_beob($(herkunft_node).attr("beobtyp"), localStorage.tpopbeob_id, "tpopbeob");
 					},
 					error: function (data) {
 						$("#Meldung").html("Fehler: Die Beobachtung wurde nicht verschoben");
@@ -3192,11 +3026,11 @@ function erstelle_tree(ApArtId) {
 						beschrifte_tpop_ordner_tpopbeob(ziel_parent_node);
 						//Variablen aufräumen
 						localStorage.tpopbeob_id = $(herkunft_node).attr("id");
-						delete window.beob;
 						delete window.beob_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
 						if (!localStorage.karte_fokussieren) {
-							initiiere_tpopbeob();
+							//initiiere_tpopbeob();
+							initiiere_beob($(herkunft_node).attr("beobtyp"), localStorage.tpopbeob_id, "tpopbeob");
 						} else {
 							delete localStorage.karte_fokussieren;
 						}
@@ -3237,11 +3071,11 @@ function erstelle_tree(ApArtId) {
 						beschrifte_tpop_ordner_tpopbeob(ziel_node);
 						//Variablen aufräumen
 						localStorage.tpopbeob_id = $(herkunft_node).attr("id");
-						delete window.beob;
 						delete window.beob_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
 						if (!localStorage.karte_fokussieren) {
-							initiiere_tpopbeob();
+							//initiiere_tpopbeob();
+							initiiere_beob($(herkunft_node).attr("beobtyp"), localStorage.tpopbeob_id, "tpopbeob");
 						} else {
 							delete localStorage.karte_fokussieren;
 						}
@@ -12150,8 +11984,6 @@ function oeffneUri() {
 				//Die Markierung wird im load-Event wieder entfernt
 				window.tpopber_zeigen = true;
 			} else if (uri.getQueryParamValue('tpopbeob')) {
-				//globale Variabeln setzen
-				setzeWindowTpopbeob(uri.getQueryParamValue('tpopbeob'));
 				//markieren, dass nach dem loaded-event im Tree die tpopbeob angezeigt werden soll 
 				//Die Markierung wird im load-Event wieder entfernt
 				window.tpopbeob_zeigen = true;
@@ -12240,8 +12072,6 @@ function oeffneUri() {
 			//Die Markierung wird im load-Event wieder entfernt
 			window.assozarten_zeigen = true;
 		} else if (uri.getQueryParamValue('beob')) {
-			//globale Variabeln setzen
-			setzeWindowBeob(uri.getQueryParamValue('beob'));
 			//markieren, dass nach dem loaded-event im Tree die beob angezeigt werden soll 
 			//Die Markierung wird im load-Event wieder entfernt
 			window.beob_zeigen = true;

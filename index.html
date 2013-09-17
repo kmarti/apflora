@@ -1900,55 +1900,17 @@
 				</table>
 			</form>
 
-			<form id="tpopbeob" class="form" action="#" method="get" autocomplete="off">
-				<table id="tpopbeob_zuordnungsfelder">
-				</table>
+			<form id="beob" class="form" action="#" method="get" autocomplete="off">
 				<table>
 					<tr class="fieldcontain">
 						<td class="label">
-							<label id="tpopbeob_BeobNichtZuordnen_label" for='tpopbeob_BeobNichtZuordnen'>
-								<a class="tooltip" href="#">Nicht zuordnen:
-									<span class="custom info legende"><img src="img/Info.png" alt="Information" height="48" width="48">
-										Will heissen: Die Beobachtung kann nicht zugeordnet werden<br>Mögliche Gründe: Unsichere Bestimmung, nicht lokalisierbar<br>Bitte im Bemerkungsfeld begründen
-									</span>
-								</a>
-							</label>
+							<label id="BeobNichtZuordnen_label" for='BeobNichtBeurteilt'>Nicht beurteilt:</label>
 						</td>
 						<td class="Datenfelder">
-							<input type="checkbox" name="tpopbeob_BeobNichtZuordnen" id="tpopbeob_BeobNichtZuordnen" class="speichern" formular="tpopbeob">
-						</td>
-					</tr>
-					<tr class="fieldcontain">
-						<td class="label">
-							<label id="tpopbeob_BeobBemerkungen_label" for='tpopbeob_BeobBemerkungen'>Bemerkungen zur Zuordnung:</label>
-						</td>
-						<td class="Datenfelder">
-							<textarea name="tpopbeob_BeobBemerkungen" id="tpopbeob_BeobBemerkungen" class="speichern" formular="tpopbeob"></textarea>
-						</td>
-					</tr>
-					<tr class="fieldcontain">
-						<td class="label">
-							<label for="tpopbeob_BeobMutWann">Zuletzt verändert...</label>
-						</td>
-						<td class="Datenfelder">
-							<input id="tpopbeob_BeobMutWann" class="Datenfelder Datum" formular="tpopbeob" type="text" readonly="readonly" style="border:none;">
-						</td>
-					</tr>
-					<tr class="fieldcontain">
-						<td class="label">
-							<label for="tpopbeob_BeobMutWer">...von:</label>
-						</td>
-						<td class="Datenfelder">
-							<input id="tpopbeob_BeobMutWer" class="Datenfelder" formular="tpopbeob" type="text" readonly="readonly" style="border:none;">
+							<input type="checkbox" name="BeobNichtBeurteilt" id="BeobNichtBeurteilt" class="speichern" formular="beob">
 						</td>
 					</tr>
 				</table>
-				<hr>
-				<div id="tpopbeob_table">
-				</div>
-			</form>
-
-			<form id="beob" class="form" action="#" method="get" autocomplete="off">
 				<table id="beob_zuordnungsfelder">
 				</table>
 				<table>
@@ -2293,6 +2255,11 @@
 
 				$("#beob").on("change", "[name='DistZuTPop']", function () {
 					var tpop_id = $(this).val();
+					//kennzeichnet, ob die Beobachtung nicht zuzuordnen, nicht zugeordnet oder zugeordnet war
+					var beob_status = $(this).attr("beob_status");
+					//Erstzuweisung? > Anfügeabfrage
+
+					//War schon zugewiesen > Aktualisierungsabfrage
 					$.ajax({
 						url: 'php/beob_update.php',
 						dataType: 'json',
@@ -2300,20 +2267,30 @@
 							"id": localStorage.BeobId,
 							"Feld": "TPopId",
 							"Wert": tpop_id,
-							"user": sessionStorage.User
+							"user": sessionStorage.User,
+							"beobtyp": localStorage.beobtyp
 						},
 						success: function (data) {
 							var vorigerNode;
 							localStorage.tpopbeob_id = data;
-							vorigerNode = jQuery.jstree._reference("[typ='ap_ordner_beob'] #" + localStorage.BeobId)._get_prev("[typ='ap_ordner_beob'] #" + localStorage.BeobId);
-							jQuery("#tree").jstree("move_node", "[typ='ap_ordner_beob'] #" + localStorage.BeobId, "[typ='tpop_ordner_tpopbeob']#" + tpop_id, "last");
-							//typ des nodes anpassen
-							$("[typ='tpop_ordner_tpopbeob'] #" + localStorage.BeobId).attr("typ", "tpopbeob");
-							jQuery.jstree._reference(vorigerNode).select_node(vorigerNode);
-							//Parent Node-Beschriftung am Zielort: Anzahl anpassen
-							beschrifte_tpop_ordner_tpopbeob($("[typ='pop_ordner_tpop'] #" + tpop_id + " [typ='tpop_ordner_tpopbeob']"));
-							//Parent Node-Beschriftung am Herkunftort: Anzahl anpassen
-							beschrifte_ap_ordner_beob($("[typ='ap_ordner_beob']"));
+							if (beob_status = "nicht_beurteilt") {
+								vorigerNode = jQuery.jstree._reference("[typ='ap_ordner_beob'] #" + localStorage.BeobId)._get_prev("[typ='ap_ordner_beob'] #" + localStorage.BeobId);
+								jQuery("#tree").jstree("move_node", "[typ='ap_ordner_beob'] #" + localStorage.BeobId, "[typ='tpop_ordner_tpopbeob']#" + tpop_id, "last");
+								//typ des nodes anpassen
+								$("[typ='tpop_ordner_tpopbeob'] #" + localStorage.BeobId).attr("typ", "tpopbeob");
+								jQuery.jstree._reference(vorigerNode).select_node(vorigerNode);
+								//Parent Node-Beschriftung am Zielort: Anzahl anpassen
+								beschrifte_tpop_ordner_tpopbeob($("[typ='pop_ordner_tpop'] #" + tpop_id + " [typ='tpop_ordner_tpopbeob']"));
+								//Parent Node-Beschriftung am Herkunftort: Anzahl anpassen
+								beschrifte_ap_ordner_beob($("[typ='ap_ordner_beob']"));
+							} else if (beob_status = "zugeordnet") {
+								vorigerNode = jQuery.jstree._reference("[typ='tpop_ordner_tpopbeob'] #" + localStorage.tpopbeob_id)._get_prev("[typ='tpop_ordner_tpopbeob'] #" + localStorage.tpopbeob_id);
+								jQuery("#tree").jstree("move_node", "[typ='tpop_ordner_tpopbeob'] #" + localStorage.tpopbeob_id, "[typ='tpop_ordner_tpopbeob']#" + tpop_id, "last");
+								jQuery.jstree._reference(vorigerNode).select_node(vorigerNode);
+								//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+								beschrifte_tpop_ordner_tpopbeob($("[typ='pop_ordner_tpop'] #" + tpop_id + " [typ='tpop_ordner_tpopbeob']"));
+								beschrifte_tpop_ordner_tpopbeob($("[typ='pop_ordner_tpop'] #" + localStorage.tpop_id + " [typ='tpop_ordner_tpopbeob']"));
+							}
 						},
 						error: function (data) {
 							$("#Meldung").html("Fehler: Die Beobachtung wurde nicht zugeordnet");
