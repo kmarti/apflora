@@ -599,8 +599,8 @@ $ap_ordner_jber = array("data" => "AP-Berichte (".$anz_jber.")", "attr" => $ap_o
 $ap_ordner_ber_attr = array("id" => $ApArtId, "typ" => "ap_ordner_ber");
 $ap_ordner_ber = array("data" => "Berichte (".$anz_ber.")", "attr" => $ap_ordner_ber_attr, "children" => $rows_ber);
 //Beobachtungen
-$ap_ordner_beob_attr = array("id" => $ApArtId, "typ" => "ap_ordner_beob");
-$ap_ordner_beob = array("data" => "nicht beurteilte Beobachtungen (".$anz_beob.")", "attr" => $ap_ordner_beob_attr, "children" => $rows_beob);
+$ap_ordner_beob_attr = array("id" => $ApArtId, "typ" => "ap_ordner_beob_nicht_beurteilt");
+$ap_ordner_beob_nicht_beurteilt = array("data" => "nicht beurteilte Beobachtungen (".$anz_beob.")", "attr" => $ap_ordner_beob_attr, "children" => $rows_beob);
 //Ideale Umweltfaktoren, jetzt Idealbiotop genannt
 $ap_ordner_umwfakt_attr = array("id" => $ApArtId, "typ" => "umwfakt");
 $ap_ordner_umwfakt = array("data" => "Idealbiotop", "attr" => $ap_ordner_umwfakt_attr);
@@ -608,7 +608,7 @@ $ap_ordner_umwfakt = array("data" => "Idealbiotop", "attr" => $ap_ordner_umwfakt
 $ap_ordner_assozarten_attr = array("id" => $ApArtId, "typ" => "ap_ordner_assozarten");
 $ap_ordner_assozarten = array("data" => "assoziierte Arten (".$anz_assozarten.")", "attr" => $ap_ordner_assozarten_attr, "children" => $rows_assozarten);
 //zusammensetzen
-$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_jber, 4 => $ap_ordner_ber, 5 => $ap_ordner_beob, 6 => $ap_ordner_umwfakt, 7 => $ap_ordner_assozarten);
+$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_jber, 4 => $ap_ordner_ber, 5 => $ap_ordner_beob_nicht_beurteilt, 6 => $ap_ordner_umwfakt, 7 => $ap_ordner_assozarten);
 
 	
 //in json verwandeln

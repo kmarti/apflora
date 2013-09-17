@@ -1,7 +1,7 @@
 <?php
 // Verbindung aufbauen, Datenbank auswählen
 
-$link = new mysqli("barbalex.ch", "alexande", "excalibu", "alexande_beob");
+$link = new mysqli("barbalex.ch", "alexande", "excalibu", "alexande_apflora");
 
 /* check connection */
 if ($link->connect_errno) {
@@ -17,9 +17,6 @@ $Wert = $_GET["Wert"];
 $user = $_GET["user"];
 $beobtyp = $_GET["beobtyp"];
 $time = date('Y-m-d H:i:s');
-
-//ACHTUNG
-//neue zuweisung > Anfügeabfrage nötig
 
 if ($beobtyp == "infospezies") {
 	if ($Wert == NULL) {

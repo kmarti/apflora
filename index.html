@@ -2253,57 +2253,113 @@
 					}
 				});
 
-				$("#beob").on("change", "[name='DistZuTPop']", function () {
-					var tpop_id = $(this).val();
-					//kennzeichnet, ob die Beobachtung nicht zuzuordnen, nicht zugeordnet oder zugeordnet war
-					var beob_status = $(this).attr("beob_status");
-					//Erstzuweisung? > Anfügeabfrage
+				$("#beob").on("change", "#BeobNichtBeurteilt", function() {
+					//Löschabfrage
+					if ($("#BeobNichtBeurteilt").prop("checked") === true) {
+						//Löschabfrage TODO
 
-					//War schon zugewiesen > Aktualisierungsabfrage
-					$.ajax({
-						url: 'php/beob_update.php',
-						dataType: 'json',
-						data: {
-							"id": localStorage.BeobId,
-							"Feld": "TPopId",
-							"Wert": tpop_id,
-							"user": sessionStorage.User,
-							"beobtyp": localStorage.beobtyp
-						},
-						success: function (data) {
-							var vorigerNode;
-							localStorage.tpopbeob_id = data;
-							if (beob_status = "nicht_beurteilt") {
-								vorigerNode = jQuery.jstree._reference("[typ='ap_ordner_beob'] #" + localStorage.BeobId)._get_prev("[typ='ap_ordner_beob'] #" + localStorage.BeobId);
-								jQuery("#tree").jstree("move_node", "[typ='ap_ordner_beob'] #" + localStorage.BeobId, "[typ='tpop_ordner_tpopbeob']#" + tpop_id, "last");
+						//move node
+
+					}
+				});
+
+				$("#beob").on("change", "#BeobNichtZuordnen", function() {
+					//Löschabfrage
+					if ($("#BeobNichtZuordnen").prop("checked") === true) {
+						//Aktualisierungsabfrage 
+						//TODO: von nicht beurteilt auf nicht zu beurteilen ändern
+						$.ajax({
+							url: 'php/beob_update.php',
+							dataType: 'json',
+							data: {
+								"id": localStorage.BeobId,
+								"Feld": "TPopId",
+								"Wert": "",
+								"user": sessionStorage.User
+							},
+							success: function () {
+								var vorigerNode;
+								vorigerNode = jQuery.jstree._reference("[typ='tpop_ordner_tpopbeob'] #" + localStorage.BeobId)._get_prev("[typ='tpop_ordner_tpopbeob'] #" + localStorage.BeobId);
+								jQuery("#tree").jstree("move_node", "[typ='tpop_ordner_tpopbeob'] #" + localStorage.BeobId, "[typ='ap_ordner_beob_nicht_beurteilt']", "first");
 								//typ des nodes anpassen
-								$("[typ='tpop_ordner_tpopbeob'] #" + localStorage.BeobId).attr("typ", "tpopbeob");
-								jQuery.jstree._reference(vorigerNode).select_node(vorigerNode);
-								//Parent Node-Beschriftung am Zielort: Anzahl anpassen
-								beschrifte_tpop_ordner_tpopbeob($("[typ='pop_ordner_tpop'] #" + tpop_id + " [typ='tpop_ordner_tpopbeob']"));
-								//Parent Node-Beschriftung am Herkunftort: Anzahl anpassen
-								beschrifte_ap_ordner_beob($("[typ='ap_ordner_beob']"));
-							} else if (beob_status = "zugeordnet") {
-								vorigerNode = jQuery.jstree._reference("[typ='tpop_ordner_tpopbeob'] #" + localStorage.tpopbeob_id)._get_prev("[typ='tpop_ordner_tpopbeob'] #" + localStorage.tpopbeob_id);
-								jQuery("#tree").jstree("move_node", "[typ='tpop_ordner_tpopbeob'] #" + localStorage.tpopbeob_id, "[typ='tpop_ordner_tpopbeob']#" + tpop_id, "last");
+								$("[typ='ap_ordner_beob_nicht_beurteilt'] #" + localStorage.BeobId).attr("typ", "beob");
+								jQuery.jstree._reference(vorigerNode).deselect_all();
 								jQuery.jstree._reference(vorigerNode).select_node(vorigerNode);
 								//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-								beschrifte_tpop_ordner_tpopbeob($("[typ='pop_ordner_tpop'] #" + tpop_id + " [typ='tpop_ordner_tpopbeob']"));
+								beschrifte_ap_ordner_beob($("[typ='ap_ordner_beob_nicht_beurteilt']"));
 								beschrifte_tpop_ordner_tpopbeob($("[typ='pop_ordner_tpop'] #" + localStorage.tpop_id + " [typ='tpop_ordner_tpopbeob']"));
-							}
-						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Die Beobachtung wurde nicht zugeordnet");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
+							},
+							error: function (data) {
+								$("#Meldung").html("Fehler: Die Beobachtung wurde nicht zugeordnet");
+								$("#Meldung").dialog({
+									modal: true,
+									buttons: {
+										Ok: function() {
+											$(this).dialog("close");
+										}
 									}
+								});
+							}
+						});
+					}
+				});
+
+				$("#beob").on("change", "[name='DistZuTPop']", function() {
+					var tpop_id = $(this).val();
+					if (localStorage.beob_status === "nicht_beurteilt") {
+						//Erstzuweisung > Anfügeabfrage TODO
+						console.log("die Anfügeabfrage muss noch erstellt werden");
+					} else {
+						//War schon zugewiesen > Aktualisierungsabfrage
+						$.ajax({
+							url: 'php/beob_update.php',
+							dataType: 'json',
+							data: {
+								"id": localStorage.BeobId,
+								"Feld": "TPopId",
+								"Wert": tpop_id,
+								"user": sessionStorage.User,
+								"beobtyp": localStorage.beobtyp
+							},
+							success: function (data) {
+								var vorigerNode;
+								//localStorage.BeobId = data;
+								if (localStorage.beob_status === "nicht_beurteilt") {
+									vorigerNode = jQuery.jstree._reference("[typ='ap_ordner_beob_nicht_beurteilt'] #" + localStorage.BeobId)._get_prev("[typ='ap_ordner_beob_nicht_beurteilt'] #" + localStorage.BeobId);
+									jQuery("#tree").jstree("move_node", "[typ='ap_ordner_beob_nicht_beurteilt'] #" + localStorage.BeobId, "[typ='tpop_ordner_tpopbeob']#" + tpop_id, "last");
+									//typ des nodes anpassen
+									$("[typ='tpop_ordner_tpopbeob'] #" + localStorage.BeobId).attr("typ", "tpopbeob");
+									jQuery.jstree._reference(vorigerNode).select_node(vorigerNode);
+									//Parent Node-Beschriftung am Zielort: Anzahl anpassen
+									beschrifte_tpop_ordner_tpopbeob($("[typ='pop_ordner_tpop'] #" + tpop_id + " [typ='tpop_ordner_tpopbeob']"));
+									//Parent Node-Beschriftung am Herkunftort: Anzahl anpassen
+									beschrifte_ap_ordner_beob($("[typ='ap_ordner_beob_nicht_beurteilt']"));
+									localStorage.beob_status = "zugeordnet";
+								} else if (localStorage.beob_status === "zugeordnet") {
+									vorigerNode = jQuery.jstree._reference("[typ='tpop_ordner_tpopbeob'] #" + localStorage.BeobId)._get_prev("[typ='tpop_ordner_tpopbeob'] #" + localStorage.BeobId);
+									jQuery("#tree").jstree("move_node", "[typ='tpop_ordner_tpopbeob'] #" + localStorage.BeobId, "[typ='tpop_ordner_tpopbeob']#" + tpop_id, "last");
+									jQuery.jstree._reference(vorigerNode).select_node(vorigerNode);
+									//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+									beschrifte_tpop_ordner_tpopbeob($("[typ='pop_ordner_tpop'] #" + tpop_id + " [typ='tpop_ordner_tpopbeob']"));
+									beschrifte_tpop_ordner_tpopbeob($("[typ='pop_ordner_tpop'] #" + localStorage.tpop_id + " [typ='tpop_ordner_tpopbeob']"));
+									//jetzt die distZuTPop aktualisieren
+									$("#DistZuTPop"+localStorage.tpop_id).prop("checked", false);
+									$("#DistZuTPop"+tpop_id).prop("checked", true);
 								}
-							});
-						}
-					});
+							},
+							error: function (data) {
+								$("#Meldung").html("Fehler: Die Beobachtung wurde nicht zugeordnet");
+								$("#Meldung").dialog({
+									modal: true,
+									buttons: {
+										Ok: function() {
+											$(this).dialog("close");
+										}
+									}
+								});
+							}
+						});
+					}
 				});
 
 				$("#tpopbeob").on("change", "[name='tpopbeob_DistZuTPop']", function () {
@@ -2314,15 +2370,15 @@
 							url: 'php/beob_update.php',
 							dataType: 'json',
 							data: {
-								"id": localStorage.tpopbeob_id,
+								"id": localStorage.BeobId,
 								"Feld": "TPopId",
 								"Wert": tpop_id,
 								"user": sessionStorage.User
 							},
 							success: function () {
 								var vorigerNode;
-								vorigerNode = jQuery.jstree._reference("[typ='tpop_ordner_tpopbeob'] #" + localStorage.tpopbeob_id)._get_prev("[typ='tpop_ordner_tpopbeob'] #" + localStorage.tpopbeob_id);
-								jQuery("#tree").jstree("move_node", "[typ='tpop_ordner_tpopbeob'] #" + localStorage.tpopbeob_id, "[typ='tpop_ordner_tpopbeob']#" + tpop_id, "last");
+								vorigerNode = jQuery.jstree._reference("[typ='tpop_ordner_tpopbeob'] #" + localStorage.BeobId)._get_prev("[typ='tpop_ordner_tpopbeob'] #" + localStorage.BeobId);
+								jQuery("#tree").jstree("move_node", "[typ='tpop_ordner_tpopbeob'] #" + localStorage.BeobId, "[typ='tpop_ordner_tpopbeob']#" + tpop_id, "last");
 								jQuery.jstree._reference(vorigerNode).select_node(vorigerNode);
 								//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 								beschrifte_tpop_ordner_tpopbeob($("[typ='pop_ordner_tpop'] #" + tpop_id + " [typ='tpop_ordner_tpopbeob']"));
@@ -2342,39 +2398,7 @@
 						});
 					} else {
 						//es wurde "Keiner" gewählt
-						$.ajax({
-							url: 'php/beob_update.php',
-							dataType: 'json',
-							data: {
-								"id": localStorage.tpopbeob_id,
-								"Feld": "TPopId",
-								"Wert": "",
-								"user": sessionStorage.User
-							},
-							success: function () {
-								var vorigerNode;
-								vorigerNode = jQuery.jstree._reference("[typ='tpop_ordner_tpopbeob'] #" + localStorage.tpopbeob_id)._get_prev("[typ='tpop_ordner_tpopbeob'] #" + localStorage.tpopbeob_id);
-								jQuery("#tree").jstree("move_node", "[typ='tpop_ordner_tpopbeob'] #" + localStorage.tpopbeob_id, "[typ='ap_ordner_beob']", "first");
-								//typ des nodes anpassen
-								$("[typ='ap_ordner_beob'] #" + localStorage.tpopbeob_id).attr("typ", "beob");
-								jQuery.jstree._reference(vorigerNode).deselect_all();
-								jQuery.jstree._reference(vorigerNode).select_node(vorigerNode);
-								//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-								beschrifte_ap_ordner_beob($("[typ='ap_ordner_beob']"));
-								beschrifte_tpop_ordner_tpopbeob($("[typ='pop_ordner_tpop'] #" + localStorage.tpop_id + " [typ='tpop_ordner_tpopbeob']"));
-							},
-							error: function (data) {
-								$("#Meldung").html("Fehler: Die Beobachtung wurde nicht zugeordnet");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
-							}
-						});
+						
 					}
 						
 				});

@@ -1588,6 +1588,8 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 	localStorage.beob_status = beob_status;
 	//sicherstellen, dass beobtyp immer bekannt ist
 	localStorage.beobtyp = beobtyp;
+	//beobid bereitstellen
+	localStorage.BeobId = beobid;
 
 	var url, url_distzutpop;
 	if (!beobid) {
@@ -1640,8 +1642,6 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 								html_distzutpop += data[i].TPopId;
 								html_distzutpop += '" DistZuTPop="';
 								html_distzutpop += data[i].DistZuTPop;
-								html_distzutpop += '" beob_status="';
-								html_distzutpop += beob_status;
 								html_distzutpop += '">';
 								//Wenn TPop keine Koordinaten haben, dies anzeigen und Anzeige von NAN verhindern
 								if (parseInt(data[i].DistZuTPop, 10) >= 0) {
@@ -1662,7 +1662,7 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 									url: 'php/beob_zuordnung.php',
 									dataType: 'json',
 									data: {
-										"id": localStorage.tpopbeob_id,
+										"id": beobid,
 										"beobtyp": beobtyp
 									},
 									success: function (data) {
@@ -2007,7 +2007,7 @@ function erstelle_tree(ApArtId) {
 								before: false,
 								inside: true
 							};
-						} else if (m.r.attr("typ") === "ap_ordner_beob") {
+						} else if (m.r.attr("typ") === "ap_ordner_beob_nicht_beurteilt") {
 							return {
 								after: false,
 								before: false,
@@ -2053,7 +2053,7 @@ function erstelle_tree(ApArtId) {
 			"type_attr": "typ",
 			"max_children": -2,
 			"max_depth": -2,
-			"valid_children": ["ap_ordner_pop", "ap_ordner_apziel", "ap_ordner_erfkrit", "ap_ordner_jber", "ap_ordner_ber", "ap_ordner_beob", "umwfakt", "ap_ordner_assozarten"],
+			"valid_children": ["ap_ordner_pop", "ap_ordner_apziel", "ap_ordner_erfkrit", "ap_ordner_jber", "ap_ordner_ber", "ap_ordner_beob_nicht_beurteilt", "umwfakt", "ap_ordner_assozarten"],
 			"types": {
 				"ap_ordner_pop": {
 					"valid_children": "pop"
@@ -2166,7 +2166,7 @@ function erstelle_tree(ApArtId) {
 					"valid_children": "none",
 					"new_node": "neuer Bericht"
 				},
-				"ap_ordner_beob": {
+				"ap_ordner_beob_nicht_beurteilt": {
 					"valid_children": "beob"
 				},
 				"beob": {
@@ -2234,7 +2234,7 @@ function erstelle_tree(ApArtId) {
 			delete window.tpopber_zeigen;
 		}
 		if (window.tpopbeob_zeigen) {
-			jQuery("#tree").jstree("select_node", "[typ='tpopbeob']#" + localStorage.tpopbeob_id);
+			jQuery("#tree").jstree("select_node", "[typ='tpopbeob']#" + localStorage.BeobId);
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopbeob geöffnet wird
 			delete window.tpopbeob_zeigen;
 		}
@@ -2418,18 +2418,18 @@ function erstelle_tree(ApArtId) {
 			}
 		} else if (node_typ === "tpopbeob") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#beob").is(':visible') || localStorage.tpopbeob_id !== node_id) {
-				localStorage.tpopbeob_id = node_id;
+			if (!$("#beob").is(':visible') || localStorage.BeobId !== node_id || localStorage.beob_status !== "zugeordnet") {
+				localStorage.BeobId = node_id;
 				localStorage.beobtyp = node.attr("beobtyp");
-				initiiere_beob(node.attr("beobtyp"), node_id, "tpopbeob");
+				initiiere_beob(node.attr("beobtyp"), node_id, "zugeordnet");
 			}
 		} else if (node_typ === "beob") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#beob").is(':visible') || localStorage.BeobId !== node_id) {
+			if (!$("#beob").is(':visible') || localStorage.BeobId !== node_id || localStorage.beob_status !== "nicht_beurteilt") {
 				localStorage.BeobId = node_id;
 				localStorage.beobtyp = node.attr("beobtyp");
 				//den Beobtyp mitgeben
-				initiiere_beob(node.attr("beobtyp"), node_id, "beob");
+				initiiere_beob(node.attr("beobtyp"), node_id, "nicht_beurteilt");
 			}
 		} else if (node_typ === "tpopmassnber") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -2885,7 +2885,7 @@ function erstelle_tree(ApArtId) {
 			}
 		}
 		if (herkunft_node.attr("typ") === "tpopbeob") {
-			if (ziel_node.attr("typ") === "beob" || ziel_node.attr("typ") === "ap_ordner_beob") {
+			if (ziel_node.attr("typ") === "beob" || ziel_node.attr("typ") === "ap_ordner_beob_nicht_beurteilt") {
 				$.ajax({
 					url: 'php/beob_update.php',
 					dataType: 'json',
@@ -2945,11 +2945,11 @@ function erstelle_tree(ApArtId) {
 						jQuery.jstree._reference(herkunft_node).deselect_all();
 						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
 						//Variablen aufräumen
-						localStorage.tpopbeob_id = $(herkunft_node).attr("id");
+						localStorage.BeobId = $(herkunft_node).attr("id");
 						delete window.tpopbeob_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
 						//initiiere_tpopbeob();
-						initiiere_beob($(herkunft_node).attr("beobtyp"), localStorage.tpopbeob_id, "tpopbeob");
+						initiiere_beob($(herkunft_node).attr("beobtyp"), localStorage.BeobId, "zugeordnet");
 					},
 					error: function () {
 						$("#Meldung").html("Fehler: Die Beobachtung wurde nicht verschoben");
@@ -2982,11 +2982,11 @@ function erstelle_tree(ApArtId) {
 						jQuery.jstree._reference(herkunft_node).deselect_all();
 						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
 						//Variablen aufräumen
-						localStorage.tpopbeob_id = $(herkunft_node).attr("id");
+						localStorage.BeobId = $(herkunft_node).attr("id");
 						delete window.tpopbeob_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
 						//initiiere_tpopbeob();
-						initiiere_beob($(herkunft_node).attr("beobtyp"), localStorage.tpopbeob_id, "tpopbeob");
+						initiiere_beob($(herkunft_node).attr("beobtyp"), localStorage.BeobId, "zugeordnet");
 					},
 					error: function (data) {
 						$("#Meldung").html("Fehler: Die Beobachtung wurde nicht verschoben");
@@ -3025,12 +3025,12 @@ function erstelle_tree(ApArtId) {
 						beschrifte_ap_ordner_beob(window.herkunft_parent_node);
 						beschrifte_tpop_ordner_tpopbeob(ziel_parent_node);
 						//Variablen aufräumen
-						localStorage.tpopbeob_id = $(herkunft_node).attr("id");
+						localStorage.BeobId = $(herkunft_node).attr("id");
 						delete window.beob_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
 						if (!localStorage.karte_fokussieren) {
 							//initiiere_tpopbeob();
-							initiiere_beob($(herkunft_node).attr("beobtyp"), localStorage.tpopbeob_id, "tpopbeob");
+							initiiere_beob($(herkunft_node).attr("beobtyp"), localStorage.BeobId, "zugeordnet");
 						} else {
 							delete localStorage.karte_fokussieren;
 						}
@@ -3070,12 +3070,12 @@ function erstelle_tree(ApArtId) {
 						beschrifte_ap_ordner_beob(window.herkunft_parent_node);
 						beschrifte_tpop_ordner_tpopbeob(ziel_node);
 						//Variablen aufräumen
-						localStorage.tpopbeob_id = $(herkunft_node).attr("id");
+						localStorage.BeobId = $(herkunft_node).attr("id");
 						delete window.beob_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
 						if (!localStorage.karte_fokussieren) {
 							//initiiere_tpopbeob();
-							initiiere_beob($(herkunft_node).attr("beobtyp"), localStorage.tpopbeob_id, "tpopbeob");
+							initiiere_beob($(herkunft_node).attr("beobtyp"), localStorage.BeobId, "zugeordnet");
 						} else {
 							delete localStorage.karte_fokussieren;
 						}
@@ -8413,7 +8413,7 @@ function treeKontextmenu(node) {
 			}
 		};
 		return items;
-	case "ap_ordner_beob":
+	case "ap_ordner_beob_nicht_beurteilt":
 		items = {
 			"GoogleMaps": {
 				"label": "auf Luftbild zeigen",
@@ -11683,7 +11683,7 @@ function oeffneBeobInNeuemTab(BeobId) {
 }
 
 function oeffneTPopBeob(BeobId) {
-	localStorage.tpopbeob_id = BeobId;
+	localStorage.BeobId = BeobId;
 	jQuery.jstree._reference("[typ='tpopbeob']#" + BeobId).deselect_all();
 	jQuery("#tree").jstree("select_node", "[typ='tpopbeob']#" + BeobId);
 }
