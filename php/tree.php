@@ -208,7 +208,7 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 
 		//Beobachtungen dieser TPop abfragen
 		//$result_tpopbeob = mysqli_query($link, "SELECT BeobId, Autor, J_NOTE, M_NOTE, A_NOTE FROM alexande_beob.tblBeob WHERE TPopId = $TPopId ORDER BY A_NOTE DESC, M_NOTE DESC, J_NOTE DESC");
-		$result_tpopbeob = mysqli_query($link, "SELECT alexande_apflora.tblBeobZuordnung.NO_NOTE, alexande_apflora.tblBeobZuordnung.NO_NOTE_PROJET, alexande_apflora.tblBeobZuordnung.TPopId, alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen, alexande_apflora.tblBeobZuordnung.BeobBemerkungen, alexande_apflora.tblBeobZuordnung.BeobMutWann, alexande_apflora.tblBeobZuordnung.BeobMutWer, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor FROM alexande_apflora.tblBeobZuordnung INNER JOIN alexande_beob.tblBeobBereitgestellt ON alexande_apflora.tblBeobZuordnung.NO_NOTE_PROJET = alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET WHERE alexande_apflora.tblBeobZuordnung.TPopId=$TPopId UNION SELECT alexande_apflora.tblBeobZuordnung.NO_NOTE, alexande_apflora.tblBeobZuordnung.NO_NOTE_PROJET, alexande_apflora.tblBeobZuordnung.TPopId, alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen, alexande_apflora.tblBeobZuordnung.BeobBemerkungen, alexande_apflora.tblBeobZuordnung.BeobMutWann, alexande_apflora.tblBeobZuordnung.BeobMutWer, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor FROM alexande_apflora.tblBeobZuordnung INNER JOIN alexande_beob.tblBeobBereitgestellt ON alexande_apflora.tblBeobZuordnung.NO_NOTE = alexande_beob.tblBeobBereitgestellt.NO_NOTE WHERE alexande_apflora.tblBeobZuordnung.TPopId=$TPopId ORDER BY Datum DESC");
+		$result_tpopbeob = mysqli_query($link, "SELECT alexande_apflora.tblBeobZuordnung.NO_NOTE, alexande_apflora.tblBeobZuordnung.NO_NOTE_PROJET, alexande_apflora.tblBeobZuordnung.TPopId, alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen, alexande_apflora.tblBeobZuordnung.BeobBemerkungen, alexande_apflora.tblBeobZuordnung.BeobMutWann, alexande_apflora.tblBeobZuordnung.BeobMutWer, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor FROM alexande_apflora.tblBeobZuordnung INNER JOIN alexande_beob.tblBeobBereitgestellt ON alexande_apflora.tblBeobZuordnung.NO_NOTE_PROJET = alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET WHERE alexande_apflora.tblBeobZuordnung.TPopId=$TPopId AND alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen<>1 UNION SELECT alexande_apflora.tblBeobZuordnung.NO_NOTE, alexande_apflora.tblBeobZuordnung.NO_NOTE_PROJET, alexande_apflora.tblBeobZuordnung.TPopId, alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen, alexande_apflora.tblBeobZuordnung.BeobBemerkungen, alexande_apflora.tblBeobZuordnung.BeobMutWann, alexande_apflora.tblBeobZuordnung.BeobMutWer, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor FROM alexande_apflora.tblBeobZuordnung INNER JOIN alexande_beob.tblBeobBereitgestellt ON alexande_apflora.tblBeobZuordnung.NO_NOTE = alexande_beob.tblBeobBereitgestellt.NO_NOTE WHERE alexande_apflora.tblBeobZuordnung.TPopId=$TPopId AND alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen<>1 ORDER BY Datum DESC");
 		$anz_tpopbeob = mysqli_num_rows($result_tpopbeob);
 		//Datenstruktur für tpopbeob aufbauen
 		$rows_tpopbeob = array();
@@ -528,6 +528,7 @@ while($r_ber = mysqli_fetch_assoc($result_ber)) {
 }
 mysqli_free_result($result_ber);
 
+//nicht beurteilte beob
 //beob dieses AP abfragen
 $result_beob = mysqli_query($link_beob, "SELECT alexande_beob.tblBeobBereitgestellt.NO_NOTE, alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET, alexande_beob.tblBeobBereitgestellt.NO_ISFS, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor FROM (alexande_beob.tblBeobBereitgestellt LEFT JOIN alexande_apflora.tblBeobZuordnung ON alexande_beob.tblBeobBereitgestellt.NO_NOTE = alexande_apflora.tblBeobZuordnung.NO_NOTE) LEFT JOIN alexande_apflora.tblBeobZuordnung AS tblBeobZuordnung_1 ON alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET = tblBeobZuordnung_1.NO_NOTE_PROJET WHERE alexande_beob.tblBeobBereitgestellt.NO_ISFS=$ApArtId AND ((alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET Is Not Null AND tblBeobZuordnung_1.NO_NOTE_PROJET Is Null) OR (alexande_beob.tblBeobBereitgestellt.NO_NOTE Is Not Null AND alexande_apflora.tblBeobZuordnung.NO_NOTE Is Null)) ORDER BY alexande_beob.tblBeobBereitgestellt.Datum DESC");
 $anz_beob = mysqli_num_rows($result_beob);
@@ -553,6 +554,33 @@ while($r_beob = mysqli_fetch_assoc($result_beob)) {
     $rows_beob[] = $beob;
 }
 mysqli_free_result($result_beob);
+
+//nicht zuzuordnende beob
+//beob dieses AP abfragen
+$result_beob_nicht_zuzuordnen = mysqli_query($link_beob, "SELECT alexande_beob.tblBeobBereitgestellt.NO_ISFS, alexande_apflora.tblBeobZuordnung.NO_NOTE, alexande_apflora.tblBeobZuordnung.NO_NOTE_PROJET, alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen, alexande_apflora.tblBeobZuordnung.BeobBemerkungen, alexande_apflora.tblBeobZuordnung.BeobMutWann, alexande_apflora.tblBeobZuordnung.BeobMutWer, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor FROM alexande_apflora.tblBeobZuordnung INNER JOIN alexande_beob.tblBeobBereitgestellt ON alexande_apflora.tblBeobZuordnung.NO_NOTE = alexande_beob.tblBeobBereitgestellt.NO_NOTE WHERE alexande_apflora.tblBeobZuordnung.NO_NOTE IS NOT NULL AND alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen=1 AND alexande_beob.tblBeobBereitgestellt.NO_ISFS=$ApArtId UNION SELECT alexande_beob.tblBeobBereitgestellt.NO_ISFS, alexande_apflora.tblBeobZuordnung.NO_NOTE, alexande_apflora.tblBeobZuordnung.NO_NOTE_PROJET, alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen, alexande_apflora.tblBeobZuordnung.BeobBemerkungen, alexande_apflora.tblBeobZuordnung.BeobMutWann, alexande_apflora.tblBeobZuordnung.BeobMutWer, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor FROM alexande_apflora.tblBeobZuordnung INNER JOIN alexande_beob.tblBeobBereitgestellt ON alexande_apflora.tblBeobZuordnung.NO_NOTE_PROJET = alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET WHERE alexande_apflora.tblBeobZuordnung.NO_NOTE_PROJET IS NOT NULL AND alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen=1 AND alexande_beob.tblBeobBereitgestellt.NO_ISFS=$ApArtId ORDER BY Datum DESC");
+$anz_beob_nicht_zuzuordnen = mysqli_num_rows($result_beob_nicht_zuzuordnen);
+//beob aufbauen
+$rows_beob_nicht_zuzuordnen = array();
+while($r_beob_nicht_zuzuordnen = mysqli_fetch_assoc($result_beob_nicht_zuzuordnen)) {
+	if ($r_beob_nicht_zuzuordnen['NO_NOTE']) {
+		$beobid = $r_beob_nicht_zuzuordnen['NO_NOTE'];
+		$beobtyp = "infospezies";
+	} else {
+		$beobid = $r_beob_nicht_zuzuordnen['NO_NOTE_PROJET'];
+		$beobtyp = "evab";
+	}
+	if ($r_beob_nicht_zuzuordnen['Autor'] && $r_beob_nicht_zuzuordnen['Autor'] <> " ") {
+		$beobAutor = $r_beob_nicht_zuzuordnen['Autor'];
+	} else {
+		$beobAutor = "(kein Autor)";
+	}
+	//beob setzen
+	$attr_beob = array("id" => $beobid, "typ" => "beob_nicht_zuzuordnen", "beobtyp" => $beobtyp);
+	$beob = array("data" => $r_beob_nicht_zuzuordnen['Datum'].": ".$beobAutor, "attr" => $attr_beob);
+	//beob-Array um beob ergänzen
+    $rows_beob_nicht_zuzuordnen[] = $beob;
+}
+mysqli_free_result($result_beob_nicht_zuzuordnen);
 
 //umwfakt dieses AP abfragen
 $result_umwfakt = mysqli_query($link, "SELECT UfApArtId FROM tblUmweltFaktoren where UfApArtId = $ApArtId");
@@ -601,6 +629,9 @@ $ap_ordner_ber = array("data" => "Berichte (".$anz_ber.")", "attr" => $ap_ordner
 //Beobachtungen
 $ap_ordner_beob_attr = array("id" => $ApArtId, "typ" => "ap_ordner_beob_nicht_beurteilt");
 $ap_ordner_beob_nicht_beurteilt = array("data" => "nicht beurteilte Beobachtungen (".$anz_beob.")", "attr" => $ap_ordner_beob_attr, "children" => $rows_beob);
+//Beobachtungen nicht zuzuordnen
+$ap_ordner_beob_nicht_zuzuordnen_attr = array("id" => $ApArtId, "typ" => "ap_ordner_beob_nicht_zuzuordnen");
+$ap_ordner_beob_nicht_zuzuordnen = array("data" => "nicht zuzuordnende Beobachtungen (".$anz_beob_nicht_zuzuordnen.")", "attr" => $ap_ordner_beob_nicht_zuzuordnen_attr, "children" => $rows_beob_nicht_zuzuordnen);
 //Ideale Umweltfaktoren, jetzt Idealbiotop genannt
 $ap_ordner_umwfakt_attr = array("id" => $ApArtId, "typ" => "umwfakt");
 $ap_ordner_umwfakt = array("data" => "Idealbiotop", "attr" => $ap_ordner_umwfakt_attr);
@@ -608,7 +639,7 @@ $ap_ordner_umwfakt = array("data" => "Idealbiotop", "attr" => $ap_ordner_umwfakt
 $ap_ordner_assozarten_attr = array("id" => $ApArtId, "typ" => "ap_ordner_assozarten");
 $ap_ordner_assozarten = array("data" => "assoziierte Arten (".$anz_assozarten.")", "attr" => $ap_ordner_assozarten_attr, "children" => $rows_assozarten);
 //zusammensetzen
-$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_jber, 4 => $ap_ordner_ber, 5 => $ap_ordner_beob_nicht_beurteilt, 6 => $ap_ordner_umwfakt, 7 => $ap_ordner_assozarten);
+$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_jber, 4 => $ap_ordner_ber, 5 => $ap_ordner_beob_nicht_beurteilt, 6 => $ap_ordner_beob_nicht_zuzuordnen, 7 => $ap_ordner_umwfakt, 8 => $ap_ordner_assozarten);
 
 	
 //in json verwandeln

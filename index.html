@@ -2266,8 +2266,7 @@
 				$("#beob").on("change", "#BeobNichtZuordnen", function() {
 					//Löschabfrage
 					if ($("#BeobNichtZuordnen").prop("checked") === true) {
-						//Aktualisierungsabfrage 
-						//TODO: von nicht beurteilt auf nicht zu beurteilen ändern
+						//Unabhängig vom Rest die TPopId null setzen
 						$.ajax({
 							url: 'php/beob_update.php',
 							dataType: 'json',
@@ -2276,31 +2275,85 @@
 								"Feld": "TPopId",
 								"Wert": "",
 								"user": sessionStorage.User
-							},
-							success: function () {
-								var vorigerNode;
-								vorigerNode = jQuery.jstree._reference("[typ='tpop_ordner_tpopbeob'] #" + localStorage.BeobId)._get_prev("[typ='tpop_ordner_tpopbeob'] #" + localStorage.BeobId);
-								jQuery("#tree").jstree("move_node", "[typ='tpop_ordner_tpopbeob'] #" + localStorage.BeobId, "[typ='ap_ordner_beob_nicht_beurteilt']", "first");
-								//typ des nodes anpassen
-								$("[typ='ap_ordner_beob_nicht_beurteilt'] #" + localStorage.BeobId).attr("typ", "beob");
-								jQuery.jstree._reference(vorigerNode).deselect_all();
-								jQuery.jstree._reference(vorigerNode).select_node(vorigerNode);
-								//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-								beschrifte_ap_ordner_beob($("[typ='ap_ordner_beob_nicht_beurteilt']"));
-								beschrifte_tpop_ordner_tpopbeob($("[typ='pop_ordner_tpop'] #" + localStorage.tpop_id + " [typ='tpop_ordner_tpopbeob']"));
-							},
-							error: function (data) {
-								$("#Meldung").html("Fehler: Die Beobachtung wurde nicht zugeordnet");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
 							}
 						});
+						if (localStorage.beob_status === "nicht_beurteilt") {
+							//Anfügeabfrage TODO
+							console.log('DODO: Anfügeabfrage');
+							//Aktualisierungsabfrage 
+							/*$.ajax({
+								url: 'php/beob_update.php',
+								dataType: 'json',
+								data: {
+									"id": localStorage.BeobId,
+									"Feld": "BeobNichtZuordnen",
+									"Wert": 1,
+									"user": sessionStorage.User
+								},
+								success: function () {
+									var vorigerNode;
+									vorigerNode = jQuery.jstree._reference("[typ='ap_ordner_beob_nicht_beurteilt'] #" + localStorage.BeobId)._get_prev("[typ='ap_ordner_beob_nicht_beurteilt'] #" + localStorage.BeobId);
+									jQuery("#tree").jstree("move_node", "[typ='ap_ordner_beob_nicht_beurteilt'] #" + localStorage.BeobId, "[typ='ap_ordner_beob_nicht_zuzuordnen']", "first");
+									//typ des nodes anpassen
+									$("[typ='ap_ordner_beob_nicht_zuzuordnen'] #" + localStorage.BeobId).attr("typ", "beob_nicht_zuzuordnen");
+									jQuery.jstree._reference(vorigerNode).select_node(vorigerNode);
+									//Parent Node-Beschriftung am Zielort: Anzahl anpassen
+									beschrifte_ap_ordner_beob_nicht_zuzuordnen($("[typ='ap_ordner_beob_nicht_zuzuordnen']"));
+									//Parent Node-Beschriftung am Herkunftort: Anzahl anpassen
+									beschrifte_ap_ordner_beob($("[typ='ap_ordner_beob_nicht_beurteilt']"));
+									localStorage.beob_status = "nicht_zuzuordnen";
+								},
+								error: function (data) {
+									$("#Meldung").html("Fehler: Die Zuordnung der Beobachtung wurde nicht entfernt");
+									$("#Meldung").dialog({
+										modal: true,
+										buttons: {
+											Ok: function() {
+												$(this).dialog("close");
+											}
+										}
+									});
+								}
+							});*/
+						} else if (localStorage.beob_status === "zugeordnet") {
+							//Aktualisierungsabfrage 
+							$.ajax({
+								url: 'php/beob_update.php',
+								dataType: 'json',
+								data: {
+									"id": localStorage.BeobId,
+									"Feld": "BeobNichtZuordnen",
+									"Wert": 1,
+									"user": sessionStorage.User
+								},
+								success: function () {
+									var vorigerNode;
+									vorigerNode = jQuery.jstree._reference("[typ='tpop_ordner_tpopbeob'] #" + localStorage.BeobId)._get_prev("[typ='tpop_ordner_tpopbeob'] #" + localStorage.BeobId);
+									jQuery("#tree").jstree("move_node", "[typ='tpop_ordner_tpopbeob'] #" + localStorage.BeobId, "[typ='ap_ordner_beob_nicht_zuzuordnen']", "first");
+									//typ des nodes anpassen
+									$("[typ='ap_ordner_beob_nicht_zuzuordnen'] #" + localStorage.BeobId).attr("typ", "beob_nicht_zuzuordnen");
+									jQuery.jstree._reference(vorigerNode).deselect_all();
+									jQuery.jstree._reference(vorigerNode).select_node(vorigerNode);
+									//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+									beschrifte_ap_ordner_beob_nicht_zuzuordnen($("[typ='ap_ordner_beob_nicht_zuzuordnen']"));
+									beschrifte_tpop_ordner_tpopbeob($("[typ='pop_ordner_tpop'] #" + localStorage.tpop_id + " [typ='tpop_ordner_tpopbeob']"));
+									localStorage.beob_status = "nicht_zuzuordnen";
+								},
+								error: function (data) {
+									$("#Meldung").html("Fehler: Die Zuordnung der Beobachtung wurde nicht entfernt");
+									$("#Meldung").dialog({
+										modal: true,
+										buttons: {
+											Ok: function() {
+												$(this).dialog("close");
+											}
+										}
+									});
+								}
+							});
+						}
+					} else {
+						//TODO: Nach zu beurteilen verschieben
 					}
 				});
 
@@ -2308,8 +2361,12 @@
 					var tpop_id = $(this).val();
 					if (localStorage.beob_status === "nicht_beurteilt") {
 						//Erstzuweisung > Anfügeabfrage TODO
+						//Verschieben von unten nehmen
 						console.log("die Anfügeabfrage muss noch erstellt werden");
-					} else {
+					} else if (localStorage.beob_status === "nicht_zuzuordnen") {
+						//TODO
+						//BeobNichtZuordnen auf Null setzen
+					} else if (localStorage.beob_status === "zugeordnet") {
 						//War schon zugewiesen > Aktualisierungsabfrage
 						$.ajax({
 							url: 'php/beob_update.php',

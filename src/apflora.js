@@ -1682,7 +1682,11 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 
 										//Formulare blenden
 										zeigeFormular("beob");
-										history.replaceState({tpopbeob: "tpopbeob"}, "tpopbeob", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopbeob=" + beobid);
+										if (beob_status === "zugeordnet") {
+											history.replaceState({tpopbeob: "tpopbeob"}, "tpopbeob", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopbeob=" + beobid);
+										} else if (beob_status === "nicht_zuzuordnen") {
+											history.replaceState({beob_nicht_zuzuordnen: "beob_nicht_zuzuordnen"}, "beob_nicht_zuzuordnen", "index.html?ap=" + localStorage.ap_id + "&beob_nicht_zuzuordnen=" + beobid);
+										}
 									}
 								});
 							} else {
@@ -2019,6 +2023,12 @@ function erstelle_tree(ApArtId) {
 								before: true,
 								inside: false
 							};
+						} else if (m.r.attr("typ") === "beob_nicht_zuzuordnen") {
+							return {
+								after: true,
+								before: true,
+								inside: false
+							};
 						} else {
 							return false;
 						}
@@ -2036,6 +2046,12 @@ function erstelle_tree(ApArtId) {
 								inside: true
 							};
 						} else if (m.r.attr("typ") === "beob") {
+							return {
+								after: true,
+								before: true,
+								inside: false
+							};
+						} else if (m.r.attr("typ") === "beob_nicht_zuzuordnen") {
 							return {
 								after: true,
 								before: true,
@@ -2172,6 +2188,9 @@ function erstelle_tree(ApArtId) {
 				"beob": {
 					"valid_children": "none"
 				},
+				"beob_nicht_zuzuordnen": {
+					"valid_children": "none"
+				},
 				"umwfakt": {
 					"valid_children": "none"
 				},
@@ -2287,6 +2306,11 @@ function erstelle_tree(ApArtId) {
 			jQuery("#tree").jstree("select_node", "[typ='beob']#" + localStorage.BeobId);
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese beob geöffnet wird
 			delete window.beob_zeigen;
+		}
+		if (window.beob_nicht_zuzuordnen_zeigen) {
+			jQuery("#tree").jstree("select_node", "[typ='beob_nicht_zuzuordnen']#" + localStorage.BeobId);
+			//diese Markierung entfernen, damit das nächste mal nicht mehr diese beob geöffnet wird
+			delete window.beob_nicht_zuzuordnen_zeigen;
 		}
 		if (window.ap_zeigen) {
 			initiiere_ap();
@@ -2430,6 +2454,14 @@ function erstelle_tree(ApArtId) {
 				localStorage.beobtyp = node.attr("beobtyp");
 				//den Beobtyp mitgeben
 				initiiere_beob(node.attr("beobtyp"), node_id, "nicht_beurteilt");
+			}
+		} else if (node_typ === "beob_nicht_zuzuordnen") {
+			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			if (!$("#beob").is(':visible') || localStorage.BeobId !== node_id || localStorage.beob_status !== "nicht_zuzuordnen") {
+				localStorage.BeobId = node_id;
+				localStorage.beobtyp = node.attr("beobtyp");
+				//den Beobtyp mitgeben
+				initiiere_beob(node.attr("beobtyp"), node_id, "nicht_zuzuordnen");
 			}
 		} else if (node_typ === "tpopmassnber") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -3272,6 +3304,15 @@ function beschrifte_ap_ordner_beob(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	anzTxt = "nicht beurteilte Beobachtungen (" + anz + ")";
+	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+}
+
+//übernimmt einen node
+//zählt dessen children und passt die Beschriftung an
+function beschrifte_ap_ordner_beob_nicht_zuzuordnen(node) {
+	var anz, anzTxt;
+	anz = $(node).find("> ul > li").length;
+	anzTxt = "nicht zuzuordnende Beobachtungen (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
@@ -12075,6 +12116,10 @@ function oeffneUri() {
 			//markieren, dass nach dem loaded-event im Tree die beob angezeigt werden soll 
 			//Die Markierung wird im load-Event wieder entfernt
 			window.beob_zeigen = true;
+		} else if (uri.getQueryParamValue('beob_nicht_zuzuordnen')) {
+			//markieren, dass nach dem loaded-event im Tree die beob angezeigt werden soll 
+			//Die Markierung wird im load-Event wieder entfernt
+			window.beob_nicht_zuzuordnen_zeigen = true;
 		} else {
 			//muss ap sein
 			//markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
