@@ -2315,7 +2315,7 @@
 							});
 						} else if (localStorage.beob_status === "zugeordnet") {
 							console.log('localStorage.beob_status === "zugeordnet"');
-							//Aktualisierungsabfrage 
+							//BeobNichtZuordnen 1 setzen 
 							$.ajax({
 								url: 'php/beob_update.php',
 								dataType: 'json',
@@ -2325,8 +2325,10 @@
 									"Wert": 1,
 									"user": sessionStorage.User
 								},
-								success: function () {
-									//die TPopId null setzen
+								success: function() {
+									console.log("BeobNichtZuordnen 1 gesetzt");
+									//TPopId null setzen
+									//der success-callback trat nie ein! darum danach weiter mit done
 									$.ajax({
 										url: 'php/beob_update.php',
 										dataType: 'json',
@@ -2335,16 +2337,25 @@
 											"Feld": "TPopId",
 											"Wert": "",
 											"user": sessionStorage.User
+										},
+										succcess: function() {
+											console.log('TPopId geleert');
+										},
+										error: function() {
+											console.log("fehler beim Leeren von TPopId");
 										}
+									}).done(function() {
+										console.log('done');
+										//node verschieben
+										$("#tree").jstree("move_node", "#beob" + localStorage.BeobId, "#ap_ordner_beob_nicht_zuzuordnen" + localStorage.ap_id, "first");
+										//typ des nodes anpassen
+										$("#beob" + localStorage.BeobId).attr("typ", "beob_nicht_zuzuordnen");
+										//Beob initiieren
+										$("#tree").jstree("select_node", "#beob" + localStorage.BeobId);
+										//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+										beschrifte_ap_ordner_beob_nicht_zuzuordnen($("#ap_ordner_beob_nicht_zuzuordnen" + localStorage.ap_id));
+										beschrifte_tpop_ordner_tpopbeob($("#tpop_ordner_tpopbeob" + localStorage.tpop_id));
 									});
-									console.log('hallo');
-									$("#tree").jstree("move_node", "#beob" + localStorage.BeobId, "#ap_ordner_beob_nicht_zuzuordnen" + localStorage.ap_id, "first");
-									//typ des nodes anpassen
-									$("#beob" + localStorage.BeobId).attr("typ", "beob_nicht_zuzuordnen");
-									$("#tree").jstree("select_node", "#beob" + localStorage.BeobId);
-									//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-									beschrifte_ap_ordner_beob_nicht_zuzuordnen($("#ap_ordner_beob_nicht_zuzuordnen" + localStorage.ap_id));
-									beschrifte_tpop_ordner_tpopbeob($("#tpop_ordner_tpopbeob" + localStorage.tpop_id));
 								},
 								error: function (data) {
 									$("#Meldung").html("Fehler: Die Zuordnung der Beobachtung wurde nicht entfernt");
@@ -2362,7 +2373,26 @@
 					} else {
 						//TODO
 						//Datensatz aus tblBeobZuordnung löschen
-						//node verschieben
+						$.ajax({
+							url: 'php/beob_zuordnung_delete.php',
+							dataType: 'json',
+							data: {
+								"id": localStorage.BeobId
+							},
+							success: function() {
+								console.log('und jetzt verschieben');
+								//TODO: VERSCHIEBEN FUNKTIONIERT NICHT!
+								//node verschieben
+								$("#tree").jstree("move_node", "#beob" + localStorage.BeobId, "#ap_ordner_beob_nicht_beurteilt" + localStorage.ap_id, "first");
+								//typ des nodes anpassen
+								$("#beob" + localStorage.BeobId).attr("typ", "beob");
+								//Beob initiieren
+								$("#tree").jstree("select_node", "#beob" + localStorage.BeobId);
+								//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+								beschrifte_ap_ordner_beob_nicht_zuzuordnen($("#ap_ordner_beob_nicht_zuzuordnen" + localStorage.ap_id));
+								beschrifte_ap_ordner_beob_nicht_beurteilt($("#ap_ordner_beob_nicht_beurteilt" + localStorage.ap_id));
+							}
+						});
 					}
 				});
 
@@ -2398,7 +2428,7 @@
 								verschiebeBeobZuTPop(tpop_id);
 							}
 						});
-					} {
+					} else {
 						verschiebeBeobZuTPop(tpop_id);
 					}
 				});

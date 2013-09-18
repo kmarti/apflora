@@ -2255,7 +2255,7 @@ function erstelle_tree(ApArtId) {
 			delete window.tpopber_zeigen;
 		}
 		if (window.tpopbeob_zeigen) {
-			jQuery("#tree").jstree("select_node", "[typ='tpopbeob']#" + localStorage.BeobId);
+			jQuery("#tree").jstree("select_node", "#beob" + localStorage.BeobId);
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopbeob geöffnet wird
 			delete window.tpopbeob_zeigen;
 		}
@@ -2305,12 +2305,12 @@ function erstelle_tree(ApArtId) {
 			delete window.assozarten_zeigen;
 		}
 		if (window.beob_zeigen) {
-			jQuery("#tree").jstree("select_node", "[typ='beob']#" + localStorage.BeobId);
+			jQuery("#tree").jstree("select_node", "#beob" + localStorage.BeobId);
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese beob geöffnet wird
 			delete window.beob_zeigen;
 		}
 		if (window.beob_nicht_zuzuordnen_zeigen) {
-			jQuery("#tree").jstree("select_node", "[typ='beob_nicht_zuzuordnen']#" + localStorage.BeobId);
+			jQuery("#tree").jstree("select_node", "#beob" + localStorage.BeobId);
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese beob geöffnet wird
 			delete window.beob_nicht_zuzuordnen_zeigen;
 		}
@@ -12852,41 +12852,29 @@ function verschiebeBeobZuTPop(tpop_id) {
 		},
 		success: function(data) {
 			console.log("localStorage.beob_status = " + localStorage.beob_status);
-			//localStorage.BeobId = data;
+			//node verschieben
+			//geht zu: tpop_ordner_tpopbeob, tpop_id
+			//TODO: DIESE VERSCHIEBUNG FUNKTIONIERT BEI beob_status === "nicht_zuzuordnen" NICHT!!!
+			$("#tree").jstree("move_node", "#beob" + localStorage.BeobId, "#tpop_ordner_tpopbeob" + tpop_id, "first");
+			//typ anpassen (wäre bei beob_status "zugeordnet" nicht nötig)
+			$("#beob" + localStorage.BeobId).attr("typ", "tpopbeob");
+			//Parent Node-Beschriftung am Herkunftsort: Anzahl anpassen
 			if (localStorage.beob_status === "nicht_beurteilt") {
-				//war in: ap_ordner_beob_nicht_beurteilt
-				//geht zu: tpop_ordner_tpopbeob, tpop_id
-				$("#tree").jstree("move_node", "#beob" + localStorage.BeobId, "#tpop_ordner_tpopbeob" + tpop_id, "first");
-				$("#beob" + localStorage.BeobId).attr("typ", "tpopbeob");
-				//node selecten und beob initiieren
-				$("#tree").jstree("select_node", "#beob" + localStorage.BeobId);
-				//Parent Node-Beschriftung am Zielort: Anzahl anpassen
-				beschrifte_tpop_ordner_tpopbeob($("#tpop_ordner_tpopbeob" + tpop_id));
-				//Parent Node-Beschriftung am Herkunftort: Anzahl anpassen
 				beschrifte_ap_ordner_beob_nicht_beurteilt($("#ap_ordner_beob_nicht_beurteilt" + localStorage.ap_id));
 			} else if (localStorage.beob_status === "zugeordnet") {
-				//war in: tpop_ordner_tpopbeob, localStorage.tpop_id
-				//geht zu: tpop_ordner_tpopbeob, tpop_id
-				$("#tree").jstree("move_node", "#beob" + localStorage.BeobId, "#tpop_ordner_tpopbeob" + tpop_id, "first");
-				$("#tree").jstree("select_node", "#beob" + localStorage.BeobId);
-				//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-				//tpop_id ist die im Formular gewählte neue tpop
-				beschrifte_tpop_ordner_tpopbeob($("#tpop_ordner_tpopbeob" + tpop_id));
 				//localStorage.tpop_id ist die tpop, der die beob bisher zugeordnet war
 				beschrifte_tpop_ordner_tpopbeob($("#tpop_ordner_tpopbeob" + localStorage.tpop_id));
 			} else if (localStorage.beob_status === "nicht_zuzuordnen") {
-				//war in: ap_ordner_beob_nicht_zuzuordnen
-				//geht zu: tpop_ordner_tpopbeob, tpop_id
-				$("#tree").jstree("move_node", "#beob" + localStorage.BeobId, "#tpop_ordner_tpopbeob" + tpop_id, "first");
-				$("#beob" + localStorage.BeobId).attr("typ", "tpopbeob");
-				$("#tree").jstree("select_node", "#beob" + localStorage.BeobId);
-				//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 				beschrifte_ap_ordner_beob_nicht_zuzuordnen($("#ap_ordner_beob_nicht_zuzuordnen" + localStorage.ap_id));
-				beschrifte_tpop_ordner_tpopbeob($("#tpop_ordner_tpopbeob" + tpop_id));
 			}
+			//Parent Node-Beschriftung am Zielort: Anzahl anpassen
+			//tpop_id ist die im Formular gewählte neue tpop
+			beschrifte_tpop_ordner_tpopbeob($("#tpop_ordner_tpopbeob" + tpop_id));
+			//beob initiieren
+			$("#tree").jstree("select_node", "#beob" + localStorage.BeobId);
 		},
 		error: function (data) {
-			$("#Meldung").html("Fehler: Die Beobachtung wurde nicht zugeordnet");
+			$("#Meldung").html("Fehler: Die Zuordnung der Beobachtung wurde nicht verändert");
 			$("#Meldung").dialog({
 				modal: true,
 				buttons: {
