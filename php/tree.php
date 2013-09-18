@@ -220,9 +220,14 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 			} else {
 				$Autor = "(kein Autor)";
 			}
+			if ($r_tpopbeob['Datum']) {
+				$datum = $r_tpopbeob['Datum'];
+			} else {
+				$datum = "(kein Datum)";
+			}
 			//TPopFeldKontr setzen
 			$attr_tpopbeob = array("id" => $BeobId, "typ" => "tpopbeob", "beobtyp" => $beobtyp);
-			$tpopbeob = array("data" => $r_tpopbeob['Datum'].": ".$Autor, "attr" => $attr_tpopbeob);
+			$tpopbeob = array("data" => $datum.": ".$Autor, "attr" => $attr_tpopbeob);
 			//tpopbeob-Array um tpopbeob ergänzen
 		    $rows_tpopbeob[] = $tpopbeob;
 		}
@@ -550,9 +555,14 @@ while($r_beob = mysqli_fetch_assoc($result_beob)) {
 	} else {
 		$beobAutor = "(kein Autor)";
 	}
+	if ($r_beob['Datum']) {
+		$datum = $r_beob['Datum'];
+	} else {
+		$datum = "(kein Datum)";
+	}
 	//beob setzen
 	$attr_beob = array("id" => $beobid, "typ" => "beob", "beobtyp" => $beobtyp);
-	$beob = array("data" => $r_beob['Datum'].": ".$beobAutor, "attr" => $attr_beob);
+	$beob = array("data" => $datum.": ".$beobAutor, "attr" => $attr_beob);
 	//beob-Array um beob ergänzen
     $rows_beob[] = $beob;
 }
@@ -573,9 +583,14 @@ while($r_beob_nicht_zuzuordnen = mysqli_fetch_assoc($result_beob_nicht_zuzuordne
 	} else {
 		$beobAutor = "(kein Autor)";
 	}
+	if ($r_beob_nicht_zuzuordnen['Datum']) {
+		$datum = $r_beob_nicht_zuzuordnen['Datum'];
+	} else {
+		$datum = "(kein Datum)";
+	}
 	//beob setzen
 	$attr_beob = array("id" => $beobid, "typ" => "beob_nicht_zuzuordnen", "beobtyp" => $beobtyp);
-	$beob = array("data" => $r_beob_nicht_zuzuordnen['Datum'].": ".$beobAutor, "attr" => $attr_beob);
+	$beob = array("data" => $datum.": ".$beobAutor, "attr" => $attr_beob);
 	//beob-Array um beob ergänzen
     $rows_beob_nicht_zuzuordnen[] = $beob;
 }
