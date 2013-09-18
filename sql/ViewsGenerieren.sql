@@ -1155,9 +1155,9 @@ Zuerst von info flora
 INSERT INTO alexande_apflora.tblBeobZuordnung (NO_NOTE, TPopId, BeobMutWann, BeobMutWer) SELECT NO_NOTE, TPopId, MutWann, MutWer FROM alexande_beob.tblBeob WHERE alexande_beob.tblBeob.TPopId > 0 AND alexande_beob.tblBeob.NO_NOTE is not null AND (alexande_beob.tblBeob.IdEvab is null OR alexande_beob.tblBeob.IdEvab = "")
 
 jetzt von evab
-INSERT INTO alexande_apflora.tblBeobZuordnung (NO_NOTE_PROJET, TPopId, BeobMutWann, BeobMutWer) SELECT IdEvab, TPopId, MutWann, MutWer FROM alexande_beob.tblBeob WHERE alexande_beob.tblBeob.TPopId > 0 AND (alexande_beob.tblBeob.IdEvab is not null AND tblBeob.IdEvab <> "")
+INSERT INTO alexande_apflora.tblBeobZuordnung (NO_NOTE, TPopId, BeobMutWann, BeobMutWer) SELECT IdEvab, TPopId, MutWann, MutWer FROM alexande_beob.tblBeob WHERE alexande_beob.tblBeob.TPopId > 0 AND (alexande_beob.tblBeob.IdEvab is not null AND tblBeob.IdEvab <> "")
 
-
+*****************************************************
 
 
 

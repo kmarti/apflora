@@ -1588,11 +1588,14 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 	localStorage.beob_status = beob_status;
 	//sicherstellen, dass beobtyp immer bekannt ist
 	localStorage.beobtyp = beobtyp;
+	//beobid hat 'beob' vorangestellt - entfernen!
+	beobid = beobid.replace('beob', '');
 	//beobid bereitstellen
 	localStorage.BeobId = beobid;
 
 	var url, url_distzutpop;
 	if (!beobid) {
+		console.log('es fehlt beobid > eine Ebene höher');
 		//es fehlen benötigte Daten > eine Ebene höher
 		if (beob_status === "nicht_beurteilt" || beob_status === "nicht_zuzuordnen") {
 			initiiere_ap();
@@ -1612,12 +1615,12 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 		data: {
 			"id": beobid
 		},
-		success: function (data) {
+		success: function (data_beob) {
 			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
+			if (data_beob) {
 
 				//boebfelder bereitstellen
-				var html_beobfelder = erstelleFelderFuerBeob(data, beobtyp);
+				var html_beobfelder = erstelleFelderFuerBeob(data_beob, beobtyp);
 				$("#beob_table").html(html_beobfelder);
 				
 				//Abstand zu TPop aus der DB holen
@@ -1662,8 +1665,7 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 									url: 'php/beob_zuordnung.php',
 									dataType: 'json',
 									data: {
-										"id": beobid,
-										"beobtyp": beobtyp
+										"id": beobid
 									},
 									success: function (data) {
 										//tpopbeob bereitstellen
@@ -1675,7 +1677,7 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 										} else {
 											$("#BeobNichtZuordnen").prop("checked", false);
 										}
-										$("#DistZuTPop"+localStorage.tpop_id).prop("checked", true);
+										$("#DistZuTPop"+data.TPopId).prop("checked", true);
 										$("#BeobBemerkungen").val(data.BeobBemerkungen);
 										$("#BeobMutWann").val(data.BeobMutWann);
 										$("#BeobMutWer").val(data.BeobMutWer);
@@ -2332,7 +2334,8 @@ function erstelle_tree(ApArtId) {
 		delete localStorage.tpopfreiwkontr;	//Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
 		var node_typ = node.attr("typ");
-		var node_id = node.attr("id");
+		//in der ID des Nodes enthaltene Texte müssen entfernt werden
+		var node_id = node.attr("id").replace('ap_ordner_pop', '').replace('ap_ordner_apziel', '').replace('ap_ordner_erfkrit', '').replace('ap_ordner_jber', '').replace('ap_ordner_ber', '').replace('ap_ordner_beob_nicht_beurteilt', '').replace('ap_ordner_beob_nicht_zuzuordnen', '').replace('umwfakt', '').replace('ap_ordner_assozarten', '').replace('tpop_ordner_massn', '').replace('tpop_ordner_massnber', '').replace('tpop_ordner_feldkontr', '').replace('tpop_ordner_freiwkontr', '').replace('tpop_ordner_tpopber', '').replace('tpop_ordner_tpopbeob', '');
 		jQuery.jstree._reference(node).open_node(node);
 		if (node_typ.slice(0, 3) === "ap_" || node_typ === "apzieljahr") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -2935,16 +2938,16 @@ function erstelle_tree(ApArtId) {
 						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
 						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 						if (ziel_node.attr("typ") === "beob") {
-							beschrifte_ap_ordner_beob(ziel_parent_node);
+							beschrifte_ap_ordner_beob_nicht_beurteilt(ziel_parent_node);
 						} else {
-							beschrifte_ap_ordner_beob(ziel_node);
+							beschrifte_ap_ordner_beob_nicht_beurteilt(ziel_node);
 						}
 						beschrifte_tpop_ordner_tpopbeob(window.herkunft_parent_node);
 						//Variablen aufräumen
 						localStorage.beob_id = $(herkunft_node).attr("id");
 						delete window.tpopbeob_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
-						initiiere_beob();
+						initiiere_beob($(herkunft_node).attr("beobtyp"), localStorage.BeobId, "zugeordnet");
 					},
 					error: function (data) {
 						$("#Meldung").html("Fehler: Die Beobachtung wurde nicht zugeordnet");
@@ -3054,7 +3057,7 @@ function erstelle_tree(ApArtId) {
 							jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
 						}
 						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-						beschrifte_ap_ordner_beob(window.herkunft_parent_node);
+						beschrifte_ap_ordner_beob_nicht_beurteilt(window.herkunft_parent_node);
 						beschrifte_tpop_ordner_tpopbeob(ziel_parent_node);
 						//Variablen aufräumen
 						localStorage.BeobId = $(herkunft_node).attr("id");
@@ -3099,7 +3102,7 @@ function erstelle_tree(ApArtId) {
 							jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
 						}
 						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-						beschrifte_ap_ordner_beob(window.herkunft_parent_node);
+						beschrifte_ap_ordner_beob_nicht_beurteilt(window.herkunft_parent_node);
 						beschrifte_tpop_ordner_tpopbeob(ziel_node);
 						//Variablen aufräumen
 						localStorage.BeobId = $(herkunft_node).attr("id");
@@ -3300,7 +3303,7 @@ function beschrifte_tpop_ordner_tpopbeob(node) {
 
 //übernimmt einen node
 //zählt dessen children und passt die Beschriftung an
-function beschrifte_ap_ordner_beob(node) {
+function beschrifte_ap_ordner_beob_nicht_beurteilt(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	anzTxt = "nicht beurteilte Beobachtungen (" + anz + ")";
@@ -12834,6 +12837,66 @@ function erstelleFelderFuerBeob(data, beobtyp) {
 	});
 	html_beobfelder += "</table>";
 	return beobtitel + html_beobfelder;
+}
+
+function verschiebeBeobZuTPop(tpop_id) {
+	//War schon zugewiesen > Aktualisierungsabfrage
+	$.ajax({
+		url: 'php/beob_update.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.BeobId,
+			"Feld": "TPopId",
+			"Wert": tpop_id,
+			"user": sessionStorage.User
+		},
+		success: function(data) {
+			console.log("localStorage.beob_status = " + localStorage.beob_status);
+			//localStorage.BeobId = data;
+			if (localStorage.beob_status === "nicht_beurteilt") {
+				//war in: ap_ordner_beob_nicht_beurteilt
+				//geht zu: tpop_ordner_tpopbeob, tpop_id
+				$("#tree").jstree("move_node", "#beob" + localStorage.BeobId, "#tpop_ordner_tpopbeob" + tpop_id, "first");
+				$("#beob" + localStorage.BeobId).attr("typ", "tpopbeob");
+				//node selecten und beob initiieren
+				$("#tree").jstree("select_node", "#beob" + localStorage.BeobId);
+				//Parent Node-Beschriftung am Zielort: Anzahl anpassen
+				beschrifte_tpop_ordner_tpopbeob($("#tpop_ordner_tpopbeob" + tpop_id));
+				//Parent Node-Beschriftung am Herkunftort: Anzahl anpassen
+				beschrifte_ap_ordner_beob_nicht_beurteilt($("#ap_ordner_beob_nicht_beurteilt" + localStorage.ap_id));
+			} else if (localStorage.beob_status === "zugeordnet") {
+				//war in: tpop_ordner_tpopbeob, localStorage.tpop_id
+				//geht zu: tpop_ordner_tpopbeob, tpop_id
+				$("#tree").jstree("move_node", "#beob" + localStorage.BeobId, "#tpop_ordner_tpopbeob" + tpop_id, "first");
+				$("#tree").jstree("select_node", "#beob" + localStorage.BeobId);
+				//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+				//tpop_id ist die im Formular gewählte neue tpop
+				beschrifte_tpop_ordner_tpopbeob($("#tpop_ordner_tpopbeob" + tpop_id));
+				//localStorage.tpop_id ist die tpop, der die beob bisher zugeordnet war
+				beschrifte_tpop_ordner_tpopbeob($("#tpop_ordner_tpopbeob" + localStorage.tpop_id));
+			} else if (localStorage.beob_status === "nicht_zuzuordnen") {
+				//war in: ap_ordner_beob_nicht_zuzuordnen
+				//geht zu: tpop_ordner_tpopbeob, tpop_id
+				$("#tree").jstree("move_node", "#beob" + localStorage.BeobId, "#tpop_ordner_tpopbeob" + tpop_id, "first");
+				$("#beob" + localStorage.BeobId).attr("typ", "tpopbeob");
+				$("#tree").jstree("select_node", "#beob" + localStorage.BeobId);
+				//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+				beschrifte_ap_ordner_beob_nicht_zuzuordnen($("#ap_ordner_beob_nicht_zuzuordnen" + localStorage.ap_id));
+				beschrifte_tpop_ordner_tpopbeob($("#tpop_ordner_tpopbeob" + tpop_id));
+			}
+		},
+		error: function (data) {
+			$("#Meldung").html("Fehler: Die Beobachtung wurde nicht zugeordnet");
+			$("#Meldung").dialog({
+				modal: true,
+				buttons: {
+					Ok: function() {
+						$(this).dialog("close");
+					}
+				}
+			});
+		}
+	});
 }
 
 (function($) {

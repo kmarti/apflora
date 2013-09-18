@@ -12,14 +12,10 @@ if ($link->connect_errno) {
 mysqli_set_charset($link, "utf8");
 
 $id = $_GET["id"];
-$beobtyp = $_GET["beobtyp"];
 
 // SQL-Anfrage ausführen
-if ($beobtyp == "infospezies") {
-	$result = mysqli_query($link, "SELECT * FROM tblBeobZuordnung WHERE NO_NOTE = $id");
-} else {
-	$result = mysqli_query($link, 'SELECT * FROM tblBeobZuordnung WHERE NO_NOTE_PROJET="'.$id.'"');
-}
+
+$result = mysqli_query($link, 'SELECT * FROM tblBeobZuordnung WHERE NO_NOTE="'.$id.'"');
 
 $row = mysqli_fetch_assoc($result);
 
