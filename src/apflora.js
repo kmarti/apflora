@@ -1583,7 +1583,7 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 	//- schon zugewiesen ist (zugeordnet)
 	//- noch nicht beurteilt ist (nicht_beurteilt)
 	//- nicht zuzuordnen ist (nicht_zuzuordnen)
-	
+	console.log('initiiere beob');
 	//beob_status muss gespeichert werden, damit bei Datenänderungen bekannt ist, ob ein bestehender Datensatz bearbeitet oder ein neuer geschaffen werden muss
 	localStorage.beob_status = beob_status;
 	//sicherstellen, dass beobtyp immer bekannt ist
@@ -1659,7 +1659,9 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 							//distzutpop bereitstellen
 							$("#beob_zuordnungsfelder").html(html_distzutpop);
 
-							if (beob_status === "zugeordnet" || beob_status === "nicht_zuzuordnen") {
+							console.log('initiiere_beob meldet: beob_status = ' + beob_status);
+
+							if (beob_status !== "nicht_beurteilt") {
 								//Daten der Zuordnung holen
 								$.ajax({
 									url: 'php/beob_zuordnung.php',
@@ -1692,7 +1694,9 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 									}
 								});
 							} else {
+								//beob_status ist "nicht beurteilt"
 								$("#BeobNichtBeurteilt").prop("checked", true);
+								$("#BeobNichtZuordnen").prop("checked", false);
 								//Formulare blenden
 								zeigeFormular("beob");
 								history.replaceState({beob: "beob"}, "beob", "index.html?ap=" + localStorage.ap_id + "&beob=" + beobid);
@@ -2025,6 +2029,12 @@ function erstelle_tree(ApArtId) {
 								before: true,
 								inside: false
 							};
+						} else if (m.r.attr("typ") === "ap_ordner_beob_nicht_zuzuordnen") {
+							return {
+								after: false,
+								before: false,
+								inside: true
+							};
 						} else if (m.r.attr("typ") === "beob_nicht_zuzuordnen") {
 							return {
 								after: true,
@@ -2053,7 +2063,41 @@ function erstelle_tree(ApArtId) {
 								before: true,
 								inside: false
 							};
+						} else if (m.r.attr("typ") === "ap_ordner_beob_nicht_zuzuordnen") {
+							return {
+								after: false,
+								before: false,
+								inside: true
+							};
 						} else if (m.r.attr("typ") === "beob_nicht_zuzuordnen") {
+							return {
+								after: true,
+								before: true,
+								inside: false
+							};
+						} else {
+							return false;
+						}
+					} else if (m.o.attr("typ") === "beob_nicht_zuzuordnen") {
+						if (m.r.attr("typ") === "tpopbeob") {
+							return {
+								after: true,
+								before: true,
+								inside: false
+							};
+						} else if (m.r.attr("typ") === "tpop_ordner_tpopbeob") {
+							return {
+								after: false,
+								before: false,
+								inside: true
+							};
+						} else if (m.r.attr("typ") === "ap_ordner_beob_nicht_beurteilt") {
+							return {
+								after: false,
+								before: false,
+								inside: true
+							};
+						} else if (m.r.attr("typ") === "beob") {
 							return {
 								after: true,
 								before: true,
@@ -2330,12 +2374,13 @@ function erstelle_tree(ApArtId) {
 		}
 	})
 	.bind("select_node.jstree", function (e, data) {
+		console.log('event "select_node.jstree" beginnt jetzt');
 		var node;	
 		delete localStorage.tpopfreiwkontr;	//Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
 		var node_typ = node.attr("typ");
 		//in der ID des Nodes enthaltene Texte müssen entfernt werden
-		var node_id = node.attr("id").replace('ap_ordner_pop', '').replace('ap_ordner_apziel', '').replace('ap_ordner_erfkrit', '').replace('ap_ordner_jber', '').replace('ap_ordner_ber', '').replace('ap_ordner_beob_nicht_beurteilt', '').replace('ap_ordner_beob_nicht_zuzuordnen', '').replace('umwfakt', '').replace('ap_ordner_assozarten', '').replace('tpop_ordner_massn', '').replace('tpop_ordner_massnber', '').replace('tpop_ordner_feldkontr', '').replace('tpop_ordner_freiwkontr', '').replace('tpop_ordner_tpopber', '').replace('tpop_ordner_tpopbeob', '');
+		var node_id = erstelleIdAusDomAttributId(node.attr("id"));
 		jQuery.jstree._reference(node).open_node(node);
 		if (node_typ.slice(0, 3) === "ap_" || node_typ === "apzieljahr") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -2448,6 +2493,7 @@ function erstelle_tree(ApArtId) {
 			if (!$("#beob").is(':visible') || localStorage.BeobId !== node_id || localStorage.beob_status !== "zugeordnet") {
 				localStorage.BeobId = node_id;
 				localStorage.beobtyp = node.attr("beobtyp");
+				console.log('jstree.selct_node mit node_typ === "tpopbeob" initiiert beob');
 				initiiere_beob(node.attr("beobtyp"), node_id, "zugeordnet");
 			}
 		} else if (node_typ === "beob") {
@@ -2456,6 +2502,7 @@ function erstelle_tree(ApArtId) {
 				localStorage.BeobId = node_id;
 				localStorage.beobtyp = node.attr("beobtyp");
 				//den Beobtyp mitgeben
+				console.log('jstree.selct_node mit node_typ === "beob" initiiert beob');
 				initiiere_beob(node.attr("beobtyp"), node_id, "nicht_beurteilt");
 			}
 		} else if (node_typ === "beob_nicht_zuzuordnen") {
@@ -2464,6 +2511,7 @@ function erstelle_tree(ApArtId) {
 				localStorage.BeobId = node_id;
 				localStorage.beobtyp = node.attr("beobtyp");
 				//den Beobtyp mitgeben
+				console.log('jstree.selct_node mit node_typ === "beob_nicht_zuzuordnen" initiiert beob');
 				initiiere_beob(node.attr("beobtyp"), node_id, "nicht_zuzuordnen");
 			}
 		} else if (node_typ === "tpopmassnber") {
@@ -2495,7 +2543,8 @@ function erstelle_tree(ApArtId) {
 		}
 	})
 	.bind("move_node.jstree", function (e, data) {
-		var herkunft_node, ziel_node, ziel_parent_node;
+		var herkunft_node, herkunft_node_id, herkunft_node_typ, ziel_node, ziel_node_id, ziel_node_typ, ziel_parent_node, ziel_parent_node_id;
+		
 		//nur aktualisieren, wenn Schreibrechte bestehen
 		if (sessionStorage.NurLesen) {
 			$("#Meldung").html("Sie haben keine Schreibrechte");
@@ -2509,17 +2558,28 @@ function erstelle_tree(ApArtId) {
 			});
 			return;
 		}
+
+		//Variabeln setzen
 		herkunft_node = data.rslt.o;
+		herkunft_node_id = erstelleIdAusDomAttributId($(herkunft_node).attr("id"));
+		console.log('jstree.move_node meldet: herkunft_node_id = ' + herkunft_node_id);
+		herkunft_node_typ = herkunft_node.attr("typ");
 		ziel_node = data.rslt.r;
+		ziel_node_id = erstelleIdAusDomAttributId($(ziel_node).attr("id"));
+		ziel_node_typ = ziel_node.attr("typ");
 		ziel_parent_node = jQuery.jstree._reference(data.rslt.r)._get_parent(data.rslt.r);
-		if (herkunft_node.attr("typ") === "pop") {
-			if (ziel_node.attr("typ") === "pop") {
+		if ($(ziel_parent_node).attr("id")) {
+			ziel_parent_node_id = erstelleIdAusDomAttributId($(ziel_parent_node).attr("id"));
+		}
+
+		if (herkunft_node_typ === "pop") {
+			if (ziel_node_typ === "pop") {
 				$.ajax({
 					url: 'php/pop_einfuegen.php',		//TO DO: PHP
 					dataType: 'json',
 					data: {
-						"ap_art_id": $(ziel_parent_node).attr("id"),
-						"pop_id": $(ziel_node).attr("id"),
+						"ap_art_id": ziel_parent_node_id,
+						"pop_id": ziel_node_id,
 						"user": sessionStorage.User
 					},
 					success: function () {
@@ -2530,7 +2590,7 @@ function erstelle_tree(ApArtId) {
 						jQuery.jstree._reference(ziel_node).deselect_all();
 						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
 						//Variablen aufräumen
-						localStorage.pop_id = $(herkunft_node).attr("id");
+						localStorage.pop_id = herkunft_node_id;
 						delete window.pop;
 						delete window.pop_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
@@ -2549,13 +2609,13 @@ function erstelle_tree(ApArtId) {
 					}
 				});
 			}
-			if (ziel_node.attr("typ") === "tpop") {
+			if (ziel_node_typ === "tpop") {
 				$.ajax({
 					url: 'php/tpop_einfuegen.php',
 					dataType: 'json',
 					data: {
-						"pop_id": $(ziel_parent_node).attr("id"),
-						"tpop_id": $(ziel_node).attr("id"),
+						"pop_id": ziel_parent_node_id,
+						"tpop_id": ziel_node_id,
 						"user": sessionStorage.User
 					},
 					success: function () {
@@ -2566,7 +2626,7 @@ function erstelle_tree(ApArtId) {
 						jQuery.jstree._reference(ziel_node).deselect_all();
 						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
 						//Variablen aufräumen
-						localStorage.tpop_id = $(herkunft_node).attr("id");
+						localStorage.tpop_id = herkunft_node_id;
 						delete window.tpop;
 						delete window.tpop_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
@@ -2585,13 +2645,13 @@ function erstelle_tree(ApArtId) {
 					}
 				});
 			}
-			if (ziel_node.attr("typ") === "pop_ordner_tpop") {
+			if (ziel_node_typ === "pop_ordner_tpop") {
 				$.ajax({
 					url: 'php/tpop_einfuegen.php',
 					dataType: 'json',
 					data: {
-						"pop_id": $(ziel_node).attr("id"),
-						"tpop_id": $(herkunft_node).attr("id"),
+						"pop_id": ziel_node_id,
+						"tpop_id": herkunft_node_id,
 						"user": sessionStorage.User
 					},
 					success: function () {
@@ -2602,7 +2662,7 @@ function erstelle_tree(ApArtId) {
 						jQuery.jstree._reference(ziel_node).deselect_all();
 						jQuery.jstree._reference(ziel_node).select_node(herkunft_node);
 						//Variablen aufräumen
-						localStorage.tpop_id = $(herkunft_node).attr("id");
+						localStorage.tpop_id = herkunft_node_id;
 						delete window.tpop;
 						delete window.tpop_node_ausgeschnitten;
 						initiiere_tpop();
@@ -2621,14 +2681,14 @@ function erstelle_tree(ApArtId) {
 				});
 			}
 		}
-		if (herkunft_node.attr("typ") === "tpop") {
-			if (ziel_node.attr("typ") === "tpop") {
+		if (herkunft_node_typ === "tpop") {
+			if (ziel_node_typ === "tpop") {
 				$.ajax({
 					url: 'php/tpop_einfuegen.php',
 					dataType: 'json',
 					data: {
-						"pop_id": $(ziel_parent_node).attr("id"),
-						"tpop_id": $(herkunft_node).attr("id"),
+						"pop_id": ziel_parent_node_id,
+						"tpop_id": herkunft_node_id,
 						"user": sessionStorage.User
 					},
 					success: function () {
@@ -2639,7 +2699,7 @@ function erstelle_tree(ApArtId) {
 						jQuery.jstree._reference(herkunft_node).deselect_all();
 						jQuery.jstree._reference(ziel_parent_node).select_node(herkunft_node);
 						//Variablen aufräumen
-						localStorage.tpop_id = $(herkunft_node).attr("id");
+						localStorage.tpop_id = herkunft_node_id;
 						delete window.tpop;
 						delete window.tpop_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
@@ -2658,13 +2718,13 @@ function erstelle_tree(ApArtId) {
 					}
 				});
 			}
-			if (ziel_node.attr("typ") === "pop_ordner_tpop") {
+			if (ziel_node_typ === "pop_ordner_tpop") {
 				$.ajax({
 					url: 'php/tpop_einfuegen.php',
 					dataType: 'json',
 					data: {
-						"pop_id": $(ziel_node).attr("id"),
-						"tpop_id": $(herkunft_node).attr("id"),
+						"pop_id": ziel_node_id,
+						"tpop_id": herkunft_node_id,
 						"user": sessionStorage.User
 					},
 					success: function () {
@@ -2675,7 +2735,7 @@ function erstelle_tree(ApArtId) {
 						jQuery.jstree._reference(herkunft_node).deselect_all();
 						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
 						//Variablen aufräumen
-						localStorage.tpop_id = $(herkunft_node).attr("id");
+						localStorage.tpop_id = herkunft_node_id;
 						delete window.tpop;
 						delete window.tpop_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
@@ -2695,14 +2755,14 @@ function erstelle_tree(ApArtId) {
 				});
 			}
 		}
-		if (herkunft_node.attr("typ") === "tpopmassn") {
-			if (ziel_node.attr("typ") === "tpopmassn") {
+		if (herkunft_node_typ === "tpopmassn") {
+			if (ziel_node_typ === "tpopmassn") {
 				$.ajax({
 					url: 'php/tpopmassn_einfuegen.php',
 					dataType: 'json',
 					data: {
-						"tpop_id": $(ziel_parent_node).attr("id"),
-						"tpopmassn_id": $(herkunft_node).attr("id"),
+						"tpop_id": ziel_parent_node_id,
+						"tpopmassn_id": herkunft_node_id,
 						"user": sessionStorage.User
 					},
 					success: function () {
@@ -2713,7 +2773,7 @@ function erstelle_tree(ApArtId) {
 						jQuery.jstree._reference(herkunft_node).deselect_all();
 						jQuery.jstree._reference(ziel_parent_node).select_node(herkunft_node);
 						//Variablen aufräumen
-						localStorage.tpopmassn_id = $(herkunft_node).attr("id");
+						localStorage.tpopmassn_id = herkunft_node_id;
 						delete window.tpopmassn;
 						delete window.tpopmassn_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
@@ -2732,13 +2792,13 @@ function erstelle_tree(ApArtId) {
 					}
 				});
 			}
-			if (ziel_node.attr("typ") === "tpop_ordner_massn") {
+			if (ziel_node_typ === "tpop_ordner_massn") {
 				$.ajax({
 					url: 'php/tpopmassn_einfuegen.php',
 					dataType: 'json',
 					data: {
-						"tpop_id": $(ziel_node).attr("id"),
-						"tpopmassn_id": $(herkunft_node).attr("id"),
+						"tpop_id": ziel_node_id,
+						"tpopmassn_id": herkunft_node_id,
 						"user": sessionStorage.User
 					},
 					success: function () {
@@ -2749,7 +2809,7 @@ function erstelle_tree(ApArtId) {
 						jQuery.jstree._reference(herkunft_node).deselect_all();
 						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
 						//Variablen aufräumen
-						localStorage.tpopmassn_id = $(herkunft_node).attr("id");
+						localStorage.tpopmassn_id = herkunft_node_id;
 						delete window.tpopmassn;
 						delete window.tpopmassn_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
@@ -2769,14 +2829,14 @@ function erstelle_tree(ApArtId) {
 				});
 			}
 		}
-		if (herkunft_node.attr("typ") === "tpopfeldkontr") {
-			if (ziel_node.attr("typ") === "tpopfeldkontr") {
+		if (herkunft_node_typ === "tpopfeldkontr") {
+			if (ziel_node_typ === "tpopfeldkontr") {
 				$.ajax({
 					url: 'php/tpopfeldkontr_einfuegen.php',
 					dataType: 'json',
 					data: {
-						"tpop_id": $(ziel_parent_node).attr("id"),
-						"tpopfeldkontr_id": $(herkunft_node).attr("id"),
+						"tpop_id": ziel_parent_node_id,
+						"tpopfeldkontr_id": herkunft_node_id,
 						"user": sessionStorage.User
 					},
 					success: function () {
@@ -2787,7 +2847,7 @@ function erstelle_tree(ApArtId) {
 						jQuery.jstree._reference(herkunft_node).deselect_all();
 						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
 						//Variablen aufräumen
-						localStorage.tpopfeldkontr_id = $(herkunft_node).attr("id");
+						localStorage.tpopfeldkontr_id = herkunft_node_id;
 						delete window.tpopfeldkontr;
 						delete window.tpopfeldkontr_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
@@ -2806,13 +2866,13 @@ function erstelle_tree(ApArtId) {
 					}
 				});
 			}
-			if (ziel_node.attr("typ") === "tpop_ordner_feldkontr") {
+			if (ziel_node_typ === "tpop_ordner_feldkontr") {
 				$.ajax({
 					url: 'php/tpopfeldkontr_einfuegen.php',
 					dataType: 'json',
 					data: {
-						"tpop_id": $(ziel_node).attr("id"),
-						"tpopfeldkontr_id": $(herkunft_node).attr("id"),
+						"tpop_id": ziel_node_id,
+						"tpopfeldkontr_id": herkunft_node_id,
 						"user": sessionStorage.User
 					},
 					success: function () {
@@ -2823,7 +2883,7 @@ function erstelle_tree(ApArtId) {
 						jQuery.jstree._reference(herkunft_node).deselect_all();
 						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
 						//Variablen aufräumen
-						localStorage.tpopfeldkontr_id = $(herkunft_node).attr("id");
+						localStorage.tpopfeldkontr_id = herkunft_node_id;
 						delete window.tpopfeldkontr;
 						delete window.tpopfeldkontr_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
@@ -2843,14 +2903,14 @@ function erstelle_tree(ApArtId) {
 				});
 			}
 		}
-		if (herkunft_node.attr("typ") === "tpopfreiwkontr") {
-			if (ziel_node.attr("typ") === "tpopfreiwkontr") {
+		if (herkunft_node_typ === "tpopfreiwkontr") {
+			if (ziel_node_typ === "tpopfreiwkontr") {
 				$.ajax({
 					url: 'php/tpopfeldkontr_einfuegen.php',
 					dataType: 'json',
 					data: {
-						"tpop_id": $(ziel_parent_node).attr("id"),
-						"tpopfeldkontr_id": $(herkunft_node).attr("id"),
+						"tpop_id": ziel_parent_node_id,
+						"tpopfeldkontr_id": herkunft_node_id,
 						"user": sessionStorage.User
 					},
 					success: function () {
@@ -2861,7 +2921,7 @@ function erstelle_tree(ApArtId) {
 						jQuery.jstree._reference(herkunft_node).deselect_all();
 						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
 						//Variablen aufräumen
-						localStorage.tpopfeldkontr_id = $(herkunft_node).attr("id");
+						localStorage.tpopfeldkontr_id = herkunft_node_id;
 						delete window.tpopfeldkontr;
 						delete window.tpopfreiwkontr_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
@@ -2881,13 +2941,13 @@ function erstelle_tree(ApArtId) {
 					}
 				});
 			}
-			if (ziel_node.attr("typ") === "tpop_ordner_freiwkontr") {
+			if (ziel_node_typ === "tpop_ordner_freiwkontr") {
 				$.ajax({
 					url: 'php/tpopfeldkontr_einfuegen.php',
 					dataType: 'json',
 					data: {
-						"tpop_id": $(ziel_node).attr("id"),
-						"tpopfeldkontr_id": $(herkunft_node).attr("id"),
+						"tpop_id": ziel_node_id,
+						"tpopfeldkontr_id": herkunft_node_id,
 						"user": sessionStorage.User
 					},
 					success: function () {
@@ -2898,7 +2958,7 @@ function erstelle_tree(ApArtId) {
 						jQuery.jstree._reference(herkunft_node).deselect_all();
 						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
 						//Variablen aufräumen
-						localStorage.tpopfeldkontr_id = $(herkunft_node).attr("id");
+						localStorage.tpopfeldkontr_id = herkunft_node_id;
 						delete window.tpopfeldkontr;
 						delete window.tpopfreiwkontr_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
@@ -2919,35 +2979,32 @@ function erstelle_tree(ApArtId) {
 				});
 			}
 		}
-		if (herkunft_node.attr("typ") === "tpopbeob") {
-			if (ziel_node.attr("typ") === "beob" || ziel_node.attr("typ") === "ap_ordner_beob_nicht_beurteilt") {
+		if (herkunft_node_typ === "tpopbeob") {
+			//zugeordnet
+			if (ziel_node_typ === "beob" || ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
+				//zugeordnet > nicht beurteilt
 				$.ajax({
-					url: 'php/beob_update.php',
+					url: 'php/beob_zuordnung_delete.php',
 					dataType: 'json',
 					data: {
-						"id": $(herkunft_node).attr("id"),
-						"Feld": "TPopId",
-						"Wert": "",
-						"user": sessionStorage.User
+						"id": herkunft_node_id
 					},
-					success: function () {
+					success: function() {
 						//typ des nodes anpassen
-						$(herkunft_node).attr("typ", "beob");
-						//selecten
-						jQuery.jstree._reference(herkunft_node).deselect_all();
-						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+						herkunft_node.attr("typ", "beob");
+						localStorage.beobtyp = "beob";
 						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-						if (ziel_node.attr("typ") === "beob") {
+						if (ziel_node_typ === "beob") {
 							beschrifte_ap_ordner_beob_nicht_beurteilt(ziel_parent_node);
 						} else {
 							beschrifte_ap_ordner_beob_nicht_beurteilt(ziel_node);
 						}
 						beschrifte_tpop_ordner_tpopbeob(window.herkunft_parent_node);
+						//beob initiieren
+						initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_beurteilt");
 						//Variablen aufräumen
-						localStorage.beob_id = $(herkunft_node).attr("id");
 						delete window.tpopbeob_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
-						initiiere_beob($(herkunft_node).attr("beobtyp"), localStorage.BeobId, "zugeordnet");
 					},
 					error: function (data) {
 						$("#Meldung").html("Fehler: Die Beobachtung wurde nicht zugeordnet");
@@ -2962,29 +3019,40 @@ function erstelle_tree(ApArtId) {
 					}
 				});
 			}
-			if (ziel_node.attr("typ") === "tpopbeob") {
+			if (ziel_node_typ === "tpopbeob" || ziel_node_typ === "tpop_ordner_tpopbeob") {
+				//zugeordnet > zugeordnet
+				var neue_tpop_id;
+				if (ziel_node_typ === "tpop_ordner_tpopbeob") {
+					neue_tpop_id = ziel_node_id;
+				} else {
+					neue_tpop_id = ziel_parent_node_id;
+				}
 				$.ajax({
 					url: 'php/beob_update.php',
 					dataType: 'json',
 					data: {
-						"id": $(herkunft_node).attr("id"),
+						"id": localStorage.BeobId,
 						"Feld": "TPopId",
-						"Wert": $(ziel_parent_node).attr("id"),
+						"Wert": neue_tpop_id,
 						"user": sessionStorage.User
 					},
 					success: function () {
 						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-						beschrifte_tpop_ordner_tpopbeob(ziel_parent_node);
+						if (ziel_node_typ === "tpop_ordner_tpopbeob") {
+							beschrifte_tpop_ordner_tpopbeob(ziel_node);
+						} else {
+							beschrifte_tpop_ordner_tpopbeob(ziel_parent_node);
+						}
 						beschrifte_tpop_ordner_tpopbeob(window.herkunft_parent_node);
 						//selection steuern
-						jQuery.jstree._reference(herkunft_node).deselect_all();
-						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+						if (!localStorage.karte_fokussieren) {
+							initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "zugeordnet");
+						} else {
+							delete localStorage.karte_fokussieren;
+						}
 						//Variablen aufräumen
-						localStorage.BeobId = $(herkunft_node).attr("id");
 						delete window.tpopbeob_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
-						//initiiere_tpopbeob();
-						initiiere_beob($(herkunft_node).attr("beobtyp"), localStorage.BeobId, "zugeordnet");
 					},
 					error: function () {
 						$("#Meldung").html("Fehler: Die Beobachtung wurde nicht verschoben");
@@ -2999,29 +3067,173 @@ function erstelle_tree(ApArtId) {
 					}
 				});
 			}
-			if (ziel_node.attr("typ") === "tpop_ordner_tpopbeob") {
+			if (ziel_node_typ === "beob_nicht_zuzuordnen" || ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
+				console.log('häh');
+				//zugeordnet > nicht zuzuordnen
 				$.ajax({
 					url: 'php/beob_update.php',
 					dataType: 'json',
 					data: {
-						"id": $(herkunft_node).attr("id"),
-						"Feld": "TPopId",
-						"Wert": $(ziel_node).attr("id"),
+						"id": herkunft_node_id,
+						"Feld": "BeobNichtZuordnen",
+						"Wert": 1,
 						"user": sessionStorage.User
 					},
-					success: function () {
-						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-						beschrifte_tpop_ordner_tpopbeob(ziel_node);
-						beschrifte_tpop_ordner_tpopbeob(window.herkunft_parent_node);
-						//selection steuern
-						jQuery.jstree._reference(herkunft_node).deselect_all();
-						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
-						//Variablen aufräumen
-						localStorage.BeobId = $(herkunft_node).attr("id");
-						delete window.tpopbeob_node_ausgeschnitten;
-						delete window.herkunft_parent_node;
-						//initiiere_tpopbeob();
-						initiiere_beob($(herkunft_node).attr("beobtyp"), localStorage.BeobId, "zugeordnet");
+					success: function() {
+						//TPopId null setzen
+						console.log('häh häh');
+						$.ajax({
+							url: 'php/beob_update.php',
+							dataType: 'json',
+							data: {
+								"id": herkunft_node_id,
+								"Feld": "TPopId",
+								"Wert": "",
+								"user": sessionStorage.User
+							},
+							error: function() {
+								console.log("fehler beim Leeren von TPopId");
+							}
+						}).done(function() {
+							//aus unerfindlichen Gründen läuft der success callback nicht, darum done
+							console.log('done');
+							//typ des nodes anpassen
+							herkunft_node.attr("typ", "beob_nicht_zuzuordnen");
+							localStorage.beobtyp = "beob_nicht_zuzuordnen";
+							//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+							if (ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
+								beschrifte_ap_ordner_beob_nicht_zuzuordnen(ziel_node);
+							} else {
+								beschrifte_ap_ordner_beob_nicht_zuzuordnen(ziel_parent_node);
+							}
+							beschrifte_tpop_ordner_tpopbeob(window.herkunft_parent_node);
+							//Beob initiieren
+							initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_zuzuordnen");
+							//Variablen aufräumen
+							delete window.beob_node_ausgeschnitten;
+							delete window.herkunft_parent_node;
+						});
+					},
+					error: function() {
+						$("#Meldung").html("Fehler: Die Beobachtung wurde nicht verschoben");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+					}
+				});
+			}
+		}
+		if (herkunft_node_typ === "beob") {
+			//nicht beurteilt
+			if (ziel_node_typ === "tpopbeob" || ziel_node_typ === "tpop_ordner_tpopbeob") {
+				//nicht beurteilt > zugeordnet
+				var neue_tpop_id;
+				if (ziel_node_typ === "tpop_ordner_tpopbeob") {
+					neue_tpop_id = ziel_node_id;
+				} else {
+					neue_tpop_id = ziel_parent_node_id;
+				}
+				//Zuerst eine neue Zuordnung erstellen
+				$.ajax({
+					url: 'php/beob_zuordnung_insert.php',
+					dataType: 'json',
+					data: {
+						"no_note": herkunft_node_id,
+						"user": sessionStorage.User
+					},
+					success: function() {
+						//jetzt aktualisieren
+						$.ajax({
+							url: 'php/beob_update.php',
+							dataType: 'json',
+							data: {
+								"id": herkunft_node_id,
+								"Feld": "TPopId",
+								"Wert": neue_tpop_id,
+								"user": sessionStorage.User
+							},
+							success: function () {
+								//typ des nodes anpassen
+								herkunft_node.attr("typ", "tpopbeob");
+								localStorage.beobtyp = "tpopbeob";
+								//Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
+								beschrifte_ap_ordner_beob_nicht_beurteilt(window.herkunft_parent_node);
+								if (ziel_node_typ === "tpop_ordner_tpopbeob") {
+									beschrifte_tpop_ordner_tpopbeob(ziel_node);
+								} else {
+									beschrifte_tpop_ordner_tpopbeob(ziel_parent_node);
+								}
+								//selection steuern
+								if (!localStorage.karte_fokussieren) {
+									initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "zugeordnet");
+								} else {
+									delete localStorage.karte_fokussieren;
+								}
+								//Variablen aufräumen
+								delete window.beob_node_ausgeschnitten;
+								delete window.herkunft_parent_node;
+							},
+							error: function (data) {
+								$("#Meldung").html("Fehler: Die Beobachtung wurde nicht verschoben");
+								$("#Meldung").dialog({
+									modal: true,
+									buttons: {
+										Ok: function() {
+											$(this).dialog("close");
+										}
+									}
+								});
+							}
+						});
+					}
+				});
+			}
+			if (ziel_node_typ === "beob_nicht_zuzuordnen" || ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
+				//nicht beurteilt > nicht zuordnen
+				$.ajax({
+					url: 'php/beob_zuordnung_insert.php',
+					dataType: 'json',
+					data: {
+						"no_note": herkunft_node_id,
+						"user": sessionStorage.User
+					},
+					success: function() {
+						//jetzt aktualisieren
+						$.ajax({
+							url: 'php/beob_update.php',
+							dataType: 'json',
+							data: {
+								"id": herkunft_node_id,
+								"Feld": "BeobNichtZuordnen",
+								"Wert": 1,
+								"user": sessionStorage.User
+							},
+							success: function() {
+								//typ des nodes anpassen
+								$(herkunft_node).attr("typ", "beob_nicht_zuzuordnen");
+								localStorage.beobtyp = "beob_nicht_zuzuordnen";
+								//Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
+								beschrifte_ap_ordner_beob_nicht_beurteilt(window.herkunft_parent_node);
+								if (ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
+									beschrifte_ap_ordner_beob_nicht_zuzuordnen(ziel_node);
+								} else {
+									beschrifte_ap_ordner_beob_nicht_zuzuordnen(ziel_parent_node);
+								}
+								//Beob initiieren
+								initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_zuzuordnen");
+								//Variablen aufräumen
+								delete window.beob_node_ausgeschnitten;
+								delete window.herkunft_parent_node;
+							},
+							error: function() {
+								console.log("fehler beim Leeren von TPopId");
+							}
+						});
 					},
 					error: function (data) {
 						$("#Meldung").html("Fehler: Die Beobachtung wurde nicht verschoben");
@@ -3037,41 +3249,35 @@ function erstelle_tree(ApArtId) {
 				});
 			}
 		}
-		if (herkunft_node.attr("typ") === "beob") {
-			if (ziel_node.attr("typ") === "tpopbeob") {
+		if (herkunft_node_typ === "beob_nicht_zuzuordnen") {
+			//nicht zuzuordnen
+			if (ziel_node_typ === "beob" || ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
+				//nicht zuzuordnen > nicht beurteilt
 				$.ajax({
-					url: 'php/beob_update.php',
+					url: 'php/beob_zuordnung_delete.php',
 					dataType: 'json',
 					data: {
-						"id": $(herkunft_node).attr("id"),
-						"Feld": "TPopId",
-						"Wert": $(ziel_parent_node).attr("id"),
-						"user": sessionStorage.User
+						"id": herkunft_node_id
 					},
-					success: function () {
+					success: function() {
 						//typ des nodes anpassen
-						$(herkunft_node).attr("typ", "tpopbeob");
-						//selecten, aber nur, wenn nicht in der Karte Beob verschoben werden
-						if (!localStorage.karte_fokussieren) {
-							jQuery.jstree._reference(herkunft_node).deselect_all();
-							jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+						$(herkunft_node).attr("typ", "beob");
+						localStorage.beobtyp = "beob";
+						//Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
+						beschrifte_ap_ordner_beob_nicht_zuzuordnen(window.herkunft_parent_node);
+						if (ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
+							beschrifte_ap_ordner_beob_nicht_beurteilt(ziel_node);
+						} else {
+							beschrifte_ap_ordner_beob_nicht_beurteilt(ziel_parent_node);
 						}
-						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-						beschrifte_ap_ordner_beob_nicht_beurteilt(window.herkunft_parent_node);
-						beschrifte_tpop_ordner_tpopbeob(ziel_parent_node);
+						//selektieren
+						initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_beurteilt");
 						//Variablen aufräumen
-						localStorage.BeobId = $(herkunft_node).attr("id");
 						delete window.beob_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
-						if (!localStorage.karte_fokussieren) {
-							//initiiere_tpopbeob();
-							initiiere_beob($(herkunft_node).attr("beobtyp"), localStorage.BeobId, "zugeordnet");
-						} else {
-							delete localStorage.karte_fokussieren;
-						}
 					},
 					error: function (data) {
-						$("#Meldung").html("Fehler: Die Beobachtung wurde nicht zugeordnet");
+						$("#Meldung").html("Fehler: Die Zuordnung der Beobachtung wurde nicht entfernt");
 						$("#Meldung").dialog({
 							modal: true,
 							buttons: {
@@ -3083,46 +3289,60 @@ function erstelle_tree(ApArtId) {
 					}
 				});
 			}
-			if (ziel_node.attr("typ") === "tpop_ordner_tpopbeob") {
+			if (ziel_node_typ === "tpopbeob" || ziel_node_typ === "tpop_ordner_tpopbeob") {
+				//nicht zuzuordnen > zugeordnet
+				var neue_tpop_id;
+				if (ziel_node_typ === "tpop_ordner_tpopbeob") {
+					neue_tpop_id = ziel_node_id;
+				} else {
+					neue_tpop_id = ziel_parent_node_id;
+				}
 				$.ajax({
 					url: 'php/beob_update.php',
-					dataType: 'json',
-					data: {
-						"id": $(herkunft_node).attr("id"),
-						"Feld": "TPopId",
-						"Wert": $(ziel_node).attr("id"),
-						"user": sessionStorage.User
+						dataType: 'json',
+						data: {
+							"id": herkunft_node_id,
+							"Feld": "BeobNichtZuordnen",
+							"Wert": "",
+							"user": sessionStorage.User
 					},
-					success: function () {
-						//typ des nodes anpassen
-						$(herkunft_node).attr("typ", "tpopbeob");
-						//selecten, aber nur, wenn nicht in der Karte Beob verschoben werden
-						if (!localStorage.karte_fokussieren) {
-							jQuery.jstree._reference(herkunft_node).deselect_all();
-							jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
-						}
-						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-						beschrifte_ap_ordner_beob_nicht_beurteilt(window.herkunft_parent_node);
-						beschrifte_tpop_ordner_tpopbeob(ziel_node);
-						//Variablen aufräumen
-						localStorage.BeobId = $(herkunft_node).attr("id");
-						delete window.beob_node_ausgeschnitten;
-						delete window.herkunft_parent_node;
-						if (!localStorage.karte_fokussieren) {
-							//initiiere_tpopbeob();
-							initiiere_beob($(herkunft_node).attr("beobtyp"), localStorage.BeobId, "zugeordnet");
-						} else {
-							delete localStorage.karte_fokussieren;
-						}
-					},
-					error: function (data) {
-						$("#Meldung").html("Fehler: Die Beobachtung wurde nicht zugeordnet");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
+					success: function() {
+						$.ajax({
+							url: 'php/beob_update.php',
+							dataType: 'json',
+							data: {
+								"id": herkunft_node_id,
+								"Feld": "TPopId",
+								"Wert": neue_tpop_id,
+								"user": sessionStorage.User
+							},
+							success: function () {
+								//typ des nodes anpassen
+								$(herkunft_node).attr("typ", "tpopbeob");
+								localStorage.beobtyp = "tpopbeob";
+								//Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
+								beschrifte_ap_ordner_beob_nicht_zuzuordnen(window.herkunft_parent_node);
+								if (ziel_node_typ === "tpop_ordner_tpopbeob") {
+									beschrifte_tpop_ordner_tpopbeob(ziel_node);
+								} else {
+									beschrifte_tpop_ordner_tpopbeob(ziel_parent_node);
 								}
+								//selection steuern
+								initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "zugeordnet");
+								//Variablen aufräumen
+								delete window.beob_node_ausgeschnitten;
+								delete window.herkunft_parent_node;
+							},
+							error: function (data) {
+								$("#Meldung").html("Fehler: Die Beobachtung wurde nicht verschoben");
+								$("#Meldung").dialog({
+									modal: true,
+									buttons: {
+										Ok: function() {
+											$(this).dialog("close");
+										}
+									}
+								});
 							}
 						});
 					}
@@ -3361,7 +3581,7 @@ function treeKontextmenu(node) {
 						url: 'php/pop_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(aktiver_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"typ": "pop",
 							"user": sessionStorage.User
 						},
@@ -3429,7 +3649,7 @@ function treeKontextmenu(node) {
 						url: 'php/pops_ch_karte.php',
 						dataType: 'json',
 						data: {
-							"ApArtId": $(aktiver_node).attr("id")
+							"ApArtId": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						},
 						success: function (data) {
 							if (data.rows.length > 0) {
@@ -3469,7 +3689,7 @@ function treeKontextmenu(node) {
 						url: 'php/ap_karte.php',
 						dataType: 'json',
 						data: {
-							"id": $(aktiver_node).attr("id")
+							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						},
 						success: function (data) {
 							if (data.rows.length > 0) {
@@ -3522,12 +3742,12 @@ function treeKontextmenu(node) {
 						data: {
 							"id": window.pop_id,
 							"Feld": "ApArtId",
-							"Wert": $(aktiver_node).attr("id"),
+							"Wert": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"user": sessionStorage.User
 						},
 						success: function () {
 							//Baum neu aufbauen
-							$.when(erstelle_tree($(aktiver_node).attr("id")))
+							$.when(erstelle_tree(erstelleIdAusDomAttributId($(aktiver_node).attr("id"))))
 								.then(function() {
 									//dann den eingefügten Node wählen
 									$("#tree").jstree("select_node", "[typ='pop']#" + localStorage.pop_id); 
@@ -3586,7 +3806,7 @@ function treeKontextmenu(node) {
 					neue_apziele_node = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
 						"data": "neue AP-Ziele",
 						"attr": {
-							"id": $(aktiver_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"typ": "apzieljahr"
 						}
 					});
@@ -3594,7 +3814,7 @@ function treeKontextmenu(node) {
 						url: 'php/apziel_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(aktiver_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"typ": "apziel",
 							"user": sessionStorage.User
 						},
@@ -3678,7 +3898,7 @@ function treeKontextmenu(node) {
 						url: 'php/apziel_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(parent_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"typ": "apziel",
 							"user": sessionStorage.User
 						},
@@ -3765,7 +3985,7 @@ function treeKontextmenu(node) {
 						url: 'php/apziel_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(grandparent_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(grandparent_node).attr("id")),
 							"user": sessionStorage.User
 						},
 						success: function (data) {
@@ -3851,7 +4071,7 @@ function treeKontextmenu(node) {
 									url: 'php/apziel_delete.php',
 									dataType: 'json',
 									data: {
-										"id": $(aktiver_node).attr("id")
+										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									},
 									success: function () {
 										delete localStorage.apziel_id;
@@ -3918,7 +4138,7 @@ function treeKontextmenu(node) {
 						url: 'php/zielber_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(aktiver_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"user": sessionStorage.User
 						},
 						success: function (data) {
@@ -3987,7 +4207,7 @@ function treeKontextmenu(node) {
 						url: 'php/zielber_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(parent_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"typ": "zielber",
 							"user": sessionStorage.User
 						},
@@ -4061,7 +4281,7 @@ function treeKontextmenu(node) {
 									url: 'php/zielber_delete.php',
 									dataType: 'json',
 									data: {
-										"id": $(aktiver_node).attr("id")
+										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									},
 									success: function () {
 										delete localStorage.zielber_id;
@@ -4123,7 +4343,7 @@ function treeKontextmenu(node) {
 						url: 'php/erfkrit_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(aktiver_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"user": sessionStorage.User
 						},
 						success: function (data) {
@@ -4192,7 +4412,7 @@ function treeKontextmenu(node) {
 						url: 'php/erfkrit_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(parent_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"typ": "erfkrit",
 							"user": sessionStorage.User
 						},
@@ -4266,7 +4486,7 @@ function treeKontextmenu(node) {
 									url: 'php/erfkrit_delete.php',
 									dataType: 'json',
 									data: {
-										"id": $(aktiver_node).attr("id")
+										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									},
 									success: function () {
 										delete localStorage.erfkrit_id;
@@ -4335,7 +4555,7 @@ function treeKontextmenu(node) {
 						url: 'php/jber_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(aktiver_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"user": sessionStorage.User
 						},
 						success: function (data) {
@@ -4404,7 +4624,7 @@ function treeKontextmenu(node) {
 						url: 'php/jber_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(parent_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"typ": "jber",
 							"user": sessionStorage.User
 						},
@@ -4481,7 +4701,7 @@ function treeKontextmenu(node) {
 									url: 'php/jber_delete.php',
 									dataType: 'json',
 									data: {
-										"id": $(aktiver_node).attr("id")
+										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									},
 									success: function () {
 										delete localStorage.jber_id;
@@ -4622,7 +4842,7 @@ function treeKontextmenu(node) {
 									url: 'php/jber_uebersicht_delete.php',
 									dataType: 'json',
 									data: {
-										"jahr": $(aktiver_node).attr("id")
+										"jahr": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									},
 									success: function () {
 										delete localStorage.jber_uebersicht_id;
@@ -4682,7 +4902,7 @@ function treeKontextmenu(node) {
 						url: 'php/ber_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(aktiver_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"user": sessionStorage.User
 						},
 						success: function (data) {
@@ -4743,7 +4963,7 @@ function treeKontextmenu(node) {
 						url: 'php/ber_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(parent_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"typ": "ber",
 							"user": sessionStorage.User
 						},
@@ -4817,7 +5037,7 @@ function treeKontextmenu(node) {
 									url: 'php/ber_delete.php',
 									dataType: 'json',
 									data: {
-										"id": $(aktiver_node).attr("id")
+										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									},
 									success: function () {
 										delete localStorage.ber_id;
@@ -4879,7 +5099,7 @@ function treeKontextmenu(node) {
 						url: 'php/assozarten_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(aktiver_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"user": sessionStorage.User
 						},
 						success: function (data) {
@@ -4948,7 +5168,7 @@ function treeKontextmenu(node) {
 						url: 'php/assozarten_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(parent_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"typ": "assozarten",
 							"user": sessionStorage.User
 						},
@@ -5022,7 +5242,7 @@ function treeKontextmenu(node) {
 									url: 'php/assozarten_delete.php',
 									dataType: 'json',
 									data: {
-										"id": $(aktiver_node).attr("id")
+										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									},
 									success: function () {
 										delete localStorage.assozarten_id;
@@ -5084,7 +5304,7 @@ function treeKontextmenu(node) {
 						url: 'php/pop_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(parent_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"typ": "pop",
 							"user": sessionStorage.User
 						},
@@ -5184,7 +5404,7 @@ function treeKontextmenu(node) {
 									url: 'php/pop_delete.php',
 									dataType: 'json',
 									data: {
-										"id": $(aktiver_node).attr("id")
+										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									},
 									success: function () {
 										delete localStorage.pop_id;
@@ -5229,7 +5449,7 @@ function treeKontextmenu(node) {
 						url: 'php/pop_ch_karte.php',
 						dataType: 'json',
 						data: {
-							"pop_id": $(aktiver_node).attr("id")
+							"pop_id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						},
 						success: function (data) {
 							if (data.rows.length > 0) {
@@ -5269,7 +5489,7 @@ function treeKontextmenu(node) {
 						url: 'php/pop_karte.php',
 						dataType: 'json',
 						data: {
-							"id": $(aktiver_node).attr("id")
+							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						},
 						success: function (data) {
 							if (data.rows.length > 0) {
@@ -5329,7 +5549,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					//Jetzt die PopId merken - ihr muss danach eine andere ApArtId zugeteilt werden
-					window.pop_id = $(aktiver_node).attr("id");
+					window.pop_id = erstelleIdAusDomAttributId($(aktiver_node).attr("id"));
 					//merken, dass ein node ausgeschnitten wurde
 					window.pop_zum_verschieben_gemerkt = true;
 					//und wie er heisst (um es später im Kontextmenü anzuzeigen)
@@ -5345,7 +5565,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
 					var popid = window.pop_id;
-					var apartid = $(parent_node).attr("id");
+					var apartid = erstelleIdAusDomAttributId($(parent_node).attr("id"));
 					//db aktualisieren
 					$.ajax({
 						url: 'php/pop_update.php',
@@ -5417,7 +5637,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpop_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(aktiver_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"typ": "tpop",
 							"user": sessionStorage.User
 						},
@@ -5465,7 +5685,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpops_karte.php',
 						dataType: 'json',
 						data: {
-							"id": $(aktiver_node).attr("id")
+							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						},
 						success: function (data) {
 							if (data.rows.length > 0) {
@@ -5505,7 +5725,7 @@ function treeKontextmenu(node) {
 						url: 'php/pop_karte.php',
 						dataType: 'json',
 						data: {
-							"id": $(aktiver_node).attr("id")
+							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						},
 						success: function (data) {
 							if (data.rows.length > 0) {
@@ -5609,7 +5829,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpop_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(parent_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"typ": "tpop",
 							"user": sessionStorage.User
 						},
@@ -5689,7 +5909,7 @@ function treeKontextmenu(node) {
 									url: 'php/tpop_delete.php',
 									dataType: 'json',
 									data: {
-										"id": $(aktiver_node).attr("id")
+										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									},
 									success: function () {
 										delete localStorage.tpop_id;
@@ -5734,7 +5954,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpop_karte.php',
 						dataType: 'json',
 						data: {
-							"id": $(aktiver_node).attr("id")
+							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						},
 						success: function (data) {
 							if (data.rows.length > 0) {
@@ -5787,7 +6007,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpop.php',
 						dataType: 'json',
 						data: {
-							"id": $(aktiver_node).attr("id")
+							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						},
 						success: function (data) {
 							verorteTPopAufGeoAdmin(data);
@@ -5815,7 +6035,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpop_karte.php',
 						dataType: 'json',
 						data: {
-							"id": $(aktiver_node).attr("id")
+							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						},
 						success: function (data) {
 							if (data.rows.length > 0) {
@@ -5868,7 +6088,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpop.php',
 						dataType: 'json',
 						data: {
-							"id": $(aktiver_node).attr("id")
+							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						},
 						success: function (data) {
 							verorteTPopAufKarte(data);
@@ -5971,7 +6191,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpop.php',
 						dataType: 'json',
 						data: {
-							"id": $(window.tpop_node_kopiert).attr("id")
+							"id": erstelleIdAusDomAttributId($(window.tpop_node_kopiert).attr("id"))
 						},
 						success: function (data) {
 							window.tpop_objekt_kopiert = data;
@@ -6047,7 +6267,7 @@ function treeKontextmenu(node) {
 						url: 'php/popber_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(aktiver_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"user": sessionStorage.User
 						},
 						success: function (data) {
@@ -6116,7 +6336,7 @@ function treeKontextmenu(node) {
 						url: 'php/popber_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(parent_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"typ": "popber",
 							"user": sessionStorage.User
 						},
@@ -6184,7 +6404,7 @@ function treeKontextmenu(node) {
 									url: 'php/popber_delete.php',
 									dataType: 'json',
 									data: {
-										"id": $(aktiver_node).attr("id")
+										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									},
 									success: function () {
 										delete localStorage.popber_id;
@@ -6246,7 +6466,7 @@ function treeKontextmenu(node) {
 						url: 'php/popmassnber_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(aktiver_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"user": sessionStorage.User
 						},
 						success: function (data) {
@@ -6315,7 +6535,7 @@ function treeKontextmenu(node) {
 						url: 'php/popmassnber_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(parent_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"typ": "popmassnber",
 							"user": sessionStorage.User
 						},
@@ -6383,7 +6603,7 @@ function treeKontextmenu(node) {
 									url: 'php/popmassnber_delete.php',
 									dataType: 'json',
 									data: {
-										"id": $(aktiver_node).attr("id")
+										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									},
 									success: function () {
 										delete localStorage.popmassnber_id;
@@ -6445,7 +6665,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopfeldkontr_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(aktiver_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"typ": "tpopfeldkontr",
 							"user": sessionStorage.User
 						},
@@ -6522,7 +6742,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					//User und neue TPopId mitgeben
-					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + $(aktiver_node).attr("id") + "&TPopKontrId=" + $(window.tpopfeldkontr_node_kopiert).attr("id");
+					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + "&TPopKontrId=" + erstelleIdAusDomAttributId($(window.tpopfeldkontr_node_kopiert).attr("id"));
 					//und an die DB schicken
 					$.ajax({
 						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
@@ -6585,7 +6805,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopfeldkontr_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(parent_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"typ": "tpopfeldkontr",
 							"user": sessionStorage.User
 						},
@@ -6656,7 +6876,7 @@ function treeKontextmenu(node) {
 									url: 'php/tpopfeldkontr_delete.php',
 									dataType: 'json',
 									data: {
-										"id": $(aktiver_node).attr("id")
+										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									},
 									success: function () {
 										delete localStorage.tpopfeldkontr_id;
@@ -6780,7 +7000,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					var url_string = "?id=" + $(aktiver_node).attr("id") + "&user=" + sessionStorage.User;
+					var url_string = "?id=" + erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + "&user=" + sessionStorage.User;
 					//nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
@@ -6873,7 +7093,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopfeldkontr.php',
 						dataType: 'json',
 						data: {
-							"id": $(window.tpopfeldkontr_node_kopiert).attr("id")
+							"id": erstelleIdAusDomAttributId($(window.tpopfeldkontr_node_kopiert).attr("id"))
 						},
 						success: function (data) {
 							window.tpopfeldkontr_objekt_kopiert = data;
@@ -6924,7 +7144,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					//User und neue TPopId mitgeben
-					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + $(parent_node).attr("id") + "&TPopKontrId=" + $(window.tpopfeldkontr_node_kopiert).attr("id");
+					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + erstelleIdAusDomAttributId($(parent_node).attr("id")) + "&TPopKontrId=" + erstelleIdAusDomAttributId($(window.tpopfeldkontr_node_kopiert).attr("id"));
 					//und an die DB schicken
 					$.ajax({
 						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
@@ -6987,7 +7207,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopfeldkontr_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(aktiver_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"user": sessionStorage.User,
 							"TPopKontrTyp": "Freiwilligen-Erfolgskontrolle"
 						},
@@ -7065,7 +7285,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					//User und neue TPopId mitgeben
-					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + $(aktiver_node).attr("id") + "&TPopKontrId=" + $(window.tpopfreiwkontr_node_kopiert).attr("id");
+					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + "&TPopKontrId=" + erstelleIdAusDomAttributId($(window.tpopfreiwkontr_node_kopiert).attr("id"));
 					//und an die DB schicken
 					$.ajax({
 						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
@@ -7130,7 +7350,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopfeldkontr_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(parent_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"user": sessionStorage.User,
 							"TPopKontrTyp": "Freiwilligen-Erfolgskontrolle"
 						},
@@ -7202,7 +7422,7 @@ function treeKontextmenu(node) {
 									url: 'php/tpopfeldkontr_delete.php',
 									dataType: 'json',
 									data: {
-										"id": $(aktiver_node).attr("id")
+										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									},
 									success: function () {
 										delete localStorage.tpopfeldkontr_id;
@@ -7301,7 +7521,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopfeldkontr.php',
 						dataType: 'json',
 						data: {
-							"id": $(window.tpopfreiwkontr_node_kopiert).attr("id")
+							"id": erstelleIdAusDomAttributId($(window.tpopfreiwkontr_node_kopiert).attr("id"))
 						},
 						success: function (data) {
 							tpopfreiwkontr_objekt_kopiert = data;
@@ -7353,7 +7573,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					//User und neue TPopId mitgeben
-					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + $(parent_node).attr("id") + "&TPopKontrId=" + $(window.tpopfreiwkontr_node_kopiert).attr("id");
+					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + erstelleIdAusDomAttributId($(parent_node).attr("id")) + "&TPopKontrId=" + erstelleIdAusDomAttributId($(window.tpopfreiwkontr_node_kopiert).attr("id"));
 					//und an die DB schicken
 					$.ajax({
 						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
@@ -7417,7 +7637,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopmassn_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(aktiver_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"typ": "tpopmassn",
 							"user": sessionStorage.User
 						},
@@ -7494,7 +7714,7 @@ function treeKontextmenu(node) {
 					}
 					var dataUrl;
 					//User und neue TPopId mitgeben
-					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + $(aktiver_node).attr("id") + "&TPopMassnId=" + $(window.tpopmassn_node_kopiert).attr("id");
+					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + "&TPopMassnId=" + erstelleIdAusDomAttributId($(window.tpopmassn_node_kopiert).attr("id"));
 					//und an die DB schicken
 					$.ajax({
 						url: 'php/tpopmassn_insert_kopie.php' + dataUrl,
@@ -7558,7 +7778,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopmassn_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(parent_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"typ": "tpopmassn",
 							"user": sessionStorage.User
 						},
@@ -7629,7 +7849,7 @@ function treeKontextmenu(node) {
 									url: 'php/tpopmassn_delete.php',
 									dataType: 'json',
 									data: {
-										"id": $(aktiver_node).attr("id")
+										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									},
 									success: function () {
 										delete localStorage.tpopmassn_id;
@@ -7727,7 +7947,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopmassn.php',
 						dataType: 'json',
 						data: {
-							"id": $(window.tpopmassn_node_kopiert).attr("id")
+							"id": erstelleIdAusDomAttributId($(window.tpopmassn_node_kopiert).attr("id"))
 						},
 						success: function (data) {
 							window.tpopmassn_objekt_kopiert = data;
@@ -7783,7 +8003,7 @@ function treeKontextmenu(node) {
 					}
 					var dataUrl;
 					//User und neue TPopId mitgeben
-					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + $(parent_node).attr("id") + "&TPopMassnId=" + $(window.tpopmassn_node_kopiert).attr("id");
+					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + erstelleIdAusDomAttributId($(parent_node).attr("id")) + "&TPopMassnId=" + erstelleIdAusDomAttributId($(window.tpopmassn_node_kopiert).attr("id"));
 					//und an die DB schicken
 					$.ajax({
 						url: 'php/tpopmassn_insert_kopie.php' + dataUrl,
@@ -7846,7 +8066,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopber_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(aktiver_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"user": sessionStorage.User
 						},
 						success: function (data) {
@@ -7915,7 +8135,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopber_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(parent_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"typ": "tpopber",
 							"user": sessionStorage.User
 						},
@@ -7983,7 +8203,7 @@ function treeKontextmenu(node) {
 									url: 'php/tpopber_delete.php',
 									dataType: 'json',
 									data: {
-										"id": $(aktiver_node).attr("id")
+										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									},
 									success: function () {
 										delete localStorage.tpopber_id;
@@ -8033,7 +8253,7 @@ function treeKontextmenu(node) {
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
-							"tpop_id": $(aktiver_node).attr("id")
+							"tpop_id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						},
 						success: function (data) {
 							if (data.rows.length > 0) {
@@ -8098,7 +8318,7 @@ function treeKontextmenu(node) {
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
-							"beobid": $(aktiver_node).attr("id"),
+							"beobid": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 						},
 						success: function (data) {
 							if (data.rows.length > 0) {
@@ -8138,7 +8358,7 @@ function treeKontextmenu(node) {
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
-							"beobid": $(aktiver_node).attr("id")
+							"beobid": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						},
 						success: function (beob) {
 							if (beob.rows.length > 0) {
@@ -8281,7 +8501,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopmassnber_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(aktiver_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"user": sessionStorage.User
 						},
 						success: function (data) {
@@ -8350,7 +8570,7 @@ function treeKontextmenu(node) {
 						url: 'php/tpopmassnber_insert.php',
 						dataType: 'json',
 						data: {
-							"id": $(parent_node).attr("id"),
+							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"typ": "tpopmassnber",
 							"user": sessionStorage.User
 						},
@@ -8418,7 +8638,7 @@ function treeKontextmenu(node) {
 									url: 'php/tpopmassnber_delete.php',
 									dataType: 'json',
 									data: {
-										"id": $(aktiver_node).attr("id")
+										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									},
 									success: function () {
 										delete localStorage.tpopmassnber_id;
@@ -8468,7 +8688,7 @@ function treeKontextmenu(node) {
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
-							"apart_id": $(aktiver_node).attr("id")
+							"apart_id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						},
 						success: function (data) {
 							if (data.rows.length > 0) {
@@ -8508,7 +8728,7 @@ function treeKontextmenu(node) {
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
-							"apart_id": $(aktiver_node).attr("id")
+							"apart_id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						},
 						success: function (beob) {
 							if (beob.rows.length > 0) {
@@ -8516,7 +8736,7 @@ function treeKontextmenu(node) {
 									url: 'php/ap_karte.php',
 									dataType: 'json',
 									data: {
-										"id": $(aktiver_node).attr("id")
+										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									},
 									success: function (tpop) {
 										if (tpop.rows.length > 0) {
@@ -8583,7 +8803,7 @@ function treeKontextmenu(node) {
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
-							"beobid": $(aktiver_node).attr("id")
+							"beobid": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						},
 						success: function (data) {
 							if (data.rows.length > 0) {
@@ -8623,7 +8843,7 @@ function treeKontextmenu(node) {
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
-							"beobid": $(aktiver_node).attr("id")
+							"beobid": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						},
 						success: function (beob) {
 							if (beob.rows.length > 0) {
@@ -8631,7 +8851,7 @@ function treeKontextmenu(node) {
 									url: 'php/ap_karte.php',
 									dataType: 'json',
 									data: {
-										"id": $(parent_node).attr("id")
+										"id": erstelleIdAusDomAttributId($(parent_node).attr("id"))
 									},
 									success: function (tpop) {
 										if (tpop.rows.length > 0) {
@@ -8753,7 +8973,7 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 	}
 
 	//User und neue PopId mitgeben
-	dataUrl = "?user=" + sessionStorage.User + "&PopId=" + $(aktiver_node).attr("id") + "&TPopId=" + $(window.tpop_node_kopiert).attr("id");
+	dataUrl = "?user=" + sessionStorage.User + "&PopId=" + erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + "&TPopId=" + erstelleIdAusDomAttributId($(window.tpop_node_kopiert).attr("id"));
 	//und an die DB schicken
 	$.ajax({
 		url: 'php/tpop_insert_kopie.php' + dataUrl,
@@ -8817,7 +9037,7 @@ function pop_kopiert_in_pop_einfuegen(aktiver_node, parent_node) {
 		parent_node = jQuery.jstree._reference(aktiver_node)._get_parent(aktiver_node);
 	}
 	//User und neue ApArtId mitgeben
-	dataUrl = "?MutWer=" + sessionStorage.User + "&ApArtId=" + $(parent_node).attr("id");
+	dataUrl = "?MutWer=" + sessionStorage.User + "&ApArtId=" + erstelleIdAusDomAttributId($(parent_node).attr("id"));
 	//die alten id's entfernen
 	delete window.pop_objekt_kopiert.ApArtId;
 	delete window.pop_objekt_kopiert.PopId;
@@ -8889,7 +9109,7 @@ function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 		parent_node = jQuery.jstree._reference(aktiver_node)._get_parent(aktiver_node);
 	}
 	//User und neue PopId mitgeben
-	dataUrl = "?MutWer=" + sessionStorage.User + "&PopId=" + $(parent_node).attr("id");
+	dataUrl = "?MutWer=" + sessionStorage.User + "&PopId=" + erstelleIdAusDomAttributId($(parent_node).attr("id"));
 	//die alten id's entfernen
 	delete window.tpop_objekt_kopiert.PopId;
 	delete window.tpop_objekt_kopiert.TPopId;
@@ -12851,13 +13071,14 @@ function verschiebeBeobZuTPop(tpop_id) {
 			"user": sessionStorage.User
 		},
 		success: function(data) {
-			console.log("localStorage.beob_status = " + localStorage.beob_status);
 			//node verschieben
 			//geht zu: tpop_ordner_tpopbeob, tpop_id
 			//TODO: DIESE VERSCHIEBUNG FUNKTIONIERT BEI beob_status === "nicht_zuzuordnen" NICHT!!!
 			$("#tree").jstree("move_node", "#beob" + localStorage.BeobId, "#tpop_ordner_tpopbeob" + tpop_id, "first");
 			//typ anpassen (wäre bei beob_status "zugeordnet" nicht nötig)
-			$("#beob" + localStorage.BeobId).attr("typ", "tpopbeob");
+			if ($("#beob" + localStorage.BeobId).attr("typ") !== "tpopbeob") {
+				$("#beob" + localStorage.BeobId).attr("typ", "tpopbeob");
+			}
 			//Parent Node-Beschriftung am Herkunftsort: Anzahl anpassen
 			if (localStorage.beob_status === "nicht_beurteilt") {
 				beschrifte_ap_ordner_beob_nicht_beurteilt($("#ap_ordner_beob_nicht_beurteilt" + localStorage.ap_id));
@@ -12871,7 +13092,10 @@ function verschiebeBeobZuTPop(tpop_id) {
 			//tpop_id ist die im Formular gewählte neue tpop
 			beschrifte_tpop_ordner_tpopbeob($("#tpop_ordner_tpopbeob" + tpop_id));
 			//beob initiieren
-			$("#tree").jstree("select_node", "#beob" + localStorage.BeobId);
+			//TODO: DIESER SELECT LÖST EINEN ZUSÄTZLICHEN AJAX-AUFRUF AUS, MIT BeobId inkl. vorangesetztem "beob"!
+			//zum Glück scheitert die Abfrage, gibt aber trotzdem keinen Fehler zurück...
+			//$("#tree").jstree("select_node", "#beob" + localStorage.BeobId);
+			jQuery.jstree._reference("#beob" + localStorage.BeobId).select_node("#beob" + localStorage.BeobId);
 		},
 		error: function (data) {
 			$("#Meldung").html("Fehler: Die Zuordnung der Beobachtung wurde nicht verändert");
@@ -12885,6 +13109,14 @@ function verschiebeBeobZuTPop(tpop_id) {
 			});
 		}
 	});
+}
+
+//in DOM-Objekten sind viele ID's der Name des DOM-Elements vorangestellt, damit die ID eindeutig ist
+function erstelleIdAusDomAttributId(domAttributId) {
+	console.log('erstelleIdAusDomAttributId meldet: domAttributId erhalten = ' + domAttributId);
+	var returnWert = domAttributId.replace('ap_ordner_pop', '').replace('ap_ordner_apziel', '').replace('ap_ordner_erfkrit', '').replace('ap_ordner_jber', '').replace('ap_ordner_ber', '').replace('ap_ordner_beob_nicht_beurteilt', '').replace('ap_ordner_beob_nicht_zuzuordnen', '').replace('umwfakt', '').replace('ap_ordner_assozarten', '').replace('tpop_ordner_massn', '').replace('tpop_ordner_massnber', '').replace('tpop_ordner_feldkontr', '').replace('tpop_ordner_freiwkontr', '').replace('tpop_ordner_tpopber', '').replace('tpop_ordner_tpopbeob', '').replace('beob', '');
+	console.log('erstelleIdAusDomAttributId meldet: domAttributId retourniert = ' + returnWert);
+	return returnWert;
 }
 
 (function($) {

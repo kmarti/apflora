@@ -1907,7 +1907,7 @@
 							<label id="BeobNichtZuordnen_label" for='BeobNichtBeurteilt'>Nicht beurteilt:</label>
 						</td>
 						<td class="Datenfelder">
-							<input type="checkbox" name="BeobNichtBeurteilt" id="BeobNichtBeurteilt" class="speichern" formular="beob">
+							<input type="checkbox" name="BeobNichtBeurteilt" id="BeobNichtBeurteilt" formular="beob">
 						</td>
 					</tr>
 				</table>
@@ -2253,146 +2253,24 @@
 					}
 				});
 
-				$("#beob").on("change", "#BeobNichtBeurteilt", function() {
-					//Löschabfrage
+				$("#beob").on("change", "#BeobNichtBeurteilt", function(event) {
 					if ($("#BeobNichtBeurteilt").prop("checked") === true) {
-						//Löschabfrage TODO
-
-						//move node
-
+						//node verschieben. Den rest macht der callback zu jstree.move_node
+						$("#tree").jstree("move_node", "#beob" + localStorage.BeobId, "#ap_ordner_beob_nicht_beurteilt" + localStorage.ap_id, "first");
+					} else {
+						//es bringt nichts, diesen Haken zu entfernen
+						//stattdessen soll ein anderer Wert gewählt werden
+						$("#BeobNichtBeurteilt").prop("checked", true);
 					}
 				});
 
 				$("#beob").on("change", "#BeobNichtZuordnen", function() {
 					if ($("#BeobNichtZuordnen").prop("checked") === true) {
-						console.log('BeobNichtZuordnen ist gewählt');
-						if (localStorage.beob_status === "nicht_beurteilt") {
-							console.log('localStorage.beob_status === "nicht_beurteilt"');
-							//Zuerst eine neue Zuordnung erstellen
-							$.ajax({
-								url: 'php/beob_zuordnung_insert.php',
-								dataType: 'json',
-								data: {
-									"no_note": localStorage.BeobId,
-									"user": sessionStorage.User
-								},
-								success: function() {
-									//jetzt aktualisieren
-									console.log('will BeobNichtZuordnen = 1 setzen');
-									$.ajax({
-										url: 'php/beob_update.php',
-										dataType: 'json',
-										data: {
-											"id": localStorage.BeobId,
-											"Feld": "BeobNichtZuordnen",
-											"Wert": 1,
-											"user": sessionStorage.User
-										},
-										success: function () {
-											console.log('BeobNichtZuordnen sollte 1 sein');
-											$("#tree").jstree("move_node", "#beob" + localStorage.BeobId, "#ap_ordner_beob_nicht_zuzuordnen" + localStorage.ap_id, "first");
-											//typ des nodes anpassen
-											$("#beob" + localStorage.BeobId).attr("typ", "beob_nicht_zuzuordnen");
-											$("#tree").jstree("select_node", "#beob" + localStorage.BeobId);
-											//Parent Node-Beschriftung am Zielort: Anzahl anpassen
-											beschrifte_ap_ordner_beob_nicht_zuzuordnen($("#ap_ordner_beob_nicht_zuzuordnen" + localStorage.ap_id));
-											//Parent Node-Beschriftung am Herkunftort: Anzahl anpassen
-											beschrifte_ap_ordner_beob_nicht_beurteilt($("#ap_ordner_beob_nicht_beurteilt" + localStorage.ap_id));
-										},
-										error: function (data) {
-											$("#Meldung").html("Fehler: Die Zuordnung der Beobachtung wurde nicht entfernt");
-											$("#Meldung").dialog({
-												modal: true,
-												buttons: {
-													Ok: function() {
-														$(this).dialog("close");
-													}
-												}
-											});
-										}
-									});
-								}
-							});
-						} else if (localStorage.beob_status === "zugeordnet") {
-							console.log('localStorage.beob_status === "zugeordnet"');
-							//BeobNichtZuordnen 1 setzen 
-							$.ajax({
-								url: 'php/beob_update.php',
-								dataType: 'json',
-								data: {
-									"id": localStorage.BeobId,
-									"Feld": "BeobNichtZuordnen",
-									"Wert": 1,
-									"user": sessionStorage.User
-								},
-								success: function() {
-									console.log("BeobNichtZuordnen 1 gesetzt");
-									//TPopId null setzen
-									//der success-callback trat nie ein! darum danach weiter mit done
-									$.ajax({
-										url: 'php/beob_update.php',
-										dataType: 'json',
-										data: {
-											"id": localStorage.BeobId,
-											"Feld": "TPopId",
-											"Wert": "",
-											"user": sessionStorage.User
-										},
-										succcess: function() {
-											console.log('TPopId geleert');
-										},
-										error: function() {
-											console.log("fehler beim Leeren von TPopId");
-										}
-									}).done(function() {
-										console.log('done');
-										//node verschieben
-										$("#tree").jstree("move_node", "#beob" + localStorage.BeobId, "#ap_ordner_beob_nicht_zuzuordnen" + localStorage.ap_id, "first");
-										//typ des nodes anpassen
-										$("#beob" + localStorage.BeobId).attr("typ", "beob_nicht_zuzuordnen");
-										//Beob initiieren
-										$("#tree").jstree("select_node", "#beob" + localStorage.BeobId);
-										//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-										beschrifte_ap_ordner_beob_nicht_zuzuordnen($("#ap_ordner_beob_nicht_zuzuordnen" + localStorage.ap_id));
-										beschrifte_tpop_ordner_tpopbeob($("#tpop_ordner_tpopbeob" + localStorage.tpop_id));
-									});
-								},
-								error: function (data) {
-									$("#Meldung").html("Fehler: Die Zuordnung der Beobachtung wurde nicht entfernt");
-									$("#Meldung").dialog({
-										modal: true,
-										buttons: {
-											Ok: function() {
-												$(this).dialog("close");
-											}
-										}
-									});
-								}
-							});
-						}
+						//node verschieben. Der Rest wird vom Callback fon jstree.move_node erledigt
+						$("#tree").jstree("move_node", "#beob" + localStorage.BeobId, "#ap_ordner_beob_nicht_zuzuordnen" + localStorage.ap_id, "first");
 					} else {
-						//TODO
-						//Datensatz aus tblBeobZuordnung löschen
-						$.ajax({
-							url: 'php/beob_zuordnung_delete.php',
-							dataType: 'json',
-							data: {
-								"id": localStorage.BeobId
-							},
-							success: function() {
-								console.log('und jetzt verschieben');
-								//TODO: VERSCHIEBEN FUNKTIONIERT NICHT!
-								//node verschieben
-								$("#tree").jstree("move_node", "#beob" + localStorage.BeobId, "#ap_ordner_beob_nicht_beurteilt" + localStorage.ap_id, "first");
-								//typ des nodes anpassen
-								$("#beob" + localStorage.BeobId).attr("typ", "beob");
-								//Beob initiieren
-								$("#tree").jstree("select_node", "#beob" + localStorage.BeobId);
-								//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-								beschrifte_ap_ordner_beob_nicht_zuzuordnen($("#ap_ordner_beob_nicht_zuzuordnen" + localStorage.ap_id));
-								beschrifte_ap_ordner_beob_nicht_beurteilt($("#ap_ordner_beob_nicht_beurteilt" + localStorage.ap_id));
-							}
-						});
+						//node verschieben. Den Rest macht der callback zu jstree.move_node
+						$("#tree").jstree("move_node", "#beob" + localStorage.BeobId, "#ap_ordner_beob_nicht_beurteilt" + localStorage.ap_id, "first");
 					}
 				});
 
