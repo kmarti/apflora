@@ -49,7 +49,7 @@
 		</fieldset>
 
 		<fieldset id="forms">
-			<div id="forms_titelzeile" style="margin:0px 0px 0px 0px; line-height:27px; padding: 0px 7px 0px 9px;">
+			<div id="forms_titelzeile" style="margin:0px 0px 0px 0px; line-height:27px; padding: 0px 7px 0px 9px; height:auto;">
 				<div id="undelete_div" style="text-align:center !important; border-radius:0.5em !important; font-weight:bold !important; background-color:#FFCC33 !important; padding-right:7px !important;"></div>
 				<div id="testart_div" style="font-weight:bold; color:#196319; float:left; padding-right:7px;"></div>
 			</div>
@@ -1901,6 +1901,7 @@
 			</form>
 
 			<form id="beob" class="form" action="#" method="get" autocomplete="off">
+				<h1>Informationen des Aktionsplans</h1>
 				<table>
 					<tr class="fieldcontain">
 						<td class="label">
@@ -2360,10 +2361,12 @@
 											delete window.deleted.Artname;
 											//forms muss eingeblendet sein, weil undelete_div darin ist
 											zeigeFormular("keines");
+											$("#forms_titelzeile").show();
 											$("#undelete_div").show();
 											setTimeout(function () {
 												$("#undelete_div").html("");
 												$("#undelete_div").hide();
+												$("#forms_titelzeile").hide();
 												//Formulare wieder ausblenden
 												zeigeFormular();
 											}, 25000);
@@ -2431,6 +2434,7 @@
 							dataType: 'json',
 							success: function () {
 								$("#undelete_div").hide();
+								$("#forms_titelzeile").hide();
 								//Formulare ausblenden
 								zeigeFormular();
 								//neu initiieren, damit die gelöschte Art gewählt werden kann
@@ -2467,6 +2471,7 @@
 							dataType: 'json',
 							success: function () {
 								$("#undelete_div").hide();
+								$("#forms_titelzeile").hide();
 								//tree neu aufbauen
 								$.when(erstelle_tree(apartid))
 									.then(function() {
@@ -2504,6 +2509,7 @@
 							dataType: 'json',
 							success: function () {
 								$("#undelete_div").hide();
+								$("#forms_titelzeile").hide();
 								//tree neu aufbauen
 								$.when(erstelle_tree(apartid))
 									.then(function() {
@@ -2541,6 +2547,7 @@
 							dataType: 'json',
 							success: function () {
 								$("#undelete_div").hide();
+								$("#forms_titelzeile").hide();
 								//tree neu aufbauen
 								$.when(erstelle_tree(apartid))
 									.then(function() {
@@ -2580,6 +2587,7 @@
 							dataType: 'json',
 							success: function () {
 								$("#undelete_div").hide();
+								$("#forms_titelzeile").hide();
 								//tree neu aufbauen
 								$.when(erstelle_tree(apartid))
 									.then(function() {
@@ -2617,6 +2625,7 @@
 							dataType: 'json',
 							success: function () {
 								$("#undelete_div").hide();
+								$("#forms_titelzeile").hide();
 								//tree neu aufbauen
 								$.when(erstelle_tree(apartid))
 									.then(function() {

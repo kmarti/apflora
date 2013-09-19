@@ -27,12 +27,12 @@ body {
 
 fieldset {
 	background-color: #FFE;
-	border:1px solid;
-	border-color:#A5A59A;
+	border: 1px solid;
+	border-color: #A5A59A;
 	border-radius: 8px;
 
 	font-family: Arial, Verdana, Helvetica, sans-serif !important;
-	font-size:16px !important;
+	font-size: 16px !important;
 
 	margin: 0px 7px 10px 0px !important;
 }
@@ -40,11 +40,12 @@ fieldset {
 form fieldset {
 	padding-bottom: 10px;
 	padding-left: 10px;
-	padding-bottom:4px;
+	padding-bottom: 4px;
 }
 
 #forms {
-	margin-bottom:7px;
+	padding-top: 7px;
+	margin-bottom: 7px;
 }
 
 #menu {

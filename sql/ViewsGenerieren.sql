@@ -1184,23 +1184,3 @@ QWurzel((XKoord-TPopXKoord)*(XKoord-TPopXKoord)+(YKoord-TPopYKoord)*(YKoord-TPop
 
 
 SQRT
-
-
-#vorsichtshalber behalten, nicht mehr im Gebrauch:
-CREATE VIEW vKontrBeobDistanzZurTPop AS
-SELECT ArtenDb_tblFloraSisf.Name AS Art, DomainApBearbeitungsstand.DomainTxt AS ApStatus, tblPopulation.PopNr, tblPopulation.PopName, tblTeilpopulation.TPopNr, tblTeilpopulation.TPopGemeinde, tblTeilpopulation.TPopFlurname, tblTeilpopulation.TPopXKoord, tblTeilpopulation.TPopYKoord, alexande_beob.tblBeob.NO_NOTE AS IdZdsf, alexande_beob.tblBeob.IdEvab, alexande_beob.tblBeob.xGIS AS Beob_X, alexande_beob.tblBeob.yGIS AS Beob_Y, SQRT((alexande_beob.tblBeob.xGIS-tblTeilpopulation.TPopXKoord)*(alexande_beob.tblBeob.xGIS-tblTeilpopulation.TPopXKoord)+(alexande_beob.tblBeob.yGIS-tblTeilpopulation.TPopYKoord)*(alexande_beob.tblBeob.yGIS-tblTeilpopulation.TPopYKoord)) AS Beob_DistZurTPop, alexande_beob.tblBeob.PROJET AS Beob_Projekt, alexande_beob.tblBeob.NOM_COMMUNE AS Beob_RaumGde, alexande_beob.tblBeob.DESC_LOCALITE AS Beob_Ort, CAST(IF(alexande_beob.tblBeob.M_NOTE>0, IF(alexande_beob.tblBeob.M_NOTE>9, CONCAT(alexande_beob.tblBeob.J_NOTE, ".", alexande_beob.tblBeob.M_NOTE, ".", alexande_beob.tblBeob.A_NOTE), CONCAT(alexande_beob.tblBeob.J_NOTE, ".0", alexande_beob.tblBeob.M_NOTE, ".", alexande_beob.tblBeob.A_NOTE)), alexande_beob.tblBeob.A_NOTE) AS CHAR) AS Beob_Datum, alexande_beob.tblBeob.Autor AS Beob_Autor
-FROM (ArtenDb_tblFloraSisf INNER JOIN (((tblAktionsplan INNER JOIN tblPopulation ON tblAktionsplan.ApArtId = tblPopulation.ApArtId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) INNER JOIN alexande_beob.tblBeob ON tblTeilpopulation.TPopId = alexande_beob.tblBeob.TPopId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId) INNER JOIN DomainApBearbeitungsstand ON tblAktionsplan.ApStatus = DomainApBearbeitungsstand.DomainCode
-ORDER BY ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr, tblPopulation.PopName, tblTeilpopulation.TPopNr, tblTeilpopulation.TPopGemeinde, tblTeilpopulation.TPopFlurname;
-
-#nicht im Gebrauch, vorläufig behalten:
-CREATE VIEW vAuswTPopInUmgebung00 AS 
-SELECT ArtenDb_tblFloraSisf.Name, tblAktionsplan.ApArtId, tblAktionsplan.ApStatus, tblPopulation.PopNr, tblPopulation.PopHerkunft, tblPopulation.PopName, tblTeilpopulation.TPopNr, tblTeilpopulation.TPopHerkunft, tblTeilpopulation.TPopGemeinde, tblTeilpopulation.TPopFlurname, tblKonstanten.XKoord, tblKonstanten.YKoord, tblTeilpopulation.TPopXKoord, tblTeilpopulation.TPopYKoord, SQRT((XKoord-TPopXKoord)*(XKoord-TPopXKoord)+(YKoord-TPopYKoord)*(YKoord-TPopYKoord)) AS "DistanzZurXYKoord"
-FROM tblKonstanten, ArtenDb_tblFloraSisf INNER JOIN ((tblAktionsplan INNER JOIN tblPopulation ON tblAktionsplan.ApArtId = tblPopulation.ApArtId) INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId) ON ArtenDb_tblFloraSisf.NR = tblAktionsplan.ApArtId
-WHERE (((tblTeilpopulation.TPopXKoord) Is Not Null) AND ((tblTeilpopulation.TPopYKoord) Is Not Null) AND ((SQRT((XKoord-TPopXKoord)*(XKoord-TPopXKoord)+(YKoord-TPopYKoord)*(YKoord-TPopYKoord)))<=tblKonstanten.Distanz))
-ORDER BY ArtenDb_tblFloraSisf.Name, tblPopulation.PopNr, tblTeilpopulation.TPopNr;
-
-#nicht im Gebrauch, vorläufig behalten:
-CREATE VIEW vAuswTPopInUmgebung0 AS
-SELECT vAuswTPopInUmgebung00.Name, vAuswTPopInUmgebung00.ApArtId, DomainApBearbeitungsstand.DomainTxt AS ApStatus, vAuswTPopInUmgebung00.PopNr, vAuswTPopInUmgebung00.PopName, DomainPopHerkunft.HerkunftTxt AS PopHerkunft, vAuswTPopInUmgebung00.TPopNr, vAuswTPopInUmgebung00.TPopGemeinde, vAuswTPopInUmgebung00.TPopFlurname, DomainPopHerkunft_1.HerkunftTxt AS TPopHerkunft, vAuswTPopInUmgebung00.XKoord, vAuswTPopInUmgebung00.YKoord, vAuswTPopInUmgebung00.TPopXKoord, vAuswTPopInUmgebung00.TPopYKoord, vAuswTPopInUmgebung00.DistanzZurXYKoord
-FROM ((vAuswTPopInUmgebung00 LEFT JOIN DomainApBearbeitungsstand ON vAuswTPopInUmgebung00.ApStatus = DomainApBearbeitungsstand.DomainCode) LEFT JOIN DomainPopHerkunft ON vAuswTPopInUmgebung00.PopHerkunft = DomainPopHerkunft.HerkunftId) LEFT JOIN DomainPopHerkunft AS DomainPopHerkunft_1 ON vAuswTPopInUmgebung00.TPopHerkunft = DomainPopHerkunft_1.HerkunftId
-ORDER BY vAuswTPopInUmgebung00.Name, vAuswTPopInUmgebung00.PopNr, vAuswTPopInUmgebung00.TPopNr;

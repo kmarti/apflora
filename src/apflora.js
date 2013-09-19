@@ -8,6 +8,7 @@ function initiiere_index() {
 
 	$("#suchen").hide();
 	$("#undelete_div").hide();
+	$("#forms_titelzeile").hide();
 	$("#hilfe").hide();
 
 	$("#loeschen_dialog").hide();
@@ -1707,6 +1708,7 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 
 function initiiere_exporte(anchor) {
 	$("#testart_div").hide();
+	$("#forms_titelzeile").hide();
 	zeigeFormular("exporte");
 	history.replaceState({ex: "ex"}, "ex", "index.html?exporte=true");
 	if (anchor) {
@@ -1736,22 +1738,26 @@ function zeigeFormular(Formularname) {
 	//höhe von forms auf auto setzen, weil dies von den Kartenansichten verändert wird
 	$("#forms").height('auto');
 	$("#testart_div").hide();
+	$("#forms_titelzeile").hide();
 	//Titelzeile anzeigen, weil sie für die Kartenanzeige entfernt wird
-	$("#forms_titelzeile").css("display", "inline-block");
+	//$("#forms_titelzeile").css("display", "inline-block");
 	//Bei Testarten Hinweis anzeigen
 	if ($("#ap_waehlen").val()) {
 		//titelzeile inline, sonst gibt es einen unschönen Abstand nach oben
-		$("#forms_titelzeile").css("display", "inline");
+		//$("#forms_titelzeile").css("display", "inline");
+		$("#forms_titelzeile").css("display", "none");
 		if ($("#ap_waehlen").val() <= 150 && Formularname !== "jber_uebersicht" && Formularname !== "exporte" && Formularname !== "GeoAdminKarte") {
 			$("#testart_div").css("color", "#03970F");
 			//titelzeile inline-block, sonst werden Tabs nach rechts verschoben
 			$("#forms_titelzeile").css("display", "inline-block");
 			$("#testart_div").show();
+			//$("#forms_titelzeile").show();
 			$("#testart_div").html("Das ist eine Testart - hier kann man alles ausprobieren!");
 		} else if ($("#ap_waehlen").val() <= 150 && Formularname === "jber_uebersicht") {
 			$("#testart_div").css("color", "#DF0303");
 			$("#forms_titelzeile").css("display", "inline-block");
 			$("#testart_div").show();
+			//$("#forms_titelzeile").show();
 			$("#testart_div").html("Vorsicht: Die Übericht ist für alle Arten, daher HIER NICHT TESTEN");
 		}
 	}
@@ -4700,9 +4706,11 @@ function treeKontextmenu(node) {
 										//Hinweis zum rückgängig machen anzeigen
 										$("#undelete_div").html("AP-Bericht '" + window.deleted.JBerJahr + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
 										$("#undelete_div").show();
+										$("#forms_titelzeile").show();
 										setTimeout(function () {
 											$("#undelete_div").html("");
 											$("#undelete_div").hide();
+											$("#forms_titelzeile").hide();
 										}, 25000);
 									},
 									error: function (data) {
@@ -5403,9 +5411,11 @@ function treeKontextmenu(node) {
 										//Hinweis zum rückgängig machen anzeigen
 										$("#undelete_div").html("Population '" + window.deleted.PopName + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
 										$("#undelete_div").show();
+										$("#forms_titelzeile").show();
 										setTimeout(function () {
 											$("#undelete_div").html("");
 											$("#undelete_div").hide();
+											$("#forms_titelzeile").hide();
 										}, 25000);
 									},
 									error: function (data) {
@@ -5908,9 +5918,11 @@ function treeKontextmenu(node) {
 										//Hinweis zum rückgängig machen anzeigen
 										$("#undelete_div").html("Teilpopulation '" + window.deleted.TPopFlurname + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
 										$("#undelete_div").show();
+										$("#forms_titelzeile").show();
 										setTimeout(function () {
 											$("#undelete_div").html("");
 											$("#undelete_div").hide();
+											$("#forms_titelzeile").hide();
 										}, 25000);
 									},
 									error: function (data) {
@@ -6875,9 +6887,11 @@ function treeKontextmenu(node) {
 										//Hinweis zum rückgängig machen anzeigen
 										$("#undelete_div").html("Feldkontrolle '" + window.deleted.TPopKontrJahr + ": " + window.deleted.TPopKontrTyp + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
 										$("#undelete_div").show();
+										$("#forms_titelzeile").show();
 										setTimeout(function () {
 											$("#undelete_div").html("");
 											$("#undelete_div").hide();
+											$("#forms_titelzeile").hide();
 										}, 25000);
 									},
 									error: function (data) {
@@ -7422,9 +7436,11 @@ function treeKontextmenu(node) {
 										//Hinweis zum rückgängig machen anzeigen
 										$("#undelete_div").html("Freiwilligen-Kontrolle '" + window.deleted.TPopKontrJahr + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
 										$("#undelete_div").show();
+										$("#forms_titelzeile").show();
 										setTimeout(function () {
 											$("#undelete_div").html("");
 											$("#undelete_div").hide();
+											$("#forms_titelzeile").hide();
 										}, 25000);
 									},
 									error: function (data) {
@@ -7848,9 +7864,11 @@ function treeKontextmenu(node) {
 										//Hinweis zum rückgängig machen anzeigen
 										$("#undelete_div").html("Massnahme '" + window.deleted.TPopMassnJahr + ": " + window.deleted.TPopMassnTyp + "' wurde gelöscht. <a href='#' id='undelete'>Wiederherstellen?</a>");
 										$("#undelete_div").show();
+										$("#forms_titelzeile").show();
 										setTimeout(function () {
 											$("#undelete_div").html("");
 											$("#undelete_div").hide();
+											$("#forms_titelzeile").hide();
 										}, 25000);
 									},
 									error: function (data) {
@@ -13014,13 +13032,13 @@ function erstelleUnterordnerFuerTPop(TPopNode) {
 //erwartet die Daten der Beobachtung
 function erstelleFelderFuerBeob(data, beobtyp) {
 	//Titel für Beob im Formular erstellen
-	var beobtitel = "<h1>Informationen zur Beobachtung (aus ";
+	var beobtitel = "<h1>Informationen aus ";
 	if (beobtyp === "infospezies") {
 		beobtitel += "Info Spezies";
 	} else {
 		beobtitel += "EvAB";
 	}
-	beobtitel += ")</h1>";
+	beobtitel += " (nicht veränderbar)</h1>";
 	//Beob-Felder dynamisch aufbauen
 	var html_beobfelder = "<table>";
 	var html_beobfeld;
