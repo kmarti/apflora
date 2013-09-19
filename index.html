@@ -2276,39 +2276,7 @@
 
 				$("#beob").on("change", "[name='DistZuTPop']", function() {
 					var tpop_id = $(this).val();
-					if (localStorage.beob_status === "nicht_beurteilt") {
-						//Zuerst eine neue Zuordnung erstellen
-						$.ajax({
-							url: 'php/beob_zuordnung_insert.php',
-							dataType: 'json',
-							data: {
-								"no_note": localStorage.BeobId,
-								"user": sessionStorage.User
-							},
-							success: function() {
-								//jetzt aktualisieren und node verschieben
-								verschiebeBeobZuTPop(tpop_id);
-							}
-						});
-					} else if (localStorage.beob_status === "nicht_zuzuordnen") {
-						//Zuerst BeobNichtZuordnen leeren
-						$.ajax({
-							url: 'php/beob_update.php',
-							dataType: 'json',
-							data: {
-								"id": localStorage.BeobId,
-								"Feld": "BeobNichtZuordnen",
-								"Wert": "",
-								"user": sessionStorage.User
-							},
-							success: function() {
-								//jetzt aktualisieren und node verschieben
-								verschiebeBeobZuTPop(tpop_id);
-							}
-						});
-					} else {
-						verschiebeBeobZuTPop(tpop_id);
-					}
+					$("#tree").jstree("move_node", "#beob" + localStorage.BeobId, "#tpop_ordner_tpopbeob" + tpop_id, "first");
 				});
 
 				$("#google_karte").on("click", "#distanz_messen", function(event) {

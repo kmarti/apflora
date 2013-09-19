@@ -13059,58 +13059,6 @@ function erstelleFelderFuerBeob(data, beobtyp) {
 	return beobtitel + html_beobfelder;
 }
 
-function verschiebeBeobZuTPop(tpop_id) {
-	//War schon zugewiesen > Aktualisierungsabfrage
-	$.ajax({
-		url: 'php/beob_update.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.BeobId,
-			"Feld": "TPopId",
-			"Wert": tpop_id,
-			"user": sessionStorage.User
-		},
-		success: function(data) {
-			//node verschieben
-			//geht zu: tpop_ordner_tpopbeob, tpop_id
-			//TODO: DIESE VERSCHIEBUNG FUNKTIONIERT BEI beob_status === "nicht_zuzuordnen" NICHT!!!
-			$("#tree").jstree("move_node", "#beob" + localStorage.BeobId, "#tpop_ordner_tpopbeob" + tpop_id, "first");
-			//typ anpassen (wäre bei beob_status "zugeordnet" nicht nötig)
-			if ($("#beob" + localStorage.BeobId).attr("typ") !== "tpopbeob") {
-				$("#beob" + localStorage.BeobId).attr("typ", "tpopbeob");
-			}
-			//Parent Node-Beschriftung am Herkunftsort: Anzahl anpassen
-			if (localStorage.beob_status === "nicht_beurteilt") {
-				beschrifte_ap_ordner_beob_nicht_beurteilt($("#ap_ordner_beob_nicht_beurteilt" + localStorage.ap_id));
-			} else if (localStorage.beob_status === "zugeordnet") {
-				//localStorage.tpop_id ist die tpop, der die beob bisher zugeordnet war
-				beschrifte_tpop_ordner_tpopbeob($("#tpop_ordner_tpopbeob" + localStorage.tpop_id));
-			} else if (localStorage.beob_status === "nicht_zuzuordnen") {
-				beschrifte_ap_ordner_beob_nicht_zuzuordnen($("#ap_ordner_beob_nicht_zuzuordnen" + localStorage.ap_id));
-			}
-			//Parent Node-Beschriftung am Zielort: Anzahl anpassen
-			//tpop_id ist die im Formular gewählte neue tpop
-			beschrifte_tpop_ordner_tpopbeob($("#tpop_ordner_tpopbeob" + tpop_id));
-			//beob initiieren
-			//TODO: DIESER SELECT LÖST EINEN ZUSÄTZLICHEN AJAX-AUFRUF AUS, MIT BeobId inkl. vorangesetztem "beob"!
-			//zum Glück scheitert die Abfrage, gibt aber trotzdem keinen Fehler zurück...
-			//$("#tree").jstree("select_node", "#beob" + localStorage.BeobId);
-			jQuery.jstree._reference("#beob" + localStorage.BeobId).select_node("#beob" + localStorage.BeobId);
-		},
-		error: function (data) {
-			$("#Meldung").html("Fehler: Die Zuordnung der Beobachtung wurde nicht verändert");
-			$("#Meldung").dialog({
-				modal: true,
-				buttons: {
-					Ok: function() {
-						$(this).dialog("close");
-					}
-				}
-			});
-		}
-	});
-}
-
 //in DOM-Objekten sind viele ID's der Name des DOM-Elements vorangestellt, damit die ID eindeutig ist
 function erstelleIdAusDomAttributId(domAttributId) {
 	console.log('erstelleIdAusDomAttributId meldet: domAttributId erhalten = ' + domAttributId);
