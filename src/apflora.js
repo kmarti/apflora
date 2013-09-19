@@ -1583,7 +1583,6 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 	//- schon zugewiesen ist (zugeordnet)
 	//- noch nicht beurteilt ist (nicht_beurteilt)
 	//- nicht zuzuordnen ist (nicht_zuzuordnen)
-	console.log('initiiere beob');
 	//beob_status muss gespeichert werden, damit bei Datenänderungen bekannt ist, ob ein bestehender Datensatz bearbeitet oder ein neuer geschaffen werden muss
 	localStorage.beob_status = beob_status;
 	//sicherstellen, dass beobtyp immer bekannt ist
@@ -1595,7 +1594,6 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 
 	var url, url_distzutpop;
 	if (!beobid) {
-		console.log('es fehlt beobid > eine Ebene höher');
 		//es fehlen benötigte Daten > eine Ebene höher
 		if (beob_status === "nicht_beurteilt" || beob_status === "nicht_zuzuordnen") {
 			initiiere_ap();
@@ -1658,8 +1656,6 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 
 							//distzutpop bereitstellen
 							$("#beob_zuordnungsfelder").html(html_distzutpop);
-
-							console.log('initiiere_beob meldet: beob_status = ' + beob_status);
 
 							if (beob_status !== "nicht_beurteilt") {
 								//Daten der Zuordnung holen
@@ -2374,7 +2370,6 @@ function erstelle_tree(ApArtId) {
 		}
 	})
 	.bind("select_node.jstree", function (e, data) {
-		console.log('event "select_node.jstree" beginnt jetzt');
 		var node;	
 		delete localStorage.tpopfreiwkontr;	//Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
@@ -2493,7 +2488,6 @@ function erstelle_tree(ApArtId) {
 			if (!$("#beob").is(':visible') || localStorage.BeobId !== node_id || localStorage.beob_status !== "zugeordnet") {
 				localStorage.BeobId = node_id;
 				localStorage.beobtyp = node.attr("beobtyp");
-				console.log('jstree.selct_node mit node_typ === "tpopbeob" initiiert beob');
 				initiiere_beob(node.attr("beobtyp"), node_id, "zugeordnet");
 			}
 		} else if (node_typ === "beob") {
@@ -2502,7 +2496,6 @@ function erstelle_tree(ApArtId) {
 				localStorage.BeobId = node_id;
 				localStorage.beobtyp = node.attr("beobtyp");
 				//den Beobtyp mitgeben
-				console.log('jstree.selct_node mit node_typ === "beob" initiiert beob');
 				initiiere_beob(node.attr("beobtyp"), node_id, "nicht_beurteilt");
 			}
 		} else if (node_typ === "beob_nicht_zuzuordnen") {
@@ -2511,7 +2504,6 @@ function erstelle_tree(ApArtId) {
 				localStorage.BeobId = node_id;
 				localStorage.beobtyp = node.attr("beobtyp");
 				//den Beobtyp mitgeben
-				console.log('jstree.selct_node mit node_typ === "beob_nicht_zuzuordnen" initiiert beob');
 				initiiere_beob(node.attr("beobtyp"), node_id, "nicht_zuzuordnen");
 			}
 		} else if (node_typ === "tpopmassnber") {
@@ -2562,7 +2554,6 @@ function erstelle_tree(ApArtId) {
 		//Variabeln setzen
 		herkunft_node = data.rslt.o;
 		herkunft_node_id = erstelleIdAusDomAttributId($(herkunft_node).attr("id"));
-		console.log('jstree.move_node meldet: herkunft_node_id = ' + herkunft_node_id);
 		herkunft_node_typ = herkunft_node.attr("typ");
 		ziel_node = data.rslt.r;
 		ziel_node_id = erstelleIdAusDomAttributId($(ziel_node).attr("id"));
@@ -3068,7 +3059,6 @@ function erstelle_tree(ApArtId) {
 				});
 			}
 			if (ziel_node_typ === "beob_nicht_zuzuordnen" || ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
-				console.log('häh');
 				//zugeordnet > nicht zuzuordnen
 				$.ajax({
 					url: 'php/beob_update.php',
@@ -3081,7 +3071,6 @@ function erstelle_tree(ApArtId) {
 					},
 					success: function() {
 						//TPopId null setzen
-						console.log('häh häh');
 						$.ajax({
 							url: 'php/beob_update.php',
 							dataType: 'json',
@@ -3096,7 +3085,6 @@ function erstelle_tree(ApArtId) {
 							}
 						}).done(function() {
 							//aus unerfindlichen Gründen läuft der success callback nicht, darum done
-							console.log('done');
 							//typ des nodes anpassen
 							herkunft_node.attr("typ", "beob_nicht_zuzuordnen");
 							localStorage.beobtyp = "beob_nicht_zuzuordnen";
@@ -13061,9 +13049,10 @@ function erstelleFelderFuerBeob(data, beobtyp) {
 
 //in DOM-Objekten sind viele ID's der Name des DOM-Elements vorangestellt, damit die ID eindeutig ist
 function erstelleIdAusDomAttributId(domAttributId) {
-	console.log('erstelleIdAusDomAttributId meldet: domAttributId erhalten = ' + domAttributId);
 	var returnWert = domAttributId.replace('ap_ordner_pop', '').replace('ap_ordner_apziel', '').replace('ap_ordner_erfkrit', '').replace('ap_ordner_jber', '').replace('ap_ordner_ber', '').replace('ap_ordner_beob_nicht_beurteilt', '').replace('ap_ordner_beob_nicht_zuzuordnen', '').replace('umwfakt', '').replace('ap_ordner_assozarten', '').replace('tpop_ordner_massn', '').replace('tpop_ordner_massnber', '').replace('tpop_ordner_feldkontr', '').replace('tpop_ordner_freiwkontr', '').replace('tpop_ordner_tpopber', '').replace('tpop_ordner_tpopbeob', '').replace('beob', '');
-	console.log('erstelleIdAusDomAttributId meldet: domAttributId retourniert = ' + returnWert);
+	if (domAttributId == returnWert && parseInt(returnWert) && parseInt(returnWert) != returnWert) {
+		console.log('erstelleIdAusDomAttributId meldet: erhalten ' + domAttributId + ', zurückgegeben: ' + returnWert + '. Die Regel in der function muss wohl angepasst werden');
+	}
 	return returnWert;
 }
 
