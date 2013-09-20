@@ -1669,8 +1669,6 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 										"id": beobid
 									},
 									success: function (data) {
-										//tpopbeob bereitstellen
-										//window.tpopbeob_zuordnung = data;
 										//Felder mit Daten beliefern
 										$("#BeobNichtBeurteilt").prop("checked", false);
 										if (data.BeobNichtZuordnen == 1) {
@@ -1686,7 +1684,7 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 										//Formulare blenden
 										zeigeFormular("beob");
 										if (beob_status === "zugeordnet") {
-											history.replaceState({tpopbeob: "tpopbeob"}, "tpopbeob", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopbeob=" + beobid);
+											history.replaceState({beob_zugeordnet: "beob_zugeordnet"}, "beob_zugeordnet", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&beob_zugeordnet=" + beobid);
 										} else if (beob_status === "nicht_zuzuordnen") {
 											history.replaceState({beob_nicht_zuzuordnen: "beob_nicht_zuzuordnen"}, "beob_nicht_zuzuordnen", "index.html?ap=" + localStorage.ap_id + "&beob_nicht_zuzuordnen=" + beobid);
 										}
@@ -2011,14 +2009,14 @@ function erstelle_tree(ApArtId) {
 						} else {
 							return false;
 						}
-					} else if (m.o.attr("typ") === "tpopbeob") {
-						if (m.r.attr("typ") === "tpopbeob") {
+					} else if (m.o.attr("typ") === "beob_zugeordnet") {
+						if (m.r.attr("typ") === "beob_zugeordnet") {
 							return {
 								after: true,
 								before: true,
 								inside: false
 							};
-						} else if (m.r.attr("typ") === "tpop_ordner_tpopbeob") {
+						} else if (m.r.attr("typ") === "tpop_ordner_beob_zugeordnet") {
 							return {
 								after: false,
 								before: false,
@@ -2052,13 +2050,13 @@ function erstelle_tree(ApArtId) {
 							return false;
 						}
 					} else if (m.o.attr("typ") === "beob_nicht_beurteilt") {
-						if (m.r.attr("typ") === "tpopbeob") {
+						if (m.r.attr("typ") === "beob_zugeordnet") {
 							return {
 								after: true,
 								before: true,
 								inside: false
 							};
-						} else if (m.r.attr("typ") === "tpop_ordner_tpopbeob") {
+						} else if (m.r.attr("typ") === "tpop_ordner_beob_zugeordnet") {
 							return {
 								after: false,
 								before: false,
@@ -2092,13 +2090,13 @@ function erstelle_tree(ApArtId) {
 							return false;
 						}
 					} else if (m.o.attr("typ") === "beob_nicht_zuzuordnen") {
-						if (m.r.attr("typ") === "tpopbeob") {
+						if (m.r.attr("typ") === "beob_zugeordnet") {
 							return {
 								after: true,
 								before: true,
 								inside: false
 							};
-						} else if (m.r.attr("typ") === "tpop_ordner_tpopbeob") {
+						} else if (m.r.attr("typ") === "tpop_ordner_beob_zugeordnet") {
 							return {
 								after: false,
 								before: false,
@@ -2153,7 +2151,7 @@ function erstelle_tree(ApArtId) {
 					"valid_children": "tpop"
 				},
 				"tpop": {
-					"valid_children": ["tpop_ordner_massn", "tpop_ordner_massnber", "tpop_ordner_feldkontr", "tpop_ordner_freiwkontr", "tpop_ordner_tpopber", "tpop_ordner_tpopbeob"],
+					"valid_children": ["tpop_ordner_massn", "tpop_ordner_massnber", "tpop_ordner_feldkontr", "tpop_ordner_freiwkontr", "tpop_ordner_tpopber", "tpop_ordner_beob_zugeordnet"],
 					"new_node": "neue Teilpopulation"
 				},
 				"tpop_ordner_massn": {
@@ -2191,10 +2189,10 @@ function erstelle_tree(ApArtId) {
 					"valid_children": "none",
 					"new_node": "neuer Teilpopulations-Bericht"
 				},
-				"tpop_ordner_tpopbeob": {
-					"valid_children": "tpopbeob"
+				"tpop_ordner_beob_zugeordnet": {
+					"valid_children": "beob_zugeordnet"
 				},
-				"tpopbeob": {
+				"beob_zugeordnet": {
 					"valid_children": "none"
 				},
 				"pop_ordner_popber": {
@@ -2326,10 +2324,10 @@ function erstelle_tree(ApArtId) {
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopber geöffnet wird
 			delete window.tpopber_zeigen;
 		}
-		if (window.tpopbeob_zeigen) {
+		if (window.beob_zugeordnet_zeigen) {
 			jQuery("#tree").jstree("select_node", "#beob" + localStorage.beob_id);
-			//diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopbeob geöffnet wird
-			delete window.tpopbeob_zeigen;
+			//diese Markierung entfernen, damit das nächste mal nicht mehr diese beob_zugeordnet geöffnet wird
+			delete window.beob_zugeordnet_zeigen;
 		}
 		if (window.tpopmassnber_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='tpopmassnber']#" + localStorage.tpopmassnber_id);
@@ -2515,7 +2513,7 @@ function erstelle_tree(ApArtId) {
 				localStorage.tpopber_id = node_id;
 				initiiere_tpopber();
 			}
-		} else if (node_typ === "tpopbeob") {
+		} else if (node_typ === "beob_zugeordnet") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#beob").is(':visible') || localStorage.beob_id !== node_id || localStorage.beob_status !== "zugeordnet") {
 				localStorage.beob_id = node_id;
@@ -3002,7 +3000,7 @@ function erstelle_tree(ApArtId) {
 				});
 			}
 		}
-		if (herkunft_node_typ === "tpopbeob") {
+		if (herkunft_node_typ === "beob_zugeordnet") {
 			//zugeordnet
 			if (ziel_node_typ === "beob_nicht_beurteilt" || ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
 				//zugeordnet > nicht beurteilt
@@ -3022,11 +3020,11 @@ function erstelle_tree(ApArtId) {
 						} else {
 							beschrifte_ap_ordner_beob_nicht_beurteilt(ziel_node);
 						}
-						beschrifte_tpop_ordner_tpopbeob(window.herkunft_parent_node);
+						beschrifte_tpop_ordner_beob_zugeordnet(window.herkunft_parent_node);
 						//beob initiieren
 						initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_beurteilt");
 						//Variablen aufräumen
-						delete window.tpopbeob_node_ausgeschnitten;
+						delete window.beob_zugeordnet_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
 					},
 					error: function (data) {
@@ -3042,10 +3040,10 @@ function erstelle_tree(ApArtId) {
 					}
 				});
 			}
-			if (ziel_node_typ === "tpopbeob" || ziel_node_typ === "tpop_ordner_tpopbeob") {
+			if (ziel_node_typ === "beob_zugeordnet" || ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
 				//zugeordnet > zugeordnet
 				var neue_tpop_id;
-				if (ziel_node_typ === "tpop_ordner_tpopbeob") {
+				if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
 					neue_tpop_id = ziel_node_id;
 				} else {
 					neue_tpop_id = ziel_parent_node_id;
@@ -3061,12 +3059,12 @@ function erstelle_tree(ApArtId) {
 					},
 					success: function () {
 						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-						if (ziel_node_typ === "tpop_ordner_tpopbeob") {
-							beschrifte_tpop_ordner_tpopbeob(ziel_node);
+						if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
+							beschrifte_tpop_ordner_beob_zugeordnet(ziel_node);
 						} else {
-							beschrifte_tpop_ordner_tpopbeob(ziel_parent_node);
+							beschrifte_tpop_ordner_beob_zugeordnet(ziel_parent_node);
 						}
-						beschrifte_tpop_ordner_tpopbeob(window.herkunft_parent_node);
+						beschrifte_tpop_ordner_beob_zugeordnet(window.herkunft_parent_node);
 						//selection steuern
 						if (!localStorage.karte_fokussieren) {
 							initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "zugeordnet");
@@ -3074,7 +3072,7 @@ function erstelle_tree(ApArtId) {
 							delete localStorage.karte_fokussieren;
 						}
 						//Variablen aufräumen
-						delete window.tpopbeob_node_ausgeschnitten;
+						delete window.beob_zugeordnet_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
 					},
 					error: function () {
@@ -3126,7 +3124,7 @@ function erstelle_tree(ApArtId) {
 							} else {
 								beschrifte_ap_ordner_beob_nicht_zuzuordnen(ziel_parent_node);
 							}
-							beschrifte_tpop_ordner_tpopbeob(window.herkunft_parent_node);
+							beschrifte_tpop_ordner_beob_zugeordnet(window.herkunft_parent_node);
 							//Beob initiieren
 							initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_zuzuordnen");
 							//Variablen aufräumen
@@ -3150,10 +3148,10 @@ function erstelle_tree(ApArtId) {
 		}
 		if (herkunft_node_typ === "beob_nicht_beurteilt") {
 			//nicht beurteilt
-			if (ziel_node_typ === "tpopbeob" || ziel_node_typ === "tpop_ordner_tpopbeob") {
+			if (ziel_node_typ === "beob_zugeordnet" || ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
 				//nicht beurteilt > zugeordnet
 				var neue_tpop_id;
-				if (ziel_node_typ === "tpop_ordner_tpopbeob") {
+				if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
 					neue_tpop_id = ziel_node_id;
 				} else {
 					neue_tpop_id = ziel_parent_node_id;
@@ -3179,14 +3177,14 @@ function erstelle_tree(ApArtId) {
 							},
 							success: function () {
 								//typ des nodes anpassen
-								herkunft_node.attr("typ", "tpopbeob");
-								localStorage.beobtyp = "tpopbeob";
+								herkunft_node.attr("typ", "beob_zugeordnet");
+								localStorage.beobtyp = "beob_zugeordnet";
 								//Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
 								beschrifte_ap_ordner_beob_nicht_beurteilt(window.herkunft_parent_node);
-								if (ziel_node_typ === "tpop_ordner_tpopbeob") {
-									beschrifte_tpop_ordner_tpopbeob(ziel_node);
+								if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
+									beschrifte_tpop_ordner_beob_zugeordnet(ziel_node);
 								} else {
-									beschrifte_tpop_ordner_tpopbeob(ziel_parent_node);
+									beschrifte_tpop_ordner_beob_zugeordnet(ziel_parent_node);
 								}
 								//selection steuern
 								if (!localStorage.karte_fokussieren) {
@@ -3309,10 +3307,10 @@ function erstelle_tree(ApArtId) {
 					}
 				});
 			}
-			if (ziel_node_typ === "tpopbeob" || ziel_node_typ === "tpop_ordner_tpopbeob") {
+			if (ziel_node_typ === "beob_zugeordnet" || ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
 				//nicht zuzuordnen > zugeordnet
 				var neue_tpop_id;
-				if (ziel_node_typ === "tpop_ordner_tpopbeob") {
+				if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
 					neue_tpop_id = ziel_node_id;
 				} else {
 					neue_tpop_id = ziel_parent_node_id;
@@ -3338,14 +3336,14 @@ function erstelle_tree(ApArtId) {
 							},
 							success: function () {
 								//typ des nodes anpassen
-								$(herkunft_node).attr("typ", "tpopbeob");
-								localStorage.beobtyp = "tpopbeob";
+								$(herkunft_node).attr("typ", "beob_zugeordnet");
+								localStorage.beobtyp = "beob_zugeordnet";
 								//Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
 								beschrifte_ap_ordner_beob_nicht_zuzuordnen(window.herkunft_parent_node);
-								if (ziel_node_typ === "tpop_ordner_tpopbeob") {
-									beschrifte_tpop_ordner_tpopbeob(ziel_node);
+								if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
+									beschrifte_tpop_ordner_beob_zugeordnet(ziel_node);
 								} else {
-									beschrifte_tpop_ordner_tpopbeob(ziel_parent_node);
+									beschrifte_tpop_ordner_beob_zugeordnet(ziel_parent_node);
 								}
 								//selection steuern
 								initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "zugeordnet");
@@ -3534,7 +3532,7 @@ function beschrifte_tpop_ordner_freiwkontr(node) {
 
 //übernimmt einen node
 //zählt dessen children und passt die Beschriftung an
-function beschrifte_tpop_ordner_tpopbeob(node) {
+function beschrifte_tpop_ordner_beob_zugeordnet(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	anzTxt = "Beobachtungen (" + anz + ")";
@@ -8274,7 +8272,7 @@ function treeKontextmenu(node) {
 			}
 		};
 		return items;
-	case "tpop_ordner_tpopbeob":
+	case "tpop_ordner_beob_zugeordnet":
 		items = {
 			"GoogleMaps": {
 				"label": "auf Luftbild zeigen",
@@ -8317,14 +8315,14 @@ function treeKontextmenu(node) {
 				}
 			}
 		};
-		if (window.tpopbeob_node_ausgeschnitten) {
+		if (window.beob_zugeordnet_node_ausgeschnitten) {
 			items = {};
 			items.einfuegen = {
-				"label": jQuery.jstree._reference(window.tpopbeob_node_ausgeschnitten).get_text(window.tpopbeob_node_ausgeschnitten) + " einfügen",
+				"label": jQuery.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					jQuery.jstree._reference(aktiver_node).move_node(window.tpopbeob_node_ausgeschnitten, aktiver_node, "first", false);
+					jQuery.jstree._reference(aktiver_node).move_node(window.beob_zugeordnet_node_ausgeschnitten, aktiver_node, "first", false);
 				}
 			}
 		}
@@ -8339,7 +8337,7 @@ function treeKontextmenu(node) {
 			}
 		}
 		return items;
-	case "tpopbeob":
+	case "beob_zugeordnet":
 		items = {
 			"GoogleMaps": {
 				"label": "auf Luftbild zeigen",
@@ -8465,7 +8463,7 @@ function treeKontextmenu(node) {
 				}
 			}
 		};
-		if (!window.tpopbeob_node_ausgeschnitten) {
+		if (!window.beob_zugeordnet_node_ausgeschnitten) {
 			items.ausschneiden = {
 				//"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
 				"label": "ausschneiden",
@@ -8485,17 +8483,17 @@ function treeKontextmenu(node) {
 						});
 						return;
 					}
-					window.tpopbeob_node_ausgeschnitten = aktiver_node;
+					window.beob_zugeordnet_node_ausgeschnitten = aktiver_node;
 				}
 			}
 		}
-		if (window.tpopbeob_node_ausgeschnitten) {
-			items.einfuegen_tpopbeob = {
-				"label": jQuery.jstree._reference(window.tpopbeob_node_ausgeschnitten).get_text(window.tpopbeob_node_ausgeschnitten) + " einfügen",
+		if (window.beob_zugeordnet_node_ausgeschnitten) {
+			items.einfuegen_beob_zugeordnet = {
+				"label": jQuery.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					jQuery.jstree._reference(parent_node).move_node(window.tpopbeob_node_ausgeschnitten, parent_node, "first", false);
+					jQuery.jstree._reference(parent_node).move_node(window.beob_zugeordnet_node_ausgeschnitten, parent_node, "first", false);
 				}
 			}
 		}
@@ -8813,13 +8811,13 @@ function treeKontextmenu(node) {
 				}
 			}
 		}
-		if (window.tpopbeob_node_ausgeschnitten) {
+		if (window.beob_zugeordnet_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": jQuery.jstree._reference(window.tpopbeob_node_ausgeschnitten).get_text(window.tpopbeob_node_ausgeschnitten) + " einfügen",
+				"label": jQuery.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					jQuery("#tree").jstree("move_node", window.tpopbeob_node_ausgeschnitten, aktiver_node, "first");
+					jQuery("#tree").jstree("move_node", window.beob_zugeordnet_node_ausgeschnitten, aktiver_node, "first");
 				}
 			}
 		}
@@ -8974,13 +8972,13 @@ function treeKontextmenu(node) {
 				}
 			}
 		}
-		if (window.tpopbeob_node_ausgeschnitten) {
+		if (window.beob_zugeordnet_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": jQuery.jstree._reference(window.tpopbeob_node_ausgeschnitten).get_text(window.tpopbeob_node_ausgeschnitten) + " einfügen",
+				"label": jQuery.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					jQuery("#tree").jstree("move_node", window.tpopbeob_node_ausgeschnitten, parent_node, "first");
+					jQuery("#tree").jstree("move_node", window.beob_zugeordnet_node_ausgeschnitten, parent_node, "first");
 				}
 			}
 		}
@@ -11460,9 +11458,9 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 								localStorage.karte_fokussieren = true;
 								//Beob der TPop zuweisen
 								if (Beob.TPopId) {
-									$("#tree").jstree("move_node", "[typ='tpop_ordner_tpopbeob'] #" + Beob.BeobId, "[typ='tpop_ordner_tpopbeob']#" + data[0].TPopId, "first");	//FUNKTIONIERT BEI ZUGEORDNETEN BEOB, sonst erscheint ein # vor dem selector
+									$("#tree").jstree("move_node", "[typ='tpop_ordner_beob_zugeordnet'] #" + Beob.BeobId, "[typ='tpop_ordner_beob_zugeordnet']#" + data[0].TPopId, "first");	//FUNKTIONIERT BEI ZUGEORDNETEN BEOB, sonst erscheint ein # vor dem selector
 								} else {
-									$("#tree").jstree("move_node", "[typ='beob']#" + Beob.BeobId, "[typ='tpop_ordner_tpopbeob']#" + data[0].TPopId, "first");	//FUNKTIONIERT BEI NICHT ZUGEORDNETEN BEOB, sonst erscheint ein # vor dem selector
+									$("#tree").jstree("move_node", "[typ='beob']#" + Beob.BeobId, "[typ='tpop_ordner_beob_zugeordnet']#" + data[0].TPopId, "first");	//FUNKTIONIERT BEI NICHT ZUGEORDNETEN BEOB, sonst erscheint ein # vor dem selector
 								}
 								//Den Marker der zugewiesenen Beobachtung entfernen
 								that.setMap(null);
@@ -11994,8 +11992,8 @@ function oeffneBeobInNeuemTab(BeobId) {
 
 function oeffneTPopBeob(BeobId) {
 	localStorage.beob_id = BeobId;
-	jQuery.jstree._reference("[typ='tpopbeob']#" + BeobId).deselect_all();
-	jQuery("#tree").jstree("select_node", "[typ='tpopbeob']#" + BeobId);
+	jQuery.jstree._reference("[typ='beob_zugeordnet']#" + BeobId).deselect_all();
+	jQuery("#tree").jstree("select_node", "[typ='beob_zugeordnet']#" + BeobId);
 }
 
 function oeffneTPopBeobInNeuemTab(BeobId) {
@@ -12293,10 +12291,10 @@ function oeffneUri() {
 				//markieren, dass nach dem loaded-event im Tree die tpopber angezeigt werden soll 
 				//Die Markierung wird im load-Event wieder entfernt
 				window.tpopber_zeigen = true;
-			} else if (uri.getQueryParamValue('tpopbeob')) {
-				//markieren, dass nach dem loaded-event im Tree die tpopbeob angezeigt werden soll 
+			} else if (uri.getQueryParamValue('beob_zugeordnet')) {
+				//markieren, dass nach dem loaded-event im Tree die beob_zugeordnet angezeigt werden soll 
 				//Die Markierung wird im load-Event wieder entfernt
-				window.tpopbeob_zeigen = true;
+				window.beob_zugeordnet_zeigen = true;
 			} else if (uri.getQueryParamValue('tpopmassnber')) {
 				//globale Variabeln setzen
 				setzeWindowTpopmassnber(uri.getQueryParamValue('tpopmassnber'));
@@ -13063,7 +13061,7 @@ function erstelleUnterordnerFuerTPop(TPopNode) {
 		"data": "Beobachtungen",
 		"attr": {
 			"id": localStorage.tpop_id,
-			"typ": "tpop_ordner_tpopbeob"
+			"typ": "tpop_ordner_beob_zugeordnet"
 		}
 	});
 }
@@ -13107,7 +13105,7 @@ function erstelleFelderFuerBeob(data, beobtyp) {
 
 //in DOM-Objekten sind viele ID's der Name des DOM-Elements vorangestellt, damit die ID eindeutig ist
 function erstelleIdAusDomAttributId(domAttributId) {
-	var returnWert = domAttributId.replace('ap_ordner_pop', '').replace('ap_ordner_apziel', '').replace('ap_ordner_erfkrit', '').replace('ap_ordner_jber', '').replace('ap_ordner_ber', '').replace('ap_ordner_beob_nicht_beurteilt', '').replace('ap_ordner_beob_nicht_zuzuordnen', '').replace('umwfakt', '').replace('ap_ordner_assozarten', '').replace('tpop_ordner_massn', '').replace('tpop_ordner_massnber', '').replace('tpop_ordner_feldkontr', '').replace('tpop_ordner_freiwkontr', '').replace('tpop_ordner_tpopber', '').replace('tpop_ordner_tpopbeob', '').replace('beob', '');
+	var returnWert = domAttributId.replace('ap_ordner_pop', '').replace('ap_ordner_apziel', '').replace('ap_ordner_erfkrit', '').replace('ap_ordner_jber', '').replace('ap_ordner_ber', '').replace('ap_ordner_beob_nicht_beurteilt', '').replace('ap_ordner_beob_nicht_zuzuordnen', '').replace('umwfakt', '').replace('ap_ordner_assozarten', '').replace('tpop_ordner_massn', '').replace('tpop_ordner_massnber', '').replace('tpop_ordner_feldkontr', '').replace('tpop_ordner_freiwkontr', '').replace('tpop_ordner_tpopber', '').replace('tpop_ordner_beob_zugeordnet', '').replace('beob', '');
 	if (domAttributId == returnWert && parseInt(returnWert) && parseInt(returnWert) != returnWert) {
 		console.log('erstelleIdAusDomAttributId meldet: erhalten ' + domAttributId + ', zurückgegeben: ' + returnWert + '. Die Regel in der function muss wohl angepasst werden');
 	}

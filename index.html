@@ -2277,7 +2277,7 @@
 
 				$("#beob").on("change", "[name='DistZuTPop']", function() {
 					var tpop_id = $(this).val();
-					$("#tree").jstree("move_node", "#beob" + localStorage.beob_id, "#tpop_ordner_tpopbeob" + tpop_id, "first");
+					$("#tree").jstree("move_node", "#beob" + localStorage.beob_id, "#tpop_ordner_beob_zugeordnet" + tpop_id, "first");
 				});
 
 				$("#google_karte").on("click", "#distanz_messen", function(event) {

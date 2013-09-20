@@ -207,31 +207,31 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 		mysqli_free_result($result_tpopber);
 
 		//Beobachtungen dieser TPop abfragen
-		$result_tpopbeob = mysqli_query($link, "SELECT alexande_apflora.tblBeobZuordnung.NO_NOTE, alexande_apflora.tblBeobZuordnung.TPopId, alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen, alexande_apflora.tblBeobZuordnung.BeobBemerkungen, alexande_apflora.tblBeobZuordnung.BeobMutWann, alexande_apflora.tblBeobZuordnung.BeobMutWer, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor, 'evab' AS beobtyp FROM alexande_apflora.tblBeobZuordnung INNER JOIN alexande_beob.tblBeobBereitgestellt ON alexande_apflora.tblBeobZuordnung.NO_NOTE = alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET WHERE alexande_apflora.tblBeobZuordnung.TPopId=$TPopId AND (alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen=0 OR alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen IS NULL) UNION SELECT alexande_apflora.tblBeobZuordnung.NO_NOTE, alexande_apflora.tblBeobZuordnung.TPopId, alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen, alexande_apflora.tblBeobZuordnung.BeobBemerkungen, alexande_apflora.tblBeobZuordnung.BeobMutWann, alexande_apflora.tblBeobZuordnung.BeobMutWer, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor, 'infospezies' AS beobtyp FROM alexande_apflora.tblBeobZuordnung INNER JOIN alexande_beob.tblBeobBereitgestellt ON alexande_apflora.tblBeobZuordnung.NO_NOTE = alexande_beob.tblBeobBereitgestellt.NO_NOTE WHERE alexande_apflora.tblBeobZuordnung.TPopId=$TPopId AND (alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen=0 OR alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen IS NULL) ORDER BY Datum");
-		$anz_tpopbeob = mysqli_num_rows($result_tpopbeob);
-		//Datenstruktur für tpopbeob aufbauen
-		$rows_tpopbeob = array();
-		while($r_tpopbeob = mysqli_fetch_assoc($result_tpopbeob)) {
+		$result_beob_zugeordnet = mysqli_query($link, "SELECT alexande_apflora.tblBeobZuordnung.NO_NOTE, alexande_apflora.tblBeobZuordnung.TPopId, alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen, alexande_apflora.tblBeobZuordnung.BeobBemerkungen, alexande_apflora.tblBeobZuordnung.BeobMutWann, alexande_apflora.tblBeobZuordnung.BeobMutWer, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor, 'evab' AS beobtyp FROM alexande_apflora.tblBeobZuordnung INNER JOIN alexande_beob.tblBeobBereitgestellt ON alexande_apflora.tblBeobZuordnung.NO_NOTE = alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET WHERE alexande_apflora.tblBeobZuordnung.TPopId=$TPopId AND (alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen=0 OR alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen IS NULL) UNION SELECT alexande_apflora.tblBeobZuordnung.NO_NOTE, alexande_apflora.tblBeobZuordnung.TPopId, alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen, alexande_apflora.tblBeobZuordnung.BeobBemerkungen, alexande_apflora.tblBeobZuordnung.BeobMutWann, alexande_apflora.tblBeobZuordnung.BeobMutWer, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor, 'infospezies' AS beobtyp FROM alexande_apflora.tblBeobZuordnung INNER JOIN alexande_beob.tblBeobBereitgestellt ON alexande_apflora.tblBeobZuordnung.NO_NOTE = alexande_beob.tblBeobBereitgestellt.NO_NOTE WHERE alexande_apflora.tblBeobZuordnung.TPopId=$TPopId AND (alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen=0 OR alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen IS NULL) ORDER BY Datum");
+		$anz_beob_zugeordnet = mysqli_num_rows($result_beob_zugeordnet);
+		//Datenstruktur für beob_zugeordnet aufbauen
+		$rows_beob_zugeordnet = array();
+		while($r_beob_zugeordnet = mysqli_fetch_assoc($result_beob_zugeordnet)) {
 			//beob voransetzen, damit die ID im ganzen Baum eindeutig ist
-			$BeobId = 'beob'.$r_tpopbeob['NO_NOTE'];
-			$beobtyp = $r_tpopbeob['beobtyp'];
-			if ($r_tpopbeob['Autor'] && $r_tpopbeob['Autor'] <> " ") {
-				$Autor = $r_tpopbeob['Autor'];
+			$BeobId = 'beob'.$r_beob_zugeordnet['NO_NOTE'];
+			$beobtyp = $r_beob_zugeordnet['beobtyp'];
+			if ($r_beob_zugeordnet['Autor'] && $r_beob_zugeordnet['Autor'] <> " ") {
+				$Autor = $r_beob_zugeordnet['Autor'];
 			} else {
 				$Autor = "(kein Autor)";
 			}
-			if ($r_tpopbeob['Datum']) {
-				$datum = $r_tpopbeob['Datum'];
+			if ($r_beob_zugeordnet['Datum']) {
+				$datum = $r_beob_zugeordnet['Datum'];
 			} else {
 				$datum = "(kein Datum)";
 			}
 			//TPopFeldKontr setzen
-			$attr_tpopbeob = array("id" => $BeobId, "typ" => "tpopbeob", "beobtyp" => $beobtyp);
-			$tpopbeob = array("data" => $datum.": ".$Autor, "attr" => $attr_tpopbeob);
-			//tpopbeob-Array um tpopbeob ergänzen
-		    $rows_tpopbeob[] = $tpopbeob;
+			$attr_beob_zugeordnet = array("id" => $BeobId, "typ" => "beob_zugeordnet", "beobtyp" => $beobtyp);
+			$beob_zugeordnet = array("data" => $datum.": ".$Autor, "attr" => $attr_beob_zugeordnet);
+			//beob_zugeordnet-Array um beob_zugeordnet ergänzen
+		    $rows_beob_zugeordnet[] = $beob_zugeordnet;
 		}
-		mysqli_free_result($result_tpopbeob);
+		mysqli_free_result($result_beob_zugeordnet);
 
 		//TPop-Ordner setzen
 		//Massnahmen
@@ -255,11 +255,11 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 		$tpop_ordner_tpopber_attr = array("id" => $myId, "typ" => "tpop_ordner_tpopber");
 		$tpop_ordner_tpopber = array("data" => "Teilpopulations-Berichte (".$anz_tpopber.")", "attr" => $tpop_ordner_tpopber_attr, "children" => $rows_tpopber);
 		//Beobachtungen
-		$myId = "tpop_ordner_tpopbeob".$TPopId;
-		$tpop_ordner_tpopbeob_attr = array("id" => $myId, "typ" => "tpop_ordner_tpopbeob");
-		$tpop_ordner_tpopbeob = array("data" => "Beobachtungen (".$anz_tpopbeob.")", "attr" => $tpop_ordner_tpopbeob_attr, "children" => $rows_tpopbeob);
+		$myId = "tpop_ordner_beob_zugeordnet".$TPopId;
+		$tpop_ordner_beob_zugeordnet_attr = array("id" => $myId, "typ" => "tpop_ordner_beob_zugeordnet");
+		$tpop_ordner_beob_zugeordnet = array("data" => "Beobachtungen (".$anz_beob_zugeordnet.")", "attr" => $tpop_ordner_beob_zugeordnet_attr, "children" => $rows_beob_zugeordnet);
 		//zusammensetzen
-		$tpop_ordner = array(0 => $tpop_ordner_massn, 1 => $tpop_ordner_massnber, 2 => $tpop_ordner_feldkontr, 3 => $tpop_ordner_freiwkontr, 4 => $tpop_ordner_tpopber, 5 => $tpop_ordner_tpopbeob);
+		$tpop_ordner = array(0 => $tpop_ordner_massn, 1 => $tpop_ordner_massnber, 2 => $tpop_ordner_feldkontr, 3 => $tpop_ordner_freiwkontr, 4 => $tpop_ordner_tpopber, 5 => $tpop_ordner_beob_zugeordnet);
 
 		//TPop setzen
 		//Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
