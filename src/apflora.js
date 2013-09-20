@@ -1591,7 +1591,7 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 	//beobid hat 'beob' vorangestellt - entfernen!
 	beobid = beobid.replace('beob', '');
 	//beobid bereitstellen
-	localStorage.BeobId = beobid;
+	localStorage.beob_id = beobid;
 
 	var url, url_distzutpop;
 	if (!beobid) {
@@ -1658,6 +1658,8 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 							//distzutpop bereitstellen
 							$("#beob_zuordnungsfelder").html(html_distzutpop);
 
+							$("#BeobBemerkungen").attr("placeholder", "");
+
 							if (beob_status !== "nicht_beurteilt") {
 								//Daten der Zuordnung holen
 								$.ajax({
@@ -1694,9 +1696,12 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 								//beob_status ist "nicht beurteilt"
 								$("#BeobNichtBeurteilt").prop("checked", true);
 								$("#BeobNichtZuordnen").prop("checked", false);
+								//allfällige im letzen beob enthaltene Werte entfernen
+								$("#BeobBemerkungen").val("");
+								$("#BeobBemerkungen").attr("placeholder", "Bemerkungen sind nur in zugeordneten oder nicht zuzuordnenden Beobachtungen möglich");
 								//Formulare blenden
 								zeigeFormular("beob");
-								history.replaceState({beob: "beob"}, "beob", "index.html?ap=" + localStorage.ap_id + "&beob=" + beobid);
+								history.replaceState({beob_nicht_beurteilt: "beob_nicht_beurteilt"}, "beob_nicht_beurteilt", "index.html?ap=" + localStorage.ap_id + "&beob_nicht_beurteilt=" + beobid);
 							}
 						}
 					}
@@ -2025,7 +2030,7 @@ function erstelle_tree(ApArtId) {
 								before: false,
 								inside: true
 							};
-						} else if (m.r.attr("typ") === "beob") {
+						} else if (m.r.attr("typ") === "beob_nicht_beurteilt") {
 							return {
 								after: true,
 								before: true,
@@ -2046,7 +2051,7 @@ function erstelle_tree(ApArtId) {
 						} else {
 							return false;
 						}
-					} else if (m.o.attr("typ") === "beob") {
+					} else if (m.o.attr("typ") === "beob_nicht_beurteilt") {
 						if (m.r.attr("typ") === "tpopbeob") {
 							return {
 								after: true,
@@ -2059,7 +2064,13 @@ function erstelle_tree(ApArtId) {
 								before: false,
 								inside: true
 							};
-						} else if (m.r.attr("typ") === "beob") {
+						} else if (m.r.attr("typ") === "ap_ordner_beob_nicht_beurteilt") {
+							return {
+								after: false,
+								before: false,
+								inside: true
+							};
+						} else if (m.r.attr("typ") === "beob_nicht_beurteilt") {
 							return {
 								after: true,
 								before: true,
@@ -2099,7 +2110,19 @@ function erstelle_tree(ApArtId) {
 								before: false,
 								inside: true
 							};
-						} else if (m.r.attr("typ") === "beob") {
+						} else if (m.r.attr("typ") === "beob_nicht_beurteilt") {
+							return {
+								after: true,
+								before: true,
+								inside: false
+							};
+						} else if (m.r.attr("typ") === "ap_ordner_beob_nicht_zuzuordnen") {
+							return {
+								after: false,
+								before: false,
+								inside: true
+							};
+						} else if (m.r.attr("typ") === "beob_nicht_zuzuordnen") {
 							return {
 								after: true,
 								before: true,
@@ -2231,10 +2254,13 @@ function erstelle_tree(ApArtId) {
 					"new_node": "neuer Bericht"
 				},
 				"ap_ordner_beob_nicht_beurteilt": {
-					"valid_children": "beob"
+					"valid_children": "beob_nicht_beurteilt"
 				},
-				"beob": {
+				"beob_nicht_beurteilt": {
 					"valid_children": "none"
+				},
+				"ap_ordner_beob_nicht_zuzuordnen": {
+					"valid_children": "beob_nicht_zuzuordnen"
 				},
 				"beob_nicht_zuzuordnen": {
 					"valid_children": "none"
@@ -2301,7 +2327,7 @@ function erstelle_tree(ApArtId) {
 			delete window.tpopber_zeigen;
 		}
 		if (window.tpopbeob_zeigen) {
-			jQuery("#tree").jstree("select_node", "#beob" + localStorage.BeobId);
+			jQuery("#tree").jstree("select_node", "#beob" + localStorage.beob_id);
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopbeob geöffnet wird
 			delete window.tpopbeob_zeigen;
 		}
@@ -2350,13 +2376,13 @@ function erstelle_tree(ApArtId) {
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese assozarten geöffnet wird
 			delete window.assozarten_zeigen;
 		}
-		if (window.beob_zeigen) {
-			jQuery("#tree").jstree("select_node", "#beob" + localStorage.BeobId);
+		if (window.beob_nicht_beurteilt_zeigen) {
+			jQuery("#tree").jstree("select_node", "#beob" + localStorage.beob_id);
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese beob geöffnet wird
-			delete window.beob_zeigen;
+			delete window.beob_nicht_beurteilt_zeigen;
 		}
 		if (window.beob_nicht_zuzuordnen_zeigen) {
-			jQuery("#tree").jstree("select_node", "#beob" + localStorage.BeobId);
+			jQuery("#tree").jstree("select_node", "#beob" + localStorage.beob_id);
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese beob geöffnet wird
 			delete window.beob_nicht_zuzuordnen_zeigen;
 		}
@@ -2491,23 +2517,23 @@ function erstelle_tree(ApArtId) {
 			}
 		} else if (node_typ === "tpopbeob") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#beob").is(':visible') || localStorage.BeobId !== node_id || localStorage.beob_status !== "zugeordnet") {
-				localStorage.BeobId = node_id;
+			if (!$("#beob").is(':visible') || localStorage.beob_id !== node_id || localStorage.beob_status !== "zugeordnet") {
+				localStorage.beob_id = node_id;
 				localStorage.beobtyp = node.attr("beobtyp");
 				initiiere_beob(node.attr("beobtyp"), node_id, "zugeordnet");
 			}
-		} else if (node_typ === "beob") {
+		} else if (node_typ === "beob_nicht_beurteilt") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#beob").is(':visible') || localStorage.BeobId !== node_id || localStorage.beob_status !== "nicht_beurteilt") {
-				localStorage.BeobId = node_id;
+			if (!$("#beob").is(':visible') || localStorage.beob_id !== node_id || localStorage.beob_status !== "nicht_beurteilt") {
+				localStorage.beob_id = node_id;
 				localStorage.beobtyp = node.attr("beobtyp");
 				//den Beobtyp mitgeben
 				initiiere_beob(node.attr("beobtyp"), node_id, "nicht_beurteilt");
 			}
 		} else if (node_typ === "beob_nicht_zuzuordnen") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#beob").is(':visible') || localStorage.BeobId !== node_id || localStorage.beob_status !== "nicht_zuzuordnen") {
-				localStorage.BeobId = node_id;
+			if (!$("#beob").is(':visible') || localStorage.beob_id !== node_id || localStorage.beob_status !== "nicht_zuzuordnen") {
+				localStorage.beob_id = node_id;
 				localStorage.beobtyp = node.attr("beobtyp");
 				//den Beobtyp mitgeben
 				initiiere_beob(node.attr("beobtyp"), node_id, "nicht_zuzuordnen");
@@ -2978,7 +3004,7 @@ function erstelle_tree(ApArtId) {
 		}
 		if (herkunft_node_typ === "tpopbeob") {
 			//zugeordnet
-			if (ziel_node_typ === "beob" || ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
+			if (ziel_node_typ === "beob_nicht_beurteilt" || ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
 				//zugeordnet > nicht beurteilt
 				$.ajax({
 					url: 'php/beob_zuordnung_delete.php',
@@ -2988,10 +3014,10 @@ function erstelle_tree(ApArtId) {
 					},
 					success: function() {
 						//typ des nodes anpassen
-						herkunft_node.attr("typ", "beob");
-						localStorage.beobtyp = "beob";
+						herkunft_node.attr("typ", "beob_nicht_beurteilt");
+						localStorage.beobtyp = "beob_nicht_beurteilt";
 						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-						if (ziel_node_typ === "beob") {
+						if (ziel_node_typ === "beob_nicht_beurteilt") {
 							beschrifte_ap_ordner_beob_nicht_beurteilt(ziel_parent_node);
 						} else {
 							beschrifte_ap_ordner_beob_nicht_beurteilt(ziel_node);
@@ -3028,7 +3054,7 @@ function erstelle_tree(ApArtId) {
 					url: 'php/beob_update.php',
 					dataType: 'json',
 					data: {
-						"id": localStorage.BeobId,
+						"id": localStorage.beob_id,
 						"Feld": "TPopId",
 						"Wert": neue_tpop_id,
 						"user": sessionStorage.User
@@ -3122,7 +3148,7 @@ function erstelle_tree(ApArtId) {
 				});
 			}
 		}
-		if (herkunft_node_typ === "beob") {
+		if (herkunft_node_typ === "beob_nicht_beurteilt") {
 			//nicht beurteilt
 			if (ziel_node_typ === "tpopbeob" || ziel_node_typ === "tpop_ordner_tpopbeob") {
 				//nicht beurteilt > zugeordnet
@@ -3245,7 +3271,7 @@ function erstelle_tree(ApArtId) {
 		}
 		if (herkunft_node_typ === "beob_nicht_zuzuordnen") {
 			//nicht zuzuordnen
-			if (ziel_node_typ === "beob" || ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
+			if (ziel_node_typ === "beob_nicht_beurteilt" || ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
 				//nicht zuzuordnen > nicht beurteilt
 				$.ajax({
 					url: 'php/beob_zuordnung_delete.php',
@@ -3255,8 +3281,8 @@ function erstelle_tree(ApArtId) {
 					},
 					success: function() {
 						//typ des nodes anpassen
-						$(herkunft_node).attr("typ", "beob");
-						localStorage.beobtyp = "beob";
+						$(herkunft_node).attr("typ", "beob_nicht_beurteilt");
+						localStorage.beobtyp = "beob_nicht_beurteilt";
 						//Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
 						beschrifte_ap_ordner_beob_nicht_zuzuordnen(window.herkunft_parent_node);
 						if (ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
@@ -8798,7 +8824,7 @@ function treeKontextmenu(node) {
 			}
 		}
 		return items;
-	case "beob":
+	case "beob_nicht_beurteilt":
 		items = {
 			"GoogleMaps": {
 				"label": "auf Luftbild zeigen",
@@ -9231,6 +9257,20 @@ function speichern(that) {
 			} else {
 				Feldwert = "";
 			}
+		}
+		if (Feldname === "BeobBemerkungen" && localStorage.beob_status === "nicht_beurteilt") {
+			//hier soll nicht gespeichert werden
+			$("#BeobBemerkungen").val("");
+			$("#Meldung").html("Bemerkungen sind nur in zugeordneten oder nicht zuzuordnenden Beobachtungen möglich");
+			$("#Meldung").dialog({
+				modal: true,
+				buttons: {
+					Ok: function() {
+						$(this).dialog("close");
+					}
+				}
+			});
+			return;
 		}
 		$.ajax({
 			url: 'php/' + Formular + '_update.php',
@@ -11550,7 +11590,7 @@ function zeigeBeobAufKarte(BeobListe) {
 		//damit drag and drop möglich werden soll
 		//marker.set("typ", "beob");
 		//marker.set("id", Beob.BeobId);
-		marker.metadata = {typ: "beob", id: Beob.BeobId};
+		marker.metadata = {typ: "beob_nicht_beurteilt", id: Beob.BeobId};
 		markers.push(marker);
 		var Autor = Beob.Autor || "(keiner)";
 		var Projekt = Beob.PROJET || "(keines)";
@@ -11943,23 +11983,23 @@ function oeffnePopInNeuemTab(PopId) {
 }
 
 function oeffneBeob(BeobId) {
-	localStorage.BeobId = BeobId;
-	jQuery.jstree._reference("[typ='beob']#" + BeobId).deselect_all();
-	jQuery("#tree").jstree("select_node", "[typ='beob']#" + BeobId);
+	localStorage.beob_id = BeobId;
+	jQuery.jstree._reference("[typ='beob_nicht_beurteilt']#" + BeobId).deselect_all();
+	jQuery("#tree").jstree("select_node", "[typ='beob_nicht_beurteilt']#" + BeobId);
 }
 
 function oeffneBeobInNeuemTab(BeobId) {
-	window.open("index.html?ap="+localStorage.ap_id+"&beob=" + BeobId, "_blank");
+	window.open("index.html?ap="+localStorage.ap_id+"&beob_nicht_beurteilt=" + BeobId, "_blank");
 }
 
 function oeffneTPopBeob(BeobId) {
-	localStorage.BeobId = BeobId;
+	localStorage.beob_id = BeobId;
 	jQuery.jstree._reference("[typ='tpopbeob']#" + BeobId).deselect_all();
 	jQuery("#tree").jstree("select_node", "[typ='tpopbeob']#" + BeobId);
 }
 
 function oeffneTPopBeobInNeuemTab(BeobId) {
-	window.open("index.html?ap="+localStorage.ap_id+"&beob=" + BeobId, "_blank");
+	window.open("index.html?ap="+localStorage.ap_id+"&beob_nicht_beurteilt=" + BeobId, "_blank");
 }
 
 
@@ -12341,10 +12381,10 @@ function oeffneUri() {
 			//markieren, dass nach dem loaded-event im Tree die assozarten angezeigt werden soll 
 			//Die Markierung wird im load-Event wieder entfernt
 			window.assozarten_zeigen = true;
-		} else if (uri.getQueryParamValue('beob')) {
+		} else if (uri.getQueryParamValue('beob_nicht_beurteilt')) {
 			//markieren, dass nach dem loaded-event im Tree die beob angezeigt werden soll 
 			//Die Markierung wird im load-Event wieder entfernt
-			window.beob_zeigen = true;
+			window.beob_nicht_beurteilt_zeigen = true;
 		} else if (uri.getQueryParamValue('beob_nicht_zuzuordnen')) {
 			//markieren, dass nach dem loaded-event im Tree die beob angezeigt werden soll 
 			//Die Markierung wird im load-Event wieder entfernt

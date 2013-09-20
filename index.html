@@ -2257,7 +2257,7 @@
 				$("#beob").on("change", "#BeobNichtBeurteilt", function(event) {
 					if ($("#BeobNichtBeurteilt").prop("checked") === true) {
 						//node verschieben. Den rest macht der callback zu jstree.move_node
-						$("#tree").jstree("move_node", "#beob" + localStorage.BeobId, "#ap_ordner_beob_nicht_beurteilt" + localStorage.ap_id, "first");
+						$("#tree").jstree("move_node", "#beob" + localStorage.beob_id, "#ap_ordner_beob_nicht_beurteilt" + localStorage.ap_id, "first");
 					} else {
 						//es bringt nichts, diesen Haken zu entfernen
 						//stattdessen soll ein anderer Wert gewählt werden
@@ -2268,16 +2268,16 @@
 				$("#beob").on("change", "#BeobNichtZuordnen", function() {
 					if ($("#BeobNichtZuordnen").prop("checked") === true) {
 						//node verschieben. Der Rest wird vom Callback fon jstree.move_node erledigt
-						$("#tree").jstree("move_node", "#beob" + localStorage.BeobId, "#ap_ordner_beob_nicht_zuzuordnen" + localStorage.ap_id, "first");
+						$("#tree").jstree("move_node", "#beob" + localStorage.beob_id, "#ap_ordner_beob_nicht_zuzuordnen" + localStorage.ap_id, "first");
 					} else {
 						//node verschieben. Den Rest macht der callback zu jstree.move_node
-						$("#tree").jstree("move_node", "#beob" + localStorage.BeobId, "#ap_ordner_beob_nicht_beurteilt" + localStorage.ap_id, "first");
+						$("#tree").jstree("move_node", "#beob" + localStorage.beob_id, "#ap_ordner_beob_nicht_beurteilt" + localStorage.ap_id, "first");
 					}
 				});
 
 				$("#beob").on("change", "[name='DistZuTPop']", function() {
 					var tpop_id = $(this).val();
-					$("#tree").jstree("move_node", "#beob" + localStorage.BeobId, "#tpop_ordner_tpopbeob" + tpop_id, "first");
+					$("#tree").jstree("move_node", "#beob" + localStorage.beob_id, "#tpop_ordner_tpopbeob" + tpop_id, "first");
 				});
 
 				$("#google_karte").on("click", "#distanz_messen", function(event) {

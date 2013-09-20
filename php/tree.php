@@ -535,38 +535,38 @@ while($r_ber = mysqli_fetch_assoc($result_ber)) {
 mysqli_free_result($result_ber);
 
 //nicht beurteilte beob
-//beob dieses AP abfragen
-$result_beob = mysqli_query($link_beob, "SELECT alexande_beob.tblBeobBereitgestellt.NO_NOTE, alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET, alexande_beob.tblBeobBereitgestellt.NO_ISFS, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor FROM (alexande_beob.tblBeobBereitgestellt LEFT JOIN alexande_apflora.tblBeobZuordnung ON alexande_beob.tblBeobBereitgestellt.NO_NOTE = alexande_apflora.tblBeobZuordnung.NO_NOTE) LEFT JOIN alexande_apflora.tblBeobZuordnung AS tblBeobZuordnung_1 ON alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET = tblBeobZuordnung_1.NO_NOTE WHERE alexande_beob.tblBeobBereitgestellt.NO_ISFS=$ApArtId AND ((alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET Is Not Null AND tblBeobZuordnung_1.NO_NOTE Is Null) OR (alexande_beob.tblBeobBereitgestellt.NO_NOTE Is Not Null AND alexande_apflora.tblBeobZuordnung.NO_NOTE Is Null)) ORDER BY alexande_beob.tblBeobBereitgestellt.Datum DESC");
-$anz_beob = mysqli_num_rows($result_beob);
-//beob aufbauen
-$rows_beob = array();
-while($r_beob = mysqli_fetch_assoc($result_beob)) {
-	if ($r_beob['NO_NOTE']) {
+//beob_nicht_beurteilt dieses AP abfragen
+$result_beob_nicht_beurteilt = mysqli_query($link_beob, "SELECT alexande_beob.tblBeobBereitgestellt.NO_NOTE, alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET, alexande_beob.tblBeobBereitgestellt.NO_ISFS, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor FROM (alexande_beob.tblBeobBereitgestellt LEFT JOIN alexande_apflora.tblBeobZuordnung ON alexande_beob.tblBeobBereitgestellt.NO_NOTE = alexande_apflora.tblBeobZuordnung.NO_NOTE) LEFT JOIN alexande_apflora.tblBeobZuordnung AS tblBeobZuordnung_1 ON alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET = tblBeobZuordnung_1.NO_NOTE WHERE alexande_beob.tblBeobBereitgestellt.NO_ISFS=$ApArtId AND ((alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET Is Not Null AND tblBeobZuordnung_1.NO_NOTE Is Null) OR (alexande_beob.tblBeobBereitgestellt.NO_NOTE Is Not Null AND alexande_apflora.tblBeobZuordnung.NO_NOTE Is Null)) ORDER BY alexande_beob.tblBeobBereitgestellt.Datum DESC");
+$anz_beob_nicht_beurteilt = mysqli_num_rows($result_beob_nicht_beurteilt);
+//beob_nicht_beurteilt aufbauen
+$rows_beob_nicht_beurteilt = array();
+while($r_beob_nicht_beurteilt = mysqli_fetch_assoc($result_beob_nicht_beurteilt)) {
+	if ($r_beob_nicht_beurteilt['NO_NOTE']) {
 		//beob voransetzen, damit die ID im ganzen Baum eindeutig ist
-		$beobid = 'beob'.$r_beob['NO_NOTE'];
+		$beobid = 'beob'.$r_beob_nicht_beurteilt['NO_NOTE'];
 		$beobtyp = "infospezies";
 	} else {
 		//beob voransetzen, damit die ID im ganzen Baum eindeutig ist
-		$beobid = 'beob'.$r_beob['NO_NOTE_PROJET'];
+		$beobid = 'beob'.$r_beob_nicht_beurteilt['NO_NOTE_PROJET'];
 		$beobtyp = "evab";
 	}
-	if ($r_beob['Autor'] && $r_beob['Autor'] <> " ") {
-		$beobAutor = $r_beob['Autor'];
+	if ($r_beob_nicht_beurteilt['Autor'] && $r_beob_nicht_beurteilt['Autor'] <> " ") {
+		$beobAutor = $r_beob_nicht_beurteilt['Autor'];
 	} else {
 		$beobAutor = "(kein Autor)";
 	}
-	if ($r_beob['Datum']) {
-		$datum = $r_beob['Datum'];
+	if ($r_beob_nicht_beurteilt['Datum']) {
+		$datum = $r_beob_nicht_beurteilt['Datum'];
 	} else {
 		$datum = "(kein Datum)";
 	}
-	//beob setzen
-	$attr_beob = array("id" => $beobid, "typ" => "beob", "beobtyp" => $beobtyp);
-	$beob = array("data" => $datum.": ".$beobAutor, "attr" => $attr_beob);
-	//beob-Array um beob ergänzen
-    $rows_beob[] = $beob;
+	//beob_nicht_beurteilt setzen
+	$attr_beob_nicht_beurteilt = array("id" => $beobid, "typ" => "beob_nicht_beurteilt", "beobtyp" => $beobtyp);
+	$beob_nicht_beurteilt = array("data" => $datum.": ".$beobAutor, "attr" => $attr_beob_nicht_beurteilt);
+	//beob-Array um beob_nicht_beurteilt ergänzen
+    $rows_beob_nicht_beurteilt[] = $beob_nicht_beurteilt;
 }
-mysqli_free_result($result_beob);
+mysqli_free_result($result_beob_nicht_beurteilt);
 
 //nicht zuzuordnende beob
 //beob dieses AP abfragen
@@ -649,7 +649,7 @@ $ap_ordner_ber = array("data" => "Berichte (".$anz_ber.")", "attr" => $ap_ordner
 //Beobachtungen
 $meineId = "ap_ordner_beob_nicht_beurteilt".$ApArtId;
 $ap_ordner_beob_attr = array("id" => $meineId, "typ" => "ap_ordner_beob_nicht_beurteilt");
-$ap_ordner_beob_nicht_beurteilt = array("data" => "nicht beurteilte Beobachtungen (".$anz_beob.")", "attr" => $ap_ordner_beob_attr, "children" => $rows_beob);
+$ap_ordner_beob_nicht_beurteilt = array("data" => "nicht beurteilte Beobachtungen (".$anz_beob_nicht_beurteilt.")", "attr" => $ap_ordner_beob_attr, "children" => $rows_beob_nicht_beurteilt);
 //Beobachtungen nicht zuzuordnen
 $meineId = "ap_ordner_beob_nicht_zuzuordnen".$ApArtId;
 $ap_ordner_beob_nicht_zuzuordnen_attr = array("id" => $meineId, "typ" => "ap_ordner_beob_nicht_zuzuordnen");
