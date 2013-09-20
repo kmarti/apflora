@@ -6136,21 +6136,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/wappen_zuerich.png",
 				"action": function () {
-					var URL;
-					if ($("#TPopXKoord").val() && $("#TPopYKoord").val()) {
-						URL = "http://www.gis.zh.ch/gb/gb.asp?YKoord=" + $("#TPopXKoord").val() + "&XKoord=" + $("#TPopYKoord").val() + "&Massstab=3000+app=GB-SWISSIMAGE+rn=5$7";
-						window.open(URL, target = "_blank");
-					} else {
-						$("#Meldung").html("Fehler: Keine Koordinaten zum Anzeigen");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
-					}
+					zeigeBeobKoordinatenImGisBrowser();
 				}
 			},
 			"Exporte": {
@@ -8437,21 +8423,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/wappen_zuerich.png",
 				"action": function () {
-					var URL;
-					if ($("#tpopbeob_X").val() && $("#tpopbeob_Y").val()) {
-						URL = "http://www.gis.zh.ch/gb/gb.asp?YKoord=" + $("#tpopbeob_X").val() + "&XKoord=" + $("#tpopbeob_Y").val() + "&Massstab=3000+app=GB-SWISSIMAGE+rn=5$7";
-						window.open(URL, target = "_blank");
-					} else {
-						$("#Meldung").html("Die Beobachtung hat keine Koordinaten");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
-					}
+					zeigeBeobKoordinatenImGisBrowser();
 				}
 			},
 			"Exporte": {
@@ -8922,21 +8894,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/wappen_zuerich.png",
 				"action": function () {
-					var URL;
-					if ($("#beob_X").val() && $("#beob_Y").val()) {
-						URL = "http://www.gis.zh.ch/gb/gb.asp?YKoord=" + $("#beob_X").val() + "&XKoord=" + $("#beob_Y").val() + "&Massstab=3000+app=GB-SWISSIMAGE+rn=5$7";
-						window.open(URL, target = "_blank");
-					} else {
-						$("#Meldung").html("Fehler: Keine Koordinaten zum Anzeigen");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
-					}
+					zeigeBeobKoordinatenImGisBrowser();
 				}
 			},
 			"Exporte": {
@@ -11252,8 +11210,8 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 	//for (i in BeobListe.rows) {
 	for (var i = 0; i < BeobListe.rows.length; i++) {
 		Beob = BeobListe.rows[i];
-		Beob.Lat = CHtoWGSlat(parseInt(Beob.xGIS), parseInt(Beob.yGIS));
-		Beob.Lng = CHtoWGSlng(parseInt(Beob.xGIS), parseInt(Beob.yGIS));
+		Beob.Lat = CHtoWGSlat(parseInt(Beob.X), parseInt(Beob.Y));
+		Beob.Lng = CHtoWGSlng(parseInt(Beob.X), parseInt(Beob.Y));
 	}
 	//dito in TPopListe
 	//for (i in TPopListe.rows) {
@@ -11348,17 +11306,7 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 	//for (i in BeobListe.rows) {
 	for (var i = 0; i < BeobListe.rows.length; i++) {
 		Beob = BeobListe.rows[i];
-		if (Beob.J_NOTE && Beob.M_NOTE > 0) {
-			if (Beob.J_NOTE < 10) {
-				Beob.J_NOTE = "0" + Beob.J_NOTE;
-			}
-			if (Beob.M_NOTE < 10) {
-				Beob.M_NOTE = "0" + Beob.M_NOTE;
-			}
-			Datum = Beob.J_NOTE + "." + Beob.M_NOTE + "." + Beob.A_NOTE;
-		} else {
-			Datum = Beob.A_NOTE;
-		}
+		Datum = Beob.Datum;
 		latlng2 = new google.maps.LatLng(Beob.Lat, Beob.Lng);
 		if (anzBeob === 1) {
 			//map.fitbounds setzt zu hohen zoom, wenn nur eine Beob Koordinaten hat > verhindern
@@ -11402,9 +11350,9 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 			'<p>Autor: ' + Autor + '</p>'+
 			'<p>Projekt: ' + Projekt + '</p>'+
 			'<p>Ort: ' + Ort + '</p>'+
-			'<p>Koordinaten: ' + Beob.xGIS + ' / ' + Beob.yGIS + '</p>'+
-			"<p><a href=\"#\" onclick=\"oeffneBeob('" + Beob.BeobId + "')\">Formular öffnen<\/a></p>"+
-			"<p><a href=\"#\" onclick=\"oeffneBeobInNeuemTab('" + Beob.BeobId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+			'<p>Koordinaten: ' + Beob.X + ' / ' + Beob.Y + '</p>'+
+			"<p><a href=\"#\" onclick=\"oeffneBeob('" + Beob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"oeffneBeobInNeuemTab('" + Beob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
 		makeListenerBeob(map, markerBeob, contentStringBeob);
@@ -11457,19 +11405,15 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 								//dem bind.move_node mitteilen, dass das Formular nicht initiiert werden soll
 								localStorage.karte_fokussieren = true;
 								//Beob der TPop zuweisen
-								if (Beob.TPopId) {
-									$("#tree").jstree("move_node", "[typ='tpop_ordner_beob_zugeordnet'] #" + Beob.BeobId, "[typ='tpop_ordner_beob_zugeordnet']#" + data[0].TPopId, "first");	//FUNKTIONIERT BEI ZUGEORDNETEN BEOB, sonst erscheint ein # vor dem selector
-								} else {
-									$("#tree").jstree("move_node", "[typ='beob']#" + Beob.BeobId, "[typ='tpop_ordner_beob_zugeordnet']#" + data[0].TPopId, "first");	//FUNKTIONIERT BEI NICHT ZUGEORDNETEN BEOB, sonst erscheint ein # vor dem selector
-								}
+								$("#tree").jstree("move_node", "#beob" + Beob.NO_NOTE, "#tpop_ordner_beob_zugeordnet" + data[0].TPopId, "first");
 								//Den Marker der zugewiesenen Beobachtung entfernen
 								that.setMap(null);
 							},
 							Nein: function() {
 								$(this).dialog("close");
 								//drag rückgängig machen
-								lng = CHtoWGSlng(Beob.xGIS, Beob.yGIS);
-								lat = CHtoWGSlat(Beob.xGIS, Beob.yGIS);
+								lng = CHtoWGSlng(Beob.X, Beob.Y);
+								lat = CHtoWGSlat(Beob.X, Beob.Y);
 								var latlng3 = new google.maps.LatLng(lat, lng);
 								that.setPosition(latlng3);
 							}
@@ -11512,8 +11456,8 @@ function zeigeBeobAufKarte(BeobListe) {
 	//for (i in BeobListe.rows) {
 	for (var i = 0; i < BeobListe.rows.length; i++) {
 		Beob = BeobListe.rows[i];
-		Beob.Lat = CHtoWGSlat(parseInt(Beob.xGIS), parseInt(Beob.yGIS));
-		Beob.Lng = CHtoWGSlng(parseInt(Beob.xGIS), parseInt(Beob.yGIS));
+		Beob.Lat = CHtoWGSlat(parseInt(Beob.X), parseInt(Beob.Y));
+		Beob.Lng = CHtoWGSlng(parseInt(Beob.X), parseInt(Beob.Y));
 	}
 	//TPop zählen
 	anzBeob = BeobListe.rows.length;
@@ -11544,17 +11488,7 @@ function zeigeBeobAufKarte(BeobListe) {
 	//for (i in BeobListe.rows) {
 	for (var i = 0; i < BeobListe.rows.length; i++) {
 		Beob = BeobListe.rows[i];
-		if (Beob.J_NOTE && Beob.M_NOTE > 0) {
-			if (Beob.J_NOTE < 10) {
-				Beob.J_NOTE = "0" + Beob.J_NOTE;
-			}
-			if (Beob.M_NOTE < 10) {
-				Beob.M_NOTE = "0" + Beob.M_NOTE;
-			}
-			Datum = Beob.J_NOTE + "." + Beob.M_NOTE + "." + Beob.A_NOTE;
-		} else {
-			Datum = Beob.A_NOTE;
-		}
+		Datum = Beob.Datum;
 		latlng2 = new google.maps.LatLng(Beob.Lat, Beob.Lng);
 		if (anzBeob === 1) {
 			//map.fitbounds setzt zu hohen zoom, wenn nur eine Beob Koordinaten hat > verhindern
@@ -11588,7 +11522,7 @@ function zeigeBeobAufKarte(BeobListe) {
 		//damit drag and drop möglich werden soll
 		//marker.set("typ", "beob");
 		//marker.set("id", Beob.BeobId);
-		marker.metadata = {typ: "beob_nicht_beurteilt", id: Beob.BeobId};
+		marker.metadata = {typ: "beob_nicht_beurteilt", id: Beob.NO_NOTE};
 		markers.push(marker);
 		var Autor = Beob.Autor || "(keiner)";
 		var Projekt = Beob.PROJET || "(keines)";
@@ -11601,9 +11535,9 @@ function zeigeBeobAufKarte(BeobListe) {
 			'<p>Autor: ' + Autor + '</p>'+
 			'<p>Projekt: ' + Projekt + '</p>'+
 			'<p>Ort: ' + Ort + '</p>'+
-			'<p>Koordinaten: ' + Beob.xGIS + ' / ' + Beob.yGIS + '</p>'+
-			"<p><a href=\"#\" onclick=\"oeffneBeob('" + Beob.BeobId + "')\">Formular öffnen<\/a></p>"+
-			"<p><a href=\"#\" onclick=\"oeffneBeobInNeuemTab('" + Beob.BeobId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+			'<p>Koordinaten: ' + Beob.X + ' / ' + Beob.Y + '</p>'+
+			"<p><a href=\"#\" onclick=\"oeffneBeob('" + Beob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"oeffneBeobInNeuemTab('" + Beob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
 		makeListener(map, marker, contentString);
@@ -11647,8 +11581,8 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 	//for (i in TPopBeobListe.rows) {
 	for (var i = 0; i < TPopBeobListe.rows.length; i++) {
 		TPopBeob = TPopBeobListe.rows[i];
-		TPopBeob.Lat = CHtoWGSlat(parseInt(TPopBeob.xGIS), parseInt(TPopBeob.yGIS));
-		TPopBeob.Lng = CHtoWGSlng(parseInt(TPopBeob.xGIS), parseInt(TPopBeob.yGIS));
+		TPopBeob.Lat = CHtoWGSlat(parseInt(TPopBeob.X), parseInt(TPopBeob.Y));
+		TPopBeob.Lng = CHtoWGSlng(parseInt(TPopBeob.X), parseInt(TPopBeob.Y));
 	}
 	//TPop zählen
 	anzTPopBeob = TPopBeobListe.rows.length;
@@ -11684,21 +11618,7 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 	//for (i in TPopBeobListe.rows) {
 	for (var i = 0; i < TPopBeobListe.rows.length; i++) {
 		TPopBeob = TPopBeobListe.rows[i];
-		if (!TPopBeob.M_NOTE) {
-			Datum = TPopBeob.A_NOTE;
-		} else {
-			if (TPopBeob.M_NOTE < 10) {
-				Monat = "0" + TPopBeob.M_NOTE;
-			} else {
-				Monat = TPopBeob.M_NOTE;
-			}
-			if (TPopBeob.J_NOTE < 10) {
-				Tag = "0" + TPopBeob.J_NOTE;
-			} else {
-				Tag = TPopBeob.J_NOTE;
-			}
-			Datum = TPopBeob.A_NOTE + "." + Monat + "." + Tag;
-		}
+		Datum = TPopBeob.Datum;
 		latlng2 = new google.maps.LatLng(TPopBeob.Lat, TPopBeob.Lng);
 		if (anzTPopBeob === 1) {
 			//map.fitbounds setzt zu hohen zoom, wenn nur eine TPopBeob Koordinaten hat > verhindern
@@ -11725,7 +11645,7 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 		});
 		markers.push(marker);
 		var Autor = TPopBeob.Autor || "(keiner)";
-		var Projekt = TPopBeob.Projekt || "(keines)";
+		var Projekt = TPopBeob.PROJET || "(keines)";
 		var Ort = TPopBeob.DESC_LOCALITE || "(keiner)";
 		contentString = '<div id="content">'+
 			'<div id="siteNotice">'+
@@ -11735,9 +11655,9 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 			'<p>Autor: ' + Autor + '</p>'+
 			'<p>Projekt: ' + Projekt + '</p>'+
 			'<p>Ort: ' + Ort + '</p>'+
-			'<p>Koordinaten: ' + TPopBeob.xGIS + ' / ' + TPopBeob.yGIS + '</p>'+
-			"<p><a href=\"#\" onclick=\"oeffneTPopBeob('" + TPopBeob.BeobId + "')\">Formular öffnen<\/a></p>"+
-			"<p><a href=\"#\" onclick=\"oeffneTPopBeobInNeuemTab('" + TPopBeob.BeobId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+			'<p>Koordinaten: ' + TPopBeob.X + ' / ' + TPopBeob.Y + '</p>'+
+			"<p><a href=\"#\" onclick=\"oeffneTPopBeob('" + TPopBeob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"oeffneTPopBeobInNeuemTab('" + TPopBeob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
 		makeListener(map, marker, contentString);
@@ -13110,6 +13030,27 @@ function erstelleIdAusDomAttributId(domAttributId) {
 		console.log('erstelleIdAusDomAttributId meldet: erhalten ' + domAttributId + ', zurückgegeben: ' + returnWert + '. Die Regel in der function muss wohl angepasst werden');
 	}
 	return returnWert;
+}
+
+function zeigeBeobKoordinatenImGisBrowser() {
+	var URL;
+	if ($("#beobfelder_FNS_XGIS").val() && $("#beobfelder_FNS_YGIS").val()) {
+		URL = "http://www.gis.zh.ch/gb/gb.asp?YKoord=" + $("#beobfelder_FNS_XGIS").val() + "&XKoord=" + $("#beobfelder_FNS_YGIS").val() + "&Massstab=3000+app=GB-SWISSIMAGE+rn=5$7";
+		window.open(URL, target = "_blank");
+	} else if ($("#beobfelder_COORDONNEE_FED_E").val() && $("#beobfelder_COORDONNEE_FED_N").val()) {
+		URL = "http://www.gis.zh.ch/gb/gb.asp?YKoord=" + $("#beobfelder_COORDONNEE_FED_E").val() + "&XKoord=" + $("#beobfelder_COORDONNEE_FED_N").val() + "&Massstab=3000+app=GB-SWISSIMAGE+rn=5$7";
+		window.open(URL, target = "_blank");
+	} else {
+		$("#Meldung").html("Fehler: Keine Koordinaten zum Anzeigen");
+		$("#Meldung").dialog({
+			modal: true,
+			buttons: {
+				Ok: function() {
+					$(this).dialog("close");
+				}
+			}
+		});
+	}
 }
 
 (function($) {
