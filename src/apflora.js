@@ -2138,7 +2138,7 @@ function erstelle_tree(ApArtId) {
 			"type_attr": "typ",
 			"max_children": -2,
 			"max_depth": -2,
-			"valid_children": ["ap_ordner_pop", "ap_ordner_apziel", "ap_ordner_erfkrit", "ap_ordner_jber", "ap_ordner_ber", "ap_ordner_beob_nicht_beurteilt", "umwfakt", "ap_ordner_assozarten"],
+			"valid_children": ["ap_ordner_pop", "ap_ordner_apziel", "ap_ordner_erfkrit", "ap_ordner_jber", "ap_ordner_ber", "ap_ordner_beob_nicht_beurteilt", "ap_ordner_beob_nicht_zuzuordnen", "umwfakt", "ap_ordner_assozarten"],
 			"types": {
 				"ap_ordner_pop": {
 					"valid_children": "pop"
@@ -8865,6 +8865,163 @@ function treeKontextmenu(node) {
 								});
 							} else {
 								$("#Meldung").html("Die Beobachtung hat keine Koordinaten<br>Bitte im Formular zuordnen");
+								$("#Meldung").dialog({
+									modal: true,
+									buttons: {
+										Ok: function() {
+											$(this).dialog("close");
+										}
+									}
+								});
+							}
+						},	
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine Daten erhalten");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},
+			"GisBrowser": {
+				"label": "im GIS-Browser zeigen",
+				"separator_before": true,
+				"icon": "style/images/wappen_zuerich.png",
+				"action": function () {
+					zeigeBeobKoordinatenImGisBrowser();
+				}
+			},
+			"Exporte": {
+				"label": "exportieren",
+				"separator_before": true,
+				"icon": "style/images/download.png",
+				"action": function () {
+					initiiere_exporte();
+				}
+			}
+		}
+		if (!window.beob_node_ausgeschnitten) {
+			items.ausschneiden = {
+				//"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
+				"label": "ausschneiden",
+				"separator_before": true,
+				"icon": "style/images/ausschneiden.png",
+				"action": function () {
+					//nur aktualisieren, wenn Schreibrechte bestehen
+					if (sessionStorage.NurLesen) {
+						$("#Meldung").html("Sie haben keine Schreibrechte");
+						$("#Meldung").dialog({
+							modal: true,
+							buttons: {
+								Ok: function() {
+									$(this).dialog("close");
+								}
+							}
+						});
+						return;
+					}
+					window.beob_node_ausgeschnitten = aktiver_node;
+				}
+			}
+		}
+		if (window.beob_zugeordnet_node_ausgeschnitten) {
+			items.einfuegen = {
+				"label": jQuery.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
+				"separator_before": true,
+				"icon": "style/images/einfuegen.png",
+				"action": function () {
+					jQuery("#tree").jstree("move_node", window.beob_zugeordnet_node_ausgeschnitten, parent_node, "first");
+				}
+			}
+		}
+		return items;
+	case "ap_ordner_beob_nicht_zuzuordnen":
+		items = {
+			"GoogleMaps": {
+				"label": "auf Luftbild zeigen",
+				"separator_before": true,
+				"icon": "style/images/flora_icon_violett.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/beob_karte.php',
+						dataType: 'json',
+						data: {
+							"apart_id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+							"nicht_zuzuordnen": "1"
+						},
+						success: function (data) {
+							if (data.rows.length > 0) {
+								zeigeBeobAufKarte(data);
+							} else {
+								$("#Meldung").html("Es gibt keine Beobachtung mit Koordinaten");
+								$("#Meldung").dialog({
+									modal: true,
+									buttons: {
+										Ok: function() {
+											$(this).dialog("close");
+										}
+									}
+								});
+							}
+						},	
+						error: function (data) {
+							$("#Meldung").html("Fehler: Keine Daten erhalten");
+							$("#Meldung").dialog({
+								modal: true,
+								buttons: {
+									Ok: function() {
+										$(this).dialog("close");
+									}
+								}
+							});
+						}
+					});
+				}
+			},
+			"Exporte": {
+				"label": "exportieren",
+				"separator_before": true,
+				"icon": "style/images/download.png",
+				"action": function () {
+					initiiere_exporte();
+				}
+			}
+		}
+		if (window.beob_zugeordnet_node_ausgeschnitten) {
+			items.einfuegen = {
+				"label": jQuery.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
+				"separator_before": true,
+				"icon": "style/images/einfuegen.png",
+				"action": function () {
+					jQuery("#tree").jstree("move_node", window.beob_zugeordnet_node_ausgeschnitten, aktiver_node, "first");
+				}
+			}
+		}
+		return items;
+	case "beob_nicht_zuzuordnen":
+		items = {
+			"GoogleMaps": {
+				"label": "auf Luftbild zeigen",
+				"separator_before": true,
+				"icon": "style/images/flora_icon_violett.png",
+				"action": function () {
+					$.ajax({
+						url: 'php/beob_karte.php',
+						dataType: 'json',
+						data: {
+							"beobid": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+						},
+						success: function (data) {
+							if (data.rows.length > 0) {
+								zeigeBeobAufKarte(data);
+							} else {
+								$("#Meldung").html("Es gibt keine Beobachtung mit Koordinaten");
 								$("#Meldung").dialog({
 									modal: true,
 									buttons: {
