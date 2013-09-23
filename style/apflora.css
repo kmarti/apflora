@@ -44,8 +44,11 @@ form fieldset {
 }
 
 #forms {
-	padding-top: 7px;
 	margin-bottom: 7px;
+}
+
+#forms .form {
+	padding-top: 7px;
 }
 
 #menu {
