@@ -3,7 +3,7 @@ Software zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschutz des K
 <a name="top"></a>
 ## Inhalt ##
 * <a href="#machen">Was kann man mit AP Flora Web machen?</a>
-* <a href="#Roadmap">Roadmap</a>
+* <a href="#fns">Produkte für die Fachstelle Naturschutz</a>
 * <a href="#Technik">Technische Umsetzung</a>
 * <a href="#OpenSource">Open source</a>
 
@@ -28,9 +28,9 @@ Software zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschutz des K
 
 **Auf Luftbildern und Karten darstellen:**
 
-- Aktionspläne, Populationen, Teilpopulationen und Beobachtungen auf Luftbildern anzeigen
-- Aktionspläne, Populationen, Teilpopulationen auf Luftbild, Übersichtsplan und Landeskarten anzeigen und diverse Ebenen einblenden (Bundesinventare, Kantonale Inventare, Parzellen)
-- Nicht zugeordnete Beobachtungen und Teilpopulationen gemeinsam auf dem Luftbild anzeigen
+- Aktionspläne, Populationen, Teilpopulationen und Beobachtungen auf Google-Luftbildern anzeigen
+- Aktionspläne, Populationen, Teilpopulationen auf Luftbild, Übersichtsplan und Landeskarten anzeigen und diverse Ebenen einblenden (Bundesinventare, Kantonale Inventare, Parzellen). Datenquelle: Kanton Zürich
+- Nicht zugeordnete Beobachtungen und Teilpopulationen gemeinsam auf dem Luftbild anzeigen. Beobachtungen durch Ziehen mit der Maus Teilpopulationen zuordnen
 - Teilpopulationen auf Luftbild, Übersichtsplan und Landeskarte verorten
 - Teilpopulationen und Beobachtungen im GIS-Browser des Kt. Zürich anzeigen
 - Populationen und Teilpopulationen aller Arten als kml-Datei für Google Earth exportieren
@@ -62,7 +62,7 @@ Software zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschutz des K
 - Die Anwendung wird mit AJAX gesteuert, um rasche Ladezeiten zu gewährleisten
 - Nodes wie z.B. Teilpopulationen im Baum zu anderen nodes desselben Typs verschieben oder kopieren (rechte Maustaste oder drag and drop, wie im Windows explorer)
 - Im Baum suchen
-- Beobachtungen Teilpopulationen zuordnen: Mit drag and drop im Strukturbaum, in einer nach Abstand zu den Teilpopulationen geordneten Liste im Formular oder mit drag and drop im Luftbild
+- Beobachtungen Teilpopulationen zuordnen: Mit drag and drop im Strukturbaum, durch Ausschneiden/Kopieren und anschliessendem Einfügen im Strukturbaum, in einer nach Abstand zu den Teilpopulationen geordneten Liste im Formular oder mit drag and drop im Luftbild
 - Daten löschen: Bei den gehaltvollen Daten (Programme/Arten, Populationen, Teilpopulationen, Feldkontrollen, Freiwilligen-Kontrollen, Massnahmen, AP-Berichten) kann das Löschen nachträglich während 25 Sekunden rückgängig gemacht werden
 
 Update vom 16.11.12: Drag and drop im Strukturbaum vorläufig ausgeschaltet, wegen Fehler im externen Modul.
@@ -73,20 +73,23 @@ Mit Tablett mit genügend grossem Bildschirm oder mit einem grossen Smartphone m
 
 **Projektdaten verwalten:**
 
-Die nachfolgend aufgelisteten Funktionen werden nur von Topos in einer neuen Access-Anwendung verwendet:
+Die nachfolgend aufgelisteten Funktionen werden nur von Topos in einer einfachen Access-Anwendung verwendet:
 
 - pdf-Datei für den Jahresbericht erstellen
 - Adressen verwalten
 - Mit dem GIS auf die Daten zugreifen
 - Logins verwalten und Schreibrechte vergeben
 - Datenwaisen ermitteln und bearbeiten oder löschen
+- Beobachtungen nach [EvAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) exportieren
+- Daten in Tabellenform bearbeiten
+- Geplant: Beobachtungen aus einem [EvAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) importieren (um sie danach in ApFloraDb Teilpopulationen zuzuordnen)
 
 **Anwendung effizient unterhalten:**
 
+verglichen mit der ehemaligen Access-Anwendung:
+
 - Einfacheres Gesamtsystem mit weniger Abhängigkeiten
 - Die Anwendung ist professioneller aufgebaut, im Code dokumentiert und einfacher zu warten 
-
-Beides: verglichen mit der ehemaligen Access-Anwendung.
 
 **Daten nach Verlust wiederherstellen:**
 
@@ -96,12 +99,14 @@ Beides: verglichen mit der ehemaligen Access-Anwendung.
 <a href="#top">&#8593; top</a>
 
 
-<a name="Roadmap"></a>
-#Roadmap
-- Die Anwendung enthält alle geplanten Funktionen
-- Bald können mit [QGIS](http://www.qgis.org) Massnahmen digitalisiert werden
-- Ziel ist es, die Massnahmen direkt in AP Flora Web digitalisieren zu können
-- Ev. lässt sich mittelfristig die Mobilfähigkeit steigern. Wär doch toll, wenn man im Feld mit einem Tablett erfassen könnte...
+<a name="fns"></a>
+#Produkte für die Fachstelle Naturschutz
+Die FNS erhält aus der ApFloraDb folgende Produkte:
+
+- Den Jahresbericht (pdf, Ausdruck)
+- Artbeobachtungen. Dazu werden die Feldkontrollen (ausser solche von "erst angesäten" Teilpopulationen) in einer Form exportiert, die einfach in [EvAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) importiert werden kann
+- Teilpopulationen für [Web-GIS BUN](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/web_gis.html). Form nochmals mit al zu vereinbaren und gleich durchzuführen
+- Eine jährliche Kopie aller Daten als sql-Dumpfile?
 
 <a href="#top">&#8593; top</a>
 
@@ -112,11 +117,13 @@ Die Weboberfläche ([HTML5](http://de.wikipedia.org/wiki/HTML5), [CSS](http://de
 
 Für die Karten werden [OpenLayers](http://openlayers.org/) und [GoogleMaps](https://developers.google.com/maps/documentation/javascript/reference) verwendet. Die Kartendaten stammen von Google und dem Kanton Zürich.
 
+Die Applikation baut auf einer einzigen Seite auf und aktualisiert die Oberfläche mit AJAX.
+
 <a href="#top">&#8593; top</a>
 
 
 <a name="OpenSource"></a>
 #Open source
-Die verwendete [Lizenz](https://github.com/barbalex/apflora/blob/master/License.md) ist sehr freizügig. Sie dürfen den Code sogar nehmen, weiterentwickeln und die verbesserte Anwendung der Fachstelle Naturschutz verkaufen! Neben dem Code steht auch die Datenstruktur als [Download](https://github.com/barbalex/apflora/downloads) zur Verfügung. Die eigentlichen Daten aber, mit denen gearbeitet wird, gehören der Fachstelle Naturschutz des Kantons Zürich und stehen nicht zur freien Verfügung.
+Die verwendete [Lizenz](https://github.com/barbalex/apflora/blob/master/License.md) ist sehr freizügig. Neben dem Code steht auch die Datenstruktur als [Download](https://github.com/barbalex/apflora/downloads) zur Verfügung. Die eigentlichen Daten aber, mit denen gearbeitet wird, gehören der Fachstelle Naturschutz des Kantons Zürich und stehen nicht zur freien Verfügung.
 
 <a href="#top">&#8593; top</a>
