@@ -24,7 +24,7 @@ Software zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschutz des K
 
 - Alle Beobachtungen der Info Flora innerhalb des Kantons Zürich und im nahen Umfeld
 - Alle Beobachtungen aus Projekten der Fachstelle Naturschutz des Kantons Zürich
-- Eigene Beobachtungen aus EvAB (vorgängig mit Access uploaden)
+- Eigene Beobachtungen aus [EvAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) (vorgängig mit Access uploaden)
 
 **Auf Luftbildern und Karten darstellen:**
 
@@ -103,10 +103,10 @@ verglichen mit der ehemaligen Access-Anwendung:
 #Produkte für die Fachstelle Naturschutz
 Die FNS erhält aus der ApFloraDb folgende Produkte:
 
-- Den Jahresbericht (pdf, Ausdruck)
-- Artbeobachtungen. Dazu werden die Feldkontrollen (ausser solche von "erst angesäten" Teilpopulationen) in einer Form exportiert, die einfach in [EvAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) importiert werden kann
+- Den Jahresbericht (pdf oder Ausdruck)
+- Artbeobachtungen. Dazu werden die Feld- und Freiwilligenkontrollen (ausser solche von "erst angesäten" Teilpopulationen) in einer Form exportiert, die einfach in [EvAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) importiert werden kann
 - Teilpopulationen für [Web-GIS BUN](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/web_gis.html). Form nochmals mit al zu vereinbaren und gleich durchzuführen
-- Eine jährliche Kopie aller Daten als sql-Dumpfile?
+- Eine jährliche Kopie aller Daten als sql-Dumpfile? Inklusive der Anwendung (Kopie des gesammten Entwicklungsordners)?
 
 <a href="#top">&#8593; top</a>
 
@@ -117,7 +117,9 @@ Die Weboberfläche ([HTML5](http://de.wikipedia.org/wiki/HTML5), [CSS](http://de
 
 Für die Karten werden [OpenLayers](http://openlayers.org/) und [GoogleMaps](https://developers.google.com/maps/documentation/javascript/reference) verwendet. Die Kartendaten stammen von Google und dem Kanton Zürich.
 
-Die Applikation baut auf einer einzigen Seite auf und aktualisiert die Oberfläche mit AJAX.
+Die Applikation baut auf einer einzigen Seite auf und aktualisiert die Oberfläche inkl. URL mit AJAX.
+
+Hier ist beschrieben, wie die Entwicklungsumgebung eingerichtet werden kann, um ApFloraDb zu unterhalten.
 
 <a href="#top">&#8593; top</a>
 

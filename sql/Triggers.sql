@@ -1,8 +1,14 @@
-CREATE TRIGGER newguid
+CREATE TRIGGER newguidtpf
   BEFORE INSERT
   ON tblTeilPopFeldkontrolle
   FOR EACH ROW
   set new.TPopKontrGuid = UUID()
+
+CREATE TRIGGER newguidtpfkzeitguid
+  BEFORE INSERT
+  ON tblTeilPopFeldkontrolle
+  FOR EACH ROW
+  set new.ZeitGuid = UUID()
   
 CREATE TRIGGER newguidtpm
   BEFORE INSERT
@@ -26,6 +32,4 @@ CREATE TRIGGER newguidap
   BEFORE INSERT
   ON tblAktionsplan
   FOR EACH ROW
-  set new.ApGuid = UUID()  
-
-
+  set new.ApGuid = UUID()
