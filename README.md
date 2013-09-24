@@ -22,7 +22,7 @@ Software zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschutz des K
 
 **Beobachtungen den Teilpopulationen zuordnen:**
 
-- Alle Beobachtungen der Info Flora innerhalb des Kantons Zürich
+- Alle Beobachtungen der Info Flora innerhalb des Kantons Zürich und im nahen Umfeld
 - Alle Beobachtungen aus Projekten der Fachstelle Naturschutz des Kantons Zürich
 - Eigene Beobachtungen aus EvAB (vorgängig mit Access uploaden)
 
