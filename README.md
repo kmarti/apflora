@@ -56,6 +56,7 @@ Software zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschutz des K
 
 - Wichtige Felder, die in aller Regel auszufüllen sind, werden farblich hervorgehoben
 - Wo hilfreich werden Informationen angezeigt, wenn man mit der Maus über den Feldnamen fährt
+- Im [Wiki](https://github.com/barbalex/apflora/wiki/_pages) sind wichtige Fragen erklärt
 
 **Effizient arbeiten:**
 
