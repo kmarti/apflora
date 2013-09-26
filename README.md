@@ -18,7 +18,7 @@ Software zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschutz des K
 - Die Entwicklung der Teilpopulationen und den Erfolg der Massnahmen beurteilen
 - Ziele und Erfolgskriterien bestimmen
 - Jährliche Berichte verfassen
-- Ideale Umweltfaktoren ("Idealbiotop"), ideale Biotope und assoziierte Arten beschreiben
+- Ideale Umweltfaktoren ("Idealbiotop") und assoziierte Arten beschreiben
 
 **Beobachtungen den Teilpopulationen zuordnen:**
 
