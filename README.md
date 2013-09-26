@@ -2,14 +2,14 @@ Software zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschutz des K
 
 <a name="top"></a>
 ## Inhalt ##
-* <a href="#machen">Was kann man mit AP Flora Web machen?</a>
+* <a href="#machen">Was kann man mit ApFloraDb machen?</a>
 * <a href="#fns">Produkte für die Fachstelle Naturschutz</a>
 * <a href="#Technik">Technische Umsetzung</a>
 * <a href="#OpenSource">Open source</a>
 
 
 <a name="machen"></a>
-#Was kann man mit AP Flora Web machen?
+#Was kann man mit ApFloraDb machen?
 
 **Aktionspläne verwalten:**
 
@@ -45,7 +45,7 @@ Software zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschutz des K
 
 - "No hassle": Keine Installation, keine Installationskosten, automatische Updates
 - Von ausserhalb und endlich auch innerhalb der Fachstelle Naturschutz arbeiten
-- Ein moderner Browser wird vorausgesetzt. Entwickelt für Google Chrome. Funktioniert auch auf Chrome für Android und Safari auf iOS. Funktioniert zum grössten Teil auch auf Firefox und Safari für PC (neuste Versionen). Auf Internet Explorer funktioniert AP Flora nicht (nicht einmal in Version 10)
+- Ein moderner Browser wird vorausgesetzt. Entwickelt für Google Chrome. Funktioniert auch auf Chrome für Android und Safari auf iOS. Funktioniert zum grössten Teil auch auf Firefox und Safari für PC (neuste Versionen). Auf Internet Explorer funktioniert ApFloraDb nicht (nicht einmal in Version 10)
 
 **Sich rasch zurechtfinden:**
 
