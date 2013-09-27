@@ -95,8 +95,9 @@ verglichen mit der ehemaligen Access-Anwendung:
 
 **Daten nach Verlust wiederherstellen:**
 
-- Die Daten werden täglich innerhalb der Site und in einer Dropbox gesichert
-- Ihre Wiederherstellung wird im Rahmen der Entwicklung bzw. des Unterhalts regelmässig getestet
+- Die Daten werden täglich auf dem Webserver und in einer Dropbox gesichert
+- BenutzerInnen können selber Daten sichern ([Anleitung](https://github.com/barbalex/apflora/wiki/6-Selber-Daten-sichern))
+- Ihre Wiederherstellung wird im Rahmen der Entwicklung bzw. des Unterhalts regelmässig getestet ([Anleitung](https://github.com/barbalex/apflora/wiki/7-Daten-wiederherstellen))
 
 <a href="#top">&#8593; top</a>
 
@@ -129,5 +130,7 @@ Hier ist beschrieben, wie die Entwicklungsumgebung eingerichtet werden kann, um 
 <a name="OpenSource"></a>
 #Open source
 Die verwendete [Lizenz](https://github.com/barbalex/apflora/blob/master/License.md) ist sehr freizügig. Neben dem Code steht auch die Datenstruktur als [Download](https://github.com/barbalex/apflora/downloads) zur Verfügung. Die eigentlichen Daten aber, mit denen gearbeitet wird, gehören der Fachstelle Naturschutz des Kantons Zürich und stehen nicht zur freien Verfügung.
+
+Wer die Anwendung selber testen will kann nach diesen Anweisungen die [Entwicklungsumgebung einrichten](https://github.com/barbalex/apflora/wiki/Entwicklungsumgebung-einrichten) und die [Anwendung auf einem Server bereitstellen](https://github.com/barbalex/apflora/wiki/Anwendung-auf-einem-Server-bereitstellen).
 
 <a href="#top">&#8593; top</a>
