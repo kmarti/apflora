@@ -46,7 +46,7 @@ Web-Applikation zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschut
 
 - "No hassle": Keine Installation, keine Installationskosten, automatische Updates
 - Von ausserhalb und endlich auch innerhalb der Fachstelle Naturschutz arbeiten
-- Ein moderner Browser wird vorausgesetzt. Entwickelt für Google Chrome. Funktioniert auch auf Chrome für Android und Safari auf iOS. Funktioniert zum grössten Teil auch auf Firefox und Safari für PC (neuste Versionen). Auf Internet Explorer funktioniert ApFloraDb nicht (nicht einmal in Version 10)
+- Ein moderner Browser wird vorausgesetzt. Entwickelt für Google Chrome. Funktioniert auch auf auch auf Firefox und Safari für PC (neuste Versionen), sowie Chrome für Android und Safari auf iOS. Auf Internet Explorer funktioniert ApFloraDb nicht (nicht einmal in Version 10)
 
 **Sich rasch zurechtfinden:**
 
@@ -107,7 +107,7 @@ verglichen mit der ehemaligen Access-Anwendung:
 Die FNS erhält aus der ApFloraDb folgende Produkte:
 
 - Den Jahresbericht (pdf oder Ausdruck)
-- Artbeobachtungen.<br>
+- Artbeobachtungen<br>
 Dazu werden die Feld- und Freiwilligenkontrollen (ausser solche von soeben angesäten, noch nicht etablierten Teilpopulationen) aus der Access-Admin-DB in einer Form exportiert, die einfach in [EvAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) importiert werden kann
 - Daten für die Anzeige in GIS und [Web-GIS BUN](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/web_gis.html):
  - Teilpopulationen
