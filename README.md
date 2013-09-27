@@ -20,7 +20,7 @@ Software zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschutz des K
 - Jährliche Berichte verfassen
 - Ideale Umweltfaktoren ("Idealbiotop") und assoziierte Arten beschreiben
 
-**Beobachtungen den Teilpopulationen zuordnen** [(Anleitung)](https://github.com/barbalex/apflora/wiki/2-Beobachtungen-einer-Teilpopulation-zuordnen)**:**
+**Beobachtungen den Teilpopulationen zuordnen:** ([Anleitung](https://github.com/barbalex/apflora/wiki/2-Beobachtungen-einer-Teilpopulation-zuordnen))
 
 - Alle Beobachtungen der Info Flora innerhalb des Kantons Zürich und im nahen Umfeld
 - Alle Beobachtungen aus Projekten der Fachstelle Naturschutz des Kantons Zürich
