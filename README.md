@@ -127,8 +127,8 @@ Die Applikation baut auf einer einzigen Seite auf und aktualisiert die Oberfläc
 
 <a name="OpenSource"></a>
 #Open source
-Die verwendete [Lizenz](https://github.com/barbalex/apflora/blob/master/License.md) ist sehr freizügig. Neben dem Code steht auch die [Datenstruktur]((https://github.com/barbalex/apflora/raw/master/etc/alexande_apflora.sql.zip)) zur Verfügung. Die eigentlichen Daten aber, mit denen gearbeitet wird, gehören der Fachstelle Naturschutz des Kantons Zürich und stehen nicht zur freien Verfügung.
+Die verwendete [Lizenz](https://github.com/barbalex/apflora/blob/master/License.md) ist sehr freizügig. Neben dem Code steht auch die [Datenstruktur](https://github.com/barbalex/apflora/raw/master/etc/alexande_apflora.sql.zip) zur Verfügung. Die eigentlichen Daten aber, mit denen gearbeitet wird, gehören der Fachstelle Naturschutz des Kantons Zürich und stehen nicht zur freien Verfügung.
 
-Wer die Anwendung selber testen will kann nach diesen Anweisungen die [Entwicklungsumgebung einrichten](https://github.com/barbalex/apflora/wiki/Entwicklungsumgebung-einrichten) und die [Anwendung auf einem Server bereitstellen](https://github.com/barbalex/apflora/wiki/Anwendung-auf-einem-Server-bereitstellen).
+Wer die Anwendung selber testen will, kann nach diesen Anweisungen die [Entwicklungsumgebung einrichten](https://github.com/barbalex/apflora/wiki/Entwicklungsumgebung-einrichten) und die [Anwendung auf einem Server bereitstellen](https://github.com/barbalex/apflora/wiki/Anwendung-auf-einem-Server-bereitstellen).
 
 <a href="#top">&#8593; top</a>
