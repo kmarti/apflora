@@ -109,7 +109,8 @@ Die FNS erhält aus der ApFloraDb folgende Produkte:
 - Den Jahresbericht (pdf oder Ausdruck)
 - Artbeobachtungen.<br>
 Dazu werden die Feld- und Freiwilligenkontrollen (ausser solche von soeben angesäten, noch nicht etablierten Teilpopulationen) in einer Form exportiert, die einfach in [EvAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) importiert werden kann
-- Teilpopulationen für [Web-GIS BUN](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/web_gis.html). Form nochmals mit al zu vereinbaren und gleich durchzuführen
+- Teilpopulationen für [Web-GIS BUN](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/web_gis.html).<br>
+Form nochmals mit al zu vereinbaren und gleich durchzuführen
 - Eine jährliche Kopie aller Daten als sql-Dumpfile? Inklusive der Anwendung (Kopie des gesammten Entwicklungsordners)?
 
 <a href="#top">&#8593; top</a>
@@ -130,6 +131,6 @@ Die Applikation baut auf einer einzigen Seite auf und aktualisiert die Oberfläc
 #Open source
 Die verwendete [Lizenz](https://github.com/barbalex/apflora/blob/master/License.md) ist sehr freizügig. Neben dem Code steht auch die [Datenstruktur](https://github.com/barbalex/apflora/raw/master/etc/alexande_apflora.sql.zip) zur Verfügung. Die eigentlichen Daten aber, mit denen gearbeitet wird, gehören der Fachstelle Naturschutz des Kantons Zürich und stehen nicht zur freien Verfügung.
 
-Wer will, kann nach diesen Anweisungen die [Entwicklungsumgebung einrichten](https://github.com/barbalex/apflora/wiki/Entwicklungsumgebung-einrichten) und die [Anwendung auf einem Server bereitstellen](https://github.com/barbalex/apflora/wiki/Anwendung-auf-einem-Server-bereitstellen).
+Wer will, kann selber die [Entwicklungsumgebung einrichten](https://github.com/barbalex/apflora/wiki/Entwicklungsumgebung-einrichten) und die [Anwendung auf einem Webserver bereitstellen](https://github.com/barbalex/apflora/wiki/Anwendung-auf-einem-Server-bereitstellen).
 
 <a href="#top">&#8593; top</a>
