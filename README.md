@@ -107,7 +107,8 @@ verglichen mit der ehemaligen Access-Anwendung:
 Die FNS erhält aus der ApFloraDb folgende Produkte:
 
 - Den Jahresbericht (pdf oder Ausdruck)
-- Artbeobachtungen. Dazu werden die Feld- und Freiwilligenkontrollen (ausser solche von "erst angesäten" Teilpopulationen) in einer Form exportiert, die einfach in [EvAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) importiert werden kann
+- Artbeobachtungen.<br>
+Dazu werden die Feld- und Freiwilligenkontrollen (ausser solche von soeben angesäten, noch nicht etablierten Teilpopulationen) in einer Form exportiert, die einfach in [EvAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) importiert werden kann
 - Teilpopulationen für [Web-GIS BUN](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/web_gis.html). Form nochmals mit al zu vereinbaren und gleich durchzuführen
 - Eine jährliche Kopie aller Daten als sql-Dumpfile? Inklusive der Anwendung (Kopie des gesammten Entwicklungsordners)?
 
