@@ -97,7 +97,7 @@ verglichen mit der ehemaligen Access-Anwendung:
 
 - Die Daten werden täglich auf dem Webserver und in einer Dropbox gesichert
 - BenutzerInnen können selber Daten sichern ([Anleitung](https://github.com/barbalex/apflora/wiki/6-Selber-Daten-sichern))
-- Ihre Wiederherstellung wird im Rahmen der Entwicklung bzw. des Unterhalts regelmässig getestet ([Anleitung](https://github.com/barbalex/apflora/wiki/7-Daten-wiederherstellen))
+- Ihre Wiederherstellung wird im Rahmen der Entwicklung bzw. des Unterhalts sporadisch getestet ([Anleitung](https://github.com/barbalex/apflora/wiki/7-Daten-wiederherstellen))
 
 <a href="#top">&#8593; top</a>
 
