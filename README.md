@@ -122,8 +122,6 @@ Für die Karten werden [OpenLayers](http://openlayers.org/) und [GoogleMaps](htt
 
 Die Applikation baut auf einer einzigen Seite auf und aktualisiert die Oberfläche inkl. URL mit AJAX.
 
-Hier ist beschrieben, wie die Entwicklungsumgebung eingerichtet werden kann, um ApFloraDb zu unterhalten.
-
 <a href="#top">&#8593; top</a>
 
 
