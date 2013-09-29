@@ -2,6 +2,7 @@
 // Verbindung aufbauen, Datenbank auswählen
 
 $link = new mysqli("barbalex.ch", "alexande", "excalibu", "alexande_apflora");
+$link2 = new mysqli("barbalex.ch", "alexande", "excalibu", "alexande_beob");
 
 /* check connection */
 if ($link->connect_errno) {
@@ -19,7 +20,8 @@ $time = date('Y-m-d H:i:s');
 $Querystring = 'INSERT INTO tblAktionsplan (ApArtId, MutWann, MutWer) VALUES ('.$id.', "'.$time.'", "'.$user.'")';
 $result = mysqli_query($link, $Querystring);
 
-$Querystring2 = 'SELECT AwArtwert FROM ArtenDb_tblFloraFnsArtwert WHERE SisfNr='.$id;
+//$Querystring2 = 'SELECT AwArtwert FROM ArtenDb_tblFloraFnsArtwert WHERE SisfNr='.$id;
+$Querystring2 = 'SELECT Artwert FROM alexande_beob.tblArtenArtendb WHERE TaxonomieId='.$id;
 $result2 = mysqli_query($link, $Querystring2);
 $row = mysqli_fetch_assoc($result2);
 $Artwert = $row["AwArtwert"];
@@ -34,4 +36,5 @@ if (!$result) {
 
 // Verbindung schliessen
 mysqli_close($link);
+mysqli_close($link2);
 ?>
