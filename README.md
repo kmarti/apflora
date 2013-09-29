@@ -20,7 +20,7 @@ Web-Applikation zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschut
 - Jährliche Berichte verfassen
 - Ideale Umweltfaktoren ("Idealbiotop") und assoziierte Arten beschreiben
 
-**Beobachtungen den Teilpopulationen zuordnen:** ([Anleitung](https://github.com/barbalex/apflora/wiki/2-Beobachtungen-einer-Teilpopulation-zuordnen))
+**Beobachtungen den Teilpopulationen zuordnen:** ([Anleitung](https://github.com/barbalex/apflora/wiki/Beobachtungen-einer-Teilpopulation-zuordnen))
 
 - Alle Beobachtungen der Info Flora innerhalb des Kantons Zürich und im nahen Umfeld
 - Alle Beobachtungen aus Projekten der Fachstelle Naturschutz des Kantons Zürich
@@ -57,7 +57,7 @@ Web-Applikation zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschut
 
 - Wichtige Felder, die in aller Regel auszufüllen sind, werden farblich hervorgehoben
 - Wo hilfreich werden Informationen angezeigt, wenn man mit der Maus über den Feldnamen fährt
-- Im [Wiki](https://github.com/barbalex/apflora/wiki/_pages) sind wichtige Fragen erklärt
+- Im [Wiki](https://github.com/barbalex/apflora/wiki) sind wichtige Fragen erklärt
 
 **Effizient arbeiten:**
 
@@ -71,7 +71,7 @@ Update vom 16.11.12: Drag and drop im Strukturbaum vorläufig ausgeschaltet, weg
 
 **Im Feld arbeiten?**
 
-Mit Tablett mit genügend grossem Bildschirm oder mit einem grossen Smartphone mit Stift und in Gebieten mit gutem Datenempfang könnte die Anwendung vermutlich auch im Feld benutzt werden. Ohne Stift ist die Sache auf dem Smartphone etwas gar fummellig. Mehr dazu [hier](https://github.com/barbalex/apflora/wiki/3-Daten-direkt-im-Feld-erfassen).
+Mit Tablett mit genügend grossem Bildschirm oder mit einem grossen Smartphone mit Stift und in Gebieten mit gutem Datenempfang könnte die Anwendung vermutlich auch im Feld benutzt werden. Ohne Stift ist die Sache auf dem Smartphone etwas gar fummellig. Mehr dazu [hier](https://github.com/barbalex/apflora/wiki/Daten-direkt-im-Feld-erfassen).
 
 **Projektdaten verwalten:**
 
@@ -96,8 +96,8 @@ verglichen mit der ehemaligen Access-Anwendung:
 **Daten nach Verlust wiederherstellen:**
 
 - Die Daten werden täglich auf dem Webserver und in einer Dropbox gesichert
-- BenutzerInnen können selber Daten sichern ([Anleitung](https://github.com/barbalex/apflora/wiki/6-Selber-Daten-sichern))
-- Ihre Wiederherstellung wird im Rahmen der Entwicklung bzw. des Unterhalts sporadisch getestet ([Anleitung](https://github.com/barbalex/apflora/wiki/7-Daten-wiederherstellen))
+- BenutzerInnen können selber Daten sichern ([Anleitung](https://github.com/barbalex/apflora/wiki/Selber-Daten-sichern))
+- Ihre Wiederherstellung wird im Rahmen der Entwicklung bzw. des Unterhalts sporadisch getestet ([Anleitung](https://github.com/barbalex/apflora/wiki/Daten-wiederherstellen))
 
 <a href="#top">&#8593; top</a>
 
