@@ -17,7 +17,7 @@ $programm = $_GET["programm"];
 
 // SQL-Anfrage ausführen
 if ($programm == "programm_ap") {
-	$result = mysqli_query($link, "SELECT alexande_beob.tblArtenArtendb.Artname AS Name, alexande_beob.tblArtenArtendb.TaxonomieId AS ApArtId FROM alexande_beob.tblArtenArtendb INNER JOIN alexande_apflora.tblAktionsplan ON alexande_beob.tblArtenArtendb.TaxonomieId=alexande_apflora.tblAktionsplan.ApArtId WHERE alexande_apflora.tblAktionsplan.ApStatus BETWEEN 1 AND 3 ORDER BY Name");
+	$result = mysqli_query($link, "SELECT alexande_beob.ArtenDb_Arteigenschaften.Artname AS Name, alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId AS ApArtId FROM alexande_beob.ArtenDb_Arteigenschaften INNER JOIN alexande_apflora.tblAktionsplan ON alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId=alexande_apflora.tblAktionsplan.ApArtId WHERE alexande_apflora.tblAktionsplan.ApStatus BETWEEN 1 AND 3 ORDER BY Name");
 	$rows = array();
 	while($r = mysqli_fetch_assoc($result)) {
 		$ApArtId = $r['ApArtId'];
@@ -27,7 +27,7 @@ if ($programm == "programm_ap") {
 	    $rows[] = $row;
 	}
 } else if ($programm == "programm_alle") {
-	$result = mysqli_query($link, "SELECT alexande_beob.tblArtenArtendb.Artname AS Name, alexande_beob.tblArtenArtendb.TaxonomieId AS ApArtId FROM alexande_beob.tblArtenArtendb INNER JOIN alexande_apflora.tblAktionsplan ON alexande_beob.tblArtenArtendb.TaxonomieId=alexande_apflora.tblAktionsplan.ApArtId ORDER BY Name");
+	$result = mysqli_query($link, "SELECT alexande_beob.ArtenDb_Arteigenschaften.Artname AS Name, alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId AS ApArtId FROM alexande_beob.ArtenDb_Arteigenschaften INNER JOIN alexande_apflora.tblAktionsplan ON alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId=alexande_apflora.tblAktionsplan.ApArtId ORDER BY Name");
 	$rows = array();
 	while($r = mysqli_fetch_assoc($result)) {
 		$ApArtId = $r['ApArtId'];
@@ -37,7 +37,7 @@ if ($programm == "programm_ap") {
 	    $rows[] = $row;
 	}
 } else {
-	$result = mysqli_query($link, "SELECT IF(alexande_beob.tblArtenArtendb.Status is not null, CONCAT(alexande_beob.tblArtenArtendb.Artname, '   ', alexande_beob.tblArtenArtendb.Status), alexande_beob.tblArtenArtendb.Artname) AS ApName, alexande_beob.tblArtenArtendb.TaxonomieId AS NR FROM alexande_beob.tblArtenArtendb WHERE alexande_beob.tblArtenArtendb.TaxonomieId not in (SELECT alexande_apflora.tblAktionsplan.ApArtId FROM alexande_apflora.tblAktionsplan) ORDER BY ApName");
+	$result = mysqli_query($link, "SELECT IF(alexande_beob.ArtenDb_Arteigenschaften.Status is not null, CONCAT(alexande_beob.ArtenDb_Arteigenschaften.Artname, '   ', alexande_beob.ArtenDb_Arteigenschaften.Status), alexande_beob.ArtenDb_Arteigenschaften.Artname) AS ApName, alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId AS NR FROM alexande_beob.ArtenDb_Arteigenschaften WHERE alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId not in (SELECT alexande_apflora.tblAktionsplan.ApArtId FROM alexande_apflora.tblAktionsplan) ORDER BY ApName");
 	$rows = array();
 	while($r = mysqli_fetch_assoc($result)) {
 		$ApArtId = $r['NR'];

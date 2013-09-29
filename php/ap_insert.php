@@ -20,7 +20,7 @@ $time = date('Y-m-d H:i:s');
 $Querystring = 'INSERT INTO tblAktionsplan (ApArtId, MutWann, MutWer) VALUES ('.$id.', "'.$time.'", "'.$user.'")';
 $result = mysqli_query($link, $Querystring);
 
-$Querystring2 = 'SELECT Artwert FROM alexande_beob.tblArtenArtendb WHERE TaxonomieId='.$id;
+$Querystring2 = 'SELECT Artwert FROM alexande_beob.ArtenDb_Arteigenschaften WHERE TaxonomieId='.$id;
 $result2 = mysqli_query($link, $Querystring2);
 $row = mysqli_fetch_assoc($result2);
 $Artwert = $row["AwArtwert"];
