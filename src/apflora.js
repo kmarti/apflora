@@ -9919,7 +9919,7 @@ function zeigeTPopAufKarte(TPopListe) {
 			'<div id="siteNotice">'+
 			'</div>'+
 			'<div id="bodyContent" class="GmInfowindow">'+
-			'<h3>' + TPop.Name + '</h3>'+
+			'<h3>' + TPop.Artname + '</h3>'+
 			'<p>Population: ' + TPop.PopName + '</p>'+
 			'<p>TPop: ' + myFlurname + '</p>'+
 			'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
