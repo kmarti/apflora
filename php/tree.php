@@ -603,15 +603,15 @@ $anz_umwfakt = mysqli_num_rows($result_umwfakt);
 mysqli_free_result($result_umwfakt);
 
 //assozarten dieses AP abfragen
-$result_assozarten = mysqli_query($link, "SELECT AaId, AaApArtId, Name FROM tblAssozArten LEFT JOIN ArtenDb_tblFloraSisf ON AaSisfNr = NR where AaApArtId = $ApArtId ORDER BY Name");
+$result_assozarten = mysqli_query($link, "SELECT AaId, AaApArtId, alexande_beob.ArtenDb_Arteigenschaften.Artname FROM tblAssozArten LEFT JOIN alexande_beob.ArtenDb_Arteigenschaften ON AaSisfNr = alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId where AaApArtId = $ApArtId ORDER BY alexande_beob.ArtenDb_Arteigenschaften.Artname");
 $anz_assozarten = mysqli_num_rows($result_assozarten);
 //assozarten aufbauen
 $rows_assozarten = array();
 while($r_assozarten = mysqli_fetch_assoc($result_assozarten)) {
 	$AaId = $r_assozarten['AaId'];
 	settype($AaId, "integer");
-	if ($r_assozarten['Name']) {
-		$assozartenName = $r_assozarten['Name'];
+	if ($r_assozarten['Artname']) {
+		$assozartenName = $r_assozarten['Artname'];
 	} else {
 		$assozartenName = "(kein Artname)";
 	}
