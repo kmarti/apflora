@@ -10513,7 +10513,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 		if (TPopListe.rows.hasOwnProperty(b)) {
 			TPop = TPopListe.rows[b];
 			myFlurname = TPop.TPopFlurname || '(kein Flurname)';
-			html = '<h3>' + TPop.Name + '</h3>'+
+			html = '<h3>' + TPop.Artname + '</h3>'+
 				'<p>Population: ' + TPop.PopName + '</p>'+
 				'<p>Teilpopulation: ' + myFlurname + '</p>'+
 				'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
@@ -11422,7 +11422,7 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 			'<div id="siteNotice">'+
 			'</div>'+
 			'<div id="bodyContent" class="GmInfowindow">'+
-			'<h3>' + TPop.Name + '</h3>'+
+			'<h3>' + TPop.Artname + '</h3>'+
 			'<p>Population: ' + TPop.PopName + '</p>'+
 			'<p>TPop: ' + myFlurname + '</p>'+
 			'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
