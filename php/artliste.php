@@ -1,7 +1,7 @@
 <?php
 // Verbindung aufbauen, Datenbank auswählen
 
-$link = new mysqli("barbalex.ch", "alexande", "excalibu", "alexande_apflora");
+$link = new mysqli("barbalex.ch", "alexande", "excalibu", "alexande_beob");
 
 /* check connection */
 if ($link->connect_errno) {
@@ -12,14 +12,14 @@ if ($link->connect_errno) {
 mysqli_set_charset($link, "utf8");
 
 // SQL-Anfrage ausführen
-$result = mysqli_query($link, "SELECT NR, IF(Deutsch Is Not Null, CONCAT(Name, ' (', Deutsch, ')   ', StatusText), CONCAT(Name, '   ', StatusText)) AS Artname FROM ArtenDb_tblFloraSisf LEFT JOIN DomainFloraStatus ON Status = StatusWert ORDER BY Artname");
+$result = mysqli_query($link, "SELECT TaxonomieId, IF(Status Is Not Null, CONCAT(Artname, '   ', Status), Artname) AS Artname FROM ArtenDb_Arteigenschaften ORDER BY Artname");
 
 //benötigte Datenstruktur aufbauen
 $rows = array();
 while($r = mysqli_fetch_assoc($result)) {
-	$ApArtId = $r['NR'];
-	settype($ApArtId, "integer");
-	$row = array("Artname" => $r['Artname'], "id" => $ApArtId);
+	$TaxonomieId = $r['TaxonomieId'];
+	settype($TaxonomieId, "integer");
+	$row = array("Artname" => $r['Artname'], "id" => $TaxonomieId);
     $rows[] = $row;
 }
 
