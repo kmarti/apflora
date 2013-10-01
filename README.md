@@ -138,7 +138,7 @@ Die Anwendung verwendet drei MySQL-Datenbanken:
 
 <a name="OpenSource"></a>
 #Open source
-Die verwendete [Lizenz](https://github.com/barbalex/apflora/blob/master/License.md) ist sehr freizügig. Neben dem Code steht auch die [Datenstruktur](https://github.com/barbalex/apflora/raw/master/etc/alexande_apflora.sql.zip) zur Verfügung. Die eigentlichen Daten aber, mit denen gearbeitet wird, gehören der Fachstelle Naturschutz des Kantons Zürich und stehen nicht zur freien Verfügung (die Beobachtungen werden aber der [Info Spezies](http://www.infoflora.ch/de/allgemeines/info-species.html) gemeldet).
+Die verwendete [Lizenz](https://github.com/barbalex/apflora/blob/master/License.md) ist sehr freizügig. Neben dem Code steht auch die [Datenstruktur](https://github.com/barbalex/apflora/raw/master/etc/alexande_apflora.sql.zip) inkl. [Views](https://github.com/barbalex/apflora/raw/master/etc/alexande_apflora_views.sql.zip) zur Verfügung. Die eigentlichen Daten aber, mit denen gearbeitet wird, gehören der Fachstelle Naturschutz des Kantons Zürich und stehen nicht zur freien Verfügung (die Beobachtungen werden aber der [Info Spezies](http://www.infoflora.ch/de/allgemeines/info-species.html) gemeldet).
 
 Wer will, kann selber die [Entwicklungsumgebung einrichten](https://github.com/barbalex/apflora/wiki/Entwicklungsumgebung-einrichten) und die [Anwendung auf einem Webserver bereitstellen](https://github.com/barbalex/apflora/wiki/Anwendung-auf-einem-Server-bereitstellen).
 
