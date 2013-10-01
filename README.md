@@ -128,6 +128,11 @@ Für die Karten werden [OpenLayers](http://openlayers.org/) und [GoogleMaps](htt
 
 Die Applikation baut auf einer einzigen Seite auf und aktualisiert die Oberfläche inkl. URL mit AJAX.
 
+Die Anwendung verwendet drei MySQL-Datenbanken:
+- alexande_apflora: Hier sind die Projekteigenen Daten, die mit ApFloraDb bearbeitet werden können. Sie sind vollständig von den übrigen Datenbanken getrennt, um Datensicherung und -wiederherstellung zu vereinfachen
+- alexande_apflora_views: Hier sind die Views. Sie liegen getrennt, weil der Aufbau komplexer Views eine Wiederherstellung der DB mittels sql-Dumpfile empfindlich stören kann
+- alexande_beob: Hier liegen benutzte Fremddaten, v.a. Beobachtungen von Info Spezies und der FNS sowie Arteigenschaften
+
 <a href="#top">&#8593; top</a>
 
 
