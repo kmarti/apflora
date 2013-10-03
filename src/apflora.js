@@ -12337,39 +12337,63 @@ function oeffneUri() {
 				//markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
 				//Die Markierung wird im load-Event wieder entfernt
 				window.tpopfeldkontr_zeigen = true;
+				//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+				initiiere_tpopfeldkontr();
 			} else if (uri.getQueryParamValue('tpopfreiwkontr')) {
 				//globale Variabeln setzen
 				setzeWindowTpopfeldkontr(uri.getQueryParamValue('tpopfreiwkontr'));
 				//markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
 				//Die Markierung wird im load-Event wieder entfernt
 				window.tpopfreiwkontr_zeigen = true;
+				//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+				initiiere_tpopfeldkontr();
 			} else if (uri.getQueryParamValue('tpopmassn')) {
 				//globale Variabeln setzen
 				setzeWindowTpopmassn(uri.getQueryParamValue('tpopmassn'));
 				//markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
 				//Die Markierung wird im load-Event wieder entfernt
 				window.tpopmassn_zeigen = true;
+				//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+				initiiere_tpopmassn();
 			} else if (uri.getQueryParamValue('tpopber')) {
 				//globale Variabeln setzen
 				setzeWindowTpopber(uri.getQueryParamValue('tpopber'));
 				//markieren, dass nach dem loaded-event im Tree die tpopber angezeigt werden soll 
 				//Die Markierung wird im load-Event wieder entfernt
 				window.tpopber_zeigen = true;
+				//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+				initiiere_tpopber();
 			} else if (uri.getQueryParamValue('beob_zugeordnet')) {
 				//markieren, dass nach dem loaded-event im Tree die beob_zugeordnet angezeigt werden soll 
 				//Die Markierung wird im load-Event wieder entfernt
 				window.beob_zugeordnet_zeigen = true;
+				//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+				/*ausgeschaltet - funktioniert nicht! vermutlich, weil tree.php und beob_distzutpop sich in quere kommen
+				//herausfinden, ob beobtyp infospezies oder evab ist
+				localStorage.beob_id = uri.getQueryParamValue('beob_zugeordnet');
+				if (isNaN(uri.getQueryParamValue('beob_zugeordnet'))) {
+					//evab
+					localStorage.beobtyp = "evab";
+					initiiere_beob("evab", localStorage.beob_id, "zugeordnet");
+				} else {
+					localStorage.beobtyp = "infospezies";
+					initiiere_beob("infospezies", localStorage.beob_id, "zugeordnet");
+				}*/
 			} else if (uri.getQueryParamValue('tpopmassnber')) {
 				//globale Variabeln setzen
 				setzeWindowTpopmassnber(uri.getQueryParamValue('tpopmassnber'));
 				//markieren, dass nach dem loaded-event im Tree die tpopmassnber angezeigt werden soll 
 				//Die Markierung wird im load-Event wieder entfernt
 				window.tpopmassnber_zeigen = true;
+				//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+				initiiere_tpopmassnber();
 			} else {
 				//muss tpop sein
 				//markieren, dass nach dem loaded-event im Tree die TPop angezeigt werden soll 
 				//Die Markierung wird im load-Event wieder entfernt
 				window.tpop_zeigen = true;
+				//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+				initiiere_tpop();
 			}
 		} else if (uri.getQueryParamValue('pop')) {
 			//globale Variabeln setzen
@@ -12380,17 +12404,24 @@ function oeffneUri() {
 				//markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
 				//Die Markierung wird im load-Event wieder entfernt
 				window.popber_zeigen = true;
+				//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+				initiiere_popber();
 			} else if (uri.getQueryParamValue('popmassnber')) {
 				//globale Variabeln setzen
 				setzeWindowPopmassnber(uri.getQueryParamValue('popmassnber'));
 				//markieren, dass nach dem loaded-event im Tree die popmassnber angezeigt werden soll 
 				//Die Markierung wird im load-Event wieder entfernt
 				window.popmassnber_zeigen = true;
+				//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+				initiiere_popmassnber();
 			} else {
 				//muss pop sein
 				//markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
 				//Die Markierung wird im load-Event wieder entfernt
 				window.pop_zeigen = true;
+				//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+				localStorage.pop_id = uri.getQueryParamValue('pop');
+				initiiere_pop();
 			}
 		} else if (uri.getQueryParamValue('apziel')) {
 			//globale Variabeln setzen
@@ -12401,11 +12432,16 @@ function oeffneUri() {
 				//markieren, dass nach dem loaded-event im Tree die zielber angezeigt werden soll 
 				//Die Markierung wird im load-Event wieder entfernt
 				window.zielber_zeigen = true;
+				//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+				initiiere_zielber();
 			} else {
 				//muss ein apziel sein
 				//markieren, dass nach dem loaded-event im Tree die apziel angezeigt werden soll 
 				//Die Markierung wird im load-Event wieder entfernt
 				window.apziel_zeigen = true;
+				//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+				localStorage.apziel_id = uri.getQueryParamValue('apziel');
+				initiiere_apziel();
 			}
 		} else if (uri.getQueryParamValue('erfkrit')) {
 			//globale Variabeln setzen
@@ -12419,30 +12455,39 @@ function oeffneUri() {
 			//markieren, dass nach dem loaded-event im Tree die jber angezeigt werden soll 
 			//Die Markierung wird im load-Event wieder entfernt
 			window.jber_zeigen = true;
+			//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+			initiiere_jber();
 		} else if (uri.getQueryParamValue('jber_uebersicht')) {
 			//globale Variabeln setzen
 			setzeWindowJberUebersicht(uri.getQueryParamValue('jber_uebersicht'));
 			//markieren, dass nach dem loaded-event im Tree die jber_uebersicht angezeigt werden soll 
 			//Die Markierung wird im load-Event wieder entfernt
 			window.jber_uebersicht_zeigen = true;
+			//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+			initiiere_jber_uebersicht();
 		} else if (uri.getQueryParamValue('ber')) {
 			//globale Variabeln setzen
 			setzeWindowBer(uri.getQueryParamValue('ber'));
 			//markieren, dass nach dem loaded-event im Tree die ber angezeigt werden soll 
 			//Die Markierung wird im load-Event wieder entfernt
 			window.ber_zeigen = true;
+			//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+			initiiere_ber();
 		} else if (uri.getQueryParamValue('umwfakt')) {
 			//globale Variabeln setzen
 			setzeWindowUmwfakt(uri.getQueryParamValue('umwfakt'));
 			//markieren, dass nach dem loaded-event im Tree die umwfakt angezeigt werden soll 
 			//Die Markierung wird im load-Event wieder entfernt
 			window.umwfakt_zeigen = true;
+			//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+			initiiere_umwfakt();
 		} else if (uri.getQueryParamValue('assozarten')) {
 			//globale Variabeln setzen
 			setzeWindowAssozarten(uri.getQueryParamValue('assozarten'));
 			//markieren, dass nach dem loaded-event im Tree die assozarten angezeigt werden soll 
 			//Die Markierung wird im load-Event wieder entfernt
 			window.assozarten_zeigen = true;
+			//NICHT direkt initiieren, weil sonst die Artliste noch nicht existiert
 		} else if (uri.getQueryParamValue('beob_nicht_beurteilt')) {
 			//markieren, dass nach dem loaded-event im Tree die beob angezeigt werden soll 
 			//Die Markierung wird im load-Event wieder entfernt
@@ -12456,6 +12501,9 @@ function oeffneUri() {
 			//markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
 			//Die Markierung wird im load-Event wieder entfernt
 			window.ap_zeigen = true;
+			//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+			localStorage.ap_id = ap_id;
+			initiiere_ap();
 		}
 		erstelle_tree(ap_id);
 		$("#ap_waehlen_label").hide();
