@@ -9937,6 +9937,12 @@ function zeigeTPopAufKarte(TPopListe) {
 				width: 53
 			}]
 	};
+	//globale Variable verwenden, damit ein Klick auf die Checkbox die Ebene einblenden kann
+	window.google_karte_detailplaene = new google.maps.KmlLayer({
+	    url: 'http://www.barbalex.ch/apflora/kml/rueteren.kmz',
+	    preserveViewport: true
+	});
+	google_karte_detailplaene.setMap(null);
 	markerCluster = new MarkerClusterer(map, markers, mcOptions);
 	if (anzTPop === 1) {
 		//map.fitbounds setzt zu hohen zoom, wenn nur eine Beobachtung erfasst wurde > verhindern
@@ -12653,6 +12659,24 @@ function initiiereGeoAdminKarte() {
 		singleTile: true,
 		visibility: false
 	});
+	var detailplaene = new OpenLayers.Layer.Vector("Detailpläne kml", {
+		strategies: [new OpenLayers.Strategy.Fixed()],
+		protocol: new OpenLayers.Protocol.HTTP({
+			url: "kml/rueteren.kml",
+			format: new OpenLayers.Format.KML({
+				extractStyles: true, 
+				extractAttributes: true,
+				maxDepth: 2
+			})
+		})
+	});
+	var detailplaene_gml = new OpenLayers.Layer.Vector("Detailpläne GML", {
+		protocol: new OpenLayers.Protocol.HTTP({
+			url: "kml/rueteren.xml",
+			format: new OpenLayers.Format.GML()
+		}),
+		strategies: [new OpenLayers.Strategy.Fixed()]
+	});
 
 	//allfällige Marker-Ebenen entfernen
 	entferneTPopMarkerEbenen();
@@ -12683,6 +12707,8 @@ function initiiereGeoAdminKarte() {
 			visibility: false
 		});*/
 		window.api.map.addLayers([zh_av, zh_avnr, zh_svo, zh_svo_raster, zh_waldgesellschaften, zh_liwa]);
+		//ausgeblendet, weil die Detailpläne nicht angezeigt werden
+		//window.api.map.addLayers([detailplaene, detailplaene_gml]);
 		/*window.api.map.addLayerByName('ch.bafu.bundesinventare-trockenwiesen_trockenweiden', {
 			visibility: false,
 			opacity: 0.7

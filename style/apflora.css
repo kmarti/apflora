@@ -392,6 +392,20 @@ a {
 	/*vor die Karte aber nicht vor die Meldungen*/
 	z-index: 800;
 }
+.google_karte_checkbox {
+	margin-right: 5px;
+}
+.google_karte_detailplaene_checkbox + label {
+	color: yellow;
+	padding-left: 5px;
+}
+.google_detailplaene_div {
+	position: absolute;
+	top: 4px;
+	left: 370px;
+	/*vor die Karte aber nicht vor die Meldungen*/
+	z-index: 800;
+}
 
 #ga_karten_div, .olMapViewport {
 	border-radius: 8px;

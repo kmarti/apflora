@@ -1962,6 +1962,7 @@
 			<div id="google_karte" class="karte" style="width:100%; height:100%;">
 				<button id='distanz_messen'>Distanz messen</button>
 				<button id='distanz_messen_entfernen'>Messung entfernen</button>
+				<div class="google_detailplaene_div"><input id="google_karte_detailplaene_checkbox" type="checkbox" class="google_karte_detailplaene_checkbox"><label for="google_karte_detailplaene_checkbox">Detailpläne</label></div>
 				<div id="google_karten_div" style="width:100%; height:100%;">
 				</div>
 			</div>
@@ -2705,6 +2706,15 @@
 					Objekt.name = "TPopMassnDatum";
 					Objekt.formular = "tpopmassn";
 					speichern(Objekt);
+				}
+			});
+
+			$(".karte").on("change", ".google_karte_detailplaene_checkbox", function() {
+				console.log("toggle Detailpläne");
+				if (window.google_karte_detailplaene.getMap() === null) {
+					window.google_karte_detailplaene.setMap(map);
+				} else {
+					window.google_karte_detailplaene.setMap(null);
 				}
 			});
 
