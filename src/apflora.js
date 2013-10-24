@@ -12536,6 +12536,32 @@ function getInternetExplorerVersion()
   return rv;
 }
 
+function onfeatureselect_detailplaene_shp(feature) {
+	console.log("feature selected");
+	console.log("feature = " + feature);;
+	var popup = new OpenLayers.Popup.FramedCloud(
+		feature.attributes.OBJECTID,
+		feature.geometry.getBounds().getCenterLonLat(),
+		null,
+		"<div style='font-size:.8em; font-weight: bold'>Detailplan<br>ObjektId:</div>" 
+			+ "<div style='font-size:.8em;'>ObjektId: "
+			+ feature.attributes.OBJECTID + "<br>Bemerkun_1: "
+		 	+ feature.attributes.Bemerkun_1 + "<br>Fläche: "
+		 	+ feature.attributes.Fläche + "</div>",
+		null,
+		true
+	);
+	feature.popup = popup;
+	window.api.map.addPopup(popup);
+}
+
+function onfeatureunselect_detailplaene_shp(feature) {
+	console.log("feature unselected");
+	window.api.map.removePopup(feature.popup);
+	feature.popup.destroy();
+	feature.popup = null;
+}
+
 function initiiereGeoAdminKarte() {
 	//Proxy Host for Ajax Requests to overcome Cross-Domain HTTTP Requests
 	//OpenLayers.ProxyHost = "../cgi-bin/proxy.cgi?url=";
@@ -12678,6 +12704,23 @@ function initiiereGeoAdminKarte() {
 		strategies: [new OpenLayers.Strategy.Fixed()]
 	});
 
+	var detailplaene_stylemap = new OpenLayers.StyleMap({
+		"default": new OpenLayers.Style({
+			fillColor: "#fa3a0f",
+			fillOpacity: 0,
+			strokeColor: "#fa3a0f",
+			strokeOpacity: 1,
+			strokeWidth: 1
+		}),
+		"select": new OpenLayers.Style({
+			fillColor: "#fa3a0f",
+			fillOpacity: 0.3,
+			strokeColor: "#fa3a0f",
+			strokeOpacity: 1,
+			strokeWidth: 1
+		})
+	});
+
 	//allfällige Marker-Ebenen entfernen
 	entferneTPopMarkerEbenen();
 	entfernePopMarkerEbenen();
@@ -12699,6 +12742,28 @@ function initiiereGeoAdminKarte() {
 		//The complementary layer is per default the color pixelmap.
 		//window.api.map.switchComplementaryLayer("voidLayer", {opacity: 0});
 		window.api.setBgLayer('voidLayer', {opacity: 0});	//wichtig, weil sonst Daten von GeoAdmin geladen werden
+		//Layer für detailpläne aufbauen
+		//erst daten auslesen
+		var shapefile = new Shapefile({
+			shp: "shp/detailplaene.shp",
+			dbf: "shp/detailplaene.dbf"
+		}, function (data) {
+			//vektorlayer schaffen
+			var detailplaene_shp = new OpenLayers.Layer.Vector("Detailpläne", {
+				styleMap: detailplaene_stylemap
+			});
+			//detailabgrenzungen hinzufügen
+			var parser = new OpenLayers.Format.GeoJSON();
+			window.detailplaene_popup_features = parser.read(data.geojson);
+			detailplaene_shp.addFeatures(window.detailplaene_popup_features);
+			//select feature controll für detailpläne schaffen
+			var detailplaene_selector = new OpenLayers.Control.SelectFeature(detailplaene_shp, {
+				onSelect: onfeatureselect_detailplaene_shp,
+				onUnselect: onfeatureunselect_detailplaene_shp
+			});
+			window.api.map.addControl(detailplaene_selector);
+			window.api.map.addLayers([detailplaene_shp]);
+		});
 		
 		window.api.map.addLayers([zh_ortho, zh_hoehenmodell, zh_lk_sw, zh_lk]);
 		window.api.map.addLayerByName('ch.swisstopo-vd.geometa-gemeinde', {visibility: false});
@@ -13319,7 +13384,7 @@ function beschrifteTPopMitNrFuerKarte(pop_nr, tpop_nr) {
 var $ = jQuery.noConflict();
 
 $.extend({
-    //
+	//
     //$.fileDownload('/path/to/url/', options)
     //  see directly below for possible 'options'
     fileDownload: function (fileUrl, options) {
