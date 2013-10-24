@@ -10486,7 +10486,6 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 
 	// overlay layer für Marker vorbereiten
 	window.overlay_tpop = new OpenLayers.Layer.Vector('Teilpopulationen', {
-		//strategies: [strategy],
 		filter: '',	//ist wohl nicht nötig und nützt auch nichts, um später einen Filter anzufügen
 		//popup bei select
 		eventListeners: {
@@ -12537,13 +12536,11 @@ function getInternetExplorerVersion()
 }
 
 function onfeatureselect_detailplaene_shp(feature) {
-	console.log("feature selected");
-	console.log("feature = " + feature);;
 	var popup = new OpenLayers.Popup.FramedCloud(
 		feature.attributes.OBJECTID,
 		feature.geometry.getBounds().getCenterLonLat(),
 		null,
-		"<div style='font-size:.8em; font-weight: bold'>Detailplan<br>ObjektId:</div>" 
+		"<div style='font-size:.8em; font-weight:bold'>Detailplan<br></div>" 
 			+ "<div style='font-size:.8em;'>ObjektId: "
 			+ feature.attributes.OBJECTID + "<br>Bemerkun_1: "
 		 	+ feature.attributes.Bemerkun_1 + "<br>Fläche: "
@@ -12556,10 +12553,7 @@ function onfeatureselect_detailplaene_shp(feature) {
 }
 
 function onfeatureunselect_detailplaene_shp(feature) {
-	console.log("feature unselected");
 	window.api.map.removePopup(feature.popup);
-	feature.popup.destroy();
-	feature.popup = null;
 }
 
 function initiiereGeoAdminKarte() {
@@ -12685,24 +12679,6 @@ function initiiereGeoAdminKarte() {
 		singleTile: true,
 		visibility: false
 	});
-	var detailplaene = new OpenLayers.Layer.Vector("Detailpläne kml", {
-		strategies: [new OpenLayers.Strategy.Fixed()],
-		protocol: new OpenLayers.Protocol.HTTP({
-			url: "kml/rueteren.kml",
-			format: new OpenLayers.Format.KML({
-				extractStyles: true, 
-				extractAttributes: true,
-				maxDepth: 2
-			})
-		})
-	});
-	var detailplaene_gml = new OpenLayers.Layer.Vector("Detailpläne GML", {
-		protocol: new OpenLayers.Protocol.HTTP({
-			url: "kml/rueteren.xml",
-			format: new OpenLayers.Format.GML()
-		}),
-		strategies: [new OpenLayers.Strategy.Fixed()]
-	});
 
 	var detailplaene_stylemap = new OpenLayers.StyleMap({
 		"default": new OpenLayers.Style({
@@ -12743,27 +12719,40 @@ function initiiereGeoAdminKarte() {
 		//window.api.map.switchComplementaryLayer("voidLayer", {opacity: 0});
 		window.api.setBgLayer('voidLayer', {opacity: 0});	//wichtig, weil sonst Daten von GeoAdmin geladen werden
 		//Layer für detailpläne aufbauen
-		//erst daten auslesen
-		var shapefile = new Shapefile({
-			shp: "shp/detailplaene.shp",
-			dbf: "shp/detailplaene.dbf"
-		}, function (data) {
-			//vektorlayer schaffen
-			var detailplaene_shp = new OpenLayers.Layer.Vector("Detailpläne", {
-				styleMap: detailplaene_stylemap
+		//aber nur beim ersten mal
+		if (!window.detailplaene_shp) {
+			//erst daten auslesen
+			var detailplaene_shapefile = new Shapefile({
+				shp: "shp/detailplaene.shp",
+				dbf: "shp/detailplaene.dbf"
+			}, function (data) {
+				//vektorlayer schaffen
+				window.detailplaene_shp = new OpenLayers.Layer.Vector("Detailpläne", {
+					styleMap: detailplaene_stylemap,
+					eventListeners: {
+						"featureselected": function(evt) {
+							console.log("feature selected");
+							onfeatureselect_detailplaene_shp(evt.feature);
+						},
+						"featureunselected": function(evt) {
+							onfeatureunselect_detailplaene_shp(evt.feature);
+						}
+					}
+				});
+				//Informationen in GeoJSON bereitstellen
+				var parser = new OpenLayers.Format.GeoJSON();
+				var detailplaene_popup_features = parser.read(data.geojson);
+				window.detailplaene_shp.addFeatures(detailplaene_popup_features);
+				//Layer hinzufügen
+				window.api.map.addLayers([window.detailplaene_shp]);
+				//select feature controll für detailpläne schaffen
+				var detailplaene_selector = new OpenLayers.Control.SelectFeature(window.detailplaene_shp, {
+					clickout: true
+				});
+				window.api.map.addControl(detailplaene_selector);
+				detailplaene_selector.activate();
 			});
-			//detailabgrenzungen hinzufügen
-			var parser = new OpenLayers.Format.GeoJSON();
-			window.detailplaene_popup_features = parser.read(data.geojson);
-			detailplaene_shp.addFeatures(window.detailplaene_popup_features);
-			//select feature controll für detailpläne schaffen
-			var detailplaene_selector = new OpenLayers.Control.SelectFeature(detailplaene_shp, {
-				onSelect: onfeatureselect_detailplaene_shp,
-				onUnselect: onfeatureunselect_detailplaene_shp
-			});
-			window.api.map.addControl(detailplaene_selector);
-			window.api.map.addLayers([detailplaene_shp]);
-		});
+		}
 		
 		window.api.map.addLayers([zh_ortho, zh_hoehenmodell, zh_lk_sw, zh_lk]);
 		window.api.map.addLayerByName('ch.swisstopo-vd.geometa-gemeinde', {visibility: false});
@@ -12772,8 +12761,6 @@ function initiiereGeoAdminKarte() {
 			visibility: false
 		});*/
 		window.api.map.addLayers([zh_av, zh_avnr, zh_svo, zh_svo_raster, zh_waldgesellschaften, zh_liwa]);
-		//ausgeblendet, weil die Detailpläne nicht angezeigt werden
-		//window.api.map.addLayers([detailplaene, detailplaene_gml]);
 		/*window.api.map.addLayerByName('ch.bafu.bundesinventare-trockenwiesen_trockenweiden', {
 			visibility: false,
 			opacity: 0.7
