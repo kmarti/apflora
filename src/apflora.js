@@ -12554,6 +12554,8 @@ function onfeatureselect_detailplaene_shp(feature) {
 
 function onfeatureunselect_detailplaene_shp(feature) {
 	window.api.map.removePopup(feature.popup);
+	//feature.popup.destroy();
+    //feature.popup = null;
 }
 
 function initiiereGeoAdminKarte() {
