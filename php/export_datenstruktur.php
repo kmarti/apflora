@@ -11,9 +11,9 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
-$csv_output = 'Tabelle: Name'."\t".'Tabelle: Anzahl Datensätze'."\t".'Tabelle: Bemerkungen'."\t".'Feld: Name'."\t".'Feld: Datentyp'."\t".'Feld: Nullwerte'."\t".'Feld: Grösse'."\t".'Feld: Genauigkeit Zahlen'."\t".'Feld: Bemerkungen'."\n";
+$csv_output = 'Tabelle: Name'."\t".'Tabelle: Anzahl Datensätze'."\t".'Tabelle: Bemerkungen'."\t".'Feld: Name'."\t".'Feld: Datentyp'."\t".'Feld: Nullwerte'."\t".'Feld: Bemerkungen'."\n";
 
-$values = mysqli_query($link, "SELECT TABLES.TABLE_NAME, TABLES.TABLE_ROWS, TABLES.TABLE_COMMENT, COLUMNS.COLUMN_NAME,  COLUMNS.DATA_TYPE, COLUMNS.IS_NULLABLE, COLUMNS.CHARACTER_MAXIMUM_LENGTH, COLUMNS.NUMERIC_PRECISION, COLUMNS.COLUMN_COMMENT FROM COLUMNS INNER JOIN TABLES ON TABLES.TABLE_NAME = COLUMNS.TABLE_NAME WHERE COLUMNS.TABLE_NAME IN (SELECT TABLE_NAME FROM TABLES WHERE TABLE_SCHEMA='alexande_apflora')");
+$values = mysqli_query($link, "SELECT TABLES.TABLE_NAME, TABLES.TABLE_ROWS, TABLES.TABLE_COMMENT, COLUMNS.COLUMN_NAME,  COLUMNS.COLUMN_TYPE, COLUMNS.IS_NULLABLE, COLUMNS.COLUMN_COMMENT FROM COLUMNS INNER JOIN TABLES ON TABLES.TABLE_NAME = COLUMNS.TABLE_NAME WHERE COLUMNS.TABLE_NAME IN (SELECT TABLE_NAME FROM TABLES WHERE TABLE_SCHEMA='alexande_apflora')");
 
 while ($rowr = mysqli_fetch_row($values)) {
 	for ($j=0; $j<9; $j++) {
@@ -35,7 +35,7 @@ header('Set-Cookie: fileDownload=true; path=/');
 print($csv_output);
 
 // Resultset freigeben
-mysqli_free_result($result);
+mysqli_free_result($values);
 
 // Verbindung schliessen
 mysqli_close($link);
