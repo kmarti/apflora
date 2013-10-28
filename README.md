@@ -20,7 +20,7 @@ Web-Applikation zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschut
 - Jährliche Berichte verfassen
 - Ideale Umweltfaktoren ("Idealbiotop") und assoziierte Arten beschreiben
 
-**Beobachtungen den Teilpopulationen zuordnen:** ([Anleitung](https://github.com/barbalex/apflora/wiki/Beobachtungen-einer-Teilpopulation-zuordnen))
+**Beobachtungen den Teilpopulationen zuordnen:** ([Anleitung](https://github.com/FNSKtZH/apflora/wiki/Beobachtungen-einer-Teilpopulation-zuordnen))
 
 - Alle Beobachtungen der Info Flora innerhalb des Kantons Zürich und im nahen Umfeld
 - Alle Beobachtungen aus Projekten der Fachstelle Naturschutz des Kantons Zürich
@@ -57,7 +57,7 @@ Web-Applikation zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschut
 
 - Wichtige Felder, die in aller Regel auszufüllen sind, werden farblich hervorgehoben
 - Wo hilfreich werden Informationen angezeigt, wenn man mit der Maus über den Feldnamen fährt
-- Im [Wiki](https://github.com/barbalex/apflora/wiki) sind wichtige Fragen erklärt
+- Im [Wiki](https://github.com/FNSKtZH/apflora/wiki) sind wichtige Fragen erklärt
 
 **Effizient arbeiten:**
 
@@ -71,7 +71,7 @@ Update vom 16.11.12: Drag and drop im Strukturbaum vorläufig ausgeschaltet, weg
 
 **Im Feld arbeiten?**
 
-Mit Tablett mit genügend grossem Bildschirm oder mit einem grossen Smartphone mit Stift und in Gebieten mit gutem Datenempfang könnte die Anwendung vermutlich auch im Feld benutzt werden. Ohne Stift ist die Sache auf dem Smartphone etwas gar fummellig. Mehr dazu [hier](https://github.com/barbalex/apflora/wiki/Daten-direkt-im-Feld-erfassen).
+Mit Tablett mit genügend grossem Bildschirm oder mit einem grossen Smartphone mit Stift und in Gebieten mit gutem Datenempfang könnte die Anwendung vermutlich auch im Feld benutzt werden. Ohne Stift ist die Sache auf dem Smartphone etwas gar fummellig. Mehr dazu [hier](https://github.com/FNSKtZH/apflora/wiki/Daten-direkt-im-Feld-erfassen).
 
 **Projektdaten verwalten:**
 
@@ -96,8 +96,8 @@ verglichen mit der ehemaligen Access-Anwendung:
 **Daten nach Verlust wiederherstellen:**
 
 - Die Daten werden täglich auf dem Webserver und in einer Dropbox gesichert
-- BenutzerInnen können selber Daten sichern ([Anleitung](https://github.com/barbalex/apflora/wiki/Selber-Daten-sichern))
-- Ihre Wiederherstellung wird im Rahmen der Entwicklung bzw. des Unterhalts sporadisch getestet ([Anleitung](https://github.com/barbalex/apflora/wiki/Daten-wiederherstellen))
+- BenutzerInnen können selber Daten sichern ([Anleitung](https://github.com/FNSKtZH/apflora/wiki/Selber-Daten-sichern))
+- Ihre Wiederherstellung wird im Rahmen der Entwicklung bzw. des Unterhalts sporadisch getestet ([Anleitung](https://github.com/FNSKtZH/apflora/wiki/Daten-wiederherstellen))
 
 <a href="#top">&#8593; top</a>
 
@@ -138,8 +138,8 @@ Die Anwendung verwendet drei MySQL-Datenbanken:
 
 <a name="OpenSource"></a>
 #Open source
-Die verwendete [Lizenz](https://github.com/barbalex/apflora/blob/master/License.md) ist sehr freizügig. Neben dem Code steht auch die [Datenstruktur](https://github.com/barbalex/apflora/raw/master/etc/alexande_apflora.sql.zip) inkl. [Views](https://github.com/barbalex/apflora/raw/master/etc/alexande_apflora_views.sql.zip) zur Verfügung. Die eigentlichen Daten aber, mit denen gearbeitet wird, gehören der Fachstelle Naturschutz des Kantons Zürich und stehen nicht zur freien Verfügung (die Beobachtungen werden aber der [Info Spezies](http://www.infoflora.ch/de/allgemeines/info-species.html) gemeldet).
+Die verwendete [Lizenz](https://github.com/FNSKtZH/apflora/blob/master/License.md) ist sehr freizügig. Neben dem Code steht auch die [Datenstruktur](https://github.com/FNSKtZH/apflora/raw/master/etc/alexande_apflora.sql.zip) inkl. [Views](https://github.com/FNSKtZH/apflora/raw/master/etc/alexande_apflora_views.sql.zip) zur Verfügung. Die eigentlichen Daten aber, mit denen gearbeitet wird, gehören der Fachstelle Naturschutz des Kantons Zürich und stehen nicht zur freien Verfügung (die Beobachtungen werden aber der [Info Spezies](http://www.infoflora.ch/de/allgemeines/info-species.html) gemeldet).
 
-Wer will, kann selber die [Entwicklungsumgebung einrichten](https://github.com/barbalex/apflora/wiki/Entwicklungsumgebung-einrichten) und die [Anwendung auf einem Webserver bereitstellen](https://github.com/barbalex/apflora/wiki/Anwendung-auf-einem-Server-bereitstellen).
+Wer will, kann selber die [Entwicklungsumgebung einrichten](https://github.com/FNSKtZH/apflora/wiki/Entwicklungsumgebung-einrichten) und die [Anwendung auf einem Webserver bereitstellen](https://github.com/FNSKtZH/apflora/wiki/Anwendung-auf-einem-Server-bereitstellen).
 
 <a href="#top">&#8593; top</a>
