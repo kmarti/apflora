@@ -2014,6 +2014,7 @@
 					<li><a href="#Kontrollen">Kontrollen</a></li>
 					<li><a href="#Massnahmen">Massnahmen</a></li>
 					<li><a href="#Beobachtungen">Beobachtungen</a></li>
+					<li><a href="#Anwendung">Anwendung</a></li>
 				</ul>
 
 				<a name="Anleitung"></a>
@@ -2129,6 +2130,14 @@
 					<h2 class="border_top">Beobachtungen</h2>
 					<div class="export_abschnitt_exporte">
 						<button id="export_beob">zugeordnete und nicht zuzuordnende Beobachtungen</button><br>
+					</div>
+					<br><a href="#top">&uArr;&nbsp;top</a>
+				</div>
+				<div class="export_abschnitt">
+					<a name="Anwendung"></a>
+					<h2 class="border_top">Anwendung</h2>
+					<div class="export_abschnitt_exporte">
+						<button id="export_datenstruktur">Datenstruktur</button><br>
 					</div>
 					<br><a href="#top">&uArr;&nbsp;top</a>
 				</div>
@@ -3088,6 +3097,15 @@
 
 			$("#exporte").on("click", "#export_beob", function() {
 				var url = "php/export_beob.php";
+				$.fileDownload(url, {
+					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
+					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
+				});
+				return false; //this is critical to stop the click event which will trigger a normal file download!
+			});
+
+			$("#exporte").on("click", "#export_datenstruktur", function() {
+				var url = "php/export_datenstruktur.php";
 				$.fileDownload(url, {
 					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
