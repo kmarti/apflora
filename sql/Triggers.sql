@@ -4,6 +4,7 @@ CREATE TRIGGER newguidtpf
   FOR EACH ROW
   set new.TPopKontrGuid = UUID()
 
+/*geht nicht, weil mySql pro Tabelle in dieser Version nur einen Trigger zulässt*/
 CREATE TRIGGER newguidtpfkzeitguid
   BEFORE INSERT
   ON tblTeilPopFeldkontrolle
@@ -18,7 +19,7 @@ CREATE TRIGGER newguidtpm
   
 CREATE TRIGGER newguidtp
   BEFORE INSERT
-  ON tblTeilPopulation
+  ON tblTeilpopulation
   FOR EACH ROW
   set new.TPopGuid = UUID()   
   
