@@ -1,10 +1,14 @@
 "barbalex.ch", "alexande", "excalibu"
 ersetzen mit:
+"barbalex.ch", "alexande", "y3oYksFsQL49es9x"
+
 "127.0.0.1", "root", "admin"
 
 
 "barbalex.ch", "alexande", "excalibu", "alexande_apflora"
 //ersetzen mit:
+"barbalex.ch", "alexande", "y3oYksFsQL49es9x", "alexande_apflora"
+
 "127.0.0.1", "root", "admin", "alexande_apflora"
 
 
@@ -12,13 +16,9 @@ ersetzen mit:
 
 "barbalex.ch", "alexande", "excalibu", "alexande_beob"
 //ersetzen mit:
+"barbalex.ch", "alexande", "y3oYksFsQL49es9x", "alexande_beob"
+
 "127.0.0.1", "root", "admin", "alexande_beob"
-
-
-
-
-http://www.apflora.barbalex.ch
-http://192.168.0.192:80/apflora
 
 
 nas ftp: 
