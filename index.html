@@ -2320,23 +2320,7 @@
 				});
 
 				$("#menu").on("click", "[name=programm_wahl]", function () {
-					erstelle_ap_liste($(this).attr("id"));
-					$("#ap").hide();
-					$("#forms").hide();
-					$('#tree').hide();
-					$("#suchen").hide();
-					$("#hilfe").hide();
-					$("#ap_loeschen").hide();
-					$("#ap_waehlen").val("");
-					if ($("[name='programm_wahl']:checked").attr("id") === "programm_neu") {
-						$("#ap_waehlen_label").html("Art für neues Förderprogramm wählen:");
-					} else if ($("[name='programm_wahl']:checked").attr("id") === "programm_ap") {
-						$("#ap_waehlen_label").html("Aktionsplan wählen:");
-					} else {
-						$("#ap_waehlen_label").html("Artförderprogramm wählen:");
-					}
-					$("#ap_waehlen_label").show();
-					initiiere_ap();
+					waehle_ap_liste($(this).attr("id"));
 				});
 
 				$("#menu").on("click", "#ap_loeschen", function () {

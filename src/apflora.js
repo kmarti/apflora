@@ -42,7 +42,7 @@ function initiiere_index() {
 	//alle Formulare verstecken
 	zeigeFormular();
 
-	$.when(erstelle_ap_liste("programm_alle"))
+	$.when(waehle_ap_liste("programm_alle"))
 		.then(function() {
 			//falls eine Unteradresse angewählt wurde, diese öffnen
 			oeffneUri();
@@ -1886,6 +1886,33 @@ function erstelle_ap_liste(programm) {
 			apliste_erstellt.resolve();
 		}
 	});
+	return apliste_erstellt.promise();
+}
+
+function waehle_ap_liste(programm) {
+	var apliste_erstellt = $.Deferred();
+	$("#ap_waehlen_label").html("Daten werden aufbereitet...");
+	$("#ap_waehlen").html("");
+	$("#ap").hide();
+	$("#forms").hide();
+	$('#tree').hide();
+	$("#suchen").hide();
+	$("#hilfe").hide();
+	$("#ap_loeschen").hide();
+	$("#ap_waehlen").val("");
+	initiiere_ap();
+	$.when(erstelle_ap_liste(programm))
+		.then(function() {
+			if ($("[name='programm_wahl']:checked").attr("id") === "programm_neu") {
+				$("#ap_waehlen_label").html("Art für neues Förderprogramm wählen:");
+			} else if ($("[name='programm_wahl']:checked").attr("id") === "programm_ap") {
+				$("#ap_waehlen_label").html("Aktionsplan wählen:");
+			} else {
+				$("#ap_waehlen_label").html("Artförderprogramm wählen:");
+			}
+			$("#ap_waehlen_label").show();
+			apliste_erstellt.resolve();
+		});
 	return apliste_erstellt.promise();
 }
 
@@ -12699,6 +12726,23 @@ function initiiereGeoAdminKarte() {
 		})
 	});
 
+	var ch_lk1000 = new OpenLayers.Layer.WMS("Landeskarte 1:1'000'000", "http://wms.geo.admin.ch?", {
+		layers: 'ch.swisstopo.pixelkarte-farbe-pk1000.noscale',
+		srs: 'EPSG:21781',
+		'format': 'png'
+	}, {
+		singleTile: true,
+		visibility: false
+	});
+	var ch_ktgrenzen = new OpenLayers.Layer.WMS("Kantone", "http://wms.geo.admin.ch?", {
+		layers: 'ch.swisstopo.swissboundaries3d-kanton-flaeche.fill',
+		srs: 'EPSG:21781',
+		'format': 'png'
+	}, {
+		singleTile: true,
+		visibility: false
+	});
+
 	//allfällige Marker-Ebenen entfernen
 	entferneTPopMarkerEbenen();
 	entfernePopMarkerEbenen();
@@ -12715,6 +12759,12 @@ function initiiereGeoAdminKarte() {
 			easting: 693000,
 			northing: 253000,
 			zoom: 4
+		});
+
+		window.api.map.switchComplementaryLayer("ch.swisstopo.pixelkarte-farbe", {opacity: 1});
+		var baseLayerTool = new GeoAdmin.BaseLayerTool({
+			renderTo: "baselayertool3",
+			map: map3
 		});
 
 		//The complementary layer is per default the color pixelmap.
@@ -12756,13 +12806,24 @@ function initiiereGeoAdminKarte() {
 			});
 		}
 		
-		window.api.map.addLayers([zh_ortho, zh_hoehenmodell, zh_lk_sw, zh_lk]);
+		window.api.map.addLayers([ch_lk1000]);
+		//window.api.map.addLayers([zh_ortho, zh_hoehenmodell, zh_lk_sw, zh_lk]);
+
+
+		window.api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe-pk25.noscale', {
+			visibility: false
+		});
+		/*window.api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe', {
+			visibility: true,
+			opacity: 1.0
+		});*/
 		window.api.map.addLayerByName('ch.swisstopo-vd.geometa-gemeinde', {visibility: false});
 		window.api.map.addLayers([zh_grenzen]);
 		/*window.api.map.addLayerByName('ch.swisstopo.swissboundaries3d-kanton-flaeche.fill', {
 			visibility: false
 		});*/
 		window.api.map.addLayers([zh_av, zh_avnr, zh_svo, zh_svo_raster, zh_waldgesellschaften, zh_liwa]);
+		
 		/*window.api.map.addLayerByName('ch.bafu.bundesinventare-trockenwiesen_trockenweiden', {
 			visibility: false,
 			opacity: 0.7
@@ -13026,17 +13087,16 @@ function waehleAp(ap_id) {
 					"user": sessionStorage.User
 				},
 				success: function () {
-					erstelle_ap_liste("programm_alle");
-					$("#programm_neu").attr("checked", false);
-					$("#programm_alle").attr("checked", true);
-					$("#programm_wahl").buttonset();
-					$.when(erstelle_tree(localStorage.ap_id))
+					$.when(waehle_ap_liste("programm_alle"))
 						.then(function() {
-							$('#ap_waehlen').val(localStorage.ap_id);
-							$('#ap_waehlen option[value =' + localStorage.ap_id + ']').attr('selected', true);
-							$("#ApArtId").val(localStorage.ap_id);
-							initiiere_ap();
-						});
+							$.when(erstelle_tree(localStorage.ap_id))
+								.then(function() {
+									$('#ap_waehlen').val(localStorage.ap_id);
+									$('#ap_waehlen option[value =' + localStorage.ap_id + ']').attr('selected', true);
+									$("#ApArtId").val(localStorage.ap_id);
+									initiiere_ap();
+								});
+					});
 				},
 				error: function (data) {
 					var Meldung;
