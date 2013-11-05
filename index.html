@@ -35,8 +35,8 @@
 				</select>
 			</div>
 			<div class='fieldcontain' style="margin-top:3px; margin-bottom:3px;">
-				<label for="programm_wahl" style="color:#6F6F66; margin-right:5px; overflow: hidden;">Programme:</label>
-				<span id="programm_wahl">
+				<label for="programm_wahl" style="color:#6F6F66; margin-right:5px; overflow:hidden;">Programme:</label>
+				<span id="programm_wahl" style="display:none;">
 					<input type="radio" id="programm_alle" name="programm_wahl" checked="checked">
 					<label for="programm_alle">alle</label>
 					<input type="radio" id="programm_ap" name="programm_wahl">
@@ -48,12 +48,12 @@
 			</div>
 			<input type="search" id="suchen" placeholder="suchen" style="padding:1px; margin-top:2px; margin-bottom:2px; display:none;">
 			<div id="tree" style="margin-bottom:5px;"></div>
-			<div id="hilfe" style="font-size:80%; color:#6F6F66;">Für Menüs: mit rechter Maustaste im Strukturbaum klicken<a href="https://github.com/FNSKtZH/apflora/wiki" class="ui-icon ui-icon-info" style="float:right;" target="_blank" title="Infos über AP Flora Web"></a></div>
+			<div id="hilfe" style="font-size:80%; color:#6F6F66; display:none;">Für Menüs: mit rechter Maustaste im Strukturbaum klicken<a href="https://github.com/FNSKtZH/apflora/wiki" class="ui-icon ui-icon-info" style="float:right;" target="_blank" title="Infos über AP Flora Web"></a></div>
 		</fieldset>
 
 		<fieldset id="forms" style="display:none;">
-			<div id="forms_titelzeile" style="margin:0px 0px 0px 0px; line-height:27px; padding: 0px 7px 0px 9px; height:auto;">
-				<div id="undelete_div" style="text-align:center !important; border-radius:0.5em !important; font-weight:bold !important; background-color:#FFCC33 !important; padding-right:7px !important;"></div>
+			<div id="forms_titelzeile" style="margin:0px 0px 0px 0px; line-height:27px; padding: 0px 7px 0px 9px; height:auto; display:none;">
+				<div id="undelete_div" style="text-align:center !important; border-radius:0.5em !important; font-weight:bold !important; background-color:#FFCC33 !important; padding-right:7px !important; display:none;"></div>
 				<div id="testart_div" style="font-weight:bold; color:#196319; float:left; padding-right:7px;"></div>
 			</div>
 			<form id="ap" class="form" action="#" method="get" autocomplete="off">
@@ -2153,7 +2153,7 @@
 			<input type="password" id="anmeldung_passwort" style="width:270px; margin: 2px 0px 2px 0px;">
 		</div>
 
-		<div id="loeschen_dialog" title="Sind sie sicher?">
+		<div id="loeschen_dialog" title="Sind sie sicher?" style="display:none;">
 			<p id="loeschen_dialog_mitteilung">Dieser Knoten und alle darunter befindlichen werden unwiederbringlich gelöscht.</p>
 		</div>
 
