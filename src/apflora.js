@@ -53,6 +53,7 @@ function initiiere_ap() {
 	if (!localStorage.ap_id) {
 		//es fehlen benötigte Daten > zurück zum Anfang
 		initiiere_index();
+		//history.replaceState({ap: "keinap"}, "keinap", "index.html");
 		return;
 	}
 	//Programm-Wahl konfigurieren
@@ -13125,6 +13126,8 @@ function waehleAp(ap_id) {
 		$("#hilfe").hide();
 		$("#ap_loeschen").hide();
 		$("#ap").hide();
+		zeigeFormular();
+		history.replaceState({ap: "ap"}, "ap", "index.html");
 	}
 }
 
