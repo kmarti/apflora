@@ -1972,6 +1972,7 @@
 			
 			<div id="GeoAdminKarte" class="karte" style="width:100%; height:100%; display:none;">
 				<div id="ga_karten_div" style="width:100%; height:100%;">
+					<div id="baselayertool"></div>
 					<div id='menuleiste'>
 						<span id="messen">
 							<input type="radio" name="type" value="karteSchieben" id="karteSchieben" onclick="messe(this);" checked="checked">
@@ -2186,7 +2187,7 @@
 					}
 				});
 
-				if (navigator.appName === "Microsoft Internet Explorer") {
+				/*if (navigator.appName === "Microsoft Internet Explorer") {
 					$("#Meldung").html("Sie verwenden den Internet Explorer " + getInternetExplorerVersion() + ".<br><br>Leider unterstützt der Internet Explorer nicht alle Funktionen, die AP Flora Web benutzt.<br><br>Um mit AP Flora Web zu arbeiten, benutzen Sie <a href='http://www.google.de/chrome/'>Google Chrome</a>, <a href='http://www.mozilla.org/de/firefox/new/'>Firefox</a> oder Safari.");
 					$("#Meldung").dialog({
 						modal: true,
@@ -2216,7 +2217,7 @@
 					});
 					initiiere_index();
 					return;
-				}
+				}*/
 
 				if (!sessionStorage.User) {
 					$Useranmeldung.dialog("open");

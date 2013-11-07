@@ -1,5 +1,4 @@
 function initiiere_index() {
-	console.log("function initiiere_index wird ausgeführt");
 	//Versuch, damit $.ajax auch in IE funktioniert
 	//jQuery hängt an jede Anfrage ein &_= und Zufahlszahl
 	//$.ajaxSetup({cache:false})	//	AUSGESCHALTET, WEIL TPOPFELDKONTR_UPDATE_MULTIPLE.PHP NICHT MEHR FUNKTIONIERTE (UND MEHR?)
@@ -12594,14 +12593,14 @@ function initiiereGeoAdminKarte() {
 		layers: 'orthophotos',
 		isBaseLayer: true
 	}, {
-		visibility: true,
+		visibility: false,
 		singleTile: true
 	});
-	var zh_ortho_2 = new OpenLayers.Layer.WMS("ZH Luftbild", "http://maps.zh.ch/wms/OrthoBackgroundZH", {
+	var zh_ortho_2 = new OpenLayers.Layer.WMS("ZH Luftbild 2", "http://maps.zh.ch/wms/OrthoBackgroundZH", {
 		layers: 'orthoaktuell',
 		isBaseLayer: true
 	}, {
-		visibility: true,
+		visibility: false,
 		singleTile: true
 	});
 	var zh_hoehenmodell = new OpenLayers.Layer.WMS("ZH Höhenmodell", "http://maps.zh.ch/wms/DTMBackgroundZH", {
@@ -12635,7 +12634,7 @@ function initiiereGeoAdminKarte() {
 		singleTile: true,
 		visibility: false
 	});
-	var zh_grenzen = new OpenLayers.Layer.WMS("Gemeinden ZH", "http://maps.zh.ch/wms/BASISKARTEZH", {
+	var zh_grenzen = new OpenLayers.Layer.WMS("ZH Gemeinden", "http://maps.zh.ch/wms/BASISKARTEZH", {
 		layers: 'grenzen,gemeindegrenzen',
 		transparent: true,
 		isBaseLayer: false
@@ -12643,16 +12642,16 @@ function initiiereGeoAdminKarte() {
 		singleTile: true,
 		visibility: false
 	});
-	/*var zh_uep = new OpenLayers.Layer.WMS("Übersichtsplan Kt. Zürich", "http://wms.zh.ch/upwms", {
+	var zh_uep = new OpenLayers.Layer.WMS("Übersichtsplan Kt. Zürich", "http://wms.zh.ch/upwms", {
 		layers: 'upwms',
 		transparent: true,
 		isBaseLayer: false
 	}, {
-		visibility: true,
+		visibility: false,
 		singleTile: true,
 		minScale: 22000,
 		maxScale: 1
-	});*/
+	});
 	var zh_av = new OpenLayers.Layer.WMS("ZH Parzellen", "http://wms.zh.ch/avwms", {
 		layers: 'Liegenschaften',
 		transparent: true
@@ -12733,6 +12732,7 @@ function initiiereGeoAdminKarte() {
 		singleTile: true,
 		visibility: false
 	});
+
 	var ch_ktgrenzen = new OpenLayers.Layer.WMS("Kantone", "http://wms.geo.admin.ch?", {
 		layers: 'ch.swisstopo.swissboundaries3d-kanton-flaeche.fill',
 		srs: 'EPSG:21781',
@@ -12760,15 +12760,15 @@ function initiiereGeoAdminKarte() {
 			zoom: 4
 		});
 
-		/*window.api.map.switchComplementaryLayer("ch.swisstopo.pixelkarte-farbe", {opacity: 1});
 		var baseLayerTool = new GeoAdmin.BaseLayerTool({
-			renderTo: "baselayertool3",
-			map: map3
-		});*/
+			renderTo: "baselayertool",
+			map: window.api.map
+		});
 
 		//The complementary layer is per default the color pixelmap.
-		window.api.map.switchComplementaryLayer("voidLayer", {opacity: 0});
-		window.api.setBgLayer('voidLayer', {opacity: 0});	//wichtig, weil sonst Daten von GeoAdmin geladen werden
+		//window.api.map.switchComplementaryLayer("voidLayer", {opacity: 0});
+		//window.api.setBgLayer('voidLayer', {opacity: 0});	//wichtig, weil sonst Daten von GeoAdmin geladen werden
+
 		//Layer für detailpläne aufbauen
 		//aber nur beim ersten mal
 		if (!window.detailplaene_shp) {
@@ -12816,11 +12816,13 @@ function initiiereGeoAdminKarte() {
 			visibility: true,
 			opacity: 1.0
 		});*/
-		window.api.map.addLayerByName('ch.swisstopo-vd.geometa-gemeinde', {visibility: false});
-		window.api.map.addLayers([zh_grenzen]);
+
+		window.api.map.addLayers([zh_uep]);
 		/*window.api.map.addLayerByName('ch.swisstopo.swissboundaries3d-kanton-flaeche.fill', {
 			visibility: false
 		});*/
+		window.api.map.addLayerByName('ch.swisstopo-vd.geometa-gemeinde', {visibility: false});
+		window.api.map.addLayers([zh_grenzen]);
 		window.api.map.addLayers([zh_av, zh_avnr, zh_svo, zh_svo_raster, zh_waldgesellschaften, zh_liwa]);
 		
 		/*window.api.map.addLayerByName('ch.bafu.bundesinventare-trockenwiesen_trockenweiden', {
