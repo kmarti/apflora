@@ -1,4 +1,5 @@
 function initiiere_index() {
+	console.log("function initiiere_index wird ausgeführt");
 	//Versuch, damit $.ajax auch in IE funktioniert
 	//jQuery hängt an jede Anfrage ein &_= und Zufahlszahl
 	//$.ajaxSetup({cache:false})	//	AUSGESCHALTET, WEIL TPOPFELDKONTR_UPDATE_MULTIPLE.PHP NICHT MEHR FUNKTIONIERTE (UND MEHR?)
@@ -14,18 +15,12 @@ function initiiere_index() {
 	$("button").button();
 	$("#tpopfeldkontr_tabs").tabs();
 
-	//Variabeln setzen für Formular Feldkontrollen, hier damit nur ein mal
-	window.feldliste_feldkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrTyp', 'TPopKontrJungpfl', 'TPopKontrVitalitaet', 'TPopKontrUeberleb', 'TPopKontrEntwicklung', 'TPopKontrUrsach', 'TPopKontrUrteil', 'TPopKontrAendUms', 'TPopKontrAendKontr', 'TPopKontrGuid', 'TPopKontrFlaeche', 'TPopKontrVegTyp', 'TPopKontrKonkurrenz', 'TPopKontrMoosschicht', 'TPopKontrKrautschicht', 'TPopKontrStrauchschicht', 'TPopKontrBaumschicht', 'TPopKontrBodenTyp', 'TPopKontrBodenKalkgehalt', 'TPopKontrBodenDurchlaessigkeit', 'TPopKontrBodenHumus', 'TPopKontrBodenNaehrstoffgehalt', 'TPopKontrBodenAbtrag', 'TPopKontrWasserhaushalt', 'TPopKontrHandlungsbedarf', 'TPopKontrIdealBiotopUebereinst', 'TPopKontrLeb', 'TPopKontrLebUmg'];
-	window.feldliste_freiwkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrPlan', 'TPopKontrUebFlaeche', 'TPopKontrUebPfl', 'TPopKontrNaBo', 'TPopKontrJungPflJN', 'TPopKontrVegHoeMax', 'TPopKontrVegHoeMit', 'TPopKontrGefaehrdung', 'TPopKontrGuid'];
-
 	//tooltip: Klasse zuweisen, damit gestylt werden kann
 	//$("#label_karteSchieben, #label_distanzMessen, #label_flaecheMessen, #label_mitPolygonWaehlen").tooltip({tooltipClass: "tooltip-styling-nur-text"});
 	$("#label_karteSchieben, #label_distanzMessen, #label_flaecheMessen, #label_mitPolygonWaehlen").tooltip({tooltipClass: "tooltip-styling-hinterlegt"});
 
-	//Gemeindeliste erstellen, wenn nötig
-	if (!window.Gemeinden) {
-		erstelleGemeindeliste();
-	}
+	//Gemeindeliste erstellen (wenn nötig)
+	erstelleGemeindeliste();
 
 	//Datumsfelder: Widget initiieren
 	var Monate = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
@@ -35,14 +30,15 @@ function initiiere_index() {
 	$("#TPopMassnDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopMassnJahr", altFormat: "yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: Monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
 	$("#JBerDatum, #UfErstelldatum").datepicker({ dateFormat: "dd.mm.yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: Monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
 
+	//Variabeln setzen für Formular Feldkontrollen, hier damit nur ein mal
+	window.feldliste_feldkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrTyp', 'TPopKontrJungpfl', 'TPopKontrVitalitaet', 'TPopKontrUeberleb', 'TPopKontrEntwicklung', 'TPopKontrUrsach', 'TPopKontrUrteil', 'TPopKontrAendUms', 'TPopKontrAendKontr', 'TPopKontrGuid', 'TPopKontrFlaeche', 'TPopKontrVegTyp', 'TPopKontrKonkurrenz', 'TPopKontrMoosschicht', 'TPopKontrKrautschicht', 'TPopKontrStrauchschicht', 'TPopKontrBaumschicht', 'TPopKontrBodenTyp', 'TPopKontrBodenKalkgehalt', 'TPopKontrBodenDurchlaessigkeit', 'TPopKontrBodenHumus', 'TPopKontrBodenNaehrstoffgehalt', 'TPopKontrBodenAbtrag', 'TPopKontrWasserhaushalt', 'TPopKontrHandlungsbedarf', 'TPopKontrIdealBiotopUebereinst', 'TPopKontrLeb', 'TPopKontrLebUmg'];
+	window.feldliste_freiwkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrPlan', 'TPopKontrUebFlaeche', 'TPopKontrUebPfl', 'TPopKontrNaBo', 'TPopKontrJungPflJN', 'TPopKontrVegHoeMax', 'TPopKontrVegHoeMit', 'TPopKontrGefaehrdung', 'TPopKontrGuid'];
+
 	//Auswahllisten aufbauen
-	//erstelle_ap_liste("programm_alle");
 	$("#ap_loeschen").hide();
 	erstelle_ApArtId_liste();
 
-	//alle Formulare verstecken
-	zeigeFormular();
-
+	//HIER WIRD IN FIREFOX EINE ENDLOSSCHLAUFE AUSGELÖST
 	$.when(waehle_ap_liste("programm_alle"))
 		.then(function() {
 			//falls eine Unteradresse angewählt wurde, diese öffnen
@@ -53,7 +49,8 @@ function initiiere_index() {
 function initiiere_ap() {
 	if (!localStorage.ap_id) {
 		//es fehlen benötigte Daten > zurück zum Anfang
-		initiiere_index();
+		//LIEGT HIER DER WURM BEGRABEN?
+		//initiiere_index();  //ACHTUNG, DIESE ZEILE VERURSACHTE STARTABSTÜRZE IN FIREFOX UND ZT OFFENBAR AUCH IN CHROME, DA REKURSIV IMMER WIEDER INITIIERE_INDEX AUFGERUFEN WURDE
 		//history.replaceState({ap: "keinap"}, "keinap", "index.html");
 		return;
 	}
@@ -1892,7 +1889,7 @@ function erstelle_ap_liste(programm) {
 }
 
 function waehle_ap_liste(programm) {
-	var apliste_erstellt = $.Deferred();
+	var apliste_gewaehlt = $.Deferred();
 	$("#ap_waehlen_label").html("Daten werden aufbereitet...");
 	$("#ap_waehlen").html("");
 	$("#ap").hide();
@@ -1913,9 +1910,9 @@ function waehle_ap_liste(programm) {
 				$("#ap_waehlen_label").html("Artförderprogramm wählen:");
 			}
 			$("#ap_waehlen_label").show();
-			apliste_erstellt.resolve();
+			apliste_gewaehlt.resolve();
 		});
-	return apliste_erstellt.promise();
+	return apliste_gewaehlt.promise();
 }
 
 function erstelle_tree(ApArtId) {
@@ -12763,14 +12760,14 @@ function initiiereGeoAdminKarte() {
 			zoom: 4
 		});
 
-		window.api.map.switchComplementaryLayer("ch.swisstopo.pixelkarte-farbe", {opacity: 1});
+		/*window.api.map.switchComplementaryLayer("ch.swisstopo.pixelkarte-farbe", {opacity: 1});
 		var baseLayerTool = new GeoAdmin.BaseLayerTool({
 			renderTo: "baselayertool3",
 			map: map3
-		});
+		});*/
 
 		//The complementary layer is per default the color pixelmap.
-		//window.api.map.switchComplementaryLayer("voidLayer", {opacity: 0});
+		window.api.map.switchComplementaryLayer("voidLayer", {opacity: 0});
 		window.api.setBgLayer('voidLayer', {opacity: 0});	//wichtig, weil sonst Daten von GeoAdmin geladen werden
 		//Layer für detailpläne aufbauen
 		//aber nur beim ersten mal
@@ -12808,13 +12805,13 @@ function initiiereGeoAdminKarte() {
 			});
 		}
 		
-		window.api.map.addLayers([ch_lk1000]);
+		//window.api.map.addLayers([ch_lk1000]);
 		//window.api.map.addLayers([zh_ortho, zh_hoehenmodell, zh_lk_sw, zh_lk]);
 
 
-		window.api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe-pk25.noscale', {
+		/*window.api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe-pk25.noscale', {
 			visibility: false
-		});
+		});*/
 		/*window.api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe', {
 			visibility: true,
 			opacity: 1.0
@@ -13044,34 +13041,36 @@ function messe(element) {
 }
 
 function erstelleGemeindeliste() {
-	$.ajax({
-		url: 'php/gemeinden.php',
-		dataType: 'json',
-		success: function (data) {
-			if (data) {
-				//Gemeinden bereitstellen
-				//Feld mit Daten beliefern
-				var Gemeinden;
-				Gemeinden = [];
-				//for (i in data.rows) {
-				for (var i = 0; i < data.rows.length; i++) {
-					if (data.rows[i].GmdName) {
-						Gemeinden.push(data.rows[i].GmdName);
+	if (!window.Gemeinden) {
+		$.ajax({
+			url: 'php/gemeinden.php',
+			dataType: 'json',
+			success: function (data) {
+				if (data) {
+					//Gemeinden bereitstellen
+					//Feld mit Daten beliefern
+					var Gemeinden;
+					Gemeinden = [];
+					//for (i in data.rows) {
+					for (var i = 0; i < data.rows.length; i++) {
+						if (data.rows[i].GmdName) {
+							Gemeinden.push(data.rows[i].GmdName);
+						}
 					}
+					window.Gemeinden = Gemeinden;
+					//autocomplete-widget für Gemeinden initiieren
+					$("#TPopGemeinde").autocomplete({
+						source: Gemeinden,
+						delay: 0,
+						//Change-Event wird nicht ausgelöst > hier aufrufen
+						change: function(event, ui) {
+							speichern(event.target);
+						}
+					});
 				}
-				window.Gemeinden = Gemeinden;
-				//autocomplete-widget für Gemeinden initiieren
-				$("#TPopGemeinde").autocomplete({
-					source: Gemeinden,
-					delay: 0,
-					//Change-Event wird nicht ausgelöst > hier aufrufen
-					change: function(event, ui) {
-						speichern(event.target);
-					}
-				});
 			}
-		}
-	});
+		});
+	}
 }
 
 function waehleAp(ap_id) {
