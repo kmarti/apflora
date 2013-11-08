@@ -903,7 +903,7 @@
 									<label id="TPopKontrGuid_label" for='TPopKontrGuid'>GUID:</label>
 								</td>
 								<td class="Datenfelder">
-									<input id="TPopKontrGuid" name="TPopKontrGuid" class="speichern" formular="tpopfeldkontr" type="text" readonly="readonly">
+									<input id="TPopKontrGuid" name="TPopKontrGuid" class="speichern guid" formular="tpopfeldkontr" type="text" readonly="readonly">
 								</td>
 							</tr>
 						</table>
@@ -1252,7 +1252,7 @@
 							<label id="TPopMassnGuid_label" for='TPopMassnGuid'>GUID:</label>
 						</td>
 						<td class="Datenfelder">
-							<input id="TPopMassnGuid" name="TPopMassnGuid" class="speichern" formular="tpopmassn" type="text" readonly="readonly">
+							<input id="TPopMassnGuid" name="TPopMassnGuid" class="speichern guid" formular="tpopmassn" type="text" readonly="readonly">
 						</td>
 					</tr>
 				</table>
@@ -2743,6 +2743,11 @@
 				//Karten sollen ca. Bildschirmhöhe haben
 				//da Formulare so hoch wie der Inhalt sind, muss die Kartenhöhe manuell eingestellt werden
 				setzeKartenhoehe();
+			});
+
+			$("#forms").on("click", ".guid", function() {
+				//die GUIDS sollen einfach kopiert werden können
+				$(this).select();
 			});
 
 			$("#exporte").on("click", "#export_ap", function() {
