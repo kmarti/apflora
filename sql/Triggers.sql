@@ -27,10 +27,4 @@ CREATE TRIGGER newguidp
   BEFORE INSERT
   ON tblPopulation
   FOR EACH ROW
-  set new.PopGuid = UUID()   
-  
-CREATE TRIGGER newguidap
-  BEFORE INSERT
-  ON tblAktionsplan
-  FOR EACH ROW
-  set new.ApGuid = UUID()
+  set new.PopGuid = UUID()
