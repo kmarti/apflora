@@ -596,11 +596,11 @@ while($r_beob_nicht_zuzuordnen = mysqli_fetch_assoc($result_beob_nicht_zuzuordne
 }
 mysqli_free_result($result_beob_nicht_zuzuordnen);
 
-//umwfakt dieses AP abfragen
-$result_umwfakt = mysqli_query($link, "SELECT UfApArtId FROM tblUmweltFaktoren where UfApArtId = $ApArtId");
-$anz_umwfakt = mysqli_num_rows($result_umwfakt);
+//idealbiotop dieses AP abfragen
+$result_idealbiotop = mysqli_query($link, "SELECT IbApArtId FROM tblIdealbiotop where IbApArtId = $ApArtId");
+$anz_idealbiotop = mysqli_num_rows($result_idealbiotop);
 
-mysqli_free_result($result_umwfakt);
+mysqli_free_result($result_idealbiotop);
 
 //assozarten dieses AP abfragen
 $result_assozarten = mysqli_query($link, "SELECT AaId, AaApArtId, alexande_beob.ArtenDb_Arteigenschaften.Artname FROM tblAssozArten LEFT JOIN alexande_beob.ArtenDb_Arteigenschaften ON AaSisfNr = alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId where AaApArtId = $ApArtId ORDER BY alexande_beob.ArtenDb_Arteigenschaften.Artname");
@@ -654,16 +654,16 @@ $ap_ordner_beob_nicht_beurteilt = array("data" => "nicht beurteilte Beobachtunge
 $meineId = "ap_ordner_beob_nicht_zuzuordnen".$ApArtId;
 $ap_ordner_beob_nicht_zuzuordnen_attr = array("id" => $meineId, "typ" => "ap_ordner_beob_nicht_zuzuordnen");
 $ap_ordner_beob_nicht_zuzuordnen = array("data" => "nicht zuzuordnende Beobachtungen (".$anz_beob_nicht_zuzuordnen.")", "attr" => $ap_ordner_beob_nicht_zuzuordnen_attr, "children" => $rows_beob_nicht_zuzuordnen);
-//Ideale Umweltfaktoren, jetzt Idealbiotop genannt
-$meineId = "umwfakt".$ApArtId;
-$ap_ordner_umwfakt_attr = array("id" => $meineId, "typ" => "umwfakt");
-$ap_ordner_umwfakt = array("data" => "Idealbiotop", "attr" => $ap_ordner_umwfakt_attr);
+//Idealbiotop
+$meineId = "idealbiotop".$ApArtId;
+$ap_ordner_idealbiotop_attr = array("id" => $meineId, "typ" => "idealbiotop");
+$ap_ordner_idealbiotop = array("data" => "Idealbiotop", "attr" => $ap_ordner_idealbiotop_attr);
 //assoziierte Arten
 $meineId = "ap_ordner_assozarten".$ApArtId;
 $ap_ordner_assozarten_attr = array("id" => $meineId, "typ" => "ap_ordner_assozarten");
 $ap_ordner_assozarten = array("data" => "assoziierte Arten (".$anz_assozarten.")", "attr" => $ap_ordner_assozarten_attr, "children" => $rows_assozarten);
 //zusammensetzen
-$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_jber, 4 => $ap_ordner_ber, 5 => $ap_ordner_beob_nicht_beurteilt, 6 => $ap_ordner_beob_nicht_zuzuordnen, 7 => $ap_ordner_umwfakt, 8 => $ap_ordner_assozarten);
+$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_jber, 4 => $ap_ordner_ber, 5 => $ap_ordner_beob_nicht_beurteilt, 6 => $ap_ordner_beob_nicht_zuzuordnen, 7 => $ap_ordner_idealbiotop, 8 => $ap_ordner_assozarten);
 
 	
 //in json verwandeln

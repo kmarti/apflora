@@ -27,7 +27,7 @@ function initiiere_index() {
 	var wochentageLang = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
 	$("#TPopKontrDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopKontrJahr", altFormat: "yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: Monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
 	$("#TPopMassnDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopMassnJahr", altFormat: "yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: Monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
-	$("#JBerDatum, #UfErstelldatum").datepicker({ dateFormat: "dd.mm.yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: Monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
+	$("#JBerDatum, #IbErstelldatum").datepicker({ dateFormat: "dd.mm.yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: Monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
 
 	//Variabeln setzen für Formular Feldkontrollen, hier damit nur ein mal
 	window.feldliste_feldkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrTyp', 'TPopKontrJungpfl', 'TPopKontrVitalitaet', 'TPopKontrUeberleb', 'TPopKontrEntwicklung', 'TPopKontrUrsach', 'TPopKontrUrteil', 'TPopKontrAendUms', 'TPopKontrAendKontr', 'TPopKontrGuid', 'TPopKontrFlaeche', 'TPopKontrVegTyp', 'TPopKontrKonkurrenz', 'TPopKontrMoosschicht', 'TPopKontrKrautschicht', 'TPopKontrStrauchschicht', 'TPopKontrBaumschicht', 'TPopKontrBodenTyp', 'TPopKontrBodenKalkgehalt', 'TPopKontrBodenDurchlaessigkeit', 'TPopKontrBodenHumus', 'TPopKontrBodenNaehrstoffgehalt', 'TPopKontrBodenAbtrag', 'TPopKontrWasserhaushalt', 'TPopKontrHandlungsbedarf', 'TPopKontrIdealBiotopUebereinst', 'TPopKontrLeb', 'TPopKontrLebUmg'];
@@ -624,17 +624,17 @@ function setzeWindowBer(id) {
 	});
 }
 
-function initiiere_umwfakt() {
+function initiiere_idealbiotop() {
 	if (!localStorage.ap_id) {
 		//es fehlen benötigte Daten > eine Ebene höher
 		initiiere_ap();
 		return;
 	}
 	//Felder zurücksetzen
-	leereFelderVonFormular("umwfakt");
-	//Daten für die umwfakt aus der DB holen
+	leereFelderVonFormular("idealbiotop");
+	//Daten für die idealbiotop aus der DB holen
 	$.ajax({
-		url: 'php/umwfakt.php',
+		url: 'php/idealbiotop.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.ap_id
@@ -642,37 +642,37 @@ function initiiere_umwfakt() {
 		success: function (data) {
 			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//umwfakt bereitstellen
-				localStorage.umwfakt_id = data.UfApArtId;
-				window.umwfakt = data;
+				//idealbiotop bereitstellen
+				localStorage.idealbiotop_id = data.IbApArtId;
+				window.idealbiotop = data;
 				//Felder mit Daten beliefern
-				if (data.UfErstelldatum !== "01.01.1970") {
+				if (data.IbErstelldatum !== "01.01.1970") {
 					//php macht aus einem Nullwert im Datum den 1.1.1970!!!
-					$("#UfErstelldatum").val(data.UfErstelldatum);
+					$("#IbErstelldatum").val(data.IbErstelldatum);
 				}
-				$("#UfHoehenlage").val(data.UfHoehenlage);
-				$("#UfRegion").val(data.UfRegion);
-				$("#UfExposition").val(data.UfExposition);
-				$("#UfBesonnung").val(data.UfBesonnung);
-				$("#UfHangneigung").val(data.UfHangneigung);
-				$("#UfBodenTyp").val(data.UfBodenTyp);
-				$("#UfBodenKalkgehalt").val(data.UfBodenKalkgehalt);
-				$("#UfBodenDurchlaessigkeit").val(data.UfBodenDurchlaessigkeit);
-				$("#UfBodenHumus").val(data.UfBodenHumus);
-				$("#UfBodenNaehrstoffgehalt").val(data.UfBodenNaehrstoffgehalt);
-				$("#UfWasserhaushalt").val(data.UfWasserhaushalt);
-				$("#UfKonkurrenz").val(data.UfKonkurrenz);
-				$("#UfMoosschicht").val(data.UfMoosschicht);
-				$("#UfKrautschicht").val(data.UfKrautschicht);
-				$("#UfStrauchschicht").val(data.UfStrauchschicht);
-				$("#UfBaumschicht").val(data.UfBaumschicht);
-				$("#UfBemerkungen").val(data.UfBemerkungen);
+				$("#IbHoehenlage").val(data.IbHoehenlage);
+				$("#IbRegion").val(data.IbRegion);
+				$("#IbExposition").val(data.IbExposition);
+				$("#IbBesonnung").val(data.IbBesonnung);
+				$("#IbHangneigung").val(data.IbHangneigung);
+				$("#IbBodenTyp").val(data.IbBodenTyp);
+				$("#IbBodenKalkgehalt").val(data.IbBodenKalkgehalt);
+				$("#IbBodenDurchlaessigkeit").val(data.IbBodenDurchlaessigkeit);
+				$("#IbBodenHumus").val(data.IbBodenHumus);
+				$("#IbBodenNaehrstoffgehalt").val(data.IbBodenNaehrstoffgehalt);
+				$("#IbWasserhaushalt").val(data.IbWasserhaushalt);
+				$("#IbKonkurrenz").val(data.IbKonkurrenz);
+				$("#IbMoosschicht").val(data.IbMoosschicht);
+				$("#IbKrautschicht").val(data.IbKrautschicht);
+				$("#IbStrauchschicht").val(data.IbStrauchschicht);
+				$("#IbBaumschicht").val(data.IbBaumschicht);
+				$("#IbBemerkungen").val(data.IbBemerkungen);
 				//Formulare blenden
-				zeigeFormular("umwfakt");
-				history.replaceState({umwfakt: "umwfakt"}, "umwfakt", "index.html?ap=" + localStorage.ap_id + "&umwfakt=" + localStorage.umwfakt_id);
+				zeigeFormular("idealbiotop");
+				history.replaceState({idealbiotop: "idealbiotop"}, "idealbiotop", "index.html?ap=" + localStorage.ap_id + "&idealbiotop=" + localStorage.idealbiotop_id);
 				//bei neuen Datensätzen Fokus steuern
-				if (!$("#UfErstelldatum").val()) {
-					$("#UfErstelldatum").focus();
+				if (!$("#IbErstelldatum").val()) {
+					$("#IbErstelldatum").focus();
 				}
 			} else {
 				//nur aktualisieren, wenn Schreibrechte bestehen
@@ -690,15 +690,15 @@ function initiiere_umwfakt() {
 				}
 				//null zurückgekommen > Datesatz schaffen
 				$.ajax({
-					url: 'php/umwfakt_insert.php',
+					url: 'php/idealbiotop_insert.php',
 					dataType: 'json',
 					data: {
 						"id": localStorage.ap_id,
 						"user": sessionStorage.User
 					},
 					success: function (data) {
-						localStorage.umwfakt_id = data.UfApArtId;
-						initiiere_umwfakt();
+						localStorage.idealbiotop_id = data.IbApArtId;
+						initiiere_idealbiotop();
 					},
 					error: function (data) {
 						$("#Meldung").html("Fehler: Kein Idealbiotop erstellt");
@@ -720,21 +720,21 @@ function initiiere_umwfakt() {
 	});
 }
 
-//setzt window.umwfakt und localStorage.umwfakt_id
+//setzt window.idealbiotop und localStorage.idealbiotop_id
 //wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-function setzeWindowUmwfakt(id) {
-	localStorage.umwfakt_id = id;
+function setzeWindowIdealbiotop(id) {
+	localStorage.idealbiotop_id = id;
 	$.ajax({
-		url: 'php/umwfakt.php',
+		url: 'php/idealbiotop.php',
 		dataType: 'json',
 		data: {
-			"id": localStorage.umwfakt_id
+			"id": localStorage.idealbiotop_id
 		},
 		success: function (data) {
 			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//umwfakt bereitstellen
-				window.umwfakt = data;
+				//idealbiotop bereitstellen
+				window.idealbiotop = data;
 			}
 		}
 	});
@@ -2163,7 +2163,7 @@ function erstelle_tree(ApArtId) {
 			"type_attr": "typ",
 			"max_children": -2,
 			"max_depth": -2,
-			"valid_children": ["ap_ordner_pop", "ap_ordner_apziel", "ap_ordner_erfkrit", "ap_ordner_jber", "ap_ordner_ber", "ap_ordner_beob_nicht_beurteilt", "ap_ordner_beob_nicht_zuzuordnen", "umwfakt", "ap_ordner_assozarten"],
+			"valid_children": ["ap_ordner_pop", "ap_ordner_apziel", "ap_ordner_erfkrit", "ap_ordner_jber", "ap_ordner_ber", "ap_ordner_beob_nicht_beurteilt", "ap_ordner_beob_nicht_zuzuordnen", "idealbiotop", "ap_ordner_assozarten"],
 			"types": {
 				"ap_ordner_pop": {
 					"valid_children": "pop"
@@ -2288,7 +2288,7 @@ function erstelle_tree(ApArtId) {
 				"beob_nicht_zuzuordnen": {
 					"valid_children": "none"
 				},
-				"umwfakt": {
+				"idealbiotop": {
 					"valid_children": "none"
 				},
 				"ap_ordner_assozarten": {
@@ -2389,10 +2389,10 @@ function erstelle_tree(ApArtId) {
 			//diese Markierung entfernen, damit das nächste mal nicht mehr diese ber geöffnet wird
 			delete window.ber_zeigen;
 		}
-		if (window.umwfakt_zeigen) {
-			jQuery("#tree").jstree("select_node", "[typ='umwfakt']#" + localStorage.umwfakt_id);
-			//diese Markierung entfernen, damit das nächste mal nicht mehr diese umwfakt geöffnet wird
-			delete window.umwfakt_zeigen;
+		if (window.idealbiotop_zeigen) {
+			jQuery("#tree").jstree("select_node", "[typ='idealbiotop']#" + localStorage.idealbiotop_id);
+			//diese Markierung entfernen, damit das nächste mal nicht mehr diese idealbiotop geöffnet wird
+			delete window.idealbiotop_zeigen;
 		}
 		if (window.assozarten_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='assozarten']#" + localStorage.assozarten_id);
@@ -2481,13 +2481,13 @@ function erstelle_tree(ApArtId) {
 				localStorage.ber_id = node_id;
 				initiiere_ber();
 			}
-		} else if (node_typ === "umwfakt") {
+		} else if (node_typ === "idealbiotop") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
-			if (!$("#umwfakt").is(':visible')) {
+			if (!$("#idealbiotop").is(':visible')) {
 				//eigene id nicht nötig
 				//1:1 mit ap verbunden, gleich id
-				//wenn noch kein Datensatz existiert erstellt ihn initiiere_umwfakt
-				initiiere_umwfakt();
+				//wenn noch kein Datensatz existiert erstellt ihn initiiere_idealbiotop
+				initiiere_idealbiotop();
 			}
 		} else if (node_typ === "assozarten") {
 			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -3589,7 +3589,7 @@ function treeKontextmenu(node) {
 	aktiver_node = jQuery("#tree").jstree('get_selected');
 	aktiver_nodeText = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
 	//parent nur ermitteln, wenn parents exisiteren - sonst gibt es einen Fehler
-	if ($(aktiver_node).attr("typ").slice(0, 9) !== "ap_ordner" && $(aktiver_node).attr("typ") !== "umwfakt") {
+	if ($(aktiver_node).attr("typ").slice(0, 9) !== "ap_ordner" && $(aktiver_node).attr("typ") !== "idealbiotop") {
 		parent_node = jQuery.jstree._reference(aktiver_node)._get_parent(aktiver_node);
 		parent_nodeText = jQuery.jstree._reference(parent_node).get_text(parent_node);
 	}
@@ -12503,14 +12503,14 @@ function oeffneUri() {
 			window.ber_zeigen = true;
 			//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 			initiiere_ber();
-		} else if (uri.getQueryParamValue('umwfakt')) {
+		} else if (uri.getQueryParamValue('idealbiotop')) {
 			//globale Variabeln setzen
-			setzeWindowUmwfakt(uri.getQueryParamValue('umwfakt'));
-			//markieren, dass nach dem loaded-event im Tree die umwfakt angezeigt werden soll 
+			setzeWindowIdealbiotop(uri.getQueryParamValue('idealbiotop'));
+			//markieren, dass nach dem loaded-event im Tree die idealbiotop angezeigt werden soll 
 			//Die Markierung wird im load-Event wieder entfernt
-			window.umwfakt_zeigen = true;
+			window.idealbiotop_zeigen = true;
 			//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-			initiiere_umwfakt();
+			initiiere_idealbiotop();
 		} else if (uri.getQueryParamValue('assozarten')) {
 			//globale Variabeln setzen
 			setzeWindowAssozarten(uri.getQueryParamValue('assozarten'));
@@ -13363,7 +13363,7 @@ function erstelleFelderFuerBeob(data, beobtyp) {
 //in DOM-Objekten sind viele ID's der Name des DOM-Elements vorangestellt, damit die ID eindeutig ist
 //ACHTUNG auf die Reihenfolge der Ersatzbefehle. Sonst wird z.B. in 'tpopber' 'popber' ersetzt und es bleibt 't'
 function erstelleIdAusDomAttributId(domAttributId) {
-	var returnWert = domAttributId.replace('ap_ordner_pop', '').replace('ap_ordner_apziel', '').replace('ap_ordner_erfkrit', '').replace('ap_ordner_jber', '').replace('ap_ordner_ber', '').replace('ap_ordner_beob_nicht_beurteilt', '').replace('ap_ordner_beob_nicht_zuzuordnen', '').replace('umwfakt', '').replace('ap_ordner_assozarten', '').replace('tpop_ordner_massnber', '').replace('tpop_ordner_massn', '').replace('tpopmassnber', '').replace('pop_ordner_massnber', '').replace('popmassnber', '').replace('tpop_ordner_feldkontr', '').replace('tpop_ordner_freiwkontr', '').replace('tpop_ordner_tpopber', '').replace('tpopber', '').replace('pop_ordner_popber', '').replace('popber', '').replace('tpop_ordner_beob_zugeordnet', '').replace('beob', '').replace('ber', '');
+	var returnWert = domAttributId.replace('ap_ordner_pop', '').replace('ap_ordner_apziel', '').replace('ap_ordner_erfkrit', '').replace('ap_ordner_jber', '').replace('ap_ordner_ber', '').replace('ap_ordner_beob_nicht_beurteilt', '').replace('ap_ordner_beob_nicht_zuzuordnen', '').replace('idealbiotop', '').replace('ap_ordner_assozarten', '').replace('tpop_ordner_massnber', '').replace('tpop_ordner_massn', '').replace('tpopmassnber', '').replace('pop_ordner_massnber', '').replace('popmassnber', '').replace('tpop_ordner_feldkontr', '').replace('tpop_ordner_freiwkontr', '').replace('tpop_ordner_tpopber', '').replace('tpopber', '').replace('pop_ordner_popber', '').replace('popber', '').replace('tpop_ordner_beob_zugeordnet', '').replace('beob', '').replace('ber', '');
 	if (domAttributId == returnWert && parseInt(returnWert) && parseInt(returnWert) != returnWert) {
 		console.log('erstelleIdAusDomAttributId meldet: erhalten ' + domAttributId + ', zurückgegeben: ' + returnWert + '. Die Regel in der function muss wohl angepasst werden');
 	}
