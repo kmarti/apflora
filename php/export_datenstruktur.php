@@ -1,7 +1,7 @@
 <?php
 // Verbindung aufbauen, Datenbank auswählen
 
-$link = new mysqli("apflora.ch", "alexande", "y3oYksFsQL49es9x", "information_schema");
+$link = new mysqli("localhost", "alexande", "y3oYksFsQL49es9x", "information_schema");
 
 /* check connection */
 if ($link->connect_errno) {
