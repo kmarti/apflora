@@ -5,10 +5,7 @@ $dbuser = 'root';
 $dbpass = 'y3oYksFsQL49es9x';
 $dbname = 'alexande_apflora';
 
-//$conn = mysql_connect($dbhost, $dbuser, $dbpass) or die ('Error connecting to mysql');
-//mysql_select_db($dbname);
-
-$link = new mysqli("apflora.ch", "alexande", "y3oYksFsQL49es9x", "alexande_apflora");
+$link = new mysqli("localhost", "alexande", "y3oYksFsQL49es9x", "alexande_apflora");
 
 /* check connection */
 if ($link->connect_errno) {

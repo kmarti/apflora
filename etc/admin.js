@@ -9,6 +9,23 @@ ersetzen mit:
 //ersetzen mit:
 "barbalex.ch", "alexande", "y3oYksFsQL49es9x", "alexande_apflora"
 
+
+
+"apflora.ch", "alexande", "y3oYksFsQL49es9x", "alexande_beob"
+//ersetzen mit:
+"localhost", "alexande", "y3oYksFsQL49es9x", "alexande_beob"
+
+
+"apflora.ch", "alexande", "y3oYksFsQL49es9x", "alexande_apflora"
+//ersetzen mit:
+"localhost", "alexande", "y3oYksFsQL49es9x", "alexande_apflora"
+
+"apflora.ch", "alexande", "y3oYksFsQL49es9x", "alexande_apflora_views"
+//ersetzen mit:
+"localhost", "alexande", "y3oYksFsQL49es9x", "alexande_apflora_views"
+
+
+
 "127.0.0.1", "root", "admin", "alexande_apflora"
 
 
