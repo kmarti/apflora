@@ -2138,7 +2138,10 @@
 					<a name="Anwendung"></a>
 					<h2 class="border_top">Anwendung</h2>
 					<div class="export_abschnitt_exporte">
-						<button id="export_datenstruktur">Datenstruktur</button><br>
+						<button id="export_datenstruktur">Tabellen und Felder</button><br>
+					</div>
+					<div class="export_abschnitt_exporte">
+						<button id="export_datenstruktur_grafisch">Datenstruktur grafisch dargestellt</button><br>
 					</div>
 					<br><a href="#top">&uArr;&nbsp;top</a>
 				</div>
@@ -3101,6 +3104,18 @@
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
 				});
 				return false; //this is critical to stop the click event which will trigger a normal file download!
+			});
+
+			$("#exporte").on("click", "#export_datenstruktur_grafisch", function() {
+				window.open("etc/Beziehungen.pdf");
+				/*var url = "php/export_datenstruktur.php";
+				$.cookie('fileDownload', 'fileDownload=true', {
+					path: '/'
+				});
+				$.fileDownload(url, {
+					preparingMessageHtml: "Der Download wird vorbereitet",
+					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
+				});*/
 			});
 
 		</script>
