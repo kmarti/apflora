@@ -6035,7 +6035,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"verortenGeoAdmin": {
-				"label": "auf CH/ZH-Karten verorten",
+				"label": "auf CH-Karten verorten",
 				"separator_before": true,
 				"icon": "style/images/flora_icon_rot.png",
 				"action": function () {
@@ -10056,109 +10056,110 @@ function verorteTPopAufGeoAdmin(TPop) {
 	$.when(zeigeFormular("GeoAdminKarte"))
 		.then(function() {
 			$("#mitPolygonWaehlen").button({ disabled: true });
-		});
 
-	//bound eröffnen
-	bounds = new OpenLayers.Bounds();
-	//bounds bestimmen
-	if (TPop && TPop.TPopXKoord && TPop.TPopYKoord) {
-		//bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
-		x_max = parseInt(TPop.TPopXKoord) + 300;
-		x_min = parseInt(TPop.TPopXKoord) - 300;
-		y_max = parseInt(TPop.TPopYKoord) + 300;
-		y_min = parseInt(TPop.TPopYKoord) - 300;
-		bounds.extend(new OpenLayers.LonLat(x_max, y_max));
-		bounds.extend(new OpenLayers.LonLat(x_min, y_min));
-		//marker aufbauen
-		erstelleTPopulationFuerGeoAdmin(TPop);
-		//alle layeroptionen schliessen
-		schliesseLayeroptionen();
+			//bound eröffnen
+			bounds = new OpenLayers.Bounds();
+			//bounds bestimmen
+			if (TPop && TPop.TPopXKoord && TPop.TPopYKoord) {
+				//bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
+				x_max = parseInt(TPop.TPopXKoord) + 300;
+				x_min = parseInt(TPop.TPopXKoord) - 300;
+				y_max = parseInt(TPop.TPopYKoord) + 300;
+				y_min = parseInt(TPop.TPopYKoord) - 300;
+				bounds.extend(new OpenLayers.LonLat(x_max, y_max));
+				bounds.extend(new OpenLayers.LonLat(x_min, y_min));
+				//marker aufbauen
+				erstelleTPopulationFuerGeoAdmin(TPop);
+				//alle layeroptionen schliessen
+				schliesseLayeroptionen();
 
-	} else {
-		//sonst Kanton ZH anzeigen
-		//bounds.extend(new OpenLayers.LonLat(679000, 274000));
-		//bounds.extend(new OpenLayers.LonLat(707000, 232000));
-		bounds.extend(new OpenLayers.LonLat(689000, 264000));
-		bounds.extend(new OpenLayers.LonLat(697000, 242000));
-	}
-
-	//jetzt einen Handler für den Klick aufbauen
-	OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {				
-		defaultHandlerOptions: {
-			'single': true,
-			'double': false,
-			'pixelTolerance': 0,
-			'stopSingle': false,
-			'stopDouble': false
-		},
-
-		initialize: function(options) {
-			this.handlerOptions = OpenLayers.Util.extend(
-				{}, this.defaultHandlerOptions
-			);
-			OpenLayers.Control.prototype.initialize.apply(
-				this, arguments
-			);
-			this.handler = new OpenLayers.Handler.Click(
-				this, {
-					'click': this.trigger
-				}, this.handlerOptions
-			);
-			//letzten Klick-Handler deaktivieren, sonst wird für jede Verortung ein neuer event-handler aufgebaut
-			if (window.LetzterKlickHandler) {
-				window.LetzterKlickHandler.deactivate();
+			} else {
+				//sonst Kanton ZH anzeigen
+				//bounds.extend(new OpenLayers.LonLat(679000, 274000));
+				//bounds.extend(new OpenLayers.LonLat(707000, 232000));
+				bounds.extend(new OpenLayers.LonLat(689000, 264000));
+				bounds.extend(new OpenLayers.LonLat(697000, 242000));
 			}
-			//Klick-Handler in Variable speichern, damit er beim nächsten Aufruf deaktiviert werden kann
-			window.LetzterKlickHandler = this;
-		},
+			
+			//Karte zum richtigen Ausschnitt zoomen
+			window.api.map.updateSize();
+			window.api.map.zoomToExtent(bounds);
+			schliesseLayeroptionen();
 
-		trigger: function(e) {
-			var lonlat = window.api.map.getLonLatFromPixel(e.xy);
-			//x und y merken
-			TPop.TPopXKoord = lonlat.lon;
-			TPop.TPopYKoord = lonlat.lat;
-			//Datensatz updaten
-			$.ajax({
-				url: 'php/tpop_update.php',
-				dataType: 'json',
-				data: {
-					"id": localStorage.tpop_id,
-					"Feld": "TPopXKoord",
-					"Wert": TPop.TPopXKoord,
-					"user": sessionStorage.User
+			//jetzt einen Handler für den Klick aufbauen
+			OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {				
+				defaultHandlerOptions: {
+					'single': true,
+					'double': false,
+					'pixelTolerance': 0,
+					'stopSingle': false,
+					'stopDouble': false
 				},
-				success: function () {
+
+				initialize: function(options) {
+					this.handlerOptions = OpenLayers.Util.extend(
+						{}, this.defaultHandlerOptions
+					);
+					OpenLayers.Control.prototype.initialize.apply(
+						this, arguments
+					);
+					this.handler = new OpenLayers.Handler.Click(
+						this, {
+							'click': this.trigger
+						}, this.handlerOptions
+					);
+					//letzten Klick-Handler deaktivieren, sonst wird für jede Verortung ein neuer event-handler aufgebaut
+					if (window.LetzterKlickHandler) {
+						window.LetzterKlickHandler.deactivate();
+					}
+					//Klick-Handler in Variable speichern, damit er beim nächsten Aufruf deaktiviert werden kann
+					window.LetzterKlickHandler = this;
+				},
+
+				trigger: function(e) {
+					var lonlat = window.api.map.getLonLatFromPixel(e.xy);
+					//x und y merken
+					TPop.TPopXKoord = lonlat.lon;
+					TPop.TPopYKoord = lonlat.lat;
+					//Datensatz updaten
 					$.ajax({
 						url: 'php/tpop_update.php',
 						dataType: 'json',
 						data: {
 							"id": localStorage.tpop_id,
-							"Feld": "TPopYKoord",
-							"Wert": TPop.TPopYKoord,
+							"Feld": "TPopXKoord",
+							"Wert": TPop.TPopXKoord,
 							"user": sessionStorage.User
 						},
 						success: function () {
-							//markerebenen entfernen
-							entferneTPopMarkerEbenen();
-							//alten listener entfernen, neuer wird mit dem nächsten Befehl erstellt 
-							window.api.map.removeControl(click);
-							//markerebene neu aufbauen
-							erstelleTPopulationFuerGeoAdmin(TPop);
+							$.ajax({
+								url: 'php/tpop_update.php',
+								dataType: 'json',
+								data: {
+									"id": localStorage.tpop_id,
+									"Feld": "TPopYKoord",
+									"Wert": TPop.TPopYKoord,
+									"user": sessionStorage.User
+								},
+								success: function () {
+									//markerebenen entfernen
+									entferneTPopMarkerEbenen();
+									//alten listener entfernen, neuer wird mit dem nächsten Befehl erstellt 
+									window.api.map.removeControl(click);
+									//markerebene neu aufbauen
+									erstelleTPopulationFuerGeoAdmin(TPop);
+								}
+							});
 						}
 					});
 				}
+
 			});
-		}
 
-	});
-
-	var click = new OpenLayers.Control.Click();
-	window.api.map.addControl(click);
-	click.activate();
-	
-	//Karte zum richtigen Ausschnitt zoomen
-	window.api.map.zoomToExtent(bounds);
-	schliesseLayeroptionen();
+			var click = new OpenLayers.Control.Click();
+			window.api.map.addControl(click);
+			click.activate();
+		});
 }
 
 function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
