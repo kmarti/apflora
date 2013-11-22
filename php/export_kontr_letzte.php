@@ -1,6 +1,7 @@
 <?php
-// Verbindung aufbauen, Datenbank auswählen
+//wird nicht mehr benötigt, weil eine andere diese Info mit enhält (vTPopAnzKontrInklLetzteKontr)
 
+// Verbindung aufbauen, Datenbank auswählen
 $link = new mysqli("localhost", "alexande", "y3oYksFsQL49es9x", "alexande_apflora_views");
 
 /* check connection */
