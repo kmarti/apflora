@@ -23,7 +23,9 @@ $Ersetzungen = array("&", ">>>", "<<<");
 $Art = "";
 while ($r = mysqli_fetch_assoc($values)) {
 	$r['Label'] = str_replace($Ersetzungen, ' ', $r['Label']);
+	$r['Label'] = str_replace('"', "", $r['Label']);
 	$r['Inhalte'] = str_replace($Ersetzungen, ' ', $r['Inhalte']);
+	$r['Label'] = str_replace('"', "", $r['Label']);
 	$Zeile = "";
 	if ($Art === "") {
 		$Zeile .= "\t<Folder>\n";

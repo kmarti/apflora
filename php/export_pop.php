@@ -35,11 +35,12 @@ if ($pop_id_liste) {
 }
  
 while ($rowr = mysqli_fetch_row($values)) {
-	//In den Daten sind Zeilenumbrüche
+	//In den Daten sind Zeilenumbrüche und Hochzeichen
 	//sie müssen entfernt werden, sonst bricht die Tabelle auch daran um
 	$Ersetzungen = array("\r\n", "\r", "\n");
 	for ($j=0;$j<$i;$j++) {
 		$rowr[$j] = str_replace($Ersetzungen, ' ', $rowr[$j]);
+		$rowr[$j] = str_replace('"', "'", $rowr[$j]);
 		$csv_output .= $rowr[$j]."\t";
 	}
 	$csv_output .= "\n";
