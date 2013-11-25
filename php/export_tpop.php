@@ -22,7 +22,7 @@ $i = 0;
 
 if (mysqli_num_rows($result) > 0) {
 	while ($row = mysqli_fetch_assoc($result)) {
-		$csv_output .= $row['Field']."\t";
+		$csv_output .= '"'.$row['Field'].'";';
 		$i++;
 	}
 }
@@ -41,7 +41,8 @@ while ($rowr = mysqli_fetch_row($values)) {
 	for ($j=0;$j<$i;$j++) {
 		$rowr[$j] = str_replace($Ersetzungen, ' ', $rowr[$j]);
 		$rowr[$j] = str_replace('"', "'", $rowr[$j]);
-		$csv_output .= $rowr[$j]."\t";
+		$rowr[$j] = str_replace(';', ":", $rowr[$j]);
+		$csv_output .= '"'.$rowr[$j].'";';
 	}
 	$csv_output .= "\n";
 }

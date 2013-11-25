@@ -11,13 +11,13 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
-$csv_output = 'Tabelle: Name'."\t".'Tabelle: Anzahl Datensätze'."\t".'Tabelle: Bemerkungen'."\t".'Feld: Name'."\t".'Feld: Datentyp'."\t".'Feld: Nullwerte'."\t".'Feld: Bemerkungen'."\n";
+$csv_output = 'Tabelle: Name';'Tabelle: Anzahl Datensätze';'Tabelle: Bemerkungen';'Feld: Name';'Feld: Datentyp';'Feld: Nullwerte';'Feld: Bemerkungen'."\n";
 
 $values = mysqli_query($link, "SELECT TABLES.TABLE_NAME, TABLES.TABLE_ROWS, TABLES.TABLE_COMMENT, COLUMNS.COLUMN_NAME,  COLUMNS.COLUMN_TYPE, COLUMNS.IS_NULLABLE, COLUMNS.COLUMN_COMMENT FROM COLUMNS INNER JOIN TABLES ON TABLES.TABLE_NAME = COLUMNS.TABLE_NAME WHERE COLUMNS.TABLE_NAME IN (SELECT TABLE_NAME FROM TABLES WHERE TABLE_SCHEMA='alexande_apflora')");
 
 while ($rowr = mysqli_fetch_row($values)) {
 	for ($j=0; $j<9; $j++) {
-		$csv_output .= $rowr[$j]."\t";
+		$csv_output .= '"'.$rowr[$j].'";';
 	}
 	$csv_output .= "\n";
 }
