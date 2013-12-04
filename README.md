@@ -113,9 +113,6 @@ Dazu werden die Feld- und Freiwilligenkontrollen (ausser solche von soeben anges
  - Teilpopulationen
  - Kontrollen
  - Massnahmen
-- Eine jährliche Kopie:
- - aller Daten als sql-Dumpfile? 
- - Inklusive der Anwendung (Kopie des gesammten Entwicklungsordners)?
 
 <a href="#top">&#8593; top</a>
 
