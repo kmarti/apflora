@@ -12,7 +12,7 @@ if ($link->connect_errno) {
 mysqli_set_charset($link, "utf8");
 
 //in diesem Array sammeln wir alle upzudatenden Felder
-$Felderarray = $_GET;
+$Felderarray = $_POST;
 
 //MutWann ergänzen
 $time = date('Y-m-d H:i:s');

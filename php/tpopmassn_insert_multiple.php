@@ -12,10 +12,10 @@ if ($link->connect_errno) {
 mysqli_set_charset($link, "utf8");
 
 //in diesem Array sammeln wir alle upzudatenden Felder
-$Felderarray = $_GET;
+$Felderarray = $_POST;
 
 //zeit muss umgewandelt werden!
-foreach ($_GET as $key => $value) {
+foreach ($_POST as $key => $value) {
 	if ($key == "TPopMassnDatum") {
 		if ($value) {
 			$value = date("Y-m-d H:i:s", strtotime($value));
@@ -25,8 +25,8 @@ foreach ($_GET as $key => $value) {
 	}
 }
 
-$Keystring = implode(',', array_keys($_GET));
-$Valuestring = implode('","', array_values($_GET));
+$Keystring = implode(',', array_keys($_POST));
+$Valuestring = implode('","', array_values($_POST));
 
 //jetzt den Querystring aufbauen
 $Querystring = 'INSERT INTO tblTeilPopMassnahme ('.$Keystring.') VALUES ("'.$Valuestring.'")';

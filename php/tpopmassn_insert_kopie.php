@@ -12,13 +12,13 @@ if ($link->connect_errno) {
 mysqli_set_charset($link, "utf8");
 
 //in diesem Array sammeln wir alle upzudatenden Felder
-$Felderarray = $_GET;
+$Felderarray = $_POST;
 //die id der zu kopierenden TPop wird übernommen
-$TPopId = $_GET["TPopId"];
+$TPopId = $_POST["TPopId"];
 settype($TPopId, "integer");
-$TPopMassnId = $_GET["TPopMassnId"];
+$TPopMassnId = $_POST["TPopMassnId"];
 settype($TPopMassnId, "integer");
-$user = $_GET["user"];
+$user = $_POST["user"];
 
 //MutWann ergänzen
 $time = date('Y-m-d H:i:s');

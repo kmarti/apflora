@@ -11,11 +11,11 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
-$TPopId = $_GET["tpop_id"];
+$TPopId = $_POST["tpop_id"];
 settype($TPopId, "integer");
-$TPopKontrId = $_GET["tpopfeldkontr_id"];
+$TPopKontrId = $_POST["tpopfeldkontr_id"];
 settype($TPopKontrId, "integer");
-$user = $_GET["user"];
+$user = $_POST["user"];
 $time = date('Y-m-d H:i:s');
 
 $Querystring = 'UPDATE tblTeilPopFeldkontrolle SET TPopId="'.$TPopId.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopKontrId='.$TPopKontrId;

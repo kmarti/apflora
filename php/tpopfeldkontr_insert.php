@@ -11,11 +11,11 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
-$id = $_GET["id"];
+$id = $_POST["id"];
 settype($id, "integer");
-$user = $_GET["user"];
+$user = $_POST["user"];
 $time = date('Y-m-d H:i:s');
-$TPopKontrTyp = $_GET["TPopKontrTyp"];
+$TPopKontrTyp = $_POST["TPopKontrTyp"];
 
 if ($TPopKontrTyp) {
 	//das ist eine Freiwilligen-Erfolgskontrolle

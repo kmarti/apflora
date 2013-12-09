@@ -11,10 +11,10 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
-$id = $_GET["id"];
-$Feld = $_GET["Feld"];
-$Wert = $_GET["Wert"];
-$user = $_GET["user"];
+$id = $_POST["id"];
+$Feld = $_POST["Feld"];
+$Wert = $_POST["Wert"];
+$user = $_POST["user"];
 $time = date('Y-m-d H:i:s');
 
 if ($Wert == NULL) {

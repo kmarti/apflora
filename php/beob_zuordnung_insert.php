@@ -11,8 +11,8 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
-$no_note = $_GET["no_note"];
-$user = $_GET["user"];
+$no_note = $_POST["no_note"];
+$user = $_POST["user"];
 $time = date('Y-m-d H:i:s');
 
 

@@ -11,9 +11,9 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
-$JbuJahr = $_GET["JbuJahr"];
+$JbuJahr = $_POST["JbuJahr"];
 settype($JbuJahr, "integer");
-$user = $_GET["user"];
+$user = $_POST["user"];
 $time = date('Y-m-d H:i:s');
 
 $Querystring = 'INSERT INTO tblJBerUebersicht (JbuJahr, MutWann, MutWer) VALUES ('.$JbuJahr.', "'.$time.'", "'.$user.'")';	//muss die neue PopId erhalten!

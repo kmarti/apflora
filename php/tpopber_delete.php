@@ -11,7 +11,7 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
-$id = $_GET["id"];
+$id = $_POST["id"];
 settype($id, "integer");
 
 $Querystring = "DELETE FROM tblTeilPopBericht WHERE TPopBerId = ".$id;

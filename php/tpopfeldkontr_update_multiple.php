@@ -12,13 +12,13 @@ if ($link->connect_errno) {
 mysqli_set_charset($link, "utf8");
 
 //in diesem Array sammeln wir alle upzudatenden Felder
-$Felderarray = $_GET;
+$Felderarray = $_POST;
 //id wird nur für die WHERE-Klausel benutzt, nicht speichern
-$id = $_GET["id"];
+$id = $_POST["id"];
 settype($id, "integer");
 unset($Felderarray["id"]);
 //user soll als MutWer gespeichert werden
-$user = $_GET["user"];
+$user = $_POST["user"];
 unset($Felderarray["user"]);
 //Zeit wird in MutWann gespeichert
 $time = date('Y-m-d H:i:s');

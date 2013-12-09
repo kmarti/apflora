@@ -11,9 +11,9 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
-$id = $_GET["id"];
+$id = $_POST["id"];
 //settype($id, "integer");
-$user = $_GET["user"];
+$user = $_POST["user"];
 $time = date('Y-m-d H:i:s');
 
 $Querystring = 'INSERT INTO tblTeilPopBericht (TPopId, MutWann, MutWer) VALUES ('.$id.', "'.$time.'", "'.$user.'")';	//muss die neue TPopKontrId erhalten!

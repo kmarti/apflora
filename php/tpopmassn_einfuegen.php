@@ -11,11 +11,11 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
-$TPopId = $_GET["tpop_id"];
+$TPopId = $_POST["tpop_id"];
 settype($TPopId, "integer");
-$TPopMassnId = $_GET["tpopmassn_id"];
+$TPopMassnId = $_POST["tpopmassn_id"];
 settype($TPopMassnId, "integer");
-$user = $_GET["user"];
+$user = $_POST["user"];
 $time = date('Y-m-d H:i:s');
 
 $Querystring = 'UPDATE tblTeilPopMassnahme SET TPopId="'.$TPopId.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopMassnId='.$TPopMassnId;
