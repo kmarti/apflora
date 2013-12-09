@@ -62,6 +62,7 @@ function initiiere_ap() {
 	if ($("#ap_waehlen").val() && programm_wahl !== "programm_neu") {
 		//Daten für den ap aus der DB holen
 		$.ajax({
+			type: 'get',
 			url: 'php/ap.php',
 			dataType: 'json',
 			data: {
@@ -81,6 +82,7 @@ function initiiere_ap() {
 					//ApBearb: Daten holen - oder vorhandene nutzen
 					if (!window.adressen_html) {
 						$.ajax({
+							type: 'get',
 							url: 'php/adressen.php',
 							dataType: 'json',
 							success: function (data2) {
@@ -121,19 +123,20 @@ function initiiere_ap() {
 function setzeWindowAp(id) {
 	localStorage.ap_id = id;
 	$.ajax({
-			url: 'php/ap.php',
-			dataType: 'json',
-			data: {
-				"id": localStorage.ap_id
-			},
-			success: function (data) {
-				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-				if (data) {
-					//ap bereitstellen
-					window.ap = data;
-				}
+		type: 'get',
+		url: 'php/ap.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.ap_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//ap bereitstellen
+				window.ap = data;
 			}
-		});
+		}
+	});
 }
 
 //wird benutzt von Formular pop
@@ -141,6 +144,7 @@ function setzeWindowAp(id) {
 function erstelle_ApArtId_liste() {
 	if (!window.artliste_html) {
 		$.ajax({
+			type: 'get',
 			url: 'php/artliste.php',
 			dataType: 'json',
 			success: function (data) {
@@ -173,6 +177,7 @@ function initiiere_pop() {
 	leereFelderVonFormular("pop");
 	//Daten für die pop aus der DB holen
 	$.ajax({
+		type: 'get',
 		url: 'php/pop.php',
 		dataType: 'json',
 		data: {
@@ -215,19 +220,20 @@ function initiiere_pop() {
 function setzeWindowPop(id) {
 	localStorage.pop_id = id;
 	$.ajax({
-			url: 'php/pop.php',
-			dataType: 'json',
-			data: {
-				"id": localStorage.pop_id
-			},
-			success: function (data) {
-				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-				if (data) {
-					//pop bereitstellen
-					window.pop = data;
-				}
+		type: 'get',
+		url: 'php/pop.php',
+		dataType: 'json',
+		data: {
+			"id": localStorage.pop_id
+		},
+		success: function (data) {
+			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				//pop bereitstellen
+				window.pop = data;
 			}
-		});
+		}
+	});
 }
 
 function initiiere_apziel() {
@@ -241,6 +247,7 @@ function initiiere_apziel() {
 	leereFelderVonFormular("apziel");
 	//Daten für die apziel aus der DB holen
 	$.ajax({
+		type: 'get',
 		url: 'php/apziel.php',
 		dataType: 'json',
 		data: {
@@ -274,6 +281,7 @@ function initiiere_apziel() {
 function setzeWindowApziel(id) {
 	localStorage.apziel_id = id;
 	$.ajax({
+		type: 'get',
 		url: 'php/apziel.php',
 		//url: 'http://www.apflora.barbalex.ch/php/apziel.php',
 		dataType: 'json',
@@ -300,6 +308,7 @@ function initiiere_zielber() {
 	leereFelderVonFormular("zielber");
 	//Daten für die zielber aus der DB holen
 	$.ajax({
+		type: 'get',
 		url: 'php/zielber.php',
 		dataType: 'json',
 		data: {
@@ -331,6 +340,7 @@ function initiiere_zielber() {
 function setzeWindowZielber(id) {
 	localStorage.zielber_id = id;
 	$.ajax({
+		type: 'get',
 		url: 'php/zielber.php',
 		dataType: 'json',
 		data: {
@@ -356,6 +366,7 @@ function initiiere_erfkrit() {
 	leereFelderVonFormular("erfkrit");
 	//Daten für die erfkrit aus der DB holen
 	$.ajax({
+		type: 'get',
 		url: 'php/erfkrit.php',
 		dataType: 'json',
 		data: {
@@ -387,6 +398,7 @@ function initiiere_erfkrit() {
 function setzeWindowErfkrit(id) {
 	localStorage.erfkrit_id = id;
 	$.ajax({
+		type: 'get',
 		url: 'php/erfkrit.php',
 		dataType: 'json',
 		data: {
@@ -412,6 +424,7 @@ function initiiere_jber() {
 	leereFelderVonFormular("jber");
 	//Daten für die jber aus der DB holen
 	$.ajax({
+		type: 'get',
 		url: 'php/jber.php',
 		dataType: 'json',
 		data: {
@@ -446,6 +459,7 @@ function initiiere_jber() {
 				//JBerBearb: Daten holen - oder vorhandene nutzen
 				if (!window.adressen_html) {
 					$.ajax({
+						type: 'get',
 						url: 'php/adressen.php',
 						dataType: 'json',
 						success: function (data2) {
@@ -485,6 +499,7 @@ function initiiere_jber() {
 function setzeWindowJber(id) {
 	localStorage.jber_id = id;
 	$.ajax({
+		type: 'get',
 		url: 'php/jber.php',
 		dataType: 'json',
 		data: {
@@ -510,6 +525,7 @@ function initiiere_jber_uebersicht() {
 	leereFelderVonFormular("jber_uebersicht");
 	//Daten für die jber_uebersicht aus der DB holen
 	$.ajax({
+		type: 'get',
 		url: 'php/jber_uebersicht.php',
 		dataType: 'json',
 		data: {
@@ -541,6 +557,7 @@ function initiiere_jber_uebersicht() {
 function setzeWindowJberUebersicht(id) {
 	localStorage.jber_uebersicht_id = id;
 	$.ajax({
+		type: 'get',
 		url: 'php/jber_uebersicht.php',
 		dataType: 'json',
 		data: {
@@ -566,6 +583,7 @@ function initiiere_ber() {
 	leereFelderVonFormular("ber");
 	//Daten für die ber aus der DB holen
 	$.ajax({
+		type: 'get',
 		url: 'php/ber.php',
 		dataType: 'json',
 		data: {
@@ -609,6 +627,7 @@ function initiiere_ber() {
 function setzeWindowBer(id) {
 	localStorage.ber_id = id;
 	$.ajax({
+		type: 'get',
 		url: 'php/ber.php',
 		dataType: 'json',
 		data: {
@@ -634,6 +653,7 @@ function initiiere_idealbiotop() {
 	leereFelderVonFormular("idealbiotop");
 	//Daten für die idealbiotop aus der DB holen
 	$.ajax({
+		type: 'get',
 		url: 'php/idealbiotop.php',
 		dataType: 'json',
 		data: {
@@ -690,6 +710,7 @@ function initiiere_idealbiotop() {
 				}
 				//null zurückgekommen > Datesatz schaffen
 				$.ajax({
+					type: 'post',
 					url: 'php/idealbiotop_insert.php',
 					dataType: 'json',
 					data: {
@@ -725,6 +746,7 @@ function initiiere_idealbiotop() {
 function setzeWindowIdealbiotop(id) {
 	localStorage.idealbiotop_id = id;
 	$.ajax({
+		type: 'get',
 		url: 'php/idealbiotop.php',
 		dataType: 'json',
 		data: {
@@ -750,6 +772,7 @@ function initiiere_assozarten() {
 	leereFelderVonFormular("assozarten");
 	//Daten für die assozarten aus der DB holen
 	$.ajax({
+		type: 'get',
 		url: 'php/assozarten.php',
 		dataType: 'json',
 		data: {
@@ -781,6 +804,7 @@ function initiiere_assozarten() {
 function setzeWindowAssozarten(id) {
 	localStorage.assozarten_id = id;
 	$.ajax({
+		type: 'get',
 		url: 'php/assozarten.php',
 		dataType: 'json',
 		data: {
@@ -806,6 +830,7 @@ function initiiere_popmassnber() {
 	leereFelderVonFormular("popmassnber");
 	//Daten für die pop aus der DB holen
 	$.ajax({
+		type: 'get',
 		url: 'php/popmassnber.php',
 		dataType: 'json',
 		data: {
@@ -835,6 +860,7 @@ function initiiere_popmassnber() {
 function setzeWindowPopmassnber(id) {
 	localStorage.popmassnber_id = id;
 	$.ajax({
+		type: 'get',
 		url: 'php/popmassnber.php',
 		dataType: 'json',
 		data: {
@@ -860,6 +886,7 @@ function initiiere_tpop() {
 	leereFelderVonFormular("tpop");
 	//Daten für die pop aus der DB holen
 	$.ajax({
+		type: 'get',
 		url: 'php/tpop.php',
 		dataType: 'json',
 		data: {
@@ -914,6 +941,7 @@ function initiiere_tpop() {
 				//für select Daten holen - oder vorhandene nutzen
 				if (!window.adressen_html) {
 					$.ajax({
+						type: 'get',
 						url: 'php/adressen.php',
 						dataType: 'json',
 						success: function (data2) {
@@ -955,6 +983,7 @@ function initiiere_tpop() {
 function setzeWindowTpop(id) {
 	localStorage.tpop_id = id;
 	$.ajax({
+		type: 'get',
 		url: 'php/tpop.php',
 		dataType: 'json',
 		data: {
@@ -980,6 +1009,7 @@ function initiiere_popber() {
 	leereFelderVonFormular("popber");
 	//Daten für die popber aus der DB holen
 	$.ajax({
+		type: 'get',
 		url: 'php/popber.php',
 		dataType: 'json',
 		data: {
@@ -1009,6 +1039,7 @@ function initiiere_popber() {
 function setzeWindowPopber(id) {
 	localStorage.popber_id = id;
 	$.ajax({
+		type: 'get',
 		url: 'php/popber.php',
 		dataType: 'json',
 		data: {
@@ -1041,6 +1072,7 @@ function initiiere_tpopfeldkontr() {
 	});
 	//Daten für die tpopfeldkontr aus der DB holen
 	$.ajax({
+		type: 'get',
 		url: 'php/tpopfeldkontr.php',
 		dataType: 'json',
 		data: {
@@ -1071,6 +1103,7 @@ function initiiere_tpopfeldkontr() {
 				//TPopKontrBearb: Daten holen - oder vorhandene nutzen
 				if (!window.adressen_html) {
 					$.ajax({
+						type: 'get',
 						url: 'php/adressen.php',
 						dataType: 'json',
 						success: function (data2) {
@@ -1096,6 +1129,7 @@ function initiiere_tpopfeldkontr() {
 				//für 3 selectfelder TPopKontrZaehleinheit Daten holen - oder vorhandene nutzen
 				if (!window.TPopKontrZaehleinheit_html) {
 					$.ajax({
+						type: 'get',
 						url: 'php/tpopfeldkontr_zaehleinheit.php',
 						dataType: 'json',
 						success: function (data3) {
@@ -1177,6 +1211,7 @@ function initiiere_tpopfeldkontr() {
 					//TPopKontrLeb: Daten holen - oder vorhandene nutzen
 					if (!window.lrdelarze_html) {
 						$.ajax({
+							type: 'get',
 							url: 'php/lrdelarze.php',
 							dataType: 'json',
 							success: function (data4) {
@@ -1207,6 +1242,7 @@ function initiiere_tpopfeldkontr() {
 				//TPopKontrIdealBiotopUebereinst: Daten holen - oder vorhandene nutzen
 				if (!window.IdealBiotopÜbereinst_html) {
 					$.ajax({
+						type: 'get',
 						url: 'php/idealbiotopuebereinst.php',
 						dataType: 'json',
 						success: function (data5) {
@@ -1299,6 +1335,7 @@ function initiiere_tpopfeldkontr() {
 function setzeWindowTpopfeldkontr(id) {
 	localStorage.tpopfeldkontr_id = id;
 	$.ajax({
+		type: 'get',
 		url: 'php/tpopfeldkontr.php',
 		dataType: 'json',
 		data: {
@@ -1324,6 +1361,7 @@ function initiiere_tpopmassn() {
 	leereFelderVonFormular("tpopmassn");
 	//Daten für die pop aus der DB holen
 	$.ajax({
+		type: 'get',
 		url: 'php/tpopmassn.php',
 		dataType: 'json',
 		data: {
@@ -1338,6 +1376,7 @@ function initiiere_tpopmassn() {
 				//für select TPopMassnTyp Daten holen - oder vorhandene nutzen
 				if (!window.tpopmassntyp_html) {
 					$.ajax({
+						type: 'get',
 						url: 'php/tpopmassn_typ.php',
 						dataType: 'json',
 						success: function (data2) {
@@ -1373,6 +1412,7 @@ function initiiere_tpopmassn() {
 				//TPopMassnBearb: Daten holen - oder vorhandene nutzen
 				if (!window.adressen_html) {
 					$.ajax({
+						type: 'get',
 						url: 'php/adressen.php',
 						dataType: 'json',
 						success: function (data2) {
@@ -1416,6 +1456,7 @@ function initiiere_tpopmassn() {
 				//für TPopMassnAnsiedWirtspfl Artliste bereitstellen
 				if (!window.artliste_html) {
 					$.ajax({
+						type: 'get',
 						url: 'php/artliste.php',
 						dataType: 'json',
 						success: function (data) {
@@ -1454,6 +1495,7 @@ function initiiere_tpopmassn() {
 function setzeWindowTpopmassn(id) {
 	localStorage.tpopmassn_id = id;
 	$.ajax({
+		type: 'get',
 		url: 'php/tpopmassn.php',
 		dataType: 'json',
 		data: {
@@ -1479,6 +1521,7 @@ function initiiere_tpopmassnber() {
 	leereFelderVonFormular("tpopmassnber");
 	//Daten für die pop aus der DB holen
 	$.ajax({
+		type: 'get',
 		url: 'php/tpopmassnber.php',
 		dataType: 'json',
 		data: {
@@ -1508,6 +1551,7 @@ function initiiere_tpopmassnber() {
 function setzeWindowTpopmassnber(id) {
 	localStorage.tpopmassnber_id = id;
 	$.ajax({
+		type: 'get',
 		url: 'php/tpopmassnber.php',
 		dataType: 'json',
 		data: {
@@ -1533,6 +1577,7 @@ function initiiere_tpopber() {
 	leereFelderVonFormular("tpopber");
 	//Daten für die tpopber aus der DB holen
 	$.ajax({
+		type: 'get',
 		url: 'php/tpopber.php',
 		dataType: 'json',
 		data: {
@@ -1562,6 +1607,7 @@ function initiiere_tpopber() {
 function setzeWindowTpopber(id) {
 	localStorage.tpopber_id = id;
 	$.ajax({
+		type: 'get',
 		url: 'php/tpopber.php',
 		dataType: 'json',
 		data: {
@@ -1607,6 +1653,7 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 	
 	//Daten für die beob aus der DB holen
 	$.ajax({
+		type: 'get',
 		url: url,
 		dataType: 'json',
 		data: {
@@ -1623,6 +1670,7 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 				//Abstand zu TPop aus der DB holen
 				url_distzutpop = 'php/beob_distzutpop_' + beobtyp + '.php';
 				$.ajax({
+					type: 'get',
 					url: url_distzutpop,
 					dataType: 'json',
 					data: {
@@ -1661,6 +1709,7 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 							if (beob_status !== "nicht_beurteilt") {
 								//Daten der Zuordnung holen
 								$.ajax({
+									type: 'get',
 									url: 'php/beob_zuordnung.php',
 									dataType: 'json',
 									data: {
@@ -1872,6 +1921,7 @@ function FitToContent(id, maxHeight) {
 function erstelle_ap_liste(programm) {
 	var apliste_erstellt = $.Deferred();
 	$.ajax({
+		type: 'get',
 		url: 'php/apliste.php?programm=' + programm,
 		dataType: 'json',
 		success: function (data) {
@@ -2621,6 +2671,7 @@ function erstelle_tree(ApArtId) {
 		if (herkunft_node_typ === "pop") {
 			if (ziel_node_typ === "pop") {
 				$.ajax({
+					type: 'post',
 					url: 'php/pop_einfuegen.php',		//TO DO: PHP
 					dataType: 'json',
 					data: {
@@ -2657,6 +2708,7 @@ function erstelle_tree(ApArtId) {
 			}
 			if (ziel_node_typ === "tpop") {
 				$.ajax({
+					type: 'post',
 					url: 'php/tpop_einfuegen.php',
 					dataType: 'json',
 					data: {
@@ -2693,6 +2745,7 @@ function erstelle_tree(ApArtId) {
 			}
 			if (ziel_node_typ === "pop_ordner_tpop") {
 				$.ajax({
+					type: 'post',
 					url: 'php/tpop_einfuegen.php',
 					dataType: 'json',
 					data: {
@@ -2730,6 +2783,7 @@ function erstelle_tree(ApArtId) {
 		if (herkunft_node_typ === "tpop") {
 			if (ziel_node_typ === "tpop") {
 				$.ajax({
+					type: 'post',
 					url: 'php/tpop_einfuegen.php',
 					dataType: 'json',
 					data: {
@@ -2766,6 +2820,7 @@ function erstelle_tree(ApArtId) {
 			}
 			if (ziel_node_typ === "pop_ordner_tpop") {
 				$.ajax({
+					type: 'post',
 					url: 'php/tpop_einfuegen.php',
 					dataType: 'json',
 					data: {
@@ -2804,6 +2859,7 @@ function erstelle_tree(ApArtId) {
 		if (herkunft_node_typ === "tpopmassn") {
 			if (ziel_node_typ === "tpopmassn") {
 				$.ajax({
+					type: 'post',
 					url: 'php/tpopmassn_einfuegen.php',
 					dataType: 'json',
 					data: {
@@ -2840,6 +2896,7 @@ function erstelle_tree(ApArtId) {
 			}
 			if (ziel_node_typ === "tpop_ordner_massn") {
 				$.ajax({
+					type: 'post',
 					url: 'php/tpopmassn_einfuegen.php',
 					dataType: 'json',
 					data: {
@@ -2878,6 +2935,7 @@ function erstelle_tree(ApArtId) {
 		if (herkunft_node_typ === "tpopfeldkontr") {
 			if (ziel_node_typ === "tpopfeldkontr") {
 				$.ajax({
+					type: 'post',
 					url: 'php/tpopfeldkontr_einfuegen.php',
 					dataType: 'json',
 					data: {
@@ -2914,6 +2972,7 @@ function erstelle_tree(ApArtId) {
 			}
 			if (ziel_node_typ === "tpop_ordner_feldkontr") {
 				$.ajax({
+					type: 'post',
 					url: 'php/tpopfeldkontr_einfuegen.php',
 					dataType: 'json',
 					data: {
@@ -2952,6 +3011,7 @@ function erstelle_tree(ApArtId) {
 		if (herkunft_node_typ === "tpopfreiwkontr") {
 			if (ziel_node_typ === "tpopfreiwkontr") {
 				$.ajax({
+					type: 'post',
 					url: 'php/tpopfeldkontr_einfuegen.php',
 					dataType: 'json',
 					data: {
@@ -2989,6 +3049,7 @@ function erstelle_tree(ApArtId) {
 			}
 			if (ziel_node_typ === "tpop_ordner_freiwkontr") {
 				$.ajax({
+					type: 'post',
 					url: 'php/tpopfeldkontr_einfuegen.php',
 					dataType: 'json',
 					data: {
@@ -3030,6 +3091,7 @@ function erstelle_tree(ApArtId) {
 			if (ziel_node_typ === "beob_nicht_beurteilt" || ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
 				//zugeordnet > nicht beurteilt
 				$.ajax({
+					type: 'post',
 					url: 'php/beob_zuordnung_delete.php',
 					dataType: 'json',
 					data: {
@@ -3074,6 +3136,7 @@ function erstelle_tree(ApArtId) {
 					neue_tpop_id = ziel_parent_node_id;
 				}
 				$.ajax({
+					type: 'post',
 					url: 'php/beob_update.php',
 					dataType: 'json',
 					data: {
@@ -3116,6 +3179,7 @@ function erstelle_tree(ApArtId) {
 			if (ziel_node_typ === "beob_nicht_zuzuordnen" || ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
 				//zugeordnet > nicht zuzuordnen
 				$.ajax({
+					type: 'post',
 					url: 'php/beob_update.php',
 					dataType: 'json',
 					data: {
@@ -3127,6 +3191,7 @@ function erstelle_tree(ApArtId) {
 					success: function() {
 						//TPopId null setzen
 						$.ajax({
+							type: 'post',
 							url: 'php/beob_update.php',
 							dataType: 'json',
 							data: {
@@ -3183,6 +3248,7 @@ function erstelle_tree(ApArtId) {
 				}
 				//Zuerst eine neue Zuordnung erstellen
 				$.ajax({
+					type: 'post',
 					url: 'php/beob_zuordnung_insert.php',
 					dataType: 'json',
 					data: {
@@ -3192,6 +3258,7 @@ function erstelle_tree(ApArtId) {
 					success: function() {
 						//jetzt aktualisieren
 						$.ajax({
+							type: 'post',
 							url: 'php/beob_update.php',
 							dataType: 'json',
 							data: {
@@ -3239,6 +3306,7 @@ function erstelle_tree(ApArtId) {
 			if (ziel_node_typ === "beob_nicht_zuzuordnen" || ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
 				//nicht beurteilt > nicht zuordnen
 				$.ajax({
+					type: 'post',
 					url: 'php/beob_zuordnung_insert.php',
 					dataType: 'json',
 					data: {
@@ -3248,6 +3316,7 @@ function erstelle_tree(ApArtId) {
 					success: function() {
 						//jetzt aktualisieren
 						$.ajax({
+							type: 'post',
 							url: 'php/beob_update.php',
 							dataType: 'json',
 							data: {
@@ -3297,6 +3366,7 @@ function erstelle_tree(ApArtId) {
 			if (ziel_node_typ === "beob_nicht_beurteilt" || ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
 				//nicht zuzuordnen > nicht beurteilt
 				$.ajax({
+					type: 'post',
 					url: 'php/beob_zuordnung_delete.php',
 					dataType: 'json',
 					data: {
@@ -3341,6 +3411,7 @@ function erstelle_tree(ApArtId) {
 					neue_tpop_id = ziel_parent_node_id;
 				}
 				$.ajax({
+					type: 'post',
 					url: 'php/beob_update.php',
 						dataType: 'json',
 						data: {
@@ -3351,6 +3422,7 @@ function erstelle_tree(ApArtId) {
 					},
 					success: function() {
 						$.ajax({
+							type: 'post',
 							url: 'php/beob_update.php',
 							dataType: 'json',
 							data: {
@@ -3621,6 +3693,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/pop_insert.php',
 						dataType: 'json',
 						data: {
@@ -3689,6 +3762,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/flora_icon_gelb.png",
 				"action": function () {
 					$.ajax({
+						type: 'get',
 						url: 'php/pops_ch_karte.php',
 						dataType: 'json',
 						data: {
@@ -3729,6 +3803,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/flora_icon.png",
 				"action": function () {
 					$.ajax({
+						type: 'get',
 						url: 'php/ap_karte.php',
 						dataType: 'json',
 						data: {
@@ -3780,6 +3855,7 @@ function treeKontextmenu(node) {
 				"action": function () {
 					//db aktualisieren
 					$.ajax({
+						type: 'post',
 						url: 'php/pop_update.php',
 						dataType: 'json',
 						data: {
@@ -3854,6 +3930,7 @@ function treeKontextmenu(node) {
 						}
 					});
 					$.ajax({
+						type: 'post',
 						url: 'php/apziel_insert.php',
 						dataType: 'json',
 						data: {
@@ -3938,6 +4015,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax( {
+						type: 'post',
 						url: 'php/apziel_insert.php',
 						dataType: 'json',
 						data: {
@@ -4025,6 +4103,7 @@ function treeKontextmenu(node) {
 					}
 					grandparent_node = jQuery.jstree._reference(parent_node)._get_parent(parent_node);
 					$.ajax( {
+						type: 'post',
 						url: 'php/apziel_insert.php',
 						dataType: 'json',
 						data: {
@@ -4111,6 +4190,7 @@ function treeKontextmenu(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								$.ajax({
+									type: 'post',
 									url: 'php/apziel_delete.php',
 									dataType: 'json',
 									data: {
@@ -4178,6 +4258,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/zielber_insert.php',
 						dataType: 'json',
 						data: {
@@ -4247,6 +4328,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/zielber_insert.php',
 						dataType: 'json',
 						data: {
@@ -4321,6 +4403,7 @@ function treeKontextmenu(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								$.ajax({
+									type: 'post',
 									url: 'php/zielber_delete.php',
 									dataType: 'json',
 									data: {
@@ -4383,6 +4466,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/erfkrit_insert.php',
 						dataType: 'json',
 						data: {
@@ -4452,6 +4536,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/erfkrit_insert.php',
 						dataType: 'json',
 						data: {
@@ -4526,6 +4611,7 @@ function treeKontextmenu(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								$.ajax({
+									type: 'post',
 									url: 'php/erfkrit_delete.php',
 									dataType: 'json',
 									data: {
@@ -4595,6 +4681,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/jber_insert.php',
 						dataType: 'json',
 						data: {
@@ -4664,6 +4751,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/jber_insert.php',
 						dataType: 'json',
 						data: {
@@ -4741,6 +4829,7 @@ function treeKontextmenu(node) {
 								window.deleted = window.jber;
 								window.deleted.typ = "jber";
 								$.ajax({
+									type: 'post',
 									url: 'php/jber_delete.php',
 									dataType: 'json',
 									data: {
@@ -4812,6 +4901,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/jber_uebersicht_insert.php',
 						dataType: 'json',
 						data: {
@@ -4884,6 +4974,7 @@ function treeKontextmenu(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								$.ajax({
+									type: 'post',
 									url: 'php/jber_uebersicht_delete.php',
 									dataType: 'json',
 									data: {
@@ -4944,6 +5035,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/ber_insert.php',
 						dataType: 'json',
 						data: {
@@ -5005,6 +5097,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/ber_insert.php',
 						dataType: 'json',
 						data: {
@@ -5079,6 +5172,7 @@ function treeKontextmenu(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								$.ajax({
+									type: 'post',
 									url: 'php/ber_delete.php',
 									dataType: 'json',
 									data: {
@@ -5141,6 +5235,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/assozarten_insert.php',
 						dataType: 'json',
 						data: {
@@ -5210,6 +5305,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/assozarten_insert.php',
 						dataType: 'json',
 						data: {
@@ -5284,6 +5380,7 @@ function treeKontextmenu(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								$.ajax({
+									type: 'post',
 									url: 'php/assozarten_delete.php',
 									dataType: 'json',
 									data: {
@@ -5346,6 +5443,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax( {
+						type: 'post',
 						url: 'php/pop_insert.php',
 						dataType: 'json',
 						data: {
@@ -5446,6 +5544,7 @@ function treeKontextmenu(node) {
 								window.deleted = window.pop;
 								window.deleted.typ = "pop";
 								$.ajax({
+									type: 'post',
 									url: 'php/pop_delete.php',
 									dataType: 'json',
 									data: {
@@ -5493,6 +5592,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/flora_icon_gelb.png",
 				"action": function () {
 					$.ajax({
+						type: 'get',
 						url: 'php/pop_ch_karte.php',
 						dataType: 'json',
 						data: {
@@ -5533,6 +5633,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/flora_icon.png",
 				"action": function () {
 					$.ajax({
+						type: 'get',
 						url: 'php/pop_karte.php',
 						dataType: 'json',
 						data: {
@@ -5615,6 +5716,7 @@ function treeKontextmenu(node) {
 					var apartid = erstelleIdAusDomAttributId($(parent_node).attr("id"));
 					//db aktualisieren
 					$.ajax({
+						type: 'post',
 						url: 'php/pop_update.php',
 						dataType: 'json',
 						data: {
@@ -5681,6 +5783,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/tpop_insert.php',
 						dataType: 'json',
 						data: {
@@ -5729,6 +5832,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/flora_icon_gelb.png",
 				"action": function () {
 					$.ajax({
+						type: 'get',
 						url: 'php/tpops_karte.php',
 						dataType: 'json',
 						data: {
@@ -5769,6 +5873,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/flora_icon.png",
 				"action": function () {
 					$.ajax({
+						type: 'get',
 						url: 'php/pop_karte.php',
 						dataType: 'json',
 						data: {
@@ -5873,6 +5978,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/tpop_insert.php',
 						dataType: 'json',
 						data: {
@@ -5953,6 +6059,7 @@ function treeKontextmenu(node) {
 								window.deleted.typ = "tpop";
 								//löschen
 								$.ajax({
+									type: 'post',
 									url: 'php/tpop_delete.php',
 									dataType: 'json',
 									data: {
@@ -6000,6 +6107,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/flora_icon_gelb.png",
 				"action": function () {
 					$.ajax({
+						type: 'get',
 						url: 'php/tpop_karte.php',
 						dataType: 'json',
 						data: {
@@ -6053,6 +6161,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'get',
 						url: 'php/tpop.php',
 						dataType: 'json',
 						data: {
@@ -6081,6 +6190,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/flora_icon.png",
 				"action": function () {
 					$.ajax({
+						type: 'get',
 						url: 'php/tpop_karte.php',
 						dataType: 'json',
 						data: {
@@ -6134,6 +6244,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'get',
 						url: 'php/tpop.php',
 						dataType: 'json',
 						data: {
@@ -6223,6 +6334,7 @@ function treeKontextmenu(node) {
 					window.tpop_node_kopiert = aktiver_node;
 					//Daten des Objekts holen
 					$.ajax({
+						type: 'get',
 						url: 'php/tpop.php',
 						dataType: 'json',
 						data: {
@@ -6299,6 +6411,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/popber_insert.php',
 						dataType: 'json',
 						data: {
@@ -6368,6 +6481,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/popber_insert.php',
 						dataType: 'json',
 						data: {
@@ -6436,6 +6550,7 @@ function treeKontextmenu(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								$.ajax({
+									type: 'post',
 									url: 'php/popber_delete.php',
 									dataType: 'json',
 									data: {
@@ -6498,6 +6613,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/popmassnber_insert.php',
 						dataType: 'json',
 						data: {
@@ -6567,6 +6683,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/popmassnber_insert.php',
 						dataType: 'json',
 						data: {
@@ -6635,6 +6752,7 @@ function treeKontextmenu(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								$.ajax({
+									type: 'post',
 									url: 'php/popmassnber_delete.php',
 									dataType: 'json',
 									data: {
@@ -6697,6 +6815,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/tpopfeldkontr_insert.php',
 						dataType: 'json',
 						data: {
@@ -6780,6 +6899,7 @@ function treeKontextmenu(node) {
 					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + "&TPopKontrId=" + erstelleIdAusDomAttributId($(window.tpopfeldkontr_node_kopiert).attr("id"));
 					//und an die DB schicken
 					$.ajax({
+						type: 'post',
 						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
 						dataType: 'json',
 						success: function (data) {
@@ -6837,6 +6957,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/tpopfeldkontr_insert.php',
 						dataType: 'json',
 						data: {
@@ -6908,6 +7029,7 @@ function treeKontextmenu(node) {
 								window.deleted = window.tpopfeldkontr;
 								window.deleted.typ = "tpopfeldkontr";
 								$.ajax({
+									type: 'post',
 									url: 'php/tpopfeldkontr_delete.php',
 									dataType: 'json',
 									data: {
@@ -7058,6 +7180,7 @@ function treeKontextmenu(node) {
 					}
 					//jetzt alles speichern
 					$.ajax({
+						type: 'post',
 						url: 'php/tpopfeldkontr_update_multiple.php' + url_string,
 						dataType: 'json',
 						success: function () {
@@ -7127,6 +7250,7 @@ function treeKontextmenu(node) {
 					window.tpopfeldkontr_node_kopiert = aktiver_node;
 					//Daten des Objekts holen
 					$.ajax({
+						type: 'get',
 						url: 'php/tpopfeldkontr.php',
 						dataType: 'json',
 						data: {
@@ -7184,6 +7308,7 @@ function treeKontextmenu(node) {
 					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + erstelleIdAusDomAttributId($(parent_node).attr("id")) + "&TPopKontrId=" + erstelleIdAusDomAttributId($(window.tpopfeldkontr_node_kopiert).attr("id"));
 					//und an die DB schicken
 					$.ajax({
+						type: 'post',
 						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
 						dataType: 'json',
 						success: function (data) {
@@ -7241,6 +7366,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/tpopfeldkontr_insert.php',
 						dataType: 'json',
 						data: {
@@ -7325,6 +7451,7 @@ function treeKontextmenu(node) {
 					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + "&TPopKontrId=" + erstelleIdAusDomAttributId($(window.tpopfreiwkontr_node_kopiert).attr("id"));
 					//und an die DB schicken
 					$.ajax({
+						type: 'post',
 						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
 						dataType: 'json',
 						success: function (data) {
@@ -7384,6 +7511,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/tpopfeldkontr_insert.php',
 						dataType: 'json',
 						data: {
@@ -7456,6 +7584,7 @@ function treeKontextmenu(node) {
 								window.deleted = window.tpopfeldkontr;
 								window.deleted.typ = "tpopfreiwkontr";
 								$.ajax({
+									type: 'post',
 									url: 'php/tpopfeldkontr_delete.php',
 									dataType: 'json',
 									data: {
@@ -7557,6 +7686,7 @@ function treeKontextmenu(node) {
 					window.tpopfreiwkontr_node_kopiert = aktiver_node;
 					//Daten des Objekts holen
 					$.ajax({
+						type: 'get',
 						url: 'php/tpopfeldkontr.php',
 						dataType: 'json',
 						data: {
@@ -7615,6 +7745,7 @@ function treeKontextmenu(node) {
 					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + erstelleIdAusDomAttributId($(parent_node).attr("id")) + "&TPopKontrId=" + erstelleIdAusDomAttributId($(window.tpopfreiwkontr_node_kopiert).attr("id"));
 					//und an die DB schicken
 					$.ajax({
+						type: 'post',
 						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
 						dataType: 'json',
 						success: function (data) {
@@ -7673,6 +7804,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/tpopmassn_insert.php',
 						dataType: 'json',
 						data: {
@@ -7756,6 +7888,7 @@ function treeKontextmenu(node) {
 					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + "&TPopMassnId=" + erstelleIdAusDomAttributId($(window.tpopmassn_node_kopiert).attr("id"));
 					//und an die DB schicken
 					$.ajax({
+						type: 'post',
 						url: 'php/tpopmassn_insert_kopie.php' + dataUrl,
 						dataType: 'json',
 						success: function (data) {
@@ -7814,6 +7947,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/tpopmassn_insert.php',
 						dataType: 'json',
 						data: {
@@ -7885,6 +8019,7 @@ function treeKontextmenu(node) {
 								window.deleted = window.tpopmassn;
 								window.deleted.typ = "tpopmassn";
 								$.ajax({
+									type: 'post',
 									url: 'php/tpopmassn_delete.php',
 									dataType: 'json',
 									data: {
@@ -7985,6 +8120,7 @@ function treeKontextmenu(node) {
 					window.tpopmassn_node_kopiert = aktiver_node;
 					//Daten des Objekts holen
 					$.ajax({
+						type: 'get',
 						url: 'php/tpopmassn.php',
 						dataType: 'json',
 						data: {
@@ -8047,6 +8183,7 @@ function treeKontextmenu(node) {
 					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + erstelleIdAusDomAttributId($(parent_node).attr("id")) + "&TPopMassnId=" + erstelleIdAusDomAttributId($(window.tpopmassn_node_kopiert).attr("id"));
 					//und an die DB schicken
 					$.ajax({
+						type: 'post',
 						url: 'php/tpopmassn_insert_kopie.php' + dataUrl,
 						dataType: 'json',
 						success: function (data) {
@@ -8104,6 +8241,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/tpopber_insert.php',
 						dataType: 'json',
 						data: {
@@ -8173,6 +8311,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/tpopber_insert.php',
 						dataType: 'json',
 						data: {
@@ -8241,6 +8380,7 @@ function treeKontextmenu(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								$.ajax({
+									type: 'post',
 									url: 'php/tpopber_delete.php',
 									dataType: 'json',
 									data: {
@@ -8291,6 +8431,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/flora_icon.png",
 				"action": function () {
 					$.ajax({
+						type: 'get',
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
@@ -8356,6 +8497,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/flora_icon.png",
 				"action": function () {
 					$.ajax({
+						type: 'get',
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
@@ -8396,6 +8538,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/flora_icon_violett.png",
 				"action": function () {
 					$.ajax({
+						type: 'get',
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
@@ -8404,6 +8547,7 @@ function treeKontextmenu(node) {
 						success: function (beob) {
 							if (beob.rows.length > 0) {
 								$.ajax({
+									type: 'get',
 									url: 'php/ap_karte.php',
 									dataType: 'json',
 									data: {
@@ -8525,6 +8669,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/tpopmassnber_insert.php',
 						dataType: 'json',
 						data: {
@@ -8594,6 +8739,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					$.ajax({
+						type: 'post',
 						url: 'php/tpopmassnber_insert.php',
 						dataType: 'json',
 						data: {
@@ -8662,6 +8808,7 @@ function treeKontextmenu(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								$.ajax({
+									type: 'post',
 									url: 'php/tpopmassnber_delete.php',
 									dataType: 'json',
 									data: {
@@ -8712,6 +8859,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/flora_icon_violett.png",
 				"action": function () {
 					$.ajax({
+						type: 'get',
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
@@ -8752,6 +8900,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/flora_icon_violett.png",
 				"action": function () {
 					$.ajax({
+						type: 'get',
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
@@ -8760,6 +8909,7 @@ function treeKontextmenu(node) {
 						success: function (beob) {
 							if (beob.rows.length > 0) {
 								$.ajax({
+									type: 'get',
 									url: 'php/ap_karte.php',
 									dataType: 'json',
 									data: {
@@ -8827,6 +8977,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/flora_icon_violett.png",
 				"action": function () {
 					$.ajax({
+						type: 'get',
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
@@ -8867,6 +9018,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/flora_icon_violett.png",
 				"action": function () {
 					$.ajax({
+						type: 'get',
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
@@ -8875,6 +9027,7 @@ function treeKontextmenu(node) {
 						success: function (beob) {
 							if (beob.rows.length > 0) {
 								$.ajax({
+									type: 'get',
 									url: 'php/ap_karte.php',
 									dataType: 'json',
 									data: {
@@ -8974,6 +9127,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/flora_icon_violett.png",
 				"action": function () {
 					$.ajax({
+						type: 'get',
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
@@ -9037,6 +9191,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/flora_icon_violett.png",
 				"action": function () {
 					$.ajax({
+						type: 'get',
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
@@ -9146,6 +9301,7 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 	dataUrl = "?user=" + sessionStorage.User + "&PopId=" + erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + "&TPopId=" + erstelleIdAusDomAttributId($(window.tpop_node_kopiert).attr("id"));
 	//und an die DB schicken
 	$.ajax({
+		type: 'post',
 		url: 'php/tpop_insert_kopie.php' + dataUrl,
 		dataType: 'json',
 		success: function (data) {
@@ -9224,6 +9380,7 @@ function pop_kopiert_in_pop_einfuegen(aktiver_node, parent_node) {
 	}
 	//und an die DB schicken
 	$.ajax({
+		type: 'post',
 		url: 'php/pop_insert_kopie.php' + dataUrl,
 		dataType: 'json',
 		success: function (data) {
@@ -9296,6 +9453,7 @@ function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 	}
 	//und an die DB schicken
 	$.ajax({
+		type: 'post',
 		url: 'php/tpop_insert_kopie.php' + dataUrl,
 		dataType: 'json',
 		success: function (data) {
@@ -9411,6 +9569,7 @@ function speichern(that) {
 			return;
 		}
 		$.ajax({
+			type: 'post',
 			url: 'php/' + Formular + '_update.php',
 			dataType: 'json',
 			data: {
@@ -10123,6 +10282,7 @@ function verorteTPopAufGeoAdmin(TPop) {
 					TPop.TPopYKoord = lonlat.lat;
 					//Datensatz updaten
 					$.ajax({
+						type: 'post',
 						url: 'php/tpop_update.php',
 						dataType: 'json',
 						data: {
@@ -10133,6 +10293,7 @@ function verorteTPopAufGeoAdmin(TPop) {
 						},
 						success: function () {
 							$.ajax({
+								type: 'post',
 								url: 'php/tpop_update.php',
 								dataType: 'json',
 								data: {
@@ -10192,6 +10353,7 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
 			//tpop und pop ergänzen
 			//alle tpop holen
 			var tpop_aufruf = $.ajax({
+				type: 'get',
 				url: 'php/tpop_karte_alle.php',
 				dataType: 'json',
 				data: {
@@ -10250,6 +10412,7 @@ function zeigePopAufGeoAdmin(PopListeMarkiert) {
 			//tpop und pop ergänzen
 			//alle tpop holen
 			var tpop_aufruf = $.ajax({
+				type: 'get',
 				url: 'php/tpop_karte_alle.php',
 				dataType: 'json',
 				data: {
@@ -10353,6 +10516,7 @@ function waehleAusschnittFuerUebergebenePop(PopListeMarkiert) {
 function zeigePopInTPopKarte(overlay_pop_visible, overlay_popbeschriftungen_visible, popid_markiert) {
 	var pop_gezeigt = $.Deferred();
 	var pop_aufruf = $.ajax({
+		type: 'get',
 		url: 'php/pop_karte_alle.php',
 		dataType: 'json',
 		data: {
@@ -10457,6 +10621,7 @@ function erstelleTPopulationFuerGeoAdmin(TPop) {
 function speichereWert(tabelle, id, feld, wert) {
 	if (pruefeSchreibvoraussetzungen()) {
 		$.ajax({
+			type: 'post',
 			url: 'php/' + tabelle + '_update.php',
 			dataType: 'json',
 			data: {
@@ -10659,6 +10824,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 						//...und neu aufbauen
 						//dazu die tpopliste neu abrufen, da Koordinaten geändert haben! tpopid_markiert bleibt gleich
 						$.ajax({
+							type: 'get',
 							url: 'php/tpop_karte_alle.php',
 							dataType: 'json',
 							data: {
@@ -10993,6 +11159,7 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 						//...und neu aufbauen
 						//dazu die popliste neu abrufen, da Koordinaten geändert haben! popid_markiert bleibt gleich
 						$.ajax({
+							type: 'get',
 							url: 'php/pop_karte_alle.php',
 							dataType: 'json',
 							data: {
@@ -11559,6 +11726,7 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 			Y = DdInChX(lat, lng);
 			//nächstgelegene TPop aus DB holen
 			$.ajax({
+				type: 'get',
 				url: 'php/beob_naechste_tpop.php',
 				data: {
 					"ApArtId": Beob.NO_ISFS,
@@ -11988,6 +12156,7 @@ function SetLocationTPop(LatLng, map, marker, TPop) {
 	X = DdInChY(lat, lng);
 	Y = DdInChX(lat, lng);
 	$.ajax({
+		type: 'post',
 		url: 'php/tpop_update.php',
 		dataType: 'json',
 		data: {
@@ -11998,6 +12167,7 @@ function SetLocationTPop(LatLng, map, marker, TPop) {
 		},
 		success: function () {
 			$.ajax({
+				type: 'post',
 				url: 'php/tpop_update.php',
 				dataType: 'json',
 				data: {
@@ -13046,6 +13216,7 @@ function messe(element) {
 function erstelleGemeindeliste() {
 	if (!window.Gemeinden) {
 		$.ajax({
+			type: 'get',
 			url: 'php/gemeinden.php',
 			dataType: 'json',
 			success: function (data) {
@@ -13084,6 +13255,7 @@ function waehleAp(ap_id) {
 		if ($("[name='programm_wahl']:checked").attr("id") === "programm_neu") {
 			//zuerst einen neuen Datensatz anlegen
 			$.ajax({
+				type: 'post',
 				url: 'php/ap_insert.php',
 				dataType: 'json',
 				data: {
@@ -13139,6 +13311,7 @@ function kopiereKoordinatenInPop(TPopXKoord, TPopYKoord) {
 	if (TPopXKoord > 100000 && TPopYKoord > 100000) {
 		//Koordinaten der Pop nachführen
 		$.ajax({
+			type: 'post',
 			url: 'php/pop_update.php',
 			dataType: 'json',
 			data: {
@@ -13149,6 +13322,7 @@ function kopiereKoordinatenInPop(TPopXKoord, TPopYKoord) {
 			},
 			success: function () {
 				$.ajax({
+					type: 'post',
 					url: 'php/pop_update.php',
 					dataType: 'json',
 					data: {
@@ -13211,6 +13385,7 @@ function pruefe_anmeldung() {
 	delete sessionStorage.NurLesen;
 	if ($("#anmeldung_name").val() && $("#anmeldung_passwort").val()) {
 		$.ajax({
+			type: 'get',
 			url: 'php/anmeldung.php',
 			dataType: 'json',
 			data: {

@@ -2351,6 +2351,7 @@
 									//Artname in Textform merken
 									window.deleted.Artname = $("#ap_waehlen option[value='" + $("#ap_waehlen").val() + "']").text();
 									$.ajax({
+										type: 'post',
 										url: 'php/ap_delete.php',
 										dataType: 'json',
 										data: {
@@ -2446,6 +2447,7 @@
 						}
 						//jetzt alles speichern
 						$.ajax({
+							type: 'post',
 							url: 'php/ap_insert_multiple.php' + url_string,
 							dataType: 'json',
 							success: function () {
@@ -2483,6 +2485,7 @@
 						}
 						//jetzt alles speichern
 						$.ajax({
+							type: 'post',
 							url: 'php/pop_insert_multiple.php' + url_string,
 							dataType: 'json',
 							success: function () {
@@ -2521,6 +2524,7 @@
 						}
 						//jetzt alles speichern
 						$.ajax({
+							type: 'post',
 							url: 'php/tpop_insert_multiple.php' + url_string,
 							dataType: 'json',
 							success: function () {
@@ -2559,6 +2563,7 @@
 						}
 						//jetzt alles speichern
 						$.ajax({
+							type: 'post',
 							url: 'php/tpopmassn_insert_multiple.php' + url_string,
 							dataType: 'json',
 							success: function () {
@@ -2599,6 +2604,7 @@
 						}
 						//jetzt alles speichern
 						$.ajax({
+							type: 'post',
 							url: 'php/tpopfeldkontr_insert_multiple.php' + url_string,
 							dataType: 'json',
 							success: function () {
@@ -2637,6 +2643,7 @@
 						}
 						//jetzt alles speichern
 						$.ajax({
+							type: 'post',
 							url: 'php/jber_insert_multiple.php' + url_string,
 							dataType: 'json',
 							success: function () {
