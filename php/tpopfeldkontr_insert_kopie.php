@@ -24,15 +24,15 @@ $time = date('Y-m-d H:i:s');
 
 // Temporäre Tabelle erstellen mit dem zu kopierenden Datensatz
 $Querystring1 = 'CREATE TEMPORARY TABLE tmp SELECT * FROM tblTeilPopFeldkontrolle WHERE TPopKontrId = '.$TPopKontrId;
-$result1 = mysqli_query($link, $Querystring1);
+mysqli_query($link, $Querystring1);
 
 // TPopId anpassen
 $Querystring2 = 'UPDATE tmp SET TPopKontrId = NULL, TPopId = '.$TPopId.', MutWann="'.$time.'", MutWer="'.$user.'"';
-$result2 = mysqli_query($link, $Querystring2);
+mysqli_query($link, $Querystring2);
 
 // Den Datensatz einfügen
 $Querystring3 = 'INSERT INTO tblTeilPopFeldkontrolle SELECT * FROM tmp';
-$result3 = mysqli_query($link, $Querystring3);
+mysqli_query($link, $Querystring3);
 
 // neue id mitteilen
 print mysqli_insert_id($link);
