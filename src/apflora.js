@@ -7888,7 +7888,9 @@ function treeKontextmenu(node) {
 					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + "&TPopMassnId=" + erstelleIdAusDomAttributId($(window.tpopmassn_node_kopiert).attr("id"));
 					//und an die DB schicken
 					$.ajax({
-						type: 'post',
+						//mit post hat irgend etwas in php nicht funktioniert (es wurde immer id=0 zurückgegeben), daher wieder get eingeschatet
+						//type: 'post',
+						type: 'get',
 						url: 'php/tpopmassn_insert_kopie.php' + dataUrl,
 						dataType: 'json',
 						success: function (data) {
@@ -8183,7 +8185,9 @@ function treeKontextmenu(node) {
 					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + erstelleIdAusDomAttributId($(parent_node).attr("id")) + "&TPopMassnId=" + erstelleIdAusDomAttributId($(window.tpopmassn_node_kopiert).attr("id"));
 					//und an die DB schicken
 					$.ajax({
-						type: 'post',
+						//mit post hat irgend etwas in php nicht funktioniert (es wurde immer id=0 zurückgegeben), daher wieder get eingeschatet
+						//type: 'post',
+						type: 'get',
 						url: 'php/tpopmassn_insert_kopie.php' + dataUrl,
 						dataType: 'json',
 						success: function (data) {
@@ -9301,7 +9305,8 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 	dataUrl = "?user=" + sessionStorage.User + "&PopId=" + erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + "&TPopId=" + erstelleIdAusDomAttributId($(window.tpop_node_kopiert).attr("id"));
 	//und an die DB schicken
 	$.ajax({
-		type: 'post',
+		//mit post hat irgend etwas in php nicht funktioniert (es wurde immer id=0 zurückgegeben), daher wieder get eingeschatet
+		type: 'get',
 		url: 'php/tpop_insert_kopie.php' + dataUrl,
 		dataType: 'json',
 		success: function (data) {
@@ -9453,7 +9458,8 @@ function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 	}
 	//und an die DB schicken
 	$.ajax({
-		type: 'post',
+		//mit post hat irgend etwas in php nicht funktioniert (es wurde immer id=0 zurückgegeben), daher wieder get eingeschatet
+		type: 'get',
 		url: 'php/tpop_insert_kopie.php' + dataUrl,
 		dataType: 'json',
 		success: function (data) {

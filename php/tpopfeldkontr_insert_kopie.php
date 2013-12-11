@@ -3,7 +3,7 @@
 
 $link = new mysqli("localhost", "alexande", "y3oYksFsQL49es9x", "alexande_apflora");
 
-/* check connection */
+// check connection
 if ($link->connect_errno) {
 	printf("Connect failed: %s\n", $link->connect_error);
 	exit();
@@ -11,36 +11,31 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
-//in diesem Array sammeln wir alle upzudatenden Felder
-$Felderarray = $_POST;
-//die id der zu kopierenden TPop wird übernommen
-$TPopId = $_POST["TPopId"];
+// die id der zu kopierenden TPop wird übernommen
+// mit post hat irgend etwas in php nicht funktioniert (es wurde immer id=0 zurückgegeben), daher wieder get eingeschatet
+$TPopId = $_GET["TPopId"];
 settype($TPopId, "integer");
-$TPopKontrId = $_POST["TPopKontrId"];
+$TPopKontrId = $_GET["TPopKontrId"];
 settype($TPopKontrId, "integer");
-$user = $_POST["user"];
+$user = $_GET["user"];
 
-//MutWann ergänzen
+// MutWann ergänzen
 $time = date('Y-m-d H:i:s');
 
-//Array in zwei kommagetrennte String-Listen verwandeln
-$Feldliste = implode(",", array_keys($Felderarray));
-$Wertliste = "'".implode("','", array_values($Felderarray))."'";
+// Temporäre Tabelle erstellen mit dem zu kopierenden Datensatz
+$Querystring1 = 'CREATE TEMPORARY TABLE tmp SELECT * FROM tblTeilPopFeldkontrolle WHERE TPopKontrId = '.$TPopKontrId;
+$result1 = mysqli_query($link, $Querystring1);
 
-$Querystring = 'CREATE TEMPORARY TABLE tmp SELECT * FROM tblTeilPopFeldkontrolle WHERE TPopKontrId = '.$TPopKontrId;
-//SQL-Anfrage ausführen
-$result = mysqli_query($link, $Querystring);
-$Querystring = 'UPDATE tmp SET TPopKontrId = NULL, TPopId = '.$TPopId.', MutWann="'.$time.'", MutWer="'.$user.'"';
-//SQL-Anfrage ausführen
-$result = mysqli_query($link, $Querystring);
-$Querystring = 'INSERT INTO tblTeilPopFeldkontrolle SELECT * FROM tmp';
-//SQL-Anfrage ausführen
-$result = mysqli_query($link, $Querystring);
+// TPopId anpassen
+$Querystring2 = 'UPDATE tmp SET TPopKontrId = NULL, TPopId = '.$TPopId.', MutWann="'.$time.'", MutWer="'.$user.'"';
+$result2 = mysqli_query($link, $Querystring2);
 
-//neue id mitteilen
-//print $result;
+// Den Datensatz einfügen
+$Querystring3 = 'INSERT INTO tblTeilPopFeldkontrolle SELECT * FROM tmp';
+$result3 = mysqli_query($link, $Querystring3);
+
+// neue id mitteilen
 print mysqli_insert_id($link);
-
 
 // Verbindung schliessen
 mysqli_close($link);
