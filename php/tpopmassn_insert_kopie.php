@@ -22,11 +22,11 @@ $user = $_GET["user"];
 $time = date('Y-m-d H:i:s');
 
 // Temporäre Tabelle erstellen mit dem zu kopierenden Datensatz
-$Querystring1 = 'CREATE TEMPORARY TABLE tmp SELECT * FROM tblTeilPopMassnahme WHERE TPopMassnId = '.$TPopMassnId;
+$Querystring1 = 'CREATE TEMPORARY TABLE tmp SELECT * FROM tblTeilPopMassnahme WHERE TPopMassnId = '.mysqli_real_escape_string($link, $TPopMassnId);
 mysqli_query($link, $Querystring1);
 
 // TPopId anpassen
-$Querystring2 = 'UPDATE tmp SET TPopMassnId = NULL, TPopId = '.$TPopId.', MutWann="'.$time.'", MutWer="'.$user.'"';
+$Querystring2 = 'UPDATE tmp SET TPopMassnId = NULL, TPopId = '.mysqli_real_escape_string($link, $TPopId).', MutWann="'.mysqli_real_escape_string($link, $time).'", MutWer="'.mysqli_real_escape_string($link, $user).'"';
 mysqli_query($link, $Querystring2);
 
 // Den Datensatz einfügen

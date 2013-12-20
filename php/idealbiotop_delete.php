@@ -14,7 +14,7 @@ mysqli_set_charset($link, "utf8");
 $id = $_POST["id"];
 settype($id, "integer");
 
-$Querystring = "DELETE FROM tblIdealbiotop WHERE IbApArtId=".$id;
+$Querystring = "DELETE FROM tblIdealbiotop WHERE IbApArtId=".mysqli_real_escape_string($link, $id);
 
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);

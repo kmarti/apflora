@@ -235,27 +235,27 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 
 		//TPop-Ordner setzen
 		//Massnahmen
-		$myId = "tpop_ordner_massn".$TPopId;
+		$myId = "tpop_ordner_massn".mysqli_real_escape_string($link, $TPopId);
 		$tpop_ordner_massn_attr = array("id" => $myId, "typ" => "tpop_ordner_massn");
 		$tpop_ordner_massn = array("data" => "Massnahmen (".$anz_tpopmassn.")", "attr" => $tpop_ordner_massn_attr, "children" => $rows_tpopmassn);
 		//Massnahmen-Berichte
-		$myId = "tpop_ordner_massnber".$TPopId;
+		$myId = "tpop_ordner_massnber".mysqli_real_escape_string($link, $TPopId);
 		$tpop_ordner_massnber_attr = array("id" => $myId, "typ" => "tpop_ordner_massnber");
 		$tpop_ordner_massnber = array("data" => "Massnahmen-Berichte (".$anz_tpopmassnber.")", "attr" => $tpop_ordner_massnber_attr, "children" => $rows_tpopmassnber);
 		//Feldkontrollen
-		$myId = "tpop_ordner_feldkontr".$TPopId;
+		$myId = "tpop_ordner_feldkontr".mysqli_real_escape_string($link, $TPopId);
 		$tpop_ordner_feldkontr_attr = array("id" => $myId, "typ" => "tpop_ordner_feldkontr");
 		$tpop_ordner_feldkontr = array("data" => "Feldkontrollen (".$anz_tpopfeldkontr.")", "attr" => $tpop_ordner_feldkontr_attr, "children" => $rows_tpopfeldkontr);
 		//Freiwilligen-Kontrollen
-		$myId = "tpop_ordner_freiwkontr".$TPopId;
+		$myId = "tpop_ordner_freiwkontr".mysqli_real_escape_string($link, $TPopId);
 		$tpop_ordner_freiwkontr_attr = array("id" => $myId, "typ" => "tpop_ordner_freiwkontr");
 		$tpop_ordner_freiwkontr = array("data" => "Freiwilligen-Kontrollen (".$anz_tpopfreiwkontr.")", "attr" => $tpop_ordner_freiwkontr_attr, "children" => $rows_tpopfreiwkontr);
 		//Teilpopulations-Berichte
-		$myId = "tpop_ordner_tpopber".$TPopId;
+		$myId = "tpop_ordner_tpopber".mysqli_real_escape_string($link, $TPopId);
 		$tpop_ordner_tpopber_attr = array("id" => $myId, "typ" => "tpop_ordner_tpopber");
 		$tpop_ordner_tpopber = array("data" => "Teilpopulations-Berichte (".$anz_tpopber.")", "attr" => $tpop_ordner_tpopber_attr, "children" => $rows_tpopber);
 		//Beobachtungen
-		$myId = "tpop_ordner_beob_zugeordnet".$TPopId;
+		$myId = "tpop_ordner_beob_zugeordnet".mysqli_real_escape_string($link, $TPopId);
 		$tpop_ordner_beob_zugeordnet_attr = array("id" => $myId, "typ" => "tpop_ordner_beob_zugeordnet");
 		$tpop_ordner_beob_zugeordnet = array("data" => "Beobachtungen (".$anz_beob_zugeordnet.")", "attr" => $tpop_ordner_beob_zugeordnet_attr, "children" => $rows_beob_zugeordnet);
 		//zusammensetzen
@@ -649,7 +649,14 @@ $ap_ordner_ber = array("data" => "Berichte (".$anz_ber.")", "attr" => $ap_ordner
 //Beobachtungen
 $meineId = "ap_ordner_beob_nicht_beurteilt".$ApArtId;
 $ap_ordner_beob_attr = array("id" => $meineId, "typ" => "ap_ordner_beob_nicht_beurteilt");
-$ap_ordner_beob_nicht_beurteilt = array("data" => "nicht beurteilte Beobachtungen (".$anz_beob_nicht_beurteilt.")", "attr" => $ap_ordner_beob_attr, "children" => $rows_beob_nicht_beurteilt);
+// In den nicht zugeordneten Beobachtungen von Epipactis palustris müssen Zeichen stecken, welche zum Absturz von apflora führen
+// provisorischer Workaround: bei epipactis gar nicht anzeigen
+// TODO: Zeichen beim laden filtern
+if ($ApArtId<>150300) {
+	$ap_ordner_beob_nicht_beurteilt = array("data" => "nicht beurteilte Beobachtungen (".$anz_beob_nicht_beurteilt.")", "attr" => $ap_ordner_beob_attr, "children" => $rows_beob_nicht_beurteilt);
+} else {
+	$ap_ordner_beob_nicht_beurteilt = array("data" => "nicht beurteilte Beobachtungen (".$anz_beob_nicht_beurteilt.") NICHT aufgelistet, weil die Daten korrupt sind", "attr" => $ap_ordner_beob_attr);
+}
 //Beobachtungen nicht zuzuordnen
 $meineId = "ap_ordner_beob_nicht_zuzuordnen".$ApArtId;
 $ap_ordner_beob_nicht_zuzuordnen_attr = array("id" => $meineId, "typ" => "ap_ordner_beob_nicht_zuzuordnen");

@@ -15,7 +15,7 @@ $ZielId = $_GET["id"];
 settype($ZielId, "integer");
 
 // SQL-Anfrage ausführen
-$result = mysqli_query($link, "SELECT * FROM tblZiel WHERE ZielId=".$ZielId);
+$result = mysqli_query($link, "SELECT * FROM tblZiel WHERE ZielId=".mysqli_real_escape_string($link, $ZielId));
 
 $row = mysqli_fetch_assoc($result);
 

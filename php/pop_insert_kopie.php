@@ -1,5 +1,6 @@
 <?php
 // Verbindung aufbauen, Datenbank auswählen
+// wird offenbar momentan nicht verwendet
 
 $link = new mysqli("localhost", "alexande", "y3oYksFsQL49es9x", "alexande_apflora");
 
@@ -21,7 +22,7 @@ $time = date('Y-m-d H:i:s');
 $Feldliste = implode(",", array_keys($Felderarray));
 $Wertliste = "'".implode("','", array_values($Felderarray))."'";
 
-$Querystring = 'INSERT INTO tblPopulation ('.$Feldliste.',MutWann) VALUES ('.$Wertliste.',"'.$time.'")';
+$Querystring = 'INSERT INTO tblPopulation ('.$Feldliste.',MutWann) VALUES ('.$Wertliste.',"'.mysqli_real_escape_string($link, $time).'")';
 
 //SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);

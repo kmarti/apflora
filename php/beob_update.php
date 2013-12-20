@@ -19,16 +19,16 @@ $time = date('Y-m-d H:i:s');
 
 if ($Wert == NULL) {
 	//Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
-	$Querystring = 'UPDATE tblBeobZuordnung SET '.$Feld.'= NULL, BeobMutWann="'.$time.'", BeobMutWer="'.$user.'" WHERE NO_NOTE = "'.$id.'"';
+	$Querystring = 'UPDATE tblBeobZuordnung SET '.mysqli_real_escape_string($link, $Feld).'= NULL, BeobMutWann="'.mysqli_real_escape_string($link, $time).'", BeobMutWer="'.mysqli_real_escape_string($link, $user).'" WHERE NO_NOTE = "'.mysqli_real_escape_string($link, $id).'"';
 } else {
-	$Querystring = 'UPDATE tblBeobZuordnung SET '.$Feld.'="'.$Wert.'", BeobMutWann="'.$time.'", BeobMutWer="'.$user.'" WHERE NO_NOTE = "'.$id.'"';
+	$Querystring = 'UPDATE tblBeobZuordnung SET '.mysqli_real_escape_string($link, $Feld).'="'.mysqli_real_escape_string($link, $Wert).'", BeobMutWann="'.mysqli_real_escape_string($link, $time).'", BeobMutWer="'.mysqli_real_escape_string($link, $user).'" WHERE NO_NOTE = "'.mysqli_real_escape_string($link, $id).'"';
 }
 
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);
 
 if (!$result) {
-	print "Fehler: Wert ".$Wert." konnte nicht im Feld ".$Feld." gespeichert werden";
+	print "Fehler: Wert ".mysqli_real_escape_string($link, $Wert)." konnte nicht im Feld ".mysqli_real_escape_string($link, $Feld)." gespeichert werden";
 }
 
 // Verbindung schliessen

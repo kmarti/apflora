@@ -13,7 +13,7 @@ if ($link->connect_errno) {
 mysqli_set_charset($link, "utf8");
 
 //ist ap_arten true, sollen nur ap_arten angezeigt werden
-$programm = $_GET["programm"];
+$programm = mysqli_real_escape_string($link, $_GET["programm"]);
 
 // SQL-Anfrage ausführen
 if ($programm == "programm_ap") {

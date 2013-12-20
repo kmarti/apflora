@@ -14,22 +14,11 @@ mysqli_set_charset($link, "utf8");
 //in diesem Array sammeln wir alle upzudatenden Felder
 $Felderarray = $_POST;
 
-//zeit muss umgewandelt werden!
-/*foreach ($_POST as $key => $value) {
-	if ($key == "JBerDatum") {
-		if ($value) {
-			$value = date("Y-m-d H:i:s", strtotime($value));
-		} else {
-			$value = NULL;
-		}
-	}
-}*/
-
 $Keystring = implode(',', array_keys($_POST));
 $Valuestring = implode('","', array_values($_POST));
 
 //jetzt den Querystring aufbauen
-$Querystring = 'INSERT INTO tblAktionsplan ('.$Keystring.') VALUES ("'.$Valuestring.'")';
+$Querystring = 'INSERT INTO tblAktionsplan ('.mysqli_real_escape_string($link, $Keystring).') VALUES ("'.mysqli_real_escape_string($link, $Valuestring).'")';
 
 //SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);

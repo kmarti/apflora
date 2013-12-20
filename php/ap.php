@@ -15,7 +15,7 @@ $ApArtId = $_GET["id"];
 settype($id, "integer");
 
 // SQL-Anfrage ausführen
-$result = mysqli_query($link, "SELECT * FROM tblAktionsplan WHERE ApArtId = $ApArtId");
+$result = mysqli_query($link, "SELECT * FROM tblAktionsplan WHERE ApArtId = ".mysqli_real_escape_string($link, $ApArtId));
 
 $row = mysqli_fetch_assoc($result);
 

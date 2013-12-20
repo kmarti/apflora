@@ -31,7 +31,7 @@ foreach ($Felderarray as $key => $value) {
 }
 
 //jetzt den Querystring aufbauen
-$Querystring = 'UPDATE tblTeilPopFeldkontrolle SET MutWann="'.$time.'", MutWer="'.$user.'"';
+$Querystring = 'UPDATE tblTeilPopFeldkontrolle SET MutWann="'.mysqli_real_escape_string($link, $time).'", MutWer="'.mysqli_real_escape_string($link, $user).'"';
 
 //jetzt Querystring entwickeln
 foreach ($Felderarray as $key => $value) {
@@ -43,7 +43,7 @@ foreach ($Felderarray as $key => $value) {
 	}
 }
 //MutWann, MutWer und Where ergänzen
-$Querystring .= ' WHERE TPopKontrId='.$id;
+$Querystring .= ' WHERE TPopKontrId='.mysqli_real_escape_string($link, $id);
 
 //SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);

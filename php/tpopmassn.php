@@ -15,7 +15,7 @@ $id = $_GET["id"];
 settype($id, "integer");
 
 // SQL-Anfrage ausführen
-$result = mysqli_query($link, "SELECT * FROM tblTeilPopMassnahme WHERE TPopMassnId=".$id);
+$result = mysqli_query($link, "SELECT * FROM tblTeilPopMassnahme WHERE TPopMassnId=".mysqli_real_escape_string($link, $id));
 
 $row = mysqli_fetch_assoc($result);
 $TPopMassnDatum = $row["TPopMassnDatum"];

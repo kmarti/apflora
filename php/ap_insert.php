@@ -17,15 +17,15 @@ settype($id, "integer");
 $user = $_POST["user"];
 $time = date('Y-m-d H:i:s');
 
-$Querystring = 'INSERT INTO tblAktionsplan (ApArtId, MutWann, MutWer) VALUES ('.$id.', "'.$time.'", "'.$user.'")';
+$Querystring = 'INSERT INTO tblAktionsplan (ApArtId, MutWann, MutWer) VALUES ('.mysqli_real_escape_string($link, $id).', "'.mysqli_real_escape_string($link, $time).'", "'.mysqli_real_escape_string($link, $user).'")';
 $result = mysqli_query($link, $Querystring);
 
-$Querystring2 = 'SELECT Artwert FROM alexande_beob.ArtenDb_Arteigenschaften WHERE TaxonomieId='.$id;
+$Querystring2 = 'SELECT Artwert FROM alexande_beob.ArtenDb_Arteigenschaften WHERE TaxonomieId='.mysqli_real_escape_string($link, $id);
 $result2 = mysqli_query($link, $Querystring2);
 $row = mysqli_fetch_assoc($result2);
 $Artwert = $row["AwArtwert"];
 
-$Querystring3 = 'UPDATE tblAktionsplan SET ApArtwert="'.$Artwert.'" WHERE ApArtId = '.$id;
+$Querystring3 = 'UPDATE tblAktionsplan SET ApArtwert="'.mysqli_real_escape_string($link, $Artwert).'" WHERE ApArtId = '.mysqli_real_escape_string($link, $id);
 $result3 = mysqli_query($link, $Querystring3);
 
 

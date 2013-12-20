@@ -15,7 +15,7 @@ $Username = $_GET["Name"];
 $Passwort = $_GET["pwd"];
 
 // SQL-Anfrage ausführen
-$Querystring = 'SELECT * FROM tblUser WHERE UserName = "'.$Username.'" AND Passwort = "'.$Passwort.'"';
+$Querystring = 'SELECT * FROM tblUser WHERE UserName = "'.mysqli_real_escape_string($link, $Username).'" AND Passwort = "'.mysqli_real_escape_string($link, $Passwort).'"';
 $result = mysqli_query($link, $Querystring);
 $row = mysqli_fetch_assoc($result);
 $NurLesen = $row["NurLesen"];

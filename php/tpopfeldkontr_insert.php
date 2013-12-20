@@ -19,9 +19,9 @@ $TPopKontrTyp = $_POST["TPopKontrTyp"];
 
 if ($TPopKontrTyp) {
 	//das ist eine Freiwilligen-Erfolgskontrolle
-	$Querystring = 'INSERT INTO tblTeilPopFeldkontrolle (TPopId, TPopKontrTyp, MutWann, MutWer) VALUES ('.$id.', "'.$TPopKontrTyp.'", "'.$time.'", "'.$user.'")';	//muss die neue TPopKontrId erhalten!
+	$Querystring = 'INSERT INTO tblTeilPopFeldkontrolle (TPopId, TPopKontrTyp, MutWann, MutWer) VALUES ('.mysqli_real_escape_string($link, $id).', "'.mysqli_real_escape_string($link, $TPopKontrTyp).'", "'.mysqli_real_escape_string($link, $time).'", "'.mysqli_real_escape_string($link, $user).'")';	//muss die neue TPopKontrId erhalten!
 } else {
-	$Querystring = 'INSERT INTO tblTeilPopFeldkontrolle (TPopId, MutWann, MutWer) VALUES ('.$id.', "'.$time.'", "'.$user.'")';	//muss die neue TPopKontrId erhalten!
+	$Querystring = 'INSERT INTO tblTeilPopFeldkontrolle (TPopId, MutWann, MutWer) VALUES ('.mysqli_real_escape_string($link, $id).', "'.mysqli_real_escape_string($link, $time).'", "'.mysqli_real_escape_string($link, $user).'")';	//muss die neue TPopKontrId erhalten!
 }
 
 //SQL-Anfrage ausführen

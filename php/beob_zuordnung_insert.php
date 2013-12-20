@@ -16,7 +16,7 @@ $user = $_POST["user"];
 $time = date('Y-m-d H:i:s');
 
 
-$Querystring = 'INSERT INTO tblBeobZuordnung (NO_NOTE, BeobMutWann, BeobMutWer) VALUES ("'.$no_note.'", "'.$time.'", "'.$user.'")';
+$Querystring = 'INSERT INTO tblBeobZuordnung (NO_NOTE, BeobMutWann, BeobMutWer) VALUES ("'.mysqli_real_escape_string($link, $no_note).'", "'.mysqli_real_escape_string($link, $time).'", "'.mysqli_real_escape_string($link, $user).'")';
 
 
 $result = mysqli_query($link, $Querystring);

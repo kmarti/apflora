@@ -9348,6 +9348,7 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 	});
 }
 
+// wird offenbar momentan nicht verwendet
 function pop_kopiert_in_pop_einfuegen(aktiver_node, parent_node) {
 	var dataUrl;
 	//nur aktualisieren, wenn Schreibrechte bestehen

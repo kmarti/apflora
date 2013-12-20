@@ -20,9 +20,9 @@ $time = date('Y-m-d H:i:s');
 
 if ($Wert == NULL) {
 	//Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
-	$Querystring = 'UPDATE tblPopBericht SET '.$Feld.'= NULL, MutWann="'.$time.'", MutWer="'.$user.'" WHERE PopBerId = '.$id;
+	$Querystring = 'UPDATE tblPopBericht SET '.mysqli_real_escape_string($link, $Feld).'= NULL, MutWann="'.mysqli_real_escape_string($link, $time).'", MutWer="'.mysqli_real_escape_string($link, $user).'" WHERE PopBerId = '.mysqli_real_escape_string($link, $id);
 } else {
-	$Querystring = 'UPDATE tblPopBericht SET '.$Feld.'="'.$Wert.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE PopBerId = '.$id;
+	$Querystring = 'UPDATE tblPopBericht SET '.mysqli_real_escape_string($link, $Feld).'="'.mysqli_real_escape_string($link, $Wert).'", MutWann="'.mysqli_real_escape_string($link, $time).'", MutWer="'.mysqli_real_escape_string($link, $user).'" WHERE PopBerId = '.mysqli_real_escape_string($link, $id);
 }
 
 
@@ -30,7 +30,7 @@ if ($Wert == NULL) {
 $result = mysqli_query($link, $Querystring);
 
 if (!$result) {
-	print "Fehler: Wert ".$Wert." konnte nicht im Feld ".$Feld." gespeichert werden";
+	print "Fehler: Wert ".mysqli_real_escape_string($link, $Wert)." konnte nicht im Feld ".mysqli_real_escape_string($link, $Feld)." gespeichert werden";
 }
 
 // Verbindung schliessen

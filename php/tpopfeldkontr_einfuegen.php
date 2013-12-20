@@ -18,7 +18,7 @@ settype($TPopKontrId, "integer");
 $user = $_POST["user"];
 $time = date('Y-m-d H:i:s');
 
-$Querystring = 'UPDATE tblTeilPopFeldkontrolle SET TPopId="'.$TPopId.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopKontrId='.$TPopKontrId;
+$Querystring = 'UPDATE tblTeilPopFeldkontrolle SET TPopId="'.mysqli_real_escape_string($link, $TPopId).'", MutWann="'.mysqli_real_escape_string($link, $time).'", MutWer="'.mysqli_real_escape_string($link, $user).'" WHERE TPopKontrId='.mysqli_real_escape_string($link, $TPopKontrId);
 
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);

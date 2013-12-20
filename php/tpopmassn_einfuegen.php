@@ -18,7 +18,7 @@ settype($TPopMassnId, "integer");
 $user = $_POST["user"];
 $time = date('Y-m-d H:i:s');
 
-$Querystring = 'UPDATE tblTeilPopMassnahme SET TPopId="'.$TPopId.'", MutWann="'.$time.'", MutWer="'.$user.'" WHERE TPopMassnId='.$TPopMassnId;
+$Querystring = 'UPDATE tblTeilPopMassnahme SET TPopId="'.mysqli_real_escape_string($link, $TPopId).'", MutWann="'.mysqli_real_escape_string($link, $time).'", MutWer="'.mysqli_real_escape_string($link, $user).'" WHERE TPopMassnId='.mysqli_real_escape_string($link, $TPopMassnId);
 
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);
