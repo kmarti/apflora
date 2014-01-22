@@ -14,7 +14,7 @@ mysqli_set_charset($link, "utf8");
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, 'SELECT DomainCode, DomainTxt FROM DomainTPopKontrIdBiotUebereinst ORDER BY DomainOrd');
 
-//benötigte Datenstruktur aufbauen
+// benötigte Datenstruktur aufbauen
 $rows = array();
 while($r = mysqli_fetch_assoc($result)) {
 	$Label = $r['DomainCode'];
@@ -22,7 +22,6 @@ while($r = mysqli_fetch_assoc($result)) {
     $rows[] = $row;
 }
 
-//in json verwandeln
 $rows = json_encode($rows);
 $Object = "{\"rows\": $rows}";
 

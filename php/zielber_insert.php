@@ -16,9 +16,10 @@ settype($id, "integer");
 $user = $_POST["user"];
 $time = date('Y-m-d H:i:s');
 
-$Querystring = 'INSERT INTO tblZielBericht (ZielId, MutWann, MutWer) VALUES ('.mysqli_real_escape_string($link, $id).', "'.mysqli_real_escape_string($link, $time).'", "'.mysqli_real_escape_string($link, $user).'")';	//muss die neue PopId erhalten!
+// muss die neue PopId erhalten!
+$Querystring = 'INSERT INTO tblZielBericht (ZielId, MutWann, MutWer) VALUES ('.mysqli_real_escape_string($link, $id).', "'.mysqli_real_escape_string($link, $time).'", "'.mysqli_real_escape_string($link, $user).'")';
 
-//SQL-Anfrage ausführen
+// SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);
 
 print mysqli_insert_id($link);

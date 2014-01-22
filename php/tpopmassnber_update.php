@@ -19,7 +19,7 @@ $user = $_POST["user"];
 $time = date('Y-m-d H:i:s');
 
 if ($Wert == NULL) {
-	//Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
+	// Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
 	$Querystring = 'UPDATE tblTeilPopMassnBericht SET '.mysqli_real_escape_string($link, $Feld).'= NULL, MutWann="'.mysqli_real_escape_string($link, $time).'", MutWer="'.mysqli_real_escape_string($link, $user).'" WHERE TPopMassnBerId = '.mysqli_real_escape_string($link, $id);
 } else {
 	$Querystring = 'UPDATE tblTeilPopMassnBericht SET '.mysqli_real_escape_string($link, $Feld).'="'.mysqli_real_escape_string($link, $Wert).'", MutWann="'.mysqli_real_escape_string($link, $time).'", MutWer="'.mysqli_real_escape_string($link, $user).'" WHERE TPopMassnBerId = '.mysqli_real_escape_string($link, $id);

@@ -19,7 +19,7 @@ $result = mysqli_query($link, "SELECT * FROM tblZiel WHERE ZielId=".mysqli_real_
 
 $row = mysqli_fetch_assoc($result);
 
-//in json verwandeln
+// in json verwandeln
 $return = json_encode($row);
 
 print($return);

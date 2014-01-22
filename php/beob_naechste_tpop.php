@@ -21,7 +21,7 @@ settype($ApArtId, "integer");
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, 'SELECT TPopId, TPopFlurname, SQRT(('.mysqli_real_escape_string($link, $X).'-TPopXKoord)*('.mysqli_real_escape_string($link, $X).'-TPopXKoord)+('.mysqli_real_escape_string($link, $Y).'-TPopYKoord)*('.mysqli_real_escape_string($link, $Y).'-TPopYKoord)) AS DistZuTPop FROM tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId WHERE ApArtId = '.mysqli_real_escape_string($link, $ApArtId).' AND TPopXKoord IS NOT NULL AND TPopYKoord IS NOT NULL ORDER BY DistzuTPop LIMIT 1');
 
-//benötigte Datenstruktur aufbauen
+// benötigte Datenstruktur aufbauen
 $rows = array();
 while($r = mysqli_fetch_assoc($result)) {
     $rows[] = $r;
@@ -29,7 +29,6 @@ while($r = mysqli_fetch_assoc($result)) {
 
 //$row = mysqli_fetch_assoc($result)
 
-//in json verwandeln
 $return = json_encode($rows);
 
 print($return);

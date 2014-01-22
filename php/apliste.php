@@ -12,7 +12,7 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
-//ist ap_arten true, sollen nur ap_arten angezeigt werden
+// ist ap_arten true, sollen nur ap_arten angezeigt werden
 $programm = mysqli_real_escape_string($link, $_GET["programm"]);
 
 // SQL-Anfrage ausführen
@@ -48,7 +48,7 @@ if ($programm == "programm_ap") {
 	}
 }
 
-//in json verwandeln
+// in json verwandeln
 $rows = json_encode($rows);
 $Object = "{\"rows\": $rows}";
 

@@ -11,16 +11,16 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
-//in diesem Array sammeln wir alle upzudatenden Felder
+// in diesem Array sammeln wir alle upzudatenden Felder
 $Felderarray = $_POST;
 
 $Keystring = implode(',', array_keys($_POST));
 $Valuestring = implode('","', array_values($_POST));
 
-//jetzt den Querystring aufbauen
+// jetzt den Querystring aufbauen
 $Querystring = 'INSERT INTO tblPopulation ('.$Keystring.') VALUES ("'.$Valuestring.'")';
 
-//SQL-Anfrage ausführen
+// SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);
 
 print($result);

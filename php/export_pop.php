@@ -11,7 +11,7 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
-//manchmal wird eine kommagetrennte Liste von PopId's übergebeben
+// manchmal wird eine kommagetrennte Liste von PopId's übergebeben
 $pop_id_liste = $_GET["pop_id_liste"];
 
 $view = 'vPop'; // view you want to export
@@ -35,8 +35,8 @@ if ($pop_id_liste) {
 }
  
 while ($rowr = mysqli_fetch_row($values)) {
-	//In den Daten sind Zeilenumbrüche und Hochzeichen
-	//sie müssen entfernt werden, sonst bricht die Tabelle auch daran um
+	// In den Daten sind Zeilenumbrüche und Hochzeichen
+	// sie müssen entfernt werden, sonst bricht die Tabelle auch daran um
 	$Ersetzungen = array("\r\n", "\r", "\n");
 	for ($j=0;$j<$i;$j++) {
 		$rowr[$j] = str_replace($Ersetzungen, ' ', $rowr[$j]);

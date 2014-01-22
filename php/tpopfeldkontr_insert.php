@@ -18,16 +18,18 @@ $time = date('Y-m-d H:i:s');
 $TPopKontrTyp = $_POST["TPopKontrTyp"];
 
 if ($TPopKontrTyp) {
-	//das ist eine Freiwilligen-Erfolgskontrolle
-	$Querystring = 'INSERT INTO tblTeilPopFeldkontrolle (TPopId, TPopKontrTyp, MutWann, MutWer) VALUES ('.mysqli_real_escape_string($link, $id).', "'.mysqli_real_escape_string($link, $TPopKontrTyp).'", "'.mysqli_real_escape_string($link, $time).'", "'.mysqli_real_escape_string($link, $user).'")';	//muss die neue TPopKontrId erhalten!
+	// das ist eine Freiwilligen-Erfolgskontrolle
+	// muss die neue TPopKontrId erhalten!
+	$Querystring = 'INSERT INTO tblTeilPopFeldkontrolle (TPopId, TPopKontrTyp, MutWann, MutWer) VALUES ('.mysqli_real_escape_string($link, $id).', "'.mysqli_real_escape_string($link, $TPopKontrTyp).'", "'.mysqli_real_escape_string($link, $time).'", "'.mysqli_real_escape_string($link, $user).'")';
 } else {
-	$Querystring = 'INSERT INTO tblTeilPopFeldkontrolle (TPopId, MutWann, MutWer) VALUES ('.mysqli_real_escape_string($link, $id).', "'.mysqli_real_escape_string($link, $time).'", "'.mysqli_real_escape_string($link, $user).'")';	//muss die neue TPopKontrId erhalten!
+	// muss die neue TPopKontrId erhalten!
+	$Querystring = 'INSERT INTO tblTeilPopFeldkontrolle (TPopId, MutWann, MutWer) VALUES ('.mysqli_real_escape_string($link, $id).', "'.mysqli_real_escape_string($link, $time).'", "'.mysqli_real_escape_string($link, $user).'")';
 }
 
-//SQL-Anfrage ausführen
+// SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);
 
-//neue id mitteilen
+// neue id mitteilen
 print mysqli_insert_id($link);
 
 

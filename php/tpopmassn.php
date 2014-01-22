@@ -19,13 +19,12 @@ $result = mysqli_query($link, "SELECT * FROM tblTeilPopMassnahme WHERE TPopMassn
 
 $row = mysqli_fetch_assoc($result);
 $TPopMassnDatum = $row["TPopMassnDatum"];
-//leerwerte nicht antasten - werden sonst zu 1.1.1970
+// leerwerte nicht antasten - werden sonst zu 1.1.1970
 if ($TPopMassnDatum) {
 	$TPopMassnDatumFormatiert = date("d.m.Y", strtotime($TPopMassnDatum));
 	$row["TPopMassnDatum"] = $TPopMassnDatumFormatiert;
 }
 
-//in json verwandeln
 $return = json_encode($row);
 
 print($return);

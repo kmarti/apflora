@@ -14,7 +14,7 @@ mysqli_set_charset($link, "utf8");
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, "SELECT MassnTypCode, MassnTypTxt FROM DomainTPopMassnTyp ORDER BY MassnTypOrd");
 
-//benötigte Datenstruktur aufbauen
+// benötigte Datenstruktur aufbauen
 $rows = array();
 while($r = mysqli_fetch_assoc($result)) {
 	$MassnTypCode = $r['MassnTypCode'];
@@ -23,7 +23,6 @@ while($r = mysqli_fetch_assoc($result)) {
     $rows[] = $row;
 }
 
-//in json verwandeln
 $rows = json_encode($rows);
 $Object = "{\"rows\": $rows}";
 

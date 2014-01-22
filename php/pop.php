@@ -19,7 +19,6 @@ $result = mysqli_query($link, "SELECT * FROM tblPopulation WHERE PopId = $PopId"
 
 $row = mysqli_fetch_assoc($result);
 
-//in json verwandeln
 $return = json_encode($row);
 
 print($return);

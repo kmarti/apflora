@@ -18,7 +18,7 @@ $Wert = $_POST["Wert"];
 $user = $_POST["user"];
 $time = date('Y-m-d H:i:s');
 
-//zeit muss umgewandelt werden!
+// zeit muss umgewandelt werden!
 if ($Feld == "TPopKontrDatum") {
 	if ($Wert || $Wert == 0) {
 		$Wert = date("Y-m-d H:i:s", strtotime($Wert));
@@ -30,13 +30,13 @@ if ($Feld == "TPopKontrDatum") {
 /*if ($Wert || $Wert == 0) {
 	$Querystring = 'UPDATE tblTeilPopFeldkontrolle SET '.mysqli_real_escape_string($link, $Feld).'="'.mysqli_real_escape_string($link, $Wert).'", MutWann="'.mysqli_real_escape_string($link, $time).'", MutWer="'.mysqli_real_escape_string($link, $user).'" WHERE TPopKontrId = '.mysqli_real_escape_string($link, $id);
 } else {
-	//Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
+	// Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
 	//$Querystring = 'UPDATE tblTeilPopFeldkontrolle SET '.mysqli_real_escape_string($link, $Feld).'= NULL, MutWann="'.mysqli_real_escape_string($link, $time).'", MutWer="'.mysqli_real_escape_string($link, $user).'" WHERE TPopKontrId = '.mysqli_real_escape_string($link, $id);
 	$Querystring = 'UPDATE tblTeilPopFeldkontrolle SET '.mysqli_real_escape_string($link, $Feld).'=9999, MutWann="'.mysqli_real_escape_string($link, $time).'", MutWer="'.mysqli_real_escape_string($link, $user).'" WHERE TPopKontrId = '.mysqli_real_escape_string($link, $id);
 }*/
 
 if ($Wert == NULL) {
-	//Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
+	// Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
 	$Querystring = 'UPDATE tblTeilPopFeldkontrolle SET '.mysqli_real_escape_string($link, $Feld).'= NULL, MutWann="'.mysqli_real_escape_string($link, $time).'", MutWer="'.mysqli_real_escape_string($link, $user).'" WHERE TPopKontrId = '.mysqli_real_escape_string($link, $id);
 } else {
 	$Querystring = 'UPDATE tblTeilPopFeldkontrolle SET '.mysqli_real_escape_string($link, $Feld).'="'.mysqli_real_escape_string($link, $Wert).'", MutWann="'.mysqli_real_escape_string($link, $time).'", MutWer="'.mysqli_real_escape_string($link, $user).'" WHERE TPopKontrId = '.mysqli_real_escape_string($link, $id);

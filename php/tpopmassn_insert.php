@@ -16,12 +16,13 @@ settype($id, "integer");
 $user = $_POST["user"];
 $time = date('Y-m-d H:i:s');
 
-$Querystring = 'INSERT INTO tblTeilPopMassnahme (TPopId, MutWann, MutWer) VALUES ('.mysqli_real_escape_string($link, $id).', "'.mysqli_real_escape_string($link, $time).'", "'.mysqli_real_escape_string($link, $user).'")';	//muss die neue TPopKontrId erhalten!
+// muss die neue TPopKontrId erhalten!
+$Querystring = 'INSERT INTO tblTeilPopMassnahme (TPopId, MutWann, MutWer) VALUES ('.mysqli_real_escape_string($link, $id).', "'.mysqli_real_escape_string($link, $time).'", "'.mysqli_real_escape_string($link, $user).'")';
 
-//SQL-Anfrage ausführen
+// SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);
 
-//neue id mitteilen
+// neue id mitteilen
 print mysqli_insert_id($link);
 
 

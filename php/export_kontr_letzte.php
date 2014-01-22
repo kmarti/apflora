@@ -1,5 +1,5 @@
 <?php
-//wird nicht mehr benötigt, weil eine andere diese Info mit enhält (vTPopAnzKontrInklLetzteKontr)
+// wird nicht mehr benötigt, weil eine andere diese Info mit enhält (vTPopAnzKontrInklLetzteKontr)
 
 // Verbindung aufbauen, Datenbank auswählen
 $link = new mysqli("localhost", "alexande", "y3oYksFsQL49es9x", "alexande_apflora_views");
@@ -27,8 +27,8 @@ $csv_output .= "\n";
 $values = mysqli_query($link, "SELECT * FROM ".$view."");
  
 while ($rowr = mysqli_fetch_row($values)) {
-	//In den Daten sind Zeilenumbrüche und Hochzeichen
-	//sie müssen entfernt werden, sonst bricht die Tabelle auch daran um
+	// In den Daten sind Zeilenumbrüche und Hochzeichen
+	// sie müssen entfernt werden, sonst bricht die Tabelle auch daran um
 	$Ersetzungen = array("\r\n", "\r", "\n");
 	for ($j=0;$j<$i;$j++) {
 		$rowr[$j] = str_replace($Ersetzungen, ' ', $rowr[$j]);

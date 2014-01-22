@@ -19,12 +19,11 @@ $result = mysqli_query($link, "SELECT * FROM tblIdealbiotop WHERE IbApArtId=".my
 
 $row = mysqli_fetch_assoc($result);
 $IbErstelldatum = $row["IbErstelldatum"];
-//leerwerte nicht antasten - werden sonst zu 1.1.1970
+// leerwerte nicht antasten - werden sonst zu 1.1.1970
 if ($IbErstelldatum) {
 	$row["IbErstelldatum"] = date("d.m.Y", strtotime($IbErstelldatum));
 }
 
-//in json verwandeln
 $return = json_encode($row);
 
 print($return);

@@ -1,12 +1,13 @@
 function initiiere_index() {
-	//Versuch, damit $.ajax auch in IE funktioniert
-	//jQuery hängt an jede Anfrage ein &_= und Zufahlszahl
-	//$.ajaxSetup({cache:false})	//	AUSGESCHALTET, WEIL TPOPFELDKONTR_UPDATE_MULTIPLE.PHP NICHT MEHR FUNKTIONIERTE (UND MEHR?)
+	// Versuch, damit $.ajax auch in IE funktioniert
+	// jQuery hängt an jede Anfrage ein &_= und Zufahlszahl
+	// AUSGESCHALTET, WEIL TPOPFELDKONTR_UPDATE_MULTIPLE.PHP NICHT MEHR FUNKTIONIERTE (UND MEHR?)
+	//$.ajaxSetup({cache:false})
 
-	//jQuery ui widgets initiieren
+	// jQuery ui widgets initiieren
 	$("#programm_wahl").buttonset({
 		create: function() {
-			//erst jetzt einblenden, weil sonst die normalen checkboxen aufblitzen
+			// erst jetzt einblenden, weil sonst die normalen checkboxen aufblitzen
 			$("#programm_wahl").show();
 		}
 	});
@@ -14,14 +15,14 @@ function initiiere_index() {
 	$("button").button();
 	$("#tpopfeldkontr_tabs").tabs();
 
-	//tooltip: Klasse zuweisen, damit gestylt werden kann
+	// tooltip: Klasse zuweisen, damit gestylt werden kann
 	//$("#label_karteSchieben, #label_distanzMessen, #label_flaecheMessen, #label_mitPolygonWaehlen").tooltip({tooltipClass: "tooltip-styling-nur-text"});
 	$("#label_karteSchieben, #label_distanzMessen, #label_flaecheMessen, #label_mitPolygonWaehlen").tooltip({tooltipClass: "tooltip-styling-hinterlegt"});
 
-	//Gemeindeliste erstellen (wenn nötig)
+	// Gemeindeliste erstellen (wenn nötig)
 	erstelleGemeindeliste();
 
-	//Datumsfelder: Widget initiieren
+	// Datumsfelder: Widget initiieren
 	var Monate = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
 	var wochentageKurz = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
 	var wochentageLang = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
@@ -29,38 +30,39 @@ function initiiere_index() {
 	$("#TPopMassnDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopMassnJahr", altFormat: "yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: Monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
 	$("#JBerDatum, #IbErstelldatum").datepicker({ dateFormat: "dd.mm.yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: Monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
 
-	//Variabeln setzen für Formular Feldkontrollen, hier damit nur ein mal
+	// Variabeln setzen für Formular Feldkontrollen, hier damit nur ein mal
 	window.feldliste_feldkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrTyp', 'TPopKontrJungpfl', 'TPopKontrVitalitaet', 'TPopKontrUeberleb', 'TPopKontrEntwicklung', 'TPopKontrUrsach', 'TPopKontrUrteil', 'TPopKontrAendUms', 'TPopKontrAendKontr', 'TPopKontrGuid', 'TPopKontrFlaeche', 'TPopKontrVegTyp', 'TPopKontrKonkurrenz', 'TPopKontrMoosschicht', 'TPopKontrKrautschicht', 'TPopKontrStrauchschicht', 'TPopKontrBaumschicht', 'TPopKontrBodenTyp', 'TPopKontrBodenKalkgehalt', 'TPopKontrBodenDurchlaessigkeit', 'TPopKontrBodenHumus', 'TPopKontrBodenNaehrstoffgehalt', 'TPopKontrBodenAbtrag', 'TPopKontrWasserhaushalt', 'TPopKontrHandlungsbedarf', 'TPopKontrIdealBiotopUebereinst', 'TPopKontrLeb', 'TPopKontrLebUmg'];
 	window.feldliste_freiwkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrPlan', 'TPopKontrUebFlaeche', 'TPopKontrUebPfl', 'TPopKontrNaBo', 'TPopKontrJungPflJN', 'TPopKontrVegHoeMax', 'TPopKontrVegHoeMit', 'TPopKontrGefaehrdung', 'TPopKontrGuid'];
 
-	//Auswahllisten aufbauen
+	// Auswahllisten aufbauen
 	$("#ap_loeschen").hide();
 	erstelle_ApArtId_liste();
 
-	//HIER WIRD IN FIREFOX EINE ENDLOSSCHLAUFE AUSGELÖST
+	// HIER WIRD IN FIREFOX EINE ENDLOSSCHLAUFE AUSGELÖST
 	$.when(waehle_ap_liste("programm_alle"))
 		.then(function() {
-			//falls eine Unteradresse angewählt wurde, diese öffnen
+			// falls eine Unteradresse angewählt wurde, diese öffnen
 			oeffneUri();
 		});
 }
 
 function initiiere_ap() {
 	if (!localStorage.ap_id) {
-		//es fehlen benötigte Daten > zurück zum Anfang
-		//LIEGT HIER DER WURM BEGRABEN?
-		//initiiere_index();  //ACHTUNG, DIESE ZEILE VERURSACHTE STARTABSTÜRZE IN FIREFOX UND ZT OFFENBAR AUCH IN CHROME, DA REKURSIV IMMER WIEDER INITIIERE_INDEX AUFGERUFEN WURDE
+		// es fehlen benötigte Daten > zurück zum Anfang
+		// LIEGT HIER DER WURM BEGRABEN?
+		// ACHTUNG, DIESE ZEILE VERURSACHTE STARTABSTÜRZE IN FIREFOX UND ZT OFFENBAR AUCH IN CHROME, DA REKURSIV IMMER WIEDER INITIIERE_INDEX AUFGERUFEN WURDE
+		//initiiere_index();
 		//history.replaceState({ap: "keinap"}, "keinap", "index.html");
 		return;
 	}
-	//Programm-Wahl konfigurieren
+	// Programm-Wahl konfigurieren
 	var programm_wahl;
 	programm_wahl = $("[name='programm_wahl']:checked").attr("id");
-	//Felder zurücksetzen
+	// Felder zurücksetzen
 	leereFelderVonFormular("ap");
-	//Wenn ein ap ausgewählt ist: Seine Daten anzeigen
+	// Wenn ein ap ausgewählt ist: Seine Daten anzeigen
 	if ($("#ap_waehlen").val() && programm_wahl !== "programm_neu") {
-		//Daten für den ap aus der DB holen
+		// Daten für den ap aus der DB holen
 		$.ajax({
 			type: 'get',
 			url: 'php/ap.php',
@@ -69,17 +71,17 @@ function initiiere_ap() {
 				"id": localStorage.ap_id
 			},
 			success: function (data) {
-				//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+				// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 				if (data) {
-					//ap bereitstellen
+					// ap bereitstellen
 					window.ap = data;
-					//Felder mit Daten beliefern
+					// Felder mit Daten beliefern
 					$("#ApStatus" + data.ApStatus).prop("checked", true);
 					$("#ApUmsetzung" + data.ApUmsetzung).prop("checked", true);
 					$("#ApArtId").val(data.ApArtId);
 					$("#ApJahr").val(data.ApJahr);
 					$("#ApArtwert").val(data.ApArtwert);
-					//ApBearb: Daten holen - oder vorhandene nutzen
+					// ApBearb: Daten holen - oder vorhandene nutzen
 					if (!window.adressen_html) {
 						$.ajax({
 							type: 'get',
@@ -87,11 +89,9 @@ function initiiere_ap() {
 							dataType: 'json',
 							success: function (data2) {
 								if (data2) {
-									//ap bereitstellen
-									//Feld mit Daten beliefern
+									// Feld mit Daten beliefern
 									var html;
 									html = "<option></option>";
-									//for (i in data2.rows) {
 									for (var i = 0; i < data2.rows.length; i++) {
 										html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
 									}
@@ -105,7 +105,7 @@ function initiiere_ap() {
 						$("#ApBearb").html(window.adressen_html);
 						$("#ApBearb").val(window.ap.ApBearb);
 					}
-					//Formulare blenden
+					// Formulare blenden
 					zeigeFormular("ap");
 					history.replaceState({ap: "ap"}, "ap", "index.html?ap=" + data.ApArtId);
 				}
@@ -113,13 +113,13 @@ function initiiere_ap() {
 		});
 	} else if ($("#ap_waehlen").val() && programm_wahl === "programm_neu") {
 		$("#ApArtId").val($("#ap_waehlen").val());
-		//Formulare blenden
+		// Formulare blenden
 		zeigeFormular("ap");
 	}
 }
 
-//setzt window.ap und localStorage.ap_id
-//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+// setzt window.ap und localStorage.ap_id
+// wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowAp(id) {
 	localStorage.ap_id = id;
 	$.ajax({
@@ -130,17 +130,17 @@ function setzeWindowAp(id) {
 			"id": localStorage.ap_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//ap bereitstellen
+				// ap bereitstellen
 				window.ap = data;
 			}
 		}
 	});
 }
 
-//wird benutzt von Formular pop
-//baut für das select $("#ApArtId") eine Artliste auf
+// wird benutzt von Formular pop
+// baut für das select $("#ApArtId") eine Artliste auf
 function erstelle_ApArtId_liste() {
 	if (!window.artliste_html) {
 		$.ajax({
@@ -150,7 +150,6 @@ function erstelle_ApArtId_liste() {
 			success: function (data) {
 				var html;
 				html = "<option></option>";
-				//for (i in data.rows) {
 				for (var i = 0; i < data.rows.length; i++) {
 					html += "<option value=\"" + data.rows[i].id + "\">" + data.rows[i].Artname + "</option>";
 				}
@@ -169,13 +168,13 @@ function erstelle_ApArtId_liste() {
 
 function initiiere_pop() {
 	if (!localStorage.pop_id) {
-		//es fehlen benötigte Daten > eine Ebene höher
+		// es fehlen benötigte Daten > eine Ebene höher
 		initiiere_ap();
 		return;
 	}
-	//Felder zurücksetzen
+	// Felder zurücksetzen
 	leereFelderVonFormular("pop");
-	//Daten für die pop aus der DB holen
+	// Daten für die pop aus der DB holen
 	$.ajax({
 		type: 'get',
 		url: 'php/pop.php',
@@ -184,11 +183,11 @@ function initiiere_pop() {
 			"id": localStorage.pop_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//ap bereitstellen
+				// pop bereitstellen
 				window.pop = data;
-				//Felder mit Daten beliefern
+				// Felder mit Daten beliefern
 				$("#PopHerkunft" + data.PopHerkunft).prop("checked", true);
 				if (data.PopHerkunftUnklar == 1) {
 					$("#PopHerkunftUnklar").prop("checked", true);
@@ -203,10 +202,10 @@ function initiiere_pop() {
 				$("#PopBekanntSeit").val(data.PopBekanntSeit);
 				$("#PopXKoord").val(data.PopXKoord);
 				$("#PopYKoord").val(data.PopYKoord);
-				//Formulare blenden
+				// Formulare blenden
 				zeigeFormular("pop");
 				history.replaceState({pop: "pop"}, "pop", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id);
-				//bei neuen Datensätzen Fokus steuern
+				// bei neuen Datensätzen Fokus steuern
 				if (!$("#PopName").val()) {
 					$("#PopNr").focus();
 				}
@@ -215,8 +214,8 @@ function initiiere_pop() {
 	});
 }
 
-//setzt window.pop und localStorage.pop_id
-//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+// setzt window.pop und localStorage.pop_id
+// wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowPop(id) {
 	localStorage.pop_id = id;
 	$.ajax({
@@ -227,9 +226,9 @@ function setzeWindowPop(id) {
 			"id": localStorage.pop_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//pop bereitstellen
+				// pop bereitstellen
 				window.pop = data;
 			}
 		}
@@ -238,14 +237,14 @@ function setzeWindowPop(id) {
 
 function initiiere_apziel() {
 	if (!localStorage.apziel_id) {
-		//es fehlen benötigte Daten > eine Ebene höher
+		// es fehlen benötigte Daten > eine Ebene höher
 		initiiere_ap();
 		return;
 	}
 	var apziel_initiiert = $.Deferred();
-	//Felder zurücksetzen
+	// Felder zurücksetzen
 	leereFelderVonFormular("apziel");
-	//Daten für die apziel aus der DB holen
+	// Daten für die apziel aus der DB holen
 	$.ajax({
 		type: 'get',
 		url: 'php/apziel.php',
@@ -254,18 +253,18 @@ function initiiere_apziel() {
 			"id": localStorage.apziel_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//ap bereitstellen
+				// apziel bereitstellen
 				window.apziel = data;
-				//Felder mit Daten beliefern
+				// Felder mit Daten beliefern
 				$("#ZielJahr").val(data.ZielJahr);
 				$("#ZielTyp" + data.ZielTyp).prop("checked", true);
 				$("#ZielBezeichnung").val(data.ZielBezeichnung);
-				//Formulare blenden
+				// Formulare blenden
 				zeigeFormular("apziel");
 				history.replaceState({apziel: "apziel"}, "apziel", "index.html?ap=" + localStorage.ap_id + "&apziel=" + localStorage.apziel_id);
-				//bei neuen Datensätzen Fokus steuern
+				// bei neuen Datensätzen Fokus steuern
 				if (!$("#ZielJahr").val()) {
 					$("#ZielJahr").focus();
 				}
@@ -276,22 +275,21 @@ function initiiere_apziel() {
 	return apziel_initiiert.promise();
 }
 
-//setzt window.apziel und localStorage.apziel_id
-//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+// setzt window.apziel und localStorage.apziel_id
+// wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowApziel(id) {
 	localStorage.apziel_id = id;
 	$.ajax({
 		type: 'get',
 		url: 'php/apziel.php',
-		//url: 'http://www.apflora.barbalex.ch/php/apziel.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.apziel_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//apziel bereitstellen
+				// apziel bereitstellen
 				window.apziel = data;
 			}
 		}
@@ -300,13 +298,13 @@ function setzeWindowApziel(id) {
 
 function initiiere_zielber() {
 	if (!localStorage.zielber_id) {
-		//es fehlen benötigte Daten > eine Ebene höher
+		// es fehlen benötigte Daten > eine Ebene höher
 		initiiere_ap();
 		return;
 	}
-	//Felder zurücksetzen
+	// Felder zurücksetzen
 	leereFelderVonFormular("zielber");
-	//Daten für die zielber aus der DB holen
+	// Daten für die zielber aus der DB holen
 	$.ajax({
 		type: 'get',
 		url: 'php/zielber.php',
@@ -315,18 +313,18 @@ function initiiere_zielber() {
 			"id": localStorage.zielber_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//ap bereitstellen
+				// zeilber bereitstellen
 				window.zielber = data;
-				//Felder mit Daten beliefern
+				// Felder mit Daten beliefern
 				$("#ZielBerJahr").val(data.ZielBerJahr);
 				$("#ZielBerErreichung").val(data.ZielBerErreichung);
 				$("#ZielBerTxt").val(data.ZielBerTxt);
-				//Formulare blenden
+				// Formulare blenden
 				zeigeFormular("zielber");
 				history.replaceState({zielber: "zielber"}, "zielber", "index.html?ap=" + localStorage.ap_id + "&apziel=" + localStorage.apziel_id + "&zielber=" + localStorage.zielber_id);
-				//bei neuen Datensätzen Fokus steuern
+				// bei neuen Datensätzen Fokus steuern
 				if (!$("#ZielBerJahr").val()) {
 					$("#ZielBerJahr").focus();
 				}
@@ -335,8 +333,8 @@ function initiiere_zielber() {
 	});
 }
 
-//setzt window.zielber und localStorage.zielber_id
-//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+// setzt window.zielber und localStorage.zielber_id
+// wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowZielber(id) {
 	localStorage.zielber_id = id;
 	$.ajax({
@@ -347,9 +345,9 @@ function setzeWindowZielber(id) {
 			"id": localStorage.zielber_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//zielber bereitstellen
+				// zielber bereitstellen
 				window.zielber = data;
 			}
 		}
@@ -358,13 +356,13 @@ function setzeWindowZielber(id) {
 
 function initiiere_erfkrit() {
 	if (!localStorage.erfkrit_id) {
-		//es fehlen benötigte Daten > eine Ebene höher
+		// es fehlen benötigte Daten > eine Ebene höher
 		initiiere_ap();
 		return;
 	}
-	//Felder zurücksetzen
+	// Felder zurücksetzen
 	leereFelderVonFormular("erfkrit");
-	//Daten für die erfkrit aus der DB holen
+	// Daten für die erfkrit aus der DB holen
 	$.ajax({
 		type: 'get',
 		url: 'php/erfkrit.php',
@@ -373,18 +371,18 @@ function initiiere_erfkrit() {
 			"id": localStorage.erfkrit_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//ap bereitstellen
+				// erfkrit bereitstellen
 				window.erfkrit = data;
-				//Felder mit Daten beliefern
+				// Felder mit Daten beliefern
 				$("#ErfkritErreichungsgrad" + data.ErfkritErreichungsgrad).prop("checked", true);
 				$("#ErfkritTxt").val(data.ErfkritTxt);
 				$("#ErfkritTxt").limiter(255, $("#ErfkritTxt_limit"));
-				//Formulare blenden
+				// Formulare blenden
 				zeigeFormular("erfkrit");
 				history.replaceState({erfkrit: "erfkrit"}, "erfkrit", "index.html?ap=" + localStorage.ap_id + "&erfkrit=" + localStorage.erfkrit_id);
-				//bei neuen Datensätzen Fokus steuern
+				// bei neuen Datensätzen Fokus steuern
 				if (!$("#ErfkritErreichungsgrad").val()) {
 					$("#ErfkritErreichungsgrad").focus();
 				}
@@ -393,8 +391,8 @@ function initiiere_erfkrit() {
 	});
 }
 
-//setzt window.erfkrit und localStorage.erfkrit_id
-//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+// setzt window.erfkrit und localStorage.erfkrit_id
+// wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowErfkrit(id) {
 	localStorage.erfkrit_id = id;
 	$.ajax({
@@ -405,9 +403,9 @@ function setzeWindowErfkrit(id) {
 			"id": localStorage.erfkrit_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//erfkrit bereitstellen
+				// erfkrit bereitstellen
 				window.erfkrit = data;
 			}
 		}
@@ -416,13 +414,13 @@ function setzeWindowErfkrit(id) {
 
 function initiiere_jber() {
 	if (!localStorage.jber_id) {
-		//es fehlen benötigte Daten > eine Ebene höher
+		// es fehlen benötigte Daten > eine Ebene höher
 		initiiere_ap();
 		return;
 	}
-	//Felder zurücksetzen
+	// Felder zurücksetzen
 	leereFelderVonFormular("jber");
-	//Daten für die jber aus der DB holen
+	// Daten für die jber aus der DB holen
 	$.ajax({
 		type: 'get',
 		url: 'php/jber.php',
@@ -431,16 +429,16 @@ function initiiere_jber() {
 			"id": localStorage.jber_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//ap bereitstellen
+				// jber bereitstellen
 				window.jber = data;
-				//Felder mit Daten beliefern
+				// Felder mit Daten beliefern
 				$("#JBerJahr").val(data.JBerJahr);
 				$("#JBerSituation").val(data.JBerSituation);
 				$("#JBerVergleichVorjahrGesamtziel").val(data.JBerVergleichVorjahrGesamtziel);
 				$("#JBerBeurteilung" + data.JBerBeurteilung).prop("checked", true);
-				//escapen, + und - werden sonst verändert
+				// escapen, + und - werden sonst verändert
 				$("#JBerVeraenGegenVorjahr\\" + data.JBerVeraenGegenVorjahr).prop("checked", true);
 				$("#JBerAnalyse").val(data.JBerAnalyse);
 				$("#JBerAnalyse").limiter(255, $("#JBerAnalyse_limit"));
@@ -451,12 +449,12 @@ function initiiere_jber() {
 				$("#JBerCTxt").val(data.JBerCTxt);
 				$("#JBerDTxt").val(data.JBerDTxt);
 				if (data.JBerDatum !== "01.01.1970") {
-					//php macht aus einem Nullwert im Datum den 1.1.1970!!!
+					// php macht aus einem Nullwert im Datum den 1.1.1970!!!
 					$("#JBerDatum").val(data.JBerDatum);
 				} else {
 					$("#JBerDatum").val("");
 				}
-				//JBerBearb: Daten holen - oder vorhandene nutzen
+				// JBerBearb: Daten holen - oder vorhandene nutzen
 				if (!window.adressen_html) {
 					$.ajax({
 						type: 'get',
@@ -464,11 +462,10 @@ function initiiere_jber() {
 						dataType: 'json',
 						success: function (data2) {
 							if (data2) {
-								//ap bereitstellen
-								//Feld mit Daten beliefern
+								// adressen bereitstellen
+								// Feld mit Daten beliefern
 								var html;
 								html = "<option></option>";
-								//for (i in data2.rows) {
 								for (var i = 0; i < data2.rows.length; i++) {
 									html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
 								}
@@ -482,10 +479,10 @@ function initiiere_jber() {
 					$("#JBerBearb").html(window.adressen_html);
 					$("#JBerBearb").val(window.jber.JBerBearb);
 				}
-				//Formulare blenden
+				// Formulare blenden
 				zeigeFormular("jber");
 				history.replaceState({jber: "jber"}, "jber", "index.html?ap=" + localStorage.ap_id + "&jber=" + localStorage.jber_id);
-				//bei neuen Datensätzen Fokus steuern
+				// bei neuen Datensätzen Fokus steuern
 				if (!$("#JBerJahr").val()) {
 					$("#JBerJahr").focus();
 				}
@@ -494,8 +491,8 @@ function initiiere_jber() {
 	});
 }
 
-//setzt window.jber und localStorage.jber_id
-//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+// setzt window.jber und localStorage.jber_id
+// wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowJber(id) {
 	localStorage.jber_id = id;
 	$.ajax({
@@ -506,9 +503,9 @@ function setzeWindowJber(id) {
 			"id": localStorage.jber_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//jber bereitstellen
+				// jber bereitstellen
 				window.jber = data;
 			}
 		}
@@ -517,13 +514,13 @@ function setzeWindowJber(id) {
 
 function initiiere_jber_uebersicht() {
 	if (!localStorage.jber_uebersicht_id) {
-		//es fehlen benötigte Daten > eine Ebene höher
+		// es fehlen benötigte Daten > eine Ebene höher
 		initiiere_ap();
 		return;
 	}
-	//Felder zurücksetzen
+	// Felder zurücksetzen
 	leereFelderVonFormular("jber_uebersicht");
-	//Daten für die jber_uebersicht aus der DB holen
+	// Daten für die jber_uebersicht aus der DB holen
 	$.ajax({
 		type: 'get',
 		url: 'php/jber_uebersicht.php',
@@ -532,18 +529,18 @@ function initiiere_jber_uebersicht() {
 			"JbuJahr": localStorage.jber_uebersicht_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//ap bereitstellen
+				// jber_uebersicht bereitstellen
 				window.jber_uebersicht = data;
-				//Felder mit Daten beliefern
+				// Felder mit Daten beliefern
 				$("#JbuJahr").val(data.JbuJahr);
 				$("#JbuBemerkungen").val(data.JbuBemerkungen);
-				//FitToContent("Bemerkungen", document.documentElement.clientHeight);
-				//Formulare blenden
+				// FitToContent("Bemerkungen", document.documentElement.clientHeight);
+				// Formulare blenden
 				zeigeFormular("jber_uebersicht");
 				history.replaceState({jber_uebersicht: "jber_uebersicht"}, "jber_uebersicht", "index.html?ap=" + localStorage.ap_id + "&jber_uebersicht=" + localStorage.jber_uebersicht_id);
-				//bei neuen Datensätzen Fokus steuern
+				// bei neuen Datensätzen Fokus steuern
 				if (!$("#JbuJahr").val()) {
 					$("#JbuJahr").focus();
 				}
@@ -552,8 +549,8 @@ function initiiere_jber_uebersicht() {
 	});
 }
 
-//setzt window.jber_uebersicht und localStorage.jber_uebersicht_id
-//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+// setzt window.jber_uebersicht und localStorage.jber_uebersicht_id
+// wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowJberUebersicht(id) {
 	localStorage.jber_uebersicht_id = id;
 	$.ajax({
@@ -564,9 +561,9 @@ function setzeWindowJberUebersicht(id) {
 			"id": localStorage.jber_uebersicht_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//jber_uebersicht bereitstellen
+				// jber_uebersicht bereitstellen
 				window.jber_uebersicht = data;
 			}
 		}
@@ -575,13 +572,13 @@ function setzeWindowJberUebersicht(id) {
 
 function initiiere_ber() {
 	if (!localStorage.ber_id) {
-		//es fehlen benötigte Daten > eine Ebene höher
+		// es fehlen benötigte Daten > eine Ebene höher
 		initiiere_ap();
 		return;
 	}
-	//Felder zurücksetzen
+	// Felder zurücksetzen
 	leereFelderVonFormular("ber");
-	//Daten für die ber aus der DB holen
+	// Daten für die ber aus der DB holen
 	$.ajax({
 		type: 'get',
 		url: 'php/ber.php',
@@ -591,23 +588,23 @@ function initiiere_ber() {
 		},
 		success: function (data) {
 			var tempUrl;
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//ap bereitstellen
+				// ber bereitstellen
 				window.ber = data;
-				//Felder mit Daten beliefern
+				// Felder mit Daten beliefern
 				$("#BerAutor").val(data.BerAutor);
 				$("#BerJahr").val(data.BerJahr);
 				$("#BerTitel").val(data.BerTitel);
 				$("#BerTitel").limiter(255, $("#BerTitel_limit"));
 				$("#BerURL").val(data.BerURL);
 				$("#BerURL").limiter(255, $("#BerURL_limit"));
-				//URL-Link initialisieren, wird bei Änderung der URL in index.html angepasst
+				// URL-Link initialisieren, wird bei Änderung der URL in index.html angepasst
 				$('#BerURLHref').attr('onClick', "window.open('" + data.BerURL + "', target='_blank')");
-				//Formulare blenden
+				// Formulare blenden
 				zeigeFormular("ber");
 				history.replaceState({ber: "ber"}, "ber", "index.html?ap=" + localStorage.ap_id + "&ber=" + localStorage.ber_id);
-				//bei neuen Datensätzen Fokus steuern
+				// bei neuen Datensätzen Fokus steuern
 				if (!$("#BerAutor").val()) {
 					$("#BerAutor").focus();
 				} else if (!$("#BerJahr").val()) {
@@ -622,8 +619,8 @@ function initiiere_ber() {
 	});
 }
 
-//setzt window.ber und localStorage.ber_id
-//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+// setzt window.ber und localStorage.ber_id
+// wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowBer(id) {
 	localStorage.ber_id = id;
 	$.ajax({
@@ -634,9 +631,9 @@ function setzeWindowBer(id) {
 			"id": localStorage.ber_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//ber bereitstellen
+				// ber bereitstellen
 				window.ber = data;
 			}
 		}
@@ -645,13 +642,13 @@ function setzeWindowBer(id) {
 
 function initiiere_idealbiotop() {
 	if (!localStorage.ap_id) {
-		//es fehlen benötigte Daten > eine Ebene höher
+		// es fehlen benötigte Daten > eine Ebene höher
 		initiiere_ap();
 		return;
 	}
-	//Felder zurücksetzen
+	// Felder zurücksetzen
 	leereFelderVonFormular("idealbiotop");
-	//Daten für die idealbiotop aus der DB holen
+	// Daten für die idealbiotop aus der DB holen
 	$.ajax({
 		type: 'get',
 		url: 'php/idealbiotop.php',
@@ -660,14 +657,14 @@ function initiiere_idealbiotop() {
 			"id": localStorage.ap_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//idealbiotop bereitstellen
+				// idealbiotop bereitstellen
 				localStorage.idealbiotop_id = data.IbApArtId;
 				window.idealbiotop = data;
-				//Felder mit Daten beliefern
+				// Felder mit Daten beliefern
 				if (data.IbErstelldatum !== "01.01.1970") {
-					//php macht aus einem Nullwert im Datum den 1.1.1970!!!
+					// php macht aus einem Nullwert im Datum den 1.1.1970!!!
 					$("#IbErstelldatum").val(data.IbErstelldatum);
 				}
 				$("#IbHoehenlage").val(data.IbHoehenlage);
@@ -687,15 +684,15 @@ function initiiere_idealbiotop() {
 				$("#IbStrauchschicht").val(data.IbStrauchschicht);
 				$("#IbBaumschicht").val(data.IbBaumschicht);
 				$("#IbBemerkungen").val(data.IbBemerkungen);
-				//Formulare blenden
+				// Formulare blenden
 				zeigeFormular("idealbiotop");
 				history.replaceState({idealbiotop: "idealbiotop"}, "idealbiotop", "index.html?ap=" + localStorage.ap_id + "&idealbiotop=" + localStorage.idealbiotop_id);
-				//bei neuen Datensätzen Fokus steuern
+				// bei neuen Datensätzen Fokus steuern
 				if (!$("#IbErstelldatum").val()) {
 					$("#IbErstelldatum").focus();
 				}
 			} else {
-				//nur aktualisieren, wenn Schreibrechte bestehen
+				// nur aktualisieren, wenn Schreibrechte bestehen
 				if (sessionStorage.NurLesen) {
 					$("#Meldung").html("Sie haben keine Schreibrechte");
 					$("#Meldung").dialog({
@@ -708,7 +705,7 @@ function initiiere_idealbiotop() {
 					});
 					return;
 				}
-				//null zurückgekommen > Datesatz schaffen
+				// null zurückgekommen > Datesatz schaffen
 				$.ajax({
 					type: 'post',
 					url: 'php/idealbiotop_insert.php',
@@ -736,13 +733,13 @@ function initiiere_idealbiotop() {
 			}
 		},
 		error: function () {
-			//nichts machen, sonst gibt es eine Endlosschlaufe
+			// nichts machen, sonst gibt es eine Endlosschlaufe
 		}
 	});
 }
 
-//setzt window.idealbiotop und localStorage.idealbiotop_id
-//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+// setzt window.idealbiotop und localStorage.idealbiotop_id
+// wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowIdealbiotop(id) {
 	localStorage.idealbiotop_id = id;
 	$.ajax({
@@ -753,9 +750,9 @@ function setzeWindowIdealbiotop(id) {
 			"id": localStorage.idealbiotop_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//idealbiotop bereitstellen
+				// idealbiotop bereitstellen
 				window.idealbiotop = data;
 			}
 		}
@@ -764,13 +761,13 @@ function setzeWindowIdealbiotop(id) {
 
 function initiiere_assozarten() {
 	if (!localStorage.assozarten_id) {
-		//es fehlen benötigte Daten > eine Ebene höher
+		// es fehlen benötigte Daten > eine Ebene höher
 		initiiere_ap();
 		return;
 	}
-	//Felder zurücksetzen
+	// Felder zurücksetzen
 	leereFelderVonFormular("assozarten");
-	//Daten für die assozarten aus der DB holen
+	// Daten für die assozarten aus der DB holen
 	$.ajax({
 		type: 'get',
 		url: 'php/assozarten.php',
@@ -780,17 +777,17 @@ function initiiere_assozarten() {
 		},
 		success: function (data) {
 			var tempUrl;
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//ap bereitstellen
+				// assozarten bereitstellen
 				window.assozarten = data;
-				//Felder mit Daten beliefern
+				// Felder mit Daten beliefern
 				$("#AaSisfNr").val(data.AaSisfNr);
 				$("#AaBem").val(data.AaBem);
-				//Formulare blenden
+				// Formulare blenden
 				zeigeFormular("assozarten");
 				history.replaceState({assozarten: "assozarten"}, "assozarten", "index.html?ap=" + localStorage.ap_id + "&assozarten=" + localStorage.assozarten_id);
-				//bei neuen Datensätzen Fokus steuern
+				// bei neuen Datensätzen Fokus steuern
 				if (!$("#AaSisfNr").val()) {
 					$("#AaSisfNr").focus();
 				}
@@ -799,8 +796,8 @@ function initiiere_assozarten() {
 	});
 }
 
-//setzt window.assozarten und localStorage.assozarten_id
-//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+// setzt window.assozarten und localStorage.assozarten_id
+// wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowAssozarten(id) {
 	localStorage.assozarten_id = id;
 	$.ajax({
@@ -811,9 +808,9 @@ function setzeWindowAssozarten(id) {
 			"id": localStorage.assozarten_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//assozarten bereitstellen
+				// assozarten bereitstellen
 				window.assozarten = data;
 			}
 		}
@@ -822,13 +819,13 @@ function setzeWindowAssozarten(id) {
 
 function initiiere_popmassnber() {
 	if (!localStorage.popmassnber_id) {
-		//es fehlen benötigte Daten > eine Ebene höher
+		// es fehlen benötigte Daten > eine Ebene höher
 		initiiere_pop();
 		return;
 	}
-	//Felder zurücksetzen
+	// Felder zurücksetzen
 	leereFelderVonFormular("popmassnber");
-	//Daten für die pop aus der DB holen
+	// Daten für die pop aus der DB holen
 	$.ajax({
 		type: 'get',
 		url: 'php/popmassnber.php',
@@ -837,26 +834,26 @@ function initiiere_popmassnber() {
 			"id": localStorage.popmassnber_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//ap bereitstellen
+				// popmassnber bereitstellen
 				window.popmassnber = data;
-				//Felder mit Daten beliefern
+				// Felder mit Daten beliefern
 				$("#PopMassnBerJahr").val(data.PopMassnBerJahr);
 				$("#PopMassnBerErfolgsbeurteilung" + data.PopMassnBerErfolgsbeurteilung).prop("checked", true);
 				$("#PopMassnBerTxt").val(data.PopMassnBerTxt);
-				//Formulare blenden
+				// Formulare blenden
 				zeigeFormular("popmassnber");
 				history.replaceState({popmassnber: "popmassnber"}, "popmassnber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&popmassnber=" + localStorage.popmassnber_id);
-				//bei neuen Datensätzen Fokus steuern
+				// bei neuen Datensätzen Fokus steuern
 				$('#PopMassnBerJahr').focus();
 			}
 		}
 	});
 }
 
-//setzt window.popmassnber und localStorage.popmassnber_id
-//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+// setzt window.popmassnber und localStorage.popmassnber_id
+// wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowPopmassnber(id) {
 	localStorage.popmassnber_id = id;
 	$.ajax({
@@ -867,9 +864,9 @@ function setzeWindowPopmassnber(id) {
 			"id": localStorage.popmassnber_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//popmassnber bereitstellen
+				// popmassnber bereitstellen
 				window.popmassnber = data;
 			}
 		}
@@ -878,13 +875,13 @@ function setzeWindowPopmassnber(id) {
 
 function initiiere_tpop() {
 	if (!localStorage.tpop_id) {
-		//es fehlen benötigte Daten > eine Ebene höher
+		// es fehlen benötigte Daten > eine Ebene höher
 		initiiere_pop();
 		return;
 	}
-	//Felder zurücksetzen
+	// Felder zurücksetzen
 	leereFelderVonFormular("tpop");
-	//Daten für die pop aus der DB holen
+	// Daten für die pop aus der DB holen
 	$.ajax({
 		type: 'get',
 		url: 'php/tpop.php',
@@ -893,11 +890,11 @@ function initiiere_tpop() {
 			"id": localStorage.tpop_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//ap bereitstellen
+				// tpop bereitstellen
 				window.tpop = data;
-				//Felder mit Daten beliefern
+				// Felder mit Daten beliefern
 				$("#TPopFlurname").val(data.TPopFlurname);
 				$("#TPopFlurname").limiter(255, $("#TPopFlurname_limit"));
 				$("#TPopNr").val(data.TPopNr);
@@ -938,7 +935,7 @@ function initiiere_tpop() {
 				$("#TPopBewirtschaftung").val(data.TPopBewirtschaftung);
 				$("#TPopBewirtschaftung").limiter(255, $("#TPopBewirtschaftung_limit"));
 				$("#TPopTxt").val(data.TPopTxt);
-				//für select Daten holen - oder vorhandene nutzen
+				// für select Daten holen - oder vorhandene nutzen
 				if (!window.adressen_html) {
 					$.ajax({
 						type: 'get',
@@ -946,13 +943,12 @@ function initiiere_tpop() {
 						dataType: 'json',
 						success: function (data2) {
 							if (data2) {
-								//ap bereitstellen
+								// adressen bereitstellen
 								window.adressen = data2;
 								localStorage.adressen = JSON.stringify(data2);
-								//Feld mit Daten beliefern
+								// Feld mit Daten beliefern
 								var html;
 								html = "<option></option>";
-								//for (i in data2.rows) {
 								for (var i = 0; i < data2.rows.length; i++) {
 									html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
 								}
@@ -966,10 +962,10 @@ function initiiere_tpop() {
 					$("#TPopVerantw").html(window.adressen_html);
 					$("#TPopVerantw").val(window.tpop.TPopVerantw);
 				}
-				//Formulare blenden
+				// Formulare blenden
 				zeigeFormular("tpop");
 				history.replaceState({tpop: "tpop"}, "tpop", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id);
-				//bei neuen Datensätzen Fokus steuern
+				// bei neuen Datensätzen Fokus steuern
 				if (!$("#TPopFlurname").val()) {
 					$('#TPopNr').focus();
 				}
@@ -978,8 +974,8 @@ function initiiere_tpop() {
 	});
 }
 
-//setzt window.tpop und localStorage.tpop_id
-//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+// setzt window.tpop und localStorage.tpop_id
+// wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowTpop(id) {
 	localStorage.tpop_id = id;
 	$.ajax({
@@ -990,9 +986,9 @@ function setzeWindowTpop(id) {
 			"id": localStorage.tpop_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//tpop bereitstellen
+				// tpop bereitstellen
 				window.tpop = data;
 			}
 		}
@@ -1001,13 +997,13 @@ function setzeWindowTpop(id) {
 
 function initiiere_popber() {
 	if (!localStorage.popber_id) {
-		//es fehlen benötigte Daten > eine Ebene höher
+		// es fehlen benötigte Daten > eine Ebene höher
 		initiiere_pop();
 		return;
 	}
-	//Felder zurücksetzen
+	// Felder zurücksetzen
 	leereFelderVonFormular("popber");
-	//Daten für die popber aus der DB holen
+	// Daten für die popber aus der DB holen
 	$.ajax({
 		type: 'get',
 		url: 'php/popber.php',
@@ -1016,26 +1012,26 @@ function initiiere_popber() {
 			"id": localStorage.popber_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//ap bereitstellen
+				// popber bereitstellen
 				window.popber = data;
-				//Felder mit Daten beliefern
+				// Felder mit Daten beliefern
 				$("#PopBerJahr").val(data.PopBerJahr);
 				$("#PopBerEntwicklung" + data.PopBerEntwicklung).prop("checked", true);
 				$("#PopBerTxt").val(data.PopBerTxt);
-				//Formulare blenden
+				// Formulare blenden
 				zeigeFormular("popber");
 				history.replaceState({tpopber: "popber"}, "popber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&popber=" + localStorage.popber_id);
-				//bei neuen Datensätzen Fokus steuern
+				// bei neuen Datensätzen Fokus steuern
 				$('#PopBerJahr').focus();
 			}
 		}
 	});
 }
 
-//setzt window.popber und localStorage.popber_id
-//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+// setzt window.popber und localStorage.popber_id
+// wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowPopber(id) {
 	localStorage.popber_id = id;
 	$.ajax({
@@ -1046,9 +1042,9 @@ function setzeWindowPopber(id) {
 			"id": localStorage.popber_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//popber bereitstellen
+				// popber bereitstellen
 				window.popber = data;
 			}
 		}
@@ -1056,21 +1052,21 @@ function setzeWindowPopber(id) {
 }
 
 function initiiere_tpopfeldkontr() {
-	//wird gemeinsam für Feld- und Freiwilligenkontrollen verwendet
-	//Feldkontrollen: Felder der Freiwilligenkontrollen ausblenden
-	//Freiwilligenkontrollen: Felder der Feldkontrollen ausblenen plus Register Biotop
+	// wird gemeinsam für Feld- und Freiwilligenkontrollen verwendet
+	// Feldkontrollen: Felder der Freiwilligenkontrollen ausblenden
+	// Freiwilligenkontrollen: Felder der Feldkontrollen ausblenen plus Register Biotop
 	if (!localStorage.tpopfeldkontr_id) {
-		//es fehlen benötigte Daten > eine Ebene höher
+		// es fehlen benötigte Daten > eine Ebene höher
 		initiiere_pop();
 		return;
 	}
-	//Felder zurücksetzen
+	// Felder zurücksetzen
 	leereFelderVonFormular("tpopfeldkontr");
-	//alle Felder ausblenden. Später werden die benötigten eingeblendet
+	// alle Felder ausblenden. Später werden die benötigten eingeblendet
 	$('.feld_tpopfeldkontr').each(function() {
 		$(this).hide();
 	});
-	//Daten für die tpopfeldkontr aus der DB holen
+	// Daten für die tpopfeldkontr aus der DB holen
 	$.ajax({
 		type: 'get',
 		url: 'php/tpopfeldkontr.php',
@@ -1079,15 +1075,15 @@ function initiiere_tpopfeldkontr() {
 			"id": localStorage.tpopfeldkontr_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//ap bereitstellen
+				// tpopfeldkontr bereitstellen
 				window.tpopfeldkontr = data;
-				//gemeinsame Felder
-				//mit Daten beliefern
+				// gemeinsame Felder
+				// mit Daten beliefern
 				$("#TPopKontrJahr").val(data.TPopKontrJahr);
 				if (data.TPopKontrDatum !== "01.01.1970") {
-					//php macht aus einem Nullwert im Datum den 1.1.1970!!!
+					// php macht aus einem Nullwert im Datum den 1.1.1970!!!
 					$("#TPopKontrDatum").val(data.TPopKontrDatum);
 				} else {
 					$("#TPopKontrDatum").val("");
@@ -1100,7 +1096,7 @@ function initiiere_tpopfeldkontr() {
 				$("#TPopKontrAnz3").val(data.TPopKontrAnz3);
 				$("#TPopKontrTxt").val(data.TPopKontrTxt);
 				$("#TPopKontrGuid").val(data.TPopKontrGuid);
-				//TPopKontrBearb: Daten holen - oder vorhandene nutzen
+				// TPopKontrBearb: Daten holen - oder vorhandene nutzen
 				if (!window.adressen_html) {
 					$.ajax({
 						type: 'get',
@@ -1108,11 +1104,9 @@ function initiiere_tpopfeldkontr() {
 						dataType: 'json',
 						success: function (data2) {
 							if (data2) {
-								//ap bereitstellen
-								//Feld mit Daten beliefern
+								// Feld mit Daten beliefern
 								var html;
 								html = "<option></option>";
-								//for (i in data2.rows) {
 								for (var i = 0; i < data2.rows.length; i++) {
 									html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
 								}
@@ -1126,7 +1120,7 @@ function initiiere_tpopfeldkontr() {
 					$("#TPopKontrBearb").html(window.adressen_html);
 					$("#TPopKontrBearb").val(window.tpopfeldkontr.TPopKontrBearb);
 				}
-				//für 3 selectfelder TPopKontrZaehleinheit Daten holen - oder vorhandene nutzen
+				// für 3 selectfelder TPopKontrZaehleinheit Daten holen - oder vorhandene nutzen
 				if (!window.TPopKontrZaehleinheit_html) {
 					$.ajax({
 						type: 'get',
@@ -1134,16 +1128,14 @@ function initiiere_tpopfeldkontr() {
 						dataType: 'json',
 						success: function (data3) {
 							if (data3) {
-								//ap bereitstellen
-								//Feld mit Daten beliefern
+								// Feld mit Daten beliefern
 								var html;
 								html = "<option></option>";
-								//for (i in data3.rows) {
 								for (var i = 0; i < data3.rows.length; i++) {
 									html += "<option value=\"" + data3.rows[i].id + "\">" + data3.rows[i].ZaehleinheitTxt + "</option>";
 								}
 								window.TPopKontrZaehleinheit_html = html;
-								//alle 3 Felder setzen
+								// alle 3 Felder setzen
 								$("#TPopKontrZaehleinheit1").html(html);
 								$("#TPopKontrZaehleinheit1").val(window.tpopfeldkontr.TPopKontrZaehleinheit1);
 								$("#TPopKontrZaehleinheit2").html(html);
@@ -1154,7 +1146,7 @@ function initiiere_tpopfeldkontr() {
 						}
 					});
 				} else {
-					//alle 3 Felder setzen
+					// alle 3 Felder setzen
 					$("#TPopKontrZaehleinheit1").html(window.TPopKontrZaehleinheit_html);
 					$("#TPopKontrZaehleinheit1").val(window.tpopfeldkontr.TPopKontrZaehleinheit1);
 					$("#TPopKontrZaehleinheit2").html(window.TPopKontrZaehleinheit_html);
@@ -1162,7 +1154,7 @@ function initiiere_tpopfeldkontr() {
 					$("#TPopKontrZaehleinheit3").html(window.TPopKontrZaehleinheit_html);
 					$("#TPopKontrZaehleinheit3").val(window.tpopfeldkontr.TPopKontrZaehleinheit3);
 				}
-				//Felder, die nur in der Feldkontrolle vorkommen
+				// Felder, die nur in der Feldkontrolle vorkommen
 				if (!localStorage.tpopfreiwkontr) {
 					$("#TPopKontrTyp" + data.TPopKontrTyp).prop("checked", true);
 					$("#TPopKontrJungpfl").val(data.TPopKontrJungpfl);
@@ -1178,7 +1170,7 @@ function initiiere_tpopfeldkontr() {
 					$("#TPopKontrAendUms").limiter(255, $("#TPopKontrAendUms_limit"));
 					$("#TPopKontrAendKontr").val(data.TPopKontrAendKontr);
 					$("#TPopKontrAendKontr").limiter(255, $("#TPopKontrAendKontr_limit"));
-					//Biotop
+					// Biotop
 					$("#TPopKontrFlaeche").val(data.TPopKontrFlaeche);
 					$("#TPopKontrVegTyp").val(data.TPopKontrVegTyp);
 					$("#TPopKontrVegTyp").limiter(100, $("#TPopKontrVegTyp_limit"));
@@ -1208,7 +1200,7 @@ function initiiere_tpopfeldkontr() {
 					$("#TPopKontrWasserhaushalt").limiter(255, $("#TPopKontrWasserhaushalt_limit"));
 					$("#TPopKontrHandlungsbedarf").val(data.TPopKontrHandlungsbedarf);
 					$("#TPopKontrIdealBiotopUebereinst" + data.TPopKontrIdealBiotopUebereinst).prop("checked", true);
-					//TPopKontrLeb: Daten holen - oder vorhandene nutzen
+					// TPopKontrLeb: Daten holen - oder vorhandene nutzen
 					if (!window.lrdelarze_html) {
 						$.ajax({
 							type: 'get',
@@ -1216,11 +1208,9 @@ function initiiere_tpopfeldkontr() {
 							dataType: 'json',
 							success: function (data4) {
 								if (data4) {
-									//ap bereitstellen
-									//Feld mit Daten beliefern
+									// Feld mit Daten beliefern
 									var html;
 									html = "<option></option>";
-									//for (i in data4.rows) {
 									for (var i = 0; i < data4.rows.length; i++) {
 										html += "<option value=\"" + data4.rows[i].id + "\">" + data4.rows[i].Einheit + "</option>";
 									}
@@ -1239,7 +1229,7 @@ function initiiere_tpopfeldkontr() {
 						$("#TPopKontrLebUmg").val(window.tpopfeldkontr.TPopKontrLebUmg);
 					}
 				}
-				//TPopKontrIdealBiotopUebereinst: Daten holen - oder vorhandene nutzen
+				// TPopKontrIdealBiotopUebereinst: Daten holen - oder vorhandene nutzen
 				if (!window.IdealBiotopÜbereinst_html) {
 					$.ajax({
 						type: 'get',
@@ -1247,11 +1237,9 @@ function initiiere_tpopfeldkontr() {
 						dataType: 'json',
 						success: function (data5) {
 							if (data5) {
-								//ap bereitstellen
-								//Feld mit Daten beliefern
+								// Feld mit Daten beliefern
 								var html;
 								html = "<option></option>";
-								//for (i in data5.rows) {
 								for (var i = 0; i < data5.rows.length; i++) {
 									html += "<option value=\"" + data5.rows[i].id + "\">" + data5.rows[i].DomainTxt + "</option>";
 								}
@@ -1265,7 +1253,7 @@ function initiiere_tpopfeldkontr() {
 					$("#TPopKontrIdealBiotopUebereinst").html(window.IdealBiotopÜbereinst_html);
 					$("#TPopKontrIdealBiotopUebereinst").val(window.tpopfeldkontr.TPopKontrIdealBiotopUebereinst);
 				}
-				//Felder, die nur in freiwkontr vorkommen
+				// Felder, die nur in freiwkontr vorkommen
 				if (localStorage.tpopfreiwkontr) {
 					if (data.TPopKontrPlan == 1) {
 						$("#TPopKontrPlan").prop("checked", true);
@@ -1290,7 +1278,7 @@ function initiiere_tpopfeldkontr() {
 					$("#TPopKontrGefaehrdung").val(data.TPopKontrGefaehrdung);
 					$("#TPopKontrGefaehrdung").limiter(255, $("#TPopKontrGefaehrdung_limit"));
 				}
-				//fieldcontain-divs der benötigten Felder einblenden
+				// fieldcontain-divs der benötigten Felder einblenden
 				if (localStorage.tpopfreiwkontr) {
 					for (var h = 0; h < feldliste_freiwkontr.length; h++) {
 						$("#fieldcontain_" + feldliste_freiwkontr[h]).show();
@@ -1300,14 +1288,14 @@ function initiiere_tpopfeldkontr() {
 						$("#fieldcontain_" + feldliste_feldkontr[g]).show();
 					}
 				}
-				//Formulare blenden
+				// Formulare blenden
 				zeigeFormular("tpopfeldkontr");
 				if (!localStorage.tpopfreiwkontr) {
 					history.replaceState({tpopfeldkontr: "tpopfeldkontr"}, "tpopfeldkontr", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopfeldkontr=" + localStorage.tpopfeldkontr_id);
 				} else {
 					history.replaceState({tpopfreiwkontr: "tpopfreiwkontr"}, "tpopfreiwkontr", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopfreiwkontr=" + localStorage.tpopfeldkontr_id);
 				}
-				//Register in Feldkontr blenden
+				// Register in Feldkontr blenden
 				if (localStorage.tpopfreiwkontr) {
 					$("#tpopfeldkontr_tabs_biotop").hide();
 					$("#biotop_tab_li").hide();
@@ -1317,12 +1305,12 @@ function initiiere_tpopfeldkontr() {
 					$("#tpopfeldkontr_tabs_biotop").show();
 					//$("#biotop_tab_li").activate();
 					$("#biotop_tab_li").show();
-					//Dieses Element wird fälschlicherweise in Entwicklung eingeblendet
-					//keine Ahnung wieso
-					//ausblenden!
+					// Dieses Element wird fälschlicherweise in Entwicklung eingeblendet
+					// keine Ahnung wieso
+					// ausblenden!
 					$("#tpopfeldkontr_tabs_biotop").hide();
 				}
-				//Fokus steuern
+				// Fokus steuern
 				$("#TPopKontrJahr").focus();
 				$(window).scrollTop(0);
 			}
@@ -1330,8 +1318,8 @@ function initiiere_tpopfeldkontr() {
 	});
 }
 
-//setzt window.tpopfeldkontr und localStorage.tpopfeldkontr_id
-//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+// setzt window.tpopfeldkontr und localStorage.tpopfeldkontr_id
+// wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowTpopfeldkontr(id) {
 	localStorage.tpopfeldkontr_id = id;
 	$.ajax({
@@ -1342,9 +1330,9 @@ function setzeWindowTpopfeldkontr(id) {
 			"id": localStorage.tpopfeldkontr_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//tpopfeldkontr bereitstellen
+				// tpopfeldkontr bereitstellen
 				window.tpopfeldkontr = data;
 			}
 		}
@@ -1353,13 +1341,13 @@ function setzeWindowTpopfeldkontr(id) {
 
 function initiiere_tpopmassn() {
 	if (!localStorage.tpopmassn_id) {
-		//es fehlen benötigte Daten > eine Ebene höher
+		// es fehlen benötigte Daten > eine Ebene höher
 		initiiere_pop();
 		return;
 	}
-	//Felder zurücksetzen
+	// Felder zurücksetzen
 	leereFelderVonFormular("tpopmassn");
-	//Daten für die pop aus der DB holen
+	// Daten für die pop aus der DB holen
 	$.ajax({
 		type: 'get',
 		url: 'php/tpopmassn.php',
@@ -1368,12 +1356,12 @@ function initiiere_tpopmassn() {
 			"id": localStorage.tpopmassn_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//ap bereitstellen
+				// tpopmassn bereitstellen
 				window.tpopmassn = data;
-				//Felder mit Daten beliefern
-				//für select TPopMassnTyp Daten holen - oder vorhandene nutzen
+				// Felder mit Daten beliefern
+				// für select TPopMassnTyp Daten holen - oder vorhandene nutzen
 				if (!window.tpopmassntyp_html) {
 					$.ajax({
 						type: 'get',
@@ -1381,12 +1369,11 @@ function initiiere_tpopmassn() {
 						dataType: 'json',
 						success: function (data2) {
 							if (data2) {
-								//ap bereitstellen
+								// tpopmassn_typ bereitstellen
 								window.tpopmassn_typ = data2;
-								//Feld mit Daten beliefern
+								// Feld mit Daten beliefern
 								var html;
 								html = "<option></option>";
-								//for (i in data2.rows) {
 								for (var i = 0; i < data2.rows.length; i++) {
 									html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].MassnTypTxt + "</option>";
 								}
@@ -1404,12 +1391,12 @@ function initiiere_tpopmassn() {
 				$("#TPopMassnTxt").limiter(255, $("#TPopMassnTxt_limit"));
 				$("#TPopMassnJahr").val(data.TPopMassnJahr);
 				if (data.TPopMassnDatum !== "01.01.1970") {
-					//php macht aus einem Nullwert im Datum den 1.1.1970!!!
+					// php macht aus einem Nullwert im Datum den 1.1.1970!!!
 					$("#TPopMassnDatum").val(data.TPopMassnDatum);
 				} else {
 					$("#TPopMassnDatum").val("");
 				}
-				//TPopMassnBearb: Daten holen - oder vorhandene nutzen
+				// TPopMassnBearb: Daten holen - oder vorhandene nutzen
 				if (!window.adressen_html) {
 					$.ajax({
 						type: 'get',
@@ -1417,11 +1404,9 @@ function initiiere_tpopmassn() {
 						dataType: 'json',
 						success: function (data2) {
 							if (data2) {
-								//ap bereitstellen
-								//Feld mit Daten beliefern
+								// Feld mit Daten beliefern
 								var html;
 								html = "<option></option>";
-								//for (i in data2.rows) {
 								for (var i = 0; i < data2.rows.length; i++) {
 									html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
 								}
@@ -1453,7 +1438,7 @@ function initiiere_tpopmassn() {
 				$("#TPopMassnAnsiedAnzTriebe").val(data.TPopMassnAnsiedAnzTriebe);
 				$("#TPopMassnAnsiedAnzPfl").val(data.TPopMassnAnsiedAnzPfl);
 				$("#TPopMassnAnzPflanzstellen").val(data.TPopMassnAnzPflanzstellen);
-				//für TPopMassnAnsiedWirtspfl Artliste bereitstellen
+				// für TPopMassnAnsiedWirtspfl Artliste bereitstellen
 				if (!window.artliste_html) {
 					$.ajax({
 						type: 'get',
@@ -1462,7 +1447,6 @@ function initiiere_tpopmassn() {
 						success: function (data) {
 							var html;
 							html = "<option></option>";
-							//for (i in data.rows) {
 							for (var i = 0; i < data.rows.length; i++) {
 								html += "<option value=\"" + data.rows[i].id + "\">" + data.rows[i].Artname + "</option>";
 							}
@@ -1480,18 +1464,18 @@ function initiiere_tpopmassn() {
 				$("#TPopMassnAnsiedDatSamm").val(data.TPopMassnAnsiedDatSamm);
 				$("#TPopMassnAnsiedDatSamm").limiter(50, $("#TPopMassnAnsiedDatSamm_limit"));
 				$("#TPopMassnGuid").val(data.TPopMassnGuid);
-				//Formulare blenden
+				// Formulare blenden
 				zeigeFormular("tpopmassn");
 				history.replaceState({tpopmassn: "tpopmassn"}, "tpopmassn", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopmassn=" + localStorage.tpopmassn_id);
-				//bei neuen Datensätzen Fokus steuern
+				// bei neuen Datensätzen Fokus steuern
 				$('#TPopMassnJahr').focus();
 			}
 		}
 	});
 }
 
-//setzt window.tpopmassn und localStorage.tpopmassn_id
-//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+// setzt window.tpopmassn und localStorage.tpopmassn_id
+// wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowTpopmassn(id) {
 	localStorage.tpopmassn_id = id;
 	$.ajax({
@@ -1502,9 +1486,9 @@ function setzeWindowTpopmassn(id) {
 			"id": localStorage.tpopmassn_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//tpopmassn bereitstellen
+				// tpopmassn bereitstellen
 				window.tpopmassn = data;
 			}
 		}
@@ -1513,13 +1497,13 @@ function setzeWindowTpopmassn(id) {
 
 function initiiere_tpopmassnber() {
 	if (!localStorage.tpopmassnber_id) {
-		//es fehlen benötigte Daten > eine Ebene höher
+		// es fehlen benötigte Daten > eine Ebene höher
 		initiiere_pop();
 		return;
 	}
-	//Felder zurücksetzen
+	// Felder zurücksetzen
 	leereFelderVonFormular("tpopmassnber");
-	//Daten für die pop aus der DB holen
+	// Daten für die pop aus der DB holen
 	$.ajax({
 		type: 'get',
 		url: 'php/tpopmassnber.php',
@@ -1528,26 +1512,26 @@ function initiiere_tpopmassnber() {
 			"id": localStorage.tpopmassnber_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//ap bereitstellen
+				// tpopmassnber bereitstellen
 				window.tpopmassnber = data;
-				//Felder mit Daten beliefern
+				// Felder mit Daten beliefern
 				$("#TPopMassnBerJahr").val(data.TPopMassnBerJahr);
 				$("#TPopMassnBerErfolgsbeurteilung" + data.TPopMassnBerErfolgsbeurteilung).prop("checked", true);
 				$("#TPopMassnBerTxt").val(data.TPopMassnBerTxt);
-				//Formulare blenden
+				// Formulare blenden
 				zeigeFormular("tpopmassnber");
 				history.replaceState({tpopmassnber: "tpopmassnber"}, "tpopmassnber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopmassnber=" + localStorage.tpopmassnber_id);
-				//bei neuen Datensätzen Fokus steuern
+				// bei neuen Datensätzen Fokus steuern
 				$('#TPopMassnBerJahr').focus();
 			}
 		}
 	});
 }
 
-//setzt window.tpopmassnber und localStorage.tpopmassnber_id
-//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+// setzt window.tpopmassnber und localStorage.tpopmassnber_id
+// wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowTpopmassnber(id) {
 	localStorage.tpopmassnber_id = id;
 	$.ajax({
@@ -1558,9 +1542,9 @@ function setzeWindowTpopmassnber(id) {
 			"id": localStorage.tpopmassnber_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//tpopmassnber bereitstellen
+				// tpopmassnber bereitstellen
 				window.tpopmassnber = data;
 			}
 		}
@@ -1569,13 +1553,13 @@ function setzeWindowTpopmassnber(id) {
 
 function initiiere_tpopber() {
 	if (!localStorage.tpopber_id) {
-		//es fehlen benötigte Daten > eine Ebene höher
+		// es fehlen benötigte Daten > eine Ebene höher
 		initiiere_pop();
 		return;
 	}
-	//Felder zurücksetzen
+	// Felder zurücksetzen
 	leereFelderVonFormular("tpopber");
-	//Daten für die tpopber aus der DB holen
+	// Daten für die tpopber aus der DB holen
 	$.ajax({
 		type: 'get',
 		url: 'php/tpopber.php',
@@ -1584,26 +1568,26 @@ function initiiere_tpopber() {
 			"id": localStorage.tpopber_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//tpopber bereitstellen
+				// tpopber bereitstellen
 				window.tpopber = data;
-				//Felder mit Daten beliefern
+				// Felder mit Daten beliefern
 				$("#TPopBerJahr").val(data.TPopBerJahr);
 				$("#TPopBerEntwicklung" + data.TPopBerEntwicklung).prop("checked", true);
 				$("#TPopBerTxt").val(data.TPopBerTxt);
-				//Formulare blenden
+				// Formulare blenden
 				zeigeFormular("tpopber");
 				history.replaceState({tpopber: "tpopber"}, "tpopber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopber=" + localStorage.tpopber_id);
-				//bei neuen Datensätzen Fokus steuern
+				// bei neuen Datensätzen Fokus steuern
 				$('#TPopBerJahr').focus();
 			}
 		}
 	});
 }
 
-//setzt window.tpopber und localStorage.tpopber_id
-//wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
+// setzt window.tpopber und localStorage.tpopber_id
+// wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowTpopber(id) {
 	localStorage.tpopber_id = id;
 	$.ajax({
@@ -1614,9 +1598,9 @@ function setzeWindowTpopber(id) {
 			"id": localStorage.tpopber_id
 		},
 		success: function (data) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
-				//tpopber bereitstellen
+				// tpopber bereitstellen
 				window.tpopber = data;
 			}
 		}
@@ -1624,22 +1608,22 @@ function setzeWindowTpopber(id) {
 }
 
 function initiiere_beob(beobtyp, beobid, beob_status) {
-	//beob_status markiert, ob die Beobachtung:
-	//- schon zugewiesen ist (zugeordnet)
-	//- noch nicht beurteilt ist (nicht_beurteilt)
-	//- nicht zuzuordnen ist (nicht_zuzuordnen)
-	//beob_status muss gespeichert werden, damit bei Datenänderungen bekannt ist, ob ein bestehender Datensatz bearbeitet oder ein neuer geschaffen werden muss
+	// beob_status markiert, ob die Beobachtung:
+	// - schon zugewiesen ist (zugeordnet)
+	// - noch nicht beurteilt ist (nicht_beurteilt)
+	// - nicht zuzuordnen ist (nicht_zuzuordnen)
+	// beob_status muss gespeichert werden, damit bei Datenänderungen bekannt ist, ob ein bestehender Datensatz bearbeitet oder ein neuer geschaffen werden muss
 	localStorage.beob_status = beob_status;
-	//sicherstellen, dass beobtyp immer bekannt ist
+	// sicherstellen, dass beobtyp immer bekannt ist
 	localStorage.beobtyp = beobtyp;
-	//beobid hat 'beob' vorangestellt - entfernen!
+	// beobid hat 'beob' vorangestellt - entfernen!
 	beobid = beobid.replace('beob', '');
-	//beobid bereitstellen
+	// beobid bereitstellen
 	localStorage.beob_id = beobid;
 
 	var url, url_distzutpop;
 	if (!beobid) {
-		//es fehlen benötigte Daten > eine Ebene höher
+		// es fehlen benötigte Daten > eine Ebene höher
 		if (beob_status === "nicht_beurteilt" || beob_status === "nicht_zuzuordnen") {
 			initiiere_ap();
 		} else {
@@ -1648,10 +1632,10 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 		return;
 	}
 	
-	//EvAB oder Infospezies? > entsprechende url zusammensetzen
+	// EvAB oder Infospezies? > entsprechende url zusammensetzen
 	url = 'php/beob_' + beobtyp + '.php';
 	
-	//Daten für die beob aus der DB holen
+	// Daten für die beob aus der DB holen
 	$.ajax({
 		type: 'get',
 		url: url,
@@ -1660,14 +1644,14 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 			"id": beobid
 		},
 		success: function (data_beob) {
-			//Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data_beob) {
 
-				//boebfelder bereitstellen
+				// boebfelder bereitstellen
 				var html_beobfelder = erstelleFelderFuerBeob(data_beob, beobtyp);
 				$("#beob_table").html(html_beobfelder);
 				
-				//Abstand zu TPop aus der DB holen
+				// Abstand zu TPop aus der DB holen
 				url_distzutpop = 'php/beob_distzutpop_' + beobtyp + '.php';
 				$.ajax({
 					type: 'get',
@@ -1677,7 +1661,7 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 						"beobid": beobid
 					},
 					success: function (data) {
-						//Tabellenzeile beginnen
+						// Tabellenzeile beginnen
 						var html_distzutpop = '<tr class="fieldcontain DistZuTPop"><td class="label"><label id="DistZuTPop_label" for="DistZuTPop">Einer Teilpopulation zuordnen:</label></td><td class="Datenfelder"><div class="Datenfelder" id="DistZuTPop_Felder">';
 						if (data) {
 							for (var i=0; i < data.length; i++) {
@@ -1691,23 +1675,23 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 								html_distzutpop += '" DistZuTPop="';
 								html_distzutpop += data[i].DistZuTPop;
 								html_distzutpop += '">';
-								//Wenn TPop keine Koordinaten haben, dies anzeigen und Anzeige von NAN verhindern
+								// Wenn TPop keine Koordinaten haben, dies anzeigen und Anzeige von NAN verhindern
 								if (parseInt(data[i].DistZuTPop, 10) >= 0) {
 									html_distzutpop += parseInt(data[i].DistZuTPop) + "m: " + data[i].TPopFlurname;
 								} else {
 									html_distzutpop += data[i].TPopFlurname;
 								}
 							}
-							//Tabellenzeile abschliessen
+							// Tabellenzeile abschliessen
 							html_distzutpop += '</div></td></tr>';
 
-							//distzutpop bereitstellen
+							// distzutpop bereitstellen
 							$("#beob_zuordnungsfelder").html(html_distzutpop);
 
 							$("#BeobBemerkungen").attr("placeholder", "");
 
 							if (beob_status !== "nicht_beurteilt") {
-								//Daten der Zuordnung holen
+								// Daten der Zuordnung holen
 								$.ajax({
 									type: 'get',
 									url: 'php/beob_zuordnung.php',
@@ -1716,7 +1700,7 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 										"id": beobid
 									},
 									success: function (data) {
-										//Felder mit Daten beliefern
+										// Felder mit Daten beliefern
 										$("#BeobNichtBeurteilt").prop("checked", false);
 										if (data.BeobNichtZuordnen == 1) {
 											$("#BeobNichtZuordnen").prop("checked", true);
@@ -1728,7 +1712,7 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 										$("#BeobMutWann").val(data.BeobMutWann);
 										$("#BeobMutWer").val(data.BeobMutWer);
 
-										//Formulare blenden
+										// Formulare blenden
 										zeigeFormular("beob");
 										if (beob_status === "zugeordnet") {
 											history.replaceState({beob_zugeordnet: "beob_zugeordnet"}, "beob_zugeordnet", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&beob_zugeordnet=" + beobid);
@@ -1738,13 +1722,13 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 									}
 								});
 							} else {
-								//beob_status ist "nicht beurteilt"
+								// beob_status ist "nicht beurteilt"
 								$("#BeobNichtBeurteilt").prop("checked", true);
 								$("#BeobNichtZuordnen").prop("checked", false);
-								//allfällige im letzen beob enthaltene Werte entfernen
+								// allfällige im letzen beob enthaltene Werte entfernen
 								$("#BeobBemerkungen").val("");
 								$("#BeobBemerkungen").attr("placeholder", "Bemerkungen sind nur in zugeordneten oder nicht zuzuordnenden Beobachtungen möglich");
-								//Formulare blenden
+								// Formulare blenden
 								zeigeFormular("beob");
 								history.replaceState({beob_nicht_beurteilt: "beob_nicht_beurteilt"}, "beob_nicht_beurteilt", "index.html?ap=" + localStorage.ap_id + "&beob_nicht_beurteilt=" + beobid);
 							}
@@ -1766,39 +1750,39 @@ function initiiere_exporte(anchor) {
 	}
 }
 
-//managed die Sichtbarkeit von Formularen
-//wird von allen initiiere_-Funktionen verwendet
-//wird ein Formularname übergeben, wird dieses Formular gezeigt
-//und alle anderen ausgeblendet
-//zusätzlich wird die Höhe von textinput-Feldern an den Textinhalt angepasst
+// managed die Sichtbarkeit von Formularen
+// wird von allen initiiere_-Funktionen verwendet
+// wird ein Formularname übergeben, wird dieses Formular gezeigt
+// und alle anderen ausgeblendet
+// zusätzlich wird die Höhe von textinput-Feldern an den Textinhalt angepasst
 function zeigeFormular(Formularname) {
 	var formular_angezeigt = $.Deferred();
-	//zuerst alle Formulare ausblenden
+	// zuerst alle Formulare ausblenden
 	$("#forms").hide();
 	$('form').each(function() {
 		$(this).hide();
 	});
-	//Karten sind in div statt form
+	// Karten sind in div statt form
 	$('.karte').each(function() {
 		$(this).hide();
 	});
 
-	//damit kann bei Grössenänderung die Formularhöhe von Karten gemanagt werden
+	// damit kann bei Grössenänderung die Formularhöhe von Karten gemanagt werden
 	window.kartenhoehe_manuell = false;
-	//höhe von forms auf auto setzen, weil dies von den Kartenansichten verändert wird
+	// höhe von forms auf auto setzen, weil dies von den Kartenansichten verändert wird
 	$("#forms").height('auto');
 	$("#testart_div").hide();
 	$("#forms_titelzeile").hide();
-	//Titelzeile anzeigen, weil sie für die Kartenanzeige entfernt wird
+	// Titelzeile anzeigen, weil sie für die Kartenanzeige entfernt wird
 	//$("#forms_titelzeile").css("display", "inline-block");
-	//Bei Testarten Hinweis anzeigen
+	// Bei Testarten Hinweis anzeigen
 	if ($("#ap_waehlen").val()) {
-		//titelzeile inline, sonst gibt es einen unschönen Abstand nach oben
+		// titelzeile inline, sonst gibt es einen unschönen Abstand nach oben
 		//$("#forms_titelzeile").css("display", "inline");
 		$("#forms_titelzeile").css("display", "none");
 		if ($("#ap_waehlen").val() <= 150 && Formularname !== "jber_uebersicht" && Formularname !== "exporte" && Formularname !== "GeoAdminKarte") {
 			$("#testart_div").css("color", "#03970F");
-			//titelzeile inline-block, sonst werden Tabs nach rechts verschoben
+			// titelzeile inline-block, sonst werden Tabs nach rechts verschoben
 			$("#forms_titelzeile").css("display", "inline-block");
 			$("#testart_div").show();
 			//$("#forms_titelzeile").show();
@@ -1816,16 +1800,16 @@ function zeigeFormular(Formularname) {
 		$("#forms").show();
 		$("#ap_loeschen").show();
 		if (Formularname === "google_karte" || Formularname === "GeoAdminKarte") {
-			//Titelzeile entfernen
+			// Titelzeile entfernen
 			$("#forms_titelzeile").css("display", "none");
-			//höhe einstellen
+			// höhe einstellen
 			$("#" + Formularname).css("height", $(window).height()-17 + "px");
-			//markieren, dass die Formularhöhe anders gesetzt werden soll
+			// markieren, dass die Formularhöhe anders gesetzt werden soll
 			window.kartenhoehe_manuell = true;
 			setzeKartenhoehe();
 			$("#" + Formularname).show();
 			if (Formularname === "GeoAdminKarte") {
-				//auswählen deaktivieren und allfällige Liste ausblenden
+				// auswählen deaktivieren und allfällige Liste ausblenden
 				$("#mitPolygonWaehlen").button({ disabled: false });
 				initiiereGeoAdminKarte();
 			}
@@ -1847,7 +1831,7 @@ function zeigeFormular(Formularname) {
 	return formular_angezeigt.promise();
 }
 
-//leert alle Felder und stellt ihre Breite ein
+// leert alle Felder und stellt ihre Breite ein
 function leereFelderVonFormular(Formular) {
 	$('#' + Formular + ' input[type="text"]').each(function(){
 		$(this).val("");
@@ -1860,14 +1844,14 @@ function leereFelderVonFormular(Formular) {
 	});
 }
 
-//begrenzt die maximale Höhe des Baums auf die Seitenhöhe, wenn nötig
+// begrenzt die maximale Höhe des Baums auf die Seitenhöhe, wenn nötig
 function setzeTreehoehe() {
 	if ($(window).width() > 1000) {
 		if (($(".jstree-no-icons").height() + 157) > $(window).height()) {
 			$("#tree").css("max-height", $(window).height() - 145);
 		}
 	} else {
-		//Spalten sind untereinander. Baum 75px weniger hoch, damit Formulare immer erreicht werden können
+		// Spalten sind untereinander. Baum 75px weniger hoch, damit Formulare immer erreicht werden können
 		if (($(".jstree-no-icons").height() + 157) > $(window).height()-75) {
 			$("#tree").css("max-height", $(window).height() - 220);
 		}
@@ -1875,7 +1859,7 @@ function setzeTreehoehe() {
 }
 
 function setzeKartenhoehe() {
-	//Formulare sind unbegrenzt hoch aber Karten sollen das nicht sein
+	// Formulare sind unbegrenzt hoch aber Karten sollen das nicht sein
 	if (window.kartenhoehe_manuell) {
 		$("#forms").height($(window).height() - 17);
 		if (typeof window.api !== "undefined" && window.api.map) {
@@ -1897,7 +1881,7 @@ function setzeKartenhoehe() {
 	}
 })(jQuery);
 
-//setzt die Höhe von textareas so, dass der Text genau rein passt
+// setzt die Höhe von textareas so, dass der Text genau rein passt
 function FitToContent(id, maxHeight) {
    var text = id && id.style ? id : document.getElementById(id);
    if (!text)
@@ -1979,15 +1963,15 @@ function erstelle_tree(ApArtId) {
 			}
 		},
 		"core": {
-			"open_parents": true,	//wird ein node programmatisch geöffnet, öffnen sich alle parents
-			"strings": {	//Deutsche Übersetzungen
+			"open_parents": true,	// wird ein node programmatisch geöffnet, öffnen sich alle parents
+			"strings": {	// Deutsche Übersetzungen
 				"loading": "hole Daten...",
 				"new_node": "neuer Knoten"
 			},
 		},
 		"ui": {
-			"select_limit": 1,	//nur ein Datensatz kann aufs mal gewählt werden
-			"selected_parent_open": true,	//wenn Code einen node wählt, werden alle parents geöffnet
+			"select_limit": 1,	// nur ein Datensatz kann aufs mal gewählt werden
+			"selected_parent_open": true,	// wenn Code einen node wählt, werden alle parents geöffnet
 			"select_prev_on_delete": true
 		},
 		"search": {
@@ -2009,7 +1993,7 @@ function erstelle_tree(ApArtId) {
 			"move": {
 				"default_position": "first",
 				"check_move": function (m) {
-					//hier wird bestimmt, welche drag-drop-Kombinationen zulässig sind
+					// hier wird bestimmt, welche drag-drop-Kombinationen zulässig sind
 					if (m.o.attr("typ") === "pop") {
 						if (m.r.attr("typ") === "pop") {
 							return {
@@ -2351,7 +2335,7 @@ function erstelle_tree(ApArtId) {
 			}
 		},
 		"plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "contextmenu", "crrm", "types"]
-		//"plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "contextmenu", "crrm", "dnd", "types"]   //dnd ausgeschaltet, weil es Speichern verhindert im letzten Feld vor Klick in Baum
+		//"plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "contextmenu", "crrm", "dnd", "types"]   // dnd ausgeschaltet, weil es Speichern verhindert im letzten Feld vor Klick in Baum
 	})
 	.show()
 	.bind("loaded.jstree", function (event, data) {
@@ -2361,113 +2345,113 @@ function erstelle_tree(ApArtId) {
 		$("#hilfe").show();
 		if (window.pop_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='pop']#" + localStorage.pop_id);
-			//diese Markierung entfernen, damit das nächste mal nicht mehr diese Pop geöffnet wird
+			// diese Markierung entfernen, damit das nächste mal nicht mehr diese Pop geöffnet wird
 			delete window.pop_zeigen;
 		}
 		if (window.popber_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='popber']#" + localStorage.popber_id);
-			//diese Markierung entfernen, damit das nächste mal nicht mehr diese Popber geöffnet wird
+			// diese Markierung entfernen, damit das nächste mal nicht mehr diese Popber geöffnet wird
 			delete window.popber_zeigen;
 		}
 		if (window.popmassnber_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='popmassnber']#" + localStorage.popmassnber_id);
-			//diese Markierung entfernen, damit das nächste mal nicht mehr diese popmassnber geöffnet wird
+			// diese Markierung entfernen, damit das nächste mal nicht mehr diese popmassnber geöffnet wird
 			delete window.popmassnber_zeigen;
 		}
 		if (window.tpop_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='tpop']#" + localStorage.tpop_id);
-			//diese Markierung entfernen, damit das nächste mal nicht mehr diese TPop geöffnet wird
+			// diese Markierung entfernen, damit das nächste mal nicht mehr diese TPop geöffnet wird
 			delete window.tpop_zeigen;
 		}
 		if (window.tpopfeldkontr_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='tpopfeldkontr']#" + localStorage.tpopfeldkontr_id);
-			//diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopfeldkontr geöffnet wird
+			// diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopfeldkontr geöffnet wird
 			delete window.tpopfeldkontr_zeigen;
 		}
 		if (window.tpopfreiwkontr_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='tpopfreiwkontr']#" + localStorage.tpopfeldkontr_id);
-			//diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopfreiwkontr geöffnet wird
+			// diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopfreiwkontr geöffnet wird
 			delete window.tpopfreiwkontr_zeigen;
 		}
 		if (window.tpopmassn_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='tpopmassn']#" + localStorage.tpopmassn_id);
-			//diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopmassn geöffnet wird
+			// diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopmassn geöffnet wird
 			delete window.tpopmassn_zeigen;
 		}
 		if (window.tpopber_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='tpopber']#" + localStorage.tpopber_id);
-			//diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopber geöffnet wird
+			// diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopber geöffnet wird
 			delete window.tpopber_zeigen;
 		}
 		if (window.beob_zugeordnet_zeigen) {
 			jQuery("#tree").jstree("select_node", "#beob" + localStorage.beob_id);
-			//diese Markierung entfernen, damit das nächste mal nicht mehr diese beob_zugeordnet geöffnet wird
+			// diese Markierung entfernen, damit das nächste mal nicht mehr diese beob_zugeordnet geöffnet wird
 			delete window.beob_zugeordnet_zeigen;
 		}
 		if (window.tpopmassnber_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='tpopmassnber']#" + localStorage.tpopmassnber_id);
-			//diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopmassnber geöffnet wird
+			// diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopmassnber geöffnet wird
 			delete window.tpopmassnber_zeigen;
 		}
 		if (window.apziel_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='apziel']#" + localStorage.apziel_id);
-			//diese Markierung entfernen, damit das nächste mal nicht mehr diese apziel geöffnet wird
+			// diese Markierung entfernen, damit das nächste mal nicht mehr diese apziel geöffnet wird
 			delete window.apziel_zeigen;
 		}
 		if (window.zielber_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='zielber']#" + localStorage.zielber_id);
-			//diese Markierung entfernen, damit das nächste mal nicht mehr diese zielber geöffnet wird
+			// diese Markierung entfernen, damit das nächste mal nicht mehr diese zielber geöffnet wird
 			delete window.zielber_zeigen;
 		}
 		if (window.erfkrit_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='erfkrit']#" + localStorage.erfkrit_id);
-			//diese Markierung entfernen, damit das nächste mal nicht mehr diese erfkrit geöffnet wird
+			// diese Markierung entfernen, damit das nächste mal nicht mehr diese erfkrit geöffnet wird
 			delete window.erfkrit_zeigen;
 		}
 		if (window.jber_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='jber']#" + localStorage.jber_id);
-			//diese Markierung entfernen, damit das nächste mal nicht mehr diese jber geöffnet wird
+			// diese Markierung entfernen, damit das nächste mal nicht mehr diese jber geöffnet wird
 			delete window.jber_zeigen;
 		}
 		if (window.jber_uebersicht_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='jber_uebersicht']#" + localStorage.jber_uebersicht_id);
-			//diese Markierung entfernen, damit das nächste mal nicht mehr diese jber_uebersicht geöffnet wird
+			// diese Markierung entfernen, damit das nächste mal nicht mehr diese jber_uebersicht geöffnet wird
 			delete window.jber_uebersicht_zeigen;
 		}
 		if (window.ber_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='ber']#" + localStorage.ber_id);
-			//diese Markierung entfernen, damit das nächste mal nicht mehr diese ber geöffnet wird
+			// diese Markierung entfernen, damit das nächste mal nicht mehr diese ber geöffnet wird
 			delete window.ber_zeigen;
 		}
 		if (window.idealbiotop_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='idealbiotop']#" + localStorage.idealbiotop_id);
-			//diese Markierung entfernen, damit das nächste mal nicht mehr diese idealbiotop geöffnet wird
+			// diese Markierung entfernen, damit das nächste mal nicht mehr diese idealbiotop geöffnet wird
 			delete window.idealbiotop_zeigen;
 		}
 		if (window.assozarten_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='assozarten']#" + localStorage.assozarten_id);
-			//diese Markierung entfernen, damit das nächste mal nicht mehr diese assozarten geöffnet wird
+			// diese Markierung entfernen, damit das nächste mal nicht mehr diese assozarten geöffnet wird
 			delete window.assozarten_zeigen;
 		}
 		if (window.beob_nicht_beurteilt_zeigen) {
 			jQuery("#tree").jstree("select_node", "#beob" + localStorage.beob_id);
-			//diese Markierung entfernen, damit das nächste mal nicht mehr diese beob geöffnet wird
+			// diese Markierung entfernen, damit das nächste mal nicht mehr diese beob geöffnet wird
 			delete window.beob_nicht_beurteilt_zeigen;
 		}
 		if (window.beob_nicht_zuzuordnen_zeigen) {
 			jQuery("#tree").jstree("select_node", "#beob" + localStorage.beob_id);
-			//diese Markierung entfernen, damit das nächste mal nicht mehr diese beob geöffnet wird
+			// diese Markierung entfernen, damit das nächste mal nicht mehr diese beob geöffnet wird
 			delete window.beob_nicht_zuzuordnen_zeigen;
 		}
 		if (window.ap_zeigen) {
 			initiiere_ap();
-			//diese Markierung entfernen, damit das nächste mal nicht mehr dieser AP geöffnet wird
+			// diese Markierung entfernen, damit das nächste mal nicht mehr dieser AP geöffnet wird
 			delete window.ap_zeigen;
 		}
 	})
-	//auch auf Mobilgeräten soll das Kontextmenü zugänglich sein!
+	// auch auf Mobilgeräten soll das Kontextmenü zugänglich sein!
 	.hammer().bind("hold doubletap", function (event) {
-		//auf PC's verhindern: Menu erscheint sonst beim Scrollen
+		// auf PC's verhindern: Menu erscheint sonst beim Scrollen
 		if ($(window).width() < 1000) {
 			setTimeout(function() {
 				jQuery("#tree").jstree('get_selected').children('a').trigger('contextmenu');
@@ -2476,143 +2460,143 @@ function erstelle_tree(ApArtId) {
 	})
 	.bind("select_node.jstree", function (e, data) {
 		var node;	
-		delete localStorage.tpopfreiwkontr;	//Erinnerung an letzten Klick im Baum löschen
+		delete localStorage.tpopfreiwkontr;	// Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
 		var node_typ = node.attr("typ");
-		//in der ID des Nodes enthaltene Texte müssen entfernt werden
+		// in der ID des Nodes enthaltene Texte müssen entfernt werden
 		var node_id = erstelleIdAusDomAttributId(node.attr("id"));
 		jQuery.jstree._reference(node).open_node(node);
 		if (node_typ.slice(0, 3) === "ap_" || node_typ === "apzieljahr") {
-			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#ap").is(':visible') || localStorage.ap_id !== node_id) {
 				localStorage.ap_id = node_id;
 				delete localStorage.pop_id;
 				initiiere_ap();
 			}
 		} else if (node_typ === "pop" || node_typ.slice(0, 4) === "pop_") {
-			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#pop").is(':visible') || localStorage.pop_id !== node_id) {
 				localStorage.pop_id = node_id;
 				initiiere_pop();
 			}
 		} else if (node_typ === "apziel" || node_typ === "zielber_ordner") {
-			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#apziel").is(':visible') || localStorage.apziel_id !== node_id) {
 				localStorage.apziel_id = node_id;
 				initiiere_apziel();
 			}
 		} else if (node_typ === "zielber") {
-			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#zielber").is(':visible') || localStorage.zielber_id !== node_id) {
 				localStorage.zielber_id = node_id;
 				initiiere_zielber();
 			}
 		} else if (node_typ === "erfkrit") {
-			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#erfkrit").is(':visible') || localStorage.erfkrit_id !== node_id) {
 				localStorage.erfkrit_id = node_id;
 				initiiere_erfkrit();
 			}
 		} else if (node_typ === "jber") {
-			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#jber").is(':visible') || localStorage.jber_id !== node_id) {
 				localStorage.jber_id = node_id;
 				initiiere_jber();
 			}
 		} else if (node_typ === "jber_uebersicht") {
-			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#jber_uebersicht").is(':visible') || localStorage.jber_uebersicht_id !== node_id) {
 				localStorage.jber_uebersicht_id = node_id;
 				initiiere_jber_uebersicht();
 			}
 		} else if (node_typ === "ber") {
-			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#ber").is(':visible') || localStorage.ber_id !== node_id) {
 				localStorage.ber_id = node_id;
 				initiiere_ber();
 			}
 		} else if (node_typ === "idealbiotop") {
-			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#idealbiotop").is(':visible')) {
-				//eigene id nicht nötig
-				//1:1 mit ap verbunden, gleich id
-				//wenn noch kein Datensatz existiert erstellt ihn initiiere_idealbiotop
+				// eigene id nicht nötig
+				// 1:1 mit ap verbunden, gleich id
+				// wenn noch kein Datensatz existiert erstellt ihn initiiere_idealbiotop
 				initiiere_idealbiotop();
 			}
 		} else if (node_typ === "assozarten") {
-			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#assozarten").is(':visible') || localStorage.assozarten_id !== node_id) {
 				localStorage.assozarten_id = node_id;
 				initiiere_assozarten();
 			}
 		} else if (node_typ === "popber") {
-			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#popber").is(':visible') || localStorage.popber_id !== node_id) {
 				localStorage.popber_id = node_id;
 				initiiere_popber();
 			}
 		} else if (node_typ === "popmassnber") {
-			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#popmassnber").is(':visible') || localStorage.popmassnber_id !== node_id) {
 				localStorage.popmassnber_id = node_id;
 				initiiere_popmassnber();
 			}
 		} else if (node_typ === "tpop" || node_typ.slice(0, 5) === "tpop_") {
-			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#tpop").is(':visible') || localStorage.tpop_id !== node_id) {
 				localStorage.tpop_id = node_id;
 				initiiere_tpop();
 			}
 		} else if (node_typ === "tpopfeldkontr") {
-			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#tpopfeldkontr").is(':visible') || localStorage.tpopfeldkontr_id !== node_id) {
 				localStorage.tpopfeldkontr_id = node_id;
 				initiiere_tpopfeldkontr();
 			}
 		} else if (node_typ === "tpopfreiwkontr") {
-			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#tpopfeldkontr").is(':visible') || localStorage.tpopfeldkontr_id !== node_id) {
 				localStorage.tpopfeldkontr_id = node_id;
 				localStorage.tpopfreiwkontr = true;
 				initiiere_tpopfeldkontr();
 			}
 		} else if (node_typ === "tpopmassn") {
-			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#tpopmassn").is(':visible') || localStorage.tpopmassn_id !== node_id) {
 				localStorage.tpopmassn_id = node_id;
 				initiiere_tpopmassn();
 			}
 		} else if (node_typ === "tpopber") {
-			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#tpopber").is(':visible') || localStorage.tpopber_id !== node_id) {
 				localStorage.tpopber_id = node_id;
 				initiiere_tpopber();
 			}
 		} else if (node_typ === "beob_zugeordnet") {
-			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#beob").is(':visible') || localStorage.beob_id !== node_id || localStorage.beob_status !== "zugeordnet") {
 				localStorage.beob_id = node_id;
 				localStorage.beobtyp = node.attr("beobtyp");
 				initiiere_beob(node.attr("beobtyp"), node_id, "zugeordnet");
 			}
 		} else if (node_typ === "beob_nicht_beurteilt") {
-			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#beob").is(':visible') || localStorage.beob_id !== node_id || localStorage.beob_status !== "nicht_beurteilt") {
 				localStorage.beob_id = node_id;
 				localStorage.beobtyp = node.attr("beobtyp");
-				//den Beobtyp mitgeben
+				// den Beobtyp mitgeben
 				initiiere_beob(node.attr("beobtyp"), node_id, "nicht_beurteilt");
 			}
 		} else if (node_typ === "beob_nicht_zuzuordnen") {
-			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#beob").is(':visible') || localStorage.beob_id !== node_id || localStorage.beob_status !== "nicht_zuzuordnen") {
 				localStorage.beob_id = node_id;
 				localStorage.beobtyp = node.attr("beobtyp");
-				//den Beobtyp mitgeben
+				// den Beobtyp mitgeben
 				initiiere_beob(node.attr("beobtyp"), node_id, "nicht_zuzuordnen");
 			}
 		} else if (node_typ === "tpopmassnber") {
-			//verhindern, dass bereits offene Seiten nochmals geöffnet werden
+			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#tpopmassnber").is(':visible') || localStorage.tpopmassnber_id !== node_id) {
 				localStorage.tpopmassnber_id = node_id;
 				initiiere_tpopmassnber();
@@ -2626,7 +2610,7 @@ function erstelle_tree(ApArtId) {
 		setzeTreehoehe();
 	})
 	.bind("prepare_move.jstree", function (e, data) {
-		//herkunft_parent_node muss vor dem move ermittelt werden - danach ist der parent ein anderer!
+		// herkunft_parent_node muss vor dem move ermittelt werden - danach ist der parent ein anderer!
 		window.herkunft_parent_node = jQuery.jstree._reference(data.rslt.o)._get_parent(data.rslt.o);
 	})
 	.bind("create_node.jstree", function (e, data) {
@@ -2642,7 +2626,7 @@ function erstelle_tree(ApArtId) {
 	.bind("move_node.jstree", function (e, data) {
 		var herkunft_node, herkunft_node_id, herkunft_node_typ, ziel_node, ziel_node_id, ziel_node_typ, ziel_parent_node, ziel_parent_node_id;
 		
-		//nur aktualisieren, wenn Schreibrechte bestehen
+		// nur aktualisieren, wenn Schreibrechte bestehen
 		if (sessionStorage.NurLesen) {
 			$("#Meldung").html("Sie haben keine Schreibrechte");
 			$("#Meldung").dialog({
@@ -2656,7 +2640,7 @@ function erstelle_tree(ApArtId) {
 			return;
 		}
 
-		//Variabeln setzen
+		// Variabeln setzen
 		herkunft_node = data.rslt.o;
 		herkunft_node_id = erstelleIdAusDomAttributId($(herkunft_node).attr("id"));
 		herkunft_node_typ = herkunft_node.attr("typ");
@@ -2672,7 +2656,7 @@ function erstelle_tree(ApArtId) {
 			if (ziel_node_typ === "pop") {
 				$.ajax({
 					type: 'post',
-					url: 'php/pop_einfuegen.php',		//TO DO: PHP
+					url: 'php/pop_einfuegen.php',
 					dataType: 'json',
 					data: {
 						"ap_art_id": ziel_parent_node_id,
@@ -2680,13 +2664,13 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					},
 					success: function () {
-						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 						beschrifte_ap_ordner_pop(ziel_parent_node);
 						beschrifte_ap_ordner_pop(window.herkunft_parent_node);
-						//selection steuern
+						// selection steuern
 						jQuery.jstree._reference(ziel_node).deselect_all();
 						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
-						//Variablen aufräumen
+						// Variablen aufräumen
 						localStorage.pop_id = herkunft_node_id;
 						delete window.pop;
 						delete window.pop_node_ausgeschnitten;
@@ -2717,13 +2701,13 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					},
 					success: function () {
-						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 						beschrifte_pop_ordner_tpop(ziel_parent_node);
 						beschrifte_pop_ordner_tpop(window.herkunft_parent_node);
-						//selection steuern
+						// selection steuern
 						jQuery.jstree._reference(ziel_node).deselect_all();
 						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
-						//Variablen aufräumen
+						// Variablen aufräumen
 						localStorage.tpop_id = herkunft_node_id;
 						delete window.tpop;
 						delete window.tpop_node_ausgeschnitten;
@@ -2754,13 +2738,13 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					},
 					success: function () {
-						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 						beschrifte_pop_ordner_tpop(ziel_node);
 						beschrifte_pop_ordner_tpop(window.herkunft_parent_node);
-						//select steuern
+						// select steuern
 						jQuery.jstree._reference(ziel_node).deselect_all();
 						jQuery.jstree._reference(ziel_node).select_node(herkunft_node);
-						//Variablen aufräumen
+						// Variablen aufräumen
 						localStorage.tpop_id = herkunft_node_id;
 						delete window.tpop;
 						delete window.tpop_node_ausgeschnitten;
@@ -2792,13 +2776,13 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					},
 					success: function () {
-						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 						beschrifte_pop_ordner_tpop(ziel_parent_node);
 						beschrifte_pop_ordner_tpop(window.herkunft_parent_node);
-						//selection steuern
+						// selection steuern
 						jQuery.jstree._reference(herkunft_node).deselect_all();
 						jQuery.jstree._reference(ziel_parent_node).select_node(herkunft_node);
-						//Variablen aufräumen
+						// Variablen aufräumen
 						localStorage.tpop_id = herkunft_node_id;
 						delete window.tpop;
 						delete window.tpop_node_ausgeschnitten;
@@ -2829,13 +2813,13 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					},
 					success: function () {
-						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 						beschrifte_pop_ordner_tpop(ziel_node);
 						beschrifte_pop_ordner_tpop(window.herkunft_parent_node);
-						//selection steuern
+						// selection steuern
 						jQuery.jstree._reference(herkunft_node).deselect_all();
 						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
-						//Variablen aufräumen
+						// Variablen aufräumen
 						localStorage.tpop_id = herkunft_node_id;
 						delete window.tpop;
 						delete window.tpop_node_ausgeschnitten;
@@ -2868,13 +2852,13 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					},
 					success: function () {
-						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 						beschrifte_tpop_ordner_massn(ziel_parent_node);
 						beschrifte_tpop_ordner_massn(window.herkunft_parent_node);
-						//selection steuern
+						// selection steuern
 						jQuery.jstree._reference(herkunft_node).deselect_all();
 						jQuery.jstree._reference(ziel_parent_node).select_node(herkunft_node);
-						//Variablen aufräumen
+						// Variablen aufräumen
 						localStorage.tpopmassn_id = herkunft_node_id;
 						delete window.tpopmassn;
 						delete window.tpopmassn_node_ausgeschnitten;
@@ -2905,13 +2889,13 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					},
 					success: function () {
-						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 						beschrifte_tpop_ordner_massn(ziel_node);
 						beschrifte_tpop_ordner_massn(window.herkunft_parent_node);
-						//selection steuern
+						// selection steuern
 						jQuery.jstree._reference(herkunft_node).deselect_all();
 						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
-						//Variablen aufräumen
+						// Variablen aufräumen
 						localStorage.tpopmassn_id = herkunft_node_id;
 						delete window.tpopmassn;
 						delete window.tpopmassn_node_ausgeschnitten;
@@ -2944,13 +2928,13 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					},
 					success: function () {
-						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 						beschrifte_tpop_ordner_feldkontr(ziel_parent_node);
 						beschrifte_tpop_ordner_feldkontr(window.herkunft_parent_node);
-						//selection steuern
+						// selection steuern
 						jQuery.jstree._reference(herkunft_node).deselect_all();
 						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
-						//Variablen aufräumen
+						// Variablen aufräumen
 						localStorage.tpopfeldkontr_id = herkunft_node_id;
 						delete window.tpopfeldkontr;
 						delete window.tpopfeldkontr_node_ausgeschnitten;
@@ -2981,13 +2965,13 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					},
 					success: function () {
-						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 						beschrifte_tpop_ordner_feldkontr(ziel_node);
 						beschrifte_tpop_ordner_feldkontr(window.herkunft_parent_node);
-						//selection steuern
+						// selection steuern
 						jQuery.jstree._reference(herkunft_node).deselect_all();
 						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
-						//Variablen aufräumen
+						// Variablen aufräumen
 						localStorage.tpopfeldkontr_id = herkunft_node_id;
 						delete window.tpopfeldkontr;
 						delete window.tpopfeldkontr_node_ausgeschnitten;
@@ -3020,13 +3004,13 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					},
 					success: function () {
-						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 						beschrifte_tpop_ordner_freiwkontr(ziel_parent_node);
 						beschrifte_tpop_ordner_freiwkontr(window.herkunft_parent_node);
-						//selection steuern
+						// selection steuern
 						jQuery.jstree._reference(herkunft_node).deselect_all();
 						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
-						//Variablen aufräumen
+						// Variablen aufräumen
 						localStorage.tpopfeldkontr_id = herkunft_node_id;
 						delete window.tpopfeldkontr;
 						delete window.tpopfreiwkontr_node_ausgeschnitten;
@@ -3058,13 +3042,13 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					},
 					success: function () {
-						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 						beschrifte_tpop_ordner_freiwkontr(ziel_node);
 						beschrifte_tpop_ordner_freiwkontr(window.herkunft_parent_node);
-						//selection steuern
+						// selection steuern
 						jQuery.jstree._reference(herkunft_node).deselect_all();
 						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
-						//Variablen aufräumen
+						// Variablen aufräumen
 						localStorage.tpopfeldkontr_id = herkunft_node_id;
 						delete window.tpopfeldkontr;
 						delete window.tpopfreiwkontr_node_ausgeschnitten;
@@ -3087,9 +3071,9 @@ function erstelle_tree(ApArtId) {
 			}
 		}
 		if (herkunft_node_typ === "beob_zugeordnet") {
-			//zugeordnet
+			// zugeordnet
 			if (ziel_node_typ === "beob_nicht_beurteilt" || ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
-				//zugeordnet > nicht beurteilt
+				// zugeordnet > nicht beurteilt
 				$.ajax({
 					type: 'post',
 					url: 'php/beob_zuordnung_delete.php',
@@ -3098,19 +3082,19 @@ function erstelle_tree(ApArtId) {
 						"id": herkunft_node_id
 					},
 					success: function() {
-						//typ des nodes anpassen
+						// typ des nodes anpassen
 						herkunft_node.attr("typ", "beob_nicht_beurteilt");
 						localStorage.beobtyp = "beob_nicht_beurteilt";
-						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 						if (ziel_node_typ === "beob_nicht_beurteilt") {
 							beschrifte_ap_ordner_beob_nicht_beurteilt(ziel_parent_node);
 						} else {
 							beschrifte_ap_ordner_beob_nicht_beurteilt(ziel_node);
 						}
 						beschrifte_tpop_ordner_beob_zugeordnet(window.herkunft_parent_node);
-						//beob initiieren
+						// beob initiieren
 						initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_beurteilt");
-						//Variablen aufräumen
+						// Variablen aufräumen
 						delete window.beob_zugeordnet_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
 					},
@@ -3128,7 +3112,7 @@ function erstelle_tree(ApArtId) {
 				});
 			}
 			if (ziel_node_typ === "beob_zugeordnet" || ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
-				//zugeordnet > zugeordnet
+				// zugeordnet > zugeordnet
 				var neue_tpop_id;
 				if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
 					neue_tpop_id = ziel_node_id;
@@ -3146,20 +3130,20 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					},
 					success: function () {
-						//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 						if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
 							beschrifte_tpop_ordner_beob_zugeordnet(ziel_node);
 						} else {
 							beschrifte_tpop_ordner_beob_zugeordnet(ziel_parent_node);
 						}
 						beschrifte_tpop_ordner_beob_zugeordnet(window.herkunft_parent_node);
-						//selection steuern
+						// selection steuern
 						if (!localStorage.karte_fokussieren) {
 							initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "zugeordnet");
 						} else {
 							delete localStorage.karte_fokussieren;
 						}
-						//Variablen aufräumen
+						// Variablen aufräumen
 						delete window.beob_zugeordnet_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
 					},
@@ -3177,7 +3161,7 @@ function erstelle_tree(ApArtId) {
 				});
 			}
 			if (ziel_node_typ === "beob_nicht_zuzuordnen" || ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
-				//zugeordnet > nicht zuzuordnen
+				// zugeordnet > nicht zuzuordnen
 				$.ajax({
 					type: 'post',
 					url: 'php/beob_update.php',
@@ -3189,7 +3173,7 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					},
 					success: function() {
-						//TPopId null setzen
+						// TPopId null setzen
 						$.ajax({
 							type: 'post',
 							url: 'php/beob_update.php',
@@ -3204,20 +3188,20 @@ function erstelle_tree(ApArtId) {
 								console.log("fehler beim Leeren von TPopId");
 							}
 						}).done(function() {
-							//aus unerfindlichen Gründen läuft der success callback nicht, darum done
-							//typ des nodes anpassen
+							// aus unerfindlichen Gründen läuft der success callback nicht, darum done
+							// typ des nodes anpassen
 							herkunft_node.attr("typ", "beob_nicht_zuzuordnen");
 							localStorage.beobtyp = "beob_nicht_zuzuordnen";
-							//Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+							// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 							if (ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
 								beschrifte_ap_ordner_beob_nicht_zuzuordnen(ziel_node);
 							} else {
 								beschrifte_ap_ordner_beob_nicht_zuzuordnen(ziel_parent_node);
 							}
 							beschrifte_tpop_ordner_beob_zugeordnet(window.herkunft_parent_node);
-							//Beob initiieren
+							// Beob initiieren
 							initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_zuzuordnen");
-							//Variablen aufräumen
+							// Variablen aufräumen
 							delete window.beob_node_ausgeschnitten;
 							delete window.herkunft_parent_node;
 						});
@@ -3237,16 +3221,16 @@ function erstelle_tree(ApArtId) {
 			}
 		}
 		if (herkunft_node_typ === "beob_nicht_beurteilt") {
-			//nicht beurteilt
+			// nicht beurteilt
 			if (ziel_node_typ === "beob_zugeordnet" || ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
-				//nicht beurteilt > zugeordnet
+				// nicht beurteilt > zugeordnet
 				var neue_tpop_id;
 				if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
 					neue_tpop_id = ziel_node_id;
 				} else {
 					neue_tpop_id = ziel_parent_node_id;
 				}
-				//Zuerst eine neue Zuordnung erstellen
+				// Zuerst eine neue Zuordnung erstellen
 				$.ajax({
 					type: 'post',
 					url: 'php/beob_zuordnung_insert.php',
@@ -3256,7 +3240,7 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					},
 					success: function() {
-						//jetzt aktualisieren
+						// jetzt aktualisieren
 						$.ajax({
 							type: 'post',
 							url: 'php/beob_update.php',
@@ -3268,23 +3252,23 @@ function erstelle_tree(ApArtId) {
 								"user": sessionStorage.User
 							},
 							success: function () {
-								//typ des nodes anpassen
+								// typ des nodes anpassen
 								herkunft_node.attr("typ", "beob_zugeordnet");
 								localStorage.beobtyp = "beob_zugeordnet";
-								//Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
+								// Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
 								beschrifte_ap_ordner_beob_nicht_beurteilt(window.herkunft_parent_node);
 								if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
 									beschrifte_tpop_ordner_beob_zugeordnet(ziel_node);
 								} else {
 									beschrifte_tpop_ordner_beob_zugeordnet(ziel_parent_node);
 								}
-								//selection steuern
+								// selection steuern
 								if (!localStorage.karte_fokussieren) {
 									initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "zugeordnet");
 								} else {
 									delete localStorage.karte_fokussieren;
 								}
-								//Variablen aufräumen
+								// Variablen aufräumen
 								delete window.beob_node_ausgeschnitten;
 								delete window.herkunft_parent_node;
 							},
@@ -3304,7 +3288,7 @@ function erstelle_tree(ApArtId) {
 				});
 			}
 			if (ziel_node_typ === "beob_nicht_zuzuordnen" || ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
-				//nicht beurteilt > nicht zuordnen
+				// nicht beurteilt > nicht zuordnen
 				$.ajax({
 					type: 'post',
 					url: 'php/beob_zuordnung_insert.php',
@@ -3314,7 +3298,7 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					},
 					success: function() {
-						//jetzt aktualisieren
+						// jetzt aktualisieren
 						$.ajax({
 							type: 'post',
 							url: 'php/beob_update.php',
@@ -3326,19 +3310,19 @@ function erstelle_tree(ApArtId) {
 								"user": sessionStorage.User
 							},
 							success: function() {
-								//typ des nodes anpassen
+								// typ des nodes anpassen
 								$(herkunft_node).attr("typ", "beob_nicht_zuzuordnen");
 								localStorage.beobtyp = "beob_nicht_zuzuordnen";
-								//Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
+								// Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
 								beschrifte_ap_ordner_beob_nicht_beurteilt(window.herkunft_parent_node);
 								if (ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
 									beschrifte_ap_ordner_beob_nicht_zuzuordnen(ziel_node);
 								} else {
 									beschrifte_ap_ordner_beob_nicht_zuzuordnen(ziel_parent_node);
 								}
-								//Beob initiieren
+								// Beob initiieren
 								initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_zuzuordnen");
-								//Variablen aufräumen
+								// Variablen aufräumen
 								delete window.beob_node_ausgeschnitten;
 								delete window.herkunft_parent_node;
 							},
@@ -3362,9 +3346,9 @@ function erstelle_tree(ApArtId) {
 			}
 		}
 		if (herkunft_node_typ === "beob_nicht_zuzuordnen") {
-			//nicht zuzuordnen
+			// nicht zuzuordnen
 			if (ziel_node_typ === "beob_nicht_beurteilt" || ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
-				//nicht zuzuordnen > nicht beurteilt
+				// nicht zuzuordnen > nicht beurteilt
 				$.ajax({
 					type: 'post',
 					url: 'php/beob_zuordnung_delete.php',
@@ -3373,19 +3357,19 @@ function erstelle_tree(ApArtId) {
 						"id": herkunft_node_id
 					},
 					success: function() {
-						//typ des nodes anpassen
+						// typ des nodes anpassen
 						$(herkunft_node).attr("typ", "beob_nicht_beurteilt");
 						localStorage.beobtyp = "beob_nicht_beurteilt";
-						//Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
+						// Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
 						beschrifte_ap_ordner_beob_nicht_zuzuordnen(window.herkunft_parent_node);
 						if (ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
 							beschrifte_ap_ordner_beob_nicht_beurteilt(ziel_node);
 						} else {
 							beschrifte_ap_ordner_beob_nicht_beurteilt(ziel_parent_node);
 						}
-						//selektieren
+						// selektieren
 						initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_beurteilt");
-						//Variablen aufräumen
+						// Variablen aufräumen
 						delete window.beob_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
 					},
@@ -3403,7 +3387,7 @@ function erstelle_tree(ApArtId) {
 				});
 			}
 			if (ziel_node_typ === "beob_zugeordnet" || ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
-				//nicht zuzuordnen > zugeordnet
+				// nicht zuzuordnen > zugeordnet
 				var neue_tpop_id;
 				if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
 					neue_tpop_id = ziel_node_id;
@@ -3432,19 +3416,19 @@ function erstelle_tree(ApArtId) {
 								"user": sessionStorage.User
 							},
 							success: function () {
-								//typ des nodes anpassen
+								// typ des nodes anpassen
 								$(herkunft_node).attr("typ", "beob_zugeordnet");
 								localStorage.beobtyp = "beob_zugeordnet";
-								//Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
+								// Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
 								beschrifte_ap_ordner_beob_nicht_zuzuordnen(window.herkunft_parent_node);
 								if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
 									beschrifte_tpop_ordner_beob_zugeordnet(ziel_node);
 								} else {
 									beschrifte_tpop_ordner_beob_zugeordnet(ziel_parent_node);
 								}
-								//selection steuern
+								// selection steuern
 								initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "zugeordnet");
-								//Variablen aufräumen
+								// Variablen aufräumen
 								delete window.beob_node_ausgeschnitten;
 								delete window.herkunft_parent_node;
 							},
@@ -3468,8 +3452,8 @@ function erstelle_tree(ApArtId) {
 	return jstree_erstellt.promise();
 }
 
-//übernimmt einen node
-//zählt dessen children und passt die Beschriftung an
+// übernimmt einen node
+// zählt dessen children und passt die Beschriftung an
 function beschrifte_ap_ordner_pop(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
@@ -3477,8 +3461,8 @@ function beschrifte_ap_ordner_pop(node) {
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
-//übernimmt einen node
-//zählt dessen children und passt die Beschriftung an
+// übernimmt einen node
+// zählt dessen children und passt die Beschriftung an
 function beschrifte_ap_ordner_apziel(node) {
 	var anz, anzTxt;
 	anz = 0;
@@ -3491,8 +3475,8 @@ function beschrifte_ap_ordner_apziel(node) {
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
-//übernimmt einen node
-//zählt dessen children und passt die Beschriftung an
+// übernimmt einen node
+// zählt dessen children und passt die Beschriftung an
 function beschrifte_apzieljahr(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
@@ -3501,8 +3485,8 @@ function beschrifte_apzieljahr(node) {
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
-//übernimmt einen node
-//zählt dessen children und passt die Beschriftung an
+// übernimmt einen node
+// zählt dessen children und passt die Beschriftung an
 function beschrifte_zielber_ordner(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
@@ -3510,8 +3494,8 @@ function beschrifte_zielber_ordner(node) {
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
-//übernimmt einen node
-//zählt dessen children und passt die Beschriftung an
+// übernimmt einen node
+// zählt dessen children und passt die Beschriftung an
 function beschrifte_ap_ordner_erfkrit(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
@@ -3519,8 +3503,8 @@ function beschrifte_ap_ordner_erfkrit(node) {
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
-//übernimmt einen node
-//zählt dessen children und passt die Beschriftung an
+// übernimmt einen node
+// zählt dessen children und passt die Beschriftung an
 function beschrifte_ap_ordner_jber(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
@@ -3528,8 +3512,8 @@ function beschrifte_ap_ordner_jber(node) {
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
-//übernimmt einen node
-//zählt dessen children und passt die Beschriftung an
+// übernimmt einen node
+// zählt dessen children und passt die Beschriftung an
 function beschrifte_ap_ordner_ber(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
@@ -3537,8 +3521,8 @@ function beschrifte_ap_ordner_ber(node) {
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
-//übernimmt einen node
-//zählt dessen children und passt die Beschriftung an
+// übernimmt einen node
+// zählt dessen children und passt die Beschriftung an
 function beschrifte_ap_ordner_assozarten(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
@@ -3546,8 +3530,8 @@ function beschrifte_ap_ordner_assozarten(node) {
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
-//übernimmt einen node
-//zählt dessen children und passt die Beschriftung an
+// übernimmt einen node
+// zählt dessen children und passt die Beschriftung an
 function beschrifte_pop(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
@@ -3555,8 +3539,8 @@ function beschrifte_pop(node) {
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
-//übernimmt einen node
-//zählt dessen children und passt die Beschriftung an
+// übernimmt einen node
+// zählt dessen children und passt die Beschriftung an
 function beschrifte_pop_ordner_tpop(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
@@ -3564,8 +3548,8 @@ function beschrifte_pop_ordner_tpop(node) {
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
-//übernimmt einen node
-//zählt dessen children und passt die Beschriftung an
+// übernimmt einen node
+// zählt dessen children und passt die Beschriftung an
 function beschrifte_pop_ordner_popber(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
@@ -3573,8 +3557,8 @@ function beschrifte_pop_ordner_popber(node) {
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
-//übernimmt einen node
-//zählt dessen children und passt die Beschriftung an
+// übernimmt einen node
+// zählt dessen children und passt die Beschriftung an
 function beschrifte_pop_ordner_massnber(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
@@ -3582,8 +3566,8 @@ function beschrifte_pop_ordner_massnber(node) {
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
-//übernimmt einen node
-//zählt dessen children und passt die Beschriftung an
+// übernimmt einen node
+// zählt dessen children und passt die Beschriftung an
 function beschrifte_tpop_ordner_massn(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
@@ -3591,8 +3575,8 @@ function beschrifte_tpop_ordner_massn(node) {
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
-//übernimmt einen node
-//zählt dessen children und passt die Beschriftung an
+// übernimmt einen node
+// zählt dessen children und passt die Beschriftung an
 function beschrifte_tpop_ordner_massnber(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
@@ -3600,8 +3584,8 @@ function beschrifte_tpop_ordner_massnber(node) {
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
-//übernimmt einen node
-//zählt dessen children und passt die Beschriftung an
+// übernimmt einen node
+// zählt dessen children und passt die Beschriftung an
 function beschrifte_tpop_ordner_tpopber(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
@@ -3609,8 +3593,8 @@ function beschrifte_tpop_ordner_tpopber(node) {
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
-//übernimmt einen node
-//zählt dessen children und passt die Beschriftung an
+// übernimmt einen node
+// zählt dessen children und passt die Beschriftung an
 function beschrifte_tpop_ordner_feldkontr(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
@@ -3618,8 +3602,8 @@ function beschrifte_tpop_ordner_feldkontr(node) {
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
-//übernimmt einen node
-//zählt dessen children und passt die Beschriftung an
+// übernimmt einen node
+// zählt dessen children und passt die Beschriftung an
 function beschrifte_tpop_ordner_freiwkontr(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
@@ -3627,8 +3611,8 @@ function beschrifte_tpop_ordner_freiwkontr(node) {
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
-//übernimmt einen node
-//zählt dessen children und passt die Beschriftung an
+// übernimmt einen node
+// zählt dessen children und passt die Beschriftung an
 function beschrifte_tpop_ordner_beob_zugeordnet(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
@@ -3636,8 +3620,8 @@ function beschrifte_tpop_ordner_beob_zugeordnet(node) {
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
-//übernimmt einen node
-//zählt dessen children und passt die Beschriftung an
+// übernimmt einen node
+// zählt dessen children und passt die Beschriftung an
 function beschrifte_ap_ordner_beob_nicht_beurteilt(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
@@ -3645,8 +3629,8 @@ function beschrifte_ap_ordner_beob_nicht_beurteilt(node) {
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
 }
 
-//übernimmt einen node
-//zählt dessen children und passt die Beschriftung an
+// übernimmt einen node
+// zählt dessen children und passt die Beschriftung an
 function beschrifte_ap_ordner_beob_nicht_zuzuordnen(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
@@ -3656,11 +3640,11 @@ function beschrifte_ap_ordner_beob_nicht_zuzuordnen(node) {
 
 function treeKontextmenu(node) {
 	var items, aktiver_node, parent_node, grandparent_node, neue_apziele_node;
-	//relevante nodes zwischenspeichern
-	//aktiver_node = node;	 das hat auch funktioniert
+	// relevante nodes zwischenspeichern
+	// aktiver_node = node;	 das hat auch funktioniert
 	aktiver_node = jQuery("#tree").jstree('get_selected');
 	aktiver_nodeText = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
-	//parent nur ermitteln, wenn parents exisiteren - sonst gibt es einen Fehler
+	// parent nur ermitteln, wenn parents exisiteren - sonst gibt es einen Fehler
 	if ($(aktiver_node).attr("typ").slice(0, 9) !== "ap_ordner" && $(aktiver_node).attr("typ") !== "idealbiotop") {
 		parent_node = jQuery.jstree._reference(aktiver_node)._get_parent(aktiver_node);
 		parent_nodeText = jQuery.jstree._reference(parent_node).get_text(parent_node);
@@ -3679,7 +3663,7 @@ function treeKontextmenu(node) {
 				"label": "neue Population",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -3712,7 +3696,7 @@ function treeKontextmenu(node) {
 									"typ": "pop"
 								}
 							});
-							//jetzt alle Unterordner anlegen
+							// jetzt alle Unterordner anlegen
 							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
 								"data": "Teilpopulationen",
 								"attr": {
@@ -3734,12 +3718,12 @@ function treeKontextmenu(node) {
 									"typ": "pop_ordner_massnber"
 								}
 							});
-							//Node-Beschriftung: Anzahl anpassen
+							// Node-Beschriftung: Anzahl anpassen
 							beschrifte_ap_ordner_pop(aktiver_node);
-							//nodes selecten
+							// nodes selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular aufbauen
+							// Formular aufbauen
 							initiiere_pop();
 						},
 						error: function (data) {
@@ -3853,7 +3837,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					//db aktualisieren
+					// db aktualisieren
 					$.ajax({
 						type: 'post',
 						url: 'php/pop_update.php',
@@ -3865,15 +3849,15 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function () {
-							//Baum neu aufbauen
+							// Baum neu aufbauen
 							$.when(erstelle_tree(erstelleIdAusDomAttributId($(aktiver_node).attr("id"))))
 								.then(function() {
-									//dann den eingefügten Node wählen
+									// dann den eingefügten Node wählen
 									$("#tree").jstree("select_node", "[typ='pop']#" + localStorage.pop_id); 
 								});
-							//einfügen soll nicht mehr angezeigt werden
+							// einfügen soll nicht mehr angezeigt werden
 							delete window.pop_zum_verschieben_gemerkt;
-							//nicht mehr benötigte Variabeln entfernen
+							// nicht mehr benötigte Variabeln entfernen
 							delete window.pop_bezeichnung;
 							delete window.pop_id;
 						},
@@ -3908,7 +3892,7 @@ function treeKontextmenu(node) {
 				"label": "neues Ziel",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -3921,7 +3905,7 @@ function treeKontextmenu(node) {
 						});
 						return;
 					}
-					//temporären Unterordner anlegen
+					// temporären Unterordner anlegen
 					neue_apziele_node = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
 						"data": "neue AP-Ziele",
 						"attr": {
@@ -3949,12 +3933,12 @@ function treeKontextmenu(node) {
 									"typ": "apziel"
 								}
 							});
-							//Node-Beschriftung: Anzahl anpassen
+							// Node-Beschriftung: Anzahl anpassen
 							beschrifte_ap_ordner_apziel(aktiver_node);
-							//node selektieren
+							// node selektieren
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//jetzt Unterordner anlegen
+							// jetzt Unterordner anlegen
 							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
 								"data": "0 Ziel-Berichte",
 								"attr": {
@@ -4001,7 +3985,7 @@ function treeKontextmenu(node) {
 				"label": "neues Ziel",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -4037,17 +4021,17 @@ function treeKontextmenu(node) {
 								}
 							});
 
-							//Parent Node-Beschriftung: Anzahl anpassen, wenns nicht der neue Ordner ist
+							// Parent Node-Beschriftung: Anzahl anpassen, wenns nicht der neue Ordner ist
 							if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
 								beschrifte_ap_ordner_apziel(parent_node);
 							}
-							//aktiver Node-Beschriftung: Anzahl anpassen
+							// aktiver Node-Beschriftung: Anzahl anpassen
 							beschrifte_apzieljahr(aktiver_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							
-							//jetzt Unterordner anlegen
+							// jetzt Unterordner anlegen
 							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
 								"data": "0 Ziel-Berichte",
 								"attr": {
@@ -4056,7 +4040,7 @@ function treeKontextmenu(node) {
 								}
 							});
 							
-							//im create_node-Event von jstree wird Jahr eingefügt und gespeichert
+							// im create_node-Event von jstree wird Jahr eingefügt und gespeichert
 						},
 						error: function (data) {
 							$("#Meldung").html("Fehler: Keine neues Ziel erstellt");
@@ -4088,7 +4072,7 @@ function treeKontextmenu(node) {
 				"label": "neues Ziel",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -4122,17 +4106,17 @@ function treeKontextmenu(node) {
 									"typ": "apziel"
 								}
 							});
-							//grandparent Node-Beschriftung: Anzahl anpassen
+							// grandparent Node-Beschriftung: Anzahl anpassen
 							beschrifte_ap_ordner_apziel(grandparent_node);
-							//parent Node-Beschriftung: Anzahl anpassen
-							//nur, wenn es nicht der Ordner ist, der "neue AP-Ziele" heisst
+							// parent Node-Beschriftung: Anzahl anpassen
+							// nur, wenn es nicht der Ordner ist, der "neue AP-Ziele" heisst
 							if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
 								beschrifte_apzieljahr(parent_node);
 							}
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(parent_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//jetzt Unterordner anlegen
+							// jetzt Unterordner anlegen
 							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
 								"data": "0 Ziel-Berichte",
 								"attr": {
@@ -4161,7 +4145,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -4174,9 +4158,9 @@ function treeKontextmenu(node) {
 						});
 						return;
 					}
-					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
+					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
 					jQuery.jstree._reference(aktiver_node).deselect_all();
-					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
+					// alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
 					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
@@ -4200,10 +4184,10 @@ function treeKontextmenu(node) {
 										delete localStorage.apziel_id;
 										delete window.apziel;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										//grandparent Node-Beschriftung: Anzahl anpassen
+										// grandparent Node-Beschriftung: Anzahl anpassen
 										grandparent_node = jQuery.jstree._reference(parent_node)._get_parent(parent_node);
 										beschrifte_ap_ordner_apziel(grandparent_node);
-										//parent Node-Beschriftung: Anzahl anpassen
+										// parent Node-Beschriftung: Anzahl anpassen
 										if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
 											beschrifte_apzieljahr(parent_node);
 										}
@@ -4244,7 +4228,7 @@ function treeKontextmenu(node) {
 				"label": "neuer Ziel-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -4276,12 +4260,12 @@ function treeKontextmenu(node) {
 									"typ": "zielber"
 								}
 							});
-							//Node-Beschriftung: Anzahl anpassen
+							// Node-Beschriftung: Anzahl anpassen
 							beschrifte_zielber_ordner(aktiver_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//formular initiieren
+							// formular initiieren
 							initiiere_zielber();
 						},
 						error: function (data) {
@@ -4314,7 +4298,7 @@ function treeKontextmenu(node) {
 				"label": "neuer Ziel-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -4347,12 +4331,12 @@ function treeKontextmenu(node) {
 									"typ": "zielber"
 								}
 							});
-							//Parent Node-Beschriftung: Anzahl anpassen
+							// Parent Node-Beschriftung: Anzahl anpassen
 							beschrifte_zielber_ordner(parent_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//formular initiieren
+							// formular initiieren
 							initiiere_zielber();
 						},
 						error: function () {
@@ -4374,7 +4358,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -4387,9 +4371,9 @@ function treeKontextmenu(node) {
 						});
 						return;
 					}
-					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
+					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
 					jQuery.jstree._reference(aktiver_node).deselect_all();
-					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
+					// alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
 					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
@@ -4413,7 +4397,7 @@ function treeKontextmenu(node) {
 										delete localStorage.zielber_id;
 										delete window.zielber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										//Parent Node-Beschriftung: Anzahl anpassen
+										// Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_zielber_ordner(parent_node);
 									},
 									error: function (data) {
@@ -4452,7 +4436,7 @@ function treeKontextmenu(node) {
 				"label": "neues Erfolgskriterium",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -4484,12 +4468,12 @@ function treeKontextmenu(node) {
 									"typ": "erfkrit"
 								}
 							});
-							//Node-Beschriftung: Anzahl anpassen
+							// Node-Beschriftung: Anzahl anpassen
 							beschrifte_ap_ordner_erfkrit(aktiver_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_erfkrit();
 						},
 						error: function (data) {
@@ -4522,7 +4506,7 @@ function treeKontextmenu(node) {
 				"label": "neues Erfolgskriterium",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -4555,12 +4539,12 @@ function treeKontextmenu(node) {
 									"typ": "erfkrit"
 								}
 							});
-							//Parent Node-Beschriftung: Anzahl anpassen
+							// Parent Node-Beschriftung: Anzahl anpassen
 							beschrifte_ap_ordner_erfkrit(parent_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_erfkrit();
 						},
 						error: function () {
@@ -4582,7 +4566,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -4595,9 +4579,9 @@ function treeKontextmenu(node) {
 						});
 						return;
 					}
-					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
+					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
 					jQuery.jstree._reference(aktiver_node).deselect_all();
-					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
+					// alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
 					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
@@ -4621,7 +4605,7 @@ function treeKontextmenu(node) {
 										delete localStorage.erfkrit_id;
 										delete window.erfkrit;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										//Parent Node-Beschriftung: Anzahl anpassen
+										// Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_ap_ordner_erfkrit(parent_node);
 									},
 									error: function (data) {
@@ -4667,7 +4651,7 @@ function treeKontextmenu(node) {
 				"label": "neuer AP-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -4699,12 +4683,12 @@ function treeKontextmenu(node) {
 									"typ": "jber"
 								}
 							});
-							//Node-Beschriftung: Anzahl anpassen
+							// Node-Beschriftung: Anzahl anpassen
 							beschrifte_ap_ordner_jber(aktiver_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_jber();
 						},
 						error: function (data) {
@@ -4737,7 +4721,7 @@ function treeKontextmenu(node) {
 				"label": "neuer AP-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -4770,12 +4754,12 @@ function treeKontextmenu(node) {
 									"typ": "jber"
 								}
 							});
-							//Parent Node-Beschriftung: Anzahl anpassen
+							// Parent Node-Beschriftung: Anzahl anpassen
 							beschrifte_ap_ordner_jber(parent_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_jber();
 						},
 						error: function () {
@@ -4797,7 +4781,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -4810,9 +4794,9 @@ function treeKontextmenu(node) {
 						});
 						return;
 					}
-					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
+					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
 					jQuery.jstree._reference(aktiver_node).deselect_all();
-					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
+					// alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
 					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
@@ -4825,7 +4809,7 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
-								//Variable zum rückgängig machen erstellen
+								// Variable zum rückgängig machen erstellen
 								window.deleted = window.jber;
 								window.deleted.typ = "jber";
 								$.ajax({
@@ -4839,9 +4823,9 @@ function treeKontextmenu(node) {
 										delete localStorage.jber_id;
 										delete window.jber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										//Parent Node-Beschriftung: Anzahl anpassen
+										// Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_ap_ordner_jber(parent_node);
-										//Hinweis zum rückgängig machen anzeigen
+										// Hinweis zum rückgängig machen anzeigen
 										$("#undelete_div").html("AP-Bericht '" + window.deleted.JBerJahr + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
 										$("#undelete_div").show();
 										$("#forms_titelzeile").show();
@@ -4880,14 +4864,14 @@ function treeKontextmenu(node) {
 				}
 			}
 		};
-		//Wenn noch keine existiert, kann einen neue Übersicht zu allen Arten erstellt werden
+		// Wenn noch keine existiert, kann einen neue Übersicht zu allen Arten erstellt werden
 		if (jQuery.jstree._reference(aktiver_node)._get_children(aktiver_node).length === 0) {
 			items.neu_jber_uebersicht = {
 				"label": "neue Übersicht zu allen Arten",
 				"separator_before": true,
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -4945,7 +4929,7 @@ function treeKontextmenu(node) {
 				"label": "lösche Übersicht zu allen Arten",
 				"icon": "style/images/loeschen.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -4958,9 +4942,9 @@ function treeKontextmenu(node) {
 						});
 						return;
 					}
-					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
+					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
 					jQuery.jstree._reference(aktiver_node).deselect_all();
-					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
+					// alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
 					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
@@ -5021,7 +5005,7 @@ function treeKontextmenu(node) {
 				"label": "neuer Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -5053,12 +5037,12 @@ function treeKontextmenu(node) {
 									"typ": "ber"
 								}
 							});
-							//Node-Beschriftung: Anzahl anpassen
+							// Node-Beschriftung: Anzahl anpassen
 							beschrifte_ap_ordner_ber(aktiver_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_ber();
 						},
 						error: function (data) {
@@ -5083,7 +5067,7 @@ function treeKontextmenu(node) {
 				"label": "Neuer Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -5116,12 +5100,12 @@ function treeKontextmenu(node) {
 									"typ": "ber"
 								}
 							});
-							//Parent Node-Beschriftung: Anzahl anpassen
+							// Parent Node-Beschriftung: Anzahl anpassen
 							beschrifte_ap_ordner_ber(parent_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_ber();
 						},
 						error: function () {
@@ -5143,7 +5127,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -5156,9 +5140,9 @@ function treeKontextmenu(node) {
 						});
 						return;
 					}
-					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
+					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
 					jQuery.jstree._reference(aktiver_node).deselect_all();
-					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
+					// alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
 					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
@@ -5182,7 +5166,7 @@ function treeKontextmenu(node) {
 										delete localStorage.ber_id;
 										delete window.ber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										//Parent Node-Beschriftung: Anzahl anpassen
+										// Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_ap_ordner_ber(parent_node);
 									},
 									error: function (data) {
@@ -5221,7 +5205,7 @@ function treeKontextmenu(node) {
 				"label": "neue assoziierte Art",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -5253,12 +5237,12 @@ function treeKontextmenu(node) {
 									"typ": "assozarten"
 								}
 							});
-							//Node-Beschriftung: Anzahl anpassen
+							// Node-Beschriftung: Anzahl anpassen
 							beschrifte_ap_ordner_assozarten(aktiver_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_assozarten();
 						},
 						error: function (data) {
@@ -5291,7 +5275,7 @@ function treeKontextmenu(node) {
 				"label": "neue assoziierte Art",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -5324,12 +5308,12 @@ function treeKontextmenu(node) {
 									"typ": "assozarten"
 								}
 							});
-							//Parent Node-Beschriftung: Anzahl anpassen
+							// Parent Node-Beschriftung: Anzahl anpassen
 							beschrifte_ap_ordner_assozarten(parent_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_assozarten();
 						},
 						error: function () {
@@ -5351,7 +5335,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -5364,9 +5348,9 @@ function treeKontextmenu(node) {
 						});
 						return;
 					}
-					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
+					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
 					jQuery.jstree._reference(aktiver_node).deselect_all();
-					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
+					// alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
 					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
@@ -5390,7 +5374,7 @@ function treeKontextmenu(node) {
 										delete localStorage.assozarten_id;
 										delete window.assozarten;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										//Parent Node-Beschriftung: Anzahl anpassen
+										// Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_ap_ordner_assozarten(parent_node);
 									},
 									error: function (data) {
@@ -5429,7 +5413,7 @@ function treeKontextmenu(node) {
 				"label": "neue Population",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -5463,7 +5447,7 @@ function treeKontextmenu(node) {
 									"typ": "pop"
 								}
 							});
-							//jetzt alle Unterordner anlegen
+							// jetzt alle Unterordner anlegen
 							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
 								"data": "Teilpopulationen",
 								"attr": {
@@ -5485,12 +5469,12 @@ function treeKontextmenu(node) {
 									"typ": "pop_ordner_massnber"
 								}
 							});
-							//Parent Node-Beschriftung: Anzahl anpassen
+							// Parent Node-Beschriftung: Anzahl anpassen
 							beschrifte_ap_ordner_pop(parent_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(parent_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_pop();
 						},
 						error: function (data) {
@@ -5512,7 +5496,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -5525,9 +5509,9 @@ function treeKontextmenu(node) {
 						});
 						return;
 					}
-					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
+					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
 					jQuery.jstree._reference(aktiver_node).deselect_all();
-					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
+					// alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
 					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
@@ -5540,7 +5524,7 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
-								//Variable zum rückgängig machen erstellen
+								// Variable zum rückgängig machen erstellen
 								window.deleted = window.pop;
 								window.deleted.typ = "pop";
 								$.ajax({
@@ -5554,9 +5538,9 @@ function treeKontextmenu(node) {
 										delete localStorage.pop_id;
 										delete window.pop;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										//Parent Node-Beschriftung: Anzahl anpassen
+										// Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_ap_ordner_pop(parent_node);
-										//Hinweis zum rückgängig machen anzeigen
+										// Hinweis zum rückgängig machen anzeigen
 										$("#undelete_div").html("Population '" + window.deleted.PopName + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
 										$("#undelete_div").show();
 										$("#forms_titelzeile").show();
@@ -5683,7 +5667,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -5696,11 +5680,11 @@ function treeKontextmenu(node) {
 						});
 						return;
 					}
-					//Jetzt die PopId merken - ihr muss danach eine andere ApArtId zugeteilt werden
+					// Jetzt die PopId merken - ihr muss danach eine andere ApArtId zugeteilt werden
 					window.pop_id = erstelleIdAusDomAttributId($(aktiver_node).attr("id"));
-					//merken, dass ein node ausgeschnitten wurde
+					// merken, dass ein node ausgeschnitten wurde
 					window.pop_zum_verschieben_gemerkt = true;
-					//und wie er heisst (um es später im Kontextmenü anzuzeigen)
+					// und wie er heisst (um es später im Kontextmenü anzuzeigen)
 					window.pop_bezeichnung = $("#PopNr").val() + " " + $("#PopName").val();
 
 				}
@@ -5714,7 +5698,7 @@ function treeKontextmenu(node) {
 				"action": function () {
 					var popid = window.pop_id;
 					var apartid = erstelleIdAusDomAttributId($(parent_node).attr("id"));
-					//db aktualisieren
+					// db aktualisieren
 					$.ajax({
 						type: 'post',
 						url: 'php/pop_update.php',
@@ -5726,15 +5710,15 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function () {
-							//Baum wieder aufbauen
+							// Baum wieder aufbauen
 							$.when(erstelle_tree(apartid))
 								.then(function() {
-									//dann den eingefügten Node wählen
+									// dann den eingefügten Node wählen
 									$("#tree").jstree("select_node", "[typ='pop']#" + popid); 
 								});
-							//einfügen soll nicht mehr angezeigt werden
+							// einfügen soll nicht mehr angezeigt werden
 							delete window.pop_zum_verschieben_gemerkt;
-							//nicht mehr benötigte Variabeln entfernen
+							// nicht mehr benötigte Variabeln entfernen
 							delete window.pop_bezeichnung;
 							delete window.pop_id;
 						},
@@ -5769,7 +5753,7 @@ function treeKontextmenu(node) {
 				"label": "neue Teilpopulation",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -5802,14 +5786,14 @@ function treeKontextmenu(node) {
 									"typ": "tpop"
 								}
 							});
-							//jetzt alle Unterordner anlegen
+							// jetzt alle Unterordner anlegen
 							erstelleUnterordnerFuerTPop(NeuerNode);
-							//Node-Beschriftung: Anzahl anpassen
+							// Node-Beschriftung: Anzahl anpassen
 							beschrifte_pop_ordner_tpop(aktiver_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_tpop();
 						},
 						error: function (data) {
@@ -5964,7 +5948,7 @@ function treeKontextmenu(node) {
 				"label": "neue Teilpopulation",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -5997,14 +5981,14 @@ function treeKontextmenu(node) {
 									"typ": "tpop"
 								}
 							});
-							//jetzt alle Unterordner anlegen
+							// jetzt alle Unterordner anlegen
 							erstelleUnterordnerFuerTPop(NeuerNode);
-							//Parent Node-Beschriftung: Anzahl anpassen
+							// Parent Node-Beschriftung: Anzahl anpassen
 							beschrifte_pop_ordner_tpop(parent_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_tpop();
 						},
 						error: function () {
@@ -6026,7 +6010,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -6039,9 +6023,9 @@ function treeKontextmenu(node) {
 						});
 						return;
 					}
-					//selektieren, falls direkt mit der rechten Maustaste gewählt wurde
+					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
 					jQuery.jstree._reference(aktiver_node).deselect_all();
-					//alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
+					// alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
 					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
@@ -6054,10 +6038,10 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
-								//Variable zum rückgängig machen erstellen
+								// Variable zum rückgängig machen erstellen
 								window.deleted = window.tpop;
 								window.deleted.typ = "tpop";
-								//löschen
+								// löschen
 								$.ajax({
 									type: 'post',
 									url: 'php/tpop_delete.php',
@@ -6069,9 +6053,9 @@ function treeKontextmenu(node) {
 										delete localStorage.tpop_id;
 										delete window.tpop;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										//Parent Node-Beschriftung: Anzahl anpassen
+										// Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_pop_ordner_tpop(parent_node);
-										//Hinweis zum rückgängig machen anzeigen
+										// Hinweis zum rückgängig machen anzeigen
 										$("#undelete_div").html("Teilpopulation '" + window.deleted.TPopFlurname + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
 										$("#undelete_div").show();
 										$("#forms_titelzeile").show();
@@ -6147,7 +6131,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/flora_icon_rot.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -6230,7 +6214,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/flora_icon_rot.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -6291,7 +6275,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -6305,8 +6289,8 @@ function treeKontextmenu(node) {
 						return;
 					}
 					window.tpop_node_ausgeschnitten = aktiver_node;
-					//es macht keinen Sinn mehr, den kopierten node zu behalten
-					//und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
+					// es macht keinen Sinn mehr, den kopierten node zu behalten
+					// und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
 					delete window.tpop_node_kopiert;
 					delete window.tpop_objekt_kopiert;
 				}
@@ -6318,7 +6302,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/kopieren.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -6332,7 +6316,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					window.tpop_node_kopiert = aktiver_node;
-					//Daten des Objekts holen
+					// Daten des Objekts holen
 					$.ajax({
 						type: 'get',
 						url: 'php/tpop.php',
@@ -6397,7 +6381,7 @@ function treeKontextmenu(node) {
 				"label": "neuer Populations-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -6429,12 +6413,12 @@ function treeKontextmenu(node) {
 									"typ": "popber"
 								}
 							});
-							//Node-Beschriftung: Anzahl anpassen
+							// Node-Beschriftung: Anzahl anpassen
 							beschrifte_pop_ordner_popber(aktiver_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_popber();
 						},
 						error: function () {
@@ -6467,7 +6451,7 @@ function treeKontextmenu(node) {
 				"label": "neuer Populations-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -6500,12 +6484,12 @@ function treeKontextmenu(node) {
 									"typ": "popber"
 								}
 							});
-							//Parent Node-Beschriftung: Anzahl anpassen
+							// Parent Node-Beschriftung: Anzahl anpassen
 							beschrifte_pop_ordner_popber(parent_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_popber();
 						},
 						error: function (data) {
@@ -6527,7 +6511,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -6560,7 +6544,7 @@ function treeKontextmenu(node) {
 										delete localStorage.popber_id;
 										delete window.popber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										//Parent Node-Beschriftung: Anzahl anpassen
+										// Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_pop_ordner_popber(parent_node);
 									},
 									error: function (data) {
@@ -6599,7 +6583,7 @@ function treeKontextmenu(node) {
 				"label": "neuer Massnahmen-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -6631,12 +6615,12 @@ function treeKontextmenu(node) {
 									"typ": "popmassnber"
 								}
 							});
-							//Node-Beschriftung: Anzahl anpassen
+							// Node-Beschriftung: Anzahl anpassen
 							beschrifte_pop_ordner_massnber(aktiver_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_popmassnber();
 						},
 						error: function () {
@@ -6669,7 +6653,7 @@ function treeKontextmenu(node) {
 				"label": "neuer Massnahmen-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -6702,12 +6686,12 @@ function treeKontextmenu(node) {
 									"typ": "popmassnber"
 								}
 							});
-							//Parent Node-Beschriftung: Anzahl anpassen
+							// Parent Node-Beschriftung: Anzahl anpassen
 							beschrifte_pop_ordner_massnber(parent_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_popmassnber();
 						},
 						error: function (data) {
@@ -6729,7 +6713,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -6762,7 +6746,7 @@ function treeKontextmenu(node) {
 										delete localStorage.popmassnber_id;
 										delete window.popmassnber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										//Parent Node-Beschriftung: Anzahl anpassen
+										// Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_pop_ordner_massnber(parent_node);
 									},
 									error: function (data) {
@@ -6801,7 +6785,7 @@ function treeKontextmenu(node) {
 				"label": "neue Feldkontrolle",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -6834,12 +6818,12 @@ function treeKontextmenu(node) {
 									"typ": "tpopfeldkontr"
 								}
 							});
-							//Node-Beschriftung: Anzahl anpassen
+							// Node-Beschriftung: Anzahl anpassen
 							beschrifte_tpop_ordner_feldkontr(aktiver_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_tpopfeldkontr();
 						},
 						error: function (data) {
@@ -6882,7 +6866,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
 					var dataUrl;
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -6895,9 +6879,9 @@ function treeKontextmenu(node) {
 						});
 						return;
 					}
-					//User und neue TPopId mitgeben
+					// User und neue TPopId mitgeben
 					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + "&TPopKontrId=" + erstelleIdAusDomAttributId($(window.tpopfeldkontr_node_kopiert).attr("id"));
-					//und an die DB schicken
+					// und an die DB schicken
 					$.ajax({
 						type: 'post',
 						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
@@ -6913,12 +6897,12 @@ function treeKontextmenu(node) {
 									"typ": "tpopfeldkontr"
 								}
 							});
-							//Node-Beschriftung: Anzahl anpassen
+							// Node-Beschriftung: Anzahl anpassen
 							beschrifte_tpop_ordner_feldkontr(aktiver_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_tpopfeldkontr();
 						},
 						error: function (data) {
@@ -6943,7 +6927,7 @@ function treeKontextmenu(node) {
 				"label": "neue Feldkontrolle",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -6976,12 +6960,12 @@ function treeKontextmenu(node) {
 									"typ": "tpopfeldkontr"
 								}
 							});
-							//Parent Node-Beschriftung: Anzahl anpassen
+							// Parent Node-Beschriftung: Anzahl anpassen
 							beschrifte_tpop_ordner_feldkontr(parent_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_tpopfeldkontr();
 						},
 						error: function (data) {
@@ -7003,7 +6987,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -7025,7 +7009,7 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
-								//Variable zum rückgängig machen erstellen
+								// Variable zum rückgängig machen erstellen
 								window.deleted = window.tpopfeldkontr;
 								window.deleted.typ = "tpopfeldkontr";
 								$.ajax({
@@ -7039,9 +7023,9 @@ function treeKontextmenu(node) {
 										delete localStorage.tpopfeldkontr_id;
 										delete window.tpopfeldkontr;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										//Parent Node-Beschriftung: Anzahl anpassen
+										// Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_tpop_ordner_feldkontr(parent_node);
-										//Hinweis zum rückgängig machen anzeigen
+										// Hinweis zum rückgängig machen anzeigen
 										$("#undelete_div").html("Feldkontrolle '" + window.deleted.TPopKontrJahr + ": " + window.deleted.TPopKontrTyp + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
 										$("#undelete_div").show();
 										$("#forms_titelzeile").show();
@@ -7084,7 +7068,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/kopieren.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -7160,7 +7144,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
 					var url_string = "?id=" + erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + "&user=" + sessionStorage.User;
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -7178,7 +7162,7 @@ function treeKontextmenu(node) {
 						$("#" + i).val(window.feldkontr_biotop[i]);
 						url_string += "&" + i + "=" + window.feldkontr_biotop[i];
 					}
-					//jetzt alles speichern
+					// jetzt alles speichern
 					$.ajax({
 						type: 'post',
 						url: 'php/tpopfeldkontr_update_multiple.php' + url_string,
@@ -7207,7 +7191,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -7221,8 +7205,8 @@ function treeKontextmenu(node) {
 						return;
 					}
 					window.tpopfeldkontr_node_ausgeschnitten = aktiver_node;
-					//es macht keinen Sinn mehr, den kopierten node zu behalten
-					//und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
+					// es macht keinen Sinn mehr, den kopierten node zu behalten
+					// und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
 					delete window.tpopfeldkontr_node_kopiert;
 					delete window.tpopfeldkontr_objekt_kopiert;
 				}
@@ -7234,7 +7218,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/kopieren.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -7248,7 +7232,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					window.tpopfeldkontr_node_kopiert = aktiver_node;
-					//Daten des Objekts holen
+					// Daten des Objekts holen
 					$.ajax({
 						type: 'get',
 						url: 'php/tpopfeldkontr.php',
@@ -7291,7 +7275,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
 					var dataUrl;
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -7304,9 +7288,9 @@ function treeKontextmenu(node) {
 						});
 						return;
 					}
-					//User und neue TPopId mitgeben
+					// User und neue TPopId mitgeben
 					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + erstelleIdAusDomAttributId($(parent_node).attr("id")) + "&TPopKontrId=" + erstelleIdAusDomAttributId($(window.tpopfeldkontr_node_kopiert).attr("id"));
-					//und an die DB schicken
+					// und an die DB schicken
 					$.ajax({
 						type: 'post',
 						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
@@ -7322,12 +7306,12 @@ function treeKontextmenu(node) {
 									"typ": "tpopfeldkontr"
 								}
 							});
-							//Parent Node-Beschriftung: Anzahl anpassen
+							// Parent Node-Beschriftung: Anzahl anpassen
 							beschrifte_tpop_ordner_feldkontr(parent_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_tpopfeldkontr();
 						},
 						error: function (data) {
@@ -7352,7 +7336,7 @@ function treeKontextmenu(node) {
 				"label": "neue Freiwilligen-Kontrolle",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -7386,12 +7370,12 @@ function treeKontextmenu(node) {
 									"typ": "tpopfreiwkontr"
 								}
 							});
-							//Node-Beschriftung: Anzahl anpassen
+							// Node-Beschriftung: Anzahl anpassen
 							beschrifte_tpop_ordner_freiwkontr(aktiver_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_tpopfeldkontr();
 						},
 						error: function (data) {
@@ -7434,7 +7418,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
 					var dataUrl;
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -7447,9 +7431,9 @@ function treeKontextmenu(node) {
 						});
 						return;
 					}
-					//User und neue TPopId mitgeben
+					// User und neue TPopId mitgeben
 					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + "&TPopKontrId=" + erstelleIdAusDomAttributId($(window.tpopfreiwkontr_node_kopiert).attr("id"));
-					//und an die DB schicken
+					// und an die DB schicken
 					$.ajax({
 						type: 'post',
 						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
@@ -7466,12 +7450,12 @@ function treeKontextmenu(node) {
 									"typ": "tpopfreiwkontr"
 								}
 							});
-							//Node-Beschriftung: Anzahl anpassen
+							// Node-Beschriftung: Anzahl anpassen
 							beschrifte_tpop_ordner_freiwkontr(aktiver_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							localStorage.tpopfreiwkontr = true;
 							initiiere_tpopfeldkontr();
 						},
@@ -7497,7 +7481,7 @@ function treeKontextmenu(node) {
 				"label": "neue Freiwilligen-Kontrolle",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -7530,12 +7514,12 @@ function treeKontextmenu(node) {
 									"typ": "tpopfreiwkontr"
 								}
 							});
-							//Parent Node-Beschriftung: Anzahl anpassen
+							// Parent Node-Beschriftung: Anzahl anpassen
 							beschrifte_tpop_ordner_freiwkontr(parent_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							localStorage.tpopfreiwkontr = "true";
 							initiiere_tpopfeldkontr();
 						},
@@ -7558,7 +7542,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -7580,7 +7564,7 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
-								//Variable zum rückgängig machen erstellen
+								// Variable zum rückgängig machen erstellen
 								window.deleted = window.tpopfeldkontr;
 								window.deleted.typ = "tpopfreiwkontr";
 								$.ajax({
@@ -7595,9 +7579,9 @@ function treeKontextmenu(node) {
 										delete localStorage.tpopfreiwkontr;
 										delete window.tpopfeldkontr;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										//Parent Node-Beschriftung: Anzahl anpassen
+										// Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_tpop_ordner_freiwkontr(parent_node);
-										//Hinweis zum rückgängig machen anzeigen
+										// Hinweis zum rückgängig machen anzeigen
 										$("#undelete_div").html("Freiwilligen-Kontrolle '" + window.deleted.TPopKontrJahr + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
 										$("#undelete_div").show();
 										$("#forms_titelzeile").show();
@@ -7643,7 +7627,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -7657,8 +7641,8 @@ function treeKontextmenu(node) {
 						return;
 					}
 					window.tpopfreiwkontr_node_ausgeschnitten = aktiver_node;
-					//es macht keinen Sinn mehr, den kopierten node zu behalten
-					//und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
+					// es macht keinen Sinn mehr, den kopierten node zu behalten
+					// und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
 					delete window.tpopfreiwkontr_node_kopiert;
 					delete window.tpopfreiwkontr_objekt_kopiert;
 				}
@@ -7670,7 +7654,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/kopieren.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -7684,7 +7668,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					window.tpopfreiwkontr_node_kopiert = aktiver_node;
-					//Daten des Objekts holen
+					// Daten des Objekts holen
 					$.ajax({
 						type: 'get',
 						url: 'php/tpopfeldkontr.php',
@@ -7728,7 +7712,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
 					var dataUrl;
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -7741,9 +7725,9 @@ function treeKontextmenu(node) {
 						});
 						return;
 					}
-					//User und neue TPopId mitgeben
+					// User und neue TPopId mitgeben
 					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + erstelleIdAusDomAttributId($(parent_node).attr("id")) + "&TPopKontrId=" + erstelleIdAusDomAttributId($(window.tpopfreiwkontr_node_kopiert).attr("id"));
-					//und an die DB schicken
+					// und an die DB schicken
 					$.ajax({
 						type: 'post',
 						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
@@ -7759,12 +7743,12 @@ function treeKontextmenu(node) {
 									"typ": "tpopfreiwkontr"
 								}
 							});
-							//Parent Node-Beschriftung: Anzahl anpassen
+							// Parent Node-Beschriftung: Anzahl anpassen
 							beschrifte_tpop_ordner_freiwkontr(parent_node);
-							//node selectieren
+							// node selectieren
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							localStorage.tpopfreiwkontr = true;
 							initiiere_tpopfeldkontr();
 						},
@@ -7790,7 +7774,7 @@ function treeKontextmenu(node) {
 				"label": "neue Massnahme",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -7823,12 +7807,12 @@ function treeKontextmenu(node) {
 									"typ": "tpopmassn"
 								}
 							});
-							//Node-Beschriftung: Anzahl anpassen
+							// Node-Beschriftung: Anzahl anpassen
 							beschrifte_tpop_ordner_massn(aktiver_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_tpopmassn();
 						},
 						error: function (data) {
@@ -7870,7 +7854,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -7884,11 +7868,11 @@ function treeKontextmenu(node) {
 						return;
 					}
 					var dataUrl;
-					//User und neue TPopId mitgeben
+					// User und neue TPopId mitgeben
 					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + "&TPopMassnId=" + erstelleIdAusDomAttributId($(window.tpopmassn_node_kopiert).attr("id"));
-					//und an die DB schicken
+					// und an die DB schicken
 					$.ajax({
-						//mit post hat irgend etwas in php nicht funktioniert (es wurde immer id=0 zurückgegeben), daher wieder get eingeschatet
+						// mit post hat irgend etwas in php nicht funktioniert (es wurde immer id=0 zurückgegeben), daher wieder get eingeschatet
 						//type: 'post',
 						type: 'get',
 						url: 'php/tpopmassn_insert_kopie.php' + dataUrl,
@@ -7905,12 +7889,12 @@ function treeKontextmenu(node) {
 								}
 							});
 
-							//Node-Beschriftung: Anzahl anpassen
+							// Node-Beschriftung: Anzahl anpassen
 							beschrifte_tpop_ordner_massn(aktiver_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_tpopmassn();
 						},
 						error: function (data) {
@@ -7935,7 +7919,7 @@ function treeKontextmenu(node) {
 				"label": "neue Massnahme",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -7968,12 +7952,12 @@ function treeKontextmenu(node) {
 									"typ": "tpopmassn"
 								}
 							});
-							//Parent Node-Beschriftung: Anzahl anpassen
+							// Parent Node-Beschriftung: Anzahl anpassen
 							beschrifte_tpop_ordner_massn(parent_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_tpopmassn();
 						},
 						error: function (data) {
@@ -7995,7 +7979,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -8017,7 +8001,7 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
-								//Variable zum rückgängig machen erstellen
+								// Variable zum rückgängig machen erstellen
 								window.deleted = window.tpopmassn;
 								window.deleted.typ = "tpopmassn";
 								$.ajax({
@@ -8031,9 +8015,9 @@ function treeKontextmenu(node) {
 										delete localStorage.tpopmassn_id;
 										delete window.tpopmassn;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										//Parent Node-Beschriftung: Anzahl anpassen
+										// Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_tpop_ordner_massn(parent_node);
-										//Hinweis zum rückgängig machen anzeigen
+										// Hinweis zum rückgängig machen anzeigen
 										$("#undelete_div").html("Massnahme '" + window.deleted.TPopMassnJahr + ": " + window.deleted.TPopMassnTyp + "' wurde gelöscht. <a href='#' id='undelete'>Wiederherstellen?</a>");
 										$("#undelete_div").show();
 										$("#forms_titelzeile").show();
@@ -8079,7 +8063,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -8093,8 +8077,8 @@ function treeKontextmenu(node) {
 						return;
 					}
 					window.tpopmassn_node_ausgeschnitten = aktiver_node;
-					//es macht keinen Sinn mehr, den kopierten node zu behalten
-					//und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
+					// es macht keinen Sinn mehr, den kopierten node zu behalten
+					// und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
 					delete window.tpopmassn_node_kopiert;
 					delete window.tpopmassn_objekt_kopiert;
 				}
@@ -8106,7 +8090,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/kopieren.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -8120,7 +8104,7 @@ function treeKontextmenu(node) {
 						return;
 					}
 					window.tpopmassn_node_kopiert = aktiver_node;
-					//Daten des Objekts holen
+					// Daten des Objekts holen
 					$.ajax({
 						type: 'get',
 						url: 'php/tpopmassn.php',
@@ -8130,7 +8114,7 @@ function treeKontextmenu(node) {
 						},
 						success: function (data) {
 							window.tpopmassn_objekt_kopiert = data;
-							//den Beurteilungstext holen - ist nur mühsam aus der DB zu holen
+							// den Beurteilungstext holen - ist nur mühsam aus der DB zu holen
 							window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt = "";
 							if ($("#TPopMassnTyp option:checked").text()) {
 								window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt = $("#TPopMassnTyp option:checked").text();
@@ -8167,7 +8151,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -8181,11 +8165,11 @@ function treeKontextmenu(node) {
 						return;
 					}
 					var dataUrl;
-					//User und neue TPopId mitgeben
+					// User und neue TPopId mitgeben
 					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + erstelleIdAusDomAttributId($(parent_node).attr("id")) + "&TPopMassnId=" + erstelleIdAusDomAttributId($(window.tpopmassn_node_kopiert).attr("id"));
-					//und an die DB schicken
+					// und an die DB schicken
 					$.ajax({
-						//mit post hat irgend etwas in php nicht funktioniert (es wurde immer id=0 zurückgegeben), daher wieder get eingeschatet
+						// mit post hat irgend etwas in php nicht funktioniert (es wurde immer id=0 zurückgegeben), daher wieder get eingeschatet
 						//type: 'post',
 						type: 'get',
 						url: 'php/tpopmassn_insert_kopie.php' + dataUrl,
@@ -8201,12 +8185,12 @@ function treeKontextmenu(node) {
 									"typ": "tpopmassn"
 								}
 							});
-							//Parent Node-Beschriftung: Anzahl anpassen
+							// Parent Node-Beschriftung: Anzahl anpassen
 							beschrifte_tpop_ordner_massn(parent_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_tpopmassn();
 						},
 						error: function (data) {
@@ -8231,7 +8215,7 @@ function treeKontextmenu(node) {
 				"label": "neuer Teilpopulations-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -8263,12 +8247,12 @@ function treeKontextmenu(node) {
 									"typ": "tpopber"
 								}
 							});
-							//Node-Beschriftung: Anzahl anpassen
+							// Node-Beschriftung: Anzahl anpassen
 							beschrifte_tpop_ordner_tpopber(aktiver_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_tpopber();
 						},
 						error: function () {
@@ -8301,7 +8285,7 @@ function treeKontextmenu(node) {
 				"label": "neuer Teilpopulations-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -8334,12 +8318,12 @@ function treeKontextmenu(node) {
 									"typ": "tpopber"
 								}
 							});
-							//Parent Node-Beschriftung: Anzahl anpassen
+							// Parent Node-Beschriftung: Anzahl anpassen
 							beschrifte_tpop_ordner_tpopber(parent_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_tpopber();
 						},
 						error: function (data) {
@@ -8361,7 +8345,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -8394,7 +8378,7 @@ function treeKontextmenu(node) {
 										delete localStorage.tpopber_id;
 										delete window.tpopber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										//Parent Node-Beschriftung: Anzahl anpassen
+										// Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_tpop_ordner_tpopber(parent_node);
 									},
 									error: function (data) {
@@ -8615,7 +8599,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -8659,7 +8643,7 @@ function treeKontextmenu(node) {
 				"label": "neuer Massnahmen-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -8691,12 +8675,12 @@ function treeKontextmenu(node) {
 									"typ": "tpopmassnber"
 								}
 							});
-							//Node-Beschriftung: Anzahl anpassen
+							// Node-Beschriftung: Anzahl anpassen
 							beschrifte_tpop_ordner_massnber(aktiver_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_tpopmassnber();
 						},
 						error: function () {
@@ -8729,7 +8713,7 @@ function treeKontextmenu(node) {
 				"label": "neuer Massnahmen-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -8762,12 +8746,12 @@ function treeKontextmenu(node) {
 									"typ": "tpopmassnber"
 								}
 							});
-							//Parent Node-Beschriftung: Anzahl anpassen
+							// Parent Node-Beschriftung: Anzahl anpassen
 							beschrifte_tpop_ordner_massnber(parent_node);
-							//node selecten
+							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							//Formular initiieren
+							// Formular initiieren
 							initiiere_tpopmassnber();
 						},
 						error: function (data) {
@@ -8789,7 +8773,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -8822,7 +8806,7 @@ function treeKontextmenu(node) {
 										delete localStorage.tpopmassnber_id;
 										delete window.tpopmassnber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										//Parent Node-Beschriftung: Anzahl anpassen
+										// Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_tpop_ordner_massnber(parent_node);
 									},
 									error: function (data) {
@@ -9095,7 +9079,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -9254,7 +9238,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
-					//nur aktualisieren, wenn Schreibrechte bestehen
+					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
 						$("#Meldung").dialog({
@@ -9287,7 +9271,7 @@ function treeKontextmenu(node) {
 
 function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 	var dataUrl;
-	//nur aktualisieren, wenn Schreibrechte bestehen
+	// nur aktualisieren, wenn Schreibrechte bestehen
 	if (sessionStorage.NurLesen) {
 		$("#Meldung").html("Sie haben keine Schreibrechte");
 		$("#Meldung").dialog({
@@ -9301,11 +9285,11 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 		return;
 	}
 
-	//User und neue PopId mitgeben
+	// User und neue PopId mitgeben
 	dataUrl = "?user=" + sessionStorage.User + "&PopId=" + erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + "&TPopId=" + erstelleIdAusDomAttributId($(window.tpop_node_kopiert).attr("id"));
-	//und an die DB schicken
+	// und an die DB schicken
 	$.ajax({
-		//mit post hat irgend etwas in php nicht funktioniert (es wurde immer id=0 zurückgegeben), daher wieder get eingeschatet
+		// mit post hat irgend etwas in php nicht funktioniert (es wurde immer id=0 zurückgegeben), daher wieder get eingeschatet
 		type: 'get',
 		url: 'php/tpop_insert_kopie.php' + dataUrl,
 		dataType: 'json',
@@ -9324,14 +9308,14 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 					"typ": "tpop"
 				}
 			});
-			//Node-Beschriftung: Anzahl anpassen
+			// Node-Beschriftung: Anzahl anpassen
 			beschrifte_pop_ordner_tpop(aktiver_node);
-			//node selecten
+			// node selecten
 			jQuery.jstree._reference(aktiver_node).deselect_all();
 			jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-			//Hierarchisch tiefere Nodes aufbauen
+			// Hierarchisch tiefere Nodes aufbauen
 			erstelleUnterordnerFuerTPop(NeuerNode);
-			//Formular initiieren
+			// Formular initiieren
 			initiiere_tpop();
 		},
 		error: function (data) {
@@ -9351,7 +9335,7 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 // wird offenbar momentan nicht verwendet
 function pop_kopiert_in_pop_einfuegen(aktiver_node, parent_node) {
 	var dataUrl;
-	//nur aktualisieren, wenn Schreibrechte bestehen
+	// nur aktualisieren, wenn Schreibrechte bestehen
 	if (sessionStorage.NurLesen) {
 		$("#Meldung").html("Sie haben keine Schreibrechte");
 		$("#Meldung").dialog({
@@ -9364,27 +9348,27 @@ function pop_kopiert_in_pop_einfuegen(aktiver_node, parent_node) {
 		});
 		return;
 	}
-	//drop kennt den parent nicht
+	// drop kennt den parent nicht
 	if (!parent_node) {
 		parent_node = jQuery.jstree._reference(aktiver_node)._get_parent(aktiver_node);
 	}
-	//User und neue ApArtId mitgeben
+	// User und neue ApArtId mitgeben
 	dataUrl = "?MutWer=" + sessionStorage.User + "&ApArtId=" + erstelleIdAusDomAttributId($(parent_node).attr("id"));
-	//die alten id's entfernen
+	// die alten id's entfernen
 	delete window.pop_objekt_kopiert.ApArtId;
 	delete window.pop_objekt_kopiert.PopId;
-	//das wird gleich neu gesetzt, alte Werte verwerfen
+	// das wird gleich neu gesetzt, alte Werte verwerfen
 	delete window.pop_objekt_kopiert.MutWann;
 	delete window.pop_objekt_kopiert.MutWer;
-	//alle verbliebenen Felder an die url hängen
+	// alle verbliebenen Felder an die url hängen
 	for (i in window.pop_objekt_kopiert) {
 	//for (var i = 0; i < window.pop_objekt_kopiert.length; i++) {
-		//Nullwerte ausschliessen
+		// Nullwerte ausschliessen
 		if (window.pop_objekt_kopiert[i] !== null) {
 			dataUrl += "&" + i + "=" + window.pop_objekt_kopiert[i];
 		}
 	}
-	//und an die DB schicken
+	// und an die DB schicken
 	$.ajax({
 		type: 'post',
 		url: 'php/pop_insert_kopie.php' + dataUrl,
@@ -9400,12 +9384,12 @@ function pop_kopiert_in_pop_einfuegen(aktiver_node, parent_node) {
 					"typ": "pop"
 				}
 			});
-			//Parent Node-Beschriftung: Anzahl anpassen
+			// Parent Node-Beschriftung: Anzahl anpassen
 			beschrifte_ap_ordner_pop(parent_node);
-			//node selecten
+			// node selecten
 			jQuery.jstree._reference(aktiver_node).deselect_all();
 			jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-			//Formular initiieren
+			// Formular initiieren
 			initiiere_pop();
 		},
 		error: function (data) {
@@ -9424,7 +9408,7 @@ function pop_kopiert_in_pop_einfuegen(aktiver_node, parent_node) {
 
 function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 	var dataUrl;
-	//nur aktualisieren, wenn Schreibrechte bestehen
+	// nur aktualisieren, wenn Schreibrechte bestehen
 	if (sessionStorage.NurLesen) {
 		$("#Meldung").html("Sie haben keine Schreibrechte");
 		$("#Meldung").dialog({
@@ -9437,29 +9421,29 @@ function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 		});
 		return;
 	}
-	//drop kennt den parent nicht
+	// drop kennt den parent nicht
 	if (!parent_node) {
 		parent_node = jQuery.jstree._reference(aktiver_node)._get_parent(aktiver_node);
 	}
-	//User und neue PopId mitgeben
+	// User und neue PopId mitgeben
 	dataUrl = "?MutWer=" + sessionStorage.User + "&PopId=" + erstelleIdAusDomAttributId($(parent_node).attr("id"));
-	//die alten id's entfernen
+	// die alten id's entfernen
 	delete window.tpop_objekt_kopiert.PopId;
 	delete window.tpop_objekt_kopiert.TPopId;
-	//das wird gleich neu gesetzt, alte Werte verwerfen
+	// das wird gleich neu gesetzt, alte Werte verwerfen
 	delete window.tpop_objekt_kopiert.MutWann;
 	delete window.tpop_objekt_kopiert.MutWer;
-	//alle verbliebenen Felder an die url hängen
+	// alle verbliebenen Felder an die url hängen
 	for (i in window.tpop_objekt_kopiert) {
 	//for (var i = 0; i < window.tpop_objekt_kopiert.length; i++) {
-		//Nullwerte ausschliessen
+		// Nullwerte ausschliessen
 		if (window.tpop_objekt_kopiert[i] !== null) {
 			dataUrl += "&" + i + "=" + window.tpop_objekt_kopiert[i];
 		}
 	}
-	//und an die DB schicken
+	// und an die DB schicken
 	$.ajax({
-		//mit post hat irgend etwas in php nicht funktioniert (es wurde immer id=0 zurückgegeben), daher wieder get eingeschatet
+		// mit post hat irgend etwas in php nicht funktioniert (es wurde immer id=0 zurückgegeben), daher wieder get eingeschatet
 		type: 'get',
 		url: 'php/tpop_insert_kopie.php' + dataUrl,
 		dataType: 'json',
@@ -9474,12 +9458,12 @@ function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 					"typ": "tpop"
 				}
 			});
-			//Parent Node-Beschriftung: Anzahl anpassen
+			// Parent Node-Beschriftung: Anzahl anpassen
 			beschrifte_pop_ordner_tpop(parent_node);
-			//node selecten
+			// node selecten
 			jQuery.jstree._reference(aktiver_node).deselect_all();
 			jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-			//Formular initiieren
+			// Formular initiieren
 			initiiere_tpop();
 		},
 		error: function (data) {
@@ -9497,7 +9481,7 @@ function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 }
 
 function pruefeLesevoraussetzungen() {
-	//kontrollieren, ob der User offline ist
+	// kontrollieren, ob der User offline ist
 	if (!navigator.onLine) {
 		console.log('offline');
 		$("#offline_dialog").show();
@@ -9517,9 +9501,9 @@ function pruefeLesevoraussetzungen() {
 }
 
 function pruefeSchreibvoraussetzungen() {
-	//kontrollieren, ob der User offline ist
+	// kontrollieren, ob der User offline ist
 	if (sessionStorage.NurLesen) {
-		//nur speichern, wenn Schreibrechte bestehen
+		// nur speichern, wenn Schreibrechte bestehen
 		$("#Meldung").html("Sie haben keine Schreibrechte");
 		$("#Meldung").dialog({
 			modal: true,
@@ -9535,25 +9519,25 @@ function pruefeSchreibvoraussetzungen() {
 	}
 }
 
-//wird von allen Formularen benutzt
-//speichert den Wert eines Feldes in einem Formular
-//übernimmt das Objekt, in dem geändert wurde
+// wird von allen Formularen benutzt
+// speichert den Wert eines Feldes in einem Formular
+// übernimmt das Objekt, in dem geändert wurde
 function speichern(that) {
 	var Feldtyp, Formular, Feldname, Feldjson, Feldwert, Querystring, Objekt;
 	if (pruefeSchreibvoraussetzungen()) {
 		Formular = $(that).attr("formular");
 		Feldname = that.name;
 		Feldtyp = $(that).attr("type") || null;
-		//Feldwert ermitteln
+		// Feldwert ermitteln
 		if (Feldtyp && Feldtyp === "checkbox") {
 			Feldwert = $('input:checkbox[name=' + Feldname + ']:checked').val();
 		} else if (Feldtyp && Feldtyp === "radio") {
 			Feldwert = $('input:radio[name=' + Feldname + ']:checked').val();
 		} else {
-			//textarea, input, select
+			// textarea, input, select
 			Feldwert = $("#" + Feldname).val();
 		}
-		//ja/nein Felder zu boolean umbauen
+		// ja/nein Felder zu boolean umbauen
 		if (Feldname === "PopHerkunftUnklar" || Feldname === "TPopHerkunftUnklar" || Feldname === "TPopMassnPlan" || Feldname === "TPopKontrPlan") {
 			if (Feldwert) {
 				Feldwert = 1;
@@ -9562,7 +9546,7 @@ function speichern(that) {
 			}
 		}
 		if (Feldname === "BeobBemerkungen" && localStorage.beob_status === "nicht_beurteilt") {
-			//hier soll nicht gespeichert werden
+			// hier soll nicht gespeichert werden
 			$("#BeobBemerkungen").val("");
 			$("#Meldung").html("Bemerkungen sind nur in zugeordneten oder nicht zuzuordnenden Beobachtungen möglich");
 			$("#Meldung").dialog({
@@ -9586,74 +9570,74 @@ function speichern(that) {
 				"user": sessionStorage.User
 			},
 			success: function () {
-				//Variable für Objekt nachführen
+				// Variable für Objekt nachführen
 				window[Formular][Feldname] = Feldwert;
-				//Wenn in feldkontr Datum erfasst, auch Jahr speichern
+				// Wenn in feldkontr Datum erfasst, auch Jahr speichern
 				if (Feldname === "TPopKontrDatum" && Feldwert) {
 					Objekt = {};
 					Objekt.name = "TPopKontrJahr";
 					Objekt.formular = "tpopfeldkontr";
 					speichern(Objekt);
 				}
-				//dito bei tpopmassn
+				// dito bei tpopmassn
 				if (Feldname === "TPopMassnDatum" && Feldwert) {
 					Objekt = {};
 					Objekt.name = "TPopMassnJahr";
 					Objekt.formular = "tpopmassn";
 					speichern(Objekt);
 				}
-				//wenn in TPopKontrZaehleinheit 1 bis 3 ein Leerwert eingeführt wurde
-				//sollen auch die Felder TPopKontrMethode 1 bis 3 und TPopKontrAnz 1 bis 3 Leerwerte erhalten
+				// wenn in TPopKontrZaehleinheit 1 bis 3 ein Leerwert eingeführt wurde
+				// sollen auch die Felder TPopKontrMethode 1 bis 3 und TPopKontrAnz 1 bis 3 Leerwerte erhalten
 				if (!Feldwert) {
 					if (Feldname === "TPopKontrZaehleinheit1") {
-						//UI aktualisieren
+						// UI aktualisieren
 						if (window.tpopfeldkontr.TPopKontrMethode1) {
 							$("#TPopKontrMethode1" + window.tpopfeldkontr.TPopKontrMethode1).prop("checked", false);
 						}
 						$("#TPopKontrAnz1").val("");
-						//Datenbank aktualisieren
-						//Feld TPopKontrMethode1
+						// Datenbank aktualisieren
+						// Feld TPopKontrMethode1
 						Objekt = {};
 						Objekt.name = "TPopKontrMethode1";
 						Objekt.formular = Formular;
 						speichern(Objekt);
-						//Feld TPopKontrAnz1
+						// Feld TPopKontrAnz1
 						Objekt = {};
 						Objekt.name = "TPopKontrAnz1";
 						Objekt.formular = Formular;
 						speichern(Objekt);
 					}
 					if (Feldname === "TPopKontrZaehleinheit2") {
-						//UI aktualisieren
+						// UI aktualisieren
 						if (window.tpopfeldkontr.TPopKontrMethode2) {
 							$("#TPopKontrMethode2" + window.tpopfeldkontr.TPopKontrMethode2).prop("checked", false);
 						}
 						$("#TPopKontrAnz2").val("");
-						//Datenbank aktualisieren
-						//Feld TPopKontrMethode2
+						// Datenbank aktualisieren
+						// Feld TPopKontrMethode2
 						Objekt = {};
 						Objekt.name = "TPopKontrMethode2";
 						Objekt.formular = Formular;
 						speichern(Objekt);
-						//Feld TPopKontrAnz2
+						// Feld TPopKontrAnz2
 						Objekt = {};
 						Objekt.name = "TPopKontrAnz2";
 						Objekt.formular = Formular;
 						speichern(Objekt);
 					}
 					if (Feldname === "TPopKontrZaehleinheit3") {
-						//UI aktualisieren
+						// UI aktualisieren
 						if (window.tpopfeldkontr.TPopKontrMethode3) {
 							$("#TPopKontrMethode3" + window.tpopfeldkontr.TPopKontrMethode3).prop("checked", false);
 						}
 						$("#TPopKontrAnz3").val("");
-						//Datenbank aktualisieren
-						//Feld TPopKontrMethode3
+						// Datenbank aktualisieren
+						// Feld TPopKontrMethode3
 						Objekt = {};
 						Objekt.name = "TPopKontrMethode3";
 						Objekt.formular = Formular;
 						speichern(Objekt);
-						//Feld TPopKontrAnz3
+						// Feld TPopKontrAnz3
 						Objekt = {};
 						Objekt.name = "TPopKontrAnz3";
 						Objekt.formular = Formular;
@@ -9675,7 +9659,7 @@ function speichern(that) {
 				});
 			}
 		});
-		//nodes im Tree updaten, wenn deren Bezeichnung ändert
+		// nodes im Tree updaten, wenn deren Bezeichnung ändert
 		switch(Feldname) {
 			case "PopNr":
 			case "PopName":
@@ -9735,7 +9719,7 @@ function speichern(that) {
 				break;
 			case "TPopKontrTyp":
 			case "TPopKontrJahr":
-				//wenn kein Typ/Jahr gewählt: "(kein Typ/Jahr)"
+				// wenn kein Typ/Jahr gewählt: "(kein Typ/Jahr)"
 				var tpopkontrjahr = "(kein Jahr)",
 					tpopfeldkontr_label = erstelleLabelFuerFeldkontrolle($("#TPopKontrJahr").val(), $("#spanTPopKontrTyp" + $('input[name="TPopKontrTyp"]:checked').val()).text());
 				if ($("#TPopKontrJahr").val()) {
@@ -9749,7 +9733,7 @@ function speichern(that) {
 				break;
 			case "TPopBerJahr":
 			case "TPopBerEntwicklung":
-				//wenn kein Jahr/Entwicklung gewählt: "(kein Jahr/Entwicklung)"
+				// wenn kein Jahr/Entwicklung gewählt: "(kein Jahr/Entwicklung)"
 				var tpopberjahr, tpopberentwicklung;
 				if ($("#TPopBerJahr").val()) {
 					tpopberjahr = $("#TPopBerJahr").val();
@@ -9765,7 +9749,7 @@ function speichern(that) {
 				break;
 			case "TPopMassnJahr":
 			case "TPopMassnTyp":
-				//wenn kein Typ/Jahr gewählt: "(kein Typ/Jahr)"
+				// wenn kein Typ/Jahr gewählt: "(kein Typ/Jahr)"
 				var tpopmassnbezeichnung;
 				if ($("#TPopMassnJahr").val() && $("#TPopMassnTyp option:checked").text()) {
 					tpopmassnbezeichnung = $("#TPopMassnJahr").val() + ": " + $("#TPopMassnTyp option:checked").text();
@@ -9781,7 +9765,7 @@ function speichern(that) {
 				break;
 			case "TPopMassnBerJahr":
 			case "TPopMassnBerErfolgsbeurteilung":
-				//wenn kein Jahr/Beurteilung: "(kein Jahr/Beurteilung)"
+				// wenn kein Jahr/Beurteilung: "(kein Jahr/Beurteilung)"
 				var tpopmassberbeschriftung;
 				if ($("#TPopMassnBerJahr").val() && $("#spanTPopMassnBerErfolgsbeurteilung" + $('input[name="TPopMassnBerErfolgsbeurteilung"]:checked').val()).text()) {
 					tpopmassberbeschriftung = $("#TPopMassnBerJahr").val() + ": " + $("#spanTPopMassnBerErfolgsbeurteilung" + $('input[name="TPopMassnBerErfolgsbeurteilung"]:checked').val()).text();
@@ -9869,9 +9853,9 @@ function speichern(that) {
 
 (function ($) {
 	// friendly helper http://tinyurl.com/6aow6yn
-	//Läuft durch alle Felder im Formular
-	//Wenn ein Wert enthalten ist, wird Feldname und Wert ins Objekt geschrieben
-	//nicht vergessen: Typ, _id und _rev dazu geben, um zu speichern
+	// Läuft durch alle Felder im Formular
+	// Wenn ein Wert enthalten ist, wird Feldname und Wert ins Objekt geschrieben
+	// nicht vergessen: Typ, _id und _rev dazu geben, um zu speichern
 	$.fn.serializeObject = function () {
 		var o, a;
 		o = {};
@@ -9892,7 +9876,7 @@ function speichern(that) {
 	};
 })(jQuery);
 
-//wandelt decimal degrees (vom GPS) in WGS84 um
+// wandelt decimal degrees (vom GPS) in WGS84 um
 function DdInWgs84BreiteGrad(Breite) {
 	var BreiteGrad;
  	BreiteGrad = Math.floor(Breite);
@@ -9956,7 +9940,7 @@ function Wgs84InChX(BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, Lae
 	return x;
 }
 
-//Wandelt WGS84 in CH-Landeskoordinaten um
+// Wandelt WGS84 in CH-Landeskoordinaten um
 function Wgs84InChY(BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, LaengeSec) {
 	var lat_aux, lng_aux;
 	// Converts degrees dec to sex
@@ -9977,7 +9961,7 @@ function Wgs84InChY(BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, Lae
 	return y;
 }
 
-//wandelt decimal degrees (vom GPS) in CH-Landeskoordinaten um
+// wandelt decimal degrees (vom GPS) in CH-Landeskoordinaten um
 function DdInChX(Breite, Laenge) {
 	var BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, LaengeSec, x;
 	BreiteGrad = DdInWgs84BreiteGrad(Breite);
@@ -10002,7 +9986,7 @@ function DdInChY(Breite, Laenge) {
 	return y;
 }
 
-//von CH-Landeskoord zu DecDeg
+// von CH-Landeskoord zu DecDeg
 
 // Convert CH y/x to WGS lat
 function CHtoWGSlat(y, x) {
@@ -10048,14 +10032,14 @@ function CHtoWGSlng(y, x) {
 function zeigeTPopAufKarte(TPopListe) {
 	window.TPopListe = TPopListe;
 	var anzTPop, infowindow, TPop, tpop_beschriftung, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, myFlurname;
-	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
+	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("google_karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
 	infowindow = new google.maps.InfoWindow();
-	//TPopListe bearbeiten:
-	//Objekte löschen, die keine Koordinaten haben
-	//Lat und Lng ergänzen
+	// TPopListe bearbeiten:
+	// Objekte löschen, die keine Koordinaten haben
+	// Lat und Lng ergänzen
 	for (var v = 0; v < TPopListe.rows.length; v++) {
 		TPop = TPopListe.rows[v];
 		if (!TPop.TPopXKoord || !TPop.TPopYKoord) {
@@ -10065,10 +10049,10 @@ function zeigeTPopAufKarte(TPopListe) {
 			TPop.Lng = CHtoWGSlng(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
 		}
 	}
-	//TPop zählen
+	// TPop zählen
 	anzTPop = TPopListe.rows.length;
-	//Karte mal auf Zürich zentrieren, falls in den TPopListe.rows keine Koordinaten kommen
-	//auf die die Karte ausgerichtet werden kann
+	// Karte mal auf Zürich zentrieren, falls in den TPopListe.rows keine Koordinaten kommen
+	// auf die die Karte ausgerichtet werden kann
 	lat = 47.383333;
 	lng = 8.533333;
 	latlng = new google.maps.LatLng(lat, lng);
@@ -10081,7 +10065,7 @@ function zeigeTPopAufKarte(TPopListe) {
 	map = new google.maps.Map(document.getElementById("google_karten_div"), options);
 	window.map = map;
 	bounds = new google.maps.LatLngBounds();
-	//für alle TPop Marker erstellen
+	// für alle TPop Marker erstellen
 	markers = [];
 	for (var u = 0; u < TPopListe.rows.length; u++) {
 		TPop = TPopListe.rows[u];
@@ -10089,10 +10073,10 @@ function zeigeTPopAufKarte(TPopListe) {
 		tpop_beschriftung = beschrifteTPopMitNrFuerKarte(TPop.PopNr, TPop.TPopNr);
 		latlng2 = new google.maps.LatLng(TPop.Lat, TPop.Lng);
 		if (anzTPop === 1) {
-			//map.fitbounds setzt zu hohen zoom, wenn nur eine TPop Koordinaten hat > verhindern
+			// map.fitbounds setzt zu hohen zoom, wenn nur eine TPop Koordinaten hat > verhindern
 			latlng = latlng2;
 		} else {
-			//Kartenausschnitt um diese Koordinate erweitern
+			// Kartenausschnitt um diese Koordinate erweitern
 			bounds.extend(latlng2);
 		}
 		marker = new MarkerWithLabel({
@@ -10128,7 +10112,7 @@ function zeigeTPopAufKarte(TPopListe) {
 				width: 53
 			}]
 	};
-	//globale Variable verwenden, damit ein Klick auf die Checkbox die Ebene einblenden kann
+	// globale Variable verwenden, damit ein Klick auf die Checkbox die Ebene einblenden kann
 	window.google_karte_detailplaene = new google.maps.KmlLayer({
 	    url: 'http://www.barbalex.ch/apflora/kml/rueteren.kmz',
 	    preserveViewport: true
@@ -10136,14 +10120,14 @@ function zeigeTPopAufKarte(TPopListe) {
 	google_karte_detailplaene.setMap(null);
 	markerCluster = new MarkerClusterer(map, markers, mcOptions);
 	if (anzTPop === 1) {
-		//map.fitbounds setzt zu hohen zoom, wenn nur eine Beobachtung erfasst wurde > verhindern
+		// map.fitbounds setzt zu hohen zoom, wenn nur eine Beobachtung erfasst wurde > verhindern
 		map.setCenter(latlng);
 		map.setZoom(18);
 	} else {
-		//Karte auf Ausschnitt anpassen
+		// Karte auf Ausschnitt anpassen
 		map.fitBounds(bounds);
 	}
-	//diese Funktion muss hier sein, damit infowindow bekannt ist
+	// diese Funktion muss hier sein, damit infowindow bekannt ist
 	function makeListener(map, marker, contentString) {
 		google.maps.event.addListener(marker, 'click', function () {
 			infowindow.setContent(contentString);
@@ -10154,7 +10138,7 @@ function zeigeTPopAufKarte(TPopListe) {
 
 function entferneTPopMarkerEbenen() {
 	var layername = ["Teilpopulation", "Teilpopulationen", "Teilpopulationen Nummern", "Teilpopulationen Namen"];
-	//nur möglich, wenn api und map existieren
+	// nur möglich, wenn api und map existieren
 	if (typeof window.api !== "undefined") {
 		if (window.api.map !== "undefined") {
 			for (i in layername) {
@@ -10170,7 +10154,7 @@ function entferneTPopMarkerEbenen() {
 		         window.api.map.removePopup(window.api.map.popups[0]);
 		    }*/
 
-			//auch aus layertree entfernen
+			// auch aus layertree entfernen
 			$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
 				if (layername.indexOf($(this).text()) !== -1) {
 					$(this).parent().parent().remove();
@@ -10182,7 +10166,7 @@ function entferneTPopMarkerEbenen() {
 
 function entfernePopMarkerEbenen() {
 	var layername = ["Population", "Populationen", "Populationen Nummern", "Populationen Namen"];
-	//nur möglich, wenn api und map existieren
+	// nur möglich, wenn api und map existieren
 	if (typeof window.api !== "undefined") {
 		if (window.api.map !== "undefined") {
 			for (i in layername) {
@@ -10194,7 +10178,7 @@ function entfernePopMarkerEbenen() {
 				}
 			}
 
-			//auch aus layertree entfernen
+			// auch aus layertree entfernen
 			$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
 				if (layername.indexOf($(this).text()) !== -1) {
 					$(this).parent().parent().remove();
@@ -10205,7 +10189,7 @@ function entfernePopMarkerEbenen() {
 }
 
 function entferneUebergebeneMarkerEbeneAusLayertree(layername) {
-	//nur möglich, wenn api und map existieren
+	// nur möglich, wenn api und map existieren
 	if (typeof window.api !== "undefined") {
 		if (window.api.map !== "undefined") {
 			$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
@@ -10223,36 +10207,36 @@ function verorteTPopAufGeoAdmin(TPop) {
 		.then(function() {
 			$("#mitPolygonWaehlen").button({ disabled: true });
 
-			//bound eröffnen
+			// bound eröffnen
 			bounds = new OpenLayers.Bounds();
-			//bounds bestimmen
+			// bounds bestimmen
 			if (TPop && TPop.TPopXKoord && TPop.TPopYKoord) {
-				//bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
+				// bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
 				x_max = parseInt(TPop.TPopXKoord) + 300;
 				x_min = parseInt(TPop.TPopXKoord) - 300;
 				y_max = parseInt(TPop.TPopYKoord) + 300;
 				y_min = parseInt(TPop.TPopYKoord) - 300;
 				bounds.extend(new OpenLayers.LonLat(x_max, y_max));
 				bounds.extend(new OpenLayers.LonLat(x_min, y_min));
-				//marker aufbauen
+				// marker aufbauen
 				erstelleTPopulationFuerGeoAdmin(TPop);
-				//alle layeroptionen schliessen
+				// alle layeroptionen schliessen
 				schliesseLayeroptionen();
 
 			} else {
-				//sonst Kanton ZH anzeigen
+				// sonst Kanton ZH anzeigen
 				//bounds.extend(new OpenLayers.LonLat(679000, 274000));
 				//bounds.extend(new OpenLayers.LonLat(707000, 232000));
 				bounds.extend(new OpenLayers.LonLat(689000, 264000));
 				bounds.extend(new OpenLayers.LonLat(697000, 242000));
 			}
 			
-			//Karte zum richtigen Ausschnitt zoomen
+			// Karte zum richtigen Ausschnitt zoomen
 			window.api.map.updateSize();
 			window.api.map.zoomToExtent(bounds);
 			schliesseLayeroptionen();
 
-			//jetzt einen Handler für den Klick aufbauen
+			// jetzt einen Handler für den Klick aufbauen
 			OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {				
 				defaultHandlerOptions: {
 					'single': true,
@@ -10274,20 +10258,20 @@ function verorteTPopAufGeoAdmin(TPop) {
 							'click': this.trigger
 						}, this.handlerOptions
 					);
-					//letzten Klick-Handler deaktivieren, sonst wird für jede Verortung ein neuer event-handler aufgebaut
+					// letzten Klick-Handler deaktivieren, sonst wird für jede Verortung ein neuer event-handler aufgebaut
 					if (window.LetzterKlickHandler) {
 						window.LetzterKlickHandler.deactivate();
 					}
-					//Klick-Handler in Variable speichern, damit er beim nächsten Aufruf deaktiviert werden kann
+					// Klick-Handler in Variable speichern, damit er beim nächsten Aufruf deaktiviert werden kann
 					window.LetzterKlickHandler = this;
 				},
 
 				trigger: function(e) {
 					var lonlat = window.api.map.getLonLatFromPixel(e.xy);
-					//x und y merken
+					// x und y merken
 					TPop.TPopXKoord = lonlat.lon;
 					TPop.TPopYKoord = lonlat.lat;
-					//Datensatz updaten
+					// Datensatz updaten
 					$.ajax({
 						type: 'post',
 						url: 'php/tpop_update.php',
@@ -10310,11 +10294,11 @@ function verorteTPopAufGeoAdmin(TPop) {
 									"user": sessionStorage.User
 								},
 								success: function () {
-									//markerebenen entfernen
+									// markerebenen entfernen
 									entferneTPopMarkerEbenen();
-									//alten listener entfernen, neuer wird mit dem nächsten Befehl erstellt 
+									// alten listener entfernen, neuer wird mit dem nächsten Befehl erstellt 
 									window.api.map.removeControl(click);
-									//markerebene neu aufbauen
+									// markerebene neu aufbauen
 									erstelleTPopulationFuerGeoAdmin(TPop);
 								}
 							});
@@ -10331,7 +10315,7 @@ function verorteTPopAufGeoAdmin(TPop) {
 }
 
 function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
-	//falls noch aus dem Verorten ein Klick-Handler besteht: deaktivieren
+	// falls noch aus dem Verorten ein Klick-Handler besteht: deaktivieren
 	if (window.LetzterKlickHandler) {
 		window.LetzterKlickHandler.deactivate();
 	}
@@ -10346,19 +10330,19 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
 	
 	var markierte_tpop = waehleAusschnittFuerUebergebeneTPop(TPopListeMarkiert);
 
-	//Grundkarte aufbauen
+	// Grundkarte aufbauen
 	$.when(zeigeFormular("GeoAdminKarte"))
 		.then(function() {
-			//Karte zum richtigen Ausschnitt zoomen
-			//aber nur, wenn keine Auswahl aktiv
+			// Karte zum richtigen Ausschnitt zoomen
+			// aber nur, wenn keine Auswahl aktiv
 			if (window.auswahlPolygonLayer && window.auswahlPolygonLayer.features.length > 0) {
-				//Auswahl aktiv, Zoomstufe belassen
+				// Auswahl aktiv, Zoomstufe belassen
 			} else {
 				window.api.map.updateSize();
 				window.api.map.zoomToExtent(markierte_tpop.bounds);
 			}
-			//tpop und pop ergänzen
-			//alle tpop holen
+			// tpop und pop ergänzen
+			// alle tpop holen
 			var tpop_aufruf = $.ajax({
 				type: 'get',
 				url: 'php/tpop_karte_alle.php',
@@ -10370,15 +10354,15 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
 
 			tpop_aufruf.done(function (TPopListe) {
 				$.when(
-					//Layer für Symbole und Beschriftung erstellen
+					// Layer für Symbole und Beschriftung erstellen
 					erstelleTPopNrFuerGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert, true),
 					erstelleTPopNamenFuerGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert, false),
 					erstelleTPopSymboleFuerGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert, true),
-					//alle Pop holen
+					// alle Pop holen
 					zeigePopInTPopKarte(overlay_pop_visible, overlay_popbeschriftung_visible)
 				)
 				.then(function() {
-					//alle layeroptionen schliessen
+					// alle layeroptionen schliessen
 					schliesseLayeroptionen();
 				});
 			});
@@ -10398,26 +10382,26 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
 }
 
 function zeigePopAufGeoAdmin(PopListeMarkiert) {
-	//falls noch aus dem Verorten ein Klick-Handler besteht: deaktivieren
+	// falls noch aus dem Verorten ein Klick-Handler besteht: deaktivieren
 	if (window.LetzterKlickHandler) {
 		window.LetzterKlickHandler.deactivate();
 	}
 	
 	var markierte_pop = waehleAusschnittFuerUebergebenePop(PopListeMarkiert);
 
-	//Grundkarte aufbauen
+	// Grundkarte aufbauen
 	$.when(zeigeFormular("GeoAdminKarte"))
 		.then(function() {
-			//Karte zum richtigen Ausschnitt zoomen
-			//aber nur, wenn keine Auswahl aktiv
+			// Karte zum richtigen Ausschnitt zoomen
+			// aber nur, wenn keine Auswahl aktiv
 			if (window.auswahlPolygonLayer && window.auswahlPolygonLayer.features.length > 0) {
-				//Auswahl aktiv, Zoomstufe belassen
+				// Auswahl aktiv, Zoomstufe belassen
 			} else {
 				window.api.map.updateSize();
 				window.api.map.zoomToExtent(markierte_pop.bounds);
 			}
-			//tpop und pop ergänzen
-			//alle tpop holen
+			// tpop und pop ergänzen
+			// alle tpop holen
 			var tpop_aufruf = $.ajax({
 				type: 'get',
 				url: 'php/tpop_karte_alle.php',
@@ -10429,15 +10413,15 @@ function zeigePopAufGeoAdmin(PopListeMarkiert) {
 
 			tpop_aufruf.done(function (TPopListe) {
 				$.when(
-					//Layer für Symbole und Beschriftung erstellen
+					// Layer für Symbole und Beschriftung erstellen
 					erstelleTPopNrFuerGeoAdmin(TPopListe, null, false),
 					erstelleTPopNamenFuerGeoAdmin(TPopListe, null, false),
 					erstelleTPopSymboleFuerGeoAdmin(TPopListe, null, false),
-					//alle Pop holen, symbole und nr sichtbar schalten, Markierung übergeben
+					// alle Pop holen, symbole und nr sichtbar schalten, Markierung übergeben
 					zeigePopInTPopKarte(true, true, markierte_pop.popid_markiert)
 				)
 				.then(function() {
-					//alle layeroptionen schliessen
+					// alle layeroptionen schliessen
 					schliesseLayeroptionen();
 				});
 			});
@@ -10456,22 +10440,22 @@ function zeigePopAufGeoAdmin(PopListeMarkiert) {
 	});
 }
 
-//übernimmt eine Liste von (markierten) TPop
-//retourniert den Ausschnitt = bounds der angezeigt werden soll
-//und einen array mit den tpop_id's der liste
+// übernimmt eine Liste von (markierten) TPop
+// retourniert den Ausschnitt = bounds der angezeigt werden soll
+// und einen array mit den tpop_id's der liste
 function waehleAusschnittFuerUebergebeneTPop(TPopListeMarkiert) {
 	var TPop, bounds, x_max, y_max, x_min, y_min;
-	//bound eröffnen
+	// bound eröffnen
 	bounds = new OpenLayers.Bounds();
 
-	//jetzt bounds der anzuzeigenden bestimmen
+	// jetzt bounds der anzuzeigenden bestimmen
 	var tpopid_markiert = [];
 	if (TPopListeMarkiert.rows.length > 0) {
 		for (b in TPopListeMarkiert.rows) {
 			if (TPopListeMarkiert.rows.hasOwnProperty(b)) {
 				TPop = TPopListeMarkiert.rows[b];
 				tpopid_markiert.push(TPop.TPopId);
-				//bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
+				// bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
 				x_max = parseInt(TPop.TPopXKoord) + 300;
 				x_min = parseInt(TPop.TPopXKoord) - 300;
 				y_max = parseInt(TPop.TPopYKoord) + 300;
@@ -10481,29 +10465,29 @@ function waehleAusschnittFuerUebergebeneTPop(TPopListeMarkiert) {
 			}
 		}
 	} else {
-		//keine tpop übergeben, Kanton anzeigen
+		// keine tpop übergeben, Kanton anzeigen
 		bounds.extend(new OpenLayers.LonLat(717000, 284000));
 		bounds.extend(new OpenLayers.LonLat(669000, 222000));
 	}
 	return {bounds: bounds, tpopid_markiert: tpopid_markiert};
 }
 
-//übernimmt eine Liste von (markierten) Pop
-//retourniert den Ausschnitt = bounds der angezeigt werden soll
-//und einen array mit den tpop_id's der liste
+// übernimmt eine Liste von (markierten) Pop
+// retourniert den Ausschnitt = bounds der angezeigt werden soll
+// und einen array mit den tpop_id's der liste
 function waehleAusschnittFuerUebergebenePop(PopListeMarkiert) {
 	var Pop, bounds, x_max, y_max, x_min, y_min;
-	//bound eröffnen
+	// bound eröffnen
 	bounds = new OpenLayers.Bounds();
 
-	//jetzt bounds der anzuzeigenden bestimmen
+	// jetzt bounds der anzuzeigenden bestimmen
 	var popid_markiert = [];
 	if (PopListeMarkiert.rows.length > 0) {
 		for (b in PopListeMarkiert.rows) {
 			if (PopListeMarkiert.rows.hasOwnProperty(b)) {
 				Pop = PopListeMarkiert.rows[b];
 				popid_markiert.push(Pop.PopId);
-				//bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
+				// bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
 				x_max = parseInt(Pop.PopXKoord) + 300;
 				x_min = parseInt(Pop.PopXKoord) - 300;
 				y_max = parseInt(Pop.PopYKoord) + 300;
@@ -10513,7 +10497,7 @@ function waehleAusschnittFuerUebergebenePop(PopListeMarkiert) {
 			}
 		}
 	} else {
-		//keine tpop übergeben, Kanton anzeigen
+		// keine tpop übergeben, Kanton anzeigen
 		bounds.extend(new OpenLayers.LonLat(717000, 284000));
 		bounds.extend(new OpenLayers.LonLat(669000, 222000));
 	}
@@ -10532,7 +10516,7 @@ function zeigePopInTPopKarte(overlay_pop_visible, overlay_popbeschriftungen_visi
 	});
 
 	pop_aufruf.done(function(PopListe) {
-		//Layer für Symbole und Beschriftung erstellen
+		// Layer für Symbole und Beschriftung erstellen
 		$.when(
 			erstellePopNrFuerGeoAdmin(PopListe, overlay_popbeschriftungen_visible),
 			erstellePopNamenFuerGeoAdmin(PopListe),
@@ -10560,7 +10544,7 @@ function zeigePopInTPopKarte(overlay_pop_visible, overlay_popbeschriftungen_visi
 }
 
 function erstelleTPopulationFuerGeoAdmin(TPop) {
-	//styles für overlay_top definieren
+	// styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
 		externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_rot.png',
 		graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
@@ -10580,7 +10564,7 @@ function erstelleTPopulationFuerGeoAdmin(TPop) {
 	
 	var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
 	var myTPopFlurname = TPop.TPopFlurname || '(kein Flurname)';
-	//tooltip bzw. label vorbereiten: nullwerte ausblenden
+	// tooltip bzw. label vorbereiten: nullwerte ausblenden
 	var myTooltip;
 	if (window.pop.PopNr & TPop.TPopNr) {
 		myTooltip = window.pop.PopNr + '/' + TPop.TPopNr + ' ' + myTPopFlurname;
@@ -10592,22 +10576,22 @@ function erstelleTPopulationFuerGeoAdmin(TPop) {
 		myTooltip = '?/?' + ' ' + myTPopFlurname;
 	}
 
-	//marker erstellen...
-	//gewählte erhalten style gelb und zuoberst
+	// marker erstellen...
+	// gewählte erhalten style gelb und zuoberst
 	var marker = new OpenLayers.Feature.Vector(myLocation, {
 		tooltip: myTooltip
 	});
 
-	//die marker der Ebene hinzufügen
+	// die marker der Ebene hinzufügen
 	overlay_tpopulation.addFeatures(marker);
 
-	//die marker sollen verschoben werdeen können
+	// die marker sollen verschoben werdeen können
 	var dragControl = new OpenLayers.Control.DragFeature(overlay_tpopulation, {
 		onComplete: function(feature) {
-			//x und y merken
+			// x und y merken
 			TPop.TPopXKoord = feature.geometry.x;
 			TPop.TPopYKoord = feature.geometry.y;
-			//Datensatz updaten
+			// Datensatz updaten
 			speichereWert('tpop', localStorage.tpop_id, 'TPopXKoord', TPop.TPopXKoord);
 			speichereWert('tpop', localStorage.tpop_id, 'TPopYKoord', TPop.TPopYKoord);
 		}
@@ -10615,16 +10599,16 @@ function erstelleTPopulationFuerGeoAdmin(TPop) {
 	window.api.map.addControl(dragControl);
 	dragControl.activate();
 
-	//overlay zur Karte hinzufügen
+	// overlay zur Karte hinzufügen
 	window.api.map.addLayers([overlay_tpopulation]);
 
-	//control zur Karte hinzufügen
+	// control zur Karte hinzufügen
 	window.selectControlTPop = new OpenLayers.Control.SelectFeature(overlay_tpopulation, {clickout: true});
 	window.api.map.addControl(window.selectControlTPop);
 	window.selectControlTPop.activate();
 }
 
-//dieser Funktion kann man einen Wert zum speichern übergeben
+// dieser Funktion kann man einen Wert zum speichern übergeben
 function speichereWert(tabelle, id, feld, wert) {
 	if (pruefeSchreibvoraussetzungen()) {
 		$.ajax({
@@ -10638,7 +10622,7 @@ function speichereWert(tabelle, id, feld, wert) {
 				"user": sessionStorage.User
 			},
 			success: function () {
-				//muss nichts machen
+				// muss nichts machen
 			},
 			error: function (data) {
 				var Meldung;
@@ -10657,17 +10641,17 @@ function speichereWert(tabelle, id, feld, wert) {
 	}
 }
 
-//nimmt drei Variabeln entgegen: 
-//TPopListe: Die Liste der darzustellenden Teilpopulationen
-//tpopid_markiert: die ID der zu markierenden TPop
-//visible: Ob das Layer sichtbar sein soll
+// nimmt drei Variabeln entgegen: 
+// TPopListe: Die Liste der darzustellenden Teilpopulationen
+// tpopid_markiert: die ID der zu markierenden TPop
+// visible: Ob das Layer sichtbar sein soll
 function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 	var tpopsymbole_erstellt = $.Deferred();
 	//if (!visible && visible !== false) {
 	if (visible === null) {
 		visible = true;
 	}
-	//styles für overlay_top definieren
+	// styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
 		externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon.png',
 		graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
@@ -10684,8 +10668,8 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 
 	// overlay layer für Marker vorbereiten
 	window.overlay_tpop = new OpenLayers.Layer.Vector('Teilpopulationen', {
-		filter: '',	//ist wohl nicht nötig und nützt auch nichts, um später einen Filter anzufügen
-		//popup bei select
+		filter: '',	// ist wohl nicht nötig und nützt auch nichts, um später einen Filter anzufügen
+		// popup bei select
 		eventListeners: {
 			'featureselected': function(evt) {
 				geoadminOnFeatureSelect(evt.feature);
@@ -10694,12 +10678,12 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 				geoadminOnFeatureUnselect(evt.feature);
 			}
 		},
-		//normal = grün, markiert = gelb
+		// normal = grün, markiert = gelb
 		styleMap: new OpenLayers.StyleMap({
 			'default': defaultStyle,
 			'select': selectStyle
 		}),
-		//ermöglicht, dass die markierte TPop über den anderen angezeigt wird
+		// ermöglicht, dass die markierte TPop über den anderen angezeigt wird
 		rendererOptions: {
 			//yOrdering: true, 
 			zIndexing: true
@@ -10707,7 +10691,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 		visibility: visible
 	});
 
-	//Array gründen, um marker darin zu sammeln
+	// Array gründen, um marker darin zu sammeln
 	var markers = [];
 	var myLabel;
 	var myFlurname;
@@ -10725,7 +10709,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 			
 			var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
 
-			//tooltip bzw. label vorbereiten: nullwerte ausblenden
+			// tooltip bzw. label vorbereiten: nullwerte ausblenden
 			if (TPop.PopNr && TPop.TPopNr) {
 				myLabel = TPop.PopNr + '/' + TPop.TPopNr;
 			} else if (TPop.PopNr) {
@@ -10736,8 +10720,8 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 				myLabel = '?/?';
 			}
 
-			//marker erstellen...
-			//gewählte erhalten style gelb und zuoberst
+			// marker erstellen...
+			// gewählte erhalten style gelb und zuoberst
 			if (tpopid_markiert && tpopid_markiert.indexOf(TPop.TPopId) !== -1) {
 				var marker = new OpenLayers.Feature.Vector(myLocation, {
 					tooltip: myFlurname,
@@ -10759,30 +10743,30 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 			marker.attributes.myTyp = "tpop";
 			marker.attributes.myId = TPop.TPopId;
 
-			//...und in Array speichern
+			// ...und in Array speichern
 			markers.push(marker);
 		}
 	}
 
-	//die marker der Ebene hinzufügen
+	// die marker der Ebene hinzufügen
 	overlay_tpop.addFeatures(markers);
 
-	//die marker sollen verschoben werden können
+	// die marker sollen verschoben werden können
 	var dragControl = new OpenLayers.Control.DragFeature(overlay_tpop, {
 		onStart: function(feature) {
-			//TO DO: Variable zum rückgängig machen erstellen
+			// TO DO: Variable zum rückgängig machen erstellen
 			/*window.tpop_vorher = {};
 			tpop_vorher.TPopXKoord = feature.geometry.x;
 			tpop_vorher.TPopYKoord = feature.geometry.y;
 			tpop_vorher.TPopId = feature.attributes.myId;*/
-			//meldung anzeigen, wie bei anderen Wiederherstellungen
-			//wenn wiederherstellen: function verschiebeTPop(id, x, y)
+			// meldung anzeigen, wie bei anderen Wiederherstellungen
+			// wenn wiederherstellen: function verschiebeTPop(id, x, y)
 			
-			//allfällig geöffnete Popups schliessen - ist unschön, wenn die offen bleiben
+			// allfällig geöffnete Popups schliessen - ist unschön, wenn die offen bleiben
 			window.selectControlTPop.unselectAll();
 		},
 		onComplete: function(feature) {
-			//nur zulassen, wenn Schreibrechte bestehen
+			// nur zulassen, wenn Schreibrechte bestehen
 			if (sessionStorage.NurLesen) {
 				$("#Meldung").html("Sie haben keine Schreibrechte");
 				$("#Meldung").dialog({
@@ -10790,22 +10774,22 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 					buttons: {
 						Ok: function() {
 							$(this).dialog("close");
-							//overlay entfernen...
+							// overlay entfernen...
 							if (window.api.map.getLayersByName('Teilpopulationen')) {
 								var layers = window.api.map.getLayersByName('Teilpopulationen');
 								for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
 									window.api.map.removeLayer(layers[layerIndex]);
 								}
 							}
-							//...und neu erstellen
+							// ...und neu erstellen
 							erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, true);
 						}
 					}
 				});
 				return;
 			}
-			//Verschieben muss bestätigt werden
-			//Mitteilung formulieren. Gewählte hat keinen label und tooltip ist wie sonst label
+			// Verschieben muss bestätigt werden
+			// Mitteilung formulieren. Gewählte hat keinen label und tooltip ist wie sonst label
 			if (feature.attributes.label) {
 				$("#loeschen_dialog_mitteilung").html("Sie verschieben die Teilpopulation " + feature.attributes.label + ", " + feature.attributes.tooltip);
 			} else {
@@ -10819,17 +10803,17 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 				buttons: {
 					"ja, verschieben!": function() {
 						$(this).dialog("close");
-						//neue Koordinaten speichern
-						//x und y merken
+						// neue Koordinaten speichern
+						// x und y merken
 						TPop.TPopXKoord = feature.geometry.x;
 						TPop.TPopYKoord = feature.geometry.y;
-						//Datensatz updaten
+						// Datensatz updaten
 						speichereWert('tpop', feature.attributes.myId, 'TPopXKoord', TPop.TPopXKoord);
 						speichereWert('tpop', feature.attributes.myId, 'TPopYKoord', TPop.TPopYKoord);
-						//jetzt alle marker entfernen...
+						// jetzt alle marker entfernen...
 						entferneTPopMarkerEbenen();
-						//...und neu aufbauen
-						//dazu die tpopliste neu abrufen, da Koordinaten geändert haben! tpopid_markiert bleibt gleich
+						// ...und neu aufbauen
+						// dazu die tpopliste neu abrufen, da Koordinaten geändert haben! tpopid_markiert bleibt gleich
 						$.ajax({
 							type: 'get',
 							url: 'php/tpop_karte_alle.php',
@@ -10857,14 +10841,14 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 					},
 					"nein, nicht verschieben": function() {
 						$(this).dialog("close");
-						//overlay entfernen...
+						// overlay entfernen...
 						if (window.api.map.getLayersByName('Teilpopulationen')) {
 							var layers = window.api.map.getLayersByName('Teilpopulationen');
 							for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
 								window.api.map.removeLayer(layers[layerIndex]);
 							}
 						}
-						//...und neu erstellen
+						// ...und neu erstellen
 						erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, true);
 					}
 				}
@@ -10872,8 +10856,8 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 		}
 	});
 
-	//selectfeature (Infoblase) soll nicht durch dragfeature blockiert werden
-	//Quelle: http://stackoverflow.com/questions/6953907/make-marker-dragable-and-clickable
+	// selectfeature (Infoblase) soll nicht durch dragfeature blockiert werden
+	// Quelle: http://stackoverflow.com/questions/6953907/make-marker-dragable-and-clickable
 	dragControl.handlers['drag'].stopDown = false;
 	dragControl.handlers['drag'].stopUp = false;
 	dragControl.handlers['drag'].stopClick = false;
@@ -10881,19 +10865,19 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 	dragControl.handlers['feature'].stopUp = false;
 	dragControl.handlers['feature'].stopClick = false;
 
-	//dragControl einschalten
+	// dragControl einschalten
 	window.api.map.addControl(dragControl);
 	dragControl.activate();
 
-	//overlay zur Karte hinzufügen
+	// overlay zur Karte hinzufügen
 	window.api.map.addLayers([overlay_tpop]);
 
-	//SelectControl erstellen (mit dem Eventlistener öffnet das die Infoblase) und zur Karte hinzufügen
+	// SelectControl erstellen (mit dem Eventlistener öffnet das die Infoblase) und zur Karte hinzufügen
 	window.selectControlTPop = new OpenLayers.Control.SelectFeature(overlay_tpop, {clickout: true});
 	window.api.map.addControl(window.selectControlTPop);
 	window.selectControlTPop.activate();
 
-	//mit Polygon auswählen, nur wenn noch nicht existent
+	// mit Polygon auswählen, nur wenn noch nicht existent
 	if (!window.auswahlPolygonLayer) {
 		window.auswahlPolygonLayer = new OpenLayers.Layer.Vector("Auswahl-Polygon", {
 			projection: new OpenLayers.Projection("EPSG:21781"), 
@@ -10901,7 +10885,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 		});
 		window.api.map.addLayers([auswahlPolygonLayer]);
 	}
-	//drawControl erstellen, nur wenn noch nicht existent
+	// drawControl erstellen, nur wenn noch nicht existent
 	if (!window.drawControl) {
 		window.drawControl = new OpenLayers.Control.DrawFeature(auswahlPolygonLayer, OpenLayers.Handler.Polygon);
 		drawControl.events.register("featureadded", this, function (event) {
@@ -10909,16 +10893,16 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 				type: OpenLayers.Filter.Spatial.INTERSECTS, 
 				value: event.feature.geometry
 			});
-			//Teilpopulationen: Auswahl ermitteln und einen Array von ID's in window.tpop_array speichern
+			// Teilpopulationen: Auswahl ermitteln und einen Array von ID's in window.tpop_array speichern
 			erstelleTPopAuswahlArrays();
-			//Populationen: Auswahl ermitteln und einen Array von ID's in window.pop_array speichern
+			// Populationen: Auswahl ermitteln und einen Array von ID's in window.pop_array speichern
 			erstellePopAuswahlArrays();
-			//Liste erstellen, welche die Auswahl anzeigt, Pop/TPop verlinkt und Exporte anbietet
+			// Liste erstellen, welche die Auswahl anzeigt, Pop/TPop verlinkt und Exporte anbietet
 			erstelleListeDerAusgewaehltenPopTPop();
 
-			//control deaktivieren
+			// control deaktivieren
 			window.drawControl.deactivate();
-			//Schaltfläche Karte schieben aktivieren
+			// Schaltfläche Karte schieben aktivieren
 			$("#karteSchieben").attr("checked", true);
 			$("#karteSchieben").button("enable").button("refresh");
 		});
@@ -10930,7 +10914,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 }
 
 function erstelleTPopAuswahlArrays() {
-	//Teilpopulationen: Auswahl ermitteln und einen Array von ID's in window.tpop_array speichern
+	// Teilpopulationen: Auswahl ermitteln und einen Array von ID's in window.tpop_array speichern
 	window.tpop_array = [];
 	window.tpop_id_array = [];
 	if (overlay_tpop.visibility === true) {
@@ -10945,7 +10929,7 @@ function erstelleTPopAuswahlArrays() {
 }
 
 function erstellePopAuswahlArrays() {
-	//Populationen: Auswahl ermitteln und einen Array von ID's in window.pop_array speichern
+	// Populationen: Auswahl ermitteln und einen Array von ID's in window.pop_array speichern
 	window.pop_array = [];
 	window.pop_id_array = [];
 	if (overlay_pop.visibility === true) {
@@ -10960,11 +10944,11 @@ function erstellePopAuswahlArrays() {
 }
 
 function erstelleListeDerAusgewaehltenPopTPop() {
-	//rückmelden, welche Objekte gewählt wurden
+	// rückmelden, welche Objekte gewählt wurden
 	var rueckmeldung = "";
 	if (window.pop_array.length > 0) {
 		if (window.tpop_array.length > 0) {
-			//tpop und pop betitteln
+			// tpop und pop betitteln
 			rueckmeldung += "<p class='ergebnisAuswahlListeTitel'>" + window.pop_array.length + " Populationen: </p>";
 		}
 		rueckmeldung += "<table>";
@@ -10975,7 +10959,7 @@ function erstelleListeDerAusgewaehltenPopTPop() {
 	}
 	if (window.tpop_array.length > 0) {
 		if (window.pop_array.length > 0) {
-			//tpop und pop betitteln
+			// tpop und pop betitteln
 			rueckmeldung += "<p class='ergebnisAuswahlListeTitel ergebnisAuswahlListeTitelTPop'>" + window.tpop_array.length + " Teilpopulationen: </p>";
 		}
 		rueckmeldung += "<table>";
@@ -10984,13 +10968,13 @@ function erstelleListeDerAusgewaehltenPopTPop() {
 		}
 		rueckmeldung += "</table>";
 	}
-	//Höhe der Meldung begrenzen. Leider funktioniert maxHeight nicht
+	// Höhe der Meldung begrenzen. Leider funktioniert maxHeight nicht
 	var height = "auto";
 	if (window.tpop_array.length > 25) {
 		height = 650;
 	}
 
-	//Listentitel erstellen
+	// Listentitel erstellen
 	var Listentitel;
 	var exportieren = "Exportieren: ";
 	var exportierenPop = "<a href='#' class='export_pop'>Populationen</a>";
@@ -11011,19 +10995,19 @@ function erstelleListeDerAusgewaehltenPopTPop() {
 	$("#ergebnisAuswahlHeaderText").html(Listentitel);
 	$("#ergebnisAuswahlListe").html(rueckmeldung);
 	$("#ergebnisAuswahlFooter").html(exportieren);
-	//Ergebnis-Div einblenden
+	// Ergebnis-Div einblenden
 	$("#ergebnisAuswahl").css("display", "block");
 }
 
-//übernimmt drei Variabeln: PopListe ist das Objekt mit den Populationen
-//popid_array der Array mit den ausgewählten Pop
-//visible: Ob die Ebene sichtbar geschaltet wird (oder bloss im Layertree verfügbar ist)
+// übernimmt drei Variabeln: PopListe ist das Objekt mit den Populationen
+// popid_array der Array mit den ausgewählten Pop
+// visible: Ob die Ebene sichtbar geschaltet wird (oder bloss im Layertree verfügbar ist)
 function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 	if (visible === null) {
 		visible = true;
 	}
 	var PopSymbole_erstellt = $.Deferred();
-	//styles für overlay_pop definieren
+	// styles für overlay_pop definieren
 	var defaultStyle = new OpenLayers.Style({
 		externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_braun.png',
 		graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
@@ -11035,7 +11019,7 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 
 	// overlay layer für Marker vorbereiten
 	window.overlay_pop = new OpenLayers.Layer.Vector('Populationen', {
-		//popup bei select
+		// popup bei select
 		eventListeners: {
 			'featureselected': function(evt) {
 				geoadminOnFeatureSelect(evt.feature);
@@ -11044,19 +11028,19 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 				geoadminOnFeatureUnselect(evt.feature);
 			}
 		},
-		//normal = braun, markiert = orange
+		// normal = braun, markiert = orange
 		styleMap: new OpenLayers.StyleMap({
 			'default': defaultStyle,
 			'select': selectStyle
 		}),
-		//ermöglicht, dass die markierte Pop über den anderen angezeigt wird
+		// ermöglicht, dass die markierte Pop über den anderen angezeigt wird
 		rendererOptions: {
 			zIndexing: true
 		},
 		visibility: visible
 	});
 
-	//Array gründen, um marker darin zu sammeln
+	// Array gründen, um marker darin zu sammeln
 	var markers = [];
 	var myLabel;
 	var myName;
@@ -11072,15 +11056,15 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 			
 			var myLocation = new OpenLayers.Geometry.Point(Pop.PopXKoord, Pop.PopYKoord);
 
-			//tooltip bzw. label vorbereiten: nullwerte ausblenden
+			// tooltip bzw. label vorbereiten: nullwerte ausblenden
 			if (Pop.PopNr) {
 				myLabel = Pop.PopNr;
 			} else {
 				myLabel = '?';
 			}
 
-			//marker erstellen...
-			//gewählte erhalten style gelb und zuoberst
+			// marker erstellen...
+			// gewählte erhalten style gelb und zuoberst
 			if (popid_markiert && popid_markiert.indexOf(Pop.PopId) !== -1) {
 				var marker = new OpenLayers.Feature.Vector(myLocation, {
 					tooltip: myName,
@@ -11102,22 +11086,22 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 			marker.attributes.myTyp = "pop";
 			marker.attributes.myId = Pop.PopId;
 
-			//...und in Array speichern
+			// ...und in Array speichern
 			markers.push(marker);
 		}
 	}
 
-	//die marker der Ebene hinzufügen
+	// die marker der Ebene hinzufügen
 	overlay_pop.addFeatures(markers);
 
-	//die marker sollen verschoben werden können
+	// die marker sollen verschoben werden können
 	var dragControl = new OpenLayers.Control.DragFeature(overlay_pop, {
 		onStart: function(feature) {
-			//allfällig geöffnete Popups schliessen - ist unschön, wenn die offen bleiben
+			// allfällig geöffnete Popups schliessen - ist unschön, wenn die offen bleiben
 			window.selectControlPop.unselectAll();
 		},
 		onComplete: function(feature) {
-			//nur zulassen, wenn Schreibrechte bestehen
+			// nur zulassen, wenn Schreibrechte bestehen
 			if (sessionStorage.NurLesen) {
 				$("#Meldung").html("Sie haben keine Schreibrechte");
 				$("#Meldung").dialog({
@@ -11125,22 +11109,22 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 					buttons: {
 						Ok: function() {
 							$(this).dialog("close");
-							//overlay entfernen...
+							// overlay entfernen...
 							if (window.api.map.getLayersByName('Populationen')) {
 								var layers = window.api.map.getLayersByName('Populationen');
 								for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
 									window.api.map.removeLayer(layers[layerIndex]);
 								}
 							}
-							//...und neu erstellen
+							// ...und neu erstellen
 							erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible);
 						}
 					}
 				});
 				return;
 			}
-			//Verschieben muss bestätigt werden
-			//Mitteilung formulieren. Gewählte hat keinen label und tooltip ist wie sonst label
+			// Verschieben muss bestätigt werden
+			// Mitteilung formulieren. Gewählte hat keinen label und tooltip ist wie sonst label
 			if (feature.attributes.label) {
 				$("#loeschen_dialog_mitteilung").html("Sie verschieben die Population " + feature.attributes.label + ", " + feature.attributes.tooltip);
 			} else {
@@ -11154,17 +11138,17 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 				buttons: {
 					"ja, verschieben!": function() {
 						$(this).dialog("close");
-						//neue Koordinaten speichern
-						//x und y merken
+						// neue Koordinaten speichern
+						// x und y merken
 						Pop.PopXKoord = feature.geometry.x;
 						Pop.PopYKoord = feature.geometry.y;
-						//Datensatz updaten
+						// Datensatz updaten
 						speichereWert('pop', feature.attributes.myId, 'PopXKoord', Pop.PopXKoord);
 						speichereWert('pop', feature.attributes.myId, 'PopYKoord', Pop.PopYKoord);
-						//jetzt alle marker entfernen...
+						// jetzt alle marker entfernen...
 						entfernePopMarkerEbenen();
-						//...und neu aufbauen
-						//dazu die popliste neu abrufen, da Koordinaten geändert haben! popid_markiert bleibt gleich
+						// ...und neu aufbauen
+						// dazu die popliste neu abrufen, da Koordinaten geändert haben! popid_markiert bleibt gleich
 						$.ajax({
 							type: 'get',
 							url: 'php/pop_karte_alle.php',
@@ -11192,14 +11176,14 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 					},
 					"nein, nicht verschieben": function() {
 						$(this).dialog("close");
-						//overlay entfernen...
+						// overlay entfernen...
 						if (window.api.map.getLayersByName('Populationen')) {
 							var layers = window.api.map.getLayersByName('Populationen');
 							for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
 								window.api.map.removeLayer(layers[layerIndex]);
 							}
 						}
-						//...und neu erstellen
+						// ...und neu erstellen
 						erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, true);
 					}
 				}
@@ -11207,8 +11191,8 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 		}
 	});
 
-	//selectfeature (Infoblase) soll nicht durch dragfeature blockiert werden
-	//Quelle: http://stackoverflow.com/questions/6953907/make-marker-dragable-and-clickable
+	// selectfeature (Infoblase) soll nicht durch dragfeature blockiert werden
+	// Quelle: http://stackoverflow.com/questions/6953907/make-marker-dragable-and-clickable
 	dragControl.handlers['drag'].stopDown = false;
 	dragControl.handlers['drag'].stopUp = false;
 	dragControl.handlers['drag'].stopClick = false;
@@ -11216,14 +11200,14 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 	dragControl.handlers['feature'].stopUp = false;
 	dragControl.handlers['feature'].stopClick = false;
 
-	//dragControl einschalten
+	// dragControl einschalten
 	window.api.map.addControl(dragControl);
 	dragControl.activate();
 
-	//overlay zur Karte hinzufügen
+	// overlay zur Karte hinzufügen
 	window.api.map.addLayers([overlay_pop]);
 
-	//SelectControl erstellen (mit dem Eventlistener öffnet das die Infoblase) und zur Karte hinzufügen
+	// SelectControl erstellen (mit dem Eventlistener öffnet das die Infoblase) und zur Karte hinzufügen
 	window.selectControlPop = new OpenLayers.Control.SelectFeature(overlay_pop, {clickout: true});
 	window.api.map.addControl(window.selectControlPop);
 	window.selectControlPop.activate();
@@ -11233,7 +11217,7 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 
 function erstellePopNrFuerGeoAdmin(PopListe, visible) {
 	var PopNr_erstellt = $.Deferred();
-	//styles für overlay_top definieren
+	// styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
 		externalGraphic: 'http://www.barbalex.ch/apflora/img/leer.png',
 		graphicWidth: 1, graphicHeight: 1, graphicYOffset: 0,
@@ -11253,7 +11237,7 @@ function erstellePopNrFuerGeoAdmin(PopListe, visible) {
 	});
 
 	// overlay layer für Marker vorbereiten
-	//wurde visible mitgegeben verwenden, sonst nicht
+	// wurde visible mitgegeben verwenden, sonst nicht
 	if (visible !== null) {
 		var overlay_pop_beschriftungen = new OpenLayers.Layer.Vector('Populationen Nummern', {
 			styleMap: new OpenLayers.StyleMap({
@@ -11271,7 +11255,7 @@ function erstellePopNrFuerGeoAdmin(PopListe, visible) {
 		});
 	}
 
-	//Array gründen, um marker darin zu sammeln
+	// Array gründen, um marker darin zu sammeln
 	var markers = [];
 	var myLabel;
 
@@ -11281,28 +11265,28 @@ function erstellePopNrFuerGeoAdmin(PopListe, visible) {
 			
 			var myLocation = new OpenLayers.Geometry.Point(Pop.PopXKoord, Pop.PopYKoord);
 
-			//tooltip bzw. label vorbereiten: nullwerte ausblenden
+			// tooltip bzw. label vorbereiten: nullwerte ausblenden
 			if (Pop.PopNr) {
 				myLabel = Pop.PopNr ;
 			} else {
 				myLabel = '?';
 			}
 
-			//marker erstellen...
-			//gewählte erhalten style gelb und zuoberst
+			// marker erstellen...
+			// gewählte erhalten style gelb und zuoberst
 			var marker = new OpenLayers.Feature.Vector(myLocation, {
 				label: myLabel,
 			});
 
-			//...und in Array speichern
+			// ...und in Array speichern
 			markers.push(marker);
 		}
 	}
 
-	//die marker der Ebene hinzufügen
+	// die marker der Ebene hinzufügen
 	overlay_pop_beschriftungen.addFeatures(markers);
 
-	//overlay zur Karte hinzufügen
+	// overlay zur Karte hinzufügen
 	window.api.map.addLayers([overlay_pop_beschriftungen]);
 	PopNr_erstellt.resolve();
 	return PopNr_erstellt.promise();
@@ -11310,7 +11294,7 @@ function erstellePopNrFuerGeoAdmin(PopListe, visible) {
 
 function erstellePopNamenFuerGeoAdmin(PopListe) {
 	var PopNamen_erstellt = $.Deferred();
-	//styles für overlay_top definieren
+	// styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
 		externalGraphic: 'http://www.barbalex.ch/apflora/img/leer.png',
 		graphicWidth: 1, graphicHeight: 1, graphicYOffset: 0,
@@ -11338,7 +11322,7 @@ function erstellePopNamenFuerGeoAdmin(PopListe) {
 		visibility: false
 	});
 
-	//Array gründen, um marker darin zu sammeln
+	// Array gründen, um marker darin zu sammeln
 	var markers = [];
 
 	for (b in PopListe.rows) {
@@ -11348,27 +11332,27 @@ function erstellePopNamenFuerGeoAdmin(PopListe) {
 			var myLocation = new OpenLayers.Geometry.Point(Pop.PopXKoord, Pop.PopYKoord);
 			var myPopName = Pop.TPopName || '(kein Name)';
 
-			//marker erstellen...
-			//gewählte erhalten style gelb und zuoberst
+			// marker erstellen...
+			// gewählte erhalten style gelb und zuoberst
 			var marker = new OpenLayers.Feature.Vector(myLocation, {
 				label: myPopName,
 			});
 
-			//...und in Array speichern
+			// ...und in Array speichern
 			markers.push(marker);
 		}
 	}
 
-	//die marker der Ebene hinzufügen
+	// die marker der Ebene hinzufügen
 	overlay_pop_beschriftungen.addFeatures(markers);
 
-	//overlay zur Karte hinzufügen
+	// overlay zur Karte hinzufügen
 	window.api.map.addLayers([overlay_pop_beschriftungen]);
 	PopNamen_erstellt.resolve();
 	return PopNamen_erstellt.promise();
 }
 
-//ermöglicht es, nach dem toolip zu sortieren
+// ermöglicht es, nach dem toolip zu sortieren
 function vergleicheTPopZumSortierenNachTooltip(a,b) {
 	if (a.tooltip < b.tooltip)
 		 return -1;
@@ -11391,16 +11375,16 @@ function deaktiviereGeoAdminAuswahl() {
 	delete window.pop_id_liste;
 }
 
-//nimmt drei Variabeln entgegen: 
-//TPopListe: Die Liste der darzustellenden Teilpopulationen
-//tpopid_markiert: die ID der zu markierenden TPop
-//visible: Ob das Layer sichtbar sein soll
+// nimmt drei Variabeln entgegen: 
+// TPopListe: Die Liste der darzustellenden Teilpopulationen
+// tpopid_markiert: die ID der zu markierenden TPop
+// visible: Ob das Layer sichtbar sein soll
 function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 	if (visible === null) {
 		visible = true;
 	}
 	var tpopnr_erstellt = $.Deferred();
-	//styles für overlay_top definieren
+	// styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
 		externalGraphic: 'http://www.barbalex.ch/apflora/img/leer.png',
 		graphicWidth: 1, graphicHeight: 1, graphicYOffset: 0,
@@ -11428,7 +11412,7 @@ function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 		visibility: visible
 	});
 
-	//Array gründen, um marker darin zu sammeln
+	// Array gründen, um marker darin zu sammeln
 	var markers = [];
 	var myLabel;
 
@@ -11438,7 +11422,7 @@ function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 			
 			var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
 
-			//tooltip bzw. label vorbereiten: nullwerte ausblenden
+			// tooltip bzw. label vorbereiten: nullwerte ausblenden
 			if (TPop.PopNr && TPop.TPopNr) {
 				myLabel = TPop.PopNr + '/' + TPop.TPopNr;
 			} else if (TPop.PopNr) {
@@ -11449,36 +11433,36 @@ function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 				myLabel = '?/?';
 			}
 
-			//marker erstellen...
-			//gewählte erhalten style gelb und zuoberst
+			// marker erstellen...
+			// gewählte erhalten style gelb und zuoberst
 			var marker = new OpenLayers.Feature.Vector(myLocation, {
 				label: myLabel,
 			});
 
-			//...und in Array speichern
+			// ...und in Array speichern
 			markers.push(marker);
 		}
 	}
 
-	//die marker der Ebene hinzufügen
+	// die marker der Ebene hinzufügen
 	overlay_tpop_beschriftungen.addFeatures(markers);
 
-	//overlay zur Karte hinzufügen
+	// overlay zur Karte hinzufügen
 	window.api.map.addLayers([overlay_tpop_beschriftungen]);
 	tpopnr_erstellt.resolve();
 	return tpopnr_erstellt.promise();
 }
 
-//nimmt drei Variabeln entgegen: 
-//TPopListe: Die Liste der darzustellenden Teilpopulationen
-//tpopid_markiert: die ID der zu markierenden TPop
-//visible: Ob das Layer sichtbar sein soll
+// nimmt drei Variabeln entgegen: 
+// TPopListe: Die Liste der darzustellenden Teilpopulationen
+// tpopid_markiert: die ID der zu markierenden TPop
+// visible: Ob das Layer sichtbar sein soll
 function erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 	if (visible === null) {
 		visible = true;
 	}
 	var tpopnamen_erstellt = $.Deferred();
-	//styles für overlay_top definieren
+	// styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
 		externalGraphic: 'http://www.barbalex.ch/apflora/img/leer.png',
 		graphicWidth: 1, graphicHeight: 1, graphicYOffset: 0,
@@ -11506,7 +11490,7 @@ function erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 		visibility: visible
 	});
 
-	//Array gründen, um marker darin zu sammeln
+	// Array gründen, um marker darin zu sammeln
 	var markers = [];
 
 	for (b in TPopListe.rows) {
@@ -11516,21 +11500,21 @@ function erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 			var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
 			var myTPopFlurname = TPop.TPopFlurname || '(kein Name)';
 
-			//marker erstellen...
-			//gewählte erhalten style gelb und zuoberst
+			// marker erstellen...
+			// gewählte erhalten style gelb und zuoberst
 			var marker = new OpenLayers.Feature.Vector(myLocation, {
 				label: myTPopFlurname,
 			});
 
-			//...und in Array speichern
+			// ...und in Array speichern
 			markers.push(marker);
 		}
 	}
 
-	//die marker der Ebene hinzufügen
+	// die marker der Ebene hinzufügen
 	overlay_tpop_beschriftungen.addFeatures(markers);
 
-	//overlay zur Karte hinzufügen
+	// overlay zur Karte hinzufügen
 	window.api.map.addLayers([overlay_tpop_beschriftungen]);
 
 	tpopnamen_erstellt.resolve();
@@ -11543,7 +11527,7 @@ function geoadminOnFeatureSelect(feature) {
 		null,
 		feature.attributes.message,
 		null,
-		false	//true zeigt Schliess-Schalftläche an. Schliessen zerstört aber event-listener > popup kann nur ein mal angezeigt werden!
+		false	// true zeigt Schliess-Schalftläche an. Schliessen zerstört aber event-listener > popup kann nur ein mal angezeigt werden!
 	);
 	popup.autoSize = true;
 	popup.maxSize = new OpenLayers.Size(600,600);
@@ -11559,21 +11543,19 @@ function geoadminOnFeatureUnselect(feature) {
 function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 	window.TPopListe = TPopListe;
 	var anzBeob, infowindowBeob, infowindowTPop, TPop, lat, lng, latlng, options, map, bounds, markersTPop, TPopId, latlng2, markerBeob, markerTPop, contentStringBeob, contentStringTPop, mcOptionsBeob, mcOptionsTPop, markerClusterBeob, markerClusterTPop, Datum, titel_beob, tpop_beschriftung, a_note, myFlurname;
-	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
+	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("google_karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
 	infowindowBeob = new google.maps.InfoWindow();
 	infowindowTPop = new google.maps.InfoWindow();
-	//Lat und Lng in BeobListe ergänzen
-	//for (i in BeobListe.rows) {
+	// Lat und Lng in BeobListe ergänzen
 	for (var i = 0; i < BeobListe.rows.length; i++) {
 		Beob = BeobListe.rows[i];
 		Beob.Lat = CHtoWGSlat(parseInt(Beob.X), parseInt(Beob.Y));
 		Beob.Lng = CHtoWGSlng(parseInt(Beob.X), parseInt(Beob.Y));
 	}
-	//dito in TPopListe
-	//for (i in TPopListe.rows) {
+	// dito in TPopListe
 	for (var i = 0; i < TPopListe.rows.length; i++) {
 		TPop = TPopListe.rows[i];
 		if (!TPop.TPopXKoord || !TPop.TPopYKoord) {
@@ -11583,12 +11565,12 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 			TPop.Lng = CHtoWGSlng(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
 		}
 	}
-	//Beob zählen
+	// Beob zählen
 	anzBeob = BeobListe.rows.length;
-	//TPop zählen
+	// TPop zählen
 	anzTPop = TPopListe.rows.length;
-	//Karte mal auf Zürich zentrieren, falls in den BeobListe.rows keine Koordinaten kommen
-	//auf die die Karte ausgerichtet werden kann
+	// Karte mal auf Zürich zentrieren, falls in den BeobListe.rows keine Koordinaten kommen
+	// auf die die Karte ausgerichtet werden kann
 	lat = 47.383333;
 	lng = 8.533333;
 	latlng = new google.maps.LatLng(lat, lng);
@@ -11602,14 +11584,13 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 	window.map = map;
 	bounds = new google.maps.LatLngBounds();
 
-	//für alle TPop Marker erstellen
+	// für alle TPop Marker erstellen
 	markersTPop = [];
-	//for (i in TPopListe.rows) {
 	for (var i = 0; i < TPopListe.rows.length; i++) {
 		TPop = TPopListe.rows[i];
 		TPopId = TPop.TPopId;
 		latlng2 = new google.maps.LatLng(TPop.Lat, TPop.Lng);
-		//Kartenausschnitt um diese Koordinate erweitern
+		// Kartenausschnitt um diese Koordinate erweitern
 		bounds.extend(latlng2);
 		tpop_beschriftung = beschrifteTPopMitNrFuerKarte(TPop.PopNr, TPop.TPopNr);
 		markerTPop = new MarkerWithLabel({
@@ -11647,7 +11628,7 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 	};
 	markerClusterTPop = new MarkerClusterer(map, markersTPop, mcOptionsTPop);
 	
-	//diese Funktion muss hier sein, damit infowindow bekannt ist
+	// diese Funktion muss hier sein, damit infowindow bekannt ist
 	function makeListener(map, markerTPop, contentStringTPop) {
 		google.maps.event.addListener(markerTPop, 'click', function () {
 			infowindowTPop.setContent(contentStringTPop);
@@ -11655,27 +11636,26 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 		});
 	}
 
-	//für alle Beob Marker erstellen
+	// für alle Beob Marker erstellen
 	window.markersBeob = [];
-	//for (i in BeobListe.rows) {
 	for (var i = 0; i < BeobListe.rows.length; i++) {
 		Beob = BeobListe.rows[i];
 		Datum = Beob.Datum;
 		latlng2 = new google.maps.LatLng(Beob.Lat, Beob.Lng);
 		if (anzBeob === 1) {
-			//map.fitbounds setzt zu hohen zoom, wenn nur eine Beob Koordinaten hat > verhindern
+			// map.fitbounds setzt zu hohen zoom, wenn nur eine Beob Koordinaten hat > verhindern
 			latlng = latlng2;
 		} else {
-			//Kartenausschnitt um diese Koordinate erweitern
+			// Kartenausschnitt um diese Koordinate erweitern
 			bounds.extend(latlng2);
 		}
-		//title muss String sein
+		// title muss String sein
 		if (Datum) {
 			titel_beob = Datum.toString();
 		} else {
 			titel_beob = "";
 		}
-		//A_NOTE muss String sein
+		// A_NOTE muss String sein
 		if (Beob.A_NOTE) {
 			a_note = Beob.A_NOTE.toString();
 		} else {
@@ -11711,10 +11691,10 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 			'</div>';
 		makeListenerBeob(map, markerBeob, contentStringBeob);
 	}
-	//KEIN MARKERCLUSTERER: er verhindert das Entfernen einzelner Marker!
-	//ausserdem macht er es schwierig, eng liegende Marker zuzuordnen
+	// KEIN MARKERCLUSTERER: er verhindert das Entfernen einzelner Marker!
+	// ausserdem macht er es schwierig, eng liegende Marker zuzuordnen
 	
-	//diese Funktion muss hier sein, damit infowindow bekannt ist
+	// diese Funktion muss hier sein, damit infowindow bekannt ist
 	function makeListenerBeob(map, markerBeob, contentStringBeob) {
 		google.maps.event.addListener(markerBeob, 'click', function () {
 			infowindowBeob.setContent(contentStringBeob);
@@ -11726,12 +11706,12 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 		google.maps.event.addListener(markerBeob, "dragend", function (event) {
 			var lat, lng, X, Y, that;
 			that = this;
-			//Koordinaten berechnen
+			// Koordinaten berechnen
 			lat = event.latLng.lat();
 			lng = event.latLng.lng();
 			X = DdInChY(lat, lng);
 			Y = DdInChX(lat, lng);
-			//nächstgelegene TPop aus DB holen
+			// nächstgelegene TPop aus DB holen
 			$.ajax({
 				type: 'get',
 				url: 'php/beob_naechste_tpop.php',
@@ -11748,7 +11728,7 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 					} else {
 						beobtxt = "Beobachtung ohne Autor aus dem Jahr " + Beob.A_NOTE;
 					}
-					//rückfragen
+					// rückfragen
 					$("#Meldung").html("Soll die " + beobtxt + "<br>der Teilpopulation '" + data[0].TPopFlurname + "' zugeordnet werden?");
 					$("#Meldung").dialog({
 						modal: true,
@@ -11757,16 +11737,16 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 						buttons: {
 							Ja: function() {
 								$(this).dialog("close");
-								//dem bind.move_node mitteilen, dass das Formular nicht initiiert werden soll
+								// dem bind.move_node mitteilen, dass das Formular nicht initiiert werden soll
 								localStorage.karte_fokussieren = true;
-								//Beob der TPop zuweisen
+								// Beob der TPop zuweisen
 								$("#tree").jstree("move_node", "#beob" + Beob.NO_NOTE, "#tpop_ordner_beob_zugeordnet" + data[0].TPopId, "first");
-								//Den Marker der zugewiesenen Beobachtung entfernen
+								// Den Marker der zugewiesenen Beobachtung entfernen
 								that.setMap(null);
 							},
 							Nein: function() {
 								$(this).dialog("close");
-								//drag rückgängig machen
+								// drag rückgängig machen
 								lng = CHtoWGSlng(Beob.X, Beob.Y);
 								lat = CHtoWGSlat(Beob.X, Beob.Y);
 								var latlng3 = new google.maps.LatLng(lat, lng);
@@ -11791,33 +11771,32 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 	}
 
 	if (anzTPop + anzBeob === 1) {
-		//map.fitbounds setzt zu hohen zoom, wenn nur ein Punkt dargestellt wird > verhindern
+		// map.fitbounds setzt zu hohen zoom, wenn nur ein Punkt dargestellt wird > verhindern
 		map.setCenter(latlng);
 		map.setZoom(18);
 	} else {
-		//Karte auf Ausschnitt anpassen
+		// Karte auf Ausschnitt anpassen
 		map.fitBounds(bounds);
 	}
 }
 
 function zeigeBeobAufKarte(BeobListe) {
 	var anzBeob, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Datum, titel, a_note;
-	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
+	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("google_karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
 	infowindow = new google.maps.InfoWindow();
-	//Lat und Lng in BeobListe ergänzen
-	//for (i in BeobListe.rows) {
+	// Lat und Lng in BeobListe ergänzen
 	for (var i = 0; i < BeobListe.rows.length; i++) {
 		Beob = BeobListe.rows[i];
 		Beob.Lat = CHtoWGSlat(parseInt(Beob.X), parseInt(Beob.Y));
 		Beob.Lng = CHtoWGSlng(parseInt(Beob.X), parseInt(Beob.Y));
 	}
-	//TPop zählen
+	// TPop zählen
 	anzBeob = BeobListe.rows.length;
-	//Karte mal auf Zürich zentrieren, falls in den BeobListe.rows keine Koordinaten kommen
-	//auf die die Karte ausgerichtet werden kann
+	// Karte mal auf Zürich zentrieren, falls in den BeobListe.rows keine Koordinaten kommen
+	// auf die die Karte ausgerichtet werden kann
 	lat = 47.383333;
 	lng = 8.533333;
 	latlng = new google.maps.LatLng(lat, lng);
@@ -11838,27 +11817,26 @@ function zeigeBeobAufKarte(BeobListe) {
 	map = new google.maps.Map(document.getElementById("google_karten_div"), options);
 	window.map = map;
 	bounds = new google.maps.LatLngBounds();
-	//für alle Orte Marker erstellen
+	// für alle Orte Marker erstellen
 	markers = [];
-	//for (i in BeobListe.rows) {
 	for (var i = 0; i < BeobListe.rows.length; i++) {
 		Beob = BeobListe.rows[i];
 		Datum = Beob.Datum;
 		latlng2 = new google.maps.LatLng(Beob.Lat, Beob.Lng);
 		if (anzBeob === 1) {
-			//map.fitbounds setzt zu hohen zoom, wenn nur eine Beob Koordinaten hat > verhindern
+			// map.fitbounds setzt zu hohen zoom, wenn nur eine Beob Koordinaten hat > verhindern
 			latlng = latlng2;
 		} else {
-			//Kartenausschnitt um diese Koordinate erweitern
+			// Kartenausschnitt um diese Koordinate erweitern
 			bounds.extend(latlng2);
 		}
-		//title muss String sein
+		// title muss String sein
 		if (Datum) {
 			titel = Datum.toString();
 		} else {
 			titel = "";
 		}
-		//A_NOTE muss String sein
+		// A_NOTE muss String sein
 		if (Beob.A_NOTE) {
 			a_note = Beob.A_NOTE.toString();
 		} else {
@@ -11873,10 +11851,10 @@ function zeigeBeobAufKarte(BeobListe) {
 			labelClass: "MapLabel",
 			icon: "img/flora_icon_violett.png"
 		});
-		//dem Marker einen Typ und eine id geben
-		//damit drag and drop möglich werden soll
-		//marker.set("typ", "beob");
-		//marker.set("id", Beob.BeobId);
+		// dem Marker einen Typ und eine id geben
+		// damit drag and drop möglich werden soll
+		// marker.set("typ", "beob");
+		// marker.set("id", Beob.BeobId);
 		marker.metadata = {typ: "beob_nicht_beurteilt", id: Beob.NO_NOTE};
 		markers.push(marker);
 		var Autor = Beob.Autor || "(keiner)";
@@ -11907,14 +11885,14 @@ function zeigeBeobAufKarte(BeobListe) {
 	};
 	markerCluster = new MarkerClusterer(map, markers, mcOptions);
 	if (anzBeob === 1) {
-		//map.fitbounds setzt zu hohen zoom, wenn nur eine Beobachtung erfasst wurde > verhindern
+		// map.fitbounds setzt zu hohen zoom, wenn nur eine Beobachtung erfasst wurde > verhindern
 		map.setCenter(latlng);
 		map.setZoom(18);
 	} else {
-		//Karte auf Ausschnitt anpassen
+		// Karte auf Ausschnitt anpassen
 		map.fitBounds(bounds);
 	}
-	//diese Funktion muss hier sein, damit infowindow bekannt ist
+	// diese Funktion muss hier sein, damit infowindow bekannt ist
 	function makeListener(map, marker, contentString) {
 		google.maps.event.addListener(marker, 'click', function () {
 			infowindow.setContent(contentString);
@@ -11925,24 +11903,23 @@ function zeigeBeobAufKarte(BeobListe) {
 
 function zeigeTPopBeobAufKarte(TPopBeobListe) {
 	var anzBeob, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Datum, titel;
-	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
+	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("google_karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
 	infowindow = new google.maps.InfoWindow();
-	//TPopListe bearbeiten:
-	//Objekte löschen, die keine Koordinaten haben
-	//Lat und Lng ergänzen
-	//for (i in TPopBeobListe.rows) {
+	// TPopListe bearbeiten:
+	// Objekte löschen, die keine Koordinaten haben
+	// Lat und Lng ergänzen
 	for (var i = 0; i < TPopBeobListe.rows.length; i++) {
 		TPopBeob = TPopBeobListe.rows[i];
 		TPopBeob.Lat = CHtoWGSlat(parseInt(TPopBeob.X), parseInt(TPopBeob.Y));
 		TPopBeob.Lng = CHtoWGSlng(parseInt(TPopBeob.X), parseInt(TPopBeob.Y));
 	}
-	//TPop zählen
+	// TPop zählen
 	anzTPopBeob = TPopBeobListe.rows.length;
-	//Karte mal auf Zürich zentrieren, falls in den TPopBeobListe.rows keine Koordinaten kommen
-	//auf die die Karte ausgerichtet werden kann
+	// Karte mal auf Zürich zentrieren, falls in den TPopBeobListe.rows keine Koordinaten kommen
+	// auf die die Karte ausgerichtet werden kann
 	lat = 47.383333;
 	lng = 8.533333;
 	latlng = new google.maps.LatLng(lat, lng);
@@ -11962,27 +11939,26 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 	};
 	map = new google.maps.Map(document.getElementById("google_karten_div"), options);
 	window.map = map;
-	//Versuch: SVO einblenden
+	// Versuch: SVO einblenden
 	//loadWMS(window.map, "http://wms.zh.ch/FnsSVOZHWMS?");
 	//loadWMS(map, "http://www.gis.zh.ch/scripts/wmsfnssvo2.asp?");
-	//Versuch: AV einblenden
+	// Versuch: AV einblenden
 	//loadWMS(map, "http://wms.zh.ch/avwms?");
 	bounds = new google.maps.LatLngBounds();
-	//für alle Orte Marker erstellen
+	// für alle Orte Marker erstellen
 	markers = [];
-	//for (i in TPopBeobListe.rows) {
 	for (var i = 0; i < TPopBeobListe.rows.length; i++) {
 		TPopBeob = TPopBeobListe.rows[i];
 		Datum = TPopBeob.Datum;
 		latlng2 = new google.maps.LatLng(TPopBeob.Lat, TPopBeob.Lng);
 		if (anzTPopBeob === 1) {
-			//map.fitbounds setzt zu hohen zoom, wenn nur eine TPopBeob Koordinaten hat > verhindern
+			// map.fitbounds setzt zu hohen zoom, wenn nur eine TPopBeob Koordinaten hat > verhindern
 			latlng = latlng2;
 		} else {
-			//Kartenausschnitt um diese Koordinate erweitern
+			// Kartenausschnitt um diese Koordinate erweitern
 			bounds.extend(latlng2);
 		}
-		//title muss String sein
+		// title muss String sein
 		if (Datum) {
 			titel = Datum.toString();
 		} else {
@@ -11991,7 +11967,7 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 		marker = new MarkerWithLabel({
 			map: map,
 			position: latlng2,
-			//title muss String sein
+			// title muss String sein
 			title: titel,
 			labelContent: titel,
 			labelAnchor: new google.maps.Point(75, 0),
@@ -12027,14 +12003,14 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 	};
 	markerCluster = new MarkerClusterer(map, markers, mcOptions);
 	if (anzTPopBeob === 1) {
-		//map.fitbounds setzt zu hohen zoom, wenn nur eine Beobachtung erfasst wurde > verhindern
+		// map.fitbounds setzt zu hohen zoom, wenn nur eine Beobachtung erfasst wurde > verhindern
 		map.setCenter(latlng);
 		map.setZoom(18);
 	} else {
-		//Karte auf Ausschnitt anpassen
+		// Karte auf Ausschnitt anpassen
 		map.fitBounds(bounds);
 	}
-	//diese Funktion muss hier sein, damit infowindow bekannt ist
+	// diese Funktion muss hier sein, damit infowindow bekannt ist
 	function makeListener(map, marker, contentString) {
 		google.maps.event.addListener(marker, 'click', function () {
 			infowindow.setContent(contentString);
@@ -12045,18 +12021,18 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 
 function verorteTPopAufKarte(TPop) {
 	var anzTPop, infowindow, lat, lng, latlng, ZoomLevel, options, map, verorted, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, tpop_beschriftung, myFlurname;
-	//vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
+	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("google_karte");
 	window.markersArray = [];
 	infowindow = new google.maps.InfoWindow();
 	if (TPop && TPop.TPopXKoord && TPop.TPopYKoord) {
-		//Wenn Koordinaten vorhanden, Lat und Lng ergänzen
+		// Wenn Koordinaten vorhanden, Lat und Lng ergänzen
 		lat = CHtoWGSlat(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
 		lng = CHtoWGSlng(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
 		ZoomLevel = 15;
 		verorted = true;
 	} else {
-		//sonst auf Zürich zentrieren
+		// sonst auf Zürich zentrieren
 		lat = 47.360566;
 		lng = 8.542829;
 		ZoomLevel = 12;
@@ -12081,7 +12057,7 @@ function verorteTPopAufKarte(TPop) {
 			icon: "img/flora_icon_rot.png",
 			draggable: true
 		});
-		//Marker in Array speichern, damit er gelöscht werden kann
+		// Marker in Array speichern, damit er gelöscht werden kann
 		markersArray.push(marker); 
 		myFlurname = TPop.TPopFlurname || '(kein Flurname)';
 		contentString = '<div id="content">'+
@@ -12115,13 +12091,13 @@ function verorteTPopAufKarte(TPop) {
 
 function placeMarkerTPop(location, map, marker, TPop) {
 	var title;
-	//title muss String sein
+	// title muss String sein
 	if (TPop && TPop.TPopFlurname) {
 		title = TPop.TPopFlurname;
 	} else {
 		title = "neue Teilpopulation";
 	}
-	//zuerst bisherigen Marker löschen
+	// zuerst bisherigen Marker löschen
 	clearMarkers();
 	var marker = new google.maps.Marker({
 		position: location, 
@@ -12130,7 +12106,7 @@ function placeMarkerTPop(location, map, marker, TPop) {
 		icon: "img/flora_icon_rot.png",
 		draggable: true
 	});
-	//Marker in Array speichern, damit er gelöscht werden kann
+	// Marker in Array speichern, damit er gelöscht werden kann
 	markersArray.push(marker);
 	google.maps.event.addListener(marker, "dragend", function (event) {
 		SetLocationTPop(event.latLng, map, marker, TPop);
@@ -12140,7 +12116,7 @@ function placeMarkerTPop(location, map, marker, TPop) {
 
 function SetLocationTPop(LatLng, map, marker, TPop) {
 	var lat, lng, contentString, infowindow, Objekt, title, X, Y;
-	//nur aktualisieren, wenn Schreibrechte bestehen
+	// nur aktualisieren, wenn Schreibrechte bestehen
 	if (sessionStorage.NurLesen) {
 		$("#Meldung").html("Sie haben keine Schreibrechte");
 		$("#Meldung").dialog({
@@ -12211,19 +12187,18 @@ function SetLocationTPop(LatLng, map, marker, TPop) {
 	});
 }
 
-//GoogleMap: alle Marker löschen
-//benutzt wo in GoogleMaps Marker gesetzt und verschoben werden
+// GoogleMap: alle Marker löschen
+// benutzt wo in GoogleMaps Marker gesetzt und verschoben werden
 function clearMarkers() {
 	if (markersArray) {
-		//for (i in markersArray) {
 		for (var i = 0; i < markersArray.length; i++) {
 			markersArray[i].setMap(null);
 		}
 	}
 }
 
-//GoogleMap: alle InfoWindows löschen
-//benutzt wo in GoogleMaps Infowindows neu gesetzt werden müssen, weil die Daten verändert wurden
+// GoogleMap: alle InfoWindows löschen
+// benutzt wo in GoogleMaps Infowindows neu gesetzt werden müssen, weil die Daten verändert wurden
 function clearInfoWindows() {
 	if (window.InfoWindowArray) {
 		for (var i = 0; i < window.InfoWindowArray.length; i++) {
@@ -12360,7 +12335,7 @@ function loadWMS(map, baseURL, customParams){
 	var maxZoomLevel = 28;
 
 	//var baseURL = "";
-	//für SVO
+	// für SVO
 	var wmsParams = [
 	"REQUEST=GetMap",
 	"SERVICE=WMS",
@@ -12373,7 +12348,7 @@ function loadWMS(map, baseURL, customParams){
 	"TRANSPARENT=TRUE",
 	"FORMAT=image/gif"
 	];
-	//für av
+	// für av
 	/*var wmsParams = [
 	//"REQUEST=GetCapabilities",
 	//"SERVICE=WMS",
@@ -12382,7 +12357,7 @@ function loadWMS(map, baseURL, customParams){
 	"HEIGHT="+ tileHeight
 	];*/
 
-	//add additional parameters
+	// add additional parameters
 	var wmsParams = wmsParams.concat(customParams);
 
 	var overlayOptions =
@@ -12401,7 +12376,7 @@ function loadWMS(map, baseURL, customParams){
 			var lUL_Longitude = lULg.x;
 			var lLR_Latitude = lLRg.y;
 			var lLR_Longitude = lLRg.x;
-			//GJ: there is a bug when crossing the -180 longitude border (tile does not render) - this check seems to fix it
+			// GJ: there is a bug when crossing the -180 longitude border (tile does not render) - this check seems to fix it
 			if (lLR_Longitude < lUL_Longitude){
 			  lLR_Longitude = Math.abs(lLR_Longitude);
 			}
@@ -12530,57 +12505,57 @@ function oeffneUri() {
 	var anchor = uri.anchor() || null;
 	var ap_id = uri.getQueryParamValue('ap');
 	if (ap_id) {
-		//globale Variabeln setzen
+		// globale Variabeln setzen
 		setzeWindowAp(ap_id);
-		//Dem Feld im Formular den Wert zuweisen
+		// Dem Feld im Formular den Wert zuweisen
 		$("#ap_waehlen").val(ap_id);
 		if (uri.getQueryParamValue('tpop')) {
-			//globale Variabeln setzen
+			// globale Variabeln setzen
 			setzeWindowPop(uri.getQueryParamValue('pop'));
 			setzeWindowTpop(uri.getQueryParamValue('tpop'));
 			var tpopfeldkontr_id = uri.getQueryParamValue('tpopfeldkontr');
 			if (tpopfeldkontr_id) {
-				//globale Variabeln setzen
+				// globale Variabeln setzen
 				setzeWindowTpopfeldkontr(tpopfeldkontr_id);
-				//markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
-				//Die Markierung wird im load-Event wieder entfernt
+				// markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
+				// Die Markierung wird im load-Event wieder entfernt
 				window.tpopfeldkontr_zeigen = true;
-				//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				initiiere_tpopfeldkontr();
 			} else if (uri.getQueryParamValue('tpopfreiwkontr')) {
-				//globale Variabeln setzen
+				// globale Variabeln setzen
 				setzeWindowTpopfeldkontr(uri.getQueryParamValue('tpopfreiwkontr'));
-				//markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
-				//Die Markierung wird im load-Event wieder entfernt
+				// markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
+				// Die Markierung wird im load-Event wieder entfernt
 				window.tpopfreiwkontr_zeigen = true;
-				//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				initiiere_tpopfeldkontr();
 			} else if (uri.getQueryParamValue('tpopmassn')) {
-				//globale Variabeln setzen
+				// globale Variabeln setzen
 				setzeWindowTpopmassn(uri.getQueryParamValue('tpopmassn'));
-				//markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
-				//Die Markierung wird im load-Event wieder entfernt
+				// markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
+				// Die Markierung wird im load-Event wieder entfernt
 				window.tpopmassn_zeigen = true;
-				//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				initiiere_tpopmassn();
 			} else if (uri.getQueryParamValue('tpopber')) {
-				//globale Variabeln setzen
+				// globale Variabeln setzen
 				setzeWindowTpopber(uri.getQueryParamValue('tpopber'));
-				//markieren, dass nach dem loaded-event im Tree die tpopber angezeigt werden soll 
-				//Die Markierung wird im load-Event wieder entfernt
+				// markieren, dass nach dem loaded-event im Tree die tpopber angezeigt werden soll 
+				// Die Markierung wird im load-Event wieder entfernt
 				window.tpopber_zeigen = true;
-				//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				initiiere_tpopber();
 			} else if (uri.getQueryParamValue('beob_zugeordnet')) {
-				//markieren, dass nach dem loaded-event im Tree die beob_zugeordnet angezeigt werden soll 
-				//Die Markierung wird im load-Event wieder entfernt
+				// markieren, dass nach dem loaded-event im Tree die beob_zugeordnet angezeigt werden soll 
+				// Die Markierung wird im load-Event wieder entfernt
 				window.beob_zugeordnet_zeigen = true;
-				//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				/*ausgeschaltet - funktioniert nicht! vermutlich, weil tree.php und beob_distzutpop sich in quere kommen
-				//herausfinden, ob beobtyp infospezies oder evab ist
+				// herausfinden, ob beobtyp infospezies oder evab ist
 				localStorage.beob_id = uri.getQueryParamValue('beob_zugeordnet');
 				if (isNaN(uri.getQueryParamValue('beob_zugeordnet'))) {
-					//evab
+					// evab
 					localStorage.beobtyp = "evab";
 					initiiere_beob("evab", localStorage.beob_id, "zugeordnet");
 				} else {
@@ -12588,128 +12563,128 @@ function oeffneUri() {
 					initiiere_beob("infospezies", localStorage.beob_id, "zugeordnet");
 				}*/
 			} else if (uri.getQueryParamValue('tpopmassnber')) {
-				//globale Variabeln setzen
+				// globale Variabeln setzen
 				setzeWindowTpopmassnber(uri.getQueryParamValue('tpopmassnber'));
-				//markieren, dass nach dem loaded-event im Tree die tpopmassnber angezeigt werden soll 
-				//Die Markierung wird im load-Event wieder entfernt
+				// markieren, dass nach dem loaded-event im Tree die tpopmassnber angezeigt werden soll 
+				// Die Markierung wird im load-Event wieder entfernt
 				window.tpopmassnber_zeigen = true;
-				//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				initiiere_tpopmassnber();
 			} else {
-				//muss tpop sein
-				//markieren, dass nach dem loaded-event im Tree die TPop angezeigt werden soll 
-				//Die Markierung wird im load-Event wieder entfernt
+				// muss tpop sein
+				// markieren, dass nach dem loaded-event im Tree die TPop angezeigt werden soll 
+				// Die Markierung wird im load-Event wieder entfernt
 				window.tpop_zeigen = true;
-				//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				initiiere_tpop();
 			}
 		} else if (uri.getQueryParamValue('pop')) {
-			//globale Variabeln setzen
+			// globale Variabeln setzen
 			setzeWindowPop(uri.getQueryParamValue('pop'));
 			if (uri.getQueryParamValue('popber')) {
-				//globale Variabeln setzen
+				// globale Variabeln setzen
 				setzeWindowPopber(uri.getQueryParamValue('popber'));
-				//markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
-				//Die Markierung wird im load-Event wieder entfernt
+				// markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
+				// Die Markierung wird im load-Event wieder entfernt
 				window.popber_zeigen = true;
-				//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				initiiere_popber();
 			} else if (uri.getQueryParamValue('popmassnber')) {
-				//globale Variabeln setzen
+				// globale Variabeln setzen
 				setzeWindowPopmassnber(uri.getQueryParamValue('popmassnber'));
-				//markieren, dass nach dem loaded-event im Tree die popmassnber angezeigt werden soll 
-				//Die Markierung wird im load-Event wieder entfernt
+				// markieren, dass nach dem loaded-event im Tree die popmassnber angezeigt werden soll 
+				// Die Markierung wird im load-Event wieder entfernt
 				window.popmassnber_zeigen = true;
-				//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				initiiere_popmassnber();
 			} else {
-				//muss pop sein
-				//markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
-				//Die Markierung wird im load-Event wieder entfernt
+				// muss pop sein
+				// markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
+				// Die Markierung wird im load-Event wieder entfernt
 				window.pop_zeigen = true;
-				//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				localStorage.pop_id = uri.getQueryParamValue('pop');
 				initiiere_pop();
 			}
 		} else if (uri.getQueryParamValue('apziel')) {
-			//globale Variabeln setzen
+			// globale Variabeln setzen
 			setzeWindowApziel(uri.getQueryParamValue('apziel'));
 			if (uri.getQueryParamValue('zielber')) {
-				//globale Variabeln setzen
+				// globale Variabeln setzen
 				setzeWindowZielber(uri.getQueryParamValue('zielber'));
-				//markieren, dass nach dem loaded-event im Tree die zielber angezeigt werden soll 
-				//Die Markierung wird im load-Event wieder entfernt
+				// markieren, dass nach dem loaded-event im Tree die zielber angezeigt werden soll 
+				// Die Markierung wird im load-Event wieder entfernt
 				window.zielber_zeigen = true;
-				//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				initiiere_zielber();
 			} else {
-				//muss ein apziel sein
-				//markieren, dass nach dem loaded-event im Tree die apziel angezeigt werden soll 
-				//Die Markierung wird im load-Event wieder entfernt
+				// muss ein apziel sein
+				// markieren, dass nach dem loaded-event im Tree die apziel angezeigt werden soll 
+				// Die Markierung wird im load-Event wieder entfernt
 				window.apziel_zeigen = true;
-				//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				localStorage.apziel_id = uri.getQueryParamValue('apziel');
 				initiiere_apziel();
 			}
 		} else if (uri.getQueryParamValue('erfkrit')) {
-			//globale Variabeln setzen
+			// globale Variabeln setzen
 			setzeWindowErfkrit(uri.getQueryParamValue('erfkrit'));
-			//markieren, dass nach dem loaded-event im Tree die erfkrit angezeigt werden soll 
-			//Die Markierung wird im load-Event wieder entfernt
+			// markieren, dass nach dem loaded-event im Tree die erfkrit angezeigt werden soll 
+			// Die Markierung wird im load-Event wieder entfernt
 			window.erfkrit_zeigen = true;
 		} else if (uri.getQueryParamValue('jber')) {
-			//globale Variabeln setzen
+			// globale Variabeln setzen
 			setzeWindowJber(uri.getQueryParamValue('jber'));
-			//markieren, dass nach dem loaded-event im Tree die jber angezeigt werden soll 
-			//Die Markierung wird im load-Event wieder entfernt
+			// markieren, dass nach dem loaded-event im Tree die jber angezeigt werden soll 
+			// Die Markierung wird im load-Event wieder entfernt
 			window.jber_zeigen = true;
-			//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+			// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 			initiiere_jber();
 		} else if (uri.getQueryParamValue('jber_uebersicht')) {
-			//globale Variabeln setzen
+			// globale Variabeln setzen
 			setzeWindowJberUebersicht(uri.getQueryParamValue('jber_uebersicht'));
-			//markieren, dass nach dem loaded-event im Tree die jber_uebersicht angezeigt werden soll 
-			//Die Markierung wird im load-Event wieder entfernt
+			// markieren, dass nach dem loaded-event im Tree die jber_uebersicht angezeigt werden soll 
+			// Die Markierung wird im load-Event wieder entfernt
 			window.jber_uebersicht_zeigen = true;
-			//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+			// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 			initiiere_jber_uebersicht();
 		} else if (uri.getQueryParamValue('ber')) {
-			//globale Variabeln setzen
+			// globale Variabeln setzen
 			setzeWindowBer(uri.getQueryParamValue('ber'));
-			//markieren, dass nach dem loaded-event im Tree die ber angezeigt werden soll 
-			//Die Markierung wird im load-Event wieder entfernt
+			// markieren, dass nach dem loaded-event im Tree die ber angezeigt werden soll 
+			// Die Markierung wird im load-Event wieder entfernt
 			window.ber_zeigen = true;
-			//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+			// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 			initiiere_ber();
 		} else if (uri.getQueryParamValue('idealbiotop')) {
-			//globale Variabeln setzen
+			// globale Variabeln setzen
 			setzeWindowIdealbiotop(uri.getQueryParamValue('idealbiotop'));
-			//markieren, dass nach dem loaded-event im Tree die idealbiotop angezeigt werden soll 
-			//Die Markierung wird im load-Event wieder entfernt
+			// markieren, dass nach dem loaded-event im Tree die idealbiotop angezeigt werden soll 
+			// Die Markierung wird im load-Event wieder entfernt
 			window.idealbiotop_zeigen = true;
-			//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+			// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 			initiiere_idealbiotop();
 		} else if (uri.getQueryParamValue('assozarten')) {
-			//globale Variabeln setzen
+			// globale Variabeln setzen
 			setzeWindowAssozarten(uri.getQueryParamValue('assozarten'));
-			//markieren, dass nach dem loaded-event im Tree die assozarten angezeigt werden soll 
-			//Die Markierung wird im load-Event wieder entfernt
+			// markieren, dass nach dem loaded-event im Tree die assozarten angezeigt werden soll 
+			// Die Markierung wird im load-Event wieder entfernt
 			window.assozarten_zeigen = true;
-			//NICHT direkt initiieren, weil sonst die Artliste noch nicht existiert
+			// NICHT direkt initiieren, weil sonst die Artliste noch nicht existiert
 		} else if (uri.getQueryParamValue('beob_nicht_beurteilt')) {
-			//markieren, dass nach dem loaded-event im Tree die beob angezeigt werden soll 
-			//Die Markierung wird im load-Event wieder entfernt
+			// markieren, dass nach dem loaded-event im Tree die beob angezeigt werden soll 
+			// Die Markierung wird im load-Event wieder entfernt
 			window.beob_nicht_beurteilt_zeigen = true;
 		} else if (uri.getQueryParamValue('beob_nicht_zuzuordnen')) {
-			//markieren, dass nach dem loaded-event im Tree die beob angezeigt werden soll 
-			//Die Markierung wird im load-Event wieder entfernt
+			// markieren, dass nach dem loaded-event im Tree die beob angezeigt werden soll 
+			// Die Markierung wird im load-Event wieder entfernt
 			window.beob_nicht_zuzuordnen_zeigen = true;
 		} else {
-			//muss ap sein
-			//markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
-			//Die Markierung wird im load-Event wieder entfernt
+			// muss ap sein
+			// markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
+			// Die Markierung wird im load-Event wieder entfernt
 			window.ap_zeigen = true;
-			//direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+			// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 			localStorage.ap_id = ap_id;
 			initiiere_ap();
 		}
@@ -12762,11 +12737,11 @@ function onfeatureunselect_detailplaene_shp(feature) {
 }
 
 function initiiereGeoAdminKarte() {
-	//Proxy Host for Ajax Requests to overcome Cross-Domain HTTTP Requests
+	// Proxy Host for Ajax Requests to overcome Cross-Domain HTTTP Requests
 	//OpenLayers.ProxyHost = "../cgi-bin/proxy.cgi?url=";
 	//var zh_bbox_1903 = new OpenLayers.Bounds(669000, 222000, 717000, 284000);
 
-	//Zunächst alle Layer definieren
+	// Zunächst alle Layer definieren
 	var zh_ortho = new OpenLayers.Layer.WMS("ZH Luftbild", "http://agabriel:4zC6MgjM@wms.zh.ch/OrthoZHWMS", {
 		layers: 'orthophotos',
 		isBaseLayer: true
@@ -12860,7 +12835,7 @@ function initiiereGeoAdminKarte() {
 		singleTile: true,
 		visibility: false
 	});
-	//Verträge als WFS hinzufügen
+	// Verträge als WFS hinzufügen
 	var zh_vertraege = new OpenLayers.Layer.Vector("ZH Verträge", {
 	    strategies: [new OpenLayers.Strategy.BBOX()],
 	    protocol: new OpenLayers.Protocol.WFS.v1_1_0({
@@ -12920,16 +12895,16 @@ function initiiereGeoAdminKarte() {
 		visibility: false
 	});
 
-	//allfällige Marker-Ebenen entfernen
+	// allfällige Marker-Ebenen entfernen
 	entferneTPopMarkerEbenen();
 	entfernePopMarkerEbenen();
 	
-	//api nur definieren, wenn dies nicht schon passiert ist
+	// api nur definieren, wenn dies nicht schon passiert ist
 	if (typeof window.api == "undefined") {
 		window.api = new GeoAdmin.API();
 	}
 
-	//Karte nur aufbauen, wenn dies nicht schon passiert ist
+	// Karte nur aufbauen, wenn dies nicht schon passiert ist
 	if (!window.api.map) {
 		window.api.createMap({
 			div: "ga_karten_div",
@@ -12943,19 +12918,19 @@ function initiiereGeoAdminKarte() {
 			map: window.api.map
 		});
 
-		//The complementary layer is per default the color pixelmap.
+		// The complementary layer is per default the color pixelmap.
 		//window.api.map.switchComplementaryLayer("voidLayer", {opacity: 0});
 		//window.api.setBgLayer('voidLayer', {opacity: 0});	//wichtig, weil sonst Daten von GeoAdmin geladen werden
 
-		//Layer für detailpläne aufbauen
-		//aber nur beim ersten mal
+		// Layer für detailpläne aufbauen
+		// aber nur beim ersten mal
 		if (!window.detailplaene_shp) {
-			//erst daten auslesen
+			// erst daten auslesen
 			var detailplaene_shapefile = new Shapefile({
 				shp: "shp/detailplaene.shp",
 				dbf: "shp/detailplaene.dbf"
 			}, function (data) {
-				//vektorlayer schaffen
+				// vektorlayer schaffen
 				window.detailplaene_shp = new OpenLayers.Layer.Vector("Detailpläne", {
 					styleMap: detailplaene_stylemap,
 					eventListeners: {
@@ -12968,13 +12943,13 @@ function initiiereGeoAdminKarte() {
 						}
 					}
 				});
-				//Informationen in GeoJSON bereitstellen
+				// Informationen in GeoJSON bereitstellen
 				var parser = new OpenLayers.Format.GeoJSON();
 				var detailplaene_popup_features = parser.read(data.geojson);
 				window.detailplaene_shp.addFeatures(detailplaene_popup_features);
-				//Layer hinzufügen
+				// Layer hinzufügen
 				window.api.map.addLayers([window.detailplaene_shp]);
-				//select feature controll für detailpläne schaffen
+				// select feature controll für detailpläne schaffen
 				var detailplaene_selector = new OpenLayers.Control.SelectFeature(window.detailplaene_shp, {
 					clickout: true
 				});
@@ -13027,7 +13002,7 @@ function initiiereGeoAdminKarte() {
 		window.api.map.addControl(new OpenLayers.Control.MousePosition({numDigits: 0, separator: ' / '}));
 		window.api.map.addControl(new OpenLayers.Control.KeyboardDefaults());
 
-		//messen
+		// messen
 		// style the sketch fancy
 		var sketchSymbolizers = {
 			"Point": {
@@ -13094,44 +13069,44 @@ function initiiereGeoAdminKarte() {
 			window.api.map.addControl(controlMessung);
 		}
 
-		//layertree aufbauen
+		// layertree aufbauen
 		window.layertree = window.api.createLayerTree({
 			renderTo: "layertree",
 			width: 285
 		});
 
-		//layertree minimieren
+		// layertree minimieren
 		$(".x-panel-bwrap").css('display', 'none');
 
-		//verständlich beschreiben
+		// verständlich beschreiben
 		$(".x-panel-header-text").text("Ebenen");
 
-		//ganze Titelzeile: mit Klick vergrössern bzw. verkleinern
+		// ganze Titelzeile: mit Klick vergrössern bzw. verkleinern
 		$("#layertree").on("click", "#toggleLayertree, .x-panel-header", function() {
 			oeffneSchliesseLayertree();
 		});
 	}
 	
-	$('#karteSchieben').checked = true;	//scheint nicht zu funktionieren?
+	$('#karteSchieben').checked = true;	// scheint nicht zu funktionieren?
 	korrigiereLayernamenImLayertree();
 };
 
 function waehleMitPolygon() {
-	//den vorbereiteten drawControl aktivieren
+	// den vorbereiteten drawControl aktivieren
 	window.drawControl.activate();
-	//allfällige Messung deaktivieren
+	// allfällige Messung deaktivieren
 	measureControls['line'].deactivate();
 	measureControls['polygon'].deactivate();
-	//allfällige bisherige Auswahl entfernen
+	// allfällige bisherige Auswahl entfernen
 	window.auswahlPolygonLayer.removeAllFeatures();
-	//allfälliges Ergebnisfenster ausblenden
+	// allfälliges Ergebnisfenster ausblenden
 	$("#ergebnisAuswahl").css("display", "none");
 	delete window.tpop_id_array;
 	delete window.tpop_id_liste;
 }
 
 function korrigiereLayernamenImLayertree() {
-	//im layertree gewissen Namen anders schreiben
+	// im layertree gewissen Namen anders schreiben
 	$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
 		switch ($(this).text()) {
 			case "Amphibien Ortsfeste Objekte":
@@ -13177,7 +13152,7 @@ function schliesseLayeroptionen() {
 }
 
 function oeffneSchliesseLayertree() {
-	//ein hübscher Übergang wäre nett
+	// ein hübscher Übergang wäre nett
 	if ($(".x-panel-bwrap").css('display') !== 'none') {
 		$(".x-panel-bwrap").css('display', 'none');
 		$("#layertree .x-panel-header").css('border-bottom-right-radius', '6px');
@@ -13214,9 +13189,9 @@ function messe(element) {
 			$("#ergebnisMessung").text("");
 		}
 	}
-	//einen allfällig aktiven drawControl deaktivieren
+	// einen allfällig aktiven drawControl deaktivieren
 	deaktiviereGeoAdminAuswahl();
-	//und allfällig verbliebene Auswahlpolygon entfernen
+	// und allfällig verbliebene Auswahlpolygon entfernen
 	window.auswahlPolygonLayer.removeAllFeatures();
 }
 
@@ -13228,22 +13203,21 @@ function erstelleGemeindeliste() {
 			dataType: 'json',
 			success: function (data) {
 				if (data) {
-					//Gemeinden bereitstellen
-					//Feld mit Daten beliefern
+					// Gemeinden bereitstellen
+					// Feld mit Daten beliefern
 					var Gemeinden;
 					Gemeinden = [];
-					//for (i in data.rows) {
 					for (var i = 0; i < data.rows.length; i++) {
 						if (data.rows[i].GmdName) {
 							Gemeinden.push(data.rows[i].GmdName);
 						}
 					}
 					window.Gemeinden = Gemeinden;
-					//autocomplete-widget für Gemeinden initiieren
+					// autocomplete-widget für Gemeinden initiieren
 					$("#TPopGemeinde").autocomplete({
 						source: Gemeinden,
 						delay: 0,
-						//Change-Event wird nicht ausgelöst > hier aufrufen
+						// Change-Event wird nicht ausgelöst > hier aufrufen
 						change: function(event, ui) {
 							speichern(event.target);
 						}
@@ -13256,11 +13230,11 @@ function erstelleGemeindeliste() {
 
 function waehleAp(ap_id) {
 	if (ap_id) {
-		//einen AP gewählt
+		// einen AP gewählt
 		$("#ap_waehlen_label").hide();
 		localStorage.ap_id = ap_id;
 		if ($("[name='programm_wahl']:checked").attr("id") === "programm_neu") {
-			//zuerst einen neuen Datensatz anlegen
+			// zuerst einen neuen Datensatz anlegen
 			$.ajax({
 				type: 'post',
 				url: 'php/ap_insert.php',
@@ -13301,7 +13275,7 @@ function waehleAp(ap_id) {
 			initiiere_ap();
 		}
 	} else {
-		//leeren Wert gewählt
+		// leeren Wert gewählt
 		$("#ap_waehlen_label").html("Artförderprogramm wählen:").show();
 		$("#tree").hide();
 		$("#suchen").hide();
@@ -13314,9 +13288,9 @@ function waehleAp(ap_id) {
 }
 
 function kopiereKoordinatenInPop(TPopXKoord, TPopYKoord) {
-	//prüfen, ob X- und Y-Koordinaten vergeben sind
+	// prüfen, ob X- und Y-Koordinaten vergeben sind
 	if (TPopXKoord > 100000 && TPopYKoord > 100000) {
-		//Koordinaten der Pop nachführen
+		// Koordinaten der Pop nachführen
 		$.ajax({
 			type: 'post',
 			url: 'php/pop_update.php',
@@ -13374,7 +13348,7 @@ function kopiereKoordinatenInPop(TPopXKoord, TPopYKoord) {
 			}
 		});
 	} else {
-		//auffordern, die Koordinaten zu vergeben und Speichern abbrechen
+		// auffordern, die Koordinaten zu vergeben und Speichern abbrechen
 		$("#Meldung").html("Sie müssen zuerst Koordinaten erfassen");
 		$("#Meldung").dialog({
 			modal: true,
@@ -13388,7 +13362,7 @@ function kopiereKoordinatenInPop(TPopXKoord, TPopYKoord) {
 }
 
 function pruefe_anmeldung() {
-	//Leserechte zurücksetzen
+	// Leserechte zurücksetzen
 	delete sessionStorage.NurLesen;
 	if ($("#anmeldung_name").val() && $("#anmeldung_passwort").val()) {
 		$.ajax({
@@ -13402,7 +13376,7 @@ function pruefe_anmeldung() {
 			success: function (data) {
 				if (data && data.anzUser > 0) {
 					sessionStorage.User = $("#anmeldung_name").val();
-					//wenn NurLesen, globale Variable setzen
+					// wenn NurLesen, globale Variable setzen
 					if (data.NurLesen && data.NurLesen === -1) {
 						sessionStorage.NurLesen = true;
 					}
@@ -13437,8 +13411,8 @@ function pruefe_anmeldung() {
 	}
 }
 
-//erwartet aktuelle Werte für jahr und typ
-//erstellt den label für den Baum
+// erwartet aktuelle Werte für jahr und typ
+// erstellt den label für den Baum
 function erstelleLabelFuerFeldkontrolle(jahr, typ) {
 	if (typeof jahr === "undefined") {
 		jahr = "(kein Jahr)";
@@ -13449,8 +13423,8 @@ function erstelleLabelFuerFeldkontrolle(jahr, typ) {
 	return jahr + ": " + typ;
 }
 
-//erwartet aktuelle Werte für jahr und beurteilung
-//erstellt den label für den Baum
+// erwartet aktuelle Werte für jahr und beurteilung
+// erstellt den label für den Baum
 function erstelleLabelFuerMassnahme(jahr, beurteilung) {
 	if (typeof jahr === "undefined") {
 		jahr = "(kein Jahr)";
@@ -13506,10 +13480,10 @@ function erstelleUnterordnerFuerTPop(TPopNode) {
 	});
 }
 
-//gibt HTML zurück, mit dem die Informationen über eine Beobachtung dargestellt werden
-//erwartet die Daten der Beobachtung
+// gibt HTML zurück, mit dem die Informationen über eine Beobachtung dargestellt werden
+// erwartet die Daten der Beobachtung
 function erstelleFelderFuerBeob(data, beobtyp) {
-	//Titel für Beob im Formular erstellen
+	// Titel für Beob im Formular erstellen
 	var beobtitel = "<h1>Informationen aus ";
 	if (beobtyp === "infospezies") {
 		beobtitel += "Info Spezies";
@@ -13517,15 +13491,15 @@ function erstelleFelderFuerBeob(data, beobtyp) {
 		beobtitel += "EvAB";
 	}
 	beobtitel += " (nicht veränderbar)</h1>";
-	//Beob-Felder dynamisch aufbauen
+	// Beob-Felder dynamisch aufbauen
 	var html_beobfelder = "<table>";
 	var html_beobfeld;
 	var nichtAnzuzeigendeFelder = ["NO_ISFS", "ESPECE", "CUSTOM_TEXT_5_", "OBJECTID", "FNS_GISLAYER", "FNS_ISFS", "ID", "FNS_JAHR", "NOM_COMPLET", "FAMILLE"];
 	$.each(data, function(index, value) {
 		if ((value || value === 0) && nichtAnzuzeigendeFelder.indexOf(index) === -1) {
-			//TODO: Zahlen, text und Memofelder unterscheiden
-			//TODO: Felder durch externe Funktion erstellen lassen
-			//ID: beobfelder_ voranstellen, um Namens-Kollisionen zu vermeiden
+			// TODO: Zahlen, text und Memofelder unterscheiden
+			// TODO: Felder durch externe Funktion erstellen lassen
+			// ID: beobfelder_ voranstellen, um Namens-Kollisionen zu vermeiden
 			html_beobfeld = "";
 			html_beobfeld = '<tr class="fieldcontain"><td class="label" style="padding-bottom:3px;"><label for="beobfelder_';
 			html_beobfeld += index;
@@ -13543,8 +13517,8 @@ function erstelleFelderFuerBeob(data, beobtyp) {
 	return beobtitel + html_beobfelder;
 }
 
-//in DOM-Objekten sind viele ID's der Name des DOM-Elements vorangestellt, damit die ID eindeutig ist
-//ACHTUNG auf die Reihenfolge der Ersatzbefehle. Sonst wird z.B. in 'tpopber' 'popber' ersetzt und es bleibt 't'
+// in DOM-Objekten sind viele ID's der Name des DOM-Elements vorangestellt, damit die ID eindeutig ist
+// ACHTUNG auf die Reihenfolge der Ersatzbefehle. Sonst wird z.B. in 'tpopber' 'popber' ersetzt und es bleibt 't'
 function erstelleIdAusDomAttributId(domAttributId) {
 	var returnWert = domAttributId.replace('ap_ordner_pop', '').replace('ap_ordner_apziel', '').replace('ap_ordner_erfkrit', '').replace('ap_ordner_jber', '').replace('ap_ordner_ber', '').replace('ap_ordner_beob_nicht_beurteilt', '').replace('ap_ordner_beob_nicht_zuzuordnen', '').replace('idealbiotop', '').replace('ap_ordner_assozarten', '').replace('tpop_ordner_massnber', '').replace('tpop_ordner_massn', '').replace('tpopmassnber', '').replace('pop_ordner_massnber', '').replace('popmassnber', '').replace('tpop_ordner_feldkontr', '').replace('tpop_ordner_freiwkontr', '').replace('tpop_ordner_tpopber', '').replace('tpopber', '').replace('pop_ordner_popber', '').replace('popber', '').replace('tpop_ordner_beob_zugeordnet', '').replace('beob', '').replace('ber', '');
 	if (domAttributId == returnWert && parseInt(returnWert) && parseInt(returnWert) != returnWert) {
@@ -13574,9 +13548,9 @@ function zeigeBeobKoordinatenImGisBrowser() {
 	}
 }
 
-//retourniert die Beschriftung für TPop auf Karten
-//Wenn TPop mit ihrer Nummer beschriftet sein sollen
-//tpop_nr und pop_nr wird übernommen
+// retourniert die Beschriftung für TPop auf Karten
+// Wenn TPop mit ihrer Nummer beschriftet sein sollen
+// tpop_nr und pop_nr wird übernommen
 function beschrifteTPopMitNrFuerKarte(pop_nr, tpop_nr) {
 	var tpop_beschriftung;
 	pop_nr = pop_nr || "?";
@@ -13630,41 +13604,41 @@ $.extend({
             alert("A file download error has occurred, please try again.");
         };
 
-        //provide some reasonable defaults to any unspecified options below
+        // provide some reasonable defaults to any unspecified options below
         var settings = $.extend({
 
             //
-            //Requires jQuery UI: provide a message to display to the user when the file download is being prepared before the browser's dialog appears
+            // Requires jQuery UI: provide a message to display to the user when the file download is being prepared before the browser's dialog appears
             //
             preparingMessageHtml: null,
 
             //
-            //Requires jQuery UI: provide a message to display to the user when a file download fails
+            // Requires jQuery UI: provide a message to display to the user when a file download fails
             //
             failMessageHtml: null,
 
             //
-            //the stock android browser straight up doesn't support file downloads initiated by a non GET: http://code.google.com/p/android/issues/detail?id=1780
-            //specify a message here to display if a user tries with an android browser
-            //if jQuery UI is installed this will be a dialog, otherwise it will be an alert
+            // the stock android browser straight up doesn't support file downloads initiated by a non GET: http://code.google.com/p/android/issues/detail?id=1780
+            // specify a message here to display if a user tries with an android browser
+            // if jQuery UI is installed this will be a dialog, otherwise it will be an alert
             //
             androidPostUnsupportedMessageHtml: "Unfortunately your Android browser doesn't support this type of file download. Please try again with a different browser.",
 
             //
-            //Requires jQuery UI: options to pass into jQuery UI Dialog
+            // Requires jQuery UI: options to pass into jQuery UI Dialog
             //
             dialogOptions: { modal: true },
 
             //
-            //a function to call after a file download dialog/ribbon has appeared
-            //Args:
+            // a function to call after a file download dialog/ribbon has appeared
+            // Args:
             //  url - the original url attempted
             //
             successCallback: function (url) { },
 
             //
-            //a function to call after a file download dialog/ribbon has appeared
-            //Args:
+            // a function to call after a file download dialog/ribbon has appeared
+            // Args:
             //  responseHtml    - the html that came back in response to the file download. this won't necessarily come back depending on the browser.
             //                      in less than IE9 a cross domain error occurs because 500+ errors cause a cross domain issue due to IE subbing out the
             //                      server's error message with a "helpful" IE built in message
@@ -13684,46 +13658,46 @@ $.extend({
             data: null,
 
             //
-            //a period in milliseconds to poll to determine if a successful file download has occured or not
+            // a period in milliseconds to poll to determine if a successful file download has occured or not
             //
             checkInterval: 100,
 
             //
-            //the cookie name to indicate if a file download has occured
+            // the cookie name to indicate if a file download has occured
             //
             cookieName: "fileDownload",
 
             //
-            //the cookie value for the above name to indicate that a file download has occured
+            // the cookie value for the above name to indicate that a file download has occured
             //
             cookieValue: "true",
 
             //
-            //the cookie path for above name value pair
+            // the cookie path for above name value pair
             //
             cookiePath: "/",
 
             //
-            //the title for the popup second window as a download is processing in the case of a mobile browser
+            // the title for the popup second window as a download is processing in the case of a mobile browser
             //
             popupWindowTitle: "Initiating file download...",
 
             //
-            //Functionality to encode HTML entities for a POST, need this if data is an object with properties whose values contains strings with quotation marks.
-            //HTML entity encoding is done by replacing all &,<,>,',",\r,\n characters.
-            //Note that some browsers will POST the string htmlentity-encoded whilst others will decode it before POSTing.
-            //It is recommended that on the server, htmlentity decoding is done irrespective.
+            // Functionality to encode HTML entities for a POST, need this if data is an object with properties whose values contains strings with quotation marks.
+            // HTML entity encoding is done by replacing all &,<,>,',",\r,\n characters.
+            // Note that some browsers will POST the string htmlentity-encoded whilst others will decode it before POSTing.
+            // It is recommended that on the server, htmlentity decoding is done irrespective.
             //
             encodeHTMLEntities: true
         }, options);
 
 
-        //Setup mobile browser detection: Partial credit: http://detectmobilebrowser.com/
+        // Setup mobile browser detection: Partial credit: http://detectmobilebrowser.com/
         var userAgent = (navigator.userAgent || navigator.vendor || window.opera).toLowerCase();
 
-        var isIos = false;                  //has full support of features in iOS 4.0+, uses a new window to accomplish this.
-        var isAndroid = false;              //has full support of GET features in 4.0+ by using a new window. POST will resort to a POST on the current window.
-        var isOtherMobileBrowser = false;   //there is no way to reliably guess here so all other mobile devices will GET and POST to the current window.
+        var isIos = false;                  // has full support of features in iOS 4.0+, uses a new window to accomplish this.
+        var isAndroid = false;              // has full support of GET features in 4.0+ by using a new window. POST will resort to a POST on the current window.
+        var isOtherMobileBrowser = false;   // there is no way to reliably guess here so all other mobile devices will GET and POST to the current window.
 
         if (/ip(ad|hone|od)/.test(userAgent)) {
 
@@ -13742,7 +13716,7 @@ $.extend({
         var httpMethodUpper = settings.httpMethod.toUpperCase();
 
         if (isAndroid && httpMethodUpper != "GET") {
-            //the stock android browser straight up doesn't support file downloads initiated by non GET requests: http://code.google.com/p/android/issues/detail?id=1780
+            // the stock android browser straight up doesn't support file downloads initiated by non GET requests: http://code.google.com/p/android/issues/detail?id=1780
 
             if ($().dialog) {
                 $("<div>").html(settings.androidPostUnsupportedMessageHtml).dialog(settings.dialogOptions);
@@ -13753,7 +13727,7 @@ $.extend({
             return;
         }
 
-        //wire up a jquery dialog to display the preparing message if specified
+        // wire up a jquery dialog to display the preparing message if specified
         var $preparingDialog = null;
         if (settings.preparingMessageHtml) {
 
@@ -13765,7 +13739,7 @@ $.extend({
 
             onSuccess: function (url) {
 
-                //remove the perparing message if it was specified
+                // remove the perparing message if it was specified
                 if ($preparingDialog) {
                     $preparingDialog.dialog('close');
                 };
@@ -13776,18 +13750,18 @@ $.extend({
 
             onFail: function (responseHtml, url) {
 
-                //remove the perparing message if it was specified
+                // remove the perparing message if it was specified
                 if ($preparingDialog) {
                     $preparingDialog.dialog('close');
                 };
 
-                //wire up a jquery dialog to display the fail message if specified
+                // wire up a jquery dialog to display the fail message if specified
                 if (settings.failMessageHtml) {
 
                     $("<div>").html(settings.failMessageHtml).dialog(settings.dialogOptions);
 
-                    //only run the fallcallback if the developer specified something different than default
-                    //otherwise we would see two messages about how the file download failed
+                    // only run the fallcallback if the developer specified something different than default
+                    // otherwise we would see two messages about how the file download failed
                     if (settings.failCallback != defaultFailCallback) {
                         settings.failCallback(responseHtml, url);
                     }
@@ -13800,7 +13774,7 @@ $.extend({
         };
 
 
-        //make settings.data a param string if it exists and isn't already
+        // make settings.data a param string if it exists and isn't already
         if (settings.data !== null && typeof settings.data !== "string") {
             settings.data = $.param(settings.data);
         }
@@ -13814,12 +13788,12 @@ $.extend({
         if (httpMethodUpper === "GET") {
 
             if (settings.data !== null) {
-                //need to merge any fileUrl params with the data object
+                // need to merge any fileUrl params with the data object
 
                 var qsStart = fileUrl.indexOf('?');
 
                 if (qsStart != -1) {
-                    //we have a querystring in the url
+                    // we have a querystring in the url
 
                     if (fileUrl.substring(fileUrl.length - 1) !== "&") {
                         fileUrl = fileUrl + "&";
@@ -13844,7 +13818,7 @@ $.extend({
 
             } else {
 
-                //create a temporary iframe that is used to request the fileUrl as a GET request
+                // create a temporary iframe that is used to request the fileUrl as a GET request
                 $iframe = $("<iframe>")
                     .hide()
                     .attr("src", fileUrl)
@@ -13901,19 +13875,19 @@ $.extend({
         }
 
 
-        //check if the file download has completed every checkInterval ms
+        // check if the file download has completed every checkInterval ms
         setTimeout(checkFileDownloadComplete, settings.checkInterval);
 
 
         function checkFileDownloadComplete() {
 
-            //has the cookie been written due to a file download occuring?
+            // has the cookie been written due to a file download occuring?
             if (document.cookie.indexOf(settings.cookieName + "=" + settings.cookieValue) != -1) {
 
-                //execute specified callback
+                // execute specified callback
                 internalCallbacks.onSuccess(fileUrl);
 
-                //remove the cookie and iframe
+                // remove the cookie and iframe
                 var date = new Date(1000);
                 document.cookie = settings.cookieName + "=; expires=" + date.toUTCString() + "; path=" + settings.cookiePath;
 
@@ -13922,11 +13896,11 @@ $.extend({
                 return;
             }
 
-            //has an error occured?
-            //if neither containers exist below then the file download is occuring on the current window
+            // has an error occured?
+            // if neither containers exist below then the file download is occuring on the current window
             if (downloadWindow || $iframe) {
 
-                //has an error occured?
+                // has an error occured?
                 try {
 
                     var formDoc;
@@ -13959,7 +13933,7 @@ $.extend({
                 }
                 catch (err) {
 
-                    //500 error less than IE9
+                    // 500 error less than IE9
                     internalCallbacks.onFail('', fileUrl);
 
                     cleanUp(true);
@@ -13969,11 +13943,11 @@ $.extend({
             }
 
 
-            //keep checking...
+            // keep checking...
             setTimeout(checkFileDownloadComplete, settings.checkInterval);
         }
 
-        //gets an iframes document in a cross browser compatible manner
+        // gets an iframes document in a cross browser compatible manner
         function getiframeDocument($iframe) {
             var iframeDoc = $iframe[0].contentWindow || $iframe[0].contentDocument;
             if (iframeDoc.document) {
@@ -13994,7 +13968,7 @@ $.extend({
 
                     if (isIos) {
                         if (isFailure) {
-                            downloadWindow.focus(); //ios safari bug doesn't allow a window to be closed unless it is focused
+                            downloadWindow.focus(); // ios safari bug doesn't allow a window to be closed unless it is focused
                             downloadWindow.close();
                         } else {
                             downloadWindow.focus();
@@ -14012,7 +13986,7 @@ $.extend({
                 .replace(/</gm, '&lt;')
                 .replace(/>/gm, '&gt;')
                 .replace(/"/gm, '&quot;')
-                .replace(/'/gm, '&apos;'); //single quotes just to be safe
+                .replace(/'/gm, '&apos;'); // single quotes just to be safe
         }
     }
 });

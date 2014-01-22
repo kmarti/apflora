@@ -19,7 +19,6 @@ $result = mysqli_query($link, "SELECT * FROM tblBer WHERE BerId=".mysqli_real_es
 
 $row = mysqli_fetch_assoc($result);
 
-//in json verwandeln
 $return = json_encode($row);
 
 print($return);

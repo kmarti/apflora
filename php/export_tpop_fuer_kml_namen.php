@@ -17,8 +17,8 @@ $file = 'ApFloraTeilpopulationenNachNamen'; // csv name.
 $values = mysqli_query($link, "SELECT * FROM ".$view."");
  
 $Zeilen = "";
-//In den Daten sind Zeichen, die Google Earth nicht erträgt
-//sie müssen entfernt werden
+// In den Daten sind Zeichen, die Google Earth nicht erträgt
+// sie müssen entfernt werden
 $Ersetzungen = array("&", ">>>", "<<<");
 $Art = "";
 while ($r = mysqli_fetch_assoc($values)) {
@@ -39,7 +39,7 @@ while ($r = mysqli_fetch_assoc($values)) {
 	$Zeile .= "\t\t<Placemark><name>";
 	$Zeile .= $r['Label'];
 	$Zeile .= "</name>";
-	//html in xml muss in cdata gewickelt werden
+	// html in xml muss in cdata gewickelt werden
 	$Zeile .= "<description><![CDATA[";
 	$Zeile .= $r['Inhalte'];
 	$Zeile .= "<br><a href='";

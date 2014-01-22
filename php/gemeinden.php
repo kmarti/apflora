@@ -20,7 +20,6 @@ while($r = mysqli_fetch_assoc($result)) {
     $rows[] = $row;
 }
 
-//in json verwandeln
 $rows = json_encode($rows);
 $Object = "{\"rows\": $rows}";
 

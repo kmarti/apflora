@@ -19,7 +19,6 @@ $result = mysqli_query($link, "SELECT * FROM tblErfKrit WHERE ErfkritId=".mysqli
 
 $row = mysqli_fetch_assoc($result);
 
-//in json verwandeln
 $return = json_encode($row);
 
 print($return);

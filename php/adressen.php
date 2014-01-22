@@ -14,7 +14,7 @@ mysqli_set_charset($link, "utf8");
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, "SELECT AdrId, AdrName FROM tblAdresse ORDER BY AdrName");
 
-//benötigte Datenstruktur aufbauen
+// benötigte Datenstruktur aufbauen
 $rows = array();
 while($r = mysqli_fetch_assoc($result)) {
 	$AdrId = $r['AdrId'];
@@ -23,7 +23,7 @@ while($r = mysqli_fetch_assoc($result)) {
     $rows[] = $row;
 }
 
-//in json verwandeln
+// in json verwandeln
 $rows = json_encode($rows);
 $Object = "{\"rows\": $rows}";
 

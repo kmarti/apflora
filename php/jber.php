@@ -19,12 +19,11 @@ $result = mysqli_query($link, "SELECT * FROM tblJBer WHERE JBerId=".$JBerId);
 
 $row = mysqli_fetch_assoc($result);
 $JBerDatum = $row["JBerDatum"];
-//leerwerte nicht antasten - werden sonst zu 1.1.1970
+// leerwerte nicht antasten - werden sonst zu 1.1.1970
 if ($JBerDatum) {
 	$row["JBerDatum"] = date("d.m.Y", strtotime($JBerDatum));
 }
 
-//in json verwandeln
 $return = json_encode($row);
 
 print($return);

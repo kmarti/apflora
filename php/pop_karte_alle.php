@@ -18,13 +18,12 @@ settype($ApArtId, "integer");
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, "SELECT tblAktionsplan.ApArtId, alexande_beob.ArtenDb_Arteigenschaften.Artname, DomainApUmsetzung.DomainTxt AS ApUmsetzung, tblPopulation.PopId, tblPopulation.PopNr, tblPopulation.PopName, DomainPopHerkunft.HerkunftTxt AS PopHerkunft, tblPopulation.PopBekanntSeit, tblPopulation.PopXKoord, tblPopulation.PopYKoord, tblPopulation.PopGuid FROM (((tblAktionsplan INNER JOIN tblPopulation ON tblAktionsplan.ApArtId = tblPopulation.ApArtId) INNER JOIN alexande_beob.ArtenDb_Arteigenschaften ON tblAktionsplan.ApArtId = alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId) LEFT JOIN DomainPopHerkunft ON tblPopulation.PopHerkunft = DomainPopHerkunft.HerkunftId) LEFT JOIN DomainApUmsetzung ON tblAktionsplan.ApUmsetzung = DomainApUmsetzung.DomainCode WHERE tblPopulation.PopXKoord Is Not Null AND tblPopulation.PopYKoord Is Not Null AND tblAktionsplan.ApArtId = ".mysqli_real_escape_string($link, $ApArtId));
 
-//benötigte Datenstruktur aufbauen
+// benötigte Datenstruktur aufbauen
 $rows = array();
 while($r = mysqli_fetch_assoc($result)) {
     $rows[] = $r;
 }
 
-//in json verwandeln
 $rows = json_encode($rows);
 $Object = "{\"rows\": $rows}";
 

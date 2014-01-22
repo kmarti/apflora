@@ -25,7 +25,7 @@ while($r = mysqli_fetch_assoc($result)) {
     $rows[] = $row;
 }
 
-//in json verwandeln
+// 
 $return = json_encode($rows);
 
 print($return);
