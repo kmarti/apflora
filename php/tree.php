@@ -536,7 +536,9 @@ mysqli_free_result($result_ber);
 
 //nicht beurteilte beob
 //beob_nicht_beurteilt dieses AP abfragen
-$result_beob_nicht_beurteilt = mysqli_query($link_beob, "SELECT alexande_beob.tblBeobBereitgestellt.NO_NOTE, alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET, alexande_beob.tblBeobBereitgestellt.NO_ISFS, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor FROM (alexande_beob.tblBeobBereitgestellt LEFT JOIN alexande_apflora.tblBeobZuordnung ON alexande_beob.tblBeobBereitgestellt.NO_NOTE = alexande_apflora.tblBeobZuordnung.NO_NOTE) LEFT JOIN alexande_apflora.tblBeobZuordnung AS tblBeobZuordnung_1 ON alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET = tblBeobZuordnung_1.NO_NOTE WHERE alexande_beob.tblBeobBereitgestellt.NO_ISFS=$ApArtId AND ((alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET Is Not Null AND tblBeobZuordnung_1.NO_NOTE Is Null) OR (alexande_beob.tblBeobBereitgestellt.NO_NOTE Is Not Null AND alexande_apflora.tblBeobZuordnung.NO_NOTE Is Null)) ORDER BY alexande_beob.tblBeobBereitgestellt.Datum DESC");
+// Bei Epipactis palustris, Gymnadenia conopsea und Listera ovata stürzte der Browser z.T. ab
+// daher die Anzahl Datensätze auf 500 begrenzt
+$result_beob_nicht_beurteilt = mysqli_query($link_beob, "SELECT alexande_beob.tblBeobBereitgestellt.NO_NOTE, alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET, alexande_beob.tblBeobBereitgestellt.NO_ISFS, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor FROM (alexande_beob.tblBeobBereitgestellt LEFT JOIN alexande_apflora.tblBeobZuordnung ON alexande_beob.tblBeobBereitgestellt.NO_NOTE = alexande_apflora.tblBeobZuordnung.NO_NOTE) LEFT JOIN alexande_apflora.tblBeobZuordnung AS tblBeobZuordnung_1 ON alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET = tblBeobZuordnung_1.NO_NOTE WHERE alexande_beob.tblBeobBereitgestellt.NO_ISFS=$ApArtId AND ((alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET Is Not Null AND tblBeobZuordnung_1.NO_NOTE Is Null) OR (alexande_beob.tblBeobBereitgestellt.NO_NOTE Is Not Null AND alexande_apflora.tblBeobZuordnung.NO_NOTE Is Null)) ORDER BY alexande_beob.tblBeobBereitgestellt.Datum DESC LIMIT 500");
 $anz_beob_nicht_beurteilt = mysqli_num_rows($result_beob_nicht_beurteilt);
 //beob_nicht_beurteilt aufbauen
 $rows_beob_nicht_beurteilt = array();
@@ -570,7 +572,8 @@ mysqli_free_result($result_beob_nicht_beurteilt);
 
 //nicht zuzuordnende beob
 //beob dieses AP abfragen
-$result_beob_nicht_zuzuordnen = mysqli_query($link_beob, "SELECT alexande_beob.tblBeobBereitgestellt.NO_ISFS, alexande_apflora.tblBeobZuordnung.NO_NOTE, alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen, alexande_apflora.tblBeobZuordnung.BeobBemerkungen, alexande_apflora.tblBeobZuordnung.BeobMutWann, alexande_apflora.tblBeobZuordnung.BeobMutWer, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor, 'infospezies' AS beobtyp FROM alexande_apflora.tblBeobZuordnung INNER JOIN alexande_beob.tblBeobBereitgestellt ON alexande_apflora.tblBeobZuordnung.NO_NOTE = alexande_beob.tblBeobBereitgestellt.NO_NOTE WHERE alexande_apflora.tblBeobZuordnung.NO_NOTE IS NOT NULL AND alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen=1 AND alexande_beob.tblBeobBereitgestellt.NO_ISFS=$ApArtId UNION SELECT alexande_beob.tblBeobBereitgestellt.NO_ISFS, alexande_apflora.tblBeobZuordnung.NO_NOTE, alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen, alexande_apflora.tblBeobZuordnung.BeobBemerkungen, alexande_apflora.tblBeobZuordnung.BeobMutWann, alexande_apflora.tblBeobZuordnung.BeobMutWer, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor, 'evab' AS beobtyp FROM alexande_apflora.tblBeobZuordnung INNER JOIN alexande_beob.tblBeobBereitgestellt ON alexande_apflora.tblBeobZuordnung.NO_NOTE = alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET WHERE alexande_apflora.tblBeobZuordnung.NO_NOTE IS NOT NULL AND alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen=1 AND alexande_beob.tblBeobBereitgestellt.NO_ISFS=$ApArtId ORDER BY Datum DESC");
+// Anzahl auf 500 begrenzt, um Abstürze des Browsers zu verhindern
+$result_beob_nicht_zuzuordnen = mysqli_query($link_beob, "SELECT alexande_beob.tblBeobBereitgestellt.NO_ISFS, alexande_apflora.tblBeobZuordnung.NO_NOTE, alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen, alexande_apflora.tblBeobZuordnung.BeobBemerkungen, alexande_apflora.tblBeobZuordnung.BeobMutWann, alexande_apflora.tblBeobZuordnung.BeobMutWer, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor, 'infospezies' AS beobtyp FROM alexande_apflora.tblBeobZuordnung INNER JOIN alexande_beob.tblBeobBereitgestellt ON alexande_apflora.tblBeobZuordnung.NO_NOTE = alexande_beob.tblBeobBereitgestellt.NO_NOTE WHERE alexande_apflora.tblBeobZuordnung.NO_NOTE IS NOT NULL AND alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen=1 AND alexande_beob.tblBeobBereitgestellt.NO_ISFS=$ApArtId UNION SELECT alexande_beob.tblBeobBereitgestellt.NO_ISFS, alexande_apflora.tblBeobZuordnung.NO_NOTE, alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen, alexande_apflora.tblBeobZuordnung.BeobBemerkungen, alexande_apflora.tblBeobZuordnung.BeobMutWann, alexande_apflora.tblBeobZuordnung.BeobMutWer, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor, 'evab' AS beobtyp FROM alexande_apflora.tblBeobZuordnung INNER JOIN alexande_beob.tblBeobBereitgestellt ON alexande_apflora.tblBeobZuordnung.NO_NOTE = alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET WHERE alexande_apflora.tblBeobZuordnung.NO_NOTE IS NOT NULL AND alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen=1 AND alexande_beob.tblBeobBereitgestellt.NO_ISFS=$ApArtId ORDER BY Datum DESC LIMIT 500");
 $anz_beob_nicht_zuzuordnen = mysqli_num_rows($result_beob_nicht_zuzuordnen);
 //beob aufbauen
 $rows_beob_nicht_zuzuordnen = array();
@@ -646,21 +649,27 @@ $ap_ordner_jber = array("data" => "AP-Berichte (".$anz_jber.")", "attr" => $ap_o
 $meineId = "ap_ordner_ber".$ApArtId;
 $ap_ordner_ber_attr = array("id" => $meineId, "typ" => "ap_ordner_ber");
 $ap_ordner_ber = array("data" => "Berichte (".$anz_ber.")", "attr" => $ap_ordner_ber_attr, "children" => $rows_ber);
+
 //Beobachtungen
 $meineId = "ap_ordner_beob_nicht_beurteilt".$ApArtId;
 $ap_ordner_beob_attr = array("id" => $meineId, "typ" => "ap_ordner_beob_nicht_beurteilt");
-// In den nicht zugeordneten Beobachtungen von Epipactis palustris müssen Zeichen stecken, welche zum Absturz von apflora führen
-// provisorischer Workaround: bei epipactis gar nicht anzeigen
-// TODO: Zeichen beim laden filtern
-if ($ApArtId<>150300) {
+// Bei Epipactis palustris, Gymnadenia conopsea und Listera ovata stürzte der Browser z.t. ab
+// daher die Anzahl Datensätze auf 500 begrenzt
+if ($anz_beob_nicht_beurteilt<500) {
 	$ap_ordner_beob_nicht_beurteilt = array("data" => "nicht beurteilte Beobachtungen (".$anz_beob_nicht_beurteilt.")", "attr" => $ap_ordner_beob_attr, "children" => $rows_beob_nicht_beurteilt);
 } else {
-	$ap_ordner_beob_nicht_beurteilt = array("data" => "nicht beurteilte Beobachtungen (".$anz_beob_nicht_beurteilt.") NICHT aufgelistet, weil die Daten korrupt sind", "attr" => $ap_ordner_beob_attr);
+	$ap_ordner_beob_nicht_beurteilt = array("data" => "nicht beurteilte Beobachtungen (erste ".$anz_beob_nicht_beurteilt.")", "attr" => $ap_ordner_beob_attr, "children" => $rows_beob_nicht_beurteilt);
 }
 //Beobachtungen nicht zuzuordnen
 $meineId = "ap_ordner_beob_nicht_zuzuordnen".$ApArtId;
 $ap_ordner_beob_nicht_zuzuordnen_attr = array("id" => $meineId, "typ" => "ap_ordner_beob_nicht_zuzuordnen");
-$ap_ordner_beob_nicht_zuzuordnen = array("data" => "nicht zuzuordnende Beobachtungen (".$anz_beob_nicht_zuzuordnen.")", "attr" => $ap_ordner_beob_nicht_zuzuordnen_attr, "children" => $rows_beob_nicht_zuzuordnen);
+// Anzahl auf 500 begrenzt, um Abstürze des Browsers zu verhindern
+if ($anz_beob_nicht_zuzuordnen<500) {
+	$ap_ordner_beob_nicht_zuzuordnen = array("data" => "nicht zuzuordnende Beobachtungen (".$anz_beob_nicht_zuzuordnen.")", "attr" => $ap_ordner_beob_nicht_zuzuordnen_attr, "children" => $rows_beob_nicht_zuzuordnen);
+} else {
+	$ap_ordner_beob_nicht_zuzuordnen = array("data" => "nicht zuzuordnende Beobachtungen (erste ".$anz_beob_nicht_zuzuordnen.")", "attr" => $ap_ordner_beob_nicht_zuzuordnen_attr, "children" => $rows_beob_nicht_zuzuordnen);
+}
+
 //Idealbiotop
 $meineId = "idealbiotop".$ApArtId;
 $ap_ordner_idealbiotop_attr = array("id" => $meineId, "typ" => "idealbiotop");
