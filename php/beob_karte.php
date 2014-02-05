@@ -42,8 +42,7 @@ while($r_beob = mysqli_fetch_assoc($result_beob)) {
 }
 mysqli_free_result($result_beob);
 	
-// 
-$rows = json_encode($rows);_beob);
+$rows = json_encode($rows_beob);
 $Object = "{\"rows\": $rows}";
 
 print($Object);
