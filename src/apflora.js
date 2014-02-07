@@ -13248,13 +13248,17 @@ function waehleAp(ap_id) {
 					$("#programm_neu").attr("checked", false);
 					$("#programm_alle").attr("checked", true);
 					$("#programm_wahl").buttonset();
+					// Auswahlliste für Programme updaten
 					$.when(waehle_ap_liste("programm_alle"))
 						.then(function() {
+							// Strukturbaum updaten
 							$.when(erstelle_tree(localStorage.ap_id))
 								.then(function() {
+									// gewählte Art in Auswahlliste anzeigen
 									$('#ap_waehlen').val(localStorage.ap_id);
 									$('#ap_waehlen option[value =' + localStorage.ap_id + ']').attr('selected', true);
 									$("#ApArtId").val(localStorage.ap_id);
+									// gewählte Art in Formular anzeigen
 									initiiere_ap();
 								});
 					});
