@@ -139,7 +139,7 @@ function setzeWindowAp(id) {
 	});
 }
 
-// wird benutzt von Formular pop
+// wird benutzt von Formular ap, pop und TPopMassn
 // baut für das select $("#ApArtId") eine Artliste auf
 function erstelle_ApArtId_liste() {
 	if (!window.artliste_html) {
@@ -1444,11 +1444,11 @@ function initiiere_tpopmassn() {
 						type: 'get',
 						url: 'php/artliste.php',
 						dataType: 'json',
-						success: function (data) {
+						success: function (data3) {
 							var html;
 							html = "<option></option>";
-							for (var i = 0; i < data.rows.length; i++) {
-								html += "<option value=\"" + data.rows[i].id + "\">" + data.rows[i].Artname + "</option>";
+							for (var i = 0; i < data3.rows.length; i++) {
+								html += "<option value=\"" + data3.rows[i].id + "\">" + data3.rows[i].Artname + "</option>";
 							}
 							window.artliste_html = html;
 							$("#TPopMassnAnsiedWirtspfl").html(html);
@@ -9572,6 +9572,11 @@ function speichern(that) {
 			success: function () {
 				// Variable für Objekt nachführen
 				window[Formular][Feldname] = Feldwert;
+				// Wenn ApArtId verändert wurde: Formular aktualisieren
+				if (Feldname === "ApArtId" && Feldwert) {
+					waehleAp(Feldwert);
+					return;
+				}
 				// Wenn in feldkontr Datum erfasst, auch Jahr speichern
 				if (Feldname === "TPopKontrDatum" && Feldwert) {
 					Objekt = {};

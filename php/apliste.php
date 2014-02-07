@@ -9,8 +9,13 @@ if ($link->connect_errno) {
     printf("Connect failed: %s\n", $link->connect_error);
     exit();
 }
+if ($link2->connect_errno) {
+    printf("Connect failed: %s\n", $link2->connect_error);
+    exit();
+}
 
 mysqli_set_charset($link, "utf8");
+mysqli_set_charset($link2, "utf8");
 
 // ist ap_arten true, sollen nur ap_arten angezeigt werden
 $programm = mysqli_real_escape_string($link, $_GET["programm"]);
