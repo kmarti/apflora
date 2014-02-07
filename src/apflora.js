@@ -78,16 +78,9 @@ function initiiere_ap() {
 					// Felder mit Daten beliefern
 					$("#ApStatus" + data.ApStatus).prop("checked", true);
 					$("#ApUmsetzung" + data.ApUmsetzung).prop("checked", true);
-					// ApArtId-Liste: Daten holen
-					// immer holen, weil alle Arten Ausser der bereits für Programme verwendeten geholt werden
-					// ABER inklusive der gerade angezeigten
-					$.when(hole_artliste_ohne_programme_html())
-						.then(function() {
-							$("#ApArtId").html(window.artliste_ohne_programme_html);
-							$("#ApArtId").val(window.ap.ApArtId);
-						});
 					$("#ApJahr").val(data.ApJahr);
 					$("#ApArtwert").val(data.ApArtwert);
+					$("#Artname").val(data.Artname);
 					// ApBearb: Daten holen - oder vorhandene nutzen
 					if (!window.adressen_html) {
 						$.ajax({
@@ -119,7 +112,6 @@ function initiiere_ap() {
 			}
 		});
 	} else if ($("#ap_waehlen").val() && programm_wahl === "programm_neu") {
-		$("#ApArtId").val($("#ap_waehlen").val());
 		// Formulare blenden
 		zeigeFormular("ap");
 	}
@@ -168,31 +160,6 @@ function hole_artliste_html() {
 	} else {
 		liste_geholt.resolve();
 	}
-	return liste_geholt.promise();
-}
-
-function hole_artliste_ohne_programme_html() {
-	var liste_geholt = $.Deferred();
-	// wird benutzt von function erstelle_artlisten und initiiere_tpopmassn
-	// baut eine vollständige Artliste auf
-	// und zwar immer, weil die Liste alle nicht in Programmen aufgelisteten Arten ehnält, ABER inklusive der aktuellen art
-	$.ajax({
-		type: 'post',
-		url: 'php/artliste_ohne_programme.php',
-		dataType: 'json',
-		data: {
-			"apartid": localStorage.ap_id
-		},
-		success: function (data) {
-			var html;
-			html = "<option></option>";
-			for (var i = 0; i < data.rows.length; i++) {
-				html += "<option value=\"" + data.rows[i].id + "\">" + data.rows[i].Artname + "</option>";
-			}
-			window.artliste_ohne_programme_html = html;
-			liste_geholt.resolve();
-		}
-	});
 	return liste_geholt.promise();
 }
 
