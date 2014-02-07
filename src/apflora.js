@@ -36,7 +36,7 @@ function initiiere_index() {
 
 	// Auswahllisten aufbauen
 	$("#ap_loeschen").hide();
-	erstelle_ApArtId_liste();
+	erstelle_artlisten();
 
 	// HIER WIRD IN FIREFOX EINE ENDLOSSCHLAUFE AUSGELÖST
 	$.when(waehle_ap_liste("programm_alle"))
@@ -78,7 +78,14 @@ function initiiere_ap() {
 					// Felder mit Daten beliefern
 					$("#ApStatus" + data.ApStatus).prop("checked", true);
 					$("#ApUmsetzung" + data.ApUmsetzung).prop("checked", true);
-					$("#ApArtId").val(data.ApArtId);
+					// ApArtId-Liste: Daten holen
+					// immer holen, weil alle Arten Ausser der bereits für Programme verwendeten geholt werden
+					// ABER inklusive der gerade angezeigten
+					$.when(hole_artliste_ohne_programme_html())
+						.then(function() {
+							$("#ApArtId").html(window.artliste_ohne_programme_html);
+							$("#ApArtId").val(window.ap.ApArtId);
+						});
 					$("#ApJahr").val(data.ApJahr);
 					$("#ApArtwert").val(data.ApArtwert);
 					// ApBearb: Daten holen - oder vorhandene nutzen
@@ -139,9 +146,10 @@ function setzeWindowAp(id) {
 	});
 }
 
-// wird benutzt von Formular ap, pop und TPopMassn
-// baut für das select $("#ApArtId") eine Artliste auf
-function erstelle_ApArtId_liste() {
+function hole_artliste_html() {
+	var liste_geholt = $.Deferred();
+	// wird benutzt von function erstelle_artlisten und initiiere_tpopmassn
+	// baut eine vollständige Artliste auf
 	if (!window.artliste_html) {
 		$.ajax({
 			type: 'get',
@@ -154,16 +162,51 @@ function erstelle_ApArtId_liste() {
 					html += "<option value=\"" + data.rows[i].id + "\">" + data.rows[i].Artname + "</option>";
 				}
 				window.artliste_html = html;
-				$("#ApArtId").html(html);
-				$("#AaSisfNr").html(html);
-				return html;
+				liste_geholt.resolve();
 			}
 		});
 	} else {
-		$("#ApArtId").html(window.artliste_html);
-		$("#AaSisfNr").html(window.artliste_html);
-		return window.artliste_html;
+		liste_geholt.resolve();
 	}
+	return liste_geholt.promise();
+}
+
+function hole_artliste_ohne_programme_html() {
+	var liste_geholt = $.Deferred();
+	// wird benutzt von function erstelle_artlisten und initiiere_tpopmassn
+	// baut eine vollständige Artliste auf
+	// und zwar immer, weil die Liste alle nicht in Programmen aufgelisteten Arten ehnält, ABER inklusive der aktuellen art
+	$.ajax({
+		type: 'post',
+		url: 'php/artliste_ohne_programme.php',
+		dataType: 'json',
+		data: {
+			"apartid": localStorage.ap_id
+		},
+		success: function (data) {
+			var html;
+			html = "<option></option>";
+			for (var i = 0; i < data.rows.length; i++) {
+				html += "<option value=\"" + data.rows[i].id + "\">" + data.rows[i].Artname + "</option>";
+			}
+			window.artliste_ohne_programme_html = html;
+			liste_geholt.resolve();
+		}
+	});
+	return liste_geholt.promise();
+}
+
+// wird benutzt von Formular ap, pop und TPopMassn
+// setzt vollständige Artlisten în Select-Felder
+function erstelle_artlisten() {
+	var liste_erstellt = $.Deferred();
+	$.when(hole_artliste_html())
+		.then(function() {
+			$("#AaSisfNr").html(window.artliste_html);
+			$("#TPopMassnAnsiedWirtspfl").html(window.artliste_html);
+			liste_erstellt.resolve();
+		});
+	return liste_erstellt.promise();
 }
 
 function initiiere_pop() {
@@ -1438,37 +1481,23 @@ function initiiere_tpopmassn() {
 				$("#TPopMassnAnsiedAnzTriebe").val(data.TPopMassnAnsiedAnzTriebe);
 				$("#TPopMassnAnsiedAnzPfl").val(data.TPopMassnAnsiedAnzPfl);
 				$("#TPopMassnAnzPflanzstellen").val(data.TPopMassnAnzPflanzstellen);
-				// für TPopMassnAnsiedWirtspfl Artliste bereitstellen
-				if (!window.artliste_html) {
-					$.ajax({
-						type: 'get',
-						url: 'php/artliste.php',
-						dataType: 'json',
-						success: function (data3) {
-							var html;
-							html = "<option></option>";
-							for (var i = 0; i < data3.rows.length; i++) {
-								html += "<option value=\"" + data3.rows[i].id + "\">" + data3.rows[i].Artname + "</option>";
-							}
-							window.artliste_html = html;
-							$("#TPopMassnAnsiedWirtspfl").html(html);
-							$("#TPopMassnAnsiedWirtspfl").val(data.TPopMassnAnsiedWirtspfl);
-						}
-					});
-				} else {
-					$("#TPopMassnAnsiedWirtspfl").html(window.artliste_html);
-					$("#TPopMassnAnsiedWirtspfl").val(data.TPopMassnAnsiedWirtspfl);
-				}
-				$("#TPopMassnAnsiedHerkunftPop").val(data.TPopMassnAnsiedHerkunftPop);
-				$("#TPopMassnAnsiedHerkunftPop").limiter(255, $("#TPopMassnAnsiedHerkunftPop_limit"));
-				$("#TPopMassnAnsiedDatSamm").val(data.TPopMassnAnsiedDatSamm);
-				$("#TPopMassnAnsiedDatSamm").limiter(50, $("#TPopMassnAnsiedDatSamm_limit"));
-				$("#TPopMassnGuid").val(data.TPopMassnGuid);
-				// Formulare blenden
-				zeigeFormular("tpopmassn");
-				history.replaceState({tpopmassn: "tpopmassn"}, "tpopmassn", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopmassn=" + localStorage.tpopmassn_id);
-				// bei neuen Datensätzen Fokus steuern
-				$('#TPopMassnJahr').focus();
+				// für TPopMassnAnsiedWirtspfl wurde die Artliste schon bereitgestellt
+				// wenn die Anwendung direkt auf einer TPopMassn geöffnet wird, ist die Liste noch nicht bereit
+				// darum hier nochmals holen
+				$.when(erstelle_artlisten())
+					.then(function() {
+						$("#TPopMassnAnsiedWirtspfl").val(data.TPopMassnAnsiedWirtspfl);
+						$("#TPopMassnAnsiedHerkunftPop").val(data.TPopMassnAnsiedHerkunftPop);
+						$("#TPopMassnAnsiedHerkunftPop").limiter(255, $("#TPopMassnAnsiedHerkunftPop_limit"));
+						$("#TPopMassnAnsiedDatSamm").val(data.TPopMassnAnsiedDatSamm);
+						$("#TPopMassnAnsiedDatSamm").limiter(50, $("#TPopMassnAnsiedDatSamm_limit"));
+						$("#TPopMassnGuid").val(data.TPopMassnGuid);
+						// Formulare blenden
+						zeigeFormular("tpopmassn");
+						history.replaceState({tpopmassn: "tpopmassn"}, "tpopmassn", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopmassn=" + localStorage.tpopmassn_id);
+						// bei neuen Datensätzen Fokus steuern
+						$('#TPopMassnJahr').focus();
+					});	
 			}
 		}
 	});

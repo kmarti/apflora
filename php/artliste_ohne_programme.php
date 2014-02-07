@@ -17,8 +17,11 @@ if ($link2->connect_errno) {
 mysqli_set_charset($link, "utf8");
 mysqli_set_charset($link2, "utf8");
 
+$apartid = $_POST["apartid"];
+settype($apartid, "integer");
+
 // SQL-Anfrage ausführen
-$result = mysqli_query($link, "SELECT alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId, IF(alexande_beob.ArtenDb_Arteigenschaften.Status Is Not Null, CONCAT(alexande_beob.ArtenDb_Arteigenschaften.Artname, '   ', alexande_beob.ArtenDb_Arteigenschaften.Status), alexande_beob.ArtenDb_Arteigenschaften.Artname) AS Artname FROM ArtenDb_Arteigenschaften WHERE alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId not in (SELECT alexande_apflora.tblAktionsplan.ApArtId FROM alexande_apflora.tblAktionsplan) ORDER BY Artname");
+$result = mysqli_query($link, "SELECT alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId, IF(alexande_beob.ArtenDb_Arteigenschaften.Status Is Not Null, CONCAT(alexande_beob.ArtenDb_Arteigenschaften.Artname, '   ', alexande_beob.ArtenDb_Arteigenschaften.Status), alexande_beob.ArtenDb_Arteigenschaften.Artname) AS Artname FROM ArtenDb_Arteigenschaften WHERE alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId not in (SELECT alexande_apflora.tblAktionsplan.ApArtId FROM alexande_apflora.tblAktionsplan WHERE alexande_apflora.tblAktionsplan.ApArtId <> '".mysqli_real_escape_string($link, $apartid)."') ORDER BY Artname");
 
 // benötigte Datenstruktur aufbauen
 $rows = array();
