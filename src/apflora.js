@@ -13244,6 +13244,10 @@ function waehleAp(ap_id) {
 					"user": sessionStorage.User
 				},
 				success: function () {
+					// nachdem ein neues Programm erstellt wurde, soll nicht mehr "neu" zur Wahl stehen, sondern "alle"
+					$("#programm_neu").attr("checked", false);
+					$("#programm_alle").attr("checked", true);
+					$("#programm_wahl").buttonset();
 					$.when(waehle_ap_liste("programm_alle"))
 						.then(function() {
 							$.when(erstelle_tree(localStorage.ap_id))

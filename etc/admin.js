@@ -6,22 +6,22 @@ ersetzen mit:
 
 
 "barbalex.ch", "alexande", "excalibu", "alexande_apflora"
-//ersetzen mit:
+// ersetzen mit:
 "barbalex.ch", "alexande", "y3oYksFsQL49es9x", "alexande_apflora"
 
 
 
 "apflora.ch", "alexande", "y3oYksFsQL49es9x", "alexande_beob"
-//ersetzen mit:
+// ersetzen mit:
 "localhost", "alexande", "y3oYksFsQL49es9x", "alexande_beob"
 
 
 "apflora.ch", "alexande", "y3oYksFsQL49es9x", "alexande_apflora"
-//ersetzen mit:
+// ersetzen mit:
 "localhost", "alexande", "y3oYksFsQL49es9x", "alexande_apflora"
 
 "apflora.ch", "alexande", "y3oYksFsQL49es9x", "alexande_apflora_views"
-//ersetzen mit:
+// ersetzen mit:
 "localhost", "alexande", "y3oYksFsQL49es9x", "alexande_apflora_views"
 
 
@@ -32,7 +32,7 @@ ersetzen mit:
 
 
 "barbalex.ch", "alexande", "excalibu", "alexande_beob"
-//ersetzen mit:
+// ersetzen mit:
 "barbalex.ch", "alexande", "y3oYksFsQL49es9x", "alexande_beob"
 
 "127.0.0.1", "root", "admin", "alexande_beob"
