@@ -13539,16 +13539,16 @@ function erstelleIdAusDomAttributId(domAttributId) {
 function zeigeBeobKoordinatenImGisBrowser() {
 	var URL;
 	if ($("#beobfelder_FNS_XGIS").val() && $("#beobfelder_FNS_YGIS").val()) {
-		URL = "http://www.gis.zh.ch/gb/gb.asp?YKoord=" + $("#beobfelder_FNS_XGIS").val() + "&XKoord=" + $("#beobfelder_FNS_YGIS").val() + "&Massstab=3000+app=GB-SWISSIMAGE+rn=5$7";
+		URL = "http://www.maps.zh.ch/?x=" + $("#beobfelder_FNS_XGIS").val() + "&y=" + $("#beobfelder_FNS_YGIS").val() + "&scale=3000&markers=ring";
 		window.open(URL, target = "_blank");
 	} else if ($("#beobfelder_COORDONNEE_FED_E").val() && $("#beobfelder_COORDONNEE_FED_N").val()) {
-		URL = "http://www.gis.zh.ch/gb/gb.asp?YKoord=" + $("#beobfelder_COORDONNEE_FED_E").val() + "&XKoord=" + $("#beobfelder_COORDONNEE_FED_N").val() + "&Massstab=3000+app=GB-SWISSIMAGE+rn=5$7";
+		URL = "http://www.maps.zh.ch/?x=" + $("#beobfelder_COORDONNEE_FED_E").val() + "&y=" + $("#beobfelder_COORDONNEE_FED_N").val() + "&scale=3000&markers=ring";
 		window.open(URL, target = "_blank");
 	} else if ($("#TPopXKoord").val() && $("#TPopYKoord").val()) {
-		URL = "http://www.maps.zh.ch/?y=" + $("#TPopXKoord").val() + "&x=" + $("#TPopYKoord").val() + "&scale=3000&markers=ring";
+		URL = "http://www.maps.zh.ch/?x=" + $("#TPopXKoord").val() + "&y=" + $("#TPopYKoord").val() + "&scale=3000&markers=ring";
 		window.open(URL, target = "_blank");
 	} else if ($("#PopXKoord").val() && $("#PopYKoord").val()) {
-		URL = "http://www.gis.zh.ch/YKoord=" + $("#PopXKoord").val() + "&XKoord=" + $("#PopYKoord").val() + "&Massstab=3000+app=GB-SWISSIMAGE+rn=5$7";
+		URL = "http://www.maps.zh.ch/?x=" + $("#PopXKoord").val() + "&y=" + $("#PopYKoord").val() + "&scale=3000&markers=ring";
 		window.open(URL, target = "_blank");
 	} else {
 		$("#Meldung").html("Fehler: Keine Koordinaten zum Anzeigen");
