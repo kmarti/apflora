@@ -10,7 +10,7 @@
 
             if (!worker) {
                 //var path = (o.jsRoot || "") + "shapefile.js"
-                //var path = "http://www.barbalex.ch/src/shapefile/shapefile.js"
+                //var path = "http://www.apflora.ch/src/shapefile/shapefile.js"
                 var path = (o.jsRoot || "") + "src/shapefile/shapefile.js"
                 var w = worker = this.worker = new Worker(path)
             } else {
