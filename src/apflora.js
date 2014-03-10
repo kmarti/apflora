@@ -10115,7 +10115,7 @@ function zeigeTPopAufKarte(TPopListe) {
 	};
 	// globale Variable verwenden, damit ein Klick auf die Checkbox die Ebene einblenden kann
 	window.google_karte_detailplaene = new google.maps.KmlLayer({
-	    url: 'http://www.barbalex.ch/apflora/kml/rueteren.kmz',
+	    url: 'http://www.apflora.ch/kml/rueteren.kmz',
 	    preserveViewport: true
 	});
 	google_karte_detailplaene.setMap(null);
@@ -10547,12 +10547,12 @@ function zeigePopInTPopKarte(overlay_pop_visible, overlay_popbeschriftungen_visi
 function erstelleTPopulationFuerGeoAdmin(TPop) {
 	// styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
-		externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_rot.png',
+		externalGraphic: 'http://www.apflora.ch/img/flora_icon_rot.png',
 		graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
 		title: '${tooltip}'
 	});
 	var selectStyle = new OpenLayers.Style({
-		externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_gelb.png'
+		externalGraphic: 'http://www.apflora.ch/img/flora_icon_gelb.png'
 	});
 
 	// overlay layer für Marker vorbereiten
@@ -10654,12 +10654,12 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 	}
 	// styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
-		externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon.png',
+		externalGraphic: 'http://www.apflora.ch/img/flora_icon.png',
 		graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
 		title: '${tooltip}'
 	});
 	var selectStyle = new OpenLayers.Style({
-		externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_gelb.png'
+		externalGraphic: 'http://www.apflora.ch/img/flora_icon_gelb.png'
 	});
 
 	var strategy = new OpenLayers.Strategy.Cluster({
@@ -10729,7 +10729,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 					label: myLabel,
 					message: html
 				}, {
-					externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_gelb.png',
+					externalGraphic: 'http://www.apflora.ch/img/flora_icon_gelb.png',
 					graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
 					title: TPop.TPopFlurname,
 					graphicZIndex: 5000
@@ -11010,12 +11010,12 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 	var PopSymbole_erstellt = $.Deferred();
 	// styles für overlay_pop definieren
 	var defaultStyle = new OpenLayers.Style({
-		externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_braun.png',
+		externalGraphic: 'http://www.apflora.ch/img/flora_icon_braun.png',
 		graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
 		title: '${tooltip}'
 	});
 	var selectStyle = new OpenLayers.Style({
-		externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_orange.png'
+		externalGraphic: 'http://www.apflora.ch/img/flora_icon_orange.png'
 	});
 
 	// overlay layer für Marker vorbereiten
@@ -11072,7 +11072,7 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 					label: myLabel,
 					message: html
 				}, {
-					externalGraphic: 'http://www.barbalex.ch/apflora/img/flora_icon_orange.png',
+					externalGraphic: 'http://www.apflora.ch/img/flora_icon_orange.png',
 					graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
 					title: myName,
 					graphicZIndex: 5000
@@ -11220,7 +11220,7 @@ function erstellePopNrFuerGeoAdmin(PopListe, visible) {
 	var PopNr_erstellt = $.Deferred();
 	// styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
-		externalGraphic: 'http://www.barbalex.ch/apflora/img/leer.png',
+		externalGraphic: 'http://www.apflora.ch/img/leer.png',
 		graphicWidth: 1, graphicHeight: 1, graphicYOffset: 0,
 		title: null,
 		label: '${label}',
@@ -11297,7 +11297,7 @@ function erstellePopNamenFuerGeoAdmin(PopListe) {
 	var PopNamen_erstellt = $.Deferred();
 	// styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
-		externalGraphic: 'http://www.barbalex.ch/apflora/img/leer.png',
+		externalGraphic: 'http://www.apflora.ch/img/leer.png',
 		graphicWidth: 1, graphicHeight: 1, graphicYOffset: 0,
 		title: null,
 		label: '${label}',
@@ -11387,7 +11387,7 @@ function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 	var tpopnr_erstellt = $.Deferred();
 	// styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
-		externalGraphic: 'http://www.barbalex.ch/apflora/img/leer.png',
+		externalGraphic: 'http://www.apflora.ch/img/leer.png',
 		graphicWidth: 1, graphicHeight: 1, graphicYOffset: 0,
 		title: null,
 		label: '${label}',
@@ -11465,7 +11465,7 @@ function erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 	var tpopnamen_erstellt = $.Deferred();
 	// styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
-		externalGraphic: 'http://www.barbalex.ch/apflora/img/leer.png',
+		externalGraphic: 'http://www.apflora.ch/img/leer.png',
 		graphicWidth: 1, graphicHeight: 1, graphicYOffset: 0,
 		title: null,
 		label: '${label}',
@@ -13543,6 +13543,12 @@ function zeigeBeobKoordinatenImGisBrowser() {
 		window.open(URL, target = "_blank");
 	} else if ($("#beobfelder_COORDONNEE_FED_E").val() && $("#beobfelder_COORDONNEE_FED_N").val()) {
 		URL = "http://www.gis.zh.ch/gb/gb.asp?YKoord=" + $("#beobfelder_COORDONNEE_FED_E").val() + "&XKoord=" + $("#beobfelder_COORDONNEE_FED_N").val() + "&Massstab=3000+app=GB-SWISSIMAGE+rn=5$7";
+		window.open(URL, target = "_blank");
+	} else if ($("#TPopXKoord").val() && $("#TPopYKoord").val()) {
+		URL = "http://www.maps.zh.ch/?y=" + $("#TPopXKoord").val() + "&x=" + $("#TPopYKoord").val() + "&scale=3000&markers=ring";
+		window.open(URL, target = "_blank");
+	} else if ($("#PopXKoord").val() && $("#PopYKoord").val()) {
+		URL = "http://www.gis.zh.ch/YKoord=" + $("#PopXKoord").val() + "&XKoord=" + $("#PopYKoord").val() + "&Massstab=3000+app=GB-SWISSIMAGE+rn=5$7";
 		window.open(URL, target = "_blank");
 	} else {
 		$("#Meldung").html("Fehler: Keine Koordinaten zum Anzeigen");
