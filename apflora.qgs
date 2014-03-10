@@ -3027,7 +3027,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" geometry="Line" type="vector" hasScaleBasedVisibilityFlag="0">
             <id>tpm_line20121226010051580</id>
-            <datasource>MySQL:alexande_apflora,host=barbalex.ch,user=alexande,password=excalibu|layername=tpm_line</datasource>
+            <datasource>MySQL:alexande_apflora,host=apflora.ch,user=alexande,password=excalibu|layername=tpm_line</datasource>
             <title></title>
             <abstract></abstract>
             <layername>tpm_line</layername>
@@ -3094,7 +3094,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" geometry="Point" type="vector" hasScaleBasedVisibilityFlag="0">
             <id>tpm_point20121226010059833</id>
-            <datasource>MySQL:alexande_apflora,host=barbalex.ch,user=alexande,password=excalibu|layername=tpm_point</datasource>
+            <datasource>MySQL:alexande_apflora,host=apflora.ch,user=alexande,password=excalibu|layername=tpm_point</datasource>
             <title></title>
             <abstract></abstract>
             <layername>tpm_point</layername>
@@ -3159,7 +3159,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0">
             <id>tpm_polygon20121226010108083</id>
-            <datasource>MySQL:alexande_apflora,host=barbalex.ch,user=alexande,password=excalibu|layername=tpm_polygon</datasource>
+            <datasource>MySQL:alexande_apflora,host=apflora.ch,user=alexande,password=excalibu|layername=tpm_polygon</datasource>
             <title></title>
             <abstract></abstract>
             <layername>tpm_polygon</layername>
@@ -3279,7 +3279,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" geometry="Polygon" type="vector" hasScaleBasedVisibilityFlag="0">
             <id>vMassnPolygon20121226013836217</id>
-            <datasource>MySQL:alexande_apflora,host=barbalex.ch,user=alexande,password=excalibu|layername=vMassnPolygon</datasource>
+            <datasource>MySQL:alexande_apflora,host=apflora.ch,user=alexande,password=excalibu|layername=vMassnPolygon</datasource>
             <title></title>
             <abstract></abstract>
             <layername>vMassnPolygon</layername>
