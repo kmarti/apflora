@@ -13596,70 +13596,89 @@ function beschrifteTPopMitNrFuerKarte(pop_nr, tpop_nr) {
 	});
 })(jQuery);
 
-/*411 Zeilen lang
-* jQuery File Download Plugin v1.3.3
+/*435 Zeilen lang
+* jQuery File Download Plugin v1.4.2 
 *
 * http://www.johnculviner.com
 *
-* Copyright (c) 2012 - John Culviner
+* Copyright (c) 2013 - John Culviner
 *
 * Licensed under the MIT license:
 *   http://www.opensource.org/licenses/mit-license.php
+*
+* !!!!NOTE!!!!
+* You must also write a cookie in conjunction with using this plugin as mentioned in the orignal post:
+* http://johnculviner.com/jquery-file-download-plugin-for-ajax-like-feature-rich-file-downloads/
+* !!!!NOTE!!!!
 */
 
-var $ = jQuery.noConflict();
+(function($, window){
+	// i'll just put them here to get evaluated on script load
+	var htmlSpecialCharsRegEx = /[<>&\r\n"']/gm;
+	var htmlSpecialCharsPlaceHolders = {
+				'<': 'lt;',
+				'>': 'gt;',
+				'&': 'amp;',
+				'\r': "#13;",
+				'\n': "#10;",
+				'"': 'quot;',
+				"'": 'apos;' /*single quotes just to be safe*/
+	};
 
 $.extend({
-	//
+    //
     //$.fileDownload('/path/to/url/', options)
     //  see directly below for possible 'options'
     fileDownload: function (fileUrl, options) {
 
-        var defaultFailCallback = function (responseHtml, url) {
-            alert("A file download error has occurred, please try again.");
-        };
-
-        // provide some reasonable defaults to any unspecified options below
+        //provide some reasonable defaults to any unspecified options below
         var settings = $.extend({
 
             //
-            // Requires jQuery UI: provide a message to display to the user when the file download is being prepared before the browser's dialog appears
+            //Requires jQuery UI: provide a message to display to the user when the file download is being prepared before the browser's dialog appears
             //
             preparingMessageHtml: null,
 
             //
-            // Requires jQuery UI: provide a message to display to the user when a file download fails
+            //Requires jQuery UI: provide a message to display to the user when a file download fails
             //
             failMessageHtml: null,
 
             //
-            // the stock android browser straight up doesn't support file downloads initiated by a non GET: http://code.google.com/p/android/issues/detail?id=1780
-            // specify a message here to display if a user tries with an android browser
-            // if jQuery UI is installed this will be a dialog, otherwise it will be an alert
+            //the stock android browser straight up doesn't support file downloads initiated by a non GET: http://code.google.com/p/android/issues/detail?id=1780
+            //specify a message here to display if a user tries with an android browser
+            //if jQuery UI is installed this will be a dialog, otherwise it will be an alert
             //
             androidPostUnsupportedMessageHtml: "Unfortunately your Android browser doesn't support this type of file download. Please try again with a different browser.",
 
             //
-            // Requires jQuery UI: options to pass into jQuery UI Dialog
+            //Requires jQuery UI: options to pass into jQuery UI Dialog
             //
             dialogOptions: { modal: true },
 
             //
-            // a function to call after a file download dialog/ribbon has appeared
-            // Args:
+            //a function to call while the dowload is being prepared before the browser's dialog appears
+            //Args:
+            //  url - the original url attempted
+            //
+            prepareCallback: function (url) { },
+
+            //
+            //a function to call after a file download dialog/ribbon has appeared
+            //Args:
             //  url - the original url attempted
             //
             successCallback: function (url) { },
 
             //
-            // a function to call after a file download dialog/ribbon has appeared
-            // Args:
+            //a function to call after a file download dialog/ribbon has appeared
+            //Args:
             //  responseHtml    - the html that came back in response to the file download. this won't necessarily come back depending on the browser.
             //                      in less than IE9 a cross domain error occurs because 500+ errors cause a cross domain issue due to IE subbing out the
             //                      server's error message with a "helpful" IE built in message
             //  url             - the original url attempted
             //
-            failCallback: defaultFailCallback,
+            failCallback: function (responseHtml, url) { },
 
             //
             // the HTTP method to use. Defaults to "GET".
@@ -13673,52 +13692,54 @@ $.extend({
             data: null,
 
             //
-            // a period in milliseconds to poll to determine if a successful file download has occured or not
+            //a period in milliseconds to poll to determine if a successful file download has occured or not
             //
             checkInterval: 100,
 
             //
-            // the cookie name to indicate if a file download has occured
+            //the cookie name to indicate if a file download has occured
             //
             cookieName: "fileDownload",
 
             //
-            // the cookie value for the above name to indicate that a file download has occured
+            //the cookie value for the above name to indicate that a file download has occured
             //
             cookieValue: "true",
 
             //
-            // the cookie path for above name value pair
+            //the cookie path for above name value pair
             //
             cookiePath: "/",
 
             //
-            // the title for the popup second window as a download is processing in the case of a mobile browser
+            //the title for the popup second window as a download is processing in the case of a mobile browser
             //
             popupWindowTitle: "Initiating file download...",
 
             //
-            // Functionality to encode HTML entities for a POST, need this if data is an object with properties whose values contains strings with quotation marks.
-            // HTML entity encoding is done by replacing all &,<,>,',",\r,\n characters.
-            // Note that some browsers will POST the string htmlentity-encoded whilst others will decode it before POSTing.
-            // It is recommended that on the server, htmlentity decoding is done irrespective.
+            //Functionality to encode HTML entities for a POST, need this if data is an object with properties whose values contains strings with quotation marks.
+            //HTML entity encoding is done by replacing all &,<,>,',",\r,\n characters.
+            //Note that some browsers will POST the string htmlentity-encoded whilst others will decode it before POSTing.
+            //It is recommended that on the server, htmlentity decoding is done irrespective.
             //
             encodeHTMLEntities: true
+            
         }, options);
 
+        var deferred = new $.Deferred();
 
-        // Setup mobile browser detection: Partial credit: http://detectmobilebrowser.com/
+        //Setup mobile browser detection: Partial credit: http://detectmobilebrowser.com/
         var userAgent = (navigator.userAgent || navigator.vendor || window.opera).toLowerCase();
 
-        var isIos = false;                  // has full support of features in iOS 4.0+, uses a new window to accomplish this.
-        var isAndroid = false;              // has full support of GET features in 4.0+ by using a new window. POST will resort to a POST on the current window.
-        var isOtherMobileBrowser = false;   // there is no way to reliably guess here so all other mobile devices will GET and POST to the current window.
+        var isIos;                  //has full support of features in iOS 4.0+, uses a new window to accomplish this.
+        var isAndroid;              //has full support of GET features in 4.0+ by using a new window. Non-GET is completely unsupported by the browser. See above for specifying a message.
+        var isOtherMobileBrowser;   //there is no way to reliably guess here so all other mobile devices will GET and POST to the current window.
 
         if (/ip(ad|hone|od)/.test(userAgent)) {
 
             isIos = true;
 
-        } else if (userAgent.indexOf('android') != -1) {
+        } else if (userAgent.indexOf('android') !== -1) {
 
             isAndroid = true;
 
@@ -13730,8 +13751,8 @@ $.extend({
 
         var httpMethodUpper = settings.httpMethod.toUpperCase();
 
-        if (isAndroid && httpMethodUpper != "GET") {
-            // the stock android browser straight up doesn't support file downloads initiated by non GET requests: http://code.google.com/p/android/issues/detail?id=1780
+        if (isAndroid && httpMethodUpper !== "GET") {
+            //the stock android browser straight up doesn't support file downloads initiated by non GET requests: http://code.google.com/p/android/issues/detail?id=1780
 
             if ($().dialog) {
                 $("<div>").html(settings.androidPostUnsupportedMessageHtml).dialog(settings.dialogOptions);
@@ -13739,57 +13760,61 @@ $.extend({
                 alert(settings.androidPostUnsupportedMessageHtml);
             }
 
-            return;
+            return deferred.reject();
         }
 
-        // wire up a jquery dialog to display the preparing message if specified
         var $preparingDialog = null;
-        if (settings.preparingMessageHtml) {
-
-            $preparingDialog = $("<div>").html(settings.preparingMessageHtml).dialog(settings.dialogOptions);
-
-        }
 
         var internalCallbacks = {
 
+            onPrepare: function (url) {
+
+                //wire up a jquery dialog to display the preparing message if specified
+                if (settings.preparingMessageHtml) {
+
+                    $preparingDialog = $("<div>").html(settings.preparingMessageHtml).dialog(settings.dialogOptions);
+
+                } else if (settings.prepareCallback) {
+
+                    settings.prepareCallback(url);
+
+                }
+
+            },
+
             onSuccess: function (url) {
 
-                // remove the perparing message if it was specified
+                //remove the perparing message if it was specified
                 if ($preparingDialog) {
                     $preparingDialog.dialog('close');
                 };
 
                 settings.successCallback(url);
 
+                deferred.resolve(url);
             },
 
             onFail: function (responseHtml, url) {
 
-                // remove the perparing message if it was specified
+                //remove the perparing message if it was specified
                 if ($preparingDialog) {
                     $preparingDialog.dialog('close');
                 };
 
-                // wire up a jquery dialog to display the fail message if specified
+                //wire up a jquery dialog to display the fail message if specified
                 if (settings.failMessageHtml) {
-
                     $("<div>").html(settings.failMessageHtml).dialog(settings.dialogOptions);
-
-                    // only run the fallcallback if the developer specified something different than default
-                    // otherwise we would see two messages about how the file download failed
-                    if (settings.failCallback != defaultFailCallback) {
-                        settings.failCallback(responseHtml, url);
-                    }
-
-                } else {
-
-                    settings.failCallback(responseHtml, url);
                 }
+
+                settings.failCallback(responseHtml, url);
+                
+                deferred.reject(responseHtml, url);
             }
         };
 
+        internalCallbacks.onPrepare(fileUrl);
 
-        // make settings.data a param string if it exists and isn't already
+        //make settings.data a param string if it exists and isn't already
         if (settings.data !== null && typeof settings.data !== "string") {
             settings.data = $.param(settings.data);
         }
@@ -13803,12 +13828,12 @@ $.extend({
         if (httpMethodUpper === "GET") {
 
             if (settings.data !== null) {
-                // need to merge any fileUrl params with the data object
+                //need to merge any fileUrl params with the data object
 
                 var qsStart = fileUrl.indexOf('?');
 
-                if (qsStart != -1) {
-                    // we have a querystring in the url
+                if (qsStart !== -1) {
+                    //we have a querystring in the url
 
                     if (fileUrl.substring(fileUrl.length - 1) !== "&") {
                         fileUrl = fileUrl + "&";
@@ -13833,10 +13858,10 @@ $.extend({
 
             } else {
 
-                // create a temporary iframe that is used to request the fileUrl as a GET request
+                //create a temporary iframe that is used to request the fileUrl as a GET request
                 $iframe = $("<iframe>")
                     .hide()
-                    .attr("src", fileUrl)
+                    .prop("src", fileUrl)
                     .appendTo("body");
             }
 
@@ -13851,11 +13876,10 @@ $.extend({
                     var kvp = this.split("=");
 
                     var key = settings.encodeHTMLEntities ? htmlSpecialCharsEntityEncode(decodeURIComponent(kvp[0])) : decodeURIComponent(kvp[0]);
-                    if (!key) return;
-                    var value = kvp[1] || '';
-                    value = settings.encodeHTMLEntities ? htmlSpecialCharsEntityEncode(decodeURIComponent(kvp[1])) : decodeURIComponent(kvp[1]);
-
-                    formInnerHtml += '<input type="hidden" name="' + key + '" value="' + value + '">';
+                    if (key) {
+                        var value = settings.encodeHTMLEntities ? htmlSpecialCharsEntityEncode(decodeURIComponent(kvp[1])) : decodeURIComponent(kvp[1]);
+                    formInnerHtml += '<input type="hidden" name="' + key + '" value="' + value + '" />';
+                    }
                 });
             }
 
@@ -13863,8 +13887,8 @@ $.extend({
 
                 $form = $("<form>").appendTo("body");
                 $form.hide()
-                    .attr('method', settings.httpMethod)
-                    .attr('action', fileUrl)
+                    .prop('method', settings.httpMethod)
+                    .prop('action', fileUrl)
                     .html(formInnerHtml);
 
             } else {
@@ -13890,49 +13914,43 @@ $.extend({
         }
 
 
-        // check if the file download has completed every checkInterval ms
+        //check if the file download has completed every checkInterval ms
         setTimeout(checkFileDownloadComplete, settings.checkInterval);
 
 
         function checkFileDownloadComplete() {
 
-            // has the cookie been written due to a file download occuring?
+            //has the cookie been written due to a file download occuring?
             if (document.cookie.indexOf(settings.cookieName + "=" + settings.cookieValue) != -1) {
 
-                // execute specified callback
+                //execute specified callback
                 internalCallbacks.onSuccess(fileUrl);
 
-                // remove the cookie and iframe
-                var date = new Date(1000);
-                document.cookie = settings.cookieName + "=; expires=" + date.toUTCString() + "; path=" + settings.cookiePath;
+                //remove the cookie and iframe
+                document.cookie = settings.cookieName + "=; expires=" + new Date(1000).toUTCString() + "; path=" + settings.cookiePath;
 
                 cleanUp(false);
 
                 return;
             }
 
-            // has an error occured?
-            // if neither containers exist below then the file download is occuring on the current window
+            //has an error occured?
+            //if neither containers exist below then the file download is occuring on the current window
             if (downloadWindow || $iframe) {
 
-                // has an error occured?
+                //has an error occured?
                 try {
 
-                    var formDoc;
-                    if (downloadWindow) {
-                        formDoc = downloadWindow.document;
-                    } else {
-                        formDoc = getiframeDocument($iframe);
-                    }
+                    var formDoc = downloadWindow ? downloadWindow.document : getiframeDocument($iframe);
 
-                    if (formDoc && formDoc.body != null && formDoc.body.innerHTML.length > 0) {
+                    if (formDoc && formDoc.body != null && formDoc.body.innerHTML.length) {
 
                         var isFailure = true;
 
-                        if ($form && $form.length > 0) {
+                        if ($form && $form.length) {
                             var $contents = $(formDoc.body).contents().first();
 
-                            if ($contents.length > 0 && $contents[0] === $form[0]) {
+                            if ($contents.length && $contents[0] === $form[0]) {
                                 isFailure = false;
                             }
                         }
@@ -13948,7 +13966,7 @@ $.extend({
                 }
                 catch (err) {
 
-                    // 500 error less than IE9
+                    //500 error less than IE9
                     internalCallbacks.onFail('', fileUrl);
 
                     cleanUp(true);
@@ -13958,11 +13976,11 @@ $.extend({
             }
 
 
-            // keep checking...
+            //keep checking...
             setTimeout(checkFileDownloadComplete, settings.checkInterval);
         }
 
-        // gets an iframes document in a cross browser compatible manner
+        //gets an iframes document in a cross browser compatible manner
         function getiframeDocument($iframe) {
             var iframeDoc = $iframe[0].contentWindow || $iframe[0].contentDocument;
             if (iframeDoc.document) {
@@ -13982,26 +14000,33 @@ $.extend({
                     }
 
                     if (isIos) {
-                        if (isFailure) {
-                            downloadWindow.focus(); // ios safari bug doesn't allow a window to be closed unless it is focused
-                            downloadWindow.close();
-                        } else {
-                            downloadWindow.focus();
+                        if (downloadWindow.focus) {
+                            downloadWindow.focus(); //ios safari bug doesn't allow a window to be closed unless it is focused
+                            if (isFailure) {
+                                downloadWindow.close();
+                            }
                         }
                     }
                 }
+                
+                //iframe cleanup appears to randomly cause the download to fail
+                //not doing it seems better than failure...
+                //if ($iframe) {
+                //    $iframe.remove();
+                //}
 
             }, 0);
         }
 
+
         function htmlSpecialCharsEntityEncode(str) {
-            return str.replace(/&/gm, '&amp;')
-                .replace(/\n/gm, "&#10;")
-                .replace(/\r/gm, "&#13;")
-                .replace(/</gm, '&lt;')
-                .replace(/>/gm, '&gt;')
-                .replace(/"/gm, '&quot;')
-                .replace(/'/gm, '&apos;'); // single quotes just to be safe
+            return str.replace(htmlSpecialCharsRegEx, function(match) {
+                return '&' + htmlSpecialCharsPlaceHolders[match];
+        	});
         }
+
+        return deferred.promise();
     }
 });
+
+})(jQuery, this);
