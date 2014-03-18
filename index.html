@@ -2190,7 +2190,7 @@
 				});
 
 				/*if (navigator.appName === "Microsoft Internet Explorer") {
-					$("#Meldung").html("Sie verwenden den Internet Explorer " + getInternetExplorerVersion() + ".<br><br>Leider unterstützt der Internet Explorer nicht alle Funktionen, die AP Flora Web benutzt.<br><br>Um mit AP Flora Web zu arbeiten, benutzen Sie <a href='http://www.google.de/chrome/'>Google Chrome</a>, <a href='http://www.mozilla.org/de/firefox/new/'>Firefox</a> oder Safari.");
+					$("#Meldung").html("Sie verwenden den Internet Explorer " + getInternetExplorerVersion() + ".<br><br>Leider unterstützt der Internet Explorer nicht alle Funktionen, die AP Flora Web benutzt.<br><br>Um mit AP Flora Web zu arbeiten, benutzen Sie <a href='//www.google.de/chrome/'>Google Chrome</a>, <a href='//www.mozilla.org/de/firefox/new/'>Firefox</a> oder Safari.");
 					$("#Meldung").dialog({
 						modal: true,
 						title: "inkompatibler Browser",
@@ -2206,7 +2206,7 @@
 				}
 
 				if (!!navigator.userAgent.match(/Trident\/7\./)) {
-					$("#Meldung").html("Sie verwenden den Internet Explorer 11.<br><br>Leider unterstützt der Internet Explorer nicht alle Funktionen, die AP Flora Web benutzt.<br><br>Um mit AP Flora Web zu arbeiten, benutzen Sie <a href='http://www.google.de/chrome/'>Google Chrome</a>, <a href='http://www.mozilla.org/de/firefox/new/'>Firefox</a> oder Safari.");
+					$("#Meldung").html("Sie verwenden den Internet Explorer 11.<br><br>Leider unterstützt der Internet Explorer nicht alle Funktionen, die AP Flora Web benutzt.<br><br>Um mit AP Flora Web zu arbeiten, benutzen Sie <a href='//www.google.de/chrome/'>Google Chrome</a>, <a href='//www.mozilla.org/de/firefox/new/'>Firefox</a> oder Safari.");
 					$("#Meldung").dialog({
 						modal: true,
 						title: "inkompatibler Browser",
@@ -2248,9 +2248,9 @@
 					var url;
 					url = $("#BerURL").val();
 					if (url.substring(0,3) === "www") {
-						$("#BerURL").val("http://" + url);
+						$("#BerURL").val("//" + url);
 					} else if (url.substring(0,4) !== "http") {
-						$("#BerURL").val("http://www." + url);
+						$("#BerURL").val("//www." + url);
 					}
 					$('#BerURLHref').attr('onClick', "window.open('" + $("#BerURL").val() + "', target='_blank')")
 				});

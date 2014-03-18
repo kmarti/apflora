@@ -1,4 +1,4 @@
-Web-Applikation zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschutz des Kantons Zürich](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/artenfoerderung/ap_fl.html).
+Web-Applikation zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschutz des Kantons Zürich](//www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/artenfoerderung/ap_fl.html).
 
 <a name="top"></a>
 ## Inhalt ##
@@ -24,7 +24,7 @@ Web-Applikation zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschut
 
 - Alle Beobachtungen der Info Flora innerhalb des Kantons Zürich und im nahen Umfeld
 - Alle Beobachtungen aus Projekten der Fachstelle Naturschutz des Kantons Zürich
-- Eigene Beobachtungen aus [EvAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) (vorgängig mit Access uploaden)
+- Eigene Beobachtungen aus [EvAB](//www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) (vorgängig mit Access uploaden)
 
 
 **Auf Luftbildern und Karten darstellen:**
@@ -82,9 +82,9 @@ Die nachfolgend aufgelisteten Funktionen werden nur von Topos in einer einfachen
 - Mit dem GIS auf die Daten zugreifen
 - Logins verwalten und Schreibrechte vergeben
 - Datenwaisen ermitteln und bearbeiten oder löschen
-- Beobachtungen nach [EvAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) exportieren
+- Beobachtungen nach [EvAB](//www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) exportieren
 - Daten in Tabellenform bearbeiten
-- Geplant: Beobachtungen aus einem [EvAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) importieren (um sie danach in ApFloraDb Teilpopulationen zuzuordnen)
+- Geplant: Beobachtungen aus einem [EvAB](//www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) importieren (um sie danach in ApFloraDb Teilpopulationen zuzuordnen)
 
 **Anwendung effizient unterhalten:**
 
@@ -108,8 +108,8 @@ Die FNS erhält aus der ApFloraDb folgende Produkte:
 
 - Den Jahresbericht (pdf oder Ausdruck)
 - Artbeobachtungen<br>
-Dazu werden die Feld- und Freiwilligenkontrollen (ausser solche von soeben angesäten, noch nicht etablierten Teilpopulationen) aus der Access-Admin-DB in einer Form exportiert, die einfach in [EvAB](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) importiert werden kann
-- Daten für die Anzeige in GIS und [Web-GIS BUN](http://www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/web_gis.html):
+Dazu werden die Feld- und Freiwilligenkontrollen (ausser solche von soeben angesäten, noch nicht etablierten Teilpopulationen) aus der Access-Admin-DB in einer Form exportiert, die einfach in [EvAB](//www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) importiert werden kann
+- Daten für die Anzeige in GIS und [Web-GIS BUN](//www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/web_gis.html):
  - Teilpopulationen
  - Kontrollen
  - Massnahmen
@@ -119,9 +119,9 @@ Dazu werden die Feld- und Freiwilligenkontrollen (ausser solche von soeben anges
 
 <a name="Technik"></a>
 #Technische Umsetzung
-Die Weboberfläche ([HTML5](http://de.wikipedia.org/wiki/HTML5), [CSS](http://de.wikipedia.org/wiki/Cascading_Style_Sheets), [jQuery UI](http://jqueryui.com), [JavaScript](http://de.wikipedia.org/wiki/JavaScript), [jQuery](http://jquery.com/) und [jsTree](http://www.jstree.com/)) greift mithilfe von [PHP](http://de.wikipedia.org/wiki/PHP) auf eine [MySQL-Datenbank](http://de.wikipedia.org/wiki/MySQL).
+Die Weboberfläche ([HTML5](//de.wikipedia.org/wiki/HTML5), [CSS](//de.wikipedia.org/wiki/Cascading_Style_Sheets), [jQuery UI](//jqueryui.com), [JavaScript](//de.wikipedia.org/wiki/JavaScript), [jQuery](//jquery.com/) und [jsTree](//www.jstree.com/)) greift mithilfe von [PHP](//de.wikipedia.org/wiki/PHP) auf eine [MySQL-Datenbank](//de.wikipedia.org/wiki/MySQL).
 
-Für die Karten werden [OpenLayers](http://openlayers.org/) und [GoogleMaps](https://developers.google.com/maps/documentation/javascript/reference) verwendet. Die Kartendaten stammen von Google und dem Kanton Zürich.
+Für die Karten werden [OpenLayers](//openlayers.org/) und [GoogleMaps](https://developers.google.com/maps/documentation/javascript/reference) verwendet. Die Kartendaten stammen von Google und dem Kanton Zürich.
 
 Die Applikation baut auf einer einzigen Seite auf und aktualisiert die Oberfläche inkl. URL mit AJAX.
 
@@ -135,7 +135,7 @@ Die Anwendung verwendet drei MySQL-Datenbanken:
 
 <a name="OpenSource"></a>
 #Open source
-Die verwendete [Lizenz](https://github.com/FNSKtZH/apflora/blob/master/License.md) ist sehr freizügig. Neben dem Code steht auch die [Datenstruktur](https://github.com/FNSKtZH/apflora/raw/master/etc/alexande_apflora.sql.zip) inkl. [Views](https://github.com/FNSKtZH/apflora/raw/master/etc/alexande_apflora_views.sql.zip) zur Verfügung. Die eigentlichen Daten aber, mit denen gearbeitet wird, gehören der Fachstelle Naturschutz des Kantons Zürich und stehen nicht zur freien Verfügung (die Beobachtungen werden der [Info Spezies](http://www.infoflora.ch/de/allgemeines/info-species.html) gemeldet).
+Die verwendete [Lizenz](https://github.com/FNSKtZH/apflora/blob/master/License.md) ist sehr freizügig. Neben dem Code steht auch die [Datenstruktur](https://github.com/FNSKtZH/apflora/raw/master/etc/alexande_apflora.sql.zip) inkl. [Views](https://github.com/FNSKtZH/apflora/raw/master/etc/alexande_apflora_views.sql.zip) zur Verfügung. Die eigentlichen Daten aber, mit denen gearbeitet wird, gehören der Fachstelle Naturschutz des Kantons Zürich und stehen nicht zur freien Verfügung (die Beobachtungen werden der [Info Spezies](//www.infoflora.ch/de/allgemeines/info-species.html) gemeldet).
 
 Wer will, kann selber die [Entwicklungsumgebung einrichten](https://github.com/FNSKtZH/apflora/wiki/Entwicklungsumgebung-einrichten) und die [Anwendung auf einem Webserver bereitstellen](https://github.com/FNSKtZH/apflora/wiki/Anwendung-auf-einem-Server-bereitstellen).
 

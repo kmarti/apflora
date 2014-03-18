@@ -9853,7 +9853,7 @@ function speichern(that) {
 }
 
 (function ($) {
-	// friendly helper http://tinyurl.com/6aow6yn
+	// friendly helper //tinyurl.com/6aow6yn
 	// Läuft durch alle Felder im Formular
 	// Wenn ein Wert enthalten ist, wird Feldname und Wert ins Objekt geschrieben
 	// nicht vergessen: Typ, _id und _rev dazu geben, um zu speichern
@@ -10115,7 +10115,7 @@ function zeigeTPopAufKarte(TPopListe) {
 	};
 	// globale Variable verwenden, damit ein Klick auf die Checkbox die Ebene einblenden kann
 	window.google_karte_detailplaene = new google.maps.KmlLayer({
-	    url: 'http://www.apflora.ch/kml/rueteren.kmz',
+	    url: '//www.apflora.ch/kml/rueteren.kmz',
 	    preserveViewport: true
 	});
 	google_karte_detailplaene.setMap(null);
@@ -10547,12 +10547,12 @@ function zeigePopInTPopKarte(overlay_pop_visible, overlay_popbeschriftungen_visi
 function erstelleTPopulationFuerGeoAdmin(TPop) {
 	// styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
-		externalGraphic: 'http://www.apflora.ch/img/flora_icon_rot.png',
+		externalGraphic: '//www.apflora.ch/img/flora_icon_rot.png',
 		graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
 		title: '${tooltip}'
 	});
 	var selectStyle = new OpenLayers.Style({
-		externalGraphic: 'http://www.apflora.ch/img/flora_icon_gelb.png'
+		externalGraphic: '//www.apflora.ch/img/flora_icon_gelb.png'
 	});
 
 	// overlay layer für Marker vorbereiten
@@ -10654,12 +10654,12 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 	}
 	// styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
-		externalGraphic: 'http://www.apflora.ch/img/flora_icon.png',
+		externalGraphic: '//www.apflora.ch/img/flora_icon.png',
 		graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
 		title: '${tooltip}'
 	});
 	var selectStyle = new OpenLayers.Style({
-		externalGraphic: 'http://www.apflora.ch/img/flora_icon_gelb.png'
+		externalGraphic: '//www.apflora.ch/img/flora_icon_gelb.png'
 	});
 
 	var strategy = new OpenLayers.Strategy.Cluster({
@@ -10729,7 +10729,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 					label: myLabel,
 					message: html
 				}, {
-					externalGraphic: 'http://www.apflora.ch/img/flora_icon_gelb.png',
+					externalGraphic: '//www.apflora.ch/img/flora_icon_gelb.png',
 					graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
 					title: TPop.TPopFlurname,
 					graphicZIndex: 5000
@@ -10858,7 +10858,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 	});
 
 	// selectfeature (Infoblase) soll nicht durch dragfeature blockiert werden
-	// Quelle: http://stackoverflow.com/questions/6953907/make-marker-dragable-and-clickable
+	// Quelle: //stackoverflow.com/questions/6953907/make-marker-dragable-and-clickable
 	dragControl.handlers['drag'].stopDown = false;
 	dragControl.handlers['drag'].stopUp = false;
 	dragControl.handlers['drag'].stopClick = false;
@@ -11010,12 +11010,12 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 	var PopSymbole_erstellt = $.Deferred();
 	// styles für overlay_pop definieren
 	var defaultStyle = new OpenLayers.Style({
-		externalGraphic: 'http://www.apflora.ch/img/flora_icon_braun.png',
+		externalGraphic: '//www.apflora.ch/img/flora_icon_braun.png',
 		graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
 		title: '${tooltip}'
 	});
 	var selectStyle = new OpenLayers.Style({
-		externalGraphic: 'http://www.apflora.ch/img/flora_icon_orange.png'
+		externalGraphic: '//www.apflora.ch/img/flora_icon_orange.png'
 	});
 
 	// overlay layer für Marker vorbereiten
@@ -11072,7 +11072,7 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 					label: myLabel,
 					message: html
 				}, {
-					externalGraphic: 'http://www.apflora.ch/img/flora_icon_orange.png',
+					externalGraphic: '//www.apflora.ch/img/flora_icon_orange.png',
 					graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
 					title: myName,
 					graphicZIndex: 5000
@@ -11193,7 +11193,7 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 	});
 
 	// selectfeature (Infoblase) soll nicht durch dragfeature blockiert werden
-	// Quelle: http://stackoverflow.com/questions/6953907/make-marker-dragable-and-clickable
+	// Quelle: //stackoverflow.com/questions/6953907/make-marker-dragable-and-clickable
 	dragControl.handlers['drag'].stopDown = false;
 	dragControl.handlers['drag'].stopUp = false;
 	dragControl.handlers['drag'].stopClick = false;
@@ -11220,7 +11220,7 @@ function erstellePopNrFuerGeoAdmin(PopListe, visible) {
 	var PopNr_erstellt = $.Deferred();
 	// styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
-		externalGraphic: 'http://www.apflora.ch/img/leer.png',
+		externalGraphic: '//www.apflora.ch/img/leer.png',
 		graphicWidth: 1, graphicHeight: 1, graphicYOffset: 0,
 		title: null,
 		label: '${label}',
@@ -11297,7 +11297,7 @@ function erstellePopNamenFuerGeoAdmin(PopListe) {
 	var PopNamen_erstellt = $.Deferred();
 	// styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
-		externalGraphic: 'http://www.apflora.ch/img/leer.png',
+		externalGraphic: '//www.apflora.ch/img/leer.png',
 		graphicWidth: 1, graphicHeight: 1, graphicYOffset: 0,
 		title: null,
 		label: '${label}',
@@ -11387,7 +11387,7 @@ function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 	var tpopnr_erstellt = $.Deferred();
 	// styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
-		externalGraphic: 'http://www.apflora.ch/img/leer.png',
+		externalGraphic: '//www.apflora.ch/img/leer.png',
 		graphicWidth: 1, graphicHeight: 1, graphicYOffset: 0,
 		title: null,
 		label: '${label}',
@@ -11465,7 +11465,7 @@ function erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 	var tpopnamen_erstellt = $.Deferred();
 	// styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
-		externalGraphic: 'http://www.apflora.ch/img/leer.png',
+		externalGraphic: '//www.apflora.ch/img/leer.png',
 		graphicWidth: 1, graphicHeight: 1, graphicYOffset: 0,
 		title: null,
 		label: '${label}',
@@ -11941,10 +11941,10 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 	map = new google.maps.Map(document.getElementById("google_karten_div"), options);
 	window.map = map;
 	// Versuch: SVO einblenden
-	//loadWMS(window.map, "http://wms.zh.ch/FnsSVOZHWMS?");
-	//loadWMS(map, "http://www.gis.zh.ch/scripts/wmsfnssvo2.asp?");
+	//loadWMS(window.map, "//wms.zh.ch/FnsSVOZHWMS?");
+	//loadWMS(map, "//www.gis.zh.ch/scripts/wmsfnssvo2.asp?");
 	// Versuch: AV einblenden
-	//loadWMS(map, "http://wms.zh.ch/avwms?");
+	//loadWMS(map, "//wms.zh.ch/avwms?");
 	bounds = new google.maps.LatLngBounds();
 	// für alle Orte Marker erstellen
 	markers = [];
@@ -12257,9 +12257,9 @@ function oeffneTPopBeobInNeuemTab(BeobId) {
 	Created on : Feb 16, 2011, 3:25:27 PM
 	Author	 : "Gavin Jackson <Gavin.Jackson@csiro.au>"
 
-	Refactored code from http://lyceum.massgis.state.ma.us/wiki/doku.php?id=googlemapsv3:home
+	Refactored code from //lyceum.massgis.state.ma.us/wiki/doku.php?id=googlemapsv3:home
 
-	example: loadWMS(map, "http://spatial.ala.org.au/geoserver/wms?", customParams);
+	example: loadWMS(map, "//spatial.ala.org.au/geoserver/wms?", customParams);
 
 	You can easily add a WMS overlay by calling the loadWMS(map, baseURL, customParams) function, where:
 
@@ -12413,11 +12413,11 @@ function loadWMS(map, baseURL, customParams){
 	});
 }
 
-/*! Copyright (c) 2011 Brandon Aaron (http://brandonaaron.net)
+/*! Copyright (c) 2011 Brandon Aaron (//brandonaaron.net)
  * Licensed under the MIT License (LICENSE.txt).
  *
- * Thanks to: http://adomas.org/javascript-mouse-wheel/ for some pointers.
- * Thanks to: Mathias Bank(http://www.mathias-bank.de) for a scope bug fix.
+ * Thanks to: //adomas.org/javascript-mouse-wheel/ for some pointers.
+ * Thanks to: Mathias Bank(//www.mathias-bank.de) for a scope bug fix.
  * Thanks to: Seamus Leahy for adding deltaX and deltaY
  *
  * Version: 3.0.6
@@ -12743,28 +12743,28 @@ function initiiereGeoAdminKarte() {
 	//var zh_bbox_1903 = new OpenLayers.Bounds(669000, 222000, 717000, 284000);
 
 	// Zunächst alle Layer definieren
-	var zh_ortho = new OpenLayers.Layer.WMS("ZH Luftbild", "http://agabriel:4zC6MgjM@wms.zh.ch/OrthoZHWMS", {
+	var zh_ortho = new OpenLayers.Layer.WMS("ZH Luftbild", "//agabriel:4zC6MgjM@wms.zh.ch/OrthoZHWMS", {
 		layers: 'orthophotos',
 		isBaseLayer: true
 	}, {
 		visibility: false,
 		singleTile: true
 	});
-	var zh_ortho_2 = new OpenLayers.Layer.WMS("ZH Luftbild 2", "http://maps.zh.ch/wms/OrthoBackgroundZH", {
+	var zh_ortho_2 = new OpenLayers.Layer.WMS("ZH Luftbild 2", "//maps.zh.ch/wms/OrthoBackgroundZH", {
 		layers: 'orthoaktuell',
 		isBaseLayer: true
 	}, {
 		visibility: false,
 		singleTile: true
 	});
-	var zh_hoehenmodell = new OpenLayers.Layer.WMS("ZH Höhenmodell", "http://maps.zh.ch/wms/DTMBackgroundZH", {
+	var zh_hoehenmodell = new OpenLayers.Layer.WMS("ZH Höhenmodell", "//maps.zh.ch/wms/DTMBackgroundZH", {
 		layers: 'dtm',
 		isBaseLayer: true
 	}, {
 		visibility: false,
 		singleTile: true
 	});
-	var zh_lk_sw = new OpenLayers.Layer.WMS("Landeskarten sw", "http://agabriel:4zC6MgjM@wms.zh.ch/RasterWMS", {
+	var zh_lk_sw = new OpenLayers.Layer.WMS("Landeskarten sw", "//agabriel:4zC6MgjM@wms.zh.ch/RasterWMS", {
 		layers: 'up24,up8,lk25,lk50,lk100,lk200,lk500',
 		transparent: true,
 		isBaseLayer: false
@@ -12772,7 +12772,7 @@ function initiiereGeoAdminKarte() {
 		singleTile: true,
 		visibility: true
 	});
-	var zh_lk_sw_2 = new OpenLayers.Layer.WMS("Landeskarten überlagernd", "http://maps.zh.ch/wms/BASISKARTEZH", {
+	var zh_lk_sw_2 = new OpenLayers.Layer.WMS("Landeskarten überlagernd", "//maps.zh.ch/wms/BASISKARTEZH", {
 		layers: 'lk500,lk200,lk100,lk50,lk25,up8,up24',
 		transparent: true,
 		isBaseLayer: false
@@ -12780,7 +12780,7 @@ function initiiereGeoAdminKarte() {
 		singleTile: true,
 		visibility: true
 	});
-	var zh_lk = new OpenLayers.Layer.WMS("Landeskarten ohne Luftbild", "http://maps.zh.ch/wms/BASISKARTEZH", {
+	var zh_lk = new OpenLayers.Layer.WMS("Landeskarten ohne Luftbild", "//maps.zh.ch/wms/BASISKARTEZH", {
 		layers: 'wald,seen,lk500,lk200,lk100,lk50,lk25,up8,up24',
 		transparent: false,
 		isBaseLayer: false
@@ -12788,7 +12788,7 @@ function initiiereGeoAdminKarte() {
 		singleTile: true,
 		visibility: false
 	});
-	var zh_grenzen = new OpenLayers.Layer.WMS("ZH Gemeinden", "http://maps.zh.ch/wms/BASISKARTEZH", {
+	var zh_grenzen = new OpenLayers.Layer.WMS("ZH Gemeinden", "//maps.zh.ch/wms/BASISKARTEZH", {
 		layers: 'grenzen,gemeindegrenzen',
 		transparent: true,
 		isBaseLayer: false
@@ -12796,7 +12796,7 @@ function initiiereGeoAdminKarte() {
 		singleTile: true,
 		visibility: false
 	});
-	var zh_uep = new OpenLayers.Layer.WMS("Übersichtsplan Kt. Zürich", "http://wms.zh.ch/upwms", {
+	var zh_uep = new OpenLayers.Layer.WMS("Übersichtsplan Kt. Zürich", "//wms.zh.ch/upwms", {
 		layers: 'upwms',
 		transparent: true,
 		isBaseLayer: false
@@ -12806,7 +12806,7 @@ function initiiereGeoAdminKarte() {
 		minScale: 22000,
 		maxScale: 1
 	});
-	var zh_av = new OpenLayers.Layer.WMS("ZH Parzellen", "http://wms.zh.ch/avwms", {
+	var zh_av = new OpenLayers.Layer.WMS("ZH Parzellen", "//wms.zh.ch/avwms", {
 		layers: 'Liegenschaften',
 		transparent: true
 	}, {
@@ -12814,14 +12814,14 @@ function initiiereGeoAdminKarte() {
 		singleTile: true
 		//maxScale: 5000
 	});
-	var zh_avnr = new OpenLayers.Layer.WMS("ZH Parzellen-Nummern", "http://wms.zh.ch/avwms", {
+	var zh_avnr = new OpenLayers.Layer.WMS("ZH Parzellen-Nummern", "//wms.zh.ch/avwms", {
 		layers: 'OSNR',
 		transparent: true
 	}, {
 		visibility: false,
 		singleTile: true
 	});
-	var zh_svo = new OpenLayers.Layer.WMS("ZH SVO farbig", "http://wms.zh.ch/FnsSVOZHWMS", {
+	var zh_svo = new OpenLayers.Layer.WMS("ZH SVO farbig", "//wms.zh.ch/FnsSVOZHWMS", {
 		layers: 'zonen-schutzverordnungen,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr',
 		transparent: true
 	}, {
@@ -12829,7 +12829,7 @@ function initiiereGeoAdminKarte() {
 		opacity: 0.7,
 		visibility: false
 	});
-	var zh_svo_raster = new OpenLayers.Layer.WMS("ZH SVO Raster", "http://wms.zh.ch/FnsSVOZHWMS", {
+	var zh_svo_raster = new OpenLayers.Layer.WMS("ZH SVO Raster", "//wms.zh.ch/FnsSVOZHWMS", {
 		layers: 'zonen-schutzverordnungen-raster,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr',
 		transparent: true
 	}, {
@@ -12840,20 +12840,20 @@ function initiiereGeoAdminKarte() {
 	var zh_vertraege = new OpenLayers.Layer.Vector("ZH Verträge", {
 	    strategies: [new OpenLayers.Strategy.BBOX()],
 	    protocol: new OpenLayers.Protocol.WFS.v1_1_0({
-	        url:  "http://agabriel:4zC6MgjM@maps.zh.ch/wfs/FnsVertraegeWFS",
+	        url:  "//agabriel:4zC6MgjM@maps.zh.ch/wfs/FnsVertraegeWFS",
 	        featureType: "vertraege_f",
-	        featureNs: "http://www.opengis.net/gml"
-	        //featureNs: "http://www.intergraph.com/geomedia/gml"
+	        featureNs: "//www.opengis.net/gml"
+	        //featureNs: "//www.intergraph.com/geomedia/gml"
 	    })
 	});
-	var zh_waldgesellschaften = new OpenLayers.Layer.WMS("ZH Waldgesellschaften", "http://agabriel:4zC6MgjM@wms.zh.ch/WaldVKoverlayZH", {
+	var zh_waldgesellschaften = new OpenLayers.Layer.WMS("ZH Waldgesellschaften", "//agabriel:4zC6MgjM@wms.zh.ch/WaldVKoverlayZH", {
 		layers: 'waldgesellschaften,beschriftung-einheit-nach-ek72',
 		transparent: true
 	}, {
 		singleTile: true,
 		visibility: false
 	});
-	var zh_liwa = new OpenLayers.Layer.WMS("ZH Lichte Wälder", "http://maps.zh.ch/wms/FnsLWZH", {
+	var zh_liwa = new OpenLayers.Layer.WMS("ZH Lichte Wälder", "//maps.zh.ch/wms/FnsLWZH", {
 		layers: 'objekte-lichte-waelder-kanton-zuerich',
 		transparent: true
 	}, {
@@ -12878,7 +12878,7 @@ function initiiereGeoAdminKarte() {
 		})
 	});
 
-	var ch_lk1000 = new OpenLayers.Layer.WMS("Landeskarte 1:1'000'000", "http://wms.geo.admin.ch?", {
+	var ch_lk1000 = new OpenLayers.Layer.WMS("Landeskarte 1:1'000'000", "//wms.geo.admin.ch?", {
 		layers: 'ch.swisstopo.pixelkarte-farbe-pk1000.noscale',
 		srs: 'EPSG:21781',
 		'format': 'png'
@@ -12887,7 +12887,7 @@ function initiiereGeoAdminKarte() {
 		visibility: false
 	});
 
-	var ch_ktgrenzen = new OpenLayers.Layer.WMS("Kantone", "http://wms.geo.admin.ch?", {
+	var ch_ktgrenzen = new OpenLayers.Layer.WMS("Kantone", "//wms.geo.admin.ch?", {
 		layers: 'ch.swisstopo.swissboundaries3d-kanton-flaeche.fill',
 		srs: 'EPSG:21781',
 		'format': 'png'
@@ -13539,16 +13539,16 @@ function erstelleIdAusDomAttributId(domAttributId) {
 function zeigeBeobKoordinatenImGisBrowser() {
 	var URL;
 	if ($("#beobfelder_FNS_XGIS").val() && $("#beobfelder_FNS_YGIS").val()) {
-		URL = "http://www.maps.zh.ch/?x=" + $("#beobfelder_FNS_XGIS").val() + "&y=" + $("#beobfelder_FNS_YGIS").val() + "&scale=3000&markers=ring";
+		URL = "//www.maps.zh.ch/?x=" + $("#beobfelder_FNS_XGIS").val() + "&y=" + $("#beobfelder_FNS_YGIS").val() + "&scale=3000&markers=ring";
 		window.open(URL, target = "_blank");
 	} else if ($("#beobfelder_COORDONNEE_FED_E").val() && $("#beobfelder_COORDONNEE_FED_N").val()) {
-		URL = "http://www.maps.zh.ch/?x=" + $("#beobfelder_COORDONNEE_FED_E").val() + "&y=" + $("#beobfelder_COORDONNEE_FED_N").val() + "&scale=3000&markers=ring";
+		URL = "//www.maps.zh.ch/?x=" + $("#beobfelder_COORDONNEE_FED_E").val() + "&y=" + $("#beobfelder_COORDONNEE_FED_N").val() + "&scale=3000&markers=ring";
 		window.open(URL, target = "_blank");
 	} else if ($("#TPopXKoord").val() && $("#TPopYKoord").val()) {
-		URL = "http://www.maps.zh.ch/?x=" + $("#TPopXKoord").val() + "&y=" + $("#TPopYKoord").val() + "&scale=3000&markers=ring";
+		URL = "//www.maps.zh.ch/?x=" + $("#TPopXKoord").val() + "&y=" + $("#TPopYKoord").val() + "&scale=3000&markers=ring";
 		window.open(URL, target = "_blank");
 	} else if ($("#PopXKoord").val() && $("#PopYKoord").val()) {
-		URL = "http://www.maps.zh.ch/?x=" + $("#PopXKoord").val() + "&y=" + $("#PopYKoord").val() + "&scale=3000&markers=ring";
+		URL = "//www.maps.zh.ch/?x=" + $("#PopXKoord").val() + "&y=" + $("#PopYKoord").val() + "&scale=3000&markers=ring";
 		window.open(URL, target = "_blank");
 	} else {
 		$("#Meldung").html("Fehler: Keine Koordinaten zum Anzeigen");
@@ -13599,16 +13599,16 @@ function beschrifteTPopMitNrFuerKarte(pop_nr, tpop_nr) {
 /*435 Zeilen lang
 * jQuery File Download Plugin v1.4.2 
 *
-* http://www.johnculviner.com
+* //www.johnculviner.com
 *
 * Copyright (c) 2013 - John Culviner
 *
 * Licensed under the MIT license:
-*   http://www.opensource.org/licenses/mit-license.php
+*   //www.opensource.org/licenses/mit-license.php
 *
 * !!!!NOTE!!!!
 * You must also write a cookie in conjunction with using this plugin as mentioned in the orignal post:
-* http://johnculviner.com/jquery-file-download-plugin-for-ajax-like-feature-rich-file-downloads/
+* //johnculviner.com/jquery-file-download-plugin-for-ajax-like-feature-rich-file-downloads/
 * !!!!NOTE!!!!
 */
 
@@ -13645,7 +13645,7 @@ $.extend({
             failMessageHtml: null,
 
             //
-            //the stock android browser straight up doesn't support file downloads initiated by a non GET: http://code.google.com/p/android/issues/detail?id=1780
+            //the stock android browser straight up doesn't support file downloads initiated by a non GET: //code.google.com/p/android/issues/detail?id=1780
             //specify a message here to display if a user tries with an android browser
             //if jQuery UI is installed this will be a dialog, otherwise it will be an alert
             //
@@ -13728,7 +13728,7 @@ $.extend({
 
         var deferred = new $.Deferred();
 
-        //Setup mobile browser detection: Partial credit: http://detectmobilebrowser.com/
+        //Setup mobile browser detection: Partial credit: //detectmobilebrowser.com/
         var userAgent = (navigator.userAgent || navigator.vendor || window.opera).toLowerCase();
 
         var isIos;                  //has full support of features in iOS 4.0+, uses a new window to accomplish this.
@@ -13752,7 +13752,7 @@ $.extend({
         var httpMethodUpper = settings.httpMethod.toUpperCase();
 
         if (isAndroid && httpMethodUpper !== "GET") {
-            //the stock android browser straight up doesn't support file downloads initiated by non GET requests: http://code.google.com/p/android/issues/detail?id=1780
+            //the stock android browser straight up doesn't support file downloads initiated by non GET requests: //code.google.com/p/android/issues/detail?id=1780
 
             if ($().dialog) {
                 $("<div>").html(settings.androidPostUnsupportedMessageHtml).dialog(settings.dialogOptions);
