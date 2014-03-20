@@ -1902,8 +1902,11 @@ function erstelle_ap_liste(programm) {
 	var apliste_erstellt = $.Deferred();
 	$.ajax({
 		type: 'get',
-		url: 'php/apliste.php?programm=' + programm,
+		url: 'php/apliste.php',
 		dataType: 'json',
+		data: {
+			"programm": programm
+		},
 		success: function (data) {
 			var html;
 			html = "<option></option>";
@@ -6861,7 +6864,6 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					var dataUrl;
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
@@ -6875,13 +6877,16 @@ function treeKontextmenu(node) {
 						});
 						return;
 					}
-					// User und neue TPopId mitgeben
-					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + "&TPopKontrId=" + erstelleIdAusDomAttributId($(window.tpopfeldkontr_node_kopiert).attr("id"));
 					// und an die DB schicken
 					$.ajax({
 						type: 'post',
-						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
+						url: 'php/tpopfeldkontr_insert_kopie.php',
 						dataType: 'json',
+						data: {
+							"user": sessionStorage.User,
+							"TPopId": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+							"TPopKontrId": erstelleIdAusDomAttributId($(window.tpopfeldkontr_node_kopiert).attr("id"))
+						},
 						success: function (data) {
 							var NeuerNode;
 							localStorage.tpopfeldkontr_id = data;
@@ -7139,7 +7144,9 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					var url_string = "?id=" + erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + "&user=" + sessionStorage.User;
+					var data = {};
+					data.id = erstelleIdAusDomAttributId($(aktiver_node).attr("id"));
+					data.user = sessionStorage.User
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
@@ -7154,15 +7161,15 @@ function treeKontextmenu(node) {
 						return;
 					}
 					for (i in window.feldkontr_biotop) {
-					//for (var i = 0; i < window.feldkontr_biotop.length; i++) {
 						$("#" + i).val(window.feldkontr_biotop[i]);
-						url_string += "&" + i + "=" + window.feldkontr_biotop[i];
+						data[i] = window.feldkontr_biotop[i];
 					}
 					// jetzt alles speichern
 					$.ajax({
 						type: 'post',
-						url: 'php/tpopfeldkontr_update_multiple.php' + url_string,
+						url: 'php/tpopfeldkontr_update_multiple.php',
 						dataType: 'json',
+						data: data,
 						success: function () {
 						},
 						error: function (data) {
@@ -7270,7 +7277,6 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					var dataUrl;
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
@@ -7284,13 +7290,16 @@ function treeKontextmenu(node) {
 						});
 						return;
 					}
-					// User und neue TPopId mitgeben
-					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + erstelleIdAusDomAttributId($(parent_node).attr("id")) + "&TPopKontrId=" + erstelleIdAusDomAttributId($(window.tpopfeldkontr_node_kopiert).attr("id"));
 					// und an die DB schicken
 					$.ajax({
 						type: 'post',
-						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
+						url: 'php/tpopfeldkontr_insert_kopie.php',
 						dataType: 'json',
+						data: {
+							"user": sessionStorage.User,
+							"TPopId": erstelleIdAusDomAttributId($(parent_node).attr("id")),
+							"TPopKontrId": erstelleIdAusDomAttributId($(window.tpopfeldkontr_node_kopiert).attr("id"))
+						},
 						success: function (data) {
 							var NeuerNode;
 							localStorage.tpopfeldkontr_id = data;
@@ -7372,6 +7381,7 @@ function treeKontextmenu(node) {
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							// Formular initiieren
+							localStorage.tpopfreiwkontr = true;
 							initiiere_tpopfeldkontr();
 						},
 						error: function (data) {
@@ -7413,7 +7423,6 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					var dataUrl;
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
@@ -7427,13 +7436,16 @@ function treeKontextmenu(node) {
 						});
 						return;
 					}
-					// User und neue TPopId mitgeben
-					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + "&TPopKontrId=" + erstelleIdAusDomAttributId($(window.tpopfreiwkontr_node_kopiert).attr("id"));
 					// und an die DB schicken
 					$.ajax({
 						type: 'post',
-						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
+						url: 'php/tpopfeldkontr_insert_kopie.php',
 						dataType: 'json',
+						data: {
+							"user": sessionStorage.User,
+							"TPopId": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+							"TPopKontrId": erstelleIdAusDomAttributId($(window.tpopfreiwkontr_node_kopiert).attr("id"))
+						},
 						success: function (data) {
 							var NeuerNode;
 							localStorage.tpopfeldkontr_id = data;
@@ -7516,7 +7528,7 @@ function treeKontextmenu(node) {
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 							// Formular initiieren
-							localStorage.tpopfreiwkontr = "true";
+							localStorage.tpopfreiwkontr = true;
 							initiiere_tpopfeldkontr();
 						},
 						error: function (data) {
@@ -7707,7 +7719,6 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
-					var dataUrl;
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (sessionStorage.NurLesen) {
 						$("#Meldung").html("Sie haben keine Schreibrechte");
@@ -7721,13 +7732,17 @@ function treeKontextmenu(node) {
 						});
 						return;
 					}
-					// User und neue TPopId mitgeben
-					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + erstelleIdAusDomAttributId($(parent_node).attr("id")) + "&TPopKontrId=" + erstelleIdAusDomAttributId($(window.tpopfreiwkontr_node_kopiert).attr("id"));
 					// und an die DB schicken
+					console.log("jetzt2");
 					$.ajax({
 						type: 'post',
-						url: 'php/tpopfeldkontr_insert_kopie.php' + dataUrl,
+						url: 'php/tpopfeldkontr_insert_kopie.php',
 						dataType: 'json',
+						data: {
+							"user": sessionStorage.User,
+							"TPopId": erstelleIdAusDomAttributId($(parent_node).attr("id")),
+							"TPopKontrId": erstelleIdAusDomAttributId($(window.tpopfreiwkontr_node_kopiert).attr("id"))
+						},
 						success: function (data) {
 							var NeuerNode;
 							localStorage.tpopfeldkontr_id = data;
@@ -7863,16 +7878,16 @@ function treeKontextmenu(node) {
 						});
 						return;
 					}
-					var dataUrl;
-					// User und neue TPopId mitgeben
-					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + "&TPopMassnId=" + erstelleIdAusDomAttributId($(window.tpopmassn_node_kopiert).attr("id"));
 					// und an die DB schicken
 					$.ajax({
-						// mit post hat irgend etwas in php nicht funktioniert (es wurde immer id=0 zurückgegeben), daher wieder get eingeschatet
-						//type: 'post',
-						type: 'get',
-						url: 'php/tpopmassn_insert_kopie.php' + dataUrl,
+						type: 'post',
+						url: 'php/tpopmassn_insert_kopie.php',
 						dataType: 'json',
+						data: {
+							"user": sessionStorage.User,
+							"TPopId": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+							"TPopMassnId": erstelleIdAusDomAttributId($(window.tpopmassn_node_kopiert).attr("id"))
+						},
 						success: function (data) {
 							var NeuerNode;
 							localStorage.tpopmassn_id = data;
@@ -8160,16 +8175,16 @@ function treeKontextmenu(node) {
 						});
 						return;
 					}
-					var dataUrl;
-					// User und neue TPopId mitgeben
-					dataUrl = "?user=" + sessionStorage.User + "&TPopId=" + erstelleIdAusDomAttributId($(parent_node).attr("id")) + "&TPopMassnId=" + erstelleIdAusDomAttributId($(window.tpopmassn_node_kopiert).attr("id"));
 					// und an die DB schicken
 					$.ajax({
-						// mit post hat irgend etwas in php nicht funktioniert (es wurde immer id=0 zurückgegeben), daher wieder get eingeschatet
-						//type: 'post',
-						type: 'get',
-						url: 'php/tpopmassn_insert_kopie.php' + dataUrl,
+						type: 'post',
+						url: 'php/tpopmassn_insert_kopie.php',
 						dataType: 'json',
+						data: {
+							"user": sessionStorage.User,
+							"TPopId": erstelleIdAusDomAttributId($(parent_node).attr("id")),
+							"TPopMassnId": erstelleIdAusDomAttributId($(window.tpopmassn_node_kopiert).attr("id"))
+						},
 						success: function (data) {
 							var NeuerNode;
 							localStorage.tpopmassn_id = data;
@@ -9266,7 +9281,6 @@ function treeKontextmenu(node) {
 }
 
 function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
-	var dataUrl;
 	// nur aktualisieren, wenn Schreibrechte bestehen
 	if (sessionStorage.NurLesen) {
 		$("#Meldung").html("Sie haben keine Schreibrechte");
@@ -9281,14 +9295,16 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 		return;
 	}
 
-	// User und neue PopId mitgeben
-	dataUrl = "?user=" + sessionStorage.User + "&PopId=" + erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + "&TPopId=" + erstelleIdAusDomAttributId($(window.tpop_node_kopiert).attr("id"));
 	// und an die DB schicken
 	$.ajax({
-		// mit post hat irgend etwas in php nicht funktioniert (es wurde immer id=0 zurückgegeben), daher wieder get eingeschatet
-		type: 'get',
-		url: 'php/tpop_insert_kopie.php' + dataUrl,
+		type: 'post',
+		url: 'php/tpop_insert_kopie.php',
 		dataType: 'json',
+		data: {
+			"user": sessionStorage.User,
+			"PopId": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+			"TPopId": erstelleIdAusDomAttributId($(window.tpop_node_kopiert).attr("id"))
+		},
 		success: function (data) {
 			var NeuerNode;
 			var node_data = window.tpop_objekt_kopiert.TPopFlurname;
@@ -9330,7 +9346,7 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 
 // wird offenbar momentan nicht verwendet
 function pop_kopiert_in_pop_einfuegen(aktiver_node, parent_node) {
-	var dataUrl;
+	var data = {};
 	// nur aktualisieren, wenn Schreibrechte bestehen
 	if (sessionStorage.NurLesen) {
 		$("#Meldung").html("Sie haben keine Schreibrechte");
@@ -9349,7 +9365,8 @@ function pop_kopiert_in_pop_einfuegen(aktiver_node, parent_node) {
 		parent_node = jQuery.jstree._reference(aktiver_node)._get_parent(aktiver_node);
 	}
 	// User und neue ApArtId mitgeben
-	dataUrl = "?MutWer=" + sessionStorage.User + "&ApArtId=" + erstelleIdAusDomAttributId($(parent_node).attr("id"));
+	data.MutWer = sessionStorage.User;
+	data.ApArtId = erstelleIdAusDomAttributId($(parent_node).attr("id"));
 	// die alten id's entfernen
 	delete window.pop_objekt_kopiert.ApArtId;
 	delete window.pop_objekt_kopiert.PopId;
@@ -9358,17 +9375,18 @@ function pop_kopiert_in_pop_einfuegen(aktiver_node, parent_node) {
 	delete window.pop_objekt_kopiert.MutWer;
 	// alle verbliebenen Felder an die url hängen
 	for (i in window.pop_objekt_kopiert) {
-	//for (var i = 0; i < window.pop_objekt_kopiert.length; i++) {
 		// Nullwerte ausschliessen
 		if (window.pop_objekt_kopiert[i] !== null) {
-			dataUrl += "&" + i + "=" + window.pop_objekt_kopiert[i];
+			data[i] = window.pop_objekt_kopiert[i];
 		}
 	}
 	// und an die DB schicken
+	console.log("jetzt7");
 	$.ajax({
 		type: 'post',
-		url: 'php/pop_insert_kopie.php' + dataUrl,
+		url: 'php/pop_insert_kopie.php',
 		dataType: 'json',
+		data: data,
 		success: function (data) {
 			var NeuerNode;
 			localStorage.pop_id = data;
@@ -9402,8 +9420,9 @@ function pop_kopiert_in_pop_einfuegen(aktiver_node, parent_node) {
 	});
 }
 
+// wird offenbar momentan nicht verwendet
 function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
-	var dataUrl;
+	var data = {};
 	// nur aktualisieren, wenn Schreibrechte bestehen
 	if (sessionStorage.NurLesen) {
 		$("#Meldung").html("Sie haben keine Schreibrechte");
@@ -9422,7 +9441,8 @@ function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 		parent_node = jQuery.jstree._reference(aktiver_node)._get_parent(aktiver_node);
 	}
 	// User und neue PopId mitgeben
-	dataUrl = "?MutWer=" + sessionStorage.User + "&PopId=" + erstelleIdAusDomAttributId($(parent_node).attr("id"));
+	data.MutWer = sessionStorage.User;
+	data.PopId = erstelleIdAusDomAttributId($(parent_node).attr("id"));
 	// die alten id's entfernen
 	delete window.tpop_objekt_kopiert.PopId;
 	delete window.tpop_objekt_kopiert.TPopId;
@@ -9431,18 +9451,18 @@ function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 	delete window.tpop_objekt_kopiert.MutWer;
 	// alle verbliebenen Felder an die url hängen
 	for (i in window.tpop_objekt_kopiert) {
-	//for (var i = 0; i < window.tpop_objekt_kopiert.length; i++) {
 		// Nullwerte ausschliessen
 		if (window.tpop_objekt_kopiert[i] !== null) {
-			dataUrl += "&" + i + "=" + window.tpop_objekt_kopiert[i];
+			data[i] = window.tpop_objekt_kopiert[i];
 		}
 	}
 	// und an die DB schicken
+	console.log("jetzt8");
 	$.ajax({
-		// mit post hat irgend etwas in php nicht funktioniert (es wurde immer id=0 zurückgegeben), daher wieder get eingeschatet
-		type: 'get',
-		url: 'php/tpop_insert_kopie.php' + dataUrl,
+		type: 'post',
+		url: 'php/tpop_insert_kopie.php',
 		dataType: 'json',
+		data: data,
 		success: function (data) {
 			var NeuerNode;
 			localStorage.tpop_id = data;
@@ -9519,7 +9539,7 @@ function pruefeSchreibvoraussetzungen() {
 // speichert den Wert eines Feldes in einem Formular
 // übernimmt das Objekt, in dem geändert wurde
 function speichern(that) {
-	var Feldtyp, Formular, Feldname, Feldjson, Feldwert, Querystring, Objekt;
+	var Feldtyp, Formular, Feldname, Feldwert, Objekt;
 	if (pruefeSchreibvoraussetzungen()) {
 		Formular = $(that).attr("formular");
 		Feldname = that.name;
@@ -9722,15 +9742,16 @@ function speichern(that) {
 			case "TPopKontrJahr":
 				// wenn kein Typ/Jahr gewählt: "(kein Typ/Jahr)"
 				var tpopkontrjahr = "(kein Jahr)",
-					tpopfeldkontr_label = erstelleLabelFuerFeldkontrolle($("#TPopKontrJahr").val(), $("#spanTPopKontrTyp" + $('input[name="TPopKontrTyp"]:checked').val()).text());
-				if ($("#TPopKontrJahr").val()) {
-					tpopkontrjahr = $("#TPopKontrJahr").val();
+					tpopfeldkontr_label,
+					$TPopKontrJahr = $("#TPopKontrJahr").val();
+				if ($TPopKontrJahr) {
+					tpopkontrjahr = $TPopKontrJahr;
 				}
-				if (localStorage.tpopfreiwkontr) {
-					jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_freiwkontr'] #" + localStorage.tpopfeldkontr_id, tpopkontrjahr);
-				} else {
-					jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_feldkontr'] #" + localStorage.tpopfeldkontr_id, tpopfeldkontr_label);
-				}
+				// Problem: Es ist nicht bekannt, ob eine Freiwilligenkontrolle umbennant wird oder eine Feldkontrolle
+				// Lösung: Beide nodes umbenennen. Nur eine davon hat die richtige id
+				jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_freiwkontr'] #" + localStorage.tpopfeldkontr_id, tpopkontrjahr);
+				tpopfeldkontr_label = erstelleLabelFuerFeldkontrolle($TPopKontrJahr, $("#spanTPopKontrTyp" + $('input[name="TPopKontrTyp"]:checked').val()).text());
+				jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_feldkontr'] #" + localStorage.tpopfeldkontr_id, tpopfeldkontr_label);
 				break;
 			case "TPopBerJahr":
 			case "TPopBerEntwicklung":
@@ -12530,6 +12551,7 @@ function oeffneUri() {
 				// Die Markierung wird im load-Event wieder entfernt
 				window.tpopfreiwkontr_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+				localStorage.tpopfreiwkontr = true;
 				initiiere_tpopfeldkontr();
 			} else if (uri.getQueryParamValue('tpopmassn')) {
 				// globale Variabeln setzen

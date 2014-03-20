@@ -12,11 +12,11 @@ mysqli_set_charset($link, "utf8");
 
 // die id der zu kopierenden TPop wird übernommen
 // mit post hat irgend etwas in php nicht funktioniert (es wurde immer id=0 zurückgegeben), daher wieder get eingeschatet
-$TPopId = $_GET["TPopId"];
+$TPopId = $_POST["TPopId"];
 settype($TPopId, "integer");
-$TPopMassnId = $_GET["TPopMassnId"];
+$TPopMassnId = $_POST["TPopMassnId"];
 settype($TPopMassnId, "integer");
-$user = $_GET["user"];
+$user = $_POST["user"];
 
 // MutWann ergänzen
 $time = date('Y-m-d H:i:s');
