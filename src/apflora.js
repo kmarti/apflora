@@ -63,52 +63,52 @@ function initiiere_ap() {
 	// Wenn ein ap ausgewählt ist: Seine Daten anzeigen
 	if ($("#ap_waehlen").val() && programm_wahl !== "programm_neu") {
 		// Daten für den ap aus der DB holen
-		$.ajax({
+		var getAp = $.ajax({
 			type: 'get',
 			url: 'php/ap.php',
 			dataType: 'json',
 			data: {
 				"id": localStorage.ap_id
-			},
-			success: function (data) {
-				// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-				if (data) {
-					// ap bereitstellen
-					window.ap = data;
-					// Felder mit Daten beliefern
-					$("#ApStatus" + data.ApStatus).prop("checked", true);
-					$("#ApUmsetzung" + data.ApUmsetzung).prop("checked", true);
-					$("#ApJahr").val(data.ApJahr);
-					$("#ApArtwert").val(data.ApArtwert);
-					$("#Artname").val(data.Artname);
-					// ApBearb: Daten holen - oder vorhandene nutzen
-					if (!window.adressen_html) {
-						$.ajax({
-							type: 'get',
-							url: 'php/adressen.php',
-							dataType: 'json',
-							success: function (data2) {
-								if (data2) {
-									// Feld mit Daten beliefern
-									var html;
-									html = "<option></option>";
-									for (var i = 0; i < data2.rows.length; i++) {
-										html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
-									}
-									window.adressen_html = html;
-									$("#ApBearb").html(html);
-									$("#ApBearb").val(window.ap.ApBearb);
-								}
+			}
+		});
+		getAp.done(function(data) {
+			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+			if (data) {
+				// ap bereitstellen
+				window.ap = data;
+				// Felder mit Daten beliefern
+				$("#ApStatus" + data.ApStatus).prop("checked", true);
+				$("#ApUmsetzung" + data.ApUmsetzung).prop("checked", true);
+				$("#ApJahr").val(data.ApJahr);
+				$("#ApArtwert").val(data.ApArtwert);
+				$("#Artname").val(data.Artname);
+				// ApBearb: Daten holen - oder vorhandene nutzen
+				if (!window.adressen_html) {
+					var getAdressen = $.ajax({
+						type: 'get',
+						url: 'php/adressen.php',
+						dataType: 'json'
+					});
+					getAdressen.done(function (data2) {
+						if (data2) {
+							// Feld mit Daten beliefern
+							var html;
+							html = "<option></option>";
+							for (var i = 0; i < data2.rows.length; i++) {
+								html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
 							}
-						});
-					} else {
-						$("#ApBearb").html(window.adressen_html);
-						$("#ApBearb").val(window.ap.ApBearb);
-					}
-					// Formulare blenden
-					zeigeFormular("ap");
-					history.replaceState({ap: "ap"}, "ap", "index.html?ap=" + data.ApArtId);
+							window.adressen_html = html;
+							$("#ApBearb").html(html);
+							$("#ApBearb").val(window.ap.ApBearb);
+						}
+					});
+				} else {
+					$("#ApBearb").html(window.adressen_html);
+					$("#ApBearb").val(window.ap.ApBearb);
 				}
+				// Formulare blenden
+				zeigeFormular("ap");
+				history.replaceState({ap: "ap"}, "ap", "index.html?ap=" + data.ApArtId);
 			}
 		});
 	} else if ($("#ap_waehlen").val() && programm_wahl === "programm_neu") {
@@ -121,19 +121,19 @@ function initiiere_ap() {
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowAp(id) {
 	localStorage.ap_id = id;
-	$.ajax({
+	var getAp = $.ajax({
 		type: 'get',
 		url: 'php/ap.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.ap_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// ap bereitstellen
-				window.ap = data;
-			}
+		}
+	});
+	getAp.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// ap bereitstellen
+			window.ap = data;
 		}
 	});
 }
@@ -143,19 +143,19 @@ function hole_artliste_html() {
 	// wird benutzt von function erstelle_artlisten und initiiere_tpopmassn
 	// baut eine vollständige Artliste auf
 	if (!window.artliste_html) {
-		$.ajax({
+		var getArtliste = $.ajax({
 			type: 'get',
 			url: 'php/artliste.php',
-			dataType: 'json',
-			success: function (data) {
-				var html;
-				html = "<option></option>";
-				for (var i = 0; i < data.rows.length; i++) {
-					html += "<option value=\"" + data.rows[i].id + "\">" + data.rows[i].Artname + "</option>";
-				}
-				window.artliste_html = html;
-				liste_geholt.resolve();
+			dataType: 'json'
+		});
+		getArtliste.done(function (data) {
+			var html;
+			html = "<option></option>";
+			for (var i = 0; i < data.rows.length; i++) {
+				html += "<option value=\"" + data.rows[i].id + "\">" + data.rows[i].Artname + "</option>";
 			}
+			window.artliste_html = html;
+			liste_geholt.resolve();
 		});
 	} else {
 		liste_geholt.resolve();
@@ -185,40 +185,40 @@ function initiiere_pop() {
 	// Felder zurücksetzen
 	leereFelderVonFormular("pop");
 	// Daten für die pop aus der DB holen
-	$.ajax({
+	var getPop = $.ajax({
 		type: 'get',
 		url: 'php/pop.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.pop_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// pop bereitstellen
-				window.pop = data;
-				// Felder mit Daten beliefern
-				$("#PopHerkunft" + data.PopHerkunft).prop("checked", true);
-				if (data.PopHerkunftUnklar == 1) {
-					$("#PopHerkunftUnklar").prop("checked", true);
-				} else {
-					$("#PopHerkunftUnklar").prop("checked", false);
-				}
-				$("#PopHerkunftUnklarBegruendung").val(data.PopHerkunftUnklarBegruendung);
-				$("#PopHerkunftUnklarBegruendung").limiter(255, $("#PopHerkunftUnklarBegruendung_limit"));
-				$("#PopName").val(data.PopName);
-				$("#PopName").limiter(150, $("#PopName_limit"));
-				$("#PopNr").val(data.PopNr);
-				$("#PopBekanntSeit").val(data.PopBekanntSeit);
-				$("#PopXKoord").val(data.PopXKoord);
-				$("#PopYKoord").val(data.PopYKoord);
-				// Formulare blenden
-				zeigeFormular("pop");
-				history.replaceState({pop: "pop"}, "pop", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id);
-				// bei neuen Datensätzen Fokus steuern
-				if (!$("#PopName").val()) {
-					$("#PopNr").focus();
-				}
+		}
+	});
+	getPop.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// pop bereitstellen
+			window.pop = data;
+			// Felder mit Daten beliefern
+			$("#PopHerkunft" + data.PopHerkunft).prop("checked", true);
+			if (data.PopHerkunftUnklar == 1) {
+				$("#PopHerkunftUnklar").prop("checked", true);
+			} else {
+				$("#PopHerkunftUnklar").prop("checked", false);
+			}
+			$("#PopHerkunftUnklarBegruendung").val(data.PopHerkunftUnklarBegruendung);
+			$("#PopHerkunftUnklarBegruendung").limiter(255, $("#PopHerkunftUnklarBegruendung_limit"));
+			$("#PopName").val(data.PopName);
+			$("#PopName").limiter(150, $("#PopName_limit"));
+			$("#PopNr").val(data.PopNr);
+			$("#PopBekanntSeit").val(data.PopBekanntSeit);
+			$("#PopXKoord").val(data.PopXKoord);
+			$("#PopYKoord").val(data.PopYKoord);
+			// Formulare blenden
+			zeigeFormular("pop");
+			history.replaceState({pop: "pop"}, "pop", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id);
+			// bei neuen Datensätzen Fokus steuern
+			if (!$("#PopName").val()) {
+				$("#PopNr").focus();
 			}
 		}
 	});
@@ -228,19 +228,19 @@ function initiiere_pop() {
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowPop(id) {
 	localStorage.pop_id = id;
-	$.ajax({
+	var getPop = $.ajax({
 		type: 'get',
 		url: 'php/pop.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.pop_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// pop bereitstellen
-				window.pop = data;
-			}
+		}
+	});
+	getPop.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// pop bereitstellen
+			window.pop = data;
 		}
 	});
 }
@@ -255,31 +255,31 @@ function initiiere_apziel() {
 	// Felder zurücksetzen
 	leereFelderVonFormular("apziel");
 	// Daten für die apziel aus der DB holen
-	$.ajax({
+	var getApZiel = $.ajax({
 		type: 'get',
 		url: 'php/apziel.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.apziel_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// apziel bereitstellen
-				window.apziel = data;
-				// Felder mit Daten beliefern
-				$("#ZielJahr").val(data.ZielJahr);
-				$("#ZielTyp" + data.ZielTyp).prop("checked", true);
-				$("#ZielBezeichnung").val(data.ZielBezeichnung);
-				// Formulare blenden
-				zeigeFormular("apziel");
-				history.replaceState({apziel: "apziel"}, "apziel", "index.html?ap=" + localStorage.ap_id + "&apziel=" + localStorage.apziel_id);
-				// bei neuen Datensätzen Fokus steuern
-				if (!$("#ZielJahr").val()) {
-					$("#ZielJahr").focus();
-				}
-				apziel_initiiert.resolve();
+		}
+	});
+	getApZiel.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// apziel bereitstellen
+			window.apziel = data;
+			// Felder mit Daten beliefern
+			$("#ZielJahr").val(data.ZielJahr);
+			$("#ZielTyp" + data.ZielTyp).prop("checked", true);
+			$("#ZielBezeichnung").val(data.ZielBezeichnung);
+			// Formulare blenden
+			zeigeFormular("apziel");
+			history.replaceState({apziel: "apziel"}, "apziel", "index.html?ap=" + localStorage.ap_id + "&apziel=" + localStorage.apziel_id);
+			// bei neuen Datensätzen Fokus steuern
+			if (!$("#ZielJahr").val()) {
+				$("#ZielJahr").focus();
 			}
+			apziel_initiiert.resolve();
 		}
 	});
 	return apziel_initiiert.promise();
@@ -289,19 +289,19 @@ function initiiere_apziel() {
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowApziel(id) {
 	localStorage.apziel_id = id;
-	$.ajax({
+	var getApziel = $.ajax({
 		type: 'get',
 		url: 'php/apziel.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.apziel_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// apziel bereitstellen
-				window.apziel = data;
-			}
+		}
+	});
+	getApziel.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// apziel bereitstellen
+			window.apziel = data;
 		}
 	});
 }
@@ -315,29 +315,29 @@ function initiiere_zielber() {
 	// Felder zurücksetzen
 	leereFelderVonFormular("zielber");
 	// Daten für die zielber aus der DB holen
-	$.ajax({
+	var getZielBer = $.ajax({
 		type: 'get',
 		url: 'php/zielber.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.zielber_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// zeilber bereitstellen
-				window.zielber = data;
-				// Felder mit Daten beliefern
-				$("#ZielBerJahr").val(data.ZielBerJahr);
-				$("#ZielBerErreichung").val(data.ZielBerErreichung);
-				$("#ZielBerTxt").val(data.ZielBerTxt);
-				// Formulare blenden
-				zeigeFormular("zielber");
-				history.replaceState({zielber: "zielber"}, "zielber", "index.html?ap=" + localStorage.ap_id + "&apziel=" + localStorage.apziel_id + "&zielber=" + localStorage.zielber_id);
-				// bei neuen Datensätzen Fokus steuern
-				if (!$("#ZielBerJahr").val()) {
-					$("#ZielBerJahr").focus();
-				}
+		}
+	});
+	getZielBer.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// zeilber bereitstellen
+			window.zielber = data;
+			// Felder mit Daten beliefern
+			$("#ZielBerJahr").val(data.ZielBerJahr);
+			$("#ZielBerErreichung").val(data.ZielBerErreichung);
+			$("#ZielBerTxt").val(data.ZielBerTxt);
+			// Formulare blenden
+			zeigeFormular("zielber");
+			history.replaceState({zielber: "zielber"}, "zielber", "index.html?ap=" + localStorage.ap_id + "&apziel=" + localStorage.apziel_id + "&zielber=" + localStorage.zielber_id);
+			// bei neuen Datensätzen Fokus steuern
+			if (!$("#ZielBerJahr").val()) {
+				$("#ZielBerJahr").focus();
 			}
 		}
 	});
@@ -347,19 +347,19 @@ function initiiere_zielber() {
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowZielber(id) {
 	localStorage.zielber_id = id;
-	$.ajax({
+	var getZielber = $.ajax({
 		type: 'get',
 		url: 'php/zielber.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.zielber_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// zielber bereitstellen
-				window.zielber = data;
-			}
+		}
+	});
+	getZielber.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// zielber bereitstellen
+			window.zielber = data;
 		}
 	});
 }
@@ -373,29 +373,29 @@ function initiiere_erfkrit() {
 	// Felder zurücksetzen
 	leereFelderVonFormular("erfkrit");
 	// Daten für die erfkrit aus der DB holen
-	$.ajax({
+	var getErfkrit = $.ajax({
 		type: 'get',
 		url: 'php/erfkrit.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.erfkrit_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// erfkrit bereitstellen
-				window.erfkrit = data;
-				// Felder mit Daten beliefern
-				$("#ErfkritErreichungsgrad" + data.ErfkritErreichungsgrad).prop("checked", true);
-				$("#ErfkritTxt").val(data.ErfkritTxt);
-				$("#ErfkritTxt").limiter(255, $("#ErfkritTxt_limit"));
-				// Formulare blenden
-				zeigeFormular("erfkrit");
-				history.replaceState({erfkrit: "erfkrit"}, "erfkrit", "index.html?ap=" + localStorage.ap_id + "&erfkrit=" + localStorage.erfkrit_id);
-				// bei neuen Datensätzen Fokus steuern
-				if (!$("#ErfkritErreichungsgrad").val()) {
-					$("#ErfkritErreichungsgrad").focus();
-				}
+		}
+	});
+	getErfkrit.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// erfkrit bereitstellen
+			window.erfkrit = data;
+			// Felder mit Daten beliefern
+			$("#ErfkritErreichungsgrad" + data.ErfkritErreichungsgrad).prop("checked", true);
+			$("#ErfkritTxt").val(data.ErfkritTxt);
+			$("#ErfkritTxt").limiter(255, $("#ErfkritTxt_limit"));
+			// Formulare blenden
+			zeigeFormular("erfkrit");
+			history.replaceState({erfkrit: "erfkrit"}, "erfkrit", "index.html?ap=" + localStorage.ap_id + "&erfkrit=" + localStorage.erfkrit_id);
+			// bei neuen Datensätzen Fokus steuern
+			if (!$("#ErfkritErreichungsgrad").val()) {
+				$("#ErfkritErreichungsgrad").focus();
 			}
 		}
 	});
@@ -405,19 +405,19 @@ function initiiere_erfkrit() {
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowErfkrit(id) {
 	localStorage.erfkrit_id = id;
-	$.ajax({
+	var getErfkrit = $.ajax({
 		type: 'get',
 		url: 'php/erfkrit.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.erfkrit_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// erfkrit bereitstellen
-				window.erfkrit = data;
-			}
+		}
+	});
+	getErfkrit.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// erfkrit bereitstellen
+			window.erfkrit = data;
 		}
 	});
 }
@@ -431,71 +431,71 @@ function initiiere_jber() {
 	// Felder zurücksetzen
 	leereFelderVonFormular("jber");
 	// Daten für die jber aus der DB holen
-	$.ajax({
+	var getJber = $.ajax({
 		type: 'get',
 		url: 'php/jber.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.jber_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// jber bereitstellen
-				window.jber = data;
-				// Felder mit Daten beliefern
-				$("#JBerJahr").val(data.JBerJahr);
-				$("#JBerSituation").val(data.JBerSituation);
-				$("#JBerVergleichVorjahrGesamtziel").val(data.JBerVergleichVorjahrGesamtziel);
-				$("#JBerBeurteilung" + data.JBerBeurteilung).prop("checked", true);
-				// escapen, + und - werden sonst verändert
-				$("#JBerVeraenGegenVorjahr\\" + data.JBerVeraenGegenVorjahr).prop("checked", true);
-				$("#JBerAnalyse").val(data.JBerAnalyse);
-				$("#JBerAnalyse").limiter(255, $("#JBerAnalyse_limit"));
-				$("#JBerUmsetzung").val(data.JBerUmsetzung);
-				$("#JBerErfko").val(data.JBerErfko);
-				$("#JBerATxt").val(data.JBerATxt);
-				$("#JBerBTxt").val(data.JBerBTxt);
-				$("#JBerCTxt").val(data.JBerCTxt);
-				$("#JBerDTxt").val(data.JBerDTxt);
-				if (data.JBerDatum !== "01.01.1970") {
-					// php macht aus einem Nullwert im Datum den 1.1.1970!!!
-					$("#JBerDatum").val(data.JBerDatum);
-				} else {
-					$("#JBerDatum").val("");
-				}
-				// JBerBearb: Daten holen - oder vorhandene nutzen
-				if (!window.adressen_html) {
-					$.ajax({
-						type: 'get',
-						url: 'php/adressen.php',
-						dataType: 'json',
-						success: function (data2) {
-							if (data2) {
-								// adressen bereitstellen
-								// Feld mit Daten beliefern
-								var html;
-								html = "<option></option>";
-								for (var i = 0; i < data2.rows.length; i++) {
-									html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
-								}
-								window.adressen_html = html;
-								$("#JBerBearb").html(html);
-								$("#JBerBearb").val(window.jber.JBerBearb);
-							}
+		}
+	});
+	getJber.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// jber bereitstellen
+			window.jber = data;
+			// Felder mit Daten beliefern
+			$("#JBerJahr").val(data.JBerJahr);
+			$("#JBerSituation").val(data.JBerSituation);
+			$("#JBerVergleichVorjahrGesamtziel").val(data.JBerVergleichVorjahrGesamtziel);
+			$("#JBerBeurteilung" + data.JBerBeurteilung).prop("checked", true);
+			// escapen, + und - werden sonst verändert
+			$("#JBerVeraenGegenVorjahr\\" + data.JBerVeraenGegenVorjahr).prop("checked", true);
+			$("#JBerAnalyse").val(data.JBerAnalyse);
+			$("#JBerAnalyse").limiter(255, $("#JBerAnalyse_limit"));
+			$("#JBerUmsetzung").val(data.JBerUmsetzung);
+			$("#JBerErfko").val(data.JBerErfko);
+			$("#JBerATxt").val(data.JBerATxt);
+			$("#JBerBTxt").val(data.JBerBTxt);
+			$("#JBerCTxt").val(data.JBerCTxt);
+			$("#JBerDTxt").val(data.JBerDTxt);
+			if (data.JBerDatum !== "01.01.1970") {
+				// php macht aus einem Nullwert im Datum den 1.1.1970!!!
+				$("#JBerDatum").val(data.JBerDatum);
+			} else {
+				$("#JBerDatum").val("");
+			}
+			// JBerBearb: Daten holen - oder vorhandene nutzen
+			if (!window.adressen_html) {
+				var getAdressen = $.ajax({
+					type: 'get',
+					url: 'php/adressen.php',
+					dataType: 'json'
+				});
+				getAdressen.done(function (data2) {
+					if (data2) {
+						// adressen bereitstellen
+						// Feld mit Daten beliefern
+						var html;
+						html = "<option></option>";
+						for (var i = 0; i < data2.rows.length; i++) {
+							html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
 						}
-					});
-				} else {
-					$("#JBerBearb").html(window.adressen_html);
-					$("#JBerBearb").val(window.jber.JBerBearb);
-				}
-				// Formulare blenden
-				zeigeFormular("jber");
-				history.replaceState({jber: "jber"}, "jber", "index.html?ap=" + localStorage.ap_id + "&jber=" + localStorage.jber_id);
-				// bei neuen Datensätzen Fokus steuern
-				if (!$("#JBerJahr").val()) {
-					$("#JBerJahr").focus();
-				}
+						window.adressen_html = html;
+						$("#JBerBearb").html(html);
+						$("#JBerBearb").val(window.jber.JBerBearb);
+					}
+				});
+			} else {
+				$("#JBerBearb").html(window.adressen_html);
+				$("#JBerBearb").val(window.jber.JBerBearb);
+			}
+			// Formulare blenden
+			zeigeFormular("jber");
+			history.replaceState({jber: "jber"}, "jber", "index.html?ap=" + localStorage.ap_id + "&jber=" + localStorage.jber_id);
+			// bei neuen Datensätzen Fokus steuern
+			if (!$("#JBerJahr").val()) {
+				$("#JBerJahr").focus();
 			}
 		}
 	});
@@ -505,19 +505,19 @@ function initiiere_jber() {
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowJber(id) {
 	localStorage.jber_id = id;
-	$.ajax({
+	var getJber = $.ajax({
 		type: 'get',
 		url: 'php/jber.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.jber_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// jber bereitstellen
-				window.jber = data;
-			}
+		}
+	});
+	getJber.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// jber bereitstellen
+			window.jber = data;
 		}
 	});
 }
@@ -531,29 +531,29 @@ function initiiere_jber_uebersicht() {
 	// Felder zurücksetzen
 	leereFelderVonFormular("jber_uebersicht");
 	// Daten für die jber_uebersicht aus der DB holen
-	$.ajax({
+	var getJberUebersicht = $.ajax({
 		type: 'get',
 		url: 'php/jber_uebersicht.php',
 		dataType: 'json',
 		data: {
 			"JbuJahr": localStorage.jber_uebersicht_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// jber_uebersicht bereitstellen
-				window.jber_uebersicht = data;
-				// Felder mit Daten beliefern
-				$("#JbuJahr").val(data.JbuJahr);
-				$("#JbuBemerkungen").val(data.JbuBemerkungen);
-				// FitToContent("Bemerkungen", document.documentElement.clientHeight);
-				// Formulare blenden
-				zeigeFormular("jber_uebersicht");
-				history.replaceState({jber_uebersicht: "jber_uebersicht"}, "jber_uebersicht", "index.html?ap=" + localStorage.ap_id + "&jber_uebersicht=" + localStorage.jber_uebersicht_id);
-				// bei neuen Datensätzen Fokus steuern
-				if (!$("#JbuJahr").val()) {
-					$("#JbuJahr").focus();
-				}
+		}
+	});
+	getJberUebersicht.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// jber_uebersicht bereitstellen
+			window.jber_uebersicht = data;
+			// Felder mit Daten beliefern
+			$("#JbuJahr").val(data.JbuJahr);
+			$("#JbuBemerkungen").val(data.JbuBemerkungen);
+			// FitToContent("Bemerkungen", document.documentElement.clientHeight);
+			// Formulare blenden
+			zeigeFormular("jber_uebersicht");
+			history.replaceState({jber_uebersicht: "jber_uebersicht"}, "jber_uebersicht", "index.html?ap=" + localStorage.ap_id + "&jber_uebersicht=" + localStorage.jber_uebersicht_id);
+			// bei neuen Datensätzen Fokus steuern
+			if (!$("#JbuJahr").val()) {
+				$("#JbuJahr").focus();
 			}
 		}
 	});
@@ -563,19 +563,19 @@ function initiiere_jber_uebersicht() {
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowJberUebersicht(id) {
 	localStorage.jber_uebersicht_id = id;
-	$.ajax({
+	var getJberUebersicht = $.ajax({
 		type: 'get',
 		url: 'php/jber_uebersicht.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.jber_uebersicht_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// jber_uebersicht bereitstellen
-				window.jber_uebersicht = data;
-			}
+		}
+	});
+	getJberUebersicht.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// jber_uebersicht bereitstellen
+			window.jber_uebersicht = data;
 		}
 	});
 }
@@ -589,41 +589,40 @@ function initiiere_ber() {
 	// Felder zurücksetzen
 	leereFelderVonFormular("ber");
 	// Daten für die ber aus der DB holen
-	$.ajax({
+	var getBer = $.ajax({
 		type: 'get',
 		url: 'php/ber.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.ber_id
-		},
-		success: function (data) {
-			var tempUrl;
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// ber bereitstellen
-				window.ber = data;
-				// Felder mit Daten beliefern
-				$("#BerAutor").val(data.BerAutor);
-				$("#BerJahr").val(data.BerJahr);
-				$("#BerTitel").val(data.BerTitel);
-				$("#BerTitel").limiter(255, $("#BerTitel_limit"));
-				$("#BerURL").val(data.BerURL);
-				$("#BerURL").limiter(255, $("#BerURL_limit"));
-				// URL-Link initialisieren, wird bei Änderung der URL in index.html angepasst
-				$('#BerURLHref').attr('onClick', "window.open('" + data.BerURL + "', target='_blank')");
-				// Formulare blenden
-				zeigeFormular("ber");
-				history.replaceState({ber: "ber"}, "ber", "index.html?ap=" + localStorage.ap_id + "&ber=" + localStorage.ber_id);
-				// bei neuen Datensätzen Fokus steuern
-				if (!$("#BerAutor").val()) {
-					$("#BerAutor").focus();
-				} else if (!$("#BerJahr").val()) {
-					$("#BerJahr").focus();
-				} else if (!$("#BerTitel").val()) {
-					$("#BerTitel").focus();
-				} else if (!$("#BerURL").val()) {
-					$("#BerURL").focus();
-				}
+		}
+	});
+	getBer.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// ber bereitstellen
+			window.ber = data;
+			// Felder mit Daten beliefern
+			$("#BerAutor").val(data.BerAutor);
+			$("#BerJahr").val(data.BerJahr);
+			$("#BerTitel").val(data.BerTitel);
+			$("#BerTitel").limiter(255, $("#BerTitel_limit"));
+			$("#BerURL").val(data.BerURL);
+			$("#BerURL").limiter(255, $("#BerURL_limit"));
+			// URL-Link initialisieren, wird bei Änderung der URL in index.html angepasst
+			$('#BerURLHref').attr('onClick', "window.open('" + data.BerURL + "', target='_blank')");
+			// Formulare blenden
+			zeigeFormular("ber");
+			history.replaceState({ber: "ber"}, "ber", "index.html?ap=" + localStorage.ap_id + "&ber=" + localStorage.ber_id);
+			// bei neuen Datensätzen Fokus steuern
+			if (!$("#BerAutor").val()) {
+				$("#BerAutor").focus();
+			} else if (!$("#BerJahr").val()) {
+				$("#BerJahr").focus();
+			} else if (!$("#BerTitel").val()) {
+				$("#BerTitel").focus();
+			} else if (!$("#BerURL").val()) {
+				$("#BerURL").focus();
 			}
 		}
 	});
@@ -633,19 +632,19 @@ function initiiere_ber() {
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowBer(id) {
 	localStorage.ber_id = id;
-	$.ajax({
+	var getBer = $.ajax({
 		type: 'get',
 		url: 'php/ber.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.ber_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// ber bereitstellen
-				window.ber = data;
-			}
+		}
+	});
+	getBer.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// ber bereitstellen
+			window.ber = data;
 		}
 	});
 }
@@ -659,91 +658,89 @@ function initiiere_idealbiotop() {
 	// Felder zurücksetzen
 	leereFelderVonFormular("idealbiotop");
 	// Daten für die idealbiotop aus der DB holen
-	$.ajax({
+	var getIdealbiotop = $.ajax({
 		type: 'get',
 		url: 'php/idealbiotop.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.ap_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// idealbiotop bereitstellen
-				localStorage.idealbiotop_id = data.IbApArtId;
-				window.idealbiotop = data;
-				// Felder mit Daten beliefern
-				if (data.IbErstelldatum !== "01.01.1970") {
-					// php macht aus einem Nullwert im Datum den 1.1.1970!!!
-					$("#IbErstelldatum").val(data.IbErstelldatum);
-				}
-				$("#IbHoehenlage").val(data.IbHoehenlage);
-				$("#IbRegion").val(data.IbRegion);
-				$("#IbExposition").val(data.IbExposition);
-				$("#IbBesonnung").val(data.IbBesonnung);
-				$("#IbHangneigung").val(data.IbHangneigung);
-				$("#IbBodenTyp").val(data.IbBodenTyp);
-				$("#IbBodenKalkgehalt").val(data.IbBodenKalkgehalt);
-				$("#IbBodenDurchlaessigkeit").val(data.IbBodenDurchlaessigkeit);
-				$("#IbBodenHumus").val(data.IbBodenHumus);
-				$("#IbBodenNaehrstoffgehalt").val(data.IbBodenNaehrstoffgehalt);
-				$("#IbWasserhaushalt").val(data.IbWasserhaushalt);
-				$("#IbKonkurrenz").val(data.IbKonkurrenz);
-				$("#IbMoosschicht").val(data.IbMoosschicht);
-				$("#IbKrautschicht").val(data.IbKrautschicht);
-				$("#IbStrauchschicht").val(data.IbStrauchschicht);
-				$("#IbBaumschicht").val(data.IbBaumschicht);
-				$("#IbBemerkungen").val(data.IbBemerkungen);
-				// Formulare blenden
-				zeigeFormular("idealbiotop");
-				history.replaceState({idealbiotop: "idealbiotop"}, "idealbiotop", "index.html?ap=" + localStorage.ap_id + "&idealbiotop=" + localStorage.idealbiotop_id);
-				// bei neuen Datensätzen Fokus steuern
-				if (!$("#IbErstelldatum").val()) {
-					$("#IbErstelldatum").focus();
-				}
-			} else {
-				// nur aktualisieren, wenn Schreibrechte bestehen
-				if (sessionStorage.NurLesen) {
-					$("#Meldung").html("Sie haben keine Schreibrechte");
-					$("#Meldung").dialog({
-						modal: true,
-						buttons: {
-							Ok: function() {
-								$(this).dialog("close");
-							}
+		}
+	});
+	getIdealbiotop.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// idealbiotop bereitstellen
+			localStorage.idealbiotop_id = data.IbApArtId;
+			window.idealbiotop = data;
+			// Felder mit Daten beliefern
+			if (data.IbErstelldatum !== "01.01.1970") {
+				// php macht aus einem Nullwert im Datum den 1.1.1970!!!
+				$("#IbErstelldatum").val(data.IbErstelldatum);
+			}
+			$("#IbHoehenlage").val(data.IbHoehenlage);
+			$("#IbRegion").val(data.IbRegion);
+			$("#IbExposition").val(data.IbExposition);
+			$("#IbBesonnung").val(data.IbBesonnung);
+			$("#IbHangneigung").val(data.IbHangneigung);
+			$("#IbBodenTyp").val(data.IbBodenTyp);
+			$("#IbBodenKalkgehalt").val(data.IbBodenKalkgehalt);
+			$("#IbBodenDurchlaessigkeit").val(data.IbBodenDurchlaessigkeit);
+			$("#IbBodenHumus").val(data.IbBodenHumus);
+			$("#IbBodenNaehrstoffgehalt").val(data.IbBodenNaehrstoffgehalt);
+			$("#IbWasserhaushalt").val(data.IbWasserhaushalt);
+			$("#IbKonkurrenz").val(data.IbKonkurrenz);
+			$("#IbMoosschicht").val(data.IbMoosschicht);
+			$("#IbKrautschicht").val(data.IbKrautschicht);
+			$("#IbStrauchschicht").val(data.IbStrauchschicht);
+			$("#IbBaumschicht").val(data.IbBaumschicht);
+			$("#IbBemerkungen").val(data.IbBemerkungen);
+			// Formulare blenden
+			zeigeFormular("idealbiotop");
+			history.replaceState({idealbiotop: "idealbiotop"}, "idealbiotop", "index.html?ap=" + localStorage.ap_id + "&idealbiotop=" + localStorage.idealbiotop_id);
+			// bei neuen Datensätzen Fokus steuern
+			if (!$("#IbErstelldatum").val()) {
+				$("#IbErstelldatum").focus();
+			}
+		} else {
+			// nur aktualisieren, wenn Schreibrechte bestehen
+			if (sessionStorage.NurLesen) {
+				$("#Meldung").html("Sie haben keine Schreibrechte");
+				$("#Meldung").dialog({
+					modal: true,
+					buttons: {
+						Ok: function() {
+							$(this).dialog("close");
 						}
-					});
-					return;
-				}
-				// null zurückgekommen > Datesatz schaffen
-				$.ajax({
-					type: 'post',
-					url: 'php/idealbiotop_insert.php',
-					dataType: 'json',
-					data: {
-						"id": localStorage.ap_id,
-						"user": sessionStorage.User
-					},
-					success: function (data) {
-						localStorage.idealbiotop_id = data.IbApArtId;
-						initiiere_idealbiotop();
-					},
-					error: function (data) {
-						$("#Meldung").html("Fehler: Kein Idealbiotop erstellt");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
 					}
 				});
+				return;
 			}
-		},
-		error: function () {
-			// nichts machen, sonst gibt es eine Endlosschlaufe
+
+			// null zurückgekommen > Datesatz schaffen
+			var insertIdealbiotop = $.ajax({
+				type: 'post',
+				url: 'php/idealbiotop_insert.php',
+				dataType: 'json',
+				data: {
+					"id": localStorage.ap_id,
+					"user": sessionStorage.User
+				}
+			});
+			insertIdealbiotop.done(function (data) {
+				localStorage.idealbiotop_id = data.IbApArtId;
+				initiiere_idealbiotop();
+			});
+			insertIdealbiotop.fail(function (data) {
+				$("#Meldung").html("Fehler: Kein Idealbiotop erstellt");
+				$("#Meldung").dialog({
+					modal: true,
+					buttons: {
+						Ok: function() {
+							$(this).dialog("close");
+						}
+					}
+				});
+			});
 		}
 	});
 }
@@ -752,19 +749,19 @@ function initiiere_idealbiotop() {
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowIdealbiotop(id) {
 	localStorage.idealbiotop_id = id;
-	$.ajax({
+	var getIdealbiotop = $.ajax({
 		type: 'get',
 		url: 'php/idealbiotop.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.idealbiotop_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// idealbiotop bereitstellen
-				window.idealbiotop = data;
-			}
+		}
+	});
+	getIdealbiotop.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// idealbiotop bereitstellen
+			window.idealbiotop = data;
 		}
 	});
 }
@@ -778,29 +775,28 @@ function initiiere_assozarten() {
 	// Felder zurücksetzen
 	leereFelderVonFormular("assozarten");
 	// Daten für die assozarten aus der DB holen
-	$.ajax({
+	var getAssozarten = $.ajax({
 		type: 'get',
 		url: 'php/assozarten.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.assozarten_id
-		},
-		success: function (data) {
-			var tempUrl;
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// assozarten bereitstellen
-				window.assozarten = data;
-				// Felder mit Daten beliefern
-				$("#AaSisfNr").val(data.AaSisfNr);
-				$("#AaBem").val(data.AaBem);
-				// Formulare blenden
-				zeigeFormular("assozarten");
-				history.replaceState({assozarten: "assozarten"}, "assozarten", "index.html?ap=" + localStorage.ap_id + "&assozarten=" + localStorage.assozarten_id);
-				// bei neuen Datensätzen Fokus steuern
-				if (!$("#AaSisfNr").val()) {
-					$("#AaSisfNr").focus();
-				}
+		}
+	});
+	getAssozarten.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// assozarten bereitstellen
+			window.assozarten = data;
+			// Felder mit Daten beliefern
+			$("#AaSisfNr").val(data.AaSisfNr);
+			$("#AaBem").val(data.AaBem);
+			// Formulare blenden
+			zeigeFormular("assozarten");
+			history.replaceState({assozarten: "assozarten"}, "assozarten", "index.html?ap=" + localStorage.ap_id + "&assozarten=" + localStorage.assozarten_id);
+			// bei neuen Datensätzen Fokus steuern
+			if (!$("#AaSisfNr").val()) {
+				$("#AaSisfNr").focus();
 			}
 		}
 	});
@@ -810,19 +806,19 @@ function initiiere_assozarten() {
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowAssozarten(id) {
 	localStorage.assozarten_id = id;
-	$.ajax({
+	var getAssozarten = $.ajax({
 		type: 'get',
 		url: 'php/assozarten.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.assozarten_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// assozarten bereitstellen
-				window.assozarten = data;
-			}
+		}
+	});
+	getAssozarten.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// assozarten bereitstellen
+			window.assozarten = data;
 		}
 	});
 }
@@ -836,28 +832,28 @@ function initiiere_popmassnber() {
 	// Felder zurücksetzen
 	leereFelderVonFormular("popmassnber");
 	// Daten für die pop aus der DB holen
-	$.ajax({
+	var getPopmassnber = $.ajax({
 		type: 'get',
 		url: 'php/popmassnber.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.popmassnber_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// popmassnber bereitstellen
-				window.popmassnber = data;
-				// Felder mit Daten beliefern
-				$("#PopMassnBerJahr").val(data.PopMassnBerJahr);
-				$("#PopMassnBerErfolgsbeurteilung" + data.PopMassnBerErfolgsbeurteilung).prop("checked", true);
-				$("#PopMassnBerTxt").val(data.PopMassnBerTxt);
-				// Formulare blenden
-				zeigeFormular("popmassnber");
-				history.replaceState({popmassnber: "popmassnber"}, "popmassnber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&popmassnber=" + localStorage.popmassnber_id);
-				// bei neuen Datensätzen Fokus steuern
-				$('#PopMassnBerJahr').focus();
-			}
+		}
+	});
+	getPopmassnber.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// popmassnber bereitstellen
+			window.popmassnber = data;
+			// Felder mit Daten beliefern
+			$("#PopMassnBerJahr").val(data.PopMassnBerJahr);
+			$("#PopMassnBerErfolgsbeurteilung" + data.PopMassnBerErfolgsbeurteilung).prop("checked", true);
+			$("#PopMassnBerTxt").val(data.PopMassnBerTxt);
+			// Formulare blenden
+			zeigeFormular("popmassnber");
+			history.replaceState({popmassnber: "popmassnber"}, "popmassnber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&popmassnber=" + localStorage.popmassnber_id);
+			// bei neuen Datensätzen Fokus steuern
+			$('#PopMassnBerJahr').focus();
 		}
 	});
 }
@@ -866,19 +862,19 @@ function initiiere_popmassnber() {
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowPopmassnber(id) {
 	localStorage.popmassnber_id = id;
-	$.ajax({
+	var getPopmassnber = $.ajax({
 		type: 'get',
 		url: 'php/popmassnber.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.popmassnber_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// popmassnber bereitstellen
-				window.popmassnber = data;
-			}
+		}
+	});
+	getPopmassnber.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// popmassnber bereitstellen
+			window.popmassnber = data;
 		}
 	});
 }
@@ -892,93 +888,93 @@ function initiiere_tpop() {
 	// Felder zurücksetzen
 	leereFelderVonFormular("tpop");
 	// Daten für die pop aus der DB holen
-	$.ajax({
+	var getTPop = $.ajax({
 		type: 'get',
 		url: 'php/tpop.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.tpop_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// tpop bereitstellen
-				window.tpop = data;
-				// Felder mit Daten beliefern
-				$("#TPopFlurname").val(data.TPopFlurname);
-				$("#TPopFlurname").limiter(255, $("#TPopFlurname_limit"));
-				$("#TPopNr").val(data.TPopNr);
-				$("#TPopHerkunft" + data.TPopHerkunft).prop("checked", true);
-				if (data.TPopHerkunftUnklar == 1) {
-					$("#TPopHerkunftUnklar").prop("checked", true);
-				} else {
-					$("#TPopHerkunftUnklar").prop("checked", false);
-				}
-				$("#TPopHerkunftUnklarBegruendung").val(data.TPopHerkunftUnklarBegruendung);
-				$("#TPopHerkunftUnklarBegruendung").limiter(255, $("#TPopHerkunftUnklarBegruendung_limit"));
-				$("#TPopApBerichtRelevant" + data.TPopApBerichtRelevant).prop("checked", true);
-				$("#TPopBekanntSeit").val(data.TPopBekanntSeit);
-				$("#TPopGemeinde").val(data.TPopGemeinde);
-				$("#TPopGemeinde").limiter(255, $("#TPopGemeinde_limit"));
-				$("#TPopXKoord").val(data.TPopXKoord);
-				$("#TPopYKoord").val(data.TPopYKoord);
-				$("#TPopRadius").val(data.TPopRadius);
-				$("#TPopHoehe").val(data.TPopHoehe);
-				$("#TPopExposition").val(data.TPopExposition);
-				$("#TPopExposition").limiter(50, $("#TPopExposition_limit"));
-				$("#TPopKlima").val(data.TPopKlima);
-				$("#TPopKlima").limiter(50, $("#TPopKlima_limit"));
-				$("#TPopNeigung").val(data.TPopNeigung);
-				$("#TPopNeigung").limiter(50, $("#TPopNeigung_limit"));
-				$("#TPopBeschr").val(data.TPopBeschr);
-				$("#TPopBeschr").limiter(255, $("#TPopBeschr_limit"));
-				$("#TPopKatNr").val(data.TPopKatNr);
-				$("#TPopKatNr").limiter(255, $("#TPopKatNr_limit"));
-				$("#TPopEigen").val(data.TPopEigen);
-				$("#TPopEigen").limiter(255, $("#TPopEigen_limit"));
-				$("#TPopKontakt").val(data.TPopKontakt);
-				$("#TPopKontakt").limiter(255, $("#TPopKontakt_limit"));
-				$("#TPopNutzungszone").val(data.TPopNutzungszone);
-				$("#TPopNutzungszone").limiter(255, $("#TPopNutzungszone_limit"));
-				$("#TPopBewirtschafterIn").val(data.TPopBewirtschafterIn);
-				$("#TPopBewirtschafterIn").limiter(255, $("#TPopBewirtschafterIn_limit"));
-				$("#TPopBewirtschaftung").val(data.TPopBewirtschaftung);
-				$("#TPopBewirtschaftung").limiter(255, $("#TPopBewirtschaftung_limit"));
-				$("#TPopTxt").val(data.TPopTxt);
-				// für select Daten holen - oder vorhandene nutzen
-				if (!window.adressen_html) {
-					$.ajax({
-						type: 'get',
-						url: 'php/adressen.php',
-						dataType: 'json',
-						success: function (data2) {
-							if (data2) {
-								// adressen bereitstellen
-								window.adressen = data2;
-								localStorage.adressen = JSON.stringify(data2);
-								// Feld mit Daten beliefern
-								var html;
-								html = "<option></option>";
-								for (var i = 0; i < data2.rows.length; i++) {
-									html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
-								}
-								window.adressen_html = html;
-								$("#TPopVerantw").html(html);
-								$("#TPopVerantw").val(window.tpop.TPopVerantw);
-							}
+		}
+	});
+	getTPop.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// tpop bereitstellen
+			window.tpop = data;
+			// Felder mit Daten beliefern
+			$("#TPopFlurname").val(data.TPopFlurname);
+			$("#TPopFlurname").limiter(255, $("#TPopFlurname_limit"));
+			$("#TPopNr").val(data.TPopNr);
+			$("#TPopHerkunft" + data.TPopHerkunft).prop("checked", true);
+			if (data.TPopHerkunftUnklar == 1) {
+				$("#TPopHerkunftUnklar").prop("checked", true);
+			} else {
+				$("#TPopHerkunftUnklar").prop("checked", false);
+			}
+			$("#TPopHerkunftUnklarBegruendung").val(data.TPopHerkunftUnklarBegruendung);
+			$("#TPopHerkunftUnklarBegruendung").limiter(255, $("#TPopHerkunftUnklarBegruendung_limit"));
+			$("#TPopApBerichtRelevant" + data.TPopApBerichtRelevant).prop("checked", true);
+			$("#TPopBekanntSeit").val(data.TPopBekanntSeit);
+			$("#TPopGemeinde").val(data.TPopGemeinde);
+			$("#TPopGemeinde").limiter(255, $("#TPopGemeinde_limit"));
+			$("#TPopXKoord").val(data.TPopXKoord);
+			$("#TPopYKoord").val(data.TPopYKoord);
+			$("#TPopRadius").val(data.TPopRadius);
+			$("#TPopHoehe").val(data.TPopHoehe);
+			$("#TPopExposition").val(data.TPopExposition);
+			$("#TPopExposition").limiter(50, $("#TPopExposition_limit"));
+			$("#TPopKlima").val(data.TPopKlima);
+			$("#TPopKlima").limiter(50, $("#TPopKlima_limit"));
+			$("#TPopNeigung").val(data.TPopNeigung);
+			$("#TPopNeigung").limiter(50, $("#TPopNeigung_limit"));
+			$("#TPopBeschr").val(data.TPopBeschr);
+			$("#TPopBeschr").limiter(255, $("#TPopBeschr_limit"));
+			$("#TPopKatNr").val(data.TPopKatNr);
+			$("#TPopKatNr").limiter(255, $("#TPopKatNr_limit"));
+			$("#TPopEigen").val(data.TPopEigen);
+			$("#TPopEigen").limiter(255, $("#TPopEigen_limit"));
+			$("#TPopKontakt").val(data.TPopKontakt);
+			$("#TPopKontakt").limiter(255, $("#TPopKontakt_limit"));
+			$("#TPopNutzungszone").val(data.TPopNutzungszone);
+			$("#TPopNutzungszone").limiter(255, $("#TPopNutzungszone_limit"));
+			$("#TPopBewirtschafterIn").val(data.TPopBewirtschafterIn);
+			$("#TPopBewirtschafterIn").limiter(255, $("#TPopBewirtschafterIn_limit"));
+			$("#TPopBewirtschaftung").val(data.TPopBewirtschaftung);
+			$("#TPopBewirtschaftung").limiter(255, $("#TPopBewirtschaftung_limit"));
+			$("#TPopTxt").val(data.TPopTxt);
+			// für select Daten holen - oder vorhandene nutzen
+			if (!window.adressen_html) {
+				var getAdressen = $.ajax({
+					type: 'get',
+					url: 'php/adressen.php',
+					dataType: 'json'
+				});
+				getAdressen.done(function (data2) {
+					if (data2) {
+						// adressen bereitstellen
+						window.adressen = data2;
+						localStorage.adressen = JSON.stringify(data2);
+						// Feld mit Daten beliefern
+						var html;
+						html = "<option></option>";
+						for (var i = 0; i < data2.rows.length; i++) {
+							html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
 						}
-					});
-				} else {
-					$("#TPopVerantw").html(window.adressen_html);
-					$("#TPopVerantw").val(window.tpop.TPopVerantw);
-				}
-				// Formulare blenden
-				zeigeFormular("tpop");
-				history.replaceState({tpop: "tpop"}, "tpop", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id);
-				// bei neuen Datensätzen Fokus steuern
-				if (!$("#TPopFlurname").val()) {
-					$('#TPopNr').focus();
-				}
+						window.adressen_html = html;
+						$("#TPopVerantw").html(html);
+						$("#TPopVerantw").val(window.tpop.TPopVerantw);
+					}
+				});
+			} else {
+				$("#TPopVerantw").html(window.adressen_html);
+				$("#TPopVerantw").val(window.tpop.TPopVerantw);
+			}
+			// Formulare blenden
+			zeigeFormular("tpop");
+			history.replaceState({tpop: "tpop"}, "tpop", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id);
+			// bei neuen Datensätzen Fokus steuern
+			if (!$("#TPopFlurname").val()) {
+				$('#TPopNr').focus();
 			}
 		}
 	});
@@ -988,19 +984,19 @@ function initiiere_tpop() {
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowTpop(id) {
 	localStorage.tpop_id = id;
-	$.ajax({
+	var getTPop = $.ajax({
 		type: 'get',
 		url: 'php/tpop.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.tpop_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// tpop bereitstellen
-				window.tpop = data;
-			}
+		}
+	});
+	getTPop.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// tpop bereitstellen
+			window.tpop = data;
 		}
 	});
 }
@@ -1014,28 +1010,28 @@ function initiiere_popber() {
 	// Felder zurücksetzen
 	leereFelderVonFormular("popber");
 	// Daten für die popber aus der DB holen
-	$.ajax({
+	var getPopber = $.ajax({
 		type: 'get',
 		url: 'php/popber.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.popber_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// popber bereitstellen
-				window.popber = data;
-				// Felder mit Daten beliefern
-				$("#PopBerJahr").val(data.PopBerJahr);
-				$("#PopBerEntwicklung" + data.PopBerEntwicklung).prop("checked", true);
-				$("#PopBerTxt").val(data.PopBerTxt);
-				// Formulare blenden
-				zeigeFormular("popber");
-				history.replaceState({tpopber: "popber"}, "popber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&popber=" + localStorage.popber_id);
-				// bei neuen Datensätzen Fokus steuern
-				$('#PopBerJahr').focus();
-			}
+		}
+	});
+	getPopber.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// popber bereitstellen
+			window.popber = data;
+			// Felder mit Daten beliefern
+			$("#PopBerJahr").val(data.PopBerJahr);
+			$("#PopBerEntwicklung" + data.PopBerEntwicklung).prop("checked", true);
+			$("#PopBerTxt").val(data.PopBerTxt);
+			// Formulare blenden
+			zeigeFormular("popber");
+			history.replaceState({tpopber: "popber"}, "popber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&popber=" + localStorage.popber_id);
+			// bei neuen Datensätzen Fokus steuern
+			$('#PopBerJahr').focus();
 		}
 	});
 }
@@ -1044,19 +1040,19 @@ function initiiere_popber() {
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowPopber(id) {
 	localStorage.popber_id = id;
-	$.ajax({
+	var getPopber = $.ajax({
 		type: 'get',
 		url: 'php/popber.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.popber_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// popber bereitstellen
-				window.popber = data;
-			}
+		}
+	});
+	getPopber.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// popber bereitstellen
+			window.popber = data;
 		}
 	});
 }
@@ -1077,253 +1073,253 @@ function initiiere_tpopfeldkontr() {
 		$(this).hide();
 	});
 	// Daten für die tpopfeldkontr aus der DB holen
-	$.ajax({
+	var getTpopfeldkontr = $.ajax({
 		type: 'get',
 		url: 'php/tpopfeldkontr.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.tpopfeldkontr_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// tpopfeldkontr bereitstellen
-				window.tpopfeldkontr = data;
-				// gemeinsame Felder
-				// mit Daten beliefern
-				$("#TPopKontrJahr").val(data.TPopKontrJahr);
-				if (data.TPopKontrDatum !== "01.01.1970") {
-					// php macht aus einem Nullwert im Datum den 1.1.1970!!!
-					$("#TPopKontrDatum").val(data.TPopKontrDatum);
-				} else {
-					$("#TPopKontrDatum").val("");
-				}
-				$("#TPopKontrMethode1" + data.TPopKontrMethode1).prop("checked", true);
-				$("#TPopKontrAnz1").val(data.TPopKontrAnz1);
-				$("#TPopKontrMethode2" + data.TPopKontrMethode2).prop("checked", true);
-				$("#TPopKontrAnz2").val(data.TPopKontrAnz2);
-				$("#TPopKontrMethode3" + data.TPopKontrMethode3).prop("checked", true);
-				$("#TPopKontrAnz3").val(data.TPopKontrAnz3);
-				$("#TPopKontrTxt").val(data.TPopKontrTxt);
-				$("#TPopKontrGuid").val(data.TPopKontrGuid);
-				// TPopKontrBearb: Daten holen - oder vorhandene nutzen
-				if (!window.adressen_html) {
-					$.ajax({
-						type: 'get',
-						url: 'php/adressen.php',
-						dataType: 'json',
-						success: function (data2) {
-							if (data2) {
-								// Feld mit Daten beliefern
-								var html;
-								html = "<option></option>";
-								for (var i = 0; i < data2.rows.length; i++) {
-									html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
-								}
-								window.adressen_html = html;
-								$("#TPopKontrBearb").html(html);
-								$("#TPopKontrBearb").val(window.tpopfeldkontr.TPopKontrBearb);
-							}
-						}
-					});
-				} else {
-					$("#TPopKontrBearb").html(window.adressen_html);
-					$("#TPopKontrBearb").val(window.tpopfeldkontr.TPopKontrBearb);
-				}
-				// für 3 selectfelder TPopKontrZaehleinheit Daten holen - oder vorhandene nutzen
-				if (!window.TPopKontrZaehleinheit_html) {
-					$.ajax({
-						type: 'get',
-						url: 'php/tpopfeldkontr_zaehleinheit.php',
-						dataType: 'json',
-						success: function (data3) {
-							if (data3) {
-								// Feld mit Daten beliefern
-								var html;
-								html = "<option></option>";
-								for (var i = 0; i < data3.rows.length; i++) {
-									html += "<option value=\"" + data3.rows[i].id + "\">" + data3.rows[i].ZaehleinheitTxt + "</option>";
-								}
-								window.TPopKontrZaehleinheit_html = html;
-								// alle 3 Felder setzen
-								$("#TPopKontrZaehleinheit1").html(html);
-								$("#TPopKontrZaehleinheit1").val(window.tpopfeldkontr.TPopKontrZaehleinheit1);
-								$("#TPopKontrZaehleinheit2").html(html);
-								$("#TPopKontrZaehleinheit2").val(window.tpopfeldkontr.TPopKontrZaehleinheit2);
-								$("#TPopKontrZaehleinheit3").html(html);
-								$("#TPopKontrZaehleinheit3").val(window.tpopfeldkontr.TPopKontrZaehleinheit3);
-							}
-						}
-					});
-				} else {
-					// alle 3 Felder setzen
-					$("#TPopKontrZaehleinheit1").html(window.TPopKontrZaehleinheit_html);
-					$("#TPopKontrZaehleinheit1").val(window.tpopfeldkontr.TPopKontrZaehleinheit1);
-					$("#TPopKontrZaehleinheit2").html(window.TPopKontrZaehleinheit_html);
-					$("#TPopKontrZaehleinheit2").val(window.tpopfeldkontr.TPopKontrZaehleinheit2);
-					$("#TPopKontrZaehleinheit3").html(window.TPopKontrZaehleinheit_html);
-					$("#TPopKontrZaehleinheit3").val(window.tpopfeldkontr.TPopKontrZaehleinheit3);
-				}
-				// Felder, die nur in der Feldkontrolle vorkommen
-				if (!localStorage.tpopfreiwkontr) {
-					$("#TPopKontrTyp" + data.TPopKontrTyp).prop("checked", true);
-					$("#TPopKontrJungpfl").val(data.TPopKontrJungpfl);
-					$("#TPopKontrVitalitaet").val(data.TPopKontrVitalitaet);
-					$("#TPopKontrVitalitaet").limiter(255, $("#TPopKontrVitalitaet_limit"));
-					$("#TPopKontrUeberleb").val(data.TPopKontrUeberleb);
-					$("#TPopKontrEntwicklung" + data.TPopKontrEntwicklung).prop("checked", true);
-					$("#TPopKontrUrsach").val(data.TPopKontrUrsach);
-					$("#TPopKontrUrsach").limiter(255, $("#TPopKontrUrsach_limit"));
-					$("#TPopKontrUrteil").val(data.TPopKontrUrteil);
-					$("#TPopKontrUrteil").limiter(255, $("#TPopKontrUrteil_limit"));
-					$("#TPopKontrAendUms").val(data.TPopKontrAendUms);
-					$("#TPopKontrAendUms").limiter(255, $("#TPopKontrAendUms_limit"));
-					$("#TPopKontrAendKontr").val(data.TPopKontrAendKontr);
-					$("#TPopKontrAendKontr").limiter(255, $("#TPopKontrAendKontr_limit"));
-					// Biotop
-					$("#TPopKontrFlaeche").val(data.TPopKontrFlaeche);
-					$("#TPopKontrVegTyp").val(data.TPopKontrVegTyp);
-					$("#TPopKontrVegTyp").limiter(100, $("#TPopKontrVegTyp_limit"));
-					$("#TPopKontrKonkurrenz").val(data.TPopKontrKonkurrenz);
-					$("#TPopKontrKonkurrenz").limiter(100, $("#TPopKontrKonkurrenz_limit"));
-					$("#TPopKontrMoosschicht").val(data.TPopKontrMoosschicht);
-					$("#TPopKontrMoosschicht").limiter(100, $("#TPopKontrMoosschicht_limit"));
-					$("#TPopKontrKrautschicht").val(data.TPopKontrKrautschicht);
-					$("#TPopKontrKrautschicht").limiter(100, $("#TPopKontrKrautschicht_limit"));
-					$("#TPopKontrStrauchschicht").val(data.TPopKontrStrauchschicht);
-					$("#TPopKontrStrauchschicht").limiter(255, $("#TPopKontrStrauchschicht_limit"));
-					$("#TPopKontrBaumschicht").val(data.TPopKontrBaumschicht);
-					$("#TPopKontrBaumschicht").limiter(100, $("#TPopKontrBaumschicht_limit"));
-					$("#TPopKontrBodenTyp").val(data.TPopKontrBodenTyp);
-					$("#TPopKontrBodenTyp").limiter(255, $("#TPopKontrBodenTyp_limit"));
-					$("#TPopKontrBodenKalkgehalt").val(data.TPopKontrBodenKalkgehalt);
-					$("#TPopKontrBodenKalkgehalt").limiter(100, $("#TPopKontrBodenKalkgehalt_limit"));
-					$("#TPopKontrBodenDurchlaessigkeit").val(data.TPopKontrBodenDurchlaessigkeit);
-					$("#TPopKontrBodenDurchlaessigkeit").limiter(100, $("#TPopKontrBodenDurchlaessigkeit_limit"));
-					$("#TPopKontrBodenHumus").val(data.TPopKontrBodenHumus);
-					$("#TPopKontrBodenHumus").limiter(100, $("#TPopKontrBodenHumus_limit"));
-					$("#TPopKontrBodenNaehrstoffgehalt").val(data.TPopKontrBodenNaehrstoffgehalt);
-					$("#TPopKontrBodenNaehrstoffgehalt").limiter(100, $("#TPopKontrBodenNaehrstoffgehalt_limit"));
-					$("#TPopKontrBodenAbtrag").val(data.TPopKontrBodenAbtrag);
-					$("#TPopKontrBodenAbtrag").limiter(255, $("#TPopKontrBodenAbtrag_limit"));
-					$("#TPopKontrWasserhaushalt").val(data.TPopKontrWasserhaushalt);
-					$("#TPopKontrWasserhaushalt").limiter(255, $("#TPopKontrWasserhaushalt_limit"));
-					$("#TPopKontrHandlungsbedarf").val(data.TPopKontrHandlungsbedarf);
-					$("#TPopKontrIdealBiotopUebereinst" + data.TPopKontrIdealBiotopUebereinst).prop("checked", true);
-					// TPopKontrLeb: Daten holen - oder vorhandene nutzen
-					if (!window.lrdelarze_html) {
-						$.ajax({
-							type: 'get',
-							url: 'php/lrdelarze.php',
-							dataType: 'json',
-							success: function (data4) {
-								if (data4) {
-									// Feld mit Daten beliefern
-									var html;
-									html = "<option></option>";
-									for (var i = 0; i < data4.rows.length; i++) {
-										html += "<option value=\"" + data4.rows[i].id + "\">" + data4.rows[i].Einheit + "</option>";
-									}
-									window.lrdelarze_html = html;
-									$("#TPopKontrLeb").html(html);
-									$("#TPopKontrLeb").val(window.tpopfeldkontr.TPopKontrLeb);
-									$("#TPopKontrLebUmg").html(html);
-									$("#TPopKontrLebUmg").val(window.tpopfeldkontr.TPopKontrLebUmg);
-								}
-							}
-						});
-					} else {
-						$("#TPopKontrLeb").html(window.lrdelarze_html);
-						$("#TPopKontrLeb").val(window.tpopfeldkontr.TPopKontrLeb);
-						$("#TPopKontrLebUmg").html(window.lrdelarze_html);
-						$("#TPopKontrLebUmg").val(window.tpopfeldkontr.TPopKontrLebUmg);
-					}
-				}
-				// TPopKontrIdealBiotopUebereinst: Daten holen - oder vorhandene nutzen
-				if (!window.IdealBiotopÜbereinst_html) {
-					$.ajax({
-						type: 'get',
-						url: 'php/idealbiotopuebereinst.php',
-						dataType: 'json',
-						success: function (data5) {
-							if (data5) {
-								// Feld mit Daten beliefern
-								var html;
-								html = "<option></option>";
-								for (var i = 0; i < data5.rows.length; i++) {
-									html += "<option value=\"" + data5.rows[i].id + "\">" + data5.rows[i].DomainTxt + "</option>";
-								}
-								window.IdealBiotopÜbereinst_html = html;
-								$("#TPopKontrIdealBiotopUebereinst").html(html);
-								$("#TPopKontrIdealBiotopUebereinst").val(window.tpopfeldkontr.TPopKontrIdealBiotopUebereinst);
-							}
-						}
-					});
-				} else {
-					$("#TPopKontrIdealBiotopUebereinst").html(window.IdealBiotopÜbereinst_html);
-					$("#TPopKontrIdealBiotopUebereinst").val(window.tpopfeldkontr.TPopKontrIdealBiotopUebereinst);
-				}
-				// Felder, die nur in freiwkontr vorkommen
-				if (localStorage.tpopfreiwkontr) {
-					if (data.TPopKontrPlan == 1) {
-						$("#TPopKontrPlan").prop("checked", true);
-					} else {
-						$("#TPopKontrPlan").prop("checked", false);
-					}
-					$("#TPopKontrUebFlaeche").val(data.TPopKontrUebFlaeche);
-					$("#TPopKontrUebPfl").val(data.TPopKontrUebPfl);
-					$("#TPopKontrNaBo").val(data.TPopKontrNaBo);
-					$("#TPopKontrJungPflJN_ja").prop("checked", false);
-					$("#TPopKontrJungPflJN_nein").prop("checked", false);
-					$("#TPopKontrJungPflJN_leer").prop("checked", false);
-					if (data.TPopKontrJungPflJN == 1) {
-						$("#TPopKontrJungPflJN_ja").prop("checked", true);
-					} else if (data.TPopKontrJungPflJN == 0) {
-						$("#TPopKontrJungPflJN_nein").prop("checked", true);
-					} else {
-						$("#TPopKontrJungPflJN_leer").prop("checked", true);
-					}
-					$("#TPopKontrVegHoeMax").val(data.TPopKontrVegHoeMax);
-					$("#TPopKontrVegHoeMit").val(data.TPopKontrVegHoeMit);
-					$("#TPopKontrGefaehrdung").val(data.TPopKontrGefaehrdung);
-					$("#TPopKontrGefaehrdung").limiter(255, $("#TPopKontrGefaehrdung_limit"));
-				}
-				// fieldcontain-divs der benötigten Felder einblenden
-				if (localStorage.tpopfreiwkontr) {
-					for (var h = 0; h < feldliste_freiwkontr.length; h++) {
-						$("#fieldcontain_" + feldliste_freiwkontr[h]).show();
-					}
-				} else {
-					for (var g = 0; g < feldliste_feldkontr.length; g++) {
-						$("#fieldcontain_" + feldliste_feldkontr[g]).show();
-					}
-				}
-				// Formulare blenden
-				zeigeFormular("tpopfeldkontr");
-				if (!localStorage.tpopfreiwkontr) {
-					history.replaceState({tpopfeldkontr: "tpopfeldkontr"}, "tpopfeldkontr", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopfeldkontr=" + localStorage.tpopfeldkontr_id);
-				} else {
-					history.replaceState({tpopfreiwkontr: "tpopfreiwkontr"}, "tpopfreiwkontr", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopfreiwkontr=" + localStorage.tpopfeldkontr_id);
-				}
-				// Register in Feldkontr blenden
-				if (localStorage.tpopfreiwkontr) {
-					$("#tpopfeldkontr_tabs_biotop").hide();
-					$("#biotop_tab_li").hide();
-					$("#tpopfeldkontr_tabs").tabs("option", "active", 0);
-				} else {
-					//$("#tpopfeldkontr_tabs_biotop").activate();
-					$("#tpopfeldkontr_tabs_biotop").show();
-					//$("#biotop_tab_li").activate();
-					$("#biotop_tab_li").show();
-					// Dieses Element wird fälschlicherweise in Entwicklung eingeblendet
-					// keine Ahnung wieso
-					// ausblenden!
-					$("#tpopfeldkontr_tabs_biotop").hide();
-				}
-				// Fokus steuern
-				$("#TPopKontrJahr").focus();
-				$(window).scrollTop(0);
+		}
+	});
+	getTpopfeldkontr.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// tpopfeldkontr bereitstellen
+			window.tpopfeldkontr = data;
+			// gemeinsame Felder
+			// mit Daten beliefern
+			$("#TPopKontrJahr").val(data.TPopKontrJahr);
+			if (data.TPopKontrDatum !== "01.01.1970") {
+				// php macht aus einem Nullwert im Datum den 1.1.1970!!!
+				$("#TPopKontrDatum").val(data.TPopKontrDatum);
+			} else {
+				$("#TPopKontrDatum").val("");
 			}
+			$("#TPopKontrMethode1" + data.TPopKontrMethode1).prop("checked", true);
+			$("#TPopKontrAnz1").val(data.TPopKontrAnz1);
+			$("#TPopKontrMethode2" + data.TPopKontrMethode2).prop("checked", true);
+			$("#TPopKontrAnz2").val(data.TPopKontrAnz2);
+			$("#TPopKontrMethode3" + data.TPopKontrMethode3).prop("checked", true);
+			$("#TPopKontrAnz3").val(data.TPopKontrAnz3);
+			$("#TPopKontrTxt").val(data.TPopKontrTxt);
+			$("#TPopKontrGuid").val(data.TPopKontrGuid);
+			// TPopKontrBearb: Daten holen - oder vorhandene nutzen
+			if (!window.adressen_html) {
+				var getAdressen = $.ajax({
+					type: 'get',
+					url: 'php/adressen.php',
+					dataType: 'json'
+				});
+				getAdressen.done(function (data2) {
+					if (data2) {
+						// Feld mit Daten beliefern
+						var html;
+						html = "<option></option>";
+						for (var i = 0; i < data2.rows.length; i++) {
+							html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
+						}
+						window.adressen_html = html;
+						$("#TPopKontrBearb").html(html);
+						$("#TPopKontrBearb").val(window.tpopfeldkontr.TPopKontrBearb);
+					}
+				});
+			} else {
+				$("#TPopKontrBearb").html(window.adressen_html);
+				$("#TPopKontrBearb").val(window.tpopfeldkontr.TPopKontrBearb);
+			}
+			// für 3 selectfelder TPopKontrZaehleinheit Daten holen - oder vorhandene nutzen
+			if (!window.TPopKontrZaehleinheit_html) {
+				var getTpopfeldkontrZaehleinheit = $.ajax({
+					type: 'get',
+					url: 'php/tpopfeldkontr_zaehleinheit.php',
+					dataType: 'json'
+				});
+				getTpopfeldkontrZaehleinheit.done(function (data3) {
+					if (data3) {
+						// Feld mit Daten beliefern
+						var html;
+						html = "<option></option>";
+						for (var i = 0; i < data3.rows.length; i++) {
+							html += "<option value=\"" + data3.rows[i].id + "\">" + data3.rows[i].ZaehleinheitTxt + "</option>";
+						}
+						window.TPopKontrZaehleinheit_html = html;
+						// alle 3 Felder setzen
+						$("#TPopKontrZaehleinheit1").html(html);
+						$("#TPopKontrZaehleinheit1").val(window.tpopfeldkontr.TPopKontrZaehleinheit1);
+						$("#TPopKontrZaehleinheit2").html(html);
+						$("#TPopKontrZaehleinheit2").val(window.tpopfeldkontr.TPopKontrZaehleinheit2);
+						$("#TPopKontrZaehleinheit3").html(html);
+						$("#TPopKontrZaehleinheit3").val(window.tpopfeldkontr.TPopKontrZaehleinheit3);
+					}
+				});
+			} else {
+				// alle 3 Felder setzen
+				$("#TPopKontrZaehleinheit1").html(window.TPopKontrZaehleinheit_html);
+				$("#TPopKontrZaehleinheit1").val(window.tpopfeldkontr.TPopKontrZaehleinheit1);
+				$("#TPopKontrZaehleinheit2").html(window.TPopKontrZaehleinheit_html);
+				$("#TPopKontrZaehleinheit2").val(window.tpopfeldkontr.TPopKontrZaehleinheit2);
+				$("#TPopKontrZaehleinheit3").html(window.TPopKontrZaehleinheit_html);
+				$("#TPopKontrZaehleinheit3").val(window.tpopfeldkontr.TPopKontrZaehleinheit3);
+			}
+			// Felder, die nur in der Feldkontrolle vorkommen
+			if (!localStorage.tpopfreiwkontr) {
+				$("#TPopKontrTyp" + data.TPopKontrTyp).prop("checked", true);
+				$("#TPopKontrJungpfl").val(data.TPopKontrJungpfl);
+				$("#TPopKontrVitalitaet").val(data.TPopKontrVitalitaet);
+				$("#TPopKontrVitalitaet").limiter(255, $("#TPopKontrVitalitaet_limit"));
+				$("#TPopKontrUeberleb").val(data.TPopKontrUeberleb);
+				$("#TPopKontrEntwicklung" + data.TPopKontrEntwicklung).prop("checked", true);
+				$("#TPopKontrUrsach").val(data.TPopKontrUrsach);
+				$("#TPopKontrUrsach").limiter(255, $("#TPopKontrUrsach_limit"));
+				$("#TPopKontrUrteil").val(data.TPopKontrUrteil);
+				$("#TPopKontrUrteil").limiter(255, $("#TPopKontrUrteil_limit"));
+				$("#TPopKontrAendUms").val(data.TPopKontrAendUms);
+				$("#TPopKontrAendUms").limiter(255, $("#TPopKontrAendUms_limit"));
+				$("#TPopKontrAendKontr").val(data.TPopKontrAendKontr);
+				$("#TPopKontrAendKontr").limiter(255, $("#TPopKontrAendKontr_limit"));
+				// Biotop
+				$("#TPopKontrFlaeche").val(data.TPopKontrFlaeche);
+				$("#TPopKontrVegTyp").val(data.TPopKontrVegTyp);
+				$("#TPopKontrVegTyp").limiter(100, $("#TPopKontrVegTyp_limit"));
+				$("#TPopKontrKonkurrenz").val(data.TPopKontrKonkurrenz);
+				$("#TPopKontrKonkurrenz").limiter(100, $("#TPopKontrKonkurrenz_limit"));
+				$("#TPopKontrMoosschicht").val(data.TPopKontrMoosschicht);
+				$("#TPopKontrMoosschicht").limiter(100, $("#TPopKontrMoosschicht_limit"));
+				$("#TPopKontrKrautschicht").val(data.TPopKontrKrautschicht);
+				$("#TPopKontrKrautschicht").limiter(100, $("#TPopKontrKrautschicht_limit"));
+				$("#TPopKontrStrauchschicht").val(data.TPopKontrStrauchschicht);
+				$("#TPopKontrStrauchschicht").limiter(255, $("#TPopKontrStrauchschicht_limit"));
+				$("#TPopKontrBaumschicht").val(data.TPopKontrBaumschicht);
+				$("#TPopKontrBaumschicht").limiter(100, $("#TPopKontrBaumschicht_limit"));
+				$("#TPopKontrBodenTyp").val(data.TPopKontrBodenTyp);
+				$("#TPopKontrBodenTyp").limiter(255, $("#TPopKontrBodenTyp_limit"));
+				$("#TPopKontrBodenKalkgehalt").val(data.TPopKontrBodenKalkgehalt);
+				$("#TPopKontrBodenKalkgehalt").limiter(100, $("#TPopKontrBodenKalkgehalt_limit"));
+				$("#TPopKontrBodenDurchlaessigkeit").val(data.TPopKontrBodenDurchlaessigkeit);
+				$("#TPopKontrBodenDurchlaessigkeit").limiter(100, $("#TPopKontrBodenDurchlaessigkeit_limit"));
+				$("#TPopKontrBodenHumus").val(data.TPopKontrBodenHumus);
+				$("#TPopKontrBodenHumus").limiter(100, $("#TPopKontrBodenHumus_limit"));
+				$("#TPopKontrBodenNaehrstoffgehalt").val(data.TPopKontrBodenNaehrstoffgehalt);
+				$("#TPopKontrBodenNaehrstoffgehalt").limiter(100, $("#TPopKontrBodenNaehrstoffgehalt_limit"));
+				$("#TPopKontrBodenAbtrag").val(data.TPopKontrBodenAbtrag);
+				$("#TPopKontrBodenAbtrag").limiter(255, $("#TPopKontrBodenAbtrag_limit"));
+				$("#TPopKontrWasserhaushalt").val(data.TPopKontrWasserhaushalt);
+				$("#TPopKontrWasserhaushalt").limiter(255, $("#TPopKontrWasserhaushalt_limit"));
+				$("#TPopKontrHandlungsbedarf").val(data.TPopKontrHandlungsbedarf);
+				$("#TPopKontrIdealBiotopUebereinst" + data.TPopKontrIdealBiotopUebereinst).prop("checked", true);
+				// TPopKontrLeb: Daten holen - oder vorhandene nutzen
+				if (!window.lrdelarze_html) {
+					var getLrDelarze = $.ajax({
+						type: 'get',
+						url: 'php/lrdelarze.php',
+						dataType: 'json'
+					});
+					getLrDelarze.done(function (data4) {
+						if (data4) {
+							// Feld mit Daten beliefern
+							var html;
+							html = "<option></option>";
+							for (var i = 0; i < data4.rows.length; i++) {
+								html += "<option value=\"" + data4.rows[i].id + "\">" + data4.rows[i].Einheit + "</option>";
+							}
+							window.lrdelarze_html = html;
+							$("#TPopKontrLeb").html(html);
+							$("#TPopKontrLeb").val(window.tpopfeldkontr.TPopKontrLeb);
+							$("#TPopKontrLebUmg").html(html);
+							$("#TPopKontrLebUmg").val(window.tpopfeldkontr.TPopKontrLebUmg);
+						}
+					});
+				} else {
+					$("#TPopKontrLeb").html(window.lrdelarze_html);
+					$("#TPopKontrLeb").val(window.tpopfeldkontr.TPopKontrLeb);
+					$("#TPopKontrLebUmg").html(window.lrdelarze_html);
+					$("#TPopKontrLebUmg").val(window.tpopfeldkontr.TPopKontrLebUmg);
+				}
+			}
+			// TPopKontrIdealBiotopUebereinst: Daten holen - oder vorhandene nutzen
+			if (!window.IdealBiotopÜbereinst_html) {
+				var getIdealbiotopuebereinst = $.ajax({
+					type: 'get',
+					url: 'php/idealbiotopuebereinst.php',
+					dataType: 'json'
+				});
+				getIdealbiotopuebereinst.done(function (data5) {
+					if (data5) {
+						// Feld mit Daten beliefern
+						var html;
+						html = "<option></option>";
+						for (var i = 0; i < data5.rows.length; i++) {
+							html += "<option value=\"" + data5.rows[i].id + "\">" + data5.rows[i].DomainTxt + "</option>";
+						}
+						window.IdealBiotopÜbereinst_html = html;
+						$("#TPopKontrIdealBiotopUebereinst").html(html);
+						$("#TPopKontrIdealBiotopUebereinst").val(window.tpopfeldkontr.TPopKontrIdealBiotopUebereinst);
+					}
+				});
+			} else {
+				$("#TPopKontrIdealBiotopUebereinst").html(window.IdealBiotopÜbereinst_html);
+				$("#TPopKontrIdealBiotopUebereinst").val(window.tpopfeldkontr.TPopKontrIdealBiotopUebereinst);
+			}
+			// Felder, die nur in freiwkontr vorkommen
+			if (localStorage.tpopfreiwkontr) {
+				if (data.TPopKontrPlan == 1) {
+					$("#TPopKontrPlan").prop("checked", true);
+				} else {
+					$("#TPopKontrPlan").prop("checked", false);
+				}
+				$("#TPopKontrUebFlaeche").val(data.TPopKontrUebFlaeche);
+				$("#TPopKontrUebPfl").val(data.TPopKontrUebPfl);
+				$("#TPopKontrNaBo").val(data.TPopKontrNaBo);
+				$("#TPopKontrJungPflJN_ja").prop("checked", false);
+				$("#TPopKontrJungPflJN_nein").prop("checked", false);
+				$("#TPopKontrJungPflJN_leer").prop("checked", false);
+				if (data.TPopKontrJungPflJN == 1) {
+					$("#TPopKontrJungPflJN_ja").prop("checked", true);
+				} else if (data.TPopKontrJungPflJN == 0) {
+					$("#TPopKontrJungPflJN_nein").prop("checked", true);
+				} else {
+					$("#TPopKontrJungPflJN_leer").prop("checked", true);
+				}
+				$("#TPopKontrVegHoeMax").val(data.TPopKontrVegHoeMax);
+				$("#TPopKontrVegHoeMit").val(data.TPopKontrVegHoeMit);
+				$("#TPopKontrGefaehrdung").val(data.TPopKontrGefaehrdung);
+				$("#TPopKontrGefaehrdung").limiter(255, $("#TPopKontrGefaehrdung_limit"));
+			}
+			// fieldcontain-divs der benötigten Felder einblenden
+			if (localStorage.tpopfreiwkontr) {
+				for (var h = 0; h < feldliste_freiwkontr.length; h++) {
+					$("#fieldcontain_" + feldliste_freiwkontr[h]).show();
+				}
+			} else {
+				for (var g = 0; g < feldliste_feldkontr.length; g++) {
+					$("#fieldcontain_" + feldliste_feldkontr[g]).show();
+				}
+			}
+			// Formulare blenden
+			zeigeFormular("tpopfeldkontr");
+			if (!localStorage.tpopfreiwkontr) {
+				history.replaceState({tpopfeldkontr: "tpopfeldkontr"}, "tpopfeldkontr", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopfeldkontr=" + localStorage.tpopfeldkontr_id);
+			} else {
+				history.replaceState({tpopfreiwkontr: "tpopfreiwkontr"}, "tpopfreiwkontr", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopfreiwkontr=" + localStorage.tpopfeldkontr_id);
+			}
+			// Register in Feldkontr blenden
+			if (localStorage.tpopfreiwkontr) {
+				$("#tpopfeldkontr_tabs_biotop").hide();
+				$("#biotop_tab_li").hide();
+				$("#tpopfeldkontr_tabs").tabs("option", "active", 0);
+			} else {
+				//$("#tpopfeldkontr_tabs_biotop").activate();
+				$("#tpopfeldkontr_tabs_biotop").show();
+				//$("#biotop_tab_li").activate();
+				$("#biotop_tab_li").show();
+				// Dieses Element wird fälschlicherweise in Entwicklung eingeblendet
+				// keine Ahnung wieso
+				// ausblenden!
+				$("#tpopfeldkontr_tabs_biotop").hide();
+			}
+			// Fokus steuern
+			$("#TPopKontrJahr").focus();
+			$(window).scrollTop(0);
 		}
 	});
 }
@@ -1332,19 +1328,19 @@ function initiiere_tpopfeldkontr() {
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowTpopfeldkontr(id) {
 	localStorage.tpopfeldkontr_id = id;
-	$.ajax({
+	var getTpopfeldkontr = $.ajax({
 		type: 'get',
 		url: 'php/tpopfeldkontr.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.tpopfeldkontr_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// tpopfeldkontr bereitstellen
-				window.tpopfeldkontr = data;
-			}
+		}
+	});
+	getTpopfeldkontr.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// tpopfeldkontr bereitstellen
+			window.tpopfeldkontr = data;
 		}
 	});
 }
@@ -1358,114 +1354,114 @@ function initiiere_tpopmassn() {
 	// Felder zurücksetzen
 	leereFelderVonFormular("tpopmassn");
 	// Daten für die pop aus der DB holen
-	$.ajax({
+	var getTPopMassn = $.ajax({
 		type: 'get',
 		url: 'php/tpopmassn.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.tpopmassn_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// tpopmassn bereitstellen
-				window.tpopmassn = data;
-				// Felder mit Daten beliefern
-				// für select TPopMassnTyp Daten holen - oder vorhandene nutzen
-				if (!window.tpopmassntyp_html) {
-					$.ajax({
-						type: 'get',
-						url: 'php/tpopmassn_typ.php',
-						dataType: 'json',
-						success: function (data2) {
-							if (data2) {
-								// tpopmassn_typ bereitstellen
-								window.tpopmassn_typ = data2;
-								// Feld mit Daten beliefern
-								var html;
-								html = "<option></option>";
-								for (var i = 0; i < data2.rows.length; i++) {
-									html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].MassnTypTxt + "</option>";
-								}
-								window.tpopmassntyp_html = html;
-								$("#TPopMassnTyp").html(html);
-								$("#TPopMassnTyp").val(window.tpopmassn.TPopMassnTyp);
-							}
+		}
+	});
+	getTPopMassn.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// tpopmassn bereitstellen
+			window.tpopmassn = data;
+			// Felder mit Daten beliefern
+			// für select TPopMassnTyp Daten holen - oder vorhandene nutzen
+			if (!window.tpopmassntyp_html) {
+				var getTPopMassnTyp = $.ajax({
+					type: 'get',
+					url: 'php/tpopmassn_typ.php',
+					dataType: 'json'
+				});
+				getTPopMassnTyp.done(function (data2) {
+					if (data2) {
+						// tpopmassn_typ bereitstellen
+						window.tpopmassn_typ = data2;
+						// Feld mit Daten beliefern
+						var html;
+						html = "<option></option>";
+						for (var i = 0; i < data2.rows.length; i++) {
+							html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].MassnTypTxt + "</option>";
 						}
-					});
-				} else {
-					$("#TPopMassnTyp").html(window.tpopmassntyp_html);
-					$("#TPopMassnTyp").val(window.tpopmassn.TPopMassnTyp);
-				}
-				$("#TPopMassnTxt").val(data.TPopMassnTxt);
-				$("#TPopMassnTxt").limiter(255, $("#TPopMassnTxt_limit"));
-				$("#TPopMassnJahr").val(data.TPopMassnJahr);
-				if (data.TPopMassnDatum !== "01.01.1970") {
-					// php macht aus einem Nullwert im Datum den 1.1.1970!!!
-					$("#TPopMassnDatum").val(data.TPopMassnDatum);
-				} else {
-					$("#TPopMassnDatum").val("");
-				}
-				// TPopMassnBearb: Daten holen - oder vorhandene nutzen
-				if (!window.adressen_html) {
-					$.ajax({
-						type: 'get',
-						url: 'php/adressen.php',
-						dataType: 'json',
-						success: function (data2) {
-							if (data2) {
-								// Feld mit Daten beliefern
-								var html;
-								html = "<option></option>";
-								for (var i = 0; i < data2.rows.length; i++) {
-									html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
-								}
-								window.adressen_html = html;
-								$("#TPopMassnBearb").html(html);
-								$("#TPopMassnBearb").val(window.tpopmassn.TPopMassnBearb);
-							}
-						}
-					});
-				} else {
-					$("#TPopMassnBearb").html(window.adressen_html);
-					$("#TPopMassnBearb").val(window.tpopmassn.TPopMassnBearb);
-				}
-				$("#TPopMassnBemTxt").val(data.TPopMassnBemTxt);
-				if (data.TPopMassnPlan == 1) {
-					$("#TPopMassnPlan").prop("checked", true);
-				} else {
-					$("#TPopMassnPlan").prop("checked", false);
-				}
-				$("#TPopMassnPlanBez").val(data.TPopMassnPlanBez);
-				$("#TPopMassnPlanBez").limiter(255, $("#TPopMassnPlanBez_limit"));
-				$("#TPopMassnFlaeche").val(data.TPopMassnFlaeche);
-				$("#TPopMassnAnsiedForm").val(data.TPopMassnAnsiedForm);
-				$("#TPopMassnAnsiedForm").limiter(255, $("#TPopMassnAnsiedForm_limit"));
-				$("#TPopMassnAnsiedPflanzanordnung").val(data.TPopMassnAnsiedPflanzanordnung);
-				$("#TPopMassnAnsiedPflanzanordnung").limiter(255, $("#TPopMassnAnsiedPflanzanordnung_limit"));
-				$("#TPopMassnMarkierung").val(data.TPopMassnMarkierung);
-				$("#TPopMassnMarkierung").limiter(255, $("#TPopMassnMarkierung_limit"));
-				$("#TPopMassnAnsiedAnzTriebe").val(data.TPopMassnAnsiedAnzTriebe);
-				$("#TPopMassnAnsiedAnzPfl").val(data.TPopMassnAnsiedAnzPfl);
-				$("#TPopMassnAnzPflanzstellen").val(data.TPopMassnAnzPflanzstellen);
-				// für TPopMassnAnsiedWirtspfl wurde die Artliste schon bereitgestellt
-				// wenn die Anwendung direkt auf einer TPopMassn geöffnet wird, ist die Liste noch nicht bereit
-				// darum hier nochmals holen
-				$.when(erstelle_artlisten())
-					.then(function() {
-						$("#TPopMassnAnsiedWirtspfl").val(data.TPopMassnAnsiedWirtspfl);
-						$("#TPopMassnAnsiedHerkunftPop").val(data.TPopMassnAnsiedHerkunftPop);
-						$("#TPopMassnAnsiedHerkunftPop").limiter(255, $("#TPopMassnAnsiedHerkunftPop_limit"));
-						$("#TPopMassnAnsiedDatSamm").val(data.TPopMassnAnsiedDatSamm);
-						$("#TPopMassnAnsiedDatSamm").limiter(50, $("#TPopMassnAnsiedDatSamm_limit"));
-						$("#TPopMassnGuid").val(data.TPopMassnGuid);
-						// Formulare blenden
-						zeigeFormular("tpopmassn");
-						history.replaceState({tpopmassn: "tpopmassn"}, "tpopmassn", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopmassn=" + localStorage.tpopmassn_id);
-						// bei neuen Datensätzen Fokus steuern
-						$('#TPopMassnJahr').focus();
-					});	
+						window.tpopmassntyp_html = html;
+						$("#TPopMassnTyp").html(html);
+						$("#TPopMassnTyp").val(window.tpopmassn.TPopMassnTyp);
+					}
+				});
+			} else {
+				$("#TPopMassnTyp").html(window.tpopmassntyp_html);
+				$("#TPopMassnTyp").val(window.tpopmassn.TPopMassnTyp);
 			}
+			$("#TPopMassnTxt").val(data.TPopMassnTxt);
+			$("#TPopMassnTxt").limiter(255, $("#TPopMassnTxt_limit"));
+			$("#TPopMassnJahr").val(data.TPopMassnJahr);
+			if (data.TPopMassnDatum !== "01.01.1970") {
+				// php macht aus einem Nullwert im Datum den 1.1.1970!!!
+				$("#TPopMassnDatum").val(data.TPopMassnDatum);
+			} else {
+				$("#TPopMassnDatum").val("");
+			}
+			// TPopMassnBearb: Daten holen - oder vorhandene nutzen
+			if (!window.adressen_html) {
+				var getAdressen = $.ajax({
+					type: 'get',
+					url: 'php/adressen.php',
+					dataType: 'json'
+				});
+				getAdressen.done(function (data2) {
+					if (data2) {
+						// Feld mit Daten beliefern
+						var html;
+						html = "<option></option>";
+						for (var i = 0; i < data2.rows.length; i++) {
+							html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
+						}
+						window.adressen_html = html;
+						$("#TPopMassnBearb").html(html);
+						$("#TPopMassnBearb").val(window.tpopmassn.TPopMassnBearb);
+					}
+				});
+			} else {
+				$("#TPopMassnBearb").html(window.adressen_html);
+				$("#TPopMassnBearb").val(window.tpopmassn.TPopMassnBearb);
+			}
+			$("#TPopMassnBemTxt").val(data.TPopMassnBemTxt);
+			if (data.TPopMassnPlan == 1) {
+				$("#TPopMassnPlan").prop("checked", true);
+			} else {
+				$("#TPopMassnPlan").prop("checked", false);
+			}
+			$("#TPopMassnPlanBez").val(data.TPopMassnPlanBez);
+			$("#TPopMassnPlanBez").limiter(255, $("#TPopMassnPlanBez_limit"));
+			$("#TPopMassnFlaeche").val(data.TPopMassnFlaeche);
+			$("#TPopMassnAnsiedForm").val(data.TPopMassnAnsiedForm);
+			$("#TPopMassnAnsiedForm").limiter(255, $("#TPopMassnAnsiedForm_limit"));
+			$("#TPopMassnAnsiedPflanzanordnung").val(data.TPopMassnAnsiedPflanzanordnung);
+			$("#TPopMassnAnsiedPflanzanordnung").limiter(255, $("#TPopMassnAnsiedPflanzanordnung_limit"));
+			$("#TPopMassnMarkierung").val(data.TPopMassnMarkierung);
+			$("#TPopMassnMarkierung").limiter(255, $("#TPopMassnMarkierung_limit"));
+			$("#TPopMassnAnsiedAnzTriebe").val(data.TPopMassnAnsiedAnzTriebe);
+			$("#TPopMassnAnsiedAnzPfl").val(data.TPopMassnAnsiedAnzPfl);
+			$("#TPopMassnAnzPflanzstellen").val(data.TPopMassnAnzPflanzstellen);
+			// für TPopMassnAnsiedWirtspfl wurde die Artliste schon bereitgestellt
+			// wenn die Anwendung direkt auf einer TPopMassn geöffnet wird, ist die Liste noch nicht bereit
+			// darum hier nochmals holen
+			$.when(erstelle_artlisten())
+				.then(function() {
+					$("#TPopMassnAnsiedWirtspfl").val(data.TPopMassnAnsiedWirtspfl);
+					$("#TPopMassnAnsiedHerkunftPop").val(data.TPopMassnAnsiedHerkunftPop);
+					$("#TPopMassnAnsiedHerkunftPop").limiter(255, $("#TPopMassnAnsiedHerkunftPop_limit"));
+					$("#TPopMassnAnsiedDatSamm").val(data.TPopMassnAnsiedDatSamm);
+					$("#TPopMassnAnsiedDatSamm").limiter(50, $("#TPopMassnAnsiedDatSamm_limit"));
+					$("#TPopMassnGuid").val(data.TPopMassnGuid);
+					// Formulare blenden
+					zeigeFormular("tpopmassn");
+					history.replaceState({tpopmassn: "tpopmassn"}, "tpopmassn", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopmassn=" + localStorage.tpopmassn_id);
+					// bei neuen Datensätzen Fokus steuern
+					$('#TPopMassnJahr').focus();
+				});	
 		}
 	});
 }
@@ -1474,19 +1470,19 @@ function initiiere_tpopmassn() {
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowTpopmassn(id) {
 	localStorage.tpopmassn_id = id;
-	$.ajax({
+	var getTPopMassn = $.ajax({
 		type: 'get',
 		url: 'php/tpopmassn.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.tpopmassn_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// tpopmassn bereitstellen
-				window.tpopmassn = data;
-			}
+		}
+	});
+	getTPopMassn.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// tpopmassn bereitstellen
+			window.tpopmassn = data;
 		}
 	});
 }
@@ -1500,28 +1496,28 @@ function initiiere_tpopmassnber() {
 	// Felder zurücksetzen
 	leereFelderVonFormular("tpopmassnber");
 	// Daten für die pop aus der DB holen
-	$.ajax({
+	var getTPopMassnBer = $.ajax({
 		type: 'get',
 		url: 'php/tpopmassnber.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.tpopmassnber_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// tpopmassnber bereitstellen
-				window.tpopmassnber = data;
-				// Felder mit Daten beliefern
-				$("#TPopMassnBerJahr").val(data.TPopMassnBerJahr);
-				$("#TPopMassnBerErfolgsbeurteilung" + data.TPopMassnBerErfolgsbeurteilung).prop("checked", true);
-				$("#TPopMassnBerTxt").val(data.TPopMassnBerTxt);
-				// Formulare blenden
-				zeigeFormular("tpopmassnber");
-				history.replaceState({tpopmassnber: "tpopmassnber"}, "tpopmassnber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopmassnber=" + localStorage.tpopmassnber_id);
-				// bei neuen Datensätzen Fokus steuern
-				$('#TPopMassnBerJahr').focus();
-			}
+		}
+	});
+	getTPopMassnBer.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// tpopmassnber bereitstellen
+			window.tpopmassnber = data;
+			// Felder mit Daten beliefern
+			$("#TPopMassnBerJahr").val(data.TPopMassnBerJahr);
+			$("#TPopMassnBerErfolgsbeurteilung" + data.TPopMassnBerErfolgsbeurteilung).prop("checked", true);
+			$("#TPopMassnBerTxt").val(data.TPopMassnBerTxt);
+			// Formulare blenden
+			zeigeFormular("tpopmassnber");
+			history.replaceState({tpopmassnber: "tpopmassnber"}, "tpopmassnber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopmassnber=" + localStorage.tpopmassnber_id);
+			// bei neuen Datensätzen Fokus steuern
+			$('#TPopMassnBerJahr').focus();
 		}
 	});
 }
@@ -1530,19 +1526,19 @@ function initiiere_tpopmassnber() {
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowTpopmassnber(id) {
 	localStorage.tpopmassnber_id = id;
-	$.ajax({
+	var getTPopMassnBer = $.ajax({
 		type: 'get',
 		url: 'php/tpopmassnber.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.tpopmassnber_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// tpopmassnber bereitstellen
-				window.tpopmassnber = data;
-			}
+		}
+	});
+	getTPopMassnBer.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// tpopmassnber bereitstellen
+			window.tpopmassnber = data;
 		}
 	});
 }
@@ -1556,28 +1552,28 @@ function initiiere_tpopber() {
 	// Felder zurücksetzen
 	leereFelderVonFormular("tpopber");
 	// Daten für die tpopber aus der DB holen
-	$.ajax({
+	var getTPopBer = $.ajax({
 		type: 'get',
 		url: 'php/tpopber.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.tpopber_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// tpopber bereitstellen
-				window.tpopber = data;
-				// Felder mit Daten beliefern
-				$("#TPopBerJahr").val(data.TPopBerJahr);
-				$("#TPopBerEntwicklung" + data.TPopBerEntwicklung).prop("checked", true);
-				$("#TPopBerTxt").val(data.TPopBerTxt);
-				// Formulare blenden
-				zeigeFormular("tpopber");
-				history.replaceState({tpopber: "tpopber"}, "tpopber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopber=" + localStorage.tpopber_id);
-				// bei neuen Datensätzen Fokus steuern
-				$('#TPopBerJahr').focus();
-			}
+		}
+	});
+	getTPopBer.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// tpopber bereitstellen
+			window.tpopber = data;
+			// Felder mit Daten beliefern
+			$("#TPopBerJahr").val(data.TPopBerJahr);
+			$("#TPopBerEntwicklung" + data.TPopBerEntwicklung).prop("checked", true);
+			$("#TPopBerTxt").val(data.TPopBerTxt);
+			// Formulare blenden
+			zeigeFormular("tpopber");
+			history.replaceState({tpopber: "tpopber"}, "tpopber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopber=" + localStorage.tpopber_id);
+			// bei neuen Datensätzen Fokus steuern
+			$('#TPopBerJahr').focus();
 		}
 	});
 }
@@ -1586,19 +1582,19 @@ function initiiere_tpopber() {
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 function setzeWindowTpopber(id) {
 	localStorage.tpopber_id = id;
-	$.ajax({
+	var getTPopBer = $.ajax({
 		type: 'get',
 		url: 'php/tpopber.php',
 		dataType: 'json',
 		data: {
 			"id": localStorage.tpopber_id
-		},
-		success: function (data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
-				// tpopber bereitstellen
-				window.tpopber = data;
-			}
+		}
+	});
+	getTPopBer.done(function (data) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data) {
+			// tpopber bereitstellen
+			window.tpopber = data;
 		}
 	});
 }
