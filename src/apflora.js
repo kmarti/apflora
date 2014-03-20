@@ -11543,7 +11543,7 @@ function geoadminOnFeatureUnselect(feature) {
 
 function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 	window.TPopListe = TPopListe;
-	var anzBeob, infowindowBeob, infowindowTPop, TPop, lat, lng, latlng, options, map, bounds, markersTPop, TPopId, latlng2, markerBeob, markerTPop, contentStringBeob, contentStringTPop, mcOptionsBeob, mcOptionsTPop, markerClusterBeob, markerClusterTPop, Datum, titel_beob, tpop_beschriftung, a_note, myFlurname;
+	var anzBeob, infowindowBeob, infowindowTPop, Beob, TPop, lat, lng, latlng, options, map, bounds, markersTPop, TPopId, latlng2, markerBeob, markerTPop, contentStringBeob, contentStringTPop, mcOptionsBeob, mcOptionsTPop, markerClusterBeob, markerClusterTPop, Datum, titel_beob, tpop_beschriftung, a_note, myFlurname;
 	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("google_karte");
 	window.markersArray = [];
