@@ -24,8 +24,11 @@ $child_dummy = array(0 => "dummy");
 	
 // pop dieses AP abfragen
 $result_pop = mysqli_query($link, "SELECT PopNr, PopName, PopId, ApArtId FROM tblPopulation where ApArtId = $ApArtId ORDER BY PopNr, PopName");
-$PopNr_max0 = mysqli_query($link, "SELECT MAX(PopNr) as PopNr_max FROM tblPopulation where ApArtId = $ApArtId");
-$PopNr_max = strval($r_pop['PopNr_max']);
+//$PopNr_max0 = mysqli_query($link, "SELECT MAX(PopNr) as PopNr_max FROM tblPopulation where ApArtId = $ApArtId");
+$PopNr_max00 = mysqli_query($link, "SELECT `PopNr` FROM tblPopulation where ApArtId = $ApArtId ORDER BY `PopNr` DESC LIMIT 1");
+//$PopNr_max = strval($r_pop['PopNr_max']);
+$PopNr_max0 = mysqli_fetch_assoc($PopNr_max00);
+$PopNr_max = strval($PopNr_max0['PopNr']);
 $anz_pop = mysqli_num_rows($result_pop);
 // Datenstruktur für pop aufbauen
 $rows_pop = array();

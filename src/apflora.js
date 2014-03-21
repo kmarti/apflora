@@ -1628,106 +1628,107 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 	url = 'php/beob_' + beobtyp + '.php';
 	
 	// Daten für die beob aus der DB holen
-	$.ajax({
+	var getBeob = $.ajax({
 		type: 'get',
 		url: url,
 		dataType: 'json',
 		data: {
 			"id": beobid
-		},
-		success: function (data_beob) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data_beob) {
+		}
+	});
 
-				// boebfelder bereitstellen
-				var html_beobfelder = erstelleFelderFuerBeob(data_beob, beobtyp);
-				$("#beob_table").html(html_beobfelder);
-				
-				// Abstand zu TPop aus der DB holen
-				url_distzutpop = 'php/beob_distzutpop_' + beobtyp + '.php';
-				$.ajax({
-					type: 'get',
-					url: url_distzutpop,
-					dataType: 'json',
-					data: {
-						"beobid": beobid
-					},
-					success: function (data) {
-						// Tabellenzeile beginnen
-						var html_distzutpop = '<tr class="fieldcontain DistZuTPop"><td class="label"><label id="DistZuTPop_label" for="DistZuTPop">Einer Teilpopulation zuordnen:</label></td><td class="Datenfelder"><div class="Datenfelder" id="DistZuTPop_Felder">';
-						if (data) {
-							for (var i=0; i < data.length; i++) {
-								if (i>0) {
-									html_distzutpop += "<br>";
-								}
-								html_distzutpop += '<input type="radio" name="DistZuTPop" id="DistZuTPop';
-								html_distzutpop += data[i].TPopId;
-								html_distzutpop += '" class="DistZuTPop" formular="beob" value="';
-								html_distzutpop += data[i].TPopId;
-								html_distzutpop += '" DistZuTPop="';
-								html_distzutpop += data[i].DistZuTPop;
-								html_distzutpop += '">';
-								// Wenn TPop keine Koordinaten haben, dies anzeigen und Anzeige von NAN verhindern
-								if (parseInt(data[i].DistZuTPop, 10) >= 0) {
-									html_distzutpop += parseInt(data[i].DistZuTPop) + "m: " + data[i].TPopFlurname;
-								} else {
-									html_distzutpop += data[i].TPopFlurname;
-								}
-							}
-							// Tabellenzeile abschliessen
-							html_distzutpop += '</div></td></tr>';
+	getBeob.done(function (data_beob) {
+		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+		if (data_beob) {
 
-							// distzutpop bereitstellen
-							$("#beob_zuordnungsfelder").html(html_distzutpop);
-
-							$("#BeobBemerkungen").attr("placeholder", "");
-
-							if (beob_status !== "nicht_beurteilt") {
-								// Daten der Zuordnung holen
-								$.ajax({
-									type: 'get',
-									url: 'php/beob_zuordnung.php',
-									dataType: 'json',
-									data: {
-										"id": beobid
-									},
-									success: function (data) {
-										// Felder mit Daten beliefern
-										$("#BeobNichtBeurteilt").prop("checked", false);
-										if (data.BeobNichtZuordnen == 1) {
-											$("#BeobNichtZuordnen").prop("checked", true);
-										} else {
-											$("#BeobNichtZuordnen").prop("checked", false);
-										}
-										$("#DistZuTPop"+data.TPopId).prop("checked", true);
-										$("#BeobBemerkungen").val(data.BeobBemerkungen);
-										$("#BeobMutWann").val(data.BeobMutWann);
-										$("#BeobMutWer").val(data.BeobMutWer);
-
-										// Formulare blenden
-										zeigeFormular("beob");
-										if (beob_status === "zugeordnet") {
-											history.replaceState({beob_zugeordnet: "beob_zugeordnet"}, "beob_zugeordnet", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&beob_zugeordnet=" + beobid);
-										} else if (beob_status === "nicht_zuzuordnen") {
-											history.replaceState({beob_nicht_zuzuordnen: "beob_nicht_zuzuordnen"}, "beob_nicht_zuzuordnen", "index.html?ap=" + localStorage.ap_id + "&beob_nicht_zuzuordnen=" + beobid);
-										}
-									}
-								});
-							} else {
-								// beob_status ist "nicht beurteilt"
-								$("#BeobNichtBeurteilt").prop("checked", true);
-								$("#BeobNichtZuordnen").prop("checked", false);
-								// allfällige im letzen beob enthaltene Werte entfernen
-								$("#BeobBemerkungen").val("");
-								$("#BeobBemerkungen").attr("placeholder", "Bemerkungen sind nur in zugeordneten oder nicht zuzuordnenden Beobachtungen möglich");
-								// Formulare blenden
-								zeigeFormular("beob");
-								history.replaceState({beob_nicht_beurteilt: "beob_nicht_beurteilt"}, "beob_nicht_beurteilt", "index.html?ap=" + localStorage.ap_id + "&beob_nicht_beurteilt=" + beobid);
-							}
+			// boebfelder bereitstellen
+			var html_beobfelder = erstelleFelderFuerBeob(data_beob, beobtyp);
+			$("#beob_table").html(html_beobfelder);
+			
+			// Abstand zu TPop aus der DB holen
+			url_distzutpop = 'php/beob_distzutpop_' + beobtyp + '.php';
+			var getDistZuTPop = $.ajax({
+				type: 'get',
+				url: url_distzutpop,
+				dataType: 'json',
+				data: {
+					"beobid": beobid
+				}
+			});
+			getDistZuTPop.done(function (data) {
+				// Tabellenzeile beginnen
+				var html_distzutpop = '<tr class="fieldcontain DistZuTPop"><td class="label"><label id="DistZuTPop_label" for="DistZuTPop">Einer Teilpopulation zuordnen:</label></td><td class="Datenfelder"><div class="Datenfelder" id="DistZuTPop_Felder">';
+				if (data) {
+					for (var i=0; i < data.length; i++) {
+						if (i>0) {
+							html_distzutpop += "<br>";
+						}
+						html_distzutpop += '<input type="radio" name="DistZuTPop" id="DistZuTPop';
+						html_distzutpop += data[i].TPopId;
+						html_distzutpop += '" class="DistZuTPop" formular="beob" value="';
+						html_distzutpop += data[i].TPopId;
+						html_distzutpop += '" DistZuTPop="';
+						html_distzutpop += data[i].DistZuTPop;
+						html_distzutpop += '">';
+						// Wenn TPop keine Koordinaten haben, dies anzeigen und Anzeige von NAN verhindern
+						if (parseInt(data[i].DistZuTPop, 10) >= 0) {
+							html_distzutpop += parseInt(data[i].DistZuTPop) + "m: " + data[i].TPopFlurname;
+						} else {
+							html_distzutpop += data[i].TPopFlurname;
 						}
 					}
-				});
-			}
+					// Tabellenzeile abschliessen
+					html_distzutpop += '</div></td></tr>';
+
+					// distzutpop bereitstellen
+					$("#beob_zuordnungsfelder").html(html_distzutpop);
+
+					$("#BeobBemerkungen").attr("placeholder", "");
+
+					if (beob_status !== "nicht_beurteilt") {
+						// Daten der Zuordnung holen
+						var getBeobZuordnung = $.ajax({
+							type: 'get',
+							url: 'php/beob_zuordnung.php',
+							dataType: 'json',
+							data: {
+								"id": beobid
+							}
+						});
+						getBeobZuordnung.done(function (data) {
+							// Felder mit Daten beliefern
+							$("#BeobNichtBeurteilt").prop("checked", false);
+							if (data.BeobNichtZuordnen == 1) {
+								$("#BeobNichtZuordnen").prop("checked", true);
+							} else {
+								$("#BeobNichtZuordnen").prop("checked", false);
+							}
+							$("#DistZuTPop"+data.TPopId).prop("checked", true);
+							$("#BeobBemerkungen").val(data.BeobBemerkungen);
+							$("#BeobMutWann").val(data.BeobMutWann);
+							$("#BeobMutWer").val(data.BeobMutWer);
+
+							// Formulare blenden
+							zeigeFormular("beob");
+							if (beob_status === "zugeordnet") {
+								history.replaceState({beob_zugeordnet: "beob_zugeordnet"}, "beob_zugeordnet", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&beob_zugeordnet=" + beobid);
+							} else if (beob_status === "nicht_zuzuordnen") {
+								history.replaceState({beob_nicht_zuzuordnen: "beob_nicht_zuzuordnen"}, "beob_nicht_zuzuordnen", "index.html?ap=" + localStorage.ap_id + "&beob_nicht_zuzuordnen=" + beobid);
+							}
+						});
+					} else {
+						// beob_status ist "nicht beurteilt"
+						$("#BeobNichtBeurteilt").prop("checked", true);
+						$("#BeobNichtZuordnen").prop("checked", false);
+						// allfällige im letzen beob enthaltene Werte entfernen
+						$("#BeobBemerkungen").val("");
+						$("#BeobBemerkungen").attr("placeholder", "Bemerkungen sind nur in zugeordneten oder nicht zuzuordnenden Beobachtungen möglich");
+						// Formulare blenden
+						zeigeFormular("beob");
+						history.replaceState({beob_nicht_beurteilt: "beob_nicht_beurteilt"}, "beob_nicht_beurteilt", "index.html?ap=" + localStorage.ap_id + "&beob_nicht_beurteilt=" + beobid);
+					}
+				}
+			});
 		}
 	});
 }
@@ -1896,22 +1897,22 @@ function FitToContent(id, maxHeight) {
 
 function erstelle_ap_liste(programm) {
 	var apliste_erstellt = $.Deferred();
-	$.ajax({
+	var getApliste = $.ajax({
 		type: 'get',
 		url: 'php/apliste.php',
 		dataType: 'json',
 		data: {
 			"programm": programm
-		},
-		success: function (data) {
-			var html;
-			html = "<option></option>";
-			for (var i = 0; i < data.rows.length; i++) {
-				html += "<option value=\"" + data.rows[i].id + "\">" + data.rows[i].ap_name + "</option>";
-			}
-			$("#ap_waehlen").html(html);
-			apliste_erstellt.resolve();
 		}
+	});
+	getApliste.done(function (data) {
+		var html;
+		html = "<option></option>";
+		for (var i = 0; i < data.rows.length; i++) {
+			html += "<option value=\"" + data.rows[i].id + "\">" + data.rows[i].ap_name + "</option>";
+		}
+		$("#ap_waehlen").html(html);
+		apliste_erstellt.resolve();
 	});
 	return apliste_erstellt.promise();
 }
@@ -2649,7 +2650,7 @@ function erstelle_tree(ApArtId) {
 
 		if (herkunft_node_typ === "pop") {
 			if (ziel_node_typ === "pop") {
-				$.ajax({
+				var fuegePopEin = $.ajax({
 					type: 'post',
 					url: 'php/pop_einfuegen.php',
 					dataType: 'json',
@@ -2657,32 +2658,32 @@ function erstelle_tree(ApArtId) {
 						"ap_art_id": ziel_parent_node_id,
 						"pop_id": ziel_node_id,
 						"user": sessionStorage.User
-					},
-					success: function () {
-						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-						beschrifte_ap_ordner_pop(ziel_parent_node);
-						beschrifte_ap_ordner_pop(window.herkunft_parent_node);
-						// selection steuern
-						jQuery.jstree._reference(ziel_node).deselect_all();
-						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
-						// Variablen aufräumen
-						localStorage.pop_id = herkunft_node_id;
-						delete window.pop;
-						delete window.pop_node_ausgeschnitten;
-						delete window.herkunft_parent_node;
-						initiiere_pop();
-					},
-					error: function (data) {
-						$("#Meldung").html("Fehler: Die Teilpopulation wurde nicht verschoben");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
 					}
+				});
+				fuegePopEin.done(function () {
+					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+					beschrifte_ap_ordner_pop(ziel_parent_node);
+					beschrifte_ap_ordner_pop(window.herkunft_parent_node);
+					// selection steuern
+					jQuery.jstree._reference(ziel_node).deselect_all();
+					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+					// Variablen aufräumen
+					localStorage.pop_id = herkunft_node_id;
+					delete window.pop;
+					delete window.pop_node_ausgeschnitten;
+					delete window.herkunft_parent_node;
+					initiiere_pop();
+				});
+				fuegePopEin.fail(function (data) {
+					$("#Meldung").html("Fehler: Die Teilpopulation wurde nicht verschoben");
+					$("#Meldung").dialog({
+						modal: true,
+						buttons: {
+							Ok: function() {
+								$(this).dialog("close");
+							}
+						}
+					});
 				});
 			}
 			if (ziel_node_typ === "tpop") {
