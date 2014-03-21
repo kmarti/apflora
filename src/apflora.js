@@ -2861,7 +2861,7 @@ function erstelle_tree(ApArtId) {
 				});
 			}
 			if (ziel_node_typ === "tpop_ordner_feldkontr") {
-				$.ajax({
+				var fuegeTPopFeldkontrEin_2 = $.ajax({
 					type: 'post',
 					url: 'php/tpopfeldkontr_einfuegen.php',
 					dataType: 'json',
@@ -2869,30 +2869,30 @@ function erstelle_tree(ApArtId) {
 						"tpop_id": ziel_node_id,
 						"tpopfeldkontr_id": herkunft_node_id,
 						"user": sessionStorage.User
-					},
-					success: function () {
-						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-						beschrifte_tpop_ordner_feldkontr(ziel_node);
-						beschrifte_tpop_ordner_feldkontr(window.herkunft_parent_node);
-						// selection steuern
-						jQuery.jstree._reference(herkunft_node).deselect_all();
-						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
-						// Variablen aufräumen
-						localStorage.tpopfeldkontr_id = herkunft_node_id;
-						delete window.tpopfeldkontr;
-						delete window.tpopfeldkontr_node_ausgeschnitten;
-						delete window.herkunft_parent_node;
-						initiiere_tpopfeldkontr();
-					},
-					error: function () {
-						melde("Fehler: Die Feldkontrolle wurde nicht verschoben");
 					}
+				});
+				fuegeTPopFeldkontrEin_2.done(function () {
+					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+					beschrifte_tpop_ordner_feldkontr(ziel_node);
+					beschrifte_tpop_ordner_feldkontr(window.herkunft_parent_node);
+					// selection steuern
+					jQuery.jstree._reference(herkunft_node).deselect_all();
+					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+					// Variablen aufräumen
+					localStorage.tpopfeldkontr_id = herkunft_node_id;
+					delete window.tpopfeldkontr;
+					delete window.tpopfeldkontr_node_ausgeschnitten;
+					delete window.herkunft_parent_node;
+					initiiere_tpopfeldkontr();
+				});
+				fuegeTPopFeldkontrEin_2.fail(function () {
+					melde("Fehler: Die Feldkontrolle wurde nicht verschoben");
 				});
 			}
 		}
 		if (herkunft_node_typ === "tpopfreiwkontr") {
 			if (ziel_node_typ === "tpopfreiwkontr") {
-				$.ajax({
+				var fuegeTPopFeldkontrEin_3 = $.ajax({
 					type: 'post',
 					url: 'php/tpopfeldkontr_einfuegen.php',
 					dataType: 'json',
@@ -2900,29 +2900,29 @@ function erstelle_tree(ApArtId) {
 						"tpop_id": ziel_parent_node_id,
 						"tpopfeldkontr_id": herkunft_node_id,
 						"user": sessionStorage.User
-					},
-					success: function () {
-						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-						beschrifte_tpop_ordner_freiwkontr(ziel_parent_node);
-						beschrifte_tpop_ordner_freiwkontr(window.herkunft_parent_node);
-						// selection steuern
-						jQuery.jstree._reference(herkunft_node).deselect_all();
-						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
-						// Variablen aufräumen
-						localStorage.tpopfeldkontr_id = herkunft_node_id;
-						delete window.tpopfeldkontr;
-						delete window.tpopfreiwkontr_node_ausgeschnitten;
-						delete window.herkunft_parent_node;
-						localStorage.tpopfreiwkontr = true;
-						initiiere_tpopfeldkontr();
-					},
-					error: function () {
-						melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben");
 					}
+				});
+				fuegeTPopFeldkontrEin_3.done(function () {
+					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+					beschrifte_tpop_ordner_freiwkontr(ziel_parent_node);
+					beschrifte_tpop_ordner_freiwkontr(window.herkunft_parent_node);
+					// selection steuern
+					jQuery.jstree._reference(herkunft_node).deselect_all();
+					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+					// Variablen aufräumen
+					localStorage.tpopfeldkontr_id = herkunft_node_id;
+					delete window.tpopfeldkontr;
+					delete window.tpopfreiwkontr_node_ausgeschnitten;
+					delete window.herkunft_parent_node;
+					localStorage.tpopfreiwkontr = true;
+					initiiere_tpopfeldkontr();
+				});
+				fuegeTPopFeldkontrEin_3.fail(function () {
+					melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben");
 				});
 			}
 			if (ziel_node_typ === "tpop_ordner_freiwkontr") {
-				$.ajax({
+				var fuegeTPopFeldkontrEin_4 = $.ajax({
 					type: 'post',
 					url: 'php/tpopfeldkontr_einfuegen.php',
 					dataType: 'json',
@@ -2930,25 +2930,25 @@ function erstelle_tree(ApArtId) {
 						"tpop_id": ziel_node_id,
 						"tpopfeldkontr_id": herkunft_node_id,
 						"user": sessionStorage.User
-					},
-					success: function () {
-						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-						beschrifte_tpop_ordner_freiwkontr(ziel_node);
-						beschrifte_tpop_ordner_freiwkontr(window.herkunft_parent_node);
-						// selection steuern
-						jQuery.jstree._reference(herkunft_node).deselect_all();
-						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
-						// Variablen aufräumen
-						localStorage.tpopfeldkontr_id = herkunft_node_id;
-						delete window.tpopfeldkontr;
-						delete window.tpopfreiwkontr_node_ausgeschnitten;
-						delete window.herkunft_parent_node;
-						localStorage.tpopfreiwkontr = true;
-						initiiere_tpopfeldkontr();
-					},
-					error: function () {
-						melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben");
 					}
+				});
+				fuegeTPopFeldkontrEin_4.done(function () {
+					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+					beschrifte_tpop_ordner_freiwkontr(ziel_node);
+					beschrifte_tpop_ordner_freiwkontr(window.herkunft_parent_node);
+					// selection steuern
+					jQuery.jstree._reference(herkunft_node).deselect_all();
+					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+					// Variablen aufräumen
+					localStorage.tpopfeldkontr_id = herkunft_node_id;
+					delete window.tpopfeldkontr;
+					delete window.tpopfreiwkontr_node_ausgeschnitten;
+					delete window.herkunft_parent_node;
+					localStorage.tpopfreiwkontr = true;
+					initiiere_tpopfeldkontr();
+				});
+				fuegeTPopFeldkontrEin_4.fail(function () {
+					melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben");
 				});
 			}
 		}
@@ -2956,33 +2956,33 @@ function erstelle_tree(ApArtId) {
 			// zugeordnet
 			if (ziel_node_typ === "beob_nicht_beurteilt" || ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
 				// zugeordnet > nicht beurteilt
-				$.ajax({
+				var ordneBeobachtungZu = $.ajax({
 					type: 'post',
 					url: 'php/beob_zuordnung_delete.php',
 					dataType: 'json',
 					data: {
 						"id": herkunft_node_id
-					},
-					success: function() {
-						// typ des nodes anpassen
-						herkunft_node.attr("typ", "beob_nicht_beurteilt");
-						localStorage.beobtyp = "beob_nicht_beurteilt";
-						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-						if (ziel_node_typ === "beob_nicht_beurteilt") {
-							beschrifte_ap_ordner_beob_nicht_beurteilt(ziel_parent_node);
-						} else {
-							beschrifte_ap_ordner_beob_nicht_beurteilt(ziel_node);
-						}
-						beschrifte_tpop_ordner_beob_zugeordnet(window.herkunft_parent_node);
-						// beob initiieren
-						initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_beurteilt");
-						// Variablen aufräumen
-						delete window.beob_zugeordnet_node_ausgeschnitten;
-						delete window.herkunft_parent_node;
-					},
-					error: function () {
-						melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
 					}
+				});
+				ordneBeobachtungZu.done(function() {
+					// typ des nodes anpassen
+					herkunft_node.attr("typ", "beob_nicht_beurteilt");
+					localStorage.beobtyp = "beob_nicht_beurteilt";
+					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+					if (ziel_node_typ === "beob_nicht_beurteilt") {
+						beschrifte_ap_ordner_beob_nicht_beurteilt(ziel_parent_node);
+					} else {
+						beschrifte_ap_ordner_beob_nicht_beurteilt(ziel_node);
+					}
+					beschrifte_tpop_ordner_beob_zugeordnet(window.herkunft_parent_node);
+					// beob initiieren
+					initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_beurteilt");
+					// Variablen aufräumen
+					delete window.beob_zugeordnet_node_ausgeschnitten;
+					delete window.herkunft_parent_node;
+				});
+				ordneBeobachtungZu.fail(function () {
+					melde("Fehler: Die Beobachtung wurde nicht auf 'nicht beurteilt' gesetzt");
 				});
 			}
 			if (ziel_node_typ === "beob_zugeordnet" || ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
@@ -2993,7 +2993,7 @@ function erstelle_tree(ApArtId) {
 				} else {
 					neue_tpop_id = ziel_parent_node_id;
 				}
-				$.ajax({
+				var ordneBeobachtungZu_2 = $.ajax({
 					type: 'post',
 					url: 'php/beob_update.php',
 					dataType: 'json',
@@ -3002,33 +3002,33 @@ function erstelle_tree(ApArtId) {
 						"Feld": "TPopId",
 						"Wert": neue_tpop_id,
 						"user": sessionStorage.User
-					},
-					success: function () {
-						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-						if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
-							beschrifte_tpop_ordner_beob_zugeordnet(ziel_node);
-						} else {
-							beschrifte_tpop_ordner_beob_zugeordnet(ziel_parent_node);
-						}
-						beschrifte_tpop_ordner_beob_zugeordnet(window.herkunft_parent_node);
-						// selection steuern
-						if (!localStorage.karte_fokussieren) {
-							initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "zugeordnet");
-						} else {
-							delete localStorage.karte_fokussieren;
-						}
-						// Variablen aufräumen
-						delete window.beob_zugeordnet_node_ausgeschnitten;
-						delete window.herkunft_parent_node;
-					},
-					error: function () {
-						melde("Fehler: Die Beobachtung wurde nicht verschoben");
 					}
+				});
+				ordneBeobachtungZu_2.done(function () {
+					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+					if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
+						beschrifte_tpop_ordner_beob_zugeordnet(ziel_node);
+					} else {
+						beschrifte_tpop_ordner_beob_zugeordnet(ziel_parent_node);
+					}
+					beschrifte_tpop_ordner_beob_zugeordnet(window.herkunft_parent_node);
+					// selection steuern
+					if (!localStorage.karte_fokussieren) {
+						initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "zugeordnet");
+					} else {
+						delete localStorage.karte_fokussieren;
+					}
+					// Variablen aufräumen
+					delete window.beob_zugeordnet_node_ausgeschnitten;
+					delete window.herkunft_parent_node;
+				});
+				ordneBeobachtungZu_2.fail(function () {
+					melde("Fehler: Die Beobachtung wurde nicht verschoben");
 				});
 			}
 			if (ziel_node_typ === "beob_nicht_zuzuordnen" || ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
 				// zugeordnet > nicht zuzuordnen
-				$.ajax({
+				var ordneBeobachtungZu_3 = $.ajax({
 					type: 'post',
 					url: 'php/beob_update.php',
 					dataType: 'json',
@@ -3037,44 +3037,45 @@ function erstelle_tree(ApArtId) {
 						"Feld": "BeobNichtZuordnen",
 						"Wert": 1,
 						"user": sessionStorage.User
-					},
-					success: function() {
-						// TPopId null setzen
-						$.ajax({
-							type: 'post',
-							url: 'php/beob_update.php',
-							dataType: 'json',
-							data: {
-								"id": herkunft_node_id,
-								"Feld": "TPopId",
-								"Wert": "",
-								"user": sessionStorage.User
-							},
-							error: function() {
-								console.log("fehler beim Leeren von TPopId");
-							}
-						}).done(function() {
-							// aus unerfindlichen Gründen läuft der success callback nicht, darum done
-							// typ des nodes anpassen
-							herkunft_node.attr("typ", "beob_nicht_zuzuordnen");
-							localStorage.beobtyp = "beob_nicht_zuzuordnen";
-							// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-							if (ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
-								beschrifte_ap_ordner_beob_nicht_zuzuordnen(ziel_node);
-							} else {
-								beschrifte_ap_ordner_beob_nicht_zuzuordnen(ziel_parent_node);
-							}
-							beschrifte_tpop_ordner_beob_zugeordnet(window.herkunft_parent_node);
-							// Beob initiieren
-							initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_zuzuordnen");
-							// Variablen aufräumen
-							delete window.beob_node_ausgeschnitten;
-							delete window.herkunft_parent_node;
-						});
-					},
-					error: function() {
-						melde("Fehler: Die Beobachtung wurde nicht verschoben");
-					}
+					} 
+				});
+				ordneBeobachtungZu_3.done(function() {
+					// TPopId null setzen
+					var setzeTpopid = $.ajax({
+						type: 'post',
+						url: 'php/beob_update.php',
+						dataType: 'json',
+						data: {
+							"id": herkunft_node_id,
+							"Feld": "TPopId",
+							"Wert": "",
+							"user": sessionStorage.User
+						}
+					});
+					setzeTpopid.done(function() {
+						// aus unerfindlichen Gründen läuft der success callback nicht, darum done
+						// typ des nodes anpassen
+						herkunft_node.attr("typ", "beob_nicht_zuzuordnen");
+						localStorage.beobtyp = "beob_nicht_zuzuordnen";
+						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+						if (ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
+							beschrifte_ap_ordner_beob_nicht_zuzuordnen(ziel_node);
+						} else {
+							beschrifte_ap_ordner_beob_nicht_zuzuordnen(ziel_parent_node);
+						}
+						beschrifte_tpop_ordner_beob_zugeordnet(window.herkunft_parent_node);
+						// Beob initiieren
+						initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_zuzuordnen");
+						// Variablen aufräumen
+						delete window.beob_node_ausgeschnitten;
+						delete window.herkunft_parent_node;
+					});
+					setzeTpopid.fail(function() {
+						console.log("fehler beim Leeren von TPopId");
+					});
+				});
+				ordneBeobachtungZu_3.fail(function() {
+					melde("Fehler: Die Beobachtung wurde nicht verschoben");
 				});
 			}
 		}
