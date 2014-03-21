@@ -3496,10 +3496,6 @@ function treeKontextmenu(node) {
 				"label": "neue Population",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					var insertPop = $.ajax({
 						type: 'post',
 						url: 'php/pop_insert.php',
@@ -3666,18 +3662,6 @@ function treeKontextmenu(node) {
 				"label": "neues Ziel",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
-					// temporären Unterordner anlegen
-					neue_apziele_node = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-						"data": "neue AP-Ziele",
-						"attr": {
-							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-							"typ": "apzieljahr"
-						}
-					});
 					var insertApziel = $.ajax({
 						type: 'post',
 						url: 'php/apziel_insert.php',
@@ -3690,6 +3674,14 @@ function treeKontextmenu(node) {
 					});
 					insertApziel.done(function(data) {
 						var NeuerNode;
+						// temporären Unterordner anlegen
+						neue_apziele_node = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+							"data": "neue AP-Ziele",
+							"attr": {
+								"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+								"typ": "apzieljahr"
+							}
+						});
 						localStorage.apziel_id = data;
 						delete window.apziel;
 						NeuerNode = jQuery.jstree._reference(neue_apziele_node).create_node(neue_apziele_node, "last", {
@@ -3742,10 +3734,6 @@ function treeKontextmenu(node) {
 				"label": "neues Ziel",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					var insertApziel_2 = $.ajax({
 						type: 'post',
 						url: 'php/apziel_insert.php',
@@ -3934,10 +3922,6 @@ function treeKontextmenu(node) {
 				"label": "neuer Ziel-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					var insertZielber = $.ajax({
 						type: 'post',
 						url: 'php/zielber_insert.php',
@@ -3987,10 +3971,6 @@ function treeKontextmenu(node) {
 				"label": "neuer Ziel-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					var insertZielber_2 = $.ajax({
 						type: 'post',
 						url: 'php/zielber_insert.php',
@@ -4091,10 +4071,6 @@ function treeKontextmenu(node) {
 				"label": "neues Erfolgskriterium",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					var insertErfkrit = $.ajax({
 						type: 'post',
 						url: 'php/erfkrit_insert.php',
@@ -4144,10 +4120,6 @@ function treeKontextmenu(node) {
 				"label": "neues Erfolgskriterium",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					var insertErfkrit_2 = $.ajax({
 						type: 'post',
 						url: 'php/erfkrit_insert.php',
@@ -4255,10 +4227,6 @@ function treeKontextmenu(node) {
 				"label": "neuer AP-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					var insertJber = $.ajax({
 						type: 'post',
 						url: 'php/jber_insert.php',
@@ -4308,10 +4276,6 @@ function treeKontextmenu(node) {
 				"label": "neuer AP-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					var insertJber_2 = $.ajax({
 						type: 'post',
 						url: 'php/jber_insert.php',
@@ -4424,10 +4388,6 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					var insertJberUebersicht = $.ajax({
 						type: 'post',
 						url: 'php/jber_uebersicht_insert.php',
@@ -4524,10 +4484,6 @@ function treeKontextmenu(node) {
 				"label": "neuer Bericht",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					var insertBer = $.ajax({
 						type: 'post',
 						url: 'php/ber_insert.php',
@@ -4569,10 +4525,6 @@ function treeKontextmenu(node) {
 				"label": "Neuer Bericht",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					var insertBer_2 = $.ajax({
 						type: 'post',
 						url: 'php/ber_insert.php',
@@ -4673,10 +4625,6 @@ function treeKontextmenu(node) {
 				"label": "neue assoziierte Art",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					var insertAssozarten = $.ajax({
 						type: 'post',
 						url: 'php/assozarten_insert.php',
@@ -4726,10 +4674,6 @@ function treeKontextmenu(node) {
 				"label": "neue assoziierte Art",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					var insertAssozarten_2 = $.ajax({
 						type: 'post',
 						url: 'php/assozarten_insert.php',
@@ -4830,10 +4774,6 @@ function treeKontextmenu(node) {
 				"label": "neue Population",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					var insertPop_2 = $.ajax( {
 						type: 'post',
 						url: 'php/pop_insert.php',
@@ -5085,10 +5025,6 @@ function treeKontextmenu(node) {
 				"label": "neue Teilpopulation",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					var insertTPop = $.ajax({
 						type: 'post',
 						url: 'php/tpop_insert.php',
@@ -5231,10 +5167,6 @@ function treeKontextmenu(node) {
 				"label": "neue Teilpopulation",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					var insertTPop_2 = $.ajax({
 						type: 'post',
 						url: 'php/tpop_insert.php',
@@ -5364,10 +5296,6 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/flora_icon_rot.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					$.ajax({
 						type: 'get',
 						url: 'php/tpop.php',
@@ -5414,10 +5342,6 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/flora_icon_rot.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					$.ajax({
 						type: 'get',
 						url: 'php/tpop.php',
@@ -5538,10 +5462,6 @@ function treeKontextmenu(node) {
 				"label": "neuer Populations-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					$.ajax({
 						type: 'post',
 						url: 'php/popber_insert.php',
@@ -5591,10 +5511,6 @@ function treeKontextmenu(node) {
 				"label": "neuer Populations-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					$.ajax({
 						type: 'post',
 						url: 'php/popber_insert.php',
@@ -5689,10 +5605,6 @@ function treeKontextmenu(node) {
 				"label": "neuer Massnahmen-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					$.ajax({
 						type: 'post',
 						url: 'php/popmassnber_insert.php',
@@ -5742,10 +5654,6 @@ function treeKontextmenu(node) {
 				"label": "neuer Massnahmen-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					$.ajax({
 						type: 'post',
 						url: 'php/popmassnber_insert.php',
@@ -5840,10 +5748,6 @@ function treeKontextmenu(node) {
 				"label": "neue Feldkontrolle",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					$.ajax({
 						type: 'post',
 						url: 'php/tpopfeldkontr_insert.php',
@@ -5903,10 +5807,6 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					// und an die DB schicken
 					$.ajax({
 						type: 'post',
@@ -5950,10 +5850,6 @@ function treeKontextmenu(node) {
 				"label": "neue Feldkontrolle",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					$.ajax({
 						type: 'post',
 						url: 'php/tpopfeldkontr_insert.php',
@@ -6213,10 +6109,6 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					// und an die DB schicken
 					$.ajax({
 						type: 'post',
@@ -6260,10 +6152,6 @@ function treeKontextmenu(node) {
 				"label": "neue Freiwilligen-Kontrolle",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					$.ajax({
 						type: 'post',
 						url: 'php/tpopfeldkontr_insert.php',
@@ -6325,10 +6213,6 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					// und an die DB schicken
 					$.ajax({
 						type: 'post',
@@ -6374,10 +6258,6 @@ function treeKontextmenu(node) {
 				"label": "neue Freiwilligen-Kontrolle",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					$.ajax({
 						type: 'post',
 						url: 'php/tpopfeldkontr_insert.php',
@@ -6544,12 +6424,6 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
-					// und an die DB schicken
-					console.log("jetzt2");
 					$.ajax({
 						type: 'post',
 						url: 'php/tpopfeldkontr_insert_kopie.php',
@@ -6593,10 +6467,6 @@ function treeKontextmenu(node) {
 				"label": "neue Massnahme",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					$.ajax({
 						type: 'post',
 						url: 'php/tpopmassn_insert.php',
@@ -6656,11 +6526,6 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
-					// und an die DB schicken
 					$.ajax({
 						type: 'post',
 						url: 'php/tpopmassn_insert_kopie.php',
@@ -6704,10 +6569,6 @@ function treeKontextmenu(node) {
 				"label": "neue Massnahme",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					$.ajax({
 						type: 'post',
 						url: 'php/tpopmassn_insert.php',
@@ -6876,11 +6737,6 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
-					// und an die DB schicken
 					$.ajax({
 						type: 'post',
 						url: 'php/tpopmassn_insert_kopie.php',
@@ -6923,10 +6779,6 @@ function treeKontextmenu(node) {
 				"label": "neuer Teilpopulations-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					$.ajax({
 						type: 'post',
 						url: 'php/tpopber_insert.php',
@@ -6976,10 +6828,6 @@ function treeKontextmenu(node) {
 				"label": "neuer Teilpopulations-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					$.ajax({
 						type: 'post',
 						url: 'php/tpopber_insert.php',
@@ -7243,10 +7091,6 @@ function treeKontextmenu(node) {
 				"label": "neuer Massnahmen-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					$.ajax({
 						type: 'post',
 						url: 'php/tpopmassnber_insert.php',
@@ -7296,10 +7140,6 @@ function treeKontextmenu(node) {
 				"label": "neuer Massnahmen-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!pruefeSchreibvoraussetzungen()) {
-						return;
-					}
 					$.ajax({
 						type: 'post',
 						url: 'php/tpopmassnber_insert.php',
@@ -7705,12 +7545,6 @@ function treeKontextmenu(node) {
 }
 
 function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
-	// nur aktualisieren, wenn Schreibrechte bestehen
-	if (!pruefeSchreibvoraussetzungen()) {
-		return;
-	}
-
-	// und an die DB schicken
 	$.ajax({
 		type: 'post',
 		url: 'php/tpop_insert_kopie.php',
@@ -7890,13 +7724,15 @@ function pruefeLesevoraussetzungen() {
 }
 
 function pruefeSchreibvoraussetzungen() {
-	// kontrollieren, ob der User offline ist
-	if (sessionStorage.NurLesen) {
-		// nur speichern, wenn Schreibrechte bestehen
-		melde("Sie haben keine Schreibrechte");
-		return false;
-	} else {
-		return true;
+	// kontrollieren, ob der User online ist
+	if (pruefeLesevoraussetzungen()) {
+		// kontrollieren, ob der User Schreibrechte hat
+		if (sessionStorage.NurLesen) {
+			melde("Sie haben keine Schreibrechte");
+			return false;
+		} else {
+			return true;
+		}
 	}
 }
 
@@ -8956,22 +8792,20 @@ function erstelleTPopulationFuerGeoAdmin(TPop) {
 
 // dieser Funktion kann man einen Wert zum speichern übergeben
 function speichereWert(tabelle, id, feld, wert) {
-	if (pruefeSchreibvoraussetzungen()) {
-		$.ajax({
-			type: 'post',
-			url: 'php/' + tabelle + '_update.php',
-			dataType: 'json',
-			data: {
-				"id": id,
-				"Feld": feld,
-				"Wert": wert,
-				"user": sessionStorage.User
-			},
-			error: function() {
-				melde("Fehler: Die letzte Änderung wurde nicht gespeichert");
-			}
-		});
-	}
+	$.ajax({
+		type: 'post',
+		url: 'php/' + tabelle + '_update.php',
+		dataType: 'json',
+		data: {
+			"id": id,
+			"Feld": feld,
+			"Wert": wert,
+			"user": sessionStorage.User
+		},
+		error: function() {
+			melde("Fehler: Die letzte Änderung wurde nicht gespeichert");
+		}
+	});
 }
 
 // nimmt drei Variabeln entgegen: 
@@ -11837,6 +11671,8 @@ function melde(meldung) {
 	});
 }
 
+// damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
+// Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
 (function($) {
 	$.fn.extend( {
 		limiter: function(limit, elem) {
