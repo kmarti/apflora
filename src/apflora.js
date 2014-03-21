@@ -703,16 +703,7 @@ function initiiere_idealbiotop() {
 			}
 		} else {
 			// nur aktualisieren, wenn Schreibrechte bestehen
-			if (sessionStorage.NurLesen) {
-				$("#Meldung").html("Sie haben keine Schreibrechte");
-				$("#Meldung").dialog({
-					modal: true,
-					buttons: {
-						Ok: function() {
-							$(this).dialog("close");
-						}
-					}
-				});
+			if (!pruefeSchreibvoraussetzungen()) {
 				return;
 			}
 
@@ -731,15 +722,7 @@ function initiiere_idealbiotop() {
 				initiiere_idealbiotop();
 			});
 			insertIdealbiotop.fail(function (data) {
-				$("#Meldung").html("Fehler: Kein Idealbiotop erstellt");
-				$("#Meldung").dialog({
-					modal: true,
-					buttons: {
-						Ok: function() {
-							$(this).dialog("close");
-						}
-					}
-				});
+				melde("Fehler: Kein Idealbiotop erstellt");
 			});
 		}
 	});
@@ -2623,16 +2606,7 @@ function erstelle_tree(ApArtId) {
 		var herkunft_node, herkunft_node_id, herkunft_node_typ, ziel_node, ziel_node_id, ziel_node_typ, ziel_parent_node, ziel_parent_node_id;
 		
 		// nur aktualisieren, wenn Schreibrechte bestehen
-		if (sessionStorage.NurLesen) {
-			$("#Meldung").html("Sie haben keine Schreibrechte");
-			$("#Meldung").dialog({
-				modal: true,
-				buttons: {
-					Ok: function() {
-						$(this).dialog("close");
-					}
-				}
-			});
+		if (!pruefeSchreibvoraussetzungen()) {
 			return;
 		}
 
@@ -2675,19 +2649,11 @@ function erstelle_tree(ApArtId) {
 					initiiere_pop();
 				});
 				fuegePopEin.fail(function (data) {
-					$("#Meldung").html("Fehler: Die Teilpopulation wurde nicht verschoben");
-					$("#Meldung").dialog({
-						modal: true,
-						buttons: {
-							Ok: function() {
-								$(this).dialog("close");
-							}
-						}
-					});
+					melde("Fehler: Die Teilpopulation wurde nicht verschoben");
 				});
 			}
 			if (ziel_node_typ === "tpop") {
-				$.ajax({
+				var fuegeTPopEin = $.ajax({
 					type: 'post',
 					url: 'php/tpop_einfuegen.php',
 					dataType: 'json',
@@ -2695,36 +2661,28 @@ function erstelle_tree(ApArtId) {
 						"pop_id": ziel_parent_node_id,
 						"tpop_id": ziel_node_id,
 						"user": sessionStorage.User
-					},
-					success: function () {
-						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-						beschrifte_pop_ordner_tpop(ziel_parent_node);
-						beschrifte_pop_ordner_tpop(window.herkunft_parent_node);
-						// selection steuern
-						jQuery.jstree._reference(ziel_node).deselect_all();
-						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
-						// Variablen aufräumen
-						localStorage.tpop_id = herkunft_node_id;
-						delete window.tpop;
-						delete window.tpop_node_ausgeschnitten;
-						delete window.herkunft_parent_node;
-						initiiere_tpop();
-					},
-					error: function (data) {
-						$("#Meldung").html("Fehler: Die Teilpopulation wurde nicht verschoben");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
 					}
+				});
+				fuegeTPopEin.done(function () {
+					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+					beschrifte_pop_ordner_tpop(ziel_parent_node);
+					beschrifte_pop_ordner_tpop(window.herkunft_parent_node);
+					// selection steuern
+					jQuery.jstree._reference(ziel_node).deselect_all();
+					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+					// Variablen aufräumen
+					localStorage.tpop_id = herkunft_node_id;
+					delete window.tpop;
+					delete window.tpop_node_ausgeschnitten;
+					delete window.herkunft_parent_node;
+					initiiere_tpop();
+				});
+				fuegeTPopEin.fail(function (data) {
+					melde("Fehler: Die Teilpopulation wurde nicht verschoben");
 				});
 			}
 			if (ziel_node_typ === "pop_ordner_tpop") {
-				$.ajax({
+				var fuegeTPopEin_2 = $.ajax({
 					type: 'post',
 					url: 'php/tpop_einfuegen.php',
 					dataType: 'json',
@@ -2732,37 +2690,29 @@ function erstelle_tree(ApArtId) {
 						"pop_id": ziel_node_id,
 						"tpop_id": herkunft_node_id,
 						"user": sessionStorage.User
-					},
-					success: function () {
-						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-						beschrifte_pop_ordner_tpop(ziel_node);
-						beschrifte_pop_ordner_tpop(window.herkunft_parent_node);
-						// select steuern
-						jQuery.jstree._reference(ziel_node).deselect_all();
-						jQuery.jstree._reference(ziel_node).select_node(herkunft_node);
-						// Variablen aufräumen
-						localStorage.tpop_id = herkunft_node_id;
-						delete window.tpop;
-						delete window.tpop_node_ausgeschnitten;
-						initiiere_tpop();
-					},
-					error: function (data) {
-						$("#Meldung").html("Fehler: Die Teilpopulation wurde nicht verschoben");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
 					}
+				});
+				fuegeTPopEin_2.done(function () {
+					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+					beschrifte_pop_ordner_tpop(ziel_node);
+					beschrifte_pop_ordner_tpop(window.herkunft_parent_node);
+					// select steuern
+					jQuery.jstree._reference(ziel_node).deselect_all();
+					jQuery.jstree._reference(ziel_node).select_node(herkunft_node);
+					// Variablen aufräumen
+					localStorage.tpop_id = herkunft_node_id;
+					delete window.tpop;
+					delete window.tpop_node_ausgeschnitten;
+					initiiere_tpop();
+				});
+				fuegeTPopEin_2.fail(function (data) {
+					melde("Fehler: Die Teilpopulation wurde nicht verschoben");
 				});
 			}
 		}
 		if (herkunft_node_typ === "tpop") {
 			if (ziel_node_typ === "tpop") {
-				$.ajax({
+				var fuegeTPopEin_3 = $.ajax({
 					type: 'post',
 					url: 'php/tpop_einfuegen.php',
 					dataType: 'json',
@@ -2770,36 +2720,28 @@ function erstelle_tree(ApArtId) {
 						"pop_id": ziel_parent_node_id,
 						"tpop_id": herkunft_node_id,
 						"user": sessionStorage.User
-					},
-					success: function () {
-						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-						beschrifte_pop_ordner_tpop(ziel_parent_node);
-						beschrifte_pop_ordner_tpop(window.herkunft_parent_node);
-						// selection steuern
-						jQuery.jstree._reference(herkunft_node).deselect_all();
-						jQuery.jstree._reference(ziel_parent_node).select_node(herkunft_node);
-						// Variablen aufräumen
-						localStorage.tpop_id = herkunft_node_id;
-						delete window.tpop;
-						delete window.tpop_node_ausgeschnitten;
-						delete window.herkunft_parent_node;
-						initiiere_tpop();
-					},
-					error: function (data) {
-						$("#Meldung").html("Fehler: Die Teilpopulation wurde nicht verschoben");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
 					}
+				});
+				fuegeTPopEin_3.done(function () {
+					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+					beschrifte_pop_ordner_tpop(ziel_parent_node);
+					beschrifte_pop_ordner_tpop(window.herkunft_parent_node);
+					// selection steuern
+					jQuery.jstree._reference(herkunft_node).deselect_all();
+					jQuery.jstree._reference(ziel_parent_node).select_node(herkunft_node);
+					// Variablen aufräumen
+					localStorage.tpop_id = herkunft_node_id;
+					delete window.tpop;
+					delete window.tpop_node_ausgeschnitten;
+					delete window.herkunft_parent_node;
+					initiiere_tpop();
+				});
+				fuegeTPopEin_3.fail(function (data) {
+					melde("Fehler: Die Teilpopulation wurde nicht verschoben");
 				});
 			}
 			if (ziel_node_typ === "pop_ordner_tpop") {
-				$.ajax({
+				var fuegeTPopEin_4 = $.ajax({
 					type: 'post',
 					url: 'php/tpop_einfuegen.php',
 					dataType: 'json',
@@ -2807,38 +2749,30 @@ function erstelle_tree(ApArtId) {
 						"pop_id": ziel_node_id,
 						"tpop_id": herkunft_node_id,
 						"user": sessionStorage.User
-					},
-					success: function () {
-						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-						beschrifte_pop_ordner_tpop(ziel_node);
-						beschrifte_pop_ordner_tpop(window.herkunft_parent_node);
-						// selection steuern
-						jQuery.jstree._reference(herkunft_node).deselect_all();
-						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
-						// Variablen aufräumen
-						localStorage.tpop_id = herkunft_node_id;
-						delete window.tpop;
-						delete window.tpop_node_ausgeschnitten;
-						delete window.herkunft_parent_node;
-						initiiere_tpop();
-					},
-					error: function (data) {
-						$("#Meldung").html("Fehler: Die Teilpopulation wurde nicht verschoben");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
 					}
+				});
+				fuegeTPopEin_4.done(function () {
+					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+					beschrifte_pop_ordner_tpop(ziel_node);
+					beschrifte_pop_ordner_tpop(window.herkunft_parent_node);
+					// selection steuern
+					jQuery.jstree._reference(herkunft_node).deselect_all();
+					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+					// Variablen aufräumen
+					localStorage.tpop_id = herkunft_node_id;
+					delete window.tpop;
+					delete window.tpop_node_ausgeschnitten;
+					delete window.herkunft_parent_node;
+					initiiere_tpop();
+				});
+				fuegeTPopEin_4.fail(function (data) {
+					melde("Fehler: Die Teilpopulation wurde nicht verschoben");
 				});
 			}
 		}
 		if (herkunft_node_typ === "tpopmassn") {
 			if (ziel_node_typ === "tpopmassn") {
-				$.ajax({
+				var fuegeTPopMassnEin = $.ajax({
 					type: 'post',
 					url: 'php/tpopmassn_einfuegen.php',
 					dataType: 'json',
@@ -2846,36 +2780,28 @@ function erstelle_tree(ApArtId) {
 						"tpop_id": ziel_parent_node_id,
 						"tpopmassn_id": herkunft_node_id,
 						"user": sessionStorage.User
-					},
-					success: function () {
-						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-						beschrifte_tpop_ordner_massn(ziel_parent_node);
-						beschrifte_tpop_ordner_massn(window.herkunft_parent_node);
-						// selection steuern
-						jQuery.jstree._reference(herkunft_node).deselect_all();
-						jQuery.jstree._reference(ziel_parent_node).select_node(herkunft_node);
-						// Variablen aufräumen
-						localStorage.tpopmassn_id = herkunft_node_id;
-						delete window.tpopmassn;
-						delete window.tpopmassn_node_ausgeschnitten;
-						delete window.herkunft_parent_node;
-						initiiere_tpopmassn();
-					},
-					error: function (data) {
-						$("#Meldung").html("Fehler: Die Massnahme wurde nicht verschoben");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
 					}
+				});
+				fuegeTPopMassnEin.done(function () {
+					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+					beschrifte_tpop_ordner_massn(ziel_parent_node);
+					beschrifte_tpop_ordner_massn(window.herkunft_parent_node);
+					// selection steuern
+					jQuery.jstree._reference(herkunft_node).deselect_all();
+					jQuery.jstree._reference(ziel_parent_node).select_node(herkunft_node);
+					// Variablen aufräumen
+					localStorage.tpopmassn_id = herkunft_node_id;
+					delete window.tpopmassn;
+					delete window.tpopmassn_node_ausgeschnitten;
+					delete window.herkunft_parent_node;
+					initiiere_tpopmassn();
+				});
+				fuegeTPopMassnEin.fail(function (data) {
+					melde("Fehler: Die Massnahme wurde nicht verschoben");
 				});
 			}
 			if (ziel_node_typ === "tpop_ordner_massn") {
-				$.ajax({
+				var fuegeTPopMassnEin_2 = $.ajax({
 					type: 'post',
 					url: 'php/tpopmassn_einfuegen.php',
 					dataType: 'json',
@@ -2883,38 +2809,30 @@ function erstelle_tree(ApArtId) {
 						"tpop_id": ziel_node_id,
 						"tpopmassn_id": herkunft_node_id,
 						"user": sessionStorage.User
-					},
-					success: function () {
-						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-						beschrifte_tpop_ordner_massn(ziel_node);
-						beschrifte_tpop_ordner_massn(window.herkunft_parent_node);
-						// selection steuern
-						jQuery.jstree._reference(herkunft_node).deselect_all();
-						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
-						// Variablen aufräumen
-						localStorage.tpopmassn_id = herkunft_node_id;
-						delete window.tpopmassn;
-						delete window.tpopmassn_node_ausgeschnitten;
-						delete window.herkunft_parent_node;
-						initiiere_tpopmassn();
-					},
-					error: function (data) {
-						$("#Meldung").html("Fehler: Die Massnahme wurde nicht verschoben");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
 					}
+				});
+				fuegeTPopMassnEin_2.done(function () {
+					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+					beschrifte_tpop_ordner_massn(ziel_node);
+					beschrifte_tpop_ordner_massn(window.herkunft_parent_node);
+					// selection steuern
+					jQuery.jstree._reference(herkunft_node).deselect_all();
+					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+					// Variablen aufräumen
+					localStorage.tpopmassn_id = herkunft_node_id;
+					delete window.tpopmassn;
+					delete window.tpopmassn_node_ausgeschnitten;
+					delete window.herkunft_parent_node;
+					initiiere_tpopmassn();
+				});
+				fuegeTPopMassnEin_2.fail(function (data) {
+					melde("Fehler: Die Massnahme wurde nicht verschoben");
 				});
 			}
 		}
 		if (herkunft_node_typ === "tpopfeldkontr") {
 			if (ziel_node_typ === "tpopfeldkontr") {
-				$.ajax({
+				var fuegeTPopFeldkontrEin = $.ajax({
 					type: 'post',
 					url: 'php/tpopfeldkontr_einfuegen.php',
 					dataType: 'json',
@@ -2922,32 +2840,24 @@ function erstelle_tree(ApArtId) {
 						"tpop_id": ziel_parent_node_id,
 						"tpopfeldkontr_id": herkunft_node_id,
 						"user": sessionStorage.User
-					},
-					success: function () {
-						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-						beschrifte_tpop_ordner_feldkontr(ziel_parent_node);
-						beschrifte_tpop_ordner_feldkontr(window.herkunft_parent_node);
-						// selection steuern
-						jQuery.jstree._reference(herkunft_node).deselect_all();
-						jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
-						// Variablen aufräumen
-						localStorage.tpopfeldkontr_id = herkunft_node_id;
-						delete window.tpopfeldkontr;
-						delete window.tpopfeldkontr_node_ausgeschnitten;
-						delete window.herkunft_parent_node;
-						initiiere_tpopfeldkontr();
-					},
-					error: function (data) {
-						$("#Meldung").html("Fehler: Die Feldkontrolle wurde nicht verschoben");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
 					}
+				});
+				fuegeTPopFeldkontrEin.done(function () {
+					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
+					beschrifte_tpop_ordner_feldkontr(ziel_parent_node);
+					beschrifte_tpop_ordner_feldkontr(window.herkunft_parent_node);
+					// selection steuern
+					jQuery.jstree._reference(herkunft_node).deselect_all();
+					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+					// Variablen aufräumen
+					localStorage.tpopfeldkontr_id = herkunft_node_id;
+					delete window.tpopfeldkontr;
+					delete window.tpopfeldkontr_node_ausgeschnitten;
+					delete window.herkunft_parent_node;
+					initiiere_tpopfeldkontr();
+				});
+				fuegeTPopFeldkontrEin.fail(function (data) {
+					melde("Fehler: Die Feldkontrolle wurde nicht verschoben");
 				});
 			}
 			if (ziel_node_typ === "tpop_ordner_feldkontr") {
@@ -2974,16 +2884,8 @@ function erstelle_tree(ApArtId) {
 						delete window.herkunft_parent_node;
 						initiiere_tpopfeldkontr();
 					},
-					error: function (data) {
-						$("#Meldung").html("Fehler: Die Feldkontrolle wurde nicht verschoben");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					error: function () {
+						melde("Fehler: Die Feldkontrolle wurde nicht verschoben");
 					}
 				});
 			}
@@ -3014,16 +2916,8 @@ function erstelle_tree(ApArtId) {
 						localStorage.tpopfreiwkontr = true;
 						initiiere_tpopfeldkontr();
 					},
-					error: function (data) {
-						$("#Meldung").html("Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					error: function () {
+						melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben");
 					}
 				});
 			}
@@ -3052,16 +2946,8 @@ function erstelle_tree(ApArtId) {
 						localStorage.tpopfreiwkontr = true;
 						initiiere_tpopfeldkontr();
 					},
-					error: function (data) {
-						$("#Meldung").html("Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					error: function () {
+						melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben");
 					}
 				});
 			}
@@ -3094,16 +2980,8 @@ function erstelle_tree(ApArtId) {
 						delete window.beob_zugeordnet_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
 					},
-					error: function (data) {
-						$("#Meldung").html("Fehler: Die Beobachtung wurde nicht zugeordnet");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					error: function () {
+						melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
 					}
 				});
 			}
@@ -3144,15 +3022,7 @@ function erstelle_tree(ApArtId) {
 						delete window.herkunft_parent_node;
 					},
 					error: function () {
-						$("#Meldung").html("Fehler: Die Beobachtung wurde nicht verschoben");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+						melde("Fehler: Die Beobachtung wurde nicht verschoben");
 					}
 				});
 			}
@@ -3203,15 +3073,7 @@ function erstelle_tree(ApArtId) {
 						});
 					},
 					error: function() {
-						$("#Meldung").html("Fehler: Die Beobachtung wurde nicht verschoben");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+						melde("Fehler: Die Beobachtung wurde nicht verschoben");
 					}
 				});
 			}
@@ -3268,16 +3130,8 @@ function erstelle_tree(ApArtId) {
 								delete window.beob_node_ausgeschnitten;
 								delete window.herkunft_parent_node;
 							},
-							error: function (data) {
-								$("#Meldung").html("Fehler: Die Beobachtung wurde nicht verschoben");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
+							error: function () {
+								melde("Fehler: Die Beobachtung wurde nicht verschoben");
 							}
 						});
 					}
@@ -3327,16 +3181,8 @@ function erstelle_tree(ApArtId) {
 							}
 						});
 					},
-					error: function (data) {
-						$("#Meldung").html("Fehler: Die Beobachtung wurde nicht verschoben");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					error: function () {
+						melde("Fehler: Die Beobachtung wurde nicht verschoben");
 					}
 				});
 			}
@@ -3369,16 +3215,8 @@ function erstelle_tree(ApArtId) {
 						delete window.beob_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
 					},
-					error: function (data) {
-						$("#Meldung").html("Fehler: Die Zuordnung der Beobachtung wurde nicht entfernt");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					error: function () {
+						melde("Fehler: Die Zuordnung der Beobachtung wurde nicht entfernt");
 					}
 				});
 			}
@@ -3428,16 +3266,8 @@ function erstelle_tree(ApArtId) {
 								delete window.beob_node_ausgeschnitten;
 								delete window.herkunft_parent_node;
 							},
-							error: function (data) {
-								$("#Meldung").html("Fehler: Die Beobachtung wurde nicht verschoben");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
+							error: function () {
+								melde("Fehler: Die Beobachtung wurde nicht verschoben");
 							}
 						});
 					}
@@ -3660,16 +3490,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -3722,16 +3543,8 @@ function treeKontextmenu(node) {
 							// Formular aufbauen
 							initiiere_pop();
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine neue Population erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine neue Population erstellt");
 						}
 					});
 				}
@@ -3752,27 +3565,11 @@ function treeKontextmenu(node) {
 							if (data.rows.length > 0) {
 								zeigePopAufGeoAdmin(data);
 							} else {
-								$("#Meldung").html("Die Population hat keine Koordinaten");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
+								melde("Die Population hat keine Koordinaten");
 							}
 						},	
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine Daten erhalten");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine Daten erhalten");
 						}
 					});
 				}
@@ -3793,27 +3590,11 @@ function treeKontextmenu(node) {
 							if (data.rows.length > 0) {
 								zeigeTPopAufKarte(data);
 							} else {
-								$("#Meldung").html("Es gibt keine Teilpopulation mit Koordinaten");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
+								melde("Es gibt keine Teilpopulation mit Koordinaten");
 							}
 						},	
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine Daten erhalten");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine Daten erhalten");
 						}
 					});
 				}
@@ -3857,18 +3638,8 @@ function treeKontextmenu(node) {
 							delete window.pop_bezeichnung;
 							delete window.pop_id;
 						},
-						error: function (data) {
-							var Meldung;
-							Meldung = JSON.stringify(data);
-							$("#Meldung").html(data.responseText);
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Die Population wurde nicht verschoben");
 						}
 					});
 				}
@@ -3889,16 +3660,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					// temporären Unterordner anlegen
@@ -3944,16 +3706,8 @@ function treeKontextmenu(node) {
 							});
 							initiiere_apziel();
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine neues AP-Ziel erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine neues AP-Ziel erstellt");
 						}
 					});
 				}
@@ -3982,16 +3736,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax( {
@@ -4038,16 +3783,8 @@ function treeKontextmenu(node) {
 							
 							// im create_node-Event von jstree wird Jahr eingefügt und gespeichert
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine neues Ziel erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine neues Ziel erstellt");
 						}
 					});
 				}
@@ -4069,16 +3806,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					grandparent_node = jQuery.jstree._reference(parent_node)._get_parent(parent_node);
@@ -4122,16 +3850,8 @@ function treeKontextmenu(node) {
 							});
 							initiiere_apziel();
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Kein neues AP-Ziel erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Kein neues AP-Ziel erstellt");
 						}
 					});
 				}
@@ -4142,16 +3862,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
@@ -4188,16 +3899,8 @@ function treeKontextmenu(node) {
 											beschrifte_apzieljahr(parent_node);
 										}
 									},
-									error: function (data) {
-										$("#Meldung").html("Fehler: Das AP-Ziel wurde nicht gelöscht");
-										$("#Meldung").dialog({
-											modal: true,
-											buttons: {
-												Ok: function() {
-													$(this).dialog("close");
-												}
-											}
-										});
+									error: function () {
+										melde("Fehler: Das AP-Ziel wurde nicht gelöscht");
 									}
 								});
 							},
@@ -4225,16 +3928,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -4264,16 +3958,8 @@ function treeKontextmenu(node) {
 							// formular initiieren
 							initiiere_zielber();
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keinen neuen Ziel-Bericht erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
 						}
 					});
 				}
@@ -4295,16 +3981,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -4336,15 +4013,7 @@ function treeKontextmenu(node) {
 							initiiere_zielber();
 						},
 						error: function () {
-							$("#Meldung").html("Fehler: Keinen neuen Ziel-Bericht erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+							melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
 						}
 					});
 				}
@@ -4355,16 +4024,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
@@ -4396,16 +4056,8 @@ function treeKontextmenu(node) {
 										// Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_zielber_ordner(parent_node);
 									},
-									error: function (data) {
-										$("#Meldung").html("Fehler: Der Ziel-Bericht wurde nicht gelöscht");
-										$("#Meldung").dialog({
-											modal: true,
-											buttons: {
-												Ok: function() {
-													$(this).dialog("close");
-												}
-											}
-										});
+									error: function () {
+										melde("Fehler: Der Ziel-Bericht wurde nicht gelöscht");
 									}
 								});
 							},
@@ -4433,16 +4085,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -4472,16 +4115,8 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_erfkrit();
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Kein neues Erfolgskriterium erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Kein neues Erfolgskriterium erstellt");
 						}
 					});
 				}
@@ -4503,16 +4138,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -4544,15 +4170,7 @@ function treeKontextmenu(node) {
 							initiiere_erfkrit();
 						},
 						error: function () {
-							$("#Meldung").html("Fehler: Kein neues Erfolgskriterium erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+							melde("Fehler: Kein neues Erfolgskriterium erstellt");
 						}
 					});
 				}
@@ -4563,16 +4181,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
@@ -4604,16 +4213,8 @@ function treeKontextmenu(node) {
 										// Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_ap_ordner_erfkrit(parent_node);
 									},
-									error: function (data) {
-										$("#Meldung").html("Fehler: Das Erfolgskriterium wurde nicht gelöscht");
-										$("#Meldung").dialog({
-											modal: true,
-											buttons: {
-												Ok: function() {
-													$(this).dialog("close");
-												}
-											}
-										});
+									error: function () {
+										melde("Fehler: Das Erfolgskriterium wurde nicht gelöscht");
 									}
 								});
 							},
@@ -4648,16 +4249,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -4687,16 +4279,8 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_jber();
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keinen neuen AP-Bericht erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keinen neuen AP-Bericht erstellt");
 						}
 					});
 				}
@@ -4718,16 +4302,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -4759,15 +4334,7 @@ function treeKontextmenu(node) {
 							initiiere_jber();
 						},
 						error: function () {
-							$("#Meldung").html("Fehler: Keinen neuen AP-Bericht erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+							melde("Fehler: Keinen neuen AP-Bericht erstellt");
 						}
 					});
 				}
@@ -4778,16 +4345,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
@@ -4831,16 +4389,8 @@ function treeKontextmenu(node) {
 											$("#forms_titelzeile").hide();
 										}, 25000);
 									},
-									error: function (data) {
-										$("#Meldung").html("Fehler: Der AP-Bericht wurde nicht gelöscht");
-										$("#Meldung").dialog({
-											modal: true,
-											buttons: {
-												Ok: function() {
-													$(this).dialog("close");
-												}
-											}
-										});
+									error: function () {
+										melde("Fehler: Der AP-Bericht wurde nicht gelöscht");
 									}
 								});
 							},
@@ -4868,16 +4418,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -4904,15 +4445,7 @@ function treeKontextmenu(node) {
 							initiiere_jber_uebersicht();
 						},
 						error: function () {
-							$("#Meldung").html("Fehler: Keine Übersicht zu allen Arten erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+							melde("Fehler: Keine Übersicht zu allen Arten erstellt");
 						}
 					});
 				}
@@ -4926,16 +4459,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
@@ -4965,16 +4489,8 @@ function treeKontextmenu(node) {
 										delete window.jber_uebersicht;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									},
-									error: function (data) {
-										$("#Meldung").html("Fehler: Die Übersicht zu allen Arten wurde nicht gelöscht");
-										$("#Meldung").dialog({
-											modal: true,
-											buttons: {
-												Ok: function() {
-													$(this).dialog("close");
-												}
-											}
-										});
+									error: function () {
+										melde("Fehler: Die Übersicht zu allen Arten wurde nicht gelöscht");
 									}
 								});
 							},
@@ -5002,16 +4518,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -5041,16 +4548,8 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_ber();
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keinen neuen Bericht erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keinen neuen Bericht erstellt");
 						}
 					});
 				}
@@ -5064,16 +4563,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -5105,15 +4595,7 @@ function treeKontextmenu(node) {
 							initiiere_ber();
 						},
 						error: function () {
-							$("#Meldung").html("Fehler: Keinen neuen Bericht erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+							melde("Fehler: Keinen neuen Bericht erstellt");
 						}
 					});
 				}
@@ -5124,16 +4606,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
@@ -5165,16 +4638,8 @@ function treeKontextmenu(node) {
 										// Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_ap_ordner_ber(parent_node);
 									},
-									error: function (data) {
-										$("#Meldung").html("Fehler: Der Bericht wurde nicht gelöscht");
-										$("#Meldung").dialog({
-											modal: true,
-											buttons: {
-												Ok: function() {
-													$(this).dialog("close");
-												}
-											}
-										});
+									error: function () {
+										melde("Fehler: Der Bericht wurde nicht gelöscht");
 									}
 								});
 							},
@@ -5202,16 +4667,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -5241,16 +4697,8 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_assozarten();
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: keine assoziierte Art erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: keine assoziierte Art erstellt");
 						}
 					});
 				}
@@ -5272,16 +4720,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -5313,15 +4752,7 @@ function treeKontextmenu(node) {
 							initiiere_assozarten();
 						},
 						error: function () {
-							$("#Meldung").html("Fehler: Keine assoziierte Art erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+							melde("Fehler: Keine assoziierte Art erstellt");
 						}
 					});
 				}
@@ -5332,16 +4763,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
@@ -5373,16 +4795,8 @@ function treeKontextmenu(node) {
 										// Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_ap_ordner_assozarten(parent_node);
 									},
-									error: function (data) {
-										$("#Meldung").html("Fehler: Die assoziierte Art wurde nicht gelöscht");
-										$("#Meldung").dialog({
-											modal: true,
-											buttons: {
-												Ok: function() {
-													$(this).dialog("close");
-												}
-											}
-										});
+									error: function () {
+										melde("Fehler: Die assoziierte Art wurde nicht gelöscht");
 									}
 								});
 							},
@@ -5410,16 +4824,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax( {
@@ -5473,16 +4878,8 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_pop();
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine neue Population erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine neue Population erstellt");
 						}
 					});
 				}
@@ -5493,16 +4890,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
@@ -5546,16 +4934,8 @@ function treeKontextmenu(node) {
 											$("#forms_titelzeile").hide();
 										}, 25000);
 									},
-									error: function (data) {
-										$("#Meldung").html("Fehler: Die Population wurde nicht gelöscht");
-										$("#Meldung").dialog({
-											modal: true,
-											buttons: {
-												Ok: function() {
-													$(this).dialog("close");
-												}
-											}
-										});
+									error: function () {
+										melde("Fehler: Die Population wurde nicht gelöscht");
 									}
 								});
 							},
@@ -5582,27 +4962,11 @@ function treeKontextmenu(node) {
 							if (data.rows.length > 0) {
 								zeigePopAufGeoAdmin(data);
 							} else {
-								$("#Meldung").html("Die Population hat keine Koordinaten");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
+								melde("Die Population hat keine Koordinaten");
 							}
 						},	
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine Daten erhalten");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine Daten erhalten");
 						}
 					});
 				}
@@ -5623,27 +4987,11 @@ function treeKontextmenu(node) {
 							if (data.rows.length > 0) {
 								zeigeTPopAufKarte(data);
 							} else {
-								$("#Meldung").html("Es gibt keine Teilpopulation mit Koordinaten");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
+								melde("Es gibt keine Teilpopulation mit Koordinaten");
 							}
 						},	
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine Daten erhalten");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine Daten erhalten");
 						}
 					});
 				}
@@ -5664,16 +5012,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					// Jetzt die PopId merken - ihr muss danach eine andere ApArtId zugeteilt werden
@@ -5718,18 +5057,8 @@ function treeKontextmenu(node) {
 							delete window.pop_bezeichnung;
 							delete window.pop_id;
 						},
-						error: function (data) {
-							var Meldung;
-							Meldung = JSON.stringify(data);
-							$("#Meldung").html(data.responseText);
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Die Population wurde nicht verschoben");
 						}
 					});
 				}
@@ -5750,16 +5079,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -5792,16 +5112,8 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_tpop();
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine neue Teilpopulation erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine neue Teilpopulation erstellt");
 						}
 					});
 				}
@@ -5822,27 +5134,11 @@ function treeKontextmenu(node) {
 							if (data.rows.length > 0) {
 								zeigeTPopAufGeoAdmin(data);
 							} else {
-								$("#Meldung").html("Es gibt keine Teilpopulation mit Koordinaten");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
+								melde("Es gibt keine Teilpopulation mit Koordinaten");
 							}
 						},	
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine Daten erhalten");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine Daten erhalten");
 						}
 					});
 				}
@@ -5863,27 +5159,11 @@ function treeKontextmenu(node) {
 							if (data.rows.length > 0) {
 								zeigeTPopAufKarte(data);
 							} else {
-								$("#Meldung").html("Es gibt keine Teilpopulation mit Koordinaten");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
+								melde("Es gibt keine Teilpopulation mit Koordinaten");
 							}
 						},	
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine Daten erhalten");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine Daten erhalten");
 						}
 					});
 				}
@@ -5945,16 +5225,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -5988,15 +5259,7 @@ function treeKontextmenu(node) {
 							initiiere_tpop();
 						},
 						error: function () {
-							$("#Meldung").html("Fehler: Keine neue Teilpopulation erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+							melde("Fehler: Keine neue Teilpopulation erstellt");
 						}
 					});
 				}
@@ -6007,16 +5270,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
@@ -6061,16 +5315,8 @@ function treeKontextmenu(node) {
 											$("#forms_titelzeile").hide();
 										}, 25000);
 									},
-									error: function (data) {
-										$("#Meldung").html("Fehler: Die Teilpopulation wurde nicht gelöscht");
-										$("#Meldung").dialog({
-											modal: true,
-											buttons: {
-												Ok: function() {
-													$(this).dialog("close");
-												}
-											}
-										});
+									error: function () {
+										melde("Fehler: Die Teilpopulation wurde nicht gelöscht");
 									}
 								});
 							},
@@ -6097,27 +5343,11 @@ function treeKontextmenu(node) {
 							if (data.rows.length > 0) {
 								zeigeTPopAufGeoAdmin(data);
 							} else {
-								$("#Meldung").html("Die Teilpopulation hat keine Koordinaten");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
+								melde("Die Teilpopulation hat keine Koordinaten");
 							}
 						},	
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine Daten erhalten");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine Daten erhalten");
 						}
 					});
 				}
@@ -6128,16 +5358,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/flora_icon_rot.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -6150,16 +5371,8 @@ function treeKontextmenu(node) {
 						success: function (data) {
 							verorteTPopAufGeoAdmin(data);
 						},	
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine Daten erhalten");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine Daten erhalten");
 						}
 					});
 				}
@@ -6180,27 +5393,11 @@ function treeKontextmenu(node) {
 							if (data.rows.length > 0) {
 								zeigeTPopAufKarte(data);
 							} else {
-								$("#Meldung").html("Die Teilpopulation hat keine Koordinaten");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
+								melde("Die Teilpopulation hat keine Koordinaten");
 							}
 						},	
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine Daten erhalten");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine Daten erhalten");
 						}
 					});
 				}
@@ -6211,16 +5408,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/flora_icon_rot.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -6233,16 +5421,8 @@ function treeKontextmenu(node) {
 						success: function (data) {
 							verorteTPopAufKarte(data);
 						},	
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine Daten erhalten");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine Daten erhalten");
 						}
 					});
 				}
@@ -6272,16 +5452,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					window.tpop_node_ausgeschnitten = aktiver_node;
@@ -6299,16 +5470,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/kopieren.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					window.tpop_node_kopiert = aktiver_node;
@@ -6324,15 +5486,7 @@ function treeKontextmenu(node) {
 							window.tpop_objekt_kopiert = data;
 						},
 						error: function () {
-							$("#Meldung").html("Fehler: Die Teilpopulation wurde nicht kopiert");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+							melde("Fehler: Die Teilpopulation wurde nicht kopiert");
 						}
 					});
 				}
@@ -6378,16 +5532,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -6418,15 +5563,7 @@ function treeKontextmenu(node) {
 							initiiere_popber();
 						},
 						error: function () {
-							$("#Meldung").html("Fehler: Keinen neuen Populations-Bericht erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+							melde("Fehler: Keinen neuen Populations-Bericht erstellt");
 						}
 					});
 				}
@@ -6448,16 +5585,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -6488,16 +5616,8 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_popber();
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keinen neuen Populations-Bericht erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keinen neuen Populations-Bericht erstellt");
 						}
 					});
 				}
@@ -6508,16 +5628,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$("#loeschen_dialog_mitteilung").html("Der Populations-Bericht \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
@@ -6543,16 +5654,8 @@ function treeKontextmenu(node) {
 										// Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_pop_ordner_popber(parent_node);
 									},
-									error: function (data) {
-										$("#Meldung").html("Fehler: Der Populations-Bericht wurde nicht gelöscht");
-										$("#Meldung").dialog({
-											modal: true,
-											buttons: {
-												Ok: function() {
-													$(this).dialog("close");
-												}
-											}
-										});
+									error: function () {
+										melde("Fehler: Der Populations-Bericht wurde nicht gelöscht");
 									}
 								});
 							},
@@ -6580,16 +5683,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -6620,15 +5714,7 @@ function treeKontextmenu(node) {
 							initiiere_popmassnber();
 						},
 						error: function () {
-							$("#Meldung").html("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+							melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
 						}
 					});
 				}
@@ -6650,16 +5736,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -6690,16 +5767,8 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_popmassnber();
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
 						}
 					});
 				}
@@ -6710,16 +5779,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$("#loeschen_dialog_mitteilung").html("Der Massnahmen-Bericht \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
@@ -6745,16 +5805,8 @@ function treeKontextmenu(node) {
 										// Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_pop_ordner_massnber(parent_node);
 									},
-									error: function (data) {
-										$("#Meldung").html("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
-										$("#Meldung").dialog({
-											modal: true,
-											buttons: {
-												Ok: function() {
-													$(this).dialog("close");
-												}
-											}
-										});
+									error: function () {
+										melde("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
 									}
 								});
 							},
@@ -6782,16 +5834,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -6822,16 +5865,8 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_tpopfeldkontr();
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine neue Feldkontrolle erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine neue Feldkontrolle erstellt");
 						}
 					});
 				}
@@ -6862,16 +5897,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					// und an die DB schicken
@@ -6903,16 +5929,8 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_tpopfeldkontr();
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Die Feldkontrolle wurde nicht erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Die Feldkontrolle wurde nicht erstellt");
 						}
 					});
 				}
@@ -6926,16 +5944,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -6966,16 +5975,8 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_tpopfeldkontr();
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine neue Feldkontrolle erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine neue Feldkontrolle erstellt");
 						}
 					});
 				}
@@ -6986,16 +5987,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$("#loeschen_dialog_mitteilung").html("Die Feldkontrolle \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird gelöscht.");
@@ -7033,16 +6025,8 @@ function treeKontextmenu(node) {
 											$("#forms_titelzeile").hide();
 										}, 25000);
 									},
-									error: function (data) {
-										$("#Meldung").html("Fehler: Die Feldkontrolle wurde nicht gelöscht");
-										$("#Meldung").dialog({
-											modal: true,
-											buttons: {
-												Ok: function() {
-													$(this).dialog("close");
-												}
-											}
-										});
+									error: function () {
+										melde("Fehler: Die Feldkontrolle wurde nicht gelöscht");
 									}
 								});
 							},
@@ -7067,16 +6051,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/kopieren.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					delete window.feldkontr_biotop;
@@ -7145,16 +6120,7 @@ function treeKontextmenu(node) {
 					data.id = erstelleIdAusDomAttributId($(aktiver_node).attr("id"));
 					data.user = sessionStorage.User
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					for (i in window.feldkontr_biotop) {
@@ -7169,16 +6135,8 @@ function treeKontextmenu(node) {
 						data: data,
 						success: function () {
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Das kopierte Biotop wurde nicht in der Datenbank gespeichert");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Das kopierte Biotop wurde nicht eingefügt");
 						}
 					});
 				}
@@ -7192,16 +6150,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					window.tpopfeldkontr_node_ausgeschnitten = aktiver_node;
@@ -7219,16 +6168,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/kopieren.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					window.tpopfeldkontr_node_kopiert = aktiver_node;
@@ -7244,15 +6184,7 @@ function treeKontextmenu(node) {
 							window.tpopfeldkontr_objekt_kopiert = data;
 						},
 						error: function () {
-							$("#Meldung").html("Fehler: Die Feldkontrolle wurde nicht kopiert");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+							melde("Fehler: Die Feldkontrolle wurde nicht kopiert");
 						}
 					});
 				}
@@ -7275,16 +6207,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					// und an die DB schicken
@@ -7316,16 +6239,8 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_tpopfeldkontr();
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Die Feldkontrolle wurde nicht erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Die Feldkontrolle wurde nicht erstellt");
 						}
 					});
 				}
@@ -7339,16 +6254,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -7381,16 +6287,8 @@ function treeKontextmenu(node) {
 							localStorage.tpopfreiwkontr = true;
 							initiiere_tpopfeldkontr();
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
 						}
 					});
 				}
@@ -7421,16 +6319,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					// und an die DB schicken
@@ -7464,16 +6353,8 @@ function treeKontextmenu(node) {
 							localStorage.tpopfreiwkontr = true;
 							initiiere_tpopfeldkontr();
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
 						}
 					});
 				}
@@ -7487,16 +6368,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -7528,16 +6400,8 @@ function treeKontextmenu(node) {
 							localStorage.tpopfreiwkontr = true;
 							initiiere_tpopfeldkontr();
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
 						}
 					});
 				}
@@ -7548,16 +6412,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$("#loeschen_dialog_mitteilung").html("Die Freiwilligen-Kontrolle \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird gelöscht.");
@@ -7596,16 +6451,8 @@ function treeKontextmenu(node) {
 											$("#forms_titelzeile").hide();
 										}, 25000);
 									},
-									error: function (data) {
-										$("#Meldung").html("Fehler: Die Freiwilligen-Kontrolle wurde nicht gelöscht");
-										$("#Meldung").dialog({
-											modal: true,
-											buttons: {
-												Ok: function() {
-													$(this).dialog("close");
-												}
-											}
-										});
+									error: function () {
+										melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht gelöscht");
 									}
 								});
 							},
@@ -7633,16 +6480,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					window.tpopfreiwkontr_node_ausgeschnitten = aktiver_node;
@@ -7660,16 +6498,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/kopieren.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					window.tpopfreiwkontr_node_kopiert = aktiver_node;
@@ -7685,15 +6514,7 @@ function treeKontextmenu(node) {
 							tpopfreiwkontr_objekt_kopiert = data;
 						},
 						error: function () {
-							$("#Meldung").html("Fehler: Die Freiwilligen-Kontrolle wurde nicht kopiert");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+							melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht kopiert");
 						}
 					});
 				}
@@ -7717,16 +6538,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					// und an die DB schicken
@@ -7760,16 +6572,8 @@ function treeKontextmenu(node) {
 							localStorage.tpopfreiwkontr = true;
 							initiiere_tpopfeldkontr();
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
 						}
 					});
 				}
@@ -7783,16 +6587,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -7823,16 +6618,8 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_tpopmassn();
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine neue Massnahme erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine neue Massnahme erstellt");
 						}
 					});
 				}
@@ -7863,16 +6650,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					// und an die DB schicken
@@ -7905,16 +6683,8 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_tpopmassn();
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Die Massnahme wurde nicht erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Die Massnahme wurde nicht erstellt");
 						}
 					});
 				}
@@ -7928,16 +6698,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -7968,16 +6729,8 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_tpopmassn();
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine neue Massnahme erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine neue Massnahme erstellt");
 						}
 					});
 				}
@@ -7988,16 +6741,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$("#loeschen_dialog_mitteilung").html("Die Massnahme \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird gelöscht.");
@@ -8035,16 +6779,8 @@ function treeKontextmenu(node) {
 											$("#forms_titelzeile").hide();
 										}, 25000);
 									},
-									error: function (data) {
-										$("#Meldung").html("Fehler: Die Massnahme wurde nicht gelöscht");
-										$("#Meldung").dialog({
-											modal: true,
-											buttons: {
-												Ok: function() {
-													$(this).dialog("close");
-												}
-											}
-										});
+									error: function () {
+										melde("Fehler: Die Massnahme wurde nicht gelöscht");
 									}
 								});
 							},
@@ -8072,16 +6808,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					window.tpopmassn_node_ausgeschnitten = aktiver_node;
@@ -8099,16 +6826,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/kopieren.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					window.tpopmassn_node_kopiert = aktiver_node;
@@ -8129,15 +6847,7 @@ function treeKontextmenu(node) {
 							}
 						},
 						error: function () {
-							$("#Meldung").html("Fehler: Die Massnahme wurde nicht kopiert");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+							melde("Fehler: Die Massnahme wurde nicht kopiert");
 						}
 					});
 				}
@@ -8160,16 +6870,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					// und an die DB schicken
@@ -8201,16 +6902,8 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_tpopmassn();
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Die Massnahme wurde nicht erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Die Massnahme wurde nicht erstellt");
 						}
 					});
 				}
@@ -8224,16 +6917,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -8264,15 +6948,7 @@ function treeKontextmenu(node) {
 							initiiere_tpopber();
 						},
 						error: function () {
-							$("#Meldung").html("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+							melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
 						}
 					});
 				}
@@ -8294,16 +6970,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -8334,16 +7001,8 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_tpopber();
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
 						}
 					});
 				}
@@ -8354,16 +7013,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$("#loeschen_dialog_mitteilung").html("Der Teilpopulations-Bericht \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
@@ -8389,16 +7039,8 @@ function treeKontextmenu(node) {
 										// Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_tpop_ordner_tpopber(parent_node);
 									},
-									error: function (data) {
-										$("#Meldung").html("Fehler: Der Teilpopulations-Bericht wurde nicht gelöscht");
-										$("#Meldung").dialog({
-											modal: true,
-											buttons: {
-												Ok: function() {
-													$(this).dialog("close");
-												}
-											}
-										});
+									error: function () {
+										melde("Fehler: Der Teilpopulations-Bericht wurde nicht gelöscht");
 									}
 								});
 							},
@@ -8437,27 +7079,11 @@ function treeKontextmenu(node) {
 							if (data.rows.length > 0) {
 								zeigeTPopBeobAufKarte(data);
 							} else {
-								$("#Meldung").html("Es gibt keine Beobachtungen mit Koordinaten");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
+								melde("Es gibt keine Beobachtungen mit Koordinaten");
 							}
 						},	
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine Daten erhalten");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine Daten erhalten");
 						}
 					});
 				}
@@ -8503,27 +7129,11 @@ function treeKontextmenu(node) {
 							if (data.rows.length > 0) {
 								zeigeTPopBeobAufKarte(data);
 							} else {
-								$("#Meldung").html("Die Beobachtung hat keine Koordinaten");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
+								melde("Die Beobachtung hat keine Koordinaten");
 							}
 						},	
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine Daten erhalten");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine Daten erhalten");
 						}
 					});
 				}
@@ -8558,27 +7168,11 @@ function treeKontextmenu(node) {
 									}
 								});
 							} else {
-								$("#Meldung").html("Die Beobachtung hat keine Koordinaten<br>Bitte im Formular zuordnen");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
+								melde("Die Beobachtung hat keine Koordinaten<br>Bitte im Formular zuordnen");
 							}
 						},	
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine Daten erhalten");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine Daten erhalten");
 						}
 					});
 				}
@@ -8608,16 +7202,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					window.beob_zugeordnet_node_ausgeschnitten = aktiver_node;
@@ -8652,16 +7237,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -8692,15 +7268,7 @@ function treeKontextmenu(node) {
 							initiiere_tpopmassnber();
 						},
 						error: function () {
-							$("#Meldung").html("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+							melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
 						}
 					});
 				}
@@ -8722,16 +7290,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/neu.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$.ajax({
@@ -8762,16 +7321,8 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_tpopmassnber();
 						},
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
 						}
 					});
 				}
@@ -8782,16 +7333,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					$("#loeschen_dialog_mitteilung").html("Der Massnahmen-Bericht \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
@@ -8817,16 +7359,8 @@ function treeKontextmenu(node) {
 										// Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_tpop_ordner_massnber(parent_node);
 									},
-									error: function (data) {
-										$("#Meldung").html("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
-										$("#Meldung").dialog({
-											modal: true,
-											buttons: {
-												Ok: function() {
-													$(this).dialog("close");
-												}
-											}
-										});
+									error: function () {
+										melde("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
 									}
 								});
 							},
@@ -8865,27 +7399,11 @@ function treeKontextmenu(node) {
 							if (data.rows.length > 0) {
 								zeigeBeobAufKarte(data);
 							} else {
-								$("#Meldung").html("Es gibt keine Beobachtung mit Koordinaten");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
+								melde("Es gibt keine Beobachtung mit Koordinaten");
 							}
 						},	
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine Daten erhalten");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine Daten erhalten");
 						}
 					});
 				}
@@ -8920,27 +7438,11 @@ function treeKontextmenu(node) {
 									}
 								});
 							} else {
-								$("#Meldung").html("Es gibt keine Beobachtung mit Koordinaten");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
+								melde("Es gibt keine Beobachtung mit Koordinaten");
 							}
 						},	
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine Daten erhalten");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine Daten erhalten");
 						}
 					});
 				}
@@ -8983,27 +7485,11 @@ function treeKontextmenu(node) {
 							if (data.rows.length > 0) {
 								zeigeBeobAufKarte(data);
 							} else {
-								$("#Meldung").html("Es gibt keine Beobachtung mit Koordinaten");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
+								melde("Es gibt keine Beobachtung mit Koordinaten");
 							}
 						},	
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine Daten erhalten");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine Daten erhalten");
 						}
 					});
 				}
@@ -9038,27 +7524,11 @@ function treeKontextmenu(node) {
 									}
 								});
 							} else {
-								$("#Meldung").html("Die Beobachtung hat keine Koordinaten<br>Bitte im Formular zuordnen");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
+								melde("Die Beobachtung hat keine Koordinaten<br>Bitte im Formular zuordnen");
 							}
 						},	
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine Daten erhalten");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine Daten erhalten");
 						}
 					});
 				}
@@ -9088,16 +7558,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					window.beob_node_ausgeschnitten = aktiver_node;
@@ -9134,27 +7595,11 @@ function treeKontextmenu(node) {
 							if (data.rows.length > 0) {
 								zeigeBeobAufKarte(data);
 							} else {
-								$("#Meldung").html("Es gibt keine Beobachtung mit Koordinaten");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
+								melde("Es gibt keine Beobachtung mit Koordinaten");
 							}
 						},	
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine Daten erhalten");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine Daten erhalten");
 						}
 					});
 				}
@@ -9197,27 +7642,11 @@ function treeKontextmenu(node) {
 							if (data.rows.length > 0) {
 								zeigeBeobAufKarte(data);
 							} else {
-								$("#Meldung").html("Es gibt keine Beobachtung mit Koordinaten");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
+								melde("Es gibt keine Beobachtung mit Koordinaten");
 							}
 						},	
-						error: function (data) {
-							$("#Meldung").html("Fehler: Keine Daten erhalten");
-							$("#Meldung").dialog({
-								modal: true,
-								buttons: {
-									Ok: function() {
-										$(this).dialog("close");
-									}
-								}
-							});
+						error: function () {
+							melde("Fehler: Keine Daten erhalten");
 						}
 					});
 				}
@@ -9247,16 +7676,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/ausschneiden.png",
 				"action": function () {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (sessionStorage.NurLesen) {
-						$("#Meldung").html("Sie haben keine Schreibrechte");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
 					window.beob_node_ausgeschnitten = aktiver_node;
@@ -9279,16 +7699,7 @@ function treeKontextmenu(node) {
 
 function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 	// nur aktualisieren, wenn Schreibrechte bestehen
-	if (sessionStorage.NurLesen) {
-		$("#Meldung").html("Sie haben keine Schreibrechte");
-		$("#Meldung").dialog({
-			modal: true,
-			buttons: {
-				Ok: function() {
-					$(this).dialog("close");
-				}
-			}
-		});
+	if (!pruefeSchreibvoraussetzungen()) {
 		return;
 	}
 
@@ -9327,16 +7738,8 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 			// Formular initiieren
 			initiiere_tpop();
 		},
-		error: function (data) {
-			$("#Meldung").html("Fehler: Die Teilpopulation wurde nicht erstellt");
-			$("#Meldung").dialog({
-				modal: true,
-				buttons: {
-					Ok: function() {
-						$(this).dialog("close");
-					}
-				}
-			});
+		error: function () {
+			melde("Fehler: Die Teilpopulation wurde nicht erstellt");
 		}
 	});
 }
@@ -9345,16 +7748,7 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 function pop_kopiert_in_pop_einfuegen(aktiver_node, parent_node) {
 	var data = {};
 	// nur aktualisieren, wenn Schreibrechte bestehen
-	if (sessionStorage.NurLesen) {
-		$("#Meldung").html("Sie haben keine Schreibrechte");
-		$("#Meldung").dialog({
-			modal: true,
-			buttons: {
-				Ok: function() {
-					$(this).dialog("close");
-				}
-			}
-		});
+	if (!pruefeSchreibvoraussetzungen()) {
 		return;
 	}
 	// drop kennt den parent nicht
@@ -9403,16 +7797,8 @@ function pop_kopiert_in_pop_einfuegen(aktiver_node, parent_node) {
 			// Formular initiieren
 			initiiere_pop();
 		},
-		error: function (data) {
-			$("#Meldung").html("Fehler: Die Population wurde nicht erstellt");
-			$("#Meldung").dialog({
-				modal: true,
-				buttons: {
-					Ok: function() {
-						$(this).dialog("close");
-					}
-				}
-			});
+		error: function () {
+			melde("Fehler: Die Population wurde nicht erstellt");
 		}
 	});
 }
@@ -9421,16 +7807,7 @@ function pop_kopiert_in_pop_einfuegen(aktiver_node, parent_node) {
 function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 	var data = {};
 	// nur aktualisieren, wenn Schreibrechte bestehen
-	if (sessionStorage.NurLesen) {
-		$("#Meldung").html("Sie haben keine Schreibrechte");
-		$("#Meldung").dialog({
-			modal: true,
-			buttons: {
-				Ok: function() {
-					$(this).dialog("close");
-				}
-			}
-		});
+	if (!pruefeSchreibvoraussetzungen()) {
 		return;
 	}
 	// drop kennt den parent nicht
@@ -9479,16 +7856,8 @@ function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 			// Formular initiieren
 			initiiere_tpop();
 		},
-		error: function (data) {
-			$("#Meldung").html("Fehler: Die Teilpopulation wurde nicht erstellt");
-			$("#Meldung").dialog({
-				modal: true,
-				buttons: {
-					Ok: function() {
-						$(this).dialog("close");
-					}
-				}
-			});
+		error: function () {
+			melde("Fehler: Die Teilpopulation wurde nicht erstellt");
 		}
 	});
 }
@@ -9517,15 +7886,7 @@ function pruefeSchreibvoraussetzungen() {
 	// kontrollieren, ob der User offline ist
 	if (sessionStorage.NurLesen) {
 		// nur speichern, wenn Schreibrechte bestehen
-		$("#Meldung").html("Sie haben keine Schreibrechte");
-		$("#Meldung").dialog({
-			modal: true,
-			buttons: {
-				Ok: function() {
-					$(this).dialog("close");
-				}
-			}
-		});
+		melde("Sie haben keine Schreibrechte");
 		return false;
 	} else {
 		return true;
@@ -9561,15 +7922,7 @@ function speichern(that) {
 		if (Feldname === "BeobBemerkungen" && localStorage.beob_status === "nicht_beurteilt") {
 			// hier soll nicht gespeichert werden
 			$("#BeobBemerkungen").val("");
-			$("#Meldung").html("Bemerkungen sind nur in zugeordneten oder nicht zuzuordnenden Beobachtungen möglich");
-			$("#Meldung").dialog({
-				modal: true,
-				buttons: {
-					Ok: function() {
-						$(this).dialog("close");
-					}
-				}
-			});
+			melde("Bemerkungen sind nur in zugeordneten oder nicht zuzuordnenden Beobachtungen möglich");
 			return;
 		}
 		$.ajax({
@@ -9663,18 +8016,8 @@ function speichern(that) {
 					}
 				}
 			},
-			error: function (data) {
-				var Meldung;
-				Meldung = JSON.stringify(data);
-				$("#Meldung").html(data.responseText);
-				$("#Meldung").dialog({
-					modal: true,
-					buttons: {
-						Ok: function() {
-							$(this).dialog("close");
-						}
-					}
-				});
+			error: function () {
+				melde("Fehler: Die letzte Änderung wurde nicht gespeichert");
 			}
 		});
 		// nodes im Tree updaten, wenn deren Bezeichnung ändert
@@ -10387,15 +8730,7 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
 			});
 
 			tpop_aufruf.fail(function() {
-				$("#Meldung").html("Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden");
-				$("#Meldung").dialog({
-					modal: true,
-					buttons: {
-						Ok: function() {
-							$(this).dialog("close");
-						}
-					}
-				});
+				melde("Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden");
 			});
 	});
 }
@@ -10446,15 +8781,7 @@ function zeigePopAufGeoAdmin(PopListeMarkiert) {
 			});
 
 			tpop_aufruf.fail(function() {
-				$("#Meldung").html("Fehler: Es konnten keine Daten aus der Datenbank abgerufen werden");
-				$("#Meldung").dialog({
-					modal: true,
-					buttons: {
-						Ok: function() {
-							$(this).dialog("close");
-						}
-					}
-				});
+				melde("Fehler: Es konnten keine Daten aus der Datenbank abgerufen werden");
 			});
 	});
 }
@@ -10548,17 +8875,10 @@ function zeigePopInTPopKarte(overlay_pop_visible, overlay_popbeschriftungen_visi
 	});
 
 	pop_aufruf.fail(function() {
-		$("#Meldung").html("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
-		$("#Meldung").dialog({
-			modal: true,
-			buttons: {
-				Ok: function() {
-					$(this).dialog("close");
-				}
-			}
-		});
+		melde("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
 		pop_gezeigt.resolve();
 	});
+
 	return pop_gezeigt.promise();
 }
 
@@ -10640,21 +8960,8 @@ function speichereWert(tabelle, id, feld, wert) {
 				"Wert": wert,
 				"user": sessionStorage.User
 			},
-			success: function () {
-				// muss nichts machen
-			},
-			error: function (data) {
-				var Meldung;
-				Meldung = JSON.stringify(data);
-				$("#Meldung").html(data.responseText);
-				$("#Meldung").dialog({
-					modal: true,
-					buttons: {
-						Ok: function() {
-							$(this).dialog("close");
-						}
-					}
-				});
+			error: function () {
+				melde("Fehler: Die letzte Änderung wurde nicht gespeichert");
 			}
 		});
 	}
@@ -10845,16 +9152,8 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 								erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_markiert);
 								erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, true);
 							},	
-							error: function (data) {
-								$("#Meldung").html("Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
+							error: function () {
+								melde("Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden");
 							}
 						});
 					},
@@ -11180,16 +9479,8 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 								erstellePopNamenFuerGeoAdmin(PopListe);
 								erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, true);
 							},	
-							error: function (data) {
-								$("#Meldung").html("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
+							error: function () {
+								melde("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
 							}
 						});
 					},
@@ -11774,16 +10065,8 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 						}
 					});
 				},
-				error: function (data) {
-					$("#Meldung").html("Fehler: Die Beobachtung wurde nicht zugeordnet");
-					$("#Meldung").dialog({
-						modal: true,
-						buttons: {
-							Ok: function() {
-								$(this).dialog("close");
-							}
-						}
-					});
+				error: function () {
+					melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
 				}
 			});
 		});
@@ -12136,16 +10419,7 @@ function placeMarkerTPop(location, map, marker, TPop) {
 function SetLocationTPop(LatLng, map, marker, TPop) {
 	var lat, lng, contentString, infowindow, Objekt, title, X, Y;
 	// nur aktualisieren, wenn Schreibrechte bestehen
-	if (sessionStorage.NurLesen) {
-		$("#Meldung").html("Sie haben keine Schreibrechte");
-		$("#Meldung").dialog({
-			modal: true,
-			buttons: {
-				Ok: function() {
-					$(this).dialog("close");
-				}
-			}
-		});
+	if (!pruefeSchreibvoraussetzungen()) {
 		return;
 	}
 	if (TPop && TPop.TPopFlurname) {
@@ -13283,18 +11557,8 @@ function waehleAp(ap_id) {
 								});
 					});
 				},
-				error: function (data) {
-					var Meldung;
-					Meldung = JSON.stringify(data);
-					$("#Meldung").html(data.responseText);
-					$( "#Meldung" ).dialog({
-						modal: true,
-						buttons: {
-							Ok: function() {
-								$( this ).dialog( "close" );
-							}
-						}
-					});
+				error: function () {
+					melde("Fehler: Keine Date für Programme erhalten");
 				}
 			});
 		} else {
@@ -13346,46 +11610,18 @@ function kopiereKoordinatenInPop(TPopXKoord, TPopYKoord) {
 							$("#kopiereKoordinatenInPopRueckmeldung").fadeOut('slow');
 						}, 3000);
 					},
-					error: function (data) {
-						var Meldung;
-						Meldung = JSON.stringify(data);
-						$("#Meldung").html(data.responseText);
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+					error: function () {
+						melde("Fehler: Y-Koordinate wurde nicht kopiert");
 					}
 				});
 			},
-			error: function (data) {
-				var Meldung;
-				Meldung = JSON.stringify(data);
-				$("#Meldung").html(data.responseText);
-				$("#Meldung").dialog({
-					modal: true,
-					buttons: {
-						Ok: function() {
-							$(this).dialog("close");
-						}
-					}
-				});
+			error: function () {
+				melde("Fehler: Koordinaten wurden nicht kopiert");
 			}
 		});
 	} else {
 		// auffordern, die Koordinaten zu vergeben und Speichern abbrechen
-		$("#Meldung").html("Sie müssen zuerst Koordinaten erfassen");
-		$("#Meldung").dialog({
-			modal: true,
-			buttons: {
-				Ok: function() {
-					$(this).dialog("close");
-				}
-			}
-		});
+		melde("Sie müssen zuerst Koordinaten erfassen");
 	}
 }
 
@@ -13421,14 +11657,7 @@ function pruefe_anmeldung() {
 				}
 			},
 			error: function () {
-				$("#Meldung").html("Anmeldung gescheitert");
-				$( "#Meldung" ).dialog({
-					modal: true,
-					buttons: {
-						Ok: function() {
-						}
-					}
-				});
+				melde("Anmeldung gescheitert");
 			}
 		});
 	} else {
@@ -13570,15 +11799,7 @@ function zeigeBeobKoordinatenImGisBrowser() {
 		URL = "//www.maps.zh.ch/?x=" + $("#PopXKoord").val() + "&y=" + $("#PopYKoord").val() + "&scale=3000&markers=ring";
 		window.open(URL, target = "_blank");
 	} else {
-		$("#Meldung").html("Fehler: Keine Koordinaten zum Anzeigen");
-		$("#Meldung").dialog({
-			modal: true,
-			buttons: {
-				Ok: function() {
-					$(this).dialog("close");
-				}
-			}
-		});
+		melde("Fehler: Keine Koordinaten zum Anzeigen");
 	}
 }
 
@@ -13594,6 +11815,19 @@ function beschrifteTPopMitNrFuerKarte(pop_nr, tpop_nr) {
 		tpop_beschriftung = pop_nr + "/?";
 	}
 	return tpop_beschriftung;
+}
+
+//öffnet ein modal und teilt etwas mit
+function melde(meldung) {
+	$("#Meldung").html(meldung);
+	$("#Meldung").dialog({
+		modal: true,
+		buttons: {
+			Ok: function() {
+				$(this).dialog("close");
+			}
+		}
+	});
 }
 
 (function($) {
