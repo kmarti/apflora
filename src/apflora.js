@@ -721,7 +721,7 @@ function initiiere_idealbiotop() {
 				localStorage.idealbiotop_id = data.IbApArtId;
 				initiiere_idealbiotop();
 			});
-			insertIdealbiotop.fail(function (data) {
+			insertIdealbiotop.fail(function(data) {
 				melde("Fehler: Kein Idealbiotop erstellt");
 			});
 		}
@@ -740,7 +740,7 @@ function setzeWindowIdealbiotop(id) {
 			"id": localStorage.idealbiotop_id
 		}
 	});
-	getIdealbiotop.done(function (data) {
+	getIdealbiotop.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// idealbiotop bereitstellen
@@ -766,7 +766,7 @@ function initiiere_assozarten() {
 			"id": localStorage.assozarten_id
 		}
 	});
-	getAssozarten.done(function (data) {
+	getAssozarten.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// assozarten bereitstellen
@@ -797,7 +797,7 @@ function setzeWindowAssozarten(id) {
 			"id": localStorage.assozarten_id
 		}
 	});
-	getAssozarten.done(function (data) {
+	getAssozarten.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// assozarten bereitstellen
@@ -823,7 +823,7 @@ function initiiere_popmassnber() {
 			"id": localStorage.popmassnber_id
 		}
 	});
-	getPopmassnber.done(function (data) {
+	getPopmassnber.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// popmassnber bereitstellen
@@ -853,7 +853,7 @@ function setzeWindowPopmassnber(id) {
 			"id": localStorage.popmassnber_id
 		}
 	});
-	getPopmassnber.done(function (data) {
+	getPopmassnber.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// popmassnber bereitstellen
@@ -879,7 +879,7 @@ function initiiere_tpop() {
 			"id": localStorage.tpop_id
 		}
 	});
-	getTPop.done(function (data) {
+	getTPop.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// tpop bereitstellen
@@ -932,7 +932,7 @@ function initiiere_tpop() {
 					url: 'php/adressen.php',
 					dataType: 'json'
 				});
-				getAdressen.done(function (data2) {
+				getAdressen.done(function(data2) {
 					if (data2) {
 						// adressen bereitstellen
 						window.adressen = data2;
@@ -975,7 +975,7 @@ function setzeWindowTpop(id) {
 			"id": localStorage.tpop_id
 		}
 	});
-	getTPop.done(function (data) {
+	getTPop.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// tpop bereitstellen
@@ -1001,7 +1001,7 @@ function initiiere_popber() {
 			"id": localStorage.popber_id
 		}
 	});
-	getPopber.done(function (data) {
+	getPopber.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// popber bereitstellen
@@ -1031,7 +1031,7 @@ function setzeWindowPopber(id) {
 			"id": localStorage.popber_id
 		}
 	});
-	getPopber.done(function (data) {
+	getPopber.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// popber bereitstellen
@@ -1064,7 +1064,7 @@ function initiiere_tpopfeldkontr() {
 			"id": localStorage.tpopfeldkontr_id
 		}
 	});
-	getTpopfeldkontr.done(function (data) {
+	getTpopfeldkontr.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// tpopfeldkontr bereitstellen
@@ -1093,7 +1093,7 @@ function initiiere_tpopfeldkontr() {
 					url: 'php/adressen.php',
 					dataType: 'json'
 				});
-				getAdressen.done(function (data2) {
+				getAdressen.done(function(data2) {
 					if (data2) {
 						// Feld mit Daten beliefern
 						var html;
@@ -1117,7 +1117,7 @@ function initiiere_tpopfeldkontr() {
 					url: 'php/tpopfeldkontr_zaehleinheit.php',
 					dataType: 'json'
 				});
-				getTpopfeldkontrZaehleinheit.done(function (data3) {
+				getTpopfeldkontrZaehleinheit.done(function(data3) {
 					if (data3) {
 						// Feld mit Daten beliefern
 						var html;
@@ -1197,7 +1197,7 @@ function initiiere_tpopfeldkontr() {
 						url: 'php/lrdelarze.php',
 						dataType: 'json'
 					});
-					getLrDelarze.done(function (data4) {
+					getLrDelarze.done(function(data4) {
 						if (data4) {
 							// Feld mit Daten beliefern
 							var html;
@@ -1226,7 +1226,7 @@ function initiiere_tpopfeldkontr() {
 					url: 'php/idealbiotopuebereinst.php',
 					dataType: 'json'
 				});
-				getIdealbiotopuebereinst.done(function (data5) {
+				getIdealbiotopuebereinst.done(function(data5) {
 					if (data5) {
 						// Feld mit Daten beliefern
 						var html;
@@ -1319,7 +1319,7 @@ function setzeWindowTpopfeldkontr(id) {
 			"id": localStorage.tpopfeldkontr_id
 		}
 	});
-	getTpopfeldkontr.done(function (data) {
+	getTpopfeldkontr.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// tpopfeldkontr bereitstellen
@@ -1345,7 +1345,7 @@ function initiiere_tpopmassn() {
 			"id": localStorage.tpopmassn_id
 		}
 	});
-	getTPopMassn.done(function (data) {
+	getTPopMassn.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// tpopmassn bereitstellen
@@ -1358,7 +1358,7 @@ function initiiere_tpopmassn() {
 					url: 'php/tpopmassn_typ.php',
 					dataType: 'json'
 				});
-				getTPopMassnTyp.done(function (data2) {
+				getTPopMassnTyp.done(function(data2) {
 					if (data2) {
 						// tpopmassn_typ bereitstellen
 						window.tpopmassn_typ = data2;
@@ -1393,7 +1393,7 @@ function initiiere_tpopmassn() {
 					url: 'php/adressen.php',
 					dataType: 'json'
 				});
-				getAdressen.done(function (data2) {
+				getAdressen.done(function(data2) {
 					if (data2) {
 						// Feld mit Daten beliefern
 						var html;
@@ -1461,7 +1461,7 @@ function setzeWindowTpopmassn(id) {
 			"id": localStorage.tpopmassn_id
 		}
 	});
-	getTPopMassn.done(function (data) {
+	getTPopMassn.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// tpopmassn bereitstellen
@@ -1487,7 +1487,7 @@ function initiiere_tpopmassnber() {
 			"id": localStorage.tpopmassnber_id
 		}
 	});
-	getTPopMassnBer.done(function (data) {
+	getTPopMassnBer.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// tpopmassnber bereitstellen
@@ -1517,7 +1517,7 @@ function setzeWindowTpopmassnber(id) {
 			"id": localStorage.tpopmassnber_id
 		}
 	});
-	getTPopMassnBer.done(function (data) {
+	getTPopMassnBer.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// tpopmassnber bereitstellen
@@ -1543,7 +1543,7 @@ function initiiere_tpopber() {
 			"id": localStorage.tpopber_id
 		}
 	});
-	getTPopBer.done(function (data) {
+	getTPopBer.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// tpopber bereitstellen
@@ -1573,7 +1573,7 @@ function setzeWindowTpopber(id) {
 			"id": localStorage.tpopber_id
 		}
 	});
-	getTPopBer.done(function (data) {
+	getTPopBer.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// tpopber bereitstellen
@@ -1620,7 +1620,7 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 		}
 	});
 
-	getBeob.done(function (data_beob) {
+	getBeob.done(function(data_beob) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data_beob) {
 
@@ -1638,7 +1638,7 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 					"beobid": beobid
 				}
 			});
-			getDistZuTPop.done(function (data) {
+			getDistZuTPop.done(function(data) {
 				// Tabellenzeile beginnen
 				var html_distzutpop = '<tr class="fieldcontain DistZuTPop"><td class="label"><label id="DistZuTPop_label" for="DistZuTPop">Einer Teilpopulation zuordnen:</label></td><td class="Datenfelder"><div class="Datenfelder" id="DistZuTPop_Felder">';
 				if (data) {
@@ -1678,7 +1678,7 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 								"id": beobid
 							}
 						});
-						getBeobZuordnung.done(function (data) {
+						getBeobZuordnung.done(function(data) {
 							// Felder mit Daten beliefern
 							$("#BeobNichtBeurteilt").prop("checked", false);
 							if (data.BeobNichtZuordnen == 1) {
@@ -1795,7 +1795,7 @@ function zeigeFormular(Formularname) {
 				$(this).hide();
 				if ($(this).attr("id") === Formularname) {
 					$(this).show();
-					$('textarea').each(function () {
+					$('textarea').each(function() {
 						FitToContent(this, document.documentElement.clientHeight);
 					});
 				}
@@ -1888,7 +1888,7 @@ function erstelle_ap_liste(programm) {
 			"programm": programm
 		}
 	});
-	getApliste.done(function (data) {
+	getApliste.done(function(data) {
 		var html;
 		html = "<option></option>";
 		for (var i = 0; i < data.rows.length; i++) {
@@ -1934,7 +1934,7 @@ function erstelle_tree(ApArtId) {
 			"ajax": {
 				"url": "php/tree.php",
 				"progressive_render": true,
-				"data" : function (n) {
+				"data" : function(n) {
 					return {
 						id : ApArtId
 					};
@@ -1956,7 +1956,7 @@ function erstelle_tree(ApArtId) {
 		"search": {
 			"case_insensitive": true
 		},
-		"sort": function (a, b) {
+		"sort": function(a, b) {
 			if ($(a).attr("sort") && $(b).attr("sort")) {
 				return parseInt($(a).attr("sort"), 10) > parseInt($(b).attr("sort"), 10) ? 1 : -1;
 			}
@@ -1971,7 +1971,7 @@ function erstelle_tree(ApArtId) {
 		"crrm": {
 			"move": {
 				"default_position": "first",
-				"check_move": function (m) {
+				"check_move": function(m) {
 					// hier wird bestimmt, welche drag-drop-Kombinationen zulässig sind
 					if (m.o.attr("typ") === "pop") {
 						if (m.r.attr("typ") === "pop") {
@@ -2317,7 +2317,7 @@ function erstelle_tree(ApArtId) {
 		//"plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "contextmenu", "crrm", "dnd", "types"]   // dnd ausgeschaltet, weil es Speichern verhindert im letzten Feld vor Klick in Baum
 	})
 	.show()
-	.bind("loaded.jstree", function (event, data) {
+	.bind("loaded.jstree", function(event, data) {
 		jstree_erstellt.resolve();
 		setzeTreehoehe();
 		$("#suchen").show();
@@ -2429,7 +2429,7 @@ function erstelle_tree(ApArtId) {
 		}
 	})
 	// auch auf Mobilgeräten soll das Kontextmenü zugänglich sein!
-	.hammer().bind("hold doubletap", function (event) {
+	.hammer().bind("hold doubletap", function(event) {
 		// auf PC's verhindern: Menu erscheint sonst beim Scrollen
 		if ($(window).width() < 1000) {
 			setTimeout(function() {
@@ -2437,7 +2437,7 @@ function erstelle_tree(ApArtId) {
 			}, 500);
 		}
 	})
-	.bind("select_node.jstree", function (e, data) {
+	.bind("select_node.jstree", function(e, data) {
 		var node;	
 		delete localStorage.tpopfreiwkontr;	// Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
@@ -2582,17 +2582,17 @@ function erstelle_tree(ApArtId) {
 			}
 		}
 	})
-	.bind("after_open.jstree", function (e, data) {
+	.bind("after_open.jstree", function(e, data) {
 		setzeTreehoehe();
 	})
-	.bind("after_close.jstree", function (e, data) {
+	.bind("after_close.jstree", function(e, data) {
 		setzeTreehoehe();
 	})
-	.bind("prepare_move.jstree", function (e, data) {
+	.bind("prepare_move.jstree", function(e, data) {
 		// herkunft_parent_node muss vor dem move ermittelt werden - danach ist der parent ein anderer!
 		window.herkunft_parent_node = jQuery.jstree._reference(data.rslt.o)._get_parent(data.rslt.o);
 	})
-	.bind("create_node.jstree", function (e, data) {
+	.bind("create_node.jstree", function(e, data) {
 		if (data.rslt.parent[0].attributes.typ.nodeValue === "apzieljahr") {
 			$("#ZielJahr").val(data.rslt.parent[0].innerText.slice(1, 5));
 			var Objekt = {};
@@ -2602,7 +2602,7 @@ function erstelle_tree(ApArtId) {
 			$("#ZielJahr").focus();
 		}
 	})
-	.bind("move_node.jstree", function (e, data) {
+	.bind("move_node.jstree", function(e, data) {
 		var herkunft_node, herkunft_node_id, herkunft_node_typ, ziel_node, ziel_node_id, ziel_node_typ, ziel_parent_node, ziel_parent_node_id;
 		
 		// nur aktualisieren, wenn Schreibrechte bestehen
@@ -2634,7 +2634,7 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					}
 				});
-				fuegePopEin.done(function () {
+				fuegePopEin.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					beschrifte_ap_ordner_pop(ziel_parent_node);
 					beschrifte_ap_ordner_pop(window.herkunft_parent_node);
@@ -2648,7 +2648,7 @@ function erstelle_tree(ApArtId) {
 					delete window.herkunft_parent_node;
 					initiiere_pop();
 				});
-				fuegePopEin.fail(function (data) {
+				fuegePopEin.fail(function(data) {
 					melde("Fehler: Die Teilpopulation wurde nicht verschoben");
 				});
 			}
@@ -2663,7 +2663,7 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					}
 				});
-				fuegeTPopEin.done(function () {
+				fuegeTPopEin.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					beschrifte_pop_ordner_tpop(ziel_parent_node);
 					beschrifte_pop_ordner_tpop(window.herkunft_parent_node);
@@ -2677,7 +2677,7 @@ function erstelle_tree(ApArtId) {
 					delete window.herkunft_parent_node;
 					initiiere_tpop();
 				});
-				fuegeTPopEin.fail(function (data) {
+				fuegeTPopEin.fail(function(data) {
 					melde("Fehler: Die Teilpopulation wurde nicht verschoben");
 				});
 			}
@@ -2692,7 +2692,7 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					}
 				});
-				fuegeTPopEin_2.done(function () {
+				fuegeTPopEin_2.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					beschrifte_pop_ordner_tpop(ziel_node);
 					beschrifte_pop_ordner_tpop(window.herkunft_parent_node);
@@ -2705,7 +2705,7 @@ function erstelle_tree(ApArtId) {
 					delete window.tpop_node_ausgeschnitten;
 					initiiere_tpop();
 				});
-				fuegeTPopEin_2.fail(function (data) {
+				fuegeTPopEin_2.fail(function(data) {
 					melde("Fehler: Die Teilpopulation wurde nicht verschoben");
 				});
 			}
@@ -2722,7 +2722,7 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					}
 				});
-				fuegeTPopEin_3.done(function () {
+				fuegeTPopEin_3.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					beschrifte_pop_ordner_tpop(ziel_parent_node);
 					beschrifte_pop_ordner_tpop(window.herkunft_parent_node);
@@ -2736,7 +2736,7 @@ function erstelle_tree(ApArtId) {
 					delete window.herkunft_parent_node;
 					initiiere_tpop();
 				});
-				fuegeTPopEin_3.fail(function (data) {
+				fuegeTPopEin_3.fail(function(data) {
 					melde("Fehler: Die Teilpopulation wurde nicht verschoben");
 				});
 			}
@@ -2751,7 +2751,7 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					}
 				});
-				fuegeTPopEin_4.done(function () {
+				fuegeTPopEin_4.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					beschrifte_pop_ordner_tpop(ziel_node);
 					beschrifte_pop_ordner_tpop(window.herkunft_parent_node);
@@ -2765,7 +2765,7 @@ function erstelle_tree(ApArtId) {
 					delete window.herkunft_parent_node;
 					initiiere_tpop();
 				});
-				fuegeTPopEin_4.fail(function (data) {
+				fuegeTPopEin_4.fail(function(data) {
 					melde("Fehler: Die Teilpopulation wurde nicht verschoben");
 				});
 			}
@@ -2782,7 +2782,7 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					}
 				});
-				fuegeTPopMassnEin.done(function () {
+				fuegeTPopMassnEin.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					beschrifte_tpop_ordner_massn(ziel_parent_node);
 					beschrifte_tpop_ordner_massn(window.herkunft_parent_node);
@@ -2796,7 +2796,7 @@ function erstelle_tree(ApArtId) {
 					delete window.herkunft_parent_node;
 					initiiere_tpopmassn();
 				});
-				fuegeTPopMassnEin.fail(function (data) {
+				fuegeTPopMassnEin.fail(function(data) {
 					melde("Fehler: Die Massnahme wurde nicht verschoben");
 				});
 			}
@@ -2811,7 +2811,7 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					}
 				});
-				fuegeTPopMassnEin_2.done(function () {
+				fuegeTPopMassnEin_2.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					beschrifte_tpop_ordner_massn(ziel_node);
 					beschrifte_tpop_ordner_massn(window.herkunft_parent_node);
@@ -2825,7 +2825,7 @@ function erstelle_tree(ApArtId) {
 					delete window.herkunft_parent_node;
 					initiiere_tpopmassn();
 				});
-				fuegeTPopMassnEin_2.fail(function (data) {
+				fuegeTPopMassnEin_2.fail(function(data) {
 					melde("Fehler: Die Massnahme wurde nicht verschoben");
 				});
 			}
@@ -2842,7 +2842,7 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					}
 				});
-				fuegeTPopFeldkontrEin.done(function () {
+				fuegeTPopFeldkontrEin.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					beschrifte_tpop_ordner_feldkontr(ziel_parent_node);
 					beschrifte_tpop_ordner_feldkontr(window.herkunft_parent_node);
@@ -2856,7 +2856,7 @@ function erstelle_tree(ApArtId) {
 					delete window.herkunft_parent_node;
 					initiiere_tpopfeldkontr();
 				});
-				fuegeTPopFeldkontrEin.fail(function (data) {
+				fuegeTPopFeldkontrEin.fail(function(data) {
 					melde("Fehler: Die Feldkontrolle wurde nicht verschoben");
 				});
 			}
@@ -2871,7 +2871,7 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					}
 				});
-				fuegeTPopFeldkontrEin_2.done(function () {
+				fuegeTPopFeldkontrEin_2.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					beschrifte_tpop_ordner_feldkontr(ziel_node);
 					beschrifte_tpop_ordner_feldkontr(window.herkunft_parent_node);
@@ -2885,7 +2885,7 @@ function erstelle_tree(ApArtId) {
 					delete window.herkunft_parent_node;
 					initiiere_tpopfeldkontr();
 				});
-				fuegeTPopFeldkontrEin_2.fail(function () {
+				fuegeTPopFeldkontrEin_2.fail(function() {
 					melde("Fehler: Die Feldkontrolle wurde nicht verschoben");
 				});
 			}
@@ -2902,7 +2902,7 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					}
 				});
-				fuegeTPopFeldkontrEin_3.done(function () {
+				fuegeTPopFeldkontrEin_3.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					beschrifte_tpop_ordner_freiwkontr(ziel_parent_node);
 					beschrifte_tpop_ordner_freiwkontr(window.herkunft_parent_node);
@@ -2917,7 +2917,7 @@ function erstelle_tree(ApArtId) {
 					localStorage.tpopfreiwkontr = true;
 					initiiere_tpopfeldkontr();
 				});
-				fuegeTPopFeldkontrEin_3.fail(function () {
+				fuegeTPopFeldkontrEin_3.fail(function() {
 					melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben");
 				});
 			}
@@ -2932,7 +2932,7 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					}
 				});
-				fuegeTPopFeldkontrEin_4.done(function () {
+				fuegeTPopFeldkontrEin_4.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					beschrifte_tpop_ordner_freiwkontr(ziel_node);
 					beschrifte_tpop_ordner_freiwkontr(window.herkunft_parent_node);
@@ -2947,7 +2947,7 @@ function erstelle_tree(ApArtId) {
 					localStorage.tpopfreiwkontr = true;
 					initiiere_tpopfeldkontr();
 				});
-				fuegeTPopFeldkontrEin_4.fail(function () {
+				fuegeTPopFeldkontrEin_4.fail(function() {
 					melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben");
 				});
 			}
@@ -2981,7 +2981,7 @@ function erstelle_tree(ApArtId) {
 					delete window.beob_zugeordnet_node_ausgeschnitten;
 					delete window.herkunft_parent_node;
 				});
-				ordneBeobachtungZu.fail(function () {
+				ordneBeobachtungZu.fail(function() {
 					melde("Fehler: Die Beobachtung wurde nicht auf 'nicht beurteilt' gesetzt");
 				});
 			}
@@ -3004,7 +3004,7 @@ function erstelle_tree(ApArtId) {
 						"user": sessionStorage.User
 					}
 				});
-				ordneBeobachtungZu_2.done(function () {
+				ordneBeobachtungZu_2.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
 						beschrifte_tpop_ordner_beob_zugeordnet(ziel_node);
@@ -3022,7 +3022,7 @@ function erstelle_tree(ApArtId) {
 					delete window.beob_zugeordnet_node_ausgeschnitten;
 					delete window.herkunft_parent_node;
 				});
-				ordneBeobachtungZu_2.fail(function () {
+				ordneBeobachtungZu_2.fail(function() {
 					melde("Fehler: Die Beobachtung wurde nicht verschoben");
 				});
 			}
@@ -3112,7 +3112,7 @@ function erstelle_tree(ApArtId) {
 							"user": sessionStorage.User
 						}
 					});
-					updateBeob.done(function () {
+					updateBeob.done(function() {
 						// typ des nodes anpassen
 						herkunft_node.attr("typ", "beob_zugeordnet");
 						localStorage.beobtyp = "beob_zugeordnet";
@@ -3133,11 +3133,11 @@ function erstelle_tree(ApArtId) {
 						delete window.beob_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
 					});
-					updateBeob.fail(function () {
+					updateBeob.fail(function() {
 						melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
 					});
 				});
-				insertZuordnung.fail(function () {
+				insertZuordnung.fail(function() {
 					melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
 				});
 			}
@@ -3186,7 +3186,7 @@ function erstelle_tree(ApArtId) {
 						console.log("Fehler: Die Beobachtung wurde nicht zugeordnet");
 					});
 				});
-				insertZuordnung_2.fail(function () {
+				insertZuordnung_2.fail(function() {
 					melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
 				});
 			}
@@ -3220,7 +3220,7 @@ function erstelle_tree(ApArtId) {
 					delete window.beob_node_ausgeschnitten;
 					delete window.herkunft_parent_node;
 				});
-				deleteZuordnung.fail(function () {
+				deleteZuordnung.fail(function() {
 					melde("Fehler: Die Zuordnung der Beobachtung wurde nicht entfernt");
 				});
 			}
@@ -3255,7 +3255,7 @@ function erstelle_tree(ApArtId) {
 							"user": sessionStorage.User
 						}
 					});
-					updateBeob_4.done(function () {
+					updateBeob_4.done(function() {
 						// typ des nodes anpassen
 						$(herkunft_node).attr("typ", "beob_zugeordnet");
 						localStorage.beobtyp = "beob_zugeordnet";
@@ -3272,11 +3272,11 @@ function erstelle_tree(ApArtId) {
 						delete window.beob_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
 					});
-					updateBeob_4.fail(function () {
+					updateBeob_4.fail(function() {
 						melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
 					});
 				});
-				updateBeob_3.fail(function () {
+				updateBeob_3.fail(function() {
 					melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
 				});
 			}
@@ -3488,14 +3488,14 @@ function treeKontextmenu(node) {
 			"untergeordneteKnotenOeffnen": {
 				"label": "untergeordnete Knoten öffnen",
 				"icon": "style/images/tree16x16.png",
-				"action": function () {
+				"action": function() {
 					jQuery.jstree._reference(node).open_all(node);
 				}
 			},
 			"neu": {
 				"label": "neue Population",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -3510,7 +3510,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertPop.done(function (data) {
+					insertPop.done(function(data) {
 						var NeuerNode;
 						localStorage.pop_id = data;
 						delete window.pop;
@@ -3551,7 +3551,7 @@ function treeKontextmenu(node) {
 						// Formular aufbauen
 						initiiere_pop();
 					});
-					insertPop.fail(function () {
+					insertPop.fail(function() {
 						melde("Fehler: Keine neue Population erstellt");
 					});
 				}
@@ -3560,7 +3560,7 @@ function treeKontextmenu(node) {
 				"label": "auf CH-Karten zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon_gelb.png",
-				"action": function () {
+				"action": function() {
 					var getPopsChKarte = $.ajax({
 						type: 'get',
 						url: 'php/pops_ch_karte.php',
@@ -3569,14 +3569,14 @@ function treeKontextmenu(node) {
 							"ApArtId": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						}
 					});
-					getPopsChKarte.done(function (data) {
+					getPopsChKarte.done(function(data) {
 						if (data.rows.length > 0) {
 							zeigePopAufGeoAdmin(data);
 						} else {
 							melde("Die Population hat keine Koordinaten");
 						}
 					});
-					getPopsChKarte.fail(function () {
+					getPopsChKarte.fail(function() {
 						melde("Fehler: Keine Daten erhalten");
 					});
 				}
@@ -3585,7 +3585,7 @@ function treeKontextmenu(node) {
 				"label": "auf Google-Karten zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon.png",
-				"action": function () {
+				"action": function() {
 					var getApKarte = $.ajax({
 						type: 'get',
 						url: 'php/ap_karte.php',
@@ -3594,14 +3594,14 @@ function treeKontextmenu(node) {
 							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						}
 					});
-					getApKarte.done(function (data) {
+					getApKarte.done(function(data) {
 						if (data.rows.length > 0) {
 							zeigeTPopAufKarte(data);
 						} else {
 							melde("Es gibt keine Teilpopulation mit Koordinaten");
 						}
 					});
-					getApKarte.fail(function () {
+					getApKarte.fail(function() {
 						melde("Fehler: Keine Daten erhalten");
 					});
 				}
@@ -3610,7 +3610,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -3620,7 +3620,7 @@ function treeKontextmenu(node) {
 				"label": "'" + window.pop_bezeichnung + "' einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
-				"action": function () {
+				"action": function() {
 					// db aktualisieren
 					var updatePop = $.ajax({
 						type: 'post',
@@ -3633,7 +3633,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						}
 					});
-					updatePop.done(function () {
+					updatePop.done(function() {
 						// Baum neu aufbauen
 						$.when(erstelle_tree(erstelleIdAusDomAttributId($(aktiver_node).attr("id"))))
 							.then(function() {
@@ -3646,7 +3646,7 @@ function treeKontextmenu(node) {
 						delete window.pop_bezeichnung;
 						delete window.pop_id;
 					});
-					updatePop.fail(function () {
+					updatePop.fail(function() {
 						melde("Fehler: Die Population wurde nicht verschoben");
 					});
 				}
@@ -3658,14 +3658,14 @@ function treeKontextmenu(node) {
 			"untergeordneteKnotenOeffnen": {
 				"label": "untergeordnete Knoten öffnen",
 				"icon": "style/images/tree16x16.png",
-				"action": function () {
+				"action": function() {
 					jQuery.jstree._reference(node).open_all(node);
 				}
 			},
 			"neu": {
 				"label": "neues Ziel",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -3688,7 +3688,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertApziel.done(function (data) {
+					insertApziel.done(function(data) {
 						var NeuerNode;
 						localStorage.apziel_id = data;
 						delete window.apziel;
@@ -3714,7 +3714,7 @@ function treeKontextmenu(node) {
 						});
 						initiiere_apziel();
 					});
-					insertApziel.fail(function () {
+					insertApziel.fail(function() {
 						melde("Fehler: Keine neues AP-Ziel erstellt");
 					});
 				}
@@ -3723,7 +3723,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -3734,14 +3734,14 @@ function treeKontextmenu(node) {
 			"untergeordneteKnotenOeffnen": {
 				"label": "untergeordnete Knoten öffnen",
 				"icon": "style/images/tree16x16.png",
-				"action": function () {
+				"action": function() {
 					jQuery.jstree._reference(node).open_all(node);
 				}
 			},
 			"neu": {
 				"label": "neues Ziel",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -3756,7 +3756,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertApziel_2.done(function (data) {
+					insertApziel_2.done(function(data) {
 						var NeuerNode;
 						localStorage.apziel_id = data;
 						delete window.apziel;
@@ -3791,7 +3791,7 @@ function treeKontextmenu(node) {
 						
 						// im create_node-Event von jstree wird Jahr eingefügt und gespeichert
 					});
-					insertApziel_2.fail(function () {
+					insertApziel_2.fail(function() {
 						melde("Fehler: Keine neues Ziel erstellt");
 					});
 				}
@@ -3800,7 +3800,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -3811,7 +3811,7 @@ function treeKontextmenu(node) {
 			"neu": {
 				"label": "neues Ziel",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -3826,7 +3826,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertApziel_3.done(function (data) {
+					insertApziel_3.done(function(data) {
 						var NeuerNode;
 						localStorage.apziel_id = data;
 						delete window.apziel;
@@ -3858,7 +3858,7 @@ function treeKontextmenu(node) {
 						});
 						initiiere_apziel();
 					});
-					insertApziel_3.fail(function () {
+					insertApziel_3.fail(function() {
 						melde("Fehler: Kein neues AP-Ziel erstellt");
 					});
 				}
@@ -3867,7 +3867,7 @@ function treeKontextmenu(node) {
 				"label": "löschen",
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -3895,7 +3895,7 @@ function treeKontextmenu(node) {
 										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									}
 								});
-								deleteApziel.done(function () {
+								deleteApziel.done(function() {
 									delete localStorage.apziel_id;
 									delete window.apziel;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -3907,7 +3907,7 @@ function treeKontextmenu(node) {
 										beschrifte_apzieljahr(parent_node);
 									}
 								});
-								deleteApziel.fail(function () {
+								deleteApziel.fail(function() {
 									melde("Fehler: Das AP-Ziel wurde nicht gelöscht");
 								});
 							},
@@ -3922,7 +3922,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -3933,7 +3933,7 @@ function treeKontextmenu(node) {
 			"neu": {
 				"label": "neuer Ziel-Bericht",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -3947,7 +3947,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertZielber.done(function (data) {
+					insertZielber.done(function(data) {
 						var NeuerNode;
 						localStorage.zielber_id = data;
 						delete window.zielber;
@@ -3966,7 +3966,7 @@ function treeKontextmenu(node) {
 						// formular initiieren
 						initiiere_zielber();
 					});
-					insertZielber.fail(function () {
+					insertZielber.fail(function() {
 						melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
 					});
 				}
@@ -3975,7 +3975,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -3986,7 +3986,7 @@ function treeKontextmenu(node) {
 			"neu": {
 				"label": "neuer Ziel-Bericht",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -4001,7 +4001,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertZielber_2.done(function (data) {
+					insertZielber_2.done(function(data) {
 						var NeuerNode;
 						localStorage.zielber_id = data;
 						delete window.zielber;
@@ -4020,7 +4020,7 @@ function treeKontextmenu(node) {
 						// formular initiieren
 						initiiere_zielber();
 					});
-					insertZielber_2.fail(function () {
+					insertZielber_2.fail(function() {
 						melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
 					});
 				}
@@ -4029,7 +4029,7 @@ function treeKontextmenu(node) {
 				"label": "löschen",
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -4057,14 +4057,14 @@ function treeKontextmenu(node) {
 										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									}
 								});
-								deleteZielber.done(function () {
+								deleteZielber.done(function() {
 									delete localStorage.zielber_id;
 									delete window.zielber;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									beschrifte_zielber_ordner(parent_node);
 								});
-								deleteZielber.fail(function () {
+								deleteZielber.fail(function() {
 									melde("Fehler: Der Ziel-Bericht wurde nicht gelöscht");
 								});
 							},
@@ -4079,7 +4079,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -4090,7 +4090,7 @@ function treeKontextmenu(node) {
 			"neu": {
 				"label": "neues Erfolgskriterium",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -4104,7 +4104,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertErfkrit.done(function (data) {
+					insertErfkrit.done(function(data) {
 						var NeuerNode;
 						localStorage.erfkrit_id = data;
 						delete window.erfkrit;
@@ -4123,7 +4123,7 @@ function treeKontextmenu(node) {
 						// Formular initiieren
 						initiiere_erfkrit();
 					});
-					insertErfkrit.fail(function () {
+					insertErfkrit.fail(function() {
 						melde("Fehler: Kein neues Erfolgskriterium erstellt");
 					});
 				}
@@ -4132,7 +4132,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -4143,7 +4143,7 @@ function treeKontextmenu(node) {
 			"neu": {
 				"label": "neues Erfolgskriterium",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -4158,7 +4158,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertErfkrit_2.done(function (data) {
+					insertErfkrit_2.done(function(data) {
 						var NeuerNode;
 						localStorage.erfkrit_id = data;
 						delete window.erfkrit;
@@ -4177,7 +4177,7 @@ function treeKontextmenu(node) {
 						// Formular initiieren
 						initiiere_erfkrit();
 					});
-					insertErfkrit_2.fail(function () {
+					insertErfkrit_2.fail(function() {
 						melde("Fehler: Kein neues Erfolgskriterium erstellt");
 					});
 				}
@@ -4186,7 +4186,7 @@ function treeKontextmenu(node) {
 				"label": "löschen",
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -4214,14 +4214,14 @@ function treeKontextmenu(node) {
 										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									}
 								});
-								deleteErfkrit.done(function () {
+								deleteErfkrit.done(function() {
 									delete localStorage.erfkrit_id;
 									delete window.erfkrit;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									beschrifte_ap_ordner_erfkrit(parent_node);
 								});
-								deleteErfkrit.fail(function () {
+								deleteErfkrit.fail(function() {
 									melde("Fehler: Das Erfolgskriterium wurde nicht gelöscht");
 								});
 							},
@@ -4236,7 +4236,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -4247,14 +4247,14 @@ function treeKontextmenu(node) {
 			"untergeordneteKnotenOeffnen": {
 				"label": "untergeordnete Knoten öffnen",
 				"icon": "style/images/tree16x16.png",
-				"action": function () {
+				"action": function() {
 					jQuery.jstree._reference(node).open_all(node);
 				}
 			},
 			"neu": {
 				"label": "neuer AP-Bericht",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -4268,7 +4268,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertJber.done(function (data) {
+					insertJber.done(function(data) {
 						var NeuerNode;
 						localStorage.jber_id = data;
 						delete window.jber;
@@ -4287,7 +4287,7 @@ function treeKontextmenu(node) {
 						// Formular initiieren
 						initiiere_jber();
 					});
-					insertJber.fail(function () {
+					insertJber.fail(function() {
 						melde("Fehler: Keinen neuen AP-Bericht erstellt");
 					});
 				}
@@ -4296,7 +4296,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -4307,7 +4307,7 @@ function treeKontextmenu(node) {
 			"neu": {
 				"label": "neuer AP-Bericht",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -4322,7 +4322,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertJber_2.done(function (data) {
+					insertJber_2.done(function(data) {
 						var NeuerNode;
 						localStorage.jber_id = data;
 						delete window.jber;
@@ -4341,7 +4341,7 @@ function treeKontextmenu(node) {
 						// Formular initiieren
 						initiiere_jber();
 					});
-					insertJber_2.fail(function () {
+					insertJber_2.fail(function() {
 						melde("Fehler: Keinen neuen AP-Bericht erstellt");
 					});
 				}
@@ -4350,7 +4350,7 @@ function treeKontextmenu(node) {
 				"label": "löschen",
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -4373,32 +4373,32 @@ function treeKontextmenu(node) {
 								// Variable zum rückgängig machen erstellen
 								window.deleted = window.jber;
 								window.deleted.typ = "jber";
-								$.ajax({
+								var deleteJber = $.ajax({
 									type: 'post',
 									url: 'php/jber_delete.php',
 									dataType: 'json',
 									data: {
 										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-									},
-									success: function () {
-										delete localStorage.jber_id;
-										delete window.jber;
-										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										// Parent Node-Beschriftung: Anzahl anpassen
-										beschrifte_ap_ordner_jber(parent_node);
-										// Hinweis zum rückgängig machen anzeigen
-										$("#undelete_div").html("AP-Bericht '" + window.deleted.JBerJahr + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
-										$("#undelete_div").show();
-										$("#forms_titelzeile").show();
-										setTimeout(function () {
-											$("#undelete_div").html("");
-											$("#undelete_div").hide();
-											$("#forms_titelzeile").hide();
-										}, 25000);
-									},
-									error: function () {
-										melde("Fehler: Der AP-Bericht wurde nicht gelöscht");
 									}
+								});
+								deleteJber.done(function() {
+									delete localStorage.jber_id;
+									delete window.jber;
+									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									// Parent Node-Beschriftung: Anzahl anpassen
+									beschrifte_ap_ordner_jber(parent_node);
+									// Hinweis zum rückgängig machen anzeigen
+									$("#undelete_div").html("AP-Bericht '" + window.deleted.JBerJahr + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
+									$("#undelete_div").show();
+									$("#forms_titelzeile").show();
+									setTimeout(function() {
+										$("#undelete_div").html("");
+										$("#undelete_div").hide();
+										$("#forms_titelzeile").hide();
+									}, 25000);
+								});
+								deleteJber.fail(function() {
+									melde("Fehler: Der AP-Bericht wurde nicht gelöscht");
 								});
 							},
 							"abbrechen": function() {
@@ -4412,7 +4412,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -4423,37 +4423,37 @@ function treeKontextmenu(node) {
 				"label": "neue Übersicht zu allen Arten",
 				"separator_before": true,
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
-					$.ajax({
+					var insertJberUebersicht = $.ajax({
 						type: 'post',
 						url: 'php/jber_uebersicht_insert.php',
 						dataType: 'json',
 						data: {
 							"JbuJahr": jQuery.jstree._reference(aktiver_node).get_text(aktiver_node),
 							"user": sessionStorage.User
-						},
-						success: function (data) {
-							var NeuerNode;
-							localStorage.jber_uebersicht_id = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
-							delete window.jber_uebersicht;
-							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-								"data": "neue Übersicht zu allen Arten",
-								"attr": {
-									"id": jQuery.jstree._reference(aktiver_node).get_text(aktiver_node),
-									"typ": "jber_uebersicht"
-								}
-							});
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							initiiere_jber_uebersicht();
-						},
-						error: function () {
-							melde("Fehler: Keine Übersicht zu allen Arten erstellt");
 						}
+					});
+					insertJberUebersicht.done(function(data) {
+						var NeuerNode;
+						localStorage.jber_uebersicht_id = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+						delete window.jber_uebersicht;
+						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+							"data": "neue Übersicht zu allen Arten",
+							"attr": {
+								"id": jQuery.jstree._reference(aktiver_node).get_text(aktiver_node),
+								"typ": "jber_uebersicht"
+							}
+						});
+						jQuery.jstree._reference(aktiver_node).deselect_all();
+						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+						initiiere_jber_uebersicht();
+					});
+					insertJberUebersicht.fail(function() {
+						melde("Fehler: Keine Übersicht zu allen Arten erstellt");
 					});
 				}
 			}
@@ -4464,7 +4464,7 @@ function treeKontextmenu(node) {
 			"loeschen": {
 				"label": "lösche Übersicht zu allen Arten",
 				"icon": "style/images/loeschen.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -4484,21 +4484,21 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
-								$.ajax({
+								var deleteJberUebersicht = $.ajax({
 									type: 'post',
 									url: 'php/jber_uebersicht_delete.php',
 									dataType: 'json',
 									data: {
 										"jahr": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-									},
-									success: function () {
-										delete localStorage.jber_uebersicht_id;
-										delete window.jber_uebersicht;
-										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-									},
-									error: function () {
-										melde("Fehler: Die Übersicht zu allen Arten wurde nicht gelöscht");
 									}
+								});
+								deleteJberUebersicht.done(function() {
+									delete localStorage.jber_uebersicht_id;
+									delete window.jber_uebersicht;
+									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+								});
+								deleteJberUebersicht.fail(function() {
+									melde("Fehler: Die Übersicht zu allen Arten wurde nicht gelöscht");
 								});
 							},
 							"abbrechen": function() {
@@ -4512,7 +4512,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -4523,41 +4523,41 @@ function treeKontextmenu(node) {
 			"neu": {
 				"label": "neuer Bericht",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
-					$.ajax({
+					var insertBer = $.ajax({
 						type: 'post',
 						url: 'php/ber_insert.php',
 						dataType: 'json',
 						data: {
 							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"user": sessionStorage.User
-						},
-						success: function (data) {
-							var NeuerNode;
-							localStorage.ber_id = data;
-							delete window.ber;
-							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-								"data": "neuer Bericht",
-								"attr": {
-									"id": data,
-									"typ": "ber"
-								}
-							});
-							// Node-Beschriftung: Anzahl anpassen
-							beschrifte_ap_ordner_ber(aktiver_node);
-							// node selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// Formular initiieren
-							initiiere_ber();
-						},
-						error: function () {
-							melde("Fehler: Keinen neuen Bericht erstellt");
 						}
+					});
+					insertBer.done(function(data) {
+						var NeuerNode;
+						localStorage.ber_id = data;
+						delete window.ber;
+						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+							"data": "neuer Bericht",
+							"attr": {
+								"id": data,
+								"typ": "ber"
+							}
+						});
+						// Node-Beschriftung: Anzahl anpassen
+						beschrifte_ap_ordner_ber(aktiver_node);
+						// node selecten
+						jQuery.jstree._reference(aktiver_node).deselect_all();
+						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+						// Formular initiieren
+						initiiere_ber();
+					});
+					insertBer.fail(function() {
+						melde("Fehler: Keinen neuen Bericht erstellt");
 					});
 				}
 			}
@@ -4568,12 +4568,12 @@ function treeKontextmenu(node) {
 			"neu": {
 				"label": "Neuer Bericht",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
-					$.ajax({
+					var insertBer_2 = $.ajax({
 						type: 'post',
 						url: 'php/ber_insert.php',
 						dataType: 'json',
@@ -4581,29 +4581,29 @@ function treeKontextmenu(node) {
 							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"typ": "ber",
 							"user": sessionStorage.User
-						},
-						success: function (data) {
-							var NeuerNode;
-							localStorage.ber_id = data;
-							delete window.ber;
-							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-								"data": "Neuer Bericht",
-								"attr": {
-									"id": data,
-									"typ": "ber"
-								}
-							});
-							// Parent Node-Beschriftung: Anzahl anpassen
-							beschrifte_ap_ordner_ber(parent_node);
-							// node selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// Formular initiieren
-							initiiere_ber();
-						},
-						error: function () {
-							melde("Fehler: Keinen neuen Bericht erstellt");
 						}
+					});
+					insertBer_2.done(function(data) {
+						var NeuerNode;
+						localStorage.ber_id = data;
+						delete window.ber;
+						NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
+							"data": "Neuer Bericht",
+							"attr": {
+								"id": data,
+								"typ": "ber"
+							}
+						});
+						// Parent Node-Beschriftung: Anzahl anpassen
+						beschrifte_ap_ordner_ber(parent_node);
+						// node selecten
+						jQuery.jstree._reference(aktiver_node).deselect_all();
+						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+						// Formular initiieren
+						initiiere_ber();
+					});
+					insertBer_2.fail(function() {
+						melde("Fehler: Keinen neuen Bericht erstellt");
 					});
 				}
 			},
@@ -4611,7 +4611,7 @@ function treeKontextmenu(node) {
 				"label": "löschen",
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -4631,23 +4631,23 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
-								$.ajax({
+								var deleteBer = $.ajax({
 									type: 'post',
 									url: 'php/ber_delete.php',
 									dataType: 'json',
 									data: {
 										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-									},
-									success: function () {
-										delete localStorage.ber_id;
-										delete window.ber;
-										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										// Parent Node-Beschriftung: Anzahl anpassen
-										beschrifte_ap_ordner_ber(parent_node);
-									},
-									error: function () {
-										melde("Fehler: Der Bericht wurde nicht gelöscht");
 									}
+								});
+								deleteBer.done(function() {
+									delete localStorage.ber_id;
+									delete window.ber;
+									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									// Parent Node-Beschriftung: Anzahl anpassen
+									beschrifte_ap_ordner_ber(parent_node);
+								});
+								deleteBer.fail(function() {
+									melde("Fehler: Der Bericht wurde nicht gelöscht");
 								});
 							},
 							"abbrechen": function() {
@@ -4661,7 +4661,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -4672,41 +4672,41 @@ function treeKontextmenu(node) {
 			"neu": {
 				"label": "neue assoziierte Art",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
-					$.ajax({
+					var insertAssozarten = $.ajax({
 						type: 'post',
 						url: 'php/assozarten_insert.php',
 						dataType: 'json',
 						data: {
 							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"user": sessionStorage.User
-						},
-						success: function (data) {
-							var NeuerNode;
-							localStorage.assozarten_id = data;
-							delete window.assozarten;
-							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-								"data": "neue assoziierte Art",
-								"attr": {
-									"id": data,
-									"typ": "assozarten"
-								}
-							});
-							// Node-Beschriftung: Anzahl anpassen
-							beschrifte_ap_ordner_assozarten(aktiver_node);
-							// node selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// Formular initiieren
-							initiiere_assozarten();
-						},
-						error: function () {
-							melde("Fehler: keine assoziierte Art erstellt");
 						}
+					});
+					insertAssozarten.done(function(data) {
+						var NeuerNode;
+						localStorage.assozarten_id = data;
+						delete window.assozarten;
+						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+							"data": "neue assoziierte Art",
+							"attr": {
+								"id": data,
+								"typ": "assozarten"
+							}
+						});
+						// Node-Beschriftung: Anzahl anpassen
+						beschrifte_ap_ordner_assozarten(aktiver_node);
+						// node selecten
+						jQuery.jstree._reference(aktiver_node).deselect_all();
+						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+						// Formular initiieren
+						initiiere_assozarten();
+					});
+					insertAssozarten.fail(function() {
+						melde("Fehler: keine assoziierte Art erstellt");
 					});
 				}
 			},
@@ -4714,7 +4714,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -4725,12 +4725,12 @@ function treeKontextmenu(node) {
 			"neu": {
 				"label": "neue assoziierte Art",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
-					$.ajax({
+					var insertAssozarten_2 = $.ajax({
 						type: 'post',
 						url: 'php/assozarten_insert.php',
 						dataType: 'json',
@@ -4738,29 +4738,29 @@ function treeKontextmenu(node) {
 							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"typ": "assozarten",
 							"user": sessionStorage.User
-						},
-						success: function (data) {
-							var NeuerNode;
-							localStorage.assozarten_id = data;
-							delete window.assozarten;
-							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-								"data": "neue assoziierte Art",
-								"attr": {
-									"id": data,
-									"typ": "assozarten"
-								}
-							});
-							// Parent Node-Beschriftung: Anzahl anpassen
-							beschrifte_ap_ordner_assozarten(parent_node);
-							// node selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// Formular initiieren
-							initiiere_assozarten();
-						},
-						error: function () {
-							melde("Fehler: Keine assoziierte Art erstellt");
 						}
+					});
+					insertAssozarten_2.done(function(data) {
+						var NeuerNode;
+						localStorage.assozarten_id = data;
+						delete window.assozarten;
+						NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
+							"data": "neue assoziierte Art",
+							"attr": {
+								"id": data,
+								"typ": "assozarten"
+							}
+						});
+						// Parent Node-Beschriftung: Anzahl anpassen
+						beschrifte_ap_ordner_assozarten(parent_node);
+						// node selecten
+						jQuery.jstree._reference(aktiver_node).deselect_all();
+						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+						// Formular initiieren
+						initiiere_assozarten();
+					});
+					insertAssozarten_2.fail(function() {
+						melde("Fehler: Keine assoziierte Art erstellt");
 					});
 				}
 			},
@@ -4768,7 +4768,7 @@ function treeKontextmenu(node) {
 				"label": "löschen",
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -4788,23 +4788,23 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
-								$.ajax({
+								var deleteAssozarten = $.ajax({
 									type: 'post',
 									url: 'php/assozarten_delete.php',
 									dataType: 'json',
 									data: {
 										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-									},
-									success: function () {
-										delete localStorage.assozarten_id;
-										delete window.assozarten;
-										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										// Parent Node-Beschriftung: Anzahl anpassen
-										beschrifte_ap_ordner_assozarten(parent_node);
-									},
-									error: function () {
-										melde("Fehler: Die assoziierte Art wurde nicht gelöscht");
 									}
+								});
+								deleteAssozarten.done(function() {
+									delete localStorage.assozarten_id;
+									delete window.assozarten;
+									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									// Parent Node-Beschriftung: Anzahl anpassen
+									beschrifte_ap_ordner_assozarten(parent_node);
+								});
+								deleteAssozarten.fail(function() {
+									melde("Fehler: Die assoziierte Art wurde nicht gelöscht");
 								});
 							},
 							"abbrechen": function() {
@@ -4818,7 +4818,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -4829,12 +4829,12 @@ function treeKontextmenu(node) {
 			"neu": {
 				"label": "neue Population",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
-					$.ajax( {
+					var insertPop_2 = $.ajax( {
 						type: 'post',
 						url: 'php/pop_insert.php',
 						dataType: 'json',
@@ -4842,52 +4842,52 @@ function treeKontextmenu(node) {
 							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"typ": "pop",
 							"user": sessionStorage.User
-						},
-						success: function (data) {
-							var NeuerNode;
-							localStorage.pop_id = data;
-							delete window.pop;
-							delete localStorage.pop;
-							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-								"data": "neue Population",
-								"attr": {
-									"id": data,
-									"typ": "pop"
-								}
-							});
-							// jetzt alle Unterordner anlegen
-							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-								"data": "Teilpopulationen",
-								"attr": {
-									"id": data,
-									"typ": "pop_ordner_tpop"
-								}
-							});
-							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-								"data": "Populations-Berichte",
-								"attr": {
-									"id": data,
-									"typ": "pop_ordner_popber"
-								}
-							});
-							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-								"data": "Massnahmen-Berichte",
-								"attr": {
-									"id": data,
-									"typ": "pop_ordner_massnber"
-								}
-							});
-							// Parent Node-Beschriftung: Anzahl anpassen
-							beschrifte_ap_ordner_pop(parent_node);
-							// node selecten
-							jQuery.jstree._reference(parent_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// Formular initiieren
-							initiiere_pop();
-						},
-						error: function () {
-							melde("Fehler: Keine neue Population erstellt");
 						}
+					});
+					insertPop_2.done(function(data) {
+						var NeuerNode;
+						localStorage.pop_id = data;
+						delete window.pop;
+						delete localStorage.pop;
+						NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
+							"data": "neue Population",
+							"attr": {
+								"id": data,
+								"typ": "pop"
+							}
+						});
+						// jetzt alle Unterordner anlegen
+						jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
+							"data": "Teilpopulationen",
+							"attr": {
+								"id": data,
+								"typ": "pop_ordner_tpop"
+							}
+						});
+						jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
+							"data": "Populations-Berichte",
+							"attr": {
+								"id": data,
+								"typ": "pop_ordner_popber"
+							}
+						});
+						jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
+							"data": "Massnahmen-Berichte",
+							"attr": {
+								"id": data,
+								"typ": "pop_ordner_massnber"
+							}
+						});
+						// Parent Node-Beschriftung: Anzahl anpassen
+						beschrifte_ap_ordner_pop(parent_node);
+						// node selecten
+						jQuery.jstree._reference(parent_node).deselect_all();
+						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+						// Formular initiieren
+						initiiere_pop();
+					});
+					insertPop_2.fail(function() {
+						melde("Fehler: Keine neue Population erstellt");
 					});
 				}
 			},
@@ -4895,7 +4895,7 @@ function treeKontextmenu(node) {
 				"label": "löschen",
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -4918,32 +4918,32 @@ function treeKontextmenu(node) {
 								// Variable zum rückgängig machen erstellen
 								window.deleted = window.pop;
 								window.deleted.typ = "pop";
-								$.ajax({
+								var deletePop = $.ajax({
 									type: 'post',
 									url: 'php/pop_delete.php',
 									dataType: 'json',
 									data: {
 										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-									},
-									success: function () {
-										delete localStorage.pop_id;
-										delete window.pop;
-										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										// Parent Node-Beschriftung: Anzahl anpassen
-										beschrifte_ap_ordner_pop(parent_node);
-										// Hinweis zum rückgängig machen anzeigen
-										$("#undelete_div").html("Population '" + window.deleted.PopName + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
-										$("#undelete_div").show();
-										$("#forms_titelzeile").show();
-										setTimeout(function () {
-											$("#undelete_div").html("");
-											$("#undelete_div").hide();
-											$("#forms_titelzeile").hide();
-										}, 25000);
-									},
-									error: function () {
-										melde("Fehler: Die Population wurde nicht gelöscht");
 									}
+								});
+								deletePop.done(function() {
+									delete localStorage.pop_id;
+									delete window.pop;
+									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									// Parent Node-Beschriftung: Anzahl anpassen
+									beschrifte_ap_ordner_pop(parent_node);
+									// Hinweis zum rückgängig machen anzeigen
+									$("#undelete_div").html("Population '" + window.deleted.PopName + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
+									$("#undelete_div").show();
+									$("#forms_titelzeile").show();
+									setTimeout(function() {
+										$("#undelete_div").html("");
+										$("#undelete_div").hide();
+										$("#forms_titelzeile").hide();
+									}, 25000);
+								});
+								deletePop.fail(function() {
+									melde("Fehler: Die Population wurde nicht gelöscht");
 								});
 							},
 							"abbrechen": function() {
@@ -4957,24 +4957,24 @@ function treeKontextmenu(node) {
 				"label": "auf CH-Karten zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon_gelb.png",
-				"action": function () {
-					$.ajax({
+				"action": function() {
+					var getPopChKarte_2 = $.ajax({
 						type: 'get',
 						url: 'php/pop_ch_karte.php',
 						dataType: 'json',
 						data: {
 							"pop_id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-						},
-						success: function (data) {
-							if (data.rows.length > 0) {
-								zeigePopAufGeoAdmin(data);
-							} else {
-								melde("Die Population hat keine Koordinaten");
-							}
-						},	
-						error: function () {
-							melde("Fehler: Keine Daten erhalten");
 						}
+					});
+					getPopChKarte_2.done(function(data) {
+						if (data.rows.length > 0) {
+							zeigePopAufGeoAdmin(data);
+						} else {
+							melde("Die Population hat keine Koordinaten");
+						}
+					});
+					getPopChKarte_2.fail(function() {
+						melde("Fehler: Keine Populationen erhalten");
 					});
 				}
 			},
@@ -4982,24 +4982,24 @@ function treeKontextmenu(node) {
 				"label": "auf Google-Karten zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon.png",
-				"action": function () {
-					$.ajax({
+				"action": function() {
+					var getPopKarte = $.ajax({
 						type: 'get',
 						url: 'php/pop_karte.php',
 						dataType: 'json',
 						data: {
 							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-						},
-						success: function (data) {
-							if (data.rows.length > 0) {
-								zeigeTPopAufKarte(data);
-							} else {
-								melde("Es gibt keine Teilpopulation mit Koordinaten");
-							}
-						},	
-						error: function () {
-							melde("Fehler: Keine Daten erhalten");
 						}
+					});
+					getPopKarte.done(function(data) {
+						if (data.rows.length > 0) {
+							zeigeTPopAufKarte(data);
+						} else {
+							melde("Es gibt keine Teilpopulation mit Koordinaten");
+						}
+					});
+					getPopKarte.fail(function() {
+						melde("Fehler: Keine Teilpopulationen erhalten");
 					});
 				}
 			},
@@ -5007,7 +5007,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -5017,7 +5017,7 @@ function treeKontextmenu(node) {
 				"label": "zum Verschieben merken",
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -5037,11 +5037,11 @@ function treeKontextmenu(node) {
 				"label": "'" + window.pop_bezeichnung + "' einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
-				"action": function () {
+				"action": function() {
 					var popid = window.pop_id;
 					var apartid = erstelleIdAusDomAttributId($(parent_node).attr("id"));
 					// db aktualisieren
-					$.ajax({
+					var updatePop_2 = $.ajax({
 						type: 'post',
 						url: 'php/pop_update.php',
 						dataType: 'json',
@@ -5050,23 +5050,23 @@ function treeKontextmenu(node) {
 							"Feld": "ApArtId",
 							"Wert": apartid,
 							"user": sessionStorage.User
-						},
-						success: function () {
-							// Baum wieder aufbauen
-							$.when(erstelle_tree(apartid))
-								.then(function() {
-									// dann den eingefügten Node wählen
-									$("#tree").jstree("select_node", "[typ='pop']#" + popid); 
-								});
-							// einfügen soll nicht mehr angezeigt werden
-							delete window.pop_zum_verschieben_gemerkt;
-							// nicht mehr benötigte Variabeln entfernen
-							delete window.pop_bezeichnung;
-							delete window.pop_id;
-						},
-						error: function () {
-							melde("Fehler: Die Population wurde nicht verschoben");
 						}
+					});
+					updatePop_2.done(function() {
+						// Baum wieder aufbauen
+						$.when(erstelle_tree(apartid))
+							.then(function() {
+								// dann den eingefügten Node wählen
+								$("#tree").jstree("select_node", "[typ='pop']#" + popid); 
+							});
+						// einfügen soll nicht mehr angezeigt werden
+						delete window.pop_zum_verschieben_gemerkt;
+						// nicht mehr benötigte Variabeln entfernen
+						delete window.pop_bezeichnung;
+						delete window.pop_id;
+					});
+					updatePop_2.fail(function() {
+						melde("Fehler: Die Population wurde nicht verschoben");
 					});
 				}
 			}
@@ -5077,19 +5077,19 @@ function treeKontextmenu(node) {
 			"untergeordneteKnotenOeffnen": {
 				"label": "untergeordnete Knoten öffnen",
 				"icon": "style/images/tree16x16.png",
-				"action": function () {
+				"action": function() {
 					jQuery.jstree._reference(node).open_all(node);
 				}
 			},
 			"neu": {
 				"label": "neue Teilpopulation",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
-					$.ajax({
+					var insertTPop = $.ajax({
 						type: 'post',
 						url: 'php/tpop_insert.php',
 						dataType: 'json',
@@ -5097,31 +5097,31 @@ function treeKontextmenu(node) {
 							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"typ": "tpop",
 							"user": sessionStorage.User
-						},
-						success: function (data) {
-							var NeuerNode;
-							localStorage.tpop_id = data;
-							delete window.tpop;
-							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-								"data": "neue Teilpopulation",
-								"attr": {
-									"id": data,
-									"typ": "tpop"
-								}
-							});
-							// jetzt alle Unterordner anlegen
-							erstelleUnterordnerFuerTPop(NeuerNode);
-							// Node-Beschriftung: Anzahl anpassen
-							beschrifte_pop_ordner_tpop(aktiver_node);
-							// node selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// Formular initiieren
-							initiiere_tpop();
-						},
-						error: function () {
-							melde("Fehler: Keine neue Teilpopulation erstellt");
 						}
+					});
+					insertTPop.done(function(data) {
+						var NeuerNode;
+						localStorage.tpop_id = data;
+						delete window.tpop;
+						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+							"data": "neue Teilpopulation",
+							"attr": {
+								"id": data,
+								"typ": "tpop"
+							}
+						});
+						// jetzt alle Unterordner anlegen
+						erstelleUnterordnerFuerTPop(NeuerNode);
+						// Node-Beschriftung: Anzahl anpassen
+						beschrifte_pop_ordner_tpop(aktiver_node);
+						// node selecten
+						jQuery.jstree._reference(aktiver_node).deselect_all();
+						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+						// Formular initiieren
+						initiiere_tpop();
+					});
+					insertTPop.fail(function() {
+						melde("Fehler: Keine neue Teilpopulation erstellt");
 					});
 				}
 			},
@@ -5129,24 +5129,24 @@ function treeKontextmenu(node) {
 				"label": "auf CH-Karten zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon_gelb.png",
-				"action": function () {
-					$.ajax({
+				"action": function() {
+					var getTpopsKarte = $.ajax({
 						type: 'get',
 						url: 'php/tpops_karte.php',
 						dataType: 'json',
 						data: {
 							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-						},
-						success: function (data) {
-							if (data.rows.length > 0) {
-								zeigeTPopAufGeoAdmin(data);
-							} else {
-								melde("Es gibt keine Teilpopulation mit Koordinaten");
-							}
-						},	
-						error: function () {
-							melde("Fehler: Keine Daten erhalten");
 						}
+					});
+					getTpopsKarte.done(function(data) {
+						if (data.rows.length > 0) {
+							zeigeTPopAufGeoAdmin(data);
+						} else {
+							melde("Es gibt keine Teilpopulation mit Koordinaten");
+						}
+					});
+					getTpopsKarte.fail(function() {
+						melde("Fehler: Keine Teilpopulationen erhalten");
 					});
 				}
 			},
@@ -5154,24 +5154,24 @@ function treeKontextmenu(node) {
 				"label": "auf Google-Karten zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon.png",
-				"action": function () {
-					$.ajax({
+				"action": function() {
+					var getPopKarte_2 = $.ajax({
 						type: 'get',
 						url: 'php/pop_karte.php',
 						dataType: 'json',
 						data: {
 							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-						},
-						success: function (data) {
-							if (data.rows.length > 0) {
-								zeigeTPopAufKarte(data);
-							} else {
-								melde("Es gibt keine Teilpopulation mit Koordinaten");
-							}
-						},	
-						error: function () {
-							melde("Fehler: Keine Daten erhalten");
 						}
+					});
+					getPopKarte_2.done(function(data) {
+						if (data.rows.length > 0) {
+							zeigeTPopAufKarte(data);
+						} else {
+							melde("Es gibt keine Teilpopulation mit Koordinaten");
+						}
+					});
+					getPopKarte_2.fail(function() {
+						melde("Fehler: Keine Teilpopulationen erhalten");
 					});
 				}
 			},
@@ -5179,7 +5179,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -5189,7 +5189,7 @@ function treeKontextmenu(node) {
 				"label": jQuery.jstree._reference(window.tpop_node_ausgeschnitten).get_text(window.tpop_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
-				"action": function () {
+				"action": function() {
 					jQuery.jstree._reference(aktiver_node).move_node(window.tpop_node_ausgeschnitten, aktiver_node, "first", false);
 				}
 			}
@@ -5212,7 +5212,7 @@ function treeKontextmenu(node) {
 				"label": label + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
-				"action": function () {
+				"action": function() {
 					tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node);
 				}
 			}
@@ -5223,19 +5223,19 @@ function treeKontextmenu(node) {
 			"untergeordneteKnotenOeffnen": {
 				"label": "untergeordnete Knoten öffnen",
 				"icon": "style/images/tree16x16.png",
-				"action": function () {
+				"action": function() {
 					jQuery.jstree._reference(node).open_all(node);
 				}
 			},
 			"neu": {
 				"label": "neue Teilpopulation",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
-					$.ajax({
+					var insertTPop_2 = $.ajax({
 						type: 'post',
 						url: 'php/tpop_insert.php',
 						dataType: 'json',
@@ -5243,31 +5243,31 @@ function treeKontextmenu(node) {
 							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"typ": "tpop",
 							"user": sessionStorage.User
-						},
-						success: function (data) {
-							var NeuerNode;
-							localStorage.tpop_id = data;
-							delete window.tpop;
-							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-								"data": "neue Teilpopulation",
-								"attr": {
-									"id": data,
-									"typ": "tpop"
-								}
-							});
-							// jetzt alle Unterordner anlegen
-							erstelleUnterordnerFuerTPop(NeuerNode);
-							// Parent Node-Beschriftung: Anzahl anpassen
-							beschrifte_pop_ordner_tpop(parent_node);
-							// node selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// Formular initiieren
-							initiiere_tpop();
-						},
-						error: function () {
-							melde("Fehler: Keine neue Teilpopulation erstellt");
 						}
+					});
+					insertTPop_2.done(function(data) {
+						var NeuerNode;
+						localStorage.tpop_id = data;
+						delete window.tpop;
+						NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
+							"data": "neue Teilpopulation",
+							"attr": {
+								"id": data,
+								"typ": "tpop"
+							}
+						});
+						// jetzt alle Unterordner anlegen
+						erstelleUnterordnerFuerTPop(NeuerNode);
+						// Parent Node-Beschriftung: Anzahl anpassen
+						beschrifte_pop_ordner_tpop(parent_node);
+						// node selecten
+						jQuery.jstree._reference(aktiver_node).deselect_all();
+						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+						// Formular initiieren
+						initiiere_tpop();
+					});
+					insertTPop_2.fail(function() {
+						melde("Fehler: Keine neue Teilpopulation erstellt");
 					});
 				}
 			},
@@ -5275,7 +5275,7 @@ function treeKontextmenu(node) {
 				"label": "löschen",
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -5299,32 +5299,32 @@ function treeKontextmenu(node) {
 								window.deleted = window.tpop;
 								window.deleted.typ = "tpop";
 								// löschen
-								$.ajax({
+								var deleteTPop = $.ajax({
 									type: 'post',
 									url: 'php/tpop_delete.php',
 									dataType: 'json',
 									data: {
 										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-									},
-									success: function () {
-										delete localStorage.tpop_id;
-										delete window.tpop;
-										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										// Parent Node-Beschriftung: Anzahl anpassen
-										beschrifte_pop_ordner_tpop(parent_node);
-										// Hinweis zum rückgängig machen anzeigen
-										$("#undelete_div").html("Teilpopulation '" + window.deleted.TPopFlurname + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
-										$("#undelete_div").show();
-										$("#forms_titelzeile").show();
-										setTimeout(function () {
-											$("#undelete_div").html("");
-											$("#undelete_div").hide();
-											$("#forms_titelzeile").hide();
-										}, 25000);
-									},
-									error: function () {
-										melde("Fehler: Die Teilpopulation wurde nicht gelöscht");
 									}
+								});
+								deleteTPop.done(function() {
+									delete localStorage.tpop_id;
+									delete window.tpop;
+									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									// Parent Node-Beschriftung: Anzahl anpassen
+									beschrifte_pop_ordner_tpop(parent_node);
+									// Hinweis zum rückgängig machen anzeigen
+									$("#undelete_div").html("Teilpopulation '" + window.deleted.TPopFlurname + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
+									$("#undelete_div").show();
+									$("#forms_titelzeile").show();
+									setTimeout(function() {
+										$("#undelete_div").html("");
+										$("#undelete_div").hide();
+										$("#forms_titelzeile").hide();
+									}, 25000);
+								});
+								deleteTPop.fail(function() {
+									melde("Fehler: Die Teilpopulation wurde nicht gelöscht");
 								});
 							},
 							"abbrechen": function() {
@@ -5338,24 +5338,24 @@ function treeKontextmenu(node) {
 				"label": "auf CH-Karten zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon_gelb.png",
-				"action": function () {
-					$.ajax({
+				"action": function() {
+					var getTPopKarte_2 = $.ajax({
 						type: 'get',
 						url: 'php/tpop_karte.php',
 						dataType: 'json',
 						data: {
 							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-						},
-						success: function (data) {
-							if (data.rows.length > 0) {
-								zeigeTPopAufGeoAdmin(data);
-							} else {
-								melde("Die Teilpopulation hat keine Koordinaten");
-							}
-						},	
-						error: function () {
-							melde("Fehler: Keine Daten erhalten");
 						}
+					});
+					getTPopKarte_2.done(function(data) {
+						if (data.rows.length > 0) {
+							zeigeTPopAufGeoAdmin(data);
+						} else {
+							melde("Die Teilpopulation hat keine Koordinaten");
+						}
+					});
+					getTPopKarte_2.fail(function() {
+						melde("Fehler: Keine Teilpopulationen erhalten");
 					});
 				}
 			},
@@ -5363,7 +5363,7 @@ function treeKontextmenu(node) {
 				"label": "auf CH-Karten verorten",
 				"separator_before": true,
 				"icon": "style/images/flora_icon_rot.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -5375,10 +5375,10 @@ function treeKontextmenu(node) {
 						data: {
 							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						},
-						success: function (data) {
+						success: function(data) {
 							verorteTPopAufGeoAdmin(data);
 						},	
-						error: function () {
+						error: function() {
 							melde("Fehler: Keine Daten erhalten");
 						}
 					});
@@ -5388,7 +5388,7 @@ function treeKontextmenu(node) {
 				"label": "auf Google-Karten zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon.png",
-				"action": function () {
+				"action": function() {
 					$.ajax({
 						type: 'get',
 						url: 'php/tpop_karte.php',
@@ -5396,14 +5396,14 @@ function treeKontextmenu(node) {
 						data: {
 							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						},
-						success: function (data) {
+						success: function(data) {
 							if (data.rows.length > 0) {
 								zeigeTPopAufKarte(data);
 							} else {
 								melde("Die Teilpopulation hat keine Koordinaten");
 							}
 						},	
-						error: function () {
+						error: function() {
 							melde("Fehler: Keine Daten erhalten");
 						}
 					});
@@ -5413,7 +5413,7 @@ function treeKontextmenu(node) {
 				"label": "auf Google-Karten verorten",
 				"separator_before": true,
 				"icon": "style/images/flora_icon_rot.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -5425,10 +5425,10 @@ function treeKontextmenu(node) {
 						data: {
 							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						},
-						success: function (data) {
+						success: function(data) {
 							verorteTPopAufKarte(data);
 						},	
-						error: function () {
+						error: function() {
 							melde("Fehler: Keine Daten erhalten");
 						}
 					});
@@ -5438,7 +5438,7 @@ function treeKontextmenu(node) {
 				"label": "im GIS-Browser zeigen",
 				"separator_before": true,
 				"icon": "style/images/wappen_zuerich.png",
-				"action": function () {
+				"action": function() {
 					zeigeBeobKoordinatenImGisBrowser();
 				}
 			},
@@ -5446,7 +5446,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -5457,7 +5457,7 @@ function treeKontextmenu(node) {
 				"label": "ausschneiden",
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -5475,7 +5475,7 @@ function treeKontextmenu(node) {
 				"label": "kopieren",
 				"separator_before": true,
 				"icon": "style/images/kopieren.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -5489,10 +5489,10 @@ function treeKontextmenu(node) {
 						data: {
 							"id": erstelleIdAusDomAttributId($(window.tpop_node_kopiert).attr("id"))
 						},
-						success: function (data) {
+						success: function(data) {
 							window.tpop_objekt_kopiert = data;
 						},
-						error: function () {
+						error: function() {
 							melde("Fehler: Die Teilpopulation wurde nicht kopiert");
 						}
 					});
@@ -5516,7 +5516,7 @@ function treeKontextmenu(node) {
 				"label": label + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
-				"action": function () {
+				"action": function() {
 					tpop_kopiert_in_pop_ordner_tpop_einfuegen(parent_node);
 				}
 			}
@@ -5526,7 +5526,7 @@ function treeKontextmenu(node) {
 				"label": jQuery.jstree._reference(window.tpop_node_ausgeschnitten).get_text(window.tpop_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
-				"action": function () {
+				"action": function() {
 					jQuery.jstree._reference(parent_node).move_node(window.tpop_node_ausgeschnitten, parent_node, "first", false);
 				}
 			}
@@ -5537,7 +5537,7 @@ function treeKontextmenu(node) {
 			"neu": {
 				"label": "neuer Populations-Bericht",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -5550,7 +5550,7 @@ function treeKontextmenu(node) {
 							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"user": sessionStorage.User
 						},
-						success: function (data) {
+						success: function(data) {
 							var NeuerNode;
 							localStorage.popber_id = data;
 							delete window.popber;
@@ -5569,7 +5569,7 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_popber();
 						},
-						error: function () {
+						error: function() {
 							melde("Fehler: Keinen neuen Populations-Bericht erstellt");
 						}
 					});
@@ -5579,7 +5579,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -5590,7 +5590,7 @@ function treeKontextmenu(node) {
 			"neu": {
 				"label": "neuer Populations-Bericht",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -5604,7 +5604,7 @@ function treeKontextmenu(node) {
 							"typ": "popber",
 							"user": sessionStorage.User
 						},
-						success: function (data) {
+						success: function(data) {
 							var NeuerNode
 							localStorage.popber_id = data;
 							delete window.popber;
@@ -5623,7 +5623,7 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_popber();
 						},
-						error: function () {
+						error: function() {
 							melde("Fehler: Keinen neuen Populations-Bericht erstellt");
 						}
 					});
@@ -5633,7 +5633,7 @@ function treeKontextmenu(node) {
 				"label": "löschen",
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -5654,14 +5654,14 @@ function treeKontextmenu(node) {
 									data: {
 										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									},
-									success: function () {
+									success: function() {
 										delete localStorage.popber_id;
 										delete window.popber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										// Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_pop_ordner_popber(parent_node);
 									},
-									error: function () {
+									error: function() {
 										melde("Fehler: Der Populations-Bericht wurde nicht gelöscht");
 									}
 								});
@@ -5677,7 +5677,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -5688,7 +5688,7 @@ function treeKontextmenu(node) {
 			"neu": {
 				"label": "neuer Massnahmen-Bericht",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -5701,7 +5701,7 @@ function treeKontextmenu(node) {
 							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"user": sessionStorage.User
 						},
-						success: function (data) {
+						success: function(data) {
 							var NeuerNode;
 							localStorage.popmassnber_id = data;
 							delete window.popmassnber;
@@ -5720,7 +5720,7 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_popmassnber();
 						},
-						error: function () {
+						error: function() {
 							melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
 						}
 					});
@@ -5730,7 +5730,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -5741,7 +5741,7 @@ function treeKontextmenu(node) {
 			"neu": {
 				"label": "neuer Massnahmen-Bericht",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -5755,7 +5755,7 @@ function treeKontextmenu(node) {
 							"typ": "popmassnber",
 							"user": sessionStorage.User
 						},
-						success: function (data) {
+						success: function(data) {
 							var NeuerNode;
 							localStorage.popmassnber_id = data;
 							delete window.popmassnber;
@@ -5774,7 +5774,7 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_popmassnber();
 						},
-						error: function () {
+						error: function() {
 							melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
 						}
 					});
@@ -5784,7 +5784,7 @@ function treeKontextmenu(node) {
 				"label": "löschen",
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -5805,14 +5805,14 @@ function treeKontextmenu(node) {
 									data: {
 										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									},
-									success: function () {
+									success: function() {
 										delete localStorage.popmassnber_id;
 										delete window.popmassnber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										// Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_pop_ordner_massnber(parent_node);
 									},
-									error: function () {
+									error: function() {
 										melde("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
 									}
 								});
@@ -5828,7 +5828,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -5839,7 +5839,7 @@ function treeKontextmenu(node) {
 			"neu": {
 				"label": "neue Feldkontrolle",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -5853,7 +5853,7 @@ function treeKontextmenu(node) {
 							"typ": "tpopfeldkontr",
 							"user": sessionStorage.User
 						},
-						success: function (data) {
+						success: function(data) {
 							var NeuerNode;
 							localStorage.tpopfeldkontr_id = data;
 							delete window.tpopfeldkontr;
@@ -5872,7 +5872,7 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_tpopfeldkontr();
 						},
-						error: function () {
+						error: function() {
 							melde("Fehler: Keine neue Feldkontrolle erstellt");
 						}
 					});
@@ -5882,7 +5882,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -5892,7 +5892,7 @@ function treeKontextmenu(node) {
 				"label": jQuery.jstree._reference(window.tpopfeldkontr_node_ausgeschnitten).get_text(window.tpopfeldkontr_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
-				"action": function () {
+				"action": function() {
 					jQuery.jstree._reference(aktiver_node).move_node(window.tpopfeldkontr_node_ausgeschnitten, aktiver_node, "first", false);
 				}
 			}
@@ -5902,7 +5902,7 @@ function treeKontextmenu(node) {
 				"label": jQuery.jstree._reference(window.tpopfeldkontr_node_kopiert).get_text(window.tpopfeldkontr_node_kopiert) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -5917,7 +5917,7 @@ function treeKontextmenu(node) {
 							"TPopId": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"TPopKontrId": erstelleIdAusDomAttributId($(window.tpopfeldkontr_node_kopiert).attr("id"))
 						},
-						success: function (data) {
+						success: function(data) {
 							var NeuerNode;
 							localStorage.tpopfeldkontr_id = data;
 							delete window.tpopfeldkontr;
@@ -5936,7 +5936,7 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_tpopfeldkontr();
 						},
-						error: function () {
+						error: function() {
 							melde("Fehler: Die Feldkontrolle wurde nicht erstellt");
 						}
 					});
@@ -5949,7 +5949,7 @@ function treeKontextmenu(node) {
 			"neu": {
 				"label": "neue Feldkontrolle",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -5963,7 +5963,7 @@ function treeKontextmenu(node) {
 							"typ": "tpopfeldkontr",
 							"user": sessionStorage.User
 						},
-						success: function (data) {
+						success: function(data) {
 							var NeuerNode;
 							localStorage.tpopfeldkontr_id = data;
 							delete window.tpopfeldkontr;
@@ -5982,7 +5982,7 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_tpopfeldkontr();
 						},
-						error: function () {
+						error: function() {
 							melde("Fehler: Keine neue Feldkontrolle erstellt");
 						}
 					});
@@ -5992,7 +5992,7 @@ function treeKontextmenu(node) {
 				"label": "Feldkontrolle löschen",
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -6016,7 +6016,7 @@ function treeKontextmenu(node) {
 									data: {
 										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									},
-									success: function () {
+									success: function() {
 										delete localStorage.tpopfeldkontr_id;
 										delete window.tpopfeldkontr;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -6026,13 +6026,13 @@ function treeKontextmenu(node) {
 										$("#undelete_div").html("Feldkontrolle '" + window.deleted.TPopKontrJahr + ": " + window.deleted.TPopKontrTyp + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
 										$("#undelete_div").show();
 										$("#forms_titelzeile").show();
-										setTimeout(function () {
+										setTimeout(function() {
 											$("#undelete_div").html("");
 											$("#undelete_div").hide();
 											$("#forms_titelzeile").hide();
 										}, 25000);
 									},
-									error: function () {
+									error: function() {
 										melde("Fehler: Die Feldkontrolle wurde nicht gelöscht");
 									}
 								});
@@ -6048,7 +6048,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			},
@@ -6056,7 +6056,7 @@ function treeKontextmenu(node) {
 				"label": "Biotop kopieren",
 				"separator_before": true,
 				"icon": "style/images/kopieren.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -6122,7 +6122,7 @@ function treeKontextmenu(node) {
 				"label": "Biotop einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
-				"action": function () {
+				"action": function() {
 					var data = {};
 					data.id = erstelleIdAusDomAttributId($(aktiver_node).attr("id"));
 					data.user = sessionStorage.User
@@ -6140,9 +6140,9 @@ function treeKontextmenu(node) {
 						url: 'php/tpopfeldkontr_update_multiple.php',
 						dataType: 'json',
 						data: data,
-						success: function () {
+						success: function() {
 						},
-						error: function () {
+						error: function() {
 							melde("Fehler: Das kopierte Biotop wurde nicht eingefügt");
 						}
 					});
@@ -6155,7 +6155,7 @@ function treeKontextmenu(node) {
 				"label": "Feldkontrolle ausschneiden",
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -6173,7 +6173,7 @@ function treeKontextmenu(node) {
 				"label": "Feldkontrolle kopieren",
 				"separator_before": true,
 				"icon": "style/images/kopieren.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -6187,10 +6187,10 @@ function treeKontextmenu(node) {
 						data: {
 							"id": erstelleIdAusDomAttributId($(window.tpopfeldkontr_node_kopiert).attr("id"))
 						},
-						success: function (data) {
+						success: function(data) {
 							window.tpopfeldkontr_objekt_kopiert = data;
 						},
-						error: function () {
+						error: function() {
 							melde("Fehler: Die Feldkontrolle wurde nicht kopiert");
 						}
 					});
@@ -6202,7 +6202,7 @@ function treeKontextmenu(node) {
 				"label": jQuery.jstree._reference(window.tpopfeldkontr_node_ausgeschnitten).get_text(window.tpopfeldkontr_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
-				"action": function () {
+				"action": function() {
 					jQuery.jstree._reference(parent_node).move_node(window.tpopfeldkontr_node_ausgeschnitten, parent_node, "first", false);
 				}
 			}
@@ -6212,7 +6212,7 @@ function treeKontextmenu(node) {
 				"label": jQuery.jstree._reference(window.tpopfeldkontr_node_kopiert).get_text(window.tpopfeldkontr_node_kopiert) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -6227,7 +6227,7 @@ function treeKontextmenu(node) {
 							"TPopId": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"TPopKontrId": erstelleIdAusDomAttributId($(window.tpopfeldkontr_node_kopiert).attr("id"))
 						},
-						success: function (data) {
+						success: function(data) {
 							var NeuerNode;
 							localStorage.tpopfeldkontr_id = data;
 							delete window.tpopfeldkontr;
@@ -6246,7 +6246,7 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_tpopfeldkontr();
 						},
-						error: function () {
+						error: function() {
 							melde("Fehler: Die Feldkontrolle wurde nicht erstellt");
 						}
 					});
@@ -6259,7 +6259,7 @@ function treeKontextmenu(node) {
 			"neu": {
 				"label": "neue Freiwilligen-Kontrolle",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -6273,7 +6273,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User,
 							"TPopKontrTyp": "Freiwilligen-Erfolgskontrolle"
 						},
-						success: function (data) {
+						success: function(data) {
 							var NeuerNode;
 							localStorage.tpopfeldkontr_id = data;
 							localStorage.tpopfreiwkontr = true;
@@ -6294,7 +6294,7 @@ function treeKontextmenu(node) {
 							localStorage.tpopfreiwkontr = true;
 							initiiere_tpopfeldkontr();
 						},
-						error: function () {
+						error: function() {
 							melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
 						}
 					});
@@ -6304,7 +6304,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -6314,7 +6314,7 @@ function treeKontextmenu(node) {
 				"label": jQuery.jstree._reference(window.tpopfreiwkontr_node_ausgeschnitten).get_text(window.tpopfreiwkontr_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
-				"action": function () {
+				"action": function() {
 					jQuery.jstree._reference(aktiver_node).move_node(window.tpopfreiwkontr_node_ausgeschnitten, aktiver_node, "first", false);
 				}
 			}
@@ -6324,7 +6324,7 @@ function treeKontextmenu(node) {
 				"label": jQuery.jstree._reference(window.tpopfreiwkontr_node_kopiert).get_text(window.tpopfreiwkontr_node_kopiert) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -6339,7 +6339,7 @@ function treeKontextmenu(node) {
 							"TPopId": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"TPopKontrId": erstelleIdAusDomAttributId($(window.tpopfreiwkontr_node_kopiert).attr("id"))
 						},
-						success: function (data) {
+						success: function(data) {
 							var NeuerNode;
 							localStorage.tpopfeldkontr_id = data;
 							localStorage.tpopfreiwkontr = true;
@@ -6360,7 +6360,7 @@ function treeKontextmenu(node) {
 							localStorage.tpopfreiwkontr = true;
 							initiiere_tpopfeldkontr();
 						},
-						error: function () {
+						error: function() {
 							melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
 						}
 					});
@@ -6373,7 +6373,7 @@ function treeKontextmenu(node) {
 			"neu": {
 				"label": "neue Freiwilligen-Kontrolle",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -6387,7 +6387,7 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User,
 							"TPopKontrTyp": "Freiwilligen-Erfolgskontrolle"
 						},
-						success: function (data) {
+						success: function(data) {
 							var NeuerNode;
 							localStorage.tpopfeldkontr_id = data;
 							delete window.tpopfeldkontr;
@@ -6407,7 +6407,7 @@ function treeKontextmenu(node) {
 							localStorage.tpopfreiwkontr = true;
 							initiiere_tpopfeldkontr();
 						},
-						error: function () {
+						error: function() {
 							melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
 						}
 					});
@@ -6417,7 +6417,7 @@ function treeKontextmenu(node) {
 				"label": "löschen",
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -6441,7 +6441,7 @@ function treeKontextmenu(node) {
 									data: {
 										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									},
-									success: function () {
+									success: function() {
 										delete localStorage.tpopfeldkontr_id;
 										delete localStorage.tpopfreiwkontr;
 										delete window.tpopfeldkontr;
@@ -6452,13 +6452,13 @@ function treeKontextmenu(node) {
 										$("#undelete_div").html("Freiwilligen-Kontrolle '" + window.deleted.TPopKontrJahr + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
 										$("#undelete_div").show();
 										$("#forms_titelzeile").show();
-										setTimeout(function () {
+										setTimeout(function() {
 											$("#undelete_div").html("");
 											$("#undelete_div").hide();
 											$("#forms_titelzeile").hide();
 										}, 25000);
 									},
-									error: function () {
+									error: function() {
 										melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht gelöscht");
 									}
 								});
@@ -6474,7 +6474,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -6485,7 +6485,7 @@ function treeKontextmenu(node) {
 				"label": "ausschneiden",
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -6503,7 +6503,7 @@ function treeKontextmenu(node) {
 				"label": "kopieren",
 				"separator_before": true,
 				"icon": "style/images/kopieren.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -6517,10 +6517,10 @@ function treeKontextmenu(node) {
 						data: {
 							"id": erstelleIdAusDomAttributId($(window.tpopfreiwkontr_node_kopiert).attr("id"))
 						},
-						success: function (data) {
+						success: function(data) {
 							tpopfreiwkontr_objekt_kopiert = data;
 						},
-						error: function () {
+						error: function() {
 							melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht kopiert");
 						}
 					});
@@ -6532,7 +6532,7 @@ function treeKontextmenu(node) {
 				"label": jQuery.jstree._reference(window.tpopfreiwkontr_node_ausgeschnitten).get_text(window.tpopfreiwkontr_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
-				"action": function () {
+				"action": function() {
 					jQuery.jstree._reference(parent_node).move_node(window.tpopfreiwkontr_node_ausgeschnitten, parent_node, "first", false);
 					localStorage.tpopfreiwkontr = true;
 				}
@@ -6543,7 +6543,7 @@ function treeKontextmenu(node) {
 				"label": jQuery.jstree._reference(window.tpopfreiwkontr_node_kopiert).get_text(window.tpopfreiwkontr_node_kopiert) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -6559,7 +6559,7 @@ function treeKontextmenu(node) {
 							"TPopId": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"TPopKontrId": erstelleIdAusDomAttributId($(window.tpopfreiwkontr_node_kopiert).attr("id"))
 						},
-						success: function (data) {
+						success: function(data) {
 							var NeuerNode;
 							localStorage.tpopfeldkontr_id = data;
 							delete window.tpopfeldkontr;
@@ -6579,7 +6579,7 @@ function treeKontextmenu(node) {
 							localStorage.tpopfreiwkontr = true;
 							initiiere_tpopfeldkontr();
 						},
-						error: function () {
+						error: function() {
 							melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
 						}
 					});
@@ -6592,7 +6592,7 @@ function treeKontextmenu(node) {
 			"neu": {
 				"label": "neue Massnahme",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -6606,7 +6606,7 @@ function treeKontextmenu(node) {
 							"typ": "tpopmassn",
 							"user": sessionStorage.User
 						},
-						success: function (data) {
+						success: function(data) {
 							var NeuerNode;
 							localStorage.tpopmassn_id = data;
 							delete window.tpopmassn;
@@ -6625,7 +6625,7 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_tpopmassn();
 						},
-						error: function () {
+						error: function() {
 							melde("Fehler: Keine neue Massnahme erstellt");
 						}
 					});
@@ -6635,7 +6635,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -6645,7 +6645,7 @@ function treeKontextmenu(node) {
 				"label": jQuery.jstree._reference(window.tpopmassn_node_ausgeschnitten).get_text(window.tpopmassn_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
-				"action": function () {
+				"action": function() {
 					jQuery.jstree._reference(aktiver_node).move_node(window.tpopmassn_node_ausgeschnitten, aktiver_node, "first", false);
 				}
 			}
@@ -6655,7 +6655,7 @@ function treeKontextmenu(node) {
 				"label": jQuery.jstree._reference(window.tpopmassn_node_kopiert).get_text(window.tpopmassn_node_kopiert) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -6670,7 +6670,7 @@ function treeKontextmenu(node) {
 							"TPopId": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"TPopMassnId": erstelleIdAusDomAttributId($(window.tpopmassn_node_kopiert).attr("id"))
 						},
-						success: function (data) {
+						success: function(data) {
 							var NeuerNode;
 							localStorage.tpopmassn_id = data;
 							delete window.tpopmassn;
@@ -6690,7 +6690,7 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_tpopmassn();
 						},
-						error: function () {
+						error: function() {
 							melde("Fehler: Die Massnahme wurde nicht erstellt");
 						}
 					});
@@ -6703,7 +6703,7 @@ function treeKontextmenu(node) {
 			"neu": {
 				"label": "neue Massnahme",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -6717,7 +6717,7 @@ function treeKontextmenu(node) {
 							"typ": "tpopmassn",
 							"user": sessionStorage.User
 						},
-						success: function (data) {
+						success: function(data) {
 							var NeuerNode;
 							localStorage.tpopmassn_id = data;
 							delete window.tpopmassn;
@@ -6736,7 +6736,7 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_tpopmassn();
 						},
-						error: function () {
+						error: function() {
 							melde("Fehler: Keine neue Massnahme erstellt");
 						}
 					});
@@ -6746,7 +6746,7 @@ function treeKontextmenu(node) {
 				"label": "löschen",
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -6770,7 +6770,7 @@ function treeKontextmenu(node) {
 									data: {
 										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									},
-									success: function () {
+									success: function() {
 										delete localStorage.tpopmassn_id;
 										delete window.tpopmassn;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -6780,13 +6780,13 @@ function treeKontextmenu(node) {
 										$("#undelete_div").html("Massnahme '" + window.deleted.TPopMassnJahr + ": " + window.deleted.TPopMassnTyp + "' wurde gelöscht. <a href='#' id='undelete'>Wiederherstellen?</a>");
 										$("#undelete_div").show();
 										$("#forms_titelzeile").show();
-										setTimeout(function () {
+										setTimeout(function() {
 											$("#undelete_div").html("");
 											$("#undelete_div").hide();
 											$("#forms_titelzeile").hide();
 										}, 25000);
 									},
-									error: function () {
+									error: function() {
 										melde("Fehler: Die Massnahme wurde nicht gelöscht");
 									}
 								});
@@ -6802,7 +6802,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -6813,7 +6813,7 @@ function treeKontextmenu(node) {
 				"label": "ausschneiden",
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -6831,7 +6831,7 @@ function treeKontextmenu(node) {
 				"label": "kopieren",
 				"separator_before": true,
 				"icon": "style/images/kopieren.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -6845,7 +6845,7 @@ function treeKontextmenu(node) {
 						data: {
 							"id": erstelleIdAusDomAttributId($(window.tpopmassn_node_kopiert).attr("id"))
 						},
-						success: function (data) {
+						success: function(data) {
 							window.tpopmassn_objekt_kopiert = data;
 							// den Beurteilungstext holen - ist nur mühsam aus der DB zu holen
 							window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt = "";
@@ -6853,7 +6853,7 @@ function treeKontextmenu(node) {
 								window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt = $("#TPopMassnTyp option:checked").text();
 							}
 						},
-						error: function () {
+						error: function() {
 							melde("Fehler: Die Massnahme wurde nicht kopiert");
 						}
 					});
@@ -6865,7 +6865,7 @@ function treeKontextmenu(node) {
 				"label": jQuery.jstree._reference(window.tpopmassn_node_ausgeschnitten).get_text(window.tpopmassn_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
-				"action": function () {
+				"action": function() {
 					jQuery.jstree._reference(parent_node).move_node(window.tpopmassn_node_ausgeschnitten, parent_node, "first", false);
 				}
 			}
@@ -6875,7 +6875,7 @@ function treeKontextmenu(node) {
 				"label": jQuery.jstree._reference(window.tpopmassn_node_kopiert).get_text(window.tpopmassn_node_kopiert) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -6890,7 +6890,7 @@ function treeKontextmenu(node) {
 							"TPopId": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"TPopMassnId": erstelleIdAusDomAttributId($(window.tpopmassn_node_kopiert).attr("id"))
 						},
-						success: function (data) {
+						success: function(data) {
 							var NeuerNode;
 							localStorage.tpopmassn_id = data;
 							delete window.tpopmassn;
@@ -6909,7 +6909,7 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_tpopmassn();
 						},
-						error: function () {
+						error: function() {
 							melde("Fehler: Die Massnahme wurde nicht erstellt");
 						}
 					});
@@ -6922,7 +6922,7 @@ function treeKontextmenu(node) {
 			"neu": {
 				"label": "neuer Teilpopulations-Bericht",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -6935,7 +6935,7 @@ function treeKontextmenu(node) {
 							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"user": sessionStorage.User
 						},
-						success: function (data) {
+						success: function(data) {
 							var NeuerNode;
 							localStorage.tpopber_id = data;
 							delete window.tpopber;
@@ -6954,7 +6954,7 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_tpopber();
 						},
-						error: function () {
+						error: function() {
 							melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
 						}
 					});
@@ -6964,7 +6964,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -6975,7 +6975,7 @@ function treeKontextmenu(node) {
 			"neu": {
 				"label": "neuer Teilpopulations-Bericht",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -6989,7 +6989,7 @@ function treeKontextmenu(node) {
 							"typ": "tpopber",
 							"user": sessionStorage.User
 						},
-						success: function (data) {
+						success: function(data) {
 							var NeuerNode;
 							localStorage.tpopber_id = data;
 							delete window.tpopber;
@@ -7008,7 +7008,7 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_tpopber();
 						},
-						error: function () {
+						error: function() {
 							melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
 						}
 					});
@@ -7018,7 +7018,7 @@ function treeKontextmenu(node) {
 				"label": "löschen",
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -7039,14 +7039,14 @@ function treeKontextmenu(node) {
 									data: {
 										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									},
-									success: function () {
+									success: function() {
 										delete localStorage.tpopber_id;
 										delete window.tpopber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										// Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_tpop_ordner_tpopber(parent_node);
 									},
-									error: function () {
+									error: function() {
 										melde("Fehler: Der Teilpopulations-Bericht wurde nicht gelöscht");
 									}
 								});
@@ -7062,7 +7062,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -7074,7 +7074,7 @@ function treeKontextmenu(node) {
 				"label": "auf Luftbild zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon.png",
-				"action": function () {
+				"action": function() {
 					$.ajax({
 						type: 'get',
 						url: 'php/beob_karte.php',
@@ -7082,14 +7082,14 @@ function treeKontextmenu(node) {
 						data: {
 							"tpop_id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						},
-						success: function (data) {
+						success: function(data) {
 							if (data.rows.length > 0) {
 								zeigeTPopBeobAufKarte(data);
 							} else {
 								melde("Es gibt keine Beobachtungen mit Koordinaten");
 							}
 						},	
-						error: function () {
+						error: function() {
 							melde("Fehler: Keine Daten erhalten");
 						}
 					});
@@ -7102,7 +7102,7 @@ function treeKontextmenu(node) {
 				"label": jQuery.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
-				"action": function () {
+				"action": function() {
 					jQuery.jstree._reference(aktiver_node).move_node(window.beob_zugeordnet_node_ausgeschnitten, aktiver_node, "first", false);
 				}
 			}
@@ -7112,7 +7112,7 @@ function treeKontextmenu(node) {
 				"label": jQuery.jstree._reference(window.beob_node_ausgeschnitten).get_text(window.beob_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
-				"action": function () {
+				"action": function() {
 					jQuery("#tree").jstree("move_node", window.beob_node_ausgeschnitten, aktiver_node, "first");
 				}
 			}
@@ -7124,7 +7124,7 @@ function treeKontextmenu(node) {
 				"label": "auf Luftbild zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon.png",
-				"action": function () {
+				"action": function() {
 					$.ajax({
 						type: 'get',
 						url: 'php/beob_karte.php',
@@ -7132,14 +7132,14 @@ function treeKontextmenu(node) {
 						data: {
 							"beobid": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 						},
-						success: function (data) {
+						success: function(data) {
 							if (data.rows.length > 0) {
 								zeigeTPopBeobAufKarte(data);
 							} else {
 								melde("Die Beobachtung hat keine Koordinaten");
 							}
 						},	
-						error: function () {
+						error: function() {
 							melde("Fehler: Keine Daten erhalten");
 						}
 					});
@@ -7149,7 +7149,7 @@ function treeKontextmenu(node) {
 				"label": "auf Luftbild einer neuen<br>&nbsp;&nbsp;&nbsp;Teilpopulation zuordnen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon_violett.png",
-				"action": function () {
+				"action": function() {
 					$.ajax({
 						type: 'get',
 						url: 'php/beob_karte.php',
@@ -7157,7 +7157,7 @@ function treeKontextmenu(node) {
 						data: {
 							"beobid": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						},
-						success: function (beob) {
+						success: function(beob) {
 							if (beob.rows.length > 0) {
 								$.ajax({
 									type: 'get',
@@ -7166,7 +7166,7 @@ function treeKontextmenu(node) {
 									data: {
 										"id": localStorage.ap_id
 									},
-									success: function (tpop) {
+									success: function(tpop) {
 										if (tpop.rows.length > 0) {
 											zeigeBeobUndTPopAufKarte(beob, tpop);
 										} else {
@@ -7178,7 +7178,7 @@ function treeKontextmenu(node) {
 								melde("Die Beobachtung hat keine Koordinaten<br>Bitte im Formular zuordnen");
 							}
 						},	
-						error: function () {
+						error: function() {
 							melde("Fehler: Keine Daten erhalten");
 						}
 					});
@@ -7188,7 +7188,7 @@ function treeKontextmenu(node) {
 				"label": "im GIS-Browser zeigen",
 				"separator_before": true,
 				"icon": "style/images/wappen_zuerich.png",
-				"action": function () {
+				"action": function() {
 					zeigeBeobKoordinatenImGisBrowser();
 				}
 			},
@@ -7196,7 +7196,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -7207,7 +7207,7 @@ function treeKontextmenu(node) {
 				"label": "ausschneiden",
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -7221,7 +7221,7 @@ function treeKontextmenu(node) {
 				"label": jQuery.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
-				"action": function () {
+				"action": function() {
 					jQuery.jstree._reference(parent_node).move_node(window.beob_zugeordnet_node_ausgeschnitten, parent_node, "first", false);
 				}
 			}
@@ -7231,7 +7231,7 @@ function treeKontextmenu(node) {
 				"label": jQuery.jstree._reference(window.beob_node_ausgeschnitten).get_text(window.beob_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
-				"action": function () {
+				"action": function() {
 					jQuery.jstree._reference(parent_node).move_node(window.beob_node_ausgeschnitten, parent_node, "first", false);
 				}
 			}
@@ -7242,7 +7242,7 @@ function treeKontextmenu(node) {
 			"neu": {
 				"label": "neuer Massnahmen-Bericht",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -7255,7 +7255,7 @@ function treeKontextmenu(node) {
 							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"user": sessionStorage.User
 						},
-						success: function (data) {
+						success: function(data) {
 							var NeuerNode;
 							localStorage.tpopmassnber_id = data;
 							delete window.tpopmassnber;
@@ -7274,7 +7274,7 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_tpopmassnber();
 						},
-						error: function () {
+						error: function() {
 							melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
 						}
 					});
@@ -7284,7 +7284,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -7295,7 +7295,7 @@ function treeKontextmenu(node) {
 			"neu": {
 				"label": "neuer Massnahmen-Bericht",
 				"icon": "style/images/neu.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -7309,7 +7309,7 @@ function treeKontextmenu(node) {
 							"typ": "tpopmassnber",
 							"user": sessionStorage.User
 						},
-						success: function (data) {
+						success: function(data) {
 							var NeuerNode;
 							localStorage.tpopmassnber_id = data;
 							delete window.tpopmassnber;
@@ -7328,7 +7328,7 @@ function treeKontextmenu(node) {
 							// Formular initiieren
 							initiiere_tpopmassnber();
 						},
-						error: function () {
+						error: function() {
 							melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
 						}
 					});
@@ -7338,7 +7338,7 @@ function treeKontextmenu(node) {
 				"label": "löschen",
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -7359,14 +7359,14 @@ function treeKontextmenu(node) {
 									data: {
 										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									},
-									success: function () {
+									success: function() {
 										delete localStorage.tpopmassnber_id;
 										delete window.tpopmassnber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										// Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_tpop_ordner_massnber(parent_node);
 									},
-									error: function () {
+									error: function() {
 										melde("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
 									}
 								});
@@ -7382,7 +7382,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -7394,7 +7394,7 @@ function treeKontextmenu(node) {
 				"label": "auf Luftbild zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon_violett.png",
-				"action": function () {
+				"action": function() {
 					$.ajax({
 						type: 'get',
 						url: 'php/beob_karte.php',
@@ -7402,14 +7402,14 @@ function treeKontextmenu(node) {
 						data: {
 							"apart_id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						},
-						success: function (data) {
+						success: function(data) {
 							if (data.rows.length > 0) {
 								zeigeBeobAufKarte(data);
 							} else {
 								melde("Es gibt keine Beobachtung mit Koordinaten");
 							}
 						},	
-						error: function () {
+						error: function() {
 							melde("Fehler: Keine Daten erhalten");
 						}
 					});
@@ -7419,7 +7419,7 @@ function treeKontextmenu(node) {
 				"label": "auf Luftbild Teilpopulationen<br>&nbsp;&nbsp;&nbsp;zuordnen<br>&nbsp;&nbsp;&nbsp;Tipp: Beobachtungen auf<br>&nbsp;&nbsp;&nbsp;Teilpopulationen ziehen!",
 				"separator_before": true,
 				"icon": "style/images/flora_icon_violett.png",
-				"action": function () {
+				"action": function() {
 					$.ajax({
 						type: 'get',
 						url: 'php/beob_karte.php',
@@ -7427,7 +7427,7 @@ function treeKontextmenu(node) {
 						data: {
 							"apart_id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						},
-						success: function (beob) {
+						success: function(beob) {
 							if (beob.rows.length > 0) {
 								$.ajax({
 									type: 'get',
@@ -7436,7 +7436,7 @@ function treeKontextmenu(node) {
 									data: {
 										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 									},
-									success: function (tpop) {
+									success: function(tpop) {
 										if (tpop.rows.length > 0) {
 											zeigeBeobUndTPopAufKarte(beob, tpop);
 										} else {
@@ -7448,7 +7448,7 @@ function treeKontextmenu(node) {
 								melde("Es gibt keine Beobachtung mit Koordinaten");
 							}
 						},	
-						error: function () {
+						error: function() {
 							melde("Fehler: Keine Daten erhalten");
 						}
 					});
@@ -7458,7 +7458,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -7468,7 +7468,7 @@ function treeKontextmenu(node) {
 				"label": jQuery.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
-				"action": function () {
+				"action": function() {
 					jQuery("#tree").jstree("move_node", window.beob_zugeordnet_node_ausgeschnitten, aktiver_node, "first");
 				}
 			}
@@ -7480,7 +7480,7 @@ function treeKontextmenu(node) {
 				"label": "auf Luftbild zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon_violett.png",
-				"action": function () {
+				"action": function() {
 					$.ajax({
 						type: 'get',
 						url: 'php/beob_karte.php',
@@ -7488,14 +7488,14 @@ function treeKontextmenu(node) {
 						data: {
 							"beobid": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						},
-						success: function (data) {
+						success: function(data) {
 							if (data.rows.length > 0) {
 								zeigeBeobAufKarte(data);
 							} else {
 								melde("Es gibt keine Beobachtung mit Koordinaten");
 							}
 						},	
-						error: function () {
+						error: function() {
 							melde("Fehler: Keine Daten erhalten");
 						}
 					});
@@ -7505,7 +7505,7 @@ function treeKontextmenu(node) {
 				"label": "auf Luftbild einer Teilpopulation<br>&nbsp;&nbsp;&nbsp;zuordnen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon_violett.png",
-				"action": function () {
+				"action": function() {
 					$.ajax({
 						type: 'get',
 						url: 'php/beob_karte.php',
@@ -7513,7 +7513,7 @@ function treeKontextmenu(node) {
 						data: {
 							"beobid": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						},
-						success: function (beob) {
+						success: function(beob) {
 							if (beob.rows.length > 0) {
 								$.ajax({
 									type: 'get',
@@ -7522,7 +7522,7 @@ function treeKontextmenu(node) {
 									data: {
 										"id": erstelleIdAusDomAttributId($(parent_node).attr("id"))
 									},
-									success: function (tpop) {
+									success: function(tpop) {
 										if (tpop.rows.length > 0) {
 											zeigeBeobUndTPopAufKarte(beob, tpop);
 										} else {
@@ -7534,7 +7534,7 @@ function treeKontextmenu(node) {
 								melde("Die Beobachtung hat keine Koordinaten<br>Bitte im Formular zuordnen");
 							}
 						},	
-						error: function () {
+						error: function() {
 							melde("Fehler: Keine Daten erhalten");
 						}
 					});
@@ -7544,7 +7544,7 @@ function treeKontextmenu(node) {
 				"label": "im GIS-Browser zeigen",
 				"separator_before": true,
 				"icon": "style/images/wappen_zuerich.png",
-				"action": function () {
+				"action": function() {
 					zeigeBeobKoordinatenImGisBrowser();
 				}
 			},
@@ -7552,7 +7552,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -7563,7 +7563,7 @@ function treeKontextmenu(node) {
 				"label": "ausschneiden",
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -7577,7 +7577,7 @@ function treeKontextmenu(node) {
 				"label": jQuery.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
-				"action": function () {
+				"action": function() {
 					jQuery("#tree").jstree("move_node", window.beob_zugeordnet_node_ausgeschnitten, parent_node, "first");
 				}
 			}
@@ -7589,7 +7589,7 @@ function treeKontextmenu(node) {
 				"label": "auf Luftbild zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon_violett.png",
-				"action": function () {
+				"action": function() {
 					$.ajax({
 						type: 'get',
 						url: 'php/beob_karte.php',
@@ -7598,14 +7598,14 @@ function treeKontextmenu(node) {
 							"apart_id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"nicht_zuzuordnen": "1"
 						},
-						success: function (data) {
+						success: function(data) {
 							if (data.rows.length > 0) {
 								zeigeBeobAufKarte(data);
 							} else {
 								melde("Es gibt keine Beobachtung mit Koordinaten");
 							}
 						},	
-						error: function () {
+						error: function() {
 							melde("Fehler: Keine Daten erhalten");
 						}
 					});
@@ -7615,7 +7615,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -7625,7 +7625,7 @@ function treeKontextmenu(node) {
 				"label": jQuery.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
-				"action": function () {
+				"action": function() {
 					jQuery("#tree").jstree("move_node", window.beob_zugeordnet_node_ausgeschnitten, aktiver_node, "first");
 				}
 			}
@@ -7637,7 +7637,7 @@ function treeKontextmenu(node) {
 				"label": "auf Luftbild zeigen",
 				"separator_before": true,
 				"icon": "style/images/flora_icon_violett.png",
-				"action": function () {
+				"action": function() {
 					$.ajax({
 						type: 'get',
 						url: 'php/beob_karte.php',
@@ -7645,14 +7645,14 @@ function treeKontextmenu(node) {
 						data: {
 							"beobid": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
 						},
-						success: function (data) {
+						success: function(data) {
 							if (data.rows.length > 0) {
 								zeigeBeobAufKarte(data);
 							} else {
 								melde("Es gibt keine Beobachtung mit Koordinaten");
 							}
 						},	
-						error: function () {
+						error: function() {
 							melde("Fehler: Keine Daten erhalten");
 						}
 					});
@@ -7662,7 +7662,7 @@ function treeKontextmenu(node) {
 				"label": "im GIS-Browser zeigen",
 				"separator_before": true,
 				"icon": "style/images/wappen_zuerich.png",
-				"action": function () {
+				"action": function() {
 					zeigeBeobKoordinatenImGisBrowser();
 				}
 			},
@@ -7670,7 +7670,7 @@ function treeKontextmenu(node) {
 				"label": "exportieren",
 				"separator_before": true,
 				"icon": "style/images/download.png",
-				"action": function () {
+				"action": function() {
 					initiiere_exporte();
 				}
 			}
@@ -7681,7 +7681,7 @@ function treeKontextmenu(node) {
 				"label": "ausschneiden",
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
-				"action": function () {
+				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
@@ -7695,7 +7695,7 @@ function treeKontextmenu(node) {
 				"label": jQuery.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
-				"action": function () {
+				"action": function() {
 					jQuery("#tree").jstree("move_node", window.beob_zugeordnet_node_ausgeschnitten, parent_node, "first");
 				}
 			}
@@ -7720,7 +7720,7 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 			"PopId": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 			"TPopId": erstelleIdAusDomAttributId($(window.tpop_node_kopiert).attr("id"))
 		},
-		success: function (data) {
+		success: function(data) {
 			var NeuerNode;
 			var node_data = window.tpop_objekt_kopiert.TPopFlurname;
 			if (window.tpop_objekt_kopiert.TPopNr) {
@@ -7745,7 +7745,7 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 			// Formular initiieren
 			initiiere_tpop();
 		},
-		error: function () {
+		error: function() {
 			melde("Fehler: Die Teilpopulation wurde nicht erstellt");
 		}
 	});
@@ -7785,7 +7785,7 @@ function pop_kopiert_in_pop_einfuegen(aktiver_node, parent_node) {
 		url: 'php/pop_insert_kopie.php',
 		dataType: 'json',
 		data: data,
-		success: function (data) {
+		success: function(data) {
 			var NeuerNode;
 			localStorage.pop_id = data;
 			delete window.pop;
@@ -7804,7 +7804,7 @@ function pop_kopiert_in_pop_einfuegen(aktiver_node, parent_node) {
 			// Formular initiieren
 			initiiere_pop();
 		},
-		error: function () {
+		error: function() {
 			melde("Fehler: Die Population wurde nicht erstellt");
 		}
 	});
@@ -7844,7 +7844,7 @@ function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 		url: 'php/tpop_insert_kopie.php',
 		dataType: 'json',
 		data: data,
-		success: function (data) {
+		success: function(data) {
 			var NeuerNode;
 			localStorage.tpop_id = data;
 			delete window.tpop;
@@ -7863,7 +7863,7 @@ function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 			// Formular initiieren
 			initiiere_tpop();
 		},
-		error: function () {
+		error: function() {
 			melde("Fehler: Die Teilpopulation wurde nicht erstellt");
 		}
 	});
@@ -7942,7 +7942,7 @@ function speichern(that) {
 				"Wert": Feldwert,
 				"user": sessionStorage.User
 			},
-			success: function () {
+			success: function() {
 				// Variable für Objekt nachführen
 				window[Formular][Feldname] = Feldwert;
 				// Wenn ApArtId verändert wurde: Formular aktualisieren
@@ -8023,7 +8023,7 @@ function speichern(that) {
 					}
 				}
 			},
-			error: function () {
+			error: function() {
 				melde("Fehler: Die letzte Änderung wurde nicht gespeichert");
 			}
 		});
@@ -8220,16 +8220,16 @@ function speichern(that) {
 	}
 }
 
-(function ($) {
+(function($) {
 	// friendly helper //tinyurl.com/6aow6yn
 	// Läuft durch alle Felder im Formular
 	// Wenn ein Wert enthalten ist, wird Feldname und Wert ins Objekt geschrieben
 	// nicht vergessen: Typ, _id und _rev dazu geben, um zu speichern
-	$.fn.serializeObject = function () {
+	$.fn.serializeObject = function() {
 		var o, a;
 		o = {};
 		a = this.serializeArray();
-		$.each(a, function () {
+		$.each(a, function() {
 			if (this.value) {
 				if (o[this.name]) {
 					if (!o[this.name].push) {
@@ -8498,7 +8498,7 @@ function zeigeTPopAufKarte(TPopListe) {
 	}
 	// diese Funktion muss hier sein, damit infowindow bekannt ist
 	function makeListener(map, marker, contentString) {
-		google.maps.event.addListener(marker, 'click', function () {
+		google.maps.event.addListener(marker, 'click', function() {
 			infowindow.setContent(contentString);
 			infowindow.open(map,marker);
 		});
@@ -8651,7 +8651,7 @@ function verorteTPopAufGeoAdmin(TPop) {
 							"Wert": TPop.TPopXKoord,
 							"user": sessionStorage.User
 						},
-						success: function () {
+						success: function() {
 							$.ajax({
 								type: 'post',
 								url: 'php/tpop_update.php',
@@ -8662,7 +8662,7 @@ function verorteTPopAufGeoAdmin(TPop) {
 									"Wert": TPop.TPopYKoord,
 									"user": sessionStorage.User
 								},
-								success: function () {
+								success: function() {
 									// markerebenen entfernen
 									entferneTPopMarkerEbenen();
 									// alten listener entfernen, neuer wird mit dem nächsten Befehl erstellt 
@@ -8721,7 +8721,7 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
 				}
 			});
 
-			tpop_aufruf.done(function (TPopListe) {
+			tpop_aufruf.done(function(TPopListe) {
 				$.when(
 					// Layer für Symbole und Beschriftung erstellen
 					erstelleTPopNrFuerGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert, true),
@@ -8772,7 +8772,7 @@ function zeigePopAufGeoAdmin(PopListeMarkiert) {
 				}
 			});
 
-			tpop_aufruf.done(function (TPopListe) {
+			tpop_aufruf.done(function(TPopListe) {
 				$.when(
 					// Layer für Symbole und Beschriftung erstellen
 					erstelleTPopNrFuerGeoAdmin(TPopListe, null, false),
@@ -8967,7 +8967,7 @@ function speichereWert(tabelle, id, feld, wert) {
 				"Wert": wert,
 				"user": sessionStorage.User
 			},
-			error: function () {
+			error: function() {
 				melde("Fehler: Die letzte Änderung wurde nicht gespeichert");
 			}
 		});
@@ -9154,12 +9154,12 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 							data: {
 								"ApArtId": window.ap.ApArtId
 							},
-							success: function (TPopListe) {
+							success: function(TPopListe) {
 								erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_markiert);
 								erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_markiert);
 								erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, true);
 							},	
-							error: function () {
+							error: function() {
 								melde("Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden");
 							}
 						});
@@ -9213,7 +9213,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 	// drawControl erstellen, nur wenn noch nicht existent
 	if (!window.drawControl) {
 		window.drawControl = new OpenLayers.Control.DrawFeature(auswahlPolygonLayer, OpenLayers.Handler.Polygon);
-		drawControl.events.register("featureadded", this, function (event) {
+		drawControl.events.register("featureadded", this, function(event) {
 			window.PopTPopAuswahlFilter = new OpenLayers.Filter.Spatial({ 
 				type: OpenLayers.Filter.Spatial.INTERSECTS, 
 				value: event.feature.geometry
@@ -9481,12 +9481,12 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 							data: {
 								"ApArtId": window.ap.ApArtId
 							},
-							success: function (PopListe) {
+							success: function(PopListe) {
 								erstellePopNrFuerGeoAdmin(PopListe, true);
 								erstellePopNamenFuerGeoAdmin(PopListe);
 								erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, true);
 							},	
-							error: function () {
+							error: function() {
 								melde("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
 							}
 						});
@@ -9947,7 +9947,7 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 	
 	// diese Funktion muss hier sein, damit infowindow bekannt ist
 	function makeListener(map, markerTPop, contentStringTPop) {
-		google.maps.event.addListener(markerTPop, 'click', function () {
+		google.maps.event.addListener(markerTPop, 'click', function() {
 			infowindowTPop.setContent(contentStringTPop);
 			infowindowTPop.open(map,markerTPop);
 		});
@@ -10013,14 +10013,14 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 	
 	// diese Funktion muss hier sein, damit infowindow bekannt ist
 	function makeListenerBeob(map, markerBeob, contentStringBeob) {
-		google.maps.event.addListener(markerBeob, 'click', function () {
+		google.maps.event.addListener(markerBeob, 'click', function() {
 			infowindowBeob.setContent(contentStringBeob);
 			infowindowBeob.open(map, markerBeob);
 		});
 	}
 
 	function makeListenerMarkerBeobDragend(markerBeob, Beob) {
-		google.maps.event.addListener(markerBeob, "dragend", function (event) {
+		google.maps.event.addListener(markerBeob, "dragend", function(event) {
 			var lat, lng, X, Y, that;
 			that = this;
 			// Koordinaten berechnen
@@ -10038,7 +10038,7 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 					"Y": Y
 				},
 				dataType: 'json',
-				success: function (data) {
+				success: function(data) {
 					var beobtxt;
 					if (Beob.Autor) {
 						beobtxt = "Beobachtung von " + Beob.Autor + " aus dem Jahr " + Beob.A_NOTE;
@@ -10072,7 +10072,7 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 						}
 					});
 				},
-				error: function () {
+				error: function() {
 					melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
 				}
 			});
@@ -10203,7 +10203,7 @@ function zeigeBeobAufKarte(BeobListe) {
 	}
 	// diese Funktion muss hier sein, damit infowindow bekannt ist
 	function makeListener(map, marker, contentString) {
-		google.maps.event.addListener(marker, 'click', function () {
+		google.maps.event.addListener(marker, 'click', function() {
 			infowindow.setContent(contentString);
 			infowindow.open(map,marker);
 		});
@@ -10321,7 +10321,7 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 	}
 	// diese Funktion muss hier sein, damit infowindow bekannt ist
 	function makeListener(map, marker, contentString) {
-		google.maps.event.addListener(marker, 'click', function () {
+		google.maps.event.addListener(marker, 'click', function() {
 			infowindow.setContent(contentString);
 			infowindow.open(map, marker);
 		});
@@ -10386,14 +10386,14 @@ function verorteTPopAufKarte(TPop) {
 			window.InfoWindowArray = [];
 		}
 		window.InfoWindowArray.push(infowindow);
-		google.maps.event.addListener(marker, 'click', function () {
+		google.maps.event.addListener(marker, 'click', function() {
 			infowindow.open(map,marker);
 		});
-		google.maps.event.addListener(marker, "dragend", function (event) {
+		google.maps.event.addListener(marker, "dragend", function(event) {
 			SetLocationTPop(event.latLng, map, marker, TPop);
 		});
 	}
-	google.maps.event.addListener(map, 'click', function (event) {
+	google.maps.event.addListener(map, 'click', function(event) {
 		placeMarkerTPop(event.latLng, map, marker, TPop);
 	});
 }
@@ -10417,7 +10417,7 @@ function placeMarkerTPop(location, map, marker, TPop) {
 	});
 	// Marker in Array speichern, damit er gelöscht werden kann
 	markersArray.push(marker);
-	google.maps.event.addListener(marker, "dragend", function (event) {
+	google.maps.event.addListener(marker, "dragend", function(event) {
 		SetLocationTPop(event.latLng, map, marker, TPop);
 	});
 	SetLocationTPop(location, map, marker);
@@ -10448,7 +10448,7 @@ function SetLocationTPop(LatLng, map, marker, TPop) {
 			"Wert": X,
 			"user": sessionStorage.User
 		},
-		success: function () {
+		success: function() {
 			$.ajax({
 				type: 'post',
 				url: 'php/tpop_update.php',
@@ -10459,7 +10459,7 @@ function SetLocationTPop(LatLng, map, marker, TPop) {
 					"Wert": Y,
 					"user": sessionStorage.User
 				},
-				success: function () {
+				success: function() {
 					clearInfoWindows();
 					contentString = '<div id="content">'+
 						'<div id="siteNotice">'+
@@ -10478,7 +10478,7 @@ function SetLocationTPop(LatLng, map, marker, TPop) {
 						window.InfoWindowArray = [];
 					}
 					window.InfoWindowArray.push(infowindow);
-					google.maps.event.addListener(marker, 'click', function () {
+					google.maps.event.addListener(marker, 'click', function() {
 						infowindow.open(map, marker);
 					});
 				}
@@ -11230,7 +11230,7 @@ function initiiereGeoAdminKarte() {
 			var detailplaene_shapefile = new Shapefile({
 				shp: "shp/detailplaene.shp",
 				dbf: "shp/detailplaene.dbf"
-			}, function (data) {
+			}, function(data) {
 				// vektorlayer schaffen
 				window.detailplaene_shp = new OpenLayers.Layer.Vector("Detailpläne", {
 					styleMap: detailplaene_stylemap,
@@ -11502,7 +11502,7 @@ function erstelleGemeindeliste() {
 			type: 'get',
 			url: 'php/gemeinden.php',
 			dataType: 'json',
-			success: function (data) {
+			success: function(data) {
 				if (data) {
 					// Gemeinden bereitstellen
 					// Feld mit Daten beliefern
@@ -11544,7 +11544,7 @@ function waehleAp(ap_id) {
 					"id": localStorage.ap_id,
 					"user": sessionStorage.User
 				},
-				success: function () {
+				success: function() {
 					// nachdem ein neues Programm erstellt wurde, soll nicht mehr "neu" zur Wahl stehen, sondern "alle"
 					$("#programm_neu").attr("checked", false);
 					$("#programm_alle").attr("checked", true);
@@ -11564,7 +11564,7 @@ function waehleAp(ap_id) {
 								});
 					});
 				},
-				error: function () {
+				error: function() {
 					melde("Fehler: Keine Date für Programme erhalten");
 				}
 			});
@@ -11600,7 +11600,7 @@ function kopiereKoordinatenInPop(TPopXKoord, TPopYKoord) {
 				"Wert": TPopXKoord,
 				"user": sessionStorage.User
 			},
-			success: function () {
+			success: function() {
 				$.ajax({
 					type: 'post',
 					url: 'php/pop_update.php',
@@ -11611,18 +11611,18 @@ function kopiereKoordinatenInPop(TPopXKoord, TPopYKoord) {
 						"Wert": TPopYKoord,
 						"user": sessionStorage.User
 					},
-					success: function () {
+					success: function() {
 						$("#kopiereKoordinatenInPopRueckmeldung").fadeIn('slow');
 						setTimeout(function() {
 							$("#kopiereKoordinatenInPopRueckmeldung").fadeOut('slow');
 						}, 3000);
 					},
-					error: function () {
+					error: function() {
 						melde("Fehler: Y-Koordinate wurde nicht kopiert");
 					}
 				});
 			},
-			error: function () {
+			error: function() {
 				melde("Fehler: Koordinaten wurden nicht kopiert");
 			}
 		});
@@ -11644,7 +11644,7 @@ function pruefe_anmeldung() {
 				"Name": $("#anmeldung_name").val(),
 				"pwd": $("#anmeldung_passwort").val()
 			},
-			success: function (data) {
+			success: function(data) {
 				if (data && data.anzUser > 0) {
 					sessionStorage.User = $("#anmeldung_name").val();
 					// wenn NurLesen, globale Variable setzen
@@ -11663,7 +11663,7 @@ function pruefe_anmeldung() {
 					}, 500);
 				}
 			},
-			error: function () {
+			error: function() {
 				melde("Anmeldung gescheitert");
 			}
 		});
@@ -11889,7 +11889,7 @@ $.extend({
     //
     //$.fileDownload('/path/to/url/', options)
     //  see directly below for possible 'options'
-    fileDownload: function (fileUrl, options) {
+    fileDownload: function(fileUrl, options) {
 
         //provide some reasonable defaults to any unspecified options below
         var settings = $.extend({
@@ -11921,14 +11921,14 @@ $.extend({
             //Args:
             //  url - the original url attempted
             //
-            prepareCallback: function (url) { },
+            prepareCallback: function(url) { },
 
             //
             //a function to call after a file download dialog/ribbon has appeared
             //Args:
             //  url - the original url attempted
             //
-            successCallback: function (url) { },
+            successCallback: function(url) { },
 
             //
             //a function to call after a file download dialog/ribbon has appeared
@@ -11938,7 +11938,7 @@ $.extend({
             //                      server's error message with a "helpful" IE built in message
             //  url             - the original url attempted
             //
-            failCallback: function (responseHtml, url) { },
+            failCallback: function(responseHtml, url) { },
 
             //
             // the HTTP method to use. Defaults to "GET".
@@ -12027,7 +12027,7 @@ $.extend({
 
         var internalCallbacks = {
 
-            onPrepare: function (url) {
+            onPrepare: function(url) {
 
                 //wire up a jquery dialog to display the preparing message if specified
                 if (settings.preparingMessageHtml) {
@@ -12042,7 +12042,7 @@ $.extend({
 
             },
 
-            onSuccess: function (url) {
+            onSuccess: function(url) {
 
                 //remove the perparing message if it was specified
                 if ($preparingDialog) {
@@ -12054,7 +12054,7 @@ $.extend({
                 deferred.resolve(url);
             },
 
-            onFail: function (responseHtml, url) {
+            onFail: function(responseHtml, url) {
 
                 //remove the perparing message if it was specified
                 if ($preparingDialog) {
@@ -12131,7 +12131,7 @@ $.extend({
 
             if (settings.data !== null) {
 
-                $.each(settings.data.replace(/\+/g, ' ').split("&"), function () {
+                $.each(settings.data.replace(/\+/g, ' ').split("&"), function() {
 
                     var kvp = this.split("=");
 
