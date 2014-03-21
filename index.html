@@ -2244,7 +2244,7 @@
 					}
 				});
 
-				$("#ber").on("change", "#BerURL", function (event) {
+				$("#ber").on("change", "#BerURL", function(event) {
 					var url;
 					url = $("#BerURL").val();
 					if (url.substring(0,3) === "www") {
@@ -2256,15 +2256,15 @@
 				});
 
 				//Für jedes Feld bei Änderung speichern
-				$(".form").on("change", ".speichern", function () {
+				$(".form").on("change", ".speichern", function() {
 					speichern(this);
 				});
 
-				$(".form").on("click", "#kopiereKoordinatenInPop", function () {
+				$(".form").on("click", "#kopiereKoordinatenInPop", function() {
 					kopiereKoordinatenInPop($("#TPopXKoord").val(), $("#TPopYKoord").val());
 				});
 
-				$(".form").on("keyup focus", "textarea", function () {
+				$(".form").on("keyup focus", "textarea", function() {
 					FitToContent(this, document.documentElement.clientHeight);
 				});
 
@@ -2322,11 +2322,11 @@
 					removeruler();
 				});
 
-				$("#menu").on("click", "[name=programm_wahl]", function () {
+				$("#menu").on("click", "[name=programm_wahl]", function() {
 					waehle_ap_liste($(this).attr("id"));
 				});
 
-				$("#menu").on("click", "#ap_loeschen", function () {
+				$("#menu").on("click", "#ap_loeschen", function() {
 					if (!$("#ap_waehlen").val()) {
 						$("#Meldung").html("Bitte wählen Sie vor dem Löschen ein Artförderprogramm");
 						$( "#Meldung" ).dialog({
@@ -2356,7 +2356,7 @@
 										data: {
 											"id": localStorage.ap_id
 										},
-										success: function () {
+										success: function() {
 											delete localStorage.ap_id;
 											delete window.ap;
 											delete localStorage.ap;
@@ -2380,7 +2380,7 @@
 											zeigeFormular("keines");
 											$("#forms_titelzeile").show();
 											$("#undelete_div").show();
-											setTimeout(function () {
+											setTimeout(function() {
 												$("#undelete_div").html("");
 												$("#undelete_div").hide();
 												$("#forms_titelzeile").hide();
@@ -2388,7 +2388,7 @@
 												zeigeFormular();
 											}, 25000);
 										},
-										error: function (data) {
+										error: function(data) {
 											var Meldung;
 											Meldung = JSON.stringify(data);
 											$("#Meldung").html(data.responseText);
@@ -2412,11 +2412,11 @@
 					}
 				});
 
-				$("#menu").on("change", "#ap_waehlen", function () {
+				$("#menu").on("change", "#ap_waehlen", function() {
 					waehleAp(this.value);
 				});
 
-				$("#forms").on("click", "#undelete", function (event) {
+				$("#forms").on("click", "#undelete", function(event) {
 					event.preventDefault();
 					var apartid = window.ap.ApArtId;
 					if (!window.deleted) {
@@ -2449,7 +2449,7 @@
 							type: 'post',
 							url: 'php/ap_insert_multiple.php' + url_string,
 							dataType: 'json',
-							success: function () {
+							success: function() {
 								$("#undelete_div").hide();
 								$("#forms_titelzeile").hide();
 								//Formulare ausblenden
@@ -2457,7 +2457,7 @@
 								//neu initiieren, damit die gelöschte Art gewählt werden kann
 								initiiere_index();
 							},
-							error: function (data) {
+							error: function(data) {
 								$("#Meldung").html("Fehler: Wiederherstellung gescheitert");
 								$("#Meldung").dialog({
 									modal: true,
@@ -2487,7 +2487,7 @@
 							type: 'post',
 							url: 'php/pop_insert_multiple.php' + url_string,
 							dataType: 'json',
-							success: function () {
+							success: function() {
 								$("#undelete_div").hide();
 								$("#forms_titelzeile").hide();
 								//tree neu aufbauen
@@ -2496,7 +2496,7 @@
 										$("#tree").jstree("select_node", "[typ='pop']#" + window.deleted.PopId);
 									});
 							},
-							error: function (data) {
+							error: function(data) {
 								$("#Meldung").html("Fehler: Wiederherstellung gescheitert");
 								$("#Meldung").dialog({
 									modal: true,
@@ -2526,7 +2526,7 @@
 							type: 'post',
 							url: 'php/tpop_insert_multiple.php' + url_string,
 							dataType: 'json',
-							success: function () {
+							success: function() {
 								$("#undelete_div").hide();
 								$("#forms_titelzeile").hide();
 								//tree neu aufbauen
@@ -2535,7 +2535,7 @@
 										$("#tree").jstree("select_node", "[typ='tpop']#" + window.deleted.TPopId);
 									});
 							},
-							error: function (data) {
+							error: function(data) {
 								$("#Meldung").html("Fehler: Wiederherstellung gescheitert");
 								$("#Meldung").dialog({
 									modal: true,
@@ -2565,7 +2565,7 @@
 							type: 'post',
 							url: 'php/tpopmassn_insert_multiple.php' + url_string,
 							dataType: 'json',
-							success: function () {
+							success: function() {
 								$("#undelete_div").hide();
 								$("#forms_titelzeile").hide();
 								//tree neu aufbauen
@@ -2574,7 +2574,7 @@
 										$("#tree").jstree("select_node", "[typ='tpopmassn']#" + window.deleted.TPopMassnId);
 									});
 							},
-							error: function (data) {
+							error: function(data) {
 								$("#Meldung").html("Fehler: Wiederherstellung gescheitert");
 								$("#Meldung").dialog({
 									modal: true,
@@ -2606,7 +2606,7 @@
 							type: 'post',
 							url: 'php/tpopfeldkontr_insert_multiple.php' + url_string,
 							dataType: 'json',
-							success: function () {
+							success: function() {
 								$("#undelete_div").hide();
 								$("#forms_titelzeile").hide();
 								//tree neu aufbauen
@@ -2615,7 +2615,7 @@
 										$("#tree").jstree("select_node", "[typ='" + typ + "']#" + window.deleted.TPopKontrId);
 									});
 							},
-							error: function (data) {
+							error: function(data) {
 								$("#Meldung").html("Fehler: Wiederherstellung gescheitert");
 								$("#Meldung").dialog({
 									modal: true,
@@ -2645,7 +2645,7 @@
 							type: 'post',
 							url: 'php/jber_insert_multiple.php' + url_string,
 							dataType: 'json',
-							success: function () {
+							success: function() {
 								$("#undelete_div").hide();
 								$("#forms_titelzeile").hide();
 								//tree neu aufbauen
@@ -2654,7 +2654,7 @@
 										$("#tree").jstree("select_node", "[typ='jber']#" + window.deleted.JBerId);
 									});
 							},
-							error: function (data) {
+							error: function(data) {
 								$("#Meldung").html("Fehler: Wiederherstellung gescheitert");
 								$("#Meldung").dialog({
 									modal: true,
@@ -2680,7 +2680,7 @@
 				});
 
 				//Suche steuern
-				$("body").on("keyup click", "#suchen", function (e) {
+				$("body").on("keyup click", "#suchen", function(e) {
 					//if (this.value.length > 2) {
 					if (e.keyCode === 13) {
 						$("#tree").jstree("search", this.value);
@@ -2691,7 +2691,7 @@
 			});
 
 			//Paarige Jahr/Datumfelder: Datum zurückstellen, wenn Jahr verändert wurde
-			$("#tpopfeldkontr").on("change", "#TPopKontrJahr", function () {
+			$("#tpopfeldkontr").on("change", "#TPopKontrJahr", function() {
 				var Objekt;
 				if ($("#TPopKontrDatum").val()) {
 					$("#TPopKontrDatum").val(null);
@@ -2703,7 +2703,7 @@
 			});
 
 			//Paarige Jahr/Datumfelder: Datum zurückstellen, wenn Jahr verändert wurde
-			$("#tpopmassn").on("change", "#TPopMassnJahr", function () {
+			$("#tpopmassn").on("change", "#TPopMassnJahr", function() {
 				var Objekt;
 				if ($("#TPopMassnDatum").val()) {
 					$("#TPopMassnDatum").val(null);
@@ -2745,7 +2745,7 @@
 				}	
 			});
 
-			$(window).resize(function () {
+			$(window).resize(function() {
 				setzeTreehoehe();
 				//Karten sollen ca. Bildschirmhöhe haben
 				//da Formulare so hoch wie der Inhalt sind, muss die Kartenhöhe manuell eingestellt werden

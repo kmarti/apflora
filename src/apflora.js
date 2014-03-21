@@ -89,7 +89,7 @@ function initiiere_ap() {
 						url: 'php/adressen.php',
 						dataType: 'json'
 					});
-					getAdressen.done(function (data2) {
+					getAdressen.done(function(data2) {
 						if (data2) {
 							// Feld mit Daten beliefern
 							var html;
@@ -129,7 +129,7 @@ function setzeWindowAp(id) {
 			"id": localStorage.ap_id
 		}
 	});
-	getAp.done(function (data) {
+	getAp.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// ap bereitstellen
@@ -148,7 +148,7 @@ function hole_artliste_html() {
 			url: 'php/artliste.php',
 			dataType: 'json'
 		});
-		getArtliste.done(function (data) {
+		getArtliste.done(function(data) {
 			var html;
 			html = "<option></option>";
 			for (var i = 0; i < data.rows.length; i++) {
@@ -193,7 +193,7 @@ function initiiere_pop() {
 			"id": localStorage.pop_id
 		}
 	});
-	getPop.done(function (data) {
+	getPop.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// pop bereitstellen
@@ -236,7 +236,7 @@ function setzeWindowPop(id) {
 			"id": localStorage.pop_id
 		}
 	});
-	getPop.done(function (data) {
+	getPop.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// pop bereitstellen
@@ -263,7 +263,7 @@ function initiiere_apziel() {
 			"id": localStorage.apziel_id
 		}
 	});
-	getApZiel.done(function (data) {
+	getApZiel.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// apziel bereitstellen
@@ -297,7 +297,7 @@ function setzeWindowApziel(id) {
 			"id": localStorage.apziel_id
 		}
 	});
-	getApziel.done(function (data) {
+	getApziel.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// apziel bereitstellen
@@ -323,7 +323,7 @@ function initiiere_zielber() {
 			"id": localStorage.zielber_id
 		}
 	});
-	getZielBer.done(function (data) {
+	getZielBer.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// zeilber bereitstellen
@@ -355,7 +355,7 @@ function setzeWindowZielber(id) {
 			"id": localStorage.zielber_id
 		}
 	});
-	getZielber.done(function (data) {
+	getZielber.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// zielber bereitstellen
@@ -381,7 +381,7 @@ function initiiere_erfkrit() {
 			"id": localStorage.erfkrit_id
 		}
 	});
-	getErfkrit.done(function (data) {
+	getErfkrit.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// erfkrit bereitstellen
@@ -413,7 +413,7 @@ function setzeWindowErfkrit(id) {
 			"id": localStorage.erfkrit_id
 		}
 	});
-	getErfkrit.done(function (data) {
+	getErfkrit.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// erfkrit bereitstellen
@@ -439,7 +439,7 @@ function initiiere_jber() {
 			"id": localStorage.jber_id
 		}
 	});
-	getJber.done(function (data) {
+	getJber.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// jber bereitstellen
@@ -472,7 +472,7 @@ function initiiere_jber() {
 					url: 'php/adressen.php',
 					dataType: 'json'
 				});
-				getAdressen.done(function (data2) {
+				getAdressen.done(function(data2) {
 					if (data2) {
 						// adressen bereitstellen
 						// Feld mit Daten beliefern
@@ -513,7 +513,7 @@ function setzeWindowJber(id) {
 			"id": localStorage.jber_id
 		}
 	});
-	getJber.done(function (data) {
+	getJber.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// jber bereitstellen
@@ -539,7 +539,7 @@ function initiiere_jber_uebersicht() {
 			"JbuJahr": localStorage.jber_uebersicht_id
 		}
 	});
-	getJberUebersicht.done(function (data) {
+	getJberUebersicht.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// jber_uebersicht bereitstellen
@@ -571,7 +571,7 @@ function setzeWindowJberUebersicht(id) {
 			"id": localStorage.jber_uebersicht_id
 		}
 	});
-	getJberUebersicht.done(function (data) {
+	getJberUebersicht.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// jber_uebersicht bereitstellen
@@ -597,7 +597,7 @@ function initiiere_ber() {
 			"id": localStorage.ber_id
 		}
 	});
-	getBer.done(function (data) {
+	getBer.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// ber bereitstellen
@@ -640,7 +640,7 @@ function setzeWindowBer(id) {
 			"id": localStorage.ber_id
 		}
 	});
-	getBer.done(function (data) {
+	getBer.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// ber bereitstellen
@@ -666,7 +666,7 @@ function initiiere_idealbiotop() {
 			"id": localStorage.ap_id
 		}
 	});
-	getIdealbiotop.done(function (data) {
+	getIdealbiotop.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// idealbiotop bereitstellen
@@ -717,7 +717,7 @@ function initiiere_idealbiotop() {
 					"user": sessionStorage.User
 				}
 			});
-			insertIdealbiotop.done(function (data) {
+			insertIdealbiotop.done(function(data) {
 				localStorage.idealbiotop_id = data.IbApArtId;
 				initiiere_idealbiotop();
 			});
@@ -3090,101 +3090,104 @@ function erstelle_tree(ApArtId) {
 					neue_tpop_id = ziel_parent_node_id;
 				}
 				// Zuerst eine neue Zuordnung erstellen
-				$.ajax({
+				var insertZuordnung = $.ajax({
 					type: 'post',
 					url: 'php/beob_zuordnung_insert.php',
 					dataType: 'json',
 					data: {
 						"no_note": herkunft_node_id,
 						"user": sessionStorage.User
-					},
-					success: function() {
-						// jetzt aktualisieren
-						$.ajax({
-							type: 'post',
-							url: 'php/beob_update.php',
-							dataType: 'json',
-							data: {
-								"id": herkunft_node_id,
-								"Feld": "TPopId",
-								"Wert": neue_tpop_id,
-								"user": sessionStorage.User
-							},
-							success: function () {
-								// typ des nodes anpassen
-								herkunft_node.attr("typ", "beob_zugeordnet");
-								localStorage.beobtyp = "beob_zugeordnet";
-								// Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
-								beschrifte_ap_ordner_beob_nicht_beurteilt(window.herkunft_parent_node);
-								if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
-									beschrifte_tpop_ordner_beob_zugeordnet(ziel_node);
-								} else {
-									beschrifte_tpop_ordner_beob_zugeordnet(ziel_parent_node);
-								}
-								// selection steuern
-								if (!localStorage.karte_fokussieren) {
-									initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "zugeordnet");
-								} else {
-									delete localStorage.karte_fokussieren;
-								}
-								// Variablen aufräumen
-								delete window.beob_node_ausgeschnitten;
-								delete window.herkunft_parent_node;
-							},
-							error: function () {
-								melde("Fehler: Die Beobachtung wurde nicht verschoben");
-							}
-						});
 					}
+				});
+				insertZuordnung.done(function() {
+					// jetzt aktualisieren
+					var updateBeob = $.ajax({
+						type: 'post',
+						url: 'php/beob_update.php',
+						dataType: 'json',
+						data: {
+							"id": herkunft_node_id,
+							"Feld": "TPopId",
+							"Wert": neue_tpop_id,
+							"user": sessionStorage.User
+						}
+					});
+					updateBeob.done(function () {
+						// typ des nodes anpassen
+						herkunft_node.attr("typ", "beob_zugeordnet");
+						localStorage.beobtyp = "beob_zugeordnet";
+						// Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
+						beschrifte_ap_ordner_beob_nicht_beurteilt(window.herkunft_parent_node);
+						if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
+							beschrifte_tpop_ordner_beob_zugeordnet(ziel_node);
+						} else {
+							beschrifte_tpop_ordner_beob_zugeordnet(ziel_parent_node);
+						}
+						// selection steuern
+						if (!localStorage.karte_fokussieren) {
+							initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "zugeordnet");
+						} else {
+							delete localStorage.karte_fokussieren;
+						}
+						// Variablen aufräumen
+						delete window.beob_node_ausgeschnitten;
+						delete window.herkunft_parent_node;
+					});
+					updateBeob.fail(function () {
+						melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
+					});
+				});
+				insertZuordnung.fail(function () {
+					melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
 				});
 			}
 			if (ziel_node_typ === "beob_nicht_zuzuordnen" || ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
 				// nicht beurteilt > nicht zuordnen
-				$.ajax({
+				var insertZuordnung_2 = $.ajax({
 					type: 'post',
 					url: 'php/beob_zuordnung_insert.php',
 					dataType: 'json',
 					data: {
 						"no_note": herkunft_node_id,
 						"user": sessionStorage.User
-					},
-					success: function() {
-						// jetzt aktualisieren
-						$.ajax({
-							type: 'post',
-							url: 'php/beob_update.php',
-							dataType: 'json',
-							data: {
-								"id": herkunft_node_id,
-								"Feld": "BeobNichtZuordnen",
-								"Wert": 1,
-								"user": sessionStorage.User
-							},
-							success: function() {
-								// typ des nodes anpassen
-								$(herkunft_node).attr("typ", "beob_nicht_zuzuordnen");
-								localStorage.beobtyp = "beob_nicht_zuzuordnen";
-								// Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
-								beschrifte_ap_ordner_beob_nicht_beurteilt(window.herkunft_parent_node);
-								if (ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
-									beschrifte_ap_ordner_beob_nicht_zuzuordnen(ziel_node);
-								} else {
-									beschrifte_ap_ordner_beob_nicht_zuzuordnen(ziel_parent_node);
-								}
-								// Beob initiieren
-								initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_zuzuordnen");
-								// Variablen aufräumen
-								delete window.beob_node_ausgeschnitten;
-								delete window.herkunft_parent_node;
-							},
-							error: function() {
-								console.log("fehler beim Leeren von TPopId");
-							}
-						});
-					},
-					error: function () {
-						melde("Fehler: Die Beobachtung wurde nicht verschoben");
 					}
+				});
+				insertZuordnung_2.done(function() {
+					// jetzt aktualisieren
+					var updateBeob_2 = $.ajax({
+						type: 'post',
+						url: 'php/beob_update.php',
+						dataType: 'json',
+						data: {
+							"id": herkunft_node_id,
+							"Feld": "BeobNichtZuordnen",
+							"Wert": 1,
+							"user": sessionStorage.User
+						}
+					});
+					updateBeob_2.done(function() {
+						// typ des nodes anpassen
+						$(herkunft_node).attr("typ", "beob_nicht_zuzuordnen");
+						localStorage.beobtyp = "beob_nicht_zuzuordnen";
+						// Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
+						beschrifte_ap_ordner_beob_nicht_beurteilt(window.herkunft_parent_node);
+						if (ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
+							beschrifte_ap_ordner_beob_nicht_zuzuordnen(ziel_node);
+						} else {
+							beschrifte_ap_ordner_beob_nicht_zuzuordnen(ziel_parent_node);
+						}
+						// Beob initiieren
+						initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_zuzuordnen");
+						// Variablen aufräumen
+						delete window.beob_node_ausgeschnitten;
+						delete window.herkunft_parent_node;
+					});
+					updateBeob_2.fail(function() {
+						console.log("Fehler: Die Beobachtung wurde nicht zugeordnet");
+					});
+				});
+				insertZuordnung_2.fail(function () {
+					melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
 				});
 			}
 		}
@@ -3192,33 +3195,33 @@ function erstelle_tree(ApArtId) {
 			// nicht zuzuordnen
 			if (ziel_node_typ === "beob_nicht_beurteilt" || ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
 				// nicht zuzuordnen > nicht beurteilt
-				$.ajax({
+				var deleteZuordnung = $.ajax({
 					type: 'post',
 					url: 'php/beob_zuordnung_delete.php',
 					dataType: 'json',
 					data: {
 						"id": herkunft_node_id
-					},
-					success: function() {
-						// typ des nodes anpassen
-						$(herkunft_node).attr("typ", "beob_nicht_beurteilt");
-						localStorage.beobtyp = "beob_nicht_beurteilt";
-						// Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
-						beschrifte_ap_ordner_beob_nicht_zuzuordnen(window.herkunft_parent_node);
-						if (ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
-							beschrifte_ap_ordner_beob_nicht_beurteilt(ziel_node);
-						} else {
-							beschrifte_ap_ordner_beob_nicht_beurteilt(ziel_parent_node);
-						}
-						// selektieren
-						initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_beurteilt");
-						// Variablen aufräumen
-						delete window.beob_node_ausgeschnitten;
-						delete window.herkunft_parent_node;
-					},
-					error: function () {
-						melde("Fehler: Die Zuordnung der Beobachtung wurde nicht entfernt");
 					}
+				});
+				deleteZuordnung.done(function() {
+					// typ des nodes anpassen
+					$(herkunft_node).attr("typ", "beob_nicht_beurteilt");
+					localStorage.beobtyp = "beob_nicht_beurteilt";
+					// Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
+					beschrifte_ap_ordner_beob_nicht_zuzuordnen(window.herkunft_parent_node);
+					if (ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
+						beschrifte_ap_ordner_beob_nicht_beurteilt(ziel_node);
+					} else {
+						beschrifte_ap_ordner_beob_nicht_beurteilt(ziel_parent_node);
+					}
+					// selektieren
+					initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_beurteilt");
+					// Variablen aufräumen
+					delete window.beob_node_ausgeschnitten;
+					delete window.herkunft_parent_node;
+				});
+				deleteZuordnung.fail(function () {
+					melde("Fehler: Die Zuordnung der Beobachtung wurde nicht entfernt");
 				});
 			}
 			if (ziel_node_typ === "beob_zugeordnet" || ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
@@ -3229,7 +3232,7 @@ function erstelle_tree(ApArtId) {
 				} else {
 					neue_tpop_id = ziel_parent_node_id;
 				}
-				$.ajax({
+				var updateBeob_3 = $.ajax({
 					type: 'post',
 					url: 'php/beob_update.php',
 						dataType: 'json',
@@ -3238,40 +3241,43 @@ function erstelle_tree(ApArtId) {
 							"Feld": "BeobNichtZuordnen",
 							"Wert": "",
 							"user": sessionStorage.User
-					},
-					success: function() {
-						$.ajax({
-							type: 'post',
-							url: 'php/beob_update.php',
-							dataType: 'json',
-							data: {
-								"id": herkunft_node_id,
-								"Feld": "TPopId",
-								"Wert": neue_tpop_id,
-								"user": sessionStorage.User
-							},
-							success: function () {
-								// typ des nodes anpassen
-								$(herkunft_node).attr("typ", "beob_zugeordnet");
-								localStorage.beobtyp = "beob_zugeordnet";
-								// Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
-								beschrifte_ap_ordner_beob_nicht_zuzuordnen(window.herkunft_parent_node);
-								if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
-									beschrifte_tpop_ordner_beob_zugeordnet(ziel_node);
-								} else {
-									beschrifte_tpop_ordner_beob_zugeordnet(ziel_parent_node);
-								}
-								// selection steuern
-								initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "zugeordnet");
-								// Variablen aufräumen
-								delete window.beob_node_ausgeschnitten;
-								delete window.herkunft_parent_node;
-							},
-							error: function () {
-								melde("Fehler: Die Beobachtung wurde nicht verschoben");
-							}
-						});
 					}
+				});
+				updateBeob_3.done(function() {
+					var updateBeob_4 = $.ajax({
+						type: 'post',
+						url: 'php/beob_update.php',
+						dataType: 'json',
+						data: {
+							"id": herkunft_node_id,
+							"Feld": "TPopId",
+							"Wert": neue_tpop_id,
+							"user": sessionStorage.User
+						}
+					});
+					updateBeob_4.done(function () {
+						// typ des nodes anpassen
+						$(herkunft_node).attr("typ", "beob_zugeordnet");
+						localStorage.beobtyp = "beob_zugeordnet";
+						// Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
+						beschrifte_ap_ordner_beob_nicht_zuzuordnen(window.herkunft_parent_node);
+						if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
+							beschrifte_tpop_ordner_beob_zugeordnet(ziel_node);
+						} else {
+							beschrifte_tpop_ordner_beob_zugeordnet(ziel_parent_node);
+						}
+						// selection steuern
+						initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "zugeordnet");
+						// Variablen aufräumen
+						delete window.beob_node_ausgeschnitten;
+						delete window.herkunft_parent_node;
+					});
+					updateBeob_4.fail(function () {
+						melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
+					});
+				});
+				updateBeob_3.fail(function () {
+					melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
 				});
 			}
 		}
@@ -3494,7 +3500,7 @@ function treeKontextmenu(node) {
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
-					$.ajax({
+					var insertPop = $.ajax({
 						type: 'post',
 						url: 'php/pop_insert.php',
 						dataType: 'json',
@@ -3502,51 +3508,51 @@ function treeKontextmenu(node) {
 							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"typ": "pop",
 							"user": sessionStorage.User
-						},
-						success: function (data) {
-							var NeuerNode;
-							localStorage.pop_id = data;
-							delete window.pop;
-							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-								"data": "neue Population",
-								"attr": {
-									"id": data,
-									"typ": "pop"
-								}
-							});
-							// jetzt alle Unterordner anlegen
-							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-								"data": "Teilpopulationen",
-								"attr": {
-									"id": data,
-									"typ": "pop_ordner_tpop"
-								}
-							});
-							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-								"data": "Populations-Berichte",
-								"attr": {
-									"id": data,
-									"typ": "pop_ordner_popber"
-								}
-							});
-							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-								"data": "Massnahmen-Berichte",
-								"attr": {
-									"id": data,
-									"typ": "pop_ordner_massnber"
-								}
-							});
-							// Node-Beschriftung: Anzahl anpassen
-							beschrifte_ap_ordner_pop(aktiver_node);
-							// nodes selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// Formular aufbauen
-							initiiere_pop();
-						},
-						error: function () {
-							melde("Fehler: Keine neue Population erstellt");
 						}
+					});
+					insertPop.done(function (data) {
+						var NeuerNode;
+						localStorage.pop_id = data;
+						delete window.pop;
+						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+							"data": "neue Population",
+							"attr": {
+								"id": data,
+								"typ": "pop"
+							}
+						});
+						// jetzt alle Unterordner anlegen
+						jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
+							"data": "Teilpopulationen",
+							"attr": {
+								"id": data,
+								"typ": "pop_ordner_tpop"
+							}
+						});
+						jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
+							"data": "Populations-Berichte",
+							"attr": {
+								"id": data,
+								"typ": "pop_ordner_popber"
+							}
+						});
+						jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
+							"data": "Massnahmen-Berichte",
+							"attr": {
+								"id": data,
+								"typ": "pop_ordner_massnber"
+							}
+						});
+						// Node-Beschriftung: Anzahl anpassen
+						beschrifte_ap_ordner_pop(aktiver_node);
+						// nodes selecten
+						jQuery.jstree._reference(aktiver_node).deselect_all();
+						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+						// Formular aufbauen
+						initiiere_pop();
+					});
+					insertPop.fail(function () {
+						melde("Fehler: Keine neue Population erstellt");
 					});
 				}
 			},
@@ -3555,23 +3561,23 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/flora_icon_gelb.png",
 				"action": function () {
-					$.ajax({
+					var getPopsChKarte = $.ajax({
 						type: 'get',
 						url: 'php/pops_ch_karte.php',
 						dataType: 'json',
 						data: {
 							"ApArtId": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-						},
-						success: function (data) {
-							if (data.rows.length > 0) {
-								zeigePopAufGeoAdmin(data);
-							} else {
-								melde("Die Population hat keine Koordinaten");
-							}
-						},	
-						error: function () {
-							melde("Fehler: Keine Daten erhalten");
 						}
+					});
+					getPopsChKarte.done(function (data) {
+						if (data.rows.length > 0) {
+							zeigePopAufGeoAdmin(data);
+						} else {
+							melde("Die Population hat keine Koordinaten");
+						}
+					});
+					getPopsChKarte.fail(function () {
+						melde("Fehler: Keine Daten erhalten");
 					});
 				}
 			},
@@ -3580,23 +3586,23 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/flora_icon.png",
 				"action": function () {
-					$.ajax({
+					var getApKarte = $.ajax({
 						type: 'get',
 						url: 'php/ap_karte.php',
 						dataType: 'json',
 						data: {
 							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-						},
-						success: function (data) {
-							if (data.rows.length > 0) {
-								zeigeTPopAufKarte(data);
-							} else {
-								melde("Es gibt keine Teilpopulation mit Koordinaten");
-							}
-						},	
-						error: function () {
-							melde("Fehler: Keine Daten erhalten");
 						}
+					});
+					getApKarte.done(function (data) {
+						if (data.rows.length > 0) {
+							zeigeTPopAufKarte(data);
+						} else {
+							melde("Es gibt keine Teilpopulation mit Koordinaten");
+						}
+					});
+					getApKarte.fail(function () {
+						melde("Fehler: Keine Daten erhalten");
 					});
 				}
 			},
@@ -3616,7 +3622,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/einfuegen.png",
 				"action": function () {
 					// db aktualisieren
-					$.ajax({
+					var updatePop = $.ajax({
 						type: 'post',
 						url: 'php/pop_update.php',
 						dataType: 'json',
@@ -3625,23 +3631,23 @@ function treeKontextmenu(node) {
 							"Feld": "ApArtId",
 							"Wert": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"user": sessionStorage.User
-						},
-						success: function () {
-							// Baum neu aufbauen
-							$.when(erstelle_tree(erstelleIdAusDomAttributId($(aktiver_node).attr("id"))))
-								.then(function() {
-									// dann den eingefügten Node wählen
-									$("#tree").jstree("select_node", "[typ='pop']#" + localStorage.pop_id); 
-								});
-							// einfügen soll nicht mehr angezeigt werden
-							delete window.pop_zum_verschieben_gemerkt;
-							// nicht mehr benötigte Variabeln entfernen
-							delete window.pop_bezeichnung;
-							delete window.pop_id;
-						},
-						error: function () {
-							melde("Fehler: Die Population wurde nicht verschoben");
 						}
+					});
+					updatePop.done(function () {
+						// Baum neu aufbauen
+						$.when(erstelle_tree(erstelleIdAusDomAttributId($(aktiver_node).attr("id"))))
+							.then(function() {
+								// dann den eingefügten Node wählen
+								$("#tree").jstree("select_node", "[typ='pop']#" + localStorage.pop_id); 
+							});
+						// einfügen soll nicht mehr angezeigt werden
+						delete window.pop_zum_verschieben_gemerkt;
+						// nicht mehr benötigte Variabeln entfernen
+						delete window.pop_bezeichnung;
+						delete window.pop_id;
+					});
+					updatePop.fail(function () {
+						melde("Fehler: Die Population wurde nicht verschoben");
 					});
 				}
 			}
@@ -3672,7 +3678,7 @@ function treeKontextmenu(node) {
 							"typ": "apzieljahr"
 						}
 					});
-					$.ajax({
+					var insertApziel = $.ajax({
 						type: 'post',
 						url: 'php/apziel_insert.php',
 						dataType: 'json',
@@ -3680,36 +3686,36 @@ function treeKontextmenu(node) {
 							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"typ": "apziel",
 							"user": sessionStorage.User
-						},
-						success: function (data) {
-							var NeuerNode;
-							localStorage.apziel_id = data;
-							delete window.apziel;
-							NeuerNode = jQuery.jstree._reference(neue_apziele_node).create_node(neue_apziele_node, "last", {
-								"data": "neues Ziel",
-								"attr": {
-									"id": data,
-									"typ": "apziel"
-								}
-							});
-							// Node-Beschriftung: Anzahl anpassen
-							beschrifte_ap_ordner_apziel(aktiver_node);
-							// node selektieren
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// jetzt Unterordner anlegen
-							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-								"data": "0 Ziel-Berichte",
-								"attr": {
-									"id": data,
-									"typ": "zielber_ordner"
-								}
-							});
-							initiiere_apziel();
-						},
-						error: function () {
-							melde("Fehler: Keine neues AP-Ziel erstellt");
 						}
+					});
+					insertApziel.done(function (data) {
+						var NeuerNode;
+						localStorage.apziel_id = data;
+						delete window.apziel;
+						NeuerNode = jQuery.jstree._reference(neue_apziele_node).create_node(neue_apziele_node, "last", {
+							"data": "neues Ziel",
+							"attr": {
+								"id": data,
+								"typ": "apziel"
+							}
+						});
+						// Node-Beschriftung: Anzahl anpassen
+						beschrifte_ap_ordner_apziel(aktiver_node);
+						// node selektieren
+						jQuery.jstree._reference(aktiver_node).deselect_all();
+						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+						// jetzt Unterordner anlegen
+						jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
+							"data": "0 Ziel-Berichte",
+							"attr": {
+								"id": data,
+								"typ": "zielber_ordner"
+							}
+						});
+						initiiere_apziel();
+					});
+					insertApziel.fail(function () {
+						melde("Fehler: Keine neues AP-Ziel erstellt");
 					});
 				}
 			},
@@ -3740,7 +3746,7 @@ function treeKontextmenu(node) {
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
-					$.ajax( {
+					var insertApziel_2 = $.ajax({
 						type: 'post',
 						url: 'php/apziel_insert.php',
 						dataType: 'json',
@@ -3748,45 +3754,45 @@ function treeKontextmenu(node) {
 							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"typ": "apziel",
 							"user": sessionStorage.User
-						},
-						success: function (data) {
-							var NeuerNode;
-							localStorage.apziel_id = data;
-							delete window.apziel;
-							delete localStorage.apziel;
-
-							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-								"data": "neues Ziel",
-								"attr": {
-									"id": data,
-									"typ": "apziel"
-								}
-							});
-
-							// Parent Node-Beschriftung: Anzahl anpassen, wenns nicht der neue Ordner ist
-							if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
-								beschrifte_ap_ordner_apziel(parent_node);
-							}
-							// aktiver Node-Beschriftung: Anzahl anpassen
-							beschrifte_apzieljahr(aktiver_node);
-							// node selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							
-							// jetzt Unterordner anlegen
-							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-								"data": "0 Ziel-Berichte",
-								"attr": {
-									"id": data,
-									"typ": "zielber_ordner"
-								}
-							});
-							
-							// im create_node-Event von jstree wird Jahr eingefügt und gespeichert
-						},
-						error: function () {
-							melde("Fehler: Keine neues Ziel erstellt");
 						}
+					});
+					insertApziel_2.done(function (data) {
+						var NeuerNode;
+						localStorage.apziel_id = data;
+						delete window.apziel;
+						delete localStorage.apziel;
+
+						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+							"data": "neues Ziel",
+							"attr": {
+								"id": data,
+								"typ": "apziel"
+							}
+						});
+
+						// Parent Node-Beschriftung: Anzahl anpassen, wenns nicht der neue Ordner ist
+						if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
+							beschrifte_ap_ordner_apziel(parent_node);
+						}
+						// aktiver Node-Beschriftung: Anzahl anpassen
+						beschrifte_apzieljahr(aktiver_node);
+						// node selecten
+						jQuery.jstree._reference(aktiver_node).deselect_all();
+						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+						
+						// jetzt Unterordner anlegen
+						jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
+							"data": "0 Ziel-Berichte",
+							"attr": {
+								"id": data,
+								"typ": "zielber_ordner"
+							}
+						});
+						
+						// im create_node-Event von jstree wird Jahr eingefügt und gespeichert
+					});
+					insertApziel_2.fail(function () {
+						melde("Fehler: Keine neues Ziel erstellt");
 					});
 				}
 			},
@@ -3811,49 +3817,49 @@ function treeKontextmenu(node) {
 						return;
 					}
 					grandparent_node = jQuery.jstree._reference(parent_node)._get_parent(parent_node);
-					$.ajax( {
+					var insertApziel_3 = $.ajax( {
 						type: 'post',
 						url: 'php/apziel_insert.php',
 						dataType: 'json',
 						data: {
 							"id": erstelleIdAusDomAttributId($(grandparent_node).attr("id")),
 							"user": sessionStorage.User
-						},
-						success: function (data) {
-							var NeuerNode;
-							localStorage.apziel_id = data;
-							delete window.apziel;
-							delete localStorage.apziel;
-							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-								"data": "neues Ziel",
-								"attr": {
-									"id": data,
-									"typ": "apziel"
-								}
-							});
-							// grandparent Node-Beschriftung: Anzahl anpassen
-							beschrifte_ap_ordner_apziel(grandparent_node);
-							// parent Node-Beschriftung: Anzahl anpassen
-							// nur, wenn es nicht der Ordner ist, der "neue AP-Ziele" heisst
-							if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
-								beschrifte_apzieljahr(parent_node);
-							}
-							// node selecten
-							jQuery.jstree._reference(parent_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// jetzt Unterordner anlegen
-							jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-								"data": "0 Ziel-Berichte",
-								"attr": {
-									"id": data,
-									"typ": "zielber_ordner"
-								}
-							});
-							initiiere_apziel();
-						},
-						error: function () {
-							melde("Fehler: Kein neues AP-Ziel erstellt");
 						}
+					});
+					insertApziel_3.done(function (data) {
+						var NeuerNode;
+						localStorage.apziel_id = data;
+						delete window.apziel;
+						delete localStorage.apziel;
+						NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
+							"data": "neues Ziel",
+							"attr": {
+								"id": data,
+								"typ": "apziel"
+							}
+						});
+						// grandparent Node-Beschriftung: Anzahl anpassen
+						beschrifte_ap_ordner_apziel(grandparent_node);
+						// parent Node-Beschriftung: Anzahl anpassen
+						// nur, wenn es nicht der Ordner ist, der "neue AP-Ziele" heisst
+						if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
+							beschrifte_apzieljahr(parent_node);
+						}
+						// node selecten
+						jQuery.jstree._reference(parent_node).deselect_all();
+						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+						// jetzt Unterordner anlegen
+						jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
+							"data": "0 Ziel-Berichte",
+							"attr": {
+								"id": data,
+								"typ": "zielber_ordner"
+							}
+						});
+						initiiere_apziel();
+					});
+					insertApziel_3.fail(function () {
+						melde("Fehler: Kein neues AP-Ziel erstellt");
 					});
 				}
 			},
@@ -3881,28 +3887,28 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
-								$.ajax({
+								var deleteApziel = $.ajax({
 									type: 'post',
 									url: 'php/apziel_delete.php',
 									dataType: 'json',
 									data: {
 										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-									},
-									success: function () {
-										delete localStorage.apziel_id;
-										delete window.apziel;
-										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										// grandparent Node-Beschriftung: Anzahl anpassen
-										grandparent_node = jQuery.jstree._reference(parent_node)._get_parent(parent_node);
-										beschrifte_ap_ordner_apziel(grandparent_node);
-										// parent Node-Beschriftung: Anzahl anpassen
-										if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
-											beschrifte_apzieljahr(parent_node);
-										}
-									},
-									error: function () {
-										melde("Fehler: Das AP-Ziel wurde nicht gelöscht");
 									}
+								});
+								deleteApziel.done(function () {
+									delete localStorage.apziel_id;
+									delete window.apziel;
+									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									// grandparent Node-Beschriftung: Anzahl anpassen
+									grandparent_node = jQuery.jstree._reference(parent_node)._get_parent(parent_node);
+									beschrifte_ap_ordner_apziel(grandparent_node);
+									// parent Node-Beschriftung: Anzahl anpassen
+									if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
+										beschrifte_apzieljahr(parent_node);
+									}
+								});
+								deleteApziel.fail(function () {
+									melde("Fehler: Das AP-Ziel wurde nicht gelöscht");
 								});
 							},
 							"abbrechen": function() {
@@ -3932,36 +3938,36 @@ function treeKontextmenu(node) {
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
-					$.ajax({
+					var insertZielber = $.ajax({
 						type: 'post',
 						url: 'php/zielber_insert.php',
 						dataType: 'json',
 						data: {
 							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"user": sessionStorage.User
-						},
-						success: function (data) {
-							var NeuerNode;
-							localStorage.zielber_id = data;
-							delete window.zielber;
-							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-								"data": "neuer Ziel-Bericht",
-								"attr": {
-									"id": data,
-									"typ": "zielber"
-								}
-							});
-							// Node-Beschriftung: Anzahl anpassen
-							beschrifte_zielber_ordner(aktiver_node);
-							// node selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// formular initiieren
-							initiiere_zielber();
-						},
-						error: function () {
-							melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
 						}
+					});
+					insertZielber.done(function (data) {
+						var NeuerNode;
+						localStorage.zielber_id = data;
+						delete window.zielber;
+						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+							"data": "neuer Ziel-Bericht",
+							"attr": {
+								"id": data,
+								"typ": "zielber"
+							}
+						});
+						// Node-Beschriftung: Anzahl anpassen
+						beschrifte_zielber_ordner(aktiver_node);
+						// node selecten
+						jQuery.jstree._reference(aktiver_node).deselect_all();
+						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+						// formular initiieren
+						initiiere_zielber();
+					});
+					insertZielber.fail(function () {
+						melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
 					});
 				}
 			},
@@ -3985,7 +3991,7 @@ function treeKontextmenu(node) {
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
-					$.ajax({
+					var insertZielber_2 = $.ajax({
 						type: 'post',
 						url: 'php/zielber_insert.php',
 						dataType: 'json',
@@ -3993,29 +3999,29 @@ function treeKontextmenu(node) {
 							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"typ": "zielber",
 							"user": sessionStorage.User
-						},
-						success: function (data) {
-							var NeuerNode;
-							localStorage.zielber_id = data;
-							delete window.zielber;
-							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-								"data": "neuer Ziel-Bericht",
-								"attr": {
-									"id": data,
-									"typ": "zielber"
-								}
-							});
-							// Parent Node-Beschriftung: Anzahl anpassen
-							beschrifte_zielber_ordner(parent_node);
-							// node selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// formular initiieren
-							initiiere_zielber();
-						},
-						error: function () {
-							melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
 						}
+					});
+					insertZielber_2.done(function (data) {
+						var NeuerNode;
+						localStorage.zielber_id = data;
+						delete window.zielber;
+						NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
+							"data": "neuer Ziel-Bericht",
+							"attr": {
+								"id": data,
+								"typ": "zielber"
+							}
+						});
+						// Parent Node-Beschriftung: Anzahl anpassen
+						beschrifte_zielber_ordner(parent_node);
+						// node selecten
+						jQuery.jstree._reference(aktiver_node).deselect_all();
+						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+						// formular initiieren
+						initiiere_zielber();
+					});
+					insertZielber_2.fail(function () {
+						melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
 					});
 				}
 			},
@@ -4043,23 +4049,23 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
-								$.ajax({
+								var deleteZielber = $.ajax({
 									type: 'post',
 									url: 'php/zielber_delete.php',
 									dataType: 'json',
 									data: {
 										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-									},
-									success: function () {
-										delete localStorage.zielber_id;
-										delete window.zielber;
-										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										// Parent Node-Beschriftung: Anzahl anpassen
-										beschrifte_zielber_ordner(parent_node);
-									},
-									error: function () {
-										melde("Fehler: Der Ziel-Bericht wurde nicht gelöscht");
 									}
+								});
+								deleteZielber.done(function () {
+									delete localStorage.zielber_id;
+									delete window.zielber;
+									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									// Parent Node-Beschriftung: Anzahl anpassen
+									beschrifte_zielber_ordner(parent_node);
+								});
+								deleteZielber.fail(function () {
+									melde("Fehler: Der Ziel-Bericht wurde nicht gelöscht");
 								});
 							},
 							"abbrechen": function() {
@@ -4089,36 +4095,36 @@ function treeKontextmenu(node) {
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
-					$.ajax({
+					var insertErfkrit = $.ajax({
 						type: 'post',
 						url: 'php/erfkrit_insert.php',
 						dataType: 'json',
 						data: {
 							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"user": sessionStorage.User
-						},
-						success: function (data) {
-							var NeuerNode;
-							localStorage.erfkrit_id = data;
-							delete window.erfkrit;
-							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-								"data": "neues Erfolgskriterium",
-								"attr": {
-									"id": data,
-									"typ": "erfkrit"
-								}
-							});
-							// Node-Beschriftung: Anzahl anpassen
-							beschrifte_ap_ordner_erfkrit(aktiver_node);
-							// node selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// Formular initiieren
-							initiiere_erfkrit();
-						},
-						error: function () {
-							melde("Fehler: Kein neues Erfolgskriterium erstellt");
 						}
+					});
+					insertErfkrit.done(function (data) {
+						var NeuerNode;
+						localStorage.erfkrit_id = data;
+						delete window.erfkrit;
+						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+							"data": "neues Erfolgskriterium",
+							"attr": {
+								"id": data,
+								"typ": "erfkrit"
+							}
+						});
+						// Node-Beschriftung: Anzahl anpassen
+						beschrifte_ap_ordner_erfkrit(aktiver_node);
+						// node selecten
+						jQuery.jstree._reference(aktiver_node).deselect_all();
+						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+						// Formular initiieren
+						initiiere_erfkrit();
+					});
+					insertErfkrit.fail(function () {
+						melde("Fehler: Kein neues Erfolgskriterium erstellt");
 					});
 				}
 			},
@@ -4142,7 +4148,7 @@ function treeKontextmenu(node) {
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
-					$.ajax({
+					var insertErfkrit_2 = $.ajax({
 						type: 'post',
 						url: 'php/erfkrit_insert.php',
 						dataType: 'json',
@@ -4150,29 +4156,29 @@ function treeKontextmenu(node) {
 							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"typ": "erfkrit",
 							"user": sessionStorage.User
-						},
-						success: function (data) {
-							var NeuerNode;
-							localStorage.erfkrit_id = data;
-							delete window.erfkrit;
-							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-								"data": "neues Erfolgskriterium",
-								"attr": {
-									"id": data,
-									"typ": "erfkrit"
-								}
-							});
-							// Parent Node-Beschriftung: Anzahl anpassen
-							beschrifte_ap_ordner_erfkrit(parent_node);
-							// node selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// Formular initiieren
-							initiiere_erfkrit();
-						},
-						error: function () {
-							melde("Fehler: Kein neues Erfolgskriterium erstellt");
 						}
+					});
+					insertErfkrit_2.done(function (data) {
+						var NeuerNode;
+						localStorage.erfkrit_id = data;
+						delete window.erfkrit;
+						NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
+							"data": "neues Erfolgskriterium",
+							"attr": {
+								"id": data,
+								"typ": "erfkrit"
+							}
+						});
+						// Parent Node-Beschriftung: Anzahl anpassen
+						beschrifte_ap_ordner_erfkrit(parent_node);
+						// node selecten
+						jQuery.jstree._reference(aktiver_node).deselect_all();
+						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+						// Formular initiieren
+						initiiere_erfkrit();
+					});
+					insertErfkrit_2.fail(function () {
+						melde("Fehler: Kein neues Erfolgskriterium erstellt");
 					});
 				}
 			},
@@ -4200,23 +4206,23 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
-								$.ajax({
+								var deleteErfkrit = $.ajax({
 									type: 'post',
 									url: 'php/erfkrit_delete.php',
 									dataType: 'json',
 									data: {
 										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-									},
-									success: function () {
-										delete localStorage.erfkrit_id;
-										delete window.erfkrit;
-										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										// Parent Node-Beschriftung: Anzahl anpassen
-										beschrifte_ap_ordner_erfkrit(parent_node);
-									},
-									error: function () {
-										melde("Fehler: Das Erfolgskriterium wurde nicht gelöscht");
 									}
+								});
+								deleteErfkrit.done(function () {
+									delete localStorage.erfkrit_id;
+									delete window.erfkrit;
+									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									// Parent Node-Beschriftung: Anzahl anpassen
+									beschrifte_ap_ordner_erfkrit(parent_node);
+								});
+								deleteErfkrit.fail(function () {
+									melde("Fehler: Das Erfolgskriterium wurde nicht gelöscht");
 								});
 							},
 							"abbrechen": function() {
@@ -4253,36 +4259,36 @@ function treeKontextmenu(node) {
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
-					$.ajax({
+					var insertJber = $.ajax({
 						type: 'post',
 						url: 'php/jber_insert.php',
 						dataType: 'json',
 						data: {
 							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"user": sessionStorage.User
-						},
-						success: function (data) {
-							var NeuerNode;
-							localStorage.jber_id = data;
-							delete window.jber;
-							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-								"data": "neuer AP-Bericht",
-								"attr": {
-									"id": data,
-									"typ": "jber"
-								}
-							});
-							// Node-Beschriftung: Anzahl anpassen
-							beschrifte_ap_ordner_jber(aktiver_node);
-							// node selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// Formular initiieren
-							initiiere_jber();
-						},
-						error: function () {
-							melde("Fehler: Keinen neuen AP-Bericht erstellt");
 						}
+					});
+					insertJber.done(function (data) {
+						var NeuerNode;
+						localStorage.jber_id = data;
+						delete window.jber;
+						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+							"data": "neuer AP-Bericht",
+							"attr": {
+								"id": data,
+								"typ": "jber"
+							}
+						});
+						// Node-Beschriftung: Anzahl anpassen
+						beschrifte_ap_ordner_jber(aktiver_node);
+						// node selecten
+						jQuery.jstree._reference(aktiver_node).deselect_all();
+						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+						// Formular initiieren
+						initiiere_jber();
+					});
+					insertJber.fail(function () {
+						melde("Fehler: Keinen neuen AP-Bericht erstellt");
 					});
 				}
 			},
@@ -4306,7 +4312,7 @@ function treeKontextmenu(node) {
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
-					$.ajax({
+					var insertJber_2 = $.ajax({
 						type: 'post',
 						url: 'php/jber_insert.php',
 						dataType: 'json',
@@ -4314,29 +4320,29 @@ function treeKontextmenu(node) {
 							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"typ": "jber",
 							"user": sessionStorage.User
-						},
-						success: function (data) {
-							var NeuerNode;
-							localStorage.jber_id = data;
-							delete window.jber;
-							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-								"data": "Neuer AP-Bericht",
-								"attr": {
-									"id": data,
-									"typ": "jber"
-								}
-							});
-							// Parent Node-Beschriftung: Anzahl anpassen
-							beschrifte_ap_ordner_jber(parent_node);
-							// node selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// Formular initiieren
-							initiiere_jber();
-						},
-						error: function () {
-							melde("Fehler: Keinen neuen AP-Bericht erstellt");
 						}
+					});
+					insertJber_2.done(function (data) {
+						var NeuerNode;
+						localStorage.jber_id = data;
+						delete window.jber;
+						NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
+							"data": "Neuer AP-Bericht",
+							"attr": {
+								"id": data,
+								"typ": "jber"
+							}
+						});
+						// Parent Node-Beschriftung: Anzahl anpassen
+						beschrifte_ap_ordner_jber(parent_node);
+						// node selecten
+						jQuery.jstree._reference(aktiver_node).deselect_all();
+						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+						// Formular initiieren
+						initiiere_jber();
+					});
+					insertJber_2.fail(function () {
+						melde("Fehler: Keinen neuen AP-Bericht erstellt");
 					});
 				}
 			},
