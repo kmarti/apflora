@@ -2373,20 +2373,11 @@
 											$("#ap").hide();
 											$("#forms").hide();
 											//Hinweis zum rückgängig machen anzeigen
-											$("#undelete_div").html("Das Programm der Art '" + window.deleted.Artname + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
+											frageObAktionRueckgaengigGemachtWerdenSoll("Das Programm der Art '" + window.deleted.Artname + "' wurde gelöscht.");
 											//Artname wird nicht mehr gebraucht und soll später nicht in Datensatz eingefügt werden
 											delete window.deleted.Artname;
 											//forms muss eingeblendet sein, weil undelete_div darin ist
 											zeigeFormular("keines");
-											$("#forms_titelzeile").show();
-											$("#undelete_div").show();
-											setTimeout(function() {
-												$("#undelete_div").html("");
-												$("#undelete_div").hide();
-												$("#forms_titelzeile").hide();
-												//Formulare wieder ausblenden
-												zeigeFormular();
-											}, 25000);
 										},
 										error: function(data) {
 											var Meldung;

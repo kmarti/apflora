@@ -2636,8 +2636,8 @@ function erstelle_tree(ApArtId) {
 				});
 				fuegePopEin.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_ap_ordner_pop(ziel_parent_node);
-					beschrifte_ap_ordner_pop(window.herkunft_parent_node);
+					beschrifte_ordner_pop(ziel_parent_node);
+					beschrifte_ordner_pop(window.herkunft_parent_node);
 					// selection steuern
 					jQuery.jstree._reference(ziel_node).deselect_all();
 					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -2784,8 +2784,8 @@ function erstelle_tree(ApArtId) {
 				});
 				fuegeTPopMassnEin.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_tpop_ordner_massn(ziel_parent_node);
-					beschrifte_tpop_ordner_massn(window.herkunft_parent_node);
+					beschrifte_tpop_ordner_tpopmassn(ziel_parent_node);
+					beschrifte_tpop_ordner_tpopmassn(window.herkunft_parent_node);
 					// selection steuern
 					jQuery.jstree._reference(herkunft_node).deselect_all();
 					jQuery.jstree._reference(ziel_parent_node).select_node(herkunft_node);
@@ -2813,8 +2813,8 @@ function erstelle_tree(ApArtId) {
 				});
 				fuegeTPopMassnEin_2.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_tpop_ordner_massn(ziel_node);
-					beschrifte_tpop_ordner_massn(window.herkunft_parent_node);
+					beschrifte_tpop_ordner_tpopmassn(ziel_node);
+					beschrifte_tpop_ordner_tpopmassn(window.herkunft_parent_node);
 					// selection steuern
 					jQuery.jstree._reference(herkunft_node).deselect_all();
 					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -2844,8 +2844,8 @@ function erstelle_tree(ApArtId) {
 				});
 				fuegeTPopFeldkontrEin.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_tpop_ordner_feldkontr(ziel_parent_node);
-					beschrifte_tpop_ordner_feldkontr(window.herkunft_parent_node);
+					beschrifte_tpop_ordner_tpopfeldkontr(ziel_parent_node);
+					beschrifte_tpop_ordner_tpopfeldkontr(window.herkunft_parent_node);
 					// selection steuern
 					jQuery.jstree._reference(herkunft_node).deselect_all();
 					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -2873,8 +2873,8 @@ function erstelle_tree(ApArtId) {
 				});
 				fuegeTPopFeldkontrEin_2.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_tpop_ordner_feldkontr(ziel_node);
-					beschrifte_tpop_ordner_feldkontr(window.herkunft_parent_node);
+					beschrifte_tpop_ordner_tpopfeldkontr(ziel_node);
+					beschrifte_tpop_ordner_tpopfeldkontr(window.herkunft_parent_node);
 					// selection steuern
 					jQuery.jstree._reference(herkunft_node).deselect_all();
 					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -2904,8 +2904,8 @@ function erstelle_tree(ApArtId) {
 				});
 				fuegeTPopFeldkontrEin_3.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_tpop_ordner_freiwkontr(ziel_parent_node);
-					beschrifte_tpop_ordner_freiwkontr(window.herkunft_parent_node);
+					beschrifte_tpop_ordner_tpopfreiwkontr(ziel_parent_node);
+					beschrifte_tpop_ordner_tpopfreiwkontr(window.herkunft_parent_node);
 					// selection steuern
 					jQuery.jstree._reference(herkunft_node).deselect_all();
 					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -2934,8 +2934,8 @@ function erstelle_tree(ApArtId) {
 				});
 				fuegeTPopFeldkontrEin_4.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_tpop_ordner_freiwkontr(ziel_node);
-					beschrifte_tpop_ordner_freiwkontr(window.herkunft_parent_node);
+					beschrifte_tpop_ordner_tpopfreiwkontr(ziel_node);
+					beschrifte_tpop_ordner_tpopfreiwkontr(window.herkunft_parent_node);
 					// selection steuern
 					jQuery.jstree._reference(herkunft_node).deselect_all();
 					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -3287,7 +3287,7 @@ function erstelle_tree(ApArtId) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ap_ordner_pop(node) {
+function beschrifte_ordner_pop(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	anzTxt = "Populationen (" + anz + ")";
@@ -3296,7 +3296,7 @@ function beschrifte_ap_ordner_pop(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ap_ordner_apziel(node) {
+function beschrifte_ordner_apziel(node) {
 	var anz, anzTxt;
 	anz = 0;
 	$(jQuery.jstree._reference(node)._get_children(node)).each(function(index) {
@@ -3320,7 +3320,7 @@ function beschrifte_apzieljahr(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_zielber_ordner(node) {
+function beschrifte_ordner_zielber(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	anzTxt = "Ziel-Berichte (" + anz + ")";
@@ -3329,7 +3329,7 @@ function beschrifte_zielber_ordner(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ap_ordner_erfkrit(node) {
+function beschrifte_ordner_erfkrit(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	anzTxt = "AP-Erfolgskriterien (" + anz + ")";
@@ -3338,7 +3338,7 @@ function beschrifte_ap_ordner_erfkrit(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ap_ordner_jber(node) {
+function beschrifte_ordner_jber(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	anzTxt = "AP-Berichte (" + anz + ")";
@@ -3401,7 +3401,7 @@ function beschrifte_pop_ordner_massnber(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_tpop_ordner_massn(node) {
+function beschrifte_tpop_ordner_tpopmassn(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	anzTxt = "Massnahmen (" + anz + ")";
@@ -3428,7 +3428,7 @@ function beschrifte_tpop_ordner_tpopber(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_tpop_ordner_feldkontr(node) {
+function beschrifte_tpop_ordner_tpopfeldkontr(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	anzTxt = "Feldkontrollen (" + anz + ")";
@@ -3437,7 +3437,7 @@ function beschrifte_tpop_ordner_feldkontr(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_tpop_ordner_freiwkontr(node) {
+function beschrifte_tpop_ordner_tpopfreiwkontr(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	anzTxt = "Freiwilligen-Kontrollen (" + anz + ")";
@@ -3507,7 +3507,13 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertPop.done(function(data) {
-						var NeuerNode;
+						var strukturtyp = "pop", 
+							ds_id = data, 
+							beschriftung = "neue Population";
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, strukturtyp, ds_id, beschriftung);
+
+
+						/*var NeuerNode;
 						localStorage.pop_id = data;
 						delete window.pop;
 						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
@@ -3540,12 +3546,12 @@ function treeKontextmenu(node) {
 							}
 						});
 						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_ap_ordner_pop(aktiver_node);
+						beschrifte_ordner_pop(aktiver_node);
 						// nodes selecten
 						jQuery.jstree._reference(aktiver_node).deselect_all();
 						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 						// Formular aufbauen
-						initiiere_pop();
+						initiiere_pop();*/
 					});
 					insertPop.fail(function() {
 						melde("Fehler: Keine neue Population erstellt");
@@ -3692,7 +3698,7 @@ function treeKontextmenu(node) {
 							}
 						});
 						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_ap_ordner_apziel(aktiver_node);
+						beschrifte_ordner_apziel(aktiver_node);
 						// node selektieren
 						jQuery.jstree._reference(aktiver_node).deselect_all();
 						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -3760,7 +3766,7 @@ function treeKontextmenu(node) {
 
 						// Parent Node-Beschriftung: Anzahl anpassen, wenns nicht der neue Ordner ist
 						if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
-							beschrifte_ap_ordner_apziel(parent_node);
+							beschrifte_ordner_apziel(parent_node);
 						}
 						// aktiver Node-Beschriftung: Anzahl anpassen
 						beschrifte_apzieljahr(aktiver_node);
@@ -3827,7 +3833,7 @@ function treeKontextmenu(node) {
 							}
 						});
 						// grandparent Node-Beschriftung: Anzahl anpassen
-						beschrifte_ap_ordner_apziel(grandparent_node);
+						beschrifte_ordner_apziel(grandparent_node);
 						// parent Node-Beschriftung: Anzahl anpassen
 						// nur, wenn es nicht der Ordner ist, der "neue AP-Ziele" heisst
 						if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
@@ -3889,7 +3895,7 @@ function treeKontextmenu(node) {
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// grandparent Node-Beschriftung: Anzahl anpassen
 									grandparent_node = jQuery.jstree._reference(parent_node)._get_parent(parent_node);
-									beschrifte_ap_ordner_apziel(grandparent_node);
+									beschrifte_ordner_apziel(grandparent_node);
 									// parent Node-Beschriftung: Anzahl anpassen
 									if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
 										beschrifte_apzieljahr(parent_node);
@@ -3943,7 +3949,7 @@ function treeKontextmenu(node) {
 							}
 						});
 						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_zielber_ordner(aktiver_node);
+						beschrifte_ordner_zielber(aktiver_node);
 						// node selecten
 						jQuery.jstree._reference(aktiver_node).deselect_all();
 						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -3993,7 +3999,7 @@ function treeKontextmenu(node) {
 							}
 						});
 						// Parent Node-Beschriftung: Anzahl anpassen
-						beschrifte_zielber_ordner(parent_node);
+						beschrifte_ordner_zielber(parent_node);
 						// node selecten
 						jQuery.jstree._reference(aktiver_node).deselect_all();
 						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -4042,7 +4048,7 @@ function treeKontextmenu(node) {
 									delete window.zielber;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_zielber_ordner(parent_node);
+									beschrifte_ordner_zielber(parent_node);
 								});
 								deleteZielber.fail(function() {
 									melde("Fehler: Der Ziel-Bericht wurde nicht gelöscht");
@@ -4092,7 +4098,7 @@ function treeKontextmenu(node) {
 							}
 						});
 						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_ap_ordner_erfkrit(aktiver_node);
+						beschrifte_ordner_erfkrit(aktiver_node);
 						// node selecten
 						jQuery.jstree._reference(aktiver_node).deselect_all();
 						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -4142,7 +4148,7 @@ function treeKontextmenu(node) {
 							}
 						});
 						// Parent Node-Beschriftung: Anzahl anpassen
-						beschrifte_ap_ordner_erfkrit(parent_node);
+						beschrifte_ordner_erfkrit(parent_node);
 						// node selecten
 						jQuery.jstree._reference(aktiver_node).deselect_all();
 						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -4191,7 +4197,7 @@ function treeKontextmenu(node) {
 									delete window.erfkrit;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_ap_ordner_erfkrit(parent_node);
+									beschrifte_ordner_erfkrit(parent_node);
 								});
 								deleteErfkrit.fail(function() {
 									melde("Fehler: Das Erfolgskriterium wurde nicht gelöscht");
@@ -4248,7 +4254,7 @@ function treeKontextmenu(node) {
 							}
 						});
 						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_ap_ordner_jber(aktiver_node);
+						beschrifte_ordner_jber(aktiver_node);
 						// node selecten
 						jQuery.jstree._reference(aktiver_node).deselect_all();
 						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -4298,7 +4304,7 @@ function treeKontextmenu(node) {
 							}
 						});
 						// Parent Node-Beschriftung: Anzahl anpassen
-						beschrifte_ap_ordner_jber(parent_node);
+						beschrifte_ordner_jber(parent_node);
 						// node selecten
 						jQuery.jstree._reference(aktiver_node).deselect_all();
 						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -4350,7 +4356,7 @@ function treeKontextmenu(node) {
 									delete window.jber;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_ap_ordner_jber(parent_node);
+									beschrifte_ordner_jber(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
 									frageObAktionRueckgaengigGemachtWerdenSoll("AP-Bericht '" + window.deleted.JBerJahr + "' wurde gelöscht.");
 								});
@@ -4812,7 +4818,7 @@ function treeKontextmenu(node) {
 							}
 						});
 						// Parent Node-Beschriftung: Anzahl anpassen
-						beschrifte_ap_ordner_pop(parent_node);
+						beschrifte_ordner_pop(parent_node);
 						// node selecten
 						jQuery.jstree._reference(parent_node).deselect_all();
 						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -4864,7 +4870,7 @@ function treeKontextmenu(node) {
 									delete window.pop;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_ap_ordner_pop(parent_node);
+									beschrifte_ordner_pop(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
 									frageObAktionRueckgaengigGemachtWerdenSoll("Population '" + window.deleted.PopName + "' wurde gelöscht.");
 								});
@@ -5749,7 +5755,7 @@ function treeKontextmenu(node) {
 							}
 						});
 						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_tpop_ordner_feldkontr(aktiver_node);
+						beschrifte_tpop_ordner_tpopfeldkontr(aktiver_node);
 						// node selecten
 						jQuery.jstree._reference(aktiver_node).deselect_all();
 						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -5809,7 +5815,7 @@ function treeKontextmenu(node) {
 							}
 						});
 						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_tpop_ordner_feldkontr(aktiver_node);
+						beschrifte_tpop_ordner_tpopfeldkontr(aktiver_node);
 						// node selecten
 						jQuery.jstree._reference(aktiver_node).deselect_all();
 						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -5840,23 +5846,10 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertTPopFeldKontr_2.done(function(data) {
-						var NeuerNode;
-						localStorage.tpopfeldkontr_id = data;
-						delete window.tpopfeldkontr;
-						NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-							"data": "neue Feldkontrolle",
-							"attr": {
-								"id": data,
-								"typ": "tpopfeldkontr"
-							}
-						});
-						// Parent Node-Beschriftung: Anzahl anpassen
-						beschrifte_tpop_ordner_feldkontr(parent_node);
-						// node selecten
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// Formular initiieren
-						initiiere_tpopfeldkontr();
+						var strukturtyp = "tpopfeldkontr",
+							ds_id = data,
+							beschriftung = "neue Feldkontrolle";
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertTPopFeldKontr_2.fail(function() {
 						melde("Fehler: Keine neue Feldkontrolle erstellt");
@@ -5897,7 +5890,7 @@ function treeKontextmenu(node) {
 									delete window.tpopfeldkontr;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_tpop_ordner_feldkontr(parent_node);
+									beschrifte_tpop_ordner_tpopfeldkontr(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
 									frageObAktionRueckgaengigGemachtWerdenSoll("Feldkontrolle '" + window.deleted.TPopKontrJahr + ": " + window.deleted.TPopKontrTyp + "' wurde gelöscht.");
 								});
@@ -6091,23 +6084,10 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertTPopFeldKontrKopie_2.done(function(data) {
-						var NeuerNode;
-						localStorage.tpopfeldkontr_id = data;
-						delete window.tpopfeldkontr;
-						NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-							"data": erstelleLabelFuerFeldkontrolle(window.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.tpopfeldkontr_objekt_kopiert.TPopKontrTyp),
-							"attr": {
-								"id": data,
-								"typ": "tpopfeldkontr"
-							}
-						});
-						// Parent Node-Beschriftung: Anzahl anpassen
-						beschrifte_tpop_ordner_feldkontr(parent_node);
-						// node selecten
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// Formular initiieren
-						initiiere_tpopfeldkontr();
+						var strukturtyp = "tpopfeldkontr",
+							ds_id = data,
+							beschriftung = erstelleLabelFuerFeldkontrolle(window.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.tpopfeldkontr_objekt_kopiert.TPopKontrTyp);
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertTPopFeldKontrKopie_2.fail(function() {
 						melde("Fehler: Die Feldkontrolle wurde nicht erstellt");
@@ -6129,29 +6109,14 @@ function treeKontextmenu(node) {
 						data: {
 							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"user": sessionStorage.User,
-							"TPopKontrTyp": "Freiwilligen-Erfolgskontrolle"
+							"typ": "Freiwilligen-Erfolgskontrolle"
 						}
 					});
 					insertTPopFeldKontr_3.done(function(data) {
-						var NeuerNode;
-						localStorage.tpopfeldkontr_id = data;
-						localStorage.tpopfreiwkontr = true;
-						delete window.tpopfeldkontr;
-						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-							"data": "neue Freiwilligen-Kontrolle",
-							"attr": {
-								"id": data,
-								"typ": "tpopfreiwkontr"
-							}
-						});
-						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_tpop_ordner_freiwkontr(aktiver_node);
-						// node selecten
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// Formular initiieren
-						localStorage.tpopfreiwkontr = true;
-						initiiere_tpopfeldkontr();
+						var strukturtyp = "tpopfreiwkontr",
+							ds_id = data,
+							beschriftung = "neue Freiwilligen-Kontrolle";
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertTPopFeldKontr_3.fail(function() {
 						melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
@@ -6195,25 +6160,10 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertTPopFeldKontrKopie_3.done(function(data) {
-						var NeuerNode;
-						localStorage.tpopfeldkontr_id = data;
-						localStorage.tpopfreiwkontr = true;
-						delete window.tpopfeldkontr;
-						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-							"data": tpopfreiwkontr_objekt_kopiert.TPopKontrJahr,
-							"attr": {
-								"id": data,
-								"typ": "tpopfreiwkontr"
-							}
-						});
-						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_tpop_ordner_freiwkontr(aktiver_node);
-						// node selecten
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// Formular initiieren
-						localStorage.tpopfreiwkontr = true;
-						initiiere_tpopfeldkontr();
+						var strukturtyp = "tpopfreiwkontr",
+							ds_id = data,
+							beschriftung = tpopfreiwkontr_objekt_kopiert.TPopKontrJahr;
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertTPopFeldKontrKopie_3.fail(function() {
 						melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
@@ -6235,28 +6185,14 @@ function treeKontextmenu(node) {
 						data: {
 							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"user": sessionStorage.User,
-							"TPopKontrTyp": "Freiwilligen-Erfolgskontrolle"
+							"typ": "Freiwilligen-Erfolgskontrolle"
 						}
 					});
 					insertTPopFeldKontr_4.done(function(data) {
-						var NeuerNode;
-						localStorage.tpopfeldkontr_id = data;
-						delete window.tpopfeldkontr;
-						NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-							"data": "neue Freiwilligen-Kontrolle",
-							"attr": {
-								"id": data,
-								"typ": "tpopfreiwkontr"
-							}
-						});
-						// Parent Node-Beschriftung: Anzahl anpassen
-						beschrifte_tpop_ordner_freiwkontr(parent_node);
-						// node selecten
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// Formular initiieren
-						localStorage.tpopfreiwkontr = true;
-						initiiere_tpopfeldkontr();
+						var strukturtyp = "tpopfreiwkontr",
+							ds_id = data,
+							beschriftung = "neue Freiwilligen-Kontrolle";
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertTPopFeldKontr_4.fail(function() {
 						melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
@@ -6298,7 +6234,7 @@ function treeKontextmenu(node) {
 									delete window.tpopfeldkontr;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_tpop_ordner_freiwkontr(parent_node);
+									beschrifte_tpop_ordner_tpopfreiwkontr(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
 									frageObAktionRueckgaengigGemachtWerdenSoll("Freiwilligen-Kontrolle '" + window.deleted.TPopKontrJahr + "' wurde gelöscht.");
 								});
@@ -6353,19 +6289,19 @@ function treeKontextmenu(node) {
 					}
 					window.tpopfreiwkontr_node_kopiert = aktiver_node;
 					// Daten des Objekts holen
-					$.ajax({
+					getTPopFeldkontr_3 = $.ajax({
 						type: 'get',
 						url: 'php/tpopfeldkontr.php',
 						dataType: 'json',
 						data: {
 							"id": erstelleIdAusDomAttributId($(window.tpopfreiwkontr_node_kopiert).attr("id"))
-						},
-						success: function(data) {
-							tpopfreiwkontr_objekt_kopiert = data;
-						},
-						error: function() {
-							melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht kopiert");
 						}
+					});
+					getTPopFeldkontr_3.done(function(data) {
+						tpopfreiwkontr_objekt_kopiert = data;
+					});
+					getTPopFeldkontr_3.fail(function() {
+						melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht kopiert");
 					});
 				}
 			}
@@ -6387,7 +6323,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					$.ajax({
+					var insertTPopFeldKontrKopie_4 = $.ajax({
 						type: 'post',
 						url: 'php/tpopfeldkontr_insert_kopie.php',
 						dataType: 'json',
@@ -6395,30 +6331,16 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User,
 							"TPopId": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"TPopKontrId": erstelleIdAusDomAttributId($(window.tpopfreiwkontr_node_kopiert).attr("id"))
-						},
-						success: function(data) {
-							var NeuerNode;
-							localStorage.tpopfeldkontr_id = data;
-							delete window.tpopfeldkontr;
-							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-								"data": tpopfreiwkontr_objekt_kopiert.TPopKontrJahr,
-								"attr": {
-									"id": data,
-									"typ": "tpopfreiwkontr"
-								}
-							});
-							// Parent Node-Beschriftung: Anzahl anpassen
-							beschrifte_tpop_ordner_freiwkontr(parent_node);
-							// node selectieren
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// Formular initiieren
-							localStorage.tpopfreiwkontr = true;
-							initiiere_tpopfeldkontr();
-						},
-						error: function() {
-							melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
 						}
+					});
+					insertTPopFeldKontrKopie_4.done(function(data) {
+						var strukturtyp = "tpopfreiwkontr",
+							ds_id = data,
+							beschriftung = tpopfreiwkontr_objekt_kopiert.TPopKontrJahr;
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+					});
+					insertTPopFeldKontrKopie_4.fail(function() {
+						melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
 					});
 				}
 			}
@@ -6430,7 +6352,7 @@ function treeKontextmenu(node) {
 				"label": "neue Massnahme",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					$.ajax({
+					var insertTPopMassn = $.ajax({
 						type: 'post',
 						url: 'php/tpopmassn_insert.php',
 						dataType: 'json',
@@ -6438,29 +6360,16 @@ function treeKontextmenu(node) {
 							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"typ": "tpopmassn",
 							"user": sessionStorage.User
-						},
-						success: function(data) {
-							var NeuerNode;
-							localStorage.tpopmassn_id = data;
-							delete window.tpopmassn;
-							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-								"data": "neue Massnahme",
-								"attr": {
-									"id": data,
-									"typ": "tpopmassn"
-								}
-							});
-							// Node-Beschriftung: Anzahl anpassen
-							beschrifte_tpop_ordner_massn(aktiver_node);
-							// node selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// Formular initiieren
-							initiiere_tpopmassn();
-						},
-						error: function() {
-							melde("Fehler: Keine neue Massnahme erstellt");
 						}
+					});
+					insertTPopMassn.done(function(data) {
+						var strukturtyp = "tpopmassn",
+							ds_id = data,
+							beschriftung = "neue Massnahme";
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, strukturtyp, ds_id, beschriftung);
+					});
+					insertTPopMassn.fail(function() {
+						melde("Fehler: Keine neue Massnahme erstellt");
 					});
 				}
 			},
@@ -6489,7 +6398,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					$.ajax({
+					var insertTPopMassnKopie = $.ajax({
 						type: 'post',
 						url: 'php/tpopmassn_insert_kopie.php',
 						dataType: 'json',
@@ -6497,30 +6406,16 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User,
 							"TPopId": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"TPopMassnId": erstelleIdAusDomAttributId($(window.tpopmassn_node_kopiert).attr("id"))
-						},
-						success: function(data) {
-							var NeuerNode;
-							localStorage.tpopmassn_id = data;
-							delete window.tpopmassn;
-							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-								"data": erstelleLabelFuerMassnahme(window.tpopmassn_objekt_kopiert.TPopMassnJahr, window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt),
-								"attr": {
-									"id": data,
-									"typ": "tpopmassn"
-								}
-							});
-
-							// Node-Beschriftung: Anzahl anpassen
-							beschrifte_tpop_ordner_massn(aktiver_node);
-							// node selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// Formular initiieren
-							initiiere_tpopmassn();
-						},
-						error: function() {
-							melde("Fehler: Die Massnahme wurde nicht erstellt");
 						}
+					});
+					insertTPopMassnKopie.done(function(data) {
+						var strukturtyp = "tpopmassn",
+							ds_id = data,
+							beschriftung = erstelleLabelFuerMassnahme(window.tpopmassn_objekt_kopiert.TPopMassnJahr, window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt);
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, strukturtyp, ds_id, beschriftung);
+					});
+					insertTPopMassnKopie.fail(function() {
+						melde("Fehler: Die Massnahme wurde nicht erstellt");
 					});
 				}
 			}
@@ -6532,7 +6427,7 @@ function treeKontextmenu(node) {
 				"label": "neue Massnahme",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					$.ajax({
+					var insertTPopMassn_2 = $.ajax({
 						type: 'post',
 						url: 'php/tpopmassn_insert.php',
 						dataType: 'json',
@@ -6540,29 +6435,16 @@ function treeKontextmenu(node) {
 							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"typ": "tpopmassn",
 							"user": sessionStorage.User
-						},
-						success: function(data) {
-							var NeuerNode;
-							localStorage.tpopmassn_id = data;
-							delete window.tpopmassn;
-							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-								"data": "neue Massnahme",
-								"attr": {
-									"id": data,
-									"typ": "tpopmassn"
-								}
-							});
-							// Parent Node-Beschriftung: Anzahl anpassen
-							beschrifte_tpop_ordner_massn(parent_node);
-							// node selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// Formular initiieren
-							initiiere_tpopmassn();
-						},
-						error: function() {
-							melde("Fehler: Keine neue Massnahme erstellt");
 						}
+					});
+					insertTPopMassn_2.done(function(data) {
+						var strukturtyp = "tpopmassn",
+							ds_id = data,
+							beschriftung = "neue Massnahme";
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+					});
+					insertTPopMassn_2.fail(function() {
+						melde("Fehler: Keine neue Massnahme erstellt");
 					});
 				}
 			},
@@ -6587,25 +6469,25 @@ function treeKontextmenu(node) {
 								// Variable zum rückgängig machen erstellen
 								window.deleted = window.tpopmassn;
 								window.deleted.typ = "tpopmassn";
-								$.ajax({
+								var deleteTPopMassn = $.ajax({
 									type: 'post',
 									url: 'php/tpopmassn_delete.php',
 									dataType: 'json',
 									data: {
 										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-									},
-									success: function() {
-										delete localStorage.tpopmassn_id;
-										delete window.tpopmassn;
-										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										// Parent Node-Beschriftung: Anzahl anpassen
-										beschrifte_tpop_ordner_massn(parent_node);
-										// Hinweis zum rückgängig machen anzeigen
-										frageObAktionRueckgaengigGemachtWerdenSoll("Massnahme '" + window.deleted.TPopMassnJahr + ": " + window.deleted.TPopMassnTyp + "' wurde gelöscht.");
-									},
-									error: function() {
-										melde("Fehler: Die Massnahme wurde nicht gelöscht");
 									}
+								});
+								deleteTPopMassn.done(function() {
+									delete localStorage.tpopmassn_id;
+									delete window.tpopmassn;
+									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									// Parent Node-Beschriftung: Anzahl anpassen
+									beschrifte_tpop_ordner_tpopmassn(parent_node);
+									// Hinweis zum rückgängig machen anzeigen
+									frageObAktionRueckgaengigGemachtWerdenSoll("Massnahme '" + window.deleted.TPopMassnJahr + ": " + window.deleted.TPopMassnTyp + "' wurde gelöscht.");
+								});
+								deleteTPopMassn.fail(function() {
+									melde("Fehler: Die Massnahme wurde nicht gelöscht");
 								});
 							},
 							"abbrechen": function() {
@@ -6655,24 +6537,24 @@ function treeKontextmenu(node) {
 					}
 					window.tpopmassn_node_kopiert = aktiver_node;
 					// Daten des Objekts holen
-					$.ajax({
+					var getTPopMassn_2 = $.ajax({
 						type: 'get',
 						url: 'php/tpopmassn.php',
 						dataType: 'json',
 						data: {
 							"id": erstelleIdAusDomAttributId($(window.tpopmassn_node_kopiert).attr("id"))
-						},
-						success: function(data) {
-							window.tpopmassn_objekt_kopiert = data;
-							// den Beurteilungstext holen - ist nur mühsam aus der DB zu holen
-							window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt = "";
-							if ($("#TPopMassnTyp option:checked").text()) {
-								window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt = $("#TPopMassnTyp option:checked").text();
-							}
-						},
-						error: function() {
-							melde("Fehler: Die Massnahme wurde nicht kopiert");
 						}
+					});
+					getTPopMassn_2.done(function(data) {
+						window.tpopmassn_objekt_kopiert = data;
+						// den Beurteilungstext holen - ist nur mühsam aus der DB zu holen
+						window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt = "";
+						if ($("#TPopMassnTyp option:checked").text()) {
+							window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt = $("#TPopMassnTyp option:checked").text();
+						}
+					});
+					getTPopMassn_2.fail(function() {
+						melde("Fehler: Die Massnahme wurde nicht kopiert");
 					});
 				}
 			}
@@ -6693,7 +6575,7 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					$.ajax({
+					var insertTPopMassnKopie_2 = $.ajax({
 						type: 'post',
 						url: 'php/tpopmassn_insert_kopie.php',
 						dataType: 'json',
@@ -6701,29 +6583,29 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User,
 							"TPopId": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"TPopMassnId": erstelleIdAusDomAttributId($(window.tpopmassn_node_kopiert).attr("id"))
-						},
-						success: function(data) {
-							var NeuerNode;
-							localStorage.tpopmassn_id = data;
-							delete window.tpopmassn;
-							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-								"data": erstelleLabelFuerMassnahme(window.tpopmassn_objekt_kopiert.TPopMassnJahr, window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt),
-								"attr": {
-									"id": data,
-									"typ": "tpopmassn"
-								}
-							});
-							// Parent Node-Beschriftung: Anzahl anpassen
-							beschrifte_tpop_ordner_massn(parent_node);
-							// node selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// Formular initiieren
-							initiiere_tpopmassn();
-						},
-						error: function() {
-							melde("Fehler: Die Massnahme wurde nicht erstellt");
 						}
+					});
+					insertTPopMassnKopie_2.done(function(data) {
+						var NeuerNode;
+						localStorage.tpopmassn_id = data;
+						delete window.tpopmassn;
+						NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
+							"data": erstelleLabelFuerMassnahme(window.tpopmassn_objekt_kopiert.TPopMassnJahr, window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt),
+							"attr": {
+								"id": data,
+								"typ": "tpopmassn"
+							}
+						});
+						// Parent Node-Beschriftung: Anzahl anpassen
+						beschrifte_tpop_ordner_tpopmassn(parent_node);
+						// node selecten
+						jQuery.jstree._reference(aktiver_node).deselect_all();
+						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+						// Formular initiieren
+						initiiere_tpopmassn();
+					});
+					insertTPopMassnKopie_2.fail(function() {
+						melde("Fehler: Die Massnahme wurde nicht erstellt");
 					});
 				}
 			}
@@ -6735,36 +6617,36 @@ function treeKontextmenu(node) {
 				"label": "neuer Teilpopulations-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					$.ajax({
+					var insertTPopBer = $.ajax({
 						type: 'post',
 						url: 'php/tpopber_insert.php',
 						dataType: 'json',
 						data: {
 							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"user": sessionStorage.User
-						},
-						success: function(data) {
-							var NeuerNode;
-							localStorage.tpopber_id = data;
-							delete window.tpopber;
-							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-								"data": "neuer Teilpopulations-Bericht",
-								"attr": {
-									"id": localStorage.tpopber_id,
-									"typ": "tpopber"
-								}
-							});
-							// Node-Beschriftung: Anzahl anpassen
-							beschrifte_tpop_ordner_tpopber(aktiver_node);
-							// node selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// Formular initiieren
-							initiiere_tpopber();
-						},
-						error: function() {
-							melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
 						}
+					});
+					insertTPopBer.done(function(data) {
+						var NeuerNode;
+						localStorage.tpopber_id = data;
+						delete window.tpopber;
+						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+							"data": "neuer Teilpopulations-Bericht",
+							"attr": {
+								"id": localStorage.tpopber_id,
+								"typ": "tpopber"
+							}
+						});
+						// Node-Beschriftung: Anzahl anpassen
+						beschrifte_tpop_ordner_tpopber(aktiver_node);
+						// node selecten
+						jQuery.jstree._reference(aktiver_node).deselect_all();
+						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+						// Formular initiieren
+						initiiere_tpopber();
+					});
+					insertTPopBer.fail(function() {
+						melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
 					});
 				}
 			},
@@ -6794,23 +6676,10 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function(data) {
-							var NeuerNode;
-							localStorage.tpopber_id = data;
-							delete window.tpopber;
-							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-								"data": "neuer Teilpopulations-Bericht",
-								"attr": {
-									"id": data,
-									"typ": "tpopber"
-								}
-							});
-							// Parent Node-Beschriftung: Anzahl anpassen
-							beschrifte_tpop_ordner_tpopber(parent_node);
-							// node selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// Formular initiieren
-							initiiere_tpopber();
+							var strukturtyp = "tpopber",
+							ds_id = data,
+							beschriftung = "neuer Teilpopulations-Bericht";
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 						},
 						error: function() {
 							melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
@@ -7587,7 +7456,7 @@ function pop_kopiert_in_pop_einfuegen(aktiver_node, parent_node) {
 				}
 			});
 			// Parent Node-Beschriftung: Anzahl anpassen
-			beschrifte_ap_ordner_pop(parent_node);
+			beschrifte_ordner_pop(parent_node);
 			// node selecten
 			jQuery.jstree._reference(aktiver_node).deselect_all();
 			jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -11639,6 +11508,100 @@ function frageObAktionRueckgaengigGemachtWerdenSoll(wasIstPassiert) {
 		$("#undelete_div").hide();
 		$("#forms_titelzeile").hide();
 	}, 25000);
+}
+
+function insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung) {
+	var NeuerNode;
+	// id global verfügbar machen
+	localStorage[strukturtyp + "_id"] = ds_id;
+	// letzte globale Variable entfernen
+	delete window[strukturtyp];
+	// neuen Node bauen
+	NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
+		"data": beschriftung,
+		"attr": {
+			"id": ds_id,
+			"typ": strukturtyp
+		}
+	});
+	// allfällige Unterordner anlegen
+	if (strukturtyp === "pop") {
+		insertOrdnerVonPop(NeuerNode, ds_id);
+	}
+	// Parent Node-Beschriftung: Anzahl anpassen
+	window["beschrifte_tpop_ordner_"+strukturtyp](parent_node);
+	// node selecten
+	jQuery.jstree._reference(aktiver_node).deselect_all();
+	jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+	// Formular initiieren
+	if (strukturtyp === "tpopfreiwkontr") {
+		// der Initiierung mitteilen, dass es eine Freiwilligenkontrolle ist und keine Feldkontrolle
+		localStorage.tpopfreiwkontr = true;
+		// Freiwilligen-Kontrollen werden von derselben Funktion initiiert, wie Feldkontrollen
+		window["initiiere_tpopfeldkontr"]();
+	} else {
+		window["initiiere_"+strukturtyp]();
+	}
+}
+
+function insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, strukturtyp, ds_id, beschriftung) {
+	var NeuerNode;
+	// id global verfügbar machen
+	localStorage[strukturtyp + "_id"] = ds_id;
+	// letzte globale Variable entfernen
+	delete window[strukturtyp];
+	// neuen Node bauen
+	NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+		"data": beschriftung,
+		"attr": {
+			"id": ds_id,
+			"typ": strukturtyp
+		}
+	});
+	// allfällige Unterordner anlegen
+	if (strukturtyp === "pop") {
+		insertOrdnerVonPop(NeuerNode, ds_id);
+	}
+	// Node-Beschriftung: Anzahl anpassen
+	window["beschrifte_tpop_ordner_"+strukturtyp](aktiver_node);
+	// node selecten
+	jQuery.jstree._reference(aktiver_node).deselect_all();
+	jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+	// Formular initiieren
+	if (strukturtyp === "tpopfreiwkontr") {
+		// der Initiierung mitteilen, dass es eine Freiwilligenkontrolle ist und keine Feldkontrolle
+		localStorage.tpopfreiwkontr = true;
+		// Freiwilligen-Kontrollen werden von derselben Funktion initiiert, wie Feldkontrollen
+		window["initiiere_tpopfeldkontr"]();
+	} else {
+		window["initiiere_"+strukturtyp]();
+	}
+}
+
+// erstellt alle Unterordner des Ordners vom Typ pop
+// erwartet den node des pop-ordners
+function insertOrdnerVonPop(pop_node, pop_id) {
+	jQuery.jstree._reference(pop_node).create_node(pop_node, "last", {
+		"data": "Teilpopulationen",
+		"attr": {
+			"id": pop_id,
+			"typ": "pop_ordner_tpop"
+		}
+	});
+	jQuery.jstree._reference(pop_node).create_node(pop_node, "last", {
+		"data": "Populations-Berichte",
+		"attr": {
+			"id": pop_id,
+			"typ": "pop_ordner_popber"
+		}
+	});
+	jQuery.jstree._reference(pop_node).create_node(pop_node, "last", {
+		"data": "Massnahmen-Berichte",
+		"attr": {
+			"id": pop_id,
+			"typ": "pop_ordner_massnber"
+		}
+	});
 }
 
 // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen

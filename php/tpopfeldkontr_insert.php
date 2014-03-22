@@ -15,7 +15,8 @@ $id = $_POST["id"];
 settype($id, "integer");
 $user = $_POST["user"];
 $time = date('Y-m-d H:i:s');
-$TPopKontrTyp = $_POST["TPopKontrTyp"];
+$TPopKontrTyp = $_POST["typ"];
+//$TPopKontrTyp = $_POST["TPopKontrTyp"];
 
 if ($TPopKontrTyp) {
 	// das ist eine Freiwilligen-Erfolgskontrolle
