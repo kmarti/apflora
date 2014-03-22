@@ -4352,14 +4352,7 @@ function treeKontextmenu(node) {
 									// Parent Node-Beschriftung: Anzahl anpassen
 									beschrifte_ap_ordner_jber(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
-									$("#undelete_div").html("AP-Bericht '" + window.deleted.JBerJahr + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
-									$("#undelete_div").show();
-									$("#forms_titelzeile").show();
-									setTimeout(function() {
-										$("#undelete_div").html("");
-										$("#undelete_div").hide();
-										$("#forms_titelzeile").hide();
-									}, 25000);
+									frageObAktionRueckgaengigGemachtWerdenSoll("AP-Bericht '" + window.deleted.JBerJahr + "' wurde gelöscht.");
 								});
 								deleteJber.fail(function() {
 									melde("Fehler: Der AP-Bericht wurde nicht gelöscht");
@@ -4873,14 +4866,7 @@ function treeKontextmenu(node) {
 									// Parent Node-Beschriftung: Anzahl anpassen
 									beschrifte_ap_ordner_pop(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
-									$("#undelete_div").html("Population '" + window.deleted.PopName + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
-									$("#undelete_div").show();
-									$("#forms_titelzeile").show();
-									setTimeout(function() {
-										$("#undelete_div").html("");
-										$("#undelete_div").hide();
-										$("#forms_titelzeile").hide();
-									}, 25000);
+									frageObAktionRueckgaengigGemachtWerdenSoll("Population '" + window.deleted.PopName + "' wurde gelöscht.");
 								});
 								deletePop.fail(function() {
 									melde("Fehler: Die Population wurde nicht gelöscht");
@@ -5246,14 +5232,7 @@ function treeKontextmenu(node) {
 									// Parent Node-Beschriftung: Anzahl anpassen
 									beschrifte_pop_ordner_tpop(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
-									$("#undelete_div").html("Teilpopulation '" + window.deleted.TPopFlurname + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
-									$("#undelete_div").show();
-									$("#forms_titelzeile").show();
-									setTimeout(function() {
-										$("#undelete_div").html("");
-										$("#undelete_div").hide();
-										$("#forms_titelzeile").hide();
-									}, 25000);
+									frageObAktionRueckgaengigGemachtWerdenSoll("Teilpopulation '" + window.deleted.TPopFlurname + "' wurde gelöscht.");
 								});
 								deleteTPop.fail(function() {
 									melde("Fehler: Die Teilpopulation wurde nicht gelöscht");
@@ -5920,14 +5899,7 @@ function treeKontextmenu(node) {
 									// Parent Node-Beschriftung: Anzahl anpassen
 									beschrifte_tpop_ordner_feldkontr(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
-									$("#undelete_div").html("Feldkontrolle '" + window.deleted.TPopKontrJahr + ": " + window.deleted.TPopKontrTyp + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
-									$("#undelete_div").show();
-									$("#forms_titelzeile").show();
-									setTimeout(function() {
-										$("#undelete_div").html("");
-										$("#undelete_div").hide();
-										$("#forms_titelzeile").hide();
-									}, 25000);
+									frageObAktionRueckgaengigGemachtWerdenSoll("Feldkontrolle '" + window.deleted.TPopKontrJahr + ": " + window.deleted.TPopKontrTyp + "' wurde gelöscht.");
 								});
 								deleteTPopFeldKontr.fail(function() {
 									melde("Fehler: Die Feldkontrolle wurde nicht gelöscht");
@@ -6074,19 +6046,19 @@ function treeKontextmenu(node) {
 					}
 					window.tpopfeldkontr_node_kopiert = aktiver_node;
 					// Daten des Objekts holen
-					$.ajax({
+					var getTPopFeldkontr_2 = $.ajax({
 						type: 'get',
 						url: 'php/tpopfeldkontr.php',
 						dataType: 'json',
 						data: {
 							"id": erstelleIdAusDomAttributId($(window.tpopfeldkontr_node_kopiert).attr("id"))
-						},
-						success: function(data) {
-							window.tpopfeldkontr_objekt_kopiert = data;
-						},
-						error: function() {
-							melde("Fehler: Die Feldkontrolle wurde nicht kopiert");
 						}
+					});
+					getTPopFeldkontr_2.done(function(data) {
+						window.tpopfeldkontr_objekt_kopiert = data;
+					});
+					getTPopFeldkontr_2.fail(function() {
+						melde("Fehler: Die Feldkontrolle wurde nicht kopiert");
 					});
 				}
 			}
@@ -6108,7 +6080,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
 					// und an die DB schicken
-					$.ajax({
+					var insertTPopFeldKontrKopie_2 = $.ajax({
 						type: 'post',
 						url: 'php/tpopfeldkontr_insert_kopie.php',
 						dataType: 'json',
@@ -6116,29 +6088,29 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User,
 							"TPopId": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"TPopKontrId": erstelleIdAusDomAttributId($(window.tpopfeldkontr_node_kopiert).attr("id"))
-						},
-						success: function(data) {
-							var NeuerNode;
-							localStorage.tpopfeldkontr_id = data;
-							delete window.tpopfeldkontr;
-							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-								"data": erstelleLabelFuerFeldkontrolle(window.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.tpopfeldkontr_objekt_kopiert.TPopKontrTyp),
-								"attr": {
-									"id": data,
-									"typ": "tpopfeldkontr"
-								}
-							});
-							// Parent Node-Beschriftung: Anzahl anpassen
-							beschrifte_tpop_ordner_feldkontr(parent_node);
-							// node selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// Formular initiieren
-							initiiere_tpopfeldkontr();
-						},
-						error: function() {
-							melde("Fehler: Die Feldkontrolle wurde nicht erstellt");
 						}
+					});
+					insertTPopFeldKontrKopie_2.done(function(data) {
+						var NeuerNode;
+						localStorage.tpopfeldkontr_id = data;
+						delete window.tpopfeldkontr;
+						NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
+							"data": erstelleLabelFuerFeldkontrolle(window.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.tpopfeldkontr_objekt_kopiert.TPopKontrTyp),
+							"attr": {
+								"id": data,
+								"typ": "tpopfeldkontr"
+							}
+						});
+						// Parent Node-Beschriftung: Anzahl anpassen
+						beschrifte_tpop_ordner_feldkontr(parent_node);
+						// node selecten
+						jQuery.jstree._reference(aktiver_node).deselect_all();
+						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+						// Formular initiieren
+						initiiere_tpopfeldkontr();
+					});
+					insertTPopFeldKontrKopie_2.fail(function() {
+						melde("Fehler: Die Feldkontrolle wurde nicht erstellt");
 					});
 				}
 			}
@@ -6150,7 +6122,7 @@ function treeKontextmenu(node) {
 				"label": "neue Freiwilligen-Kontrolle",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					$.ajax({
+					var insertTPopFeldKontr_3 = $.ajax({
 						type: 'post',
 						url: 'php/tpopfeldkontr_insert.php',
 						dataType: 'json',
@@ -6158,31 +6130,31 @@ function treeKontextmenu(node) {
 							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"user": sessionStorage.User,
 							"TPopKontrTyp": "Freiwilligen-Erfolgskontrolle"
-						},
-						success: function(data) {
-							var NeuerNode;
-							localStorage.tpopfeldkontr_id = data;
-							localStorage.tpopfreiwkontr = true;
-							delete window.tpopfeldkontr;
-							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-								"data": "neue Freiwilligen-Kontrolle",
-								"attr": {
-									"id": data,
-									"typ": "tpopfreiwkontr"
-								}
-							});
-							// Node-Beschriftung: Anzahl anpassen
-							beschrifte_tpop_ordner_freiwkontr(aktiver_node);
-							// node selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// Formular initiieren
-							localStorage.tpopfreiwkontr = true;
-							initiiere_tpopfeldkontr();
-						},
-						error: function() {
-							melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
 						}
+					});
+					insertTPopFeldKontr_3.done(function(data) {
+						var NeuerNode;
+						localStorage.tpopfeldkontr_id = data;
+						localStorage.tpopfreiwkontr = true;
+						delete window.tpopfeldkontr;
+						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+							"data": "neue Freiwilligen-Kontrolle",
+							"attr": {
+								"id": data,
+								"typ": "tpopfreiwkontr"
+							}
+						});
+						// Node-Beschriftung: Anzahl anpassen
+						beschrifte_tpop_ordner_freiwkontr(aktiver_node);
+						// node selecten
+						jQuery.jstree._reference(aktiver_node).deselect_all();
+						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+						// Formular initiieren
+						localStorage.tpopfreiwkontr = true;
+						initiiere_tpopfeldkontr();
+					});
+					insertTPopFeldKontr_3.fail(function() {
+						melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
 					});
 				}
 			},
@@ -6212,7 +6184,7 @@ function treeKontextmenu(node) {
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
 					// und an die DB schicken
-					$.ajax({
+					var insertTPopFeldKontrKopie_3 = $.ajax({
 						type: 'post',
 						url: 'php/tpopfeldkontr_insert_kopie.php',
 						dataType: 'json',
@@ -6220,31 +6192,31 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User,
 							"TPopId": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"TPopKontrId": erstelleIdAusDomAttributId($(window.tpopfreiwkontr_node_kopiert).attr("id"))
-						},
-						success: function(data) {
-							var NeuerNode;
-							localStorage.tpopfeldkontr_id = data;
-							localStorage.tpopfreiwkontr = true;
-							delete window.tpopfeldkontr;
-							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-								"data": tpopfreiwkontr_objekt_kopiert.TPopKontrJahr,
-								"attr": {
-									"id": data,
-									"typ": "tpopfreiwkontr"
-								}
-							});
-							// Node-Beschriftung: Anzahl anpassen
-							beschrifte_tpop_ordner_freiwkontr(aktiver_node);
-							// node selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// Formular initiieren
-							localStorage.tpopfreiwkontr = true;
-							initiiere_tpopfeldkontr();
-						},
-						error: function() {
-							melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
 						}
+					});
+					insertTPopFeldKontrKopie_3.done(function(data) {
+						var NeuerNode;
+						localStorage.tpopfeldkontr_id = data;
+						localStorage.tpopfreiwkontr = true;
+						delete window.tpopfeldkontr;
+						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+							"data": tpopfreiwkontr_objekt_kopiert.TPopKontrJahr,
+							"attr": {
+								"id": data,
+								"typ": "tpopfreiwkontr"
+							}
+						});
+						// Node-Beschriftung: Anzahl anpassen
+						beschrifte_tpop_ordner_freiwkontr(aktiver_node);
+						// node selecten
+						jQuery.jstree._reference(aktiver_node).deselect_all();
+						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+						// Formular initiieren
+						localStorage.tpopfreiwkontr = true;
+						initiiere_tpopfeldkontr();
+					});
+					insertTPopFeldKontrKopie_3.fail(function() {
+						melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
 					});
 				}
 			}
@@ -6256,7 +6228,7 @@ function treeKontextmenu(node) {
 				"label": "neue Freiwilligen-Kontrolle",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					$.ajax({
+					var insertTPopFeldKontr_4 = $.ajax({
 						type: 'post',
 						url: 'php/tpopfeldkontr_insert.php',
 						dataType: 'json',
@@ -6264,30 +6236,30 @@ function treeKontextmenu(node) {
 							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"user": sessionStorage.User,
 							"TPopKontrTyp": "Freiwilligen-Erfolgskontrolle"
-						},
-						success: function(data) {
-							var NeuerNode;
-							localStorage.tpopfeldkontr_id = data;
-							delete window.tpopfeldkontr;
-							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-								"data": "neue Freiwilligen-Kontrolle",
-								"attr": {
-									"id": data,
-									"typ": "tpopfreiwkontr"
-								}
-							});
-							// Parent Node-Beschriftung: Anzahl anpassen
-							beschrifte_tpop_ordner_freiwkontr(parent_node);
-							// node selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// Formular initiieren
-							localStorage.tpopfreiwkontr = true;
-							initiiere_tpopfeldkontr();
-						},
-						error: function() {
-							melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
 						}
+					});
+					insertTPopFeldKontr_4.done(function(data) {
+						var NeuerNode;
+						localStorage.tpopfeldkontr_id = data;
+						delete window.tpopfeldkontr;
+						NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
+							"data": "neue Freiwilligen-Kontrolle",
+							"attr": {
+								"id": data,
+								"typ": "tpopfreiwkontr"
+							}
+						});
+						// Parent Node-Beschriftung: Anzahl anpassen
+						beschrifte_tpop_ordner_freiwkontr(parent_node);
+						// node selecten
+						jQuery.jstree._reference(aktiver_node).deselect_all();
+						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+						// Formular initiieren
+						localStorage.tpopfreiwkontr = true;
+						initiiere_tpopfeldkontr();
+					});
+					insertTPopFeldKontr_4.fail(function() {
+						melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
 					});
 				}
 			},
@@ -6312,33 +6284,26 @@ function treeKontextmenu(node) {
 								// Variable zum rückgängig machen erstellen
 								window.deleted = window.tpopfeldkontr;
 								window.deleted.typ = "tpopfreiwkontr";
-								$.ajax({
+								var deleteTPopFeldKontr_2 = $.ajax({
 									type: 'post',
 									url: 'php/tpopfeldkontr_delete.php',
 									dataType: 'json',
 									data: {
 										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-									},
-									success: function() {
-										delete localStorage.tpopfeldkontr_id;
-										delete localStorage.tpopfreiwkontr;
-										delete window.tpopfeldkontr;
-										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										// Parent Node-Beschriftung: Anzahl anpassen
-										beschrifte_tpop_ordner_freiwkontr(parent_node);
-										// Hinweis zum rückgängig machen anzeigen
-										$("#undelete_div").html("Freiwilligen-Kontrolle '" + window.deleted.TPopKontrJahr + "' wurde gelöscht. <a href='#' id='undelete'>Rückgängig machen?</a>");
-										$("#undelete_div").show();
-										$("#forms_titelzeile").show();
-										setTimeout(function() {
-											$("#undelete_div").html("");
-											$("#undelete_div").hide();
-											$("#forms_titelzeile").hide();
-										}, 25000);
-									},
-									error: function() {
-										melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht gelöscht");
 									}
+								});
+								deleteTPopFeldKontr_2.done(function() {
+									delete localStorage.tpopfeldkontr_id;
+									delete localStorage.tpopfreiwkontr;
+									delete window.tpopfeldkontr;
+									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									// Parent Node-Beschriftung: Anzahl anpassen
+									beschrifte_tpop_ordner_freiwkontr(parent_node);
+									// Hinweis zum rückgängig machen anzeigen
+									frageObAktionRueckgaengigGemachtWerdenSoll("Freiwilligen-Kontrolle '" + window.deleted.TPopKontrJahr + "' wurde gelöscht.");
+								});
+								deleteTPopFeldKontr_2.fail(function() {
+									melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht gelöscht");
 								});
 							},
 							"abbrechen": function() {
@@ -6636,14 +6601,7 @@ function treeKontextmenu(node) {
 										// Parent Node-Beschriftung: Anzahl anpassen
 										beschrifte_tpop_ordner_massn(parent_node);
 										// Hinweis zum rückgängig machen anzeigen
-										$("#undelete_div").html("Massnahme '" + window.deleted.TPopMassnJahr + ": " + window.deleted.TPopMassnTyp + "' wurde gelöscht. <a href='#' id='undelete'>Wiederherstellen?</a>");
-										$("#undelete_div").show();
-										$("#forms_titelzeile").show();
-										setTimeout(function() {
-											$("#undelete_div").html("");
-											$("#undelete_div").hide();
-											$("#forms_titelzeile").hide();
-										}, 25000);
+										frageObAktionRueckgaengigGemachtWerdenSoll("Massnahme '" + window.deleted.TPopMassnJahr + ": " + window.deleted.TPopMassnTyp + "' wurde gelöscht.");
 									},
 									error: function() {
 										melde("Fehler: Die Massnahme wurde nicht gelöscht");
@@ -11667,6 +11625,20 @@ function melde(meldung) {
 			}
 		}
 	});
+}
+
+// zeigt während 25 Sekunden einen Hinweis an und einen Link, mit dem eine Aktion rückgängig gemacht werden kann
+// erwartet die Mitteilung, was passiert ist
+function frageObAktionRueckgaengigGemachtWerdenSoll(wasIstPassiert) {
+	// Hinweis zum rückgängig machen anzeigen
+	$("#undelete_div").html(wasIstPassiert + " <a href='#' id='undelete'>Rückgängig machen?</a>");
+	$("#undelete_div").show();
+	$("#forms_titelzeile").show();
+	setTimeout(function() {
+		$("#undelete_div").html("");
+		$("#undelete_div").hide();
+		$("#forms_titelzeile").hide();
+	}, 25000);
 }
 
 // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
