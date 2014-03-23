@@ -11,7 +11,7 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
-$JbuJahr = $_POST["JbuJahr"];
+$JbuJahr = $_POST["jahr"];
 settype($jahr, "integer");
 
 $Querystring = "DELETE FROM tblJBerUebersicht WHERE JbuJahr=".$JbuJahr;

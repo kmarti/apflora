@@ -3963,23 +3963,10 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertErfkrit_2.done(function(data) {
-						var NeuerNode;
-						localStorage.erfkrit_id = data;
-						delete window.erfkrit;
-						NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-							"data": "neues Erfolgskriterium",
-							"attr": {
-								"id": data,
-								"typ": "erfkrit"
-							}
-						});
-						// Parent Node-Beschriftung: Anzahl anpassen
-						beschrifte_ordner_erfkrit(parent_node);
-						// node selecten
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// Formular initiieren
-						initiiere_erfkrit();
+						var strukturtyp = "erfkrit",
+							ds_id = data,
+							beschriftung = "neues Erfolgskriterium";
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertErfkrit_2.fail(function() {
 						melde("Fehler: Kein neues Erfolgskriterium erstellt");
@@ -4069,23 +4056,10 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertJber.done(function(data) {
-						var NeuerNode;
-						localStorage.jber_id = data;
-						delete window.jber;
-						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-							"data": "neuer AP-Bericht",
-							"attr": {
-								"id": data,
-								"typ": "jber"
-							}
-						});
-						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_ordner_jber(aktiver_node);
-						// node selecten
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// Formular initiieren
-						initiiere_jber();
+						var strukturtyp = "jber",
+							ds_id = data,
+							beschriftung = "neuer AP-Bericht";
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertJber.fail(function() {
 						melde("Fehler: Keinen neuen AP-Bericht erstellt");
@@ -4119,23 +4093,10 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertJber_2.done(function(data) {
-						var NeuerNode;
-						localStorage.jber_id = data;
-						delete window.jber;
-						NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-							"data": "Neuer AP-Bericht",
-							"attr": {
-								"id": data,
-								"typ": "jber"
-							}
-						});
-						// Parent Node-Beschriftung: Anzahl anpassen
-						beschrifte_ordner_jber(parent_node);
-						// node selecten
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// Formular initiieren
-						initiiere_jber();
+						var strukturtyp = "jber",
+							ds_id = data,
+							beschriftung = "neuer AP-Bericht";
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertJber_2.fail(function() {
 						melde("Fehler: Keinen neuen AP-Bericht erstellt");
@@ -4223,7 +4184,12 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertJberUebersicht.done(function(data) {
-						var NeuerNode;
+						var strukturtyp = "jber_uebersicht",
+							ds_id = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node),
+							beschriftung = "neue Übersicht zu allen Arten";
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+
+						/*var NeuerNode;
 						localStorage.jber_uebersicht_id = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
 						delete window.jber_uebersicht;
 						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
@@ -4235,7 +4201,7 @@ function treeKontextmenu(node) {
 						});
 						jQuery.jstree._reference(aktiver_node).deselect_all();
 						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						initiiere_jber_uebersicht();
+						initiiere_jber_uebersicht();*/
 					});
 					insertJberUebersicht.fail(function() {
 						melde("Fehler: Keine Übersicht zu allen Arten erstellt");
@@ -11452,7 +11418,7 @@ function insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, str
 		// aktiver Node-Beschriftung: Anzahl anpassen
 		beschrifte_ordner_apzieljahr(aktiver_node);
 		delete localStorage.apziel_von_apzieljahr;
-	} else {
+	} else if (strukturtyp !== "jber_uebersicht") {
 		window["beschrifte_ordner_"+strukturtyp](aktiver_node);
 	}
 	// node selecten
