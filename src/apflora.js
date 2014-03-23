@@ -6678,30 +6678,16 @@ function pop_kopiert_in_pop_einfuegen(aktiver_node, parent_node) {
 		}
 	}
 	// und an die DB schicken
-	console.log("jetzt7");
 	$.ajax({
 		type: 'post',
 		url: 'php/pop_insert_kopie.php',
 		dataType: 'json',
 		data: data,
 		success: function(data) {
-			var NeuerNode;
-			localStorage.pop_id = data;
-			delete window.pop;
-			NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-				"data": window.pop_objekt_kopiert.PopNr + " " + window.pop_objekt_kopiert.PopName,
-				"attr": {
-					"id": data,
-					"typ": "pop"
-				}
-			});
-			// Parent Node-Beschriftung: Anzahl anpassen
-			beschrifte_ordner_pop(parent_node);
-			// node selecten
-			jQuery.jstree._reference(aktiver_node).deselect_all();
-			jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-			// Formular initiieren
-			initiiere_pop();
+			var strukturtyp = "pop",
+				ds_id = data,
+				beschriftung = window.pop_objekt_kopiert.PopNr + " " + window.pop_objekt_kopiert.PopName;
+			insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 		},
 		error: function() {
 			melde("Fehler: Die Population wurde nicht erstellt");
@@ -6737,30 +6723,16 @@ function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 		}
 	}
 	// und an die DB schicken
-	console.log("jetzt8");
 	$.ajax({
 		type: 'post',
 		url: 'php/tpop_insert_kopie.php',
 		dataType: 'json',
 		data: data,
 		success: function(data) {
-			var NeuerNode;
-			localStorage.tpop_id = data;
-			delete window.tpop;
-			NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-				"data": window.tpop_objekt_kopiert.TPopNr + " " + window.tpop_objekt_kopiert.TPopFlurname,
-				"attr": {
-					"id": data,
-					"typ": "tpop"
-				}
-			});
-			// Parent Node-Beschriftung: Anzahl anpassen
-			beschrifte_ordner_tpop(parent_node);
-			// node selecten
-			jQuery.jstree._reference(aktiver_node).deselect_all();
-			jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-			// Formular initiieren
-			initiiere_tpop();
+			var strukturtyp = "tpop",
+				ds_id = data,
+				beschriftung = window.tpop_objekt_kopiert.TPopNr + " " + window.tpop_objekt_kopiert.TPopFlurname;
+			insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 		},
 		error: function() {
 			melde("Fehler: Die Teilpopulation wurde nicht erstellt");
