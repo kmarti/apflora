@@ -5271,23 +5271,10 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertPopMassnBer_2.done(function(data) {
-						var NeuerNode;
-						localStorage.popmassnber_id = data;
-						delete window.popmassnber;
-						NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-							"data": "neuer Massnahmen-Bericht",
-							"attr": {
-								"id": data,
-								"typ": "popmassnber"
-							}
-						});
-						// Parent Node-Beschriftung: Anzahl anpassen
-						beschrifte_ordner_popmassnber(parent_node);
-						// node selecten
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// Formular initiieren
-						initiiere_popmassnber();
+						var strukturtyp = "popmassnber",
+							ds_id = data,
+							beschriftung = "neuer Massnahmen-Bericht";
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertPopMassnBer_2.fail(function() {
 						melde("Fehler: Es wurde kein neuer Massnahmen-Bericht erstellt");
