@@ -3803,23 +3803,10 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertZielber.done(function(data) {
-						var NeuerNode;
-						localStorage.zielber_id = data;
-						delete window.zielber;
-						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-							"data": "neuer Ziel-Bericht",
-							"attr": {
-								"id": data,
-								"typ": "zielber"
-							}
-						});
-						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_ordner_zielber(aktiver_node);
-						// node selecten
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// formular initiieren
-						initiiere_zielber();
+						var strukturtyp = "zielber",
+							ds_id = data,
+							beschriftung = "neuer Ziel-Bericht";
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertZielber.fail(function() {
 						melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
@@ -3853,23 +3840,10 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertZielber_2.done(function(data) {
-						var NeuerNode;
-						localStorage.zielber_id = data;
-						delete window.zielber;
-						NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-							"data": "neuer Ziel-Bericht",
-							"attr": {
-								"id": data,
-								"typ": "zielber"
-							}
-						});
-						// Parent Node-Beschriftung: Anzahl anpassen
-						beschrifte_ordner_zielber(parent_node);
-						// node selecten
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// formular initiieren
-						initiiere_zielber();
+						var strukturtyp = "zielber",
+							ds_id = data,
+							beschriftung = "neuer Ziel-Bericht";
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertZielber_2.fail(function() {
 						melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
@@ -3952,23 +3926,10 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertErfkrit.done(function(data) {
-						var NeuerNode;
-						localStorage.erfkrit_id = data;
-						delete window.erfkrit;
-						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-							"data": "neues Erfolgskriterium",
-							"attr": {
-								"id": data,
-								"typ": "erfkrit"
-							}
-						});
-						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_ordner_erfkrit(aktiver_node);
-						// node selecten
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// Formular initiieren
-						initiiere_erfkrit();
+						var strukturtyp = "erfkrit",
+							ds_id = data,
+							beschriftung = "neues Erfolgskriterium";
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertErfkrit.fail(function() {
 						melde("Fehler: Kein neues Erfolgskriterium erstellt");
