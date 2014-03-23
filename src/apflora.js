@@ -2665,8 +2665,8 @@ function erstelle_tree(ApArtId) {
 				});
 				fuegeTPopEin.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_pop_ordner_tpop(ziel_parent_node);
-					beschrifte_pop_ordner_tpop(window.herkunft_parent_node);
+					beschrifte_ordner_tpop(ziel_parent_node);
+					beschrifte_ordner_tpop(window.herkunft_parent_node);
 					// selection steuern
 					jQuery.jstree._reference(ziel_node).deselect_all();
 					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -2694,8 +2694,8 @@ function erstelle_tree(ApArtId) {
 				});
 				fuegeTPopEin_2.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_pop_ordner_tpop(ziel_node);
-					beschrifte_pop_ordner_tpop(window.herkunft_parent_node);
+					beschrifte_ordner_tpop(ziel_node);
+					beschrifte_ordner_tpop(window.herkunft_parent_node);
 					// select steuern
 					jQuery.jstree._reference(ziel_node).deselect_all();
 					jQuery.jstree._reference(ziel_node).select_node(herkunft_node);
@@ -2724,8 +2724,8 @@ function erstelle_tree(ApArtId) {
 				});
 				fuegeTPopEin_3.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_pop_ordner_tpop(ziel_parent_node);
-					beschrifte_pop_ordner_tpop(window.herkunft_parent_node);
+					beschrifte_ordner_tpop(ziel_parent_node);
+					beschrifte_ordner_tpop(window.herkunft_parent_node);
 					// selection steuern
 					jQuery.jstree._reference(herkunft_node).deselect_all();
 					jQuery.jstree._reference(ziel_parent_node).select_node(herkunft_node);
@@ -2753,8 +2753,8 @@ function erstelle_tree(ApArtId) {
 				});
 				fuegeTPopEin_4.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_pop_ordner_tpop(ziel_node);
-					beschrifte_pop_ordner_tpop(window.herkunft_parent_node);
+					beschrifte_ordner_tpop(ziel_node);
+					beschrifte_ordner_tpop(window.herkunft_parent_node);
 					// selection steuern
 					jQuery.jstree._reference(herkunft_node).deselect_all();
 					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -2784,8 +2784,8 @@ function erstelle_tree(ApArtId) {
 				});
 				fuegeTPopMassnEin.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_tpop_ordner_tpopmassn(ziel_parent_node);
-					beschrifte_tpop_ordner_tpopmassn(window.herkunft_parent_node);
+					beschrifte_ordner_tpopmassn(ziel_parent_node);
+					beschrifte_ordner_tpopmassn(window.herkunft_parent_node);
 					// selection steuern
 					jQuery.jstree._reference(herkunft_node).deselect_all();
 					jQuery.jstree._reference(ziel_parent_node).select_node(herkunft_node);
@@ -2813,8 +2813,8 @@ function erstelle_tree(ApArtId) {
 				});
 				fuegeTPopMassnEin_2.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_tpop_ordner_tpopmassn(ziel_node);
-					beschrifte_tpop_ordner_tpopmassn(window.herkunft_parent_node);
+					beschrifte_ordner_tpopmassn(ziel_node);
+					beschrifte_ordner_tpopmassn(window.herkunft_parent_node);
 					// selection steuern
 					jQuery.jstree._reference(herkunft_node).deselect_all();
 					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -2844,8 +2844,8 @@ function erstelle_tree(ApArtId) {
 				});
 				fuegeTPopFeldkontrEin.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_tpop_ordner_tpopfeldkontr(ziel_parent_node);
-					beschrifte_tpop_ordner_tpopfeldkontr(window.herkunft_parent_node);
+					beschrifte_ordner_tpopfeldkontr(ziel_parent_node);
+					beschrifte_ordner_tpopfeldkontr(window.herkunft_parent_node);
 					// selection steuern
 					jQuery.jstree._reference(herkunft_node).deselect_all();
 					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -2873,8 +2873,8 @@ function erstelle_tree(ApArtId) {
 				});
 				fuegeTPopFeldkontrEin_2.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_tpop_ordner_tpopfeldkontr(ziel_node);
-					beschrifte_tpop_ordner_tpopfeldkontr(window.herkunft_parent_node);
+					beschrifte_ordner_tpopfeldkontr(ziel_node);
+					beschrifte_ordner_tpopfeldkontr(window.herkunft_parent_node);
 					// selection steuern
 					jQuery.jstree._reference(herkunft_node).deselect_all();
 					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -2904,8 +2904,8 @@ function erstelle_tree(ApArtId) {
 				});
 				fuegeTPopFeldkontrEin_3.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_tpop_ordner_tpopfreiwkontr(ziel_parent_node);
-					beschrifte_tpop_ordner_tpopfreiwkontr(window.herkunft_parent_node);
+					beschrifte_ordner_tpopfreiwkontr(ziel_parent_node);
+					beschrifte_ordner_tpopfreiwkontr(window.herkunft_parent_node);
 					// selection steuern
 					jQuery.jstree._reference(herkunft_node).deselect_all();
 					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -2934,8 +2934,8 @@ function erstelle_tree(ApArtId) {
 				});
 				fuegeTPopFeldkontrEin_4.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_tpop_ordner_tpopfreiwkontr(ziel_node);
-					beschrifte_tpop_ordner_tpopfreiwkontr(window.herkunft_parent_node);
+					beschrifte_ordner_tpopfreiwkontr(ziel_node);
+					beschrifte_ordner_tpopfreiwkontr(window.herkunft_parent_node);
 					// selection steuern
 					jQuery.jstree._reference(herkunft_node).deselect_all();
 					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -2970,11 +2970,11 @@ function erstelle_tree(ApArtId) {
 					localStorage.beobtyp = "beob_nicht_beurteilt";
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					if (ziel_node_typ === "beob_nicht_beurteilt") {
-						beschrifte_ap_ordner_beob_nicht_beurteilt(ziel_parent_node);
+						beschrifte_ordner_beob_nicht_beurteilt(ziel_parent_node);
 					} else {
-						beschrifte_ap_ordner_beob_nicht_beurteilt(ziel_node);
+						beschrifte_ordner_beob_nicht_beurteilt(ziel_node);
 					}
-					beschrifte_tpop_ordner_beob_zugeordnet(window.herkunft_parent_node);
+					beschrifte_ordner_beob_zugeordnet(window.herkunft_parent_node);
 					// beob initiieren
 					initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_beurteilt");
 					// Variablen aufräumen
@@ -3007,11 +3007,11 @@ function erstelle_tree(ApArtId) {
 				ordneBeobachtungZu_2.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
-						beschrifte_tpop_ordner_beob_zugeordnet(ziel_node);
+						beschrifte_ordner_beob_zugeordnet(ziel_node);
 					} else {
-						beschrifte_tpop_ordner_beob_zugeordnet(ziel_parent_node);
+						beschrifte_ordner_beob_zugeordnet(ziel_parent_node);
 					}
-					beschrifte_tpop_ordner_beob_zugeordnet(window.herkunft_parent_node);
+					beschrifte_ordner_beob_zugeordnet(window.herkunft_parent_node);
 					// selection steuern
 					if (!localStorage.karte_fokussieren) {
 						initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "zugeordnet");
@@ -3059,11 +3059,11 @@ function erstelle_tree(ApArtId) {
 						localStorage.beobtyp = "beob_nicht_zuzuordnen";
 						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 						if (ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
-							beschrifte_ap_ordner_beob_nicht_zuzuordnen(ziel_node);
+							beschrifte_ordner_beob_nicht_zuzuordnen(ziel_node);
 						} else {
-							beschrifte_ap_ordner_beob_nicht_zuzuordnen(ziel_parent_node);
+							beschrifte_ordner_beob_nicht_zuzuordnen(ziel_parent_node);
 						}
-						beschrifte_tpop_ordner_beob_zugeordnet(window.herkunft_parent_node);
+						beschrifte_ordner_beob_zugeordnet(window.herkunft_parent_node);
 						// Beob initiieren
 						initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_zuzuordnen");
 						// Variablen aufräumen
@@ -3117,11 +3117,11 @@ function erstelle_tree(ApArtId) {
 						herkunft_node.attr("typ", "beob_zugeordnet");
 						localStorage.beobtyp = "beob_zugeordnet";
 						// Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
-						beschrifte_ap_ordner_beob_nicht_beurteilt(window.herkunft_parent_node);
+						beschrifte_ordner_beob_nicht_beurteilt(window.herkunft_parent_node);
 						if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
-							beschrifte_tpop_ordner_beob_zugeordnet(ziel_node);
+							beschrifte_ordner_beob_zugeordnet(ziel_node);
 						} else {
-							beschrifte_tpop_ordner_beob_zugeordnet(ziel_parent_node);
+							beschrifte_ordner_beob_zugeordnet(ziel_parent_node);
 						}
 						// selection steuern
 						if (!localStorage.karte_fokussieren) {
@@ -3170,11 +3170,11 @@ function erstelle_tree(ApArtId) {
 						$(herkunft_node).attr("typ", "beob_nicht_zuzuordnen");
 						localStorage.beobtyp = "beob_nicht_zuzuordnen";
 						// Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
-						beschrifte_ap_ordner_beob_nicht_beurteilt(window.herkunft_parent_node);
+						beschrifte_ordner_beob_nicht_beurteilt(window.herkunft_parent_node);
 						if (ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
-							beschrifte_ap_ordner_beob_nicht_zuzuordnen(ziel_node);
+							beschrifte_ordner_beob_nicht_zuzuordnen(ziel_node);
 						} else {
-							beschrifte_ap_ordner_beob_nicht_zuzuordnen(ziel_parent_node);
+							beschrifte_ordner_beob_nicht_zuzuordnen(ziel_parent_node);
 						}
 						// Beob initiieren
 						initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_zuzuordnen");
@@ -3208,11 +3208,11 @@ function erstelle_tree(ApArtId) {
 					$(herkunft_node).attr("typ", "beob_nicht_beurteilt");
 					localStorage.beobtyp = "beob_nicht_beurteilt";
 					// Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
-					beschrifte_ap_ordner_beob_nicht_zuzuordnen(window.herkunft_parent_node);
+					beschrifte_ordner_beob_nicht_zuzuordnen(window.herkunft_parent_node);
 					if (ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
-						beschrifte_ap_ordner_beob_nicht_beurteilt(ziel_node);
+						beschrifte_ordner_beob_nicht_beurteilt(ziel_node);
 					} else {
-						beschrifte_ap_ordner_beob_nicht_beurteilt(ziel_parent_node);
+						beschrifte_ordner_beob_nicht_beurteilt(ziel_parent_node);
 					}
 					// selektieren
 					initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_beurteilt");
@@ -3260,11 +3260,11 @@ function erstelle_tree(ApArtId) {
 						$(herkunft_node).attr("typ", "beob_zugeordnet");
 						localStorage.beobtyp = "beob_zugeordnet";
 						// Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
-						beschrifte_ap_ordner_beob_nicht_zuzuordnen(window.herkunft_parent_node);
+						beschrifte_ordner_beob_nicht_zuzuordnen(window.herkunft_parent_node);
 						if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
-							beschrifte_tpop_ordner_beob_zugeordnet(ziel_node);
+							beschrifte_ordner_beob_zugeordnet(ziel_node);
 						} else {
-							beschrifte_tpop_ordner_beob_zugeordnet(ziel_parent_node);
+							beschrifte_ordner_beob_zugeordnet(ziel_parent_node);
 						}
 						// selection steuern
 						initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "zugeordnet");
@@ -3310,7 +3310,7 @@ function beschrifte_ordner_apziel(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_apzieljahr(node) {
+function beschrifte_ordner_apzieljahr(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	anzTxt = jQuery.jstree._reference(node).get_text(node).slice(0, 6);
@@ -3347,7 +3347,7 @@ function beschrifte_ordner_jber(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ap_ordner_ber(node) {
+function beschrifte_ordner_ber(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	anzTxt = "Berichte (" + anz + ")";
@@ -3356,7 +3356,7 @@ function beschrifte_ap_ordner_ber(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ap_ordner_assozarten(node) {
+function beschrifte_ordner_assozarten(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	anzTxt = "assoziierte Arten (" + anz + ")";
@@ -3365,16 +3365,7 @@ function beschrifte_ap_ordner_assozarten(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_pop(node) {
-	var anz, anzTxt;
-	anz = $(node).find("> ul > li").length;
-	anzTxt = "Populationen (" + anz + ")";
-	jQuery.jstree._reference(node).rename_node(node, anzTxt);
-}
-
-// übernimmt einen node
-// zählt dessen children und passt die Beschriftung an
-function beschrifte_pop_ordner_tpop(node) {
+function beschrifte_ordner_tpop(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	anzTxt = "Teilpopulationen (" + anz + ")";
@@ -3383,7 +3374,7 @@ function beschrifte_pop_ordner_tpop(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_pop_ordner_popber(node) {
+function beschrifte_ordner_popber(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	anzTxt = "Populations-Berichte (" + anz + ")";
@@ -3392,7 +3383,7 @@ function beschrifte_pop_ordner_popber(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_pop_ordner_massnber(node) {
+function beschrifte_ordner_massnber(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	anzTxt = "Massnahmen-Berichte (" + anz + ")";
@@ -3401,7 +3392,7 @@ function beschrifte_pop_ordner_massnber(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_tpop_ordner_tpopmassn(node) {
+function beschrifte_ordner_tpopmassn(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	anzTxt = "Massnahmen (" + anz + ")";
@@ -3410,16 +3401,7 @@ function beschrifte_tpop_ordner_tpopmassn(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_tpop_ordner_massnber(node) {
-	var anz, anzTxt;
-	anz = $(node).find("> ul > li").length;
-	anzTxt = "Massnahmen-Berichte (" + anz + ")";
-	jQuery.jstree._reference(node).rename_node(node, anzTxt);
-}
-
-// übernimmt einen node
-// zählt dessen children und passt die Beschriftung an
-function beschrifte_tpop_ordner_tpopber(node) {
+function beschrifte_ordner_tpopber(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	anzTxt = "Teilpopulations-Berichte (" + anz + ")";
@@ -3428,7 +3410,7 @@ function beschrifte_tpop_ordner_tpopber(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_tpop_ordner_tpopfeldkontr(node) {
+function beschrifte_ordner_tpopfeldkontr(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	anzTxt = "Feldkontrollen (" + anz + ")";
@@ -3437,7 +3419,7 @@ function beschrifte_tpop_ordner_tpopfeldkontr(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_tpop_ordner_tpopfreiwkontr(node) {
+function beschrifte_ordner_tpopfreiwkontr(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	anzTxt = "Freiwilligen-Kontrollen (" + anz + ")";
@@ -3446,7 +3428,7 @@ function beschrifte_tpop_ordner_tpopfreiwkontr(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_tpop_ordner_beob_zugeordnet(node) {
+function beschrifte_ordner_beob_zugeordnet(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	anzTxt = "Beobachtungen (" + anz + ")";
@@ -3455,7 +3437,7 @@ function beschrifte_tpop_ordner_beob_zugeordnet(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ap_ordner_beob_nicht_beurteilt(node) {
+function beschrifte_ordner_beob_nicht_beurteilt(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	anzTxt = "nicht beurteilte Beobachtungen (" + anz + ")";
@@ -3464,7 +3446,7 @@ function beschrifte_ap_ordner_beob_nicht_beurteilt(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ap_ordner_beob_nicht_zuzuordnen(node) {
+function beschrifte_ordner_beob_nicht_zuzuordnen(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	anzTxt = "nicht zuzuordnende Beobachtungen (" + anz + ")";
@@ -3510,48 +3492,7 @@ function treeKontextmenu(node) {
 						var strukturtyp = "pop", 
 							ds_id = data, 
 							beschriftung = "neue Population";
-						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, strukturtyp, ds_id, beschriftung);
-
-
-						/*var NeuerNode;
-						localStorage.pop_id = data;
-						delete window.pop;
-						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-							"data": "neue Population",
-							"attr": {
-								"id": data,
-								"typ": "pop"
-							}
-						});
-						// jetzt alle Unterordner anlegen
-						jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-							"data": "Teilpopulationen",
-							"attr": {
-								"id": data,
-								"typ": "pop_ordner_tpop"
-							}
-						});
-						jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-							"data": "Populations-Berichte",
-							"attr": {
-								"id": data,
-								"typ": "pop_ordner_popber"
-							}
-						});
-						jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-							"data": "Massnahmen-Berichte",
-							"attr": {
-								"id": data,
-								"typ": "pop_ordner_massnber"
-							}
-						});
-						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_ordner_pop(aktiver_node);
-						// nodes selecten
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// Formular aufbauen
-						initiiere_pop();*/
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertPop.fail(function() {
 						melde("Fehler: Keine neue Population erstellt");
@@ -3679,38 +3620,14 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertApziel.done(function(data) {
-						var NeuerNode;
-						// temporären Unterordner anlegen
-						neue_apziele_node = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-							"data": "neue AP-Ziele",
-							"attr": {
-								"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-								"typ": "apzieljahr"
-							}
-						});
-						localStorage.apziel_id = data;
-						delete window.apziel;
-						NeuerNode = jQuery.jstree._reference(neue_apziele_node).create_node(neue_apziele_node, "last", {
-							"data": "neues Ziel",
-							"attr": {
-								"id": data,
-								"typ": "apziel"
-							}
-						});
-						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_ordner_apziel(aktiver_node);
-						// node selektieren
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// jetzt Unterordner anlegen
-						jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-							"data": "0 Ziel-Berichte",
-							"attr": {
-								"id": data,
-								"typ": "zielber_ordner"
-							}
-						});
-						initiiere_apziel();
+						var strukturtyp = "apziel", 
+							ds_id = data, 
+							beschriftung = "neues Ziel";
+						// mitteilen, dass von ganz oben ein apziel erstellt wird und daher noch ein Zwischenordner erstellt werden muss
+						localStorage.apziel_von_ordner_apziel = true;
+						// zur Sicherheit den anderen Zeiger löschen
+						delete localStorage.apziel_von_apzieljahr;
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertApziel.fail(function() {
 						melde("Fehler: Keine neues AP-Ziel erstellt");
@@ -3751,39 +3668,13 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertApziel_2.done(function(data) {
-						var NeuerNode;
-						localStorage.apziel_id = data;
-						delete window.apziel;
-						delete localStorage.apziel;
-
-						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-							"data": "neues Ziel",
-							"attr": {
-								"id": data,
-								"typ": "apziel"
-							}
-						});
-
-						// Parent Node-Beschriftung: Anzahl anpassen, wenns nicht der neue Ordner ist
-						if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
-							beschrifte_ordner_apziel(parent_node);
-						}
-						// aktiver Node-Beschriftung: Anzahl anpassen
-						beschrifte_apzieljahr(aktiver_node);
-						// node selecten
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						
-						// jetzt Unterordner anlegen
-						jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-							"data": "0 Ziel-Berichte",
-							"attr": {
-								"id": data,
-								"typ": "zielber_ordner"
-							}
-						});
-						
-						// im create_node-Event von jstree wird Jahr eingefügt und gespeichert
+						var strukturtyp = "apziel", 
+							ds_id = data, 
+							beschriftung = "neues Ziel";
+						localStorage.apziel_von_apzieljahr = true;
+						// zur Sicherheit den anderen Zeiger löschen
+						delete localStorage.apziel_von_ordner_apziel;
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertApziel_2.fail(function() {
 						melde("Fehler: Keine neues Ziel erstellt");
@@ -3821,36 +3712,10 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertApziel_3.done(function(data) {
-						var NeuerNode;
-						localStorage.apziel_id = data;
-						delete window.apziel;
-						delete localStorage.apziel;
-						NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-							"data": "neues Ziel",
-							"attr": {
-								"id": data,
-								"typ": "apziel"
-							}
-						});
-						// grandparent Node-Beschriftung: Anzahl anpassen
-						beschrifte_ordner_apziel(grandparent_node);
-						// parent Node-Beschriftung: Anzahl anpassen
-						// nur, wenn es nicht der Ordner ist, der "neue AP-Ziele" heisst
-						if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
-							beschrifte_apzieljahr(parent_node);
-						}
-						// node selecten
-						jQuery.jstree._reference(parent_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// jetzt Unterordner anlegen
-						jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-							"data": "0 Ziel-Berichte",
-							"attr": {
-								"id": data,
-								"typ": "zielber_ordner"
-							}
-						});
-						initiiere_apziel();
+						var strukturtyp = "apziel",
+							ds_id = data,
+							beschriftung = "neues Ziel";
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertApziel_3.fail(function() {
 						melde("Fehler: Kein neues AP-Ziel erstellt");
@@ -3898,7 +3763,7 @@ function treeKontextmenu(node) {
 									beschrifte_ordner_apziel(grandparent_node);
 									// parent Node-Beschriftung: Anzahl anpassen
 									if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
-										beschrifte_apzieljahr(parent_node);
+										beschrifte_ordner_apzieljahr(parent_node);
 									}
 								});
 								deleteApziel.fail(function() {
@@ -4504,7 +4369,7 @@ function treeKontextmenu(node) {
 							}
 						});
 						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_ap_ordner_ber(aktiver_node);
+						beschrifte_ordner_ber(aktiver_node);
 						// node selecten
 						jQuery.jstree._reference(aktiver_node).deselect_all();
 						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -4546,7 +4411,7 @@ function treeKontextmenu(node) {
 							}
 						});
 						// Parent Node-Beschriftung: Anzahl anpassen
-						beschrifte_ap_ordner_ber(parent_node);
+						beschrifte_ordner_ber(parent_node);
 						// node selecten
 						jQuery.jstree._reference(aktiver_node).deselect_all();
 						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -4595,7 +4460,7 @@ function treeKontextmenu(node) {
 									delete window.ber;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_ap_ordner_ber(parent_node);
+									beschrifte_ordner_ber(parent_node);
 								});
 								deleteBer.fail(function() {
 									melde("Fehler: Der Bericht wurde nicht gelöscht");
@@ -4645,7 +4510,7 @@ function treeKontextmenu(node) {
 							}
 						});
 						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_ap_ordner_assozarten(aktiver_node);
+						beschrifte_ordner_assozarten(aktiver_node);
 						// node selecten
 						jQuery.jstree._reference(aktiver_node).deselect_all();
 						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -4695,7 +4560,7 @@ function treeKontextmenu(node) {
 							}
 						});
 						// Parent Node-Beschriftung: Anzahl anpassen
-						beschrifte_ap_ordner_assozarten(parent_node);
+						beschrifte_ordner_assozarten(parent_node);
 						// node selecten
 						jQuery.jstree._reference(aktiver_node).deselect_all();
 						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -4744,7 +4609,7 @@ function treeKontextmenu(node) {
 									delete window.assozarten;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_ap_ordner_assozarten(parent_node);
+									beschrifte_ordner_assozarten(parent_node);
 								});
 								deleteAssozarten.fail(function() {
 									melde("Fehler: Die assoziierte Art wurde nicht gelöscht");
@@ -5041,7 +4906,7 @@ function treeKontextmenu(node) {
 						// jetzt alle Unterordner anlegen
 						erstelleUnterordnerFuerTPop(NeuerNode);
 						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_pop_ordner_tpop(aktiver_node);
+						beschrifte_ordner_tpop(aktiver_node);
 						// node selecten
 						jQuery.jstree._reference(aktiver_node).deselect_all();
 						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -5183,7 +5048,7 @@ function treeKontextmenu(node) {
 						// jetzt alle Unterordner anlegen
 						erstelleUnterordnerFuerTPop(NeuerNode);
 						// Parent Node-Beschriftung: Anzahl anpassen
-						beschrifte_pop_ordner_tpop(parent_node);
+						beschrifte_ordner_tpop(parent_node);
 						// node selecten
 						jQuery.jstree._reference(aktiver_node).deselect_all();
 						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -5236,7 +5101,7 @@ function treeKontextmenu(node) {
 									delete window.tpop;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_pop_ordner_tpop(parent_node);
+									beschrifte_ordner_tpop(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
 									frageObAktionRueckgaengigGemachtWerdenSoll("Teilpopulation '" + window.deleted.TPopFlurname + "' wurde gelöscht.");
 								});
@@ -5468,7 +5333,7 @@ function treeKontextmenu(node) {
 							}
 						});
 						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_pop_ordner_popber(aktiver_node);
+						beschrifte_ordner_popber(aktiver_node);
 						// node selecten
 						jQuery.jstree._reference(aktiver_node).deselect_all();
 						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -5518,7 +5383,7 @@ function treeKontextmenu(node) {
 							}
 						});
 						// Parent Node-Beschriftung: Anzahl anpassen
-						beschrifte_pop_ordner_popber(parent_node);
+						beschrifte_ordner_popber(parent_node);
 						// node selecten
 						jQuery.jstree._reference(aktiver_node).deselect_all();
 						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -5561,7 +5426,7 @@ function treeKontextmenu(node) {
 									delete window.popber;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_pop_ordner_popber(parent_node);
+									beschrifte_ordner_popber(parent_node);
 								});
 								deletePopber.fail(function() {
 									melde("Fehler: Der Populations-Bericht wurde nicht gelöscht");
@@ -5611,7 +5476,7 @@ function treeKontextmenu(node) {
 							}
 						});
 						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_pop_ordner_massnber(aktiver_node);
+						beschrifte_ordner_massnber(aktiver_node);
 						// node selecten
 						jQuery.jstree._reference(aktiver_node).deselect_all();
 						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -5661,7 +5526,7 @@ function treeKontextmenu(node) {
 							}
 						});
 						// Parent Node-Beschriftung: Anzahl anpassen
-						beschrifte_pop_ordner_massnber(parent_node);
+						beschrifte_ordner_massnber(parent_node);
 						// node selecten
 						jQuery.jstree._reference(aktiver_node).deselect_all();
 						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -5704,7 +5569,7 @@ function treeKontextmenu(node) {
 									delete window.popmassnber;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_pop_ordner_massnber(parent_node);
+									beschrifte_ordner_massnber(parent_node);
 								});
 								deletePopMassnBer.fail(function() {
 									melde("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
@@ -5755,7 +5620,7 @@ function treeKontextmenu(node) {
 							}
 						});
 						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_tpop_ordner_tpopfeldkontr(aktiver_node);
+						beschrifte_ordner_tpopfeldkontr(aktiver_node);
 						// node selecten
 						jQuery.jstree._reference(aktiver_node).deselect_all();
 						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -5815,7 +5680,7 @@ function treeKontextmenu(node) {
 							}
 						});
 						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_tpop_ordner_tpopfeldkontr(aktiver_node);
+						beschrifte_ordner_tpopfeldkontr(aktiver_node);
 						// node selecten
 						jQuery.jstree._reference(aktiver_node).deselect_all();
 						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -5890,7 +5755,7 @@ function treeKontextmenu(node) {
 									delete window.tpopfeldkontr;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_tpop_ordner_tpopfeldkontr(parent_node);
+									beschrifte_ordner_tpopfeldkontr(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
 									frageObAktionRueckgaengigGemachtWerdenSoll("Feldkontrolle '" + window.deleted.TPopKontrJahr + ": " + window.deleted.TPopKontrTyp + "' wurde gelöscht.");
 								});
@@ -6116,7 +5981,7 @@ function treeKontextmenu(node) {
 						var strukturtyp = "tpopfreiwkontr",
 							ds_id = data,
 							beschriftung = "neue Freiwilligen-Kontrolle";
-						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertTPopFeldKontr_3.fail(function() {
 						melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
@@ -6163,7 +6028,7 @@ function treeKontextmenu(node) {
 						var strukturtyp = "tpopfreiwkontr",
 							ds_id = data,
 							beschriftung = tpopfreiwkontr_objekt_kopiert.TPopKontrJahr;
-						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertTPopFeldKontrKopie_3.fail(function() {
 						melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
@@ -6234,7 +6099,7 @@ function treeKontextmenu(node) {
 									delete window.tpopfeldkontr;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_tpop_ordner_tpopfreiwkontr(parent_node);
+									beschrifte_ordner_tpopfreiwkontr(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
 									frageObAktionRueckgaengigGemachtWerdenSoll("Freiwilligen-Kontrolle '" + window.deleted.TPopKontrJahr + "' wurde gelöscht.");
 								});
@@ -6366,7 +6231,7 @@ function treeKontextmenu(node) {
 						var strukturtyp = "tpopmassn",
 							ds_id = data,
 							beschriftung = "neue Massnahme";
-						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertTPopMassn.fail(function() {
 						melde("Fehler: Keine neue Massnahme erstellt");
@@ -6412,7 +6277,7 @@ function treeKontextmenu(node) {
 						var strukturtyp = "tpopmassn",
 							ds_id = data,
 							beschriftung = erstelleLabelFuerMassnahme(window.tpopmassn_objekt_kopiert.TPopMassnJahr, window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt);
-						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertTPopMassnKopie.fail(function() {
 						melde("Fehler: Die Massnahme wurde nicht erstellt");
@@ -6482,7 +6347,7 @@ function treeKontextmenu(node) {
 									delete window.tpopmassn;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_tpop_ordner_tpopmassn(parent_node);
+									beschrifte_ordner_tpopmassn(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
 									frageObAktionRueckgaengigGemachtWerdenSoll("Massnahme '" + window.deleted.TPopMassnJahr + ": " + window.deleted.TPopMassnTyp + "' wurde gelöscht.");
 								});
@@ -6597,7 +6462,7 @@ function treeKontextmenu(node) {
 							}
 						});
 						// Parent Node-Beschriftung: Anzahl anpassen
-						beschrifte_tpop_ordner_tpopmassn(parent_node);
+						beschrifte_ordner_tpopmassn(parent_node);
 						// node selecten
 						jQuery.jstree._reference(aktiver_node).deselect_all();
 						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -6638,7 +6503,7 @@ function treeKontextmenu(node) {
 							}
 						});
 						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_tpop_ordner_tpopber(aktiver_node);
+						beschrifte_ordner_tpopber(aktiver_node);
 						// node selecten
 						jQuery.jstree._reference(aktiver_node).deselect_all();
 						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -6717,7 +6582,7 @@ function treeKontextmenu(node) {
 										delete window.tpopber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										// Parent Node-Beschriftung: Anzahl anpassen
-										beschrifte_tpop_ordner_tpopber(parent_node);
+										beschrifte_ordner_tpopber(parent_node);
 									},
 									error: function() {
 										melde("Fehler: Der Teilpopulations-Bericht wurde nicht gelöscht");
@@ -6936,7 +6801,7 @@ function treeKontextmenu(node) {
 								}
 							});
 							// Node-Beschriftung: Anzahl anpassen
-							beschrifte_tpop_ordner_massnber(aktiver_node);
+							beschrifte_ordner_massnber(aktiver_node);
 							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -6986,7 +6851,7 @@ function treeKontextmenu(node) {
 								}
 							});
 							// Parent Node-Beschriftung: Anzahl anpassen
-							beschrifte_tpop_ordner_massnber(parent_node);
+							beschrifte_ordner_massnber(parent_node);
 							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -7029,7 +6894,7 @@ function treeKontextmenu(node) {
 										delete window.tpopmassnber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										// Parent Node-Beschriftung: Anzahl anpassen
-										beschrifte_tpop_ordner_massnber(parent_node);
+										beschrifte_ordner_massnber(parent_node);
 									},
 									error: function() {
 										melde("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
@@ -7395,7 +7260,7 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 				}
 			});
 			// Node-Beschriftung: Anzahl anpassen
-			beschrifte_pop_ordner_tpop(aktiver_node);
+			beschrifte_ordner_tpop(aktiver_node);
 			// node selecten
 			jQuery.jstree._reference(aktiver_node).deselect_all();
 			jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -7515,7 +7380,7 @@ function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 				}
 			});
 			// Parent Node-Beschriftung: Anzahl anpassen
-			beschrifte_pop_ordner_tpop(parent_node);
+			beschrifte_ordner_tpop(parent_node);
 			// node selecten
 			jQuery.jstree._reference(aktiver_node).deselect_all();
 			jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -11528,8 +11393,31 @@ function insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, st
 	if (strukturtyp === "pop") {
 		insertOrdnerVonPop(NeuerNode, ds_id);
 	}
+	if (strukturtyp === "apziel") {
+		jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
+			"data": "0 Ziel-Berichte",
+			"attr": {
+				"id": ds_id,
+				"typ": "zielber_ordner"
+			}
+		});
+	}
+
 	// Parent Node-Beschriftung: Anzahl anpassen
-	window["beschrifte_tpop_ordner_"+strukturtyp](parent_node);
+	if (strukturtyp === "apziel") {
+		var grandparent_node = jQuery.jstree._reference(parent_node)._get_parent(parent_node);
+		// grandparent Node-Beschriftung: Anzahl anpassen
+		beschrifte_ordner_apziel(grandparent_node);
+		// parent Node-Beschriftung: Anzahl anpassen
+		// nur, wenn es nicht der Ordner ist, der "neue AP-Ziele" heisst
+		if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
+			beschrifte_ordner_apzieljahr(parent_node);
+		}
+	} else {
+		// Normalfall
+		window["beschrifte_ordner_"+strukturtyp](parent_node);
+	}
+	
 	// node selecten
 	jQuery.jstree._reference(aktiver_node).deselect_all();
 	jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -11544,26 +11432,68 @@ function insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, st
 	}
 }
 
-function insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, strukturtyp, ds_id, beschriftung) {
+function insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung) {
 	var NeuerNode;
 	// id global verfügbar machen
 	localStorage[strukturtyp + "_id"] = ds_id;
 	// letzte globale Variable entfernen
 	delete window[strukturtyp];
-	// neuen Node bauen
-	NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-		"data": beschriftung,
-		"attr": {
-			"id": ds_id,
-			"typ": strukturtyp
-		}
-	});
+	if (strukturtyp === "apziel" && localStorage.apziel_von_ordner_apziel) {
+		// localStorage.apziel_von_ordner_apziel sagt: apziel wird vom ordner_apziel aus angelegt > temporären Unterordner anlegen
+		var neue_apziele_node = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+			"data": "neue AP-Ziele",
+			"attr": {
+				"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+				"typ": "apzieljahr"
+			}
+		});
+		// darunter neuen Node bauen
+		NeuerNode = jQuery.jstree._reference(neue_apziele_node).create_node(neue_apziele_node, "last", {
+			"data": beschriftung,
+			"attr": {
+				"id": ds_id,
+				"typ": strukturtyp
+			}
+		});
+		delete localStorage.apziel_von_ordner_apziel;
+	} else {
+		// Normalfall
+		// neuen Node bauen
+		NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+			"data": beschriftung,
+			"attr": {
+				"id": ds_id,
+				"typ": strukturtyp
+			}
+		});
+	}
 	// allfällige Unterordner anlegen
 	if (strukturtyp === "pop") {
 		insertOrdnerVonPop(NeuerNode, ds_id);
 	}
+	if (strukturtyp === "apziel") {
+		jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
+			"data": "0 Ziel-Berichte",
+			"attr": {
+				"id": ds_id,
+				"typ": "zielber_ordner"
+			}
+		});
+		// im create_node-Event von jstree wird Jahr eingefügt und gespeichert
+	}
 	// Node-Beschriftung: Anzahl anpassen
-	window["beschrifte_tpop_ordner_"+strukturtyp](aktiver_node);
+	if (strukturtyp === "apziel" && localStorage.apziel_von_apzieljahr) {
+		// hier ist ein Ordner zwischengeschaltet
+		// Parent Node-Beschriftung: Anzahl anpassen, wenns nicht der neue Ordner ist
+		if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
+			beschrifte_ordner_apziel(parent_node);
+		}
+		// aktiver Node-Beschriftung: Anzahl anpassen
+		beschrifte_ordner_apzieljahr(aktiver_node);
+		delete localStorage.apziel_von_apzieljahr;
+	} else {
+		window["beschrifte_ordner_"+strukturtyp](aktiver_node);
+	}
 	// node selecten
 	jQuery.jstree._reference(aktiver_node).deselect_all();
 	jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
