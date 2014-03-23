@@ -6636,29 +6636,13 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 			"TPopId": erstelleIdAusDomAttributId($(window.tpop_node_kopiert).attr("id"))
 		},
 		success: function(data) {
-			var NeuerNode;
-			var node_data = window.tpop_objekt_kopiert.TPopFlurname;
+			var strukturtyp = "tpop",
+				ds_id = data,
+				beschriftung = window.tpop_objekt_kopiert.TPopFlurname;
 			if (window.tpop_objekt_kopiert.TPopNr) {
-				node_data = window.tpop_objekt_kopiert.TPopNr + ': ' + window.tpop_objekt_kopiert.TPopFlurname
+				beschriftung = window.tpop_objekt_kopiert.TPopNr + ': ' + window.tpop_objekt_kopiert.TPopFlurname
 			}
-			localStorage.tpop_id = data;
-			delete window.tpop;
-			NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-				"data": node_data,
-				"attr": {
-					"id": data,
-					"typ": "tpop"
-				}
-			});
-			// Node-Beschriftung: Anzahl anpassen
-			beschrifte_ordner_tpop(aktiver_node);
-			// node selecten
-			jQuery.jstree._reference(aktiver_node).deselect_all();
-			jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-			// Hierarchisch tiefere Nodes aufbauen
-			insertOrdnerVonTPop(NeuerNode, data);
-			// Formular initiieren
-			initiiere_tpop();
+			insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, "", strukturtyp, ds_id, beschriftung);
 		},
 		error: function() {
 			melde("Fehler: Die Teilpopulation wurde nicht erstellt");
@@ -10723,6 +10707,8 @@ function frageObAktionRueckgaengigGemachtWerdenSoll(wasIstPassiert) {
 	}, 25000);
 }
 
+
+// Baut einen neuen Knoten auf derselben Hierarchiestufe, von welcher der Befehl aufgerufen wurde
 function insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung) {
 	var NeuerNode;
 	// id global verfügbar machen
@@ -10783,6 +10769,8 @@ function insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, st
 	}
 }
 
+// Baut einen neuen Knoten auf der näcshttieferen Hierarchiestufe, als der Befehl aufgerufen wurde
+// parent_node wird nur von Strukturtyp apziel benutzt
 function insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung) {
 	var NeuerNode;
 	// id global verfügbar machen
