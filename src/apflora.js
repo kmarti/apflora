@@ -3383,7 +3383,7 @@ function beschrifte_ordner_popber(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ordner_massnber(node) {
+function beschrifte_ordner_popmassnber(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
 	anzTxt = "Massnahmen-Berichte (" + anz + ")";
@@ -4188,20 +4188,6 @@ function treeKontextmenu(node) {
 							ds_id = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node),
 							beschriftung = "neue Übersicht zu allen Arten";
 						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
-
-						/*var NeuerNode;
-						localStorage.jber_uebersicht_id = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
-						delete window.jber_uebersicht;
-						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-							"data": "neue Übersicht zu allen Arten",
-							"attr": {
-								"id": jQuery.jstree._reference(aktiver_node).get_text(aktiver_node),
-								"typ": "jber_uebersicht"
-							}
-						});
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						initiiere_jber_uebersicht();*/
 					});
 					insertJberUebersicht.fail(function() {
 						melde("Fehler: Keine Übersicht zu allen Arten erstellt");
@@ -4285,23 +4271,10 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertBer.done(function(data) {
-						var NeuerNode;
-						localStorage.ber_id = data;
-						delete window.ber;
-						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-							"data": "neuer Bericht",
-							"attr": {
-								"id": data,
-								"typ": "ber"
-							}
-						});
-						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_ordner_ber(aktiver_node);
-						// node selecten
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// Formular initiieren
-						initiiere_ber();
+						var strukturtyp = "ber",
+							ds_id = data,
+							beschriftung = "neuer Bericht";
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertBer.fail(function() {
 						melde("Fehler: Keinen neuen Bericht erstellt");
@@ -4327,23 +4300,10 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertBer_2.done(function(data) {
-						var NeuerNode;
-						localStorage.ber_id = data;
-						delete window.ber;
-						NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-							"data": "Neuer Bericht",
-							"attr": {
-								"id": data,
-								"typ": "ber"
-							}
-						});
-						// Parent Node-Beschriftung: Anzahl anpassen
-						beschrifte_ordner_ber(parent_node);
-						// node selecten
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// Formular initiieren
-						initiiere_ber();
+						var strukturtyp = "ber",
+							ds_id = data,
+							beschriftung = "neuer Bericht";
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertBer_2.fail(function() {
 						melde("Fehler: Keinen neuen Bericht erstellt");
@@ -4426,23 +4386,10 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertAssozarten.done(function(data) {
-						var NeuerNode;
-						localStorage.assozarten_id = data;
-						delete window.assozarten;
-						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-							"data": "neue assoziierte Art",
-							"attr": {
-								"id": data,
-								"typ": "assozarten"
-							}
-						});
-						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_ordner_assozarten(aktiver_node);
-						// node selecten
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// Formular initiieren
-						initiiere_assozarten();
+						var strukturtyp = "assozarten",
+							ds_id = data,
+							beschriftung = "neue assoziierte Art";
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertAssozarten.fail(function() {
 						melde("Fehler: keine assoziierte Art erstellt");
@@ -4476,23 +4423,10 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertAssozarten_2.done(function(data) {
-						var NeuerNode;
-						localStorage.assozarten_id = data;
-						delete window.assozarten;
-						NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-							"data": "neue assoziierte Art",
-							"attr": {
-								"id": data,
-								"typ": "assozarten"
-							}
-						});
-						// Parent Node-Beschriftung: Anzahl anpassen
-						beschrifte_ordner_assozarten(parent_node);
-						// node selecten
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// Formular initiieren
-						initiiere_assozarten();
+						var strukturtyp = "assozarten",
+							ds_id = data,
+							beschriftung = "neue assoziierte Art";
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertAssozarten_2.fail(function() {
 						melde("Fehler: Keine assoziierte Art erstellt");
@@ -4576,46 +4510,10 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertPop_2.done(function(data) {
-						var NeuerNode;
-						localStorage.pop_id = data;
-						delete window.pop;
-						delete localStorage.pop;
-						NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-							"data": "neue Population",
-							"attr": {
-								"id": data,
-								"typ": "pop"
-							}
-						});
-						// jetzt alle Unterordner anlegen
-						jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-							"data": "Teilpopulationen",
-							"attr": {
-								"id": data,
-								"typ": "pop_ordner_tpop"
-							}
-						});
-						jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-							"data": "Populations-Berichte",
-							"attr": {
-								"id": data,
-								"typ": "pop_ordner_popber"
-							}
-						});
-						jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-							"data": "Massnahmen-Berichte",
-							"attr": {
-								"id": data,
-								"typ": "pop_ordner_massnber"
-							}
-						});
-						// Parent Node-Beschriftung: Anzahl anpassen
-						beschrifte_ordner_pop(parent_node);
-						// node selecten
-						jQuery.jstree._reference(parent_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// Formular initiieren
-						initiiere_pop();
+						var strukturtyp = "pop",
+							ds_id = data,
+							beschriftung = "neue Population";
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertPop_2.fail(function() {
 						melde("Fehler: Keine neue Population erstellt");
@@ -4820,25 +4718,10 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertTPop.done(function(data) {
-						var NeuerNode;
-						localStorage.tpop_id = data;
-						delete window.tpop;
-						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-							"data": "neue Teilpopulation",
-							"attr": {
-								"id": data,
-								"typ": "tpop"
-							}
-						});
-						// jetzt alle Unterordner anlegen
-						erstelleUnterordnerFuerTPop(NeuerNode);
-						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_ordner_tpop(aktiver_node);
-						// node selecten
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// Formular initiieren
-						initiiere_tpop();
+						var strukturtyp = "tpop",
+							ds_id = data,
+							beschriftung = "neue Teilpopulation";
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertTPop.fail(function() {
 						melde("Fehler: Keine neue Teilpopulation erstellt");
@@ -4962,25 +4845,10 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertTPop_2.done(function(data) {
-						var NeuerNode;
-						localStorage.tpop_id = data;
-						delete window.tpop;
-						NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-							"data": "neue Teilpopulation",
-							"attr": {
-								"id": data,
-								"typ": "tpop"
-							}
-						});
-						// jetzt alle Unterordner anlegen
-						erstelleUnterordnerFuerTPop(NeuerNode);
-						// Parent Node-Beschriftung: Anzahl anpassen
-						beschrifte_ordner_tpop(parent_node);
-						// node selecten
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// Formular initiieren
-						initiiere_tpop();
+						var strukturtyp = "tpop",
+							ds_id = data,
+							beschriftung = "neue Teilpopulation";
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertTPop_2.fail(function() {
 						melde("Fehler: Keine neue Teilpopulation erstellt");
@@ -5249,23 +5117,10 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertPopber.done(function(data) {
-						var NeuerNode;
-						localStorage.popber_id = data;
-						delete window.popber;
-						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-							"data": "neuer Populations-Bericht",
-							"attr": {
-								"id": localStorage.popber_id,
-								"typ": "popber"
-							}
-						});
-						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_ordner_popber(aktiver_node);
-						// node selecten
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// Formular initiieren
-						initiiere_popber();
+						var strukturtyp = "popber",
+							ds_id = data,
+							beschriftung = "neuer Populations-Bericht";
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertPopber.fail(function() {
 						melde("Fehler: Keinen neuen Populations-Bericht erstellt");
@@ -5299,23 +5154,10 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertPopber_2.done(function(data) {
-						var NeuerNode
-						localStorage.popber_id = data;
-						delete window.popber;
-						NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-							"data": "neuer Populations-Bericht",
-							"attr": {
-								"id": data,
-								"typ": "popber"
-							}
-						});
-						// Parent Node-Beschriftung: Anzahl anpassen
-						beschrifte_ordner_popber(parent_node);
-						// node selecten
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// Formular initiieren
-						initiiere_popber();
+						var strukturtyp = "popber",
+							ds_id = data,
+							beschriftung = "neuer Populations-Bericht";
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertPopber_2.fail(function() {
 						melde("Fehler: Keinen neuen Populations-Bericht erstellt");
@@ -5392,23 +5234,10 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertPopMassnBer.done(function(data) {
-						var NeuerNode;
-						localStorage.popmassnber_id = data;
-						delete window.popmassnber;
-						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-							"data": "neuer Massnahmen-Bericht",
-							"attr": {
-								"id": localStorage.popmassnber_id,
-								"typ": "popmassnber"
-							}
-						});
-						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_ordner_massnber(aktiver_node);
-						// node selecten
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// Formular initiieren
-						initiiere_popmassnber();
+						var strukturtyp = "popmassnber",
+							ds_id = data,
+							beschriftung = "neuer Massnahmen-Bericht";
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertPopMassnBer.fail(function() {
 						melde("Fehler: Es wurde kein neuer Massnahmen-Bericht erstellt");
@@ -5453,7 +5282,7 @@ function treeKontextmenu(node) {
 							}
 						});
 						// Parent Node-Beschriftung: Anzahl anpassen
-						beschrifte_ordner_massnber(parent_node);
+						beschrifte_ordner_popmassnber(parent_node);
 						// node selecten
 						jQuery.jstree._reference(aktiver_node).deselect_all();
 						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -5496,7 +5325,7 @@ function treeKontextmenu(node) {
 									delete window.popmassnber;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_ordner_massnber(parent_node);
+									beschrifte_ordner_popmassnber(parent_node);
 								});
 								deletePopMassnBer.fail(function() {
 									melde("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
@@ -6728,7 +6557,7 @@ function treeKontextmenu(node) {
 								}
 							});
 							// Node-Beschriftung: Anzahl anpassen
-							beschrifte_ordner_massnber(aktiver_node);
+							beschrifte_ordner_popmassnber(aktiver_node);
 							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -6778,7 +6607,7 @@ function treeKontextmenu(node) {
 								}
 							});
 							// Parent Node-Beschriftung: Anzahl anpassen
-							beschrifte_ordner_massnber(parent_node);
+							beschrifte_ordner_popmassnber(parent_node);
 							// node selecten
 							jQuery.jstree._reference(aktiver_node).deselect_all();
 							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
@@ -6821,7 +6650,7 @@ function treeKontextmenu(node) {
 										delete window.tpopmassnber;
 										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 										// Parent Node-Beschriftung: Anzahl anpassen
-										beschrifte_ordner_massnber(parent_node);
+										beschrifte_ordner_popmassnber(parent_node);
 									},
 									error: function() {
 										melde("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
@@ -7192,7 +7021,7 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 			jQuery.jstree._reference(aktiver_node).deselect_all();
 			jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
 			// Hierarchisch tiefere Nodes aufbauen
-			erstelleUnterordnerFuerTPop(NeuerNode);
+			insertOrdnerVonTPop(NeuerNode, data);
 			// Formular initiieren
 			initiiere_tpop();
 		},
@@ -11150,51 +10979,6 @@ function erstelleLabelFuerMassnahme(jahr, beurteilung) {
 	return jahr + ": " + beurteilung;
 }
 
-function erstelleUnterordnerFuerTPop(TPopNode) {
-	jQuery.jstree._reference(TPopNode).create_node(TPopNode, "last", {
-		"data": "Massnahmen",
-		"attr": {
-			"id": localStorage.tpop_id,
-			"typ": "tpop_ordner_massn"
-		}
-	});
-	jQuery.jstree._reference(TPopNode).create_node(TPopNode, "last", {
-		"data": "Massnahmen-Berichte",
-		"attr": {
-			"id": localStorage.tpop_id,
-			"typ": "tpop_ordner_massnber"
-		}
-	});
-	jQuery.jstree._reference(TPopNode).create_node(TPopNode, "last", {
-		"data": "Feldkontrollen",
-		"attr": {
-			"id": localStorage.tpop_id,
-			"typ": "tpop_ordner_feldkontr"
-		}
-	});
-	jQuery.jstree._reference(TPopNode).create_node(TPopNode, "last", {
-		"data": "Freiwilligen-Kontrollen",
-		"attr": {
-			"id": localStorage.tpop_id,
-			"typ": "tpop_ordner_freiwkontr"
-		}
-	});
-	jQuery.jstree._reference(TPopNode).create_node(TPopNode, "last", {
-		"data": "Teilpopulations-Berichte",
-		"attr": {
-			"id": localStorage.tpop_id,
-			"typ": "tpop_ordner_tpopber"
-		}
-	});
-	jQuery.jstree._reference(TPopNode).create_node(TPopNode, "last", {
-		"data": "Beobachtungen",
-		"attr": {
-			"id": localStorage.tpop_id,
-			"typ": "tpop_ordner_beob_zugeordnet"
-		}
-	});
-}
-
 // gibt HTML zurück, mit dem die Informationen über eine Beobachtung dargestellt werden
 // erwartet die Daten der Beobachtung
 function erstelleFelderFuerBeob(data, beobtyp) {
@@ -11320,6 +11104,9 @@ function insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, st
 	if (strukturtyp === "pop") {
 		insertOrdnerVonPop(NeuerNode, ds_id);
 	}
+	if (strukturtyp === "tpop") {
+		insertOrdnerVonTPop(NeuerNode, ds_id);
+	}
 	if (strukturtyp === "apziel") {
 		jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
 			"data": "0 Ziel-Berichte",
@@ -11398,6 +11185,9 @@ function insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, str
 	if (strukturtyp === "pop") {
 		insertOrdnerVonPop(NeuerNode, ds_id);
 	}
+	if (strukturtyp === "tpop") {
+		insertOrdnerVonTPop(NeuerNode, ds_id);
+	}
 	if (strukturtyp === "apziel") {
 		jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
 			"data": "0 Ziel-Berichte",
@@ -11457,6 +11247,53 @@ function insertOrdnerVonPop(pop_node, pop_id) {
 		"attr": {
 			"id": pop_id,
 			"typ": "pop_ordner_massnber"
+		}
+	});
+}
+
+// erstellt alle Unterordner des Ordners vom Typ tpop
+// erwartet den node des tpop-ordners
+function insertOrdnerVonTPop(TPopNode, tpop_id) {
+	jQuery.jstree._reference(TPopNode).create_node(TPopNode, "last", {
+		"data": "Massnahmen",
+		"attr": {
+			"id": tpop_id,
+			"typ": "tpop_ordner_massn"
+		}
+	});
+	jQuery.jstree._reference(TPopNode).create_node(TPopNode, "last", {
+		"data": "Massnahmen-Berichte",
+		"attr": {
+			"id": tpop_id,
+			"typ": "tpop_ordner_massnber"
+		}
+	});
+	jQuery.jstree._reference(TPopNode).create_node(TPopNode, "last", {
+		"data": "Feldkontrollen",
+		"attr": {
+			"id": tpop_id,
+			"typ": "tpop_ordner_feldkontr"
+		}
+	});
+	jQuery.jstree._reference(TPopNode).create_node(TPopNode, "last", {
+		"data": "Freiwilligen-Kontrollen",
+		"attr": {
+			"id": tpop_id,
+			"typ": "tpop_ordner_freiwkontr"
+		}
+	});
+	jQuery.jstree._reference(TPopNode).create_node(TPopNode, "last", {
+		"data": "Teilpopulations-Berichte",
+		"attr": {
+			"id": tpop_id,
+			"typ": "tpop_ordner_tpopber"
+		}
+	});
+	jQuery.jstree._reference(TPopNode).create_node(TPopNode, "last", {
+		"data": "Beobachtungen",
+		"attr": {
+			"id": tpop_id,
+			"typ": "tpop_ordner_beob_zugeordnet"
 		}
 	});
 }
