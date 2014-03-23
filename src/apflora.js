@@ -3397,6 +3397,15 @@ function beschrifte_ordner_popmassnber(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
+function beschrifte_ordner_tpopmassnber(node) {
+	var anz, anzTxt;
+	anz = $(node).find("> ul > li").length;
+	anzTxt = "Massnahmen-Berichte (" + anz + ")";
+	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+}
+
+// übernimmt einen node
+// zählt dessen children und passt die Beschriftung an
 function beschrifte_ordner_tpopmassn(node) {
 	var anz, anzTxt;
 	anz = $(node).find("> ul > li").length;
@@ -5228,23 +5237,10 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertTPopFeldKontrKopie.done(function(data) {
-						var NeuerNode;
-						localStorage.tpopfeldkontr_id = data;
-						delete window.tpopfeldkontr;
-						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-							"data": erstelleLabelFuerFeldkontrolle(window.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.tpopfeldkontr_objekt_kopiert.TPopKontrTyp),
-							"attr": {
-								"id": data,
-								"typ": "tpopfeldkontr"
-							}
-						});
-						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_ordner_tpopfeldkontr(aktiver_node);
-						// node selecten
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// Formular initiieren
-						initiiere_tpopfeldkontr();
+						var strukturtyp = "tpopfeldkontr",
+							ds_id = data,
+							beschriftung = erstelleLabelFuerFeldkontrolle(window.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.tpopfeldkontr_objekt_kopiert.TPopKontrTyp);
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertTPopFeldKontrKopie.fail(function() {
 						melde("Fehler: Die Feldkontrolle wurde nicht erstellt");
@@ -5970,23 +5966,10 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertTPopMassnKopie_2.done(function(data) {
-						var NeuerNode;
-						localStorage.tpopmassn_id = data;
-						delete window.tpopmassn;
-						NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-							"data": erstelleLabelFuerMassnahme(window.tpopmassn_objekt_kopiert.TPopMassnJahr, window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt),
-							"attr": {
-								"id": data,
-								"typ": "tpopmassn"
-							}
-						});
-						// Parent Node-Beschriftung: Anzahl anpassen
-						beschrifte_ordner_tpopmassn(parent_node);
-						// node selecten
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// Formular initiieren
-						initiiere_tpopmassn();
+						var strukturtyp = "tpopmassn",
+							ds_id = data,
+							beschriftung = erstelleLabelFuerMassnahme(window.tpopmassn_objekt_kopiert.TPopMassnJahr, window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt);
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertTPopMassnKopie_2.fail(function() {
 						melde("Fehler: Die Massnahme wurde nicht erstellt");
@@ -6011,23 +5994,10 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertTPopBer.done(function(data) {
-						var NeuerNode;
-						localStorage.tpopber_id = data;
-						delete window.tpopber;
-						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-							"data": "neuer Teilpopulations-Bericht",
-							"attr": {
-								"id": localStorage.tpopber_id,
-								"typ": "tpopber"
-							}
-						});
-						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_ordner_tpopber(aktiver_node);
-						// node selecten
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// Formular initiieren
-						initiiere_tpopber();
+						var strukturtyp = "tpopber",
+							ds_id = data,
+							beschriftung = "neuer Teilpopulations-Bericht";
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertTPopBer.fail(function() {
 						melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
@@ -6053,8 +6023,8 @@ function treeKontextmenu(node) {
 						},
 						success: function(data) {
 							var strukturtyp = "tpopber",
-							ds_id = data,
-							beschriftung = "neuer Teilpopulations-Bericht";
+								ds_id = data,
+								beschriftung = "neuer Teilpopulations-Bericht";
 						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 						},
 						error: function() {
@@ -6285,23 +6255,10 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function(data) {
-							var NeuerNode;
-							localStorage.tpopmassnber_id = data;
-							delete window.tpopmassnber;
-							NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-								"data": "neuer Massnahmen-Bericht",
-								"attr": {
-									"id": localStorage.tpopmassnber_id,
-									"typ": "tpopmassnber"
-								}
-							});
-							// Node-Beschriftung: Anzahl anpassen
-							beschrifte_ordner_popmassnber(aktiver_node);
-							// node selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// Formular initiieren
-							initiiere_tpopmassnber();
+							var strukturtyp = "tpopmassnber",
+								ds_id = data,
+								beschriftung = "neuer Massnahmen-Bericht";
+							insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 						},
 						error: function() {
 							melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
@@ -6327,23 +6284,10 @@ function treeKontextmenu(node) {
 							"user": sessionStorage.User
 						},
 						success: function(data) {
-							var NeuerNode;
-							localStorage.tpopmassnber_id = data;
-							delete window.tpopmassnber;
-							NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
-								"data": "neuer Massnahmen-Bericht",
-								"attr": {
-									"id": data,
-									"typ": "tpopmassnber"
-								}
-							});
-							// Parent Node-Beschriftung: Anzahl anpassen
-							beschrifte_ordner_popmassnber(parent_node);
-							// node selecten
-							jQuery.jstree._reference(aktiver_node).deselect_all();
-							jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-							// Formular initiieren
-							initiiere_tpopmassnber();
+							var strukturtyp = "tpopmassnber",
+								ds_id = data,
+								beschriftung = "neuer Massnahmen-Bericht";
+							insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 						},
 						error: function() {
 							melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
