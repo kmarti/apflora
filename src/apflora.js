@@ -1775,6 +1775,7 @@ function zeigeFormular(Formularname) {
 	if (Formularname) {
 		$("#forms").show();
 		$("#ap_loeschen").show();
+		$("#exportieren_1").hide();
 		if (Formularname === "google_karte" || Formularname === "GeoAdminKarte") {
 			// Titelzeile entfernen
 			$("#forms_titelzeile").css("display", "none");
@@ -1908,8 +1909,10 @@ function waehle_ap_liste(programm) {
 	$("#forms").hide();
 	$('#tree').hide();
 	$("#suchen").hide();
+	$("#exportieren_2").hide();
 	$("#hilfe").hide();
 	$("#ap_loeschen").hide();
+	$("#exportieren_1").show();
 	$("#ap_waehlen").val("");
 	initiiere_ap();
 	$.when(erstelle_ap_liste(programm))
@@ -2321,6 +2324,8 @@ function erstelle_tree(ApArtId) {
 		jstree_erstellt.resolve();
 		setzeTreehoehe();
 		$("#suchen").show();
+		$("#exportieren_2").show();
+		$("#exportieren_1").hide();
 		$("#hilfe").show();
 		if (window.pop_zeigen) {
 			jQuery("#tree").jstree("select_node", "[typ='pop']#" + localStorage.pop_id);
@@ -3548,14 +3553,6 @@ function treeKontextmenu(node) {
 						melde("Fehler: Keine Daten erhalten");
 					});
 				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
-				}
 			}
 		}
 		if (window.pop_zum_verschieben_gemerkt) {
@@ -3633,14 +3630,6 @@ function treeKontextmenu(node) {
 						melde("Fehler: Keine neues AP-Ziel erstellt");
 					});
 				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
-				}
 			}
 		};
 		return items;
@@ -3679,14 +3668,6 @@ function treeKontextmenu(node) {
 					insertApziel_2.fail(function() {
 						melde("Fehler: Keine neues Ziel erstellt");
 					});
-				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
 				}
 			}
 		};
@@ -3776,14 +3757,6 @@ function treeKontextmenu(node) {
 						}
 					});
 				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
-				}
 			}
 		};
 		return items;
@@ -3811,14 +3784,6 @@ function treeKontextmenu(node) {
 					insertZielber.fail(function() {
 						melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
 					});
-				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
 				}
 			}
 		};
@@ -3899,14 +3864,6 @@ function treeKontextmenu(node) {
 						}
 					});			
 				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
-				}
 			}
 		};
 		return items;
@@ -3934,14 +3891,6 @@ function treeKontextmenu(node) {
 					insertErfkrit.fail(function() {
 						melde("Fehler: Kein neues Erfolgskriterium erstellt");
 					});
-				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
 				}
 			}
 		};
@@ -4022,14 +3971,6 @@ function treeKontextmenu(node) {
 						}
 					});			
 				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
-				}
 			}
 		};
 		return items;
@@ -4064,14 +4005,6 @@ function treeKontextmenu(node) {
 					insertJber.fail(function() {
 						melde("Fehler: Keinen neuen AP-Bericht erstellt");
 					});
-				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
 				}
 			}
 		};
@@ -4157,14 +4090,6 @@ function treeKontextmenu(node) {
 						}
 					});
 				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
-				}
 			}
 		};
 		// Wenn noch keine existiert, kann einen neue Übersicht zu allen Arten erstellt werden
@@ -4243,14 +4168,6 @@ function treeKontextmenu(node) {
 							}
 						}
 					});			
-				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
 				}
 			}
 		};
@@ -4359,14 +4276,6 @@ function treeKontextmenu(node) {
 						}
 					});			
 				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
-				}
 			}
 		};
 		return items;
@@ -4394,14 +4303,6 @@ function treeKontextmenu(node) {
 					insertAssozarten.fail(function() {
 						melde("Fehler: keine assoziierte Art erstellt");
 					});
-				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
 				}
 			}
 		};
@@ -4481,14 +4382,6 @@ function treeKontextmenu(node) {
 							}
 						}
 					});			
-				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
 				}
 			}
 		};
@@ -4623,14 +4516,6 @@ function treeKontextmenu(node) {
 					getPopKarte.fail(function() {
 						melde("Fehler: Keine Teilpopulationen erhalten");
 					});
-				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
 				}
 			}
 		};
@@ -4776,14 +4661,6 @@ function treeKontextmenu(node) {
 					getPopKarte_2.fail(function() {
 						melde("Fehler: Keine Teilpopulationen erhalten");
 					});
-				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
 				}
 			}
 		};
@@ -5010,14 +4887,6 @@ function treeKontextmenu(node) {
 				"action": function() {
 					zeigeBeobKoordinatenImGisBrowser();
 				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
-				}
 			}
 		}
 		if (!window.tpop_node_ausgeschnitten) {
@@ -5126,14 +4995,6 @@ function treeKontextmenu(node) {
 						melde("Fehler: Keinen neuen Populations-Bericht erstellt");
 					});
 				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
-				}
 			}
 		};
 		return items;
@@ -5207,14 +5068,6 @@ function treeKontextmenu(node) {
 						}
 					});
 				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
-				}
 			}
 		};
 		return items;
@@ -5242,14 +5095,6 @@ function treeKontextmenu(node) {
 					insertPopMassnBer.fail(function() {
 						melde("Fehler: Es wurde kein neuer Massnahmen-Bericht erstellt");
 					});
-				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
 				}
 			}
 		};
@@ -5324,14 +5169,6 @@ function treeKontextmenu(node) {
 						}
 					});
 				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
-				}
 			}
 		};
 		return items;
@@ -5352,35 +5189,14 @@ function treeKontextmenu(node) {
 						}
 					});
 					insertTPopFeldKontr.done(function(data) {
-						var NeuerNode;
-						localStorage.tpopfeldkontr_id = data;
-						delete window.tpopfeldkontr;
-						NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-							"data": "neue Feldkontrolle",
-							"attr": {
-								"id": data,
-								"typ": "tpopfeldkontr"
-							}
-						});
-						// Node-Beschriftung: Anzahl anpassen
-						beschrifte_ordner_tpopfeldkontr(aktiver_node);
-						// node selecten
-						jQuery.jstree._reference(aktiver_node).deselect_all();
-						jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
-						// Formular initiieren
-						initiiere_tpopfeldkontr();
+						var strukturtyp = "tpopfeldkontr",
+							ds_id = data,
+							beschriftung = "neue Feldkontrolle";
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertTPopFeldKontr.fail(function() {
 						melde("Fehler: Keine neue Feldkontrolle erstellt");
 					});
-				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
 				}
 			}
 		};
@@ -5465,7 +5281,7 @@ function treeKontextmenu(node) {
 				}
 			},
 			"loeschen": {
-				"label": "Feldkontrolle löschen",
+				"label": "löschen",
 				"separator_before": true,
 				"icon": "style/images/loeschen.png",
 				"action": function() {
@@ -5511,14 +5327,6 @@ function treeKontextmenu(node) {
 							}
 						}
 					});
-				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
 				}
 			},
 			"biotop_kopieren": {
@@ -5619,7 +5427,7 @@ function treeKontextmenu(node) {
 		if (!window.tpopfeldkontr_node_ausgeschnitten) {
 			items.ausschneiden = {
 				//"label": "Feldkontrolle ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
-				"label": "Feldkontrolle ausschneiden",
+				"label": "ausschneiden",
 				"separator_before": true,
 				"icon": "style/images/ausschneiden.png",
 				"action": function() {
@@ -5637,7 +5445,7 @@ function treeKontextmenu(node) {
 		}
 		if (!window.tpopfeldkontr_node_ausgeschnitten) {
 			items.kopieren = {
-				"label": "Feldkontrolle kopieren",
+				"label": "kopieren",
 				"separator_before": true,
 				"icon": "style/images/kopieren.png",
 				"action": function() {
@@ -5729,14 +5537,6 @@ function treeKontextmenu(node) {
 					insertTPopFeldKontr_3.fail(function() {
 						melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
 					});
-				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
 				}
 			}
 		};
@@ -5856,14 +5656,6 @@ function treeKontextmenu(node) {
 						}
 					});
 				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
-				}
 			}
 		};
 		if (!window.tpopfreiwkontr_node_ausgeschnitten) {
@@ -5980,14 +5772,6 @@ function treeKontextmenu(node) {
 						melde("Fehler: Keine neue Massnahme erstellt");
 					});
 				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
-				}
 			}
 		};
 		if (window.tpopmassn_node_ausgeschnitten) {
@@ -6103,14 +5887,6 @@ function treeKontextmenu(node) {
 							}
 						}
 					});
-				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
 				}
 			}
 		};
@@ -6257,14 +6033,6 @@ function treeKontextmenu(node) {
 						melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
 					});
 				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
-				}
 			}
 		};
 		return items;
@@ -6337,14 +6105,6 @@ function treeKontextmenu(node) {
 							}
 						}
 					});
-				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
 				}
 			}
 		};
@@ -6472,14 +6232,6 @@ function treeKontextmenu(node) {
 				"action": function() {
 					zeigeBeobKoordinatenImGisBrowser();
 				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
-				}
 			}
 		};
 		if (!window.beob_zugeordnet_node_ausgeschnitten) {
@@ -6555,14 +6307,6 @@ function treeKontextmenu(node) {
 							melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
 						}
 					});
-				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
 				}
 			}
 		};
@@ -6650,14 +6394,6 @@ function treeKontextmenu(node) {
 						}
 					});
 				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
-				}
 			}
 		};
 		return items;
@@ -6725,14 +6461,6 @@ function treeKontextmenu(node) {
 							melde("Fehler: Keine Daten erhalten");
 						}
 					});
-				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
 				}
 			}
 		}
@@ -6820,14 +6548,6 @@ function treeKontextmenu(node) {
 				"action": function() {
 					zeigeBeobKoordinatenImGisBrowser();
 				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
-				}
 			}
 		}
 		if (!window.beob_node_ausgeschnitten) {
@@ -6883,14 +6603,6 @@ function treeKontextmenu(node) {
 						}
 					});
 				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
-				}
 			}
 		}
 		if (window.beob_zugeordnet_node_ausgeschnitten) {
@@ -6937,14 +6649,6 @@ function treeKontextmenu(node) {
 				"icon": "style/images/wappen_zuerich.png",
 				"action": function() {
 					zeigeBeobKoordinatenImGisBrowser();
-				}
-			},
-			"Exporte": {
-				"label": "exportieren",
-				"separator_before": true,
-				"icon": "style/images/download.png",
-				"action": function() {
-					initiiere_exporte();
 				}
 			}
 		}
@@ -10845,8 +10549,10 @@ function waehleAp(ap_id) {
 		$("#ap_waehlen_label").html("Artförderprogramm wählen:").show();
 		$("#tree").hide();
 		$("#suchen").hide();
+		$("#exportieren_2").hide();
 		$("#hilfe").hide();
 		$("#ap_loeschen").hide();
+		$("#exportieren_1").show();
 		$("#ap").hide();
 		zeigeFormular();
 		history.replaceState({ap: "ap"}, "ap", "index.html");

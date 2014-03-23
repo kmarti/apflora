@@ -46,8 +46,10 @@
 					<label for="programm_neu">neu</label>
 				</span>
 				<button id="ap_loeschen" style="margin-left:6px; display:none;">löschen</button>
+				<button id="exportieren_1" class="exportieren" style="margin-left:6px;">exportieren</button>
 			</div>
 			<input type="search" id="suchen" placeholder="suchen" style="padding:1px; margin-top:2px; margin-bottom:2px; display:none;">
+			<button id="exportieren_2" class="exportieren" style="margin-left:6px; display:none;">exportieren</button>
 			<div id="tree" style="margin-bottom:5px;"></div>
 			<div id="hilfe" style="font-size:80%; color:#6F6F66; display:none;">Für Menüs: mit rechter Maustaste im Strukturbaum klicken<a href="https://github.com/FNSKtZH/apflora/wiki" class="ui-icon ui-icon-info" style="float:right;" target="_blank" title="Infos über AP Flora Web"></a></div>
 		</fieldset>
@@ -2286,6 +2288,10 @@
 					}
 				});
 
+				$("#menu").on("click", ".exportieren", function() {
+					initiiere_exporte();
+				});
+
 				$("#beob").on("change", "#BeobNichtBeurteilt", function(event) {
 					if ($("#BeobNichtBeurteilt").prop("checked") === true) {
 						//node verschieben. Den rest macht der callback zu jstree.move_node
@@ -2368,8 +2374,10 @@
 											$("#ap_waehlen_label").html("Artförderprogramm wählen:").show();
 											$("#tree").hide();
 											$("#suchen").hide();
+											$("#exportieren_2").hide();
 											$("#hilfe").hide();
 											$("#ap_loeschen").hide();
+											$("#exportieren_2").show();
 											$("#ap").hide();
 											$("#forms").hide();
 											//Hinweis zum rückgängig machen anzeigen
