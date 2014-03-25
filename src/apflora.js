@@ -6012,7 +6012,7 @@ function treeKontextmenu(node) {
 				"label": "neuer Teilpopulations-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					$.ajax({
+					var insertTPopBer_2 = $.ajax({
 						type: 'post',
 						url: 'php/tpopber_insert.php',
 						dataType: 'json',
@@ -6020,16 +6020,16 @@ function treeKontextmenu(node) {
 							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"typ": "tpopber",
 							"user": sessionStorage.User
-						},
-						success: function(data) {
+						}
+						insertTPopBer_2.done(function(data) {
 							var strukturtyp = "tpopber",
 								ds_id = data,
 								beschriftung = "neuer Teilpopulations-Bericht";
-						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
-						},
-						error: function() {
+							insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						});
+						insertTPopBer_2.fail(function() {
 							melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
-						}
+						});
 					});
 				}
 			},
@@ -6051,23 +6051,23 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
-								$.ajax({
+								var deleteTPopBer = $.ajax({
 									type: 'post',
 									url: 'php/tpopber_delete.php',
 									dataType: 'json',
 									data: {
 										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-									},
-									success: function() {
-										delete localStorage.tpopber_id;
-										delete window.tpopber;
-										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										// Parent Node-Beschriftung: Anzahl anpassen
-										beschrifte_ordner_tpopber(parent_node);
-									},
-									error: function() {
-										melde("Fehler: Der Teilpopulations-Bericht wurde nicht gelöscht");
 									}
+								});
+								deleteTPopBer.done(function() {
+									delete localStorage.tpopber_id;
+									delete window.tpopber;
+									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									// Parent Node-Beschriftung: Anzahl anpassen
+									beschrifte_ordner_tpopber(parent_node);
+								});
+								deleteTPopBer.fail(function() {
+									melde("Fehler: Der Teilpopulations-Bericht wurde nicht gelöscht");
 								});
 							},
 							"abbrechen": function() {
@@ -6086,23 +6086,23 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/flora_icon.png",
 				"action": function() {
-					$.ajax({
+					var getBeobKarte = $.ajax({
 						type: 'get',
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
 							"tpop_id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-						},
-						success: function(data) {
-							if (data.rows.length > 0) {
-								zeigeTPopBeobAufKarte(data);
-							} else {
-								melde("Es gibt keine Beobachtungen mit Koordinaten");
-							}
-						},	
-						error: function() {
-							melde("Fehler: Keine Daten erhalten");
 						}
+					});
+					getBeobKarte.done(function(data) {
+						if (data.rows.length > 0) {
+							zeigeTPopBeobAufKarte(data);
+						} else {
+							melde("Es gibt keine Beobachtungen mit Koordinaten");
+						}
+					});
+					getBeobKarte.fail(function() {
+						melde("Fehler: Keine Daten erhalten");
 					});
 				}
 			}
@@ -6136,23 +6136,23 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/flora_icon.png",
 				"action": function() {
-					$.ajax({
+					var getBeobKarte_2 = $.ajax({
 						type: 'get',
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
 							"beobid": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-						},
-						success: function(data) {
-							if (data.rows.length > 0) {
-								zeigeTPopBeobAufKarte(data);
-							} else {
-								melde("Die Beobachtung hat keine Koordinaten");
-							}
-						},	
-						error: function() {
-							melde("Fehler: Keine Daten erhalten");
 						}
+					});
+					getBeobKarte_2.done(function(data) {
+						if (data.rows.length > 0) {
+							zeigeTPopBeobAufKarte(data);
+						} else {
+							melde("Die Beobachtung hat keine Koordinaten");
+						}
+					});
+					getBeobKarte_2.fail(function() {
+						melde("Fehler: Keine Daten erhalten");
 					});
 				}
 			},
@@ -6161,37 +6161,37 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/flora_icon_violett.png",
 				"action": function() {
-					$.ajax({
+					var getBeobKarte_3 = $.ajax({
 						type: 'get',
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
 							"beobid": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-						},
-						success: function(beob) {
-							if (beob.rows.length > 0) {
-								$.ajax({
-									type: 'get',
-									url: 'php/ap_karte.php',
-									dataType: 'json',
-									data: {
-										"id": localStorage.ap_id
-									},
-									success: function(tpop) {
-										if (tpop.rows.length > 0) {
-											zeigeBeobUndTPopAufKarte(beob, tpop);
-										} else {
-											zeigeBeobAufKarte(beob);
-										}
-									}
-								});
-							} else {
-								melde("Die Beobachtung hat keine Koordinaten<br>Bitte im Formular zuordnen");
-							}
-						},	
-						error: function() {
-							melde("Fehler: Keine Daten erhalten");
 						}
+					});
+					getBeobKarte_3.done(function(beob) {
+						if (beob.rows.length > 0) {
+							var getApKarte = $.ajax({
+								type: 'get',
+								url: 'php/ap_karte.php',
+								dataType: 'json',
+								data: {
+									"id": localStorage.ap_id
+								}
+							});
+							getApKarte.done(function(tpop) {
+								if (tpop.rows.length > 0) {
+									zeigeBeobUndTPopAufKarte(beob, tpop);
+								} else {
+									zeigeBeobAufKarte(beob);
+								}
+							});
+						} else {
+							melde("Die Beobachtung hat keine Koordinaten<br>Bitte im Formular zuordnen");
+						}
+					});
+					getBeobKarte_3.fail(function() {
+						melde("Fehler: Keine Daten erhalten");
 					});
 				}
 			},
@@ -6246,23 +6246,23 @@ function treeKontextmenu(node) {
 				"label": "neuer Massnahmen-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					$.ajax({
+					var insertTPopMassnBer = $.ajax({
 						type: 'post',
 						url: 'php/tpopmassnber_insert.php',
 						dataType: 'json',
 						data: {
 							"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"user": sessionStorage.User
-						},
-						success: function(data) {
-							var strukturtyp = "tpopmassnber",
-								ds_id = data,
-								beschriftung = "neuer Massnahmen-Bericht";
-							insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
-						},
-						error: function() {
-							melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
 						}
+					});
+					insertTPopMassnBer.done(function(data) {
+						var strukturtyp = "tpopmassnber",
+							ds_id = data,
+							beschriftung = "neuer Massnahmen-Bericht";
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+					});
+					insertTPopMassnBer.fail(function() {
+						melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
 					});
 				}
 			}
@@ -6274,7 +6274,7 @@ function treeKontextmenu(node) {
 				"label": "neuer Massnahmen-Bericht",
 				"icon": "style/images/neu.png",
 				"action": function() {
-					$.ajax({
+					var insertTPopMassBer_2 = $.ajax({
 						type: 'post',
 						url: 'php/tpopmassnber_insert.php',
 						dataType: 'json',
@@ -6282,16 +6282,16 @@ function treeKontextmenu(node) {
 							"id": erstelleIdAusDomAttributId($(parent_node).attr("id")),
 							"typ": "tpopmassnber",
 							"user": sessionStorage.User
-						},
-						success: function(data) {
-							var strukturtyp = "tpopmassnber",
-								ds_id = data,
-								beschriftung = "neuer Massnahmen-Bericht";
-							insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
-						},
-						error: function() {
-							melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
 						}
+					});
+					insertTPopMassBer_2.done(function(data) {
+						var strukturtyp = "tpopmassnber",
+							ds_id = data,
+							beschriftung = "neuer Massnahmen-Bericht";
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+					});
+					insertTPopMassBer_2.fail(function() {
+						melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
 					});
 				}
 			},
@@ -6313,23 +6313,23 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
-								$.ajax({
+								var deleteTPopMassnBer = $.ajax({
 									type: 'post',
 									url: 'php/tpopmassnber_delete.php',
 									dataType: 'json',
 									data: {
 										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-									},
-									success: function() {
-										delete localStorage.tpopmassnber_id;
-										delete window.tpopmassnber;
-										jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
-										// Parent Node-Beschriftung: Anzahl anpassen
-										beschrifte_ordner_popmassnber(parent_node);
-									},
-									error: function() {
-										melde("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
 									}
+								});
+								deleteTPopMassnBer.done(function() {
+									delete localStorage.tpopmassnber_id;
+									delete window.tpopmassnber;
+									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									// Parent Node-Beschriftung: Anzahl anpassen
+									beschrifte_ordner_popmassnber(parent_node);
+								});
+								deleteTPopMassnBer.fail(function() {
+									melde("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
 								});
 							},
 							"abbrechen": function() {
@@ -6348,23 +6348,23 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/flora_icon_violett.png",
 				"action": function() {
-					$.ajax({
+					var getBeobKarte_4 = $.ajax({
 						type: 'get',
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
 							"apart_id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-						},
-						success: function(data) {
-							if (data.rows.length > 0) {
-								zeigeBeobAufKarte(data);
-							} else {
-								melde("Es gibt keine Beobachtung mit Koordinaten");
-							}
-						},	
-						error: function() {
-							melde("Fehler: Keine Daten erhalten");
 						}
+					});
+					getBeobKarte_4.done(function(data) {
+						if (data.rows.length > 0) {
+							zeigeBeobAufKarte(data);
+						} else {
+							melde("Es gibt keine Beobachtung mit Koordinaten");
+						}
+					});
+					getBeobKarte_4.fail(function() {
+						melde("Fehler: Keine Daten erhalten");
 					});
 				}
 			},
@@ -6373,37 +6373,37 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/flora_icon_violett.png",
 				"action": function() {
-					$.ajax({
+					var getBeobKarte_5 = $.ajax({
 						type: 'get',
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
 							"apart_id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-						},
-						success: function(beob) {
-							if (beob.rows.length > 0) {
-								$.ajax({
-									type: 'get',
-									url: 'php/ap_karte.php',
-									dataType: 'json',
-									data: {
-										"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-									},
-									success: function(tpop) {
-										if (tpop.rows.length > 0) {
-											zeigeBeobUndTPopAufKarte(beob, tpop);
-										} else {
-											zeigeBeobAufKarte(beob);
-										}
-									}
-								});
-							} else {
-								melde("Es gibt keine Beobachtung mit Koordinaten");
-							}
-						},	
-						error: function() {
-							melde("Fehler: Keine Daten erhalten");
 						}
+					});
+					getBeobKarte_5.done(function(beob) {
+						if (beob.rows.length > 0) {
+							$.ajax({
+								type: 'get',
+								url: 'php/ap_karte.php',
+								dataType: 'json',
+								data: {
+									"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+								},
+								success: function(tpop) {
+									if (tpop.rows.length > 0) {
+										zeigeBeobUndTPopAufKarte(beob, tpop);
+									} else {
+										zeigeBeobAufKarte(beob);
+									}
+								}
+							});
+						} else {
+							melde("Es gibt keine Beobachtung mit Koordinaten");
+						}
+					});
+					getBeobKarte_5.fail(function() {
+						melde("Fehler: Keine Daten erhalten");
 					});
 				}
 			}
@@ -6426,23 +6426,23 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/flora_icon_violett.png",
 				"action": function() {
-					$.ajax({
+					var getBeobKarte_6 = $.ajax({
 						type: 'get',
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
 							"beobid": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-						},
-						success: function(data) {
-							if (data.rows.length > 0) {
-								zeigeBeobAufKarte(data);
-							} else {
-								melde("Es gibt keine Beobachtung mit Koordinaten");
-							}
-						},	
-						error: function() {
-							melde("Fehler: Keine Daten erhalten");
 						}
+					});
+					getBeobKarte_6.done(function(data) {
+						if (data.rows.length > 0) {
+							zeigeBeobAufKarte(data);
+						} else {
+							melde("Es gibt keine Beobachtung mit Koordinaten");
+						}
+					});
+					getBeobKarte_6.fail(function() {
+						melde("Fehler: Keine Daten erhalten");
 					});
 				}
 			},
@@ -6451,37 +6451,37 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/flora_icon_violett.png",
 				"action": function() {
-					$.ajax({
+					var getBeobKarte_7 = $.ajax({
 						type: 'get',
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
 							"beobid": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-						},
-						success: function(beob) {
-							if (beob.rows.length > 0) {
-								$.ajax({
-									type: 'get',
-									url: 'php/ap_karte.php',
-									dataType: 'json',
-									data: {
-										"id": erstelleIdAusDomAttributId($(parent_node).attr("id"))
-									},
-									success: function(tpop) {
-										if (tpop.rows.length > 0) {
-											zeigeBeobUndTPopAufKarte(beob, tpop);
-										} else {
-											zeigeBeobAufKarte(beob);
-										}
-									}
-								});
-							} else {
-								melde("Die Beobachtung hat keine Koordinaten<br>Bitte im Formular zuordnen");
-							}
-						},	
-						error: function() {
-							melde("Fehler: Keine Daten erhalten");
 						}
+					});
+					getBeobKarte_7.done(function(beob) {
+						if (beob.rows.length > 0) {
+							var getApKarte_2 = $.ajax({
+								type: 'get',
+								url: 'php/ap_karte.php',
+								dataType: 'json',
+								data: {
+									"id": erstelleIdAusDomAttributId($(parent_node).attr("id"))
+								}
+							});
+							getApKarte_2.done(function(tpop) {
+								if (tpop.rows.length > 0) {
+									zeigeBeobUndTPopAufKarte(beob, tpop);
+								} else {
+									zeigeBeobAufKarte(beob);
+								}
+							});
+						} else {
+							melde("Die Beobachtung hat keine Koordinaten<br>Bitte im Formular zuordnen");
+						}
+					});
+					getBeobKarte_7.fail(function() {
+						melde("Fehler: Keine Daten erhalten");
 					});
 				}
 			},
@@ -6527,24 +6527,24 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/flora_icon_violett.png",
 				"action": function() {
-					$.ajax({
+					var getBeobKarte_8 = $.ajax({
 						type: 'get',
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
 							"apart_id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"nicht_zuzuordnen": "1"
-						},
-						success: function(data) {
-							if (data.rows.length > 0) {
-								zeigeBeobAufKarte(data);
-							} else {
-								melde("Es gibt keine Beobachtung mit Koordinaten");
-							}
-						},	
-						error: function() {
-							melde("Fehler: Keine Daten erhalten");
 						}
+					});
+					getBeobKarte_8.done(function(data) {
+						if (data.rows.length > 0) {
+							zeigeBeobAufKarte(data);
+						} else {
+							melde("Es gibt keine Beobachtung mit Koordinaten");
+						}
+					});
+					getBeobKarte_8.fail(function() {
+						melde("Fehler: Keine Daten erhalten");
 					});
 				}
 			}
@@ -6567,23 +6567,23 @@ function treeKontextmenu(node) {
 				"separator_before": true,
 				"icon": "style/images/flora_icon_violett.png",
 				"action": function() {
-					$.ajax({
+					var getBeobKarte_9 = $.ajax({
 						type: 'get',
 						url: 'php/beob_karte.php',
 						dataType: 'json',
 						data: {
 							"beobid": erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-						},
-						success: function(data) {
-							if (data.rows.length > 0) {
-								zeigeBeobAufKarte(data);
-							} else {
-								melde("Es gibt keine Beobachtung mit Koordinaten");
-							}
-						},	
-						error: function() {
-							melde("Fehler: Keine Daten erhalten");
 						}
+					});
+					getBeobKarte_9.done(function(data) {
+						if (data.rows.length > 0) {
+							zeigeBeobAufKarte(data);
+						} else {
+							melde("Es gibt keine Beobachtung mit Koordinaten");
+						}
+					});
+					getBeobKarte_9.fail(function() {
+						melde("Fehler: Keine Daten erhalten");
 					});
 				}
 			},
@@ -6626,7 +6626,7 @@ function treeKontextmenu(node) {
 }
 
 function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
-	$.ajax({
+	var insertTPopKopie = $.ajax({
 		type: 'post',
 		url: 'php/tpop_insert_kopie.php',
 		dataType: 'json',
@@ -6634,19 +6634,19 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 			"user": sessionStorage.User,
 			"PopId": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 			"TPopId": erstelleIdAusDomAttributId($(window.tpop_node_kopiert).attr("id"))
-		},
-		success: function(data) {
-			var strukturtyp = "tpop",
-				ds_id = data,
-				beschriftung = window.tpop_objekt_kopiert.TPopFlurname;
-			if (window.tpop_objekt_kopiert.TPopNr) {
-				beschriftung = window.tpop_objekt_kopiert.TPopNr + ': ' + window.tpop_objekt_kopiert.TPopFlurname
-			}
-			insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, "", strukturtyp, ds_id, beschriftung);
-		},
-		error: function() {
-			melde("Fehler: Die Teilpopulation wurde nicht erstellt");
 		}
+	});
+	insertTPopKopie.done(function(data) {
+		var strukturtyp = "tpop",
+			ds_id = data,
+			beschriftung = window.tpop_objekt_kopiert.TPopFlurname;
+		if (window.tpop_objekt_kopiert.TPopNr) {
+			beschriftung = window.tpop_objekt_kopiert.TPopNr + ': ' + window.tpop_objekt_kopiert.TPopFlurname
+		}
+		insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, "", strukturtyp, ds_id, beschriftung);
+	});
+	insertTPopKopie.fail(function() {
+		melde("Fehler: Die Teilpopulation wurde nicht erstellt");
 	});
 }
 
