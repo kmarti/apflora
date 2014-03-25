@@ -2386,21 +2386,21 @@
 							}
 						}
 						//jetzt alles speichern
-						$.ajax({
+						var insertApMultiple = $.ajax({
 							type: 'post',
 							url: 'php/ap_insert_multiple.php' + url_string,
-							dataType: 'json',
-							success: function() {
-								$("#undelete_div").hide();
-								$("#forms_titelzeile").hide();
-								//Formulare ausblenden
-								zeigeFormular();
-								//neu initiieren, damit die gelöschte Art gewählt werden kann
-								initiiere_index();
-							},
-							error: function() {
-								melde("Fehler: Wiederherstellung gescheitert");
-							}
+							dataType: 'json'
+						});
+						insertApMultiple.done(function() {
+							$("#undelete_div").hide();
+							$("#forms_titelzeile").hide();
+							//Formulare ausblenden
+							zeigeFormular();
+							//neu initiieren, damit die gelöschte Art gewählt werden kann
+							initiiere_index();
+						});
+						insertApMultiple.fail(function() {
+							melde("Fehler: Wiederherstellung gescheitert");
 						});
 					} else if (window.deleted.typ === "pop") {
 						//typ gehört nicht zum Datensatz
@@ -2416,22 +2416,22 @@
 							}
 						}
 						//jetzt alles speichern
-						$.ajax({
+						var insertPopMultiple = $.ajax({
 							type: 'post',
 							url: 'php/pop_insert_multiple.php' + url_string,
-							dataType: 'json',
-							success: function() {
-								$("#undelete_div").hide();
-								$("#forms_titelzeile").hide();
-								//tree neu aufbauen
-								$.when(erstelle_tree(apartid))
-									.then(function() {
-										$("#tree").jstree("select_node", "[typ='pop']#" + window.deleted.PopId);
-									});
-							},
-							error: function() {
-								melde("Fehler: Wiederherstellung gescheitert");
-							}
+							dataType: 'json'
+						});
+						insertPopMultiple.done(function() {
+							$("#undelete_div").hide();
+							$("#forms_titelzeile").hide();
+							//tree neu aufbauen
+							$.when(erstelle_tree(apartid))
+								.then(function() {
+									$("#tree").jstree("select_node", "[typ='pop']#" + window.deleted.PopId);
+								});
+						});
+						insertPopMultiple.fail(function() {
+							melde("Fehler: Wiederherstellung gescheitert");
 						});
 					} else if (window.deleted.typ === "tpop") {
 						//typ gehört nicht zum Datensatz
@@ -2447,22 +2447,22 @@
 							}
 						}
 						//jetzt alles speichern
-						$.ajax({
+						var insertTPopMultiple = $.ajax({
 							type: 'post',
 							url: 'php/tpop_insert_multiple.php' + url_string,
-							dataType: 'json',
-							success: function() {
-								$("#undelete_div").hide();
-								$("#forms_titelzeile").hide();
-								//tree neu aufbauen
-								$.when(erstelle_tree(apartid))
-									.then(function() {
-										$("#tree").jstree("select_node", "[typ='tpop']#" + window.deleted.TPopId);
-									});
-							},
-							error: function() {
-								melde("Fehler: Wiederherstellung gescheitert");
-							}
+							dataType: 'json'
+						});
+						insertTPopMultiple.done(function() {
+							$("#undelete_div").hide();
+							$("#forms_titelzeile").hide();
+							//tree neu aufbauen
+							$.when(erstelle_tree(apartid))
+								.then(function() {
+									$("#tree").jstree("select_node", "[typ='tpop']#" + window.deleted.TPopId);
+								});
+						});
+						insertTPopMultiple.fail(function() {
+							melde("Fehler: Wiederherstellung gescheitert");
 						});
 					} else if (window.deleted.typ === "tpopmassn") {
 						//typ gehört nicht zum Datensatz
@@ -2478,22 +2478,22 @@
 							}
 						}
 						//jetzt alles speichern
-						$.ajax({
+						var insertTPopMassnMultiple = $.ajax({
 							type: 'post',
 							url: 'php/tpopmassn_insert_multiple.php' + url_string,
-							dataType: 'json',
-							success: function() {
-								$("#undelete_div").hide();
-								$("#forms_titelzeile").hide();
-								//tree neu aufbauen
-								$.when(erstelle_tree(apartid))
-									.then(function() {
-										$("#tree").jstree("select_node", "[typ='tpopmassn']#" + window.deleted.TPopMassnId);
-									});
-							},
-							error: function() {
-								melde("Fehler: Wiederherstellung gescheitert");
-							}
+							dataType: 'json'
+						});
+						insertTPopMassnMultiple.done(function() {
+							$("#undelete_div").hide();
+							$("#forms_titelzeile").hide();
+							//tree neu aufbauen
+							$.when(erstelle_tree(apartid))
+								.then(function() {
+									$("#tree").jstree("select_node", "[typ='tpopmassn']#" + window.deleted.TPopMassnId);
+								});
+						});
+						insertTPopMassnMultiple.fail(function() {
+							melde("Fehler: Wiederherstellung gescheitert");
 						});
 					} else if (window.deleted.typ === "tpopfeldkontr" || window.deleted.typ === "tpopfreiwkontr") {
 						//hier werden auch Freiwilligenkontrollen hergestellt
@@ -2511,22 +2511,22 @@
 							}
 						}
 						//jetzt alles speichern
-						$.ajax({
+						var insertTPopFeldKontrMultiple = $.ajax({
 							type: 'post',
 							url: 'php/tpopfeldkontr_insert_multiple.php' + url_string,
-							dataType: 'json',
-							success: function() {
-								$("#undelete_div").hide();
-								$("#forms_titelzeile").hide();
-								//tree neu aufbauen
-								$.when(erstelle_tree(apartid))
-									.then(function() {
-										$("#tree").jstree("select_node", "[typ='" + typ + "']#" + window.deleted.TPopKontrId);
-									});
-							},
-							error: function() {
-								melde("Fehler: Wiederherstellung gescheitert");
-							}
+							dataType: 'json'
+						});
+						insertTPopFeldKontrMultiple.done(function() {
+							$("#undelete_div").hide();
+							$("#forms_titelzeile").hide();
+							//tree neu aufbauen
+							$.when(erstelle_tree(apartid))
+								.then(function() {
+									$("#tree").jstree("select_node", "[typ='" + typ + "']#" + window.deleted.TPopKontrId);
+								});
+						});
+						insertTPopFeldKontrMultiple.fail(function() {
+							melde("Fehler: Wiederherstellung gescheitert");
 						});
 					} else if (window.deleted.typ === "jber") {
 						//typ gehört nicht zum Datensatz
@@ -2542,22 +2542,22 @@
 							}
 						}
 						//jetzt alles speichern
-						$.ajax({
+						var insertJberMultiple = $.ajax({
 							type: 'post',
 							url: 'php/jber_insert_multiple.php' + url_string,
-							dataType: 'json',
-							success: function() {
-								$("#undelete_div").hide();
-								$("#forms_titelzeile").hide();
-								//tree neu aufbauen
-								$.when(erstelle_tree(apartid))
-									.then(function() {
-										$("#tree").jstree("select_node", "[typ='jber']#" + window.deleted.JBerId);
-									});
-							},
-							error: function() {
-								melde("Fehler: Wiederherstellung gescheitert");
-							}
+							dataType: 'json'
+						});
+						insertJberMultiple.done(function() {
+							$("#undelete_div").hide();
+							$("#forms_titelzeile").hide();
+							//tree neu aufbauen
+							$.when(erstelle_tree(apartid))
+								.then(function() {
+									$("#tree").jstree("select_node", "[typ='jber']#" + window.deleted.JBerId);
+								});
+						});
+						insertJberMultiple.fail(function() {
+							melde("Fehler: Wiederherstellung gescheitert");
 						});
 					} else {
 						melde("Fehler: Wiederherstellung gescheitert");
