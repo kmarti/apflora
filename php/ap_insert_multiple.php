@@ -14,11 +14,12 @@ mysqli_set_charset($link, "utf8");
 // in diesem Array sammeln wir alle upzudatenden Felder
 $Felderarray = $_POST;
 
-$Keystring = implode(',', array_keys($_POST));
-$Valuestring = implode('","', array_values($_POST));
+$Keystring = implode(',', array_keys($Felderarray));
+$Valuestring = implode('","', array_values($Felderarray));
 
 // jetzt den Querystring aufbauen
-$Querystring = 'INSERT INTO tblAktionsplan ('.mysqli_real_escape_string($link, $Keystring).') VALUES ("'.mysqli_real_escape_string($link, $Valuestring).'")';
+//$Querystring = 'INSERT INTO tblAktionsplan ('.mysqli_real_escape_string($link, $Keystring).') VALUES ("'.mysqli_real_escape_string($link, $Valuestring).'")';  INSERT SCHEITERT
+$Querystring = 'INSERT INTO tblAktionsplan ('.$Keystring.') VALUES ("'.$Valuestring.'")';
 
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);

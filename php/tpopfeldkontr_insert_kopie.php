@@ -12,7 +12,6 @@ if ($link->connect_errno) {
 mysqli_set_charset($link, "utf8");
 
 // die id der zu kopierenden TPop wird übernommen
-// mit post hat irgend etwas in php nicht funktioniert (es wurde immer id=0 zurückgegeben), daher wieder get eingeschatet
 $TPopId = $_POST["TPopId"];
 settype($TPopId, "integer");
 $TPopKontrId = $_POST["TPopKontrId"];
