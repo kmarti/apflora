@@ -6021,15 +6021,15 @@ function treeKontextmenu(node) {
 							"typ": "tpopber",
 							"user": sessionStorage.User
 						}
-						insertTPopBer_2.done(function(data) {
-							var strukturtyp = "tpopber",
-								ds_id = data,
-								beschriftung = "neuer Teilpopulations-Bericht";
-							insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
-						});
-						insertTPopBer_2.fail(function() {
-							melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
-						});
+					});
+					insertTPopBer_2.done(function(data) {
+						var strukturtyp = "tpopber",
+							ds_id = data,
+							beschriftung = "neuer Teilpopulations-Bericht";
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+					});
+					insertTPopBer_2.fail(function() {
+						melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
 					});
 				}
 			},
@@ -6678,20 +6678,20 @@ function pop_kopiert_in_pop_einfuegen(aktiver_node, parent_node) {
 		}
 	}
 	// und an die DB schicken
-	$.ajax({
+	var insertPopKopie_2 = $.ajax({
 		type: 'post',
 		url: 'php/pop_insert_kopie.php',
 		dataType: 'json',
-		data: data,
-		success: function(data) {
-			var strukturtyp = "pop",
-				ds_id = data,
-				beschriftung = window.pop_objekt_kopiert.PopNr + " " + window.pop_objekt_kopiert.PopName;
-			insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
-		},
-		error: function() {
-			melde("Fehler: Die Population wurde nicht erstellt");
-		}
+		data: data
+	});
+	insertPopKopie_2.done(function(pop_id) {
+		var strukturtyp = "pop",
+			ds_id = pop_id,
+			beschriftung = window.pop_objekt_kopiert.PopNr + " " + window.pop_objekt_kopiert.PopName;
+		insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+	});
+	insertPopKopie_2.fail(function() {
+		melde("Fehler: Die Population wurde nicht erstellt");
 	});
 }
 
@@ -6723,20 +6723,20 @@ function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 		}
 	}
 	// und an die DB schicken
-	$.ajax({
+	var insertTPopKopie_2 = $.ajax({
 		type: 'post',
 		url: 'php/tpop_insert_kopie.php',
 		dataType: 'json',
-		data: data,
-		success: function(data) {
-			var strukturtyp = "tpop",
-				ds_id = data,
-				beschriftung = window.tpop_objekt_kopiert.TPopNr + " " + window.tpop_objekt_kopiert.TPopFlurname;
-			insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
-		},
-		error: function() {
-			melde("Fehler: Die Teilpopulation wurde nicht erstellt");
-		}
+		data: data
+	});
+	insertTPopKopie_2.done(function(data) {
+		var strukturtyp = "tpop",
+			ds_id = data,
+			beschriftung = window.tpop_objekt_kopiert.TPopNr + " " + window.tpop_objekt_kopiert.TPopFlurname;
+		insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+	});
+	insertTPopKopie_2.fail(function() {
+		melde("Fehler: Die Teilpopulation wurde nicht erstellt");
 	});
 }
 
@@ -6805,7 +6805,7 @@ function speichern(that) {
 			melde("Bemerkungen sind nur in zugeordneten oder nicht zuzuordnenden Beobachtungen möglich");
 			return;
 		}
-		$.ajax({
+		var updateFormular = $.ajax({
 			type: 'post',
 			url: 'php/' + Formular + '_update.php',
 			dataType: 'json',
@@ -6814,91 +6814,91 @@ function speichern(that) {
 				"Feld": Feldname,
 				"Wert": Feldwert,
 				"user": sessionStorage.User
-			},
-			success: function() {
-				// Variable für Objekt nachführen
-				window[Formular][Feldname] = Feldwert;
-				// Wenn ApArtId verändert wurde: Formular aktualisieren
-				if (Feldname === "ApArtId" && Feldwert) {
-					waehleAp(Feldwert);
-					return;
-				}
-				// Wenn in feldkontr Datum erfasst, auch Jahr speichern
-				if (Feldname === "TPopKontrDatum" && Feldwert) {
-					Objekt = {};
-					Objekt.name = "TPopKontrJahr";
-					Objekt.formular = "tpopfeldkontr";
-					speichern(Objekt);
-				}
-				// dito bei tpopmassn
-				if (Feldname === "TPopMassnDatum" && Feldwert) {
-					Objekt = {};
-					Objekt.name = "TPopMassnJahr";
-					Objekt.formular = "tpopmassn";
-					speichern(Objekt);
-				}
-				// wenn in TPopKontrZaehleinheit 1 bis 3 ein Leerwert eingeführt wurde
-				// sollen auch die Felder TPopKontrMethode 1 bis 3 und TPopKontrAnz 1 bis 3 Leerwerte erhalten
-				if (!Feldwert) {
-					if (Feldname === "TPopKontrZaehleinheit1") {
-						// UI aktualisieren
-						if (window.tpopfeldkontr.TPopKontrMethode1) {
-							$("#TPopKontrMethode1" + window.tpopfeldkontr.TPopKontrMethode1).prop("checked", false);
-						}
-						$("#TPopKontrAnz1").val("");
-						// Datenbank aktualisieren
-						// Feld TPopKontrMethode1
-						Objekt = {};
-						Objekt.name = "TPopKontrMethode1";
-						Objekt.formular = Formular;
-						speichern(Objekt);
-						// Feld TPopKontrAnz1
-						Objekt = {};
-						Objekt.name = "TPopKontrAnz1";
-						Objekt.formular = Formular;
-						speichern(Objekt);
-					}
-					if (Feldname === "TPopKontrZaehleinheit2") {
-						// UI aktualisieren
-						if (window.tpopfeldkontr.TPopKontrMethode2) {
-							$("#TPopKontrMethode2" + window.tpopfeldkontr.TPopKontrMethode2).prop("checked", false);
-						}
-						$("#TPopKontrAnz2").val("");
-						// Datenbank aktualisieren
-						// Feld TPopKontrMethode2
-						Objekt = {};
-						Objekt.name = "TPopKontrMethode2";
-						Objekt.formular = Formular;
-						speichern(Objekt);
-						// Feld TPopKontrAnz2
-						Objekt = {};
-						Objekt.name = "TPopKontrAnz2";
-						Objekt.formular = Formular;
-						speichern(Objekt);
-					}
-					if (Feldname === "TPopKontrZaehleinheit3") {
-						// UI aktualisieren
-						if (window.tpopfeldkontr.TPopKontrMethode3) {
-							$("#TPopKontrMethode3" + window.tpopfeldkontr.TPopKontrMethode3).prop("checked", false);
-						}
-						$("#TPopKontrAnz3").val("");
-						// Datenbank aktualisieren
-						// Feld TPopKontrMethode3
-						Objekt = {};
-						Objekt.name = "TPopKontrMethode3";
-						Objekt.formular = Formular;
-						speichern(Objekt);
-						// Feld TPopKontrAnz3
-						Objekt = {};
-						Objekt.name = "TPopKontrAnz3";
-						Objekt.formular = Formular;
-						speichern(Objekt);
-					}
-				}
-			},
-			error: function() {
-				melde("Fehler: Die letzte Änderung wurde nicht gespeichert");
 			}
+		});
+		updateFormular.done(function() {
+			// Variable für Objekt nachführen
+			window[Formular][Feldname] = Feldwert;
+			// Wenn ApArtId verändert wurde: Formular aktualisieren
+			if (Feldname === "ApArtId" && Feldwert) {
+				waehleAp(Feldwert);
+				return;
+			}
+			// Wenn in feldkontr Datum erfasst, auch Jahr speichern
+			if (Feldname === "TPopKontrDatum" && Feldwert) {
+				Objekt = {};
+				Objekt.name = "TPopKontrJahr";
+				Objekt.formular = "tpopfeldkontr";
+				speichern(Objekt);
+			}
+			// dito bei tpopmassn
+			if (Feldname === "TPopMassnDatum" && Feldwert) {
+				Objekt = {};
+				Objekt.name = "TPopMassnJahr";
+				Objekt.formular = "tpopmassn";
+				speichern(Objekt);
+			}
+			// wenn in TPopKontrZaehleinheit 1 bis 3 ein Leerwert eingeführt wurde
+			// sollen auch die Felder TPopKontrMethode 1 bis 3 und TPopKontrAnz 1 bis 3 Leerwerte erhalten
+			if (!Feldwert) {
+				if (Feldname === "TPopKontrZaehleinheit1") {
+					// UI aktualisieren
+					if (window.tpopfeldkontr.TPopKontrMethode1) {
+						$("#TPopKontrMethode1" + window.tpopfeldkontr.TPopKontrMethode1).prop("checked", false);
+					}
+					$("#TPopKontrAnz1").val("");
+					// Datenbank aktualisieren
+					// Feld TPopKontrMethode1
+					Objekt = {};
+					Objekt.name = "TPopKontrMethode1";
+					Objekt.formular = Formular;
+					speichern(Objekt);
+					// Feld TPopKontrAnz1
+					Objekt = {};
+					Objekt.name = "TPopKontrAnz1";
+					Objekt.formular = Formular;
+					speichern(Objekt);
+				}
+				if (Feldname === "TPopKontrZaehleinheit2") {
+					// UI aktualisieren
+					if (window.tpopfeldkontr.TPopKontrMethode2) {
+						$("#TPopKontrMethode2" + window.tpopfeldkontr.TPopKontrMethode2).prop("checked", false);
+					}
+					$("#TPopKontrAnz2").val("");
+					// Datenbank aktualisieren
+					// Feld TPopKontrMethode2
+					Objekt = {};
+					Objekt.name = "TPopKontrMethode2";
+					Objekt.formular = Formular;
+					speichern(Objekt);
+					// Feld TPopKontrAnz2
+					Objekt = {};
+					Objekt.name = "TPopKontrAnz2";
+					Objekt.formular = Formular;
+					speichern(Objekt);
+				}
+				if (Feldname === "TPopKontrZaehleinheit3") {
+					// UI aktualisieren
+					if (window.tpopfeldkontr.TPopKontrMethode3) {
+						$("#TPopKontrMethode3" + window.tpopfeldkontr.TPopKontrMethode3).prop("checked", false);
+					}
+					$("#TPopKontrAnz3").val("");
+					// Datenbank aktualisieren
+					// Feld TPopKontrMethode3
+					Objekt = {};
+					Objekt.name = "TPopKontrMethode3";
+					Objekt.formular = Formular;
+					speichern(Objekt);
+					// Feld TPopKontrAnz3
+					Objekt = {};
+					Objekt.name = "TPopKontrAnz3";
+					Objekt.formular = Formular;
+					speichern(Objekt);
+				}
+			}
+		});
+		updateFormular.fail(function() {
+			melde("Fehler: Die letzte Änderung wurde nicht gespeichert");
 		});
 		// nodes im Tree updaten, wenn deren Bezeichnung ändert
 		switch(Feldname) {
@@ -7514,7 +7514,7 @@ function verorteTPopAufGeoAdmin(TPop) {
 					TPop.TPopXKoord = lonlat.lon;
 					TPop.TPopYKoord = lonlat.lat;
 					// Datensatz updaten
-					$.ajax({
+					var updateTPop = $.ajax({
 						type: 'post',
 						url: 'php/tpop_update.php',
 						dataType: 'json',
@@ -7523,28 +7523,28 @@ function verorteTPopAufGeoAdmin(TPop) {
 							"Feld": "TPopXKoord",
 							"Wert": TPop.TPopXKoord,
 							"user": sessionStorage.User
-						},
-						success: function() {
-							$.ajax({
-								type: 'post',
-								url: 'php/tpop_update.php',
-								dataType: 'json',
-								data: {
-									"id": localStorage.tpop_id,
-									"Feld": "TPopYKoord",
-									"Wert": TPop.TPopYKoord,
-									"user": sessionStorage.User
-								},
-								success: function() {
-									// markerebenen entfernen
-									entferneTPopMarkerEbenen();
-									// alten listener entfernen, neuer wird mit dem nächsten Befehl erstellt 
-									window.api.map.removeControl(click);
-									// markerebene neu aufbauen
-									erstelleTPopulationFuerGeoAdmin(TPop);
-								}
-							});
 						}
+					});
+					updateTPop.done(function() {
+						var updateTPop_2 = $.ajax({
+							type: 'post',
+							url: 'php/tpop_update.php',
+							dataType: 'json',
+							data: {
+								"id": localStorage.tpop_id,
+								"Feld": "TPopYKoord",
+								"Wert": TPop.TPopYKoord,
+								"user": sessionStorage.User
+							}
+						});
+						updateTPop_2.done(function() {
+							// markerebenen entfernen
+							entferneTPopMarkerEbenen();
+							// alten listener entfernen, neuer wird mit dem nächsten Befehl erstellt 
+							window.api.map.removeControl(click);
+							// markerebene neu aufbauen
+							erstelleTPopulationFuerGeoAdmin(TPop);
+						});
 					});
 				}
 
@@ -7585,7 +7585,7 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
 			}
 			// tpop und pop ergänzen
 			// alle tpop holen
-			var tpop_aufruf = $.ajax({
+			var getTPopKarteAlle = $.ajax({
 				type: 'get',
 				url: 'php/tpop_karte_alle.php',
 				dataType: 'json',
@@ -7594,7 +7594,7 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
 				}
 			});
 
-			tpop_aufruf.done(function(TPopListe) {
+			getTPopKarteAlle.done(function(TPopListe) {
 				$.when(
 					// Layer für Symbole und Beschriftung erstellen
 					erstelleTPopNrFuerGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert, true),
@@ -7609,7 +7609,7 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
 				});
 			});
 
-			tpop_aufruf.fail(function() {
+			getTPopKarteAlle.fail(function() {
 				melde("Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden");
 			});
 	});
@@ -7636,7 +7636,7 @@ function zeigePopAufGeoAdmin(PopListeMarkiert) {
 			}
 			// tpop und pop ergänzen
 			// alle tpop holen
-			var tpop_aufruf = $.ajax({
+			var getTPopKarteAlle_2 = $.ajax({
 				type: 'get',
 				url: 'php/tpop_karte_alle.php',
 				dataType: 'json',
@@ -7645,7 +7645,7 @@ function zeigePopAufGeoAdmin(PopListeMarkiert) {
 				}
 			});
 
-			tpop_aufruf.done(function(TPopListe) {
+			getTPopKarteAlle_2.done(function(TPopListe) {
 				$.when(
 					// Layer für Symbole und Beschriftung erstellen
 					erstelleTPopNrFuerGeoAdmin(TPopListe, null, false),
@@ -7660,7 +7660,7 @@ function zeigePopAufGeoAdmin(PopListeMarkiert) {
 				});
 			});
 
-			tpop_aufruf.fail(function() {
+			getTPopKarteAlle_2.fail(function() {
 				melde("Fehler: Es konnten keine Daten aus der Datenbank abgerufen werden");
 			});
 	});
@@ -7732,7 +7732,7 @@ function waehleAusschnittFuerUebergebenePop(PopListeMarkiert) {
 
 function zeigePopInTPopKarte(overlay_pop_visible, overlay_popbeschriftungen_visible, popid_markiert) {
 	var pop_gezeigt = $.Deferred();
-	var pop_aufruf = $.ajax({
+	var getPopKarteAlle = $.ajax({
 		type: 'get',
 		url: 'php/pop_karte_alle.php',
 		dataType: 'json',
@@ -7740,8 +7740,7 @@ function zeigePopInTPopKarte(overlay_pop_visible, overlay_popbeschriftungen_visi
 			"ApArtId": window.ap.ApArtId
 		}
 	});
-
-	pop_aufruf.done(function(PopListe) {
+	getPopKarteAlle.done(function(PopListe) {
 		// Layer für Symbole und Beschriftung erstellen
 		$.when(
 			erstellePopNrFuerGeoAdmin(PopListe, overlay_popbeschriftungen_visible),
@@ -7753,8 +7752,7 @@ function zeigePopInTPopKarte(overlay_pop_visible, overlay_popbeschriftungen_visi
 				pop_gezeigt.resolve();
 			});
 	});
-
-	pop_aufruf.fail(function() {
+	getPopKarteAlle.fail(function() {
 		melde("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
 		pop_gezeigt.resolve();
 	});
@@ -7829,7 +7827,7 @@ function erstelleTPopulationFuerGeoAdmin(TPop) {
 
 // dieser Funktion kann man einen Wert zum speichern übergeben
 function speichereWert(tabelle, id, feld, wert) {
-	$.ajax({
+	var updateTabelle = $.ajax({
 		type: 'post',
 		url: 'php/' + tabelle + '_update.php',
 		dataType: 'json',
@@ -7838,10 +7836,10 @@ function speichereWert(tabelle, id, feld, wert) {
 			"Feld": feld,
 			"Wert": wert,
 			"user": sessionStorage.User
-		},
-		error: function() {
-			melde("Fehler: Die letzte Änderung wurde nicht gespeichert");
 		}
+	});
+	updateTabelle.fail(function() {
+		melde("Fehler: Die letzte Änderung wurde nicht gespeichert");
 	});
 }
 
@@ -8018,21 +8016,21 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 						entferneTPopMarkerEbenen();
 						// ...und neu aufbauen
 						// dazu die tpopliste neu abrufen, da Koordinaten geändert haben! tpopid_markiert bleibt gleich
-						$.ajax({
+						var getTPopKarteAlle_3 = $.ajax({
 							type: 'get',
 							url: 'php/tpop_karte_alle.php',
 							dataType: 'json',
 							data: {
 								"ApArtId": window.ap.ApArtId
-							},
-							success: function(TPopListe) {
-								erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_markiert);
-								erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_markiert);
-								erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, true);
-							},	
-							error: function() {
-								melde("Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden");
 							}
+						});
+						getTPopKarteAlle_3.done(function(TPopListe) {
+							erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_markiert);
+							erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_markiert);
+							erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, true);
+						});
+						getTPopKarteAlle_3.fail(function() {
+							melde("Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden");
 						});
 					},
 					"nein, nicht verschieben": function() {
@@ -8345,21 +8343,21 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 						entfernePopMarkerEbenen();
 						// ...und neu aufbauen
 						// dazu die popliste neu abrufen, da Koordinaten geändert haben! popid_markiert bleibt gleich
-						$.ajax({
+						var getPopKarteAlle_2 = $.ajax({
 							type: 'get',
 							url: 'php/pop_karte_alle.php',
 							dataType: 'json',
 							data: {
 								"ApArtId": window.ap.ApArtId
-							},
-							success: function(PopListe) {
-								erstellePopNrFuerGeoAdmin(PopListe, true);
-								erstellePopNamenFuerGeoAdmin(PopListe);
-								erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, true);
-							},	
-							error: function() {
-								melde("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
 							}
+						});
+						getPopKarteAlle_2.done(function(PopListe) {
+							erstellePopNrFuerGeoAdmin(PopListe, true);
+							erstellePopNamenFuerGeoAdmin(PopListe);
+							erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, true);
+						});
+						getPopKarteAlle_2.fail(function() {
+							melde("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
 						});
 					},
 					"nein, nicht verschieben": function() {
@@ -8900,7 +8898,7 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 			X = DdInChY(lat, lng);
 			Y = DdInChX(lat, lng);
 			// nächstgelegene TPop aus DB holen
-			$.ajax({
+			var BeobNaechsteTPop = $.ajax({
 				type: 'get',
 				url: 'php/beob_naechste_tpop.php',
 				data: {
@@ -8908,44 +8906,44 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 					"X": X,
 					"Y": Y
 				},
-				dataType: 'json',
-				success: function(data) {
-					var beobtxt;
-					if (Beob.Autor) {
-						beobtxt = "Beobachtung von " + Beob.Autor + " aus dem Jahr " + Beob.A_NOTE;
-					} else {
-						beobtxt = "Beobachtung ohne Autor aus dem Jahr " + Beob.A_NOTE;
-					}
-					// rückfragen
-					$("#Meldung").html("Soll die " + beobtxt + "<br>der Teilpopulation '" + data[0].TPopFlurname + "' zugeordnet werden?");
-					$("#Meldung").dialog({
-						modal: true,
-						title: "Zuordnung bestätigen",
-						width: 600,
-						buttons: {
-							Ja: function() {
-								$(this).dialog("close");
-								// dem bind.move_node mitteilen, dass das Formular nicht initiiert werden soll
-								localStorage.karte_fokussieren = true;
-								// Beob der TPop zuweisen
-								$("#tree").jstree("move_node", "#beob" + Beob.NO_NOTE, "#tpop_ordner_beob_zugeordnet" + data[0].TPopId, "first");
-								// Den Marker der zugewiesenen Beobachtung entfernen
-								that.setMap(null);
-							},
-							Nein: function() {
-								$(this).dialog("close");
-								// drag rückgängig machen
-								lng = CHtoWGSlng(Beob.X, Beob.Y);
-								lat = CHtoWGSlat(Beob.X, Beob.Y);
-								var latlng3 = new google.maps.LatLng(lat, lng);
-								that.setPosition(latlng3);
-							}
-						}
-					});
-				},
-				error: function() {
-					melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
+				dataType: 'json'
+			});
+			BeobNaechsteTPop.done(function(data) {
+				var beobtxt;
+				if (Beob.Autor) {
+					beobtxt = "Beobachtung von " + Beob.Autor + " aus dem Jahr " + Beob.A_NOTE;
+				} else {
+					beobtxt = "Beobachtung ohne Autor aus dem Jahr " + Beob.A_NOTE;
 				}
+				// rückfragen
+				$("#Meldung").html("Soll die " + beobtxt + "<br>der Teilpopulation '" + data[0].TPopFlurname + "' zugeordnet werden?");
+				$("#Meldung").dialog({
+					modal: true,
+					title: "Zuordnung bestätigen",
+					width: 600,
+					buttons: {
+						Ja: function() {
+							$(this).dialog("close");
+							// dem bind.move_node mitteilen, dass das Formular nicht initiiert werden soll
+							localStorage.karte_fokussieren = true;
+							// Beob der TPop zuweisen
+							$("#tree").jstree("move_node", "#beob" + Beob.NO_NOTE, "#tpop_ordner_beob_zugeordnet" + data[0].TPopId, "first");
+							// Den Marker der zugewiesenen Beobachtung entfernen
+							that.setMap(null);
+						},
+						Nein: function() {
+							$(this).dialog("close");
+							// drag rückgängig machen
+							lng = CHtoWGSlng(Beob.X, Beob.Y);
+							lat = CHtoWGSlat(Beob.X, Beob.Y);
+							var latlng3 = new google.maps.LatLng(lat, lng);
+							that.setPosition(latlng3);
+						}
+					}
+				});
+			});
+			BeobNaechsteTPop.fail(function() {
+				melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
 			});
 		});
 	}
@@ -9309,7 +9307,7 @@ function SetLocationTPop(LatLng, map, marker, TPop) {
 	lng = LatLng.lng();
 	X = DdInChY(lat, lng);
 	Y = DdInChX(lat, lng);
-	$.ajax({
+	var updateTPop_3 = $.ajax({
 		type: 'post',
 		url: 'php/tpop_update.php',
 		dataType: 'json',
@@ -9318,43 +9316,49 @@ function SetLocationTPop(LatLng, map, marker, TPop) {
 			"Feld": "TPopXKoord",
 			"Wert": X,
 			"user": sessionStorage.User
-		},
-		success: function() {
-			$.ajax({
-				type: 'post',
-				url: 'php/tpop_update.php',
-				dataType: 'json',
-				data: {
-					"id": localStorage.tpop_id,
-					"Feld": "TPopYKoord",
-					"Wert": Y,
-					"user": sessionStorage.User
-				},
-				success: function() {
-					clearInfoWindows();
-					contentString = '<div id="content">'+
-						'<div id="siteNotice">'+
-						'</div>'+
-						'<div id="bodyContent" class="GmInfowindow">'+
-						'<h3>' + title + '</h3>'+
-						'<p>Koordinaten: ' + X + ' / ' + Y + '</p>'+
-						"<p><a href=\"#\" onclick=\"oeffneTPop('" + localStorage.tpop_id + "')\">Formular öffnen<\/a></p>"+
-						"<p><a href=\"#\" onclick=\"oeffneTPopInNeuemTab('" + localStorage.tpop_id + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
-						'</div>'+
-						'</div>';
-					infowindow = new google.maps.InfoWindow({
-						content: contentString
-					});
-					if (!window.InfoWindowArray) {
-						window.InfoWindowArray = [];
-					}
-					window.InfoWindowArray.push(infowindow);
-					google.maps.event.addListener(marker, 'click', function() {
-						infowindow.open(map, marker);
-					});
-				}
-			});
 		}
+	});
+	updateTPop_3.done(function() {
+		var updateTPop_4 = $.ajax({
+			type: 'post',
+			url: 'php/tpop_update.php',
+			dataType: 'json',
+			data: {
+				"id": localStorage.tpop_id,
+				"Feld": "TPopYKoord",
+				"Wert": Y,
+				"user": sessionStorage.User
+			}
+		});
+		updateTPop_4.done(function() {
+			clearInfoWindows();
+			contentString = '<div id="content">'+
+				'<div id="siteNotice">'+
+				'</div>'+
+				'<div id="bodyContent" class="GmInfowindow">'+
+				'<h3>' + title + '</h3>'+
+				'<p>Koordinaten: ' + X + ' / ' + Y + '</p>'+
+				"<p><a href=\"#\" onclick=\"oeffneTPop('" + localStorage.tpop_id + "')\">Formular öffnen<\/a></p>"+
+				"<p><a href=\"#\" onclick=\"oeffneTPopInNeuemTab('" + localStorage.tpop_id + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+				'</div>'+
+				'</div>';
+			infowindow = new google.maps.InfoWindow({
+				content: contentString
+			});
+			if (!window.InfoWindowArray) {
+				window.InfoWindowArray = [];
+			}
+			window.InfoWindowArray.push(infowindow);
+			google.maps.event.addListener(marker, 'click', function() {
+				infowindow.open(map, marker);
+			});
+		});
+		updateTPop_4.fail(function() {
+			melde("Fehler: Die Y-Koordinate wurde nicht übernommen (die X-Koordinate offenbar schon");
+		});
+	});
+	updateTPop_3.fail(function() {
+		melde("Fehler: Die Koordinaten wurden nicht übernommen");
 	});
 }
 
@@ -10369,33 +10373,36 @@ function messe(element) {
 
 function erstelleGemeindeliste() {
 	if (!window.Gemeinden) {
-		$.ajax({
+		var getGemeinden = $.ajax({
 			type: 'get',
 			url: 'php/gemeinden.php',
-			dataType: 'json',
-			success: function(data) {
-				if (data) {
-					// Gemeinden bereitstellen
-					// Feld mit Daten beliefern
-					var Gemeinden;
-					Gemeinden = [];
-					for (var i = 0; i < data.rows.length; i++) {
-						if (data.rows[i].GmdName) {
-							Gemeinden.push(data.rows[i].GmdName);
-						}
+			dataType: 'json'
+		});
+		getGemeinden.done(function(data) {
+			if (data) {
+				// Gemeinden bereitstellen
+				// Feld mit Daten beliefern
+				var Gemeinden;
+				Gemeinden = [];
+				for (var i = 0; i < data.rows.length; i++) {
+					if (data.rows[i].GmdName) {
+						Gemeinden.push(data.rows[i].GmdName);
 					}
-					window.Gemeinden = Gemeinden;
-					// autocomplete-widget für Gemeinden initiieren
-					$("#TPopGemeinde").autocomplete({
-						source: Gemeinden,
-						delay: 0,
-						// Change-Event wird nicht ausgelöst > hier aufrufen
-						change: function(event, ui) {
-							speichern(event.target);
-						}
-					});
 				}
+				window.Gemeinden = Gemeinden;
+				// autocomplete-widget für Gemeinden initiieren
+				$("#TPopGemeinde").autocomplete({
+					source: Gemeinden,
+					delay: 0,
+					// Change-Event wird nicht ausgelöst > hier aufrufen
+					change: function(event, ui) {
+						speichern(event.target);
+					}
+				});
 			}
+		});
+		getGemeinden.fail(function() {
+			melde("Fehler: Die Liste der Gemeinden konnte nicht bereitgestellt werden");
 		});
 	}
 }
@@ -10407,37 +10414,37 @@ function waehleAp(ap_id) {
 		localStorage.ap_id = ap_id;
 		if ($("[name='programm_wahl']:checked").attr("id") === "programm_neu") {
 			// zuerst einen neuen Datensatz anlegen
-			$.ajax({
+			var insertAp = $.ajax({
 				type: 'post',
 				url: 'php/ap_insert.php',
 				dataType: 'json',
 				data: {
 					"id": localStorage.ap_id,
 					"user": sessionStorage.User
-				},
-				success: function() {
-					// nachdem ein neues Programm erstellt wurde, soll nicht mehr "neu" zur Wahl stehen, sondern "alle"
-					$("#programm_neu").attr("checked", false);
-					$("#programm_alle").attr("checked", true);
-					$("#programm_wahl").buttonset();
-					// Auswahlliste für Programme updaten
-					$.when(waehle_ap_liste("programm_alle"))
-						.then(function() {
-							// Strukturbaum updaten
-							$.when(erstelle_tree(localStorage.ap_id))
-								.then(function() {
-									// gewählte Art in Auswahlliste anzeigen
-									$('#ap_waehlen').val(localStorage.ap_id);
-									$('#ap_waehlen option[value =' + localStorage.ap_id + ']').attr('selected', true);
-									$("#ApArtId").val(localStorage.ap_id);
-									// gewählte Art in Formular anzeigen
-									initiiere_ap();
-								});
-					});
-				},
-				error: function() {
-					melde("Fehler: Keine Date für Programme erhalten");
 				}
+			});
+			insertAp.done(function() {
+				// nachdem ein neues Programm erstellt wurde, soll nicht mehr "neu" zur Wahl stehen, sondern "alle"
+				$("#programm_neu").attr("checked", false);
+				$("#programm_alle").attr("checked", true);
+				$("#programm_wahl").buttonset();
+				// Auswahlliste für Programme updaten
+				$.when(waehle_ap_liste("programm_alle"))
+					.then(function() {
+						// Strukturbaum updaten
+						$.when(erstelle_tree(localStorage.ap_id))
+							.then(function() {
+								// gewählte Art in Auswahlliste anzeigen
+								$('#ap_waehlen').val(localStorage.ap_id);
+								$('#ap_waehlen option[value =' + localStorage.ap_id + ']').attr('selected', true);
+								$("#ApArtId").val(localStorage.ap_id);
+								// gewählte Art in Formular anzeigen
+								initiiere_ap();
+							});
+				});
+			});
+			insertAp.fail(function() {
+				melde("Fehler: Keine Daten für Programme erhalten");
 			});
 		} else {
 			erstelle_tree(ap_id);
@@ -10463,7 +10470,7 @@ function kopiereKoordinatenInPop(TPopXKoord, TPopYKoord) {
 	// prüfen, ob X- und Y-Koordinaten vergeben sind
 	if (TPopXKoord > 100000 && TPopYKoord > 100000) {
 		// Koordinaten der Pop nachführen
-		$.ajax({
+		var updatePop_3 = $.ajax({
 			type: 'post',
 			url: 'php/pop_update.php',
 			dataType: 'json',
@@ -10472,32 +10479,32 @@ function kopiereKoordinatenInPop(TPopXKoord, TPopYKoord) {
 				"Feld": "PopXKoord",
 				"Wert": TPopXKoord,
 				"user": sessionStorage.User
-			},
-			success: function() {
-				$.ajax({
-					type: 'post',
-					url: 'php/pop_update.php',
-					dataType: 'json',
-					data: {
-						"id": localStorage.pop_id,
-						"Feld": "PopYKoord",
-						"Wert": TPopYKoord,
-						"user": sessionStorage.User
-					},
-					success: function() {
-						$("#kopiereKoordinatenInPopRueckmeldung").fadeIn('slow');
-						setTimeout(function() {
-							$("#kopiereKoordinatenInPopRueckmeldung").fadeOut('slow');
-						}, 3000);
-					},
-					error: function() {
-						melde("Fehler: Y-Koordinate wurde nicht kopiert");
-					}
-				});
-			},
-			error: function() {
-				melde("Fehler: Koordinaten wurden nicht kopiert");
 			}
+		});
+		updatePop_3.done(function() {
+			var updatePop_4 = $.ajax({
+				type: 'post',
+				url: 'php/pop_update.php',
+				dataType: 'json',
+				data: {
+					"id": localStorage.pop_id,
+					"Feld": "PopYKoord",
+					"Wert": TPopYKoord,
+					"user": sessionStorage.User
+				}
+			});
+			updatePop_4.done(function() {
+				$("#kopiereKoordinatenInPopRueckmeldung").fadeIn('slow');
+				setTimeout(function() {
+					$("#kopiereKoordinatenInPopRueckmeldung").fadeOut('slow');
+				}, 3000);
+			});
+			updatePop_4.fail(function() {
+				melde("Fehler: Y-Koordinate wurde nicht kopiert (die X-Koordinate offenbar schon");
+			});
+		});
+		updatePop_3.fail(function() {
+			melde("Fehler: Koordinaten wurden nicht kopiert");
 		});
 	} else {
 		// auffordern, die Koordinaten zu vergeben und Speichern abbrechen
@@ -10509,36 +10516,36 @@ function pruefe_anmeldung() {
 	// Leserechte zurücksetzen
 	delete sessionStorage.NurLesen;
 	if ($("#anmeldung_name").val() && $("#anmeldung_passwort").val()) {
-		$.ajax({
+		var getAnmeldung = $.ajax({
 			type: 'get',
 			url: 'php/anmeldung.php',
 			dataType: 'json',
 			data: {
 				"Name": $("#anmeldung_name").val(),
 				"pwd": $("#anmeldung_passwort").val()
-			},
-			success: function(data) {
-				if (data && data.anzUser > 0) {
-					sessionStorage.User = $("#anmeldung_name").val();
-					// wenn NurLesen, globale Variable setzen
-					if (data.NurLesen && data.NurLesen === -1) {
-						sessionStorage.NurLesen = true;
-					}
-					$("#anmeldung_rueckmeldung").html("Willkommen " + $("#anmeldung_name").val()).addClass("ui-state-highlight");
-					setTimeout(function() {
-						$("#anmelde_dialog").dialog("close", 2000);
-					}, 1000);
-				} else {
-					alert("Anmeldung gescheitert");
-					$("#anmeldung_rueckmeldung").html("Anmeldung gescheitert").addClass("ui-state-highlight");
-					setTimeout(function() {
-						$("#anmeldung_rueckmeldung").removeClass("ui-state-highlight", 1500);
-					}, 500);
-				}
-			},
-			error: function() {
-				melde("Anmeldung gescheitert");
 			}
+		});
+		getAnmeldung.done(function(data) {
+			if (data && data.anzUser > 0) {
+				sessionStorage.User = $("#anmeldung_name").val();
+				// wenn NurLesen, globale Variable setzen
+				if (data.NurLesen && data.NurLesen === -1) {
+					sessionStorage.NurLesen = true;
+				}
+				$("#anmeldung_rueckmeldung").html("Willkommen " + $("#anmeldung_name").val()).addClass("ui-state-highlight");
+				setTimeout(function() {
+					$("#anmelde_dialog").dialog("close", 2000);
+				}, 1000);
+			} else {
+				alert("Anmeldung gescheitert");
+				$("#anmeldung_rueckmeldung").html("Anmeldung gescheitert").addClass("ui-state-highlight");
+				setTimeout(function() {
+					$("#anmeldung_rueckmeldung").removeClass("ui-state-highlight", 1500);
+				}, 500);
+			}
+		});
+		getAnmeldung.fail(function() {
+			melde("Anmeldung gescheitert");
 		});
 	} else {
 		$("#anmeldung_rueckmeldung").html("Bitte Name und Passwort ausfüllen").addClass( "ui-state-highlight" );
@@ -10892,6 +10899,50 @@ function insertOrdnerVonTPop(TPopNode, tpop_id) {
 			"id": tpop_id,
 			"typ": "tpop_ordner_beob_zugeordnet"
 		}
+	});
+}
+
+function loescheAp(ap_id) {
+	//Variable zum rückgängig machen erstellen
+	window.deleted = window.ap;
+	window.deleted.typ = "ap";
+	//Artname in Textform merken
+	window.deleted.Artname = $("#ap_waehlen option[value='" + $("#ap_waehlen").val() + "']").text();
+	var deleteAp = $.ajax({
+		type: 'post',
+		url: 'php/ap_delete.php',
+		dataType: 'json',
+		data: {
+			"id": ap_id
+		}
+	});
+	deleteAp.done(function() {
+		delete localStorage.ap_id;
+		delete window.ap;
+		delete localStorage.ap;
+		$("#programm_neu").attr("checked", false);
+		$("#programm_alle").attr("checked", true);
+		$("#programm_wahl").buttonset();
+		erstelle_ap_liste("programm_alle");
+		$('#ap_waehlen').val('');
+		$("#ap_waehlen_label").html("Artförderprogramm wählen:").show();
+		$("#tree").hide();
+		$("#suchen").hide();
+		$("#exportieren_2").hide();
+		$("#hilfe").hide();
+		$("#ap_loeschen").hide();
+		$("#exportieren_2").show();
+		$("#ap").hide();
+		$("#forms").hide();
+		//Hinweis zum rückgängig machen anzeigen
+		frageObAktionRueckgaengigGemachtWerdenSoll("Das Programm der Art '" + window.deleted.Artname + "' wurde gelöscht.");
+		//Artname wird nicht mehr gebraucht und soll später nicht in Datensatz eingefügt werden
+		delete window.deleted.Artname;
+		//forms muss eingeblendet sein, weil undelete_div darin ist
+		zeigeFormular("keines");
+	});
+	deleteAp.fail(function(data) {
+		melde("Fehler: Das Programm wurde nicht gelöscht");
 	});
 }
 

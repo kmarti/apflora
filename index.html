@@ -2350,57 +2350,7 @@
 							width: 500,
 							buttons: {
 								ja: function() {
-									//Variable zum rückgängig machen erstellen
-									window.deleted = window.ap;
-									window.deleted.typ = "ap";
-									//Artname in Textform merken
-									window.deleted.Artname = $("#ap_waehlen option[value='" + $("#ap_waehlen").val() + "']").text();
-									$.ajax({
-										type: 'post',
-										url: 'php/ap_delete.php',
-										dataType: 'json',
-										data: {
-											"id": localStorage.ap_id
-										},
-										success: function() {
-											delete localStorage.ap_id;
-											delete window.ap;
-											delete localStorage.ap;
-											$("#programm_neu").attr("checked", false);
-											$("#programm_alle").attr("checked", true);
-											$("#programm_wahl").buttonset();
-											erstelle_ap_liste("programm_alle");
-											$('#ap_waehlen').val('');
-											$("#ap_waehlen_label").html("Artförderprogramm wählen:").show();
-											$("#tree").hide();
-											$("#suchen").hide();
-											$("#exportieren_2").hide();
-											$("#hilfe").hide();
-											$("#ap_loeschen").hide();
-											$("#exportieren_2").show();
-											$("#ap").hide();
-											$("#forms").hide();
-											//Hinweis zum rückgängig machen anzeigen
-											frageObAktionRueckgaengigGemachtWerdenSoll("Das Programm der Art '" + window.deleted.Artname + "' wurde gelöscht.");
-											//Artname wird nicht mehr gebraucht und soll später nicht in Datensatz eingefügt werden
-											delete window.deleted.Artname;
-											//forms muss eingeblendet sein, weil undelete_div darin ist
-											zeigeFormular("keines");
-										},
-										error: function(data) {
-											var Meldung;
-											Meldung = JSON.stringify(data);
-											$("#Meldung").html(data.responseText);
-											$("#Meldung").dialog({
-												modal: true,
-												buttons: {
-													Ok: function() {
-														$(this).dialog("close");
-													}
-												}
-											});
-										}
-									});
+									loescheAp(localStorage.ap_id);
 									$(this).dialog("close");
 								},
 								nein: function() {
@@ -2419,15 +2369,7 @@
 					event.preventDefault();
 					var apartid = window.ap.ApArtId;
 					if (!window.deleted) {
-						$("#Meldung").html("Fehler: Wiederherstellung gescheitert");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+						melde("Fehler: Wiederherstellung gescheitert");
 					} else if (window.deleted.typ === "ap") {
 						//typ gehört nicht zum Datensatz
 						delete window.deleted.typ;
@@ -2456,16 +2398,8 @@
 								//neu initiieren, damit die gelöschte Art gewählt werden kann
 								initiiere_index();
 							},
-							error: function(data) {
-								$("#Meldung").html("Fehler: Wiederherstellung gescheitert");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
+							error: function() {
+								melde("Fehler: Wiederherstellung gescheitert");
 							}
 						});
 					} else if (window.deleted.typ === "pop") {
@@ -2495,16 +2429,8 @@
 										$("#tree").jstree("select_node", "[typ='pop']#" + window.deleted.PopId);
 									});
 							},
-							error: function(data) {
-								$("#Meldung").html("Fehler: Wiederherstellung gescheitert");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
+							error: function() {
+								melde("Fehler: Wiederherstellung gescheitert");
 							}
 						});
 					} else if (window.deleted.typ === "tpop") {
@@ -2534,16 +2460,8 @@
 										$("#tree").jstree("select_node", "[typ='tpop']#" + window.deleted.TPopId);
 									});
 							},
-							error: function(data) {
-								$("#Meldung").html("Fehler: Wiederherstellung gescheitert");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
+							error: function() {
+								melde("Fehler: Wiederherstellung gescheitert");
 							}
 						});
 					} else if (window.deleted.typ === "tpopmassn") {
@@ -2573,16 +2491,8 @@
 										$("#tree").jstree("select_node", "[typ='tpopmassn']#" + window.deleted.TPopMassnId);
 									});
 							},
-							error: function(data) {
-								$("#Meldung").html("Fehler: Wiederherstellung gescheitert");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
+							error: function() {
+								melde("Fehler: Wiederherstellung gescheitert");
 							}
 						});
 					} else if (window.deleted.typ === "tpopfeldkontr" || window.deleted.typ === "tpopfreiwkontr") {
@@ -2614,16 +2524,8 @@
 										$("#tree").jstree("select_node", "[typ='" + typ + "']#" + window.deleted.TPopKontrId);
 									});
 							},
-							error: function(data) {
-								$("#Meldung").html("Fehler: Wiederherstellung gescheitert");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
+							error: function() {
+								melde("Fehler: Wiederherstellung gescheitert");
 							}
 						});
 					} else if (window.deleted.typ === "jber") {
@@ -2653,28 +2555,12 @@
 										$("#tree").jstree("select_node", "[typ='jber']#" + window.deleted.JBerId);
 									});
 							},
-							error: function(data) {
-								$("#Meldung").html("Fehler: Wiederherstellung gescheitert");
-								$("#Meldung").dialog({
-									modal: true,
-									buttons: {
-										Ok: function() {
-											$(this).dialog("close");
-										}
-									}
-								});
+							error: function() {
+								melde("Fehler: Wiederherstellung gescheitert");
 							}
 						});
 					} else {
-						$("#Meldung").html("Fehler: Wiederherstellung gescheitert");
-						$("#Meldung").dialog({
-							modal: true,
-							buttons: {
-								Ok: function() {
-									$(this).dialog("close");
-								}
-							}
-						});
+						melde("Fehler: Wiederherstellung gescheitert");
 					}
 				});
 
