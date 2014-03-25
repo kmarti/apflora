@@ -3727,7 +3727,8 @@ function treeKontextmenu(node) {
 					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
-					$("#loeschen_dialog_mitteilung").html("Das Ziel \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird gelöscht.");
+					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					$("#loeschen_dialog_mitteilung").html("Das AP-Ziel '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
 						height:'auto',
@@ -3759,7 +3760,7 @@ function treeKontextmenu(node) {
 										beschrifte_ordner_apzieljahr(parent_node);
 									}
 									// Hinweis zum rückgängig machen anzeigen
-									frageObAktionRueckgaengigGemachtWerdenSoll("AP-Ziel \"" + window.deleted.ZielBezeichnung + "\" für Jahr \"" + window.deleted.ZielJahr + "\" wurde gelöscht.");
+									frageObAktionRueckgaengigGemachtWerdenSoll("Das AP-Ziel '" + bezeichnung + "' wurde gelöscht.");
 								});
 								deleteApziel.fail(function() {
 									melde("Fehler: Das AP-Ziel wurde nicht gelöscht");
@@ -3844,7 +3845,8 @@ function treeKontextmenu(node) {
 					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
-					$("#loeschen_dialog_mitteilung").html("Der Ziel-Bericht \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
+					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					$("#loeschen_dialog_mitteilung").html("Der Ziel-Bericht '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
 						height:'auto',
@@ -3871,7 +3873,7 @@ function treeKontextmenu(node) {
 									// Parent Node-Beschriftung: Anzahl anpassen
 									beschrifte_ordner_zielber(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
-									frageObAktionRueckgaengigGemachtWerdenSoll("Ziel-Bericht für Jahr \"" + window.deleted.ZielBerJahr + "\" mit Entwicklung \"" + window.deleted.ZielBerErreichung + "\" wurde gelöscht.");
+									frageObAktionRueckgaengigGemachtWerdenSoll("Der Ziel-Bericht '" + bezeichnung + "' wurde gelöscht.");
 								});
 								deleteZielber.fail(function() {
 									melde("Fehler: Der Ziel-Bericht wurde nicht gelöscht");
@@ -3956,7 +3958,8 @@ function treeKontextmenu(node) {
 					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
-					$("#loeschen_dialog_mitteilung").html("Das Erfolgskriterium \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird gelöscht.");
+					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					$("#loeschen_dialog_mitteilung").html("Das Erfolgskriterium '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
 						height:'auto',
@@ -3983,7 +3986,7 @@ function treeKontextmenu(node) {
 									// Parent Node-Beschriftung: Anzahl anpassen
 									beschrifte_ordner_erfkrit(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
-									frageObAktionRueckgaengigGemachtWerdenSoll("Erfolgskriterium \"" + window.deleted.ErfkritTxt + "\" wurde gelöscht.");
+									frageObAktionRueckgaengigGemachtWerdenSoll("Das Erfolgskriterium '" + bezeichnung + "' wurde gelöscht.");
 								});
 								deleteErfkrit.fail(function() {
 									melde("Fehler: Das Erfolgskriterium wurde nicht gelöscht");
@@ -4075,7 +4078,8 @@ function treeKontextmenu(node) {
 					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
-					$("#loeschen_dialog_mitteilung").html("Der AP-Bericht \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird gelöscht.");
+					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					$("#loeschen_dialog_mitteilung").html("Der AP-Bericht '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
 						height:'auto',
@@ -4102,7 +4106,7 @@ function treeKontextmenu(node) {
 									// Parent Node-Beschriftung: Anzahl anpassen
 									beschrifte_ordner_jber(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
-									frageObAktionRueckgaengigGemachtWerdenSoll("AP-Bericht '" + window.deleted.JBerJahr + "' wurde gelöscht.");
+									frageObAktionRueckgaengigGemachtWerdenSoll("Der AP-Bericht '" + bezeichnung + "' wurde gelöscht.");
 								});
 								deleteJber.fail(function() {
 									melde("Fehler: Der AP-Bericht wurde nicht gelöscht");
@@ -4271,7 +4275,8 @@ function treeKontextmenu(node) {
 					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
-					$("#loeschen_dialog_mitteilung").html("Der Bericht \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird gelöscht.");
+					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					$("#loeschen_dialog_mitteilung").html("Der Bericht '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
 						height:'auto',
@@ -4298,7 +4303,7 @@ function treeKontextmenu(node) {
 									// Parent Node-Beschriftung: Anzahl anpassen
 									beschrifte_ordner_ber(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
-									frageObAktionRueckgaengigGemachtWerdenSoll("Der Bericht mit Titel \"" + window.deleted.BerTitel + "\" wurde gelöscht.");
+									frageObAktionRueckgaengigGemachtWerdenSoll("Der Bericht '" + bezeichnung + "' wurde gelöscht.");
 								});
 								deleteBer.fail(function() {
 									melde("Fehler: Der Bericht wurde nicht gelöscht");
@@ -4383,7 +4388,8 @@ function treeKontextmenu(node) {
 					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
-					$("#loeschen_dialog_mitteilung").html("Die assoziierte Art \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
+					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					$("#loeschen_dialog_mitteilung").html("Die assoziierte Art '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
 						height:'auto',
@@ -4392,6 +4398,9 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
+								// Variable zum rückgängig machen erstellen
+								window.deleted = window.assozarten;
+								window.deleted.typ = "assozarten";
 								var deleteAssozarten = $.ajax({
 									type: 'post',
 									url: 'php/assozarten_delete.php',
@@ -4406,6 +4415,8 @@ function treeKontextmenu(node) {
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									beschrifte_ordner_assozarten(parent_node);
+									// Hinweis zum rückgängig machen anzeigen
+									frageObAktionRueckgaengigGemachtWerdenSoll("Die assoziierte Art '" + bezeichnung + "' wurde gelöscht.");
 								});
 								deleteAssozarten.fail(function() {
 									melde("Fehler: Die assoziierte Art wurde nicht gelöscht");
@@ -4462,7 +4473,8 @@ function treeKontextmenu(node) {
 					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
-					$("#loeschen_dialog_mitteilung").html("Die Population \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" und alle darunter befindlichen Knoten werden gelöscht.");
+					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					$("#loeschen_dialog_mitteilung").html("Die Population '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
 						height:'auto',
@@ -4489,7 +4501,7 @@ function treeKontextmenu(node) {
 									// Parent Node-Beschriftung: Anzahl anpassen
 									beschrifte_ordner_pop(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
-									frageObAktionRueckgaengigGemachtWerdenSoll("Population '" + window.deleted.PopName + "' wurde gelöscht.");
+									frageObAktionRueckgaengigGemachtWerdenSoll("Population '" + bezeichnung + "' wurde gelöscht.");
 								});
 								deletePop.fail(function() {
 									melde("Fehler: Die Population wurde nicht gelöscht");
@@ -4781,7 +4793,8 @@ function treeKontextmenu(node) {
 					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
-					$("#loeschen_dialog_mitteilung").html("Die Teilpopulation \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" und alle darunter befindlichen Knoten werden gelöscht.");
+					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					$("#loeschen_dialog_mitteilung").html("Die Teilpopulation '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
 						height:'auto',
@@ -4809,7 +4822,7 @@ function treeKontextmenu(node) {
 									// Parent Node-Beschriftung: Anzahl anpassen
 									beschrifte_ordner_tpop(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
-									frageObAktionRueckgaengigGemachtWerdenSoll("Teilpopulation '" + window.deleted.TPopFlurname + "' wurde gelöscht.");
+									frageObAktionRueckgaengigGemachtWerdenSoll("Teilpopulation '" + bezeichnung + "' wurde gelöscht.");
 								});
 								deleteTPop.fail(function() {
 									melde("Fehler: Die Teilpopulation wurde nicht gelöscht");
@@ -5068,7 +5081,8 @@ function treeKontextmenu(node) {
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
-					$("#loeschen_dialog_mitteilung").html("Der Populations-Bericht \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
+					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					$("#loeschen_dialog_mitteilung").html("Der Populations-Bericht '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
 						height:'auto',
@@ -5077,6 +5091,9 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
+								// Variable zum rückgängig machen erstellen
+								window.deleted = window.popber;
+								window.deleted.typ = "popber";
 								var deletePopber = $.ajax({
 									type: 'post',
 									url: 'php/popber_delete.php',
@@ -5091,6 +5108,8 @@ function treeKontextmenu(node) {
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									beschrifte_ordner_popber(parent_node);
+									// Hinweis zum rückgängig machen anzeigen
+									frageObAktionRueckgaengigGemachtWerdenSoll("Der Populations-Bericht '" + bezeichnung + "' wurde gelöscht.");
 								});
 								deletePopber.fail(function() {
 									melde("Fehler: Der Populations-Bericht wurde nicht gelöscht");
@@ -5169,7 +5188,8 @@ function treeKontextmenu(node) {
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
-					$("#loeschen_dialog_mitteilung").html("Der Massnahmen-Bericht \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
+					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					$("#loeschen_dialog_mitteilung").html("Der Massnahmen-Bericht '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
 						height:'auto',
@@ -5178,6 +5198,9 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
+								// Variable zum rückgängig machen erstellen
+								window.deleted = window.popmassnber;
+								window.deleted.typ = "popmassnber";
 								var deletePopMassnBer = $.ajax({
 									type: 'post',
 									url: 'php/popmassnber_delete.php',
@@ -5192,6 +5215,8 @@ function treeKontextmenu(node) {
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									beschrifte_ordner_popmassnber(parent_node);
+									// Hinweis zum rückgängig machen anzeigen
+									frageObAktionRueckgaengigGemachtWerdenSoll("Der Massnahmen-Bericht '" + bezeichnung + "' wurde gelöscht.");
 								});
 								deletePopMassnBer.fail(function() {
 									melde("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
@@ -5310,7 +5335,8 @@ function treeKontextmenu(node) {
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
-					$("#loeschen_dialog_mitteilung").html("Die Feldkontrolle \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird gelöscht.");
+					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					$("#loeschen_dialog_mitteilung").html("Die Feldkontrolle '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
 						height:'auto',
@@ -5337,7 +5363,7 @@ function treeKontextmenu(node) {
 									// Parent Node-Beschriftung: Anzahl anpassen
 									beschrifte_ordner_tpopfeldkontr(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
-									frageObAktionRueckgaengigGemachtWerdenSoll("Feldkontrolle '" + window.deleted.TPopKontrJahr + ": " + window.deleted.TPopKontrTyp + "' wurde gelöscht.");
+									frageObAktionRueckgaengigGemachtWerdenSoll("Die Feldkontrolle '" + bezeichnung + "' wurde gelöscht.");
 								});
 								deleteTPopFeldKontr.fail(function() {
 									melde("Fehler: Die Feldkontrolle wurde nicht gelöscht");
@@ -5637,7 +5663,8 @@ function treeKontextmenu(node) {
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
-					$("#loeschen_dialog_mitteilung").html("Die Freiwilligen-Kontrolle \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird gelöscht.");
+					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					$("#loeschen_dialog_mitteilung").html("Die Freiwilligen-Kontrolle '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
 						height:'auto',
@@ -5665,7 +5692,7 @@ function treeKontextmenu(node) {
 									// Parent Node-Beschriftung: Anzahl anpassen
 									beschrifte_ordner_tpopfreiwkontr(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
-									frageObAktionRueckgaengigGemachtWerdenSoll("Freiwilligen-Kontrolle '" + window.deleted.TPopKontrJahr + "' wurde gelöscht.");
+									frageObAktionRueckgaengigGemachtWerdenSoll("Die Freiwilligen-Kontrolle '" + bezeichnung + "' wurde gelöscht.");
 								});
 								deleteTPopFeldKontr_2.fail(function() {
 									melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht gelöscht");
@@ -5870,7 +5897,8 @@ function treeKontextmenu(node) {
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
-					$("#loeschen_dialog_mitteilung").html("Die Massnahme \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird gelöscht.");
+					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					$("#loeschen_dialog_mitteilung").html("Die Massnahme '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
 						height:'auto',
@@ -5897,7 +5925,7 @@ function treeKontextmenu(node) {
 									// Parent Node-Beschriftung: Anzahl anpassen
 									beschrifte_ordner_tpopmassn(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
-									frageObAktionRueckgaengigGemachtWerdenSoll("Massnahme '" + window.deleted.TPopMassnJahr + ": " + window.deleted.TPopMassnTyp + "' wurde gelöscht.");
+									frageObAktionRueckgaengigGemachtWerdenSoll("Die Massnahme '" + bezeichnung + "' wurde gelöscht.");
 								});
 								deleteTPopMassn.fail(function() {
 									melde("Fehler: Die Massnahme wurde nicht gelöscht");
@@ -6067,7 +6095,8 @@ function treeKontextmenu(node) {
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
-					$("#loeschen_dialog_mitteilung").html("Der Teilpopulations-Bericht \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
+					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					$("#loeschen_dialog_mitteilung").html("Der Teilpopulations-Bericht '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
 						height:'auto',
@@ -6076,6 +6105,9 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
+								// Variable zum rückgängig machen erstellen
+								window.deleted = window.tpopber;
+								window.deleted.typ = "tpopber";
 								var deleteTPopBer = $.ajax({
 									type: 'post',
 									url: 'php/tpopber_delete.php',
@@ -6090,6 +6122,8 @@ function treeKontextmenu(node) {
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									beschrifte_ordner_tpopber(parent_node);
+									// Hinweis zum rückgängig machen anzeigen
+									frageObAktionRueckgaengigGemachtWerdenSoll("Der Teilpopulations-Bericht '" + bezeichnung + "' wurde gelöscht.");
 								});
 								deleteTPopBer.fail(function() {
 									melde("Fehler: Der Teilpopulations-Bericht wurde nicht gelöscht");
@@ -6329,7 +6363,8 @@ function treeKontextmenu(node) {
 					if (!pruefeSchreibvoraussetzungen()) {
 						return;
 					}
-					$("#loeschen_dialog_mitteilung").html("Der Massnahmen-Bericht \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
+					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					$("#loeschen_dialog_mitteilung").html("Der Massnahmen-Bericht '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
 						height:'auto',
@@ -6338,6 +6373,9 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
+								// Variable zum rückgängig machen erstellen
+								window.deleted = window.tpopmassnber;
+								window.deleted.typ = "tpopmassnber";
 								var deleteTPopMassnBer = $.ajax({
 									type: 'post',
 									url: 'php/tpopmassnber_delete.php',
@@ -6352,6 +6390,8 @@ function treeKontextmenu(node) {
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									beschrifte_ordner_popmassnber(parent_node);
+									// Hinweis zum rückgängig machen anzeigen
+									frageObAktionRueckgaengigGemachtWerdenSoll("Der Massnahmen-Bericht '" + bezeichnung + "' wurde gelöscht.");
 								});
 								deleteTPopMassnBer.fail(function() {
 									melde("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
@@ -11023,6 +11063,14 @@ function undeleteDatensatz() {
 			tabelle = "tblPopulation";
 			id = window.deleted.PopId;
 			break;
+		case "popber":
+			tabelle = "tblPopBericht";
+			id = window.deleted.PopBerId;
+			break;
+		case "popmassnber":
+			tabelle = "tblPopMassnBericht";
+			id = window.deleted.PopMassnBerId;
+			break;
 		case "tpop":
 			tabelle = "tblTeilpopulation";
 			id = window.deleted.TPopId;
@@ -11030,6 +11078,14 @@ function undeleteDatensatz() {
 		case "tpopmassn":
 			tabelle = "tblTeilPopMassnahme";
 			id = window.deleted.TPopMassnId;
+			break;
+		case "tpopmassnber":
+			tabelle = "tblTeilPopMassnBericht";
+			id = window.deleted.TPopMassnBerId;
+			break;
+		case "tpopber":
+			tabelle = "tblTeilPopBericht";
+			id = window.deleted.TPopBerId;
 			break;
 		case "tpopfeldkontr":
 		case "tpopfreiwkontr":
@@ -11047,6 +11103,10 @@ function undeleteDatensatz() {
 		case "ber":
 			tabelle = "tblBer";
 			id = window.deleted.BerId;
+			break;
+		case "assozarten":
+			tabelle = "tblAssozArten";
+			id = window.deleted.AaId;
 			break;
 		default:
 			melde("Fehler: Wiederherstellung gescheitert");
