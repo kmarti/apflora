@@ -10946,6 +10946,118 @@ function loescheAp(ap_id) {
 	});
 }
 
+// Stellt einen Datensatz aus window.deleted wieder her
+/*
+** TODO
+** Idee: $.data() auf #undelete nutzen
+** in einen Schlüssel "undelete" einen Array von Objekten verstauen
+** dann können ALLE Änderungen rückgängig gemacht werden:
+** Formular zeigt Inhalt von $("#undelete").data("undelete") an
+** jeder Datensatz hat Schaltfläche
+** bei Klick: Ja nach Typ der Daten Wiederherstellung starten und Erfolg melden
+*/
+function undeleteDatensatz() {
+	var apartid = window.ap.ApArtId,
+		tabelle,
+		data = {},
+		typ,
+		id;
+	
+	if (!window.deleted) {
+		melde("Fehler: Wiederherstellung gescheitert");
+		return false;
+	}
+	
+	//Artname wurde für die Anzeige in undelete_div gespeichert - entfernen, da kein Feld in Tabelle
+	delete window.deleted.Artname;
+	
+	// tabelle setzen
+	typ = window.deleted.typ
+	// typ gehört nicht zum Datensatz > löschen
+	delete window.deleted.typ;
+
+	switch (typ) {
+		case "ap":
+			tabelle = "tblAktionsplan";
+			id = window.deleted.ApArtId;
+			//Artname wurde für die Anzeige in undelete_div gespeichert - entfernen, da kein Feld in Tabelle
+			delete window.deleted.Artname;
+			break;
+		case "pop":
+			tabelle = "tblPopulation";
+			id = window.deleted.PopId;
+			break;
+		case "tpop":
+			tabelle = "tblTeilpopulation";
+			id = window.deleted.TPopId;
+			break;
+		case "tpopmassn":
+			tabelle = "tblTeilPopMassnahme";
+			id = window.deleted.TPopMassnId;
+			break;
+		case "tpopfeldkontr":
+		case "tpopfreiwkontr":
+			tabelle = "tblTeilPopFeldkontrolle";
+			id = window.deleted.TPopKontrId;
+			break;
+		case "jber":
+			tabelle = "tblJBer";
+			id = window.deleted.JBerId;
+			break;
+		default:
+			melde("Fehler: Wiederherstellung gescheitert");
+	}
+
+	// in data werden alle Feldwerte übergeben
+	data = {};
+
+	// tabelle wird in php benutzt, um zu wissen, in welche Tabelle der Datensatz eingefügt werden soll
+	// wird danach aus dem Felderarray entfernt
+	data.tabelle = tabelle;
+
+	// window.deleted enthält alle Feldnamen - viele können leer sein
+	// daher nur solche mit Werten übernehmen
+	for (i in window.deleted) {
+		if (window.deleted[i]) {
+			data[i] = window.deleted[i];
+		}
+	}
+
+	// Datensatz hinzufügen
+	var insertApMultiple = $.ajax({
+		type: 'post',
+		url: 'php/insert_multiple.php',
+		dataType: 'json',
+		data: data
+	});
+
+	insertApMultiple.done(function() {
+		$("#undelete_div").hide();
+		$("#forms_titelzeile").hide();
+		// ap kann nicht via Strukturbaum gewählt werden
+		if (typ === "ap") {
+			//Formulare ausblenden
+			zeigeFormular();
+			//neu initiieren, damit die gelöschte Art gewählt werden kann
+			initiiere_index();
+			// TODO: DAS TESTEN
+			// Formulare blenden
+			zeigeFormular("ap");
+			history.replaceState({ap: "ap"}, "ap", "index.html?ap=" + id);
+		} else {
+			//tree neu aufbauen
+			$.when(erstelle_tree(apartid))
+				.then(function() {
+					$("#tree").jstree("select_node", "[typ='" + typ + "']#" + id);
+				});
+		}
+	});
+
+	insertApMultiple.fail(function() {
+		melde("Fehler: Wiederherstellung gescheitert");
+	});
+}
+
 // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
 // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
 (function($) {
