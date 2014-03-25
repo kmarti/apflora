@@ -3727,7 +3727,7 @@ function treeKontextmenu(node) {
 					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
-					$("#loeschen_dialog_mitteilung").html("Das Ziel \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" und alle darunter befindlichen Knoten werden unwiederbringlich gelöscht.");
+					$("#loeschen_dialog_mitteilung").html("Das Ziel \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
 						height:'auto',
@@ -3736,6 +3736,9 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
+								// Variable zum rückgängig machen erstellen
+								window.deleted = window.apziel;
+								window.deleted.typ = "apziel";
 								var deleteApziel = $.ajax({
 									type: 'post',
 									url: 'php/apziel_delete.php',
@@ -3755,6 +3758,8 @@ function treeKontextmenu(node) {
 									if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
 										beschrifte_ordner_apzieljahr(parent_node);
 									}
+									// Hinweis zum rückgängig machen anzeigen
+									frageObAktionRueckgaengigGemachtWerdenSoll("AP-Ziel \"" + window.deleted.ZielBezeichnung + "\" für Jahr \"" + window.deleted.ZielJahr + "\" wurde gelöscht.");
 								});
 								deleteApziel.fail(function() {
 									melde("Fehler: Das AP-Ziel wurde nicht gelöscht");
@@ -3848,6 +3853,9 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
+								// Variable zum rückgängig machen erstellen
+								window.deleted = window.zielber;
+								window.deleted.typ = "zielber";
 								var deleteZielber = $.ajax({
 									type: 'post',
 									url: 'php/zielber_delete.php',
@@ -3862,6 +3870,8 @@ function treeKontextmenu(node) {
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									beschrifte_ordner_zielber(parent_node);
+									// Hinweis zum rückgängig machen anzeigen
+									frageObAktionRueckgaengigGemachtWerdenSoll("Ziel-Bericht für Jahr \"" + window.deleted.ZielBerJahr + "\" mit Entwicklung \"" + window.deleted.ZielBerErreichung + "\" wurde gelöscht.");
 								});
 								deleteZielber.fail(function() {
 									melde("Fehler: Der Ziel-Bericht wurde nicht gelöscht");
@@ -3946,7 +3956,7 @@ function treeKontextmenu(node) {
 					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
-					$("#loeschen_dialog_mitteilung").html("Das Erfolgskriterium \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
+					$("#loeschen_dialog_mitteilung").html("Das Erfolgskriterium \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
 						height:'auto',
@@ -3955,6 +3965,9 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
+								// Variable zum rückgängig machen erstellen
+								window.deleted = window.erfkrit;
+								window.deleted.typ = "erfkrit";
 								var deleteErfkrit = $.ajax({
 									type: 'post',
 									url: 'php/erfkrit_delete.php',
@@ -3969,6 +3982,8 @@ function treeKontextmenu(node) {
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									beschrifte_ordner_erfkrit(parent_node);
+									// Hinweis zum rückgängig machen anzeigen
+									frageObAktionRueckgaengigGemachtWerdenSoll("Erfolgskriterium \"" + window.deleted.ErfkritTxt + "\" wurde gelöscht.");
 								});
 								deleteErfkrit.fail(function() {
 									melde("Fehler: Das Erfolgskriterium wurde nicht gelöscht");
@@ -4146,7 +4161,7 @@ function treeKontextmenu(node) {
 					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
-					$("#loeschen_dialog_mitteilung").html("Die Übersicht zu allen Arten wird unwiederbringlich gelöscht");
+					$("#loeschen_dialog_mitteilung").html("Die Übersicht zu allen Arten wird gelöscht");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
 						height:'auto',
@@ -4155,6 +4170,9 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
+								// Variable zum rückgängig machen erstellen
+								window.deleted = window.jber_uebersicht;
+								window.deleted.typ = "jber_uebersicht";
 								var deleteJberUebersicht = $.ajax({
 									type: 'post',
 									url: 'php/jber_uebersicht_delete.php',
@@ -4167,6 +4185,8 @@ function treeKontextmenu(node) {
 									delete localStorage.jber_uebersicht_id;
 									delete window.jber_uebersicht;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									// Hinweis zum rückgängig machen anzeigen
+									frageObAktionRueckgaengigGemachtWerdenSoll("Die Übersicht für den AP-Bericht des Jahrs \"" + window.deleted.JbuJahr + "\" wurde gelöscht.");
 								});
 								deleteJberUebersicht.fail(function() {
 									melde("Fehler: Die Übersicht zu allen Arten wurde nicht gelöscht");
@@ -4251,7 +4271,7 @@ function treeKontextmenu(node) {
 					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
 					jQuery.jstree._reference(aktiver_node).deselect_all();
 					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
-					$("#loeschen_dialog_mitteilung").html("Der Bericht \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird unwiederbringlich gelöscht.");
+					$("#loeschen_dialog_mitteilung").html("Der Bericht \"" + jQuery.jstree._reference(aktiver_node).get_text(aktiver_node) + "\" wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
 						height:'auto',
@@ -4260,6 +4280,9 @@ function treeKontextmenu(node) {
 						buttons: {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
+								// Variable zum rückgängig machen erstellen
+								window.deleted = window.ber;
+								window.deleted.typ = "ber";
 								var deleteBer = $.ajax({
 									type: 'post',
 									url: 'php/ber_delete.php',
@@ -4274,6 +4297,8 @@ function treeKontextmenu(node) {
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									beschrifte_ordner_ber(parent_node);
+									// Hinweis zum rückgängig machen anzeigen
+									frageObAktionRueckgaengigGemachtWerdenSoll("Der Bericht mit Titel \"" + window.deleted.BerTitel + "\" wurde gelöscht.");
 								});
 								deleteBer.fail(function() {
 									melde("Fehler: Der Bericht wurde nicht gelöscht");
@@ -10957,8 +10982,7 @@ function loescheAp(ap_id) {
 ** bei Klick: Ja nach Typ der Daten Wiederherstellung starten und Erfolg melden
 */
 function undeleteDatensatz() {
-	var apartid = window.ap.ApArtId,
-		tabelle,
+	var tabelle,
 		data = {},
 		typ,
 		id;
@@ -10983,6 +11007,18 @@ function undeleteDatensatz() {
 			//Artname wurde für die Anzeige in undelete_div gespeichert - entfernen, da kein Feld in Tabelle
 			delete window.deleted.Artname;
 			break;
+		case "apziel":
+			tabelle = "tblZiel";
+			id = window.deleted.ZielId;
+			break;
+		case "zielber":
+			tabelle = "tblZielBericht";
+			id = window.deleted.ZielBerId;
+			break;
+		case "erfkrit":
+			tabelle = "tblErfKrit";
+			id = window.deleted.ErfkritId;
+			break;
 		case "pop":
 			tabelle = "tblPopulation";
 			id = window.deleted.PopId;
@@ -11004,12 +11040,17 @@ function undeleteDatensatz() {
 			tabelle = "tblJBer";
 			id = window.deleted.JBerId;
 			break;
+		case "jber_uebersicht":
+			tabelle = "tblJBerUebersicht";
+			id = window.deleted.JbuJahr;
+			break;
+		case "ber":
+			tabelle = "tblBer";
+			id = window.deleted.BerId;
+			break;
 		default:
 			melde("Fehler: Wiederherstellung gescheitert");
 	}
-
-	// in data werden alle Feldwerte übergeben
-	data = {};
 
 	// tabelle wird in php benutzt, um zu wissen, in welche Tabelle der Datensatz eingefügt werden soll
 	// wird danach aus dem Felderarray entfernt
@@ -11046,7 +11087,7 @@ function undeleteDatensatz() {
 			history.replaceState({ap: "ap"}, "ap", "index.html?ap=" + id);
 		} else {
 			//tree neu aufbauen
-			$.when(erstelle_tree(apartid))
+			$.when(erstelle_tree(window.ap.ApArtId))
 				.then(function() {
 					$("#tree").jstree("select_node", "[typ='" + typ + "']#" + id);
 				});
