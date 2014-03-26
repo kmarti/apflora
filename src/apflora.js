@@ -10742,12 +10742,14 @@ function melde(meldung) {
 function frageObAktionRueckgaengigGemachtWerdenSoll(wasIstPassiert) {
 	// Hinweis zum rückgängig machen anzeigen
 	$("#undelete_div").html(wasIstPassiert + " <a href='#' id='undelete'>Rückgängig machen?</a>");
-	$("#undelete_div").show();
-	$("#forms_titelzeile").show();
+	$(".undelete").show();
+	if ($( window ).width() > 1000) {
+		$("#forms").css("top", "37px");
+	}
 	setTimeout(function() {
 		$("#undelete_div").html("");
-		$("#undelete_div").hide();
-		$("#forms_titelzeile").hide();
+		$(".undelete").hide();
+		$("#forms").css("top", "");
 	}, 25000);
 }
 
@@ -11125,16 +11127,16 @@ function undeleteDatensatz() {
 	}
 
 	// Datensatz hinzufügen
-	var insertApMultiple = $.ajax({
+	var insertMultiple = $.ajax({
 		type: 'post',
 		url: 'php/insert_multiple.php',
 		dataType: 'json',
 		data: data
 	});
 
-	insertApMultiple.done(function() {
-		$("#undelete_div").hide();
-		$("#forms_titelzeile").hide();
+	insertMultiple.done(function() {
+		$(".undelete").hide();
+		$("#forms").css("top", "");
 		// ap kann nicht via Strukturbaum gewählt werden
 		if (typ === "ap") {
 			//Formulare ausblenden
@@ -11154,7 +11156,7 @@ function undeleteDatensatz() {
 		}
 	});
 
-	insertApMultiple.fail(function() {
+	insertMultiple.fail(function() {
 		melde("Fehler: Wiederherstellung gescheitert");
 	});
 }

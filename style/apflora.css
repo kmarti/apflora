@@ -76,6 +76,12 @@ form fieldset {
 		width: -o-calc(100% - 1px);
 		width: calc(100% - 1px);
 	}
+
+	#undelete_div {
+		width: -webkit-calc(100% - 1px);
+		width: -o-calc(100% - 1px);
+		width: calc(100% - 1px);
+	}
 }
 
 /*über 1000px nebeneinander*/
@@ -92,6 +98,15 @@ form fieldset {
 		width: -webkit-calc(100% - 411px);
 		width: -o-calc(100% - 411px);
 		width: calc(100% - 411px);
+	}
+
+	#undelete_div {
+		position: absolute;
+		left: 401px;
+		width: -webkit-calc(100% - 411px);
+		width: -o-calc(100% - 411px);
+		width: calc(100% - 411px);
+		z-index: 1;
 	}
 }
 

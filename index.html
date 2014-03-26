@@ -54,9 +54,10 @@
 			<div id="hilfe" style="font-size:80%; color:#6F6F66; display:none;">Für Menüs: mit rechter Maustaste im Strukturbaum klicken<a href="https://github.com/FNSKtZH/apflora/wiki" class="ui-icon ui-icon-info" style="float:right;" target="_blank" title="Infos über AP Flora Web"></a></div>
 		</fieldset>
 
+		<fieldset id="undelete_div" class="undelete" style="text-align:center !important; border-radius:0.5em !important; font-weight:bold !important; background-color:#FFCC33 !important; display:none;"></fieldset>
+
 		<fieldset id="forms" style="display:none;">
-			<div id="forms_titelzeile" style="margin:0px 0px 0px 0px; line-height:27px; padding: 0px 7px 0px 9px; height:auto; display:none;">
-				<div id="undelete_div" style="text-align:center !important; border-radius:0.5em !important; font-weight:bold !important; background-color:#FFCC33 !important; padding-right:7px !important; display:none;"></div>
+			<div id="forms_titelzeile" class="undelete" style="margin:0px 0px 0px 0px; line-height:27px; padding: 0px 7px 0px 9px; height:auto; display:none;">
 				<div id="testart_div" style="font-weight:bold; color:#196319; float:left; padding-right:7px;"></div>
 			</div>
 			<form id="ap" class="form" action="#" method="get" autocomplete="off" style="display:none;">
@@ -2344,7 +2345,7 @@
 							}
 						});
 					} else {
-						$("#Meldung").html("Wollen Sie das Artförderprogramm für " + $("#ap_waehlen option[value='" + $("#ap_waehlen").val() + "']").text() + " wirklich löschen?<br>Alle im Baum darunter befindlichen Daten werden mit gelöscht!");
+						$("#Meldung").html("Wollen Sie das Artförderprogramm für '" + $("#ap_waehlen option[value='" + $("#ap_waehlen").val() + "']").text() + "' wirklich löschen?");
 						$("#Meldung").dialog({
 							modal: true,
 							width: 500,
@@ -2365,7 +2366,7 @@
 					waehleAp(this.value);
 				});
 
-				$("#forms").on("click", "#undelete", function(event) {
+				$("#undelete_div").on("click", "#undelete", function(event) {
 					event.preventDefault();
 					undeleteDatensatz();
 				});
