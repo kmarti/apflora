@@ -10750,7 +10750,7 @@ function frageObAktionRueckgaengigGemachtWerdenSoll(wasIstPassiert) {
 		$("#undelete_div").html("");
 		$(".undelete").hide();
 		$("#forms").css("top", "");
-	}, 25000);
+	}, 30000);
 }
 
 
