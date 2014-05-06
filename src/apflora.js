@@ -9469,8 +9469,8 @@ function oeffnePopInNeuemTab(PopId) {
 
 function oeffneBeob(BeobId) {
 	localStorage.beob_id = BeobId;
-	jQuery.jstree._reference("[typ='beob_nicht_beurteilt']#" + BeobId).deselect_all();
-	jQuery("#tree").jstree("select_node", "[typ='beob_nicht_beurteilt']#" + BeobId);
+	jQuery.jstree._reference("[typ='beob_nicht_beurteilt']#beob" + BeobId).deselect_all();
+	jQuery("#tree").jstree("select_node", "[typ='beob_nicht_beurteilt']#beob" + BeobId);
 }
 
 function oeffneBeobInNeuemTab(BeobId) {
@@ -9479,8 +9479,8 @@ function oeffneBeobInNeuemTab(BeobId) {
 
 function oeffneTPopBeob(BeobId) {
 	localStorage.beob_id = BeobId;
-	jQuery.jstree._reference("[typ='beob_zugeordnet']#" + BeobId).deselect_all();
-	jQuery("#tree").jstree("select_node", "[typ='beob_zugeordnet']#" + BeobId);
+	jQuery.jstree._reference("[typ='beob_zugeordnet']#beob" + BeobId).deselect_all();
+	jQuery("#tree").jstree("select_node", "[typ='beob_zugeordnet']#beob" + BeobId);
 }
 
 function oeffneTPopBeobInNeuemTab(BeobId) {
