@@ -7,11 +7,10 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     clean = require('gulp-clean'),
     concat = require('gulp-concat'),
-    notify = require('gulp-notify'),
-    livereload = require('gulp-livereload');
+    notify = require('gulp-notify');
 
-gulp.task('default', function() {
-    // place code for your default task here
+gulp.task('default', ['clean'], function() {
+    gulp.start('style', 'scripts');
 });
 
 gulp.task('style', function() {
@@ -28,4 +27,9 @@ gulp.task('scripts', function() {
         .pipe(uglify())
         .pipe(gulp.dest('dist/src'))
         .pipe(notify({ message: 'Scripts task beendet' }));
+});
+
+gulp.task('clean', function() {
+    return gulp.src(['dist/img', 'dist/kml', 'dist/php', 'dist/src', 'dist/style'], {read: false})
+        .pipe(clean());
 });
