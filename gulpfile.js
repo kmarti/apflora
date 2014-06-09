@@ -22,17 +22,9 @@ gulp.task('style', function() {
         .pipe(notify({message: 'css task beendet'}));
 });
 
-gulp.task('scripts_all', function() {
-    return gulp.src('src/*.js')
+gulp.task('scripts', function() {
+    return gulp.src(['src/jquery-migrate.js', 'src/jquery-ui.js', 'src/jquery.ui.touch-punch.js', 'src/jquery.cookie.js', 'src/jquery.hotkeys.js', 'src/hammer.js', 'src/jquery.hammer.js', 'src/markerclusterer.js', 'src/markerwithlabel.js', 'src/ruler.js', 'src/jsuri.js', 'src/shapefile/shapefile.js', 'src/shapefile/stream.js', 'src/shapefile/dbf.js', 'src/apflora.js'])
         .pipe(concat('main.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest('dist/src'))
-        .pipe(notify({ message: 'Scripts task beendet' }));
-});
-
-gulp.task('script_apflora', function() {
-    return gulp.src('src/apflora.js')
-        //.pipe(concat('apflora.js'))
         .pipe(uglify())
         .pipe(gulp.dest('dist/src'))
         .pipe(notify({ message: 'Scripts task beendet' }));
