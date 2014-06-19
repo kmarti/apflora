@@ -10,9 +10,14 @@ var gulp = require('gulp'),
     notify = require('gulp-notify'),
     sftp = require('gulp-sftp'),
     clean = require('gulp-clean'),
-    watcher;
+    connect = require('gulp-connect');
 
-gulp.task('default', function() {
+// connect klappt leider nicht
+gulp.task('default', [/*'connect', */'watch'], function() {
+    gulp.start('build_dev');
+});
+
+gulp.task('prod', function() {
     gulp.start('styles', 'scripts');
 });
 
@@ -21,7 +26,7 @@ gulp.task('build_dev', ['styles_dev', 'scripts_dev'], function() {
 });
 
 gulp.task('styles', function() {
-    return gulp.src(['style/ol.css', 'style/apflora.css'])
+    return gulp.src(['style/apflora.css'])
         .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
         .pipe(minifycss())
         .pipe(rename({suffix: '.min'}))
@@ -37,7 +42,8 @@ gulp.task('styles_dev', function() {
 });
 
 gulp.task('scripts', function() {
-    return gulp.src(['src/jquery-migrate.js', 'src/jquery-ui.js', 'src/jquery.ui.touch-punch.js', 'src/jquery.cookie.js', 'src/jquery.hotkeys.js', 'src/hammer.js', 'src/jquery.hammer.js', 'src/markerclusterer.js', 'src/markerwithlabel.js', 'src/ruler.js', 'src/jsuri.js', 'src/shapefile/shapefile.js', 'src/shapefile/stream.js', 'src/shapefile/dbf.js', 'src/apflora.js'])
+    /*return gulp.src(['src/jquery-migrate.js', 'src/jquery-ui.js', 'src/jquery.ui.touch-punch.js', 'src/jquery.cookie.js', 'src/jquery.hotkeys.js', 'src/hammer.js', 'src/jquery.hammer.js', 'src/markerclusterer.js', 'src/markerwithlabel.js', 'src/ruler.js', 'src/jsuri.js', 'src/shapefile/shapefile.js', 'src/shapefile/stream.js', 'src/shapefile/dbf.js', 'src/apflora.js'])*/
+    return gulp.src(['src/jquery-ui.js', 'src/jquery.ui.touch-punch.js', 'src/jquery.cookie.js', 'src/jquery.hotkeys.js', 'src/hammer.js', 'src/jquery.hammer.js', 'src/markerclusterer.js', 'src/markerwithlabel.js', 'src/ruler.js', 'src/jsuri.js', 'src/shapefile/shapefile.js', 'src/shapefile/stream.js', 'src/shapefile/dbf.js', 'src/apflora.js'])
         .pipe(concat('main.js'))
         .pipe(uglify())
         .pipe(gulp.dest('src'))
@@ -45,7 +51,8 @@ gulp.task('scripts', function() {
 });
 
 gulp.task('scripts_dev', function() {
-    return gulp.src(['src/jquery-migrate.js', 'src/jquery-ui.js', 'src/jquery.ui.touch-punch.js', 'src/jquery.cookie.js', 'src/jquery.hotkeys.js', 'src/hammer.js', 'src/jquery.hammer.js', 'src/markerclusterer.js', 'src/markerwithlabel.js', 'src/ruler.js', 'src/jsuri.js', 'src/shapefile/shapefile.js', 'src/shapefile/stream.js', 'src/shapefile/dbf.js', 'src/apflora.js'])
+    /*return gulp.src(['src/jquery-migrate.js', 'src/jquery-ui.js', 'src/jquery.ui.touch-punch.js', 'src/jquery.cookie.js', 'src/jquery.hotkeys.js', 'src/hammer.js', 'src/jquery.hammer.js', 'src/markerclusterer.js', 'src/markerwithlabel.js', 'src/ruler.js', 'src/jsuri.js', 'src/shapefile/shapefile.js', 'src/shapefile/stream.js', 'src/shapefile/dbf.js', 'src/apflora.js'])*/
+    return gulp.src(['src/jquery-ui.js', 'src/jquery.ui.touch-punch.js', 'src/jquery.cookie.js', 'src/jquery.hotkeys.js', 'src/hammer.js', 'src/jquery.hammer.js', 'src/markerclusterer.js', 'src/markerwithlabel.js', 'src/ruler.js', 'src/jsuri.js', 'src/shapefile/shapefile.js', 'src/shapefile/stream.js', 'src/shapefile/dbf.js', 'src/apflora.js'])
         .pipe(concat('main.js'))
         .pipe(gulp.dest('src'))
         .pipe(notify({ message: 'Scripts task beendet' }));
@@ -71,7 +78,7 @@ gulp.task('sftp_src', function() {
 });
 
 gulp.task('move_dev_src', function() {
-    return gulp.src(['src/*', 'src/img/*', 'src/shapefile/*', 'src/theme/*', 'src/themes/*'], {base: 'src/'})
+    return gulp.src(['src/**', 'src/img/**', 'src/shapefile/**', 'src/theme/**', 'src/themes/**'], {base: 'src/'})
         .pipe(gulp.dest('../programme/xampp/htdocs/apflora/src'));
 });
 
@@ -110,6 +117,7 @@ gulp.task('sftp_php', function() {
 gulp.task('move_dev_php', function() {
     return gulp.src('php/*')
         .pipe(gulp.dest('../programme/xampp/htdocs/apflora/php'));
+        //.pipe(connect.reload());
 });
 
 gulp.task('sftp_index', function() {
@@ -128,9 +136,16 @@ gulp.task('move_dev_index', function() {
         .pipe(gulp.dest('../programme/xampp/htdocs/apflora/'));
 });
 
-watcher = gulp.watch('*');
-watcher.on('change', function() {
-   //  builden
-    gulp.start('build_dev');
+// siehe hier: http://symmetrycode.com/super-simple-static-server-in-gulp
+// aber klappt leider nicht
+gulp.task('connect', function() {
+    connect.server({
+        root: '../programme/xampp/htdocs/apflora/',
+        port: 4242,
+        livereload: true
+    });
 });
 
+gulp.task('watch', function() {
+    gulp.watch('**', ['build_dev']);
+});
