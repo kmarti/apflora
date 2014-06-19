@@ -1,0 +1,39 @@
+{
+  "name": "apflora",
+  "version": "0.0.0",
+  "description": "Aktionsplan Flora Kt. Zürich",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "gulp": "~3.7.0"
+  },
+  "devDependencies": {
+    "gulp": "~3.7.0",
+    "gulp-concat": "~2.2.0",
+    "gulp-minify-css": "~0.3.4",
+    "gulp-uglify": "~0.3.0",
+    "gulp-livereload": "~2.0.0",
+    "gulp-notify": "~1.3.1",
+    "gulp-autoprefixer": "0.0.7",
+    "gulp-rename": "~1.2.0",
+    "gulp-sftp": "0.0.15",
+    "gulp-clean": "~0.3.0"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FNSKtZH/apflora.git"
+  },
+  "keywords": [
+    "apflora",
+    "aktionsplan",
+    "flora"
+  ],
+  "author": "Alexander Gabriel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FNSKtZH/apflora/issues"
+  },
+  "homepage": "https://github.com/FNSKtZH/apflora"
+}
