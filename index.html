@@ -2164,7 +2164,7 @@
 					closeOnEscape: false,
 					buttons: {
 						"anmelden": function() {
-							pruefe_anmeldung();
+							prüfe_anmeldung();
 						}
 					},
 					open: function(event, ui) {
@@ -2172,7 +2172,7 @@
 						//Reaktion auf Enter-Taste in anmelde_dialog
 						$("#anmelde_dialog").on("keydown", function (e) {
 							if (e.keyCode == $.ui.keyCode.ENTER) {
-								pruefe_anmeldung();
+								prüfe_anmeldung();
 							}
 						});
 					}
@@ -2349,7 +2349,7 @@
 				});
 
 				$("#menu").on("change", "#ap_waehlen", function() {
-					waehleAp(this.value);
+					wähleAp(this.value);
 				});
 
 				$("#undelete_div").on("click", "#undelete", function(event) {
@@ -2427,7 +2427,7 @@
 				setzeTreehoehe();
 				//Karten sollen ca. Bildschirmhöhe haben
 				//da Formulare so hoch wie der Inhalt sind, muss die Kartenhöhe manuell eingestellt werden
-				setzeKartenhoehe();
+				setzeKartenhöhe();
 			});
 
 			$("#forms").on("click", ".guid", function() {

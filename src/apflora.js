@@ -1625,7 +1625,7 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 		if (data_beob) {
 
 			// boebfelder bereitstellen
-			var html_beobfelder = erstelleFelderFuerBeob(data_beob, beobtyp);
+			var html_beobfelder = erstelleFelderFürBeob(data_beob, beobtyp);
 			$("#beob_table").html(html_beobfelder);
 			
 			// Abstand zu TPop aus der DB holen
@@ -5289,7 +5289,7 @@ function treeKontextmenu(node) {
 					insertTPopFeldKontrKopie.done(function(data) {
 						var strukturtyp = "tpopfeldkontr",
 							ds_id = data,
-							beschriftung = erstelleLabelFuerFeldkontrolle(window.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.tpopfeldkontr_objekt_kopiert.TPopKontrTyp);
+							beschriftung = erstelleLabelFürFeldkontrolle(window.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.tpopfeldkontr_objekt_kopiert.TPopKontrTyp);
 						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertTPopFeldKontrKopie.fail(function() {
@@ -5549,7 +5549,7 @@ function treeKontextmenu(node) {
 					insertTPopFeldKontrKopie_2.done(function(data) {
 						var strukturtyp = "tpopfeldkontr",
 							ds_id = data,
-							beschriftung = erstelleLabelFuerFeldkontrolle(window.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.tpopfeldkontr_objekt_kopiert.TPopKontrTyp);
+							beschriftung = erstelleLabelFürFeldkontrolle(window.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.tpopfeldkontr_objekt_kopiert.TPopKontrTyp);
 						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertTPopFeldKontrKopie_2.fail(function() {
@@ -5851,7 +5851,7 @@ function treeKontextmenu(node) {
 					insertTPopMassnKopie.done(function(data) {
 						var strukturtyp = "tpopmassn",
 							ds_id = data,
-							beschriftung = erstelleLabelFuerMassnahme(window.tpopmassn_objekt_kopiert.TPopMassnJahr, window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt);
+							beschriftung = erstelleLabelFürMassnahme(window.tpopmassn_objekt_kopiert.TPopMassnJahr, window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt);
 						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertTPopMassnKopie.fail(function() {
@@ -6021,7 +6021,7 @@ function treeKontextmenu(node) {
 					insertTPopMassnKopie_2.done(function(data) {
 						var strukturtyp = "tpopmassn",
 							ds_id = data,
-							beschriftung = erstelleLabelFuerMassnahme(window.tpopmassn_objekt_kopiert.TPopMassnJahr, window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt);
+							beschriftung = erstelleLabelFürMassnahme(window.tpopmassn_objekt_kopiert.TPopMassnJahr, window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt);
 						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
 					insertTPopMassnKopie_2.fail(function() {
@@ -6886,7 +6886,7 @@ function speichern(that) {
 			window[Formular][Feldname] = Feldwert;
 			// Wenn ApArtId verändert wurde: Formular aktualisieren
 			if (Feldname === "ApArtId" && Feldwert) {
-				waehleAp(Feldwert);
+				wähleAp(Feldwert);
 				return;
 			}
 			// Wenn in feldkontr Datum erfasst, auch Jahr speichern
@@ -7035,7 +7035,7 @@ function speichern(that) {
 				// Problem: Es ist nicht bekannt, ob eine Freiwilligenkontrolle umbennant wird oder eine Feldkontrolle
 				// Lösung: Beide nodes umbenennen. Nur eine davon hat die richtige id
 				jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_freiwkontr'] #" + localStorage.tpopfeldkontr_id, tpopkontrjahr);
-				tpopfeldkontr_label = erstelleLabelFuerFeldkontrolle($TPopKontrJahr, $("#spanTPopKontrTyp" + $('input[name="TPopKontrTyp"]:checked').val()).text());
+				tpopfeldkontr_label = erstelleLabelFürFeldkontrolle($TPopKontrJahr, $("#spanTPopKontrTyp" + $('input[name="TPopKontrTyp"]:checked').val()).text());
 				jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_feldkontr'] #" + localStorage.tpopfeldkontr_id, tpopfeldkontr_label);
 				break;
 			case "TPopBerJahr":
@@ -7067,7 +7067,7 @@ function speichern(that) {
 				} else {
 					tpopmassnbezeichnung = "(kein Jahr): (kein Typ)";
 				}
-				tpopmassnbezeichnung = erstelleLabelFuerMassnahme($("#TPopMassnJahr").val(), $("#TPopMassnTyp option:checked").text());
+				tpopmassnbezeichnung = erstelleLabelFürMassnahme($("#TPopMassnJahr").val(), $("#TPopMassnTyp option:checked").text());
 				jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_massn'] #" + localStorage.tpopmassn_id, tpopmassnbezeichnung);
 				break;
 			case "TPopMassnBerJahr":
@@ -9983,133 +9983,218 @@ function initiiereGeoAdminKarte() {
 	//var zh_bbox_1903 = new OpenLayers.Bounds(669000, 222000, 717000, 284000);
 
 	// Zunächst alle Layer definieren
-    // ev. ergänzen:
-    // - layers (name in source?)
-    // - isBaseLayer
-    // - visibility
-    // - singleTile
 	var zh_ortho_layer = new ol.layer.Tile({
-        title: "ZH Luftbild",
-        source: new ol.source.TileWMS({
-            url: "//agabriel:4zC6MgjM@wms.zh.ch/OrthoZHWMS",
-            params: {
-                'layers': 'orthophotos',
-                'isBaseLayer': true,
-                'visibility': false,
-                'singleTile': true
-            }
-        })
-    });
-	var zh_ortho_2_layer = new ol.layer.Tile("ZH Luftbild 2", "//maps.zh.ch/wms/OrthoBackgroundZH", {
-		layers: 'orthoaktuell',
-		isBaseLayer: true
-	}, {
-		visibility: false,
-		singleTile: true
-	});
-	var zh_höhenmodell = new ol.layer.Tile("ZH Höhenmodell", "//maps.zh.ch/wms/DTMBackgroundZH", {
-		layers: 'dtm',
-		isBaseLayer: true
-	}, {
-		visibility: false,
-		singleTile: true
-	});
-	var zh_lk_sw = new ol.layer.Tile("Landeskarten sw", "//agabriel:4zC6MgjM@wms.zh.ch/RasterWMS", {
-		layers: 'up24,up8,lk25,lk50,lk100,lk200,lk500',
-		transparent: true,
-		isBaseLayer: false
-	}, {
-		singleTile: true,
-		visibility: true
-	});
-	var zh_lk_sw_2 = new ol.layer.Tile("Landeskarten überlagernd", "//maps.zh.ch/wms/BASISKARTEZH", {
-		layers: 'lk500,lk200,lk100,lk50,lk25,up8,up24',
-		transparent: true,
-		isBaseLayer: false
-	}, {
-		singleTile: true,
-		visibility: true
-	});
-	var zh_lk = new ol.layer.Tile("Landeskarten ohne Luftbild", "//maps.zh.ch/wms/BASISKARTEZH", {
-		layers: 'wald,seen,lk500,lk200,lk100,lk50,lk25,up8,up24',
-		transparent: false,
-		isBaseLayer: false
-	}, {
-		singleTile: true,
-		visibility: false
-	});
-	var zh_grenzen = new ol.layer.Tile("ZH Gemeinden", "//maps.zh.ch/wms/BASISKARTEZH", {
-		layers: 'grenzen,gemeindegrenzen',
-		transparent: true,
-		isBaseLayer: false
-	}, {
-		singleTile: true,
-		visibility: false
-	});
-	var zh_uep = new ol.layer.Tile("Übersichtsplan Kt. Zürich", "//wms.zh.ch/upwms", {
-		layers: 'upwms',
-		transparent: true,
-		isBaseLayer: false
-	}, {
-		visibility: false,
-		singleTile: true,
-		minScale: 22000,
-		maxScale: 1
-	});
-	var zh_av = new ol.layer.Tile("ZH Parzellen", "//wms.zh.ch/avwms", {
-		layers: 'Liegenschaften',
-		transparent: true
-	}, {
-		visibility: false,
-		singleTile: true
-		//maxScale: 5000
-	});
-	var zh_avnr = new ol.layer.Tile("ZH Parzellen-Nummern", "//wms.zh.ch/avwms", {
-		layers: 'OSNR',
-		transparent: true
-	}, {
-		visibility: false,
-		singleTile: true
-	});
-	var zh_svo = new ol.layer.Tile("ZH SVO farbig", "//wms.zh.ch/FnsSVOZHWMS", {
-		layers: 'zonen-schutzverordnungen,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr',
-		transparent: true
-	}, {
-		singleTile: true,
-		opacity: 0.7,
-		visibility: false
-	});
-	var zh_svo_raster = new ol.layer.Tile("ZH SVO Raster", "//wms.zh.ch/FnsSVOZHWMS", {
-		layers: 'zonen-schutzverordnungen-raster,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr',
-		transparent: true
-	}, {
-		singleTile: true,
-		visibility: false
-	});
-	// Verträge als WFS hinzufügen
-	var zh_verträge = new ol.layer.Vector("ZH Verträge", {
-	    strategies: [new OpenLayers.Strategy.BBOX()],
-	    protocol: new OpenLayers.Protocol.WFS.v1_1_0({
-	        url:  "//agabriel:4zC6MgjM@maps.zh.ch/wfs/FnsVertraegeWFS",
-	        featureType: "vertraege_f",
-	        featureNs: "//www.opengis.net/gml"
-	        //featureNs: "//www.intergraph.com/geomedia/gml"
-	    })
-	});
-	var zh_waldgesellschaften = new ol.layer.Tile("ZH Waldgesellschaften", "//agabriel:4zC6MgjM@wms.zh.ch/WaldVKoverlayZH", {
-		layers: 'waldgesellschaften,beschriftung-einheit-nach-ek72',
-		transparent: true
-	}, {
-		singleTile: true,
-		visibility: false
-	});
-	var zh_liwa = new ol.layer.Tile("ZH Lichte Wälder", "//maps.zh.ch/wms/FnsLWZH", {
-		layers: 'objekte-lichte-waelder-kanton-zuerich',
-		transparent: true
-	}, {
-		singleTile: true,
-		visibility: false
-	});
+            title: 'ZH Luftbild',
+            source: new ol.source.TileWMS({
+                url: '//agabriel:4zC6MgjM@wms.zh.ch/OrthoZHWMS',
+                params: {
+                    'layers': 'orthophotos',
+                    'isBaseLayer': true,
+                    'visibility': false,
+                    'singleTile': true
+                }
+            })
+        }),
+        zh_ortho_2_layer = new ol.layer.Tile({
+            title: 'ZH Luftbild 2',
+            source: new ol.source.TileWMS({
+                url: '//maps.zh.ch/wms/OrthoBackgroundZH',
+                params: {
+                    'layers': 'orthoaktuell',
+                    'isBaseLayer': true,
+                    'visibility': false,
+                    'singleTile': true
+                }
+            })
+        }),
+        zh_höhenmodell_layer = new ol.layer.Tile({
+            title: 'ZH Höhenmodell',
+            source: new ol.source.TileWMS({
+                url: '//maps.zh.ch/wms/DTMBackgroundZH',
+                params: {
+                    'layers': 'dtm',
+                    'isBaseLayer': true,
+                    'visibility': false,
+                    'singleTile': true
+                }
+            })
+        }),
+        zh_lk_sw_layer = new ol.layer.Tile({
+            title: 'Landeskarten sw',
+            source: new ol.source.TileWMS({
+                url: '//agabriel:4zC6MgjM@wms.zh.ch/RasterWMS',
+                params: {
+                    'layers': 'up24,up8,lk25,lk50,lk100,lk200,lk500',
+                    'transparent': true,
+                    'isBaseLayer': false,
+                    'visibility': true,
+                    'singleTile': true
+                }
+            })
+        }),
+        zh_lk_sw_2_layer = new ol.layer.Tile({
+            title: 'Landeskarten überlagernd',
+            source: new ol.source.TileWMS({
+                url: '//maps.zh.ch/wms/BASISKARTEZH',
+                params: {
+                    'layers': 'lk500,lk200,lk100,lk50,lk25,up8,up24',
+                    'transparent': true,
+                    'isBaseLayer': false,
+                    'visibility': false,
+                    'singleTile': true
+                }
+            })
+        }),
+        zh_lk_layer = new ol.layer.Tile({
+            title: 'Landeskarten ohne Luftbild',
+            source: new ol.source.TileWMS({
+                url: '//maps.zh.ch/wms/BASISKARTEZH',
+                params: {
+                    'layers': 'wald,seen,lk500,lk200,lk100,lk50,lk25,up8,up24',
+                    'transparent': false,
+                    'isBaseLayer': false,
+                    'visibility': false,
+                    'singleTile': true
+                }
+            })
+        }),
+        zh_grenzen_layer = new ol.layer.Tile({
+            title: 'ZH Gemeinden',
+            source: new ol.source.TileWMS({
+                url: '//maps.zh.ch/wms/BASISKARTEZH',
+                params: {
+                    'layers': 'grenzen,gemeindegrenzen',
+                    'transparent': true,
+                    'isBaseLayer': false,
+                    'visibility': false,
+                    'singleTile': true
+                }
+            })
+        }),
+        zh_uep_layer = new ol.layer.Tile({
+            title: 'Übersichtsplan Kt. Zürich',
+            source: new ol.source.TileWMS({
+                url: '//wms.zh.ch/upwms',
+                params: {
+                    'layers': 'upwms',
+                    'transparent': true,
+                    'isBaseLayer': false,
+                    'visibility': false,
+                    'singleTile': true,
+                    'minScale': 22000,
+                    'maxScale': 1
+                }
+            })
+        }),
+        zh_av_layer = new ol.layer.Tile({
+            title: 'ZH Parzellen',
+            source: new ol.source.TileWMS({
+                url: '//wms.zh.ch/avwms',
+                params: {
+                    'layers': 'Liegenschaften',
+                    'transparent': true,
+                    'isBaseLayer': false,
+                    'visibility': false,
+                    'singleTile': true
+                }
+            })
+        }),
+        zh_avnr_layer = new ol.layer.Tile({
+            title: 'ZH Parzellen-Nummern',
+            source: new ol.source.TileWMS({
+                url: '//wms.zh.ch/avwms',
+                params: {
+                    'layers': 'OSNR',
+                    'transparent': true,
+                    'visibility': false,
+                    'singleTile': true
+                }
+            })
+        }),
+        zh_svo_layer = new ol.layer.Tile({
+            title: 'ZH SVO farbig',
+            source: new ol.source.TileWMS({
+                url: '//wms.zh.ch/FnsSVOZHWMS',
+                params: {
+                    'layers': 'zonen-schutzverordnungen,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr',
+                    'transparent': true,
+                    'visibility': false,
+                    'singleTile': true,
+                    'opacity': 0.7
+                }
+            })
+        }),
+        zh_svo_raster_layer = new ol.layer.Tile({
+            title: 'ZH SVO Raster',
+            source: new ol.source.TileWMS({
+                url: '//wms.zh.ch/FnsSVOZHWMS',
+                params: {
+                    'layers': 'zonen-schutzverordnungen-raster,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr',
+                    'transparent': true,
+                    'visibility': false,
+                    'singleTile': true
+                }
+            })
+        }),
+        zh_verträge_layer = new ol.layer.Vector({
+            title: 'ZH Verträge',
+            source: new ol.source.TileWMS({
+                url: '//agabriel:4zC6MgjM@maps.zh.ch/wfs/FnsVertraegeWFS',
+                params: {
+                    'layers': '',
+                    'transparent': true,
+                    'isBaseLayer': false,
+                    'visibility': false,
+                    'singleTile': true
+                }
+            })
+        }),
+        /*var zh_verträge_layer = new ol.layer.Vector("ZH Verträge", {
+            strategies: [new OpenLayers.Strategy.BBOX()],
+            protocol: new OpenLayers.Protocol.WFS.v1_1_0({
+                url:  "//agabriel:4zC6MgjM@maps.zh.ch/wfs/FnsVertraegeWFS",
+                featureType: "vertraege_f",
+                featureNs: "//www.opengis.net/gml"
+                //featureNs: "//www.intergraph.com/geomedia/gml"
+            })
+        })*/
+        zh_waldgesellschaften_layer = new ol.layer.Tile({
+            title: 'ZH Waldgesellschaften',
+            source: new ol.source.TileWMS({
+                url: '//agabriel:4zC6MgjM@wms.zh.ch/WaldVKoverlayZH',
+                params: {
+                    'layers': 'waldgesellschaften,beschriftung-einheit-nach-ek72',
+                    'transparent': true,
+                    'visibility': false,
+                    'singleTile': true
+                }
+            })
+        }),
+        zh_liwa_layer = new ol.layer.Tile({
+            title: 'ZH Lichte Wälder',
+            source: new ol.source.TileWMS({
+                url: '//maps.zh.ch/wms/FnsLWZH',
+                params: {
+                    'layers': 'objekte-lichte-waelder-kanton-zuerich',
+                    'transparent': true,
+                    'visibility': false,
+                    'singleTile': true
+                }
+            })
+        }),
+        name_layer = new ol.layer.Tile({
+            title: '',
+            source: new ol.source.TileWMS({
+                url: '',
+                params: {
+                    'layers': '',
+                    'transparent': true,
+                    'isBaseLayer': false,
+                    'visibility': false,
+                    'singleTile': true
+                }
+            })
+        });
 
 	var detailplaene_stylemap = new OpenLayers.StyleMap({
 		"default": new OpenLayers.Style({
@@ -10128,7 +10213,7 @@ function initiiereGeoAdminKarte() {
 		})
 	});
 
-	var ch_lk1000 = new ol.layer.Tile("Landeskarte 1:1'000'000", "//wms.geo.admin.ch?", {
+	var ch_lk1000_layer = new ol.layer.Tile("Landeskarte 1:1'000'000", "//wms.geo.admin.ch?", {
 		layers: 'ch.swisstopo.pixelkarte-farbe-pk1000.noscale',
 		srs: 'EPSG:21781',
 		'format': 'png'
@@ -10137,7 +10222,7 @@ function initiiereGeoAdminKarte() {
 		visibility: false
 	});
 
-	var ch_ktgrenzen = new ol.layer.Tile("Kantone", "//wms.geo.admin.ch?", {
+	var ch_ktgrenzen_layer = new ol.layer.Tile("Kantone", "//wms.geo.admin.ch?", {
 		layers: 'ch.swisstopo.swissboundaries3d-kanton-flaeche.fill',
 		srs: 'EPSG:21781',
 		'format': 'png'
@@ -10152,32 +10237,32 @@ function initiiereGeoAdminKarte() {
 	
 	// api nur definieren, wenn dies nicht schon passiert ist
 	if (typeof window.api == "undefined") {
-		window.api = new GeoAdmin.API();
+		window.api = new GeoAdmin.API();    // TODO: klappt das mit api3?
 	}
 
 	// Karte nur aufbauen, wenn dies nicht schon passiert ist
 	if (!window.api.map) {
-		window.api.createMap({
-			div: "ga_karten_div",
-			easting: 693000,
-			northing: 253000,
-			zoom: 4
-		});
+        window.api.map = new ga.Map({   // ehem.: window.api.createMap
+            target: 'ga_karten_div',
+            layers: [zh_uep_layer],  //TODO: Layers ergänzen
+            view: new ol.View2D({
+                resolution: 500,    // ehem: zoom 4
+                center: [693000, 253000]
+            })
+        });
 
-		var baseLayerTool = new GeoAdmin.BaseLayerTool({
+        // TODO: Layerwahl implementierren
+		/*var baseLayerTool = new GeoAdmin.BaseLayerTool({
 			renderTo: "baselayertool",
 			map: window.api.map
-		});
-
-		// The complementary layer is per default the color pixelmap.
-		//window.api.map.switchComplementaryLayer("voidLayer", {opacity: 0});
-		//window.api.setBgLayer('voidLayer', {opacity: 0});	//wichtig, weil sonst Daten von GeoAdmin geladen werden
+		});*/
 
 		// Layer für detailpläne aufbauen
 		// aber nur beim ersten mal
 		if (!window.detailplaene_shp) {
+            // TODO: mit OL3 machen
 			// erst daten auslesen
-			var detailplaene_shapefile = new Shapefile({
+			/*var detailplaene_shapefile = new Shapefile({
 				shp: "shp/detailplaene.shp",
 				dbf: "shp/detailplaene.dbf"
 			}, function(data) {
@@ -10206,29 +10291,15 @@ function initiiereGeoAdminKarte() {
 				});
 				window.api.map.addControl(detailplaene_selector);
 				detailplaene_selector.activate();
-			});
+			});*/
 		}
-		
-		//window.api.map.addLayers([ch_lk1000]);
-		//window.api.map.addLayers([zh_ortho, zh_hoehenmodell, zh_lk_sw, zh_lk]);
 
-
-		/*window.api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe-pk25.noscale', {
-			visibility: false
-		});*/
-		/*window.api.map.addLayerByName('ch.swisstopo.pixelkarte-farbe', {
-			visibility: true,
-			opacity: 1.0
-		});*/
-
-		window.api.map.addLayers([zh_uep]);
-		/*window.api.map.addLayerByName('ch.swisstopo.swissboundaries3d-kanton-flaeche.fill', {
-			visibility: false
-		});*/
+		window.api.map.addLayers([zh_uep_layer]);
 		window.api.map.addLayerByName('ch.swisstopo-vd.geometa-gemeinde', {visibility: false});
-		window.api.map.addLayers([zh_grenzen]);
-		window.api.map.addLayers([zh_av, zh_avnr, zh_svo, zh_svo_raster, zh_waldgesellschaften, zh_liwa]);
-		
+		window.api.map.addLayers([zh_grenzen_layer]);
+		window.api.map.addLayers([zh_av_layer, zh_avnr_layer, zh_svo_layer, zh_svo_raster_layer, zh_waldgesellschaften_layer, zh_liwa_layer]);
+
+        // TODO: auf GA2 portieren
 		/*window.api.map.addLayerByName('ch.bafu.bundesinventare-trockenwiesen_trockenweiden', {
 			visibility: false,
 			opacity: 0.7
@@ -10250,12 +10321,14 @@ function initiiereGeoAdminKarte() {
 			opacity: 0.7
 		});*/
 
-		window.api.map.addControl(new OpenLayers.Control.MousePosition({numDigits: 0, separator: ' / '}));
-		window.api.map.addControl(new OpenLayers.Control.KeyboardDefaults());
+        // TODO: OL-Variante ergänzen
+		/*window.api.map.addControl(new OpenLayers.Control.MousePosition({numDigits: 0, separator: ' / '}));
+		window.api.map.addControl(new OpenLayers.Control.KeyboardDefaults());*/
 
 		// messen
 		// style the sketch fancy
-		var sketchSymbolizers = {
+        // TODO: auf ol3 upgraden
+		/*var sketchSymbolizers = {
 			"Point": {
 				pointRadius: 4,
 				graphicName: "square",
@@ -10318,10 +10391,11 @@ function initiiereGeoAdminKarte() {
 				"measurepartial": handleMeasurements
 			});
 			window.api.map.addControl(controlMessung);
-		}
+		}*/
 
 		// layertree aufbauen
-		window.layertree = window.api.createLayerTree({
+        // TODO: OL3-Variante entwickeln
+		/*window.layertree = window.api.createLayerTree({
 			renderTo: "layertree",
 			width: 285
 		});
@@ -10334,17 +10408,17 @@ function initiiereGeoAdminKarte() {
 
 		// ganze Titelzeile: mit Klick vergrössern bzw. verkleinern
 		$("#layertree").on("click", "#toggleLayertree, .x-panel-header", function() {
-			oeffneSchliesseLayertree();
-		});
+			öffneSchliesseLayertree();
+		});*/
 	}
 	
 	$('#karteSchieben').checked = true;	// scheint nicht zu funktionieren?
-	korrigiereLayernamenImLayertree();
 };
 
-function waehleMitPolygon() {
+function wähleMitPolygon() {
+    // TODO: Auf OL3 upgraden
 	// den vorbereiteten drawControl aktivieren
-	window.drawControl.activate();
+	/*window.drawControl.activate();
 	// allfällige Messung deaktivieren
 	measureControls['line'].deactivate();
 	measureControls['polygon'].deactivate();
@@ -10353,40 +10427,12 @@ function waehleMitPolygon() {
 	// allfälliges Ergebnisfenster ausblenden
 	$("#ergebnisAuswahl").css("display", "none");
 	delete window.tpop_id_array;
-	delete window.tpop_id_liste;
-}
-
-function korrigiereLayernamenImLayertree() {
-	// im layertree gewissen Namen anders schreiben
-	$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
-		switch ($(this).text()) {
-			case "Amphibien Ortsfeste Objekte":
-				$(this).text("CH Amphibien ortsfest");
-				break;
-			case "Auengebiete":
-				$(this).text("CH Auengebiete");
-				break;
-			case "Hochmoore":
-				$(this).text("CH Hochmoore");
-				break;
-			case "Flachmoore":
-				$(this).text("CH Flachmoore");
-				break;
-			case "Trockenwiesen und -weiden (TWW)":
-				$(this).text("CH Trockenwiesen (TWW)");
-				break;
-			case "Kantonsgrenzen":
-				$(this).text("Kantone");
-				break;
-			case "Gemeindeinformationen":
-				$(this).text("CH Gemeinden");
-				break;
-		}
-	});
+	delete window.tpop_id_liste;*/
 }
 
 function schliesseLayeroptionen() {
-	$(".x-panel-body .x-tree-node").each(function() {
+    // TODO: Auf OL3 upgraden
+	/*$(".x-panel-body .x-tree-node").each(function() {
 		if ($(".x-tree-node-anchor span", this).text() !== "ZH Luftbild") {
 			$(".gx-tree-layer-action.close", this).each(function() {
 				$(this).css("visibility", "hidden");
@@ -10399,12 +10445,13 @@ function schliesseLayeroptionen() {
 				$(this).addClass("x-hide-display");
 			});
 		}
-	});
+	});*/
 }
 
-function oeffneSchliesseLayertree() {
+function öffneSchliesseLayertree() {
+    // TODO: Auf OL3 portieren
 	// ein hübscher Übergang wäre nett
-	if ($(".x-panel-bwrap").css('display') !== 'none') {
+	/*if ($(".x-panel-bwrap").css('display') !== 'none') {
 		$(".x-panel-bwrap").css('display', 'none');
 		$("#layertree .x-panel-header").css('border-bottom-right-radius', '6px');
 		$("#layertree .x-panel-header").css('border-bottom-left-radius', '6px');
@@ -10412,11 +10459,12 @@ function oeffneSchliesseLayertree() {
 		$(".x-panel-bwrap").css('display', 'inline');
 		$("#layertree .x-panel-header").css('border-bottom-right-radius', 0);
 		$("#layertree .x-panel-header").css('border-bottom-left-radius', 0);
-	}
+	}*/
 }
 
 function handleMeasurements(event) {
-	var geometry = event.geometry;
+    // TODO: auf OL3 portieren
+	/*var geometry = event.geometry;
 	var units = event.units;
 	var order = event.order;
 	var measure = event.measure;
@@ -10427,11 +10475,12 @@ function handleMeasurements(event) {
 	} else {
 		out += measure.toFixed(3) + " " + units + "<sup>2</" + "sup>";
 	}
-	element.innerHTML = out;
+	element.innerHTML = out;*/
 }
 
 function messe(element) {
-	for(key in measureControls) {
+    // TODO: auf OL3 portieren
+	/*for(key in measureControls) {
 		var controlMessung = measureControls[key];
 		if(element.value == key && element.checked) {
 			controlMessung.activate();
@@ -10443,7 +10492,7 @@ function messe(element) {
 	// einen allfällig aktiven drawControl deaktivieren
 	deaktiviereGeoAdminAuswahl();
 	// und allfällig verbliebene Auswahlpolygon entfernen
-	window.auswahlPolygonLayer.removeAllFeatures();
+	window.auswahlPolygonLayer.removeAllFeatures();*/
 }
 
 function erstelleGemeindeliste() {
@@ -10482,7 +10531,7 @@ function erstelleGemeindeliste() {
 	}
 }
 
-function waehleAp(ap_id) {
+function wähleAp(ap_id) {
 	if (ap_id) {
 		// einen AP gewählt
 		$("#ap_waehlen_label").hide();
@@ -10587,7 +10636,7 @@ function kopiereKoordinatenInPop(TPopXKoord, TPopYKoord) {
 	}
 }
 
-function pruefe_anmeldung() {
+function prüfe_anmeldung() {
 	// Leserechte zurücksetzen
 	delete sessionStorage.NurLesen;
 	if ($("#anmeldung_name").val() && $("#anmeldung_passwort").val()) {
@@ -10632,7 +10681,7 @@ function pruefe_anmeldung() {
 
 // erwartet aktuelle Werte für jahr und typ
 // erstellt den label für den Baum
-function erstelleLabelFuerFeldkontrolle(jahr, typ) {
+function erstelleLabelFürFeldkontrolle(jahr, typ) {
 	if (typeof jahr === "undefined") {
 		jahr = "(kein Jahr)";
 	}
@@ -10644,7 +10693,7 @@ function erstelleLabelFuerFeldkontrolle(jahr, typ) {
 
 // erwartet aktuelle Werte für jahr und beurteilung
 // erstellt den label für den Baum
-function erstelleLabelFuerMassnahme(jahr, beurteilung) {
+function erstelleLabelFürMassnahme(jahr, beurteilung) {
 	if (typeof jahr === "undefined") {
 		jahr = "(kein Jahr)";
 	}
@@ -10656,7 +10705,7 @@ function erstelleLabelFuerMassnahme(jahr, beurteilung) {
 
 // gibt HTML zurück, mit dem die Informationen über eine Beobachtung dargestellt werden
 // erwartet die Daten der Beobachtung
-function erstelleFelderFuerBeob(data, beobtyp) {
+function erstelleFelderFürBeob(data, beobtyp) {
 	// Titel für Beob im Formular erstellen
 	var beobtitel = "<h1>Informationen aus ";
 	if (beobtyp === "infospezies") {
