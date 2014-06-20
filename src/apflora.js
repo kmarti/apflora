@@ -1783,7 +1783,7 @@ function zeigeFormular(Formularname) {
 			$("#" + Formularname).css("height", $(window).height()-17 + "px");
 			// markieren, dass die Formularhöhe anders gesetzt werden soll
 			window.kartenhoehe_manuell = true;
-			setzeKartenhoehe();
+			setzeKartenhöhe();
 			$("#" + Formularname).show();
 			if (Formularname === "GeoAdminKarte") {
 				// auswählen deaktivieren und allfällige Liste ausblenden
@@ -1835,7 +1835,7 @@ function setzeTreehoehe() {
 	}
 }
 
-function setzeKartenhoehe() {
+function setzeKartenhöhe() {
 	// Formulare sind unbegrenzt hoch aber Karten sollen das nicht sein
 	if (window.kartenhoehe_manuell) {
 		$("#forms").height($(window).height() - 17);
@@ -9983,28 +9983,38 @@ function initiiereGeoAdminKarte() {
 	//var zh_bbox_1903 = new OpenLayers.Bounds(669000, 222000, 717000, 284000);
 
 	// Zunächst alle Layer definieren
-	var zh_ortho = new OpenLayers.Layer.WMS("ZH Luftbild", "//agabriel:4zC6MgjM@wms.zh.ch/OrthoZHWMS", {
-		layers: 'orthophotos',
-		isBaseLayer: true
-	}, {
-		visibility: false,
-		singleTile: true
-	});
-	var zh_ortho_2 = new OpenLayers.Layer.WMS("ZH Luftbild 2", "//maps.zh.ch/wms/OrthoBackgroundZH", {
+    // ev. ergänzen:
+    // - layers (name in source?)
+    // - isBaseLayer
+    // - visibility
+    // - singleTile
+	var zh_ortho_layer = new ol.layer.Tile({
+        title: "ZH Luftbild",
+        source: new ol.source.TileWMS({
+            url: "//agabriel:4zC6MgjM@wms.zh.ch/OrthoZHWMS",
+            params: {
+                'layers': 'orthophotos',
+                'isBaseLayer': true,
+                'visibility': false,
+                'singleTile': true
+            }
+        })
+    });
+	var zh_ortho_2_layer = new ol.layer.Tile("ZH Luftbild 2", "//maps.zh.ch/wms/OrthoBackgroundZH", {
 		layers: 'orthoaktuell',
 		isBaseLayer: true
 	}, {
 		visibility: false,
 		singleTile: true
 	});
-	var zh_hoehenmodell = new OpenLayers.Layer.WMS("ZH Höhenmodell", "//maps.zh.ch/wms/DTMBackgroundZH", {
+	var zh_höhenmodell = new ol.layer.Tile("ZH Höhenmodell", "//maps.zh.ch/wms/DTMBackgroundZH", {
 		layers: 'dtm',
 		isBaseLayer: true
 	}, {
 		visibility: false,
 		singleTile: true
 	});
-	var zh_lk_sw = new OpenLayers.Layer.WMS("Landeskarten sw", "//agabriel:4zC6MgjM@wms.zh.ch/RasterWMS", {
+	var zh_lk_sw = new ol.layer.Tile("Landeskarten sw", "//agabriel:4zC6MgjM@wms.zh.ch/RasterWMS", {
 		layers: 'up24,up8,lk25,lk50,lk100,lk200,lk500',
 		transparent: true,
 		isBaseLayer: false
@@ -10012,7 +10022,7 @@ function initiiereGeoAdminKarte() {
 		singleTile: true,
 		visibility: true
 	});
-	var zh_lk_sw_2 = new OpenLayers.Layer.WMS("Landeskarten überlagernd", "//maps.zh.ch/wms/BASISKARTEZH", {
+	var zh_lk_sw_2 = new ol.layer.Tile("Landeskarten überlagernd", "//maps.zh.ch/wms/BASISKARTEZH", {
 		layers: 'lk500,lk200,lk100,lk50,lk25,up8,up24',
 		transparent: true,
 		isBaseLayer: false
@@ -10020,7 +10030,7 @@ function initiiereGeoAdminKarte() {
 		singleTile: true,
 		visibility: true
 	});
-	var zh_lk = new OpenLayers.Layer.WMS("Landeskarten ohne Luftbild", "//maps.zh.ch/wms/BASISKARTEZH", {
+	var zh_lk = new ol.layer.Tile("Landeskarten ohne Luftbild", "//maps.zh.ch/wms/BASISKARTEZH", {
 		layers: 'wald,seen,lk500,lk200,lk100,lk50,lk25,up8,up24',
 		transparent: false,
 		isBaseLayer: false
@@ -10028,7 +10038,7 @@ function initiiereGeoAdminKarte() {
 		singleTile: true,
 		visibility: false
 	});
-	var zh_grenzen = new OpenLayers.Layer.WMS("ZH Gemeinden", "//maps.zh.ch/wms/BASISKARTEZH", {
+	var zh_grenzen = new ol.layer.Tile("ZH Gemeinden", "//maps.zh.ch/wms/BASISKARTEZH", {
 		layers: 'grenzen,gemeindegrenzen',
 		transparent: true,
 		isBaseLayer: false
@@ -10036,7 +10046,7 @@ function initiiereGeoAdminKarte() {
 		singleTile: true,
 		visibility: false
 	});
-	var zh_uep = new OpenLayers.Layer.WMS("Übersichtsplan Kt. Zürich", "//wms.zh.ch/upwms", {
+	var zh_uep = new ol.layer.Tile("Übersichtsplan Kt. Zürich", "//wms.zh.ch/upwms", {
 		layers: 'upwms',
 		transparent: true,
 		isBaseLayer: false
@@ -10046,7 +10056,7 @@ function initiiereGeoAdminKarte() {
 		minScale: 22000,
 		maxScale: 1
 	});
-	var zh_av = new OpenLayers.Layer.WMS("ZH Parzellen", "//wms.zh.ch/avwms", {
+	var zh_av = new ol.layer.Tile("ZH Parzellen", "//wms.zh.ch/avwms", {
 		layers: 'Liegenschaften',
 		transparent: true
 	}, {
@@ -10054,14 +10064,14 @@ function initiiereGeoAdminKarte() {
 		singleTile: true
 		//maxScale: 5000
 	});
-	var zh_avnr = new OpenLayers.Layer.WMS("ZH Parzellen-Nummern", "//wms.zh.ch/avwms", {
+	var zh_avnr = new ol.layer.Tile("ZH Parzellen-Nummern", "//wms.zh.ch/avwms", {
 		layers: 'OSNR',
 		transparent: true
 	}, {
 		visibility: false,
 		singleTile: true
 	});
-	var zh_svo = new OpenLayers.Layer.WMS("ZH SVO farbig", "//wms.zh.ch/FnsSVOZHWMS", {
+	var zh_svo = new ol.layer.Tile("ZH SVO farbig", "//wms.zh.ch/FnsSVOZHWMS", {
 		layers: 'zonen-schutzverordnungen,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr',
 		transparent: true
 	}, {
@@ -10069,7 +10079,7 @@ function initiiereGeoAdminKarte() {
 		opacity: 0.7,
 		visibility: false
 	});
-	var zh_svo_raster = new OpenLayers.Layer.WMS("ZH SVO Raster", "//wms.zh.ch/FnsSVOZHWMS", {
+	var zh_svo_raster = new ol.layer.Tile("ZH SVO Raster", "//wms.zh.ch/FnsSVOZHWMS", {
 		layers: 'zonen-schutzverordnungen-raster,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr',
 		transparent: true
 	}, {
@@ -10077,7 +10087,7 @@ function initiiereGeoAdminKarte() {
 		visibility: false
 	});
 	// Verträge als WFS hinzufügen
-	var zh_vertraege = new OpenLayers.Layer.Vector("ZH Verträge", {
+	var zh_verträge = new ol.layer.Vector("ZH Verträge", {
 	    strategies: [new OpenLayers.Strategy.BBOX()],
 	    protocol: new OpenLayers.Protocol.WFS.v1_1_0({
 	        url:  "//agabriel:4zC6MgjM@maps.zh.ch/wfs/FnsVertraegeWFS",
@@ -10086,14 +10096,14 @@ function initiiereGeoAdminKarte() {
 	        //featureNs: "//www.intergraph.com/geomedia/gml"
 	    })
 	});
-	var zh_waldgesellschaften = new OpenLayers.Layer.WMS("ZH Waldgesellschaften", "//agabriel:4zC6MgjM@wms.zh.ch/WaldVKoverlayZH", {
+	var zh_waldgesellschaften = new ol.layer.Tile("ZH Waldgesellschaften", "//agabriel:4zC6MgjM@wms.zh.ch/WaldVKoverlayZH", {
 		layers: 'waldgesellschaften,beschriftung-einheit-nach-ek72',
 		transparent: true
 	}, {
 		singleTile: true,
 		visibility: false
 	});
-	var zh_liwa = new OpenLayers.Layer.WMS("ZH Lichte Wälder", "//maps.zh.ch/wms/FnsLWZH", {
+	var zh_liwa = new ol.layer.Tile("ZH Lichte Wälder", "//maps.zh.ch/wms/FnsLWZH", {
 		layers: 'objekte-lichte-waelder-kanton-zuerich',
 		transparent: true
 	}, {
@@ -10118,7 +10128,7 @@ function initiiereGeoAdminKarte() {
 		})
 	});
 
-	var ch_lk1000 = new OpenLayers.Layer.WMS("Landeskarte 1:1'000'000", "//wms.geo.admin.ch?", {
+	var ch_lk1000 = new ol.layer.Tile("Landeskarte 1:1'000'000", "//wms.geo.admin.ch?", {
 		layers: 'ch.swisstopo.pixelkarte-farbe-pk1000.noscale',
 		srs: 'EPSG:21781',
 		'format': 'png'
@@ -10127,7 +10137,7 @@ function initiiereGeoAdminKarte() {
 		visibility: false
 	});
 
-	var ch_ktgrenzen = new OpenLayers.Layer.WMS("Kantone", "//wms.geo.admin.ch?", {
+	var ch_ktgrenzen = new ol.layer.Tile("Kantone", "//wms.geo.admin.ch?", {
 		layers: 'ch.swisstopo.swissboundaries3d-kanton-flaeche.fill',
 		srs: 'EPSG:21781',
 		'format': 'png'
@@ -10172,7 +10182,7 @@ function initiiereGeoAdminKarte() {
 				dbf: "shp/detailplaene.dbf"
 			}, function(data) {
 				// vektorlayer schaffen
-				window.detailplaene_shp = new OpenLayers.Layer.Vector("Detailpläne", {
+				window.detailplaene_shp = new ol.layer.Vector("Detailpläne", {
 					styleMap: detailplaene_stylemap,
 					eventListeners: {
 						"featureselected": function(evt) {

@@ -12,7 +12,7 @@ var gulp = require('gulp'),
     clean = require('gulp-clean'),
     connect = require('gulp-connect');
 
-// connect klappt leider nicht
+// connect klappt zwar, aber mysql liefert auf :4242 keine Daten???
 gulp.task('default', [/*'connect', */'watch'], function() {
     gulp.start('build_dev');
 });
@@ -116,8 +116,8 @@ gulp.task('sftp_php', function() {
 
 gulp.task('move_dev_php', function() {
     return gulp.src('php/*')
-        .pipe(gulp.dest('../programme/xampp/htdocs/apflora/php'));
-        //.pipe(connect.reload());
+        .pipe(gulp.dest('../programme/xampp/htdocs/apflora/php'))
+        .pipe(connect.reload());
 });
 
 gulp.task('sftp_index', function() {
