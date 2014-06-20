@@ -7338,7 +7338,24 @@ function CHtoWGSlng(y, x) {
 
 function zeigeTPopAufKarte(TPopListe) {
 	window.TPopListe = TPopListe;
-	var anzTPop, infowindow, TPop, tpop_beschriftung, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, myFlurname;
+	var anzTPop,
+        infowindow,
+        TPop,
+        tpop_beschriftung,
+        lat,
+        lng,
+        latlng,
+        options,
+        map,
+        bounds,
+        markers,
+        TPopId,
+        latlng2,
+        marker,
+        contentString,
+        mcOptions,
+        markerCluster,
+        myFlurname;
 	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("google_karte");
 	window.markersArray = [];
@@ -7515,7 +7532,6 @@ function verorteTPopAufGeoAdmin(TPop) {
 			$("#mitPolygonWaehlen").button({ disabled: true });
 
 			// bound eröffnen
-			bounds = new OpenLayers.Bounds();
 			// bounds bestimmen
 			if (TPop && TPop.TPopXKoord && TPop.TPopYKoord) {
 				// bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
@@ -7523,8 +7539,7 @@ function verorteTPopAufGeoAdmin(TPop) {
 				x_min = parseInt(TPop.TPopXKoord) - 300;
 				y_max = parseInt(TPop.TPopYKoord) + 300;
 				y_min = parseInt(TPop.TPopYKoord) - 300;
-				bounds.extend(new OpenLayers.LonLat(x_max, y_max));
-				bounds.extend(new OpenLayers.LonLat(x_min, y_min));
+                bounds = [x_max, y_max, x_min, y_min];
 				// marker aufbauen
 				erstelleTPopulationFuerGeoAdmin(TPop);
 				// alle layeroptionen schliessen
@@ -7532,10 +7547,7 @@ function verorteTPopAufGeoAdmin(TPop) {
 
 			} else {
 				// sonst Kanton ZH anzeigen
-				//bounds.extend(new OpenLayers.LonLat(679000, 274000));
-				//bounds.extend(new OpenLayers.LonLat(707000, 232000));
-				bounds.extend(new OpenLayers.LonLat(689000, 264000));
-				bounds.extend(new OpenLayers.LonLat(697000, 242000));
+                bounds = [689000, 264000, 697000, 242000];
 			}
 			
 			// Karte zum richtigen Ausschnitt zoomen
@@ -7635,7 +7647,7 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
 		overlay_popbeschriftung_visible = true;
 	}
 	
-	var markierte_tpop = waehleAusschnittFuerUebergebeneTPop(TPopListeMarkiert);
+	var markierte_tpop = wähleAusschnittFürÜbergebeneTPop(TPopListeMarkiert);
 
 	// Grundkarte aufbauen
 	$.when(zeigeFormular("GeoAdminKarte"))
@@ -7686,7 +7698,7 @@ function zeigePopAufGeoAdmin(PopListeMarkiert) {
 		window.LetzterKlickHandler.deactivate();
 	}
 	
-	var markierte_pop = waehleAusschnittFuerUebergebenePop(PopListeMarkiert);
+	var markierte_pop = wähleAusschnittFürÜbergebenePop(PopListeMarkiert);
 
 	// Grundkarte aufbauen
 	$.when(zeigeFormular("GeoAdminKarte"))
@@ -7734,12 +7746,15 @@ function zeigePopAufGeoAdmin(PopListeMarkiert) {
 // übernimmt eine Liste von (markierten) TPop
 // retourniert den Ausschnitt = bounds der angezeigt werden soll
 // und einen array mit den tpop_id's der liste
-function waehleAusschnittFuerUebergebeneTPop(TPopListeMarkiert) {
-	var TPop, bounds, x_max, y_max, x_min, y_min;
-	// bound eröffnen
-	bounds = new OpenLayers.Bounds();
+function wähleAusschnittFürÜbergebeneTPop(TPopListeMarkiert) {
+	var TPop,
+        bounds,
+        x_max,
+        y_max,
+        x_min,
+        y_min;
 
-	// jetzt bounds der anzuzeigenden bestimmen
+	// bounds der anzuzeigenden bestimmen
 	var tpopid_markiert = [];
 	if (TPopListeMarkiert.rows.length > 0) {
 		for (b in TPopListeMarkiert.rows) {
@@ -7751,14 +7766,12 @@ function waehleAusschnittFuerUebergebeneTPop(TPopListeMarkiert) {
 				x_min = parseInt(TPop.TPopXKoord) - 300;
 				y_max = parseInt(TPop.TPopYKoord) + 300;
 				y_min = parseInt(TPop.TPopYKoord) - 300;
-				bounds.extend(new OpenLayers.LonLat(x_max, y_max));
-				bounds.extend(new OpenLayers.LonLat(x_min, y_min));
+                bounds = [x_max, y_max, x_min, y_min];
 			}
 		}
 	} else {
 		// keine tpop übergeben, Kanton anzeigen
-		bounds.extend(new OpenLayers.LonLat(717000, 284000));
-		bounds.extend(new OpenLayers.LonLat(669000, 222000));
+        bounds = [717000, 284000, 669000, 222000];
 	}
 	return {bounds: bounds, tpopid_markiert: tpopid_markiert};
 }
@@ -7766,12 +7779,15 @@ function waehleAusschnittFuerUebergebeneTPop(TPopListeMarkiert) {
 // übernimmt eine Liste von (markierten) Pop
 // retourniert den Ausschnitt = bounds der angezeigt werden soll
 // und einen array mit den tpop_id's der liste
-function waehleAusschnittFuerUebergebenePop(PopListeMarkiert) {
-	var Pop, bounds, x_max, y_max, x_min, y_min;
-	// bound eröffnen
-	bounds = new OpenLayers.Bounds();
+function wähleAusschnittFürÜbergebenePop(PopListeMarkiert) {
+	var Pop,
+        bounds,
+        x_max,
+        y_max,
+        x_min,
+        y_min;
 
-	// jetzt bounds der anzuzeigenden bestimmen
+	// bounds der anzuzeigenden bestimmen
 	var popid_markiert = [];
 	if (PopListeMarkiert.rows.length > 0) {
 		for (b in PopListeMarkiert.rows) {
@@ -7783,14 +7799,12 @@ function waehleAusschnittFuerUebergebenePop(PopListeMarkiert) {
 				x_min = parseInt(Pop.PopXKoord) - 300;
 				y_max = parseInt(Pop.PopYKoord) + 300;
 				y_min = parseInt(Pop.PopYKoord) - 300;
-				bounds.extend(new OpenLayers.LonLat(x_max, y_max));
-				bounds.extend(new OpenLayers.LonLat(x_min, y_min));
+                bounds = [x_max, y_max, x_min, y_min];
 			}
 		}
 	} else {
 		// keine tpop übergeben, Kanton anzeigen
-		bounds.extend(new OpenLayers.LonLat(717000, 284000));
-		bounds.extend(new OpenLayers.LonLat(669000, 222000));
+        bounds = [717000, 284000, 669000, 222000];
 	}
 	return {bounds: bounds, popid_markiert: popid_markiert};
 }
@@ -8793,7 +8807,33 @@ function geoadminOnFeatureUnselect(feature) {
 
 function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 	window.TPopListe = TPopListe;
-	var anzBeob, infowindowBeob, infowindowTPop, Beob, TPop, lat, lng, latlng, options, map, bounds, markersTPop, TPopId, latlng2, markerBeob, markerTPop, contentStringBeob, contentStringTPop, mcOptionsBeob, mcOptionsTPop, markerClusterBeob, markerClusterTPop, Datum, titel_beob, tpop_beschriftung, a_note, myFlurname;
+	var anzBeob,
+        infowindowBeob,
+        infowindowTPop,
+        Beob,
+        TPop,
+        lat,
+        lng,
+        latlng,
+        options,
+        map,
+        bounds,
+        markersTPop,
+        TPopId,
+        latlng2,
+        markerBeob,
+        markerTPop,
+        contentStringBeob,
+        contentStringTPop,
+        mcOptionsBeob,
+        mcOptionsTPop,
+        markerClusterBeob,
+        markerClusterTPop,
+        Datum,
+        titel_beob,
+        tpop_beschriftung,
+        a_note,
+        myFlurname;
 	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("google_karte");
 	window.markersArray = [];
@@ -9024,7 +9064,25 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 }
 
 function zeigeBeobAufKarte(BeobListe) {
-	var anzBeob, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Datum, titel, a_note;
+	var anzBeob,
+        infowindow,
+        TPop,
+        lat,
+        lng,
+        latlng,
+        options,
+        map,
+        bounds,
+        markers,
+        TPopId,
+        latlng2,
+        marker,
+        contentString,
+        mcOptions,
+        markerCluster,
+        Datum,
+        titel,
+        a_note;
 	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("google_karte");
 	window.markersArray = [];
@@ -9145,7 +9203,24 @@ function zeigeBeobAufKarte(BeobListe) {
 }
 
 function zeigeTPopBeobAufKarte(TPopBeobListe) {
-	var anzBeob, infowindow, TPop, lat, lng, latlng, options, map, bounds, markers, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, Datum, titel;
+	var anzBeob,
+        infowindow,
+        TPop,
+        lat,
+        lng,
+        latlng,
+        options,
+        map,
+        bounds,
+        markers,
+        TPopId,
+        latlng2,
+        marker,
+        contentString,
+        mcOptions,
+        markerCluster,
+        Datum,
+        titel;
 	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	zeigeFormular("google_karte");
 	window.markersArray = [];
@@ -9980,7 +10055,7 @@ function onfeatureunselect_detailplaene_shp(feature) {
 function initiiereGeoAdminKarte() {
 	// Proxy Host for Ajax Requests to overcome Cross-Domain HTTTP Requests
 	//OpenLayers.ProxyHost = "../cgi-bin/proxy.cgi?url=";
-	//var zh_bbox_1903 = new OpenLayers.Bounds(669000, 222000, 717000, 284000);
+	//var zh_bbox_1903 = new ol.Extent(669000, 222000, 717000, 284000);
 
 	// Zunächst alle Layer definieren
 	var zh_ortho_layer = new ol.layer.Tile({
@@ -10196,22 +10271,7 @@ function initiiereGeoAdminKarte() {
             })
         });
 
-	var detailplaene_stylemap = new OpenLayers.StyleMap({
-		"default": new OpenLayers.Style({
-			fillColor: "#fa3a0f",
-			fillOpacity: 0,
-			strokeColor: "#fa3a0f",
-			strokeOpacity: 1,
-			strokeWidth: 1
-		}),
-		"select": new OpenLayers.Style({
-			fillColor: "#fa3a0f",
-			fillOpacity: 0.3,
-			strokeColor: "#fa3a0f",
-			strokeOpacity: 1,
-			strokeWidth: 1
-		})
-	});
+
 
 	var ch_lk1000_layer = new ol.layer.Tile("Landeskarte 1:1'000'000", "//wms.geo.admin.ch?", {
 		layers: 'ch.swisstopo.pixelkarte-farbe-pk1000.noscale',
@@ -10259,10 +10319,29 @@ function initiiereGeoAdminKarte() {
 
 		// Layer für detailpläne aufbauen
 		// aber nur beim ersten mal
+
 		if (!window.detailplaene_shp) {
             // TODO: mit OL3 machen
-			// erst daten auslesen
-			/*var detailplaene_shapefile = new Shapefile({
+			/*
+             var detailplaene_stylemap = new OpenLayers.StyleMap({
+             "default": new OpenLayers.Style({
+             fillColor: "#fa3a0f",
+             fillOpacity: 0,
+             strokeColor: "#fa3a0f",
+             strokeOpacity: 1,
+             strokeWidth: 1
+             }),
+             "select": new OpenLayers.Style({
+             fillColor: "#fa3a0f",
+             fillOpacity: 0.3,
+             strokeColor: "#fa3a0f",
+             strokeOpacity: 1,
+             strokeWidth: 1
+             })
+             });
+
+             // erst daten auslesen
+             var detailplaene_shapefile = new Shapefile({
 				shp: "shp/detailplaene.shp",
 				dbf: "shp/detailplaene.dbf"
 			}, function(data) {
