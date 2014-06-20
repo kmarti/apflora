@@ -4602,13 +4602,15 @@ window.af.initiiere_ap = function() {
 								html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
 							}
 							window.adressen_html = html;
-							$("#ApBearb").html(html);
-							$("#ApBearb").val(window.ap.ApBearb);
+							$("#ApBearb")
+                                .html(html)
+                                .val(window.ap.ApBearb);
 						}
 					});
 				} else {
-					$("#ApBearb").html(window.adressen_html);
-					$("#ApBearb").val(window.ap.ApBearb);
+					$("#ApBearb")
+                        .html(window.adressen_html)
+                        .val(window.ap.ApBearb);
 				}
 				// Formulare blenden
 				window.af.zeigeFormular("ap");
@@ -4694,13 +4696,15 @@ window.af.initiiere_pop = function() {
 	window.af.leereFelderVonFormular("pop");
 	// Daten für die pop aus der DB holen
 	var getPop = $.ajax({
-		type: 'get',
-		url: 'php/pop.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.pop_id
-		}
-	});
+            type: 'get',
+            url: 'php/pop.php',
+            dataType: 'json',
+            data: {
+                "id": localStorage.pop_id
+            }
+        }),
+        $PopName = $("#PopName"),
+        $PopNr = $("#PopNr");
 	getPop.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
@@ -4713,11 +4717,13 @@ window.af.initiiere_pop = function() {
 			} else {
 				$("#PopHerkunftUnklar").prop("checked", false);
 			}
-			$("#PopHerkunftUnklarBegruendung").val(data.PopHerkunftUnklarBegruendung);
-			$("#PopHerkunftUnklarBegruendung").limiter(255, $("#PopHerkunftUnklarBegruendung_limit"));
-			$("#PopName").val(data.PopName);
-			$("#PopName").limiter(150, $("#PopName_limit"));
-			$("#PopNr").val(data.PopNr);
+			$("#PopHerkunftUnklarBegruendung")
+                .val(data.PopHerkunftUnklarBegruendung)
+                .limiter(255, $("#PopHerkunftUnklarBegruendung_limit"));
+            $PopName
+                .val(data.PopName)
+                .limiter(150, $("#PopName_limit"));
+            $PopNr.val(data.PopNr);
 			$("#PopBekanntSeit").val(data.PopBekanntSeit);
 			$("#PopXKoord").val(data.PopXKoord);
 			$("#PopYKoord").val(data.PopYKoord);
@@ -4725,8 +4731,8 @@ window.af.initiiere_pop = function() {
 			window.af.zeigeFormular("pop");
 			history.replaceState({pop: "pop"}, "pop", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id);
 			// bei neuen Datensätzen Fokus steuern
-			if (!$("#PopName").val()) {
-				$("#PopNr").focus();
+			if (!$PopName.val()) {
+                $PopNr.focus();
 			}
 		}
 	});
@@ -4735,7 +4741,7 @@ window.af.initiiere_pop = function() {
 // setzt window.pop und localStorage.pop_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.af.setzeWindowPop = function(id) {
-	'uses strict';
+	'use strict';
 	localStorage.pop_id = id;
 	var getPop = $.ajax({
 		type: 'get',
@@ -4755,13 +4761,14 @@ window.af.setzeWindowPop = function(id) {
 };
 
 window.af.initiiere_apziel = function() {
-	'uses strict';
+	'use strict';
 	if (!localStorage.apziel_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
 		window.af.initiiere_ap();
 		return;
 	}
-	var apziel_initiiert = $.Deferred();
+	var apziel_initiiert = $.Deferred(),
+        $ZielJahr = $("#ZielJahr");
 	// Felder zurücksetzen
 	window.af.leereFelderVonFormular("apziel");
 	// Daten für die apziel aus der DB holen
@@ -4779,15 +4786,15 @@ window.af.initiiere_apziel = function() {
 			// apziel bereitstellen
 			window.apziel = data;
 			// Felder mit Daten beliefern
-			$("#ZielJahr").val(data.ZielJahr);
+            $ZielJahr.val(data.ZielJahr);
 			$("#ZielTyp" + data.ZielTyp).prop("checked", true);
 			$("#ZielBezeichnung").val(data.ZielBezeichnung);
 			// Formulare blenden
 			window.af.zeigeFormular("apziel");
 			history.replaceState({apziel: "apziel"}, "apziel", "index.html?ap=" + localStorage.ap_id + "&apziel=" + localStorage.apziel_id);
 			// bei neuen Datensätzen Fokus steuern
-			if (!$("#ZielJahr").val()) {
-				$("#ZielJahr").focus();
+			if (!$ZielJahr.val()) {
+                $ZielJahr.focus();
 			}
 			apziel_initiiert.resolve();
 		}
@@ -4828,28 +4835,29 @@ window.af.initiiere_zielber = function() {
 	window.af.leereFelderVonFormular("zielber");
 	// Daten für die zielber aus der DB holen
 	var getZielBer = $.ajax({
-		type: 'get',
-		url: 'php/zielber.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.zielber_id
-		}
-	});
+            type: 'get',
+            url: 'php/zielber.php',
+            dataType: 'json',
+            data: {
+                "id": localStorage.zielber_id
+            }
+        }),
+        $ZielBerJahr = $("#ZielBerJahr");
 	getZielBer.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// zeilber bereitstellen
 			window.zielber = data;
 			// Felder mit Daten beliefern
-			$("#ZielBerJahr").val(data.ZielBerJahr);
+            $ZielBerJahr.val(data.ZielBerJahr);
 			$("#ZielBerErreichung").val(data.ZielBerErreichung);
 			$("#ZielBerTxt").val(data.ZielBerTxt);
 			// Formulare blenden
 			window.af.zeigeFormular("zielber");
 			history.replaceState({zielber: "zielber"}, "zielber", "index.html?ap=" + localStorage.ap_id + "&apziel=" + localStorage.apziel_id + "&zielber=" + localStorage.zielber_id);
 			// bei neuen Datensätzen Fokus steuern
-			if (!$("#ZielBerJahr").val()) {
-				$("#ZielBerJahr").focus();
+			if (!$ZielBerJahr.val()) {
+                $ZielBerJahr.focus();
 			}
 		}
 	});
@@ -6517,7 +6525,7 @@ window.af.erstelle_tree = function(ApArtId) {
 			"icons": false
 		},
 		"contextmenu": {
-			"items": treeKontextmenu,
+			"items": window.af.treeKontextmenu,
 			"select_node": true
 		},
 		"crrm": {
@@ -7398,8 +7406,8 @@ window.af.erstelle_tree = function(ApArtId) {
 				});
 				fuegeTPopFeldkontrEin.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_ordner_tpopfeldkontr(ziel_parent_node);
-					beschrifte_ordner_tpopfeldkontr(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_tpopfeldkontr(ziel_parent_node);
+					window.af.beschrifte_ordner_tpopfeldkontr(window.herkunft_parent_node);
 					// selection steuern
 					jQuery.jstree._reference(herkunft_node).deselect_all();
 					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -7427,8 +7435,8 @@ window.af.erstelle_tree = function(ApArtId) {
 				});
 				fuegeTPopFeldkontrEin_2.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_ordner_tpopfeldkontr(ziel_node);
-					beschrifte_ordner_tpopfeldkontr(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_tpopfeldkontr(ziel_node);
+					window.af.beschrifte_ordner_tpopfeldkontr(window.herkunft_parent_node);
 					// selection steuern
 					jQuery.jstree._reference(herkunft_node).deselect_all();
 					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -7458,8 +7466,8 @@ window.af.erstelle_tree = function(ApArtId) {
 				});
 				fuegeTPopFeldkontrEin_3.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_ordner_tpopfreiwkontr(ziel_parent_node);
-					beschrifte_ordner_tpopfreiwkontr(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_tpopfreiwkontr(ziel_parent_node);
+					window.af.beschrifte_ordner_tpopfreiwkontr(window.herkunft_parent_node);
 					// selection steuern
 					jQuery.jstree._reference(herkunft_node).deselect_all();
 					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -7488,8 +7496,8 @@ window.af.erstelle_tree = function(ApArtId) {
 				});
 				fuegeTPopFeldkontrEin_4.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_ordner_tpopfreiwkontr(ziel_node);
-					beschrifte_ordner_tpopfreiwkontr(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_tpopfreiwkontr(ziel_node);
+					window.af.beschrifte_ordner_tpopfreiwkontr(window.herkunft_parent_node);
 					// selection steuern
 					jQuery.jstree._reference(herkunft_node).deselect_all();
 					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -7524,11 +7532,11 @@ window.af.erstelle_tree = function(ApArtId) {
 					localStorage.beobtyp = "beob_nicht_beurteilt";
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					if (ziel_node_typ === "beob_nicht_beurteilt") {
-						beschrifte_ordner_beob_nicht_beurteilt(ziel_parent_node);
+						window.af.beschrifte_ordner_beob_nicht_beurteilt(ziel_parent_node);
 					} else {
-						beschrifte_ordner_beob_nicht_beurteilt(ziel_node);
+						window.af.beschrifte_ordner_beob_nicht_beurteilt(ziel_node);
 					}
-					beschrifte_ordner_beob_zugeordnet(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_beob_zugeordnet(window.herkunft_parent_node);
 					// beob initiieren
 					window.af.initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_beurteilt");
 					// Variablen aufräumen
@@ -7561,11 +7569,11 @@ window.af.erstelle_tree = function(ApArtId) {
 				ordneBeobachtungZu_2.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
-						beschrifte_ordner_beob_zugeordnet(ziel_node);
+						window.af.beschrifte_ordner_beob_zugeordnet(ziel_node);
 					} else {
-						beschrifte_ordner_beob_zugeordnet(ziel_parent_node);
+						window.af.beschrifte_ordner_beob_zugeordnet(ziel_parent_node);
 					}
-					beschrifte_ordner_beob_zugeordnet(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_beob_zugeordnet(window.herkunft_parent_node);
 					// selection steuern
 					if (!localStorage.karte_fokussieren) {
 						window.af.initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "zugeordnet");
@@ -7613,11 +7621,11 @@ window.af.erstelle_tree = function(ApArtId) {
 						localStorage.beobtyp = "beob_nicht_zuzuordnen";
 						// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 						if (ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
-							beschrifte_ordner_beob_nicht_zuzuordnen(ziel_node);
+							window.af.beschrifte_ordner_beob_nicht_zuzuordnen(ziel_node);
 						} else {
-							beschrifte_ordner_beob_nicht_zuzuordnen(ziel_parent_node);
+							window.af.beschrifte_ordner_beob_nicht_zuzuordnen(ziel_parent_node);
 						}
-						beschrifte_ordner_beob_zugeordnet(window.herkunft_parent_node);
+						window.af.beschrifte_ordner_beob_zugeordnet(window.herkunft_parent_node);
 						// Beob initiieren
 						window.af.initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_zuzuordnen");
 						// Variablen aufräumen
@@ -7671,11 +7679,11 @@ window.af.erstelle_tree = function(ApArtId) {
 						herkunft_node.attr("typ", "beob_zugeordnet");
 						localStorage.beobtyp = "beob_zugeordnet";
 						// Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
-						beschrifte_ordner_beob_nicht_beurteilt(window.herkunft_parent_node);
+						window.af.beschrifte_ordner_beob_nicht_beurteilt(window.herkunft_parent_node);
 						if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
-							beschrifte_ordner_beob_zugeordnet(ziel_node);
+							window.af.beschrifte_ordner_beob_zugeordnet(ziel_node);
 						} else {
-							beschrifte_ordner_beob_zugeordnet(ziel_parent_node);
+							window.af.beschrifte_ordner_beob_zugeordnet(ziel_parent_node);
 						}
 						// selection steuern
 						if (!localStorage.karte_fokussieren) {
@@ -7724,11 +7732,11 @@ window.af.erstelle_tree = function(ApArtId) {
 						$(herkunft_node).attr("typ", "beob_nicht_zuzuordnen");
 						localStorage.beobtyp = "beob_nicht_zuzuordnen";
 						// Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
-						beschrifte_ordner_beob_nicht_beurteilt(window.herkunft_parent_node);
+						window.af.beschrifte_ordner_beob_nicht_beurteilt(window.herkunft_parent_node);
 						if (ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
-							beschrifte_ordner_beob_nicht_zuzuordnen(ziel_node);
+							window.af.beschrifte_ordner_beob_nicht_zuzuordnen(ziel_node);
 						} else {
-							beschrifte_ordner_beob_nicht_zuzuordnen(ziel_parent_node);
+							window.af.beschrifte_ordner_beob_nicht_zuzuordnen(ziel_parent_node);
 						}
 						// Beob initiieren
 						window.af.initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_zuzuordnen");
@@ -7762,11 +7770,11 @@ window.af.erstelle_tree = function(ApArtId) {
 					$(herkunft_node).attr("typ", "beob_nicht_beurteilt");
 					localStorage.beobtyp = "beob_nicht_beurteilt";
 					// Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
-					beschrifte_ordner_beob_nicht_zuzuordnen(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_beob_nicht_zuzuordnen(window.herkunft_parent_node);
 					if (ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
-						beschrifte_ordner_beob_nicht_beurteilt(ziel_node);
+						window.af.beschrifte_ordner_beob_nicht_beurteilt(ziel_node);
 					} else {
-						beschrifte_ordner_beob_nicht_beurteilt(ziel_parent_node);
+						window.af.beschrifte_ordner_beob_nicht_beurteilt(ziel_parent_node);
 					}
 					// selektieren
 					window.af.initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_beurteilt");
@@ -7814,11 +7822,11 @@ window.af.erstelle_tree = function(ApArtId) {
 						$(herkunft_node).attr("typ", "beob_zugeordnet");
 						localStorage.beobtyp = "beob_zugeordnet";
 						// Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
-						beschrifte_ordner_beob_nicht_zuzuordnen(window.herkunft_parent_node);
+						window.af.beschrifte_ordner_beob_nicht_zuzuordnen(window.herkunft_parent_node);
 						if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
-							beschrifte_ordner_beob_zugeordnet(ziel_node);
+							window.af.beschrifte_ordner_beob_zugeordnet(ziel_node);
 						} else {
-							beschrifte_ordner_beob_zugeordnet(ziel_parent_node);
+							window.af.beschrifte_ordner_beob_zugeordnet(ziel_parent_node);
 						}
 						// selection steuern
 						window.af.initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "zugeordnet");
@@ -7841,7 +7849,7 @@ window.af.erstelle_tree = function(ApArtId) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.af.beschrifte_ordner_pop(node) {
+window.af.beschrifte_ordner_pop = function(node) {
 	'use strict';
 	var anz = $(node).find("> ul > li").length,
 		anzTxt = "Populationen (" + anz + ")";
@@ -7975,51 +7983,58 @@ window.af.beschrifte_ordner_tpopber = function(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ordner_tpopfeldkontr(node) {
-	var anz, anzTxt;
-	anz = $(node).find("> ul > li").length;
-	anzTxt = "Feldkontrollen (" + anz + ")";
+window.af.beschrifte_ordner_tpopfeldkontr = function(node) {
+	'use strict';
+	var anz = $(node).find("> ul > li").length,
+		anzTxt = "Feldkontrollen (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
-}
+};
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ordner_tpopfreiwkontr(node) {
-	var anz, anzTxt;
-	anz = $(node).find("> ul > li").length;
-	anzTxt = "Freiwilligen-Kontrollen (" + anz + ")";
+window.af.beschrifte_ordner_tpopfreiwkontr = function(node) {
+	'use strict';
+	var anz = $(node).find("> ul > li").length,
+		anzTxt = "Freiwilligen-Kontrollen (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
-}
+};
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ordner_beob_zugeordnet(node) {
-	var anz, anzTxt;
-	anz = $(node).find("> ul > li").length;
-	anzTxt = "Beobachtungen (" + anz + ")";
+window.af.beschrifte_ordner_beob_zugeordnet = function(node) {
+	'use strict';
+	var anz = $(node).find("> ul > li").length,
+		anzTxt = "Beobachtungen (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
-}
+};
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ordner_beob_nicht_beurteilt(node) {
-	var anz, anzTxt;
-	anz = $(node).find("> ul > li").length;
-	anzTxt = "nicht beurteilte Beobachtungen (" + anz + ")";
+window.af.beschrifte_ordner_beob_nicht_beurteilt = function(node) {
+	'use strict';
+	var anz = $(node).find("> ul > li").length,
+		anzTxt = "nicht beurteilte Beobachtungen (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
-}
+};
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ordner_beob_nicht_zuzuordnen(node) {
-	var anz, anzTxt;
-	anz = $(node).find("> ul > li").length;
-	anzTxt = "nicht zuzuordnende Beobachtungen (" + anz + ")";
+window.af.beschrifte_ordner_beob_nicht_zuzuordnen = function(node) {
+	'use strict';
+	var anz = $(node).find("> ul > li").length,
+		anzTxt = "nicht zuzuordnende Beobachtungen (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
-}
+};
 
-function treeKontextmenu(node) {
-	var items, aktiver_node, parent_node, grandparent_node, neue_apziele_node;
+window.af.treeKontextmenu = function(node) {
+	'use strict';
+	var items,
+		aktiver_node,
+		aktiver_nodeText,
+		parent_node,
+		parent_nodeText,
+		grandparent_node,
+		neue_apziele_node;
 	// relevante nodes zwischenspeichern
 	// aktiver_node = node;	 das hat auch funktioniert
 	aktiver_node = jQuery("#tree").jstree('get_selected');
@@ -9912,7 +9927,7 @@ function treeKontextmenu(node) {
 									delete window.tpopfeldkontr;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_ordner_tpopfeldkontr(parent_node);
+									window.af.beschrifte_ordner_tpopfeldkontr(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
 									frageObAktionRueckgaengigGemachtWerdenSoll("Die Feldkontrolle '" + bezeichnung + "' wurde gelöscht.");
 								});
@@ -10241,7 +10256,7 @@ function treeKontextmenu(node) {
 									delete window.tpopfeldkontr;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_ordner_tpopfreiwkontr(parent_node);
+									window.af.beschrifte_ordner_tpopfreiwkontr(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
 									frageObAktionRueckgaengigGemachtWerdenSoll("Die Freiwilligen-Kontrolle '" + bezeichnung + "' wurde gelöscht.");
 								});
@@ -11239,7 +11254,7 @@ function treeKontextmenu(node) {
 		}
 		return items;
 	}
-}
+};
 
 function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 	var insertTPopKopie = $.ajax({
