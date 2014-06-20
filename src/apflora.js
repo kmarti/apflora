@@ -42,7 +42,7 @@ window.af.initiiere_index = function() {
 	window.af.erstelle_artlisten();
 
 	// HIER WIRD IN FIREFOX EINE ENDLOSSCHLAUFE AUSGELÖST
-	$.when(waehle_ap_liste("programm_alle"))
+	$.when(window.af.wähle_ap_liste("programm_alle"))
 		.then(function() {
 			// falls eine Unteradresse angewählt wurde, diese öffnen
 			oeffneUri();
@@ -565,7 +565,7 @@ window.af.initiiere_jber_uebersicht = function() {
 			// Felder mit Daten beliefern
 			$("#JbuJahr").val(data.JbuJahr);
 			$("#JbuBemerkungen").val(data.JbuBemerkungen);
-			// FitToContent("Bemerkungen", document.documentElement.clientHeight);
+			// window.af.FitToContent("Bemerkungen", document.documentElement.clientHeight);
 			// Formulare blenden
 			window.af.zeigeFormular("jber_uebersicht");
 			history.replaceState({jber_uebersicht: "jber_uebersicht"}, "jber_uebersicht", "index.html?ap=" + localStorage.ap_id + "&jber_uebersicht=" + localStorage.jber_uebersicht_id);
@@ -1825,7 +1825,7 @@ window.af.zeigeFormular = function(Formularname) {
 			$("#" + Formularname).css("height", $(window).height()-17 + "px");
 			// markieren, dass die Formularhöhe anders gesetzt werden soll
 			window.kartenhoehe_manuell = true;
-			setzeKartenhöhe();
+			window.af.setzeKartenhöhe();
 			$("#" + Formularname).show();
 			if (Formularname === "GeoAdminKarte") {
 				// auswählen deaktivieren und allfällige Liste ausblenden
@@ -1839,7 +1839,7 @@ window.af.zeigeFormular = function(Formularname) {
 				if ($(this).attr("id") === Formularname) {
 					$(this).show();
 					$('textarea').each(function() {
-						FitToContent(this, document.documentElement.clientHeight);
+						window.af.FitToContent(this, document.documentElement.clientHeight);
 					});
 				}
 			});
@@ -1865,7 +1865,8 @@ window.af.leereFelderVonFormular = function(Formular) {
 };
 
 // begrenzt die maximale Höhe des Baums auf die Seitenhöhe, wenn nötig
-function setzeTreehoehe() {
+window.af.setzeTreehoehe = function() {
+	'use strict';
 	if ($(window).width() > 1000) {
 		if (($(".jstree-no-icons").height() + 157) > $(window).height()) {
 			$("#tree").css("max-height", $(window).height() - 145);
@@ -1876,9 +1877,10 @@ function setzeTreehoehe() {
 			$("#tree").css("max-height", $(window).height() - 220);
 		}
 	}
-}
+};
 
-function setzeKartenhöhe() {
+window.af.setzeKartenhöhe = function() {
+	'use strict';
 	// Formulare sind unbegrenzt hoch aber Karten sollen das nicht sein
 	if (window.kartenhoehe_manuell) {
 		$("#forms").height($(window).height() - 17);
@@ -1893,7 +1895,7 @@ function setzeKartenhöhe() {
 	} else {
 		$("#forms").height('auto');
 	}
-}
+};
 
 (function($) {
 	$.fn.hasScrollBar = function() {
@@ -1902,7 +1904,8 @@ function setzeKartenhöhe() {
 })(jQuery);
 
 // setzt die Höhe von textareas so, dass der Text genau rein passt
-function FitToContent(id, maxHeight) {
+window.af.FitToContent = function(id, maxHeight) {
+	'use strict';
    var text = id && id.style ? id : document.getElementById(id);
    if (!text)
 	  return;
@@ -1920,18 +1923,19 @@ function FitToContent(id, maxHeight) {
 	  if (adjustedHeight > text.clientHeight)
 		 text.style.height = adjustedHeight + "px";
    }
-}
+};
 
-function erstelle_ap_liste(programm) {
-	var apliste_erstellt = $.Deferred();
-	var getApliste = $.ajax({
-		type: 'get',
-		url: 'php/apliste.php',
-		dataType: 'json',
-		data: {
-			"programm": programm
-		}
-	});
+window.af.erstelle_ap_liste = function(programm) {
+	'use strict';
+	var apliste_erstellt = $.Deferred(),
+		getApliste = $.ajax({
+			type: 'get',
+			url: 'php/apliste.php',
+			dataType: 'json',
+			data: {
+				"programm": programm
+			}
+		});
 	getApliste.done(function(data) {
 		var html;
 		html = "<option></option>";
@@ -1942,9 +1946,10 @@ function erstelle_ap_liste(programm) {
 		apliste_erstellt.resolve();
 	});
 	return apliste_erstellt.promise();
-}
+};
 
-function waehle_ap_liste(programm) {
+window.af.wähle_ap_liste = function(programm) {
+	'use strict';
 	var apliste_gewaehlt = $.Deferred();
 	$("#ap_waehlen_label").html("Daten werden aufbereitet...");
 	$("#ap_waehlen").html("");
@@ -1958,7 +1963,7 @@ function waehle_ap_liste(programm) {
 	$("#exportieren_1").show();
 	$("#ap_waehlen").val("");
 	window.af.initiiere_ap();
-	$.when(erstelle_ap_liste(programm))
+	$.when(window.af.erstelle_ap_liste(programm))
 		.then(function() {
 			if ($("[name='programm_wahl']:checked").attr("id") === "programm_neu") {
 				$("#ap_waehlen_label").html("Art für neues Förderprogramm wählen:");
@@ -1971,9 +1976,10 @@ function waehle_ap_liste(programm) {
 			apliste_gewaehlt.resolve();
 		});
 	return apliste_gewaehlt.promise();
-}
+};
 
-function erstelle_tree(ApArtId) {
+window.af.erstelle_tree = function(ApArtId) {
+	'use strict';
 	var jstree_erstellt = $.Deferred();
 	$("#tree").jstree( {
 		"json_data": {
@@ -2365,7 +2371,7 @@ function erstelle_tree(ApArtId) {
 	.show()
 	.bind("loaded.jstree", function(event, data) {
 		jstree_erstellt.resolve();
-		setzeTreehoehe();
+		window.af.setzeTreehoehe();
 		$("#suchen").show();
 		$("#exportieren_2").show();
 		$("#exportieren_1").hide();
@@ -2631,10 +2637,10 @@ function erstelle_tree(ApArtId) {
 		}
 	})
 	.bind("after_open.jstree", function(e, data) {
-		setzeTreehoehe();
+		window.af.setzeTreehoehe();
 	})
 	.bind("after_close.jstree", function(e, data) {
-		setzeTreehoehe();
+		window.af.setzeTreehoehe();
 	})
 	.bind("prepare_move.jstree", function(e, data) {
 		// herkunft_parent_node muss vor dem move ermittelt werden - danach ist der parent ein anderer!
@@ -2684,8 +2690,8 @@ function erstelle_tree(ApArtId) {
 				});
 				fuegePopEin.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_ordner_pop(ziel_parent_node);
-					beschrifte_ordner_pop(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_pop(ziel_parent_node);
+					window.af.beschrifte_ordner_pop(window.herkunft_parent_node);
 					// selection steuern
 					jQuery.jstree._reference(ziel_node).deselect_all();
 					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -2713,8 +2719,8 @@ function erstelle_tree(ApArtId) {
 				});
 				fuegeTPopEin.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_ordner_tpop(ziel_parent_node);
-					beschrifte_ordner_tpop(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_tpop(ziel_parent_node);
+					window.af.beschrifte_ordner_tpop(window.herkunft_parent_node);
 					// selection steuern
 					jQuery.jstree._reference(ziel_node).deselect_all();
 					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -2742,8 +2748,8 @@ function erstelle_tree(ApArtId) {
 				});
 				fuegeTPopEin_2.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_ordner_tpop(ziel_node);
-					beschrifte_ordner_tpop(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_tpop(ziel_node);
+					window.af.beschrifte_ordner_tpop(window.herkunft_parent_node);
 					// select steuern
 					jQuery.jstree._reference(ziel_node).deselect_all();
 					jQuery.jstree._reference(ziel_node).select_node(herkunft_node);
@@ -2772,8 +2778,8 @@ function erstelle_tree(ApArtId) {
 				});
 				fuegeTPopEin_3.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_ordner_tpop(ziel_parent_node);
-					beschrifte_ordner_tpop(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_tpop(ziel_parent_node);
+					window.af.beschrifte_ordner_tpop(window.herkunft_parent_node);
 					// selection steuern
 					jQuery.jstree._reference(herkunft_node).deselect_all();
 					jQuery.jstree._reference(ziel_parent_node).select_node(herkunft_node);
@@ -2801,8 +2807,8 @@ function erstelle_tree(ApArtId) {
 				});
 				fuegeTPopEin_4.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_ordner_tpop(ziel_node);
-					beschrifte_ordner_tpop(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_tpop(ziel_node);
+					window.af.beschrifte_ordner_tpop(window.herkunft_parent_node);
 					// selection steuern
 					jQuery.jstree._reference(herkunft_node).deselect_all();
 					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -2832,8 +2838,8 @@ function erstelle_tree(ApArtId) {
 				});
 				fuegeTPopMassnEin.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_ordner_tpopmassn(ziel_parent_node);
-					beschrifte_ordner_tpopmassn(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_tpopmassn(ziel_parent_node);
+					window.af.beschrifte_ordner_tpopmassn(window.herkunft_parent_node);
 					// selection steuern
 					jQuery.jstree._reference(herkunft_node).deselect_all();
 					jQuery.jstree._reference(ziel_parent_node).select_node(herkunft_node);
@@ -2861,8 +2867,8 @@ function erstelle_tree(ApArtId) {
 				});
 				fuegeTPopMassnEin_2.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-					beschrifte_ordner_tpopmassn(ziel_node);
-					beschrifte_ordner_tpopmassn(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_tpopmassn(ziel_node);
+					window.af.beschrifte_ordner_tpopmassn(window.herkunft_parent_node);
 					// selection steuern
 					jQuery.jstree._reference(herkunft_node).deselect_all();
 					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -3331,22 +3337,23 @@ function erstelle_tree(ApArtId) {
 		}
 	})
 	return jstree_erstellt.promise();
-}
+};
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ordner_pop(node) {
-	var anz, anzTxt;
-	anz = $(node).find("> ul > li").length;
-	anzTxt = "Populationen (" + anz + ")";
+window.af.beschrifte_ordner_pop(node) {
+	'use strict';
+	var anz = $(node).find("> ul > li").length,
+		anzTxt = "Populationen (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
-}
+};
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ordner_apziel(node) {
-	var anz, anzTxt;
-	anz = 0;
+window.af.beschrifte_ordner_apziel = function(node) {
+	'use strict';
+	var anz = 0,
+		anzTxt;
 	$(jQuery.jstree._reference(node)._get_children(node)).each(function(index) {
 		$($(this).find("> ul > li")).each(function(index) {
 			anz += 1;
@@ -3354,116 +3361,117 @@ function beschrifte_ordner_apziel(node) {
 	});
 	anzTxt = "AP-Ziele (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
-}
+};
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ordner_apzieljahr(node) {
-	var anz, anzTxt;
-	anz = $(node).find("> ul > li").length;
+window.af.beschrifte_ordner_apzieljahr = function(node) {
+	'use strict';
+	var anz = $(node).find("> ul > li").length,
+		anzTxt;
 	anzTxt = jQuery.jstree._reference(node).get_text(node).slice(0, 6);
 	anzTxt += anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
-}
+};
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ordner_zielber(node) {
-	var anz, anzTxt;
-	anz = $(node).find("> ul > li").length;
-	anzTxt = "Ziel-Berichte (" + anz + ")";
+window.af.beschrifte_ordner_zielber = function(node) {
+	'use strict';
+	var anz = $(node).find("> ul > li").length,
+		anzTxt = "Ziel-Berichte (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
-}
+};
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ordner_erfkrit(node) {
-	var anz, anzTxt;
-	anz = $(node).find("> ul > li").length;
-	anzTxt = "AP-Erfolgskriterien (" + anz + ")";
+window.af.beschrifte_ordner_erfkrit = function(node) {
+	'use strict';
+	var anz = $(node).find("> ul > li").length,
+		anzTxt = "AP-Erfolgskriterien (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
-}
+};
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ordner_jber(node) {
-	var anz, anzTxt;
-	anz = $(node).find("> ul > li").length;
-	anzTxt = "AP-Berichte (" + anz + ")";
+window.af.beschrifte_ordner_jber = function(node) {
+	'use strict';
+	var anz = $(node).find("> ul > li").length,
+		anzTxt = "AP-Berichte (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
-}
+};
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ordner_ber(node) {
-	var anz, anzTxt;
-	anz = $(node).find("> ul > li").length;
-	anzTxt = "Berichte (" + anz + ")";
+window.af.beschrifte_ordner_ber = function(node) {
+	'use strict';
+	var anz = $(node).find("> ul > li").length,
+		anzTxt = "Berichte (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
-}
+};
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ordner_assozarten(node) {
-	var anz, anzTxt;
-	anz = $(node).find("> ul > li").length;
-	anzTxt = "assoziierte Arten (" + anz + ")";
+window.af.beschrifte_ordner_assozarten = function(node) {
+	'use strict';
+	var anz = $(node).find("> ul > li").length,
+		anzTxt = "assoziierte Arten (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
-}
+};
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ordner_tpop(node) {
-	var anz, anzTxt;
-	anz = $(node).find("> ul > li").length;
-	anzTxt = "Teilpopulationen (" + anz + ")";
+window.af.beschrifte_ordner_tpop = function(node) {
+	'use strict';
+	var anz = $(node).find("> ul > li").length,
+		anzTxt = "Teilpopulationen (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
-}
+};
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ordner_popber(node) {
-	var anz, anzTxt;
-	anz = $(node).find("> ul > li").length;
-	anzTxt = "Populations-Berichte (" + anz + ")";
+window.af.beschrifte_ordner_popber = function(node) {
+	'use strict';
+	var anz = $(node).find("> ul > li").length,
+		anzTxt = "Populations-Berichte (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
-}
+};
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ordner_popmassnber(node) {
-	var anz, anzTxt;
-	anz = $(node).find("> ul > li").length;
-	anzTxt = "Massnahmen-Berichte (" + anz + ")";
+window.af.beschrifte_ordner_popmassnber = function(node) {
+	'use strict';
+	var anz = $(node).find("> ul > li").length,
+		anzTxt = "Massnahmen-Berichte (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
-}
+};
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ordner_tpopmassnber(node) {
-	var anz, anzTxt;
-	anz = $(node).find("> ul > li").length;
-	anzTxt = "Massnahmen-Berichte (" + anz + ")";
+window.af.beschrifte_ordner_tpopmassnber = function(node) {
+	'use strict';
+	var anz = $(node).find("> ul > li").length,
+		anzTxt = "Massnahmen-Berichte (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
-}
+};
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ordner_tpopmassn(node) {
-	var anz, anzTxt;
-	anz = $(node).find("> ul > li").length;
-	anzTxt = "Massnahmen (" + anz + ")";
+window.af.beschrifte_ordner_tpopmassn = function(node) {
+	'use strict';
+	var anz = $(node).find("> ul > li").length,
+		anzTxt = "Massnahmen (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
-}
+};
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-function beschrifte_ordner_tpopber(node) {
-	var anz, anzTxt;
-	anz = $(node).find("> ul > li").length;
-	anzTxt = "Teilpopulations-Berichte (" + anz + ")";
+window.af.beschrifte_ordner_tpopber = function(node) {
+	'use strict';
+	var anz = $(node).find("> ul > li").length,
+		anzTxt = "Teilpopulations-Berichte (" + anz + ")";
 	jQuery.jstree._reference(node).rename_node(node, anzTxt);
-}
+};
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
@@ -3627,7 +3635,7 @@ function treeKontextmenu(node) {
 					});
 					updatePop.done(function() {
 						// Baum neu aufbauen
-						$.when(erstelle_tree(erstelleIdAusDomAttributId($(aktiver_node).attr("id"))))
+						$.when(window.af.erstelle_tree(erstelleIdAusDomAttributId($(aktiver_node).attr("id"))))
 							.then(function() {
 								// dann den eingefügten Node wählen
 								$("#tree").jstree("select_node", "[typ='pop']#" + localStorage.pop_id); 
@@ -3797,10 +3805,10 @@ function treeKontextmenu(node) {
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// grandparent Node-Beschriftung: Anzahl anpassen
 									grandparent_node = jQuery.jstree._reference(parent_node)._get_parent(parent_node);
-									beschrifte_ordner_apziel(grandparent_node);
+									window.af.beschrifte_ordner_apziel(grandparent_node);
 									// parent Node-Beschriftung: Anzahl anpassen
 									if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
-										beschrifte_ordner_apzieljahr(parent_node);
+										window.af.beschrifte_ordner_apzieljahr(parent_node);
 									}
 									// Hinweis zum rückgängig machen anzeigen
 									frageObAktionRueckgaengigGemachtWerdenSoll("Das AP-Ziel '" + bezeichnung + "' wurde gelöscht.");
@@ -3914,7 +3922,7 @@ function treeKontextmenu(node) {
 									delete window.zielber;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_ordner_zielber(parent_node);
+									window.af.beschrifte_ordner_zielber(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
 									frageObAktionRueckgaengigGemachtWerdenSoll("Der Ziel-Bericht '" + bezeichnung + "' wurde gelöscht.");
 								});
@@ -4027,7 +4035,7 @@ function treeKontextmenu(node) {
 									delete window.erfkrit;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_ordner_erfkrit(parent_node);
+									window.af.beschrifte_ordner_erfkrit(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
 									frageObAktionRueckgaengigGemachtWerdenSoll("Das Erfolgskriterium '" + bezeichnung + "' wurde gelöscht.");
 								});
@@ -4147,7 +4155,7 @@ function treeKontextmenu(node) {
 									delete window.jber;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_ordner_jber(parent_node);
+									window.af.beschrifte_ordner_jber(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
 									frageObAktionRueckgaengigGemachtWerdenSoll("Der AP-Bericht '" + bezeichnung + "' wurde gelöscht.");
 								});
@@ -4344,7 +4352,7 @@ function treeKontextmenu(node) {
 									delete window.ber;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_ordner_ber(parent_node);
+									window.af.beschrifte_ordner_ber(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
 									frageObAktionRueckgaengigGemachtWerdenSoll("Der Bericht '" + bezeichnung + "' wurde gelöscht.");
 								});
@@ -4457,7 +4465,7 @@ function treeKontextmenu(node) {
 									delete window.assozarten;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_ordner_assozarten(parent_node);
+									window.af.beschrifte_ordner_assozarten(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
 									frageObAktionRueckgaengigGemachtWerdenSoll("Die assoziierte Art '" + bezeichnung + "' wurde gelöscht.");
 								});
@@ -4542,7 +4550,7 @@ function treeKontextmenu(node) {
 									delete window.pop;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_ordner_pop(parent_node);
+									window.af.beschrifte_ordner_pop(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
 									frageObAktionRueckgaengigGemachtWerdenSoll("Population '" + bezeichnung + "' wurde gelöscht.");
 								});
@@ -4650,7 +4658,7 @@ function treeKontextmenu(node) {
 					});
 					updatePop_2.done(function() {
 						// Baum wieder aufbauen
-						$.when(erstelle_tree(apartid))
+						$.when(window.af.erstelle_tree(apartid))
 							.then(function() {
 								// dann den eingefügten Node wählen
 								$("#tree").jstree("select_node", "[typ='pop']#" + popid); 
@@ -4863,7 +4871,7 @@ function treeKontextmenu(node) {
 									delete window.tpop;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_ordner_tpop(parent_node);
+									window.af.beschrifte_ordner_tpop(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
 									frageObAktionRueckgaengigGemachtWerdenSoll("Teilpopulation '" + bezeichnung + "' wurde gelöscht.");
 								});
@@ -5150,7 +5158,7 @@ function treeKontextmenu(node) {
 									delete window.popber;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_ordner_popber(parent_node);
+									window.af.beschrifte_ordner_popber(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
 									frageObAktionRueckgaengigGemachtWerdenSoll("Der Populations-Bericht '" + bezeichnung + "' wurde gelöscht.");
 								});
@@ -5257,7 +5265,7 @@ function treeKontextmenu(node) {
 									delete window.popmassnber;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_ordner_popmassnber(parent_node);
+									window.af.beschrifte_ordner_popmassnber(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
 									frageObAktionRueckgaengigGemachtWerdenSoll("Der Massnahmen-Bericht '" + bezeichnung + "' wurde gelöscht.");
 								});
@@ -5966,7 +5974,7 @@ function treeKontextmenu(node) {
 									delete window.tpopmassn;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_ordner_tpopmassn(parent_node);
+									window.af.beschrifte_ordner_tpopmassn(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
 									frageObAktionRueckgaengigGemachtWerdenSoll("Die Massnahme '" + bezeichnung + "' wurde gelöscht.");
 								});
@@ -6164,7 +6172,7 @@ function treeKontextmenu(node) {
 									delete window.tpopber;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_ordner_tpopber(parent_node);
+									window.af.beschrifte_ordner_tpopber(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
 									frageObAktionRueckgaengigGemachtWerdenSoll("Der Teilpopulations-Bericht '" + bezeichnung + "' wurde gelöscht.");
 								});
@@ -6432,7 +6440,7 @@ function treeKontextmenu(node) {
 									delete window.tpopmassnber;
 									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
-									beschrifte_ordner_popmassnber(parent_node);
+									window.af.beschrifte_ordner_popmassnber(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
 									frageObAktionRueckgaengigGemachtWerdenSoll("Der Massnahmen-Bericht '" + bezeichnung + "' wurde gelöscht.");
 								});
@@ -10051,7 +10059,7 @@ function oeffneUri() {
 			localStorage.ap_id = ap_id;
 			window.af.initiiere_ap();
 		}
-		erstelle_tree(ap_id);
+		window.af.erstelle_tree(ap_id);
 		$("#ap_waehlen_label").hide();
 	} else {
 		var exporte = uri.getQueryParamValue('exporte');
@@ -10692,10 +10700,10 @@ function wähleAp(ap_id) {
 				$("#programm_alle").attr("checked", true);
 				$("#programm_wahl").buttonset();
 				// Auswahlliste für Programme updaten
-				$.when(waehle_ap_liste("programm_alle"))
+				$.when(window.af.wähle_ap_liste("programm_alle"))
 					.then(function() {
 						// Strukturbaum updaten
-						$.when(erstelle_tree(localStorage.ap_id))
+						$.when(window.af.erstelle_tree(localStorage.ap_id))
 							.then(function() {
 								// gewählte Art in Auswahlliste anzeigen
 								$('#ap_waehlen').val(localStorage.ap_id);
@@ -10710,7 +10718,7 @@ function wähleAp(ap_id) {
 				melde("Fehler: Keine Daten für Programme erhalten");
 			});
 		} else {
-			erstelle_tree(ap_id);
+			window.af.erstelle_tree(ap_id);
 			$("#ap").show();
 			window.af.initiiere_ap();
 		}
@@ -10988,11 +10996,11 @@ function insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, st
 	if (strukturtyp === "apziel") {
 		var grandparent_node = jQuery.jstree._reference(parent_node)._get_parent(parent_node);
 		// grandparent Node-Beschriftung: Anzahl anpassen
-		beschrifte_ordner_apziel(grandparent_node);
+		window.af.beschrifte_ordner_apziel(grandparent_node);
 		// parent Node-Beschriftung: Anzahl anpassen
 		// nur, wenn es nicht der Ordner ist, der "neue AP-Ziele" heisst
 		if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
-			beschrifte_ordner_apzieljahr(parent_node);
+			window.af.beschrifte_ordner_apzieljahr(parent_node);
 		}
 	} else {
 		// Normalfall
@@ -11072,10 +11080,10 @@ function insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, str
 		// hier ist ein Ordner zwischengeschaltet
 		// Parent Node-Beschriftung: Anzahl anpassen, wenns nicht der neue Ordner ist
 		if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
-			beschrifte_ordner_apziel(parent_node);
+			window.af.beschrifte_ordner_apziel(parent_node);
 		}
 		// aktiver Node-Beschriftung: Anzahl anpassen
-		beschrifte_ordner_apzieljahr(aktiver_node);
+		window.af.beschrifte_ordner_apzieljahr(aktiver_node);
 		delete localStorage.apziel_von_apzieljahr;
 	} else if (strukturtyp !== "jber_uebersicht") {
 		window["beschrifte_ordner_"+strukturtyp](aktiver_node);
@@ -11188,7 +11196,7 @@ function loescheAp(ap_id) {
 		$("#programm_neu").attr("checked", false);
 		$("#programm_alle").attr("checked", true);
 		$("#programm_wahl").buttonset();
-		erstelle_ap_liste("programm_alle");
+		window.af.erstelle_ap_liste("programm_alle");
 		$('#ap_waehlen').val('');
 		$("#ap_waehlen_label").html("Artförderprogramm wählen:").show();
 		$("#tree").hide();
@@ -11347,7 +11355,7 @@ function undeleteDatensatz() {
 			history.replaceState({ap: "ap"}, "ap", "index.html?ap=" + id);
 		} else {
 			//tree neu aufbauen
-			$.when(erstelle_tree(window.ap.ApArtId))
+			$.when(window.af.erstelle_tree(window.ap.ApArtId))
 				.then(function() {
 					$("#tree").jstree("select_node", "[typ='" + typ + "']#" + id);
 				});
