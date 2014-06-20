@@ -1543,7 +1543,8 @@ window.af.initiiere_tpopmassnber = function() {
 
 // setzt window.tpopmassnber und localStorage.tpopmassnber_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-function setzeWindowTpopmassnber(id) {
+window.af.setzeWindowTpopmassnber = function(id) {
+	'use strict';
 	localStorage.tpopmassnber_id = id;
 	var getTPopMassnBer = $.ajax({
 		type: 'get',
@@ -1560,9 +1561,10 @@ function setzeWindowTpopmassnber(id) {
 			window.tpopmassnber = data;
 		}
 	});
-}
+};
 
-function initiiere_tpopber() {
+window.af.initiiere_tpopber = function() {
+	'use strict';
 	if (!localStorage.tpopber_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
 		window.af.initiiere_pop();
@@ -1595,11 +1597,12 @@ function initiiere_tpopber() {
 			$('#TPopBerJahr').focus();
 		}
 	});
-}
+};
 
 // setzt window.tpopber und localStorage.tpopber_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-function setzeWindowTpopber(id) {
+window.af.setzeWindowTpopber = function(id) {
+	'use strict';
 	localStorage.tpopber_id = id;
 	var getTPopBer = $.ajax({
 		type: 'get',
@@ -1616,9 +1619,10 @@ function setzeWindowTpopber(id) {
 			window.tpopber = data;
 		}
 	});
-}
+};
 
-function initiiere_beob(beobtyp, beobid, beob_status) {
+window.af.initiiere_beob = function(beobtyp, beobid, beob_status) {
+	'use strict';
 	// beob_status markiert, ob die Beobachtung:
 	// - schon zugewiesen ist (zugeordnet)
 	// - noch nicht beurteilt ist (nicht_beurteilt)
@@ -1750,9 +1754,10 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 			});
 		}
 	});
-}
+};
 
-function initiiere_exporte(anchor) {
+window.af.initiiere_exporte = function(anchor) {
+	'use strict';
 	$("#testart_div").hide();
 	$("#forms_titelzeile").hide();
 	zeigeFormular("exporte");
@@ -1760,7 +1765,7 @@ function initiiere_exporte(anchor) {
 	if (anchor) {
 		location.hash = "#" + anchor;
 	}
-}
+};
 
 // managed die Sichtbarkeit von Formularen
 // wird von allen initiiere_-Funktionen verwendet
@@ -2590,14 +2595,14 @@ function erstelle_tree(ApArtId) {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#tpopber").is(':visible') || localStorage.tpopber_id !== node_id) {
 				localStorage.tpopber_id = node_id;
-				initiiere_tpopber();
+				window.af.initiiere_tpopber();
 			}
 		} else if (node_typ === "beob_zugeordnet") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#beob").is(':visible') || localStorage.beob_id !== node_id || localStorage.beob_status !== "zugeordnet") {
 				localStorage.beob_id = node_id;
 				localStorage.beobtyp = node.attr("beobtyp");
-				initiiere_beob(node.attr("beobtyp"), node_id, "zugeordnet");
+				window.af.initiiere_beob(node.attr("beobtyp"), node_id, "zugeordnet");
 			}
 		} else if (node_typ === "beob_nicht_beurteilt") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -2605,7 +2610,7 @@ function erstelle_tree(ApArtId) {
 				localStorage.beob_id = node_id;
 				localStorage.beobtyp = node.attr("beobtyp");
 				// den Beobtyp mitgeben
-				initiiere_beob(node.attr("beobtyp"), node_id, "nicht_beurteilt");
+				window.af.initiiere_beob(node.attr("beobtyp"), node_id, "nicht_beurteilt");
 			}
 		} else if (node_typ === "beob_nicht_zuzuordnen") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -2613,7 +2618,7 @@ function erstelle_tree(ApArtId) {
 				localStorage.beob_id = node_id;
 				localStorage.beobtyp = node.attr("beobtyp");
 				// den Beobtyp mitgeben
-				initiiere_beob(node.attr("beobtyp"), node_id, "nicht_zuzuordnen");
+				window.af.initiiere_beob(node.attr("beobtyp"), node_id, "nicht_zuzuordnen");
 			}
 		} else if (node_typ === "tpopmassnber") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -3017,7 +3022,7 @@ function erstelle_tree(ApArtId) {
 					}
 					beschrifte_ordner_beob_zugeordnet(window.herkunft_parent_node);
 					// beob initiieren
-					initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_beurteilt");
+					window.af.initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_beurteilt");
 					// Variablen aufräumen
 					delete window.beob_zugeordnet_node_ausgeschnitten;
 					delete window.herkunft_parent_node;
@@ -3055,7 +3060,7 @@ function erstelle_tree(ApArtId) {
 					beschrifte_ordner_beob_zugeordnet(window.herkunft_parent_node);
 					// selection steuern
 					if (!localStorage.karte_fokussieren) {
-						initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "zugeordnet");
+						window.af.initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "zugeordnet");
 					} else {
 						delete localStorage.karte_fokussieren;
 					}
@@ -3106,7 +3111,7 @@ function erstelle_tree(ApArtId) {
 						}
 						beschrifte_ordner_beob_zugeordnet(window.herkunft_parent_node);
 						// Beob initiieren
-						initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_zuzuordnen");
+						window.af.initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_zuzuordnen");
 						// Variablen aufräumen
 						delete window.beob_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
@@ -3166,7 +3171,7 @@ function erstelle_tree(ApArtId) {
 						}
 						// selection steuern
 						if (!localStorage.karte_fokussieren) {
-							initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "zugeordnet");
+							window.af.initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "zugeordnet");
 						} else {
 							delete localStorage.karte_fokussieren;
 						}
@@ -3218,7 +3223,7 @@ function erstelle_tree(ApArtId) {
 							beschrifte_ordner_beob_nicht_zuzuordnen(ziel_parent_node);
 						}
 						// Beob initiieren
-						initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_zuzuordnen");
+						window.af.initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_zuzuordnen");
 						// Variablen aufräumen
 						delete window.beob_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
@@ -3256,7 +3261,7 @@ function erstelle_tree(ApArtId) {
 						beschrifte_ordner_beob_nicht_beurteilt(ziel_parent_node);
 					}
 					// selektieren
-					initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_beurteilt");
+					window.af.initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_beurteilt");
 					// Variablen aufräumen
 					delete window.beob_node_ausgeschnitten;
 					delete window.herkunft_parent_node;
@@ -3308,7 +3313,7 @@ function erstelle_tree(ApArtId) {
 							beschrifte_ordner_beob_zugeordnet(ziel_parent_node);
 						}
 						// selection steuern
-						initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "zugeordnet");
+						window.af.initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "zugeordnet");
 						// Variablen aufräumen
 						delete window.beob_node_ausgeschnitten;
 						delete window.herkunft_parent_node;
@@ -9896,12 +9901,12 @@ function oeffneUri() {
 				window.af.initiiere_tpopmassn();
 			} else if (uri.getQueryParamValue('tpopber')) {
 				// globale Variabeln setzen
-				setzeWindowTpopber(uri.getQueryParamValue('tpopber'));
+				window.af.setzeWindowTpopber(uri.getQueryParamValue('tpopber'));
 				// markieren, dass nach dem loaded-event im Tree die tpopber angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
 				window.tpopber_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-				initiiere_tpopber();
+				window.af.initiiere_tpopber();
 			} else if (uri.getQueryParamValue('beob_zugeordnet')) {
 				// markieren, dass nach dem loaded-event im Tree die beob_zugeordnet angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
@@ -9913,14 +9918,14 @@ function oeffneUri() {
 				if (isNaN(uri.getQueryParamValue('beob_zugeordnet'))) {
 					// evab
 					localStorage.beobtyp = "evab";
-					initiiere_beob("evab", localStorage.beob_id, "zugeordnet");
+					window.af.initiiere_beob("evab", localStorage.beob_id, "zugeordnet");
 				} else {
 					localStorage.beobtyp = "infospezies";
-					initiiere_beob("infospezies", localStorage.beob_id, "zugeordnet");
+					window.af.initiiere_beob("infospezies", localStorage.beob_id, "zugeordnet");
 				}*/
 			} else if (uri.getQueryParamValue('tpopmassnber')) {
 				// globale Variabeln setzen
-				setzeWindowTpopmassnber(uri.getQueryParamValue('tpopmassnber'));
+				window.af.setzeWindowTpopmassnber(uri.getQueryParamValue('tpopmassnber'));
 				// markieren, dass nach dem loaded-event im Tree die tpopmassnber angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
 				window.tpopmassnber_zeigen = true;
@@ -10049,7 +10054,7 @@ function oeffneUri() {
 	} else {
 		var exporte = uri.getQueryParamValue('exporte');
 		if (exporte) {
-			initiiere_exporte(anchor);
+			window.af.initiiere_exporte(anchor);
 		}
 	}
 }
