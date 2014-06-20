@@ -63,7 +63,7 @@ window.af.initiiere_ap = function() {
 	var programm_wahl;
 	programm_wahl = $("[name='programm_wahl']:checked").attr("id");
 	// Felder zurücksetzen
-	leereFelderVonFormular("ap");
+	window.af.leereFelderVonFormular("ap");
 	// Wenn ein ap ausgewählt ist: Seine Daten anzeigen
 	if ($("#ap_waehlen").val() && programm_wahl !== "programm_neu") {
 		// Daten für den ap aus der DB holen
@@ -111,13 +111,13 @@ window.af.initiiere_ap = function() {
 					$("#ApBearb").val(window.ap.ApBearb);
 				}
 				// Formulare blenden
-				zeigeFormular("ap");
+				window.af.zeigeFormular("ap");
 				history.replaceState({ap: "ap"}, "ap", "index.html?ap=" + data.ApArtId);
 			}
 		});
 	} else if ($("#ap_waehlen").val() && programm_wahl === "programm_neu") {
 		// Formulare blenden
-		zeigeFormular("ap");
+		window.af.zeigeFormular("ap");
 	}
 };
 
@@ -191,7 +191,7 @@ window.af.initiiere_pop = function() {
 		return;
 	}
 	// Felder zurücksetzen
-	leereFelderVonFormular("pop");
+	window.af.leereFelderVonFormular("pop");
 	// Daten für die pop aus der DB holen
 	var getPop = $.ajax({
 		type: 'get',
@@ -222,7 +222,7 @@ window.af.initiiere_pop = function() {
 			$("#PopXKoord").val(data.PopXKoord);
 			$("#PopYKoord").val(data.PopYKoord);
 			// Formulare blenden
-			zeigeFormular("pop");
+			window.af.zeigeFormular("pop");
 			history.replaceState({pop: "pop"}, "pop", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id);
 			// bei neuen Datensätzen Fokus steuern
 			if (!$("#PopName").val()) {
@@ -263,7 +263,7 @@ window.af.initiiere_apziel = function() {
 	}
 	var apziel_initiiert = $.Deferred();
 	// Felder zurücksetzen
-	leereFelderVonFormular("apziel");
+	window.af.leereFelderVonFormular("apziel");
 	// Daten für die apziel aus der DB holen
 	var getApZiel = $.ajax({
 		type: 'get',
@@ -283,7 +283,7 @@ window.af.initiiere_apziel = function() {
 			$("#ZielTyp" + data.ZielTyp).prop("checked", true);
 			$("#ZielBezeichnung").val(data.ZielBezeichnung);
 			// Formulare blenden
-			zeigeFormular("apziel");
+			window.af.zeigeFormular("apziel");
 			history.replaceState({apziel: "apziel"}, "apziel", "index.html?ap=" + localStorage.ap_id + "&apziel=" + localStorage.apziel_id);
 			// bei neuen Datensätzen Fokus steuern
 			if (!$("#ZielJahr").val()) {
@@ -325,7 +325,7 @@ window.af.initiiere_zielber = function() {
 		return;
 	}
 	// Felder zurücksetzen
-	leereFelderVonFormular("zielber");
+	window.af.leereFelderVonFormular("zielber");
 	// Daten für die zielber aus der DB holen
 	var getZielBer = $.ajax({
 		type: 'get',
@@ -345,7 +345,7 @@ window.af.initiiere_zielber = function() {
 			$("#ZielBerErreichung").val(data.ZielBerErreichung);
 			$("#ZielBerTxt").val(data.ZielBerTxt);
 			// Formulare blenden
-			zeigeFormular("zielber");
+			window.af.zeigeFormular("zielber");
 			history.replaceState({zielber: "zielber"}, "zielber", "index.html?ap=" + localStorage.ap_id + "&apziel=" + localStorage.apziel_id + "&zielber=" + localStorage.zielber_id);
 			// bei neuen Datensätzen Fokus steuern
 			if (!$("#ZielBerJahr").val()) {
@@ -385,7 +385,7 @@ window.af.initiiere_erfkrit = function() {
 		return;
 	}
 	// Felder zurücksetzen
-	leereFelderVonFormular("erfkrit");
+	window.af.leereFelderVonFormular("erfkrit");
 	// Daten für die erfkrit aus der DB holen
 	var getErfkrit = $.ajax({
 		type: 'get',
@@ -405,7 +405,7 @@ window.af.initiiere_erfkrit = function() {
 			$("#ErfkritTxt").val(data.ErfkritTxt);
 			$("#ErfkritTxt").limiter(255, $("#ErfkritTxt_limit"));
 			// Formulare blenden
-			zeigeFormular("erfkrit");
+			window.af.zeigeFormular("erfkrit");
 			history.replaceState({erfkrit: "erfkrit"}, "erfkrit", "index.html?ap=" + localStorage.ap_id + "&erfkrit=" + localStorage.erfkrit_id);
 			// bei neuen Datensätzen Fokus steuern
 			if (!$("#ErfkritErreichungsgrad").val()) {
@@ -445,7 +445,7 @@ window.af.initiiere_jber = function() {
 		return;
 	}
 	// Felder zurücksetzen
-	leereFelderVonFormular("jber");
+	window.af.leereFelderVonFormular("jber");
 	// Daten für die jber aus der DB holen
 	var getJber = $.ajax({
 		type: 'get',
@@ -507,7 +507,7 @@ window.af.initiiere_jber = function() {
 				$("#JBerBearb").val(window.jber.JBerBearb);
 			}
 			// Formulare blenden
-			zeigeFormular("jber");
+			window.af.zeigeFormular("jber");
 			history.replaceState({jber: "jber"}, "jber", "index.html?ap=" + localStorage.ap_id + "&jber=" + localStorage.jber_id);
 			// bei neuen Datensätzen Fokus steuern
 			if (!$("#JBerJahr").val()) {
@@ -547,7 +547,7 @@ window.af.initiiere_jber_uebersicht = function() {
 		return;
 	}
 	// Felder zurücksetzen
-	leereFelderVonFormular("jber_uebersicht");
+	window.af.leereFelderVonFormular("jber_uebersicht");
 	// Daten für die jber_uebersicht aus der DB holen
 	var getJberUebersicht = $.ajax({
 		type: 'get',
@@ -567,7 +567,7 @@ window.af.initiiere_jber_uebersicht = function() {
 			$("#JbuBemerkungen").val(data.JbuBemerkungen);
 			// FitToContent("Bemerkungen", document.documentElement.clientHeight);
 			// Formulare blenden
-			zeigeFormular("jber_uebersicht");
+			window.af.zeigeFormular("jber_uebersicht");
 			history.replaceState({jber_uebersicht: "jber_uebersicht"}, "jber_uebersicht", "index.html?ap=" + localStorage.ap_id + "&jber_uebersicht=" + localStorage.jber_uebersicht_id);
 			// bei neuen Datensätzen Fokus steuern
 			if (!$("#JbuJahr").val()) {
@@ -607,7 +607,7 @@ window.af.initiiere_ber = function() {
 		return;
 	}
 	// Felder zurücksetzen
-	leereFelderVonFormular("ber");
+	window.af.leereFelderVonFormular("ber");
 	// Daten für die ber aus der DB holen
 	var getBer = $.ajax({
 		type: 'get',
@@ -632,7 +632,7 @@ window.af.initiiere_ber = function() {
 			// URL-Link initialisieren, wird bei Änderung der URL in index.html angepasst
 			$('#BerURLHref').attr('onClick', "window.open('" + data.BerURL + "', target='_blank')");
 			// Formulare blenden
-			zeigeFormular("ber");
+			window.af.zeigeFormular("ber");
 			history.replaceState({ber: "ber"}, "ber", "index.html?ap=" + localStorage.ap_id + "&ber=" + localStorage.ber_id);
 			// bei neuen Datensätzen Fokus steuern
 			if (!$("#BerAutor").val()) {
@@ -678,7 +678,7 @@ window.af.initiiere_idealbiotop = function() {
 		return;
 	}
 	// Felder zurücksetzen
-	leereFelderVonFormular("idealbiotop");
+	window.af.leereFelderVonFormular("idealbiotop");
 	// Daten für die idealbiotop aus der DB holen
 	var getIdealbiotop = $.ajax({
 		type: 'get',
@@ -717,7 +717,7 @@ window.af.initiiere_idealbiotop = function() {
 			$("#IbBaumschicht").val(data.IbBaumschicht);
 			$("#IbBemerkungen").val(data.IbBemerkungen);
 			// Formulare blenden
-			zeigeFormular("idealbiotop");
+			window.af.zeigeFormular("idealbiotop");
 			history.replaceState({idealbiotop: "idealbiotop"}, "idealbiotop", "index.html?ap=" + localStorage.ap_id + "&idealbiotop=" + localStorage.idealbiotop_id);
 			// bei neuen Datensätzen Fokus steuern
 			if (!$("#IbErstelldatum").val()) {
@@ -780,7 +780,7 @@ window.af.initiiere_assozarten = function() {
 		return;
 	}
 	// Felder zurücksetzen
-	leereFelderVonFormular("assozarten");
+	window.af.leereFelderVonFormular("assozarten");
 	// Daten für die assozarten aus der DB holen
 	var getAssozarten = $.ajax({
 		type: 'get',
@@ -799,7 +799,7 @@ window.af.initiiere_assozarten = function() {
 			$("#AaSisfNr").val(data.AaSisfNr);
 			$("#AaBem").val(data.AaBem);
 			// Formulare blenden
-			zeigeFormular("assozarten");
+			window.af.zeigeFormular("assozarten");
 			history.replaceState({assozarten: "assozarten"}, "assozarten", "index.html?ap=" + localStorage.ap_id + "&assozarten=" + localStorage.assozarten_id);
 			// bei neuen Datensätzen Fokus steuern
 			if (!$("#AaSisfNr").val()) {
@@ -839,7 +839,7 @@ window.af.initiiere_popmassnber = function() {
 		return;
 	}
 	// Felder zurücksetzen
-	leereFelderVonFormular("popmassnber");
+	window.af.leereFelderVonFormular("popmassnber");
 	// Daten für die pop aus der DB holen
 	var getPopmassnber = $.ajax({
 		type: 'get',
@@ -859,7 +859,7 @@ window.af.initiiere_popmassnber = function() {
 			$("#PopMassnBerErfolgsbeurteilung" + data.PopMassnBerErfolgsbeurteilung).prop("checked", true);
 			$("#PopMassnBerTxt").val(data.PopMassnBerTxt);
 			// Formulare blenden
-			zeigeFormular("popmassnber");
+			window.af.zeigeFormular("popmassnber");
 			history.replaceState({popmassnber: "popmassnber"}, "popmassnber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&popmassnber=" + localStorage.popmassnber_id);
 			// bei neuen Datensätzen Fokus steuern
 			$('#PopMassnBerJahr').focus();
@@ -897,7 +897,7 @@ window.af.initiiere_tpop = function() {
 		return;
 	}
 	// Felder zurücksetzen
-	leereFelderVonFormular("tpop");
+	window.af.leereFelderVonFormular("tpop");
 	// Daten für die pop aus der DB holen
 	var getTPop = $.ajax({
 		type: 'get',
@@ -981,7 +981,7 @@ window.af.initiiere_tpop = function() {
 				$("#TPopVerantw").val(window.tpop.TPopVerantw);
 			}
 			// Formulare blenden
-			zeigeFormular("tpop");
+			window.af.zeigeFormular("tpop");
 			history.replaceState({tpop: "tpop"}, "tpop", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id);
 			// bei neuen Datensätzen Fokus steuern
 			if (!$("#TPopFlurname").val()) {
@@ -1021,7 +1021,7 @@ window.af.initiiere_popber = function() {
 		return;
 	}
 	// Felder zurücksetzen
-	leereFelderVonFormular("popber");
+	window.af.leereFelderVonFormular("popber");
 	// Daten für die popber aus der DB holen
 	var getPopber = $.ajax({
 		type: 'get',
@@ -1041,7 +1041,7 @@ window.af.initiiere_popber = function() {
 			$("#PopBerEntwicklung" + data.PopBerEntwicklung).prop("checked", true);
 			$("#PopBerTxt").val(data.PopBerTxt);
 			// Formulare blenden
-			zeigeFormular("popber");
+			window.af.zeigeFormular("popber");
 			history.replaceState({tpopber: "popber"}, "popber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&popber=" + localStorage.popber_id);
 			// bei neuen Datensätzen Fokus steuern
 			$('#PopBerJahr').focus();
@@ -1082,7 +1082,7 @@ window.af.initiiere_tpopfeldkontr = function() {
 		return;
 	}
 	// Felder zurücksetzen
-	leereFelderVonFormular("tpopfeldkontr");
+	window.af.leereFelderVonFormular("tpopfeldkontr");
 	// alle Felder ausblenden. Später werden die benötigten eingeblendet
 	$('.feld_tpopfeldkontr').each(function() {
 		$(this).hide();
@@ -1311,7 +1311,7 @@ window.af.initiiere_tpopfeldkontr = function() {
 				}
 			}
 			// Formulare blenden
-			zeigeFormular("tpopfeldkontr");
+			window.af.zeigeFormular("tpopfeldkontr");
 			if (!localStorage.tpopfreiwkontr) {
 				history.replaceState({tpopfeldkontr: "tpopfeldkontr"}, "tpopfeldkontr", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopfeldkontr=" + localStorage.tpopfeldkontr_id);
 			} else {
@@ -1369,7 +1369,7 @@ window.af.initiiere_tpopmassn = function() {
 		return;
 	}
 	// Felder zurücksetzen
-	leereFelderVonFormular("tpopmassn");
+	window.af.leereFelderVonFormular("tpopmassn");
 	// Daten für die pop aus der DB holen
 	var getTPopMassn = $.ajax({
 		type: 'get',
@@ -1474,7 +1474,7 @@ window.af.initiiere_tpopmassn = function() {
 					$("#TPopMassnAnsiedDatSamm").limiter(50, $("#TPopMassnAnsiedDatSamm_limit"));
 					$("#TPopMassnGuid").val(data.TPopMassnGuid);
 					// Formulare blenden
-					zeigeFormular("tpopmassn");
+					window.af.zeigeFormular("tpopmassn");
 					history.replaceState({tpopmassn: "tpopmassn"}, "tpopmassn", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopmassn=" + localStorage.tpopmassn_id);
 					// bei neuen Datensätzen Fokus steuern
 					$('#TPopMassnJahr').focus();
@@ -1513,7 +1513,7 @@ window.af.initiiere_tpopmassnber = function() {
 		return;
 	}
 	// Felder zurücksetzen
-	leereFelderVonFormular("tpopmassnber");
+	window.af.leereFelderVonFormular("tpopmassnber");
 	// Daten für die pop aus der DB holen
 	var getTPopMassnBer = $.ajax({
 		type: 'get',
@@ -1533,7 +1533,7 @@ window.af.initiiere_tpopmassnber = function() {
 			$("#TPopMassnBerErfolgsbeurteilung" + data.TPopMassnBerErfolgsbeurteilung).prop("checked", true);
 			$("#TPopMassnBerTxt").val(data.TPopMassnBerTxt);
 			// Formulare blenden
-			zeigeFormular("tpopmassnber");
+			window.af.zeigeFormular("tpopmassnber");
 			history.replaceState({tpopmassnber: "tpopmassnber"}, "tpopmassnber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopmassnber=" + localStorage.tpopmassnber_id);
 			// bei neuen Datensätzen Fokus steuern
 			$('#TPopMassnBerJahr').focus();
@@ -1571,7 +1571,7 @@ window.af.initiiere_tpopber = function() {
 		return;
 	}
 	// Felder zurücksetzen
-	leereFelderVonFormular("tpopber");
+	window.af.leereFelderVonFormular("tpopber");
 	// Daten für die tpopber aus der DB holen
 	var getTPopBer = $.ajax({
 		type: 'get',
@@ -1591,7 +1591,7 @@ window.af.initiiere_tpopber = function() {
 			$("#TPopBerEntwicklung" + data.TPopBerEntwicklung).prop("checked", true);
 			$("#TPopBerTxt").val(data.TPopBerTxt);
 			// Formulare blenden
-			zeigeFormular("tpopber");
+			window.af.zeigeFormular("tpopber");
 			history.replaceState({tpopber: "tpopber"}, "tpopber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopber=" + localStorage.tpopber_id);
 			// bei neuen Datensätzen Fokus steuern
 			$('#TPopBerJahr').focus();
@@ -1732,7 +1732,7 @@ window.af.initiiere_beob = function(beobtyp, beobid, beob_status) {
 							$("#BeobMutWer").val(data.BeobMutWer);
 
 							// Formulare blenden
-							zeigeFormular("beob");
+							window.af.zeigeFormular("beob");
 							if (beob_status === "zugeordnet") {
 								history.replaceState({beob_zugeordnet: "beob_zugeordnet"}, "beob_zugeordnet", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&beob_zugeordnet=" + beobid);
 							} else if (beob_status === "nicht_zuzuordnen") {
@@ -1747,7 +1747,7 @@ window.af.initiiere_beob = function(beobtyp, beobid, beob_status) {
 						$("#BeobBemerkungen").val("");
 						$("#BeobBemerkungen").attr("placeholder", "Bemerkungen sind nur in zugeordneten oder nicht zuzuordnenden Beobachtungen möglich");
 						// Formulare blenden
-						zeigeFormular("beob");
+						window.af.zeigeFormular("beob");
 						history.replaceState({beob_nicht_beurteilt: "beob_nicht_beurteilt"}, "beob_nicht_beurteilt", "index.html?ap=" + localStorage.ap_id + "&beob_nicht_beurteilt=" + beobid);
 					}
 				}
@@ -1760,7 +1760,7 @@ window.af.initiiere_exporte = function(anchor) {
 	'use strict';
 	$("#testart_div").hide();
 	$("#forms_titelzeile").hide();
-	zeigeFormular("exporte");
+	window.af.zeigeFormular("exporte");
 	history.replaceState({ex: "ex"}, "ex", "index.html?exporte=true");
 	if (anchor) {
 		location.hash = "#" + anchor;
@@ -1772,7 +1772,8 @@ window.af.initiiere_exporte = function(anchor) {
 // wird ein Formularname übergeben, wird dieses Formular gezeigt
 // und alle anderen ausgeblendet
 // zusätzlich wird die Höhe von textinput-Feldern an den Textinhalt angepasst
-function zeigeFormular(Formularname) {
+window.af.zeigeFormular = function(Formularname) {
+	'use strict';
 	var formular_angezeigt = $.Deferred();
 	// zuerst alle Formulare ausblenden
 	$("#forms").hide();
@@ -1847,10 +1848,11 @@ function zeigeFormular(Formularname) {
 		formular_angezeigt.resolve();
 	}
 	return formular_angezeigt.promise();
-}
+};
 
 // leert alle Felder und stellt ihre Breite ein
-function leereFelderVonFormular(Formular) {
+window.af.leereFelderVonFormular = function(Formular) {
+	'use strict';
 	$('#' + Formular + ' input[type="text"]').each(function(){
 		$(this).val("");
 	});
@@ -1860,7 +1862,7 @@ function leereFelderVonFormular(Formular) {
 	$('#' + Formular + ' select').each(function(){
 		$(this).val("");
 	});
-}
+};
 
 // begrenzt die maximale Höhe des Baums auf die Seitenhöhe, wenn nötig
 function setzeTreehoehe() {
@@ -7398,7 +7400,7 @@ function zeigeTPopAufKarte(TPopListe) {
         markerCluster,
         myFlurname;
 	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-	zeigeFormular("google_karte");
+	window.af.zeigeFormular("google_karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
 	infowindow = new google.maps.InfoWindow();
@@ -7568,7 +7570,7 @@ function entferneUebergebeneMarkerEbeneAusLayertree(layername) {
 
 function verorteTPopAufGeoAdmin(TPop) {
 	var bounds;
-	$.when(zeigeFormular("GeoAdminKarte"))
+	$.when(window.af.zeigeFormular("GeoAdminKarte"))
 		.then(function() {
 			$("#mitPolygonWaehlen").button({ disabled: true });
 
@@ -7693,7 +7695,7 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
 	var markierte_tpop = wähleAusschnittFürÜbergebeneTPop(TPopListeMarkiert);
 
 	// Grundkarte aufbauen
-	$.when(zeigeFormular("GeoAdminKarte"))
+	$.when(window.af.zeigeFormular("GeoAdminKarte"))
 		.then(function() {
 			// Karte zum richtigen Ausschnitt zoomen
 			// aber nur, wenn keine Auswahl aktiv
@@ -7745,7 +7747,7 @@ function zeigePopAufGeoAdmin(PopListeMarkiert) {
 	var markierte_pop = wähleAusschnittFürÜbergebenePop(PopListeMarkiert);
 
 	// Grundkarte aufbauen
-	$.when(zeigeFormular("GeoAdminKarte"))
+	$.when(window.af.zeigeFormular("GeoAdminKarte"))
 		.then(function() {
 			// Karte zum richtigen Ausschnitt zoomen
 			// aber nur, wenn keine Auswahl aktiv
@@ -8880,7 +8882,7 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
         a_note,
         myFlurname;
 	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-	zeigeFormular("google_karte");
+	window.af.zeigeFormular("google_karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
 	infowindowBeob = new google.maps.InfoWindow();
@@ -9129,7 +9131,7 @@ function zeigeBeobAufKarte(BeobListe) {
         titel,
         a_note;
 	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-	zeigeFormular("google_karte");
+	window.af.zeigeFormular("google_karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
 	infowindow = new google.maps.InfoWindow();
@@ -9267,7 +9269,7 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
         Datum,
         titel;
 	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-	zeigeFormular("google_karte");
+	window.af.zeigeFormular("google_karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
 	infowindow = new google.maps.InfoWindow();
@@ -9385,7 +9387,7 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 function verorteTPopAufKarte(TPop) {
 	var anzTPop, infowindow, lat, lng, latlng, ZoomLevel, options, map, verorted, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, tpop_beschriftung, myFlurname;
 	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-	zeigeFormular("google_karte");
+	window.af.zeigeFormular("google_karte");
 	window.markersArray = [];
 	infowindow = new google.maps.InfoWindow();
 	if (TPop && TPop.TPopXKoord && TPop.TPopYKoord) {
@@ -10722,7 +10724,7 @@ function wähleAp(ap_id) {
 		$("#ap_loeschen").hide();
 		$("#exportieren_1").show();
 		$("#ap").hide();
-		zeigeFormular();
+		window.af.zeigeFormular();
 		history.replaceState({ap: "ap"}, "ap", "index.html");
 	}
 }
@@ -11202,7 +11204,7 @@ function loescheAp(ap_id) {
 		//Artname wird nicht mehr gebraucht und soll später nicht in Datensatz eingefügt werden
 		delete window.deleted.Artname;
 		//forms muss eingeblendet sein, weil undelete_div darin ist
-		zeigeFormular("keines");
+		window.af.zeigeFormular("keines");
 	});
 	deleteAp.fail(function(data) {
 		melde("Fehler: Das Programm wurde nicht gelöscht");
@@ -11336,12 +11338,12 @@ function undeleteDatensatz() {
 		// ap kann nicht via Strukturbaum gewählt werden
 		if (typ === "ap") {
 			//Formulare ausblenden
-			zeigeFormular();
+			window.af.zeigeFormular();
 			//neu initiieren, damit die gelöschte Art gewählt werden kann
 			window.af.initiiere_index();
 			// TODO: DAS TESTEN
 			// Formulare blenden
-			zeigeFormular("ap");
+			window.af.zeigeFormular("ap");
 			history.replaceState({ap: "ap"}, "ap", "index.html?ap=" + id);
 		} else {
 			//tree neu aufbauen
