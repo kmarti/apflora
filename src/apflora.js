@@ -1,4 +1,7 @@
-function initiiere_index() {
+window.af = window.af || {};
+
+window.af.initiiere_index = function() {
+	'use strict';
 	// Versuch, damit $.ajax auch in IE funktioniert
 	// jQuery hängt an jede Anfrage ein &_= und Zufahlszahl
 	// AUSGESCHALTET, WEIL TPOPFELDKONTR_UPDATE_MULTIPLE.PHP NICHT MEHR FUNKTIONIERTE (UND MEHR?)
@@ -36,7 +39,7 @@ function initiiere_index() {
 
 	// Auswahllisten aufbauen
 	$("#ap_loeschen").hide();
-	erstelle_artlisten();
+	window.af.erstelle_artlisten();
 
 	// HIER WIRD IN FIREFOX EINE ENDLOSSCHLAUFE AUSGELÖST
 	$.when(waehle_ap_liste("programm_alle"))
@@ -44,14 +47,15 @@ function initiiere_index() {
 			// falls eine Unteradresse angewählt wurde, diese öffnen
 			oeffneUri();
 		});
-}
+};
 
-function initiiere_ap() {
+window.af.initiiere_ap = function() {
+	'use strict';
 	if (!localStorage.ap_id) {
 		// es fehlen benötigte Daten > zurück zum Anfang
 		// LIEGT HIER DER WURM BEGRABEN?
 		// ACHTUNG, DIESE ZEILE VERURSACHTE STARTABSTÜRZE IN FIREFOX UND ZT OFFENBAR AUCH IN CHROME, DA REKURSIV IMMER WIEDER INITIIERE_INDEX AUFGERUFEN WURDE
-		//initiiere_index();
+		//window.af.initiiere_index();
 		//history.replaceState({ap: "keinap"}, "keinap", "index.html");
 		return;
 	}
@@ -115,11 +119,12 @@ function initiiere_ap() {
 		// Formulare blenden
 		zeigeFormular("ap");
 	}
-}
+};
 
 // setzt window.ap und localStorage.ap_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-function setzeWindowAp(id) {
+window.af.setzeWindowAp = function(id) {
+	'use strict';
 	localStorage.ap_id = id;
 	var getAp = $.ajax({
 		type: 'get',
@@ -136,11 +141,12 @@ function setzeWindowAp(id) {
 			window.ap = data;
 		}
 	});
-}
+};
 
-function hole_artliste_html() {
+window.af.hole_artliste_html = function() {
+	'use strict';
 	var liste_geholt = $.Deferred();
-	// wird benutzt von function erstelle_artlisten und initiiere_tpopmassn
+	// wird benutzt von function window.af.erstelle_artlisten und initiiere_tpopmassn
 	// baut eine vollständige Artliste auf
 	if (!window.artliste_html) {
 		var getArtliste = $.ajax({
@@ -161,25 +167,27 @@ function hole_artliste_html() {
 		liste_geholt.resolve();
 	}
 	return liste_geholt.promise();
-}
+};
 
 // wird benutzt von Formular ap, pop und TPopMassn
 // setzt vollständige Artlisten în Select-Felder
-function erstelle_artlisten() {
+window.af.erstelle_artlisten = function() {
+	'use strict';
 	var liste_erstellt = $.Deferred();
-	$.when(hole_artliste_html())
+	$.when(window.af.hole_artliste_html())
 		.then(function() {
 			$("#AaSisfNr").html(window.artliste_html);
 			$("#TPopMassnAnsiedWirtspfl").html(window.artliste_html);
 			liste_erstellt.resolve();
 		});
 	return liste_erstellt.promise();
-}
+};
 
-function initiiere_pop() {
+window.af.initiiere_pop = function() {
+	'use strict';
 	if (!localStorage.pop_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		initiiere_ap();
+		window.af.initiiere_ap();
 		return;
 	}
 	// Felder zurücksetzen
@@ -222,11 +230,12 @@ function initiiere_pop() {
 			}
 		}
 	});
-}
+};
 
 // setzt window.pop und localStorage.pop_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-function setzeWindowPop(id) {
+window.af.setzeWindowPop = function(id) {
+	'uses strict';
 	localStorage.pop_id = id;
 	var getPop = $.ajax({
 		type: 'get',
@@ -243,12 +252,13 @@ function setzeWindowPop(id) {
 			window.pop = data;
 		}
 	});
-}
+};
 
-function initiiere_apziel() {
+window.af.initiiere_apziel = function() {
+	'uses strict';
 	if (!localStorage.apziel_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		initiiere_ap();
+		window.af.initiiere_ap();
 		return;
 	}
 	var apziel_initiiert = $.Deferred();
@@ -283,11 +293,12 @@ function initiiere_apziel() {
 		}
 	});
 	return apziel_initiiert.promise();
-}
+};
 
 // setzt window.apziel und localStorage.apziel_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-function setzeWindowApziel(id) {
+window.af.setzeWindowApziel = function(id) {
+	'use strict';
 	localStorage.apziel_id = id;
 	var getApziel = $.ajax({
 		type: 'get',
@@ -304,12 +315,13 @@ function setzeWindowApziel(id) {
 			window.apziel = data;
 		}
 	});
-}
+};
 
-function initiiere_zielber() {
+window.af.initiiere_zielber = function() {
+	'use strict';
 	if (!localStorage.zielber_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		initiiere_ap();
+		window.af.initiiere_ap();
 		return;
 	}
 	// Felder zurücksetzen
@@ -341,11 +353,12 @@ function initiiere_zielber() {
 			}
 		}
 	});
-}
+};
 
 // setzt window.zielber und localStorage.zielber_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-function setzeWindowZielber(id) {
+window.af.setzeWindowZielber = function(id) {
+	'use strict';
 	localStorage.zielber_id = id;
 	var getZielber = $.ajax({
 		type: 'get',
@@ -362,12 +375,13 @@ function setzeWindowZielber(id) {
 			window.zielber = data;
 		}
 	});
-}
+};
 
-function initiiere_erfkrit() {
+window.af.initiiere_erfkrit = function() {
+	'use strict';
 	if (!localStorage.erfkrit_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		initiiere_ap();
+		window.af.initiiere_ap();
 		return;
 	}
 	// Felder zurücksetzen
@@ -399,11 +413,12 @@ function initiiere_erfkrit() {
 			}
 		}
 	});
-}
+};
 
 // setzt window.erfkrit und localStorage.erfkrit_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-function setzeWindowErfkrit(id) {
+window.af.setzeWindowErfkrit = function(id) {
+	'use strict';
 	localStorage.erfkrit_id = id;
 	var getErfkrit = $.ajax({
 		type: 'get',
@@ -420,12 +435,12 @@ function setzeWindowErfkrit(id) {
 			window.erfkrit = data;
 		}
 	});
-}
+};
 
 function initiiere_jber() {
 	if (!localStorage.jber_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		initiiere_ap();
+		window.af.initiiere_ap();
 		return;
 	}
 	// Felder zurücksetzen
@@ -525,7 +540,7 @@ function setzeWindowJber(id) {
 function initiiere_jber_uebersicht() {
 	if (!localStorage.jber_uebersicht_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		initiiere_ap();
+		window.af.initiiere_ap();
 		return;
 	}
 	// Felder zurücksetzen
@@ -583,7 +598,7 @@ function setzeWindowJberUebersicht(id) {
 function initiiere_ber() {
 	if (!localStorage.ber_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		initiiere_ap();
+		window.af.initiiere_ap();
 		return;
 	}
 	// Felder zurücksetzen
@@ -652,7 +667,7 @@ function setzeWindowBer(id) {
 function initiiere_idealbiotop() {
 	if (!localStorage.ap_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		initiiere_ap();
+		window.af.initiiere_ap();
 		return;
 	}
 	// Felder zurücksetzen
@@ -752,7 +767,7 @@ function setzeWindowIdealbiotop(id) {
 function initiiere_assozarten() {
 	if (!localStorage.assozarten_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		initiiere_ap();
+		window.af.initiiere_ap();
 		return;
 	}
 	// Felder zurücksetzen
@@ -809,7 +824,7 @@ function setzeWindowAssozarten(id) {
 function initiiere_popmassnber() {
 	if (!localStorage.popmassnber_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		initiiere_pop();
+		window.af.initiiere_pop();
 		return;
 	}
 	// Felder zurücksetzen
@@ -865,7 +880,7 @@ function setzeWindowPopmassnber(id) {
 function initiiere_tpop() {
 	if (!localStorage.tpop_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		initiiere_pop();
+		window.af.initiiere_pop();
 		return;
 	}
 	// Felder zurücksetzen
@@ -987,7 +1002,7 @@ function setzeWindowTpop(id) {
 function initiiere_popber() {
 	if (!localStorage.popber_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		initiiere_pop();
+		window.af.initiiere_pop();
 		return;
 	}
 	// Felder zurücksetzen
@@ -1046,7 +1061,7 @@ function initiiere_tpopfeldkontr() {
 	// Freiwilligenkontrollen: Felder der Feldkontrollen ausblenen plus Register Biotop
 	if (!localStorage.tpopfeldkontr_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		initiiere_pop();
+		window.af.initiiere_pop();
 		return;
 	}
 	// Felder zurücksetzen
@@ -1331,7 +1346,7 @@ function setzeWindowTpopfeldkontr(id) {
 function initiiere_tpopmassn() {
 	if (!localStorage.tpopmassn_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		initiiere_pop();
+		window.af.initiiere_pop();
 		return;
 	}
 	// Felder zurücksetzen
@@ -1431,7 +1446,7 @@ function initiiere_tpopmassn() {
 			// für TPopMassnAnsiedWirtspfl wurde die Artliste schon bereitgestellt
 			// wenn die Anwendung direkt auf einer TPopMassn geöffnet wird, ist die Liste noch nicht bereit
 			// darum hier nochmals holen
-			$.when(erstelle_artlisten())
+			$.when(window.af.erstelle_artlisten())
 				.then(function() {
 					$("#TPopMassnAnsiedWirtspfl").val(data.TPopMassnAnsiedWirtspfl);
 					$("#TPopMassnAnsiedHerkunftPop").val(data.TPopMassnAnsiedHerkunftPop);
@@ -1473,7 +1488,7 @@ function setzeWindowTpopmassn(id) {
 function initiiere_tpopmassnber() {
 	if (!localStorage.tpopmassnber_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		initiiere_pop();
+		window.af.initiiere_pop();
 		return;
 	}
 	// Felder zurücksetzen
@@ -1529,7 +1544,7 @@ function setzeWindowTpopmassnber(id) {
 function initiiere_tpopber() {
 	if (!localStorage.tpopber_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		initiiere_pop();
+		window.af.initiiere_pop();
 		return;
 	}
 	// Felder zurücksetzen
@@ -1600,9 +1615,9 @@ function initiiere_beob(beobtyp, beobid, beob_status) {
 	if (!beobid) {
 		// es fehlen benötigte Daten > eine Ebene höher
 		if (beob_status === "nicht_beurteilt" || beob_status === "nicht_zuzuordnen") {
-			initiiere_ap();
+			window.af.initiiere_ap();
 		} else {
-			initiiere_pop();
+			window.af.initiiere_pop();
 		}
 		return;
 	}
@@ -1914,7 +1929,7 @@ function waehle_ap_liste(programm) {
 	$("#ap_loeschen").hide();
 	$("#exportieren_1").show();
 	$("#ap_waehlen").val("");
-	initiiere_ap();
+	window.af.initiiere_ap();
 	$.when(erstelle_ap_liste(programm))
 		.then(function() {
 			if ($("[name='programm_wahl']:checked").attr("id") === "programm_neu") {
@@ -2428,7 +2443,7 @@ function erstelle_tree(ApArtId) {
 			delete window.beob_nicht_zuzuordnen_zeigen;
 		}
 		if (window.ap_zeigen) {
-			initiiere_ap();
+			window.af.initiiere_ap();
 			// diese Markierung entfernen, damit das nächste mal nicht mehr dieser AP geöffnet wird
 			delete window.ap_zeigen;
 		}
@@ -2455,31 +2470,31 @@ function erstelle_tree(ApArtId) {
 			if (!$("#ap").is(':visible') || localStorage.ap_id !== node_id) {
 				localStorage.ap_id = node_id;
 				delete localStorage.pop_id;
-				initiiere_ap();
+				window.af.initiiere_ap();
 			}
 		} else if (node_typ === "pop" || node_typ.slice(0, 4) === "pop_") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#pop").is(':visible') || localStorage.pop_id !== node_id) {
 				localStorage.pop_id = node_id;
-				initiiere_pop();
+				window.af.initiiere_pop();
 			}
 		} else if (node_typ === "apziel" || node_typ === "zielber_ordner") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#apziel").is(':visible') || localStorage.apziel_id !== node_id) {
 				localStorage.apziel_id = node_id;
-				initiiere_apziel();
+				window.af.initiiere_apziel();
 			}
 		} else if (node_typ === "zielber") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#zielber").is(':visible') || localStorage.zielber_id !== node_id) {
 				localStorage.zielber_id = node_id;
-				initiiere_zielber();
+				window.af.initiiere_zielber();
 			}
 		} else if (node_typ === "erfkrit") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#erfkrit").is(':visible') || localStorage.erfkrit_id !== node_id) {
 				localStorage.erfkrit_id = node_id;
-				initiiere_erfkrit();
+				window.af.initiiere_erfkrit();
 			}
 		} else if (node_typ === "jber") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -2651,7 +2666,7 @@ function erstelle_tree(ApArtId) {
 					delete window.pop;
 					delete window.pop_node_ausgeschnitten;
 					delete window.herkunft_parent_node;
-					initiiere_pop();
+					window.af.initiiere_pop();
 				});
 				fuegePopEin.fail(function(data) {
 					melde("Fehler: Die Teilpopulation wurde nicht verschoben");
@@ -7541,7 +7556,7 @@ function verorteTPopAufGeoAdmin(TPop) {
 				y_min = parseInt(TPop.TPopYKoord) - 300;
                 bounds = [x_max, y_max, x_min, y_min];
 				// marker aufbauen
-				erstelleTPopulationFuerGeoAdmin(TPop);
+				erstelleTPopulationFürGeoAdmin(TPop);
 				// alle layeroptionen schliessen
 				schliesseLayeroptionen();
 
@@ -7553,8 +7568,8 @@ function verorteTPopAufGeoAdmin(TPop) {
 			// Karte zum richtigen Ausschnitt zoomen
 			window.afm.map.updateSize();
 			//window.afm.map.zoomToExtent(bounds);
-            // map.getView().fitExtent(extent, window.api.map.getSize());
-            window.afm.map.getView().fitExtent(bounds, window.api.map.getSize());
+            // map.getView().fitExtent(extent, window.afm.map.getSize());
+            window.afm.map.getView().fitExtent(bounds, window.afm.map.getSize());
 			schliesseLayeroptionen();
 
 			// jetzt einen Handler für den Klick aufbauen
@@ -7622,7 +7637,7 @@ function verorteTPopAufGeoAdmin(TPop) {
 							// alten listener entfernen, neuer wird mit dem nächsten Befehl erstellt 
 							window.afm.map.removeControl(click);
 							// markerebene neu aufbauen
-							erstelleTPopulationFuerGeoAdmin(TPop);
+							erstelleTPopulationFürGeoAdmin(TPop);
 						});
 					});
 				}
@@ -7661,7 +7676,7 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
 			} else {
 				window.afm.map.updateSize();
 				//window.afm.map.zoomToExtent(markierte_tpop.bounds);
-                window.afm.map.getView().fitExtent(markierte_tpop.bounds, window.api.map.getSize());
+                window.afm.map.getView().fitExtent(markierte_tpop.bounds, window.afm.map.getSize());
 			}
 			// tpop und pop ergänzen
 			// alle tpop holen
@@ -7713,7 +7728,7 @@ function zeigePopAufGeoAdmin(PopListeMarkiert) {
 			} else {
 				window.afm.map.updateSize();
 				//window.afm.map.zoomToExtent(markierte_pop.bounds);
-                window.afm.map.getView().fitExtent(markierte_pop.bounds, window.api.map.getSize());
+                window.afm.map.getView().fitExtent(markierte_pop.bounds, window.afm.map.getSize());
 			}
 			// tpop und pop ergänzen
 			// alle tpop holen
@@ -7843,7 +7858,7 @@ function zeigePopInTPopKarte(overlay_pop_visible, overlay_popbeschriftungen_visi
 	return pop_gezeigt.promise();
 }
 
-function erstelleTPopulationFuerGeoAdmin(TPop) {
+function erstelleTPopulationFürGeoAdmin(TPop) {
 	// styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
 		externalGraphic: '//www.apflora.ch/img/flora_icon_rot.png',
@@ -7866,7 +7881,7 @@ function erstelleTPopulationFuerGeoAdmin(TPop) {
 	var myTPopFlurname = TPop.TPopFlurname || '(kein Flurname)';
 	// tooltip bzw. label vorbereiten: nullwerte ausblenden
 	var myTooltip;
-	if (window.pop.PopNr & TPop.TPopNr) {
+	if (window.pop.PopNr && TPop.TPopNr) {
 		myTooltip = window.pop.PopNr + '/' + TPop.TPopNr + ' ' + myTPopFlurname;
 	} else if (window.pop.PopNr) {
 		myTooltip = window.pop.PopNr + '/?' + ' ' + myTPopFlurname;
@@ -7885,7 +7900,7 @@ function erstelleTPopulationFuerGeoAdmin(TPop) {
 	// die marker der Ebene hinzufügen
 	overlay_tpopulation.addFeatures(marker);
 
-	// die marker sollen verschoben werdeen können
+	// die marker sollen verschoben werden können
 	var dragControl = new OpenLayers.Control.DragFeature(overlay_tpopulation, {
 		onComplete: function(feature) {
 			// x und y merken
@@ -9825,12 +9840,12 @@ function oeffneUri() {
 	var ap_id = uri.getQueryParamValue('ap');
 	if (ap_id) {
 		// globale Variabeln setzen
-		setzeWindowAp(ap_id);
+		window.af.setzeWindowAp(ap_id);
 		// Dem Feld im Formular den Wert zuweisen
 		$("#ap_waehlen").val(ap_id);
 		if (uri.getQueryParamValue('tpop')) {
 			// globale Variabeln setzen
-			setzeWindowPop(uri.getQueryParamValue('pop'));
+			window.af.setzeWindowPop(uri.getQueryParamValue('pop'));
 			setzeWindowTpop(uri.getQueryParamValue('tpop'));
 			var tpopfeldkontr_id = uri.getQueryParamValue('tpopfeldkontr');
 			if (tpopfeldkontr_id) {
@@ -9900,7 +9915,7 @@ function oeffneUri() {
 			}
 		} else if (uri.getQueryParamValue('pop')) {
 			// globale Variabeln setzen
-			setzeWindowPop(uri.getQueryParamValue('pop'));
+			window.af.setzeWindowPop(uri.getQueryParamValue('pop'));
 			if (uri.getQueryParamValue('popber')) {
 				// globale Variabeln setzen
 				setzeWindowPopber(uri.getQueryParamValue('popber'));
@@ -9924,19 +9939,19 @@ function oeffneUri() {
 				window.pop_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				localStorage.pop_id = uri.getQueryParamValue('pop');
-				initiiere_pop();
+				window.af.initiiere_pop();
 			}
 		} else if (uri.getQueryParamValue('apziel')) {
 			// globale Variabeln setzen
-			setzeWindowApziel(uri.getQueryParamValue('apziel'));
+			window.af.setzeWindowApziel(uri.getQueryParamValue('apziel'));
 			if (uri.getQueryParamValue('zielber')) {
 				// globale Variabeln setzen
-				setzeWindowZielber(uri.getQueryParamValue('zielber'));
+				window.af.setzeWindowZielber(uri.getQueryParamValue('zielber'));
 				// markieren, dass nach dem loaded-event im Tree die zielber angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
 				window.zielber_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-				initiiere_zielber();
+				window.af.initiiere_zielber();
 			} else {
 				// muss ein apziel sein
 				// markieren, dass nach dem loaded-event im Tree die apziel angezeigt werden soll 
@@ -9944,11 +9959,11 @@ function oeffneUri() {
 				window.apziel_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				localStorage.apziel_id = uri.getQueryParamValue('apziel');
-				initiiere_apziel();
+				window.af.initiiere_apziel();
 			}
 		} else if (uri.getQueryParamValue('erfkrit')) {
 			// globale Variabeln setzen
-			setzeWindowErfkrit(uri.getQueryParamValue('erfkrit'));
+			window.af.setzeWindowErfkrit(uri.getQueryParamValue('erfkrit'));
 			// markieren, dass nach dem loaded-event im Tree die erfkrit angezeigt werden soll 
 			// Die Markierung wird im load-Event wieder entfernt
 			window.erfkrit_zeigen = true;
@@ -10006,7 +10021,7 @@ function oeffneUri() {
 			window.ap_zeigen = true;
 			// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 			localStorage.ap_id = ap_id;
-			initiiere_ap();
+			window.af.initiiere_ap();
 		}
 		erstelle_tree(ap_id);
 		$("#ap_waehlen_label").hide();
@@ -10659,7 +10674,7 @@ function wähleAp(ap_id) {
 								$('#ap_waehlen option[value =' + localStorage.ap_id + ']').attr('selected', true);
 								$("#ApArtId").val(localStorage.ap_id);
 								// gewählte Art in Formular anzeigen
-								initiiere_ap();
+								window.af.initiiere_ap();
 							});
 				});
 			});
@@ -10669,7 +10684,7 @@ function wähleAp(ap_id) {
 		} else {
 			erstelle_tree(ap_id);
 			$("#ap").show();
-			initiiere_ap();
+			window.af.initiiere_ap();
 		}
 	} else {
 		// leeren Wert gewählt
@@ -11297,7 +11312,7 @@ function undeleteDatensatz() {
 			//Formulare ausblenden
 			zeigeFormular();
 			//neu initiieren, damit die gelöschte Art gewählt werden kann
-			initiiere_index();
+			window.af.initiiere_index();
 			// TODO: DAS TESTEN
 			// Formulare blenden
 			zeigeFormular("ap");

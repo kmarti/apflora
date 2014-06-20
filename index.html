@@ -2155,6 +2155,7 @@
 		</div>
 
 		<script>
+			window.af = window.af || {};
 			$(document).ready(function () {
 				var $Useranmeldung = $("#anmelde_dialog").dialog( {
 					autoOpen: false,
@@ -2190,7 +2191,7 @@
 							}
 						}
 					});
-					initiiere_index();
+					window.af.initiiere_index();
 					return;
 				}
 
@@ -2206,7 +2207,7 @@
 							}
 						}
 					});
-					initiiere_index();
+					window.af.initiiere_index();
 					return;
 				}*/
 
@@ -2224,7 +2225,7 @@
 					}
 				});
 
-				initiiere_index();
+				window.af.initiiere_index();
 
 				$(".export_abschnitt").tooltip({
 					tooltipClass: "export_abschnitt_tooltip_class",
