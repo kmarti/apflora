@@ -4646,7 +4646,7 @@ window.af.setzeWindowAp = function(id) {
 window.af.hole_artliste_html = function() {
 	'use strict';
 	var liste_geholt = $.Deferred();
-	// wird benutzt von function window.af.erstelle_artlisten und initiiere_tpopmassn
+	// wird benutzt von function window.af.erstelle_artlisten und window.af.initiiere_tpopmassn
 	// baut eine vollständige Artliste auf
 	if (!window.artliste_html) {
 		var getArtliste = $.ajax({
@@ -5841,7 +5841,8 @@ window.af.initiiere_tpopfeldkontr = function() {
 
 // setzt window.tpopfeldkontr und localStorage.tpopfeldkontr_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-function setzeWindowTpopfeldkontr(id) {
+window.af.setzeWindowTpopfeldkontr = function(id) {
+	'use strict';
 	localStorage.tpopfeldkontr_id = id;
 	var getTpopfeldkontr = $.ajax({
 		type: 'get',
@@ -5858,9 +5859,10 @@ function setzeWindowTpopfeldkontr(id) {
 			window.tpopfeldkontr = data;
 		}
 	});
-}
+};
 
-function initiiere_tpopmassn() {
+window.af.initiiere_tpopmassn = function() {
+	'use strict';
 	if (!localStorage.tpopmassn_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
 		window.af.initiiere_pop();
@@ -5979,11 +5981,12 @@ function initiiere_tpopmassn() {
 				});	
 		}
 	});
-}
+};
 
 // setzt window.tpopmassn und localStorage.tpopmassn_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-function setzeWindowTpopmassn(id) {
+window.af.setzeWindowTpopmassn = function(id) {
+	'use strict';
 	localStorage.tpopmassn_id = id;
 	var getTPopMassn = $.ajax({
 		type: 'get',
@@ -6000,9 +6003,10 @@ function setzeWindowTpopmassn(id) {
 			window.tpopmassn = data;
 		}
 	});
-}
+};
 
-function initiiere_tpopmassnber() {
+window.af.initiiere_tpopmassnber = function() {
+	'use strict';
 	if (!localStorage.tpopmassnber_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
 		window.af.initiiere_pop();
@@ -6035,7 +6039,7 @@ function initiiere_tpopmassnber() {
 			$('#TPopMassnBerJahr').focus();
 		}
 	});
-}
+};
 
 // setzt window.tpopmassnber und localStorage.tpopmassnber_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
@@ -7080,7 +7084,7 @@ function erstelle_tree(ApArtId) {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#tpopmassn").is(':visible') || localStorage.tpopmassn_id !== node_id) {
 				localStorage.tpopmassn_id = node_id;
-				initiiere_tpopmassn();
+				window.af.initiiere_tpopmassn();
 			}
 		} else if (node_typ === "tpopber") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -7115,7 +7119,7 @@ function erstelle_tree(ApArtId) {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#tpopmassnber").is(':visible') || localStorage.tpopmassnber_id !== node_id) {
 				localStorage.tpopmassnber_id = node_id;
-				initiiere_tpopmassnber();
+				window.af.initiiere_tpopmassnber();
 			}
 		}
 	})
@@ -7331,7 +7335,7 @@ function erstelle_tree(ApArtId) {
 					delete window.tpopmassn;
 					delete window.tpopmassn_node_ausgeschnitten;
 					delete window.herkunft_parent_node;
-					initiiere_tpopmassn();
+					window.af.initiiere_tpopmassn();
 				});
 				fuegeTPopMassnEin.fail(function(data) {
 					melde("Fehler: Die Massnahme wurde nicht verschoben");
@@ -7360,7 +7364,7 @@ function erstelle_tree(ApArtId) {
 					delete window.tpopmassn;
 					delete window.tpopmassn_node_ausgeschnitten;
 					delete window.herkunft_parent_node;
-					initiiere_tpopmassn();
+					window.af.initiiere_tpopmassn();
 				});
 				fuegeTPopMassnEin_2.fail(function(data) {
 					melde("Fehler: Die Massnahme wurde nicht verschoben");
@@ -14367,7 +14371,7 @@ function oeffneUri() {
 			var tpopfeldkontr_id = uri.getQueryParamValue('tpopfeldkontr');
 			if (tpopfeldkontr_id) {
 				// globale Variabeln setzen
-				setzeWindowTpopfeldkontr(tpopfeldkontr_id);
+				window.af.setzeWindowTpopfeldkontr(tpopfeldkontr_id);
 				// markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
 				window.tpopfeldkontr_zeigen = true;
@@ -14375,7 +14379,7 @@ function oeffneUri() {
 				window.af.initiiere_tpopfeldkontr();
 			} else if (uri.getQueryParamValue('tpopfreiwkontr')) {
 				// globale Variabeln setzen
-				setzeWindowTpopfeldkontr(uri.getQueryParamValue('tpopfreiwkontr'));
+				window.af.setzeWindowTpopfeldkontr(uri.getQueryParamValue('tpopfreiwkontr'));
 				// markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
 				window.tpopfreiwkontr_zeigen = true;
@@ -14384,12 +14388,12 @@ function oeffneUri() {
 				window.af.initiiere_tpopfeldkontr();
 			} else if (uri.getQueryParamValue('tpopmassn')) {
 				// globale Variabeln setzen
-				setzeWindowTpopmassn(uri.getQueryParamValue('tpopmassn'));
+				window.af.setzeWindowTpopmassn(uri.getQueryParamValue('tpopmassn'));
 				// markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
 				window.tpopmassn_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-				initiiere_tpopmassn();
+				window.af.initiiere_tpopmassn();
 			} else if (uri.getQueryParamValue('tpopber')) {
 				// globale Variabeln setzen
 				setzeWindowTpopber(uri.getQueryParamValue('tpopber'));
@@ -14421,7 +14425,7 @@ function oeffneUri() {
 				// Die Markierung wird im load-Event wieder entfernt
 				window.tpopmassnber_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-				initiiere_tpopmassnber();
+				window.af.initiiere_tpopmassnber();
 			} else {
 				// muss tpop sein
 				// markieren, dass nach dem loaded-event im Tree die TPop angezeigt werden soll 
