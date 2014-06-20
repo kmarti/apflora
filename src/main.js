@@ -6339,9 +6339,9 @@ function setzeKartenhöhe() {
 	// Formulare sind unbegrenzt hoch aber Karten sollen das nicht sein
 	if (window.kartenhoehe_manuell) {
 		$("#forms").height($(window).height() - 17);
-		if (typeof window.api !== "undefined" && window.api.map) {
+		if (typeof window.afm !== "undefined" && window.afm.map) {
 			//$("#GeoAdminKarte").height($(window).height() - 17);
-			window.api.map.updateSize();
+			window.afm.map.updateSize();
 		}
 		if (typeof google !== "undefined" && google.maps && typeof map !== "undefined") {
 			//$("#google_karte").height($(window).height() - 17);
@@ -11963,19 +11963,19 @@ function zeigeTPopAufKarte(TPopListe) {
 function entferneTPopMarkerEbenen() {
 	var layername = ["Teilpopulation", "Teilpopulationen", "Teilpopulationen Nummern", "Teilpopulationen Namen"];
 	// nur möglich, wenn api und map existieren
-	if (typeof window.api !== "undefined") {
-		if (window.api.map !== "undefined") {
+	if (typeof window.afm !== "undefined") {
+		if (window.afm.map !== "undefined") {
 			for (i in layername) {
-				if (window.api.map.getLayersByName(layername[i])) {
-					var layers = window.api.map.getLayersByName(layername[i]);
+				if (window.afm.map.getLayersByName(layername[i])) {
+					var layers = window.afm.map.getLayersByName(layername[i]);
 					for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
-						window.api.map.removeLayer(layers[layerIndex]);
+						window.afm.map.removeLayer(layers[layerIndex]);
 					}
 				}
 			}
 
-			/*while(window.api.map.popups.length) {
-		         window.api.map.removePopup(window.api.map.popups[0]);
+			/*while(window.afm.map.popups.length) {
+		         window.afm.map.removePopup(window.afm.map.popups[0]);
 		    }*/
 
 			// auch aus layertree entfernen
@@ -11991,13 +11991,13 @@ function entferneTPopMarkerEbenen() {
 function entfernePopMarkerEbenen() {
 	var layername = ["Population", "Populationen", "Populationen Nummern", "Populationen Namen"];
 	// nur möglich, wenn api und map existieren
-	if (typeof window.api !== "undefined") {
-		if (window.api.map !== "undefined") {
+	if (typeof window.afm !== "undefined") {
+		if (window.afm.map !== "undefined") {
 			for (i in layername) {
-				if (window.api.map.getLayersByName(layername[i])) {
-					var layers = window.api.map.getLayersByName(layername[i]);
+				if (window.afm.map.getLayersByName(layername[i])) {
+					var layers = window.afm.map.getLayersByName(layername[i]);
 					for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
-						window.api.map.removeLayer(layers[layerIndex]);
+						window.afm.map.removeLayer(layers[layerIndex]);
 					}
 				}
 			}
@@ -12014,8 +12014,8 @@ function entfernePopMarkerEbenen() {
 
 function entferneUebergebeneMarkerEbeneAusLayertree(layername) {
 	// nur möglich, wenn api und map existieren
-	if (typeof window.api !== "undefined") {
-		if (window.api.map !== "undefined") {
+	if (typeof window.afm !== "undefined") {
+		if (window.afm.map !== "undefined") {
 			$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
 				if ($(this).text() === layername) {
 					$(this).parent().parent().remove();
@@ -12051,8 +12051,10 @@ function verorteTPopAufGeoAdmin(TPop) {
 			}
 			
 			// Karte zum richtigen Ausschnitt zoomen
-			window.api.map.updateSize();
-			window.api.map.zoomToExtent(bounds);
+			window.afm.map.updateSize();
+			//window.afm.map.zoomToExtent(bounds);
+            // map.getView().fitExtent(extent, window.api.map.getSize());
+            window.afm.map.getView().fitExtent(bounds, window.api.map.getSize());
 			schliesseLayeroptionen();
 
 			// jetzt einen Handler für den Klick aufbauen
@@ -12086,7 +12088,7 @@ function verorteTPopAufGeoAdmin(TPop) {
 				},
 
 				trigger: function(e) {
-					var lonlat = window.api.map.getLonLatFromPixel(e.xy);
+					var lonlat = window.afm.map.getLonLatFromPixel(e.xy);
 					// x und y merken
 					TPop.TPopXKoord = lonlat.lon;
 					TPop.TPopYKoord = lonlat.lat;
@@ -12118,7 +12120,7 @@ function verorteTPopAufGeoAdmin(TPop) {
 							// markerebenen entfernen
 							entferneTPopMarkerEbenen();
 							// alten listener entfernen, neuer wird mit dem nächsten Befehl erstellt 
-							window.api.map.removeControl(click);
+							window.afm.map.removeControl(click);
 							// markerebene neu aufbauen
 							erstelleTPopulationFuerGeoAdmin(TPop);
 						});
@@ -12128,7 +12130,7 @@ function verorteTPopAufGeoAdmin(TPop) {
 			});
 
 			var click = new OpenLayers.Control.Click();
-			window.api.map.addControl(click);
+			window.afm.map.addControl(click);
 			click.activate();
 		});
 }
@@ -12157,8 +12159,9 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
 			if (window.auswahlPolygonLayer && window.auswahlPolygonLayer.features.length > 0) {
 				// Auswahl aktiv, Zoomstufe belassen
 			} else {
-				window.api.map.updateSize();
-				window.api.map.zoomToExtent(markierte_tpop.bounds);
+				window.afm.map.updateSize();
+				//window.afm.map.zoomToExtent(markierte_tpop.bounds);
+                window.afm.map.getView().fitExtent(markierte_tpop.bounds, window.api.map.getSize());
 			}
 			// tpop und pop ergänzen
 			// alle tpop holen
@@ -12208,8 +12211,9 @@ function zeigePopAufGeoAdmin(PopListeMarkiert) {
 			if (window.auswahlPolygonLayer && window.auswahlPolygonLayer.features.length > 0) {
 				// Auswahl aktiv, Zoomstufe belassen
 			} else {
-				window.api.map.updateSize();
-				window.api.map.zoomToExtent(markierte_pop.bounds);
+				window.afm.map.updateSize();
+				//window.afm.map.zoomToExtent(markierte_pop.bounds);
+                window.afm.map.getView().fitExtent(markierte_pop.bounds, window.api.map.getSize());
 			}
 			// tpop und pop ergänzen
 			// alle tpop holen
@@ -12392,15 +12396,15 @@ function erstelleTPopulationFuerGeoAdmin(TPop) {
 			speichereWert('tpop', localStorage.tpop_id, 'TPopYKoord', TPop.TPopYKoord);
 		}
 	});
-	window.api.map.addControl(dragControl);
+	window.afm.map.addControl(dragControl);
 	dragControl.activate();
 
 	// overlay zur Karte hinzufügen
-	window.api.map.addLayers([overlay_tpopulation]);
+	window.afm.map.addLayer(overlay_tpopulation);
 
 	// control zur Karte hinzufügen
 	window.selectControlTPop = new OpenLayers.Control.SelectFeature(overlay_tpopulation, {clickout: true});
-	window.api.map.addControl(window.selectControlTPop);
+	window.afm.map.addControl(window.selectControlTPop);
 	window.selectControlTPop.activate();
 }
 
@@ -12556,10 +12560,10 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 						Ok: function() {
 							$(this).dialog("close");
 							// overlay entfernen...
-							if (window.api.map.getLayersByName('Teilpopulationen')) {
-								var layers = window.api.map.getLayersByName('Teilpopulationen');
+							if (window.afm.map.getLayersByName('Teilpopulationen')) {
+								var layers = window.afm.map.getLayersByName('Teilpopulationen');
 								for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
-									window.api.map.removeLayer(layers[layerIndex]);
+									window.afm.map.removeLayer(layers[layerIndex]);
 								}
 							}
 							// ...und neu erstellen
@@ -12615,10 +12619,10 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 					"nein, nicht verschieben": function() {
 						$(this).dialog("close");
 						// overlay entfernen...
-						if (window.api.map.getLayersByName('Teilpopulationen')) {
-							var layers = window.api.map.getLayersByName('Teilpopulationen');
+						if (window.afm.map.getLayersByName('Teilpopulationen')) {
+							var layers = window.afm.map.getLayersByName('Teilpopulationen');
 							for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
-								window.api.map.removeLayer(layers[layerIndex]);
+								window.afm.map.removeLayer(layers[layerIndex]);
 							}
 						}
 						// ...und neu erstellen
@@ -12639,15 +12643,15 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 	dragControl.handlers['feature'].stopClick = false;
 
 	// dragControl einschalten
-	window.api.map.addControl(dragControl);
+	window.afm.map.addControl(dragControl);
 	dragControl.activate();
 
 	// overlay zur Karte hinzufügen
-	window.api.map.addLayers([overlay_tpop]);
+	window.afm.map.addLayer(overlay_tpop);
 
 	// SelectControl erstellen (mit dem Eventlistener öffnet das die Infoblase) und zur Karte hinzufügen
 	window.selectControlTPop = new OpenLayers.Control.SelectFeature(overlay_tpop, {clickout: true});
-	window.api.map.addControl(window.selectControlTPop);
+	window.afm.map.addControl(window.selectControlTPop);
 	window.selectControlTPop.activate();
 
 	// mit Polygon auswählen, nur wenn noch nicht existent
@@ -12656,7 +12660,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 			projection: new OpenLayers.Projection("EPSG:21781"), 
 			displayInLayerSwitcher: false
 		});
-		window.api.map.addLayers([auswahlPolygonLayer]);
+		window.afm.map.addLayer(auswahlPolygonLayer);
 	}
 	// drawControl erstellen, nur wenn noch nicht existent
 	if (!window.drawControl) {
@@ -12679,7 +12683,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 			$("#karteSchieben").attr("checked", true);
 			$("#karteSchieben").button("enable").button("refresh");
 		});
-		window.api.map.addControl(drawControl);
+		window.afm.map.addControl(drawControl);
 	}
 
 	tpopsymbole_erstellt.resolve();
@@ -12883,10 +12887,10 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 						Ok: function() {
 							$(this).dialog("close");
 							// overlay entfernen...
-							if (window.api.map.getLayersByName('Populationen')) {
-								var layers = window.api.map.getLayersByName('Populationen');
+							if (window.afm.map.getLayersByName('Populationen')) {
+								var layers = window.afm.map.getLayersByName('Populationen');
 								for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
-									window.api.map.removeLayer(layers[layerIndex]);
+									window.afm.map.removeLayer(layers[layerIndex]);
 								}
 							}
 							// ...und neu erstellen
@@ -12942,10 +12946,10 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 					"nein, nicht verschieben": function() {
 						$(this).dialog("close");
 						// overlay entfernen...
-						if (window.api.map.getLayersByName('Populationen')) {
-							var layers = window.api.map.getLayersByName('Populationen');
+						if (window.afm.map.getLayersByName('Populationen')) {
+							var layers = window.afm.map.getLayersByName('Populationen');
 							for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
-								window.api.map.removeLayer(layers[layerIndex]);
+								window.afm.map.removeLayer(layers[layerIndex]);
 							}
 						}
 						// ...und neu erstellen
@@ -12966,15 +12970,15 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 	dragControl.handlers['feature'].stopClick = false;
 
 	// dragControl einschalten
-	window.api.map.addControl(dragControl);
+	window.afm.map.addControl(dragControl);
 	dragControl.activate();
 
 	// overlay zur Karte hinzufügen
-	window.api.map.addLayers([overlay_pop]);
+	window.afm.map.addLayer(overlay_pop);
 
 	// SelectControl erstellen (mit dem Eventlistener öffnet das die Infoblase) und zur Karte hinzufügen
 	window.selectControlPop = new OpenLayers.Control.SelectFeature(overlay_pop, {clickout: true});
-	window.api.map.addControl(window.selectControlPop);
+	window.afm.map.addControl(window.selectControlPop);
 	window.selectControlPop.activate();
 	PopSymbole_erstellt.resolve();
 	return PopSymbole_erstellt.promise();
@@ -13052,7 +13056,7 @@ function erstellePopNrFuerGeoAdmin(PopListe, visible) {
 	overlay_pop_beschriftungen.addFeatures(markers);
 
 	// overlay zur Karte hinzufügen
-	window.api.map.addLayers([overlay_pop_beschriftungen]);
+	window.afm.map.addLayer(overlay_pop_beschriftungen);
 	PopNr_erstellt.resolve();
 	return PopNr_erstellt.promise();
 }
@@ -13112,7 +13116,7 @@ function erstellePopNamenFuerGeoAdmin(PopListe) {
 	overlay_pop_beschriftungen.addFeatures(markers);
 
 	// overlay zur Karte hinzufügen
-	window.api.map.addLayers([overlay_pop_beschriftungen]);
+	window.afm.map.addLayer(overlay_pop_beschriftungen);
 	PopNamen_erstellt.resolve();
 	return PopNamen_erstellt.promise();
 }
@@ -13213,7 +13217,7 @@ function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 	overlay_tpop_beschriftungen.addFeatures(markers);
 
 	// overlay zur Karte hinzufügen
-	window.api.map.addLayers([overlay_tpop_beschriftungen]);
+	window.afm.map.addLayer(overlay_tpop_beschriftungen);
 	tpopnr_erstellt.resolve();
 	return tpopnr_erstellt.promise();
 }
@@ -13280,7 +13284,7 @@ function erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 	overlay_tpop_beschriftungen.addFeatures(markers);
 
 	// overlay zur Karte hinzufügen
-	window.api.map.addLayers([overlay_tpop_beschriftungen]);
+	window.afm.map.addLayer(overlay_tpop_beschriftungen);
 
 	tpopnamen_erstellt.resolve();
 	return tpopnamen_erstellt.promise();
@@ -13298,7 +13302,7 @@ function geoadminOnFeatureSelect(feature) {
 	popup.maxSize = new OpenLayers.Size(600,600);
 	popup.fixedRelativePosition = true;
 	feature.popup = popup;
-	window.api.map.addPopup(popup);
+	window.afm.map.addPopup(popup);
 }
 
 function geoadminOnFeatureUnselect(feature) {
@@ -14543,11 +14547,11 @@ function onfeatureselect_detailplaene_shp(feature) {
 		true
 	);
 	feature.popup = popup;
-	window.api.map.addPopup(popup);
+	window.afm.map.addPopup(popup);
 }
 
 function onfeatureunselect_detailplaene_shp(feature) {
-	window.api.map.removePopup(feature.popup);
+	window.afm.map.removePopup(feature.popup);
 	//feature.popup.destroy();
     //feature.popup = null;
 }
@@ -14757,6 +14761,32 @@ function initiiereGeoAdminKarte() {
                 }
             })
         }),
+        ch_lk1000_layer = new ol.layer.Tile({
+            title: "Landeskarte 1:1'000'000",
+            source: new ol.source.TileWMS({
+                url: '//wms.geo.admin.ch?',
+                params: {
+                    'layers': 'ch.swisstopo.pixelkarte-farbe-pk1000.noscale',
+                    'srs': 'EPSG:21781',
+                    'format': 'png',
+                    'visibility': false,
+                    'singleTile': true
+                }
+            })
+        }),
+        ch_ktgrenzen_layer = new ol.layer.Tile({
+            title: 'Kantone',
+            source: new ol.source.TileWMS({
+                url: '//wms.geo.admin.ch?',
+                params: {
+                    'layers': 'ch.swisstopo.swissboundaries3d-kanton-flaeche.fill',
+                    'srs': 'EPSG:21781',
+                    'format': 'png',
+                    'visibility': false,
+                    'singleTile': true
+                }
+            })
+        })/*,
         name_layer = new ol.layer.Tile({
             title: '',
             source: new ol.source.TileWMS({
@@ -14769,40 +14799,21 @@ function initiiereGeoAdminKarte() {
                     'singleTile': true
                 }
             })
-        });
-
-
-
-	var ch_lk1000_layer = new ol.layer.Tile("Landeskarte 1:1'000'000", "//wms.geo.admin.ch?", {
-		layers: 'ch.swisstopo.pixelkarte-farbe-pk1000.noscale',
-		srs: 'EPSG:21781',
-		'format': 'png'
-	}, {
-		singleTile: true,
-		visibility: false
-	});
-
-	var ch_ktgrenzen_layer = new ol.layer.Tile("Kantone", "//wms.geo.admin.ch?", {
-		layers: 'ch.swisstopo.swissboundaries3d-kanton-flaeche.fill',
-		srs: 'EPSG:21781',
-		'format': 'png'
-	}, {
-		singleTile: true,
-		visibility: false
-	});
+        })*/;
 
 	// allfällige Marker-Ebenen entfernen
 	entferneTPopMarkerEbenen();
 	entfernePopMarkerEbenen();
 	
-	// api nur definieren, wenn dies nicht schon passiert ist
-	if (typeof window.api == "undefined") {
-		window.api = new GeoAdmin.API();    // TODO: klappt das mit api3?
+	// afm nur definieren, wenn dies nicht schon passiert ist
+	if (typeof window.afm == "undefined") {
+		//window.afm = new GeoAdmin.API();    // TODO: klappt das mit api3?
+        window.afm = {};
 	}
 
 	// Karte nur aufbauen, wenn dies nicht schon passiert ist
-	if (!window.api.map) {
-        window.api.map = new ga.Map({   // ehem.: window.api.createMap
+	if (!window.afm.map) {
+        window.afm.map = new ga.Map({   // ehem.: window.afm.createMap
             target: 'ga_karten_div',
             layers: [zh_uep_layer],  //TODO: Layers ergänzen
             view: new ol.View2D({
@@ -14814,7 +14825,7 @@ function initiiereGeoAdminKarte() {
         // TODO: Layerwahl implementierren
 		/*var baseLayerTool = new GeoAdmin.BaseLayerTool({
 			renderTo: "baselayertool",
-			map: window.api.map
+			map: window.afm.map
 		});*/
 
 		// Layer für detailpläne aufbauen
@@ -14863,46 +14874,52 @@ function initiiereGeoAdminKarte() {
 				var detailplaene_popup_features = parser.read(data.geojson);
 				window.detailplaene_shp.addFeatures(detailplaene_popup_features);
 				// Layer hinzufügen
-				window.api.map.addLayers([window.detailplaene_shp]);
+				window.afm.map.addLayer(window.detailplaene_shp);
 				// select feature controll für detailpläne schaffen
 				var detailplaene_selector = new OpenLayers.Control.SelectFeature(window.detailplaene_shp, {
 					clickout: true
 				});
-				window.api.map.addControl(detailplaene_selector);
+				window.afm.map.addControl(detailplaene_selector);
 				detailplaene_selector.activate();
 			});*/
 		}
 
-		window.api.map.addLayers([zh_uep_layer]);
-		window.api.map.addLayerByName('ch.swisstopo-vd.geometa-gemeinde', {visibility: false});
-		window.api.map.addLayers([zh_grenzen_layer]);
-		window.api.map.addLayers([zh_av_layer, zh_avnr_layer, zh_svo_layer, zh_svo_raster_layer, zh_waldgesellschaften_layer, zh_liwa_layer]);
+		window.afm.map.addLayer(zh_uep_layer);
+        // TODO: für OL3 anpassen
+		//window.afm.map.addLayerByName('ch.swisstopo-vd.geometa-gemeinde', {visibility: false});
+		window.afm.map.addLayer(zh_grenzen_layer);
+		window.afm.map.addLayer(zh_av_layer);
+        window.afm.map.addLayer(zh_avnr_layer);
+        window.afm.map.addLayer(zh_svo_layer);
+        window.afm.map.addLayer(zh_svo_raster_layer);
+        window.afm.map.addLayer(zh_waldgesellschaften_layer);
+        window.afm.map.addLayer(zh_liwa_layer);
 
         // TODO: auf GA2 portieren
-		/*window.api.map.addLayerByName('ch.bafu.bundesinventare-trockenwiesen_trockenweiden', {
+		/*window.afm.map.addLayerByName('ch.bafu.bundesinventare-trockenwiesen_trockenweiden', {
 			visibility: false,
 			opacity: 0.7
 		});
-		window.api.map.addLayerByName('ch.bafu.bundesinventare-flachmoore', {
+		window.afm.map.addLayerByName('ch.bafu.bundesinventare-flachmoore', {
 			visibility: false,
 			opacity: 0.7
 		});
-		window.api.map.addLayerByName('ch.bafu.bundesinventare-hochmoore', {
+		window.afm.map.addLayerByName('ch.bafu.bundesinventare-hochmoore', {
 			visibility: false,
 			opacity: 0.7
 		});
-		window.api.map.addLayerByName('ch.bafu.bundesinventare-auen', {
+		window.afm.map.addLayerByName('ch.bafu.bundesinventare-auen', {
 			visibility: false,
 			opacity: 0.7
 		});
-		window.api.map.addLayerByName('ch.bafu.bundesinventare-amphibien', {
+		window.afm.map.addLayerByName('ch.bafu.bundesinventare-amphibien', {
 			visibility: false,
 			opacity: 0.7
 		});*/
 
         // TODO: OL-Variante ergänzen
-		/*window.api.map.addControl(new OpenLayers.Control.MousePosition({numDigits: 0, separator: ' / '}));
-		window.api.map.addControl(new OpenLayers.Control.KeyboardDefaults());*/
+		/*window.afm.map.addControl(new OpenLayers.Control.MousePosition({numDigits: 0, separator: ' / '}));
+		window.afm.map.addControl(new OpenLayers.Control.KeyboardDefaults());*/
 
 		// messen
 		// style the sketch fancy
@@ -14969,12 +14986,12 @@ function initiiereGeoAdminKarte() {
 				"measure": handleMeasurements,
 				"measurepartial": handleMeasurements
 			});
-			window.api.map.addControl(controlMessung);
+			window.afm.map.addControl(controlMessung);
 		}*/
 
 		// layertree aufbauen
         // TODO: OL3-Variante entwickeln
-		/*window.layertree = window.api.createLayerTree({
+		/*window.layertree = window.afm.createLayerTree({
 			renderTo: "layertree",
 			width: 285
 		});
