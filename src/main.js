@@ -8203,7 +8203,7 @@ window.af.treeKontextmenu = function(node) {
 					});
 					getApKarte.done(function(data) {
 						if (data.rows.length > 0) {
-							zeigeTPopAufKarte(data);
+							window.af.zeigeTPopAufKarte(data);
 						} else {
 							melde("Es gibt keine Teilpopulation mit Koordinaten");
 						}
@@ -9190,7 +9190,7 @@ window.af.treeKontextmenu = function(node) {
 					});
 					getPopKarte.done(function(data) {
 						if (data.rows.length > 0) {
-							zeigeTPopAufKarte(data);
+							window.af.zeigeTPopAufKarte(data);
 						} else {
 							melde("Es gibt keine Teilpopulation mit Koordinaten");
 						}
@@ -9334,7 +9334,7 @@ window.af.treeKontextmenu = function(node) {
 					});
 					getPopKarte_2.done(function(data) {
 						if (data.rows.length > 0) {
-							zeigeTPopAufKarte(data);
+							window.af.zeigeTPopAufKarte(data);
 						} else {
 							melde("Es gibt keine Teilpopulation mit Koordinaten");
 						}
@@ -9530,7 +9530,7 @@ window.af.treeKontextmenu = function(node) {
 					});
 					getTPopKarte_3.done(function(data) {
 						if (data.rows.length > 0) {
-							zeigeTPopAufKarte(data);
+							window.af.zeigeTPopAufKarte(data);
 						} else {
 							melde("Die Teilpopulation hat keine Koordinaten");
 						}
@@ -11980,11 +11980,12 @@ window.af.CHtoWGSlng = function(y, x) {
 	return lng;
 };
 
-function zeigeTPopAufKarte(TPopListe) {
+window.af.zeigeTPopAufKarte = function(TPopListe) {
+	'use strict';
 	window.TPopListe = TPopListe;
 	var anzTPop,
         infowindow,
-        TPop,
+        tpop,
         tpop_beschriftung,
         lat,
         lng,
@@ -12009,12 +12010,13 @@ function zeigeTPopAufKarte(TPopListe) {
 	// Objekte löschen, die keine Koordinaten haben
 	// Lat und Lng ergänzen
 	for (var v = 0; v < TPopListe.rows.length; v++) {
-		TPop = TPopListe.rows[v];
-		if (!TPop.TPopXKoord || !TPop.TPopYKoord) {
-			delete TPop;
+		tpop = TPopListe.rows[v];
+		if (!tpop.TPopXKoord || !tpop.TPopYKoord) {
+            // tpop einsetzen geht nicht, weil Chrome Fehler meldet
+			delete TPopListe.rows[v];
 		} else {
-			TPop.Lat = window.af.CHtoWGSlat(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
-			TPop.Lng = window.af.CHtoWGSlng(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
+			tpop.Lat = window.af.CHtoWGSlat(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
+			tpop.Lng = window.af.CHtoWGSlng(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
 		}
 	}
 	// TPop zählen
@@ -12036,10 +12038,10 @@ function zeigeTPopAufKarte(TPopListe) {
 	// für alle TPop Marker erstellen
 	markers = [];
 	for (var u = 0; u < TPopListe.rows.length; u++) {
-		TPop = TPopListe.rows[u];
-		TPopId = TPop.TPopId;
-		tpop_beschriftung = beschrifteTPopMitNrFuerKarte(TPop.PopNr, TPop.TPopNr);
-		latlng2 = new google.maps.LatLng(TPop.Lat, TPop.Lng);
+		tpop = TPopListe.rows[u];
+		TPopId = tpop.TPopId;
+		tpop_beschriftung = beschrifteTPopMitNrFuerKarte(tpop.PopNr, tpop.TPopNr);
+		latlng2 = new google.maps.LatLng(tpop.Lat, tpop.Lng);
 		if (anzTPop === 1) {
 			// map.fitbounds setzt zu hohen zoom, wenn nur eine TPop Koordinaten hat > verhindern
 			latlng = latlng2;
@@ -12057,17 +12059,17 @@ function zeigeTPopAufKarte(TPopListe) {
 			icon: "img/flora_icon.png"
 		});
 		markers.push(marker);
-		myFlurname = TPop.TPopFlurname || '(kein Flurname)';
+		myFlurname = tpop.TPopFlurname || '(kein Flurname)';
 		contentString = '<div id="content">'+
 			'<div id="siteNotice">'+
 			'</div>'+
 			'<div id="bodyContent" class="GmInfowindow">'+
-			'<h3>' + TPop.Artname + '</h3>'+
-			'<p>Population: ' + TPop.PopName + '</p>'+
+			'<h3>' + tpop.Artname + '</h3>'+
+			'<p>Population: ' + tpop.PopName + '</p>'+
 			'<p>TPop: ' + myFlurname + '</p>'+
-			'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
-			"<p><a href=\"#\" onclick=\"öffneTPop('" + TPop.TPopId + "')\">Formular öffnen<\/a></p>"+
-			"<p><a href=\"#\" onclick=\"öffneTPopInNeuemTab('" + TPop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+			'<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
+			"<p><a href=\"#\" onclick=\"öffneTPop('" + tpop.TPopId + "')\">Formular öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
 		makeListener(map, marker, contentString);
@@ -12102,14 +12104,15 @@ function zeigeTPopAufKarte(TPopListe) {
 			infowindow.open(map,marker);
 		});
 	}
-}
+};
 
-function entferneTPopMarkerEbenen() {
+window.af.entferneTPopMarkerEbenen = function() {
+	'use strict';
 	var layername = ["Teilpopulation", "Teilpopulationen", "Teilpopulationen Nummern", "Teilpopulationen Namen"];
 	// nur möglich, wenn api und map existieren
 	if (typeof window.afm !== "undefined") {
 		if (window.afm.map !== "undefined") {
-			for (i in layername) {
+			for (var i in layername) {
 				if (window.afm.map.getLayersByName(layername[i])) {
 					var layers = window.afm.map.getLayersByName(layername[i]);
 					for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
@@ -12123,21 +12126,23 @@ function entferneTPopMarkerEbenen() {
 		    }*/
 
 			// auch aus layertree entfernen
-			$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
+			// TODO: an OL3 anpassen
+			/*$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
 				if (layername.indexOf($(this).text()) !== -1) {
 					$(this).parent().parent().remove();
 				}
-			})
+			});*/
 		}
 	}
-}
+};
 
-function entfernePopMarkerEbenen() {
+window.af.entfernePopMarkerEbenen = function() {
+	'use strict';
 	var layername = ["Population", "Populationen", "Populationen Nummern", "Populationen Namen"];
 	// nur möglich, wenn api und map existieren
 	if (typeof window.afm !== "undefined") {
 		if (window.afm.map !== "undefined") {
-			for (i in layername) {
+			for (var i in layername) {
 				if (window.afm.map.getLayersByName(layername[i])) {
 					var layers = window.afm.map.getLayersByName(layername[i]);
 					for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
@@ -12147,16 +12152,19 @@ function entfernePopMarkerEbenen() {
 			}
 
 			// auch aus layertree entfernen
-			$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
+			// TODO: an OL3 anpassen
+			/*$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
 				if (layername.indexOf($(this).text()) !== -1) {
 					$(this).parent().parent().remove();
 				}
-			})
+			});*/
 		}
 	}
-}
+};
 
-function entferneUebergebeneMarkerEbeneAusLayertree(layername) {
+// offenbar nicht verwendet
+window.af.entferneÜbergebeneMarkerEbeneAusLayertree = function(layername) {
+	'use strict';
 	// nur möglich, wenn api und map existieren
 	if (typeof window.afm !== "undefined") {
 		if (window.afm.map !== "undefined") {
@@ -12167,7 +12175,7 @@ function entferneUebergebeneMarkerEbeneAusLayertree(layername) {
 			})
 		}
 	}
-}
+};
 
 function verorteTPopAufGeoAdmin(TPop) {
 	var bounds;
@@ -12186,9 +12194,8 @@ function verorteTPopAufGeoAdmin(TPop) {
                 bounds = [x_max, y_max, x_min, y_min];
 				// marker aufbauen
 				erstelleTPopulationFürGeoAdmin(TPop);
-				// alle layeroptionen schliessen
+				// alle Layeroptionen schliessen
 				schliesseLayeroptionen();
-
 			} else {
 				// sonst Kanton ZH anzeigen
                 bounds = [689000, 264000, 697000, 242000];
@@ -12262,7 +12269,7 @@ function verorteTPopAufGeoAdmin(TPop) {
 						});
 						updateTPop_2.done(function() {
 							// markerebenen entfernen
-							entferneTPopMarkerEbenen();
+							window.af.entferneTPopMarkerEbenen();
 							// alten listener entfernen, neuer wird mit dem nächsten Befehl erstellt 
 							window.afm.map.removeControl(click);
 							// markerebene neu aufbauen
@@ -12740,7 +12747,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 						speichereWert('tpop', feature.attributes.myId, 'TPopXKoord', TPop.TPopXKoord);
 						speichereWert('tpop', feature.attributes.myId, 'TPopYKoord', TPop.TPopYKoord);
 						// jetzt alle marker entfernen...
-						entferneTPopMarkerEbenen();
+						window.af.entferneTPopMarkerEbenen();
 						// ...und neu aufbauen
 						// dazu die tpopliste neu abrufen, da Koordinaten geändert haben! tpopid_markiert bleibt gleich
 						var getTPopKarteAlle_3 = $.ajax({
@@ -13067,7 +13074,7 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 						speichereWert('pop', feature.attributes.myId, 'PopXKoord', Pop.PopXKoord);
 						speichereWert('pop', feature.attributes.myId, 'PopYKoord', Pop.PopYKoord);
 						// jetzt alle marker entfernen...
-						entfernePopMarkerEbenen();
+						window.af.entfernePopMarkerEbenen();
 						// ...und neu aufbauen
 						// dazu die popliste neu abrufen, da Koordinaten geändert haben! popid_markiert bleibt gleich
 						var getPopKarteAlle_2 = $.ajax({
@@ -14947,8 +14954,8 @@ function initiiereGeoAdminKarte() {
         })*/;
 
 	// allfällige Marker-Ebenen entfernen
-	entferneTPopMarkerEbenen();
-	entfernePopMarkerEbenen();
+	window.af.entferneTPopMarkerEbenen();
+	window.af.entfernePopMarkerEbenen();
 	
 	// afm nur definieren, wenn dies nicht schon passiert ist
 	if (typeof window.afm == "undefined") {

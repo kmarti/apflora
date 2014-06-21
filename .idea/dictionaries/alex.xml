@@ -28,6 +28,8 @@
       <w>kartenhöhe</w>
       <w>kontextmenu</w>
       <w>landeskoord</w>
+      <w>layername</w>
+      <w>layertree</w>
       <w>lesevoraussetzungen</w>
       <w>livereload</w>
       <w>loeschen</w>
@@ -49,6 +51,7 @@
       <w>tpopmassnber</w>
       <w>tpopmassnbezeichnung</w>
       <w>uebersicht</w>
+      <w>verorte</w>
       <w>waehlen</w>
       <w>zielber</w>
       <w>zielberbeschriftung</w>
