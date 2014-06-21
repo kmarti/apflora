@@ -2219,7 +2219,7 @@
 				//v.a., ob der User online ist
 				$.ajaxSetup({
 					beforeSend: function() {
-						if (!pruefeLesevoraussetzungen()) {
+						if (!window.af.prüfeLesevoraussetzungen()) {
 							return false;
 						}
 					}
@@ -2425,7 +2425,7 @@
 			});
 
 			$(window).resize(function() {
-				setzeTreehoehe();
+				setzeTreehöhe();
 				//Karten sollen ca. Bildschirmhöhe haben
 				//da Formulare so hoch wie der Inhalt sind, muss die Kartenhöhe manuell eingestellt werden
 				setzeKartenhöhe();

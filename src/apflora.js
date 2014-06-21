@@ -747,7 +747,7 @@ window.af.initiiere_idealbiotop = function() {
 			}
 		} else {
 			// nur aktualisieren, wenn Schreibrechte bestehen
-			if (!prüfeSchreibvoraussetzungen()) {
+			if (!window.af.prüfeSchreibvoraussetzungen()) {
 				return;
 			}
 
@@ -2471,102 +2471,102 @@ window.af.erstelle_tree = function(ApArtId) {
 		$("#exportieren_1").hide();
 		$("#hilfe").show();
 		if (window.pop_zeigen) {
-			jQuery("#tree").jstree("select_node", "[typ='pop']#" + localStorage.pop_id);
+			$("#tree").jstree("select_node", "[typ='pop']#" + localStorage.pop_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese Pop geöffnet wird
 			delete window.pop_zeigen;
 		}
 		if (window.popber_zeigen) {
-			jQuery("#tree").jstree("select_node", "[typ='popber']#" + localStorage.popber_id);
+			$("#tree").jstree("select_node", "[typ='popber']#" + localStorage.popber_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese Popber geöffnet wird
 			delete window.popber_zeigen;
 		}
 		if (window.popmassnber_zeigen) {
-			jQuery("#tree").jstree("select_node", "[typ='popmassnber']#" + localStorage.popmassnber_id);
+			$("#tree").jstree("select_node", "[typ='popmassnber']#" + localStorage.popmassnber_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese popmassnber geöffnet wird
 			delete window.popmassnber_zeigen;
 		}
 		if (window.tpop_zeigen) {
-			jQuery("#tree").jstree("select_node", "[typ='tpop']#" + localStorage.tpop_id);
+			$("#tree").jstree("select_node", "[typ='tpop']#" + localStorage.tpop_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese TPop geöffnet wird
 			delete window.tpop_zeigen;
 		}
 		if (window.tpopfeldkontr_zeigen) {
-			jQuery("#tree").jstree("select_node", "[typ='tpopfeldkontr']#" + localStorage.tpopfeldkontr_id);
+			$("#tree").jstree("select_node", "[typ='tpopfeldkontr']#" + localStorage.tpopfeldkontr_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopfeldkontr geöffnet wird
 			delete window.tpopfeldkontr_zeigen;
 		}
 		if (window.tpopfreiwkontr_zeigen) {
-			jQuery("#tree").jstree("select_node", "[typ='tpopfreiwkontr']#" + localStorage.tpopfeldkontr_id);
+			$("#tree").jstree("select_node", "[typ='tpopfreiwkontr']#" + localStorage.tpopfeldkontr_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopfreiwkontr geöffnet wird
 			delete window.tpopfreiwkontr_zeigen;
 		}
 		if (window.tpopmassn_zeigen) {
-			jQuery("#tree").jstree("select_node", "[typ='tpopmassn']#" + localStorage.tpopmassn_id);
+			$("#tree").jstree("select_node", "[typ='tpopmassn']#" + localStorage.tpopmassn_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopmassn geöffnet wird
 			delete window.tpopmassn_zeigen;
 		}
 		if (window.tpopber_zeigen) {
-			jQuery("#tree").jstree("select_node", "[typ='tpopber']#" + localStorage.tpopber_id);
+			$("#tree").jstree("select_node", "[typ='tpopber']#" + localStorage.tpopber_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopber geöffnet wird
 			delete window.tpopber_zeigen;
 		}
 		if (window.beob_zugeordnet_zeigen) {
-			jQuery("#tree").jstree("select_node", "#beob" + localStorage.beob_id);
+			$("#tree").jstree("select_node", "#beob" + localStorage.beob_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese beob_zugeordnet geöffnet wird
 			delete window.beob_zugeordnet_zeigen;
 		}
 		if (window.tpopmassnber_zeigen) {
-			jQuery("#tree").jstree("select_node", "[typ='tpopmassnber']#" + localStorage.tpopmassnber_id);
+			$("#tree").jstree("select_node", "[typ='tpopmassnber']#" + localStorage.tpopmassnber_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopmassnber geöffnet wird
 			delete window.tpopmassnber_zeigen;
 		}
 		if (window.apziel_zeigen) {
-			jQuery("#tree").jstree("select_node", "[typ='apziel']#" + localStorage.apziel_id);
+			$("#tree").jstree("select_node", "[typ='apziel']#" + localStorage.apziel_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese apziel geöffnet wird
 			delete window.apziel_zeigen;
 		}
 		if (window.zielber_zeigen) {
-			jQuery("#tree").jstree("select_node", "[typ='zielber']#" + localStorage.zielber_id);
+			$("#tree").jstree("select_node", "[typ='zielber']#" + localStorage.zielber_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese zielber geöffnet wird
 			delete window.zielber_zeigen;
 		}
 		if (window.erfkrit_zeigen) {
-			jQuery("#tree").jstree("select_node", "[typ='erfkrit']#" + localStorage.erfkrit_id);
+			$("#tree").jstree("select_node", "[typ='erfkrit']#" + localStorage.erfkrit_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese erfkrit geöffnet wird
 			delete window.erfkrit_zeigen;
 		}
 		if (window.jber_zeigen) {
-			jQuery("#tree").jstree("select_node", "[typ='jber']#" + localStorage.jber_id);
+			$("#tree").jstree("select_node", "[typ='jber']#" + localStorage.jber_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese jber geöffnet wird
 			delete window.jber_zeigen;
 		}
 		if (window.jber_uebersicht_zeigen) {
-			jQuery("#tree").jstree("select_node", "[typ='jber_uebersicht']#" + localStorage.jber_uebersicht_id);
+			$("#tree").jstree("select_node", "[typ='jber_uebersicht']#" + localStorage.jber_uebersicht_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese jber_uebersicht geöffnet wird
 			delete window.jber_uebersicht_zeigen;
 		}
 		if (window.ber_zeigen) {
-			jQuery("#tree").jstree("select_node", "[typ='ber']#" + localStorage.ber_id);
+			$("#tree").jstree("select_node", "[typ='ber']#" + localStorage.ber_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese ber geöffnet wird
 			delete window.ber_zeigen;
 		}
 		if (window.idealbiotop_zeigen) {
-			jQuery("#tree").jstree("select_node", "[typ='idealbiotop']#" + localStorage.idealbiotop_id);
+			$("#tree").jstree("select_node", "[typ='idealbiotop']#" + localStorage.idealbiotop_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese idealbiotop geöffnet wird
 			delete window.idealbiotop_zeigen;
 		}
 		if (window.assozarten_zeigen) {
-			jQuery("#tree").jstree("select_node", "[typ='assozarten']#" + localStorage.assozarten_id);
+			$("#tree").jstree("select_node", "[typ='assozarten']#" + localStorage.assozarten_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese assozarten geöffnet wird
 			delete window.assozarten_zeigen;
 		}
 		if (window.beob_nicht_beurteilt_zeigen) {
-			jQuery("#tree").jstree("select_node", "#beob" + localStorage.beob_id);
+			$("#tree").jstree("select_node", "#beob" + localStorage.beob_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese beob geöffnet wird
 			delete window.beob_nicht_beurteilt_zeigen;
 		}
 		if (window.beob_nicht_zuzuordnen_zeigen) {
-			jQuery("#tree").jstree("select_node", "#beob" + localStorage.beob_id);
+			$("#tree").jstree("select_node", "#beob" + localStorage.beob_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese beob geöffnet wird
 			delete window.beob_nicht_zuzuordnen_zeigen;
 		}
@@ -2581,7 +2581,7 @@ window.af.erstelle_tree = function(ApArtId) {
 		// auf PC's verhindern: Menu erscheint sonst beim Scrollen
 		if ($(window).width() < 1000) {
 			setTimeout(function() {
-				jQuery("#tree").jstree('get_selected').children('a').trigger('contextmenu');
+				$("#tree").jstree('get_selected').children('a').trigger('contextmenu');
 			}, 500);
 		}
 	})
@@ -2745,7 +2745,7 @@ window.af.erstelle_tree = function(ApArtId) {
 			var Objekt = {};
 			Objekt.name = "ZielJahr";
 			Objekt.formular = "apziel";
-			speichern(Objekt);
+			window.af.speichern(Objekt);
             $("#ZielJahr")
                 .val(data.rslt.parent[0].innerText.slice(1, 5))
                 .focus();
@@ -2755,7 +2755,7 @@ window.af.erstelle_tree = function(ApArtId) {
 		var herkunft_node, herkunft_node_id, herkunft_node_typ, ziel_node, ziel_node_id, ziel_node_typ, ziel_parent_node, ziel_parent_node_id;
 		
 		// nur aktualisieren, wenn Schreibrechte bestehen
-		if (!prüfeSchreibvoraussetzungen()) {
+		if (!window.af.prüfeSchreibvoraussetzungen()) {
 			return;
 		}
 
@@ -3622,7 +3622,7 @@ window.af.treeKontextmenu = function(node) {
 		neue_apziele_node;
 	// relevante nodes zwischenspeichern
 	// aktiver_node = node;	 das hat auch funktioniert
-	aktiver_node = jQuery("#tree").jstree('get_selected');
+	aktiver_node = $("#tree").jstree('get_selected');
 	aktiver_nodeText = $.jstree._reference(aktiver_node).get_text(aktiver_node);
 	// parent nur ermitteln, wenn parents exisiteren - sonst gibt es einen Fehler
 	if ($(aktiver_node).attr("typ").slice(0, 9) !== "ap_ordner" && $(aktiver_node).attr("typ") !== "idealbiotop") {
@@ -3836,7 +3836,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/neu.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					grandparent_node = $.jstree._reference(parent_node)._get_parent(parent_node);
@@ -3865,7 +3865,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
@@ -3981,7 +3981,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
@@ -4092,7 +4092,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
@@ -4210,7 +4210,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
@@ -4297,7 +4297,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
@@ -4405,7 +4405,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
@@ -4516,7 +4516,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
@@ -4600,7 +4600,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
@@ -4708,7 +4708,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/ausschneiden.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					// Jetzt die PopId merken - ihr muss danach eine andere ApArtId zugeteilt werden
@@ -4874,7 +4874,7 @@ window.af.treeKontextmenu = function(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node);
+					window.af.tpopKopiertInPopOrdnerTpopEinfügen(aktiver_node);
 				}
 			}
 		}
@@ -4918,7 +4918,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
@@ -5069,7 +5069,7 @@ window.af.treeKontextmenu = function(node) {
 					zeigeBeobKoordinatenImGisBrowser();
 				}
 			}
-		}
+		};
 		if (!window.tpop_node_ausgeschnitten) {
 			items.ausschneiden = {
 				//"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
@@ -5078,7 +5078,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/ausschneiden.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					window.tpop_node_ausgeschnitten = aktiver_node;
@@ -5096,7 +5096,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/kopieren.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					window.tpop_node_kopiert = aktiver_node;
@@ -5136,7 +5136,7 @@ window.af.treeKontextmenu = function(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					tpop_kopiert_in_pop_ordner_tpop_einfuegen(parent_node);
+					window.af.tpopKopiertInPopOrdnerTpopEinfügen(parent_node);
 				}
 			}
 		}
@@ -5149,7 +5149,7 @@ window.af.treeKontextmenu = function(node) {
 					$.jstree._reference(parent_node).move_node(window.tpop_node_ausgeschnitten, parent_node, "first", false);
 				}
 			}
-		};
+		}
 		return items;
 	case "pop_ordner_popber":
 		items = {
@@ -5210,7 +5210,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
@@ -5315,7 +5315,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
@@ -5459,7 +5459,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
@@ -5509,43 +5509,54 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/kopieren.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					delete window.feldkontr_biotop;
 					window.feldkontr_biotop = {};
-					if ($("#TPopKontrFlaeche").val()) {
-						window.feldkontr_biotop.TPopKontrFlaeche = $("#TPopKontrFlaeche").val();
+                    var $TPopKontrFlaeche = $("#TPopKontrFlaeche");
+					if ($TPopKontrFlaeche.val()) {
+						window.feldkontr_biotop.TPopKontrFlaeche = $TPopKontrFlaeche.val();
 					}
-					if ($("#TPopKontrLeb").val()) {
-						window.feldkontr_biotop.TPopKontrLeb = $("#TPopKontrLeb").val();
+                    var $TPopKontrLeb = $("#TPopKontrLeb");
+					if ($TPopKontrLeb.val()) {
+						window.feldkontr_biotop.TPopKontrLeb = $TPopKontrLeb.val();
 					}
-					if ($("#TPopKontrLebUmg").val()) {
-						window.feldkontr_biotop.TPopKontrLebUmg = $("#TPopKontrLebUmg").val();
+                    var $TPopKontrLebUmg = $("#TPopKontrLebUmg");
+					if ($TPopKontrLebUmg.val()) {
+						window.feldkontr_biotop.TPopKontrLebUmg = $TPopKontrLebUmg.val();
 					}
-					if ($("#TPopKontrVegTyp").val()) {
-						window.feldkontr_biotop.TPopKontrVegTyp = $("#TPopKontrVegTyp").val();
+                    var $TPopKontrVegTyp = $("#TPopKontrVegTyp");
+					if ($TPopKontrVegTyp.val()) {
+						window.feldkontr_biotop.TPopKontrVegTyp = $TPopKontrVegTyp.val();
 					}
-					if ($("#TPopKontrKonkurrenz").val()) {
-						window.feldkontr_biotop.TPopKontrKonkurrenz = $("#TPopKontrKonkurrenz").val();
+                    var $TPopKontrKonkurrenz = $("#TPopKontrKonkurrenz");
+					if ($TPopKontrKonkurrenz.val()) {
+						window.feldkontr_biotop.TPopKontrKonkurrenz = $TPopKontrKonkurrenz.val();
 					}
-					if ($("#TPopKontrMoosschicht").val()) {
-						window.feldkontr_biotop.TPopKontrMoosschicht = $("#TPopKontrMoosschicht").val();
+                    var $TPopKontrMoosschicht = $("#TPopKontrMoosschicht");
+					if ($TPopKontrMoosschicht.val()) {
+						window.feldkontr_biotop.TPopKontrMoosschicht = $TPopKontrMoosschicht.val();
 					}
-					if ($("#TPopKontrKrautschicht").val()) {
-						window.feldkontr_biotop.TPopKontrKrautschicht = $("#TPopKontrKrautschicht").val();
+                    var $TPopKontrKrautschicht = $("#TPopKontrKrautschicht");
+					if ($TPopKontrKrautschicht.val()) {
+						window.feldkontr_biotop.TPopKontrKrautschicht = $TPopKontrKrautschicht.val();
 					}
-					if ($("#TPopKontrStrauchschicht").val()) {
-						window.feldkontr_biotop.TPopKontrStrauchschicht = $("#TPopKontrStrauchschicht").val();
+                    var $TPopKontrStrauchschicht = $("#TPopKontrStrauchschicht");
+					if ($TPopKontrStrauchschicht.val()) {
+						window.feldkontr_biotop.TPopKontrStrauchschicht = $TPopKontrStrauchschicht.val();
 					}
-					if ($("#TPopKontrBaumschicht").val()) {
-						window.feldkontr_biotop.TPopKontrBaumschicht = $("#TPopKontrBaumschicht").val();
+                    var $TPopKontrBaumschicht = $("#TPopKontrBaumschicht");
+					if ($TPopKontrBaumschicht.val()) {
+						window.feldkontr_biotop.TPopKontrBaumschicht = $TPopKontrBaumschicht.val();
 					}
-					if ($("#TPopKontrBodenTyp").val()) {
-						window.feldkontr_biotop.TPopKontrBodenTyp = $("#TPopKontrBodenTyp").val();
+                    var $TPopKontrBodenTyp = $("#TPopKontrBodenTyp");
+					if ($TPopKontrBodenTyp.val()) {
+						window.feldkontr_biotop.TPopKontrBodenTyp = $TPopKontrBodenTyp.val();
 					}
-					if ($("#TPopKontrBodenKalkgehalt").val()) {
-						window.feldkontr_biotop.TPopKontrBodenKalkgehalt = $("#TPopKontrBodenKalkgehalt").val();
+                    var $TPopKontrBodenKalkgehalt = $("#TPopKontrBodenKalkgehalt");
+					if ($TPopKontrBodenKalkgehalt.val()) {
+						window.feldkontr_biotop.TPopKontrBodenKalkgehalt = $TPopKontrBodenKalkgehalt.val();
 					}
 					if ($("#TPopKontrBodenDurchlaessigkeit").val()) {
 						window.feldkontr_biotop.TPopKontrBodenDurchlaessigkeit = $("#TPopKontrBodenDurchlaessigkeit").val();
@@ -5578,7 +5589,7 @@ window.af.treeKontextmenu = function(node) {
 					data.id = erstelleIdAusDomAttributId($(aktiver_node).attr("id"));
 					data.user = sessionStorage.User
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					for (i in window.feldkontr_biotop) {
@@ -5606,7 +5617,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/ausschneiden.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					window.tpopfeldkontr_node_ausgeschnitten = aktiver_node;
@@ -5624,7 +5635,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/kopieren.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					window.tpopfeldkontr_node_kopiert = aktiver_node;
@@ -5783,7 +5794,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
@@ -5837,7 +5848,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/ausschneiden.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					window.tpopfreiwkontr_node_ausgeschnitten = aktiver_node;
@@ -5855,7 +5866,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/kopieren.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					window.tpopfreiwkontr_node_kopiert = aktiver_node;
@@ -6013,7 +6024,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
@@ -6066,7 +6077,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/ausschneiden.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					window.tpopmassn_node_ausgeschnitten = aktiver_node;
@@ -6084,25 +6095,26 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/kopieren.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					window.tpopmassn_node_kopiert = aktiver_node;
 					// Daten des Objekts holen
 					var getTPopMassn_2 = $.ajax({
-						type: 'get',
-						url: 'php/tpopmassn.php',
-						dataType: 'json',
-						data: {
-							"id": erstelleIdAusDomAttributId($(window.tpopmassn_node_kopiert).attr("id"))
-						}
-					});
+                            type: 'get',
+                            url: 'php/tpopmassn.php',
+                            dataType: 'json',
+                            data: {
+                                "id": erstelleIdAusDomAttributId($(window.tpopmassn_node_kopiert).attr("id"))
+                            }
+                        }),
+                        $TPopMassnTypChecked = $("#TPopMassnTyp option:checked");
 					getTPopMassn_2.done(function(data) {
 						window.tpopmassn_objekt_kopiert = data;
 						// den Beurteilungstext holen - ist nur mühsam aus der DB zu holen
 						window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt = "";
-						if ($("#TPopMassnTyp option:checked").text()) {
-							window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt = $("#TPopMassnTyp option:checked").text();
+						if ($TPopMassnTypChecked.text()) {
+							window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt = $TPopMassnTypChecked.text();
 						}
 					});
 					getTPopMassn_2.fail(function() {
@@ -6208,7 +6220,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
@@ -6299,7 +6311,7 @@ window.af.treeKontextmenu = function(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					jQuery("#tree").jstree("move_node", window.beob_node_ausgeschnitten, aktiver_node, "first");
+					$("#tree").jstree("move_node", window.beob_node_ausgeschnitten, aktiver_node, "first");
 				}
 			}
 		}
@@ -6387,7 +6399,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/ausschneiden.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					window.beob_zugeordnet_node_ausgeschnitten = aktiver_node;
@@ -6474,7 +6486,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/loeschen.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
@@ -6593,7 +6605,7 @@ window.af.treeKontextmenu = function(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					jQuery("#tree").jstree("move_node", window.beob_zugeordnet_node_ausgeschnitten, aktiver_node, "first");
+					$("#tree").jstree("move_node", window.beob_zugeordnet_node_ausgeschnitten, aktiver_node, "first");
 				}
 			}
 		}
@@ -6672,7 +6684,7 @@ window.af.treeKontextmenu = function(node) {
 					zeigeBeobKoordinatenImGisBrowser();
 				}
 			}
-		}
+		};
 		if (!window.beob_node_ausgeschnitten) {
 			items.ausschneiden = {
 				//"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
@@ -6681,7 +6693,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/ausschneiden.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					window.beob_node_ausgeschnitten = aktiver_node;
@@ -6694,7 +6706,7 @@ window.af.treeKontextmenu = function(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					jQuery("#tree").jstree("move_node", window.beob_zugeordnet_node_ausgeschnitten, parent_node, "first");
+					$("#tree").jstree("move_node", window.beob_zugeordnet_node_ausgeschnitten, parent_node, "first");
 				}
 			}
 		}
@@ -6727,14 +6739,14 @@ window.af.treeKontextmenu = function(node) {
 					});
 				}
 			}
-		}
+		};
 		if (window.beob_zugeordnet_node_ausgeschnitten) {
 			items.einfuegen = {
 				"label": $.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					jQuery("#tree").jstree("move_node", window.beob_zugeordnet_node_ausgeschnitten, aktiver_node, "first");
+					$("#tree").jstree("move_node", window.beob_zugeordnet_node_ausgeschnitten, aktiver_node, "first");
 				}
 			}
 		}
@@ -6774,7 +6786,7 @@ window.af.treeKontextmenu = function(node) {
 					zeigeBeobKoordinatenImGisBrowser();
 				}
 			}
-		}
+		};
 		if (!window.beob_node_ausgeschnitten) {
 			items.ausschneiden = {
 				//"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
@@ -6783,7 +6795,7 @@ window.af.treeKontextmenu = function(node) {
 				"icon": "style/images/ausschneiden.png",
 				"action": function() {
 					// nur aktualisieren, wenn Schreibrechte bestehen
-					if (!prüfeSchreibvoraussetzungen()) {
+					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
 					window.beob_node_ausgeschnitten = aktiver_node;
@@ -6796,7 +6808,7 @@ window.af.treeKontextmenu = function(node) {
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					jQuery("#tree").jstree("move_node", window.beob_zugeordnet_node_ausgeschnitten, parent_node, "first");
+					$("#tree").jstree("move_node", window.beob_zugeordnet_node_ausgeschnitten, parent_node, "first");
 				}
 			}
 		}
@@ -6804,7 +6816,8 @@ window.af.treeKontextmenu = function(node) {
 	}
 };
 
-function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
+window.af.tpopKopiertInPopOrdnerTpopEinfügen = function(aktiver_node) {
+	'use strict';
 	var insertTPopKopie = $.ajax({
 		type: 'post',
 		url: 'php/tpop_insert_kopie.php',
@@ -6826,13 +6839,14 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 	insertTPopKopie.fail(function() {
 		melde("Fehler: Die Teilpopulation wurde nicht erstellt");
 	});
-}
+};
 
 // wird offenbar momentan nicht verwendet
-function pop_kopiert_in_pop_einfuegen(aktiver_node, parent_node) {
+window.af.popKopiertInPopEinfügen = function(aktiver_node, parent_node) {
+	'use strict';
 	var data = {};
 	// nur aktualisieren, wenn Schreibrechte bestehen
-	if (!prüfeSchreibvoraussetzungen()) {
+	if (!window.af.prüfeSchreibvoraussetzungen()) {
 		return;
 	}
 	// drop kennt den parent nicht
@@ -6849,7 +6863,7 @@ function pop_kopiert_in_pop_einfuegen(aktiver_node, parent_node) {
 	delete window.pop_objekt_kopiert.MutWann;
 	delete window.pop_objekt_kopiert.MutWer;
 	// alle verbliebenen Felder an die url hängen
-	for (i in window.pop_objekt_kopiert) {
+	for (var i in window.pop_objekt_kopiert) {
 		// Nullwerte ausschliessen
 		if (window.pop_objekt_kopiert[i] !== null) {
 			data[i] = window.pop_objekt_kopiert[i];
@@ -6870,13 +6884,14 @@ function pop_kopiert_in_pop_einfuegen(aktiver_node, parent_node) {
 	insertPopKopie_2.fail(function() {
 		melde("Fehler: Die Population wurde nicht erstellt");
 	});
-}
+};
 
 // wird offenbar momentan nicht verwendet
-function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
+window.af.tpopKopiertInTpopEinfügen = function(aktiver_node, parent_node) {
+	'use strict';
 	var data = {};
 	// nur aktualisieren, wenn Schreibrechte bestehen
-	if (!prüfeSchreibvoraussetzungen()) {
+	if (!window.af.prüfeSchreibvoraussetzungen()) {
 		return;
 	}
 	// drop kennt den parent nicht
@@ -6914,9 +6929,10 @@ function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 	insertTPopKopie_2.fail(function() {
 		melde("Fehler: Die Teilpopulation wurde nicht erstellt");
 	});
-}
+};
 
-function pruefeLesevoraussetzungen() {
+window.af.prüfeLesevoraussetzungen = function() {
+	'use strict';
 	// kontrollieren, ob der User offline ist
 	if (!navigator.onLine) {
 		console.log('offline');
@@ -6935,11 +6951,12 @@ function pruefeLesevoraussetzungen() {
 	} else {
 		return true;
 	}
-}
+};
 
-function prüfeSchreibvoraussetzungen() {
+window.af.prüfeSchreibvoraussetzungen = function() {
+	'use strict';
 	// kontrollieren, ob der User online ist
-	if (pruefeLesevoraussetzungen()) {
+	if (window.af.prüfeLesevoraussetzungen()) {
 		// kontrollieren, ob der User Schreibrechte hat
 		if (sessionStorage.NurLesen) {
 			melde("Sie haben keine Schreibrechte");
@@ -6948,14 +6965,19 @@ function prüfeSchreibvoraussetzungen() {
 			return true;
 		}
 	}
-}
+};
 
 // wird von allen Formularen benutzt
 // speichert den Wert eines Feldes in einem Formular
 // übernimmt das Objekt, in dem geändert wurde
-function speichern(that) {
-	var Feldtyp, Formular, Feldname, Feldwert, Objekt;
-	if (prüfeSchreibvoraussetzungen()) {
+window.af.speichern = function(that) {
+	'use strict';
+	var Feldtyp,
+        Formular,
+        Feldname,
+        Feldwert,
+        Objekt;
+	if (window.af.prüfeSchreibvoraussetzungen()) {
 		Formular = $(that).attr("formular");
 		Feldname = that.name;
 		Feldtyp = $(that).attr("type") || null;
@@ -7006,14 +7028,14 @@ function speichern(that) {
 				Objekt = {};
 				Objekt.name = "TPopKontrJahr";
 				Objekt.formular = "tpopfeldkontr";
-				speichern(Objekt);
+				window.af.speichern(Objekt);
 			}
 			// dito bei tpopmassn
 			if (Feldname === "TPopMassnDatum" && Feldwert) {
 				Objekt = {};
 				Objekt.name = "TPopMassnJahr";
 				Objekt.formular = "tpopmassn";
-				speichern(Objekt);
+				window.af.speichern(Objekt);
 			}
 			// wenn in TPopKontrZaehleinheit 1 bis 3 ein Leerwert eingeführt wurde
 			// sollen auch die Felder TPopKontrMethode 1 bis 3 und TPopKontrAnz 1 bis 3 Leerwerte erhalten
@@ -7029,12 +7051,12 @@ function speichern(that) {
 					Objekt = {};
 					Objekt.name = "TPopKontrMethode1";
 					Objekt.formular = Formular;
-					speichern(Objekt);
+					window.af.speichern(Objekt);
 					// Feld TPopKontrAnz1
 					Objekt = {};
 					Objekt.name = "TPopKontrAnz1";
 					Objekt.formular = Formular;
-					speichern(Objekt);
+					window.af.speichern(Objekt);
 				}
 				if (Feldname === "TPopKontrZaehleinheit2") {
 					// UI aktualisieren
@@ -7047,12 +7069,12 @@ function speichern(that) {
 					Objekt = {};
 					Objekt.name = "TPopKontrMethode2";
 					Objekt.formular = Formular;
-					speichern(Objekt);
+					window.af.speichern(Objekt);
 					// Feld TPopKontrAnz2
 					Objekt = {};
 					Objekt.name = "TPopKontrAnz2";
 					Objekt.formular = Formular;
-					speichern(Objekt);
+					window.af.speichern(Objekt);
 				}
 				if (Feldname === "TPopKontrZaehleinheit3") {
 					// UI aktualisieren
@@ -7065,12 +7087,12 @@ function speichern(that) {
 					Objekt = {};
 					Objekt.name = "TPopKontrMethode3";
 					Objekt.formular = Formular;
-					speichern(Objekt);
+					window.af.speichern(Objekt);
 					// Feld TPopKontrAnz3
 					Objekt = {};
 					Objekt.name = "TPopKontrAnz3";
 					Objekt.formular = Formular;
-					speichern(Objekt);
+					window.af.speichern(Objekt);
 				}
 			}
 		});
@@ -7091,7 +7113,7 @@ function speichern(that) {
 				} else {
 					popbeschriftung = "(keine Nr, kein Name)";
 				}
-				jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_pop'] #" + localStorage.pop_id, popbeschriftung);
+				$("#tree").jstree("rename_node", "[typ='ap_ordner_pop'] #" + localStorage.pop_id, popbeschriftung);
 				break;
 			case "PopBerJahr":
 			case "PopBerEntwicklung":
@@ -7105,7 +7127,7 @@ function speichern(that) {
 				} else {
 					popberbeschriftung = "(kein Jahr): (kein Status)";
 				}
-				jQuery("#tree").jstree("rename_node", "[typ='pop_ordner_popber'] #" + localStorage.popber_id, popberbeschriftung);
+				$("#tree").jstree("rename_node", "[typ='pop_ordner_popber'] #" + localStorage.popber_id, popberbeschriftung);
 				break;
 			case "PopMassnBerJahr":
 			case "PopMassnBerErfolgsbeurteilung":
@@ -7119,7 +7141,7 @@ function speichern(that) {
 				} else {
 					popmassnberbeschriftung = "(kein Jahr): (nicht beurteilt)";
 				}
-				jQuery("#tree").jstree("rename_node", "[typ='pop_ordner_massnber'] #" + localStorage.popmassnber_id, popmassnberbeschriftung);
+				$("#tree").jstree("rename_node", "[typ='pop_ordner_massnber'] #" + localStorage.popmassnber_id, popmassnberbeschriftung);
 				break;
 			case "TPopNr":
 			case "TPopFlurname":
@@ -7133,7 +7155,7 @@ function speichern(that) {
 				} else {
 					tpopbeschriftung = "(keine Nr, kein Flurname)";
 				}
-				jQuery("#tree").jstree("rename_node", "[typ='pop_ordner_tpop'] #" + localStorage.tpop_id, tpopbeschriftung);
+				$("#tree").jstree("rename_node", "[typ='pop_ordner_tpop'] #" + localStorage.tpop_id, tpopbeschriftung);
 				break;
 			case "TPopKontrTyp":
 			case "TPopKontrJahr":
@@ -7146,9 +7168,9 @@ function speichern(that) {
 				}
 				// Problem: Es ist nicht bekannt, ob eine Freiwilligenkontrolle umbennant wird oder eine Feldkontrolle
 				// Lösung: Beide nodes umbenennen. Nur eine davon hat die richtige id
-				jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_freiwkontr'] #" + localStorage.tpopfeldkontr_id, tpopkontrjahr);
+				$("#tree").jstree("rename_node", "[typ='tpop_ordner_freiwkontr'] #" + localStorage.tpopfeldkontr_id, tpopkontrjahr);
 				tpopfeldkontr_label = erstelleLabelFürFeldkontrolle($TPopKontrJahr, $("#spanTPopKontrTyp" + $('input[name="TPopKontrTyp"]:checked').val()).text());
-				jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_feldkontr'] #" + localStorage.tpopfeldkontr_id, tpopfeldkontr_label);
+				$("#tree").jstree("rename_node", "[typ='tpop_ordner_feldkontr'] #" + localStorage.tpopfeldkontr_id, tpopfeldkontr_label);
 				break;
 			case "TPopBerJahr":
 			case "TPopBerEntwicklung":
@@ -7164,7 +7186,7 @@ function speichern(that) {
 				} else {
 					tpopberentwicklung = "(keine Beurteilung)";
 				}
-				jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_tpopber'] #" + localStorage.tpopber_id, tpopberjahr + ": " + tpopberentwicklung);
+				$("#tree").jstree("rename_node", "[typ='tpop_ordner_tpopber'] #" + localStorage.tpopber_id, tpopberjahr + ": " + tpopberentwicklung);
 				break;
 			case "TPopMassnJahr":
 			case "TPopMassnTyp":
@@ -7180,7 +7202,7 @@ function speichern(that) {
 					tpopmassnbezeichnung = "(kein Jahr): (kein Typ)";
 				}
 				tpopmassnbezeichnung = erstelleLabelFürMassnahme($("#TPopMassnJahr").val(), $("#TPopMassnTyp option:checked").text());
-				jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_massn'] #" + localStorage.tpopmassn_id, tpopmassnbezeichnung);
+				$("#tree").jstree("rename_node", "[typ='tpop_ordner_massn'] #" + localStorage.tpopmassn_id, tpopmassnbezeichnung);
 				break;
 			case "TPopMassnBerJahr":
 			case "TPopMassnBerErfolgsbeurteilung":
@@ -7195,7 +7217,7 @@ function speichern(that) {
 				} else {
 					tpopmassberbeschriftung = "(kein Jahr): (keine Beurteilung)";
 				}
-				jQuery("#tree").jstree("rename_node", "[typ='tpop_ordner_massnber'] #" + localStorage.tpopmassnber_id, tpopmassberbeschriftung);
+				$("#tree").jstree("rename_node", "[typ='tpop_ordner_massnber'] #" + localStorage.tpopmassnber_id, tpopmassberbeschriftung);
 				break;
 			case "ZielBezeichnung":
 				var zielbeschriftung;
@@ -7204,7 +7226,7 @@ function speichern(that) {
 				} else {
 					zielbeschriftung = "(Ziel nicht beschrieben)";
 				}
-				jQuery("#tree").jstree("rename_node", "[typ='apzieljahr'] #" + localStorage.apziel_id, zielbeschriftung);
+				$("#tree").jstree("rename_node", "[typ='apzieljahr'] #" + localStorage.apziel_id, zielbeschriftung);
 				break;
 			case "ZielBerJahr":
 			case "ZielBerErreichung":
@@ -7218,7 +7240,7 @@ function speichern(that) {
 				} else {
 					zielberbeschriftung = "(kein Jahr): (keine Beurteilung)";
 				}
-				jQuery("#tree").jstree("rename_node", "[typ='zielber_ordner'] #" + localStorage.zielber_id, zielberbeschriftung);
+				$("#tree").jstree("rename_node", "[typ='zielber_ordner'] #" + localStorage.zielber_id, zielberbeschriftung);
 				break;
 			case "ErfkritErreichungsgrad":
 			case "ErfkritTxt":
@@ -7232,7 +7254,7 @@ function speichern(that) {
 				} else {
 					erfkritbeschriftung = "(keine Beurteilung): (kein Kriterium)";
 				}
-				jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_erfkrit'] #" + localStorage.erfkrit_id, erfkritbeschriftung);
+				$("#tree").jstree("rename_node", "[typ='ap_ordner_erfkrit'] #" + localStorage.erfkrit_id, erfkritbeschriftung);
 				break;
 			case "JBerJahr":
 				var jberbeschriftung;
@@ -7241,7 +7263,7 @@ function speichern(that) {
 				} else {
 					jberbeschriftung = "(kein Jahr)";
 				}
-				jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_jber'] #" + localStorage.jber_id, jberbeschriftung);
+				$("#tree").jstree("rename_node", "[typ='ap_ordner_jber'] #" + localStorage.jber_id, jberbeschriftung);
 				break;
 			case "BerTitel":
 			case "BerJahr":
@@ -7255,7 +7277,7 @@ function speichern(that) {
 				} else {
 					berbeschriftung = "(kein Jahr): (kein Titel)";
 				}
-				jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_ber'] #" + localStorage.ber_id, berbeschriftung);
+				$("#tree").jstree("rename_node", "[typ='ap_ordner_ber'] #" + localStorage.ber_id, berbeschriftung);
 				break;
 			case "AaSisfNr":
 				var aabeschriftung;
@@ -7264,11 +7286,11 @@ function speichern(that) {
 				} else {
 					aabeschriftung = "(kein Artname)";
 				}
-				jQuery("#tree").jstree("rename_node", "[typ='ap_ordner_assozarten'] #" + localStorage.assozarten_id, aabeschriftung);
+				$("#tree").jstree("rename_node", "[typ='ap_ordner_assozarten'] #" + localStorage.assozarten_id, aabeschriftung);
 				break;
 		}
 	}
-}
+};
 
 (function($) {
 	// friendly helper //tinyurl.com/6aow6yn
@@ -9551,7 +9573,7 @@ function placeMarkerTPop(location, map, marker, TPop) {
 function SetLocationTPop(LatLng, map, marker, TPop) {
 	var lat, lng, contentString, infowindow, Objekt, title, X, Y;
 	// nur aktualisieren, wenn Schreibrechte bestehen
-	if (!prüfeSchreibvoraussetzungen()) {
+	if (!window.af.prüfeSchreibvoraussetzungen()) {
 		return;
 	}
 	if (TPop && TPop.TPopFlurname) {
@@ -9641,7 +9663,7 @@ function clearInfoWindows() {
 function oeffneTPop(TPopId) {
 	localStorage.tpop_id = TPopId;
 	$.jstree._reference("[typ='tpop']#" + TPopId).deselect_all();
-	jQuery("#tree").jstree("select_node", "[typ='tpop']#" + TPopId);
+	$("#tree").jstree("select_node", "[typ='tpop']#" + TPopId);
 }
 
 function oeffneTPopInNeuemTab(TPopId) {
@@ -9651,7 +9673,7 @@ function oeffneTPopInNeuemTab(TPopId) {
 function oeffnePop(PopId) {
 	localStorage.pop_id = PopId;
 	$.jstree._reference("[typ='pop']#" + PopId).deselect_all();
-	jQuery("#tree").jstree("select_node", "[typ='pop']#" + PopId);
+	$("#tree").jstree("select_node", "[typ='pop']#" + PopId);
 }
 
 function oeffnePopInNeuemTab(PopId) {
@@ -9661,7 +9683,7 @@ function oeffnePopInNeuemTab(PopId) {
 function oeffneBeob(BeobId) {
 	localStorage.beob_id = BeobId;
 	$.jstree._reference("[typ='beob_nicht_beurteilt']#beob" + BeobId).deselect_all();
-	jQuery("#tree").jstree("select_node", "[typ='beob_nicht_beurteilt']#beob" + BeobId);
+	$("#tree").jstree("select_node", "[typ='beob_nicht_beurteilt']#beob" + BeobId);
 }
 
 function oeffneBeobInNeuemTab(BeobId) {
@@ -9671,7 +9693,7 @@ function oeffneBeobInNeuemTab(BeobId) {
 function oeffneTPopBeob(BeobId) {
 	localStorage.beob_id = BeobId;
 	$.jstree._reference("[typ='beob_zugeordnet']#beob" + BeobId).deselect_all();
-	jQuery("#tree").jstree("select_node", "[typ='beob_zugeordnet']#beob" + BeobId);
+	$("#tree").jstree("select_node", "[typ='beob_zugeordnet']#beob" + BeobId);
 }
 
 function oeffneTPopBeobInNeuemTab(BeobId) {
@@ -10728,7 +10750,7 @@ function erstelleGemeindeliste() {
 					delay: 0,
 					// Change-Event wird nicht ausgelöst > hier aufrufen
 					change: function(event, ui) {
-						speichern(event.target);
+						window.af.speichern(event.target);
 					}
 				});
 			}

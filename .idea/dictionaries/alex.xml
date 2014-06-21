@@ -9,6 +9,9 @@
       <w>assozarten</w>
       <w>bearb</w>
       <w>beobtyp</w>
+      <w>beurteilungstext</w>
+      <w>bildschirmhöhe</w>
+      <w>einfuegen</w>
       <w>erfkrit</w>
       <w>feldkontr</w>
       <w>feldkontrolle</w>
@@ -19,13 +22,17 @@
       <w>jber</w>
       <w>jstree</w>
       <w>kartenhöhe</w>
+      <w>kontextmenu</w>
+      <w>lesevoraussetzungen</w>
       <w>livereload</w>
       <w>loeschen</w>
       <w>massn</w>
       <w>ortho</w>
       <w>orthoaktuell</w>
       <w>popber</w>
+      <w>popbeschriftung</w>
       <w>popmassnber</w>
+      <w>schreibvoraussetzungen</w>
       <w>teilpopulations</w>
       <w>testarten</w>
       <w>tpop</w>
