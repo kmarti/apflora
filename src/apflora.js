@@ -825,7 +825,7 @@ window.af.initiiere_assozarten = function() {
 			window.af.zeigeFormular("assozarten");
 			history.replaceState({assozarten: "assozarten"}, "assozarten", "index.html?ap=" + localStorage.ap_id + "&assozarten=" + localStorage.assozarten_id);
 			// bei neuen Datensätzen Fokus steuern
-			if (!$AaSisfNr).val()) {
+			if (!$AaSisfNr.val()) {
                 $AaSisfNr.focus();
 			}
 		}
