@@ -5054,7 +5054,7 @@ window.af.treeKontextmenu = function(node) {
 						}
 					});
 					getTPop_3.done(function(data) {
-						verorteTPopAufKarte(data);
+						window.af.verorteTPopAufKarte(data);
 					});
 					getTPop_3.fail(function() {
 						melde("Fehler: Keine Daten erhalten");
@@ -9533,8 +9533,26 @@ window.af.zeigeTPopBeobAufKarte = function(TPopBeobListe) {
 	}
 };
 
-function verorteTPopAufKarte(TPop) {
-	var anzTPop, infowindow, lat, lng, latlng, ZoomLevel, options, map, verorted, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, tpop_beschriftung, myFlurname;
+window.af.verorteTPopAufKarte = function(TPop) {
+	'use strict';
+	var anzTPop,
+        infowindow,
+        lat,
+        lng,
+        latlng,
+        ZoomLevel,
+        options,
+        map,
+        mapcanvas,
+        verorted,
+        TPopId,
+        latlng2,
+        marker,
+        contentString,
+        mcOptions,
+        markerCluster,
+        tpop_beschriftung,
+        myFlurname;
 	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	window.af.zeigeFormular("google_karte");
 	window.markersArray = [];
@@ -9595,15 +9613,16 @@ function verorteTPopAufKarte(TPop) {
 			infowindow.open(map,marker);
 		});
 		google.maps.event.addListener(marker, "dragend", function(event) {
-			SetLocationTPop(event.latLng, map, marker, TPop);
+			window.af.SetLocationTPop(event.latLng, map, marker, TPop);
 		});
 	}
 	google.maps.event.addListener(map, 'click', function(event) {
-		placeMarkerTPop(event.latLng, map, marker, TPop);
+		window.af.placeMarkerTPop(event.latLng, map, marker, TPop);
 	});
-}
+};
 
-function placeMarkerTPop(location, map, marker, TPop) {
+window.af.placeMarkerTPop = function(location, map, marker, TPop) {
+	'use strict';
 	var title;
 	// title muss String sein
 	if (TPop && TPop.TPopFlurname) {
@@ -9623,12 +9642,13 @@ function placeMarkerTPop(location, map, marker, TPop) {
 	// Marker in Array speichern, damit er gelöscht werden kann
 	markersArray.push(marker);
 	google.maps.event.addListener(marker, "dragend", function(event) {
-		SetLocationTPop(event.latLng, map, marker, TPop);
+		window.af.SetLocationTPop(event.latLng, map, marker, TPop);
 	});
-	SetLocationTPop(location, map, marker);
-}
+	window.af.SetLocationTPop(location, map, marker);
+};
 
-function SetLocationTPop(LatLng, map, marker, TPop) {
+window.af.SetLocationTPop = function(LatLng, map, marker, TPop) {
+	'use strict';
 	var lat, lng, contentString, infowindow, Objekt, title, X, Y;
 	// nur aktualisieren, wenn Schreibrechte bestehen
 	if (!window.af.prüfeSchreibvoraussetzungen()) {
@@ -9696,7 +9716,7 @@ function SetLocationTPop(LatLng, map, marker, TPop) {
 	updateTPop_3.fail(function() {
 		melde("Fehler: Die Koordinaten wurden nicht übernommen");
 	});
-}
+};
 
 // GoogleMap: alle Marker löschen
 // benutzt wo in GoogleMaps Marker gesetzt und verschoben werden

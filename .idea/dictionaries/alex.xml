@@ -32,6 +32,7 @@
       <w>kontextmenu</w>
       <w>koord</w>
       <w>landeskoord</w>
+      <w>latlng</w>
       <w>layername</w>
       <w>layertree</w>
       <w>lesevoraussetzungen</w>
@@ -61,6 +62,7 @@
       <w>tpopsymbole</w>
       <w>uebersicht</w>
       <w>verorte</w>
+      <w>verorted</w>
       <w>waehlen</w>
       <w>zielber</w>
       <w>zielberbeschriftung</w>
