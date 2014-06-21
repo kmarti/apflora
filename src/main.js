@@ -11860,33 +11860,33 @@ window.af.DdInWgs84BreiteSec = function(Breite) {
 	return BreiteSec;
 };
 
-window.af.DdInWgs84LaengeGrad = function(Laenge) {
+window.af.DdInWgs84LängeGrad = function(Länge) {
 	'use strict';
-	var LaengeGrad = Math.floor(Laenge);
-	return LaengeGrad;
+	var LängeGrad = Math.floor(Länge);
+	return LängeGrad;
 };
 
-window.af.DdInWgs84LaengeMin = function(Laenge) {
+window.af.DdInWgs84LängeMin = function(Länge) {
 	'use strict';
-	var LaengeGrad = Math.floor(Laenge),
-		LaengeMin = Math.floor((Laenge - LaengeGrad) * 60);
-	return LaengeMin;
+	var LängeGrad = Math.floor(Länge),
+		LängeMin = Math.floor((Länge - LängeGrad) * 60);
+	return LängeMin;
 };
 
-window.af.DdInWgs84LaengeSec = function(Laenge) {
+window.af.DdInWgs84LängeSec = function(Länge) {
 	'use strict';
-	var LaengeGrad = Math.floor(Laenge),
-		LaengeMin = Math.floor((Laenge - LaengeGrad) * 60),
-		LaengeSec = Math.round((((Laenge - LaengeGrad) - (LaengeMin / 60)) * 60 * 60) * 100) / 100;
-	return LaengeSec;
+	var LängeGrad = Math.floor(Länge),
+		LängeMin = Math.floor((Länge - LängeGrad) * 60),
+		LängeSec = Math.round((((Länge - LängeGrad) - (LängeMin / 60)) * 60 * 60) * 100) / 100;
+	return LängeSec;
 };
 
 // Wandelt WGS84 lat/long (° dec) in CH-Landeskoordinaten um
-window.af.Wgs84InChX = function(BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, LaengeSec) {
+window.af.Wgs84InChX = function(BreiteGrad, BreiteMin, BreiteSec, LängeGrad, LängeMin, LängeSec) {
 	'use strict';
 	var lat = BreiteSec + BreiteMin * 60 + BreiteGrad * 3600,
-		lng = LaengeSec + LaengeMin * 60 + LaengeGrad * 3600,
-		// Axiliary values (% Bern)
+		lng = LängeSec + LängeMin * 60 + LängeGrad * 3600,
+		// Auxiliary values (% Bern)
 		lat_aux = (lat - 169028.66) / 10000,
 		lng_aux = (lng - 26782.5) / 10000,
 		x = 200147.07
@@ -11899,12 +11899,12 @@ window.af.Wgs84InChX = function(BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, La
 };
 
 // Wandelt WGS84 in CH-Landeskoordinaten um
-window.af.Wgs84InChY = function(BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, LaengeSec) {
+window.af.Wgs84InChY = function(BreiteGrad, BreiteMin, BreiteSec, LängeGrad, LängeMin, LängeSec) {
 	'use strict';
 	// Converts degrees dec to sex
 	var lat = BreiteSec + BreiteMin * 60 + BreiteGrad * 3600,
-		lng = LaengeSec + LaengeMin * 60 + LaengeGrad * 3600,
-		// Axiliary values (% Bern)
+		lng = LängeSec + LängeMin * 60 + LängeGrad * 3600,
+		// Auxiliary values (% Bern)
 		lat_aux = (lat - 169028.66) / 10000,
 		lng_aux = (lng - 26782.5) / 10000,
 		// Process Y
@@ -11917,27 +11917,27 @@ window.af.Wgs84InChY = function(BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, La
 };
 
 // wandelt decimal degrees (vom GPS) in CH-Landeskoordinaten um
-window.af.DdInChX = function(Breite, Laenge) {
+window.af.DdInChX = function(Breite, Länge) {
 	'use strict';
 	var BreiteGrad = window.af.DdInWgs84BreiteGrad(Breite),
 		BreiteMin = window.af.DdInWgs84BreiteMin(Breite),
 		BreiteSec = window.af.DdInWgs84BreiteSec(Breite),
-		LaengeGrad = window.af.DdInWgs84LaengeGrad(Laenge),
-		LaengeMin = window.af.DdInWgs84LaengeMin(Laenge),
-		LaengeSec = window.af.DdInWgs84LaengeSec(Laenge),
-		x = Math.floor(window.af.Wgs84InChX(BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, LaengeSec));
+		LängeGrad = window.af.DdInWgs84LängeGrad(Länge),
+		LängeMin = window.af.DdInWgs84LängeMin(Länge),
+		LängeSec = window.af.DdInWgs84LängeSec(Länge),
+		x = Math.floor(window.af.Wgs84InChX(BreiteGrad, BreiteMin, BreiteSec, LängeGrad, LängeMin, LängeSec));
 	return x;
 };
 
-window.af.DdInChY = function(Breite, Laenge) {
+window.af.DdInChY = function(Breite, Länge) {
 	'use strict';
 	var BreiteGrad = window.af.DdInWgs84BreiteGrad(Breite),
 		BreiteMin = window.af.DdInWgs84BreiteMin(Breite),
 		BreiteSec = window.af.DdInWgs84BreiteSec(Breite),
-		LaengeGrad = window.af.DdInWgs84LaengeGrad(Laenge),
-		LaengeMin = window.af.DdInWgs84LaengeMin(Laenge),
-		LaengeSec = window.af.DdInWgs84LaengeSec(Laenge),
-		y = Math.floor(window.af.Wgs84InChY(BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, LaengeSec));
+		LängeGrad = window.af.DdInWgs84LängeGrad(Länge),
+		LängeMin = window.af.DdInWgs84LängeMin(Länge),
+		LängeSec = window.af.DdInWgs84LängeSec(Länge),
+		y = Math.floor(window.af.Wgs84InChY(BreiteGrad, BreiteMin, BreiteSec, LängeGrad, LängeMin, LängeSec));
 	return y;
 };
 
@@ -11947,7 +11947,7 @@ window.af.DdInChY = function(Breite, Laenge) {
 window.af.CHtoWGSlat = function(y, x) {
 	'use strict';
 	// Converts militar to civil and to unit = 1000km
-	// Axiliary values (% Bern)
+	// Auxiliary values (% Bern)
 	var y_aux = (y - 600000) / 1000000,
 		x_aux = (x - 200000) / 1000000,
 		// Process lat
@@ -11966,7 +11966,7 @@ window.af.CHtoWGSlat = function(y, x) {
 window.af.CHtoWGSlng = function(y, x) {
 	'use strict';
 	// Converts militar to civil and to unit = 1000km
-	// Axiliary values (% Bern)
+	// Auxiliary values (% Bern)
 	var y_aux = (y - 600000) / 1000000,
 		x_aux = (x - 200000) / 1000000,
 		// Process long
