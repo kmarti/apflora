@@ -8178,7 +8178,7 @@ window.af.treeKontextmenu = function(node) {
 					});
 					getPopsChKarte.done(function(data) {
 						if (data.rows.length > 0) {
-							zeigePopAufGeoAdmin(data);
+							window.af.zeigePopAufGeoAdmin(data);
 						} else {
 							melde("Die Population hat keine Koordinaten");
 						}
@@ -9165,7 +9165,7 @@ window.af.treeKontextmenu = function(node) {
 					});
 					getPopChKarte_2.done(function(data) {
 						if (data.rows.length > 0) {
-							zeigePopAufGeoAdmin(data);
+							window.af.zeigePopAufGeoAdmin(data);
 						} else {
 							melde("Die Population hat keine Koordinaten");
 						}
@@ -9309,7 +9309,7 @@ window.af.treeKontextmenu = function(node) {
 					});
 					getTpopsKarte.done(function(data) {
 						if (data.rows.length > 0) {
-							zeigeTPopAufGeoAdmin(data);
+							window.af.zeigeTPopAufGeoAdmin(data);
 						} else {
 							melde("Es gibt keine Teilpopulation mit Koordinaten");
 						}
@@ -9484,7 +9484,7 @@ window.af.treeKontextmenu = function(node) {
 					});
 					getTPopKarte_2.done(function(data) {
 						if (data.rows.length > 0) {
-							zeigeTPopAufGeoAdmin(data);
+							window.af.zeigeTPopAufGeoAdmin(data);
 						} else {
 							melde("Die Teilpopulation hat keine Koordinaten");
 						}
@@ -9508,7 +9508,7 @@ window.af.treeKontextmenu = function(node) {
 						}
 					});
 					getTPop_2.done(function(data) {
-						verorteTPopAufGeoAdmin(data);
+						window.af.verorteTPopAufGeoAdmin(data);
 					});
 					getTPop_2.fail(function() {
 						melde("Fehler: Keine Teilpopulation erhalten");
@@ -10783,7 +10783,7 @@ window.af.treeKontextmenu = function(node) {
 					});
 					getBeobKarte.done(function(data) {
 						if (data.rows.length > 0) {
-							zeigeTPopBeobAufKarte(data);
+							window.af.zeigeTPopBeobAufKarte(data);
 						} else {
 							melde("Es gibt keine Beobachtungen mit Koordinaten");
 						}
@@ -10833,7 +10833,7 @@ window.af.treeKontextmenu = function(node) {
 					});
 					getBeobKarte_2.done(function(data) {
 						if (data.rows.length > 0) {
-							zeigeTPopBeobAufKarte(data);
+							window.af.zeigeTPopBeobAufKarte(data);
 						} else {
 							melde("Die Beobachtung hat keine Koordinaten");
 						}
@@ -10868,9 +10868,9 @@ window.af.treeKontextmenu = function(node) {
 							});
 							getApKarte.done(function(tpop) {
 								if (tpop.rows.length > 0) {
-									zeigeBeobUndTPopAufKarte(beob, tpop);
+									window.af.zeigeBeobUndTPopAufKarte(beob, tpop);
 								} else {
-									zeigeBeobAufKarte(beob);
+									window.af.zeigeBeobAufKarte(beob);
 								}
 							});
 						} else {
@@ -11049,7 +11049,7 @@ window.af.treeKontextmenu = function(node) {
 					});
 					getBeobKarte_4.done(function(data) {
 						if (data.rows.length > 0) {
-							zeigeBeobAufKarte(data);
+							window.af.zeigeBeobAufKarte(data);
 						} else {
 							melde("Es gibt keine Beobachtung mit Koordinaten");
 						}
@@ -11083,9 +11083,9 @@ window.af.treeKontextmenu = function(node) {
 								},
 								success: function(tpop) {
 									if (tpop.rows.length > 0) {
-										zeigeBeobUndTPopAufKarte(beob, tpop);
+										window.af.zeigeBeobUndTPopAufKarte(beob, tpop);
 									} else {
-										zeigeBeobAufKarte(beob);
+										window.af.zeigeBeobAufKarte(beob);
 									}
 								}
 							});
@@ -11127,7 +11127,7 @@ window.af.treeKontextmenu = function(node) {
 					});
 					getBeobKarte_6.done(function(data) {
 						if (data.rows.length > 0) {
-							zeigeBeobAufKarte(data);
+							window.af.zeigeBeobAufKarte(data);
 						} else {
 							melde("Es gibt keine Beobachtung mit Koordinaten");
 						}
@@ -11162,9 +11162,9 @@ window.af.treeKontextmenu = function(node) {
 							});
 							getApKarte_2.done(function(tpop) {
 								if (tpop.rows.length > 0) {
-									zeigeBeobUndTPopAufKarte(beob, tpop);
+									window.af.zeigeBeobUndTPopAufKarte(beob, tpop);
 								} else {
-									zeigeBeobAufKarte(beob);
+									window.af.zeigeBeobAufKarte(beob);
 								}
 							});
 						} else {
@@ -11229,7 +11229,7 @@ window.af.treeKontextmenu = function(node) {
 					});
 					getBeobKarte_8.done(function(data) {
 						if (data.rows.length > 0) {
-							zeigeBeobAufKarte(data);
+							window.af.zeigeBeobAufKarte(data);
 						} else {
 							melde("Es gibt keine Beobachtung mit Koordinaten");
 						}
@@ -11268,7 +11268,7 @@ window.af.treeKontextmenu = function(node) {
 					});
 					getBeobKarte_9.done(function(data) {
 						if (data.rows.length > 0) {
-							zeigeBeobAufKarte(data);
+							window.af.zeigeBeobAufKarte(data);
 						} else {
 							melde("Es gibt keine Beobachtung mit Koordinaten");
 						}
@@ -12177,8 +12177,13 @@ window.af.entferneÜbergebeneMarkerEbeneAusLayertree = function(layername) {
 	}
 };
 
-function verorteTPopAufGeoAdmin(TPop) {
-	var bounds;
+window.af.verorteTPopAufGeoAdmin = function(TPop) {
+	'use strict';
+	var bounds,
+        x_max,
+        x_min,
+        y_max,
+        y_min;
 	$.when(window.af.zeigeFormular("GeoAdminKarte"))
 		.then(function() {
 			$("#mitPolygonWaehlen").button({ disabled: true });
@@ -12193,7 +12198,7 @@ function verorteTPopAufGeoAdmin(TPop) {
 				y_min = parseInt(TPop.TPopYKoord) - 300;
                 bounds = [x_max, y_max, x_min, y_min];
 				// marker aufbauen
-				erstelleTPopulationFürGeoAdmin(TPop);
+				window.af.erstelleTPopulationFürGeoAdmin(TPop);
 				// alle Layeroptionen schliessen
 				schliesseLayeroptionen();
 			} else {
@@ -12273,7 +12278,7 @@ function verorteTPopAufGeoAdmin(TPop) {
 							// alten listener entfernen, neuer wird mit dem nächsten Befehl erstellt 
 							window.afm.map.removeControl(click);
 							// markerebene neu aufbauen
-							erstelleTPopulationFürGeoAdmin(TPop);
+							window.af.erstelleTPopulationFürGeoAdmin(TPop);
 						});
 					});
 				}
@@ -12284,9 +12289,10 @@ function verorteTPopAufGeoAdmin(TPop) {
 			window.afm.map.addControl(click);
 			click.activate();
 		});
-}
+};
 
-function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
+window.af.zeigeTPopAufGeoAdmin = function(TPopListeMarkiert) {
+	'use strict';
 	// falls noch aus dem Verorten ein Klick-Handler besteht: deaktivieren
 	if (window.LetzterKlickHandler) {
 		window.LetzterKlickHandler.deactivate();
@@ -12300,7 +12306,7 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
 		overlay_popbeschriftung_visible = true;
 	}
 	
-	var markierte_tpop = wähleAusschnittFürÜbergebeneTPop(TPopListeMarkiert);
+	var markierte_tpop = window.af.wähleAusschnittFürÜbergebeneTPop(TPopListeMarkiert);
 
 	// Grundkarte aufbauen
 	$.when(window.af.zeigeFormular("GeoAdminKarte"))
@@ -12328,11 +12334,11 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
 			getTPopKarteAlle.done(function(TPopListe) {
 				$.when(
 					// Layer für Symbole und Beschriftung erstellen
-					erstelleTPopNrFuerGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert, true),
-					erstelleTPopNamenFuerGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert, false),
-					erstelleTPopSymboleFuerGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert, true),
+					window.af.erstelleTPopNrFürGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert, true),
+					window.af.erstelleTPopNamenFürGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert, false),
+					window.af.erstelleTPopSymboleFürGeoAdmin(TPopListe, markierte_tpop.tpopid_markiert, true),
 					// alle Pop holen
-					zeigePopInTPopKarte(overlay_pop_visible, overlay_popbeschriftung_visible)
+					window.af.zeigePopInTPopKarte(overlay_pop_visible, overlay_popbeschriftung_visible)
 				)
 				.then(function() {
 					// alle layeroptionen schliessen
@@ -12344,15 +12350,16 @@ function zeigeTPopAufGeoAdmin(TPopListeMarkiert) {
 				melde("Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden");
 			});
 	});
-}
+};
 
-function zeigePopAufGeoAdmin(PopListeMarkiert) {
+window.af.zeigePopAufGeoAdmin = function(PopListeMarkiert) {
+	'use strict';
 	// falls noch aus dem Verorten ein Klick-Handler besteht: deaktivieren
 	if (window.LetzterKlickHandler) {
 		window.LetzterKlickHandler.deactivate();
 	}
 	
-	var markierte_pop = wähleAusschnittFürÜbergebenePop(PopListeMarkiert);
+	var markierte_pop = window.af.wähleAusschnittFürÜbergebenePop(PopListeMarkiert);
 
 	// Grundkarte aufbauen
 	$.when(window.af.zeigeFormular("GeoAdminKarte"))
@@ -12380,11 +12387,11 @@ function zeigePopAufGeoAdmin(PopListeMarkiert) {
 			getTPopKarteAlle_2.done(function(TPopListe) {
 				$.when(
 					// Layer für Symbole und Beschriftung erstellen
-					erstelleTPopNrFuerGeoAdmin(TPopListe, null, false),
-					erstelleTPopNamenFuerGeoAdmin(TPopListe, null, false),
-					erstelleTPopSymboleFuerGeoAdmin(TPopListe, null, false),
+					window.af.erstelleTPopNrFürGeoAdmin(TPopListe, null, false),
+					window.af.erstelleTPopNamenFürGeoAdmin(TPopListe, null, false),
+					window.af.erstelleTPopSymboleFürGeoAdmin(TPopListe, null, false),
 					// alle Pop holen, symbole und nr sichtbar schalten, Markierung übergeben
-					zeigePopInTPopKarte(true, true, markierte_pop.popid_markiert)
+					window.af.zeigePopInTPopKarte(true, true, markierte_pop.popid_markiert)
 				)
 				.then(function() {
 					// alle layeroptionen schliessen
@@ -12396,12 +12403,13 @@ function zeigePopAufGeoAdmin(PopListeMarkiert) {
 				melde("Fehler: Es konnten keine Daten aus der Datenbank abgerufen werden");
 			});
 	});
-}
+};
 
 // übernimmt eine Liste von (markierten) TPop
 // retourniert den Ausschnitt = bounds der angezeigt werden soll
 // und einen array mit den tpop_id's der liste
-function wähleAusschnittFürÜbergebeneTPop(TPopListeMarkiert) {
+window.af.wähleAusschnittFürÜbergebeneTPop = function(TPopListeMarkiert) {
+	'use strict';
 	var TPop,
         bounds,
         x_max,
@@ -12429,21 +12437,21 @@ function wähleAusschnittFürÜbergebeneTPop(TPopListeMarkiert) {
         bounds = [717000, 284000, 669000, 222000];
 	}
 	return {bounds: bounds, tpopid_markiert: tpopid_markiert};
-}
+};
 
 // übernimmt eine Liste von (markierten) Pop
 // retourniert den Ausschnitt = bounds der angezeigt werden soll
 // und einen array mit den tpop_id's der liste
-function wähleAusschnittFürÜbergebenePop(PopListeMarkiert) {
+window.af.wähleAusschnittFürÜbergebenePop = function(PopListeMarkiert) {
+	'use strict';
 	var Pop,
         bounds,
         x_max,
         y_max,
         x_min,
-        y_min;
-
-	// bounds der anzuzeigenden bestimmen
-	var popid_markiert = [];
+        y_min,
+        // bounds der anzuzeigenden bestimmen
+		popid_markiert = [];
 	if (PopListeMarkiert.rows.length > 0) {
 		for (b in PopListeMarkiert.rows) {
 			if (PopListeMarkiert.rows.hasOwnProperty(b)) {
@@ -12462,24 +12470,25 @@ function wähleAusschnittFürÜbergebenePop(PopListeMarkiert) {
         bounds = [717000, 284000, 669000, 222000];
 	}
 	return {bounds: bounds, popid_markiert: popid_markiert};
-}
+};
 
-function zeigePopInTPopKarte(overlay_pop_visible, overlay_popbeschriftungen_visible, popid_markiert) {
-	var pop_gezeigt = $.Deferred();
-	var getPopKarteAlle = $.ajax({
-		type: 'get',
-		url: 'php/pop_karte_alle.php',
-		dataType: 'json',
-		data: {
-			"ApArtId": window.ap.ApArtId
-		}
-	});
+window.af.zeigePopInTPopKarte = function(overlay_pop_visible, overlay_popbeschriftungen_visible, popid_markiert) {
+	'use strict';
+	var pop_gezeigt = $.Deferred(),
+		getPopKarteAlle = $.ajax({
+			type: 'get',
+			url: 'php/pop_karte_alle.php',
+			dataType: 'json',
+			data: {
+				"ApArtId": window.ap.ApArtId
+			}
+		});
 	getPopKarteAlle.done(function(PopListe) {
 		// Layer für Symbole und Beschriftung erstellen
 		$.when(
-			erstellePopNrFuerGeoAdmin(PopListe, overlay_popbeschriftungen_visible),
-			erstellePopNamenFuerGeoAdmin(PopListe),
-			erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, overlay_pop_visible)
+			window.af.erstellePopNrFürGeoAdmin(PopListe, overlay_popbeschriftungen_visible),
+			window.af.erstellePopNamenFürGeoAdmin(PopListe),
+			window.af.erstellePopSymboleFürGeoAdmin(PopListe, popid_markiert, overlay_pop_visible)
 			)
 			.then(function() {
 				schliesseLayeroptionen();
@@ -12490,33 +12499,31 @@ function zeigePopInTPopKarte(overlay_pop_visible, overlay_popbeschriftungen_visi
 		melde("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
 		pop_gezeigt.resolve();
 	});
-
 	return pop_gezeigt.promise();
-}
+};
 
-function erstelleTPopulationFürGeoAdmin(TPop) {
+window.af.erstelleTPopulationFürGeoAdmin = function(TPop) {
+	'use strict';
 	// styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
-		externalGraphic: '//www.apflora.ch/img/flora_icon_rot.png',
-		graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
-		title: '${tooltip}'
-	});
-	var selectStyle = new OpenLayers.Style({
-		externalGraphic: '//www.apflora.ch/img/flora_icon_gelb.png'
-	});
-
-	// overlay layer für Marker vorbereiten
-	var overlay_tpopulation = new OpenLayers.Layer.Vector('Teilpopulation', {
-		styleMap: new OpenLayers.StyleMap({
-			'default': defaultStyle,
-			'select': defaultStyle
-		})
-	});
-	
-	var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
-	var myTPopFlurname = TPop.TPopFlurname || '(kein Flurname)';
-	// tooltip bzw. label vorbereiten: nullwerte ausblenden
-	var myTooltip;
+			externalGraphic: '//www.apflora.ch/img/flora_icon_rot.png',
+			graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
+			title: '${tooltip}'
+		}),
+		selectStyle = new OpenLayers.Style({
+			externalGraphic: '//www.apflora.ch/img/flora_icon_gelb.png'
+		}),
+		// overlay layer für Marker vorbereiten
+		overlay_tpopulation = new OpenLayers.Layer.Vector('Teilpopulation', {
+			styleMap: new OpenLayers.StyleMap({
+				'default': defaultStyle,
+				'select': defaultStyle
+			})
+		}),
+		myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord),
+		myTPopFlurname = TPop.TPopFlurname || '(kein Flurname)',
+		// tooltip bzw. label vorbereiten: nullwerte ausblenden
+		myTooltip;
 	if (window.pop.PopNr && TPop.TPopNr) {
 		myTooltip = window.pop.PopNr + '/' + TPop.TPopNr + ' ' + myTPopFlurname;
 	} else if (window.pop.PopNr) {
@@ -12543,8 +12550,8 @@ function erstelleTPopulationFürGeoAdmin(TPop) {
 			TPop.TPopXKoord = feature.geometry.x;
 			TPop.TPopYKoord = feature.geometry.y;
 			// Datensatz updaten
-			speichereWert('tpop', localStorage.tpop_id, 'TPopXKoord', TPop.TPopXKoord);
-			speichereWert('tpop', localStorage.tpop_id, 'TPopYKoord', TPop.TPopYKoord);
+			window.af.speichereWert('tpop', localStorage.tpop_id, 'TPopXKoord', TPop.TPopXKoord);
+			window.af.speichereWert('tpop', localStorage.tpop_id, 'TPopYKoord', TPop.TPopYKoord);
 		}
 	});
 	window.afm.map.addControl(dragControl);
@@ -12557,10 +12564,11 @@ function erstelleTPopulationFürGeoAdmin(TPop) {
 	window.selectControlTPop = new OpenLayers.Control.SelectFeature(overlay_tpopulation, {clickout: true});
 	window.afm.map.addControl(window.selectControlTPop);
 	window.selectControlTPop.activate();
-}
+};
 
 // dieser Funktion kann man einen Wert zum speichern übergeben
-function speichereWert(tabelle, id, feld, wert) {
+window.af.speichereWert = function(tabelle, id, feld, wert) {
+	'use strict';
 	var updateTabelle = $.ajax({
 		type: 'post',
 		url: 'php/' + tabelle + '_update.php',
@@ -12575,14 +12583,16 @@ function speichereWert(tabelle, id, feld, wert) {
 	updateTabelle.fail(function() {
 		melde("Fehler: Die letzte Änderung wurde nicht gespeichert");
 	});
-}
+};
 
 // nimmt drei Variabeln entgegen: 
 // TPopListe: Die Liste der darzustellenden Teilpopulationen
 // tpopid_markiert: die ID der zu markierenden TPop
 // visible: Ob das Layer sichtbar sein soll
-function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
-	var tpopsymbole_erstellt = $.Deferred();
+window.af.erstelleTPopSymboleFürGeoAdmin = function(tpop_liste, tpopid_markiert, visible) {
+	'use strict';
+	var tpopsymbole_erstellt = $.Deferred(),
+        tpop;
 	//if (!visible && visible !== false) {
 	if (visible === null) {
 		visible = true;
@@ -12608,10 +12618,10 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 		// popup bei select
 		eventListeners: {
 			'featureselected': function(evt) {
-				geoadminOnFeatureSelect(evt.feature);
+				window.af.geoadminOnFeatureSelect(evt.feature);
 			},
 			'featureunselected': function(evt) {
-				geoadminOnFeatureUnselect(evt.feature);
+				window.af.geoadminOnFeatureUnselect(evt.feature);
 			}
 		},
 		// normal = grün, markiert = gelb
@@ -12628,13 +12638,14 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 	});
 
 	// Array gründen, um marker darin zu sammeln
-	var markers = [];
-	var myLabel;
-	var myFlurname;
+	var markers = [],
+        marker,
+        myLabel,
+        myFlurname;
 
-	for (b in TPopListe.rows) {
-		if (TPopListe.rows.hasOwnProperty(b)) {
-			TPop = TPopListe.rows[b];
+	for (b in tpop_liste.rows) {
+		if (tpop_liste.rows.hasOwnProperty(b)) {
+			tpop = tpop_liste.rows[b];
 			myFlurname = TPop.TPopFlurname || '(kein Flurname)';
 			html = '<h3>' + TPop.Artname + '</h3>'+
 				'<p>Population: ' + TPop.PopName + '</p>'+
@@ -12659,7 +12670,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 			// marker erstellen...
 			// gewählte erhalten style gelb und zuoberst
 			if (tpopid_markiert && tpopid_markiert.indexOf(TPop.TPopId) !== -1) {
-				var marker = new OpenLayers.Feature.Vector(myLocation, {
+				marker = new OpenLayers.Feature.Vector(myLocation, {
 					tooltip: myFlurname,
 					label: myLabel,
 					message: html
@@ -12670,7 +12681,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 					graphicZIndex: 5000
 				});
 			} else {
-				var marker = new OpenLayers.Feature.Vector(myLocation, {
+				marker = new OpenLayers.Feature.Vector(myLocation, {
 					tooltip: myFlurname,
 					message: html,
 					label: myLabel
@@ -12704,24 +12715,25 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 		onComplete: function(feature) {
 			// nur zulassen, wenn Schreibrechte bestehen
 			if (sessionStorage.NurLesen) {
-				$("#Meldung").html("Sie haben keine Schreibrechte");
-				$("#Meldung").dialog({
-					modal: true,
-					buttons: {
-						Ok: function() {
-							$(this).dialog("close");
-							// overlay entfernen...
-							if (window.afm.map.getLayersByName('Teilpopulationen')) {
-								var layers = window.afm.map.getLayersByName('Teilpopulationen');
-								for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
-									window.afm.map.removeLayer(layers[layerIndex]);
-								}
-							}
-							// ...und neu erstellen
-							erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, true);
-						}
-					}
-				});
+				$("#Meldung")
+                    .html("Sie haben keine Schreibrechte")
+                    .dialog({
+                        modal: true,
+                        buttons: {
+                            Ok: function() {
+                                $(this).dialog("close");
+                                // overlay entfernen...
+                                if (window.afm.map.getLayersByName('Teilpopulationen')) {
+                                    var layers = window.afm.map.getLayersByName('Teilpopulationen');
+                                    for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
+                                        window.afm.map.removeLayer(layers[layerIndex]);
+                                    }
+                                }
+                                // ...und neu erstellen
+                                window.af.erstelleTPopSymboleFürGeoAdmin(tpop_liste, tpopid_markiert, true);
+                            }
+                        }
+                    });
 				return;
 			}
 			// Verschieben muss bestätigt werden
@@ -12744,8 +12756,8 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 						TPop.TPopXKoord = feature.geometry.x;
 						TPop.TPopYKoord = feature.geometry.y;
 						// Datensatz updaten
-						speichereWert('tpop', feature.attributes.myId, 'TPopXKoord', TPop.TPopXKoord);
-						speichereWert('tpop', feature.attributes.myId, 'TPopYKoord', TPop.TPopYKoord);
+						window.af.speichereWert('tpop', feature.attributes.myId, 'TPopXKoord', TPop.TPopXKoord);
+						window.af.speichereWert('tpop', feature.attributes.myId, 'TPopYKoord', TPop.TPopYKoord);
 						// jetzt alle marker entfernen...
 						window.af.entferneTPopMarkerEbenen();
 						// ...und neu aufbauen
@@ -12759,9 +12771,9 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 							}
 						});
 						getTPopKarteAlle_3.done(function(TPopListe) {
-							erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_markiert);
-							erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_markiert);
-							erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, true);
+							window.af.erstelleTPopNrFürGeoAdmin(TPopListe, tpopid_markiert);
+							window.af.erstelleTPopNamenFürGeoAdmin(TPopListe, tpopid_markiert);
+							window.af.erstelleTPopSymboleFürGeoAdmin(TPopListe, tpopid_markiert, true);
 						});
 						getTPopKarteAlle_3.fail(function() {
 							melde("Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden");
@@ -12777,7 +12789,7 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 							}
 						}
 						// ...und neu erstellen
-						erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, true);
+						window.af.erstelleTPopSymboleFürGeoAdmin(tpop_liste, tpopid_markiert, true);
 					}
 				}
 			});
@@ -12822,26 +12834,28 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 				value: event.feature.geometry
 			});
 			// Teilpopulationen: Auswahl ermitteln und einen Array von ID's in window.tpop_array speichern
-			erstelleTPopAuswahlArrays();
+			window.af.erstelleTPopAuswahlArrays();
 			// Populationen: Auswahl ermitteln und einen Array von ID's in window.pop_array speichern
-			erstellePopAuswahlArrays();
+			window.af.erstellePopAuswahlArrays();
 			// Liste erstellen, welche die Auswahl anzeigt, Pop/TPop verlinkt und Exporte anbietet
-			erstelleListeDerAusgewaehltenPopTPop();
+			window.af.erstelleListeDerAusgewaehltenPopTPop();
 
 			// control deaktivieren
 			window.drawControl.deactivate();
 			// Schaltfläche Karte schieben aktivieren
-			$("#karteSchieben").attr("checked", true);
-			$("#karteSchieben").button("enable").button("refresh");
+			$("#karteSchieben")
+                .attr("checked", true)
+                .button("enable").button("refresh");
 		});
 		window.afm.map.addControl(drawControl);
 	}
 
 	tpopsymbole_erstellt.resolve();
 	return tpopsymbole_erstellt.promise();
-}
+};
 
-function erstelleTPopAuswahlArrays() {
+window.af.erstelleTPopAuswahlArrays = function() {
+	'use strict';
 	// Teilpopulationen: Auswahl ermitteln und einen Array von ID's in window.tpop_array speichern
 	window.tpop_array = [];
 	window.tpop_id_array = [];
@@ -12852,11 +12866,12 @@ function erstelleTPopAuswahlArrays() {
 				window.tpop_id_array.push(parseInt(this.attributes.myId));
 			}
 		});
-		window.tpop_array.sort(vergleicheTPopZumSortierenNachTooltip);
+		window.tpop_array.sort(window.af.vergleicheTPopZumSortierenNachTooltip);
 	}
-}
+};
 
-function erstellePopAuswahlArrays() {
+window.af.erstellePopAuswahlArrays = function() {
+	'use strict';
 	// Populationen: Auswahl ermitteln und einen Array von ID's in window.pop_array speichern
 	window.pop_array = [];
 	window.pop_id_array = [];
@@ -12867,11 +12882,12 @@ function erstellePopAuswahlArrays() {
 				window.pop_id_array.push(parseInt(this.attributes.myId));
 			}
 		});
-		window.pop_array.sort(vergleicheTPopZumSortierenNachTooltip);
+		window.pop_array.sort(window.af.vergleicheTPopZumSortierenNachTooltip);
 	}
-}
+};
 
-function erstelleListeDerAusgewaehltenPopTPop() {
+window.af.erstelleListeDerAusgewaehltenPopTPop = function() {
+	'use strict';
 	// rückmelden, welche Objekte gewählt wurden
 	var rueckmeldung = "";
 	if (window.pop_array.length > 0) {
@@ -12903,10 +12919,10 @@ function erstelleListeDerAusgewaehltenPopTPop() {
 	}
 
 	// Listentitel erstellen
-	var Listentitel;
-	var exportieren = "Exportieren: ";
-	var exportierenPop = "<a href='#' class='export_pop'>Populationen</a>";
-	var exportierenTPop = "<a href='#' class='export_tpop'>Teilpopulationen</a>, <a href='#' class='export_kontr'>Kontrollen</a>, <a href='#' class='export_massn'>Massnahmen</a>";
+	var Listentitel,
+		exportieren = "Exportieren: ",
+		exportierenPop = "<a href='#' class='export_pop'>Populationen</a>",
+		exportierenTPop = "<a href='#' class='export_tpop'>Teilpopulationen</a>, <a href='#' class='export_kontr'>Kontrollen</a>, <a href='#' class='export_massn'>Massnahmen</a>";
 	if (window.pop_array.length > 0 && window.tpop_array.length > 0) {
 		Listentitel = "Gewählt wurden " + window.pop_array.length + " Populationen und " + window.tpop_array.length + " Teilpopulationen";
 		exportieren += exportierenPop + ", " + exportierenTPop;
@@ -12925,12 +12941,13 @@ function erstelleListeDerAusgewaehltenPopTPop() {
 	$("#ergebnisAuswahlFooter").html(exportieren);
 	// Ergebnis-Div einblenden
 	$("#ergebnisAuswahl").css("display", "block");
-}
+};
 
 // übernimmt drei Variabeln: PopListe ist das Objekt mit den Populationen
 // popid_array der Array mit den ausgewählten Pop
 // visible: Ob die Ebene sichtbar geschaltet wird (oder bloss im Layertree verfügbar ist)
-function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
+window.af.erstellePopSymboleFürGeoAdmin = function(PopListe, popid_markiert, visible) {
+	'use strict';
 	if (visible === null) {
 		visible = true;
 	}
@@ -12950,10 +12967,10 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 		// popup bei select
 		eventListeners: {
 			'featureselected': function(evt) {
-				geoadminOnFeatureSelect(evt.feature);
+				window.af.geoadminOnFeatureSelect(evt.feature);
 			},
 			'featureunselected': function(evt) {
-				geoadminOnFeatureUnselect(evt.feature);
+				window.af.geoadminOnFeatureUnselect(evt.feature);
 			}
 		},
 		// normal = braun, markiert = orange
@@ -13045,7 +13062,7 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 								}
 							}
 							// ...und neu erstellen
-							erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible);
+							window.af.erstellePopSymboleFürGeoAdmin(PopListe, popid_markiert, visible);
 						}
 					}
 				});
@@ -13071,8 +13088,8 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 						Pop.PopXKoord = feature.geometry.x;
 						Pop.PopYKoord = feature.geometry.y;
 						// Datensatz updaten
-						speichereWert('pop', feature.attributes.myId, 'PopXKoord', Pop.PopXKoord);
-						speichereWert('pop', feature.attributes.myId, 'PopYKoord', Pop.PopYKoord);
+						window.af.speichereWert('pop', feature.attributes.myId, 'PopXKoord', Pop.PopXKoord);
+						window.af.speichereWert('pop', feature.attributes.myId, 'PopYKoord', Pop.PopYKoord);
 						// jetzt alle marker entfernen...
 						window.af.entfernePopMarkerEbenen();
 						// ...und neu aufbauen
@@ -13086,9 +13103,9 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 							}
 						});
 						getPopKarteAlle_2.done(function(PopListe) {
-							erstellePopNrFuerGeoAdmin(PopListe, true);
-							erstellePopNamenFuerGeoAdmin(PopListe);
-							erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, true);
+							window.af.erstellePopNrFürGeoAdmin(PopListe, true);
+							window.af.erstellePopNamenFürGeoAdmin(PopListe);
+							window.af.erstellePopSymboleFürGeoAdmin(PopListe, popid_markiert, true);
 						});
 						getPopKarteAlle_2.fail(function() {
 							melde("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
@@ -13104,7 +13121,7 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 							}
 						}
 						// ...und neu erstellen
-						erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, true);
+						window.af.erstellePopSymboleFürGeoAdmin(PopListe, popid_markiert, true);
 					}
 				}
 			});
@@ -13133,9 +13150,10 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 	window.selectControlPop.activate();
 	PopSymbole_erstellt.resolve();
 	return PopSymbole_erstellt.promise();
-}
+};
 
-function erstellePopNrFuerGeoAdmin(PopListe, visible) {
+window.af.erstellePopNrFürGeoAdmin = function(PopListe, visible) {
+	'use strict';
 	var PopNr_erstellt = $.Deferred();
 	// styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
@@ -13210,9 +13228,10 @@ function erstellePopNrFuerGeoAdmin(PopListe, visible) {
 	window.afm.map.addLayer(overlay_pop_beschriftungen);
 	PopNr_erstellt.resolve();
 	return PopNr_erstellt.promise();
-}
+};
 
-function erstellePopNamenFuerGeoAdmin(PopListe) {
+window.af.erstellePopNamenFürGeoAdmin = function(PopListe) {
+	'use strict';
 	var PopNamen_erstellt = $.Deferred();
 	// styles für overlay_top definieren
 	var defaultStyle = new OpenLayers.Style({
@@ -13270,18 +13289,20 @@ function erstellePopNamenFuerGeoAdmin(PopListe) {
 	window.afm.map.addLayer(overlay_pop_beschriftungen);
 	PopNamen_erstellt.resolve();
 	return PopNamen_erstellt.promise();
-}
+};
 
 // ermöglicht es, nach dem toolip zu sortieren
-function vergleicheTPopZumSortierenNachTooltip(a,b) {
+window.af.vergleicheTPopZumSortierenNachTooltip = function(a,b) {
+	'use strict';
 	if (a.tooltip < b.tooltip)
 		 return -1;
 	if (a.tooltip > b.tooltip)
 		return 1;
 	return 0;
-}
+};
 
-function deaktiviereGeoAdminAuswahl() {
+window.af.deaktiviereGeoAdminAuswahl = function() {
+	'use strict';
 	if (window.auswahlPolygonLayer) {
 		window.auswahlPolygonLayer.removeAllFeatures();
 	}
@@ -13293,13 +13314,14 @@ function deaktiviereGeoAdminAuswahl() {
 	delete window.tpop_id_liste;
 	delete window.pop_id_array;
 	delete window.pop_id_liste;
-}
+};
 
 // nimmt drei Variabeln entgegen: 
 // TPopListe: Die Liste der darzustellenden Teilpopulationen
 // tpopid_markiert: die ID der zu markierenden TPop
 // visible: Ob das Layer sichtbar sein soll
-function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
+window.af.erstelleTPopNrFürGeoAdmin = function(TPopListe, tpopid_markiert, visible) {
+	'use strict';
 	if (visible === null) {
 		visible = true;
 	}
@@ -13371,13 +13393,14 @@ function erstelleTPopNrFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 	window.afm.map.addLayer(overlay_tpop_beschriftungen);
 	tpopnr_erstellt.resolve();
 	return tpopnr_erstellt.promise();
-}
+};
 
 // nimmt drei Variabeln entgegen: 
 // TPopListe: Die Liste der darzustellenden Teilpopulationen
 // tpopid_markiert: die ID der zu markierenden TPop
 // visible: Ob das Layer sichtbar sein soll
-function erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
+window.af.erstelleTPopNamenFürGeoAdmin = function(TPopListe, tpopid_markiert, visible) {
+	'use strict';
 	if (visible === null) {
 		visible = true;
 	}
@@ -13439,28 +13462,31 @@ function erstelleTPopNamenFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 
 	tpopnamen_erstellt.resolve();
 	return tpopnamen_erstellt.promise();
-}
+};
 
-function geoadminOnFeatureSelect(feature) {
+window.af.geoadminOnFeatureSelect = function(feature) {
+	'use strict';
 	var popup = new OpenLayers.Popup.FramedCloud("popup",
-		feature.geometry.getBounds().getCenterLonLat(),
-		null,
-		feature.attributes.message,
-		null,
-		false	// true zeigt Schliess-Schalftläche an. Schliessen zerstört aber event-listener > popup kann nur ein mal angezeigt werden!
-	);
+			feature.geometry.getBounds().getCenterLonLat(),
+			null,
+			feature.attributes.message,
+			null,
+			false	// true zeigt Schliess-Schalftläche an. Schliessen zerstört aber event-listener > popup kann nur ein mal angezeigt werden!
+		);
 	popup.autoSize = true;
 	popup.maxSize = new OpenLayers.Size(600,600);
 	popup.fixedRelativePosition = true;
 	feature.popup = popup;
 	window.afm.map.addPopup(popup);
-}
+};
 
-function geoadminOnFeatureUnselect(feature) {
+window.af.geoadminOnFeatureUnselect = function(feature) {
+	'use strict';
 	feature.popup.hide();
-}
+};
 
-function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
+window.af.zeigeBeobUndTPopAufKarte = function(BeobListe, TPopListe) {
+	'use strict';
 	window.TPopListe = TPopListe;
 	var anzBeob,
         infowindowBeob,
@@ -13717,9 +13743,10 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 		// Karte auf Ausschnitt anpassen
 		map.fitBounds(bounds);
 	}
-}
+};
 
-function zeigeBeobAufKarte(BeobListe) {
+window.af.zeigeBeobAufKarte = function(BeobListe) {
+	'use strict';
 	var anzBeob,
         infowindow,
         TPop,
@@ -13856,9 +13883,10 @@ function zeigeBeobAufKarte(BeobListe) {
 			infowindow.open(map,marker);
 		});
 	}
-}
+};
 
-function zeigeTPopBeobAufKarte(TPopBeobListe) {
+window.af.zeigeTPopBeobAufKarte = function(TPopBeobListe) {
+	'use strict';
 	var anzBeob,
         infowindow,
         TPop,
@@ -13991,7 +14019,7 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 			infowindow.open(map, marker);
 		});
 	}
-}
+};
 
 function verorteTPopAufKarte(TPop) {
 	var anzTPop, infowindow, lat, lng, latlng, ZoomLevel, options, map, verorted, TPopId, latlng2, marker, contentString, mcOptions, markerCluster, tpop_beschriftung, myFlurname;
@@ -15238,7 +15266,7 @@ function messe(element) {
 		}
 	}
 	// einen allfällig aktiven drawControl deaktivieren
-	deaktiviereGeoAdminAuswahl();
+	window.af.deaktiviereGeoAdminAuswahl();
 	// und allfällig verbliebene Auswahlpolygon entfernen
 	window.auswahlPolygonLayer.removeAllFeatures();*/
 }

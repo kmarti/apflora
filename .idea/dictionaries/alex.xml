@@ -13,7 +13,10 @@
       <w>berbeschriftung</w>
       <w>beurteilungstext</w>
       <w>bildschirmhöhe</w>
+      <w>clickout</w>
+      <w>dragfeature</w>
       <w>einfuegen</w>
+      <w>epsg</w>
       <w>erfkrit</w>
       <w>erfkritbeschriftung</w>
       <w>feldkontr</w>
@@ -27,6 +30,7 @@
       <w>jstree</w>
       <w>kartenhöhe</w>
       <w>kontextmenu</w>
+      <w>koord</w>
       <w>landeskoord</w>
       <w>layername</w>
       <w>layertree</w>
@@ -41,15 +45,20 @@
       <w>popbeschriftung</w>
       <w>popmassnber</w>
       <w>schreibvoraussetzungen</w>
+      <w>selectfeature</w>
+      <w>stackoverflow</w>
       <w>teilpopulations</w>
       <w>testarten</w>
       <w>tpop</w>
       <w>tpopber</w>
       <w>tpopfeldkontr</w>
       <w>tpopfreiwkontr</w>
+      <w>tpopid</w>
+      <w>tpopliste</w>
       <w>tpopmassn</w>
       <w>tpopmassnber</w>
       <w>tpopmassnbezeichnung</w>
+      <w>tpopsymbole</w>
       <w>uebersicht</w>
       <w>verorte</w>
       <w>waehlen</w>
