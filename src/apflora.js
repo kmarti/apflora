@@ -6976,7 +6976,28 @@ window.af.speichern = function(that) {
         Formular,
         Feldname,
         Feldwert,
-        Objekt;
+        Objekt,
+        $PopName = $("#PopName"),
+        $PopNr = $("#PopNr"),
+        $tree = $("#tree"),
+        $PopBerJahr = $("#PopBerJahr"),
+        $PopBerEntwicklungChecked = $('input[name="PopBerEntwicklung"]:checked'),
+        $spanPopBerEntwicklungPlus$PopBerEntwicklungChecked = $("#spanPopBerEntwicklung" + $PopBerEntwicklungChecked.val()),
+        $spanPopMassnBerErfolgsbeurteilungPlusPopMassnBerErfolgsbeurteilungChecked = $("#spanPopMassnBerErfolgsbeurteilung" + $('input[name="PopMassnBerErfolgsbeurteilung"]:checked').val()),
+        $PopMassnBerJahr = $("#PopMassnBerJahr"),
+        $TPopNr = $("#TPopNr"),
+        $TPopFlurname = $("#TPopFlurname"),
+        $TPopBerJahr = $("#TPopBerJahr"),
+        $spanTPopBerEntwicklungPlusTPopBerEntwicklungChecked = $("#spanTPopBerEntwicklung" + $('input[name="TPopBerEntwicklung"]:checked').val()),
+        $TPopMassnJahr = $("#TPopMassnJahr"),
+        $TPopMassnTypChecked = $("#TPopMassnTyp option:checked"),
+        $TPopMassnBerJahr = $("#TPopMassnBerJahr"),
+        $spanTPopMassnBerErfolgsbeurteilungPlusTPopMassnBerErfolgsbeurteilungChecked = $("#spanTPopMassnBerErfolgsbeurteilung" + $('input[name="TPopMassnBerErfolgsbeurteilung"]:checked').val()),
+        $ZielBerJahr = $("#ZielBerJahr"),
+        $ZielBerErreichung = $("#ZielBerErreichung"),
+        $SpanErfkritErreichungsgradPlusErfkritErreichungsgradChecked = $("#SpanErfkritErreichungsgrad" + $("input:radio[name='ErfkritErreichungsgrad']:checked").val()),
+        $BerJahr = $("#BerJahr"),
+        $BerTitel = $("#BerTitel");
 	if (window.af.prüfeSchreibvoraussetzungen()) {
 		Formular = $(that).attr("formular");
 		Feldname = that.name;
@@ -7104,58 +7125,58 @@ window.af.speichern = function(that) {
 			case "PopNr":
 			case "PopName":
 				var popbeschriftung;
-				if ($("#PopName").val() && $("#PopNr").val()) {
-					popbeschriftung = $("#PopNr").val() + ": " + $("#PopName").val();
-				} else if ($("#PopName").val()) {
-					popbeschriftung = "(keine Nr): " + $("#PopName").val();
-				} else if ($("#PopNr").val()) {
-					popbeschriftung = $("#PopNr").val() + ": (kein Name)";
+				if ($PopName.val() && $PopNr.val()) {
+					popbeschriftung = $PopNr.val() + ": " + $PopName.val();
+				} else if ($PopName.val()) {
+					popbeschriftung = "(keine Nr): " + $PopName.val();
+				} else if ($PopNr.val()) {
+					popbeschriftung = $PopNr.val() + ": (kein Name)";
 				} else {
 					popbeschriftung = "(keine Nr, kein Name)";
 				}
-				$("#tree").jstree("rename_node", "[typ='ap_ordner_pop'] #" + localStorage.pop_id, popbeschriftung);
+				$tree.jstree("rename_node", "[typ='ap_ordner_pop'] #" + localStorage.pop_id, popbeschriftung);
 				break;
 			case "PopBerJahr":
 			case "PopBerEntwicklung":
 				var popberbeschriftung;
-				if ($("#PopBerJahr").val() && $("#spanPopBerEntwicklung" + $('input[name="PopBerEntwicklung"]:checked').val()).text()) {
-					popberbeschriftung = $("#PopBerJahr").val() + ": " + $("#spanPopBerEntwicklung" + $('input[name="PopBerEntwicklung"]:checked').val()).text();
-				} else if ($("#PopBerJahr").val()) {
-					popberbeschriftung = $("#PopBerJahr").val() + ": (kein Status)";
-				} else if ($("#spanPopBerEntwicklung" + $('input[name="PopBerEntwicklung"]:checked').val()).text()) {
-					popberbeschriftung = "(kein Jahr): " + $("#spanPopBerEntwicklung" + $('input[name="PopBerEntwicklung"]:checked').val()).text();
+				if ($PopBerJahr.val() && $spanPopBerEntwicklungPlus$PopBerEntwicklungChecked.text()) {
+					popberbeschriftung = $PopBerJahr.val() + ": " + $spanPopBerEntwicklungPlus$PopBerEntwicklungChecked.text();
+				} else if ($PopBerJahr.val()) {
+					popberbeschriftung = $PopBerJahr.val() + ": (kein Status)";
+				} else if ($spanPopBerEntwicklungPlus$PopBerEntwicklungChecked.text()) {
+					popberbeschriftung = "(kein Jahr): " + $spanPopBerEntwicklungPlus$PopBerEntwicklungChecked.text();
 				} else {
 					popberbeschriftung = "(kein Jahr): (kein Status)";
 				}
-				$("#tree").jstree("rename_node", "[typ='pop_ordner_popber'] #" + localStorage.popber_id, popberbeschriftung);
+				$tree.jstree("rename_node", "[typ='pop_ordner_popber'] #" + localStorage.popber_id, popberbeschriftung);
 				break;
 			case "PopMassnBerJahr":
 			case "PopMassnBerErfolgsbeurteilung":
 				var popmassnberbeschriftung;
-				if ($("#PopMassnBerJahr").val() && $("#spanPopMassnBerErfolgsbeurteilung" + $('input[name="PopMassnBerErfolgsbeurteilung"]:checked').val()).text()) {
-					popmassnberbeschriftung = $("#PopMassnBerJahr").val() + ": " + $("#spanPopMassnBerErfolgsbeurteilung" + $('input[name="PopMassnBerErfolgsbeurteilung"]:checked').val()).text();
-				} else if ($("#PopMassnBerJahr").val()) {
-					popmassnberbeschriftung = $("#PopMassnBerJahr").val() + ": (nicht beurteilt)";
-				} else if ($("#spanPopMassnBerErfolgsbeurteilung" + $('input[name="PopMassnBerErfolgsbeurteilung"]:checked').val()).text()) {
-					popmassnberbeschriftung = "(kein Jahr): " + $("#spanPopMassnBerErfolgsbeurteilung" + $('input[name="PopMassnBerErfolgsbeurteilung"]:checked').val()).text();
+				if ($PopMassnBerJahr.val() && $spanPopMassnBerErfolgsbeurteilungPlusPopMassnBerErfolgsbeurteilungChecked.text()) {
+					popmassnberbeschriftung = $PopMassnBerJahr.val() + ": " + $spanPopMassnBerErfolgsbeurteilungPlusPopMassnBerErfolgsbeurteilungChecked.text();
+				} else if ($PopMassnBerJahr.val()) {
+					popmassnberbeschriftung = $PopMassnBerJahr.val() + ": (nicht beurteilt)";
+				} else if ($spanPopMassnBerErfolgsbeurteilungPlusPopMassnBerErfolgsbeurteilungChecked.text()) {
+					popmassnberbeschriftung = "(kein Jahr): " + $spanPopMassnBerErfolgsbeurteilungPlusPopMassnBerErfolgsbeurteilungChecked.text();
 				} else {
 					popmassnberbeschriftung = "(kein Jahr): (nicht beurteilt)";
 				}
-				$("#tree").jstree("rename_node", "[typ='pop_ordner_massnber'] #" + localStorage.popmassnber_id, popmassnberbeschriftung);
+				$tree.jstree("rename_node", "[typ='pop_ordner_massnber'] #" + localStorage.popmassnber_id, popmassnberbeschriftung);
 				break;
 			case "TPopNr":
 			case "TPopFlurname":
 				var tpopbeschriftung;
-				if ($("#TPopNr").val() && $("#TPopFlurname").val()) {
-					tpopbeschriftung = $("#TPopNr").val() + ": " + $("#TPopFlurname").val();
-				} else if ($("#TPopFlurname").val()) {
-					tpopbeschriftung = "(keine Nr): " + $("#TPopFlurname").val();
-				} else if ($("#TPopNr").val()) {
-					tpopbeschriftung = $("#TPopNr").val() + ": (kein Flurname)";
+				if ($TPopNr.val() && $TPopFlurname.val()) {
+					tpopbeschriftung = $TPopNr.val() + ": " + $TPopFlurname.val();
+				} else if ($TPopFlurname.val()) {
+					tpopbeschriftung = "(keine Nr): " + $TPopFlurname.val();
+				} else if ($TPopNr.val()) {
+					tpopbeschriftung = $TPopNr.val() + ": (kein Flurname)";
 				} else {
 					tpopbeschriftung = "(keine Nr, kein Flurname)";
 				}
-				$("#tree").jstree("rename_node", "[typ='pop_ordner_tpop'] #" + localStorage.tpop_id, tpopbeschriftung);
+				$tree.jstree("rename_node", "[typ='pop_ordner_tpop'] #" + localStorage.tpop_id, tpopbeschriftung);
 				break;
 			case "TPopKontrTyp":
 			case "TPopKontrJahr":
@@ -7168,56 +7189,56 @@ window.af.speichern = function(that) {
 				}
 				// Problem: Es ist nicht bekannt, ob eine Freiwilligenkontrolle umbennant wird oder eine Feldkontrolle
 				// Lösung: Beide nodes umbenennen. Nur eine davon hat die richtige id
-				$("#tree").jstree("rename_node", "[typ='tpop_ordner_freiwkontr'] #" + localStorage.tpopfeldkontr_id, tpopkontrjahr);
+				$tree.jstree("rename_node", "[typ='tpop_ordner_freiwkontr'] #" + localStorage.tpopfeldkontr_id, tpopkontrjahr);
 				tpopfeldkontr_label = erstelleLabelFürFeldkontrolle($TPopKontrJahr, $("#spanTPopKontrTyp" + $('input[name="TPopKontrTyp"]:checked').val()).text());
-				$("#tree").jstree("rename_node", "[typ='tpop_ordner_feldkontr'] #" + localStorage.tpopfeldkontr_id, tpopfeldkontr_label);
+				$tree.jstree("rename_node", "[typ='tpop_ordner_feldkontr'] #" + localStorage.tpopfeldkontr_id, tpopfeldkontr_label);
 				break;
 			case "TPopBerJahr":
 			case "TPopBerEntwicklung":
 				// wenn kein Jahr/Entwicklung gewählt: "(kein Jahr/Entwicklung)"
 				var tpopberjahr, tpopberentwicklung;
-				if ($("#TPopBerJahr").val()) {
-					tpopberjahr = $("#TPopBerJahr").val();
+				if ($TPopBerJahr.val()) {
+					tpopberjahr = $TPopBerJahr.val();
 				} else {
 					tpopberjahr = "(kein Jahr)";
 				}
-				if ($("#spanTPopBerEntwicklung" + $('input[name="TPopBerEntwicklung"]:checked').val()).text()) {
-					tpopberentwicklung = $("#spanTPopBerEntwicklung" + $('input[name="TPopBerEntwicklung"]:checked').val()).text();
+				if ($spanTPopBerEntwicklungPlusTPopBerEntwicklungChecked.text()) {
+					tpopberentwicklung = $spanTPopBerEntwicklungPlusTPopBerEntwicklungChecked.text();
 				} else {
 					tpopberentwicklung = "(keine Beurteilung)";
 				}
-				$("#tree").jstree("rename_node", "[typ='tpop_ordner_tpopber'] #" + localStorage.tpopber_id, tpopberjahr + ": " + tpopberentwicklung);
+				$tree.jstree("rename_node", "[typ='tpop_ordner_tpopber'] #" + localStorage.tpopber_id, tpopberjahr + ": " + tpopberentwicklung);
 				break;
 			case "TPopMassnJahr":
 			case "TPopMassnTyp":
 				// wenn kein Typ/Jahr gewählt: "(kein Typ/Jahr)"
 				var tpopmassnbezeichnung;
-				if ($("#TPopMassnJahr").val() && $("#TPopMassnTyp option:checked").text()) {
-					tpopmassnbezeichnung = $("#TPopMassnJahr").val() + ": " + $("#TPopMassnTyp option:checked").text();
-				} else if ($("#TPopMassnJahr").val()) {
-					tpopmassnbezeichnung = $("#TPopMassnJahr").val() + ": (kein Typ)";
-				} else if ($("#TPopMassnTyp option:checked").text()) {
-					tpopmassnbezeichnung = "(kein Jahr): " + $("#TPopMassnTyp option:checked").text();
+				if ($TPopMassnJahr.val() && $TPopMassnTypChecked.text()) {
+					tpopmassnbezeichnung = $TPopMassnJahr.val() + ": " + $TPopMassnTypChecked.text();
+				} else if ($TPopMassnJahr.val()) {
+					tpopmassnbezeichnung = $TPopMassnJahr.val() + ": (kein Typ)";
+				} else if ($TPopMassnTypChecked.text()) {
+					tpopmassnbezeichnung = "(kein Jahr): " + $TPopMassnTypChecked.text();
 				} else {
 					tpopmassnbezeichnung = "(kein Jahr): (kein Typ)";
 				}
-				tpopmassnbezeichnung = erstelleLabelFürMassnahme($("#TPopMassnJahr").val(), $("#TPopMassnTyp option:checked").text());
-				$("#tree").jstree("rename_node", "[typ='tpop_ordner_massn'] #" + localStorage.tpopmassn_id, tpopmassnbezeichnung);
+				tpopmassnbezeichnung = erstelleLabelFürMassnahme($TPopMassnJahr.val(), $TPopMassnTypChecked.text());
+				$tree.jstree("rename_node", "[typ='tpop_ordner_massn'] #" + localStorage.tpopmassn_id, tpopmassnbezeichnung);
 				break;
 			case "TPopMassnBerJahr":
 			case "TPopMassnBerErfolgsbeurteilung":
 				// wenn kein Jahr/Beurteilung: "(kein Jahr/Beurteilung)"
 				var tpopmassberbeschriftung;
-				if ($("#TPopMassnBerJahr").val() && $("#spanTPopMassnBerErfolgsbeurteilung" + $('input[name="TPopMassnBerErfolgsbeurteilung"]:checked').val()).text()) {
-					tpopmassberbeschriftung = $("#TPopMassnBerJahr").val() + ": " + $("#spanTPopMassnBerErfolgsbeurteilung" + $('input[name="TPopMassnBerErfolgsbeurteilung"]:checked').val()).text();
-				} else if ($("#TPopMassnBerJahr").val()) {
-					tpopmassberbeschriftung = $("#TPopMassnBerJahr").val() + ": (keine Beurteilung)";
-				} else if ($("#spanTPopMassnBerErfolgsbeurteilung" + $('input[name="TPopMassnBerErfolgsbeurteilung"]:checked').val()).text()) {
-					tpopmassberbeschriftung = "(kein Jahr): " + $("#spanTPopMassnBerErfolgsbeurteilung" + $('input[name="TPopMassnBerErfolgsbeurteilung"]:checked').val()).text();
+				if ($TPopMassnBerJahr.val() && $spanTPopMassnBerErfolgsbeurteilungPlusTPopMassnBerErfolgsbeurteilungChecked.text()) {
+					tpopmassberbeschriftung = $TPopMassnBerJahr.val() + ": " + $spanTPopMassnBerErfolgsbeurteilungPlusTPopMassnBerErfolgsbeurteilungChecked.text();
+				} else if ($TPopMassnBerJahr.val()) {
+					tpopmassberbeschriftung = $TPopMassnBerJahr.val() + ": (keine Beurteilung)";
+				} else if ($spanTPopMassnBerErfolgsbeurteilungPlusTPopMassnBerErfolgsbeurteilungChecked.text()) {
+					tpopmassberbeschriftung = "(kein Jahr): " + $spanTPopMassnBerErfolgsbeurteilungPlusTPopMassnBerErfolgsbeurteilungChecked.text();
 				} else {
 					tpopmassberbeschriftung = "(kein Jahr): (keine Beurteilung)";
 				}
-				$("#tree").jstree("rename_node", "[typ='tpop_ordner_massnber'] #" + localStorage.tpopmassnber_id, tpopmassberbeschriftung);
+				$tree.jstree("rename_node", "[typ='tpop_ordner_massnber'] #" + localStorage.tpopmassnber_id, tpopmassberbeschriftung);
 				break;
 			case "ZielBezeichnung":
 				var zielbeschriftung;
@@ -7226,35 +7247,35 @@ window.af.speichern = function(that) {
 				} else {
 					zielbeschriftung = "(Ziel nicht beschrieben)";
 				}
-				$("#tree").jstree("rename_node", "[typ='apzieljahr'] #" + localStorage.apziel_id, zielbeschriftung);
+				$tree.jstree("rename_node", "[typ='apzieljahr'] #" + localStorage.apziel_id, zielbeschriftung);
 				break;
 			case "ZielBerJahr":
 			case "ZielBerErreichung":
 				var zielberbeschriftung;
-				if ($("#ZielBerJahr").val() && $("#ZielBerErreichung").val()) {
-					zielberbeschriftung = $("#ZielBerJahr").val() + ": " + $("#ZielBerErreichung").val();
-				} else if ($("#ZielBerJahr").val()) {
-					zielberbeschriftung = $("#ZielBerJahr").val() + ": (keine Beurteilung)";
-				} else if ($("#ZielBerErreichung").val()) {
-					zielberbeschriftung = "(kein Jahr): " + $("#ZielBerErreichung").val();
+				if ($ZielBerJahr.val() && $ZielBerErreichung.val()) {
+					zielberbeschriftung = $ZielBerJahr.val() + ": " + $ZielBerErreichung.val();
+				} else if ($ZielBerJahr.val()) {
+					zielberbeschriftung = $ZielBerJahr.val() + ": (keine Beurteilung)";
+				} else if ($ZielBerErreichung.val()) {
+					zielberbeschriftung = "(kein Jahr): " + $ZielBerErreichung.val();
 				} else {
 					zielberbeschriftung = "(kein Jahr): (keine Beurteilung)";
 				}
-				$("#tree").jstree("rename_node", "[typ='zielber_ordner'] #" + localStorage.zielber_id, zielberbeschriftung);
+				$tree.jstree("rename_node", "[typ='zielber_ordner'] #" + localStorage.zielber_id, zielberbeschriftung);
 				break;
 			case "ErfkritErreichungsgrad":
 			case "ErfkritTxt":
 				var erfkritbeschriftung;
-				if ($("#SpanErfkritErreichungsgrad" + $("input:radio[name='ErfkritErreichungsgrad']:checked").val()).text() && $("#ErfkritTxt").val()) {
-					erfkritbeschriftung = $("#SpanErfkritErreichungsgrad" + $("input:radio[name='ErfkritErreichungsgrad']:checked").val()).text() + ": " + $("#ErfkritTxt").val();
-				} else if ($("#SpanErfkritErreichungsgrad" + $("input:radio[name='ErfkritErreichungsgrad']:checked").val()).text()) {
-					erfkritbeschriftung = $("#SpanErfkritErreichungsgrad" + $("input:radio[name='ErfkritErreichungsgrad']:checked").val()).text() + ": (kein Kriterium)";
+				if ($SpanErfkritErreichungsgradPlusErfkritErreichungsgradChecked.text() && $("#ErfkritTxt").val()) {
+					erfkritbeschriftung = $SpanErfkritErreichungsgradPlusErfkritErreichungsgradChecked.text() + ": " + $("#ErfkritTxt").val();
+				} else if ($SpanErfkritErreichungsgradPlusErfkritErreichungsgradChecked.text()) {
+					erfkritbeschriftung = $SpanErfkritErreichungsgradPlusErfkritErreichungsgradChecked.text() + ": (kein Kriterium)";
 				} else if ($("#ErfkritTxt").val()) {
 					erfkritbeschriftung = "(keine Beurteilung): " + $("#ErfkritTxt").val();
 				} else {
 					erfkritbeschriftung = "(keine Beurteilung): (kein Kriterium)";
 				}
-				$("#tree").jstree("rename_node", "[typ='ap_ordner_erfkrit'] #" + localStorage.erfkrit_id, erfkritbeschriftung);
+				$tree.jstree("rename_node", "[typ='ap_ordner_erfkrit'] #" + localStorage.erfkrit_id, erfkritbeschriftung);
 				break;
 			case "JBerJahr":
 				var jberbeschriftung;
@@ -7263,21 +7284,21 @@ window.af.speichern = function(that) {
 				} else {
 					jberbeschriftung = "(kein Jahr)";
 				}
-				$("#tree").jstree("rename_node", "[typ='ap_ordner_jber'] #" + localStorage.jber_id, jberbeschriftung);
+				$tree.jstree("rename_node", "[typ='ap_ordner_jber'] #" + localStorage.jber_id, jberbeschriftung);
 				break;
 			case "BerTitel":
 			case "BerJahr":
 				var berbeschriftung;
-				if ($("#BerJahr").val() && $("#BerTitel").val()) {
-					berbeschriftung = $("#BerJahr").val() + ": " + $("#BerTitel").val();
-				} else if ($("#BerJahr").val()) {
-					berbeschriftung = $("#BerJahr").val() + ": (kein Titel)";
-				} else if ($("#BerTitel").val()) {
-					berbeschriftung = "(kein Jahr): " + $("#BerTitel").val();
+				if ($BerJahr.val() && $BerTitel.val()) {
+					berbeschriftung = $BerJahr.val() + ": " + $BerTitel.val();
+				} else if ($BerJahr.val()) {
+					berbeschriftung = $BerJahr.val() + ": (kein Titel)";
+				} else if ($BerTitel.val()) {
+					berbeschriftung = "(kein Jahr): " + $BerTitel.val();
 				} else {
 					berbeschriftung = "(kein Jahr): (kein Titel)";
 				}
-				$("#tree").jstree("rename_node", "[typ='ap_ordner_ber'] #" + localStorage.ber_id, berbeschriftung);
+				$tree.jstree("rename_node", "[typ='ap_ordner_ber'] #" + localStorage.ber_id, berbeschriftung);
 				break;
 			case "AaSisfNr":
 				var aabeschriftung;
@@ -7286,7 +7307,7 @@ window.af.speichern = function(that) {
 				} else {
 					aabeschriftung = "(kein Artname)";
 				}
-				$("#tree").jstree("rename_node", "[typ='ap_ordner_assozarten'] #" + localStorage.assozarten_id, aabeschriftung);
+				$tree.jstree("rename_node", "[typ='ap_ordner_assozarten'] #" + localStorage.assozarten_id, aabeschriftung);
 				break;
 		}
 	}
@@ -7318,18 +7339,20 @@ window.af.speichern = function(that) {
 })(jQuery);
 
 // wandelt decimal degrees (vom GPS) in WGS84 um
-function DdInWgs84BreiteGrad(Breite) {
+window.af.DdInWgs84BreiteGrad = function(Breite) {
+	'use strict';
 	var BreiteGrad;
  	BreiteGrad = Math.floor(Breite);
 	return BreiteGrad;
-}
+};
 
-function DdInWgs84BreiteMin(Breite) {
+window.af.DdInWgs84BreiteMin = function(Breite) {
+	'use strict';
 	var BreiteGrad, BreiteMin;
  	BreiteGrad = Math.floor(Breite);
 	BreiteMin = Math.floor((Breite-BreiteGrad)*60);
 	return BreiteMin;
-}
+};
 
 function DdInWgs84BreiteSec(Breite) {
 	var BreiteGrad, BreiteMin, BreiteSec;
@@ -7405,8 +7428,8 @@ function Wgs84InChY(BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, Lae
 // wandelt decimal degrees (vom GPS) in CH-Landeskoordinaten um
 function DdInChX(Breite, Laenge) {
 	var BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, LaengeSec, x;
-	BreiteGrad = DdInWgs84BreiteGrad(Breite);
-	BreiteMin = DdInWgs84BreiteMin(Breite);
+	BreiteGrad = window.af.DdInWgs84BreiteGrad(Breite);
+	BreiteMin = window.af.DdInWgs84BreiteMin(Breite);
 	BreiteSec = DdInWgs84BreiteSec(Breite);
 	LaengeGrad = DdInWgs84LaengeGrad(Laenge);
 	LaengeMin = DdInWgs84LaengeMin(Laenge);
@@ -7417,8 +7440,8 @@ function DdInChX(Breite, Laenge) {
 
 function DdInChY(Breite, Laenge) {
 	var BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, LaengeSec, y;
-	BreiteGrad = DdInWgs84BreiteGrad(Breite);
-	BreiteMin = DdInWgs84BreiteMin(Breite);
+	BreiteGrad = window.af.DdInWgs84BreiteGrad(Breite);
+	BreiteMin = window.af.DdInWgs84BreiteMin(Breite);
 	BreiteSec = DdInWgs84BreiteSec(Breite);
 	LaengeGrad = DdInWgs84LaengeGrad(Laenge);
 	LaengeMin = DdInWgs84LaengeMin(Laenge);
@@ -7556,8 +7579,8 @@ function zeigeTPopAufKarte(TPopListe) {
 			'<p>Population: ' + TPop.PopName + '</p>'+
 			'<p>TPop: ' + myFlurname + '</p>'+
 			'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
-			"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">Formular öffnen<\/a></p>"+
-			"<p><a href=\"#\" onclick=\"oeffneTPopInNeuemTab('" + TPop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"öffneTPop('" + TPop.TPopId + "')\">Formular öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"öffneTPopInNeuemTab('" + TPop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
 		makeListener(map, marker, contentString);
@@ -8123,8 +8146,8 @@ function erstelleTPopSymboleFuerGeoAdmin(TPopListe, tpopid_markiert, visible) {
 				'<p>Population: ' + TPop.PopName + '</p>'+
 				'<p>Teilpopulation: ' + myFlurname + '</p>'+
 				'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
-				"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">Formular öffnen<\/a></p>"+
-				"<p><a href=\"#\" onclick=\"oeffneTPopInNeuemTab('" + TPop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
+				"<p><a href=\"#\" onclick=\"öffneTPop('" + TPop.TPopId + "')\">Formular öffnen<\/a></p>"+
+				"<p><a href=\"#\" onclick=\"öffneTPopInNeuemTab('" + TPop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
 			
 			var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
 
@@ -8364,7 +8387,7 @@ function erstelleListeDerAusgewaehltenPopTPop() {
 		}
 		rueckmeldung += "<table>";
 		for (var i = 0; i < window.pop_array.length; i++) {
-			rueckmeldung += "<tr><td><a href=\"#\" onclick=\"oeffnePop('" + window.pop_array[i]['myId'] + "')\">" + window.pop_array[i]['label'] + ":<\/a></td><td><a href=\"#\" onclick=\"oeffnePop('" + window.pop_array[i]['myId'] + "')\">" + window.pop_array[i].tooltip + "<\/a></td></tr>";
+			rueckmeldung += "<tr><td><a href=\"#\" onclick=\"öffnePop('" + window.pop_array[i]['myId'] + "')\">" + window.pop_array[i]['label'] + ":<\/a></td><td><a href=\"#\" onclick=\"öffnePop('" + window.pop_array[i]['myId'] + "')\">" + window.pop_array[i].tooltip + "<\/a></td></tr>";
 		}
 		rueckmeldung += "</table>";
 	}
@@ -8375,7 +8398,7 @@ function erstelleListeDerAusgewaehltenPopTPop() {
 		}
 		rueckmeldung += "<table>";
 		for (var i = 0; i < window.tpop_array.length; i++) {
-			rueckmeldung += "<tr><td><a href=\"#\" onclick=\"oeffneTPopInNeuemTab('" + window.tpop_array[i]['myId'] + "')\">" + window.tpop_array[i]['label'] + ":<\/a></td><td><a href=\"#\" onclick=\"oeffneTPopInNeuemTab('" + window.tpop_array[i]['myId'] + "')\">" + window.tpop_array[i].tooltip + "<\/a></td></tr>";
+			rueckmeldung += "<tr><td><a href=\"#\" onclick=\"öffneTPopInNeuemTab('" + window.tpop_array[i]['myId'] + "')\">" + window.tpop_array[i]['label'] + ":<\/a></td><td><a href=\"#\" onclick=\"öffneTPopInNeuemTab('" + window.tpop_array[i]['myId'] + "')\">" + window.tpop_array[i].tooltip + "<\/a></td></tr>";
 		}
 		rueckmeldung += "</table>";
 	}
@@ -8462,7 +8485,7 @@ function erstellePopSymboleFuerGeoAdmin(PopListe, popid_markiert, visible) {
 			myName = Pop.PopName || '(kein Name)';
 			html = '<h3>' + myName + '</h3>'+
 				'<p>Koordinaten: ' + Pop.PopXKoord + ' / ' + Pop.PopYKoord + '</p>'+
-				"<p><a href=\"#\" onclick=\"oeffnePop('" + Pop.PopId + "')\">Formular öffnen<\/a></p>"+
+				"<p><a href=\"#\" onclick=\"öffnePop('" + Pop.PopId + "')\">Formular öffnen<\/a></p>"+
 				"<p><a href=\"#\" onclick=\"oeffnePopInNeuemTab('" + Pop.PopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
 			
 			var myLocation = new OpenLayers.Geometry.Point(Pop.PopXKoord, Pop.PopYKoord);
@@ -9041,8 +9064,8 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 			'<p>Population: ' + TPop.PopName + '</p>'+
 			'<p>TPop: ' + myFlurname + '</p>'+
 			'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
-			"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">Formular öffnen<\/a></p>"+
-			"<p><a href=\"#\" onclick=\"oeffneTPopInNeuemTab('" + TPop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"öffneTPop('" + TPop.TPopId + "')\">Formular öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"öffneTPopInNeuemTab('" + TPop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
 		makeListener(map, markerTPop, contentStringTPop);
@@ -9114,8 +9137,8 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 			'<p>Projekt: ' + Projekt + '</p>'+
 			'<p>Ort: ' + Ort + '</p>'+
 			'<p>Koordinaten: ' + Beob.X + ' / ' + Beob.Y + '</p>'+
-			"<p><a href=\"#\" onclick=\"oeffneBeob('" + Beob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
-			"<p><a href=\"#\" onclick=\"oeffneBeobInNeuemTab('" + Beob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"öffneBeob('" + Beob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"öffneBeobInNeuemTab('" + Beob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
 		makeListenerBeob(map, markerBeob, contentStringBeob);
@@ -9159,8 +9182,9 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 					beobtxt = "Beobachtung ohne Autor aus dem Jahr " + Beob.A_NOTE;
 				}
 				// rückfragen
-				$("#Meldung").html("Soll die " + beobtxt + "<br>der Teilpopulation '" + data[0].TPopFlurname + "' zugeordnet werden?");
-				$("#Meldung").dialog({
+				$("#Meldung")
+                    .html("Soll die " + beobtxt + "<br>der Teilpopulation '" + data[0].TPopFlurname + "' zugeordnet werden?")
+                    .dialog({
 					modal: true,
 					title: "Zuordnung bestätigen",
 					width: 600,
@@ -9308,8 +9332,8 @@ function zeigeBeobAufKarte(BeobListe) {
 			'<p>Projekt: ' + Projekt + '</p>'+
 			'<p>Ort: ' + Ort + '</p>'+
 			'<p>Koordinaten: ' + Beob.X + ' / ' + Beob.Y + '</p>'+
-			"<p><a href=\"#\" onclick=\"oeffneBeob('" + Beob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
-			"<p><a href=\"#\" onclick=\"oeffneBeobInNeuemTab('" + Beob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"öffneBeob('" + Beob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"öffneBeobInNeuemTab('" + Beob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
 		makeListener(map, marker, contentString);
@@ -9443,8 +9467,8 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 			'<p>Projekt: ' + Projekt + '</p>'+
 			'<p>Ort: ' + Ort + '</p>'+
 			'<p>Koordinaten: ' + TPopBeob.X + ' / ' + TPopBeob.Y + '</p>'+
-			"<p><a href=\"#\" onclick=\"oeffneTPopBeob('" + TPopBeob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
-			"<p><a href=\"#\" onclick=\"oeffneTPopBeobInNeuemTab('" + TPopBeob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"öffneTPopBeob('" + TPopBeob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"öffneTPopBeobInNeuemTab('" + TPopBeob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
 		makeListener(map, marker, contentString);
@@ -9522,8 +9546,8 @@ function verorteTPopAufKarte(TPop) {
 			'<div id="bodyContent" class="GmInfowindow">'+
 			'<h3>' + myFlurname + '</h3>'+
 			'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
-			"<p><a href=\"#\" onclick=\"oeffneTPop('" + TPop.TPopId + "')\">Formular öffnen<\/a></p>"+
-			"<p><a href=\"#\" onclick=\"oeffneTPopInNeuemTab('" + TPop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"öffneTPop('" + TPop.TPopId + "')\">Formular öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"öffneTPopInNeuemTab('" + TPop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
 		infowindow = new google.maps.InfoWindow({
@@ -9616,8 +9640,8 @@ function SetLocationTPop(LatLng, map, marker, TPop) {
 				'<div id="bodyContent" class="GmInfowindow">'+
 				'<h3>' + title + '</h3>'+
 				'<p>Koordinaten: ' + X + ' / ' + Y + '</p>'+
-				"<p><a href=\"#\" onclick=\"oeffneTPop('" + localStorage.tpop_id + "')\">Formular öffnen<\/a></p>"+
-				"<p><a href=\"#\" onclick=\"oeffneTPopInNeuemTab('" + localStorage.tpop_id + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+				"<p><a href=\"#\" onclick=\"öffneTPop('" + localStorage.tpop_id + "')\">Formular öffnen<\/a></p>"+
+				"<p><a href=\"#\" onclick=\"öffneTPopInNeuemTab('" + localStorage.tpop_id + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 				'</div>'+
 				'</div>';
 			infowindow = new google.maps.InfoWindow({
@@ -9660,17 +9684,17 @@ function clearInfoWindows() {
 	}
 }
 
-function oeffneTPop(TPopId) {
+function öffneTPop(TPopId) {
 	localStorage.tpop_id = TPopId;
 	$.jstree._reference("[typ='tpop']#" + TPopId).deselect_all();
 	$("#tree").jstree("select_node", "[typ='tpop']#" + TPopId);
 }
 
-function oeffneTPopInNeuemTab(TPopId) {
+function öffneTPopInNeuemTab(TPopId) {
 	window.open("index.html?ap="+localStorage.ap_id+"&pop=" + localStorage.pop_id+"&tpop="+TPopId, "_blank");
 }
 
-function oeffnePop(PopId) {
+function öffnePop(PopId) {
 	localStorage.pop_id = PopId;
 	$.jstree._reference("[typ='pop']#" + PopId).deselect_all();
 	$("#tree").jstree("select_node", "[typ='pop']#" + PopId);
@@ -9680,23 +9704,23 @@ function oeffnePopInNeuemTab(PopId) {
 	window.open("index.html?ap="+localStorage.ap_id+"&pop=" + PopId, "_blank");
 }
 
-function oeffneBeob(BeobId) {
+function öffneBeob(BeobId) {
 	localStorage.beob_id = BeobId;
 	$.jstree._reference("[typ='beob_nicht_beurteilt']#beob" + BeobId).deselect_all();
 	$("#tree").jstree("select_node", "[typ='beob_nicht_beurteilt']#beob" + BeobId);
 }
 
-function oeffneBeobInNeuemTab(BeobId) {
+function öffneBeobInNeuemTab(BeobId) {
 	window.open("index.html?ap="+localStorage.ap_id+"&beob_nicht_beurteilt=" + BeobId, "_blank");
 }
 
-function oeffneTPopBeob(BeobId) {
+function öffneTPopBeob(BeobId) {
 	localStorage.beob_id = BeobId;
 	$.jstree._reference("[typ='beob_zugeordnet']#beob" + BeobId).deselect_all();
 	$("#tree").jstree("select_node", "[typ='beob_zugeordnet']#beob" + BeobId);
 }
 
-function oeffneTPopBeobInNeuemTab(BeobId) {
+function öffneTPopBeobInNeuemTab(BeobId) {
 	window.open("index.html?ap="+localStorage.ap_id+"&beob_nicht_beurteilt=" + BeobId, "_blank");
 }
 
