@@ -2592,7 +2592,7 @@ window.af.erstelle_tree = function(ApArtId) {
 		var node_typ = node.attr("typ");
 		// in der ID des Nodes enthaltene Texte müssen entfernt werden
 		var node_id = erstelleIdAusDomAttributId(node.attr("id"));
-		jQuery.jstree._reference(node).open_node(node);
+		$.jstree._reference(node).open_node(node);
 		if (node_typ.slice(0, 3) === "ap_" || node_typ === "apzieljahr") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#ap").is(':visible') || localStorage.ap_id !== node_id) {
@@ -2738,7 +2738,7 @@ window.af.erstelle_tree = function(ApArtId) {
 	})
 	.bind("prepare_move.jstree", function(e, data) {
 		// herkunft_parent_node muss vor dem move ermittelt werden - danach ist der parent ein anderer!
-		window.herkunft_parent_node = jQuery.jstree._reference(data.rslt.o)._get_parent(data.rslt.o);
+		window.herkunft_parent_node = $.jstree._reference(data.rslt.o)._get_parent(data.rslt.o);
 	})
 	.bind("create_node.jstree", function(e, data) {
 		if (data.rslt.parent[0].attributes.typ.nodeValue === "apzieljahr") {
@@ -2766,7 +2766,7 @@ window.af.erstelle_tree = function(ApArtId) {
 		ziel_node = data.rslt.r;
 		ziel_node_id = erstelleIdAusDomAttributId($(ziel_node).attr("id"));
 		ziel_node_typ = ziel_node.attr("typ");
-		ziel_parent_node = jQuery.jstree._reference(data.rslt.r)._get_parent(data.rslt.r);
+		ziel_parent_node = $.jstree._reference(data.rslt.r)._get_parent(data.rslt.r);
 		if ($(ziel_parent_node).attr("id")) {
 			ziel_parent_node_id = erstelleIdAusDomAttributId($(ziel_parent_node).attr("id"));
 		}
@@ -2788,8 +2788,8 @@ window.af.erstelle_tree = function(ApArtId) {
 					window.af.beschrifte_ordner_pop(ziel_parent_node);
 					window.af.beschrifte_ordner_pop(window.herkunft_parent_node);
 					// selection steuern
-					jQuery.jstree._reference(ziel_node).deselect_all();
-					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+					$.jstree._reference(ziel_node).deselect_all();
+					$.jstree._reference(herkunft_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.pop_id = herkunft_node_id;
 					delete window.pop;
@@ -2817,8 +2817,8 @@ window.af.erstelle_tree = function(ApArtId) {
 					window.af.beschrifte_ordner_tpop(ziel_parent_node);
 					window.af.beschrifte_ordner_tpop(window.herkunft_parent_node);
 					// selection steuern
-					jQuery.jstree._reference(ziel_node).deselect_all();
-					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+					$.jstree._reference(ziel_node).deselect_all();
+					$.jstree._reference(herkunft_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpop_id = herkunft_node_id;
 					delete window.tpop;
@@ -2846,8 +2846,8 @@ window.af.erstelle_tree = function(ApArtId) {
 					window.af.beschrifte_ordner_tpop(ziel_node);
 					window.af.beschrifte_ordner_tpop(window.herkunft_parent_node);
 					// select steuern
-					jQuery.jstree._reference(ziel_node).deselect_all();
-					jQuery.jstree._reference(ziel_node).select_node(herkunft_node);
+					$.jstree._reference(ziel_node).deselect_all();
+					$.jstree._reference(ziel_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpop_id = herkunft_node_id;
 					delete window.tpop;
@@ -2876,8 +2876,8 @@ window.af.erstelle_tree = function(ApArtId) {
 					window.af.beschrifte_ordner_tpop(ziel_parent_node);
 					window.af.beschrifte_ordner_tpop(window.herkunft_parent_node);
 					// selection steuern
-					jQuery.jstree._reference(herkunft_node).deselect_all();
-					jQuery.jstree._reference(ziel_parent_node).select_node(herkunft_node);
+					$.jstree._reference(herkunft_node).deselect_all();
+					$.jstree._reference(ziel_parent_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpop_id = herkunft_node_id;
 					delete window.tpop;
@@ -2905,8 +2905,8 @@ window.af.erstelle_tree = function(ApArtId) {
 					window.af.beschrifte_ordner_tpop(ziel_node);
 					window.af.beschrifte_ordner_tpop(window.herkunft_parent_node);
 					// selection steuern
-					jQuery.jstree._reference(herkunft_node).deselect_all();
-					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+					$.jstree._reference(herkunft_node).deselect_all();
+					$.jstree._reference(herkunft_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpop_id = herkunft_node_id;
 					delete window.tpop;
@@ -2936,8 +2936,8 @@ window.af.erstelle_tree = function(ApArtId) {
 					window.af.beschrifte_ordner_tpopmassn(ziel_parent_node);
 					window.af.beschrifte_ordner_tpopmassn(window.herkunft_parent_node);
 					// selection steuern
-					jQuery.jstree._reference(herkunft_node).deselect_all();
-					jQuery.jstree._reference(ziel_parent_node).select_node(herkunft_node);
+					$.jstree._reference(herkunft_node).deselect_all();
+					$.jstree._reference(ziel_parent_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpopmassn_id = herkunft_node_id;
 					delete window.tpopmassn;
@@ -2965,8 +2965,8 @@ window.af.erstelle_tree = function(ApArtId) {
 					window.af.beschrifte_ordner_tpopmassn(ziel_node);
 					window.af.beschrifte_ordner_tpopmassn(window.herkunft_parent_node);
 					// selection steuern
-					jQuery.jstree._reference(herkunft_node).deselect_all();
-					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+					$.jstree._reference(herkunft_node).deselect_all();
+					$.jstree._reference(herkunft_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpopmassn_id = herkunft_node_id;
 					delete window.tpopmassn;
@@ -2996,8 +2996,8 @@ window.af.erstelle_tree = function(ApArtId) {
 					window.af.beschrifte_ordner_tpopfeldkontr(ziel_parent_node);
 					window.af.beschrifte_ordner_tpopfeldkontr(window.herkunft_parent_node);
 					// selection steuern
-					jQuery.jstree._reference(herkunft_node).deselect_all();
-					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+					$.jstree._reference(herkunft_node).deselect_all();
+					$.jstree._reference(herkunft_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpopfeldkontr_id = herkunft_node_id;
 					delete window.tpopfeldkontr;
@@ -3025,8 +3025,8 @@ window.af.erstelle_tree = function(ApArtId) {
 					window.af.beschrifte_ordner_tpopfeldkontr(ziel_node);
 					window.af.beschrifte_ordner_tpopfeldkontr(window.herkunft_parent_node);
 					// selection steuern
-					jQuery.jstree._reference(herkunft_node).deselect_all();
-					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+					$.jstree._reference(herkunft_node).deselect_all();
+					$.jstree._reference(herkunft_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpopfeldkontr_id = herkunft_node_id;
 					delete window.tpopfeldkontr;
@@ -3056,8 +3056,8 @@ window.af.erstelle_tree = function(ApArtId) {
 					window.af.beschrifte_ordner_tpopfreiwkontr(ziel_parent_node);
 					window.af.beschrifte_ordner_tpopfreiwkontr(window.herkunft_parent_node);
 					// selection steuern
-					jQuery.jstree._reference(herkunft_node).deselect_all();
-					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+					$.jstree._reference(herkunft_node).deselect_all();
+					$.jstree._reference(herkunft_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpopfeldkontr_id = herkunft_node_id;
 					delete window.tpopfeldkontr;
@@ -3086,8 +3086,8 @@ window.af.erstelle_tree = function(ApArtId) {
 					window.af.beschrifte_ordner_tpopfreiwkontr(ziel_node);
 					window.af.beschrifte_ordner_tpopfreiwkontr(window.herkunft_parent_node);
 					// selection steuern
-					jQuery.jstree._reference(herkunft_node).deselect_all();
-					jQuery.jstree._reference(herkunft_node).select_node(herkunft_node);
+					$.jstree._reference(herkunft_node).deselect_all();
+					$.jstree._reference(herkunft_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpopfeldkontr_id = herkunft_node_id;
 					delete window.tpopfeldkontr;
@@ -3438,7 +3438,7 @@ window.af.beschrifte_ordner_pop = function(node) {
 	'use strict';
 	var anz = $(node).find("> ul > li").length,
 		anzTxt = "Populationen (" + anz + ")";
-	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+	$.jstree._reference(node).rename_node(node, anzTxt);
 };
 
 // übernimmt einen node
@@ -3447,13 +3447,13 @@ window.af.beschrifte_ordner_apziel = function(node) {
 	'use strict';
 	var anz = 0,
 		anzTxt;
-	$(jQuery.jstree._reference(node)._get_children(node)).each(function(index) {
+	$($.jstree._reference(node)._get_children(node)).each(function(index) {
 		$($(this).find("> ul > li")).each(function(index) {
 			anz += 1;
 		});
 	});
 	anzTxt = "AP-Ziele (" + anz + ")";
-	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+	$.jstree._reference(node).rename_node(node, anzTxt);
 };
 
 // übernimmt einen node
@@ -3462,9 +3462,9 @@ window.af.beschrifte_ordner_apzieljahr = function(node) {
 	'use strict';
 	var anz = $(node).find("> ul > li").length,
 		anzTxt;
-	anzTxt = jQuery.jstree._reference(node).get_text(node).slice(0, 6);
+	anzTxt = $.jstree._reference(node).get_text(node).slice(0, 6);
 	anzTxt += anz + ")";
-	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+	$.jstree._reference(node).rename_node(node, anzTxt);
 };
 
 // übernimmt einen node
@@ -3473,7 +3473,7 @@ window.af.beschrifte_ordner_zielber = function(node) {
 	'use strict';
 	var anz = $(node).find("> ul > li").length,
 		anzTxt = "Ziel-Berichte (" + anz + ")";
-	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+	$.jstree._reference(node).rename_node(node, anzTxt);
 };
 
 // übernimmt einen node
@@ -3482,7 +3482,7 @@ window.af.beschrifte_ordner_erfkrit = function(node) {
 	'use strict';
 	var anz = $(node).find("> ul > li").length,
 		anzTxt = "AP-Erfolgskriterien (" + anz + ")";
-	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+	$.jstree._reference(node).rename_node(node, anzTxt);
 };
 
 // übernimmt einen node
@@ -3491,7 +3491,7 @@ window.af.beschrifte_ordner_jber = function(node) {
 	'use strict';
 	var anz = $(node).find("> ul > li").length,
 		anzTxt = "AP-Berichte (" + anz + ")";
-	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+	$.jstree._reference(node).rename_node(node, anzTxt);
 };
 
 // übernimmt einen node
@@ -3500,7 +3500,7 @@ window.af.beschrifte_ordner_ber = function(node) {
 	'use strict';
 	var anz = $(node).find("> ul > li").length,
 		anzTxt = "Berichte (" + anz + ")";
-	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+	$.jstree._reference(node).rename_node(node, anzTxt);
 };
 
 // übernimmt einen node
@@ -3509,7 +3509,7 @@ window.af.beschrifte_ordner_assozarten = function(node) {
 	'use strict';
 	var anz = $(node).find("> ul > li").length,
 		anzTxt = "assoziierte Arten (" + anz + ")";
-	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+	$.jstree._reference(node).rename_node(node, anzTxt);
 };
 
 // übernimmt einen node
@@ -3518,7 +3518,7 @@ window.af.beschrifte_ordner_tpop = function(node) {
 	'use strict';
 	var anz = $(node).find("> ul > li").length,
 		anzTxt = "Teilpopulationen (" + anz + ")";
-	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+	$.jstree._reference(node).rename_node(node, anzTxt);
 };
 
 // übernimmt einen node
@@ -3527,7 +3527,7 @@ window.af.beschrifte_ordner_popber = function(node) {
 	'use strict';
 	var anz = $(node).find("> ul > li").length,
 		anzTxt = "Populations-Berichte (" + anz + ")";
-	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+	$.jstree._reference(node).rename_node(node, anzTxt);
 };
 
 // übernimmt einen node
@@ -3536,7 +3536,7 @@ window.af.beschrifte_ordner_popmassnber = function(node) {
 	'use strict';
 	var anz = $(node).find("> ul > li").length,
 		anzTxt = "Massnahmen-Berichte (" + anz + ")";
-	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+	$.jstree._reference(node).rename_node(node, anzTxt);
 };
 
 // übernimmt einen node
@@ -3545,7 +3545,7 @@ window.af.beschrifte_ordner_tpopmassnber = function(node) {
 	'use strict';
 	var anz = $(node).find("> ul > li").length,
 		anzTxt = "Massnahmen-Berichte (" + anz + ")";
-	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+	$.jstree._reference(node).rename_node(node, anzTxt);
 };
 
 // übernimmt einen node
@@ -3554,7 +3554,7 @@ window.af.beschrifte_ordner_tpopmassn = function(node) {
 	'use strict';
 	var anz = $(node).find("> ul > li").length,
 		anzTxt = "Massnahmen (" + anz + ")";
-	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+	$.jstree._reference(node).rename_node(node, anzTxt);
 };
 
 // übernimmt einen node
@@ -3563,7 +3563,7 @@ window.af.beschrifte_ordner_tpopber = function(node) {
 	'use strict';
 	var anz = $(node).find("> ul > li").length,
 		anzTxt = "Teilpopulations-Berichte (" + anz + ")";
-	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+	$.jstree._reference(node).rename_node(node, anzTxt);
 };
 
 // übernimmt einen node
@@ -3572,7 +3572,7 @@ window.af.beschrifte_ordner_tpopfeldkontr = function(node) {
 	'use strict';
 	var anz = $(node).find("> ul > li").length,
 		anzTxt = "Feldkontrollen (" + anz + ")";
-	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+	$.jstree._reference(node).rename_node(node, anzTxt);
 };
 
 // übernimmt einen node
@@ -3581,7 +3581,7 @@ window.af.beschrifte_ordner_tpopfreiwkontr = function(node) {
 	'use strict';
 	var anz = $(node).find("> ul > li").length,
 		anzTxt = "Freiwilligen-Kontrollen (" + anz + ")";
-	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+	$.jstree._reference(node).rename_node(node, anzTxt);
 };
 
 // übernimmt einen node
@@ -3590,7 +3590,7 @@ window.af.beschrifte_ordner_beob_zugeordnet = function(node) {
 	'use strict';
 	var anz = $(node).find("> ul > li").length,
 		anzTxt = "Beobachtungen (" + anz + ")";
-	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+	$.jstree._reference(node).rename_node(node, anzTxt);
 };
 
 // übernimmt einen node
@@ -3599,7 +3599,7 @@ window.af.beschrifte_ordner_beob_nicht_beurteilt = function(node) {
 	'use strict';
 	var anz = $(node).find("> ul > li").length,
 		anzTxt = "nicht beurteilte Beobachtungen (" + anz + ")";
-	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+	$.jstree._reference(node).rename_node(node, anzTxt);
 };
 
 // übernimmt einen node
@@ -3608,7 +3608,7 @@ window.af.beschrifte_ordner_beob_nicht_zuzuordnen = function(node) {
 	'use strict';
 	var anz = $(node).find("> ul > li").length,
 		anzTxt = "nicht zuzuordnende Beobachtungen (" + anz + ")";
-	jQuery.jstree._reference(node).rename_node(node, anzTxt);
+	$.jstree._reference(node).rename_node(node, anzTxt);
 };
 
 window.af.treeKontextmenu = function(node) {
@@ -3623,11 +3623,11 @@ window.af.treeKontextmenu = function(node) {
 	// relevante nodes zwischenspeichern
 	// aktiver_node = node;	 das hat auch funktioniert
 	aktiver_node = jQuery("#tree").jstree('get_selected');
-	aktiver_nodeText = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+	aktiver_nodeText = $.jstree._reference(aktiver_node).get_text(aktiver_node);
 	// parent nur ermitteln, wenn parents exisiteren - sonst gibt es einen Fehler
 	if ($(aktiver_node).attr("typ").slice(0, 9) !== "ap_ordner" && $(aktiver_node).attr("typ") !== "idealbiotop") {
-		parent_node = jQuery.jstree._reference(aktiver_node)._get_parent(aktiver_node);
-		parent_nodeText = jQuery.jstree._reference(parent_node).get_text(parent_node);
+		parent_node = $.jstree._reference(aktiver_node)._get_parent(aktiver_node);
+		parent_nodeText = $.jstree._reference(parent_node).get_text(parent_node);
 	}
 	switch($(aktiver_node).attr("typ")) {
         case "ap_ordner_pop":
@@ -3636,7 +3636,7 @@ window.af.treeKontextmenu = function(node) {
 				"label": "untergeordnete Knoten öffnen",
 				"icon": "style/images/tree16x16.png",
 				"action": function() {
-					jQuery.jstree._reference(node).open_all(node);
+					$.jstree._reference(node).open_all(node);
 				}
 			},
 			"neu": {
@@ -3653,11 +3653,10 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertPop.done(function(data) {
-						var strukturtyp = "pop", 
-							ds_id = data, 
+					insertPop.done(function(id) {
+						var strukturtyp = "pop",
 							beschriftung = "neue Population";
-						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertPop.fail(function() {
 						melde("Fehler: Keine neue Population erstellt");
@@ -3759,7 +3758,7 @@ window.af.treeKontextmenu = function(node) {
 				"label": "untergeordnete Knoten öffnen",
 				"icon": "style/images/tree16x16.png",
 				"action": function() {
-					jQuery.jstree._reference(node).open_all(node);
+					$.jstree._reference(node).open_all(node);
 				}
 			},
 			"neu": {
@@ -3776,15 +3775,14 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertApziel.done(function(data) {
-						var strukturtyp = "apziel", 
-							ds_id = data, 
+					insertApziel.done(function(id) {
+						var strukturtyp = "apziel",
 							beschriftung = "neues Ziel";
 						// mitteilen, dass von ganz oben ein apziel erstellt wird und daher noch ein Zwischenordner erstellt werden muss
 						localStorage.apziel_von_ordner_apziel = true;
 						// zur Sicherheit den anderen Zeiger löschen
 						delete localStorage.apziel_von_apzieljahr;
-						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertApziel.fail(function() {
 						melde("Fehler: Keine neues AP-Ziel erstellt");
@@ -3799,7 +3797,7 @@ window.af.treeKontextmenu = function(node) {
 				"label": "untergeordnete Knoten öffnen",
 				"icon": "style/images/tree16x16.png",
 				"action": function() {
-					jQuery.jstree._reference(node).open_all(node);
+					$.jstree._reference(node).open_all(node);
 				}
 			},
 			"neu": {
@@ -3816,14 +3814,13 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertApziel_2.done(function(data) {
-						var strukturtyp = "apziel", 
-							ds_id = data, 
+					insertApziel_2.done(function(id) {
+						var strukturtyp = "apziel",
 							beschriftung = "neues Ziel";
 						localStorage.apziel_von_apzieljahr = true;
 						// zur Sicherheit den anderen Zeiger löschen
 						delete localStorage.apziel_von_ordner_apziel;
-						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertApziel_2.fail(function() {
 						melde("Fehler: Keine neues Ziel erstellt");
@@ -3842,7 +3839,7 @@ window.af.treeKontextmenu = function(node) {
 					if (!prüfeSchreibvoraussetzungen()) {
 						return;
 					}
-					grandparent_node = jQuery.jstree._reference(parent_node)._get_parent(parent_node);
+					grandparent_node = $.jstree._reference(parent_node)._get_parent(parent_node);
 					var insertApziel_3 = $.ajax( {
 						type: 'post',
 						url: 'php/apziel_insert.php',
@@ -3852,11 +3849,10 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertApziel_3.done(function(data) {
+					insertApziel_3.done(function(id) {
 						var strukturtyp = "apziel",
-							ds_id = data,
 							beschriftung = "neues Ziel";
-						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertApziel_3.fail(function() {
 						melde("Fehler: Kein neues AP-Ziel erstellt");
@@ -3873,12 +3869,12 @@ window.af.treeKontextmenu = function(node) {
 						return;
 					}
 					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
-					jQuery.jstree._reference(aktiver_node).deselect_all();
+					$.jstree._reference(aktiver_node).deselect_all();
 					// alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
-					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
-					jQuery.jstree._reference(aktiver_node).deselect_all();
-					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
-					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					$.jstree._reference(aktiver_node).open_all(aktiver_node);
+					$.jstree._reference(aktiver_node).deselect_all();
+					$.jstree._reference(aktiver_node).select_node(aktiver_node);
+					var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
 					$("#loeschen_dialog_mitteilung").html("Das AP-Ziel '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
@@ -3902,12 +3898,12 @@ window.af.treeKontextmenu = function(node) {
 								deleteApziel.done(function() {
 									delete localStorage.apziel_id;
 									delete window.apziel;
-									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// grandparent Node-Beschriftung: Anzahl anpassen
-									grandparent_node = jQuery.jstree._reference(parent_node)._get_parent(parent_node);
+									grandparent_node = $.jstree._reference(parent_node)._get_parent(parent_node);
 									window.af.beschrifte_ordner_apziel(grandparent_node);
 									// parent Node-Beschriftung: Anzahl anpassen
-									if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
+									if ($.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
 										window.af.beschrifte_ordner_apzieljahr(parent_node);
 									}
 									// Hinweis zum rückgängig machen anzeigen
@@ -3941,11 +3937,10 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertZielber.done(function(data) {
+					insertZielber.done(function(id) {
 						var strukturtyp = "zielber",
-							ds_id = data,
 							beschriftung = "neuer Ziel-Bericht";
-						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertZielber.fail(function() {
 						melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
@@ -3970,11 +3965,10 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertZielber_2.done(function(data) {
+					insertZielber_2.done(function(id) {
 						var strukturtyp = "zielber",
-							ds_id = data,
 							beschriftung = "neuer Ziel-Bericht";
-						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertZielber_2.fail(function() {
 						melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
@@ -3991,12 +3985,12 @@ window.af.treeKontextmenu = function(node) {
 						return;
 					}
 					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
-					jQuery.jstree._reference(aktiver_node).deselect_all();
+					$.jstree._reference(aktiver_node).deselect_all();
 					// alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
-					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
-					jQuery.jstree._reference(aktiver_node).deselect_all();
-					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
-					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					$.jstree._reference(aktiver_node).open_all(aktiver_node);
+					$.jstree._reference(aktiver_node).deselect_all();
+					$.jstree._reference(aktiver_node).select_node(aktiver_node);
+					var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
 					$("#loeschen_dialog_mitteilung").html("Der Ziel-Bericht '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
@@ -4020,7 +4014,7 @@ window.af.treeKontextmenu = function(node) {
 								deleteZielber.done(function() {
 									delete localStorage.zielber_id;
 									delete window.zielber;
-									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_zielber(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
@@ -4054,11 +4048,10 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertErfkrit.done(function(data) {
+					insertErfkrit.done(function(id) {
 						var strukturtyp = "erfkrit",
-							ds_id = data,
 							beschriftung = "neues Erfolgskriterium";
-						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertErfkrit.fail(function() {
 						melde("Fehler: Kein neues Erfolgskriterium erstellt");
@@ -4083,11 +4076,10 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertErfkrit_2.done(function(data) {
+					insertErfkrit_2.done(function(id) {
 						var strukturtyp = "erfkrit",
-							ds_id = data,
 							beschriftung = "neues Erfolgskriterium";
-						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertErfkrit_2.fail(function() {
 						melde("Fehler: Kein neues Erfolgskriterium erstellt");
@@ -4104,12 +4096,12 @@ window.af.treeKontextmenu = function(node) {
 						return;
 					}
 					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
-					jQuery.jstree._reference(aktiver_node).deselect_all();
+					$.jstree._reference(aktiver_node).deselect_all();
 					// alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
-					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
-					jQuery.jstree._reference(aktiver_node).deselect_all();
-					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
-					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					$.jstree._reference(aktiver_node).open_all(aktiver_node);
+					$.jstree._reference(aktiver_node).deselect_all();
+					$.jstree._reference(aktiver_node).select_node(aktiver_node);
+					var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
 					$("#loeschen_dialog_mitteilung").html("Das Erfolgskriterium '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
@@ -4133,7 +4125,7 @@ window.af.treeKontextmenu = function(node) {
 								deleteErfkrit.done(function() {
 									delete localStorage.erfkrit_id;
 									delete window.erfkrit;
-									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_erfkrit(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
@@ -4158,7 +4150,7 @@ window.af.treeKontextmenu = function(node) {
 				"label": "untergeordnete Knoten öffnen",
 				"icon": "style/images/tree16x16.png",
 				"action": function() {
-					jQuery.jstree._reference(node).open_all(node);
+					$.jstree._reference(node).open_all(node);
 				}
 			},
 			"neu": {
@@ -4174,11 +4166,10 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertJber.done(function(data) {
+					insertJber.done(function(id) {
 						var strukturtyp = "jber",
-							ds_id = data,
 							beschriftung = "neuer AP-Bericht";
-						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertJber.fail(function() {
 						melde("Fehler: Keinen neuen AP-Bericht erstellt");
@@ -4203,11 +4194,10 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertJber_2.done(function(data) {
+					insertJber_2.done(function(id) {
 						var strukturtyp = "jber",
-							ds_id = data,
 							beschriftung = "neuer AP-Bericht";
-						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertJber_2.fail(function() {
 						melde("Fehler: Keinen neuen AP-Bericht erstellt");
@@ -4224,12 +4214,12 @@ window.af.treeKontextmenu = function(node) {
 						return;
 					}
 					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
-					jQuery.jstree._reference(aktiver_node).deselect_all();
+					$.jstree._reference(aktiver_node).deselect_all();
 					// alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
-					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
-					jQuery.jstree._reference(aktiver_node).deselect_all();
-					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
-					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					$.jstree._reference(aktiver_node).open_all(aktiver_node);
+					$.jstree._reference(aktiver_node).deselect_all();
+					$.jstree._reference(aktiver_node).select_node(aktiver_node);
+					var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
 					$("#loeschen_dialog_mitteilung").html("Der AP-Bericht '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
@@ -4253,7 +4243,7 @@ window.af.treeKontextmenu = function(node) {
 								deleteJber.done(function() {
 									delete localStorage.jber_id;
 									delete window.jber;
-									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_jber(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
@@ -4272,7 +4262,7 @@ window.af.treeKontextmenu = function(node) {
 			}
 		};
 		// Wenn noch keine existiert, kann einen neue Übersicht zu allen Arten erstellt werden
-		if (jQuery.jstree._reference(aktiver_node)._get_children(aktiver_node).length === 0) {
+		if ($.jstree._reference(aktiver_node)._get_children(aktiver_node).length === 0) {
 			items.neu_jber_uebersicht = {
 				"label": "neue Übersicht zu allen Arten",
 				"separator_before": true,
@@ -4283,13 +4273,13 @@ window.af.treeKontextmenu = function(node) {
 						url: 'php/jber_uebersicht_insert.php',
 						dataType: 'json',
 						data: {
-							"JbuJahr": jQuery.jstree._reference(aktiver_node).get_text(aktiver_node),
+							"JbuJahr": $.jstree._reference(aktiver_node).get_text(aktiver_node),
 							"user": sessionStorage.User
 						}
 					});
 					insertJberUebersicht.done(function(data) {
 						var strukturtyp = "jber_uebersicht",
-							ds_id = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node),
+							ds_id = $.jstree._reference(aktiver_node).get_text(aktiver_node),
 							beschriftung = "neue Übersicht zu allen Arten";
 						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
 					});
@@ -4311,11 +4301,11 @@ window.af.treeKontextmenu = function(node) {
 						return;
 					}
 					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
-					jQuery.jstree._reference(aktiver_node).deselect_all();
+					$.jstree._reference(aktiver_node).deselect_all();
 					// alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
-					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
-					jQuery.jstree._reference(aktiver_node).deselect_all();
-					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
+					$.jstree._reference(aktiver_node).open_all(aktiver_node);
+					$.jstree._reference(aktiver_node).deselect_all();
+					$.jstree._reference(aktiver_node).select_node(aktiver_node);
 					$("#loeschen_dialog_mitteilung").html("Die Übersicht zu allen Arten wird gelöscht");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
@@ -4339,7 +4329,7 @@ window.af.treeKontextmenu = function(node) {
 								deleteJberUebersicht.done(function() {
 									delete localStorage.jber_uebersicht_id;
 									delete window.jber_uebersicht;
-									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Hinweis zum rückgängig machen anzeigen
 									frageObAktionRueckgaengigGemachtWerdenSoll("Die Übersicht für den AP-Bericht des Jahrs \"" + window.deleted.JbuJahr + "\" wurde gelöscht.");
 								});
@@ -4371,11 +4361,10 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertBer.done(function(data) {
+					insertBer.done(function(id) {
 						var strukturtyp = "ber",
-							ds_id = data,
 							beschriftung = "neuer Bericht";
-						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertBer.fail(function() {
 						melde("Fehler: Keinen neuen Bericht erstellt");
@@ -4400,11 +4389,10 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertBer_2.done(function(data) {
+					insertBer_2.done(function(id) {
 						var strukturtyp = "ber",
-							ds_id = data,
 							beschriftung = "neuer Bericht";
-						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertBer_2.fail(function() {
 						melde("Fehler: Keinen neuen Bericht erstellt");
@@ -4421,12 +4409,12 @@ window.af.treeKontextmenu = function(node) {
 						return;
 					}
 					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
-					jQuery.jstree._reference(aktiver_node).deselect_all();
+					$.jstree._reference(aktiver_node).deselect_all();
 					// alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
-					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
-					jQuery.jstree._reference(aktiver_node).deselect_all();
-					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
-					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					$.jstree._reference(aktiver_node).open_all(aktiver_node);
+					$.jstree._reference(aktiver_node).deselect_all();
+					$.jstree._reference(aktiver_node).select_node(aktiver_node);
+					var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
 					$("#loeschen_dialog_mitteilung").html("Der Bericht '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
@@ -4450,7 +4438,7 @@ window.af.treeKontextmenu = function(node) {
 								deleteBer.done(function() {
 									delete localStorage.ber_id;
 									delete window.ber;
-									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_ber(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
@@ -4484,11 +4472,10 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertAssozarten.done(function(data) {
+					insertAssozarten.done(function(id) {
 						var strukturtyp = "assozarten",
-							ds_id = data,
 							beschriftung = "neue assoziierte Art";
-						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertAssozarten.fail(function() {
 						melde("Fehler: keine assoziierte Art erstellt");
@@ -4513,11 +4500,10 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertAssozarten_2.done(function(data) {
+					insertAssozarten_2.done(function(id) {
 						var strukturtyp = "assozarten",
-							ds_id = data,
 							beschriftung = "neue assoziierte Art";
-						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertAssozarten_2.fail(function() {
 						melde("Fehler: Keine assoziierte Art erstellt");
@@ -4534,12 +4520,12 @@ window.af.treeKontextmenu = function(node) {
 						return;
 					}
 					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
-					jQuery.jstree._reference(aktiver_node).deselect_all();
+					$.jstree._reference(aktiver_node).deselect_all();
 					// alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
-					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
-					jQuery.jstree._reference(aktiver_node).deselect_all();
-					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
-					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					$.jstree._reference(aktiver_node).open_all(aktiver_node);
+					$.jstree._reference(aktiver_node).deselect_all();
+					$.jstree._reference(aktiver_node).select_node(aktiver_node);
+					var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
 					$("#loeschen_dialog_mitteilung").html("Die assoziierte Art '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
@@ -4563,7 +4549,7 @@ window.af.treeKontextmenu = function(node) {
 								deleteAssozarten.done(function() {
 									delete localStorage.assozarten_id;
 									delete window.assozarten;
-									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_assozarten(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
@@ -4598,11 +4584,10 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertPop_2.done(function(data) {
+					insertPop_2.done(function(id) {
 						var strukturtyp = "pop",
-							ds_id = data,
 							beschriftung = "neue Population";
-						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertPop_2.fail(function() {
 						melde("Fehler: Keine neue Population erstellt");
@@ -4619,12 +4604,12 @@ window.af.treeKontextmenu = function(node) {
 						return;
 					}
 					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
-					jQuery.jstree._reference(aktiver_node).deselect_all();
+					$.jstree._reference(aktiver_node).deselect_all();
 					// alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
-					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
-					jQuery.jstree._reference(aktiver_node).deselect_all();
-					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
-					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					$.jstree._reference(aktiver_node).open_all(aktiver_node);
+					$.jstree._reference(aktiver_node).deselect_all();
+					$.jstree._reference(aktiver_node).select_node(aktiver_node);
+					var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
 					$("#loeschen_dialog_mitteilung").html("Die Population '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
@@ -4648,7 +4633,7 @@ window.af.treeKontextmenu = function(node) {
 								deletePop.done(function() {
 									delete localStorage.pop_id;
 									delete window.pop;
-									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_pop(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
@@ -4782,7 +4767,7 @@ window.af.treeKontextmenu = function(node) {
 				"label": "untergeordnete Knoten öffnen",
 				"icon": "style/images/tree16x16.png",
 				"action": function() {
-					jQuery.jstree._reference(node).open_all(node);
+					$.jstree._reference(node).open_all(node);
 				}
 			},
 			"neu": {
@@ -4799,11 +4784,10 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertTPop.done(function(data) {
+					insertTPop.done(function(id) {
 						var strukturtyp = "tpop",
-							ds_id = data,
 							beschriftung = "neue Teilpopulation";
-						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertTPop.fail(function() {
 						melde("Fehler: Keine neue Teilpopulation erstellt");
@@ -4863,11 +4847,11 @@ window.af.treeKontextmenu = function(node) {
 		};
 		if (window.tpop_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": jQuery.jstree._reference(window.tpop_node_ausgeschnitten).get_text(window.tpop_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.tpop_node_ausgeschnitten).get_text(window.tpop_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					jQuery.jstree._reference(aktiver_node).move_node(window.tpop_node_ausgeschnitten, aktiver_node, "first", false);
+					$.jstree._reference(aktiver_node).move_node(window.tpop_node_ausgeschnitten, aktiver_node, "first", false);
 				}
 			}
 		}
@@ -4885,7 +4869,7 @@ window.af.treeKontextmenu = function(node) {
 				label += "(kein Flurname)";
 			}
 			items.einfuegen = {
-				//"label": jQuery.jstree._reference(window.tpop_node_kopiert).get_text(window.tpop_node_kopiert) + " einfügen",
+				//"label": $.jstree._reference(window.tpop_node_kopiert).get_text(window.tpop_node_kopiert) + " einfügen",
 				"label": label + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
@@ -4901,7 +4885,7 @@ window.af.treeKontextmenu = function(node) {
 				"label": "untergeordnete Knoten öffnen",
 				"icon": "style/images/tree16x16.png",
 				"action": function() {
-					jQuery.jstree._reference(node).open_all(node);
+					$.jstree._reference(node).open_all(node);
 				}
 			},
 			"neu": {
@@ -4918,11 +4902,10 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertTPop_2.done(function(data) {
+					insertTPop_2.done(function(id) {
 						var strukturtyp = "tpop",
-							ds_id = data,
 							beschriftung = "neue Teilpopulation";
-						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertTPop_2.fail(function() {
 						melde("Fehler: Keine neue Teilpopulation erstellt");
@@ -4939,12 +4922,12 @@ window.af.treeKontextmenu = function(node) {
 						return;
 					}
 					// selektieren, falls direkt mit der rechten Maustaste gewählt wurde
-					jQuery.jstree._reference(aktiver_node).deselect_all();
+					$.jstree._reference(aktiver_node).deselect_all();
 					// alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
-					jQuery.jstree._reference(aktiver_node).open_all(aktiver_node);
-					jQuery.jstree._reference(aktiver_node).deselect_all();
-					jQuery.jstree._reference(aktiver_node).select_node(aktiver_node);
-					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					$.jstree._reference(aktiver_node).open_all(aktiver_node);
+					$.jstree._reference(aktiver_node).deselect_all();
+					$.jstree._reference(aktiver_node).select_node(aktiver_node);
+					var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
 					$("#loeschen_dialog_mitteilung").html("Die Teilpopulation '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
@@ -4969,7 +4952,7 @@ window.af.treeKontextmenu = function(node) {
 								deleteTPop.done(function() {
 									delete localStorage.tpop_id;
 									delete window.tpop;
-									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_tpop(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
@@ -5159,11 +5142,11 @@ window.af.treeKontextmenu = function(node) {
 		}
 		if (window.tpop_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": jQuery.jstree._reference(window.tpop_node_ausgeschnitten).get_text(window.tpop_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.tpop_node_ausgeschnitten).get_text(window.tpop_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					jQuery.jstree._reference(parent_node).move_node(window.tpop_node_ausgeschnitten, parent_node, "first", false);
+					$.jstree._reference(parent_node).move_node(window.tpop_node_ausgeschnitten, parent_node, "first", false);
 				}
 			}
 		};
@@ -5183,11 +5166,10 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertPopber.done(function(data) {
+					insertPopber.done(function(id) {
 						var strukturtyp = "popber",
-							ds_id = data,
 							beschriftung = "neuer Populations-Bericht";
-						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertPopber.fail(function() {
 						melde("Fehler: Keinen neuen Populations-Bericht erstellt");
@@ -5212,11 +5194,10 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertPopber_2.done(function(data) {
+					insertPopber_2.done(function(id) {
 						var strukturtyp = "popber",
-							ds_id = data,
 							beschriftung = "neuer Populations-Bericht";
-						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertPopber_2.fail(function() {
 						melde("Fehler: Keinen neuen Populations-Bericht erstellt");
@@ -5232,7 +5213,7 @@ window.af.treeKontextmenu = function(node) {
 					if (!prüfeSchreibvoraussetzungen()) {
 						return;
 					}
-					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
 					$("#loeschen_dialog_mitteilung").html("Der Populations-Bericht '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
@@ -5256,7 +5237,7 @@ window.af.treeKontextmenu = function(node) {
 								deletePopber.done(function() {
 									delete localStorage.popber_id;
 									delete window.popber;
-									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_popber(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
@@ -5290,11 +5271,10 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertPopMassnBer.done(function(data) {
+					insertPopMassnBer.done(function(id) {
 						var strukturtyp = "popmassnber",
-							ds_id = data,
 							beschriftung = "neuer Massnahmen-Bericht";
-						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertPopMassnBer.fail(function() {
 						melde("Fehler: Es wurde kein neuer Massnahmen-Bericht erstellt");
@@ -5319,11 +5299,10 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertPopMassnBer_2.done(function(data) {
+					insertPopMassnBer_2.done(function(id) {
 						var strukturtyp = "popmassnber",
-							ds_id = data,
 							beschriftung = "neuer Massnahmen-Bericht";
-						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertPopMassnBer_2.fail(function() {
 						melde("Fehler: Es wurde kein neuer Massnahmen-Bericht erstellt");
@@ -5339,7 +5318,7 @@ window.af.treeKontextmenu = function(node) {
 					if (!prüfeSchreibvoraussetzungen()) {
 						return;
 					}
-					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
 					$("#loeschen_dialog_mitteilung").html("Der Massnahmen-Bericht '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
@@ -5363,7 +5342,7 @@ window.af.treeKontextmenu = function(node) {
 								deletePopMassnBer.done(function() {
 									delete localStorage.popmassnber_id;
 									delete window.popmassnber;
-									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_popmassnber(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
@@ -5398,11 +5377,10 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertTPopFeldKontr.done(function(data) {
+					insertTPopFeldKontr.done(function(id) {
 						var strukturtyp = "tpopfeldkontr",
-							ds_id = data,
 							beschriftung = "neue Feldkontrolle";
-						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertTPopFeldKontr.fail(function() {
 						melde("Fehler: Keine neue Feldkontrolle erstellt");
@@ -5412,17 +5390,17 @@ window.af.treeKontextmenu = function(node) {
 		};
 		if (window.tpopfeldkontr_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": jQuery.jstree._reference(window.tpopfeldkontr_node_ausgeschnitten).get_text(window.tpopfeldkontr_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.tpopfeldkontr_node_ausgeschnitten).get_text(window.tpopfeldkontr_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					jQuery.jstree._reference(aktiver_node).move_node(window.tpopfeldkontr_node_ausgeschnitten, aktiver_node, "first", false);
+					$.jstree._reference(aktiver_node).move_node(window.tpopfeldkontr_node_ausgeschnitten, aktiver_node, "first", false);
 				}
 			}
 		}
 		if (window.tpopfeldkontr_node_kopiert) {
 			items.einfuegen = {
-				"label": jQuery.jstree._reference(window.tpopfeldkontr_node_kopiert).get_text(window.tpopfeldkontr_node_kopiert) + " einfügen",
+				"label": $.jstree._reference(window.tpopfeldkontr_node_kopiert).get_text(window.tpopfeldkontr_node_kopiert) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
@@ -5437,11 +5415,10 @@ window.af.treeKontextmenu = function(node) {
 							"TPopKontrId": erstelleIdAusDomAttributId($(window.tpopfeldkontr_node_kopiert).attr("id"))
 						}
 					});
-					insertTPopFeldKontrKopie.done(function(data) {
+					insertTPopFeldKontrKopie.done(function(id) {
 						var strukturtyp = "tpopfeldkontr",
-							ds_id = data,
 							beschriftung = erstelleLabelFürFeldkontrolle(window.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.tpopfeldkontr_objekt_kopiert.TPopKontrTyp);
-						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertTPopFeldKontrKopie.fail(function() {
 						melde("Fehler: Die Feldkontrolle wurde nicht erstellt");
@@ -5466,11 +5443,10 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertTPopFeldKontr_2.done(function(data) {
+					insertTPopFeldKontr_2.done(function(id) {
 						var strukturtyp = "tpopfeldkontr",
-							ds_id = data,
 							beschriftung = "neue Feldkontrolle";
-						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertTPopFeldKontr_2.fail(function() {
 						melde("Fehler: Keine neue Feldkontrolle erstellt");
@@ -5486,7 +5462,7 @@ window.af.treeKontextmenu = function(node) {
 					if (!prüfeSchreibvoraussetzungen()) {
 						return;
 					}
-					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
 					$("#loeschen_dialog_mitteilung").html("Die Feldkontrolle '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
@@ -5510,7 +5486,7 @@ window.af.treeKontextmenu = function(node) {
 								deleteTPopFeldKontr.done(function() {
 									delete localStorage.tpopfeldkontr_id;
 									delete window.tpopfeldkontr;
-									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_tpopfeldkontr(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
@@ -5672,17 +5648,17 @@ window.af.treeKontextmenu = function(node) {
 		}
 		if (window.tpopfeldkontr_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": jQuery.jstree._reference(window.tpopfeldkontr_node_ausgeschnitten).get_text(window.tpopfeldkontr_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.tpopfeldkontr_node_ausgeschnitten).get_text(window.tpopfeldkontr_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					jQuery.jstree._reference(parent_node).move_node(window.tpopfeldkontr_node_ausgeschnitten, parent_node, "first", false);
+					$.jstree._reference(parent_node).move_node(window.tpopfeldkontr_node_ausgeschnitten, parent_node, "first", false);
 				}
 			}
 		}
 		if (window.tpopfeldkontr_node_kopiert) {
 			items.einfuegen = {
-				"label": jQuery.jstree._reference(window.tpopfeldkontr_node_kopiert).get_text(window.tpopfeldkontr_node_kopiert) + " einfügen",
+				"label": $.jstree._reference(window.tpopfeldkontr_node_kopiert).get_text(window.tpopfeldkontr_node_kopiert) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
@@ -5697,11 +5673,10 @@ window.af.treeKontextmenu = function(node) {
 							"TPopKontrId": erstelleIdAusDomAttributId($(window.tpopfeldkontr_node_kopiert).attr("id"))
 						}
 					});
-					insertTPopFeldKontrKopie_2.done(function(data) {
+					insertTPopFeldKontrKopie_2.done(function(id) {
 						var strukturtyp = "tpopfeldkontr",
-							ds_id = data,
 							beschriftung = erstelleLabelFürFeldkontrolle(window.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.tpopfeldkontr_objekt_kopiert.TPopKontrTyp);
-						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertTPopFeldKontrKopie_2.fail(function() {
 						melde("Fehler: Die Feldkontrolle wurde nicht erstellt");
@@ -5726,11 +5701,10 @@ window.af.treeKontextmenu = function(node) {
 							"typ": "Freiwilligen-Erfolgskontrolle"
 						}
 					});
-					insertTPopFeldKontr_3.done(function(data) {
+					insertTPopFeldKontr_3.done(function(id) {
 						var strukturtyp = "tpopfreiwkontr",
-							ds_id = data,
 							beschriftung = "neue Freiwilligen-Kontrolle";
-						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertTPopFeldKontr_3.fail(function() {
 						melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
@@ -5740,17 +5714,17 @@ window.af.treeKontextmenu = function(node) {
 		};
 		if (window.tpopfreiwkontr_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": jQuery.jstree._reference(window.tpopfreiwkontr_node_ausgeschnitten).get_text(window.tpopfreiwkontr_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.tpopfreiwkontr_node_ausgeschnitten).get_text(window.tpopfreiwkontr_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					jQuery.jstree._reference(aktiver_node).move_node(window.tpopfreiwkontr_node_ausgeschnitten, aktiver_node, "first", false);
+					$.jstree._reference(aktiver_node).move_node(window.tpopfreiwkontr_node_ausgeschnitten, aktiver_node, "first", false);
 				}
 			}
 		}
 		if (window.tpopfreiwkontr_node_kopiert) {
 			items.einfuegen = {
-				"label": jQuery.jstree._reference(window.tpopfreiwkontr_node_kopiert).get_text(window.tpopfreiwkontr_node_kopiert) + " einfügen",
+				"label": $.jstree._reference(window.tpopfreiwkontr_node_kopiert).get_text(window.tpopfreiwkontr_node_kopiert) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
@@ -5765,11 +5739,10 @@ window.af.treeKontextmenu = function(node) {
 							"TPopKontrId": erstelleIdAusDomAttributId($(window.tpopfreiwkontr_node_kopiert).attr("id"))
 						}
 					});
-					insertTPopFeldKontrKopie_3.done(function(data) {
+					insertTPopFeldKontrKopie_3.done(function(id) {
 						var strukturtyp = "tpopfreiwkontr",
-							ds_id = data,
 							beschriftung = tpopfreiwkontr_objekt_kopiert.TPopKontrJahr;
-						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertTPopFeldKontrKopie_3.fail(function() {
 						melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
@@ -5794,11 +5767,10 @@ window.af.treeKontextmenu = function(node) {
 							"typ": "Freiwilligen-Erfolgskontrolle"
 						}
 					});
-					insertTPopFeldKontr_4.done(function(data) {
+					insertTPopFeldKontr_4.done(function(id) {
 						var strukturtyp = "tpopfreiwkontr",
-							ds_id = data,
 							beschriftung = "neue Freiwilligen-Kontrolle";
-						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertTPopFeldKontr_4.fail(function() {
 						melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
@@ -5814,7 +5786,7 @@ window.af.treeKontextmenu = function(node) {
 					if (!prüfeSchreibvoraussetzungen()) {
 						return;
 					}
-					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
 					$("#loeschen_dialog_mitteilung").html("Die Freiwilligen-Kontrolle '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
@@ -5839,7 +5811,7 @@ window.af.treeKontextmenu = function(node) {
 									delete localStorage.tpopfeldkontr_id;
 									delete localStorage.tpopfreiwkontr;
 									delete window.tpopfeldkontr;
-									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_tpopfreiwkontr(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
@@ -5907,18 +5879,18 @@ window.af.treeKontextmenu = function(node) {
 		}
 		if (window.tpopfreiwkontr_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": jQuery.jstree._reference(window.tpopfreiwkontr_node_ausgeschnitten).get_text(window.tpopfreiwkontr_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.tpopfreiwkontr_node_ausgeschnitten).get_text(window.tpopfreiwkontr_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					jQuery.jstree._reference(parent_node).move_node(window.tpopfreiwkontr_node_ausgeschnitten, parent_node, "first", false);
+					$.jstree._reference(parent_node).move_node(window.tpopfreiwkontr_node_ausgeschnitten, parent_node, "first", false);
 					localStorage.tpopfreiwkontr = true;
 				}
 			}
 		}
 		if (window.tpopfreiwkontr_node_kopiert) {
 			items.einfuegen = {
-				"label": jQuery.jstree._reference(window.tpopfreiwkontr_node_kopiert).get_text(window.tpopfreiwkontr_node_kopiert) + " einfügen",
+				"label": $.jstree._reference(window.tpopfreiwkontr_node_kopiert).get_text(window.tpopfreiwkontr_node_kopiert) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
@@ -5932,11 +5904,10 @@ window.af.treeKontextmenu = function(node) {
 							"TPopKontrId": erstelleIdAusDomAttributId($(window.tpopfreiwkontr_node_kopiert).attr("id"))
 						}
 					});
-					insertTPopFeldKontrKopie_4.done(function(data) {
+					insertTPopFeldKontrKopie_4.done(function(id) {
 						var strukturtyp = "tpopfreiwkontr",
-							ds_id = data,
 							beschriftung = tpopfreiwkontr_objekt_kopiert.TPopKontrJahr;
-						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertTPopFeldKontrKopie_4.fail(function() {
 						melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
@@ -5961,11 +5932,10 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertTPopMassn.done(function(data) {
+					insertTPopMassn.done(function(id) {
 						var strukturtyp = "tpopmassn",
-							ds_id = data,
 							beschriftung = "neue Massnahme";
-						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertTPopMassn.fail(function() {
 						melde("Fehler: Keine neue Massnahme erstellt");
@@ -5975,17 +5945,17 @@ window.af.treeKontextmenu = function(node) {
 		};
 		if (window.tpopmassn_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": jQuery.jstree._reference(window.tpopmassn_node_ausgeschnitten).get_text(window.tpopmassn_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.tpopmassn_node_ausgeschnitten).get_text(window.tpopmassn_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					jQuery.jstree._reference(aktiver_node).move_node(window.tpopmassn_node_ausgeschnitten, aktiver_node, "first", false);
+					$.jstree._reference(aktiver_node).move_node(window.tpopmassn_node_ausgeschnitten, aktiver_node, "first", false);
 				}
 			}
 		}
 		if (window.tpopmassn_node_kopiert) {
 			items.einfuegen = {
-				"label": jQuery.jstree._reference(window.tpopmassn_node_kopiert).get_text(window.tpopmassn_node_kopiert) + " einfügen",
+				"label": $.jstree._reference(window.tpopmassn_node_kopiert).get_text(window.tpopmassn_node_kopiert) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
@@ -5999,11 +5969,10 @@ window.af.treeKontextmenu = function(node) {
 							"TPopMassnId": erstelleIdAusDomAttributId($(window.tpopmassn_node_kopiert).attr("id"))
 						}
 					});
-					insertTPopMassnKopie.done(function(data) {
+					insertTPopMassnKopie.done(function(id) {
 						var strukturtyp = "tpopmassn",
-							ds_id = data,
 							beschriftung = erstelleLabelFürMassnahme(window.tpopmassn_objekt_kopiert.TPopMassnJahr, window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt);
-						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertTPopMassnKopie.fail(function() {
 						melde("Fehler: Die Massnahme wurde nicht erstellt");
@@ -6028,11 +5997,10 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertTPopMassn_2.done(function(data) {
+					insertTPopMassn_2.done(function(id) {
 						var strukturtyp = "tpopmassn",
-							ds_id = data,
 							beschriftung = "neue Massnahme";
-						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertTPopMassn_2.fail(function() {
 						melde("Fehler: Keine neue Massnahme erstellt");
@@ -6048,7 +6016,7 @@ window.af.treeKontextmenu = function(node) {
 					if (!prüfeSchreibvoraussetzungen()) {
 						return;
 					}
-					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
 					$("#loeschen_dialog_mitteilung").html("Die Massnahme '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
@@ -6072,7 +6040,7 @@ window.af.treeKontextmenu = function(node) {
 								deleteTPopMassn.done(function() {
 									delete localStorage.tpopmassn_id;
 									delete window.tpopmassn;
-									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_tpopmassn(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
@@ -6145,17 +6113,17 @@ window.af.treeKontextmenu = function(node) {
 		}
 		if (window.tpopmassn_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": jQuery.jstree._reference(window.tpopmassn_node_ausgeschnitten).get_text(window.tpopmassn_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.tpopmassn_node_ausgeschnitten).get_text(window.tpopmassn_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					jQuery.jstree._reference(parent_node).move_node(window.tpopmassn_node_ausgeschnitten, parent_node, "first", false);
+					$.jstree._reference(parent_node).move_node(window.tpopmassn_node_ausgeschnitten, parent_node, "first", false);
 				}
 			}
 		}
 		if (window.tpopmassn_node_kopiert) {
 			items.einfuegen = {
-				"label": jQuery.jstree._reference(window.tpopmassn_node_kopiert).get_text(window.tpopmassn_node_kopiert) + " einfügen",
+				"label": $.jstree._reference(window.tpopmassn_node_kopiert).get_text(window.tpopmassn_node_kopiert) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
@@ -6169,11 +6137,10 @@ window.af.treeKontextmenu = function(node) {
 							"TPopMassnId": erstelleIdAusDomAttributId($(window.tpopmassn_node_kopiert).attr("id"))
 						}
 					});
-					insertTPopMassnKopie_2.done(function(data) {
+					insertTPopMassnKopie_2.done(function(id) {
 						var strukturtyp = "tpopmassn",
-							ds_id = data,
 							beschriftung = erstelleLabelFürMassnahme(window.tpopmassn_objekt_kopiert.TPopMassnJahr, window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt);
-						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertTPopMassnKopie_2.fail(function() {
 						melde("Fehler: Die Massnahme wurde nicht erstellt");
@@ -6197,11 +6164,10 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertTPopBer.done(function(data) {
+					insertTPopBer.done(function(id) {
 						var strukturtyp = "tpopber",
-							ds_id = data,
 							beschriftung = "neuer Teilpopulations-Bericht";
-						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertTPopBer.fail(function() {
 						melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
@@ -6226,11 +6192,10 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertTPopBer_2.done(function(data) {
+					insertTPopBer_2.done(function(id) {
 						var strukturtyp = "tpopber",
-							ds_id = data,
 							beschriftung = "neuer Teilpopulations-Bericht";
-						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertTPopBer_2.fail(function() {
 						melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
@@ -6246,7 +6211,7 @@ window.af.treeKontextmenu = function(node) {
 					if (!prüfeSchreibvoraussetzungen()) {
 						return;
 					}
-					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
 					$("#loeschen_dialog_mitteilung").html("Der Teilpopulations-Bericht '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
@@ -6270,7 +6235,7 @@ window.af.treeKontextmenu = function(node) {
 								deleteTPopBer.done(function() {
 									delete localStorage.tpopber_id;
 									delete window.tpopber;
-									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_tpopber(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
@@ -6320,17 +6285,17 @@ window.af.treeKontextmenu = function(node) {
 		if (window.beob_zugeordnet_node_ausgeschnitten) {
 			items = {};
 			items.einfuegen = {
-				"label": jQuery.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					jQuery.jstree._reference(aktiver_node).move_node(window.beob_zugeordnet_node_ausgeschnitten, aktiver_node, "first", false);
+					$.jstree._reference(aktiver_node).move_node(window.beob_zugeordnet_node_ausgeschnitten, aktiver_node, "first", false);
 				}
 			}
 		}
 		if (window.beob_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": jQuery.jstree._reference(window.beob_node_ausgeschnitten).get_text(window.beob_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.beob_node_ausgeschnitten).get_text(window.beob_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
@@ -6431,21 +6396,21 @@ window.af.treeKontextmenu = function(node) {
 		}
 		if (window.beob_zugeordnet_node_ausgeschnitten) {
 			items.einfuegen_beob_zugeordnet = {
-				"label": jQuery.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					jQuery.jstree._reference(parent_node).move_node(window.beob_zugeordnet_node_ausgeschnitten, parent_node, "first", false);
+					$.jstree._reference(parent_node).move_node(window.beob_zugeordnet_node_ausgeschnitten, parent_node, "first", false);
 				}
 			}
 		}
 		if (window.beob_node_ausgeschnitten) {
 			items.einfuegen_beob = {
-				"label": jQuery.jstree._reference(window.beob_node_ausgeschnitten).get_text(window.beob_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.beob_node_ausgeschnitten).get_text(window.beob_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					jQuery.jstree._reference(parent_node).move_node(window.beob_node_ausgeschnitten, parent_node, "first", false);
+					$.jstree._reference(parent_node).move_node(window.beob_node_ausgeschnitten, parent_node, "first", false);
 				}
 			}
 		}
@@ -6465,11 +6430,10 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertTPopMassnBer.done(function(data) {
+					insertTPopMassnBer.done(function(id) {
 						var strukturtyp = "tpopmassnber",
-							ds_id = data,
 							beschriftung = "neuer Massnahmen-Bericht";
-						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertTPopMassnBer.fail(function() {
 						melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
@@ -6494,11 +6458,10 @@ window.af.treeKontextmenu = function(node) {
 							"user": sessionStorage.User
 						}
 					});
-					insertTPopMassBer_2.done(function(data) {
+					insertTPopMassBer_2.done(function(id) {
 						var strukturtyp = "tpopmassnber",
-							ds_id = data,
 							beschriftung = "neuer Massnahmen-Bericht";
-						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+						insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertTPopMassBer_2.fail(function() {
 						melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
@@ -6514,7 +6477,7 @@ window.af.treeKontextmenu = function(node) {
 					if (!prüfeSchreibvoraussetzungen()) {
 						return;
 					}
-					var bezeichnung = jQuery.jstree._reference(aktiver_node).get_text(aktiver_node);
+					var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
 					$("#loeschen_dialog_mitteilung").html("Der Massnahmen-Bericht '" + bezeichnung + "' wird gelöscht.");
 					$("#loeschen_dialog").dialog({
 						resizable: false,
@@ -6538,7 +6501,7 @@ window.af.treeKontextmenu = function(node) {
 								deleteTPopMassnBer.done(function() {
 									delete localStorage.tpopmassnber_id;
 									delete window.tpopmassnber;
-									jQuery.jstree._reference(aktiver_node).delete_node(aktiver_node);
+									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_popmassnber(parent_node);
 									// Hinweis zum rückgängig machen anzeigen
@@ -6626,7 +6589,7 @@ window.af.treeKontextmenu = function(node) {
 		}
 		if (window.beob_zugeordnet_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": jQuery.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
@@ -6727,7 +6690,7 @@ window.af.treeKontextmenu = function(node) {
 		}
 		if (window.beob_zugeordnet_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": jQuery.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
@@ -6767,7 +6730,7 @@ window.af.treeKontextmenu = function(node) {
 		}
 		if (window.beob_zugeordnet_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": jQuery.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
@@ -6829,7 +6792,7 @@ window.af.treeKontextmenu = function(node) {
 		}
 		if (window.beob_zugeordnet_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": jQuery.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
@@ -6852,14 +6815,13 @@ function tpop_kopiert_in_pop_ordner_tpop_einfuegen(aktiver_node) {
 			"TPopId": erstelleIdAusDomAttributId($(window.tpop_node_kopiert).attr("id"))
 		}
 	});
-	insertTPopKopie.done(function(data) {
+	insertTPopKopie.done(function(id) {
 		var strukturtyp = "tpop",
-			ds_id = data,
 			beschriftung = window.tpop_objekt_kopiert.TPopFlurname;
 		if (window.tpop_objekt_kopiert.TPopNr) {
 			beschriftung = window.tpop_objekt_kopiert.TPopNr + ': ' + window.tpop_objekt_kopiert.TPopFlurname
 		}
-		insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, "", strukturtyp, ds_id, beschriftung);
+		insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, "", strukturtyp, id, beschriftung);
 	});
 	insertTPopKopie.fail(function() {
 		melde("Fehler: Die Teilpopulation wurde nicht erstellt");
@@ -6875,7 +6837,7 @@ function pop_kopiert_in_pop_einfuegen(aktiver_node, parent_node) {
 	}
 	// drop kennt den parent nicht
 	if (!parent_node) {
-		parent_node = jQuery.jstree._reference(aktiver_node)._get_parent(aktiver_node);
+		parent_node = $.jstree._reference(aktiver_node)._get_parent(aktiver_node);
 	}
 	// User und neue ApArtId mitgeben
 	data.MutWer = sessionStorage.User;
@@ -6902,9 +6864,8 @@ function pop_kopiert_in_pop_einfuegen(aktiver_node, parent_node) {
 	});
 	insertPopKopie_2.done(function(pop_id) {
 		var strukturtyp = "pop",
-			ds_id = pop_id,
 			beschriftung = window.pop_objekt_kopiert.PopNr + " " + window.pop_objekt_kopiert.PopName;
-		insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+		insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, pop_id, beschriftung);
 	});
 	insertPopKopie_2.fail(function() {
 		melde("Fehler: Die Population wurde nicht erstellt");
@@ -6920,7 +6881,7 @@ function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 	}
 	// drop kennt den parent nicht
 	if (!parent_node) {
-		parent_node = jQuery.jstree._reference(aktiver_node)._get_parent(aktiver_node);
+		parent_node = $.jstree._reference(aktiver_node)._get_parent(aktiver_node);
 	}
 	// User und neue PopId mitgeben
 	data.MutWer = sessionStorage.User;
@@ -6945,11 +6906,10 @@ function tpop_kopiert_in_tpop_einfuegen(aktiver_node, parent_node) {
 		dataType: 'json',
 		data: data
 	});
-	insertTPopKopie_2.done(function(data) {
+	insertTPopKopie_2.done(function(tpop_id) {
 		var strukturtyp = "tpop",
-			ds_id = data,
 			beschriftung = window.tpop_objekt_kopiert.TPopNr + " " + window.tpop_objekt_kopiert.TPopFlurname;
-		insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+		insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, tpop_id, beschriftung);
 	});
 	insertTPopKopie_2.fail(function() {
 		melde("Fehler: Die Teilpopulation wurde nicht erstellt");
@@ -6960,16 +6920,17 @@ function pruefeLesevoraussetzungen() {
 	// kontrollieren, ob der User offline ist
 	if (!navigator.onLine) {
 		console.log('offline');
-		$("#offline_dialog").show();
-		$("#offline_dialog").dialog({
-			modal: true,
-			width: 400,
-			buttons: {
-				Ok: function() {
-					$(this).dialog("close");
-				}
-			}
-		});
+		$("#offline_dialog")
+            .show()
+            .dialog({
+                modal: true,
+                width: 400,
+                buttons: {
+                    Ok: function() {
+                        $(this).dialog("close");
+                    }
+                }
+            });
 		return false;
 	} else {
 		return true;
@@ -9679,7 +9640,7 @@ function clearInfoWindows() {
 
 function oeffneTPop(TPopId) {
 	localStorage.tpop_id = TPopId;
-	jQuery.jstree._reference("[typ='tpop']#" + TPopId).deselect_all();
+	$.jstree._reference("[typ='tpop']#" + TPopId).deselect_all();
 	jQuery("#tree").jstree("select_node", "[typ='tpop']#" + TPopId);
 }
 
@@ -9689,7 +9650,7 @@ function oeffneTPopInNeuemTab(TPopId) {
 
 function oeffnePop(PopId) {
 	localStorage.pop_id = PopId;
-	jQuery.jstree._reference("[typ='pop']#" + PopId).deselect_all();
+	$.jstree._reference("[typ='pop']#" + PopId).deselect_all();
 	jQuery("#tree").jstree("select_node", "[typ='pop']#" + PopId);
 }
 
@@ -9699,7 +9660,7 @@ function oeffnePopInNeuemTab(PopId) {
 
 function oeffneBeob(BeobId) {
 	localStorage.beob_id = BeobId;
-	jQuery.jstree._reference("[typ='beob_nicht_beurteilt']#beob" + BeobId).deselect_all();
+	$.jstree._reference("[typ='beob_nicht_beurteilt']#beob" + BeobId).deselect_all();
 	jQuery("#tree").jstree("select_node", "[typ='beob_nicht_beurteilt']#beob" + BeobId);
 }
 
@@ -9709,7 +9670,7 @@ function oeffneBeobInNeuemTab(BeobId) {
 
 function oeffneTPopBeob(BeobId) {
 	localStorage.beob_id = BeobId;
-	jQuery.jstree._reference("[typ='beob_zugeordnet']#beob" + BeobId).deselect_all();
+	$.jstree._reference("[typ='beob_zugeordnet']#beob" + BeobId).deselect_all();
 	jQuery("#tree").jstree("select_node", "[typ='beob_zugeordnet']#beob" + BeobId);
 }
 
@@ -11068,7 +11029,7 @@ function insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, st
 	// letzte globale Variable entfernen
 	delete window[strukturtyp];
 	// neuen Node bauen
-	NeuerNode = jQuery.jstree._reference(parent_node).create_node(parent_node, "last", {
+	NeuerNode = $.jstree._reference(parent_node).create_node(parent_node, "last", {
 		"data": beschriftung,
 		"attr": {
 			"id": ds_id,
@@ -11083,7 +11044,7 @@ function insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, st
 		insertOrdnerVonTPop(NeuerNode, ds_id);
 	}
 	if (strukturtyp === "apziel") {
-		jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
+		$.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
 			"data": "0 Ziel-Berichte",
 			"attr": {
 				"id": ds_id,
@@ -11094,12 +11055,12 @@ function insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, st
 
 	// Parent Node-Beschriftung: Anzahl anpassen
 	if (strukturtyp === "apziel") {
-		var grandparent_node = jQuery.jstree._reference(parent_node)._get_parent(parent_node);
+		var grandparent_node = $.jstree._reference(parent_node)._get_parent(parent_node);
 		// grandparent Node-Beschriftung: Anzahl anpassen
 		window.af.beschrifte_ordner_apziel(grandparent_node);
 		// parent Node-Beschriftung: Anzahl anpassen
 		// nur, wenn es nicht der Ordner ist, der "neue AP-Ziele" heisst
-		if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
+		if ($.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
 			window.af.beschrifte_ordner_apzieljahr(parent_node);
 		}
 	} else {
@@ -11108,8 +11069,8 @@ function insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, st
 	}
 	
 	// node selecten
-	jQuery.jstree._reference(aktiver_node).deselect_all();
-	jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+	$.jstree._reference(aktiver_node).deselect_all();
+	$.jstree._reference(NeuerNode).select_node(NeuerNode);
 	// Formular initiieren
 	if (strukturtyp === "tpopfreiwkontr") {
 		// der Initiierung mitteilen, dass es eine Freiwilligenkontrolle ist und keine Feldkontrolle
@@ -11131,7 +11092,7 @@ function insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, str
 	delete window[strukturtyp];
 	if (strukturtyp === "apziel" && localStorage.apziel_von_ordner_apziel) {
 		// localStorage.apziel_von_ordner_apziel sagt: apziel wird vom ordner_apziel aus angelegt > temporären Unterordner anlegen
-		var neue_apziele_node = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+		var neue_apziele_node = $.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
 			"data": "neue AP-Ziele",
 			"attr": {
 				"id": erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
@@ -11139,7 +11100,7 @@ function insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, str
 			}
 		});
 		// darunter neuen Node bauen
-		NeuerNode = jQuery.jstree._reference(neue_apziele_node).create_node(neue_apziele_node, "last", {
+		NeuerNode = $.jstree._reference(neue_apziele_node).create_node(neue_apziele_node, "last", {
 			"data": beschriftung,
 			"attr": {
 				"id": ds_id,
@@ -11150,7 +11111,7 @@ function insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, str
 	} else {
 		// Normalfall
 		// neuen Node bauen
-		NeuerNode = jQuery.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
+		NeuerNode = $.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
 			"data": beschriftung,
 			"attr": {
 				"id": ds_id,
@@ -11166,7 +11127,7 @@ function insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, str
 		insertOrdnerVonTPop(NeuerNode, ds_id);
 	}
 	if (strukturtyp === "apziel") {
-		jQuery.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
+		$.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
 			"data": "0 Ziel-Berichte",
 			"attr": {
 				"id": ds_id,
@@ -11179,7 +11140,7 @@ function insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, str
 	if (strukturtyp === "apziel" && localStorage.apziel_von_apzieljahr) {
 		// hier ist ein Ordner zwischengeschaltet
 		// Parent Node-Beschriftung: Anzahl anpassen, wenns nicht der neue Ordner ist
-		if (jQuery.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
+		if ($.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
 			window.af.beschrifte_ordner_apziel(parent_node);
 		}
 		// aktiver Node-Beschriftung: Anzahl anpassen
@@ -11189,8 +11150,8 @@ function insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, str
 		window["beschrifte_ordner_"+strukturtyp](aktiver_node);
 	}
 	// node selecten
-	jQuery.jstree._reference(aktiver_node).deselect_all();
-	jQuery.jstree._reference(NeuerNode).select_node(NeuerNode);
+	$.jstree._reference(aktiver_node).deselect_all();
+	$.jstree._reference(NeuerNode).select_node(NeuerNode);
 	// Formular initiieren
 	if (strukturtyp === "tpopfreiwkontr") {
 		// der Initiierung mitteilen, dass es eine Freiwilligenkontrolle ist und keine Feldkontrolle
@@ -11205,21 +11166,21 @@ function insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, str
 // erstellt alle Unterordner des Ordners vom Typ pop
 // erwartet den node des pop-ordners
 function insertOrdnerVonPop(pop_node, pop_id) {
-	jQuery.jstree._reference(pop_node).create_node(pop_node, "last", {
+	$.jstree._reference(pop_node).create_node(pop_node, "last", {
 		"data": "Teilpopulationen",
 		"attr": {
 			"id": pop_id,
 			"typ": "pop_ordner_tpop"
 		}
 	});
-	jQuery.jstree._reference(pop_node).create_node(pop_node, "last", {
+	$.jstree._reference(pop_node).create_node(pop_node, "last", {
 		"data": "Populations-Berichte",
 		"attr": {
 			"id": pop_id,
 			"typ": "pop_ordner_popber"
 		}
 	});
-	jQuery.jstree._reference(pop_node).create_node(pop_node, "last", {
+	$.jstree._reference(pop_node).create_node(pop_node, "last", {
 		"data": "Massnahmen-Berichte",
 		"attr": {
 			"id": pop_id,
@@ -11231,42 +11192,42 @@ function insertOrdnerVonPop(pop_node, pop_id) {
 // erstellt alle Unterordner des Ordners vom Typ tpop
 // erwartet den node des tpop-ordners
 function insertOrdnerVonTPop(TPopNode, tpop_id) {
-	jQuery.jstree._reference(TPopNode).create_node(TPopNode, "last", {
+	$.jstree._reference(TPopNode).create_node(TPopNode, "last", {
 		"data": "Massnahmen",
 		"attr": {
 			"id": tpop_id,
 			"typ": "tpop_ordner_massn"
 		}
 	});
-	jQuery.jstree._reference(TPopNode).create_node(TPopNode, "last", {
+	$.jstree._reference(TPopNode).create_node(TPopNode, "last", {
 		"data": "Massnahmen-Berichte",
 		"attr": {
 			"id": tpop_id,
 			"typ": "tpop_ordner_massnber"
 		}
 	});
-	jQuery.jstree._reference(TPopNode).create_node(TPopNode, "last", {
+	$.jstree._reference(TPopNode).create_node(TPopNode, "last", {
 		"data": "Feldkontrollen",
 		"attr": {
 			"id": tpop_id,
 			"typ": "tpop_ordner_feldkontr"
 		}
 	});
-	jQuery.jstree._reference(TPopNode).create_node(TPopNode, "last", {
+	$.jstree._reference(TPopNode).create_node(TPopNode, "last", {
 		"data": "Freiwilligen-Kontrollen",
 		"attr": {
 			"id": tpop_id,
 			"typ": "tpop_ordner_freiwkontr"
 		}
 	});
-	jQuery.jstree._reference(TPopNode).create_node(TPopNode, "last", {
+	$.jstree._reference(TPopNode).create_node(TPopNode, "last", {
 		"data": "Teilpopulations-Berichte",
 		"attr": {
 			"id": tpop_id,
 			"typ": "tpop_ordner_tpopber"
 		}
 	});
-	jQuery.jstree._reference(TPopNode).create_node(TPopNode, "last", {
+	$.jstree._reference(TPopNode).create_node(TPopNode, "last", {
 		"data": "Beobachtungen",
 		"attr": {
 			"id": tpop_id,
