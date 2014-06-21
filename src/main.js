@@ -11841,157 +11841,144 @@ window.af.speichern = function(that) {
 // wandelt decimal degrees (vom GPS) in WGS84 um
 window.af.DdInWgs84BreiteGrad = function(Breite) {
 	'use strict';
-	var BreiteGrad;
- 	BreiteGrad = Math.floor(Breite);
+	var BreiteGrad = Math.floor(Breite);
 	return BreiteGrad;
 };
 
 window.af.DdInWgs84BreiteMin = function(Breite) {
 	'use strict';
-	var BreiteGrad, BreiteMin;
- 	BreiteGrad = Math.floor(Breite);
-	BreiteMin = Math.floor((Breite-BreiteGrad)*60);
+	var BreiteGrad = Math.floor(Breite),
+		BreiteMin = Math.floor((Breite - BreiteGrad) * 60);
 	return BreiteMin;
 };
 
-function DdInWgs84BreiteSec(Breite) {
-	var BreiteGrad, BreiteMin, BreiteSec;
- 	BreiteGrad = Math.floor(Breite);
-	BreiteMin = Math.floor((Breite-BreiteGrad)*60);
-	BreiteSec =  (Math.round((((Breite - BreiteGrad) - (BreiteMin/60)) * 60 * 60) * 100) / 100);
+window.af.DdInWgs84BreiteSec = function(Breite) {
+	'use strict';
+	var BreiteGrad = Math.floor(Breite),
+		BreiteMin = Math.floor((Breite - BreiteGrad)*60),
+		BreiteSec = Math.round((((Breite - BreiteGrad) - (BreiteMin / 60)) * 60 * 60) * 100) / 100;
 	return BreiteSec;
-}
+};
 
-function DdInWgs84LaengeGrad(Laenge) {
-	var LaengeGrad;
-	LaengeGrad = Math.floor(Laenge);
+window.af.DdInWgs84LaengeGrad = function(Laenge) {
+	'use strict';
+	var LaengeGrad = Math.floor(Laenge);
 	return LaengeGrad;
-}
+};
 
-function DdInWgs84LaengeMin(Laenge) {
-	var LaengeGrad, LaengeMin;
-	LaengeGrad = Math.floor(Laenge);
-	LaengeMin = Math.floor((Laenge-LaengeGrad)*60);
+window.af.DdInWgs84LaengeMin = function(Laenge) {
+	'use strict';
+	var LaengeGrad = Math.floor(Laenge),
+		LaengeMin = Math.floor((Laenge - LaengeGrad) * 60);
 	return LaengeMin;
-}
+};
 
-function DdInWgs84LaengeSec(Laenge) {
-	var LaengeGrad, LaengeMin, LaengeSec;
-	LaengeGrad = Math.floor(Laenge);
-	LaengeMin = Math.floor((Laenge-LaengeGrad)*60);
-	LaengeSec = (Math.round((((Laenge - LaengeGrad) - (LaengeMin/60)) * 60 * 60) * 100 ) / 100);
+window.af.DdInWgs84LaengeSec = function(Laenge) {
+	'use strict';
+	var LaengeGrad = Math.floor(Laenge),
+		LaengeMin = Math.floor((Laenge - LaengeGrad) * 60),
+		LaengeSec = Math.round((((Laenge - LaengeGrad) - (LaengeMin / 60)) * 60 * 60) * 100) / 100;
 	return LaengeSec;
-}
+};
 
 // Wandelt WGS84 lat/long (° dec) in CH-Landeskoordinaten um
-function Wgs84InChX(BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, LaengeSec) {
-	var lat_aux, lng_aux;
-	// Converts degrees dec to sex
-	lat = BreiteSec + BreiteMin*60 + BreiteGrad*3600;
-	lng = LaengeSec + LaengeMin*60 + LaengeGrad*3600;
-  
-	// Axiliary values (% Bern)
-	lat_aux = (lat - 169028.66)/10000;
-	lng_aux = (lng - 26782.5)/10000;
-
-	x = 200147.07
-	  + 308807.95 * lat_aux 
-	  +   3745.25 * Math.pow(lng_aux,2)
-	  +	 76.63 * Math.pow(lat_aux,2)
-	  -	194.56 * Math.pow(lng_aux,2) * lat_aux
-	  +	119.79 * Math.pow(lat_aux,3);
- 
+window.af.Wgs84InChX = function(BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, LaengeSec) {
+	'use strict';
+	var lat = BreiteSec + BreiteMin * 60 + BreiteGrad * 3600,
+		lng = LaengeSec + LaengeMin * 60 + LaengeGrad * 3600,
+		// Axiliary values (% Bern)
+		lat_aux = (lat - 169028.66) / 10000,
+		lng_aux = (lng - 26782.5) / 10000,
+		x = 200147.07
+		  + 308807.95 * lat_aux 
+		  +   3745.25 * Math.pow(lng_aux, 2)
+		  +	 76.63 * Math.pow(lat_aux, 2)
+		  -	194.56 * Math.pow(lng_aux, 2) * lat_aux
+		  +	119.79 * Math.pow(lat_aux, 3);
 	return x;
-}
+};
 
 // Wandelt WGS84 in CH-Landeskoordinaten um
-function Wgs84InChY(BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, LaengeSec) {
-	var lat_aux, lng_aux;
+window.af.Wgs84InChY = function(BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, LaengeSec) {
+	'use strict';
 	// Converts degrees dec to sex
-	lat = BreiteSec + BreiteMin*60 + BreiteGrad*3600;
-	lng = LaengeSec + LaengeMin*60 + LaengeGrad*3600;
-
-	// Axiliary values (% Bern)
-	lat_aux = (lat - 169028.66)/10000;
-	lng_aux = (lng - 26782.5)/10000;
-
-	// Process Y
-	y = 600072.37 
-	   + 211455.93 * lng_aux 
-	   -  10938.51 * lng_aux * lat_aux
-	   -	  0.36 * lng_aux * Math.pow(lat_aux,2)
-	   -	 44.54 * Math.pow(lng_aux,3);
-	
+	var lat = BreiteSec + BreiteMin * 60 + BreiteGrad * 3600,
+		lng = LaengeSec + LaengeMin * 60 + LaengeGrad * 3600,
+		// Axiliary values (% Bern)
+		lat_aux = (lat - 169028.66) / 10000,
+		lng_aux = (lng - 26782.5) / 10000,
+		// Process Y
+		y = 600072.37 
+		  + 211455.93 * lng_aux 
+		  -  10938.51 * lng_aux * lat_aux
+		  -	  0.36 * lng_aux * Math.pow(lat_aux, 2)
+		  -	 44.54 * Math.pow(lng_aux, 3);
 	return y;
-}
+};
 
 // wandelt decimal degrees (vom GPS) in CH-Landeskoordinaten um
-function DdInChX(Breite, Laenge) {
-	var BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, LaengeSec, x;
-	BreiteGrad = window.af.DdInWgs84BreiteGrad(Breite);
-	BreiteMin = window.af.DdInWgs84BreiteMin(Breite);
-	BreiteSec = DdInWgs84BreiteSec(Breite);
-	LaengeGrad = DdInWgs84LaengeGrad(Laenge);
-	LaengeMin = DdInWgs84LaengeMin(Laenge);
-	LaengeSec = DdInWgs84LaengeSec(Laenge);
-	x = Math.floor(Wgs84InChX(BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, LaengeSec));
+window.af.DdInChX = function(Breite, Laenge) {
+	'use strict';
+	var BreiteGrad = window.af.DdInWgs84BreiteGrad(Breite),
+		BreiteMin = window.af.DdInWgs84BreiteMin(Breite),
+		BreiteSec = window.af.DdInWgs84BreiteSec(Breite),
+		LaengeGrad = window.af.DdInWgs84LaengeGrad(Laenge),
+		LaengeMin = window.af.DdInWgs84LaengeMin(Laenge),
+		LaengeSec = window.af.DdInWgs84LaengeSec(Laenge),
+		x = Math.floor(window.af.Wgs84InChX(BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, LaengeSec));
 	return x;
-}
+};
 
-function DdInChY(Breite, Laenge) {
-	var BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, LaengeSec, y;
-	BreiteGrad = window.af.DdInWgs84BreiteGrad(Breite);
-	BreiteMin = window.af.DdInWgs84BreiteMin(Breite);
-	BreiteSec = DdInWgs84BreiteSec(Breite);
-	LaengeGrad = DdInWgs84LaengeGrad(Laenge);
-	LaengeMin = DdInWgs84LaengeMin(Laenge);
-	LaengeSec = DdInWgs84LaengeSec(Laenge);
-	y = Math.floor(Wgs84InChY(BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, LaengeSec));
+window.af.DdInChY = function(Breite, Laenge) {
+	'use strict';
+	var BreiteGrad = window.af.DdInWgs84BreiteGrad(Breite),
+		BreiteMin = window.af.DdInWgs84BreiteMin(Breite),
+		BreiteSec = window.af.DdInWgs84BreiteSec(Breite),
+		LaengeGrad = window.af.DdInWgs84LaengeGrad(Laenge),
+		LaengeMin = window.af.DdInWgs84LaengeMin(Laenge),
+		LaengeSec = window.af.DdInWgs84LaengeSec(Laenge),
+		y = Math.floor(window.af.Wgs84InChY(BreiteGrad, BreiteMin, BreiteSec, LaengeGrad, LaengeMin, LaengeSec));
 	return y;
-}
+};
 
 // von CH-Landeskoord zu DecDeg
 
 // Convert CH y/x to WGS lat
-function CHtoWGSlat(y, x) {
+window.af.CHtoWGSlat = function(y, x) {
+	'use strict';
 	// Converts militar to civil and to unit = 1000km
-	var y_aux, x_aux;
 	// Axiliary values (% Bern)
-	y_aux = (y - 600000)/1000000;
-	x_aux = (x - 200000)/1000000;
-
-	// Process lat
-	lat = 16.9023892
-		 +  3.238272 * x_aux
-		 -  0.270978 * Math.pow(y_aux,2)
-		 -  0.002528 * Math.pow(x_aux,2)
-		 -  0.0447   * Math.pow(y_aux,2) * x_aux
-		 -  0.0140   * Math.pow(x_aux,3);
-	
+	var y_aux = (y - 600000) / 1000000,
+		x_aux = (x - 200000) / 1000000,
+		// Process lat
+		lat = 16.9023892
+			 +  3.238272 * x_aux
+			 -  0.270978 * Math.pow(y_aux, 2)
+			 -  0.002528 * Math.pow(x_aux, 2)
+			 -  0.0447   * Math.pow(y_aux, 2) * x_aux
+			 -  0.0140   * Math.pow(x_aux, 3);
 	// Unit 10000" to 1 " and converts seconds to degrees (dec)
-	lat = lat * 100/36;
+	lat = lat * 100 / 36;
 	return lat;
-}
+};
 
 // Convert CH y/x to WGS long
-function CHtoWGSlng(y, x) {
+window.af.CHtoWGSlng = function(y, x) {
+	'use strict';
 	// Converts militar to civil and to unit = 1000km
-	var y_aux, x_aux;
 	// Axiliary values (% Bern)
-	y_aux = (y - 600000)/1000000;
-	x_aux = (x - 200000)/1000000;
-
-	// Process long
-	lng = 2.6779094
-		+ 4.728982 * y_aux
-		+ 0.791484 * y_aux * x_aux
-		+ 0.1306   * y_aux * Math.pow(x_aux,2)
-		- 0.0436   * Math.pow(y_aux,3);
-	
+	var y_aux = (y - 600000) / 1000000,
+		x_aux = (x - 200000) / 1000000,
+		// Process long
+		lng = 2.6779094
+			+ 4.728982 * y_aux
+			+ 0.791484 * y_aux * x_aux
+			+ 0.1306   * y_aux * Math.pow(x_aux, 2)
+			- 0.0436   * Math.pow(y_aux, 3);
 	// Unit 10000" to 1 " and converts seconds to degrees (dec)
-	lng = lng * 100/36;
+	lng = lng * 100 / 36;
 	return lng;
-}
+};
 
 function zeigeTPopAufKarte(TPopListe) {
 	window.TPopListe = TPopListe;
@@ -12026,8 +12013,8 @@ function zeigeTPopAufKarte(TPopListe) {
 		if (!TPop.TPopXKoord || !TPop.TPopYKoord) {
 			delete TPop;
 		} else {
-			TPop.Lat = CHtoWGSlat(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
-			TPop.Lng = CHtoWGSlng(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
+			TPop.Lat = window.af.CHtoWGSlat(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
+			TPop.Lng = window.af.CHtoWGSlng(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
 		}
 	}
 	// TPop zählen
@@ -13504,8 +13491,8 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 	// Lat und Lng in BeobListe ergänzen
 	for (var i = 0; i < BeobListe.rows.length; i++) {
 		Beob = BeobListe.rows[i];
-		Beob.Lat = CHtoWGSlat(parseInt(Beob.X), parseInt(Beob.Y));
-		Beob.Lng = CHtoWGSlng(parseInt(Beob.X), parseInt(Beob.Y));
+		Beob.Lat = window.af.CHtoWGSlat(parseInt(Beob.X), parseInt(Beob.Y));
+		Beob.Lng = window.af.CHtoWGSlng(parseInt(Beob.X), parseInt(Beob.Y));
 	}
 	// dito in TPopListe
 	for (var i = 0; i < TPopListe.rows.length; i++) {
@@ -13513,8 +13500,8 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 		if (!TPop.TPopXKoord || !TPop.TPopYKoord) {
 			delete TPop;
 		} else {
-			TPop.Lat = CHtoWGSlat(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
-			TPop.Lng = CHtoWGSlng(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
+			TPop.Lat = window.af.CHtoWGSlat(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
+			TPop.Lng = window.af.CHtoWGSlng(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
 		}
 	}
 	// Beob zählen
@@ -13661,8 +13648,8 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 			// Koordinaten berechnen
 			lat = event.latLng.lat();
 			lng = event.latLng.lng();
-			X = DdInChY(lat, lng);
-			Y = DdInChX(lat, lng);
+			X = window.af.DdInChY(lat, lng);
+			Y = window.af.DdInChX(lat, lng);
 			// nächstgelegene TPop aus DB holen
 			var BeobNaechsteTPop = $.ajax({
 				type: 'get',
@@ -13701,8 +13688,8 @@ function zeigeBeobUndTPopAufKarte(BeobListe, TPopListe) {
 						Nein: function() {
 							$(this).dialog("close");
 							// drag rückgängig machen
-							lng = CHtoWGSlng(Beob.X, Beob.Y);
-							lat = CHtoWGSlat(Beob.X, Beob.Y);
+							lng = window.af.CHtoWGSlng(Beob.X, Beob.Y);
+							lat = window.af.CHtoWGSlat(Beob.X, Beob.Y);
 							var latlng3 = new google.maps.LatLng(lat, lng);
 							that.setPosition(latlng3);
 						}
@@ -13753,8 +13740,8 @@ function zeigeBeobAufKarte(BeobListe) {
 	// Lat und Lng in BeobListe ergänzen
 	for (var i = 0; i < BeobListe.rows.length; i++) {
 		Beob = BeobListe.rows[i];
-		Beob.Lat = CHtoWGSlat(parseInt(Beob.X), parseInt(Beob.Y));
-		Beob.Lng = CHtoWGSlng(parseInt(Beob.X), parseInt(Beob.Y));
+		Beob.Lat = window.af.CHtoWGSlat(parseInt(Beob.X), parseInt(Beob.Y));
+		Beob.Lng = window.af.CHtoWGSlng(parseInt(Beob.X), parseInt(Beob.Y));
 	}
 	// TPop zählen
 	anzBeob = BeobListe.rows.length;
@@ -13893,8 +13880,8 @@ function zeigeTPopBeobAufKarte(TPopBeobListe) {
 	// Lat und Lng ergänzen
 	for (var i = 0; i < TPopBeobListe.rows.length; i++) {
 		TPopBeob = TPopBeobListe.rows[i];
-		TPopBeob.Lat = CHtoWGSlat(parseInt(TPopBeob.X), parseInt(TPopBeob.Y));
-		TPopBeob.Lng = CHtoWGSlng(parseInt(TPopBeob.X), parseInt(TPopBeob.Y));
+		TPopBeob.Lat = window.af.CHtoWGSlat(parseInt(TPopBeob.X), parseInt(TPopBeob.Y));
+		TPopBeob.Lng = window.af.CHtoWGSlng(parseInt(TPopBeob.X), parseInt(TPopBeob.Y));
 	}
 	// TPop zählen
 	anzTPopBeob = TPopBeobListe.rows.length;
@@ -14007,8 +13994,8 @@ function verorteTPopAufKarte(TPop) {
 	infowindow = new google.maps.InfoWindow();
 	if (TPop && TPop.TPopXKoord && TPop.TPopYKoord) {
 		// Wenn Koordinaten vorhanden, Lat und Lng ergänzen
-		lat = CHtoWGSlat(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
-		lng = CHtoWGSlng(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
+		lat = window.af.CHtoWGSlat(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
+		lng = window.af.CHtoWGSlng(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
 		ZoomLevel = 15;
 		verorted = true;
 	} else {
@@ -14107,8 +14094,8 @@ function SetLocationTPop(LatLng, map, marker, TPop) {
 	}
 	lat = LatLng.lat();
 	lng = LatLng.lng();
-	X = DdInChY(lat, lng);
-	Y = DdInChX(lat, lng);
+	X = window.af.DdInChY(lat, lng);
+	Y = window.af.DdInChX(lat, lng);
 	var updateTPop_3 = $.ajax({
 		type: 'post',
 		url: 'php/tpop_update.php',
