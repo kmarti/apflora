@@ -34,6 +34,7 @@
       <w>landeskoord</w>
       <w>latlng</w>
       <w>layername</w>
+      <w>layeroptionen</w>
       <w>layertree</w>
       <w>lesevoraussetzungen</w>
       <w>livereload</w>
@@ -61,6 +62,7 @@
       <w>tpopmassnbezeichnung</w>
       <w>tpopsymbole</w>
       <w>uebersicht</w>
+      <w>upgraden</w>
       <w>verorte</w>
       <w>verorted</w>
       <w>waehlen</w>

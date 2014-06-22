@@ -4545,7 +4545,7 @@ window.af.initiiere_index = function() {
 	$.when(window.af.wähleApListe("programm_alle"))
 		.then(function() {
 			// falls eine Unteradresse angewählt wurde, diese öffnen
-			oeffneUri();
+			window.af.öffneUri();
 		});
 };
 
@@ -12068,8 +12068,8 @@ window.af.zeigeTPopAufKarte = function(TPopListe) {
 			'<p>Population: ' + tpop.PopName + '</p>'+
 			'<p>TPop: ' + myFlurname + '</p>'+
 			'<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
-			"<p><a href=\"#\" onclick=\"öffneTPop('" + tpop.TPopId + "')\">Formular öffnen<\/a></p>"+
-			"<p><a href=\"#\" onclick=\"öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"window.af.öffneTPop('" + tpop.TPopId + "')\">Formular öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"window.af.öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
 		makeListener(map, marker, contentString);
@@ -12651,8 +12651,8 @@ window.af.erstelleTPopSymboleFürGeoAdmin = function(tpop_liste, tpopid_markiert
 				'<p>Population: ' + TPop.PopName + '</p>'+
 				'<p>Teilpopulation: ' + myFlurname + '</p>'+
 				'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
-				"<p><a href=\"#\" onclick=\"öffneTPop('" + TPop.TPopId + "')\">Formular öffnen<\/a></p>"+
-				"<p><a href=\"#\" onclick=\"öffneTPopInNeuemTab('" + TPop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
+				"<p><a href=\"#\" onclick=\"window.af.öffneTPop('" + TPop.TPopId + "')\">Formular öffnen<\/a></p>"+
+				"<p><a href=\"#\" onclick=\"window.af.öffneTPopInNeuemTab('" + TPop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
 			
 			var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
 
@@ -12897,7 +12897,7 @@ window.af.erstelleListeDerAusgewaehltenPopTPop = function() {
 		}
 		rueckmeldung += "<table>";
 		for (var i = 0; i < window.pop_array.length; i++) {
-			rueckmeldung += "<tr><td><a href=\"#\" onclick=\"öffnePop('" + window.pop_array[i]['myId'] + "')\">" + window.pop_array[i]['label'] + ":<\/a></td><td><a href=\"#\" onclick=\"öffnePop('" + window.pop_array[i]['myId'] + "')\">" + window.pop_array[i].tooltip + "<\/a></td></tr>";
+			rueckmeldung += "<tr><td><a href=\"#\" onclick=\"window.af.öffnePop('" + window.pop_array[i]['myId'] + "')\">" + window.pop_array[i]['label'] + ":<\/a></td><td><a href=\"#\" onclick=\"window.af.öffnePop('" + window.pop_array[i]['myId'] + "')\">" + window.pop_array[i].tooltip + "<\/a></td></tr>";
 		}
 		rueckmeldung += "</table>";
 	}
@@ -12908,7 +12908,7 @@ window.af.erstelleListeDerAusgewaehltenPopTPop = function() {
 		}
 		rueckmeldung += "<table>";
 		for (i = 0; i < window.tpop_array.length; i++) {
-			rueckmeldung += "<tr><td><a href=\"#\" onclick=\"öffneTPopInNeuemTab('" + window.tpop_array[i]['myId'] + "')\">" + window.tpop_array[i]['label'] + ":<\/a></td><td><a href=\"#\" onclick=\"öffneTPopInNeuemTab('" + window.tpop_array[i]['myId'] + "')\">" + window.tpop_array[i].tooltip + "<\/a></td></tr>";
+			rueckmeldung += "<tr><td><a href=\"#\" onclick=\"window.af.öffneTPopInNeuemTab('" + window.tpop_array[i]['myId'] + "')\">" + window.tpop_array[i]['label'] + ":<\/a></td><td><a href=\"#\" onclick=\"window.af.öffneTPopInNeuemTab('" + window.tpop_array[i]['myId'] + "')\">" + window.tpop_array[i].tooltip + "<\/a></td></tr>";
 		}
 		rueckmeldung += "</table>";
 	}
@@ -12998,8 +12998,8 @@ window.af.erstellePopSymboleFürGeoAdmin = function(PopListe, popid_markiert, vi
 			myName = Pop.PopName || '(kein Name)';
 			html = '<h3>' + myName + '</h3>'+
 				'<p>Koordinaten: ' + Pop.PopXKoord + ' / ' + Pop.PopYKoord + '</p>'+
-				"<p><a href=\"#\" onclick=\"öffnePop('" + Pop.PopId + "')\">Formular öffnen<\/a></p>"+
-				"<p><a href=\"#\" onclick=\"oeffnePopInNeuemTab('" + Pop.PopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
+				"<p><a href=\"#\" onclick=\"window.af.öffnePop('" + Pop.PopId + "')\">Formular öffnen<\/a></p>"+
+				"<p><a href=\"#\" onclick=\"window.af.öffnePopInNeuemTab('" + Pop.PopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
 			
 			var myLocation = new OpenLayers.Geometry.Point(Pop.PopXKoord, Pop.PopYKoord);
 
@@ -13592,8 +13592,8 @@ window.af.zeigeBeobUndTPopAufKarte = function(BeobListe, TPopListe) {
 			'<p>Population: ' + tpop.PopName + '</p>'+
 			'<p>TPop: ' + myFlurname + '</p>'+
 			'<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
-			"<p><a href=\"#\" onclick=\"öffneTPop('" + tpop.TPopId + "')\">Formular öffnen<\/a></p>"+
-			"<p><a href=\"#\" onclick=\"öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"window.af.öffneTPop('" + tpop.TPopId + "')\">Formular öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"window.af.öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
 		makeListener(map, markerTPop, contentStringTPop);
@@ -13665,8 +13665,8 @@ window.af.zeigeBeobUndTPopAufKarte = function(BeobListe, TPopListe) {
 			'<p>Projekt: ' + Projekt + '</p>'+
 			'<p>Ort: ' + Ort + '</p>'+
 			'<p>Koordinaten: ' + Beob.X + ' / ' + Beob.Y + '</p>'+
-			"<p><a href=\"#\" onclick=\"öffneBeob('" + Beob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
-			"<p><a href=\"#\" onclick=\"öffneBeobInNeuemTab('" + Beob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"window.af.öffneBeob('" + Beob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"window.af.öffneBeobInNeuemTab('" + Beob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
 		makeListenerBeob(map, markerBeob, contentStringBeob);
@@ -13862,8 +13862,8 @@ window.af.zeigeBeobAufKarte = function(BeobListe) {
 			'<p>Projekt: ' + Projekt + '</p>'+
 			'<p>Ort: ' + Ort + '</p>'+
 			'<p>Koordinaten: ' + beob.X + ' / ' + beob.Y + '</p>'+
-			"<p><a href=\"#\" onclick=\"öffneBeob('" + beob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
-			"<p><a href=\"#\" onclick=\"öffneBeobInNeuemTab('" + beob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"window.af.öffneBeob('" + beob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"window.af.öffneBeobInNeuemTab('" + beob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
 		makeListener(map, marker, contentString);
@@ -14001,8 +14001,8 @@ window.af.zeigeTPopBeobAufKarte = function(TPopBeobListe) {
 			'<p>Projekt: ' + Projekt + '</p>'+
 			'<p>Ort: ' + Ort + '</p>'+
 			'<p>Koordinaten: ' + tpopbeob.X + ' / ' + tpopbeob.Y + '</p>'+
-			"<p><a href=\"#\" onclick=\"öffneTPopBeob('" + tpopbeob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
-			"<p><a href=\"#\" onclick=\"öffneTPopBeobInNeuemTab('" + tpopbeob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"window.af.öffneTPopBeob('" + tpopbeob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"window.af.öffneTPopBeobInNeuemTab('" + tpopbeob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
 		makeListener(map, marker, contentString);
@@ -14098,8 +14098,8 @@ window.af.verorteTPopAufKarte = function(TPop) {
 			'<div id="bodyContent" class="GmInfowindow">'+
 			'<h3>' + myFlurname + '</h3>'+
 			'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
-			"<p><a href=\"#\" onclick=\"öffneTPop('" + TPop.TPopId + "')\">Formular öffnen<\/a></p>"+
-			"<p><a href=\"#\" onclick=\"öffneTPopInNeuemTab('" + TPop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"window.af.öffneTPop('" + TPop.TPopId + "')\">Formular öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"window.af.öffneTPopInNeuemTab('" + TPop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
 		infowindow = new google.maps.InfoWindow({
@@ -14131,7 +14131,7 @@ window.af.placeMarkerTPop = function(location, map, marker, TPop) {
 		title = "neue Teilpopulation";
 	}
 	// zuerst bisherigen Marker löschen
-	clearMarkers();
+	window.af.clearMarkers();
 	var marker = new google.maps.Marker({
 		position: location, 
 		map: map,
@@ -14187,15 +14187,15 @@ window.af.SetLocationTPop = function(LatLng, map, marker, TPop) {
 			}
 		});
 		updateTPop_4.done(function() {
-			clearInfoWindows();
+			window.af.clearInfoWindows();
 			contentString = '<div id="content">'+
 				'<div id="siteNotice">'+
 				'</div>'+
 				'<div id="bodyContent" class="GmInfowindow">'+
 				'<h3>' + title + '</h3>'+
 				'<p>Koordinaten: ' + X + ' / ' + Y + '</p>'+
-				"<p><a href=\"#\" onclick=\"öffneTPop('" + localStorage.tpop_id + "')\">Formular öffnen<\/a></p>"+
-				"<p><a href=\"#\" onclick=\"öffneTPopInNeuemTab('" + localStorage.tpop_id + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+				"<p><a href=\"#\" onclick=\"window.af.öffneTPop('" + localStorage.tpop_id + "')\">Formular öffnen<\/a></p>"+
+				"<p><a href=\"#\" onclick=\"window.af.öffneTPopInNeuemTab('" + localStorage.tpop_id + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 				'</div>'+
 				'</div>';
 			infowindow = new google.maps.InfoWindow({
@@ -14220,63 +14220,73 @@ window.af.SetLocationTPop = function(LatLng, map, marker, TPop) {
 
 // GoogleMap: alle Marker löschen
 // benutzt wo in GoogleMaps Marker gesetzt und verschoben werden
-function clearMarkers() {
+window.af.clearMarkers = function() {
+	'use strict';
 	if (markersArray) {
 		for (var i = 0; i < markersArray.length; i++) {
 			markersArray[i].setMap(null);
 		}
 	}
-}
+};
 
 // GoogleMap: alle InfoWindows löschen
 // benutzt wo in GoogleMaps Infowindows neu gesetzt werden müssen, weil die Daten verändert wurden
-function clearInfoWindows() {
+window.af.clearInfoWindows = function() {
+	'use strict';
 	if (window.InfoWindowArray) {
 		for (var i = 0; i < window.InfoWindowArray.length; i++) {
 			window.InfoWindowArray[i].setMap(null);
 		}
 	}
-}
+};
 
-function öffneTPop(TPopId) {
+window.af.öffneTPop = function(TPopId) {
+	'use strict';
 	localStorage.tpop_id = TPopId;
 	$.jstree._reference("[typ='tpop']#" + TPopId).deselect_all();
 	$("#tree").jstree("select_node", "[typ='tpop']#" + TPopId);
-}
+};
 
-function öffneTPopInNeuemTab(TPopId) {
+window.af.öffneTPopInNeuemTab = function(TPopId) {
+	'use strict';
 	window.open("index.html?ap="+localStorage.ap_id+"&pop=" + localStorage.pop_id+"&tpop="+TPopId, "_blank");
-}
+};
 
-function öffnePop(PopId) {
+window.af.öffnePop = function(PopId) {
+	'use strict';
 	localStorage.pop_id = PopId;
 	$.jstree._reference("[typ='pop']#" + PopId).deselect_all();
 	$("#tree").jstree("select_node", "[typ='pop']#" + PopId);
-}
+};
 
-function oeffnePopInNeuemTab(PopId) {
+window.af.öffnePopInNeuemTab = function(PopId) {
+	'use strict';
 	window.open("index.html?ap="+localStorage.ap_id+"&pop=" + PopId, "_blank");
-}
+};
 
-function öffneBeob(BeobId) {
+window.af.öffneBeob = function(BeobId) {
+	'use strict';
 	localStorage.beob_id = BeobId;
 	$.jstree._reference("[typ='beob_nicht_beurteilt']#beob" + BeobId).deselect_all();
 	$("#tree").jstree("select_node", "[typ='beob_nicht_beurteilt']#beob" + BeobId);
-}
+};
 
-function öffneBeobInNeuemTab(BeobId) {
+window.af.öffneBeobInNeuemTab = function(BeobId) {
+	'use strict';
 	window.open("index.html?ap="+localStorage.ap_id+"&beob_nicht_beurteilt=" + BeobId, "_blank");
-}
+};
 
-function öffneTPopBeob(BeobId) {
+window.af.öffneTPopBeob = function(BeobId) {
+	'use strict';
 	localStorage.beob_id = BeobId;
 	$.jstree._reference("[typ='beob_zugeordnet']#beob" + BeobId).deselect_all();
 	$("#tree").jstree("select_node", "[typ='beob_zugeordnet']#beob" + BeobId);
-}
+};
 
-function öffneTPopBeobInNeuemTab(BeobId) {
+window.af.öffneTPopBeobInNeuemTab = function(BeobId) {
+	'use strict';
 	window.open("index.html?ap="+localStorage.ap_id+"&beob_nicht_beurteilt=" + BeobId, "_blank");
-}
+};
 
 
 
@@ -14321,11 +14331,9 @@ function MercatorProjection() {
 };
 
 MercatorProjection.prototype.fromLatLngToPoint = function(latLng, opt_point) {
-	var me = this;
-
-	var point = opt_point || new google.maps.Point(0, 0);
-
-	var origin = me.pixelOrigin_;
+	var me = this,
+		point = opt_point || new google.maps.Point(0, 0),
+		origin = me.pixelOrigin_;
 	point.x = origin.x + latLng.lng() * me.pixelsPerLonDegree_;
 	// NOTE(appleton): Truncating to 0.9999 effectively limits latitude to
 	// 89.189.  This is about a third of a tile past the edge of the world tile.
@@ -14335,35 +14343,32 @@ MercatorProjection.prototype.fromLatLngToPoint = function(latLng, opt_point) {
 };
 
 MercatorProjection.prototype.fromDivPixelToLatLng = function(pixel, zoom) {
-	var me = this;
-
-	var origin = me.pixelOrigin_;
-	var scale = Math.pow(2, zoom);
-	var lng = (pixel.x / scale - origin.x) / me.pixelsPerLonDegree_;
-	var latRadians = (pixel.y / scale - origin.y) / -me.pixelsPerLonRadian_;
-	var lat = radiansToDegrees(2 * Math.atan(Math.exp(latRadians)) - Math.PI / 2);
+	var me = this,
+		origin = me.pixelOrigin_,
+		scale = Math.pow(2, zoom),
+		lng = (pixel.x / scale - origin.x) / me.pixelsPerLonDegree_,
+		latRadians = (pixel.y / scale - origin.y) / -me.pixelsPerLonRadian_,
+		lat = radiansToDegrees(2 * Math.atan(Math.exp(latRadians)) - Math.PI / 2);
 	return new google.maps.LatLng(lat, lng);
 };
 
 MercatorProjection.prototype.fromDivPixelToSphericalMercator = function(pixel, zoom) {
-	var me = this;
-	var coord = me.fromDivPixelToLatLng(pixel, zoom);
-
-	var r= 6378137.0;
-	var x = r* degreesToRadians(coord.lng());
-	var latRad = degreesToRadians(coord.lat());
-	var y = (r/2) * Math.log((1+Math.sin(latRad))/ (1-Math.sin(latRad)));
-
+	var me = this,
+		coord = me.fromDivPixelToLatLng(pixel, zoom),
+		r = 6378137.0,
+		x = r * degreesToRadians(coord.lng()),
+		latRad = degreesToRadians(coord.lat()),
+		y = (r / 2) * Math.log((1 + Math.sin(latRad)) / (1 - Math.sin(latRad)));
 	return new google.maps.Point(x,y);
 };
 
 function loadWMS(map, baseURL, customParams){
-	var tileHeight = 256;
-	var tileWidth = 256;
-	var opacityLevel = 0.75;
-	var isPng = true;
-	var minZoomLevel = 2;
-	var maxZoomLevel = 28;
+	var tileHeight = 256,
+		tileWidth = 256,
+		opacityLevel = 0.75,
+		isPng = true,
+		minZoomLevel = 2,
+		maxZoomLevel = 28;
 
 	//var baseURL = "";
 	// für SVO
@@ -14391,10 +14396,8 @@ function loadWMS(map, baseURL, customParams){
 	// add additional parameters
 	var wmsParams = wmsParams.concat(customParams);
 
-	var overlayOptions =
-	{
-		getTileUrl: function(coord, zoom)
-		{
+	var overlayOptions = {
+		getTileUrl: function(coord, zoom) {
 			var lULP = new google.maps.Point(coord.x*256,(coord.y+1)*256);
 			var lLRP = new google.maps.Point((coord.x+1)*256,coord.y*256);
 
@@ -14433,10 +14436,10 @@ function loadWMS(map, baseURL, customParams){
 	map.setOptions({
 		mapTypeControlOptions: {
 			mapTypeIds: [
-			google.maps.MapTypeId.ROADMAP,
-			google.maps.MapTypeId.TERRAIN,
-			google.maps.MapTypeId.SATELLITE,
-			google.maps.MapTypeId.HYBRID
+				google.maps.MapTypeId.ROADMAP,
+				google.maps.MapTypeId.TERRAIN,
+				google.maps.MapTypeId.SATELLITE,
+				google.maps.MapTypeId.HYBRID
 			],
 			style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
 		}
@@ -14531,10 +14534,11 @@ function handler(event) {
 
 })(jQuery);
 
-function oeffneUri() {
-	var uri = new Uri($(location).attr('href'));
-	var anchor = uri.anchor() || null;
-	var ap_id = uri.getQueryParamValue('ap');
+window.af.öffneUri = function() {
+	'use strict';
+	var uri = new Uri($(location).attr('href')),
+		anchor = uri.anchor() || null,
+		ap_id = uri.getQueryParamValue('ap');
 	if (ap_id) {
 		// globale Variabeln setzen
 		window.af.setzeWindowAp(ap_id);
@@ -14728,22 +14732,21 @@ function oeffneUri() {
 			window.af.initiiere_exporte(anchor);
 		}
 	}
-}
+};
 
-function getInternetExplorerVersion()
+window.af.getInternetExplorerVersion = function() {
+	'use strict';
 // Returns the version of Internet Explorer or a -1
 // (indicating the use of another browser).
-{
   var rv = -1; // Return value assumes failure.
-  if (navigator.appName == 'Microsoft Internet Explorer')
-  {
-	var ua = navigator.userAgent;
-	var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+  if (navigator.appName == 'Microsoft Internet Explorer') {
+	var ua = navigator.userAgent,
+		re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
 	if (re.exec(ua) != null)
-	  rv = parseFloat( RegExp.$1 );
+	  rv = parseFloat(RegExp.$1);
   }
   return rv;
-}
+};
 
 function onfeatureselect_detailplaene_shp(feature) {
 	var popup = new OpenLayers.Popup.FramedCloud(

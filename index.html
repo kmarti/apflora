@@ -1963,11 +1963,11 @@
 					<div id="baselayertool"></div>
 					<div id='menuleiste'>
 						<span id="messen">
-							<input type="radio" name="type" value="karteSchieben" id="karteSchieben" onclick="messe(this);" checked="checked">
+							<input type="radio" name="type" value="karteSchieben" id="karteSchieben" onclick="window.af.messe(this);" checked="checked">
 							<label id="label_karteSchieben" for="karteSchieben" title="zum Zoomen: Shift-Taste halten und mit der Maus ein Rechteck aufziehen">Karte schieben</label>
-							<input type="radio" name="type" value="line" id="distanzMessen" onclick="messe(this);">
+							<input type="radio" name="type" value="line" id="distanzMessen" onclick="window.af.messe(this);">
 							<label id="label_distanzMessen" for="distanzMessen" title="Klicken um den nächsten Punkt zu setzen Doppelklicken um die Messung abzuschliessen">Distanz messen</label>
-							<input type="radio" name="type" value="polygon" id="flaecheMessen" onclick="messe(this);">
+							<input type="radio" name="type" value="polygon" id="flaecheMessen" onclick="window.af.messe(this);">
 							<label id="label_flaecheMessen" for="flaecheMessen" title="Klicken um den nächsten Punkt zu setzen Doppelklicken um die Messung abzuschliessen">Fläche messen</label>
 							<input type="radio" name="type" value="drawPolygon" id="mitPolygonWaehlen" onclick="waehleMitPolygon();">
 							<label id="label_mitPolygonWaehlen" for="mitPolygonWaehlen" title="Teilpopulationen durch Zeichnen eines Polygons auswählen und dann ihre Daten exportieren">auswählen</label>
@@ -2180,7 +2180,7 @@
 				});
 
 				/*if (navigator.appName === "Microsoft Internet Explorer") {
-					$("#Meldung").html("Sie verwenden den Internet Explorer " + getInternetExplorerVersion() + ".<br><br>Leider unterstützt der Internet Explorer nicht alle Funktionen, die AP Flora Web benutzt.<br><br>Um mit AP Flora Web zu arbeiten, benutzen Sie <a href='//www.google.de/chrome/'>Google Chrome</a>, <a href='//www.mozilla.org/de/firefox/new/'>Firefox</a> oder Safari.");
+					$("#Meldung").html("Sie verwenden den Internet Explorer " + window.af.getInternetExplorerVersion() + ".<br><br>Leider unterstützt der Internet Explorer nicht alle Funktionen, die AP Flora Web benutzt.<br><br>Um mit AP Flora Web zu arbeiten, benutzen Sie <a href='//www.google.de/chrome/'>Google Chrome</a>, <a href='//www.mozilla.org/de/firefox/new/'>Firefox</a> oder Safari.");
 					$("#Meldung").dialog({
 						modal: true,
 						title: "inkompatibler Browser",
@@ -2350,7 +2350,7 @@
 				});
 
 				$("#menu").on("change", "#ap_waehlen", function() {
-					wähleAp(this.value);
+					window.af.wähleAp(this.value);
 				});
 
 				$("#undelete_div").on("click", "#undelete", function(event) {
@@ -2413,13 +2413,13 @@
 						//...Auswahl auffrischen
 						if (Layername === "Populationen") {
 							//Populationen: Auswahl ermitteln und einen Array von ID's in window.pop_array speichern
-							erstellePopAuswahlArrays();
+							window.af.erstellePopAuswahlArrays();
 						} else if (Layername === "Teilpopulationen") {
 							//Teilpopulationen: Auswahl ermitteln und einen Array von ID's in window.tpop_array speichern
-							erstelleTPopAuswahlArrays();
+							window.af.erstelleTPopAuswahlArrays();
 						}
 						//Liste erstellen, welche die Auswahl anzeigt, Pop/TPop verlinkt und Exporte anbietet
-						erstelleListeDerAusgewaehltenPopTPop();
+						window.af.erstelleListeDerAusgewaehltenPopTPop();
 					}
 				}	
 			});
@@ -2666,7 +2666,7 @@
 			});
 
 			$("#ergebnisAuswahlHeader").on("click", ".ui-icon.ui-icon-closethick", function() {
-				deaktiviereGeoAdminAuswahl();
+				window.af.deaktiviereGeoAdminAuswahl();
 			});
 
 			$("#exporte").on("click", "#export_tpop_fuer_kml", function() {
