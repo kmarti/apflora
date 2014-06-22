@@ -11088,18 +11088,23 @@ window.af.zeigeBeobKoordinatenImGisBrowser = function() {
         target,
         $beobfelder_FNS_XGIS = $("#beobfelder_FNS_XGIS"),
         $beobfelder_FNS_YGIS = $("#beobfelder_FNS_YGIS"),
-        $beobfelder_COORDONNEE_FED_E = $("#beobfelder_COORDONNEE_FED_E");
+        $beobfelder_COORDONNEE_FED_E = $("#beobfelder_COORDONNEE_FED_E"),
+        $beobfelder_COORDONNEE_FED_N = $("#beobfelder_COORDONNEE_FED_N"),
+        $TPopXKoord = $("#TPopXKoord"),
+        $TPopYKoord = $("#TPopYKoord"),
+        $PopXKoord = $("#PopXKoord"),
+        $PopYKoord = $("#PopYKoord");
 	if ($beobfelder_FNS_XGIS.val() && $beobfelder_FNS_YGIS.val()) {
 		URL = "//www.maps.zh.ch/?x=" + $beobfelder_FNS_XGIS.val() + "&y=" + $beobfelder_FNS_YGIS.val() + "&scale=3000&markers=ring";
 		window.open(URL, target="_blank");
-	} else if ($beobfelder_COORDONNEE_FED_E.val() && $("#beobfelder_COORDONNEE_FED_N").val()) {
-		URL = "//www.maps.zh.ch/?x=" + $beobfelder_COORDONNEE_FED_E.val() + "&y=" + $("#beobfelder_COORDONNEE_FED_N").val() + "&scale=3000&markers=ring";
+	} else if ($beobfelder_COORDONNEE_FED_E.val() && $beobfelder_COORDONNEE_FED_N.val()) {
+		URL = "//www.maps.zh.ch/?x=" + $beobfelder_COORDONNEE_FED_E.val() + "&y=" + $beobfelder_COORDONNEE_FED_N.val() + "&scale=3000&markers=ring";
 		window.open(URL, target="_blank");
-	} else if ($("#TPopXKoord").val() && $("#TPopYKoord").val()) {
-		URL = "//www.maps.zh.ch/?x=" + $("#TPopXKoord").val() + "&y=" + $("#TPopYKoord").val() + "&scale=3000&markers=ring";
+	} else if ($TPopXKoord.val() && $TPopYKoord.val()) {
+		URL = "//www.maps.zh.ch/?x=" + $TPopXKoord.val() + "&y=" + $TPopYKoord.val() + "&scale=3000&markers=ring";
 		window.open(URL, target="_blank");
-	} else if ($("#PopXKoord").val() && $("#PopYKoord").val()) {
-		URL = "//www.maps.zh.ch/?x=" + $("#PopXKoord").val() + "&y=" + $("#PopYKoord").val() + "&scale=3000&markers=ring";
+	} else if ($PopXKoord.val() && $PopYKoord.val()) {
+		URL = "//www.maps.zh.ch/?x=" + $PopXKoord.val() + "&y=" + $PopYKoord.val() + "&scale=3000&markers=ring";
 		window.open(URL, target="_blank");
 	} else {
 		window.af.melde("Fehler: Keine Koordinaten zum Anzeigen");
@@ -11172,10 +11177,10 @@ window.af.insertNeuenNodeAufGleicherHierarchiestufe = function(aktiver_node, par
 	});
 	// allfällige Unterordner anlegen
 	if (strukturtyp === "pop") {
-		insertOrdnerVonPop(NeuerNode, ds_id);
+		window.af.insertOrdnerVonPop(NeuerNode, ds_id);
 	}
 	if (strukturtyp === "tpop") {
-		insertOrdnerVonTPop(NeuerNode, ds_id);
+		window.af.insertOrdnerVonTPop(NeuerNode, ds_id);
 	}
 	if (strukturtyp === "apziel") {
 		$.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
@@ -11256,10 +11261,10 @@ window.af.insertNeuenNodeEineHierarchiestufeTiefer = function(aktiver_node, pare
 	}
 	// allfällige Unterordner anlegen
 	if (strukturtyp === "pop") {
-		insertOrdnerVonPop(NeuerNode, ds_id);
+		window.af.insertOrdnerVonPop(NeuerNode, ds_id);
 	}
 	if (strukturtyp === "tpop") {
-		insertOrdnerVonTPop(NeuerNode, ds_id);
+		window.af.insertOrdnerVonTPop(NeuerNode, ds_id);
 	}
 	if (strukturtyp === "apziel") {
 		$.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
@@ -11300,7 +11305,8 @@ window.af.insertNeuenNodeEineHierarchiestufeTiefer = function(aktiver_node, pare
 
 // erstellt alle Unterordner des Ordners vom Typ pop
 // erwartet den node des pop-ordners
-function insertOrdnerVonPop(pop_node, pop_id) {
+window.af.insertOrdnerVonPop = function(pop_node, pop_id) {
+	'use strict';
 	$.jstree._reference(pop_node).create_node(pop_node, "last", {
 		"data": "Teilpopulationen",
 		"attr": {
@@ -11322,11 +11328,12 @@ function insertOrdnerVonPop(pop_node, pop_id) {
 			"typ": "pop_ordner_massnber"
 		}
 	});
-}
+};
 
 // erstellt alle Unterordner des Ordners vom Typ tpop
 // erwartet den node des tpop-ordners
-function insertOrdnerVonTPop(TPopNode, tpop_id) {
+window.af.insertOrdnerVonTPop = function(TPopNode, tpop_id) {
+	'use strict';
 	$.jstree._reference(TPopNode).create_node(TPopNode, "last", {
 		"data": "Massnahmen",
 		"attr": {
@@ -11369,9 +11376,10 @@ function insertOrdnerVonTPop(TPopNode, tpop_id) {
 			"typ": "tpop_ordner_beob_zugeordnet"
 		}
 	});
-}
+};
 
-function loescheAp(ap_id) {
+window.af.löscheAp = function(ap_id) {
+	'use strict';
 	//Variable zum rückgängig machen erstellen
 	window.deleted = window.ap;
 	window.deleted.typ = "ap";
@@ -11386,6 +11394,7 @@ function loescheAp(ap_id) {
 		}
 	});
 	deleteAp.done(function() {
+        var $exportieren_2 = $("#exportieren_2");
 		delete localStorage.ap_id;
 		delete window.ap;
 		delete localStorage.ap;
@@ -11397,10 +11406,10 @@ function loescheAp(ap_id) {
 		$("#ap_waehlen_label").html("Artförderprogramm wählen:").show();
 		$("#tree").hide();
 		$("#suchen").hide();
-		$("#exportieren_2").hide();
+		$exportieren_2.hide();
 		$("#hilfe").hide();
 		$("#ap_loeschen").hide();
-		$("#exportieren_2").show();
+		$exportieren_2.show();
 		$("#ap").hide();
 		$("#forms").hide();
 		//Hinweis zum rückgängig machen anzeigen
@@ -11413,7 +11422,7 @@ function loescheAp(ap_id) {
 	deleteAp.fail(function(data) {
 		window.af.melde("Fehler: Das Programm wurde nicht gelöscht");
 	});
-}
+};
 
 // Stellt einen Datensatz aus window.deleted wieder her
 /*
@@ -11425,7 +11434,8 @@ function loescheAp(ap_id) {
 ** jeder Datensatz hat Schaltfläche
 ** bei Klick: Ja nach Typ der Daten Wiederherstellung starten und Erfolg melden
 */
-function undeleteDatensatz() {
+window.af.undeleteDatensatz = function() {
+	'use strict';
 	var tabelle,
 		data = {},
 		typ,
@@ -11522,7 +11532,7 @@ function undeleteDatensatz() {
 
 	// window.deleted enthält alle Feldnamen - viele können leer sein
 	// daher nur solche mit Werten übernehmen
-	for (i in window.deleted) {
+	for (var i in window.deleted) {
 		if (window.deleted[i]) {
 			data[i] = window.deleted[i];
 		}
@@ -11561,7 +11571,7 @@ function undeleteDatensatz() {
 	insertMultiple.fail(function() {
 		window.af.melde("Fehler: Wiederherstellung gescheitert");
 	});
-}
+};
 
 // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
 // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
