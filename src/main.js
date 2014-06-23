@@ -10261,7 +10261,7 @@ window.af.treeKontextmenu = function(node) {
 					});
 					insertTPopFeldKontrKopie_3.done(function(id) {
 						var strukturtyp = "tpopfreiwkontr",
-							beschriftung = tpopfreiwkontr_objekt_kopiert.TPopKontrJahr;
+							beschriftung = window.af.tpopfreiwkontr_objekt_kopiert.TPopKontrJahr;
 						window.af.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertTPopFeldKontrKopie_3.fail(function() {
@@ -10380,7 +10380,7 @@ window.af.treeKontextmenu = function(node) {
 					}
 					window.af.tpopfreiwkontr_node_kopiert = aktiver_node;
 					// Daten des Objekts holen
-					getTPopFeldkontr_3 = $.ajax({
+					var getTPopFeldkontr_3 = $.ajax({
 						type: 'get',
 						url: 'php/tpopfeldkontr.php',
 						dataType: 'json',
@@ -10389,7 +10389,7 @@ window.af.treeKontextmenu = function(node) {
 						}
 					});
 					getTPopFeldkontr_3.done(function(data) {
-						tpopfreiwkontr_objekt_kopiert = data;
+						window.af.tpopfreiwkontr_objekt_kopiert = data;
 					});
 					getTPopFeldkontr_3.fail(function() {
 						window.af.melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht kopiert");
@@ -10426,7 +10426,7 @@ window.af.treeKontextmenu = function(node) {
 					});
 					insertTPopFeldKontrKopie_4.done(function(id) {
 						var strukturtyp = "tpopfreiwkontr",
-							beschriftung = tpopfreiwkontr_objekt_kopiert.TPopKontrJahr;
+							beschriftung = window.af.tpopfreiwkontr_objekt_kopiert.TPopKontrJahr;
 						window.af.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertTPopFeldKontrKopie_4.fail(function() {
@@ -11351,7 +11351,7 @@ window.af.tpopKopiertInPopOrdnerTpopEinfügen = function(aktiver_node) {
 };
 
 // wird offenbar momentan nicht verwendet
-window.af.popKopiertInPopEinfügen = function(aktiver_node, parent_node) {
+/*window.af.popKopiertInPopEinfügen = function(aktiver_node, parent_node) {
 	'use strict';
 	var data = {};
 	// nur aktualisieren, wenn Schreibrechte bestehen
@@ -11393,7 +11393,7 @@ window.af.popKopiertInPopEinfügen = function(aktiver_node, parent_node) {
 	insertPopKopie_2.fail(function() {
 		window.af.melde("Fehler: Die Population wurde nicht erstellt");
 	});
-};
+};*/
 
 // wird offenbar momentan nicht verwendet
 window.af.tpopKopiertInTpopEinfügen = function(aktiver_node, parent_node) {
@@ -15862,7 +15862,7 @@ window.af.löscheAp = function(ap_id) {
 	deleteAp.done(function() {
         var $exportieren_2 = $("#exportieren_2");
 		delete localStorage.ap_id;
-		delete window.af;
+		delete window.af.ap;
 		delete localStorage.ap;
 		$("#programm_neu").attr("checked", false);
 		$("#programm_alle").attr("checked", true);

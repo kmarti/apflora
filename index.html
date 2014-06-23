@@ -2155,6 +2155,7 @@
 		</div>
 
 		<script>
+            'use strict';
 			window.af = window.af || {};
 			$(document).ready(function () {
 				var $Useranmeldung = $("#anmelde_dialog").dialog( {
@@ -2763,14 +2764,6 @@
                 })
                 .on("click", "#export_datenstruktur_grafisch", function() {
                     window.open("etc/Beziehungen.pdf");
-                    /*var url = "php/export_datenstruktur.php";
-                    $.cookie('fileDownload', 'fileDownload=true', {
-                        path: '/'
-                    });
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });*/
                 });
 
 		</script>
