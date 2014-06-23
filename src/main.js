@@ -12108,13 +12108,13 @@ window.af.zeigeTPopAufKarte = function(tpop_liste) {
 
 window.af.entferneTPopMarkerEbenen = function() {
 	'use strict';
-	var layername = ["Teilpopulation", "Teilpopulationen", "Teilpopulationen Nummern", "Teilpopulationen Namen"];
+	var layernames = ["Teilpopulation", "Teilpopulationen", "Teilpopulationen Nummern", "Teilpopulationen Namen"];
 	// nur möglich, wenn api und map existieren
 	if (typeof window.afm !== "undefined") {
 		if (window.afm.map !== "undefined") {
-            _.each(layername, function(name) {
-                if (window.afm.map.getLayersByName(name)) {
-                    var layers = window.afm.map.getLayersByName(name);
+            _.each(layernames, function(layername) {
+                if (window.afm.map.getLayersByName(layername)) {
+                    var layers = window.afm.map.getLayersByName(layername);
                     _.each(layers, function(layer) {
                         window.afm.map.removeLayer(layer);
                     });
@@ -12138,18 +12138,18 @@ window.af.entferneTPopMarkerEbenen = function() {
 
 window.af.entfernePopMarkerEbenen = function() {
 	'use strict';
-	var layername = ["Population", "Populationen", "Populationen Nummern", "Populationen Namen"];
+	var layernames = ["Population", "Populationen", "Populationen Nummern", "Populationen Namen"];
 	// nur möglich, wenn api und map existieren
 	if (typeof window.afm !== "undefined") {
 		if (window.afm.map !== "undefined") {
-			for (var i in layername) {
-				if (window.afm.map.getLayersByName(layername[i])) {
-					var layers = window.afm.map.getLayersByName(layername[i]);
-					for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
-						window.afm.map.removeLayer(layers[layerIndex]);
-					}
-				}
-			}
+            _.each(layernames, function(layername) {
+                if (window.afm.map.getLayersByName(layername)) {
+                    var layers = window.afm.map.getLayersByName(layername);
+                    _.each(layers, function(layer) {
+                        window.afm.map.removeLayer(layer);
+                    });
+                }
+            });
 
 			// auch aus layertree entfernen
 			// TODO: an OL3 anpassen
@@ -12408,10 +12408,9 @@ window.af.zeigePopAufGeoAdmin = function(PopListeMarkiert) {
 // übernimmt eine Liste von (markierten) TPop
 // retourniert den Ausschnitt = bounds der angezeigt werden soll
 // und einen array mit den tpop_id's der liste
-window.af.wähleAusschnittFürÜbergebeneTPop = function(TPopListeMarkiert) {
+window.af.wähleAusschnittFürÜbergebeneTPop = function(tpop_liste_markiert) {
 	'use strict';
-	var TPop,
-        bounds,
+	var bounds,
         x_max,
         y_max,
         x_min,
@@ -12419,19 +12418,16 @@ window.af.wähleAusschnittFürÜbergebeneTPop = function(TPopListeMarkiert) {
 
 	// bounds der anzuzeigenden bestimmen
 	var tpopid_markiert = [];
-	if (TPopListeMarkiert.rows.length > 0) {
-		for (b in TPopListeMarkiert.rows) {
-			if (TPopListeMarkiert.rows.hasOwnProperty(b)) {
-				TPop = TPopListeMarkiert.rows[b];
-				tpopid_markiert.push(TPop.TPopId);
-				// bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
-				x_max = parseInt(TPop.TPopXKoord) + 300;
-				x_min = parseInt(TPop.TPopXKoord) - 300;
-				y_max = parseInt(TPop.TPopYKoord) + 300;
-				y_min = parseInt(TPop.TPopYKoord) - 300;
-                bounds = [x_max, y_max, x_min, y_min];
-			}
-		}
+	if (tpop_liste_markiert.rows.length > 0) {
+        _.each(tpop_liste_markiert.rows, function(tpop) {
+            tpopid_markiert.push(tpop.TPopId);
+            // bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
+            x_max = parseInt(tpop.TPopXKoord) + 300;
+            x_min = parseInt(tpop.TPopXKoord) - 300;
+            y_max = parseInt(tpop.TPopYKoord) + 300;
+            y_min = parseInt(tpop.TPopYKoord) - 300;
+            bounds = [x_max, y_max, x_min, y_min];
+        });
 	} else {
 		// keine tpop übergeben, Kanton anzeigen
         bounds = [717000, 284000, 669000, 222000];
@@ -12442,29 +12438,25 @@ window.af.wähleAusschnittFürÜbergebeneTPop = function(TPopListeMarkiert) {
 // übernimmt eine Liste von (markierten) Pop
 // retourniert den Ausschnitt = bounds der angezeigt werden soll
 // und einen array mit den tpop_id's der liste
-window.af.wähleAusschnittFürÜbergebenePop = function(PopListeMarkiert) {
+window.af.wähleAusschnittFürÜbergebenePop = function(pop_liste_markiert) {
 	'use strict';
-	var Pop,
-        bounds,
+	var bounds,
         x_max,
         y_max,
         x_min,
         y_min,
         // bounds der anzuzeigenden bestimmen
 		popid_markiert = [];
-	if (PopListeMarkiert.rows.length > 0) {
-		for (var b in PopListeMarkiert.rows) {
-			if (PopListeMarkiert.rows.hasOwnProperty(b)) {
-				Pop = PopListeMarkiert.rows[b];
-				popid_markiert.push(Pop.PopId);
-				// bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
-				x_max = parseInt(Pop.PopXKoord) + 300;
-				x_min = parseInt(Pop.PopXKoord) - 300;
-				y_max = parseInt(Pop.PopYKoord) + 300;
-				y_min = parseInt(Pop.PopYKoord) - 300;
-                bounds = [x_max, y_max, x_min, y_min];
-			}
-		}
+	if (pop_liste_markiert.rows.length > 0) {
+        _.each(pop_liste_markiert.rows, function(pop) {
+            popid_markiert.push(pop.PopId);
+            // bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
+            x_max = parseInt(pop.PopXKoord) + 300;
+            x_min = parseInt(pop.PopXKoord) - 300;
+            y_max = parseInt(pop.PopYKoord) + 300;
+            y_min = parseInt(pop.PopYKoord) - 300;
+            bounds = [x_max, y_max, x_min, y_min];
+        });
 	} else {
 		// keine tpop übergeben, Kanton anzeigen
         bounds = [717000, 284000, 669000, 222000];
@@ -12643,57 +12635,54 @@ window.af.erstelleTPopSymboleFürGeoAdmin = function(tpop_liste, tpopid_markiert
         myLabel,
         myFlurname;
 
-	for (b in tpop_liste.rows) {
-		if (tpop_liste.rows.hasOwnProperty(b)) {
-			tpop = tpop_liste.rows[b];
-			myFlurname = TPop.TPopFlurname || '(kein Flurname)';
-			html = '<h3>' + TPop.Artname + '</h3>'+
-				'<p>Population: ' + TPop.PopName + '</p>'+
-				'<p>Teilpopulation: ' + myFlurname + '</p>'+
-				'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
-				"<p><a href=\"#\" onclick=\"window.af.öffneTPop('" + TPop.TPopId + "')\">Formular öffnen<\/a></p>"+
-				"<p><a href=\"#\" onclick=\"window.af.öffneTPopInNeuemTab('" + TPop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
-			
-			var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
+    _.each(tpop_liste.rows, function(tpop) {
+        myFlurname = tpop.TPopFlurname || '(kein Flurname)';
+        html = '<h3>' + tpop.Artname + '</h3>'+
+            '<p>Population: ' + tpop.PopName + '</p>'+
+            '<p>Teilpopulation: ' + myFlurname + '</p>'+
+            '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
+            "<p><a href=\"#\" onclick=\"window.af.öffneTPop('" + tpop.TPopId + "')\">Formular öffnen<\/a></p>"+
+            "<p><a href=\"#\" onclick=\"window.af.öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
 
-			// tooltip bzw. label vorbereiten: nullwerte ausblenden
-			if (TPop.PopNr && TPop.TPopNr) {
-				myLabel = TPop.PopNr + '/' + TPop.TPopNr;
-			} else if (TPop.PopNr) {
-				myLabel = TPop.PopNr + '/?';
-			} else if (TPop.TPopNr) {
-				myLabel = '?/' + TPop.TPopNr;
-			} else {
-				myLabel = '?/?';
-			}
+        var myLocation = new OpenLayers.Geometry.Point(tpop.TPopXKoord, tpop.TPopYKoord);
 
-			// marker erstellen...
-			// gewählte erhalten style gelb und zuoberst
-			if (tpopid_markiert && tpopid_markiert.indexOf(TPop.TPopId) !== -1) {
-				marker = new OpenLayers.Feature.Vector(myLocation, {
-					tooltip: myFlurname,
-					label: myLabel,
-					message: html
-				}, {
-					externalGraphic: '//www.apflora.ch/img/flora_icon_gelb.png',
-					graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
-					title: TPop.TPopFlurname,
-					graphicZIndex: 5000
-				});
-			} else {
-				marker = new OpenLayers.Feature.Vector(myLocation, {
-					tooltip: myFlurname,
-					message: html,
-					label: myLabel
-				});
-			}
-			marker.attributes.myTyp = "tpop";
-			marker.attributes.myId = TPop.TPopId;
+        // tooltip bzw. label vorbereiten: nullwerte ausblenden
+        if (tpop.PopNr && tpop.TPopNr) {
+            myLabel = tpop.PopNr + '/' + tpop.TPopNr;
+        } else if (tpop.PopNr) {
+            myLabel = tpop.PopNr + '/?';
+        } else if (tpop.TPopNr) {
+            myLabel = '?/' + tpop.TPopNr;
+        } else {
+            myLabel = '?/?';
+        }
 
-			// ...und in Array speichern
-			markers.push(marker);
-		}
-	}
+        // marker erstellen...
+        // gewählte erhalten style gelb und zuoberst
+        if (tpopid_markiert && tpopid_markiert.indexOf(tpop.TPopId) !== -1) {
+            marker = new OpenLayers.Feature.Vector(myLocation, {
+                tooltip: myFlurname,
+                label: myLabel,
+                message: html
+            }, {
+                externalGraphic: '//www.apflora.ch/img/flora_icon_gelb.png',
+                graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
+                title: tpop.TPopFlurname,
+                graphicZIndex: 5000
+            });
+        } else {
+            marker = new OpenLayers.Feature.Vector(myLocation, {
+                tooltip: myFlurname,
+                message: html,
+                label: myLabel
+            });
+        }
+        marker.attributes.myTyp = "tpop";
+        marker.attributes.myId = tpop.TPopId;
+
+        // ...und in Array speichern
+        markers.push(marker);
+    });
 
 	// die marker der Ebene hinzufügen
 	overlay_tpop.addFeatures(markers);
@@ -12725,9 +12714,9 @@ window.af.erstelleTPopSymboleFürGeoAdmin = function(tpop_liste, tpopid_markiert
                                 // overlay entfernen...
                                 if (window.afm.map.getLayersByName('Teilpopulationen')) {
                                     var layers = window.afm.map.getLayersByName('Teilpopulationen');
-                                    for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
-                                        window.afm.map.removeLayer(layers[layerIndex]);
-                                    }
+                                    _.each(layers, function(layer) {
+                                        window.afm.map.removeLayer(layer);
+                                    });
                                 }
                                 // ...und neu erstellen
                                 window.af.erstelleTPopSymboleFürGeoAdmin(tpop_liste, tpopid_markiert, true);
@@ -12784,9 +12773,9 @@ window.af.erstelleTPopSymboleFürGeoAdmin = function(tpop_liste, tpopid_markiert
 						// overlay entfernen...
 						if (window.afm.map.getLayersByName('Teilpopulationen')) {
 							var layers = window.afm.map.getLayersByName('Teilpopulationen');
-							for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
-								window.afm.map.removeLayer(layers[layerIndex]);
-							}
+                            _.each(layers, function(layer) {
+                                window.afm.map.removeLayer(layer);
+                            });
 						}
 						// ...und neu erstellen
 						window.af.erstelleTPopSymboleFürGeoAdmin(tpop_liste, tpopid_markiert, true);
@@ -12889,28 +12878,31 @@ window.af.erstellePopAuswahlArrays = function() {
 window.af.erstelleListeDerAusgewaehltenPopTPop = function() {
 	'use strict';
 	// rückmelden, welche Objekte gewählt wurden
-	var rueckmeldung = "";
+	var rückmeldung = "";
 	if (window.pop_array.length > 0) {
 		if (window.tpop_array.length > 0) {
 			// tpop und pop betitteln
-			rueckmeldung += "<p class='ergebnisAuswahlListeTitel'>" + window.pop_array.length + " Populationen: </p>";
+			rückmeldung += "<p class='ergebnisAuswahlListeTitel'>" + window.pop_array.length + " Populationen: </p>";
 		}
-		rueckmeldung += "<table>";
-		for (var i = 0; i < window.pop_array.length; i++) {
-			rueckmeldung += "<tr><td><a href=\"#\" onclick=\"window.af.öffnePop('" + window.pop_array[i]['myId'] + "')\">" + window.pop_array[i]['label'] + ":<\/a></td><td><a href=\"#\" onclick=\"window.af.öffnePop('" + window.pop_array[i]['myId'] + "')\">" + window.pop_array[i].tooltip + "<\/a></td></tr>";
-		}
-		rueckmeldung += "</table>";
+		rückmeldung += "<table>";
+        _.each(window.pop_array, function(pop) {
+            rückmeldung += "<tr><td><a href=\"#\" onclick=\"window.af.öffnePop('" + pop['myId'] + "')\">";
+            rückmeldung += pop['label'] + ":<\/a></td><td><a href=\"#\" onclick=\"window.af.öffnePop('" + pop['myId'] + "')\">" + pop.tooltip + "<\/a></td></tr>";
+        });
+		rückmeldung += "</table>";
 	}
 	if (window.tpop_array.length > 0) {
 		if (window.pop_array.length > 0) {
 			// tpop und pop betitteln
-			rueckmeldung += "<p class='ergebnisAuswahlListeTitel ergebnisAuswahlListeTitelTPop'>" + window.tpop_array.length + " Teilpopulationen: </p>";
+			rückmeldung += "<p class='ergebnisAuswahlListeTitel ergebnisAuswahlListeTitelTPop'>" + window.tpop_array.length + " Teilpopulationen: </p>";
 		}
-		rueckmeldung += "<table>";
-		for (i = 0; i < window.tpop_array.length; i++) {
-			rueckmeldung += "<tr><td><a href=\"#\" onclick=\"window.af.öffneTPopInNeuemTab('" + window.tpop_array[i]['myId'] + "')\">" + window.tpop_array[i]['label'] + ":<\/a></td><td><a href=\"#\" onclick=\"window.af.öffneTPopInNeuemTab('" + window.tpop_array[i]['myId'] + "')\">" + window.tpop_array[i].tooltip + "<\/a></td></tr>";
-		}
-		rueckmeldung += "</table>";
+		rückmeldung += "<table>";
+        _.each(window.tpop_array, function(tpop) {
+            rückmeldung += "<tr><td><a href=\"#\" onclick=\"window.af.öffneTPopInNeuemTab('" + window.tpop_array[i]['myId'] + "')\">";
+            rückmeldung += window.tpop_array[i]['label'] + ":<\/a></td><td><a href=\"#\" onclick=\"window.af.öffneTPopInNeuemTab('" + window.tpop_array[i]['myId'] + "')\">";
+            rückmeldung += window.tpop_array[i].tooltip + "<\/a></td></tr>";
+        });
+		rückmeldung += "</table>";
 	}
 	// Höhe der Meldung begrenzen. Leider funktioniert maxHeight nicht
 	var height = "auto";
@@ -12919,25 +12911,25 @@ window.af.erstelleListeDerAusgewaehltenPopTPop = function() {
 	}
 
 	// Listentitel erstellen
-	var Listentitel,
+	var listentitel,
 		exportieren = "Exportieren: ",
 		exportierenPop = "<a href='#' class='export_pop'>Populationen</a>",
 		exportierenTPop = "<a href='#' class='export_tpop'>Teilpopulationen</a>, <a href='#' class='export_kontr'>Kontrollen</a>, <a href='#' class='export_massn'>Massnahmen</a>";
 	if (window.pop_array.length > 0 && window.tpop_array.length > 0) {
-		Listentitel = "Gewählt wurden " + window.pop_array.length + " Populationen und " + window.tpop_array.length + " Teilpopulationen";
+		listentitel = "Gewählt wurden " + window.pop_array.length + " Populationen und " + window.tpop_array.length + " Teilpopulationen";
 		exportieren += exportierenPop + ", " + exportierenTPop;
 	} else if (window.pop_array.length > 0) {
-		Listentitel = "Gewählt wurden " + window.pop_array.length + " Populationen:";
+		listentitel = "Gewählt wurden " + window.pop_array.length + " Populationen:";
 		exportieren += exportierenPop;
 	} else if (window.tpop_array.length > 0) {
-		Listentitel = "Gewählt wurden " + window.tpop_array.length + " Teilpopulationen:";
+		listentitel = "Gewählt wurden " + window.tpop_array.length + " Teilpopulationen:";
 		exportieren += exportierenTPop;
 	} else {
-		Listentitel = "Keine Populationen/Teilpopulationen gewählt";
+		listentitel = "Keine Populationen/Teilpopulationen gewählt";
 		exportieren = "";
 	}
-	$("#ergebnisAuswahlHeaderText").html(Listentitel);
-	$("#ergebnisAuswahlListe").html(rueckmeldung);
+	$("#ergebnisAuswahlHeaderText").html(listentitel);
+	$("#ergebnisAuswahlListe").html(rückmeldung);
 	$("#ergebnisAuswahlFooter").html(exportieren);
 	// Ergebnis-Div einblenden
 	$("#ergebnisAuswahl").css("display", "block");
@@ -12946,7 +12938,7 @@ window.af.erstelleListeDerAusgewaehltenPopTPop = function() {
 // übernimmt drei Variabeln: PopListe ist das Objekt mit den Populationen
 // popid_array der Array mit den ausgewählten Pop
 // visible: Ob die Ebene sichtbar geschaltet wird (oder bloss im Layertree verfügbar ist)
-window.af.erstellePopSymboleFürGeoAdmin = function(PopListe, popid_markiert, visible) {
+window.af.erstellePopSymboleFürGeoAdmin = function(popliste, popid_markiert, visible) {
 	'use strict';
 	if (visible === null) {
 		visible = true;
@@ -12992,51 +12984,48 @@ window.af.erstellePopSymboleFürGeoAdmin = function(PopListe, popid_markiert, vi
         myName,
         pop;
 
-	for (b in PopListe.rows) {
-		if (PopListe.rows.hasOwnProperty(b)) {
-			pop = PopListe.rows[b];
-			myName = Pop.PopName || '(kein Name)';
-			html = '<h3>' + myName + '</h3>'+
-				'<p>Koordinaten: ' + Pop.PopXKoord + ' / ' + Pop.PopYKoord + '</p>'+
-				"<p><a href=\"#\" onclick=\"window.af.öffnePop('" + Pop.PopId + "')\">Formular öffnen<\/a></p>"+
-				"<p><a href=\"#\" onclick=\"window.af.öffnePopInNeuemTab('" + Pop.PopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
-			
-			var myLocation = new OpenLayers.Geometry.Point(Pop.PopXKoord, Pop.PopYKoord);
+    _.each(popliste.rows, function(pop) {
+        myName = pop.PopName || '(kein Name)';
+        html = '<h3>' + myName + '</h3>'+
+            '<p>Koordinaten: ' + pop.PopXKoord + ' / ' + pop.PopYKoord + '</p>'+
+            "<p><a href=\"#\" onclick=\"window.af.öffnePop('" + pop.PopId + "')\">Formular öffnen<\/a></p>"+
+            "<p><a href=\"#\" onclick=\"window.af.öffnePopInNeuemTab('" + pop.PopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
 
-			// tooltip bzw. label vorbereiten: nullwerte ausblenden
-			if (Pop.PopNr) {
-				myLabel = Pop.PopNr;
-			} else {
-				myLabel = '?';
-			}
+        var myLocation = new OpenLayers.Geometry.Point(pop.PopXKoord, pop.PopYKoord);
 
-			// marker erstellen...
-			// gewählte erhalten style gelb und zuoberst
-			if (popid_markiert && popid_markiert.indexOf(Pop.PopId) !== -1) {
-				marker = new OpenLayers.Feature.Vector(myLocation, {
-					tooltip: myName,
-					label: myLabel,
-					message: html
-				}, {
-					externalGraphic: '//www.apflora.ch/img/flora_icon_orange.png',
-					graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
-					title: myName,
-					graphicZIndex: 5000
-				});
-			} else {
-				marker = new OpenLayers.Feature.Vector(myLocation, {
-					tooltip: myName,
-					message: html,
-					label: myLabel
-				});
-			}
-			marker.attributes.myTyp = "pop";
-			marker.attributes.myId = Pop.PopId;
+        // tooltip bzw. label vorbereiten: nullwerte ausblenden
+        if (pop.PopNr) {
+            myLabel = pop.PopNr;
+        } else {
+            myLabel = '?';
+        }
 
-			// ...und in Array speichern
-			markers.push(marker);
-		}
-	}
+        // marker erstellen...
+        // gewählte erhalten style gelb und zuoberst
+        if (popid_markiert && popid_markiert.indexOf(pop.PopId) !== -1) {
+            marker = new OpenLayers.Feature.Vector(myLocation, {
+                tooltip: myName,
+                label: myLabel,
+                message: html
+            }, {
+                externalGraphic: '//www.apflora.ch/img/flora_icon_orange.png',
+                graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
+                title: myName,
+                graphicZIndex: 5000
+            });
+        } else {
+            marker = new OpenLayers.Feature.Vector(myLocation, {
+                tooltip: myName,
+                message: html,
+                label: myLabel
+            });
+        }
+        marker.attributes.myTyp = "pop";
+        marker.attributes.myId = pop.PopId;
+
+        // ...und in Array speichern
+        markers.push(marker);
+    });
 
 	// die marker der Ebene hinzufügen
 	overlay_pop.addFeatures(markers);
@@ -13060,12 +13049,12 @@ window.af.erstellePopSymboleFürGeoAdmin = function(PopListe, popid_markiert, vi
                                 // overlay entfernen...
                                 if (window.afm.map.getLayersByName('Populationen')) {
                                     var layers = window.afm.map.getLayersByName('Populationen');
-                                    for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
-                                        window.afm.map.removeLayer(layers[layerIndex]);
-                                    }
+                                    _.each(layers, function(layer) {
+                                        window.afm.map.removeLayer(layer);
+                                    });
                                 }
                                 // ...und neu erstellen
-                                window.af.erstellePopSymboleFürGeoAdmin(PopListe, popid_markiert, visible);
+                                window.af.erstellePopSymboleFürGeoAdmin(popliste, popid_markiert, visible);
                             }
                         }
                     });
@@ -13119,12 +13108,12 @@ window.af.erstellePopSymboleFürGeoAdmin = function(PopListe, popid_markiert, vi
 						// overlay entfernen...
 						if (window.afm.map.getLayersByName('Populationen')) {
 							var layers = window.afm.map.getLayersByName('Populationen');
-							for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
-								window.afm.map.removeLayer(layers[layerIndex]);
-							}
+                            _.each(layers, function(layer) {
+                                window.afm.map.removeLayer(layer);
+                            });
 						}
 						// ...und neu erstellen
-						window.af.erstellePopSymboleFürGeoAdmin(PopListe, popid_markiert, true);
+						window.af.erstellePopSymboleFürGeoAdmin(popliste, popid_markiert, true);
 					}
 				}
 			});
@@ -13155,7 +13144,7 @@ window.af.erstellePopSymboleFürGeoAdmin = function(PopListe, popid_markiert, vi
 	return PopSymbole_erstellt.promise();
 };
 
-window.af.erstellePopNrFürGeoAdmin = function(PopListe, visible) {
+window.af.erstellePopNrFürGeoAdmin = function(pop_liste, visible) {
 	'use strict';
 	var PopNr_erstellt = $.Deferred(),
         overlay_pop_beschriftungen;
@@ -13199,32 +13188,27 @@ window.af.erstellePopNrFürGeoAdmin = function(PopListe, visible) {
 
 	// Array gründen, um marker darin zu sammeln
 	var markers = [];
-	var myLabel,
-        pop;
+	var my_label;
 
-	for (b in PopListe.rows) {
-		if (PopListe.rows.hasOwnProperty(b)) {
-			pop = PopListe.rows[b];
-			
-			var myLocation = new OpenLayers.Geometry.Point(Pop.PopXKoord, Pop.PopYKoord);
+    _.each(pop_liste, function(pop) {
+        var my_location = new OpenLayers.Geometry.Point(pop.PopXKoord, pop.PopYKoord);
 
-			// tooltip bzw. label vorbereiten: nullwerte ausblenden
-			if (Pop.PopNr) {
-				myLabel = Pop.PopNr ;
-			} else {
-				myLabel = '?';
-			}
+        // tooltip bzw. label vorbereiten: nullwerte ausblenden
+        if (pop.PopNr) {
+            my_label = pop.PopNr ;
+        } else {
+            my_label = '?';
+        }
 
-			// marker erstellen...
-			// gewählte erhalten style gelb und zuoberst
-			var marker = new OpenLayers.Feature.Vector(myLocation, {
-				label: myLabel,
-			});
+        // marker erstellen...
+        // gewählte erhalten style gelb und zuoberst
+        var marker = new OpenLayers.Feature.Vector(my_location, {
+            label: my_label,
+        });
 
-			// ...und in Array speichern
-			markers.push(marker);
-		}
-	}
+        // ...und in Array speichern
+        markers.push(marker);
+    });
 
 	// die marker der Ebene hinzufügen
 	overlay_pop_beschriftungen.addFeatures(markers);
@@ -13235,7 +13219,7 @@ window.af.erstellePopNrFürGeoAdmin = function(PopListe, visible) {
 	return PopNr_erstellt.promise();
 };
 
-window.af.erstellePopNamenFürGeoAdmin = function(PopListe) {
+window.af.erstellePopNamenFürGeoAdmin = function(pop_liste) {
 	'use strict';
 	var PopNamen_erstellt = $.Deferred();
 	// styles für overlay_top definieren
@@ -13269,23 +13253,17 @@ window.af.erstellePopNamenFürGeoAdmin = function(PopListe) {
 	// Array gründen, um marker darin zu sammeln
 	var markers = [];
 
-	for (b in PopListe.rows) {
-		if (PopListe.rows.hasOwnProperty(b)) {
-			Pop = PopListe.rows[b];
-			
-			var myLocation = new OpenLayers.Geometry.Point(Pop.PopXKoord, Pop.PopYKoord);
-			var myPopName = Pop.TPopName || '(kein Name)';
-
-			// marker erstellen...
-			// gewählte erhalten style gelb und zuoberst
-			var marker = new OpenLayers.Feature.Vector(myLocation, {
-				label: myPopName,
-			});
-
-			// ...und in Array speichern
-			markers.push(marker);
-		}
-	}
+    _.each(pop_liste.rows, function(pop) {
+        var myLocation = new OpenLayers.Geometry.Point(pop.PopXKoord, pop.PopYKoord),
+            myPopName = pop.TPopName || '(kein Name)',
+            // marker erstellen...
+            // gewählte erhalten style gelb und zuoberst
+            marker = new OpenLayers.Feature.Vector(myLocation, {
+                label: myPopName,
+            });
+        // ...in Array speichern
+        markers.push(marker);
+    });
 
 	// die marker der Ebene hinzufügen
 	overlay_pop_beschriftungen.addFeatures(markers);
@@ -13325,7 +13303,7 @@ window.af.deaktiviereGeoAdminAuswahl = function() {
 // TPopListe: Die Liste der darzustellenden Teilpopulationen
 // tpopid_markiert: die ID der zu markierenden TPop
 // visible: Ob das Layer sichtbar sein soll
-window.af.erstelleTPopNrFürGeoAdmin = function(TPopListe, tpopid_markiert, visible) {
+window.af.erstelleTPopNrFürGeoAdmin = function(tpop_liste, tpopid_markiert, visible) {
 	'use strict';
 	if (visible === null) {
 		visible = true;
@@ -13360,36 +13338,29 @@ window.af.erstelleTPopNrFürGeoAdmin = function(TPopListe, tpopid_markiert, visi
 	});
 
 	// Array gründen, um marker darin zu sammeln
-	var markers = [];
-	var myLabel;
+	var markers = [],
+        my_label;
 
-	for (b in TPopListe.rows) {
-		if (TPopListe.rows.hasOwnProperty(b)) {
-			TPop = TPopListe.rows[b];
-			
-			var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
-
-			// tooltip bzw. label vorbereiten: nullwerte ausblenden
-			if (TPop.PopNr && TPop.TPopNr) {
-				myLabel = TPop.PopNr + '/' + TPop.TPopNr;
-			} else if (TPop.PopNr) {
-				myLabel = TPop.PopNr + '/?';
-			} else if (TPop.TPopNr) {
-				myLabel = '?/' + TPop.TPopNr;
-			} else {
-				myLabel = '?/?';
-			}
-
-			// marker erstellen...
-			// gewählte erhalten style gelb und zuoberst
-			var marker = new OpenLayers.Feature.Vector(myLocation, {
-				label: myLabel,
-			});
-
-			// ...und in Array speichern
-			markers.push(marker);
-		}
-	}
+    _.each(tpop_liste.rows, function(tpop) {
+        var my_location = new OpenLayers.Geometry.Point(tpop.TPopXKoord, tpop.TPopYKoord);
+        // tooltip bzw. label vorbereiten: nullwerte ausblenden
+        if (tpop.PopNr && tpop.TPopNr) {
+            my_label = tpop.PopNr + '/' + tpop.TPopNr;
+        } else if (tpop.PopNr) {
+            my_label = tpop.PopNr + '/?';
+        } else if (tpop.TPopNr) {
+            my_label = '?/' + tpop.TPopNr;
+        } else {
+            my_label = '?/?';
+        }
+        // marker erstellen...
+        // gewählte erhalten style gelb und zuoberst
+        var marker = new OpenLayers.Feature.Vector(my_location, {
+            label: my_label
+        });
+        // ...und in Array speichern
+        markers.push(marker);
+    });
 
 	// die marker der Ebene hinzufügen
 	overlay_tpop_beschriftungen.addFeatures(markers);
@@ -13404,7 +13375,7 @@ window.af.erstelleTPopNrFürGeoAdmin = function(TPopListe, tpopid_markiert, visi
 // TPopListe: Die Liste der darzustellenden Teilpopulationen
 // tpopid_markiert: die ID der zu markierenden TPop
 // visible: Ob das Layer sichtbar sein soll
-window.af.erstelleTPopNamenFürGeoAdmin = function(TPopListe, tpopid_markiert, visible) {
+window.af.erstelleTPopNamenFürGeoAdmin = function(tpop_liste, tpopid_markiert, visible) {
 	'use strict';
 	if (visible === null) {
 		visible = true;
@@ -13441,23 +13412,18 @@ window.af.erstelleTPopNamenFürGeoAdmin = function(TPopListe, tpopid_markiert, v
 	// Array gründen, um marker darin zu sammeln
 	var markers = [];
 
-	for (b in TPopListe.rows) {
-		if (TPopListe.rows.hasOwnProperty(b)) {
-			TPop = TPopListe.rows[b];
-			
-			var myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
-			var myTPopFlurname = TPop.TPopFlurname || '(kein Name)';
+    _.each(tpop_liste.rows, function(tpop) {
+        var my_location = new OpenLayers.Geometry.Point(tpop.TPopXKoord, tpop.TPopYKoord),
+            my_tpop_flurname = tpop.TPopFlurname || '(kein Name)',
+            // marker erstellen...
+            // gewählte erhalten style gelb und zuoberst
+            marker = new OpenLayers.Feature.Vector(my_location, {
+                label: my_tpop_flurname,
+            });
 
-			// marker erstellen...
-			// gewählte erhalten style gelb und zuoberst
-			var marker = new OpenLayers.Feature.Vector(myLocation, {
-				label: myTPopFlurname,
-			});
-
-			// ...und in Array speichern
-			markers.push(marker);
-		}
-	}
+        // ...und in Array speichern
+        markers.push(marker);
+    });
 
 	// die marker der Ebene hinzufügen
 	overlay_tpop_beschriftungen.addFeatures(markers);
@@ -13490,14 +13456,13 @@ window.af.geoadminOnFeatureUnselect = function(feature) {
 	feature.popup.hide();
 };
 
-window.af.zeigeBeobUndTPopAufKarte = function(BeobListe, TPopListe) {
+window.af.zeigeBeobUndTPopAufKarte = function(beob_liste, tpop_liste) {
 	'use strict';
-	window.TPopListe = TPopListe;
-	var anzBeob,
-        anzTPop,
-        infowindowBeob,
-        infowindowTPop,
-        Beob,
+	window.TPopListe = tpop_liste;
+	var anz_beob,
+        anz_tpop,
+        infowindow_beob,
+        infowindow_tpop,
         tpop,
         lat,
         lng,
@@ -13505,50 +13470,47 @@ window.af.zeigeBeobUndTPopAufKarte = function(BeobListe, TPopListe) {
         options,
         map,
         bounds,
-        markersTPop,
-        TPopId,
+        markers_tpop,
+        tpop_id,
         latlng2,
-        markerBeob,
-        markerTPop,
-        contentStringBeob,
-        contentStringTPop,
-        mcOptionsBeob,
-        mcOptionsTPop,
-        markerClusterBeob,
-        markerClusterTPop,
-        Datum,
+        marker_beob,
+        marker_tpop,
+        contentstring_beob,
+        contentstring_tpop,
+        marker_options_beob,
+        marker_options_tpop,
+        marker_cluster_beob,
+        marker_cluster_tpop,
+        datum,
         titel_beob,
         tpop_beschriftung,
         a_note,
-        myFlurname,
-        i;
+        my_flurname;
 	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	window.af.zeigeFormular("google_karte");
 	window.markersArray = [];
 	window.InfoWindowArray = [];
-	infowindowBeob = new google.maps.InfoWindow();
-	infowindowTPop = new google.maps.InfoWindow();
+	infowindow_beob = new google.maps.InfoWindow();
+	infowindow_tpop = new google.maps.InfoWindow();
 	// Lat und Lng in BeobListe ergänzen
-	for (i = 0; i < BeobListe.rows.length; i++) {
-		Beob = BeobListe.rows[i];
-		Beob.Lat = window.af.CHtoWGSlat(parseInt(Beob.X), parseInt(Beob.Y));
-		Beob.Lng = window.af.CHtoWGSlng(parseInt(Beob.X), parseInt(Beob.Y));
-	}
+    _.each(beob_liste.rows, function(beob) {
+        beob.Lat = window.af.CHtoWGSlat(parseInt(beob.X), parseInt(beob.Y));
+        beob.Lng = window.af.CHtoWGSlng(parseInt(beob.X), parseInt(beob.Y));
+    });
 	// dito in TPopListe
-	for (i = 0; i < TPopListe.rows.length; i++) {
-		tpop = TPopListe.rows[i];
-		if (!tpop.TPopXKoord || !tpop.TPopYKoord) {
+    _.each(tpop_liste.rows, function(tpop, index) {
+        if (!tpop.TPopXKoord || !tpop.TPopYKoord) {
             // tpop gibt in Chrome Fehler
-			delete TPopListe.rows[i];
-		} else {
-			tpop.Lat = window.af.CHtoWGSlat(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
-			tpop.Lng = window.af.CHtoWGSlng(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
-		}
-	}
+            delete tpop_liste.rows[index];
+        } else {
+            tpop.Lat = window.af.CHtoWGSlat(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
+            tpop.Lng = window.af.CHtoWGSlng(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
+        }
+    });
 	// Beob zählen
-	anzBeob = BeobListe.rows.length;
+	anz_beob = beob_liste.rows.length;
 	// TPop zählen
-	anzTPop = TPopListe.rows.length;
+	anz_tpop = tpop_liste.rows.length;
 	// Karte mal auf Zürich zentrieren, falls in den BeobListe.rows keine Koordinaten kommen
 	// auf die die Karte ausgerichtet werden kann
 	lat = 47.383333;
@@ -13565,40 +13527,39 @@ window.af.zeigeBeobUndTPopAufKarte = function(BeobListe, TPopListe) {
 	bounds = new google.maps.LatLngBounds();
 
 	// für alle TPop Marker erstellen
-	markersTPop = [];
-	for (i = 0; i < TPopListe.rows.length; i++) {
-		tpop = TPopListe.rows[i];
-		TPopId = tpop.TPopId;
-		latlng2 = new google.maps.LatLng(tpop.Lat, tpop.Lng);
-		// Kartenausschnitt um diese Koordinate erweitern
-		bounds.extend(latlng2);
-		tpop_beschriftung = window.af.beschrifteTPopMitNrFürKarte(tpop.PopNr, tpop.TPopNr);
-		markerTPop = new MarkerWithLabel({
-			map: map,
-			position: latlng2,
-			title: tpop_beschriftung,
-			labelContent: tpop_beschriftung,
-			labelAnchor: new google.maps.Point(75, 0),
-			labelClass: "MapLabel",
-			icon: "img/flora_icon.png"
-		});
-		markersTPop.push(markerTPop);
-		myFlurname = tpop.TPopFlurname || '(kein Flurname)';
-		contentStringTPop = '<div id="content">'+
-			'<div id="siteNotice">'+
-			'</div>'+
-			'<div id="bodyContent" class="GmInfowindow">'+
-			'<h3>' + tpop.Artname + '</h3>'+
-			'<p>Population: ' + tpop.PopName + '</p>'+
-			'<p>TPop: ' + myFlurname + '</p>'+
-			'<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
-			"<p><a href=\"#\" onclick=\"window.af.öffneTPop('" + tpop.TPopId + "')\">Formular öffnen<\/a></p>"+
-			"<p><a href=\"#\" onclick=\"window.af.öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
-			'</div>'+
-			'</div>';
-		makeListener(map, markerTPop, contentStringTPop);
-	}
-	mcOptionsTPop = {
+	markers_tpop = [];
+    _.each(tpop_liste.rows, function(tpop) {
+        tpop_id = tpop.TPopId;
+        latlng2 = new google.maps.LatLng(tpop.Lat, tpop.Lng);
+        // Kartenausschnitt um diese Koordinate erweitern
+        bounds.extend(latlng2);
+        tpop_beschriftung = window.af.beschrifteTPopMitNrFürKarte(tpop.PopNr, tpop.TPopNr);
+        marker_tpop = new MarkerWithLabel({
+            map: map,
+            position: latlng2,
+            title: tpop_beschriftung,
+            labelContent: tpop_beschriftung,
+            labelAnchor: new google.maps.Point(75, 0),
+            labelClass: "MapLabel",
+            icon: "img/flora_icon.png"
+        });
+        markers_tpop.push(marker_tpop);
+        my_flurname = tpop.TPopFlurname || '(kein Flurname)';
+        contentstring_tpop = '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<div id="bodyContent" class="GmInfowindow">'+
+            '<h3>' + tpop.Artname + '</h3>'+
+            '<p>Population: ' + tpop.PopName + '</p>'+
+            '<p>TPop: ' + my_flurname + '</p>'+
+            '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
+            "<p><a href=\"#\" onclick=\"window.af.öffneTPop('" + tpop.TPopId + "')\">Formular öffnen<\/a></p>"+
+            "<p><a href=\"#\" onclick=\"window.af.öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+            '</div>'+
+            '</div>';
+        makeListener(map, marker_tpop, contentstring_tpop);
+    });
+	marker_options_tpop = {
 		maxZoom: 17, 
 		styles: [{
 				height: 53,
@@ -13606,79 +13567,78 @@ window.af.zeigeBeobUndTPopAufKarte = function(BeobListe, TPopListe) {
 				width: 53
 			}]
 	};
-	markerClusterTPop = new MarkerClusterer(map, markersTPop, mcOptionsTPop);
+	marker_cluster_tpop = new MarkerClusterer(map, markers_tpop, marker_options_tpop);
 	
 	// diese Funktion muss hier sein, damit infowindow bekannt ist
 	function makeListener(map, markerTPop, contentStringTPop) {
 		google.maps.event.addListener(markerTPop, 'click', function() {
-			infowindowTPop.setContent(contentStringTPop);
-			infowindowTPop.open(map,markerTPop);
+			infowindow_tpop.setContent(contentStringTPop);
+			infowindow_tpop.open(map,markerTPop);
 		});
 	}
 
 	// für alle Beob Marker erstellen
 	window.markersBeob = [];
-	for (i = 0; i < BeobListe.rows.length; i++) {
-		Beob = BeobListe.rows[i];
-		Datum = Beob.Datum;
-		latlng2 = new google.maps.LatLng(Beob.Lat, Beob.Lng);
-		if (anzBeob === 1) {
-			// map.fitbounds setzt zu hohen zoom, wenn nur eine Beob Koordinaten hat > verhindern
-			latlng = latlng2;
-		} else {
-			// Kartenausschnitt um diese Koordinate erweitern
-			bounds.extend(latlng2);
-		}
-		// title muss String sein
-		if (Datum) {
-			titel_beob = Datum.toString();
-		} else {
-			titel_beob = "";
-		}
-		// A_NOTE muss String sein
-		if (Beob.A_NOTE) {
-			a_note = Beob.A_NOTE.toString();
-		} else {
-			a_note = "";
-		}
-		markerBeob = new MarkerWithLabel({
-			map: map,
-			position: latlng2,
-			title: titel_beob,
-			labelContent: a_note,
-			labelAnchor: new google.maps.Point(75, 0),
-			labelClass: "MapLabel",
-			icon: "img/flora_icon_violett.png",
-			draggable: true
-		});
-		window.markersBeob.push(markerBeob);
-		makeListenerMarkerBeobDragend(markerBeob, Beob);
-		var Autor = Beob.Autor || "(keiner)";
-		var Projekt = Beob.PROJET || "(keines)";
-		var Ort = Beob.DESC_LOCALITE || "(keiner)";
-		contentStringBeob = '<div id="content">'+
-			'<div id="siteNotice">'+
-			'</div>'+
-			'<div id="bodyContent" class="GmInfowindow">'+
-			'<h3>' + Datum + '</h3>'+
-			'<p>Autor: ' + Autor + '</p>'+
-			'<p>Projekt: ' + Projekt + '</p>'+
-			'<p>Ort: ' + Ort + '</p>'+
-			'<p>Koordinaten: ' + Beob.X + ' / ' + Beob.Y + '</p>'+
-			"<p><a href=\"#\" onclick=\"window.af.öffneBeob('" + Beob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
-			"<p><a href=\"#\" onclick=\"window.af.öffneBeobInNeuemTab('" + Beob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
-			'</div>'+
-			'</div>';
-		makeListenerBeob(map, markerBeob, contentStringBeob);
-	}
+    _.each(beob_liste.rows, function(beob) {
+        datum = beob.Datum;
+        latlng2 = new google.maps.LatLng(beob.Lat, beob.Lng);
+        if (anz_beob === 1) {
+            // map.fitbounds setzt zu hohen zoom, wenn nur eine Beob Koordinaten hat > verhindern
+            latlng = latlng2;
+        } else {
+            // Kartenausschnitt um diese Koordinate erweitern
+            bounds.extend(latlng2);
+        }
+        // title muss String sein
+        if (datum) {
+            titel_beob = datum.toString();
+        } else {
+            titel_beob = "";
+        }
+        // A_NOTE muss String sein
+        if (beob.A_NOTE) {
+            a_note = beob.A_NOTE.toString();
+        } else {
+            a_note = "";
+        }
+        marker_beob = new MarkerWithLabel({
+            map: map,
+            position: latlng2,
+            title: titel_beob,
+            labelContent: a_note,
+            labelAnchor: new google.maps.Point(75, 0),
+            labelClass: "MapLabel",
+            icon: "img/flora_icon_violett.png",
+            draggable: true
+        });
+        window.markersBeob.push(marker_beob);
+        makeListenerMarkerBeobDragend(marker_beob, beob);
+        var Autor = beob.Autor || "(keiner)";
+        var Projekt = beob.PROJET || "(keines)";
+        var Ort = beob.DESC_LOCALITE || "(keiner)";
+        contentstring_beob = '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<div id="bodyContent" class="GmInfowindow">'+
+            '<h3>' + datum + '</h3>'+
+            '<p>Autor: ' + Autor + '</p>'+
+            '<p>Projekt: ' + Projekt + '</p>'+
+            '<p>Ort: ' + Ort + '</p>'+
+            '<p>Koordinaten: ' + beob.X + ' / ' + beob.Y + '</p>'+
+            "<p><a href=\"#\" onclick=\"window.af.öffneBeob('" + beob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
+            "<p><a href=\"#\" onclick=\"window.af.öffneBeobInNeuemTab('" + beob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+            '</div>'+
+            '</div>';
+        makeListenerBeob(map, marker_beob, contentstring_beob);
+    });
 	// KEIN MARKERCLUSTERER: er verhindert das Entfernen einzelner Marker!
 	// ausserdem macht er es schwierig, eng liegende Marker zuzuordnen
 	
 	// diese Funktion muss hier sein, damit infowindow bekannt ist
 	function makeListenerBeob(map, markerBeob, contentStringBeob) {
 		google.maps.event.addListener(markerBeob, 'click', function() {
-			infowindowBeob.setContent(contentStringBeob);
-			infowindowBeob.open(map, markerBeob);
+			infowindow_beob.setContent(contentStringBeob);
+			infowindow_beob.open(map, markerBeob);
 		});
 	}
 
@@ -13692,7 +13652,7 @@ window.af.zeigeBeobUndTPopAufKarte = function(BeobListe, TPopListe) {
 			X = window.af.DdInChY(lat, lng);
 			Y = window.af.DdInChX(lat, lng);
 			// nächstgelegene TPop aus DB holen
-			var BeobNaechsteTPop = $.ajax({
+			var BeobNächsteTPop = $.ajax({
 				type: 'get',
 				url: 'php/beob_naechste_tpop.php',
 				data: {
@@ -13702,7 +13662,7 @@ window.af.zeigeBeobUndTPopAufKarte = function(BeobListe, TPopListe) {
 				},
 				dataType: 'json'
 			});
-			BeobNaechsteTPop.done(function(data) {
+			BeobNächsteTPop.done(function(data) {
 				var beobtxt;
 				if (Beob.Autor) {
 					beobtxt = "Beobachtung von " + Beob.Autor + " aus dem Jahr " + Beob.A_NOTE;
@@ -13737,13 +13697,13 @@ window.af.zeigeBeobUndTPopAufKarte = function(BeobListe, TPopListe) {
 					}
 				});
 			});
-			BeobNaechsteTPop.fail(function() {
+			BeobNächsteTPop.fail(function() {
 				window.af.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
 			});
 		});
 	}
 
-	if (anzTPop + anzBeob === 1) {
+	if (anz_tpop + anz_beob === 1) {
 		// map.fitbounds setzt zu hohen zoom, wenn nur ein Punkt dargestellt wird > verhindern
 		map.setCenter(latlng);
 		map.setZoom(18);
@@ -13753,12 +13713,10 @@ window.af.zeigeBeobUndTPopAufKarte = function(BeobListe, TPopListe) {
 	}
 };
 
-window.af.zeigeBeobAufKarte = function(BeobListe) {
+window.af.zeigeBeobAufKarte = function(beob_liste) {
 	'use strict';
-	var beob,
-        anzBeob,
+	var anz_beob,
         infowindow,
-        TPop,
         lat,
         lng,
         latlng,
@@ -13766,13 +13724,12 @@ window.af.zeigeBeobAufKarte = function(BeobListe) {
         map,
         bounds,
         markers,
-        TPopId,
         latlng2,
         marker,
         contentString,
-        mcOptions,
-        markerCluster,
-        Datum,
+        marker_options,
+        marker_cluster,
+        datum,
         titel,
         a_note;
 	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
@@ -13781,13 +13738,12 @@ window.af.zeigeBeobAufKarte = function(BeobListe) {
 	window.InfoWindowArray = [];
 	infowindow = new google.maps.InfoWindow();
 	// Lat und Lng in BeobListe ergänzen
-	for (i = 0; i < BeobListe.rows.length; i++) {
-		beob = BeobListe.rows[i];
-		beob.Lat = window.af.CHtoWGSlat(parseInt(beob.X), parseInt(beob.Y));
-		beob.Lng = window.af.CHtoWGSlng(parseInt(beob.X), parseInt(beob.Y));
-	}
+    _.each(beob_liste.rows, function(beob) {
+        beob.Lat = window.af.CHtoWGSlat(parseInt(beob.X), parseInt(beob.Y));
+        beob.Lng = window.af.CHtoWGSlng(parseInt(beob.X), parseInt(beob.Y));
+    });
 	// TPop zählen
-	anzBeob = BeobListe.rows.length;
+	anz_beob = beob_liste.rows.length;
 	// Karte mal auf Zürich zentrieren, falls in den BeobListe.rows keine Koordinaten kommen
 	// auf die die Karte ausgerichtet werden kann
 	lat = 47.383333;
@@ -13812,63 +13768,62 @@ window.af.zeigeBeobAufKarte = function(BeobListe) {
 	bounds = new google.maps.LatLngBounds();
 	// für alle Orte Marker erstellen
 	markers = [];
-	for (var i = 0; i < BeobListe.rows.length; i++) {
-		beob = BeobListe.rows[i];
-		Datum = beob.Datum;
-		latlng2 = new google.maps.LatLng(beob.Lat, beob.Lng);
-		if (anzBeob === 1) {
-			// map.fitbounds setzt zu hohen zoom, wenn nur eine Beob Koordinaten hat > verhindern
-			latlng = latlng2;
-		} else {
-			// Kartenausschnitt um diese Koordinate erweitern
-			bounds.extend(latlng2);
-		}
-		// title muss String sein
-		if (Datum) {
-			titel = Datum.toString();
-		} else {
-			titel = "";
-		}
-		// A_NOTE muss String sein
-		if (beob.A_NOTE) {
-			a_note = beob.A_NOTE.toString();
-		} else {
-			a_note = "";
-		}
-		marker = new MarkerWithLabel({
-			map: map,
-			position: latlng2,
-			title: titel,
-			labelContent: a_note,
-			labelAnchor: new google.maps.Point(75, 0),
-			labelClass: "MapLabel",
-			icon: "img/flora_icon_violett.png"
-		});
-		// dem Marker einen Typ und eine id geben
-		// damit drag and drop möglich werden soll
-		// marker.set("typ", "beob");
-		// marker.set("id", Beob.BeobId);
-		marker.metadata = {typ: "beob_nicht_beurteilt", id: beob.NO_NOTE};
-		markers.push(marker);
-		var Autor = beob.Autor || "(keiner)";
-		var Projekt = beob.PROJET || "(keines)";
-		var Ort = beob.DESC_LOCALITE || "(keiner)";
-		contentString = '<div id="content">'+
-			'<div id="siteNotice">'+
-			'</div>'+
-			'<div id="bodyContent" class="GmInfowindow">'+
-			'<h3>' + Datum + '</h3>'+
-			'<p>Autor: ' + Autor + '</p>'+
-			'<p>Projekt: ' + Projekt + '</p>'+
-			'<p>Ort: ' + Ort + '</p>'+
-			'<p>Koordinaten: ' + beob.X + ' / ' + beob.Y + '</p>'+
-			"<p><a href=\"#\" onclick=\"window.af.öffneBeob('" + beob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
-			"<p><a href=\"#\" onclick=\"window.af.öffneBeobInNeuemTab('" + beob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
-			'</div>'+
-			'</div>';
-		makeListener(map, marker, contentString);
-	}
-	mcOptions = {
+    _.each(beob_liste.rows, function(beob) {
+        datum = beob.Datum;
+        latlng2 = new google.maps.LatLng(beob.Lat, beob.Lng);
+        if (anz_beob === 1) {
+            // map.fitbounds setzt zu hohen zoom, wenn nur eine Beob Koordinaten hat > verhindern
+            latlng = latlng2;
+        } else {
+            // Kartenausschnitt um diese Koordinate erweitern
+            bounds.extend(latlng2);
+        }
+        // title muss String sein
+        if (datum) {
+            titel = datum.toString();
+        } else {
+            titel = "";
+        }
+        // A_NOTE muss String sein
+        if (beob.A_NOTE) {
+            a_note = beob.A_NOTE.toString();
+        } else {
+            a_note = "";
+        }
+        marker = new MarkerWithLabel({
+            map: map,
+            position: latlng2,
+            title: titel,
+            labelContent: a_note,
+            labelAnchor: new google.maps.Point(75, 0),
+            labelClass: "MapLabel",
+            icon: "img/flora_icon_violett.png"
+        });
+        // dem Marker einen Typ und eine id geben
+        // damit drag and drop möglich werden soll
+        // marker.set("typ", "beob");
+        // marker.set("id", Beob.BeobId);
+        marker.metadata = {typ: "beob_nicht_beurteilt", id: beob.NO_NOTE};
+        markers.push(marker);
+        var Autor = beob.Autor || "(keiner)";
+        var Projekt = beob.PROJET || "(keines)";
+        var Ort = beob.DESC_LOCALITE || "(keiner)";
+        contentString = '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<div id="bodyContent" class="GmInfowindow">'+
+            '<h3>' + datum + '</h3>'+
+            '<p>Autor: ' + Autor + '</p>'+
+            '<p>Projekt: ' + Projekt + '</p>'+
+            '<p>Ort: ' + Ort + '</p>'+
+            '<p>Koordinaten: ' + beob.X + ' / ' + beob.Y + '</p>'+
+            "<p><a href=\"#\" onclick=\"window.af.öffneBeob('" + beob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
+            "<p><a href=\"#\" onclick=\"window.af.öffneBeobInNeuemTab('" + beob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+            '</div>'+
+            '</div>';
+        makeListener(map, marker, contentString);
+    });
+	marker_options = {
 		maxZoom: 17, 
 		styles: [{
 				height: 53,
@@ -13876,8 +13831,8 @@ window.af.zeigeBeobAufKarte = function(BeobListe) {
 				width: 53
 			}]
 	};
-	markerCluster = new MarkerClusterer(map, markers, mcOptions);
-	if (anzBeob === 1) {
+	marker_cluster = new MarkerClusterer(map, markers, marker_options);
+	if (anz_beob === 1) {
 		// map.fitbounds setzt zu hohen zoom, wenn nur eine Beobachtung erfasst wurde > verhindern
 		map.setCenter(latlng);
 		map.setZoom(18);
@@ -13894,13 +13849,10 @@ window.af.zeigeBeobAufKarte = function(BeobListe) {
 	}
 };
 
-window.af.zeigeTPopBeobAufKarte = function(TPopBeobListe) {
+window.af.zeigeTPopBeobAufKarte = function(tpop_beob_liste) {
 	'use strict';
-	var tpopbeob,
-        anzTPopBeob,
-        anzBeob,
+	var anz_tpop_beob,
         infowindow,
-        TPop,
         lat,
         lng,
         latlng,
@@ -13908,15 +13860,13 @@ window.af.zeigeTPopBeobAufKarte = function(TPopBeobListe) {
         map,
         bounds,
         markers,
-        TPopId,
         latlng2,
         marker,
         contentString,
-        mcOptions,
-        markerCluster,
-        Datum,
-        titel,
-        i;
+        marker_options,
+        marker_cluster,
+        datum,
+        titel;
 	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	window.af.zeigeFormular("google_karte");
 	window.markersArray = [];
@@ -13925,13 +13875,12 @@ window.af.zeigeTPopBeobAufKarte = function(TPopBeobListe) {
 	// TPopListe bearbeiten:
 	// Objekte löschen, die keine Koordinaten haben
 	// Lat und Lng ergänzen
-	for (i = 0; i < TPopBeobListe.rows.length; i++) {
-		tpopbeob = TPopBeobListe.rows[i];
-		tpopbeob.Lat = window.af.CHtoWGSlat(parseInt(tpopbeob.X), parseInt(tpopbeob.Y));
-		tpopbeob.Lng = window.af.CHtoWGSlng(parseInt(tpopbeob.X), parseInt(tpopbeob.Y));
-	}
+    _.each(tpop_beob_liste.rows, function(tpop_beob) {
+        tpop_beob.Lat = window.af.CHtoWGSlat(parseInt(tpop_beob.X), parseInt(tpop_beob.Y));
+        tpop_beob.Lng = window.af.CHtoWGSlng(parseInt(tpop_beob.X), parseInt(tpop_beob.Y));
+    });
 	// TPop zählen
-	anzTPopBeob = TPopBeobListe.rows.length;
+	anz_tpop_beob = tpop_beob_liste.rows.length;
 	// Karte mal auf Zürich zentrieren, falls in den TPopBeobListe.rows keine Koordinaten kommen
 	// auf die die Karte ausgerichtet werden kann
 	lat = 47.383333;
@@ -13961,53 +13910,52 @@ window.af.zeigeTPopBeobAufKarte = function(TPopBeobListe) {
 	bounds = new google.maps.LatLngBounds();
 	// für alle Orte Marker erstellen
 	markers = [];
-	for (i = 0; i < TPopBeobListe.rows.length; i++) {
-		tpopbeob = TPopBeobListe.rows[i];
-		Datum = tpopbeob.Datum;
-		latlng2 = new google.maps.LatLng(tpopbeob.Lat, tpopbeob.Lng);
-		if (anzTPopBeob === 1) {
-			// map.fitbounds setzt zu hohen zoom, wenn nur eine TPopBeob Koordinaten hat > verhindern
-			latlng = latlng2;
-		} else {
-			// Kartenausschnitt um diese Koordinate erweitern
-			bounds.extend(latlng2);
-		}
-		// title muss String sein
-		if (Datum) {
-			titel = Datum.toString();
-		} else {
-			titel = "";
-		}
-		marker = new MarkerWithLabel({
-			map: map,
-			position: latlng2,
-			// title muss String sein
-			title: titel,
-			labelContent: titel,
-			labelAnchor: new google.maps.Point(75, 0),
-			labelClass: "MapLabel",
-			icon: "img/flora_icon_violett.png"
-		});
-		markers.push(marker);
-		var Autor = tpopbeob.Autor || "(keiner)";
-		var Projekt = tpopbeob.PROJET || "(keines)";
-		var Ort = tpopbeob.DESC_LOCALITE || "(keiner)";
-		contentString = '<div id="content">'+
-			'<div id="siteNotice">'+
-			'</div>'+
-			'<div id="bodyContent" class="GmInfowindow">'+
-			'<h3>' + Datum + '</h3>'+
-			'<p>Autor: ' + Autor + '</p>'+
-			'<p>Projekt: ' + Projekt + '</p>'+
-			'<p>Ort: ' + Ort + '</p>'+
-			'<p>Koordinaten: ' + tpopbeob.X + ' / ' + tpopbeob.Y + '</p>'+
-			"<p><a href=\"#\" onclick=\"window.af.öffneTPopBeob('" + tpopbeob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
-			"<p><a href=\"#\" onclick=\"window.af.öffneTPopBeobInNeuemTab('" + tpopbeob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
-			'</div>'+
-			'</div>';
-		makeListener(map, marker, contentString);
-	}
-	mcOptions = {
+    _.each(tpop_beob_liste.rows, function(tpop_beob) {
+        datum = tpop_beob.Datum;
+        latlng2 = new google.maps.LatLng(tpop_beob.Lat, tpop_beob.Lng);
+        if (anz_tpop_beob === 1) {
+            // map.fitbounds setzt zu hohen zoom, wenn nur eine TPopBeob Koordinaten hat > verhindern
+            latlng = latlng2;
+        } else {
+            // Kartenausschnitt um diese Koordinate erweitern
+            bounds.extend(latlng2);
+        }
+        // title muss String sein
+        if (datum) {
+            titel = datum.toString();
+        } else {
+            titel = "";
+        }
+        marker = new MarkerWithLabel({
+            map: map,
+            position: latlng2,
+            // title muss String sein
+            title: titel,
+            labelContent: titel,
+            labelAnchor: new google.maps.Point(75, 0),
+            labelClass: "MapLabel",
+            icon: "img/flora_icon_violett.png"
+        });
+        markers.push(marker);
+        var Autor = tpop_beob.Autor || "(keiner)";
+        var Projekt = tpop_beob.PROJET || "(keines)";
+        var Ort = tpop_beob.DESC_LOCALITE || "(keiner)";
+        contentString = '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<div id="bodyContent" class="GmInfowindow">'+
+            '<h3>' + datum + '</h3>'+
+            '<p>Autor: ' + Autor + '</p>'+
+            '<p>Projekt: ' + Projekt + '</p>'+
+            '<p>Ort: ' + Ort + '</p>'+
+            '<p>Koordinaten: ' + tpop_beob.X + ' / ' + tpop_beob.Y + '</p>'+
+            "<p><a href=\"#\" onclick=\"window.af.öffneTPopBeob('" + tpop_beob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
+            "<p><a href=\"#\" onclick=\"window.af.öffneTPopBeobInNeuemTab('" + tpop_beob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+            '</div>'+
+            '</div>';
+        makeListener(map, marker, contentString);
+    });
+	marker_options = {
 		maxZoom: 17, 
 		styles: [{
 				height: 53,
@@ -14015,8 +13963,8 @@ window.af.zeigeTPopBeobAufKarte = function(TPopBeobListe) {
 				width: 53
 			}]
 	};
-	markerCluster = new MarkerClusterer(map, markers, mcOptions);
-	if (anzTPopBeob === 1) {
+	marker_cluster = new MarkerClusterer(map, markers, marker_options);
+	if (anz_tpop_beob === 1) {
 		// map.fitbounds setzt zu hohen zoom, wenn nur eine Beobachtung erfasst wurde > verhindern
 		map.setCenter(latlng);
 		map.setZoom(18);
@@ -14222,70 +14170,66 @@ window.af.SetLocationTPop = function(LatLng, map, marker, TPop) {
 // benutzt wo in GoogleMaps Marker gesetzt und verschoben werden
 window.af.clearMarkers = function() {
 	'use strict';
-	if (markersArray) {
-		for (var i = 0; i < markersArray.length; i++) {
-			markersArray[i].setMap(null);
-		}
-	}
+    _.each(markersArray, function(marker) {
+        marker.setMap(null);
+    });
 };
 
 // GoogleMap: alle InfoWindows löschen
 // benutzt wo in GoogleMaps Infowindows neu gesetzt werden müssen, weil die Daten verändert wurden
 window.af.clearInfoWindows = function() {
 	'use strict';
-	if (window.InfoWindowArray) {
-		for (var i = 0; i < window.InfoWindowArray.length; i++) {
-			window.InfoWindowArray[i].setMap(null);
-		}
-	}
+    _.each(window.InfoWindowArray, function(info_window) {
+        info_window.setMap(null);
+    });
 };
 
-window.af.öffneTPop = function(TPopId) {
+window.af.öffneTPop = function(tpop_id) {
 	'use strict';
-	localStorage.tpop_id = TPopId;
-	$.jstree._reference("[typ='tpop']#" + TPopId).deselect_all();
-	$("#tree").jstree("select_node", "[typ='tpop']#" + TPopId);
+	localStorage.tpop_id = tpop_id;
+	$.jstree._reference("[typ='tpop']#" + tpop_id).deselect_all();
+	$("#tree").jstree("select_node", "[typ='tpop']#" + tpop_id);
 };
 
-window.af.öffneTPopInNeuemTab = function(TPopId) {
+window.af.öffneTPopInNeuemTab = function(tpop_id) {
 	'use strict';
-	window.open("index.html?ap="+localStorage.ap_id+"&pop=" + localStorage.pop_id+"&tpop="+TPopId, "_blank");
+	window.open("index.html?ap="+localStorage.ap_id+"&pop=" + localStorage.pop_id+"&tpop="+tpop_id, "_blank");
 };
 
-window.af.öffnePop = function(PopId) {
+window.af.öffnePop = function(pop_id) {
 	'use strict';
-	localStorage.pop_id = PopId;
-	$.jstree._reference("[typ='pop']#" + PopId).deselect_all();
-	$("#tree").jstree("select_node", "[typ='pop']#" + PopId);
+	localStorage.pop_id = pop_id;
+	$.jstree._reference("[typ='pop']#" + pop_id).deselect_all();
+	$("#tree").jstree("select_node", "[typ='pop']#" + pop_id);
 };
 
-window.af.öffnePopInNeuemTab = function(PopId) {
+window.af.öffnePopInNeuemTab = function(pop_id) {
 	'use strict';
-	window.open("index.html?ap="+localStorage.ap_id+"&pop=" + PopId, "_blank");
+	window.open("index.html?ap="+localStorage.ap_id+"&pop=" + pop_id, "_blank");
 };
 
-window.af.öffneBeob = function(BeobId) {
+window.af.öffneBeob = function(beob_id) {
 	'use strict';
-	localStorage.beob_id = BeobId;
-	$.jstree._reference("[typ='beob_nicht_beurteilt']#beob" + BeobId).deselect_all();
-	$("#tree").jstree("select_node", "[typ='beob_nicht_beurteilt']#beob" + BeobId);
+	localStorage.beob_id = beob_id;
+	$.jstree._reference("[typ='beob_nicht_beurteilt']#beob" + beob_id).deselect_all();
+	$("#tree").jstree("select_node", "[typ='beob_nicht_beurteilt']#beob" + beob_id);
 };
 
-window.af.öffneBeobInNeuemTab = function(BeobId) {
+window.af.öffneBeobInNeuemTab = function(beob_id) {
 	'use strict';
-	window.open("index.html?ap="+localStorage.ap_id+"&beob_nicht_beurteilt=" + BeobId, "_blank");
+	window.open("index.html?ap="+localStorage.ap_id+"&beob_nicht_beurteilt=" + beob_id, "_blank");
 };
 
-window.af.öffneTPopBeob = function(BeobId) {
+window.af.öffneTPopBeob = function(beob_id) {
 	'use strict';
-	localStorage.beob_id = BeobId;
-	$.jstree._reference("[typ='beob_zugeordnet']#beob" + BeobId).deselect_all();
-	$("#tree").jstree("select_node", "[typ='beob_zugeordnet']#beob" + BeobId);
+	localStorage.beob_id = beob_id;
+	$.jstree._reference("[typ='beob_zugeordnet']#beob" + beob_id).deselect_all();
+	$("#tree").jstree("select_node", "[typ='beob_zugeordnet']#beob" + beob_id);
 };
 
-window.af.öffneTPopBeobInNeuemTab = function(BeobId) {
+window.af.öffneTPopBeobInNeuemTab = function(beob_id) {
 	'use strict';
-	window.open("index.html?ap="+localStorage.ap_id+"&beob_nicht_beurteilt=" + BeobId, "_blank");
+	window.open("index.html?ap="+localStorage.ap_id+"&beob_nicht_beurteilt=" + beob_id, "_blank");
 };
 
 
@@ -15332,7 +15276,7 @@ window.af.messe = function(element) {
 };
 
 window.af.erstelleGemeindeliste = function() {
-	'uses strict';
+	'use strict';
 	if (!window.Gemeinden) {
 		var getGemeinden = $.ajax({
 			type: 'get',
@@ -15343,17 +15287,15 @@ window.af.erstelleGemeindeliste = function() {
 			if (data) {
 				// Gemeinden bereitstellen
 				// Feld mit Daten beliefern
-				var Gemeinden;
-				Gemeinden = [];
-				for (var i = 0; i < data.rows.length; i++) {
-					if (data.rows[i].GmdName) {
-						Gemeinden.push(data.rows[i].GmdName);
-					}
-				}
-				window.Gemeinden = Gemeinden;
+                var gemeinden = _.map(data.rows, function(gemeinde) {
+                    if (gemeinde.GmdName) {
+                        return gemeinde.GmdName;
+                    }
+                });
+				window.Gemeinden = gemeinden;
 				// autocomplete-widget für Gemeinden initiieren
 				$("#TPopGemeinde").autocomplete({
-					source: Gemeinden,
+					source: gemeinden,
 					delay: 0,
 					// Change-Event wird nicht ausgelöst > hier aufrufen
 					change: function(event, ui) {
@@ -16051,11 +15993,11 @@ window.af.undeleteDatensatz = function() {
 
 	// window.deleted enthält alle Feldnamen - viele können leer sein
 	// daher nur solche mit Werten übernehmen
-	for (var i in window.deleted) {
-		if (window.deleted[i]) {
-			data[i] = window.deleted[i];
-		}
-	}
+    _.each(window.deleted, function(feldwert, feldname) {
+        if (feldwert) {
+            data[feldname] = feldwert;
+        }
+    });
 
 	// Datensatz hinzufügen
 	var insertMultiple = $.ajax({
