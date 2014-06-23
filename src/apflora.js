@@ -2078,7 +2078,7 @@ window.apf.wähleApListe = function(programm) {
 window.apf.erstelle_tree = function(ApArtId) {
 	'use strict';
 	var jstree_erstellt = $.Deferred();
-	$("#tree").jstree( {
+	$("#tree").jstree({
 		"json_data": {
 			"ajax": {
 				"url": "php/tree.php",
@@ -11170,7 +11170,7 @@ window.apf.insertNeuenNodeAufGleicherHierarchiestufe = function(aktiver_node, pa
 		}
 	} else {
 		// Normalfall
-		window["beschrifte_ordner_"+strukturtyp](parent_node);
+		window.apf["beschrifte_ordner_"+strukturtyp](parent_node);
 	}
 	
 	// node selecten
@@ -11181,9 +11181,9 @@ window.apf.insertNeuenNodeAufGleicherHierarchiestufe = function(aktiver_node, pa
 		// der Initiierung mitteilen, dass es eine Freiwilligenkontrolle ist und keine Feldkontrolle
 		localStorage.tpopfreiwkontr = true;
 		// Freiwilligen-Kontrollen werden von derselben Funktion initiiert, wie Feldkontrollen
-		window["window.apf.initiiere_tpopfeldkontr"]();
+		window.apf["window.apf.initiiere_tpopfeldkontr"]();
 	} else {
-		window["initiiere_"+strukturtyp]();
+		window.apf["initiiere_"+strukturtyp]();
 	}
 };
 
@@ -11253,7 +11253,7 @@ window.apf.insertNeuenNodeEineHierarchiestufeTiefer = function(aktiver_node, par
 		window.apf.beschrifte_ordner_apzieljahr(aktiver_node);
 		delete localStorage.apziel_von_apzieljahr;
 	} else if (strukturtyp !== "jber_uebersicht") {
-		window["beschrifte_ordner_"+strukturtyp](aktiver_node);
+		window.apf["beschrifte_ordner_"+strukturtyp](aktiver_node);
 	}
 	// node selecten
 	$.jstree._reference(aktiver_node).deselect_all();
@@ -11263,9 +11263,9 @@ window.apf.insertNeuenNodeEineHierarchiestufeTiefer = function(aktiver_node, par
 		// der Initiierung mitteilen, dass es eine Freiwilligenkontrolle ist und keine Feldkontrolle
 		localStorage.tpopfreiwkontr = true;
 		// Freiwilligen-Kontrollen werden von derselben Funktion initiiert, wie Feldkontrollen
-		window["window.apf.initiiere_tpopfeldkontr"]();
+		window.apf["window.apf.initiiere_tpopfeldkontr"]();
 	} else {
-		window["initiiere_"+strukturtyp]();
+		window.apf["initiiere_"+strukturtyp]();
 	}
 };
 
