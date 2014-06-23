@@ -369,7 +369,7 @@
 						<td class="label">
 						</td>
 						<td class="Datenfelder">
-							<button id="kopiereKoordinatenInPop" type="button" style="float:left;">Koordinaten in die Population kopieren</button>
+							<button id="window.af.kopiereKoordinatenInPop" type="button" style="float:left;">Koordinaten in die Population kopieren</button>
 							<div id="kopiereKoordinatenInPopRueckmeldung" style="display:none; line-height:26px; margin-left:35px;">&nbsp;&nbsp;Koordinaten kopiert</div>
 						</td>
 					</tr>
@@ -2165,7 +2165,7 @@
 					closeOnEscape: false,
 					buttons: {
 						"anmelden": function() {
-							prüfe_anmeldung();
+							window.af.prüfeAnmeldung();
 						}
 					},
 					open: function(event, ui) {
@@ -2173,7 +2173,7 @@
 						//Reaktion auf Enter-Taste in anmelde_dialog
 						$("#anmelde_dialog").on("keydown", function (e) {
 							if (e.keyCode == $.ui.keyCode.ENTER) {
-								prüfe_anmeldung();
+								window.af.prüfeAnmeldung();
 							}
 						});
 					}
@@ -2250,8 +2250,8 @@
 					speichern(this);
 				});
 
-				$(".form").on("click", "#kopiereKoordinatenInPop", function() {
-					kopiereKoordinatenInPop($("#TPopXKoord").val(), $("#TPopYKoord").val());
+				$(".form").on("click", "#window.af.kopiereKoordinatenInPop", function() {
+					window.af.kopiereKoordinatenInPop($("#TPopXKoord").val(), $("#TPopYKoord").val());
 				});
 
 				$(".form").on("keyup focus", "textarea", function() {
@@ -2338,7 +2338,7 @@
 							width: 500,
 							buttons: {
 								ja: function() {
-									loescheAp(localStorage.ap_id);
+									window.af.löscheAp(localStorage.ap_id);
 									$(this).dialog("close");
 								},
 								nein: function() {
@@ -2355,7 +2355,7 @@
 
 				$("#undelete_div").on("click", "#undelete", function(event) {
 					event.preventDefault();
-					undeleteDatensatz();
+					window.af.undeleteDatensatz();
 				});
 
 				//Suche steuern

@@ -7953,7 +7953,7 @@ window.af.wähleAusschnittFürÜbergebenePop = function(PopListeMarkiert) {
         // bounds der anzuzeigenden bestimmen
 		popid_markiert = [];
 	if (PopListeMarkiert.rows.length > 0) {
-		for (b in PopListeMarkiert.rows) {
+		for (var b in PopListeMarkiert.rows) {
 			if (PopListeMarkiert.rows.hasOwnProperty(b)) {
 				Pop = PopListeMarkiert.rows[b];
 				popid_markiert.push(Pop.PopId);
@@ -10413,7 +10413,7 @@ window.af.initiiereGeoAdminKarte = function() {
                 params: {
                     'layers': 'zonen-schutzverordnungen,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr',
                     'transparent': true,
-                    'visibility': false,
+                    'visibility': true,
                     'singleTile': true,
                     'opacity': 0.7
                 }
@@ -10477,6 +10477,19 @@ window.af.initiiereGeoAdminKarte = function() {
                 }
             })
         }),
+        ch_lk_farbig_layer = new ol.layer.Tile({
+            title: "Landeskarten_farbig",
+            source: new ol.source.TileWMS({
+                url: '//wms.geo.admin.ch?',
+                params: {
+                    'layers': 'ch.swisstopo.pixelkarte-farbe',
+                    'srs': 'EPSG:21781',
+                    'format': 'png',
+                    'visibility': true,
+                    'singleTile': true
+                }
+            })
+        }),
         ch_lk1000_layer = new ol.layer.Tile({
             title: "Landeskarte 1:1'000'000",
             source: new ol.source.TileWMS({
@@ -10531,9 +10544,10 @@ window.af.initiiereGeoAdminKarte = function() {
 	if (!window.afm.map) {
         window.afm.map = new ga.Map({   // ehem.: window.afm.createMap
             target: 'ga_karten_div',
-            layers: [zh_uep_layer],  //TODO: Layers ergänzen
+            //layers: [zh_uep_layer],  //TODO: Layers ergänzen
+            //layers: [ch_lk_farbig_layer],   // TODO: welchen Layer man wählt, scheint keinen Einfluss zu haben!
             view: new ol.View2D({
-                resolution: 500,    // ehem: zoom 4
+                resolution: 4,    // ehem: zoom 4
                 center: [693000, 253000]
             })
         });
@@ -10600,7 +10614,7 @@ window.af.initiiereGeoAdminKarte = function() {
 			});*/
 		}
 
-		window.afm.map.addLayer(zh_uep_layer);
+		/*window.afm.map.addLayer(zh_uep_layer);
         // TODO: für OL3 anpassen
 		//window.afm.map.addLayerByName('ch.swisstopo-vd.geometa-gemeinde', {visibility: false});
 		window.afm.map.addLayer(zh_grenzen_layer);
@@ -10609,9 +10623,12 @@ window.af.initiiereGeoAdminKarte = function() {
         window.afm.map.addLayer(zh_svo_layer);
         window.afm.map.addLayer(zh_svo_raster_layer);
         window.afm.map.addLayer(zh_waldgesellschaften_layer);
-        window.afm.map.addLayer(zh_liwa_layer);
+        window.afm.map.addLayer(zh_liwa_layer);*/
 
         // TODO: auf GA2 portieren
+        var ch_ls_farbe = ga.layer.create('ch.swisstopo.pixelkarte-farbe');
+        window.afm.map.addLayer(ch_ls_farbe);
+        window.afm.map.addLayer(zh_svo_layer);
 		/*window.afm.map.addLayerByName('ch.bafu.bundesinventare-trockenwiesen_trockenweiden', {
 			visibility: false,
 			opacity: 0.7
