@@ -33,9 +33,9 @@ window.af.initiiere_index = function() {
 	$("#TPopMassnDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopMassnJahr", altFormat: "yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: Monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
 	$("#JBerDatum, #IbErstelldatum").datepicker({ dateFormat: "dd.mm.yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: Monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
 
-	// Variabeln setzen für Formular Feldkontrollen, hier damit nur ein mal
-	window.feldliste_feldkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrTyp', 'TPopKontrJungpfl', 'TPopKontrVitalitaet', 'TPopKontrUeberleb', 'TPopKontrEntwicklung', 'TPopKontrUrsach', 'TPopKontrUrteil', 'TPopKontrAendUms', 'TPopKontrAendKontr', 'TPopKontrGuid', 'TPopKontrFlaeche', 'TPopKontrVegTyp', 'TPopKontrKonkurrenz', 'TPopKontrMoosschicht', 'TPopKontrKrautschicht', 'TPopKontrStrauchschicht', 'TPopKontrBaumschicht', 'TPopKontrBodenTyp', 'TPopKontrBodenKalkgehalt', 'TPopKontrBodenDurchlaessigkeit', 'TPopKontrBodenHumus', 'TPopKontrBodenNaehrstoffgehalt', 'TPopKontrBodenAbtrag', 'TPopKontrWasserhaushalt', 'TPopKontrHandlungsbedarf', 'TPopKontrIdealBiotopUebereinst', 'TPopKontrLeb', 'TPopKontrLebUmg'];
-	window.feldliste_freiwkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrPlan', 'TPopKontrUebFlaeche', 'TPopKontrUebPfl', 'TPopKontrNaBo', 'TPopKontrJungPflJN', 'TPopKontrVegHoeMax', 'TPopKontrVegHoeMit', 'TPopKontrGefaehrdung', 'TPopKontrGuid'];
+	// Variablen setzen für Formular Feldkontrollen, hier damit nur ein mal
+	window.af.feldliste_feldkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrTyp', 'TPopKontrJungpfl', 'TPopKontrVitalitaet', 'TPopKontrUeberleb', 'TPopKontrEntwicklung', 'TPopKontrUrsach', 'TPopKontrUrteil', 'TPopKontrAendUms', 'TPopKontrAendKontr', 'TPopKontrGuid', 'TPopKontrFlaeche', 'TPopKontrVegTyp', 'TPopKontrKonkurrenz', 'TPopKontrMoosschicht', 'TPopKontrKrautschicht', 'TPopKontrStrauchschicht', 'TPopKontrBaumschicht', 'TPopKontrBodenTyp', 'TPopKontrBodenKalkgehalt', 'TPopKontrBodenDurchlaessigkeit', 'TPopKontrBodenHumus', 'TPopKontrBodenNaehrstoffgehalt', 'TPopKontrBodenAbtrag', 'TPopKontrWasserhaushalt', 'TPopKontrHandlungsbedarf', 'TPopKontrIdealBiotopUebereinst', 'TPopKontrLeb', 'TPopKontrLebUmg'];
+	window.af.feldliste_freiwkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrPlan', 'TPopKontrUebFlaeche', 'TPopKontrUebPfl', 'TPopKontrNaBo', 'TPopKontrJungPflJN', 'TPopKontrVegHoeMax', 'TPopKontrVegHoeMit', 'TPopKontrGefaehrdung', 'TPopKontrGuid'];
 
 	// Auswahllisten aufbauen
 	$("#ap_loeschen").hide();
@@ -79,7 +79,7 @@ window.af.initiiere_ap = function() {
 			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 			if (data) {
 				// ap bereitstellen
-				window.ap = data;
+				window.af = data;
 				// Felder mit Daten beliefern
 				$("#ApStatus" + data.ApStatus).prop("checked", true);
 				$("#ApUmsetzung" + data.ApUmsetzung).prop("checked", true);
@@ -87,7 +87,7 @@ window.af.initiiere_ap = function() {
 				$("#ApArtwert").val(data.ApArtwert);
 				$("#Artname").val(data.Artname);
 				// ApBearb: Daten holen - oder vorhandene nutzen
-				if (!window.adressen_html) {
+				if (!window.af.adressen_html) {
 					var getAdressen = $.ajax({
 						type: 'get',
 						url: 'php/adressen.php',
@@ -101,16 +101,16 @@ window.af.initiiere_ap = function() {
                             _.each(data2.rows, function(adresse) {
                                 html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
                             });
-							window.adressen_html = html;
+							window.af.adressen_html = html;
 							$("#ApBearb")
                                 .html(html)
-                                .val(window.ap.ApBearb);
+                                .val(window.af.ApBearb);
 						}
 					});
 				} else {
 					$("#ApBearb")
-                        .html(window.adressen_html)
-                        .val(window.ap.ApBearb);
+                        .html(window.af.adressen_html)
+                        .val(window.af.ApBearb);
 				}
 				// Formulare blenden
 				window.af.zeigeFormular("ap");
@@ -123,7 +123,7 @@ window.af.initiiere_ap = function() {
 	}
 };
 
-// setzt window.ap und localStorage.ap_id
+// setzt window.af und localStorage.ap_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.af.setzeWindowAp = function(id) {
 	'use strict';
@@ -140,7 +140,7 @@ window.af.setzeWindowAp = function(id) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// ap bereitstellen
-			window.ap = data;
+			window.af = data;
 		}
 	});
 };
@@ -150,7 +150,7 @@ window.af.hole_artliste_html = function() {
 	var liste_geholt = $.Deferred();
 	// wird benutzt von function window.af.erstelle_artlisten und window.af.initiiere_tpopmassn
 	// baut eine vollständige Artliste auf
-	if (!window.artliste_html) {
+	if (!window.af.artliste_html) {
 		var getArtliste = $.ajax({
 			type: 'get',
 			url: 'php/artliste.php',
@@ -162,7 +162,7 @@ window.af.hole_artliste_html = function() {
             _.each(data.rows, function(art) {
                 html += "<option value=\"" + art.id + "\">" + art.Artname + "</option>";
             });
-			window.artliste_html = html;
+			window.af.artliste_html = html;
 			liste_geholt.resolve();
 		});
 	} else {
@@ -178,8 +178,8 @@ window.af.erstelle_artlisten = function() {
 	var liste_erstellt = $.Deferred();
 	$.when(window.af.hole_artliste_html())
 		.then(function() {
-			$("#AaSisfNr").html(window.artliste_html);
-			$("#TPopMassnAnsiedWirtspfl").html(window.artliste_html);
+			$("#AaSisfNr").html(window.af.artliste_html);
+			$("#TPopMassnAnsiedWirtspfl").html(window.af.artliste_html);
 			liste_erstellt.resolve();
 		});
 	return liste_erstellt.promise();
@@ -209,7 +209,7 @@ window.af.initiiere_pop = function() {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// pop bereitstellen
-			window.pop = data;
+			window.af.pop = data;
 			// Felder mit Daten beliefern
 			$("#PopHerkunft" + data.PopHerkunft).prop("checked", true);
 			if (data.PopHerkunftUnklar == 1) {
@@ -238,7 +238,7 @@ window.af.initiiere_pop = function() {
 	});
 };
 
-// setzt window.pop und localStorage.pop_id
+// setzt window.af.pop und localStorage.pop_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.af.setzeWindowPop = function(id) {
 	'use strict';
@@ -255,7 +255,7 @@ window.af.setzeWindowPop = function(id) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// pop bereitstellen
-			window.pop = data;
+			window.af.pop = data;
 		}
 	});
 };
@@ -284,7 +284,7 @@ window.af.initiiere_apziel = function() {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// apziel bereitstellen
-			window.apziel = data;
+			window.af.apziel = data;
 			// Felder mit Daten beliefern
             $ZielJahr.val(data.ZielJahr);
 			$("#ZielTyp" + data.ZielTyp).prop("checked", true);
@@ -302,7 +302,7 @@ window.af.initiiere_apziel = function() {
 	return apziel_initiiert.promise();
 };
 
-// setzt window.apziel und localStorage.apziel_id
+// setzt window.af.apziel und localStorage.apziel_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.af.setzeWindowApziel = function(id) {
 	'use strict';
@@ -319,7 +319,7 @@ window.af.setzeWindowApziel = function(id) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// apziel bereitstellen
-			window.apziel = data;
+			window.af.apziel = data;
 		}
 	});
 };
@@ -347,7 +347,7 @@ window.af.initiiere_zielber = function() {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// zeilber bereitstellen
-			window.zielber = data;
+			window.af.zielber = data;
 			// Felder mit Daten beliefern
             $ZielBerJahr.val(data.ZielBerJahr);
 			$("#ZielBerErreichung").val(data.ZielBerErreichung);
@@ -363,7 +363,7 @@ window.af.initiiere_zielber = function() {
 	});
 };
 
-// setzt window.zielber und localStorage.zielber_id
+// setzt window.af.zielber und localStorage.zielber_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.af.setzeWindowZielber = function(id) {
 	'use strict';
@@ -380,7 +380,7 @@ window.af.setzeWindowZielber = function(id) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// zielber bereitstellen
-			window.zielber = data;
+			window.af.zielber = data;
 		}
 	});
 };
@@ -408,7 +408,7 @@ window.af.initiiere_erfkrit = function() {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// erfkrit bereitstellen
-			window.erfkrit = data;
+			window.af.erfkrit = data;
 			// Felder mit Daten beliefern
 			$("#ErfkritErreichungsgrad" + data.ErfkritErreichungsgrad).prop("checked", true);
 			$("#ErfkritTxt")
@@ -425,7 +425,7 @@ window.af.initiiere_erfkrit = function() {
 	});
 };
 
-// setzt window.erfkrit und localStorage.erfkrit_id
+// setzt window.af.erfkrit und localStorage.erfkrit_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.af.setzeWindowErfkrit = function(id) {
 	'use strict';
@@ -442,7 +442,7 @@ window.af.setzeWindowErfkrit = function(id) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// erfkrit bereitstellen
-			window.erfkrit = data;
+			window.af.erfkrit = data;
 		}
 	});
 };
@@ -470,7 +470,7 @@ window.af.initiiere_jber = function() {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// jber bereitstellen
-			window.jber = data;
+			window.af.jber = data;
 			// Felder mit Daten beliefern
             $JBerJahr.val(data.JBerJahr);
 			$("#JBerSituation").val(data.JBerSituation);
@@ -494,7 +494,7 @@ window.af.initiiere_jber = function() {
 				$("#JBerDatum").val("");
 			}
 			// JBerBearb: Daten holen - oder vorhandene nutzen
-			if (!window.adressen_html) {
+			if (!window.af.adressen_html) {
 				var getAdressen = $.ajax({
 					type: 'get',
 					url: 'php/adressen.php',
@@ -509,16 +509,16 @@ window.af.initiiere_jber = function() {
                         _.each(data2.rows, function(adresse) {
                             html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
                         });
-						window.adressen_html = html;
+						window.af.adressen_html = html;
 						$("#JBerBearb")
                             .html(html)
-                            .val(window.jber.JBerBearb);
+                            .val(window.af.jber.JBerBearb);
 					}
 				});
 			} else {
 				$("#JBerBearb")
-                    .html(window.adressen_html)
-                    .val(window.jber.JBerBearb);
+                    .html(window.af.adressen_html)
+                    .val(window.af.jber.JBerBearb);
 			}
 			// Formulare blenden
 			window.af.zeigeFormular("jber");
@@ -531,7 +531,7 @@ window.af.initiiere_jber = function() {
 	});
 };
 
-// setzt window.jber und localStorage.jber_id
+// setzt window.af.jber und localStorage.jber_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.af.setzeWindowJber = function(id) {
 	'use strict';
@@ -548,7 +548,7 @@ window.af.setzeWindowJber = function(id) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// jber bereitstellen
-			window.jber = data;
+			window.af.jber = data;
 		}
 	});
 };
@@ -576,7 +576,7 @@ window.af.initiiere_jber_uebersicht = function() {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// jber_uebersicht bereitstellen
-			window.jber_uebersicht = data;
+			window.af.jber_übersicht = data;
 			// Felder mit Daten beliefern
             $JbuJahr.val(data.JbuJahr);
 			$("#JbuBemerkungen").val(data.JbuBemerkungen);
@@ -592,7 +592,7 @@ window.af.initiiere_jber_uebersicht = function() {
 	});
 };
 
-// setzt window.jber_uebersicht und localStorage.jber_uebersicht_id
+// setzt window.af.jber_übersicht und localStorage.jber_uebersicht_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.af.setzeWindowJberUebersicht = function(id) {
 	'use strict';
@@ -609,7 +609,7 @@ window.af.setzeWindowJberUebersicht = function(id) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// jber_uebersicht bereitstellen
-			window.jber_uebersicht = data;
+			window.af.jber_übersicht = data;
 		}
 	});
 };
@@ -640,7 +640,7 @@ window.af.initiiere_ber = function() {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// ber bereitstellen
-			window.ber = data;
+			window.af.ber = data;
 			// Felder mit Daten beliefern
             $BerAutor.val(data.BerAutor);
             $BerJahr.val(data.BerJahr);
@@ -669,7 +669,7 @@ window.af.initiiere_ber = function() {
 	});
 };
 
-// setzt window.ber und localStorage.ber_id
+// setzt window.af.ber und localStorage.ber_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.af.setzeWindowBer = function(id) {
 	'use strict';
@@ -686,7 +686,7 @@ window.af.setzeWindowBer = function(id) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// ber bereitstellen
-			window.ber = data;
+			window.af.ber = data;
 		}
 	});
 };
@@ -715,7 +715,7 @@ window.af.initiiere_idealbiotop = function() {
 		if (data) {
 			// idealbiotop bereitstellen
 			localStorage.idealbiotop_id = data.IbApArtId;
-			window.idealbiotop = data;
+			window.af.idealbiotop = data;
 			// Felder mit Daten beliefern
 			if (data.IbErstelldatum !== "01.01.1970") {
 				// php macht aus einem Nullwert im Datum den 1.1.1970!!!
@@ -772,7 +772,7 @@ window.af.initiiere_idealbiotop = function() {
 	});
 };
 
-// setzt window.idealbiotop und localStorage.idealbiotop_id
+// setzt window.af.idealbiotop und localStorage.idealbiotop_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.af.setzeWindowIdealbiotop = function(id) {
 	'use strict';
@@ -789,7 +789,7 @@ window.af.setzeWindowIdealbiotop = function(id) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// idealbiotop bereitstellen
-			window.idealbiotop = data;
+			window.af.idealbiotop = data;
 		}
 	});
 };
@@ -817,7 +817,7 @@ window.af.initiiere_assozarten = function() {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// assozarten bereitstellen
-			window.assozarten = data;
+			window.af.assozarten = data;
 			// Felder mit Daten beliefern
             $AaSisfNr.val(data.AaSisfNr);
 			$("#AaBem").val(data.AaBem);
@@ -832,7 +832,7 @@ window.af.initiiere_assozarten = function() {
 	});
 };
 
-// setzt window.assozarten und localStorage.assozarten_id
+// setzt window.af.assozarten und localStorage.assozarten_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.af.setzeWindowAssozarten = function(id) {
 	'use strict';
@@ -849,7 +849,7 @@ window.af.setzeWindowAssozarten = function(id) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// assozarten bereitstellen
-			window.assozarten = data;
+			window.af.assozarten = data;
 		}
 	});
 };
@@ -876,7 +876,7 @@ window.af.initiiere_popmassnber = function() {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// popmassnber bereitstellen
-			window.popmassnber = data;
+			window.af.popmassnber = data;
 			// Felder mit Daten beliefern
 			$("#PopMassnBerJahr").val(data.PopMassnBerJahr);
 			$("#PopMassnBerErfolgsbeurteilung" + data.PopMassnBerErfolgsbeurteilung).prop("checked", true);
@@ -890,7 +890,7 @@ window.af.initiiere_popmassnber = function() {
 	});
 };
 
-// setzt window.popmassnber und localStorage.popmassnber_id
+// setzt window.af.popmassnber und localStorage.popmassnber_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.af.setzeWindowPopmassnber = function(id) {
 	'use strict';
@@ -907,7 +907,7 @@ window.af.setzeWindowPopmassnber = function(id) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// popmassnber bereitstellen
-			window.popmassnber = data;
+			window.af.popmassnber = data;
 		}
 	});
 };
@@ -935,7 +935,7 @@ window.af.initiiere_tpop = function() {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// tpop bereitstellen
-			window.tpop = data;
+			window.af.tpop = data;
 			// Felder mit Daten beliefern
             $TPopFlurname
                 .val(data.TPopFlurname)
@@ -991,7 +991,7 @@ window.af.initiiere_tpop = function() {
                 .limiter(255, $("#TPopBewirtschaftung_limit"));
 			$("#TPopTxt").val(data.TPopTxt);
 			// für select Daten holen - oder vorhandene nutzen
-			if (!window.adressen_html) {
+			if (!window.af.adressen_html) {
 				var getAdressen = $.ajax({
 					type: 'get',
 					url: 'php/adressen.php',
@@ -1000,7 +1000,7 @@ window.af.initiiere_tpop = function() {
 				getAdressen.done(function(data2) {
 					if (data2) {
 						// adressen bereitstellen
-						window.adressen = data2;
+						window.af.adressen = data2;
 						localStorage.adressen = JSON.stringify(data2);
 						// Feld mit Daten beliefern
 						var html;
@@ -1008,16 +1008,16 @@ window.af.initiiere_tpop = function() {
                         _.each(data2.rows, function(adresse) {
                             html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
                         });
-						window.adressen_html = html;
+						window.af.adressen_html = html;
 						$("#TPopVerantw")
                             .html(html)
-                            .val(window.tpop.TPopVerantw);
+                            .val(window.af.tpop.TPopVerantw);
 					}
 				});
 			} else {
 				$("#TPopVerantw")
-                    .html(window.adressen_html)
-                    .val(window.tpop.TPopVerantw);
+                    .html(window.af.adressen_html)
+                    .val(window.af.tpop.TPopVerantw);
 			}
 			// Formulare blenden
 			window.af.zeigeFormular("tpop");
@@ -1030,7 +1030,7 @@ window.af.initiiere_tpop = function() {
 	});
 };
 
-// setzt window.tpop und localStorage.tpop_id
+// setzt window.af.tpop und localStorage.tpop_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.af.setzeWindowTpop = function(id) {
 	'use strict';
@@ -1047,7 +1047,7 @@ window.af.setzeWindowTpop = function(id) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// tpop bereitstellen
-			window.tpop = data;
+			window.af.tpop = data;
 		}
 	});
 };
@@ -1074,7 +1074,7 @@ window.af.initiiere_popber = function() {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// popber bereitstellen
-			window.popber = data;
+			window.af.popber = data;
 			// Felder mit Daten beliefern
 			$("#PopBerJahr").val(data.PopBerJahr);
 			$("#PopBerEntwicklung" + data.PopBerEntwicklung).prop("checked", true);
@@ -1088,7 +1088,7 @@ window.af.initiiere_popber = function() {
 	});
 };
 
-// setzt window.popber und localStorage.popber_id
+// setzt window.af.popber und localStorage.popber_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.af.setzeWindowPopber = function(id) {
 	'use strict';
@@ -1105,7 +1105,7 @@ window.af.setzeWindowPopber = function(id) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// popber bereitstellen
-			window.popber = data;
+			window.af.popber = data;
 		}
 	});
 };
@@ -1143,7 +1143,7 @@ window.af.initiiere_tpopfeldkontr = function() {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// tpopfeldkontr bereitstellen
-			window.tpopfeldkontr = data;
+			window.af.tpopfeldkontr = data;
 			// gemeinsame Felder
 			// mit Daten beliefern
             $TPopKontrJahr.val(data.TPopKontrJahr);
@@ -1162,7 +1162,7 @@ window.af.initiiere_tpopfeldkontr = function() {
 			$("#TPopKontrTxt").val(data.TPopKontrTxt);
 			$("#TPopKontrGuid").val(data.TPopKontrGuid);
 			// TPopKontrBearb: Daten holen - oder vorhandene nutzen
-			if (!window.adressen_html) {
+			if (!window.af.adressen_html) {
 				var getAdressen = $.ajax({
 					type: 'get',
 					url: 'php/adressen.php',
@@ -1176,19 +1176,19 @@ window.af.initiiere_tpopfeldkontr = function() {
                         _.each(data2.rows, function(adresse) {
                             html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
                         });
-						window.adressen_html = html;
+						window.af.adressen_html = html;
 						$("#TPopKontrBearb")
                             .html(html)
-                            .val(window.tpopfeldkontr.TPopKontrBearb);
+                            .val(window.af.tpopfeldkontr.TPopKontrBearb);
 					}
 				});
 			} else {
 				$("#TPopKontrBearb")
-                    .html(window.adressen_html)
-                    .val(window.tpopfeldkontr.TPopKontrBearb);
+                    .html(window.af.adressen_html)
+                    .val(window.af.tpopfeldkontr.TPopKontrBearb);
 			}
 			// für 3 selectfelder TPopKontrZaehleinheit Daten holen - oder vorhandene nutzen
-			if (!window.TPopKontrZaehleinheit_html) {
+			if (!window.af.TPopKontrZähleinheit_html) {
 				var getTpopfeldkontrZaehleinheit = $.ajax({
 					type: 'get',
 					url: 'php/tpopfeldkontr_zaehleinheit.php',
@@ -1202,30 +1202,30 @@ window.af.initiiere_tpopfeldkontr = function() {
                         _.each(data3.rows, function(zähleinheit) {
                             html += "<option value=\"" + zähleinheit.id + "\">" + zähleinheit.ZaehleinheitTxt + "</option>";
                         });
-						window.TPopKontrZaehleinheit_html = html;
+						window.af.TPopKontrZähleinheit_html = html;
 						// alle 3 Felder setzen
 						$("#TPopKontrZaehleinheit1")
                             .html(html)
-                            .val(window.tpopfeldkontr.TPopKontrZaehleinheit1);
+                            .val(window.af.tpopfeldkontr.TPopKontrZaehleinheit1);
 						$("#TPopKontrZaehleinheit2")
                             .html(html)
-                            .val(window.tpopfeldkontr.TPopKontrZaehleinheit2);
+                            .val(window.af.tpopfeldkontr.TPopKontrZaehleinheit2);
 						$("#TPopKontrZaehleinheit3")
                             .html(html)
-                            .val(window.tpopfeldkontr.TPopKontrZaehleinheit3);
+                            .val(window.af.tpopfeldkontr.TPopKontrZaehleinheit3);
 					}
 				});
 			} else {
 				// alle 3 Felder setzen
 				$("#TPopKontrZaehleinheit1")
-                    .html(window.TPopKontrZaehleinheit_html)
-                    .val(window.tpopfeldkontr.TPopKontrZaehleinheit1);
+                    .html(window.af.TPopKontrZähleinheit_html)
+                    .val(window.af.tpopfeldkontr.TPopKontrZaehleinheit1);
 				$("#TPopKontrZaehleinheit2")
-                    .html(window.TPopKontrZaehleinheit_html)
-                    .val(window.tpopfeldkontr.TPopKontrZaehleinheit2);
+                    .html(window.af.TPopKontrZähleinheit_html)
+                    .val(window.af.tpopfeldkontr.TPopKontrZaehleinheit2);
 				$("#TPopKontrZaehleinheit3")
-                    .html(window.TPopKontrZaehleinheit_html)
-                    .val(window.tpopfeldkontr.TPopKontrZaehleinheit3);
+                    .html(window.af.TPopKontrZähleinheit_html)
+                    .val(window.af.tpopfeldkontr.TPopKontrZaehleinheit3);
 			}
 			// Felder, die nur in der Feldkontrolle vorkommen
 			if (!localStorage.tpopfreiwkontr) {
@@ -1292,7 +1292,7 @@ window.af.initiiere_tpopfeldkontr = function() {
 				$("#TPopKontrHandlungsbedarf").val(data.TPopKontrHandlungsbedarf);
 				$("#TPopKontrIdealBiotopUebereinst" + data.TPopKontrIdealBiotopUebereinst).prop("checked", true);
 				// TPopKontrLeb: Daten holen - oder vorhandene nutzen
-				if (!window.lrdelarze_html) {
+				if (!window.af.lrdelarze_html) {
 					var getLrDelarze = $.ajax({
 						type: 'get',
 						url: 'php/lrdelarze.php',
@@ -1306,26 +1306,26 @@ window.af.initiiere_tpopfeldkontr = function() {
                             _.each(data4.rows, function(lr) {
                                 html += "<option value=\"" + lr.id + "\">" + lr.Einheit + "</option>";
                             });
-							window.lrdelarze_html = html;
+							window.af.lrdelarze_html = html;
 							$("#TPopKontrLeb")
                                 .html(html)
-                                .val(window.tpopfeldkontr.TPopKontrLeb);
+                                .val(window.af.tpopfeldkontr.TPopKontrLeb);
 							$("#TPopKontrLebUmg")
                                 .html(html)
-                                .val(window.tpopfeldkontr.TPopKontrLebUmg);
+                                .val(window.af.tpopfeldkontr.TPopKontrLebUmg);
 						}
 					});
 				} else {
 					$("#TPopKontrLeb")
-                        .html(window.lrdelarze_html)
-                        .val(window.tpopfeldkontr.TPopKontrLeb);
+                        .html(window.af.lrdelarze_html)
+                        .val(window.af.tpopfeldkontr.TPopKontrLeb);
 					$("#TPopKontrLebUmg")
-                        .html(window.lrdelarze_html)
-                        .val(window.tpopfeldkontr.TPopKontrLebUmg);
+                        .html(window.af.lrdelarze_html)
+                        .val(window.af.tpopfeldkontr.TPopKontrLebUmg);
 				}
 			}
 			// TPopKontrIdealBiotopUebereinst: Daten holen - oder vorhandene nutzen
-			if (!window.IdealBiotopÜbereinst_html) {
+			if (!window.af.IdealBiotopÜbereinst_html) {
 				var getIdealbiotopübereinst = $.ajax({
 					type: 'get',
 					url: 'php/idealbiotopuebereinst.php',
@@ -1339,16 +1339,16 @@ window.af.initiiere_tpopfeldkontr = function() {
                         _.each(data5.rows, function(übereinst) {
                             html += "<option value=\"" + übereinst.id + "\">" + übereinst.DomainTxt + "</option>";
                         });
-						window.IdealBiotopÜbereinst_html = html;
+						window.af.IdealBiotopÜbereinst_html = html;
 						$("#TPopKontrIdealBiotopUebereinst")
                             .html(html)
-                            .val(window.tpopfeldkontr.TPopKontrIdealBiotopUebereinst);
+                            .val(window.af.tpopfeldkontr.TPopKontrIdealBiotopUebereinst);
 					}
 				});
 			} else {
 				$("#TPopKontrIdealBiotopUebereinst")
-                    .html(window.IdealBiotopÜbereinst_html)
-                    .val(window.tpopfeldkontr.TPopKontrIdealBiotopUebereinst);
+                    .html(window.af.IdealBiotopÜbereinst_html)
+                    .val(window.af.tpopfeldkontr.TPopKontrIdealBiotopUebereinst);
 			}
 			// Felder, die nur in freiwkontr vorkommen
 			if (localStorage.tpopfreiwkontr) {
@@ -1378,11 +1378,11 @@ window.af.initiiere_tpopfeldkontr = function() {
 			}
 			// fieldcontain-divs der benötigten Felder einblenden
 			if (localStorage.tpopfreiwkontr) {
-                _.each(feldliste_freiwkontr, function(feld) {
+                _.each(window.af.feldliste_freiwkontr, function(feld) {
                     $("#fieldcontain_" + feld).show();
                 });
 			} else {
-                _.each(feldliste_feldkontr, function(feld) {
+                _.each(window.af.feldliste_feldkontr, function(feld) {
                     $("#fieldcontain_" + feld).show();
                 });
 			}
@@ -1413,7 +1413,7 @@ window.af.initiiere_tpopfeldkontr = function() {
 	});
 };
 
-// setzt window.tpopfeldkontr und localStorage.tpopfeldkontr_id
+// setzt window.af.tpopfeldkontr und localStorage.tpopfeldkontr_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.af.setzeWindowTpopfeldkontr = function(id) {
 	'use strict';
@@ -1430,7 +1430,7 @@ window.af.setzeWindowTpopfeldkontr = function(id) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// tpopfeldkontr bereitstellen
-			window.tpopfeldkontr = data;
+			window.af.tpopfeldkontr = data;
 		}
 	});
 };
@@ -1457,10 +1457,10 @@ window.af.initiiere_tpopmassn = function() {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// tpopmassn bereitstellen
-			window.tpopmassn = data;
+			window.af.tpopmassn = data;
 			// Felder mit Daten beliefern
 			// für select TPopMassnTyp Daten holen - oder vorhandene nutzen
-			if (!window.tpopmassntyp_html) {
+			if (!window.af.tpopmassntyp_html) {
 				var getTPopMassnTyp = $.ajax({
 					type: 'get',
 					url: 'php/tpopmassn_typ.php',
@@ -1469,23 +1469,23 @@ window.af.initiiere_tpopmassn = function() {
 				getTPopMassnTyp.done(function(data2) {
 					if (data2) {
 						// tpopmassn_typ bereitstellen
-						window.tpopmassn_typ = data2;
+						window.af.tpopmassn_typ = data2;
 						// Feld mit Daten beliefern
 						var html;
 						html = "<option></option>";
                         _.each(data2.rows, function(tpopmassn_typ) {
                             html += "<option value=\"" + tpopmassn_typ.id + "\">" + tpopmassn_typ.MassnTypTxt + "</option>";
                         });
-						window.tpopmassntyp_html = html;
+						window.af.tpopmassntyp_html = html;
 						$("#TPopMassnTyp")
                             .html(html)
-                            .val(window.tpopmassn.TPopMassnTyp);
+                            .val(window.af.tpopmassn.TPopMassnTyp);
 					}
 				});
 			} else {
 				$("#TPopMassnTyp")
-                    .html(window.tpopmassntyp_html)
-                    .val(window.tpopmassn.TPopMassnTyp);
+                    .html(window.af.tpopmassntyp_html)
+                    .val(window.af.tpopmassn.TPopMassnTyp);
 			}
 			$("#TPopMassnTxt")
                 .val(data.TPopMassnTxt)
@@ -1498,7 +1498,7 @@ window.af.initiiere_tpopmassn = function() {
 				$("#TPopMassnDatum").val("");
 			}
 			// TPopMassnBearb: Daten holen - oder vorhandene nutzen
-			if (!window.adressen_html) {
+			if (!window.af.adressen_html) {
 				var getAdressen = $.ajax({
 					type: 'get',
 					url: 'php/adressen.php',
@@ -1512,16 +1512,16 @@ window.af.initiiere_tpopmassn = function() {
                         _.each(data2.rows, function(adresse) {
                             html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
                         });
-						window.adressen_html = html;
+						window.af.adressen_html = html;
 						$("#TPopMassnBearb")
                             .html(html)
-                            .val(window.tpopmassn.TPopMassnBearb);
+                            .val(window.af.tpopmassn.TPopMassnBearb);
 					}
 				});
 			} else {
 				$("#TPopMassnBearb")
-                    .html(window.adressen_html)
-                    .val(window.tpopmassn.TPopMassnBearb);
+                    .html(window.af.adressen_html)
+                    .val(window.af.tpopmassn.TPopMassnBearb);
 			}
 			$("#TPopMassnBemTxt").val(data.TPopMassnBemTxt);
 			if (data.TPopMassnPlan == 1) {
@@ -1568,7 +1568,7 @@ window.af.initiiere_tpopmassn = function() {
 	});
 };
 
-// setzt window.tpopmassn und localStorage.tpopmassn_id
+// setzt window.af.tpopmassn und localStorage.tpopmassn_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.af.setzeWindowTpopmassn = function(id) {
 	'use strict';
@@ -1585,7 +1585,7 @@ window.af.setzeWindowTpopmassn = function(id) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// tpopmassn bereitstellen
-			window.tpopmassn = data;
+			window.af.tpopmassn = data;
 		}
 	});
 };
@@ -1612,7 +1612,7 @@ window.af.initiiere_tpopmassnber = function() {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// tpopmassnber bereitstellen
-			window.tpopmassnber = data;
+			window.af.tpopmassnber = data;
 			// Felder mit Daten beliefern
 			$("#TPopMassnBerJahr").val(data.TPopMassnBerJahr);
 			$("#TPopMassnBerErfolgsbeurteilung" + data.TPopMassnBerErfolgsbeurteilung).prop("checked", true);
@@ -1626,7 +1626,7 @@ window.af.initiiere_tpopmassnber = function() {
 	});
 };
 
-// setzt window.tpopmassnber und localStorage.tpopmassnber_id
+// setzt window.af.tpopmassnber und localStorage.tpopmassnber_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.af.setzeWindowTpopmassnber = function(id) {
 	'use strict';
@@ -1643,7 +1643,7 @@ window.af.setzeWindowTpopmassnber = function(id) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// tpopmassnber bereitstellen
-			window.tpopmassnber = data;
+			window.af.tpopmassnber = data;
 		}
 	});
 };
@@ -1670,7 +1670,7 @@ window.af.initiiereTpopber = function() {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// tpopber bereitstellen
-			window.tpopber = data;
+			window.af.tpopber = data;
 			// Felder mit Daten beliefern
 			$("#TPopBerJahr").val(data.TPopBerJahr);
 			$("#TPopBerEntwicklung" + data.TPopBerEntwicklung).prop("checked", true);
@@ -1684,7 +1684,7 @@ window.af.initiiereTpopber = function() {
 	});
 };
 
-// setzt window.tpopber und localStorage.tpopber_id
+// setzt window.af.tpopber und localStorage.tpopber_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.af.setzeWindowTpopber = function(id) {
 	'use strict';
@@ -1701,7 +1701,7 @@ window.af.setzeWindowTpopber = function(id) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// tpopber bereitstellen
-			window.tpopber = data;
+			window.af.tpopber = data;
 		}
 	});
 };
@@ -1879,7 +1879,7 @@ window.af.zeigeFormular = function(Formularname) {
 	});
 
 	// damit kann bei Grössenänderung die Formularhöhe von Karten gemanagt werden
-	window.kartenhoehe_manuell = false;
+	window.af.kartenhöhe_manuell = false;
 	// höhe von forms auf auto setzen, weil dies von den Kartenansichten verändert wird
     $forms.height('auto');
     $testart_div.hide();
@@ -1918,7 +1918,7 @@ window.af.zeigeFormular = function(Formularname) {
             $Formularname = $("#" + Formularname);
             $Formularname.css("height", $(window).height()-17 + "px");
 			// markieren, dass die Formularhöhe anders gesetzt werden soll
-			window.kartenhoehe_manuell = true;
+			window.af.kartenhöhe_manuell = true;
 			window.af.setzeKartenhöhe();
             $Formularname.show();
 			if (Formularname === "GeoAdminKarte") {
@@ -1976,7 +1976,7 @@ window.af.setzeTreehöhe = function() {
 window.af.setzeKartenhöhe = function() {
 	'use strict';
 	// Formulare sind unbegrenzt hoch aber Karten sollen das nicht sein
-	if (window.kartenhoehe_manuell) {
+	if (window.af.kartenhöhe_manuell) {
 		$("#forms").height($(window).height() - 17);
 		if (typeof window.afm !== "undefined" && window.afm.map) {
 			//$("#GeoAdminKarte").height($(window).height() - 17);
@@ -2473,25 +2473,25 @@ window.af.erstelle_tree = function(ApArtId) {
 		$("#exportieren_2").show();
 		$("#exportieren_1").hide();
 		$("#hilfe").show();
-		if (window.pop_zeigen) {
+		if (window.af.pop_zeigen) {
 			$("#tree").jstree("select_node", "[typ='pop']#" + localStorage.pop_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese Pop geöffnet wird
-			delete window.pop_zeigen;
+			delete window.af.pop_zeigen;
 		}
-		if (window.popber_zeigen) {
+		if (window.af.popber_zeigen) {
 			$("#tree").jstree("select_node", "[typ='popber']#" + localStorage.popber_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese Popber geöffnet wird
-			delete window.popber_zeigen;
+			delete window.af.popber_zeigen;
 		}
-		if (window.popmassnber_zeigen) {
+		if (window.af.popmassnber_zeigen) {
 			$("#tree").jstree("select_node", "[typ='popmassnber']#" + localStorage.popmassnber_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese popmassnber geöffnet wird
-			delete window.popmassnber_zeigen;
+			delete window.af.popmassnber_zeigen;
 		}
-		if (window.tpop_zeigen) {
+		if (window.af.tpop_zeigen) {
 			$("#tree").jstree("select_node", "[typ='tpop']#" + localStorage.tpop_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese TPop geöffnet wird
-			delete window.tpop_zeigen;
+			delete window.af.tpop_zeigen;
 		}
 		if (window.tpopfeldkontr_zeigen) {
 			$("#tree").jstree("select_node", "[typ='tpopfeldkontr']#" + localStorage.tpopfeldkontr_id);
@@ -2795,7 +2795,7 @@ window.af.erstelle_tree = function(ApArtId) {
 					$.jstree._reference(herkunft_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.pop_id = herkunft_node_id;
-					delete window.pop;
+					delete window.af.pop;
 					delete window.pop_node_ausgeschnitten;
 					delete window.herkunft_parent_node;
 					window.af.initiiere_pop();
@@ -2824,7 +2824,7 @@ window.af.erstelle_tree = function(ApArtId) {
 					$.jstree._reference(herkunft_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpop_id = herkunft_node_id;
-					delete window.tpop;
+					delete window.af.tpop;
 					delete window.tpop_node_ausgeschnitten;
 					delete window.herkunft_parent_node;
 					window.af.initiiere_tpop();
@@ -2853,7 +2853,7 @@ window.af.erstelle_tree = function(ApArtId) {
 					$.jstree._reference(ziel_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpop_id = herkunft_node_id;
-					delete window.tpop;
+					delete window.af.tpop;
 					delete window.tpop_node_ausgeschnitten;
 					window.af.initiiere_tpop();
 				});
@@ -2883,7 +2883,7 @@ window.af.erstelle_tree = function(ApArtId) {
 					$.jstree._reference(ziel_parent_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpop_id = herkunft_node_id;
-					delete window.tpop;
+					delete window.af.tpop;
 					delete window.tpop_node_ausgeschnitten;
 					delete window.herkunft_parent_node;
 					window.af.initiiere_tpop();
@@ -2912,7 +2912,7 @@ window.af.erstelle_tree = function(ApArtId) {
 					$.jstree._reference(herkunft_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpop_id = herkunft_node_id;
-					delete window.tpop;
+					delete window.af.tpop;
 					delete window.tpop_node_ausgeschnitten;
 					delete window.herkunft_parent_node;
 					window.af.initiiere_tpop();
@@ -2943,7 +2943,7 @@ window.af.erstelle_tree = function(ApArtId) {
 					$.jstree._reference(ziel_parent_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpopmassn_id = herkunft_node_id;
-					delete window.tpopmassn;
+					delete window.af.tpopmassn;
 					delete window.tpopmassn_node_ausgeschnitten;
 					delete window.herkunft_parent_node;
 					window.af.initiiere_tpopmassn();
@@ -2972,7 +2972,7 @@ window.af.erstelle_tree = function(ApArtId) {
 					$.jstree._reference(herkunft_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpopmassn_id = herkunft_node_id;
-					delete window.tpopmassn;
+					delete window.af.tpopmassn;
 					delete window.tpopmassn_node_ausgeschnitten;
 					delete window.herkunft_parent_node;
 					window.af.initiiere_tpopmassn();
@@ -3003,7 +3003,7 @@ window.af.erstelle_tree = function(ApArtId) {
 					$.jstree._reference(herkunft_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpopfeldkontr_id = herkunft_node_id;
-					delete window.tpopfeldkontr;
+					delete window.af.tpopfeldkontr;
 					delete window.tpopfeldkontr_node_ausgeschnitten;
 					delete window.herkunft_parent_node;
 					window.af.initiiere_tpopfeldkontr();
@@ -3032,7 +3032,7 @@ window.af.erstelle_tree = function(ApArtId) {
 					$.jstree._reference(herkunft_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpopfeldkontr_id = herkunft_node_id;
-					delete window.tpopfeldkontr;
+					delete window.af.tpopfeldkontr;
 					delete window.tpopfeldkontr_node_ausgeschnitten;
 					delete window.herkunft_parent_node;
 					window.af.initiiere_tpopfeldkontr();
@@ -3063,7 +3063,7 @@ window.af.erstelle_tree = function(ApArtId) {
 					$.jstree._reference(herkunft_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpopfeldkontr_id = herkunft_node_id;
-					delete window.tpopfeldkontr;
+					delete window.af.tpopfeldkontr;
 					delete window.tpopfreiwkontr_node_ausgeschnitten;
 					delete window.herkunft_parent_node;
 					localStorage.tpopfreiwkontr = true;
@@ -3093,7 +3093,7 @@ window.af.erstelle_tree = function(ApArtId) {
 					$.jstree._reference(herkunft_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpopfeldkontr_id = herkunft_node_id;
-					delete window.tpopfeldkontr;
+					delete window.af.tpopfeldkontr;
 					delete window.tpopfreiwkontr_node_ausgeschnitten;
 					delete window.herkunft_parent_node;
 					localStorage.tpopfreiwkontr = true;
@@ -3888,7 +3888,7 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.apziel;
+								window.deleted = window.af.apziel;
 								window.deleted.typ = "apziel";
 								var deleteApziel = $.ajax({
 									type: 'post',
@@ -3900,7 +3900,7 @@ window.af.treeKontextmenu = function(node) {
 								});
 								deleteApziel.done(function() {
 									delete localStorage.apziel_id;
-									delete window.apziel;
+									delete window.af.apziel;
 									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// grandparent Node-Beschriftung: Anzahl anpassen
 									grandparent_node = $.jstree._reference(parent_node)._get_parent(parent_node);
@@ -4004,7 +4004,7 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.zielber;
+								window.deleted = window.af.zielber;
 								window.deleted.typ = "zielber";
 								var deleteZielber = $.ajax({
 									type: 'post',
@@ -4016,7 +4016,7 @@ window.af.treeKontextmenu = function(node) {
 								});
 								deleteZielber.done(function() {
 									delete localStorage.zielber_id;
-									delete window.zielber;
+									delete window.af.zielber;
 									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_zielber(parent_node);
@@ -4115,7 +4115,7 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.erfkrit;
+								window.deleted = window.af.erfkrit;
 								window.deleted.typ = "erfkrit";
 								var deleteErfkrit = $.ajax({
 									type: 'post',
@@ -4127,7 +4127,7 @@ window.af.treeKontextmenu = function(node) {
 								});
 								deleteErfkrit.done(function() {
 									delete localStorage.erfkrit_id;
-									delete window.erfkrit;
+									delete window.af.erfkrit;
 									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_erfkrit(parent_node);
@@ -4233,7 +4233,7 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.jber;
+								window.deleted = window.af.jber;
 								window.deleted.typ = "jber";
 								var deleteJber = $.ajax({
 									type: 'post',
@@ -4245,7 +4245,7 @@ window.af.treeKontextmenu = function(node) {
 								});
 								deleteJber.done(function() {
 									delete localStorage.jber_id;
-									delete window.jber;
+									delete window.af.jber;
 									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_jber(parent_node);
@@ -4319,7 +4319,7 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.jber_uebersicht;
+								window.deleted = window.af.jber_übersicht;
 								window.deleted.typ = "jber_uebersicht";
 								var deleteJberUebersicht = $.ajax({
 									type: 'post',
@@ -4331,7 +4331,7 @@ window.af.treeKontextmenu = function(node) {
 								});
 								deleteJberUebersicht.done(function() {
 									delete localStorage.jber_uebersicht_id;
-									delete window.jber_uebersicht;
+									delete window.af.jber_übersicht;
 									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Hinweis zum rückgängig machen anzeigen
 									window.af.frageObAktionRückgängigGemachtWerdenSoll("Die Übersicht für den AP-Bericht des Jahrs \"" + window.deleted.JbuJahr + "\" wurde gelöscht.");
@@ -4428,7 +4428,7 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.ber;
+								window.deleted = window.af.ber;
 								window.deleted.typ = "ber";
 								var deleteBer = $.ajax({
 									type: 'post',
@@ -4440,7 +4440,7 @@ window.af.treeKontextmenu = function(node) {
 								});
 								deleteBer.done(function() {
 									delete localStorage.ber_id;
-									delete window.ber;
+									delete window.af.ber;
 									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_ber(parent_node);
@@ -4539,7 +4539,7 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.assozarten;
+								window.deleted = window.af.assozarten;
 								window.deleted.typ = "assozarten";
 								var deleteAssozarten = $.ajax({
 									type: 'post',
@@ -4551,7 +4551,7 @@ window.af.treeKontextmenu = function(node) {
 								});
 								deleteAssozarten.done(function() {
 									delete localStorage.assozarten_id;
-									delete window.assozarten;
+									delete window.af.assozarten;
 									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_assozarten(parent_node);
@@ -4623,7 +4623,7 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.pop;
+								window.deleted = window.af.pop;
 								window.deleted.typ = "pop";
 								var deletePop = $.ajax({
 									type: 'post',
@@ -4635,7 +4635,7 @@ window.af.treeKontextmenu = function(node) {
 								});
 								deletePop.done(function() {
 									delete localStorage.pop_id;
-									delete window.pop;
+									delete window.af.pop;
 									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_pop(parent_node);
@@ -4941,7 +4941,7 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.tpop;
+								window.deleted = window.af.tpop;
 								window.deleted.typ = "tpop";
 								// löschen
 								var deleteTPop = $.ajax({
@@ -4954,7 +4954,7 @@ window.af.treeKontextmenu = function(node) {
 								});
 								deleteTPop.done(function() {
 									delete localStorage.tpop_id;
-									delete window.tpop;
+									delete window.af.tpop;
 									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_tpop(parent_node);
@@ -5227,7 +5227,7 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.popber;
+								window.deleted = window.af.popber;
 								window.deleted.typ = "popber";
 								var deletePopber = $.ajax({
 									type: 'post',
@@ -5239,7 +5239,7 @@ window.af.treeKontextmenu = function(node) {
 								});
 								deletePopber.done(function() {
 									delete localStorage.popber_id;
-									delete window.popber;
+									delete window.af.popber;
 									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_popber(parent_node);
@@ -5332,7 +5332,7 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.popmassnber;
+								window.deleted = window.af.popmassnber;
 								window.deleted.typ = "popmassnber";
 								var deletePopMassnBer = $.ajax({
 									type: 'post',
@@ -5344,7 +5344,7 @@ window.af.treeKontextmenu = function(node) {
 								});
 								deletePopMassnBer.done(function() {
 									delete localStorage.popmassnber_id;
-									delete window.popmassnber;
+									delete window.af.popmassnber;
 									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_popmassnber(parent_node);
@@ -5476,7 +5476,7 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.tpopfeldkontr;
+								window.deleted = window.af.tpopfeldkontr;
 								window.deleted.typ = "tpopfeldkontr";
 								var deleteTPopFeldKontr = $.ajax({
 									type: 'post',
@@ -5488,7 +5488,7 @@ window.af.treeKontextmenu = function(node) {
 								});
 								deleteTPopFeldKontr.done(function() {
 									delete localStorage.tpopfeldkontr_id;
-									delete window.tpopfeldkontr;
+									delete window.af.tpopfeldkontr;
 									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_tpopfeldkontr(parent_node);
@@ -5811,7 +5811,7 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.tpopfeldkontr;
+								window.deleted = window.af.tpopfeldkontr;
 								window.deleted.typ = "tpopfreiwkontr";
 								var deleteTPopFeldKontr_2 = $.ajax({
 									type: 'post',
@@ -5824,7 +5824,7 @@ window.af.treeKontextmenu = function(node) {
 								deleteTPopFeldKontr_2.done(function() {
 									delete localStorage.tpopfeldkontr_id;
 									delete localStorage.tpopfreiwkontr;
-									delete window.tpopfeldkontr;
+									delete window.af.tpopfeldkontr;
 									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_tpopfreiwkontr(parent_node);
@@ -6041,7 +6041,7 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.tpopmassn;
+								window.deleted = window.af.tpopmassn;
 								window.deleted.typ = "tpopmassn";
 								var deleteTPopMassn = $.ajax({
 									type: 'post',
@@ -6053,7 +6053,7 @@ window.af.treeKontextmenu = function(node) {
 								});
 								deleteTPopMassn.done(function() {
 									delete localStorage.tpopmassn_id;
-									delete window.tpopmassn;
+									delete window.af.tpopmassn;
 									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_tpopmassn(parent_node);
@@ -6237,7 +6237,7 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.tpopber;
+								window.deleted = window.af.tpopber;
 								window.deleted.typ = "tpopber";
 								var deleteTPopBer = $.ajax({
 									type: 'post',
@@ -6249,7 +6249,7 @@ window.af.treeKontextmenu = function(node) {
 								});
 								deleteTPopBer.done(function() {
 									delete localStorage.tpopber_id;
-									delete window.tpopber;
+									delete window.af.tpopber;
 									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_tpopber(parent_node);
@@ -6503,7 +6503,7 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.tpopmassnber;
+								window.deleted = window.af.tpopmassnber;
 								window.deleted.typ = "tpopmassnber";
 								var deleteTPopMassnBer = $.ajax({
 									type: 'post',
@@ -6515,7 +6515,7 @@ window.af.treeKontextmenu = function(node) {
 								});
 								deleteTPopMassnBer.done(function() {
 									delete localStorage.tpopmassnber_id;
-									delete window.tpopmassnber;
+									delete window.af.tpopmassnber;
 									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Parent Node-Beschriftung: Anzahl anpassen
 									window.af.beschrifte_ordner_popmassnber(parent_node);
@@ -7066,8 +7066,8 @@ window.af.speichern = function(that) {
 			if (!Feldwert) {
 				if (Feldname === "TPopKontrZaehleinheit1") {
 					// UI aktualisieren
-					if (window.tpopfeldkontr.TPopKontrMethode1) {
-						$("#TPopKontrMethode1" + window.tpopfeldkontr.TPopKontrMethode1).prop("checked", false);
+					if (window.af.tpopfeldkontr.TPopKontrMethode1) {
+						$("#TPopKontrMethode1" + window.af.tpopfeldkontr.TPopKontrMethode1).prop("checked", false);
 					}
 					$("#TPopKontrAnz1").val("");
 					// Datenbank aktualisieren
@@ -7084,8 +7084,8 @@ window.af.speichern = function(that) {
 				}
 				if (Feldname === "TPopKontrZaehleinheit2") {
 					// UI aktualisieren
-					if (window.tpopfeldkontr.TPopKontrMethode2) {
-						$("#TPopKontrMethode2" + window.tpopfeldkontr.TPopKontrMethode2).prop("checked", false);
+					if (window.af.tpopfeldkontr.TPopKontrMethode2) {
+						$("#TPopKontrMethode2" + window.af.tpopfeldkontr.TPopKontrMethode2).prop("checked", false);
 					}
 					$("#TPopKontrAnz2").val("");
 					// Datenbank aktualisieren
@@ -7102,8 +7102,8 @@ window.af.speichern = function(that) {
 				}
 				if (Feldname === "TPopKontrZaehleinheit3") {
 					// UI aktualisieren
-					if (window.tpopfeldkontr.TPopKontrMethode3) {
-						$("#TPopKontrMethode3" + window.tpopfeldkontr.TPopKontrMethode3).prop("checked", false);
+					if (window.af.tpopfeldkontr.TPopKontrMethode3) {
+						$("#TPopKontrMethode3" + window.af.tpopfeldkontr.TPopKontrMethode3).prop("checked", false);
 					}
 					$("#TPopKontrAnz3").val("");
 					// Datenbank aktualisieren
@@ -7827,7 +7827,7 @@ window.af.zeigeTPopAufGeoAdmin = function(TPopListeMarkiert) {
 				url: 'php/tpop_karte_alle.php',
 				dataType: 'json',
 				data: {
-					"ApArtId": window.ap.ApArtId
+					"ApArtId": window.af.ApArtId
 				}
 			});
 
@@ -7880,7 +7880,7 @@ window.af.zeigePopAufGeoAdmin = function(PopListeMarkiert) {
 				url: 'php/tpop_karte_alle.php',
 				dataType: 'json',
 				data: {
-					"ApArtId": window.ap.ApArtId
+					"ApArtId": window.af.ApArtId
 				}
 			});
 
@@ -7972,7 +7972,7 @@ window.af.zeigePopInTPopKarte = function(overlay_pop_visible, overlay_popbeschri
 			url: 'php/pop_karte_alle.php',
 			dataType: 'json',
 			data: {
-				"ApArtId": window.ap.ApArtId
+				"ApArtId": window.af.ApArtId
 			}
 		});
 	getPopKarteAlle.done(function(PopListe) {
@@ -8016,10 +8016,10 @@ window.af.erstelleTPopulationFürGeoAdmin = function(TPop) {
 		myTPopFlurname = TPop.TPopFlurname || '(kein Flurname)',
 		// tooltip bzw. label vorbereiten: nullwerte ausblenden
 		myTooltip;
-	if (window.pop.PopNr && TPop.TPopNr) {
-		myTooltip = window.pop.PopNr + '/' + TPop.TPopNr + ' ' + myTPopFlurname;
-	} else if (window.pop.PopNr) {
-		myTooltip = window.pop.PopNr + '/?' + ' ' + myTPopFlurname;
+	if (window.af.pop.PopNr && TPop.TPopNr) {
+		myTooltip = window.af.pop.PopNr + '/' + TPop.TPopNr + ' ' + myTPopFlurname;
+	} else if (window.af.pop.PopNr) {
+		myTooltip = window.af.pop.PopNr + '/?' + ' ' + myTPopFlurname;
 	} else if (TPop.TPopNr) {
 		myTooltip = '?/' + TPop.TPopNr + ' ' + myTPopFlurname;
 	} else {
@@ -8256,7 +8256,7 @@ window.af.erstelleTPopSymboleFürGeoAdmin = function(tpop_liste, tpopid_markiert
 							url: 'php/tpop_karte_alle.php',
 							dataType: 'json',
 							data: {
-								"ApArtId": window.ap.ApArtId
+								"ApArtId": window.af.ApArtId
 							}
 						});
 						getTPopKarteAlle_3.done(function(TPopListe) {
@@ -8591,7 +8591,7 @@ window.af.erstellePopSymboleFürGeoAdmin = function(popliste, popid_markiert, vi
 							url: 'php/pop_karte_alle.php',
 							dataType: 'json',
 							data: {
-								"ApArtId": window.ap.ApArtId
+								"ApArtId": window.af.ApArtId
 							}
 						});
 						getPopKarteAlle_2.done(function(PopListe) {
@@ -10054,7 +10054,7 @@ window.af.öffneUri = function() {
 				// muss tpop sein
 				// markieren, dass nach dem loaded-event im Tree die TPop angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
-				window.tpop_zeigen = true;
+				window.af.tpop_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				window.af.initiiere_tpop();
 			}
@@ -10066,7 +10066,7 @@ window.af.öffneUri = function() {
 				window.af.setzeWindowPopber(uri.getQueryParamValue('popber'));
 				// markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
-				window.popber_zeigen = true;
+				window.af.popber_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				window.af.initiiere_popber();
 			} else if (uri.getQueryParamValue('popmassnber')) {
@@ -10074,14 +10074,14 @@ window.af.öffneUri = function() {
 				window.af.setzeWindowPopmassnber(uri.getQueryParamValue('popmassnber'));
 				// markieren, dass nach dem loaded-event im Tree die popmassnber angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
-				window.popmassnber_zeigen = true;
+				window.af.popmassnber_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				window.af.initiiere_popmassnber();
 			} else {
 				// muss pop sein
 				// markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
-				window.pop_zeigen = true;
+				window.af.pop_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				localStorage.pop_id = uri.getQueryParamValue('pop');
 				window.af.initiiere_pop();
@@ -11342,7 +11342,7 @@ window.af.insertOrdnerVonTPop = function(TPopNode, tpop_id) {
 window.af.löscheAp = function(ap_id) {
 	'use strict';
 	//Variable zum rückgängig machen erstellen
-	window.deleted = window.ap;
+	window.deleted = window.af;
 	window.deleted.typ = "ap";
 	//Artname in Textform merken
 	window.deleted.Artname = $("#ap_waehlen option[value='" + $("#ap_waehlen").val() + "']").text();
@@ -11357,7 +11357,7 @@ window.af.löscheAp = function(ap_id) {
 	deleteAp.done(function() {
         var $exportieren_2 = $("#exportieren_2");
 		delete localStorage.ap_id;
-		delete window.ap;
+		delete window.af;
 		delete localStorage.ap;
 		$("#programm_neu").attr("checked", false);
 		$("#programm_alle").attr("checked", true);
@@ -11522,7 +11522,7 @@ window.af.undeleteDatensatz = function() {
 			history.replaceState({ap: "ap"}, "ap", "index.html?ap=" + id);
 		} else {
 			//tree neu aufbauen
-			$.when(window.af.erstelle_tree(window.ap.ApArtId))
+			$.when(window.af.erstelle_tree(window.af.ApArtId))
 				.then(function() {
 					$("#tree").jstree("select_node", "[typ='" + typ + "']#" + id);
 				});
