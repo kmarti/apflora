@@ -6866,13 +6866,13 @@ window.af.popKopiertInPopEinfügen = function(aktiver_node, parent_node) {
 	data.MutWer = sessionStorage.User;
 	data.ApArtId = window.af.erstelleIdAusDomAttributId($(parent_node).attr("id"));
 	// die alten id's entfernen
-	delete window.pop_objekt_kopiert.ApArtId;
-	delete window.pop_objekt_kopiert.PopId;
+	delete window.af.pop_objekt_kopiert.ApArtId;
+	delete window.af.pop_objekt_kopiert.PopId;
 	// das wird gleich neu gesetzt, alte Werte verwerfen
-	delete window.pop_objekt_kopiert.MutWann;
-	delete window.pop_objekt_kopiert.MutWer;
+	delete window.af.pop_objekt_kopiert.MutWann;
+	delete window.af.pop_objekt_kopiert.MutWer;
 	// alle verbliebenen Felder an die url hängen
-    _.each(window.pop_objekt_kopiert, function(value, key) {
+    _.each(window.af.pop_objekt_kopiert, function(value, key) {
         // Nullwerte ausschliessen
         if (value !== null) {
             data[key] = value;
@@ -6887,7 +6887,7 @@ window.af.popKopiertInPopEinfügen = function(aktiver_node, parent_node) {
 	});
 	insertPopKopie_2.done(function(pop_id) {
 		var strukturtyp = "pop",
-			beschriftung = window.pop_objekt_kopiert.PopNr + " " + window.pop_objekt_kopiert.PopName;
+			beschriftung = window.af.pop_objekt_kopiert.PopNr + " " + window.af.pop_objekt_kopiert.PopName;
 		window.af.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, pop_id, beschriftung);
 	});
 	insertPopKopie_2.fail(function() {
@@ -7047,7 +7047,7 @@ window.af.speichern = function(that) {
 		});
 		updateFormular.done(function() {
 			// Variable für Objekt nachführen
-			window[Formular][Feldname] = Feldwert;
+			window.af[Formular][Feldname] = Feldwert;
 			// Wenn ApArtId verändert wurde: Formular aktualisieren
 			if (Feldname === "ApArtId" && Feldwert) {
 				window.af.wähleAp(Feldwert);
@@ -7491,7 +7491,6 @@ window.af.CHtoWGSlng = function(y, x) {
 
 window.af.zeigeTPopAufKarte = function(tpop_liste) {
 	'use strict';
-	window.TPopListe = tpop_liste;
 	var anz_tpop,
         infowindow,
         tpop_beschriftung,
@@ -7511,8 +7510,8 @@ window.af.zeigeTPopAufKarte = function(tpop_liste) {
         my_flurname;
 	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	window.af.zeigeFormular("google_karte");
-	window.markersArray = [];
-	window.InfoWindowArray = [];
+	window.af.markers_array = [];
+	window.af.info_window_array = [];
 	infowindow = new google.maps.InfoWindow();
 	// TPopListe bearbeiten:
 	// Objekte löschen, die keine Koordinaten haben
@@ -7540,7 +7539,7 @@ window.af.zeigeTPopAufKarte = function(tpop_liste) {
 		mapTypeId: google.maps.MapTypeId.SATELLITE
 	};
 	map = new google.maps.Map(document.getElementById("google_karten_div"), options);
-	window.map = map;
+	window.af.map = map;
 	bounds = new google.maps.LatLngBounds();
 	// für alle TPop Marker erstellen
 	markers = [];
@@ -8964,7 +8963,7 @@ window.af.geoadminOnFeatureUnselect = function(feature) {
 
 window.af.zeigeBeobUndTPopAufKarte = function(beob_liste, tpop_liste) {
 	'use strict';
-	window.TPopListe = tpop_liste;
+	window.tpop_liste = tpop_liste;
 	var anz_beob,
         anz_tpop,
         infowindow_beob,
@@ -8994,8 +8993,8 @@ window.af.zeigeBeobUndTPopAufKarte = function(beob_liste, tpop_liste) {
         my_flurname;
 	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	window.af.zeigeFormular("google_karte");
-	window.markersArray = [];
-	window.InfoWindowArray = [];
+	window.af.markers_array = [];
+	window.af.info_window_array = [];
 	infowindow_beob = new google.maps.InfoWindow();
 	infowindow_tpop = new google.maps.InfoWindow();
 	// Lat und Lng in BeobListe ergänzen
@@ -9029,7 +9028,7 @@ window.af.zeigeBeobUndTPopAufKarte = function(beob_liste, tpop_liste) {
 		mapTypeId: google.maps.MapTypeId.SATELLITE
 	};
 	map = new google.maps.Map(document.getElementById("google_karten_div"), options);
-	window.map = map;
+	window.af.map = map;
 	bounds = new google.maps.LatLngBounds();
 
 	// für alle TPop Marker erstellen
@@ -9240,8 +9239,8 @@ window.af.zeigeBeobAufKarte = function(beob_liste) {
         a_note;
 	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	window.af.zeigeFormular("google_karte");
-	window.markersArray = [];
-	window.InfoWindowArray = [];
+	window.af.markers_array = [];
+	window.af.info_window_array = [];
 	infowindow = new google.maps.InfoWindow();
 	// Lat und Lng in BeobListe ergänzen
     _.each(beob_liste.rows, function(beob) {
@@ -9270,7 +9269,7 @@ window.af.zeigeBeobAufKarte = function(beob_liste) {
 		}
 	};
 	map = new google.maps.Map(document.getElementById("google_karten_div"), options);
-	window.map = map;
+	window.af.map = map;
 	bounds = new google.maps.LatLngBounds();
 	// für alle Orte Marker erstellen
 	markers = [];
@@ -9375,8 +9374,8 @@ window.af.zeigeTPopBeobAufKarte = function(tpop_beob_liste) {
         titel;
 	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	window.af.zeigeFormular("google_karte");
-	window.markersArray = [];
-	window.InfoWindowArray = [];
+	window.af.markers_array = [];
+	window.af.info_window_array = [];
 	infowindow = new google.maps.InfoWindow();
 	// TPopListe bearbeiten:
 	// Objekte löschen, die keine Koordinaten haben
@@ -9407,9 +9406,9 @@ window.af.zeigeTPopBeobAufKarte = function(tpop_beob_liste) {
 		}
 	};
 	map = new google.maps.Map(document.getElementById("google_karten_div"), options);
-	window.map = map;
+	window.af.map = map;
 	// Versuch: SVO einblenden
-	//loadWMS(window.map, "//wms.zh.ch/FnsSVOZHWMS?");
+	//loadWMS(window.af.map, "//wms.zh.ch/FnsSVOZHWMS?");
 	//loadWMS(map, "//www.gis.zh.ch/scripts/wmsfnssvo2.asp?");
 	// Versuch: AV einblenden
 	//loadWMS(map, "//wms.zh.ch/avwms?");
@@ -9509,7 +9508,7 @@ window.af.verorteTPopAufKarte = function(TPop) {
         myFlurname;
 	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	window.af.zeigeFormular("google_karte");
-	window.markersArray = [];
+	window.af.markers_array = [];
 	infowindow = new google.maps.InfoWindow();
 	if (TPop && TPop.TPopXKoord && TPop.TPopYKoord) {
 		// Wenn Koordinaten vorhanden, Lat und Lng ergänzen
@@ -9533,7 +9532,7 @@ window.af.verorteTPopAufKarte = function(TPop) {
 	};
 	mapcanvas = $('#google_karten_div');
 	map = new google.maps.Map(mapcanvas[0],options);
-	window.map = map;
+	window.af.map = map;
 	if (verorted === true) {
 		tpop_beschriftung = window.af.beschrifteTPopMitNrFürKarte(TPop.PopNr, TPop.TPopNr);
 		marker = new google.maps.Marker({
@@ -9544,7 +9543,7 @@ window.af.verorteTPopAufKarte = function(TPop) {
 			draggable: true
 		});
 		// Marker in Array speichern, damit er gelöscht werden kann
-		markersArray.push(marker); 
+		window.af.markers_array.push(marker); 
 		myFlurname = TPop.TPopFlurname || '(kein Flurname)';
 		contentString = '<div id="content">'+
 			'<div id="siteNotice">'+
@@ -9559,10 +9558,10 @@ window.af.verorteTPopAufKarte = function(TPop) {
 		infowindow = new google.maps.InfoWindow({
 			content: contentString
 		});
-		if (!window.InfoWindowArray) {
-			window.InfoWindowArray = [];
+		if (!window.af.info_window_array) {
+			window.af.info_window_array = [];
 		}
-		window.InfoWindowArray.push(infowindow);
+		window.af.info_window_array.push(infowindow);
 		google.maps.event.addListener(marker, 'click', function() {
 			infowindow.open(map,marker);
 		});
@@ -9594,7 +9593,7 @@ window.af.placeMarkerTPop = function(location, map, marker, TPop) {
 		draggable: true
 	});
 	// Marker in Array speichern, damit er gelöscht werden kann
-	markersArray.push(marker);
+	window.af.markers_array.push(marker);
 	google.maps.event.addListener(marker, "dragend", function(event) {
 		window.af.SetLocationTPop(event.latLng, map, marker, TPop);
 	});
@@ -9655,10 +9654,10 @@ window.af.SetLocationTPop = function(LatLng, map, marker, TPop) {
 			infowindow = new google.maps.InfoWindow({
 				content: contentString
 			});
-			if (!window.InfoWindowArray) {
-				window.InfoWindowArray = [];
+			if (!window.af.info_window_array) {
+				window.af.info_window_array = [];
 			}
-			window.InfoWindowArray.push(infowindow);
+			window.af.info_window_array.push(infowindow);
 			google.maps.event.addListener(marker, 'click', function() {
 				infowindow.open(map, marker);
 			});
@@ -9676,7 +9675,7 @@ window.af.SetLocationTPop = function(LatLng, map, marker, TPop) {
 // benutzt wo in GoogleMaps Marker gesetzt und verschoben werden
 window.af.clearMarkers = function() {
 	'use strict';
-    _.each(markersArray, function(marker) {
+    _.each(window.af.markers_array, function(marker) {
         marker.setMap(null);
     });
 };
@@ -9685,7 +9684,7 @@ window.af.clearMarkers = function() {
 // benutzt wo in GoogleMaps Infowindows neu gesetzt werden müssen, weil die Daten verändert wurden
 window.af.clearInfoWindows = function() {
 	'use strict';
-    _.each(window.InfoWindowArray, function(info_window) {
+    _.each(window.af.info_window_array, function(info_window) {
         info_window.setMap(null);
     });
 };
@@ -11133,7 +11132,7 @@ window.af.insertNeuenNodeAufGleicherHierarchiestufe = function(aktiver_node, par
 	// id global verfügbar machen
 	localStorage[strukturtyp + "_id"] = ds_id;
 	// letzte globale Variable entfernen
-	delete window[strukturtyp];
+	delete window.af[strukturtyp];
 	// neuen Node bauen
 	NeuerNode = $.jstree._reference(parent_node).create_node(parent_node, "last", {
 		"data": beschriftung,
@@ -11196,7 +11195,7 @@ window.af.insertNeuenNodeEineHierarchiestufeTiefer = function(aktiver_node, pare
 	// id global verfügbar machen
 	localStorage[strukturtyp + "_id"] = ds_id;
 	// letzte globale Variable entfernen
-	delete window[strukturtyp];
+	delete window.af[strukturtyp];
 	if (strukturtyp === "apziel" && localStorage.apziel_von_ordner_apziel) {
 		// localStorage.apziel_von_ordner_apziel sagt: apziel wird vom ordner_apziel aus angelegt > temporären Unterordner anlegen
 		var neue_apziele_node = $.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {

@@ -2235,36 +2235,36 @@
 				});
 
 				$("#ber").on("change", "#BerURL", function(event) {
-					var url;
-					url = $("#BerURL").val();
+					var url,
+                        $BerURL = $("#BerURL");
+					url = $BerURL.val();
 					if (url.substring(0,3) === "www") {
 						$("#BerURL").val("//" + url);
 					} else if (url.substring(0,4) !== "http") {
 						$("#BerURL").val("//www." + url);
 					}
-					$('#BerURLHref').attr('onClick', "window.open('" + $("#BerURL").val() + "', target='_blank')")
+					$('#BerURLHref').attr('onClick', "window.open('" + $BerURL.val() + "', target='_blank')")
 				});
 
 				//Für jedes Feld bei Änderung speichern
-				$(".form").on("change", ".speichern", function() {
-					speichern(this);
-				});
-
-				$(".form").on("click", "#window.af.kopiereKoordinatenInPop", function() {
-					window.af.kopiereKoordinatenInPop($("#TPopXKoord").val(), $("#TPopYKoord").val());
-				});
-
-				$(".form").on("keyup focus", "textarea", function() {
-					FitToContent(this, document.documentElement.clientHeight);
-				});
+				$(".form")
+                    .on("change", ".speichern", function() {
+                        speichern(this);
+                    })
+                    .on("click", "#window.af.kopiereKoordinatenInPop", function() {
+                        window.af.kopiereKoordinatenInPop($("#TPopXKoord").val(), $("#TPopYKoord").val());
+                    })
+                    .on("keyup focus", "textarea", function() {
+                        FitToContent(this, document.documentElement.clientHeight);
+                    });
 
 				//verhindern, dass Zahlen durch Scrollen am Mausrad aus Versehen verändert werden
 				$("[type='number']").mousewheel(function(event){
 				   event.preventDefault() ;
 				});
 
-				//Wenn im Suchfeld oder in einem Datenfeld die Taste Delete gedrückt wird,
-				//wird anschliessend im Baum der markierte node entfernt!
+				// Wenn im Suchfeld oder in einem Datenfeld die Taste Delete gedrückt wird,
+				// wird anschliessend im Baum der markierte node entfernt!
 				$("#menu").on("keydown", "#suchen", function(event) {
 					if (event.keyCode === 46) {
 						event.stopPropagation();	
@@ -2396,7 +2396,7 @@
 			$(".karte").on("change", ".google_karte_detailplaene_checkbox", function() {
 				console.log("toggle Detailpläne");
 				if (window.google_karte_detailplaene.getMap() === null) {
-					window.google_karte_detailplaene.setMap(map);
+					window.google_karte_detailplaene.setMap(window.af.map);
 				} else {
 					window.google_karte_detailplaene.setMap(null);
 				}
