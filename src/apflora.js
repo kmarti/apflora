@@ -26,12 +26,12 @@ window.af.initiiere_index = function() {
 	window.af.erstelleGemeindeliste();
 
 	// Datumsfelder: Widget initiieren
-	var Monate = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
-	var wochentageKurz = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
-	var wochentageLang = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
-	$("#TPopKontrDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopKontrJahr", altFormat: "yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: Monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
-	$("#TPopMassnDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopMassnJahr", altFormat: "yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: Monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
-	$("#JBerDatum, #IbErstelldatum").datepicker({ dateFormat: "dd.mm.yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: Monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
+	var monate = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
+        wochentageKurz = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
+        wochentageLang = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
+	$("#TPopKontrDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopKontrJahr", altFormat: "yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
+	$("#TPopMassnDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopMassnJahr", altFormat: "yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
+	$("#JBerDatum, #IbErstelldatum").datepicker({ dateFormat: "dd.mm.yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
 
 	// Variablen setzen für Formular Feldkontrollen, hier damit nur ein mal
 	window.af.feldliste_feldkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrTyp', 'TPopKontrJungpfl', 'TPopKontrVitalitaet', 'TPopKontrUeberleb', 'TPopKontrEntwicklung', 'TPopKontrUrsach', 'TPopKontrUrteil', 'TPopKontrAendUms', 'TPopKontrAendKontr', 'TPopKontrGuid', 'TPopKontrFlaeche', 'TPopKontrVegTyp', 'TPopKontrKonkurrenz', 'TPopKontrMoosschicht', 'TPopKontrKrautschicht', 'TPopKontrStrauchschicht', 'TPopKontrBaumschicht', 'TPopKontrBodenTyp', 'TPopKontrBodenKalkgehalt', 'TPopKontrBodenDurchlaessigkeit', 'TPopKontrBodenHumus', 'TPopKontrBodenNaehrstoffgehalt', 'TPopKontrBodenAbtrag', 'TPopKontrWasserhaushalt', 'TPopKontrHandlungsbedarf', 'TPopKontrIdealBiotopUebereinst', 'TPopKontrLeb', 'TPopKontrLebUmg'];
@@ -2493,90 +2493,90 @@ window.af.erstelle_tree = function(ApArtId) {
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese TPop geöffnet wird
 			delete window.af.tpop_zeigen;
 		}
-		if (window.tpopfeldkontr_zeigen) {
+		if (window.af.tpopfeldkontr_zeigen) {
 			$("#tree").jstree("select_node", "[typ='tpopfeldkontr']#" + localStorage.tpopfeldkontr_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopfeldkontr geöffnet wird
-			delete window.tpopfeldkontr_zeigen;
+			delete window.af.tpopfeldkontr_zeigen;
 		}
-		if (window.tpopfreiwkontr_zeigen) {
+		if (window.af.tpopfreiwkontr_zeigen) {
 			$("#tree").jstree("select_node", "[typ='tpopfreiwkontr']#" + localStorage.tpopfeldkontr_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopfreiwkontr geöffnet wird
-			delete window.tpopfreiwkontr_zeigen;
+			delete window.af.tpopfreiwkontr_zeigen;
 		}
-		if (window.tpopmassn_zeigen) {
+		if (window.af.tpopmassn_zeigen) {
 			$("#tree").jstree("select_node", "[typ='tpopmassn']#" + localStorage.tpopmassn_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopmassn geöffnet wird
-			delete window.tpopmassn_zeigen;
+			delete window.af.tpopmassn_zeigen;
 		}
-		if (window.tpopber_zeigen) {
+		if (window.af.tpopber_zeigen) {
 			$("#tree").jstree("select_node", "[typ='tpopber']#" + localStorage.tpopber_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopber geöffnet wird
-			delete window.tpopber_zeigen;
+			delete window.af.tpopber_zeigen;
 		}
-		if (window.beob_zugeordnet_zeigen) {
+		if (window.af.beob_zugeordnet_zeigen) {
 			$("#tree").jstree("select_node", "#beob" + localStorage.beob_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese beob_zugeordnet geöffnet wird
-			delete window.beob_zugeordnet_zeigen;
+			delete window.af.beob_zugeordnet_zeigen;
 		}
-		if (window.tpopmassnber_zeigen) {
+		if (window.af.tpopmassnber_zeigen) {
 			$("#tree").jstree("select_node", "[typ='tpopmassnber']#" + localStorage.tpopmassnber_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopmassnber geöffnet wird
-			delete window.tpopmassnber_zeigen;
+			delete window.af.tpopmassnber_zeigen;
 		}
-		if (window.apziel_zeigen) {
+		if (window.af.apziel_zeigen) {
 			$("#tree").jstree("select_node", "[typ='apziel']#" + localStorage.apziel_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese apziel geöffnet wird
-			delete window.apziel_zeigen;
+			delete window.af.apziel_zeigen;
 		}
-		if (window.zielber_zeigen) {
+		if (window.af.zielber_zeigen) {
 			$("#tree").jstree("select_node", "[typ='zielber']#" + localStorage.zielber_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese zielber geöffnet wird
-			delete window.zielber_zeigen;
+			delete window.af.zielber_zeigen;
 		}
-		if (window.erfkrit_zeigen) {
+		if (window.af.erfkrit_zeigen) {
 			$("#tree").jstree("select_node", "[typ='erfkrit']#" + localStorage.erfkrit_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese erfkrit geöffnet wird
-			delete window.erfkrit_zeigen;
+			delete window.af.erfkrit_zeigen;
 		}
-		if (window.jber_zeigen) {
+		if (window.af.jber_zeigen) {
 			$("#tree").jstree("select_node", "[typ='jber']#" + localStorage.jber_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese jber geöffnet wird
-			delete window.jber_zeigen;
+			delete window.af.jber_zeigen;
 		}
-		if (window.jber_uebersicht_zeigen) {
+		if (window.af.jber_übersicht_zeigen) {
 			$("#tree").jstree("select_node", "[typ='jber_uebersicht']#" + localStorage.jber_uebersicht_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese jber_uebersicht geöffnet wird
-			delete window.jber_uebersicht_zeigen;
+			delete window.af.jber_übersicht_zeigen;
 		}
-		if (window.ber_zeigen) {
+		if (window.af.ber_zeigen) {
 			$("#tree").jstree("select_node", "[typ='ber']#" + localStorage.ber_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese ber geöffnet wird
-			delete window.ber_zeigen;
+			delete window.af.ber_zeigen;
 		}
-		if (window.idealbiotop_zeigen) {
+		if (window.af.idealbiotop_zeigen) {
 			$("#tree").jstree("select_node", "[typ='idealbiotop']#" + localStorage.idealbiotop_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese idealbiotop geöffnet wird
-			delete window.idealbiotop_zeigen;
+			delete window.af.idealbiotop_zeigen;
 		}
-		if (window.assozarten_zeigen) {
+		if (window.af.assozarten_zeigen) {
 			$("#tree").jstree("select_node", "[typ='assozarten']#" + localStorage.assozarten_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese assozarten geöffnet wird
-			delete window.assozarten_zeigen;
+			delete window.af.assozarten_zeigen;
 		}
-		if (window.beob_nicht_beurteilt_zeigen) {
+		if (window.af.beob_nicht_beurteilt_zeigen) {
 			$("#tree").jstree("select_node", "#beob" + localStorage.beob_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese beob geöffnet wird
-			delete window.beob_nicht_beurteilt_zeigen;
+			delete window.af.beob_nicht_beurteilt_zeigen;
 		}
-		if (window.beob_nicht_zuzuordnen_zeigen) {
+		if (window.af.beob_nicht_zuzuordnen_zeigen) {
 			$("#tree").jstree("select_node", "#beob" + localStorage.beob_id);
 			// diese Markierung entfernen, damit das nächste mal nicht mehr diese beob geöffnet wird
-			delete window.beob_nicht_zuzuordnen_zeigen;
+			delete window.af.beob_nicht_zuzuordnen_zeigen;
 		}
-		if (window.ap_zeigen) {
+		if (window.af.ap_zeigen) {
 			window.af.initiiere_ap();
 			// diese Markierung entfernen, damit das nächste mal nicht mehr dieser AP geöffnet wird
-			delete window.ap_zeigen;
+			delete window.af.ap_zeigen;
 		}
 	})
 	// auch auf Mobilgeräten soll das Kontextmenü zugänglich sein!
@@ -2741,7 +2741,7 @@ window.af.erstelle_tree = function(ApArtId) {
 	})
 	.bind("prepare_move.jstree", function(e, data) {
 		// herkunft_parent_node muss vor dem move ermittelt werden - danach ist der parent ein anderer!
-		window.herkunft_parent_node = $.jstree._reference(data.rslt.o)._get_parent(data.rslt.o);
+		window.af.herkunft_parent_node = $.jstree._reference(data.rslt.o)._get_parent(data.rslt.o);
 	})
 	.bind("create_node.jstree", function(e, data) {
 		if (data.rslt.parent[0].attributes.typ.nodeValue === "apzieljahr") {
@@ -2755,7 +2755,14 @@ window.af.erstelle_tree = function(ApArtId) {
 		}
 	})
 	.bind("move_node.jstree", function(e, data) {
-		var herkunft_node, herkunft_node_id, herkunft_node_typ, ziel_node, ziel_node_id, ziel_node_typ, ziel_parent_node, ziel_parent_node_id;
+		var herkunft_node,
+			herkunft_node_id,
+			herkunft_node_typ,
+			ziel_node,
+			ziel_node_id,
+			ziel_node_typ,
+			ziel_parent_node,
+			ziel_parent_node_id;
 		
 		// nur aktualisieren, wenn Schreibrechte bestehen
 		if (!window.af.prüfeSchreibvoraussetzungen()) {
@@ -2789,15 +2796,14 @@ window.af.erstelle_tree = function(ApArtId) {
 				fügePopEin.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.af.beschrifte_ordner_pop(ziel_parent_node);
-					window.af.beschrifte_ordner_pop(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_pop(window.af.herkunft_parent_node);
 					// selection steuern
 					$.jstree._reference(ziel_node).deselect_all();
 					$.jstree._reference(herkunft_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.pop_id = herkunft_node_id;
 					delete window.af.pop;
-					delete window.pop_node_ausgeschnitten;
-					delete window.herkunft_parent_node;
+					delete window.af.herkunft_parent_node;
 					window.af.initiiere_pop();
 				});
 				fügePopEin.fail(function(data) {
@@ -2818,15 +2824,15 @@ window.af.erstelle_tree = function(ApArtId) {
 				fügeTPopEin.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.af.beschrifte_ordner_tpop(ziel_parent_node);
-					window.af.beschrifte_ordner_tpop(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_tpop(window.af.herkunft_parent_node);
 					// selection steuern
 					$.jstree._reference(ziel_node).deselect_all();
 					$.jstree._reference(herkunft_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpop_id = herkunft_node_id;
 					delete window.af.tpop;
-					delete window.tpop_node_ausgeschnitten;
-					delete window.herkunft_parent_node;
+					delete window.af.tpop_node_ausgeschnitten;
+					delete window.af.herkunft_parent_node;
 					window.af.initiiere_tpop();
 				});
 				fügeTPopEin.fail(function(data) {
@@ -2847,14 +2853,14 @@ window.af.erstelle_tree = function(ApArtId) {
 				fügeTPopEin_2.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.af.beschrifte_ordner_tpop(ziel_node);
-					window.af.beschrifte_ordner_tpop(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_tpop(window.af.herkunft_parent_node);
 					// select steuern
 					$.jstree._reference(ziel_node).deselect_all();
 					$.jstree._reference(ziel_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpop_id = herkunft_node_id;
 					delete window.af.tpop;
-					delete window.tpop_node_ausgeschnitten;
+					delete window.af.tpop_node_ausgeschnitten;
 					window.af.initiiere_tpop();
 				});
 				fügeTPopEin_2.fail(function(data) {
@@ -2877,15 +2883,15 @@ window.af.erstelle_tree = function(ApArtId) {
 				fügeTPopEin_3.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.af.beschrifte_ordner_tpop(ziel_parent_node);
-					window.af.beschrifte_ordner_tpop(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_tpop(window.af.herkunft_parent_node);
 					// selection steuern
 					$.jstree._reference(herkunft_node).deselect_all();
 					$.jstree._reference(ziel_parent_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpop_id = herkunft_node_id;
 					delete window.af.tpop;
-					delete window.tpop_node_ausgeschnitten;
-					delete window.herkunft_parent_node;
+					delete window.af.tpop_node_ausgeschnitten;
+					delete window.af.herkunft_parent_node;
 					window.af.initiiere_tpop();
 				});
 				fügeTPopEin_3.fail(function(data) {
@@ -2906,15 +2912,15 @@ window.af.erstelle_tree = function(ApArtId) {
 				fügeTPopEin_4.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.af.beschrifte_ordner_tpop(ziel_node);
-					window.af.beschrifte_ordner_tpop(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_tpop(window.af.herkunft_parent_node);
 					// selection steuern
 					$.jstree._reference(herkunft_node).deselect_all();
 					$.jstree._reference(herkunft_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpop_id = herkunft_node_id;
 					delete window.af.tpop;
-					delete window.tpop_node_ausgeschnitten;
-					delete window.herkunft_parent_node;
+					delete window.af.tpop_node_ausgeschnitten;
+					delete window.af.herkunft_parent_node;
 					window.af.initiiere_tpop();
 				});
 				fügeTPopEin_4.fail(function(data) {
@@ -2937,15 +2943,15 @@ window.af.erstelle_tree = function(ApArtId) {
 				fügeTPopMassnEin.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.af.beschrifte_ordner_tpopmassn(ziel_parent_node);
-					window.af.beschrifte_ordner_tpopmassn(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_tpopmassn(window.af.herkunft_parent_node);
 					// selection steuern
 					$.jstree._reference(herkunft_node).deselect_all();
 					$.jstree._reference(ziel_parent_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpopmassn_id = herkunft_node_id;
 					delete window.af.tpopmassn;
-					delete window.tpopmassn_node_ausgeschnitten;
-					delete window.herkunft_parent_node;
+					delete window.af.tpopmassn_node_ausgeschnitten;
+					delete window.af.herkunft_parent_node;
 					window.af.initiiere_tpopmassn();
 				});
 				fügeTPopMassnEin.fail(function(data) {
@@ -2966,15 +2972,15 @@ window.af.erstelle_tree = function(ApArtId) {
 				fügeTPopMassnEin_2.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.af.beschrifte_ordner_tpopmassn(ziel_node);
-					window.af.beschrifte_ordner_tpopmassn(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_tpopmassn(window.af.herkunft_parent_node);
 					// selection steuern
 					$.jstree._reference(herkunft_node).deselect_all();
 					$.jstree._reference(herkunft_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpopmassn_id = herkunft_node_id;
 					delete window.af.tpopmassn;
-					delete window.tpopmassn_node_ausgeschnitten;
-					delete window.herkunft_parent_node;
+					delete window.af.tpopmassn_node_ausgeschnitten;
+					delete window.af.herkunft_parent_node;
 					window.af.initiiere_tpopmassn();
 				});
 				fügeTPopMassnEin_2.fail(function(data) {
@@ -2997,15 +3003,15 @@ window.af.erstelle_tree = function(ApArtId) {
 				fügeTPopFeldkontrEin.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.af.beschrifte_ordner_tpopfeldkontr(ziel_parent_node);
-					window.af.beschrifte_ordner_tpopfeldkontr(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_tpopfeldkontr(window.af.herkunft_parent_node);
 					// selection steuern
 					$.jstree._reference(herkunft_node).deselect_all();
 					$.jstree._reference(herkunft_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpopfeldkontr_id = herkunft_node_id;
 					delete window.af.tpopfeldkontr;
-					delete window.tpopfeldkontr_node_ausgeschnitten;
-					delete window.herkunft_parent_node;
+					delete window.af.tpopfeldkontr_node_ausgeschnitten;
+					delete window.af.herkunft_parent_node;
 					window.af.initiiere_tpopfeldkontr();
 				});
 				fügeTPopFeldkontrEin.fail(function(data) {
@@ -3026,15 +3032,15 @@ window.af.erstelle_tree = function(ApArtId) {
 				fügeTPopFeldkontrEin_2.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.af.beschrifte_ordner_tpopfeldkontr(ziel_node);
-					window.af.beschrifte_ordner_tpopfeldkontr(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_tpopfeldkontr(window.af.herkunft_parent_node);
 					// selection steuern
 					$.jstree._reference(herkunft_node).deselect_all();
 					$.jstree._reference(herkunft_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpopfeldkontr_id = herkunft_node_id;
 					delete window.af.tpopfeldkontr;
-					delete window.tpopfeldkontr_node_ausgeschnitten;
-					delete window.herkunft_parent_node;
+					delete window.af.tpopfeldkontr_node_ausgeschnitten;
+					delete window.af.herkunft_parent_node;
 					window.af.initiiere_tpopfeldkontr();
 				});
 				fügeTPopFeldkontrEin_2.fail(function() {
@@ -3057,15 +3063,15 @@ window.af.erstelle_tree = function(ApArtId) {
 				fügeTPopFeldkontrEin_3.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.af.beschrifte_ordner_tpopfreiwkontr(ziel_parent_node);
-					window.af.beschrifte_ordner_tpopfreiwkontr(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_tpopfreiwkontr(window.af.herkunft_parent_node);
 					// selection steuern
 					$.jstree._reference(herkunft_node).deselect_all();
 					$.jstree._reference(herkunft_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpopfeldkontr_id = herkunft_node_id;
 					delete window.af.tpopfeldkontr;
-					delete window.tpopfreiwkontr_node_ausgeschnitten;
-					delete window.herkunft_parent_node;
+					delete window.af.tpopfreiwkontr_node_ausgeschnitten;
+					delete window.af.herkunft_parent_node;
 					localStorage.tpopfreiwkontr = true;
 					window.af.initiiere_tpopfeldkontr();
 				});
@@ -3087,15 +3093,15 @@ window.af.erstelle_tree = function(ApArtId) {
 				fügeTPopFeldkontrEin_4.done(function() {
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.af.beschrifte_ordner_tpopfreiwkontr(ziel_node);
-					window.af.beschrifte_ordner_tpopfreiwkontr(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_tpopfreiwkontr(window.af.herkunft_parent_node);
 					// selection steuern
 					$.jstree._reference(herkunft_node).deselect_all();
 					$.jstree._reference(herkunft_node).select_node(herkunft_node);
 					// Variablen aufräumen
 					localStorage.tpopfeldkontr_id = herkunft_node_id;
 					delete window.af.tpopfeldkontr;
-					delete window.tpopfreiwkontr_node_ausgeschnitten;
-					delete window.herkunft_parent_node;
+					delete window.af.tpopfreiwkontr_node_ausgeschnitten;
+					delete window.af.herkunft_parent_node;
 					localStorage.tpopfreiwkontr = true;
 					window.af.initiiere_tpopfeldkontr();
 				});
@@ -3126,12 +3132,12 @@ window.af.erstelle_tree = function(ApArtId) {
 					} else {
 						window.af.beschrifte_ordner_beob_nicht_beurteilt(ziel_node);
 					}
-					window.af.beschrifte_ordner_beob_zugeordnet(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_beob_zugeordnet(window.af.herkunft_parent_node);
 					// beob initiieren
 					window.af.initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_beurteilt");
 					// Variablen aufräumen
-					delete window.beob_zugeordnet_node_ausgeschnitten;
-					delete window.herkunft_parent_node;
+					delete window.af.beob_zugeordnet_node_ausgeschnitten;
+					delete window.af.herkunft_parent_node;
 				});
 				ordneBeobachtungZu.fail(function() {
 					window.af.melde("Fehler: Die Beobachtung wurde nicht auf 'nicht beurteilt' gesetzt");
@@ -3162,7 +3168,7 @@ window.af.erstelle_tree = function(ApArtId) {
 					} else {
 						window.af.beschrifte_ordner_beob_zugeordnet(ziel_parent_node);
 					}
-					window.af.beschrifte_ordner_beob_zugeordnet(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_beob_zugeordnet(window.af.herkunft_parent_node);
 					// selection steuern
 					if (!localStorage.karte_fokussieren) {
 						window.af.initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "zugeordnet");
@@ -3170,8 +3176,8 @@ window.af.erstelle_tree = function(ApArtId) {
 						delete localStorage.karte_fokussieren;
 					}
 					// Variablen aufräumen
-					delete window.beob_zugeordnet_node_ausgeschnitten;
-					delete window.herkunft_parent_node;
+					delete window.af.beob_zugeordnet_node_ausgeschnitten;
+					delete window.af.herkunft_parent_node;
 				});
 				ordneBeobachtungZu_2.fail(function() {
 					window.af.melde("Fehler: Die Beobachtung wurde nicht verschoben");
@@ -3214,12 +3220,12 @@ window.af.erstelle_tree = function(ApArtId) {
 						} else {
 							window.af.beschrifte_ordner_beob_nicht_zuzuordnen(ziel_parent_node);
 						}
-						window.af.beschrifte_ordner_beob_zugeordnet(window.herkunft_parent_node);
+						window.af.beschrifte_ordner_beob_zugeordnet(window.af.herkunft_parent_node);
 						// Beob initiieren
 						window.af.initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_zuzuordnen");
 						// Variablen aufräumen
-						delete window.beob_node_ausgeschnitten;
-						delete window.herkunft_parent_node;
+						delete window.af.beob_node_ausgeschnitten;
+						delete window.af.herkunft_parent_node;
 					});
 					setzeTpopid.fail(function() {
 						console.log("fehler beim Leeren von TPopId");
@@ -3267,7 +3273,7 @@ window.af.erstelle_tree = function(ApArtId) {
 						herkunft_node.attr("typ", "beob_zugeordnet");
 						localStorage.beobtyp = "beob_zugeordnet";
 						// Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
-						window.af.beschrifte_ordner_beob_nicht_beurteilt(window.herkunft_parent_node);
+						window.af.beschrifte_ordner_beob_nicht_beurteilt(window.af.herkunft_parent_node);
 						if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
 							window.af.beschrifte_ordner_beob_zugeordnet(ziel_node);
 						} else {
@@ -3280,8 +3286,8 @@ window.af.erstelle_tree = function(ApArtId) {
 							delete localStorage.karte_fokussieren;
 						}
 						// Variablen aufräumen
-						delete window.beob_node_ausgeschnitten;
-						delete window.herkunft_parent_node;
+						delete window.af.beob_node_ausgeschnitten;
+						delete window.af.herkunft_parent_node;
 					});
 					updateBeob.fail(function() {
 						window.af.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
@@ -3320,7 +3326,7 @@ window.af.erstelle_tree = function(ApArtId) {
 						$(herkunft_node).attr("typ", "beob_nicht_zuzuordnen");
 						localStorage.beobtyp = "beob_nicht_zuzuordnen";
 						// Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
-						window.af.beschrifte_ordner_beob_nicht_beurteilt(window.herkunft_parent_node);
+						window.af.beschrifte_ordner_beob_nicht_beurteilt(window.af.herkunft_parent_node);
 						if (ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
 							window.af.beschrifte_ordner_beob_nicht_zuzuordnen(ziel_node);
 						} else {
@@ -3329,8 +3335,8 @@ window.af.erstelle_tree = function(ApArtId) {
 						// Beob initiieren
 						window.af.initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_zuzuordnen");
 						// Variablen aufräumen
-						delete window.beob_node_ausgeschnitten;
-						delete window.herkunft_parent_node;
+						delete window.af.beob_node_ausgeschnitten;
+						delete window.af.herkunft_parent_node;
 					});
 					updateBeob_2.fail(function() {
 						console.log("Fehler: Die Beobachtung wurde nicht zugeordnet");
@@ -3358,7 +3364,7 @@ window.af.erstelle_tree = function(ApArtId) {
 					$(herkunft_node).attr("typ", "beob_nicht_beurteilt");
 					localStorage.beobtyp = "beob_nicht_beurteilt";
 					// Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
-					window.af.beschrifte_ordner_beob_nicht_zuzuordnen(window.herkunft_parent_node);
+					window.af.beschrifte_ordner_beob_nicht_zuzuordnen(window.af.herkunft_parent_node);
 					if (ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
 						window.af.beschrifte_ordner_beob_nicht_beurteilt(ziel_node);
 					} else {
@@ -3367,8 +3373,8 @@ window.af.erstelle_tree = function(ApArtId) {
 					// selektieren
 					window.af.initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_beurteilt");
 					// Variablen aufräumen
-					delete window.beob_node_ausgeschnitten;
-					delete window.herkunft_parent_node;
+					delete window.af.beob_node_ausgeschnitten;
+					delete window.af.herkunft_parent_node;
 				});
 				deleteZuordnung.fail(function() {
 					window.af.melde("Fehler: Die Zuordnung der Beobachtung wurde nicht entfernt");
@@ -3410,7 +3416,7 @@ window.af.erstelle_tree = function(ApArtId) {
 						$(herkunft_node).attr("typ", "beob_zugeordnet");
 						localStorage.beobtyp = "beob_zugeordnet";
 						// Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
-						window.af.beschrifte_ordner_beob_nicht_zuzuordnen(window.herkunft_parent_node);
+						window.af.beschrifte_ordner_beob_nicht_zuzuordnen(window.af.herkunft_parent_node);
 						if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
 							window.af.beschrifte_ordner_beob_zugeordnet(ziel_node);
 						} else {
@@ -3419,8 +3425,8 @@ window.af.erstelle_tree = function(ApArtId) {
 						// selection steuern
 						window.af.initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "zugeordnet");
 						// Variablen aufräumen
-						delete window.beob_node_ausgeschnitten;
-						delete window.herkunft_parent_node;
+						delete window.af.beob_node_ausgeschnitten;
+						delete window.af.herkunft_parent_node;
 					});
 					updateBeob_4.fail(function() {
 						window.af.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
@@ -3717,9 +3723,9 @@ window.af.treeKontextmenu = function(node) {
 				}
 			}
 		};
-		if (window.pop_zum_verschieben_gemerkt) {
+		if (window.af.pop_zum_verschieben_gemerkt) {
 			items.einfuegen = {
-				"label": "'" + window.pop_bezeichnung + "' einfügen",
+				"label": "'" + window.af.pop_bezeichnung + "' einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
@@ -3729,7 +3735,7 @@ window.af.treeKontextmenu = function(node) {
 						url: 'php/pop_update.php',
 						dataType: 'json',
 						data: {
-							"id": window.pop_id,
+							"id": window.af.pop_id,
 							"Feld": "ApArtId",
 							"Wert": window.af.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 							"user": sessionStorage.User
@@ -3743,10 +3749,10 @@ window.af.treeKontextmenu = function(node) {
 								$("#tree").jstree("select_node", "[typ='pop']#" + localStorage.pop_id); 
 							});
 						// einfügen soll nicht mehr angezeigt werden
-						delete window.pop_zum_verschieben_gemerkt;
+						delete window.af.pop_zum_verschieben_gemerkt;
 						// nicht mehr benötigte Variabeln entfernen
-						delete window.pop_bezeichnung;
-						delete window.pop_id;
+						delete window.af.pop_bezeichnung;
+						delete window.af.pop_id;
 					});
 					updatePop.fail(function() {
 						window.af.melde("Fehler: Die Population wurde nicht verschoben");
@@ -3888,8 +3894,8 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.af.apziel;
-								window.deleted.typ = "apziel";
+								window.af.deleted = window.af.apziel;
+								window.af.deleted.typ = "apziel";
 								var deleteApziel = $.ajax({
 									type: 'post',
 									url: 'php/apziel_delete.php',
@@ -4004,8 +4010,8 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.af.zielber;
-								window.deleted.typ = "zielber";
+								window.af.deleted = window.af.zielber;
+								window.af.deleted.typ = "zielber";
 								var deleteZielber = $.ajax({
 									type: 'post',
 									url: 'php/zielber_delete.php',
@@ -4115,8 +4121,8 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.af.erfkrit;
-								window.deleted.typ = "erfkrit";
+								window.af.deleted = window.af.erfkrit;
+								window.af.deleted.typ = "erfkrit";
 								var deleteErfkrit = $.ajax({
 									type: 'post',
 									url: 'php/erfkrit_delete.php',
@@ -4233,8 +4239,8 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.af.jber;
-								window.deleted.typ = "jber";
+								window.af.deleted = window.af.jber;
+								window.af.deleted.typ = "jber";
 								var deleteJber = $.ajax({
 									type: 'post',
 									url: 'php/jber_delete.php',
@@ -4319,8 +4325,8 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.af.jber_übersicht;
-								window.deleted.typ = "jber_uebersicht";
+								window.af.deleted = window.af.jber_übersicht;
+								window.af.deleted.typ = "jber_uebersicht";
 								var deleteJberUebersicht = $.ajax({
 									type: 'post',
 									url: 'php/jber_uebersicht_delete.php',
@@ -4334,7 +4340,7 @@ window.af.treeKontextmenu = function(node) {
 									delete window.af.jber_übersicht;
 									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
 									// Hinweis zum rückgängig machen anzeigen
-									window.af.frageObAktionRückgängigGemachtWerdenSoll("Die Übersicht für den AP-Bericht des Jahrs \"" + window.deleted.JbuJahr + "\" wurde gelöscht.");
+									window.af.frageObAktionRückgängigGemachtWerdenSoll("Die Übersicht für den AP-Bericht des Jahrs \"" + window.af.deleted.JbuJahr + "\" wurde gelöscht.");
 								});
 								deleteJberUebersicht.fail(function() {
 									window.af.melde("Fehler: Die Übersicht zu allen Arten wurde nicht gelöscht");
@@ -4428,8 +4434,8 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.af.ber;
-								window.deleted.typ = "ber";
+								window.af.deleted = window.af.ber;
+								window.af.deleted.typ = "ber";
 								var deleteBer = $.ajax({
 									type: 'post',
 									url: 'php/ber_delete.php',
@@ -4539,8 +4545,8 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.af.assozarten;
-								window.deleted.typ = "assozarten";
+								window.af.deleted = window.af.assozarten;
+								window.af.deleted.typ = "assozarten";
 								var deleteAssozarten = $.ajax({
 									type: 'post',
 									url: 'php/assozarten_delete.php',
@@ -4623,8 +4629,8 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.af.pop;
-								window.deleted.typ = "pop";
+								window.af.deleted = window.af.pop;
+								window.af.deleted.typ = "pop";
 								var deletePop = $.ajax({
 									type: 'post',
 									url: 'php/pop_delete.php',
@@ -4704,7 +4710,7 @@ window.af.treeKontextmenu = function(node) {
 				}
 			}
 		};
-		if (!window.pop_zum_verschieben_gemerkt) {
+		if (!window.af.pop_zum_verschieben_gemerkt) {
 			items.ausschneiden = {
 				"label": "zum Verschieben merken",
 				"separator_before": true,
@@ -4715,22 +4721,22 @@ window.af.treeKontextmenu = function(node) {
 						return;
 					}
 					// Jetzt die PopId merken - ihr muss danach eine andere ApArtId zugeteilt werden
-					window.pop_id = window.af.erstelleIdAusDomAttributId($(aktiver_node).attr("id"));
+					window.af.pop_id = window.af.erstelleIdAusDomAttributId($(aktiver_node).attr("id"));
 					// merken, dass ein node ausgeschnitten wurde
-					window.pop_zum_verschieben_gemerkt = true;
+					window.af.pop_zum_verschieben_gemerkt = true;
 					// und wie er heisst (um es später im Kontextmenü anzuzeigen)
-					window.pop_bezeichnung = $("#PopNr").val() + " " + $("#PopName").val();
+					window.af.pop_bezeichnung = $("#PopNr").val() + " " + $("#PopName").val();
 
 				}
 			}
 		}
-		if (window.pop_zum_verschieben_gemerkt) {
+		if (window.af.pop_zum_verschieben_gemerkt) {
 			items.einfuegen = {
-				"label": "'" + window.pop_bezeichnung + "' einfügen",
+				"label": "'" + window.af.pop_bezeichnung + "' einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					var popid = window.pop_id;
+					var popid = window.af.pop_id;
 					var apartid = window.af.erstelleIdAusDomAttributId($(parent_node).attr("id"));
 					// db aktualisieren
 					var updatePop_2 = $.ajax({
@@ -4752,10 +4758,10 @@ window.af.treeKontextmenu = function(node) {
 								$("#tree").jstree("select_node", "[typ='pop']#" + popid); 
 							});
 						// einfügen soll nicht mehr angezeigt werden
-						delete window.pop_zum_verschieben_gemerkt;
+						delete window.af.pop_zum_verschieben_gemerkt;
 						// nicht mehr benötigte Variabeln entfernen
-						delete window.pop_bezeichnung;
-						delete window.pop_id;
+						delete window.af.pop_bezeichnung;
+						delete window.af.pop_id;
 					});
 					updatePop_2.fail(function() {
 						window.af.melde("Fehler: Die Population wurde nicht verschoben");
@@ -4848,31 +4854,31 @@ window.af.treeKontextmenu = function(node) {
 				}
 			}
 		};
-		if (window.tpop_node_ausgeschnitten) {
+		if (window.af.tpop_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": $.jstree._reference(window.tpop_node_ausgeschnitten).get_text(window.tpop_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.af.tpop_node_ausgeschnitten).get_text(window.af.tpop_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					$.jstree._reference(aktiver_node).move_node(window.tpop_node_ausgeschnitten, aktiver_node, "first", false);
+					$.jstree._reference(aktiver_node).move_node(window.af.tpop_node_ausgeschnitten, aktiver_node, "first", false);
 				}
 			}
 		}
-		if (window.tpop_node_kopiert) {
+		if (window.af.tpop_node_kopiert) {
 			label = "";
-			if (window.window.tpop_objekt_kopiert.TPopNr) {
-				label += window.window.tpop_objekt_kopiert.TPopNr;
+			if (window.af.tpop_objekt_kopiert.TPopNr) {
+				label += window.af.tpop_objekt_kopiert.TPopNr;
 			} else {
 				label += "(keine Nr.)";
 			}
 			label += ": ";
-			if (window.window.tpop_objekt_kopiert.TPopFlurname) {
-				label += window.window.tpop_objekt_kopiert.TPopFlurname;
+			if (window.af.tpop_objekt_kopiert.TPopFlurname) {
+				label += window.af.tpop_objekt_kopiert.TPopFlurname;
 			} else {
 				label += "(kein Flurname)";
 			}
 			items.einfuegen = {
-				//"label": $.jstree._reference(window.tpop_node_kopiert).get_text(window.tpop_node_kopiert) + " einfügen",
+				//"label": $.jstree._reference(window.af.tpop_node_kopiert).get_text(window.af.tpop_node_kopiert) + " einfügen",
 				"label": label + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
@@ -4941,8 +4947,8 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.af.tpop;
-								window.deleted.typ = "tpop";
+								window.af.deleted = window.af.tpop;
+								window.af.deleted.typ = "tpop";
 								// löschen
 								var deleteTPop = $.ajax({
 									type: 'post',
@@ -5073,7 +5079,7 @@ window.af.treeKontextmenu = function(node) {
 				}
 			}
 		};
-		if (!window.tpop_node_ausgeschnitten) {
+		if (!window.af.tpop_node_ausgeschnitten) {
 			items.ausschneiden = {
 				//"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
 				"label": "ausschneiden",
@@ -5084,15 +5090,15 @@ window.af.treeKontextmenu = function(node) {
 					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
-					window.tpop_node_ausgeschnitten = aktiver_node;
+					window.af.tpop_node_ausgeschnitten = aktiver_node;
 					// es macht keinen Sinn mehr, den kopierten node zu behalten
 					// und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
-					delete window.tpop_node_kopiert;
-					delete window.tpop_objekt_kopiert;
+					delete window.af.tpop_node_kopiert;
+					delete window.af.tpop_objekt_kopiert;
 				}
 			}
 		}
-		if (!window.tpop_node_ausgeschnitten) {
+		if (!window.af.tpop_node_ausgeschnitten) {
 			items.kopieren = {
 				"label": "kopieren",
 				"separator_before": true,
@@ -5102,18 +5108,18 @@ window.af.treeKontextmenu = function(node) {
 					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
-					window.tpop_node_kopiert = aktiver_node;
+					window.af.tpop_node_kopiert = aktiver_node;
 					// Daten des Objekts holen
 					var getTPop_4 = $.ajax({
 						type: 'get',
 						url: 'php/tpop.php',
 						dataType: 'json',
 						data: {
-							"id": window.af.erstelleIdAusDomAttributId($(window.tpop_node_kopiert).attr("id"))
+							"id": window.af.erstelleIdAusDomAttributId($(window.af.tpop_node_kopiert).attr("id"))
 						}
 					});
 					getTPop_4.done(function(data) {
-						window.tpop_objekt_kopiert = data;
+						window.af.tpop_objekt_kopiert = data;
 					});
 					getTPop_4.fail(function() {
 						window.af.melde("Fehler: Die Teilpopulation wurde nicht kopiert");
@@ -5121,16 +5127,16 @@ window.af.treeKontextmenu = function(node) {
 				}
 			}
 		}
-		if (window.tpop_node_kopiert) {
+		if (window.af.tpop_node_kopiert) {
 			var label = "";
-			if (window.tpop_objekt_kopiert.TPopNr) {
-				label += window.tpop_objekt_kopiert.TPopNr;
+			if (window.af.tpop_objekt_kopiert.TPopNr) {
+				label += window.af.tpop_objekt_kopiert.TPopNr;
 			} else {
 				label += "(keine Nr.)";
 			}
 			label += ": ";
-			if (window.tpop_objekt_kopiert.TPopFlurname) {
-				label += window.tpop_objekt_kopiert.TPopFlurname;
+			if (window.af.tpop_objekt_kopiert.TPopFlurname) {
+				label += window.af.tpop_objekt_kopiert.TPopFlurname;
 			} else {
 				label += "(kein Flurname)";
 			}
@@ -5143,13 +5149,13 @@ window.af.treeKontextmenu = function(node) {
 				}
 			}
 		}
-		if (window.tpop_node_ausgeschnitten) {
+		if (window.af.tpop_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": $.jstree._reference(window.tpop_node_ausgeschnitten).get_text(window.tpop_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.af.tpop_node_ausgeschnitten).get_text(window.af.tpop_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					$.jstree._reference(parent_node).move_node(window.tpop_node_ausgeschnitten, parent_node, "first", false);
+					$.jstree._reference(parent_node).move_node(window.af.tpop_node_ausgeschnitten, parent_node, "first", false);
 				}
 			}
 		}
@@ -5227,8 +5233,8 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.af.popber;
-								window.deleted.typ = "popber";
+								window.af.deleted = window.af.popber;
+								window.af.deleted.typ = "popber";
 								var deletePopber = $.ajax({
 									type: 'post',
 									url: 'php/popber_delete.php',
@@ -5332,8 +5338,8 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.af.popmassnber;
-								window.deleted.typ = "popmassnber";
+								window.af.deleted = window.af.popmassnber;
+								window.af.deleted.typ = "popmassnber";
 								var deletePopMassnBer = $.ajax({
 									type: 'post',
 									url: 'php/popmassnber_delete.php',
@@ -5391,19 +5397,19 @@ window.af.treeKontextmenu = function(node) {
 				}
 			}
 		};
-		if (window.tpopfeldkontr_node_ausgeschnitten) {
+		if (window.af.tpopfeldkontr_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": $.jstree._reference(window.tpopfeldkontr_node_ausgeschnitten).get_text(window.tpopfeldkontr_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.af.tpopfeldkontr_node_ausgeschnitten).get_text(window.af.tpopfeldkontr_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					$.jstree._reference(aktiver_node).move_node(window.tpopfeldkontr_node_ausgeschnitten, aktiver_node, "first", false);
+					$.jstree._reference(aktiver_node).move_node(window.af.tpopfeldkontr_node_ausgeschnitten, aktiver_node, "first", false);
 				}
 			}
 		}
-		if (window.tpopfeldkontr_node_kopiert) {
+		if (window.af.tpopfeldkontr_node_kopiert) {
 			items.einfuegen = {
-				"label": $.jstree._reference(window.tpopfeldkontr_node_kopiert).get_text(window.tpopfeldkontr_node_kopiert) + " einfügen",
+				"label": $.jstree._reference(window.af.tpopfeldkontr_node_kopiert).get_text(window.af.tpopfeldkontr_node_kopiert) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
@@ -5415,12 +5421,12 @@ window.af.treeKontextmenu = function(node) {
 						data: {
 							"user": sessionStorage.User,
 							"TPopId": window.af.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-							"TPopKontrId": window.af.erstelleIdAusDomAttributId($(window.tpopfeldkontr_node_kopiert).attr("id"))
+							"TPopKontrId": window.af.erstelleIdAusDomAttributId($(window.af.tpopfeldkontr_node_kopiert).attr("id"))
 						}
 					});
 					insertTPopFeldKontrKopie.done(function(id) {
 						var strukturtyp = "tpopfeldkontr",
-							beschriftung = window.af.erstelleLabelFürFeldkontrolle(window.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.tpopfeldkontr_objekt_kopiert.TPopKontrTyp);
+							beschriftung = window.af.erstelleLabelFürFeldkontrolle(window.af.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.af.tpopfeldkontr_objekt_kopiert.TPopKontrTyp);
 						window.af.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertTPopFeldKontrKopie.fail(function() {
@@ -5476,8 +5482,8 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.af.tpopfeldkontr;
-								window.deleted.typ = "tpopfeldkontr";
+								window.af.deleted = window.af.tpopfeldkontr;
+								window.af.deleted.typ = "tpopfeldkontr";
 								var deleteTPopFeldKontr = $.ajax({
 									type: 'post',
 									url: 'php/tpopfeldkontr_delete.php',
@@ -5515,74 +5521,74 @@ window.af.treeKontextmenu = function(node) {
 					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
-					delete window.feldkontr_biotop;
-					window.feldkontr_biotop = {};
+					delete window.af.feldkontr_biotop;
+					window.af.feldkontr_biotop = {};
                     var $TPopKontrFlaeche = $("#TPopKontrFlaeche");
 					if ($TPopKontrFlaeche.val()) {
-						window.feldkontr_biotop.TPopKontrFlaeche = $TPopKontrFlaeche.val();
+						window.af.feldkontr_biotop.TPopKontrFlaeche = $TPopKontrFlaeche.val();
 					}
                     var $TPopKontrLeb = $("#TPopKontrLeb");
 					if ($TPopKontrLeb.val()) {
-						window.feldkontr_biotop.TPopKontrLeb = $TPopKontrLeb.val();
+						window.af.feldkontr_biotop.TPopKontrLeb = $TPopKontrLeb.val();
 					}
                     var $TPopKontrLebUmg = $("#TPopKontrLebUmg");
 					if ($TPopKontrLebUmg.val()) {
-						window.feldkontr_biotop.TPopKontrLebUmg = $TPopKontrLebUmg.val();
+						window.af.feldkontr_biotop.TPopKontrLebUmg = $TPopKontrLebUmg.val();
 					}
                     var $TPopKontrVegTyp = $("#TPopKontrVegTyp");
 					if ($TPopKontrVegTyp.val()) {
-						window.feldkontr_biotop.TPopKontrVegTyp = $TPopKontrVegTyp.val();
+						window.af.feldkontr_biotop.TPopKontrVegTyp = $TPopKontrVegTyp.val();
 					}
                     var $TPopKontrKonkurrenz = $("#TPopKontrKonkurrenz");
 					if ($TPopKontrKonkurrenz.val()) {
-						window.feldkontr_biotop.TPopKontrKonkurrenz = $TPopKontrKonkurrenz.val();
+						window.af.feldkontr_biotop.TPopKontrKonkurrenz = $TPopKontrKonkurrenz.val();
 					}
                     var $TPopKontrMoosschicht = $("#TPopKontrMoosschicht");
 					if ($TPopKontrMoosschicht.val()) {
-						window.feldkontr_biotop.TPopKontrMoosschicht = $TPopKontrMoosschicht.val();
+						window.af.feldkontr_biotop.TPopKontrMoosschicht = $TPopKontrMoosschicht.val();
 					}
                     var $TPopKontrKrautschicht = $("#TPopKontrKrautschicht");
 					if ($TPopKontrKrautschicht.val()) {
-						window.feldkontr_biotop.TPopKontrKrautschicht = $TPopKontrKrautschicht.val();
+						window.af.feldkontr_biotop.TPopKontrKrautschicht = $TPopKontrKrautschicht.val();
 					}
                     var $TPopKontrStrauchschicht = $("#TPopKontrStrauchschicht");
 					if ($TPopKontrStrauchschicht.val()) {
-						window.feldkontr_biotop.TPopKontrStrauchschicht = $TPopKontrStrauchschicht.val();
+						window.af.feldkontr_biotop.TPopKontrStrauchschicht = $TPopKontrStrauchschicht.val();
 					}
                     var $TPopKontrBaumschicht = $("#TPopKontrBaumschicht");
 					if ($TPopKontrBaumschicht.val()) {
-						window.feldkontr_biotop.TPopKontrBaumschicht = $TPopKontrBaumschicht.val();
+						window.af.feldkontr_biotop.TPopKontrBaumschicht = $TPopKontrBaumschicht.val();
 					}
                     var $TPopKontrBodenTyp = $("#TPopKontrBodenTyp");
 					if ($TPopKontrBodenTyp.val()) {
-						window.feldkontr_biotop.TPopKontrBodenTyp = $TPopKontrBodenTyp.val();
+						window.af.feldkontr_biotop.TPopKontrBodenTyp = $TPopKontrBodenTyp.val();
 					}
                     var $TPopKontrBodenKalkgehalt = $("#TPopKontrBodenKalkgehalt");
 					if ($TPopKontrBodenKalkgehalt.val()) {
-						window.feldkontr_biotop.TPopKontrBodenKalkgehalt = $TPopKontrBodenKalkgehalt.val();
+						window.af.feldkontr_biotop.TPopKontrBodenKalkgehalt = $TPopKontrBodenKalkgehalt.val();
 					}
 					if ($("#TPopKontrBodenDurchlaessigkeit").val()) {
-						window.feldkontr_biotop.TPopKontrBodenDurchlaessigkeit = $("#TPopKontrBodenDurchlaessigkeit").val();
+						window.af.feldkontr_biotop.TPopKontrBodenDurchlaessigkeit = $("#TPopKontrBodenDurchlaessigkeit").val();
 					}
 					if ($("#TPopKontrBodenHumus").val()) {
-						window.feldkontr_biotop.TPopKontrBodenHumus = $("#TPopKontrBodenHumus").val();
+						window.af.feldkontr_biotop.TPopKontrBodenHumus = $("#TPopKontrBodenHumus").val();
 					}
 					if ($("#TPopKontrBodenNaehrstoffgehalt").val()) {
-						window.feldkontr_biotop.TPopKontrBodenNaehrstoffgehalt = $("#TPopKontrBodenNaehrstoffgehalt").val();
+						window.af.feldkontr_biotop.TPopKontrBodenNaehrstoffgehalt = $("#TPopKontrBodenNaehrstoffgehalt").val();
 					}
 					if ($("#TPopKontrBodenAbtrag").val()) {
-						window.feldkontr_biotop.TPopKontrBodenAbtrag = $("#TPopKontrBodenAbtrag").val();
+						window.af.feldkontr_biotop.TPopKontrBodenAbtrag = $("#TPopKontrBodenAbtrag").val();
 					}
 					if ($("#TPopKontrWasserhaushalt").val()) {
-						window.feldkontr_biotop.TPopKontrWasserhaushalt = $("#TPopKontrWasserhaushalt").val();
+						window.af.feldkontr_biotop.TPopKontrWasserhaushalt = $("#TPopKontrWasserhaushalt").val();
 					}
 					if ($("#TPopKontrHandlungsbedarf").val()) {
-						window.feldkontr_biotop.TPopKontrHandlungsbedarf = $("#TPopKontrHandlungsbedarf").val();
+						window.af.feldkontr_biotop.TPopKontrHandlungsbedarf = $("#TPopKontrHandlungsbedarf").val();
 					}
 				}
 			}
 		};
-		if (window.feldkontr_biotop) {
+		if (window.af.feldkontr_biotop) {
 			items.biotop_einfuegen = {
 				"label": "Biotop einfügen",
 				"separator_before": true,
@@ -5595,7 +5601,7 @@ window.af.treeKontextmenu = function(node) {
 					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
-                    _.each(window.feldkontr_biotop, function(value, key) {
+                    _.each(window.af.feldkontr_biotop, function(value, key) {
                         $("#" + key).val(value);
                         data[key] = value;
                     });
@@ -5612,7 +5618,7 @@ window.af.treeKontextmenu = function(node) {
 				}
 			}
 		}
-		if (!window.tpopfeldkontr_node_ausgeschnitten) {
+		if (!window.af.tpopfeldkontr_node_ausgeschnitten) {
 			items.ausschneiden = {
 				//"label": "Feldkontrolle ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
 				"label": "ausschneiden",
@@ -5623,15 +5629,15 @@ window.af.treeKontextmenu = function(node) {
 					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
-					window.tpopfeldkontr_node_ausgeschnitten = aktiver_node;
+					window.af.tpopfeldkontr_node_ausgeschnitten = aktiver_node;
 					// es macht keinen Sinn mehr, den kopierten node zu behalten
 					// und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
-					delete window.tpopfeldkontr_node_kopiert;
-					delete window.tpopfeldkontr_objekt_kopiert;
+					delete window.af.tpopfeldkontr_node_kopiert;
+					delete window.af.tpopfeldkontr_objekt_kopiert;
 				}
 			}
 		}
-		if (!window.tpopfeldkontr_node_ausgeschnitten) {
+		if (!window.af.tpopfeldkontr_node_ausgeschnitten) {
 			items.kopieren = {
 				"label": "kopieren",
 				"separator_before": true,
@@ -5641,18 +5647,18 @@ window.af.treeKontextmenu = function(node) {
 					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
-					window.tpopfeldkontr_node_kopiert = aktiver_node;
+					window.af.tpopfeldkontr_node_kopiert = aktiver_node;
 					// Daten des Objekts holen
 					var getTPopFeldkontr_2 = $.ajax({
 						type: 'get',
 						url: 'php/tpopfeldkontr.php',
 						dataType: 'json',
 						data: {
-							"id": window.af.erstelleIdAusDomAttributId($(window.tpopfeldkontr_node_kopiert).attr("id"))
+							"id": window.af.erstelleIdAusDomAttributId($(window.af.tpopfeldkontr_node_kopiert).attr("id"))
 						}
 					});
 					getTPopFeldkontr_2.done(function(data) {
-						window.tpopfeldkontr_objekt_kopiert = data;
+						window.af.tpopfeldkontr_objekt_kopiert = data;
 					});
 					getTPopFeldkontr_2.fail(function() {
 						window.af.melde("Fehler: Die Feldkontrolle wurde nicht kopiert");
@@ -5660,19 +5666,19 @@ window.af.treeKontextmenu = function(node) {
 				}
 			}
 		}
-		if (window.tpopfeldkontr_node_ausgeschnitten) {
+		if (window.af.tpopfeldkontr_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": $.jstree._reference(window.tpopfeldkontr_node_ausgeschnitten).get_text(window.tpopfeldkontr_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.af.tpopfeldkontr_node_ausgeschnitten).get_text(window.af.tpopfeldkontr_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					$.jstree._reference(parent_node).move_node(window.tpopfeldkontr_node_ausgeschnitten, parent_node, "first", false);
+					$.jstree._reference(parent_node).move_node(window.af.tpopfeldkontr_node_ausgeschnitten, parent_node, "first", false);
 				}
 			}
 		}
-		if (window.tpopfeldkontr_node_kopiert) {
+		if (window.af.tpopfeldkontr_node_kopiert) {
 			items.einfuegen = {
-				"label": $.jstree._reference(window.tpopfeldkontr_node_kopiert).get_text(window.tpopfeldkontr_node_kopiert) + " einfügen",
+				"label": $.jstree._reference(window.af.tpopfeldkontr_node_kopiert).get_text(window.af.tpopfeldkontr_node_kopiert) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
@@ -5684,12 +5690,12 @@ window.af.treeKontextmenu = function(node) {
 						data: {
 							"user": sessionStorage.User,
 							"TPopId": window.af.erstelleIdAusDomAttributId($(parent_node).attr("id")),
-							"TPopKontrId": window.af.erstelleIdAusDomAttributId($(window.tpopfeldkontr_node_kopiert).attr("id"))
+							"TPopKontrId": window.af.erstelleIdAusDomAttributId($(window.af.tpopfeldkontr_node_kopiert).attr("id"))
 						}
 					});
 					insertTPopFeldKontrKopie_2.done(function(id) {
 						var strukturtyp = "tpopfeldkontr",
-							beschriftung = window.af.erstelleLabelFürFeldkontrolle(window.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.tpopfeldkontr_objekt_kopiert.TPopKontrTyp);
+							beschriftung = window.af.erstelleLabelFürFeldkontrolle(window.af.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.af.tpopfeldkontr_objekt_kopiert.TPopKontrTyp);
 						window.af.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertTPopFeldKontrKopie_2.fail(function() {
@@ -5726,19 +5732,19 @@ window.af.treeKontextmenu = function(node) {
 				}
 			}
 		};
-		if (window.tpopfreiwkontr_node_ausgeschnitten) {
+		if (window.af.tpopfreiwkontr_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": $.jstree._reference(window.tpopfreiwkontr_node_ausgeschnitten).get_text(window.tpopfreiwkontr_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.af.tpopfreiwkontr_node_ausgeschnitten).get_text(window.af.tpopfreiwkontr_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					$.jstree._reference(aktiver_node).move_node(window.tpopfreiwkontr_node_ausgeschnitten, aktiver_node, "first", false);
+					$.jstree._reference(aktiver_node).move_node(window.af.tpopfreiwkontr_node_ausgeschnitten, aktiver_node, "first", false);
 				}
 			}
 		}
-		if (window.tpopfreiwkontr_node_kopiert) {
+		if (window.af.tpopfreiwkontr_node_kopiert) {
 			items.einfuegen = {
-				"label": $.jstree._reference(window.tpopfreiwkontr_node_kopiert).get_text(window.tpopfreiwkontr_node_kopiert) + " einfügen",
+				"label": $.jstree._reference(window.af.tpopfreiwkontr_node_kopiert).get_text(window.af.tpopfreiwkontr_node_kopiert) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
@@ -5750,7 +5756,7 @@ window.af.treeKontextmenu = function(node) {
 						data: {
 							"user": sessionStorage.User,
 							"TPopId": window.af.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-							"TPopKontrId": window.af.erstelleIdAusDomAttributId($(window.tpopfreiwkontr_node_kopiert).attr("id"))
+							"TPopKontrId": window.af.erstelleIdAusDomAttributId($(window.af.tpopfreiwkontr_node_kopiert).attr("id"))
 						}
 					});
 					insertTPopFeldKontrKopie_3.done(function(id) {
@@ -5811,8 +5817,8 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.af.tpopfeldkontr;
-								window.deleted.typ = "tpopfreiwkontr";
+								window.af.deleted = window.af.tpopfeldkontr;
+								window.af.deleted.typ = "tpopfreiwkontr";
 								var deleteTPopFeldKontr_2 = $.ajax({
 									type: 'post',
 									url: 'php/tpopfeldkontr_delete.php',
@@ -5843,7 +5849,7 @@ window.af.treeKontextmenu = function(node) {
 				}
 			}
 		};
-		if (!window.tpopfreiwkontr_node_ausgeschnitten) {
+		if (!window.af.tpopfreiwkontr_node_ausgeschnitten) {
 			items.ausschneiden = {
 				//"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
 				"label": "ausschneiden",
@@ -5854,15 +5860,15 @@ window.af.treeKontextmenu = function(node) {
 					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
-					window.tpopfreiwkontr_node_ausgeschnitten = aktiver_node;
+					window.af.tpopfreiwkontr_node_ausgeschnitten = aktiver_node;
 					// es macht keinen Sinn mehr, den kopierten node zu behalten
 					// und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
-					delete window.tpopfreiwkontr_node_kopiert;
-					delete window.tpopfreiwkontr_objekt_kopiert;
+					delete window.af.tpopfreiwkontr_node_kopiert;
+					delete window.af.tpopfreiwkontr_objekt_kopiert;
 				}
 			}
 		}
-		if (!window.tpopfreiwkontr_node_ausgeschnitten) {
+		if (!window.af.tpopfreiwkontr_node_ausgeschnitten) {
 			items.kopieren = {
 				"label": "kopieren",
 				"separator_before": true,
@@ -5872,14 +5878,14 @@ window.af.treeKontextmenu = function(node) {
 					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
-					window.tpopfreiwkontr_node_kopiert = aktiver_node;
+					window.af.tpopfreiwkontr_node_kopiert = aktiver_node;
 					// Daten des Objekts holen
 					getTPopFeldkontr_3 = $.ajax({
 						type: 'get',
 						url: 'php/tpopfeldkontr.php',
 						dataType: 'json',
 						data: {
-							"id": window.af.erstelleIdAusDomAttributId($(window.tpopfreiwkontr_node_kopiert).attr("id"))
+							"id": window.af.erstelleIdAusDomAttributId($(window.af.tpopfreiwkontr_node_kopiert).attr("id"))
 						}
 					});
 					getTPopFeldkontr_3.done(function(data) {
@@ -5891,20 +5897,20 @@ window.af.treeKontextmenu = function(node) {
 				}
 			}
 		}
-		if (window.tpopfreiwkontr_node_ausgeschnitten) {
+		if (window.af.tpopfreiwkontr_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": $.jstree._reference(window.tpopfreiwkontr_node_ausgeschnitten).get_text(window.tpopfreiwkontr_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.af.tpopfreiwkontr_node_ausgeschnitten).get_text(window.af.tpopfreiwkontr_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					$.jstree._reference(parent_node).move_node(window.tpopfreiwkontr_node_ausgeschnitten, parent_node, "first", false);
+					$.jstree._reference(parent_node).move_node(window.af.tpopfreiwkontr_node_ausgeschnitten, parent_node, "first", false);
 					localStorage.tpopfreiwkontr = true;
 				}
 			}
 		}
-		if (window.tpopfreiwkontr_node_kopiert) {
+		if (window.af.tpopfreiwkontr_node_kopiert) {
 			items.einfuegen = {
-				"label": $.jstree._reference(window.tpopfreiwkontr_node_kopiert).get_text(window.tpopfreiwkontr_node_kopiert) + " einfügen",
+				"label": $.jstree._reference(window.af.tpopfreiwkontr_node_kopiert).get_text(window.af.tpopfreiwkontr_node_kopiert) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
@@ -5915,7 +5921,7 @@ window.af.treeKontextmenu = function(node) {
 						data: {
 							"user": sessionStorage.User,
 							"TPopId": window.af.erstelleIdAusDomAttributId($(parent_node).attr("id")),
-							"TPopKontrId": window.af.erstelleIdAusDomAttributId($(window.tpopfreiwkontr_node_kopiert).attr("id"))
+							"TPopKontrId": window.af.erstelleIdAusDomAttributId($(window.af.tpopfreiwkontr_node_kopiert).attr("id"))
 						}
 					});
 					insertTPopFeldKontrKopie_4.done(function(id) {
@@ -5957,19 +5963,19 @@ window.af.treeKontextmenu = function(node) {
 				}
 			}
 		};
-		if (window.tpopmassn_node_ausgeschnitten) {
+		if (window.af.tpopmassn_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": $.jstree._reference(window.tpopmassn_node_ausgeschnitten).get_text(window.tpopmassn_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.af.tpopmassn_node_ausgeschnitten).get_text(window.af.tpopmassn_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					$.jstree._reference(aktiver_node).move_node(window.tpopmassn_node_ausgeschnitten, aktiver_node, "first", false);
+					$.jstree._reference(aktiver_node).move_node(window.af.tpopmassn_node_ausgeschnitten, aktiver_node, "first", false);
 				}
 			}
 		}
-		if (window.tpopmassn_node_kopiert) {
+		if (window.af.tpopmassn_node_kopiert) {
 			items.einfuegen = {
-				"label": $.jstree._reference(window.tpopmassn_node_kopiert).get_text(window.tpopmassn_node_kopiert) + " einfügen",
+				"label": $.jstree._reference(window.af.tpopmassn_node_kopiert).get_text(window.af.tpopmassn_node_kopiert) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
@@ -5980,12 +5986,12 @@ window.af.treeKontextmenu = function(node) {
 						data: {
 							"user": sessionStorage.User,
 							"TPopId": window.af.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-							"TPopMassnId": window.af.erstelleIdAusDomAttributId($(window.tpopmassn_node_kopiert).attr("id"))
+							"TPopMassnId": window.af.erstelleIdAusDomAttributId($(window.af.tpopmassn_node_kopiert).attr("id"))
 						}
 					});
 					insertTPopMassnKopie.done(function(id) {
 						var strukturtyp = "tpopmassn",
-							beschriftung = window.af.erstelleLabelFürMassnahme(window.tpopmassn_objekt_kopiert.TPopMassnJahr, window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt);
+							beschriftung = window.af.erstelleLabelFürMassnahme(window.af.tpopmassn_objekt_kopiert.TPopMassnJahr, window.af.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt);
 						window.af.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertTPopMassnKopie.fail(function() {
@@ -6041,8 +6047,8 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.af.tpopmassn;
-								window.deleted.typ = "tpopmassn";
+								window.af.deleted = window.af.tpopmassn;
+								window.af.deleted.typ = "tpopmassn";
 								var deleteTPopMassn = $.ajax({
 									type: 'post',
 									url: 'php/tpopmassn_delete.php',
@@ -6072,7 +6078,7 @@ window.af.treeKontextmenu = function(node) {
 				}
 			}
 		};
-		if (!window.tpopmassn_node_ausgeschnitten) {
+		if (!window.af.tpopmassn_node_ausgeschnitten) {
 			items.ausschneiden = {
 				//"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
 				"label": "ausschneiden",
@@ -6083,15 +6089,15 @@ window.af.treeKontextmenu = function(node) {
 					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
-					window.tpopmassn_node_ausgeschnitten = aktiver_node;
+					window.af.tpopmassn_node_ausgeschnitten = aktiver_node;
 					// es macht keinen Sinn mehr, den kopierten node zu behalten
 					// und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
-					delete window.tpopmassn_node_kopiert;
-					delete window.tpopmassn_objekt_kopiert;
+					delete window.af.tpopmassn_node_kopiert;
+					delete window.af.tpopmassn_objekt_kopiert;
 				}
 			}
 		}
-		if (!window.tpopmassn_node_ausgeschnitten) {
+		if (!window.af.tpopmassn_node_ausgeschnitten) {
 			items.kopieren = {
 				"label": "kopieren",
 				"separator_before": true,
@@ -6101,23 +6107,23 @@ window.af.treeKontextmenu = function(node) {
 					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
-					window.tpopmassn_node_kopiert = aktiver_node;
+					window.af.tpopmassn_node_kopiert = aktiver_node;
 					// Daten des Objekts holen
 					var getTPopMassn_2 = $.ajax({
                             type: 'get',
                             url: 'php/tpopmassn.php',
                             dataType: 'json',
                             data: {
-                                "id": window.af.erstelleIdAusDomAttributId($(window.tpopmassn_node_kopiert).attr("id"))
+                                "id": window.af.erstelleIdAusDomAttributId($(window.af.tpopmassn_node_kopiert).attr("id"))
                             }
                         }),
                         $TPopMassnTypChecked = $("#TPopMassnTyp option:checked");
 					getTPopMassn_2.done(function(data) {
-						window.tpopmassn_objekt_kopiert = data;
+						window.af.tpopmassn_objekt_kopiert = data;
 						// den Beurteilungstext holen - ist nur mühsam aus der DB zu holen
-						window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt = "";
+						window.af.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt = "";
 						if ($TPopMassnTypChecked.text()) {
-							window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt = $TPopMassnTypChecked.text();
+							window.af.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt = $TPopMassnTypChecked.text();
 						}
 					});
 					getTPopMassn_2.fail(function() {
@@ -6126,19 +6132,19 @@ window.af.treeKontextmenu = function(node) {
 				}
 			}
 		}
-		if (window.tpopmassn_node_ausgeschnitten) {
+		if (window.af.tpopmassn_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": $.jstree._reference(window.tpopmassn_node_ausgeschnitten).get_text(window.tpopmassn_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.af.tpopmassn_node_ausgeschnitten).get_text(window.af.tpopmassn_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					$.jstree._reference(parent_node).move_node(window.tpopmassn_node_ausgeschnitten, parent_node, "first", false);
+					$.jstree._reference(parent_node).move_node(window.af.tpopmassn_node_ausgeschnitten, parent_node, "first", false);
 				}
 			}
 		}
-		if (window.tpopmassn_node_kopiert) {
+		if (window.af.tpopmassn_node_kopiert) {
 			items.einfuegen = {
-				"label": $.jstree._reference(window.tpopmassn_node_kopiert).get_text(window.tpopmassn_node_kopiert) + " einfügen",
+				"label": $.jstree._reference(window.af.tpopmassn_node_kopiert).get_text(window.af.tpopmassn_node_kopiert) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
@@ -6149,12 +6155,12 @@ window.af.treeKontextmenu = function(node) {
 						data: {
 							"user": sessionStorage.User,
 							"TPopId": window.af.erstelleIdAusDomAttributId($(parent_node).attr("id")),
-							"TPopMassnId": window.af.erstelleIdAusDomAttributId($(window.tpopmassn_node_kopiert).attr("id"))
+							"TPopMassnId": window.af.erstelleIdAusDomAttributId($(window.af.tpopmassn_node_kopiert).attr("id"))
 						}
 					});
 					insertTPopMassnKopie_2.done(function(id) {
 						var strukturtyp = "tpopmassn",
-							beschriftung = window.af.erstelleLabelFürMassnahme(window.tpopmassn_objekt_kopiert.TPopMassnJahr, window.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt);
+							beschriftung = window.af.erstelleLabelFürMassnahme(window.af.tpopmassn_objekt_kopiert.TPopMassnJahr, window.af.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt);
 						window.af.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
 					});
 					insertTPopMassnKopie_2.fail(function() {
@@ -6237,8 +6243,8 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.af.tpopber;
-								window.deleted.typ = "tpopber";
+								window.af.deleted = window.af.tpopber;
+								window.af.deleted.typ = "tpopber";
 								var deleteTPopBer = $.ajax({
 									type: 'post',
 									url: 'php/tpopber_delete.php',
@@ -6297,24 +6303,24 @@ window.af.treeKontextmenu = function(node) {
 				}
 			}
 		};
-		if (window.beob_zugeordnet_node_ausgeschnitten) {
+		if (window.af.beob_zugeordnet_node_ausgeschnitten) {
 			items = {};
 			items.einfuegen = {
-				"label": $.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.af.beob_zugeordnet_node_ausgeschnitten).get_text(window.af.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					$.jstree._reference(aktiver_node).move_node(window.beob_zugeordnet_node_ausgeschnitten, aktiver_node, "first", false);
+					$.jstree._reference(aktiver_node).move_node(window.af.beob_zugeordnet_node_ausgeschnitten, aktiver_node, "first", false);
 				}
 			}
 		}
-		if (window.beob_node_ausgeschnitten) {
+		if (window.af.beob_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": $.jstree._reference(window.beob_node_ausgeschnitten).get_text(window.beob_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.af.beob_node_ausgeschnitten).get_text(window.af.beob_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					$("#tree").jstree("move_node", window.beob_node_ausgeschnitten, aktiver_node, "first");
+					$("#tree").jstree("move_node", window.af.beob_node_ausgeschnitten, aktiver_node, "first");
 				}
 			}
 		}
@@ -6394,7 +6400,7 @@ window.af.treeKontextmenu = function(node) {
 				}
 			}
 		};
-		if (!window.beob_zugeordnet_node_ausgeschnitten) {
+		if (!window.af.beob_zugeordnet_node_ausgeschnitten) {
 			items.ausschneiden = {
 				//"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
 				"label": "ausschneiden",
@@ -6405,27 +6411,27 @@ window.af.treeKontextmenu = function(node) {
 					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
-					window.beob_zugeordnet_node_ausgeschnitten = aktiver_node;
+					window.af.beob_zugeordnet_node_ausgeschnitten = aktiver_node;
 				}
 			}
 		}
-		if (window.beob_zugeordnet_node_ausgeschnitten) {
+		if (window.af.beob_zugeordnet_node_ausgeschnitten) {
 			items.einfuegen_beob_zugeordnet = {
-				"label": $.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.af.beob_zugeordnet_node_ausgeschnitten).get_text(window.af.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					$.jstree._reference(parent_node).move_node(window.beob_zugeordnet_node_ausgeschnitten, parent_node, "first", false);
+					$.jstree._reference(parent_node).move_node(window.af.beob_zugeordnet_node_ausgeschnitten, parent_node, "first", false);
 				}
 			}
 		}
-		if (window.beob_node_ausgeschnitten) {
+		if (window.af.beob_node_ausgeschnitten) {
 			items.einfuegen_beob = {
-				"label": $.jstree._reference(window.beob_node_ausgeschnitten).get_text(window.beob_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.af.beob_node_ausgeschnitten).get_text(window.af.beob_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					$.jstree._reference(parent_node).move_node(window.beob_node_ausgeschnitten, parent_node, "first", false);
+					$.jstree._reference(parent_node).move_node(window.af.beob_node_ausgeschnitten, parent_node, "first", false);
 				}
 			}
 		}
@@ -6503,8 +6509,8 @@ window.af.treeKontextmenu = function(node) {
 							"ja, löschen!": function() {
 								$(this).dialog("close");
 								// Variable zum rückgängig machen erstellen
-								window.deleted = window.af.tpopmassnber;
-								window.deleted.typ = "tpopmassnber";
+								window.af.deleted = window.af.tpopmassnber;
+								window.af.deleted.typ = "tpopmassnber";
 								var deleteTPopMassnBer = $.ajax({
 									type: 'post',
 									url: 'php/tpopmassnber_delete.php',
@@ -6602,13 +6608,13 @@ window.af.treeKontextmenu = function(node) {
 				}
 			}
 		}
-		if (window.beob_zugeordnet_node_ausgeschnitten) {
+		if (window.af.beob_zugeordnet_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": $.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.af.beob_zugeordnet_node_ausgeschnitten).get_text(window.af.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					$("#tree").jstree("move_node", window.beob_zugeordnet_node_ausgeschnitten, aktiver_node, "first");
+					$("#tree").jstree("move_node", window.af.beob_zugeordnet_node_ausgeschnitten, aktiver_node, "first");
 				}
 			}
 		}
@@ -6688,7 +6694,7 @@ window.af.treeKontextmenu = function(node) {
 				}
 			}
 		};
-		if (!window.beob_node_ausgeschnitten) {
+		if (!window.af.beob_node_ausgeschnitten) {
 			items.ausschneiden = {
 				//"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
 				"label": "ausschneiden",
@@ -6699,17 +6705,17 @@ window.af.treeKontextmenu = function(node) {
 					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
-					window.beob_node_ausgeschnitten = aktiver_node;
+					window.af.beob_node_ausgeschnitten = aktiver_node;
 				}
 			}
 		}
-		if (window.beob_zugeordnet_node_ausgeschnitten) {
+		if (window.af.beob_zugeordnet_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": $.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.af.beob_zugeordnet_node_ausgeschnitten).get_text(window.af.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					$("#tree").jstree("move_node", window.beob_zugeordnet_node_ausgeschnitten, parent_node, "first");
+					$("#tree").jstree("move_node", window.af.beob_zugeordnet_node_ausgeschnitten, parent_node, "first");
 				}
 			}
 		}
@@ -6743,13 +6749,13 @@ window.af.treeKontextmenu = function(node) {
 				}
 			}
 		};
-		if (window.beob_zugeordnet_node_ausgeschnitten) {
+		if (window.af.beob_zugeordnet_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": $.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.af.beob_zugeordnet_node_ausgeschnitten).get_text(window.af.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					$("#tree").jstree("move_node", window.beob_zugeordnet_node_ausgeschnitten, aktiver_node, "first");
+					$("#tree").jstree("move_node", window.af.beob_zugeordnet_node_ausgeschnitten, aktiver_node, "first");
 				}
 			}
 		}
@@ -6790,7 +6796,7 @@ window.af.treeKontextmenu = function(node) {
 				}
 			}
 		};
-		if (!window.beob_node_ausgeschnitten) {
+		if (!window.af.beob_node_ausgeschnitten) {
 			items.ausschneiden = {
 				//"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
 				"label": "ausschneiden",
@@ -6801,17 +6807,17 @@ window.af.treeKontextmenu = function(node) {
 					if (!window.af.prüfeSchreibvoraussetzungen()) {
 						return;
 					}
-					window.beob_node_ausgeschnitten = aktiver_node;
+					window.af.beob_node_ausgeschnitten = aktiver_node;
 				}
 			}
 		}
-		if (window.beob_zugeordnet_node_ausgeschnitten) {
+		if (window.af.beob_zugeordnet_node_ausgeschnitten) {
 			items.einfuegen = {
-				"label": $.jstree._reference(window.beob_zugeordnet_node_ausgeschnitten).get_text(window.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
+				"label": $.jstree._reference(window.af.beob_zugeordnet_node_ausgeschnitten).get_text(window.af.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
 				"separator_before": true,
 				"icon": "style/images/einfuegen.png",
 				"action": function() {
-					$("#tree").jstree("move_node", window.beob_zugeordnet_node_ausgeschnitten, parent_node, "first");
+					$("#tree").jstree("move_node", window.af.beob_zugeordnet_node_ausgeschnitten, parent_node, "first");
 				}
 			}
 		}
@@ -6828,14 +6834,14 @@ window.af.tpopKopiertInPopOrdnerTpopEinfügen = function(aktiver_node) {
 		data: {
 			"user": sessionStorage.User,
 			"PopId": window.af.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-			"TPopId": window.af.erstelleIdAusDomAttributId($(window.tpop_node_kopiert).attr("id"))
+			"TPopId": window.af.erstelleIdAusDomAttributId($(window.af.tpop_node_kopiert).attr("id"))
 		}
 	});
 	insertTPopKopie.done(function(id) {
 		var strukturtyp = "tpop",
-			beschriftung = window.tpop_objekt_kopiert.TPopFlurname;
-		if (window.tpop_objekt_kopiert.TPopNr) {
-			beschriftung = window.tpop_objekt_kopiert.TPopNr + ': ' + window.tpop_objekt_kopiert.TPopFlurname
+			beschriftung = window.af.tpop_objekt_kopiert.TPopFlurname;
+		if (window.af.tpop_objekt_kopiert.TPopNr) {
+			beschriftung = window.af.tpop_objekt_kopiert.TPopNr + ': ' + window.af.tpop_objekt_kopiert.TPopFlurname
 		}
 		window.af.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, "", strukturtyp, id, beschriftung);
 	});
@@ -6905,13 +6911,13 @@ window.af.tpopKopiertInTpopEinfügen = function(aktiver_node, parent_node) {
 	data.MutWer = sessionStorage.User;
 	data.PopId = window.af.erstelleIdAusDomAttributId($(parent_node).attr("id"));
 	// die alten id's entfernen
-	delete window.tpop_objekt_kopiert.PopId;
-	delete window.tpop_objekt_kopiert.TPopId;
+	delete window.af.tpop_objekt_kopiert.PopId;
+	delete window.af.tpop_objekt_kopiert.TPopId;
 	// das wird gleich neu gesetzt, alte Werte verwerfen
-	delete window.tpop_objekt_kopiert.MutWann;
-	delete window.tpop_objekt_kopiert.MutWer;
+	delete window.af.tpop_objekt_kopiert.MutWann;
+	delete window.af.tpop_objekt_kopiert.MutWer;
 	// alle verbliebenen Felder an die url hängen
-    _.each(window.tpop_objekt_kopiert, function(value, key) {
+    _.each(window.af.tpop_objekt_kopiert, function(value, key) {
         // Nullwerte ausschliessen
         if (value !== null) {
             data[key] = value;
@@ -6926,7 +6932,7 @@ window.af.tpopKopiertInTpopEinfügen = function(aktiver_node, parent_node) {
 	});
 	insertTPopKopie_2.done(function(tpop_id) {
 		var strukturtyp = "tpop",
-			beschriftung = window.tpop_objekt_kopiert.TPopNr + " " + window.tpop_objekt_kopiert.TPopFlurname;
+			beschriftung = window.af.tpop_objekt_kopiert.TPopNr + " " + window.af.tpop_objekt_kopiert.TPopFlurname;
 		window.af.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, tpop_id, beschriftung);
 	});
 	insertTPopKopie_2.fail(function() {
@@ -9998,7 +10004,7 @@ window.af.öffneUri = function() {
 				window.af.setzeWindowTpopfeldkontr(tpopfeldkontr_id);
 				// markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
-				window.tpopfeldkontr_zeigen = true;
+				window.af.tpopfeldkontr_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				window.af.initiiere_tpopfeldkontr();
 			} else if (uri.getQueryParamValue('tpopfreiwkontr')) {
@@ -10006,7 +10012,7 @@ window.af.öffneUri = function() {
 				window.af.setzeWindowTpopfeldkontr(uri.getQueryParamValue('tpopfreiwkontr'));
 				// markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
-				window.tpopfreiwkontr_zeigen = true;
+				window.af.tpopfreiwkontr_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				localStorage.tpopfreiwkontr = true;
 				window.af.initiiere_tpopfeldkontr();
@@ -10015,7 +10021,7 @@ window.af.öffneUri = function() {
 				window.af.setzeWindowTpopmassn(uri.getQueryParamValue('tpopmassn'));
 				// markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
-				window.tpopmassn_zeigen = true;
+				window.af.tpopmassn_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				window.af.initiiere_tpopmassn();
 			} else if (uri.getQueryParamValue('tpopber')) {
@@ -10023,13 +10029,13 @@ window.af.öffneUri = function() {
 				window.af.setzeWindowTpopber(uri.getQueryParamValue('tpopber'));
 				// markieren, dass nach dem loaded-event im Tree die tpopber angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
-				window.tpopber_zeigen = true;
+				window.af.tpopber_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				window.af.initiiereTpopber();
 			} else if (uri.getQueryParamValue('beob_zugeordnet')) {
 				// markieren, dass nach dem loaded-event im Tree die beob_zugeordnet angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
-				window.beob_zugeordnet_zeigen = true;
+				window.af.beob_zugeordnet_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				/*ausgeschaltet - funktioniert nicht! vermutlich, weil tree.php und beob_distzutpop sich in quere kommen
 				// herausfinden, ob beobtyp infospezies oder evab ist
@@ -10047,7 +10053,7 @@ window.af.öffneUri = function() {
 				window.af.setzeWindowTpopmassnber(uri.getQueryParamValue('tpopmassnber'));
 				// markieren, dass nach dem loaded-event im Tree die tpopmassnber angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
-				window.tpopmassnber_zeigen = true;
+				window.af.tpopmassnber_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				window.af.initiiere_tpopmassnber();
 			} else {
@@ -10094,14 +10100,14 @@ window.af.öffneUri = function() {
 				window.af.setzeWindowZielber(uri.getQueryParamValue('zielber'));
 				// markieren, dass nach dem loaded-event im Tree die zielber angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
-				window.zielber_zeigen = true;
+				window.af.zielber_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				window.af.initiiere_zielber();
 			} else {
 				// muss ein apziel sein
 				// markieren, dass nach dem loaded-event im Tree die apziel angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
-				window.apziel_zeigen = true;
+				window.af.apziel_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				localStorage.apziel_id = uri.getQueryParamValue('apziel');
 				window.af.initiiere_apziel();
@@ -10111,13 +10117,13 @@ window.af.öffneUri = function() {
 			window.af.setzeWindowErfkrit(uri.getQueryParamValue('erfkrit'));
 			// markieren, dass nach dem loaded-event im Tree die erfkrit angezeigt werden soll 
 			// Die Markierung wird im load-Event wieder entfernt
-			window.erfkrit_zeigen = true;
+			window.af.erfkrit_zeigen = true;
 		} else if (uri.getQueryParamValue('jber')) {
 			// globale Variabeln setzen
 			window.af.setzeWindowJber(uri.getQueryParamValue('jber'));
 			// markieren, dass nach dem loaded-event im Tree die jber angezeigt werden soll 
 			// Die Markierung wird im load-Event wieder entfernt
-			window.jber_zeigen = true;
+			window.af.jber_zeigen = true;
 			// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 			window.af.initiiere_jber();
 		} else if (uri.getQueryParamValue('jber_uebersicht')) {
@@ -10125,7 +10131,7 @@ window.af.öffneUri = function() {
 			window.af.setzeWindowJberUebersicht(uri.getQueryParamValue('jber_uebersicht'));
 			// markieren, dass nach dem loaded-event im Tree die jber_uebersicht angezeigt werden soll 
 			// Die Markierung wird im load-Event wieder entfernt
-			window.jber_uebersicht_zeigen = true;
+			window.af.jber_übersicht_zeigen = true;
 			// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 			window.af.initiiere_jber_uebersicht();
 		} else if (uri.getQueryParamValue('ber')) {
@@ -10133,7 +10139,7 @@ window.af.öffneUri = function() {
 			window.af.setzeWindowBer(uri.getQueryParamValue('ber'));
 			// markieren, dass nach dem loaded-event im Tree die ber angezeigt werden soll 
 			// Die Markierung wird im load-Event wieder entfernt
-			window.ber_zeigen = true;
+			window.af.ber_zeigen = true;
 			// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 			window.af.initiiere_ber();
 		} else if (uri.getQueryParamValue('idealbiotop')) {
@@ -10141,7 +10147,7 @@ window.af.öffneUri = function() {
 			window.af.setzeWindowIdealbiotop(uri.getQueryParamValue('idealbiotop'));
 			// markieren, dass nach dem loaded-event im Tree die idealbiotop angezeigt werden soll 
 			// Die Markierung wird im load-Event wieder entfernt
-			window.idealbiotop_zeigen = true;
+			window.af.idealbiotop_zeigen = true;
 			// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 			window.af.initiiere_idealbiotop();
 		} else if (uri.getQueryParamValue('assozarten')) {
@@ -10149,21 +10155,21 @@ window.af.öffneUri = function() {
 			window.af.setzeWindowAssozarten(uri.getQueryParamValue('assozarten'));
 			// markieren, dass nach dem loaded-event im Tree die assozarten angezeigt werden soll 
 			// Die Markierung wird im load-Event wieder entfernt
-			window.assozarten_zeigen = true;
+			window.af.assozarten_zeigen = true;
 			// NICHT direkt initiieren, weil sonst die Artliste noch nicht existiert
 		} else if (uri.getQueryParamValue('beob_nicht_beurteilt')) {
 			// markieren, dass nach dem loaded-event im Tree die beob angezeigt werden soll 
 			// Die Markierung wird im load-Event wieder entfernt
-			window.beob_nicht_beurteilt_zeigen = true;
+			window.af.beob_nicht_beurteilt_zeigen = true;
 		} else if (uri.getQueryParamValue('beob_nicht_zuzuordnen')) {
 			// markieren, dass nach dem loaded-event im Tree die beob angezeigt werden soll 
 			// Die Markierung wird im load-Event wieder entfernt
-			window.beob_nicht_zuzuordnen_zeigen = true;
+			window.af.beob_nicht_zuzuordnen_zeigen = true;
 		} else {
 			// muss ap sein
 			// markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
 			// Die Markierung wird im load-Event wieder entfernt
-			window.ap_zeigen = true;
+			window.af.ap_zeigen = true;
 			// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 			localStorage.ap_id = ap_id;
 			window.af.initiiere_ap();
@@ -11342,10 +11348,10 @@ window.af.insertOrdnerVonTPop = function(TPopNode, tpop_id) {
 window.af.löscheAp = function(ap_id) {
 	'use strict';
 	//Variable zum rückgängig machen erstellen
-	window.deleted = window.af;
-	window.deleted.typ = "ap";
+	window.af.deleted = window.af;
+	window.af.deleted.typ = "ap";
 	//Artname in Textform merken
-	window.deleted.Artname = $("#ap_waehlen option[value='" + $("#ap_waehlen").val() + "']").text();
+	window.af.deleted.Artname = $("#ap_waehlen option[value='" + $("#ap_waehlen").val() + "']").text();
 	var deleteAp = $.ajax({
 		type: 'post',
 		url: 'php/ap_delete.php',
@@ -11374,9 +11380,9 @@ window.af.löscheAp = function(ap_id) {
 		$("#ap").hide();
 		$("#forms").hide();
 		//Hinweis zum rückgängig machen anzeigen
-		window.af.frageObAktionRückgängigGemachtWerdenSoll("Das Programm der Art '" + window.deleted.Artname + "' wurde gelöscht.");
+		window.af.frageObAktionRückgängigGemachtWerdenSoll("Das Programm der Art '" + window.af.deleted.Artname + "' wurde gelöscht.");
 		//Artname wird nicht mehr gebraucht und soll später nicht in Datensatz eingefügt werden
-		delete window.deleted.Artname;
+		delete window.af.deleted.Artname;
 		//forms muss eingeblendet sein, weil undelete_div darin ist
 		window.af.zeigeFormular("keines");
 	});
@@ -11385,7 +11391,7 @@ window.af.löscheAp = function(ap_id) {
 	});
 };
 
-// Stellt einen Datensatz aus window.deleted wieder her
+// Stellt einen Datensatz aus window.af.deleted wieder her
 /*
 ** TODO
 ** Idee: $.data() auf #undelete nutzen
@@ -11402,86 +11408,86 @@ window.af.undeleteDatensatz = function() {
 		typ,
 		id;
 	
-	if (!window.deleted) {
+	if (!window.af.deleted) {
 		window.af.melde("Fehler: Wiederherstellung gescheitert");
 		return false;
 	}
 	
 	//Artname wurde für die Anzeige in undelete_div gespeichert - entfernen, da kein Feld in Tabelle
-	delete window.deleted.Artname;
+	delete window.af.deleted.Artname;
 	
 	// tabelle setzen
-	typ = window.deleted.typ
+	typ = window.af.deleted.typ
 	// typ gehört nicht zum Datensatz > löschen
-	delete window.deleted.typ;
+	delete window.af.deleted.typ;
 
 	switch (typ) {
 		case "ap":
 			tabelle = "tblAktionsplan";
-			id = window.deleted.ApArtId;
+			id = window.af.deleted.ApArtId;
 			//Artname wurde für die Anzeige in undelete_div gespeichert - entfernen, da kein Feld in Tabelle
-			delete window.deleted.Artname;
+			delete window.af.deleted.Artname;
 			break;
 		case "apziel":
 			tabelle = "tblZiel";
-			id = window.deleted.ZielId;
+			id = window.af.deleted.ZielId;
 			break;
 		case "zielber":
 			tabelle = "tblZielBericht";
-			id = window.deleted.ZielBerId;
+			id = window.af.deleted.ZielBerId;
 			break;
 		case "erfkrit":
 			tabelle = "tblErfKrit";
-			id = window.deleted.ErfkritId;
+			id = window.af.deleted.ErfkritId;
 			break;
 		case "pop":
 			tabelle = "tblPopulation";
-			id = window.deleted.PopId;
+			id = window.af.deleted.PopId;
 			break;
 		case "popber":
 			tabelle = "tblPopBericht";
-			id = window.deleted.PopBerId;
+			id = window.af.deleted.PopBerId;
 			break;
 		case "popmassnber":
 			tabelle = "tblPopMassnBericht";
-			id = window.deleted.PopMassnBerId;
+			id = window.af.deleted.PopMassnBerId;
 			break;
 		case "tpop":
 			tabelle = "tblTeilpopulation";
-			id = window.deleted.TPopId;
+			id = window.af.deleted.TPopId;
 			break;
 		case "tpopmassn":
 			tabelle = "tblTeilPopMassnahme";
-			id = window.deleted.TPopMassnId;
+			id = window.af.deleted.TPopMassnId;
 			break;
 		case "tpopmassnber":
 			tabelle = "tblTeilPopMassnBericht";
-			id = window.deleted.TPopMassnBerId;
+			id = window.af.deleted.TPopMassnBerId;
 			break;
 		case "tpopber":
 			tabelle = "tblTeilPopBericht";
-			id = window.deleted.TPopBerId;
+			id = window.af.deleted.TPopBerId;
 			break;
 		case "tpopfeldkontr":
 		case "tpopfreiwkontr":
 			tabelle = "tblTeilPopFeldkontrolle";
-			id = window.deleted.TPopKontrId;
+			id = window.af.deleted.TPopKontrId;
 			break;
 		case "jber":
 			tabelle = "tblJBer";
-			id = window.deleted.JBerId;
+			id = window.af.deleted.JBerId;
 			break;
 		case "jber_uebersicht":
 			tabelle = "tblJBerUebersicht";
-			id = window.deleted.JbuJahr;
+			id = window.af.deleted.JbuJahr;
 			break;
 		case "ber":
 			tabelle = "tblBer";
-			id = window.deleted.BerId;
+			id = window.af.deleted.BerId;
 			break;
 		case "assozarten":
 			tabelle = "tblAssozArten";
-			id = window.deleted.AaId;
+			id = window.af.deleted.AaId;
 			break;
 		default:
 			window.af.melde("Fehler: Wiederherstellung gescheitert");
@@ -11491,9 +11497,9 @@ window.af.undeleteDatensatz = function() {
 	// wird danach aus dem Felderarray entfernt
 	data.tabelle = tabelle;
 
-	// window.deleted enthält alle Feldnamen - viele können leer sein
+	// window.af.deleted enthält alle Feldnamen - viele können leer sein
 	// daher nur solche mit Werten übernehmen
-    _.each(window.deleted, function(feldwert, feldname) {
+    _.each(window.af.deleted, function(feldwert, feldname) {
         if (feldwert) {
             data[feldname] = feldwert;
         }
