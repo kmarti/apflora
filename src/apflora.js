@@ -1135,7 +1135,10 @@ window.af.initiiere_tpopfeldkontr = function() {
                 "id": localStorage.tpopfeldkontr_id
             }
         }),
-        $TPopKontrJahr = $("#TPopKontrJahr");
+        $TPopKontrJahr = $("#TPopKontrJahr"),
+        $TPopKontrJungPflJN_ja = $("#TPopKontrJungPflJN_ja"),
+        $TPopKontrJungPflJN_nein = $("#TPopKontrJungPflJN_nein"),
+        $TPopKontrJungPflJN_leer = $("#TPopKontrJungPflJN_leer");
 	getTpopfeldkontr.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
@@ -1170,9 +1173,9 @@ window.af.initiiere_tpopfeldkontr = function() {
 						// Feld mit Daten beliefern
 						var html;
 						html = "<option></option>";
-						for (var i = 0; i < data2.rows.length; i++) {
-							html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
-						}
+                        _.each(data2.rows, function(adresse) {
+                            html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
+                        });
 						window.adressen_html = html;
 						$("#TPopKontrBearb")
                             .html(html)
@@ -1196,9 +1199,9 @@ window.af.initiiere_tpopfeldkontr = function() {
 						// Feld mit Daten beliefern
 						var html;
 						html = "<option></option>";
-						for (var i = 0; i < data3.rows.length; i++) {
-							html += "<option value=\"" + data3.rows[i].id + "\">" + data3.rows[i].ZaehleinheitTxt + "</option>";
-						}
+                        _.each(data3.rows, function(zähleinheit) {
+                            html += "<option value=\"" + zähleinheit.id + "\">" + zähleinheit.ZaehleinheitTxt + "</option>";
+                        });
 						window.TPopKontrZaehleinheit_html = html;
 						// alle 3 Felder setzen
 						$("#TPopKontrZaehleinheit1")
@@ -1300,9 +1303,9 @@ window.af.initiiere_tpopfeldkontr = function() {
 							// Feld mit Daten beliefern
 							var html;
 							html = "<option></option>";
-							for (var i = 0; i < data4.rows.length; i++) {
-								html += "<option value=\"" + data4.rows[i].id + "\">" + data4.rows[i].Einheit + "</option>";
-							}
+                            _.each(data4.rows, function(lr) {
+                                html += "<option value=\"" + lr.id + "\">" + lr.Einheit + "</option>";
+                            });
 							window.lrdelarze_html = html;
 							$("#TPopKontrLeb")
                                 .html(html)
@@ -1333,9 +1336,9 @@ window.af.initiiere_tpopfeldkontr = function() {
 						// Feld mit Daten beliefern
 						var html;
 						html = "<option></option>";
-						for (var i = 0; i < data5.rows.length; i++) {
-							html += "<option value=\"" + data5.rows[i].id + "\">" + data5.rows[i].DomainTxt + "</option>";
-						}
+                        _.each(data5.rows, function(übereinst) {
+                            html += "<option value=\"" + übereinst.id + "\">" + übereinst.DomainTxt + "</option>";
+                        });
 						window.IdealBiotopÜbereinst_html = html;
 						$("#TPopKontrIdealBiotopUebereinst")
                             .html(html)
@@ -1357,15 +1360,15 @@ window.af.initiiere_tpopfeldkontr = function() {
 				$("#TPopKontrUebFlaeche").val(data.TPopKontrUebFlaeche);
 				$("#TPopKontrUebPfl").val(data.TPopKontrUebPfl);
 				$("#TPopKontrNaBo").val(data.TPopKontrNaBo);
-				$("#TPopKontrJungPflJN_ja").prop("checked", false);
-				$("#TPopKontrJungPflJN_nein").prop("checked", false);
-				$("#TPopKontrJungPflJN_leer").prop("checked", false);
+				$TPopKontrJungPflJN_ja.prop("checked", false);
+				$TPopKontrJungPflJN_nein.prop("checked", false);
+				$TPopKontrJungPflJN_leer.prop("checked", false);
 				if (data.TPopKontrJungPflJN == 1) {
-					$("#TPopKontrJungPflJN_ja").prop("checked", true);
+					$TPopKontrJungPflJN_ja.prop("checked", true);
 				} else if (data.TPopKontrJungPflJN == 0) {
-					$("#TPopKontrJungPflJN_nein").prop("checked", true);
+					$TPopKontrJungPflJN_nein.prop("checked", true);
 				} else {
-					$("#TPopKontrJungPflJN_leer").prop("checked", true);
+					$TPopKontrJungPflJN_leer.prop("checked", true);
 				}
 				$("#TPopKontrVegHoeMax").val(data.TPopKontrVegHoeMax);
 				$("#TPopKontrVegHoeMit").val(data.TPopKontrVegHoeMit);
@@ -1375,13 +1378,13 @@ window.af.initiiere_tpopfeldkontr = function() {
 			}
 			// fieldcontain-divs der benötigten Felder einblenden
 			if (localStorage.tpopfreiwkontr) {
-				for (var h = 0; h < feldliste_freiwkontr.length; h++) {
-					$("#fieldcontain_" + feldliste_freiwkontr[h]).show();
-				}
+                _.each(feldliste_freiwkontr, function(feld) {
+                    $("#fieldcontain_" + feld).show();
+                });
 			} else {
-				for (var g = 0; g < feldliste_feldkontr.length; g++) {
-					$("#fieldcontain_" + feldliste_feldkontr[g]).show();
-				}
+                _.each(feldliste_feldkontr, function(feld) {
+                    $("#fieldcontain_" + feld).show();
+                });
 			}
 			// Formulare blenden
 			window.af.zeigeFormular("tpopfeldkontr");
@@ -1470,9 +1473,9 @@ window.af.initiiere_tpopmassn = function() {
 						// Feld mit Daten beliefern
 						var html;
 						html = "<option></option>";
-						for (var i = 0; i < data2.rows.length; i++) {
-							html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].MassnTypTxt + "</option>";
-						}
+                        _.each(data2.rows, function(tpopmassn_typ) {
+                            html += "<option value=\"" + tpopmassn_typ.id + "\">" + tpopmassn_typ.MassnTypTxt + "</option>";
+                        });
 						window.tpopmassntyp_html = html;
 						$("#TPopMassnTyp")
                             .html(html)
