@@ -98,9 +98,9 @@ window.af.initiiere_ap = function() {
 							// Feld mit Daten beliefern
 							var html;
 							html = "<option></option>";
-							for (var i = 0; i < data2.rows.length; i++) {
-								html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
-							}
+                            _.each(data2.rows, function(adresse) {
+                                html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
+                            });
 							window.adressen_html = html;
 							$("#ApBearb")
                                 .html(html)
@@ -159,9 +159,9 @@ window.af.hole_artliste_html = function() {
 		getArtliste.done(function(data) {
 			var html;
 			html = "<option></option>";
-			for (var i = 0; i < data.rows.length; i++) {
-				html += "<option value=\"" + data.rows[i].id + "\">" + data.rows[i].Artname + "</option>";
-			}
+            _.each(data.rows, function(art) {
+                html += "<option value=\"" + art.id + "\">" + art.Artname + "</option>";
+            });
 			window.artliste_html = html;
 			liste_geholt.resolve();
 		});
@@ -506,9 +506,9 @@ window.af.initiiere_jber = function() {
 						// Feld mit Daten beliefern
 						var html;
 						html = "<option></option>";
-						for (var i = 0; i < data2.rows.length; i++) {
-							html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
-						}
+                        _.each(data2.rows, function(adresse) {
+                            html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
+                        });
 						window.adressen_html = html;
 						$("#JBerBearb")
                             .html(html)
@@ -1005,9 +1005,9 @@ window.af.initiiere_tpop = function() {
 						// Feld mit Daten beliefern
 						var html;
 						html = "<option></option>";
-						for (var i = 0; i < data2.rows.length; i++) {
-							html += "<option value=\"" + data2.rows[i].id + "\">" + data2.rows[i].AdrName + "</option>";
-						}
+                        _.each(data2.rows, function(adresse) {
+                            html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
+                        });
 						window.adressen_html = html;
 						$("#TPopVerantw")
                             .html(html)

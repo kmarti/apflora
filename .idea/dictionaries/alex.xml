@@ -15,6 +15,8 @@
       <w>bildschirmhöhe</w>
       <w>clickout</w>
       <w>dragfeature</w>
+      <w>ebenenliste</w>
+      <w>ebenentitel</w>
       <w>einfuegen</w>
       <w>epsg</w>
       <w>erfkrit</w>
@@ -22,6 +24,7 @@
       <w>feldkontr</w>
       <w>feldkontrolle</w>
       <w>feldkontrollen</w>
+      <w>fieldcontain</w>
       <w>freiwilligenkontrolle</w>
       <w>freiwilligenkontrollen</w>
       <w>idealbiotop</w>
@@ -41,6 +44,7 @@
       <w>livereload</w>
       <w>loeschen</w>
       <w>massn</w>
+      <w>menuleiste</w>
       <w>ortho</w>
       <w>orthoaktuell</w>
       <w>popber</w>

@@ -34,7 +34,7 @@ fieldset {
 	font-family: Arial, Verdana, Helvetica, sans-serif !important;
 	font-size: 16px !important;
 
-	margin: 0 7 10 0 !important;
+	margin: 0px 7px 10px 0px !important;
 }
 
 form fieldset {
@@ -218,7 +218,9 @@ input {
 	width: 150px;
 }
 
-#forms input, #forms select, #forms textarea {
+#forms input,
+#forms select,
+#forms textarea {
 	font-size:17px !important;
 	/*alle inputs genau links ausrichten - sind sonst nicht alle gleich weit links*/
 	margin-left:2px !important;
@@ -302,7 +304,12 @@ option {
 }
 
 /*für Google Map*/
-.GmInfowindow {line-height: 0.3; margin-top: 0.3; margin-bottom: 0; white-space: nowrap}
+.GmInfowindow {
+    line-height: 0.3;
+    margin-top: 0.3;
+    margin-bottom: 0;
+    white-space: nowrap
+}
 
 .PopupText {text-align:center; margin:6px 4px 4px 4px; font-weight:bold;}
 
@@ -337,20 +344,32 @@ Quelle: http://sixrevisions.com/css/css-only-tooltips*/
 	position: absolute;
 }
 .tooltip:hover span {
-	border-radius: 5px 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; 
-	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1); -webkit-box-shadow: 5px 5px rgba(0, 0, 0, 0.1); -moz-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
+	border-radius: 5px 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
 	font-family: Calibri, Tahoma, Geneva, sans-serif;
-	position: absolute; left: 1em; top: 2em; z-index: 99;
-	margin-left: -360px; width: 350px;
+	position: absolute;
+    left: 1em; top: 2em;
+    z-index: 99;
+	margin-left: -360px;
+    width: 350px;
 	text-align: left;
 }
 .tooltip:hover img {
-	border: 0; margin: -10px 0 0 -55px;
-	float: left; position: absolute;
+	border: 0;
+    margin: -10px 0 0 -55px;
+	float: left;
+    position: absolute;
 }
 .tooltip:hover em {
-	font-family: Candara, Tahoma, Geneva, sans-serif; font-size: 1.2em; font-weight: bold;
-	display: block; padding: 0.2em 0 0.6em 0;
+	font-family: Candara, Tahoma, Geneva, sans-serif;
+    font-size: 1.2em;
+    font-weight: bold;
+	display: block;
+    padding: 0.2em 0 0.6em 0;
 }
 .classic { padding: 0.8em 1em; }
 .custom { padding: 0.5em 0.8em 0.8em 2em; }
@@ -458,8 +477,6 @@ a {
 }
 /*Ebenen-Header soll oben gerundet sein*/
 .x-panel-header {
-	/*border-top-right-radius: 6px;
-	border-top-left-radius: 6px;*/
 	border-radius: 6px;
 }
 /*Ebenenliste soll die ganze Höhe nutzen und unten gerundet sein*/
