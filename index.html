@@ -2239,14 +2239,14 @@
                         $BerURL = $("#BerURL");
 					url = $BerURL.val();
 					if (url.substring(0,3) === "www") {
-						$("#BerURL").val("//" + url);
+						$BerURL.val("//" + url);
 					} else if (url.substring(0,4) !== "http") {
-						$("#BerURL").val("//www." + url);
+						$BerURL.val("//www." + url);
 					}
 					$('#BerURLHref').attr('onClick', "window.open('" + $BerURL.val() + "', target='_blank')")
 				});
 
-				//Für jedes Feld bei Änderung speichern
+				// Für jedes Feld bei Änderung speichern
 				$(".form")
                     .on("change", ".speichern", function() {
                         speichern(this);
@@ -2258,7 +2258,7 @@
                         FitToContent(this, document.documentElement.clientHeight);
                     });
 
-				//verhindern, dass Zahlen durch Scrollen am Mausrad aus Versehen verändert werden
+				// verhindern, dass Zahlen durch Scrollen am Mausrad aus Versehen verändert werden
 				$("[type='number']").mousewheel(function(event){
 				   event.preventDefault() ;
 				});
@@ -2282,21 +2282,21 @@
 
 				$("#beob").on("change", "#BeobNichtBeurteilt", function(event) {
 					if ($("#BeobNichtBeurteilt").prop("checked") === true) {
-						//node verschieben. Den rest macht der callback zu jstree.move_node
+						// node verschieben. Den rest macht der callback zu jstree.move_node
 						$("#tree").jstree("move_node", "#beob" + localStorage.beob_id, "#ap_ordner_beob_nicht_beurteilt" + localStorage.ap_id, "first");
 					} else {
-						//es bringt nichts, diesen Haken zu entfernen
-						//stattdessen soll ein anderer Wert gewählt werden
+						// es bringt nichts, diesen Haken zu entfernen
+						// stattdessen soll ein anderer Wert gewählt werden
 						$("#BeobNichtBeurteilt").prop("checked", true);
 					}
 				});
 
 				$("#beob").on("change", "#BeobNichtZuordnen", function() {
 					if ($("#BeobNichtZuordnen").prop("checked") === true) {
-						//node verschieben. Der Rest wird vom Callback fon jstree.move_node erledigt
+						// node verschieben. Der Rest wird vom Callback fon jstree.move_node erledigt
 						$("#tree").jstree("move_node", "#beob" + localStorage.beob_id, "#ap_ordner_beob_nicht_zuzuordnen" + localStorage.ap_id, "first");
 					} else {
-						//node verschieben. Den Rest macht der callback zu jstree.move_node
+						// node verschieben. Den Rest macht der callback zu jstree.move_node
 						$("#tree").jstree("move_node", "#beob" + localStorage.beob_id, "#ap_ordner_beob_nicht_beurteilt" + localStorage.ap_id, "first");
 					}
 				});
@@ -2369,7 +2369,7 @@
 				});
 			});
 
-			//Paarige Jahr/Datumfelder: Datum zurückstellen, wenn Jahr verändert wurde
+			// Paarige Jahr/Datumfelder: Datum zurückstellen, wenn Jahr verändert wurde
 			$("#tpopfeldkontr").on("change", "#TPopKontrJahr", function() {
 				var Objekt;
 				if ($("#TPopKontrDatum").val()) {
@@ -2381,7 +2381,7 @@
 				}
 			});
 
-			//Paarige Jahr/Datumfelder: Datum zurückstellen, wenn Jahr verändert wurde
+			// Paarige Jahr/Datumfelder: Datum zurückstellen, wenn Jahr verändert wurde
 			$("#tpopmassn").on("change", "#TPopMassnJahr", function() {
 				var Objekt;
 				if ($("#TPopMassnDatum").val()) {
@@ -2402,23 +2402,23 @@
 				}
 			});
 
-			//Bei aktivieren/deaktivieren von Pop oder TPop im Layertree soll Auwahl erneuert werden
+			// Bei aktivieren/deaktivieren von Pop oder TPop im Layertree soll Auwahl erneuert werden
 			$("#layertree").on("click", "button.x-btn-text", function() {
-				//wenn ein Auswahlpolygon existiert
+				// wenn ein Auswahlpolygon existiert
 				if (window.auswahlPolygonLayer && window.auswahlPolygonLayer.features.length > 0) {
-					//Layer ermitteln
+					// Layer ermitteln
 					var Layername = $(this).parents().eq(19).children(".x-tree-node-anchor").children().text();
-					//Wenn Layer Pop oder TPop ist
+					// Wenn Layer Pop oder TPop ist
 					if (Layername === "Populationen" || Layername === "Teilpopulationen") {
-						//...Auswahl auffrischen
+						// ...Auswahl auffrischen
 						if (Layername === "Populationen") {
-							//Populationen: Auswahl ermitteln und einen Array von ID's in window.pop_array speichern
+							// Populationen: Auswahl ermitteln und einen Array von ID's in window.pop_array speichern
 							window.af.erstellePopAuswahlArrays();
 						} else if (Layername === "Teilpopulationen") {
-							//Teilpopulationen: Auswahl ermitteln und einen Array von ID's in window.tpop_array speichern
+							// Teilpopulationen: Auswahl ermitteln und einen Array von ID's in window.tpop_array speichern
 							window.af.erstelleTPopAuswahlArrays();
 						}
-						//Liste erstellen, welche die Auswahl anzeigt, Pop/TPop verlinkt und Exporte anbietet
+						// Liste erstellen, welche die Auswahl anzeigt, Pop/TPop verlinkt und Exporte anbietet
 						window.af.erstelleListeDerAusgewaehltenPopTPop();
 					}
 				}	
@@ -2426,96 +2426,128 @@
 
 			$(window).resize(function() {
 				setzeTreehöhe();
-				//Karten sollen ca. Bildschirmhöhe haben
-				//da Formulare so hoch wie der Inhalt sind, muss die Kartenhöhe manuell eingestellt werden
+				// Karten sollen ca. Bildschirmhöhe haben
+				// da Formulare so hoch wie der Inhalt sind, muss die Kartenhöhe manuell eingestellt werden
 				setzeKartenhöhe();
 			});
 
-			$("#forms").on("click", ".guid", function() {
-				//die GUIDS sollen einfach kopiert werden können
-				$(this).select();
-			});
+			$("#forms")
+                .on("click", ".guid", function() {
+                    // die GUIDS sollen einfach kopiert werden können
+                    $(this).select();
+                })
+                .on("click", ".export_pop", function() {
+                    // wenn pop ausgewählt, diese übergeben
+                    var pop_id_liste = "";
+                    var url = "php/export_pop.php";
+                    if (window.pop_id_array) {
+                        for (var i = 0; i < window.pop_id_array.length; i++) {
+                            pop_id_liste +=  window.pop_id_array[i];
+                            if (i + 1 < window.pop_id_array.length) {
+                                pop_id_liste += ",";
+                            }
+                        }
+                        url += "?pop_id_liste=" + pop_id_liste;
+                    }
+                    $.fileDownload(url, {
+                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
+                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
+                    });
+                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                })
+                .on("click", ".export_kontr", function() {
+                    // wenn tpop ausgewählt, diese übergeben
+                    var tpop_id_liste = "";
+                    var url = "php/export_kontr.php";
+                    if (window.tpop_id_array) {
+                        for (var i = 0; i < window.tpop_id_array.length; i++) {
+                            tpop_id_liste +=  window.tpop_id_array[i];
+                            if (i + 1 < window.tpop_id_array.length) {
+                                tpop_id_liste += ",";
+                            }
+                        }
+                        url += "?tpop_id_liste=" + tpop_id_liste;
+                    }
+                    $.fileDownload(url, {
+                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
+                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
+                    });
+                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                });
 
-			$("#exporte").on("click", "#export_ap", function() {
-				var url = "php/export_ap.php";
-				$.fileDownload(url, {
-					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
-			});
-
-			$("#exporte").on("click", "#export_ap_ohne_pop", function() {
-				var url = "php/export_ap_ohne_pop.php";
-				$.fileDownload(url, {
-					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
-			});
-
-			$("#exporte").on("click", "#export_ap_anz_massn", function() {
-				var url = "php/export_ap_anz_massn.php";
-				$.fileDownload(url, {
-					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
-			});
-
-			$("#exporte").on("click", "#export_ap_anz_kontr", function() {
-				var url = "php/export_ap_anz_kontr.php";
-				$.fileDownload(url, {
-					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
-			});
-
-			$("#exporte").on("click", "#export_jber", function() {
-				var url = "php/export_jber.php";
-				$.fileDownload(url, {
-					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
-			});
-
-			$("#exporte").on("click", "#export_jber_massn", function() {
-				var url = "php/export_jber_massn.php";
-				$.fileDownload(url, {
-					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
-			});
-
-			$("#exporte").on("click", "#export_apziel", function() {
-				var url = "php/export_apziel.php";
-				$.fileDownload(url, {
-					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
-			});
-
-			$("#exporte").on("click", "#export_zielber", function() {
-				var url = "php/export_zielber.php";
-				$.fileDownload(url, {
-					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
-			});
-
-			$("#exporte").on("click", "#export_ber", function() {
-				var url = "php/export_ber.php";
-				$.fileDownload(url, {
-					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
-			});
+			$("#exporte")
+                .on("click", "#export_ap", function() {
+                    var url = "php/export_ap.php";
+                    $.fileDownload(url, {
+                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
+                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
+                    });
+                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                })
+                .on("click", "#export_ap_ohne_pop", function() {
+                    var url = "php/export_ap_ohne_pop.php";
+                    $.fileDownload(url, {
+                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
+                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
+                    });
+                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                })
+                .on("click", "#export_ap_anz_massn", function() {
+                    var url = "php/export_ap_anz_massn.php";
+                    $.fileDownload(url, {
+                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
+                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
+                    });
+                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                })
+                .on("click", "#export_ap_anz_kontr", function() {
+                    var url = "php/export_ap_anz_kontr.php";
+                    $.fileDownload(url, {
+                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
+                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
+                    });
+                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                })
+                .on("click", "#export_jber", function() {
+                    var url = "php/export_jber.php";
+                    $.fileDownload(url, {
+                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
+                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
+                    });
+                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                })
+                .on("click", "#export_jber_massn", function() {
+                    var url = "php/export_jber_massn.php";
+                    $.fileDownload(url, {
+                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
+                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
+                    });
+                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                })
+                .on("click", "#export_apziel", function() {
+                    var url = "php/export_apziel.php";
+                    $.fileDownload(url, {
+                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
+                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
+                    });
+                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                })
+                .on("click", "#export_zielber", function() {
+                    var url = "php/export_zielber.php";
+                    $.fileDownload(url, {
+                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
+                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
+                    });
+                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                })
+                .on("click", "#export_ber", function() {
+                    var url = "php/export_ber.php";
+                    $.fileDownload(url, {
+                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
+                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
+                    });
+                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                });
 
 			$("#exporte").on("click", "#export_erfkrit", function() {
 				var url = "php/export_erfkrit.php";
@@ -2523,7 +2555,7 @@
 					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
 				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
+				return false; // this is critical to stop the click event which will trigger a normal file download!
 			});
 
 			$("#exporte").on("click", "#export_idealbiotop", function() {
@@ -2532,7 +2564,7 @@
 					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
 				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
+				return false; // this is critical to stop the click event which will trigger a normal file download!
 			});
 
 			$("#exporte").on("click", "#export_assoz_arten", function() {
@@ -2541,27 +2573,7 @@
 					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
 				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
-			});
-
-			$("#forms").on("click", ".export_pop", function() {
-				//wenn pop ausgewählt, diese übergeben
-				var pop_id_liste = "";
-				var url = "php/export_pop.php";
-				if (window.pop_id_array) {
-					for (var i = 0; i < window.pop_id_array.length; i++) {
-						pop_id_liste +=  window.pop_id_array[i];
-						if (i + 1 < window.pop_id_array.length) {
-							pop_id_liste += ",";
-						}
-					}
-					url += "?pop_id_liste=" + pop_id_liste;
-				}
-				$.fileDownload(url, {
-					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
+				return false; // this is critical to stop the click event which will trigger a normal file download!
 			});
 
 			$("#exporte").on("click", "#export_pop_fuer_kml", function() {
@@ -2570,7 +2582,7 @@
 					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
 				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
+				return false; // this is critical to stop the click event which will trigger a normal file download!
 			});
 
 			$("#exporte").on("click", "#export_pop_fuer_kml_namen", function() {
@@ -2579,7 +2591,7 @@
 					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
 				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
+				return false; // this is critical to stop the click event which will trigger a normal file download!
 			});
 
 			$("#exporte").on("click", "#export_pop_ohne_tpop", function() {
@@ -2588,7 +2600,7 @@
 					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
 				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
+				return false; // this is critical to stop the click event which will trigger a normal file download!
 			});
 
 			$("#exporte").on("click", "#export_pop_von_ap_ohne_status", function() {
@@ -2597,7 +2609,7 @@
 					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
 				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
+				return false; // this is critical to stop the click event which will trigger a normal file download!
 			});
 			
 			$("#exporte").on("click", "#export_pop_ohne_koord", function() {
@@ -2606,7 +2618,7 @@
 					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
 				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
+				return false; // this is critical to stop the click event which will trigger a normal file download!
 			});
 
 			$("#exporte").on("click", "#export_pop_mit_massnber_anz_massn", function() {
@@ -2615,7 +2627,7 @@
 					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
 				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
+				return false; // this is critical to stop the click event which will trigger a normal file download!
 			});
 
 			$("#exporte").on("click", "#export_pop_anz_massn", function() {
@@ -2624,7 +2636,7 @@
 					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
 				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
+				return false; // this is critical to stop the click event which will trigger a normal file download!
 			});
 
 			$("#exporte").on("click", "#export_pop_anz_kontr", function() {
@@ -2633,7 +2645,7 @@
 					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
 				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
+				return false; // this is critical to stop the click event which will trigger a normal file download!
 			});
 
 			$("#exporte").on("click", "#export_popber_massnber", function() {
@@ -2642,11 +2654,11 @@
 					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
 				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
+				return false; // this is critical to stop the click event which will trigger a normal file download!
 			});
 
 			$("#forms").on("click", ".export_tpop", function() {
-				//wenn tpop ausgewählt, diese übergeben
+				// wenn tpop ausgewählt, diese übergeben
 				var tpop_id_liste = "";
 				var url = "php/export_tpop.php";
 				if (window.tpop_id_array) {
@@ -2662,7 +2674,7 @@
 					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
 				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
+				return false; // this is critical to stop the click event which will trigger a normal file download!
 			});
 
 			$("#ergebnisAuswahlHeader").on("click", ".ui-icon.ui-icon-closethick", function() {
@@ -2675,7 +2687,7 @@
 					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
 				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
+				return false; // this is critical to stop the click event which will trigger a normal file download!
 			});
 
 			$("#exporte").on("click", "#export_tpop_fuer_kml_namen", function() {
@@ -2684,64 +2696,42 @@
 					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
 				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
+				return false; // this is critical to stop the click event which will trigger a normal file download!
 			});
 
-			$("#exporte").on("click", "#export_tpop_ohne_bekannt_seit", function() {
-				var url = "php/export_tpop_ohne_bekannt_seit.php";
-				$.fileDownload(url, {
-					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
-			});
-
-			$("#exporte").on("click", "#export_tpop_anz_massn", function() {
-				var url = "php/export_tpop_anz_massn.php";
-				$.fileDownload(url, {
-					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
-			});
-
-			$("#exporte").on("click", "#export_tpop_anz_kontr_inkl_letzte", function() {
-				var url = "php/export_tpop_anz_kontr_inkl_letzte.php";
-				$.fileDownload(url, {
-					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
-			});
-
-			$("#exporte").on("click", "#export_tpopber_massnber", function() {
-				var url = "php/export_tpopber_massnber.php";
-				$.fileDownload(url, {
-					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
-			});
-
-			$("#forms").on("click", ".export_kontr", function() {
-				//wenn tpop ausgewählt, diese übergeben
-				var tpop_id_liste = "";
-				var url = "php/export_kontr.php";
-				if (window.tpop_id_array) {
-					for (var i = 0; i < window.tpop_id_array.length; i++) {
-						tpop_id_liste +=  window.tpop_id_array[i];
-						if (i + 1 < window.tpop_id_array.length) {
-							tpop_id_liste += ",";
-						}
-					}
-					url += "?tpop_id_liste=" + tpop_id_liste;
-				}
-				$.fileDownload(url, {
-					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
-			});
+			$("#exporte")
+                .on("click", "#export_tpop_ohne_bekannt_seit", function() {
+                    var url = "php/export_tpop_ohne_bekannt_seit.php";
+                    $.fileDownload(url, {
+                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
+                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
+                    });
+                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                })
+                .on("click", "#export_tpop_anz_massn", function() {
+                    var url = "php/export_tpop_anz_massn.php";
+                    $.fileDownload(url, {
+                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
+                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
+                    });
+                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                })
+                .on("click", "#export_tpop_anz_kontr_inkl_letzte", function() {
+                    var url = "php/export_tpop_anz_kontr_inkl_letzte.php";
+                    $.fileDownload(url, {
+                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
+                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
+                    });
+                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                })
+                .on("click", "#export_tpopber_massnber", function() {
+                    var url = "php/export_tpopber_massnber.php";
+            $.fileDownload(url, {
+                preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
+                failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
+            });
+            return false; // this is critical to stop the click event which will trigger a normal file download!
+            });
 
 			$("#exporte").on("click", "#export_kontr_anz_pro_zaehleinheit", function() {
 				var url = "php/export_kontr_anz_pro_zaehleinheit.php";
@@ -2749,11 +2739,11 @@
 					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
 				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
+				return false; // this is critical to stop the click event which will trigger a normal file download!
 			});
 
 			$("#forms").on("click", ".export_massn", function() {
-				//wenn tpop ausgewählt, diese übergeben
+				// wenn tpop ausgewählt, diese übergeben
 				var tpop_id_liste = "";
 				var url = "php/export_massn.php";
 				if (window.tpop_id_array) {
@@ -2769,7 +2759,7 @@
 					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
 				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
+				return false; // this is critical to stop the click event which will trigger a normal file download!
 			});
 
 			$("#exporte").on("click", "#export_beob", function() {
@@ -2778,7 +2768,7 @@
 					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
 				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
+				return false; // this is critical to stop the click event which will trigger a normal file download!
 			});
 
 			$("#exporte").on("click", "#export_datenstruktur", function() {
@@ -2787,7 +2777,7 @@
 					preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
 					failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
 				});
-				return false; //this is critical to stop the click event which will trigger a normal file download!
+				return false; // this is critical to stop the click event which will trigger a normal file download!
 			});
 
 			$("#exporte").on("click", "#export_datenstruktur_grafisch", function() {
