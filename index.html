@@ -369,7 +369,7 @@
 						<td class="label">
 						</td>
 						<td class="Datenfelder">
-							<button id="window.af.kopiereKoordinatenInPop" type="button" style="float:left;">Koordinaten in die Population kopieren</button>
+							<button id="kopiereKoordinatenInPop" type="button" style="float:left;">Koordinaten in die Population kopieren</button>
 							<div id="kopiereKoordinatenInPopRueckmeldung" style="display:none; line-height:26px; margin-left:35px;">&nbsp;&nbsp;Koordinaten kopiert</div>
 						</td>
 					</tr>
@@ -1896,7 +1896,7 @@
 				<table>
 					<tr class="fieldcontain">
 						<td class="label">
-							<label id="BeobNichtZuordnen_label" for='BeobNichtBeurteilt'>Nicht beurteilt:</label>
+							<label id="BeobNichtBeurteilt_label" for='BeobNichtBeurteilt'>Nicht beurteilt:</label>
 						</td>
 						<td class="Datenfelder">
 							<input type="checkbox" name="BeobNichtBeurteilt" id="BeobNichtBeurteilt" formular="beob">
@@ -1963,13 +1963,13 @@
 					<div id="baselayertool"></div>
 					<div id='menuleiste'>
 						<span id="messen">
-							<input type="radio" name="type" value="karteSchieben" id="karteSchieben" onclick="window.af.messe(this);" checked="checked">
+							<input type="radio" name="type" value="karteSchieben" id="karteSchieben" onclick="window.apf.messe(this);" checked="checked">
 							<label id="label_karteSchieben" for="karteSchieben" title="zum Zoomen: Shift-Taste halten und mit der Maus ein Rechteck aufziehen">Karte schieben</label>
-							<input type="radio" name="type" value="line" id="distanzMessen" onclick="window.af.messe(this);">
+							<input type="radio" name="type" value="line" id="distanzMessen" onclick="window.apf.messe(this);">
 							<label id="label_distanzMessen" for="distanzMessen" title="Klicken um den nächsten Punkt zu setzen Doppelklicken um die Messung abzuschliessen">Distanz messen</label>
-							<input type="radio" name="type" value="polygon" id="flaecheMessen" onclick="window.af.messe(this);">
+							<input type="radio" name="type" value="polygon" id="flaecheMessen" onclick="window.apf.messe(this);">
 							<label id="label_flaecheMessen" for="flaecheMessen" title="Klicken um den nächsten Punkt zu setzen Doppelklicken um die Messung abzuschliessen">Fläche messen</label>
-							<input type="radio" name="type" value="drawPolygon" id="mitPolygonWaehlen" onclick="waehleMitPolygon();">
+							<input type="radio" name="type" value="drawPolygon" id="mitPolygonWaehlen" onclick="window.apf.wähleMitPolygon();">
 							<label id="label_mitPolygonWaehlen" for="mitPolygonWaehlen" title="Teilpopulationen durch Zeichnen eines Polygons auswählen und dann ihre Daten exportieren">auswählen</label>
 						</span>
 						<div id='ergebnisMessung'></div>
@@ -2155,8 +2155,8 @@
 		</div>
 
 		<script>
-            'use strict';
-			window.af = window.af || {};
+            //'use strict';
+			window.apf = window.apf || {};
 			$(document).ready(function () {
 				var $Useranmeldung = $("#anmelde_dialog").dialog( {
 					autoOpen: false,
@@ -2166,7 +2166,7 @@
 					closeOnEscape: false,
 					buttons: {
 						"anmelden": function() {
-							window.af.prüfeAnmeldung();
+							window.apf.prüfeAnmeldung();
 						}
 					},
 					open: function(event, ui) {
@@ -2174,14 +2174,14 @@
 						//Reaktion auf Enter-Taste in anmelde_dialog
 						$("#anmelde_dialog").on("keydown", function (e) {
 							if (e.keyCode == $.ui.keyCode.ENTER) {
-								window.af.prüfeAnmeldung();
+								window.apf.prüfeAnmeldung();
 							}
 						});
 					}
 				});
 
 				/*if (navigator.appName === "Microsoft Internet Explorer") {
-					$("#Meldung").html("Sie verwenden den Internet Explorer " + window.af.getInternetExplorerVersion() + ".<br><br>Leider unterstützt der Internet Explorer nicht alle Funktionen, die AP Flora Web benutzt.<br><br>Um mit AP Flora Web zu arbeiten, benutzen Sie <a href='//www.google.de/chrome/'>Google Chrome</a>, <a href='//www.mozilla.org/de/firefox/new/'>Firefox</a> oder Safari.");
+					$("#Meldung").html("Sie verwenden den Internet Explorer " + window.apf.getInternetExplorerVersion() + ".<br><br>Leider unterstützt der Internet Explorer nicht alle Funktionen, die AP Flora Web benutzt.<br><br>Um mit AP Flora Web zu arbeiten, benutzen Sie <a href='//www.google.de/chrome/'>Google Chrome</a>, <a href='//www.mozilla.org/de/firefox/new/'>Firefox</a> oder Safari.");
 					$("#Meldung").dialog({
 						modal: true,
 						title: "inkompatibler Browser",
@@ -2192,7 +2192,7 @@
 							}
 						}
 					});
-					window.af.initiiere_index();
+					window.apf.initiiere_index();
 					return;
 				}
 
@@ -2208,7 +2208,7 @@
 							}
 						}
 					});
-					window.af.initiiere_index();
+					window.apf.initiiere_index();
 					return;
 				}*/
 
@@ -2220,13 +2220,13 @@
 				//v.a., ob der User online ist
 				$.ajaxSetup({
 					beforeSend: function() {
-						if (!window.af.prüfeLesevoraussetzungen()) {
+						if (!window.apf.prüfeLesevoraussetzungen()) {
 							return false;
 						}
 					}
 				});
 
-				window.af.initiiere_index();
+				window.apf.initiiere_index();
 
 				$(".export_abschnitt").tooltip({
 					tooltipClass: "export_abschnitt_tooltip_class",
@@ -2235,10 +2235,9 @@
 					}
 				});
 
-				$("#ber").on("change", "#BerURL", function(event) {
-					var url,
-                        $BerURL = $("#BerURL");
-					url = $BerURL.val();
+				$("#ber").on("change", "#BerURL", function() {
+					var $BerURL = $("#BerURL"),
+                        url = $BerURL.val();
 					if (url.substring(0,3) === "www") {
 						$BerURL.val("//" + url);
 					} else if (url.substring(0,4) !== "http") {
@@ -2256,13 +2255,13 @@
 				// Für jedes Feld bei Änderung speichern
 				$(".form")
                     .on("change", ".speichern", function() {
-                        window.af.speichern(this);
+                        window.apf.speichern(this);
                     })
-                    .on("click", "#window.af.kopiereKoordinatenInPop", function() {
-                        window.af.kopiereKoordinatenInPop($("#TPopXKoord").val(), $("#TPopYKoord").val());
+                    .on("click", "#window.apf.kopiereKoordinatenInPop", function() {
+                        window.apf.kopiereKoordinatenInPop($("#TPopXKoord").val(), $("#TPopYKoord").val());
                     })
                     .on("keyup focus", "textarea", function() {
-                        window.af.FitToContent(this, document.documentElement.clientHeight);
+                        window.apf.FitToContent(this, document.documentElement.clientHeight);
                     });
 
 				// verhindern, dass Zahlen durch Scrollen am Mausrad aus Versehen verändert werden
@@ -2279,10 +2278,10 @@
                         }
                     })
                     .on("click", ".exportieren", function() {
-                        window.af.initiiere_exporte();
+                        window.apf.initiiere_exporte();
                     })
                     .on("click", "[name=programm_wahl]", function() {
-                        window.af.wähleApListe($(this).attr("id"));
+                        window.apf.wähleApListe($(this).attr("id"));
                     })
                     .on("click", "#ap_loeschen", function() {
                         var $ap_waehlen = $("#ap_waehlen");
@@ -2305,7 +2304,7 @@
                                     width: 500,
                                     buttons: {
                                         ja: function() {
-                                            window.af.löscheAp(localStorage.ap_id);
+                                            window.apf.löscheAp(localStorage.ap_id);
                                             $(this).dialog("close");
                                         },
                                         nein: function() {
@@ -2316,11 +2315,11 @@
                         }
                     })
                     .on("change", "#ap_waehlen", function() {
-                        window.af.wähleAp(this.value);
+                        window.apf.wähleAp(this.value);
                     });
 
 				$("#beob")
-                    .on("change", "#BeobNichtBeurteilt", function(event) {
+                    .on("change", "#BeobNichtBeurteilt", function() {
                         var $BeobNichtBeurteilt = $("#BeobNichtBeurteilt");
                         if ($BeobNichtBeurteilt.prop("checked") === true) {
                             // node verschieben. Den rest macht der callback zu jstree.move_node
@@ -2348,16 +2347,16 @@
 				$("#google_karte")
                     .on("click", "#distanz_messen", function(event) {
                         event.preventDefault();
-                        window.af.addruler();
+                        addruler();
                     })
                     .on("click", "#distanz_messen_entfernen", function(event) {
                         event.preventDefault();
-                        window.af.removeruler();
+                        removeruler();
                     });
 
 				$("#undelete_div").on("click", "#undelete", function(event) {
 					event.preventDefault();
-					window.af.undeleteDatensatz();
+					window.apf.undeleteDatensatz();
 				});
 
 				//Suche steuern
@@ -2380,7 +2379,7 @@
 					Objekt = {};
 					Objekt.name = "TPopKontrDatum";
 					Objekt.formular = "tpopfeldkontr";
-                    window.af.speichern(Objekt);
+                    window.apf.speichern(Objekt);
 				}
 			});
 
@@ -2393,46 +2392,46 @@
 					Objekt = {};
 					Objekt.name = "TPopMassnDatum";
 					Objekt.formular = "tpopmassn";
-                    window.af.speichern(Objekt);
+                    window.apf.speichern(Objekt);
 				}
 			});
 
 			$(".karte").on("change", ".google_karte_detailplaene_checkbox", function() {
 				console.log("toggle Detailpläne");
-				if (window.af.google_karte_detailpläne.getMap() === null) {
-					window.af.google_karte_detailpläne.setMap(window.af.map);
+				if (window.apf.google_karte_detailpläne.getMap() === null) {
+					window.apf.google_karte_detailpläne.setMap(window.apf.map);
 				} else {
-					window.af.google_karte_detailpläne.setMap(null);
+					window.apf.google_karte_detailpläne.setMap(null);
 				}
 			});
 
 			// Bei aktivieren/deaktivieren von Pop oder TPop im Layertree soll Auwahl erneuert werden
 			$("#layertree").on("click", "button.x-btn-text", function() {
 				// wenn ein Auswahlpolygon existiert
-				if (window.af.auswahlPolygonLayer && window.af.auswahlPolygonLayer.features.length > 0) {
+				if (window.apf.auswahlPolygonLayer && window.apf.auswahlPolygonLayer.features.length > 0) {
 					// Layer ermitteln
 					var Layername = $(this).parents().eq(19).children(".x-tree-node-anchor").children().text();
 					// Wenn Layer Pop oder TPop ist
 					if (Layername === "Populationen" || Layername === "Teilpopulationen") {
 						// ...Auswahl auffrischen
 						if (Layername === "Populationen") {
-							// Populationen: Auswahl ermitteln und einen Array von ID's in window.af.pop_array speichern
-							window.af.erstellePopAuswahlArrays();
+							// Populationen: Auswahl ermitteln und einen Array von ID's in window.apf.pop_array speichern
+							window.apf.erstellePopAuswahlArrays();
 						} else if (Layername === "Teilpopulationen") {
-							// Teilpopulationen: Auswahl ermitteln und einen Array von ID's in window.af.tpop_array speichern
-							window.af.erstelleTPopAuswahlArrays();
+							// Teilpopulationen: Auswahl ermitteln und einen Array von ID's in window.apf.tpop_array speichern
+							window.apf.erstelleTPopAuswahlArrays();
 						}
 						// Liste erstellen, welche die Auswahl anzeigt, Pop/TPop verlinkt und Exporte anbietet
-						window.af.erstelleListeDerAusgewaehltenPopTPop();
+						window.apf.erstelleListeDerAusgewaehltenPopTPop();
 					}
 				}	
 			});
 
 			$(window).resize(function() {
-                window.af.setzeTreehöhe();
+                window.apf.setzeTreehöhe();
 				// Karten sollen ca. Bildschirmhöhe haben
 				// da Formulare so hoch wie der Inhalt sind, muss die Kartenhöhe manuell eingestellt werden
-                window.af.setzeKartenhöhe();
+                window.apf.setzeKartenhöhe();
 			});
 
 			$("#forms")
@@ -2444,10 +2443,10 @@
                     // wenn pop ausgewählt, diese übergeben
                     var pop_id_liste = "",
                         url = "php/export_pop.php";
-                    if (window.af.pop_id_array) {
-                        _.each(window.af.pop_id_array, function(pop_id, index) {
+                    if (window.apf.pop_id_array) {
+                        _.each(window.apf.pop_id_array, function(pop_id, index) {
                             pop_id_liste +=  pop_id;
-                            if (index + 1 < window.af.pop_id_array.length) {
+                            if (index + 1 < window.apf.pop_id_array.length) {
                                 pop_id_liste += ",";
                             }
                         });
@@ -2463,10 +2462,10 @@
                     // wenn tpop ausgewählt, diese übergeben
                     var tpop_id_liste = "";
                     var url = "php/export_kontr.php";
-                    if (window.af.tpop_id_array) {
-                        _.each(window.af.tpop_id_array, function(tpop_id, index) {
+                    if (window.apf.tpop_id_array) {
+                        _.each(window.apf.tpop_id_array, function(tpop_id, index) {
                             tpop_id_liste +=  tpop_id;
-                            if (index + 1 < window.af.tpop_id_array.length) {
+                            if (index + 1 < window.apf.tpop_id_array.length) {
                                 tpop_id_liste += ",";
                             }
                         });
@@ -2482,10 +2481,10 @@
                     // wenn tpop ausgewählt, diese übergeben
                     var tpop_id_liste = "";
                     var url = "php/export_tpop.php";
-                    if (window.af.tpop_id_array) {
-                        _.each(window.af.tpop_id_array, function(tpop_id, index) {
+                    if (window.apf.tpop_id_array) {
+                        _.each(window.apf.tpop_id_array, function(tpop_id, index) {
                             tpop_id_liste +=  tpop_id;
-                            if (index + 1 < window.af.tpop_id_array.length) {
+                            if (index + 1 < window.apf.tpop_id_array.length) {
                                 tpop_id_liste += ",";
                             }
                         });
@@ -2501,10 +2500,10 @@
                     // wenn tpop ausgewählt, diese übergeben
                     var tpop_id_liste = "";
                     var url = "php/export_massn.php";
-                    if (window.af.tpop_id_array) {
-                        _.each(window.af.tpop_id_array, function(tpop_id, index) {
+                    if (window.apf.tpop_id_array) {
+                        _.each(window.apf.tpop_id_array, function(tpop_id, index) {
                             tpop_id_liste +=  tpop_id;
-                            if (index + 1 < window.af.tpop_id_array.length) {
+                            if (index + 1 < window.apf.tpop_id_array.length) {
                                 tpop_id_liste += ",";
                             }
                         });
@@ -2518,7 +2517,7 @@
                 });
 
             $("#ergebnisAuswahlHeader").on("click", ".ui-icon.ui-icon-closethick", function() {
-                window.af.deaktiviereGeoAdminAuswahl();
+                window.apf.deaktiviereGeoAdminAuswahl();
             });
 
 			$("#exporte")

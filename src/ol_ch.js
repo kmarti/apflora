@@ -213,8 +213,8 @@ function init() {
 	for(var key in measureControls) {
 		control = measureControls[key];
 		control.events.on({
-			"measure": window.af.handleMeasurements,
-			"measurepartial": window.af.handleMeasurements
+			"measure": window.apf.handleMeasurements,
+			"measurepartial": window.apf.handleMeasurements
 		});
 		api.map.addControl(control);
 	}
@@ -235,7 +235,7 @@ function oeffneSchliesseLayertree() {
 	}
 }
 
-window.af.handleMeasurements(event) {
+window.apf.handleMeasurements(event) {
 	var geometry = event.geometry;
 	var units = event.units;
 	var order = event.order;
