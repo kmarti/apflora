@@ -7588,7 +7588,7 @@ window.af.zeigeTPopAufKarte = function(tpop_liste) {
 			}]
 	};
 	// globale Variable verwenden, damit ein Klick auf die Checkbox die Ebene einblenden kann
-	window.google_karte_detailplaene = new google.maps.KmlLayer({
+	window.af.google_karte_detailpläne = new google.maps.KmlLayer({
 	    url: '//www.apflora.ch/kml/rueteren.kmz',
 	    preserveViewport: true
 	});
@@ -7818,7 +7818,7 @@ window.af.zeigeTPopAufGeoAdmin = function(TPopListeMarkiert) {
 		.then(function() {
 			// Karte zum richtigen Ausschnitt zoomen
 			// aber nur, wenn keine Auswahl aktiv
-			if (window.auswahlPolygonLayer && window.auswahlPolygonLayer.features.length > 0) {
+			if (window.af.auswahlPolygonLayer && window.af.auswahlPolygonLayer.features.length > 0) {
 				// Auswahl aktiv, Zoomstufe belassen
 			} else {
 				window.afm.map.updateSize();
@@ -7871,7 +7871,7 @@ window.af.zeigePopAufGeoAdmin = function(PopListeMarkiert) {
 		.then(function() {
 			// Karte zum richtigen Ausschnitt zoomen
 			// aber nur, wenn keine Auswahl aktiv
-			if (window.auswahlPolygonLayer && window.auswahlPolygonLayer.features.length > 0) {
+			if (window.af.auswahlPolygonLayer && window.af.auswahlPolygonLayer.features.length > 0) {
 				// Auswahl aktiv, Zoomstufe belassen
 			} else {
 				window.afm.map.updateSize();
@@ -8312,8 +8312,8 @@ window.af.erstelleTPopSymboleFürGeoAdmin = function(tpop_liste, tpopid_markiert
 	window.selectControlTPop.activate();
 
 	// mit Polygon auswählen, nur wenn noch nicht existent
-	if (!window.auswahlPolygonLayer) {
-		window.auswahlPolygonLayer = new OpenLayers.Layer.Vector("Auswahl-Polygon", {
+	if (!window.af.auswahlPolygonLayer) {
+		window.af.auswahlPolygonLayer = new OpenLayers.Layer.Vector("Auswahl-Polygon", {
 			projection: new OpenLayers.Projection("EPSG:21781"), 
 			displayInLayerSwitcher: false
 		});
@@ -8327,9 +8327,9 @@ window.af.erstelleTPopSymboleFürGeoAdmin = function(tpop_liste, tpopid_markiert
 				type: OpenLayers.Filter.Spatial.INTERSECTS, 
 				value: event.feature.geometry
 			});
-			// Teilpopulationen: Auswahl ermitteln und einen Array von ID's in window.tpop_array speichern
+			// Teilpopulationen: Auswahl ermitteln und einen Array von ID's in window.af.tpop_array speichern
 			window.af.erstelleTPopAuswahlArrays();
-			// Populationen: Auswahl ermitteln und einen Array von ID's in window.pop_array speichern
+			// Populationen: Auswahl ermitteln und einen Array von ID's in window.af.pop_array speichern
 			window.af.erstellePopAuswahlArrays();
 			// Liste erstellen, welche die Auswahl anzeigt, Pop/TPop verlinkt und Exporte anbietet
 			window.af.erstelleListeDerAusgewaehltenPopTPop();
@@ -8350,33 +8350,33 @@ window.af.erstelleTPopSymboleFürGeoAdmin = function(tpop_liste, tpopid_markiert
 
 window.af.erstelleTPopAuswahlArrays = function() {
 	'use strict';
-	// Teilpopulationen: Auswahl ermitteln und einen Array von ID's in window.tpop_array speichern
-	window.tpop_array = [];
-	window.tpop_id_array = [];
+	// Teilpopulationen: Auswahl ermitteln und einen Array von ID's in window.af.tpop_array speichern
+	window.af.tpop_array = [];
+	window.af.tpop_id_array = [];
 	if (overlay_tpop.visibility === true) {
 		$.each(overlay_tpop.features, function() {
 			if (window.PopTPopAuswahlFilter.evaluate(this)) {
-				window.tpop_array.push(this.attributes);
-				window.tpop_id_array.push(parseInt(this.attributes.myId));
+				window.af.tpop_array.push(this.attributes);
+				window.af.tpop_id_array.push(parseInt(this.attributes.myId));
 			}
 		});
-		window.tpop_array.sort(window.af.vergleicheTPopZumSortierenNachTooltip);
+		window.af.tpop_array.sort(window.af.vergleicheTPopZumSortierenNachTooltip);
 	}
 };
 
 window.af.erstellePopAuswahlArrays = function() {
 	'use strict';
-	// Populationen: Auswahl ermitteln und einen Array von ID's in window.pop_array speichern
-	window.pop_array = [];
-	window.pop_id_array = [];
+	// Populationen: Auswahl ermitteln und einen Array von ID's in window.af.pop_array speichern
+	window.af.pop_array = [];
+	window.af.pop_id_array = [];
 	if (overlay_pop.visibility === true) {
 		$.each(overlay_pop.features, function() {
 			if (window.PopTPopAuswahlFilter.evaluate(this)) {
-				window.pop_array.push(this.attributes);
-				window.pop_id_array.push(parseInt(this.attributes.myId));
+				window.af.pop_array.push(this.attributes);
+				window.af.pop_id_array.push(parseInt(this.attributes.myId));
 			}
 		});
-		window.pop_array.sort(window.af.vergleicheTPopZumSortierenNachTooltip);
+		window.af.pop_array.sort(window.af.vergleicheTPopZumSortierenNachTooltip);
 	}
 };
 
@@ -8384,34 +8384,34 @@ window.af.erstelleListeDerAusgewaehltenPopTPop = function() {
 	'use strict';
 	// rückmelden, welche Objekte gewählt wurden
 	var rückmeldung = "";
-	if (window.pop_array.length > 0) {
-		if (window.tpop_array.length > 0) {
+	if (window.af.pop_array.length > 0) {
+		if (window.af.tpop_array.length > 0) {
 			// tpop und pop betitteln
-			rückmeldung += "<p class='ergebnisAuswahlListeTitel'>" + window.pop_array.length + " Populationen: </p>";
+			rückmeldung += "<p class='ergebnisAuswahlListeTitel'>" + window.af.pop_array.length + " Populationen: </p>";
 		}
 		rückmeldung += "<table>";
-        _.each(window.pop_array, function(pop) {
+        _.each(window.af.pop_array, function(pop) {
             rückmeldung += "<tr><td><a href=\"#\" onclick=\"window.af.öffnePop('" + pop['myId'] + "')\">";
             rückmeldung += pop['label'] + ":<\/a></td><td><a href=\"#\" onclick=\"window.af.öffnePop('" + pop['myId'] + "')\">" + pop.tooltip + "<\/a></td></tr>";
         });
 		rückmeldung += "</table>";
 	}
-	if (window.tpop_array.length > 0) {
-		if (window.pop_array.length > 0) {
+	if (window.af.tpop_array.length > 0) {
+		if (window.af.pop_array.length > 0) {
 			// tpop und pop betitteln
-			rückmeldung += "<p class='ergebnisAuswahlListeTitel ergebnisAuswahlListeTitelTPop'>" + window.tpop_array.length + " Teilpopulationen: </p>";
+			rückmeldung += "<p class='ergebnisAuswahlListeTitel ergebnisAuswahlListeTitelTPop'>" + window.af.tpop_array.length + " Teilpopulationen: </p>";
 		}
 		rückmeldung += "<table>";
-        _.each(window.tpop_array, function(tpop) {
-            rückmeldung += "<tr><td><a href=\"#\" onclick=\"window.af.öffneTPopInNeuemTab('" + window.tpop_array[i]['myId'] + "')\">";
-            rückmeldung += window.tpop_array[i]['label'] + ":<\/a></td><td><a href=\"#\" onclick=\"window.af.öffneTPopInNeuemTab('" + window.tpop_array[i]['myId'] + "')\">";
-            rückmeldung += window.tpop_array[i].tooltip + "<\/a></td></tr>";
+        _.each(window.af.tpop_array, function(tpop) {
+            rückmeldung += "<tr><td><a href=\"#\" onclick=\"window.af.öffneTPopInNeuemTab('" + window.af.tpop_array[i]['myId'] + "')\">";
+            rückmeldung += window.af.tpop_array[i]['label'] + ":<\/a></td><td><a href=\"#\" onclick=\"window.af.öffneTPopInNeuemTab('" + window.af.tpop_array[i]['myId'] + "')\">";
+            rückmeldung += window.af.tpop_array[i].tooltip + "<\/a></td></tr>";
         });
 		rückmeldung += "</table>";
 	}
 	// Höhe der Meldung begrenzen. Leider funktioniert maxHeight nicht
 	var height = "auto";
-	if (window.tpop_array.length > 25) {
+	if (window.af.tpop_array.length > 25) {
 		height = 650;
 	}
 
@@ -8420,14 +8420,14 @@ window.af.erstelleListeDerAusgewaehltenPopTPop = function() {
 		exportieren = "Exportieren: ",
 		exportierenPop = "<a href='#' class='export_pop'>Populationen</a>",
 		exportierenTPop = "<a href='#' class='export_tpop'>Teilpopulationen</a>, <a href='#' class='export_kontr'>Kontrollen</a>, <a href='#' class='export_massn'>Massnahmen</a>";
-	if (window.pop_array.length > 0 && window.tpop_array.length > 0) {
-		listentitel = "Gewählt wurden " + window.pop_array.length + " Populationen und " + window.tpop_array.length + " Teilpopulationen";
+	if (window.af.pop_array.length > 0 && window.af.tpop_array.length > 0) {
+		listentitel = "Gewählt wurden " + window.af.pop_array.length + " Populationen und " + window.af.tpop_array.length + " Teilpopulationen";
 		exportieren += exportierenPop + ", " + exportierenTPop;
-	} else if (window.pop_array.length > 0) {
-		listentitel = "Gewählt wurden " + window.pop_array.length + " Populationen:";
+	} else if (window.af.pop_array.length > 0) {
+		listentitel = "Gewählt wurden " + window.af.pop_array.length + " Populationen:";
 		exportieren += exportierenPop;
-	} else if (window.tpop_array.length > 0) {
-		listentitel = "Gewählt wurden " + window.tpop_array.length + " Teilpopulationen:";
+	} else if (window.af.tpop_array.length > 0) {
+		listentitel = "Gewählt wurden " + window.af.tpop_array.length + " Teilpopulationen:";
 		exportieren += exportierenTPop;
 	} else {
 		listentitel = "Keine Populationen/Teilpopulationen gewählt";
@@ -8791,16 +8791,16 @@ window.af.vergleicheTPopZumSortierenNachTooltip = function(a,b) {
 
 window.af.deaktiviereGeoAdminAuswahl = function() {
 	'use strict';
-	if (window.auswahlPolygonLayer) {
-		window.auswahlPolygonLayer.removeAllFeatures();
+	if (window.af.auswahlPolygonLayer) {
+		window.af.auswahlPolygonLayer.removeAllFeatures();
 	}
 	if (window.drawControl) {
 		window.drawControl.deactivate();
 	}
 	$("#ergebnisAuswahl").css("display", "none");
-	delete window.tpop_id_array;
+	delete window.af.tpop_id_array;
 	delete window.tpop_id_liste;
-	delete window.pop_id_array;
+	delete window.af.pop_id_array;
 	delete window.pop_id_liste;
 };
 
@@ -10704,10 +10704,10 @@ window.af.wähleMitPolygon = function() {
 	measureControls['line'].deactivate();
 	measureControls['polygon'].deactivate();
 	// allfällige bisherige Auswahl entfernen
-	window.auswahlPolygonLayer.removeAllFeatures();
+	window.af.auswahlPolygonLayer.removeAllFeatures();
 	// allfälliges Ergebnisfenster ausblenden
 	$("#ergebnisAuswahl").css("display", "none");
-	delete window.tpop_id_array;
+	delete window.af.tpop_id_array;
 	delete window.tpop_id_liste;*/
 }
 
@@ -10777,7 +10777,7 @@ window.af.messe = function(element) {
 	// einen allfällig aktiven drawControl deaktivieren
 	window.af.deaktiviereGeoAdminAuswahl();
 	// und allfällig verbliebene Auswahlpolygon entfernen
-	window.auswahlPolygonLayer.removeAllFeatures();*/
+	window.af.auswahlPolygonLayer.removeAllFeatures();*/
 };
 
 window.af.erstelleGemeindeliste = function() {
