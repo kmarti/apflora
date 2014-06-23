@@ -34,17 +34,17 @@ fieldset {
 	font-family: Arial, Verdana, Helvetica, sans-serif !important;
 	font-size: 16px !important;
 
-	margin: 0px 7px 10px 0px !important;
+	margin: 0 7 10 0 !important;
 }
 
 form fieldset {
-	padding-bottom: 10px;
 	padding-left: 10px;
 	padding-bottom: 4px;
 }
 
 #forms {
 	margin-bottom: 7px;
+    padding: 0 0 0 0;
 }
 
 #forms .form {

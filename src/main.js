@@ -15128,8 +15128,10 @@ window.af.initiiereGeoAdminKarte = function() {
         // TODO: auf GA2 portieren
         var ch_ls_farbe = ga.layer.create('ch.swisstopo.pixelkarte-farbe');
         window.afm.map.addLayer(ch_ls_farbe);
-        window.afm.map.addLayer(zh_svo_layer);
-		/*window.afm.map.addLayerByName('ch.bafu.bundesinventare-trockenwiesen_trockenweiden', {
+        //window.afm.map.addLayer(zh_svo_layer);
+        var ch_tww_layer = ga.layer.create('ch.bafu.bundesinventare-trockenwiesen_trockenweiden');
+        window.afm.map.addLayer(ch_tww_layer);
+		/*window.afm.map.addLayer('ch.bafu.bundesinventare-trockenwiesen_trockenweiden', {
 			visibility: false,
 			opacity: 0.7
 		});
