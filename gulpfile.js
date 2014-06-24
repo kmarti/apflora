@@ -145,5 +145,5 @@ gulp.task('connect', function() {
 });
 
 gulp.task('watch', function() {
-    gulp.watch(['**', '-src/main.js', '-style/apflora.min.css'] ['build_dev']);
+    gulp.watch(['**', '-src/main.js', '-style/apflora.min.css'], ['build_dev']);
 });

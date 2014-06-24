@@ -1,6 +1,9 @@
 <?php
 // Verbindung aufbauen, Datenbank auswählen
-$link = new mysqli("localhost", "alexande", "y3oYksFsQL49es9x", "alexande_apflora");
+//$link = new mysqli("localhost", "alexande", "y3oYksFsQL49es9x", "alexande_apflora");
+$MysqlUser = getenv('MYSQL_USER');
+$MysqlPasswort = getenv('MYSQL_PASSWORD');
+$link = new mysqli("localhost", $MysqlUser, $MysqlPasswort, "alexande_apflora");
 
 // check connection
 if ($link->connect_errno) {
