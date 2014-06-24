@@ -1076,7 +1076,7 @@ FROM ((alexande_apflora.tblAktionsplan INNER JOIN alexande_beob.ArtenDb_Arteigen
 GROUP BY alexande_beob.ArtenDb_Arteigenschaften.Artname, alexande_apflora.tblBeobZuordnung.BeobMutWer, alexande_apflora.tblBeobZuordnung.BeobMutWann;
 
 CREATE OR REPLACE VIEW vDatenstruktur AS
-SELECT TABLES.TABLE_NAME AS "Tabelle: Name", TABLES.TABLE_ROWS AS "Tabelle: Anzahl Datensätze", TABLES.TABLE_COMMENT AS "Tabelle: Bemerkungen", COLUMNS.COLUMN_NAME AS "Feld: Name",  COLUMNS.COLUMN_TYPE AS "Feld: Datentyp", COLUMNS.IS_NULLABLE AS "Feld: Nullwerte", COLUMNS.COLUMN_COMMENT AS "Feld: Bemerkungen" FROM information_schema.COLUMNS INNER JOIN information_schema.TABLES ON information_schema.TABLES.TABLE_NAME = information_schema.COLUMNS.TABLE_NAME WHERE information_schema.COLUMNS.TABLE_NAME IN (SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA='alexande_apflora')
+SELECT TABLES.TABLE_NAME AS "Tabelle: Name", TABLES.TABLE_ROWS AS "Tabelle: Anzahl Datensätze", TABLES.TABLE_COMMENT AS "Tabelle: Bemerkungen", COLUMNS.COLUMN_NAME AS "Feld: Name",  COLUMNS.COLUMN_TYPE AS "Feld: Datentyp", COLUMNS.IS_NULLABLE AS "Feld: Nullwerte", COLUMNS.COLUMN_COMMENT AS "Feld: Bemerkungen" FROM information_schema.COLUMNS INNER JOIN information_schema.TABLES ON information_schema.TABLES.TABLE_NAME = information_schema.COLUMNS.TABLE_NAME WHERE information_schema.COLUMNS.TABLE_NAME IN (SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA='alexande_apflora');
 
 /*funktioniert nicht, daher ausgeschaltet
 CREATE OR REPLACE VIEW vTPop_KontrBerMassnBer AS
