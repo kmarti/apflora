@@ -1,7 +1,8 @@
 <?php
 // Verbindung aufbauen, Datenbank auswählen
-
-$link = new mysqli("localhost", "alexande", "y3oYksFsQL49es9x", "information_schema");
+$MysqlUser = getenv('MYSQL_USER');
+$MysqlPasswort = getenv('MYSQL_PASSWORD');
+$link = new mysqli("localhost", $MysqlUser, $MysqlPasswort, "alexande_apflora_views");
 
 /* check connection */
 if ($link->connect_errno) {
@@ -11,12 +12,28 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
-$csv_output = 'Tabelle: Name';'Tabelle: Anzahl Datensätze';'Tabelle: Bemerkungen';'Feld: Name';'Feld: Datentyp';'Feld: Nullwerte';'Feld: Bemerkungen'."\n";
+$view = 'vDatenstruktur'; // view you want to export
 
-$values = mysqli_query($link, "SELECT TABLES.TABLE_NAME, TABLES.TABLE_ROWS, TABLES.TABLE_COMMENT, COLUMNS.COLUMN_NAME,  COLUMNS.COLUMN_TYPE, COLUMNS.IS_NULLABLE, COLUMNS.COLUMN_COMMENT FROM COLUMNS INNER JOIN TABLES ON TABLES.TABLE_NAME = COLUMNS.TABLE_NAME WHERE COLUMNS.TABLE_NAME IN (SELECT TABLE_NAME FROM TABLES WHERE TABLE_SCHEMA='alexande_apflora')");
+$result = mysqli_query($link, "SHOW COLUMNS FROM ".$view."");
+$i = 0;
+$csv_output = '';
 
+if (mysqli_num_rows($result) > 0) {
+	while ($row = mysqli_fetch_assoc($result)) {
+		$csv_output .= '"'.$row['Field'].'";';
+	$i++;}
+}
+$csv_output .= "\n";
+$values = mysqli_query($link, "SELECT * FROM ".$view."");
+ 
 while ($rowr = mysqli_fetch_row($values)) {
-	for ($j=0; $j<9; $j++) {
+	// In den Daten sind Zeilenumbrüche und Hochzeichen
+	// sie müssen entfernt werden, sonst bricht die Tabelle auch daran um
+	$Ersetzungen = array("\r\n", "\r", "\n");
+	for ($j=0;$j<$i;$j++) {
+		$rowr[$j] = str_replace($Ersetzungen, ' ', $rowr[$j]);
+		$rowr[$j] = str_replace('"', "'", $rowr[$j]);
+		$rowr[$j] = str_replace(';', ":", $rowr[$j]);
 		$csv_output .= '"'.$rowr[$j].'";';
 	}
 	$csv_output .= "\n";
@@ -25,17 +42,15 @@ while ($rowr = mysqli_fetch_row($values)) {
 $filename = "Apflora_Datenstruktur_".date("Y-m-d_H-i",time());
 
 header('Content-Type: text/x-csv; charset=utf-8');
-//header('Content-Type: application/vnd.ms-excel; charset=utf-8');
 header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 header('Content-Disposition: attachment; filename='.$filename.'.csv');
-//header('Content-Disposition: attachment; filename='.$filename.'.xls');
 header('Pragma: no-cache');
 header('Set-Cookie: fileDownload=true; path=/');
 
 print($csv_output);
 
 // Resultset freigeben
-mysqli_free_result($values);
+mysqli_free_result($result);
 
 // Verbindung schliessen
 mysqli_close($link);
