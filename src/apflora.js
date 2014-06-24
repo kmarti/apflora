@@ -1028,6 +1028,9 @@ window.apf.initiiere_tpop = function() {
 			}
 		}
 	});
+	getTPop.fail(function() {
+		window.apf.melde('Fehler: keine Daten für die Teilpopulation erhalten');
+	});
 };
 
 // setzt window.apf.tpop und localStorage.tpop_id

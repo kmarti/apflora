@@ -1,7 +1,8 @@
 <?php
 // Verbindung aufbauen, Datenbank auswählen
-
-$link = new mysqli("localhost", "alexande", "y3oYksFsQL49es9x", "alexande_apflora_views");
+$MysqlUser = getenv('MYSQL_USER');
+$MysqlPasswort = getenv('MYSQL_PASSWORD');
+$link = new mysqli("localhost", $MysqlUser, $MysqlPasswort, "alexande_apflora_views");
 
 /* check connection */
 if ($link->connect_errno) {
@@ -19,6 +20,7 @@ $file = 'Massnahmen'; // csv name.
 
 $result = mysqli_query($link, "SHOW COLUMNS FROM ".$view."");
 $i = 0;
+$csv_output = '';
  
 if (mysqli_num_rows($result) > 0) {
 	while ($row = mysqli_fetch_assoc($result)) {
