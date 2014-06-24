@@ -4499,6 +4499,7 @@ var win = self,
 
 
 window.apf = window.apf || {};
+//window.afm = window.afm || {};
 
 window.apf.initiiere_index = function() {
 	'use strict';
@@ -12335,7 +12336,7 @@ window.apf.zeigeTPopAufGeoAdmin = function(TPopListeMarkiert) {
 				url: 'php/tpop_karte_alle.php',
 				dataType: 'json',
 				data: {
-					"ApArtId": window.apf.ApArtId
+					"ApArtId": window.apf.ap.ApArtId
 				}
 			});
 
@@ -12388,7 +12389,7 @@ window.apf.zeigePopAufGeoAdmin = function(PopListeMarkiert) {
 				url: 'php/tpop_karte_alle.php',
 				dataType: 'json',
 				data: {
-					"ApArtId": window.apf.ApArtId
+					"ApArtId": window.apf.ap.ApArtId
 				}
 			});
 
@@ -12765,7 +12766,7 @@ window.apf.erstelleTPopSymboleFürGeoAdmin = function(tpop_liste, tpopid_markier
 							url: 'php/tpop_karte_alle.php',
 							dataType: 'json',
 							data: {
-								"ApArtId": window.apf.ApArtId
+								"ApArtId": window.apf.ap.ApArtId
 							}
 						});
 						getTPopKarteAlle_3.done(function(TPopListe) {
