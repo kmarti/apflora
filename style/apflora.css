@@ -456,7 +456,7 @@ a {
 	position: absolute;
 	right: 10px;
 	z-index: 1009;
-	top: 19px;
+	top: 10px;
 	border-radius: 6px;
 }
 
@@ -504,7 +504,7 @@ a {
 
 #menuleiste {
 	position: absolute;
-	top: 20px;
+	top: 10px;
 	left: 57px;
 	/*vor die Karte aber nicht vor die Meldungen*/
 	z-index: 800;
@@ -514,45 +514,16 @@ a {
     padding: .2em .2em !important;
 }
 
-#baselayertool {
-	position: absolute;
-	top: 65px;
-	left: 63px;
-	/*vor die Karte aber nicht vor die Meldungen*/
-	z-index: 800;
-	background: rgba(255, 255, 255, .5);
-}
-/*Ebenen-Header soll oben gerundet sein*/
-.x-panel-header {
-	border-radius: 6px;
-}
-/*Ebenenliste soll die ganze Höhe nutzen und unten gerundet sein*/
-.x-panel-body {
-	height: 100% !important;
-	border-bottom-right-radius: 6px;
-	border-bottom-left-radius: 6px;
-}
-/*Ebenentitel fett hervorheben*/
-div.x-tree-node-leaf a.x-tree-node-anchor span {
-	font-weight:900;
-}
-/*zoombar so weit wie möglich rauf*/
-#ga_karten_div .olControlPanZoomBar {
-	top: 1px !important;
-}
-/*Schaltfläche, um auf die ganze Schweiz zu zoomen ausblenden*/
-.olControlZoomToMaxExtentItemActive {
-	display: none;
-}
 /*Koordinatenanzeige gestalten*/
-#ga_karten_div .olControlMousePosition, #ga_karten_div .olControlPermalink a {
-	font-weight:900;
+#GeoAdminKarte .ol-mouse-position {
+    font-weight:900;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	/*Koordinaten weiss hinterlegen, damit sie auf jedem Hintergrund gut sichtbar sind*/
 	text-shadow: 0 1px 0.5px white,1px 0 0.5px white,0 -1px 0.5px white,-1px 0 0.5px white,0 2px 0.5px white,2px 0 0.5px white,0 -2px 0.5px white,-2px 0 0.5px white;
-	top: 23px;
-	right: 312px;
+	top: 20px;
+	right: 322px;
 }
+
 #ergebnisMessung {
 	font-weight:900;
 	font-size: 13px;

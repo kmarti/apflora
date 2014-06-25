@@ -14741,32 +14741,85 @@ window.apf.initiiereGeoAdminKarte = function() {
 	//OpenLayers.ProxyHost = "../cgi-bin/proxy.cgi?url=";
 	//var zh_bbox_1903 = new ol.Extent(669000, 222000, 717000, 284000);
 
-    $("#olmap_layertree").accordion({collapsible:true, active: false});
-    $('#olmap_layertree').find('.ui-accordion-content').css('max-height', window.apf.berechneOlmapLayertreeMaxhöhe);
+	var ch_ortholuftbild_layer = ga.layer.create('ch.swisstopo.swissimage');
+		ch_ortholuftbild_layer.set('title', 'CH Luftbild');
+		ch_ortholuftbild_layer.set('visible', false);
 
-	// Zunächst alle Layer definieren
-    window.apf.olmap.layers = [
-        ga.layer.create('ch.swisstopo.pixelkarte-farbe'),
-        new ol.layer.Tile({
-            title: 'Kantone',
+	var ch_lk_grau_layer = ga.layer.create('ch.swisstopo.pixelkarte-grau');
+		ch_lk_grau_layer.set('title', 'CH Landeskarten grau');
+
+	var ch_lk_farbe_layer = ga.layer.create('ch.swisstopo.pixelkarte-farbe');
+		ch_lk_farbe_layer.set('title', 'CH Landeskarten farbig');
+		ch_lk_farbe_layer.set('visible', false);
+
+	var ch_kantone_layer = new ol.layer.Tile({
+	        title: 'CH Kantone',
+	        source: new ol.source.TileWMS({
+	            url: '//wms.geo.admin.ch?',
+                crossOrigin: 'anonymous',
+	            params: {
+	                'layers': 'ch.swisstopo.swissboundaries3d-kanton-flaeche.fill',
+	                'srs': 'EPSG:21781',
+	                'format': 'png',
+	                'visibility': false,
+	                'singleTile': true
+	            }
+	        })
+	    });
+
+    var zh_svo_farbig_layer = new ol.layer.Tile({
+            title: 'ZH SVO farbig',
             source: new ol.source.TileWMS({
-                url: '//wms.geo.admin.ch?',
+                url: '//wms.zh.ch/FnsSVOZHWMS',
+                crossOrigin: 'anonymous',
                 params: {
-                    'layers': 'ch.swisstopo.swissboundaries3d-kanton-flaeche.fill',
-                    'srs': 'EPSG:21781',
-                    'format': 'png',
+                    'layers': 'zonen-schutzverordnungen,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr',
+                    'transparent': true,
+                    'visibility': false,
+                    //'singleTile': true,
+                    'opacity': 0.7
+                }
+            })
+        });
+    	zh_svo_farbig_layer.set('visible', false);
+
+    var zh_svo_grau_layer = new ol.layer.Tile({
+            title: 'ZH SVO schwarz/weiss gerastert',
+            source: new ol.source.TileWMS({
+                url: '//wms.zh.ch/FnsSVOZHWMS',
+                crossOrigin: 'anonymous',
+                params: {
+                    'layers': 'zonen-schutzverordnungen-raster,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr',
+                    'transparent': true,
                     'visibility': false,
                     'singleTile': true
                 }
             })
-        })
-    ];
-    /*window.apf.olmap.layers = [
-        ga.layer.create('ch.swisstopo.pixelkarte-farbe'),
-	    new ol.layer.Tile({
+        });
+    	zh_svo_grau_layer.set('visible', false);
+
+    // error 401 (Authorization required)
+    var zh_lichte_wälder_layer = new ol.layer.Tile({
+            title: 'ZH Lichte Wälder',
+            source: new ol.source.TileWMS({
+                url: '//maps.zh.ch/wms/FnsLWZH',
+                crossOrigin: 'anonymous',
+                params: {
+                    'layers': 'objekte-lichte-waelder-kanton-zuerich',
+                    'transparent': true,
+                    'visibility': false,
+                    'singleTile': true
+                }
+            })
+        });
+    	zh_lichte_wälder_layer.set('visible', false);
+
+    // error 401 (Authorization required)
+    var zh_ortholuftbild_layer = new ol.layer.Tile({
             title: 'ZH Luftbild',
             source: new ol.source.TileWMS({
                 url: '//agabriel:4zC6MgjM@wms.zh.ch/OrthoZHWMS',
+                crossOrigin: 'anonymous',
                 params: {
                     'layers': 'orthophotos',
                     'isBaseLayer': true,
@@ -14774,11 +14827,15 @@ window.apf.initiiereGeoAdminKarte = function() {
                     'singleTile': true
                 }
             })
-        }),
-        new ol.layer.Tile({
+        });
+    	zh_ortholuftbild_layer.set('visible', false);
+
+    // error 401 (Authorization required)
+    var zh_ortholuftbild2_layer = new ol.layer.Tile({
             title: 'ZH Luftbild 2',
             source: new ol.source.TileWMS({
                 url: '//maps.zh.ch/wms/OrthoBackgroundZH',
+                crossOrigin: 'anonymous',
                 params: {
                     'layers': 'orthoaktuell',
                     'isBaseLayer': true,
@@ -14786,11 +14843,15 @@ window.apf.initiiereGeoAdminKarte = function() {
                     'singleTile': true
                 }
             })
-        }),
-        new ol.layer.Tile({
+        });
+        zh_ortholuftbild2_layer.set('visible', false);
+
+    // error 401 (Authorization required)
+    var zh_höhenmodell_layer = new ol.layer.Tile({
             title: 'ZH Höhenmodell',
             source: new ol.source.TileWMS({
                 url: '//maps.zh.ch/wms/DTMBackgroundZH',
+                crossOrigin: 'anonymous',
                 params: {
                     'layers': 'dtm',
                     'isBaseLayer': true,
@@ -14798,7 +14859,20 @@ window.apf.initiiereGeoAdminKarte = function() {
                     'singleTile': true
                 }
             })
-        }),
+        });
+        zh_höhenmodell_layer.set('visible', false);
+
+	// Zunächst alle Layer definieren
+    window.apf.olmap.layers = [
+    	ch_ortholuftbild_layer,
+    	ch_lk_grau_layer,
+        ch_lk_farbe_layer,
+        ch_kantone_layer,
+        zh_svo_farbig_layer,
+        zh_svo_grau_layer
+    ];
+    /*window.apf.olmap.layers = [
+
         new ol.layer.Tile({
             title: 'Landeskarten sw',
             source: new ol.source.TileWMS({
@@ -14891,31 +14965,6 @@ window.apf.initiiereGeoAdminKarte = function() {
                 }
             })
         }),
-        new ol.layer.Tile({
-            title: 'ZH SVO farbig',
-            source: new ol.source.TileWMS({
-                url: '//wms.zh.ch/FnsSVOZHWMS',
-                params: {
-                    'layers': 'zonen-schutzverordnungen,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr',
-                    'transparent': true,
-                    'visibility': false,
-                    'singleTile': true,
-                    'opacity': 0.7
-                }
-            })
-        }),
-        new ol.layer.Tile({
-            title: 'ZH SVO Raster',
-            source: new ol.source.TileWMS({
-                url: '//wms.zh.ch/FnsSVOZHWMS',
-                params: {
-                    'layers': 'zonen-schutzverordnungen-raster,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr',
-                    'transparent': true,
-                    'visibility': false,
-                    'singleTile': true
-                }
-            })
-        }),
         new ol.layer.Vector({
             title: 'ZH Verträge',
             source: new ol.source.TileWMS({
@@ -14935,18 +14984,6 @@ window.apf.initiiereGeoAdminKarte = function() {
                 url: '//agabriel:4zC6MgjM@wms.zh.ch/WaldVKoverlayZH',
                 params: {
                     'layers': 'waldgesellschaften,beschriftung-einheit-nach-ek72',
-                    'transparent': true,
-                    'visibility': false,
-                    'singleTile': true
-                }
-            })
-        }),
-        new ol.layer.Tile({
-            title: 'ZH Lichte Wälder',
-            source: new ol.source.TileWMS({
-                url: '//maps.zh.ch/wms/FnsLWZH',
-                params: {
-                    'layers': 'objekte-lichte-waelder-kanton-zuerich',
                     'transparent': true,
                     'visibility': false,
                     'singleTile': true
@@ -15024,6 +15061,18 @@ window.apf.initiiereGeoAdminKarte = function() {
         });
 
         window.apf.olmap.initiiereLayertree();
+
+        //Mouse Position
+        var mousePositionControl = new ol.control.MousePosition({
+            //This is the format we want the coordinate in
+            //The number argument in createStringXY is the number of decimal places
+            coordinateFormat: ol.coordinate.createStringXY(0),
+            projection: "EPSG:21781",
+            //className: "olmap_mouse_position",
+            //target: $('#olmap_mouse_position'),
+            undefinedHTML: '&nbsp;' //what openlayers will use if the map returns undefined for a map coordinate
+        });
+        window.apf.olmap.map.addControl(mousePositionControl);
 
         // TODO: Layerwahl implementierren
 		/*var baseLayerTool = new GeoAdmin.BaseLayerTool({
@@ -15346,6 +15395,9 @@ window.apf.olmap.initiiereLayertree = function() {
         }
     });
     $('#olmap_layertree_layers').html(html);
+    // erst jetzt initiieren, sonst stimmt die Höhe nicht
+    $("#olmap_layertree").accordion({collapsible:true, active: false});
+    $('#olmap_layertree').find('.ui-accordion-content').css('max-height', window.apf.berechneOlmapLayertreeMaxhöhe);
 };
 
 window.apf.addInteraction = function() {
