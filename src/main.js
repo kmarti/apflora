@@ -15077,6 +15077,8 @@ window.apf.initiiereGeoAdminKarte = function() {
         //Full Screen
         var myFullScreenControl = new ol.control.FullScreen();
         window.apf.olmap.map.addControl(myFullScreenControl);
+        // auf Deutsch beschriften
+        $('#ga_karten_div').find('.ol-full-screen').find('span[role="tooltip"]').html('Vollbild wechseln');
 
         // TODO: Layerwahl implementierren
 		/*var baseLayerTool = new GeoAdmin.BaseLayerTool({
