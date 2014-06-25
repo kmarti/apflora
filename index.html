@@ -1988,7 +1988,7 @@
 					</div>
 					<div id="olmap_layertree">
 						<h3>Ebenen</h3>
-                        <div>
+                        <div id="olmap_layertree_layers">
                             <li><input type="checkbox" id="olmap_layertree_Ebene 1"><label for="olmap_layertree_Ebene 1">Ebene 1</label></li><hr>
                             <li><input type="checkbox" id="olmap_layertree_Ebene 2"><label for="olmap_layertree_Ebene 2">Ebene 2</label></li><hr>
                             <li><input type="checkbox" id="olmap_layertree_Ebene 3"><label for="olmap_layertree_Ebene 3">Ebene 3</label></li><hr>
@@ -2246,6 +2246,10 @@
 				});
 
 				window.apf.initiiere_index();
+
+                $('#olmap_layertree').on('click', '.olmap_layertree_checkbox', function(event) {
+                    window.apf.olmap.layers[event.target.value].setVisible(event.target.checked);
+                });
 
 				$(".export_abschnitt").tooltip({
 					tooltipClass: "export_abschnitt_tooltip_class",
