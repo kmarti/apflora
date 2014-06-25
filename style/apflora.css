@@ -460,8 +460,51 @@ a {
 	border-radius: 6px;
 }
 
+#olmap_layertree .ui-button-text {
+    font-size: 16px !important;
+}
+
+#menuleiste .ui-button {
+    padding: .2em .2em !important;
+}
+
+#olmap_layertree .ui-accordion-header {
+    padding-left: 1.9em;
+    padding-top: .2em;
+    padding-bottom: .2em;
+
+}
+
 #olmap_layertree .ui-accordion-content {
-    overflow: auto;
+    /*overflow: auto;*/
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: .3em;
+    padding-bottom: .3em;
+    font-size: 16px;
+    line-height: 1em;
+    opacity: 0.97;
+}
+
+#olmap_layertree .ui-accordion-content li {
+    padding-left: 2.1em;
+    padding-right: 1em;
+}
+
+#olmap_layertree .ui-accordion-content hr {
+    /*color: rgb(224, 207, 194);*/
+    color: #E0CFC2;
+    border-style: solid;
+    border-width: thin;
+}
+
+#olmap_layertree [type=checkbox]:first-child {
+    margin-top: 0;
+    margin-left: 0 !important;
+}
+
+#olmap_layertree li label {
+    padding-left: 5px;
 }
 
 #menuleiste {

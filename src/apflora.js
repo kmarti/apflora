@@ -2000,7 +2000,7 @@ window.apf.setzeKartenhöhe = function() {
 window.apf.berechneOlmapLayertreeMaxhöhe = function() {
     var lyt_max_height;
     if ($(window).width() > 1000) {
-        lyt_max_height = $(window).height() - 125;
+        lyt_max_height = $(window).height() - 115;
     } else {
         // Spalten sind untereinander
         lyt_max_height = 200;
@@ -10810,11 +10810,6 @@ window.apf.initiiereGeoAdminKarte = function() {
 
 		// verständlich beschreiben
 		$(".x-panel-header-text").text("Ebenen");
-
-		// ganze Titelzeile: mit Klick vergrössern bzw. verkleinern
-		$("#olmap_layertree").on("click", "#toggleLayertree, .x-panel-header", function() {
-			window.apf.öffneSchliesseLayertree();
-		});*/
 	}
 	$('#karteSchieben').checked = true;	// scheint nicht zu funktionieren?
 };
@@ -10883,21 +10878,6 @@ window.apf.olmap.schliesseLayeroptionen = function() {
 			});
 		}
 	});
-};
-
-window.apf.öffneSchliesseLayertree = function() {
-	'use strict';
-    // TODO: Auf OL3 portieren
-	// ein hübscher Übergang wäre nett
-	/*if ($(".x-panel-bwrap").css('display') !== 'none') {
-		$(".x-panel-bwrap").css('display', 'none');
-		$("#olmap_layertree .x-panel-header").css('border-bottom-right-radius', '6px');
-		$("#olmap_layertree .x-panel-header").css('border-bottom-left-radius', '6px');
-	} else {
-		$(".x-panel-bwrap").css('display', 'inline');
-		$("#olmap_layertree .x-panel-header").css('border-bottom-right-radius', 0);
-		$("#olmap_layertree .x-panel-header").css('border-bottom-left-radius', 0);
-	}*/
 };
 
 window.apf.handleMeasurements = function(event) {
