@@ -454,9 +454,9 @@ a {
 	width: 302px;
 	overflow: hidden;
 	position: absolute;
-	right: 10px;
+	right: 50px;
 	z-index: 1009;
-	top: 10px;
+	top: 8px;
 	border-radius: 6px;
 }
 
@@ -468,7 +468,7 @@ a {
     padding-left: 1.9em;
     padding-top: .2em;
     padding-bottom: .2em;
-
+    font-size: 16px;
 }
 
 #olmap_layertree .ui-accordion-content {
@@ -504,7 +504,7 @@ a {
 
 #menuleiste {
 	position: absolute;
-	top: 10px;
+	top: 8px;
 	left: 57px;
 	/*vor die Karte aber nicht vor die Meldungen*/
 	z-index: 800;
@@ -520,8 +520,8 @@ a {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	/*Koordinaten weiss hinterlegen, damit sie auf jedem Hintergrund gut sichtbar sind*/
 	text-shadow: 0 1px 0.5px white,1px 0 0.5px white,0 -1px 0.5px white,-1px 0 0.5px white,0 2px 0.5px white,2px 0 0.5px white,0 -2px 0.5px white,-2px 0 0.5px white;
-	top: 20px;
-	right: 322px;
+	top: 16px;
+	right: 362px;
 }
 
 #ergebnisMessung {

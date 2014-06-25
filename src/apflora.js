@@ -10574,6 +10574,10 @@ window.apf.initiiereGeoAdminKarte = function() {
         });
         window.apf.olmap.map.addControl(mousePositionControl);
 
+        //Full Screen
+        var myFullScreenControl = new ol.control.FullScreen();
+        window.apf.olmap.map.addControl(myFullScreenControl);
+
         // TODO: Layerwahl implementierren
 		/*var baseLayerTool = new GeoAdmin.BaseLayerTool({
 			renderTo: "baselayertool",
