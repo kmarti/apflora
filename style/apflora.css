@@ -464,10 +464,6 @@ a {
     font-size: 16px !important;
 }
 
-#menuleiste .ui-button {
-    padding: .2em .2em !important;
-}
-
 #olmap_layertree .ui-accordion-header {
     padding-left: 1.9em;
     padding-top: .2em;
@@ -481,7 +477,7 @@ a {
     padding-right: 0;
     padding-top: .3em;
     padding-bottom: .3em;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 1em;
     opacity: 0.97;
 }
@@ -492,15 +488,14 @@ a {
 }
 
 #olmap_layertree .ui-accordion-content hr {
-    /*color: rgb(224, 207, 194);*/
     color: #E0CFC2;
-    border-style: solid;
-    border-width: thin;
+    border-style: inherit;
 }
 
 #olmap_layertree [type=checkbox]:first-child {
     margin-top: 0;
     margin-left: 0 !important;
+    margin-bottom: 0;
 }
 
 #olmap_layertree li label {
@@ -514,6 +509,11 @@ a {
 	/*vor die Karte aber nicht vor die Meldungen*/
 	z-index: 800;
 }
+
+#menuleiste .ui-button {
+    padding: .2em .2em !important;
+}
+
 #baselayertool {
 	position: absolute;
 	top: 65px;

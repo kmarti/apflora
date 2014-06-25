@@ -10589,6 +10589,7 @@ window.apf.initiiereGeoAdminKarte = function() {
         // TODO: auf GA2 portieren
         var ch_ls_farbe = ga.layer.create('ch.swisstopo.pixelkarte-farbe');
         window.apf.olmap.map.addLayer(ch_ls_farbe);
+        window.apf.olmap.map.addLayer(ch_ktgrenzen_layer);
         //window.apf.olmap.map.addLayer(zh_svo_layer);
         /*var ch_tww_layer = ga.layer.create('ch.bafu.bundesinventare-trockenwiesen_trockenweiden');
         window.apf.olmap.map.addLayer(ch_tww_layer);*/
@@ -10809,7 +10810,7 @@ window.apf.initiiereGeoAdminKarte = function() {
 		$(".x-panel-bwrap").css('display', 'none');
 
 		// verständlich beschreiben
-		$(".x-panel-header-text").text("Ebenen");
+		$(".x-panel-header-text").text("Ebenen");*/
 	}
 	$('#karteSchieben').checked = true;	// scheint nicht zu funktionieren?
 };
@@ -10863,21 +10864,7 @@ window.apf.wähleMitPolygon = function() {
 
 window.apf.olmap.schliesseLayeroptionen = function() {
 	'use strict';
-    // TODO: Auf OL3 upgraden
-	$(".x-panel-body .x-tree-node").each(function() {
-		if ($(".x-tree-node-anchor span", this).text() !== "ZH Luftbild") {
-			$(".gx-tree-layer-action.close", this).each(function() {
-				$(this).css("visibility", "hidden");
-			});
-			$(".gx-tree-layer-action.open", this).each(function() {
-				$(this).css("visibility", "visible");
-				$(this).css("display", "block");
-			});
-			$(".x-toolbar.x-small-editor.geoadmin-toolbar.x-toolbar-layout-ct", this).each(function() {
-				$(this).addClass("x-hide-display");
-			});
-		}
-	});
+    $("#olmap_layertree").accordion("option", "active", false);
 };
 
 window.apf.handleMeasurements = function(event) {
