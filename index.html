@@ -2156,8 +2156,11 @@
 
 		<script>
             //'use strict';
+            // benötigte globale Variabeln initialisieren
 			window.apf = window.apf || {};
-			//window.afm = window.afm || {};
+			window.apf.gmap = window.apf.gmap || {};
+			window.apf.olmap = window.apf.olmap || {};
+
 			$(document).ready(function () {
 				var $Useranmeldung = $("#anmelde_dialog").dialog( {
 					autoOpen: false,
@@ -2400,7 +2403,7 @@
 			$(".karte").on("change", ".google_karte_detailplaene_checkbox", function() {
 				console.log("toggle Detailpläne");
 				if (window.apf.google_karte_detailpläne.getMap() === null) {
-					window.apf.google_karte_detailpläne.setMap(window.apf.map);
+					window.apf.google_karte_detailpläne.setMap(window.apf.gmap.map);
 				} else {
 					window.apf.google_karte_detailpläne.setMap(null);
 				}
@@ -2409,7 +2412,7 @@
 			// Bei aktivieren/deaktivieren von Pop oder TPop im Layertree soll Auwahl erneuert werden
 			$("#layertree").on("click", "button.x-btn-text", function() {
 				// wenn ein Auswahlpolygon existiert
-				if (window.apf.auswahlPolygonLayer && window.apf.auswahlPolygonLayer.features.length > 0) {
+				if (window.apf.olmap.auswahlPolygonLayer && window.apf.olmap.auswahlPolygonLayer.features.length > 0) {
 					// Layer ermitteln
 					var Layername = $(this).parents().eq(19).children(".x-tree-node-anchor").children().text();
 					// Wenn Layer Pop oder TPop ist
