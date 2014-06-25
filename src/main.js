@@ -5083,7 +5083,7 @@ window.apf.initiiere_jber_uebersicht = function() {
 			// Felder mit Daten beliefern
             $JbuJahr.val(data.JbuJahr);
 			$("#JbuBemerkungen").val(data.JbuBemerkungen);
-			// window.apf.FitToContent("Bemerkungen", document.documentElement.clientHeight);
+			// window.apf.fitTextareaToContent("Bemerkungen", document.documentElement.clientHeight);
 			// Formulare blenden
 			window.apf.zeigeFormular("jber_uebersicht");
 			history.replaceState({jber_uebersicht: "jber_uebersicht"}, "jber_uebersicht", "index.html?ap=" + localStorage.ap_id + "&jber_uebersicht=" + localStorage.jber_uebersicht_id);
@@ -6439,7 +6439,7 @@ window.apf.zeigeFormular = function(Formularname) {
 				if ($(this).attr("id") === Formularname) {
 					$(this).show();
 					$('textarea').each(function() {
-						window.apf.FitToContent(this, document.documentElement.clientHeight);
+						window.apf.fitTextareaToContent(this, document.documentElement.clientHeight);
 					});
 				}
 			});
@@ -6481,11 +6481,13 @@ window.apf.setzeTreehöhe = function() {
 
 window.apf.setzeKartenhöhe = function() {
 	'use strict';
+    var lyt_max_height = window.apf.berechneOlmapLayertreeMaxhöhe;
 	// Formulare sind unbegrenzt hoch aber Karten sollen das nicht sein
 	if (window.apf.kartenhöhe_manuell) {
 		$("#forms").height($(window).height() - 17);
 		if (window.apf.olmap && window.apf.olmap.map) {
 			window.apf.olmap.map.updateSize();
+            $('#olmap_layertree').find('.ui-accordion-content').css('max-height', lyt_max_height);
 		}
 		if (typeof google !== "undefined" && google.maps && window.apf.gmap && window.apf.gmap.map !== undefined) {
 			google.maps.event.trigger(window.apf.gmap.map, 'resize');
@@ -6495,6 +6497,17 @@ window.apf.setzeKartenhöhe = function() {
 	}
 };
 
+window.apf.berechneOlmapLayertreeMaxhöhe = function() {
+    var lyt_max_height;
+    if ($(window).width() > 1000) {
+        lyt_max_height = $(window).height() - 125;
+    } else {
+        // Spalten sind untereinander
+        lyt_max_height = 200;
+    }
+    return lyt_max_height;
+};
+
 (function($) {
 	$.fn.hasScrollBar = function() {
 		return this.get(0).scrollHeight > this.height();
@@ -6502,7 +6515,7 @@ window.apf.setzeKartenhöhe = function() {
 })(jQuery);
 
 // setzt die Höhe von textareas so, dass der Text genau rein passt
-window.apf.FitToContent = function(id, maxHeight) {
+window.apf.fitTextareaToContent = function(id, maxHeight) {
 	'use strict';
    var text = id && id.style ? id : document.getElementById(id);
    if (!text)
@@ -12133,7 +12146,7 @@ window.apf.olmap.entferneTPopMarkerEbenen = function() {
 	         window.apf.olmap.removePopup(window.apf.olmap.popups[0]);
 	    }*/
 
-		// auch aus layertree entfernen
+		// auch aus olmap_layertree entfernen
 		// TODO: an OL3 anpassen
 		/*$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
 			if (layername.indexOf($(this).text()) !== -1) {
@@ -12157,7 +12170,7 @@ window.apf.olmap.entfernePopMarkerEbenen = function() {
             }
         });
 
-		// auch aus layertree entfernen
+		// auch aus olmap_layertree entfernen
 		// TODO: an OL3 anpassen
 		/*$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
 			if (layername.indexOf($(this).text()) !== -1) {
@@ -14728,6 +14741,9 @@ window.apf.initiiereGeoAdminKarte = function() {
 	//OpenLayers.ProxyHost = "../cgi-bin/proxy.cgi?url=";
 	//var zh_bbox_1903 = new ol.Extent(669000, 222000, 717000, 284000);
 
+    $("#olmap_layertree").accordion({collapsible:true, active: false});
+    $('#olmap_layertree').find('.ui-accordion-content').css('max-height', window.apf.berechneOlmapLayertreeMaxhöhe);
+
 	// Zunächst alle Layer definieren
 	var zh_ortho_layer = new ol.layer.Tile({
             title: 'ZH Luftbild',
@@ -15282,21 +15298,21 @@ window.apf.initiiereGeoAdminKarte = function() {
 
 
 
-		// layertree aufbauen
+		// olmap_layertree aufbauen
         // TODO: OL3-Variante entwickeln
-		/*window.layertree = window.apf.createLayerTree({
-			renderTo: "layertree",
+		/*window.olmap.layertree = window.apf.createLayerTree({
+			renderTo: "olmap_layertree",
 			width: 285
 		});
 
-		// layertree minimieren
+		// olmap_layertree minimieren
 		$(".x-panel-bwrap").css('display', 'none');
 
 		// verständlich beschreiben
 		$(".x-panel-header-text").text("Ebenen");
 
 		// ganze Titelzeile: mit Klick vergrössern bzw. verkleinern
-		$("#layertree").on("click", "#toggleLayertree, .x-panel-header", function() {
+		$("#olmap_layertree").on("click", "#toggleLayertree, .x-panel-header", function() {
 			window.apf.öffneSchliesseLayertree();
 		});*/
 	}
@@ -15375,12 +15391,12 @@ window.apf.öffneSchliesseLayertree = function() {
 	// ein hübscher Übergang wäre nett
 	/*if ($(".x-panel-bwrap").css('display') !== 'none') {
 		$(".x-panel-bwrap").css('display', 'none');
-		$("#layertree .x-panel-header").css('border-bottom-right-radius', '6px');
-		$("#layertree .x-panel-header").css('border-bottom-left-radius', '6px');
+		$("#olmap_layertree .x-panel-header").css('border-bottom-right-radius', '6px');
+		$("#olmap_layertree .x-panel-header").css('border-bottom-left-radius', '6px');
 	} else {
 		$(".x-panel-bwrap").css('display', 'inline');
-		$("#layertree .x-panel-header").css('border-bottom-right-radius', 0);
-		$("#layertree .x-panel-header").css('border-bottom-left-radius', 0);
+		$("#olmap_layertree .x-panel-header").css('border-bottom-right-radius', 0);
+		$("#olmap_layertree .x-panel-header").css('border-bottom-left-radius', 0);
 	}*/
 };
 

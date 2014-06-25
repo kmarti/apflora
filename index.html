@@ -1986,8 +1986,23 @@
 							</div>
 						</div>
 					</div>
-					<div id="layertree">
-						<img id="toggleLayertree" src="style/images/updown.png" alt="öffnen/schliessen" height="14" width="14">
+					<div id="olmap_layertree">
+						<h3>Ebenen</h3>
+                        <div>
+                            <li>Ebene 1</li>
+                            <li>Ebene 2</li>
+                            <li>Ebene 3</li>
+                            <li>Ebene 4</li>
+                            <li>Ebene 5</li>
+                            <li>Ebene 6</li>
+                            <li>Ebene 7</li>
+                            <li>Ebene 8</li>
+                            <li>Ebene 9</li>
+                            <li>Ebene 10</li>
+                            <li>Ebene 11</li>
+                            <li>Ebene 12</li>
+                            <li>Ebene 13</li>
+                        </div>
 					</div>
 				</div>
 			</div>
@@ -2265,7 +2280,7 @@
                         window.apf.kopiereKoordinatenInPop($("#TPopXKoord").val(), $("#TPopYKoord").val());
                     })
                     .on("keyup focus", "textarea", function() {
-                        window.apf.FitToContent(this, document.documentElement.clientHeight);
+                        window.apf.fitTextareaToContent(this, document.documentElement.clientHeight);
                     });
 
 				// verhindern, dass Zahlen durch Scrollen am Mausrad aus Versehen verändert werden
@@ -2410,7 +2425,7 @@
 			});
 
 			// Bei aktivieren/deaktivieren von Pop oder TPop im Layertree soll Auwahl erneuert werden
-			$("#layertree").on("click", "button.x-btn-text", function() {
+			$("#olmap_layertree").on("click", "button.x-btn-text", function() {
 				// wenn ein Auswahlpolygon existiert
 				if (window.apf.olmap.auswahlPolygonLayer && window.apf.olmap.auswahlPolygonLayer.features.length > 0) {
 					// Layer ermitteln

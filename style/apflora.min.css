@@ -450,16 +450,20 @@ a {
 	border-radius: 8px;
 }
 
-#layertree {
+#olmap_layertree {
 	width: 302px;
-	overflow:auto;
-	position:absolute;
-	right: -5px;
+	overflow: hidden;
+	position: absolute;
+	right: 10px;
 	z-index: 1009;
 	top: 19px;
-	max-height: 90%;
 	border-radius: 6px;
 }
+
+#olmap_layertree .ui-accordion-content {
+    overflow: auto;
+}
+
 #menuleiste {
 	position: absolute;
 	top: 20px;
