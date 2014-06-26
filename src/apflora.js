@@ -7724,8 +7724,8 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
 			}
 			
 			// Karte zum richtigen Ausschnitt zoomen
-			window.apf.olmap.updateSize();
-            window.apf.olmap.getView().fitExtent(bounds, window.apf.olmap.getSize());
+			window.apf.olmap.map.updateSize();
+            window.apf.olmap.map.getView().fitExtent(bounds, window.apf.olmap.map.getSize());
 			window.apf.olmap.schliesseLayeroptionen();
 
 			// jetzt einen Handler für den Klick aufbauen
@@ -7831,8 +7831,8 @@ window.apf.zeigeTPopAufOlmap = function(TPopListeMarkiert) {
 			if (window.apf.olmap.auswahlPolygonLayer && window.apf.olmap.auswahlPolygonLayer.features.length > 0) {
 				// Auswahl aktiv, Zoomstufe belassen
 			} else {
-				window.apf.olmap.updateSize();
-                window.apf.olmap.getView().fitExtent(markierte_tpop.bounds, window.apf.olmap.getSize());
+				window.apf.olmap.map.updateSize();
+                window.apf.olmap.map.getView().fitExtent(markierte_tpop.bounds, window.apf.olmap.map.getSize());
 			}
 			// tpop und pop ergänzen
 			// alle tpop holen
@@ -7883,8 +7883,8 @@ window.apf.zeigePopAufOlmap = function(PopListeMarkiert) {
 			if (window.apf.olmap.auswahlPolygonLayer && window.apf.olmap.auswahlPolygonLayer.features.length > 0) {
 				// Auswahl aktiv, Zoomstufe belassen
 			} else {
-				window.apf.olmap.updateSize();
-                window.apf.olmap.getView().fitExtent(markierte_pop.bounds, window.apf.olmap.getSize());
+				window.apf.olmap.map.updateSize();
+                window.apf.olmap.map.getView().fitExtent(markierte_pop.bounds, window.apf.olmap.map.getSize());
 			}
 			// tpop und pop ergänzen
 			// alle tpop holen
@@ -8097,28 +8097,47 @@ window.apf.speichereWert = function(tabelle, id, feld, wert) {
 window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, visible) {
 	'use strict';
 	var tpopsymbole_erstellt = $.Deferred(),
-        tpop;
-	//if (!visible && visible !== false) {
+        tpop,
+        marker_style,
+        marker_style_markiert;
+
 	if (visible === null) {
 		visible = true;
 	}
+
 	// styles für overlay_top definieren
-	var defaultStyle = new OpenLayers.Style({
+	marker_style_markiert = new ol.style.Style({
+		image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+		    anchor: [0.5, 46],
+		    anchorXUnits: 'fraction',
+		    anchorYUnits: 'pixels',
+		    opacity: 0.75,
+		    src: 'img/flora_icon_gelb.png'
+  		}))
+	});
+	marker_style = new ol.style.Style({
+		image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+		    anchor: [0.5, 46],
+		    anchorXUnits: 'fraction',
+		    anchorYUnits: 'pixels',
+		    opacity: 0.75,
+		    src: 'img/flora_icon.png'
+  		}))
+	});
+
+	// alt:
+	/*var defaultStyle = new OpenLayers.Style({
 		externalGraphic: '//www.apflora.ch/img/flora_icon.png',
 		graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
 		title: '${tooltip}'
 	});
 	var selectStyle = new OpenLayers.Style({
 		externalGraphic: '//www.apflora.ch/img/flora_icon_gelb.png'
-	});
+	});*/
 
-	var strategy = new OpenLayers.Strategy.Cluster({
-		distance: 30, 
-		threshold: 2
-	});
+	
 
-	// overlay layer für Marker vorbereiten
-	window.overlay_tpop = new OpenLayers.Layer.Vector('Teilpopulationen', {
+	/*window.overlay_tpop = new OpenLayers.Layer.Vector('Teilpopulationen', {
 		filter: '',	// ist wohl nicht nötig und nützt auch nichts, um später einen Filter anzufügen
 		// popup bei select
 		eventListeners: {
@@ -8136,18 +8155,18 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
 		}),
 		// ermöglicht, dass die markierte TPop über den anderen angezeigt wird
 		rendererOptions: {
-			//yOrdering: true, 
 			zIndexing: true
 		},
 		visibility: visible
-	});
+	});*/
 
 	// Array gründen, um marker darin zu sammeln
 	var markers = [],
         marker,
         my_label,
         my_flurname,
-        html;
+        html,
+        tpop_layer;
 
     _.each(tpop_liste.rows, function(tpop) {
         my_flurname = tpop.TPopFlurname || '(kein Flurname)';
@@ -8157,8 +8176,6 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
             '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
             "<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + tpop.TPopId + "')\">Formular öffnen<\/a></p>"+
             "<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
-
-        var my_location = new OpenLayers.Geometry.Point(tpop.TPopXKoord, tpop.TPopYKoord);
 
         // tooltip bzw. label vorbereiten: nullwerte ausblenden
         if (tpop.PopNr && tpop.TPopNr) {
@@ -8171,9 +8188,20 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
             my_label = '?/?';
         }
 
+        // marker erstellen
+        marker = new ol.Feature({
+    		geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
+			name: my_flurname,
+			population: 4000,	// wozu?
+			rainfall: 5000		// wozu?
+    	});
+
         // marker erstellen...
         // gewählte erhalten style gelb und zuoberst
         if (tpopid_markiert && tpopid_markiert.indexOf(tpop.TPopId) !== -1) {
+        	marker.setStyle(marker_style_markiert);
+
+    		/* alt:
             marker = new OpenLayers.Feature.Vector(my_location, {
                 tooltip: my_flurname,
                 label: my_label,
@@ -8183,32 +8211,49 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
                 graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
                 title: tpop.TPopFlurname,
                 graphicZIndex: 5000
-            });
+            });*/
         } else {
+        	marker.setStyle(marker_style);
+        	/* alt:
             marker = new OpenLayers.Feature.Vector(my_location, {
                 tooltip: my_flurname,
                 message: html,
                 label: my_label
-            });
+            });*/
         }
+        marker.set('myTyp', 'tpop');	// TODO: funktioniert das?
+        marker.set('myId', 'tpop.TPopId');
+
+        /* alt:
         marker.attributes.myTyp = "tpop";
         marker.attributes.myId = tpop.TPopId;
 
         // ...und in Array speichern
-        markers.push(marker);
+        markers.push(marker);*/
     });
 
-	// die marker der Ebene hinzufügen
-	overlay_tpop.addFeatures(markers);
+	// layer für Marker erstellen
+	tpop_layer = new ol.layer.Vector({
+		title: 'Teilpopulationen',
+		source: new ol.source.Vector({
+				features: [markers]
+			})
+	});
+    tpop_layer.set('visible', true);
+    tpop_layer.set('kategorie', 'AP Flora');
+    window.apf.olmap.map.addLayer(window.apf.olmap.tpop_layer);
 
+    // TODO: marker sollen verschoben werden können
+
+    /* alt:
 	// die marker sollen verschoben werden können
-	var dragControl = new OpenLayers.Control.DragFeature(overlay_tpop, {
+	var dragControl = new OpenLayers.Control.DragFeature(window.overlay_tpop, {
 		onStart: function(feature) {
 			// TO DO: Variable zum rückgängig machen erstellen
-			/*window.tpop_vorher = {};
-			tpop_vorher.TPopXKoord = feature.geometry.x;
-			tpop_vorher.TPopYKoord = feature.geometry.y;
-			tpop_vorher.TPopId = feature.attributes.myId;*/
+			//window.tpop_vorher = {};
+			//tpop_vorher.TPopXKoord = feature.geometry.x;
+			//tpop_vorher.TPopYKoord = feature.geometry.y;
+			//tpop_vorher.TPopId = feature.attributes.myId;
 			// meldung anzeigen, wie bei anderen Wiederherstellungen
 			// wenn wiederherstellen: function verschiebeTPop(id, x, y)
 			
@@ -8351,7 +8396,7 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
                 .button("enable").button("refresh");
 		});
 		window.apf.olmap.addControl(drawControl);
-	}
+	}*/
 
 	tpopsymbole_erstellt.resolve();
 	return tpopsymbole_erstellt.promise();
@@ -8454,11 +8499,31 @@ window.apf.erstelleListeDerAusgewaehltenPopTPop = function() {
 // visible: Ob die Ebene sichtbar geschaltet wird (oder bloss im Layertree verfügbar ist)
 window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible) {
 	'use strict';
-	if (visible === null) {
-		visible = true;
-	}
-	var PopSymbole_erstellt = $.Deferred();
+	var PopSymbole_erstellt = $.Deferred(),
+		marker_style,
+		marker_style_markiert;
+
 	// styles für overlay_pop definieren
+	marker_style_markiert = new ol.style.Style({
+		image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+		    anchor: [0.5, 46],
+		    anchorXUnits: 'fraction',
+		    anchorYUnits: 'pixels',
+		    opacity: 0.75,
+		    src: 'img/flora_icon_orange.png'
+  		}))
+	});
+	marker_style = new ol.style.Style({
+		image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+		    anchor: [0.5, 46],
+		    anchorXUnits: 'fraction',
+		    anchorYUnits: 'pixels',
+		    opacity: 0.75,
+		    src: 'img/flora_icon_braun.png'
+  		}))
+	});
+
+	/* alt:
 	var defaultStyle = new OpenLayers.Style({
 		externalGraphic: '//www.apflora.ch/img/flora_icon_braun.png',
 		graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
@@ -8466,7 +8531,11 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
 	});
 	var selectStyle = new OpenLayers.Style({
 		externalGraphic: '//www.apflora.ch/img/flora_icon_orange.png'
-	});
+	});*/
+
+	if (visible === null) {
+		visible = true;
+	}
 
 	// overlay layer für Marker vorbereiten
 	window.overlay_pop = new OpenLayers.Layer.Vector('Populationen', {
@@ -8496,7 +8565,8 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
         marker,
         my_label,
         my_name,
-        html;
+        html,
+        pop_layer;
 
     _.each(popliste.rows, function(pop) {
         my_name = pop.PopName || '(kein Name)';
@@ -8504,8 +8574,6 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
             '<p>Koordinaten: ' + pop.PopXKoord + ' / ' + pop.PopYKoord + '</p>'+
             "<p><a href=\"#\" onclick=\"window.apf.öffnePop('" + pop.PopId + "')\">Formular öffnen<\/a></p>"+
             "<p><a href=\"#\" onclick=\"window.apf.öffnePopInNeuemTab('" + pop.PopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
-
-        var myLocation = new OpenLayers.Geometry.Point(pop.PopXKoord, pop.PopYKoord);
 
         // tooltip bzw. label vorbereiten: nullwerte ausblenden
         if (pop.PopNr) {
@@ -8515,8 +8583,17 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
         }
 
         // marker erstellen...
+        marker = new ol.Feature({
+    		geometry: new ol.geom.Point([pop.PopXKoord, pop.PopYKoord]),
+			name: my_name,
+			population: 4000,	// wozu?
+			rainfall: 5000		// wozu?
+    	});
+
         // gewählte erhalten style gelb und zuoberst
         if (popid_markiert && popid_markiert.indexOf(pop.PopId) !== -1) {
+        	marker.setStyle(marker_style_markiert);
+        	/* alt:
             marker = new OpenLayers.Feature.Vector(myLocation, {
                 tooltip: my_name,
                 label: my_label,
@@ -8526,24 +8603,41 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
                 graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
                 title: my_name,
                 graphicZIndex: 5000
-            });
+            });*/
         } else {
+        	marker.setStyle(marker_style);
+        	/* alt:
             marker = new OpenLayers.Feature.Vector(myLocation, {
                 tooltip: my_name,
                 message: html,
                 label: my_label
-            });
+            });*/
         }
+        marker.set('myTyp', 'pop');	// TODO: funktioniert das?
+        marker.set('myId', 'pop.PopId');
+
+    	/* alt:
         marker.attributes.myTyp = "pop";
         marker.attributes.myId = pop.PopId;
 
         // ...und in Array speichern
-        markers.push(marker);
+        markers.push(marker);*/
     });
 
-	// die marker der Ebene hinzufügen
-	overlay_pop.addFeatures(markers);
+	// layer für Marker erstellen
+	pop_layer = new ol.layer.Vector({
+		title: 'Populationen',
+		source: new ol.source.Vector({
+				features: [markers]
+			})
+	});
+    pop_layer.set('visible', true);
+    pop_layer.set('kategorie', 'AP Flora');
+    window.apf.olmap.map.addLayer(window.apf.olmap.pop_layer);
 
+    // TODO: marker sollen verschoben werden können
+
+    /* alt:
 	// die marker sollen verschoben werden können
 	var dragControl = new OpenLayers.Control.DragFeature(overlay_pop, {
 		onStart: function(feature) {
@@ -8653,7 +8747,7 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
 	// SelectControl erstellen (mit dem Eventlistener öffnet das die Infoblase) und zur Karte hinzufügen
 	window.selectControlPop = new OpenLayers.Control.SelectFeature(overlay_pop, {clickout: true});
 	window.apf.olmap.addControl(window.selectControlPop);
-	window.selectControlPop.activate();
+	window.selectControlPop.activate();*/
 	PopSymbole_erstellt.resolve();
 	return PopSymbole_erstellt.promise();
 };
@@ -10628,8 +10722,6 @@ window.apf.initiiereGeoAdminKarte = function() {
             //The number argument in createStringXY is the number of decimal places
             coordinateFormat: ol.coordinate.createStringXY(0),
             projection: "EPSG:21781",
-            //className: "olmap_mouse_position",
-            //target: $('#olmap_mouse_position'),
             undefinedHTML: '&nbsp;' //what openlayers will use if the map returns undefined for a map coordinate
         });
         window.apf.olmap.map.addControl(mousePositionControl);
@@ -10728,118 +10820,13 @@ window.apf.initiiereGeoAdminKarte = function() {
 			}
 		};*/
 
-		var style = new OpenLayers.Style();
+		/*var style = new OpenLayers.Style();
 		style.addRules([
 			new OpenLayers.Rule({symbolizer: sketchSymbolizers})
 		]);
-		var styleMap = new OpenLayers.StyleMap({"default": style});
+		var styleMap = new OpenLayers.StyleMap({"default": style});*/
 
-        var messen_layer = new ol.layer.Vector({
-            source: new ol.source.Vector(),
-            style: new ol.style.Style({
-                fill: new ol.style.Fill({
-                    color: 'rgba(255, 255, 255, 0.2)'
-                }),
-                stroke: new ol.style.Stroke({
-                    color: '#ffcc33',
-                    width: 2
-                }),
-                image: new ol.style.Circle({
-                    radius: 7,
-                    fill: new ol.style.Fill({
-                        color: '#ffcc33'
-                    })
-                })
-            })
-        });
-
-        /**
-         * Currently drawed feature
-         * @type {ol.Feature}
-         */
-        var sketch;
-
-
-        /**
-         * Element for currently drawed feature
-         * @type {Element}
-         */
-        var sketchElement;
-
-        /**
-         * handle pointer move
-         * @param {Event} evt
-         */
-        var mouseMoveHandler = function(evt) {
-            if (sketch) {
-                var output;
-                var geom = (sketch.getGeometry());
-                if (geom instanceof ol.geom.Polygon) {
-                    output = formatArea(/** @type {ol.geom.Polygon} */ (geom));
-
-                } else if (geom instanceof ol.geom.LineString) {
-                    output = formatLength( /** @type {ol.geom.LineString} */ (geom));
-                }
-                sketchElement.innerHTML = output;
-            }
-        };
-
-        window.apf.olmap.map.addLayer(messen_layer);
-
-        $(window.apf.olmap.map.getViewport()).on('mousemove', mouseMoveHandler);
-
-        var typeSelect = document.getElementById('type');
-
-        var draw; // global so we can remove it later
-
-        /**
-         * Let user change the geometry type.
-         * @param {Event} e Change event.
-         */
-        typeSelect.onchange = function(e) {
-            window.apf.olmap.map.removeInteraction(draw);
-            window.apf.olmap.addInteraction();
-        };
-
-
-        /**
-         * format length output
-         * @param {ol.geom.LineString} line
-         * @return {string}
-         */
-        var formatLength = function(line) {
-            var length = Math.round(line.getLength() * 100) / 100;
-            var output;
-            if (length > 100) {
-                output = (Math.round(length / 1000 * 100) / 100) +
-                    ' ' + 'km';
-            } else {
-                output = (Math.round(length * 100) / 100) +
-                    ' ' + 'm';
-            }
-            return output;
-        };
-
-
-        /**
-         * format length output
-         * @param {ol.geom.Polygon} polygon
-         * @return {string}
-         */
-        var formatArea = function(polygon) {
-            var area = polygon.getArea();
-            var output;
-            if (area > 10000) {
-                output = (Math.round(area / 1000000 * 100) / 100) +
-                    ' ' + 'km<sup>2</sup>';
-            } else {
-                output = (Math.round(area * 100) / 100) +
-                    ' ' + 'm<sup>2</sup>';
-            }
-            return output;
-        };
-
-        window.apf.olmap.addInteraction();
+		// TODO: Neue version measure controls einfügen
 
 		/*measureControls = {
 			line: new OpenLayers.Control.Measure(
@@ -10888,6 +10875,7 @@ window.apf.olmap.initiiereLayertree = function() {
         html_ch_sachinfos = '<h3>CH Sachinformationen</h3><div>',
         html_ch_biotopinv = '<h3>CH Biotopinventare</h3><div>',
         html_zh_sachinfos = '<h3>ZH Sachinformationen</h3><div>',
+        html_apflora = '<h3>ZH AP Flora</h3><div>',
         html_prov,
         html,
         $olmap_layertree_layers = $('#olmap_layertree_layers');
@@ -10901,9 +10889,7 @@ window.apf.olmap.initiiereLayertree = function() {
         }
         html_prov += '>';
         html_prov += '<label for="olmap_layertree_' + layertitel + '">' + layertitel + '</label></li>';
-        //if (index < window.apf.olmap.layers.length - 1) {
-            html_prov += '<hr>';
-        //}
+        html_prov += '<hr>';
         switch (kategorie) {
             case "CH Hintergrund":
                 html_ch_hintergrund += html_prov;
@@ -10917,6 +10903,9 @@ window.apf.olmap.initiiereLayertree = function() {
             case "ZH Sachinformationen":
                 html_zh_sachinfos += html_prov;
                 break;
+            case "AP Flora":
+                html_apflora += html_prov;
+                break;
             default:
                 html_zh_sachinfos += html_prov;
         }
@@ -10926,13 +10915,15 @@ window.apf.olmap.initiiereLayertree = function() {
     html_ch_sachinfos = html_ch_sachinfos.substring(0, (html_ch_sachinfos.length - 4));
     html_ch_biotopinv = html_ch_biotopinv.substring(0, (html_ch_biotopinv.length - 4));
     html_zh_sachinfos = html_zh_sachinfos.substring(0, (html_zh_sachinfos.length - 4));
+    html_apflora = html_apflora.substring(0, (html_apflora.length - 4));
     // unteraccordions abschliessen
     html_ch_hintergrund += '</div>';
     html_ch_sachinfos += '</div>';
     html_ch_biotopinv += '</div>';
     html_zh_sachinfos += '</div>';
+    html_apflora += '</div>';
     // alles zusammensetzen
-    html = html_ch_hintergrund + html_ch_sachinfos + html_ch_biotopinv + html_zh_sachinfos;
+    html = html_ch_hintergrund + html_ch_sachinfos + html_ch_biotopinv + html_zh_sachinfos + html_apflora;
     // und einsetzen
     $olmap_layertree_layers.html(html);
     // erst jetzt initiieren, sonst stimmt die Höhe nicht
