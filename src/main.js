@@ -14815,7 +14815,7 @@ window.apf.initiiereGeoAdminKarte = function() {
             title: 'SVO farbig',
             source: new ol.source.TileWMS({
                 url: '//wms.zh.ch/FnsSVOZHWMS',
-                crossOrigin: 'anonymous',
+                //crossOrigin: 'anonymous',
                 params: {
                     'layers': 'zonen-schutzverordnungen,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr',
                     'transparent': true,
@@ -14832,7 +14832,7 @@ window.apf.initiiereGeoAdminKarte = function() {
             title: 'SVO schwarz/weiss',
             source: new ol.source.TileWMS({
                 url: '//wms.zh.ch/FnsSVOZHWMS',
-                crossOrigin: 'anonymous',
+                //crossOrigin: 'anonymous',
                 params: {
                     'layers': 'zonen-schutzverordnungen-raster,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr',
                     'transparent': true,
@@ -15399,7 +15399,8 @@ window.apf.olmap.initiiereLayertree = function() {
         html_ch_biotopinv = '<h3>CH Biotopinventare</h3><div>',
         html_zh_sachinfos = '<h3>ZH Sachinformationen</h3><div>',
         html_prov,
-        html;
+        html,
+        $olmap_layertree_layers = $('#olmap_layertree_layers');
     _.each(window.apf.olmap.layers, function(layer, index) {
         layertitel = layer.get('title');
         visible = layer.get('visible');
@@ -15443,35 +15444,12 @@ window.apf.olmap.initiiereLayertree = function() {
     // alles zusammensetzen
     html = html_ch_hintergrund + html_ch_sachinfos + html_ch_biotopinv + html_zh_sachinfos;
     // und einsetzen
-    $('#olmap_layertree_layers').html(html);
+    $olmap_layertree_layers.html(html);
     // erst jetzt initiieren, sonst stimmt die Höhe nicht
     $("#ga_karten_div").find(".accordion").accordion({collapsible:true, active: false, heightStyle: 'content'});
     // Maximalgrösse des Layertree begrenzen
-    $('#olmap_layertree_layers').css('max-height', window.apf.berechneOlmapLayertreeMaxhöhe);
+    $olmap_layertree_layers.css('max-height', window.apf.berechneOlmapLayertreeMaxhöhe);
 };
-
-/*window.apf.olmap.initiiereLayertree = function() {
- var layertitel,
- visible,
- html = "";
- _.each(window.apf.olmap.layers, function(layer, index) {
- layertitel = layer.get('title');
- visible = layer.get('visible');
- html += '<li><input type="checkbox" class="olmap_layertree_checkbox" id="olmap_layertree_' + layertitel + '" value="' + index + '"';
- if (visible) {
- html += ' checked="checked"';
- }
- html += '>';
- html += '<label for="olmap_layertree_' + layertitel + '">' + layertitel + '</label></li>';
- if (index < window.apf.olmap.layers.length - 1) {
- html += '<hr>';
- }
- });
- $('#olmap_layertree_layers').html(html);
- // erst jetzt initiieren, sonst stimmt die Höhe nicht
- $("#olmap_layertree").accordion({collapsible:true, active: false});
- $('#olmap_layertree').find('.ui-accordion-content').css('max-height', window.apf.berechneOlmapLayertreeMaxhöhe);
- };*/
 
 window.apf.addInteraction = function() {
     var type = (typeSelect.value == 'area' ? 'Polygon' : 'LineString');
