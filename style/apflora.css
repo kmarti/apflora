@@ -472,7 +472,6 @@ a {
 }
 
 #olmap_layertree .ui-accordion-content {
-    /*overflow: auto;*/
     padding-left: 0;
     padding-right: 0;
     padding-top: .3em;
@@ -480,6 +479,11 @@ a {
     font-size: 14px;
     line-height: 1em;
     opacity: 0.97;
+}
+
+#olmap_layertree_layers {
+    padding-top: 0 !important;
+    padding-bottom: .1em !important;
 }
 
 #olmap_layertree .ui-accordion-content li {
