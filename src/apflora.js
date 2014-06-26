@@ -10640,12 +10640,6 @@ window.apf.initiiereGeoAdminKarte = function() {
         // auf Deutsch beschriften
         $('#ga_karten_div').find('.ol-full-screen').find('span[role="tooltip"]').html('Vollbild wechseln');
 
-        // TODO: Layerwahl implementierren
-		/*var baseLayerTool = new GeoAdmin.BaseLayerTool({
-			renderTo: "baselayertool",
-			map: window.apf.olmap.map
-		});*/
-
 		// Layer für detailpläne aufbauen
 		// aber nur beim ersten mal
 
@@ -10701,10 +10695,6 @@ window.apf.initiiereGeoAdminKarte = function() {
 				detailplaene_selector.activate();
 			});*/
 		}
-
-        // TODO: OL-Variante ergänzen
-		/*window.apf.olmap.map.addControl(new OpenLayers.Control.MousePosition({numDigits: 0, separator: ' / '}));
-		window.apf.olmap.map.addControl(new OpenLayers.Control.KeyboardDefaults());*/
 
 
 
@@ -10808,7 +10798,7 @@ window.apf.initiiereGeoAdminKarte = function() {
          */
         typeSelect.onchange = function(e) {
             window.apf.olmap.map.removeInteraction(draw);
-            window.apf.addInteraction();
+            window.apf.olmap.addInteraction();
         };
 
 
@@ -10849,7 +10839,7 @@ window.apf.initiiereGeoAdminKarte = function() {
             return output;
         };
 
-        window.apf.addInteraction();
+        window.apf.olmap.addInteraction();
 
 		/*measureControls = {
 			line: new OpenLayers.Control.Measure(
@@ -10951,13 +10941,13 @@ window.apf.olmap.initiiereLayertree = function() {
     $olmap_layertree_layers.css('max-height', window.apf.berechneOlmapLayertreeMaxhöhe);
 };
 
-window.apf.addInteraction = function() {
+window.apf.olmap.addInteraction = function() {
     var type = (typeSelect.value == 'area' ? 'Polygon' : 'LineString');
     draw = new ol.interaction.Draw({
         source: source,
         type: /** @type {ol.geom.GeometryType} */ (type)
     });
-    window.apf.olmap.map.window.apf.addInteraction(draw);
+    window.apf.olmap.map.addInteraction(draw);
 
     draw.on('drawstart',
         function(evt) {
