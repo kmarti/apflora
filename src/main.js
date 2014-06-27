@@ -12337,7 +12337,6 @@ window.apf.zeigeTPopAufOlmap = function(TPopListeMarkiert) {
 
 window.apf.zeigePopAufOlmap = function(PopListeMarkiert) {
 	'use strict';
-	console.log('zeigePopAufOlmap');
 	// falls noch aus dem Verorten ein Klick-Handler besteht: deaktivieren
 	if (window.apf.olmap.LetzterKlickHandler) {
 		window.apf.olmap.LetzterKlickHandler.deactivate();
@@ -12370,10 +12369,9 @@ window.apf.zeigePopAufOlmap = function(PopListeMarkiert) {
 			getTPopKarteAlle_2.done(function(TPopListe) {
 				$.when(
 					// Layer für Symbole und Beschriftung erstellen
-					// provisorisch ausschalten
-					//window.apf.olmap.erstelleTPopNr(TPopListe, null, false),
-					//window.apf.olmap.erstelleTPopNamen(TPopListe, null, false),
-					//window.apf.olmap.erstelleTPopSymbole(TPopListe, null, false),
+					window.apf.olmap.erstelleTPopNr(TPopListe, null, false),
+					window.apf.olmap.erstelleTPopNamen(TPopListe, null, false),
+					window.apf.olmap.erstelleTPopSymbole(TPopListe, null, false),
 					// alle Pop holen, symbole und nr sichtbar schalten, Markierung übergeben
 					window.apf.olmap.zeigePopInTPop(true, true, markierte_pop.popid_markiert)
 				)
@@ -12462,7 +12460,6 @@ window.apf.olmap.zeigePopInTPop = function(overlay_pop_visible, overlay_popbesch
 	getPopKarteAlle.done(function(PopListe) {
 		// Layer für Symbole und Beschriftung erstellen
 		$.when(
-			// provisorisch ausschalten
 			window.apf.olmap.erstellePopNr(PopListe, overlay_popbeschriftungen_visible),
 			window.apf.olmap.erstellePopNamen(PopListe),
 			window.apf.olmap.erstellePopSymbole(PopListe, popid_markiert, overlay_pop_visible)
@@ -12578,15 +12575,13 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
         html,
         tpop_layer;
 
-    console.log('erstelleTPopSymbole');
-
 	// styles für overlay_top definieren
 	marker_style_markiert = new ol.style.Style({
 		image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
 		    anchor: [0.5, 46],
 		    anchorXUnits: 'fraction',
 		    anchorYUnits: 'pixels',
-		    opacity: 0.97,
+		    opacity: 1,
 		    src: 'img/flora_icon_gelb.png'
   		}))
 	});
@@ -12595,7 +12590,7 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
 		    anchor: [0.5, 46],
 		    anchorXUnits: 'fraction',
 		    anchorYUnits: 'pixels',
-		    opacity: 0.97,
+		    opacity: 1,
 		    src: 'img/flora_icon.png'
   		}))
 	});
@@ -12651,15 +12646,15 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
         // Marker erstellen...
         marker = new ol.Feature({
     		geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
-			name: my_flurname,
-			population: 4000,	// wozu?
-			rainfall: 5000		// wozu?
+			name: my_flurname
     	});
+    	// gewählte erhalten anderen style
         if (tpopid_markiert && tpopid_markiert.indexOf(tpop.TPopId) !== -1) {
         	marker.setStyle(marker_style_markiert);
         } else {
         	marker.setStyle(marker_style);
         }
+        
         marker.set('myTyp', 'tpop');	// TODO: funktioniert das?
         marker.set('myId', 'tpop.TPopId');
 
@@ -12676,7 +12671,7 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
 	});
     tpop_layer.set('visible', visible);
     tpop_layer.set('kategorie', 'AP Flora');
-    window.apf.olmap.map.addLayer(window.apf.olmap.tpop_layer);
+    window.apf.olmap.map.addLayer(tpop_layer);
 
     // TODO: marker sollen verschoben werden können
 
@@ -12944,15 +12939,13 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
         html,
         pop_layer;
 
-	console.log('erstellePopSymbole');
-
 	// styles für overlay_pop definieren
 	marker_style_markiert = new ol.style.Style({
 		image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
 		    anchor: [0.5, 46],
 		    anchorXUnits: 'fraction',
 		    anchorYUnits: 'pixels',
-		    opacity: 0.97,
+		    opacity: 1,
 		    src: 'img/flora_icon_orange.png'
   		}))
 	});
@@ -12961,7 +12954,7 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
 		    anchor: [0.5, 46],
 		    anchorXUnits: 'fraction',
 		    anchorYUnits: 'pixels',
-		    opacity: 0.97,
+		    opacity: 1,
 		    src: 'img/flora_icon_braun.png'
   		}))
 	});
@@ -13011,9 +13004,7 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
         // marker erstellen...
         marker = new ol.Feature({
     		geometry: new ol.geom.Point([pop.PopXKoord, pop.PopYKoord]),
-			name: my_name,
-			population: 4000,	// wozu?
-			rainfall: 5000		// wozu?
+			name: my_name
     	});
 
         // gewählte erhalten style gelb und zuoberst
@@ -13022,6 +13013,7 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
         } else {
         	marker.setStyle(marker_style);
         }
+        
         marker.set('myTyp', 'pop');	// TODO: funktioniert das?
         marker.set('myId', 'pop.PopId');
 
@@ -13036,7 +13028,7 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
 				features: markers
 			})
 	});
-    pop_layer.set('visible', true);
+    pop_layer.set('visible', visible);
     pop_layer.set('kategorie', 'AP Flora');
     window.apf.olmap.map.addLayer(pop_layer);
 
@@ -13168,8 +13160,7 @@ window.apf.olmap.erstellePopNr = function(pop_liste, visible) {
         pop_nr_layer,
         markers = [],
 		marker,
-        marker_style,
-        nr_style;
+        marker_style;
 
     // styles für pop_namen_layer definieren
 	marker_style = new ol.style.Style({
@@ -13177,7 +13168,7 @@ window.apf.olmap.erstellePopNr = function(pop_liste, visible) {
 		    anchor: [0.5, 46],
 		    anchorXUnits: 'fraction',
 		    anchorYUnits: 'pixels',
-		    opacity: 0.97,
+		    opacity: 1,
 		    src: 'img/leer.png'
   		}))
 	});
@@ -13203,7 +13194,7 @@ window.apf.olmap.erstellePopNr = function(pop_liste, visible) {
 		style: (function() {
 		  	var textStroke = new ol.style.Stroke({
 		    	color: 'white',
-		    	width: 10
+		    	width: 7
 		  	});
 		  	var textFill = new ol.style.Fill({
 		    	color: 'black'
@@ -13211,8 +13202,7 @@ window.apf.olmap.erstellePopNr = function(pop_liste, visible) {
 		  	return function(feature, resolution) {
 			    return [new ol.style.Style({
 			      	text: new ol.style.Text({
-			        	fontSize: '14px',
-                        fontFamily: 'Arial, Verdana, Helvetica, sans-serif',
+			      		font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
 			        	text: feature.get('name'),
 			        	fill: textFill,
 			        	stroke: textStroke
@@ -13245,7 +13235,7 @@ window.apf.olmap.erstellePopNamen = function(pop_liste) {
 		    anchor: [0.5, 46],
 		    anchorXUnits: 'fraction',
 		    anchorYUnits: 'pixels',
-		    opacity: 0.97,
+		    opacity: 1,
 		    src: 'img/leer.png'
   		}))
 	});
@@ -13271,7 +13261,7 @@ window.apf.olmap.erstellePopNamen = function(pop_liste) {
 		style: (function() {
 		  	var textStroke = new ol.style.Stroke({
 		    	color: 'white',
-		    	width: 10
+		    	width: 7
 		  	});
 		  	var textFill = new ol.style.Fill({
 		    	color: 'black'
@@ -13279,8 +13269,7 @@ window.apf.olmap.erstellePopNamen = function(pop_liste) {
 		  	return function(feature, resolution) {
 			    return [new ol.style.Style({
 			      	text: new ol.style.Text({
-			        	fontSize: '14px',
-                        fontFamily: 'Arial, Verdana, Helvetica, sans-serif',
+			      		font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
 			        	text: feature.get('name'),
 			        	fill: textFill,
 			        	stroke: textStroke
@@ -13331,6 +13320,10 @@ window.apf.deaktiviereGeoAdminAuswahl = function() {
 window.apf.olmap.erstelleTPopNr = function(tpop_liste, tpopid_markiert, visible) {
 	'use strict';
 
+	if (!visible && visible !== false) {
+		visible = true;
+	}
+
 	var tpopnr_erstellt = $.Deferred(),
 		tpop_nr_layer,
 		markers = [],
@@ -13338,15 +13331,13 @@ window.apf.olmap.erstelleTPopNr = function(tpop_liste, tpopid_markiert, visible)
 		marker_style,
 		my_label;
 
-	console.log('erstelleTPopNr');
-
 	// styles definieren
 	marker_style = new ol.style.Style({
 		image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
 		    anchor: [0.5, 46],
 		    anchorXUnits: 'fraction',
 		    anchorYUnits: 'pixels',
-		    opacity: 0.75,
+		    opacity: 1,
 		    src: 'img/leer.png'
   		}))
 	});
@@ -13366,9 +13357,7 @@ window.apf.olmap.erstelleTPopNr = function(tpop_liste, tpopid_markiert, visible)
         // marker erstellen...
         marker = new ol.Feature({
     		geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
-			name: my_label,
-			population: 4000,	// wozu?
-			rainfall: 5000		// wozu?
+			name: my_label
     	});
     	marker.setStyle(marker_style);
 
@@ -13381,9 +13370,28 @@ window.apf.olmap.erstelleTPopNr = function(tpop_liste, tpopid_markiert, visible)
 		title: 'Teilpopulationen Nummern',
 		source: new ol.source.Vector({
 				features: markers
-			})
+			}),
+		style: (function() {
+		  	var textStroke = new ol.style.Stroke({
+		    	color: 'white',
+		    	width: 7
+		  	});
+		  	var textFill = new ol.style.Fill({
+		    	color: 'black'
+		  	});
+		  	return function(feature, resolution) {
+			    return [new ol.style.Style({
+			      	text: new ol.style.Text({
+			      		font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
+			        	text: feature.get('name'),
+			        	fill: textFill,
+			        	stroke: textStroke
+			      	})
+		    	})];
+			};
+		})()
 	});
-    tpop_nr_layer.set('visible', true);
+    tpop_nr_layer.set('visible', visible);
     tpop_nr_layer.set('kategorie', 'AP Flora');
     
     // ...und der Karte hinzufügen
@@ -13400,13 +13408,15 @@ window.apf.olmap.erstelleTPopNr = function(tpop_liste, tpopid_markiert, visible)
 window.apf.olmap.erstelleTPopNamen = function(tpop_liste, tpopid_markiert, visible) {
 	'use strict';
 
+	if (!visible && visible !== false) {
+		visible = true;
+	}
+
 	var tpopnamen_erstellt = $.Deferred(),
 		tpop_namen_layer,
 		markers = [],
 		marker,
 		marker_style;
-
-	console.log('erstelleTPopNamen');
 
 	// styles für pop_namen_layer definieren
 	marker_style = new ol.style.Style({
@@ -13423,9 +13433,7 @@ window.apf.olmap.erstelleTPopNamen = function(tpop_liste, tpopid_markiert, visib
     	// marker erstellen...
         marker = new ol.Feature({
     		geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
-			name: tpop.TPopFlurname || '(kein Name)',
-			population: 4000,	// wozu?
-			rainfall: 5000		// wozu?
+			name: tpop.TPopFlurname || '(kein Name)'
     	});
     	marker.setStyle(marker_style);
 
@@ -13438,9 +13446,28 @@ window.apf.olmap.erstelleTPopNamen = function(tpop_liste, tpopid_markiert, visib
 		title: 'Teilpopulationen Namen',
 		source: new ol.source.Vector({
 				features: markers
-			})
+			}),
+		style: (function() {
+		  	var textStroke = new ol.style.Stroke({
+		    	color: 'white',
+		    	width: 7
+		  	});
+		  	var textFill = new ol.style.Fill({
+		    	color: 'black'
+		  	});
+		  	return function(feature, resolution) {
+			    return [new ol.style.Style({
+			      	text: new ol.style.Text({
+			      		font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
+			        	text: feature.get('name'),
+			        	fill: textFill,
+			        	stroke: textStroke
+			      	})
+		    	})];
+			};
+		})()
 	});
-	tpop_namen_layer.set('visible', false);
+	tpop_namen_layer.set('visible', visible);
     tpop_namen_layer.set('kategorie', 'AP Flora');
 
     // ...und der Karte hinzufügen
