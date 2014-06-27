@@ -8684,27 +8684,6 @@ window.apf.olmap.erstellePopNr = function(pop_liste, visible) {
   		}))
 	});
 
-    var getText = function(feature) {
-    	return feature.get('name');
-    };
-
-	// styles für pop_nr_layer definieren
-	var createPointStyle = function(feature) {
-		return function(feature) {
-			return new ol.style.Text({
-				textAlign: 'center',
-			    textBaseline: 'middle',
-			    //font: font,
-			    text: getText(feature),
-			    fill: new ol.style.Fill({color: 'white'}),
-			    //stroke: new ol.style.Stroke({color: outlineColor, width: outlineWidth}),
-			    //offsetX: offsetX,
-			    //offsetY: offsetY,
-			    //rotation: rotation
-			});
-		}
-	};
-
     _.each(pop_liste.rows, function(pop) {
     	//console.log('pop.PopXKoord = ' + pop.PopXKoord);
         // marker erstellen...
@@ -8724,48 +8703,30 @@ window.apf.olmap.erstellePopNr = function(pop_liste, visible) {
 		source: new ol.source.Vector({
 				features: markers
 			}),
-		style: function(feature) {
-            //console.log('name = ' + feature.get('name'));
-            var style = new ol.style.Text({
-				fill: new ol.style.Fill({
-		          	color: 'rgba(255, 255, 255, 0.6)'
-		        }),
-		        stroke: new ol.style.Stroke({
-		          	color: '#319FD3',
-		          	width: 1
-		        }),
-		        text: new ol.style.Text({
-		          	font: '12px Calibri,sans-serif',
-		          	text: feature.get('name'),
-		          	fill: new ol.style.Fill({
-		            	color: '#000'
-		          	}),
-		          	stroke: new ol.style.Stroke({
-		            	color: '#fff',
-		            	width: 3
-		          	})
-		        })
-				/*textAlign: 'center',
-			    textBaseline: 'middle',
-			    //font: font,
-			    text: feature.get('name'),
-			    //fill: new ol.style.Fill({color: 'white'}),
-			    //stroke: new ol.style.Stroke({color: outlineColor, width: outlineWidth}),
-			    //offsetX: offsetX,
-			    //offsetY: offsetY,
-			    //rotation: rotation*/
-			});
-			return style;
-		}
+		style: (function() {
+			var stroke = new ol.style.Stroke({
+		    	color: 'black'
+		  	});
+		  	var textStroke = new ol.style.Stroke({
+		    	color: '#fff',
+		    	width: 3
+		  	});
+		  	var textFill = new ol.style.Fill({
+		    	color: '#000'
+		  	});
+		  	return function(feature, resolution) {
+			    return [new ol.style.Style({
+			      	stroke: stroke,
+			      	text: new ol.style.Text({
+			        	font: '12px Calibri,sans-serif',
+			        	text: feature.get('name'),
+			        	fill: textFill,
+			        	stroke: textStroke
+			      	})
+		    	})];
+			};
+		})()
 	});
-
-	/*pop_nr_layer = new ol.layer.Vector({
-		title: 'Populationen Nummern',
-		source: new ol.source.Vector({
-				features: markers
-			}),
-		style: createPointStyle()
-	});*/
 
     pop_nr_layer.set('visible', visible);
     pop_nr_layer.set('kategorie', 'AP Flora');
@@ -10815,7 +10776,7 @@ window.apf.olmap.initiiereLayertree = function() {
         html,
         $olmap_layertree_layers = $('#olmap_layertree_layers'),
         $ga_karten_div_accordion = $("#ga_karten_div").find(".accordion"),
-        layers = window.apf.olmap.map.getLayers().array_;
+        layers = window.apf.olmap.map.getLayers().getArray();
 
     // accordion zerstören, damit es neu aufgebaut werden kann
     // um es zu zerstören muss es initiiert sein!
