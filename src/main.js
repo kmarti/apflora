@@ -12368,6 +12368,7 @@ window.apf.zeigeTPopAufOlmap = function(TPopListeMarkiert) {
 
 window.apf.zeigePopAufOlmap = function(PopListeMarkiert) {
 	'use strict';
+	console.log('window.apf.zeigePopAufOlmap');
 	// falls noch aus dem Verorten ein Klick-Handler besteht: deaktivieren
 	if (window.apf.olmap.LetzterKlickHandler) {
 		window.apf.olmap.LetzterKlickHandler.deactivate();
@@ -13000,8 +13001,14 @@ window.apf.erstelleListeDerAusgewaehltenPopTPop = function() {
 window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible) {
 	'use strict';
 	var PopSymbole_erstellt = $.Deferred(),
-		marker_style,
-		marker_style_markiert;
+        markers = [],
+        marker,
+        marker_style,
+        marker_style_markiert,
+        my_label,
+        my_name,
+        html,
+        pop_layer;
 
 	// styles für overlay_pop definieren
 	marker_style_markiert = new ol.style.Style({
@@ -13023,20 +13030,11 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
   		}))
 	});
 
-	/* alt:
-	var defaultStyle = new OpenLayers.Style({
-		externalGraphic: '//www.apflora.ch/img/flora_icon_braun.png',
-		graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
-		title: '${tooltip}'
-	});
-	var selectStyle = new OpenLayers.Style({
-		externalGraphic: '//www.apflora.ch/img/flora_icon_orange.png'
-	});*/
-
 	if (visible === null) {
 		visible = true;
 	}
 
+	/* alt:
 	// overlay layer für Marker vorbereiten
 	window.overlay_pop = new OpenLayers.Layer.Vector('Populationen', {
 		// popup bei select
@@ -13058,15 +13056,7 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
 			zIndexing: true
 		},
 		visibility: visible
-	});
-
-	// Array gründen, um marker darin zu sammeln
-	var markers = [],
-        marker,
-        my_label,
-        my_name,
-        html,
-        pop_layer;
+	});*/
 
     _.each(popliste.rows, function(pop) {
         my_name = pop.PopName || '(kein Name)';
@@ -13093,35 +13083,14 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
         // gewählte erhalten style gelb und zuoberst
         if (popid_markiert && popid_markiert.indexOf(pop.PopId) !== -1) {
         	marker.setStyle(marker_style_markiert);
-        	/* alt:
-            marker = new OpenLayers.Feature.Vector(myLocation, {
-                tooltip: my_name,
-                label: my_label,
-                message: html
-            }, {
-                externalGraphic: '//www.apflora.ch/img/flora_icon_orange.png',
-                graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
-                title: my_name,
-                graphicZIndex: 5000
-            });*/
         } else {
         	marker.setStyle(marker_style);
-        	/* alt:
-            marker = new OpenLayers.Feature.Vector(myLocation, {
-                tooltip: my_name,
-                message: html,
-                label: my_label
-            });*/
         }
         marker.set('myTyp', 'pop');	// TODO: funktioniert das?
         marker.set('myId', 'pop.PopId');
 
-    	/* alt:
-        marker.attributes.myTyp = "pop";
-        marker.attributes.myId = pop.PopId;
-
-        // ...und in Array speichern
-        markers.push(marker);*/
+        // marker in Array speichern
+        markers.push(marker);
     });
 
 	// layer für Marker erstellen
@@ -13133,7 +13102,7 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
 	});
     pop_layer.set('visible', true);
     pop_layer.set('kategorie', 'AP Flora');
-    window.apf.olmap.map.addLayer(window.apf.olmap.pop_layer);
+    window.apf.olmap.map.addLayer(pop_layer);
 
     // TODO: marker sollen verschoben werden können
 
@@ -13255,52 +13224,24 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
 window.apf.olmap.erstellePopNr = function(pop_liste, visible) {
 	'use strict';
 	var PopNr_erstellt = $.Deferred(),
-        overlay_pop_beschriftungen;
-	// styles für overlay_top definieren
-	var defaultStyle = new OpenLayers.Style({
-		externalGraphic: '//www.apflora.ch/img/leer.png',
-		graphicWidth: 1, graphicHeight: 1, graphicYOffset: 0,
-		title: null,
-		label: '${label}',
-		fontColor: "black",
-		fontSize: "11px",
-		fontFamily: "Arial, Verdana, Helvetica, sans-serif",
-		fontWeight: "bold",
-		labelAlign: "cm",
-		// positive value moves the label to the right
-		labelXOffset: 0,
-		// negative value moves the label down
-		labelYOffset: -8,
-		labelOutlineColor: "white",
-		labelOutlineWidth: 3
+        pop_beschriftungen_layer,
+        markers = [],
+		marker,
+        marker_style,
+		my_label;
+
+	// styles für overlay_popsymbole definieren
+	marker_style = new ol.style.Style({
+		image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+		    anchor: [0.5, 46],
+		    anchorXUnits: 'fraction',
+		    anchorYUnits: 'pixels',
+		    opacity: 0.75,
+		    src: 'img/leer.png'
+  		}))
 	});
 
-	// overlay layer für Marker vorbereiten
-	// wurde visible mitgegeben verwenden, sonst nicht
-	if (visible !== null) {
-		overlay_pop_beschriftungen = new OpenLayers.Layer.Vector('Populationen Nummern', {
-			styleMap: new OpenLayers.StyleMap({
-				'default': defaultStyle,
-				'select': defaultStyle
-			}),
-			visibility: visible
-		});
-	} else {
-		overlay_pop_beschriftungen = new OpenLayers.Layer.Vector('Populationen Nummern', {
-			styleMap: new OpenLayers.StyleMap({
-				'default': defaultStyle,
-				'select': defaultStyle
-			})
-		});
-	}
-
-	// Array gründen, um marker darin zu sammeln
-	var markers = [];
-	var my_label;
-
     _.each(pop_liste, function(pop) {
-        var my_location = new OpenLayers.Geometry.Point(pop.PopXKoord, pop.PopYKoord);
-
         // tooltip bzw. label vorbereiten: nullwerte ausblenden
         if (pop.PopNr) {
             my_label = pop.PopNr ;
@@ -13309,20 +13250,34 @@ window.apf.olmap.erstellePopNr = function(pop_liste, visible) {
         }
 
         // marker erstellen...
-        // gewählte erhalten style gelb und zuoberst
-        var marker = new OpenLayers.Feature.Vector(my_location, {
-            label: my_label
-        });
+        marker = new ol.Feature({
+    		geometry: new ol.geom.Point([pop.PopXKoord, pop.PopYKoord]),
+			name: my_name,
+			population: 4000,	// wozu?
+			rainfall: 5000		// wozu?
+    	});
+    	marker.setStyle(marker_style);
 
-        // ...und in Array speichern
+    	// marker in Array speichern
         markers.push(marker);
     });
 
-	// die marker der Ebene hinzufügen
-	overlay_pop_beschriftungen.addFeatures(markers);
+    // layer für Marker erstellen
+	pop_beschriftungen_layer = new ol.layer.Vector({
+		title: 'Populationen Nummern',
+		source: new ol.source.Vector({
+				features: [markers]
+			})
+	});
+    if (visible !== null) {
+    	pop_beschriftungen_layer.set('visible', true);
+	} else {
+    	pop_beschriftungen_layer.set('visible', false);
+	}
+    pop_beschriftungen_layer.set('kategorie', 'AP Flora');
+    // ...und der Karte hinzufügen
+    window.apf.olmap.map.addLayer(pop_beschriftungen_layer);
 
-	// overlay zur Karte hinzufügen
-	window.apf.olmap.addLayer(overlay_pop_beschriftungen);
 	PopNr_erstellt.resolve();
 	return PopNr_erstellt.promise();
 };
@@ -15368,6 +15323,7 @@ window.apf.initiiereGeoAdminKarte = function() {
 // Muster:
 // <li><input type="checkbox" id="olmap_layertree_Ebene 1"><label for="olmap_layertree_Ebene 1">Ebene 1</label></li><hr>
 window.apf.olmap.initiiereLayertree = function() {
+	'use strict';
     var layertitel,
         visible,
         kategorie,
@@ -15379,11 +15335,13 @@ window.apf.olmap.initiiereLayertree = function() {
         html_prov,
         html,
         $olmap_layertree_layers = $('#olmap_layertree_layers');
+
     _.each(window.apf.olmap.layers, function(layer, index) {
         layertitel = layer.get('title');
         visible = layer.get('visible');
         kategorie = layer.get('kategorie');
         html_prov = '<li><input type="checkbox" class="olmap_layertree_checkbox" id="olmap_layertree_' + layertitel + '" value="' + index + '"';
+        // sichtbare Layer sollen gecheckt sein
         if (visible) {
             html_prov += ' checked="checked"';
         }
@@ -15411,11 +15369,17 @@ window.apf.olmap.initiiereLayertree = function() {
         }
     });
     // letztes <hr> abschneiden
+    // aber nur, wenn layers ergänzt wurden
+    // wenn keine Layers ergänzt wurden: Layertitel nicht anzeigen (nur bei html_apflora von Bedeutung)
     html_ch_hintergrund = html_ch_hintergrund.substring(0, (html_ch_hintergrund.length - 4));
     html_ch_sachinfos = html_ch_sachinfos.substring(0, (html_ch_sachinfos.length - 4));
     html_ch_biotopinv = html_ch_biotopinv.substring(0, (html_ch_biotopinv.length - 4));
     html_zh_sachinfos = html_zh_sachinfos.substring(0, (html_zh_sachinfos.length - 4));
-    html_apflora = html_apflora.substring(0, (html_apflora.length - 4));
+    if (html_apflora !== '<h3>ZH AP Flora</h3><div>') {
+    	html_apflora = html_apflora.substring(0, (html_apflora.length - 4));
+    } else {
+    	html_apflora = '';
+    }
     // unteraccordions abschliessen
     html_ch_hintergrund += '</div>';
     html_ch_sachinfos += '</div>';
