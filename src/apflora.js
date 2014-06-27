@@ -7964,7 +7964,7 @@ window.apf.olmap.zeigePopInTPop = function(overlay_pop_visible, overlay_popbesch
 		$.when(
 			// provisorisch ausschalten
 			window.apf.olmap.erstellePopNr(PopListe, overlay_popbeschriftungen_visible),
-			//window.apf.olmap.erstellePopNamen(PopListe),
+			window.apf.olmap.erstellePopNamen(PopListe),
 			window.apf.olmap.erstellePopSymbole(PopListe, popid_markiert, overlay_pop_visible)
 		)
 		.then(function() {
@@ -8671,8 +8671,6 @@ window.apf.olmap.erstellePopNr = function(pop_liste, visible) {
         marker_style,
         nr_style;
 
-	console.log('erstellePopNr');
-
     // styles für pop_namen_layer definieren
 	marker_style = new ol.style.Style({
 		image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
@@ -8685,7 +8683,6 @@ window.apf.olmap.erstellePopNr = function(pop_liste, visible) {
 	});
 
     _.each(pop_liste.rows, function(pop) {
-    	//console.log('pop.PopXKoord = ' + pop.PopXKoord);
         // marker erstellen...
         marker = new ol.Feature({
     		geometry: new ol.geom.Point([pop.PopXKoord, pop.PopYKoord]),
@@ -8704,21 +8701,18 @@ window.apf.olmap.erstellePopNr = function(pop_liste, visible) {
 				features: markers
 			}),
 		style: (function() {
-			var stroke = new ol.style.Stroke({
-		    	color: 'black'
-		  	});
 		  	var textStroke = new ol.style.Stroke({
-		    	color: '#fff',
-		    	width: 3
+		    	color: 'white',
+		    	width: 10
 		  	});
 		  	var textFill = new ol.style.Fill({
-		    	color: '#000'
+		    	color: 'black'
 		  	});
 		  	return function(feature, resolution) {
 			    return [new ol.style.Style({
-			      	stroke: stroke,
 			      	text: new ol.style.Text({
-			        	font: '12px Calibri,sans-serif',
+			        	fontSize: '14px',
+                        fontFamily: 'Arial, Verdana, Helvetica, sans-serif',
 			        	text: feature.get('name'),
 			        	fill: textFill,
 			        	stroke: textStroke
@@ -8745,15 +8739,13 @@ window.apf.olmap.erstellePopNamen = function(pop_liste) {
 		marker,
 		marker_style;
 
-	console.log('erstellePopNamen');
-
 	// styles für pop_namen_layer definieren
 	marker_style = new ol.style.Style({
 		image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
 		    anchor: [0.5, 46],
 		    anchorXUnits: 'fraction',
 		    anchorYUnits: 'pixels',
-		    opacity: 0.75,
+		    opacity: 0.97,
 		    src: 'img/leer.png'
   		}))
 	});
@@ -8762,9 +8754,7 @@ window.apf.olmap.erstellePopNamen = function(pop_liste) {
         // marker erstellen...
         marker = new ol.Feature({
     		geometry: new ol.geom.Point([pop.PopXKoord, pop.PopYKoord]),
-			name: pop.PopName || '(kein Name)',
-			population: 4000,	// wozu?
-			rainfall: 5000		// wozu?
+			name: pop.PopName || '(kein Name)'
     	});
     	marker.setStyle(marker_style);
 
@@ -8777,7 +8767,27 @@ window.apf.olmap.erstellePopNamen = function(pop_liste) {
 		title: 'Populationen Namen',
 		source: new ol.source.Vector({
 				features: markers
-			})
+			}),
+		style: (function() {
+		  	var textStroke = new ol.style.Stroke({
+		    	color: 'white',
+		    	width: 10
+		  	});
+		  	var textFill = new ol.style.Fill({
+		    	color: 'black'
+		  	});
+		  	return function(feature, resolution) {
+			    return [new ol.style.Style({
+			      	text: new ol.style.Text({
+			        	fontSize: '14px',
+                        fontFamily: 'Arial, Verdana, Helvetica, sans-serif',
+			        	text: feature.get('name'),
+			        	fill: textFill,
+			        	stroke: textStroke
+			      	})
+		    	})];
+			};
+		})()
 	});
 	pop_namen_layer.set('visible', false);
     pop_namen_layer.set('kategorie', 'AP Flora');
@@ -10240,11 +10250,12 @@ window.apf.initiiereGeoAdminKarte = function() {
 
 	var ch_lk_grau_layer = ga.layer.create('ch.swisstopo.pixelkarte-grau');
 		ch_lk_grau_layer.set('title', 'Landeskarten grau');
+        ch_lk_grau_layer.set('visible', false);
         ch_lk_grau_layer.set('kategorie', 'CH Hintergrund');
 
 	var ch_lk_farbe_layer = ga.layer.create('ch.swisstopo.pixelkarte-farbe');
 		ch_lk_farbe_layer.set('title', 'Landeskarten farbig');
-		ch_lk_farbe_layer.set('visible', false);
+		ch_lk_farbe_layer.set('visible', true);
         ch_lk_farbe_layer.set('kategorie', 'CH Hintergrund');
 
     var ch_siegriedkarte_layer = ga.layer.create('ch.swisstopo.hiks-siegfried');
