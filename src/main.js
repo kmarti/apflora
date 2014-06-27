@@ -12354,7 +12354,8 @@ window.apf.zeigePopAufOlmap = function(PopListeMarkiert) {
 		window.apf.olmap.LetzterKlickHandler.deactivate();
 	}
 	
-	var markierte_pop = window.apf.olmap.wähleAusschnittFürÜbergebenePop(PopListeMarkiert);
+	var markierte_pop = window.apf.olmap.wähleAusschnittFürÜbergebenePop(PopListeMarkiert),
+		extent;
 
 	// Grundkarte aufbauen
 	$.when(window.apf.zeigeFormular("GeoAdminKarte"))
@@ -12586,7 +12587,14 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
         my_label,
         my_flurname,
         html,
-        tpop_layer;
+        tpop_layer,
+        xkoord_array = [],
+        ykoord_array = [],
+        x_max,
+        x_min,
+        y_max,
+        y_min,
+        extent;
 
 	// styles für overlay_top definieren
 	marker_style_markiert = new ol.style.Style({
@@ -12673,6 +12681,10 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
 
         // ...und in Array speichern
         markers.push(marker);
+
+        // koord-arrays füttern, damit der extent berechnet werden kann
+        xkoord_array.push(tpop.TPopXKoord);
+        ykoord_array.push(tpop.TPopYKoord);
     });
 
 	// layer für Marker erstellen
@@ -12685,6 +12697,17 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
     tpop_layer.set('visible', visible);
     tpop_layer.set('kategorie', 'AP Flora');
     window.apf.olmap.map.addLayer(tpop_layer);
+
+    // extent berechnen
+    x_max = parseInt(_.max(xkoord_array));
+    x_min = parseInt(_.min(xkoord_array));
+    y_max = parseInt(_.max(ykoord_array));
+    y_min = parseInt(_.min(ykoord_array));
+    extent = [x_min, y_min, x_max, y_max];
+
+    if (visible) {
+    	window.apf.olmap.map.getView().fitExtent(extent, window.apf.olmap.map.getSize());
+    }
 
     // TODO: marker sollen verschoben werden können
 
@@ -12950,7 +12973,14 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
         my_label,
         my_name,
         html,
-        pop_layer;
+        pop_layer,
+        xkoord_array = [],
+        ykoord_array = [],
+        x_max,
+        x_min,
+        y_max,
+        y_min,
+        extent;
 
 	// styles für overlay_pop definieren
 	marker_style_markiert = new ol.style.Style({
@@ -13032,18 +13062,33 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
 
         // marker in Array speichern
         markers.push(marker);
+
+        // koord-arrays füttern, damit der extent berechnet werden kann
+        xkoord_array.push(pop.PopXKoord);
+        ykoord_array.push(pop.PopYKoord);
     });
 
 	// layer für Marker erstellen
 	pop_layer = new ol.layer.Vector({
 		title: 'Populationen',
 		source: new ol.source.Vector({
-				features: markers
-			})
+			features: markers
+		})
 	});
     pop_layer.set('visible', visible);
     pop_layer.set('kategorie', 'AP Flora');
     window.apf.olmap.map.addLayer(pop_layer);
+
+    // extent berechnen
+    x_max = parseInt(_.max(xkoord_array));
+    x_min = parseInt(_.min(xkoord_array));
+    y_max = parseInt(_.max(ykoord_array));
+    y_min = parseInt(_.min(ykoord_array));
+    extent = [x_min, y_min, x_max, y_max];
+
+    if (visible) {
+    	window.apf.olmap.map.getView().fitExtent(extent, window.apf.olmap.map.getSize());
+    }
 
     // TODO: marker sollen verschoben werden können
 
