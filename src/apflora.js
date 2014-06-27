@@ -8679,14 +8679,14 @@ window.apf.olmap.erstellePopNr = function(pop_liste, visible) {
 		    anchor: [0.5, 46],
 		    anchorXUnits: 'fraction',
 		    anchorYUnits: 'pixels',
-		    opacity: 0.75,
+		    opacity: 0.97,
 		    src: 'img/leer.png'
   		}))
 	});
 
     var getText = function(feature) {
     	return feature.get('name');
-    }
+    };
 
 	// styles für pop_nr_layer definieren
 	var createPointStyle = function(feature) {
@@ -8703,13 +8703,14 @@ window.apf.olmap.erstellePopNr = function(pop_liste, visible) {
 			    //rotation: rotation
 			});
 		}
-	}
+	};
 
-    _.each(pop_liste, function(pop) {
+    _.each(pop_liste.rows, function(pop) {
+    	//console.log('pop.PopXKoord = ' + pop.PopXKoord);
         // marker erstellen...
         marker = new ol.Feature({
     		geometry: new ol.geom.Point([pop.PopXKoord, pop.PopYKoord]),
-			name: pop.PopNr || '?'
+			name: pop.PopNr.toString() || '?'
     	});
     	marker.setStyle(marker_style);
 
@@ -8724,7 +8725,8 @@ window.apf.olmap.erstellePopNr = function(pop_liste, visible) {
 				features: markers
 			}),
 		style: function(feature) {
-			return new ol.style.Text({
+            //console.log('name = ' + feature.get('name'));
+            var style = new ol.style.Text({
 				fill: new ol.style.Fill({
 		          	color: 'rgba(255, 255, 255, 0.6)'
 		        }),
@@ -8753,6 +8755,7 @@ window.apf.olmap.erstellePopNr = function(pop_liste, visible) {
 			    //offsetY: offsetY,
 			    //rotation: rotation*/
 			});
+			return style;
 		}
 	});
 
