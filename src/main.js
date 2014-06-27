@@ -12368,7 +12368,7 @@ window.apf.zeigeTPopAufOlmap = function(TPopListeMarkiert) {
 
 window.apf.zeigePopAufOlmap = function(PopListeMarkiert) {
 	'use strict';
-	console.log('window.apf.zeigePopAufOlmap');
+	console.log('zeigePopAufOlmap');
 	// falls noch aus dem Verorten ein Klick-Handler besteht: deaktivieren
 	if (window.apf.olmap.LetzterKlickHandler) {
 		window.apf.olmap.LetzterKlickHandler.deactivate();
@@ -12401,15 +12401,18 @@ window.apf.zeigePopAufOlmap = function(PopListeMarkiert) {
 			getTPopKarteAlle_2.done(function(TPopListe) {
 				$.when(
 					// Layer für Symbole und Beschriftung erstellen
-					window.apf.olmap.erstelleTPopNr(TPopListe, null, false),
-					window.apf.olmap.erstelleTPopNamen(TPopListe, null, false),
-					window.apf.olmap.erstelleTPopSymbole(TPopListe, null, false),
+					// provisorisch ausschalten
+					//window.apf.olmap.erstelleTPopNr(TPopListe, null, false),
+					//window.apf.olmap.erstelleTPopNamen(TPopListe, null, false),
+					//window.apf.olmap.erstelleTPopSymbole(TPopListe, null, false),
 					// alle Pop holen, symbole und nr sichtbar schalten, Markierung übergeben
 					window.apf.olmap.zeigePopInTPop(true, true, markierte_pop.popid_markiert)
 				)
 				.then(function() {
+					//$("#ga_karten_div").find(".accordion").accordion("destroy");
+					window.apf.olmap.initiiereLayertree();
 					// alle layeroptionen schliessen
-					window.apf.olmap.schliesseLayeroptionen();
+					//window.apf.olmap.schliesseLayeroptionen();
 				});
 			});
 
@@ -12486,20 +12489,21 @@ window.apf.olmap.zeigePopInTPop = function(overlay_pop_visible, overlay_popbesch
 			url: 'php/pop_karte_alle.php',
 			dataType: 'json',
 			data: {
-				"ApArtId": window.apf.ApArtId
+				"ApArtId": window.apf.ap.ApArtId
 			}
 		});
 	getPopKarteAlle.done(function(PopListe) {
 		// Layer für Symbole und Beschriftung erstellen
 		$.when(
+			// provisorisch ausschalten
 			window.apf.olmap.erstellePopNr(PopListe, overlay_popbeschriftungen_visible),
 			window.apf.olmap.erstellePopNamen(PopListe),
 			window.apf.olmap.erstellePopSymbole(PopListe, popid_markiert, overlay_pop_visible)
-			)
-			.then(function() {
-				window.apf.olmap.schliesseLayeroptionen();
-				pop_gezeigt.resolve();
-			});
+		)
+		.then(function() {
+			window.apf.olmap.schliesseLayeroptionen();
+			pop_gezeigt.resolve();
+		});
 	});
 	getPopKarteAlle.fail(function() {
 		window.apf.melde("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
@@ -12607,13 +12611,15 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
         html,
         tpop_layer;
 
+    console.log('erstelleTPopSymbole');
+
 	// styles für overlay_top definieren
 	marker_style_markiert = new ol.style.Style({
 		image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
 		    anchor: [0.5, 46],
 		    anchorXUnits: 'fraction',
 		    anchorYUnits: 'pixels',
-		    opacity: 0.75,
+		    opacity: 0.97,
 		    src: 'img/flora_icon_gelb.png'
   		}))
 	});
@@ -12622,7 +12628,7 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
 		    anchor: [0.5, 46],
 		    anchorXUnits: 'fraction',
 		    anchorYUnits: 'pixels',
-		    opacity: 0.75,
+		    opacity: 0.97,
 		    src: 'img/flora_icon.png'
   		}))
 	});
@@ -12698,10 +12704,10 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
 	tpop_layer = new ol.layer.Vector({
 		title: 'Teilpopulationen',
 		source: new ol.source.Vector({
-				features: [markers]
+				features: markers
 			})
 	});
-    tpop_layer.set('visible', true);
+    tpop_layer.set('visible', visible);
     tpop_layer.set('kategorie', 'AP Flora');
     window.apf.olmap.map.addLayer(window.apf.olmap.tpop_layer);
 
@@ -12971,13 +12977,15 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
         html,
         pop_layer;
 
+	console.log('erstellePopSymbole');
+
 	// styles für overlay_pop definieren
 	marker_style_markiert = new ol.style.Style({
 		image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
 		    anchor: [0.5, 46],
 		    anchorXUnits: 'fraction',
 		    anchorYUnits: 'pixels',
-		    opacity: 0.75,
+		    opacity: 0.97,
 		    src: 'img/flora_icon_orange.png'
   		}))
 	});
@@ -12986,7 +12994,7 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
 		    anchor: [0.5, 46],
 		    anchorXUnits: 'fraction',
 		    anchorYUnits: 'pixels',
-		    opacity: 0.75,
+		    opacity: 0.97,
 		    src: 'img/flora_icon_braun.png'
   		}))
 	});
@@ -13058,7 +13066,7 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
 	pop_layer = new ol.layer.Vector({
 		title: 'Populationen',
 		source: new ol.source.Vector({
-				features: [markers]
+				features: markers
 			})
 	});
     pop_layer.set('visible', true);
@@ -13129,7 +13137,7 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
 							url: 'php/pop_karte_alle.php',
 							dataType: 'json',
 							data: {
-								"ApArtId": window.apf.ApArtId
+								"ApArtId": window.apf.olmap.erstellePopSymbole
 							}
 						});
 						getPopKarteAlle_2.done(function(PopListe) {
@@ -13190,6 +13198,8 @@ window.apf.olmap.erstellePopNr = function(pop_liste, visible) {
 		marker,
         marker_style;
 
+	console.log('erstellePopNr');
+
 	// styles für pop_nr_layer definieren
 	marker_style = new ol.style.Style({
 		image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
@@ -13200,6 +13210,8 @@ window.apf.olmap.erstellePopNr = function(pop_liste, visible) {
 		    src: 'img/leer.png'
   		}))
 	});
+
+	console.log('erstellePopNr 1');
 
     _.each(pop_liste, function(pop) {
         // marker erstellen...
@@ -13215,13 +13227,18 @@ window.apf.olmap.erstellePopNr = function(pop_liste, visible) {
         markers.push(marker);
     });
 
+	console.log('erstellePopNr 2');
+
     // layer für Marker erstellen
 	pop_nr_layer = new ol.layer.Vector({
 		title: 'Populationen Nummern',
 		source: new ol.source.Vector({
-				features: [markers]
+				features: markers
 			})
 	});
+
+	console.log('erstellePopNr 3');
+
     if (visible !== null) {
     	pop_nr_layer.set('visible', true);
 	} else {
@@ -13242,6 +13259,8 @@ window.apf.olmap.erstellePopNamen = function(pop_liste) {
 		markers = [],
 		marker,
 		marker_style;
+
+	console.log('erstellePopNamen');
 
 	// styles für pop_namen_layer definieren
 	marker_style = new ol.style.Style({
@@ -13272,7 +13291,7 @@ window.apf.olmap.erstellePopNamen = function(pop_liste) {
 	pop_namen_layer = new ol.layer.Vector({
 		title: 'Populationen Namen',
 		source: new ol.source.Vector({
-				features: [markers]
+				features: markers
 			})
 	});
 	pop_namen_layer.set('visible', false);
@@ -13324,6 +13343,8 @@ window.apf.olmap.erstelleTPopNr = function(tpop_liste, tpopid_markiert, visible)
 		marker_style,
 		my_label;
 
+	console.log('erstelleTPopNr');
+
 	// styles definieren
 	marker_style = new ol.style.Style({
 		image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
@@ -13364,7 +13385,7 @@ window.apf.olmap.erstelleTPopNr = function(tpop_liste, tpopid_markiert, visible)
 	tpop_nr_layer = new ol.layer.Vector({
 		title: 'Teilpopulationen Nummern',
 		source: new ol.source.Vector({
-				features: [markers]
+				features: markers
 			})
 	});
     tpop_nr_layer.set('visible', true);
@@ -13380,18 +13401,17 @@ window.apf.olmap.erstelleTPopNr = function(tpop_liste, tpopid_markiert, visible)
 // nimmt drei Variabeln entgegen: 
 // TPopListe: Die Liste der darzustellenden Teilpopulationen
 // tpopid_markiert: die ID der zu markierenden TPop
-// visible: Ob das Layer sichtbar sein soll
+// visible: Ob das Layer sichtbar sein soll (wird offenbar nicht gebraucht)
 window.apf.olmap.erstelleTPopNamen = function(tpop_liste, tpopid_markiert, visible) {
 	'use strict';
 
-	if (visible === null) {
-		visible = true;
-	}
 	var tpopnamen_erstellt = $.Deferred(),
 		tpop_namen_layer,
 		markers = [],
 		marker,
 		marker_style;
+
+	console.log('erstelleTPopNamen');
 
 	// styles für pop_namen_layer definieren
 	marker_style = new ol.style.Style({
@@ -13399,7 +13419,7 @@ window.apf.olmap.erstelleTPopNamen = function(tpop_liste, tpopid_markiert, visib
 		    anchor: [0.5, 46],
 		    anchorXUnits: 'fraction',
 		    anchorYUnits: 'pixels',
-		    opacity: 0.75,
+		    opacity: 1,
 		    src: 'img/leer.png'
   		}))
 	});
@@ -13422,7 +13442,7 @@ window.apf.olmap.erstelleTPopNamen = function(tpop_liste, tpopid_markiert, visib
 	tpop_namen_layer = new ol.layer.Vector({
 		title: 'Teilpopulationen Namen',
 		source: new ol.source.Vector({
-				features: [markers]
+				features: markers
 			})
 	});
 	tpop_namen_layer.set('visible', false);
@@ -14899,7 +14919,7 @@ window.apf.initiiereGeoAdminKarte = function() {
         zh_höhenmodell_layer.set('kategorie', 'ZH Sachinformationen');
 
 	// Zunächst alle Layer definieren
-    window.apf.olmap.layers = [
+    var layers = [
     	ch_ortholuftbild_layer,
     	ch_lk_grau_layer,
         ch_lk_farbe_layer,
@@ -14917,7 +14937,7 @@ window.apf.initiiereGeoAdminKarte = function() {
         zh_svo_farbig_layer,
         zh_svo_grau_layer
     ];
-    /*window.apf.olmap.layers = [
+    /*layers = [
 
         new ol.layer.Tile({
             title: 'Landeskarten sw',
@@ -15091,15 +15111,15 @@ window.apf.initiiereGeoAdminKarte = function() {
         })*/
 
 	// allfällige Marker-Ebenen entfernen
-	window.apf.olmap.entferneTPopMarkerEbenen();
-	window.apf.olmap.entfernePopMarkerEbenen();
+	// sollte nicht nötig sein, da die layer neu aufgebaut werden
+	//window.apf.olmap.entferneTPopMarkerEbenen();
+	//window.apf.olmap.entfernePopMarkerEbenen();
 
 	// Karte nur aufbauen, wenn dies nicht schon passiert ist
 	if (!window.apf.olmap.map) {
-        window.apf.olmap.map = new ga.Map({   // ehem.: window.apf.createMap
+        window.apf.olmap.map = new ga.Map({
             target: 'ga_karten_div',
-            layers: window.apf.olmap.layers,
-            //layers: [ch_lk_farbig_layer],   // TODO: welchen Layer man wählt, scheint keinen Einfluss zu haben!
+            layers: layers,
             view: new ol.View2D({
                 resolution: 4,    // ehem: zoom 4
                 center: [693000, 253000]
@@ -15271,9 +15291,10 @@ window.apf.olmap.initiiereLayertree = function() {
         html_apflora = '<h3>ZH AP Flora</h3><div>',
         html_prov,
         html,
-        $olmap_layertree_layers = $('#olmap_layertree_layers');
+        $olmap_layertree_layers = $('#olmap_layertree_layers'),
+        layers = window.apf.olmap.map.getLayers().array_;
 
-    _.each(window.apf.olmap.layers, function(layer, index) {
+    _.each(layers, function(layer, index) {
         layertitel = layer.get('title');
         visible = layer.get('visible');
         kategorie = layer.get('kategorie');
@@ -16166,7 +16187,7 @@ window.apf.undeleteDatensatz = function() {
 			history.replaceState({ap: "ap"}, "ap", "index.html?ap=" + id);
 		} else {
 			//tree neu aufbauen
-			$.when(window.apf.erstelle_tree(window.apf.ApArtId))
+			$.when(window.apf.erstelle_tree(window.apf.olmap.erstellePopSymbole))
 				.then(function() {
 					$("#tree").jstree("select_node", "[typ='" + typ + "']#" + id);
 				});

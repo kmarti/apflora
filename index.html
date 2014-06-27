@@ -8,7 +8,8 @@
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 		<script>window.jQuery || document.write('<script src="src/jquery.js" type="text/javascript"><\/script>')</script>
 		<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
-		<script src="http://api3.geo.admin.ch/loader.js?lang=de"></script>
+		<!--script src="http://api3.geo.admin.ch/loader.js?lang=de"></script-->
+        <script src="http://api3.geo.admin.ch/loader.js?lang=de&mode=debug"></script>
         <script src="src/jquery.jstree.js"></script>
 		<script src="src/main.js"></script>
 		<title>AP Flora Kt ZH</title>
@@ -2234,7 +2235,8 @@
 				window.apf.initiiere_index();
 
                 $('#olmap_layertree').on('click', '.olmap_layertree_checkbox', function(event) {
-                    window.apf.olmap.layers[event.target.value].setVisible(event.target.checked);
+                	var layers = window.apf.olmap.map.getLayers().array_;
+                    layers[event.target.value].setVisible(event.target.checked);
                 });
 
 				$(".export_abschnitt").tooltip({
