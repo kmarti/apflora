@@ -16,7 +16,7 @@ $id = $_GET["id"];
 settype($id, "integer");
 
 // SQL-Anfrage ausführen
-$result = mysqli_query($link, "SELECT * FROM tblTeilpopulation WHERE TPopId = $id");
+$result = mysqli_query($link, "SELECT * FROM tblTeilpopulation WHERE TPopId = ".mysqli_real_escape_string($link, $id));
 
 $row = mysqli_fetch_assoc($result);
 

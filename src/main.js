@@ -12130,7 +12130,7 @@ window.apf.gmap.zeigeTPop = function(tpop_liste) {
 };
 
 window.apf.olmap.getLayersByName = function() {
-	var layer_objekt_array = window.apf.olmap.map.getLayers().array_,
+	var layer_objekt_array = window.apf.olmap.map.getLayers().getArray(),
 		layers = _.map(layer_objekt_array, function(layer_objekt) {
 			if (layer_objekt.values_ && layer_objekt.values_.title) {
 	 			return layer_objekt.values_.title;
@@ -12275,20 +12275,32 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
 		});
 };
 
+window.apf.olmap.istLayerSichtbarNachName = function(layername) {
+	var layer_objekt_array,
+		layer_ist_sichtbar;
+	// prüfen, ob eine map existiert
+	if (window.apf.olmap.map) {
+		layer_objekt_array = window.apf.olmap.map.getLayers().getArray();
+		layer_ist_sichtbar = _.find(layer_objekt_array, function(layer_objekt) {
+			return layer_objekt.get('title') === layername && layer_objekt.get('visible');
+		});
+		if (layer_ist_sichtbar) {
+			return true;
+		}
+	}
+	return false;
+};
+
 window.apf.zeigeTPopAufOlmap = function(TPopListeMarkiert) {
 	'use strict';
 	// falls noch aus dem Verorten ein Klick-Handler besteht: deaktivieren
 	if (window.apf.olmap.LetzterKlickHandler) {
 		window.apf.olmap.LetzterKlickHandler.deactivate();
 	}
-	var overlay_pop_visible = false;
-	if (typeof overlay_pop !== "undefined" && overlay_pop.visibility === true) {
-		overlay_pop_visible = true;
-	}
-	var overlay_popbeschriftung_visible = false;
-	if (typeof overlay_pop_beschriftungen !== "undefined" && overlay_pop_beschriftungen.visibility === true) {
-		overlay_popbeschriftung_visible = true;
-	}
+	// wenn layer "Populationen" sichtbar ist, sichtbar behalten
+	var overlay_pop_visible = window.apf.olmap.istLayerSichtbarNachName("Populationen");
+	// wenn layer "Populationen Namen" sichtbar ist, sichtbar behalten
+	var overlay_popnr_visible = window.apf.olmap.istLayerSichtbarNachName("Populationen Nummern");
 	
 	var markierte_tpop = window.apf.olmap.wähleAusschnittFürÜbergebeneTPop(TPopListeMarkiert);
 
@@ -12321,11 +12333,11 @@ window.apf.zeigeTPopAufOlmap = function(TPopListeMarkiert) {
 					window.apf.olmap.erstelleTPopNamen(TPopListe, markierte_tpop.tpopid_markiert, false),
 					window.apf.olmap.erstelleTPopSymbole(TPopListe, markierte_tpop.tpopid_markiert, true),
 					// alle Pop holen
-					window.apf.olmap.zeigePopInTPop(overlay_pop_visible, overlay_popbeschriftung_visible)
+					window.apf.olmap.zeigePopInTPop(overlay_pop_visible, overlay_popnr_visible)
 				)
 				.then(function() {
-					// alle layeroptionen schliessen
-					window.apf.olmap.schliesseLayeroptionen();
+					// layertree neu aufbauen
+					window.apf.olmap.initiiereLayertree();
 				});
 			});
 
@@ -12446,7 +12458,7 @@ window.apf.olmap.wähleAusschnittFürÜbergebenePop = function(pop_liste_markier
 	return {bounds: bounds, popid_markiert: popid_markiert};
 };
 
-window.apf.olmap.zeigePopInTPop = function(overlay_pop_visible, overlay_popbeschriftungen_visible, popid_markiert) {
+window.apf.olmap.zeigePopInTPop = function(overlay_pop_visible, overlay_popnr_visible, popid_markiert) {
 	'use strict';
 	var pop_gezeigt = $.Deferred(),
 		getPopKarteAlle = $.ajax({
@@ -12460,12 +12472,13 @@ window.apf.olmap.zeigePopInTPop = function(overlay_pop_visible, overlay_popbesch
 	getPopKarteAlle.done(function(PopListe) {
 		// Layer für Symbole und Beschriftung erstellen
 		$.when(
-			window.apf.olmap.erstellePopNr(PopListe, overlay_popbeschriftungen_visible),
+			window.apf.olmap.erstellePopNr(PopListe, overlay_popnr_visible),
 			window.apf.olmap.erstellePopNamen(PopListe),
 			window.apf.olmap.erstellePopSymbole(PopListe, popid_markiert, overlay_pop_visible)
 		)
 		.then(function() {
-			window.apf.olmap.schliesseLayeroptionen();
+			// layertree neu aufbauen
+			window.apf.olmap.initiiereLayertree();
 			pop_gezeigt.resolve();
 		});
 	});
@@ -13152,7 +13165,7 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
 window.apf.olmap.erstellePopNr = function(pop_liste, visible) {
 	'use strict';
 
-	if (!visible) {
+	if (visible === null) {
 		visible = true;
 	}
 
@@ -13320,7 +13333,7 @@ window.apf.deaktiviereGeoAdminAuswahl = function() {
 window.apf.olmap.erstelleTPopNr = function(tpop_liste, tpopid_markiert, visible) {
 	'use strict';
 
-	if (!visible && visible !== false) {
+	if (visible === null) {
 		visible = true;
 	}
 
@@ -13408,7 +13421,7 @@ window.apf.olmap.erstelleTPopNr = function(tpop_liste, tpopid_markiert, visible)
 window.apf.olmap.erstelleTPopNamen = function(tpop_liste, tpopid_markiert, visible) {
 	'use strict';
 
-	if (!visible && visible !== false) {
+	if (visible === null) {
 		visible = true;
 	}
 
