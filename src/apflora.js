@@ -8684,7 +8684,7 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
 
 window.apf.olmap.erstellePopNr = function(pop_liste, visible) {
 	'use strict';
-	var PopNr_erstellt = $.Deferred(),
+	var pop_nr_erstellt = $.Deferred(),
         pop_nr_layer,
         markers = [],
 		marker,
@@ -8731,8 +8731,8 @@ window.apf.olmap.erstellePopNr = function(pop_liste, visible) {
     // ...und der Karte hinzufügen
     window.apf.olmap.map.addLayer(pop_nr_layer);
 
-	PopNr_erstellt.resolve();
-	return PopNr_erstellt.promise();
+	pop_nr_erstellt.resolve();
+	return pop_nr_erstellt.promise();
 };
 
 window.apf.olmap.erstellePopNamen = function(pop_liste) {
@@ -8816,44 +8816,26 @@ window.apf.deaktiviereGeoAdminAuswahl = function() {
 // visible: Ob das Layer sichtbar sein soll
 window.apf.olmap.erstelleTPopNr = function(tpop_liste, tpopid_markiert, visible) {
 	'use strict';
-	if (visible === null) {
-		visible = true;
-	}
-	var tpopnr_erstellt = $.Deferred();
-	// styles für overlay_top definieren
-	var defaultStyle = new OpenLayers.Style({
-		externalGraphic: '//www.apflora.ch/img/leer.png',
-		graphicWidth: 1, graphicHeight: 1, graphicYOffset: 0,
-		title: null,
-		label: '${label}',
-		fontColor: "black",
-		fontSize: "11px",
-		fontFamily: "Arial, Verdana, Helvetica, sans-serif",
-		fontWeight: "bold",
-		labelAlign: "cm",
-		// positive value moves the label to the right
-		labelXOffset: 0,
-		// negative value moves the label down
-		labelYOffset: -8,
-		labelOutlineColor: "white",
-		labelOutlineWidth: 3
-	});
 
-	// overlay layer für Marker vorbereiten
-	var overlay_tpop_beschriftungen = new OpenLayers.Layer.Vector('Teilpopulationen Nummern', {
-		styleMap: new OpenLayers.StyleMap({
-			'default': defaultStyle,
-			'select': defaultStyle
-		}),
-		visibility: visible
-	});
+	var tpopnr_erstellt = $.Deferred(),
+		tpop_nr_layer,
+		markers = [],
+		marker,
+		marker_style,
+		my_label;
 
-	// Array gründen, um marker darin zu sammeln
-	var markers = [],
-        my_label;
+	// styles definieren
+	marker_style = new ol.style.Style({
+		image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+		    anchor: [0.5, 46],
+		    anchorXUnits: 'fraction',
+		    anchorYUnits: 'pixels',
+		    opacity: 0.75,
+		    src: 'img/leer.png'
+  		}))
+	});
 
     _.each(tpop_liste.rows, function(tpop) {
-        var my_location = new OpenLayers.Geometry.Point(tpop.TPopXKoord, tpop.TPopYKoord);
         // tooltip bzw. label vorbereiten: nullwerte ausblenden
         if (tpop.PopNr && tpop.TPopNr) {
             my_label = tpop.PopNr + '/' + tpop.TPopNr;
@@ -8864,20 +8846,33 @@ window.apf.olmap.erstelleTPopNr = function(tpop_liste, tpopid_markiert, visible)
         } else {
             my_label = '?/?';
         }
+
         // marker erstellen...
-        // gewählte erhalten style gelb und zuoberst
-        var marker = new OpenLayers.Feature.Vector(my_location, {
-            label: my_label
-        });
+        marker = new ol.Feature({
+    		geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
+			name: my_label,
+			population: 4000,	// wozu?
+			rainfall: 5000		// wozu?
+    	});
+    	marker.setStyle(marker_style);
+
         // ...und in Array speichern
         markers.push(marker);
     });
 
-	// die marker der Ebene hinzufügen
-	overlay_tpop_beschriftungen.addFeatures(markers);
+    // layer für Marker erstellen
+	tpop_nr_layer = new ol.layer.Vector({
+		title: 'Teilpopulationen Nummern',
+		source: new ol.source.Vector({
+				features: [markers]
+			})
+	});
+    tpop_nr_layer.set('visible', true);
+    tpop_nr_layer.set('kategorie', 'AP Flora');
+    
+    // ...und der Karte hinzufügen
+    window.apf.olmap.map.addLayer(tpop_nr_layer);
 
-	// overlay zur Karte hinzufügen
-	window.apf.olmap.addLayer(overlay_tpop_beschriftungen);
 	tpopnr_erstellt.resolve();
 	return tpopnr_erstellt.promise();
 };
