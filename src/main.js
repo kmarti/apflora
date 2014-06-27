@@ -12129,70 +12129,39 @@ window.apf.gmap.zeigeTPop = function(tpop_liste) {
 	}
 };
 
-window.apf.olmap.entferneTPopMarkerEbenen = function() {
-	'use strict';
-	var layernames = ["Teilpopulation", "Teilpopulationen", "Teilpopulationen Nummern", "Teilpopulationen Namen"];
-	// nur möglich, wenn api und olmap existieren
-	if (window.apf.olmap && window.apf.olmap.map !== undefined) {
-        _.each(layernames, function(layername) {
-            if (window.apf.olmap.getLayersByName(layername)) {
-                var layers = window.apf.olmap.getLayersByName(layername);
-                _.each(layers, function(layer) {
-                    window.apf.olmap.removeLayer(layer);
-                });
-            }
-        });
-
-		/*while(window.apf.olmap.popups.length) {
-	         window.apf.olmap.removePopup(window.apf.olmap.popups[0]);
-	    }*/
-
-		// auch aus olmap_layertree entfernen
-		// TODO: an OL3 anpassen
-		/*$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
-			if (layername.indexOf($(this).text()) !== -1) {
-				$(this).parent().parent().remove();
+window.apf.olmap.getLayersByName = function() {
+	var layer_objekt_array = window.apf.olmap.map.getLayers().array_,
+		layers = _.map(layer_objekt_array, function(layer_objekt) {
+			if (layer_objekt.values_ && layer_objekt.values_.title) {
+	 			return layer_objekt.values_.title;
 			}
-		});*/
-	}
+		});
+	return layers;
 };
 
-window.apf.olmap.entfernePopMarkerEbenen = function() {
+window.apf.olmap.entferneAlleApfloraLayer = function() {
 	'use strict';
-	var layernames = ["Population", "Populationen", "Populationen Nummern", "Populationen Namen"];
-	// nur möglich, wenn api und map existieren
-	if (window.apf.olmap && window.apf.olmap.map !== undefined) {
-        _.each(layernames, function(layername) {
-            if (window.apf.olmap.getLayersByName(layername)) {
-                var layers = window.apf.olmap.getLayersByName(layername);
-                _.each(layers, function(layer) {
-                    window.apf.olmap.removeLayer(layer);
-                });
-            }
-        });
-
-		// auch aus olmap_layertree entfernen
-		// TODO: an OL3 anpassen
-		/*$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
-			if (layername.indexOf($(this).text()) !== -1) {
-				$(this).parent().parent().remove();
+	if (window.apf.olmap && window.apf.olmap.map) {
+		// getLayers retourniert ein Objekt!!!
+		// um die eigentlichen Layers zu erhalten, muss man .getLayers().getArray() aufrufen!!!
+		var layers_array = window.apf.olmap.map.getLayers().getArray(),
+			kategorie,
+			zu_löschende_layer = [];
+		// zuerst nur einen Array mit den zu löschenden Layern erstellen
+		// wenn man sofort löscht, wird nur der erste entfernt!
+		_.each(layers_array, function(layer, index) {
+			kategorie = layer.get('kategorie');
+			if (kategorie && kategorie === 'AP Flora') {
+				console.log('kategorie = ' + kategorie);
+				zu_löschende_layer.push(layer);
 			}
-		});*/
+		});
+		_.each(zu_löschende_layer, function(layer) {
+			window.apf.olmap.map.removeLayer(layer);
+		});
+		window.apf.olmap.initiiereLayertree();
 	}
-};
-
-// offenbar nicht verwendet
-window.apf.olmap.entferneÜbergebeneMarkerEbeneAusLayertree = function(layername) {
-	'use strict';
-	// nur möglich, wenn api und olmap existieren
-	if (window.apf.olmap && window.apf.olmap.map !== undefined) {
-		$(".x-panel-body .x-tree-node .x-tree-node-anchor span").each(function() {
-			if ($(this).text() === layername) {
-				$(this).parent().parent().remove();
-			}
-		})
-	}
-};
+}
 
 window.apf.verorteTPopAufOlmap = function(TPop) {
 	'use strict';
@@ -12289,7 +12258,7 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
 						});
 						updateTPop_2.done(function() {
 							// markerebenen entfernen
-							window.apf.olmap.entferneTPopMarkerEbenen();
+							window.apf.olmap.entferneAlleApfloraLayer();
 							// alten listener entfernen, neuer wird mit dem nächsten Befehl erstellt 
 							window.apf.olmap.removeControl(click);
 							// markerebene neu aufbauen
@@ -12409,10 +12378,8 @@ window.apf.zeigePopAufOlmap = function(PopListeMarkiert) {
 					window.apf.olmap.zeigePopInTPop(true, true, markierte_pop.popid_markiert)
 				)
 				.then(function() {
-					//$("#ga_karten_div").find(".accordion").accordion("destroy");
+					// layertree neu aufbauen
 					window.apf.olmap.initiiereLayertree();
-					// alle layeroptionen schliessen
-					//window.apf.olmap.schliesseLayeroptionen();
 				});
 			});
 
@@ -12497,7 +12464,7 @@ window.apf.olmap.zeigePopInTPop = function(overlay_pop_visible, overlay_popbesch
 		$.when(
 			// provisorisch ausschalten
 			window.apf.olmap.erstellePopNr(PopListe, overlay_popbeschriftungen_visible),
-			window.apf.olmap.erstellePopNamen(PopListe),
+			//window.apf.olmap.erstellePopNamen(PopListe),
 			window.apf.olmap.erstellePopSymbole(PopListe, popid_markiert, overlay_pop_visible)
 		)
 		.then(function() {
@@ -12742,7 +12709,7 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
                                 if (window.apf.olmap.getLayersByName('Teilpopulationen')) {
                                     var layers = window.apf.olmap.getLayersByName('Teilpopulationen');
                                     _.each(layers, function(layer) {
-                                        window.apf.olmap.removeLayer(layer);
+                                        window.apf.olmap.map.removeLayer(layer);
                                     });
                                 }
                                 // ...und neu erstellen
@@ -12775,7 +12742,7 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
 						window.apf.speichereWert('tpop', feature.attributes.myId, 'TPopXKoord', TPop.TPopXKoord);
 						window.apf.speichereWert('tpop', feature.attributes.myId, 'TPopYKoord', TPop.TPopYKoord);
 						// jetzt alle marker entfernen...
-						window.apf.olmap.entferneTPopMarkerEbenen();
+						window.apf.olmap.entferneAlleApfloraLayer();
 						// ...und neu aufbauen
 						// dazu die tpopliste neu abrufen, da Koordinaten geändert haben! tpopid_markiert bleibt gleich
 						var getTPopKarteAlle_3 = $.ajax({
@@ -12801,7 +12768,7 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
 						if (window.apf.olmap.getLayersByName('Teilpopulationen')) {
 							var layers = window.apf.olmap.getLayersByName('Teilpopulationen');
                             _.each(layers, function(layer) {
-                                window.apf.olmap.removeLayer(layer);
+                                window.apf.olmap.map.removeLayer(layer);
                             });
 						}
 						// ...und neu erstellen
@@ -13096,7 +13063,7 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
                                 if (window.apf.olmap.getLayersByName('Populationen')) {
                                     var layers = window.apf.olmap.getLayersByName('Populationen');
                                     _.each(layers, function(layer) {
-                                        window.apf.olmap.removeLayer(layer);
+                                        window.apf.olmap.map.removeLayer(layer);
                                     });
                                 }
                                 // ...und neu erstellen
@@ -13129,7 +13096,7 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
 						window.apf.speichereWert('pop', feature.attributes.myId, 'PopXKoord', Pop.PopXKoord);
 						window.apf.speichereWert('pop', feature.attributes.myId, 'PopYKoord', Pop.PopYKoord);
 						// jetzt alle marker entfernen...
-						window.apf.olmap.entfernePopMarkerEbenen();
+						window.apf.olmap.entferneAlleApfloraLayer();
 						// ...und neu aufbauen
 						// dazu die popliste neu abrufen, da Koordinaten geändert haben! popid_markiert bleibt gleich
 						var getPopKarteAlle_2 = $.ajax({
@@ -13155,7 +13122,7 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
 						if (window.apf.olmap.getLayersByName('Populationen')) {
 							var layers = window.apf.olmap.getLayersByName('Populationen');
                             _.each(layers, function(layer) {
-                                window.apf.olmap.removeLayer(layer);
+                                window.apf.olmap.map.removeLayer(layer);
                             });
 						}
 						// ...und neu erstellen
@@ -13192,15 +13159,21 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
 
 window.apf.olmap.erstellePopNr = function(pop_liste, visible) {
 	'use strict';
+
+	if (!visible) {
+		visible = true;
+	}
+
 	var pop_nr_erstellt = $.Deferred(),
         pop_nr_layer,
         markers = [],
 		marker,
-        marker_style;
+        marker_style,
+        nr_style;
 
 	console.log('erstellePopNr');
 
-	// styles für pop_nr_layer definieren
+    // styles für pop_namen_layer definieren
 	marker_style = new ol.style.Style({
 		image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
 		    anchor: [0.5, 46],
@@ -13211,15 +13184,32 @@ window.apf.olmap.erstellePopNr = function(pop_liste, visible) {
   		}))
 	});
 
-	console.log('erstellePopNr 1');
+    var getText = function(feature) {
+    	return feature.get('name');
+    }
+
+	// styles für pop_nr_layer definieren
+	var createPointStyle = function(feature) {
+		return function(feature) {
+			return new ol.style.Text({
+				textAlign: 'center',
+			    textBaseline: 'middle',
+			    //font: font,
+			    text: getText(feature),
+			    fill: new ol.style.Fill({color: 'white'}),
+			    //stroke: new ol.style.Stroke({color: outlineColor, width: outlineWidth}),
+			    //offsetX: offsetX,
+			    //offsetY: offsetY,
+			    //rotation: rotation
+			});
+		}
+	}
 
     _.each(pop_liste, function(pop) {
         // marker erstellen...
         marker = new ol.Feature({
     		geometry: new ol.geom.Point([pop.PopXKoord, pop.PopYKoord]),
-			name: pop.PopNr || '?',
-			population: 4000,	// wozu?
-			rainfall: 5000		// wozu?
+			name: pop.PopNr || '?'
     	});
     	marker.setStyle(marker_style);
 
@@ -13227,23 +13217,54 @@ window.apf.olmap.erstellePopNr = function(pop_liste, visible) {
         markers.push(marker);
     });
 
-	console.log('erstellePopNr 2');
-
     // layer für Marker erstellen
 	pop_nr_layer = new ol.layer.Vector({
 		title: 'Populationen Nummern',
 		source: new ol.source.Vector({
 				features: markers
-			})
+			}),
+		style: function(feature) {
+			return new ol.style.Text({
+				fill: new ol.style.Fill({
+		          	color: 'rgba(255, 255, 255, 0.6)'
+		        }),
+		        stroke: new ol.style.Stroke({
+		          	color: '#319FD3',
+		          	width: 1
+		        }),
+		        text: new ol.style.Text({
+		          	font: '12px Calibri,sans-serif',
+		          	text: feature.get('name'),
+		          	fill: new ol.style.Fill({
+		            	color: '#000'
+		          	}),
+		          	stroke: new ol.style.Stroke({
+		            	color: '#fff',
+		            	width: 3
+		          	})
+		        })
+				/*textAlign: 'center',
+			    textBaseline: 'middle',
+			    //font: font,
+			    text: feature.get('name'),
+			    //fill: new ol.style.Fill({color: 'white'}),
+			    //stroke: new ol.style.Stroke({color: outlineColor, width: outlineWidth}),
+			    //offsetX: offsetX,
+			    //offsetY: offsetY,
+			    //rotation: rotation*/
+			});
+		}
 	});
 
-	console.log('erstellePopNr 3');
+	/*pop_nr_layer = new ol.layer.Vector({
+		title: 'Populationen Nummern',
+		source: new ol.source.Vector({
+				features: markers
+			}),
+		style: createPointStyle()
+	});*/
 
-    if (visible !== null) {
-    	pop_nr_layer.set('visible', true);
-	} else {
-    	pop_nr_layer.set('visible', false);
-	}
+    pop_nr_layer.set('visible', visible);
     pop_nr_layer.set('kategorie', 'AP Flora');
     // ...und der Karte hinzufügen
     window.apf.olmap.map.addLayer(pop_nr_layer);
@@ -15110,10 +15131,8 @@ window.apf.initiiereGeoAdminKarte = function() {
             })
         })*/
 
-	// allfällige Marker-Ebenen entfernen
-	// sollte nicht nötig sein, da die layer neu aufgebaut werden
-	//window.apf.olmap.entferneTPopMarkerEbenen();
-	//window.apf.olmap.entfernePopMarkerEbenen();
+	// allfällige Apflora-Ebenen entfernen
+	window.apf.olmap.entferneAlleApfloraLayer();
 
 	// Karte nur aufbauen, wenn dies nicht schon passiert ist
 	if (!window.apf.olmap.map) {
@@ -15292,7 +15311,14 @@ window.apf.olmap.initiiereLayertree = function() {
         html_prov,
         html,
         $olmap_layertree_layers = $('#olmap_layertree_layers'),
+        $ga_karten_div_accordion = $("#ga_karten_div").find(".accordion"),
         layers = window.apf.olmap.map.getLayers().array_;
+
+    // accordion zerstören, damit es neu aufgebaut werden kann
+    // um es zu zerstören muss es initiiert sein!
+	$ga_karten_div_accordion
+		.accordion({collapsible:true, active: false, heightStyle: 'content'})
+		.accordion("destroy");
 
     _.each(layers, function(layer, index) {
         layertitel = layer.get('title');
@@ -15349,7 +15375,7 @@ window.apf.olmap.initiiereLayertree = function() {
     // und einsetzen
     $olmap_layertree_layers.html(html);
     // erst jetzt initiieren, sonst stimmt die Höhe nicht
-    $("#ga_karten_div").find(".accordion").accordion({collapsible:true, active: false, heightStyle: 'content'});
+    $ga_karten_div_accordion.accordion({collapsible:true, active: false, heightStyle: 'content'});
     // Maximalgrösse des Layertree begrenzen
     $olmap_layertree_layers.css('max-height', window.apf.berechneOlmapLayertreeMaxhöhe);
 };
