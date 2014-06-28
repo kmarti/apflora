@@ -12152,7 +12152,6 @@ window.apf.olmap.entferneAlleApfloraLayer = function() {
 		_.each(layers_array, function(layer, index) {
 			kategorie = layer.get('kategorie');
 			if (kategorie && kategorie === 'AP Flora') {
-				console.log('kategorie = ' + kategorie);
 				zu_löschende_layer.push(layer);
 			}
 		});
@@ -12406,6 +12405,8 @@ window.apf.zeigePopAufOlmap = function(PopListeMarkiert) {
 window.apf.olmap.wähleAusschnittFürÜbergebeneTPop = function(tpop_liste_markiert) {
 	'use strict';
 	var bounds,
+		xkoord_array = [],
+		ykoord_array = [],
         x_max,
         y_max,
         x_min,
@@ -12416,16 +12417,20 @@ window.apf.olmap.wähleAusschnittFürÜbergebeneTPop = function(tpop_liste_marki
 	if (tpop_liste_markiert.rows.length > 0) {
         _.each(tpop_liste_markiert.rows, function(tpop) {
             tpopid_markiert.push(tpop.TPopId);
-            // bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
-            x_max = parseInt(tpop.TPopXKoord) + 300;
-            x_min = parseInt(tpop.TPopXKoord) - 300;
-            y_max = parseInt(tpop.TPopYKoord) + 300;
-            y_min = parseInt(tpop.TPopYKoord) - 300;
-            bounds = [x_max, y_max, x_min, y_min];
+            xkoord_array.push(tpop.TPopXKoord);
+	        ykoord_array.push(tpop.TPopYKoord);
         });
+        // extent berechnen
+	    // puffern, damit immer alles sichtbar ist
+	    // underscore retourniert strings, also in Zahlen umwandeln
+	    x_max = parseInt(_.max(xkoord_array)) + 70;
+	    x_min = parseInt(_.min(xkoord_array)) - 70;
+	    y_max = parseInt(_.max(ykoord_array)) + 70;
+	    y_min = parseInt(_.min(ykoord_array)) - 70;
+	    bounds = [x_min, y_min, x_max, y_max];
 	} else {
 		// keine tpop übergeben, Kanton anzeigen
-        bounds = [717000, 284000, 669000, 222000];
+        bounds = [669000, 222000, 717000, 284000];
 	}
 	return {bounds: bounds, tpopid_markiert: tpopid_markiert};
 };
@@ -12436,6 +12441,8 @@ window.apf.olmap.wähleAusschnittFürÜbergebeneTPop = function(tpop_liste_marki
 window.apf.olmap.wähleAusschnittFürÜbergebenePop = function(pop_liste_markiert) {
 	'use strict';
 	var bounds,
+		xkoord_array = [],
+		ykoord_array = [],
         x_max,
         y_max,
         x_min,
@@ -12445,16 +12452,20 @@ window.apf.olmap.wähleAusschnittFürÜbergebenePop = function(pop_liste_markier
 	if (pop_liste_markiert.rows.length > 0) {
         _.each(pop_liste_markiert.rows, function(pop) {
             popid_markiert.push(pop.PopId);
-            // bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
-            x_max = parseInt(pop.PopXKoord) + 300;
-            x_min = parseInt(pop.PopXKoord) - 300;
-            y_max = parseInt(pop.PopYKoord) + 300;
-            y_min = parseInt(pop.PopYKoord) - 300;
-            bounds = [x_max, y_max, x_min, y_min];
+            xkoord_array.push(pop.PopXKoord);
+	        ykoord_array.push(pop.PopYKoord);
         });
+        // extent berechnen
+	    // puffern, damit immer alles sichtbar ist
+	    // underscore retourniert strings, also in Zahlen umwandeln
+	    x_max = parseInt(_.max(xkoord_array)) + 70;
+	    x_min = parseInt(_.min(xkoord_array)) - 70;
+	    y_max = parseInt(_.max(ykoord_array)) + 70;
+	    y_min = parseInt(_.min(ykoord_array)) - 70;
+	    bounds = [x_min, y_min, x_max, y_max];
 	} else {
 		// keine tpop übergeben, Kanton anzeigen
-        bounds = [717000, 284000, 669000, 222000];
+        bounds = [669000, 222000, 717000, 284000];
 	}
 	return {bounds: bounds, popid_markiert: popid_markiert};
 };
@@ -12587,14 +12598,7 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
         my_label,
         my_flurname,
         html,
-        tpop_layer,
-        xkoord_array = [],
-        ykoord_array = [],
-        x_max,
-        x_min,
-        y_max,
-        y_min,
-        extent;
+        tpop_layer;
 
 	// styles für overlay_top definieren
 	marker_style_markiert = new ol.style.Style({
@@ -12681,10 +12685,6 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
 
         // ...und in Array speichern
         markers.push(marker);
-
-        // koord-arrays füttern, damit der extent berechnet werden kann
-        xkoord_array.push(tpop.TPopXKoord);
-        ykoord_array.push(tpop.TPopYKoord);
     });
 
 	// layer für Marker erstellen
@@ -12697,17 +12697,6 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
     tpop_layer.set('visible', visible);
     tpop_layer.set('kategorie', 'AP Flora');
     window.apf.olmap.map.addLayer(tpop_layer);
-
-    // extent berechnen
-    x_max = parseInt(_.max(xkoord_array));
-    x_min = parseInt(_.min(xkoord_array));
-    y_max = parseInt(_.max(ykoord_array));
-    y_min = parseInt(_.min(ykoord_array));
-    extent = [x_min, y_min, x_max, y_max];
-
-    if (visible) {
-    	window.apf.olmap.map.getView().fitExtent(extent, window.apf.olmap.map.getSize());
-    }
 
     // TODO: marker sollen verschoben werden können
 
@@ -12960,6 +12949,41 @@ window.apf.erstelleListeDerAusgewaehltenPopTPop = function() {
 	$("#ergebnisAuswahl").css("display", "block");
 };
 
+// sucht features an einem Ort in der Karte
+window.apf.olmap.sucheFeatures = function(pixel) {
+	var features = [];
+	window.apf.olmap.map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+		features.push(feature);
+	});
+	return features;
+};
+
+window.apf.olmap.zeigeFeatureInfo = function(pixel, coordinate) {
+	var features = window.apf.olmap.sucheFeatures(pixel),
+		element = window.apf.olmap.popup_overlay.getElement(),
+		$element = $(element),
+		feature = features[0],
+		content;
+	if (feature) {
+		console.log('feature gefunden bei ' + coordinate);
+		$element.tooltip();
+		$element.tooltip('destroy');
+		window.apf.olmap.popup_overlay.setPosition(coordinate);
+		content = feature.get('popup_html');
+		console.log('content = ' + content);
+		$element.tooltip({
+			content: content,
+			position: 'top',
+			show: true,
+			tooltipClass: 'olmap_tooltip'
+		});
+		$element.tooltip('open');
+	} else {
+		$element.tooltip();
+		$element.tooltip('destroy');
+	}
+};
+
 // übernimmt drei Variabeln: PopListe ist das Objekt mit den Populationen
 // popid_array der Array mit den ausgewählten Pop
 // visible: Ob die Ebene sichtbar geschaltet wird (oder bloss im Layertree verfügbar ist)
@@ -12973,14 +12997,7 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
         my_label,
         my_name,
         html,
-        pop_layer,
-        xkoord_array = [],
-        ykoord_array = [],
-        x_max,
-        x_min,
-        y_max,
-        y_min,
-        extent;
+        pop_layer;
 
 	// styles für overlay_pop definieren
 	marker_style_markiert = new ol.style.Style({
@@ -13047,7 +13064,8 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
         // marker erstellen...
         marker = new ol.Feature({
     		geometry: new ol.geom.Point([pop.PopXKoord, pop.PopYKoord]),
-			name: my_name
+			name: my_name,
+			popup_html: html
     	});
 
         // gewählte erhalten style gelb und zuoberst
@@ -13062,10 +13080,6 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
 
         // marker in Array speichern
         markers.push(marker);
-
-        // koord-arrays füttern, damit der extent berechnet werden kann
-        xkoord_array.push(pop.PopXKoord);
-        ykoord_array.push(pop.PopYKoord);
     });
 
 	// layer für Marker erstellen
@@ -13078,17 +13092,6 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
     pop_layer.set('visible', visible);
     pop_layer.set('kategorie', 'AP Flora');
     window.apf.olmap.map.addLayer(pop_layer);
-
-    // extent berechnen
-    x_max = parseInt(_.max(xkoord_array));
-    x_min = parseInt(_.min(xkoord_array));
-    y_max = parseInt(_.max(ykoord_array));
-    y_min = parseInt(_.min(ykoord_array));
-    extent = [x_min, y_min, x_max, y_max];
-
-    if (visible) {
-    	window.apf.olmap.map.getView().fitExtent(extent, window.apf.olmap.map.getSize());
-    }
 
     // TODO: marker sollen verschoben werden können
 
@@ -15204,6 +15207,33 @@ window.apf.initiiereGeoAdminKarte = function() {
                 center: [693000, 253000]
             })
         });
+
+       	// einen overlay für popups schaffen
+		window.apf.olmap.popup_overlay = new ol.Overlay({
+			//element: $('#olmap_popup')
+			element: document.getElementById('olmap_popup')
+		});
+		window.apf.olmap.map.addOverlay(window.apf.olmap.popup_overlay);
+
+		window.apf.olmap.map.on('singleclick', function(event) {
+			console.log('click on map');
+			var pixel = event.pixel,
+				coordinate = event.coordinate;
+			window.apf.olmap.zeigeFeatureInfo(pixel, coordinate);
+		});
+
+		// change mouse cursor when over marker
+		$(window.apf.olmap.map.getViewport()).on('mousemove', function(e) {
+		  	var pixel = window.apf.olmap.map.getEventPixel(e.originalEvent),
+		  		hit = window.apf.olmap.map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+				    return true;
+				});
+		  	if (hit) {
+		    	$('#ga_karten_div').css('cursor', 'pointer');
+		  	} else {
+		    	$('#ga_karten_div').css('cursor', '');
+		  	}
+		});
 
         window.apf.olmap.initiiereLayertree();
 
