@@ -8449,6 +8449,41 @@ window.apf.erstelleListeDerAusgewaehltenPopTPop = function() {
 	$("#ergebnisAuswahl").css("display", "block");
 };
 
+// sucht features an einem Ort in der Karte
+window.apf.olmap.sucheFeatures = function(pixel) {
+	var features = [];
+	window.apf.olmap.map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+		features.push(feature);
+	});
+	return features;
+};
+
+window.apf.olmap.zeigeFeatureInfo = function(pixel, coordinate) {
+	var features = window.apf.olmap.sucheFeatures(pixel),
+		element = window.apf.olmap.popup_overlay.getElement(),
+		$element = $(element),
+		feature = features[0],
+		content;
+	if (feature) {
+		console.log('feature gefunden bei ' + coordinate);
+		$element.tooltip();
+		$element.tooltip('destroy');
+		window.apf.olmap.popup_overlay.setPosition(coordinate);
+		content = feature.get('popup_html');
+		console.log('content = ' + content);
+		$element.tooltip({
+			content: content,
+			position: 'top',
+			show: true,
+			tooltipClass: 'olmap_tooltip'
+		});
+		$element.tooltip('open');
+	} else {
+		$element.tooltip();
+		$element.tooltip('destroy');
+	}
+};
+
 // übernimmt drei Variabeln: PopListe ist das Objekt mit den Populationen
 // popid_array der Array mit den ausgewählten Pop
 // visible: Ob die Ebene sichtbar geschaltet wird (oder bloss im Layertree verfügbar ist)
@@ -8529,7 +8564,8 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
         // marker erstellen...
         marker = new ol.Feature({
     		geometry: new ol.geom.Point([pop.PopXKoord, pop.PopYKoord]),
-			name: my_name
+			name: my_name,
+			popup_html: html
     	});
 
         // gewählte erhalten style gelb und zuoberst
@@ -10671,6 +10707,33 @@ window.apf.initiiereGeoAdminKarte = function() {
                 center: [693000, 253000]
             })
         });
+
+       	// einen overlay für popups schaffen
+		window.apf.olmap.popup_overlay = new ol.Overlay({
+			//element: $('#olmap_popup')
+			element: document.getElementById('olmap_popup')
+		});
+		window.apf.olmap.map.addOverlay(window.apf.olmap.popup_overlay);
+
+		window.apf.olmap.map.on('singleclick', function(event) {
+			console.log('click on map');
+			var pixel = event.pixel,
+				coordinate = event.coordinate;
+			window.apf.olmap.zeigeFeatureInfo(pixel, coordinate);
+		});
+
+		// change mouse cursor when over marker
+		$(window.apf.olmap.map.getViewport()).on('mousemove', function(e) {
+		  	var pixel = window.apf.olmap.map.getEventPixel(e.originalEvent),
+		  		hit = window.apf.olmap.map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+				    return true;
+				});
+		  	if (hit) {
+		    	$('#ga_karten_div').css('cursor', 'pointer');
+		  	} else {
+		    	$('#ga_karten_div').css('cursor', '');
+		  	}
+		});
 
         window.apf.olmap.initiiereLayertree();
 

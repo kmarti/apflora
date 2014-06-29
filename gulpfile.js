@@ -26,7 +26,7 @@ gulp.task('build_dev', ['styles_dev', 'scripts_dev'], function() {
 });
 
 gulp.task('styles', function() {
-    return gulp.src(['style/apflora.css'])
+    return gulp.src(['style/jquery.qtip.css', 'style/apflora.css'])
         .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
         .pipe(minifycss())
         .pipe(rename({suffix: '.min'}))
@@ -35,14 +35,14 @@ gulp.task('styles', function() {
 });
 
 gulp.task('styles_dev', function() {
-    return gulp.src(['style/apflora.css'])
+    return gulp.src(['style/jquery.qtip.css', 'style/apflora.css'])
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest('style'))
         .pipe(notify({message: 'css dev task beendet'}));
 });
 
 gulp.task('scripts', function() {
-    return gulp.src(['src/jquery-ui.js', 'src/jquery.ui.touch-punch.js', 'src/jquery.cookie.js', 'src/jquery.hotkeys.js', 'src/hammer.js', 'src/jquery.hammer.js', 'src/markerclusterer.js', 'src/markerwithlabel.js', 'src/ruler.js', 'src/jsuri.js', 'src/shapefile/shapefile.js', 'src/shapefile/stream.js', 'src/shapefile/dbf.js', 'src/apflora.js', 'src/jquery.file.download.js', 'src/underscore.js'])
+    return gulp.src(['src/jquery-ui.js', 'src/jquery.ui.touch-punch.js', 'src/jquery.cookie.js', 'src/jquery.hotkeys.js', 'src/hammer.js', 'src/jquery.hammer.js', 'src/markerclusterer.js', 'src/markerwithlabel.js', 'src/ruler.js', 'src/jsuri.js', 'src/shapefile/shapefile.js', 'src/shapefile/stream.js', 'src/shapefile/dbf.js', 'jquery.qtip.css', 'src/apflora.js', 'src/jquery.file.download.js', 'src/underscore.js'])
         .pipe(concat('main.js'))
         .pipe(uglify())
         .pipe(gulp.dest('src'))
@@ -50,7 +50,7 @@ gulp.task('scripts', function() {
 });
 
 gulp.task('scripts_dev', function() {
-    return gulp.src(['src/jquery-ui.js', 'src/jquery.ui.touch-punch.js', 'src/jquery.cookie.js', 'src/jquery.hotkeys.js', 'src/hammer.js', 'src/jquery.hammer.js', 'src/markerclusterer.js', 'src/markerwithlabel.js', 'src/ruler.js', 'src/jsuri.js', 'src/shapefile/shapefile.js', 'src/shapefile/stream.js', 'src/shapefile/dbf.js', 'src/apflora.js', 'src/jquery.file.download.js', 'src/underscore.js'])
+    return gulp.src(['src/jquery-ui.js', 'src/jquery.ui.touch-punch.js', 'src/jquery.cookie.js', 'src/jquery.hotkeys.js', 'src/hammer.js', 'src/jquery.hammer.js', 'src/markerclusterer.js', 'src/markerwithlabel.js', 'src/ruler.js', 'src/jsuri.js', 'src/shapefile/shapefile.js', 'src/shapefile/stream.js', 'src/shapefile/dbf.js', 'jquery.qtip.css', 'src/apflora.js', 'src/jquery.file.download.js', 'src/underscore.js'])
         .pipe(concat('main.js'))
         .pipe(gulp.dest('src'))
         .pipe(notify({ message: 'Scripts task beendet' }));

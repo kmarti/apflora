@@ -2136,9 +2136,11 @@
 					<br><a href="#top">&uArr;&nbsp;top</a>
 				</div>
 			</form>
-
+			<!--div style="display:none;"-->
+			<!--/div-->
 		</fieldset>
 
+		<div id="olmap_popup"></div>
 		<div id="anmelde_dialog" title="Anmeldung erforderlich">
 			<p id="anmeldung_rueckmeldung" style="margin: 16px 0px 16px 0px;">Logins werden von Topos vergeben</p>
 			<label for="anmeldung_name" style="display:block;">Name</label>
@@ -2263,6 +2265,8 @@
                     }
                 });
 
+                $(document).tooltip();
+
 				// Für jedes Feld bei Änderung speichern
 				$(".form")
                     .on("change", ".speichern", function() {
@@ -2273,6 +2277,18 @@
                     })
                     .on("keyup focus", "textarea", function() {
                         window.apf.fitTextareaToContent(this, document.documentElement.clientHeight);
+                    })
+                    .on("click", "input", function() {
+                    	console.log('input geklickt');
+                    	$('#olmap_popup')
+	                    	.tooltip()
+	                    	.tooltip({
+								content: 'test',
+								position: 'top',
+								show: true,
+								tooltipClass: 'olmap_tooltip'
+							})
+							.tooltip('open');
                     });
 
 				// verhindern, dass Zahlen durch Scrollen am Mausrad aus Versehen verändert werden
