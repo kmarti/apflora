@@ -4,14 +4,14 @@
 		<meta charset="utf-8">
 		<link rel="SHORTCUT ICON" href="img/favicon.ico">
 		<link rel="stylesheet" href="style/jquery-ui.css">
-		<link rel="stylesheet" href="style/apflora.min.css">
-		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-		<script>window.jQuery || document.write('<script src="src/jquery.js" type="text/javascript"><\/script>')</script>
+		<link rel="stylesheet" href="style/main.css">
+		<!--script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+		<script>window.jQuery || document.write('<script src="src/jquery.js" type="text/javascript"><\/script>')</script-->
 		<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 		<!--script src="http://api3.geo.admin.ch/loader.js?lang=de"></script-->
         <script src="http://api3.geo.admin.ch/loader.js?lang=de&mode=debug"></script>
-        <script src="src/jquery.jstree.js"></script>
 		<script src="src/main.js"></script>
+        <script src="src/jquery.jstree.js"></script>
 		<title>AP Flora Kt ZH</title>
 	</head>
 	<body>
@@ -59,18 +59,21 @@
 					</tr>
 					<tr class="fieldcontain">
 						<td class="label">
-							<label id="ApStatus_label" for='ApStatus'>
-								<a class="tooltip erforderlich" href="#">Aktionsplan:
-									<span class="custom info">
-										<img src="img/Info.png" alt="Information" height="48" width="48">Dieses Feld möglichst immer ausfüllen
-										<p class='legendentitel'>Legende:</p>
-										<ul class='legende'>
-											<li>keiner: kein Aktionsplan vorgesehen</li>
-											<li>erstellt: Aktionsplan fertig, auf der Website der FNS</li>
-										</ul>
-									</span>
-								</a>
+							<label id="ApStatus_label" for='ApStatus' class='apf-with-tooltip erforderlich'>
+								<span>Aktionsplan:</span>
 							</label>
+							<div class="tooltiptext">
+								<table>
+									<tr class='apf-tr-with-border-bottom'>
+										<td>keiner:</td>
+										<td>kein Aktionsplan vorgesehen</td>
+									</tr>
+									<tr>
+										<td>erstellt:</td>
+										<td>Aktionsplan fertig, auf der Website der FNS</td>
+									</tr>
+								</table>
+							</div>
 						</td>
 						<td class="Datenfelder">
 							<input type="radio" name="ApStatus" id="ApStatus0" class="speichern" formular="ap" value="0">(kein Eintrag)<br>
@@ -90,18 +93,21 @@
 					</tr>
 					<tr class="fieldcontain">
 						<td class="label">
-							<label id="ApUmsetzung_label" for='ApUmsetzung'>
-								<a class="tooltip legendiert" href="#">Stand Umsetzung:
-									<span class="custom info">
-										<img src="img/Info.png" alt="Information" height="48" width="48">
-										<p class='legendentitel'>Legende:</p>
-										<ul class='legende'>
-											<li>noch keine Umsetzung: noch keine Massnahmen ausgeführt</li>
-											<li>in Umsetzung: bereits Massnahmen ausgeführt (auch wenn AP noch nicht erstellt)</li>
-										</ul>
-									</span>
-								</a>
+							<label id="ApUmsetzung_label" for='ApUmsetzung' class='apf-with-tooltip'>
+								<span>Stand Umsetzung:</span>
 							</label>
+							<div class="tooltiptext">
+								<table>
+									<tr class='apf-tr-with-border-bottom'>
+										<td>noch keine Umsetzung:</td>
+										<td>noch keine Massnahmen ausgeführt</td>
+									</tr>
+									<tr>
+										<td>in Umsetzung:</td>
+										<td>bereits Massnahmen ausgeführt (auch wenn AP noch nicht erstellt)</td>
+									</tr>
+								</table>
+							</div>
 						</td>
 						<td class="Datenfelder">
 							<input type="radio" name="ApUmsetzung" class="speichern" formular="ap" id="ApUmsetzung0" value="0">noch keine Umsetzung<br>
@@ -142,13 +148,12 @@
 					</tr>
 					<tr class="fieldcontain">
 						<td class="label">
-							<label id="PopName_label" for='PopName'>
-								<a class="tooltip erforderlich" href="#">Name:
-									<span class="custom info">
-										<img src="img/Info.png" alt="Information" height="48" width="48">Dieses Feld möglichst immer ausfüllen
-									</span>
-								</a>
+							<label id="PopName_label" for='PopName' class='apf-with-tooltip erforderlich'>
+								<span>Name:</span>
 							</label>
+							<div class="tooltiptext">
+								<p>Dieses Feld möglichst immer ausfüllen</p>
+							</div>
 						</td>
 						<td class="Datenfelder">
 							<input id="PopName" name="PopName" class="speichern" formular="pop" type="text" maxlength="150">
@@ -157,21 +162,33 @@
 					</tr>
 					<tr class="fieldcontain">
 						<td class="label">
-							<label id="PopHerkunft_label" for='PopHerkunft'>
-								<a class="tooltip erforderlich" href="#">Status:
-									<span class="custom info">
-										<img src="img/Info.png" alt="Information" height="48" width="48">Dieses Feld möglichst immer ausfüllen
-										<p class='legendentitel'>Legende:</p>
-										<ul class='legende'>
-											<li>autochthon: Population ist ursprünglich</li>
-											<li>neu entdeckt, autochthon: Population neu entdeckt (ab 1990)</li>
-											<li>neu entdeckt, angesiedelt: Population neu entdeckt (ab 1990)</li>
-											<li>nur angesät: wenn alle Teilpopulationen nur angesät sind und noch keine Kontrollen mit Pflanzenfunden durchgeführt wurden, oder wenn zwar Kontrollen durchgeführt aber keine Pflanzen gefunden wurden und noch nicht entschieden wurde, dass Population nicht etabliert ist</li>
-											<li>überprüft, kein Vorkommen: Dies sind Orte, die ohne dass vorher Angaben darüber vorhanden gewesen wären, explizit auf eine Art hin untersucht wurden und diese Art dort aber nicht gefunden wurde</li>
-										</ul>
-									</span>
-								</a>
+							<label id="PopHerkunft_label" for='PopHerkunft' class='apf-with-tooltip erforderlich'>
+								<span>Status:</span>
 							</label>
+							<div class="tooltiptext">
+								<table>
+									<tr class='apf-tr-with-border-bottom'>
+										<td>autochthon:</td>
+										<td>Population ist ursprünglich</td>
+									</tr>
+									<tr class='apf-tr-with-border-bottom'>
+										<td>neu entdeckt, autochthon:</td>
+										<td>Population neu entdeckt (ab 1990)</td>
+									</tr>
+									<tr class='apf-tr-with-border-bottom'>
+										<td>neu entdeckt, angesiedelt:</td>
+										<td>Population neu entdeckt (ab 1990)</td>
+									</tr>
+									<tr class='apf-tr-with-border-bottom'>
+										<td>nur angesät:</td>
+										<td>wenn alle Teilpopulationen nur angesät sind und noch keine Kontrollen mit Pflanzenfunden durchgeführt wurden, oder wenn zwar Kontrollen durchgeführt aber keine Pflanzen gefunden wurden und noch nicht entschieden wurde, dass Population nicht etabliert ist</td>
+									</tr>
+									<tr>
+										<td>überprüft, kein Vorkommen:</td>
+										<td>Dies sind Orte, die ohne dass vorher Angaben darüber vorhanden gewesen wären, explizit auf eine Art hin untersucht wurden und diese Art dort aber nicht gefunden wurde</td>
+									</tr>
+								</table>
+							</div>
 						</td>
 						<td class="Datenfelder">
 							<input type="radio" name="PopHerkunft" id="PopHerkunft1" class="speichern" formular="pop" value="1">autochthon<br>
@@ -189,13 +206,12 @@
 					</tr>
 					<tr class="fieldcontain">
 						<td class="label">
-							<label id="PopHerkunftUnklar_label" for='PopHerkunftUnklar'>
-								<a class="tooltip" href="#">Status unklar:
-									<span class="custom info legende"><img src="img/Info.png" alt="Information" height="48" width="48">
-										Will heissen: Die Aussage zum Status ist unsicher<br>Bitte auch einen Status wählen
-									</span>
-								</a>
+							<label id="PopHerkunftUnklar_label" for='PopHerkunftUnklar' class='apf-with-tooltip'>
+								<span>Status unklar:</span>
 							</label>
+							<div class="tooltiptext">
+								<p>Will heissen: Die Aussage zum Status ist unsicher<br>Bitte auch einen Status wählen</p>
+							</div>
 						</td>
 						<td class="Datenfelder">
 							<input type="checkbox" name="PopHerkunftUnklar" id="PopHerkunftUnklar" class="speichern" formular="pop">
@@ -212,7 +228,12 @@
 					</tr>
 					<tr class="fieldcontain">
 						<td class="label">
-							<label id="PopBekanntSeit_label" for='PopBekanntSeit'><a class="tooltip erforderlich" href="#">Bekannt seit:<span class="custom info"><img src="img/Info.png" alt="Information" height="48" width="48">Dieses Feld möglichst immer ausfüllen</span></a></label>
+							<label id="PopBekanntSeit_label" for='PopBekanntSeit' class='apf-with-tooltip erforderlich'>
+								<span>Bekannt seit:</span>
+							</label>
+							<div class="tooltiptext">
+								<p>Dieses Feld möglichst immer ausfüllen</p>
+							</div>
 						</td>
 						<td class="Datenfelder">
 							<input id="PopBekanntSeit" name="PopBekanntSeit" class="speichern" formular="pop" type="number">
@@ -249,7 +270,12 @@
 					</tr>
 					<tr class="fieldcontain">
 						<td class="label">
-							<label id="TPopFlurname_label" for='TPopFlurname'><a class="tooltip erforderlich" href="#">Flurname:<span class="custom info"><img src="img/Info.png" alt="Information" height="48" width="48">Dieses Feld möglichst immer ausfüllen</span></a></label>
+							<label id="TPopFlurname_label" for='TPopFlurname' class='apf-with-tooltip erforderlich'>
+								<span>Flurname:</span>
+							</label>
+							<div class="tooltiptext">
+								<p>Dieses Feld möglichst immer ausfüllen</p>
+							</div>
 						</td>
 						<td class="Datenfelder">
 							<input id="TPopFlurname" name="TPopFlurname" class="speichern" formular="tpop" type="text" maxlength="255">
@@ -258,21 +284,33 @@
 					</tr>
 					<tr class="fieldcontain">
 						<td class="label">
-							<label id="TPopHerkunft_label" for='TPopHerkunft'>
-								<a class="tooltip erforderlich" href="#">Status:
-									<span class="custom info">
-										<img src="img/Info.png" alt="Information" height="48" width="48">Dieses Feld möglichst immer ausfüllen
-										<p class='legendentitel'>Legende:</p>
-										<ul class='legende'>
-											<li>autochthon: Population ist ursprünglich</li>
-											<li>neu entdeckt, autochthon: Population neu entdeckt (ab 1990)</li>
-											<li>neu entdeckt, angesiedelt: Population neu entdeckt (ab 1990)</li>
-											<li>nur angesät: wenn alle Teilpopulationen nur angesät sind und noch keine Kontrollen mit Pflanzenfunden durchgeführt wurden, oder wenn zwar Kontrollen durchgeführt aber keine Pflanzen gefunden wurden und noch nicht entschieden wurde, dass Population nicht etabliert ist</li>
-											<li>überprüft, kein Vorkommen: Dies sind Orte, die ohne dass vorher Angaben darüber vorhanden gewesen wären, explizit auf eine Art hin untersucht wurden und diese Art dort aber nicht gefunden wurde</li>
-										</ul>
-									</span>
-								</a>
+							<label id="TPopHerkunft_label" for='TPopHerkunft' class='apf-with-tooltip erforderlich'>
+								<span>Status:</span>
 							</label>
+							<div class="tooltiptext">
+								<table>
+									<tr class='apf-tr-with-border-bottom'>
+										<td>autochthon:</td>
+										<td>Population ist ursprünglich</td>
+									</tr>
+									<tr>
+										<td>neu entdeckt, autochthon:</td>
+										<td>Population neu entdeckt (ab 1990)</td>
+									</tr>
+									<tr>
+										<td>neu entdeckt, angesiedelt:</td>
+										<td>Population neu entdeckt (ab 1990)</td>
+									</tr>
+									<tr>
+										<td>nur angesät:</td>
+										<td>wenn alle Teilpopulationen nur angesät sind und noch keine Kontrollen mit Pflanzenfunden durchgeführt wurden, oder wenn zwar Kontrollen durchgeführt aber keine Pflanzen gefunden wurden und noch nicht entschieden wurde, dass Population nicht etabliert ist</td>
+									</tr>
+									<tr>
+										<td>überprüft, kein Vorkommen:</td>
+										<td>Dies sind Orte, die ohne dass vorher Angaben darüber vorhanden gewesen wären, explizit auf eine Art hin untersucht wurden und diese Art dort aber nicht gefunden wurde</td>
+									</tr>
+								</table>
+							</div>
 						</td>
 						<td class="Datenfelder">
 							<input type="radio" name="TPopHerkunft" id="TPopHerkunft1" class="speichern" formular="tpop" value="1">autochthon<br>
@@ -290,13 +328,12 @@
 					</tr>
 					<tr class="fieldcontain">
 						<td class="label">
-							<label id="TPopHerkunftUnklar_label" for='TPopHerkunftUnklar'>
-								<a class="tooltip" href="#">Status unklar:
-									<span class="custom info legende"><img src="img/Info.png" alt="Information" height="48" width="48">
-										Will heissen: Die Aussage zum Status ist unsicher<br>Bitte auch einen Status wählen
-									</span>
-								</a>
+							<label id="TPopHerkunftUnklar_label" for='TPopHerkunftUnklar' class='apf-with-tooltip'>
+								<span>Status unklar:</span>
 							</label>
+							<div class="tooltiptext">
+								<p>Will heissen: Die Aussage zum Status ist unsicher<br>Bitte auch einen Status wählen</p>
+							</div>
 						</td>
 						<td class="Datenfelder">
 							<input type="checkbox" name="TPopHerkunftUnklar" id="TPopHerkunftUnklar" class="speichern" formular="tpop">
@@ -313,17 +350,22 @@
 					</tr>
 					<tr class="fieldcontain">
 						<td class="label">
-							<label id="TPopApBerichtRelevant_label" for='TPopApBerichtRelevant'>
-								<a class="tooltip erforderlich" href="#">Für AP-Bericht<br>relevant?
-									<span class="custom info"><img src="img/Info.png" alt="Information" height="48" width="48">Dieses Feld möglichst immer ausfüllen
-										<p class='legendentitel'>Legende:</p>
-										<ul class='legende'>
-											<li>nein (historisch): vor 1950 ohne Kontrolle (historisch = erloschen)</li>
-											<li>nein (kein Vorkommen): siehe bei Populationen "überprüft kein Vorkommen"</li>
-										</ul>
-									</span>
-								</a>
+							<label id="TPopApBerichtRelevant_label" for='TPopApBerichtRelevant' class='apf-with-tooltip erforderlich'>
+								<span>Für AP-Bericht<br>relevant?</span>
 							</label>
+							<div class="tooltiptext">
+								<p>Dieses Feld möglichst immer ausfüllen</p>
+								<table>
+									<tr class='apf-tr-with-border-bottom'>
+										<td>nein (historisch):</td>
+										<td>vor 1950 ohne Kontrolle (historisch = erloschen)</td>
+									</tr>
+									<tr>
+										<td>nein (kein Vorkommen):</td>
+										<td>siehe bei Populationen "überprüft kein Vorkommen"</td>
+									</tr>
+								</table>
+							</div>
 						</td>
 						<td class="Datenfelder">
 							<input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant1" class="speichern" formular="tpop" value="1">ja<br>
@@ -335,7 +377,12 @@
 					</tr>
 					<tr class="fieldcontain">
 						<td class="label">
-							<label id="TPopBekanntSeit_label" for='TPopBekanntSeit'><a class="tooltip erforderlich" href="#">Bekannt seit:<span class="custom info"><img src="img/Info.png" alt="Information" height="48" width="48">Dieses Feld möglichst immer ausfüllen</span></a></label>
+							<label id="TPopBekanntSeit_label" for='TPopBekanntSeit' class='apf-with-tooltip erforderlich'>
+								<span>Bekannt seit:</span>
+							</label>
+							<div class="tooltiptext">
+								<p>Dieses Feld möglichst immer ausfüllen</p>
+							</div>
 						</td>
 						<td class="Datenfelder">
 							<input id="TPopBekanntSeit" name="TPopBekanntSeit" class="speichern" formular="tpop" type="number">
@@ -552,18 +599,16 @@
 							<table>
 								<tr id='fieldcontain_TPopKontrZaehleinheit1' class='fieldcontain feld_tpopfeldkontr TPopKontrZaehleinheit1'>
 									<td class="label_fieldset">
-										<label id="TPopKontrZaehleinheit1_label" for='TPopKontrZaehleinheit1' style="width:115px">
-											<a class="tooltip" href="#">Einheit:
-												<span class="custom info">
-													<img src="img/Info.png" alt="Information" height="48" width="48">
-													<p class='legendentitel'>Spezialfall: Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p>
-													<ul class='legende'>
-														<li>Einheit: "Art ist vorhanden" (letzter Punkt auf Auswahlliste)</li>
-														<li>Anzahl: 1</li>
-													</ul>
-												</span>
-											</a>
+										<label id="TPopKontrZaehleinheit1_label" for='TPopKontrZaehleinheit1' style="width:115px" class='apf-with-tooltip'>
+											<span>Einheit:</span>
 										</label>
+										<div class="tooltiptext">
+											<p>Spezialfall<br>Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p>
+											<ul>
+												<li>Einheit: "Art ist vorhanden" (letzter Punkt auf Auswahlliste)</li>
+												<li>Anzahl: 1</li>
+											</ul>
+										</div>
 									</td>
 									<td class="Datenfelder">
 										<select id="TPopKontrZaehleinheit1" name="TPopKontrZaehleinheit1" class="speichern" formular="tpopfeldkontr">
@@ -583,18 +628,16 @@
 								</tr>
 								<tr id='fieldcontain_TPopKontrAnz1' class='fieldcontain feld_tpopfeldkontr TPopKontrAnz1'>
 									<td class="label_fieldset">
-										<label id="TPopKontrAnz1_label" for='TPopKontrAnz1' style="width:115px">
-											<a class="tooltip" href="#">Anzahl:
-												<span class="custom info">
-													<img src="img/Info.png" alt="Information" height="48" width="48">
-													<p class='legendentitel'>Spezialfall: Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p>
-													<ul class='legende'>
-														<li>Einheit: "Art ist vorhanden" (letzter Punkt auf Auswahlliste)</li>
-														<li>Anzahl: 1</li>
-													</ul>
-												</span>
-											</a>
+										<label id="TPopKontrAnz1_label" for='TPopKontrAnz1' style="width:115px" class='apf-with-tooltip'>
+											<span>Anzahl:</span>
 										</label>
+										<div class="tooltiptext">
+											<p>Spezialfall<br>Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p>
+											<ul>
+												<li>Einheit: "Art ist vorhanden" (letzter Punkt auf Auswahlliste)</li>
+												<li>Anzahl: 1</li>
+											</ul>
+										</div>
 									</td>
 									<td class="Datenfelder">
 										<input id="TPopKontrAnz1" name="TPopKontrAnz1" class="speichern" formular="tpopfeldkontr" type="number">
@@ -607,18 +650,16 @@
 							<table>
 								<tr id='fieldcontain_TPopKontrZaehleinheit2' class='fieldcontain feld_tpopfeldkontr TPopKontrZaehleinheit2'>
 									<td class="label_fieldset">
-										<label id="TPopKontrZaehleinheit2_label" for='TPopKontrZaehleinheit2' style="width:115px">
-											<a class="tooltip" href="#">Einheit:
-												<span class="custom info">
-													<img src="img/Info.png" alt="Information" height="48" width="48">
-													<p class='legendentitel'>Spezialfall: Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p>
-													<ul class='legende'>
-														<li>Einheit: "Art ist vorhanden" (letzter Punkt auf Auswahlliste)</li>
-														<li>Anzahl: 1</li>
-													</ul>
-												</span>
-											</a>
+										<label id="TPopKontrZaehleinheit2_label" for='TPopKontrZaehleinheit2' style="width:115px" class='apf-with-tooltip'>
+											<span>Einheit:</span>
 										</label>
+										<div class="tooltiptext">
+											<p>Spezialfall<br>Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p>
+											<ul>
+												<li>Einheit: "Art ist vorhanden" (letzter Punkt auf Auswahlliste)</li>
+												<li>Anzahl: 1</li>
+											</ul>
+										</div>
 									</td>
 									<td class="Datenfelder">
 										<select id="TPopKontrZaehleinheit2" name="TPopKontrZaehleinheit2" class="speichern" formular="tpopfeldkontr">
@@ -638,18 +679,16 @@
 								</tr>
 								<tr id='fieldcontain_TPopKontrAnz2' class='fieldcontain feld_tpopfeldkontr TPopKontrAnz2'>
 									<td class="label_fieldset">
-										<label id="TPopKontrAnz2_label" for='TPopKontrAnz2' style="width:115px">
-											<a class="tooltip" href="#">Anzahl:
-												<span class="custom info">
-													<img src="img/Info.png" alt="Information" height="48" width="48">
-													<p class='legendentitel'>Spezialfall: Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p>
-													<ul class='legende'>
-														<li>Einheit: "Art ist vorhanden" (letzter Punkt auf Auswahlliste)</li>
-														<li>Anzahl: 1</li>
-													</ul>
-												</span>
-											</a>
+										<label id="TPopKontrAnz2_label" for='TPopKontrAnz2' style="width:115px" class='apf-with-tooltip'>
+											<span>Anzahl:</span>
 										</label>
+										<div class="tooltiptext">
+											<p>Spezialfall<br>Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p>
+											<ul>
+												<li>Einheit: "Art ist vorhanden" (letzter Punkt auf Auswahlliste)</li>
+												<li>Anzahl: 1</li>
+											</ul>
+										</div>
 									</td>
 									<td class="Datenfelder">
 										<input id="TPopKontrAnz2" name="TPopKontrAnz2" class="speichern" formular="tpopfeldkontr" type="number">
@@ -662,18 +701,16 @@
 							<table>
 								<tr id='fieldcontain_TPopKontrZaehleinheit3' class='fieldcontain feld_tpopfeldkontr TPopKontrZaehleinheit3'>
 									<td class="label_fieldset">
-										<label id="TPopKontrZaehleinheit3_label" for='TPopKontrZaehleinheit3' style="width:115px">
-											<a class="tooltip" href="#">Einheit:
-												<span class="custom info">
-													<img src="img/Info.png" alt="Information" height="48" width="48">
-													<p class='legendentitel'>Spezialfall: Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p>
-													<ul class='legende'>
-														<li>Einheit: "Art ist vorhanden" (letzter Punkt auf Auswahlliste)</li>
-														<li>Anzahl: 1</li>
-													</ul>
-												</span>
-											</a>
+										<label id="TPopKontrZaehleinheit3_label" for='TPopKontrZaehleinheit3' style="width:115px" class='apf-with-tooltip'>
+											<span>Einheit:</span>
 										</label>
+										<div class="tooltiptext">
+											<p>Spezialfall<br>Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p>
+											<ul>
+												<li>Einheit: "Art ist vorhanden" (letzter Punkt auf Auswahlliste)</li>
+												<li>Anzahl: 1</li>
+											</ul>
+										</div>
 									</td>
 									<td class="Datenfelder">
 										<select id="TPopKontrZaehleinheit3" name="TPopKontrZaehleinheit3" class="speichern" formular="tpopfeldkontr">
@@ -693,18 +730,16 @@
 								</tr>
 								<tr id='fieldcontain_TPopKontrAnz3' class='fieldcontain feld_tpopfeldkontr TPopKontrAnz3'>
 									<td class="label_fieldset">
-										<label id="TPopKontrAnz3_label" for='TPopKontrAnz3' style="width:115px">
-											<a class="tooltip" href="#">Anzahl:
-												<span class="custom info">
-													<img src="img/Info.png" alt="Information" height="48" width="48">
-													<p class='legendentitel'>Spezialfall: Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p>
-													<ul class='legende'>
-														<li>Einheit: "Art ist vorhanden" (letzter Punkt auf Auswahlliste)</li>
-														<li>Anzahl: 1</li>
-													</ul>
-												</span>
-											</a>
+										<label id="TPopKontrAnz3_label" for='TPopKontrAnz3' style="width:115px" class='apf-with-tooltip'>
+											<span>Anzahl:</span>
 										</label>
+										<div class="tooltiptext">
+											<p>Spezialfall<br>Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p>
+											<ul>
+												<li>Einheit: "Art ist vorhanden" (letzter Punkt auf Auswahlliste)</li>
+												<li>Anzahl: 1</li>
+											</ul>
+										</div>
 									</td>
 									<td class="Datenfelder">
 										<input id="TPopKontrAnz3" name="TPopKontrAnz3" class="speichern" formular="tpopfeldkontr" type="number">
@@ -815,23 +850,39 @@
 							</tr>
 							<tr id='fieldcontain_TPopKontrEntwicklung' class='fieldcontain feld_tpopfeldkontr TPopKontrEntwicklung'>
 								<td class="label">
-									<label id="TPopKontrEntwicklung_label" for='TPopKontrEntwicklung'>
-										<a class="tooltip legendiert erforderlich" href="#">Entwicklung:
-											<span class="custom info">
-												<img src="img/Info.png" alt="Information" height="48" width="48">Dieses Feld möglichst immer ausfüllen
-												<p class='legendentitel'>Legende:</p>
-												<p>Im 1. Jahr der Beobachtung die Entwicklung an der Massnahme beurteilen, nachher an vorhergehenden EK</p>
-												<ul class='legende'>
-													<li>zunehmend: > 10% Zunahme</li>
-													<li>stabil: ± 10%</li>
-													<li>abnehmend: > 10% Abnahme</li>
-													<li>erloschen / nicht etabliert: nach 2 aufeinander folgenden Kontrollen ohne Funde oder nach Einschätzung AP-VerantwortlicheR</li>
-													<li>unsicher: keine Funde aber noch nicht erloschen (nach zwei Kontrollen ohne Funde kann Status erloschen/nicht etabliert gewählt werden)</li>
-													<li>neu entdeckt (unsicher): neu autochthone Fundorte im 1. Jahr (es kann noch keine Aussage zur Entwicklung gemacht werden)</li>
-												</ul>
-											</span>
-										</a>
+									<label id="TPopKontrEntwicklung_label" for='TPopKontrEntwicklung' class='apf-with-tooltip erforderlich'>
+										<span>Entwicklung:</span>
 									</label>
+									<div class="tooltiptext">
+										<p>Dieses Feld möglichst immer ausfüllen.</p>
+										<p>Im 1. Jahr der Beobachtung die Entwicklung an der Massnahme beurteilen, nachher an vorhergehenden EK.</p>
+										<table>
+											<tr class='apf-tr-with-border-bottom'>
+												<td>zunehmend:</td>
+												<td>> 10% Zunahme</td>
+											</tr>
+											<tr class='apf-tr-with-border-bottom'>
+												<td>stabil:</td>
+												<td>± 10%</td>
+											</tr>
+											<tr class='apf-tr-with-border-bottom'>
+												<td>abnehmend:</td>
+												<td>> 10% Abnahme</td>
+											</tr>
+											<tr class='apf-tr-with-border-bottom'>
+												<td>erloschen / nicht etabliert:</td>
+												<td>nach 2 aufeinander folgenden Kontrollen ohne Funde oder nach Einschätzung AP-VerantwortlicheR</td>
+											</tr>
+											<tr class='apf-tr-with-border-bottom'>
+												<td>unsicher:</td>
+												<td>keine Funde aber noch nicht erloschen (nach zwei Kontrollen ohne Funde kann Status erloschen/nicht etabliert gewählt werden)</td>
+											</tr>
+											<tr>
+												<td>neu entdeckt (unsicher):</td>
+												<td>neu autochthone Fundorte im 1. Jahr (es kann noch keine Aussage zur Entwicklung gemacht werden)</td>
+											</tr>
+										</table>
+									</div>
 								</td>
 								<td class="Datenfelder">
 									<input type="radio" name="TPopKontrEntwicklung" id="TPopKontrEntwicklung3" class="speichern" formular="tpopfeldkontr" value="3">zunehmend<br>
@@ -1517,8 +1568,8 @@
 						<td class="Datenfelder">
 							<textarea type="url" name="BerURL" id="BerURL" class="speichern" formular="ber" maxlength="255"></textarea>
 							<div id="BerURL_limit" class="limiter"></div>
-							<label for='BerURLHref' style="display:none;">URL folgen</label>
-							<input type="button" id="BerURLHref" onclick="" value="URL folgen">
+							<label for='BerURLHref' style="display:none;">URL öffnen</label>
+							<input type="button" id="BerURLHref" onclick="" value="URL öffnen">
 						</td>
 					</tr>
 				</table>
@@ -1725,20 +1776,18 @@
 					</tr>
 					<tr class='fieldcontain PopBerEntwicklung'>
 						<td class="label">
-							<label id="PopBerEntwicklung_label" for='PopBerEntwicklung'>
-								<a class="tooltip legendiert erforderlich" href="#">Entwicklung:
-									<span class="custom info">
-										<img src="img/Info.png" alt="Information" height="48" width="48">Dieses Feld möglichst immer ausfüllen
-										<p style="color: #6F6F66;">Entgegen dem Vorgehen bei der Entwicklungsbeurteilung der Teilpopulationen kann die Beurteilung der Gesamtentwicklung einer Population nicht rein rechnerisch bestimmt werden. Weil meist nicht alle Teilpopulationen einer Population im laufenden Jahr kontrolliert und beurteilt werden, kann die Entwicklung der Population deshalb meist nur fachlich beurteilt werden. Es sind dazu auch allfällige frühere Beurteilungen von verschiedenen Teilpopulationen bei der Beurteilung der gesamten Population zu berücksichtigen.</p>
-										<p style="color: #6F6F66;">Beispiele:</p>
-										<ul class='legende'>
-											<li>Wenn nur 3 von 20 Teilpopulationen kontrolliert werden > unsichere Entwicklung</li>
-											<li>Ist bei 5 Teilpopulationen 1 sehr gross, die übrigen klein und wurde die grosse kontrolliert, kann diese grosse Teilpopulation massgeblich für die Entwicklungsangabe der gesamten Population verwendet werden</li>
-											<li>Werden über Jahre hinweg abwechslungsweise verschiedene Teilpopulationen kontrolliert und sind diese über Jahre hinweg konstant, dann kann auch die Gesamtpopulation als konstant angesehen werden</li>
-										</ul>
-									</span>
-								</a>
+							<label id="PopBerEntwicklung_label" for='PopBerEntwicklung' class='apf-with-tooltip erforderlich'>
+								<span>Entwicklung:</span>
 							</label>
+							<div class="tooltiptext">
+								<p>Entgegen dem Vorgehen bei der Entwicklungsbeurteilung der Teilpopulationen kann die Beurteilung der Gesamtentwicklung einer Population nicht rein rechnerisch bestimmt werden. Weil meist nicht alle Teilpopulationen einer Population im laufenden Jahr kontrolliert und beurteilt werden, kann die Entwicklung der Population deshalb meist nur fachlich beurteilt werden. Es sind dazu auch allfällige frühere Beurteilungen von verschiedenen Teilpopulationen bei der Beurteilung der gesamten Population zu berücksichtigen.</p>
+								<p>Beispiele:</p>
+								<ul>
+									<li>Wenn nur 3 von 20 Teilpopulationen kontrolliert werden > unsichere Entwicklung</li>
+									<li>Ist bei 5 Teilpopulationen 1 sehr gross, die übrigen klein und wurde die grosse kontrolliert, kann diese grosse Teilpopulation massgeblich für die Entwicklungsangabe der gesamten Population verwendet werden</li>
+									<li>Werden über Jahre hinweg abwechslungsweise verschiedene Teilpopulationen kontrolliert und sind diese über Jahre hinweg konstant, dann kann auch die Gesamtpopulation als konstant angesehen werden</li>
+								</ul>
+							</div>
 						</td>
 						<td class="Datenfelder">
 							<input type="radio" name="PopBerEntwicklung" id="PopBerEntwicklung3" class="speichern" formular="popber" value="3"><span id="spanPopBerEntwicklung3">zunehmend</span><br>
@@ -1773,14 +1822,13 @@
 					</tr>
 					<tr class='fieldcontain PopMassnBerErfolgsbeurteilung'>
 						<td class="label">
-							<label id="PopMassnBerErfolgsbeurteilung_label" for='PopMassnBerErfolgsbeurteilung'>
-								<a class="tooltip legendiert erforderlich" href="#">Entwicklung:
-									<span class="custom info legende">
-										<img src="img/Info.png" alt="Information" height="48" width="48">Dieses Feld möglichst immer ausfüllen
-										<p style="color: #6F6F66;">Die aktuelle Kontrolle wird im Vergleich zu allen bisherigen Massnahmen beurteilt</p>
-									</span>
-								</a>
+							<label id="PopMassnBerErfolgsbeurteilung_label" for='PopMassnBerErfolgsbeurteilung' class='apf-with-tooltip erforderlich'>
+								<span>Entwicklung:</span>
 							</label>
+							<div class="tooltiptext">
+								<p>Dieses Feld möglichst immer ausfüllen.</p>
+								<p>Die aktuelle Kontrolle wird im Vergleich zu allen bisherigen Massnahmen beurteilt.</p>
+							</div>
 						</td>
 						<td class="Datenfelder">
 							<input type="radio" name="PopMassnBerErfolgsbeurteilung" id="PopMassnBerErfolgsbeurteilung1" class="speichern" formular="popmassnber" value="1"><span id="spanPopMassnBerErfolgsbeurteilung1">sehr erfolgreich (>= 150%)</span><br>
@@ -1813,23 +1861,39 @@
 					</tr>
 					<tr class='fieldcontain TPopBerEntwicklung'>
 						<td class="label">
-							<label id="TPopBerEntwicklung_label" for='TPopBerEntwicklung'>
-								<a class="tooltip legendiert erforderlich" href="#">Entwicklung:
-									<span class="custom info">
-										<img src="img/Info.png" alt="Information" height="48" width="48">Dieses Feld möglichst immer ausfüllen
-										<p class='legendentitel'>Legende:</p>
-										<p style="color: #6F6F66;">Im 1. Jahr der Beobachtung die Entwicklung an der Massnahme beurteilen, nachher an vorhergehenden EK</p>
-										<ul class='legende'>
-											<li>zunehmend: > 10% Zunahme</li>
-											<li>stabil: ± 10%</li>
-											<li>abnehmend: > 10% Abnahme</li>
-											<li>erloschen / nicht etabliert: nach 2 aufeinander folgenden Kontrollen ohne Funde oder nach Einschätzung AP-VerantwortlicheR</li>
-											<li>unsicher: keine Funde aber noch nicht erloschen (nach zwei Kontrollen ohne Funde kann Status erloschen/nicht etabliert gewählt werden)</li>
-											<li>neu entdeckt (unsicher): neu autochthone Fundorte im 1. Jahr (es kann noch keine Aussage zur Entwicklung gemacht werden)</li>
-										</ul>
-									</span>
-								</a>
+							<label id="TPopBerEntwicklung_label" for='TPopBerEntwicklung' class='apf-with-tooltip erforderlich'>
+								<span>Entwicklung:</span>
 							</label>
+							<div class="tooltiptext">
+								<p>Dieses Feld möglichst immer ausfüllen.</p>
+								<p>Im 1. Jahr der Beobachtung die Entwicklung an der Massnahme beurteilen, nachher an vorhergehenden EK.</p>
+								<table>
+									<tr class='apf-tr-with-border-bottom'>
+										<td>zunehmend:</td>
+										<td>> 10% Zunahme</td>
+									</tr>
+									<tr class='apf-tr-with-border-bottom'>
+										<td>stabil:</td>
+										<td>± 10%</td>
+									</tr>
+									<tr class='apf-tr-with-border-bottom'>
+										<td>abnehmend:</td>
+										<td>> 10% Abnahme</td>
+									</tr>
+									<tr class='apf-tr-with-border-bottom'>
+										<td>erloschen / nicht etabliert:</td>
+										<td>nach 2 aufeinander folgenden Kontrollen ohne Funde oder nach Einschätzung AP-VerantwortlicheR</td>
+									</tr>
+									<tr class='apf-tr-with-border-bottom'>
+										<td>unsicher:</td>
+										<td>keine Funde aber noch nicht erloschen (nach zwei Kontrollen ohne Funde kann Status erloschen/nicht etabliert gewählt werden)</td>
+									</tr>
+									<tr>
+										<td>neu entdeckt (unsicher):</td>
+										<td>neu autochthone Fundorte im 1. Jahr (es kann noch keine Aussage zur Entwicklung gemacht werden)</td>
+									</tr>
+								</table>
+							</div>
 						</td>
 						<td class="Datenfelder">
 							<input type="radio" name="TPopBerEntwicklung" id="TPopBerEntwicklung3" class="speichern" formular="tpopber" value="3"><span id="spanTPopBerEntwicklung3">zunehmend</span><br>
@@ -1864,14 +1928,13 @@
 					</tr>
 					<tr class='fieldcontain TPopMassnBerErfolgsbeurteilung'>
 						<td class="label">
-							<label id="TPopMassnBerErfolgsbeurteilung_label" for='TPopMassnBerErfolgsbeurteilung'>
-								<a class="tooltip legendiert erforderlich" href="#">Entwicklung:
-									<span class="custom info">
-										<img src="img/Info.png" alt="Information" height="48" width="48">Dieses Feld möglichst immer ausfüllen
-										<p style="color: #6F6F66;">Die aktuelle Kontrolle wird im Vergleich zu allen bisherigen Massnahmen beurteilt</p>
-									</span>
-								</a>
+							<label id="TPopMassnBerErfolgsbeurteilung_label" for='TPopMassnBerErfolgsbeurteilung' class='apf-with-tooltip erforderlich'>
+								<span>Entwicklung:</span>
 							</label>
+							<div class="tooltiptext">
+								<p>Dieses Feld möglichst immer ausfüllen.</p>
+								<p>Die aktuelle Kontrolle wird im Vergleich zu allen bisherigen Massnahmen beurteilt.</p>
+							</div>
 						</td>
 						<td class="Datenfelder">
 							<input type="radio" name="TPopMassnBerErfolgsbeurteilung" id="TPopMassnBerErfolgsbeurteilung1" class="speichern" formular="tpopmassnber" value="1"><span id="spanTPopMassnBerErfolgsbeurteilung1">sehr erfolgreich (>= 150%)</span><br>
@@ -1909,13 +1972,14 @@
 				<table>
 					<tr class="fieldcontain">
 						<td class="label">
-							<label id="BeobNichtZuordnen_label" for='BeobNichtZuordnen'>
-								<a class="tooltip" href="#">Nicht zuordnen:
-									<span class="custom info legende"><img src="img/Info.png" alt="Information" height="48" width="48">
-										Will heissen: Die Beobachtung kann nicht zugeordnet werden<br>Mögliche Gründe: Unsichere Bestimmung, nicht lokalisierbar<br>Bitte im Bemerkungsfeld begründen
-									</span>
-								</a>
+							<label id="BeobNichtZuordnen_label" for='BeobNichtZuordnen' class='apf-with-tooltip'>
+								<span>Nicht zuordnen:</span>
 							</label>
+							<div class="tooltiptext">
+								<p>Will heissen: Die Beobachtung kann nicht zugeordnet werden</p>
+								<p>Mögliche Gründe: Unsichere Bestimmung, nicht lokalisierbar</p>
+								<p>Bitte im Bemerkungsfeld begründen</p>
+							</div>
 						</td>
 						<td class="Datenfelder">
 							<input type="checkbox" name="BeobNichtZuordnen" id="BeobNichtZuordnen" formular="beob">
@@ -2265,7 +2329,27 @@
                     }
                 });
 
-                $(document).tooltip();
+                $('.apf-with-tooltip').each(function() {
+			        $(this).qtip({
+                        content: {
+                            text: $(this).next('.tooltiptext'),
+                            title: 'Legende'
+                        },
+                        style: {
+                            // Use the jQuery UI widget classes
+                            widget: true,
+                            // Remove the default styling
+                            def: false
+                        },
+                        position: {
+                            my: 'top right',
+                            at: 'bottom right',
+                            target: $(this),
+                            //viewport: true
+                            viewport: $(window)
+                        }
+			        });
+			    });
 
 				// Für jedes Feld bei Änderung speichern
 				$(".form")
@@ -2277,18 +2361,6 @@
                     })
                     .on("keyup focus", "textarea", function() {
                         window.apf.fitTextareaToContent(this, document.documentElement.clientHeight);
-                    })
-                    .on("click", "input", function() {
-                    	console.log('input geklickt');
-                    	$('#olmap_popup')
-	                    	.tooltip()
-	                    	.tooltip({
-								content: 'test',
-								position: 'top',
-								show: true,
-								tooltipClass: 'olmap_tooltip'
-							})
-							.tooltip('open');
                     });
 
 				// verhindern, dass Zahlen durch Scrollen am Mausrad aus Versehen verändert werden

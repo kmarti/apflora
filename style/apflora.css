@@ -323,71 +323,27 @@ option {
 	 width: 150px;     
 }
 
-/*Für Tool-Tipps
-Quelle: http://sixrevisions.com/css/css-only-tooltips*/
-.tooltip {
-	border-bottom: 1px dotted #000000; color: #6F6F66; outline: none;
-	cursor: help; text-decoration: none;
-	position: relative;
+/*Für Tool-Tipps*/
+.apf-with-tooltip span {
+	border-bottom: 1px dotted #000000;
+	cursor: help;
 }
 
 /*erforderliche Felder rot markieren*/
-.tooltip.erforderlich {
+label.erforderlich,
+label.erforderlich span {
 	color: #800000;
 }
 
-.legendiert {
-	color: #6F6F66;
-}
-.tooltip span {
-	margin-left: -999em;
-	position: absolute;
-}
-.tooltip:hover span {
-	border-radius: 5px 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
-    -webkit-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
-    -moz-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
-	font-family: Calibri, Tahoma, Geneva, sans-serif;
-	position: absolute;
-    left: 1em; top: 2em;
-    z-index: 99;
-	margin-left: -360px;
-    width: 350px;
-	text-align: left;
-}
-.tooltip:hover img {
-	border: 0;
-    margin: -10px 0 0 -55px;
-	float: left;
-    position: absolute;
-}
-.tooltip:hover em {
-	font-family: Candara, Tahoma, Geneva, sans-serif;
-    font-size: 1.2em;
-    font-weight: bold;
-	display: block;
-    padding: 0.2em 0 0.6em 0;
-}
-.classic { padding: 0.8em 1em; }
-.custom { padding: 0.5em 0.8em 0.8em 2em; }
-* html a:hover { background: transparent; }
-.classic {background: #FFFFAA; border: 1px solid #FFAD33; }
-.critical { background: #FFCCAA; border: 1px solid #FF3334;	}
-.help { background: #9FDAEE; border: 1px solid #2BB0D7;	}
-.info { background: #9FDAEE; border: 1px solid #2BB0D7;	}
-.warning { background: #FFFFAA; border: 1px solid #FFAD33; }
-
-.legendentitel {
-	vertical-align:top;
-	color: #000000;
-	font-weight:bold;
-}
-
-.legende {
-	color: #000000;
+/*tooltip gestalten, jQuery ui überprägen*/
+.tooltip-styling-hinterlegt {
+    max-width: 500px !important;
+    font-family: Arial, Verdana, Helvetica, sans-serif;
+    font-size: 13px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    opacity: 0.8;
+    margin-top: 16px;
 }
 
 .export_abschnitt_exporte {
@@ -618,6 +574,59 @@ p.ergebnisAuswahlListeTitelTPop {
 	display: none;
 }
 
+/*
+** darin wird der Text des tooltips versteckt
+** daher ausblenden
+*/
+.tooltiptext {
+    display: none;
+}
+
+.qtip {
+	font-size: 13px;
+	max-width: 450px;
+}
+
+.qtip-content {
+	padding-bottom: 0;
+	padding-top: 0;
+    line-height: 1.2;
+}
+
+.tooltiptext p {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.tooltiptext > p ~ table,
+.tooltiptext > p ~ ul {
+    margin-top: -7px;
+}
+
+.tooltiptext ul {
+    margin-left: -22px;
+}
+
+.tooltiptext table {
+    border-collapse: collapse;
+}
+
+.tooltiptext tr {
+    vertical-align: top;
+}
+
+.tooltiptext .apf-tr-with-border-bottom td {
+    border-bottom: 1px dotted rgb(191, 191, 191);
+}
+
+.tooltiptext tr td {
+    padding-top: 5px;
+}
+
+.tooltiptext tr td {
+    padding-bottom: 5px;
+}
+
 /*drüberstylen, weil GeoAdmin-Aufruf dies nötig macht*/
 
 form input {
@@ -686,33 +695,6 @@ form h2 {
 /*Im Kontextmenu des Baums die Bilder etwas nach unten schieben*/
 #vakata-contextmenu ins {
 	margin-top: 2px;
-}
-
-/*tooltip gestalten, jQuery ui überprägen*/
-/*.tooltip-styling-nur-text {
-	font-weight:800;
-	font-color: #000000 !important;
-	max-width: 500px !important;
-	font-family: Arial, Verdana, Helvetica, sans-serif;*/
-	/*weiss hinterlegen, damit auf jedem Hintergrund gut sichtbar*/
-	/*text-shadow: 0 1px 0.5px white,1px 0 0.5px white,0 -1px 0.5px white,-1px 0 0.5px white,0 2px 0.5px white,2px 0 0.5px white,0 -2px 0.5px white,-2px 0 0.5px white;
-	padding-top: 8px !important;
-	font-size: 13px;
-	border: 0px solid transparent !important;
-	background: transparent none no-repeat fixed center !important;
-	box-shadow: none !important;
-	webkit-box-shadow: none !important;
-}*/
-
-/*tooltip gestalten, jQuery ui überprägen*/
-.tooltip-styling-hinterlegt {
-	max-width: 500px !important;
-	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 13px;
-	padding-top: 1px;
-	padding-bottom: 1px;
-	opacity: 0.8;
-	margin-top: 16px;
 }
 
 /*Tabelle in Dialog stylen*/
