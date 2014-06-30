@@ -76,7 +76,7 @@ gulp.task('sftp_src', function() {
 });
 
 gulp.task('move_dev_src', function() {
-    return gulp.src(['src/**', 'src/shapefile/**', 'src/theme/**', 'src/themes/**'], {base: 'src/'})
+    return gulp.src(['src/**', 'src/shapefile/**'/*, 'src/theme/**'*/, 'src/themes/**'], {base: 'src/'})
         .pipe(gulp.dest('../programme/xampp/htdocs/apflora/src'));
 });
 

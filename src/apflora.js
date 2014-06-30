@@ -8504,6 +8504,7 @@ window.apf.olmap.zeigeFeatureInfo = function(pixel, coordinate) {
 		            widget: true,
 		            // Remove the default styling
 		            def: false,
+		            width: 250,
 			        tip: {
 			        	width: 12,
 			        	height: 20
