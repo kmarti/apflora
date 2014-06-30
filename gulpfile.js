@@ -97,7 +97,7 @@ gulp.task('sftp_style', function() {
 });
 
 gulp.task('move_dev_style', function() {
-    return gulp.src(['style/*', 'style/images/*', 'style/images_alt/*'], {base: 'style/'})
+    return gulp.src(['style/*', 'style/images/*'], {base: 'style/'})
         .pipe(gulp.dest('../programme/xampp/htdocs/apflora/style'));
 });
 
