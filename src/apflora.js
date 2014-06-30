@@ -1930,7 +1930,7 @@ window.apf.zeigeFormular = function(Formularname) {
 			if (Formularname === "GeoAdminKarte") {
 				// auswählen deaktivieren und allfällige Liste ausblenden
 				$("#mitPolygonWaehlen").button({ disabled: false });
-				window.apf.initiiereGeoAdminKarte();
+				window.apf.initiiereOlmap();
 			}
 		} else {
             $forms.css("background-color", "#FFE");
@@ -8097,7 +8097,7 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
         marker_style_markiert,
         my_label,
         my_flurname,
-        html,
+        popup_content,
         tpop_layer;
 
 	// styles für overlay_top definieren
@@ -8150,8 +8150,7 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
 
     _.each(tpop_liste.rows, function(tpop) {
         my_flurname = tpop.TPopFlurname || '(kein Flurname)';
-        html = '<h3>' + tpop.Artname + '</h3>'+
-            '<p>Population: ' + tpop.PopName + '</p>'+
+        popup_content = '<p>Population: ' + tpop.PopName + '</p>'+
             '<p>Teilpopulation: ' + my_flurname + '</p>'+
             '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
             "<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + tpop.TPopId + "')\">Formular öffnen<\/a></p>"+
@@ -8171,7 +8170,14 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
         // Marker erstellen...
         marker = new ol.Feature({
     		geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
-			name: my_flurname
+			name: my_flurname,
+			popup_content: popup_content,
+			popup_title: tpop.Artname,
+			// koordinaten werden benötigt damit das popup am richtigen Ort verankert wird
+			xkoord: tpop.TPopXKoord,
+			ykoord: tpop.TPopYKoord,
+			myTyp: 'tpop',
+			myId: tpop.TPopId
     	});
     	// gewählte erhalten anderen style
         if (tpopid_markiert && tpopid_markiert.indexOf(tpop.TPopId) !== -1) {
@@ -8179,9 +8185,6 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
         } else {
         	marker.setStyle(marker_style);
         }
-        
-        marker.set('myTyp', 'tpop');	// TODO: funktioniert das?
-        marker.set('myId', 'tpop.TPopId');
 
         // ...und in Array speichern
         markers.push(marker);
@@ -8458,29 +8461,82 @@ window.apf.olmap.sucheFeatures = function(pixel) {
 	return features;
 };
 
+window.apf.olmap.entfernePopupOverlays = function() {
+	var overlays = window.apf.olmap.map.getOverlays().getArray(),
+		zu_löschender_overlay = [];
+	_.each(overlays, function(overlay) {
+		if (overlay.get('typ') === 'popup') {
+			zu_löschender_overlay.push(overlay);
+			//overlay.getElement().clear();
+		}
+	});
+	_.each(zu_löschender_overlay, function(overlay) {
+		window.apf.olmap.map.removeOverlay(overlay);
+	});
+}
+
 window.apf.olmap.zeigeFeatureInfo = function(pixel, coordinate) {
 	var features = window.apf.olmap.sucheFeatures(pixel),
-		element = window.apf.olmap.popup_overlay.getElement(),
-		$element = $(element),
 		feature = features[0],
-		content;
+		overlay,
+		popup_id,
+		popup_id_array = [],
+		koordinaten;
 	if (feature) {
-		console.log('feature gefunden bei ' + coordinate);
-		$element.tooltip();
-		$element.tooltip('destroy');
-		window.apf.olmap.popup_overlay.setPosition(coordinate);
-		content = feature.get('popup_html');
-		console.log('content = ' + content);
-		$element.tooltip({
-			content: content,
-			position: 'top',
-			show: true,
-			tooltipClass: 'olmap_tooltip'
+		// coordinate ist, wo der Benutzer geklickt hat
+		// das ist ungenau
+		// daher die Koordinaten des features verwenden, wenn verfügbar
+		if (feature.get('xkoord') && feature.get('ykoord')) {
+			koordinaten = [feature.get('xkoord'), feature.get('ykoord')];
+		} else {
+			koordinaten = coordinate;
+		}
+		// zuerst mit gtip einen popup erzeugen
+		$('.olmap_popup').each(function() {
+			$(this).qtip({
+				content: {
+		            text: feature.get('popup_content'),
+		            title: feature.get('popup_title'),
+		            button: 'Close'
+		        },
+		        style: {
+		            // Use the jQuery UI widget classes
+		            widget: true,
+		            // Remove the default styling
+		            def: false,
+			        tip: {
+			        	width: 12,
+			        	height: 20
+			        }
+		        },
+		        position: {
+		            my: 'top left',
+		            at: 'bottom right',
+		            target: $(this)
+		        }
+	        });
+	        $(this).qtip('toggle', true);
 		});
-		$element.tooltip('open');
+
+		// id des popups ermitteln
+		$('.qtip').each(function() {
+			popup_id_array.push($(this).attr('data-qtip-id'));
+		});
+		popup_id = _.max(popup_id_array);
+
+		// die mit qtip erzeugte div dem overlay übergeben
+		overlay = new ol.Overlay({
+			element: $('#qtip-' + popup_id)
+		});
+		window.apf.olmap.map.addOverlay(overlay);
+		overlay.setPosition(koordinaten);
+		overlay.set('typ', 'popup');
 	} else {
-		$element.tooltip();
-		$element.tooltip('destroy');
+		// alle popups entfernen
+		window.apf.olmap.entfernePopupOverlays();
+		$('.qtip').each(function() {
+			$(this).qtip('destroy', true);
+		});
 	}
 };
 
@@ -8496,7 +8552,7 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
         marker_style_markiert,
         my_label,
         my_name,
-        html,
+        popup_content,
         pop_layer;
 
 	// styles für overlay_pop definieren
@@ -8549,8 +8605,7 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
 
     _.each(popliste.rows, function(pop) {
         my_name = pop.PopName || '(kein Name)';
-        html = '<h3>' + my_name + '</h3>'+
-            '<p>Koordinaten: ' + pop.PopXKoord + ' / ' + pop.PopYKoord + '</p>'+
+        popup_content = '<p>Koordinaten: ' + pop.PopXKoord + ' / ' + pop.PopYKoord + '</p>'+
             "<p><a href=\"#\" onclick=\"window.apf.öffnePop('" + pop.PopId + "')\">Formular öffnen<\/a></p>"+
             "<p><a href=\"#\" onclick=\"window.apf.öffnePopInNeuemTab('" + pop.PopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
 
@@ -8565,7 +8620,13 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
         marker = new ol.Feature({
     		geometry: new ol.geom.Point([pop.PopXKoord, pop.PopYKoord]),
 			name: my_name,
-			popup_html: html
+			popup_content: popup_content,
+			popup_title: my_name,
+			// Koordinaten werden gebraucht, damit das popup richtig platziert werden kann
+			xkoord: pop.PopXKoord,
+			ykoord: pop.PopYKoord,
+			myTyp: 'pop',
+			myId: pop.PopId
     	});
 
         // gewählte erhalten style gelb und zuoberst
@@ -8574,9 +8635,6 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
         } else {
         	marker.setStyle(marker_style);
         }
-        
-        marker.set('myTyp', 'pop');	// TODO: funktioniert das?
-        marker.set('myId', 'pop.PopId');
 
         // marker in Array speichern
         markers.push(marker);
@@ -10325,7 +10383,7 @@ window.apf.onfeatureunselectDetailpläneShp = function(feature) {
 	window.apf.olmap.removePopup(feature.popup);
 };
 
-window.apf.initiiereGeoAdminKarte = function() {
+window.apf.initiiereOlmap = function() {
 	'use strict';
 	// Proxy Host for Ajax Requests to overcome Cross-Domain HTTTP Requests
 	//OpenLayers.ProxyHost = "../cgi-bin/proxy.cgi?url=";
@@ -10707,13 +10765,6 @@ window.apf.initiiereGeoAdminKarte = function() {
                 center: [693000, 253000]
             })
         });
-
-       	// einen overlay für popups schaffen
-		window.apf.olmap.popup_overlay = new ol.Overlay({
-			//element: $('#olmap_popup')
-			element: document.getElementById('olmap_popup')
-		});
-		window.apf.olmap.map.addOverlay(window.apf.olmap.popup_overlay);
 
 		window.apf.olmap.map.on('singleclick', function(event) {
 			console.log('click on map');

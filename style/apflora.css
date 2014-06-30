@@ -34,7 +34,7 @@ fieldset {
 	font-family: Arial, Verdana, Helvetica, sans-serif !important;
 	font-size: 16px !important;
 
-	margin: 0px 7px 10px 0px !important;
+	margin: 0 7px 10px 0 !important;
 }
 
 form fieldset {
@@ -63,7 +63,7 @@ form fieldset {
 */
 @media handheld, only screen and (max-width: 1000px) {
 	#menu {
-		right: 0px;
+		right: 0;
 		float: left;
 		width: -webkit-calc(100% - 15px);
 		width: -o-calc(100% - 15px);
@@ -111,7 +111,7 @@ form fieldset {
 }
 
 #forms form {
-	padding: 0px 7px 0px 7px;
+	padding: 0 7px 0 7px;
 }
 
 #suchen {
@@ -121,7 +121,7 @@ form fieldset {
 }
 
 #forms #exporte {
-	padding: 10px 0px 10px 10px;
+	padding: 10px 0 10px 10px;
 }
 
 form h1 {
@@ -183,8 +183,8 @@ td.Datenfelder {
 
 /*im tab soll der zusätzliche Rand klein sein*/
 .ui-tabs .ui-tabs-panel {
-	padding-left: 0px;
-	padding-right: 0px;
+	padding-left: 0;
+	padding-right: 0;
 }
 
 fieldset legend {
@@ -246,7 +246,7 @@ textarea {
 }
 
 .form .ui-tabs {
-	border-width: 0px;
+	border-width: 0;
 }
 
 option {
@@ -268,10 +268,10 @@ option {
 
 .ui-tabs .ui-widget-header {
 	background: none;
-	border-top: 0px;
-	border-right: 0px;
-	border-left: 0px;
-	border-radius: 0px;
+	border-top: 0;
+	border-right: 0;
+	border-left: 0;
+	border-radius: 0;
 	border-color: #A5A59A;
 }
 
@@ -484,7 +484,7 @@ a {
     font-weight:900;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	/*Koordinaten weiss hinterlegen, damit sie auf jedem Hintergrund gut sichtbar sind*/
-	text-shadow: 0 1px 0.5px white,1px 0 0.5px white,0 -1px 0.5px white,-1px 0 0.5px white,0 2px 0.5px white,2px 0 0.5px white,0 -2px 0.5px white,-2px 0 0.5px white;
+	text-shadow: 0 1px 1px white,1px 0 1px white,0 -1px 1px white,-1px 0 1px white,0 2px 1px white,2px 0 1px white,0 -2px 1px white,-2px 0 1px white;
 	top: 16px;
 	right: 362px;
 }
@@ -494,7 +494,7 @@ a {
 	font-size: 13px;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	/*weiss hinterlegen, damit auf jedem Hintergrund gut sichtbar*/
-	text-shadow: 0 1px 0.5px white,1px 0 0.5px white,0 -1px 0.5px white,-1px 0 0.5px white,0 2px 0.5px white,2px 0 0.5px white,0 -2px 0.5px white,-2px 0 0.5px white;
+	text-shadow: 0 1px 1px white,1px 0 1px white,0 -1px 1px white,-1px 0 1px white,0 2px 1px white,2px 0 1px white,0 -2px 1px white,-2px 0 1px white;
 	margin-top: 5px;
 	padding-left: 7px;
 }
@@ -516,7 +516,7 @@ a {
 }
 #ergebnisAuswahlHeader .ui-icon.ui-icon-closethick {
 	float: right;
-	margin: 0px 0px 1px 1px;
+	margin: 0 0 1px 1px;
 	background-image: url(images/ui-icons_1E1B1D_256x240.png);
 	height: 18px;
 }
@@ -525,7 +525,7 @@ a {
 }
 #ergebnisAuswahlListe {
 	overflow: auto;
-	max-height: 400px;
+	max-height: 400;
 	/*padding: 3px 6px 3px 6px;*/
 	padding-top: 3px;
 	padding-bottom: 3px;
@@ -587,10 +587,19 @@ p.ergebnisAuswahlListeTitelTPop {
 	max-width: 450px;
 }
 
+.qtip-titlebar {
+    -moz-border-radius: 5px 5px 0 0;
+	-webkit-border-radius: 5px 5px 0 0;
+	border-radius: 5px 5px 0 0;
+}
+
 .qtip-content {
 	padding-bottom: 0;
 	padding-top: 0;
     line-height: 1.2;
+    -moz-border-radius: 0 0 5px 5px;
+	-webkit-border-radius: 0 0 5px 5px;
+	border-radius: 0 0 5px 5px;
 }
 
 .tooltiptext p {
@@ -635,7 +644,7 @@ form input {
 }
 
 input[type="radio"] {
-	margin: 3px 3px 0px 5px;
+	margin: 3px 3px 0 5px;
 }
 
 form input[type="text"] {
@@ -662,7 +671,7 @@ form ul li {
 }
 
 form p {
-	margin: 16px 0px 16px 0px;
+	margin: 16px 0 16px 0;
 }
 
 form h2 {
@@ -671,7 +680,7 @@ form h2 {
 
 .GmInfowindow h3, .GmInfowindow p, .GmInfowindow a {
 	font-size: 14px;
-	margin: 3px 0px 3px 0px;
+	margin: 3px 0 3px 0;
 	line-height: 16px;
 }
 
@@ -682,7 +691,7 @@ form h2 {
 
 .olFramedCloudPopupContent h3, .olFramedCloudPopupContent p, .olFramedCloudPopupContent a {
 	font-size: 14px;
-	margin: 3px 0px 3px 0px;
+	margin: 3px 0 3px 0;
 	line-height: 16px;
 }
 
@@ -705,4 +714,18 @@ form h2 {
 
 .ui-dialog-content td {
 	font-size: 16px;
+}
+
+.qtip {
+  width: 250px;
+  border-color: black;
+}
+
+.qtip-titlebar {
+  line-height: 1.1;
+}
+
+.qtip-content p {
+  margin-bottom: 8px;
+  margin-top: 8px;
 }
