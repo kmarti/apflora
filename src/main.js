@@ -15897,7 +15897,6 @@ window.apf.olmap.entfernePopupOverlays = function() {
 	_.each(overlays, function(overlay) {
 		if (overlay.get('typ') === 'popup') {
 			zu_löschender_overlay.push(overlay);
-			//overlay.getElement().clear();
 		}
 	});
 	_.each(zu_löschender_overlay, function(overlay) {
@@ -15907,20 +15906,26 @@ window.apf.olmap.entfernePopupOverlays = function() {
 
 window.apf.olmap.zeigeFeatureInfo = function(pixel, coordinate) {
 	var features = window.apf.olmap.sucheFeatures(pixel),
-		feature = features[0],
 		overlay,
 		popup_id,
 		popup_id_array = [],
 		koordinaten,
 		popup_title,
-		popup_text = '',
-		popup_typ;
+		popup_text = '';
 	if (features[0]) {
 		// wenn mehrere features vorkommen: die Infos aller sammeln und anzeigen
 		if (features.length > 1) {
 			_.each(features, function(feature, index) {
-				popup_text += '<h3>' + feature.get('popup_title') + '</h3>';
-				popup_text += feature.get('popup_content');
+				if (feature.get('myTyp') === 'Detailplan') {
+					popup_text += '<h3>Objekt ID: ' + feature.get('OBJECTID') + '</h3>';
+				    popup_text += '<table><tr><td><p>Typ:</p></td><td><p>Detailplan</p></td></tr>'+
+		    			'<tr><td><p>Fläche:</p></td><td><p>' + parseInt(feature.get('SHAPE_Area') / 10) + '</p></td></tr>'+
+		    			'<tr><td><p>Bemerkunge:</p></td><td><p>' + (feature.get('Bemerkunge') || "") + '</p></td></tr>'+
+		    			'<tr><td><p>Bemerkun_1:</p></td><td><p>' + (feature.get('Bemerkun_1') || "") + '</p></td></tr></table>';
+				} else {
+					popup_text += '<h3>' + feature.get('popup_title') + '</h3>';
+					popup_text += feature.get('popup_content');
+				}
 				if (index + 1 < features.length) {
 					popup_text += '<hr>';
 				}
@@ -15929,10 +15934,23 @@ window.apf.olmap.zeigeFeatureInfo = function(pixel, coordinate) {
 			// als Koordinaten den Ort des Klicks nehmen
 			koordinaten = coordinate;
 		} else {
-			popup_text = features[0].get('popup_content');
-			popup_title = features[0].get('popup_title');
+			// es gibt nur einen feature
+			if (features[0].get('myTyp') === 'Detailplan') {
+			    popup_text = '<table><tr><td><p>Typ:</p></td><td><p>Detailplan</p></td></tr>'+
+	    			'<tr><td><p>Fläche:</p></td><td><p>' + parseInt(features[0].get('SHAPE_Area') / 10) + '</p></td></tr>'+
+	    			'<tr><td><p>Bemerkunge:</p></td><td><p>' + (features[0].get('Bemerkunge') || "") + '</p></td></tr>'+
+	    			'<tr><td><p>Bemerkun_1:</p></td><td><p>' + (features[0].get('Bemerkun_1') || "") + '</p></td></tr></table>';
+				popup_title = 'Objekt ID: ' + features[0].get('OBJECTID');
+			} else {
+				popup_text = features[0].get('popup_content');
+				popup_title = features[0].get('popup_title');
+			}
 			// als Koordinaten die Koordinate des popups nehmen
-			koordinaten = [features[0].get('xkoord'), features[0].get('ykoord')];
+			if (features[0].get('xkoord') && features[0].get('ykoord')) {
+				koordinaten = [features[0].get('xkoord'), features[0].get('ykoord')];
+			} else {
+				koordinaten = coordinate;
+			}
 		}
 
 		// zuerst mit gtip einen popup erzeugen
@@ -15986,7 +16004,7 @@ window.apf.olmap.zeigeFeatureInfo = function(pixel, coordinate) {
 	}
 };
 
-// übernimmt drei Variabeln: PopListe ist das Objekt mit den Populationen
+// übernimmt drei Variablen: PopListe ist das Objekt mit den Populationen
 // popid_array der Array mit den ausgewählten Pop
 // visible: Ob die Ebene sichtbar geschaltet wird (oder bloss im Layertree verfügbar ist)
 window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible) {
@@ -17906,106 +17924,188 @@ window.apf.initiiereOlmap = function() {
         ch_vogelreservate_layer.set('visible', false);
         ch_vogelreservate_layer.set('kategorie', 'CH Biotopinventare');
 
+    var detailpläne_layer_source = new ol.source.GeoJSON({
+        url: 'geojson/detailplaene.geojson'/*,
+    	myTyp: 'Detailplan'*/	// funktioniert nicht
+    });
+    /* funktioniert nicht:
+    detailpläne_layer_source.forEachFeature(function(feature) {
+    	feature.setValues('myTyp', 'Detailplan');
+    });*/
+
+    var detailpläne_layer = new ol.layer.Vector({
+        title: 'Detailpläne',
+        opacity: 1,
+        visible: false,
+        kategorie: 'AP Flora',
+        source: detailpläne_layer_source,
+        style: new ol.style.Style({
+	        fill: new ol.style.Fill({
+	          	color: 'rgba(250, 58, 15, 0.1)'
+	        }),
+	        stroke: new ol.style.Stroke({
+	          	color: '#fa3a0f',
+	          	width: 1
+	        })
+		})
+    });
+    /*detailpläne_layer.getSource().forEachFeature(function(feature) {
+    	feature.setValues('myTyp', 'Detailplan');
+    });*/
+
+    // Layer für detailpläne aufbauen
+		// aber nur beim ersten mal
+
+		/*if (!window.detailplaene_shp) {
+            // TODO: mit OL3 machen
+			
+             var detailplaene_stylemap = new OpenLayers.StyleMap({
+	             "default": new OpenLayers.Style({
+		             fillColor: "#fa3a0f",
+		             fillOpacity: 0,
+		             strokeColor: "#fa3a0f",
+		             strokeOpacity: 1,
+		             strokeWidth: 1
+	             }),
+	             "select": new OpenLayers.Style({
+		             fillColor: "#fa3a0f",
+		             fillOpacity: 0.3,
+		             strokeColor: "#fa3a0f",
+		             strokeOpacity: 1,
+		             strokeWidth: 1
+	             })
+             });
+
+             // erst daten auslesen
+             var detailplaene_shapefile = new Shapefile({
+				shp: "shp/detailplaene.shp",
+				dbf: "shp/detailplaene.dbf"
+			}, function(data) {
+				// vektorlayer schaffen
+				window.detailplaene_shp = new ol.layer.Vector("Detailpläne", {
+					styleMap: detailplaene_stylemap,
+					eventListeners: {
+						"featureselected": function(evt) {
+							console.log("feature selected");
+							window.apf.onfeatureselectDetailpläneShp(evt.feature);
+						},
+						"featureunselected": function(evt) {
+							window.apf.onfeatureunselectDetailpläneShp(evt.feature);
+						}
+					}
+				});
+				// Informationen in GeoJSON bereitstellen
+				var parser = new OpenLayers.Format.GeoJSON();
+				var detailplaene_popup_features = parser.read(data.geojson);
+				window.detailplaene_shp.addFeatures(detailplaene_popup_features);
+				// Layer hinzufügen
+				window.apf.olmap.addLayer(window.detailplaene_shp);
+				// select feature controll für detailpläne schaffen
+				var detailplaene_selector = new OpenLayers.Control.SelectFeature(window.detailplaene_shp, {
+					clickout: true
+				});
+				window.apf.olmap.addControl(detailplaene_selector);
+				detailplaene_selector.activate();
+			});
+		}*/
+
     var zh_svo_farbig_layer = new ol.layer.Tile({
-            title: 'SVO farbig',
-            source: new ol.source.TileWMS({
-                url: '//wms.zh.ch/FnsSVOZHWMS',
-                //crossOrigin: 'anonymous',
-                params: {
-                    'layers': 'zonen-schutzverordnungen,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr',
-                    'transparent': true,
-                    'visibility': false,
-                    //'singleTile': true,
-                    'opacity': 0.7
-                }
-            })
-        });
-    	zh_svo_farbig_layer.set('visible', false);
-        zh_svo_farbig_layer.set('kategorie', 'ZH Sachinformationen');
+        title: 'SVO farbig',
+        opacity: 0.7,
+        visible: false,
+        kategorie: 'ZH Sachinformationen',
+        source: new ol.source.TileWMS({
+            url: '//wms.zh.ch/FnsSVOZHWMS',
+            //crossOrigin: 'anonymous',
+            params: {
+                'layers': 'zonen-schutzverordnungen,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr'
+            }
+        })
+    });
 
     var zh_svo_grau_layer = new ol.layer.Tile({
-            title: 'SVO schwarz/weiss',
-            source: new ol.source.TileWMS({
-                url: '//wms.zh.ch/FnsSVOZHWMS',
-                //crossOrigin: 'anonymous',
-                params: {
-                    'layers': 'zonen-schutzverordnungen-raster,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr',
-                    'transparent': true,
-                    'visibility': false,
-                    'singleTile': true
-                }
-            })
-        });
-    	zh_svo_grau_layer.set('visible', false);
-        zh_svo_grau_layer.set('kategorie', 'ZH Sachinformationen');
+        title: 'SVO schwarz/weiss',
+        visible: false,
+        kategorie: 'ZH Sachinformationen',
+        source: new ol.source.TileWMS({
+            url: '//wms.zh.ch/FnsSVOZHWMS',
+            //crossOrigin: 'anonymous',
+            params: {
+                'layers': 'zonen-schutzverordnungen-raster,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr',
+                'transparent': true,
+                'visibility': false,
+                'singleTile': true
+            }
+        })
+    });
 
     // error 401 (Authorization required)
     var zh_lichte_wälder_layer = new ol.layer.Tile({
-            title: 'Lichte Wälder',
-            source: new ol.source.TileWMS({
-                url: '//maps.zh.ch/wms/FnsLWZH',
-                crossOrigin: 'anonymous',
-                params: {
-                    'layers': 'objekte-lichte-waelder-kanton-zuerich',
-                    'transparent': true,
-                    'visibility': false,
-                    'singleTile': true
-                }
-            })
-        });
-    	zh_lichte_wälder_layer.set('visible', false);
-        zh_lichte_wälder_layer.set('kategorie', 'ZH Sachinformationen');
+        title: 'Lichte Wälder',
+        visible: false,
+        kategorie: 'ZH Sachinformationen',
+        source: new ol.source.TileWMS({
+            url: '//maps.zh.ch/wms/FnsLWZH',
+            crossOrigin: 'anonymous',
+            params: {
+                'layers': 'objekte-lichte-waelder-kanton-zuerich',
+                'transparent': true,
+                'visibility': false,
+                'singleTile': true
+            }
+        })
+    });
 
     // error 401 (Authorization required)
     var zh_ortholuftbild_layer = new ol.layer.Tile({
-            title: 'Luftbild',
-            source: new ol.source.TileWMS({
-                url: '//agabriel:4zC6MgjM@wms.zh.ch/OrthoZHWMS',
-                crossOrigin: 'anonymous',
-                params: {
-                    'layers': 'orthophotos',
-                    'isBaseLayer': true,
-                    'visibility': false,
-                    'singleTile': true
-                }
-            })
-        });
-    	zh_ortholuftbild_layer.set('visible', false);
-        zh_ortholuftbild_layer.set('kategorie', 'ZH Hintergrund');
+        title: 'Luftbild',
+        visible: false,
+        kategorie: 'ZH Hintergrund',
+        source: new ol.source.TileWMS({
+            url: '//agabriel:4zC6MgjM@wms.zh.ch/OrthoZHWMS',
+            crossOrigin: 'anonymous',
+            params: {
+                'layers': 'orthophotos',
+                'isBaseLayer': true,
+                'visibility': false,
+                'singleTile': true
+            }
+        })
+    });
 
     // error 401 (Authorization required)
     var zh_ortholuftbild2_layer = new ol.layer.Tile({
-            title: 'Luftbild 2',
-            source: new ol.source.TileWMS({
-                url: '//maps.zh.ch/wms/OrthoBackgroundZH',
-                crossOrigin: 'anonymous',
-                params: {
-                    'layers': 'orthoaktuell',
-                    'isBaseLayer': true,
-                    'visibility': false,
-                    'singleTile': true
-                }
-            })
-        });
-        zh_ortholuftbild2_layer.set('visible', false);
-        zh_ortholuftbild2_layer.set('kategorie', 'ZH Hintergrund');
+        title: 'Luftbild 2',
+        visible: false,
+        kategorie: 'ZH Hintergrund',
+        source: new ol.source.TileWMS({
+            url: '//maps.zh.ch/wms/OrthoBackgroundZH',
+            crossOrigin: 'anonymous',
+            params: {
+                'layers': 'orthoaktuell',
+                'isBaseLayer': true,
+                'visibility': false,
+                'singleTile': true
+            }
+        })
+    });
 
     // error 401 (Authorization required)
     var zh_höhenmodell_layer = new ol.layer.Tile({
-            title: 'Höhenmodell',
-            source: new ol.source.TileWMS({
-                url: '//maps.zh.ch/wms/DTMBackgroundZH',
-                crossOrigin: 'anonymous',
-                params: {
-                    'layers': 'dtm',
-                    'isBaseLayer': true,
-                    'visibility': false,
-                    'singleTile': true
-                }
-            })
-        });
-        zh_höhenmodell_layer.set('visible', false);
-        zh_höhenmodell_layer.set('kategorie', 'ZH Sachinformationen');
+        title: 'Höhenmodell',
+        visible: false,
+        kategorie: 'ZH Sachinformationen',
+        source: new ol.source.TileWMS({
+            url: '//maps.zh.ch/wms/DTMBackgroundZH',
+            crossOrigin: 'anonymous',
+            params: {
+                'layers': 'dtm',
+                'isBaseLayer': true,
+                'visibility': false,
+                'singleTile': true
+            }
+        })
+    });
 
 	// Zunächst alle Layer definieren
     var layers = [
@@ -18024,7 +18124,8 @@ window.apf.initiiereOlmap = function() {
         ch_vogelreservate_layer,
         ch_kantone_layer,
         zh_svo_farbig_layer,
-        zh_svo_grau_layer
+        zh_svo_grau_layer,
+        detailpläne_layer
     ];
     /*layers = [
 
@@ -18214,7 +18315,6 @@ window.apf.initiiereOlmap = function() {
         });
 
 		window.apf.olmap.map.on('singleclick', function(event) {
-			console.log('click on map');
 			var pixel = event.pixel,
 				coordinate = event.coordinate;
 			window.apf.olmap.zeigeFeatureInfo(pixel, coordinate);
@@ -18251,61 +18351,7 @@ window.apf.initiiereOlmap = function() {
         // auf Deutsch beschriften
         $('#ga_karten_div').find('.ol-full-screen').find('span[role="tooltip"]').html('Vollbild wechseln');
 
-		// Layer für detailpläne aufbauen
-		// aber nur beim ersten mal
-
-		if (!window.detailplaene_shp) {
-            // TODO: mit OL3 machen
-			/*
-             var detailplaene_stylemap = new OpenLayers.StyleMap({
-             "default": new OpenLayers.Style({
-             fillColor: "#fa3a0f",
-             fillOpacity: 0,
-             strokeColor: "#fa3a0f",
-             strokeOpacity: 1,
-             strokeWidth: 1
-             }),
-             "select": new OpenLayers.Style({
-             fillColor: "#fa3a0f",
-             fillOpacity: 0.3,
-             strokeColor: "#fa3a0f",
-             strokeOpacity: 1,
-             strokeWidth: 1
-             })
-             });
-
-             // erst daten auslesen
-             var detailplaene_shapefile = new Shapefile({
-				shp: "shp/detailplaene.shp",
-				dbf: "shp/detailplaene.dbf"
-			}, function(data) {
-				// vektorlayer schaffen
-				window.detailplaene_shp = new ol.layer.Vector("Detailpläne", {
-					styleMap: detailplaene_stylemap,
-					eventListeners: {
-						"featureselected": function(evt) {
-							console.log("feature selected");
-							window.apf.onfeatureselectDetailpläneShp(evt.feature);
-						},
-						"featureunselected": function(evt) {
-							window.apf.onfeatureunselectDetailpläneShp(evt.feature);
-						}
-					}
-				});
-				// Informationen in GeoJSON bereitstellen
-				var parser = new OpenLayers.Format.GeoJSON();
-				var detailplaene_popup_features = parser.read(data.geojson);
-				window.detailplaene_shp.addFeatures(detailplaene_popup_features);
-				// Layer hinzufügen
-				window.apf.olmap.addLayer(window.detailplaene_shp);
-				// select feature controll für detailpläne schaffen
-				var detailplaene_selector = new OpenLayers.Control.SelectFeature(window.detailplaene_shp, {
-					clickout: true
-				});
-				window.apf.olmap.addControl(detailplaene_selector);
-				detailplaene_selector.activate();
-			});*/
-		}
+		
 
 
 

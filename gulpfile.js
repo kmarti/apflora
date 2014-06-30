@@ -57,11 +57,11 @@ gulp.task('scripts_dev', function() {
 });
 
 gulp.task('sftp', function() {
-    gulp.start('sftp_index', 'sftp_src', 'sftp_style', 'sftp_php');
+    gulp.start('sftp_index', 'sftp_src', 'sftp_geojson', 'sftp_style', 'sftp_php');
 });
 
 gulp.task('move_dev', ['clean_dev'], function() {
-    gulp.start('move_dev_index', 'move_dev_src', 'move_dev_style', 'move_dev_php');
+    gulp.start('move_dev_index', 'move_dev_src', 'move_dev_geojson', 'move_dev_style', 'move_dev_php');
 });
 
 gulp.task('sftp_src', function() {
@@ -80,8 +80,24 @@ gulp.task('move_dev_src', function() {
         .pipe(gulp.dest('../programme/xampp/htdocs/apflora/src'));
 });
 
+gulp.task('sftp_geojson', function() {
+    return gulp.src('geojson/*')
+        .pipe(sftp({
+            host: '146.185.161.6',
+            auth: 'keyMain',
+            authFile: '.ftppass',
+            port: 30000,
+            remotePath: '/var/zpanel/hostdata/zadmin/public_html/apflora_ch/geojson'
+        }));
+});
+
+gulp.task('move_dev_geojson', function() {
+    return gulp.src(['geojson/*'])
+        .pipe(gulp.dest('../programme/xampp/htdocs/apflora/geojson'));
+});
+
 gulp.task('clean_dev', function() {
-    return gulp.src(['../programme/xampp/htdocs/apflora/src/*', '../programme/xampp/htdocs/apflora/style/*', '../programme/xampp/htdocs/apflora/php/*', '../programme/xampp/htdocs/apflora/index.html'], {read: false})
+    return gulp.src(['../programme/xampp/htdocs/apflora/src/*', '../programme/xampp/htdocs/apflora/geojson/*', '../programme/xampp/htdocs/apflora/style/*', '../programme/xampp/htdocs/apflora/php/*', '../programme/xampp/htdocs/apflora/index.html'], {read: false})
         .pipe(clean({force: true}));
 });
 

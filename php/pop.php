@@ -13,10 +13,10 @@ if ($link->connect_errno) {
 mysqli_set_charset($link, "utf8");
 
 $PopId = $_GET["id"];
-settype($id, "integer");
+settype($PopId, "integer");
 
 // SQL-Anfrage ausführen
-$result = mysqli_query($link, "SELECT * FROM tblPopulation WHERE PopId = $PopId");
+$result = mysqli_query($link, "SELECT * FROM tblPopulation WHERE PopId = ".mysqli_real_escape_string($link, $PopId));
 
 $row = mysqli_fetch_assoc($result);
 

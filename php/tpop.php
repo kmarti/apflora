@@ -12,11 +12,11 @@ if ($link->connect_errno) {
 
 mysqli_set_charset($link, "utf8");
 
-$id = $_GET["id"];
-settype($id, "integer");
+$TPopId = $_GET["id"];
+settype($TPopId, "integer");
 
 // SQL-Anfrage ausführen
-$result = mysqli_query($link, "SELECT * FROM tblTeilpopulation WHERE TPopId = ".mysqli_real_escape_string($link, $id));
+$result = mysqli_query($link, "SELECT * FROM tblTeilpopulation WHERE TPopId = ".mysqli_real_escape_string($link, $TPopId));
 
 $row = mysqli_fetch_assoc($result);
 
