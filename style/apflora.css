@@ -491,7 +491,7 @@ a {
 
 #ergebnisMessung {
 	font-weight:900;
-	font-size: 13px;
+	font-size: 16px;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	/*weiss hinterlegen, damit auf jedem Hintergrund gut sichtbar*/
 	text-shadow: 0 1px 1px white,1px 0 1px white,0 -1px 1px white,-1px 0 1px white,0 2px 1px white,2px 0 1px white,0 -2px 1px white,-2px 0 1px white;

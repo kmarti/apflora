@@ -7607,7 +7607,8 @@ window.apf.gmap.zeigeTPop = function(tpop_liste) {
 	};
 	// globale Variable verwenden, damit ein Klick auf die Checkbox die Ebene einblenden kann
 	window.apf.google_karte_detailpläne = new google.maps.KmlLayer({
-	    url: '//www.apflora.ch/kml/rueteren.kmz',
+	    //url: '//www.apflora.ch/kml/rueteren.kmz',
+        url: 'kml/rueteren.kmz',
 	    preserveViewport: true
 	});
 	window.apf.google_karte_detailpläne.setMap(null);
@@ -7629,7 +7630,7 @@ window.apf.gmap.zeigeTPop = function(tpop_liste) {
 	}
 };
 
-window.apf.olmap.getLayersByName = function() {
+window.apf.olmap.getLayerNames = function() {
 	var layer_objekt_array = window.apf.olmap.map.getLayers().getArray(),
 		layers = _.map(layer_objekt_array, function(layer_objekt) {
 			if (layer_objekt.values_ && layer_objekt.values_.title) {
@@ -7637,6 +7638,31 @@ window.apf.olmap.getLayersByName = function() {
 			}
 		});
 	return layers;
+};
+
+window.apf.olmap.getLayersByName = function() {
+	var layer_objekt_array = window.apf.olmap.map.getLayers().getArray(),
+		layers = _.map(layer_objekt_array, function(layer_objekt) {
+			if (layer_objekt.values_ && layer_objekt.values_.title) {
+	 			return layer_objekt;
+			}
+		});
+	return layers;
+};
+
+window.apf.olmap.entferneLayerNachName = function(name) {
+	var layers_array = window.apf.olmap.getLayersByName(),
+		zu_löschende_layer = [],
+		layername;
+	_.each(layers_array, function(layer) {
+		layername = layer.get('title');
+		if (layername === name) {
+			zu_löschende_layer.push(layer);
+		}
+	});
+	_.each(zu_löschende_layer, function(layer) {
+		window.apf.olmap.map.removeLayer(layer);
+	});
 };
 
 window.apf.olmap.entferneAlleApfloraLayer = function() {
@@ -7649,7 +7675,7 @@ window.apf.olmap.entferneAlleApfloraLayer = function() {
 			zu_löschende_layer = [];
 		// zuerst nur einen Array mit den zu löschenden Layern erstellen
 		// wenn man sofort löscht, wird nur der erste entfernt!
-		_.each(layers_array, function(layer, index) {
+		_.each(layers_array, function(layer) {
 			kategorie = layer.get('kategorie');
 			if (kategorie && kategorie === 'AP Flora') {
 				zu_löschende_layer.push(layer);
@@ -10396,29 +10422,6 @@ window.apf.getInternetExplorerVersion = function() {
   return rv;
 };
 
-window.apf.onfeatureselectDetailpläneShp = function(feature) {
-	'use strict';
-	var popup = new OpenLayers.Popup.FramedCloud(
-			feature.attributes.OBJECTID,
-			feature.geometry.getBounds().getCenterLonLat(),
-			null,
-			"<div style='font-size:.8em; font-weight:bold'>Detailplan<br></div>" 
-				+ "<div style='font-size:.8em;'>ObjektId: "
-				+ feature.attributes.OBJECTID + "<br>Bemerkun_1: "
-			 	+ feature.attributes.Bemerkun_1 + "<br>Fläche: "
-			 	+ feature.attributes.Fläche + "</div>",
-			null,
-			true
-		);
-	feature.popup = popup;
-	window.apf.olmap.addPopup(popup);
-};
-
-window.apf.onfeatureunselectDetailpläneShp = function(feature) {
-	'use strict';
-	window.apf.olmap.removePopup(feature.popup);
-};
-
 window.apf.initiiereOlmap = function() {
 	'use strict';
 	// Proxy Host for Ajax Requests to overcome Cross-Domain HTTTP Requests
@@ -10523,62 +10526,6 @@ window.apf.initiiereOlmap = function() {
     /*detailpläne_layer.getSource().forEachFeature(function(feature) {
     	feature.setValues('myTyp', 'Detailplan');
     });*/
-
-    // Layer für detailpläne aufbauen
-		// aber nur beim ersten mal
-
-		/*if (!window.detailplaene_shp) {
-            // TODO: mit OL3 machen
-			
-             var detailplaene_stylemap = new OpenLayers.StyleMap({
-	             "default": new OpenLayers.Style({
-		             fillColor: "#fa3a0f",
-		             fillOpacity: 0,
-		             strokeColor: "#fa3a0f",
-		             strokeOpacity: 1,
-		             strokeWidth: 1
-	             }),
-	             "select": new OpenLayers.Style({
-		             fillColor: "#fa3a0f",
-		             fillOpacity: 0.3,
-		             strokeColor: "#fa3a0f",
-		             strokeOpacity: 1,
-		             strokeWidth: 1
-	             })
-             });
-
-             // erst daten auslesen
-             var detailplaene_shapefile = new Shapefile({
-				shp: "shp/detailplaene.shp",
-				dbf: "shp/detailplaene.dbf"
-			}, function(data) {
-				// vektorlayer schaffen
-				window.detailplaene_shp = new ol.layer.Vector("Detailpläne", {
-					styleMap: detailplaene_stylemap,
-					eventListeners: {
-						"featureselected": function(evt) {
-							console.log("feature selected");
-							window.apf.onfeatureselectDetailpläneShp(evt.feature);
-						},
-						"featureunselected": function(evt) {
-							window.apf.onfeatureunselectDetailpläneShp(evt.feature);
-						}
-					}
-				});
-				// Informationen in GeoJSON bereitstellen
-				var parser = new OpenLayers.Format.GeoJSON();
-				var detailplaene_popup_features = parser.read(data.geojson);
-				window.detailplaene_shp.addFeatures(detailplaene_popup_features);
-				// Layer hinzufügen
-				window.apf.olmap.addLayer(window.detailplaene_shp);
-				// select feature controll für detailpläne schaffen
-				var detailplaene_selector = new OpenLayers.Control.SelectFeature(window.detailplaene_shp, {
-					clickout: true
-				});
-				window.apf.olmap.addControl(detailplaene_selector);
-				detailplaene_selector.activate();
-			});
-		}*/
 
     var zh_svo_farbig_layer = new ol.layer.Tile({
         title: 'SVO farbig',
@@ -11029,33 +10976,35 @@ window.apf.olmap.initiiereLayertree = function() {
         layertitel = layer.get('title');
         visible = layer.get('visible');
         kategorie = layer.get('kategorie');
-        html_prov = '<li><input type="checkbox" class="olmap_layertree_checkbox" id="olmap_layertree_' + layertitel + '" value="' + index + '"';
-        // sichtbare Layer sollen gecheckt sein
-        if (visible) {
-            html_prov += ' checked="checked"';
-        }
-        html_prov += '>';
-        html_prov += '<label for="olmap_layertree_' + layertitel + '">' + layertitel + '</label></li>';
-        html_prov += '<hr>';
-        switch (kategorie) {
-            case "CH Hintergrund":
-                html_ch_hintergrund += html_prov;
-                break;
-            case "CH Sachinformationen":
-                html_ch_sachinfos += html_prov;
-                break;
-            case "CH Biotopinventare":
-                html_ch_biotopinv += html_prov;
-                break;
-            case "ZH Sachinformationen":
-                html_zh_sachinfos += html_prov;
-                break;
-            case "AP Flora":
-                html_apflora += html_prov;
-                break;
-            default:
-                html_zh_sachinfos += html_prov;
-        }
+        if (layertitel !== 'messen') {
+	        html_prov = '<li><input type="checkbox" class="olmap_layertree_checkbox" id="olmap_layertree_' + layertitel + '" value="' + index + '"';
+	        // sichtbare Layer sollen gecheckt sein
+	        if (visible) {
+	            html_prov += ' checked="checked"';
+	        }
+	        html_prov += '>';
+	        html_prov += '<label for="olmap_layertree_' + layertitel + '">' + layertitel + '</label></li>';
+	        html_prov += '<hr>';
+	        switch (kategorie) {
+	            case "CH Hintergrund":
+	                html_ch_hintergrund += html_prov;
+	                break;
+	            case "CH Sachinformationen":
+	                html_ch_sachinfos += html_prov;
+	                break;
+	            case "CH Biotopinventare":
+	                html_ch_biotopinv += html_prov;
+	                break;
+	            case "ZH Sachinformationen":
+	                html_zh_sachinfos += html_prov;
+	                break;
+	            case "AP Flora":
+	                html_apflora += html_prov;
+	                break;
+	            default:
+	                html_zh_sachinfos += html_prov;
+	        }
+	    }
     });
     // letztes <hr> abschneiden
     // aber nur, wenn layers ergänzt wurden
@@ -11085,21 +11034,95 @@ window.apf.olmap.initiiereLayertree = function() {
     $olmap_layertree_layers.css('max-height', window.apf.berechneOlmapLayertreeMaxhöhe);
 };
 
-window.apf.olmap.addInteraction = function() {
-    var type = (typeSelect.value == 'area' ? 'Polygon' : 'LineString');
-    draw = new ol.interaction.Draw({
+window.apf.olmap.messe = function(element) {
+	'use strict';
+	if (element.value === 'line' && element.checked) {
+		window.apf.olmap.addMeasureInteraction('LineString');
+	} else if (element.value === 'polygon' && element.checked) {
+		window.apf.olmap.addMeasureInteraction('Polygon');
+	} else {
+		window.apf.olmap.removeMeasureInteraction();
+	}
+	// allfällig verbliebene Auswahlpolygone entfernen
+	//window.apf.olmap.auswahlPolygonLayer.removeAllFeatures();
+};
+
+window.apf.olmap.removeMeasureInteraction = function() {
+	window.apf.olmap.entferneLayerNachName('messen');
+	window.apf.olmap.map.removeInteraction(window.apf.olmap.drawMeasure);
+	delete window.apf.olmap.drawMeasure;
+	$("#ergebnisMessung").text("");
+	$(window.apf.olmap.map.getViewport()).off('mousemove');
+};
+
+// erhält den Typ der Interaktion: 'Polygon' oder 'LineString'
+window.apf.olmap.addMeasureInteraction = function(type) {
+	// allfällige Resten entfernen
+	window.apf.olmap.removeMeasureInteraction();
+	// neu aufbauen
+	var source = new ol.source.Vector();
+	var messen_layer = new ol.layer.Vector({
+		title: 'messen',
+        source: source,
+        style: new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: 'rgba(255, 255, 255, 0.2)'
+            }),
+            stroke: new ol.style.Stroke({
+                color: 'rgba(255, 0, 0, 1)',
+                width: 3,
+                lineDash: [2, 2],
+                lineCap: 'square'
+            }),
+            image: new ol.style.Circle({
+                radius: 7,
+                fill: new ol.style.Fill({
+                    color: '#ffcc33'
+                })
+            })
+        })
+    });
+
+    window.apf.olmap.map.addLayer(messen_layer);
+
+    // Currently drawed feature
+    // @type {ol.Feature}
+    var sketch = null;
+
+    // Element for currently drawed feature
+    // @type {Element}
+    var sketchElement;
+
+    // handle pointer move
+    // @param {Event} evt
+    var mouseMoveHandler = function(evt) {
+        if (sketch) {
+            var output,
+            	geom = (sketch.getGeometry());
+            if (geom instanceof ol.geom.Polygon) {
+                output = window.apf.olmap.formatArea(/** @type {ol.geom.Polygon} */ (geom));
+
+            } else if (geom instanceof ol.geom.LineString) {
+                output = window.apf.olmap.formatLength( /** @type {ol.geom.LineString} */ (geom));
+            }
+            sketchElement.innerHTML = output;
+        }
+    };
+
+    $(window.apf.olmap.map.getViewport()).on('mousemove', mouseMoveHandler);
+
+    window.apf.olmap.drawMeasure = new ol.interaction.Draw({
         source: source,
         type: /** @type {ol.geom.GeometryType} */ (type)
     });
-    window.apf.olmap.map.addInteraction(draw);
+    window.apf.olmap.map.addInteraction(window.apf.olmap.drawMeasure);
 
-    draw.on('drawstart',
+    window.apf.olmap.drawMeasure.on('drawstart',
         function(evt) {
             // set sketch
             sketch = evt.feature;
             sketchElement = document.createElement('li');
-            var outputList = document.getElementById('measureOutput');
-
+            var outputList = document.getElementById('ergebnisMessung');
             if (outputList.childNodes) {
                 outputList.insertBefore(sketchElement, outputList.firstChild);
             } else {
@@ -11107,12 +11130,44 @@ window.apf.olmap.addInteraction = function() {
             }
         }, this);
 
-    draw.on('drawend',
+    window.apf.olmap.drawMeasure.on('drawend',
         function(evt) {
             // unset sketch
             sketch = null;
             sketchElement = null;
         }, this);
+};
+
+/**
+ * format length output
+ * @param {ol.geom.LineString} line
+ * @return {string}
+*/
+window.apf.olmap.formatLength = function(line) {
+    var length = Math.round(line.getLength() * 100) / 100,
+    	output;
+    if (length > 100) {
+        output = (Math.round(length / 1000 * 100) / 100) + ' km';
+    } else {
+        output = (Math.round(length * 100) / 100) + ' m';
+    }
+    return output;
+};
+
+/**
+ * format length output
+ * @param {ol.geom.Polygon} polygon
+ * @return {string}
+*/
+window.apf.olmap.formatArea = function(polygon) {
+    var area = polygon.getArea(),
+    	output;
+    if (area > 10000) {
+        output = (Math.round(area / 1000000 * 100) / 100) + ' km<sup>2</sup>';
+    } else {
+        output = (Math.round(area * 100) / 100) + ' m<sup>2</sup>';
+    }
+    return output;
 };
 
 // wird offenbar nicht benutzt
@@ -11135,41 +11190,6 @@ window.apf.wähleMitPolygon = function() {
 window.apf.olmap.schliesseLayeroptionen = function() {
 	'use strict';
     $("#olmap_layertree").accordion("option", "active", false);
-};
-
-window.apf.handleMeasurements = function(event) {
-	'use strict';
-    // TODO: auf OL3 portieren
-	var geometry = event.geometry;
-	var units = event.units;
-	var order = event.order;
-	var measure = event.measure;
-	var element = document.getElementById('ergebnisMessung');
-	var out = "";
-	if(order == 1) {
-		out += measure.toFixed(3) + " " + units;
-	} else {
-		out += measure.toFixed(3) + " " + units + "<sup>2</" + "sup>";
-	}
-	element.innerHTML = out;
-};
-
-window.apf.messe = function(element) {
-	'use strict';
-    // TODO: auf OL3 portieren
-	for(key in measureControls) {
-		var controlMessung = measureControls[key];
-		if(element.value == key && element.checked) {
-			controlMessung.activate();
-		} else {
-			controlMessung.deactivate();
-			$("#ergebnisMessung").text("");
-		}
-	}
-	// einen allfällig aktiven drawControl deaktivieren
-	window.apf.deaktiviereGeoAdminAuswahl();
-	// und allfällig verbliebene Auswahlpolygone entfernen
-	window.apf.olmap.auswahlPolygonLayer.removeAllFeatures();
 };
 
 window.apf.erstelleGemeindeliste = function() {
