@@ -8150,7 +8150,8 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
 
     _.each(tpop_liste.rows, function(tpop) {
         my_flurname = tpop.TPopFlurname || '(kein Flurname)';
-        popup_content = '<p>Population: ' + tpop.PopName + '</p>'+
+        popup_content = '<p>Typ: Teilpopulation</p>'+
+        	'<p>Population: ' + tpop.PopName + '</p>'+
             '<p>Teilpopulation: ' + my_flurname + '</p>'+
             '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
             "<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + tpop.TPopId + "')\">Formular öffnen<\/a></p>"+
@@ -8481,22 +8482,36 @@ window.apf.olmap.zeigeFeatureInfo = function(pixel, coordinate) {
 		overlay,
 		popup_id,
 		popup_id_array = [],
-		koordinaten;
-	if (feature) {
-		// coordinate ist, wo der Benutzer geklickt hat
-		// das ist ungenau
-		// daher die Koordinaten des features verwenden, wenn verfügbar
-		if (feature.get('xkoord') && feature.get('ykoord')) {
-			koordinaten = [feature.get('xkoord'), feature.get('ykoord')];
-		} else {
+		koordinaten,
+		popup_title,
+		popup_text = '',
+		popup_typ;
+	if (features[0]) {
+		// wenn mehrere features vorkommen: die Infos aller sammeln und anzeigen
+		if (features.length > 1) {
+			_.each(features, function(feature, index) {
+				popup_text += '<h3>' + feature.get('popup_title') + '</h3>';
+				popup_text += feature.get('popup_content');
+				if (index + 1 < features.length) {
+					popup_text += '<hr>';
+				}
+			});
+			popup_title = features.length + ' Treffer';
+			// als Koordinaten den Ort des Klicks nehmen
 			koordinaten = coordinate;
+		} else {
+			popup_text = features[0].get('popup_content');
+			popup_title = features[0].get('popup_title');
+			// als Koordinaten die Koordinate des popups nehmen
+			koordinaten = [features[0].get('xkoord'), features[0].get('ykoord')];
 		}
+
 		// zuerst mit gtip einen popup erzeugen
 		$('.olmap_popup').each(function() {
 			$(this).qtip({
 				content: {
-		            text: feature.get('popup_content'),
-		            title: feature.get('popup_title'),
+		            text: popup_text,
+		            title: popup_title,
 		            button: 'Close'
 		        },
 		        style: {
@@ -8504,16 +8519,17 @@ window.apf.olmap.zeigeFeatureInfo = function(pixel, coordinate) {
 		            widget: true,
 		            // Remove the default styling
 		            def: false,
-		            width: 250,
+		            classes: 'olmap_popup_styling',
 			        tip: {
-			        	width: 12,
+			        	width: 20,
 			        	height: 20
 			        }
 		        },
 		        position: {
 		            my: 'top left',
 		            at: 'bottom right',
-		            target: $(this)
+		            target: $(this),
+		            viewport: $('#GeoAdminKarte')
 		        }
 	        });
 	        $(this).qtip('toggle', true);
@@ -8606,7 +8622,8 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
 
     _.each(popliste.rows, function(pop) {
         my_name = pop.PopName || '(kein Name)';
-        popup_content = '<p>Koordinaten: ' + pop.PopXKoord + ' / ' + pop.PopYKoord + '</p>'+
+        popup_content = '<p>Typ: Population</p>'+
+        	'<p>Koordinaten: ' + pop.PopXKoord + ' / ' + pop.PopYKoord + '</p>'+
             "<p><a href=\"#\" onclick=\"window.apf.öffnePop('" + pop.PopId + "')\">Formular öffnen<\/a></p>"+
             "<p><a href=\"#\" onclick=\"window.apf.öffnePopInNeuemTab('" + pop.PopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
 

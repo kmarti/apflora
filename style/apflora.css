@@ -574,68 +574,6 @@ p.ergebnisAuswahlListeTitelTPop {
 	display: none;
 }
 
-/*
-** darin wird der Text des tooltips versteckt
-** daher ausblenden
-*/
-.tooltiptext {
-    display: none;
-}
-
-.qtip {
-	font-size: 13px;
-	max-width: 450px;
-}
-
-.qtip-titlebar {
-    -moz-border-radius: 5px 5px 0 0;
-	-webkit-border-radius: 5px 5px 0 0;
-	border-radius: 5px 5px 0 0;
-}
-
-.qtip-content {
-	padding-bottom: 0;
-	padding-top: 0;
-    line-height: 1.2;
-    -moz-border-radius: 0 0 5px 5px;
-	-webkit-border-radius: 0 0 5px 5px;
-	border-radius: 0 0 5px 5px;
-}
-
-.tooltiptext p {
-    padding-top: 0;
-    padding-bottom: 0;
-}
-
-.tooltiptext > p ~ table,
-.tooltiptext > p ~ ul {
-    margin-top: -7px;
-}
-
-.tooltiptext ul {
-    margin-left: -22px;
-}
-
-.tooltiptext table {
-    border-collapse: collapse;
-}
-
-.tooltiptext tr {
-    vertical-align: top;
-}
-
-.tooltiptext .apf-tr-with-border-bottom td {
-    border-bottom: 1px dotted rgb(191, 191, 191);
-}
-
-.tooltiptext tr td {
-    padding-top: 5px;
-}
-
-.tooltiptext tr td {
-    padding-bottom: 5px;
-}
-
 /*drüberstylen, weil GeoAdmin-Aufruf dies nötig macht*/
 
 form input {
@@ -716,11 +654,106 @@ form h2 {
 	font-size: 16px;
 }
 
-.qtip-titlebar {
-  line-height: 1.1;
+
+/*
+** darin wird der Text des tooltips versteckt
+** daher ausblenden
+*/
+.tooltiptext {
+    display: none;
 }
 
-.qtip-content p {
-  margin-bottom: 8px;
-  margin-top: 8px;
+.tooltiptext p {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.tooltiptext > p ~ table,
+.tooltiptext > p ~ ul {
+    margin-top: -7px;
+}
+
+.tooltiptext ul {
+    margin-left: -22px;
+}
+
+.tooltiptext table {
+    border-collapse: collapse;
+}
+
+.tooltiptext tr {
+    vertical-align: top;
+}
+
+.tooltiptext .apf-tr-with-border-bottom td {
+    border-bottom: 1px dotted rgb(191, 191, 191);
+}
+
+.tooltiptext tr td {
+    padding-top: 5px;
+}
+
+.tooltiptext tr td {
+    padding-bottom: 5px;
+}
+
+.qtip {
+	font-size: 13px;
+	max-width: 450px;
+}
+
+.qtip-titlebar {
+    -moz-border-radius: 5px 5px 0 0;
+	-webkit-border-radius: 5px 5px 0 0;
+	border-radius: 5px 5px 0 0;
+  	line-height: 1.1;
+}
+
+.qtip-content {
+	padding-bottom: 0;
+	padding-top: 0;
+    line-height: 1.2;
+    -moz-border-radius: 0 0 5px 5px;
+	-webkit-border-radius: 0 0 5px 5px;
+	border-radius: 0 0 5px 5px;
+}
+
+.olmap_popup_styling .qtip-content {
+	max-height: 250px;
+	overflow: auto;
+	width: 230px;
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.olmap_popup_styling .qtip-content h3 {
+	margin-top: 6px;
+	margin-bottom: 0px;
+	padding-left: 9px;
+	padding-right: 9px;
+}
+
+.olmap_popup_styling .qtip-content p {
+	margin-top: 2px;
+	margin-bottom: 2px;
+	padding-left: 9px;
+	padding-right: 9px;
+}
+
+.olmap_popup_styling .qtip-content p + hr {
+	margin-top: 10px;
+}
+
+.olmap_popup_styling .qtip-content p:first-child {
+	margin-top: 8px;
+}
+
+.olmap_popup_styling .qtip-content p:last-child {
+	margin-bottom: 10px;
+}
+
+.olmap_popup_styling .qtip-content hr {
+	border:0;
+	height: 1px;
+	background: rgb(191, 191, 191);
 }
