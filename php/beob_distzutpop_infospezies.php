@@ -1,8 +1,8 @@
 <?php
 // Verbindung aufbauen, Datenbank auswählen
 
-$link = new mysqli("localhost", "alexande", "y3oYksFsQL49es9x", "alexande_beob");
-$link2 = new mysqli("localhost", "alexande", "y3oYksFsQL49es9x", "alexande_apflora");
+$link = new mysqli("localhost", $MysqlUser, $MysqlPasswort, "alexande_beob");
+$link2 = new mysqli("localhost", $MysqlUser, $MysqlPasswort, "alexande_apflora");
 
 
 /* check connection */
