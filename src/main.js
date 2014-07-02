@@ -10107,7 +10107,7 @@ window.apf.treeKontextmenu = function(node) {
 							});
 						// einfügen soll nicht mehr angezeigt werden
 						delete window.apf.pop_zum_verschieben_gemerkt;
-						// nicht mehr benötigte Variabeln entfernen
+						// nicht mehr benötigte Variablen entfernen
 						delete window.apf.pop_bezeichnung;
 						delete window.apf.pop_id;
 					});
@@ -11142,7 +11142,7 @@ window.apf.treeKontextmenu = function(node) {
 							});
 						// einfügen soll nicht mehr angezeigt werden
 						delete window.apf.pop_zum_verschieben_gemerkt;
-						// nicht mehr benötigte Variabeln entfernen
+						// nicht mehr benötigte Variablen entfernen
 						delete window.apf.pop_bezeichnung;
 						delete window.apf.pop_id;
 					});
@@ -14534,7 +14534,7 @@ window.apf.speichereWert = function(tabelle, id, feld, wert) {
 	});
 };
 
-// nimmt drei Variabeln entgegen: 
+// nimmt drei Variablen entgegen:
 // TPopListe: Die Liste der darzustellenden Teilpopulationen
 // tpopid_markiert: die ID der zu markierenden TPop
 // visible: Ob das Layer sichtbar sein soll
@@ -15034,7 +15034,6 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
 	// Aus unerfindlichem Grund wurde diese Funktion aufgerufen, wenn etwas wiederhergestellt wurde
 	// daher nur ausführen, wenn die Karte sichtbar ist
 	if ($('#GeoAdminKarte').is(":visible")) {
-		console.log('window.apf.olmap.erstellePopSymbole');
 		var pop_symbole_erstellt = $.Deferred(),
 	        markers = [],
 	        marker,
@@ -15425,7 +15424,7 @@ window.apf.deaktiviereGeoAdminAuswahl = function() {
 	delete window.pop_id_liste;
 };
 
-// nimmt drei Variabeln entgegen: 
+// nimmt drei Variablen entgegen:
 // TPopListe: Die Liste der darzustellenden Teilpopulationen
 // tpopid_markiert: die ID der zu markierenden TPop
 // visible: Ob das Layer sichtbar sein soll
@@ -15513,7 +15512,7 @@ window.apf.olmap.erstelleTPopNr = function(tpop_liste, tpopid_markiert, visible)
 	return tpopnr_erstellt.promise();
 };
 
-// nimmt drei Variabeln entgegen: 
+// nimmt drei Variablen entgegen:
 // TPopListe: Die Liste der darzustellenden Teilpopulationen
 // tpopid_markiert: die ID der zu markierenden TPop
 // visible: Ob das Layer sichtbar sein soll (wird offenbar nicht gebraucht)
@@ -16648,17 +16647,17 @@ window.apf.öffneUri = function() {
 		anchor = uri.anchor() || null,
 		ap_id = uri.getQueryParamValue('ap');
 	if (ap_id) {
-		// globale Variabeln setzen
+		// globale Variablen setzen
 		window.apf.setzeWindowAp(ap_id);
 		// Dem Feld im Formular den Wert zuweisen
 		$("#ap_waehlen").val(ap_id);
 		if (uri.getQueryParamValue('tpop')) {
-			// globale Variabeln setzen
+			// globale Variablen setzen
 			window.apf.setzeWindowPop(uri.getQueryParamValue('pop'));
 			window.apf.setzeWindowTpop(uri.getQueryParamValue('tpop'));
 			var tpopfeldkontr_id = uri.getQueryParamValue('tpopfeldkontr');
 			if (tpopfeldkontr_id) {
-				// globale Variabeln setzen
+				// globale Variablen setzen
 				window.apf.setzeWindowTpopfeldkontr(tpopfeldkontr_id);
 				// markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
@@ -16666,7 +16665,7 @@ window.apf.öffneUri = function() {
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				window.apf.initiiere_tpopfeldkontr();
 			} else if (uri.getQueryParamValue('tpopfreiwkontr')) {
-				// globale Variabeln setzen
+				// globale Variablen setzen
 				window.apf.setzeWindowTpopfeldkontr(uri.getQueryParamValue('tpopfreiwkontr'));
 				// markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
@@ -16675,7 +16674,7 @@ window.apf.öffneUri = function() {
 				localStorage.tpopfreiwkontr = true;
 				window.apf.initiiere_tpopfeldkontr();
 			} else if (uri.getQueryParamValue('tpopmassn')) {
-				// globale Variabeln setzen
+				// globale Variablen setzen
 				window.apf.setzeWindowTpopmassn(uri.getQueryParamValue('tpopmassn'));
 				// markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
@@ -16683,7 +16682,7 @@ window.apf.öffneUri = function() {
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				window.apf.initiiere_tpopmassn();
 			} else if (uri.getQueryParamValue('tpopber')) {
-				// globale Variabeln setzen
+				// globale Variablen setzen
 				window.apf.setzeWindowTpopber(uri.getQueryParamValue('tpopber'));
 				// markieren, dass nach dem loaded-event im Tree die tpopber angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
@@ -16707,7 +16706,7 @@ window.apf.öffneUri = function() {
 					window.apf.initiiere_beob("infospezies", localStorage.beob_id, "zugeordnet");
 				}*/
 			} else if (uri.getQueryParamValue('tpopmassnber')) {
-				// globale Variabeln setzen
+				// globale Variablen setzen
 				window.apf.setzeWindowTpopmassnber(uri.getQueryParamValue('tpopmassnber'));
 				// markieren, dass nach dem loaded-event im Tree die tpopmassnber angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
@@ -16723,10 +16722,10 @@ window.apf.öffneUri = function() {
 				window.apf.initiiere_tpop();
 			}
 		} else if (uri.getQueryParamValue('pop')) {
-			// globale Variabeln setzen
+			// globale Variablen setzen
 			window.apf.setzeWindowPop(uri.getQueryParamValue('pop'));
 			if (uri.getQueryParamValue('popber')) {
-				// globale Variabeln setzen
+				// globale Variablen setzen
 				window.apf.setzeWindowPopber(uri.getQueryParamValue('popber'));
 				// markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
@@ -16734,7 +16733,7 @@ window.apf.öffneUri = function() {
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				window.apf.initiiere_popber();
 			} else if (uri.getQueryParamValue('popmassnber')) {
-				// globale Variabeln setzen
+				// globale Variablen setzen
 				window.apf.setzeWindowPopmassnber(uri.getQueryParamValue('popmassnber'));
 				// markieren, dass nach dem loaded-event im Tree die popmassnber angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
@@ -16751,10 +16750,10 @@ window.apf.öffneUri = function() {
 				window.apf.initiiere_pop();
 			}
 		} else if (uri.getQueryParamValue('apziel')) {
-			// globale Variabeln setzen
+			// globale Variablen setzen
 			window.apf.setzeWindowApziel(uri.getQueryParamValue('apziel'));
 			if (uri.getQueryParamValue('zielber')) {
-				// globale Variabeln setzen
+				// globale Variablen setzen
 				window.apf.setzeWindowZielber(uri.getQueryParamValue('zielber'));
 				// markieren, dass nach dem loaded-event im Tree die zielber angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
@@ -16771,13 +16770,13 @@ window.apf.öffneUri = function() {
 				window.apf.initiiere_apziel();
 			}
 		} else if (uri.getQueryParamValue('erfkrit')) {
-			// globale Variabeln setzen
+			// globale Variablen setzen
 			window.apf.setzeWindowErfkrit(uri.getQueryParamValue('erfkrit'));
 			// markieren, dass nach dem loaded-event im Tree die erfkrit angezeigt werden soll 
 			// Die Markierung wird im load-Event wieder entfernt
 			window.apf.erfkrit_zeigen = true;
 		} else if (uri.getQueryParamValue('jber')) {
-			// globale Variabeln setzen
+			// globale Variablen setzen
 			window.apf.setzeWindowJber(uri.getQueryParamValue('jber'));
 			// markieren, dass nach dem loaded-event im Tree die jber angezeigt werden soll 
 			// Die Markierung wird im load-Event wieder entfernt
@@ -16785,7 +16784,7 @@ window.apf.öffneUri = function() {
 			// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 			window.apf.initiiere_jber();
 		} else if (uri.getQueryParamValue('jber_uebersicht')) {
-			// globale Variabeln setzen
+			// globale Variablen setzen
 			window.apf.setzeWindowJberUebersicht(uri.getQueryParamValue('jber_uebersicht'));
 			// markieren, dass nach dem loaded-event im Tree die jber_uebersicht angezeigt werden soll 
 			// Die Markierung wird im load-Event wieder entfernt
@@ -16793,7 +16792,7 @@ window.apf.öffneUri = function() {
 			// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 			window.apf.initiiere_jber_uebersicht();
 		} else if (uri.getQueryParamValue('ber')) {
-			// globale Variabeln setzen
+			// globale Variablen setzen
 			window.apf.setzeWindowBer(uri.getQueryParamValue('ber'));
 			// markieren, dass nach dem loaded-event im Tree die ber angezeigt werden soll 
 			// Die Markierung wird im load-Event wieder entfernt
@@ -16801,7 +16800,7 @@ window.apf.öffneUri = function() {
 			// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 			window.apf.initiiere_ber();
 		} else if (uri.getQueryParamValue('idealbiotop')) {
-			// globale Variabeln setzen
+			// globale Variablen setzen
 			window.apf.setzeWindowIdealbiotop(uri.getQueryParamValue('idealbiotop'));
 			// markieren, dass nach dem loaded-event im Tree die idealbiotop angezeigt werden soll 
 			// Die Markierung wird im load-Event wieder entfernt
@@ -16809,7 +16808,7 @@ window.apf.öffneUri = function() {
 			// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 			window.apf.initiiere_idealbiotop();
 		} else if (uri.getQueryParamValue('assozarten')) {
-			// globale Variabeln setzen
+			// globale Variablen setzen
 			window.apf.setzeWindowAssozarten(uri.getQueryParamValue('assozarten'));
 			// markieren, dass nach dem loaded-event im Tree die assozarten angezeigt werden soll 
 			// Die Markierung wird im load-Event wieder entfernt
@@ -17276,6 +17275,8 @@ window.apf.initiiereOlmap = function() {
 		$(window.apf.olmap.map.getViewport()).on('mousemove', function(e) {
 		  	var pixel = window.apf.olmap.map.getEventPixel(e.originalEvent),
 		  		hit = window.apf.olmap.map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+		  			console.log('feature.myTyp = ' + feature.get('myTyp'));
+		  			console.log('layer.title = ' + layer.get('title'));
 				    return true;
 				});
 		  	if (hit) {
@@ -17302,81 +17303,6 @@ window.apf.initiiereOlmap = function() {
         window.apf.olmap.map.addControl(myFullScreenControl);
         // auf Deutsch beschriften
         $('#ga_karten_div').find('.ol-full-screen').find('span[role="tooltip"]').html('Vollbild wechseln');
-
-		
-
-
-
-
-		// messen
-		// style the sketch fancy
-        // TODO: auf ol3 upgraden
-		/*var sketchSymbolizers = {
-			"Point": {
-				pointRadius: 4,
-				graphicName: "square",
-				fillColor: "white",
-				fillOpacity: 0.4,
-				strokeWidth: 1,
-				strokeOpacity: 1,
-				//strokeColor: "#333333"
-				strokeColor: "red"
-			},
-			"Line": {
-				strokeWidth: 3,
-				strokeOpacity: 1,
-				strokeColor: "red",
-				strokeDashstyle: "dash"
-			},
-			"Polygon": {
-				strokeWidth: 2,
-				strokeOpacity: 1,
-				strokeColor: "red",
-				fillColor: "red",
-				fillOpacity: 0.3
-			}
-		};*/
-
-		/*var style = new OpenLayers.Style();
-		style.addRules([
-			new OpenLayers.Rule({symbolizer: sketchSymbolizers})
-		]);
-		var styleMap = new OpenLayers.StyleMap({"default": style});*/
-
-		// TODO: Neue version measure controls einfügen
-
-		/*measureControls = {
-			line: new OpenLayers.Control.Measure(
-				OpenLayers.Handler.Path, {
-					persist: true,
-					handlerOptions: {
-						layerOptions: {
-							styleMap: styleMap
-						}
-					}
-				}
-			),
-			polygon: new OpenLayers.Control.Measure(
-				OpenLayers.Handler.Polygon, {
-					persist: true,
-					handlerOptions: {
-						layerOptions: {
-							styleMap: styleMap
-						}
-					}
-				}
-			)
-		};
-		
-		var controlMessung;
-		for(var key in measureControls) {
-			controlMessung = measureControls[key];
-			controlMessung.events.on({
-				"measure": window.apf.handleMeasurements,
-				"measurepartial": window.apf.handleMeasurements
-			});
-			window.apf.olmap.addControl(controlMessung);
-		}*/
 	}
 	$('#karteSchieben').checked = true;	// scheint nicht zu funktionieren?
 };

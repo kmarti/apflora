@@ -8720,7 +8720,6 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
 	// Aus unerfindlichem Grund wurde diese Funktion aufgerufen, wenn etwas wiederhergestellt wurde
 	// daher nur ausführen, wenn die Karte sichtbar ist
 	if ($('#GeoAdminKarte').is(":visible")) {
-		console.log('window.apf.olmap.erstellePopSymbole');
 		var pop_symbole_erstellt = $.Deferred(),
 	        markers = [],
 	        marker,
@@ -10962,6 +10961,8 @@ window.apf.initiiereOlmap = function() {
 		$(window.apf.olmap.map.getViewport()).on('mousemove', function(e) {
 		  	var pixel = window.apf.olmap.map.getEventPixel(e.originalEvent),
 		  		hit = window.apf.olmap.map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+		  			console.log('feature.myTyp = ' + feature.get('myTyp'));
+		  			console.log('layer.title = ' + layer.get('title'));
 				    return true;
 				});
 		  	if (hit) {
@@ -10988,81 +10989,6 @@ window.apf.initiiereOlmap = function() {
         window.apf.olmap.map.addControl(myFullScreenControl);
         // auf Deutsch beschriften
         $('#ga_karten_div').find('.ol-full-screen').find('span[role="tooltip"]').html('Vollbild wechseln');
-
-		
-
-
-
-
-		// messen
-		// style the sketch fancy
-        // TODO: auf ol3 upgraden
-		/*var sketchSymbolizers = {
-			"Point": {
-				pointRadius: 4,
-				graphicName: "square",
-				fillColor: "white",
-				fillOpacity: 0.4,
-				strokeWidth: 1,
-				strokeOpacity: 1,
-				//strokeColor: "#333333"
-				strokeColor: "red"
-			},
-			"Line": {
-				strokeWidth: 3,
-				strokeOpacity: 1,
-				strokeColor: "red",
-				strokeDashstyle: "dash"
-			},
-			"Polygon": {
-				strokeWidth: 2,
-				strokeOpacity: 1,
-				strokeColor: "red",
-				fillColor: "red",
-				fillOpacity: 0.3
-			}
-		};*/
-
-		/*var style = new OpenLayers.Style();
-		style.addRules([
-			new OpenLayers.Rule({symbolizer: sketchSymbolizers})
-		]);
-		var styleMap = new OpenLayers.StyleMap({"default": style});*/
-
-		// TODO: Neue version measure controls einfügen
-
-		/*measureControls = {
-			line: new OpenLayers.Control.Measure(
-				OpenLayers.Handler.Path, {
-					persist: true,
-					handlerOptions: {
-						layerOptions: {
-							styleMap: styleMap
-						}
-					}
-				}
-			),
-			polygon: new OpenLayers.Control.Measure(
-				OpenLayers.Handler.Polygon, {
-					persist: true,
-					handlerOptions: {
-						layerOptions: {
-							styleMap: styleMap
-						}
-					}
-				}
-			)
-		};
-		
-		var controlMessung;
-		for(var key in measureControls) {
-			controlMessung = measureControls[key];
-			controlMessung.events.on({
-				"measure": window.apf.handleMeasurements,
-				"measurepartial": window.apf.handleMeasurements
-			});
-			window.apf.olmap.addControl(controlMessung);
-		}*/
 	}
 	$('#karteSchieben').checked = true;	// scheint nicht zu funktionieren?
 };
