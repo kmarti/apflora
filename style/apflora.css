@@ -47,6 +47,7 @@ fieldset {
 	/*irgenwoher iherited #forms 2px margin rechts und links*/
 	margin-left: 0;
 	margin-right: 0;
+	padding: 0 0 0 0;
 }
 
 #undelete_div {
@@ -77,7 +78,7 @@ fieldset {
 	min-height:22px; 
 	line-height:22px;
 }
-/*#tree a { line-height:20px; height:20px; font-size:10px; }*/
+
 #tree a ins {
 	height:20px;
 	width:20px;
@@ -94,7 +95,7 @@ fieldset {
 }
 
 #forms form {
-	padding: 0 7px 0 7px;
+	padding: 7px 7px 7px 7px;
 }
 
 #suchen {
@@ -160,10 +161,6 @@ td.Datenfelder {
 	font-size: 12px;
 }
 
-#GeoAdminKarte, #google_karte {
-	height: 100% !important;
-}
-
 /*im tab soll der zusätzliche Rand klein sein*/
 .ui-tabs .ui-tabs-panel {
 	padding-left: 0;
@@ -186,7 +183,6 @@ input {
 }
 
 [readonly='readonly'] {
-	/*color:#6F6F66;*/
 	background-color: #FFE;
 	border:none;
 }
@@ -300,7 +296,11 @@ option {
     white-space: nowrap
 }
 
-.PopupText {text-align:center; margin:6px 4px 4px 4px; font-weight:bold;}
+.PopupText {
+	text-align:center; 
+	margin:6px 4px 4px 4px; 
+	font-weight:bold;
+}
 
 .MapLabel {
 	color:white;
@@ -353,21 +353,34 @@ body {
 a {
 	-webkit-user-select: none !important; 
 }
+
+#GeoAdminKarte,
+#google_karte {
+	height: 100% !important;
+	width: 100%;
+	display: none;
+	/*height: -webkit-calc(100% - 16px) !important;
+	height: -o-calc(100% - 16px) !important;
+	height: calc(100% - 16px) !important;*/
+}
+
 #google_karte {
 	border-radius: 8px;
 	overflow: hidden;
+	position: relative;
 }
+
 #distanz_messen {
 	position: absolute;
 	top: 4px;
-	left: 100px;
+	left: 80px;
 	/*vor die Karte aber nicht vor die Meldungen*/
 	z-index: 800;
 }
 #distanz_messen_entfernen {
 	position: absolute;
 	top: 4px;
-	left: 220px;
+	left: 200px;
 	/*vor die Karte aber nicht vor die Meldungen*/
 	z-index: 800;
 }
@@ -381,15 +394,19 @@ a {
 .google_detailplaene_div {
 	position: absolute;
 	top: 4px;
-	left: 370px;
+	left: 350px;
 	/*vor die Karte aber nicht vor die Meldungen*/
 	z-index: 800;
 }
 
-#ga_karten_div, .olMapViewport {
+#ga_karten_div {
+	width: 100%;
+	height: 100%;
 	border-radius: 8px;
 	overflow: hidden;
+	position: relative;
 }
+
 /*CH-Übersicht mit runden Ecken*/
 .olControlOverviewMapElement {
 	border-radius: 8px;
@@ -642,7 +659,6 @@ form h2 {
 .ui-dialog-content td {
 	font-size: 16px;
 }
-
 
 /*
 ** darin wird der Text des tooltips versteckt
