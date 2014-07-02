@@ -2306,7 +2306,7 @@
 				window.apf.initiiere_index();
 
                 $('#olmap_layertree').on('click', '.olmap_layertree_checkbox', function(event) {
-                	var layers = window.apf.olmap.map.getLayers().array_;
+                	var layers = window.apf.olmap.map.getLayers().getArray();
                     layers[event.target.value].setVisible(event.target.checked);
                 });
 
@@ -2514,6 +2514,7 @@
 				}
 			});
 
+            /* TODO: für ol3 aktualisieren
 			// Bei aktivieren/deaktivieren von Pop oder TPop im Layertree soll Auwahl erneuert werden
 			$("#olmap_layertree").on("click", "button.x-btn-text", function() {
 				// wenn ein Auswahlpolygon existiert
@@ -2534,7 +2535,7 @@
 						window.apf.erstelleListeDerAusgewaehltenPopTPop();
 					}
 				}	
-			});
+			});*/
 
 			$(window).resize(function() {
                 window.apf.setzeTreehöhe();

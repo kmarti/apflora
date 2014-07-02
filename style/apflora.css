@@ -28,7 +28,7 @@ body {
 		width: 370px;
 		float: left;
 		margin-right: 8px;
-		margin-bottom: 0px;
+		margin-bottom: 0;
 	}
 
 	#tree {
@@ -38,9 +38,8 @@ body {
 
 fieldset {
 	background-color: #FFE;
-	border: 1px solid;
-	border-color: #A5A59A;
-	border-radius: 8px;
+    border: 1px solid #A5A59A;
+    border-radius: 8px;
 
 	font-family: Arial, Verdana, Helvetica, sans-serif !important;
 	font-size: 16px !important;
@@ -308,7 +307,7 @@ option {
 	 font-family: "Lucida Grande", "Arial", sans-serif;
 	 font-size: 12px;
 	 font-weight: 900;
-	 font-color: white;
+	 /*font-color: white;*/
 	 text-align: center;
 	 width: 150px;     
 }
@@ -435,10 +434,7 @@ a {
 }
 
 #olmap_layertree .ui-accordion-content {
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: .3em;
-    padding-bottom: .3em;
+    padding: .3em 0;
     font-size: 14px;
     line-height: 1em;
     opacity: 0.97;
@@ -474,7 +470,7 @@ a {
 	min-width: 300px;
 }
 
-#olmap_exportieren_div {
+#olmap_exportieren {
 	position: absolute;
 	top: 8px;
 	left: 510px;
@@ -544,7 +540,7 @@ a {
 }
 #ergebnisAuswahlListe {
 	overflow: auto;
-	max-height: 400;
+	max-height: 400px;
 	/*padding: 3px 6px 3px 6px;*/
 	padding-top: 3px;
 	padding-bottom: 3px;
@@ -746,7 +742,7 @@ form h2 {
 
 .olmap_popup_styling .qtip-content h3 {
 	margin-top: 6px;
-	margin-bottom: 0px;
+	margin-bottom: 0;
 	padding-left: 9px;
 	padding-right: 9px;
 }
