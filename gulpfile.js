@@ -10,15 +10,18 @@ var gulp = require('gulp'),
     notify = require('gulp-notify'),
     sftp = require('gulp-sftp'),
     clean = require('gulp-clean'),
-    connect = require('gulp-connect');
+    connect = require('gulp-connect'),
+    changed = require('gulp-changed'),
+    host = '146.185.161.6',
+    auth = 'keyMain',
+    auth_file = '.ftppass',
+    port = 30000;
 
 // connect klappt zwar, aber mysql liefert auf :4242 keine Daten???
-gulp.task('default', [/*'connect', */'watch'], function() {
-    gulp.start('build_dev');
-});
+gulp.task('default', ['build_dev', 'watch']);
 
-gulp.task('prod', function() {
-    gulp.start('styles', 'scripts');
+gulp.task('prod', ['styles', 'scripts'], function() {
+    gulp.start('move_dev', 'sftp_index', 'sftp_src', 'sftp_geojson', 'sftp_style', 'sftp_php');
 });
 
 gulp.task('build_dev', ['styles_dev', 'scripts_dev'], function() {
@@ -56,21 +59,23 @@ gulp.task('scripts_dev', function() {
         .pipe(notify({ message: 'Scripts task beendet' }));
 });
 
-gulp.task('sftp', function() {
+/*gulp.task('sftp', function() {
     gulp.start('sftp_index', 'sftp_src', 'sftp_geojson', 'sftp_style', 'sftp_php');
-});
+});*/
 
-gulp.task('move_dev', ['clean_dev'], function() {
+gulp.task('move_dev', ['clean_dev', 'move_dev_index', 'move_dev_src', 'move_dev_geojson', 'move_dev_style', 'move_dev_php']);
+
+/*gulp.task('move_dev', ['clean_dev'], function() {
     gulp.start('move_dev_index', 'move_dev_src', 'move_dev_geojson', 'move_dev_style', 'move_dev_php');
-});
+});*/
 
 gulp.task('sftp_src', function() {
     return gulp.src('src/*')
         .pipe(sftp({
-            host: '146.185.161.6',
-            auth: 'keyMain',
-            authFile: '.ftppass',
-            port: 30000,
+            host: host,
+            auth: auth,
+            authFile: auth_file,
+            port: port,
             remotePath: '/var/zpanel/hostdata/zadmin/public_html/apflora_ch/src'
         }));
 });
@@ -83,10 +88,10 @@ gulp.task('move_dev_src', function() {
 gulp.task('sftp_geojson', function() {
     return gulp.src('geojson/*')
         .pipe(sftp({
-            host: '146.185.161.6',
-            auth: 'keyMain',
-            authFile: '.ftppass',
-            port: 30000,
+            host: host,
+            auth: auth,
+            authFile: auth_file,
+            port: port,
             remotePath: '/var/zpanel/hostdata/zadmin/public_html/apflora_ch/geojson'
         }));
 });
@@ -104,10 +109,10 @@ gulp.task('clean_dev', function() {
 gulp.task('sftp_style', function() {
     return gulp.src('style/*')
         .pipe(sftp({
-            host: '146.185.161.6',
-            auth: 'keyMain',
-            authFile: '.ftppass',
-            port: 30000,
+            host: host,
+            auth: auth,
+            authFile: auth_file,
+            port: port,
             remotePath: '/var/zpanel/hostdata/zadmin/public_html/apflora_ch/style'
         }));
 });
@@ -120,10 +125,10 @@ gulp.task('move_dev_style', function() {
 gulp.task('sftp_php', function() {
     return gulp.src('php/*')
         .pipe(sftp({
-            host: '146.185.161.6',
-            auth: 'keyMain',
-            authFile: '.ftppass',
-            port: 30000,
+            host: host,
+            auth: auth,
+            authFile: auth_file,
+            port: port,
             remotePath: '/var/zpanel/hostdata/zadmin/public_html/apflora_ch/php'
         }));
 });
@@ -137,10 +142,10 @@ gulp.task('move_dev_php', function() {
 gulp.task('sftp_index', function() {
     return gulp.src('index.html')
         .pipe(sftp({
-            host: '146.185.161.6',
-            auth: 'keyMain',
-            authFile: '.ftppass',
-            port: 30000,
+            host: host,
+            auth: auth,
+            authFile: auth_file,
+            port: port,
             remotePath: '/var/zpanel/hostdata/zadmin/public_html/apflora_ch/'
         }));
 });
