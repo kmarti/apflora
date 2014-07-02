@@ -170,6 +170,12 @@ td.Datenfelder {
 	padding-right: 0;
 }
 
+form fieldset {
+	padding-left: 10px;
+	padding-bottom: 4px;
+	margin-bottom: 10px;
+}
+
 fieldset legend {
 	color:#6F6F66;
 	font-weight:bold;
