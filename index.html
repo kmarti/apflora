@@ -45,7 +45,7 @@
 			<fieldset id="undelete_div" class="undelete"></fieldset>
 
 			<fieldset id="forms" style="display:none;">
-				<div id="forms_titelzeile" class="undelete" style="margin:0px 0px 0px 0px; line-height:27px; padding: 0px 7px 0px 9px; height:auto; display:none;">
+				<div id="forms_titelzeile" class="undelete" style="margin:0 0 0 0; line-height:27px; padding: 0 7px 0 9px; height:auto; display:none;">
 					<div id="testart_div" style="font-weight:bold; color:#196319; float:left; padding-right:7px;"></div>
 				</div>
 				<form id="ap" class="form" action="#" method="get" autocomplete="off" style="display:none;">
@@ -2051,6 +2051,9 @@
 								</div>
 							</div>
 						</div>
+						<!--div id="olmap_exportieren_div">
+							<a id="olmap_exportieren" download="map.png">Karte als png herunterladen</a>
+						</div-->
 						<div id="olmap_layertree" class="accordion">
 							<h3 style="font-weight:bold;">Ebenen</h3>
 	                        <div id="olmap_layertree_layers" class="accordion">
@@ -2208,11 +2211,11 @@
 		</div>
 
 		<div id="anmelde_dialog" title="Anmeldung erforderlich">
-			<p id="anmeldung_rueckmeldung" style="margin: 16px 0px 16px 0px;">Logins werden von Topos vergeben</p>
+			<p id="anmeldung_rueckmeldung" style="margin: 16px 0 16px 0;">Logins werden von Topos vergeben</p>
 			<label for="anmeldung_name" style="display:block;">Name</label>
-			<input type="text" id="anmeldung_name" style="width:270px; margin: 2px 0px 2px 0px;">
+			<input type="text" id="anmeldung_name" style="width:270px; margin: 2px 0 2px 0;">
 			<label for="anmeldung_passwort" style="display:block;">Passwort</label>
-			<input type="password" id="anmeldung_passwort" style="width:270px; margin: 2px 0px 2px 0px;">
+			<input type="password" id="anmeldung_passwort" style="width:270px; margin: 2px 0 2px 0;">
 		</div>
 
 		<div id="loeschen_dialog" title="Sind sie sicher?" style="display:none;">
@@ -2307,12 +2310,9 @@
                     layers[event.target.value].setVisible(event.target.checked);
                 });
 
-				$(".export_abschnitt").tooltip({
-					tooltipClass: "export_abschnitt_tooltip_class",
-					content: function() {
-						return $(this).attr('title');
-					}
-				});
+                $('#GeoAdminKarte').on('click', '#olmap_exportieren', function() {
+                	window.apf.olmap.exportiereKarte();
+                });
 
 				$("#ber").on("change", "#BerURL", function() {
 					var $BerURL = $("#BerURL"),

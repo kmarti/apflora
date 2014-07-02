@@ -8,6 +8,7 @@ body {
 
 #menu {
 	margin-bottom: 8px;
+	padding: 7px 7px 7px 7px;
 }
 
 /*
@@ -471,6 +472,18 @@ a {
 .olmap_tooltip {
 	z-index: 2000;
 	min-width: 300px;
+}
+
+#olmap_exportieren_div {
+	position: absolute;
+	top: 8px;
+	left: 510px;
+	z-index: 800;
+}
+
+#olmap_exportieren {
+	width: 25px;
+	height: 26px;
 }
 
 #menuleiste {
