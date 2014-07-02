@@ -85,7 +85,7 @@ gulp.task('dev_move_src', function() {
         .pipe(gulp.dest('../programme/xampp/htdocs/apflora/src'));
 });
 
-gulp.task('sftp_geojson', function() {
+gulp.task('prod_sftp_geojson', function() {
     return gulp.src('geojson/*')
         .pipe(sftp({
             host: host,

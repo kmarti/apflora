@@ -1,8 +1,8 @@
 <?php
 // Verbindung aufbauen, Datenbank auswählen
-
+$MysqlUser = getenv('MYSQL_USER');
+$MysqlPasswort = getenv('MYSQL_PASSWORD');
 $link = new mysqli("localhost", $MysqlUser, $MysqlPasswort, "alexande_beob");
-
 $link2 = new mysqli("localhost", $MysqlUser, $MysqlPasswort, "alexande_apflora");
 
 
