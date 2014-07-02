@@ -11,65 +11,65 @@ var gulp = require('gulp'),
     sftp = require('gulp-sftp'),
     clean = require('gulp-clean'),
     connect = require('gulp-connect'),
-    changed = require('gulp-changed'),
+    changed = require('gulp-changed'),// aber wie schafft man es, dass sftp nur seit dem letzten sftp geänderte uploaded?
     host = '146.185.161.6',
     auth = 'keyMain',
     auth_file = '.ftppass',
     port = 30000;
 
 // connect klappt zwar, aber mysql liefert auf :4242 keine Daten???
-gulp.task('default', ['build_dev', 'watch']);
-
-gulp.task('prod', ['styles', 'scripts'], function() {
-    gulp.start('move_dev', 'sftp_index', 'sftp_src', 'sftp_geojson', 'sftp_style', 'sftp_php');
+gulp.task('default', ['dev_build_all'], function() {
+    gulp.start('watch');
 });
 
-gulp.task('build_dev', ['styles_dev', 'scripts_dev'], function() {
-    gulp.start('move_dev');
+gulp.task('prod', ['prod_build_style', 'prod_build_src'], function() {
+    gulp.start('dev_move_all', 'prod_sftp');
 });
 
-gulp.task('styles', function() {
+gulp.task('dev_build_all', ['dev_build_style', 'dev_build_src'], function() {
+    gulp.start('dev_move_all');
+ });
+
+gulp.task('dev_move_all', ['dev_clean_all'], function() {
+    gulp.start('dev_move_index', 'dev_move_src', 'dev_move_geojson', 'dev_move_style', 'dev_move_php');
+ });
+
+gulp.task('prod_sftp', ['prod_sftp_index', 'prod_sftp_src', 'prod_sftp_geojson', 'prod_sftp_style', 'prod_sftp_php']);
+
+gulp.task('prod_build_style', function() {
     return gulp.src(['style/jquery.qtip.css', 'style/apflora.css'])
         .pipe(concat('main.css'))
         .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
         .pipe(minifycss())
         .pipe(gulp.dest('style'))
-        .pipe(notify({message: 'css task beendet'}));
+        .pipe(notify({message: 'prod_build_style task beendet'}));
 });
 
-gulp.task('styles_dev', function() {
+gulp.task('dev_build_style', function() {
     return gulp.src(['style/jquery.qtip.css', 'style/apflora.css'])
         .pipe(concat('main.css'))
         .pipe(gulp.dest('style'))
-        .pipe(notify({message: 'css dev task beendet'}));
+        .pipe(gulp.dest('../programme/xampp/htdocs/apflora/style'))
+        .pipe(notify({message: 'dev_build_style task beendet'}));
 });
 
-gulp.task('scripts', function() {
+gulp.task('prod_build_src', function() {
     return gulp.src(['src/jquery-ui.js', 'src/jquery.ui.touch-punch.js', 'src/jquery.cookie.js', 'src/jquery.hotkeys.js', 'src/hammer.js', 'src/jquery.hammer.js', 'src/markerclusterer.js', 'src/markerwithlabel.js', 'src/ruler.js', 'src/jsuri.js', 'src/jquery.qtip.js', 'src/apflora.js', 'src/jquery.file.download.js', 'src/underscore.js'])
         .pipe(concat('main.js'))
         .pipe(uglify())
         .pipe(gulp.dest('src'))
-        .pipe(notify({ message: 'Scripts task beendet' }));
+        .pipe(notify({ message: 'prod_build_src task beendet' }));
 });
 
-gulp.task('scripts_dev', function() {
+gulp.task('dev_build_src', function() {
     return gulp.src(['src/jquery-ui.js', 'src/jquery.ui.touch-punch.js', 'src/jquery.cookie.js', 'src/jquery.hotkeys.js', 'src/hammer.js', 'src/jquery.hammer.js', 'src/markerclusterer.js', 'src/markerwithlabel.js', 'src/ruler.js', 'src/jsuri.js', 'src/jquery.qtip.js', 'src/apflora.js', 'src/jquery.file.download.js', 'src/underscore.js'])
         .pipe(concat('main.js'))
         .pipe(gulp.dest('src'))
-        .pipe(notify({ message: 'Scripts task beendet' }));
+        .pipe(gulp.dest('../programme/xampp/htdocs/apflora/src'))
+        .pipe(notify({ message: 'dev_build_src task beendet' }));
 });
 
-/*gulp.task('sftp', function() {
-    gulp.start('sftp_index', 'sftp_src', 'sftp_geojson', 'sftp_style', 'sftp_php');
-});*/
-
-gulp.task('move_dev', ['clean_dev', 'move_dev_index', 'move_dev_src', 'move_dev_geojson', 'move_dev_style', 'move_dev_php']);
-
-/*gulp.task('move_dev', ['clean_dev'], function() {
-    gulp.start('move_dev_index', 'move_dev_src', 'move_dev_geojson', 'move_dev_style', 'move_dev_php');
-});*/
-
-gulp.task('sftp_src', function() {
+gulp.task('prod_sftp_src', function() {
     return gulp.src('src/*')
         .pipe(sftp({
             host: host,
@@ -80,7 +80,7 @@ gulp.task('sftp_src', function() {
         }));
 });
 
-gulp.task('move_dev_src', function() {
+gulp.task('dev_move_src', function() {
     return gulp.src(['src/**', 'src/shp/*'/*, 'src/theme/**'*/, 'src/themes/**'], {base: 'src/'})
         .pipe(gulp.dest('../programme/xampp/htdocs/apflora/src'));
 });
@@ -96,17 +96,32 @@ gulp.task('sftp_geojson', function() {
         }));
 });
 
-gulp.task('move_dev_geojson', function() {
+gulp.task('dev_move_geojson', function() {
     return gulp.src(['geojson/*'])
         .pipe(gulp.dest('../programme/xampp/htdocs/apflora/geojson'));
 });
 
-gulp.task('clean_dev', function() {
+gulp.task('dev_clean_all', function() {
     return gulp.src(['../programme/xampp/htdocs/apflora/src/*', '../programme/xampp/htdocs/apflora/geojson/*', '../programme/xampp/htdocs/apflora/style/*', '../programme/xampp/htdocs/apflora/php/*', '../programme/xampp/htdocs/apflora/index.html'], {read: false})
         .pipe(clean({force: true}));
 });
 
-gulp.task('sftp_style', function() {
+gulp.task('dev_clean_style', function() {
+    return gulp.src(['../programme/xampp/htdocs/apflora/style/*'], {read: false})
+        .pipe(clean({force: true}));
+});
+
+gulp.task('dev_clean_src', function() {
+    return gulp.src(['../programme/xampp/htdocs/apflora/src/*'], {read: false})
+        .pipe(clean({force: true}));
+});
+
+gulp.task('dev_clean_index', function() {
+    return gulp.src(['../programme/xampp/htdocs/apflora/index.html'], {read: false})
+        .pipe(clean({force: true}));
+});
+
+gulp.task('prod_sftp_style', function() {
     return gulp.src('style/*')
         .pipe(sftp({
             host: host,
@@ -117,12 +132,12 @@ gulp.task('sftp_style', function() {
         }));
 });
 
-gulp.task('move_dev_style', function() {
+gulp.task('dev_move_style', function() {
     return gulp.src(['style/*', 'style/images/*'], {base: 'style/'})
         .pipe(gulp.dest('../programme/xampp/htdocs/apflora/style'));
 });
 
-gulp.task('sftp_php', function() {
+gulp.task('prod_sftp_php', function() {
     return gulp.src('php/*')
         .pipe(sftp({
             host: host,
@@ -133,13 +148,13 @@ gulp.task('sftp_php', function() {
         }));
 });
 
-gulp.task('move_dev_php', function() {
+gulp.task('dev_move_php', function() {
     return gulp.src('php/*')
         .pipe(gulp.dest('../programme/xampp/htdocs/apflora/php'))
         .pipe(connect.reload());
 });
 
-gulp.task('sftp_index', function() {
+gulp.task('prod_sftp_index', function() {
     return gulp.src('index.html')
         .pipe(sftp({
             host: host,
@@ -150,12 +165,12 @@ gulp.task('sftp_index', function() {
         }));
 });
 
-gulp.task('move_dev_index', function() {
+gulp.task('dev_move_index', function() {
     return gulp.src('index.html')
         .pipe(gulp.dest('../programme/xampp/htdocs/apflora/'));
 });
 
-// siehe hier: http://symmetrycode.com/super-simple-static-server-in-gulp
+/*// siehe hier: http://symmetrycode.com/super-simple-static-server-in-gulp
 // aber klappt leider nicht
 gulp.task('connect', function() {
     connect.server({
@@ -163,8 +178,11 @@ gulp.task('connect', function() {
         port: 4242,
         livereload: true
     });
-});
+});*/
 
 gulp.task('watch', function() {
-    gulp.watch(['**', '-src/main.js', '-style/main.css'], ['build_dev']);
+    //gulp.watch(['**', '-src/main.js', '-style/main.css'], ['dev_build_all']);
+    gulp.watch(['src/*', '-src/main.js'], ['dev_build_src']);
+    gulp.watch(['style/*', '-style/main.css'], ['dev_build_style']);
+    gulp.watch(['index.html'], ['dev_move_index']);
 });

@@ -1,4 +1,4 @@
-// benötigte globale Variabeln initialisieren
+// benötigte globale Variablen initialisieren
 window.apf = window.apf || {};
 window.apf.gmap = window.apf.gmap || {};
 window.apf.olmap = window.apf.olmap || {};

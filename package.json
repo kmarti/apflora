@@ -4,7 +4,7 @@
   "description": "Aktionsplan Flora Kt. Zürich",
   "main": "gulpfile.js",
   "dependencies": {
-    "gulp": "~3.7.0"
+    "gulp": "~3.8.5"
   },
   "devDependencies": {
     "gulp": "~3.7.0",
