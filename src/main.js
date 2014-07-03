@@ -7101,7 +7101,7 @@ window.apf.initiiere_idealbiotop = function() {
 				localStorage.idealbiotop_id = data.IbApArtId;
 				window.apf.initiiere_idealbiotop();
 			});
-			insertIdealbiotop.fail(function(data) {
+			insertIdealbiotop.fail(function() {
 				//window.apf.melde("Fehler: Kein Idealbiotop erstellt");
 				console.log("Fehler: Kein Idealbiotop erstellt");
 			});
@@ -14125,7 +14125,7 @@ window.apf.olmap.entferneAlleApfloraLayer = function() {
 		});
 		window.apf.olmap.initiiereLayertree();
 	}
-}
+};
 
 window.apf.verorteTPopAufOlmap = function(TPop) {
 	'use strict';
@@ -14943,7 +14943,7 @@ window.apf.olmap.entfernePopupOverlays = function() {
 	_.each(zu_löschender_overlay, function(overlay) {
 		window.apf.olmap.map.removeOverlay(overlay);
 	});
-}
+};
 
 window.apf.olmap.zeigeFeatureInfo = function(pixel, coordinate) {
 	var features = window.apf.olmap.sucheFeatures(pixel),
@@ -17294,8 +17294,8 @@ window.apf.initiiereOlmap = function() {
 		$(window.apf.olmap.map.getViewport()).on('mousemove', function(e) {
 		  	var pixel = window.apf.olmap.map.getEventPixel(e.originalEvent),
 		  		hit = window.apf.olmap.map.forEachFeatureAtPixel(pixel, function(feature, layer) {
-		  			//console.log('feature.myTyp = ' + feature.get('myTyp'));
-		  			//console.log('layer.title = ' + layer.get('title'));
+		  			/*console.log('feature.myTyp = ' + feature.get('myTyp'));
+		  			console.log('layer.title = ' + layer.get('title'));*/
 				    return true;
 				});
 		  	if (hit) {
@@ -18338,8 +18338,7 @@ window.apf.undeleteDatensatz = function() {
 
 window.apf.olmap.exportiereKarte = function() {
 	'use strict';
-	console.log('window.apf.olmap.exportiereKarte');
-	/*var exportPNGElement = document.getElementById('olmap_exportieren');
+	var exportPNGElement = document.getElementById('olmap_exportieren');
 	if ('download' in exportPNGElement) {
 	  	exportPNGElement.addEventListener('click', function(e) {
 		    window.apf.olmap.map.once('postcompose', function(event) {
@@ -18351,7 +18350,7 @@ window.apf.olmap.exportiereKarte = function() {
 	} else {
 		var info = 'Der Download ist nur möglich, wenn Ihr Browser das moderne Download-Attribut unterstützt <a href="http://caniuse.com/#feat=download">(hier eine aktuelle Liste der unterstützenden Browser)</a>';
 		window.apf.melde(info);
-	}*/
+	}
 };
 
 // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
