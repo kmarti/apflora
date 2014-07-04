@@ -14834,6 +14834,21 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
 	return tpopsymbole_erstellt.promise();
 };
 
+// retourniert features
+// übergibt man einen Typ, werden nur features deses Typs retourniert
+window.apf.olmap.listSelectedFeatures = function(typ) {
+	var selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray(),
+		features_to_return;
+	features_to_return = _.filter(selected_features, function(feature) {
+		if (typ) {
+			return feature.get('myTyp') === typ;
+		} else {
+			return feature.get('myTyp');
+		}
+	});
+	return features_to_return;
+};
+
 window.apf.erstelleTPopAuswahlArrays = function() {
 	'use strict';
 	// Teilpopulationen: Auswahl ermitteln und einen Array von ID's in window.apf.tpop_array speichern
@@ -14962,7 +14977,7 @@ window.apf.olmap.zeigeFeatureInfo = function(pixel, coordinate) {
 	features_mit_typ = _.filter(features, function(feature) {
 		return feature.get('myTyp') ||  feature.get('popup_title');
 	});
-	if (features_mit_typ) {
+	if (features_mit_typ && features_mit_typ.length > 0) {
 		// wenn mehrere features_mit_typ vorkommen: die Infos aller sammeln und anzeigen
 		if (features_mit_typ.length > 1) {
 			_.each(features_mit_typ, function(feature, index) {
@@ -17419,8 +17434,8 @@ window.apf.initiiereOlmap = function() {
         });
 
         // auswählen ermöglichen
-        var olmap_feature_select = new ol.interaction.Select();
-        window.apf.olmap.map.addInteraction(olmap_feature_select);
+        window.apf.olmap.map.olmap_select_interaction = new ol.interaction.Select();
+        window.apf.olmap.map.addInteraction(window.apf.olmap.map.olmap_select_interaction);
 
         // zeige feature info bei Klick
 		window.apf.olmap.map.on('singleclick', function(event) {
@@ -17429,12 +17444,10 @@ window.apf.initiiereOlmap = function() {
 			window.apf.olmap.zeigeFeatureInfo(pixel, coordinate);
 		});
 
-		// change mouse cursor when over marker
+		// change mouse cursor when over feature
 		$(window.apf.olmap.map.getViewport()).on('mousemove', function(e) {
 		  	var pixel = window.apf.olmap.map.getEventPixel(e.originalEvent),
 		  		hit = window.apf.olmap.map.forEachFeatureAtPixel(pixel, function(feature, layer) {
-		  			/*console.log('feature.myTyp = ' + feature.get('myTyp'));
-		  			console.log('layer.title = ' + layer.get('title'));*/
 				    return true;
 				});
 		  	if (hit) {
