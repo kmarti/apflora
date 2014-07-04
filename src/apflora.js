@@ -10997,11 +10997,107 @@ window.apf.initiiereOlmap = function() {
             target: 'ga_karten_div',
             layers: layers,
             view: new ol.View2D({
-                resolution: 4,    // ehem: zoom 4
+                resolution: 4,
                 center: [693000, 253000]
             })
         });
 
+        // drag and drop geo-files
+        var drag_and_drop_defaultStyle = {
+            'Point': [new ol.style.Style({
+                image: new ol.style.Circle({
+                    fill: new ol.style.Fill({
+                        color: 'rgba(255,255,0,0.5)'
+                    }),
+                    radius: 5,
+                    stroke: new ol.style.Stroke({
+                        color: '#ff0',
+                        width: 1
+                    })
+                })
+            })],
+            'LineString': [new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    color: '#f00',
+                    width: 3
+                })
+            })],
+            'Polygon': [new ol.style.Style({
+                fill: new ol.style.Fill({
+                    color: 'rgba(0,255,255,0.5)'
+                }),
+                stroke: new ol.style.Stroke({
+                    color: '#0ff',
+                    width: 1
+                })
+            })],
+            'MultiPoint': [new ol.style.Style({
+                image: new ol.style.Circle({
+                    fill: new ol.style.Fill({
+                        color: 'rgba(255,0,255,0.5)'
+                    }),
+                    radius: 5,
+                    stroke: new ol.style.Stroke({
+                        color: '#f0f',
+                        width: 1
+                    })
+                })
+            })],
+            'MultiLineString': [new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    color: '#0f0',
+                    width: 3
+                })
+            })],
+            'MultiPolygon': [new ol.style.Style({
+                fill: new ol.style.Fill({
+                    color: 'rgba(0,0,255,0.5)'
+                }),
+                stroke: new ol.style.Stroke({
+                    color: '#00f',
+                    width: 1
+                })
+            })]
+        };
+        var drag_and_drop_styleFunction = function(feature, resolution) {
+            var featureStyleFunction = feature.getStyleFunction();
+            if (featureStyleFunction) {
+                return featureStyleFunction.call(feature, resolution);
+            } else {
+                return drag_and_drop_defaultStyle[feature.getGeometry().getType()];
+            }
+        };
+        var drag_and_drop_interaction = new ol.interaction.DragAndDrop({
+            formatConstructors: [
+                ol.format.GPX,
+                ol.format.GeoJSON,
+                ol.format.IGC,
+                ol.format.KML,
+                ol.format.TopoJSON
+            ]
+        });
+
+        window.apf.olmap.map.addInteraction(drag_and_drop_interaction);
+
+        drag_and_drop_interaction.on('addfeatures', function(event) {
+            // TODO: add layer to layertree
+            console.log('event.projection.getCode() = ' + event.projection.getCode());
+            var vectorSource = new ol.source.Vector({
+                features: event.features,
+                projection: event.projection
+            });
+            var drag_and_drop_layer = new ol.layer.Vector({
+                source: vectorSource,
+                style: drag_and_drop_styleFunction
+            });
+            //window.apf.olmap.map.getLayers().push(drag_and_drop_layer);
+            window.apf.olmap.map.addLayer(drag_and_drop_layer);
+            var view = window.apf.olmap.map.getView();
+            view.fitExtent(
+                vectorSource.getExtent(), /** @type {ol.Size} */ (window.apf.olmap.map.getSize()));
+        });
+
+        // zeige feature info bei Klick
 		window.apf.olmap.map.on('singleclick', function(event) {
 			var pixel = event.pixel,
 				coordinate = event.coordinate;
@@ -11052,7 +11148,7 @@ window.apf.olmap.initiiereLayertree = function() {
     var layertitel,
         visible,
         kategorie,
-        html_welt_hintergrund = '<h3>Welt Hintergrund</h3><div>',
+        //html_welt_hintergrund = '<h3>Welt Hintergrund</h3><div>',
         html_ch_hintergrund = '<h3>CH Hintergrund</h3><div>',
         html_ch_sachinfos = '<h3>CH Sachinformationen</h3><div>',
         html_ch_biotopinv = '<h3>CH Biotopinventare</h3><div>',
@@ -11084,9 +11180,9 @@ window.apf.olmap.initiiereLayertree = function() {
 	        html_prov += '<label for="olmap_layertree_' + layertitel + '">' + layertitel + '</label></li>';
 	        html_prov += '<hr>';
 	        switch (kategorie) {
-                case "Welt Hintergrund":
+                /*case "Welt Hintergrund":
                     html_welt_hintergrund += html_prov;
-                    break;
+                    break;*/
 	            case "CH Hintergrund":
 	                html_ch_hintergrund += html_prov;
 	                break;
@@ -11110,7 +11206,7 @@ window.apf.olmap.initiiereLayertree = function() {
     // letztes <hr> abschneiden
     // aber nur, wenn layers ergänzt wurden
     // wenn keine Layers ergänzt wurden: Layertitel nicht anzeigen (nur bei html_apflora von Bedeutung)
-    html_welt_hintergrund = html_welt_hintergrund.substring(0, (html_welt_hintergrund.length - 4));
+    //html_welt_hintergrund = html_welt_hintergrund.substring(0, (html_welt_hintergrund.length - 4));
     html_ch_hintergrund = html_ch_hintergrund.substring(0, (html_ch_hintergrund.length - 4));
     html_ch_sachinfos = html_ch_sachinfos.substring(0, (html_ch_sachinfos.length - 4));
     html_ch_biotopinv = html_ch_biotopinv.substring(0, (html_ch_biotopinv.length - 4));
@@ -11121,14 +11217,14 @@ window.apf.olmap.initiiereLayertree = function() {
     	html_apflora = '';
     }
     // unteraccordions abschliessen
-    html_welt_hintergrund += '</div>';
+    //html_welt_hintergrund += '</div>';
     html_ch_hintergrund += '</div>';
     html_ch_sachinfos += '</div>';
     html_ch_biotopinv += '</div>';
     html_zh_sachinfos += '</div>';
     html_apflora += '</div>';
     // alles zusammensetzen
-    html = html_welt_hintergrund + html_ch_hintergrund + html_ch_sachinfos + html_ch_biotopinv + html_zh_sachinfos + html_apflora;
+    html = /*html_welt_hintergrund + */html_ch_hintergrund + html_ch_sachinfos + html_ch_biotopinv + html_zh_sachinfos + html_apflora;
     // und einsetzen
     $olmap_layertree_layers.html(html);
     // erst jetzt initiieren, sonst stimmt die Höhe nicht
