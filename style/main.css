@@ -940,6 +940,22 @@ a {
     padding-right: 1em;
 }
 
+#olmap_layertree .ui-accordion-content p {
+    padding-left: 1em;
+    padding-right: 1em;
+    margin-top: 0.2em;
+    margin-bottom: 0.2em;
+}
+
+#olmap_layertree .ui-accordion-content ul {
+    margin-top: 0.4em;
+    margin-bottom: 0.2em;
+}
+
+#olmap_layertree .ui-accordion-content ul li {
+    padding-left: 0;
+}
+
 #olmap_layertree .ui-accordion-content hr {
     color: #E0CFC2;
     border-style: inherit;

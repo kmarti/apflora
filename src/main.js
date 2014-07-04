@@ -17472,7 +17472,21 @@ window.apf.olmap.initiiereLayertree = function() {
         html,
         $olmap_layertree_layers = $('#olmap_layertree_layers'),
         $ga_karten_div_accordion = $("#ga_karten_div").find(".accordion"),
-        layers = window.apf.olmap.map.getLayers().getArray();
+        layers = window.apf.olmap.map.getLayers().getArray(),
+        html_eigene_layer;
+
+    html_eigene_layer = '<h3>Eigene Layer</h3>';
+    html_eigene_layer += '<div>';
+    html_eigene_layer += '<p>Ziehen Sie einfach eine der folgenden Dateitypen auf die Karte:</p>';
+    html_eigene_layer += '<ul>';
+    html_eigene_layer += '<li>GPX</li>';
+    html_eigene_layer += '<li>GeoJSON</li>';
+    html_eigene_layer += '<li>IGC</li>';
+    html_eigene_layer += '<li>KML</li>';
+    html_eigene_layer += '<li>TopoJSON</li>';
+    html_eigene_layer += '</ul>';
+    html_eigene_layer += '<p style="font-size:10px; line-height:0.9em;">Open Layers 3 ist noch in der Beta-Phase. Daher funktionieren eigene Layer nicht immer fehlerfrei.</p>';
+    html_eigene_layer += '</div>';
 
     // accordion zerstören, damit es neu aufgebaut werden kann
     // um es zu zerstören muss es initiiert sein!
@@ -17538,7 +17552,7 @@ window.apf.olmap.initiiereLayertree = function() {
     html_zh_sachinfos += '</div>';
     html_apflora += '</div>';
     // alles zusammensetzen
-    html = /*html_welt_hintergrund + */html_ch_hintergrund + html_ch_sachinfos + html_ch_biotopinv + html_zh_sachinfos + html_apflora;
+    html = /*html_welt_hintergrund + */html_ch_hintergrund + html_ch_sachinfos + html_ch_biotopinv + html_zh_sachinfos + html_apflora + html_eigene_layer;
     // und einsetzen
     $olmap_layertree_layers.html(html);
     // erst jetzt initiieren, sonst stimmt die Höhe nicht
