@@ -14454,9 +14454,9 @@ window.apf.olmap.zeigePopInTPop = function(overlay_pop_visible, overlay_popnr_vi
 	getPopKarteAlle.always(function(PopListe) {
 		// Layer für Symbole und Beschriftung erstellen
 		$.when(
-			window.apf.olmap.erstellePopNr(PopListe, overlay_popnr_visible),
-			window.apf.olmap.erstellePopNamen(PopListe),
-			window.apf.olmap.erstellePopSymbole(PopListe, popid_markiert, overlay_pop_visible)
+            window.apf.olmap.erstellePopSymbole(PopListe),
+            window.apf.olmap.erstellePopSymboleMitNamen(PopListe, overlay_popnr_visible),
+			window.apf.olmap.erstellePopSymboleMitNr(PopListe, popid_markiert, overlay_pop_visible)
 		)
 		.then(function() {
 			// layertree neu aufbauen
@@ -14596,30 +14596,6 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
 		visible = true;
 	}
 
-	// alt:
-	/*window.overlay_tpop = new OpenLayers.Layer.Vector('Teilpopulationen', {
-		filter: '',	// ist wohl nicht nötig und nützt auch nichts, um später einen Filter anzufügen
-		// popup bei select
-		eventListeners: {
-			'featureselected': function(evt) {
-				window.apf.gmap.onFeatureSelect(evt.feature);
-			},
-			'featureunselected': function(evt) {
-				window.apf.gmap.onFeatureUnselect(evt.feature);
-			}
-		},
-		// normal = grün, markiert = gelb
-		styleMap: new OpenLayers.StyleMap({
-			'default': defaultStyle,
-			'select': selectStyle
-		}),
-		// ermöglicht, dass die markierte TPop über den anderen angezeigt wird
-		rendererOptions: {
-			zIndexing: true
-		},
-		visibility: visible
-	});*/
-
     _.each(tpop_liste.rows, function(tpop) {
         my_flurname = tpop.TPopFlurname || '(kein Flurname)';
         popup_content = '<p>Typ: Teilpopulation</p>'+
@@ -14650,7 +14626,8 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
 			xkoord: tpop.TPopXKoord,
 			ykoord: tpop.TPopYKoord,
 			myTyp: 'tpop',
-			myId: tpop.TPopId
+			myId: tpop.TPopId,
+			selectable: true
     	});
     	// gewählte erhalten anderen style
         if (tpopid_markiert && tpopid_markiert.indexOf(tpop.TPopId) !== -1) {
@@ -14687,7 +14664,7 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
 			//tpop_vorher.TPopId = feature.attributes.myId;
 			// meldung anzeigen, wie bei anderen Wiederherstellungen
 			// wenn wiederherstellen: function verschiebeTPop(id, x, y)
-			
+
 			// allfällig geöffnete Popups schliessen - ist unschön, wenn die offen bleiben
 			window.selectControlTPop.unselectAll();
 		},
@@ -14800,7 +14777,7 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
 	// mit Polygon auswählen, nur wenn noch nicht existent
 	if (!window.apf.olmap.auswahlPolygonLayer) {
 		window.apf.olmap.auswahlPolygonLayer = new OpenLayers.Layer.Vector("Auswahl-Polygon", {
-			projection: new OpenLayers.Projection("EPSG:21781"), 
+			projection: new OpenLayers.Projection("EPSG:21781"),
 			displayInLayerSwitcher: false
 		});
 		window.apf.olmap.addLayer(auswahlPolygonLayer);
@@ -14809,8 +14786,8 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
 	if (!window.drawControl) {
 		window.drawControl = new OpenLayers.Control.DrawFeature(auswahlPolygonLayer, OpenLayers.Handler.Polygon);
 		drawControl.events.register("featureadded", this, function(event) {
-			window.PopTPopAuswahlFilter = new OpenLayers.Filter.Spatial({ 
-				type: OpenLayers.Filter.Spatial.INTERSECTS, 
+			window.PopTPopAuswahlFilter = new OpenLayers.Filter.Spatial({
+				type: OpenLayers.Filter.Spatial.INTERSECTS,
 				value: event.feature.geometry
 			});
 			// Teilpopulationen: Auswahl ermitteln und einen Array von ID's in window.apf.tpop_array speichern
@@ -15072,7 +15049,7 @@ window.apf.olmap.zeigeFeatureInfo = function(pixel, coordinate) {
 // übernimmt drei Variablen: PopListe ist das Objekt mit den Populationen
 // popid_array der Array mit den ausgewählten Pop
 // visible: Ob die Ebene sichtbar geschaltet wird (oder bloss im Layertree verfügbar ist)
-window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible) {
+window.apf.olmap.erstellePopSymbole = function(popliste) {
 	'use strict';
 	// Aus unerfindlichem Grund wurde diese Funktion aufgerufen, wenn etwas wiederhergestellt wurde
 	// daher nur ausführen, wenn die Karte sichtbar ist
@@ -15080,80 +15057,17 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
 		var pop_symbole_erstellt = $.Deferred(),
 	        markers = [],
 	        marker,
-	        marker_style,
-	        marker_style_markiert,
-	        my_label,
 	        my_name,
-	        popup_content,
 	        pop_layer;
-
-		// styles für overlay_pop definieren
-		marker_style_markiert = new ol.style.Style({
-			image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-			    anchor: [0.5, 46],
-			    anchorXUnits: 'fraction',
-			    anchorYUnits: 'pixels',
-			    opacity: 1,
-			    src: 'img/flora_icon_orange.png'
-	  		}))
-		});
-		marker_style = new ol.style.Style({
-			image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-			    anchor: [0.5, 46],
-			    anchorXUnits: 'fraction',
-			    anchorYUnits: 'pixels',
-			    opacity: 1,
-			    src: 'img/flora_icon_braun.png'
-	  		}))
-		});
-
-		if (visible === null) {
-			visible = true;
-		}
-
-		/* alt:
-		// overlay layer für Marker vorbereiten
-		window.overlay_pop = new OpenLayers.Layer.Vector('Populationen', {
-			// popup bei select
-			eventListeners: {
-				'featureselected': function(evt) {
-					window.apf.gmap.onFeatureSelect(evt.feature);
-				},
-				'featureunselected': function(evt) {
-					window.apf.gmap.onFeatureUnselect(evt.feature);
-				}
-			},
-			// normal = braun, markiert = orange
-			styleMap: new OpenLayers.StyleMap({
-				'default': defaultStyle,
-				'select': selectStyle
-			}),
-			// ermöglicht, dass die markierte Pop über den anderen angezeigt wird
-			rendererOptions: {
-				zIndexing: true
-			},
-			visibility: visible
-		});*/
 
 	    _.each(popliste.rows, function(pop) {
 	        my_name = pop.PopName || '(kein Name)';
-	        popup_content = '<p>Typ: Population</p>'+
-	        	'<p>Koordinaten: ' + pop.PopXKoord + ' / ' + pop.PopYKoord + '</p>'+
-	            "<p><a href=\"#\" onclick=\"window.apf.öffnePop('" + pop.PopId + "')\">Formular öffnen<\/a></p>"+
-	            "<p><a href=\"#\" onclick=\"window.apf.öffnePopInNeuemTab('" + pop.PopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
-
-	        // tooltip bzw. label vorbereiten: nullwerte ausblenden
-	        if (pop.PopNr) {
-	            my_label = pop.PopNr;
-	        } else {
-	            my_label = '?';
-	        }
 
 	        // marker erstellen...
 	        marker = new ol.Feature({
 	    		geometry: new ol.geom.Point([pop.PopXKoord, pop.PopYKoord]),
 				name: my_name,
-				popup_content: popup_content,
+				popup_content: window.apf.olmap.erstelleContentFürPop(pop),
 				popup_title: my_name,
 				// Koordinaten werden gebraucht, damit das popup richtig platziert werden kann
 				xkoord: pop.PopXKoord,
@@ -15162,25 +15076,45 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
 				myId: pop.PopId
 	    	});
 
-	        // gewählte erhalten style gelb und zuoberst
-	        if (popid_markiert && popid_markiert.indexOf(pop.PopId) !== -1) {
-	        	marker.setStyle(marker_style_markiert);
-	        } else {
-	        	marker.setStyle(marker_style);
-	        }
-
 	        // marker in Array speichern
 	        markers.push(marker);
 	    });
 
 		// layer für Marker erstellen
 		pop_layer = new ol.layer.Vector({
-			title: 'Populationen',
+			title: 'Populationen ohne Beschriftung',
+            selectable: true,
 			source: new ol.source.Vector({
 				features: markers
-			})
+			}),
+            style: (function() {
+                return function(feature, resolution) {
+                    return [new ol.style.Style({
+                        // TODO: icon (braun oder orange) aufgrund Bedingung wählen
+                        // Bedingung: popid_markiert && popid_markiert.indexOf(pop.PopId) !== -1
+                        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+                            anchor: [0.5, 46],
+                            anchorXUnits: 'fraction',
+                            anchorYUnits: 'pixels',
+                            opacity: 1,
+                            src: 'img/flora_icon_braun.png'
+                        })),
+                        text: new ol.style.Text({
+                            font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
+                            text: feature.get('name'),
+                            fill:  new ol.style.Fill({
+                                color: 'black'
+                            }),
+                            stroke: new ol.style.Stroke({
+                                color: 'white',
+                                width: 7
+                            })
+                        })
+                    })];
+                };
+            })()
 		});
-	    pop_layer.set('visible', visible);
+	    pop_layer.set('visible', false);
 	    pop_layer.set('kategorie', 'AP Flora');
 	    window.apf.olmap.map.addLayer(pop_layer);
 
@@ -15303,144 +15237,175 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert, visible
 	}
 };
 
-window.apf.olmap.erstellePopNr = function(pop_liste, visible) {
-	'use strict';
+window.apf.olmap.erstelleContentFürPop = function(pop) {
+    return '<p>Typ: Population</p>'+
+        '<p>Koordinaten: ' + pop.PopXKoord + ' / ' + pop.PopYKoord + '</p>'+
+        "<p><a href=\"#\" onclick=\"window.apf.öffnePop('" + pop.PopId + "')\">Formular öffnen<\/a></p>"+
+        "<p><a href=\"#\" onclick=\"window.apf.öffnePopInNeuemTab('" + pop.PopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
+};
 
-	if (visible === null) {
-		visible = true;
-	}
-
-	var pop_nr_erstellt = $.Deferred(),
-        pop_nr_layer,
+// übernimmt drei Variablen: PopListe ist das Objekt mit den Populationen
+// popid_array der Array mit den ausgewählten Pop
+// visible: Ob die Ebene sichtbar geschaltet wird (oder bloss im Layertree verfügbar ist)
+window.apf.olmap.erstellePopSymboleMitNr = function(popliste, popid_markiert, visible) {
+    'use strict';
+    var pop_mit_nr_erstellt = $.Deferred(),
         markers = [],
-		marker,
-        marker_style;
+        marker,
+        my_label,
+        my_name,
+        popup_content,
+        pop_mit_nr_layer;
 
-    // styles für pop_namen_layer definieren
-	marker_style = new ol.style.Style({
-		image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-		    anchor: [0.5, 46],
-		    anchorXUnits: 'fraction',
-		    anchorYUnits: 'pixels',
-		    opacity: 1,
-		    src: 'img/leer.png'
-  		}))
-	});
+    if (visible === null) {
+        visible = true;
+    }
 
-    _.each(pop_liste.rows, function(pop) {
+    _.each(popliste.rows, function(pop) {
+        my_name = pop.PopName || '(kein Name)';
+        popup_content = window.apf.olmap.erstelleContentFürPop(pop);
+
+        // tooltip bzw. label vorbereiten: nullwerte ausblenden
+        if (pop.PopNr) {
+            my_label = pop.PopNr.toString();
+        } else {
+            my_label = '?';
+        }
+
         // marker erstellen...
         marker = new ol.Feature({
-    		geometry: new ol.geom.Point([pop.PopXKoord, pop.PopYKoord]),
-			name: pop.PopNr.toString() || '?'
-    	});
-    	marker.setStyle(marker_style);
+            geometry: new ol.geom.Point([pop.PopXKoord, pop.PopYKoord]),
+            name: my_label,
+            popup_content: popup_content,
+            popup_title: my_name,
+            // Koordinaten werden gebraucht, damit das popup richtig platziert werden kann
+            xkoord: pop.PopXKoord,
+            ykoord: pop.PopYKoord,
+            myTyp: 'pop',
+            myId: pop.PopId
+        });
 
-    	// ...und in Array speichern
+        // marker in Array speichern
         markers.push(marker);
     });
 
     // layer für Marker erstellen
-	pop_nr_layer = new ol.layer.Vector({
-		title: 'Populationen Nummern',
-		source: new ol.source.Vector({
-				features: markers
-			}),
-		style: (function() {
-		  	var textStroke = new ol.style.Stroke({
-		    	color: 'white',
-		    	width: 7
-		  	});
-		  	var textFill = new ol.style.Fill({
-		    	color: 'black'
-		  	});
-		  	return function(feature, resolution) {
-			    return [new ol.style.Style({
-			      	text: new ol.style.Text({
-			      		font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
-			        	text: feature.get('name'),
-			        	fill: textFill,
-			        	stroke: textStroke
-			      	})
-		    	})];
-			};
-		})()
-	});
+    pop_mit_nr_layer = new ol.layer.Vector({
+        title: 'Populationen mit Nummern',
+        selectable: true,
+        source: new ol.source.Vector({
+            features: markers
+        }),
+        style: (function() {
+            return function(feature, resolution) {
+                return [new ol.style.Style({
+                    // TODO: icon (braun oder orange) aufgrund Bedingung wählen
+                    // Bedingung: popid_markiert && popid_markiert.indexOf(pop.PopId) !== -1
+                    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+                        anchor: [0.5, 46],
+                        anchorXUnits: 'fraction',
+                        anchorYUnits: 'pixels',
+                        opacity: 1,
+                        src: 'img/flora_icon_braun.png'
+                    })),
+                    text: new ol.style.Text({
+                        font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
+                        text: feature.get('name'),
+                        fill:  new ol.style.Fill({
+                            color: 'black'
+                        }),
+                        stroke: new ol.style.Stroke({
+                            color: 'white',
+                            width: 7
+                        })
+                    })
+                })];
+            };
+        })()
+    });
+    pop_mit_nr_layer.set('visible', visible);
+    pop_mit_nr_layer.set('kategorie', 'AP Flora');
+    window.apf.olmap.map.addLayer(pop_mit_nr_layer);
 
-    pop_nr_layer.set('visible', visible);
-    pop_nr_layer.set('kategorie', 'AP Flora');
-    // ...und der Karte hinzufügen
-    window.apf.olmap.map.addLayer(pop_nr_layer);
-
-	pop_nr_erstellt.resolve();
-	return pop_nr_erstellt.promise();
+    pop_mit_nr_erstellt.resolve();
+    return pop_mit_nr_erstellt.promise();
 };
 
-window.apf.olmap.erstellePopNamen = function(pop_liste) {
-	'use strict';
-	var pop_namen_erstellt = $.Deferred(),
-		pop_namen_layer,
-		markers = [],
-		marker,
-		marker_style;
+// übernimmt drei Variablen: PopListe ist das Objekt mit den Populationen
+// popid_array der Array mit den ausgewählten Pop
+// visible: Ob die Ebene sichtbar geschaltet wird (oder bloss im Layertree verfügbar ist)
+window.apf.olmap.erstellePopSymboleMitNamen = function(popliste) {
+    'use strict';
+    var pop_mit_namen_erstellt = $.Deferred(),
+        markers = [],
+        marker,
+        my_name,
+        popup_content,
+        pop_mit_namen_layer;
 
-	// styles für pop_namen_layer definieren
-	marker_style = new ol.style.Style({
-		image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-		    anchor: [0.5, 46],
-		    anchorXUnits: 'fraction',
-		    anchorYUnits: 'pixels',
-		    opacity: 1,
-		    src: 'img/leer.png'
-  		}))
-	});
+    _.each(popliste.rows, function(pop) {
+        my_name = pop.PopName || '(kein Name)';
+        popup_content = window.apf.olmap.erstelleContentFürPop(pop);
 
-    _.each(pop_liste.rows, function(pop) {
         // marker erstellen...
         marker = new ol.Feature({
-    		geometry: new ol.geom.Point([pop.PopXKoord, pop.PopYKoord]),
-			name: pop.PopName || '(kein Name)'
-    	});
-    	marker.setStyle(marker_style);
+            geometry: new ol.geom.Point([pop.PopXKoord, pop.PopYKoord]),
+            name: pop.PopName || '(kein Name)',
+            popup_content: popup_content,
+            popup_title: my_name,
+            // Koordinaten werden gebraucht, damit das popup richtig platziert werden kann
+            xkoord: pop.PopXKoord,
+            ykoord: pop.PopYKoord,
+            myTyp: 'pop',
+            myId: pop.PopId
+        });
 
-        // ...und in Array speichern
+        // marker in Array speichern
         markers.push(marker);
     });
 
     // layer für Marker erstellen
-	pop_namen_layer = new ol.layer.Vector({
-		title: 'Populationen Namen',
-		source: new ol.source.Vector({
-				features: markers
-			}),
-		style: (function() {
-		  	var textStroke = new ol.style.Stroke({
-		    	color: 'white',
-		    	width: 7
-		  	});
-		  	var textFill = new ol.style.Fill({
-		    	color: 'black'
-		  	});
-		  	return function(feature, resolution) {
-			    return [new ol.style.Style({
-			      	text: new ol.style.Text({
-			      		font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
-			        	text: feature.get('name'),
-			        	fill: textFill,
-			        	stroke: textStroke
-			      	})
-		    	})];
-			};
-		})()
-	});
-	pop_namen_layer.set('visible', false);
-    pop_namen_layer.set('kategorie', 'AP Flora');
+    pop_mit_namen_layer = new ol.layer.Vector({
+        title: 'Populationen mit Namen',
+        selectable: true,
+        source: new ol.source.Vector({
+            features: markers
+        }),
+        style: (function() {
+            return function(feature, resolution) {
+                return [new ol.style.Style({
+                    // TODO: icon (braun oder orange) aufgrund Bedingung wählen
+                    // Bedingung: popid_markiert && popid_markiert.indexOf(pop.PopId) !== -1
+                    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+                        anchor: [0.5, 46],
+                        anchorXUnits: 'fraction',
+                        anchorYUnits: 'pixels',
+                        opacity: 1,
+                        src: 'img/flora_icon_braun.png'
+                    })),
+                    text: new ol.style.Text({
+                        font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
+                        text: feature.get('name'),
+                        fill:  new ol.style.Fill({
+                            color: 'black'
+                        }),
+                        stroke: new ol.style.Stroke({
+                            color: 'white',
+                            width: 7
+                        })
+                    })
+                })];
+            };
+        })()
+    });
+    pop_mit_namen_layer.set('visible', false);
+    pop_mit_namen_layer.set('kategorie', 'AP Flora');
+    window.apf.olmap.map.addLayer(pop_mit_namen_layer);
 
-    // ...und der Karte hinzufügen
-    window.apf.olmap.map.addLayer(pop_namen_layer);
-
-	pop_namen_erstellt.resolve();
-	return pop_namen_erstellt.promise();
+    pop_mit_namen_erstellt.resolve();
+    return pop_mit_namen_erstellt.promise();
 };
+
 
 // ermöglicht es, nach dem toolip zu sortieren
 window.apf.vergleicheTPopZumSortierenNachTooltip = function(a,b) {
@@ -15511,7 +15476,8 @@ window.apf.olmap.erstelleTPopNr = function(tpop_liste, tpopid_markiert, visible)
         // marker erstellen...
         marker = new ol.Feature({
     		geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
-			name: my_label
+			name: my_label,
+			selectable: false
     	});
     	marker.setStyle(marker_style);
 
@@ -15587,7 +15553,8 @@ window.apf.olmap.erstelleTPopNamen = function(tpop_liste, tpopid_markiert, visib
     	// marker erstellen...
         marker = new ol.Feature({
     		geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
-			name: tpop.TPopFlurname || '(kein Name)'
+			name: tpop.TPopFlurname || '(kein Name)',
+			selectable: false
     	});
     	marker.setStyle(marker_style);
 
@@ -17014,6 +16981,7 @@ window.apf.initiiereOlmap = function() {
         opacity: 1,
         visible: false,
         kategorie: 'AP Flora',
+        selectable: true,
         source: detailpläne_layer_source,
         style: new ol.style.Style({
 	        fill: new ol.style.Fill({
@@ -17434,7 +17402,16 @@ window.apf.initiiereOlmap = function() {
         });
 
         // auswählen ermöglichen
-        window.apf.olmap.map.olmap_select_interaction = new ol.interaction.Select();
+        window.apf.olmap.map.olmap_select_interaction = new ol.interaction.Select({
+            // TODO: 'layerFilter' will soon be deprecated > change to 'layers' when deprecated
+            layerFilter: function(layer) {
+                return layer.get('selectable') === true;
+            }/*,
+            // wenn man das feature zum zweiten mal klickt, soll es nicht mehr selected sein
+            toggleCondition: function(event) {
+                return event === 'click';
+            }*/
+        });
         window.apf.olmap.map.addInteraction(window.apf.olmap.map.olmap_select_interaction);
 
         // zeige feature info bei Klick
