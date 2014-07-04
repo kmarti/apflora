@@ -8638,11 +8638,17 @@ window.apf.olmap.zeigeFeatureInfo = function(pixel, coordinate) {
 		popup_id_array = [],
 		koordinaten,
 		popup_title,
-		popup_text = '';
-	if (features[0]) {
-		// wenn mehrere features vorkommen: die Infos aller sammeln und anzeigen
-		if (features.length > 1) {
-			_.each(features, function(feature, index) {
+		popup_text = '',
+		features_mit_typ;
+	// es scheint auch weitere Features zu geben (z.B. wenn man genau auf die Koordinate einer Pop klickt)
+	// nur die gewollten behalten
+	features_mit_typ = _.filter(features, function(feature) {
+		return feature.get('myTyp') ||  feature.get('popup_title');
+	});
+	if (features_mit_typ) {
+		// wenn mehrere features_mit_typ vorkommen: die Infos aller sammeln und anzeigen
+		if (features_mit_typ.length > 1) {
+			_.each(features_mit_typ, function(feature, index) {
 				if (feature.get('myTyp') === 'Detailplan') {
 					popup_text += '<h3>Objekt ID: ' + feature.get('OBJECTID') + '</h3>';
 				    popup_text += '<table><tr><td><p>Typ:</p></td><td><p>Detailplan</p></td></tr>'+
@@ -8653,28 +8659,28 @@ window.apf.olmap.zeigeFeatureInfo = function(pixel, coordinate) {
 					popup_text += '<h3>' + feature.get('popup_title') + '</h3>';
 					popup_text += feature.get('popup_content');
 				}
-				if (index + 1 < features.length) {
+				if (index + 1 < features_mit_typ.length) {
 					popup_text += '<hr>';
 				}
 			});
-			popup_title = features.length + ' Treffer';
+			popup_title = features_mit_typ.length + ' Treffer';
 			// als Koordinaten den Ort des Klicks nehmen
 			koordinaten = coordinate;
 		} else {
 			// es gibt nur einen feature
-			if (features[0].get('myTyp') === 'Detailplan') {
+			if (features_mit_typ[0].get('myTyp') === 'Detailplan') {
 			    popup_text = '<table><tr><td><p>Typ:</p></td><td><p>Detailplan</p></td></tr>'+
-	    			'<tr><td><p>Fläche:</p></td><td><p>' + parseInt(features[0].get('SHAPE_Area') / 10) + '</p></td></tr>'+
-	    			'<tr><td><p>Bemerkunge:</p></td><td><p>' + (features[0].get('Bemerkunge') || "") + '</p></td></tr>'+
-	    			'<tr><td><p>Bemerkun_1:</p></td><td><p>' + (features[0].get('Bemerkun_1') || "") + '</p></td></tr></table>';
-				popup_title = 'Objekt ID: ' + features[0].get('OBJECTID');
+	    			'<tr><td><p>Fläche:</p></td><td><p>' + parseInt(features_mit_typ[0].get('SHAPE_Area') / 10) + '</p></td></tr>'+
+	    			'<tr><td><p>Bemerkunge:</p></td><td><p>' + (features_mit_typ[0].get('Bemerkunge') || "") + '</p></td></tr>'+
+	    			'<tr><td><p>Bemerkun_1:</p></td><td><p>' + (features_mit_typ[0].get('Bemerkun_1') || "") + '</p></td></tr></table>';
+				popup_title = 'Objekt ID: ' + features_mit_typ[0].get('OBJECTID');
 			} else {
-				popup_text = features[0].get('popup_content');
-				popup_title = features[0].get('popup_title');
+				popup_text = features_mit_typ[0].get('popup_content');
+				popup_title = features_mit_typ[0].get('popup_title');
 			}
 			// als Koordinaten die Koordinate des popups nehmen
-			if (features[0].get('xkoord') && features[0].get('ykoord')) {
-				koordinaten = [features[0].get('xkoord'), features[0].get('ykoord')];
+			if (features_mit_typ[0].get('xkoord') && features_mit_typ[0].get('ykoord')) {
+				koordinaten = [features_mit_typ[0].get('xkoord'), features_mit_typ[0].get('ykoord')];
 			} else {
 				koordinaten = coordinate;
 			}
@@ -11080,8 +11086,7 @@ window.apf.initiiereOlmap = function() {
         window.apf.olmap.map.addInteraction(drag_and_drop_interaction);
 
         drag_and_drop_interaction.on('addfeatures', function(event) {
-            // TODO: add layer to layertree
-            console.log('event.projection.getCode() = ' + event.projection.getCode());
+            // TODO: add layer to layertree?
             var vectorSource = new ol.source.Vector({
                 features: event.features,
                 projection: event.projection
@@ -11090,12 +11095,15 @@ window.apf.initiiereOlmap = function() {
                 source: vectorSource,
                 style: drag_and_drop_styleFunction
             });
-            //window.apf.olmap.map.getLayers().push(drag_and_drop_layer);
             window.apf.olmap.map.addLayer(drag_and_drop_layer);
             var view = window.apf.olmap.map.getView();
             view.fitExtent(
                 vectorSource.getExtent(), /** @type {ol.Size} */ (window.apf.olmap.map.getSize()));
         });
+
+        // auswählen ermöglichen
+        var olmap_feature_select = new ol.interaction.Select();
+        window.apf.olmap.map.addInteraction(olmap_feature_select);
 
         // zeige feature info bei Klick
 		window.apf.olmap.map.on('singleclick', function(event) {
