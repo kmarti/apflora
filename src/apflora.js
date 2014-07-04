@@ -10566,6 +10566,32 @@ window.apf.initiiereOlmap = function() {
 	//OpenLayers.ProxyHost = "../cgi-bin/proxy.cgi?url=";
 	//var zh_bbox_1903 = new ol.Extent(669000, 222000, 717000, 284000);
 
+    // bing-maps wäre schön
+    // ol3 can't reproject raster tiles yet though
+    // daher werden die Layer noch nicht angezeigt
+    var bing_styles_object = {
+            'Aerial': 'Bing Luftbild',
+            'AerialWithLabels': 'Bing Luftbild beschriftet',
+            'Road': 'Bing Strassenkarte'
+        },
+        bing_styles = _.keys(bing_styles_object),
+        bing_layers = [];
+    _.each(bing_styles, function(bing_style) {
+        bing_layers.push(new ol.layer.Tile({
+            title: bing_styles_object[bing_style],
+            kategorie: 'Welt Hintergrund',
+            visible: false,
+            preload: Infinity,
+            source: new ol.source.BingMaps({
+                //projection: new ol.proj.EPSG21781(),
+                //projection: projection,
+                projection: 'EPSG:21781',
+                key: 'AjGOtB_ygBplpxXtKiiHtm-GERjSg9TFEoCmuBI_Yz4VWy0unRGUDo9GOZHA46Pf',
+                imagerySet: bing_style
+            })
+        }));
+    });
+
 	var ch_ortholuftbild_layer = ga.layer.create('ch.swisstopo.swissimage');
 		ch_ortholuftbild_layer.set('title', 'Luftbild');
 		ch_ortholuftbild_layer.set('visible', false);
@@ -10661,9 +10687,6 @@ window.apf.initiiereOlmap = function() {
 	        })
 		})
     });
-    /*detailpläne_layer.getSource().forEachFeature(function(feature) {
-    	feature.setValues('myTyp', 'Detailplan');
-    });*/
 
     var zh_svo_farbig_layer = new ol.layer.Tile({
         title: 'SVO farbig',
@@ -10764,7 +10787,7 @@ window.apf.initiiereOlmap = function() {
     });
 
 	// Zunächst alle Layer definieren
-    var layers = [
+    var layers_prov = [
     	ch_ortholuftbild_layer,
     	ch_lk_grau_layer,
         ch_lk_farbe_layer,
@@ -10783,6 +10806,14 @@ window.apf.initiiereOlmap = function() {
         zh_svo_grau_layer,
         detailpläne_layer
     ];
+
+    // bin-layers vorne setzen
+    // bing-maps wäre schön
+    // ol3 can't reproject raster tiles yet though
+    // daher werden die Layer noch nicht angezeigt
+    //var layers = layers_prov.concat(bing_layers);
+    var layers = layers_prov;
+
     /*layers = [
 
         new ol.layer.Tile({
@@ -10961,6 +10992,7 @@ window.apf.initiiereOlmap = function() {
 
 	// Karte nur aufbauen, wenn dies nicht schon passiert ist
 	if (!window.apf.olmap.map) {
+
         window.apf.olmap.map = new ga.Map({
             target: 'ga_karten_div',
             layers: layers,
@@ -11020,6 +11052,7 @@ window.apf.olmap.initiiereLayertree = function() {
     var layertitel,
         visible,
         kategorie,
+        html_welt_hintergrund = '<h3>Welt Hintergrund</h3><div>',
         html_ch_hintergrund = '<h3>CH Hintergrund</h3><div>',
         html_ch_sachinfos = '<h3>CH Sachinformationen</h3><div>',
         html_ch_biotopinv = '<h3>CH Biotopinventare</h3><div>',
@@ -11051,6 +11084,9 @@ window.apf.olmap.initiiereLayertree = function() {
 	        html_prov += '<label for="olmap_layertree_' + layertitel + '">' + layertitel + '</label></li>';
 	        html_prov += '<hr>';
 	        switch (kategorie) {
+                case "Welt Hintergrund":
+                    html_welt_hintergrund += html_prov;
+                    break;
 	            case "CH Hintergrund":
 	                html_ch_hintergrund += html_prov;
 	                break;
@@ -11074,6 +11110,7 @@ window.apf.olmap.initiiereLayertree = function() {
     // letztes <hr> abschneiden
     // aber nur, wenn layers ergänzt wurden
     // wenn keine Layers ergänzt wurden: Layertitel nicht anzeigen (nur bei html_apflora von Bedeutung)
+    html_welt_hintergrund = html_welt_hintergrund.substring(0, (html_welt_hintergrund.length - 4));
     html_ch_hintergrund = html_ch_hintergrund.substring(0, (html_ch_hintergrund.length - 4));
     html_ch_sachinfos = html_ch_sachinfos.substring(0, (html_ch_sachinfos.length - 4));
     html_ch_biotopinv = html_ch_biotopinv.substring(0, (html_ch_biotopinv.length - 4));
@@ -11084,13 +11121,14 @@ window.apf.olmap.initiiereLayertree = function() {
     	html_apflora = '';
     }
     // unteraccordions abschliessen
+    html_welt_hintergrund += '</div>';
     html_ch_hintergrund += '</div>';
     html_ch_sachinfos += '</div>';
     html_ch_biotopinv += '</div>';
     html_zh_sachinfos += '</div>';
     html_apflora += '</div>';
     // alles zusammensetzen
-    html = html_ch_hintergrund + html_ch_sachinfos + html_ch_biotopinv + html_zh_sachinfos + html_apflora;
+    html = html_welt_hintergrund + html_ch_hintergrund + html_ch_sachinfos + html_ch_biotopinv + html_zh_sachinfos + html_apflora;
     // und einsetzen
     $olmap_layertree_layers.html(html);
     // erst jetzt initiieren, sonst stimmt die Höhe nicht
