@@ -2318,7 +2318,7 @@
                     })
                     .on('click', '.layertree_pop_style', function(event) {
                         var layers = window.apf.olmap.map.getLayers().getArray(),
-                            layer = $(this).parent().parent().find('input').val();
+                            layer = $('#olmap_layertree_Populationen').val();
                         // drei Varianten
                         if ($(this).hasClass('pop_nr') && this.checked) {
                             // style für nr setzen
@@ -2338,7 +2338,7 @@
                     })
                     .on('click', '.layertree_tpop_style', function(event) {
                         var layers = window.apf.olmap.map.getLayers().getArray(),
-                            layer = $(this).parent().parent().find('input').val();
+                            layer = $('#olmap_layertree_Teilpopulationen').val();
                         // drei Varianten
                         if ($(this).hasClass('tpop_nr') && this.checked) {
                             // style für nr setzen
