@@ -8003,9 +8003,7 @@ window.apf.zeigeTPopAufOlmap = function(TPopListeMarkiert) {
 			getTPopKarteAlle.always(function(TPopListe) {
 				$.when(
 					// Layer für Symbole und Beschriftung erstellen
-                    window.apf.olmap.erstelleTPopSymbole(TPopListe, markierte_tpop.tpopid_markiert, false),
-                    window.apf.olmap.erstelleTPopSymboleMitNamen(TPopListe, markierte_tpop.tpopid_markiert, false),
-					window.apf.olmap.erstelleTPopSymboleMitNr(TPopListe, markierte_tpop.tpopid_markiert, true),
+					window.apf.olmap.erstelleTPopLayer(TPopListe, markierte_tpop.tpopid_markiert, true),
 					// alle Pop holen
 					window.apf.olmap.zeigePopInTPop(overlay_pop_visible, overlay_popnr_visible)
 				)
@@ -8057,9 +8055,7 @@ window.apf.zeigePopAufOlmap = function(PopListeMarkiert) {
 			getTPopKarteAlle_2.always(function(TPopListe) {
 				$.when(
 					// Layer für Symbole und Beschriftung erstellen
-                    window.apf.olmap.erstelleTPopSymbole(TPopListe, null, false),
-					window.apf.olmap.erstelleTPopSymboleMitNamen(TPopListe, null, false),
-                    window.apf.olmap.erstelleTPopSymboleMitNr(TPopListe, null, false),
+                    window.apf.olmap.erstelleTPopLayer(TPopListe, null, false),
 					// alle Pop holen, symbole und nr sichtbar schalten, Markierung übergeben
 					window.apf.olmap.zeigePopInTPop(true, true, markierte_pop.popid_markiert)
 				)
@@ -8735,29 +8731,29 @@ window.apf.erstelleTPopNrLabel = function(popnr, tpopnr) {
     }
 };
 
-
-
 // nimmt drei Variablen entgegen:
 // TPopListe: Die Liste der darzustellenden Teilpopulationen
 // tpopid_markiert: die ID der zu markierenden TPop
 // visible: Ob das Layer sichtbar sein soll
-window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, visible) {
-    'use strict';
-    var tpopsymbole_erstellt = $.Deferred(),
-        markers = [],
-        marker,
-        tpop_layer;
+window.apf.olmap.erstelleTPopLayer = function(tpop_liste, tpopid_markiert, visible) {
+	'use strict';
+
+	var tpop_layer_erstellt = $.Deferred(),
+		tpop_layer,
+		markers = [],
+		marker;
 
     if (visible === null) {
         visible = true;
     }
 
     _.each(tpop_liste.rows, function(tpop) {
-
-        // Marker erstellen...
+        // marker erstellen...
         marker = new ol.Feature({
-            geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
-            name: tpop.TPopFlurname || '(kein Flurname)',
+    		geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
+            tpop_nr: window.apf.erstelleTPopNrLabel(tpop.PopNr, tpop.TPopNr),
+            tpop_name: tpop.TPopFlurname || '(kein Name)',
+			name: window.apf.erstelleTPopNrLabel(tpop.PopNr, tpop.TPopNr),  // brauchts das noch? TODO: entfernen
             popup_content: window.apf.olmap.erstelleContentFürTPop(tpop),
             popup_title: tpop.Artname,
             // koordinaten werden benötigt damit das popup am richtigen Ort verankert wird
@@ -8765,41 +8761,26 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
             ykoord: tpop.TPopYKoord,
             myTyp: 'tpop',
             myId: tpop.TPopId
-        });
+    	});
 
         // ...und in Array speichern
         markers.push(marker);
     });
 
     // layer für Marker erstellen
-    tpop_layer = new ol.layer.Vector({
-        title: 'Teilpopulationen unbeschriftet',
-        source: new ol.source.Vector({
-            features: markers
-        }),
-        style: function(feature, resolution) {
-            // icon wählen
-            // markierte sind gelb, nicht markierte sind grün
-            var icon,
-                tpopid = feature.get('myId');
-            if (tpopid_markiert && tpopid_markiert.indexOf(tpopid) !== -1) {
-                icon = 'img/flora_icon_gelb.png'
-            } else {
-                icon = 'img/flora_icon.png';
-            }
-            return [new ol.style.Style({
-                image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-                    anchor: [0.5, 46],
-                    anchorXUnits: 'fraction',
-                    anchorYUnits: 'pixels',
-                    opacity: 1,
-                    src: icon
-                }))
-            })];
+	tpop_layer = new ol.layer.Vector({
+		title: 'Teilpopulationen mit Nummern',
+		source: new ol.source.Vector({
+				features: markers
+			}),
+		style: function(feature, resolution) {
+            return window.apf.olmap.tpopMitNrStyle(feature, resolution, tpopid_markiert);
         }
-    });
+	});
     tpop_layer.set('visible', visible);
     tpop_layer.set('kategorie', 'AP Flora');
+    
+    // ...und der Karte hinzufügen
     window.apf.olmap.map.addLayer(tpop_layer);
 
     // TODO: marker sollen verschoben werden können
@@ -8878,7 +8859,7 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
      }
      });
      getTPopKarteAlle_3.always(function(TPopListe) {
-     window.apf.olmap.erstelleTPopSymboleMitNr(TPopListe, tpopid_markiert);
+     window.apf.olmap.erstelleTPopLayer(TPopListe, tpopid_markiert);
      window.apf.olmap.erstelleTPopSymboleMitNamen(TPopListe, tpopid_markiert);
      window.apf.olmap.erstelleTPopSymbole(TPopListe, tpopid_markiert, true);
      });
@@ -8958,176 +8939,8 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
      window.apf.olmap.addControl(drawControl);
      }*/
 
-    tpopsymbole_erstellt.resolve();
-    return tpopsymbole_erstellt.promise();
-};
-
-// nimmt drei Variablen entgegen:
-// TPopListe: Die Liste der darzustellenden Teilpopulationen
-// tpopid_markiert: die ID der zu markierenden TPop
-// visible: Ob das Layer sichtbar sein soll
-window.apf.olmap.erstelleTPopSymboleMitNr = function(tpop_liste, tpopid_markiert, visible) {
-	'use strict';
-
-	var tpopnr_erstellt = $.Deferred(),
-		tpop_nr_layer,
-		markers = [],
-		marker;
-
-    if (visible === null) {
-        visible = true;
-    }
-
-    _.each(tpop_liste.rows, function(tpop) {
-        // marker erstellen...
-        marker = new ol.Feature({
-    		geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
-			name: window.apf.erstelleTPopNrLabel(tpop.PopNr, tpop.TPopNr),
-            popup_content: window.apf.olmap.erstelleContentFürTPop(tpop),
-            popup_title: tpop.Artname,
-            // koordinaten werden benötigt damit das popup am richtigen Ort verankert wird
-            xkoord: tpop.TPopXKoord,
-            ykoord: tpop.TPopYKoord,
-            myTyp: 'tpop',
-            myId: tpop.TPopId
-    	});
-
-        // ...und in Array speichern
-        markers.push(marker);
-    });
-
-    // layer für Marker erstellen
-	tpop_nr_layer = new ol.layer.Vector({
-		title: 'Teilpopulationen mit Nummern',
-		source: new ol.source.Vector({
-				features: markers
-			}),
-		style: function(feature, resolution) {
-            var textStroke = new ol.style.Stroke({
-                    color: 'white',
-                    width: 7
-                }),
-                textFill = new ol.style.Fill({
-                    color: 'black'
-                });
-            // icon wählen
-            // markierte sind gelb, nicht markierte sind grün
-            var icon,
-                tpopid = feature.get('myId');
-            if (tpopid_markiert && tpopid_markiert.indexOf(tpopid) !== -1) {
-                icon = 'img/flora_icon_gelb.png'
-            } else {
-                icon = 'img/flora_icon.png';
-            }
-            return [new ol.style.Style({
-                image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-                    anchor: [0.5, 46],
-                    anchorXUnits: 'fraction',
-                    anchorYUnits: 'pixels',
-                    opacity: 1,
-                    src: icon
-                })),
-                text: new ol.style.Text({
-                    font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
-                    text: feature.get('name'),
-                    fill: textFill,
-                    stroke: textStroke
-                })
-            })];
-        }
-	});
-    tpop_nr_layer.set('visible', visible);
-    tpop_nr_layer.set('kategorie', 'AP Flora');
-    
-    // ...und der Karte hinzufügen
-    window.apf.olmap.map.addLayer(tpop_nr_layer);
-
-	tpopnr_erstellt.resolve();
-	return tpopnr_erstellt.promise();
-};
-
-// nimmt drei Variablen entgegen:
-// TPopListe: Die Liste der darzustellenden Teilpopulationen
-// tpopid_markiert: die ID der zu markierenden TPop
-// visible: Ob das Layer sichtbar sein soll (wird offenbar nicht gebraucht)
-window.apf.olmap.erstelleTPopSymboleMitNamen = function(tpop_liste, tpopid_markiert, visible) {
-	'use strict';
-
-	var tpopnamen_erstellt = $.Deferred(),
-		tpop_namen_layer,
-		markers = [],
-		marker;
-
-    if (visible === null) {
-        visible = true;
-    }
-
-    _.each(tpop_liste.rows, function(tpop) {
-    	// marker erstellen...
-        marker = new ol.Feature({
-    		geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
-			name: tpop.TPopFlurname || '(kein Name)',
-            popup_content: window.apf.olmap.erstelleContentFürTPop(tpop),
-            popup_title: tpop.Artname,
-            // koordinaten werden benötigt damit das popup am richtigen Ort verankert wird
-            xkoord: tpop.TPopXKoord,
-            ykoord: tpop.TPopYKoord,
-            myTyp: 'tpop',
-            myId: tpop.TPopId
-    	});
-
-        // ...und in Array speichern
-        markers.push(marker);
-    });
-
-    // layer für Marker erstellen
-	tpop_namen_layer = new ol.layer.Vector({
-		title: 'Teilpopulationen mit Namen',
-		source: new ol.source.Vector({
-				features: markers
-			}),
-		style: function(feature, resolution) {
-            var textStroke = new ol.style.Stroke({
-                color: 'white',
-                width: 7
-            });
-            var textFill = new ol.style.Fill({
-                color: 'black'
-            });
-            // icon wählen
-            // markierte sind gelb, nicht markierte sind grün
-            var icon,
-                tpopid = feature.get('myId');
-            if (tpopid_markiert && tpopid_markiert.indexOf(tpopid) !== -1) {
-                icon = 'img/flora_icon_gelb.png'
-            } else {
-                icon = 'img/flora_icon.png';
-            }
-            return [new ol.style.Style({
-                image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-                    anchor: [0.5, 46],
-                    anchorXUnits: 'fraction',
-                    anchorYUnits: 'pixels',
-                    opacity: 1,
-                    src: icon
-                })),
-                text: new ol.style.Text({
-                    font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
-                    text: feature.get('name'),
-                    fill: textFill,
-                    stroke: textStroke
-                })
-            })];
-        }
-	});
-	tpop_namen_layer.set('visible', visible);
-    tpop_namen_layer.set('kategorie', 'AP Flora');
-
-    // ...und der Karte hinzufügen
-    window.apf.olmap.map.addLayer(tpop_namen_layer);
-
-	tpopnamen_erstellt.resolve();
-	return tpopnamen_erstellt.promise();
+	tpop_layer_erstellt.resolve();
+	return tpop_layer_erstellt.promise();
 };
 
 window.apf.olmap.onFeatureSelect = function(feature) {
@@ -11056,9 +10869,14 @@ window.apf.olmap.initiiereLayertree = function() {
                 html_prov += '<input type="checkbox" id="layertree_pop_name" class="layertree_pop_style pop_name">';
                 html_prov += '</div>';
             }
-            /*if (layertitel.substring(0, 16) === 'Teilpopulationen') {
-                html_prov += '';
-            }*/
+            if (layertitel.substring(0, 16) === 'Teilpopulationen') {
+                html_prov += '<div class="layeroptionen">';
+                html_prov += '<label for="layertree_tpop_nr" class="layertree_tpop_style tpop_nr">Nr.</label>';
+                html_prov += '<input type="checkbox" id="layertree_tpop_nr" class="layertree_tpop_style tpop_nr" checked="checked"> ';
+                html_prov += '<label for="layertree_tpop_name" class="layertree_tpop_style tpop_name">Namen</label>';
+                html_prov += '<input type="checkbox" id="layertree_tpop_name" class="layertree_tpop_style tpop_name">';
+                html_prov += '</div>';
+            }
             html_prov += '</li>';
 	        html_prov += '<hr>';
 	        switch (kategorie) {
@@ -11149,6 +10967,39 @@ window.apf.olmap.popMitNrStyle = function(feature, resolution, popid_markiert) {
     })];
 };
 
+window.apf.olmap.tpopMitNrStyle = function(feature, resolution, tpopid_markiert) {
+    'use strict';
+    // icon wählen
+    // markierte sind gelb, nicht markierte sind grün
+    var icon,
+        tpopid = feature.get('myId');
+    if (tpopid_markiert && tpopid_markiert.indexOf(tpopid) !== -1) {
+        icon = 'img/flora_icon_gelb.png'
+    } else {
+        icon = 'img/flora_icon.png'
+    }
+    return [new ol.style.Style({
+        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+            anchor: [0.5, 46],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'pixels',
+            opacity: 1,
+            src: icon
+        })),
+        text: new ol.style.Text({
+            font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
+            text: feature.get('tpop_nr'),
+            fill:  new ol.style.Fill({
+                color: 'black'
+            }),
+            stroke: new ol.style.Stroke({
+                color: 'white',
+                width: 7
+            })
+        })
+    })];
+};
+
 window.apf.olmap.popMitNamenStyle = function(feature, resolution, popid_markiert) {
     'use strict';
     // icon wählen
@@ -11182,6 +11033,39 @@ window.apf.olmap.popMitNamenStyle = function(feature, resolution, popid_markiert
     })];
 };
 
+window.apf.olmap.tpopMitNamenStyle = function(feature, resolution, tpopid_markiert) {
+    'use strict';
+    // icon wählen
+    // markierte sind gelb, nicht markierte sind grün
+    var icon,
+        tpopid = feature.get('myId');
+    if (tpopid_markiert && tpopid_markiert.indexOf(tpopid) !== -1) {
+        icon = 'img/flora_icon_gelb.png'
+    } else {
+        icon = 'img/flora_icon.png'
+    }
+    return [new ol.style.Style({
+        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+            anchor: [0.5, 46],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'pixels',
+            opacity: 1,
+            src: icon
+        })),
+        text: new ol.style.Text({
+            font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
+            text: feature.get('tpop_name'),
+            fill:  new ol.style.Fill({
+                color: 'black'
+            }),
+            stroke: new ol.style.Stroke({
+                color: 'white',
+                width: 7
+            })
+        })
+    })];
+};
+
 window.apf.olmap.popSymboleStyle = function(feature, resolution, popid_markiert) {
     'use strict';
     // icon wählen
@@ -11194,8 +11078,28 @@ window.apf.olmap.popSymboleStyle = function(feature, resolution, popid_markiert)
         icon = 'img/flora_icon_braun.png'
     }
     return [new ol.style.Style({
-        // TODO: icon (braun oder orange) aufgrund Bedingung wählen
-        // Bedingung: popid_markiert && popid_markiert.indexOf(pop.PopId) !== -1
+        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+            anchor: [0.5, 46],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'pixels',
+            opacity: 1,
+            src: icon
+        }))
+    })];
+};
+
+window.apf.olmap.tpopSymboleStyle = function(feature, resolution, tpopid_markiert) {
+    'use strict';
+    // icon wählen
+    // markierte sind gelb, nicht markierte sind grün
+    var icon,
+        tpopid = feature.get('myId');
+    if (tpopid_markiert && tpopid_markiert.indexOf(tpopid) !== -1) {
+        icon = 'img/flora_icon_gelb.png'
+    } else {
+        icon = 'img/flora_icon.png'
+    }
+    return [new ol.style.Style({
         image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
             anchor: [0.5, 46],
             anchorXUnits: 'fraction',
