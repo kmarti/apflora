@@ -11035,18 +11035,8 @@ window.apf.initiiereOlmap = function() {
         // drag and drop geo-files
         window.apf.olmap.addDragAndDropGeofiles();
 
-        // auswählen ermöglichen
-        window.apf.olmap.map.olmap_select_interaction = new ol.interaction.Select({
-            // TODO: 'layerFilter' will soon be deprecated > change to 'layers' when deprecated
-            layerFilter: function(layer) {
-                return layer.get('selectable') === true;
-            }/*,
-            // wenn man das feature zum zweiten mal klickt, soll es nicht mehr selected sein
-            toggleCondition: function(event) {
-                return event === 'click';
-            }*/
-        });
-        window.apf.olmap.map.addInteraction(window.apf.olmap.map.olmap_select_interaction);
+        // ermöglichen, features in layer zu selecten, die 'selectable' true haben
+        window.apf.olmap.addSelectFeaturesInSelectableLayers();
 
         // zeige feature info bei Klick
 		window.apf.olmap.map.on('singleclick', function(event) {
@@ -11081,12 +11071,32 @@ window.apf.initiiereOlmap = function() {
         window.apf.olmap.map.addControl(mousePositionControl);
 
         //Full Screen
-        var myFullScreenControl = new ol.control.FullScreen();
-        window.apf.olmap.map.addControl(myFullScreenControl);
-        // auf Deutsch beschriften
-        $('#ga_karten_div').find('.ol-full-screen').find('span[role="tooltip"]').html('Vollbild wechseln');
+        window.apf.olmap.addFullScreenControl();
 	}
 	$('#karteSchieben').checked = true;	// scheint nicht zu funktionieren?
+};
+
+window.apf.olmap.addFullScreenControl = function() {
+    'use strict';
+    var myFullScreenControl = new ol.control.FullScreen();
+    window.apf.olmap.map.addControl(myFullScreenControl);
+    // auf Deutsch beschriften
+    $('#ga_karten_div').find('.ol-full-screen').find('span[role="tooltip"]').html('Vollbild wechseln');
+};
+
+window.apf.olmap.addSelectFeaturesInSelectableLayers = function() {
+    'use strict';
+    window.apf.olmap.map.olmap_select_interaction = new ol.interaction.Select({
+        // TODO: 'layerFilter' will soon be deprecated > change to 'layers' when deprecated
+        layerFilter: function(layer) {
+            return layer.get('selectable') === true;
+        }/*,
+         // wenn man das feature zum zweiten mal klickt, soll es nicht mehr selected sein
+         toggleCondition: function(event) {
+         return event === 'click';
+         }*/
+    });
+    window.apf.olmap.map.addInteraction(window.apf.olmap.map.olmap_select_interaction);
 };
 
 window.apf.olmap.addDragAndDropGeofiles = function() {
