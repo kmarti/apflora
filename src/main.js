@@ -14320,9 +14320,9 @@ window.apf.zeigeTPopAufOlmap = function(TPopListeMarkiert) {
 			getTPopKarteAlle.always(function(TPopListe) {
 				$.when(
 					// Layer für Symbole und Beschriftung erstellen
+                    window.apf.olmap.erstelleTPopSymbole(TPopListe, markierte_tpop.tpopid_markiert, false),
+                    window.apf.olmap.erstelleTPopSymboleMitNamen(TPopListe, markierte_tpop.tpopid_markiert, false),
 					window.apf.olmap.erstelleTPopSymboleMitNr(TPopListe, markierte_tpop.tpopid_markiert, true),
-					window.apf.olmap.erstelleTPopSymboleMitNamen(TPopListe, markierte_tpop.tpopid_markiert, false),
-					window.apf.olmap.erstelleTPopSymbole(TPopListe, markierte_tpop.tpopid_markiert, true),
 					// alle Pop holen
 					window.apf.olmap.zeigePopInTPop(overlay_pop_visible, overlay_popnr_visible)
 				)
@@ -14374,9 +14374,9 @@ window.apf.zeigePopAufOlmap = function(PopListeMarkiert) {
 			getTPopKarteAlle_2.always(function(TPopListe) {
 				$.when(
 					// Layer für Symbole und Beschriftung erstellen
-					window.apf.olmap.erstelleTPopSymboleMitNr(TPopListe, null, false),
+                    window.apf.olmap.erstelleTPopSymbole(TPopListe, null, false),
 					window.apf.olmap.erstelleTPopSymboleMitNamen(TPopListe, null, false),
-					window.apf.olmap.erstelleTPopSymbole(TPopListe, null, false),
+                    window.apf.olmap.erstelleTPopSymboleMitNr(TPopListe, null, false),
 					// alle Pop holen, symbole und nr sichtbar schalten, Markierung übergeben
 					window.apf.olmap.zeigePopInTPop(true, true, markierte_pop.popid_markiert)
 				)
@@ -14588,244 +14588,6 @@ window.apf.olmap.erstelleContentFürTPop = function(tpop) {
         '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
         "<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + tpop.TPopId + "')\">Formular öffnen<\/a></p>"+
         "<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
-};
-
-// nimmt drei Variablen entgegen:
-// TPopListe: Die Liste der darzustellenden Teilpopulationen
-// tpopid_markiert: die ID der zu markierenden TPop
-// visible: Ob das Layer sichtbar sein soll
-window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, visible) {
-	'use strict';
-	var tpopsymbole_erstellt = $.Deferred(),
-        markers = [],
-        marker,
-        my_label,
-        tpop_layer;
-
-    if (visible === null) {
-        visible = true;
-    }
-
-    _.each(tpop_liste.rows, function(tpop) {
-        // tooltip bzw. label vorbereiten: nullwerte ausblenden
-        if (tpop.PopNr && tpop.TPopNr) {
-            my_label = tpop.PopNr + '/' + tpop.TPopNr;
-        } else if (tpop.PopNr) {
-            my_label = tpop.PopNr + '/?';
-        } else if (tpop.TPopNr) {
-            my_label = '?/' + tpop.TPopNr;
-        } else {
-            my_label = '?/?';
-        }
-
-        // Marker erstellen...
-        marker = new ol.Feature({
-    		geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
-			name: tpop.TPopFlurname || '(kein Flurname)',
-			popup_content: window.apf.olmap.erstelleContentFürTPop(tpop),
-			popup_title: tpop.Artname,
-			// koordinaten werden benötigt damit das popup am richtigen Ort verankert wird
-			xkoord: tpop.TPopXKoord,
-			ykoord: tpop.TPopYKoord,
-			myTyp: 'tpop',
-			myId: tpop.TPopId
-    	});
-
-        // ...und in Array speichern
-        markers.push(marker);
-    });
-
-	// layer für Marker erstellen
-	tpop_layer = new ol.layer.Vector({
-		title: 'Teilpopulationen',
-		source: new ol.source.Vector({
-				features: markers
-			}),
-        style: (function() {
-            return function(feature, resolution) {
-                // icon wählen
-                // markierte sind gelb, nicht markierte sind grün
-                var icon,
-                    tpopid = feature.get('myId');
-                if (tpopid_markiert && tpopid_markiert.indexOf(tpopid) !== -1) {
-                    icon = 'img/flora_icon_gelb.png'
-                } else {
-                    icon = 'img/flora_icon.png';
-                }
-                return [new ol.style.Style({
-                    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-                        anchor: [0.5, 46],
-                        anchorXUnits: 'fraction',
-                        anchorYUnits: 'pixels',
-                        opacity: 1,
-                        src: icon
-                    }))
-                })];
-            };
-        })()
-	});
-    tpop_layer.set('visible', visible);
-    tpop_layer.set('kategorie', 'AP Flora');
-    window.apf.olmap.map.addLayer(tpop_layer);
-
-    // TODO: marker sollen verschoben werden können
-
-    /* alt:
-	// die marker sollen verschoben werden können
-	var dragControl = new OpenLayers.Control.DragFeature(window.overlay_tpop, {
-		onStart: function(feature) {
-			// TO DO: Variable zum rückgängig machen erstellen
-			//window.tpop_vorher = {};
-			//tpop_vorher.TPopXKoord = feature.geometry.x;
-			//tpop_vorher.TPopYKoord = feature.geometry.y;
-			//tpop_vorher.TPopId = feature.attributes.myId;
-			// meldung anzeigen, wie bei anderen Wiederherstellungen
-			// wenn wiederherstellen: function verschiebeTPop(id, x, y)
-
-			// allfällig geöffnete Popups schliessen - ist unschön, wenn die offen bleiben
-			window.selectControlTPop.unselectAll();
-		},
-		onComplete: function(feature) {
-			// nur zulassen, wenn Schreibrechte bestehen
-			if (sessionStorage.NurLesen) {
-				$("#Meldung")
-                    .html("Sie haben keine Schreibrechte")
-                    .dialog({
-                        modal: true,
-                        buttons: {
-                            Ok: function() {
-                                $(this).dialog("close");
-                                // overlay entfernen...
-                                if (window.apf.olmap.getLayersByName('Teilpopulationen')) {
-                                    var layers = window.apf.olmap.getLayersByName('Teilpopulationen');
-                                    _.each(layers, function(layer) {
-                                        window.apf.olmap.map.removeLayer(layer);
-                                    });
-                                }
-                                // ...und neu erstellen
-                                window.apf.olmap.erstelleTPopSymbole(tpop_liste, tpopid_markiert, true);
-                            }
-                        }
-                    });
-				return;
-			}
-			// Verschieben muss bestätigt werden
-			// Mitteilung formulieren. Gewählte hat keinen label und tooltip ist wie sonst label
-			if (feature.attributes.label) {
-				$("#loeschen_dialog_mitteilung").html("Sie verschieben die Teilpopulation " + feature.attributes.label + ", " + feature.attributes.tooltip);
-			} else {
-				$("#loeschen_dialog_mitteilung").html("Sie verschieben die Teilpopulation " + feature.attributes.tooltip);
-			}
-			$("#loeschen_dialog").dialog({
-				resizable: false,
-				height:'auto',
-				width: 500,
-				modal: true,
-				buttons: {
-					"ja, verschieben!": function() {
-						$(this).dialog("close");
-						// neue Koordinaten speichern
-						// x und y merken
-						TPop.TPopXKoord = feature.geometry.x;
-						TPop.TPopYKoord = feature.geometry.y;
-						// Datensatz updaten
-						window.apf.speichereWert('tpop', feature.attributes.myId, 'TPopXKoord', TPop.TPopXKoord);
-						window.apf.speichereWert('tpop', feature.attributes.myId, 'TPopYKoord', TPop.TPopYKoord);
-						// jetzt alle marker entfernen...
-						window.apf.olmap.entferneAlleApfloraLayer();
-						// ...und neu aufbauen
-						// dazu die tpopliste neu abrufen, da Koordinaten geändert haben! tpopid_markiert bleibt gleich
-						var getTPopKarteAlle_3 = $.ajax({
-							type: 'get',
-							url: 'php/tpop_karte_alle.php',
-							dataType: 'json',
-							data: {
-								"ApArtId": window.apf.ap.ApArtId
-							}
-						});
-						getTPopKarteAlle_3.always(function(TPopListe) {
-							window.apf.olmap.erstelleTPopSymboleMitNr(TPopListe, tpopid_markiert);
-							window.apf.olmap.erstelleTPopSymboleMitNamen(TPopListe, tpopid_markiert);
-							window.apf.olmap.erstelleTPopSymbole(TPopListe, tpopid_markiert, true);
-						});
-						getTPopKarteAlle_3.fail(function() {
-							//window.apf.melde("Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden");
-							console.log('Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden');
-						});
-					},
-					"nein, nicht verschieben": function() {
-						$(this).dialog("close");
-						// overlay entfernen...
-						if (window.apf.olmap.getLayersByName('Teilpopulationen')) {
-							var layers = window.apf.olmap.getLayersByName('Teilpopulationen');
-                            _.each(layers, function(layer) {
-                                window.apf.olmap.map.removeLayer(layer);
-                            });
-						}
-						// ...und neu erstellen
-						window.apf.olmap.erstelleTPopSymbole(tpop_liste, tpopid_markiert, true);
-					}
-				}
-			});
-		}
-	});
-
-	// selectfeature (Infoblase) soll nicht durch dragfeature blockiert werden
-	// Quelle: //stackoverflow.com/questions/6953907/make-marker-dragable-and-clickable
-	dragControl.handlers['drag'].stopDown = false;
-	dragControl.handlers['drag'].stopUp = false;
-	dragControl.handlers['drag'].stopClick = false;
-	dragControl.handlers['feature'].stopDown = false;
-	dragControl.handlers['feature'].stopUp = false;
-	dragControl.handlers['feature'].stopClick = false;
-
-	// dragControl einschalten
-	window.apf.olmap.addControl(dragControl);
-	dragControl.activate();
-
-	// overlay zur Karte hinzufügen
-	window.apf.olmap.addLayer(overlay_tpop);
-
-	// SelectControl erstellen (mit dem Eventlistener öffnet das die Infoblase) und zur Karte hinzufügen
-	window.selectControlTPop = new OpenLayers.Control.SelectFeature(overlay_tpop, {clickout: true});
-	window.apf.olmap.addControl(window.selectControlTPop);
-	window.selectControlTPop.activate();
-
-	// mit Polygon auswählen, nur wenn noch nicht existent
-	if (!window.apf.olmap.auswahlPolygonLayer) {
-		window.apf.olmap.auswahlPolygonLayer = new OpenLayers.Layer.Vector("Auswahl-Polygon", {
-			projection: new OpenLayers.Projection("EPSG:21781"),
-			displayInLayerSwitcher: false
-		});
-		window.apf.olmap.addLayer(auswahlPolygonLayer);
-	}
-	// drawControl erstellen, nur wenn noch nicht existent
-	if (!window.drawControl) {
-		window.drawControl = new OpenLayers.Control.DrawFeature(auswahlPolygonLayer, OpenLayers.Handler.Polygon);
-		drawControl.events.register("featureadded", this, function(event) {
-			window.PopTPopAuswahlFilter = new OpenLayers.Filter.Spatial({
-				type: OpenLayers.Filter.Spatial.INTERSECTS,
-				value: event.feature.geometry
-			});
-			// Teilpopulationen: Auswahl ermitteln und einen Array von ID's in window.apf.tpop_array speichern
-			window.apf.erstelleTPopAuswahlArrays();
-			// Populationen: Auswahl ermitteln und einen Array von ID's in window.apf.pop_array speichern
-			window.apf.erstellePopAuswahlArrays();
-			// Liste erstellen, welche die Auswahl anzeigt, Pop/TPop verlinkt und Exporte anbietet
-			window.apf.erstelleListeDerAusgewaehltenPopTPop();
-
-			// control deaktivieren
-			window.drawControl.deactivate();
-			// Schaltfläche Karte schieben aktivieren
-			$("#karteSchieben")
-                .attr("checked", true)
-                .button("enable").button("refresh");
-		});
-		window.apf.olmap.addControl(drawControl);
-	}*/
-
-	tpopsymbole_erstellt.resolve();
-	return tpopsymbole_erstellt.promise();
 };
 
 // retourniert features
@@ -15462,6 +15224,7 @@ window.apf.deaktiviereGeoAdminAuswahl = function() {
 };
 
 window.apf.erstelleTPopNrLabel = function(popnr, tpopnr) {
+    'use strict';
     // tooltip bzw. label vorbereiten: nullwerte ausblenden
     if (popnr && tpopnr) {
         return popnr + '/' + tpopnr;
@@ -15474,6 +15237,235 @@ window.apf.erstelleTPopNrLabel = function(popnr, tpopnr) {
     }
 };
 
+
+
+// nimmt drei Variablen entgegen:
+// TPopListe: Die Liste der darzustellenden Teilpopulationen
+// tpopid_markiert: die ID der zu markierenden TPop
+// visible: Ob das Layer sichtbar sein soll
+window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, visible) {
+    'use strict';
+    var tpopsymbole_erstellt = $.Deferred(),
+        markers = [],
+        marker,
+        tpop_layer;
+
+    if (visible === null) {
+        visible = true;
+    }
+
+    _.each(tpop_liste.rows, function(tpop) {
+
+        // Marker erstellen...
+        marker = new ol.Feature({
+            geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
+            name: tpop.TPopFlurname || '(kein Flurname)',
+            popup_content: window.apf.olmap.erstelleContentFürTPop(tpop),
+            popup_title: tpop.Artname,
+            // koordinaten werden benötigt damit das popup am richtigen Ort verankert wird
+            xkoord: tpop.TPopXKoord,
+            ykoord: tpop.TPopYKoord,
+            myTyp: 'tpop',
+            myId: tpop.TPopId
+        });
+
+        // ...und in Array speichern
+        markers.push(marker);
+    });
+
+    // layer für Marker erstellen
+    tpop_layer = new ol.layer.Vector({
+        title: 'Teilpopulationen',
+        source: new ol.source.Vector({
+            features: markers
+        }),
+        style: (function() {
+            return function(feature, resolution) {
+                // icon wählen
+                // markierte sind gelb, nicht markierte sind grün
+                var icon,
+                    tpopid = feature.get('myId');
+                if (tpopid_markiert && tpopid_markiert.indexOf(tpopid) !== -1) {
+                    icon = 'img/flora_icon_gelb.png'
+                } else {
+                    icon = 'img/flora_icon.png';
+                }
+                return [new ol.style.Style({
+                    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+                        anchor: [0.5, 46],
+                        anchorXUnits: 'fraction',
+                        anchorYUnits: 'pixels',
+                        opacity: 1,
+                        src: icon
+                    }))
+                })];
+            };
+        })()
+    });
+    tpop_layer.set('visible', visible);
+    tpop_layer.set('kategorie', 'AP Flora');
+    window.apf.olmap.map.addLayer(tpop_layer);
+
+    // TODO: marker sollen verschoben werden können
+
+    /* alt:
+     // die marker sollen verschoben werden können
+     var dragControl = new OpenLayers.Control.DragFeature(window.overlay_tpop, {
+     onStart: function(feature) {
+     // TO DO: Variable zum rückgängig machen erstellen
+     //window.tpop_vorher = {};
+     //tpop_vorher.TPopXKoord = feature.geometry.x;
+     //tpop_vorher.TPopYKoord = feature.geometry.y;
+     //tpop_vorher.TPopId = feature.attributes.myId;
+     // meldung anzeigen, wie bei anderen Wiederherstellungen
+     // wenn wiederherstellen: function verschiebeTPop(id, x, y)
+
+     // allfällig geöffnete Popups schliessen - ist unschön, wenn die offen bleiben
+     window.selectControlTPop.unselectAll();
+     },
+     onComplete: function(feature) {
+     // nur zulassen, wenn Schreibrechte bestehen
+     if (sessionStorage.NurLesen) {
+     $("#Meldung")
+     .html("Sie haben keine Schreibrechte")
+     .dialog({
+     modal: true,
+     buttons: {
+     Ok: function() {
+     $(this).dialog("close");
+     // overlay entfernen...
+     if (window.apf.olmap.getLayersByName('Teilpopulationen')) {
+     var layers = window.apf.olmap.getLayersByName('Teilpopulationen');
+     _.each(layers, function(layer) {
+     window.apf.olmap.map.removeLayer(layer);
+     });
+     }
+     // ...und neu erstellen
+     window.apf.olmap.erstelleTPopSymbole(tpop_liste, tpopid_markiert, true);
+     }
+     }
+     });
+     return;
+     }
+     // Verschieben muss bestätigt werden
+     // Mitteilung formulieren. Gewählte hat keinen label und tooltip ist wie sonst label
+     if (feature.attributes.label) {
+     $("#loeschen_dialog_mitteilung").html("Sie verschieben die Teilpopulation " + feature.attributes.label + ", " + feature.attributes.tooltip);
+     } else {
+     $("#loeschen_dialog_mitteilung").html("Sie verschieben die Teilpopulation " + feature.attributes.tooltip);
+     }
+     $("#loeschen_dialog").dialog({
+     resizable: false,
+     height:'auto',
+     width: 500,
+     modal: true,
+     buttons: {
+     "ja, verschieben!": function() {
+     $(this).dialog("close");
+     // neue Koordinaten speichern
+     // x und y merken
+     TPop.TPopXKoord = feature.geometry.x;
+     TPop.TPopYKoord = feature.geometry.y;
+     // Datensatz updaten
+     window.apf.speichereWert('tpop', feature.attributes.myId, 'TPopXKoord', TPop.TPopXKoord);
+     window.apf.speichereWert('tpop', feature.attributes.myId, 'TPopYKoord', TPop.TPopYKoord);
+     // jetzt alle marker entfernen...
+     window.apf.olmap.entferneAlleApfloraLayer();
+     // ...und neu aufbauen
+     // dazu die tpopliste neu abrufen, da Koordinaten geändert haben! tpopid_markiert bleibt gleich
+     var getTPopKarteAlle_3 = $.ajax({
+     type: 'get',
+     url: 'php/tpop_karte_alle.php',
+     dataType: 'json',
+     data: {
+     "ApArtId": window.apf.ap.ApArtId
+     }
+     });
+     getTPopKarteAlle_3.always(function(TPopListe) {
+     window.apf.olmap.erstelleTPopSymboleMitNr(TPopListe, tpopid_markiert);
+     window.apf.olmap.erstelleTPopSymboleMitNamen(TPopListe, tpopid_markiert);
+     window.apf.olmap.erstelleTPopSymbole(TPopListe, tpopid_markiert, true);
+     });
+     getTPopKarteAlle_3.fail(function() {
+     //window.apf.melde("Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden");
+     console.log('Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden');
+     });
+     },
+     "nein, nicht verschieben": function() {
+     $(this).dialog("close");
+     // overlay entfernen...
+     if (window.apf.olmap.getLayersByName('Teilpopulationen')) {
+     var layers = window.apf.olmap.getLayersByName('Teilpopulationen');
+     _.each(layers, function(layer) {
+     window.apf.olmap.map.removeLayer(layer);
+     });
+     }
+     // ...und neu erstellen
+     window.apf.olmap.erstelleTPopSymbole(tpop_liste, tpopid_markiert, true);
+     }
+     }
+     });
+     }
+     });
+
+     // selectfeature (Infoblase) soll nicht durch dragfeature blockiert werden
+     // Quelle: //stackoverflow.com/questions/6953907/make-marker-dragable-and-clickable
+     dragControl.handlers['drag'].stopDown = false;
+     dragControl.handlers['drag'].stopUp = false;
+     dragControl.handlers['drag'].stopClick = false;
+     dragControl.handlers['feature'].stopDown = false;
+     dragControl.handlers['feature'].stopUp = false;
+     dragControl.handlers['feature'].stopClick = false;
+
+     // dragControl einschalten
+     window.apf.olmap.addControl(dragControl);
+     dragControl.activate();
+
+     // overlay zur Karte hinzufügen
+     window.apf.olmap.addLayer(overlay_tpop);
+
+     // SelectControl erstellen (mit dem Eventlistener öffnet das die Infoblase) und zur Karte hinzufügen
+     window.selectControlTPop = new OpenLayers.Control.SelectFeature(overlay_tpop, {clickout: true});
+     window.apf.olmap.addControl(window.selectControlTPop);
+     window.selectControlTPop.activate();
+
+     // mit Polygon auswählen, nur wenn noch nicht existent
+     if (!window.apf.olmap.auswahlPolygonLayer) {
+     window.apf.olmap.auswahlPolygonLayer = new OpenLayers.Layer.Vector("Auswahl-Polygon", {
+     projection: new OpenLayers.Projection("EPSG:21781"),
+     displayInLayerSwitcher: false
+     });
+     window.apf.olmap.addLayer(auswahlPolygonLayer);
+     }
+     // drawControl erstellen, nur wenn noch nicht existent
+     if (!window.drawControl) {
+     window.drawControl = new OpenLayers.Control.DrawFeature(auswahlPolygonLayer, OpenLayers.Handler.Polygon);
+     drawControl.events.register("featureadded", this, function(event) {
+     window.PopTPopAuswahlFilter = new OpenLayers.Filter.Spatial({
+     type: OpenLayers.Filter.Spatial.INTERSECTS,
+     value: event.feature.geometry
+     });
+     // Teilpopulationen: Auswahl ermitteln und einen Array von ID's in window.apf.tpop_array speichern
+     window.apf.erstelleTPopAuswahlArrays();
+     // Populationen: Auswahl ermitteln und einen Array von ID's in window.apf.pop_array speichern
+     window.apf.erstellePopAuswahlArrays();
+     // Liste erstellen, welche die Auswahl anzeigt, Pop/TPop verlinkt und Exporte anbietet
+     window.apf.erstelleListeDerAusgewaehltenPopTPop();
+
+     // control deaktivieren
+     window.drawControl.deactivate();
+     // Schaltfläche Karte schieben aktivieren
+     $("#karteSchieben")
+     .attr("checked", true)
+     .button("enable").button("refresh");
+     });
+     window.apf.olmap.addControl(drawControl);
+     }*/
+
+    tpopsymbole_erstellt.resolve();
+    return tpopsymbole_erstellt.promise();
+};
+
 // nimmt drei Variablen entgegen:
 // TPopListe: Die Liste der darzustellenden Teilpopulationen
 // tpopid_markiert: die ID der zu markierenden TPop
@@ -15484,32 +15476,25 @@ window.apf.olmap.erstelleTPopSymboleMitNr = function(tpop_liste, tpopid_markiert
 	var tpopnr_erstellt = $.Deferred(),
 		tpop_nr_layer,
 		markers = [],
-		marker,
-		marker_style;
+		marker;
 
     if (visible === null) {
         visible = true;
     }
-
-	// styles definieren
-	marker_style = new ol.style.Style({
-		image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-		    anchor: [0.5, 46],
-		    anchorXUnits: 'fraction',
-		    anchorYUnits: 'pixels',
-		    opacity: 1,
-		    src: 'img/leer.png'
-  		}))
-	});
 
     _.each(tpop_liste.rows, function(tpop) {
         // marker erstellen...
         marker = new ol.Feature({
     		geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
 			name: window.apf.erstelleTPopNrLabel(tpop.PopNr, tpop.TPopNr),
-			selectable: false
+            popup_content: window.apf.olmap.erstelleContentFürTPop(tpop),
+            popup_title: tpop.Artname,
+            // koordinaten werden benötigt damit das popup am richtigen Ort verankert wird
+            xkoord: tpop.TPopXKoord,
+            ykoord: tpop.TPopYKoord,
+            myTyp: 'tpop',
+            myId: tpop.TPopId
     	});
-    	marker.setStyle(marker_style);
 
         // ...und in Array speichern
         markers.push(marker);
@@ -15530,7 +15515,23 @@ window.apf.olmap.erstelleTPopSymboleMitNr = function(tpop_liste, tpopid_markiert
 		    	color: 'black'
 		  	});
 		  	return function(feature, resolution) {
+                // icon wählen
+                // markierte sind gelb, nicht markierte sind grün
+                var icon,
+                    tpopid = feature.get('myId');
+                if (tpopid_markiert && tpopid_markiert.indexOf(tpopid) !== -1) {
+                    icon = 'img/flora_icon_gelb.png'
+                } else {
+                    icon = 'img/flora_icon.png';
+                }
 			    return [new ol.style.Style({
+                    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+                        anchor: [0.5, 46],
+                        anchorXUnits: 'fraction',
+                        anchorYUnits: 'pixels',
+                        opacity: 1,
+                        src: icon
+                    })),
 			      	text: new ol.style.Text({
 			      		font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
 			        	text: feature.get('name'),
@@ -15558,35 +15559,28 @@ window.apf.olmap.erstelleTPopSymboleMitNr = function(tpop_liste, tpopid_markiert
 window.apf.olmap.erstelleTPopSymboleMitNamen = function(tpop_liste, tpopid_markiert, visible) {
 	'use strict';
 
-	if (visible === null) {
-		visible = true;
-	}
-
 	var tpopnamen_erstellt = $.Deferred(),
 		tpop_namen_layer,
 		markers = [],
-		marker,
-		marker_style;
+		marker;
 
-	// styles für pop_namen_layer definieren
-	marker_style = new ol.style.Style({
-		image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-		    anchor: [0.5, 46],
-		    anchorXUnits: 'fraction',
-		    anchorYUnits: 'pixels',
-		    opacity: 1,
-		    src: 'img/leer.png'
-  		}))
-	});
+    if (visible === null) {
+        visible = true;
+    }
 
     _.each(tpop_liste.rows, function(tpop) {
     	// marker erstellen...
         marker = new ol.Feature({
     		geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
 			name: tpop.TPopFlurname || '(kein Name)',
-			selectable: false
+            popup_content: window.apf.olmap.erstelleContentFürTPop(tpop),
+            popup_title: tpop.Artname,
+            // koordinaten werden benötigt damit das popup am richtigen Ort verankert wird
+            xkoord: tpop.TPopXKoord,
+            ykoord: tpop.TPopYKoord,
+            myTyp: 'tpop',
+            myId: tpop.TPopId
     	});
-    	marker.setStyle(marker_style);
 
         // ...und in Array speichern
         markers.push(marker);
@@ -15607,7 +15601,23 @@ window.apf.olmap.erstelleTPopSymboleMitNamen = function(tpop_liste, tpopid_marki
 		    	color: 'black'
 		  	});
 		  	return function(feature, resolution) {
+                // icon wählen
+                // markierte sind gelb, nicht markierte sind grün
+                var icon,
+                    tpopid = feature.get('myId');
+                if (tpopid_markiert && tpopid_markiert.indexOf(tpopid) !== -1) {
+                    icon = 'img/flora_icon_gelb.png'
+                } else {
+                    icon = 'img/flora_icon.png';
+                }
 			    return [new ol.style.Style({
+                    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+                        anchor: [0.5, 46],
+                        anchorXUnits: 'fraction',
+                        anchorYUnits: 'pixels',
+                        opacity: 1,
+                        src: icon
+                    })),
 			      	text: new ol.style.Text({
 			      		font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
 			        	text: feature.get('name'),
