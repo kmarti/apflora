@@ -14320,7 +14320,7 @@ window.apf.zeigeTPopAufOlmap = function(TPopListeMarkiert) {
 			getTPopKarteAlle.always(function(TPopListe) {
 				$.when(
 					// Layer für Symbole und Beschriftung erstellen
-					window.apf.olmap.erstelleTPopNr(TPopListe, markierte_tpop.tpopid_markiert, true),
+					window.apf.olmap.erstelleTPopSymboleMitNr(TPopListe, markierte_tpop.tpopid_markiert, true),
 					window.apf.olmap.erstelleTPopNamen(TPopListe, markierte_tpop.tpopid_markiert, false),
 					window.apf.olmap.erstelleTPopSymbole(TPopListe, markierte_tpop.tpopid_markiert, true),
 					// alle Pop holen
@@ -14374,7 +14374,7 @@ window.apf.zeigePopAufOlmap = function(PopListeMarkiert) {
 			getTPopKarteAlle_2.always(function(TPopListe) {
 				$.when(
 					// Layer für Symbole und Beschriftung erstellen
-					window.apf.olmap.erstelleTPopNr(TPopListe, null, false),
+					window.apf.olmap.erstelleTPopSymboleMitNr(TPopListe, null, false),
 					window.apf.olmap.erstelleTPopNamen(TPopListe, null, false),
 					window.apf.olmap.erstelleTPopSymbole(TPopListe, null, false),
 					// alle Pop holen, symbole und nr sichtbar schalten, Markierung übergeben
@@ -14580,6 +14580,16 @@ window.apf.speichereWert = function(tabelle, id, feld, wert) {
 	});
 };
 
+window.apf.olmap.erstelleContentFürTPop = function(tpop) {
+    var my_flurname = tpop.TPopFlurname || '(kein Flurname)';
+    return '<p>Typ: Teilpopulation</p>'+
+        '<p>Population: ' + tpop.PopName + '</p>'+
+        '<p>Teilpopulation: ' + my_flurname + '</p>'+
+        '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
+        "<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + tpop.TPopId + "')\">Formular öffnen<\/a></p>"+
+        "<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
+};
+
 // nimmt drei Variablen entgegen:
 // TPopListe: Die Liste der darzustellenden Teilpopulationen
 // tpopid_markiert: die ID der zu markierenden TPop
@@ -14622,12 +14632,7 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
 
     _.each(tpop_liste.rows, function(tpop) {
         my_flurname = tpop.TPopFlurname || '(kein Flurname)';
-        popup_content = '<p>Typ: Teilpopulation</p>'+
-        	'<p>Population: ' + tpop.PopName + '</p>'+
-            '<p>Teilpopulation: ' + my_flurname + '</p>'+
-            '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
-            "<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + tpop.TPopId + "')\">Formular öffnen<\/a></p>"+
-            "<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
+        popup_content = window.apf.olmap.erstelleContentFürTPop(tpop);
 
         // tooltip bzw. label vorbereiten: nullwerte ausblenden
         if (tpop.PopNr && tpop.TPopNr) {
@@ -14751,7 +14756,7 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
 							}
 						});
 						getTPopKarteAlle_3.always(function(TPopListe) {
-							window.apf.olmap.erstelleTPopNr(TPopListe, tpopid_markiert);
+							window.apf.olmap.erstelleTPopSymboleMitNr(TPopListe, tpopid_markiert);
 							window.apf.olmap.erstelleTPopNamen(TPopListe, tpopid_markiert);
 							window.apf.olmap.erstelleTPopSymbole(TPopListe, tpopid_markiert, true);
 						});
@@ -15449,12 +15454,8 @@ window.apf.deaktiviereGeoAdminAuswahl = function() {
 // TPopListe: Die Liste der darzustellenden Teilpopulationen
 // tpopid_markiert: die ID der zu markierenden TPop
 // visible: Ob das Layer sichtbar sein soll
-window.apf.olmap.erstelleTPopNr = function(tpop_liste, tpopid_markiert, visible) {
+window.apf.olmap.erstelleTPopSymboleMitNr = function(tpop_liste, tpopid_markiert, visible) {
 	'use strict';
-
-	if (visible === null) {
-		visible = true;
-	}
 
 	var tpopnr_erstellt = $.Deferred(),
 		tpop_nr_layer,
@@ -15462,6 +15463,10 @@ window.apf.olmap.erstelleTPopNr = function(tpop_liste, tpopid_markiert, visible)
 		marker,
 		marker_style,
 		my_label;
+
+    if (visible === null) {
+        visible = true;
+    }
 
 	// styles definieren
 	marker_style = new ol.style.Style({
