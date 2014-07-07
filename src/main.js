@@ -14825,47 +14825,55 @@ window.apf.olmap.zeigeFeatureInfo = function(pixel, coordinate) {
 	}
 };
 
+window.apf.olmap.erstelleContentFürPop = function(pop) {
+    'use strict';
+    return '<p>Typ: Population</p>'+
+        '<p>Koordinaten: ' + pop.PopXKoord + ' / ' + pop.PopYKoord + '</p>'+
+        "<p><a href=\"#\" onclick=\"window.apf.öffnePop('" + pop.PopId + "')\">Formular öffnen<\/a></p>"+
+        "<p><a href=\"#\" onclick=\"window.apf.öffnePopInNeuemTab('" + pop.PopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
+};
+
 // übernimmt drei Variablen: PopListe ist das Objekt mit den Populationen
 // popid_array der Array mit den ausgewählten Pop
 // visible: Ob die Ebene sichtbar geschaltet wird (oder bloss im Layertree verfügbar ist)
 window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert) {
-	'use strict';
-	// Aus unerfindlichem Grund wurde diese Funktion aufgerufen, wenn etwas wiederhergestellt wurde
-	// daher nur ausführen, wenn die Karte sichtbar ist
-	if ($('#GeoAdminKarte').is(":visible")) {
-		var pop_symbole_erstellt = $.Deferred(),
-	        markers = [],
-	        marker,
-	        my_name,
-	        pop_layer;
+    'use strict';
+    // Aus unerfindlichem Grund wurde diese Funktion aufgerufen, wenn etwas wiederhergestellt wurde
+    // daher nur ausführen, wenn die Karte sichtbar ist
+    if ($('#GeoAdminKarte').is(":visible")) {
+        var pop_symbole_erstellt = $.Deferred(),
+            markers = [],
+            marker,
+            my_name,
+            pop_layer;
 
-	    _.each(popliste.rows, function(pop) {
-	        my_name = pop.PopName || '(kein Name)';
+        _.each(popliste.rows, function(pop) {
+            my_name = pop.PopName || '(kein Name)';
 
-	        // marker erstellen...
-	        marker = new ol.Feature({
-	    		geometry: new ol.geom.Point([pop.PopXKoord, pop.PopYKoord]),
-				name: my_name,
-				popup_content: window.apf.olmap.erstelleContentFürPop(pop),
-				popup_title: my_name,
-				// Koordinaten werden gebraucht, damit das popup richtig platziert werden kann
-				xkoord: pop.PopXKoord,
-				ykoord: pop.PopYKoord,
-				myTyp: 'pop',
-				myId: pop.PopId
-	    	});
+            // marker erstellen...
+            marker = new ol.Feature({
+                geometry: new ol.geom.Point([pop.PopXKoord, pop.PopYKoord]),
+                name: my_name,
+                popup_content: window.apf.olmap.erstelleContentFürPop(pop),
+                popup_title: my_name,
+                // Koordinaten werden gebraucht, damit das popup richtig platziert werden kann
+                xkoord: pop.PopXKoord,
+                ykoord: pop.PopYKoord,
+                myTyp: 'pop',
+                myId: pop.PopId
+            });
 
-	        // marker in Array speichern
-	        markers.push(marker);
-	    });
+            // marker in Array speichern
+            markers.push(marker);
+        });
 
-		// layer für Marker erstellen
-		pop_layer = new ol.layer.Vector({
-			title: 'Populationen ohne Beschriftung',
+        // layer für Marker erstellen
+        pop_layer = new ol.layer.Vector({
+            title: 'Populationen ohne Beschriftung',
             selectable: true,
-			source: new ol.source.Vector({
-				features: markers
-			}),
+            source: new ol.source.Vector({
+                features: markers
+            }),
             style: (function() {
                 return function(feature, resolution) {
                     // icon wählen
@@ -14890,135 +14898,128 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert) {
                     })];
                 };
             })()
-		});
-	    pop_layer.set('visible', false);
-	    pop_layer.set('kategorie', 'AP Flora');
-	    window.apf.olmap.map.addLayer(pop_layer);
+        });
+        pop_layer.set('visible', false);
+        pop_layer.set('kategorie', 'AP Flora');
+        window.apf.olmap.map.addLayer(pop_layer);
 
-	    // TODO: marker sollen verschoben werden können
+        // TODO: marker sollen verschoben werden können
 
-	    /* alt:
-		// die marker sollen verschoben werden können
-		var dragControl = new OpenLayers.Control.DragFeature(overlay_pop, {
-			onStart: function(feature) {
-				// allfällig geöffnete Popups schliessen - ist unschön, wenn die offen bleiben
-				window.selectControlPop.unselectAll();
-			},
-			onComplete: function(feature) {
-				// nur zulassen, wenn Schreibrechte bestehen
-				if (sessionStorage.NurLesen) {
-					$("#Meldung")
-	                    .html("Sie haben keine Schreibrechte")
-	                    .dialog({
-	                        modal: true,
-	                        buttons: {
-	                            Ok: function() {
-	                                $(this).dialog("close");
-	                                // overlay entfernen...
-	                                if (window.apf.olmap.getLayersByName('Populationen')) {
-	                                    var layers = window.apf.olmap.getLayersByName('Populationen');
-	                                    _.each(layers, function(layer) {
-	                                        window.apf.olmap.map.removeLayer(layer);
-	                                    });
-	                                }
-	                                // ...und neu erstellen
-	                                window.apf.olmap.erstellePopSymbole(popliste, popid_markiert, visible);
-	                            }
-	                        }
-	                    });
-					return;
-				}
-				// Verschieben muss bestätigt werden
-				// Mitteilung formulieren. Gewählte hat keinen label und tooltip ist wie sonst label
-				if (feature.attributes.label) {
-					$("#loeschen_dialog_mitteilung").html("Sie verschieben die Population " + feature.attributes.label + ", " + feature.attributes.tooltip);
-				} else {
-					$("#loeschen_dialog_mitteilung").html("Sie verschieben die Population " + feature.attributes.tooltip);
-				}
-				$("#loeschen_dialog").dialog({
-					resizable: false,
-					height:'auto',
-					width: 500,
-					modal: true,
-					buttons: {
-						"ja, verschieben!": function() {
-							$(this).dialog("close");
-							// neue Koordinaten speichern
-							// x und y merken
-							Pop.PopXKoord = feature.geometry.x;
-							Pop.PopYKoord = feature.geometry.y;
-							// Datensatz updaten
-							window.apf.speichereWert('pop', feature.attributes.myId, 'PopXKoord', Pop.PopXKoord);
-							window.apf.speichereWert('pop', feature.attributes.myId, 'PopYKoord', Pop.PopYKoord);
-							// jetzt alle marker entfernen...
-							window.apf.olmap.entferneAlleApfloraLayer();
-							// ...und neu aufbauen
-							// dazu die popliste neu abrufen, da Koordinaten geändert haben! popid_markiert bleibt gleich
-							var getPopKarteAlle_2 = $.ajax({
-								type: 'get',
-								url: 'php/pop_karte_alle.php',
-								dataType: 'json',
-								data: {
-									"ApArtId": window.apf.olmap.erstellePopSymbole
-								}
-							});
-							getPopKarteAlle_2.always(function(PopListe) {
-								window.apf.olmap.erstellePopNr(PopListe, true);
-								window.apf.olmap.erstellePopNamen(PopListe);
-								window.apf.olmap.erstellePopSymbole(PopListe, popid_markiert, true);
-							});
-							getPopKarteAlle_2.fail(function() {
-								//window.apf.melde("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
-								console.log('Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden');
-							});
-						},
-						"nein, nicht verschieben": function() {
-							$(this).dialog("close");
-							// overlay entfernen...
-							if (window.apf.olmap.getLayersByName('Populationen')) {
-								var layers = window.apf.olmap.getLayersByName('Populationen');
-	                            _.each(layers, function(layer) {
-	                                window.apf.olmap.map.removeLayer(layer);
-	                            });
-							}
-							// ...und neu erstellen
-							window.apf.olmap.erstellePopSymbole(popliste, popid_markiert, true);
-						}
-					}
-				});
-			}
-		});
+        /* alt:
+         // die marker sollen verschoben werden können
+         var dragControl = new OpenLayers.Control.DragFeature(overlay_pop, {
+         onStart: function(feature) {
+         // allfällig geöffnete Popups schliessen - ist unschön, wenn die offen bleiben
+         window.selectControlPop.unselectAll();
+         },
+         onComplete: function(feature) {
+         // nur zulassen, wenn Schreibrechte bestehen
+         if (sessionStorage.NurLesen) {
+         $("#Meldung")
+         .html("Sie haben keine Schreibrechte")
+         .dialog({
+         modal: true,
+         buttons: {
+         Ok: function() {
+         $(this).dialog("close");
+         // overlay entfernen...
+         if (window.apf.olmap.getLayersByName('Populationen')) {
+         var layers = window.apf.olmap.getLayersByName('Populationen');
+         _.each(layers, function(layer) {
+         window.apf.olmap.map.removeLayer(layer);
+         });
+         }
+         // ...und neu erstellen
+         window.apf.olmap.erstellePopSymbole(popliste, popid_markiert, visible);
+         }
+         }
+         });
+         return;
+         }
+         // Verschieben muss bestätigt werden
+         // Mitteilung formulieren. Gewählte hat keinen label und tooltip ist wie sonst label
+         if (feature.attributes.label) {
+         $("#loeschen_dialog_mitteilung").html("Sie verschieben die Population " + feature.attributes.label + ", " + feature.attributes.tooltip);
+         } else {
+         $("#loeschen_dialog_mitteilung").html("Sie verschieben die Population " + feature.attributes.tooltip);
+         }
+         $("#loeschen_dialog").dialog({
+         resizable: false,
+         height:'auto',
+         width: 500,
+         modal: true,
+         buttons: {
+         "ja, verschieben!": function() {
+         $(this).dialog("close");
+         // neue Koordinaten speichern
+         // x und y merken
+         Pop.PopXKoord = feature.geometry.x;
+         Pop.PopYKoord = feature.geometry.y;
+         // Datensatz updaten
+         window.apf.speichereWert('pop', feature.attributes.myId, 'PopXKoord', Pop.PopXKoord);
+         window.apf.speichereWert('pop', feature.attributes.myId, 'PopYKoord', Pop.PopYKoord);
+         // jetzt alle marker entfernen...
+         window.apf.olmap.entferneAlleApfloraLayer();
+         // ...und neu aufbauen
+         // dazu die popliste neu abrufen, da Koordinaten geändert haben! popid_markiert bleibt gleich
+         var getPopKarteAlle_2 = $.ajax({
+         type: 'get',
+         url: 'php/pop_karte_alle.php',
+         dataType: 'json',
+         data: {
+         "ApArtId": window.apf.olmap.erstellePopSymbole
+         }
+         });
+         getPopKarteAlle_2.always(function(PopListe) {
+         window.apf.olmap.erstellePopNr(PopListe, true);
+         window.apf.olmap.erstellePopNamen(PopListe);
+         window.apf.olmap.erstellePopSymbole(PopListe, popid_markiert, true);
+         });
+         getPopKarteAlle_2.fail(function() {
+         //window.apf.melde("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
+         console.log('Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden');
+         });
+         },
+         "nein, nicht verschieben": function() {
+         $(this).dialog("close");
+         // overlay entfernen...
+         if (window.apf.olmap.getLayersByName('Populationen')) {
+         var layers = window.apf.olmap.getLayersByName('Populationen');
+         _.each(layers, function(layer) {
+         window.apf.olmap.map.removeLayer(layer);
+         });
+         }
+         // ...und neu erstellen
+         window.apf.olmap.erstellePopSymbole(popliste, popid_markiert, true);
+         }
+         }
+         });
+         }
+         });
 
-		// selectfeature (Infoblase) soll nicht durch dragfeature blockiert werden
-		// Quelle: //stackoverflow.com/questions/6953907/make-marker-dragable-and-clickable
-		dragControl.handlers['drag'].stopDown = false;
-		dragControl.handlers['drag'].stopUp = false;
-		dragControl.handlers['drag'].stopClick = false;
-		dragControl.handlers['feature'].stopDown = false;
-		dragControl.handlers['feature'].stopUp = false;
-		dragControl.handlers['feature'].stopClick = false;
+         // selectfeature (Infoblase) soll nicht durch dragfeature blockiert werden
+         // Quelle: //stackoverflow.com/questions/6953907/make-marker-dragable-and-clickable
+         dragControl.handlers['drag'].stopDown = false;
+         dragControl.handlers['drag'].stopUp = false;
+         dragControl.handlers['drag'].stopClick = false;
+         dragControl.handlers['feature'].stopDown = false;
+         dragControl.handlers['feature'].stopUp = false;
+         dragControl.handlers['feature'].stopClick = false;
 
-		// dragControl einschalten
-		window.apf.olmap.addControl(dragControl);
-		dragControl.activate();
+         // dragControl einschalten
+         window.apf.olmap.addControl(dragControl);
+         dragControl.activate();
 
-		// overlay zur Karte hinzufügen
-		window.apf.olmap.addLayer(overlay_pop);
+         // overlay zur Karte hinzufügen
+         window.apf.olmap.addLayer(overlay_pop);
 
-		// SelectControl erstellen (mit dem Eventlistener öffnet das die Infoblase) und zur Karte hinzufügen
-		window.selectControlPop = new OpenLayers.Control.SelectFeature(overlay_pop, {clickout: true});
-		window.apf.olmap.addControl(window.selectControlPop);
-		window.selectControlPop.activate();*/
-		pop_symbole_erstellt.resolve();
-		return pop_symbole_erstellt.promise();
-	}
-};
-
-window.apf.olmap.erstelleContentFürPop = function(pop) {
-    return '<p>Typ: Population</p>'+
-        '<p>Koordinaten: ' + pop.PopXKoord + ' / ' + pop.PopYKoord + '</p>'+
-        "<p><a href=\"#\" onclick=\"window.apf.öffnePop('" + pop.PopId + "')\">Formular öffnen<\/a></p>"+
-        "<p><a href=\"#\" onclick=\"window.apf.öffnePopInNeuemTab('" + pop.PopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
+         // SelectControl erstellen (mit dem Eventlistener öffnet das die Infoblase) und zur Karte hinzufügen
+         window.selectControlPop = new OpenLayers.Control.SelectFeature(overlay_pop, {clickout: true});
+         window.apf.olmap.addControl(window.selectControlPop);
+         window.selectControlPop.activate();*/
+        pop_symbole_erstellt.resolve();
+        return pop_symbole_erstellt.promise();
+    }
 };
 
 // übernimmt drei Variablen: PopListe ist das Objekt mit den Populationen
@@ -15275,7 +15276,7 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
 
     // layer für Marker erstellen
     tpop_layer = new ol.layer.Vector({
-        title: 'Teilpopulationen',
+        title: 'Teilpopulationen unbeschriftet',
         source: new ol.source.Vector({
             features: markers
         }),
@@ -15502,7 +15503,7 @@ window.apf.olmap.erstelleTPopSymboleMitNr = function(tpop_liste, tpopid_markiert
 
     // layer für Marker erstellen
 	tpop_nr_layer = new ol.layer.Vector({
-		title: 'Teilpopulationen Nummern',
+		title: 'Teilpopulationen mit Nummern',
 		source: new ol.source.Vector({
 				features: markers
 			}),
@@ -15588,7 +15589,7 @@ window.apf.olmap.erstelleTPopSymboleMitNamen = function(tpop_liste, tpopid_marki
 
     // layer für Marker erstellen
 	tpop_namen_layer = new ol.layer.Vector({
-		title: 'Teilpopulationen Namen',
+		title: 'Teilpopulationen mit Namen',
 		source: new ol.source.Vector({
 				features: markers
 			}),
@@ -17349,97 +17350,7 @@ window.apf.initiiereOlmap = function() {
         });
 
         // drag and drop geo-files
-        var drag_and_drop_defaultStyle = {
-            'Point': [new ol.style.Style({
-                image: new ol.style.Circle({
-                    fill: new ol.style.Fill({
-                        color: 'rgba(255,255,0,0.5)'
-                    }),
-                    radius: 5,
-                    stroke: new ol.style.Stroke({
-                        color: '#ff0',
-                        width: 1
-                    })
-                })
-            })],
-            'LineString': [new ol.style.Style({
-                stroke: new ol.style.Stroke({
-                    color: '#f00',
-                    width: 3
-                })
-            })],
-            'Polygon': [new ol.style.Style({
-                fill: new ol.style.Fill({
-                    color: 'rgba(0,255,255,0.5)'
-                }),
-                stroke: new ol.style.Stroke({
-                    color: '#0ff',
-                    width: 1
-                })
-            })],
-            'MultiPoint': [new ol.style.Style({
-                image: new ol.style.Circle({
-                    fill: new ol.style.Fill({
-                        color: 'rgba(255,0,255,0.5)'
-                    }),
-                    radius: 5,
-                    stroke: new ol.style.Stroke({
-                        color: '#f0f',
-                        width: 1
-                    })
-                })
-            })],
-            'MultiLineString': [new ol.style.Style({
-                stroke: new ol.style.Stroke({
-                    color: '#0f0',
-                    width: 3
-                })
-            })],
-            'MultiPolygon': [new ol.style.Style({
-                fill: new ol.style.Fill({
-                    color: 'rgba(0,0,255,0.5)'
-                }),
-                stroke: new ol.style.Stroke({
-                    color: '#00f',
-                    width: 1
-                })
-            })]
-        };
-        var drag_and_drop_styleFunction = function(feature, resolution) {
-            var featureStyleFunction = feature.getStyleFunction();
-            if (featureStyleFunction) {
-                return featureStyleFunction.call(feature, resolution);
-            } else {
-                return drag_and_drop_defaultStyle[feature.getGeometry().getType()];
-            }
-        };
-        var drag_and_drop_interaction = new ol.interaction.DragAndDrop({
-            formatConstructors: [
-                ol.format.GPX,
-                ol.format.GeoJSON,
-                ol.format.IGC,
-                ol.format.KML,
-                ol.format.TopoJSON
-            ]
-        });
-
-        window.apf.olmap.map.addInteraction(drag_and_drop_interaction);
-
-        drag_and_drop_interaction.on('addfeatures', function(event) {
-            // TODO: add layer to layertree?
-            var vectorSource = new ol.source.Vector({
-                features: event.features,
-                projection: event.projection
-            });
-            var drag_and_drop_layer = new ol.layer.Vector({
-                source: vectorSource,
-                style: drag_and_drop_styleFunction
-            });
-            window.apf.olmap.map.addLayer(drag_and_drop_layer);
-            var view = window.apf.olmap.map.getView();
-            view.fitExtent(
-                vectorSource.getExtent(), /** @type {ol.Size} */ (window.apf.olmap.map.getSize()));
-        });
+        window.apf.olmap.addDragAndDropGeofiles();
 
         // auswählen ermöglichen
         window.apf.olmap.map.olmap_select_interaction = new ol.interaction.Select({
@@ -17493,6 +17404,102 @@ window.apf.initiiereOlmap = function() {
         $('#ga_karten_div').find('.ol-full-screen').find('span[role="tooltip"]').html('Vollbild wechseln');
 	}
 	$('#karteSchieben').checked = true;	// scheint nicht zu funktionieren?
+};
+
+window.apf.olmap.addDragAndDropGeofiles = function() {
+    'use strict';
+    // drag and drop geo-files
+    var drag_and_drop_defaultStyle = {
+        'Point': [new ol.style.Style({
+            image: new ol.style.Circle({
+                fill: new ol.style.Fill({
+                    color: 'rgba(255,255,0,0.5)'
+                }),
+                radius: 5,
+                stroke: new ol.style.Stroke({
+                    color: '#ff0',
+                    width: 1
+                })
+            })
+        })],
+        'LineString': [new ol.style.Style({
+            stroke: new ol.style.Stroke({
+                color: '#f00',
+                width: 3
+            })
+        })],
+        'Polygon': [new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: 'rgba(0,255,255,0.5)'
+            }),
+            stroke: new ol.style.Stroke({
+                color: '#0ff',
+                width: 1
+            })
+        })],
+        'MultiPoint': [new ol.style.Style({
+            image: new ol.style.Circle({
+                fill: new ol.style.Fill({
+                    color: 'rgba(255,0,255,0.5)'
+                }),
+                radius: 5,
+                stroke: new ol.style.Stroke({
+                    color: '#f0f',
+                    width: 1
+                })
+            })
+        })],
+        'MultiLineString': [new ol.style.Style({
+            stroke: new ol.style.Stroke({
+                color: '#0f0',
+                width: 3
+            })
+        })],
+        'MultiPolygon': [new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: 'rgba(0,0,255,0.5)'
+            }),
+            stroke: new ol.style.Stroke({
+                color: '#00f',
+                width: 1
+            })
+        })]
+    };
+    var drag_and_drop_styleFunction = function(feature, resolution) {
+        var featureStyleFunction = feature.getStyleFunction();
+        if (featureStyleFunction) {
+            return featureStyleFunction.call(feature, resolution);
+        } else {
+            return drag_and_drop_defaultStyle[feature.getGeometry().getType()];
+        }
+    };
+    var drag_and_drop_interaction = new ol.interaction.DragAndDrop({
+        formatConstructors: [
+            ol.format.GPX,
+            ol.format.GeoJSON,
+            ol.format.IGC,
+            ol.format.KML,
+            ol.format.TopoJSON
+        ]
+    });
+
+    window.apf.olmap.map.addInteraction(drag_and_drop_interaction);
+
+    drag_and_drop_interaction.on('addfeatures', function(event) {
+        // TODO: add layer to layertree?
+        var vectorSource = new ol.source.Vector({
+            features: event.features,
+            projection: event.projection
+        });
+        var drag_and_drop_layer = new ol.layer.Vector({
+            source: vectorSource,
+            style: drag_and_drop_styleFunction
+        });
+        window.apf.olmap.map.addLayer(drag_and_drop_layer);
+        var view = window.apf.olmap.map.getView();
+        view.fitExtent(
+            vectorSource.getExtent(), /** @type {ol.Size} */ (window.apf.olmap.map.getSize()));
+    });
 };
 
 // baut das html für den layertree auf
