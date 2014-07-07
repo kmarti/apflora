@@ -2311,10 +2311,15 @@
 
 				window.apf.initiiere_index();
 
-                $('#olmap_layertree').on('click', '.olmap_layertree_checkbox', function(event) {
-                	var layers = window.apf.olmap.map.getLayers().getArray();
-                    layers[event.target.value].setVisible(event.target.checked);
-                });
+                $('#olmap_layertree')
+                    .on('click', '.olmap_layertree_checkbox', function(event) {
+                        var layers = window.apf.olmap.map.getLayers().getArray();
+                        layers[event.target.value].setVisible(event.target.checked);
+                    })
+                    .on('click', '.layertree_pop_style', function(event) {
+                        var layer = $(this).parent().parent().find('input').val();
+                        layers[layer].setStyle();
+                    });
 
                 $('#GeoAdminKarte').on('click', '#olmap_exportieren', function() {
                 	window.apf.olmap.exportiereKarte();

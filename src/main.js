@@ -14874,30 +14874,28 @@ window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert) {
             source: new ol.source.Vector({
                 features: markers
             }),
-            style: (function() {
-                return function(feature, resolution) {
-                    // icon wählen
-                    // markierte sind orange, nicht markierte sind braun
-                    var icon,
-                        popid = feature.get('myId');
-                    if (popid_markiert && popid_markiert.indexOf(popid) !== -1) {
-                        icon = 'img/flora_icon_orange.png'
-                    } else {
-                        icon = 'img/flora_icon_braun.png'
-                    }
-                    return [new ol.style.Style({
-                        // TODO: icon (braun oder orange) aufgrund Bedingung wählen
-                        // Bedingung: popid_markiert && popid_markiert.indexOf(pop.PopId) !== -1
-                        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-                            anchor: [0.5, 46],
-                            anchorXUnits: 'fraction',
-                            anchorYUnits: 'pixels',
-                            opacity: 1,
-                            src: icon
-                        }))
-                    })];
-                };
-            })()
+            style: function(feature, resolution) {
+                // icon wählen
+                // markierte sind orange, nicht markierte sind braun
+                var icon,
+                    popid = feature.get('myId');
+                if (popid_markiert && popid_markiert.indexOf(popid) !== -1) {
+                    icon = 'img/flora_icon_orange.png'
+                } else {
+                    icon = 'img/flora_icon_braun.png'
+                }
+                return [new ol.style.Style({
+                    // TODO: icon (braun oder orange) aufgrund Bedingung wählen
+                    // Bedingung: popid_markiert && popid_markiert.indexOf(pop.PopId) !== -1
+                    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+                        anchor: [0.5, 46],
+                        anchorXUnits: 'fraction',
+                        anchorYUnits: 'pixels',
+                        opacity: 1,
+                        src: icon
+                    }))
+                })];
+            }
         });
         pop_layer.set('visible', false);
         pop_layer.set('kategorie', 'AP Flora');
@@ -15074,39 +15072,37 @@ window.apf.olmap.erstellePopSymboleMitNr = function(popliste, popid_markiert, vi
         source: new ol.source.Vector({
             features: markers
         }),
-        style: (function() {
-            return function(feature, resolution) {
-                // icon wählen
-                // markierte sind orange, nicht markierte sind braun
-                var icon,
-                    popid = feature.get('myId');
-                if (popid_markiert && popid_markiert.indexOf(popid) !== -1) {
-                    icon = 'img/flora_icon_orange.png'
-                } else {
-                    icon = 'img/flora_icon_braun.png'
-                }
-                return [new ol.style.Style({
-                    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-                        anchor: [0.5, 46],
-                        anchorXUnits: 'fraction',
-                        anchorYUnits: 'pixels',
-                        opacity: 1,
-                        src: icon
-                    })),
-                    text: new ol.style.Text({
-                        font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
-                        text: feature.get('name'),
-                        fill:  new ol.style.Fill({
-                            color: 'black'
-                        }),
-                        stroke: new ol.style.Stroke({
-                            color: 'white',
-                            width: 7
-                        })
+        style: function(feature, resolution) {
+            // icon wählen
+            // markierte sind orange, nicht markierte sind braun
+            var icon,
+                popid = feature.get('myId');
+            if (popid_markiert && popid_markiert.indexOf(popid) !== -1) {
+                icon = 'img/flora_icon_orange.png'
+            } else {
+                icon = 'img/flora_icon_braun.png'
+            }
+            return [new ol.style.Style({
+                image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+                    anchor: [0.5, 46],
+                    anchorXUnits: 'fraction',
+                    anchorYUnits: 'pixels',
+                    opacity: 1,
+                    src: icon
+                })),
+                text: new ol.style.Text({
+                    font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
+                    text: feature.get('name'),
+                    fill:  new ol.style.Fill({
+                        color: 'black'
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: 'white',
+                        width: 7
                     })
-                })];
-            };
-        })()
+                })
+            })];
+        }
     });
     pop_mit_nr_layer.set('visible', visible);
     pop_mit_nr_layer.set('kategorie', 'AP Flora');
@@ -15156,39 +15152,37 @@ window.apf.olmap.erstellePopSymboleMitNamen = function(popliste, popid_markiert)
         source: new ol.source.Vector({
             features: markers
         }),
-        style: (function() {
-            return function(feature, resolution) {
-                // icon wählen
-                // markierte sind orange, nicht markierte sind braun
-                var icon,
-                    popid = feature.get('myId');
-                if (popid_markiert && popid_markiert.indexOf(popid) !== -1) {
-                    icon = 'img/flora_icon_orange.png'
-                } else {
-                    icon = 'img/flora_icon_braun.png'
-                }
-                return [new ol.style.Style({
-                    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-                        anchor: [0.5, 46],
-                        anchorXUnits: 'fraction',
-                        anchorYUnits: 'pixels',
-                        opacity: 1,
-                        src: icon
-                    })),
-                    text: new ol.style.Text({
-                        font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
-                        text: feature.get('name'),
-                        fill:  new ol.style.Fill({
-                            color: 'black'
-                        }),
-                        stroke: new ol.style.Stroke({
-                            color: 'white',
-                            width: 7
-                        })
+        style: function(feature, resolution) {
+            // icon wählen
+            // markierte sind orange, nicht markierte sind braun
+            var icon,
+                popid = feature.get('myId');
+            if (popid_markiert && popid_markiert.indexOf(popid) !== -1) {
+                icon = 'img/flora_icon_orange.png'
+            } else {
+                icon = 'img/flora_icon_braun.png'
+            }
+            return [new ol.style.Style({
+                image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+                    anchor: [0.5, 46],
+                    anchorXUnits: 'fraction',
+                    anchorYUnits: 'pixels',
+                    opacity: 1,
+                    src: icon
+                })),
+                text: new ol.style.Text({
+                    font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
+                    text: feature.get('name'),
+                    fill:  new ol.style.Fill({
+                        color: 'black'
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: 'white',
+                        width: 7
                     })
-                })];
-            };
-        })()
+                })
+            })];
+        }
     });
     pop_mit_namen_layer.set('visible', false);
     pop_mit_namen_layer.set('kategorie', 'AP Flora');
@@ -15280,28 +15274,26 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
         source: new ol.source.Vector({
             features: markers
         }),
-        style: (function() {
-            return function(feature, resolution) {
-                // icon wählen
-                // markierte sind gelb, nicht markierte sind grün
-                var icon,
-                    tpopid = feature.get('myId');
-                if (tpopid_markiert && tpopid_markiert.indexOf(tpopid) !== -1) {
-                    icon = 'img/flora_icon_gelb.png'
-                } else {
-                    icon = 'img/flora_icon.png';
-                }
-                return [new ol.style.Style({
-                    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-                        anchor: [0.5, 46],
-                        anchorXUnits: 'fraction',
-                        anchorYUnits: 'pixels',
-                        opacity: 1,
-                        src: icon
-                    }))
-                })];
-            };
-        })()
+        style: function(feature, resolution) {
+            // icon wählen
+            // markierte sind gelb, nicht markierte sind grün
+            var icon,
+                tpopid = feature.get('myId');
+            if (tpopid_markiert && tpopid_markiert.indexOf(tpopid) !== -1) {
+                icon = 'img/flora_icon_gelb.png'
+            } else {
+                icon = 'img/flora_icon.png';
+            }
+            return [new ol.style.Style({
+                image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+                    anchor: [0.5, 46],
+                    anchorXUnits: 'fraction',
+                    anchorYUnits: 'pixels',
+                    opacity: 1,
+                    src: icon
+                }))
+            })];
+        }
     });
     tpop_layer.set('visible', visible);
     tpop_layer.set('kategorie', 'AP Flora');
@@ -15507,41 +15499,39 @@ window.apf.olmap.erstelleTPopSymboleMitNr = function(tpop_liste, tpopid_markiert
 		source: new ol.source.Vector({
 				features: markers
 			}),
-		style: (function() {
-		  	var textStroke = new ol.style.Stroke({
-		    	color: 'white',
-		    	width: 7
-		  	});
-		  	var textFill = new ol.style.Fill({
-		    	color: 'black'
-		  	});
-		  	return function(feature, resolution) {
-                // icon wählen
-                // markierte sind gelb, nicht markierte sind grün
-                var icon,
-                    tpopid = feature.get('myId');
-                if (tpopid_markiert && tpopid_markiert.indexOf(tpopid) !== -1) {
-                    icon = 'img/flora_icon_gelb.png'
-                } else {
-                    icon = 'img/flora_icon.png';
-                }
-			    return [new ol.style.Style({
-                    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-                        anchor: [0.5, 46],
-                        anchorXUnits: 'fraction',
-                        anchorYUnits: 'pixels',
-                        opacity: 1,
-                        src: icon
-                    })),
-			      	text: new ol.style.Text({
-			      		font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
-			        	text: feature.get('name'),
-			        	fill: textFill,
-			        	stroke: textStroke
-			      	})
-		    	})];
-			};
-		})()
+		style: function(feature, resolution) {
+            var textStroke = new ol.style.Stroke({
+                    color: 'white',
+                    width: 7
+                }),
+                textFill = new ol.style.Fill({
+                    color: 'black'
+                });
+            // icon wählen
+            // markierte sind gelb, nicht markierte sind grün
+            var icon,
+                tpopid = feature.get('myId');
+            if (tpopid_markiert && tpopid_markiert.indexOf(tpopid) !== -1) {
+                icon = 'img/flora_icon_gelb.png'
+            } else {
+                icon = 'img/flora_icon.png';
+            }
+            return [new ol.style.Style({
+                image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+                    anchor: [0.5, 46],
+                    anchorXUnits: 'fraction',
+                    anchorYUnits: 'pixels',
+                    opacity: 1,
+                    src: icon
+                })),
+                text: new ol.style.Text({
+                    font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
+                    text: feature.get('name'),
+                    fill: textFill,
+                    stroke: textStroke
+                })
+            })];
+        }
 	});
     tpop_nr_layer.set('visible', visible);
     tpop_nr_layer.set('kategorie', 'AP Flora');
@@ -15593,41 +15583,39 @@ window.apf.olmap.erstelleTPopSymboleMitNamen = function(tpop_liste, tpopid_marki
 		source: new ol.source.Vector({
 				features: markers
 			}),
-		style: (function() {
-		  	var textStroke = new ol.style.Stroke({
-		    	color: 'white',
-		    	width: 7
-		  	});
-		  	var textFill = new ol.style.Fill({
-		    	color: 'black'
-		  	});
-		  	return function(feature, resolution) {
-                // icon wählen
-                // markierte sind gelb, nicht markierte sind grün
-                var icon,
-                    tpopid = feature.get('myId');
-                if (tpopid_markiert && tpopid_markiert.indexOf(tpopid) !== -1) {
-                    icon = 'img/flora_icon_gelb.png'
-                } else {
-                    icon = 'img/flora_icon.png';
-                }
-			    return [new ol.style.Style({
-                    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-                        anchor: [0.5, 46],
-                        anchorXUnits: 'fraction',
-                        anchorYUnits: 'pixels',
-                        opacity: 1,
-                        src: icon
-                    })),
-			      	text: new ol.style.Text({
-			      		font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
-			        	text: feature.get('name'),
-			        	fill: textFill,
-			        	stroke: textStroke
-			      	})
-		    	})];
-			};
-		})()
+		style: function(feature, resolution) {
+            var textStroke = new ol.style.Stroke({
+                color: 'white',
+                width: 7
+            });
+            var textFill = new ol.style.Fill({
+                color: 'black'
+            });
+            // icon wählen
+            // markierte sind gelb, nicht markierte sind grün
+            var icon,
+                tpopid = feature.get('myId');
+            if (tpopid_markiert && tpopid_markiert.indexOf(tpopid) !== -1) {
+                icon = 'img/flora_icon_gelb.png'
+            } else {
+                icon = 'img/flora_icon.png';
+            }
+            return [new ol.style.Style({
+                image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+                    anchor: [0.5, 46],
+                    anchorXUnits: 'fraction',
+                    anchorYUnits: 'pixels',
+                    opacity: 1,
+                    src: icon
+                })),
+                text: new ol.style.Text({
+                    font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
+                    text: feature.get('name'),
+                    fill: textFill,
+                    stroke: textStroke
+                })
+            })];
+        }
 	});
 	tpop_namen_layer.set('visible', visible);
     tpop_namen_layer.set('kategorie', 'AP Flora');
@@ -17555,7 +17543,16 @@ window.apf.olmap.initiiereLayertree = function() {
 	            html_prov += ' checked="checked"';
 	        }
 	        html_prov += '>';
-	        html_prov += '<label for="olmap_layertree_' + layertitel + '">' + layertitel + '</label></li>';
+	        html_prov += '<label for="olmap_layertree_' + layertitel + '">' + layertitel;
+            // bei pop und tpop muss style gewählt werden können
+            if (layertitel.substring(0, 12) === 'Populationen') {
+                html_prov += ' (<label for="layertree_pop_nr" class="layertree_pop_style">Nr.</label><input type="checkbox" id="layertree_pop_nr" class="layertree_pop_style">';
+                html_prov += ' <label for="layertree_pop_namen" class="layertree_pop_style">Namen</label><input type="checkbox" id="layertree_pop_namen" class="layertree_pop_style">)';
+            }
+            /*if (layertitel.substring(0, 16) === 'Teilpopulationen') {
+                html_prov += '';
+            }*/
+            html_prov += '</label></li>';
 	        html_prov += '<hr>';
 	        switch (kategorie) {
                 /*case "Welt Hintergrund":
@@ -17581,6 +17578,7 @@ window.apf.olmap.initiiereLayertree = function() {
 	        }
 	    }
     });
+
     // letztes <hr> abschneiden
     // aber nur, wenn layers ergänzt wurden
     // wenn keine Layers ergänzt wurden: Layertitel nicht anzeigen (nur bei html_apflora von Bedeutung)
@@ -17610,6 +17608,100 @@ window.apf.olmap.initiiereLayertree = function() {
     // Maximalgrösse des Layertree begrenzen
     $olmap_layertree_layers.css('max-height', window.apf.berechneOlmapLayertreeMaxhöhe);
 };
+
+window.apf.olmap.popMitNrStyle = (function() {
+    return function(feature, resolution) {
+        // icon wählen
+        // markierte sind orange, nicht markierte sind braun
+        var icon,
+            popid = feature.get('myId');
+        if (popid_markiert && popid_markiert.indexOf(popid) !== -1) {
+            icon = 'img/flora_icon_orange.png'
+        } else {
+            icon = 'img/flora_icon_braun.png'
+        }
+        return [new ol.style.Style({
+            image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+                anchor: [0.5, 46],
+                anchorXUnits: 'fraction',
+                anchorYUnits: 'pixels',
+                opacity: 1,
+                src: icon
+            })),
+            text: new ol.style.Text({
+                font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
+                text: feature.get('name'),
+                fill:  new ol.style.Fill({
+                    color: 'black'
+                }),
+                stroke: new ol.style.Stroke({
+                    color: 'white',
+                    width: 7
+                })
+            })
+        })];
+    };
+})();
+
+window.apf.olmap.popMitNamenStyle = (function() {
+    return function(feature, resolution) {
+        // icon wählen
+        // markierte sind orange, nicht markierte sind braun
+        var icon,
+            popid = feature.get('myId');
+        if (popid_markiert && popid_markiert.indexOf(popid) !== -1) {
+            icon = 'img/flora_icon_orange.png'
+        } else {
+            icon = 'img/flora_icon_braun.png'
+        }
+        return [new ol.style.Style({
+            image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+                anchor: [0.5, 46],
+                anchorXUnits: 'fraction',
+                anchorYUnits: 'pixels',
+                opacity: 1,
+                src: icon
+            })),
+            text: new ol.style.Text({
+                font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
+                text: feature.get('name'),
+                fill:  new ol.style.Fill({
+                    color: 'black'
+                }),
+                stroke: new ol.style.Stroke({
+                    color: 'white',
+                    width: 7
+                })
+            })
+        })];
+    };
+})();
+
+window.apf.olmap.popSymboleStyle = (function() {
+    return function(feature, resolution) {
+        // icon wählen
+        // markierte sind orange, nicht markierte sind braun
+        var icon,
+            popid = feature.get('myId');
+        if (popid_markiert && popid_markiert.indexOf(popid) !== -1) {
+            icon = 'img/flora_icon_orange.png'
+        } else {
+            icon = 'img/flora_icon_braun.png'
+        }
+        return [new ol.style.Style({
+            // TODO: icon (braun oder orange) aufgrund Bedingung wählen
+            // Bedingung: popid_markiert && popid_markiert.indexOf(pop.PopId) !== -1
+            image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+                anchor: [0.5, 46],
+                anchorXUnits: 'fraction',
+                anchorYUnits: 'pixels',
+                opacity: 1,
+                src: icon
+            }))
+        })];
+    };
+})();
+
 
 window.apf.olmap.messe = function(element) {
 	'use strict';
