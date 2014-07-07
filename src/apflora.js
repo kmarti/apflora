@@ -11032,39 +11032,39 @@ window.apf.initiiereOlmap = function() {
             })
         });
 
-        // drag and drop geo-files
+        // diverse features und Fähigkeiten ergänzen
         window.apf.olmap.addDragAndDropGeofiles();
-
-        // ermöglichen, features in layer zu selecten, die 'selectable' true haben
         window.apf.olmap.addSelectFeaturesInSelectableLayers();
-
-        // zeige feature info bei Klick
-		window.apf.olmap.map.on('singleclick', function(event) {
-			var pixel = event.pixel,
-				coordinate = event.coordinate;
-			window.apf.olmap.zeigeFeatureInfo(pixel, coordinate);
-		});
-
-		// change mouse cursor when over feature
-		$(window.apf.olmap.map.getViewport()).on('mousemove', function(e) {
-		  	var pixel = window.apf.olmap.map.getEventPixel(e.originalEvent),
-		  		hit = window.apf.olmap.map.forEachFeatureAtPixel(pixel, function(feature, layer) {
-				    return true;
-				});
-		  	if (hit) {
-		    	$('#ga_karten_div').css('cursor', 'pointer');
-		  	} else {
-		    	$('#ga_karten_div').css('cursor', '');
-		  	}
-		});
-
+        window.apf.olmap.addShowFeatureInfoOnClick();
+        window.apf.olmap.changeCursorOverFeature();
         window.apf.olmap.initiiereLayertree();
-
-        //Mouse Position
         window.apf.olmap.addMousePositionControl();
         window.apf.olmap.addFullScreenControl();
 	}
 	$('#karteSchieben').checked = true;	// scheint nicht zu funktionieren?
+};
+
+window.apf.olmap.addShowFeatureInfoOnClick = function() {
+    window.apf.olmap.map.on('singleclick', function(event) {
+        var pixel = event.pixel,
+            coordinate = event.coordinate;
+        window.apf.olmap.zeigeFeatureInfo(pixel, coordinate);
+    });
+};
+
+window.apf.olmap.changeCursorOverFeature = function() {
+    'use strict';
+    $(window.apf.olmap.map.getViewport()).on('mousemove', function(e) {
+        var pixel = window.apf.olmap.map.getEventPixel(e.originalEvent),
+            hit = window.apf.olmap.map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+                return true;
+            });
+        if (hit) {
+            $('#ga_karten_div').css('cursor', 'pointer');
+        } else {
+            $('#ga_karten_div').css('cursor', '');
+        }
+    });
 };
 
 window.apf.olmap.addMousePositionControl = function() {
