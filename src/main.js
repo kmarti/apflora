@@ -14139,21 +14139,22 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
         y_min;
 	$.when(window.apf.zeigeFormular("GeoAdminKarte"))
 		.then(function() {
-			$("#mitPolygonWaehlen").button({ disabled: true });
+			$("#mitPolygonWaehlen").button({disabled: true});
+
+            // alle Layeroptionen schliessen
+            window.apf.olmap.schliesseLayeroptionen();
 
 			// bound eröffnen
 			// bounds bestimmen
 			if (TPop && TPop.TPopXKoord && TPop.TPopYKoord) {
 				// bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
-				x_max = parseInt(TPop.TPopXKoord) + 300;
-				x_min = parseInt(TPop.TPopXKoord) - 300;
-				y_max = parseInt(TPop.TPopYKoord) + 300;
-				y_min = parseInt(TPop.TPopYKoord) - 300;
+				x_max = parseInt(TPop.TPopXKoord) + 200;
+				x_min = parseInt(TPop.TPopXKoord) - 200;
+				y_max = parseInt(TPop.TPopYKoord) + 200;
+				y_min = parseInt(TPop.TPopYKoord) - 200;
                 bounds = [x_max, y_max, x_min, y_min];
 				// marker aufbauen
 				window.apf.olmap.erstelleTPopulation(TPop);
-				// alle Layeroptionen schliessen
-				window.apf.olmap.schliesseLayeroptionen();
 			} else {
 				// sonst Kanton ZH anzeigen
                 bounds = [689000, 264000, 697000, 242000];
@@ -14162,7 +14163,30 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
 			// Karte zum richtigen Ausschnitt zoomen
 			window.apf.olmap.map.updateSize();
             window.apf.olmap.map.getView().fitExtent(bounds, window.apf.olmap.map.getSize());
-			window.apf.olmap.schliesseLayeroptionen();
+
+            // Pop ausblenden?
+
+            if (TPop && TPop.TPopXKoord && TPop.TPopYKoord) {
+                // wenn schon eine Koordinate existiert:
+                // TPop modifizierbar machen
+                // und gewählten markieren
+                var modify = new ol.interaction.Modify({ featureOverlay: overlay });
+                window.apf.olmap.map.addInteraction(modify);
+                // jetzt einen handler, der nach einer modify-Interaktion die TPop aktualisiert
+            } else {
+                // wenn keine Koordinate existiert:
+                // Draw-interaction erstellen
+                var draw = new ol.interaction.Draw({
+                    source: source, // source = TPop? getSource of layer with title ...
+                    type: 'Point'
+                });
+            window.apf.olmap.map.addInteraction(draw);
+                // jetzt einen handler, der nach einer Draw-Interaktion die TPop aktualisiert
+            }
+
+
+            //
+
 
 			// jetzt einen Handler für den Klick aufbauen
 			OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {				
@@ -15098,18 +15122,7 @@ window.apf.olmap.erstellePopSymbole = function(popliste) {
                             anchorYUnits: 'pixels',
                             opacity: 1,
                             src: 'img/flora_icon_braun.png'
-                        })),
-                        text: new ol.style.Text({
-                            font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
-                            text: feature.get('name'),
-                            fill:  new ol.style.Fill({
-                                color: 'black'
-                            }),
-                            stroke: new ol.style.Stroke({
-                                color: 'white',
-                                width: 7
-                            })
-                        })
+                        }))
                     })];
                 };
             })()
