@@ -8282,41 +8282,14 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
 	var tpopsymbole_erstellt = $.Deferred(),
         markers = [],
         marker,
-        marker_style,
-        marker_style_markiert,
         my_label,
-        my_flurname,
-        popup_content,
         tpop_layer;
 
-	// styles für overlay_top definieren
-	marker_style_markiert = new ol.style.Style({
-		image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-		    anchor: [0.5, 46],
-		    anchorXUnits: 'fraction',
-		    anchorYUnits: 'pixels',
-		    opacity: 1,
-		    src: 'img/flora_icon_gelb.png'
-  		}))
-	});
-	marker_style = new ol.style.Style({
-		image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-		    anchor: [0.5, 46],
-		    anchorXUnits: 'fraction',
-		    anchorYUnits: 'pixels',
-		    opacity: 1,
-		    src: 'img/flora_icon.png'
-  		}))
-	});
-
-	if (visible === null) {
-		visible = true;
-	}
+    if (visible === null) {
+        visible = true;
+    }
 
     _.each(tpop_liste.rows, function(tpop) {
-        my_flurname = tpop.TPopFlurname || '(kein Flurname)';
-        popup_content = window.apf.olmap.erstelleContentFürTPop(tpop);
-
         // tooltip bzw. label vorbereiten: nullwerte ausblenden
         if (tpop.PopNr && tpop.TPopNr) {
             my_label = tpop.PopNr + '/' + tpop.TPopNr;
@@ -8331,22 +8304,15 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
         // Marker erstellen...
         marker = new ol.Feature({
     		geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
-			name: my_flurname,
-			popup_content: popup_content,
+			name: tpop.TPopFlurname || '(kein Flurname)',
+			popup_content: window.apf.olmap.erstelleContentFürTPop(tpop),
 			popup_title: tpop.Artname,
 			// koordinaten werden benötigt damit das popup am richtigen Ort verankert wird
 			xkoord: tpop.TPopXKoord,
 			ykoord: tpop.TPopYKoord,
 			myTyp: 'tpop',
-			myId: tpop.TPopId,
-			selectable: true
+			myId: tpop.TPopId
     	});
-    	// gewählte erhalten anderen style
-        if (tpopid_markiert && tpopid_markiert.indexOf(tpop.TPopId) !== -1) {
-        	marker.setStyle(marker_style_markiert);
-        } else {
-        	marker.setStyle(marker_style);
-        }
 
         // ...und in Array speichern
         markers.push(marker);
@@ -8357,7 +8323,29 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
 		title: 'Teilpopulationen',
 		source: new ol.source.Vector({
 				features: markers
-			})
+			}),
+        style: (function() {
+            return function(feature, resolution) {
+                var icon,
+                    tpopid = feature.get('myId');
+                if (tpopid_markiert && tpopid_markiert.indexOf(tpopid) !== -1) {
+                    icon = 'img/flora_icon_gelb.png'
+                } else {
+                    icon = 'img/flora_icon.png';
+                }
+                return [new ol.style.Style({
+                    // TODO: icon (normal oder gelb) aufgrund Bedingung wählen
+                    // Bedingung: tpopid_markiert && tpopid_markiert.indexOf(tpop.TPopId) !== -1
+                    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+                        anchor: [0.5, 46],
+                        anchorXUnits: 'fraction',
+                        anchorYUnits: 'pixels',
+                        opacity: 1,
+                        src: icon
+                    }))
+                })];
+            };
+        })()
 	});
     tpop_layer.set('visible', visible);
     tpop_layer.set('kategorie', 'AP Flora');
