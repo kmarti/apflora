@@ -11061,19 +11061,22 @@ window.apf.initiiereOlmap = function() {
         window.apf.olmap.initiiereLayertree();
 
         //Mouse Position
-        var mousePositionControl = new ol.control.MousePosition({
-            //This is the format we want the coordinate in
-            //The number argument in createStringXY is the number of decimal places
-            coordinateFormat: ol.coordinate.createStringXY(0),
-            projection: "EPSG:21781",
-            undefinedHTML: '&nbsp;' //what openlayers will use if the map returns undefined for a map coordinate
-        });
-        window.apf.olmap.map.addControl(mousePositionControl);
-
-        //Full Screen
+        window.apf.olmap.addMousePositionControl();
         window.apf.olmap.addFullScreenControl();
 	}
 	$('#karteSchieben').checked = true;	// scheint nicht zu funktionieren?
+};
+
+window.apf.olmap.addMousePositionControl = function() {
+    'use strict';
+    var mousePositionControl = new ol.control.MousePosition({
+        //This is the format we want the coordinate in
+        //The number argument in createStringXY is the number of decimal places
+        coordinateFormat: ol.coordinate.createStringXY(0),
+        projection: "EPSG:21781",
+        undefinedHTML: '&nbsp;' //what openlayers will use if the map returns undefined for a map coordinate
+    });
+    window.apf.olmap.map.addControl(mousePositionControl);
 };
 
 window.apf.olmap.addFullScreenControl = function() {
