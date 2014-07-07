@@ -2600,10 +2600,10 @@
                     // wenn pop ausgewählt, diese übergeben
                     var pop_id_liste = "",
                         url = "php/export_pop.php";
-                    if (window.apf.pop_id_array) {
-                        _.each(window.apf.pop_id_array, function(pop_id, index) {
-                            pop_id_liste +=  pop_id;
-                            if (index + 1 < window.apf.pop_id_array.length) {
+                    if (window.apf.olmap.pop_selected) {
+                        _.each(window.apf.olmap.pop_selected, function(pop, index) {
+                            pop_id_liste +=  pop.get('myId');
+                            if (index + 1 < window.apf.olmap.pop_selected.length) {
                                 pop_id_liste += ",";
                             }
                         });
@@ -2619,10 +2619,10 @@
                     // wenn tpop ausgewählt, diese übergeben
                     var tpop_id_liste = "";
                     var url = "php/export_kontr.php";
-                    if (window.apf.tpop_id_array) {
-                        _.each(window.apf.tpop_id_array, function(tpop_id, index) {
-                            tpop_id_liste +=  tpop_id;
-                            if (index + 1 < window.apf.tpop_id_array.length) {
+                    if (window.apf.olmap.tpop_selected) {
+                        _.each(window.apf.olmap.tpop_selected, function(tpop, index) {
+                            tpop_id_liste +=  tpop.get('myId');
+                            if (index + 1 < window.apf.olmap.tpop_selected.length) {
                                 tpop_id_liste += ",";
                             }
                         });
@@ -2638,10 +2638,10 @@
                     // wenn tpop ausgewählt, diese übergeben
                     var tpop_id_liste = "";
                     var url = "php/export_tpop.php";
-                    if (window.apf.tpop_id_array) {
-                        _.each(window.apf.tpop_id_array, function(tpop_id, index) {
-                            tpop_id_liste +=  tpop_id;
-                            if (index + 1 < window.apf.tpop_id_array.length) {
+                    if (window.apf.olmap.tpop_selected) {
+                        _.each(window.apf.olmap.tpop_selected, function(tpop, index) {
+                            tpop_id_liste +=  tpop.get('myId');
+                            if (index + 1 < window.apf.olmap.tpop_selected.length) {
                                 tpop_id_liste += ",";
                             }
                         });
@@ -2657,10 +2657,10 @@
                     // wenn tpop ausgewählt, diese übergeben
                     var tpop_id_liste = "";
                     var url = "php/export_massn.php";
-                    if (window.apf.tpop_id_array) {
-                        _.each(window.apf.tpop_id_array, function(tpop_id, index) {
-                            tpop_id_liste +=  tpop_id;
-                            if (index + 1 < window.apf.tpop_id_array.length) {
+                    if (window.apf.olmap.tpop_selected) {
+                        _.each(window.apf.olmap.tpop_selected, function(tpop, index) {
+                            tpop_id_liste +=  tpop.get('myId');
+                            if (index + 1 < window.apf.olmap.tpop_selected.length) {
                                 tpop_id_liste += ",";
                             }
                         });

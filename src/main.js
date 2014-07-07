@@ -14608,6 +14608,11 @@ window.apf.olmap.erstelleListeDerAusgewähltenPopTPop = function(pop_selected, t
 	var rückmeldung = "",
 		pop_id,
         tpop_id;
+
+    // globale Variabeln anlegen, damit die Exportfunktionen sie später nutzen können
+    window.apf.olmap.pop_selected = pop_selected;
+    window.apf.olmap.tpop_selected = tpop_selected;
+
 	if (pop_selected.length > 0) {
 		if (tpop_selected.length > 0) {
 			// tpop und pop betitteln
