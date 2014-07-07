@@ -14321,7 +14321,7 @@ window.apf.zeigeTPopAufOlmap = function(TPopListeMarkiert) {
 				$.when(
 					// Layer für Symbole und Beschriftung erstellen
 					window.apf.olmap.erstelleTPopSymboleMitNr(TPopListe, markierte_tpop.tpopid_markiert, true),
-					window.apf.olmap.erstelleTPopNamen(TPopListe, markierte_tpop.tpopid_markiert, false),
+					window.apf.olmap.erstelleTPopSymboleMitNamen(TPopListe, markierte_tpop.tpopid_markiert, false),
 					window.apf.olmap.erstelleTPopSymbole(TPopListe, markierte_tpop.tpopid_markiert, true),
 					// alle Pop holen
 					window.apf.olmap.zeigePopInTPop(overlay_pop_visible, overlay_popnr_visible)
@@ -14375,7 +14375,7 @@ window.apf.zeigePopAufOlmap = function(PopListeMarkiert) {
 				$.when(
 					// Layer für Symbole und Beschriftung erstellen
 					window.apf.olmap.erstelleTPopSymboleMitNr(TPopListe, null, false),
-					window.apf.olmap.erstelleTPopNamen(TPopListe, null, false),
+					window.apf.olmap.erstelleTPopSymboleMitNamen(TPopListe, null, false),
 					window.apf.olmap.erstelleTPopSymbole(TPopListe, null, false),
 					// alle Pop holen, symbole und nr sichtbar schalten, Markierung übergeben
 					window.apf.olmap.zeigePopInTPop(true, true, markierte_pop.popid_markiert)
@@ -14643,6 +14643,8 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
 			}),
         style: (function() {
             return function(feature, resolution) {
+                // icon wählen
+                // markierte sind gelb, nicht markierte sind grün
                 var icon,
                     tpopid = feature.get('myId');
                 if (tpopid_markiert && tpopid_markiert.indexOf(tpopid) !== -1) {
@@ -14651,8 +14653,6 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
                     icon = 'img/flora_icon.png';
                 }
                 return [new ol.style.Style({
-                    // TODO: icon (normal oder gelb) aufgrund Bedingung wählen
-                    // Bedingung: tpopid_markiert && tpopid_markiert.indexOf(tpop.TPopId) !== -1
                     image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
                         anchor: [0.5, 46],
                         anchorXUnits: 'fraction',
@@ -14745,7 +14745,7 @@ window.apf.olmap.erstelleTPopSymbole = function(tpop_liste, tpopid_markiert, vis
 						});
 						getTPopKarteAlle_3.always(function(TPopListe) {
 							window.apf.olmap.erstelleTPopSymboleMitNr(TPopListe, tpopid_markiert);
-							window.apf.olmap.erstelleTPopNamen(TPopListe, tpopid_markiert);
+							window.apf.olmap.erstelleTPopSymboleMitNamen(TPopListe, tpopid_markiert);
 							window.apf.olmap.erstelleTPopSymbole(TPopListe, tpopid_markiert, true);
 						});
 						getTPopKarteAlle_3.fail(function() {
@@ -15461,6 +15461,19 @@ window.apf.deaktiviereGeoAdminAuswahl = function() {
 	delete window.pop_id_liste;
 };
 
+window.apf.erstelleTPopNrLabel = function(popnr, tpopnr) {
+    // tooltip bzw. label vorbereiten: nullwerte ausblenden
+    if (popnr && tpopnr) {
+        return popnr + '/' + tpopnr;
+    } else if (popnr) {
+        return popnr + '/?';
+    } else if (tpopnr) {
+        return '?/' + tpopnr;
+    } else {
+        return '?/?';
+    }
+};
+
 // nimmt drei Variablen entgegen:
 // TPopListe: Die Liste der darzustellenden Teilpopulationen
 // tpopid_markiert: die ID der zu markierenden TPop
@@ -15472,8 +15485,7 @@ window.apf.olmap.erstelleTPopSymboleMitNr = function(tpop_liste, tpopid_markiert
 		tpop_nr_layer,
 		markers = [],
 		marker,
-		marker_style,
-		my_label;
+		marker_style;
 
     if (visible === null) {
         visible = true;
@@ -15491,21 +15503,10 @@ window.apf.olmap.erstelleTPopSymboleMitNr = function(tpop_liste, tpopid_markiert
 	});
 
     _.each(tpop_liste.rows, function(tpop) {
-        // tooltip bzw. label vorbereiten: nullwerte ausblenden
-        if (tpop.PopNr && tpop.TPopNr) {
-            my_label = tpop.PopNr + '/' + tpop.TPopNr;
-        } else if (tpop.PopNr) {
-            my_label = tpop.PopNr + '/?';
-        } else if (tpop.TPopNr) {
-            my_label = '?/' + tpop.TPopNr;
-        } else {
-            my_label = '?/?';
-        }
-
         // marker erstellen...
         marker = new ol.Feature({
     		geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
-			name: my_label,
+			name: window.apf.erstelleTPopNrLabel(tpop.PopNr, tpop.TPopNr),
 			selectable: false
     	});
     	marker.setStyle(marker_style);
@@ -15554,7 +15555,7 @@ window.apf.olmap.erstelleTPopSymboleMitNr = function(tpop_liste, tpopid_markiert
 // TPopListe: Die Liste der darzustellenden Teilpopulationen
 // tpopid_markiert: die ID der zu markierenden TPop
 // visible: Ob das Layer sichtbar sein soll (wird offenbar nicht gebraucht)
-window.apf.olmap.erstelleTPopNamen = function(tpop_liste, tpopid_markiert, visible) {
+window.apf.olmap.erstelleTPopSymboleMitNamen = function(tpop_liste, tpopid_markiert, visible) {
 	'use strict';
 
 	if (visible === null) {
