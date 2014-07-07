@@ -3747,7 +3747,8 @@ window.apf.treeKontextmenu = function(node) {
 					});
 					getPopsChKarte.always(function(data) {
 						if (data.rows.length > 0) {
-							window.apf.zeigePopAufOlmap(data);
+							window.apf.zeigePopAufOlmap();
+							//window.apf.zeigePopAufOlmap(data);
 						} else {
 							window.apf.melde("Die Population hat keine Koordinaten");
 						}
@@ -8122,7 +8123,7 @@ window.apf.olmap.wähleAusschnittFürÜbergebenePop = function(pop_liste_markier
         y_min,
         // bounds der anzuzeigenden bestimmen
 		popid_markiert = [];
-	if (pop_liste_markiert.rows.length > 0) {
+	if (pop_liste_markiert && pop_liste_markiert.rows.length > 0) {
         _.each(pop_liste_markiert.rows, function(pop) {
             popid_markiert.push(pop.PopId);
             xkoord_array.push(pop.PopXKoord);
@@ -8258,6 +8259,7 @@ window.apf.speichereWert = function(tabelle, id, feld, wert) {
 };
 
 window.apf.olmap.erstelleContentFürTPop = function(tpop) {
+    'use strict';
     var my_flurname = tpop.TPopFlurname || '(kein Flurname)';
     return '<p>Typ: Teilpopulation</p>'+
         '<p>Population: ' + tpop.PopName + '</p>'+
@@ -8268,8 +8270,9 @@ window.apf.olmap.erstelleContentFürTPop = function(tpop) {
 };
 
 // retourniert features
-// übergibt man einen Typ, werden nur features deses Typs retourniert
+// übergibt man einen Typ, werden nur features dieses Typs retourniert
 window.apf.olmap.listSelectedFeatures = function(typ) {
+    'use strict';
 	var selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray(),
 		features_to_return;
 	features_to_return = _.filter(selected_features, function(feature) {
@@ -8282,70 +8285,42 @@ window.apf.olmap.listSelectedFeatures = function(typ) {
 	return features_to_return;
 };
 
-window.apf.erstelleTPopAuswahlArrays = function() {
-	'use strict';
-	// Teilpopulationen: Auswahl ermitteln und einen Array von ID's in window.apf.tpop_array speichern
-	window.apf.tpop_array = [];
-	window.apf.tpop_id_array = [];
-	if (overlay_tpop.visibility === true) {
-		$.each(overlay_tpop.features, function() {
-			if (window.PopTPopAuswahlFilter.evaluate(this)) {
-				window.apf.tpop_array.push(this.attributes);
-				window.apf.tpop_id_array.push(parseInt(this.attributes.myId));
-			}
-		});
-		window.apf.tpop_array.sort(window.apf.vergleicheTPopZumSortierenNachTooltip);
-	}
-};
-
-window.apf.erstellePopAuswahlArrays = function() {
-	'use strict';
-	// Populationen: Auswahl ermitteln und einen Array von ID's in window.apf.pop_array speichern
-	window.apf.pop_array = [];
-	window.apf.pop_id_array = [];
-	if (overlay_pop.visibility === true) {
-		$.each(overlay_pop.features, function() {
-			if (window.PopTPopAuswahlFilter.evaluate(this)) {
-				window.apf.pop_array.push(this.attributes);
-				window.apf.pop_id_array.push(parseInt(this.attributes.myId));
-			}
-		});
-		window.apf.pop_array.sort(window.apf.vergleicheTPopZumSortierenNachTooltip);
-	}
-};
-
-window.apf.erstelleListeDerAusgewaehltenPopTPop = function() {
+window.apf.olmap.erstelleListeDerAusgewähltenPopTPop = function(pop_selected, tpop_selected) {
 	'use strict';
 	// rückmelden, welche Objekte gewählt wurden
-	var rückmeldung = "";
-	if (window.apf.pop_array.length > 0) {
-		if (window.apf.tpop_array.length > 0) {
+	var rückmeldung = "",
+		pop_id,
+        tpop_id;
+	if (pop_selected.length > 0) {
+		if (tpop_selected.length > 0) {
 			// tpop und pop betitteln
-			rückmeldung += "<p class='ergebnisAuswahlListeTitel'>" + window.apf.pop_array.length + " Populationen: </p>";
+			rückmeldung += "<p class='ergebnisAuswahlListeTitel'>" + pop_selected.length + " Populationen: </p>";
 		}
 		rückmeldung += "<table>";
-        _.each(window.apf.pop_array, function(pop) {
-            rückmeldung += "<tr><td><a href=\"#\" onclick=\"window.apf.öffnePop('" + pop['myId'] + "')\">";
-            rückmeldung += pop['label'] + ":<\/a></td><td><a href=\"#\" onclick=\"window.apf.öffnePop('" + pop['myId'] + "')\">" + pop.tooltip + "<\/a></td></tr>";
+        _.each(pop_selected, function(pop) {
+        	pop_id = pop.get('myId');
+            rückmeldung += "<tr><td><a href=\"#\" onclick=\"window.apf.öffnePop('" + pop_id + "')\">";
+            rückmeldung += pop.get('pop_nr') + ":<\/a></td><td><a href=\"#\" onclick=\"window.apf.öffnePop('" + pop_id + "')\">" + pop.get('pop_name') + "<\/a></td></tr>";
         });
 		rückmeldung += "</table>";
 	}
-	if (window.apf.tpop_array.length > 0) {
-		if (window.apf.pop_array.length > 0) {
+	if (tpop_selected.length > 0) {
+		if (pop_selected.length > 0) {
 			// tpop und pop betitteln
-			rückmeldung += "<p class='ergebnisAuswahlListeTitel ergebnisAuswahlListeTitelTPop'>" + window.apf.tpop_array.length + " Teilpopulationen: </p>";
+			rückmeldung += "<p class='ergebnisAuswahlListeTitel ergebnisAuswahlListeTitelTPop'>" + tpop_selected.length + " Teilpopulationen: </p>";
 		}
 		rückmeldung += "<table>";
-        _.each(window.apf.tpop_array, function(tpop) {
-            rückmeldung += "<tr><td><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + window.apf.tpop_array[i]['myId'] + "')\">";
-            rückmeldung += window.apf.tpop_array[i]['label'] + ":<\/a></td><td><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + window.apf.tpop_array[i]['myId'] + "')\">";
-            rückmeldung += window.apf.tpop_array[i].tooltip + "<\/a></td></tr>";
+        _.each(tpop_selected, function(tpop) {
+            tpop_id = tpop.get('myId');
+            rückmeldung += "<tr><td><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop_id + "')\">";
+            rückmeldung += tpop.get('tpop_nr') + ":<\/a></td><td><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop_id + "')\">";
+            rückmeldung += tpop.get('tpop_name') + "<\/a></td></tr>";
         });
 		rückmeldung += "</table>";
 	}
 	// Höhe der Meldung begrenzen. Leider funktioniert maxHeight nicht
 	var height = "auto";
-	if (window.apf.tpop_array.length > 25) {
+	if (tpop_selected.length > 25) {
 		height = 650;
 	}
 
@@ -8354,14 +8329,14 @@ window.apf.erstelleListeDerAusgewaehltenPopTPop = function() {
 		exportieren = "Exportieren: ",
 		exportierenPop = "<a href='#' class='export_pop'>Populationen</a>",
 		exportierenTPop = "<a href='#' class='export_tpop'>Teilpopulationen</a>, <a href='#' class='export_kontr'>Kontrollen</a>, <a href='#' class='export_massn'>Massnahmen</a>";
-	if (window.apf.pop_array.length > 0 && window.apf.tpop_array.length > 0) {
-		listentitel = "Gewählt wurden " + window.apf.pop_array.length + " Populationen und " + window.apf.tpop_array.length + " Teilpopulationen";
+	if (pop_selected.length > 0 && tpop_selected.length > 0) {
+		listentitel = "Gewählt wurden " + pop_selected.length + " Populationen und " + tpop_selected.length + " Teilpopulationen";
 		exportieren += exportierenPop + ", " + exportierenTPop;
-	} else if (window.apf.pop_array.length > 0) {
-		listentitel = "Gewählt wurden " + window.apf.pop_array.length + " Populationen:";
+	} else if (pop_selected.length > 0) {
+		listentitel = "Gewählt wurden " + pop_selected.length + " Populationen:";
 		exportieren += exportierenPop;
-	} else if (window.apf.tpop_array.length > 0) {
-		listentitel = "Gewählt wurden " + window.apf.tpop_array.length + " Teilpopulationen:";
+	} else if (tpop_selected.length > 0) {
+		listentitel = "Gewählt wurden " + tpop_selected.length + " Teilpopulationen:";
 		exportieren += exportierenTPop;
 	} else {
 		listentitel = "Keine Populationen/Teilpopulationen gewählt";
@@ -8927,7 +8902,7 @@ window.apf.olmap.erstelleTPopLayer = function(tpop_liste, tpopid_markiert, visib
      // Populationen: Auswahl ermitteln und einen Array von ID's in window.apf.pop_array speichern
      window.apf.erstellePopAuswahlArrays();
      // Liste erstellen, welche die Auswahl anzeigt, Pop/TPop verlinkt und Exporte anbietet
-     window.apf.erstelleListeDerAusgewaehltenPopTPop();
+     window.apf.olmap.erstelleListeDerAusgewähltenPopTPop();
 
      // control deaktivieren
      window.drawControl.deactivate();
@@ -10324,15 +10299,7 @@ window.apf.olmap.createLayersForOlmap = function() {
         kategorie: 'AP Flora',
         selectable: true,
         source: detailpläne_layer_source,
-        style: new ol.style.Style({
-            fill: new ol.style.Fill({
-                color: 'rgba(250, 58, 15, 0.1)'
-            }),
-            stroke: new ol.style.Stroke({
-                color: '#fa3a0f',
-                width: 1
-            })
-        })
+        style: window.apf.olmap.detailplanStyle()
     });
 
     var zh_svo_farbig_layer = new ol.layer.Tile({
@@ -10682,7 +10649,7 @@ window.apf.olmap.addSelectFeaturesInSelectableLayers = function() {
                     }
                     break;
                 case 'Detailplan':
-                    console.log('need to add style for Detailplan in addSelectFeaturesInSelectableLayers');
+                    return window.apf.olmap.detailplanStyleSelected(feature, resolution);
                     break;
             }
         }
@@ -10693,6 +10660,26 @@ window.apf.olmap.addSelectFeaturesInSelectableLayers = function() {
          }*/
     });
     window.apf.olmap.map.addInteraction(window.apf.olmap.map.olmap_select_interaction);
+};
+
+window.apf.olmap.getSelectedFeatures = function() {
+    return window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
+};
+
+window.apf.olmap.getSelectedFeaturesOfType = function(type) {
+    var features_array = window.apf.olmap.getSelectedFeatures(),
+        return_array = [],
+        feature_type;
+    if (features_array.length === 0) {
+        return [];
+    }
+    _.each(features_array, function(feature) {
+        feature_type = feature.get('myTyp');
+        if (feature_type === type) {
+            return_array.push(feature);
+        }
+    });
+    return return_array;
 };
 
 window.apf.olmap.addDragBox = function() {
@@ -10708,15 +10695,38 @@ window.apf.olmap.addDragBox = function() {
         })
     });
     window.apf.olmap.map.addInteraction(drag_box);
+    // TODO: get features inside dragBox
+    // getGeometry()?
 };
 
 window.apf.olmap.addShowFeatureInfoOnClick = function() {
     'use strict';
     window.apf.olmap.map.on('singleclick', function(event) {
         var pixel = event.pixel,
-            coordinate = event.coordinate;
+            coordinate = event.coordinate,
+            pop_selected = [],
+            tpop_selected = [];
         window.apf.olmap.zeigeFeatureInfo(pixel, coordinate);
+        // prüfen, ob pop / tpop gewählt wurden
+        // verzögern, weil die neuste selection sonst nicht erfasst wird
+        setTimeout(function() {
+            window.apf.olmap.prüfeObPopTpopGewähltWurden();
+        }, 100);
     });
+};
+
+window.apf.olmap.prüfeObPopTpopGewähltWurden = function() {
+    var pop_selected = [],
+        tpop_selected = [];
+    // prüfen, ob pop / tpop gewählt wurden
+    pop_selected = window.apf.olmap.getSelectedFeaturesOfType('pop');
+    tpop_selected = window.apf.olmap.getSelectedFeaturesOfType('tpop');
+    // wenn ja: anzeigen
+    if (pop_selected.length > 0 || tpop_selected.length > 0) {
+        window.apf.olmap.erstelleListeDerAusgewähltenPopTPop(pop_selected, tpop_selected);
+    } else {
+        $("#ergebnisAuswahl").hide();
+    }
 };
 
 window.apf.olmap.changeCursorOverFeature = function() {
@@ -10974,6 +10984,32 @@ window.apf.olmap.initiiereLayertree = function() {
     $ga_karten_div_accordion.accordion({collapsible:true, active: false, heightStyle: 'content'});
     // Maximalgrösse des Layertree begrenzen
     $olmap_layertree_layers.css('max-height', window.apf.berechneOlmapLayertreeMaxhöhe);
+};
+
+window.apf.olmap.detailplanStyle = function(feature, resolution) {
+    'use strict';
+    return new ol.style.Style({
+        fill: new ol.style.Fill({
+            color: 'rgba(250, 58, 15, 0.1)'
+        }),
+        stroke: new ol.style.Stroke({
+            color: '#fa3a0f',
+            width: 1
+        })
+    });
+};
+
+window.apf.olmap.detailplanStyleSelected = function(feature, resolution) {
+    'use strict';
+    return new ol.style.Style({
+        fill: new ol.style.Fill({
+            color: 'rgba(15, 85, 250, 0.1)'
+        }),
+        stroke: new ol.style.Stroke({
+            color: '#0F55FA',
+            width: 1
+        })
+    });
 };
 
 window.apf.olmap.popMitNrStyle = function(feature, resolution, popid_markiert) {
