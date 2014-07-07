@@ -589,10 +589,11 @@ p.ergebnisAuswahlListeTitelTPop {
 }
 #ergebnisAuswahlListe td:first-child {
 	text-align: right;
-	padding-right: 8px;
+	padding-right: 0;
+    min-width: 35px;
+    padding-left: 6px;
 }
 #ergebnisAuswahlListe td {
-	padding-left: 6px;
 	padding-right: 6px;
 }
 #ergebnisAuswahlFooter {
