@@ -16906,12 +16906,8 @@ window.apf.getInternetExplorerVersion = function() {
   return rv;
 };
 
-window.apf.initiiereOlmap = function() {
-	'use strict';
-	// Proxy Host for Ajax Requests to overcome Cross-Domain HTTTP Requests
-	//OpenLayers.ProxyHost = "../cgi-bin/proxy.cgi?url=";
-	//var zh_bbox_1903 = new ol.Extent(669000, 222000, 717000, 284000);
-
+window.apf.olmap.createLayersForOlmap = function() {
+    'use strict';
     // bing-maps wäre schön
     // ol3 can't reproject raster tiles yet though
     // daher werden die Layer noch nicht angezeigt
@@ -16938,84 +16934,84 @@ window.apf.initiiereOlmap = function() {
         }));
     });
 
-	var ch_ortholuftbild_layer = ga.layer.create('ch.swisstopo.swissimage');
-		ch_ortholuftbild_layer.set('title', 'Luftbild');
-		ch_ortholuftbild_layer.set('visible', false);
-        ch_ortholuftbild_layer.set('kategorie', 'CH Hintergrund');
+    var ch_ortholuftbild_layer = ga.layer.create('ch.swisstopo.swissimage');
+    ch_ortholuftbild_layer.set('title', 'Luftbild');
+    ch_ortholuftbild_layer.set('visible', false);
+    ch_ortholuftbild_layer.set('kategorie', 'CH Hintergrund');
 
-	var ch_lk_grau_layer = ga.layer.create('ch.swisstopo.pixelkarte-grau');
-		ch_lk_grau_layer.set('title', 'Landeskarten grau');
-        ch_lk_grau_layer.set('visible', false);
-        ch_lk_grau_layer.set('kategorie', 'CH Hintergrund');
+    var ch_lk_grau_layer = ga.layer.create('ch.swisstopo.pixelkarte-grau');
+    ch_lk_grau_layer.set('title', 'Landeskarten grau');
+    ch_lk_grau_layer.set('visible', false);
+    ch_lk_grau_layer.set('kategorie', 'CH Hintergrund');
 
-	var ch_lk_farbe_layer = ga.layer.create('ch.swisstopo.pixelkarte-farbe');
-		ch_lk_farbe_layer.set('title', 'Landeskarten farbig');
-		ch_lk_farbe_layer.set('visible', true);
-        ch_lk_farbe_layer.set('kategorie', 'CH Hintergrund');
+    var ch_lk_farbe_layer = ga.layer.create('ch.swisstopo.pixelkarte-farbe');
+    ch_lk_farbe_layer.set('title', 'Landeskarten farbig');
+    ch_lk_farbe_layer.set('visible', true);
+    ch_lk_farbe_layer.set('kategorie', 'CH Hintergrund');
 
     var ch_siegriedkarte_layer = ga.layer.create('ch.swisstopo.hiks-siegfried');
-        ch_siegriedkarte_layer.set('title', 'Siegfriedkarte 1881');
-        ch_siegriedkarte_layer.set('visible', false);
-        ch_siegriedkarte_layer.set('kategorie', 'CH Hintergrund');
+    ch_siegriedkarte_layer.set('title', 'Siegfriedkarte 1881');
+    ch_siegriedkarte_layer.set('visible', false);
+    ch_siegriedkarte_layer.set('kategorie', 'CH Hintergrund');
 
     var ch_gemeinden_layer = ga.layer.create('ch.swisstopo-vd.geometa-gemeinde');
-        ch_gemeinden_layer.set('title', 'Gemeinden');
-        ch_gemeinden_layer.set('visible', false);
-        ch_gemeinden_layer.set('kategorie', 'CH Sachinformationen');
+    ch_gemeinden_layer.set('title', 'Gemeinden');
+    ch_gemeinden_layer.set('visible', false);
+    ch_gemeinden_layer.set('kategorie', 'CH Sachinformationen');
 
     var ch_kantone_layer = ga.layer.create('ch.swisstopo.swissboundaries3d-kanton-flaeche.fill');
-        ch_kantone_layer.set('title', 'Kantone');
-        ch_kantone_layer.set('visible', false);
-        ch_kantone_layer.set('kategorie', 'CH Sachinformationen');
+    ch_kantone_layer.set('title', 'Kantone');
+    ch_kantone_layer.set('visible', false);
+    ch_kantone_layer.set('kategorie', 'CH Sachinformationen');
 
     var ch_parzellen_layer = ga.layer.create('ch.kantone.cadastralwebmap-farbe');
-        ch_parzellen_layer.set('title', 'Parzellen');
-        ch_parzellen_layer.set('visible', false);
-        ch_parzellen_layer.set('kategorie', 'CH Sachinformationen');
+    ch_parzellen_layer.set('title', 'Parzellen');
+    ch_parzellen_layer.set('visible', false);
+    ch_parzellen_layer.set('kategorie', 'CH Sachinformationen');
 
     var ch_am_layer = ga.layer.create('ch.bafu.bundesinventare-amphibien');
-        ch_am_layer.set('title', 'Amphibien');
-        ch_am_layer.set('visible', false);
-        ch_am_layer.set('kategorie', 'CH Biotopinventare');
+    ch_am_layer.set('title', 'Amphibien');
+    ch_am_layer.set('visible', false);
+    ch_am_layer.set('kategorie', 'CH Biotopinventare');
 
     var ch_am_wander_layer = ga.layer.create('ch.bafu.bundesinventare-amphibien_wanderobjekte');
-        ch_am_wander_layer.set('title', 'Amphibien Wanderobjekte');
-        ch_am_wander_layer.set('visible', false);
-        ch_am_wander_layer.set('kategorie', 'CH Biotopinventare');
+    ch_am_wander_layer.set('title', 'Amphibien Wanderobjekte');
+    ch_am_wander_layer.set('visible', false);
+    ch_am_wander_layer.set('kategorie', 'CH Biotopinventare');
 
     var ch_auen_layer = ga.layer.create('ch.bafu.bundesinventare-auen');
-        ch_auen_layer.set('title', 'Auen');
-        ch_auen_layer.set('visible', false);
-        ch_auen_layer.set('kategorie', 'CH Biotopinventare');
+    ch_auen_layer.set('title', 'Auen');
+    ch_auen_layer.set('visible', false);
+    ch_auen_layer.set('kategorie', 'CH Biotopinventare');
 
     var ch_fm_layer = ga.layer.create('ch.bafu.bundesinventare-flachmoore');
-        ch_fm_layer.set('title', 'Flachmoore');
-        ch_fm_layer.set('visible', false);
-        ch_fm_layer.set('kategorie', 'CH Biotopinventare');
+    ch_fm_layer.set('title', 'Flachmoore');
+    ch_fm_layer.set('visible', false);
+    ch_fm_layer.set('kategorie', 'CH Biotopinventare');
 
     var ch_hm_layer = ga.layer.create('ch.bafu.bundesinventare-hochmoore');
-        ch_hm_layer.set('title', 'Hochchmoore');
-        ch_hm_layer.set('visible', false);
-        ch_hm_layer.set('kategorie', 'CH Biotopinventare');
+    ch_hm_layer.set('title', 'Hochchmoore');
+    ch_hm_layer.set('visible', false);
+    ch_hm_layer.set('kategorie', 'CH Biotopinventare');
 
     var ch_tww_layer = ga.layer.create('ch.bafu.bundesinventare-trockenwiesen_trockenweiden');
-        ch_tww_layer.set('title', 'Trockenwiesen und -weiden');
-        ch_tww_layer.set('visible', false);
-        ch_tww_layer.set('kategorie', 'CH Biotopinventare');
+    ch_tww_layer.set('title', 'Trockenwiesen und -weiden');
+    ch_tww_layer.set('visible', false);
+    ch_tww_layer.set('kategorie', 'CH Biotopinventare');
 
     var ch_vogelreservate_layer = ga.layer.create('ch.bafu.bundesinventare-vogelreservate');
-        ch_vogelreservate_layer.set('title', 'Vogelreservate');
-        ch_vogelreservate_layer.set('visible', false);
-        ch_vogelreservate_layer.set('kategorie', 'CH Biotopinventare');
+    ch_vogelreservate_layer.set('title', 'Vogelreservate');
+    ch_vogelreservate_layer.set('visible', false);
+    ch_vogelreservate_layer.set('kategorie', 'CH Biotopinventare');
 
     var detailpläne_layer_source = new ol.source.GeoJSON({
         url: 'geojson/detailplaene.geojson'/*,
-    	myTyp: 'Detailplan'*/	// funktioniert nicht
+         myTyp: 'Detailplan'*/	// funktioniert nicht
     });
     /* funktioniert nicht:
-    detailpläne_layer_source.forEachFeature(function(feature) {
-    	feature.setValues('myTyp', 'Detailplan');
-    });*/
+     detailpläne_layer_source.forEachFeature(function(feature) {
+     feature.setValues('myTyp', 'Detailplan');
+     });*/
 
     var detailpläne_layer = new ol.layer.Vector({
         title: 'Detailpläne',
@@ -17025,14 +17021,14 @@ window.apf.initiiereOlmap = function() {
         selectable: true,
         source: detailpläne_layer_source,
         style: new ol.style.Style({
-	        fill: new ol.style.Fill({
-	          	color: 'rgba(250, 58, 15, 0.1)'
-	        }),
-	        stroke: new ol.style.Stroke({
-	          	color: '#fa3a0f',
-	          	width: 1
-	        })
-		})
+            fill: new ol.style.Fill({
+                color: 'rgba(250, 58, 15, 0.1)'
+            }),
+            stroke: new ol.style.Stroke({
+                color: '#fa3a0f',
+                width: 1
+            })
+        })
     });
 
     var zh_svo_farbig_layer = new ol.layer.Tile({
@@ -17133,10 +17129,10 @@ window.apf.initiiereOlmap = function() {
         })
     });
 
-	// Zunächst alle Layer definieren
+    // Zunächst alle Layer definieren
     var layers_prov = [
-    	ch_ortholuftbild_layer,
-    	ch_lk_grau_layer,
+        ch_ortholuftbild_layer,
+        ch_lk_grau_layer,
         ch_lk_farbe_layer,
         ch_siegriedkarte_layer,
         ch_parzellen_layer,
@@ -17154,7 +17150,7 @@ window.apf.initiiereOlmap = function() {
         detailpläne_layer
     ];
 
-    // bin-layers vorne setzen
+    // bing-layers vorne setzen
     // bing-maps wäre schön
     // ol3 can't reproject raster tiles yet though
     // daher werden die Layer noch nicht angezeigt
@@ -17308,31 +17304,24 @@ window.apf.initiiereOlmap = function() {
         })
     ];*/
 
-
     /*var zh_verträge_layer = new ol.layer.Vector("ZH Verträge", {
-     strategies: [new OpenLayers.Strategy.BBOX()],
-     protocol: new OpenLayers.Protocol.WFS.v1_1_0({
-     url:  "//agabriel:4zC6MgjM@maps.zh.ch/wfs/FnsVertraegeWFS",
-     featureType: "vertraege_f",
-     featureNs: "//www.opengis.net/gml"
-     //featureNs: "//www.intergraph.com/geomedia/gml"
-     })
-     })*/
+        strategies: [new OpenLayers.Strategy.BBOX()],
+        protocol: new OpenLayers.Protocol.WFS.v1_1_0({
+            url:  "//agabriel:4zC6MgjM@maps.zh.ch/wfs/FnsVertraegeWFS",
+            featureType: "vertraege_f",
+            featureNs: "//www.opengis.net/gml"
+            //featureNs: "//www.intergraph.com/geomedia/gml"
+        })
+    })*/
 
+    return layers;
+};
 
-    /*  name_layer = new ol.layer.Tile({
-            title: '',
-            source: new ol.source.TileWMS({
-                url: '',
-                params: {
-                    'layers': '',
-                    'transparent': true,
-                    'isBaseLayer': false,
-                    'visibility': false,
-                    'singleTile': true
-                }
-            })
-        })*/
+window.apf.initiiereOlmap = function() {
+	'use strict';
+	// Proxy Host for Ajax Requests to overcome Cross-Domain HTTTP Requests
+	//OpenLayers.ProxyHost = "../cgi-bin/proxy.cgi?url=";
+	//var zh_bbox_1903 = new ol.Extent(669000, 222000, 717000, 284000);
 
 	// allfällige Apflora-Ebenen entfernen
 	window.apf.olmap.entferneAlleApfloraLayer();
@@ -17342,7 +17331,7 @@ window.apf.initiiereOlmap = function() {
 
         window.apf.olmap.map = new ga.Map({
             target: 'ga_karten_div',
-            layers: layers,
+            layers: window.apf.olmap.createLayersForOlmap(),
             view: new ol.View2D({
                 resolution: 4,
                 center: [693000, 253000]
@@ -17358,7 +17347,7 @@ window.apf.initiiereOlmap = function() {
         window.apf.olmap.addMousePositionControl();
         window.apf.olmap.addFullScreenControl();
 	}
-	$('#karteSchieben').checked = true;	// scheint nicht zu funktionieren?
+	//$('#karteSchieben').checked = true;	// scheint unnötig zu sein
 };
 
 window.apf.olmap.addShowFeatureInfoOnClick = function() {
