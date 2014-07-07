@@ -8161,9 +8161,7 @@ window.apf.olmap.zeigePopInTPop = function(overlay_pop_visible, overlay_popnr_vi
 	getPopKarteAlle.always(function(PopListe) {
 		// Layer für Symbole und Beschriftung erstellen
 		$.when(
-            window.apf.olmap.erstellePopSymbole(PopListe, popid_markiert),
-            window.apf.olmap.erstellePopSymboleMitNamen(PopListe, popid_markiert, overlay_popnr_visible),
-			window.apf.olmap.erstellePopSymboleMitNr(PopListe, popid_markiert, overlay_pop_visible)
+			window.apf.olmap.erstellePopLayer(PopListe, popid_markiert, overlay_pop_visible)
 		)
 		.then(function() {
 			// layertree neu aufbauen
@@ -8519,196 +8517,9 @@ window.apf.olmap.erstelleContentFürPop = function(pop) {
 // übernimmt drei Variablen: PopListe ist das Objekt mit den Populationen
 // popid_array der Array mit den ausgewählten Pop
 // visible: Ob die Ebene sichtbar geschaltet wird (oder bloss im Layertree verfügbar ist)
-window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert) {
+window.apf.olmap.erstellePopLayer = function(popliste, popid_markiert, visible) {
     'use strict';
-    // Aus unerfindlichem Grund wurde diese Funktion aufgerufen, wenn etwas wiederhergestellt wurde
-    // daher nur ausführen, wenn die Karte sichtbar ist
-    if ($('#GeoAdminKarte').is(":visible")) {
-        var pop_symbole_erstellt = $.Deferred(),
-            markers = [],
-            marker,
-            my_name,
-            pop_layer;
-
-        _.each(popliste.rows, function(pop) {
-            my_name = pop.PopName || '(kein Name)';
-
-            // marker erstellen...
-            marker = new ol.Feature({
-                geometry: new ol.geom.Point([pop.PopXKoord, pop.PopYKoord]),
-                name: my_name,
-                popup_content: window.apf.olmap.erstelleContentFürPop(pop),
-                popup_title: my_name,
-                // Koordinaten werden gebraucht, damit das popup richtig platziert werden kann
-                xkoord: pop.PopXKoord,
-                ykoord: pop.PopYKoord,
-                myTyp: 'pop',
-                myId: pop.PopId
-            });
-
-            // marker in Array speichern
-            markers.push(marker);
-        });
-
-        // layer für Marker erstellen
-        pop_layer = new ol.layer.Vector({
-            title: 'Populationen ohne Beschriftung',
-            selectable: true,
-            source: new ol.source.Vector({
-                features: markers
-            }),
-            style: function(feature, resolution) {
-                // icon wählen
-                // markierte sind orange, nicht markierte sind braun
-                var icon,
-                    popid = feature.get('myId');
-                if (popid_markiert && popid_markiert.indexOf(popid) !== -1) {
-                    icon = 'img/flora_icon_orange.png'
-                } else {
-                    icon = 'img/flora_icon_braun.png'
-                }
-                return [new ol.style.Style({
-                    // TODO: icon (braun oder orange) aufgrund Bedingung wählen
-                    // Bedingung: popid_markiert && popid_markiert.indexOf(pop.PopId) !== -1
-                    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-                        anchor: [0.5, 46],
-                        anchorXUnits: 'fraction',
-                        anchorYUnits: 'pixels',
-                        opacity: 1,
-                        src: icon
-                    }))
-                })];
-            }
-        });
-        pop_layer.set('visible', false);
-        pop_layer.set('kategorie', 'AP Flora');
-        window.apf.olmap.map.addLayer(pop_layer);
-
-        // TODO: marker sollen verschoben werden können
-
-        /* alt:
-         // die marker sollen verschoben werden können
-         var dragControl = new OpenLayers.Control.DragFeature(overlay_pop, {
-         onStart: function(feature) {
-         // allfällig geöffnete Popups schliessen - ist unschön, wenn die offen bleiben
-         window.selectControlPop.unselectAll();
-         },
-         onComplete: function(feature) {
-         // nur zulassen, wenn Schreibrechte bestehen
-         if (sessionStorage.NurLesen) {
-         $("#Meldung")
-         .html("Sie haben keine Schreibrechte")
-         .dialog({
-         modal: true,
-         buttons: {
-         Ok: function() {
-         $(this).dialog("close");
-         // overlay entfernen...
-         if (window.apf.olmap.getLayersByName('Populationen')) {
-         var layers = window.apf.olmap.getLayersByName('Populationen');
-         _.each(layers, function(layer) {
-         window.apf.olmap.map.removeLayer(layer);
-         });
-         }
-         // ...und neu erstellen
-         window.apf.olmap.erstellePopSymbole(popliste, popid_markiert, visible);
-         }
-         }
-         });
-         return;
-         }
-         // Verschieben muss bestätigt werden
-         // Mitteilung formulieren. Gewählte hat keinen label und tooltip ist wie sonst label
-         if (feature.attributes.label) {
-         $("#loeschen_dialog_mitteilung").html("Sie verschieben die Population " + feature.attributes.label + ", " + feature.attributes.tooltip);
-         } else {
-         $("#loeschen_dialog_mitteilung").html("Sie verschieben die Population " + feature.attributes.tooltip);
-         }
-         $("#loeschen_dialog").dialog({
-         resizable: false,
-         height:'auto',
-         width: 500,
-         modal: true,
-         buttons: {
-         "ja, verschieben!": function() {
-         $(this).dialog("close");
-         // neue Koordinaten speichern
-         // x und y merken
-         Pop.PopXKoord = feature.geometry.x;
-         Pop.PopYKoord = feature.geometry.y;
-         // Datensatz updaten
-         window.apf.speichereWert('pop', feature.attributes.myId, 'PopXKoord', Pop.PopXKoord);
-         window.apf.speichereWert('pop', feature.attributes.myId, 'PopYKoord', Pop.PopYKoord);
-         // jetzt alle marker entfernen...
-         window.apf.olmap.entferneAlleApfloraLayer();
-         // ...und neu aufbauen
-         // dazu die popliste neu abrufen, da Koordinaten geändert haben! popid_markiert bleibt gleich
-         var getPopKarteAlle_2 = $.ajax({
-         type: 'get',
-         url: 'php/pop_karte_alle.php',
-         dataType: 'json',
-         data: {
-         "ApArtId": window.apf.olmap.erstellePopSymbole
-         }
-         });
-         getPopKarteAlle_2.always(function(PopListe) {
-         window.apf.olmap.erstellePopNr(PopListe, true);
-         window.apf.olmap.erstellePopNamen(PopListe);
-         window.apf.olmap.erstellePopSymbole(PopListe, popid_markiert, true);
-         });
-         getPopKarteAlle_2.fail(function() {
-         //window.apf.melde("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
-         console.log('Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden');
-         });
-         },
-         "nein, nicht verschieben": function() {
-         $(this).dialog("close");
-         // overlay entfernen...
-         if (window.apf.olmap.getLayersByName('Populationen')) {
-         var layers = window.apf.olmap.getLayersByName('Populationen');
-         _.each(layers, function(layer) {
-         window.apf.olmap.map.removeLayer(layer);
-         });
-         }
-         // ...und neu erstellen
-         window.apf.olmap.erstellePopSymbole(popliste, popid_markiert, true);
-         }
-         }
-         });
-         }
-         });
-
-         // selectfeature (Infoblase) soll nicht durch dragfeature blockiert werden
-         // Quelle: //stackoverflow.com/questions/6953907/make-marker-dragable-and-clickable
-         dragControl.handlers['drag'].stopDown = false;
-         dragControl.handlers['drag'].stopUp = false;
-         dragControl.handlers['drag'].stopClick = false;
-         dragControl.handlers['feature'].stopDown = false;
-         dragControl.handlers['feature'].stopUp = false;
-         dragControl.handlers['feature'].stopClick = false;
-
-         // dragControl einschalten
-         window.apf.olmap.addControl(dragControl);
-         dragControl.activate();
-
-         // overlay zur Karte hinzufügen
-         window.apf.olmap.addLayer(overlay_pop);
-
-         // SelectControl erstellen (mit dem Eventlistener öffnet das die Infoblase) und zur Karte hinzufügen
-         window.selectControlPop = new OpenLayers.Control.SelectFeature(overlay_pop, {clickout: true});
-         window.apf.olmap.addControl(window.selectControlPop);
-         window.selectControlPop.activate();*/
-        pop_symbole_erstellt.resolve();
-        return pop_symbole_erstellt.promise();
-    }
-};
-
-// übernimmt drei Variablen: PopListe ist das Objekt mit den Populationen
-// popid_array der Array mit den ausgewählten Pop
-// visible: Ob die Ebene sichtbar geschaltet wird (oder bloss im Layertree verfügbar ist)
-window.apf.olmap.erstellePopSymboleMitNr = function(popliste, popid_markiert, visible) {
-    'use strict';
-    var pop_mit_nr_erstellt = $.Deferred(),
+    var pop_layer_erstellt = $.Deferred(),
         markers = [],
         marker,
         my_label,
@@ -8734,7 +8545,9 @@ window.apf.olmap.erstellePopSymboleMitNr = function(popliste, popid_markiert, vi
         // marker erstellen...
         marker = new ol.Feature({
             geometry: new ol.geom.Point([pop.PopXKoord, pop.PopYKoord]),
-            name: my_label,
+            pop_nr: my_label,
+            pop_name: my_name,
+            name: my_label, // noch benötigt? TODO: entfernen
             popup_content: popup_content,
             popup_title: my_name,
             // Koordinaten werden gebraucht, damit das popup richtig platziert werden kann
@@ -8750,129 +8563,136 @@ window.apf.olmap.erstellePopSymboleMitNr = function(popliste, popid_markiert, vi
 
     // layer für Marker erstellen
     pop_mit_nr_layer = new ol.layer.Vector({
-        title: 'Populationen mit Nummern',
+        title: 'Populationen',
         selectable: true,
         source: new ol.source.Vector({
             features: markers
         }),
         style: function(feature, resolution) {
-            // icon wählen
-            // markierte sind orange, nicht markierte sind braun
-            var icon,
-                popid = feature.get('myId');
-            if (popid_markiert && popid_markiert.indexOf(popid) !== -1) {
-                icon = 'img/flora_icon_orange.png'
-            } else {
-                icon = 'img/flora_icon_braun.png'
-            }
-            return [new ol.style.Style({
-                image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-                    anchor: [0.5, 46],
-                    anchorXUnits: 'fraction',
-                    anchorYUnits: 'pixels',
-                    opacity: 1,
-                    src: icon
-                })),
-                text: new ol.style.Text({
-                    font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
-                    text: feature.get('name'),
-                    fill:  new ol.style.Fill({
-                        color: 'black'
-                    }),
-                    stroke: new ol.style.Stroke({
-                        color: 'white',
-                        width: 7
-                    })
-                })
-            })];
+            return window.apf.olmap.popMitNrStyle(feature, resolution, popid_markiert);
         }
     });
     pop_mit_nr_layer.set('visible', visible);
     pop_mit_nr_layer.set('kategorie', 'AP Flora');
     window.apf.olmap.map.addLayer(pop_mit_nr_layer);
 
-    pop_mit_nr_erstellt.resolve();
-    return pop_mit_nr_erstellt.promise();
-};
+    // TODO: marker sollen verschoben werden können
 
-// übernimmt drei Variablen: PopListe ist das Objekt mit den Populationen
-// popid_array der Array mit den ausgewählten Pop
-// visible: Ob die Ebene sichtbar geschaltet wird (oder bloss im Layertree verfügbar ist)
-window.apf.olmap.erstellePopSymboleMitNamen = function(popliste, popid_markiert) {
-    'use strict';
-    var pop_mit_namen_erstellt = $.Deferred(),
-        markers = [],
-        marker,
-        my_name,
-        popup_content,
-        pop_mit_namen_layer;
+    /* alt:
+     // die marker sollen verschoben werden können
+     var dragControl = new OpenLayers.Control.DragFeature(overlay_pop, {
+     onStart: function(feature) {
+     // allfällig geöffnete Popups schliessen - ist unschön, wenn die offen bleiben
+     window.selectControlPop.unselectAll();
+     },
+     onComplete: function(feature) {
+     // nur zulassen, wenn Schreibrechte bestehen
+     if (sessionStorage.NurLesen) {
+     $("#Meldung")
+     .html("Sie haben keine Schreibrechte")
+     .dialog({
+     modal: true,
+     buttons: {
+     Ok: function() {
+     $(this).dialog("close");
+     // overlay entfernen...
+     if (window.apf.olmap.getLayersByName('Populationen')) {
+     var layers = window.apf.olmap.getLayersByName('Populationen');
+     _.each(layers, function(layer) {
+     window.apf.olmap.map.removeLayer(layer);
+     });
+     }
+     // ...und neu erstellen
+     window.apf.olmap.erstellePopSymbole(popliste, popid_markiert, visible);
+     }
+     }
+     });
+     return;
+     }
+     // Verschieben muss bestätigt werden
+     // Mitteilung formulieren. Gewählte hat keinen label und tooltip ist wie sonst label
+     if (feature.attributes.label) {
+     $("#loeschen_dialog_mitteilung").html("Sie verschieben die Population " + feature.attributes.label + ", " + feature.attributes.tooltip);
+     } else {
+     $("#loeschen_dialog_mitteilung").html("Sie verschieben die Population " + feature.attributes.tooltip);
+     }
+     $("#loeschen_dialog").dialog({
+     resizable: false,
+     height:'auto',
+     width: 500,
+     modal: true,
+     buttons: {
+     "ja, verschieben!": function() {
+     $(this).dialog("close");
+     // neue Koordinaten speichern
+     // x und y merken
+     Pop.PopXKoord = feature.geometry.x;
+     Pop.PopYKoord = feature.geometry.y;
+     // Datensatz updaten
+     window.apf.speichereWert('pop', feature.attributes.myId, 'PopXKoord', Pop.PopXKoord);
+     window.apf.speichereWert('pop', feature.attributes.myId, 'PopYKoord', Pop.PopYKoord);
+     // jetzt alle marker entfernen...
+     window.apf.olmap.entferneAlleApfloraLayer();
+     // ...und neu aufbauen
+     // dazu die popliste neu abrufen, da Koordinaten geändert haben! popid_markiert bleibt gleich
+     var getPopKarteAlle_2 = $.ajax({
+     type: 'get',
+     url: 'php/pop_karte_alle.php',
+     dataType: 'json',
+     data: {
+     "ApArtId": window.apf.olmap.erstellePopSymbole
+     }
+     });
+     getPopKarteAlle_2.always(function(PopListe) {
+     window.apf.olmap.erstellePopNr(PopListe, true);
+     window.apf.olmap.erstellePopNamen(PopListe);
+     window.apf.olmap.erstellePopSymbole(PopListe, popid_markiert, true);
+     });
+     getPopKarteAlle_2.fail(function() {
+     //window.apf.melde("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
+     console.log('Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden');
+     });
+     },
+     "nein, nicht verschieben": function() {
+     $(this).dialog("close");
+     // overlay entfernen...
+     if (window.apf.olmap.getLayersByName('Populationen')) {
+     var layers = window.apf.olmap.getLayersByName('Populationen');
+     _.each(layers, function(layer) {
+     window.apf.olmap.map.removeLayer(layer);
+     });
+     }
+     // ...und neu erstellen
+     window.apf.olmap.erstellePopSymbole(popliste, popid_markiert, true);
+     }
+     }
+     });
+     }
+     });
 
-    _.each(popliste.rows, function(pop) {
-        my_name = pop.PopName || '(kein Name)';
-        popup_content = window.apf.olmap.erstelleContentFürPop(pop);
+     // selectfeature (Infoblase) soll nicht durch dragfeature blockiert werden
+     // Quelle: //stackoverflow.com/questions/6953907/make-marker-dragable-and-clickable
+     dragControl.handlers['drag'].stopDown = false;
+     dragControl.handlers['drag'].stopUp = false;
+     dragControl.handlers['drag'].stopClick = false;
+     dragControl.handlers['feature'].stopDown = false;
+     dragControl.handlers['feature'].stopUp = false;
+     dragControl.handlers['feature'].stopClick = false;
 
-        // marker erstellen...
-        marker = new ol.Feature({
-            geometry: new ol.geom.Point([pop.PopXKoord, pop.PopYKoord]),
-            name: pop.PopName || '(kein Name)',
-            popup_content: popup_content,
-            popup_title: my_name,
-            // Koordinaten werden gebraucht, damit das popup richtig platziert werden kann
-            xkoord: pop.PopXKoord,
-            ykoord: pop.PopYKoord,
-            myTyp: 'pop',
-            myId: pop.PopId
-        });
+     // dragControl einschalten
+     window.apf.olmap.addControl(dragControl);
+     dragControl.activate();
 
-        // marker in Array speichern
-        markers.push(marker);
-    });
+     // overlay zur Karte hinzufügen
+     window.apf.olmap.addLayer(overlay_pop);
 
-    // layer für Marker erstellen
-    pop_mit_namen_layer = new ol.layer.Vector({
-        title: 'Populationen mit Namen',
-        selectable: true,
-        source: new ol.source.Vector({
-            features: markers
-        }),
-        style: function(feature, resolution) {
-            // icon wählen
-            // markierte sind orange, nicht markierte sind braun
-            var icon,
-                popid = feature.get('myId');
-            if (popid_markiert && popid_markiert.indexOf(popid) !== -1) {
-                icon = 'img/flora_icon_orange.png'
-            } else {
-                icon = 'img/flora_icon_braun.png'
-            }
-            return [new ol.style.Style({
-                image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-                    anchor: [0.5, 46],
-                    anchorXUnits: 'fraction',
-                    anchorYUnits: 'pixels',
-                    opacity: 1,
-                    src: icon
-                })),
-                text: new ol.style.Text({
-                    font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
-                    text: feature.get('name'),
-                    fill:  new ol.style.Fill({
-                        color: 'black'
-                    }),
-                    stroke: new ol.style.Stroke({
-                        color: 'white',
-                        width: 7
-                    })
-                })
-            })];
-        }
-    });
-    pop_mit_namen_layer.set('visible', false);
-    pop_mit_namen_layer.set('kategorie', 'AP Flora');
-    window.apf.olmap.map.addLayer(pop_mit_namen_layer);
+     // SelectControl erstellen (mit dem Eventlistener öffnet das die Infoblase) und zur Karte hinzufügen
+     window.selectControlPop = new OpenLayers.Control.SelectFeature(overlay_pop, {clickout: true});
+     window.apf.olmap.addControl(window.selectControlPop);
+     window.selectControlPop.activate();*/
 
-    pop_mit_namen_erstellt.resolve();
-    return pop_mit_namen_erstellt.promise();
+    pop_layer_erstellt.resolve();
+    return pop_layer_erstellt.promise();
 };
 
 
@@ -11226,16 +11046,20 @@ window.apf.olmap.initiiereLayertree = function() {
 	            html_prov += ' checked="checked"';
 	        }
 	        html_prov += '>';
-	        html_prov += '<label for="olmap_layertree_' + layertitel + '">' + layertitel;
+	        html_prov += '<label for="olmap_layertree_' + layertitel + '">' + layertitel + '</label>';
             // bei pop und tpop muss style gewählt werden können
-            if (layertitel.substring(0, 12) === 'Populationen') {
-                html_prov += ' (<label for="layertree_pop_nr" class="layertree_pop_style">Nr.</label><input type="checkbox" id="layertree_pop_nr" class="layertree_pop_style">';
-                html_prov += ' <label for="layertree_pop_namen" class="layertree_pop_style">Namen</label><input type="checkbox" id="layertree_pop_namen" class="layertree_pop_style">)';
+            if (layertitel === 'Populationen') {
+                html_prov += '<div class="layeroptionen">';
+                html_prov += '<label for="layertree_pop_nr" class="layertree_pop_style pop_nr">Nr.</label>';
+                html_prov += '<input type="checkbox" id="layertree_pop_nr" class="layertree_pop_style pop_nr" checked="checked"> ';
+                html_prov += '<label for="layertree_pop_name" class="layertree_pop_style pop_name">Namen</label>';
+                html_prov += '<input type="checkbox" id="layertree_pop_name" class="layertree_pop_style pop_name">';
+                html_prov += '</div>';
             }
             /*if (layertitel.substring(0, 16) === 'Teilpopulationen') {
                 html_prov += '';
             }*/
-            html_prov += '</label></li>';
+            html_prov += '</li>';
 	        html_prov += '<hr>';
 	        switch (kategorie) {
                 /*case "Welt Hintergrund":
@@ -11292,98 +11116,95 @@ window.apf.olmap.initiiereLayertree = function() {
     $olmap_layertree_layers.css('max-height', window.apf.berechneOlmapLayertreeMaxhöhe);
 };
 
-window.apf.olmap.popMitNrStyle = (function() {
-    return function(feature, resolution) {
-        // icon wählen
-        // markierte sind orange, nicht markierte sind braun
-        var icon,
-            popid = feature.get('myId');
-        if (popid_markiert && popid_markiert.indexOf(popid) !== -1) {
-            icon = 'img/flora_icon_orange.png'
-        } else {
-            icon = 'img/flora_icon_braun.png'
-        }
-        return [new ol.style.Style({
-            image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-                anchor: [0.5, 46],
-                anchorXUnits: 'fraction',
-                anchorYUnits: 'pixels',
-                opacity: 1,
-                src: icon
-            })),
-            text: new ol.style.Text({
-                font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
-                text: feature.get('name'),
-                fill:  new ol.style.Fill({
-                    color: 'black'
-                }),
-                stroke: new ol.style.Stroke({
-                    color: 'white',
-                    width: 7
-                })
+window.apf.olmap.popMitNrStyle = function(feature, resolution, popid_markiert) {
+    'use strict';
+    // icon wählen
+    // markierte sind orange, nicht markierte sind braun
+    var icon,
+        popid = feature.get('myId');
+    if (popid_markiert && popid_markiert.indexOf(popid) !== -1) {
+        icon = 'img/flora_icon_orange.png'
+    } else {
+        icon = 'img/flora_icon_braun.png'
+    }
+    return [new ol.style.Style({
+        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+            anchor: [0.5, 46],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'pixels',
+            opacity: 1,
+            src: icon
+        })),
+        text: new ol.style.Text({
+            font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
+            text: feature.get('pop_nr'),
+            fill:  new ol.style.Fill({
+                color: 'black'
+            }),
+            stroke: new ol.style.Stroke({
+                color: 'white',
+                width: 7
             })
-        })];
-    };
-})();
+        })
+    })];
+};
 
-window.apf.olmap.popMitNamenStyle = (function() {
-    return function(feature, resolution) {
-        // icon wählen
-        // markierte sind orange, nicht markierte sind braun
-        var icon,
-            popid = feature.get('myId');
-        if (popid_markiert && popid_markiert.indexOf(popid) !== -1) {
-            icon = 'img/flora_icon_orange.png'
-        } else {
-            icon = 'img/flora_icon_braun.png'
-        }
-        return [new ol.style.Style({
-            image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-                anchor: [0.5, 46],
-                anchorXUnits: 'fraction',
-                anchorYUnits: 'pixels',
-                opacity: 1,
-                src: icon
-            })),
-            text: new ol.style.Text({
-                font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
-                text: feature.get('name'),
-                fill:  new ol.style.Fill({
-                    color: 'black'
-                }),
-                stroke: new ol.style.Stroke({
-                    color: 'white',
-                    width: 7
-                })
+window.apf.olmap.popMitNamenStyle = function(feature, resolution, popid_markiert) {
+    'use strict';
+    // icon wählen
+    // markierte sind orange, nicht markierte sind braun
+    var icon,
+        popid = feature.get('myId');
+    if (popid_markiert && popid_markiert.indexOf(popid) !== -1) {
+        icon = 'img/flora_icon_orange.png'
+    } else {
+        icon = 'img/flora_icon_braun.png'
+    }
+    return [new ol.style.Style({
+        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+            anchor: [0.5, 46],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'pixels',
+            opacity: 1,
+            src: icon
+        })),
+        text: new ol.style.Text({
+            font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
+            text: feature.get('pop_name'),
+            fill:  new ol.style.Fill({
+                color: 'black'
+            }),
+            stroke: new ol.style.Stroke({
+                color: 'white',
+                width: 7
             })
-        })];
-    };
-})();
+        })
+    })];
+};
 
-window.apf.olmap.popSymboleStyle = (function() {
-    return function(feature, resolution) {
-        // icon wählen
-        // markierte sind orange, nicht markierte sind braun
-        var icon,
-            popid = feature.get('myId');
-        if (popid_markiert && popid_markiert.indexOf(popid) !== -1) {
-            icon = 'img/flora_icon_orange.png'
-        } else {
-            icon = 'img/flora_icon_braun.png'
-        }
-        return [new ol.style.Style({
-            // TODO: icon (braun oder orange) aufgrund Bedingung wählen
-            // Bedingung: popid_markiert && popid_markiert.indexOf(pop.PopId) !== -1
-            image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-                anchor: [0.5, 46],
-                anchorXUnits: 'fraction',
-                anchorYUnits: 'pixels',
-                opacity: 1,
-                src: icon
-            }))
-        })];
-    };
-})();
+window.apf.olmap.popSymboleStyle = function(feature, resolution, popid_markiert) {
+    'use strict';
+    // icon wählen
+    // markierte sind orange, nicht markierte sind braun
+    var icon,
+        popid = feature.get('myId');
+    if (popid_markiert && popid_markiert.indexOf(popid) !== -1) {
+        icon = 'img/flora_icon_orange.png'
+    } else {
+        icon = 'img/flora_icon_braun.png'
+    }
+    return [new ol.style.Style({
+        // TODO: icon (braun oder orange) aufgrund Bedingung wählen
+        // Bedingung: popid_markiert && popid_markiert.indexOf(pop.PopId) !== -1
+        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+            anchor: [0.5, 46],
+            anchorXUnits: 'fraction',
+            anchorYUnits: 'pixels',
+            opacity: 1,
+            src: icon
+        }))
+    })];
+};
 
 
 window.apf.olmap.messe = function(element) {
@@ -12296,7 +12117,7 @@ window.apf.undeleteDatensatz = function() {
 			history.replaceState({ap: "ap"}, "ap", "index.html?ap=" + id);
 		} else {
 			//tree neu aufbauen
-			$.when(window.apf.erstelle_tree(window.apf.olmap.erstellePopSymbole))
+			$.when(window.apf.erstelle_tree(window.apf.olmap.erstellePopLayer))
 				.then(function() {
 					$("#tree").jstree("select_node", "[typ='" + typ + "']#" + id);
 				});

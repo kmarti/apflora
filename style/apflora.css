@@ -481,6 +481,10 @@ a {
     padding-left: 5px;
 }
 
+#olmap_layertree .layeroptionen {
+    margin-left: 16px;
+}
+
 .olmap_tooltip {
 	z-index: 2000;
 	min-width: 300px;

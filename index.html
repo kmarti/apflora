@@ -2317,8 +2317,26 @@
                         layers[event.target.value].setVisible(event.target.checked);
                     })
                     .on('click', '.layertree_pop_style', function(event) {
-                        var layer = $(this).parent().parent().find('input').val();
-                        layers[layer].setStyle();
+                        var layers = window.apf.olmap.map.getLayers().getArray(),
+                            layer = $(this).parent().parent().find('input').val();
+                        // drei Varianten
+                        if ($(this).hasClass('pop_nr') && this.checked) {
+                            console.log('hasClass pop_nr');
+                            // style für nr setzen
+                            layers[layer].setStyle(window.apf.olmap.popMitNrStyle);
+                            // andere box unchecken
+                            $('#layertree_pop_name').prop('checked', false);
+                        } else if ($(this).hasClass('pop_name') && this.checked) {
+                            console.log('hasClass pop_name');
+                            // style für name setzen
+                            layers[layer].setStyle(window.apf.olmap.popMitNamenStyle);
+                            // andere box unchecken
+                            $('#layertree_pop_nr').prop('checked', false);
+                        } else {
+                            // keine Box gewählt
+                            // style nur Symbole setzen
+                            layers[layer].setStyle(window.apf.olmap.popSymboleStyle);
+                        }
                     });
 
                 $('#GeoAdminKarte').on('click', '#olmap_exportieren', function() {
