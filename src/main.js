@@ -14478,8 +14478,8 @@ window.apf.olmap.zeigePopInTPop = function(overlay_pop_visible, overlay_popnr_vi
 	getPopKarteAlle.always(function(PopListe) {
 		// Layer für Symbole und Beschriftung erstellen
 		$.when(
-            window.apf.olmap.erstellePopSymbole(PopListe),
-            window.apf.olmap.erstellePopSymboleMitNamen(PopListe, overlay_popnr_visible),
+            window.apf.olmap.erstellePopSymbole(PopListe, popid_markiert),
+            window.apf.olmap.erstellePopSymboleMitNamen(PopListe, popid_markiert, overlay_popnr_visible),
 			window.apf.olmap.erstellePopSymboleMitNr(PopListe, popid_markiert, overlay_pop_visible)
 		)
 		.then(function() {
@@ -15066,7 +15066,7 @@ window.apf.olmap.zeigeFeatureInfo = function(pixel, coordinate) {
 // übernimmt drei Variablen: PopListe ist das Objekt mit den Populationen
 // popid_array der Array mit den ausgewählten Pop
 // visible: Ob die Ebene sichtbar geschaltet wird (oder bloss im Layertree verfügbar ist)
-window.apf.olmap.erstellePopSymbole = function(popliste) {
+window.apf.olmap.erstellePopSymbole = function(popliste, popid_markiert) {
 	'use strict';
 	// Aus unerfindlichem Grund wurde diese Funktion aufgerufen, wenn etwas wiederhergestellt wurde
 	// daher nur ausführen, wenn die Karte sichtbar ist
@@ -15106,6 +15106,15 @@ window.apf.olmap.erstellePopSymbole = function(popliste) {
 			}),
             style: (function() {
                 return function(feature, resolution) {
+                    // icon wählen
+                    // markierte sind orange, nicht markierte sind braun
+                    var icon,
+                        popid = feature.get('myId');
+                    if (popid_markiert && popid_markiert.indexOf(popid) !== -1) {
+                        icon = 'img/flora_icon_orange.png'
+                    } else {
+                        icon = 'img/flora_icon_braun.png'
+                    }
                     return [new ol.style.Style({
                         // TODO: icon (braun oder orange) aufgrund Bedingung wählen
                         // Bedingung: popid_markiert && popid_markiert.indexOf(pop.PopId) !== -1
@@ -15114,7 +15123,7 @@ window.apf.olmap.erstellePopSymbole = function(popliste) {
                             anchorXUnits: 'fraction',
                             anchorYUnits: 'pixels',
                             opacity: 1,
-                            src: 'img/flora_icon_braun.png'
+                            src: icon
                         }))
                     })];
                 };
@@ -15304,15 +15313,22 @@ window.apf.olmap.erstellePopSymboleMitNr = function(popliste, popid_markiert, vi
         }),
         style: (function() {
             return function(feature, resolution) {
+                // icon wählen
+                // markierte sind orange, nicht markierte sind braun
+                var icon,
+                    popid = feature.get('myId');
+                if (popid_markiert && popid_markiert.indexOf(popid) !== -1) {
+                    icon = 'img/flora_icon_orange.png'
+                } else {
+                    icon = 'img/flora_icon_braun.png'
+                }
                 return [new ol.style.Style({
-                    // TODO: icon (braun oder orange) aufgrund Bedingung wählen
-                    // Bedingung: popid_markiert && popid_markiert.indexOf(pop.PopId) !== -1
                     image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
                         anchor: [0.5, 46],
                         anchorXUnits: 'fraction',
                         anchorYUnits: 'pixels',
                         opacity: 1,
-                        src: 'img/flora_icon_braun.png'
+                        src: icon
                     })),
                     text: new ol.style.Text({
                         font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
@@ -15340,7 +15356,7 @@ window.apf.olmap.erstellePopSymboleMitNr = function(popliste, popid_markiert, vi
 // übernimmt drei Variablen: PopListe ist das Objekt mit den Populationen
 // popid_array der Array mit den ausgewählten Pop
 // visible: Ob die Ebene sichtbar geschaltet wird (oder bloss im Layertree verfügbar ist)
-window.apf.olmap.erstellePopSymboleMitNamen = function(popliste) {
+window.apf.olmap.erstellePopSymboleMitNamen = function(popliste, popid_markiert) {
     'use strict';
     var pop_mit_namen_erstellt = $.Deferred(),
         markers = [],
@@ -15379,15 +15395,22 @@ window.apf.olmap.erstellePopSymboleMitNamen = function(popliste) {
         }),
         style: (function() {
             return function(feature, resolution) {
+                // icon wählen
+                // markierte sind orange, nicht markierte sind braun
+                var icon,
+                    popid = feature.get('myId');
+                if (popid_markiert && popid_markiert.indexOf(popid) !== -1) {
+                    icon = 'img/flora_icon_orange.png'
+                } else {
+                    icon = 'img/flora_icon_braun.png'
+                }
                 return [new ol.style.Style({
-                    // TODO: icon (braun oder orange) aufgrund Bedingung wählen
-                    // Bedingung: popid_markiert && popid_markiert.indexOf(pop.PopId) !== -1
                     image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
                         anchor: [0.5, 46],
                         anchorXUnits: 'fraction',
                         anchorYUnits: 'pixels',
                         opacity: 1,
-                        src: 'img/flora_icon_braun.png'
+                        src: icon
                     })),
                     text: new ol.style.Text({
                         font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
