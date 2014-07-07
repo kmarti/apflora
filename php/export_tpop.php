@@ -18,7 +18,7 @@ $tpop_id_liste = $_GET["tpop_id_liste"];
 $view = 'vTPop'; // view you want to export
 $file = 'Teilpopulationen'; // csv name.
 
-$result = mysqli_query($link, "SHOW COLUMNS FROM ".$view);
+$result = mysqli_query($link, "SHOW COLUMNS FROM ".$view."");
 $i = 0;
 $csv_output = '';
 
@@ -31,9 +31,9 @@ if (mysqli_num_rows($result) > 0) {
 $csv_output .= "\n";
 
 if ($tpop_id_liste) {
-	$values = mysqli_query($link, "SELECT * FROM ".$view." WHERE TPopId IN (".$tpop_id_liste.")");
+	$values = mysqli_query($link, "SELECT * FROM ".$view." WHERE `TPop ID` IN (".$tpop_id_liste.")");
 } else {
-	$values = mysqli_query($link, "SELECT * FROM ".$view);
+	$values = mysqli_query($link, "SELECT * FROM ".$view."");
 }
  
 while ($rowr = mysqli_fetch_row($values)) {
