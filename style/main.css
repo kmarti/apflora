@@ -936,8 +936,8 @@ a {
 }
 
 #olmap_layertree .ui-accordion-content li {
-    padding-left: 2.1em;
-    padding-right: 1em;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
 }
 
 #olmap_layertree .ui-accordion-content p {
@@ -964,11 +964,16 @@ a {
 #olmap_layertree [type=checkbox]:first-child {
     margin-top: 0;
     margin-left: 0 !important;
+}
+
+#olmap_layertree [type=checkbox] {
+    vertical-align: bottom;
     margin-bottom: 0;
 }
 
 #olmap_layertree li label {
     padding-left: 5px;
+    padding-right: 3px;
 }
 
 #olmap_layertree .layeroptionen {

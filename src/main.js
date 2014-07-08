@@ -8307,7 +8307,7 @@ window.apf.setzeTreehöhe = function() {
 	'use strict';
 	if ($(window).width() > 1000) {
 		if (($(".jstree-no-icons").height() + 157) > $(window).height()) {
-			$("#tree").css("max-height", $(window).height() - 145);
+			$("#tree").css("max-height", $(window).height() - 139);
 		}
 	} else {
 		// Spalten sind untereinander. Baum 75px weniger hoch, damit Formulare immer erreicht werden können
