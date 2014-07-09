@@ -14616,6 +14616,10 @@ window.apf.olmap.erstelleListeDerAusgewähltenPopTPop = function(pop_selected, t
     window.apf.olmap.tpop_selected = tpop_selected;
 
 	if (pop_selected.length > 0) {
+        pop_selected = _.sortBy(pop_selected, function(pop) {
+            var pop_nr = pop.get('pop_nr');
+            return parseInt(pop_nr) || pop_nr;
+        });
 		if (tpop_selected.length > 0) {
 			// tpop und pop betitteln
 			rückmeldung += "<p class='ergebnisAuswahlListeTitel'>" + pop_selected.length + " Populationen: </p>";
@@ -17033,7 +17037,6 @@ window.apf.olmap.addDragBox = function() {
             pop_layer_source = pop_layer.getSource(),
             tpop_layer_source = tpop_layer.getSource(),
             selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
-        console.log('boxend');
         if (pop_layer.get('visible') === true) {
             pop_layer_source.forEachFeatureInExtent(extent, function (feature) {
                 selected_features.push(feature);
@@ -17048,6 +17051,10 @@ window.apf.olmap.addDragBox = function() {
             window.apf.olmap.prüfeObPopTpopGewähltWurden();
         }, 100);
     });
+    /*window.apf.olmap.map.on('click', function() {
+        var selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
+        selected_features.clear();
+    });*/
     window.apf.olmap.map.addInteraction(drag_box);
 };
 
