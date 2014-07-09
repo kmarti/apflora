@@ -2035,13 +2035,13 @@
 						<div id='menuleiste'>
 							<span id="messen">
 								<input type="radio" name="type" value="karteSchieben" id="karteSchieben" onclick="window.apf.olmap.messe(this);" checked="checked">
-								<label id="label_karteSchieben" for="karteSchieben" title="zum Zoomen: Shift-Taste halten und mit der Maus ein Rechteck aufziehen">Karte schieben</label>
+								<label id="label_karteSchieben" for="karteSchieben" title="Infos abfragen: auf Objekte klicken<br>Zoomen: Mausrad drehen<br>Auf Rechteck Zoomen: Shift-Taste halten und mit der Maus ein Rechteck aufziehen">Infos abfragen</label>
 								<input type="radio" name="type" value="line" id="distanzMessen" onclick="window.apf.olmap.messe(this);">
-								<label id="label_distanzMessen" for="distanzMessen" title="Klicken um den nächsten Punkt zu setzen Doppelklicken um die Messung abzuschliessen">Distanz messen</label>
+								<label id="label_distanzMessen" for="distanzMessen" title="Klicken um Punkte zu setzen<br>Doppelklicken um die Messung abzuschliessen">Distanz messen</label>
 								<input type="radio" name="type" value="polygon" id="flaecheMessen" onclick="window.apf.olmap.messe(this);">
-								<label id="label_flaecheMessen" for="flaecheMessen" title="Klicken um den nächsten Punkt zu setzen Doppelklicken um die Messung abzuschliessen">Fläche messen</label>
-								<input type="radio" name="type" value="drawPolygon" id="mitPolygonWaehlen" onclick="window.apf.wähleMitPolygon();">
-								<label id="label_mitPolygonWaehlen" for="mitPolygonWaehlen" title="Teilpopulationen durch Zeichnen eines Polygons auswählen und dann ihre Daten exportieren">auswählen</label>
+								<label id="label_flaecheMessen" for="flaecheMessen" title="Klicken um Punkte zu setzen<br>Doppelklicken um die Messung abzuschliessen">Fläche messen</label>
+								<input type="radio" name="type" value="drawPolygon" id="mitPolygonWaehlen" onclick="window.apf.olmap.wähleAus();">
+								<label id="label_mitPolygonWaehlen" for="mitPolygonWaehlen" title="Einzelne Objekte wählen: drauf klicken<br>Weitere hinzufügen: SHIFT-Taste halten und weitere Objekte anklicken<br>Rechteck wählen: ALT-Taste halten und mit der Maus ein Rechteck aufziehen<br>Gesamte Auswahl löschen: auf einen leeren Bereich der Karte klicken<br>Einzelnes Objekts abwählen: SHIFT-Taste halten und nochmals drauf klicken">auswählen</label>
 							</span>
 							<ol id='ergebnisMessung' reversed></ol>
 							<div id='ergebnisAuswahl'>

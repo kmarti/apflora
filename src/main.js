@@ -14705,6 +14705,10 @@ window.apf.olmap.entfernePopupOverlays = function() {
 	_.each(zu_löschender_overlay, function(overlay) {
 		window.apf.olmap.map.removeOverlay(overlay);
 	});
+	// alle qtips entfernen
+	$('.qtip').each(function() {
+		$(this).qtip('destroy', true);
+	});
 };
 
 window.apf.olmap.zeigeFeatureInfo = function(pixel, coordinate) {
@@ -14807,9 +14811,6 @@ window.apf.olmap.zeigeFeatureInfo = function(pixel, coordinate) {
 	} else {
 		// alle popups entfernen
 		window.apf.olmap.entfernePopupOverlays();
-		$('.qtip').each(function() {
-			$(this).qtip('destroy', true);
-		});
 	}
 };
 
@@ -16949,14 +16950,34 @@ window.apf.initiiereOlmap = function() {
 
         // diverse features und Fähigkeiten ergänzen
         window.apf.olmap.addDragAndDropGeofiles();
-        window.apf.olmap.addSelectFeaturesInSelectableLayers();
         window.apf.olmap.addShowFeatureInfoOnClick();
         window.apf.olmap.changeCursorOverFeature();
         window.apf.olmap.initiiereLayertree();
         window.apf.olmap.addMousePositionControl();
         window.apf.olmap.addFullScreenControl();
-        window.apf.olmap.addDragBox();
 	}
+};
+
+// deaktiviert Messen und Auswählen
+window.apf.olmap.deactivateMenuItems = function() {
+    // messen deaktivieren
+    window.apf.olmap.removeMeasureInteraction();
+    // Auswählen deaktivieren
+    window.apf.olmap.removeSelectFeaturesInSelectableLayers();
+    // allfällige popups schliessen
+    window.apf.olmap.entfernePopupOverlays();
+    // allfällige tooltips von ga-karten verstecken
+    $('div.ga-tooltip').hide();
+};
+
+window.apf.olmap.removeSelectFeaturesInSelectableLayers = function() {
+    'use strict';
+    if (window.apf.olmap.map.olmap_select_interaction) {
+        window.apf.olmap.map.removeInteraction(window.apf.olmap.map.olmap_select_interaction);
+        delete window.apf.olmap.map.olmap_select_interaction;
+        window.apf.olmap.removeDragBox();
+        $("#ergebnisAuswahl").hide();
+    }
 };
 
 window.apf.olmap.addSelectFeaturesInSelectableLayers = function() {
@@ -16998,10 +17019,16 @@ window.apf.olmap.addSelectFeaturesInSelectableLayers = function() {
          }*/
     });
     window.apf.olmap.map.addInteraction(window.apf.olmap.map.olmap_select_interaction);
+    // man soll auch mit dragbox selecten können
+    window.apf.olmap.addDragBox();
 };
 
 window.apf.olmap.getSelectedFeatures = function() {
-    return window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
+    if (window.apf.olmap.map.olmap_select_interaction) {
+        return window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
+    } else {
+        return [];
+    }
 };
 
 window.apf.olmap.getSelectedFeaturesOfType = function(type) {
@@ -17020,9 +17047,18 @@ window.apf.olmap.getSelectedFeaturesOfType = function(type) {
     return return_array;
 };
 
+window.apf.olmap.removeDragBox = function() {
+    'use strict';
+    if (window.apf.olmap.drag_box_interaction) {
+        window.apf.olmap.map.removeInteraction(window.apf.olmap.drag_box_interaction);
+        //window.apf.olmap.drag_box_interaction.off('boxend');
+        delete window.apf.olmap.drag_box_interaction;
+    }
+};
+
 window.apf.olmap.addDragBox = function() {
     'use strict';
-    var drag_box = new ol.interaction.DragBox({
+    window.apf.olmap.drag_box_interaction = new ol.interaction.DragBox({
         /* dragbox interaction is active only if alt key is pressed */
         condition: ol.events.condition.altKeyOnly,
         /* style the box */
@@ -17036,8 +17072,8 @@ window.apf.olmap.addDragBox = function() {
             })
         })
     });
-    drag_box.on('boxend', function(event) {
-        var geometry = drag_box.getGeometry(),
+    window.apf.olmap.drag_box_interaction.on('boxend', function(event) {
+        var geometry = window.apf.olmap.drag_box_interaction.getGeometry(),
             extent = geometry.getExtent(),
             layers = window.apf.olmap.map.getLayers().getArray(),
             pop_layer_nr = $('#olmap_layertree_Populationen').val(),
@@ -17065,7 +17101,7 @@ window.apf.olmap.addDragBox = function() {
         var selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
         selected_features.clear();
     });*/
-    window.apf.olmap.map.addInteraction(drag_box);
+    window.apf.olmap.map.addInteraction(window.apf.olmap.drag_box_interaction);
 };
 
 window.apf.olmap.addShowFeatureInfoOnClick = function() {
@@ -17075,7 +17111,10 @@ window.apf.olmap.addShowFeatureInfoOnClick = function() {
             coordinate = event.coordinate,
             pop_selected = [],
             tpop_selected = [];
-        window.apf.olmap.zeigeFeatureInfo(pixel, coordinate);
+        // nur machen, wenn nicht selektiert wird
+        if (!window.apf.olmap.map.olmap_select_interaction) {
+            window.apf.olmap.zeigeFeatureInfo(pixel, coordinate);
+        }
         // prüfen, ob pop / tpop gewählt wurden
         // verzögern, weil die neuste selection sonst nicht erfasst wird
         setTimeout(function() {
@@ -17693,6 +17732,7 @@ window.apf.olmap.tpopSymboleStyleSelected = function(feature, resolution) {
 
 window.apf.olmap.messe = function(element) {
 	'use strict';
+    window.apf.olmap.deactivateMenuItems();
 	if (element.value === 'line' && element.checked) {
 		window.apf.olmap.addMeasureInteraction('LineString');
 	} else if (element.value === 'polygon' && element.checked) {
@@ -17700,8 +17740,6 @@ window.apf.olmap.messe = function(element) {
 	} else {
 		window.apf.olmap.removeMeasureInteraction();
 	}
-	// allfällig verbliebene Auswahlpolygone entfernen
-	//window.apf.olmap.auswahlPolygonLayer.removeAllFeatures();
 };
 
 window.apf.olmap.removeMeasureInteraction = function() {
@@ -17827,21 +17865,9 @@ window.apf.olmap.formatArea = function(polygon) {
     return output;
 };
 
-// wird offenbar nicht benutzt
-window.apf.wähleMitPolygon = function() {
-	'use strict';
-	// allfällige Messung deaktivieren
-	window.apf.olmap.removeMeasureInteraction();
-
-    /*// TODO: Auf OL3 upgraden
-	// den vorbereiteten drawControl aktivieren
-	window.drawControl.activate();
-	// allfällige bisherige Auswahl entfernen
-	window.apf.olmap.auswahlPolygonLayer.removeAllFeatures();
-	// allfälliges Ergebnisfenster ausblenden
-	$("#ergebnisAuswahl").css("display", "none");
-	delete window.apf.tpop_id_array;
-	delete window.tpop_id_liste;*/
+window.apf.olmap.wähleAus = function() {
+    window.apf.olmap.deactivateMenuItems();
+    window.apf.olmap.addSelectFeaturesInSelectableLayers();
 };
 
 window.apf.olmap.schliesseLayeroptionen = function() {
