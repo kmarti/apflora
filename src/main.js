@@ -14616,9 +14616,10 @@ window.apf.olmap.erstelleListeDerAusgewähltenPopTPop = function(pop_selected, t
     window.apf.olmap.tpop_selected = tpop_selected;
 
 	if (pop_selected.length > 0) {
+        // pop nach nr sortieren
         pop_selected = _.sortBy(pop_selected, function(pop) {
             var pop_nr = pop.get('pop_nr');
-            return parseInt(pop_nr) || pop_nr;
+            return parseInt(pop_nr);
         });
 		if (tpop_selected.length > 0) {
 			// tpop und pop betitteln
@@ -14633,6 +14634,13 @@ window.apf.olmap.erstelleListeDerAusgewähltenPopTPop = function(pop_selected, t
 		rückmeldung += "</table>";
 	}
 	if (tpop_selected.length > 0) {
+        // tpop nach nr dann tpopnr sortieren
+        tpop_selected = _.sortBy(tpop_selected, function(tpop) {
+            var pop_nr = tpop.get('pop_nr') || 0,
+                tpop_nr = tpop.get('tpop_nr') || 0,
+                pop_tpop_nr = parseFloat(parseInt(pop_nr) + '.' + parseInt(tpop_nr));
+            return pop_tpop_nr;
+        });
 		if (pop_selected.length > 0) {
 			// tpop und pop betitteln
 			rückmeldung += "<p class='ergebnisAuswahlListeTitel ergebnisAuswahlListeTitelTPop'>" + tpop_selected.length + " Teilpopulationen: </p>";
@@ -14641,7 +14649,7 @@ window.apf.olmap.erstelleListeDerAusgewähltenPopTPop = function(pop_selected, t
         _.each(tpop_selected, function(tpop) {
             tpop_id = tpop.get('myId');
             rückmeldung += "<tr><td><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop_id + "')\">";
-            rückmeldung += tpop.get('tpop_nr') + ":<\/a></td><td><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop_id + "')\">";
+            rückmeldung += tpop.get('tpop_nr_label') + ":<\/a></td><td><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop_id + "')\">";
             rückmeldung += tpop.get('tpop_name') + "<\/a></td></tr>";
         });
 		rückmeldung += "</table>";
@@ -15054,7 +15062,9 @@ window.apf.olmap.erstelleTPopLayer = function(tpop_liste, tpopid_markiert, visib
         // marker erstellen...
         marker = new ol.Feature({
     		geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
-            tpop_nr: window.apf.erstelleTPopNrLabel(tpop.PopNr, tpop.TPopNr),
+            tpop_nr: tpop.TPopNr,
+            pop_nr: tpop.PopNr,
+            tpop_nr_label: window.apf.erstelleTPopNrLabel(tpop.PopNr, tpop.TPopNr),
             tpop_name: tpop.TPopFlurname || '(kein Name)',
 			name: window.apf.erstelleTPopNrLabel(tpop.PopNr, tpop.TPopNr),  // brauchts das noch? TODO: entfernen
             popup_content: window.apf.olmap.erstelleContentFürTPop(tpop),
@@ -17450,7 +17460,7 @@ window.apf.olmap.tpopMitNrStyle = function(feature, resolution, tpopid_markiert)
         })),
         text: new ol.style.Text({
             font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
-            text: feature.get('tpop_nr'),
+            text: feature.get('tpop_nr_label'),
             fill:  new ol.style.Fill({
                 color: 'black'
             }),
@@ -17475,7 +17485,7 @@ window.apf.olmap.tpopMitNrStyleSelected = function(feature, resolution) {
         })),
         text: new ol.style.Text({
             font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
-            text: feature.get('tpop_nr'),
+            text: feature.get('tpop_nr_label'),
             fill:  new ol.style.Fill({
                 color: 'black'
             }),
