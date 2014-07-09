@@ -17289,9 +17289,9 @@ window.apf.olmap.initiiereLayertree = function() {
         layers = window.apf.olmap.map.getLayers().getArray(),
         html_eigene_layer;
 
-    html_eigene_layer = '<h3>Eigene Layer</h3>';
+    html_eigene_layer = '<h3>Eigene Ebenen</h3>';
     html_eigene_layer += '<div>';
-    html_eigene_layer += '<p>Ziehen Sie einfach eine der folgenden Dateitypen auf die Karte:</p>';
+    html_eigene_layer += '<p>Einfach eine der folgenden Dateitypen auf die Karte ziehen:</p>';
     html_eigene_layer += '<ul>';
     html_eigene_layer += '<li>GPX</li>';
     html_eigene_layer += '<li>GeoJSON</li>';
