@@ -7856,7 +7856,8 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
                 // und gewählten markieren
                 var modify = new ol.interaction.Modify({ featureOverlay: overlay });
                 window.apf.olmap.map.addInteraction(modify);
-                // jetzt einen handler, der nach einer modify-Interaktion die TPop aktualisiert
+                // TODO: jetzt einen handler, der nach einer modify-Interaktion die TPop aktualisiert
+
             } else {
                 // wenn keine Koordinate existiert:
                 // Draw-interaction erstellen
@@ -7865,7 +7866,8 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
                     type: 'Point'
                 });
             window.apf.olmap.map.addInteraction(draw);
-                // jetzt einen handler, der nach einer Draw-Interaktion die TPop aktualisiert
+                // TODO: jetzt einen handler, der nach einer Draw-Interaktion die TPop aktualisiert
+
             }
 
 
@@ -10699,9 +10701,29 @@ window.apf.olmap.addDragBox = function() {
             })
         })
     });
+    drag_box.on('boxend', function(event) {
+        var geometry = drag_box.getGeometry(),
+            extent = geometry.getExtent(),
+            layers = window.apf.olmap.map.getLayers().getArray(),
+            pop_layer_nr = $('#olmap_layertree_Populationen').val(),
+            pop_layer = layers[pop_layer_nr],
+            tpop_layer_nr = $('#olmap_layertree_Teilpopulationen').val(),
+            tpop_layer = layers[tpop_layer_nr],
+            pop_layer_source = pop_layer.getSource(),
+            tpop_layer_source = tpop_layer.getSource(),
+            selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
+        console.log('boxend');
+        pop_layer_source.forEachFeatureInExtent(extent, function(feature) {
+            selected_features.push(feature);
+        });
+        tpop_layer_source.forEachFeatureInExtent(extent, function(feature) {
+            selected_features.push(feature);
+        });
+        setTimeout(function() {
+            window.apf.olmap.prüfeObPopTpopGewähltWurden();
+        }, 100);
+    });
     window.apf.olmap.map.addInteraction(drag_box);
-    // TODO: get features inside dragBox
-    // getGeometry()?
 };
 
 window.apf.olmap.addShowFeatureInfoOnClick = function() {
