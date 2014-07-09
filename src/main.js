@@ -17013,8 +17013,12 @@ window.apf.olmap.addDragBox = function() {
         condition: ol.events.condition.altKeyOnly,
         /* style the box */
         style: new ol.style.Style({
+            fill: new ol.style.Fill({
+                color: 'rgba(255,0,0,0.1)'
+            }),
             stroke: new ol.style.Stroke({
-                color: [0, 0, 255, 1]
+                color: [255, 0, 0, 1],
+                width: 3
             })
         })
     });
@@ -17030,12 +17034,16 @@ window.apf.olmap.addDragBox = function() {
             tpop_layer_source = tpop_layer.getSource(),
             selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
         console.log('boxend');
-        pop_layer_source.forEachFeatureInExtent(extent, function(feature) {
-            selected_features.push(feature);
-        });
-        tpop_layer_source.forEachFeatureInExtent(extent, function(feature) {
-            selected_features.push(feature);
-        });
+        if (pop_layer.get('visible') === true) {
+            pop_layer_source.forEachFeatureInExtent(extent, function (feature) {
+                selected_features.push(feature);
+            });
+        }
+        if (tpop_layer.get('visible') === true) {
+            tpop_layer_source.forEachFeatureInExtent(extent, function (feature) {
+                selected_features.push(feature);
+            });
+        }
         setTimeout(function() {
             window.apf.olmap.prüfeObPopTpopGewähltWurden();
         }, 100);
