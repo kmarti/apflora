@@ -7729,7 +7729,7 @@ window.apf.gmap.zeigeTPop = function(tpop_liste) {
             '<p>Population: ' + tpop.PopName + '</p>'+
             '<p>TPop: ' + my_flurname + '</p>'+
             '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
-            "<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + tpop.TPopId + "')\">Formular öffnen<\/a></p>"+
+            "<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + tpop.TPopId + "')\">Formular öffnen (ersetzt Karte)<\/a></p>"+
             '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')\">Formular in Dialog öffnen<\/a></p>'+
             "<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
             '</div>'+
@@ -8280,7 +8280,7 @@ window.apf.olmap.erstelleContentFürTPop = function(tpop) {
         '<p>Population: ' + tpop.PopName + '</p>'+
         '<p>Teilpopulation: ' + my_flurname + '</p>'+
         '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
-        "<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + tpop.TPopId + "')\">Formular öffnen<\/a></p>"+
+        "<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + tpop.TPopId + "')\">Formular öffnen (ersetzt Karte)<\/a></p>"+
         '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')\">Formular in Dialog öffnen<\/a></p>'+
         "<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
 };
@@ -8515,7 +8515,7 @@ window.apf.olmap.erstelleContentFürPop = function(pop) {
     'use strict';
     return '<p>Typ: Population</p>'+
         '<p>Koordinaten: ' + pop.PopXKoord + ' / ' + pop.PopYKoord + '</p>'+
-        "<p><a href=\"#\" onclick=\"window.apf.öffnePop('" + pop.PopId + "')\">Formular öffnen<\/a></p>"+
+        "<p><a href=\"#\" onclick=\"window.apf.öffnePop('" + pop.PopId + "')\">Formular öffnen (ersetzt Karte)<\/a></p>"+
         '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'pop\', ' + pop.PopId + ')\">Formular in Dialog öffnen<\/a></p>'+
         "<p><a href=\"#\" onclick=\"window.apf.öffnePopInNeuemTab('" + pop.PopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
 };
@@ -9073,7 +9073,7 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
             '<p>Population: ' + tpop.PopName + '</p>'+
             '<p>TPop: ' + my_flurname + '</p>'+
             '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
-            "<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + tpop.TPopId + "')\">Formular öffnen<\/a></p>"+
+            "<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + tpop.TPopId + "')\">Formular öffnen (ersetzt Karte)<\/a></p>"+
             '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')\">Formular in Dialog öffnen<\/a></p>'+
             "<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
             '</div>'+
@@ -9146,7 +9146,7 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
             '<p>Projekt: ' + Projekt + '</p>'+
             '<p>Ort: ' + Ort + '</p>'+
             '<p>Koordinaten: ' + beob.X + ' / ' + beob.Y + '</p>'+
-            "<p><a href=\"#\" onclick=\"window.apf.öffneBeob('" + beob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
+            "<p><a href=\"#\" onclick=\"window.apf.öffneBeob('" + beob.NO_NOTE + "')\">Formular öffnen (ersetzt Karte)<\/a></p>"+
             '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'beob\', ' + beob.NO_NOTE + ')\">Formular in Dialog öffnen<\/a></p>'+
             "<p><a href=\"#\" onclick=\"window.apf.öffneBeobInNeuemTab('" + beob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
             '</div>'+
@@ -9340,7 +9340,7 @@ window.apf.gmap.zeigeBeob = function(beob_liste) {
             '<p>Projekt: ' + Projekt + '</p>'+
             '<p>Ort: ' + Ort + '</p>'+
             '<p>Koordinaten: ' + beob.X + ' / ' + beob.Y + '</p>'+
-            "<p><a href=\"#\" onclick=\"window.apf.öffneBeob('" + beob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
+            "<p><a href=\"#\" onclick=\"window.apf.öffneBeob('" + beob.NO_NOTE + "')\">Formular öffnen (ersetzt Karte)<\/a></p>"+
             "<p><a href=\"#\" onclick=\"window.apf.öffneBeobInNeuemTab('" + beob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
             '</div>'+
             '</div>';
@@ -9472,7 +9472,7 @@ window.apf.gmap.zeigeTPopBeob = function(tpop_beob_liste) {
             '<p>Projekt: ' + Projekt + '</p>'+
             '<p>Ort: ' + Ort + '</p>'+
             '<p>Koordinaten: ' + tpop_beob.X + ' / ' + tpop_beob.Y + '</p>'+
-            "<p><a href=\"#\" onclick=\"window.apf.öffneTPopBeob('" + tpop_beob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
+            "<p><a href=\"#\" onclick=\"window.apf.öffneTPopBeob('" + tpop_beob.NO_NOTE + "')\">Formular öffnen (ersetzt Karte)<\/a></p>"+
             "<p><a href=\"#\" onclick=\"window.apf.öffneTPopBeobInNeuemTab('" + tpop_beob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
             '</div>'+
             '</div>';
@@ -9569,7 +9569,7 @@ window.apf.gmap.verorteTPop = function(TPop) {
 			'<div id="bodyContent" class="GmInfowindow">'+
 			'<h3>' + myFlurname + '</h3>'+
 			'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
-			"<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + TPop.TPopId + "')\">Formular öffnen<\/a></p>"+
+			"<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + TPop.TPopId + "')\">Formular öffnen (ersetzt Karte)<\/a></p>"+
             '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + TPop.TPopId + ')\">Formular in Dialog öffnen<\/a></p>'+
 			"<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + TPop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 			'</div>'+
@@ -9673,7 +9673,7 @@ window.apf.gmap.SetLocationTPop = function(LatLng, map, marker, TPop) {
 				'<div id="bodyContent" class="GmInfowindow">'+
 				'<h3>' + title + '</h3>'+
 				'<p>Koordinaten: ' + X + ' / ' + Y + '</p>'+
-				"<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + localStorage.tpop_id + "')\">Formular öffnen<\/a></p>"+
+				"<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + localStorage.tpop_id + "')\">Formular öffnen (ersetzt Karte)<\/a></p>"+
                 '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + localStorage.tpop_id + ')\">Formular in Dialog öffnen<\/a></p>'+
 				"<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + localStorage.tpop_id + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 				'</div>'+
@@ -11129,8 +11129,9 @@ window.apf.öffneFormularAlsPopup = function(formularname, id) {
         close: function() {
             $formularname.dialog("destroy");
         },
-        height: 600,
+      	//height: 600,
         width: 600,
+        maxHeight: $('#menu').height(),
         resizable: true,
         position: {
         	my: 'left top',

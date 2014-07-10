@@ -375,14 +375,14 @@ a {
 	top: 4px;
 	left: 80px;
 	/*vor die Karte aber nicht vor die Meldungen*/
-	z-index: 800;
+	z-index: 90;
 }
 #distanz_messen_entfernen {
 	position: absolute;
 	top: 4px;
 	left: 200px;
 	/*vor die Karte aber nicht vor die Meldungen*/
-	z-index: 800;
+	z-index: 90;
 }
 .google_karte_checkbox {
 	margin-right: 5px;
@@ -396,7 +396,7 @@ a {
 	top: 4px;
 	left: 350px;
 	/*vor die Karte aber nicht vor die Meldungen*/
-	z-index: 800;
+	z-index: 90;
 }
 
 #ga_karten_div {
