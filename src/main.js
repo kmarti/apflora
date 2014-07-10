@@ -6524,7 +6524,7 @@ window.apf.erstelle_artlisten = function() {
 	return liste_erstellt.promise();
 };
 
-window.apf.initiiere_pop = function() {
+window.apf.initiiere_pop = function(ohne_zu_zeigen) {
 	'use strict';
 	if (!localStorage.pop_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
@@ -6567,11 +6567,14 @@ window.apf.initiiere_pop = function() {
 			$("#PopXKoord").val(data.PopXKoord);
 			$("#PopYKoord").val(data.PopYKoord);
 			// Formulare blenden
-			window.apf.zeigeFormular("pop");
-			history.replaceState({pop: "pop"}, "pop", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id);
-			// bei neuen Datensätzen Fokus steuern
-			if (!$PopName.val()) {
-                $PopNr.focus();
+			// nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
+			if (!ohne_zu_zeigen) {
+				window.apf.zeigeFormular("pop");
+				history.replaceState({pop: "pop"}, "pop", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id);
+				// bei neuen Datensätzen Fokus steuern
+				if (!$PopName.val()) {
+	                $PopNr.focus();
+				}
 			}
 		}
 	});
@@ -7252,8 +7255,9 @@ window.apf.setzeWindowPopmassnber = function(id) {
 	});
 };
 
-window.apf.initiiere_tpop = function() {
+window.apf.initiiere_tpop = function(ohne_zu_zeigen) {
 	'use strict';
+	var $TPopFlurname = $("#TPopFlurname");
 	if (!localStorage.tpop_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
 		window.apf.initiiere_pop();
@@ -7263,14 +7267,13 @@ window.apf.initiiere_tpop = function() {
 	window.apf.leereFelderVonFormular("tpop");
 	// Daten für die pop aus der DB holen
 	var getTPop = $.ajax({
-            type: 'get',
-            url: 'php/tpop.php',
-            dataType: 'json',
-            data: {
-                "id": localStorage.tpop_id
-            }
-        }),
-        $TPopFlurname = $("#TPopFlurname");
+        type: 'get',
+        url: 'php/tpop.php',
+        dataType: 'json',
+        data: {
+            "id": localStorage.tpop_id
+        }
+    });
 	getTPop.always(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
@@ -7360,11 +7363,14 @@ window.apf.initiiere_tpop = function() {
                     .val(window.apf.tpop.TPopVerantw);
 			}
 			// Formulare blenden
-			window.apf.zeigeFormular("tpop");
-			history.replaceState({tpop: "tpop"}, "tpop", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id);
-			// bei neuen Datensätzen Fokus steuern
-			if (!$TPopFlurname.val()) {
-				$('#TPopNr').focus();
+			// nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
+			if (!ohne_zu_zeigen) {
+				window.apf.zeigeFormular("tpop");
+				history.replaceState({tpop: "tpop"}, "tpop", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id);
+				// bei neuen Datensätzen Fokus steuern
+				if (!$TPopFlurname.val()) {
+					$('#TPopNr').focus();
+				}
 			}
 		}
 	});
@@ -8050,7 +8056,7 @@ window.apf.setzeWindowTpopber = function(id) {
 	});
 };
 
-window.apf.initiiere_beob = function(beobtyp, beobid, beob_status) {
+window.apf.initiiere_beob = function(beobtyp, beobid, beob_status, ohne_zu_zeigen) {
 	'use strict';
 	// beob_status markiert, ob die Beobachtung:
 	// - schon zugewiesen ist (zugeordnet)
@@ -8162,11 +8168,14 @@ window.apf.initiiere_beob = function(beobtyp, beobid, beob_status) {
 							$("#BeobMutWer").val(data.BeobMutWer);
 
 							// Formulare blenden
-							window.apf.zeigeFormular("beob");
-							if (beob_status === "zugeordnet") {
-								history.replaceState({beob_zugeordnet: "beob_zugeordnet"}, "beob_zugeordnet", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&beob_zugeordnet=" + beobid);
-							} else if (beob_status === "nicht_zuzuordnen") {
-								history.replaceState({beob_nicht_zuzuordnen: "beob_nicht_zuzuordnen"}, "beob_nicht_zuzuordnen", "index.html?ap=" + localStorage.ap_id + "&beob_nicht_zuzuordnen=" + beobid);
+							// nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
+							if (!ohne_zu_zeigen) {
+								window.apf.zeigeFormular("beob");
+								if (beob_status === "zugeordnet") {
+									history.replaceState({beob_zugeordnet: "beob_zugeordnet"}, "beob_zugeordnet", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&beob_zugeordnet=" + beobid);
+								} else if (beob_status === "nicht_zuzuordnen") {
+									history.replaceState({beob_nicht_zuzuordnen: "beob_nicht_zuzuordnen"}, "beob_nicht_zuzuordnen", "index.html?ap=" + localStorage.ap_id + "&beob_nicht_zuzuordnen=" + beobid);
+								}
 							}
 						});
 					} else {
@@ -8178,8 +8187,11 @@ window.apf.initiiere_beob = function(beobtyp, beobid, beob_status) {
                             .val("")
                             .attr("placeholder", "Bemerkungen sind nur in zugeordneten oder nicht zuzuordnenden Beobachtungen möglich");
 						// Formulare blenden
-						window.apf.zeigeFormular("beob");
-						history.replaceState({beob_nicht_beurteilt: "beob_nicht_beurteilt"}, "beob_nicht_beurteilt", "index.html?ap=" + localStorage.ap_id + "&beob_nicht_beurteilt=" + beobid);
+						// nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
+						if (!ohne_zu_zeigen) {
+							window.apf.zeigeFormular("beob");
+							history.replaceState({beob_nicht_beurteilt: "beob_nicht_beurteilt"}, "beob_nicht_beurteilt", "index.html?ap=" + localStorage.ap_id + "&beob_nicht_beurteilt=" + beobid);
+						}
 					}
 				}
 			});
@@ -14035,6 +14047,7 @@ window.apf.gmap.zeigeTPop = function(tpop_liste) {
             '<p>TPop: ' + my_flurname + '</p>'+
             '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
             "<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + tpop.TPopId + "')\">Formular öffnen<\/a></p>"+
+            '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')\">Formular in Dialog öffnen<\/a></p>'+
             "<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
             '</div>'+
             '</div>';
@@ -14585,6 +14598,7 @@ window.apf.olmap.erstelleContentFürTPop = function(tpop) {
         '<p>Teilpopulation: ' + my_flurname + '</p>'+
         '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
         "<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + tpop.TPopId + "')\">Formular öffnen<\/a></p>"+
+        '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')\">Formular in Dialog öffnen<\/a></p>'+
         "<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
 };
 
@@ -14819,6 +14833,7 @@ window.apf.olmap.erstelleContentFürPop = function(pop) {
     return '<p>Typ: Population</p>'+
         '<p>Koordinaten: ' + pop.PopXKoord + ' / ' + pop.PopYKoord + '</p>'+
         "<p><a href=\"#\" onclick=\"window.apf.öffnePop('" + pop.PopId + "')\">Formular öffnen<\/a></p>"+
+        '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'pop\', ' + pop.PopId + ')\">Formular in Dialog öffnen<\/a></p>'+
         "<p><a href=\"#\" onclick=\"window.apf.öffnePopInNeuemTab('" + pop.PopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
 };
 
@@ -15376,6 +15391,7 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
             '<p>TPop: ' + my_flurname + '</p>'+
             '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
             "<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + tpop.TPopId + "')\">Formular öffnen<\/a></p>"+
+            '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')\">Formular in Dialog öffnen<\/a></p>'+
             "<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
             '</div>'+
             '</div>';
@@ -15448,6 +15464,7 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
             '<p>Ort: ' + Ort + '</p>'+
             '<p>Koordinaten: ' + beob.X + ' / ' + beob.Y + '</p>'+
             "<p><a href=\"#\" onclick=\"window.apf.öffneBeob('" + beob.NO_NOTE + "')\">Formular öffnen<\/a></p>"+
+            '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'beob\', ' + beob.NO_NOTE + ')\">Formular in Dialog öffnen<\/a></p>'+
             "<p><a href=\"#\" onclick=\"window.apf.öffneBeobInNeuemTab('" + beob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
             '</div>'+
             '</div>';
@@ -15870,6 +15887,7 @@ window.apf.gmap.verorteTPop = function(TPop) {
 			'<h3>' + myFlurname + '</h3>'+
 			'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
 			"<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + TPop.TPopId + "')\">Formular öffnen<\/a></p>"+
+            '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + TPop.TPopId + ')\">Formular in Dialog öffnen<\/a></p>'+
 			"<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + TPop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
@@ -15973,6 +15991,7 @@ window.apf.gmap.SetLocationTPop = function(LatLng, map, marker, TPop) {
 				'<h3>' + title + '</h3>'+
 				'<p>Koordinaten: ' + X + ' / ' + Y + '</p>'+
 				"<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + localStorage.tpop_id + "')\">Formular öffnen<\/a></p>"+
+                '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + localStorage.tpop_id + ')\">Formular in Dialog öffnen<\/a></p>'+
 				"<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + localStorage.tpop_id + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 				'</div>'+
 				'</div>';
@@ -17392,6 +17411,52 @@ window.apf.olmap.initiiereLayertree = function() {
     $ga_karten_div_accordion.accordion({collapsible:true, active: false, heightStyle: 'content'});
     // Maximalgrösse des Layertree begrenzen
     $olmap_layertree_layers.css('max-height', window.apf.berechneOlmapLayertreeMaxhöhe);
+};
+
+// das ist der Versuch, existierende Formulare als dialog zu öffnen
+// braucht die id des Formulars
+// und die id des Datensatzes, der anzuzeigen ist
+window.apf.öffneFormularAlsPopup = function(formularname, id) {
+    var $formularname = $('#' + formularname),
+    	title;
+	// titel bestimmen
+	switch (formularname) {
+		case 'pop':
+			title = 'Population';
+			break;
+		case 'tpop':
+			title = 'Teilpopulation';
+			break;
+		case 'beob':
+			title = 'Beobachtung';
+			break;
+		default:
+			title = '';
+	}
+    // id setzen
+    localStorage[formularname + '_id'] = id;
+    // formular initiieren, ohne anzuzeigen
+    if (formularname === 'beob') {
+    	window.apf['initiiere_' + formularname]('beob_nicht_beurteilt', id, 'nicht_beurteilt', true);
+    } else {
+    	window.apf['initiiere_' + formularname](true);
+    }
+    // dialog öffnen
+    $formularname.dialog({
+        close: function() {
+            $formularname.dialog("destroy");
+        },
+        height: 600,
+        width: 600,
+        resizable: true,
+        position: {
+        	my: 'left top',
+        	at: 'left top',
+        	of: $('#menu')
+        },
+        title: title
+    });
+    $formularname.dialog("open");
 };
 
 window.apf.olmap.detailplanStyle = function(feature, resolution) {

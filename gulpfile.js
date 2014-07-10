@@ -26,7 +26,7 @@ gulp.task('prod', ['prod_build_style', 'prod_build_src'], function() {
     gulp.start('dev_move_all', 'prod_sftp');
 });
 
-gulp.task('dev_build_all', ['dev_build_style', 'dev_build_src'], function() {
+gulp.task('dev_build_all', ['dev_build_style', 'dev_build_src', 'dev_build_php'], function() {
     gulp.start('dev_move_all');
  });
 
@@ -67,6 +67,11 @@ gulp.task('dev_build_src', function() {
         .pipe(gulp.dest('src'))
         .pipe(gulp.dest('../programme/xampp/htdocs/apflora/src'))
         .pipe(notify({ message: 'dev_build_src task beendet' }));
+});
+
+gulp.task('dev_build_php', function() {
+    return gulp.src(['php/*'])
+        .pipe(gulp.dest('../programme/xampp/htdocs/apflora/php'));
 });
 
 gulp.task('prod_sftp_src', function() {
@@ -184,5 +189,6 @@ gulp.task('watch', function() {
     //gulp.watch(['**', '-src/main.js', '-style/main.css'], ['dev_build_all']);
     gulp.watch(['src/*', '-src/main.js'], ['dev_build_src']);
     gulp.watch(['style/*', '-style/main.css'], ['dev_build_style']);
+    gulp.watch(['php/*'], ['dev_build_php']);
     gulp.watch(['index.html'], ['dev_move_index']);
 });

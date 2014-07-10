@@ -512,7 +512,7 @@ a {
 	top: 10px;
 	left: 57px;
 	/*vor die Karte aber nicht vor die Meldungen*/
-	z-index: 800;
+	z-index: 90;
 }
 
 #menuleiste .ui-button {
