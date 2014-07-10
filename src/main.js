@@ -18356,7 +18356,7 @@ window.apf.insertNeuenNodeAufGleicherHierarchiestufe = function(aktiver_node, pa
 		// der Initiierung mitteilen, dass es eine Freiwilligenkontrolle ist und keine Feldkontrolle
 		localStorage.tpopfreiwkontr = true;
 		// Freiwilligen-Kontrollen werden von derselben Funktion initiiert, wie Feldkontrollen
-		window.apf["window.apf.initiiere_tpopfeldkontr"]();
+		window.apf["initiiere_tpopfeldkontr"]();
 	} else {
 		window.apf["initiiere_"+strukturtyp]();
 	}
@@ -18438,7 +18438,7 @@ window.apf.insertNeuenNodeEineHierarchiestufeTiefer = function(aktiver_node, par
 		// der Initiierung mitteilen, dass es eine Freiwilligenkontrolle ist und keine Feldkontrolle
 		localStorage.tpopfreiwkontr = true;
 		// Freiwilligen-Kontrollen werden von derselben Funktion initiiert, wie Feldkontrollen
-		window.apf["window.apf.initiiere_tpopfeldkontr"]();
+		window.apf["initiiere_tpopfeldkontr"]();
 	} else {
 		window.apf["initiiere_"+strukturtyp]();
 	}
