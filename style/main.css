@@ -999,7 +999,7 @@ a {
 
 #menuleiste {
 	position: absolute;
-	top: 8px;
+	top: 10px;
 	left: 57px;
 	/*vor die Karte aber nicht vor die Meldungen*/
 	z-index: 800;
@@ -1017,6 +1017,10 @@ a {
 	text-shadow: 0 1px 1px white,1px 0 1px white,0 -1px 1px white,-1px 0 1px white,0 2px 1px white,2px 0 1px white,0 -2px 1px white,-2px 0 1px white;
 	top: 16px;
 	right: 362px;
+}
+
+#GeoAdminKarte .ol-full-screen {
+    top: 0.55em;
 }
 
 #ergebnisMessung {
