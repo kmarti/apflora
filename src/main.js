@@ -13974,7 +13974,7 @@ window.apf.gmap.zeigeTPop = function(tpop_liste) {
         lng,
         latlng,
         options,
-        gmap,
+        map,
         bounds,
         markers,
         tpop_id,
@@ -14014,8 +14014,8 @@ window.apf.gmap.zeigeTPop = function(tpop_liste) {
 		streetViewControl: false,
 		mapTypeId: google.maps.MapTypeId.SATELLITE
 	};
-	gmap = new google.maps.Map(document.getElementById("google_karten_div"), options);
-	window.apf.gmap = gmap;
+	map = new google.maps.Map(document.getElementById("google_karten_div"), options);
+	window.apf.gmap.map = map;
 	bounds = new google.maps.LatLngBounds();
 	// für alle TPop Marker erstellen
 	markers = [];
@@ -14024,14 +14024,14 @@ window.apf.gmap.zeigeTPop = function(tpop_liste) {
         tpop_beschriftung = window.apf.beschrifteTPopMitNrFürKarte(tpop.PopNr, tpop.TPopNr);
         latlng2 = new google.maps.LatLng(tpop.Lat, tpop.Lng);
         if (anz_tpop === 1) {
-            // gmap.fitbounds setzt zu hohen zoom, wenn nur eine TPop Koordinaten hat > verhindern
+            // map.fitbounds setzt zu hohen zoom, wenn nur eine TPop Koordinaten hat > verhindern
             latlng = latlng2;
         } else {
             // Kartenausschnitt um diese Koordinate erweitern
             bounds.extend(latlng2);
         }
         marker = new MarkerWithLabel({
-            map: gmap,
+            map: map,
             position: latlng2,
             title: tpop_beschriftung,
             labelContent: tpop_beschriftung,
@@ -14054,7 +14054,7 @@ window.apf.gmap.zeigeTPop = function(tpop_liste) {
             "<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
             '</div>'+
             '</div>';
-        makeListener(gmap, marker, contentString);
+        makeListener(map, marker, contentString);
     });
 	marker_options = {
 		maxZoom: 17, 
@@ -14071,20 +14071,20 @@ window.apf.gmap.zeigeTPop = function(tpop_liste) {
 	    preserveViewport: true
 	});
 	window.apf.google_karte_detailpläne.setMap(null);
-	marker_cluster = new MarkerClusterer(gmap, markers, marker_options);
+	marker_cluster = new MarkerClusterer(map, markers, marker_options);
 	if (anz_tpop === 1) {
-		// gmap.fitbounds setzt zu hohen zoom, wenn nur eine Beobachtung erfasst wurde > verhindern
-		gmap.setCenter(latlng);
-		gmap.setZoom(18);
+		// map.fitbounds setzt zu hohen zoom, wenn nur eine Beobachtung erfasst wurde > verhindern
+		map.setCenter(latlng);
+		map.setZoom(18);
 	} else {
 		// Karte auf Ausschnitt anpassen
-		gmap.fitBounds(bounds);
+		map.fitBounds(bounds);
 	}
 	// diese Funktion muss hier sein, damit infowindow bekannt ist
-	function makeListener(gmap, marker, contentString) {
+	function makeListener(map, marker, contentString) {
 		google.maps.event.addListener(marker, 'click', function() {
 			infowindow.setContent(contentString);
-			infowindow.open(gmap, marker);
+			infowindow.open(map, marker);
 		});
 	}
 };
@@ -15308,7 +15308,7 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
         lng,
         latlng,
         options,
-        gmap,
+        map,
         bounds,
         markers_tpop,
         tpop_id,
@@ -15362,8 +15362,8 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
 		streetViewControl: false,
 		mapTypeId: google.maps.MapTypeId.SATELLITE
 	};
-	gmap = new google.maps.Map(document.getElementById("google_karten_div"), options);
-	window.apf.gmap.map = gmap;
+	map = new google.maps.Map(document.getElementById("google_karten_div"), options);
+	window.apf.gmap.map = map;
 	bounds = new google.maps.LatLngBounds();
 
 	// für alle TPop Marker erstellen
@@ -15375,7 +15375,7 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
         bounds.extend(latlng2);
         tpop_beschriftung = window.apf.beschrifteTPopMitNrFürKarte(tpop.PopNr, tpop.TPopNr);
         marker_tpop = new MarkerWithLabel({
-            map: gmap,
+            map: map,
             position: latlng2,
             title: tpop_beschriftung,
             labelContent: tpop_beschriftung,
@@ -15398,7 +15398,7 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
             "<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
             '</div>'+
             '</div>';
-        makeListener(gmap, marker_tpop, contentstring_tpop);
+        makeListener(map, marker_tpop, contentstring_tpop);
     });
 	marker_options_tpop = {
 		maxZoom: 17, 
@@ -15408,13 +15408,13 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
 				width: 53
 			}]
 	};
-	marker_cluster_tpop = new MarkerClusterer(gmap, markers_tpop, marker_options_tpop);
+	marker_cluster_tpop = new MarkerClusterer(map, markers_tpop, marker_options_tpop);
 	
 	// diese Funktion muss hier sein, damit infowindow bekannt ist
-	function makeListener(gmap, markerTPop, contentStringTPop) {
+	function makeListener(map, markerTPop, contentStringTPop) {
 		google.maps.event.addListener(markerTPop, 'click', function() {
 			infowindow_tpop.setContent(contentStringTPop);
-			infowindow_tpop.open(gmap, markerTPop);
+			infowindow_tpop.open(map, markerTPop);
 		});
 	}
 
@@ -15424,7 +15424,7 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
         datum = beob.Datum;
         latlng2 = new google.maps.LatLng(beob.Lat, beob.Lng);
         if (anz_beob === 1) {
-            // gmap.fitbounds setzt zu hohen zoom, wenn nur eine Beob Koordinaten hat > verhindern
+            // map.fitbounds setzt zu hohen zoom, wenn nur eine Beob Koordinaten hat > verhindern
             latlng = latlng2;
         } else {
             // Kartenausschnitt um diese Koordinate erweitern
@@ -15443,7 +15443,7 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
             a_note = "";
         }
         marker_beob = new MarkerWithLabel({
-            map: gmap,
+            map: map,
             position: latlng2,
             title: titel_beob,
             labelContent: a_note,
@@ -15471,16 +15471,16 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
             "<p><a href=\"#\" onclick=\"window.apf.öffneBeobInNeuemTab('" + beob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
             '</div>'+
             '</div>';
-        makeListenerBeob(gmap, marker_beob, contentstring_beob);
+        makeListenerBeob(map, marker_beob, contentstring_beob);
     });
 	// KEIN MARKERCLUSTERER: er verhindert das Entfernen einzelner Marker!
 	// ausserdem macht er es schwierig, eng liegende Marker zuzuordnen
 	
 	// diese Funktion muss hier sein, damit infowindow bekannt ist
-	function makeListenerBeob(gmap, markerBeob, contentStringBeob) {
+	function makeListenerBeob(map, markerBeob, contentStringBeob) {
 		google.maps.event.addListener(markerBeob, 'click', function() {
 			infowindow_beob.setContent(contentStringBeob);
-			infowindow_beob.open(gmap, markerBeob);
+			infowindow_beob.open(map, markerBeob);
 		});
 	}
 
@@ -15547,12 +15547,12 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
 	}
 
 	if (anz_tpop + anz_beob === 1) {
-		// gmap.fitbounds setzt zu hohen zoom, wenn nur ein Punkt dargestellt wird > verhindern
-		gmap.setCenter(latlng);
-		gmap.setZoom(18);
+		// map.fitbounds setzt zu hohen zoom, wenn nur ein Punkt dargestellt wird > verhindern
+		map.setCenter(latlng);
+		map.setZoom(18);
 	} else {
 		// Karte auf Ausschnitt anpassen
-		gmap.fitBounds(bounds);
+		map.fitBounds(bounds);
 	}
 };
 
@@ -15824,55 +15824,55 @@ window.apf.gmap.zeigeTPopBeob = function(tpop_beob_liste) {
 	}
 };
 
-window.apf.gmap.verorteTPop = function(TPop) {
+window.apf.gmap.verorteTPop = function(tpop) {
 	'use strict';
-	var anzTPop,
-        infowindow,
+	var infowindow = new google.maps.InfoWindow(),
         lat,
         lng,
         latlng,
-        ZoomLevel,
+        zoom_level,
         options,
         map,
-        mapcanvas,
+        map_canvas = $('#google_karten_div'),
         verorted,
-        TPopId,
-        latlng2,
         marker,
-        contentString,
-        mcOptions,
-        markerCluster,
+        content_string,
         tpop_beschriftung,
-        myFlurname;
+        my_flurname;
+    window.apf.gmap.markers_array = [];
+
 	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	window.apf.zeigeFormular("google_karte");
-	window.apf.gmap.markers_array = [];
-	infowindow = new google.maps.InfoWindow();
-	if (TPop && TPop.TPopXKoord && TPop.TPopYKoord) {
+
+    // Optionen für die Anzeige
+	if (tpop && tpop.TPopXKoord && tpop.TPopYKoord) {
 		// Wenn Koordinaten vorhanden, Lat und Lng ergänzen
-		lat = window.apf.CHtoWGSlat(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
-		lng = window.apf.CHtoWGSlng(parseInt(TPop.TPopXKoord), parseInt(TPop.TPopYKoord));
-		ZoomLevel = 15;
+		lat = window.apf.CHtoWGSlat(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
+		lng = window.apf.CHtoWGSlng(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
+		zoom_level = 15;
 		verorted = true;
 	} else {
 		// sonst auf Zürich zentrieren
 		lat = 47.360566;
 		lng = 8.542829;
-		ZoomLevel = 12;
+		zoom_level = 12;
 		verorted = false;
 	}
 	latlng = new google.maps.LatLng(lat, lng);
 	options = {
-		zoom: ZoomLevel,
+		zoom: zoom_level,
 		center: latlng,
 		streetViewControl: false,
 		mapTypeId: google.maps.MapTypeId.SATELLITE
 	};
-	mapcanvas = $('#google_karten_div');
-	map = new google.maps.Map(mapcanvas[0],options);
+
+    // Karte gründen
+	map = new google.maps.Map(map_canvas[0], options);
 	window.apf.gmap.map = map;
-	if (verorted === true) {
-		tpop_beschriftung = window.apf.beschrifteTPopMitNrFürKarte(TPop.PopNr, TPop.TPopNr);
+
+	if (verorted) {
+        // marker erstellen
+		tpop_beschriftung = window.apf.beschrifteTPopMitNrFürKarte(tpop.PopNr, tpop.TPopNr);
 		marker = new google.maps.Marker({
 			position: latlng, 
 			map: map,
@@ -15881,44 +15881,51 @@ window.apf.gmap.verorteTPop = function(TPop) {
 			draggable: true
 		});
 		// Marker in Array speichern, damit er gelöscht werden kann
-		window.apf.gmap.markers_array.push(marker); 
-		myFlurname = TPop.TPopFlurname || '(kein Flurname)';
-		contentString = '<div id="content">'+
+		window.apf.gmap.markers_array.push(marker);
+
+        // infowindow erstellen
+		my_flurname = tpop.TPopFlurname || '(kein Flurname)';
+		content_string = '<div id="content">'+
 			'<div id="siteNotice">'+
 			'</div>'+
 			'<div id="bodyContent" class="GmInfowindow">'+
-			'<h3>' + myFlurname + '</h3>'+
-			'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
-			"<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + TPop.TPopId + "')\">Formular öffnen (ersetzt Karte)<\/a></p>"+
-            '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + TPop.TPopId + ')\">Formular neben der Karte öffnen<\/a></p>'+
-			"<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + TPop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+			'<h3>' + my_flurname + '</h3>'+
+			'<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
+			"<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + tpop.TPopId + "')\">Formular öffnen (ersetzt Karte)<\/a></p>"+
+            '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')\">Formular neben der Karte öffnen<\/a></p>'+
+			"<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
 		infowindow = new google.maps.InfoWindow({
-			content: contentString
+			content: content_string
 		});
 		if (!window.apf.gmap.info_window_array) {
 			window.apf.gmap.info_window_array = [];
 		}
 		window.apf.gmap.info_window_array.push(infowindow);
+
 		google.maps.event.addListener(marker, 'click', function() {
 			infowindow.open(map, marker);
 		});
 		google.maps.event.addListener(marker, "dragend", function(event) {
-			window.apf.gmap.SetLocationTPop(event.latLng, map, marker, TPop);
+			window.apf.gmap.SetLocationTPop(event.latLng, map, marker, tpop);
 		});
 	}
+
+    // listener bei klick in Karte
+    // entfernt bestehenden marker, erstellt neuen und aktualisiert Koordinaten
 	google.maps.event.addListener(map, 'click', function(event) {
-		window.apf.gmap.clearMarkers(event.latLng, map, marker, TPop);
+		window.apf.gmap.erstelleMarker(event.latLng, map, marker, tpop);
 	});
 };
 
-window.apf.gmap.clearMarkers = function(location, map, marker, TPop) {
+window.apf.gmap.erstelleMarker = function(location, map, marker, tpop) {
 	'use strict';
 	var title;
+
 	// title muss String sein
-	if (TPop && TPop.TPopFlurname) {
-		title = TPop.TPopFlurname;
+	if (tpop && tpop.TPopFlurname) {
+		title = tpop.TPopFlurname;
 	} else {
 		title = "neue Teilpopulation";
 	}
@@ -15934,7 +15941,7 @@ window.apf.gmap.clearMarkers = function(location, map, marker, TPop) {
 	// Marker in Array speichern, damit er gelöscht werden kann
 	window.apf.gmap.markers_array.push(marker);
 	google.maps.event.addListener(marker, "dragend", function(event) {
-		window.apf.gmap.SetLocationTPop(event.latLng, map, marker, TPop);
+		window.apf.gmap.SetLocationTPop(event.latLng, map, marker, tpop);
 	});
 	window.apf.gmap.SetLocationTPop(location, map, marker);
 };

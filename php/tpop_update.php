@@ -19,12 +19,17 @@ $Wert = $_POST["Wert"];
 $user = $_POST["user"];
 $time = date('Y-m-d H:i:s');
 
+echo "<pre>Debug 'POST[Feld]': ".$_POST["Feld"]."</pre>";
+echo "<pre>Debug 'mysqli_real_escape_string(link, Feld)': ".mysqli_real_escape_string($link, $Feld)."</pre>";
+
 if ($Wert == NULL) {
 	// Null speichern, sonst werden aus Nullwerten in Zahlenfeldern 0 gemacht
 	$Querystring = 'UPDATE tblTeilpopulation SET '.mysqli_real_escape_string($link, $Feld).'= NULL, MutWann="'.mysqli_real_escape_string($link, $time).'", MutWer="'.mysqli_real_escape_string($link, $user).'" WHERE TPopId = '.mysqli_real_escape_string($link, $id);
 } else {
 	$Querystring = 'UPDATE tblTeilpopulation SET '.mysqli_real_escape_string($link, $Feld).'="'.mysqli_real_escape_string($link, $Wert).'", MutWann="'.mysqli_real_escape_string($link, $time).'", MutWer="'.mysqli_real_escape_string($link, $user).'" WHERE TPopId = '.mysqli_real_escape_string($link, $id);
 }
+
+echo "<pre>Debug: $Querystring</pre>";
 
 // SQL-Anfrage ausführen
 $result = mysqli_query($link, $Querystring);
