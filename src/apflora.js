@@ -1749,13 +1749,9 @@ window.apf.initiiere_beob = function(beobtyp, beobid, beob_status, ohne_zu_zeige
 	localStorage.beob_status = beob_status;
 	// sicherstellen, dass beobtyp immer bekannt ist
 	localStorage.beobtyp = beobtyp;
-	// beobid hat 'beob' vorangestellt - entfernen!
-	beobid = beobid.replace('beob', '');
-	// beobid bereitstellen
-	localStorage.beob_id = beobid;
 
 	var url, url_distzutpop;
-	if (!beobid) {
+	if (!beobid && !ohne_zu_zeigen) {
 		// es fehlen benötigte Daten > eine Ebene höher
 		if (beob_status === "nicht_beurteilt" || beob_status === "nicht_zuzuordnen") {
 			window.apf.initiiere_ap();
@@ -1764,6 +1760,13 @@ window.apf.initiiere_beob = function(beobtyp, beobid, beob_status, ohne_zu_zeige
 		}
 		return;
 	}
+
+    // beobid hat meist 'beob' vorangestellt - entfernen!
+    if (beobid.indexOf('beob') > -1) {
+        beobid = beobid.replace('beob', '');
+    }
+    // beobid bereitstellen
+    localStorage.beob_id = beobid;
 	
 	// EvAB oder Infospezies? > entsprechende url zusammensetzen
 	url = 'php/beob_' + beobtyp + '.php';
@@ -7730,7 +7733,7 @@ window.apf.gmap.zeigeTPop = function(tpop_liste) {
             '<p>TPop: ' + my_flurname + '</p>'+
             '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
             "<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + tpop.TPopId + "')\">Formular öffnen (ersetzt Karte)<\/a></p>"+
-            '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')\">Formular in Dialog öffnen<\/a></p>'+
+            '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')\">Formular neben der Karte öffnen<\/a></p>'+
             "<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
             '</div>'+
             '</div>';
@@ -8281,7 +8284,7 @@ window.apf.olmap.erstelleContentFürTPop = function(tpop) {
         '<p>Teilpopulation: ' + my_flurname + '</p>'+
         '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
         "<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + tpop.TPopId + "')\">Formular öffnen (ersetzt Karte)<\/a></p>"+
-        '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')\">Formular in Dialog öffnen<\/a></p>'+
+        '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')\">Formular neben der Karte öffnen<\/a></p>'+
         "<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
 };
 
@@ -8516,7 +8519,7 @@ window.apf.olmap.erstelleContentFürPop = function(pop) {
     return '<p>Typ: Population</p>'+
         '<p>Koordinaten: ' + pop.PopXKoord + ' / ' + pop.PopYKoord + '</p>'+
         "<p><a href=\"#\" onclick=\"window.apf.öffnePop('" + pop.PopId + "')\">Formular öffnen (ersetzt Karte)<\/a></p>"+
-        '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'pop\', ' + pop.PopId + ')\">Formular in Dialog öffnen<\/a></p>'+
+        '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'pop\', ' + pop.PopId + ')\">Formular neben der Karte öffnen<\/a></p>'+
         "<p><a href=\"#\" onclick=\"window.apf.öffnePopInNeuemTab('" + pop.PopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
 };
 
@@ -9074,7 +9077,7 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
             '<p>TPop: ' + my_flurname + '</p>'+
             '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
             "<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + tpop.TPopId + "')\">Formular öffnen (ersetzt Karte)<\/a></p>"+
-            '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')\">Formular in Dialog öffnen<\/a></p>'+
+            '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')\">Formular neben der Karte öffnen<\/a></p>'+
             "<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
             '</div>'+
             '</div>';
@@ -9147,7 +9150,7 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
             '<p>Ort: ' + Ort + '</p>'+
             '<p>Koordinaten: ' + beob.X + ' / ' + beob.Y + '</p>'+
             "<p><a href=\"#\" onclick=\"window.apf.öffneBeob('" + beob.NO_NOTE + "')\">Formular öffnen (ersetzt Karte)<\/a></p>"+
-            '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'beob\', ' + beob.NO_NOTE + ')\">Formular in Dialog öffnen<\/a></p>'+
+            //'<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'beob\', ' + beob.NO_NOTE + ')\">Formular neben der Karte öffnen<\/a></p>'+
             "<p><a href=\"#\" onclick=\"window.apf.öffneBeobInNeuemTab('" + beob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
             '</div>'+
             '</div>';
@@ -9570,7 +9573,7 @@ window.apf.gmap.verorteTPop = function(TPop) {
 			'<h3>' + myFlurname + '</h3>'+
 			'<p>Koordinaten: ' + TPop.TPopXKoord + ' / ' + TPop.TPopYKoord + '</p>'+
 			"<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + TPop.TPopId + "')\">Formular öffnen (ersetzt Karte)<\/a></p>"+
-            '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + TPop.TPopId + ')\">Formular in Dialog öffnen<\/a></p>'+
+            '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + TPop.TPopId + ')\">Formular neben der Karte öffnen<\/a></p>'+
 			"<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + TPop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 			'</div>'+
 			'</div>';
@@ -9674,7 +9677,7 @@ window.apf.gmap.SetLocationTPop = function(LatLng, map, marker, TPop) {
 				'<h3>' + title + '</h3>'+
 				'<p>Koordinaten: ' + X + ' / ' + Y + '</p>'+
 				"<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + localStorage.tpop_id + "')\">Formular öffnen (ersetzt Karte)<\/a></p>"+
-                '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + localStorage.tpop_id + ')\">Formular in Dialog öffnen<\/a></p>'+
+                '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + localStorage.tpop_id + ')\">Formular neben der Karte öffnen<\/a></p>'+
 				"<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + localStorage.tpop_id + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
 				'</div>'+
 				'</div>';
