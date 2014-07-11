@@ -7836,7 +7836,12 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
         x_max,
         x_min,
         y_max,
-        y_min;
+        y_min/*,
+        layers = window.apf.olmap.map.getLayers().getArray(),
+        tpop_layer_nr = $('#olmap_layertree_Teilpopulationen').val(),
+        tpop_layer = layers[tpop_layer_nr],
+        tpop_layer_source = tpop_layer.getSource()*/;
+
 	$.when(window.apf.zeigeFormular("GeoAdminKarte"))
 		.then(function() {
 			$("#mitPolygonWaehlen").button({disabled: true});
@@ -7854,7 +7859,7 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
 				y_min = parseInt(TPop.TPopYKoord) - 200;
                 bounds = [x_max, y_max, x_min, y_min];
 				// marker aufbauen
-				window.apf.olmap.erstelleTPopulation(TPop);
+				//window.apf.olmap.erstelleTPopulation(TPop);
 			} else {
 				// sonst Kanton ZH anzeigen
                 bounds = [689000, 264000, 697000, 242000];
@@ -7866,20 +7871,58 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
 
             // Pop ausblenden?
 
+            // The features are not added to a regular vector layer/source,
+            // but to a feature overlay which holds a collection of features.
+            // This collection is passed to the modify and also the draw
+            // interaction, so that both can add or modify features.
+            var featureOverlay = new ol.FeatureOverlay({
+                style: new ol.style.Style({
+                    fill: new ol.style.Fill({
+                        color: 'rgba(255, 255, 255, 0.2)'
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: '#ffcc33',
+                        width: 2
+                    }),
+                    image: new ol.style.Circle({
+                        radius: 7,
+                        fill: new ol.style.Fill({
+                            color: '#ffcc33'
+                        })
+                    })
+                })
+            });
+            featureOverlay.setMap(window.apf.olmap.map);
+
+            var modify = new ol.interaction.Modify({
+                featureOverlay: featureOverlay.getFeatures(),
+                //source: tpop_layer_source,
+                // the SHIFT key must be pressed to delete vertices, so
+                // that new vertices can be drawn at the same position
+                // of existing vertices
+                deleteCondition: function(event) {
+                    return ol.events.condition.shiftKeyOnly(event) && ol.events.condition.singleClick(event);
+                }
+            });
+            window.apf.olmap.map.addInteraction(modify);
+
             if (TPop && TPop.TPopXKoord && TPop.TPopYKoord) {
                 // wenn schon eine Koordinate existiert:
                 // TPop modifizierbar machen
                 // und gewählten markieren
-                var modify = new ol.interaction.Modify({ featureOverlay: overlay });
-                window.apf.olmap.map.addInteraction(modify);
+
+
+                // tpop als feature hinzufügen
+
                 // TODO: jetzt einen handler, der nach einer modify-Interaktion die TPop aktualisiert
 
             } else {
                 // wenn keine Koordinate existiert:
                 // Draw-interaction erstellen
                 var draw = new ol.interaction.Draw({
-                    source: source, // source = TPop? getSource of layer with title ...
-                    type: 'Point'
+                    features: featureOverlay.getFeatures(),
+                    type: /** @type {ol.geom.Point} */ ('Point')
+                    //source: tpop_layer_source
                 });
             window.apf.olmap.map.addInteraction(draw);
                 // TODO: jetzt einen handler, der nach einer Draw-Interaktion die TPop aktualisiert
@@ -7887,10 +7930,9 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
             }
 
 
-            //
 
 
-			// jetzt einen Handler für den Klick aufbauen
+			/*// jetzt einen Handler für den Klick aufbauen
 			OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {				
 				defaultHandlerOptions: {
 					'single': true,
@@ -7964,7 +8006,7 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
 
 			var click = new OpenLayers.Control.Click();
 			window.apf.olmap.addControl(click);
-			click.activate();
+			click.activate();*/
 		});
 };
 
@@ -8534,7 +8576,15 @@ window.apf.olmap.erstellePopLayer = function(popliste, popid_markiert, visible) 
         my_label,
         my_name,
         popup_content,
-        pop_mit_nr_layer;
+        pop_mit_nr_layer,
+        selected_features;
+
+    if (window.apf.olmap.map.olmap_select_interaction && popid_markiert) {
+    	selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
+    } else if (popid_markiert) {
+    	window.apf.olmap.addSelectFeaturesInSelectableLayers();
+    	selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
+    }
 
     if (visible === null) {
         visible = true;
@@ -8568,6 +8618,11 @@ window.apf.olmap.erstellePopLayer = function(popliste, popid_markiert, visible) 
 
         // marker in Array speichern
         markers.push(marker);
+
+        // markierte in window.apf.olmap.map.olmap_select_interaction ergänzen
+        if (popid_markiert && popid_markiert.indexOf(pop.PopId) !== -1) {
+        	selected_features.push(marker);
+        }
     });
 
     // layer für Marker erstellen
@@ -8578,12 +8633,21 @@ window.apf.olmap.erstellePopLayer = function(popliste, popid_markiert, visible) 
             features: markers
         }),
         style: function(feature, resolution) {
-            return window.apf.olmap.popMitNrStyle(feature, resolution, popid_markiert);
+            return window.apf.olmap.popStyle(feature, resolution);
         }
     });
     pop_mit_nr_layer.set('visible', visible);
     pop_mit_nr_layer.set('kategorie', 'AP Flora');
     window.apf.olmap.map.addLayer(pop_mit_nr_layer);
+
+    if (selected_features.length > 0) {
+	    setTimeout(function() {
+	        window.apf.olmap.prüfeObPopTpopGewähltWurden();
+	    }, 100);
+	    // Schaltfläche mitPolygonWaehlen aktivieren
+	    $('#mitPolygonWaehlen').prop('checked', true);
+	    $("#mitPolygonWaehlen").button("refresh")
+    }
 
     // TODO: marker sollen verschoben werden können
 
@@ -8789,7 +8853,7 @@ window.apf.olmap.erstelleTPopLayer = function(tpop_liste, tpopid_markiert, visib
 				features: markers
 			}),
 		style: function(feature, resolution) {
-            return window.apf.olmap.tpopMitNrStyle(feature, resolution, tpopid_markiert);
+            return window.apf.olmap.tpopStyle(feature, resolution, tpopid_markiert);
         }
 	});
     tpop_layer.set('visible', visible);
@@ -10702,22 +10766,10 @@ window.apf.olmap.addSelectFeaturesInSelectableLayers = function() {
         style: function(feature, resolution) {
             switch(feature.get('myTyp')) {
                 case 'pop':
-                    if ($('#layertree_pop_nr').prop('checked') === true) {
-                        return window.apf.olmap.popMitNrStyleSelected(feature, resolution);
-                    } else if ($('#layertree_pop_name').prop('checked') === true) {
-                        return window.apf.olmap.popMitNamenStyleSelected(feature, resolution);
-                    } else {
-                        return window.apf.olmap.popSymboleStyleSelected(feature, resolution);
-                    }
+                	return window.apf.olmap.popStyle(feature, resolution, true);
                     break;
                 case 'tpop':
-                    if ($('#layertree_tpop_nr').prop('checked') === true) {
-                        return window.apf.olmap.tpopMitNrStyleSelected(feature, resolution);
-                    } else if ($('#layertree_tpop_name').prop('checked') === true) {
-                        return window.apf.olmap.tpopMitNamenStyleSelected(feature, resolution);
-                    } else {
-                        return window.apf.olmap.tpopSymboleStyleSelected(feature, resolution);
-                    }
+                	return window.apf.olmap.tpopStyle(feature, resolution, null, true);
                     break;
                 case 'Detailplan':
                     return window.apf.olmap.detailplanStyleSelected(feature, resolution);
@@ -11179,314 +11231,143 @@ window.apf.olmap.detailplanStyleSelected = function(feature, resolution) {
     });
 };
 
-window.apf.olmap.popMitNrStyle = function(feature, resolution, popid_markiert) {
+// steuert den style von pop
+// selected: mit der Maus oder drag_box markierte
+window.apf.olmap.popStyle = function(feature, resolution, selected) {
     'use strict';
-    // icon wählen
-    // markierte sind orange, nicht markierte sind braun
-    var icon,
-        popid = feature.get('myId');
-    if (popid_markiert && popid_markiert.indexOf(popid) !== -1) {
+    
+    var icon = 'img/flora_icon_braun.png',
+        popid = feature.get('myId'),
+	    style,
+	    image_style,
+        text_inhalt,
+        text_style,
+        stroke_color = 'white',
+	    style_with_text,
+	    style_without_text,
+        $layertree_pop_nr = $('#layertree_pop_nr');
+
+    // markierte: icon ist orange und Text hat roten Hintergrund
+    if (selected) {
         icon = 'img/flora_icon_orange.png';
-    } else {
-        icon = 'img/flora_icon_braun.png';
+        stroke_color = 'red';
     }
-    return [new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-            anchor: [0.5, 46],
-            anchorXUnits: 'fraction',
-            anchorYUnits: 'pixels',
-            opacity: 1,
-            src: icon
-        })),
-        text: new ol.style.Text({
-            font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
-            text: feature.get('pop_nr'),
-            fill:  new ol.style.Fill({
-                color: 'black'
-            }),
-            stroke: new ol.style.Stroke({
-                color: 'white',
-                width: 7
-            })
+
+    image_style = new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+        anchor: [0.5, 46],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'pixels',
+        opacity: 1,
+        src: icon
+    }));
+
+    // text bestimmen, abhängig von der Einstellung im Layertree
+    if ($layertree_pop_nr.is(':checked')) {
+    	text_inhalt = feature.get('pop_nr');
+    } else if ($('#layertree_pop_name').is(':checked')) {
+    	text_inhalt = feature.get('pop_name');
+    }
+
+    text_style = new ol.style.Text({
+        font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
+        text: text_inhalt,
+        fill: new ol.style.Fill({
+            color: 'black'
+        }),
+        stroke: new ol.style.Stroke({
+            color: stroke_color,
+            width: 7
         })
-    })];
+    });
+
+    style_with_text = new ol.style.Style({
+        image: image_style,
+        text: text_style
+    });
+    style_without_text = new ol.style.Style({
+        image: image_style
+    });
+
+    // style bestimmen
+    if ($layertree_pop_nr.is(':checked')) {
+        style = style_with_text;
+    } else if ($('#layertree_pop_name').is(':checked')) {
+        style = style_with_text;
+    } else {
+        style = style_without_text;
+    }
+    
+    return [style];
 };
 
-window.apf.olmap.popMitNrStyleSelected = function(feature, resolution) {
+// steuert den style von tpop
+// tpopid_markiert: beim Aufbau des Layers werden markierte mitgegeben
+// selected: mit der Maus oder drag_box markierte
+window.apf.olmap.tpopStyle = function(feature, resolution, tpopid_markiert, selected) {
     'use strict';
-    var icon = 'img/flora_icon_orange.png';
-    return [new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-            anchor: [0.5, 46],
-            anchorXUnits: 'fraction',
-            anchorYUnits: 'pixels',
-            opacity: 1,
-            src: icon
-        })),
-        text: new ol.style.Text({
-            font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
-            text: feature.get('pop_nr'),
-            fill:  new ol.style.Fill({
-                color: 'black'
-            }),
-            stroke: new ol.style.Stroke({
-                color: 'red',
-                width: 7
-            })
-        })
-    })];
-};
 
-window.apf.olmap.tpopMitNrStyle = function(feature, resolution, tpopid_markiert) {
-    'use strict';
-    // icon wählen
-    // markierte sind gelb, nicht markierte sind grün
-    var icon,
-        tpopid = feature.get('myId');
-    if (tpopid_markiert && tpopid_markiert.indexOf(tpopid) !== -1) {
+    var icon = 'img/flora_icon.png',
+        tpopid = feature.get('myId'),
+        style,
+        image_style,
+        text_inhalt,
+        text_style,
+        stroke_color = 'white',
+        style_with_text,
+        style_without_text,
+        $layertree_tpop_nr = $('#layertree_tpop_nr');
+
+    // markierte: icon ist gelb
+    if ((tpopid_markiert && tpopid_markiert.indexOf(tpopid) !== -1) || selected) {
         icon = 'img/flora_icon_gelb.png';
-    } else {
-        icon = 'img/flora_icon.png';
+        stroke_color = 'red';
     }
-    return [new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-            anchor: [0.5, 46],
-            anchorXUnits: 'fraction',
-            anchorYUnits: 'pixels',
-            opacity: 1,
-            src: icon
-        })),
-        text: new ol.style.Text({
-            font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
-            text: feature.get('tpop_nr_label'),
-            fill:  new ol.style.Fill({
-                color: 'black'
-            }),
-            stroke: new ol.style.Stroke({
-                color: 'white',
-                width: 7
-            })
-        })
-    })];
-};
 
-window.apf.olmap.tpopMitNrStyleSelected = function(feature, resolution) {
-    'use strict';
-    var icon = 'img/flora_icon_gelb.png';
-    return [new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-            anchor: [0.5, 46],
-            anchorXUnits: 'fraction',
-            anchorYUnits: 'pixels',
-            opacity: 1,
-            src: icon
-        })),
-        text: new ol.style.Text({
-            font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
-            text: feature.get('tpop_nr_label'),
-            fill:  new ol.style.Fill({
-                color: 'black'
-            }),
-            stroke: new ol.style.Stroke({
-                color: 'red',
-                width: 7
-            })
-        })
-    })];
-};
+    image_style = new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+        anchor: [0.5, 46],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'pixels',
+        opacity: 1,
+        src: icon
+    }));
 
-window.apf.olmap.popMitNamenStyle = function(feature, resolution, popid_markiert) {
-    'use strict';
-    // icon wählen
-    // markierte sind orange, nicht markierte sind braun
-    var icon,
-        popid = feature.get('myId');
-    if (popid_markiert && popid_markiert.indexOf(popid) !== -1) {
-        icon = 'img/flora_icon_orange.png';
-    } else {
-        icon = 'img/flora_icon_braun.png';
+    // text bestimmen, abhängig von der Einstellung im Layertree
+    if ($layertree_tpop_nr.is(':checked')) {
+        text_inhalt = feature.get('tpop_nr_label');
+    } else if ($('#layertree_tpop_name').is(':checked')) {
+        text_inhalt = feature.get('tpop_name');
     }
-    return [new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-            anchor: [0.5, 46],
-            anchorXUnits: 'fraction',
-            anchorYUnits: 'pixels',
-            opacity: 1,
-            src: icon
-        })),
-        text: new ol.style.Text({
-            font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
-            text: feature.get('pop_name'),
-            fill:  new ol.style.Fill({
-                color: 'black'
-            }),
-            stroke: new ol.style.Stroke({
-                color: 'white',
-                width: 7
-            })
-        })
-    })];
-};
 
-window.apf.olmap.popMitNamenStyleSelected = function(feature, resolution) {
-    'use strict';
-    // icon wählen
-    // markierte sind orange, nicht markierte sind braun
-    var icon = 'img/flora_icon_orange.png';
-    return [new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-            anchor: [0.5, 46],
-            anchorXUnits: 'fraction',
-            anchorYUnits: 'pixels',
-            opacity: 1,
-            src: icon
-        })),
-        text: new ol.style.Text({
-            font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
-            text: feature.get('pop_name'),
-            fill:  new ol.style.Fill({
-                color: 'black'
-            }),
-            stroke: new ol.style.Stroke({
-                color: 'red',
-                width: 7
-            })
+    text_style = new ol.style.Text({
+        font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
+        text: text_inhalt,
+        fill: new ol.style.Fill({
+            color: 'black'
+        }),
+        stroke: new ol.style.Stroke({
+            color: stroke_color,
+            width: 7
         })
-    })];
-};
+    });
 
-window.apf.olmap.tpopMitNamenStyle = function(feature, resolution, tpopid_markiert) {
-    'use strict';
-    // icon wählen
-    // markierte sind gelb, nicht markierte sind grün
-    var icon,
-        tpopid = feature.get('myId');
-    if (tpopid_markiert && tpopid_markiert.indexOf(tpopid) !== -1) {
-        icon = 'img/flora_icon_gelb.png';
+    style_with_text = new ol.style.Style({
+        image: image_style,
+        text: text_style
+    });
+    style_without_text = new ol.style.Style({
+        image: image_style
+    });
+
+    // style bestimmen
+    if ($layertree_tpop_nr.is(':checked')) {
+        style = style_with_text;
+    } else if ($('#layertree_tpop_name').is(':checked')) {
+        style = style_with_text;
     } else {
-        icon = 'img/flora_icon.png';
+        style = style_without_text;
     }
-    return [new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-            anchor: [0.5, 46],
-            anchorXUnits: 'fraction',
-            anchorYUnits: 'pixels',
-            opacity: 1,
-            src: icon
-        })),
-        text: new ol.style.Text({
-            font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
-            text: feature.get('tpop_name'),
-            fill:  new ol.style.Fill({
-                color: 'black'
-            }),
-            stroke: new ol.style.Stroke({
-                color: 'white',
-                width: 7
-            })
-        })
-    })];
-};
 
-window.apf.olmap.tpopMitNamenStyleSelected = function(feature, resolution) {
-    'use strict';
-    // icon wählen
-    // markierte sind gelb, nicht markierte sind grün
-    var icon = 'img/flora_icon_gelb.png';
-    return [new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-            anchor: [0.5, 46],
-            anchorXUnits: 'fraction',
-            anchorYUnits: 'pixels',
-            opacity: 1,
-            src: icon
-        })),
-        text: new ol.style.Text({
-            font: 'bold 11px Arial, Verdana, Helvetica, sans-serif',
-            text: feature.get('tpop_name'),
-            fill:  new ol.style.Fill({
-                color: 'black'
-            }),
-            stroke: new ol.style.Stroke({
-                color: 'red',
-                width: 7
-            })
-        })
-    })];
-};
-
-window.apf.olmap.popSymboleStyle = function(feature, resolution, popid_markiert) {
-    'use strict';
-    // icon wählen
-    // markierte sind orange, nicht markierte sind braun
-    var icon,
-        popid = feature.get('myId');
-    if (popid_markiert && popid_markiert.indexOf(popid) !== -1) {
-        icon = 'img/flora_icon_orange.png';
-    } else {
-        icon = 'img/flora_icon_braun.png';
-    }
-    return [new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-            anchor: [0.5, 46],
-            anchorXUnits: 'fraction',
-            anchorYUnits: 'pixels',
-            opacity: 1,
-            src: icon
-        }))
-    })];
-};
-
-window.apf.olmap.popSymboleStyleSelected = function(feature, resolution) {
-    'use strict';
-    // icon wählen
-    // markierte sind orange, nicht markierte sind braun
-    var icon = 'img/flora_icon_orange.png';
-    return [new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-            anchor: [0.5, 46],
-            anchorXUnits: 'fraction',
-            anchorYUnits: 'pixels',
-            opacity: 1,
-            src: icon
-        }))
-    })];
-};
-
-window.apf.olmap.tpopSymboleStyle = function(feature, resolution, tpopid_markiert) {
-    'use strict';
-    // icon wählen
-    // markierte sind gelb, nicht markierte sind grün
-    var icon,
-        tpopid = feature.get('myId');
-    if (tpopid_markiert && tpopid_markiert.indexOf(tpopid) !== -1) {
-        icon = 'img/flora_icon_gelb.png';
-    } else {
-        icon = 'img/flora_icon.png';
-    }
-    return [new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-            anchor: [0.5, 46],
-            anchorXUnits: 'fraction',
-            anchorYUnits: 'pixels',
-            opacity: 1,
-            src: icon
-        }))
-    })];
-};
-
-window.apf.olmap.tpopSymboleStyleSelected = function(feature, resolution) {
-    'use strict';
-    var icon = 'img/flora_icon_gelb.png';
-    return [new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-            anchor: [0.5, 46],
-            anchorXUnits: 'fraction',
-            anchorYUnits: 'pixels',
-            opacity: 1,
-            src: icon
-        }))
-    })];
+    return [style];
 };
 
 window.apf.olmap.messe = function(element) {
