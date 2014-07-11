@@ -6337,6 +6337,7 @@ window.apf.initiiere_index = function() {
 	$("#messen").buttonset();
 	$("button").button();
 	$("#tpopfeldkontr_tabs").tabs();
+    $('.apf-resizable').resizable();
 
 	// tooltip: Klasse zuweisen, damit gestylt werden kann
 	$("#label_olmap_infos_abfragen, #label_olmap_distanz_messen, #label_olmap_fläche_messen, #label_olmap_auswählen, #olmap_exportieren").tooltip({
@@ -8342,13 +8343,27 @@ window.apf.setzeKartenhöhe = function() {
 			window.apf.olmap.map.updateSize();
 			// Maximalgrösse des Layertree begrenzen
             $('#olmap_layertree_layers').css('max-height', lyt_max_height);
-		}
+        }
 		if (typeof google !== "undefined" && google.maps && window.apf.gmap && window.apf.gmap.map !== undefined) {
 			google.maps.event.trigger(window.apf.gmap.map, 'resize');
 		}
 	} else {
 		$("#forms").height('auto');
 	}
+};
+
+window.apf.olmap.blendeOlmapExportieren = function() {
+    'use strict';
+    var map_size,
+        anz_kartenpixel;
+    map_size = window.apf.olmap.map.getSize();
+    // resolution nicht berücksichtigen - das funktionierte nicht zuverlässig und gab Probleme
+    anz_kartenpixel = /*window.apf.olmap.map.getView().getResolution() * */map_size[0] * map_size[1];
+    if (anz_kartenpixel > 600000) {
+        $('#olmap_exportieren').hide();
+    } else {
+        $('#olmap_exportieren').show();
+    }
 };
 
 window.apf.berechneOlmapLayertreeMaxhöhe = function() {
@@ -17070,6 +17085,12 @@ window.apf.initiiereOlmap = function() {
         window.apf.olmap.initiiereLayertree();
         window.apf.olmap.addMousePositionControl();
         window.apf.olmap.addFullScreenControl();
+
+        window.apf.olmap.map.on('change:size', function() {
+            // steuern, ob das Export-Tool sichtbar ist
+            // wenn es bei hoher Pixelzahl sichtbar ist, gibt es Probleme
+            window.apf.olmap.blendeOlmapExportieren();
+        });
 	}
 };
 
