@@ -21,12 +21,9 @@ window.apf.initiiere_index = function() {
 	$("button").button();
 	$("#tpopfeldkontr_tabs").tabs();
     $('.apf-resizable').resizable();
-    /*$('#GeoAdminKarte').resizable({
-     maxWidth: window.apf.olmap.berechneMaximaleBreite()
-     });*/
 
 	// tooltip: Klasse zuweisen, damit gestylt werden kann
-	$("#label_olmap_infos_abfragen, #label_olmap_distanz_messen, #label_olmap_fläche_messen, #label_olmap_auswählen, #olmap_exportieren").tooltip({
+	$("#label_olmap_infos_abfragen, #label_olmap_distanz_messen, #label_olmap_flaeche_messen, #label_olmap_auswaehlen, #olmap_exportieren").tooltip({
 		tooltipClass: "tooltip-styling-hinterlegt",
 		content: function() {
 			return $(this).attr('title');
@@ -43,9 +40,9 @@ window.apf.initiiere_index = function() {
 	$('#olmap_exportieren').button({
 		icons: {
 	        primary: "ui-icon-circle-arrow-s"
-	        //primary: "ui-icon-arrowthickstop-1-s"
 	    },
-	    text: false
+	    text: false,
+        disabled: true
 	});
 
 	// Gemeindeliste erstellen (wenn nötig)
@@ -1969,7 +1966,7 @@ window.apf.zeigeFormular = function(Formularname) {
             $Formularname.show();
 			if (Formularname === "GeoAdminKarte") {
 				// auswählen deaktivieren und allfällige Liste ausblenden
-				$("#olmap_auswählen").button({ disabled: false });
+				$("#olmap_auswaehlen").button({ disabled: false });
 				window.apf.initiiereOlmap();
 			}
 		} else {
@@ -2065,9 +2062,9 @@ window.apf.olmap.blendeOlmapExportieren = function() {
     // resolution nicht berücksichtigen - das funktionierte nicht zuverlässig und gab Probleme
     anz_kartenpixel = /*window.apf.olmap.map.getView().getResolution() * */map_size[0] * map_size[1];
     if (anz_kartenpixel > 600000) {
-        $('#olmap_exportieren').hide();
+        $('#olmap_exportieren').button("disable");
     } else {
-        $('#olmap_exportieren').show();
+        $('#olmap_exportieren').button("enable");
     }
 };
 
@@ -7881,7 +7878,7 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
 
 	$.when(window.apf.zeigeFormular("GeoAdminKarte"))
 		.then(function() {
-			$("#olmap_auswählen").button({disabled: true});
+			$("#olmap_auswaehlen").button({disabled: true});
 
             // alle Layeroptionen schliessen
             window.apf.olmap.schliesseLayeroptionen();
@@ -8681,9 +8678,9 @@ window.apf.olmap.erstellePopLayer = function(popliste, popid_markiert, visible) 
 	    setTimeout(function() {
 	        window.apf.olmap.prüfeObPopTpopGewähltWurden();
 	    }, 100);
-	    // Schaltfläche olmap_auswählen aktivieren
-	    $('#olmap_auswählen').prop('checked', true);
-	    $("#olmap_auswählen").button("refresh");
+	    // Schaltfläche olmap_auswaehlen aktivieren
+	    $('#olmap_auswaehlen').prop('checked', true);
+	    $("#olmap_auswaehlen").button("refresh");
     }
 
     // TODO: marker sollen verschoben werden können
@@ -8916,9 +8913,9 @@ window.apf.olmap.erstelleTPopLayer = function(tpop_liste, tpopid_markiert, visib
         setTimeout(function() {
             window.apf.olmap.prüfeObPopTpopGewähltWurden();
         }, 100);
-        // Schaltfläche olmap_auswählen aktivieren
-        $('#olmap_auswählen').prop('checked', true);
-        $("#olmap_auswählen").button("refresh");
+        // Schaltfläche olmap_auswaehlen aktivieren
+        $('#olmap_auswaehlen').prop('checked', true);
+        $("#olmap_auswaehlen").button("refresh");
     }
 
     // TODO: marker sollen verschoben werden können
