@@ -21,6 +21,9 @@ window.apf.initiiere_index = function() {
 	$("button").button();
 	$("#tpopfeldkontr_tabs").tabs();
     $('.apf-resizable').resizable();
+    /*$('#GeoAdminKarte').resizable({
+     maxWidth: window.apf.olmap.berechneMaximaleBreite()
+     });*/
 
 	// tooltip: Klasse zuweisen, damit gestylt werden kann
 	$("#label_olmap_infos_abfragen, #label_olmap_distanz_messen, #label_olmap_fläche_messen, #label_olmap_auswählen, #olmap_exportieren").tooltip({
@@ -2018,10 +2021,29 @@ window.apf.setzeTreehöhe = function() {
 
 window.apf.setzeKartenhöhe = function() {
 	'use strict';
-    var lyt_max_height = window.apf.berechneOlmapLayertreeMaxhöhe;
+    var lyt_max_height = window.apf.berechneOlmapLayertreeMaxhöhe,
+    	forms_height,
+    	max_width;
 	// Formulare sind unbegrenzt hoch aber Karten sollen das nicht sein
 	if (window.apf.kartenhöhe_manuell) {
-		$("#forms").height($(window).height() - 17);
+		forms_height = $(window).height() - 17;
+		max_width = $("#forms").width();
+        // resizable neu rechnen lassen, sonst bleibt ga_karten_div in falscher Grösse
+        // leider funktioniert das nicht wie gewünscht:
+        // wenn der Benutzer die Grösse verändert hat, passt sich ga_karten_div nicht mehr richtig an Veränderungen des Bildschirms an...
+        //$('.apf-resizable').resizable('destroy');
+        //$('.apf-resizable').resizable();
+        /*$('.apf-resizable').resizable({
+        	maxWidth: max_width,
+			maxHeight: forms_height
+        });*/
+		$("#forms").height(forms_height);
+		$('#ga_karten_div')
+			//.css('width', max_width)
+			.css('max-width', max_width)
+			//.css('height', forms_height)
+			.css('max-height', forms_height);
+		$('.apf-resizable').resizable();
 		if (window.apf.olmap && window.apf.olmap.map) {
 			window.apf.olmap.map.updateSize();
 			// Maximalgrösse des Layertree begrenzen

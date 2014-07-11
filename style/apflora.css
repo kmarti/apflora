@@ -34,6 +34,13 @@ body {
 	#tree {
 		width: 370px;
 	}
+
+    /* war mal eine idee, wenn forms resizable wäre
+    #forms {
+        max-width: -webkit-calc(100% - 370px) !important;
+        max-width: -o-calc(100% - 370px) !important;
+        max-width: calc(100% - 370px) !important;
+    }*/
 }
 
 fieldset {
