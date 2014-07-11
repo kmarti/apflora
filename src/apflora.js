@@ -1965,7 +1965,7 @@ window.apf.zeigeFormular = function(Formularname) {
             $Formularname.show();
 			if (Formularname === "GeoAdminKarte") {
 				// auswählen deaktivieren und allfällige Liste ausblenden
-				$("#mitPolygonWaehlen").button({ disabled: false });
+				$("#olmap_auswählen").button({ disabled: false });
 				window.apf.initiiereOlmap();
 			}
 		} else {
@@ -7844,7 +7844,7 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
 
 	$.when(window.apf.zeigeFormular("GeoAdminKarte"))
 		.then(function() {
-			$("#mitPolygonWaehlen").button({disabled: true});
+			$("#olmap_auswählen").button({disabled: true});
 
             // alle Layeroptionen schliessen
             window.apf.olmap.schliesseLayeroptionen();
@@ -8116,7 +8116,7 @@ window.apf.zeigePopAufOlmap = function(PopListeMarkiert) {
 			getTPopKarteAlle_2.always(function(TPopListe) {
 				$.when(
 					// Layer für Symbole und Beschriftung erstellen
-                    window.apf.olmap.erstelleTPopLayer(TPopListe, null, false),
+                    window.apf.olmap.erstelleTPopLayer(TPopListe),
 					// alle Pop holen, symbole und nr sichtbar schalten, Markierung übergeben
 					window.apf.olmap.zeigePopInTPop(true, true, markierte_pop.popid_markiert)
 				)
@@ -8640,13 +8640,13 @@ window.apf.olmap.erstellePopLayer = function(popliste, popid_markiert, visible) 
     pop_mit_nr_layer.set('kategorie', 'AP Flora');
     window.apf.olmap.map.addLayer(pop_mit_nr_layer);
 
-    if (selected_features.length > 0) {
+    if (selected_features && selected_features.length > 0) {
 	    setTimeout(function() {
 	        window.apf.olmap.prüfeObPopTpopGewähltWurden();
 	    }, 100);
-	    // Schaltfläche mitPolygonWaehlen aktivieren
-	    $('#mitPolygonWaehlen').prop('checked', true);
-	    $("#mitPolygonWaehlen").button("refresh")
+	    // Schaltfläche olmap_auswählen aktivieren
+	    $('#olmap_auswählen').prop('checked', true);
+	    $("#olmap_auswählen").button("refresh");
     }
 
     // TODO: marker sollen verschoben werden können
@@ -8818,7 +8818,15 @@ window.apf.olmap.erstelleTPopLayer = function(tpop_liste, tpopid_markiert, visib
 	var tpop_layer_erstellt = $.Deferred(),
 		tpop_layer,
 		markers = [],
-		marker;
+		marker,
+        selected_features;
+
+    if (window.apf.olmap.map.olmap_select_interaction && tpopid_markiert) {
+        selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
+    } else if (tpopid_markiert) {
+        window.apf.olmap.addSelectFeaturesInSelectableLayers();
+        selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
+    }
 
     if (visible === null) {
         visible = true;
@@ -8844,6 +8852,11 @@ window.apf.olmap.erstelleTPopLayer = function(tpop_liste, tpopid_markiert, visib
 
         // ...und in Array speichern
         markers.push(marker);
+
+        // markierte in window.apf.olmap.map.olmap_select_interaction ergänzen
+        if (tpopid_markiert && tpopid_markiert.indexOf(tpop.TPopId) !== -1) {
+            selected_features.push(marker);
+        }
     });
 
     // layer für Marker erstellen
@@ -8853,7 +8866,7 @@ window.apf.olmap.erstelleTPopLayer = function(tpop_liste, tpopid_markiert, visib
 				features: markers
 			}),
 		style: function(feature, resolution) {
-            return window.apf.olmap.tpopStyle(feature, resolution, tpopid_markiert);
+            return window.apf.olmap.tpopStyle(feature, resolution);
         }
 	});
     tpop_layer.set('visible', visible);
@@ -8861,6 +8874,15 @@ window.apf.olmap.erstelleTPopLayer = function(tpop_liste, tpopid_markiert, visib
     
     // ...und der Karte hinzufügen
     window.apf.olmap.map.addLayer(tpop_layer);
+
+    if (selected_features && selected_features.length > 0) {
+        setTimeout(function() {
+            window.apf.olmap.prüfeObPopTpopGewähltWurden();
+        }, 100);
+        // Schaltfläche olmap_auswählen aktivieren
+        $('#olmap_auswählen').prop('checked', true);
+        $("#olmap_auswählen").button("refresh");
+    }
 
     // TODO: marker sollen verschoben werden können
 
@@ -10769,7 +10791,7 @@ window.apf.olmap.addSelectFeaturesInSelectableLayers = function() {
                 	return window.apf.olmap.popStyle(feature, resolution, true);
                     break;
                 case 'tpop':
-                	return window.apf.olmap.tpopStyle(feature, resolution, null, true);
+                	return window.apf.olmap.tpopStyle(feature, resolution, true);
                     break;
                 case 'Detailplan':
                     return window.apf.olmap.detailplanStyleSelected(feature, resolution);
@@ -11303,7 +11325,7 @@ window.apf.olmap.popStyle = function(feature, resolution, selected) {
 // steuert den style von tpop
 // tpopid_markiert: beim Aufbau des Layers werden markierte mitgegeben
 // selected: mit der Maus oder drag_box markierte
-window.apf.olmap.tpopStyle = function(feature, resolution, tpopid_markiert, selected) {
+window.apf.olmap.tpopStyle = function(feature, resolution, selected) {
     'use strict';
 
     var icon = 'img/flora_icon.png',
@@ -11318,7 +11340,7 @@ window.apf.olmap.tpopStyle = function(feature, resolution, tpopid_markiert, sele
         $layertree_tpop_nr = $('#layertree_tpop_nr');
 
     // markierte: icon ist gelb
-    if ((tpopid_markiert && tpopid_markiert.indexOf(tpopid) !== -1) || selected) {
+    if (selected) {
         icon = 'img/flora_icon_gelb.png';
         stroke_color = 'red';
     }
