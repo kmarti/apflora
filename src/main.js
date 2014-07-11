@@ -6340,7 +6340,7 @@ window.apf.initiiere_index = function() {
     $('.apf-resizable').resizable();
 
 	// tooltip: Klasse zuweisen, damit gestylt werden kann
-	$("#label_olmap_infos_abfragen, #label_olmap_distanz_messen, #label_olmap_flaeche_messen, #label_olmap_auswaehlen, #olmap_exportieren").tooltip({
+	$("#label_olmap_infos_abfragen, #label_olmap_distanz_messen, #label_olmap_flaeche_messen, #label_olmap_auswaehlen, #olmap_exportieren_div").tooltip({
 		tooltipClass: "tooltip-styling-hinterlegt",
 		content: function() {
 			return $(this).attr('title');
@@ -8374,15 +8374,22 @@ window.apf.setzeKartenhöhe = function() {
 window.apf.olmap.blendeOlmapExportieren = function() {
     'use strict';
     var map_size,
-        anz_kartenpixel;
+        anz_kartenpixel,
+        tooltip_title;
     map_size = window.apf.olmap.map.getSize();
     // resolution nicht berücksichtigen - das funktionierte nicht zuverlässig und gab Probleme
     anz_kartenpixel = /*window.apf.olmap.map.getView().getResolution() * */map_size[0] * map_size[1];
-    if (anz_kartenpixel > 600000) {
+    if (anz_kartenpixel > 500000) {
         $('#olmap_exportieren').button("disable");
+        tooltip_title = 'Karte als png herunterladen<br>Diese Funktion ist inaktiv<br>Um sie zu aktivieren, müssen Sie die Karte verkleinern<br>Packen Sie dazu die untere rechte Ecke und ziehen Sie sie nach oben links';
     } else {
         $('#olmap_exportieren').button("enable");
+        tooltip_title = 'Karte als png herunterladen';
     }
+    $("#olmap_exportieren_div").tooltip({
+        tooltipClass: "tooltip-styling-hinterlegt",
+        content: tooltip_title
+    });
 };
 
 window.apf.berechneOlmapLayertreeMaxhöhe = function() {
@@ -18659,7 +18666,7 @@ window.apf.undeleteDatensatz = function() {
 	});
 };
 
-window.apf.olmap.exportiereKarte = function() {
+window.apf.olmap.exportiereKarte = function(event) {
 	'use strict';
 	var exportPNGElement = document.getElementById('olmap_exportieren');
 	if ('download' in exportPNGElement) {
@@ -18668,8 +18675,16 @@ window.apf.olmap.exportiereKarte = function() {
 	    		var canvas = event.context.canvas;
 	    		exportPNGElement.href = canvas.toDataURL('image/png');
 		    });
-	    	window.apf.olmap.map.render();
+	    	window.apf.olmap.map.renderSync();
 	  	}, false);
+        if (!window.apf.olmap.recentlyClicked) {
+            // beim ersten mal soll der Event gleich wiederholt werden
+            window.apf.olmap.recentlyClicked = true;
+            // warten, sonst kommen zwei Downloads
+            setTimeout(function() {
+                exportPNGElement.click();
+            }, 200);
+        }
 	} else {
 		var info = 'Der Download ist nur möglich, wenn Ihr Browser das moderne Download-Attribut unterstützt <a href="http://caniuse.com/#feat=download">(hier eine aktuelle Liste der unterstützenden Browser)</a>';
 		window.apf.melde(info);

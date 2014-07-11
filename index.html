@@ -8,14 +8,8 @@
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 		<script>window.jQuery || document.write('<script src="src/jquery.js" type="text/javascript"><\/script>')</script>
 		<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
-		<!--script src="http://api3.geo.admin.ch/loader.js?lang=de"></script-->
-        <script src="http://api3.geo.admin.ch/loader.js?lang=de&mode=debug"></script>
-        <!--script src="http://cdnjs.cloudflare.com/ajax/libs/proj4js/1.1.0/proj4js-compressed.js" type="text/javascript"></script-->
-        <!--script src="http://cdnjs.cloudflare.com/ajax/libs/proj4js/1.1.0/defs/EPSG21781.js" type="text/javascript"></script-->
-        <!--script src="http://cdnjs.cloudflare.com/ajax/libs/proj4js/1.1.0/defs/EPSG900913.js" type="text/javascript"></script-->
-        <!--script>
-            Proj4js.defs['MERCATOR'] = Proj4js.defs['EPSG:900913'];
-        </script-->
+		<script src="http://api3.geo.admin.ch/loader.js?lang=de"></script>
+        <!--script src="http://api3.geo.admin.ch/loader.js?lang=de&mode=debug"></script-->
 		<script src="src/main.js"></script>
         <script src="src/jquery.jstree.js"></script>
 		<title>AP Flora Kt ZH</title>
@@ -2038,10 +2032,10 @@
 								<label id="label_olmap_infos_abfragen" for="olmap_infos_abfragen" title="Infos abfragen: auf Objekte klicken<br>Zoomen: Mausrad drehen<br>Auf Rechteck Zoomen: Shift-Taste halten und mit der Maus ein Rechteck aufziehen">Infos abfragen</label>
 								<input type="radio" name="type" value="line" id="olmap_distanz_messen" onclick="window.apf.olmap.messe(this);">
 								<label id="label_olmap_distanz_messen" for="olmap_distanz_messen" title="Klicken um Punkte zu setzen<br>Doppelklicken um die Messung abzuschliessen">Distanz messen</label>
-								<input type="radio" name="type" value="polygon" id="olmap_fläche_messen" onclick="window.apf.olmap.messe(this);">
-								<label id="label_olmap_fläche_messen" for="olmap_fläche_messen" title="Klicken um Punkte zu setzen<br>Doppelklicken um die Messung abzuschliessen">Fläche messen</label>
-								<input type="radio" name="type" value="drawPolygon" id="olmap_auswählen" onclick="window.apf.olmap.wähleAus();">
-								<label id="label_olmap_auswählen" for="olmap_auswählen" title="Einzelne Objekte wählen: drauf klicken<br>Weitere hinzufügen: SHIFT-Taste halten und weitere Objekte anklicken<br>Rechteck wählen: ALT-Taste halten und mit der Maus ein Rechteck aufziehen<br>Auswahl löschen: auf einen leeren Bereich der Karte klicken">auswählen</label>
+								<input type="radio" name="type" value="polygon" id="olmap_flaeche_messen" onclick="window.apf.olmap.messe(this);">
+								<label id="label_olmap_flaeche_messen" for="olmap_flaeche_messen" title="Klicken um Punkte zu setzen<br>Doppelklicken um die Messung abzuschliessen">Fläche messen</label>
+								<input type="radio" name="type" value="drawPolygon" id="olmap_auswaehlen" onclick="window.apf.olmap.wähleAus();">
+								<label id="label_olmap_auswaehlen" for="olmap_auswaehlen" title="Einzelne Objekte wählen: drauf klicken<br>Weitere hinzufügen: SHIFT-Taste halten und weitere Objekte anklicken<br>Rechteck wählen: ALT-Taste halten und mit der Maus ein Rechteck aufziehen<br>Auswahl löschen: auf einen leeren Bereich der Karte klicken">auswählen</label>
 							</span>
 							<ol id='ergebnisMessung' reversed></ol>
 							<div id='ergebnisAuswahl'>
@@ -2057,8 +2051,8 @@
 								</div>
 							</div>
 						</div>
-						<div id="olmap_exportieren_div">
-							<a id="olmap_exportieren" download="map.png" title="Karte als png herunterladen<br>Nur aktiv, wenn die Karte klein ist">Karte als png herunterladen</a>
+						<div id="olmap_exportieren_div" title="Karte als png herunterladen<br>Diese Funktion ist inaktiv<br>Um sie zu aktivieren, müssen Sie die Karte verkleinern<br>Packen Sie dazu die untere rechte Ecke und ziehen Sie sie nach oben links">
+							<a id="olmap_exportieren" download="map.png">Karte als png herunterladen</a>
 						</div>
 						<div id="olmap_layertree" class="accordion">
 							<h3 style="font-weight:bold;">Ebenen</h3>
@@ -2343,8 +2337,8 @@
                         }
                     });
 
-                $('#GeoAdminKarte').on('click', '#olmap_exportieren', function() {
-                	window.apf.olmap.exportiereKarte();
+                $('#GeoAdminKarte').on('click', '#olmap_exportieren', function(event) {
+                	window.apf.olmap.exportiereKarte(event);
                 });
 
 				$("#ber").on("change", "#BerURL", function() {

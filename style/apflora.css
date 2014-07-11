@@ -503,13 +503,22 @@ a {
 	min-width: 300px;
 }
 
-#olmap_exportieren {
-	position: absolute;
-	top: 10px;
-	left: 503px;
-	z-index: 800;
+#olmap_exportieren_div {
     width: 25px;
     height: 26px;
+    position: absolute;
+    top: 10px;
+    left: 503px;
+    z-index: 90;
+}
+
+#olmap_exportieren {
+    width: 25px;
+    height: 26px;
+}
+
+#olmap_exportieren.ui-state-disabled {
+    opacity: .7;
 }
 
 #menuleiste {
