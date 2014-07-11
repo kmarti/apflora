@@ -6339,7 +6339,7 @@ window.apf.initiiere_index = function() {
 	$("#tpopfeldkontr_tabs").tabs();
 
 	// tooltip: Klasse zuweisen, damit gestylt werden kann
-	$("#label_karteSchieben, #label_distanzMessen, #label_flaecheMessen, #label_mitPolygonWaehlen, #olmap_exportieren").tooltip({
+	$("#label_olmap_infos_abfragen, #label_olmap_distanz_messen, #label_olmap_fläche_messen, #label_olmap_auswählen, #olmap_exportieren").tooltip({
 		tooltipClass: "tooltip-styling-hinterlegt",
 		content: function() {
 			return $(this).attr('title');
@@ -15350,7 +15350,7 @@ window.apf.olmap.erstelleTPopLayer = function(tpop_liste, tpopid_markiert, visib
      // control deaktivieren
      window.drawControl.deactivate();
      // Schaltfläche Karte schieben aktivieren
-     $("#karteSchieben")
+     $("#olmap_infos_abfragen")
      .attr("checked", true)
      .button("enable").button("refresh");
      });
