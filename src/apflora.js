@@ -7916,7 +7916,7 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
             // but to a feature overlay which holds a collection of features.
             // This collection is passed to the modify and also the draw
             // interaction, so that both can add or modify features.
-            var featureOverlay = new ol.FeatureOverlay({
+            /*var featureOverlay = new ol.FeatureOverlay({
                 style: new ol.style.Style({
                     fill: new ol.style.Fill({
                         color: 'rgba(255, 255, 255, 0.2)'
@@ -7945,7 +7945,7 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
                     return ol.events.condition.shiftKeyOnly(event) && ol.events.condition.singleClick(event);
                 }
             });
-            window.apf.olmap.map.addInteraction(modify);
+            window.apf.olmap.map.addInteraction(modify);*/
 
             if (TPop && TPop.TPopXKoord && TPop.TPopYKoord) {
                 // wenn schon eine Koordinate existiert:
@@ -7960,14 +7960,30 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
             } else {
                 // wenn keine Koordinate existiert:
                 // Draw-interaction erstellen
-                var draw = new ol.interaction.Draw({
-                    features: featureOverlay.getFeatures(),
-                    type: /** @type {ol.geom.Point} */ ('Point')
-                    //source: tpop_layer_source
+                console.log('erstelle draw-interaction');
+                var draw_source = new ol.source.Vector();
+                var draw_layer = new ol.layer.Vector({
+                	title: 'draw-layer',
+                	source: draw_source,
+                	style: function(feature, resolution) {
+	                		return window.apf.olmap.tpopStyle(feature, resolution, false, true);
+	                	}
                 });
-            window.apf.olmap.map.addInteraction(draw);
-                // TODO: jetzt einen handler, der nach einer Draw-Interaktion die TPop aktualisiert
-
+    			window.apf.olmap.map.addLayer(draw_layer);
+                window.apf.olmap.draw_interaction = new ol.interaction.Draw({
+                	source: draw_source,
+                    type: /** @type {ol.geom.GeometryType} */ ('Point')
+                });
+            	window.apf.olmap.map.addInteraction(window.apf.olmap.draw_interaction);
+                window.apf.olmap.draw_interaction.on('drawend', function(event) {
+                	// unset sketch
+        			//sketch = null;
+        			console.log('event.feature = ' + event.feature);
+        			event.feature.set('tpop_nr_label', window.apf.erstelleTPopNrLabel(TPop.PopNr, TPop.TPopNr));
+        			event.feature.set('tpop_name', window.apf.erstelleTPopNrLabel(TPop.PopNr, TPop.TPopNr));
+        			console.log('jetzt Geometrie holen und in die DB schreiben');
+        			window.apf.olmap.map.removeInteraction(window.apf.olmap.draw_interaction);
+                }, this);
             }
 
 
@@ -11372,7 +11388,8 @@ window.apf.olmap.popStyle = function(feature, resolution, selected) {
 // steuert den style von tpop
 // tpopid_markiert: beim Aufbau des Layers werden markierte mitgegeben
 // selected: mit der Maus oder drag_box markierte
-window.apf.olmap.tpopStyle = function(feature, resolution, selected) {
+// verorten: beim Verorten soll das Symbol rot sein
+window.apf.olmap.tpopStyle = function(feature, resolution, selected, verorten) {
     'use strict';
 
     var icon = 'img/flora_icon.png',
@@ -11390,6 +11407,10 @@ window.apf.olmap.tpopStyle = function(feature, resolution, selected) {
     if (selected) {
         icon = 'img/flora_icon_gelb.png';
         stroke_color = 'red';
+    }
+
+    if (verorten) {
+    	icon = 'img/flora_icon_rot.png';
     }
 
     image_style = new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
