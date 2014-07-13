@@ -14234,7 +14234,7 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
         tpop_layer_source = tpop_layer.getSource()*/;
 
     // tpop hat keine PopNr
-    // muss ergänzt werden, weil sie als Label angezeigt wird
+    // Infos von Pop müssen ergänzt werden, weil sie als Label angezeigt werden
     tpop.PopNr = window.apf.pop.PopNr;
     tpop.PopName = window.apf.pop.PopName;
     tpop.Artname = window.apf.ap.Artname;
@@ -14261,34 +14261,18 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
                 // Karte zum richtigen Ausschnitt zoomen
 				window.apf.olmap.map.updateSize();
 	            window.apf.olmap.map.getView().fitExtent(bounds, window.apf.olmap.map.getSize());
-				// marker aufbauen
 			}
 
              // Draw-interaction erstellen
-             var modify_source = new ol.source.Vector();
+            window.apf.olmap.modify_source = new ol.source.Vector();
              var modify_layer = new ol.layer.Vector({
                  title: 'neu plazierte oder verschobene Teilpopulation',
                  kategorie: 'AP Flora',
-                 source: modify_source,
+                 source: window.apf.olmap.modify_source,
                  style: function(feature, resolution) {
                     return window.apf.olmap.tpopStyle(feature, resolution, false, true);
                  }
              });
-
-            /*window.apf.olmap.modify_interaction = new ol.interaction.Modify({
-                source: modify_source,
-                // the SHIFT key must be pressed to delete vertices, so
-                // that new vertices can be drawn at the same position
-                // of existing vertices
-                deleteCondition: function(event) {
-                    return ol.events.condition.shiftKeyOnly(event) && ol.events.condition.singleClick(event);
-                }
-            });
-            window.apf.olmap.modify_interaction.on('change', function(event) {
-                // Koordinaten aktualisieren
-
-            });
-            window.apf.olmap.map.addInteraction(window.apf.olmap.modify_interaction);*/
 
             if (tpop && tpop.TPopXKoord && tpop.TPopYKoord) {
                 // wenn schon eine Koordinate existiert:
@@ -14299,12 +14283,13 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
                 // tpop als feature hinzufügen
 
                 // TODO: jetzt einen handler, der nach einer modify-Interaktion die tpop aktualisiert
+                window.apf.olmap.erstelleModifyInteraction();
 
             } else {
                 // wenn keine Koordinate existiert:
 
                 window.apf.olmap.draw_interaction = new ol.interaction.Draw({
-                	source: modify_source,
+                	source: window.apf.olmap.modify_source,
                     type: /** @type {ol.geom.GeometryType} */ ('Point')
                 });
             	window.apf.olmap.map.addInteraction(window.apf.olmap.draw_interaction);
@@ -14327,90 +14312,30 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
                             window.apf.olmap.map.addLayer(modify_layer);
                             // selects entfernen - aus unerfindlichem Grund ist der neue Marker selektiert
                             window.apf.olmap.removeSelectFeaturesInSelectableLayers();
+                            // modify-interaction erstellen
+                            window.apf.olmap.erstelleModifyInteraction();
                         });
                     window.apf.olmap.map.removeInteraction(window.apf.olmap.draw_interaction);
                 }, this);
             }
-
-
-
-
-			/*// jetzt einen Handler für den Klick aufbauen
-			OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {				
-				defaultHandlerOptions: {
-					'single': true,
-					'double': false,
-					'pixelTolerance': 0,
-					'stopSingle': false,
-					'stopDouble': false
-				},
-
-				initialize: function(options) {
-					this.handlerOptions = OpenLayers.Util.extend(
-						{}, this.defaultHandlerOptions
-					);
-					OpenLayers.Control.prototype.initialize.apply(
-						this, arguments
-					);
-					this.handler = new OpenLayers.Handler.Click(
-						this, {
-							'click': this.trigger
-						}, this.handlerOptions
-					);
-					// letzten Klick-Handler deaktivieren, sonst wird für jede Verortung ein neuer event-handler aufgebaut
-					if (window.apf.olmap.LetzterKlickHandler) {
-						window.apf.olmap.LetzterKlickHandler.deactivate();
-					}
-					// Klick-Handler in Variable speichern, damit er beim nächsten Aufruf deaktiviert werden kann
-					window.apf.olmap.LetzterKlickHandler = this;
-				},
-
-				trigger: function(e) {
-					var lonlat = window.apf.olmap.getLonLatFromPixel(e.xy);
-					// x und y merken
-					tpop.TPopXKoord = lonlat.lon;
-					tpop.TPopYKoord = lonlat.lat;
-					// Datensatz updaten
-					var updateTPop = $.ajax({
-						type: 'post',
-						url: 'php/tpop_update.php',
-						dataType: 'json',
-						data: {
-							"id": localStorage.tpop_id,
-							"Feld": "TPopXKoord",
-							"Wert": tpop.TPopXKoord,
-							"user": sessionStorage.User
-						}
-					});
-					updateTPop.always(function() {
-						var updateTPop_2 = $.ajax({
-							type: 'post',
-							url: 'php/tpop_update.php',
-							dataType: 'json',
-							data: {
-								"id": localStorage.tpop_id,
-								"Feld": "TPopYKoord",
-								"Wert": tpop.TPopYKoord,
-								"user": sessionStorage.User
-							}
-						});
-						updateTPop_2.always(function() {
-							// markerebenen entfernen
-							window.apf.olmap.entferneAlleApfloraLayer();
-							// alten listener entfernen, neuer wird mit dem nächsten Befehl erstellt 
-							window.apf.olmap.removeControl(click);
-							// markerebene neu aufbauen
-							window.apf.olmap.erstelleTPopulation(tpop);
-						});
-					});
-				}
-
-			});
-
-			var click = new OpenLayers.Control.Click();
-			window.apf.olmap.addControl(click);
-			click.activate();*/
 		});
+};
+
+window.apf.olmap.erstelleModifyInteraction = function() {
+    window.apf.olmap.modify_interaction = new ol.interaction.Modify({
+        features: window.apf.olmap.modify_source.getFeatures(),
+        // the SHIFT key must be pressed to delete vertices, so
+        // that new vertices can be drawn at the same position
+        // of existing vertices
+        deleteCondition: function(event) {
+            return ol.events.condition.shiftKeyOnly(event) && ol.events.condition.singleClick(event);
+        }
+    });
+    window.apf.olmap.modify_interaction.on('change', function(event) {
+        // Koordinaten aktualisieren
+
+    });
+    window.apf.olmap.map.addInteraction(window.apf.olmap.modify_interaction);
 };
 
 window.apf.olmap.istLayerSichtbarNachName = function(layername) {
