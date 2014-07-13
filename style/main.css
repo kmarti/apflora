@@ -1007,7 +1007,7 @@ a {
     height: 26px;
 }
 
-#olmap_exportieren.ui-state-disabled {
+#menuleiste .ui-state-disabled {
     opacity: .7;
 }
 

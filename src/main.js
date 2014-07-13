@@ -14200,12 +14200,21 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
         tpop_layer = layers[tpop_layer_nr],
         tpop_layer_source = tpop_layer.getSource()*/;
 
-	$.when(window.apf.zeigeFormular("GeoAdminKarte"))
+	//$.when(window.apf.zeigeFormular("GeoAdminKarte"))
+	$.when(window.apf.zeigeTPopAufOlmap())
 		.then(function() {
 			$("#olmap_auswaehlen").button({disabled: true});
 
             // alle Layeroptionen schliessen
             window.apf.olmap.schliesseLayeroptionen();
+
+            // allfällig noch vorhandene Draw-Interaction entfernen
+            /*if (window.apf.olmap.draw_interaction) {
+            	window.apf.olmap.map.removeInteraction(window.apf.olmap.draw_interaction);
+            }*/
+
+            // allfällige selects entfernen
+            window.apf.olmap.removeSelectFeaturesInSelectableLayers();
 
 			// bound eröffnen
 			// bounds bestimmen
@@ -14216,16 +14225,12 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
 				y_max = parseInt(TPop.TPopYKoord) + 200;
 				y_min = parseInt(TPop.TPopYKoord) - 200;
                 bounds = [x_max, y_max, x_min, y_min];
+                // Karte zum richtigen Ausschnitt zoomen
+				window.apf.olmap.map.updateSize();
+	            window.apf.olmap.map.getView().fitExtent(bounds, window.apf.olmap.map.getSize());
 				// marker aufbauen
 				//window.apf.olmap.erstelleTPopulation(TPop);
-			} else {
-				// sonst Kanton ZH anzeigen
-                bounds = [689000, 264000, 697000, 242000];
 			}
-			
-			// Karte zum richtigen Ausschnitt zoomen
-			window.apf.olmap.map.updateSize();
-            window.apf.olmap.map.getView().fitExtent(bounds, window.apf.olmap.map.getSize());
 
             // Pop ausblenden?
 
@@ -14277,28 +14282,64 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
             } else {
                 // wenn keine Koordinate existiert:
                 // Draw-interaction erstellen
-                console.log('erstelle draw-interaction');
                 var draw_source = new ol.source.Vector();
                 var draw_layer = new ol.layer.Vector({
-                	title: 'draw-layer',
+                	title: 'Neu verortete Teilpopulation',
+                	kategorie: 'AP Flora',
                 	source: draw_source,
                 	style: function(feature, resolution) {
 	                		return window.apf.olmap.tpopStyle(feature, resolution, false, true);
 	                	}
                 });
-    			window.apf.olmap.map.addLayer(draw_layer);
+
                 window.apf.olmap.draw_interaction = new ol.interaction.Draw({
                 	source: draw_source,
                     type: /** @type {ol.geom.GeometryType} */ ('Point')
                 });
             	window.apf.olmap.map.addInteraction(window.apf.olmap.draw_interaction);
+            	
                 window.apf.olmap.draw_interaction.on('drawend', function(event) {
-                	// unset sketch
-        			//sketch = null;
-        			console.log('event.feature = ' + event.feature);
-        			event.feature.set('tpop_nr_label', window.apf.erstelleTPopNrLabel(TPop.PopNr, TPop.TPopNr));
-        			event.feature.set('tpop_name', window.apf.erstelleTPopNrLabel(TPop.PopNr, TPop.TPopNr));
-        			console.log('jetzt Geometrie holen und in die DB schreiben');
+        			var coordinates = event.feature.getGeometry().getCoordinates();
+        			TPop.TPopXKoord = parseInt(coordinates[0]);
+    				TPop.TPopYKoord = parseInt(coordinates[1]);
+					// Datensatz updaten
+					var updateTPop = $.ajax({
+						type: 'post',
+						url: 'php/tpop_update.php',
+						dataType: 'json',
+						data: {
+							"id": localStorage.tpop_id,
+							"Feld": "TPopXKoord",
+							"Wert": TPop.TPopXKoord,
+							"user": sessionStorage.User
+						}
+					});
+					updateTPop.always(function() {
+						var updateTPop_2 = $.ajax({
+							type: 'post',
+							url: 'php/tpop_update.php',
+							dataType: 'json',
+							data: {
+								"id": localStorage.tpop_id,
+								"Feld": "TPopYKoord",
+								"Wert": TPop.TPopYKoord,
+								"user": sessionStorage.User
+							}
+						});
+						updateTPop_2.always(function() {
+							// marker in tpop_layer ergänzen
+							// tpop_layer holen
+							var layers = window.apf.olmap.map.getLayers().getArray(),
+            					tpop_layer_nr = $('#olmap_layertree_Teilpopulationen').val(),
+            					tpop_layer = layers[tpop_layer_nr],
+            					tpop_layer_source = tpop_layer.getSource();
+							// marker ergänzen
+							tpop_layer_source.addFeature(window.apf.olmap.erstelleMarkerFuerTPopLayer(TPop));
+    						window.apf.olmap.map.addLayer(draw_layer);
+				            // selects entfernen - aus unerfindlichem Grund ist der neue Marker selektiert
+				            window.apf.olmap.removeSelectFeaturesInSelectableLayers();
+						});
+					});
         			window.apf.olmap.map.removeInteraction(window.apf.olmap.draw_interaction);
                 }, this);
             }
@@ -14522,7 +14563,7 @@ window.apf.olmap.wähleAusschnittFürÜbergebeneTPop = function(tpop_liste_marki
 
 	// bounds der anzuzeigenden bestimmen
 	var tpopid_markiert = [];
-	if (tpop_liste_markiert.rows.length > 0) {
+	if (tpop_liste_markiert && tpop_liste_markiert.rows && tpop_liste_markiert.rows.length > 0) {
         _.each(tpop_liste_markiert.rows, function(tpop) {
             tpopid_markiert.push(tpop.TPopId);
             xkoord_array.push(tpop.TPopXKoord);
@@ -15182,6 +15223,24 @@ window.apf.erstelleTPopNrLabel = function(popnr, tpopnr) {
     }
 };
 
+window.apf.olmap.erstelleMarkerFuerTPopLayer = function(tpop) {
+	return new ol.Feature({
+		geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
+        tpop_nr: tpop.TPopNr,
+        pop_nr: tpop.PopNr,
+        tpop_nr_label: window.apf.erstelleTPopNrLabel(tpop.PopNr, tpop.TPopNr),
+        tpop_name: tpop.TPopFlurname || '(kein Name)',
+		name: window.apf.erstelleTPopNrLabel(tpop.PopNr, tpop.TPopNr),  // brauchts das noch? TODO: entfernen
+        popup_content: window.apf.olmap.erstelleContentFürTPop(tpop),
+        popup_title: tpop.Artname,
+        // koordinaten werden benötigt damit das popup am richtigen Ort verankert wird
+        xkoord: tpop.TPopXKoord,
+        ykoord: tpop.TPopYKoord,
+        myTyp: 'tpop',
+        myId: tpop.TPopId
+	});
+};
+
 // nimmt drei Variablen entgegen:
 // TPopListe: Die Liste der darzustellenden Teilpopulationen
 // tpopid_markiert: die ID der zu markierenden TPop
@@ -15208,21 +15267,7 @@ window.apf.olmap.erstelleTPopLayer = function(tpop_liste, tpopid_markiert, visib
 
     _.each(tpop_liste.rows, function(tpop) {
         // marker erstellen...
-        marker = new ol.Feature({
-    		geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
-            tpop_nr: tpop.TPopNr,
-            pop_nr: tpop.PopNr,
-            tpop_nr_label: window.apf.erstelleTPopNrLabel(tpop.PopNr, tpop.TPopNr),
-            tpop_name: tpop.TPopFlurname || '(kein Name)',
-			name: window.apf.erstelleTPopNrLabel(tpop.PopNr, tpop.TPopNr),  // brauchts das noch? TODO: entfernen
-            popup_content: window.apf.olmap.erstelleContentFürTPop(tpop),
-            popup_title: tpop.Artname,
-            // koordinaten werden benötigt damit das popup am richtigen Ort verankert wird
-            xkoord: tpop.TPopXKoord,
-            ykoord: tpop.TPopYKoord,
-            myTyp: 'tpop',
-            myId: tpop.TPopId
-    	});
+        marker = window.apf.olmap.erstelleMarkerFuerTPopLayer(tpop);
 
         // ...und in Array speichern
         markers.push(marker);
