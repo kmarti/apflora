@@ -14188,6 +14188,41 @@ window.apf.olmap.entferneAlleApfloraLayer = function() {
 	}
 };
 
+window.apf.aktualisiereKoordinatenVonTPop = function(tpop_id, coordinates) {
+    var koord_aktualisiert = $.Deferred(),
+        x_koord  = parseInt(coordinates[0]),
+        y_koord = parseInt(coordinates[1]);
+    // Datensatz updaten
+    var updateTPop = $.ajax({
+        type: 'post',
+        url: 'php/tpop_update.php',
+        dataType: 'json',
+        data: {
+            "id": tpop_id,
+            "Feld": "TPopXKoord",
+            "Wert": x_koord,
+            "user": sessionStorage.User
+        }
+    });
+    updateTPop.always(function() {
+        var updateTPop_2 = $.ajax({
+            type: 'post',
+            url: 'php/tpop_update.php',
+            dataType: 'json',
+            data: {
+                "id": tpop_id,
+                "Feld": "TPopYKoord",
+                "Wert": y_koord,
+                "user": sessionStorage.User
+            }
+        });
+        updateTPop_2.always(function() {
+            koord_aktualisiert.resolve();
+        });
+    });
+    return koord_aktualisiert.promise();
+};
+
 window.apf.verorteTPopAufOlmap = function(tpop) {
 	'use strict';
 	var bounds,
@@ -14216,14 +14251,6 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
 
             window.apf.olmap.deactivateMenuItems();
 
-            // allfällig noch vorhandene Draw-Interaction entfernen
-            /*if (window.apf.olmap.draw_interaction) {
-            	window.apf.olmap.map.removeInteraction(window.apf.olmap.draw_interaction);
-            }*/
-
-            // allfällige selects entfernen
-            //window.apf.olmap.removeSelectFeaturesInSelectableLayers();
-
 			// bound eröffnen
 			// bounds bestimmen
 			if (tpop && tpop.TPopXKoord && tpop.TPopYKoord) {
@@ -14237,37 +14264,21 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
 				window.apf.olmap.map.updateSize();
 	            window.apf.olmap.map.getView().fitExtent(bounds, window.apf.olmap.map.getSize());
 				// marker aufbauen
-				//window.apf.olmap.erstelleTPopulation(tpop);
 			}
 
-            // Pop ausblenden?
+             // Draw-interaction erstellen
+             var modify_source = new ol.source.Vector();
+             var modify_layer = new ol.layer.Vector({
+                 title: 'neu plazierte oder verschobene Teilpopulation',
+                 kategorie: 'AP Flora',
+                 source: modify_source,
+                 style: function(feature, resolution) {
+                    return window.apf.olmap.tpopStyle(feature, resolution, false, true);
+                 }
+             });
 
-            // The features are not added to a regular vector layer/source,
-            // but to a feature overlay which holds a collection of features.
-            // This collection is passed to the modify and also the draw
-            // interaction, so that both can add or modify features.
-            /*var featureOverlay = new ol.FeatureOverlay({
-                style: new ol.style.Style({
-                    fill: new ol.style.Fill({
-                        color: 'rgba(255, 255, 255, 0.2)'
-                    }),
-                    stroke: new ol.style.Stroke({
-                        color: '#ffcc33',
-                        width: 2
-                    }),
-                    image: new ol.style.Circle({
-                        radius: 7,
-                        fill: new ol.style.Fill({
-                            color: '#ffcc33'
-                        })
-                    })
-                })
-            });
-            featureOverlay.setMap(window.apf.olmap.map);
-
-            var modify = new ol.interaction.Modify({
-                featureOverlay: featureOverlay.getFeatures(),
-                //source: tpop_layer_source,
+            /*window.apf.olmap.modify_interaction = new ol.interaction.Modify({
+                source: modify_source,
                 // the SHIFT key must be pressed to delete vertices, so
                 // that new vertices can be drawn at the same position
                 // of existing vertices
@@ -14275,18 +14286,11 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
                     return ol.events.condition.shiftKeyOnly(event) && ol.events.condition.singleClick(event);
                 }
             });
-            window.apf.olmap.map.addInteraction(modify);*/
+            window.apf.olmap.modify_interaction.on('change', function(event) {
+                // Koordinaten aktualisieren
 
-            // Draw-interaction erstellen
-            var modify_source = new ol.source.Vector();
-            var modify_layer = new ol.layer.Vector({
-                title: 'neu plazierte oder verschobene Teilpopulation',
-                kategorie: 'AP Flora',
-                source: modify_source,
-                style: function(feature, resolution) {
-                    return window.apf.olmap.tpopStyle(feature, resolution, false, true);
-                }
             });
+            window.apf.olmap.map.addInteraction(window.apf.olmap.modify_interaction);*/
 
             if (tpop && tpop.TPopXKoord && tpop.TPopYKoord) {
                 // wenn schon eine Koordinate existiert:
@@ -14309,47 +14313,24 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
             	
                 window.apf.olmap.draw_interaction.on('drawend', function(event) {
         			var coordinates = event.feature.getGeometry().getCoordinates();
-        			tpop.TPopXKoord = parseInt(coordinates[0]);
-    				tpop.TPopYKoord = parseInt(coordinates[1]);
-					// Datensatz updaten
-					var updateTPop = $.ajax({
-						type: 'post',
-						url: 'php/tpop_update.php',
-						dataType: 'json',
-						data: {
-							"id": localStorage.tpop_id,
-							"Feld": "TPopXKoord",
-							"Wert": tpop.TPopXKoord,
-							"user": sessionStorage.User
-						}
-					});
-					updateTPop.always(function() {
-						var updateTPop_2 = $.ajax({
-							type: 'post',
-							url: 'php/tpop_update.php',
-							dataType: 'json',
-							data: {
-								"id": localStorage.tpop_id,
-								"Feld": "TPopYKoord",
-								"Wert": tpop.TPopYKoord,
-								"user": sessionStorage.User
-							}
-						});
-						updateTPop_2.always(function() {
-							// marker in tpop_layer ergänzen
-							// tpop_layer holen
-							var layers = window.apf.olmap.map.getLayers().getArray(),
-            					tpop_layer_nr = $('#olmap_layertree_Teilpopulationen').val(),
-            					tpop_layer = layers[tpop_layer_nr],
-            					tpop_layer_source = tpop_layer.getSource();
-							// marker ergänzen
-							tpop_layer_source.addFeature(window.apf.olmap.erstelleMarkerFürTPopLayer(tpop));
-    						window.apf.olmap.map.addLayer(modify_layer);
-				            // selects entfernen - aus unerfindlichem Grund ist der neue Marker selektiert
-				            window.apf.olmap.removeSelectFeaturesInSelectableLayers();
-						});
-					});
-        			window.apf.olmap.map.removeInteraction(window.apf.olmap.draw_interaction);
+                    $.when(window.apf.aktualisiereKoordinatenVonTPop(localStorage.tpop_id, coordinates))
+                        .then(function() {
+                            // Koordinaten in tpop ergänzen
+                            tpop.TPopXKoord  = parseInt(coordinates[0]);
+                            tpop.TPopYKoord = parseInt(coordinates[1]);
+                            // marker in tpop_layer ergänzen
+                            // tpop_layer holen
+                            var layers = window.apf.olmap.map.getLayers().getArray(),
+                                tpop_layer_nr = $('#olmap_layertree_Teilpopulationen').val(),
+                                tpop_layer = layers[tpop_layer_nr],
+                                tpop_layer_source = tpop_layer.getSource();
+                            // marker ergänzen
+                            tpop_layer_source.addFeature(window.apf.olmap.erstelleMarkerFürTPopLayer(tpop));
+                            window.apf.olmap.map.addLayer(modify_layer);
+                            // selects entfernen - aus unerfindlichem Grund ist der neue Marker selektiert
+                            window.apf.olmap.removeSelectFeaturesInSelectableLayers();
+                        });
+                    window.apf.olmap.map.removeInteraction(window.apf.olmap.draw_interaction);
                 }, this);
             }
 
