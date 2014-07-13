@@ -7823,18 +7823,18 @@ window.apf.olmap.getLayerNames = function() {
 	return layers;
 };
 
-window.apf.olmap.getLayersByName = function() {
-	var layer_objekt_array = window.apf.olmap.map.getLayers().getArray(),
-		layers = _.map(layer_objekt_array, function(layer_objekt) {
-			if (layer_objekt.values_ && layer_objekt.values_.title) {
-	 			return layer_objekt;
+window.apf.olmap.getLayersWithTitle = function() {
+	var layers_array = window.apf.olmap.map.getLayers().getArray(),
+		layers = _.map(layers_array, function(layer) {
+			if (layer.get('title')) {
+	 			return layer;
 			}
 		});
-	return layers;
+	return layers || [];
 };
 
 window.apf.olmap.entferneLayerNachName = function(name) {
-	var layers_array = window.apf.olmap.getLayersByName(),
+	var layers_array = window.apf.olmap.getLayersWithTitle(),
 		zu_löschende_layer = [],
 		layername;
 	_.each(layers_array, function(layer) {
@@ -7871,7 +7871,7 @@ window.apf.olmap.entferneAlleApfloraLayer = function() {
 	}
 };
 
-window.apf.verorteTPopAufOlmap = function(TPop) {
+window.apf.verorteTPopAufOlmap = function(tpop) {
 	'use strict';
 	var bounds,
         x_max,
@@ -7883,6 +7883,12 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
         tpop_layer = layers[tpop_layer_nr],
         tpop_layer_source = tpop_layer.getSource()*/;
 
+    // tpop hat keine PopNr
+    // muss ergänzt werden, weil sie als Label angezeigt wird
+    tpop.PopNr = window.apf.pop.PopNr;
+    tpop.PopName = window.apf.pop.PopName;
+    tpop.Artname = window.apf.ap.Artname;
+
 	//$.when(window.apf.zeigeFormular("GeoAdminKarte"))
 	$.when(window.apf.zeigeTPopAufOlmap())
 		.then(function() {
@@ -7891,28 +7897,30 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
             // alle Layeroptionen schliessen
             window.apf.olmap.schliesseLayeroptionen();
 
+            window.apf.olmap.deactivateMenuItems();
+
             // allfällig noch vorhandene Draw-Interaction entfernen
             /*if (window.apf.olmap.draw_interaction) {
             	window.apf.olmap.map.removeInteraction(window.apf.olmap.draw_interaction);
             }*/
 
             // allfällige selects entfernen
-            window.apf.olmap.removeSelectFeaturesInSelectableLayers();
+            //window.apf.olmap.removeSelectFeaturesInSelectableLayers();
 
 			// bound eröffnen
 			// bounds bestimmen
-			if (TPop && TPop.TPopXKoord && TPop.TPopYKoord) {
+			if (tpop && tpop.TPopXKoord && tpop.TPopYKoord) {
 				// bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
-				x_max = parseInt(TPop.TPopXKoord) + 200;
-				x_min = parseInt(TPop.TPopXKoord) - 200;
-				y_max = parseInt(TPop.TPopYKoord) + 200;
-				y_min = parseInt(TPop.TPopYKoord) - 200;
+				x_max = parseInt(tpop.TPopXKoord) + 200;
+				x_min = parseInt(tpop.TPopXKoord) - 200;
+				y_max = parseInt(tpop.TPopYKoord) + 200;
+				y_min = parseInt(tpop.TPopYKoord) - 200;
                 bounds = [x_max, y_max, x_min, y_min];
                 // Karte zum richtigen Ausschnitt zoomen
 				window.apf.olmap.map.updateSize();
 	            window.apf.olmap.map.getView().fitExtent(bounds, window.apf.olmap.map.getSize());
 				// marker aufbauen
-				//window.apf.olmap.erstelleTPopulation(TPop);
+				//window.apf.olmap.erstelleTPopulation(tpop);
 			}
 
             // Pop ausblenden?
@@ -7952,39 +7960,40 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
             });
             window.apf.olmap.map.addInteraction(modify);*/
 
-            if (TPop && TPop.TPopXKoord && TPop.TPopYKoord) {
+            // Draw-interaction erstellen
+            var modify_source = new ol.source.Vector();
+            var modify_layer = new ol.layer.Vector({
+                title: 'neu plazierte oder verschobene Teilpopulation',
+                kategorie: 'AP Flora',
+                source: modify_source,
+                style: function(feature, resolution) {
+                    return window.apf.olmap.tpopStyle(feature, resolution, false, true);
+                }
+            });
+
+            if (tpop && tpop.TPopXKoord && tpop.TPopYKoord) {
                 // wenn schon eine Koordinate existiert:
-                // TPop modifizierbar machen
+                // tpop modifizierbar machen
                 // und gewählten markieren
 
 
                 // tpop als feature hinzufügen
 
-                // TODO: jetzt einen handler, der nach einer modify-Interaktion die TPop aktualisiert
+                // TODO: jetzt einen handler, der nach einer modify-Interaktion die tpop aktualisiert
 
             } else {
                 // wenn keine Koordinate existiert:
-                // Draw-interaction erstellen
-                var draw_source = new ol.source.Vector();
-                var draw_layer = new ol.layer.Vector({
-                	title: 'Neu verortete Teilpopulation',
-                	kategorie: 'AP Flora',
-                	source: draw_source,
-                	style: function(feature, resolution) {
-	                		return window.apf.olmap.tpopStyle(feature, resolution, false, true);
-	                	}
-                });
 
                 window.apf.olmap.draw_interaction = new ol.interaction.Draw({
-                	source: draw_source,
+                	source: modify_source,
                     type: /** @type {ol.geom.GeometryType} */ ('Point')
                 });
             	window.apf.olmap.map.addInteraction(window.apf.olmap.draw_interaction);
             	
                 window.apf.olmap.draw_interaction.on('drawend', function(event) {
         			var coordinates = event.feature.getGeometry().getCoordinates();
-        			TPop.TPopXKoord = parseInt(coordinates[0]);
-    				TPop.TPopYKoord = parseInt(coordinates[1]);
+        			tpop.TPopXKoord = parseInt(coordinates[0]);
+    				tpop.TPopYKoord = parseInt(coordinates[1]);
 					// Datensatz updaten
 					var updateTPop = $.ajax({
 						type: 'post',
@@ -7993,7 +8002,7 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
 						data: {
 							"id": localStorage.tpop_id,
 							"Feld": "TPopXKoord",
-							"Wert": TPop.TPopXKoord,
+							"Wert": tpop.TPopXKoord,
 							"user": sessionStorage.User
 						}
 					});
@@ -8005,7 +8014,7 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
 							data: {
 								"id": localStorage.tpop_id,
 								"Feld": "TPopYKoord",
-								"Wert": TPop.TPopYKoord,
+								"Wert": tpop.TPopYKoord,
 								"user": sessionStorage.User
 							}
 						});
@@ -8017,8 +8026,8 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
             					tpop_layer = layers[tpop_layer_nr],
             					tpop_layer_source = tpop_layer.getSource();
 							// marker ergänzen
-							tpop_layer_source.addFeature(window.apf.olmap.erstelleMarkerFuerTPopLayer(TPop));
-    						window.apf.olmap.map.addLayer(draw_layer);
+							tpop_layer_source.addFeature(window.apf.olmap.erstelleMarkerFürTPopLayer(tpop));
+    						window.apf.olmap.map.addLayer(modify_layer);
 				            // selects entfernen - aus unerfindlichem Grund ist der neue Marker selektiert
 				            window.apf.olmap.removeSelectFeaturesInSelectableLayers();
 						});
@@ -8063,8 +8072,8 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
 				trigger: function(e) {
 					var lonlat = window.apf.olmap.getLonLatFromPixel(e.xy);
 					// x und y merken
-					TPop.TPopXKoord = lonlat.lon;
-					TPop.TPopYKoord = lonlat.lat;
+					tpop.TPopXKoord = lonlat.lon;
+					tpop.TPopYKoord = lonlat.lat;
 					// Datensatz updaten
 					var updateTPop = $.ajax({
 						type: 'post',
@@ -8073,7 +8082,7 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
 						data: {
 							"id": localStorage.tpop_id,
 							"Feld": "TPopXKoord",
-							"Wert": TPop.TPopXKoord,
+							"Wert": tpop.TPopXKoord,
 							"user": sessionStorage.User
 						}
 					});
@@ -8085,7 +8094,7 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
 							data: {
 								"id": localStorage.tpop_id,
 								"Feld": "TPopYKoord",
-								"Wert": TPop.TPopYKoord,
+								"Wert": tpop.TPopYKoord,
 								"user": sessionStorage.User
 							}
 						});
@@ -8095,7 +8104,7 @@ window.apf.verorteTPopAufOlmap = function(TPop) {
 							// alten listener entfernen, neuer wird mit dem nächsten Befehl erstellt 
 							window.apf.olmap.removeControl(click);
 							// markerebene neu aufbauen
-							window.apf.olmap.erstelleTPopulation(TPop);
+							window.apf.olmap.erstelleTPopulation(tpop);
 						});
 					});
 				}
@@ -8767,8 +8776,8 @@ window.apf.olmap.erstellePopLayer = function(popliste, popid_markiert, visible) 
      Ok: function() {
      $(this).dialog("close");
      // overlay entfernen...
-     if (window.apf.olmap.getLayersByName('Populationen')) {
-     var layers = window.apf.olmap.getLayersByName('Populationen');
+     if (window.apf.olmap.getLayersWithTitle('Populationen')) {
+     var layers = window.apf.olmap.getLayersWithTitle('Populationen');
      _.each(layers, function(layer) {
      window.apf.olmap.map.removeLayer(layer);
      });
@@ -8827,8 +8836,8 @@ window.apf.olmap.erstellePopLayer = function(popliste, popid_markiert, visible) 
      "nein, nicht verschieben": function() {
      $(this).dialog("close");
      // overlay entfernen...
-     if (window.apf.olmap.getLayersByName('Populationen')) {
-     var layers = window.apf.olmap.getLayersByName('Populationen');
+     if (window.apf.olmap.getLayersWithTitle('Populationen')) {
+     var layers = window.apf.olmap.getLayersWithTitle('Populationen');
      _.each(layers, function(layer) {
      window.apf.olmap.map.removeLayer(layer);
      });
@@ -8906,7 +8915,7 @@ window.apf.erstelleTPopNrLabel = function(popnr, tpopnr) {
     }
 };
 
-window.apf.olmap.erstelleMarkerFuerTPopLayer = function(tpop) {
+window.apf.olmap.erstelleMarkerFürTPopLayer = function(tpop) {
 	return new ol.Feature({
 		geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
         tpop_nr: tpop.TPopNr,
@@ -8950,7 +8959,7 @@ window.apf.olmap.erstelleTPopLayer = function(tpop_liste, tpopid_markiert, visib
 
     _.each(tpop_liste.rows, function(tpop) {
         // marker erstellen...
-        marker = window.apf.olmap.erstelleMarkerFuerTPopLayer(tpop);
+        marker = window.apf.olmap.erstelleMarkerFürTPopLayer(tpop);
 
         // ...und in Array speichern
         markers.push(marker);
@@ -9014,8 +9023,8 @@ window.apf.olmap.erstelleTPopLayer = function(tpop_liste, tpopid_markiert, visib
      Ok: function() {
      $(this).dialog("close");
      // overlay entfernen...
-     if (window.apf.olmap.getLayersByName('Teilpopulationen')) {
-     var layers = window.apf.olmap.getLayersByName('Teilpopulationen');
+     if (window.apf.olmap.getLayersWithTitle('Teilpopulationen')) {
+     var layers = window.apf.olmap.getLayersWithTitle('Teilpopulationen');
      _.each(layers, function(layer) {
      window.apf.olmap.map.removeLayer(layer);
      });
@@ -9074,8 +9083,8 @@ window.apf.olmap.erstelleTPopLayer = function(tpop_liste, tpopid_markiert, visib
      "nein, nicht verschieben": function() {
      $(this).dialog("close");
      // overlay entfernen...
-     if (window.apf.olmap.getLayersByName('Teilpopulationen')) {
-     var layers = window.apf.olmap.getLayersByName('Teilpopulationen');
+     if (window.apf.olmap.getLayersWithTitle('Teilpopulationen')) {
+     var layers = window.apf.olmap.getLayersWithTitle('Teilpopulationen');
      _.each(layers, function(layer) {
      window.apf.olmap.map.removeLayer(layer);
      });
