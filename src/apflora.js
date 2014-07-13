@@ -7947,7 +7947,7 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
 			}
 
              // Draw-interaction erstellen
-            window.apf.olmap.modify_source = new ol.source.Vector();
+             window.apf.olmap.modify_source = new ol.source.Vector();
              var modify_layer = new ol.layer.Vector({
                  title: 'neu plazierte oder verschobene Teilpopulation',
                  kategorie: 'AP Flora',
@@ -7956,6 +7956,11 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
                     return window.apf.olmap.tpopStyle(feature, resolution, false, true);
                  }
              });
+            /*window.apf.olmap.modify_overlay = new ol.FeatureOverlay({
+                 style: function(feature, resolution) {
+                     return window.apf.olmap.tpopStyle(feature, resolution, false, true);
+                 }
+             });*/
 
             if (tpop && tpop.TPopXKoord && tpop.TPopYKoord) {
                 // wenn schon eine Koordinate existiert:
@@ -7966,18 +7971,18 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
                 // tpop als feature hinzufügen
 
                 // TODO: jetzt einen handler, der nach einer modify-Interaktion die tpop aktualisiert
-                window.apf.olmap.erstelleModifyInteraction();
+                //window.apf.olmap.erstelleModifyInteraction();
 
             } else {
                 // wenn keine Koordinate existiert:
-
                 window.apf.olmap.draw_interaction = new ol.interaction.Draw({
                 	source: window.apf.olmap.modify_source,
+                    //featureOverlay: window.apf.olmap.modify_overlay,
                     type: /** @type {ol.geom.GeometryType} */ ('Point')
                 });
             	window.apf.olmap.map.addInteraction(window.apf.olmap.draw_interaction);
             	
-                window.apf.olmap.draw_interaction.on('drawend', function(event) {
+                window.apf.olmap.draw_interaction.once('drawend', function(event) {
         			var coordinates = event.feature.getGeometry().getCoordinates();
                     // Koordinaten in tpop ergänzen
                     tpop.TPopXKoord  = parseInt(coordinates[0]);
@@ -7992,31 +7997,60 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
                                 tpop_layer_source = tpop_layer.getSource();
                             // marker ergänzen
                             tpop_layer_source.addFeature(window.apf.olmap.erstelleMarkerFürTPopLayer(tpop));
+                            // modify_layer erst jetzt ergänzen, sonst liegt es unter tpop
                             window.apf.olmap.map.addLayer(modify_layer);
                             // selects entfernen - aus unerfindlichem Grund ist der neue Marker selektiert
                             window.apf.olmap.removeSelectFeaturesInSelectableLayers();
-                            // modify-interaction erstellen
-                            window.apf.olmap.erstelleModifyInteraction();
                         });
                     window.apf.olmap.map.removeInteraction(window.apf.olmap.draw_interaction);
+                    // modify-interaction erstellen
+                    window.apf.olmap.erstelleModifyInteraction();
                 }, this);
             }
 		});
 };
 
+window.apf.olmap.entferneModifyInteraction = function() {
+    'use strict';
+    if (window.apf.olmap.modify_interaction) {
+        window.apf.olmap.map.removeMeasureInteraction(window.apf.olmap.modify_interaction);
+        delete window.apf.olmap.modify_interaction;
+    }
+};
+
 window.apf.olmap.erstelleModifyInteraction = function() {
-    window.apf.olmap.modify_interaction = new ol.interaction.Modify({
-        features: window.apf.olmap.modify_source.getFeatures(),
-        // the SHIFT key must be pressed to delete vertices, so
-        // that new vertices can be drawn at the same position
-        // of existing vertices
-        deleteCondition: function(event) {
-            return ol.events.condition.shiftKeyOnly(event) && ol.events.condition.singleClick(event);
+    'use strict';
+    // allfällige bestehende Interaction entfernen
+    window.apf.olmap.entferneModifyInteraction();
+    var overlay = new ol.FeatureOverlay({
+        style: function(feature, resolution) {
+            return window.apf.olmap.tpopStyle(feature, resolution, false, true);
         }
     });
+    overlay.addFeature(window.apf.olmap.modify_source.getFeatures()[0]);
+    window.apf.olmap.modify_interaction = new ol.interaction.Modify({
+        features: overlay.getFeatures()
+    });
+    // TODO: change scheint nicht zu passieren
     window.apf.olmap.modify_interaction.on('change', function(event) {
-        // Koordinaten aktualisieren
-
+        console.log('jetzt die Koordinaten aktualisieren');
+        var coordinates = event.feature.getGeometry().getCoordinates();
+        // Koordinaten in tpop ergänzen
+        window.apf.tpop.TPopXKoord  = parseInt(coordinates[0]);
+        window.apf.tpop.TPopYKoord = parseInt(coordinates[1]);
+        $.when(window.apf.aktualisiereKoordinatenVonTPop(window.apf.tpop))
+            .then(function() {
+                // marker in tpop_layer ergänzen
+                // tpop_layer holen
+                var layers = window.apf.olmap.map.getLayers().getArray(),
+                    tpop_layer_nr = $('#olmap_layertree_Teilpopulationen').val(),
+                    tpop_layer = layers[tpop_layer_nr],
+                    tpop_layer_source = tpop_layer.getSource();
+                // marker ergänzen
+                tpop_layer_source.addFeature(window.apf.olmap.erstelleMarkerFürTPopLayer(tpop));
+                // selects entfernen - aus unerfindlichem Grund ist der neue Marker selektiert
+                window.apf.olmap.removeSelectFeaturesInSelectableLayers();
+            });
     });
     window.apf.olmap.map.addInteraction(window.apf.olmap.modify_interaction);
 };
@@ -10787,6 +10821,8 @@ window.apf.olmap.deactivateMenuItems = function() {
     window.apf.olmap.entfernePopupOverlays();
     // allfällige tooltips von ga-karten verstecken
     $('div.ga-tooltip').hide();
+    // allfällige modify-interaction entfernen
+    window.apf.olmap.entferneModifyInteraction();
 };
 
 window.apf.olmap.removeSelectFeaturesInSelectableLayers = function() {
