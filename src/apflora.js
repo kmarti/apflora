@@ -7871,19 +7871,17 @@ window.apf.olmap.entferneAlleApfloraLayer = function() {
 	}
 };
 
-window.apf.aktualisiereKoordinatenVonTPop = function(tpop_id, coordinates) {
-    var koord_aktualisiert = $.Deferred(),
-        x_koord  = parseInt(coordinates[0]),
-        y_koord = parseInt(coordinates[1]);
+window.apf.aktualisiereKoordinatenVonTPop = function(tpop) {
+    var koord_aktualisiert = $.Deferred();
     // Datensatz updaten
     var updateTPop = $.ajax({
         type: 'post',
         url: 'php/tpop_update.php',
         dataType: 'json',
         data: {
-            "id": tpop_id,
+            "id": tpop.TPopId,
             "Feld": "TPopXKoord",
-            "Wert": x_koord,
+            "Wert": tpop.TPopXKoord,
             "user": sessionStorage.User
         }
     });
@@ -7893,9 +7891,9 @@ window.apf.aktualisiereKoordinatenVonTPop = function(tpop_id, coordinates) {
             url: 'php/tpop_update.php',
             dataType: 'json',
             data: {
-                "id": tpop_id,
+                "id": tpop.TPopId,
                 "Feld": "TPopYKoord",
-                "Wert": y_koord,
+                "Wert": tpop.TPopYKoord,
                 "user": sessionStorage.User
             }
         });
@@ -7996,11 +7994,11 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
             	
                 window.apf.olmap.draw_interaction.on('drawend', function(event) {
         			var coordinates = event.feature.getGeometry().getCoordinates();
-                    $.when(window.apf.aktualisiereKoordinatenVonTPop(localStorage.tpop_id, coordinates))
+                    // Koordinaten in tpop ergänzen
+                    tpop.TPopXKoord  = parseInt(coordinates[0]);
+                    tpop.TPopYKoord = parseInt(coordinates[1]);
+                    $.when(window.apf.aktualisiereKoordinatenVonTPop(tpop))
                         .then(function() {
-                            // Koordinaten in tpop ergänzen
-                            tpop.TPopXKoord  = parseInt(coordinates[0]);
-                            tpop.TPopYKoord = parseInt(coordinates[1]);
                             // marker in tpop_layer ergänzen
                             // tpop_layer holen
                             var layers = window.apf.olmap.map.getLayers().getArray(),
