@@ -2383,6 +2383,20 @@
                             layer_index = input_div.val(),
                             layer = window.apf.olmap.map.getLayers().getArray()[layer_index];
                         window.apf.olmap.exportiereAlsGeojson(layer);
+                    })
+                    .on('click', '.entferne_layer', function(event) {
+                        // layer holen
+                        var input_div = $(this).parent().parent().find('input'),
+                            label_div = $(this).parent().parent().find('label'),
+                            layer_index = input_div.val(),
+                            layer = window.apf.olmap.map.getLayers().getArray()[layer_index],
+                            layer_name = layer.get('title');
+                        if (layer_name) {
+                            window.apf.olmap.entferneLayerNachName(layer_name);
+                            window.apf.olmap.initiiereLayertree();
+                        } else {
+                            window.apf.melde('Fehler: Layer nicht entfernt');
+                        }
                     });
 
                 $('#GeoAdminKarte').on('click', '#olmap_exportieren', function(event) {

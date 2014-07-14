@@ -6794,7 +6794,7 @@ window.apf.initiiere_index = function() {
     $('.apf-resizable').resizable();
 
 	// tooltip: Klasse zuweisen, damit gestylt werden kann
-	$("#label_olmap_infos_abfragen, #label_olmap_distanz_messen, #label_olmap_flaeche_messen, #label_olmap_auswaehlen, #olmap_exportieren_div, apf_tooltip").tooltip({
+	$("#label_olmap_infos_abfragen, #label_olmap_distanz_messen, #label_olmap_flaeche_messen, #label_olmap_auswaehlen, #olmap_exportieren_div, .apf_tooltip").tooltip({
 		tooltipClass: "tooltip-styling-hinterlegt",
 		content: function() {
 			return $(this).attr('title');
@@ -14870,29 +14870,6 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
     // allfällige bestehende Interaction entfernen
     window.apf.olmap.entferneModifyInteractionFürVectorLayer();
 
-    // The features are not added to a regular vector layer/source,
-    // but to a feature overlay which holds a collection of features.
-    // This collection is passed to the modify and also the draw
-    // interaction, so that both can add or modify features.
-    /*var drawFeatureOverlay = new ol.FeatureOverlay({
-        style: new ol.style.Style({
-            fill: new ol.style.Fill({
-                color: 'rgba(255, 255, 255, 0.2)'
-            }),
-            stroke: new ol.style.Stroke({
-                color: '#ffcc33',
-                width: 2
-            }),
-            image: new ol.style.Circle({
-                radius: 7,
-                fill: new ol.style.Fill({
-                    color: '#ffcc33'
-                })
-            })
-        })
-    });
-    drawFeatureOverlay.setMap(window.apf.olmap.map);*/
-
     window.apf.olmap.select_interaction_für_vectorlayer = new ol.interaction.Select({
         layers: function(layer) {
             return layer.get('title') === layer_title;
@@ -14915,20 +14892,17 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
         }
     });
 
-    console.log('modify interaction defined');
-
-    console.log('type_select.val() = ' + type_select.val());
-
     function addDrawInteraction() {
-        window.apf.olmap.draw_interaction_für_vectorlayer = new ol.interaction.Draw({
-            source: vectorlayer.getSource(),
-            type: /** @type {ol.geom.GeometryType} */ (type_select.val())
-        });
-        window.apf.olmap.map.addInteraction(window.apf.olmap.draw_interaction_für_vectorlayer);
+        if (type_select.val()) {
+            window.apf.olmap.draw_interaction_für_vectorlayer = new ol.interaction.Draw({
+                source: vectorlayer.getSource(),
+                type: /** @type {ol.geom.GeometryType} */ (type_select.val())
+            });
+            window.apf.olmap.map.addInteraction(window.apf.olmap.draw_interaction_für_vectorlayer);
+        }
     }
 
     type_select.on('change', function(event) {
-        console.log('type_select changed');
         window.apf.olmap.map.removeInteraction(window.apf.olmap.draw_interaction_für_vectorlayer);
         addDrawInteraction();
     });
@@ -17858,9 +17832,11 @@ window.apf.olmap.initiiereLayertree = function() {
                 html_prov += '<div class="layeroptionen">';
                 html_prov += '<input type="checkbox" class="modify_layer" id="modify_layer_' + layertitel.replace(" ", "_") + '">';
                 html_prov += '<label for="modify_layer_' + layertitel.replace(" ", "_") + '" title="Ebene bearbeiten" class="modify_layer_label"></label>';
-                html_prov += '<select id="modify_layer_geom_type_' + layertitel.replace(" ", "_") + '" class="modify_layer_geom_type apf_tooltip" title="Neue Objekte als:"><option value="Point">Punkt</option><option value="LineString">Linie</option><option value="Polygon" selected>Polygon</option></select>';
+                html_prov += '<select id="modify_layer_geom_type_' + layertitel.replace(" ", "_") + '" class="modify_layer_geom_type apf_tooltip" title="Neue Objekte als:"><option value="" selected>(keine)</option><option value="Point">Punkt</option><option value="LineString">Linie</option><option value="Polygon">Polygon</option></select>';
                 html_prov += '<input type="checkbox" class="export_layer" id="export_layer_' + layertitel.replace(" ", "_") + '">';
                 html_prov += '<label for="export_layer_' + layertitel.replace(" ", "_") + '" title="Ebene als GeoJSON exportieren" class="export_layer_label"></label>';
+                html_prov += '<input type="checkbox" class="entferne_layer" id="entferne_layer_' + layertitel.replace(" ", "_") + '">';
+                html_prov += '<label for="entferne_layer_' + layertitel.replace(" ", "_") + '" title="Ebene entfernen" class="entferne_layer_label"></label>';
                 html_prov += '</div>';
                 initialize_modify_layer = true;
             }
@@ -17940,7 +17916,7 @@ window.apf.olmap.initiiereLayertree = function() {
                 text: false
             })
             .button('refresh');
-        $('.modify_layer_label, .export_layer_label, .apf_tooltip')
+        $('.modify_layer_label, .export_layer_label, .entferne_layer_label, .apf_tooltip')
             .tooltip({
                 tooltipClass: "tooltip-styling-hinterlegt",
                 content: function() {
@@ -17950,6 +17926,12 @@ window.apf.olmap.initiiereLayertree = function() {
         $('.export_layer')
             .button({
                 icons: {primary: 'ui-icon-arrowthickstop-1-s'},
+                text: false
+            })
+            .button('refresh');
+        $('.entferne_layer')
+            .button({
+                icons: {primary: 'ui-icon-closethick'},
                 text: false
             })
             .button('refresh');
