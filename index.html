@@ -2343,8 +2343,8 @@
                     })
                     .on('click', '.modify_layer', function(event) {
                         // layer holen
-                        var input_div = $(this).parent().parent().find('input'),
-                            label_div = $(this).parent().parent().find('label'),
+                        var input_div = $(this).parent().siblings('input'),
+                            label_div = $(this).siblings('label').first(),
                             layer_index = input_div.val(),
                             layer = window.apf.olmap.map.getLayers().getArray()[layer_index];
                         if (window.apf.olmap.modify_interaction_für_vectorlayer) {
@@ -2369,12 +2369,12 @@
                                 .button('refresh');
                         }
                         $('.modify_layer_label')
-                                .tooltip({
-                                    tooltipClass: "tooltip-styling-hinterlegt",
-                                    content: function() {
-                                        return $(this).attr('title');
-                                    }
-                                });
+                            .tooltip({
+                                tooltipClass: "tooltip-styling-hinterlegt",
+                                content: function() {
+                                    return $(this).attr('title');
+                                }
+                            });
                     })
                     .on('click', '.export_layer', function(event) {
                         // layer holen
