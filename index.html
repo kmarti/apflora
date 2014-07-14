@@ -2063,6 +2063,9 @@
 					<div style="display:none;">
 						<div id="olmap_popup" class="olmap_popup"></div>
 					</div>
+                    <div id="eigene_ebene_name_container" style="display:none">
+                        <input id="eigene_ebene_name" type="text" placeholder="hier benennen...">
+                    </div>
 				</div>
 
 				<form id="exporte" style="display:none;">
@@ -2312,29 +2315,66 @@
                     })
                     .on('click', '.layertree_pop_style', function(event) {
                         var layers = window.apf.olmap.map.getLayers().getArray(),
-                            layer = $('#olmap_layertree_Populationen').val();
+                            layer = $('#olmap_layertree_Populationen').val(),
+                            that = this;
                         // style setzen
                         layers[layer].setStyle(window.apf.olmap.popStyle);
                         // jeweils andere box unchecken
-                        if ($(this).hasClass('pop_nr') && this.checked) {
+                        if ($(that).hasClass('pop_nr') && that.checked) {
                             $('#layertree_pop_name').prop('checked', false);
-                        } else if ($(this).hasClass('pop_name') && this.checked) {
+                        } else if ($(that).hasClass('pop_name') && that.checked) {
                             $('#layertree_pop_nr').prop('checked', false);
                         }
                     })
                     .on('click', '.layertree_tpop_style', function(event) {
                         var layers = window.apf.olmap.map.getLayers().getArray(),
-                            layer = $('#olmap_layertree_Teilpopulationen').val();
+                            layer = $('#olmap_layertree_Teilpopulationen').val(),
+                            that = this;
                         // style setzen
                         layers[layer].setStyle(window.apf.olmap.tpopStyle);
                         // jeweils andere box unchecken
-                        if ($(this).hasClass('tpop_nr') && this.checked) {
+                        if ($(that).hasClass('tpop_nr') && that.checked) {
                             // andere box unchecken
                             $('#layertree_tpop_name').prop('checked', false);
-                        } else if ($(this).hasClass('tpop_name') && this.checked) {
+                        } else if ($(that).hasClass('tpop_name') && that.checked) {
                             // andere box unchecken
                             $('#layertree_tpop_nr').prop('checked', false);
                         }
+                    })
+                    .on('click', '.modify_layer', function(event) {
+                        // layer holen
+                        var input_div = $(this).parent().parent().find('input'),
+                            label_div = $(this).parent().parent().find('label'),
+                            layer_index = input_div.val(),
+                            layer = window.apf.olmap.map.getLayers().getArray()[layer_index];
+                        if (window.apf.olmap.modify_interaction_für_vectorlayer) {
+                            // modify entfernen
+                            window.apf.olmap.entferneModifyInteractionFürVectorLayer();
+                            label_div.attr('title', 'Ebene bearbeiten');
+                            $(this)
+                                .button({
+                                    icons: {primary: 'ui-icon-pencil'},
+                                    text: false
+                                })
+                                .button('refresh');
+                        } else {
+                            // modify erstellen
+                            window.apf.olmap.erstelleModifyInteractionFürVectorLayer(layer);
+                            label_div.attr('title', 'Ebene schützen');
+                            $(this)
+                                .button({
+                                    icons: {primary: 'ui-icon-locked'},
+                                    text: false
+                                })
+                                .button('refresh');
+                        }
+                        $('.modify_layer_label')
+                                .tooltip({
+                                    tooltipClass: "tooltip-styling-hinterlegt",
+                                    content: function() {
+                                        return $(this).attr('title');
+                                    }
+                                });
                     });
 
                 $('#GeoAdminKarte').on('click', '#olmap_exportieren', function(event) {

@@ -988,6 +988,17 @@ a {
     margin-left: 16px;
 }
 
+#olmap_layertree .ui-button {
+    width: 14px;
+    height: 16px;
+    margin-left: 5px;
+}
+
+#olmap_layertree .modify_layer_geom_type {
+    width: 70px;
+    font-size: 12px !important;
+}
+
 .olmap_tooltip {
 	z-index: 2000;
 	min-width: 300px;
@@ -1121,6 +1132,10 @@ p.ergebnisAuswahlListeTitelTPop {
 	position: absolute;
 	left: 4px;
 	top: 6px;
+}
+
+#eigene_ebene_name_container {
+    overflow: hidden;
 }
 
 /*drüberstylen, weil GeoAdmin-Aufruf dies nötig macht*/

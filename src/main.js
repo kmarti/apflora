@@ -6340,7 +6340,7 @@ window.apf.initiiere_index = function() {
     $('.apf-resizable').resizable();
 
 	// tooltip: Klasse zuweisen, damit gestylt werden kann
-	$("#label_olmap_infos_abfragen, #label_olmap_distanz_messen, #label_olmap_flaeche_messen, #label_olmap_auswaehlen, #olmap_exportieren_div").tooltip({
+	$("#label_olmap_infos_abfragen, #label_olmap_distanz_messen, #label_olmap_flaeche_messen, #label_olmap_auswaehlen, #olmap_exportieren_div, apf_tooltip").tooltip({
 		tooltipClass: "tooltip-styling-hinterlegt",
 		content: function() {
 			return $(this).attr('title');
@@ -14277,7 +14277,7 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
                 var new_feature = new ol.Feature(new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]));
                 window.apf.olmap.modify_source.addFeature(new_feature);
                 // modify-handler erstellen
-                window.apf.olmap.erstelleModifyInteraction();
+                window.apf.olmap.erstelleModifyInteractionFürTPop();
                 // Karte zum richtigen Ausschnitt zoomen
                 window.apf.olmap.map.updateSize();
                 window.apf.olmap.map.getView().fitExtent(bounds, window.apf.olmap.map.getSize());
@@ -14313,7 +14313,7 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
                         });
                     window.apf.olmap.map.removeInteraction(window.apf.olmap.draw_interaction);
                     // modify-interaction erstellen
-                    window.apf.olmap.erstelleModifyInteraction();
+                    window.apf.olmap.erstelleModifyInteractionFürTPop();
                 }, this);
                 // verzögern, sonst funktioniert es nicht
                 setTimeout(function() {
@@ -14323,7 +14323,7 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
 		});
 };
 
-window.apf.olmap.entferneModifyInteraction = function() {
+window.apf.olmap.entferneModifyInteractionFürTepop = function() {
     'use strict';
     if (window.apf.olmap.modify_interaction) {
         window.apf.olmap.map.removeInteraction(window.apf.olmap.modify_interaction);
@@ -14331,10 +14331,10 @@ window.apf.olmap.entferneModifyInteraction = function() {
     }
 };
 
-window.apf.olmap.erstelleModifyInteraction = function() {
+window.apf.olmap.erstelleModifyInteractionFürTPop = function() {
     'use strict';
     // allfällige bestehende Interaction entfernen
-    window.apf.olmap.entferneModifyInteraction();
+    window.apf.olmap.entferneModifyInteractionFürTepop();
     // feature-overlay erstellen
     window.apf.olmap.modify_overlay = new ol.FeatureOverlay({
         style: function(feature, resolution) {
@@ -14393,6 +14393,60 @@ window.apf.olmap.erstelleModifyInteraction = function() {
 
     });*/
     window.apf.olmap.map.addInteraction(window.apf.olmap.modify_interaction);
+};
+
+window.apf.olmap.entferneModifyInteractionFürVectorLayer = function() {
+    'use strict';
+    if (window.apf.olmap.modify_interaction_für_vectorlayer) {
+        window.apf.olmap.map.removeInteraction(window.apf.olmap.modify_interaction_für_vectorlayer);
+        window.apf.olmap.map.removeInteraction(window.apf.olmap.select_interaction_für_vectorlayer);
+        delete window.apf.olmap.modify_interaction_für_vectorlayer;
+        delete window.apf.olmap.select_interaction_für_vectorlayer;
+    }
+};
+
+window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer) {
+    'use strict';
+    var layer_title = vectorlayer.get('title'),
+        type_select = $('#modify_layer_geom_type_' + layer_title.replace(" ", "_"));
+    // allfällige bestehende Interaction entfernen
+    window.apf.olmap.entferneModifyInteractionFürVectorLayer();
+
+    window.apf.olmap.select_interaction_für_vectorlayer = new ol.interaction.Select({
+        layers: function(layer) {
+            return layer.get('title') === layer_title;
+        }
+    });
+    window.apf.olmap.modify_interaction_für_vectorlayer = new ol.interaction.Modify({
+        features: window.apf.olmap.select_interaction_für_vectorlayer.getFeatures(),
+        // the SHIFT key must be pressed to delete vertices, so
+        // that new vertices can be drawn at the same position
+        // of existing vertices
+        deleteCondition: function(event) {
+            return ol.events.condition.shiftKeyOnly(event) &&
+                ol.events.condition.singleClick(event);
+        }
+    });
+
+    console.log('type_select.val() = ' + type_select.val());
+
+    function addDrawInteraction() {
+        window.apf.olmap.draw_interaction_für_vectorlayer = new ol.interaction.Draw({
+            features: window.apf.olmap.select_interaction_für_vectorlayer.getFeatures(),
+            type: /** @type {ol.geom.GeometryType} */ (type_select.val())
+        });
+        window.apf.olmap.map.addInteraction(window.apf.olmap.draw_interaction_für_vectorlayer);
+    }
+
+    type_select.on('change', function(event) {
+        console.log('type_select changed');
+        window.apf.olmap.map.removeInteraction(window.apf.olmap.draw_interaction_für_vectorlayer);
+        addDrawInteraction();
+    });
+
+    addDrawInteraction();
+    window.apf.olmap.map.addInteraction(window.apf.olmap.select_interaction_für_vectorlayer);
+    window.apf.olmap.map.addInteraction(window.apf.olmap.modify_interaction_für_vectorlayer);
 };
 
 window.apf.olmap.istLayerSichtbarNachName = function(layername) {
@@ -16849,7 +16903,7 @@ window.apf.initiiereOlmap = function() {
 	// allfällige Apflora-Ebenen entfernen
 	window.apf.olmap.entferneAlleApfloraLayer();
     // allfällige Modify-Interaktion entfernen
-    window.apf.olmap.entferneModifyInteraction();
+    window.apf.olmap.entferneModifyInteractionFürTepop();
 
 	// Karte nur aufbauen, wenn dies nicht schon passiert ist
 	if (!window.apf.olmap.map) {
@@ -16890,7 +16944,7 @@ window.apf.olmap.deactivateMenuItems = function() {
     // allfällige tooltips von ga-karten verstecken
     $('div.ga-tooltip').hide();
     // allfällige modify-interaction entfernen
-    window.apf.olmap.entferneModifyInteraction();
+    window.apf.olmap.entferneModifyInteractionFürTepop();
 };
 
 window.apf.olmap.removeSelectFeaturesInSelectableLayers = function() {
@@ -17176,7 +17230,49 @@ window.apf.olmap.addDragAndDropGeofiles = function() {
         view.fitExtent(vectorSource.getExtent(), /** @type {ol.Size} */ (window.apf.olmap.map.getSize()));
         // layertree aktualisieren
         window.apf.olmap.initiiereLayertree();
+        window.apf.olmap.frageNameFürEbene(drag_and_drop_layer);
     });
+};
+
+window.apf.olmap.frageNameFürEbene = function(eigene_ebene) {
+    'use strict';
+    var $eigene_ebene_name = $('#eigene_ebene_name'),
+        $eigene_ebene_name_container = $('#eigene_ebene_name_container');
+    $eigene_ebene_name_container
+        .dialog({
+            title: 'Ebene taufen',
+            modal: true,
+            position: {
+                my: 'center',
+                at: 'center',
+                of: $('#ga_karten_div')
+            },
+            buttons: [
+                {
+                    text: "speichern",
+                    click: function() {
+                        // umbenennen
+                        window.apf.olmap.nenneEbeneUm(eigene_ebene, $eigene_ebene_name.val());
+                        // Namen zurücksetzen
+                        $eigene_ebene_name.val('');
+                        $(this).dialog( "close" );
+                    }
+                },
+                {
+                    text: "abbrechen",
+                    click: function() {
+                        $(this).dialog( "close" );
+                    }
+                }
+            ]
+        })
+        .dialog('open');
+};
+
+window.apf.olmap.nenneEbeneUm = function(layer, title) {
+    'use strict';
+    layer.set('title', title);
+    window.apf.olmap.initiiereLayertree();
 };
 
 // baut das html für den layertree auf
@@ -17200,7 +17296,8 @@ window.apf.olmap.initiiereLayertree = function() {
         layers = window.apf.olmap.map.getLayers().getArray(),
         html_eigene_layer_text,
         html_eigene_layer = '<hr>',
-        eigene_layer_zähler = 0;
+        eigene_layer_zähler = 0,
+        initialize_modify_layer = false;
 
     html_eigene_layer_text = '<h3>Eigene Ebenen</h3>';
     html_eigene_layer_text += '<div>';
@@ -17249,6 +17346,14 @@ window.apf.olmap.initiiereLayertree = function() {
                 html_prov += '<input type="checkbox" id="layertree_tpop_name" class="layertree_tpop_style tpop_name">';
                 html_prov += '</div>';
             }
+            if (kategorie === 'Eigene Ebenen') {
+                html_prov += '<div class="layeroptionen">';
+                html_prov += '<input type="checkbox" class="modify_layer" id="modify_layer_' + layertitel.replace(" ", "_") + '">';
+                html_prov += '<label for="modify_layer_' + layertitel.replace(" ", "_") + '" title="Ebene bearbeiten" class="modify_layer_label"></label>';
+                html_prov += '<select id="modify_layer_geom_type_' + layertitel.replace(" ", "_") + '" class="modify_layer_geom_type apf_tooltip" title="Neue Objekte als:"><option value="Point">Punkt</option><option value="LineString">Linie</option><option value="Polygon" selected>Polygon</option></select>';
+                html_prov += '</div>';
+                initialize_modify_layer = true;
+            }
             html_prov += '</li>';
 	        html_prov += '<hr>';
 	        switch (kategorie) {
@@ -17270,9 +17375,13 @@ window.apf.olmap.initiiereLayertree = function() {
 	            case "AP Flora":
 	                html_apflora += html_prov;
 	                break;
-	            default:
+                case "Eigene Ebenen":
                     html_eigene_layer += html_prov;
                     eigene_layer_zähler++;
+                    break;
+	            default:
+                    //html_eigene_layer += html_prov;
+                    //eigene_layer_zähler++;
                     break;
 	        }
 	    }
@@ -17313,6 +17422,22 @@ window.apf.olmap.initiiereLayertree = function() {
     $ga_karten_div_accordion.accordion({collapsible:true, active: false, heightStyle: 'content'});
     // Maximalgrösse des Layertree begrenzen
     $olmap_layertree_layers.css('max-height', window.apf.berechneOlmapLayertreeMaxhöhe);
+    // buttons initiieren
+    if (initialize_modify_layer) {
+        $('.modify_layer')
+            .button({
+                icons: {primary: 'ui-icon-pencil'},
+                text: false
+            })
+            .button('refresh');
+        $('.modify_layer_label, .apf_tooltip')
+            .tooltip({
+                tooltipClass: "tooltip-styling-hinterlegt",
+                content: function() {
+                    return $(this).attr('title');
+                }
+            });
+    }
 };
 
 // das ist der Versuch, existierende Formulare als dialog zu öffnen
