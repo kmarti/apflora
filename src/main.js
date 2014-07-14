@@ -8282,8 +8282,6 @@ window.apf.zeigeFormular = function(Formularname) {
 			window.apf.setzeKartenhöhe();
             $Formularname.show();
 			if (Formularname === "GeoAdminKarte") {
-				// auswählen deaktivieren und allfällige Liste ausblenden
-				$("#olmap_auswaehlen").button({ disabled: false });
 				window.apf.initiiereOlmap();
 			}
 		} else {
@@ -14253,7 +14251,6 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
 	//$.when(window.apf.zeigeFormular("GeoAdminKarte"))
 	$.when(window.apf.zeigeTPopAufOlmap())
 		.then(function() {
-			$("#olmap_auswaehlen").button({disabled: true});
             window.apf.olmap.deactivateMenuItems();
 
              // modify-layer erstellen
@@ -15019,8 +15016,9 @@ window.apf.olmap.erstellePopLayer = function(popliste, popid_markiert, visible) 
 	        window.apf.olmap.prüfeObPopTpopGewähltWurden();
 	    }, 100);
 	    // Schaltfläche olmap_auswaehlen aktivieren
-	    $('#olmap_auswaehlen').prop('checked', true);
-	    $("#olmap_auswaehlen").button("refresh");
+	    $('#olmap_auswaehlen')
+            .prop('checked', true)
+            .button("refresh");
     }
 
     pop_layer_erstellt.resolve();
@@ -15143,8 +15141,9 @@ window.apf.olmap.erstelleTPopLayer = function(tpop_liste, tpopid_markiert, visib
             window.apf.olmap.prüfeObPopTpopGewähltWurden();
         }, 100);
         // Schaltfläche olmap_auswaehlen aktivieren
-        $('#olmap_auswaehlen').prop('checked', true);
-        $("#olmap_auswaehlen").button("refresh");
+        $('#olmap_auswaehlen')
+            .prop('checked', true)
+            .button("refresh");
     }
 
 	tpop_layer_erstellt.resolve();
