@@ -14221,6 +14221,20 @@ window.apf.aktualisiereKoordinatenVonTPop = function(tpop) {
     return koord_aktualisiert.promise();
 };
 
+window.apf.olmap.stapleLayerZuoberst = function(layer_title) {
+    var layers = window.apf.olmap.map.getLayers(),
+        layers_array = window.apf.olmap.map.getLayers().getArray(),
+        top_layer;
+    _.each(layers_array, function(layer, index) {
+        if (layer.get('title') === layer_title) {
+            console.log('index = ' + index);
+            top_layer = layers.removeAt(index);
+            layers.insertAt(layers_array.length, top_layer);
+        }
+    });
+    window.apf.olmap.initiiereLayertree();
+};
+
 window.apf.verorteTPopAufOlmap = function(tpop) {
 	'use strict';
 	var bounds,
@@ -14248,13 +14262,14 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
              // modify-layer erstellen
              window.apf.olmap.modify_source = new ol.source.Vector();
              var modify_layer = new ol.layer.Vector({
-                 title: 'neu plazierte oder verschobene Teilpopulation',
+                 title: 'verortende Teilpopulation',
                  kategorie: 'AP Flora',
                  source: window.apf.olmap.modify_source,
                  style: function(feature, resolution) {
                     return window.apf.olmap.tpopStyle(feature, resolution, false, true);
                  }
              });
+            window.apf.olmap.map.addLayer(modify_layer);
 
             if (tpop && tpop.TPopXKoord && tpop.TPopYKoord) {
                 // bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
@@ -14269,12 +14284,14 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
                 window.apf.olmap.modify_source.addFeature(new_feature);
                 // modify-handler erstellen
                 window.apf.olmap.erstelleModifyInteraction();
-                // modify_layer erst jetzt ergänzen, sonst liegt es unter tpop
-                window.apf.olmap.map.addLayer(modify_layer);
                 // TODO: modify_layer muss über tpop liegen
                 // Karte zum richtigen Ausschnitt zoomen
                 window.apf.olmap.map.updateSize();
                 window.apf.olmap.map.getView().fitExtent(bounds, window.apf.olmap.map.getSize());
+                // verzögern, sonst funktioniert es nicht
+                setTimeout(function() {
+                    window.apf.olmap.stapleLayerZuoberst('verortende Teilpopulation');
+                }, 200);
             } else {
                 // wenn keine Koordinate existiert:
                 window.apf.olmap.draw_interaction = new ol.interaction.Draw({
@@ -14298,8 +14315,6 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
                                 tpop_layer_source = tpop_layer.getSource();
                             // marker ergänzen
                             tpop_layer_source.addFeature(window.apf.olmap.erstelleMarkerFürTPopLayer(tpop));
-                            // modify_layer erst jetzt ergänzen, sonst liegt es unter tpop
-                            window.apf.olmap.map.addLayer(modify_layer);
                             // selects entfernen - aus unerfindlichem Grund ist der neue Marker selektiert
                             window.apf.olmap.removeSelectFeaturesInSelectableLayers();
                         });
@@ -14307,6 +14322,10 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
                     // modify-interaction erstellen
                     window.apf.olmap.erstelleModifyInteraction();
                 }, this);
+                // verzögern, sonst funktioniert es nicht
+                setTimeout(function() {
+                    window.apf.olmap.stapleLayerZuoberst('verortende Teilpopulation');
+                }, 200);
             }
 		});
 };
@@ -14323,25 +14342,32 @@ window.apf.olmap.erstelleModifyInteraction = function() {
     'use strict';
     // allfällige bestehende Interaction entfernen
     window.apf.olmap.entferneModifyInteraction();
+    // feature-overlay erstellen
     window.apf.olmap.modify_overlay = new ol.FeatureOverlay({
         style: function(feature, resolution) {
             return window.apf.olmap.tpopStyle(feature, resolution, false, true);
         }
     });
+    // neues oder gewähltes feature hinzufügen
     window.apf.olmap.modify_overlay.addFeature(window.apf.olmap.modify_source.getFeatures()[0]);
+    // modify-interaction erstellen
     window.apf.olmap.modify_interaction = new ol.interaction.Modify({
         features: window.apf.olmap.modify_overlay.getFeatures()
     });
+    // zählt, wieviele male .on('change') ausgelöst wurde
     window.apf.olmap.modify_interaction.zähler = 0;
+    // interaction.Modify meldet nicht, wenn etwas verändert wurde
+    // daher muss registriert werden, wann das feature geändert wird
     window.apf.olmap.modify_overlay.getFeatures().getArray()[0].on('change', function() {
         // funktioniert zwar, wird aber beim Verschieben Dutzende bis hunderte Male ausgelöst
         var zähler,
             coordinates = this.getGeometry().getCoordinates();
         window.apf.olmap.modify_interaction.zähler++;
+        // speichert, wieviele male .on('change') ausgelöst wurde, bis setTimout aufgerufen wurde
         zähler = window.apf.olmap.modify_interaction.zähler;
         setTimeout(function() {
             if (zähler === window.apf.olmap.modify_interaction.zähler) {
-                // in den letzten 100 Millisekunden hat sich nichts geändert > speichern
+                // in den letzten 200 Millisekunden hat sich nichts geändert > speichern
                 // Koordinaten in tpop ergänzen
                 window.apf.tpop.TPopXKoord  = parseInt(coordinates[0]);
                 window.apf.tpop.TPopYKoord = parseInt(coordinates[1]);
@@ -14354,16 +14380,13 @@ window.apf.olmap.erstelleModifyInteraction = function() {
                             tpop_layer = layers[tpop_layer_nr],
                             tpop_layer_source = tpop_layer.getSource(),
                             tpop_layer_features = tpop_layer_source.getFeatures(),
-                            aktuelles_feature;
-                        aktuelles_feature = _.find(tpop_layer_features, function(feature) {
-                            return feature.get('myId') === window.apf.tpop.TPopId;
-                        });
+                            aktuelles_feature = _.find(tpop_layer_features, function(feature) {
+                                return feature.get('myId') === window.apf.tpop.TPopId;
+                            });
                         aktuelles_feature.getGeometry().setCoordinates(coordinates);
-                        // selects entfernen - aus unerfindlichem Grund ist der neue Marker selektiert
-                        //window.apf.olmap.removeSelectFeaturesInSelectableLayers();
                     });
             }
-        }, 100);
+        }, 200);
     });
     /*
     // change scheint nicht zu passieren. Probiert: change, pointerdrag, click, drawend
@@ -17863,7 +17886,6 @@ window.apf.wähleAp = function(ap_id) {
 
 window.apf.kopiereKoordinatenInPop = function(x_koord, y_koord) {
 	'use strict';
-    console.log('kopiereKoordinatenInPop: x = ' + x_koord + ', y = ' + y_koord);
 	// prüfen, ob X- und Y-Koordinaten vergeben sind
 	if (x_koord > 100000 && y_koord > 100000) {
 		// Koordinaten der Pop nachführen
