@@ -14354,7 +14354,8 @@ window.apf.olmap.erstelleModifyInteraction = function() {
     window.apf.olmap.modify_overlay.getFeatures().getArray()[0].on('change', function() {
         // funktioniert zwar, wird aber beim Verschieben Dutzende bis hunderte Male ausgelöst
         var zähler,
-            coordinates = this.getGeometry().getCoordinates();
+            coordinates = this.getGeometry().getCoordinates(),
+            feature = this;
         window.apf.olmap.modify_interaction.zähler++;
         // speichert, wieviele male .on('change') ausgelöst wurde, bis setTimout aufgerufen wurde
         zähler = window.apf.olmap.modify_interaction.zähler;
@@ -14377,6 +14378,10 @@ window.apf.olmap.erstelleModifyInteraction = function() {
                                 return feature.get('myId') === window.apf.tpop.TPopId;
                             });
                         aktuelles_feature.getGeometry().setCoordinates(coordinates);
+                        // abhängige Eigenschaften aktualisieren
+                        aktuelles_feature.set('xkoord', window.apf.tpop.TPopXKoord);
+                        aktuelles_feature.set('ykoord', window.apf.tpop.TPopYKoord);
+                        aktuelles_feature.set('popup_content', window.apf.olmap.erstelleContentFürTPop(window.apf.tpop));
                     });
             }
         }, 200);
@@ -17012,9 +17017,7 @@ window.apf.olmap.addShowFeatureInfoOnClick = function() {
     'use strict';
     window.apf.olmap.map.on('singleclick', function(event) {
         var pixel = event.pixel,
-            coordinate = event.coordinate,
-            pop_selected = [],
-            tpop_selected = [];
+            coordinate = event.coordinate;
         // nur machen, wenn nicht selektiert wird
         if (!window.apf.olmap.map.olmap_select_interaction) {
             window.apf.olmap.zeigeFeatureInfo(pixel, coordinate);
