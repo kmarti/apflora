@@ -14941,13 +14941,20 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
 window.apf.olmap.exportiereAlsGeojson = function(layer) {
     'use strict';
     var format = new ol.format.GeoJSON(),
+    	//format = new ol.format.KML(),
+    	//format = new ol.format.GPX(),
         all_features = layer.getSource().getFeatures(),
-        data = JSON.stringify(format.writeFeatures(all_features));
-    $.fileDownload(data, {
-        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-    });
-    return false; // this is critical to stop the click event which will trigger a normal file download!
+        data = JSON.stringify(format.writeFeatures(all_features)),
+        //data = format.writeFeatures(all_features),
+        layer_name = layer.get('title') + '.geojson' || 'Eigene_Ebene.geojson';
+    window.apf.download(layer_name, data);
+};
+
+window.apf.download = function(filename, text) {
+    var pom = document.createElement('a');
+    pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    pom.setAttribute('download', filename);
+    pom.click();
 };
 
 window.apf.olmap.istLayerSichtbarNachName = function(layername) {
