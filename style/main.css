@@ -1094,13 +1094,13 @@ p.ergebnisAuswahlListeTitelTPop {
 	padding-top: 3px;
 	border-top: 1px solid #e0cfc2;
 }
-#ergebnisAuswahlListe a {
+#ergebnisAuswahl a {
 	color: #1E1B1D;
-	text-decoration: none;
+    border-bottom: 1px #848384 dotted;
+    text-decoration: none;
 }
-#ergebnisAuswahlListe a:hover {
-	/*text-decoration: underline;*/
-	border-bottom: 1px #848384 dotted;
+#ergebnisAuswahl a:hover {
+	border-bottom: 1px #848384 solid;
 }
 #ergebnisAuswahlListe td:first-child {
 	text-align: right;
@@ -1308,12 +1308,29 @@ form h2 {
 	margin-bottom: 0;
 }
 
+.olmap_popup_styling .qtip-content a:hover {
+    border-bottom: 1px #848384 solid;
+}
+
+.olmap_popup_styling .qtip-content a {
+    text-decoration: none;
+    border-bottom: 1px #848384 dotted;
+}
+
 .olmap_popup_styling .qtip-content table {
     border-collapse: collapse;
 	margin-bottom: 8px;
 	margin-top: 8px;
 	padding-left: 9px;
 	padding-right: 9px;
+}
+
+.olmap_popup_styling .qtip-content table td:first-child p {
+    padding-right: 0px;
+}
+
+.olmap_popup_styling .qtip-content table td:last-child p {
+    padding-left: 3px;
 }
 
 .olmap_popup_styling .qtip-content tr {
