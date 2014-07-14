@@ -7855,12 +7855,14 @@ window.apf.olmap.entferneAlleApfloraLayer = function() {
 		// um die eigentlichen Layers zu erhalten, muss man .getLayers().getArray() aufrufen!!!
 		var layers_array = window.apf.olmap.map.getLayers().getArray(),
 			kategorie,
+			title,
 			zu_löschende_layer = [];
 		// zuerst nur einen Array mit den zu löschenden Layern erstellen
 		// wenn man sofort löscht, wird nur der erste entfernt!
 		_.each(layers_array, function(layer) {
 			kategorie = layer.get('kategorie');
-			if (kategorie && kategorie === 'AP Flora') {
+			title = layer.get('title');
+			if (kategorie && kategorie === 'AP Flora' && title !== 'Detailpläne') {
 				zu_löschende_layer.push(layer);
 			}
 		});
@@ -7910,7 +7912,6 @@ window.apf.olmap.stapleLayerZuoberst = function(layer_title) {
         top_layer;
     _.each(layers_array, function(layer, index) {
         if (layer.get('title') === layer_title) {
-            console.log('index = ' + index);
             top_layer = layers.removeAt(index);
             layers.insertAt(layers_array.length, top_layer);
         }
@@ -7936,10 +7937,6 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
 	$.when(window.apf.zeigeTPopAufOlmap())
 		.then(function() {
 			$("#olmap_auswaehlen").button({disabled: true});
-
-            // alle Layeroptionen schliessen
-            window.apf.olmap.schliesseLayeroptionen();
-
             window.apf.olmap.deactivateMenuItems();
 
              // modify-layer erstellen
@@ -7967,7 +7964,6 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
                 window.apf.olmap.modify_source.addFeature(new_feature);
                 // modify-handler erstellen
                 window.apf.olmap.erstelleModifyInteraction();
-                // TODO: modify_layer muss über tpop liegen
                 // Karte zum richtigen Ausschnitt zoomen
                 window.apf.olmap.map.updateSize();
                 window.apf.olmap.map.getView().fitExtent(bounds, window.apf.olmap.map.getSize());
@@ -8098,10 +8094,6 @@ window.apf.olmap.istLayerSichtbarNachName = function(layername) {
 
 window.apf.zeigeTPopAufOlmap = function(TPopListeMarkiert) {
 	'use strict';
-	// falls noch aus dem Verorten ein Klick-Handler besteht: deaktivieren
-	if (window.apf.olmap.LetzterKlickHandler) {
-		window.apf.olmap.LetzterKlickHandler.deactivate();
-	}
 	// wenn layer "Populationen" sichtbar ist, sichtbar behalten
 	var overlay_pop_visible = window.apf.olmap.istLayerSichtbarNachName("Populationen");
 	// wenn layer "Populationen Namen" sichtbar ist, sichtbar behalten
@@ -8113,13 +8105,8 @@ window.apf.zeigeTPopAufOlmap = function(TPopListeMarkiert) {
 	$.when(window.apf.zeigeFormular("GeoAdminKarte"))
 		.then(function() {
 			// Karte zum richtigen Ausschnitt zoomen
-			// aber nur, wenn keine Auswahl aktiv
-			if (window.apf.olmap.auswahlPolygonLayer && window.apf.olmap.auswahlPolygonLayer.features.length > 0) {
-				// Auswahl aktiv, Zoomstufe belassen
-			} else {
-				window.apf.olmap.map.updateSize();
-                window.apf.olmap.map.getView().fitExtent(markierte_tpop.bounds, window.apf.olmap.map.getSize());
-			}
+            window.apf.olmap.map.updateSize();
+            window.apf.olmap.map.getView().fitExtent(markierte_tpop.bounds, window.apf.olmap.map.getSize());
 			// tpop und pop ergänzen
 			// alle tpop holen
 			var getTPopKarteAlle = $.ajax({
@@ -8131,10 +8118,10 @@ window.apf.zeigeTPopAufOlmap = function(TPopListeMarkiert) {
 				}
 			});
 
-			getTPopKarteAlle.always(function(TPopListe) {
+			getTPopKarteAlle.always(function(tpop_liste) {
 				$.when(
 					// Layer für Symbole und Beschriftung erstellen
-					window.apf.olmap.erstelleTPopLayer(TPopListe, markierte_tpop.tpopid_markiert, true),
+					window.apf.olmap.erstelleTPopLayer(tpop_liste, markierte_tpop.tpopid_markiert, true),
 					// alle Pop holen
 					window.apf.olmap.zeigePopInTPop(overlay_pop_visible, overlay_popnr_visible)
 				)
@@ -8635,8 +8622,8 @@ window.apf.olmap.erstelleContentFürPop = function(pop) {
         "<p><a href=\"#\" onclick=\"window.apf.öffnePopInNeuemTab('" + pop.PopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
 };
 
-// übernimmt drei Variablen: PopListe ist das Objekt mit den Populationen
-// popid_array der Array mit den ausgewählten Pop
+// übernimmt drei Variablen: popliste ist das Objekt mit den Populationen
+// popid_markiert der Array mit den ausgewählten Pop
 // visible: Ob die Ebene sichtbar geschaltet wird (oder bloss im Layertree verfügbar ist)
 window.apf.olmap.erstellePopLayer = function(popliste, popid_markiert, visible) {
     'use strict';
@@ -8719,121 +8706,6 @@ window.apf.olmap.erstellePopLayer = function(popliste, popid_markiert, visible) 
 	    $("#olmap_auswaehlen").button("refresh");
     }
 
-    // TODO: marker sollen verschoben werden können
-
-    /* alt:
-     // die marker sollen verschoben werden können
-     var dragControl = new OpenLayers.Control.DragFeature(overlay_pop, {
-     onStart: function(feature) {
-     // allfällig geöffnete Popups schliessen - ist unschön, wenn die offen bleiben
-     window.selectControlPop.unselectAll();
-     },
-     onComplete: function(feature) {
-     // nur zulassen, wenn Schreibrechte bestehen
-     if (sessionStorage.NurLesen) {
-     $("#Meldung")
-     .html("Sie haben keine Schreibrechte")
-     .dialog({
-     modal: true,
-     buttons: {
-     Ok: function() {
-     $(this).dialog("close");
-     // overlay entfernen...
-     if (window.apf.olmap.getLayersWithTitle('Populationen')) {
-     var layers = window.apf.olmap.getLayersWithTitle('Populationen');
-     _.each(layers, function(layer) {
-     window.apf.olmap.map.removeLayer(layer);
-     });
-     }
-     // ...und neu erstellen
-     window.apf.olmap.erstellePopSymbole(popliste, popid_markiert, visible);
-     }
-     }
-     });
-     return;
-     }
-     // Verschieben muss bestätigt werden
-     // Mitteilung formulieren. Gewählte hat keinen label und tooltip ist wie sonst label
-     if (feature.attributes.label) {
-     $("#loeschen_dialog_mitteilung").html("Sie verschieben die Population " + feature.attributes.label + ", " + feature.attributes.tooltip);
-     } else {
-     $("#loeschen_dialog_mitteilung").html("Sie verschieben die Population " + feature.attributes.tooltip);
-     }
-     $("#loeschen_dialog").dialog({
-     resizable: false,
-     height:'auto',
-     width: 500,
-     modal: true,
-     buttons: {
-     "ja, verschieben!": function() {
-     $(this).dialog("close");
-     // neue Koordinaten speichern
-     // x und y merken
-     Pop.PopXKoord = feature.geometry.x;
-     Pop.PopYKoord = feature.geometry.y;
-     // Datensatz updaten
-     window.apf.speichereWert('pop', feature.attributes.myId, 'PopXKoord', Pop.PopXKoord);
-     window.apf.speichereWert('pop', feature.attributes.myId, 'PopYKoord', Pop.PopYKoord);
-     // jetzt alle marker entfernen...
-     window.apf.olmap.entferneAlleApfloraLayer();
-     // ...und neu aufbauen
-     // dazu die popliste neu abrufen, da Koordinaten geändert haben! popid_markiert bleibt gleich
-     var getPopKarteAlle_2 = $.ajax({
-     type: 'get',
-     url: 'php/pop_karte_alle.php',
-     dataType: 'json',
-     data: {
-     "ApArtId": window.apf.olmap.erstellePopSymbole
-     }
-     });
-     getPopKarteAlle_2.always(function(PopListe) {
-     window.apf.olmap.erstellePopNr(PopListe, true);
-     window.apf.olmap.erstellePopNamen(PopListe);
-     window.apf.olmap.erstellePopSymbole(PopListe, popid_markiert, true);
-     });
-     getPopKarteAlle_2.fail(function() {
-     //window.apf.melde("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
-     console.log('Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden');
-     });
-     },
-     "nein, nicht verschieben": function() {
-     $(this).dialog("close");
-     // overlay entfernen...
-     if (window.apf.olmap.getLayersWithTitle('Populationen')) {
-     var layers = window.apf.olmap.getLayersWithTitle('Populationen');
-     _.each(layers, function(layer) {
-     window.apf.olmap.map.removeLayer(layer);
-     });
-     }
-     // ...und neu erstellen
-     window.apf.olmap.erstellePopSymbole(popliste, popid_markiert, true);
-     }
-     }
-     });
-     }
-     });
-
-     // selectfeature (Infoblase) soll nicht durch dragfeature blockiert werden
-     // Quelle: //stackoverflow.com/questions/6953907/make-marker-dragable-and-clickable
-     dragControl.handlers['drag'].stopDown = false;
-     dragControl.handlers['drag'].stopUp = false;
-     dragControl.handlers['drag'].stopClick = false;
-     dragControl.handlers['feature'].stopDown = false;
-     dragControl.handlers['feature'].stopUp = false;
-     dragControl.handlers['feature'].stopClick = false;
-
-     // dragControl einschalten
-     window.apf.olmap.addControl(dragControl);
-     dragControl.activate();
-
-     // overlay zur Karte hinzufügen
-     window.apf.olmap.addLayer(overlay_pop);
-
-     // SelectControl erstellen (mit dem Eventlistener öffnet das die Infoblase) und zur Karte hinzufügen
-     window.selectControlPop = new OpenLayers.Control.SelectFeature(overlay_pop, {clickout: true});
-     window.apf.olmap.addControl(window.selectControlPop);
-     window.selectControlPop.activate();*/
-
     pop_layer_erstellt.resolve();
     return pop_layer_erstellt.promise();
 };
@@ -8897,7 +8769,7 @@ window.apf.olmap.erstelleMarkerFürTPopLayer = function(tpop) {
 };
 
 // nimmt drei Variablen entgegen:
-// TPopListe: Die Liste der darzustellenden Teilpopulationen
+// tpop_liste: Die Liste der darzustellenden Teilpopulationen
 // tpopid_markiert: die ID der zu markierenden TPop
 // visible: Ob das Layer sichtbar sein soll
 window.apf.olmap.erstelleTPopLayer = function(tpop_liste, tpopid_markiert, visible) {
@@ -10356,6 +10228,8 @@ window.apf.olmap.createLayersForOlmap = function() {
         source: detailpläne_layer_source,
         style: window.apf.olmap.detailplanStyle()
     });
+    // da dieser Layer verschwindet, globale Variable setzen
+    window.apf.olmap.detailpläne_layer = detailpläne_layer;
 
     var zh_svo_farbig_layer = new ol.layer.Tile({
         title: 'SVO farbig',
