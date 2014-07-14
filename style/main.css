@@ -997,6 +997,7 @@ a {
 #olmap_layertree .modify_layer_geom_type {
     width: 70px;
     font-size: 12px !important;
+    display: none;
 }
 
 .olmap_tooltip {

@@ -11141,7 +11141,7 @@ window.apf.olmap.initiiereLayertree = function() {
     if (initialize_modify_layer) {
         $('.modify_layer')
             .button({
-                icons: {primary: 'ui-icon-pencil'},
+                icons: {primary: 'ui-icon-locked'},
                 text: false
             })
             .button('refresh');

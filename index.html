@@ -2351,9 +2351,10 @@
                             // modify entfernen
                             window.apf.olmap.entferneModifyInteractionFürVectorLayer();
                             label_div.attr('title', 'Ebene bearbeiten');
+                            $(this).siblings('select').hide();
                             $(this)
                                 .button({
-                                    icons: {primary: 'ui-icon-pencil'},
+                                    icons: {primary: 'ui-icon-locked'},
                                     text: false
                                 })
                                 .button('refresh');
@@ -2361,9 +2362,10 @@
                             // modify erstellen
                             window.apf.olmap.erstelleModifyInteractionFürVectorLayer(layer);
                             label_div.attr('title', 'Ebene schützen');
+                            $(this).siblings('select').show();
                             $(this)
                                 .button({
-                                    icons: {primary: 'ui-icon-locked'},
+                                    icons: {primary: 'ui-icon-pencil'},
                                     text: false
                                 })
                                 .button('refresh');
