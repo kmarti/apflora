@@ -2375,6 +2375,14 @@
                                         return $(this).attr('title');
                                     }
                                 });
+                    })
+                    .on('click', '.export_layer', function(event) {
+                        // layer holen
+                        var input_div = $(this).parent().parent().find('input'),
+                            label_div = $(this).parent().parent().find('label'),
+                            layer_index = input_div.val(),
+                            layer = window.apf.olmap.map.getLayers().getArray()[layer_index];
+                        window.apf.olmap.exportiereAlsGeojson(layer);
                     });
 
                 $('#GeoAdminKarte').on('click', '#olmap_exportieren', function(event) {
@@ -2580,29 +2588,6 @@
 					window.apf.google_karte_detailpläne.setMap(null);
 				}
 			});
-
-            /* TODO: für ol3 aktualisieren
-			// Bei aktivieren/deaktivieren von Pop oder TPop im Layertree soll Auwahl erneuert werden
-			$("#olmap_layertree").on("click", "button.x-btn-text", function() {
-				// wenn ein Auswahlpolygon existiert
-				if (window.apf.olmap.auswahlPolygonLayer && window.apf.olmap.auswahlPolygonLayer.features.length > 0) {
-					// Layer ermitteln
-					var Layername = $(this).parents().eq(19).children(".x-tree-node-anchor").children().text();
-					// Wenn Layer Pop oder TPop ist
-					if (Layername === "Populationen" || Layername === "Teilpopulationen") {
-						// ...Auswahl auffrischen
-						if (Layername === "Populationen") {
-							// Populationen: Auswahl ermitteln und einen Array von ID's in window.apf.pop_array speichern
-							window.apf.erstellePopAuswahlArrays();
-						} else if (Layername === "Teilpopulationen") {
-							// Teilpopulationen: Auswahl ermitteln und einen Array von ID's in window.apf.tpop_array speichern
-							window.apf.erstelleTPopAuswahlArrays();
-						}
-						// Liste erstellen, welche die Auswahl anzeigt, Pop/TPop verlinkt und Exporte anbietet
-						window.apf.erstelleListeDerAusgewähltenPopTPop();
-					}
-				}	
-			});*/
 
 			$(window).resize(function() {
                 window.apf.setzeTreehöhe();
