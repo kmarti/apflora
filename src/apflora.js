@@ -8043,7 +8043,7 @@ window.apf.olmap.erstelleModifyInteraction = function() {
                         });
                         aktuelles_feature.getGeometry().setCoordinates(coordinates);
                         // selects entfernen - aus unerfindlichem Grund ist der neue Marker selektiert
-                        window.apf.olmap.removeSelectFeaturesInSelectableLayers();
+                        //window.apf.olmap.removeSelectFeaturesInSelectableLayers();
                     });
             }
         }, 100);
@@ -11544,23 +11544,24 @@ window.apf.wähleAp = function(ap_id) {
 	}
 };
 
-window.apf.kopiereKoordinatenInPop = function(TPopXKoord, TPopYKoord) {
+window.apf.kopiereKoordinatenInPop = function(x_koord, y_koord) {
 	'use strict';
+    console.log('kopiereKoordinatenInPop: x = ' + x_koord + ', y = ' + y_koord);
 	// prüfen, ob X- und Y-Koordinaten vergeben sind
-	if (TPopXKoord > 100000 && TPopYKoord > 100000) {
+	if (x_koord > 100000 && y_koord > 100000) {
 		// Koordinaten der Pop nachführen
-		var updatePop_3 = $.ajax({
+		var update_pop = $.ajax({
 			type: 'post',
 			url: 'php/pop_update.php',
 			dataType: 'json',
 			data: {
 				"id": localStorage.pop_id,
 				"Feld": "PopXKoord",
-				"Wert": TPopXKoord,
+				"Wert": x_koord,
 				"user": sessionStorage.User
 			}
 		});
-		updatePop_3.always(function() {
+		update_pop.always(function() {
 			var updatePop_4 = $.ajax({
 				type: 'post',
 				url: 'php/pop_update.php',
@@ -11568,7 +11569,7 @@ window.apf.kopiereKoordinatenInPop = function(TPopXKoord, TPopYKoord) {
 				data: {
 					"id": localStorage.pop_id,
 					"Feld": "PopYKoord",
-					"Wert": TPopYKoord,
+					"Wert": y_koord,
 					"user": sessionStorage.User
 				}
 			});
@@ -11583,7 +11584,7 @@ window.apf.kopiereKoordinatenInPop = function(TPopXKoord, TPopYKoord) {
 				console.log('Fehler: Y-Koordinate wurde nicht kopiert (die X-Koordinate offenbar schon)');
 			});
 		});
-		updatePop_3.fail(function() {
+		update_pop.fail(function() {
 			//window.apf.melde("Fehler: Koordinaten wurden nicht kopiert");
 			console.log('Fehler: Koordinaten wurden nicht kopiert');
 		});
