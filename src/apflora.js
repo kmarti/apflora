@@ -10236,8 +10236,6 @@ window.apf.olmap.createLayersForOlmap = function() {
         source: detailpläne_layer_source,
         style: window.apf.olmap.detailplanStyle()
     });
-    // da dieser Layer verschwindet, globale Variable setzen
-    window.apf.olmap.detailpläne_layer = detailpläne_layer;
 
     var zh_svo_farbig_layer = new ol.layer.Tile({
         title: 'SVO farbig',
@@ -10846,19 +10844,21 @@ window.apf.olmap.addDragAndDropGeofiles = function() {
     window.apf.olmap.map.addInteraction(drag_and_drop_interaction);
 
     drag_and_drop_interaction.on('addfeatures', function(event) {
-        // TODO: add layer to layertree?
         var vectorSource = new ol.source.Vector({
             features: event.features,
             projection: event.projection
         });
         var drag_and_drop_layer = new ol.layer.Vector({
             source: vectorSource,
-            style: drag_and_drop_styleFunction
+            style: drag_and_drop_styleFunction,
+            title: 'eigene Ebene',
+            kategorie: 'Eigene Ebenen'
         });
         window.apf.olmap.map.addLayer(drag_and_drop_layer);
         var view = window.apf.olmap.map.getView();
-        view.fitExtent(
-            vectorSource.getExtent(), /** @type {ol.Size} */ (window.apf.olmap.map.getSize()));
+        view.fitExtent(vectorSource.getExtent(), /** @type {ol.Size} */ (window.apf.olmap.map.getSize()));
+        // layertree aktualisieren
+        window.apf.olmap.initiiereLayertree();
     });
 };
 
@@ -10881,20 +10881,21 @@ window.apf.olmap.initiiereLayertree = function() {
         $olmap_layertree_layers = $('#olmap_layertree_layers'),
         $ga_karten_div_accordion = $("#ga_karten_div").find(".accordion"),
         layers = window.apf.olmap.map.getLayers().getArray(),
-        html_eigene_layer;
+        html_eigene_layer_text,
+        html_eigene_layer = '<hr>',
+        eigene_layer_zähler = 0;
 
-    html_eigene_layer = '<h3>Eigene Ebenen</h3>';
-    html_eigene_layer += '<div>';
-    html_eigene_layer += '<p>Einfach eine der folgenden Dateitypen auf die Karte ziehen:</p>';
-    html_eigene_layer += '<ul>';
-    html_eigene_layer += '<li>GPX</li>';
-    html_eigene_layer += '<li>GeoJSON</li>';
-    html_eigene_layer += '<li>IGC</li>';
-    html_eigene_layer += '<li>KML</li>';
-    html_eigene_layer += '<li>TopoJSON</li>';
-    html_eigene_layer += '</ul>';
-    html_eigene_layer += '<p style="font-size:10px; line-height:0.9em;">Open Layers 3 ist noch in der Beta-Phase. Daher funktionieren eigene Layer nicht immer fehlerfrei.</p>';
-    html_eigene_layer += '</div>';
+    html_eigene_layer_text = '<h3>Eigene Ebenen</h3>';
+    html_eigene_layer_text += '<div>';
+    html_eigene_layer_text += '<p>Einfach eine der folgenden Dateitypen auf die Karte ziehen:</p>';
+    html_eigene_layer_text += '<ul>';
+    html_eigene_layer_text += '<li>GPX</li>';
+    html_eigene_layer_text += '<li>GeoJSON</li>';
+    html_eigene_layer_text += '<li>IGC</li>';
+    html_eigene_layer_text += '<li>KML</li>';
+    html_eigene_layer_text += '<li>TopoJSON</li>';
+    html_eigene_layer_text += '</ul>';
+    html_eigene_layer_text += '<p style="font-size:10px; line-height:0.9em;">Open Layers 3 ist noch in der Beta-Phase. Daher funktionieren eigene Layer nicht immer fehlerfrei.</p>';
 
     // accordion zerstören, damit es neu aufgebaut werden kann
     // um es zu zerstören muss es initiiert sein!
@@ -10903,7 +10904,7 @@ window.apf.olmap.initiiereLayertree = function() {
 		.accordion("destroy");
 
     _.each(layers, function(layer, index) {
-        layertitel = layer.get('title');
+        layertitel = layer.get('title') || '(Ebene ohne Titel)';
         visible = layer.get('visible');
         kategorie = layer.get('kategorie');
         if (layertitel !== 'messen') {
@@ -10953,7 +10954,9 @@ window.apf.olmap.initiiereLayertree = function() {
 	                html_apflora += html_prov;
 	                break;
 	            default:
-	                html_zh_sachinfos += html_prov;
+                    html_eigene_layer += html_prov;
+                    eigene_layer_zähler++;
+                    break;
 	        }
 	    }
     });
@@ -10966,6 +10969,9 @@ window.apf.olmap.initiiereLayertree = function() {
     html_ch_sachinfos = html_ch_sachinfos.substring(0, (html_ch_sachinfos.length - 4));
     html_ch_biotopinv = html_ch_biotopinv.substring(0, (html_ch_biotopinv.length - 4));
     html_zh_sachinfos = html_zh_sachinfos.substring(0, (html_zh_sachinfos.length - 4));
+    if (eigene_layer_zähler > 0) {
+        html_eigene_layer = html_eigene_layer.substring(0, (html_eigene_layer.length - 4));
+    }
     if (html_apflora !== '<h3>ZH AP Flora</h3><div>') {
     	html_apflora = html_apflora.substring(0, (html_apflora.length - 4));
     } else {
@@ -10978,8 +10984,12 @@ window.apf.olmap.initiiereLayertree = function() {
     html_ch_biotopinv += '</div>';
     html_zh_sachinfos += '</div>';
     html_apflora += '</div>';
+    if (eigene_layer_zähler > 0) {
+        html_eigene_layer_text += html_eigene_layer;
+    }
+    html_eigene_layer_text += '</div>';
     // alles zusammensetzen
-    html = /*html_welt_hintergrund + */html_ch_hintergrund + html_ch_sachinfos + html_ch_biotopinv + html_zh_sachinfos + html_apflora + html_eigene_layer;
+    html = /*html_welt_hintergrund + */html_ch_hintergrund + html_ch_sachinfos + html_ch_biotopinv + html_zh_sachinfos + html_apflora + html_eigene_layer_text;
     // und einsetzen
     $olmap_layertree_layers.html(html);
     // erst jetzt initiieren, sonst stimmt die Höhe nicht
