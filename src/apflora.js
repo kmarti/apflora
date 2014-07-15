@@ -11108,6 +11108,8 @@ window.apf.olmap.initiiereLayertree = function() {
                 html_prov += '<select id="modify_layer_geom_type_' + layertitel.replace(" ", "_") + '" class="modify_layer_geom_type apf_tooltip" title="Neue Objekte als:"><option value="" selected>(keine)</option><option value="Point">Punkt</option><option value="LineString">Linie</option><option value="Polygon">Polygon</option></select>';
                 html_prov += '<input type="checkbox" class="export_layer" id="export_layer_' + layertitel.replace(" ", "_") + '">';
                 html_prov += '<label for="export_layer_' + layertitel.replace(" ", "_") + '" title="Ebene als GeoJSON exportieren" class="export_layer_label"></label>';
+                html_prov += '<input type="checkbox" class="rename_layer" id="rename_layer_' + layertitel.replace(" ", "_") + '">';
+                html_prov += '<label for="rename_layer_' + layertitel.replace(" ", "_") + '" title="Ebene umbenennen" class="rename_layer_label"></label>';
                 html_prov += '<input type="checkbox" class="entferne_layer" id="entferne_layer_' + layertitel.replace(" ", "_") + '">';
                 html_prov += '<label for="entferne_layer_' + layertitel.replace(" ", "_") + '" title="Ebene entfernen" class="entferne_layer_label"></label>';
                 html_prov += '</div>';
@@ -11201,7 +11203,7 @@ window.apf.olmap.initiiereLayertree = function() {
                 text: false
             })
             .button('refresh');
-        $('.modify_layer_label, .export_layer_label, .entferne_layer_label, .apf_tooltip')
+        $('.modify_layer_label, .export_layer_label, .rename_layer_label, .entferne_layer_label, .apf_tooltip')
             .tooltip({
                 tooltipClass: "tooltip-styling-hinterlegt",
                 content: function() {
@@ -11211,6 +11213,12 @@ window.apf.olmap.initiiereLayertree = function() {
         $('.export_layer')
             .button({
                 icons: {primary: 'ui-icon-arrowthickstop-1-s'},
+                text: false
+            })
+            .button('refresh');
+        $('.rename_layer')
+            .button({
+                icons: {primary: 'ui-icon-tag'},
                 text: false
             })
             .button('refresh');

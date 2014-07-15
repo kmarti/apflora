@@ -2385,6 +2385,13 @@
                             layer = window.apf.olmap.map.getLayers().getArray()[layer_index];
                         window.apf.olmap.exportiereAlsGeojson(layer);
                     })
+                    .on('click', '.rename_layer', function(event) {
+                        // layer holen
+                        var input_div = $(this).parent().siblings('input'),
+                                layer_index = input_div.val(),
+                                layer = window.apf.olmap.map.getLayers().getArray()[layer_index];
+                        window.apf.olmap.frageNameFürEbene(layer);
+                    })
                     .on('click', '.entferne_layer', function(event) {
                         // layer holen
                         var input_div = $(this).parent().siblings('input'),
