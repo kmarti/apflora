@@ -8109,9 +8109,6 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
 
     window.apf.olmap.modify_interaction_für_vectorlayer = new ol.interaction.Modify({
         features: window.apf.olmap.select_interaction_für_vectorlayer.getFeatures(),
-        //features: featureOverlay.getFeatures(),
-        //features: features,
-        //features: vectorlayer.getSource(),
         // the SHIFT key must be pressed to delete vertices, so
         // that new vertices can be drawn at the same position
         // of existing vertices
@@ -8128,6 +8125,7 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
                 type: /** @type {ol.geom.GeometryType} */ (type_select.val())
             });
             window.apf.olmap.map.addInteraction(window.apf.olmap.draw_interaction_für_vectorlayer);
+            // bei 'drawend' würde man Änderungen in die DB schreiben
         }
     }
 
