@@ -920,7 +920,7 @@ a {
 	border-radius: 6px;
 }
 
-#olmap_layertree .ui-button-text {
+#olmap_layertree li .ui-button-text {
     font-size: 16px !important;
 }
 
@@ -936,6 +936,17 @@ a {
     font-size: 14px;
     line-height: 1em;
     opacity: 0.97;
+    position: relative;
+}
+
+#olmap_eigene_ebenen_beta_container {
+    position: absolute;
+    top: 40px;
+    left: 140px;
+}
+
+#olmap_neues_layer_container {
+    margin-left: 1em;
 }
 
 #olmap_layertree_layers {
@@ -986,12 +997,18 @@ a {
 
 #olmap_layertree .layeroptionen {
     margin-left: 16px;
+    margin-top: 3px;
 }
 
-#olmap_layertree .ui-button {
+#olmap_layertree li .ui-button {
     width: 14px;
     height: 16px;
     margin-left: 5px;
+}
+
+#olmap_neues_layer_container .ui-button .ui-button-text {
+    padding: .2em 1em .2em 2.1em !important;
+    font-size: inherit !important;
 }
 
 #olmap_layertree .modify_layer_geom_type {

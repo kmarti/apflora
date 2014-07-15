@@ -11058,9 +11058,13 @@ window.apf.olmap.initiiereLayertree = function() {
     html_eigene_layer_text += '<li>KML</li>';
     html_eigene_layer_text += '<li>TopoJSON</li>';
     html_eigene_layer_text += '</ul>';
-    html_eigene_layer_text += '<p style="font-size:10px; line-height:0.9em;">Open Layers 3 ist noch in der Beta-Phase. Daher funktionieren eigene Layer nicht immer fehlerfrei.</p>';
+    html_eigene_layer_text += '<div id="olmap_eigene_ebenen_beta_container">';
+    html_eigene_layer_text += '<p style="font-size:10px; line-height:0.9em;">Open Layers 3 ist noch in der Beta-Phase.<br>Daher funktionieren eigene Layer nicht immer fehlerfrei.</p>';
+    html_eigene_layer_text += '</div>';
+    html_eigene_layer_text += '<div id="olmap_neues_layer_container">';
     html_eigene_layer_text += '<input type="checkbox" class="neues_layer" id="olmap_neues_layer">';
-    html_eigene_layer_text += '<label for="olmap_neues_layer" title="neue Ebene erstellen" class="neues_layer_label"></label>';
+    html_eigene_layer_text += '<label for="olmap_neues_layer" title="neue Ebene erstellen" class="neues_layer_label">neue Ebene</label>';
+    html_eigene_layer_text += '</div>';
 
     // accordion zerstören, damit es neu aufgebaut werden kann
     // um es zu zerstören muss es initiiert sein!
@@ -11180,10 +11184,16 @@ window.apf.olmap.initiiereLayertree = function() {
     // buttons initiieren
     $('.neues_layer')
         .button({
-            icons: {primary: 'ui-icon-plusthick'},
-            text: false
+            icons: {primary: 'ui-icon-plusthick'}
         })
         .button('refresh');
+    $('.neues_layer_label')
+        .tooltip({
+            tooltipClass: "tooltip-styling-hinterlegt",
+            content: function() {
+                return $(this).attr('title');
+            }
+        });
     if (initialize_modify_layer) {
         $('.modify_layer')
             .button({
@@ -11191,7 +11201,7 @@ window.apf.olmap.initiiereLayertree = function() {
                 text: false
             })
             .button('refresh');
-        $('.modify_layer_label, .export_layer_label, .entferne_layer_label, .neues_layer_label, .apf_tooltip')
+        $('.modify_layer_label, .export_layer_label, .entferne_layer_label, .apf_tooltip')
             .tooltip({
                 tooltipClass: "tooltip-styling-hinterlegt",
                 content: function() {
