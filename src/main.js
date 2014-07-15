@@ -14863,6 +14863,23 @@ window.apf.olmap.entferneModifyInteractionFürVectorLayer = function() {
 
 window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer) {
     'use strict';
+    
+    // TODO: if no vectorlayer, create new one
+    if (!vectorlayer) {
+        var new_vectorlayer = true;
+        vectorlayer = new ol.layer.Vector({
+            source: new ol.source.Vector(),
+            title: 'neue Ebene'
+        });
+        window.apf.olmap.map.addLayer(vectorlayer);
+        // umbenennen, dann ModifyInteraction erstellen
+        $.when(window.apf.olmap.frageNameFürEbene(vectorlayer))
+            .then(function() {
+                window.apf.olmap.erstelleModifyInteractionFürVectorLayer(vectorlayer);
+                return;
+            });
+    }
+
     var layer_title = vectorlayer.get('title'),
         type_select = $('#modify_layer_geom_type_' + layer_title.replace(" ", "_")),
         features = vectorlayer.getSource().getFeatures();
@@ -14875,8 +14892,6 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
             return layer.get('title') === layer_title;
         }
     });
-
-    console.log('select interaction defined');
 
     window.apf.olmap.modify_interaction_für_vectorlayer = new ol.interaction.Modify({
         features: window.apf.olmap.select_interaction_für_vectorlayer.getFeatures(),
@@ -17719,7 +17734,8 @@ window.apf.olmap.addDragAndDropGeofiles = function() {
 
 window.apf.olmap.frageNameFürEbene = function(eigene_ebene) {
     'use strict';
-    var $eigene_ebene_name = $('#eigene_ebene_name'),
+    var name_erfragt = $.Deferred(),
+    	$eigene_ebene_name = $('#eigene_ebene_name'),
         $eigene_ebene_name_container = $('#eigene_ebene_name_container');
     // eigene Ebene global speichern, damit der eventhandler darauf zugreifen kann
     window.apf.olmap.eigene_ebene = eigene_ebene;
@@ -17741,6 +17757,7 @@ window.apf.olmap.frageNameFürEbene = function(eigene_ebene) {
                         // Namen zurücksetzen
                         $eigene_ebene_name.val('');
                         $(this).dialog( "close" );
+                        name_erfragt.resolve();
                     }
                 },
                 {
@@ -17762,8 +17779,10 @@ window.apf.olmap.frageNameFürEbene = function(eigene_ebene) {
             $('#eigene_ebene_name_container').dialog( "close" );
             $('#GeoAdminKarte').off('keyup', '#eigene_ebene_name');
             delete window.apf.olmap.eigene_ebene;
+            name_erfragt.resolve();
         }
-    })
+    });
+    return name_erfragt.promise();
 };
 
 window.apf.olmap.nenneEbeneUm = function(layer, title) {
@@ -17807,6 +17826,8 @@ window.apf.olmap.initiiereLayertree = function() {
     html_eigene_layer_text += '<li>TopoJSON</li>';
     html_eigene_layer_text += '</ul>';
     html_eigene_layer_text += '<p style="font-size:10px; line-height:0.9em;">Open Layers 3 ist noch in der Beta-Phase. Daher funktionieren eigene Layer nicht immer fehlerfrei.</p>';
+    html_eigene_layer_text += '<input type="checkbox" class="neues_layer" id="olmap_neues_layer">';
+    html_eigene_layer_text += '<label for="olmap_neues_layer" title="neue Ebene erstellen" class="neues_layer_label"></label>';
 
     // accordion zerstören, damit es neu aufgebaut werden kann
     // um es zu zerstören muss es initiiert sein!
@@ -17931,7 +17952,7 @@ window.apf.olmap.initiiereLayertree = function() {
                 text: false
             })
             .button('refresh');
-        $('.modify_layer_label, .export_layer_label, .entferne_layer_label, .apf_tooltip')
+        $('.modify_layer_label, .export_layer_label, .entferne_layer_label, .neues_layer_label, .apf_tooltip')
             .tooltip({
                 tooltipClass: "tooltip-styling-hinterlegt",
                 content: function() {
@@ -17947,6 +17968,12 @@ window.apf.olmap.initiiereLayertree = function() {
         $('.entferne_layer')
             .button({
                 icons: {primary: 'ui-icon-closethick'},
+                text: false
+            })
+            .button('refresh');
+        $('.neues_layer')
+            .button({
+                icons: {primary: 'ui-icon-plusthick'},
                 text: false
             })
             .button('refresh');
