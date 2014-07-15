@@ -17723,6 +17723,8 @@ window.apf.olmap.frageNameFürEbene = function(eigene_ebene) {
     'use strict';
     var $eigene_ebene_name = $('#eigene_ebene_name'),
         $eigene_ebene_name_container = $('#eigene_ebene_name_container');
+    // eigene Ebene global speichern, damit der eventhandler darauf zugreifen kann
+    window.apf.olmap.eigene_ebene = eigene_ebene;
     $eigene_ebene_name_container
         .dialog({
             title: 'Ebene taufen',
@@ -17753,16 +17755,15 @@ window.apf.olmap.frageNameFürEbene = function(eigene_ebene) {
         })
         .dialog('open');
     $eigene_ebene_name.on('keyup', function(event) {
-        console.log('keyup on eigene_ebene_name');
-        if (event.which == 13) {
-            console.log('key was enter');
+        if (event.which == 13 && window.apf.olmap.eigene_ebene) {
             // enter pressed
             // umbenennen
-            window.apf.olmap.nenneEbeneUm(eigene_ebene, $(this).val());
+            window.apf.olmap.nenneEbeneUm(window.apf.olmap.eigene_ebene, event.target.value);
             // Namen zurücksetzen
-            $(this).val('');
+            $eigene_ebene_name.val('');
             $('#eigene_ebene_name_container').dialog( "close" );
             $('#GeoAdminKarte').off('keyup', '#eigene_ebene_name');
+            delete window.apf.olmap.eigene_ebene;
         }
     })
 };
