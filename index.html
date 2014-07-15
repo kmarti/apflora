@@ -2397,6 +2397,9 @@
                         } else {
                             window.apf.melde('Fehler: Layer nicht entfernt');
                         }
+                    })
+                    .on('click', '.neues_layer', function() {
+                        window.apf.olmap.erstelleModifyInteractionFürVectorLayer('neuer_layer');
                     });
 
                 $('#GeoAdminKarte')

@@ -14863,46 +14863,6 @@ window.apf.olmap.entferneModifyInteractionFürVectorLayer = function() {
 
 window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer) {
     'use strict';
-    
-    // TODO: if no vectorlayer, create new one
-    if (!vectorlayer) {
-        var new_vectorlayer = true;
-        vectorlayer = new ol.layer.Vector({
-            source: new ol.source.Vector(),
-            title: 'neue Ebene'
-        });
-        window.apf.olmap.map.addLayer(vectorlayer);
-        // umbenennen, dann ModifyInteraction erstellen
-        $.when(window.apf.olmap.frageNameFürEbene(vectorlayer))
-            .then(function() {
-                window.apf.olmap.erstelleModifyInteractionFürVectorLayer(vectorlayer);
-                return;
-            });
-    }
-
-    var layer_title = vectorlayer.get('title'),
-        type_select = $('#modify_layer_geom_type_' + layer_title.replace(" ", "_")),
-        features = vectorlayer.getSource().getFeatures();
-
-    // allfällige bestehende Interaction entfernen
-    window.apf.olmap.entferneModifyInteractionFürVectorLayer();
-
-    window.apf.olmap.select_interaction_für_vectorlayer = new ol.interaction.Select({
-        layers: function(layer) {
-            return layer.get('title') === layer_title;
-        }
-    });
-
-    window.apf.olmap.modify_interaction_für_vectorlayer = new ol.interaction.Modify({
-        features: window.apf.olmap.select_interaction_für_vectorlayer.getFeatures(),
-        // the SHIFT key must be pressed to delete vertices, so
-        // that new vertices can be drawn at the same position
-        // of existing vertices
-        deleteCondition: function(event) {
-            return ol.events.condition.shiftKeyOnly(event) &&
-                ol.events.condition.singleClick(event);
-        }
-    });
 
     function addDrawInteraction() {
         if (type_select.val()) {
@@ -14915,14 +14875,58 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
         }
     }
 
-    type_select.on('change', function(event) {
-        window.apf.olmap.map.removeInteraction(window.apf.olmap.draw_interaction_für_vectorlayer);
-        addDrawInteraction();
-    });
+    if (vectorlayer === 'neuer_layer') {
+        console.log('kein vectorlayer');
+        var new_vectorlayer = true;
+        vectorlayer = new ol.layer.Vector({
+            source: new ol.source.Vector(),
+            title: 'neue Ebene',
+            kategorie: 'Eigene Ebenen'
+            //projection: 'EPSG:21781',
+            //projection: 'EPSG:3857'
+        });
+        window.apf.olmap.map.addLayer(vectorlayer);
+        // umbenennen, dann ModifyInteraction erstellen
+        $.when(window.apf.olmap.frageNameFürEbene(vectorlayer))
+            .then(function() {
+                window.apf.olmap.erstelleModifyInteractionFürVectorLayer(vectorlayer);
+            });
+    } else {
+        var layer_title = vectorlayer.get('title'),
+            type_select = $('#modify_layer_geom_type_' + layer_title.replace(" ", "_")),
+            features = vectorlayer.getSource().getFeatures();
 
-    addDrawInteraction();
-    window.apf.olmap.map.addInteraction(window.apf.olmap.select_interaction_für_vectorlayer);
-    window.apf.olmap.map.addInteraction(window.apf.olmap.modify_interaction_für_vectorlayer);
+        console.log('ein Vectorlayer namens ' + layer_title);
+
+        // allfällige bestehende Interaction entfernen
+        window.apf.olmap.entferneModifyInteractionFürVectorLayer();
+
+        window.apf.olmap.select_interaction_für_vectorlayer = new ol.interaction.Select({
+            layers: function(layer) {
+                return layer.get('title') === layer_title;
+            }
+        });
+
+        window.apf.olmap.modify_interaction_für_vectorlayer = new ol.interaction.Modify({
+            features: window.apf.olmap.select_interaction_für_vectorlayer.getFeatures(),
+            // the SHIFT key must be pressed to delete vertices, so
+            // that new vertices can be drawn at the same position
+            // of existing vertices
+            deleteCondition: function(event) {
+                return ol.events.condition.shiftKeyOnly(event) &&
+                    ol.events.condition.singleClick(event);
+            }
+        });
+
+        type_select.on('change', function(event) {
+            window.apf.olmap.map.removeInteraction(window.apf.olmap.draw_interaction_für_vectorlayer);
+            addDrawInteraction();
+        });
+
+        addDrawInteraction();
+        window.apf.olmap.map.addInteraction(window.apf.olmap.select_interaction_für_vectorlayer);
+        window.apf.olmap.map.addInteraction(window.apf.olmap.modify_interaction_für_vectorlayer);
+    }
 };
 
 window.apf.olmap.exportiereAlsGeojson = function(layer) {
@@ -17945,6 +17949,12 @@ window.apf.olmap.initiiereLayertree = function() {
     // Maximalgrösse des Layertree begrenzen
     $olmap_layertree_layers.css('max-height', window.apf.berechneOlmapLayertreeMaxhöhe);
     // buttons initiieren
+    $('.neues_layer')
+        .button({
+            icons: {primary: 'ui-icon-plusthick'},
+            text: false
+        })
+        .button('refresh');
     if (initialize_modify_layer) {
         $('.modify_layer')
             .button({
@@ -17968,12 +17978,6 @@ window.apf.olmap.initiiereLayertree = function() {
         $('.entferne_layer')
             .button({
                 icons: {primary: 'ui-icon-closethick'},
-                text: false
-            })
-            .button('refresh');
-        $('.neues_layer')
-            .button({
-                icons: {primary: 'ui-icon-plusthick'},
                 text: false
             })
             .button('refresh');
