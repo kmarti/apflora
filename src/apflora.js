@@ -10942,6 +10942,9 @@ window.apf.olmap.addDragAndDropGeofiles = function() {
         // layertree aktualisieren
         window.apf.olmap.initiiereLayertree();
         window.apf.olmap.frageNameFürEbene(drag_and_drop_layer);
+        // layer in localStorage speichern
+        //localStorage.olmap_eigene_ebenen = localStorage.olmap_eigene_ebenen || [];
+        //localStorage.olmap_eigene_ebenen.push(drag_and_drop_layer);
     });
 };
 
@@ -10978,6 +10981,19 @@ window.apf.olmap.frageNameFürEbene = function(eigene_ebene) {
             ]
         })
         .dialog('open');
+    $eigene_ebene_name.on('keyup', function(event) {
+        console.log('keyup on eigene_ebene_name');
+        if (event.which == 13) {
+            console.log('key was enter');
+            // enter pressed
+            // umbenennen
+            window.apf.olmap.nenneEbeneUm(eigene_ebene, $(this).val());
+            // Namen zurücksetzen
+            $(this).val('');
+            $('#eigene_ebene_name_container').dialog( "close" );
+            $('#GeoAdminKarte').off('keyup', '#eigene_ebene_name');
+        }
+    })
 };
 
 window.apf.olmap.nenneEbeneUm = function(layer, title) {

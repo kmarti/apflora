@@ -2401,9 +2401,10 @@
                         }
                     });
 
-                $('#GeoAdminKarte').on('click', '#olmap_exportieren', function(event) {
-                	window.apf.olmap.exportiereKarte(event);
-                });
+                $('#GeoAdminKarte')
+                    .on('click', '#olmap_exportieren', function(event) {
+                        window.apf.olmap.exportiereKarte(event);
+                    });
 
 				$("#ber").on("change", "#BerURL", function() {
 					var $BerURL = $("#BerURL"),
