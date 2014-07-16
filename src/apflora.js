@@ -8105,8 +8105,6 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
     }
 
     if (vectorlayer === 'neuer_layer') {
-        console.log('kein vectorlayer');
-        var new_vectorlayer = true;
         vectorlayer = new ol.layer.Vector({
             source: new ol.source.Vector(),
             title: 'neue Ebene',
@@ -8123,9 +8121,15 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
     } else {
         var layer_title = vectorlayer.get('title'),
             type_select = $('#modify_layer_geom_type_' + layer_title.replace(" ", "_")),
+            source = vectorlayer.getSource(),
             features = vectorlayer.getSource().getFeatures();
 
-        console.log('ein Vectorlayer namens ' + layer_title);
+        // neue features sollen eine id erhalten
+        source.on('addFeature', function(event) {
+            var feature = event.element;
+            feature.setId(_.uniqueId());
+            console.log('neues feature hat id = ' + feature.getId());
+        });
 
         // allfällige bestehende Interaction entfernen
         window.apf.olmap.entferneModifyInteractionFürVectorLayer();
@@ -8135,9 +8139,32 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
                 return layer.get('title') === layer_title;
             }
         });
+        window.apf.olmap.modify_interaction_für_vectorlayer_features = window.apf.olmap.select_interaction_für_vectorlayer.getFeatures();
+        window.apf.olmap.modify_interaction_für_vectorlayer_features.on('add', function(event) {
+            console.log('feature added to selection');
+            // now listen if the feature is changed
+            var feature = event.element;
+            var feature_id = feature.getId();
+            // wenn jemand eine eigene Ebene ergänzt hat, kann es sein, dass die features keine id's haben
+            // also wenn nötig ergänzen
+            if (!feature_id) {
+                feature.setId(_.uniqueId());
+            }
+            console.log('feature mi id = ' + feature.getId() + ' wurde gewählt');
+            feature.on('change', function(event) {
+                feature = event.target;
+                console.log('feature with id ' + feature.getId() + ' was changed');
+            });
+        });
+        window.apf.olmap.modify_interaction_für_vectorlayer_features.on('remove', function(event) {
+            console.log('feature removed from selection');
+            var feature = event.element;
+            // stop listening to change on this feature
+            //feature.off('change');    'undefined is not a function'
+        });
 
         window.apf.olmap.modify_interaction_für_vectorlayer = new ol.interaction.Modify({
-            features: window.apf.olmap.select_interaction_für_vectorlayer.getFeatures(),
+            features: window.apf.olmap.modify_interaction_für_vectorlayer_features,
             // the SHIFT key must be pressed to delete vertices, so
             // that new vertices can be drawn at the same position
             // of existing vertices
