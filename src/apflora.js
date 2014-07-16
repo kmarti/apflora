@@ -8006,7 +8006,7 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
 		});
 };
 
-window.apf.olmap.entferneModifyInteractionFürTepop = function() {
+window.apf.olmap.entferneModifyInteractionFürTpop = function() {
     'use strict';
     if (window.apf.olmap.modify_interaction) {
         window.apf.olmap.map.removeInteraction(window.apf.olmap.modify_interaction);
@@ -8017,7 +8017,7 @@ window.apf.olmap.entferneModifyInteractionFürTepop = function() {
 window.apf.olmap.erstelleModifyInteractionFürTPop = function() {
     'use strict';
     // allfällige bestehende Interaction entfernen
-    window.apf.olmap.entferneModifyInteractionFürTepop();
+    window.apf.olmap.entferneModifyInteractionFürTpop();
     // feature-overlay erstellen
     window.apf.olmap.modify_overlay = new ol.FeatureOverlay({
         style: function(feature, resolution) {
@@ -8115,6 +8115,7 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
 
     if (vectorlayer === 'neuer_layer') {
         vectorlayer = new ol.layer.Vector({
+        	guid: window.apf.erstelleGuid(),
             source: new ol.source.Vector(),
             title: 'neue Ebene',
             kategorie: 'Eigene Ebenen'
@@ -8138,7 +8139,8 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
             var feature = event.element;
             feature.setId(_.uniqueId());
             console.log('neues feature hat id = ' + feature.getId());
-            // neues feature müsste jetzt gespeichert werden
+            // neues feature speichern
+            //window.apf.olmap.aktualisiereEbeneInLocalStorage(vectorlayer);
         });
 
         // allfällige bestehende Interaction entfernen
@@ -8153,7 +8155,6 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
         window.apf.olmap.modify_interaction_für_vectorlayer_features = window.apf.olmap.select_interaction_für_vectorlayer.getFeatures();
 
         window.apf.olmap.modify_interaction_für_vectorlayer_features.on('add', function(event) {
-            console.log('feature added to selection');
             // now listen if the feature is changed
             var feature = event.element,
                 feature_id = feature.getId();
@@ -8169,6 +8170,8 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
                 window.apf.olmap.modified_features = window.apf.olmap.modified_features || [];
                 // id in modified_features ergänzen
                 window.apf.olmap.modified_features = _.union(window.apf.olmap.modified_features, [feature_id]);
+                // speichern
+                //window.apf.olmap.aktualisiereEbeneInLocalStorage(vectorlayer);
             });
 
             // listen to pressing of delete key, then delete selected features
@@ -8188,6 +8191,8 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
                         });
                     });
                     $(document).off('keyup');
+                    // speichern
+                    //window.apf.olmap.aktualisiereEbeneInLocalStorage(vectorlayer);
                 }
             })
         });
@@ -8195,14 +8200,12 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
             var feature = event.element,
                 feature_id = feature.getId(),
                 feature_index = window.apf.olmap.modified_features.indexOf(feature_id);
-            console.log('feature with id ' + feature_id + ' was removed from selection');
             if (feature_index > -1) {
-                console.log('dieses feature wurde verändert und muss jetzt gespeichert werden');
+                // speichern
+                //window.apf.olmap.aktualisiereEbeneInLocalStorage(vectorlayer);
                 // erst wieder speichern, wenn neu verändert wurde
                 window.apf.olmap.modified_features.splice(feature_index, 1);
             }
-            // stop listening to change on this feature
-            //feature.off('change');    'undefined is not a function'
         });
 
         window.apf.olmap.modify_interaction_für_vectorlayer = new ol.interaction.Modify({
@@ -10531,6 +10534,13 @@ window.apf.olmap.createLayersForOlmap = function() {
     //var layers = layers_prov.concat(bing_layers);
     var layers = layers_prov;
 
+    // prüfen, ob in localStorage eigene Layer existieren
+    // ausgeschaltet, weil die LayerObjekte von OL3 rekursiv sind und nicht für die localStorage stringified werden können
+    //if (localStorage.olmap_eigene_ebenen) {
+    //    // diese hinzufügen
+    //    layers = layers.concat(JSON.parse(localStorage.olmap_eigene_ebenen));
+    //}
+
     /*layers = [
 
         new ol.layer.Tile({
@@ -10691,6 +10701,42 @@ window.apf.olmap.createLayersForOlmap = function() {
     return layers;
 };
 
+// aktualisiert eine Kopie eigener Ebenen in localStorage
+// remove: wenn vorhanden, wird die Ebene entfernt
+// sonst wird die enthaltene Version durch die aktuelle ersetzt
+// TODO: Funktioniert nicht mit den von ol3 verwendeten rekursiven Objekten!
+// weil JSON.stringify das nicht kann
+/*window.apf.olmap.aktualisiereEbeneInLocalStorage = function(layer, remove) {
+    'use strict';
+    console.log('aktualisiereEbeneInLocalStorage');
+    // mit der guid kontrollieren, ob die Ebene schon existiert
+    var guid = layer.get('guid'),
+        index_to_remove,
+        eigene_ebenen = [];
+
+    if (localStorage.olmap_eigene_ebenen) {
+        eigene_ebenen = JSON.parse(localStorage.olmap_eigene_ebenen);
+    }
+
+    if (guid) {
+        _.each(eigene_ebenen, function(stored_layer, index) {
+            var stored_layer_guid = stored_layer.get('guid');
+            if (stored_layer_guid && stored_layer_guid === guid) {
+                // diese Ebene ist schon in localStorage enthalten
+                index_to_remove = index;
+            }
+        });
+        // Ebene entfernen
+        eigene_ebenen.splice(index_to_remove, 1);
+        // wenn die Ebene nicht entfernt werden sollte, ergänzen
+        if (!remove) {
+            eigene_ebenen.push(layer);
+        }
+        // TODO: Funktioniert nicht mit den von ol3 verwendeten rekursiven Objekten!
+        localStorage.olmap_eigene_ebenen = JSON.stringify(eigene_ebenen);
+    }
+};*/
+
 window.apf.initiiereOlmap = function() {
 	'use strict';
 	// Proxy Host for Ajax Requests to overcome Cross-Domain HTTTP Requests
@@ -10700,7 +10746,7 @@ window.apf.initiiereOlmap = function() {
 	// allfällige Apflora-Ebenen entfernen
 	window.apf.olmap.entferneAlleApfloraLayer();
     // allfällige Modify-Interaktion entfernen
-    window.apf.olmap.entferneModifyInteractionFürTepop();
+    window.apf.olmap.entferneModifyInteractionFürTpop();
 
 	// Karte nur aufbauen, wenn dies nicht schon passiert ist
 	if (!window.apf.olmap.map) {
@@ -10741,7 +10787,7 @@ window.apf.olmap.deactivateMenuItems = function() {
     // allfällige tooltips von ga-karten verstecken
     $('div.ga-tooltip').hide();
     // allfällige modify-interaction entfernen
-    window.apf.olmap.entferneModifyInteractionFürTepop();
+    window.apf.olmap.entferneModifyInteractionFürTpop();
 };
 
 window.apf.olmap.removeSelectFeaturesInSelectableLayers = function() {
@@ -11008,11 +11054,15 @@ window.apf.olmap.addDragAndDropGeofiles = function() {
     window.apf.olmap.map.addInteraction(drag_and_drop_interaction);
 
     drag_and_drop_interaction.on('addfeatures', function(event) {
+        console.log('event.projection = ' + JSON.stringify(event.projection));
         var vectorSource = new ol.source.Vector({
             features: event.features,
-            projection: event.projection
+            //projection: event.projection
+            //projection: 'EPSG:21781'
+            //projection: new ol.proj.EPSG21781()
         });
         var drag_and_drop_layer = new ol.layer.Vector({
+        	guid: window.apf.erstelleGuid(),
             source: vectorSource,
             style: drag_and_drop_styleFunction,
             title: 'eigene Ebene',
@@ -11024,9 +11074,6 @@ window.apf.olmap.addDragAndDropGeofiles = function() {
         // layertree aktualisieren
         window.apf.olmap.initiiereLayertree('Eigene Ebenen');
         window.apf.olmap.frageNameFürEbene(drag_and_drop_layer);
-        // layer in localStorage speichern
-        //localStorage.olmap_eigene_ebenen = localStorage.olmap_eigene_ebenen || [];
-        //localStorage.olmap_eigene_ebenen.push(drag_and_drop_layer);
     });
 };
 
@@ -11087,6 +11134,8 @@ window.apf.olmap.nenneEbeneUm = function(layer, title) {
     'use strict';
     layer.set('title', title);
     window.apf.olmap.initiiereLayertree('Eigene Ebenen');
+    // layer in localStorage speichern
+    //window.apf.olmap.aktualisiereEbeneInLocalStorage(layer);
 };
 
 // baut das html für den layertree auf
@@ -12497,3 +12546,13 @@ window.apf.olmap.exportiereKarte = function(event) {
 		}
 	});
 })(jQuery);
+
+// erstellt einen guid
+// Quelle: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
+window.apf.erstelleGuid = function() {
+	'use strict';
+	return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	    var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+	    return v.toString(16);
+	});
+};
