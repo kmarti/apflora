@@ -14872,6 +14872,14 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
             });
             window.apf.olmap.map.addInteraction(window.apf.olmap.draw_interaction_für_vectorlayer);
             // bei 'drawend' würde man Änderungen in die DB schreiben
+            window.apf.olmap.draw_interaction_für_vectorlayer.on('drawend', function(event) {
+                console.log('neues Objekt gezeichnet');
+                var id = _.uniqueId();
+                event.feature.setId(id);
+                window.apf.olmap.modified_features = window.apf.olmap.modified_features || [];
+                // id in modified_features ergänzen
+                window.apf.olmap.modified_features = _.union(window.apf.olmap.modified_features, [id]);
+            });
         }
     }
 
@@ -14900,6 +14908,7 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
             var feature = event.element;
             feature.setId(_.uniqueId());
             console.log('neues feature hat id = ' + feature.getId());
+            // neues feature müsste jetzt gespeichert werden
         });
 
         // allfällige bestehende Interaction entfernen
@@ -14910,12 +14919,14 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
                 return layer.get('title') === layer_title;
             }
         });
+
         window.apf.olmap.modify_interaction_für_vectorlayer_features = window.apf.olmap.select_interaction_für_vectorlayer.getFeatures();
+
         window.apf.olmap.modify_interaction_für_vectorlayer_features.on('add', function(event) {
             console.log('feature added to selection');
             // now listen if the feature is changed
-            var feature = event.element;
-            var feature_id = feature.getId();
+            var feature = event.element,
+                feature_id = feature.getId();
             // wenn jemand eine eigene Ebene ergänzt hat, kann es sein, dass die features keine id's haben
             // also wenn nötig ergänzen
             if (!feature_id) {
@@ -14923,13 +14934,49 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
             }
             console.log('feature mi id = ' + feature.getId() + ' wurde gewählt');
             feature.on('change', function(event) {
-                feature = event.target;
-                console.log('feature with id ' + feature.getId() + ' was changed');
+                var feature = event.target,
+                    feature_id = feature.getId();
+                console.log('feature with id ' + feature_id + ' was changed');
+                window.apf.olmap.modified_features = window.apf.olmap.modified_features || [];
+                // id in modified_features ergänzen
+                window.apf.olmap.modified_features = _.union(window.apf.olmap.modified_features, [feature_id]);
             });
+
+            // listen to pressing of delete key, then delete selected features
+            $(document).on('keyup', function(event) {
+                if (event.keyCode == 46) {
+                    console.log('delete selected features');
+                    // feature aus select_interaction entfernen
+                    // TODO: alle aus window.apf.olmap.modified_features entfernen
+
+                    var vectorlayer_features = vectorlayer.getSource().getFeatures();
+                    window.apf.olmap.modify_interaction_für_vectorlayer_features.forEach(function(selected_feature) {
+                        var selected_feature_id = selected_feature.getId();
+                        window.apf.olmap.modify_interaction_für_vectorlayer_features.remove(selected_feature);
+                        // feature aus source entfernen
+                        vectorlayer_features.forEach(function(source_feature) {
+                            var source_feature_id = source_feature.getId();
+                            if (source_feature_id === selected_feature_id) {
+                                console.log('feature mit id ' + source_feature_id + ' wird aus vectorlayer_features entfernt');
+                                //vectorlayer_features.remove(source_feature);
+                                vectorlayer.getSource().removeFeature(source_feature);
+                            }
+                        });
+                    });
+                    $(document).off('keyup');
+                }
+            })
         });
         window.apf.olmap.modify_interaction_für_vectorlayer_features.on('remove', function(event) {
-            console.log('feature removed from selection');
-            var feature = event.element;
+            var feature = event.element,
+                feature_id = feature.getId(),
+                feature_index = window.apf.olmap.modified_features.indexOf(feature_id);
+            console.log('feature with id ' + feature_id + ' was removed from selection');
+            if (feature_index > -1) {
+                console.log('dieses feature wurde verändert und muss jetzt gespeichert werden');
+                // erst wieder speichern, wenn neu verändert wurde
+                window.apf.olmap.modified_features.splice(feature_index, 1);
+            }
             // stop listening to change on this feature
             //feature.off('change');    'undefined is not a function'
         });
