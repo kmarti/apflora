@@ -14864,6 +14864,8 @@ window.apf.olmap.entferneModifyInteractionFürVectorLayer = function() {
 window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer) {
     'use strict';
 
+    // type_select und vectorlayer werden (z.T.) erst weiter unten definiert
+    // das macht nichts, weil diese Funktion erst nach deren Definition aufgerufen wird
     function addDrawInteraction() {
         if (type_select.val()) {
             window.apf.olmap.draw_interaction_für_vectorlayer = new ol.interaction.Draw({
@@ -14873,7 +14875,6 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
             window.apf.olmap.map.addInteraction(window.apf.olmap.draw_interaction_für_vectorlayer);
             // bei 'drawend' würde man Änderungen in die DB schreiben
             window.apf.olmap.draw_interaction_für_vectorlayer.on('drawend', function(event) {
-                console.log('neues Objekt gezeichnet');
                 var id = _.uniqueId();
                 event.feature.setId(id);
                 window.apf.olmap.modified_features = window.apf.olmap.modified_features || [];
@@ -14932,7 +14933,6 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
             if (!feature_id) {
                 feature.setId(_.uniqueId());
             }
-            console.log('feature mi id = ' + feature.getId() + ' wurde gewählt');
             feature.on('change', function(event) {
                 var feature = event.target,
                     feature_id = feature.getId();
@@ -14945,20 +14945,15 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
             // listen to pressing of delete key, then delete selected features
             $(document).on('keyup', function(event) {
                 if (event.keyCode == 46) {
-                    console.log('delete selected features');
-                    // feature aus select_interaction entfernen
-                    // TODO: alle aus window.apf.olmap.modified_features entfernen
-
-                    var vectorlayer_features = vectorlayer.getSource().getFeatures();
+                    // alle gewählten features aus select_interaction und source entfernen
                     window.apf.olmap.modify_interaction_für_vectorlayer_features.forEach(function(selected_feature) {
                         var selected_feature_id = selected_feature.getId();
                         window.apf.olmap.modify_interaction_für_vectorlayer_features.remove(selected_feature);
-                        // feature aus source entfernen
+                        // features aus vectorlayer_source entfernen
+                        var vectorlayer_features = vectorlayer.getSource().getFeatures();
                         vectorlayer_features.forEach(function(source_feature) {
                             var source_feature_id = source_feature.getId();
                             if (source_feature_id === selected_feature_id) {
-                                console.log('feature mit id ' + source_feature_id + ' wird aus vectorlayer_features entfernt');
-                                //vectorlayer_features.remove(source_feature);
                                 vectorlayer.getSource().removeFeature(source_feature);
                             }
                         });
@@ -17635,10 +17630,6 @@ window.apf.olmap.addDragBox = function() {
             window.apf.olmap.prüfeObPopTpopGewähltWurden();
         }, 100);
     });
-    /*window.apf.olmap.map.on('click', function() {
-        var selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
-        selected_features.clear();
-    });*/
     window.apf.olmap.map.addInteraction(window.apf.olmap.drag_box_interaction);
 };
 
@@ -17802,7 +17793,7 @@ window.apf.olmap.addDragAndDropGeofiles = function() {
         var view = window.apf.olmap.map.getView();
         view.fitExtent(vectorSource.getExtent(), /** @type {ol.Size} */ (window.apf.olmap.map.getSize()));
         // layertree aktualisieren
-        window.apf.olmap.initiiereLayertree();
+        window.apf.olmap.initiiereLayertree('Eigene Ebenen');
         window.apf.olmap.frageNameFürEbene(drag_and_drop_layer);
         // layer in localStorage speichern
         //localStorage.olmap_eigene_ebenen = localStorage.olmap_eigene_ebenen || [];
@@ -17866,13 +17857,14 @@ window.apf.olmap.frageNameFürEbene = function(eigene_ebene) {
 window.apf.olmap.nenneEbeneUm = function(layer, title) {
     'use strict';
     layer.set('title', title);
-    window.apf.olmap.initiiereLayertree();
+    window.apf.olmap.initiiereLayertree('Eigene Ebenen');
 };
 
 // baut das html für den layertree auf
 // Muster:
 // <li><input type="checkbox" id="olmap_layertree_Ebene 1"><label for="olmap_layertree_Ebene 1">Ebene 1</label></li><hr>
-window.apf.olmap.initiiereLayertree = function() {
+// active_kategorie: der Bereich dieser Kategorie soll offen sein
+window.apf.olmap.initiiereLayertree = function(active_kategorie) {
 	'use strict';
     var layertitel,
         visible,
@@ -17891,7 +17883,8 @@ window.apf.olmap.initiiereLayertree = function() {
         html_eigene_layer_text,
         html_eigene_layer = '<hr>',
         eigene_layer_zähler = 0,
-        initialize_modify_layer = false;
+        initialize_modify_layer = false,
+        active;
 
     html_eigene_layer_text = '<h3>Eigene Ebenen</h3>';
     html_eigene_layer_text += '<div>';
@@ -18025,7 +18018,34 @@ window.apf.olmap.initiiereLayertree = function() {
     // und einsetzen
     $olmap_layertree_layers.html(html);
     // erst jetzt initiieren, sonst stimmt die Höhe nicht
-    $ga_karten_div_accordion.accordion({collapsible:true, active: false, heightStyle: 'content'});
+    if (active_kategorie) {
+        // ohne die erste Aktivierung funktioniert es nicht
+        $ga_karten_div_accordion.accordion({
+            collapsible: true,
+            active: false,
+            heightStyle: 'content'
+        });
+        $ga_karten_div_accordion.accordion({
+            collapsible: true,
+            active: 0,
+            heightStyle: 'content'
+        });
+        if (active_kategorie === 'Eigene Ebenen') {
+            active = 5;
+        }
+        $('#olmap_layertree_layers').accordion({
+            collapsible: true,
+            active: active,
+            heightStyle: 'content'
+        });
+    } else {
+        $ga_karten_div_accordion.accordion({
+            collapsible: true,
+            active: false,
+            heightStyle: 'content'
+        });
+    }
+
     // Maximalgrösse des Layertree begrenzen
     $olmap_layertree_layers.css('max-height', window.apf.berechneOlmapLayertreeMaxhöhe);
     // buttons initiieren
