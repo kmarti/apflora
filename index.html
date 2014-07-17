@@ -2347,7 +2347,7 @@
                             label_div = $(this).siblings('label').first(),
                             layer_index = input_div.val(),
                             layer = window.apf.olmap.map.getLayers().getArray()[layer_index],
-                            geom_select_div = $(this).siblings('select'),
+                            geom_select_div = $(this).siblings('select.modify_layer_geom_type'),
                             aktiv = label_div.hasClass('ui-state-active');
 
                         // modify-layer steuern
