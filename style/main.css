@@ -996,7 +996,7 @@ a {
 }
 
 #olmap_layertree .layeroptionen {
-    margin-left: 16px;
+    margin-left: -5px;
     margin-top: 3px;
 }
 
@@ -1011,9 +1011,16 @@ a {
     font-size: inherit !important;
 }
 
-#olmap_layertree .modify_layer_geom_type {
-    width: 70px;
+#olmap_layertree .layeroptionen select {
     font-size: 12px !important;
+}
+
+#olmap_layertree .layeroptionen select.export_layer_select {
+    width: 100px;
+}
+
+#olmap_layertree .layeroptionen select.modify_layer_geom_type {
+    width: 85px;
     display: none;
 }
 

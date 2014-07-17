@@ -2360,8 +2360,6 @@
                         // Zustand der Layeranzeige steuern
                         if (aktiv) {
                             // nach dem klick ist der button aktiv, er war also inaktiv > aktivieren
-                            console.log('ich war nicht aktiv');
-                            console.log('erstelle modify');
                             window.apf.olmap.erstelleModifyInteractionFürVectorLayer(layer);
                             // title ändern
                             label_div.attr('title', 'Ebene schützen');
@@ -2376,7 +2374,6 @@
                                 .button('refresh');
                         } else {
                             // button war aktiv > deaktivieren
-                            console.log('ich war aktiv');
                             // title ändern
                             label_div.attr('title', 'Ebene bearbeiten');
                             // geom_type_select verstecken
@@ -2398,12 +2395,17 @@
                                 }
                             });
                     })
-                    .on('click', '.export_layer', function(event) {
+                    .on('change', '.export_layer_select', function(event) {
                         // layer holen
                         var input_div = $(this).parent().siblings('input'),
                             layer_index = input_div.val(),
-                            layer = window.apf.olmap.map.getLayers().getArray()[layer_index];
-                        window.apf.olmap.exportiereAlsGeojson(layer);
+                            layer = window.apf.olmap.map.getLayers().getArray()[layer_index],
+                            select_div = this,
+                            selected_value = select_div.options[select_div.selectedIndex].value;
+                        if (selected_value !== 'leerwert') {
+                            window.apf.olmap.exportiereLayer(layer, selected_value)
+                            select_div.value = 'leerwert';
+                        }
                     })
                     .on('click', '.rename_layer', function(event) {
                         // layer holen
