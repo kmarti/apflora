@@ -2346,30 +2346,50 @@
                         var input_div = $(this).parent().siblings('input'),
                             label_div = $(this).siblings('label').first(),
                             layer_index = input_div.val(),
-                            layer = window.apf.olmap.map.getLayers().getArray()[layer_index];
+                            layer = window.apf.olmap.map.getLayers().getArray()[layer_index],
+                            geom_select_div = $(this).siblings('select'),
+                            aktiv = label_div.hasClass('ui-state-active');
+
+                        // modify-layer steuern
                         if (window.apf.olmap.modify_interaction_für_vectorlayer) {
                             // modify entfernen
-                            window.apf.olmap.entferneModifyInteractionFürVectorLayer();
-                            label_div.attr('title', 'Ebene bearbeiten');
-                            $(this).siblings('select').hide();
-                            $(this)
-                                .button({
-                                    icons: {primary: 'ui-icon-locked'},
-                                    text: false
-                                })
-                                .button('refresh');
-                        } else {
-                            // modify erstellen
+                            // input_div mitgeben, damit alle übrigen Layer deaktiviert werden können
+                            window.apf.olmap.entferneModifyInteractionFürVectorLayer(input_div);
+                        }
+
+                        // Zustand der Layeranzeige steuern
+                        if (aktiv) {
+                            // nach dem klick ist der button aktiv, er war also inaktiv > aktivieren
+                            console.log('ich war nicht aktiv');
+                            console.log('erstelle modify');
                             window.apf.olmap.erstelleModifyInteractionFürVectorLayer(layer);
+                            // title ändern
                             label_div.attr('title', 'Ebene schützen');
-                            $(this).siblings('select').show();
+                            // geom_type_select zeigen
+                            geom_select_div.show();
+                            // button is pencil
                             $(this)
                                 .button({
                                     icons: {primary: 'ui-icon-pencil'},
                                     text: false
                                 })
                                 .button('refresh');
+                        } else {
+                            // button war aktiv > deaktivieren
+                            console.log('ich war aktiv');
+                            // title ändern
+                            label_div.attr('title', 'Ebene bearbeiten');
+                            // geom_type_select verstecken
+                            geom_select_div.hide();
+                            // button is locked
+                            $(this)
+                                .button({
+                                    icons: {primary: 'ui-icon-locked'},
+                                    text: false
+                                })
+                                .button('refresh');
                         }
+
                         $('.modify_layer_label')
                             .tooltip({
                                 tooltipClass: "tooltip-styling-hinterlegt",
