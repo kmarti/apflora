@@ -8133,13 +8133,14 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
         features = vectorlayer.getSource().getFeatures();
 
     // neue features sollen eine id erhalten
-    source.on('addFeature', function(event) {
+    // nicht nötig, wird schon von drawend aufgefangen
+    /*source.on('addFeature', function(event) {
         var feature = event.element;
         feature.setId(_.uniqueId());
         console.log('neues feature hat id = ' + feature.getId());
         // neues feature speichern
         window.apf.olmap.aktualisiereEbeneInLocalStorage(vectorlayer);
-    });
+    });*/
 
     // allfällige bestehende Interaction entfernen
     window.apf.olmap.entferneModifyInteractionFürVectorLayer();
@@ -8275,6 +8276,7 @@ window.apf.olmap.exportiereLayer = function(layer, selected_value) {
 };
 
 window.apf.download = function(filename, text) {
+	'use strict';
     var pom = document.createElement('a');
     pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
     pom.setAttribute('download', filename);
@@ -8282,6 +8284,7 @@ window.apf.download = function(filename, text) {
 };
 
 window.apf.olmap.istLayerSichtbarNachName = function(layername) {
+	'use strict';
 	var layer_objekt_array,
 		layer_ist_sichtbar;
 	// prüfen, ob eine map existiert
