@@ -8221,7 +8221,7 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
         }
     });
 
-    $geom_type_select.on('change', function(event) {
+    $geom_type_select.on('selectmenuchange', function(event) {
         window.apf.olmap.map.removeInteraction(window.apf.olmap.draw_interaction_für_vectorlayer);
         addDrawInteraction();
     });
@@ -11461,6 +11461,7 @@ window.apf.olmap.initiiereLayertree = function(active_kategorie) {
                 return $(this).attr('title');
             }
         });
+    $('.export_layer_select').selectmenu();
     if (initialize_modify_layer) {
         $('.modify_layer')
             .button({

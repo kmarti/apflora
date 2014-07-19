@@ -2225,6 +2225,10 @@
 			<p id="loeschen_dialog_mitteilung">Dieser Knoten und alle darunter befindlichen werden unwiederbringlich gelöscht.</p>
 		</div>
 
+		<div id="entferne_eigene_ebene_dialog" title="Sind sie sicher?" style="display:none;">
+			<p id="entferne_eigene_ebene_dialog_mitteilung">Wollen Sie diese Ebene unwiederbringlich entfernen?</p>
+		</div>
+
 		<div id="Meldung"></div>
 		<div id="offline_dialog" title="offline" style="display:none;">
 			<p>Sie sind nicht mit dem Internet verbunden.<br>Das Speichern und Abfragen von Daten ist nur online möglich</p>
@@ -2359,6 +2363,11 @@
                             window.apf.olmap.entferneModifyInteractionFürVectorLayer(layer_div);
                         }
 
+                        // modify_layer_geom_type selectmenu zurücksetzen...
+                        $('.modify_layer_geom_type')
+                            .selectmenu()
+                            .selectmenu('destroy');
+
                         // Zustand der Layeranzeige steuern
                         if (button_icon === 'ui-icon-locked') {
                             // war inaktiv, also aktivieren
@@ -2367,9 +2376,20 @@
                             tooltip_content = 'Ebene schützen';
                             // geom_type_select zeigen
                             geom_select_div.show();
+                            // selectmenu neu initiieren
+                            geom_select_div.selectmenu({
+                                width: 140
+                            });
+                            // TODO: give the selectmenu a tooltip
+                            //window.apf.selectmenu_div = geom_select_div.siblings('.ui-selectmenu-button');
+                            /*geom_select_div.siblings('.ui-selectmenu-button').tooltip({
+                                tooltipClass: "tooltip-styling-hinterlegt",
+                                content: 'test-tooltip' //geom_select_div.attr('title')
+                            });*/
                             // Optionen, die nicht der Bearbeitung dienen, auf zweite Zeile
-                            $non_modify_options.css('display', 'block');
-                            $non_modify_options.css('margin-left', '3px');
+                            $non_modify_options
+                                .css('display', 'block')
+                                .css('margin-left', '3px');
                             // button is pencil
                             $(this)
                                 .button({
@@ -2384,8 +2404,9 @@
                             // geom_type_select verstecken
                             geom_select_div.hide();
                             // Optionen, die nicht der Bearbeitung dienen, auf gleiche Zeile
-                            $non_modify_options.css('display', 'inline');
-                            $non_modify_options.css('margin-left', '0');
+                            $non_modify_options
+                                .css('display', 'inline')
+                                .css('margin-left', '0');
                             // button is locked
                             $(this)
                                 .button({
@@ -2394,7 +2415,7 @@
                                 })
                                 .button('refresh');
                         }
-                        // tooltip anpassen
+                        // tooltip von .modify_layer anpassen
                         button_div
                             .attr('title', tooltip_content)
                             .tooltip({
@@ -2402,34 +2423,50 @@
                                 content: tooltip_content
                             });
                     })
-                    .on('change', '.export_layer_select', function(event) {
+                    .on('selectmenuchange', '.export_layer_select', function(event) {
                         // layer holen
-                        var layer_div = $(this).parent().siblings('input'),
-                            layer_index = layer_div.val(),
+                        var $layer_div = $(this).parent().parent().siblings('input'),
+                            layer_index = $layer_div.val(),
                             layer = window.apf.olmap.map.getLayers().getArray()[layer_index],
-                            select_div = this,
-                            selected_value = select_div.options[select_div.selectedIndex].value;
+                            $select_div = this,
+                            selected_value = $select_div.options[$select_div.selectedIndex].value;
                         if (selected_value !== 'leerwert') {
-                            window.apf.olmap.exportiereLayer(layer, selected_value)
-                            select_div.value = 'leerwert';
+                            window.apf.olmap.exportiereLayer(layer, selected_value);
+                            $select_div.value = 'leerwert';
+                            $(this).selectmenu('refresh');
                         }
                     })
                     .on('click', '.rename_layer', function(event) {
                         // layer holen
-                        var layer_div = $(this).parent().siblings('input'),
+                        var layer_div = $(this).parent().parent().siblings('input'),
                             layer_index = layer_div.val(),
                             layer = window.apf.olmap.map.getLayers().getArray()[layer_index];
                         window.apf.olmap.frageNameFürEbene(layer);
                     })
                     .on('click', '.entferne_layer', function(event) {
                         // layer holen
-                        var layer_div = $(this).parent().siblings('input'),
+                        var layer_div = $(this).parent().parent().siblings('input'),
                             layer_index = layer_div.val(),
                             layer = window.apf.olmap.map.getLayers().getArray()[layer_index],
                             layer_name = layer.get('title');
                         if (layer_name) {
-                            window.apf.olmap.entferneLayerNachName(layer_name);
-                            window.apf.olmap.initiiereLayertree('Eigene Ebenen');
+                            // open a dialog
+                            $("#entferne_eigene_ebene_dialog").dialog({
+                                resizable: false,
+                                height:'auto',
+                                width: 400,
+                                modal: true,
+                                buttons: {
+                                    "ja, entfernen!": function() {
+                                        $(this).dialog("close");
+                                        window.apf.olmap.entferneLayerNachName(layer_name);
+                                        window.apf.olmap.initiiereLayertree('Eigene Ebenen');
+                                    },
+                                    "abbrechen": function() {
+                                        $(this).dialog("close");
+                                    }
+                                }
+                            });
                         } else {
                             window.apf.melde('Fehler: Layer nicht entfernt');
                         }

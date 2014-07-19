@@ -1013,6 +1013,21 @@ a {
     font-size: inherit !important;
 }
 
+#olmap_layertree .ui-selectmenu-button {
+    margin-bottom: -5px;
+    margin-left: 2px;
+}
+
+#olmap_layertree .ui-selectmenu-button span.ui-selectmenu-text {
+    padding: 0 2.1em 0 .8em !important;
+    font-size: 12px;
+}
+
+.ui-selectmenu-menu {
+    z-index: 1100;
+    font-size: 12px;
+}
+
 #olmap_layertree .layeroptionen select {
     font-size: 12px !important;
 }
@@ -1028,6 +1043,7 @@ a {
 
 #olmap_layertree .non_modify_options {
     display: inline;
+    margin-top: 3px;
 }
 
 .olmap_tooltip {
@@ -1330,7 +1346,7 @@ p.ergebnisAuswahlListeTitelTPop {
 }
 
 .olmap_popup_styling .qtip-content table td:first-child p {
-    padding-right: 0px;
+    padding-right: 0;
 }
 
 .olmap_popup_styling .qtip-content table td:last-child p {
