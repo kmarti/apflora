@@ -2349,7 +2349,8 @@
                             button_div = $(this).siblings('label').first(),
                             geom_select_div = $(this).siblings('select.modify_layer_geom_type'),
                             button_icon = $(this).button('option', 'icons').primary,
-                            $non_modify_options = $(this).siblings('.non_modify_options');
+                            $non_modify_options = $(this).siblings('.non_modify_options'),
+                            tooltip_content;
 
                         // modify-layer steuern
                         if (window.apf.olmap.modify_interaction_für_vectorlayer) {
@@ -2363,7 +2364,7 @@
                             // war inaktiv, also aktivieren
                             window.apf.olmap.erstelleModifyInteractionFürVectorLayer(layer);
                             // title ändern
-                            button_div.attr('title', 'Ebene schützen');
+                            tooltip_content = 'Ebene schützen';
                             // geom_type_select zeigen
                             geom_select_div.show();
                             // Optionen, die nicht der Bearbeitung dienen, auf zweite Zeile
@@ -2379,7 +2380,7 @@
                         } else {
                             // button war aktiv > deaktivieren
                             // title ändern
-                            button_div.attr('title', 'Ebene bearbeiten');
+                            tooltip_content = 'Ebene bearbeiten';
                             // geom_type_select verstecken
                             geom_select_div.hide();
                             // Optionen, die nicht der Bearbeitung dienen, auf gleiche Zeile
@@ -2393,13 +2394,12 @@
                                 })
                                 .button('refresh');
                         }
-
-                        $('.modify_layer_label')
+                        // tooltip anpassen
+                        button_div
+                            .attr('title', tooltip_content)
                             .tooltip({
                                 tooltipClass: "tooltip-styling-hinterlegt",
-                                content: function() {
-                                    return $(this).attr('title');
-                                }
+                                content: tooltip_content
                             });
                     })
                     .on('change', '.export_layer_select', function(event) {
