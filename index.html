@@ -2225,7 +2225,7 @@
 			<p id="loeschen_dialog_mitteilung">Dieser Knoten und alle darunter befindlichen werden unwiederbringlich gelöscht.</p>
 		</div>
 
-		<div id="entferne_eigene_ebene_dialog" title="Sind sie sicher?" style="display:none;">
+		<div id="entferne_eigene_ebene_dialog" title="Ebene entfernen?" style="display:none;">
 			<p id="entferne_eigene_ebene_dialog_mitteilung">Wollen Sie diese Ebene unwiederbringlich entfernen?</p>
 		</div>
 
@@ -2366,7 +2366,8 @@
                         // modify_layer_geom_type selectmenu zurücksetzen...
                         $('.modify_layer_geom_type')
                             .selectmenu()
-                            .selectmenu('destroy');
+                            .selectmenu('destroy')
+                            .hide();
 
                         // Zustand der Layeranzeige steuern
                         if (button_icon === 'ui-icon-locked') {
@@ -2374,9 +2375,7 @@
                             window.apf.olmap.erstelleModifyInteractionFürVectorLayer(layer);
                             // title ändern
                             tooltip_content = 'Ebene schützen';
-                            // geom_type_select zeigen
-                            geom_select_div.show();
-                            // selectmenu neu initiieren
+                            // selectmenu initiieren
                             geom_select_div.selectmenu({
                                 width: 140
                             });
@@ -2401,8 +2400,6 @@
                             // button war aktiv > deaktivieren
                             // title ändern
                             tooltip_content = 'Ebene bearbeiten';
-                            // geom_type_select verstecken
-                            geom_select_div.hide();
                             // Optionen, die nicht der Bearbeitung dienen, auf gleiche Zeile
                             $non_modify_options
                                 .css('display', 'inline')
