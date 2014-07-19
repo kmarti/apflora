@@ -516,6 +516,12 @@ a {
     margin-left: 5px;
 }
 
+#olmap_layertree li .ui-button.entferne_layer_label {
+    position: absolute;
+    right: 7px;
+    margin-top: 3px;
+}
+
 #olmap_neues_layer_container .ui-button .ui-button-text {
     padding: .2em 1em .2em 2.1em !important;
     font-size: inherit !important;
