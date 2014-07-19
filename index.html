@@ -2348,7 +2348,9 @@
                             layer_index = input_div.val(),
                             layer = window.apf.olmap.map.getLayers().getArray()[layer_index],
                             geom_select_div = $(this).siblings('select.modify_layer_geom_type'),
-                            aktiv = label_div.hasClass('ui-state-active');
+                            icon = $(this).button( "option", "icons" );
+
+                        console.log('icon.primary = ' + icon.primary);
 
                         // modify-layer steuern
                         if (window.apf.olmap.modify_interaction_für_vectorlayer) {
@@ -2358,8 +2360,8 @@
                         }
 
                         // Zustand der Layeranzeige steuern
-                        if (aktiv) {
-                            // nach dem klick ist der button aktiv, er war also inaktiv > aktivieren
+                        if (icon.primary === 'ui-icon-locked') {
+                            // war inaktiv, also aktivieren
                             window.apf.olmap.erstelleModifyInteractionFürVectorLayer(layer);
                             // title ändern
                             label_div.attr('title', 'Ebene schützen');
