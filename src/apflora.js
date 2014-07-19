@@ -8195,6 +8195,9 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
                 $(document).off('keyup');
             }
         });
+
+        // verhindern, dass Knoten im Strukturbaum entfernt werden
+        $.jstree._reference("[typ='ap_ordner_pop']").deselect_all();
     });
 
     window.apf.olmap.selected_features.on('remove', function(event) {
