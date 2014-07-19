@@ -530,8 +530,12 @@ a {
 }
 
 #olmap_layertree .layeroptionen select.modify_layer_geom_type {
-    width: 85px;
+    width: 125px;
     display: none;
+}
+
+#olmap_layertree .non_modify_options {
+    display: inline;
 }
 
 .olmap_tooltip {

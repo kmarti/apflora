@@ -8084,6 +8084,7 @@ window.apf.olmap.erstelleModifyInteractionFürTPop = function() {
 // input_div: div des Layers, das jetzt aktiviert wird
 window.apf.olmap.entferneModifyInteractionFürVectorLayer = function(input_div) {
     'use strict';
+    var $modify_layer = $('.modify_layer');
     input_div = input_div || null;
     if (window.apf.olmap.modify_interaction_für_vectorlayer) {
         window.apf.olmap.map.removeInteraction(window.apf.olmap.modify_interaction_für_vectorlayer);
@@ -8094,7 +8095,7 @@ window.apf.olmap.entferneModifyInteractionFürVectorLayer = function(input_div) 
         delete window.apf.olmap.draw_interaction_für_vectorlayer;
     }
     // alle buttons im layer-tool zurückstellen
-    $('.modify_layer')
+    $modify_layer
         .button({
             icons: {primary: 'ui-icon-locked'},
             text: false
@@ -8103,7 +8104,7 @@ window.apf.olmap.entferneModifyInteractionFürVectorLayer = function(input_div) 
     // geom_select ausblenden
     $('.modify_layer_geom_type ').hide();
     // übrige Layer deaktivieren
-    $('.modify_layer').each(function() {
+    $modify_layer.each(function() {
     	// sicherstellen, dass der jetzt zu aktivierende Layer nicht deaktiviert wird
     	if ($(this).prop('checked') && !$(this).is(input_div)) {
     		$(this).prop("checked", false).change();
@@ -8128,9 +8129,10 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
     }
 
     var layer_title = vectorlayer.get('title'),
-        type_select = $('#modify_layer_geom_type_' + layer_title.replace(" ", "_")),
-        selected_features,
-        modified_features;
+        $geom_type_select = $('#modify_layer_geom_type_' + layer_title.replace(" ", "_"));
+
+    // darin werden die ids von selectierten features gespeichert
+    window.apf.olmap.modified_features = [];
 
     // allfällige bestehende Interaction entfernen
     window.apf.olmap.entferneModifyInteractionFürVectorLayer();
@@ -8144,9 +8146,9 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
     });
 
     // selected features sollen modifiziert werden können
-    selected_features = window.apf.olmap.select_interaction_für_vectorlayer.getFeatures();
+    window.apf.olmap.selected_features = window.apf.olmap.select_interaction_für_vectorlayer.getFeatures();
 
-    selected_features.on('add', function(event) {
+    window.apf.olmap.selected_features.on('add', function(event) {
         // now listen if the feature is changed
         var feature = event.element,
             feature_id = feature.getId();
@@ -8158,9 +8160,9 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
         feature.on('change', function(event) {
             var feature = event.target,
                 feature_id = feature.getId();
-            modified_features = modified_features || [];
+            window.apf.olmap.modified_features = window.apf.olmap.modified_features || [];
             // id in modified_features ergänzen
-            modified_features = _.union(modified_features, [feature_id]);
+            window.apf.olmap.modified_features = _.union(window.apf.olmap.modified_features, [feature_id]);
             // speichern
             window.apf.olmap.aktualisiereEbeneInLocalStorage(vectorlayer);
         });
@@ -8169,9 +8171,9 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
         $(document).on('keyup', function(event) {
             if (event.keyCode == 46) {
                 // alle gewählten features aus select_interaction und source entfernen
-                selected_features.forEach(function(selected_feature) {
+                window.apf.olmap.selected_features.forEach(function(selected_feature) {
                     var selected_feature_id = selected_feature.getId();
-                    selected_features.remove(selected_feature);
+                    window.apf.olmap.selected_features.remove(selected_feature);
                     // features aus vectorlayer_source entfernen
                     var vectorlayer_features = vectorlayer.getSource().getFeatures();
                     vectorlayer_features.forEach(function(source_feature) {
@@ -8188,15 +8190,15 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
         });
     });
 
-    selected_features.on('remove', function(event) {
+    window.apf.olmap.selected_features.on('remove', function(event) {
         var feature = event.element,
             feature_id = feature.getId(),
-            feature_index = modified_features.indexOf(feature_id);
+            feature_index = window.apf.olmap.modified_features.indexOf(feature_id);
         if (feature_index > -1) {
             // speichern
             window.apf.olmap.aktualisiereEbeneInLocalStorage(vectorlayer);
             // erst wieder speichern, wenn neu verändert wurde
-            modified_features.splice(feature_index, 1);
+            window.apf.olmap.modified_features.splice(feature_index, 1);
         }
     });
 
@@ -8212,25 +8214,25 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
         }
     });
 
-    type_select.on('change', function(event) {
+    $geom_type_select.on('change', function(event) {
         window.apf.olmap.map.removeInteraction(window.apf.olmap.draw_interaction_für_vectorlayer);
         addDrawInteraction();
     });
 
     function addDrawInteraction() {
-        if (type_select.val() !== 'leerwert') {
+        if ($geom_type_select.val() !== 'leerwert') {
             window.apf.olmap.draw_interaction_für_vectorlayer = new ol.interaction.Draw({
                 source: vectorlayer.getSource(),
-                type: /** @type {ol.geom.GeometryType} */ (type_select.val())
+                type: /** @type {ol.geom.GeometryType} */ ($geom_type_select.val())
             });
             window.apf.olmap.map.addInteraction(window.apf.olmap.draw_interaction_für_vectorlayer);
             // bei 'drawend' würde man Änderungen in die DB schreiben
             window.apf.olmap.draw_interaction_für_vectorlayer.on('drawend', function(event) {
                 var id = _.uniqueId();
                 event.feature.setId(id);
-                modified_features = modified_features || [];
+                window.apf.olmap.modified_features = window.apf.olmap.modified_features || [];
                 // id in modified_features ergänzen
-                modified_features = _.union(modified_features, [id]);
+                window.apf.olmap.modified_features = _.union(window.apf.olmap.modified_features, [id]);
                 // speichern
                 window.apf.olmap.aktualisiereEbeneInLocalStorage(vectorlayer);
             });
@@ -11333,12 +11335,14 @@ window.apf.olmap.initiiereLayertree = function(active_kategorie) {
                 html_prov += '<div class="layeroptionen">';
                 html_prov += '<input type="checkbox" class="modify_layer" id="modify_layer_' + layertitel.replace(" ", "_") + '">';
                 html_prov += '<label for="modify_layer_' + layertitel.replace(" ", "_") + '" title="Ebene bearbeiten" class="modify_layer_label"></label>';
-                html_prov += '<select id="modify_layer_geom_type_' + layertitel.replace(" ", "_") + '" class="modify_layer_geom_type apf_tooltip" title="Neue Objekte als:"><option id="modify_layer_geom_type_leerwert" value="leerwert" selected>(auswählen)</option><option value="Point">Punkt zeichnen</option><option value="LineString">Linie zeichnen</option><option value="Polygon">Polygon zeichnen</option></select>';
-                html_prov += '<select id="export2_layer_geom_type_' + layertitel.replace(" ", "_") + '" class="export_layer_select apf_tooltip" title="Ebene exportieren<br>Wählen Sie ein Format"><option value="leerwert" selected>(exportieren)</option><option value="GeoJSON">GeoJSON</option><option value="KML">KML</option><option value="GPX">GPX</option></select>';
+                html_prov += '<select id="modify_layer_geom_type_' + layertitel.replace(" ", "_") + '" class="modify_layer_geom_type apf_tooltip" title="Neue Objekte zeichnen oder<br>bestehende Objekte auswählen, um sie zu verändern"><option id="modify_layer_geom_type_leerwert" value="leerwert" selected>Objekt auswählen</option><option value="Point">Punkt zeichnen</option><option value="LineString">Linie zeichnen</option><option value="Polygon">Polygon zeichnen</option></select>';
+                html_prov += '<div class="non_modify_options">';
+                    html_prov += '<select id="export2_layer_geom_type_' + layertitel.replace(" ", "_") + '" class="export_layer_select apf_tooltip" title="Ebene exportieren<br>Wählen Sie ein Format"><option value="leerwert" selected>exportieren</option><option value="GeoJSON">GeoJSON</option><option value="KML">KML</option><option value="GPX">GPX</option></select>';
                 html_prov += '<input type="checkbox" class="rename_layer" id="rename_layer_' + layertitel.replace(" ", "_") + '">';
                 html_prov += '<label for="rename_layer_' + layertitel.replace(" ", "_") + '" title="Ebene umbenennen" class="rename_layer_label"></label>';
                 html_prov += '<input type="checkbox" class="entferne_layer" id="entferne_layer_' + layertitel.replace(" ", "_") + '">';
                 html_prov += '<label for="entferne_layer_' + layertitel.replace(" ", "_") + '" title="Ebene entfernen" class="entferne_layer_label"></label>';
+                html_prov += '</div>';
                 html_prov += '</div>';
                 initialize_modify_layer = true;
             }

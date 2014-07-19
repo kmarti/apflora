@@ -2343,30 +2343,32 @@
                     })
                     .on('click', '.modify_layer', function(event) {
                         // layer holen
-                        var input_div = $(this).parent().siblings('input'),
-                            label_div = $(this).siblings('label').first(),
-                            layer_index = input_div.val(),
+                        var layer_div = $(this).parent().siblings('input'),
+                            layer_index = layer_div.val(),
                             layer = window.apf.olmap.map.getLayers().getArray()[layer_index],
+                            button_div = $(this).siblings('label').first(),
                             geom_select_div = $(this).siblings('select.modify_layer_geom_type'),
-                            icon = $(this).button( "option", "icons" );
-
-                        console.log('icon.primary = ' + icon.primary);
+                            button_icon = $(this).button('option', 'icons').primary,
+                            $non_modify_options = $(this).siblings('.non_modify_options');
 
                         // modify-layer steuern
                         if (window.apf.olmap.modify_interaction_für_vectorlayer) {
                             // modify entfernen
                             // input_div mitgeben, damit alle übrigen Layer deaktiviert werden können
-                            window.apf.olmap.entferneModifyInteractionFürVectorLayer(input_div);
+                            window.apf.olmap.entferneModifyInteractionFürVectorLayer(layer_div);
                         }
 
                         // Zustand der Layeranzeige steuern
-                        if (icon.primary === 'ui-icon-locked') {
+                        if (button_icon === 'ui-icon-locked') {
                             // war inaktiv, also aktivieren
                             window.apf.olmap.erstelleModifyInteractionFürVectorLayer(layer);
                             // title ändern
-                            label_div.attr('title', 'Ebene schützen');
+                            button_div.attr('title', 'Ebene schützen');
                             // geom_type_select zeigen
                             geom_select_div.show();
+                            // Optionen, die nicht der Bearbeitung dienen, auf zweite Zeile
+                            $non_modify_options.css('display', 'block');
+                            $non_modify_options.css('margin-left', '3px');
                             // button is pencil
                             $(this)
                                 .button({
@@ -2377,9 +2379,12 @@
                         } else {
                             // button war aktiv > deaktivieren
                             // title ändern
-                            label_div.attr('title', 'Ebene bearbeiten');
+                            button_div.attr('title', 'Ebene bearbeiten');
                             // geom_type_select verstecken
                             geom_select_div.hide();
+                            // Optionen, die nicht der Bearbeitung dienen, auf gleiche Zeile
+                            $non_modify_options.css('display', 'inline');
+                            $non_modify_options.css('margin-left', '0');
                             // button is locked
                             $(this)
                                 .button({
@@ -2399,8 +2404,8 @@
                     })
                     .on('change', '.export_layer_select', function(event) {
                         // layer holen
-                        var input_div = $(this).parent().siblings('input'),
-                            layer_index = input_div.val(),
+                        var layer_div = $(this).parent().siblings('input'),
+                            layer_index = layer_div.val(),
                             layer = window.apf.olmap.map.getLayers().getArray()[layer_index],
                             select_div = this,
                             selected_value = select_div.options[select_div.selectedIndex].value;
@@ -2411,15 +2416,15 @@
                     })
                     .on('click', '.rename_layer', function(event) {
                         // layer holen
-                        var input_div = $(this).parent().siblings('input'),
-                                layer_index = input_div.val(),
-                                layer = window.apf.olmap.map.getLayers().getArray()[layer_index];
+                        var layer_div = $(this).parent().siblings('input'),
+                            layer_index = layer_div.val(),
+                            layer = window.apf.olmap.map.getLayers().getArray()[layer_index];
                         window.apf.olmap.frageNameFürEbene(layer);
                     })
                     .on('click', '.entferne_layer', function(event) {
                         // layer holen
-                        var input_div = $(this).parent().siblings('input'),
-                            layer_index = input_div.val(),
+                        var layer_div = $(this).parent().siblings('input'),
+                            layer_index = layer_div.val(),
                             layer = window.apf.olmap.map.getLayers().getArray()[layer_index],
                             layer_name = layer.get('title');
                         if (layer_name) {
