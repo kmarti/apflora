@@ -34217,7 +34217,7 @@ window.apf.olmap.initiiereLayertree = function(active_kategorie) {
     html_eigene_layer_text += '</div>';
     html_eigene_layer_text += '<div id="olmap_neues_layer_container">';
     html_eigene_layer_text += '<input type="checkbox" class="neues_layer" id="olmap_neues_layer">';
-    html_eigene_layer_text += '<label for="olmap_neues_layer" title="neue Ebene erstellen" class="neues_layer_label">neue Ebene</label>';
+    html_eigene_layer_text += '<label for="olmap_neues_layer" class="neues_layer_label">neue Ebene erstellen</label>';
     html_eigene_layer_text += '</div>';
 
     // accordion zerstören, damit es neu aufgebaut werden kann
@@ -34371,13 +34371,6 @@ window.apf.olmap.initiiereLayertree = function(active_kategorie) {
             icons: {primary: 'ui-icon-plusthick'}
         })
         .button('refresh');
-    $('.neues_layer_label')
-        .tooltip({
-            tooltipClass: "tooltip-styling-hinterlegt",
-            content: function() {
-                return $(this).attr('title');
-            }
-        });
     $('.export_layer_select').selectmenu();
     if (initialize_modify_layer) {
         $('.modify_layer')

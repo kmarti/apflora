@@ -928,11 +928,16 @@ a {
 }
 
 #olmap_layertree .ui-accordion-content {
-    padding: .3em 0;
+    padding: 7px 0;
     font-size: 14px;
     line-height: 1em;
     opacity: 0.97;
     position: relative;
+}
+
+#olmap_layertree .ui-accordion-content:last-child {
+    /*padding-bottom: 0;*/
+    margin-bottom: 0;
 }
 
 #olmap_eigene_ebenen_beta_container {
@@ -942,12 +947,12 @@ a {
 }
 
 #olmap_neues_layer_container {
-    margin-left: 1em;
+    margin-left: 11px;
 }
 
 #olmap_layertree_layers {
     padding-top: 0 !important;
-    padding-bottom: .1em !important;
+    padding-bottom: 0 !important;
 }
 
 #olmap_layertree .ui-accordion-content li {
@@ -962,9 +967,14 @@ a {
     margin-bottom: 0.2em;
 }
 
+#olmap_layertree .ui-accordion-content p:first-child {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
 #olmap_layertree .ui-accordion-content ul {
-    margin-top: 0.4em;
-    margin-bottom: 0.2em;
+    margin-top: 0.2em;
+    margin-bottom: 0.4em;
 }
 
 #olmap_layertree .ui-accordion-content ul li {
@@ -1005,12 +1015,11 @@ a {
 #olmap_layertree li .ui-button.entferne_layer_label {
     position: absolute;
     right: 7px;
-    margin-top: 3px;
 }
 
 #olmap_neues_layer_container .ui-button .ui-button-text {
-    padding: .2em 1em .2em 2.1em !important;
-    font-size: inherit !important;
+    padding: .02em 1em .08em 2.1em !important;
+    font-size: 12px !important;
 }
 
 #olmap_layertree .ui-selectmenu-button {
