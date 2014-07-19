@@ -8101,8 +8101,15 @@ window.apf.olmap.entferneModifyInteractionFürVectorLayer = function(input_div) 
             text: false
         })
         .button('refresh');
+    // tooltip zurücksetzen
+    $('.modify_layer_label')
+    	.attr('title', 'Ebene bearbeiten')
+    	.tooltip({
+            tooltipClass: "tooltip-styling-hinterlegt",
+            content: 'Ebene bearbeiten'
+        });
     // geom_select ausblenden
-    $('.modify_layer_geom_type ').hide();
+    $('.modify_layer_geom_type').hide();
     // übrige Layer deaktivieren
     $modify_layer.each(function() {
     	// sicherstellen, dass der jetzt zu aktivierende Layer nicht deaktiviert wird

@@ -297,26 +297,22 @@ option {
 
 /*für Google Map*/
 .GmInfowindow {
-    line-height: 0.3;
-    margin-top: 0.3;
-    margin-bottom: 0;
     white-space: nowrap
 }
 
 .PopupText {
 	text-align:center; 
-	margin:6px 4px 4px 4px; 
+    margin:6px 4px 4px 4px;
 	font-weight:bold;
 }
 
 .MapLabel {
 	color:white;
-	 font-family: "Lucida Grande", "Arial", sans-serif;
-	 font-size: 12px;
-	 font-weight: 900;
-	 /*font-color: white;*/
-	 text-align: center;
-	 width: 150px;     
+    font-family: "Lucida Grande", "Arial", sans-serif;
+    font-size: 12px;
+    font-weight: 900;
+    text-align: center;
+    width: 150px;
 }
 
 /*Für Tool-Tipps*/
@@ -681,48 +677,6 @@ p.ergebnisAuswahlListeTitelTPop {
 
 #eigene_ebene_name_container {
     overflow: hidden;
-}
-
-/*drüberstylen, weil GeoAdmin-Aufruf dies nötig macht*/
-
-form input {
-	margin-top: 2px;
-	margin-bottom: 2px;
-}
-
-input[type="radio"] {
-	margin: 3px 3px 0 5px;
-}
-
-form input[type="text"] {
-	margin-top: 3px;
-}
-
-form ol li {
-	margin-bottom: 2px;
-	padding-bottom: 2px;
-}
-
-form ol {
-	list-style-type: decimal;
-	padding-left: 40px;
-}
-
-form ul {
-	padding-left: 40px;
-}
-
-form ul li {
-	list-style-type: disc;
-	margin-bottom: 2px;
-}
-
-form p {
-	margin: 16px 0 16px 0;
-}
-
-form h2 {
-	font-size: 24px;
 }
 
 .GmInfowindow h3, .GmInfowindow p, .GmInfowindow a {
