@@ -3804,7 +3804,7 @@ window.apf.treeKontextmenu = function(node) {
 							window.apf.zeigePopAufOlmap();
 							//window.apf.zeigePopAufOlmap(data);
 						} else {
-							window.apf.melde("Die Population hat keine Koordinaten");
+							window.apf.melde("Die Population hat keine Koordinaten", "Aktion abgebrochen");
 						}
 					});
 					getPopsChKarte.fail(function() {
@@ -3830,7 +3830,7 @@ window.apf.treeKontextmenu = function(node) {
 						if (data.rows.length > 0) {
 							window.apf.gmap.zeigeTPop(data);
 						} else {
-							window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten");
+							window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
 						}
 					});
 					getApKarte.fail(function() {
@@ -4817,7 +4817,7 @@ window.apf.treeKontextmenu = function(node) {
 						if (data.rows.length > 0) {
 							window.apf.zeigePopAufOlmap(data);
 						} else {
-							window.apf.melde("Die Population hat keine Koordinaten");
+							window.apf.melde("Die Population hat keine Koordinaten", "Aktion abgebrochen");
 						}
 					});
 					getPopChKarte_2.fail(function() {
@@ -4843,7 +4843,7 @@ window.apf.treeKontextmenu = function(node) {
 						if (data.rows.length > 0) {
 							window.apf.gmap.zeigeTPop(data);
 						} else {
-							window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten");
+							window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
 						}
 					});
 					getPopKarte.fail(function() {
@@ -4965,7 +4965,7 @@ window.apf.treeKontextmenu = function(node) {
 						if (data.rows.length > 0) {
 							window.apf.zeigeTPopAufOlmap(data);
 						} else {
-							window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten");
+							window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
 						}
 					});
 					getTpopsKarte.fail(function() {
@@ -4991,7 +4991,7 @@ window.apf.treeKontextmenu = function(node) {
 						if (data.rows.length > 0) {
 							window.apf.gmap.zeigeTPop(data);
 						} else {
-							window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten");
+							window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
 						}
 					});
 					getPopKarte_2.fail(function() {
@@ -5144,7 +5144,7 @@ window.apf.treeKontextmenu = function(node) {
 						if (data.rows.length > 0) {
 							window.apf.zeigeTPopAufOlmap(data);
 						} else {
-							window.apf.melde("Die Teilpopulation hat keine Koordinaten");
+							window.apf.melde("Die Teilpopulation hat keine Koordinaten", "Aktion abgebrochen");
 						}
 					});
 					getTPopKarte_2.fail(function() {
@@ -5192,7 +5192,7 @@ window.apf.treeKontextmenu = function(node) {
 						if (data.rows.length > 0) {
 							window.apf.gmap.zeigeTPop(data);
 						} else {
-							window.apf.melde("Die Teilpopulation hat keine Koordinaten");
+							window.apf.melde("Die Teilpopulation hat keine Koordinaten", "Aktion abgebrochen");
 						}
 					});
 					getTPopKarte_3.fail(function() {
@@ -6476,7 +6476,7 @@ window.apf.treeKontextmenu = function(node) {
 						if (data.rows.length > 0) {
 							window.apf.gmap.zeigeTPopBeob(data);
 						} else {
-							window.apf.melde("Es gibt keine Beobachtungen mit Koordinaten");
+							window.apf.melde("Es gibt keine Beobachtungen mit Koordinaten", "Aktion abgebrochen");
 						}
 					});
 					getBeobKarte.fail(function() {
@@ -6527,7 +6527,7 @@ window.apf.treeKontextmenu = function(node) {
 						if (data.rows.length > 0) {
 							window.apf.gmap.zeigeTPopBeob(data);
 						} else {
-							window.apf.melde("Die Beobachtung hat keine Koordinaten");
+							window.apf.melde("Die Beobachtung hat keine Koordinaten", "Aktion abgebrochen");
 						}
 					});
 					getBeobKarte_2.fail(function() {
@@ -6567,7 +6567,7 @@ window.apf.treeKontextmenu = function(node) {
 								}
 							});
 						} else {
-							window.apf.melde("Die Beobachtung hat keine Koordinaten<br>Bitte im Formular zuordnen");
+							window.apf.melde("Die Beobachtung hat keine Koordinaten<br>Bitte im Formular zuordnen", "Aktion abgebrochen");
 						}
 					});
 					getBeobKarte_3.fail(function() {
@@ -6748,7 +6748,7 @@ window.apf.treeKontextmenu = function(node) {
 						if (data.rows.length > 0) {
 							window.apf.gmap.zeigeBeob(data);
 						} else {
-							window.apf.melde("Es gibt keine Beobachtung mit Koordinaten");
+							window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
 						}
 					});
 					getBeobKarte_4.fail(function() {
@@ -6788,7 +6788,7 @@ window.apf.treeKontextmenu = function(node) {
 								}
 							});
 						} else {
-							window.apf.melde("Es gibt keine Beobachtung mit Koordinaten");
+							window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
 						}
 					});
 					getBeobKarte_5.fail(function() {
@@ -6828,7 +6828,7 @@ window.apf.treeKontextmenu = function(node) {
 						if (data.rows.length > 0) {
 							window.apf.gmap.zeigeBeob(data);
 						} else {
-							window.apf.melde("Es gibt keine Beobachtung mit Koordinaten");
+							window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
 						}
 					});
 					getBeobKarte_6.fail(function() {
@@ -6868,7 +6868,7 @@ window.apf.treeKontextmenu = function(node) {
 								}
 							});
 						} else {
-							window.apf.melde("Die Beobachtung hat keine Koordinaten<br>Bitte im Formular zuordnen");
+							window.apf.melde("Die Beobachtung hat keine Koordinaten<br>Bitte im Formular zuordnen", "Aktion abgebrochen");
 						}
 					});
 					getBeobKarte_7.fail(function() {
@@ -6932,7 +6932,7 @@ window.apf.treeKontextmenu = function(node) {
 						if (data.rows.length > 0) {
 							window.apf.gmap.zeigeBeob(data);
 						} else {
-							window.apf.melde("Es gibt keine Beobachtung mit Koordinaten");
+							window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
 						}
 					});
 					getBeobKarte_8.fail(function() {
@@ -6972,7 +6972,7 @@ window.apf.treeKontextmenu = function(node) {
 						if (data.rows.length > 0) {
 							window.apf.gmap.zeigeBeob(data);
 						} else {
-							window.apf.melde("Es gibt keine Beobachtung mit Koordinaten");
+							window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
 						}
 					});
 					getBeobKarte_9.fail(function() {
@@ -7165,7 +7165,7 @@ window.apf.prüfeSchreibvoraussetzungen = function() {
 	if (window.apf.prüfeLesevoraussetzungen()) {
 		// kontrollieren, ob der User Schreibrechte hat
 		if (sessionStorage.NurLesen) {
-			window.apf.melde("Sie haben keine Schreibrechte");
+			window.apf.melde("Sie haben keine Schreibrechte", "Speichern abgebrochen");
 			return false;
 		} else {
 			return true;
@@ -7228,7 +7228,7 @@ window.apf.speichern = function(that) {
 		if (Feldname === "BeobBemerkungen" && localStorage.beob_status === "nicht_beurteilt") {
 			// hier soll nicht gespeichert werden
 			$("#BeobBemerkungen").val("");
-			window.apf.melde("Bemerkungen sind nur in zugeordneten oder nicht zuzuordnenden Beobachtungen möglich");
+			window.apf.melde("Bemerkungen sind nur in zugeordneten oder nicht zuzuordnenden Beobachtungen möglich", "Aktion abgebrochen");
 			return;
 		}
 		var updateFormular = $.ajax({
@@ -8265,7 +8265,7 @@ window.apf.olmap.exportiereLayer = function(layer, selected_value) {
     try {
         data_parsed = format.writeFeatures(allFeatures);
     } catch (e) {
-        window.apf.melde('Sorry, das kann Open Layers 3 noch nicht richtig.<br><br>Gemeldeter Fehler:<br>' + e.name + ": " + e.message);
+        window.apf.melde('Sorry, das kann Open Layers 3 noch nicht richtig', 'Fehler beim Export');
         return;
     }
     if (selected_value === 'GeoJSON') {
@@ -8850,7 +8850,7 @@ window.apf.olmap.erstellePopLayer = function(popliste, popid_markiert, visible) 
         pop_mit_nr_layer,
         selected_features;
 
-    if (window.apf.olmap.map.olmap_select_interaction && popid_markiert) {
+    if (window.apf.olmap.map && window.apf.olmap.map.olmap_select_interaction && popid_markiert) {
     	selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
     } else if (popid_markiert) {
     	window.apf.olmap.addSelectFeaturesInSelectableLayers();
@@ -11991,7 +11991,7 @@ window.apf.kopiereKoordinatenInPop = function(x_koord, y_koord) {
 		});
 	} else {
 		// auffordern, die Koordinaten zu vergeben und Speichern abbrechen
-		window.apf.melde("Sie müssen zuerst Koordinaten erfassen");
+		window.apf.melde("Sie müssen zuerst Koordinaten erfassen", "Koordinaten nicht kopiert");
 	}
 };
 
@@ -12034,7 +12034,7 @@ window.apf.prüfeAnmeldung = function() {
 			}
 		});
 		getAnmeldung.fail(function() {
-			window.apf.melde("Anmeldung gescheitert");
+			window.apf.melde("Anmeldung gescheitert", "Oops!");
 			//console.log('Anmeldung gescheitert');
 		});
 	} else {
@@ -12146,7 +12146,7 @@ window.apf.zeigeBeobKoordinatenImGisBrowser = function() {
 		URL = "//www.maps.zh.ch/?x=" + $PopXKoord.val() + "&y=" + $PopYKoord.val() + "&scale=3000&markers=ring";
 		window.open(URL, target="_blank");
 	} else {
-		window.apf.melde("Fehler: Keine Koordinaten zum Anzeigen");
+		window.apf.melde("Fehler: Keine Koordinaten zum Anzeigen", "Aktion abgebrochen");
 	}
 };
 
@@ -12166,10 +12166,12 @@ window.apf.beschrifteTPopMitNrFürKarte = function(pop_nr, tpop_nr) {
 };
 
 //öffnet ein modal und teilt etwas mit
-window.apf.melde = function(meldung) {
+window.apf.melde = function(meldung, title) {
 	'use strict';
+    var title = title || ' ';
 	$("#Meldung")
 		.html(meldung)
+        .attr('title', title)
 		.dialog({
 			modal: true,
 			buttons: {
@@ -12482,7 +12484,7 @@ window.apf.undeleteDatensatz = function() {
 		id;
 	
 	if (!window.apf.deleted) {
-		window.apf.melde("Fehler: Wiederherstellung gescheitert");
+		window.apf.melde("Wiederherstellung gescheitert", "Fehler");
 		return false;
 	}
 	
@@ -12563,7 +12565,7 @@ window.apf.undeleteDatensatz = function() {
 			id = window.apf.deleted.AaId;
 			break;
 		default:
-			window.apf.melde("Fehler: Wiederherstellung gescheitert");
+			window.apf.melde("Wiederherstellung gescheitert", "Fehler");
 	}
 
 	// tabelle wird in php benutzt, um zu wissen, in welche Tabelle der Datensatz eingefügt werden soll
@@ -12635,7 +12637,7 @@ window.apf.olmap.exportiereKarte = function(event) {
         }
 	} else {
 		var info = 'Der Download ist nur möglich, wenn Ihr Browser das moderne Download-Attribut unterstützt <a href="http://caniuse.com/#feat=download">(hier eine aktuelle Liste der unterstützenden Browser)</a>';
-		window.apf.melde(info);
+		window.apf.melde(info, "Export abgebrochen");
 	}
 };
 
