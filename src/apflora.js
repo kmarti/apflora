@@ -10916,10 +10916,14 @@ window.apf.olmap.aktualisiereEbeneInLocalStorage = function(layer, remove) {
             eigene_ebenen.push(data_parsed);
         }
         try {
+        	// TODO: wenn rueteren.kml importiert wurde erscheint Fehler 'Converting circular structure to JSON'
             localStorage.olmap_eigene_ebenen = JSON.stringify(eigene_ebenen);
         }
         catch (e) {
             console.log('Ebene konnte nicht in localStorage gespeichert werden. Fehlermeldung: ' + e);
+            $('#eigene_layer_meldung_' + layer.get('title').replace(" ", "_"))
+            	.html('Ebene kann nicht im Cache des Browsers gespeichert werden')
+            	.show();
         }
     }
 };
@@ -11412,6 +11416,7 @@ window.apf.olmap.initiiereLayertree = function(active_kategorie) {
                 html_prov += '<input type="checkbox" class="entferne_layer" id="entferne_layer_' + layertitel.replace(" ", "_") + '">';
                 html_prov += '<label for="entferne_layer_' + layertitel.replace(" ", "_") + '" title="Ebene entfernen" class="entferne_layer_label"></label>';
                 html_prov += '</div>';
+                html_prov += '<div id="eigene_layer_meldung_' + layertitel.replace(" ", "_") + '" class="eigene_layer_meldung"></div>';
                 html_prov += '</div>';
                 initialize_modify_layer = true;
             }

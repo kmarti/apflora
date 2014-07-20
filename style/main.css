@@ -986,6 +986,14 @@ a {
     border-style: inherit;
 }
 
+#olmap_layertree .ui-accordion-content .eigene_layer_meldung {
+    display: none;
+    padding-left: 6px;
+    padding-top: 3px;
+    color: red;
+    font-size: 12px;
+}
+
 #olmap_layertree [type=checkbox]:first-child {
     margin-top: 0;
     margin-left: 0 !important;
