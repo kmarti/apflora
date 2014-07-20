@@ -8329,10 +8329,20 @@ window.apf.olmap.exportiereLayer = function(layer, selected_value) {
         return;
     }
     if (selected_value === 'GeoJSON') {
-        data_stringified = JSON.stringify(data_parsed, null, 4);
+    	try {
+        	data_stringified = JSON.stringify(data_parsed, null, 4);
+    	}
+    	catch (e) {
+    		window.apf.melde('Sorry, das kann Open Layers 3 noch nicht richtig', 'Fehler beim Export');
+    	}
     } else {
         var serializer = new XMLSerializer();
-        data_stringified = serializer.serializeToString(data_parsed);
+        try {
+        	data_stringified = serializer.serializeToString(data_parsed);
+    	}
+    	catch (e) {
+    		window.apf.melde('Sorry, das kann Open Layers 3 noch nicht richtig', 'Fehler beim Export');
+    	}
     }
     window.apf.download(layer_name, data_stringified);
 };
