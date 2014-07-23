@@ -30,11 +30,20 @@ Web-Applikation zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschut
 **Auf Luftbildern und Karten darstellen:**
 
 - Aktionspläne, Populationen, Teilpopulationen und Beobachtungen auf Google-Luftbildern anzeigen
-- Aktionspläne, Populationen, Teilpopulationen auf Luftbild, Übersichtsplan und Landeskarten anzeigen und diverse Ebenen einblenden (Bundesinventare, Kantonale Inventare, Parzellen). Datenquelle: Kanton Zürich
+- Aktionspläne, Populationen, Teilpopulationen auf Luftbild, Übersichtsplan und Landeskarten anzeigen und diverse Ebenen einblenden (Bundesinventare, Kantonale Inventare, Parzellen)
 - Nicht zugeordnete Beobachtungen und Teilpopulationen gemeinsam auf dem Luftbild anzeigen. Beobachtungen durch Ziehen mit der Maus Teilpopulationen zuordnen
 - Teilpopulationen auf Luftbild, Übersichtsplan und Landeskarte verorten
 - Teilpopulationen und Beobachtungen im GIS-Browser des Kt. Zürich anzeigen
 - Populationen und Teilpopulationen aller Arten als kml-Datei für Google Earth exportieren
+
+
+**Eigene Ebenen auf Karten darstellen und bearbeiten**
+
+- Neue erstellen
+- Geo-Dateien (z.B. kml, gpx) auf die Karte ziehen
+- Bestehende bearbeiten, umbenennen, entfernen
+- exportieren (als GeoJSON)
+- Eigene Ebenen werden im Cache des Browsers gespeichert
 
 
 **Daten exportieren:**

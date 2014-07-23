@@ -10710,10 +10710,8 @@ window.apf.olmap.createLayersForOlmap = function() {
             }
         };
         // diese hinzufügen
-        //window.eigene_ebenen = [];
         var eigene_ebenen = JSON.parse(localStorage.olmap_eigene_ebenen),
             eigene_ebenen_layers = [];
-        //window.eigene_ebenen_nach_parsen = eigene_ebenen;
         _.each(eigene_ebenen, function(ebene) {
             var format = new ol.format.GeoJSON(),
                 features = format.readFeatures(ebene);
@@ -10730,7 +10728,6 @@ window.apf.olmap.createLayersForOlmap = function() {
             });
             eigene_ebenen_layers.push(layer);
         });
-        window.eigene_ebenen_layers = eigene_ebenen_layers;
         layers = layers.concat(eigene_ebenen_layers);
     }
 
@@ -11925,7 +11922,7 @@ window.apf.olmap.schliesseLayeroptionen = function() {
 
 window.apf.erstelleGemeindeliste = function() {
 	'use strict';
-	if (!window.Gemeinden) {
+	if (!window.apf.gemeinden) {
 		var getGemeinden = $.ajax({
 			type: 'get',
 			url: 'php/gemeinden.php',
@@ -11940,7 +11937,7 @@ window.apf.erstelleGemeindeliste = function() {
                         return gemeinde.GmdName;
                     }
                 });
-				window.Gemeinden = gemeinden;
+				window.apf.gemeinden = gemeinden;
 				// autocomplete-widget für Gemeinden initiieren
 				$("#TPopGemeinde").autocomplete({
 					source: gemeinden,
