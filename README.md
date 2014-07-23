@@ -42,20 +42,20 @@ Web-Applikation zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschut
 - Neue erstellen
 - Geo-Dateien (z.B. kml, gpx) auf die Karte ziehen
 - Bestehende bearbeiten, umbenennen, entfernen
-- exportieren (als GeoJSON)
+- Exportieren (als GeoJSON)
 - Eigene Ebenen werden im Cache des Browsers gespeichert
 
 
 **Daten exportieren:**
 
 - Alle Daten exportieren
-- Teilpopulationen und Populationen auf der Karte mit einem Polygon auswählen und anschliessend exportieren
+- Teilpopulationen und Populationen auf der Karte auswählen und anschliessend exportieren
 
 **Auf die Plätze, fertig, los!**
 
 - "No hassle": Keine Installation, keine Installationskosten, automatische Updates
-- Von ausserhalb und endlich auch innerhalb der Fachstelle Naturschutz arbeiten
-- Ein moderner Browser wird vorausgesetzt. Entwickelt für Google Chrome. Funktioniert auch auf auch auf Firefox und Safari für PC (neuste Versionen), sowie Chrome für Android und Safari auf iOS. Auf Internet Explorer funktioniert ApFloraDb nicht (nicht einmal in Version 10)
+- Von ausserhalb (Auftragnehmer) und endlich auch innerhalb der Fachstelle Naturschutz arbeiten
+- Ein moderner Browser wird vorausgesetzt. Entwickelt für Google Chrome. Funktioniert auch auf auch auf Firefox und Safari für PC (neuste Versionen), sowie Chrome für Android und Safari auf iOS. Auf Internet Explorer funktioniert ApFloraDb nicht (ev. ab Version 11 aber kaum getestet)
 
 **Sich rasch zurechtfinden:**
 
@@ -65,7 +65,7 @@ Web-Applikation zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschut
 **Sich anleiten lassen:**
 
 - Wichtige Felder, die in aller Regel auszufüllen sind, werden farblich hervorgehoben
-- Wo hilfreich werden Informationen angezeigt, wenn man mit der Maus über den Feldnamen fährt
+- Wo hilfreich werden Informationen angezeigt, wenn man mit der Maus über Feldnamen und Schaltflächen fährt
 - Im [Wiki](https://github.com/FNSKtZH/apflora/wiki) sind wichtige Fragen erklärt
 
 **Effizient arbeiten:**
