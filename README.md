@@ -60,7 +60,7 @@ Web-Applikation zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschut
 **Sich rasch zurechtfinden:**
 
 - Über einen dynamisch aufgebauten Strukturbaum navigieren und dabei die Übersicht über die komplexe Hierarchie behalten
-- Rechts neben dem Baum die Daten der gewählten Struktur (= "node") bearbeiten
+- Rechts neben dem Baum die Daten der gewählten Struktur bearbeiten
 
 **Sich anleiten lassen:**
 
@@ -71,7 +71,7 @@ Web-Applikation zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschut
 **Effizient arbeiten:**
 
 - Die Anwendung wird mit AJAX gesteuert, um rasche Ladezeiten zu gewährleisten
-- Nodes wie z.B. Teilpopulationen im Baum zu anderen nodes desselben Typs verschieben oder kopieren (rechte Maustaste oder drag and drop, wie im Windows explorer)
+- Strukturelemente wie z.B. Teilpopulationen im Baum zu anderen Strukturelementen desselben Typs verschieben oder kopieren (rechte Maustaste oder drag and drop, wie im Windows explorer)
 - Im Baum suchen
 - Beobachtungen Teilpopulationen zuordnen: Mit drag and drop im Strukturbaum, durch Ausschneiden/Kopieren und anschliessendem Einfügen im Strukturbaum, in einer nach Abstand zu den Teilpopulationen geordneten Liste im Formular oder mit drag and drop im Luftbild
 - Daten löschen: Bei den gehaltvollen Daten (Programme/Arten, Populationen, Teilpopulationen, Feldkontrollen, Freiwilligen-Kontrollen, Massnahmen, AP-Berichten) kann das Löschen nachträglich während 25 Sekunden rückgängig gemacht werden
