@@ -93,19 +93,19 @@ Die nachfolgend aufgelisteten Funktionen werden nur von Topos in einer einfachen
 - Datenwaisen ermitteln und bearbeiten oder löschen
 - Beobachtungen nach [EvAB](//www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) exportieren
 - Daten in Tabellenform bearbeiten
-- Geplant: Beobachtungen aus einem [EvAB](//www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) importieren (um sie danach in ApFloraDb Teilpopulationen zuzuordnen)
+- Beobachtungen aus einem [EvAB](//www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) importieren (um sie danach in ApFloraDb Teilpopulationen zuzuordnen)
 
 **Anwendung effizient unterhalten:**
 
-verglichen mit der ehemaligen Access-Anwendung:
+Verglichen mit der ehemaligen Access-Anwendung:
 
 - Einfacheres Gesamtsystem mit weniger Abhängigkeiten
 - Die Anwendung ist professioneller aufgebaut, im Code dokumentiert und einfacher zu warten 
 
 **Daten nach Verlust wiederherstellen:**
 
-- Die Daten werden täglich auf dem Webserver und in einer Dropbox gesichert
-- BenutzerInnen können selber Daten sichern ([Anleitung](https://github.com/FNSKtZH/apflora/wiki/Selber-Daten-sichern))
+- Die Daten werden täglich in der Cloud gesichert
+- In regelmässigen Abständen werden sie aus der Cloud auf mehrere unabhängige Festplatten gesichert
 - Ihre Wiederherstellung wird im Rahmen der Entwicklung bzw. des Unterhalts sporadisch getestet ([Anleitung](https://github.com/FNSKtZH/apflora/wiki/Daten-wiederherstellen))
 
 <a href="#top">&#8593; top</a>
