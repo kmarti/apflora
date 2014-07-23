@@ -130,7 +130,7 @@ Dazu werden die Feld- und Freiwilligenkontrollen (ausser solche von soeben anges
 #Technische Umsetzung
 Die Weboberfläche ([HTML5](//de.wikipedia.org/wiki/HTML5), [CSS](//de.wikipedia.org/wiki/Cascading_Style_Sheets), [jQuery UI](//jqueryui.com), [JavaScript](//de.wikipedia.org/wiki/JavaScript), [jQuery](//jquery.com/) und [jsTree](//www.jstree.com/)) greift mithilfe von [PHP](//de.wikipedia.org/wiki/PHP) auf eine [MySQL-Datenbank](//de.wikipedia.org/wiki/MySQL).
 
-Für die Karten werden [OpenLayers](//openlayers.org/) und [GoogleMaps](https://developers.google.com/maps/documentation/javascript/reference) verwendet. Die Kartendaten stammen von Google und dem Kanton Zürich.
+Für die Karten werden [Open Layers 3](//ol3js.org/), die [geo admin api](http://www.geo.admin.ch/internet/geoportal/de/home/services/geoservices/display_services/api_services.html) und [GoogleMaps](https://developers.google.com/maps/documentation/javascript/reference) verwendet.
 
 Die Applikation baut auf einer einzigen Seite auf und aktualisiert die Oberfläche inkl. URL mit AJAX.
 
