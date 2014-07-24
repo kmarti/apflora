@@ -2351,10 +2351,13 @@
                             layer_index = layer_div.val(),
                             layer = window.apf.olmap.map.getLayers().getArray()[layer_index],
                             button_div = $(this).siblings('label').first(),
-                            geom_select_div = $(this).siblings('select.modify_layer_geom_type'),
+                            geom_select_div = $(this).siblings('.modify_layer_geom_type'),
+                            geom_select_div_id = geom_select_div.attr('id'),
                             button_icon = $(this).button('option', 'icons').primary,
                             $non_modify_options = $(this).siblings('.non_modify_options'),
                             tooltip_content;
+
+                        console.log('geom_select_div_id = ' + geom_select_div_id);
 
                         // modify-layer steuern
                         if (window.apf.olmap.modify_interaction_für_vectorlayer) {
@@ -2379,12 +2382,12 @@
                             geom_select_div.selectmenu({
                                 width: 140
                             });
-                            // TODO: give the selectmenu a tooltip
-                            //window.apf.selectmenu_div = geom_select_div.siblings('.ui-selectmenu-button');
-                            /*geom_select_div.siblings('.ui-selectmenu-button').tooltip({
+                            // give the selectmenu a tooltip
+                            $('#' + geom_select_div_id + '-button').tooltip({
                                 tooltipClass: "tooltip-styling-hinterlegt",
-                                content: 'test-tooltip' //geom_select_div.attr('title')
-                            });*/
+                                items: 'span',
+                                content: geom_select_div.attr('title')
+                            });
                             // Optionen, die nicht der Bearbeitung dienen, auf zweite Zeile
                             $non_modify_options
                                 .css('display', 'block')

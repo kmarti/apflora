@@ -34270,7 +34270,8 @@ window.apf.olmap.initiiereLayertree = function(active_kategorie) {
         html_eigene_layer = '<hr>',
         eigene_layer_zähler = 0,
         initialize_modify_layer = false,
-        active;
+        active,
+        export_layer_select_ids = [];
 
     html_eigene_layer_text = '<h3>Eigene Ebenen</h3>';
     html_eigene_layer_text += '<div>';
@@ -34340,6 +34341,8 @@ window.apf.olmap.initiiereLayertree = function(active_kategorie) {
                 html_prov += '<div id="eigene_layer_meldung_' + layertitel.replace(" ", "_") + '" class="eigene_layer_meldung"></div>';
                 html_prov += '</div>';
                 initialize_modify_layer = true;
+                // diese ids werden gebraucht, um tooltips zu erstellen
+                export_layer_select_ids.push('export2_layer_geom_type_' + layertitel.replace(" ", "_"));
             }
             html_prov += '</li>';
 	        html_prov += '<hr>';
@@ -34443,6 +34446,15 @@ window.apf.olmap.initiiereLayertree = function(active_kategorie) {
         })
         .button('refresh');
     $('.export_layer_select').selectmenu();
+    // jetzt tooltips erstellen
+    _.each(export_layer_select_ids, function(id) {
+        // give the selectmenu a tooltip
+        $('#' + id + '-button').tooltip({
+            tooltipClass: "tooltip-styling-hinterlegt",
+            items: 'span',
+            content: 'Ebene exportieren<br>Wählen Sie ein Format'
+        });
+    });
     if (initialize_modify_layer) {
         $('.modify_layer')
             .button({
