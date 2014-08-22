@@ -33511,6 +33511,25 @@ window.apf.olmap.createLayersForOlmap = function() {
     });
 
     // error 401 (Authorization required)
+    var zh_üp_layer = new ol.layer.Tile({
+        title: 'Übersichtsplan',
+        visible: false,
+        kategorie: 'ZH Hintergrund',
+        source: new ol.source.TileWMS({
+            url: 'http://agabriel:4zC6MgjM@wms.zh.ch/avwms',
+            //crossOrigin: 'anonymous',	// gibt es einen cross-origin Fehler
+            crossOrigin: null,
+            params: {
+                'layers': 'upwms'
+                'isBaseLayer': true,
+                'visibility': false,
+                'singleTile': true
+                //'VERSION': '1.1.1'
+            }
+        })
+    });
+
+    // error 401 (Authorization required)
     var zh_höhenmodell_layer = new ol.layer.Tile({
         title: 'Höhenmodell',
         visible: false,
@@ -33543,6 +33562,7 @@ window.apf.olmap.createLayersForOlmap = function() {
         ch_tww_layer,
         ch_vogelreservate_layer,
         ch_kantone_layer,
+        zh_üp_layer,
         zh_svo_farbig_layer,
         zh_svo_grau_layer,
         detailpläne_layer
@@ -34360,6 +34380,7 @@ window.apf.olmap.initiiereLayertree = function(active_kategorie) {
 	                html_ch_biotopinv += html_prov;
 	                break;
 	            case "ZH Sachinformationen":
+	            case "ZH Hintergrund":
 	                html_zh_sachinfos += html_prov;
 	                break;
 	            case "AP Flora":
