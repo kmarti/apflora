@@ -37,6 +37,14 @@ window.apf.initiiere_index = function() {
 		}
 	});
 
+	$(".olmap_layertreee_legende").tooltip({
+		content: function() {
+			//var text = element.text();
+			var url = $(this).attr('url');
+			return "<img class='map' alt='Legende' src='" + url + "'>";
+		}
+	});
+
 	$('#olmap_exportieren').button({
 		icons: {
 	        primary: "ui-icon-circle-arrow-s"
@@ -10427,24 +10435,24 @@ window.apf.olmap.createLayersForOlmap = function() {
     });
 
     var ch_ortholuftbild_layer = ga.layer.create('ch.swisstopo.swissimage');
-    ch_ortholuftbild_layer.set('title', 'Luftbild');
+    ch_ortholuftbild_layer.set('title', 'Luftbild CH');
     ch_ortholuftbild_layer.set('visible', false);
-    ch_ortholuftbild_layer.set('kategorie', 'CH Hintergrund');
+    ch_ortholuftbild_layer.set('kategorie', 'Hintergrund');
 
     var ch_lk_grau_layer = ga.layer.create('ch.swisstopo.pixelkarte-grau');
-    ch_lk_grau_layer.set('title', 'Landeskarten grau');
+    ch_lk_grau_layer.set('title', 'Landeskarten CH grau');
     ch_lk_grau_layer.set('visible', false);
-    ch_lk_grau_layer.set('kategorie', 'CH Hintergrund');
+    ch_lk_grau_layer.set('kategorie', 'Hintergrund');
 
     var ch_lk_farbe_layer = ga.layer.create('ch.swisstopo.pixelkarte-farbe');
-    ch_lk_farbe_layer.set('title', 'Landeskarten farbig');
+    ch_lk_farbe_layer.set('title', 'Landeskarten CH farbig');
     ch_lk_farbe_layer.set('visible', true);
-    ch_lk_farbe_layer.set('kategorie', 'CH Hintergrund');
+    ch_lk_farbe_layer.set('kategorie', 'Hintergrund');
 
     var ch_siegriedkarte_layer = ga.layer.create('ch.swisstopo.hiks-siegfried');
     ch_siegriedkarte_layer.set('title', 'Siegfriedkarte 1881');
     ch_siegriedkarte_layer.set('visible', false);
-    ch_siegriedkarte_layer.set('kategorie', 'CH Hintergrund');
+    ch_siegriedkarte_layer.set('kategorie', 'Hintergrund');
 
     var ch_gemeinden_layer = ga.layer.create('ch.swisstopo-vd.geometa-gemeinde');
     ch_gemeinden_layer.set('title', 'Gemeinden');
@@ -10454,6 +10462,7 @@ window.apf.olmap.createLayersForOlmap = function() {
     var ch_kantone_layer = ga.layer.create('ch.swisstopo.swissboundaries3d-kanton-flaeche.fill');
     ch_kantone_layer.set('title', 'Kantone');
     ch_kantone_layer.set('visible', false);
+    ch_kantone_layer.set('crossOrigin', null);
     ch_kantone_layer.set('kategorie', 'CH Sachinformationen');
 
     var ch_parzellen_layer = ga.layer.create('ch.kantone.cadastralwebmap-farbe');
@@ -10522,7 +10531,7 @@ window.apf.olmap.createLayersForOlmap = function() {
         kategorie: 'ZH Sachinformationen',
         source: new ol.source.TileWMS({
             url: '//wms.zh.ch/FnsSVOZHWMS',
-            //crossOrigin: 'anonymous',
+            crossOrigin: null,
             params: {
                 'layers': 'zonen-schutzverordnungen,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr'
             }
@@ -10535,28 +10544,68 @@ window.apf.olmap.createLayersForOlmap = function() {
         kategorie: 'ZH Sachinformationen',
         source: new ol.source.TileWMS({
             url: '//wms.zh.ch/FnsSVOZHWMS',
-            //crossOrigin: 'anonymous',
+            crossOrigin: null,
             params: {
                 'layers': 'zonen-schutzverordnungen-raster,ueberlagernde-schutzzonen,schutzverordnungsobjekte,svo-zonen-labels,schutzverordnungsobjekt-nr',
-                'transparent': true,
-                'visibility': false,
+                'singleTile': true
+            }
+        })
+    });
+
+    var zh_lichte_wälder_layer = new ol.layer.Tile({
+        title: 'Wälder: lichte',
+        visible: false,
+        kategorie: 'ZH Sachinformationen',
+        source: new ol.source.TileWMS({
+            url: '//maps.zh.ch/wms/FnsLWZH',
+            crossOrigin: null,
+            params: {
+                'layers': 'objekte-lichte-waelder-kanton-zuerich',
+                'singleTile': true
+            }
+        })
+    });
+
+    // nicht eingeschaltet, da ohne Legende wenig brauchbar
+    var zh_waldkartierung_layer = new ol.layer.Tile({
+        title: 'Wälder: Vegetation',
+        visible: false,
+        kategorie: 'ZH Sachinformationen',
+        source: new ol.source.TileWMS({
+            url: '//maps.zh.ch/wms/WaldVKWMS',
+            crossOrigin: null,
+            params: {
+                'layers': 'waldgesellschaften',
+                'singleTile': true
+            }
+        })
+    });
+
+    // nicht im Gebrauch
+    var zh_gemeinden_layer = new ol.layer.Tile({
+        title: 'Kanton',
+        visible: false,
+        kategorie: 'ZH Sachinformationen',
+        source: new ol.source.TileWMS({
+            url: '//maps.zh.ch/wms/BASISKARTEZH',
+            crossOrigin: null,
+            params: {
+                'layers': 'grenzen,gemeindegrenzen',
                 'singleTile': true
             }
         })
     });
 
     // error 401 (Authorization required)
-    var zh_lichte_wälder_layer = new ol.layer.Tile({
-        title: 'Lichte Wälder',
+    var zh_ortholuftbild_layer_1 = new ol.layer.Tile({
+        title: 'Luftbild',
         visible: false,
-        kategorie: 'ZH Sachinformationen',
+        kategorie: 'Hintergrund',
         source: new ol.source.TileWMS({
-            url: '//maps.zh.ch/wms/FnsLWZH',
-            crossOrigin: 'anonymous',
+            url: '//agabriel:4zC6MgjM@wms.zh.ch/OrthoZHWMS',
+            crossOrigin: null,
             params: {
-                'layers': 'objekte-lichte-waelder-kanton-zuerich',
-                'transparent': true,
-                'visibility': false,
+                'layers': 'orthophotos',
                 'singleTile': true
             }
         })
@@ -10564,69 +10613,56 @@ window.apf.olmap.createLayersForOlmap = function() {
 
     // error 401 (Authorization required)
     var zh_ortholuftbild_layer = new ol.layer.Tile({
-        title: 'Luftbild',
+        title: 'Luftbild ZH',
         visible: false,
-        kategorie: 'ZH Hintergrund',
-        source: new ol.source.TileWMS({
-            url: '//agabriel:4zC6MgjM@wms.zh.ch/OrthoZHWMS',
-            crossOrigin: 'anonymous',
-            params: {
-                'layers': 'orthophotos',
-                'isBaseLayer': true,
-                'visibility': false,
-                'singleTile': true
-            }
-        })
-    });
-
-    // error 401 (Authorization required)
-    var zh_ortholuftbild2_layer = new ol.layer.Tile({
-        title: 'Luftbild 2',
-        visible: false,
-        kategorie: 'ZH Hintergrund',
+        kategorie: 'Hintergrund',
         source: new ol.source.TileWMS({
             url: '//maps.zh.ch/wms/OrthoBackgroundZH',
-            crossOrigin: 'anonymous',
-            params: {
-                'layers': 'orthoaktuell',
-                'isBaseLayer': true,
-                'visibility': false,
-                'singleTile': true
-            }
-        })
-    });
-
-    // error 401 (Authorization required)
-    var zh_üp_layer = new ol.layer.Tile({
-        title: 'Übersichtsplan',
-        visible: false,
-        kategorie: 'ZH Hintergrund',
-        source: new ol.source.TileWMS({
-            url: 'http://agabriel:4zC6MgjM@wms.zh.ch/avwms',
-            //crossOrigin: 'anonymous',	// gibt es einen cross-origin Fehler
             crossOrigin: null,
             params: {
-                'layers': 'upwms'
-                'isBaseLayer': true,
-                'visibility': false,
+                'layers': 'orthoaktuell',
                 'singleTile': true
-                //'VERSION': '1.1.1'
             }
         })
     });
 
-    // error 401 (Authorization required)
-    var zh_höhenmodell_layer = new ol.layer.Tile({
-        title: 'Höhenmodell',
+    var zh_üp_layer = new ol.layer.Tile({
+        title: 'Übersichtsplan ZH',
         visible: false,
-        kategorie: 'ZH Sachinformationen',
+        kategorie: 'Hintergrund',
+        source: new ol.source.TileWMS({
+            url: 'http://@wms.zh.ch/upwms',
+            crossOrigin: null,
+            params: {
+                'layers': 'upwms',
+                'singleTile': true
+            }
+        })
+    });
+
+    var zh_basiskarten_layer = new ol.layer.Tile({
+        title: 'Landeskarten ZH',
+        visible: false,
+        kategorie: 'Hintergrund',
+        source: new ol.source.TileWMS({
+            url: '//maps.zh.ch/wms/BASISKARTEZH',
+            crossOrigin: null,
+            params: {
+                'layers': 'wald,seen,lk500,lk200,lk100,lk50,lk25,up8,up24',
+                'singleTile': true
+            }
+        })
+    });
+
+    var zh_höhenmodell_layer = new ol.layer.Tile({
+        title: 'Höhenmodell ZH',
+        visible: false,
+        kategorie: 'Hintergrund',
         source: new ol.source.TileWMS({
             url: '//maps.zh.ch/wms/DTMBackgroundZH',
-            crossOrigin: 'anonymous',
+            crossOrigin: null,
             params: {
                 'layers': 'dtm',
-                'isBaseLayer': true,
-                'visibility': false,
                 'singleTile': true
             }
         })
@@ -10634,7 +10670,10 @@ window.apf.olmap.createLayersForOlmap = function() {
 
     // Zunächst alle Layer definieren
     var layers_prov = [
+    	zh_höhenmodell_layer,
+        zh_ortholuftbild_layer,
         ch_ortholuftbild_layer,
+        zh_basiskarten_layer,
         ch_lk_grau_layer,
         ch_lk_farbe_layer,
         ch_siegriedkarte_layer,
@@ -10651,6 +10690,8 @@ window.apf.olmap.createLayersForOlmap = function() {
         zh_üp_layer,
         zh_svo_farbig_layer,
         zh_svo_grau_layer,
+        zh_lichte_wälder_layer,
+        zh_waldkartierung_layer,
         detailpläne_layer
     ];
 
@@ -11362,7 +11403,7 @@ window.apf.olmap.initiiereLayertree = function(active_kategorie) {
         visible,
         kategorie,
         //html_welt_hintergrund = '<h3>Welt Hintergrund</h3><div>',
-        html_ch_hintergrund = '<h3>CH Hintergrund</h3><div>',
+        html_ch_hintergrund = '<h3>Hintergrund</h3><div>',
         html_ch_sachinfos = '<h3>CH Sachinformationen</h3><div>',
         html_ch_biotopinv = '<h3>CH Biotopinventare</h3><div>',
         html_zh_sachinfos = '<h3>ZH Sachinformationen</h3><div>',
@@ -11456,7 +11497,7 @@ window.apf.olmap.initiiereLayertree = function(active_kategorie) {
                 /*case "Welt Hintergrund":
                     html_welt_hintergrund += html_prov;
                     break;*/
-	            case "CH Hintergrund":
+	            case "Hintergrund":
 	                html_ch_hintergrund += html_prov;
 	                break;
 	            case "CH Sachinformationen":
@@ -11466,7 +11507,6 @@ window.apf.olmap.initiiereLayertree = function(active_kategorie) {
 	                html_ch_biotopinv += html_prov;
 	                break;
 	            case "ZH Sachinformationen":
-	            case "ZH Hintergrund":
 	                html_zh_sachinfos += html_prov;
 	                break;
 	            case "AP Flora":
