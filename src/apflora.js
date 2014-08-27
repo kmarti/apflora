@@ -37,14 +37,6 @@ window.apf.initiiere_index = function() {
 		}
 	});
 
-	$(".olmap_layertreee_legende").tooltip({
-		content: function() {
-			//var text = element.text();
-			var url = $(this).attr('url');
-			return "<img class='map' alt='Legende' src='" + url + "'>";
-		}
-	});
-
 	$('#olmap_exportieren').button({
 		icons: {
 	        primary: "ui-icon-circle-arrow-s"
@@ -10529,6 +10521,8 @@ window.apf.olmap.createLayersForOlmap = function() {
         opacity: 0.7,
         visible: false,
         kategorie: 'ZH Sachinformationen',
+        legende: true,
+        legende_url: 'http://wms.zh.ch/FnsSVOZHWMS?version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=zonen-schutzverordnungen&format=image/png&STYLE=default',
         source: new ol.source.TileWMS({
             url: '//wms.zh.ch/FnsSVOZHWMS',
             crossOrigin: null,
@@ -10542,6 +10536,8 @@ window.apf.olmap.createLayersForOlmap = function() {
         title: 'SVO schwarz/weiss',
         visible: false,
         kategorie: 'ZH Sachinformationen',
+        legende: true,
+        legende_url: 'http://wms.zh.ch/FnsSVOZHWMS?version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=zonen-schutzverordnungen-raster&format=image/png&STYLE=default',
         source: new ol.source.TileWMS({
             url: '//wms.zh.ch/FnsSVOZHWMS',
             crossOrigin: null,
@@ -10556,6 +10552,8 @@ window.apf.olmap.createLayersForOlmap = function() {
         title: 'Wälder: lichte',
         visible: false,
         kategorie: 'ZH Sachinformationen',
+        legende: true,
+        legende_url: 'http://wms.zh.ch/FnsLWZHWMS?version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=objekte-lichte-waelder-kanton-zuerich&format=image/png&STYLE=default',
         source: new ol.source.TileWMS({
             url: '//maps.zh.ch/wms/FnsLWZH',
             crossOrigin: null,
@@ -10571,6 +10569,8 @@ window.apf.olmap.createLayersForOlmap = function() {
         title: 'Wälder: Vegetation',
         visible: false,
         kategorie: 'ZH Sachinformationen',
+        legende: true,
+        legende_url: 'http://wms.zh.ch/WaldVKWMS?version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=waldgesellschaften&format=image/png&STYLE=default',
         source: new ol.source.TileWMS({
             url: '//maps.zh.ch/wms/WaldVKWMS',
             crossOrigin: null,
@@ -10791,163 +10791,6 @@ window.apf.olmap.createLayersForOlmap = function() {
         });
         layers = layers.concat(eigene_ebenen_layers);
     }
-
-    /*layers = [
-
-        new ol.layer.Tile({
-            title: 'Landeskarten sw',
-            source: new ol.source.TileWMS({
-                url: '//agabriel:4zC6MgjM@wms.zh.ch/RasterWMS',
-                params: {
-                    'layers': 'up24,up8,lk25,lk50,lk100,lk200,lk500',
-                    'transparent': true,
-                    'isBaseLayer': false,
-                    'visibility': false,
-                    'singleTile': true
-                }
-            })
-        }),
-        new ol.layer.Tile({
-            title: 'Landeskarten überlagernd',
-            source: new ol.source.TileWMS({
-                url: '//maps.zh.ch/wms/BASISKARTEZH',
-                params: {
-                    'layers': 'lk500,lk200,lk100,lk50,lk25,up8,up24',
-                    'transparent': true,
-                    'isBaseLayer': false,
-                    'visibility': false,
-                    'singleTile': true
-                }
-            })
-        }),
-        new ol.layer.Tile({
-            title: 'Landeskarten ohne Luftbild',
-            source: new ol.source.TileWMS({
-                url: '//maps.zh.ch/wms/BASISKARTEZH',
-                params: {
-                    'layers': 'wald,seen,lk500,lk200,lk100,lk50,lk25,up8,up24',
-                    'transparent': false,
-                    'isBaseLayer': false,
-                    'visibility': false,
-                    'singleTile': true
-                }
-            })
-        }),
-        new ol.layer.Tile({
-            title: 'ZH Gemeinden',
-            source: new ol.source.TileWMS({
-                url: '//maps.zh.ch/wms/BASISKARTEZH',
-                params: {
-                    'layers': 'grenzen,gemeindegrenzen',
-                    'transparent': true,
-                    'isBaseLayer': false,
-                    'visibility': false,
-                    'singleTile': true
-                }
-            })
-        }),
-        new ol.layer.Tile({
-            title: 'Übersichtsplan Kt. Zürich',
-            source: new ol.source.TileWMS({
-                url: '//wms.zh.ch/upwms',
-                params: {
-                    'layers': 'upwms',
-                    'transparent': true,
-                    'isBaseLayer': false,
-                    'visibility': false,
-                    'singleTile': true,
-                    'minScale': 22000,
-                    'maxScale': 1
-                }
-            })
-        }),
-        new ol.layer.Tile({
-            title: 'ZH Parzellen',
-            source: new ol.source.TileWMS({
-                url: '//wms.zh.ch/avwms',
-                params: {
-                    'layers': 'Liegenschaften',
-                    'transparent': true,
-                    'isBaseLayer': false,
-                    'visibility': false,
-                    'singleTile': true
-                }
-            })
-        }),
-        new ol.layer.Tile({
-            title: 'ZH Parzellen-Nummern',
-            source: new ol.source.TileWMS({
-                url: '//wms.zh.ch/avwms',
-                params: {
-                    'layers': 'OSNR',
-                    'transparent': true,
-                    'visibility': false,
-                    'singleTile': true
-                }
-            })
-        }),
-        new ol.layer.Vector({
-            title: 'ZH Verträge',
-            source: new ol.source.TileWMS({
-                url: '//agabriel:4zC6MgjM@maps.zh.ch/wfs/FnsVertraegeWFS',
-                params: {
-                    'layers': '',
-                    'transparent': true,
-                    'isBaseLayer': false,
-                    'visibility': false,
-                    'singleTile': true
-                }
-            })
-        }),
-        new ol.layer.Tile({
-            title: 'ZH Waldgesellschaften',
-            source: new ol.source.TileWMS({
-                url: '//agabriel:4zC6MgjM@wms.zh.ch/WaldVKoverlayZH',
-                params: {
-                    'layers': 'waldgesellschaften,beschriftung-einheit-nach-ek72',
-                    'transparent': true,
-                    'visibility': false,
-                    'singleTile': true
-                }
-            })
-        }),
-        new ol.layer.Tile({
-            title: "Landeskarten_farbig",
-            source: new ol.source.TileWMS({
-                url: '//wms.geo.admin.ch?',
-                params: {
-                    'layers': 'ch.swisstopo.pixelkarte-farbe',
-                    'srs': 'EPSG:21781',
-                    'format': 'png',
-                    'visibility': false,
-                    'singleTile': true
-                }
-            })
-        }),
-        new ol.layer.Tile({
-            title: "Landeskarte 1:1'000'000",
-            source: new ol.source.TileWMS({
-                url: '//wms.geo.admin.ch?',
-                params: {
-                    'layers': 'ch.swisstopo.pixelkarte-farbe-pk1000.noscale',
-                    'srs': 'EPSG:21781',
-                    'format': 'png',
-                    'visibility': false,
-                    'singleTile': true
-                }
-            })
-        })
-    ];*/
-
-    /*var zh_verträge_layer = new ol.layer.Vector("ZH Verträge", {
-        strategies: [new OpenLayers.Strategy.BBOX()],
-        protocol: new OpenLayers.Protocol.WFS.v1_1_0({
-            url:  "//agabriel:4zC6MgjM@maps.zh.ch/wfs/FnsVertraegeWFS",
-            featureType: "vertraege_f",
-            featureNs: "//www.opengis.net/gml"
-            //featureNs: "//www.intergraph.com/geomedia/gml"
-        })
-    })*/
 
     return layers;
 };
@@ -11418,7 +11261,10 @@ window.apf.olmap.initiiereLayertree = function(active_kategorie) {
         eigene_layer_zähler = 0,
         initialize_modify_layer = false,
         active,
-        export_layer_select_ids = [];
+        export_layer_select_ids = [],
+        legende,
+        legende_url,
+        initialize_legende = false;
 
     html_eigene_layer_text = '<h3>Eigene Ebenen</h3>';
     html_eigene_layer_text += '<div>';
@@ -11448,6 +11294,9 @@ window.apf.olmap.initiiereLayertree = function(active_kategorie) {
         layertitel = layer.get('title') || '(Ebene ohne Titel)';
         visible = layer.get('visible');
         kategorie = layer.get('kategorie');
+        legende = layer.get('legende') || false;
+        legende_url = layer.get('legende_url') || null;
+
         if (layertitel !== 'messen') {
 	        html_prov = '<li><input type="checkbox" class="olmap_layertree_checkbox" id="olmap_layertree_' + layertitel + '" value="' + index + '"';
 	        // sichtbare Layer sollen gecheckt sein
@@ -11490,6 +11339,12 @@ window.apf.olmap.initiiereLayertree = function(active_kategorie) {
                 initialize_modify_layer = true;
                 // diese ids werden gebraucht, um tooltips zu erstellen
                 export_layer_select_ids.push('export2_layer_geom_type_' + layertitel.replace(" ", "_"));
+            }
+            if (legende && legende_url) {
+            	// Symbol ergänzen
+            	// beim hovern erscheint popup mit Legende
+            	html_prov += '<a class="ui-icon ui-icon-info olmap_layertreee_legende" href="' + legende_url + '" target="_blank" title="' + legende_url + '"></a>';
+            	initialize_legende = true;
             }
             html_prov += '</li>';
 	        html_prov += '<hr>';
@@ -11629,6 +11484,24 @@ window.apf.olmap.initiiereLayertree = function(active_kategorie) {
             })
             .button('refresh');
     }
+    if (initialize_legende) {
+		$(".olmap_layertreee_legende").tooltip({
+			tooltipClass: "tooltip_olmap_layertree_legende",
+			position: {
+				my: "right top+15", 
+				at: "right bottom",
+				collision: "flipfit"
+			},
+			content: function() {
+				var url = $(this).attr('href');
+				return "<img src='" + url + "'>";
+			}/*,
+			hide: {
+				effect: "slideDown",
+				delay: 80000
+			}*/
+		});
+	}
 };
 
 // das ist der Versuch, existierende Formulare als dialog zu öffnen

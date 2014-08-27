@@ -337,6 +337,14 @@ label.erforderlich span {
     opacity: 0.8;
     margin-top: 16px;
 }
+.tooltip_olmap_layertree_legende {
+	max-width: 1000px !important;
+	opacity: 1;
+	padding: 0 0 0 0;
+}
+.tooltip_olmap_layertree_legende div img {
+	margin-bottom: -4px;
+}
 
 .export_abschnitt_exporte {
 	-moz-column-width: 300px;
@@ -533,6 +541,12 @@ a {
 #olmap_layertree li .ui-button.entferne_layer_label {
     position: absolute;
     right: 7px;
+}
+
+.olmap_layertreee_legende {
+	display: inline-block;
+	right: 7px;
+	position: absolute;
 }
 
 #olmap_neues_layer_container .ui-button .ui-button-text {
