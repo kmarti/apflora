@@ -33374,6 +33374,7 @@ window.apf.olmap.createLayersForOlmap = function() {
     var ch_parzellen_layer = ga.layer.create('ch.kantone.cadastralwebmap-farbe');
     ch_parzellen_layer.set('title', 'Parzellen');
     ch_parzellen_layer.set('visible', false);
+    ch_kantone_layer.set('crossOrigin', null);
     ch_parzellen_layer.set('kategorie', 'CH Sachinformationen');
 
     var ch_am_layer = ga.layer.create('ch.bafu.bundesinventare-amphibien');
@@ -33428,6 +33429,70 @@ window.apf.olmap.createLayersForOlmap = function() {
         selectable: true,
         source: detailpläne_layer_source,
         style: window.apf.olmap.detailplanStyle()
+    });
+
+    // ausgeschaltet, da es nicht funktioniert (authorization required)
+    var zh_av_layer = new ol.layer.Tile({
+        title: 'Amtliche Vermessung',
+        visible: false,
+        kategorie: 'ZH Sachinformationen',
+        source: new ol.source.TileWMS({
+            url: '//agabriel:4zC6MgjM@wms.zh.ch/avwms',
+            //url: '//wms.zh.ch/avwms',
+            crossOrigin: null,
+            params: {
+                'layers': 'liegenschaften'
+            }
+        })
+    });
+
+    // OL3 hat noch Probleme und bereinigt die Methoden für WFS - zuwarten
+    var zh_kartierungen_layer_source = new ol.source.ServerVector({
+    	//format: new ol.format.GeoJSON(),	// holt nicht mal die Daten
+    	format: new ol.format.WFS({	// holt die Daten - sollte aber bald die Attrribute nicht mehr benötigen
+    		featureNS: '//maps.zh.ch',
+    		featureType: 'polygon'
+    	}),
+    	//format: new ol.format.GML(),
+    	loader: function(extent, resolution, projection) {
+			$.ajax({
+				type: GET,
+				url: '//maps.zh.ch/wfs/FnsNSWFS',
+				data: {
+					SERVICE: 'WFS',
+					VERSION: '1.0.0',
+					REQUEST: 'GetFeature',
+					TYPENAME: 'lrm_veg',
+					SRSNAME: 'EPSG:21781',
+					bbox: extent.join(',') + ',EPSG:21781'
+				},
+				dataType: 'jsonp',
+				jsonpCallback: 'load_zh_kartierungen_layer_source'
+			});
+    	},
+		strategy: ol.loadingstrategy.createTile(new ol.tilegrid.XYZ({
+			maxZoom: 19
+		})),
+		projection: 'EPSG:21781'
+    });
+
+    var load_zh_kartierungen_layer_source = function(response) {
+    	//console.log('response', response);
+	  	zh_kartierungen_layer_source.addFeatures(zh_kartierungen_layer_source.readFeatures(response));	// funktioniert nicht!
+	};
+
+    var zh_kartierungen_layer = new ol.layer.Vector({
+        title: 'Lebensraum-Kartierungen',
+        opacity: 0.7,
+        visible: false,
+        kategorie: 'ZH Sachinformationen',
+        source: zh_kartierungen_layer_source,
+        style: new ol.style.Style({
+			stroke: new ol.style.Stroke({
+				color: 'rgba(0, 0, 255, 1.0)',
+				width: 2
+			})
+		})
     });
 
     var zh_svo_farbig_layer = new ol.layer.Tile({
@@ -33545,7 +33610,7 @@ window.apf.olmap.createLayersForOlmap = function() {
         visible: false,
         kategorie: 'Hintergrund',
         source: new ol.source.TileWMS({
-            url: 'http://@wms.zh.ch/upwms',
+            url: 'http://wms.zh.ch/upwms',
             crossOrigin: null,
             params: {
                 'layers': 'upwms',
@@ -33604,6 +33669,7 @@ window.apf.olmap.createLayersForOlmap = function() {
         zh_üp_layer,
         zh_svo_farbig_layer,
         zh_svo_grau_layer,
+        //zh_kartierungen_layer,	// warten, das OL3 mit WFS noch nicht funktioniert
         zh_lichte_wälder_layer,
         zh_waldkartierung_layer,
         detailpläne_layer
@@ -34400,20 +34466,23 @@ window.apf.olmap.initiiereLayertree = function(active_kategorie) {
     }
     if (initialize_legende) {
 		$(".olmap_layertreee_legende").tooltip({
-			tooltipClass: "tooltip_olmap_layertree_legende",
-			position: {
-				my: "right top+15", 
-				at: "right bottom",
-				collision: "flipfit"
-			},
-			content: function() {
+			tooltipClass: "tooltip_olmap_layertree_legende"
+			,position: {
+				my: "right top+15"
+				,at: "right bottom"
+				,collision: "flipfit"
+			}
+			,content: function() {
 				var url = $(this).attr('href');
 				return "<img src='" + url + "'>";
-			}/*,
-			hide: {
-				effect: "slideDown",
-				delay: 80000
-			}*/
+			}
+		});
+		// die tooltips sind beim ersten Öffnen zu weit rechts > nicht sichtbar!
+		// darum alle einmal öffnen
+		// ab dem zweiten mal liegen sie am richtigen Ort
+		$(".olmap_layertreee_legende").each(function() {
+			$(this).tooltip('open');
+			$(this).tooltip('close');
 		});
 	}
 };
