@@ -25,9 +25,9 @@ body {
 /*über 1000px nebeneinander*/
 @media screen and (min-width: 1001px) {
 	#menu {
+        float: left;
 		width: 370px;
-		float: left;
-		margin-right: 8px;
+		margin-right:  8px;
 		margin-bottom: 0;
 	}
 
@@ -52,7 +52,7 @@ fieldset {
 	font-size: 16px !important;
 
 	/*irgenwoher iherited #forms 2px margin rechts und links*/
-	margin-left: 0;
+	margin-left:  0;
 	margin-right: 0;
 	padding: 0 0 0 0;
 }
@@ -67,7 +67,7 @@ fieldset {
 
 /*Text umbrechen lassen*/
 #tree a {
-	white-space:normal; 
+	white-space: normal;
 	height: auto;
 	padding: 1px 2px;
 }
@@ -82,14 +82,14 @@ fieldset {
 
 /*Abstände zwischen nodes vergrössern*/
 #tree li {
-	min-height:22px; 
-	line-height:22px;
+	min-height:  22px;
+	line-height: 22px;
 }
 
 #tree a ins {
-	height:20px;
-	width:20px;
-	background-position:-56px -17px;
+	height: 20px;
+	width:  20px;
+	background-position: -56px -17px;
 }
 
 #tree {
@@ -117,8 +117,8 @@ fieldset {
 
 form h1 {
 	margin-bottom: 10px;
-	margin-top: 10px;
-	margin-left: 10px;
+	margin-top:    10px;
+	margin-left:   10px;
 }
 
 form table {
@@ -159,9 +159,9 @@ form table tr {
 }
 
 td.Datenfelder {
-	padding-left: 5px;
+	padding-left:   5px;
+    padding-right: 10px;
 	width: 100%;
-	padding-right: 10px;
 }
 
 .export_abschnitt_tooltip_class {
@@ -170,19 +170,19 @@ td.Datenfelder {
 
 /*im tab soll der zusätzliche Rand klein sein*/
 .ui-tabs .ui-tabs-panel {
-	padding-left: 0;
+	padding-left:  0;
 	padding-right: 0;
 }
 
 form fieldset {
-	padding-left: 10px;
+	padding-left:  10px;
 	padding-bottom: 4px;
 	margin-bottom: 10px;
 }
 
 fieldset legend {
-	color:#6F6F66;
-	font-weight:bold;
+	color: #6F6F66;
+	font-weight: bold;
 }
 
 input {
@@ -191,15 +191,15 @@ input {
 
 [readonly='readonly'] {
 	background-color: #FFE;
-	border:none;
+	border: none;
 }
 
 [type=text], [type=url], textarea, select {
-	width:100%;
+	width: 100%;
 }
 
 [type=radio]:first-child, [type=checkbox]:first-child {
-	margin-top:6px;
+	margin-top: 6px;
 }
 
 [type=number] {
@@ -213,28 +213,28 @@ input {
 #forms input,
 #forms select,
 #forms textarea {
-	font-size:17px !important;
+	font-size: 17px !important;
 	/*alle inputs genau links ausrichten - sind sonst nicht alle gleich weit links*/
-	margin-left:2px !important;
+	margin-left: 2px !important;
 }
 
 /*komischerweise kommen textareas in anderer Schrift*/
 textarea {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size:17px;
+	font-size: 17px;
 }
 
 .ui-button-text {
-	padding:.1em .5em !important; 
-	font-size:.8em !important;
+	padding: .1em .5em !important;
+	font-size: .8em !important;
 }
 
 .ui-widget-content {
-	background:#FAF3D9!important;
+	background: #FAF3D9!important;
 }
 
 .form .ui-widget-content {
-	background:#FFE!important;
+	background: #FFE!important;
 }
 
 .form .ui-tabs {
@@ -242,7 +242,7 @@ textarea {
 }
 
 option {
-	white-space:pre;
+	white-space: pre;
 }
 
 .limiter {
@@ -255,14 +255,14 @@ option {
 
 .ui-widget .fieldcontain {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size:16px;
+	font-size: 16px;
 }
 
 .ui-tabs .ui-widget-header {
 	background: none;
-	border-top: 0;
-	border-right: 0;
-	border-left: 0;
+	border-top:    0;
+	border-right:  0;
+	border-left:   0;
 	border-radius: 0;
 	border-color: #A5A59A;
 }
@@ -282,12 +282,12 @@ option {
 
 .border_top {
 	border-top: 1px solid #999;
-	padding-top: 10px;
+	padding-top:  10px;
 	margin-right: 10px;
 }
 
 #vakata-contextmenu {
-	width:230px;
+	width: 230px;
 }
 
 /*pattern: wenn nicht erfüllt, markieren*/
@@ -302,12 +302,12 @@ option {
 
 .PopupText {
 	text-align:center; 
-    margin:6px 4px 4px 4px;
-	font-weight:bold;
+    margin: 6px 4px 4px 4px;
+	font-weight: bold;
 }
 
 .MapLabel {
-	color:white;
+	color: white;
     font-family: "Lucida Grande", "Arial", sans-serif;
     font-size: 12px;
     font-weight: 900;
@@ -332,10 +332,10 @@ label.erforderlich span {
     max-width: 500px !important;
     font-family: Arial, Verdana, Helvetica, sans-serif;
     font-size: 13px;
-    padding-top: 1px;
+    padding-top:    1px;
     padding-bottom: 1px;
+    margin-top:    16px;
     opacity: 0.8;
-    margin-top: 16px;
 }
 .tooltip_olmap_layertree_legende {
 	max-width: 1000px !important;
@@ -347,9 +347,9 @@ label.erforderlich span {
 }
 
 .export_abschnitt_exporte {
-	-moz-column-width: 300px;
+	   -moz-column-width: 300px;
 	-webkit-column-width: 300px;
-	column-width: 300px;
+	        column-width: 300px;
 }
 
 #exporte button {
@@ -384,14 +384,14 @@ a {
 
 #distanz_messen {
 	position: absolute;
-	top: 4px;
+	top:   4px;
 	left: 80px;
 	/*vor die Karte aber nicht vor die Meldungen*/
 	z-index: 90;
 }
 #distanz_messen_entfernen {
 	position: absolute;
-	top: 4px;
+	top:    4px;
 	left: 200px;
 	/*vor die Karte aber nicht vor die Meldungen*/
 	z-index: 90;
@@ -405,14 +405,14 @@ a {
 }
 .google_detailplaene_div {
 	position: absolute;
-	top: 4px;
+	top:    4px;
 	left: 350px;
 	/*vor die Karte aber nicht vor die Meldungen*/
 	z-index: 90;
 }
 
 #ga_karten_div {
-	width: 100%;
+	width:  100%;
 	height: 100%;
 	border-radius: 8px;
 	overflow: hidden;
@@ -429,8 +429,8 @@ a {
 	overflow: hidden;
 	position: absolute;
 	right: 50px;
+    top:    8px;
 	z-index: 1009;
-	top: 8px;
 	border-radius: 6px;
 }
 
@@ -439,8 +439,8 @@ a {
 }
 
 #olmap_layertree .ui-accordion-header {
-    padding-left: 1.9em;
-    padding-top: .2em;
+    padding-left:  1.9em;
+    padding-top:    .2em;
     padding-bottom: .2em;
     font-size: 16px;
 }
@@ -460,7 +460,7 @@ a {
 
 #olmap_eigene_ebenen_beta_container {
     position: absolute;
-    top: 40px;
+    top:   40px;
     left: 140px;
 }
 
@@ -469,29 +469,29 @@ a {
 }
 
 #olmap_layertree_layers {
-    padding-top: 0 !important;
+    padding-top:    0 !important;
     padding-bottom: 0 !important;
 }
 
 #olmap_layertree .ui-accordion-content li {
-    padding-left: 0.8em;
+    padding-left:  0.8em;
     padding-right: 0.8em;
 }
 
 #olmap_layertree .ui-accordion-content p {
-    padding-left: 1em;
-    padding-right: 1em;
-    margin-top: 0.2em;
+    padding-left:    1em;
+    padding-right:   1em;
+    margin-top:    0.2em;
     margin-bottom: 0.2em;
 }
 
 #olmap_layertree .ui-accordion-content p:first-child {
-    margin-top: 0;
+    margin-top:    0;
     margin-bottom: 0;
 }
 
 #olmap_layertree .ui-accordion-content ul {
-    margin-top: 0.2em;
+    margin-top:    0.2em;
     margin-bottom: 0.4em;
 }
 
@@ -507,13 +507,13 @@ a {
 #olmap_layertree .ui-accordion-content .eigene_layer_meldung {
     display: none;
     padding-left: 6px;
-    padding-top: 3px;
+    padding-top:  3px;
     color: red;
     font-size: 12px;
 }
 
 #olmap_layertree [type=checkbox]:first-child {
-    margin-top: 0;
+    margin-top:  0;
     margin-left: 0 !important;
 }
 
@@ -523,17 +523,17 @@ a {
 }
 
 #olmap_layertree li label {
-    padding-left: 5px;
+    padding-left:  5px;
     padding-right: 3px;
 }
 
 #olmap_layertree .layeroptionen {
     margin-left: -5px;
-    margin-top: 3px;
+    margin-top:   3px;
 }
 
 #olmap_layertree li .ui-button {
-    width: 14px;
+    width:  14px;
     height: 16px;
     margin-left: 5px;
 }
@@ -556,7 +556,7 @@ a {
 
 #olmap_layertree .ui-selectmenu-button {
     margin-bottom: -5px;
-    margin-left: 2px;
+    margin-left:    2px;
 }
 
 #olmap_layertree .ui-selectmenu-button span.ui-selectmenu-text {
@@ -593,16 +593,16 @@ a {
 }
 
 #olmap_exportieren_div {
-    width: 25px;
+    width:  25px;
     height: 26px;
+    top:    10px;
+    left:  503px;
     position: absolute;
-    top: 10px;
-    left: 503px;
     z-index: 90;
 }
 
 #olmap_exportieren {
-    width: 25px;
+    width:  25px;
     height: 26px;
 }
 
@@ -612,7 +612,7 @@ a {
 
 #menuleiste {
 	position: absolute;
-	top: 10px;
+	top:  10px;
 	left: 57px;
 	/*vor die Karte aber nicht vor die Meldungen*/
 	z-index: 90;
@@ -628,7 +628,7 @@ a {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	/*Koordinaten weiss hinterlegen, damit sie auf jedem Hintergrund gut sichtbar sind*/
 	text-shadow: 0 1px 1px white,1px 0 1px white,0 -1px 1px white,-1px 0 1px white,0 2px 1px white,2px 0 1px white,0 -2px 1px white,-2px 0 1px white;
-	top: 16px;
+	top:    16px;
 	right: 362px;
 }
 
@@ -637,13 +637,13 @@ a {
 }
 
 #ergebnisMessung {
-	font-weight:900;
+	font-weight: 900;
 	font-size: 16px;
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	/*weiss hinterlegen, damit auf jedem Hintergrund gut sichtbar*/
 	text-shadow: 0 1px 1px white,1px 0 1px white,0 -1px 1px white,-1px 0 1px white,0 2px 1px white,2px 0 1px white,0 -2px 1px white,-2px 0 1px white;
-	margin-top: 5px;
-	padding-left: 7px;
+	margin-top:    5px;
+	padding-left:  7px;
     margin-bottom: 8px;
 }
 #ergebnisAuswahl {
@@ -676,7 +676,7 @@ a {
 #ergebnisAuswahlListe {
 	overflow: auto;
 	max-height: 400px;
-	padding-top: 3px;
+	padding-top:    3px;
 	padding-bottom: 3px;
 	font-weight: normal;
 	border-bottom: 1px solid #e0cfc2;
@@ -684,9 +684,9 @@ a {
 }
 p.ergebnisAuswahlListeTitel {
 	font-weight: bold;
-	padding-left: 6px;
+	padding-left:  6px;
 	padding-right: 6px;
-    margin-top: 3px;
+    margin-top:    3px;
     margin-bottom: 3px;
 }
 p.ergebnisAuswahlListeTitelTPop {
@@ -704,8 +704,8 @@ p.ergebnisAuswahlListeTitelTPop {
 #ergebnisAuswahlListe td:first-child {
 	text-align: right;
 	padding-right: 0;
-    min-width: 35px;
-    padding-left: 6px;
+    padding-left:  6px;
+    min-width:    35px;
 }
 #ergebnisAuswahlListe td {
 	padding-right: 6px;
@@ -719,7 +719,7 @@ p.ergebnisAuswahlListeTitelTPop {
 #toggleLayertree {
 	position: absolute;
 	left: 4px;
-	top: 6px;
+	top:  6px;
 }
 
 #eigene_ebene_name_container {
@@ -727,25 +727,25 @@ p.ergebnisAuswahlListeTitelTPop {
 }
 
 .GmInfowindow h3, .GmInfowindow p, .GmInfowindow a {
-	font-size: 14px;
+	font-size:   14px;
+    line-height: 16px;
 	margin: 3px 0 3px 0;
-	line-height: 16px;
 }
 
 .GmInfowindow h3 {
-	font-size: 16px;
+	font-size:   16px;
 	line-height: 20px;
 }
 
 .olFramedCloudPopupContent h3, .olFramedCloudPopupContent p, .olFramedCloudPopupContent a {
-	font-size: 14px;
+	font-size:   14px;
+    line-height: 16px;
 	margin: 3px 0 3px 0;
-	line-height: 16px;
 }
 
 .olFramedCloudPopupContent h3 {
-	font-size: 16px;
-	margin-top: 6px;
+	font-size:   16px;
+	margin-top:   6px;
 	line-height: 20px;
 }
 
@@ -773,7 +773,7 @@ p.ergebnisAuswahlListeTitelTPop {
 }
 
 .tooltiptext p {
-    padding-top: 0;
+    padding-top:    0;
     padding-bottom: 0;
 }
 
@@ -807,45 +807,45 @@ p.ergebnisAuswahlListeTitelTPop {
 }
 
 .qtip {
-	font-size: 13px;
+	font-size:  13px;
 	max-width: 450px;
 }
 
 .qtip-titlebar {
-    -moz-border-radius: 5px 5px 0 0;
+       -moz-border-radius: 5px 5px 0 0;
 	-webkit-border-radius: 5px 5px 0 0;
-	border-radius: 5px 5px 0 0;
+	        border-radius: 5px 5px 0 0;
   	line-height: 1.1;
 }
 
 .qtip-content {
 	padding-bottom: 0;
-	padding-top: 0;
-    line-height: 1.2;
-    -moz-border-radius: 0 0 5px 5px;
+	padding-top:    0;
+    line-height:  1.2;
+       -moz-border-radius: 0 0 5px 5px;
 	-webkit-border-radius: 0 0 5px 5px;
-	border-radius: 0 0 5px 5px;
+	        border-radius: 0 0 5px 5px;
 }
 
 .olmap_popup_styling .qtip-content {
 	max-height: 250px;
+    width:      230px;
 	overflow: auto;
-	width: 230px;
-	padding-left: 0;
+	padding-left:  0;
 	padding-right: 0;
 }
 
 .olmap_popup_styling .qtip-content h3 {
-	margin-top: 6px;
+	margin-top:    6px;
 	margin-bottom: 0;
-	padding-left: 9px;
+	padding-left:  9px;
 	padding-right: 9px;
 }
 
 .olmap_popup_styling .qtip-content p {
-	margin-top: 2px;
+	margin-top:    2px;
 	margin-bottom: 2px;
-	padding-left: 9px;
+	padding-left:  9px;
 	padding-right: 9px;
 }
 
@@ -881,8 +881,8 @@ p.ergebnisAuswahlListeTitelTPop {
 .olmap_popup_styling .qtip-content table {
     border-collapse: collapse;
 	margin-bottom: 8px;
-	margin-top: 8px;
-	padding-left: 9px;
+	margin-top:    8px;
+	padding-left:  9px;
 	padding-right: 9px;
 }
 
@@ -899,7 +899,7 @@ p.ergebnisAuswahlListeTitelTPop {
 }
 
 .olmap_popup_styling .qtip-content hr {
-	border:0;
+	border: 0;
 	height: 1px;
 	background: rgb(191, 191, 191);
 }
