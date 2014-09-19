@@ -176,7 +176,7 @@ window.apf.hole_artliste_html = function() {
 	if (!window.apf.artliste_html) {
 		var getArtliste = $.ajax({
 			type: 'get',
-			url: 'php/artliste.php',
+			url: 'api/artliste',
 			dataType: 'json'
 		});
 		getArtliste.always(function(data) {
@@ -11940,14 +11940,14 @@ window.apf.erstelleGemeindeliste = function() {
 	if (!window.apf.gemeinden) {
 		var getGemeinden = $.ajax({
 			type: 'get',
-			url: 'php/gemeinden.php',
+			url: 'api/gemeinden',
 			dataType: 'json'
 		});
 		getGemeinden.always(function(data) {
 			if (data) {
 				// Gemeinden bereitstellen
 				// Feld mit Daten beliefern
-                var gemeinden = _.map(data.rows, function(gemeinde) {
+                var gemeinden = _.map(data, function(gemeinde) {
                     if (gemeinde.GmdName) {
                         return gemeinde.GmdName;
                     }
