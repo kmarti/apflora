@@ -149,3 +149,39 @@ server.route({
         );
     }
 });
+
+server.route({
+    method: 'GET',
+    path: '/api/apliste/programm:{programm}',
+    handler: function (request, reply) {
+        switch(request.params.programm) {
+            case 'programm_ap':
+                connectionApflora.query(
+                    "SELECT alexande_beob.ArtenDb_Arteigenschaften.Artname AS ap_name, alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId AS id FROM alexande_beob.ArtenDb_Arteigenschaften INNER JOIN alexande_apflora.tblAktionsplan ON alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId=alexande_apflora.tblAktionsplan.ApArtId WHERE alexande_apflora.tblAktionsplan.ApStatus BETWEEN 1 AND 3 ORDER BY ap_name",
+                    function(err, rows, fields) {
+                        if (err) throw err;
+                        reply(rows);
+                    }
+                );
+            break;
+            case 'programm_alle':
+                connectionApflora.query(
+                    "SELECT alexande_beob.ArtenDb_Arteigenschaften.Artname AS ap_name, alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId AS id FROM alexande_beob.ArtenDb_Arteigenschaften INNER JOIN alexande_apflora.tblAktionsplan ON alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId=alexande_apflora.tblAktionsplan.ApArtId ORDER BY ap_name",
+                    function(err, rows, fields) {
+                        if (err) throw err;
+                        reply(rows);
+                    }
+                );
+            break;
+            default:
+                connectionApflora.query(
+                    "SELECT IF(alexande_beob.ArtenDb_Arteigenschaften.Status is not null, CONCAT(alexande_beob.ArtenDb_Arteigenschaften.Artname, '   ', alexande_beob.ArtenDb_Arteigenschaften.Status), alexande_beob.ArtenDb_Arteigenschaften.Artname) AS ap_name, alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId AS id FROM alexande_beob.ArtenDb_Arteigenschaften WHERE alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId not in (SELECT alexande_apflora.tblAktionsplan.ApArtId FROM alexande_apflora.tblAktionsplan) ORDER BY ap_name",
+                    function(err, rows, fields) {
+                        if (err) throw err;
+                        reply(rows);
+                    }
+                );
+            break;
+        }
+    }
+});

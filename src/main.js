@@ -25031,16 +25031,13 @@ window.apf.erstelle_ap_liste = function(programm) {
 	var apliste_erstellt = $.Deferred(),
 		getApliste = $.ajax({
 			type: 'get',
-			url: 'php/apliste.php',
-			dataType: 'json',
-			data: {
-				"programm": programm
-			}
+			url: 'api/apliste/programm:' + programm,
+			dataType: 'json'
 		});
 	getApliste.always(function(data) {
 		var html;
 		html = "<option></option>";
-        _.each(data.rows, function(ap) {
+        _.each(data, function(ap) {
             html += "<option value=\"" + ap.id + "\">" + ap.ap_name + "</option>";
         });
 		$("#ap_waehlen").html(html);
