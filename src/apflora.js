@@ -113,7 +113,7 @@ window.apf.initiiere_ap = function() {
 				if (!window.apf.adressen_html) {
 					var getAdressen = $.ajax({
 						type: 'get',
-						url: 'php/adressen.php',
+						url: 'api/adressen',
 						dataType: 'json'
 					});
 					getAdressen.always(function(data2) {
@@ -121,7 +121,7 @@ window.apf.initiiere_ap = function() {
 							// Feld mit Daten beliefern
 							var html;
 							html = "<option></option>";
-                            _.each(data2.rows, function(adresse) {
+                            _.each(data2, function(adresse) {
                                 html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
                             });
 							window.apf.adressen_html = html;
@@ -523,7 +523,7 @@ window.apf.initiiere_jber = function() {
 			if (!window.apf.adressen_html) {
 				var getAdressen = $.ajax({
 					type: 'get',
-					url: 'php/adressen.php',
+					url: 'api/adressen',
 					dataType: 'json'
 				});
 				getAdressen.always(function(data2) {
@@ -532,7 +532,7 @@ window.apf.initiiere_jber = function() {
 						// Feld mit Daten beliefern
 						var html;
 						html = "<option></option>";
-                        _.each(data2.rows, function(adresse) {
+                        _.each(data2, function(adresse) {
                             html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
                         });
 						window.apf.adressen_html = html;
@@ -1021,7 +1021,7 @@ window.apf.initiiere_tpop = function(ohne_zu_zeigen) {
 			if (!window.apf.adressen_html) {
 				var getAdressen = $.ajax({
 					type: 'get',
-					url: 'php/adressen.php',
+					url: 'api/adressen',
 					dataType: 'json'
 				});
 				getAdressen.always(function(data2) {
@@ -1032,7 +1032,7 @@ window.apf.initiiere_tpop = function(ohne_zu_zeigen) {
 						// Feld mit Daten beliefern
 						var html;
 						html = "<option></option>";
-                        _.each(data2.rows, function(adresse) {
+                        _.each(data2, function(adresse) {
                             html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
                         });
 						window.apf.adressen_html = html;
@@ -1199,7 +1199,7 @@ window.apf.initiiere_tpopfeldkontr = function() {
 			if (!window.apf.adressen_html) {
 				var getAdressen = $.ajax({
 					type: 'get',
-					url: 'php/adressen.php',
+					url: 'api/adressen',
 					dataType: 'json'
 				});
 				getAdressen.always(function(data2) {
@@ -1207,7 +1207,7 @@ window.apf.initiiere_tpopfeldkontr = function() {
 						// Feld mit Daten beliefern
 						var html;
 						html = "<option></option>";
-                        _.each(data2.rows, function(adresse) {
+                        _.each(data2, function(adresse) {
                             html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
                         });
 						window.apf.adressen_html = html;
@@ -1535,7 +1535,7 @@ window.apf.initiiere_tpopmassn = function() {
 			if (!window.apf.adressen_html) {
 				var getAdressen = $.ajax({
 					type: 'get',
-					url: 'php/adressen.php',
+					url: 'api/adressen',
 					dataType: 'json'
 				});
 				getAdressen.always(function(data2) {
@@ -1543,7 +1543,7 @@ window.apf.initiiere_tpopmassn = function() {
 						// Feld mit Daten beliefern
 						var html;
 						html = "<option></option>";
-                        _.each(data2.rows, function(adresse) {
+                        _.each(data2, function(adresse) {
                             html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
                         });
 						window.apf.adressen_html = html;

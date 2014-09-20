@@ -201,3 +201,17 @@ server.route({
         );
     }
 });
+
+server.route({
+    method: 'GET',
+    path: '/api/adressen',
+    handler: function (request, reply) {
+        connectionApflora.query(
+                'SELECT AdrId AS id, AdrName FROM tblAdresse ORDER BY AdrName',
+            function(err, data) {
+                if (err) throw err;
+                reply(data);
+            }
+        );
+    }
+});
