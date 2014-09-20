@@ -2117,7 +2117,7 @@ window.apf.erstelle_ap_liste = function(programm) {
 	var apliste_erstellt = $.Deferred(),
 		getApliste = $.ajax({
 			type: 'get',
-			url: 'api/apliste/programm:' + programm,
+			url: 'api/apliste/programm=' + programm,
 			dataType: 'json'
 		});
 	getApliste.always(function(data) {
@@ -12080,34 +12080,31 @@ window.apf.kopiereKoordinatenInPop = function(x_koord, y_koord) {
 
 window.apf.prüfeAnmeldung = function() {
 	'use strict';
+    var $anmeldung_name = $("#anmeldung_name").val(),
+        $anmeldung_passwort = $("#anmeldung_passwort").val();
 	// Leserechte zurücksetzen
 	delete sessionStorage.NurLesen;
-	if ($("#anmeldung_name").val() && $("#anmeldung_passwort").val()) {
+	if ($anmeldung_name && $anmeldung_passwort) {
 		var getAnmeldung = $.ajax({
 			type: 'get',
-			url: 'php/anmeldung.php',
-			dataType: 'json',
-			data: {
-				"Name": $("#anmeldung_name").val(),
-				"pwd": $("#anmeldung_passwort").val()
-			}
+			url: 'api/anmeldung/name=' + $anmeldung_name + '/pwd=' + $anmeldung_passwort,
+			dataType: 'json'
 		});
 		getAnmeldung.always(function(data) {
-			if (data && data.anzUser > 0) {
-				sessionStorage.User = $("#anmeldung_name").val();
+            console.log('data.length', data.length);
+			if (data && data.length > 0) {
+				sessionStorage.User = $anmeldung_name;
 				// wenn NurLesen, globale Variable setzen
-				if (data.NurLesen && data.NurLesen === -1) {
+				if (data[0].NurLesen === -1) {
 					sessionStorage.NurLesen = true;
 				}
 				$("#anmeldung_rueckmeldung")
-                    .html("Willkommen " + $("#anmeldung_name")
-                        .val())
+                    .html("Willkommen " + $anmeldung_name)
                     .addClass("ui-state-highlight");
 				setTimeout(function() {
 					$("#anmelde_dialog").dialog("close", 2000);
 				}, 1000);
 			} else {
-				alert("Anmeldung gescheitert");
 				$("#anmeldung_rueckmeldung")
                     .html("Anmeldung gescheitert")
                     .addClass("ui-state-highlight");

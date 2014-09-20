@@ -8,7 +8,7 @@ var _ = require('underscore')
 
 module.exports = {
     init: function() {
-        console.log('app.js running');
+        //console.log('app.js running');
         var self = window.app = this;
         //this.router = new Router();
         // wait for document ready to render our main view
