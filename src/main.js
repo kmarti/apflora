@@ -23006,23 +23006,20 @@ window.apf.initiiere_ap = function() {
 		// Daten für den ap aus der DB holen
 		var getAp = $.ajax({
 			type: 'get',
-			url: 'php/ap.php',
-			dataType: 'json',
-			data: {
-				"id": localStorage.ap_id
-			}
+			url: 'ap=' + localStorage.ap_id,
+			dataType: 'json'
 		});
 		getAp.always(function(data) {
 			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data) {
+			if (data && data[0]) {
 				// ap bereitstellen
-				window.apf.ap = data;
+				window.apf.ap = data[0];
 				// Felder mit Daten beliefern
-				$("#ApStatus" + data.ApStatus).prop("checked", true);
-				$("#ApUmsetzung" + data.ApUmsetzung).prop("checked", true);
-				$("#ApJahr").val(data.ApJahr);
-				$("#ApArtwert").val(data.ApArtwert);
-				$("#Artname").val(data.Artname);
+				$("#ApStatus" + data[0].ApStatus).prop("checked", true);
+				$("#ApUmsetzung" + data[0].ApUmsetzung).prop("checked", true);
+				$("#ApJahr").val(data[0].ApJahr);
+				$("#ApArtwert").val(data[0].ApArtwert);
+				$("#Artname").val(data[0].Artname);
 				// ApBearb: Daten holen - oder vorhandene nutzen
 				if (!window.apf.adressen_html) {
 					var getAdressen = $.ajax({
@@ -23067,17 +23064,14 @@ window.apf.setzeWindowAp = function(id) {
 	localStorage.ap_id = id;
 	var getAp = $.ajax({
 		type: 'get',
-		url: 'php/ap.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.ap_id
-		}
+		url: 'ap=' + localStorage.ap_id,
+		dataType: 'json'
 	});
 	getAp.always(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
+		if (data && data[0]) {
 			// ap bereitstellen
-			window.apf.ap = data;
+			window.apf.ap = data[0];
 		}
 	});
 };
