@@ -39,6 +39,7 @@ var  _ = require('underscore')
     , serverMethodAdressen = require('./serverMethods/adressen')
     , queryAp = require('./queries/ap')
     , queryAssozArt = require('./queries/assozArt')
+    , queryIdealbiotop = require('./queries/idealbiotop')
     , queryAnmeldung = require('./queries/anmeldung')
     , treeAssozarten = require('./queries/tree/assozarten')
     , treeIdealbiotop = require('./queries/tree/idealbiotop')
@@ -206,5 +207,13 @@ server.route({
     path: '/ap={apId}/assozart={assozArtId}',
     handler: function (request, reply) {
         queryAssozArt(connectionApflora, request, reply);
+    }
+});
+
+server.route({
+    method: 'GET',
+    path: '/ap={apId}/idealbiotop',
+    handler: function (request, reply) {
+        queryIdealbiotop(connectionApflora, request, reply);
     }
 });

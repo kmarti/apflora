@@ -23637,16 +23637,14 @@ window.apf.initiiere_idealbiotop = function() {
 	// Daten für die idealbiotop aus der DB holen
 	var getIdealbiotop = $.ajax({
             type: 'get',
-            url: 'php/idealbiotop.php',
-            dataType: 'json',
-            data: {
-                "id": localStorage.ap_id
-            }
+            url: 'ap=' + localStorage.ap_id + '/idealbiotop',
+            dataType: 'json'
         }),
         $IbErstelldatum = $("#IbErstelldatum");
 	getIdealbiotop.always(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
+		if (data && data[0]) {
+            data = data[0];
 			// idealbiotop bereitstellen
 			localStorage.idealbiotop_id = data.IbApArtId;
 			window.apf.idealbiotop = data;
@@ -23714,17 +23712,14 @@ window.apf.setzeWindowIdealbiotop = function(id) {
 	localStorage.idealbiotop_id = id;
 	var getIdealbiotop = $.ajax({
 		type: 'get',
-		url: 'php/idealbiotop.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.idealbiotop_id
-		}
+		url: 'ap=' + localStorage.idealbiotop_id + '/idealbiotop.php',
+		dataType: 'json'
 	});
 	getIdealbiotop.always(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
+		if (data && data[0]) {
 			// idealbiotop bereitstellen
-			window.apf.idealbiotop = data;
+			window.apf.idealbiotop = data[0];
 		}
 	});
 };
