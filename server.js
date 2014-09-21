@@ -32,6 +32,11 @@ var  _ = require('underscore')
         password: 'y3oYksFsQL49es9x',
         database: 'alexande_views'
     })
+
+    , serverMethodGemeinden = require('./serverMethods/gemeinden')
+    , serverMethodArtliste = require('./serverMethods/artliste')
+    , serverMethodApliste = require('./serverMethods/apliste')
+    , serverMethodAdressen = require('./serverMethods/adressen')
     ;
 
 connectionApflora.connect();
@@ -103,6 +108,12 @@ server.route({
     }
 });
 
+
+
+server.method('gemeinden', serverMethodGemeinden, {
+    cache: { expiresIn: 8 * 60 * 60 * 1000 }
+});
+
 server.route({
     method: 'GET',
     path: '/api/gemeinden',
@@ -129,60 +140,33 @@ server.route({
          * Beispiel: BeoListe, FeldListe, tree
          */
 
-        connectionApflora.query('SELECT GmdName FROM DomainGemeinden ORDER BY GmdName', function(err, data) {
-            if (err) throw err;
-            reply(data);
-        });
+        server.methods.gemeinden('gemeinden', connectionApflora, request, reply);
     }
+});
+
+server.method('artliste', serverMethodArtliste, {
+    cache: { expiresIn: 8 * 60 * 60 * 1000 }
 });
 
 server.route({
     method: 'GET',
     path: '/api/artliste',
-    handler: function (request, reply) {
-        connectionBeob.query(
-            "SELECT TaxonomieId, IF(Status Is Not Null, CONCAT(Artname, '   ', Status), Artname) AS Artname FROM ArtenDb_Arteigenschaften ORDER BY Artname",
-            function(err, data) {
-                if (err) throw err;
-                reply(data);
-            }
-        );
+    config: {
+        handler: function (request, reply) {
+            server.methods.artliste('artliste', connectionBeob, request, reply);
+        }
     }
+});
+
+server.method('apliste', serverMethodApliste, {
+    cache: { expiresIn: 8 * 60 * 60 * 1000 }
 });
 
 server.route({
     method: 'GET',
     path: '/api/apliste/programm={programm}',
     handler: function (request, reply) {
-        switch(decodeURIComponent(request.params.programm)) {
-            case 'programm_ap':
-                connectionApflora.query(
-                    "SELECT alexande_beob.ArtenDb_Arteigenschaften.Artname AS ap_name, alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId AS id FROM alexande_beob.ArtenDb_Arteigenschaften INNER JOIN alexande_apflora.tblAktionsplan ON alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId=alexande_apflora.tblAktionsplan.ApArtId WHERE alexande_apflora.tblAktionsplan.ApStatus BETWEEN 1 AND 3 ORDER BY ap_name",
-                    function(err, data) {
-                        if (err) throw err;
-                        reply(data);
-                    }
-                );
-            break;
-            case 'programm_alle':
-                connectionApflora.query(
-                    "SELECT alexande_beob.ArtenDb_Arteigenschaften.Artname AS ap_name, alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId AS id FROM alexande_beob.ArtenDb_Arteigenschaften INNER JOIN alexande_apflora.tblAktionsplan ON alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId=alexande_apflora.tblAktionsplan.ApArtId ORDER BY ap_name",
-                    function(err, data) {
-                        if (err) throw err;
-                        reply(data);
-                    }
-                );
-            break;
-            default:
-                connectionApflora.query(
-                    "SELECT IF(alexande_beob.ArtenDb_Arteigenschaften.Status is not null, CONCAT(alexande_beob.ArtenDb_Arteigenschaften.Artname, '   ', alexande_beob.ArtenDb_Arteigenschaften.Status), alexande_beob.ArtenDb_Arteigenschaften.Artname) AS ap_name, alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId AS id FROM alexande_beob.ArtenDb_Arteigenschaften WHERE alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId not in (SELECT alexande_apflora.tblAktionsplan.ApArtId FROM alexande_apflora.tblAktionsplan) ORDER BY ap_name",
-                    function(err, data) {
-                        if (err) throw err;
-                        reply(data);
-                    }
-                );
-            break;
-        }
+        server.methods.apliste('apliste', connectionApflora, request, reply);
     }
 });
 
@@ -202,17 +186,15 @@ server.route({
     }
 });
 
+server.method('adressen', serverMethodAdressen, {
+    cache: { expiresIn: 60 * 1000 }
+});
+
 server.route({
     method: 'GET',
     path: '/api/adressen',
     handler: function (request, reply) {
-        connectionApflora.query(
-                'SELECT AdrId AS id, AdrName FROM tblAdresse ORDER BY AdrName',
-            function(err, data) {
-                if (err) throw err;
-                reply(data);
-            }
-        );
+        server.methods.adressen('adressen', connectionApflora, request, reply);
     }
 });
 
