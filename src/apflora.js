@@ -176,8 +176,8 @@ window.apf.hole_artliste_html = function() {
 		getArtliste.always(function(data) {
 			var html;
 			html = "<option></option>";
-            _.each(data.rows, function(art) {
-                html += "<option value=\"" + art.id + "\">" + art.Artname + "</option>";
+            _.each(data, function(art) {
+                html += "<option value=\"" + art.TaxonomieId + "\">" + art.Artname + "</option>";
             });
 			window.apf.artliste_html = html;
 			liste_geholt.resolve();
@@ -827,21 +827,18 @@ window.apf.initiiere_assozarten = function() {
 	// Daten für die assozarten aus der DB holen
 	var getAssozarten = $.ajax({
             type: 'get',
-            url: 'php/assozarten.php',
-            dataType: 'json',
-            data: {
-                "id": localStorage.assozarten_id
-            }
+            url: 'ap=' + localStorage.ap_id + '/assozart=' + localStorage.assozarten_id,
+            dataType: 'json'
         }),
         $AaSisfNr = $("#AaSisfNr");
 	getAssozarten.always(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
+		if (data && data.length > 0) {
 			// assozarten bereitstellen
-			window.apf.assozarten = data;
+			window.apf.assozarten = data[0];
 			// Felder mit Daten beliefern
-            $AaSisfNr.val(data.AaSisfNr);
-			$("#AaBem").val(data.AaBem);
+            $AaSisfNr.val(data[0].AaSisfNr);
+			$("#AaBem").val(data[0].AaBem);
 			// Formulare blenden
 			window.apf.zeigeFormular("assozarten");
 			history.replaceState({assozarten: "assozarten"}, "assozarten", "index.html?ap=" + localStorage.ap_id + "&assozarten=" + localStorage.assozarten_id);
@@ -860,11 +857,8 @@ window.apf.setzeWindowAssozarten = function(id) {
 	localStorage.assozarten_id = id;
 	var getAssozarten = $.ajax({
 		type: 'get',
-		url: 'php/assozarten.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.assozarten_id
-		}
+		url: 'ap=' + localStorage.ap_id + '/assozart=' + localStorage.assozarten_id,
+		dataType: 'json'
 	});
 	getAssozarten.always(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
