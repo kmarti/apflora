@@ -4585,12 +4585,8 @@ window.apf.treeKontextmenu = function(node) {
 				"action": function() {
 					var insertAssozarten = $.ajax({
 						type: 'post',
-						url: 'php/assozarten_insert.php',
-						dataType: 'json',
-						data: {
-							"id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-							"user": sessionStorage.User
-						}
+						url: 'api/ap=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/assozart-neu/user=' + sessionStorage.User,
+						dataType: 'json'
 					});
 					insertAssozarten.always(function(id) {
 						var strukturtyp = "assozarten",
@@ -4613,13 +4609,8 @@ window.apf.treeKontextmenu = function(node) {
 				"action": function() {
 					var insertAssozarten_2 = $.ajax({
 						type: 'post',
-						url: 'php/assozarten_insert.php',
-						dataType: 'json',
-						data: {
-							"id": window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")),
-							"typ": "assozarten",
-							"user": sessionStorage.User
-						}
+						url: 'api/ap=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/assozart-neu/user=' + sessionStorage.User,
+						dataType: 'json'
 					});
 					insertAssozarten_2.always(function(id) {
 						var strukturtyp = "assozarten",

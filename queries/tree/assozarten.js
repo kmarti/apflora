@@ -33,7 +33,7 @@ function buildChildFromData(data) {
         object;
     _.each(data, function(assArt) {
         object = {};
-        object.data = assArt.Artname;
+        object.data = assArt.Artname || '(keine Art gewählt)';
         object.attr = {
             id: assArt.AaId,
             typ: 'assozarten'

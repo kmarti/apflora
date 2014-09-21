@@ -39,6 +39,7 @@ var  _ = require('underscore')
     , serverMethodAdressen = require('./serverMethods/adressen')
     , queryAp = require('./queries/ap')
     , queryAssozArt = require('./queries/assozArt')
+    , queryAssozArtInsert = require('./queries/assozArtInsert')
     , queryIdealbiotop = require('./queries/idealbiotop')
     , queryAnmeldung = require('./queries/anmeldung')
     , treeAssozarten = require('./queries/tree/assozarten')
@@ -207,6 +208,14 @@ server.route({
     path: '/ap={apId}/assozart={assozArtId}',
     handler: function (request, reply) {
         queryAssozArt(connectionApflora, request, reply);
+    }
+});
+
+server.route({
+    method: 'POST',
+    path: '/api/ap={apId}/assozart-neu/user={user}',
+    handler: function (request, reply) {
+        queryAssozArtInsert(connectionApflora, request, reply);
     }
 });
 
