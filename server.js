@@ -39,6 +39,8 @@ var  _ = require('underscore')
     , serverMethodAdressen = require('./serverMethods/adressen')
     , queryAp = require('./queries/ap')
     , queryAnmeldung = require('./queries/anmeldung')
+    , treeAssozarten = require('./queries/tree/assozarten')
+    , treeIdealbiotop = require('./queries/tree/idealbiotop')
     ;
 
 connectionApflora.connect();
@@ -178,4 +180,22 @@ server.route({
     handler: function (request, reply) {
         queryAp(connectionApflora, request, reply);
     }
+});
+
+server.route({
+    method: 'GET',
+    path: '/api/tree/ap={id}',
+    config: {
+        pre: [
+            [
+                { method: treeAssozarten, assign: 'assozarten' },
+                { method: treeIdealbiotop, assign: 'idealbiotop' }
+            ]
+
+        ],
+        handler: function (request, reply) {
+            reply([request.pre.idealbiotop, request.pre.assozarten]);
+        }
+    }
+
 });

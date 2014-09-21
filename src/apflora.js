@@ -2165,13 +2165,8 @@ window.apf.erstelle_tree = function(ApArtId) {
 	$("#tree").jstree({
 		"json_data": {
 			"ajax": {
-				"url": "php/tree.php",
-				"progressive_render": true,
-				"data" : function(n) {
-					return {
-						id : ApArtId
-					};
-				}
+				"url": "api/tree/ap=" + ApArtId,
+				"progressive_render": true
 			}
 		},
 		"core": {
