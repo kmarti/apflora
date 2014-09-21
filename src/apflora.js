@@ -12085,7 +12085,6 @@ window.apf.prüfeAnmeldung = function() {
 			dataType: 'json'
 		});
 		getAnmeldung.always(function(data) {
-            console.log('data.length', data.length);
 			if (data && data.length > 0) {
 				sessionStorage.User = $anmeldung_name;
 				// wenn NurLesen, globale Variable setzen

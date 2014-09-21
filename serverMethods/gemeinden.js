@@ -2,7 +2,7 @@
 
 var mysql = require('mysql');
 
-var gemeinden = function(cacheId, connection, request, callback) {
+var gemeinden = function(connection, request, callback) {
     connection.query(
         'SELECT GmdName FROM DomainGemeinden ORDER BY GmdName',
         function(err, data) {

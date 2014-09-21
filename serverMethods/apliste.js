@@ -2,7 +2,7 @@
 
 var mysql = require('mysql');
 
-var apliste = function(cacheId, connection, request, callback) {
+var apliste = function(connection, request, callback) {
     switch(decodeURIComponent(request.params.programm)) {
         case 'programm_ap':
             connection.query(
