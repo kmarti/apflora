@@ -38,8 +38,9 @@ var  _ = require('underscore')
     , serverMethodApliste = require('./serverMethods/apliste')
     , serverMethodAdressen = require('./serverMethods/adressen')
     , queryAp = require('./queries/ap')
-    , queryAssozArt = require('./queries/assozArt')
-    , queryAssozArtInsert = require('./queries/assozArtInsert')
+    , queryAssozart = require('./queries/assozart')
+    , queryAssozartInsert = require('./queries/assozartInsert')
+    , queryAssozartUpdate = require('./queries/assozartUpdate')
     , queryIdealbiotop = require('./queries/idealbiotop')
     , queryAnmeldung = require('./queries/anmeldung')
     , treeAssozarten = require('./queries/tree/assozarten')
@@ -207,7 +208,7 @@ server.route({
     method: 'GET',
     path: '/ap={apId}/assozart={assozArtId}',
     handler: function (request, reply) {
-        queryAssozArt(connectionApflora, request, reply);
+        queryAssozart(connectionApflora, request, reply);
     }
 });
 
@@ -215,7 +216,15 @@ server.route({
     method: 'POST',
     path: '/api/ap={apId}/assozart-neu/user={user}',
     handler: function (request, reply) {
-        queryAssozArtInsert(connectionApflora, request, reply);
+        queryAssozartInsert(connectionApflora, request, reply);
+    }
+});
+
+server.route({
+    method: 'PUT',
+    path: '/api/assozart={assozArtId}/user={user}',
+    handler: function (request, reply) {
+        queryAssozartUpdate(connectionApflora, request, reply);
     }
 });
 

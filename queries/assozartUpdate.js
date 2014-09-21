@@ -2,7 +2,7 @@
 
 var mysql = require('mysql');
 
-var assozartInsert = function(connection, request, callback) {
+var assozartUpdate = function(connection, request, callback) {
     var apId = decodeURIComponent(request.params.apId),
         user = decodeURIComponent(request.params.user),
         date = new Date().toISOString();
@@ -16,4 +16,4 @@ var assozartInsert = function(connection, request, callback) {
     );
 };
 
-module.exports = assozartInsert;
+module.exports = assozartUpdate;

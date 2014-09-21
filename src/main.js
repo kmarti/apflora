@@ -30113,7 +30113,7 @@ window.apf.speichern = function(that) {
 		}
 		var updateFormular = $.ajax({
 			type: 'post',
-			url: 'php/' + Formular + '_update.php',
+			url: 'api/ap=' + localStorage.ap_id + '/' + Formular + 'Update',
 			dataType: 'json',
 			data: {
 				"id": localStorage[Formular + "_id"],

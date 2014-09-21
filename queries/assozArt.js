@@ -2,10 +2,10 @@
 
 var mysql = require('mysql');
 
-var assozArt = function(connection, request, callback) {
-    var assozArtId = decodeURIComponent(request.params.assozArtId);
+var assozart = function(connection, request, callback) {
+    var assozartId = decodeURIComponent(request.params.assozArtId);
     connection.query(
-        'SELECT * FROM tblAssozArten WHERE AaId=' + assozArtId,
+        'SELECT * FROM tblAssozArten WHERE AaId=' + assozartId,
         function(err, data) {
             if (err) throw err;
             callback(data);
@@ -13,4 +13,4 @@ var assozArt = function(connection, request, callback) {
     );
 };
 
-module.exports = assozArt;
+module.exports = assozart;
