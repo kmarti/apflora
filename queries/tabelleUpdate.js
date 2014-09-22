@@ -8,17 +8,18 @@
 var mysql = require('mysql');
 
 var tabelleUpdate = function(connection, request, callback) {
-    var tabelle = decodeURIComponent(request.params.tabelle),
-        tabelleIdFeld = decodeURIComponent(request.params.tabelleIdFeld),
-        tabelleId = decodeURIComponent(request.params.tabelleId),
-        feld = decodeURIComponent(request.params.feld),
-        wert = decodeURIComponent(request.params.wert),
-        user = decodeURIComponent(request.params.user),
-        date = new Date().toISOString(),
-        sql = 'UPDATE ' + tabelle + ' SET ' + feld + '="' + wert + '", MutWann="' + date + '", MutWer="' + user + '" WHERE ' + tabelleIdFeld + ' = ' + tabelleId;
-    // Ist ein Feld neu leer, muss NULL übergeben werden
-    // wert ist dann 'undefined'
+    var tabelle       = decodeURIComponent(request.params.tabelle),       // der Name der Tabelle, in der die Daten gespeichert werden sollen
+        tabelleIdFeld = decodeURIComponent(request.params.tabelleIdFeld), // das ist der Name der ID der Tabelle
+        tabelleId     = decodeURIComponent(request.params.tabelleId),     // der Wert der ID
+        feld          = decodeURIComponent(request.params.feld),          // der Name des Felds, dessen Daten gespeichert werden sollen
+        wert          = decodeURIComponent(request.params.wert),          // der Wert, der gespeichert werden soll
+        user          = decodeURIComponent(request.params.user),          // der Benutzername
+        date          = new Date().toISOString(),                         // wann gespeichert wird
+        sql           = 'UPDATE ' + tabelle + ' SET ' + feld + '="' + wert + '", MutWann="' + date + '", MutWer="' + user + '" WHERE ' + tabelleIdFeld + ' = ' + tabelleId;
+
+    // Ist ein Feld neu leer, muss NULL übergeben werden. wert ist dann 'undefined'
     if (wert === 'undefined') sql = 'UPDATE ' + tabelle + ' SET ' + feld + '= NULL, MutWann="' + date + '", MutWer="' + user + '" WHERE ' + tabelleIdFeld + ' = ' + tabelleId;
+
     connection.query(
         sql,
         function(err, data) {

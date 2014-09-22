@@ -726,7 +726,8 @@ window.apf.initiiere_idealbiotop = function() {
             url: 'ap=' + localStorage.ap_id + '/idealbiotop',
             dataType: 'json'
         }),
-        $IbErstelldatum = $("#IbErstelldatum");
+        $IbErstelldatum = $("#IbErstelldatum"),
+        dateFormat = require('dateformat');
 	getIdealbiotop.always(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data && data[0]) {
@@ -735,10 +736,10 @@ window.apf.initiiere_idealbiotop = function() {
 			localStorage.idealbiotop_id = data.IbApArtId;
 			window.apf.idealbiotop = data;
 			// Felder mit Daten beliefern
-			if (data.IbErstelldatum !== "01.01.1970") {
+			//if (data.IbErstelldatum !== "01.01.1970") {
 				// php macht aus einem Nullwert im Datum den 1.1.1970!!!
-				$("#IbErstelldatum").val(data.IbErstelldatum);
-			}
+				$("#IbErstelldatum").val(dateFormat(data.IbErstelldatum, 'dd.mm.yyyy'));
+			//}
 			$("#IbHoehenlage").val(data.IbHoehenlage);
 			$("#IbRegion").val(data.IbRegion);
 			$("#IbExposition").val(data.IbExposition);
