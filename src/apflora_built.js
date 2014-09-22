@@ -23651,10 +23651,7 @@ window.apf.initiiere_idealbiotop = function() {
 			localStorage.idealbiotop_id = data.IbApArtId;
 			window.apf.idealbiotop = data;
 			// Felder mit Daten beliefern
-			//if (data.IbErstelldatum !== "01.01.1970") {
-				// php macht aus einem Nullwert im Datum den 1.1.1970!!!
-				$("#IbErstelldatum").val(dateFormat(data.IbErstelldatum, 'dd.mm.yyyy'));
-			//}
+			if (data.IbErstelldatum) $("#IbErstelldatum").val(dateFormat(data.IbErstelldatum, 'dd.mm.yyyy'));
 			$("#IbHoehenlage").val(data.IbHoehenlage);
 			$("#IbRegion").val(data.IbRegion);
 			$("#IbExposition").val(data.IbExposition);
