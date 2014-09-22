@@ -38,11 +38,9 @@ var  _       = require('underscore')
     , serverMethodApliste   = require('./serverMethods/apliste')
     , serverMethodAdressen  = require('./serverMethods/adressen')
     , queryAp               = require('./queries/ap')
-    , queryAssozart         = require('./queries/assozart')
-    , queryAssozartInsert   = require('./queries/assozartInsert')
+    , queryTabelleSelect    = require('./queries/tabelleSelect')
     , queryTabelleInsert    = require('./queries/tabelleInsert')
     , queryTabelleUpdate    = require('./queries/tabelleUpdate')
-    , queryIdealbiotop      = require('./queries/idealbiotop')
     , queryAnmeldung        = require('./queries/anmeldung')
     , treeAssozarten        = require('./queries/tree/assozarten')
     , treeIdealbiotop       = require('./queries/tree/idealbiotop')
@@ -212,9 +210,9 @@ server.route({
 
 server.route({
     method: 'GET',
-    path: '/ap={apId}/assozart={assozArtId}',
+    path: '/api/select/tabelle={tabelle}/tabelleIdFeld={tabelleIdFeld}/tabelleId={tabelleId}',
     handler: function (request, reply) {
-        queryAssozart(connectionApflora, request, reply);
+        queryTabelleSelect(connectionApflora, request, reply);
     }
 });
 
@@ -231,21 +229,5 @@ server.route({
     path: '/api/insert/tabelle={tabelle}/feld={feld}/wert={wert}/user={user}',
     handler: function (request, reply) {
         queryTabelleInsert(connectionApflora, request, reply);
-    }
-});
-
-server.route({
-    method: 'POST',
-    path: '/api/ap={apId}/assozart-neu/user={user}',
-    handler: function (request, reply) {
-        queryAssozartInsert(connectionApflora, request, reply);
-    }
-});
-
-server.route({
-    method: 'GET',
-    path: '/ap={apId}/idealbiotop',
-    handler: function (request, reply) {
-        queryIdealbiotop(connectionApflora, request, reply);
     }
 });

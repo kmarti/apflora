@@ -711,8 +711,6 @@ window.apf.setzeWindowBer = function(id) {
 	});
 };
 
-window.apf.initiiere_iealbiotop = require('./modules/initiiereIdealbiotop');
-
 // setzt window.apf.idealbiotop und localStorage.idealbiotop_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowIdealbiotop = function(id) {
@@ -720,7 +718,7 @@ window.apf.setzeWindowIdealbiotop = function(id) {
 	localStorage.idealbiotop_id = id;
 	var getIdealbiotop = $.ajax({
 		type: 'get',
-		url: 'ap=' + localStorage.idealbiotop_id + '/idealbiotop.php',
+		url: '/api/select/tabelle=tblIdealbiotop/tabelleIdFeld=IbApArtId/tabelleId=' + localStorage.idealbiotop_id,
 		dataType: 'json'
 	});
 	getIdealbiotop.always(function(data) {
@@ -744,7 +742,7 @@ window.apf.initiiere_assozarten = function() {
 	// Daten für die assozarten aus der DB holen
 	var getAssozarten = $.ajax({
             type: 'get',
-            url: 'ap=' + localStorage.ap_id + '/assozart=' + localStorage.assozarten_id,
+            url: '/api/select/tabelle=tblAssozArten/tabelleIdFeld=AaId/tabelleId=' + localStorage.assozarten_id,
             dataType: 'json'
         }),
         $AaSisfNr = $("#AaSisfNr");
@@ -774,7 +772,7 @@ window.apf.setzeWindowAssozarten = function(id) {
 	localStorage.assozarten_id = id;
 	var getAssozarten = $.ajax({
 		type: 'get',
-		url: 'ap=' + localStorage.ap_id + '/assozart=' + localStorage.assozarten_id,
+		url: '/api/select/tabelle=tblAssozArten/tabelleIdFeld=AaId/tabelleId=' + localStorage.assozarten_id,
 		dataType: 'json'
 	});
 	getAssozarten.always(function(data) {
@@ -2580,7 +2578,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 	})
 	.bind("select_node.jstree", function(e, data) {
 		var node;
-        window.apf.initiiere_idealbiotop = require('initiiereIdealbiotop');
+        window.apf.initiiere_idealbiotop = require('./modules/initiiereIdealbiotop');
 		delete localStorage.tpopfreiwkontr;	// Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
 		var node_typ = node.attr("typ");
@@ -10079,7 +10077,7 @@ window.apf.öffneUri = function() {
 	var uri = new Uri($(location).attr('href')),
 		anchor = uri.anchor() || null,
 		ap_id = uri.getQueryParamValue('ap');
-    window.apf.initiiere_idealbiotop = require('initiiereIdealbiotop');
+    window.apf.initiiere_idealbiotop = require('./modules/initiiereIdealbiotop');
 	if (ap_id) {
 		// globale Variablen setzen
 		window.apf.setzeWindowAp(ap_id);

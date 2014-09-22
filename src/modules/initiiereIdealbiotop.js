@@ -15,7 +15,7 @@ var initiiereIdealbiotop = function() {
     // Daten für die idealbiotop aus der DB holen
     var getIdealbiotop = $.ajax({
             type: 'get',
-            url: 'ap=' + localStorage.ap_id + '/idealbiotop',
+            url: '/api/select/tabelle=tblIdealbiotop/tabelleIdFeld=IbApArtId/tabelleId=' + localStorage.ap_id,
             dataType: 'json'
         }),
         $IbErstelldatum = $("#IbErstelldatum");
