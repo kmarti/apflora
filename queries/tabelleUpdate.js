@@ -8,15 +8,19 @@
 var mysql = require('mysql');
 
 var tabelleUpdate = function(connection, request, callback) {
-    var apId = decodeURIComponent(request.params.apId),
+    var tabelle = decodeURIComponent(request.params.tabelle),
+        tabelleIdFeld = decodeURIComponent(request.params.tabelleIdFeld),
+        tabelleId = decodeURIComponent(request.params.tabelleId),
         feld = decodeURIComponent(request.params.feld),
         wert = decodeURIComponent(request.params.wert),
         user = decodeURIComponent(request.params.user),
-        date = new Date().toISOString();
-    if (wert === null) wert = 'NULL';
-    console.log('date', date);
+        date = new Date().toISOString(),
+        sql = 'UPDATE ' + tabelle + ' SET ' + feld + '="' + wert + '", MutWann="' + date + '", MutWer="' + user + '" WHERE ' + tabelleIdFeld + ' = ' + tabelleId;
+    // Ist ein Feld neu leer, muss NULL übergeben werden
+    // wert ist dann 'undefined'
+    if (wert === 'undefined') sql = 'UPDATE ' + tabelle + ' SET ' + feld + '= NULL, MutWann="' + date + '", MutWer="' + user + '" WHERE ' + tabelleIdFeld + ' = ' + tabelleId;
     connection.query(
-        'UPDATE tblAssozArten SET ' + feld + '="' + wert + '", MutWann="' + date + '", MutWer="' + user + '" WHERE AaId = ' + apId,
+        sql,
         function(err, data) {
             if (err) throw err;
             callback(data);

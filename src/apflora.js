@@ -7147,7 +7147,7 @@ window.apf.speichern = function(that) {
 	var feldtyp,
         formular,
         tabelleInDb,
-        idInTabelle,
+        tabelleIdFeld,
         feldname,
         feldwert,
         objekt,
@@ -7178,7 +7178,7 @@ window.apf.speichern = function(that) {
 		formular = $(that).attr("formular");
         // die zu aktualisierende Tabelle in der DB
         tabelleInDb = configuration.forms[formular].tabelleInDb;
-        idInTabelle = configuration.forms[formular].idInTabelle;
+        tabelleIdFeld = configuration.forms[formular].tabelleIdFeld;
 		feldname = that.name;
 		feldtyp = $(that).attr("type") || null;
 		// Feldwert ermitteln
@@ -7206,7 +7206,7 @@ window.apf.speichern = function(that) {
 		}
 		var updateFormular = $.ajax({
 			type: 'post',
-			url: 'api/ap=' + localStorage.ap_id + '/tabelle=' + tabelleInDb + '/tabelle-id=' + idInTabelle + '/feld=' + feldname + '/wert=' + feldwert + '/user=' + sessionStorage.User,
+			url: 'api/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + localStorage[formular + "_id"] + '/feld=' + feldname + '/wert=' + feldwert + '/user=' + sessionStorage.User,
 			dataType: 'json'
 		});
 		updateFormular.always(function() {

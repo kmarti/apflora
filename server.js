@@ -3,9 +3,8 @@
  */
 
 'use strict';
-var  _ = require('underscore')
-    , config = require('./src/modules/configuration')
-    , Hapi = require('hapi')
+var  _       = require('underscore')
+    , Hapi   = require('hapi')
     , server = new Hapi.Server(
         'localhost',
         4000,
@@ -14,7 +13,8 @@ var  _ = require('underscore')
         }
     )
     //, moonbootsConfig = require('./moonbootsConfig')
-    , mysql = require('mysql')
+    , mysql  = require('mysql')
+    , config = require('./src/modules/configuration')
     , connectionApflora = mysql.createConnection({
         host: 'localhost',
         user: config.db.userName,
@@ -33,19 +33,18 @@ var  _ = require('underscore')
         password: config.db.passWord,
         database: 'alexande_views'
     })
-
     , serverMethodGemeinden = require('./serverMethods/gemeinden')
-    , serverMethodArtliste = require('./serverMethods/artliste')
-    , serverMethodApliste = require('./serverMethods/apliste')
-    , serverMethodAdressen = require('./serverMethods/adressen')
-    , queryAp = require('./queries/ap')
-    , queryAssozart = require('./queries/assozart')
-    , queryAssozartInsert = require('./queries/assozartInsert')
-    , queryTabelleUpdate = require('./queries/tabelleUpdate')
-    , queryIdealbiotop = require('./queries/idealbiotop')
-    , queryAnmeldung = require('./queries/anmeldung')
-    , treeAssozarten = require('./queries/tree/assozarten')
-    , treeIdealbiotop = require('./queries/tree/idealbiotop')
+    , serverMethodArtliste  = require('./serverMethods/artliste')
+    , serverMethodApliste   = require('./serverMethods/apliste')
+    , serverMethodAdressen  = require('./serverMethods/adressen')
+    , queryAp               = require('./queries/ap')
+    , queryAssozart         = require('./queries/assozart')
+    , queryAssozartInsert   = require('./queries/assozartInsert')
+    , queryTabelleUpdate    = require('./queries/tabelleUpdate')
+    , queryIdealbiotop      = require('./queries/idealbiotop')
+    , queryAnmeldung        = require('./queries/anmeldung')
+    , treeAssozarten        = require('./queries/tree/assozarten')
+    , treeIdealbiotop       = require('./queries/tree/idealbiotop')
     ;
 
 connectionApflora.connect();
@@ -62,6 +61,14 @@ connectionApflora.connect();
 server.start(function (err) {
     if (err) throw err;
     console.log('Server running at:', server.info.uri);
+});
+
+server.route({
+    method: 'POST',
+    path: '/api/tabelle={tabelle}/tabelleIdFeld={tabelleIdFeld}/tabelleId={tabelleId}/feld={feld}/wert={wert?}/user={user}',
+    handler: function (request, reply) {
+        queryTabelleUpdate(connectionApflora, request, reply);
+    }
 });
 
 server.route({
@@ -223,14 +230,6 @@ server.route({
     path: '/api/ap={apId}/assozart-neu/user={user}',
     handler: function (request, reply) {
         queryAssozartInsert(connectionApflora, request, reply);
-    }
-});
-
-server.route({
-    method: 'PUT',
-    path: '/api/ap={apId}/tabelle={tabelle}/tabelle-id={tabelleId}/feld={feld}/wert={wert}/user={user}',
-    handler: function (request, reply) {
-        queryTabelleUpdate(connectionApflora, request, reply);
     }
 });
 

@@ -11,20 +11,13 @@ return gulp.task('watch', function() {
             'queries/*',
             'serverMethods/*',
             'shp/*',
-            'src/*',
-            '-src/app.js',
-            '-src/main.js',
+            'src/apflora.js',
             'index.html'
         ],
-        ['dev']
+        ['dev_when_watch']
     );
     gulp.watch(
-        [
-            'style/*',
-            '-style/main.css'
-        ],
+        ['style/apflora.css'],
         ['dev_style']
     );
-    // browserify soll wissen, das gewatched wird
-    global.isWatching = true;
 });

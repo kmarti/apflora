@@ -5,10 +5,10 @@
 'use strict';
 
 var config = {}
-    , dbPassfile = require('./dbPass')
+    , dbPassfile   = require('./dbPass.json')
     ;
 
-config.db = {};
+config.db          = {};
 config.db.userName = dbPassfile.user;
 config.db.passWord = dbPassfile.pass;
 
@@ -18,75 +18,75 @@ config.db.passWord = dbPassfile.pass;
 config.forms = {
     ap: {
         tabelleInDb: 'tblAktionsplan',
-        idInTabelle: 'ApArtId'
+        tabelleIdFeld: 'ApArtId'
     },
     pop: {
         tabelleInDb: 'tblPopulation',
-        idInTabelle: 'PopId'
+        tabelleIdFeld: 'PopId'
     },
     tpop: {
         tabelleInDb: 'tblTeilpopulation',
-        idInTabelle: 'TPopId'
+        tabelleIdFeld: 'TPopId'
     },
     tpopfeldkontr: {
         tabelleInDb: 'tblTeilPopFeldkontrolle',
-        idInTabelle: 'TPopKontrId'
+        tabelleIdFeld: 'TPopKontrId'
     },
     tpopmassn: {
         tabelleInDb: 'tblTeilPopMassnahme',
-        idInTabelle: 'TPopMassnId'
+        tabelleIdFeld: 'TPopMassnId'
     },
     apziel: {
         tabelleInDb: 'tblZiel',
-        idInTabelle: 'ZielId'
+        tabelleIdFeld: 'ZielId'
     },
     zielber: {
         tabelleInDb: 'tblZielBericht',
-        idInTabelle: 'ZielBerId'
+        tabelleIdFeld: 'ZielBerId'
     },
     erfkrit: {
         tabelleInDb: 'tblErfKrit',
-        idInTabelle: 'ErfkritId'
+        tabelleIdFeld: 'ErfkritId'
     },
     jber: {
         tabelleInDb: 'tblJBer',
-        idInTabelle: 'JBerId'
+        tabelleIdFeld: 'JBerId'
     },
     jber_uebersicht: {
         tabelleInDb: 'tblJBerUebersicht',
-        idInTabelle: 'JbuJahr'
+        tabelleIdFeld: 'JbuJahr'
     },
     ber: {
         tabelleInDb: 'tblBer',
-        idInTabelle: 'BerId'
+        tabelleIdFeld: 'BerId'
     },
     idealbiotop: {
         tabelleInDb: 'tblIdealbiotop',
-        idInTabelle: 'IbApArtId'
+        tabelleIdFeld: 'IbApArtId'
     },
     assozarten: {
         tabelleInDb: 'tblAssozArten',
-        idInTabelle: 'AaId'
+        tabelleIdFeld: 'AaId'
     },
     popber: {
         tabelleInDb: 'tblPopBericht',
-        idInTabelle: 'PopBerId'
+        tabelleIdFeld: 'PopBerId'
     },
     popmassnber: {
         tabelleInDb: 'tblPopMassnBericht',
-        idInTabelle: 'PopMassnBerId'
+        tabelleIdFeld: 'PopMassnBerId'
     },
     tpopber: {
         tabelleInDb: 'tblTeilPopBericht',
-        idInTabelle: 'TPopBerId'
+        tabelleIdFeld: 'TPopBerId'
     },
     tpopmassnber: {
         tabelleInDb: 'tblPopMassnBericht',
-        idInTabelle: 'PopMassnBerId'
+        tabelleIdFeld: 'PopMassnBerId'
     },
     beob: {
         tabelleInDb: 'tblBeobZuordnung',
-        idInTabelle: 'NO_NOTE'
+        tabelleIdFeld: 'NO_NOTE'
     }
 };
 

@@ -14,7 +14,8 @@
  when you run `gulp`.
  */
 
-var gulp = require('gulp');
-var requireDir = require('require-dir');
+var gulp        = require('gulp');
+var requireDir  = require('require-dir');
 
+// initiate modularized tasks
 requireDir('./gulp-tasks', {recurse: true});
