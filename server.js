@@ -40,6 +40,7 @@ var  _       = require('underscore')
     , queryAp               = require('./queries/ap')
     , queryAssozart         = require('./queries/assozart')
     , queryAssozartInsert   = require('./queries/assozartInsert')
+    , queryTabelleInsert    = require('./queries/tabelleInsert')
     , queryTabelleUpdate    = require('./queries/tabelleUpdate')
     , queryIdealbiotop      = require('./queries/idealbiotop')
     , queryAnmeldung        = require('./queries/anmeldung')
@@ -61,14 +62,6 @@ connectionApflora.connect();
 server.start(function (err) {
     if (err) throw err;
     console.log('Server running at:', server.info.uri);
-});
-
-server.route({
-    method: 'POST',
-    path: '/api/tabelle={tabelle}/tabelleIdFeld={tabelleIdFeld}/tabelleId={tabelleId}/feld={feld}/wert={wert?}/user={user}',
-    handler: function (request, reply) {
-        queryTabelleUpdate(connectionApflora, request, reply);
-    }
 });
 
 server.route({
@@ -222,6 +215,22 @@ server.route({
     path: '/ap={apId}/assozart={assozArtId}',
     handler: function (request, reply) {
         queryAssozart(connectionApflora, request, reply);
+    }
+});
+
+server.route({
+    method: 'POST',
+    path: '/api/update/tabelle={tabelle}/tabelleIdFeld={tabelleIdFeld}/tabelleId={tabelleId}/feld={feld}/wert={wert?}/user={user}',
+    handler: function (request, reply) {
+        queryTabelleUpdate(connectionApflora, request, reply);
+    }
+});
+
+server.route({
+    method: 'POST',
+    path: '/api/insert/tabelle={tabelle}/feld={feld}/wert={wert}/user={user}',
+    handler: function (request, reply) {
+        queryTabelleInsert(connectionApflora, request, reply);
     }
 });
 

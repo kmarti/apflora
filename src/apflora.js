@@ -711,7 +711,7 @@ window.apf.setzeWindowBer = function(id) {
 	});
 };
 
-window.apf.initiiere_iealbiotop = require('initiiereIdealbiotop');
+window.apf.initiiere_iealbiotop = require('./modules/initiiereIdealbiotop');
 
 // setzt window.apf.idealbiotop und localStorage.idealbiotop_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
@@ -2579,7 +2579,8 @@ window.apf.erstelle_tree = function(ApArtId) {
 		}
 	})
 	.bind("select_node.jstree", function(e, data) {
-		var node;	
+		var node;
+        window.apf.initiiere_idealbiotop = require('initiiereIdealbiotop');
 		delete localStorage.tpopfreiwkontr;	// Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
 		var node_typ = node.attr("typ");
@@ -4507,7 +4508,7 @@ window.apf.treeKontextmenu = function(node) {
 				"action": function() {
 					var insertAssozarten = $.ajax({
 						type: 'post',
-						url: 'api/ap=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/assozart-neu/user=' + sessionStorage.User,
+						url: 'api/insert/tabelle=tblAssozArten/feld=AaApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
 						dataType: 'json'
 					});
 					insertAssozarten.always(function(id) {
@@ -4531,7 +4532,7 @@ window.apf.treeKontextmenu = function(node) {
 				"action": function() {
 					var insertAssozarten_2 = $.ajax({
 						type: 'post',
-						url: 'api/ap=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/assozart-neu/user=' + sessionStorage.User,
+						url: 'api/insert/tabelle=tblAssozArten/feld=AaApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
 						dataType: 'json'
 					});
 					insertAssozarten_2.always(function(id) {
@@ -7128,7 +7129,7 @@ window.apf.speichern = function(that) {
 		}
 		var updateFormular = $.ajax({
 			type: 'post',
-			url: 'api/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + localStorage[formular + "_id"] + '/feld=' + feldname + '/wert=' + feldwert + '/user=' + sessionStorage.User,
+			url: 'api/update/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + localStorage[formular + "_id"] + '/feld=' + feldname + '/wert=' + feldwert + '/user=' + sessionStorage.User,
 			dataType: 'json'
 		});
 		updateFormular.always(function() {
@@ -10078,6 +10079,7 @@ window.apf.öffneUri = function() {
 	var uri = new Uri($(location).attr('href')),
 		anchor = uri.anchor() || null,
 		ap_id = uri.getQueryParamValue('ap');
+    window.apf.initiiere_idealbiotop = require('initiiereIdealbiotop');
 	if (ap_id) {
 		// globale Variablen setzen
 		window.apf.setzeWindowAp(ap_id);
