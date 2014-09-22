@@ -4,6 +4,7 @@
 
 'use strict';
 var  _ = require('underscore')
+    , config = require('./src/modules/configuration')
     , Hapi = require('hapi')
     , server = new Hapi.Server(
         'localhost',
@@ -12,24 +13,24 @@ var  _ = require('underscore')
             debug: { request: ['error'] }
         }
     )
-    , moonbootsConfig = require('./moonbootsConfig')
+    //, moonbootsConfig = require('./moonbootsConfig')
     , mysql = require('mysql')
     , connectionApflora = mysql.createConnection({
         host: 'localhost',
-        user: 'alexande',
-        password: 'y3oYksFsQL49es9x',
+        user: config.db.userName,
+        password: config.db.passWord,
         database: 'alexande_apflora'
     })
     , connectionBeob = mysql.createConnection({
         host: 'localhost',
-        user: 'alexande',
-        password: 'y3oYksFsQL49es9x',
+        user: config.db.userName,
+        password: config.db.passWord,
         database: 'alexande_beob'
     })
     , connectionViews = mysql.createConnection({
         host: 'localhost',
-        user: 'alexande',
-        password: 'y3oYksFsQL49es9x',
+        user: config.db.userName,
+        password: config.db.passWord,
         database: 'alexande_views'
     })
 
@@ -40,7 +41,7 @@ var  _ = require('underscore')
     , queryAp = require('./queries/ap')
     , queryAssozart = require('./queries/assozart')
     , queryAssozartInsert = require('./queries/assozartInsert')
-    , queryAssozartUpdate = require('./queries/assozartUpdate')
+    , queryTabelleUpdate = require('./queries/tabelleUpdate')
     , queryIdealbiotop = require('./queries/idealbiotop')
     , queryAnmeldung = require('./queries/anmeldung')
     , treeAssozarten = require('./queries/tree/assozarten')
@@ -50,12 +51,17 @@ var  _ = require('underscore')
 connectionApflora.connect();
 
 // require moonboots_hapi plugin
-server.pack.register({plugin: require('moonboots_hapi'), options: moonbootsConfig}, function (err) {
+/*server.pack.register({plugin: require('moonboots_hapi'), options: moonbootsConfig}, function (err) {
     if (err) throw err;
     server.start(function (err) {
         if (err) throw err;
         console.log('Server running at:', server.info.uri);
     });
+});*/
+
+server.start(function (err) {
+    if (err) throw err;
+    console.log('Server running at:', server.info.uri);
 });
 
 server.route({
@@ -222,9 +228,9 @@ server.route({
 
 server.route({
     method: 'PUT',
-    path: '/api/assozart={assozArtId}/user={user}',
+    path: '/api/ap={apId}/tabelle={tabelle}/tabelle-id={tabelleId}/feld={feld}/wert={wert}/user={user}',
     handler: function (request, reply) {
-        queryAssozartUpdate(connectionApflora, request, reply);
+        queryTabelleUpdate(connectionApflora, request, reply);
     }
 });
 

@@ -1,11 +1,9 @@
 var config = require('getconfig');
-var stylizer = require('stylizer');
 var templatizer = require('templatizer');
 
 // for reuse
 var appDir = __dirname + '/src';
 var cssDir = __dirname + '/style';
-
 
 module.exports = {
     // Tell the Hapi server what URLs the application should be served from.

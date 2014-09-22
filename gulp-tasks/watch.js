@@ -1,8 +1,30 @@
+'use strict';
+
 var gulp = require('gulp');
 
 return gulp.task('watch', function() {
-    gulp.watch(['src/*', '-src/main.js'], ['dev_build_src']);
-    gulp.watch(['style/*', '-style/main.css'], ['dev_build_style']);
-    gulp.watch(['php/*'], ['dev_build_php']);
-    gulp.watch(['index.html'], ['dev_move_index']);
+    gulp.watch(
+        [
+            'geojson/*',
+            'img/*',
+            'kml/*',
+            'queries/*',
+            'serverMethods/*',
+            'shp/*',
+            'src/*',
+            '-src/app.js',
+            '-src/main.js',
+            'index.html'
+        ],
+        ['dev']
+    );
+    gulp.watch(
+        [
+            'style/*',
+            '-style/main.css'
+        ],
+        ['dev_style']
+    );
+    // browserify soll wissen, das gewatched wird
+    global.isWatching = true;
 });

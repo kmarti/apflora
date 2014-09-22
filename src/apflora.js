@@ -7144,11 +7144,13 @@ window.apf.prüfeSchreibvoraussetzungen = function() {
 // übernimmt das Objekt, in dem geändert wurde
 window.apf.speichern = function(that) {
 	'use strict';
-	var Feldtyp,
-        Formular,
-        Feldname,
-        Feldwert,
-        Objekt,
+	var feldtyp,
+        formular,
+        tabelleInDb,
+        idInTabelle,
+        feldname,
+        feldwert,
+        objekt,
         $PopName = $("#PopName"),
         $PopNr = $("#PopNr"),
         $tree = $("#tree"),
@@ -7169,29 +7171,34 @@ window.apf.speichern = function(that) {
         $ZielBerErreichung = $("#ZielBerErreichung"),
         $SpanErfkritErreichungsgradPlusErfkritErreichungsgradChecked = $("#SpanErfkritErreichungsgrad" + $("input:radio[name='ErfkritErreichungsgrad']:checked").val()),
         $BerJahr = $("#BerJahr"),
-        $BerTitel = $("#BerTitel");
+        $BerTitel = $("#BerTitel"),
+        configuration = require('./modules/configuration');
+
 	if (window.apf.prüfeSchreibvoraussetzungen()) {
-		Formular = $(that).attr("formular");
-		Feldname = that.name;
-		Feldtyp = $(that).attr("type") || null;
+		formular = $(that).attr("formular");
+        // die zu aktualisierende Tabelle in der DB
+        tabelleInDb = configuration.forms[formular].tabelleInDb;
+        idInTabelle = configuration.forms[formular].idInTabelle;
+		feldname = that.name;
+		feldtyp = $(that).attr("type") || null;
 		// Feldwert ermitteln
-		if (Feldtyp && Feldtyp === "checkbox") {
-			Feldwert = $('input:checkbox[name=' + Feldname + ']:checked').val();
-		} else if (Feldtyp && Feldtyp === "radio") {
-			Feldwert = $('input:radio[name=' + Feldname + ']:checked').val();
+		if (feldtyp && feldtyp === "checkbox") {
+			feldwert = $('input:checkbox[name=' + feldname + ']:checked').val();
+		} else if (feldtyp && feldtyp === "radio") {
+			feldwert = $('input:radio[name=' + feldname + ']:checked').val();
 		} else {
 			// textarea, input, select
-			Feldwert = $("#" + Feldname).val();
+			feldwert = $("#" + feldname).val();
 		}
 		// ja/nein Felder zu boolean umbauen
-		if (Feldname === "PopHerkunftUnklar" || Feldname === "TPopHerkunftUnklar" || Feldname === "TPopMassnPlan" || Feldname === "TPopKontrPlan") {
-			if (Feldwert) {
-				Feldwert = 1;
+		if (feldname === "PopHerkunftUnklar" || feldname === "TPopHerkunftUnklar" || feldname === "TPopMassnPlan" || feldname === "TPopKontrPlan") {
+			if (feldwert) {
+				feldwert = 1;
 			} else {
-				Feldwert = "";
+				feldwert = "";
 			}
 		}
-		if (Feldname === "BeobBemerkungen" && localStorage.beob_status === "nicht_beurteilt") {
+		if (feldname === "BeobBemerkungen" && localStorage.beob_status === "nicht_beurteilt") {
 			// hier soll nicht gespeichert werden
 			$("#BeobBemerkungen").val("");
 			window.apf.melde("Bemerkungen sind nur in zugeordneten oder nicht zuzuordnenden Beobachtungen möglich", "Aktion abgebrochen");
@@ -7199,41 +7206,35 @@ window.apf.speichern = function(that) {
 		}
 		var updateFormular = $.ajax({
 			type: 'post',
-			url: 'api/ap=' + localStorage.ap_id + '/' + Formular + 'Update',
-			dataType: 'json',
-			data: {
-				"id": localStorage[Formular + "_id"],
-				"Feld": Feldname,
-				"Wert": Feldwert,
-				"user": sessionStorage.User
-			}
+			url: 'api/ap=' + localStorage.ap_id + '/tabelle=' + tabelleInDb + '/tabelle-id=' + idInTabelle + '/feld=' + feldname + '/wert=' + feldwert + '/user=' + sessionStorage.User,
+			dataType: 'json'
 		});
 		updateFormular.always(function() {
 			// Variable für Objekt nachführen
-			window.apf[Formular][Feldname] = Feldwert;
+			window.apf[formular][feldname] = feldwert;
 			// Wenn ApArtId verändert wurde: Formular aktualisieren
-			if (Feldname === "ApArtId" && Feldwert) {
-				window.apf.wähleAp(Feldwert);
+			if (feldname === "ApArtId" && feldwert) {
+				window.apf.wähleAp(feldwert);
 				return;
 			}
 			// Wenn in feldkontr Datum erfasst, auch Jahr speichern
-			if (Feldname === "TPopKontrDatum" && Feldwert) {
-				Objekt = {};
-				Objekt.name = "TPopKontrJahr";
-				Objekt.formular = "tpopfeldkontr";
-				window.apf.speichern(Objekt);
+			if (feldname === "TPopKontrDatum" && feldwert) {
+				objekt = {};
+				objekt.name = "TPopKontrJahr";
+				objekt.formular = "tpopfeldkontr";
+				window.apf.speichern(objekt);
 			}
 			// dito bei tpopmassn
-			if (Feldname === "TPopMassnDatum" && Feldwert) {
-				Objekt = {};
-				Objekt.name = "TPopMassnJahr";
-				Objekt.formular = "tpopmassn";
-				window.apf.speichern(Objekt);
+			if (feldname === "TPopMassnDatum" && feldwert) {
+				objekt = {};
+				objekt.name = "TPopMassnJahr";
+				objekt.formular = "tpopmassn";
+				window.apf.speichern(objekt);
 			}
 			// wenn in TPopKontrZaehleinheit 1 bis 3 ein Leerwert eingeführt wurde
 			// sollen auch die Felder TPopKontrMethode 1 bis 3 und TPopKontrAnz 1 bis 3 Leerwerte erhalten
-			if (!Feldwert) {
-				if (Feldname === "TPopKontrZaehleinheit1") {
+			if (!feldwert) {
+				if (feldname === "TPopKontrZaehleinheit1") {
 					// UI aktualisieren
 					if (window.apf.tpopfeldkontr.TPopKontrMethode1) {
 						$("#TPopKontrMethode1" + window.apf.tpopfeldkontr.TPopKontrMethode1).prop("checked", false);
@@ -7241,17 +7242,17 @@ window.apf.speichern = function(that) {
 					$("#TPopKontrAnz1").val("");
 					// Datenbank aktualisieren
 					// Feld TPopKontrMethode1
-					Objekt = {};
-					Objekt.name = "TPopKontrMethode1";
-					Objekt.formular = Formular;
-					window.apf.speichern(Objekt);
+					objekt = {};
+					objekt.name = "TPopKontrMethode1";
+					objekt.formular = formular;
+					window.apf.speichern(objekt);
 					// Feld TPopKontrAnz1
-					Objekt = {};
-					Objekt.name = "TPopKontrAnz1";
-					Objekt.formular = Formular;
-					window.apf.speichern(Objekt);
+					objekt = {};
+					objekt.name = "TPopKontrAnz1";
+					objekt.formular = formular;
+					window.apf.speichern(objekt);
 				}
-				if (Feldname === "TPopKontrZaehleinheit2") {
+				if (feldname === "TPopKontrZaehleinheit2") {
 					// UI aktualisieren
 					if (window.apf.tpopfeldkontr.TPopKontrMethode2) {
 						$("#TPopKontrMethode2" + window.apf.tpopfeldkontr.TPopKontrMethode2).prop("checked", false);
@@ -7259,17 +7260,17 @@ window.apf.speichern = function(that) {
 					$("#TPopKontrAnz2").val("");
 					// Datenbank aktualisieren
 					// Feld TPopKontrMethode2
-					Objekt = {};
-					Objekt.name = "TPopKontrMethode2";
-					Objekt.formular = Formular;
-					window.apf.speichern(Objekt);
+					objekt = {};
+					objekt.name = "TPopKontrMethode2";
+					objekt.formular = formular;
+					window.apf.speichern(objekt);
 					// Feld TPopKontrAnz2
-					Objekt = {};
-					Objekt.name = "TPopKontrAnz2";
-					Objekt.formular = Formular;
-					window.apf.speichern(Objekt);
+					objekt = {};
+					objekt.name = "TPopKontrAnz2";
+					objekt.formular = formular;
+					window.apf.speichern(objekt);
 				}
-				if (Feldname === "TPopKontrZaehleinheit3") {
+				if (feldname === "TPopKontrZaehleinheit3") {
 					// UI aktualisieren
 					if (window.apf.tpopfeldkontr.TPopKontrMethode3) {
 						$("#TPopKontrMethode3" + window.apf.tpopfeldkontr.TPopKontrMethode3).prop("checked", false);
@@ -7277,15 +7278,15 @@ window.apf.speichern = function(that) {
 					$("#TPopKontrAnz3").val("");
 					// Datenbank aktualisieren
 					// Feld TPopKontrMethode3
-					Objekt = {};
-					Objekt.name = "TPopKontrMethode3";
-					Objekt.formular = Formular;
-					window.apf.speichern(Objekt);
+					objekt = {};
+					objekt.name = "TPopKontrMethode3";
+					objekt.formular = formular;
+					window.apf.speichern(objekt);
 					// Feld TPopKontrAnz3
-					Objekt = {};
-					Objekt.name = "TPopKontrAnz3";
-					Objekt.formular = Formular;
-					window.apf.speichern(Objekt);
+					objekt = {};
+					objekt.name = "TPopKontrAnz3";
+					objekt.formular = formular;
+					window.apf.speichern(objekt);
 				}
 			}
 		});
@@ -7294,7 +7295,7 @@ window.apf.speichern = function(that) {
 			console.log('Fehler: Die letzte Änderung wurde nicht gespeichert');
 		});
 		// nodes im Tree updaten, wenn deren Bezeichnung ändert
-		switch(Feldname) {
+		switch(feldname) {
 			case "PopNr":
 			case "PopName":
 				var popbeschriftung;
@@ -7415,8 +7416,8 @@ window.apf.speichern = function(that) {
 				break;
 			case "ZielBezeichnung":
 				var zielbeschriftung;
-				if (Feldwert) {
-					zielbeschriftung = Feldwert;
+				if (feldwert) {
+					zielbeschriftung = feldwert;
 				} else {
 					zielbeschriftung = "(Ziel nicht beschrieben)";
 				}
@@ -7452,8 +7453,8 @@ window.apf.speichern = function(that) {
 				break;
 			case "JBerJahr":
 				var jberbeschriftung;
-				if (Feldwert) {
-					jberbeschriftung = Feldwert;
+				if (feldwert) {
+					jberbeschriftung = feldwert;
 				} else {
 					jberbeschriftung = "(kein Jahr)";
 				}
@@ -7475,8 +7476,8 @@ window.apf.speichern = function(that) {
 				break;
 			case "AaSisfNr":
 				var aabeschriftung;
-				if (Feldwert) {
-					aabeschriftung = $("#AaSisfNr option[value='" + Feldwert + "']").text();
+				if (feldwert) {
+					aabeschriftung = $("#AaSisfNr option[value='" + feldwert + "']").text();
 				} else {
 					aabeschriftung = "(kein Artname)";
 				}
