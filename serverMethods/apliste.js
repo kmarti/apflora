@@ -1,8 +1,16 @@
 'use strict';
 
-var mysql = require('mysql');
+var mysql = require('mysql')
+    , config = require('../src/modules/configuration')
+    , connection = mysql.createConnection({
+        host: 'localhost',
+        user: config.db.userName,
+        password: config.db.passWord,
+        database: 'alexande_apflora'
+    })
+    ;
 
-var apliste = function(connection, request, callback) {
+var apliste = function(request, callback) {
     switch(decodeURIComponent(request.params.programm)) {
         case 'programm_ap':
             connection.query(

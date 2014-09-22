@@ -48,15 +48,6 @@ var  _       = require('underscore')
 
 connectionApflora.connect();
 
-// require moonboots_hapi plugin
-/*server.pack.register({plugin: require('moonboots_hapi'), options: moonbootsConfig}, function (err) {
-    if (err) throw err;
-    server.start(function (err) {
-        if (err) throw err;
-        console.log('Server running at:', server.info.uri);
-    });
-});*/
-
 server.start(function (err) {
     if (err) throw err;
     console.log('Server running at:', server.info.uri);
@@ -127,15 +118,7 @@ server.route({
     method: 'GET',
     path: '/api/gemeinden',
     handler: function (request, reply) {
-
-        /**
-         * Wenn mehrere DB-Aufrufe nötig sind, können sie parallel getätigt werden:
-         * pre: ... (siehe http://blog.andyet.com/tag/node bei 20min)
-         * und im reply zu einem Objekt zusammengefasst werden
-         * Beispiel: BeoListe, FeldListe, tree
-         */
-
-        server.methods.gemeinden(connectionApflora, request, reply);
+        server.methods.gemeinden(request, reply);
     }
 });
 
@@ -147,7 +130,7 @@ server.route({
     path: '/api/artliste',
     config: {
         handler: function (request, reply) {
-            server.methods.artliste(connectionBeob, request, reply);
+            server.methods.artliste(request, reply);
         }
     }
 });
@@ -159,7 +142,7 @@ server.route({
     method: 'GET',
     path: '/api/apliste/programm={programm}',
     handler: function (request, reply) {
-        server.methods.apliste(connectionApflora, request, reply);
+        server.methods.apliste(request, reply);
     }
 });
 
@@ -167,7 +150,7 @@ server.route({
     method: 'GET',
     path: '/api/anmeldung/name={name}/pwd={pwd}',
     handler: function (request, reply) {
-        queryAnmeldung(connectionApflora, request, reply);
+        queryAnmeldung(request, reply);
     }
 });
 
@@ -178,7 +161,31 @@ server.route({
     method: 'GET',
     path: '/api/adressen',
     handler: function (request, reply) {
-        server.methods.adressen(connectionApflora, request, reply);
+        server.methods.adressen(request, reply);
+    }
+});
+
+server.route({
+    method: 'GET',
+    path: '/api/select/tabelle={tabelle}/tabelleIdFeld={tabelleIdFeld}/tabelleId={tabelleId}',
+    handler: function (request, reply) {
+        queryTabelleSelect(request, reply);
+    }
+});
+
+server.route({
+    method: 'POST',
+    path: '/api/update/tabelle={tabelle}/tabelleIdFeld={tabelleIdFeld}/tabelleId={tabelleId}/feld={feld}/wert={wert?}/user={user}',
+    handler: function (request, reply) {
+        queryTabelleUpdate(request, reply);
+    }
+});
+
+server.route({
+    method: 'POST',
+    path: '/api/insert/tabelle={tabelle}/feld={feld}/wert={wert}/user={user}',
+    handler: function (request, reply) {
+        queryTabelleInsert(request, reply);
     }
 });
 
@@ -186,9 +193,16 @@ server.route({
     method: 'GET',
     path: '/ap={apId}',
     handler: function (request, reply) {
-        queryAp(connectionApflora, request, reply);
+        queryAp(request, reply);
     }
 });
+
+/**
+ * Wenn mehrere DB-Aufrufe nötig sind, können sie parallel getätigt werden:
+ * pre: ... (siehe http://blog.andyet.com/tag/node bei 20min)
+ * und im reply zu einem Objekt zusammengefasst werden
+ * Beispiel: BeoListe, FeldListe, tree
+ */
 
 server.route({
     method: 'GET',
@@ -206,28 +220,4 @@ server.route({
         }
     }
 
-});
-
-server.route({
-    method: 'GET',
-    path: '/api/select/tabelle={tabelle}/tabelleIdFeld={tabelleIdFeld}/tabelleId={tabelleId}',
-    handler: function (request, reply) {
-        queryTabelleSelect(connectionApflora, request, reply);
-    }
-});
-
-server.route({
-    method: 'POST',
-    path: '/api/update/tabelle={tabelle}/tabelleIdFeld={tabelleIdFeld}/tabelleId={tabelleId}/feld={feld}/wert={wert?}/user={user}',
-    handler: function (request, reply) {
-        queryTabelleUpdate(connectionApflora, request, reply);
-    }
-});
-
-server.route({
-    method: 'POST',
-    path: '/api/insert/tabelle={tabelle}/feld={feld}/wert={wert}/user={user}',
-    handler: function (request, reply) {
-        queryTabelleInsert(connectionApflora, request, reply);
-    }
 });

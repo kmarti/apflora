@@ -2,10 +2,11 @@
 
 var _ = require('underscore')
     , mysql = require('mysql')
+    , config = require('../../src/modules/configuration')
     , connectionApflora = mysql.createConnection({
         host: 'localhost',
-        user: 'alexande',
-        password: 'y3oYksFsQL49es9x',
+        user: config.db.userName,
+        password: config.db.passWord,
         database: 'alexande_apflora'
     })
     , response = {}
