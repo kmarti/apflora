@@ -3,7 +3,7 @@
 var _ = require('underscore')
     , mysql = require('mysql')
     , config = require('../../src/modules/configuration')
-    , connectionApflora = mysql.createConnection({
+    , connection = mysql.createConnection({
         host: 'localhost',
         user: config.db.userName,
         password: config.db.passWord,
@@ -14,7 +14,7 @@ var _ = require('underscore')
 
 var assozarten = function(request, reply) {
     var id = decodeURIComponent(request.params.id);
-    connectionApflora.query(
+    connection.query(
         'SELECT AaId, alexande_beob.ArtenDb_Arteigenschaften.Artname FROM tblAssozArten LEFT JOIN alexande_beob.ArtenDb_Arteigenschaften ON AaSisfNr = alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId where AaApArtId = ' + id + ' ORDER BY alexande_beob.ArtenDb_Arteigenschaften.Artname',
         function(err, data) {
             if (err) reply(err);

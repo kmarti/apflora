@@ -674,16 +674,8 @@ if ($anz_beob_nicht_zuzuordnen<500) {
 	$ap_ordner_beob_nicht_zuzuordnen = array("data" => "nicht zuzuordnende Beobachtungen (erste ".$anz_beob_nicht_zuzuordnen.")", "attr" => $ap_ordner_beob_nicht_zuzuordnen_attr, "children" => $rows_beob_nicht_zuzuordnen);
 }
 
-// Idealbiotop
-$meineId = "idealbiotop".$ApArtId;
-$ap_ordner_idealbiotop_attr = array("id" => $meineId, "typ" => "idealbiotop");
-$ap_ordner_idealbiotop = array("data" => "Idealbiotop", "attr" => $ap_ordner_idealbiotop_attr);
-// assoziierte Arten
-$meineId = "ap_ordner_assozarten".$ApArtId;
-$ap_ordner_assozarten_attr = array("id" => $meineId, "typ" => "ap_ordner_assozarten");
-$ap_ordner_assozarten = array("data" => "assoziierte Arten (".$anz_assozarten.")", "attr" => $ap_ordner_assozarten_attr, "children" => $rows_assozarten);
 // zusammensetzen
-$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_jber, 4 => $ap_ordner_ber, 5 => $ap_ordner_beob_nicht_beurteilt, 6 => $ap_ordner_beob_nicht_zuzuordnen, 7 => $ap_ordner_idealbiotop, 8 => $ap_ordner_assozarten);
+$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_jber, 4 => $ap_ordner_ber, 5 => $ap_ordner_beob_nicht_beurteilt, 6 => $ap_ordner_beob_nicht_zuzuordnen);
 
 	
 // in json verwandeln
