@@ -4574,11 +4574,8 @@ window.apf.treeKontextmenu = function(node) {
 								window.apf.deleted.typ = "assozarten";
 								var deleteAssozarten = $.ajax({
 									type: 'post',
-									url: 'php/assozarten_delete.php',
-									dataType: 'json',
-									data: {
-										"id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-									}
+									url: 'api/delete/tabelle=tblAssozArten/tabelleIdFeld=AaId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+									dataType: 'json'
 								});
 								deleteAssozarten.always(function() {
 									delete localStorage.assozarten_id;

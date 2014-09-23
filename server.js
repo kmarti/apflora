@@ -41,6 +41,7 @@ var  _       = require('underscore')
     , queryTabelleSelect    = require('./queries/tabelleSelect')
     , queryTabelleInsert    = require('./queries/tabelleInsert')
     , queryTabelleUpdate    = require('./queries/tabelleUpdate')
+    , queryTabelleDelete    = require('./queries/tabelleDelete')
     , queryAnmeldung        = require('./queries/anmeldung')
     , treeAssozarten        = require('./queries/tree/assozarten')
     , treeIdealbiotop       = require('./queries/tree/idealbiotop')
@@ -186,6 +187,14 @@ server.route({
     path: '/api/insert/tabelle={tabelle}/feld={feld}/wert={wert}/user={user}',
     handler: function (request, reply) {
         queryTabelleInsert(request, reply);
+    }
+});
+
+server.route({
+    method: 'POST',
+    path: '/api/delete/tabelle={tabelle}/tabelleIdFeld={tabelleIdFeld}/tabelleId={tabelleId}',
+    handler: function (request, reply) {
+        queryTabelleDelete(request, reply);
     }
 });
 
