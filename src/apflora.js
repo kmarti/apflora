@@ -721,7 +721,7 @@ window.apf.setzeWindowIdealbiotop = function(id) {
 		url: '/api/select/tabelle=tblIdealbiotop/tabelleIdFeld=IbApArtId/tabelleId=' + localStorage.idealbiotop_id,
 		dataType: 'json'
 	});
-	getIdealbiotop.always(function(data) {
+	getIdealbiotop.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data && data[0]) {
 			// idealbiotop bereitstellen
@@ -746,7 +746,7 @@ window.apf.initiiere_assozarten = function() {
             dataType: 'json'
         }),
         $AaSisfNr = $("#AaSisfNr");
-	getAssozarten.always(function(data) {
+	getAssozarten.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data && data.length > 0) {
 			// assozarten bereitstellen
@@ -775,7 +775,7 @@ window.apf.setzeWindowAssozarten = function(id) {
 		url: '/api/select/tabelle=tblAssozArten/tabelleIdFeld=AaId/tabelleId=' + localStorage.assozarten_id,
 		dataType: 'json'
 	});
-	getAssozarten.always(function(data) {
+	getAssozarten.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
 		if (data) {
 			// assozarten bereitstellen
@@ -4509,7 +4509,7 @@ window.apf.treeKontextmenu = function(node) {
 						url: 'api/insert/tabelle=tblAssozArten/feld=AaApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
 						dataType: 'json'
 					});
-					insertAssozarten.always(function(id) {
+					insertAssozarten.done(function(id) {
 						var strukturtyp = "assozarten",
 							beschriftung = "neue assoziierte Art";
 						window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
@@ -4533,7 +4533,7 @@ window.apf.treeKontextmenu = function(node) {
 						url: 'api/insert/tabelle=tblAssozArten/feld=AaApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
 						dataType: 'json'
 					});
-					insertAssozarten_2.always(function(id) {
+					insertAssozarten_2.done(function(id) {
 						var strukturtyp = "assozarten",
 							beschriftung = "neue assoziierte Art";
 						window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
@@ -4577,7 +4577,8 @@ window.apf.treeKontextmenu = function(node) {
 									url: 'api/delete/tabelle=tblAssozArten/tabelleIdFeld=AaId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
 									dataType: 'json'
 								});
-								deleteAssozarten.always(function() {
+								deleteAssozarten.done(function() {
+                                    console.log('assozart gelöscht');
 									delete localStorage.assozarten_id;
 									delete window.apf.assozarten;
 									$.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -7127,7 +7128,7 @@ window.apf.speichern = function(that) {
 			url: 'api/update/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + localStorage[formular + "_id"] + '/feld=' + feldname + '/wert=' + feldwert + '/user=' + sessionStorage.User,
 			dataType: 'json'
 		});
-		updateFormular.always(function() {
+		updateFormular.done(function() {
 			// Variable für Objekt nachführen
 			window.apf[formular][feldname] = feldwert;
 			// Wenn ApArtId verändert wurde: Formular aktualisieren

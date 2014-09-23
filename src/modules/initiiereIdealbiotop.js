@@ -19,7 +19,7 @@ var initiiereIdealbiotop = function() {
             dataType: 'json'
         }),
         $IbErstelldatum = $("#IbErstelldatum");
-    getIdealbiotop.always(function(data) {
+    getIdealbiotop.done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
@@ -58,13 +58,13 @@ var initiiereIdealbiotop = function() {
                 return;
             }
 
-            // null zurückgekommen > Datesatz schaffen
+            // null zurückgekommen > Datensatz schaffen
             var insertIdealbiotop = $.ajax({
                 type: 'post',
                 url: '/api/insert/tabelle=tblIdealbiotop/feld=IbApArtId/wert=' + localStorage.ap_id + '/user=' + sessionStorage.User,
                 dataType: 'json'
             });
-            insertIdealbiotop.always(function(data) {
+            insertIdealbiotop.done(function(data) {
                 localStorage.idealbiotop_id = data.IbApArtId;
                 window.apf.initiiere_idealbiotop();
             });
