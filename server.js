@@ -21,18 +21,6 @@ var  _       = require('underscore')
         password: config.db.passWord,
         database: 'alexande_apflora'
     })
-    , connectionBeob = mysql.createConnection({
-        host: 'localhost',
-        user: config.db.userName,
-        password: config.db.passWord,
-        database: 'alexande_beob'
-    })
-    , connectionViews = mysql.createConnection({
-        host: 'localhost',
-        user: config.db.userName,
-        password: config.db.passWord,
-        database: 'alexande_views'
-    })
     , serverMethodGemeinden = require('./serverMethods/gemeinden')
     , serverMethodArtliste  = require('./serverMethods/artliste')
     , serverMethodApliste   = require('./serverMethods/apliste')

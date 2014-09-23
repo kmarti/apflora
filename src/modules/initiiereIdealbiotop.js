@@ -61,12 +61,8 @@ var initiiereIdealbiotop = function() {
             // null zurückgekommen > Datesatz schaffen
             var insertIdealbiotop = $.ajax({
                 type: 'post',
-                url: 'php/idealbiotop_insert.php',
-                dataType: 'json',
-                data: {
-                    "id": localStorage.ap_id,
-                    "user": sessionStorage.User
-                }
+                url: '/api/insert/tabelle=tblIdealbiotop/feld=IbApArtId/wert=' + localStorage.ap_id + '/user=' + sessionStorage.User,
+                dataType: 'json'
             });
             insertIdealbiotop.always(function(data) {
                 localStorage.idealbiotop_id = data.IbApArtId;
