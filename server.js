@@ -33,6 +33,8 @@ var  _       = require('underscore')
     , queryAnmeldung        = require('./queries/anmeldung')
     , treeAssozarten        = require('./queries/tree/assozarten')
     , treeIdealbiotop       = require('./queries/tree/idealbiotop')
+    , queryBeobInfospeziesSelect    = require('./queries/beobInfospeziesSelect')
+    , queryBeobEvabSelect    = require('./queries/beobEvabSelect')
     , treeBeobNichtZuzuordnen       = require('./queries/tree/beobNichtZuzuordnen')
     ;
 
@@ -192,6 +194,22 @@ server.route({
     path: '/ap={apId}',
     handler: function (request, reply) {
         queryAp(request, reply);
+    }
+});
+
+server.route({
+    method: 'GET',
+    path: '/api/beobInfospezies/id={id}',
+    handler: function (request, reply) {
+        queryBeobInfospeziesSelect(request, reply);
+    }
+});
+
+server.route({
+    method: 'GET',
+    path: '/api/beobEvab/id={id}',
+    handler: function (request, reply) {
+        queryBeobEvabSelect(request, reply);
     }
 });
 

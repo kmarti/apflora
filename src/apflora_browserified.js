@@ -1655,7 +1655,8 @@ window.apf.initiiere_beob = function(beobtyp, beobid, beob_status, ohne_zu_zeige
 	// sicherstellen, dass beobtyp immer bekannt ist
 	localStorage.beobtyp = beobtyp;
 
-	var url, url_distzutpop;
+	var url,
+        url_distzutpop;
 	if (!beobid && !ohne_zu_zeigen) {
 		// es fehlen benötigte Daten > eine Ebene höher
 		if (beob_status === "nicht_beurteilt" || beob_status === "nicht_zuzuordnen") {
@@ -1674,22 +1675,24 @@ window.apf.initiiere_beob = function(beobtyp, beobid, beob_status, ohne_zu_zeige
     localStorage.beob_id = beobid;
 	
 	// EvAB oder Infospezies? > entsprechende url zusammensetzen
-	url = 'php/beob_' + beobtyp + '.php';
+    if (beobtyp === 'evab') {
+        url = '/api/beobEvab/id=' + beobid;
+    } else {
+        url = '/api/beobInfospezies/id=' + beobid;
+    }
 	
 	// Daten für die beob aus der DB holen
 	var getBeob = $.ajax({
             type: 'get',
             url: url,
-            dataType: 'json',
-            data: {
-                "id": beobid
-            }
+            dataType: 'json'
         }),
         $BeobBemerkungen = $("#BeobBemerkungen");
 
-	getBeob.always(function(data_beob) {
+	getBeob.done(function(data_beob) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data_beob) {
+		if (data_beob && data_beob.length > 0) {
+            data_beob = data_beob[0];
 
 			// boebfelder bereitstellen
 			var html_beobfelder = window.apf.erstelleFelderFürBeob(data_beob, beobtyp);
@@ -1705,7 +1708,7 @@ window.apf.initiiere_beob = function(beobtyp, beobid, beob_status, ohne_zu_zeige
 					"beobid": beobid
 				}
 			});
-			getDistZuTPop.always(function(data) {
+			getDistZuTPop.done(function(data) {
 				// Tabellenzeile beginnen
 				var html_distzutpop = '<tr class="fieldcontain DistZuTPop"><td class="label"><label id="DistZuTPop_label" for="DistZuTPop">Einer Teilpopulation zuordnen:</label></td><td class="Datenfelder"><div class="Datenfelder" id="DistZuTPop_Felder">';
 				if (data) {

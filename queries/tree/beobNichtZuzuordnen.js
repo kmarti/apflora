@@ -44,8 +44,8 @@ function buildChildFromData(data) {
         object.data = datum + ': ' + autor;
         // beob voransetzen, damit die ID im ganzen Baum eindeutig ist
         object.attr = {
-            id: 'beob' + beob.NO_NOTE,
-            typ: 'assozarten',
+            id: 'beob' + beob['NO_NOTE'],
+            typ: 'beob_nicht_zuzuordnen',
             beobtyp: beob.beobtyp
         };
         childrenArray.push(object);
