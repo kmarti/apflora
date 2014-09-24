@@ -23633,7 +23633,7 @@ window.apf.setzeWindowIdealbiotop = function(id) {
 	localStorage.idealbiotop_id = id;
 	var getIdealbiotop = $.ajax({
 		type: 'get',
-		url: '/api/select/tabelle=tblIdealbiotop/tabelleIdFeld=IbApArtId/tabelleId=' + localStorage.idealbiotop_id,
+		url: '/api/select/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wertNumber=' + localStorage.idealbiotop_id,
 		dataType: 'json'
 	});
 	getIdealbiotop.done(function(data) {
@@ -23657,7 +23657,7 @@ window.apf.initiiere_assozarten = function() {
 	// Daten für die assozarten aus der DB holen
 	var getAssozarten = $.ajax({
             type: 'get',
-            url: '/api/select/tabelle=tblAssozArten/tabelleIdFeld=AaId/tabelleId=' + localStorage.assozarten_id,
+            url: '/api/select/apflora/tabelle=tblAssozArten/feld=AaId/wertNumber=' + localStorage.assozarten_id,
             dataType: 'json'
         }),
         $AaSisfNr = $("#AaSisfNr");
@@ -23687,7 +23687,7 @@ window.apf.setzeWindowAssozarten = function(id) {
 	localStorage.assozarten_id = id;
 	var getAssozarten = $.ajax({
 		type: 'get',
-		url: '/api/select/tabelle=tblAssozArten/tabelleIdFeld=AaId/tabelleId=' + localStorage.assozarten_id,
+		url: '/api/select/apflora/tabelle=tblAssozArten/feld=AaId/wertNumber=' + localStorage.assozarten_id,
 		dataType: 'json'
 	});
 	getAssozarten.done(function(data) {
@@ -24590,9 +24590,9 @@ window.apf.initiiere_beob = function(beobtyp, beobid, beob_status, ohne_zu_zeige
 	
 	// EvAB oder Infospezies? > entsprechende url zusammensetzen
     if (beobtyp === 'evab') {
-        url = '/api/beobEvab/id=' + beobid;
+        url = 'api/select/beob/tabelle=tblBeobEvab/feld=NO_NOTE_PROJET/wertString=' + beobid;
     } else {
-        url = '/api/beobInfospezies/id=' + beobid;
+        url = 'api/select/beob/tabelle=tblBeobInfospezies/feld=NO_NOTE/wertNumber=' + beobid;
     }
 	
 	// Daten für die beob aus der DB holen
@@ -24656,11 +24656,8 @@ window.apf.initiiere_beob = function(beobtyp, beobid, beob_status, ohne_zu_zeige
 						// Daten der Zuordnung holen
 						var getBeobZuordnung = $.ajax({
 							type: 'get',
-							url: 'php/beob_zuordnung.php',
-							dataType: 'json',
-							data: {
-								"id": beobid
-							}
+							url: 'api/select/apflora/tabelle=tblBeobZuordnung/feld=NO_NOTE/wertString=' + beobid,
+							dataType: 'json'
 						});
 						getBeobZuordnung.always(function(data) {
 							// Felder mit Daten beliefern
@@ -45052,7 +45049,7 @@ var initiiereIdealbiotop = function() {
     // Daten für die idealbiotop aus der DB holen
     var getIdealbiotop = $.ajax({
             type: 'get',
-            url: '/api/select/tabelle=tblIdealbiotop/tabelleIdFeld=IbApArtId/tabelleId=' + localStorage.ap_id,
+            url: '/api/select/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wertNumber=' + localStorage.ap_id,
             dataType: 'json'
         }),
         $IbErstelldatum = $("#IbErstelldatum");

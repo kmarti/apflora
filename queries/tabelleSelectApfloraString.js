@@ -6,14 +6,16 @@ var mysql = require('mysql')
         host: 'localhost',
         user: config.db.userName,
         password: config.db.passWord,
-        database: 'alexande_beob'
+        database: 'alexande_apflora'
     })
     ;
 
 var tabelle = function(request, callback) {
-    var id = decodeURIComponent(request.params.id);     // der Wert der ID
+    var tabelle   = decodeURIComponent(request.params.tabelle),// der Name der Tabelle, aus der die Daten geholt werden sollen
+    feld = decodeURIComponent(request.params.feld),            // das ist der Name des Feldes, das verglichen wird
+    wert     = decodeURIComponent(request.params.wert);        // der Wert im Feld, das verglichen wird
     connection.query(
-        'SELECT * FROM tblBeobInfospezies WHERE NO_NOTE=' + id,
+        'SELECT * FROM ' + tabelle + ' WHERE ' + feld + '="' + wert + '"',
         function(err, data) {
             if (err) throw err;
             callback(data);

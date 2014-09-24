@@ -26,15 +26,16 @@ var  _       = require('underscore')
     , serverMethodApliste   = require('./serverMethods/apliste')
     , serverMethodAdressen  = require('./serverMethods/adressen')
     , queryAp               = require('./queries/ap')
-    , queryTabelleSelect    = require('./queries/tabelleSelect')
+    , queryTabelleSelectApfloraNumber    = require('./queries/tabelleSelectApfloraNumber')
+    , queryTabelleSelectApfloraString    = require('./queries/tabelleSelectApfloraString')
+    , queryTabelleSelectBeobNumber    = require('./queries/tabelleSelectBeobNumber')
+    , queryTabelleSelectBeobString    = require('./queries/tabelleSelectBeobString')
     , queryTabelleInsert    = require('./queries/tabelleInsert')
     , queryTabelleUpdate    = require('./queries/tabelleUpdate')
     , queryTabelleDelete    = require('./queries/tabelleDelete')
     , queryAnmeldung        = require('./queries/anmeldung')
     , treeAssozarten        = require('./queries/tree/assozarten')
     , treeIdealbiotop       = require('./queries/tree/idealbiotop')
-    , queryBeobInfospeziesSelect    = require('./queries/beobInfospeziesSelect')
-    , queryBeobEvabSelect    = require('./queries/beobEvabSelect')
     , treeBeobNichtZuzuordnen       = require('./queries/tree/beobNichtZuzuordnen')
     ;
 
@@ -159,9 +160,33 @@ server.route({
 
 server.route({
     method: 'GET',
-    path: '/api/select/tabelle={tabelle}/tabelleIdFeld={tabelleIdFeld}/tabelleId={tabelleId}',
+    path: '/api/select/apflora/tabelle={tabelle}/feld={feld}/wertNumber={wert}',
     handler: function (request, reply) {
-        queryTabelleSelect(request, reply);
+        queryTabelleSelectApfloraNumber(request, reply);
+    }
+});
+
+server.route({
+    method: 'GET',
+    path: '/api/select/beob/tabelle={tabelle}/feld={feld}/wertNumber={wert}',
+    handler: function (request, reply) {
+        queryTabelleSelectBeobNumber(request, reply);
+    }
+});
+
+server.route({
+    method: 'GET',
+    path: '/api/select/apflora/tabelle={tabelle}/feld={feld}/wertString={wert}',
+    handler: function (request, reply) {
+        queryTabelleSelectApfloraString(request, reply);
+    }
+});
+
+server.route({
+    method: 'GET',
+    path: '/api/select/beob/tabelle={tabelle}/feld={feld}/wertString={wert}',
+    handler: function (request, reply) {
+        queryTabelleSelectBeobString(request, reply);
     }
 });
 
@@ -194,22 +219,6 @@ server.route({
     path: '/ap={apId}',
     handler: function (request, reply) {
         queryAp(request, reply);
-    }
-});
-
-server.route({
-    method: 'GET',
-    path: '/api/beobInfospezies/id={id}',
-    handler: function (request, reply) {
-        queryBeobInfospeziesSelect(request, reply);
-    }
-});
-
-server.route({
-    method: 'GET',
-    path: '/api/beobEvab/id={id}',
-    handler: function (request, reply) {
-        queryBeobEvabSelect(request, reply);
     }
 });
 
