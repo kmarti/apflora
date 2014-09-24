@@ -537,42 +537,6 @@ while($r_ber = mysqli_fetch_assoc($result_ber)) {
     $rows_ber[] = $ber;
 }
 mysqli_free_result($result_ber);
-
-// nicht beurteilte beob
-// beob_nicht_beurteilt dieses AP abfragen
-// Bei Epipactis palustris, Gymnadenia conopsea und Listera ovata stürzte der Browser z.T. ab
-// daher die Anzahl Datensätze auf 500 begrenzt
-$result_beob_nicht_beurteilt = mysqli_query($link_beob, "SELECT alexande_beob.tblBeobBereitgestellt.NO_NOTE, alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET, alexande_beob.tblBeobBereitgestellt.NO_ISFS, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor FROM (alexande_beob.tblBeobBereitgestellt LEFT JOIN alexande_apflora.tblBeobZuordnung ON alexande_beob.tblBeobBereitgestellt.NO_NOTE = alexande_apflora.tblBeobZuordnung.NO_NOTE) LEFT JOIN alexande_apflora.tblBeobZuordnung AS tblBeobZuordnung_1 ON alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET = tblBeobZuordnung_1.NO_NOTE WHERE alexande_beob.tblBeobBereitgestellt.NO_ISFS=$ApArtId AND ((alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET Is Not Null AND tblBeobZuordnung_1.NO_NOTE Is Null) OR (alexande_beob.tblBeobBereitgestellt.NO_NOTE Is Not Null AND alexande_apflora.tblBeobZuordnung.NO_NOTE Is Null)) ORDER BY alexande_beob.tblBeobBereitgestellt.Datum DESC LIMIT 500");
-$anz_beob_nicht_beurteilt = mysqli_num_rows($result_beob_nicht_beurteilt);
-// beob_nicht_beurteilt aufbauen
-$rows_beob_nicht_beurteilt = array();
-while($r_beob_nicht_beurteilt = mysqli_fetch_assoc($result_beob_nicht_beurteilt)) {
-	if ($r_beob_nicht_beurteilt['NO_NOTE']) {
-		// beob voransetzen, damit die ID im ganzen Baum eindeutig ist
-		$beobid = 'beob'.$r_beob_nicht_beurteilt['NO_NOTE'];
-		$beobtyp = "infospezies";
-	} else {
-		// beob voransetzen, damit die ID im ganzen Baum eindeutig ist
-		$beobid = 'beob'.$r_beob_nicht_beurteilt['NO_NOTE_PROJET'];
-		$beobtyp = "evab";
-	}
-	if ($r_beob_nicht_beurteilt['Autor'] && $r_beob_nicht_beurteilt['Autor'] <> " ") {
-		$beobAutor = $r_beob_nicht_beurteilt['Autor'];
-	} else {
-		$beobAutor = "(kein Autor)";
-	}
-	if ($r_beob_nicht_beurteilt['Datum']) {
-		$datum = $r_beob_nicht_beurteilt['Datum'];
-	} else {
-		$datum = "(kein Datum)";
-	}
-	// beob_nicht_beurteilt setzen
-	$attr_beob_nicht_beurteilt = array("id" => $beobid, "typ" => "beob_nicht_beurteilt", "beobtyp" => $beobtyp);
-	$beob_nicht_beurteilt = array("data" => $datum.": ".$beobAutor, "attr" => $attr_beob_nicht_beurteilt);
-	// beob-Array um beob_nicht_beurteilt ergänzen
-    $rows_beob_nicht_beurteilt[] = $beob_nicht_beurteilt;
-}
-mysqli_free_result($result_beob_nicht_beurteilt);
 	
 
 // AP-Ordner setzen
@@ -598,19 +562,8 @@ $meineId = "ap_ordner_ber".$ApArtId;
 $ap_ordner_ber_attr = array("id" => $meineId, "typ" => "ap_ordner_ber");
 $ap_ordner_ber = array("data" => "Berichte (".$anz_ber.")", "attr" => $ap_ordner_ber_attr, "children" => $rows_ber);
 
-// Beobachtungen
-$meineId = "ap_ordner_beob_nicht_beurteilt".$ApArtId;
-$ap_ordner_beob_attr = array("id" => $meineId, "typ" => "ap_ordner_beob_nicht_beurteilt");
-// Bei Epipactis palustris, Gymnadenia conopsea und Listera ovata stürzte der Browser z.t. ab
-// daher die Anzahl Datensätze auf 500 begrenzt
-if ($anz_beob_nicht_beurteilt<500) {
-	$ap_ordner_beob_nicht_beurteilt = array("data" => "nicht beurteilte Beobachtungen (".$anz_beob_nicht_beurteilt.")", "attr" => $ap_ordner_beob_attr, "children" => $rows_beob_nicht_beurteilt);
-} else {
-	$ap_ordner_beob_nicht_beurteilt = array("data" => "nicht beurteilte Beobachtungen (erste ".$anz_beob_nicht_beurteilt.")", "attr" => $ap_ordner_beob_attr, "children" => $rows_beob_nicht_beurteilt);
-}
-
 // zusammensetzen
-$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_jber, 4 => $ap_ordner_ber, 5 => $ap_ordner_beob_nicht_beurteilt);
+$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_jber, 4 => $ap_ordner_ber);
 
 	
 // in json verwandeln
