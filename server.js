@@ -37,6 +37,7 @@ var  _       = require('underscore')
     , treeAssozarten        = require('./queries/tree/assozarten')
     , treeIdealbiotop       = require('./queries/tree/idealbiotop')
     , treeBeobNichtZuzuordnen       = require('./queries/tree/beobNichtZuzuordnen')
+    , treeBeobNichtBeurteilt       = require('./queries/tree/beobNichtBeurteilt')
     ;
 
 connectionApflora.connect();
@@ -237,12 +238,13 @@ server.route({
             [
                 { method: treeAssozarten, assign: 'assozarten' },
                 { method: treeIdealbiotop, assign: 'idealbiotop' },
-                { method: treeBeobNichtZuzuordnen, assign: 'beobNichtZuzuordnen' }
+                { method: treeBeobNichtZuzuordnen, assign: 'beobNichtZuzuordnen' },
+                { method: treeBeobNichtBeurteilt, assign: 'beobNichtBeurteilt' }
             ]
 
         ],
         handler: function (request, reply) {
-            reply([request.pre.beobNichtZuzuordnen, request.pre.idealbiotop, request.pre.assozarten]);
+            reply([request.pre.beobNichtBeurteilt, request.pre.beobNichtZuzuordnen, request.pre.idealbiotop, request.pre.assozarten]);
         }
     }
 
