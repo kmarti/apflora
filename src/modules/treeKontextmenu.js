@@ -128,8 +128,9 @@ var treeKontextmenu = function(node) {
                             }
                         });
                         updatePop.always(function() {
+                            var erstelleTree = require('./erstelleTree');
                             // Baum neu aufbauen
-                            $.when(window.apf.erstelle_tree(window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))))
+                            $.when(erstelleTree(window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))))
                                 .then(function() {
                                     // dann den eingefügten Node wählen
                                     $("#tree").jstree("select_node", "[typ='pop']#" + localStorage.pop_id);
@@ -1152,8 +1153,9 @@ var treeKontextmenu = function(node) {
                             }
                         });
                         updatePop_2.always(function() {
+                            var erstelleTree = require('./erstelleTree');
                             // Baum wieder aufbauen
-                            $.when(window.apf.erstelle_tree(apartid))
+                            $.when(erstelleTree(apartid))
                                 .then(function() {
                                     // dann den eingefügten Node wählen
                                     $("#tree").jstree("select_node", "[typ='pop']#" + popid);

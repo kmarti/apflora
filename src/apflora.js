@@ -691,6 +691,7 @@ window.apf.wähleApListe = function(programm) {
 	return apliste_gewählt.promise();
 };
 
+// diese Funktion kann nicht modularisiert werden, weil jstree nicht für node entwickelt wurde!!!!
 window.apf.erstelle_tree = function(ApArtId) {
 	'use strict';
 	var jstree_erstellt = $.Deferred(),
@@ -2446,6 +2447,7 @@ window.apf.prüfeSchreibvoraussetzungen = function() {
 // wird von allen Formularen benutzt
 // speichert den Wert eines Feldes in einem Formular
 // übernimmt das Objekt, in dem geändert wurde
+// kann nicht modularisiert werden, weil jstree verwendet wird und dieses nicht mit node kompatibel ist
 window.apf.speichern = function(that) {
 	'use strict';
 	var feldtyp,
@@ -2816,148 +2818,6 @@ window.apf.speichern = function(that) {
 	};
 })(jQuery);
 
-// wandelt decimal degrees (vom GPS) in WGS84 um
-window.apf.DdInWgs84BreiteGrad = function(Breite) {
-	'use strict';
-	var BreiteGrad = Math.floor(Breite);
-	return BreiteGrad;
-};
-
-window.apf.DdInWgs84BreiteMin = function(Breite) {
-	'use strict';
-	var BreiteGrad = Math.floor(Breite),
-		BreiteMin = Math.floor((Breite - BreiteGrad) * 60);
-	return BreiteMin;
-};
-
-window.apf.DdInWgs84BreiteSec = function(Breite) {
-	'use strict';
-	var BreiteGrad = Math.floor(Breite),
-		BreiteMin = Math.floor((Breite - BreiteGrad)*60),
-		BreiteSec = Math.round((((Breite - BreiteGrad) - (BreiteMin / 60)) * 60 * 60) * 100) / 100;
-	return BreiteSec;
-};
-
-window.apf.DdInWgs84LängeGrad = function(Länge) {
-	'use strict';
-	var LängeGrad = Math.floor(Länge);
-	return LängeGrad;
-};
-
-window.apf.DdInWgs84LängeMin = function(Länge) {
-	'use strict';
-	var LängeGrad = Math.floor(Länge),
-		LängeMin = Math.floor((Länge - LängeGrad) * 60);
-	return LängeMin;
-};
-
-window.apf.DdInWgs84LängeSec = function(Länge) {
-	'use strict';
-	var LängeGrad = Math.floor(Länge),
-		LängeMin = Math.floor((Länge - LängeGrad) * 60),
-		LängeSec = Math.round((((Länge - LängeGrad) - (LängeMin / 60)) * 60 * 60) * 100) / 100;
-	return LängeSec;
-};
-
-// Wandelt WGS84 lat/long (° dec) in CH-Landeskoordinaten um
-window.apf.Wgs84InChX = function(BreiteGrad, BreiteMin, BreiteSec, LängeGrad, LängeMin, LängeSec) {
-	'use strict';
-	var lat = BreiteSec + BreiteMin * 60 + BreiteGrad * 3600,
-		lng = LängeSec + LängeMin * 60 + LängeGrad * 3600,
-		// Auxiliary values (% Bern)
-		lat_aux = (lat - 169028.66) / 10000,
-		lng_aux = (lng - 26782.5) / 10000,
-		x = 200147.07
-		  + 308807.95 * lat_aux 
-		  +   3745.25 * Math.pow(lng_aux, 2)
-		  +	 76.63 * Math.pow(lat_aux, 2)
-		  -	194.56 * Math.pow(lng_aux, 2) * lat_aux
-		  +	119.79 * Math.pow(lat_aux, 3);
-	return x;
-};
-
-// Wandelt WGS84 in CH-Landeskoordinaten um
-window.apf.Wgs84InChY = function(BreiteGrad, BreiteMin, BreiteSec, LängeGrad, LängeMin, LängeSec) {
-	'use strict';
-	// Converts degrees dec to sex
-	var lat = BreiteSec + BreiteMin * 60 + BreiteGrad * 3600,
-		lng = LängeSec + LängeMin * 60 + LängeGrad * 3600,
-		// Auxiliary values (% Bern)
-		lat_aux = (lat - 169028.66) / 10000,
-		lng_aux = (lng - 26782.5) / 10000,
-		// Process Y
-		y = 600072.37 
-		  + 211455.93 * lng_aux 
-		  -  10938.51 * lng_aux * lat_aux
-		  -	  0.36 * lng_aux * Math.pow(lat_aux, 2)
-		  -	 44.54 * Math.pow(lng_aux, 3);
-	return y;
-};
-
-// wandelt decimal degrees (vom GPS) in CH-Landeskoordinaten um
-window.apf.DdInChX = function(Breite, Länge) {
-	'use strict';
-	var BreiteGrad = window.apf.DdInWgs84BreiteGrad(Breite),
-		BreiteMin = window.apf.DdInWgs84BreiteMin(Breite),
-		BreiteSec = window.apf.DdInWgs84BreiteSec(Breite),
-		LängeGrad = window.apf.DdInWgs84LängeGrad(Länge),
-		LängeMin = window.apf.DdInWgs84LängeMin(Länge),
-		LängeSec = window.apf.DdInWgs84LängeSec(Länge),
-		x = Math.floor(window.apf.Wgs84InChX(BreiteGrad, BreiteMin, BreiteSec, LängeGrad, LängeMin, LängeSec));
-	return x;
-};
-
-window.apf.DdInChY = function(Breite, Länge) {
-	'use strict';
-	var BreiteGrad = window.apf.DdInWgs84BreiteGrad(Breite),
-		BreiteMin = window.apf.DdInWgs84BreiteMin(Breite),
-		BreiteSec = window.apf.DdInWgs84BreiteSec(Breite),
-		LängeGrad = window.apf.DdInWgs84LängeGrad(Länge),
-		LängeMin = window.apf.DdInWgs84LängeMin(Länge),
-		LängeSec = window.apf.DdInWgs84LängeSec(Länge),
-		y = Math.floor(window.apf.Wgs84InChY(BreiteGrad, BreiteMin, BreiteSec, LängeGrad, LängeMin, LängeSec));
-	return y;
-};
-
-// von CH-Landeskoord zu DecDeg
-
-// Convert CH y/x to WGS lat
-window.apf.CHtoWGSlat = function(y, x) {
-	'use strict';
-	// Converts militar to civil and to unit = 1000km
-	// Auxiliary values (% Bern)
-	var y_aux = (y - 600000) / 1000000,
-		x_aux = (x - 200000) / 1000000,
-		// Process lat
-		lat = 16.9023892
-			 +  3.238272 * x_aux
-			 -  0.270978 * Math.pow(y_aux, 2)
-			 -  0.002528 * Math.pow(x_aux, 2)
-			 -  0.0447   * Math.pow(y_aux, 2) * x_aux
-			 -  0.0140   * Math.pow(x_aux, 3);
-	// Unit 10000" to 1 " and converts seconds to degrees (dec)
-	lat = lat * 100 / 36;
-	return lat;
-};
-
-// Convert CH y/x to WGS long
-window.apf.CHtoWGSlng = function(y, x) {
-	'use strict';
-	// Converts militar to civil and to unit = 1000km
-	// Auxiliary values (% Bern)
-	var y_aux = (y - 600000) / 1000000,
-		x_aux = (x - 200000) / 1000000,
-		// Process long
-		lng = 2.6779094
-			+ 4.728982 * y_aux
-			+ 0.791484 * y_aux * x_aux
-			+ 0.1306   * y_aux * Math.pow(x_aux, 2)
-			- 0.0436   * Math.pow(y_aux, 3);
-	// Unit 10000" to 1 " and converts seconds to degrees (dec)
-	lng = lng * 100 / 36;
-	return lng;
-};
-
 window.apf.gmap.zeigeTPop = function(tpop_liste) {
 	'use strict';
 	var anz_tpop,
@@ -2976,7 +2836,9 @@ window.apf.gmap.zeigeTPop = function(tpop_liste) {
         contentString,
         marker_options,
         marker_cluster,
-        my_flurname;
+        my_flurname,
+        cHtoWGSlat = require('./lib/cHtoWGSlat'),
+        cHtoWGSlng = require('./lib/cHtoWGSlng');
 	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	window.apf.zeigeFormular("google_karte");
 	window.apf.gmap.markers_array = [];
@@ -2990,8 +2852,8 @@ window.apf.gmap.zeigeTPop = function(tpop_liste) {
             // tpop einsetzen geht nicht, weil Chrome Fehler meldet
             delete tpop_liste.rows[index];
         } else {
-            tpop.Lat = window.apf.CHtoWGSlat(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
-            tpop.Lng = window.apf.CHtoWGSlng(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
+            tpop.Lat = cHtoWGSlat(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
+            tpop.Lng = cHtoWGSlng(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
         }
     });
 	// TPop zählen
@@ -4441,7 +4303,9 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
         titel_beob,
         tpop_beschriftung,
         a_note,
-        my_flurname;
+        my_flurname,
+        cHtoWGSlat = require('./lib/cHtoWGSlat'),
+        cHtoWGSlng = require('./lib/cHtoWGSlng');
 	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	window.apf.zeigeFormular("google_karte");
 	window.apf.gmap.markers_array = [];
@@ -4450,8 +4314,8 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
 	infowindow_tpop = new google.maps.InfoWindow();
 	// Lat und Lng in BeobListe ergänzen
     _.each(beob_liste, function(beob) {
-        beob.Lat = window.apf.CHtoWGSlat(parseInt(beob.X), parseInt(beob.Y));
-        beob.Lng = window.apf.CHtoWGSlng(parseInt(beob.X), parseInt(beob.Y));
+        beob.Lat = cHtoWGSlat(parseInt(beob.X), parseInt(beob.Y));
+        beob.Lng = cHtoWGSlng(parseInt(beob.X), parseInt(beob.Y));
     });
 	// dito in TPopListe
     _.each(tpop_liste.rows, function(tpop, index) {
@@ -4459,8 +4323,8 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
             // tpop gibt in Chrome Fehler
             delete tpop_liste.rows[index];
         } else {
-            tpop.Lat = window.apf.CHtoWGSlat(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
-            tpop.Lng = window.apf.CHtoWGSlng(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
+            tpop.Lat = cHtoWGSlat(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
+            tpop.Lng = cHtoWGSlng(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
         }
     });
 	// Beob zählen
@@ -4601,14 +4465,16 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
 	}
 
 	function makeListenerMarkerBeobDragend(markerBeob, Beob) {
+		var ddInChY = require('./lib/ddInChY'),
+			ddInChX = require('./lib/ddInChX');
 		google.maps.event.addListener(markerBeob, "dragend", function(event) {
 			var lat, lng, X, Y, that;
 			that = this;
 			// Koordinaten berechnen
 			lat = event.latLng.lat();
 			lng = event.latLng.lng();
-			X = window.apf.DdInChY(lat, lng);
-			Y = window.apf.DdInChX(lat, lng);
+			X = ddInChY(lat, lng);
+			Y = ddInChX(lat, lng);
 			// nächstgelegene TPop aus DB holen
 			var BeobNächsteTPop = $.ajax({
 				type: 'get',
@@ -4621,7 +4487,9 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
 				dataType: 'json'
 			});
 			BeobNächsteTPop.always(function(data) {
-				var beobtxt;
+				var beobtxt,
+					cHtoWGSlng = require('./lib/cHtoWGSlng'),
+					cHtoWGSlat = require('./lib/cHtoWGSlat');
 				if (Beob.Autor) {
 					beobtxt = "Beobachtung von " + Beob.Autor + " aus dem Jahr " + Beob.A_NOTE;
 				} else {
@@ -4647,8 +4515,8 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
 						Nein: function() {
 							$(this).dialog("close");
 							// drag rückgängig machen
-							lng = window.apf.CHtoWGSlng(Beob.X, Beob.Y);
-							lat = window.apf.CHtoWGSlat(Beob.X, Beob.Y);
+							lng = cHtoWGSlng(Beob.X, Beob.Y);
+							lat = cHtoWGSlat(Beob.X, Beob.Y);
 							var latlng3 = new google.maps.LatLng(lat, lng);
 							that.setPosition(latlng3);
 						}
@@ -4690,7 +4558,9 @@ window.apf.gmap.zeigeBeob = function(beob_liste) {
         marker_cluster,
         datum,
         titel,
-        a_note;
+        a_note,
+        cHtoWGSlng = require('./lib/cHtoWGSlng'),
+		cHtoWGSlat = require('./lib/cHtoWGSlat');
 	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	window.apf.zeigeFormular("google_karte");
 	window.apf.gmap.markers_array = [];
@@ -4698,8 +4568,8 @@ window.apf.gmap.zeigeBeob = function(beob_liste) {
 	infowindow = new google.maps.InfoWindow();
 	// Lat und Lng in BeobListe ergänzen
     _.each(beob_liste, function(beob) {
-        beob.Lat = window.apf.CHtoWGSlat(parseInt(beob.X), parseInt(beob.Y));
-        beob.Lng = window.apf.CHtoWGSlng(parseInt(beob.X), parseInt(beob.Y));
+        beob.Lat = cHtoWGSlat(parseInt(beob.X), parseInt(beob.Y));
+        beob.Lng = cHtoWGSlng(parseInt(beob.X), parseInt(beob.Y));
     });
 	// TPop zählen
 	anz_beob = beob_liste.length;
@@ -4825,7 +4695,9 @@ window.apf.gmap.zeigeTPopBeob = function(tpop_beob_liste) {
         marker_options,
         marker_cluster,
         datum,
-        titel;
+        titel,
+        cHtoWGSlng = require('./lib/cHtoWGSlng'),
+		cHtoWGSlat = require('./lib/cHtoWGSlat');
 	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
 	window.apf.zeigeFormular("google_karte");
 	window.apf.gmap.markers_array = [];
@@ -4835,8 +4707,8 @@ window.apf.gmap.zeigeTPopBeob = function(tpop_beob_liste) {
 	// Objekte löschen, die keine Koordinaten haben
 	// Lat und Lng ergänzen
     _.each(tpop_beob_liste, function(tpop_beob) {
-        tpop_beob.Lat = window.apf.CHtoWGSlat(parseInt(tpop_beob.X), parseInt(tpop_beob.Y));
-        tpop_beob.Lng = window.apf.CHtoWGSlng(parseInt(tpop_beob.X), parseInt(tpop_beob.Y));
+        tpop_beob.Lat = cHtoWGSlat(parseInt(tpop_beob.X), parseInt(tpop_beob.Y));
+        tpop_beob.Lng = cHtoWGSlng(parseInt(tpop_beob.X), parseInt(tpop_beob.Y));
     });
 	// TPop zählen
 	anz_tpop_beob = tpop_beob_liste.length;
@@ -4954,7 +4826,9 @@ window.apf.gmap.verorteTPop = function(tpop) {
         marker,
         content_string,
         tpop_beschriftung,
-        my_flurname;
+        my_flurname,
+        cHtoWGSlng = require('./lib/cHtoWGSlng'),
+		cHtoWGSlat = require('./lib/cHtoWGSlat');
     window.apf.gmap.markers_array = [];
 
 	// vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
@@ -4963,8 +4837,8 @@ window.apf.gmap.verorteTPop = function(tpop) {
     // Optionen für die Anzeige
 	if (tpop && tpop.TPopXKoord && tpop.TPopYKoord) {
 		// Wenn Koordinaten vorhanden, Lat und Lng ergänzen
-		lat = window.apf.CHtoWGSlat(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
-		lng = window.apf.CHtoWGSlng(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
+		lat = cHtoWGSlat(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
+		lng = cHtoWGSlng(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
 		zoom_level = 15;
 		verorted = true;
 	} else {
@@ -5071,7 +4945,9 @@ window.apf.gmap.SetLocationTPop = function(LatLng, map, marker, TPop) {
 		Objekt,
 		title,
 		X,
-		Y;
+		Y,
+		ddInChY = require('./lib/ddInChY'),
+		ddInChX = require('./lib/ddInChX');
 	// nur aktualisieren, wenn Schreibrechte bestehen
 	if (!window.apf.prüfeSchreibvoraussetzungen()) {
 		return;
@@ -5083,8 +4959,8 @@ window.apf.gmap.SetLocationTPop = function(LatLng, map, marker, TPop) {
 	}
 	lat = LatLng.lat();
 	lng = LatLng.lng();
-	X = window.apf.DdInChY(lat, lng);
-	Y = window.apf.DdInChX(lat, lng);
+	X = ddInChY(lat, lng);
+	Y = ddInChX(lat, lng);
 	var updateTPop_3 = $.ajax({
 		type: 'post',
 		url: 'php/tpop_update.php',
