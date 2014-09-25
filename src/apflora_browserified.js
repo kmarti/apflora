@@ -205,15 +205,13 @@ window.apf.setzeWindowBer = function(id) {
 	localStorage.ber_id = id;
 	var getBer = $.ajax({
 		type: 'get',
-		url: 'php/ber.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.ber_id
-		}
+        url: '/api/select/apflora/tabelle=tblBer/feld=BerId/wertNumber=' + localStorage.ber_id,
+		dataType: 'json'
 	});
-	getBer.always(function(data) {
+	getBer.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
+		if (data && data[0]) {
+            data = data[0];
 			// ber bereitstellen
 			window.apf.ber = data;
 		}
@@ -7792,7 +7790,7 @@ window.apf.erstelleGuid = function() {
 	    return v.toString(16);
 	});
 };
-},{"./lib/cHtoWGSlat":6,"./lib/cHtoWGSlng":7,"./lib/ddInChX":9,"./lib/ddInChY":10,"./modules/configuration":19,"./modules/initiiereAp":22,"./modules/initiiereApziel":23,"./modules/initiiereAssozarten":24,"./modules/initiiereBeob":25,"./modules/initiiereBer":26,"./modules/initiiereErfkrit":27,"./modules/initiiereIdealbiotop":28,"./modules/initiiereIndex":29,"./modules/initiiereJber":30,"./modules/initiiereJberUebersicht":31,"./modules/initiierePop":32,"./modules/initiierePopBer":33,"./modules/initiierePopMassnBer":34,"./modules/initiiereTPop":35,"./modules/initiiereTPopBer":36,"./modules/initiiereTPopFeldkontr":37,"./modules/initiiereTPopMassn":38,"./modules/initiiereTPopMassnBer":39,"./modules/initiiereZielber":40,"./modules/treeKontextmenu":41}],2:[function(require,module,exports){
+},{"./lib/cHtoWGSlat":6,"./lib/cHtoWGSlng":7,"./lib/ddInChX":9,"./lib/ddInChY":10,"./modules/configuration":20,"./modules/initiiereAp":23,"./modules/initiiereApziel":24,"./modules/initiiereAssozarten":25,"./modules/initiiereBeob":26,"./modules/initiiereBer":27,"./modules/initiiereErfkrit":28,"./modules/initiiereIdealbiotop":29,"./modules/initiiereIndex":30,"./modules/initiiereJber":31,"./modules/initiiereJberUebersicht":32,"./modules/initiierePop":33,"./modules/initiierePopBer":34,"./modules/initiierePopMassnBer":35,"./modules/initiiereTPop":36,"./modules/initiiereTPopBer":37,"./modules/initiiereTPopFeldkontr":38,"./modules/initiiereTPopMassn":39,"./modules/initiiereTPopMassnBer":40,"./modules/initiiereZielber":41,"./modules/treeKontextmenu":42}],2:[function(require,module,exports){
 /*
  * Date Format 1.2.3
  * (c) 2007-2009 Steven Levithan <stevenlevithan.com>
@@ -33691,7 +33689,7 @@ module.exports = function(breite, länge) {
         Wgs84InChX = require('./wgs84InChX');
     return Math.floor(Wgs84InChX(breiteGrad, breiteMin, breiteSec, längeGrad, längeMin, längeSec));
 };
-},{"./ddInWgs84BreiteGrad":11,"./ddInWgs84BreiteMin":12,"./ddInWgs84BreiteSec":13,"./ddInWgs84LaengeGrad":14,"./ddInWgs84LaengeMin":15,"./ddInWgs84LaengeSec":16,"./wgs84InChX":17}],10:[function(require,module,exports){
+},{"./ddInWgs84BreiteGrad":11,"./ddInWgs84BreiteMin":12,"./ddInWgs84BreiteSec":13,"./ddInWgs84LaengeGrad":14,"./ddInWgs84LaengeMin":15,"./ddInWgs84LaengeSec":16,"./wgs84InChX":18}],10:[function(require,module,exports){
 /**
  * wandelt decimal degrees (vom GPS) in CH-Landeskoordinaten um
  * @return {number}
@@ -33715,7 +33713,7 @@ module.exports = function(breite, länge) {
         Wgs84InChY = require('./wgs84InChY');
     return Math.floor(Wgs84InChY(breiteGrad, breiteMin, breiteSec, längeGrad, längeMin, längeSec));
 };
-},{"./ddInWgs84BreiteGrad":11,"./ddInWgs84BreiteMin":12,"./ddInWgs84BreiteSec":13,"./ddInWgs84LaengeGrad":14,"./ddInWgs84LaengeMin":15,"./ddInWgs84LaengeSec":16,"./wgs84InChY":18}],11:[function(require,module,exports){
+},{"./ddInWgs84BreiteGrad":11,"./ddInWgs84BreiteMin":12,"./ddInWgs84BreiteSec":13,"./ddInWgs84LaengeGrad":14,"./ddInWgs84LaengeMin":15,"./ddInWgs84LaengeSec":16,"./wgs84InChY":19}],11:[function(require,module,exports){
 /**
  * wandelt decimal degrees (vom GPS) in WGS84 um
  * @return {number}
@@ -33789,6 +33787,34 @@ module.exports = function(Laenge) {
 };
 },{}],17:[function(require,module,exports){
 /**
+ * damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
+ * Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
+ */
+
+'use strict';
+
+var $ = require('jquery');
+
+module.exports = (function($) {
+    $.fn.extend( {
+        limiter: function(limit, elem) {
+            $(this).on("keyup focus", function() {
+                setCount(this, elem);
+            });
+            function setCount(src, elem) {
+                var chars = src.value.length;
+                if (chars > limit) {
+                    src.value = src.value.substr(0, limit);
+                    chars = limit;
+                }
+                elem.html( limit - chars );
+            }
+            setCount($(this)[0], elem);
+        }
+    });
+})(jQuery);
+},{"jquery":4}],18:[function(require,module,exports){
+/**
  * Wandelt WGS84 lat/long (° dec) in CH-Landeskoordinaten um
  * @return {number}
  */
@@ -33819,7 +33845,7 @@ module.exports = function(breiteGrad, breiteMin, breiteSec, längeGrad, längeMi
 
     return x;
 };
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /**
  * Wandelt WGS84 in CH-Landeskoordinaten um
  * @return {number}
@@ -33851,7 +33877,7 @@ module.exports = function(breiteGrad, breiteMin, breiteSec, längeGrad, längeMi
 
     return y;
 };
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 /**
  * Hier werden zentral alle Konfigurationsparameter gesammelt
  */
@@ -33945,12 +33971,12 @@ config.forms = {
 };
 
 module.exports = config;
-},{"./dbPass.json":20}],20:[function(require,module,exports){
+},{"./dbPass.json":21}],21:[function(require,module,exports){
 module.exports={
     "user": "alexande",
     "pass": "y3oYksFsQL49es9x"
 }
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -35374,7 +35400,7 @@ var erstelleTree = function($tree_jstree, ApArtId) {
 };
 
 module.exports = erstelleTree;
-},{"./initiiereAp":22,"./initiiereApziel":23,"./initiiereAssozarten":24,"./initiiereBeob":25,"./initiiereBer":26,"./initiiereErfkrit":27,"./initiiereIdealbiotop":28,"./initiiereJber":30,"./initiiereJberUebersicht":31,"./initiierePop":32,"./initiierePopBer":33,"./initiierePopMassnBer":34,"./initiiereTPop":35,"./initiiereTPopBer":36,"./initiiereTPopFeldkontr":37,"./initiiereTPopMassn":38,"./initiiereTPopMassnBer":39,"./initiiereZielber":40,"./treeKontextmenu":41,"jquery":4}],22:[function(require,module,exports){
+},{"./initiiereAp":23,"./initiiereApziel":24,"./initiiereAssozarten":25,"./initiiereBeob":26,"./initiiereBer":27,"./initiiereErfkrit":28,"./initiiereIdealbiotop":29,"./initiiereJber":31,"./initiiereJberUebersicht":32,"./initiierePop":33,"./initiierePopBer":34,"./initiierePopMassnBer":35,"./initiiereTPop":36,"./initiiereTPopBer":37,"./initiiereTPopFeldkontr":38,"./initiiereTPopMassn":39,"./initiiereTPopMassnBer":40,"./initiiereZielber":41,"./treeKontextmenu":42,"jquery":4}],23:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -35451,7 +35477,7 @@ var initiiereAp = function() {
 };
 
 module.exports = initiiereAp;
-},{"jquery":4,"underscore":5}],23:[function(require,module,exports){
+},{"jquery":4,"underscore":5}],24:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -35500,7 +35526,7 @@ var initiiereApziel = function() {
 };
 
 module.exports = initiiereApziel;
-},{"./initiiereAp":22,"jquery":4}],24:[function(require,module,exports){
+},{"./initiiereAp":23,"jquery":4}],25:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -35542,7 +35568,7 @@ var initiiereAssozarten = function() {
 };
 
 module.exports = initiiereAssozarten;
-},{"./initiiereAp":22,"jquery":4}],25:[function(require,module,exports){
+},{"./initiiereAp":23,"jquery":4}],26:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -35694,14 +35720,34 @@ var initiiereBeob = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
 };
 
 module.exports = initiiereBeob;
-},{"../lib/capitaliseFirstLetter":8,"./initiiereAp":22,"./initiiereBeob":25,"jquery":4,"underscore":5}],26:[function(require,module,exports){
+},{"../lib/capitaliseFirstLetter":8,"./initiiereAp":23,"./initiiereBeob":26,"jquery":4,"underscore":5}],27:[function(require,module,exports){
 'use strict';
 
-var $ = require('jquery'),
-    initiiereAp = require('./initiiereAp');
-//require('jquery-ui');
+var $ = jQuery = require('jquery'),
+    initiiereAp = require('./initiiereAp'),
+    limiter = require('../lib/limiter');
 
 var initiiereBer = function() {
+
+    /*(function($) {
+        $.fn.extend( {
+            limiter: function(limit, elem) {
+                $(this).on("keyup focus", function() {
+                    setCount(this, elem);
+                });
+                function setCount(src, elem) {
+                    var chars = src.value.length;
+                    if (chars > limit) {
+                        src.value = src.value.substr(0, limit);
+                        chars = limit;
+                    }
+                    elem.html( limit - chars );
+                }
+                setCount($(this)[0], elem);
+            }
+        });
+    })(jQuery);*/
+
     if (!localStorage.ber_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp();
@@ -35712,19 +35758,17 @@ var initiiereBer = function() {
     // Daten für die ber aus der DB holen
     var getBer = $.ajax({
             type: 'get',
-            url: 'php/ber.php',
-            dataType: 'json',
-            data: {
-                "id": localStorage.ber_id
-            }
+            url: '/api/select/apflora/tabelle=tblBer/feld=BerId/wertNumber=' + localStorage.ber_id,
+            dataType: 'json'
         }),
         $BerAutor = $("#BerAutor"),
         $BerJahr = $("#BerJahr"),
         $BerTitel = $("#BerTitel"),
         $BerURL = $("#BerURL");
-    getBer.always(function(data) {
+    getBer.done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-        if (data) {
+        if (data && data[0]) {
+            data = data[0];
             // ber bereitstellen
             window.apf.ber = data;
             // Felder mit Daten beliefern
@@ -35756,7 +35800,7 @@ var initiiereBer = function() {
 };
 
 module.exports = initiiereBer;
-},{"./initiiereAp":22,"jquery":4}],27:[function(require,module,exports){
+},{"../lib/limiter":17,"./initiiereAp":23,"jquery":4}],28:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -35803,7 +35847,7 @@ var initiiereErfkrit = function() {
 };
 
 module.exports = initiiereErfkrit;
-},{"./initiiereAp":22,"jquery":4}],28:[function(require,module,exports){
+},{"./initiiereAp":23,"jquery":4}],29:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -35883,7 +35927,7 @@ var initiiereIdealbiotop = function() {
 };
 
 module.exports = initiiereIdealbiotop;
-},{"./initiiereAp":22,"dateformat":2,"jquery":4}],29:[function(require,module,exports){
+},{"./initiiereAp":23,"dateformat":2,"jquery":4}],30:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -35958,7 +36002,7 @@ var initiiereIndex = function() {
 };
 
 module.exports = initiiereIndex;
-},{"jquery":4,"jquery-ui":3}],30:[function(require,module,exports){
+},{"jquery":4,"jquery-ui":3}],31:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -36050,7 +36094,7 @@ var initiiereJber = function() {
 };
 
 module.exports = initiiereJber;
-},{"./initiiereAp":22,"jquery":4,"underscore":5}],31:[function(require,module,exports){
+},{"./initiiereAp":23,"jquery":4,"underscore":5}],32:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -36096,7 +36140,7 @@ var initiiereJberUebersicht = function() {
 };
 
 module.exports = initiiereJberUebersicht;
-},{"./initiiereAp":22,"jquery":4}],32:[function(require,module,exports){
+},{"./initiiereAp":23,"jquery":4}],33:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -36159,7 +36203,7 @@ var initiierePop = function() {
 };
 
 module.exports = initiierePop;
-},{"./initiiereAp":22,"jquery":4}],33:[function(require,module,exports){
+},{"./initiiereAp":23,"jquery":4}],34:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -36202,7 +36246,7 @@ var initiierePopBer = function() {
 };
 
 module.exports = initiierePopBer;
-},{"./initiierePop":32,"jquery":4}],34:[function(require,module,exports){
+},{"./initiierePop":33,"jquery":4}],35:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -36245,7 +36289,7 @@ var initiierePopMassnBer = function() {
 };
 
 module.exports = initiierePopMassnBer;
-},{"./initiierePop":32,"jquery":4}],35:[function(require,module,exports){
+},{"./initiierePop":33,"jquery":4}],36:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -36378,7 +36422,7 @@ var initiiereTPop = function() {
 };
 
 module.exports = initiiereTPop;
-},{"./initiierePop":32,"jquery":4,"underscore":5}],36:[function(require,module,exports){
+},{"./initiierePop":33,"jquery":4,"underscore":5}],37:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -36421,7 +36465,7 @@ var initiiereTPopBer = function() {
 };
 
 module.exports = initiiereTPopBer;
-},{"./initiierePop":32,"jquery":4}],37:[function(require,module,exports){
+},{"./initiierePop":33,"jquery":4}],38:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -36732,7 +36776,7 @@ var initiiereTPopFeldkontr = function() {
 };
 
 module.exports = initiiereTPopFeldkontr;
-},{"./initiierePop":32,"jquery":4,"jquery-ui":3,"underscore":5}],38:[function(require,module,exports){
+},{"./initiierePop":33,"jquery":4,"jquery-ui":3,"underscore":5}],39:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -36873,7 +36917,7 @@ var initiiereTPopMassn = function() {
 };
 
 module.exports = initiiereTPopMassn;
-},{"./initiierePop":32,"jquery":4,"underscore":5}],39:[function(require,module,exports){
+},{"./initiierePop":33,"jquery":4,"underscore":5}],40:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -36916,7 +36960,7 @@ var initiiereTPopMassnBer = function() {
 };
 
 module.exports = initiiereTPopMassnBer;
-},{"./initiierePop":32,"jquery":4}],40:[function(require,module,exports){
+},{"./initiierePop":33,"jquery":4}],41:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -36962,7 +37006,7 @@ var initiiereZielber = function() {
 };
 
 module.exports = initiiereZielber;
-},{"./initiiereAp":22,"jquery":4}],41:[function(require,module,exports){
+},{"./initiiereAp":23,"jquery":4}],42:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -40218,7 +40262,7 @@ var treeKontextmenu = function(node) {
 };
 
 module.exports = treeKontextmenu;
-},{"./erstelleTree":21,"./zeigeTPop":42,"jquery":4,"underscore":5}],42:[function(require,module,exports){
+},{"./erstelleTree":22,"./zeigeTPop":43,"jquery":4,"underscore":5}],43:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),

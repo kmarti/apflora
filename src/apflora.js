@@ -204,15 +204,13 @@ window.apf.setzeWindowBer = function(id) {
 	localStorage.ber_id = id;
 	var getBer = $.ajax({
 		type: 'get',
-		url: 'php/ber.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.ber_id
-		}
+        url: '/api/select/apflora/tabelle=tblBer/feld=BerId/wertNumber=' + localStorage.ber_id,
+		dataType: 'json'
 	});
-	getBer.always(function(data) {
+	getBer.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
+		if (data && data[0]) {
+            data = data[0];
 			// ber bereitstellen
 			window.apf.ber = data;
 		}

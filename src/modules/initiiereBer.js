@@ -1,10 +1,11 @@
 'use strict';
 
-var $ = require('jquery'),
-    initiiereAp = require('./initiiereAp');
-//require('jquery-ui');
+var $ = jQuery = require('jquery'),
+    initiiereAp = require('./initiiereAp'),
+    limiter = require('../lib/limiter');
 
 var initiiereBer = function() {
+
     if (!localStorage.ber_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp();
@@ -15,19 +16,17 @@ var initiiereBer = function() {
     // Daten für die ber aus der DB holen
     var getBer = $.ajax({
             type: 'get',
-            url: 'php/ber.php',
-            dataType: 'json',
-            data: {
-                "id": localStorage.ber_id
-            }
+            url: '/api/select/apflora/tabelle=tblBer/feld=BerId/wertNumber=' + localStorage.ber_id,
+            dataType: 'json'
         }),
         $BerAutor = $("#BerAutor"),
         $BerJahr = $("#BerJahr"),
         $BerTitel = $("#BerTitel"),
         $BerURL = $("#BerURL");
-    getBer.always(function(data) {
+    getBer.done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-        if (data) {
+        if (data && data[0]) {
+            data = data[0];
             // ber bereitstellen
             window.apf.ber = data;
             // Felder mit Daten beliefern
