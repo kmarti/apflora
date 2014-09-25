@@ -197,62 +197,6 @@ window.apf.setzeWindowJberUebersicht = function(id) {
 	});
 };
 
-window.apf.initiiere_ber = function() {
-	'use strict';
-    var initiiereAp = require('./modules/initiiereAp');
-	if (!localStorage.ber_id) {
-		// es fehlen benötigte Daten > eine Ebene höher
-		initiiereAp();
-		return;
-	}
-	// Felder zurücksetzen
-	window.apf.leereFelderVonFormular("ber");
-	// Daten für die ber aus der DB holen
-	var getBer = $.ajax({
-            type: 'get',
-            url: 'php/ber.php',
-            dataType: 'json',
-            data: {
-                "id": localStorage.ber_id
-            }
-        }),
-        $BerAutor = $("#BerAutor"),
-        $BerJahr = $("#BerJahr"),
-        $BerTitel = $("#BerTitel"),
-        $BerURL = $("#BerURL");
-	getBer.always(function(data) {
-		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
-			// ber bereitstellen
-			window.apf.ber = data;
-			// Felder mit Daten beliefern
-            $BerAutor.val(data.BerAutor);
-            $BerJahr.val(data.BerJahr);
-            $BerTitel
-                .val(data.BerTitel)
-                .limiter(255, $("#BerTitel_limit"));
-            $BerURL
-                .val(data.BerURL)
-                .limiter(255, $("#BerURL_limit"));
-			// URL-Link initialisieren, wird bei Änderung der URL in index.html angepasst
-			$('#BerURLHref').attr('onClick', "window.open('" + data.BerURL + "', target='_blank')");
-			// Formulare blenden
-			window.apf.zeigeFormular("ber");
-			history.replaceState({ber: "ber"}, "ber", "index.html?ap=" + localStorage.ap_id + "&ber=" + localStorage.ber_id);
-			// bei neuen Datensätzen Fokus steuern
-			if (!$BerAutor.val()) {
-                $BerAutor.focus();
-			} else if (!$BerJahr.val()) {
-                $BerJahr.focus();
-			} else if (!$BerTitel.val()) {
-                $BerTitel.focus();
-			} else if (!$BerURL.val()) {
-                $BerURL.focus();
-			}
-		}
-	});
-};
-
 // setzt window.apf.ber und localStorage.ber_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowBer = function(id) {
@@ -2007,15 +1951,16 @@ window.apf.erstelle_tree = function(ApArtId) {
 	})
 	.bind("select_node.jstree", function(e, data) {
 		var node,
-            initiiere_beob = require('./modules/initiiereBeob'),
-            initiiere_idealbiotop = require('./modules/initiiereIdealbiotop'),
-            initiiereAp = require('./modules/initiiereAp'),
-            initiierePop = require('./modules/initiiereBeob'),
-            initiiereApziel = require('./modules/initiiereApziel'),
-            initiiereZielber = require('./modules/initiiereZielber'),
-            initiiereErfkrit = require('./modules/initiiereErfkrit'),
-            initiiereJber = require('./modules/initiiereJber'),
-            initiiereJberUebersicht = require('./modules/initiiereJberUebersicht');
+            initiiere_beob          = require('./modules/initiiereBeob'),
+            initiiere_idealbiotop   = require('./modules/initiiereIdealbiotop'),
+            initiiereAp             = require('./modules/initiiereAp'),
+            initiierePop            = require('./modules/initiiereBeob'),
+            initiiereApziel         = require('./modules/initiiereApziel'),
+            initiiereZielber        = require('./modules/initiiereZielber'),
+            initiiereErfkrit        = require('./modules/initiiereErfkrit'),
+            initiiereJber           = require('./modules/initiiereJber'),
+            initiiereJberUebersicht = require('./modules/initiiereJberUebersicht'),
+            initiiereBer            = require('./modules/initiiereBer');
 		delete localStorage.tpopfreiwkontr;	// Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
 		var node_typ = node.attr("typ");
@@ -2069,7 +2014,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#ber").is(':visible') || localStorage.ber_id !== node_id) {
 				localStorage.ber_id = node_id;
-				window.apf.initiiere_ber();
+				initiiereBer();
 			}
 		} else if (node_typ === "idealbiotop") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -6245,13 +6190,14 @@ window.apf.öffneUri = function() {
 	var uri = new Uri($(location).attr('href')),
 		anchor = uri.anchor() || null,
 		ap_id = uri.getQueryParamValue('ap'),
-        initiiere_idealbiotop = require('./modules/initiiereIdealbiotop'),
-        initiiereAp = require('./modules/initiiereAp'),
-        initiierePop = require('./modules/initiiereBeob'),
-        initiiereApziel = require('./modules/initiiereApziel'),
-        initiiereZielber = require('./modules/initiiereZielber'),
-        initiiereJber = require('./modules/initiiereJber'),
-        initiiereJberUebersicht = require('./modules/initiiereJberUebersicht');
+        initiiere_idealbiotop   = require('./modules/initiiereIdealbiotop'),
+        initiiereAp             = require('./modules/initiiereAp'),
+        initiierePop            = require('./modules/initiiereBeob'),
+        initiiereApziel         = require('./modules/initiiereApziel'),
+        initiiereZielber        = require('./modules/initiiereZielber'),
+        initiiereJber           = require('./modules/initiiereJber'),
+        initiiereJberUebersicht = require('./modules/initiiereJberUebersicht'),
+        initiiereBer            = require('./modules/initiiereBer');
 	if (ap_id) {
 		// globale Variablen setzen
 		window.apf.setzeWindowAp(ap_id);
@@ -6404,7 +6350,7 @@ window.apf.öffneUri = function() {
 			// Die Markierung wird im load-Event wieder entfernt
 			window.apf.ber_zeigen = true;
 			// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-			window.apf.initiiere_ber();
+			initiiereBer();
 		} else if (uri.getQueryParamValue('idealbiotop')) {
 			// globale Variablen setzen
 			window.apf.setzeWindowIdealbiotop(uri.getQueryParamValue('idealbiotop'));
