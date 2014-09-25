@@ -21,26 +21,27 @@ var  _       = require('underscore')
         password: config.db.passWord,
         database: 'alexande_apflora'
     })
-    , serverMethodGemeinden = require('./serverMethods/gemeinden')
-    , serverMethodArtliste  = require('./serverMethods/artliste')
-    , serverMethodApliste   = require('./serverMethods/apliste')
-    , serverMethodAdressen  = require('./serverMethods/adressen')
-    , queryAp               = require('./queries/ap')
-    , queryTabelleSelectApfloraNumber    = require('./queries/tabelleSelectApfloraNumber')
-    , queryTabelleSelectApfloraString    = require('./queries/tabelleSelectApfloraString')
+    , serverMethodGemeinden           = require('./serverMethods/gemeinden')
+    , serverMethodArtliste            = require('./serverMethods/artliste')
+    , serverMethodApliste             = require('./serverMethods/apliste')
+    , serverMethodAdressen            = require('./serverMethods/adressen')
+    , queryAp                         = require('./queries/ap')
+    , queryTabelleSelectApfloraNumber = require('./queries/tabelleSelectApfloraNumber')
+    , queryTabelleSelectApfloraString = require('./queries/tabelleSelectApfloraString')
     , queryTabelleSelectBeobNumber    = require('./queries/tabelleSelectBeobNumber')
     , queryTabelleSelectBeobString    = require('./queries/tabelleSelectBeobString')
-    , queryTabelleInsert    = require('./queries/tabelleInsert')
-    , queryTabelleUpdate    = require('./queries/tabelleUpdate')
-    , queryTabelleDelete    = require('./queries/tabelleDelete')
-    , queryAnmeldung        = require('./queries/anmeldung')
-    , treeAssozarten        = require('./queries/tree/assozarten')
-    , treeIdealbiotop       = require('./queries/tree/idealbiotop')
-    , treeBeobNichtZuzuordnen       = require('./queries/tree/beobNichtZuzuordnen')
-    , treeBeobNichtBeurteilt       = require('./queries/tree/beobNichtBeurteilt')
-    , queryBeobDistzutpopEvab       = require('./queries/beobDistzutpopEvab')
-    , queryBeobDistzutpopInfospezies       = require('./queries/beobDistzutpopInfospezies')
-    , queryBeobKarte       = require('./queries/beobKarte')
+    , queryTabelleInsert              = require('./queries/tabelleInsert')
+    , queryTabelleUpdate              = require('./queries/tabelleUpdate')
+    , queryTabelleDelete              = require('./queries/tabelleDelete')
+    , queryAnmeldung                  = require('./queries/anmeldung')
+    , treeAssozarten                  = require('./queries/tree/assozarten')
+    , treeIdealbiotop                 = require('./queries/tree/idealbiotop')
+    , treeBeobNichtZuzuordnen         = require('./queries/tree/beobNichtZuzuordnen')
+    , treeBeobNichtBeurteilt          = require('./queries/tree/beobNichtBeurteilt')
+    , treeBer                         = require('./queries/tree/ber')
+    , queryBeobDistzutpopEvab         = require('./queries/beobDistzutpopEvab')
+    , queryBeobDistzutpopInfospezies  = require('./queries/beobDistzutpopInfospezies')
+    , queryBeobKarte                  = require('./queries/beobKarte')
     ;
 
 connectionApflora.connect();
@@ -242,12 +243,19 @@ server.route({
                 { method: treeAssozarten, assign: 'assozarten' },
                 { method: treeIdealbiotop, assign: 'idealbiotop' },
                 { method: treeBeobNichtZuzuordnen, assign: 'beobNichtZuzuordnen' },
-                { method: treeBeobNichtBeurteilt, assign: 'beobNichtBeurteilt' }
+                { method: treeBeobNichtBeurteilt, assign: 'beobNichtBeurteilt' },
+                { method: treeBer, assign: 'ber' }
             ]
 
         ],
         handler: function (request, reply) {
-            reply([request.pre.beobNichtBeurteilt, request.pre.beobNichtZuzuordnen, request.pre.idealbiotop, request.pre.assozarten]);
+            reply([
+                request.pre.ber,
+                request.pre.beobNichtBeurteilt,
+                request.pre.beobNichtZuzuordnen,
+                request.pre.idealbiotop,
+                request.pre.assozarten
+            ]);
         }
     }
 
