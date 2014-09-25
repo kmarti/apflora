@@ -238,42 +238,6 @@ window.apf.setzeWindowIdealbiotop = function(id) {
 	});
 };
 
-window.apf.initiiere_assozarten = function() {
-	'use strict';
-    var initiiereAp = require('./modules/initiiereAp');
-	if (!localStorage.assozarten_id) {
-		// es fehlen benötigte Daten > eine Ebene höher
-		initiiereAp();
-		return;
-	}
-	// Felder zurücksetzen
-	window.apf.leereFelderVonFormular("assozarten");
-	// Daten für die assozarten aus der DB holen
-	var getAssozarten = $.ajax({
-            type: 'get',
-            url: '/api/select/apflora/tabelle=tblAssozArten/feld=AaId/wertNumber=' + localStorage.assozarten_id,
-            dataType: 'json'
-        }),
-        $AaSisfNr = $("#AaSisfNr");
-	getAssozarten.done(function(data) {
-		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data && data.length > 0) {
-			// assozarten bereitstellen
-			window.apf.assozarten = data[0];
-			// Felder mit Daten beliefern
-            $AaSisfNr.val(data[0].AaSisfNr);
-			$("#AaBem").val(data[0].AaBem);
-			// Formulare blenden
-			window.apf.zeigeFormular("assozarten");
-			history.replaceState({assozarten: "assozarten"}, "assozarten", "index.html?ap=" + localStorage.ap_id + "&assozarten=" + localStorage.assozarten_id);
-			// bei neuen Datensätzen Fokus steuern
-			if (!$AaSisfNr.val()) {
-                $AaSisfNr.focus();
-			}
-		}
-	});
-};
-
 // setzt window.apf.assozarten und localStorage.assozarten_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowAssozarten = function(id) {
@@ -1960,7 +1924,8 @@ window.apf.erstelle_tree = function(ApArtId) {
             initiiereErfkrit        = require('./modules/initiiereErfkrit'),
             initiiereJber           = require('./modules/initiiereJber'),
             initiiereJberUebersicht = require('./modules/initiiereJberUebersicht'),
-            initiiereBer            = require('./modules/initiiereBer');
+            initiiereBer            = require('./modules/initiiereBer'),
+            initiiereAssozarten     = require('./modules/initiiereAssozarten');
 		delete localStorage.tpopfreiwkontr;	// Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
 		var node_typ = node.attr("typ");
@@ -2028,7 +1993,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#assozarten").is(':visible') || localStorage.assozarten_id !== node_id) {
 				localStorage.assozarten_id = node_id;
-				window.apf.initiiere_assozarten();
+				initiiereAssozarten();
 			}
 		} else if (node_typ === "popber") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden

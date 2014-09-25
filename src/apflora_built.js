@@ -23153,42 +23153,6 @@ window.apf.setzeWindowIdealbiotop = function(id) {
 	});
 };
 
-window.apf.initiiere_assozarten = function() {
-	'use strict';
-    var initiiereAp = require('./modules/initiiereAp');
-	if (!localStorage.assozarten_id) {
-		// es fehlen benötigte Daten > eine Ebene höher
-		initiiereAp();
-		return;
-	}
-	// Felder zurücksetzen
-	window.apf.leereFelderVonFormular("assozarten");
-	// Daten für die assozarten aus der DB holen
-	var getAssozarten = $.ajax({
-            type: 'get',
-            url: '/api/select/apflora/tabelle=tblAssozArten/feld=AaId/wertNumber=' + localStorage.assozarten_id,
-            dataType: 'json'
-        }),
-        $AaSisfNr = $("#AaSisfNr");
-	getAssozarten.done(function(data) {
-		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data && data.length > 0) {
-			// assozarten bereitstellen
-			window.apf.assozarten = data[0];
-			// Felder mit Daten beliefern
-            $AaSisfNr.val(data[0].AaSisfNr);
-			$("#AaBem").val(data[0].AaBem);
-			// Formulare blenden
-			window.apf.zeigeFormular("assozarten");
-			history.replaceState({assozarten: "assozarten"}, "assozarten", "index.html?ap=" + localStorage.ap_id + "&assozarten=" + localStorage.assozarten_id);
-			// bei neuen Datensätzen Fokus steuern
-			if (!$AaSisfNr.val()) {
-                $AaSisfNr.focus();
-			}
-		}
-	});
-};
-
 // setzt window.apf.assozarten und localStorage.assozarten_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowAssozarten = function(id) {
@@ -24875,7 +24839,8 @@ window.apf.erstelle_tree = function(ApArtId) {
             initiiereErfkrit        = require('./modules/initiiereErfkrit'),
             initiiereJber           = require('./modules/initiiereJber'),
             initiiereJberUebersicht = require('./modules/initiiereJberUebersicht'),
-            initiiereBer            = require('./modules/initiiereBer');
+            initiiereBer            = require('./modules/initiiereBer'),
+            initiiereAssozarten     = require('./modules/initiiereAssozarten');
 		delete localStorage.tpopfreiwkontr;	// Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
 		var node_typ = node.attr("typ");
@@ -24943,7 +24908,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#assozarten").is(':visible') || localStorage.assozarten_id !== node_id) {
 				localStorage.assozarten_id = node_id;
-				window.apf.initiiere_assozarten();
+				initiiereAssozarten();
 			}
 		} else if (node_typ === "popber") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -31679,7 +31644,7 @@ window.apf.erstelleGuid = function() {
 	    return v.toString(16);
 	});
 };
-},{"./modules/configuration":7,"./modules/initiiereAp":9,"./modules/initiiereApziel":10,"./modules/initiiereBeob":11,"./modules/initiiereBer":12,"./modules/initiiereErfkrit":13,"./modules/initiiereIdealbiotop":14,"./modules/initiiereIndex":15,"./modules/initiiereJber":16,"./modules/initiiereJberUebersicht":17,"./modules/initiiereZielber":18,"./modules/treeKontextmenu":19}],2:[function(require,module,exports){
+},{"./modules/configuration":7,"./modules/initiiereAp":9,"./modules/initiiereApziel":10,"./modules/initiiereAssozarten":11,"./modules/initiiereBeob":12,"./modules/initiiereBer":13,"./modules/initiiereErfkrit":14,"./modules/initiiereIdealbiotop":15,"./modules/initiiereIndex":16,"./modules/initiiereJber":17,"./modules/initiiereJberUebersicht":18,"./modules/initiiereZielber":19,"./modules/treeKontextmenu":20}],2:[function(require,module,exports){
 /*
  * Date Format 1.2.3
  * (c) 2007-2009 Steven Levithan <stevenlevithan.com>
@@ -57722,6 +57687,48 @@ module.exports = initiiereApziel;
 'use strict';
 
 var $ = require('jquery'),
+    initiiereAp = require('./initiiereAp');
+//require('jquery-ui');
+
+var initiiereAssozarten = function() {
+    if (!localStorage.assozarten_id) {
+        // es fehlen benötigte Daten > eine Ebene höher
+        initiiereAp();
+        return;
+    }
+    // Felder zurücksetzen
+    window.apf.leereFelderVonFormular("assozarten");
+    // Daten für die assozarten aus der DB holen
+    var getAssozarten = $.ajax({
+            type: 'get',
+            url: '/api/select/apflora/tabelle=tblAssozArten/feld=AaId/wertNumber=' + localStorage.assozarten_id,
+            dataType: 'json'
+        }),
+        $AaSisfNr = $("#AaSisfNr");
+    getAssozarten.done(function(data) {
+        // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+        if (data && data.length > 0) {
+            // assozarten bereitstellen
+            window.apf.assozarten = data[0];
+            // Felder mit Daten beliefern
+            $AaSisfNr.val(data[0].AaSisfNr);
+            $("#AaBem").val(data[0].AaBem);
+            // Formulare blenden
+            window.apf.zeigeFormular("assozarten");
+            history.replaceState({assozarten: "assozarten"}, "assozarten", "index.html?ap=" + localStorage.ap_id + "&assozarten=" + localStorage.assozarten_id);
+            // bei neuen Datensätzen Fokus steuern
+            if (!$AaSisfNr.val()) {
+                $AaSisfNr.focus();
+            }
+        }
+    });
+};
+
+module.exports = initiiereAssozarten;
+},{"./initiiereAp":9,"jquery":4}],12:[function(require,module,exports){
+'use strict';
+
+var $ = require('jquery'),
     _ = require('underscore'),
     capitaliseFirstLetter = require('../lib/capitaliseFirstLetter'),
     initiiereAp = require('./initiiereAp'),
@@ -57870,7 +57877,7 @@ var initiiereBeob = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
 };
 
 module.exports = initiiereBeob;
-},{"../lib/capitaliseFirstLetter":6,"./initiiereAp":9,"./initiiereBeob":11,"jquery":4,"underscore":5}],12:[function(require,module,exports){
+},{"../lib/capitaliseFirstLetter":6,"./initiiereAp":9,"./initiiereBeob":12,"jquery":4,"underscore":5}],13:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -57932,7 +57939,7 @@ var initiiereBer = function() {
 };
 
 module.exports = initiiereBer;
-},{"./initiiereAp":9,"jquery":4}],13:[function(require,module,exports){
+},{"./initiiereAp":9,"jquery":4}],14:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -57979,7 +57986,7 @@ var initiiereErfkrit = function() {
 };
 
 module.exports = initiiereErfkrit;
-},{"./initiiereAp":9,"jquery":4}],14:[function(require,module,exports){
+},{"./initiiereAp":9,"jquery":4}],15:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -58059,7 +58066,7 @@ var initiiereIdealbiotop = function() {
 };
 
 module.exports = initiiereIdealbiotop;
-},{"./initiiereAp":9,"dateformat":2,"jquery":4}],15:[function(require,module,exports){
+},{"./initiiereAp":9,"dateformat":2,"jquery":4}],16:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -58134,7 +58141,7 @@ var initiiereIndex = function() {
 };
 
 module.exports = initiiereIndex;
-},{"jquery":4,"jquery-ui":3}],16:[function(require,module,exports){
+},{"jquery":4,"jquery-ui":3}],17:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -58226,7 +58233,7 @@ var initiiereJber = function() {
 };
 
 module.exports = initiiereJber;
-},{"./initiiereAp":9,"jquery":4,"underscore":5}],17:[function(require,module,exports){
+},{"./initiiereAp":9,"jquery":4,"underscore":5}],18:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -58272,7 +58279,7 @@ var initiiereJberUebersicht = function() {
 };
 
 module.exports = initiiereJberUebersicht;
-},{"./initiiereAp":9,"jquery":4}],18:[function(require,module,exports){
+},{"./initiiereAp":9,"jquery":4}],19:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -58318,7 +58325,7 @@ var initiiereZielber = function() {
 };
 
 module.exports = initiiereZielber;
-},{"./initiiereAp":9,"jquery":4}],19:[function(require,module,exports){
+},{"./initiiereAp":9,"jquery":4}],20:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
