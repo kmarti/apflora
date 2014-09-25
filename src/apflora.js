@@ -6213,14 +6213,11 @@ window.apf.treeKontextmenu = function(node) {
 				"action": function() {
 					var getBeobKarte = $.ajax({
 						type: 'get',
-						url: 'php/beob_karte.php',
-						dataType: 'json',
-						data: {
-							"tpop_id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-						}
+                        url: '/api/beobKarte/apId=/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/beobId=/nichtZuzuordnen=',
+						dataType: 'json'
 					});
-					getBeobKarte.always(function(data) {
-						if (data.rows.length > 0) {
+					getBeobKarte.done(function(data) {
+						if (data.length > 0) {
 							window.apf.gmap.zeigeTPopBeob(data);
 						} else {
 							window.apf.melde("Es gibt keine Beobachtungen mit Koordinaten", "Aktion abgebrochen");
@@ -6264,14 +6261,11 @@ window.apf.treeKontextmenu = function(node) {
 				"action": function() {
 					var getBeobKarte_2 = $.ajax({
 						type: 'get',
-						url: 'php/beob_karte.php',
-						dataType: 'json',
-						data: {
-							"beobid": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-						}
+						url: '/api/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen=',
+						dataType: 'json'
 					});
-					getBeobKarte_2.always(function(data) {
-						if (data.rows.length > 0) {
+					getBeobKarte_2.done(function(data) {
+						if (data.length > 0) {
 							window.apf.gmap.zeigeTPopBeob(data);
 						} else {
 							window.apf.melde("Die Beobachtung hat keine Koordinaten", "Aktion abgebrochen");
@@ -6290,14 +6284,11 @@ window.apf.treeKontextmenu = function(node) {
 				"action": function() {
 					var getBeobKarte_3 = $.ajax({
 						type: 'get',
-						url: 'php/beob_karte.php',
-						dataType: 'json',
-						data: {
-							"beobid": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-						}
+						url: '/api/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen=',
+						dataType: 'json'
 					});
-					getBeobKarte_3.always(function(beob) {
-						if (beob.rows.length > 0) {
+					getBeobKarte_3.done(function(beob) {
+						if (beob.length > 0) {
 							var getApKarte = $.ajax({
 								type: 'get',
 								url: 'php/ap_karte.php',
@@ -6485,14 +6476,11 @@ window.apf.treeKontextmenu = function(node) {
 				"action": function() {
 					var getBeobKarte_4 = $.ajax({
 						type: 'get',
-						url: 'php/beob_karte.php',
-						dataType: 'json',
-						data: {
-							"apart_id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-						}
+						url: '/api/beobKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen=',
+						dataType: 'json'
 					});
-					getBeobKarte_4.always(function(data) {
-						if (data.rows.length > 0) {
+					getBeobKarte_4.done(function(data) {
+						if (data.length > 0) {
 							window.apf.gmap.zeigeBeob(data);
 						} else {
 							window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
@@ -6511,14 +6499,11 @@ window.apf.treeKontextmenu = function(node) {
 				"action": function() {
 					var getBeobKarte_5 = $.ajax({
 						type: 'get',
-						url: 'php/beob_karte.php',
-						dataType: 'json',
-						data: {
-							"apart_id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-						}
+						url: '/api/beobKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen=',
+						dataType: 'json'
 					});
-					getBeobKarte_5.always(function(beob) {
-						if (beob.rows.length > 0) {
+					getBeobKarte_5.done(function(beob) {
+						if (beob.length > 0) {
 							$.ajax({
 								type: 'get',
 								url: 'php/ap_karte.php',
@@ -6565,14 +6550,11 @@ window.apf.treeKontextmenu = function(node) {
 				"action": function() {
 					var getBeobKarte_6 = $.ajax({
 						type: 'get',
-						url: 'php/beob_karte.php',
-						dataType: 'json',
-						data: {
-							"beobid": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-						}
+						url: '/api/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen=',
+						dataType: 'json'
 					});
-					getBeobKarte_6.always(function(data) {
-						if (data.rows.length > 0) {
+					getBeobKarte_6.done(function(data) {
+						if (data.length > 0) {
 							window.apf.gmap.zeigeBeob(data);
 						} else {
 							window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
@@ -6591,14 +6573,11 @@ window.apf.treeKontextmenu = function(node) {
 				"action": function() {
 					var getBeobKarte_7 = $.ajax({
 						type: 'get',
-						url: 'php/beob_karte.php',
-						dataType: 'json',
-						data: {
-							"beobid": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-						}
+						url: '/api/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen=',
+						dataType: 'json'
 					});
-					getBeobKarte_7.always(function(beob) {
-						if (beob.rows.length > 0) {
+					getBeobKarte_7.done(function(beob) {
+						if (beob.length > 0) {
 							var getApKarte_2 = $.ajax({
 								type: 'get',
 								url: 'php/ap_karte.php',
@@ -6668,15 +6647,11 @@ window.apf.treeKontextmenu = function(node) {
 				"action": function() {
 					var getBeobKarte_8 = $.ajax({
 						type: 'get',
-						url: 'php/beob_karte.php',
-						dataType: 'json',
-						data: {
-							"apart_id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-							"nicht_zuzuordnen": "1"
-						}
+						url: '/api/beobKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen=1',
+						dataType: 'json'
 					});
-					getBeobKarte_8.always(function(data) {
-						if (data.rows.length > 0) {
+					getBeobKarte_8.done(function(data) {
+						if (data.length > 0) {
 							window.apf.gmap.zeigeBeob(data);
 						} else {
 							window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
@@ -6709,14 +6684,11 @@ window.apf.treeKontextmenu = function(node) {
 				"action": function() {
 					var getBeobKarte_9 = $.ajax({
 						type: 'get',
-						url: 'php/beob_karte.php',
-						dataType: 'json',
-						data: {
-							"beobid": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-						}
+						url: '/api/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen=',
+						dataType: 'json'
 					});
-					getBeobKarte_9.always(function(data) {
-						if (data.rows.length > 0) {
+					getBeobKarte_9.done(function(data) {
+						if (data.length > 0) {
 							window.apf.gmap.zeigeBeob(data);
 						} else {
 							window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
@@ -8926,7 +8898,7 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
 	infowindow_beob = new google.maps.InfoWindow();
 	infowindow_tpop = new google.maps.InfoWindow();
 	// Lat und Lng in BeobListe ergänzen
-    _.each(beob_liste.rows, function(beob) {
+    _.each(beob_liste, function(beob) {
         beob.Lat = window.apf.CHtoWGSlat(parseInt(beob.X), parseInt(beob.Y));
         beob.Lng = window.apf.CHtoWGSlng(parseInt(beob.X), parseInt(beob.Y));
     });
@@ -8941,7 +8913,7 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
         }
     });
 	// Beob zählen
-	anz_beob = beob_liste.rows.length;
+	anz_beob = beob_liste.length;
 	// TPop zählen
 	anz_tpop = tpop_liste.rows.length;
 	// Karte mal auf Zürich zentrieren, falls in den BeobListe.rows keine Koordinaten kommen
@@ -9174,12 +9146,12 @@ window.apf.gmap.zeigeBeob = function(beob_liste) {
 	window.apf.gmap.info_window_array = [];
 	infowindow = new google.maps.InfoWindow();
 	// Lat und Lng in BeobListe ergänzen
-    _.each(beob_liste.rows, function(beob) {
+    _.each(beob_liste, function(beob) {
         beob.Lat = window.apf.CHtoWGSlat(parseInt(beob.X), parseInt(beob.Y));
         beob.Lng = window.apf.CHtoWGSlng(parseInt(beob.X), parseInt(beob.Y));
     });
 	// TPop zählen
-	anz_beob = beob_liste.rows.length;
+	anz_beob = beob_liste.length;
 	// Karte mal auf Zürich zentrieren, falls in den BeobListe.rows keine Koordinaten kommen
 	// auf die die Karte ausgerichtet werden kann
 	lat = 47.383333;
@@ -9204,7 +9176,7 @@ window.apf.gmap.zeigeBeob = function(beob_liste) {
 	bounds = new google.maps.LatLngBounds();
 	// für alle Orte Marker erstellen
 	markers = [];
-    _.each(beob_liste.rows, function(beob) {
+    _.each(beob_liste, function(beob) {
         datum = beob.Datum;
         latlng2 = new google.maps.LatLng(beob.Lat, beob.Lng);
         if (anz_beob === 1) {
@@ -9311,12 +9283,12 @@ window.apf.gmap.zeigeTPopBeob = function(tpop_beob_liste) {
 	// TPopListe bearbeiten:
 	// Objekte löschen, die keine Koordinaten haben
 	// Lat und Lng ergänzen
-    _.each(tpop_beob_liste.rows, function(tpop_beob) {
+    _.each(tpop_beob_liste, function(tpop_beob) {
         tpop_beob.Lat = window.apf.CHtoWGSlat(parseInt(tpop_beob.X), parseInt(tpop_beob.Y));
         tpop_beob.Lng = window.apf.CHtoWGSlng(parseInt(tpop_beob.X), parseInt(tpop_beob.Y));
     });
 	// TPop zählen
-	anz_tpop_beob = tpop_beob_liste.rows.length;
+	anz_tpop_beob = tpop_beob_liste.length;
 	// Karte mal auf Zürich zentrieren, falls in den TPopBeobListe.rows keine Koordinaten kommen
 	// auf die die Karte ausgerichtet werden kann
 	lat = 47.383333;
@@ -9346,7 +9318,7 @@ window.apf.gmap.zeigeTPopBeob = function(tpop_beob_liste) {
 	bounds = new google.maps.LatLngBounds();
 	// für alle Orte Marker erstellen
 	markers = [];
-    _.each(tpop_beob_liste.rows, function(tpop_beob) {
+    _.each(tpop_beob_liste, function(tpop_beob) {
         datum = tpop_beob.Datum;
         latlng2 = new google.maps.LatLng(tpop_beob.Lat, tpop_beob.Lng);
         if (anz_tpop_beob === 1) {

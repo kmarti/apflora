@@ -40,6 +40,7 @@ var  _       = require('underscore')
     , treeBeobNichtBeurteilt       = require('./queries/tree/beobNichtBeurteilt')
     , queryBeobDistzutpopEvab       = require('./queries/beobDistzutpopEvab')
     , queryBeobDistzutpopInfospezies       = require('./queries/beobDistzutpopInfospezies')
+    , queryBeobKarte       = require('./queries/beobKarte')
     ;
 
 connectionApflora.connect();
@@ -265,5 +266,13 @@ server.route({
     path: '/api/beobDistzutpopInfospezies/beobId={beobId}',
     handler: function (request, reply) {
         queryBeobDistzutpopInfospezies(request, reply);
+    }
+});
+
+server.route({
+    method: 'GET',
+    path: '/api/beobKarte/apId={apId?}/tpopId={tpopId?}/beobId={beobId?}/nichtZuzuordnen={nichtZuzuordnen?}',
+    handler: function (request, reply) {
+        queryBeobKarte(request, reply);
     }
 });
