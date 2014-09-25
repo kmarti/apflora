@@ -2,7 +2,6 @@
 
 var $ = require('jquery'),
     _ = require('underscore');
-//require('jquery-ui');
 
 var initiiereAp = function() {
     if (!localStorage.ap_id) {

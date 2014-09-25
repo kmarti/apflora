@@ -3,7 +3,8 @@
 var $ = require('jquery'),
     _ = require('underscore'),
     capitaliseFirstLetter = require('../lib/capitaliseFirstLetter'),
-    initiiereAp = require('./initiiereAp');
+    initiiereAp = require('./initiiereAp'),
+    initiierePop = require('./initiiereBeob');
 
 var initiiereBeob = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
     // beob_status markiert, ob die Beobachtung:
@@ -22,7 +23,7 @@ var initiiereBeob = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
         if (beobStatus === "nicht_beurteilt" || beobStatus === "nicht_zuzuordnen") {
             initiiereAp();
         } else {
-            window.apf.initiiere_pop();
+            initiierePop();
         }
         return;
     }

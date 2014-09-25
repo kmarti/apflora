@@ -22980,63 +22980,6 @@ window.apf.erstelle_artlisten = function() {
 	return liste_erstellt.promise();
 };
 
-window.apf.initiiere_pop = function(ohne_zu_zeigen) {
-	'use strict';
-    var initiiereAp = require('./modules/initiiereAp');
-	if (!localStorage.pop_id) {
-		// es fehlen benötigte Daten > eine Ebene höher
-		initiiereAp();
-		return;
-	}
-	// Felder zurücksetzen
-	window.apf.leereFelderVonFormular("pop");
-	// Daten für die pop aus der DB holen
-	var getPop = $.ajax({
-            type: 'get',
-            url: 'php/pop.php',
-            dataType: 'json',
-            data: {
-                "id": localStorage.pop_id
-            }
-        }),
-        $PopName = $("#PopName"),
-        $PopNr = $("#PopNr");
-	getPop.always(function(data) {
-		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
-			// pop bereitstellen
-			window.apf.pop = data;
-			// Felder mit Daten beliefern
-			$("#PopHerkunft" + data.PopHerkunft).prop("checked", true);
-			if (data.PopHerkunftUnklar == 1) {
-				$("#PopHerkunftUnklar").prop("checked", true);
-			} else {
-				$("#PopHerkunftUnklar").prop("checked", false);
-			}
-			$("#PopHerkunftUnklarBegruendung")
-                .val(data.PopHerkunftUnklarBegruendung)
-                .limiter(255, $("#PopHerkunftUnklarBegruendung_limit"));
-            $PopName
-                .val(data.PopName)
-                .limiter(150, $("#PopName_limit"));
-            $PopNr.val(data.PopNr);
-			$("#PopBekanntSeit").val(data.PopBekanntSeit);
-			$("#PopXKoord").val(data.PopXKoord);
-			$("#PopYKoord").val(data.PopYKoord);
-			// Formulare blenden
-			// nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
-			if (!ohne_zu_zeigen) {
-				window.apf.zeigeFormular("pop");
-				history.replaceState({pop: "pop"}, "pop", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id);
-				// bei neuen Datensätzen Fokus steuern
-				if (!$PopName.val()) {
-	                $PopNr.focus();
-				}
-			}
-		}
-	});
-};
-
 // setzt window.apf.pop und localStorage.pop_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowPop = function(id) {
@@ -23572,9 +23515,10 @@ window.apf.setzeWindowAssozarten = function(id) {
 
 window.apf.initiiere_popmassnber = function() {
 	'use strict';
+    var initiierePop = require('./modules/initiiereBeob');
 	if (!localStorage.popmassnber_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		window.apf.initiiere_pop();
+		initiierePop();
 		return;
 	}
 	// Felder zurücksetzen
@@ -23630,10 +23574,11 @@ window.apf.setzeWindowPopmassnber = function(id) {
 
 window.apf.initiiere_tpop = function(ohne_zu_zeigen) {
 	'use strict';
-	var $TPopFlurname = $("#TPopFlurname");
+	var $TPopFlurname = $("#TPopFlurname"),
+        initiierePop = require('./modules/initiiereBeob');
 	if (!localStorage.tpop_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		window.apf.initiiere_pop();
+		initiierePop();
 		return;
 	}
 	// Felder zurücksetzen
@@ -23777,9 +23722,10 @@ window.apf.setzeWindowTpop = function(id) {
 
 window.apf.initiiere_popber = function() {
 	'use strict';
+    var initiierePop = require('./modules/initiiereBeob');
 	if (!localStorage.popber_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		window.apf.initiiere_pop();
+		initiierePop();
 		return;
 	}
 	// Felder zurücksetzen
@@ -23835,12 +23781,13 @@ window.apf.setzeWindowPopber = function(id) {
 
 window.apf.initiiere_tpopfeldkontr = function() {
 	'use strict';
+    var initiierePop = require('./modules/initiiereBeob');
 	// wird gemeinsam für Feld- und Freiwilligenkontrollen verwendet
 	// Feldkontrollen: Felder der Freiwilligenkontrollen ausblenden
 	// Freiwilligenkontrollen: Felder der Feldkontrollen ausblenen plus Register Biotop
 	if (!localStorage.tpopfeldkontr_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		window.apf.initiiere_pop();
+		initiierePop();
 		return;
 	}
 	// Felder zurücksetzen
@@ -24160,9 +24107,10 @@ window.apf.setzeWindowTpopfeldkontr = function(id) {
 
 window.apf.initiiere_tpopmassn = function() {
 	'use strict';
+    var initiierePop = require('./modules/initiiereBeob');
 	if (!localStorage.tpopmassn_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		window.apf.initiiere_pop();
+		initiierePop();
 		return;
 	}
 	// Felder zurücksetzen
@@ -24315,9 +24263,10 @@ window.apf.setzeWindowTpopmassn = function(id) {
 
 window.apf.initiiere_tpopmassnber = function() {
 	'use strict';
+    var initiierePop = require('./modules/initiiereBeob');
 	if (!localStorage.tpopmassnber_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		window.apf.initiiere_pop();
+		initiierePop();
 		return;
 	}
 	// Felder zurücksetzen
@@ -24373,9 +24322,10 @@ window.apf.setzeWindowTpopmassnber = function(id) {
 
 window.apf.initiiereTpopber = function() {
 	'use strict';
+    var initiierePop = require('./modules/initiiereBeob');
 	if (!localStorage.tpopber_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		window.apf.initiiere_pop();
+		initiierePop();
 		return;
 	}
 	// Felder zurücksetzen
@@ -25223,7 +25173,8 @@ window.apf.erstelle_tree = function(ApArtId) {
 		var node,
             initiiere_beob = require('./modules/initiiereBeob'),
             initiiere_idealbiotop = require('./modules/initiiereIdealbiotop'),
-            initiiereAp = require('./modules/initiiereAp');
+            initiiereAp = require('./modules/initiiereAp'),
+            initiierePop = require('./modules/initiiereBeob');
 		delete localStorage.tpopfreiwkontr;	// Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
 		var node_typ = node.attr("typ");
@@ -25241,7 +25192,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#pop").is(':visible') || localStorage.pop_id !== node_id) {
 				localStorage.pop_id = node_id;
-				window.apf.initiiere_pop();
+				initiierePop();
 			}
 		} else if (node_typ === "apziel" || node_typ === "zielber_ordner") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -25428,6 +25379,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 					}
 				});
 				fügePopEin.always(function() {
+                    var initiierePop = require('./modules/initiiereBeob');
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.apf.beschrifte_ordner_pop(ziel_parent_node);
 					window.apf.beschrifte_ordner_pop(window.apf.herkunft_parent_node);
@@ -25438,7 +25390,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 					localStorage.pop_id = herkunft_node_id;
 					delete window.apf.pop;
 					delete window.apf.herkunft_parent_node;
-					window.apf.initiiere_pop();
+					initiierePop();
 				});
 				fügePopEin.fail(function(data) {
 					//window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
@@ -29453,7 +29405,8 @@ window.apf.öffneUri = function() {
 		anchor = uri.anchor() || null,
 		ap_id = uri.getQueryParamValue('ap'),
         initiiere_idealbiotop = require('./modules/initiiereIdealbiotop'),
-        initiiereAp = require('./modules/initiiereAp');
+        initiiereAp = require('./modules/initiiereAp'),
+        initiierePop = require('./modules/initiiereBeob');
 	if (ap_id) {
 		// globale Variablen setzen
 		window.apf.setzeWindowAp(ap_id);
@@ -29555,7 +29508,7 @@ window.apf.öffneUri = function() {
 				window.apf.pop_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				localStorage.pop_id = uri.getQueryParamValue('pop');
-				window.apf.initiiere_pop();
+				initiierePop();
 			}
 		} else if (uri.getQueryParamValue('apziel')) {
 			// globale Variablen setzen
@@ -57938,7 +57891,6 @@ module.exports={
 
 var $ = require('jquery'),
     _ = require('underscore');
-//require('jquery-ui');
 
 var initiiereAp = function() {
     if (!localStorage.ap_id) {
@@ -58017,7 +57969,8 @@ module.exports = initiiereAp;
 var $ = require('jquery'),
     _ = require('underscore'),
     capitaliseFirstLetter = require('../lib/capitaliseFirstLetter'),
-    initiiereAp = require('./initiiereAp');
+    initiiereAp = require('./initiiereAp'),
+    initiierePop = require('./initiiereBeob');
 
 var initiiereBeob = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
     // beob_status markiert, ob die Beobachtung:
@@ -58036,7 +57989,7 @@ var initiiereBeob = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
         if (beobStatus === "nicht_beurteilt" || beobStatus === "nicht_zuzuordnen") {
             initiiereAp();
         } else {
-            window.apf.initiiere_pop();
+            initiierePop();
         }
         return;
     }
@@ -58162,7 +58115,7 @@ var initiiereBeob = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
 };
 
 module.exports = initiiereBeob;
-},{"../lib/capitaliseFirstLetter":6,"./initiiereAp":9,"jquery":4,"underscore":5}],11:[function(require,module,exports){
+},{"../lib/capitaliseFirstLetter":6,"./initiiereAp":9,"./initiiereBeob":10,"jquery":4,"underscore":5}],11:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
