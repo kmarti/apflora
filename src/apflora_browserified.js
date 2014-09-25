@@ -88,49 +88,6 @@ window.apf.setzeWindowPop = function(id) {
 	});
 };
 
-window.apf.initiiere_apziel = function() {
-	'use strict';
-    var initiiereAp = require('./modules/initiiereAp');
-	if (!localStorage.apziel_id) {
-		// es fehlen benötigte Daten > eine Ebene höher
-		initiiereAp();
-		return;
-	}
-	var apziel_initiiert = $.Deferred(),
-        $ZielJahr = $("#ZielJahr");
-	// Felder zurücksetzen
-	window.apf.leereFelderVonFormular("apziel");
-	// Daten für die apziel aus der DB holen
-	var getApZiel = $.ajax({
-		type: 'get',
-		url: 'php/apziel.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.apziel_id
-		}
-	});
-	getApZiel.always(function(data) {
-		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
-			// apziel bereitstellen
-			window.apf.apziel = data;
-			// Felder mit Daten beliefern
-            $ZielJahr.val(data.ZielJahr);
-			$("#ZielTyp" + data.ZielTyp).prop("checked", true);
-			$("#ZielBezeichnung").val(data.ZielBezeichnung);
-			// Formulare blenden
-			window.apf.zeigeFormular("apziel");
-			history.replaceState({apziel: "apziel"}, "apziel", "index.html?ap=" + localStorage.ap_id + "&apziel=" + localStorage.apziel_id);
-			// bei neuen Datensätzen Fokus steuern
-			if (!$ZielJahr.val()) {
-                $ZielJahr.focus();
-			}
-			apziel_initiiert.resolve();
-		}
-	});
-	return apziel_initiiert.promise();
-};
-
 // setzt window.apf.apziel und localStorage.apziel_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowApziel = function(id) {
@@ -2260,7 +2217,8 @@ window.apf.erstelle_tree = function(ApArtId) {
             initiiere_beob = require('./modules/initiiereBeob'),
             initiiere_idealbiotop = require('./modules/initiiereIdealbiotop'),
             initiiereAp = require('./modules/initiiereAp'),
-            initiierePop = require('./modules/initiiereBeob');
+            initiierePop = require('./modules/initiiereBeob'),
+            initiiereApziel = require('./modules/initiiereApziel');
 		delete localStorage.tpopfreiwkontr;	// Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
 		var node_typ = node.attr("typ");
@@ -2284,7 +2242,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#apziel").is(':visible') || localStorage.apziel_id !== node_id) {
 				localStorage.apziel_id = node_id;
-				window.apf.initiiere_apziel();
+				initiiereApziel();
 			}
 		} else if (node_typ === "zielber") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -6492,7 +6450,8 @@ window.apf.öffneUri = function() {
 		ap_id = uri.getQueryParamValue('ap'),
         initiiere_idealbiotop = require('./modules/initiiereIdealbiotop'),
         initiiereAp = require('./modules/initiiereAp'),
-        initiierePop = require('./modules/initiiereBeob');
+        initiierePop = require('./modules/initiiereBeob'),
+        initiiereApziel = require('./modules/initiiereApziel');
 	if (ap_id) {
 		// globale Variablen setzen
 		window.apf.setzeWindowAp(ap_id);
@@ -6614,7 +6573,7 @@ window.apf.öffneUri = function() {
 				window.apf.apziel_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				localStorage.apziel_id = uri.getQueryParamValue('apziel');
-				window.apf.initiiere_apziel();
+				initiiereApziel();
 			}
 		} else if (uri.getQueryParamValue('erfkrit')) {
 			// globale Variablen setzen
@@ -9059,7 +9018,7 @@ window.apf.erstelleGuid = function() {
 	    return v.toString(16);
 	});
 };
-},{"./modules/configuration":7,"./modules/initiiereAp":9,"./modules/initiiereBeob":10,"./modules/initiiereIdealbiotop":11,"./modules/initiiereIndex":12,"./modules/treeKontextmenu":13}],2:[function(require,module,exports){
+},{"./modules/configuration":7,"./modules/initiiereAp":9,"./modules/initiiereApziel":10,"./modules/initiiereBeob":11,"./modules/initiiereIdealbiotop":12,"./modules/initiiereIndex":13,"./modules/treeKontextmenu":14}],2:[function(require,module,exports){
 /*
  * Date Format 1.2.3
  * (c) 2007-2009 Steven Levithan <stevenlevithan.com>
@@ -35053,6 +35012,55 @@ module.exports = initiiereAp;
 'use strict';
 
 var $ = require('jquery'),
+    initiiereAp = require('./initiiereAp');
+//require('jquery-ui');
+
+var initiiereApziel = function() {
+    if (!localStorage.apziel_id) {
+        // es fehlen benötigte Daten > eine Ebene höher
+        initiiereAp();
+        return;
+    }
+    var apziel_initiiert = $.Deferred(),
+        $ZielJahr = $("#ZielJahr");
+    // Felder zurücksetzen
+    window.apf.leereFelderVonFormular("apziel");
+    // Daten für die apziel aus der DB holen
+    var getApZiel = $.ajax({
+        type: 'get',
+        url: 'php/apziel.php',
+        dataType: 'json',
+        data: {
+            "id": localStorage.apziel_id
+        }
+    });
+    getApZiel.always(function(data) {
+        // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+        if (data) {
+            // apziel bereitstellen
+            window.apf.apziel = data;
+            // Felder mit Daten beliefern
+            $ZielJahr.val(data.ZielJahr);
+            $("#ZielTyp" + data.ZielTyp).prop("checked", true);
+            $("#ZielBezeichnung").val(data.ZielBezeichnung);
+            // Formulare blenden
+            window.apf.zeigeFormular("apziel");
+            history.replaceState({apziel: "apziel"}, "apziel", "index.html?ap=" + localStorage.ap_id + "&apziel=" + localStorage.apziel_id);
+            // bei neuen Datensätzen Fokus steuern
+            if (!$ZielJahr.val()) {
+                $ZielJahr.focus();
+            }
+            apziel_initiiert.resolve();
+        }
+    });
+    return apziel_initiiert.promise();
+};
+
+module.exports = initiiereApziel;
+},{"./initiiereAp":9,"jquery":4}],11:[function(require,module,exports){
+'use strict';
+
+var $ = require('jquery'),
     _ = require('underscore'),
     capitaliseFirstLetter = require('../lib/capitaliseFirstLetter'),
     initiiereAp = require('./initiiereAp'),
@@ -35201,7 +35209,7 @@ var initiiereBeob = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
 };
 
 module.exports = initiiereBeob;
-},{"../lib/capitaliseFirstLetter":6,"./initiiereAp":9,"./initiiereBeob":10,"jquery":4,"underscore":5}],11:[function(require,module,exports){
+},{"../lib/capitaliseFirstLetter":6,"./initiiereAp":9,"./initiiereBeob":11,"jquery":4,"underscore":5}],12:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -35281,7 +35289,7 @@ var initiiereIdealbiotop = function() {
 };
 
 module.exports = initiiereIdealbiotop;
-},{"./initiiereAp":9,"dateformat":2,"jquery":4}],12:[function(require,module,exports){
+},{"./initiiereAp":9,"dateformat":2,"jquery":4}],13:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -35356,7 +35364,7 @@ var initiiereIndex = function() {
 };
 
 module.exports = initiiereIndex;
-},{"jquery":4,"jquery-ui":3}],13:[function(require,module,exports){
+},{"jquery":4,"jquery-ui":3}],14:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),

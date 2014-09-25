@@ -87,49 +87,6 @@ window.apf.setzeWindowPop = function(id) {
 	});
 };
 
-window.apf.initiiere_apziel = function() {
-	'use strict';
-    var initiiereAp = require('./modules/initiiereAp');
-	if (!localStorage.apziel_id) {
-		// es fehlen benötigte Daten > eine Ebene höher
-		initiiereAp();
-		return;
-	}
-	var apziel_initiiert = $.Deferred(),
-        $ZielJahr = $("#ZielJahr");
-	// Felder zurücksetzen
-	window.apf.leereFelderVonFormular("apziel");
-	// Daten für die apziel aus der DB holen
-	var getApZiel = $.ajax({
-		type: 'get',
-		url: 'php/apziel.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.apziel_id
-		}
-	});
-	getApZiel.always(function(data) {
-		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
-			// apziel bereitstellen
-			window.apf.apziel = data;
-			// Felder mit Daten beliefern
-            $ZielJahr.val(data.ZielJahr);
-			$("#ZielTyp" + data.ZielTyp).prop("checked", true);
-			$("#ZielBezeichnung").val(data.ZielBezeichnung);
-			// Formulare blenden
-			window.apf.zeigeFormular("apziel");
-			history.replaceState({apziel: "apziel"}, "apziel", "index.html?ap=" + localStorage.ap_id + "&apziel=" + localStorage.apziel_id);
-			// bei neuen Datensätzen Fokus steuern
-			if (!$ZielJahr.val()) {
-                $ZielJahr.focus();
-			}
-			apziel_initiiert.resolve();
-		}
-	});
-	return apziel_initiiert.promise();
-};
-
 // setzt window.apf.apziel und localStorage.apziel_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowApziel = function(id) {
@@ -2259,7 +2216,8 @@ window.apf.erstelle_tree = function(ApArtId) {
             initiiere_beob = require('./modules/initiiereBeob'),
             initiiere_idealbiotop = require('./modules/initiiereIdealbiotop'),
             initiiereAp = require('./modules/initiiereAp'),
-            initiierePop = require('./modules/initiiereBeob');
+            initiierePop = require('./modules/initiiereBeob'),
+            initiiereApziel = require('./modules/initiiereApziel');
 		delete localStorage.tpopfreiwkontr;	// Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
 		var node_typ = node.attr("typ");
@@ -2283,7 +2241,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#apziel").is(':visible') || localStorage.apziel_id !== node_id) {
 				localStorage.apziel_id = node_id;
-				window.apf.initiiere_apziel();
+				initiiereApziel();
 			}
 		} else if (node_typ === "zielber") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -6491,7 +6449,8 @@ window.apf.öffneUri = function() {
 		ap_id = uri.getQueryParamValue('ap'),
         initiiere_idealbiotop = require('./modules/initiiereIdealbiotop'),
         initiiereAp = require('./modules/initiiereAp'),
-        initiierePop = require('./modules/initiiereBeob');
+        initiierePop = require('./modules/initiiereBeob'),
+        initiiereApziel = require('./modules/initiiereApziel');
 	if (ap_id) {
 		// globale Variablen setzen
 		window.apf.setzeWindowAp(ap_id);
@@ -6613,7 +6572,7 @@ window.apf.öffneUri = function() {
 				window.apf.apziel_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 				localStorage.apziel_id = uri.getQueryParamValue('apziel');
-				window.apf.initiiere_apziel();
+				initiiereApziel();
 			}
 		} else if (uri.getQueryParamValue('erfkrit')) {
 			// globale Variablen setzen
