@@ -1,0 +1,45 @@
+'use strict';
+
+var $ = require('jquery'),
+    initiiereAp = require('./initiiereAp');
+//require('jquery-ui');
+
+var initiiereJberUebersicht = function() {
+    if (!localStorage.jber_uebersicht_id) {
+        // es fehlen benötigte Daten > eine Ebene höher
+        initiiereAp();
+        return;
+    }
+    // Felder zurücksetzen
+    window.apf.leereFelderVonFormular("jber_uebersicht");
+    // Daten für die jber_uebersicht aus der DB holen
+    var getJberÜbersicht = $.ajax({
+            type: 'get',
+            url: 'php/jber_uebersicht.php',
+            dataType: 'json',
+            data: {
+                "JbuJahr": localStorage.jber_uebersicht_id
+            }
+        }),
+        $JbuJahr = $("#JbuJahr");
+    getJberÜbersicht.always(function(data) {
+        // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+        if (data) {
+            // jber_uebersicht bereitstellen
+            window.apf.jber_übersicht = data;
+            // Felder mit Daten beliefern
+            $JbuJahr.val(data.JbuJahr);
+            $("#JbuBemerkungen").val(data.JbuBemerkungen);
+            // window.apf.fitTextareaToContent("Bemerkungen", document.documentElement.clientHeight);
+            // Formulare blenden
+            window.apf.zeigeFormular("jber_uebersicht");
+            history.replaceState({jber_uebersicht: "jber_uebersicht"}, "jber_uebersicht", "index.html?ap=" + localStorage.ap_id + "&jber_uebersicht=" + localStorage.jber_uebersicht_id);
+            // bei neuen Datensätzen Fokus steuern
+            if (!$JbuJahr.val()) {
+                $JbuJahr.focus();
+            }
+        }
+    });
+};
+
+module.exports = initiiereJberUebersicht;

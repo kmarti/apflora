@@ -23090,46 +23090,6 @@ window.apf.setzeWindowJber = function(id) {
 	});
 };
 
-window.apf.initiiere_jber_uebersicht = function() {
-	'use strict';
-    var initiiereAp = require('./modules/initiiereAp');
-	if (!localStorage.jber_uebersicht_id) {
-		// es fehlen benötigte Daten > eine Ebene höher
-		initiiereAp();
-		return;
-	}
-	// Felder zurücksetzen
-	window.apf.leereFelderVonFormular("jber_uebersicht");
-	// Daten für die jber_uebersicht aus der DB holen
-	var getJberÜbersicht = $.ajax({
-            type: 'get',
-            url: 'php/jber_uebersicht.php',
-            dataType: 'json',
-            data: {
-                "JbuJahr": localStorage.jber_uebersicht_id
-            }
-        }),
-        $JbuJahr = $("#JbuJahr");
-	getJberÜbersicht.always(function(data) {
-		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
-			// jber_uebersicht bereitstellen
-			window.apf.jber_übersicht = data;
-			// Felder mit Daten beliefern
-            $JbuJahr.val(data.JbuJahr);
-			$("#JbuBemerkungen").val(data.JbuBemerkungen);
-			// window.apf.fitTextareaToContent("Bemerkungen", document.documentElement.clientHeight);
-			// Formulare blenden
-			window.apf.zeigeFormular("jber_uebersicht");
-			history.replaceState({jber_uebersicht: "jber_uebersicht"}, "jber_uebersicht", "index.html?ap=" + localStorage.ap_id + "&jber_uebersicht=" + localStorage.jber_uebersicht_id);
-			// bei neuen Datensätzen Fokus steuern
-			if (!$JbuJahr.val()) {
-                $JbuJahr.focus();
-			}
-		}
-	});
-};
-
 // setzt window.apf.jber_übersicht und localStorage.jber_uebersicht_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowJberUebersicht = function(id) {
@@ -24969,7 +24929,8 @@ window.apf.erstelle_tree = function(ApArtId) {
             initiiereApziel = require('./modules/initiiereApziel'),
             initiiereZielber = require('./modules/initiiereZielber'),
             initiiereErfkrit = require('./modules/initiiereErfkrit'),
-            initiiereJber = require('./modules/initiiereJber');
+            initiiereJber = require('./modules/initiiereJber'),
+            initiiereJberUebersicht = require('./modules/initiiereJberUebersicht');
 		delete localStorage.tpopfreiwkontr;	// Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
 		var node_typ = node.attr("typ");
@@ -25017,7 +24978,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#jber_uebersicht").is(':visible') || localStorage.jber_uebersicht_id !== node_id) {
 				localStorage.jber_uebersicht_id = node_id;
-				window.apf.initiiere_jber_uebersicht();
+				initiiereJberUebersicht();
 			}
 		} else if (node_typ === "ber") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -29204,7 +29165,8 @@ window.apf.öffneUri = function() {
         initiierePop = require('./modules/initiiereBeob'),
         initiiereApziel = require('./modules/initiiereApziel'),
         initiiereZielber = require('./modules/initiiereZielber'),
-        initiiereJber = require('./modules/initiiereJber');
+        initiiereJber = require('./modules/initiiereJber'),
+        initiiereJberUebersicht = require('./modules/initiiereJberUebersicht');
 	if (ap_id) {
 		// globale Variablen setzen
 		window.apf.setzeWindowAp(ap_id);
@@ -29349,7 +29311,7 @@ window.apf.öffneUri = function() {
 			// Die Markierung wird im load-Event wieder entfernt
 			window.apf.jber_übersicht_zeigen = true;
 			// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-			window.apf.initiiere_jber_uebersicht();
+			initiiereJberUebersicht();
 		} else if (uri.getQueryParamValue('ber')) {
 			// globale Variablen setzen
 			window.apf.setzeWindowBer(uri.getQueryParamValue('ber'));
@@ -31771,7 +31733,7 @@ window.apf.erstelleGuid = function() {
 	    return v.toString(16);
 	});
 };
-},{"./modules/configuration":7,"./modules/initiiereAp":9,"./modules/initiiereApziel":10,"./modules/initiiereBeob":11,"./modules/initiiereErfkrit":12,"./modules/initiiereIdealbiotop":13,"./modules/initiiereIndex":14,"./modules/initiiereJber":15,"./modules/initiiereZielber":16,"./modules/treeKontextmenu":17}],2:[function(require,module,exports){
+},{"./modules/configuration":7,"./modules/initiiereAp":9,"./modules/initiiereApziel":10,"./modules/initiiereBeob":11,"./modules/initiiereErfkrit":12,"./modules/initiiereIdealbiotop":13,"./modules/initiiereIndex":14,"./modules/initiiereJber":15,"./modules/initiiereJberUebersicht":16,"./modules/initiiereZielber":17,"./modules/treeKontextmenu":18}],2:[function(require,module,exports){
 /*
  * Date Format 1.2.3
  * (c) 2007-2009 Steven Levithan <stevenlevithan.com>
@@ -58263,6 +58225,52 @@ var $ = require('jquery'),
     initiiereAp = require('./initiiereAp');
 //require('jquery-ui');
 
+var initiiereJberUebersicht = function() {
+    if (!localStorage.jber_uebersicht_id) {
+        // es fehlen benötigte Daten > eine Ebene höher
+        initiiereAp();
+        return;
+    }
+    // Felder zurücksetzen
+    window.apf.leereFelderVonFormular("jber_uebersicht");
+    // Daten für die jber_uebersicht aus der DB holen
+    var getJberÜbersicht = $.ajax({
+            type: 'get',
+            url: 'php/jber_uebersicht.php',
+            dataType: 'json',
+            data: {
+                "JbuJahr": localStorage.jber_uebersicht_id
+            }
+        }),
+        $JbuJahr = $("#JbuJahr");
+    getJberÜbersicht.always(function(data) {
+        // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+        if (data) {
+            // jber_uebersicht bereitstellen
+            window.apf.jber_übersicht = data;
+            // Felder mit Daten beliefern
+            $JbuJahr.val(data.JbuJahr);
+            $("#JbuBemerkungen").val(data.JbuBemerkungen);
+            // window.apf.fitTextareaToContent("Bemerkungen", document.documentElement.clientHeight);
+            // Formulare blenden
+            window.apf.zeigeFormular("jber_uebersicht");
+            history.replaceState({jber_uebersicht: "jber_uebersicht"}, "jber_uebersicht", "index.html?ap=" + localStorage.ap_id + "&jber_uebersicht=" + localStorage.jber_uebersicht_id);
+            // bei neuen Datensätzen Fokus steuern
+            if (!$JbuJahr.val()) {
+                $JbuJahr.focus();
+            }
+        }
+    });
+};
+
+module.exports = initiiereJberUebersicht;
+},{"./initiiereAp":9,"jquery":4}],17:[function(require,module,exports){
+'use strict';
+
+var $ = require('jquery'),
+    initiiereAp = require('./initiiereAp');
+//require('jquery-ui');
+
 var initiiereZielber = function() {
     if (!localStorage.zielber_id) {
         // es fehlen benötigte Daten > eine Ebene höher
@@ -58302,7 +58310,7 @@ var initiiereZielber = function() {
 };
 
 module.exports = initiiereZielber;
-},{"./initiiereAp":9,"jquery":4}],17:[function(require,module,exports){
+},{"./initiiereAp":9,"jquery":4}],18:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
