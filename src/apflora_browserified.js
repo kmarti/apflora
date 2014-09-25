@@ -280,132 +280,6 @@ window.apf.setzeWindowPopmassnber = function(id) {
 	});
 };
 
-window.apf.initiiere_tpop = function(ohne_zu_zeigen) {
-	'use strict';
-	var $TPopFlurname = $("#TPopFlurname"),
-        initiierePop = require('./modules/initiiereBeob');
-	if (!localStorage.tpop_id) {
-		// es fehlen benötigte Daten > eine Ebene höher
-		initiierePop();
-		return;
-	}
-	// Felder zurücksetzen
-	window.apf.leereFelderVonFormular("tpop");
-	// Daten für die pop aus der DB holen
-	var getTPop = $.ajax({
-        type: 'get',
-        url: 'php/tpop.php',
-        dataType: 'json',
-        data: {
-            "id": localStorage.tpop_id
-        }
-    });
-	getTPop.always(function(data) {
-		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
-			// tpop bereitstellen
-			window.apf.tpop = data;
-			// Felder mit Daten beliefern
-            $TPopFlurname
-                .val(data.TPopFlurname)
-                .limiter(255, $("#TPopFlurname_limit"));
-			$("#TPopNr").val(data.TPopNr);
-			$("#TPopHerkunft" + data.TPopHerkunft).prop("checked", true);
-			if (data.TPopHerkunftUnklar == 1) {
-				$("#TPopHerkunftUnklar").prop("checked", true);
-			} else {
-				$("#TPopHerkunftUnklar").prop("checked", false);
-			}
-			$("#TPopHerkunftUnklarBegruendung")
-                .val(data.TPopHerkunftUnklarBegruendung)
-                .limiter(255, $("#TPopHerkunftUnklarBegruendung_limit"));
-			$("#TPopApBerichtRelevant" + data.TPopApBerichtRelevant).prop("checked", true);
-			$("#TPopBekanntSeit").val(data.TPopBekanntSeit);
-			$("#TPopGemeinde")
-                .val(data.TPopGemeinde)
-                .limiter(255, $("#TPopGemeinde_limit"));
-			$("#TPopXKoord").val(data.TPopXKoord);
-			$("#TPopYKoord").val(data.TPopYKoord);
-			$("#TPopRadius").val(data.TPopRadius);
-			$("#TPopHoehe").val(data.TPopHoehe);
-			$("#TPopExposition")
-                .val(data.TPopExposition)
-                .limiter(50, $("#TPopExposition_limit"));
-			$("#TPopKlima")
-                .val(data.TPopKlima)
-                .limiter(50, $("#TPopKlima_limit"));
-			$("#TPopNeigung")
-                .val(data.TPopNeigung)
-                .limiter(50, $("#TPopNeigung_limit"));
-			$("#TPopBeschr")
-                .val(data.TPopBeschr)
-                .limiter(255, $("#TPopBeschr_limit"));
-			$("#TPopKatNr")
-                .val(data.TPopKatNr)
-                .limiter(255, $("#TPopKatNr_limit"));
-			$("#TPopEigen")
-                .val(data.TPopEigen)
-                .limiter(255, $("#TPopEigen_limit"));
-			$("#TPopKontakt")
-                .val(data.TPopKontakt)
-                .limiter(255, $("#TPopKontakt_limit"));
-			$("#TPopNutzungszone")
-                .val(data.TPopNutzungszone)
-                .limiter(255, $("#TPopNutzungszone_limit"));
-			$("#TPopBewirtschafterIn")
-                .val(data.TPopBewirtschafterIn)
-                .limiter(255, $("#TPopBewirtschafterIn_limit"));
-			$("#TPopBewirtschaftung")
-                .val(data.TPopBewirtschaftung)
-                .limiter(255, $("#TPopBewirtschaftung_limit"));
-			$("#TPopTxt").val(data.TPopTxt);
-			// für select Daten holen - oder vorhandene nutzen
-			if (!window.apf.adressen_html) {
-				var getAdressen = $.ajax({
-					type: 'get',
-					url: 'api/adressen',
-					dataType: 'json'
-				});
-				getAdressen.always(function(data2) {
-					if (data2) {
-						// adressen bereitstellen
-						window.apf.adressen = data2;
-						localStorage.adressen = JSON.stringify(data2);
-						// Feld mit Daten beliefern
-						var html;
-						html = "<option></option>";
-                        _.each(data2, function(adresse) {
-                            html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
-                        });
-						window.apf.adressen_html = html;
-						$("#TPopVerantw")
-                            .html(html)
-                            .val(window.apf.tpop.TPopVerantw);
-					}
-				});
-			} else {
-				$("#TPopVerantw")
-                    .html(window.apf.adressen_html)
-                    .val(window.apf.tpop.TPopVerantw);
-			}
-			// Formulare blenden
-			// nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
-			if (!ohne_zu_zeigen) {
-				window.apf.zeigeFormular("tpop");
-				history.replaceState({tpop: "tpop"}, "tpop", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id);
-				// bei neuen Datensätzen Fokus steuern
-				if (!$TPopFlurname.val()) {
-					$('#TPopNr').focus();
-				}
-			}
-		}
-	});
-	getTPop.fail(function() {
-		//window.apf.melde('Fehler: keine Daten für die Teilpopulation erhalten');
-		console.log('Fehler: keine Daten für die Teilpopulation erhalten');
-	});
-};
-
 // setzt window.apf.tpop und localStorage.tpop_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowTpop = function(id) {
@@ -1890,7 +1764,8 @@ window.apf.erstelle_tree = function(ApArtId) {
             initiiereJberUebersicht = require('./modules/initiiereJberUebersicht'),
             initiiereBer            = require('./modules/initiiereBer'),
             initiiereAssozarten     = require('./modules/initiiereAssozarten'),
-            initiierePopMassnBer = require('./modules/initiierePopMassnBer');
+            initiierePopMassnBer = require('./modules/initiierePopMassnBer'),
+            initiiereTPop = require('./modules/initiiereTPop');
 		delete localStorage.tpopfreiwkontr;	// Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
 		var node_typ = node.attr("typ");
@@ -1976,7 +1851,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#tpop").is(':visible') || localStorage.tpop_id !== node_id) {
 				localStorage.tpop_id = node_id;
-				window.apf.initiiere_tpop();
+				initiiereTPop();
 			}
 		} else if (node_typ === "tpopfeldkontr") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -2125,6 +2000,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 					}
 				});
 				fügeTPopEin.always(function() {
+                    var initiiereTPop = require('./modules/initiiereTPop');
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.apf.beschrifte_ordner_tpop(ziel_parent_node);
 					window.apf.beschrifte_ordner_tpop(window.apf.herkunft_parent_node);
@@ -2136,7 +2012,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 					delete window.apf.tpop;
 					delete window.apf.tpop_node_ausgeschnitten;
 					delete window.apf.herkunft_parent_node;
-					window.apf.initiiere_tpop();
+					initiiereTPop();
 				});
 				fügeTPopEin.fail(function(data) {
 					//window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
@@ -2155,6 +2031,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 					}
 				});
 				fügeTPopEin_2.always(function() {
+                    var initiiereTPop = require('./modules/initiiereTPop');
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.apf.beschrifte_ordner_tpop(ziel_node);
 					window.apf.beschrifte_ordner_tpop(window.apf.herkunft_parent_node);
@@ -2165,7 +2042,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 					localStorage.tpop_id = herkunft_node_id;
 					delete window.apf.tpop;
 					delete window.apf.tpop_node_ausgeschnitten;
-					window.apf.initiiere_tpop();
+					initiiereTPop();
 				});
 				fügeTPopEin_2.fail(function(data) {
 					//window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
@@ -2186,6 +2063,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 					}
 				});
 				fügeTPopEin_3.always(function() {
+                    var initiiereTPop = require('./modules/initiiereTPop');
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.apf.beschrifte_ordner_tpop(ziel_parent_node);
 					window.apf.beschrifte_ordner_tpop(window.apf.herkunft_parent_node);
@@ -2197,7 +2075,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 					delete window.apf.tpop;
 					delete window.apf.tpop_node_ausgeschnitten;
 					delete window.apf.herkunft_parent_node;
-					window.apf.initiiere_tpop();
+					initiiereTPop();
 				});
 				fügeTPopEin_3.fail(function(data) {
 					//window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
@@ -2216,6 +2094,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 					}
 				});
 				fügeTPopEin_4.always(function() {
+                    var initiiereTPop = require('./modules/initiiereTPop');
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.apf.beschrifte_ordner_tpop(ziel_node);
 					window.apf.beschrifte_ordner_tpop(window.apf.herkunft_parent_node);
@@ -2227,7 +2106,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 					delete window.apf.tpop;
 					delete window.apf.tpop_node_ausgeschnitten;
 					delete window.apf.herkunft_parent_node;
-					window.apf.initiiere_tpop();
+					initiiereTPop();
 				});
 				fügeTPopEin_4.fail(function(data) {
 					//window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
@@ -6128,7 +6007,8 @@ window.apf.öffneUri = function() {
         initiiereJber           = require('./modules/initiiereJber'),
         initiiereJberUebersicht = require('./modules/initiiereJberUebersicht'),
         initiiereBer            = require('./modules/initiiereBer'),
-        initiierePopMassnBer = require('./modules/initiierePopMassnBer');
+        initiierePopMassnBer    = require('./modules/initiierePopMassnBer'),
+        initiiereTPop           = require('./modules/initiiereTPop');
 	if (ap_id) {
 		// globale Variablen setzen
 		window.apf.setzeWindowAp(ap_id);
@@ -6202,7 +6082,7 @@ window.apf.öffneUri = function() {
 				// Die Markierung wird im load-Event wieder entfernt
 				window.apf.tpop_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-				window.apf.initiiere_tpop();
+				initiiereTPop();
 			}
 		} else if (uri.getQueryParamValue('pop')) {
 			// globale Variablen setzen
@@ -8695,7 +8575,7 @@ window.apf.erstelleGuid = function() {
 	    return v.toString(16);
 	});
 };
-},{"./modules/configuration":7,"./modules/initiiereAp":9,"./modules/initiiereApziel":10,"./modules/initiiereAssozarten":11,"./modules/initiiereBeob":12,"./modules/initiiereBer":13,"./modules/initiiereErfkrit":14,"./modules/initiiereIdealbiotop":15,"./modules/initiiereIndex":16,"./modules/initiiereJber":17,"./modules/initiiereJberUebersicht":18,"./modules/initiierePop":19,"./modules/initiierePopMassnBer":20,"./modules/initiiereZielber":21,"./modules/treeKontextmenu":22}],2:[function(require,module,exports){
+},{"./modules/configuration":7,"./modules/initiiereAp":9,"./modules/initiiereApziel":10,"./modules/initiiereAssozarten":11,"./modules/initiiereBeob":12,"./modules/initiiereBer":13,"./modules/initiiereErfkrit":14,"./modules/initiiereIdealbiotop":15,"./modules/initiiereIndex":16,"./modules/initiiereJber":17,"./modules/initiiereJberUebersicht":18,"./modules/initiierePop":19,"./modules/initiierePopMassnBer":20,"./modules/initiiereTPop":21,"./modules/initiiereZielber":22,"./modules/treeKontextmenu":23}],2:[function(require,module,exports){
 /*
  * Date Format 1.2.3
  * (c) 2007-2009 Steven Levithan <stevenlevithan.com>
@@ -35440,6 +35320,139 @@ module.exports = initiierePopMassnBer;
 'use strict';
 
 var $ = require('jquery'),
+    _ = require('underscore'),
+    initiierePop = require('./initiierePop');
+//require('jquery-ui');
+
+var initiiereTPop = function() {
+    var $TPopFlurname = $("#TPopFlurname");
+    if (!localStorage.tpop_id) {
+        // es fehlen benötigte Daten > eine Ebene höher
+        initiierePop();
+        return;
+    }
+    // Felder zurücksetzen
+    window.apf.leereFelderVonFormular("tpop");
+    // Daten für die pop aus der DB holen
+    var getTPop = $.ajax({
+        type: 'get',
+        url: 'php/tpop.php',
+        dataType: 'json',
+        data: {
+            "id": localStorage.tpop_id
+        }
+    });
+    getTPop.always(function(data) {
+        // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+        if (data) {
+            // tpop bereitstellen
+            window.apf.tpop = data;
+            // Felder mit Daten beliefern
+            $TPopFlurname
+                .val(data.TPopFlurname)
+                .limiter(255, $("#TPopFlurname_limit"));
+            $("#TPopNr").val(data.TPopNr);
+            $("#TPopHerkunft" + data.TPopHerkunft).prop("checked", true);
+            if (data.TPopHerkunftUnklar == 1) {
+                $("#TPopHerkunftUnklar").prop("checked", true);
+            } else {
+                $("#TPopHerkunftUnklar").prop("checked", false);
+            }
+            $("#TPopHerkunftUnklarBegruendung")
+                .val(data.TPopHerkunftUnklarBegruendung)
+                .limiter(255, $("#TPopHerkunftUnklarBegruendung_limit"));
+            $("#TPopApBerichtRelevant" + data.TPopApBerichtRelevant).prop("checked", true);
+            $("#TPopBekanntSeit").val(data.TPopBekanntSeit);
+            $("#TPopGemeinde")
+                .val(data.TPopGemeinde)
+                .limiter(255, $("#TPopGemeinde_limit"));
+            $("#TPopXKoord").val(data.TPopXKoord);
+            $("#TPopYKoord").val(data.TPopYKoord);
+            $("#TPopRadius").val(data.TPopRadius);
+            $("#TPopHoehe").val(data.TPopHoehe);
+            $("#TPopExposition")
+                .val(data.TPopExposition)
+                .limiter(50, $("#TPopExposition_limit"));
+            $("#TPopKlima")
+                .val(data.TPopKlima)
+                .limiter(50, $("#TPopKlima_limit"));
+            $("#TPopNeigung")
+                .val(data.TPopNeigung)
+                .limiter(50, $("#TPopNeigung_limit"));
+            $("#TPopBeschr")
+                .val(data.TPopBeschr)
+                .limiter(255, $("#TPopBeschr_limit"));
+            $("#TPopKatNr")
+                .val(data.TPopKatNr)
+                .limiter(255, $("#TPopKatNr_limit"));
+            $("#TPopEigen")
+                .val(data.TPopEigen)
+                .limiter(255, $("#TPopEigen_limit"));
+            $("#TPopKontakt")
+                .val(data.TPopKontakt)
+                .limiter(255, $("#TPopKontakt_limit"));
+            $("#TPopNutzungszone")
+                .val(data.TPopNutzungszone)
+                .limiter(255, $("#TPopNutzungszone_limit"));
+            $("#TPopBewirtschafterIn")
+                .val(data.TPopBewirtschafterIn)
+                .limiter(255, $("#TPopBewirtschafterIn_limit"));
+            $("#TPopBewirtschaftung")
+                .val(data.TPopBewirtschaftung)
+                .limiter(255, $("#TPopBewirtschaftung_limit"));
+            $("#TPopTxt").val(data.TPopTxt);
+            // für select Daten holen - oder vorhandene nutzen
+            if (!window.apf.adressen_html) {
+                var getAdressen = $.ajax({
+                    type: 'get',
+                    url: 'api/adressen',
+                    dataType: 'json'
+                });
+                getAdressen.always(function(data2) {
+                    if (data2) {
+                        // adressen bereitstellen
+                        window.apf.adressen = data2;
+                        localStorage.adressen = JSON.stringify(data2);
+                        // Feld mit Daten beliefern
+                        var html;
+                        html = "<option></option>";
+                        _.each(data2, function(adresse) {
+                            html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
+                        });
+                        window.apf.adressen_html = html;
+                        $("#TPopVerantw")
+                            .html(html)
+                            .val(window.apf.tpop.TPopVerantw);
+                    }
+                });
+            } else {
+                $("#TPopVerantw")
+                    .html(window.apf.adressen_html)
+                    .val(window.apf.tpop.TPopVerantw);
+            }
+            // Formulare blenden
+            // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
+            if (!ohne_zu_zeigen) {
+                window.apf.zeigeFormular("tpop");
+                history.replaceState({tpop: "tpop"}, "tpop", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id);
+                // bei neuen Datensätzen Fokus steuern
+                if (!$TPopFlurname.val()) {
+                    $('#TPopNr').focus();
+                }
+            }
+        }
+    });
+    getTPop.fail(function() {
+        //window.apf.melde('Fehler: keine Daten für die Teilpopulation erhalten');
+        console.log('Fehler: keine Daten für die Teilpopulation erhalten');
+    });
+};
+
+module.exports = initiiereTPop;
+},{"./initiierePop":19,"jquery":4,"underscore":5}],22:[function(require,module,exports){
+'use strict';
+
+var $ = require('jquery'),
     initiiereAp = require('./initiiereAp');
 //require('jquery-ui');
 
@@ -35482,7 +35495,7 @@ var initiiereZielber = function() {
 };
 
 module.exports = initiiereZielber;
-},{"./initiiereAp":9,"jquery":4}],22:[function(require,module,exports){
+},{"./initiiereAp":9,"jquery":4}],23:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
