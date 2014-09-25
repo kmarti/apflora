@@ -389,43 +389,6 @@ window.apf.setzeWindowTpopmassnber = function(id) {
 	});
 };
 
-window.apf.initiiereTpopber = function() {
-	'use strict';
-    var initiierePop = require('./modules/initiierePop');
-	if (!localStorage.tpopber_id) {
-		// es fehlen benötigte Daten > eine Ebene höher
-		initiierePop();
-		return;
-	}
-	// Felder zurücksetzen
-	window.apf.leereFelderVonFormular("tpopber");
-	// Daten für die tpopber aus der DB holen
-	var getTPopBer = $.ajax({
-		type: 'get',
-		url: 'php/tpopber.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.tpopber_id
-		}
-	});
-	getTPopBer.always(function(data) {
-		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
-			// tpopber bereitstellen
-			window.apf.tpopber = data;
-			// Felder mit Daten beliefern
-			$("#TPopBerJahr").val(data.TPopBerJahr);
-			$("#TPopBerEntwicklung" + data.TPopBerEntwicklung).prop("checked", true);
-			$("#TPopBerTxt").val(data.TPopBerTxt);
-			// Formulare blenden
-			window.apf.zeigeFormular("tpopber");
-			history.replaceState({tpopber: "tpopber"}, "tpopber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopber=" + localStorage.tpopber_id);
-			// bei neuen Datensätzen Fokus steuern
-			$('#TPopBerJahr').focus();
-		}
-	});
-};
-
 // setzt window.apf.tpopber und localStorage.tpopber_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowTpopber = function(id) {
@@ -1256,7 +1219,8 @@ window.apf.erstelle_tree = function(ApArtId) {
             initiierePopBer         = require('./modules/initiierePopBer'),
             initiiereTPopFeldkontr  = require('./modules/initiiereTPopFeldkontr'),
             initiiereTPopMassn      = require('./modules/initiiereTPopMassn'),
-            initiiereTPopMassnBer   = require('./modules/initiiereTPopMassnBer');
+            initiiereTPopMassnBer   = require('./modules/initiiereTPopMassnBer'),
+            initiiereTPopBer        = require('./modules/initiiereTPopBer');
 		delete localStorage.tpopfreiwkontr;	// Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
 		var node_typ = node.attr("typ");
@@ -1367,7 +1331,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#tpopber").is(':visible') || localStorage.tpopber_id !== node_id) {
 				localStorage.tpopber_id = node_id;
-				window.apf.initiiereTpopber();
+				initiiereTPopBer();
 			}
 		} else if (node_typ === "beob_zugeordnet") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -5508,7 +5472,8 @@ window.apf.öffneUri = function() {
         initiiereTPop           = require('./modules/initiiereTPop'),
         initiierePopBer         = require('./modules/initiierePopBer'),
         initiiereTPopFeldkontr  = require('./modules/initiiereTPopFeldkontr'),
-        initiiereTPopMassnBer   = require('./modules/initiiereTPopMassnBer');
+        initiiereTPopMassnBer   = require('./modules/initiiereTPopMassnBer'),
+        initiiereTPopBer        = require('./modules/initiiereTPopBer');
 	if (ap_id) {
 		// globale Variablen setzen
 		window.apf.setzeWindowAp(ap_id);
@@ -5552,7 +5517,7 @@ window.apf.öffneUri = function() {
 				// Die Markierung wird im load-Event wieder entfernt
 				window.apf.tpopber_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-				window.apf.initiiereTpopber();
+				initiiereTPopBer();
 			} else if (uri.getQueryParamValue('beob_zugeordnet')) {
 				// markieren, dass nach dem loaded-event im Tree die beob_zugeordnet angezeigt werden soll 
 				// Die Markierung wird im load-Event wieder entfernt
