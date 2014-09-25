@@ -23216,43 +23216,6 @@ window.apf.setzeWindowTpop = function(id) {
 	});
 };
 
-window.apf.initiiere_popber = function() {
-	'use strict';
-    var initiierePop = require('./modules/initiierePop');
-	if (!localStorage.popber_id) {
-		// es fehlen benötigte Daten > eine Ebene höher
-		initiierePop();
-		return;
-	}
-	// Felder zurücksetzen
-	window.apf.leereFelderVonFormular("popber");
-	// Daten für die popber aus der DB holen
-	var getPopber = $.ajax({
-		type: 'get',
-		url: 'php/popber.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.popber_id
-		}
-	});
-	getPopber.always(function(data) {
-		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
-			// popber bereitstellen
-			window.apf.popber = data;
-			// Felder mit Daten beliefern
-			$("#PopBerJahr").val(data.PopBerJahr);
-			$("#PopBerEntwicklung" + data.PopBerEntwicklung).prop("checked", true);
-			$("#PopBerTxt").val(data.PopBerTxt);
-			// Formulare blenden
-			window.apf.zeigeFormular("popber");
-			history.replaceState({tpopber: "popber"}, "popber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&popber=" + localStorage.popber_id);
-			// bei neuen Datensätzen Fokus steuern
-			$('#PopBerJahr').focus();
-		}
-	});
-};
-
 // setzt window.apf.popber und localStorage.popber_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowPopber = function(id) {
@@ -24678,8 +24641,9 @@ window.apf.erstelle_tree = function(ApArtId) {
             initiiereJberUebersicht = require('./modules/initiiereJberUebersicht'),
             initiiereBer            = require('./modules/initiiereBer'),
             initiiereAssozarten     = require('./modules/initiiereAssozarten'),
-            initiierePopMassnBer = require('./modules/initiierePopMassnBer'),
-            initiiereTPop = require('./modules/initiiereTPop');
+            initiierePopMassnBer    = require('./modules/initiierePopMassnBer'),
+            initiiereTPop           = require('./modules/initiiereTPop'),
+            initiierePopBer         = require('./modules/initiierePopBer');
 		delete localStorage.tpopfreiwkontr;	// Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
 		var node_typ = node.attr("typ");
@@ -24753,7 +24717,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#popber").is(':visible') || localStorage.popber_id !== node_id) {
 				localStorage.popber_id = node_id;
-				window.apf.initiiere_popber();
+				initiierePopBer();
 			}
 		} else if (node_typ === "popmassnber") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -28922,7 +28886,8 @@ window.apf.öffneUri = function() {
         initiiereJberUebersicht = require('./modules/initiiereJberUebersicht'),
         initiiereBer            = require('./modules/initiiereBer'),
         initiierePopMassnBer    = require('./modules/initiierePopMassnBer'),
-        initiiereTPop           = require('./modules/initiiereTPop');
+        initiiereTPop           = require('./modules/initiiereTPop'),
+        initiierePopBer         = require('./modules/initiierePopBer');
 	if (ap_id) {
 		// globale Variablen setzen
 		window.apf.setzeWindowAp(ap_id);
@@ -29008,7 +28973,7 @@ window.apf.öffneUri = function() {
 				// Die Markierung wird im load-Event wieder entfernt
 				window.apf.popber_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-				window.apf.initiiere_popber();
+				initiierePopBer();
 			} else if (uri.getQueryParamValue('popmassnber')) {
 				// globale Variablen setzen
 				window.apf.setzeWindowPopmassnber(uri.getQueryParamValue('popmassnber'));
@@ -31489,7 +31454,7 @@ window.apf.erstelleGuid = function() {
 	    return v.toString(16);
 	});
 };
-},{"./modules/configuration":7,"./modules/initiiereAp":9,"./modules/initiiereApziel":10,"./modules/initiiereAssozarten":11,"./modules/initiiereBeob":12,"./modules/initiiereBer":13,"./modules/initiiereErfkrit":14,"./modules/initiiereIdealbiotop":15,"./modules/initiiereIndex":16,"./modules/initiiereJber":17,"./modules/initiiereJberUebersicht":18,"./modules/initiierePop":19,"./modules/initiierePopMassnBer":20,"./modules/initiiereTPop":21,"./modules/initiiereZielber":22,"./modules/treeKontextmenu":23}],2:[function(require,module,exports){
+},{"./modules/configuration":7,"./modules/initiiereAp":9,"./modules/initiiereApziel":10,"./modules/initiiereAssozarten":11,"./modules/initiiereBeob":12,"./modules/initiiereBer":13,"./modules/initiiereErfkrit":14,"./modules/initiiereIdealbiotop":15,"./modules/initiiereIndex":16,"./modules/initiiereJber":17,"./modules/initiiereJberUebersicht":18,"./modules/initiierePop":19,"./modules/initiierePopBer":20,"./modules/initiierePopMassnBer":21,"./modules/initiiereTPop":22,"./modules/initiiereZielber":23,"./modules/treeKontextmenu":24}],2:[function(require,module,exports){
 /*
  * Date Format 1.2.3
  * (c) 2007-2009 Steven Levithan <stevenlevithan.com>
@@ -58194,6 +58159,49 @@ var $ = require('jquery'),
     initiierePop = require('./initiierePop');
 //require('jquery-ui');
 
+var initiierePopBer = function() {
+    if (!localStorage.popber_id) {
+        // es fehlen benötigte Daten > eine Ebene höher
+        initiierePop();
+        return;
+    }
+    // Felder zurücksetzen
+    window.apf.leereFelderVonFormular("popber");
+    // Daten für die popber aus der DB holen
+    var getPopber = $.ajax({
+        type: 'get',
+        url: 'php/popber.php',
+        dataType: 'json',
+        data: {
+            "id": localStorage.popber_id
+        }
+    });
+    getPopber.always(function(data) {
+        // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+        if (data) {
+            // popber bereitstellen
+            window.apf.popber = data;
+            // Felder mit Daten beliefern
+            $("#PopBerJahr").val(data.PopBerJahr);
+            $("#PopBerEntwicklung" + data.PopBerEntwicklung).prop("checked", true);
+            $("#PopBerTxt").val(data.PopBerTxt);
+            // Formulare blenden
+            window.apf.zeigeFormular("popber");
+            history.replaceState({tpopber: "popber"}, "popber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&popber=" + localStorage.popber_id);
+            // bei neuen Datensätzen Fokus steuern
+            $('#PopBerJahr').focus();
+        }
+    });
+};
+
+module.exports = initiierePopBer;
+},{"./initiierePop":19,"jquery":4}],21:[function(require,module,exports){
+'use strict';
+
+var $ = require('jquery'),
+    initiierePop = require('./initiierePop');
+//require('jquery-ui');
+
 var initiierePopMassnBer = function() {
     if (!localStorage.popmassnber_id) {
         // es fehlen benötigte Daten > eine Ebene höher
@@ -58230,7 +58238,7 @@ var initiierePopMassnBer = function() {
 };
 
 module.exports = initiierePopMassnBer;
-},{"./initiierePop":19,"jquery":4}],21:[function(require,module,exports){
+},{"./initiierePop":19,"jquery":4}],22:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -58363,7 +58371,7 @@ var initiiereTPop = function() {
 };
 
 module.exports = initiiereTPop;
-},{"./initiierePop":19,"jquery":4,"underscore":5}],22:[function(require,module,exports){
+},{"./initiierePop":19,"jquery":4,"underscore":5}],23:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -58409,7 +58417,7 @@ var initiiereZielber = function() {
 };
 
 module.exports = initiiereZielber;
-},{"./initiiereAp":9,"jquery":4}],23:[function(require,module,exports){
+},{"./initiiereAp":9,"jquery":4}],24:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
