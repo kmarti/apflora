@@ -23046,47 +23046,6 @@ window.apf.setzeWindowZielber = function(id) {
 	});
 };
 
-window.apf.initiiere_erfkrit = function() {
-	'use strict';
-    var initiiereAp = require('./modules/initiiereAp');
-	if (!localStorage.erfkrit_id) {
-		// es fehlen benötigte Daten > eine Ebene höher
-		initiiereAp();
-		return;
-	}
-	// Felder zurücksetzen
-	window.apf.leereFelderVonFormular("erfkrit");
-	// Daten für die erfkrit aus der DB holen
-	var getErfkrit = $.ajax({
-            type: 'get',
-            url: 'php/erfkrit.php',
-            dataType: 'json',
-            data: {
-                "id": localStorage.erfkrit_id
-            }
-        }),
-        $ErfkritErreichungsgrad = $("#ErfkritErreichungsgrad");
-	getErfkrit.always(function(data) {
-		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
-			// erfkrit bereitstellen
-			window.apf.erfkrit = data;
-			// Felder mit Daten beliefern
-			$("#ErfkritErreichungsgrad" + data.ErfkritErreichungsgrad).prop("checked", true);
-			$("#ErfkritTxt")
-                .val(data.ErfkritTxt)
-                .limiter(255, $("#ErfkritTxt_limit"));
-			// Formulare blenden
-			window.apf.zeigeFormular("erfkrit");
-			history.replaceState({erfkrit: "erfkrit"}, "erfkrit", "index.html?ap=" + localStorage.ap_id + "&erfkrit=" + localStorage.erfkrit_id);
-			// bei neuen Datensätzen Fokus steuern
-			if (!$ErfkritErreichungsgrad.val()) {
-                $ErfkritErreichungsgrad.focus();
-			}
-		}
-	});
-};
-
 // setzt window.apf.erfkrit und localStorage.erfkrit_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowErfkrit = function(id) {
@@ -25093,7 +25052,8 @@ window.apf.erstelle_tree = function(ApArtId) {
             initiiereAp = require('./modules/initiiereAp'),
             initiierePop = require('./modules/initiiereBeob'),
             initiiereApziel = require('./modules/initiiereApziel'),
-            initiiereZielber = require('./modules/initiiereZielber');
+            initiiereZielber = require('./modules/initiiereZielber'),
+            initiiereErfkrit = require('./modules/initiiereErfkrit');
 		delete localStorage.tpopfreiwkontr;	// Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
 		var node_typ = node.attr("typ");
@@ -25129,7 +25089,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#erfkrit").is(':visible') || localStorage.erfkrit_id !== node_id) {
 				localStorage.erfkrit_id = node_id;
-				window.apf.initiiere_erfkrit();
+				initiiereErfkrit();
 			}
 		} else if (node_typ === "jber") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -31894,7 +31854,7 @@ window.apf.erstelleGuid = function() {
 	    return v.toString(16);
 	});
 };
-},{"./modules/configuration":7,"./modules/initiiereAp":9,"./modules/initiiereApziel":10,"./modules/initiiereBeob":11,"./modules/initiiereIdealbiotop":12,"./modules/initiiereIndex":13,"./modules/initiiereZielber":14,"./modules/treeKontextmenu":15}],2:[function(require,module,exports){
+},{"./modules/configuration":7,"./modules/initiiereAp":9,"./modules/initiiereApziel":10,"./modules/initiiereBeob":11,"./modules/initiiereErfkrit":12,"./modules/initiiereIdealbiotop":13,"./modules/initiiereIndex":14,"./modules/initiiereZielber":15,"./modules/treeKontextmenu":16}],2:[function(require,module,exports){
 /*
  * Date Format 1.2.3
  * (c) 2007-2009 Steven Levithan <stevenlevithan.com>
@@ -58089,6 +58049,53 @@ module.exports = initiiereBeob;
 'use strict';
 
 var $ = require('jquery'),
+    initiiereAp = require('./initiiereAp');
+//require('jquery-ui');
+
+var initiiereErfkrit = function() {
+    if (!localStorage.erfkrit_id) {
+        // es fehlen benötigte Daten > eine Ebene höher
+        initiiereAp();
+        return;
+    }
+    // Felder zurücksetzen
+    window.apf.leereFelderVonFormular("erfkrit");
+    // Daten für die erfkrit aus der DB holen
+    var getErfkrit = $.ajax({
+            type: 'get',
+            url: 'php/erfkrit.php',
+            dataType: 'json',
+            data: {
+                "id": localStorage.erfkrit_id
+            }
+        }),
+        $ErfkritErreichungsgrad = $("#ErfkritErreichungsgrad");
+    getErfkrit.always(function(data) {
+        // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+        if (data) {
+            // erfkrit bereitstellen
+            window.apf.erfkrit = data;
+            // Felder mit Daten beliefern
+            $("#ErfkritErreichungsgrad" + data.ErfkritErreichungsgrad).prop("checked", true);
+            $("#ErfkritTxt")
+                .val(data.ErfkritTxt)
+                .limiter(255, $("#ErfkritTxt_limit"));
+            // Formulare blenden
+            window.apf.zeigeFormular("erfkrit");
+            history.replaceState({erfkrit: "erfkrit"}, "erfkrit", "index.html?ap=" + localStorage.ap_id + "&erfkrit=" + localStorage.erfkrit_id);
+            // bei neuen Datensätzen Fokus steuern
+            if (!$ErfkritErreichungsgrad.val()) {
+                $ErfkritErreichungsgrad.focus();
+            }
+        }
+    });
+};
+
+module.exports = initiiereErfkrit;
+},{"./initiiereAp":9,"jquery":4}],13:[function(require,module,exports){
+'use strict';
+
+var $ = require('jquery'),
     dateFormat = require('dateformat'),
     initiiereAp = require('./initiiereAp');
 
@@ -58165,7 +58172,7 @@ var initiiereIdealbiotop = function() {
 };
 
 module.exports = initiiereIdealbiotop;
-},{"./initiiereAp":9,"dateformat":2,"jquery":4}],13:[function(require,module,exports){
+},{"./initiiereAp":9,"dateformat":2,"jquery":4}],14:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -58240,7 +58247,7 @@ var initiiereIndex = function() {
 };
 
 module.exports = initiiereIndex;
-},{"jquery":4,"jquery-ui":3}],14:[function(require,module,exports){
+},{"jquery":4,"jquery-ui":3}],15:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -58286,7 +58293,7 @@ var initiiereZielber = function() {
 };
 
 module.exports = initiiereZielber;
-},{"./initiiereAp":9,"jquery":4}],15:[function(require,module,exports){
+},{"./initiiereAp":9,"jquery":4}],16:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
