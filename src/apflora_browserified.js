@@ -110,46 +110,6 @@ window.apf.setzeWindowApziel = function(id) {
 	});
 };
 
-window.apf.initiiere_zielber = function() {
-	'use strict';
-    var initiiereAp = require('./modules/initiiereAp');
-	if (!localStorage.zielber_id) {
-		// es fehlen benötigte Daten > eine Ebene höher
-		initiiereAp();
-		return;
-	}
-	// Felder zurücksetzen
-	window.apf.leereFelderVonFormular("zielber");
-	// Daten für die zielber aus der DB holen
-	var getZielBer = $.ajax({
-            type: 'get',
-            url: 'php/zielber.php',
-            dataType: 'json',
-            data: {
-                "id": localStorage.zielber_id
-            }
-        }),
-        $ZielBerJahr = $("#ZielBerJahr");
-	getZielBer.always(function(data) {
-		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
-			// zeilber bereitstellen
-			window.apf.zielber = data;
-			// Felder mit Daten beliefern
-            $ZielBerJahr.val(data.ZielBerJahr);
-			$("#ZielBerErreichung").val(data.ZielBerErreichung);
-			$("#ZielBerTxt").val(data.ZielBerTxt);
-			// Formulare blenden
-			window.apf.zeigeFormular("zielber");
-			history.replaceState({zielber: "zielber"}, "zielber", "index.html?ap=" + localStorage.ap_id + "&apziel=" + localStorage.apziel_id + "&zielber=" + localStorage.zielber_id);
-			// bei neuen Datensätzen Fokus steuern
-			if (!$ZielBerJahr.val()) {
-                $ZielBerJahr.focus();
-			}
-		}
-	});
-};
-
 // setzt window.apf.zielber und localStorage.zielber_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowZielber = function(id) {
@@ -2218,7 +2178,8 @@ window.apf.erstelle_tree = function(ApArtId) {
             initiiere_idealbiotop = require('./modules/initiiereIdealbiotop'),
             initiiereAp = require('./modules/initiiereAp'),
             initiierePop = require('./modules/initiiereBeob'),
-            initiiereApziel = require('./modules/initiiereApziel');
+            initiiereApziel = require('./modules/initiiereApziel'),
+            initiiereZielber = require('./modules/initiiereZielber');
 		delete localStorage.tpopfreiwkontr;	// Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
 		var node_typ = node.attr("typ");
@@ -2248,7 +2209,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#zielber").is(':visible') || localStorage.zielber_id !== node_id) {
 				localStorage.zielber_id = node_id;
-				window.apf.initiiere_zielber();
+				initiiereZielber();
 			}
 		} else if (node_typ === "erfkrit") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -6451,7 +6412,8 @@ window.apf.öffneUri = function() {
         initiiere_idealbiotop = require('./modules/initiiereIdealbiotop'),
         initiiereAp = require('./modules/initiiereAp'),
         initiierePop = require('./modules/initiiereBeob'),
-        initiiereApziel = require('./modules/initiiereApziel');
+        initiiereApziel = require('./modules/initiiereApziel'),
+        initiiereZielber = require('./modules/initiiereZielber');
 	if (ap_id) {
 		// globale Variablen setzen
 		window.apf.setzeWindowAp(ap_id);
@@ -6565,7 +6527,7 @@ window.apf.öffneUri = function() {
 				// Die Markierung wird im load-Event wieder entfernt
 				window.apf.zielber_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-				window.apf.initiiere_zielber();
+				initiiereZielber();
 			} else {
 				// muss ein apziel sein
 				// markieren, dass nach dem loaded-event im Tree die apziel angezeigt werden soll 
@@ -9018,7 +8980,7 @@ window.apf.erstelleGuid = function() {
 	    return v.toString(16);
 	});
 };
-},{"./modules/configuration":7,"./modules/initiiereAp":9,"./modules/initiiereApziel":10,"./modules/initiiereBeob":11,"./modules/initiiereIdealbiotop":12,"./modules/initiiereIndex":13,"./modules/treeKontextmenu":14}],2:[function(require,module,exports){
+},{"./modules/configuration":7,"./modules/initiiereAp":9,"./modules/initiiereApziel":10,"./modules/initiiereBeob":11,"./modules/initiiereIdealbiotop":12,"./modules/initiiereIndex":13,"./modules/initiiereZielber":14,"./modules/treeKontextmenu":15}],2:[function(require,module,exports){
 /*
  * Date Format 1.2.3
  * (c) 2007-2009 Steven Levithan <stevenlevithan.com>
@@ -35365,6 +35327,52 @@ var initiiereIndex = function() {
 
 module.exports = initiiereIndex;
 },{"jquery":4,"jquery-ui":3}],14:[function(require,module,exports){
+'use strict';
+
+var $ = require('jquery'),
+    initiiereAp = require('./initiiereAp');
+//require('jquery-ui');
+
+var initiiereZielber = function() {
+    if (!localStorage.zielber_id) {
+        // es fehlen benötigte Daten > eine Ebene höher
+        initiiereAp();
+        return;
+    }
+    // Felder zurücksetzen
+    window.apf.leereFelderVonFormular("zielber");
+    // Daten für die zielber aus der DB holen
+    var getZielBer = $.ajax({
+            type: 'get',
+            url: 'php/zielber.php',
+            dataType: 'json',
+            data: {
+                "id": localStorage.zielber_id
+            }
+        }),
+        $ZielBerJahr = $("#ZielBerJahr");
+    getZielBer.always(function(data) {
+        // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+        if (data) {
+            // zeilber bereitstellen
+            window.apf.zielber = data;
+            // Felder mit Daten beliefern
+            $ZielBerJahr.val(data.ZielBerJahr);
+            $("#ZielBerErreichung").val(data.ZielBerErreichung);
+            $("#ZielBerTxt").val(data.ZielBerTxt);
+            // Formulare blenden
+            window.apf.zeigeFormular("zielber");
+            history.replaceState({zielber: "zielber"}, "zielber", "index.html?ap=" + localStorage.ap_id + "&apziel=" + localStorage.apziel_id + "&zielber=" + localStorage.zielber_id);
+            // bei neuen Datensätzen Fokus steuern
+            if (!$ZielBerJahr.val()) {
+                $ZielBerJahr.focus();
+            }
+        }
+    });
+};
+
+module.exports = initiiereZielber;
+},{"./initiiereAp":9,"jquery":4}],15:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
