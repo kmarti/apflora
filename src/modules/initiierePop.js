@@ -1,7 +1,7 @@
 'use strict';
 
 var $ = require('jquery'),
-    initiiereAp = require('./modules/initiiereAp');
+    initiiereAp = require('./initiiereAp');
 //require('jquery-ui');
 
 var initiierePop = function() {

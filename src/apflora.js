@@ -257,43 +257,6 @@ window.apf.setzeWindowAssozarten = function(id) {
 	});
 };
 
-window.apf.initiiere_popmassnber = function() {
-	'use strict';
-    var initiierePop = require('./modules/initiiereBeob');
-	if (!localStorage.popmassnber_id) {
-		// es fehlen benötigte Daten > eine Ebene höher
-		initiierePop();
-		return;
-	}
-	// Felder zurücksetzen
-	window.apf.leereFelderVonFormular("popmassnber");
-	// Daten für die pop aus der DB holen
-	var getPopmassnber = $.ajax({
-		type: 'get',
-		url: 'php/popmassnber.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.popmassnber_id
-		}
-	});
-	getPopmassnber.always(function(data) {
-		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
-			// popmassnber bereitstellen
-			window.apf.popmassnber = data;
-			// Felder mit Daten beliefern
-			$("#PopMassnBerJahr").val(data.PopMassnBerJahr);
-			$("#PopMassnBerErfolgsbeurteilung" + data.PopMassnBerErfolgsbeurteilung).prop("checked", true);
-			$("#PopMassnBerTxt").val(data.PopMassnBerTxt);
-			// Formulare blenden
-			window.apf.zeigeFormular("popmassnber");
-			history.replaceState({popmassnber: "popmassnber"}, "popmassnber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&popmassnber=" + localStorage.popmassnber_id);
-			// bei neuen Datensätzen Fokus steuern
-			$('#PopMassnBerJahr').focus();
-		}
-	});
-};
-
 // setzt window.apf.popmassnber und localStorage.popmassnber_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowPopmassnber = function(id) {
@@ -466,7 +429,7 @@ window.apf.setzeWindowTpop = function(id) {
 
 window.apf.initiiere_popber = function() {
 	'use strict';
-    var initiierePop = require('./modules/initiiereBeob');
+    var initiierePop = require('./modules/initiierePop');
 	if (!localStorage.popber_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
 		initiierePop();
@@ -525,7 +488,7 @@ window.apf.setzeWindowPopber = function(id) {
 
 window.apf.initiiere_tpopfeldkontr = function() {
 	'use strict';
-    var initiierePop = require('./modules/initiiereBeob');
+    var initiierePop = require('./modules/initiierePop');
 	// wird gemeinsam für Feld- und Freiwilligenkontrollen verwendet
 	// Feldkontrollen: Felder der Freiwilligenkontrollen ausblenden
 	// Freiwilligenkontrollen: Felder der Feldkontrollen ausblenen plus Register Biotop
@@ -851,7 +814,7 @@ window.apf.setzeWindowTpopfeldkontr = function(id) {
 
 window.apf.initiiere_tpopmassn = function() {
 	'use strict';
-    var initiierePop = require('./modules/initiiereBeob');
+    var initiierePop = require('./modules/initiierePop');
 	if (!localStorage.tpopmassn_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
 		initiierePop();
@@ -1007,7 +970,7 @@ window.apf.setzeWindowTpopmassn = function(id) {
 
 window.apf.initiiere_tpopmassnber = function() {
 	'use strict';
-    var initiierePop = require('./modules/initiiereBeob');
+    var initiierePop = require('./modules/initiierePop');
 	if (!localStorage.tpopmassnber_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
 		initiierePop();
@@ -1066,7 +1029,7 @@ window.apf.setzeWindowTpopmassnber = function(id) {
 
 window.apf.initiiereTpopber = function() {
 	'use strict';
-    var initiierePop = require('./modules/initiiereBeob');
+    var initiierePop = require('./modules/initiierePop');
 	if (!localStorage.tpopber_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
 		initiierePop();
@@ -1925,7 +1888,8 @@ window.apf.erstelle_tree = function(ApArtId) {
             initiiereJber           = require('./modules/initiiereJber'),
             initiiereJberUebersicht = require('./modules/initiiereJberUebersicht'),
             initiiereBer            = require('./modules/initiiereBer'),
-            initiiereAssozarten     = require('./modules/initiiereAssozarten');
+            initiiereAssozarten     = require('./modules/initiiereAssozarten'),
+            initiierePopMassnBer = require('./modules/initiierePopMassnBer');
 		delete localStorage.tpopfreiwkontr;	// Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
 		var node_typ = node.attr("typ");
@@ -2005,7 +1969,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#popmassnber").is(':visible') || localStorage.popmassnber_id !== node_id) {
 				localStorage.popmassnber_id = node_id;
-				window.apf.initiiere_popmassnber();
+				initiierePopMassnBer();
 			}
 		} else if (node_typ === "tpop" || node_typ.slice(0, 5) === "tpop_") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -2130,7 +2094,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 					}
 				});
 				fügePopEin.always(function() {
-                    var initiierePop = require('./modules/initiiereBeob');
+                    var initiierePop = require('./modules/initiierePop');
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.apf.beschrifte_ordner_pop(ziel_parent_node);
 					window.apf.beschrifte_ordner_pop(window.apf.herkunft_parent_node);
@@ -6162,7 +6126,8 @@ window.apf.öffneUri = function() {
         initiiereZielber        = require('./modules/initiiereZielber'),
         initiiereJber           = require('./modules/initiiereJber'),
         initiiereJberUebersicht = require('./modules/initiiereJberUebersicht'),
-        initiiereBer            = require('./modules/initiiereBer');
+        initiiereBer            = require('./modules/initiiereBer'),
+        initiierePopMassnBer = require('./modules/initiierePopMassnBer');
 	if (ap_id) {
 		// globale Variablen setzen
 		window.apf.setzeWindowAp(ap_id);
@@ -6256,7 +6221,7 @@ window.apf.öffneUri = function() {
 				// Die Markierung wird im load-Event wieder entfernt
 				window.apf.popmassnber_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-				window.apf.initiiere_popmassnber();
+				initiierePopMassnBer();
 			} else {
 				// muss pop sein
 				// markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
