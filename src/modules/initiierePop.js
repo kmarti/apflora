@@ -1,8 +1,8 @@
 'use strict';
 
 var $ = require('jquery'),
+    limiter = require('../lib/limiter'),
     initiiereAp = require('./initiiereAp');
-//require('jquery-ui');
 
 var initiierePop = function() {
     if (!localStorage.pop_id) {

@@ -2,7 +2,9 @@
 
 var $ = require('jquery'),
     _ = require('underscore'),
+    limiter = require('../lib/limiter'),
     initiierePop = require('./initiierePop');
+
 require('jquery-ui');
 
 var initiiereTPopFeldkontr = function() {

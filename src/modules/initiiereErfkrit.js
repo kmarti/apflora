@@ -1,8 +1,8 @@
 'use strict';
 
 var $ = require('jquery'),
-    initiiereAp = require('./initiiereAp');
-//require('jquery-ui');
+    initiiereAp = require('./initiiereAp'),
+    limiter = require('../lib/limiter');
 
 var initiiereErfkrit = function() {
     if (!localStorage.erfkrit_id) {

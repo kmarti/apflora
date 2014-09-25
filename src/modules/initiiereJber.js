@@ -2,8 +2,8 @@
 
 var $ = require('jquery'),
     _ = require('underscore'),
+    limiter = require('../lib/limiter'),
     initiiereAp = require('./initiiereAp');
-//require('jquery-ui');
 
 var initiiereJber = function() {
     if (!localStorage.jber_id) {
