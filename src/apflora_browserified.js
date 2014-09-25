@@ -368,43 +368,6 @@ window.apf.setzeWindowTpopmassn = function(id) {
 	});
 };
 
-window.apf.initiiere_tpopmassnber = function() {
-	'use strict';
-    var initiierePop = require('./modules/initiierePop');
-	if (!localStorage.tpopmassnber_id) {
-		// es fehlen benötigte Daten > eine Ebene höher
-		initiierePop();
-		return;
-	}
-	// Felder zurücksetzen
-	window.apf.leereFelderVonFormular("tpopmassnber");
-	// Daten für die pop aus der DB holen
-	var getTPopMassnBer = $.ajax({
-		type: 'get',
-		url: 'php/tpopmassnber.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.tpopmassnber_id
-		}
-	});
-	getTPopMassnBer.always(function(data) {
-		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
-			// tpopmassnber bereitstellen
-			window.apf.tpopmassnber = data;
-			// Felder mit Daten beliefern
-			$("#TPopMassnBerJahr").val(data.TPopMassnBerJahr);
-			$("#TPopMassnBerErfolgsbeurteilung" + data.TPopMassnBerErfolgsbeurteilung).prop("checked", true);
-			$("#TPopMassnBerTxt").val(data.TPopMassnBerTxt);
-			// Formulare blenden
-			window.apf.zeigeFormular("tpopmassnber");
-			history.replaceState({tpopmassnber: "tpopmassnber"}, "tpopmassnber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopmassnber=" + localStorage.tpopmassnber_id);
-			// bei neuen Datensätzen Fokus steuern
-			$('#TPopMassnBerJahr').focus();
-		}
-	});
-};
-
 // setzt window.apf.tpopmassnber und localStorage.tpopmassnber_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowTpopmassnber = function(id) {
@@ -1293,7 +1256,8 @@ window.apf.erstelle_tree = function(ApArtId) {
             initiiereTPop           = require('./modules/initiiereTPop'),
             initiierePopBer         = require('./modules/initiierePopBer'),
             initiiereTPopFeldkontr  = require('./modules/initiiereTPopFeldkontr'),
-            initiiereTPopMassn      = require('./modules/initiiereTPopMassn');
+            initiiereTPopMassn      = require('./modules/initiiereTPopMassn'),
+            initiiereTPopMassnBer   = require('./modules/initiiereTPopMassnBer');
 		delete localStorage.tpopfreiwkontr;	// Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
 		var node_typ = node.attr("typ");
@@ -1433,7 +1397,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#tpopmassnber").is(':visible') || localStorage.tpopmassnber_id !== node_id) {
 				localStorage.tpopmassnber_id = node_id;
-				window.apf.initiiere_tpopmassnber();
+				initiiereTPopMassnBer();
 			}
 		}
 	})
@@ -5544,7 +5508,8 @@ window.apf.öffneUri = function() {
         initiierePopMassnBer    = require('./modules/initiierePopMassnBer'),
         initiiereTPop           = require('./modules/initiiereTPop'),
         initiierePopBer         = require('./modules/initiierePopBer'),
-        initiiereTPopFeldkontr  = require('./modules/initiiereTPopFeldkontr');
+        initiiereTPopFeldkontr  = require('./modules/initiiereTPopFeldkontr'),
+        initiiereTPopMassnBer   = require('./modules/initiiereTPopMassnBer');
 	if (ap_id) {
 		// globale Variablen setzen
 		window.apf.setzeWindowAp(ap_id);
@@ -5612,7 +5577,7 @@ window.apf.öffneUri = function() {
 				// Die Markierung wird im load-Event wieder entfernt
 				window.apf.tpopmassnber_zeigen = true;
 				// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-				window.apf.initiiere_tpopmassnber();
+				initiiereTPopMassnBer();
 			} else {
 				// muss tpop sein
 				// markieren, dass nach dem loaded-event im Tree die TPop angezeigt werden soll 
@@ -8112,7 +8077,7 @@ window.apf.erstelleGuid = function() {
 	    return v.toString(16);
 	});
 };
-},{"./modules/configuration":7,"./modules/initiiereAp":9,"./modules/initiiereApziel":10,"./modules/initiiereAssozarten":11,"./modules/initiiereBeob":12,"./modules/initiiereBer":13,"./modules/initiiereErfkrit":14,"./modules/initiiereIdealbiotop":15,"./modules/initiiereIndex":16,"./modules/initiiereJber":17,"./modules/initiiereJberUebersicht":18,"./modules/initiierePop":19,"./modules/initiierePopBer":20,"./modules/initiierePopMassnBer":21,"./modules/initiiereTPop":22,"./modules/initiiereTPopFeldkontr":23,"./modules/initiiereTPopMassn":24,"./modules/initiiereZielber":25,"./modules/treeKontextmenu":26}],2:[function(require,module,exports){
+},{"./modules/configuration":7,"./modules/initiiereAp":9,"./modules/initiiereApziel":10,"./modules/initiiereAssozarten":11,"./modules/initiiereBeob":12,"./modules/initiiereBer":13,"./modules/initiiereErfkrit":14,"./modules/initiiereIdealbiotop":15,"./modules/initiiereIndex":16,"./modules/initiiereJber":17,"./modules/initiiereJberUebersicht":18,"./modules/initiierePop":19,"./modules/initiierePopBer":20,"./modules/initiierePopMassnBer":21,"./modules/initiiereTPop":22,"./modules/initiiereTPopFeldkontr":23,"./modules/initiiereTPopMassn":24,"./modules/initiiereTPopMassnBer":25,"./modules/initiiereZielber":26,"./modules/treeKontextmenu":27}],2:[function(require,module,exports){
 /*
  * Date Format 1.2.3
  * (c) 2007-2009 Steven Levithan <stevenlevithan.com>
@@ -35485,6 +35450,49 @@ module.exports = initiiereTPopMassn;
 'use strict';
 
 var $ = require('jquery'),
+    initiierePop = require('./initiierePop');
+//require('jquery-ui');
+
+var initiiereTPopMassnBer = function() {
+    if (!localStorage.tpopmassnber_id) {
+        // es fehlen benötigte Daten > eine Ebene höher
+        initiierePop();
+        return;
+    }
+    // Felder zurücksetzen
+    window.apf.leereFelderVonFormular("tpopmassnber");
+    // Daten für die pop aus der DB holen
+    var getTPopMassnBer = $.ajax({
+        type: 'get',
+        url: 'php/tpopmassnber.php',
+        dataType: 'json',
+        data: {
+            "id": localStorage.tpopmassnber_id
+        }
+    });
+    getTPopMassnBer.always(function(data) {
+        // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+        if (data) {
+            // tpopmassnber bereitstellen
+            window.apf.tpopmassnber = data;
+            // Felder mit Daten beliefern
+            $("#TPopMassnBerJahr").val(data.TPopMassnBerJahr);
+            $("#TPopMassnBerErfolgsbeurteilung" + data.TPopMassnBerErfolgsbeurteilung).prop("checked", true);
+            $("#TPopMassnBerTxt").val(data.TPopMassnBerTxt);
+            // Formulare blenden
+            window.apf.zeigeFormular("tpopmassnber");
+            history.replaceState({tpopmassnber: "tpopmassnber"}, "tpopmassnber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopmassnber=" + localStorage.tpopmassnber_id);
+            // bei neuen Datensätzen Fokus steuern
+            $('#TPopMassnBerJahr').focus();
+        }
+    });
+};
+
+module.exports = initiiereTPopMassnBer;
+},{"./initiierePop":19,"jquery":4}],26:[function(require,module,exports){
+'use strict';
+
+var $ = require('jquery'),
     initiiereAp = require('./initiiereAp');
 //require('jquery-ui');
 
@@ -35527,7 +35535,7 @@ var initiiereZielber = function() {
 };
 
 module.exports = initiiereZielber;
-},{"./initiiereAp":9,"jquery":4}],26:[function(require,module,exports){
+},{"./initiiereAp":9,"jquery":4}],27:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
