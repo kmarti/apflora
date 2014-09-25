@@ -10,7 +10,8 @@ var treeKontextmenu = function(node) {
         parent_node,
         parent_nodeText,
         grandparent_node,
-        neue_apziele_node;
+        neue_apziele_node,
+        zeigeTPop = require('./zeigeTPop');
     // relevante nodes zwischenspeichern
     // aktiver_node = node;	 das hat auch funktioniert
     aktiver_node = $("#tree").jstree('get_selected');
@@ -97,7 +98,7 @@ var treeKontextmenu = function(node) {
                         });
                         getApKarte.always(function(data) {
                             if (data.rows.length > 0) {
-                                window.apf.gmap.zeigeTPop(data);
+                                zeigeTPop(data);
                             } else {
                                 window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
                             }
@@ -1100,7 +1101,7 @@ var treeKontextmenu = function(node) {
                         });
                         getPopKarte.always(function(data) {
                             if (data.rows.length > 0) {
-                                window.apf.gmap.zeigeTPop(data);
+                                zeigeTPop(data);
                             } else {
                                 window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
                             }
@@ -1249,7 +1250,7 @@ var treeKontextmenu = function(node) {
                         });
                         getPopKarte_2.always(function(data) {
                             if (data.rows.length > 0) {
-                                window.apf.gmap.zeigeTPop(data);
+                                zeigeTPop(data);
                             } else {
                                 window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
                             }
@@ -1450,7 +1451,7 @@ var treeKontextmenu = function(node) {
                         });
                         getTPopKarte_3.always(function(data) {
                             if (data.rows.length > 0) {
-                                window.apf.gmap.zeigeTPop(data);
+                                zeigeTPop(data);
                             } else {
                                 window.apf.melde("Die Teilpopulation hat keine Koordinaten", "Aktion abgebrochen");
                             }
