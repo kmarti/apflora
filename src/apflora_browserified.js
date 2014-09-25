@@ -154,91 +154,6 @@ window.apf.setzeWindowErfkrit = function(id) {
 	});
 };
 
-window.apf.initiiere_jber = function() {
-	'use strict';
-    var initiiereAp = require('./modules/initiiereAp');
-	if (!localStorage.jber_id) {
-		// es fehlen benötigte Daten > eine Ebene höher
-		initiiereAp();
-		return;
-	}
-	// Felder zurücksetzen
-	window.apf.leereFelderVonFormular("jber");
-	// Daten für die jber aus der DB holen
-	var getJber = $.ajax({
-            type: 'get',
-            url: 'php/jber.php',
-            dataType: 'json',
-            data: {
-                "id": localStorage.jber_id
-            }
-        }),
-        $JBerJahr = $("#JBerJahr");
-	getJber.always(function(data) {
-		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
-			// jber bereitstellen
-			window.apf.jber = data;
-			// Felder mit Daten beliefern
-            $JBerJahr.val(data.JBerJahr);
-			$("#JBerSituation").val(data.JBerSituation);
-			$("#JBerVergleichVorjahrGesamtziel").val(data.JBerVergleichVorjahrGesamtziel);
-			$("#JBerBeurteilung" + data.JBerBeurteilung).prop("checked", true);
-			// escapen, + und - werden sonst verändert
-			$("#JBerVeraenGegenVorjahr\\" + data.JBerVeraenGegenVorjahr).prop("checked", true);
-			$("#JBerAnalyse")
-                .val(data.JBerAnalyse)
-                .limiter(255, $("#JBerAnalyse_limit"));
-			$("#JBerUmsetzung").val(data.JBerUmsetzung);
-			$("#JBerErfko").val(data.JBerErfko);
-			$("#JBerATxt").val(data.JBerATxt);
-			$("#JBerBTxt").val(data.JBerBTxt);
-			$("#JBerCTxt").val(data.JBerCTxt);
-			$("#JBerDTxt").val(data.JBerDTxt);
-			if (data.JBerDatum !== "01.01.1970") {
-				// php macht aus einem Nullwert im Datum den 1.1.1970!!!
-				$("#JBerDatum").val(data.JBerDatum);
-			} else {
-				$("#JBerDatum").val("");
-			}
-			// JBerBearb: Daten holen - oder vorhandene nutzen
-			if (!window.apf.adressen_html) {
-				var getAdressen = $.ajax({
-					type: 'get',
-					url: 'api/adressen',
-					dataType: 'json'
-				});
-				getAdressen.always(function(data2) {
-					if (data2) {
-						// adressen bereitstellen
-						// Feld mit Daten beliefern
-						var html;
-						html = "<option></option>";
-                        _.each(data2, function(adresse) {
-                            html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
-                        });
-						window.apf.adressen_html = html;
-						$("#JBerBearb")
-                            .html(html)
-                            .val(window.apf.jber.JBerBearb);
-					}
-				});
-			} else {
-				$("#JBerBearb")
-                    .html(window.apf.adressen_html)
-                    .val(window.apf.jber.JBerBearb);
-			}
-			// Formulare blenden
-			window.apf.zeigeFormular("jber");
-			history.replaceState({jber: "jber"}, "jber", "index.html?ap=" + localStorage.ap_id + "&jber=" + localStorage.jber_id);
-			// bei neuen Datensätzen Fokus steuern
-			if (!$JBerJahr.val()) {
-                $JBerJahr.focus();
-			}
-		}
-	});
-};
-
 // setzt window.apf.jber und localStorage.jber_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowJber = function(id) {
@@ -2139,7 +2054,8 @@ window.apf.erstelle_tree = function(ApArtId) {
             initiierePop = require('./modules/initiiereBeob'),
             initiiereApziel = require('./modules/initiiereApziel'),
             initiiereZielber = require('./modules/initiiereZielber'),
-            initiiereErfkrit = require('./modules/initiiereErfkrit');
+            initiiereErfkrit = require('./modules/initiiereErfkrit'),
+            initiiereJber = require('./modules/initiiereJber');
 		delete localStorage.tpopfreiwkontr;	// Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
 		var node_typ = node.attr("typ");
@@ -2181,7 +2097,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
 			if (!$("#jber").is(':visible') || localStorage.jber_id !== node_id) {
 				localStorage.jber_id = node_id;
-				window.apf.initiiere_jber();
+				initiiereJber();
 			}
 		} else if (node_typ === "jber_uebersicht") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -6373,7 +6289,8 @@ window.apf.öffneUri = function() {
         initiiereAp = require('./modules/initiiereAp'),
         initiierePop = require('./modules/initiiereBeob'),
         initiiereApziel = require('./modules/initiiereApziel'),
-        initiiereZielber = require('./modules/initiiereZielber');
+        initiiereZielber = require('./modules/initiiereZielber'),
+        initiiereJber = require('./modules/initiiereJber');
 	if (ap_id) {
 		// globale Variablen setzen
 		window.apf.setzeWindowAp(ap_id);
@@ -6510,7 +6427,7 @@ window.apf.öffneUri = function() {
 			// Die Markierung wird im load-Event wieder entfernt
 			window.apf.jber_zeigen = true;
 			// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-			window.apf.initiiere_jber();
+			initiiereJber();
 		} else if (uri.getQueryParamValue('jber_uebersicht')) {
 			// globale Variablen setzen
 			window.apf.setzeWindowJberUebersicht(uri.getQueryParamValue('jber_uebersicht'));
@@ -8940,7 +8857,7 @@ window.apf.erstelleGuid = function() {
 	    return v.toString(16);
 	});
 };
-},{"./modules/configuration":7,"./modules/initiiereAp":9,"./modules/initiiereApziel":10,"./modules/initiiereBeob":11,"./modules/initiiereErfkrit":12,"./modules/initiiereIdealbiotop":13,"./modules/initiiereIndex":14,"./modules/initiiereZielber":15,"./modules/treeKontextmenu":16}],2:[function(require,module,exports){
+},{"./modules/configuration":7,"./modules/initiiereAp":9,"./modules/initiiereApziel":10,"./modules/initiiereBeob":11,"./modules/initiiereErfkrit":12,"./modules/initiiereIdealbiotop":13,"./modules/initiiereIndex":14,"./modules/initiiereJber":15,"./modules/initiiereZielber":16,"./modules/treeKontextmenu":17}],2:[function(require,module,exports){
 /*
  * Date Format 1.2.3
  * (c) 2007-2009 Steven Levithan <stevenlevithan.com>
@@ -35337,6 +35254,98 @@ module.exports = initiiereIndex;
 'use strict';
 
 var $ = require('jquery'),
+    _ = require('underscore'),
+    initiiereAp = require('./initiiereAp');
+//require('jquery-ui');
+
+var initiiereJber = function() {
+    if (!localStorage.jber_id) {
+        // es fehlen benötigte Daten > eine Ebene höher
+        initiiereAp();
+        return;
+    }
+    // Felder zurücksetzen
+    window.apf.leereFelderVonFormular("jber");
+    // Daten für die jber aus der DB holen
+    var getJber = $.ajax({
+            type: 'get',
+            url: 'php/jber.php',
+            dataType: 'json',
+            data: {
+                "id": localStorage.jber_id
+            }
+        }),
+        $JBerJahr = $("#JBerJahr");
+    getJber.always(function(data) {
+        // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+        if (data) {
+            // jber bereitstellen
+            window.apf.jber = data;
+            // Felder mit Daten beliefern
+            $JBerJahr.val(data.JBerJahr);
+            $("#JBerSituation").val(data.JBerSituation);
+            $("#JBerVergleichVorjahrGesamtziel").val(data.JBerVergleichVorjahrGesamtziel);
+            $("#JBerBeurteilung" + data.JBerBeurteilung).prop("checked", true);
+            // escapen, + und - werden sonst verändert
+            $("#JBerVeraenGegenVorjahr\\" + data.JBerVeraenGegenVorjahr).prop("checked", true);
+            $("#JBerAnalyse")
+                .val(data.JBerAnalyse)
+                .limiter(255, $("#JBerAnalyse_limit"));
+            $("#JBerUmsetzung").val(data.JBerUmsetzung);
+            $("#JBerErfko").val(data.JBerErfko);
+            $("#JBerATxt").val(data.JBerATxt);
+            $("#JBerBTxt").val(data.JBerBTxt);
+            $("#JBerCTxt").val(data.JBerCTxt);
+            $("#JBerDTxt").val(data.JBerDTxt);
+            if (data.JBerDatum !== "01.01.1970") {
+                // php macht aus einem Nullwert im Datum den 1.1.1970!!!
+                $("#JBerDatum").val(data.JBerDatum);
+            } else {
+                $("#JBerDatum").val("");
+            }
+            // JBerBearb: Daten holen - oder vorhandene nutzen
+            if (!window.apf.adressen_html) {
+                var getAdressen = $.ajax({
+                    type: 'get',
+                    url: 'api/adressen',
+                    dataType: 'json'
+                });
+                getAdressen.always(function(data2) {
+                    if (data2) {
+                        // adressen bereitstellen
+                        // Feld mit Daten beliefern
+                        var html;
+                        html = "<option></option>";
+                        _.each(data2, function(adresse) {
+                            html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
+                        });
+                        window.apf.adressen_html = html;
+                        $("#JBerBearb")
+                            .html(html)
+                            .val(window.apf.jber.JBerBearb);
+                    }
+                });
+            } else {
+                $("#JBerBearb")
+                    .html(window.apf.adressen_html)
+                    .val(window.apf.jber.JBerBearb);
+            }
+            // Formulare blenden
+            window.apf.zeigeFormular("jber");
+            history.replaceState({jber: "jber"}, "jber", "index.html?ap=" + localStorage.ap_id + "&jber=" + localStorage.jber_id);
+            // bei neuen Datensätzen Fokus steuern
+            if (!$JBerJahr.val()) {
+                $JBerJahr.focus();
+            }
+        }
+    });
+};
+
+module.exports = initiiereJber;
+},{"./initiiereAp":9,"jquery":4,"underscore":5}],16:[function(require,module,exports){
+'use strict';
+
+var $ = require('jquery'),
     initiiereAp = require('./initiiereAp');
 //require('jquery-ui');
 
@@ -35379,7 +35388,7 @@ var initiiereZielber = function() {
 };
 
 module.exports = initiiereZielber;
-},{"./initiiereAp":9,"jquery":4}],16:[function(require,module,exports){
+},{"./initiiereAp":9,"jquery":4}],17:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
