@@ -1,12 +1,13 @@
 'use strict';
 
 var $ = require('jquery'),
-    dateFormat = require('dateformat');
+    dateFormat = require('dateformat'),
+    initiiereAp = require('./initiiereAp');
 
 var initiiereIdealbiotop = function() {
     if (!localStorage.ap_id) {
         // es fehlen benötigte Daten > eine Ebene höher
-        window.apf.initiiere_ap();
+        initiiereAp();
         return;
     }
     // Felder zurücksetzen

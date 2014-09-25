@@ -22918,78 +22918,8 @@ window.apf = window.apf || {};
 window.apf.gmap = window.apf.gmap || {};
 window.apf.olmap = window.apf.olmap || {};
 
+// hier als global gründen, weil es in index.html benutzt wird
 window.apf.initiiereIndex = require('./modules/initiiereIndex');
-
-window.apf.initiiere_ap = function() {
-	'use strict';
-	if (!localStorage.ap_id) {
-		// es fehlen benötigte Daten > zurück zum Anfang
-		// LIEGT HIER DER WURM BEGRABEN?
-		// ACHTUNG, DIESE ZEILE VERURSACHTE STARTABSTÜRZE IN FIREFOX UND ZT OFFENBAR AUCH IN CHROME, DA REKURSIV IMMER WIEDER INITIIERE_INDEX AUFGERUFEN WURDE
-		//window.apf.initiiere_index();
-		//history.replaceState({ap: "keinap"}, "keinap", "index.html");
-		return;
-	}
-	// Programm-Wahl konfigurieren
-	var programm_wahl;
-	programm_wahl = $("[name='programm_wahl']:checked").attr("id");
-	// Felder zurücksetzen
-	window.apf.leereFelderVonFormular("ap");
-	// Wenn ein ap ausgewählt ist: Seine Daten anzeigen
-	if ($("#ap_waehlen").val() && programm_wahl !== "programm_neu") {
-		// Daten für den ap aus der DB holen
-		var getAp = $.ajax({
-			type: 'get',
-			url: 'ap=' + localStorage.ap_id,
-			dataType: 'json'
-		});
-		getAp.always(function(data) {
-			// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-			if (data && data[0]) {
-				// ap bereitstellen
-				window.apf.ap = data[0];
-				// Felder mit Daten beliefern
-				$("#ApStatus" + data[0].ApStatus).prop("checked", true);
-				$("#ApUmsetzung" + data[0].ApUmsetzung).prop("checked", true);
-				$("#ApJahr").val(data[0].ApJahr);
-				$("#ApArtwert").val(data[0].ApArtwert);
-				$("#Artname").val(data[0].Artname);
-				// ApBearb: Daten holen - oder vorhandene nutzen
-				if (!window.apf.adressen_html) {
-					var getAdressen = $.ajax({
-						type: 'get',
-						url: 'api/adressen',
-						dataType: 'json'
-					});
-					getAdressen.always(function(data2) {
-						if (data2) {
-							// Feld mit Daten beliefern
-							var html;
-							html = "<option></option>";
-                            _.each(data2, function(adresse) {
-                                html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
-                            });
-							window.apf.adressen_html = html;
-							$("#ApBearb")
-                                .html(html)
-                                .val(window.apf.ApBearb);
-						}
-					});
-				} else {
-					$("#ApBearb")
-                        .html(window.apf.adressen_html)
-                        .val(window.apf.ApBearb);
-				}
-				// Formulare blenden
-				window.apf.zeigeFormular("ap");
-				history.replaceState({ap: "ap"}, "ap", "index.html?ap=" + data.ApArtId);
-			}
-		});
-	} else if ($("#ap_waehlen").val() && programm_wahl === "programm_neu") {
-		// Formulare blenden
-		window.apf.zeigeFormular("ap");
-	}
-};
 
 // setzt window.apf und localStorage.ap_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
@@ -23052,9 +22982,10 @@ window.apf.erstelle_artlisten = function() {
 
 window.apf.initiiere_pop = function(ohne_zu_zeigen) {
 	'use strict';
+    var initiiereAp = require('./modules/initiiereAp');
 	if (!localStorage.pop_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		window.apf.initiiere_ap();
+		initiiereAp();
 		return;
 	}
 	// Felder zurücksetzen
@@ -23130,9 +23061,10 @@ window.apf.setzeWindowPop = function(id) {
 
 window.apf.initiiere_apziel = function() {
 	'use strict';
+    var initiiereAp = require('./modules/initiiereAp');
 	if (!localStorage.apziel_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		window.apf.initiiere_ap();
+		initiiereAp();
 		return;
 	}
 	var apziel_initiiert = $.Deferred(),
@@ -23194,9 +23126,10 @@ window.apf.setzeWindowApziel = function(id) {
 
 window.apf.initiiere_zielber = function() {
 	'use strict';
+    var initiiereAp = require('./modules/initiiereAp');
 	if (!localStorage.zielber_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		window.apf.initiiere_ap();
+		initiiereAp();
 		return;
 	}
 	// Felder zurücksetzen
@@ -23255,9 +23188,10 @@ window.apf.setzeWindowZielber = function(id) {
 
 window.apf.initiiere_erfkrit = function() {
 	'use strict';
+    var initiiereAp = require('./modules/initiiereAp');
 	if (!localStorage.erfkrit_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		window.apf.initiiere_ap();
+		initiiereAp();
 		return;
 	}
 	// Felder zurücksetzen
@@ -23317,9 +23251,10 @@ window.apf.setzeWindowErfkrit = function(id) {
 
 window.apf.initiiere_jber = function() {
 	'use strict';
+    var initiiereAp = require('./modules/initiiereAp');
 	if (!localStorage.jber_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		window.apf.initiiere_ap();
+		initiiereAp();
 		return;
 	}
 	// Felder zurücksetzen
@@ -23423,9 +23358,10 @@ window.apf.setzeWindowJber = function(id) {
 
 window.apf.initiiere_jber_uebersicht = function() {
 	'use strict';
+    var initiiereAp = require('./modules/initiiereAp');
 	if (!localStorage.jber_uebersicht_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		window.apf.initiiere_ap();
+		initiiereAp();
 		return;
 	}
 	// Felder zurücksetzen
@@ -23484,9 +23420,10 @@ window.apf.setzeWindowJberUebersicht = function(id) {
 
 window.apf.initiiere_ber = function() {
 	'use strict';
+    var initiiereAp = require('./modules/initiiereAp');
 	if (!localStorage.ber_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		window.apf.initiiere_ap();
+		initiiereAp();
 		return;
 	}
 	// Felder zurücksetzen
@@ -23580,9 +23517,10 @@ window.apf.setzeWindowIdealbiotop = function(id) {
 
 window.apf.initiiere_assozarten = function() {
 	'use strict';
+    var initiiereAp = require('./modules/initiiereAp');
 	if (!localStorage.assozarten_id) {
 		// es fehlen benötigte Daten > eine Ebene höher
-		window.apf.initiiere_ap();
+		initiiereAp();
 		return;
 	}
 	// Felder zurücksetzen
@@ -24741,7 +24679,8 @@ window.apf.wähleApListe = function(programm) {
 	'use strict';
 	var apliste_gewählt = $.Deferred(),
         $ap_waehlen_label = $("#ap_waehlen_label"),
-        $ap_waehlen = $("#ap_waehlen");
+        $ap_waehlen = $("#ap_waehlen"),
+        initiiereAp = require('./modules/initiiereAp');
     $ap_waehlen_label.html("Daten werden aufbereitet...");
     $ap_waehlen.html("");
 	$("#ap").hide();
@@ -24753,7 +24692,7 @@ window.apf.wähleApListe = function(programm) {
 	$("#ap_loeschen").hide();
 	$("#exportieren_1").show();
     $ap_waehlen.val("");
-	window.apf.initiiere_ap();
+	initiiereAp();
 	$.when(window.apf.erstelle_ap_liste(programm))
 		.then(function() {
             var $programm_wahl_checked = $("[name='programm_wahl']:checked");
@@ -25158,6 +25097,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 	})
 	.show()
 	.bind("loaded.jstree", function(event, data) {
+        var initiiereAp = require('./modules/initiiereAp');
 		jstree_erstellt.resolve();
 		window.apf.setzeTreehöhe();
 		$("#suchen").show();
@@ -25265,7 +25205,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 			delete window.apf.beob_nicht_zuzuordnen_zeigen;
 		}
 		if (window.apf.ap_zeigen) {
-			window.apf.initiiere_ap();
+			initiiereAp();
 			// diese Markierung entfernen, damit das nächste mal nicht mehr dieser AP geöffnet wird
 			delete window.apf.ap_zeigen;
 		}
@@ -25282,7 +25222,8 @@ window.apf.erstelle_tree = function(ApArtId) {
 	.bind("select_node.jstree", function(e, data) {
 		var node,
             initiiere_beob = require('./modules/initiiereBeob'),
-            initiiere_idealbiotop = require('./modules/initiiereIdealbiotop');
+            initiiere_idealbiotop = require('./modules/initiiereIdealbiotop'),
+            initiiereAp = require('./modules/initiiereAp');
 		delete localStorage.tpopfreiwkontr;	// Erinnerung an letzten Klick im Baum löschen
 		node = data.rslt.obj;
 		var node_typ = node.attr("typ");
@@ -25294,7 +25235,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 			if (!$("#ap").is(':visible') || localStorage.ap_id !== node_id) {
 				localStorage.ap_id = node_id;
 				delete localStorage.pop_id;
-				window.apf.initiiere_ap();
+				initiiereAp();
 			}
 		} else if (node_typ === "pop" || node_typ.slice(0, 4) === "pop_") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -29511,7 +29452,8 @@ window.apf.öffneUri = function() {
 	var uri = new Uri($(location).attr('href')),
 		anchor = uri.anchor() || null,
 		ap_id = uri.getQueryParamValue('ap'),
-        initiiere_idealbiotop = require('./modules/initiiereIdealbiotop');
+        initiiere_idealbiotop = require('./modules/initiiereIdealbiotop'),
+        initiiereAp = require('./modules/initiiereAp');
 	if (ap_id) {
 		// globale Variablen setzen
 		window.apf.setzeWindowAp(ap_id);
@@ -29695,7 +29637,7 @@ window.apf.öffneUri = function() {
 			window.apf.ap_zeigen = true;
 			// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
 			localStorage.ap_id = ap_id;
-			window.apf.initiiere_ap();
+			initiiereAp();
 		}
 		window.apf.erstelle_tree(ap_id);
 		$("#ap_waehlen_label").hide();
@@ -31296,6 +31238,7 @@ window.apf.erstelleGemeindeliste = function() {
 
 window.apf.wähleAp = function(ap_id) {
 	'use strict';
+    var initiiereAp = require('./modules/initiiereAp');
 	if (ap_id) {
 		// einen AP gewählt
 		$("#ap_waehlen_label").hide();
@@ -31322,12 +31265,13 @@ window.apf.wähleAp = function(ap_id) {
 						// Strukturbaum updaten
 						$.when(window.apf.erstelle_tree(localStorage.ap_id))
 							.then(function() {
+                                var initiiereAp = require('./modules/initiiereAp');
 								// gewählte Art in Auswahlliste anzeigen
 								$('#ap_waehlen').val(localStorage.ap_id);
 								$('#ap_waehlen option[value =' + localStorage.ap_id + ']').attr('selected', true);
 								$("#ApArtId").val(localStorage.ap_id);
 								// gewählte Art in Formular anzeigen
-								window.apf.initiiere_ap();
+								initiiereAp();
 							});
 				});
 			});
@@ -31338,7 +31282,7 @@ window.apf.wähleAp = function(ap_id) {
 		} else {
 			window.apf.erstelle_tree(ap_id);
 			$("#ap").show();
-			window.apf.initiiere_ap();
+			initiiereAp();
 		}
 	} else {
 		// leeren Wert gewählt
@@ -32076,7 +32020,7 @@ window.apf.erstelleGuid = function() {
 	    return v.toString(16);
 	});
 };
-},{"./modules/configuration":7,"./modules/initiiereBeob":9,"./modules/initiiereIdealbiotop":10,"./modules/initiiereIndex":11,"./modules/treeKontextmenu":12}],2:[function(require,module,exports){
+},{"./modules/configuration":7,"./modules/initiiereAp":9,"./modules/initiiereBeob":10,"./modules/initiiereIdealbiotop":11,"./modules/initiiereIndex":12,"./modules/treeKontextmenu":13}],2:[function(require,module,exports){
 /*
  * Date Format 1.2.3
  * (c) 2007-2009 Steven Levithan <stevenlevithan.com>
@@ -57993,8 +57937,87 @@ module.exports={
 'use strict';
 
 var $ = require('jquery'),
+    _ = require('underscore');
+//require('jquery-ui');
+
+var initiiereAp = function() {
+    if (!localStorage.ap_id) {
+        // es fehlen benötigte Daten > zurück zum Anfang
+        // LIEGT HIER DER WURM BEGRABEN?
+        // ACHTUNG, DIESE ZEILE VERURSACHTE STARTABSTÜRZE IN FIREFOX UND ZT OFFENBAR AUCH IN CHROME, DA REKURSIV IMMER WIEDER INITIIERE_INDEX AUFGERUFEN WURDE
+        //window.apf.initiiere_index();
+        //history.replaceState({ap: "keinap"}, "keinap", "index.html");
+        return;
+    }
+    // Programm-Wahl konfigurieren
+    var programm_wahl;
+    programm_wahl = $("[name='programm_wahl']:checked").attr("id");
+    // Felder zurücksetzen
+    window.apf.leereFelderVonFormular("ap");
+    // Wenn ein ap ausgewählt ist: Seine Daten anzeigen
+    if ($("#ap_waehlen").val() && programm_wahl !== "programm_neu") {
+        // Daten für den ap aus der DB holen
+        var getAp = $.ajax({
+            type: 'get',
+            url: 'ap=' + localStorage.ap_id,
+            dataType: 'json'
+        });
+        getAp.always(function(data) {
+            // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
+            if (data && data[0]) {
+                // ap bereitstellen
+                window.apf.ap = data[0];
+                // Felder mit Daten beliefern
+                $("#ApStatus" + data[0].ApStatus).prop("checked", true);
+                $("#ApUmsetzung" + data[0].ApUmsetzung).prop("checked", true);
+                $("#ApJahr").val(data[0].ApJahr);
+                $("#ApArtwert").val(data[0].ApArtwert);
+                $("#Artname").val(data[0].Artname);
+                // ApBearb: Daten holen - oder vorhandene nutzen
+                if (!window.apf.adressen_html) {
+                    var getAdressen = $.ajax({
+                        type: 'get',
+                        url: 'api/adressen',
+                        dataType: 'json'
+                    });
+                    getAdressen.always(function(data2) {
+                        if (data2) {
+                            // Feld mit Daten beliefern
+                            var html;
+                            html = "<option></option>";
+                            _.each(data2, function(adresse) {
+                                html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
+                            });
+                            window.apf.adressen_html = html;
+                            $("#ApBearb")
+                                .html(html)
+                                .val(window.apf.ApBearb);
+                        }
+                    });
+                } else {
+                    $("#ApBearb")
+                        .html(window.apf.adressen_html)
+                        .val(window.apf.ApBearb);
+                }
+                // Formulare blenden
+                window.apf.zeigeFormular("ap");
+                history.replaceState({ap: "ap"}, "ap", "index.html?ap=" + data.ApArtId);
+            }
+        });
+    } else if ($("#ap_waehlen").val() && programm_wahl === "programm_neu") {
+        // Formulare blenden
+        window.apf.zeigeFormular("ap");
+    }
+};
+
+module.exports = initiiereAp;
+},{"jquery":4,"underscore":5}],10:[function(require,module,exports){
+'use strict';
+
+var $ = require('jquery'),
     _ = require('underscore'),
-    capitaliseFirstLetter = require('../lib/capitaliseFirstLetter');
+    capitaliseFirstLetter = require('../lib/capitaliseFirstLetter'),
+    initiiereAp = require('./initiiereAp');
 
 var initiiereBeob = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
     // beob_status markiert, ob die Beobachtung:
@@ -58011,7 +58034,7 @@ var initiiereBeob = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
     if (!beobId && !ohneZuZeigen) {
         // es fehlen benötigte Daten > eine Ebene höher
         if (beobStatus === "nicht_beurteilt" || beobStatus === "nicht_zuzuordnen") {
-            window.apf.initiiere_ap();
+            initiiereAp();
         } else {
             window.apf.initiiere_pop();
         }
@@ -58139,16 +58162,17 @@ var initiiereBeob = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
 };
 
 module.exports = initiiereBeob;
-},{"../lib/capitaliseFirstLetter":6,"jquery":4,"underscore":5}],10:[function(require,module,exports){
+},{"../lib/capitaliseFirstLetter":6,"./initiiereAp":9,"jquery":4,"underscore":5}],11:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
-    dateFormat = require('dateformat');
+    dateFormat = require('dateformat'),
+    initiiereAp = require('./initiiereAp');
 
 var initiiereIdealbiotop = function() {
     if (!localStorage.ap_id) {
         // es fehlen benötigte Daten > eine Ebene höher
-        window.apf.initiiere_ap();
+        initiiereAp();
         return;
     }
     // Felder zurücksetzen
@@ -58218,7 +58242,7 @@ var initiiereIdealbiotop = function() {
 };
 
 module.exports = initiiereIdealbiotop;
-},{"dateformat":2,"jquery":4}],11:[function(require,module,exports){
+},{"./initiiereAp":9,"dateformat":2,"jquery":4}],12:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -58293,7 +58317,7 @@ var initiiereIndex = function() {
 };
 
 module.exports = initiiereIndex;
-},{"jquery":4,"jquery-ui":3}],12:[function(require,module,exports){
+},{"jquery":4,"jquery-ui":3}],13:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),

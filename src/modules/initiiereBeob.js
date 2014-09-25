@@ -2,7 +2,8 @@
 
 var $ = require('jquery'),
     _ = require('underscore'),
-    capitaliseFirstLetter = require('../lib/capitaliseFirstLetter');
+    capitaliseFirstLetter = require('../lib/capitaliseFirstLetter'),
+    initiiereAp = require('./initiiereAp');
 
 var initiiereBeob = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
     // beob_status markiert, ob die Beobachtung:
@@ -19,7 +20,7 @@ var initiiereBeob = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
     if (!beobId && !ohneZuZeigen) {
         // es fehlen benötigte Daten > eine Ebene höher
         if (beobStatus === "nicht_beurteilt" || beobStatus === "nicht_zuzuordnen") {
-            window.apf.initiiere_ap();
+            initiiereAp();
         } else {
             window.apf.initiiere_pop();
         }
