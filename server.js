@@ -38,6 +38,8 @@ var  _       = require('underscore')
     , treeIdealbiotop       = require('./queries/tree/idealbiotop')
     , treeBeobNichtZuzuordnen       = require('./queries/tree/beobNichtZuzuordnen')
     , treeBeobNichtBeurteilt       = require('./queries/tree/beobNichtBeurteilt')
+    , queryBeobDistzutpopEvab       = require('./queries/beobDistzutpopEvab')
+    , queryBeobDistzutpopInfospezies       = require('./queries/beobDistzutpopInfospezies')
     ;
 
 connectionApflora.connect();
@@ -248,4 +250,20 @@ server.route({
         }
     }
 
+});
+
+server.route({
+    method: 'GET',
+    path: '/api/beobDistzutpopEvab/beobId={beobId}',
+    handler: function (request, reply) {
+        queryBeobDistzutpopEvab(request, reply);
+    }
+});
+
+server.route({
+    method: 'GET',
+    path: '/api/beobDistzutpopInfospezies/beobId={beobId}',
+    handler: function (request, reply) {
+        queryBeobDistzutpopInfospezies(request, reply);
+    }
 });

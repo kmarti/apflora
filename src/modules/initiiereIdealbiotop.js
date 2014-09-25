@@ -4,7 +4,6 @@ var $ = require('jquery'),
     dateFormat = require('dateformat');
 
 var initiiereIdealbiotop = function() {
-    'use strict';
     if (!localStorage.ap_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         window.apf.initiiere_ap();
