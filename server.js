@@ -30,9 +30,9 @@ var  _       = require('underscore')
     , queryTabelleSelectApfloraString = require('./queries/tabelleSelectApfloraString')
     , queryTabelleSelectBeobNumber    = require('./queries/tabelleSelectBeobNumber')
     , queryTabelleSelectBeobString    = require('./queries/tabelleSelectBeobString')
-    , queryTabelleInsert              = require('./queries/tabelleInsert')
-    , queryTabelleUpdate              = require('./queries/tabelleUpdate')
-    , queryTabelleDelete              = require('./queries/tabelleDelete')
+    , queryTabelleInsertApflora       = require('./queries/tabelleInsertApflora')
+    , queryTabelleUpdateApflora       = require('./queries/tabelleUpdateApflora')
+    , queryTabelleDeleteApflora       = require('./queries/tabelleDeleteApflora')
     , queryAnmeldung                  = require('./queries/anmeldung')
     , treeAssozarten                  = require('./queries/tree/assozarten')
     , treeIdealbiotop                 = require('./queries/tree/idealbiotop')
@@ -200,7 +200,7 @@ server.route({
     method: 'POST',
     path: '/api/update/apflora/tabelle={tabelle}/tabelleIdFeld={tabelleIdFeld}/tabelleId={tabelleId}/feld={feld}/wert={wert?}/user={user}',
     handler: function (request, reply) {
-        queryTabelleUpdate(request, reply);
+        queryTabelleUpdateApflora(request, reply);
     }
 });
 
@@ -208,7 +208,7 @@ server.route({
     method: 'POST',
     path: '/api/insert/apflora/tabelle={tabelle}/feld={feld}/wert={wert}/user={user}',
     handler: function (request, reply) {
-        queryTabelleInsert(request, reply);
+        queryTabelleInsertApflora(request, reply);
     }
 });
 
@@ -216,7 +216,7 @@ server.route({
     method: 'POST',
     path: '/api/delete/apflora/tabelle={tabelle}/tabelleIdFeld={tabelleIdFeld}/tabelleId={tabelleId}',
     handler: function (request, reply) {
-        queryTabelleDelete(request, reply);
+        queryTabelleDeleteApflora(request, reply);
     }
 });
 
