@@ -8319,14 +8319,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertJber = $.ajax({
                             type: 'post',
-                            url: 'php/jber_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/insert/apflora/tabelle=tblJBer/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertJber.always(function(id) {
+                        insertJber.done(function(id) {
                             var strukturtyp = "jber",
                                 beschriftung = "neuer AP-Bericht";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
@@ -8347,15 +8343,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertJber_2 = $.ajax({
                             type: 'post',
-                            url: 'php/jber_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")),
-                                "typ": "jber",
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/insert/apflora/tabelle=tblJBer/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertJber_2.always(function(id) {
+                        insertJber_2.done(function(id) {
                             var strukturtyp = "jber",
                                 beschriftung = "neuer AP-Bericht";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
@@ -8396,13 +8387,10 @@ window.apf.treeKontextmenu = function(node) {
                                     window.apf.deleted.typ = "jber";
                                     var deleteJber = $.ajax({
                                         type: 'post',
-                                        url: 'php/jber_delete.php',
-                                        dataType: 'json',
-                                        data: {
-                                            "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                                        }
+                                        url: 'api/delete/apflora/tabelle=tblJBer/tabelleIdFeld=JBerId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                                        dataType: 'json'
                                     });
-                                    deleteJber.always(function() {
+                                    deleteJber.done(function() {
                                         delete localStorage.jber_id;
                                         delete window.apf.jber;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
