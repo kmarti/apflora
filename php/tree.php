@@ -511,32 +511,6 @@ while($r_jber = mysqli_fetch_assoc($result_jber)) {
     $rows_jber[] = $jber;
 }
 mysqli_free_result($result_jber);
-
-// ber dieses AP abfragen
-$result_ber = mysqli_query($link, "SELECT BerId, ApArtId, BerJahr, BerTitel FROM tblBer where ApArtId = $ApArtId ORDER BY BerJahr DESC, BerTitel");
-$anz_ber = mysqli_num_rows($result_ber);
-// ber aufbauen
-$rows_ber = array();
-while($r_ber = mysqli_fetch_assoc($result_ber)) {
-	$BerId = $r_ber['BerId'];
-	settype($BerId, "integer");
-	// ber setzen
-	$attr_ber = array("id" => $BerId, "typ" => "ber");
-	// Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
-	if ($r_ber['BerJahr'] & $r_ber['BerTitel']) {
-		$berbeschriftung = $r_ber['BerJahr'].": ".$r_ber['BerTitel'];
-	} else if ($r_ber['BerJahr']) {
-		$berbeschriftung = $r_ber['BerJahr'].": (kein Titel)";
-	} else if ($r_ber['BerTitel']) {
-		$berbeschriftung = "(kein Jahr): ".$r_ber['BerTitel'];
-	} else {
-		$berbeschriftung = "(kein Jahr): (kein Titel)";
-	}
-	$ber = array("data" => $berbeschriftung, "attr" => $attr_ber);
-	// ber-Array um ber ergänzen
-    $rows_ber[] = $ber;
-}
-mysqli_free_result($result_ber);
 	
 
 // AP-Ordner setzen
@@ -557,13 +531,9 @@ $ap_ordner_erfkrit = array("data" => "AP-Erfolgskriterien (".$anz_erfkrit.")", "
 $meineId = "ap_ordner_jber".$ApArtId;
 $ap_ordner_jber_attr = array("id" => $meineId, "typ" => "ap_ordner_jber");
 $ap_ordner_jber = array("data" => "AP-Berichte (".$anz_jber.")", "attr" => $ap_ordner_jber_attr, "children" => $rows_jber);
-// Berichte
-$meineId = "ap_ordner_ber".$ApArtId;
-$ap_ordner_ber_attr = array("id" => $meineId, "typ" => "ap_ordner_ber");
-$ap_ordner_ber = array("data" => "Berichte (".$anz_ber.")", "attr" => $ap_ordner_ber_attr, "children" => $rows_ber);
 
 // zusammensetzen
-$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_jber, 4 => $ap_ordner_ber);
+$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_jber);
 
 	
 // in json verwandeln

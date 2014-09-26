@@ -16,16 +16,14 @@ var initiiereJber = function() {
     // Daten für die jber aus der DB holen
     var getJber = $.ajax({
             type: 'get',
-            url: 'php/jber.php',
-            dataType: 'json',
-            data: {
-                "id": localStorage.jber_id
-            }
+            url: '/api/select/apflora/tabelle=tblJBer/feld=JBerId/wertNumber=' + localStorage.jber_id,
+            dataType: 'json'
         }),
         $JBerJahr = $("#JBerJahr");
     getJber.always(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-        if (data) {
+        if (data && data[0]) {
+            data = data[0];
             // jber bereitstellen
             window.apf.jber = data;
             // Felder mit Daten beliefern

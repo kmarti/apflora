@@ -23075,17 +23075,14 @@ window.apf.setzeWindowJber = function(id) {
 	localStorage.jber_id = id;
 	var getJber = $.ajax({
 		type: 'get',
-		url: 'php/jber.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.jber_id
-		}
+        url: '/api/select/apflora/tabelle=tblJBer/feld=JBerId/wertNumber=' + localStorage.jber_id,
+		dataType: 'json'
 	});
 	getJber.always(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
+		if (data && data[0]) {
 			// jber bereitstellen
-			window.apf.jber = data;
+			window.apf.jber = data[0];
 		}
 	});
 };
@@ -30235,7 +30232,8 @@ window.apf.frageObAktionRückgängigGemachtWerdenSoll = function(wasIstPassiert)
 // Baut einen neuen Knoten auf derselben Hierarchiestufe, von welcher der Befehl aufgerufen wurde
 window.apf.insertNeuenNodeAufGleicherHierarchiestufe = function(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung) {
 	'use strict';
-	var NeuerNode;
+	var NeuerNode,
+        capitaliseFirstLetter = require('./lib/capitaliseFirstLetter');
 	// id global verfügbar machen
 	localStorage[strukturtyp + "_id"] = ds_id;
 	// letzte globale Variable entfernen
@@ -30289,8 +30287,11 @@ window.apf.insertNeuenNodeAufGleicherHierarchiestufe = function(aktiver_node, pa
 		localStorage.tpopfreiwkontr = true;
 		// Freiwilligen-Kontrollen werden von derselben Funktion initiiert, wie Feldkontrollen
 		window.apf["initiiere_tpopfeldkontr"]();
+        initiiereTPopFeldKontr();
+
 	} else {
-		window.apf["initiiere_"+strukturtyp]();
+		//window.apf["initiiere_"+strukturtyp]();
+        'initiiere' + capitaliseFirstLetter(strukturtyp)();
 	}
 };
 
@@ -33950,7 +33951,7 @@ window.apf.erstelleGuid = function() {
 	    return v.toString(16);
 	});
 };
-},{"./lib/cHtoWGSlat":6,"./lib/cHtoWGSlng":7,"./lib/ddInChX":9,"./lib/ddInChY":10,"./modules/configuration":20,"./modules/initiiereAp":22,"./modules/initiiereApziel":23,"./modules/initiiereAssozarten":24,"./modules/initiiereBeob":25,"./modules/initiiereBer":26,"./modules/initiiereErfkrit":27,"./modules/initiiereIdealbiotop":28,"./modules/initiiereIndex":29,"./modules/initiiereJber":30,"./modules/initiiereJberUebersicht":31,"./modules/initiierePop":32,"./modules/initiierePopBer":33,"./modules/initiierePopMassnBer":34,"./modules/initiiereTPop":35,"./modules/initiiereTPopBer":36,"./modules/initiiereTPopFeldkontr":37,"./modules/initiiereTPopMassn":38,"./modules/initiiereTPopMassnBer":39,"./modules/initiiereZielber":40,"./modules/zeigeTPop":41}],2:[function(require,module,exports){
+},{"./lib/cHtoWGSlat":6,"./lib/cHtoWGSlng":7,"./lib/capitaliseFirstLetter":8,"./lib/ddInChX":9,"./lib/ddInChY":10,"./modules/configuration":20,"./modules/initiiereAp":22,"./modules/initiiereApziel":23,"./modules/initiiereAssozarten":24,"./modules/initiiereBeob":25,"./modules/initiiereBer":26,"./modules/initiiereErfkrit":27,"./modules/initiiereIdealbiotop":28,"./modules/initiiereIndex":29,"./modules/initiiereJber":30,"./modules/initiiereJberUebersicht":31,"./modules/initiierePop":32,"./modules/initiierePopBer":33,"./modules/initiierePopMassnBer":34,"./modules/initiiereTPop":35,"./modules/initiiereTPopBer":36,"./modules/initiiereTPopFeldkontr":37,"./modules/initiiereTPopMassn":38,"./modules/initiiereTPopMassnBer":39,"./modules/initiiereZielber":40,"./modules/zeigeTPop":41}],2:[function(require,module,exports){
 /*
  * Date Format 1.2.3
  * (c) 2007-2009 Steven Levithan <stevenlevithan.com>
@@ -60738,16 +60739,14 @@ var initiiereJber = function() {
     // Daten für die jber aus der DB holen
     var getJber = $.ajax({
             type: 'get',
-            url: 'php/jber.php',
-            dataType: 'json',
-            data: {
-                "id": localStorage.jber_id
-            }
+            url: '/api/select/apflora/tabelle=tblJBer/feld=JBerId/wertNumber=' + localStorage.jber_id,
+            dataType: 'json'
         }),
         $JBerJahr = $("#JBerJahr");
     getJber.always(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-        if (data) {
+        if (data && data[0]) {
+            data = data[0];
             // jber bereitstellen
             window.apf.jber = data;
             // Felder mit Daten beliefern

@@ -39,6 +39,7 @@ var  _       = require('underscore')
     , treeBeobNichtZuzuordnen         = require('./queries/tree/beobNichtZuzuordnen')
     , treeBeobNichtBeurteilt          = require('./queries/tree/beobNichtBeurteilt')
     , treeBer                         = require('./queries/tree/ber')
+    , treeJBer                        = require('./queries/tree/jber')
     , queryBeobDistzutpopEvab         = require('./queries/beobDistzutpopEvab')
     , queryBeobDistzutpopInfospezies  = require('./queries/beobDistzutpopInfospezies')
     , queryBeobKarte                  = require('./queries/beobKarte')
@@ -244,12 +245,14 @@ server.route({
                 { method: treeIdealbiotop, assign: 'idealbiotop' },
                 { method: treeBeobNichtZuzuordnen, assign: 'beobNichtZuzuordnen' },
                 { method: treeBeobNichtBeurteilt, assign: 'beobNichtBeurteilt' },
-                { method: treeBer, assign: 'ber' }
+                { method: treeBer, assign: 'ber' },
+                { method: treeJBer, assign: 'jber' }
             ]
 
         ],
         handler: function (request, reply) {
             reply([
+                request.pre.jber,
                 request.pre.ber,
                 request.pre.beobNichtBeurteilt,
                 request.pre.beobNichtZuzuordnen,

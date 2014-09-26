@@ -160,17 +160,14 @@ window.apf.setzeWindowJber = function(id) {
 	localStorage.jber_id = id;
 	var getJber = $.ajax({
 		type: 'get',
-		url: 'php/jber.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.jber_id
-		}
+        url: '/api/select/apflora/tabelle=tblJBer/feld=JBerId/wertNumber=' + localStorage.jber_id,
+		dataType: 'json'
 	});
 	getJber.always(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
+		if (data && data[0]) {
 			// jber bereitstellen
-			window.apf.jber = data;
+			window.apf.jber = data[0];
 		}
 	});
 };
@@ -7320,7 +7317,8 @@ window.apf.frageObAktionRückgängigGemachtWerdenSoll = function(wasIstPassiert)
 // Baut einen neuen Knoten auf derselben Hierarchiestufe, von welcher der Befehl aufgerufen wurde
 window.apf.insertNeuenNodeAufGleicherHierarchiestufe = function(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung) {
 	'use strict';
-	var NeuerNode;
+	var NeuerNode,
+        capitaliseFirstLetter = require('./lib/capitaliseFirstLetter');
 	// id global verfügbar machen
 	localStorage[strukturtyp + "_id"] = ds_id;
 	// letzte globale Variable entfernen
@@ -7374,8 +7372,11 @@ window.apf.insertNeuenNodeAufGleicherHierarchiestufe = function(aktiver_node, pa
 		localStorage.tpopfreiwkontr = true;
 		// Freiwilligen-Kontrollen werden von derselben Funktion initiiert, wie Feldkontrollen
 		window.apf["initiiere_tpopfeldkontr"]();
+        initiiereTPopFeldKontr();
+
 	} else {
-		window.apf["initiiere_"+strukturtyp]();
+		//window.apf["initiiere_"+strukturtyp]();
+        'initiiere' + capitaliseFirstLetter(strukturtyp)();
 	}
 };
 
