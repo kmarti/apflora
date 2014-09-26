@@ -17,6 +17,7 @@ config.db.passWord = dbPassfile.pass;
 // wird benutzt, um mit denselben Abfragen in diesen Tabelle durchzuführen: update, insert, delete
 config.tables = [
     {
+        database: 'apflora',
         tabelleInDb: 'tblAktionsplan',
         tabelleIdFeld: 'ApArtId',
         mutWannFeld: 'MutWann',
@@ -24,6 +25,7 @@ config.tables = [
         form: 'ap'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblPopulation',
         tabelleIdFeld: 'PopId',
         mutWannFeld: 'MutWann',
@@ -31,6 +33,7 @@ config.tables = [
         form: 'pop'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblTeilpopulation',
         tabelleIdFeld: 'TPopId',
         mutWannFeld: 'MutWann',
@@ -38,6 +41,7 @@ config.tables = [
         form: 'tpop'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblTeilPopFeldkontrolle',
         tabelleIdFeld: 'TPopKontrId',
         mutWannFeld: 'MutWann',
@@ -45,6 +49,7 @@ config.tables = [
         form: 'tpopfeldkontr'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblTeilPopMassnahme',
         tabelleIdFeld: 'TPopMassnId',
         mutWannFeld: 'MutWann',
@@ -52,6 +57,7 @@ config.tables = [
         form: 'tpopmassn'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblZiel',
         tabelleIdFeld: 'ZielId',
         mutWannFeld: 'MutWann',
@@ -59,6 +65,7 @@ config.tables = [
         form: 'apziel'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblZielBericht',
         tabelleIdFeld: 'ZielBerId',
         mutWannFeld: 'MutWann',
@@ -66,6 +73,7 @@ config.tables = [
         form: 'zielber'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblErfKrit',
         tabelleIdFeld: 'ErfkritId',
         mutWannFeld: 'MutWann',
@@ -73,6 +81,7 @@ config.tables = [
         form: 'erfkrit'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblJBer',
         tabelleIdFeld: 'JBerId',
         mutWannFeld: 'MutWann',
@@ -80,6 +89,7 @@ config.tables = [
         form: 'jber'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblJBerUebersicht',
         tabelleIdFeld: 'JbuJahr',
         mutWannFeld: 'MutWann',
@@ -87,6 +97,7 @@ config.tables = [
         form: 'jber_uebersicht'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblBer',
         tabelleIdFeld: 'BerId',
         mutWannFeld: 'MutWann',
@@ -94,6 +105,7 @@ config.tables = [
         form: 'ber'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblIdealbiotop',
         tabelleIdFeld: 'IbApArtId',
         mutWannFeld: 'MutWann',
@@ -101,6 +113,7 @@ config.tables = [
         form: 'idealbiotop'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblAssozArten',
         tabelleIdFeld: 'AaId',
         mutWannFeld: 'MutWann',
@@ -108,6 +121,7 @@ config.tables = [
         form: 'assozarten'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblPopBericht',
         tabelleIdFeld: 'PopBerId',
         mutWannFeld: 'MutWann',
@@ -115,6 +129,7 @@ config.tables = [
         form: 'popber'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblPopMassnBericht',
         tabelleIdFeld: 'PopMassnBerId',
         mutWannFeld: 'MutWann',
@@ -122,6 +137,7 @@ config.tables = [
         form: 'popmassnber'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblTeilPopBericht',
         tabelleIdFeld: 'TPopBerId',
         mutWannFeld: 'MutWann',
@@ -129,6 +145,7 @@ config.tables = [
         form: 'tpopber'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblPopMassnBericht',
         tabelleIdFeld: 'PopMassnBerId',
         mutWannFeld: 'MutWann',
@@ -136,11 +153,11 @@ config.tables = [
         form: 'tpopmassnber'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblBeobZuordnung',
         tabelleIdFeld: 'NO_NOTE',
         mutWannFeld: 'BeobMutWann',
-        mutWerFeld: 'BeobMutWer',
-        form: 'beob'
+        mutWerFeld: 'BeobMutWer'
     }
 ];
 

@@ -1799,16 +1799,10 @@ window.apf.erstelle_tree = function(ApArtId) {
 				}
 				var ordneBeobachtungZu_2 = $.ajax({
 					type: 'post',
-					url: 'php/beob_update.php',
-					dataType: 'json',
-					data: {
-						"id": localStorage.beob_id,
-						"Feld": "TPopId",
-						"Wert": neue_tpop_id,
-						"user": sessionStorage.User
-					}
+					url: 'api/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + localStorage.beob_id + '/feld=TPopId/wert=' + neue_tpop_id + '/user=' + sessionStorage.User,
+					dataType: 'json'
 				});
-				ordneBeobachtungZu_2.always(function() {
+				ordneBeobachtungZu_2.done(function() {
                     var initiiere_beob = require('./modules/initiiereBeob');
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
@@ -1836,29 +1830,17 @@ window.apf.erstelle_tree = function(ApArtId) {
 				// zugeordnet > nicht zuzuordnen
 				var ordneBeobachtungZu_3 = $.ajax({
 					type: 'post',
-					url: 'php/beob_update.php',
-					dataType: 'json',
-					data: {
-						"id": herkunft_node_id,
-						"Feld": "BeobNichtZuordnen",
-						"Wert": 1,
-						"user": sessionStorage.User
-					} 
+					url: 'api/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=BeobNichtZuordnen/wert=1/user=' + sessionStorage.User,
+					dataType: 'json'
 				});
-				ordneBeobachtungZu_3.always(function() {
+				ordneBeobachtungZu_3.done(function() {
 					// TPopId null setzen
 					var setzeTpopid = $.ajax({
 						type: 'post',
-						url: 'php/beob_update.php',
-						dataType: 'json',
-						data: {
-							"id": herkunft_node_id,
-							"Feld": "TPopId",
-							"Wert": "",
-							"user": sessionStorage.User
-						}
+						url: 'api/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=TPopId/wert=/user=' + sessionStorage.User,
+						dataType: 'json'
 					});
-					setzeTpopid.always(function() {
+					setzeTpopid.done(function() {
                         var initiiere_beob = require('./modules/initiiereBeob');
 						// aus unerfindlichen Gründen läuft der success callback nicht, darum done
 						// typ des nodes anpassen
@@ -1910,16 +1892,10 @@ window.apf.erstelle_tree = function(ApArtId) {
 					// jetzt aktualisieren
 					var updateBeob = $.ajax({
 						type: 'post',
-						url: 'php/beob_update.php',
-						dataType: 'json',
-						data: {
-							"id": herkunft_node_id,
-							"Feld": "TPopId",
-							"Wert": neue_tpop_id,
-							"user": sessionStorage.User
-						}
+						url: 'api/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=TPopId/wert=' + neue_tpop_id + '/user=' + sessionStorage.User,
+						dataType: 'json'
 					});
-					updateBeob.always(function() {
+					updateBeob.done(function() {
                         var initiiere_beob = require('./modules/initiiereBeob');
 						// typ des nodes anpassen
 						herkunft_node.attr("typ", "beob_zugeordnet");
@@ -1966,16 +1942,10 @@ window.apf.erstelle_tree = function(ApArtId) {
 					// jetzt aktualisieren
 					var updateBeob_2 = $.ajax({
 						type: 'post',
-						url: 'php/beob_update.php',
-						dataType: 'json',
-						data: {
-							"id": herkunft_node_id,
-							"Feld": "BeobNichtZuordnen",
-							"Wert": 1,
-							"user": sessionStorage.User
-						}
+						url: 'api/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=BeobNichtZuordnen/wert=1/user=' + sessionStorage.User,
+						dataType: 'json'
 					});
-					updateBeob_2.always(function() {
+					updateBeob_2.done(function() {
                         var initiiere_beob = require('./modules/initiiereBeob');
 						// typ des nodes anpassen
 						$(herkunft_node).attr("typ", "beob_nicht_zuzuordnen");
@@ -2048,28 +2018,16 @@ window.apf.erstelle_tree = function(ApArtId) {
 				}
 				var updateBeob_3 = $.ajax({
 					type: 'post',
-					url: 'php/beob_update.php',
-						dataType: 'json',
-						data: {
-							"id": herkunft_node_id,
-							"Feld": "BeobNichtZuordnen",
-							"Wert": "",
-							"user": sessionStorage.User
-					}
+					url: 'api/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=BeobNichtZuordnen/wert=1/user=' + sessionStorage.User,
+						dataType: 'json'
 				});
-				updateBeob_3.always(function() {
+				updateBeob_3.done(function() {
 					var updateBeob_4 = $.ajax({
 						type: 'post',
-						url: 'php/beob_update.php',
-						dataType: 'json',
-						data: {
-							"id": herkunft_node_id,
-							"Feld": "TPopId",
-							"Wert": neue_tpop_id,
-							"user": sessionStorage.User
-						}
+						url: 'api/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=TPopId/wert=' + neue_tpop_id + '/user=' + sessionStorage.User,
+						dataType: 'json'
 					});
-					updateBeob_4.always(function() {
+					updateBeob_4.done(function() {
                         var initiiere_beob = require('./modules/initiiereBeob');
 						// typ des nodes anpassen
 						$(herkunft_node).attr("typ", "beob_zugeordnet");

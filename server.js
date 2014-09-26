@@ -32,6 +32,7 @@ var  _       = require('underscore')
     , queryTabelleSelectBeobString    = require('./queries/tabelleSelectBeobString')
     , queryTabelleInsertApflora       = require('./queries/tabelleInsertApflora')
     , queryTabelleUpdateApflora       = require('./queries/tabelleUpdateApflora')
+    , queryTabelleUpdateBeob          = require('./queries/tabelleUpdateBeob')
     , queryTabelleDeleteApflora       = require('./queries/tabelleDeleteApflora')
     , queryAnmeldung                  = require('./queries/anmeldung')
     , treeAssozarten                  = require('./queries/tree/assozarten')
@@ -201,6 +202,14 @@ server.route({
     path: '/api/update/apflora/tabelle={tabelle}/tabelleIdFeld={tabelleIdFeld}/tabelleId={tabelleId}/feld={feld}/wert={wert?}/user={user}',
     handler: function (request, reply) {
         queryTabelleUpdateApflora(request, reply);
+    }
+});
+
+server.route({
+    method: 'POST',
+    path: '/api/update/beob/tabelle={tabelle}/tabelleIdFeld={tabelleIdFeld}/tabelleId={tabelleId}/feld={feld}/wert={wert?}/user={user}',
+    handler: function (request, reply) {
+        queryTabelleUpdateBeob(request, reply);
     }
 });
 
