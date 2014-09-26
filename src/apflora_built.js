@@ -60461,10 +60461,31 @@ module.exports = initiiereBeob;
 'use strict';
 
 var $ = jQuery = require('jquery'),
-    initiiereAp = require('./initiiereAp'),
-    limiter = require('../lib/limiter');
+    initiiereAp = require('./initiiereAp');
+    //limiter = require('../lib/limiter');
 
+// damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
+// Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
 var initiiereBer = function() {
+
+    (function($) {
+        $.fn.extend( {
+            limiter: function(limit, elem) {
+                $(this).on("keyup focus", function() {
+                    setCount(this, elem);
+                });
+                function setCount(src, elem) {
+                    var chars = src.value.length;
+                    if (chars > limit) {
+                        src.value = src.value.substr(0, limit);
+                        chars = limit;
+                    }
+                    elem.html( limit - chars );
+                }
+                setCount($(this)[0], elem);
+            }
+        });
+    })(jQuery);
 
     if (!localStorage.ber_id) {
         // es fehlen benötigte Daten > eine Ebene höher
@@ -60518,14 +60539,36 @@ var initiiereBer = function() {
 };
 
 module.exports = initiiereBer;
-},{"../lib/limiter":17,"./initiiereAp":22,"jquery":4}],27:[function(require,module,exports){
+},{"./initiiereAp":22,"jquery":4}],27:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
-    initiiereAp = require('./initiiereAp'),
-    limiter = require('../lib/limiter');
+    initiiereAp = require('./initiiereAp');
+    //limiter = require('../lib/limiter');
 
 var initiiereErfkrit = function() {
+
+    // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
+    // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
+    (function($) {
+        $.fn.extend( {
+            limiter: function(limit, elem) {
+                $(this).on("keyup focus", function() {
+                    setCount(this, elem);
+                });
+                function setCount(src, elem) {
+                    var chars = src.value.length;
+                    if (chars > limit) {
+                        src.value = src.value.substr(0, limit);
+                        chars = limit;
+                    }
+                    elem.html( limit - chars );
+                }
+                setCount($(this)[0], elem);
+            }
+        });
+    })(jQuery);
+
     if (!localStorage.erfkrit_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp();
@@ -60565,7 +60608,7 @@ var initiiereErfkrit = function() {
 };
 
 module.exports = initiiereErfkrit;
-},{"../lib/limiter":17,"./initiiereAp":22,"jquery":4}],28:[function(require,module,exports){
+},{"./initiiereAp":22,"jquery":4}],28:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -60725,10 +60768,32 @@ module.exports = initiiereIndex;
 
 var $ = require('jquery'),
     _ = require('underscore'),
-    limiter = require('../lib/limiter'),
-    initiiereAp = require('./initiiereAp');
+    limiter = require('../lib/limiter');
+    //initiiereAp = require('./initiiereAp');
 
 var initiiereJber = function() {
+
+    // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
+    // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
+    (function($) {
+        $.fn.extend( {
+            limiter: function(limit, elem) {
+                $(this).on("keyup focus", function() {
+                    setCount(this, elem);
+                });
+                function setCount(src, elem) {
+                    var chars = src.value.length;
+                    if (chars > limit) {
+                        src.value = src.value.substr(0, limit);
+                        chars = limit;
+                    }
+                    elem.html( limit - chars );
+                }
+                setCount($(this)[0], elem);
+            }
+        });
+    })(jQuery);
+
     if (!localStorage.jber_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp();
@@ -60810,7 +60875,7 @@ var initiiereJber = function() {
 };
 
 module.exports = initiiereJber;
-},{"../lib/limiter":17,"./initiiereAp":22,"jquery":4,"underscore":5}],31:[function(require,module,exports){
+},{"../lib/limiter":17,"jquery":4,"underscore":5}],31:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -60860,10 +60925,32 @@ module.exports = initiiereJberUebersicht;
 'use strict';
 
 var $ = require('jquery'),
-    limiter = require('../lib/limiter'),
-    initiiereAp = require('./initiiereAp');
+    limiter = require('../lib/limiter');
+    //initiiereAp = require('./initiiereAp');
 
 var initiierePop = function() {
+
+    // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
+    // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
+    (function($) {
+        $.fn.extend( {
+            limiter: function(limit, elem) {
+                $(this).on("keyup focus", function() {
+                    setCount(this, elem);
+                });
+                function setCount(src, elem) {
+                    var chars = src.value.length;
+                    if (chars > limit) {
+                        src.value = src.value.substr(0, limit);
+                        chars = limit;
+                    }
+                    elem.html( limit - chars );
+                }
+                setCount($(this)[0], elem);
+            }
+        });
+    })(jQuery);
+
     if (!localStorage.pop_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp();
@@ -60919,7 +61006,7 @@ var initiierePop = function() {
 };
 
 module.exports = initiierePop;
-},{"../lib/limiter":17,"./initiiereAp":22,"jquery":4}],33:[function(require,module,exports){
+},{"../lib/limiter":17,"jquery":4}],33:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -61010,11 +61097,33 @@ module.exports = initiierePopMassnBer;
 
 var $ = require('jquery'),
     _ = require('underscore'),
-    limiter = require('../lib/limiter'),
-    initiierePop = require('./initiierePop');
+    limiter = require('../lib/limiter');
+    //initiierePop = require('./initiierePop');
 //require('jquery-ui');
 
 var initiiereTPop = function() {
+
+    // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
+    // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
+    (function($) {
+        $.fn.extend( {
+            limiter: function(limit, elem) {
+                $(this).on("keyup focus", function() {
+                    setCount(this, elem);
+                });
+                function setCount(src, elem) {
+                    var chars = src.value.length;
+                    if (chars > limit) {
+                        src.value = src.value.substr(0, limit);
+                        chars = limit;
+                    }
+                    elem.html( limit - chars );
+                }
+                setCount($(this)[0], elem);
+            }
+        });
+    })(jQuery);
+
     var $TPopFlurname = $("#TPopFlurname");
     if (!localStorage.tpop_id) {
         // es fehlen benötigte Daten > eine Ebene höher
@@ -61139,7 +61248,7 @@ var initiiereTPop = function() {
 };
 
 module.exports = initiiereTPop;
-},{"../lib/limiter":17,"./initiierePop":32,"jquery":4,"underscore":5}],36:[function(require,module,exports){
+},{"../lib/limiter":17,"jquery":4,"underscore":5}],36:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -61187,12 +61296,34 @@ module.exports = initiiereTPopBer;
 
 var $ = require('jquery'),
     _ = require('underscore'),
-    limiter = require('../lib/limiter'),
+    //limiter = require('../lib/limiter'),
     initiierePop = require('./initiierePop');
 
 require('jquery-ui');
 
 var initiiereTPopFeldkontr = function() {
+
+    // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
+    // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
+    (function($) {
+        $.fn.extend( {
+            limiter: function(limit, elem) {
+                $(this).on("keyup focus", function() {
+                    setCount(this, elem);
+                });
+                function setCount(src, elem) {
+                    var chars = src.value.length;
+                    if (chars > limit) {
+                        src.value = src.value.substr(0, limit);
+                        chars = limit;
+                    }
+                    elem.html( limit - chars );
+                }
+                setCount($(this)[0], elem);
+            }
+        });
+    })(jQuery);
+
     // wird gemeinsam für Feld- und Freiwilligenkontrollen verwendet
     // Feldkontrollen: Felder der Freiwilligenkontrollen ausblenden
     // Freiwilligenkontrollen: Felder der Feldkontrollen ausblenen plus Register Biotop
@@ -61495,16 +61626,38 @@ var initiiereTPopFeldkontr = function() {
 };
 
 module.exports = initiiereTPopFeldkontr;
-},{"../lib/limiter":17,"./initiierePop":32,"jquery":4,"jquery-ui":3,"underscore":5}],38:[function(require,module,exports){
+},{"./initiierePop":32,"jquery":4,"jquery-ui":3,"underscore":5}],38:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
     _ = require('underscore'),
-    limiter = require('../lib/limiter'),
+    //limiter = require('../lib/limiter'),
     initiierePop = require('./initiierePop');
 //require('jquery-ui');
 
 var initiiereTPopMassn = function() {
+
+    // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
+    // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
+    (function($) {
+        $.fn.extend( {
+            limiter: function(limit, elem) {
+                $(this).on("keyup focus", function() {
+                    setCount(this, elem);
+                });
+                function setCount(src, elem) {
+                    var chars = src.value.length;
+                    if (chars > limit) {
+                        src.value = src.value.substr(0, limit);
+                        chars = limit;
+                    }
+                    elem.html( limit - chars );
+                }
+                setCount($(this)[0], elem);
+            }
+        });
+    })(jQuery);
+
     if (!localStorage.tpopmassn_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiierePop();
@@ -61637,7 +61790,7 @@ var initiiereTPopMassn = function() {
 };
 
 module.exports = initiiereTPopMassn;
-},{"../lib/limiter":17,"./initiierePop":32,"jquery":4,"underscore":5}],39:[function(require,module,exports){
+},{"./initiierePop":32,"jquery":4,"underscore":5}],39:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),

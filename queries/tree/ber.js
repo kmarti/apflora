@@ -15,7 +15,7 @@ var _ = require('underscore')
 var ber = function(request, reply) {
     var id = decodeURIComponent(request.params.id);
     connection.query(
-        "SELECT BerId, ApArtId, BerJahr, BerTitel FROM tblBer where ApArtId =" + id + " ORDER BY BerJahr DESC, BerTitel",
+            "SELECT BerId, ApArtId, BerJahr, BerTitel FROM tblBer where ApArtId =" + id + " ORDER BY BerJahr DESC, BerTitel",
         function(err, data) {
             if (err) reply(err);
 
