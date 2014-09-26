@@ -374,74 +374,6 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
     $rows_pop[] = $pop;
 }
 mysqli_free_result($result_pop);
-
-// AP-Ziele
-// Jahre
-$result_apzieljahr = mysqli_query($link, "SELECT ZielJahr FROM tblZiel where ApArtId = $ApArtId GROUP BY ZielJahr");
-$anz_apzieljahr = 0;
-// Datenstruktur apzieljahr aufbauen
-$rows_apzieljahr = array();
-while($r_apzieljahr = mysqli_fetch_assoc($result_apzieljahr)) {
-	$apzieljahr_jahr = $r_apzieljahr['ZielJahr'];
-	settype($apzieljahr_jahr, "integer");
-
-	// Typen
-	$result_apziel = mysqli_query($link, "SELECT ZielId, ZielTyp, ZielBezeichnung FROM tblZiel WHERE (ApArtId = $ApArtId) AND (ZielJahr = '".$r_apzieljahr['ZielJahr']."') ORDER BY ZielTyp, ZielBezeichnung");
-	$anz_apziel = mysqli_num_rows($result_apziel);
-	$anz_apzieljahr += $anz_apziel;
-
-	// Datenstruktur apzieljahr aufbauen
-	$rows_apziel = array();
-	while($r_apziel = mysqli_fetch_assoc($result_apziel)) {
-		$ZielId = $r_apziel['ZielId'];
-		settype($ZielId, "integer");
-
-		// zielber dieses Ziels abfragen
-		$result_zielber = mysqli_query($link, "SELECT ZielBerId, ZielId, ZielBerJahr, ZielBerErreichung FROM tblZielBericht where ZielId = $ZielId ORDER BY ZielBerJahr, ZielBerErreichung");
-		$anz_zielber = mysqli_num_rows($result_zielber);
-		// zielber aufbauen
-		$rows_zielber = array();
-		while($r_zielber = mysqli_fetch_assoc($result_zielber)) {
-			$ZielBerId = $r_zielber['ZielBerId'];
-			settype($ZielBerId, "integer");
-			// zielber setzen
-			$attr_zielber = array("id" => $ZielBerId, "typ" => "zielber");
-			$zielber = array("data" => $r_zielber['ZielBerJahr'].": ".$r_zielber['ZielBerErreichung'], "attr" => $attr_zielber);
-			// zielber-Array um zielber ergänzen
-		    $rows_zielber[] = $zielber;
-		}
-		mysqli_free_result($result_zielber);
-
-		// Zielber-Ordner setzen
-		$zielber_ordner_attr = array("id" => $ZielId, "typ" => "zielber_ordner");
-		$zielber_ordner = array("data" => "Ziel-Berichte (".$anz_zielber.")", "attr" => $zielber_ordner_attr, "children" => $rows_zielber);
-		// zusammensetzen
-		$zielber_ordner = array(0 => $zielber_ordner);
-
-		// apziel setzen
-		// abfangen, wenn Ziel (noch) nicht beschrieben ist
-		if ($r_apziel['ZielBezeichnung']) {
-			$ZielBezeichnung = $r_apziel['ZielBezeichnung'];
-		} else {
-			$ZielBezeichnung = "(Ziel nicht beschrieben)";
-		}
-		$ZielTyp = $r_apziel['ZielTyp'];
-		$attr_apziel = array("id" => $r_apziel['ZielId'], "typ" => "apziel");
-		$apziel = array("data" => $ZielBezeichnung, "attr" => $attr_apziel, "children" => $zielber_ordner);
-		// Array um apziel ergänzen
-	    $rows_apziel[] = $apziel;
-	}
-	mysqli_free_result($result_apziel);
-
-	// apzieljahr setzen
-	$metadata = array("ApArtId" => $ApArtId);
-	$attr_apzieljahr = array("id" => $ApArtId, "typ" => "apzieljahr");
-	$data_apzieljahr = $apzieljahr_jahr." (".$anz_apziel.")";
-	$apzieljahr = array("data" => $data_apzieljahr, "attr" => $attr_apzieljahr, "metadata" => $metadata, "children" => $rows_apziel);
-	// tpop-Array um tpop ergänzen
-    $rows_apzieljahr[] = $apzieljahr;
-}
-mysqli_free_result($result_apzieljahr);
 	
 
 // AP-Ordner setzen
@@ -450,13 +382,9 @@ mysqli_free_result($result_apzieljahr);
 $meineId = "ap_ordner_pop".$ApArtId;
 $ap_ordner_pop_attr = array("id" => $meineId, "typ" => "ap_ordner_pop");
 $ap_ordner_pop = array("data" => "Populationen (".$anz_pop.")", "attr" => $ap_ordner_pop_attr, "children" => $rows_pop);
-// AP-Ziele
-$meineId = "ap_ordner_apziel".$ApArtId;
-$ap_ordner_apziel_attr = array("id" => $meineId, "typ" => "ap_ordner_apziel");
-$ap_ordner_apziel = array("data" => "AP-Ziele (".$anz_apzieljahr.")", "attr" => $ap_ordner_apziel_attr, "children" => $rows_apzieljahr);
 
 // zusammensetzen
-$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel);
+$ap_ordner = array(0 => $ap_ordner_pop);
 
 	
 // in json verwandeln
