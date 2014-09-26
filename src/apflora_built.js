@@ -31348,14 +31348,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertJberUebersicht = $.ajax({
                             type: 'post',
-                            url: 'php/jber_uebersicht_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "JbuJahr": $.jstree._reference(aktiver_node).get_text(aktiver_node),
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/insert/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wert=' + $.jstree._reference(aktiver_node).get_text(aktiver_node) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertJberUebersicht.always(function(data) {
+                        insertJberUebersicht.done(function() {
                             var strukturtyp = "jber_uebersicht",
                                 ds_id = $.jstree._reference(aktiver_node).get_text(aktiver_node),
                                 beschriftung = "neue Übersicht zu allen Arten";
