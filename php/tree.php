@@ -442,32 +442,6 @@ while($r_apzieljahr = mysqli_fetch_assoc($result_apzieljahr)) {
     $rows_apzieljahr[] = $apzieljahr;
 }
 mysqli_free_result($result_apzieljahr);
-
-// erfkrit dieses AP abfragen
-$result_erfkrit = mysqli_query($link, "SELECT ErfkritId, ApArtId, BeurteilTxt, ErfkritTxt, BeurteilOrd FROM tblErfKrit LEFT JOIN DomainApErfKrit ON ErfkritErreichungsgrad = BeurteilId where ApArtId = $ApArtId ORDER BY BeurteilOrd");
-$anz_erfkrit = mysqli_num_rows($result_erfkrit);
-// erfkrit aufbauen
-$rows_erfkrit = array();
-while($r_erfkrit = mysqli_fetch_assoc($result_erfkrit)) {
-	$ErfkritId = $r_erfkrit['ErfkritId'];
-	settype($ErfkritId, "integer");
-	// erfkrit setzen
-	$attr_erfkrit = array("id" => $ErfkritId, "typ" => "erfkrit");
-	// Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
-	if ($r_erfkrit['BeurteilTxt'] & $r_erfkrit['ErfkritTxt']) {
-		$erfkritbeschriftung = $r_erfkrit['BeurteilTxt'].": ".$r_erfkrit['ErfkritTxt'];
-	} else if ($r_erfkrit['BeurteilTxt']) {
-		$erfkritbeschriftung = $r_erfkrit['BeurteilTxt'].": (kein Kriterium)";
-	} else if ($r_erfkrit['ErfkritTxt']) {
-		$erfkritbeschriftung = "(keine Beurteilung): ".$r_erfkrit['ErfkritTxt'];
-	} else {
-		$erfkritbeschriftung = "(keine Beurteilung): (kein Kriterium)";
-	}
-	$erfkrit = array("data" => $erfkritbeschriftung, "attr" => $attr_erfkrit);
-	// erfkrit-Array um erfkrit ergänzen
-    $rows_erfkrit[] = $erfkrit;
-}
-mysqli_free_result($result_erfkrit);
 	
 
 // AP-Ordner setzen
@@ -480,13 +454,9 @@ $ap_ordner_pop = array("data" => "Populationen (".$anz_pop.")", "attr" => $ap_or
 $meineId = "ap_ordner_apziel".$ApArtId;
 $ap_ordner_apziel_attr = array("id" => $meineId, "typ" => "ap_ordner_apziel");
 $ap_ordner_apziel = array("data" => "AP-Ziele (".$anz_apzieljahr.")", "attr" => $ap_ordner_apziel_attr, "children" => $rows_apzieljahr);
-// Erfolgskriterien
-$meineId = "ap_ordner_erfkrit".$ApArtId;
-$ap_ordner_erfkrit_attr = array("id" => $meineId, "typ" => "ap_ordner_erfkrit");
-$ap_ordner_erfkrit = array("data" => "AP-Erfolgskriterien (".$anz_erfkrit.")", "attr" => $ap_ordner_erfkrit_attr, "children" => $rows_erfkrit);
 
 // zusammensetzen
-$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit);
+$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel);
 
 	
 // in json verwandeln

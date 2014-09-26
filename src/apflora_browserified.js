@@ -8157,14 +8157,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertErfkrit = $.ajax({
                             type: 'post',
-                            url: 'php/erfkrit_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/insert/apflora/tabelle=tblErfKrit/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertErfkrit.always(function(id) {
+                        insertErfkrit.done(function(id) {
                             var strukturtyp = "erfkrit",
                                 beschriftung = "neues Erfolgskriterium";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
@@ -8185,15 +8181,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertErfkrit_2 = $.ajax({
                             type: 'post',
-                            url: 'php/erfkrit_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")),
-                                "typ": "erfkrit",
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/insert/apflora/tabelle=tblErfKrit/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertErfkrit_2.always(function(id) {
+                        insertErfkrit_2.done(function(id) {
                             var strukturtyp = "erfkrit",
                                 beschriftung = "neues Erfolgskriterium";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);

@@ -34,8 +34,6 @@ var tabelleUpdate = function(request, callback) {
     // Ist ein Feld neu leer, muss NULL übergeben werden. wert ist dann 'undefined'
     if (wert === 'undefined') sql = 'UPDATE ' + tabelle + ' SET ' + feld + '= NULL, ' + mutWannFeld + '="' + date + '", ' + mutWerFeld + '="' + user + '" WHERE ' + tabelleIdFeld + ' = ' + tabelleId;
 
-    console.log('sql', sql);
-
     connection.query(
         sql,
         function(err, data) {
