@@ -8515,13 +8515,10 @@ window.apf.treeKontextmenu = function(node) {
                                     window.apf.deleted.typ = "ber";
                                     var deleteBer = $.ajax({
                                         type: 'post',
-                                        url: 'php/ber_delete.php',
-                                        dataType: 'json',
-                                        data: {
-                                            "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                                        }
+                                        url: 'api/delete/apflora/tabelle=tblBer/tabelleIdFeld=BerId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                                        dataType: 'json'
                                     });
-                                    deleteBer.always(function() {
+                                    deleteBer.done(function() {
                                         delete localStorage.ber_id;
                                         delete window.apf.ber;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
