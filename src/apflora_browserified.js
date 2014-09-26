@@ -8447,14 +8447,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertBer = $.ajax({
                             type: 'post',
-                            url: 'php/ber_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/insert/apflora/tabelle=tblBer/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) +'/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertBer.always(function(id) {
+                        insertBer.done(function(id) {
                             var strukturtyp = "ber",
                                 beschriftung = "neuer Bericht";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
@@ -8475,15 +8471,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertBer_2 = $.ajax({
                             type: 'post',
-                            url: 'php/ber_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")),
-                                "typ": "ber",
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/insert/apflora/tabelle=tblBer/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) +'/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertBer_2.always(function(id) {
+                        insertBer_2.done(function(id) {
                             var strukturtyp = "ber",
                                 beschriftung = "neuer Bericht";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
