@@ -8225,13 +8225,10 @@ window.apf.treeKontextmenu = function(node) {
                                     window.apf.deleted.typ = "erfkrit";
                                     var deleteErfkrit = $.ajax({
                                         type: 'post',
-                                        url: 'php/erfkrit_delete.php',
-                                        dataType: 'json',
-                                        data: {
-                                            "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                                        }
+                                        url: 'api/delete/apflora/tabelle=tblErfKrit/tabelleIdFeld=ErfkritId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                                        dataType: 'json'
                                     });
-                                    deleteErfkrit.always(function() {
+                                    deleteErfkrit.done(function() {
                                         delete localStorage.erfkrit_id;
                                         delete window.apf.erfkrit;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
