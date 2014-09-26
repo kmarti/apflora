@@ -41,6 +41,7 @@ var  _       = require('underscore')
     , treeBeobNichtBeurteilt          = require('./queries/tree/beobNichtBeurteilt')
     , treeBer                         = require('./queries/tree/ber')
     , treeJBer                        = require('./queries/tree/jber')
+    , treeErfkrit                     = require('./queries/tree/erfkrit')
     , queryBeobDistzutpopEvab         = require('./queries/beobDistzutpopEvab')
     , queryBeobDistzutpopInfospezies  = require('./queries/beobDistzutpopInfospezies')
     , queryBeobKarte                  = require('./queries/beobKarte')
@@ -255,12 +256,14 @@ server.route({
                 { method: treeBeobNichtZuzuordnen, assign: 'beobNichtZuzuordnen' },
                 { method: treeBeobNichtBeurteilt, assign: 'beobNichtBeurteilt' },
                 { method: treeBer, assign: 'ber' },
-                { method: treeJBer, assign: 'jber' }
+                { method: treeJBer, assign: 'jber' },
+                { method: treeErfkrit, assign: 'erfkrit' }
             ]
 
         ],
         handler: function (request, reply) {
             reply([
+                request.pre.erfkrit,
                 request.pre.jber,
                 request.pre.ber,
                 request.pre.beobNichtBeurteilt,

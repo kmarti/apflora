@@ -6,6 +6,7 @@
 'use strict';
 
 var mysql = require('mysql')
+    , _ = require('underscore')
     , config = require('../src/modules/configuration')
     , connection = mysql.createConnection({
         host: 'localhost',
@@ -28,9 +29,12 @@ var tabelleUpdate = function(request, callback) {
         mutWerFeld    = table.mutWerFeld,                                   // so heisst das Feld für MutWer
         sql;
 
+
     sql = 'UPDATE ' + tabelle + ' SET ' + feld + '="' + wert + '", ' + mutWannFeld + '="' + date + '", ' + mutWerFeld + '="' + user + '" WHERE ' + tabelleIdFeld + ' = ' + tabelleId;
     // Ist ein Feld neu leer, muss NULL übergeben werden. wert ist dann 'undefined'
     if (wert === 'undefined') sql = 'UPDATE ' + tabelle + ' SET ' + feld + '= NULL, ' + mutWannFeld + '="' + date + '", ' + mutWerFeld + '="' + user + '" WHERE ' + tabelleIdFeld + ' = ' + tabelleId;
+
+    console.log('sql', sql);
 
     connection.query(
         sql,

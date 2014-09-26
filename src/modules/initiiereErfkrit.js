@@ -37,16 +37,14 @@ var initiiereErfkrit = function() {
     // Daten für die erfkrit aus der DB holen
     var getErfkrit = $.ajax({
             type: 'get',
-            url: 'php/erfkrit.php',
-            dataType: 'json',
-            data: {
-                "id": localStorage.erfkrit_id
-            }
+            url: 'api/select/apflora/tabelle=tblErfKrit/feld=ErfkritId/wertString=' + localStorage.erfkrit_id,
+            dataType: 'json'
         }),
         $ErfkritErreichungsgrad = $("#ErfkritErreichungsgrad");
-    getErfkrit.always(function(data) {
+    getErfkrit.done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-        if (data) {
+        if (data && data[0]) {
+            data = data[0];
             // erfkrit bereitstellen
             window.apf.erfkrit = data;
             // Felder mit Daten beliefern

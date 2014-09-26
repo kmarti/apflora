@@ -139,17 +139,14 @@ window.apf.setzeWindowErfkrit = function(id) {
 	localStorage.erfkrit_id = id;
 	var getErfkrit = $.ajax({
 		type: 'get',
-		url: 'php/erfkrit.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.erfkrit_id
-		}
+		url: 'api/select/apflora/tabelle=tblErfKrit/feld=ErfkritId/wertString=' + localStorage.erfkrit_id,
+		dataType: 'json'
 	});
-	getErfkrit.always(function(data) {
+	getErfkrit.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
+		if (data && data[0]) {
 			// erfkrit bereitstellen
-			window.apf.erfkrit = data;
+			window.apf.erfkrit = data[0];
 		}
 	});
 };
@@ -1800,16 +1797,10 @@ window.apf.erstelle_tree = function(ApArtId) {
 				}
 				var ordneBeobachtungZu_2 = $.ajax({
 					type: 'post',
-					url: 'php/beob_update.php',
-					dataType: 'json',
-					data: {
-						"id": localStorage.beob_id,
-						"Feld": "TPopId",
-						"Wert": neue_tpop_id,
-						"user": sessionStorage.User
-					}
+					url: 'api/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + localStorage.beob_id + '/feld=TPopId/wert=' + neue_tpop_id + '/user=' + sessionStorage.User,
+					dataType: 'json'
 				});
-				ordneBeobachtungZu_2.always(function() {
+				ordneBeobachtungZu_2.done(function() {
                     var initiiere_beob = require('./modules/initiiereBeob');
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
@@ -1837,29 +1828,17 @@ window.apf.erstelle_tree = function(ApArtId) {
 				// zugeordnet > nicht zuzuordnen
 				var ordneBeobachtungZu_3 = $.ajax({
 					type: 'post',
-					url: 'php/beob_update.php',
-					dataType: 'json',
-					data: {
-						"id": herkunft_node_id,
-						"Feld": "BeobNichtZuordnen",
-						"Wert": 1,
-						"user": sessionStorage.User
-					} 
+					url: 'api/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=BeobNichtZuordnen/wert=1/user=' + sessionStorage.User,
+					dataType: 'json'
 				});
-				ordneBeobachtungZu_3.always(function() {
+				ordneBeobachtungZu_3.done(function() {
 					// TPopId null setzen
 					var setzeTpopid = $.ajax({
 						type: 'post',
-						url: 'php/beob_update.php',
-						dataType: 'json',
-						data: {
-							"id": herkunft_node_id,
-							"Feld": "TPopId",
-							"Wert": "",
-							"user": sessionStorage.User
-						}
+						url: 'api/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=TPopId/wert=/user=' + sessionStorage.User,
+						dataType: 'json'
 					});
-					setzeTpopid.always(function() {
+					setzeTpopid.done(function() {
                         var initiiere_beob = require('./modules/initiiereBeob');
 						// aus unerfindlichen Gründen läuft der success callback nicht, darum done
 						// typ des nodes anpassen
@@ -1911,16 +1890,10 @@ window.apf.erstelle_tree = function(ApArtId) {
 					// jetzt aktualisieren
 					var updateBeob = $.ajax({
 						type: 'post',
-						url: 'php/beob_update.php',
-						dataType: 'json',
-						data: {
-							"id": herkunft_node_id,
-							"Feld": "TPopId",
-							"Wert": neue_tpop_id,
-							"user": sessionStorage.User
-						}
+						url: 'api/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=TPopId/wert=' + neue_tpop_id + '/user=' + sessionStorage.User,
+						dataType: 'json'
 					});
-					updateBeob.always(function() {
+					updateBeob.done(function() {
                         var initiiere_beob = require('./modules/initiiereBeob');
 						// typ des nodes anpassen
 						herkunft_node.attr("typ", "beob_zugeordnet");
@@ -1967,16 +1940,10 @@ window.apf.erstelle_tree = function(ApArtId) {
 					// jetzt aktualisieren
 					var updateBeob_2 = $.ajax({
 						type: 'post',
-						url: 'php/beob_update.php',
-						dataType: 'json',
-						data: {
-							"id": herkunft_node_id,
-							"Feld": "BeobNichtZuordnen",
-							"Wert": 1,
-							"user": sessionStorage.User
-						}
+						url: 'api/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=BeobNichtZuordnen/wert=1/user=' + sessionStorage.User,
+						dataType: 'json'
 					});
-					updateBeob_2.always(function() {
+					updateBeob_2.done(function() {
                         var initiiere_beob = require('./modules/initiiereBeob');
 						// typ des nodes anpassen
 						$(herkunft_node).attr("typ", "beob_nicht_zuzuordnen");
@@ -2049,28 +2016,16 @@ window.apf.erstelle_tree = function(ApArtId) {
 				}
 				var updateBeob_3 = $.ajax({
 					type: 'post',
-					url: 'php/beob_update.php',
-						dataType: 'json',
-						data: {
-							"id": herkunft_node_id,
-							"Feld": "BeobNichtZuordnen",
-							"Wert": "",
-							"user": sessionStorage.User
-					}
+					url: 'api/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=BeobNichtZuordnen/wert=1/user=' + sessionStorage.User,
+						dataType: 'json'
 				});
-				updateBeob_3.always(function() {
+				updateBeob_3.done(function() {
 					var updateBeob_4 = $.ajax({
 						type: 'post',
-						url: 'php/beob_update.php',
-						dataType: 'json',
-						data: {
-							"id": herkunft_node_id,
-							"Feld": "TPopId",
-							"Wert": neue_tpop_id,
-							"user": sessionStorage.User
-						}
+						url: 'api/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=TPopId/wert=' + neue_tpop_id + '/user=' + sessionStorage.User,
+						dataType: 'json'
 					});
-					updateBeob_4.always(function() {
+					updateBeob_4.done(function() {
                         var initiiere_beob = require('./modules/initiiereBeob');
 						// typ des nodes anpassen
 						$(herkunft_node).attr("typ", "beob_zugeordnet");
@@ -37125,6 +37080,7 @@ config.db.passWord = dbPassfile.pass;
 // wird benutzt, um mit denselben Abfragen in diesen Tabelle durchzuführen: update, insert, delete
 config.tables = [
     {
+        database: 'apflora',
         tabelleInDb: 'tblAktionsplan',
         tabelleIdFeld: 'ApArtId',
         mutWannFeld: 'MutWann',
@@ -37132,6 +37088,7 @@ config.tables = [
         form: 'ap'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblPopulation',
         tabelleIdFeld: 'PopId',
         mutWannFeld: 'MutWann',
@@ -37139,6 +37096,7 @@ config.tables = [
         form: 'pop'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblTeilpopulation',
         tabelleIdFeld: 'TPopId',
         mutWannFeld: 'MutWann',
@@ -37146,6 +37104,7 @@ config.tables = [
         form: 'tpop'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblTeilPopFeldkontrolle',
         tabelleIdFeld: 'TPopKontrId',
         mutWannFeld: 'MutWann',
@@ -37153,6 +37112,7 @@ config.tables = [
         form: 'tpopfeldkontr'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblTeilPopMassnahme',
         tabelleIdFeld: 'TPopMassnId',
         mutWannFeld: 'MutWann',
@@ -37160,6 +37120,7 @@ config.tables = [
         form: 'tpopmassn'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblZiel',
         tabelleIdFeld: 'ZielId',
         mutWannFeld: 'MutWann',
@@ -37167,6 +37128,7 @@ config.tables = [
         form: 'apziel'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblZielBericht',
         tabelleIdFeld: 'ZielBerId',
         mutWannFeld: 'MutWann',
@@ -37174,6 +37136,7 @@ config.tables = [
         form: 'zielber'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblErfKrit',
         tabelleIdFeld: 'ErfkritId',
         mutWannFeld: 'MutWann',
@@ -37181,6 +37144,7 @@ config.tables = [
         form: 'erfkrit'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblJBer',
         tabelleIdFeld: 'JBerId',
         mutWannFeld: 'MutWann',
@@ -37188,6 +37152,7 @@ config.tables = [
         form: 'jber'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblJBerUebersicht',
         tabelleIdFeld: 'JbuJahr',
         mutWannFeld: 'MutWann',
@@ -37195,6 +37160,7 @@ config.tables = [
         form: 'jber_uebersicht'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblBer',
         tabelleIdFeld: 'BerId',
         mutWannFeld: 'MutWann',
@@ -37202,6 +37168,7 @@ config.tables = [
         form: 'ber'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblIdealbiotop',
         tabelleIdFeld: 'IbApArtId',
         mutWannFeld: 'MutWann',
@@ -37209,6 +37176,7 @@ config.tables = [
         form: 'idealbiotop'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblAssozArten',
         tabelleIdFeld: 'AaId',
         mutWannFeld: 'MutWann',
@@ -37216,6 +37184,7 @@ config.tables = [
         form: 'assozarten'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblPopBericht',
         tabelleIdFeld: 'PopBerId',
         mutWannFeld: 'MutWann',
@@ -37223,6 +37192,7 @@ config.tables = [
         form: 'popber'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblPopMassnBericht',
         tabelleIdFeld: 'PopMassnBerId',
         mutWannFeld: 'MutWann',
@@ -37230,6 +37200,7 @@ config.tables = [
         form: 'popmassnber'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblTeilPopBericht',
         tabelleIdFeld: 'TPopBerId',
         mutWannFeld: 'MutWann',
@@ -37237,6 +37208,7 @@ config.tables = [
         form: 'tpopber'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblPopMassnBericht',
         tabelleIdFeld: 'PopMassnBerId',
         mutWannFeld: 'MutWann',
@@ -37244,11 +37216,11 @@ config.tables = [
         form: 'tpopmassnber'
     },
     {
+        database: 'apflora',
         tabelleInDb: 'tblBeobZuordnung',
         tabelleIdFeld: 'NO_NOTE',
         mutWannFeld: 'BeobMutWann',
-        mutWerFeld: 'BeobMutWer',
-        form: 'beob'
+        mutWerFeld: 'BeobMutWer'
     }
 ];
 
@@ -37700,16 +37672,14 @@ var initiiereErfkrit = function() {
     // Daten für die erfkrit aus der DB holen
     var getErfkrit = $.ajax({
             type: 'get',
-            url: 'php/erfkrit.php',
-            dataType: 'json',
-            data: {
-                "id": localStorage.erfkrit_id
-            }
+            url: 'api/select/apflora/tabelle=tblErfKrit/feld=ErfkritId/wertString=' + localStorage.erfkrit_id,
+            dataType: 'json'
         }),
         $ErfkritErreichungsgrad = $("#ErfkritErreichungsgrad");
-    getErfkrit.always(function(data) {
+    getErfkrit.done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-        if (data) {
+        if (data && data[0]) {
+            data = data[0];
             // erfkrit bereitstellen
             window.apf.erfkrit = data;
             // Felder mit Daten beliefern

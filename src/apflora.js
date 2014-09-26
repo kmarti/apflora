@@ -138,17 +138,14 @@ window.apf.setzeWindowErfkrit = function(id) {
 	localStorage.erfkrit_id = id;
 	var getErfkrit = $.ajax({
 		type: 'get',
-		url: 'php/erfkrit.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.erfkrit_id
-		}
+		url: 'api/select/apflora/tabelle=tblErfKrit/feld=ErfkritId/wertString=' + localStorage.erfkrit_id,
+		dataType: 'json'
 	});
-	getErfkrit.always(function(data) {
+	getErfkrit.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
+		if (data && data[0]) {
 			// erfkrit bereitstellen
-			window.apf.erfkrit = data;
+			window.apf.erfkrit = data[0];
 		}
 	});
 };
