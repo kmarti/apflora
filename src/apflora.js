@@ -2473,9 +2473,12 @@ window.apf.speichern = function(that) {
 
 	if (window.apf.prüfeSchreibvoraussetzungen()) {
 		formular = $(that).attr("formular");
+        // infos über die betroffene Tabelle holen
+        var table = _.findWhere(configuration.tables, {form: formular});
         // die zu aktualisierende Tabelle in der DB
-        tabelleInDb = configuration.forms[formular].tabelleInDb;
-        tabelleIdFeld = configuration.forms[formular].tabelleIdFeld;
+        tabelleInDb = table.tabelleInDb;
+        // das zu aktualisierende Feld
+        tabelleIdFeld = table.tabelleIdFeld;
 		feldname = that.name;
 		feldtyp = $(that).attr("type") || null;
 		// Feldwert ermitteln

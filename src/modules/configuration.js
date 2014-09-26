@@ -15,79 +15,133 @@ config.db.passWord = dbPassfile.pass;
 // für alle Formulare auflisten:
 // Formularname, Name der entsprechenden Tabelle in der DB, Name der ID dieser Tabelle
 // wird benutzt, um mit denselben Abfragen in diesen Tabelle durchzuführen: update, insert, delete
-config.forms = {
-    ap: {
+config.tables = [
+    {
         tabelleInDb: 'tblAktionsplan',
-        tabelleIdFeld: 'ApArtId'
+        tabelleIdFeld: 'ApArtId',
+        mutWannFeld: 'MutWann',
+        mutWerFeld: 'MutWer',
+        form: 'ap'
     },
-    pop: {
+    {
         tabelleInDb: 'tblPopulation',
-        tabelleIdFeld: 'PopId'
+        tabelleIdFeld: 'PopId',
+        mutWannFeld: 'MutWann',
+        mutWerFeld: 'MutWer',
+        form: 'pop'
     },
-    tpop: {
+    {
         tabelleInDb: 'tblTeilpopulation',
-        tabelleIdFeld: 'TPopId'
+        tabelleIdFeld: 'TPopId',
+        mutWannFeld: 'MutWann',
+        mutWerFeld: 'MutWer',
+        form: 'tpop'
     },
-    tpopfeldkontr: {
+    {
         tabelleInDb: 'tblTeilPopFeldkontrolle',
-        tabelleIdFeld: 'TPopKontrId'
+        tabelleIdFeld: 'TPopKontrId',
+        mutWannFeld: 'MutWann',
+        mutWerFeld: 'MutWer',
+        form: 'tpopfeldkontr'
     },
-    tpopmassn: {
+    {
         tabelleInDb: 'tblTeilPopMassnahme',
-        tabelleIdFeld: 'TPopMassnId'
+        tabelleIdFeld: 'TPopMassnId',
+        mutWannFeld: 'MutWann',
+        mutWerFeld: 'MutWer',
+        form: 'tpopmassn'
     },
-    apziel: {
+    {
         tabelleInDb: 'tblZiel',
-        tabelleIdFeld: 'ZielId'
+        tabelleIdFeld: 'ZielId',
+        mutWannFeld: 'MutWann',
+        mutWerFeld: 'MutWer',
+        form: 'apziel'
     },
-    zielber: {
+    {
         tabelleInDb: 'tblZielBericht',
-        tabelleIdFeld: 'ZielBerId'
+        tabelleIdFeld: 'ZielBerId',
+        mutWannFeld: 'MutWann',
+        mutWerFeld: 'MutWer',
+        form: 'zielber'
     },
-    erfkrit: {
+    {
         tabelleInDb: 'tblErfKrit',
-        tabelleIdFeld: 'ErfkritId'
+        tabelleIdFeld: 'ErfkritId',
+        mutWannFeld: 'MutWann',
+        mutWerFeld: 'MutWer',
+        form: 'erfkrit'
     },
-    jber: {
+    {
         tabelleInDb: 'tblJBer',
-        tabelleIdFeld: 'JBerId'
+        tabelleIdFeld: 'JBerId',
+        mutWannFeld: 'MutWann',
+        mutWerFeld: 'MutWer',
+        form: 'jber'
     },
-    jber_uebersicht: {
+    {
         tabelleInDb: 'tblJBerUebersicht',
-        tabelleIdFeld: 'JbuJahr'
+        tabelleIdFeld: 'JbuJahr',
+        mutWannFeld: 'MutWann',
+        mutWerFeld: 'MutWer',
+        form: 'jber_uebersicht'
     },
-    ber: {
+    {
         tabelleInDb: 'tblBer',
-        tabelleIdFeld: 'BerId'
+        tabelleIdFeld: 'BerId',
+        mutWannFeld: 'MutWann',
+        mutWerFeld: 'MutWer',
+        form: 'ber'
     },
-    idealbiotop: {
+    {
         tabelleInDb: 'tblIdealbiotop',
-        tabelleIdFeld: 'IbApArtId'
+        tabelleIdFeld: 'IbApArtId',
+        mutWannFeld: 'MutWann',
+        mutWerFeld: 'MutWer',
+        form: 'idealbiotop'
     },
-    assozarten: {
+    {
         tabelleInDb: 'tblAssozArten',
-        tabelleIdFeld: 'AaId'
+        tabelleIdFeld: 'AaId',
+        mutWannFeld: 'MutWann',
+        mutWerFeld: 'MutWer',
+        form: 'assozarten'
     },
-    popber: {
+    {
         tabelleInDb: 'tblPopBericht',
-        tabelleIdFeld: 'PopBerId'
+        tabelleIdFeld: 'PopBerId',
+        mutWannFeld: 'MutWann',
+        mutWerFeld: 'MutWer',
+        form: 'popber'
     },
-    popmassnber: {
+    {
         tabelleInDb: 'tblPopMassnBericht',
-        tabelleIdFeld: 'PopMassnBerId'
+        tabelleIdFeld: 'PopMassnBerId',
+        mutWannFeld: 'MutWann',
+        mutWerFeld: 'MutWer',
+        form: 'popmassnber'
     },
-    tpopber: {
+    {
         tabelleInDb: 'tblTeilPopBericht',
-        tabelleIdFeld: 'TPopBerId'
+        tabelleIdFeld: 'TPopBerId',
+        mutWannFeld: 'MutWann',
+        mutWerFeld: 'MutWer',
+        form: 'tpopber'
     },
-    tpopmassnber: {
+    {
         tabelleInDb: 'tblPopMassnBericht',
-        tabelleIdFeld: 'PopMassnBerId'
+        tabelleIdFeld: 'PopMassnBerId',
+        mutWannFeld: 'MutWann',
+        mutWerFeld: 'MutWer',
+        form: 'tpopmassnber'
     },
-    beob: {
+    {
         tabelleInDb: 'tblBeobZuordnung',
-        tabelleIdFeld: 'NO_NOTE'
+        tabelleIdFeld: 'NO_NOTE',
+        mutWannFeld: 'BeobMutWann',
+        mutWerFeld: 'BeobMutWer',
+        form: 'beob'
     }
-};
+];
 
 module.exports = config;
