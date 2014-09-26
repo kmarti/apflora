@@ -61,7 +61,7 @@ var initiiereIdealbiotop = function() {
             // null zurückgekommen > Datensatz schaffen
             var insertIdealbiotop = $.ajax({
                 type: 'post',
-                url: '/api/insert/tabelle=tblIdealbiotop/feld=IbApArtId/wert=' + localStorage.ap_id + '/user=' + sessionStorage.User,
+                url: '/api/insert/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wert=' + localStorage.ap_id + '/user=' + sessionStorage.User,
                 dataType: 'json'
             });
             insertIdealbiotop.done(function(data) {

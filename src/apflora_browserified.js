@@ -180,17 +180,14 @@ window.apf.setzeWindowJberUebersicht = function(id) {
 	localStorage.jber_uebersicht_id = id;
 	var getJberUebersicht = $.ajax({
 		type: 'get',
-		url: 'php/jber_uebersicht.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.jber_uebersicht_id
-		}
+        url: 'api/select/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wertNumber=' + localStorage.jber_uebersicht_id,
+		dataType: 'json'
 	});
-	getJberUebersicht.always(function(data) {
+	getJberUebersicht.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
+		if (data && data[0]) {
 			// jber_uebersicht bereitstellen
-			window.apf.jber_übersicht = data;
+			window.apf.jber_übersicht = data[0];
 		}
 	});
 };
@@ -2507,7 +2504,7 @@ window.apf.speichern = function(that) {
 		}
 		var updateFormular = $.ajax({
 			type: 'post',
-			url: 'api/update/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + localStorage[formular + "_id"] + '/feld=' + feldname + '/wert=' + feldwert + '/user=' + sessionStorage.User,
+			url: 'api/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + localStorage[formular + "_id"] + '/feld=' + feldname + '/wert=' + feldwert + '/user=' + sessionStorage.User,
 			dataType: 'json'
 		});
 		updateFormular.done(function() {
@@ -8488,13 +8485,10 @@ window.apf.treeKontextmenu = function(node) {
                                     window.apf.deleted.typ = "jber_uebersicht";
                                     var deleteJberUebersicht = $.ajax({
                                         type: 'post',
-                                        url: 'php/jber_uebersicht_delete.php',
-                                        dataType: 'json',
-                                        data: {
-                                            "jahr": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                                        }
+                                        url: 'api/delete/apflora/tabelle=tblJBerUebersicht/tabelleIdFeld=JbuJahr/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                                        dataType: 'json'
                                     });
-                                    deleteJberUebersicht.always(function() {
+                                    deleteJberUebersicht.done(function() {
                                         delete localStorage.jber_uebersicht_id;
                                         delete window.apf.jber_übersicht;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -8637,7 +8631,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertAssozarten = $.ajax({
                             type: 'post',
-                            url: 'api/insert/tabelle=tblAssozArten/feld=AaApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
+                            url: 'api/insert/apflora/tabelle=tblAssozArten/feld=AaApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
                         insertAssozarten.done(function(id) {
@@ -8661,7 +8655,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertAssozarten_2 = $.ajax({
                             type: 'post',
-                            url: 'api/insert/tabelle=tblAssozArten/feld=AaApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
+                            url: 'api/insert/apflora/tabelle=tblAssozArten/feld=AaApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
                         insertAssozarten_2.done(function(id) {
@@ -8705,7 +8699,7 @@ window.apf.treeKontextmenu = function(node) {
                                     window.apf.deleted.typ = "assozarten";
                                     var deleteAssozarten = $.ajax({
                                         type: 'post',
-                                        url: 'api/delete/tabelle=tblAssozArten/tabelleIdFeld=AaId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                                        url: 'api/delete/apflora/tabelle=tblAssozArten/tabelleIdFeld=AaId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
                                     deleteAssozarten.done(function() {
@@ -37758,7 +37752,7 @@ var initiiereIdealbiotop = function() {
             // null zurückgekommen > Datensatz schaffen
             var insertIdealbiotop = $.ajax({
                 type: 'post',
-                url: '/api/insert/tabelle=tblIdealbiotop/feld=IbApArtId/wert=' + localStorage.ap_id + '/user=' + sessionStorage.User,
+                url: '/api/insert/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wert=' + localStorage.ap_id + '/user=' + sessionStorage.User,
                 dataType: 'json'
             });
             insertIdealbiotop.done(function(data) {
@@ -37979,16 +37973,14 @@ var initiiereJberUebersicht = function() {
     // Daten für die jber_uebersicht aus der DB holen
     var getJberÜbersicht = $.ajax({
             type: 'get',
-            url: 'php/jber_uebersicht.php',
-            dataType: 'json',
-            data: {
-                "JbuJahr": localStorage.jber_uebersicht_id
-            }
+            url: 'api/select/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wertNumber=' + localStorage.jber_uebersicht_id,
+            dataType: 'json'
         }),
         $JbuJahr = $("#JbuJahr");
-    getJberÜbersicht.always(function(data) {
+    getJberÜbersicht.done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-        if (data) {
+        if (data && data[0]) {
+            data = data[0];
             // jber_uebersicht bereitstellen
             window.apf.jber_übersicht = data;
             // Felder mit Daten beliefern

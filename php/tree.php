@@ -468,49 +468,6 @@ while($r_erfkrit = mysqli_fetch_assoc($result_erfkrit)) {
     $rows_erfkrit[] = $erfkrit;
 }
 mysqli_free_result($result_erfkrit);
-
-// jber dieses AP abfragen
-$result_jber = mysqli_query($link, "SELECT JBerId, ApArtId, JBerJahr FROM tblJBer where ApArtId = $ApArtId ORDER BY JBerJahr");
-$anz_jber = mysqli_num_rows($result_jber);
-// jber aufbauen
-$rows_jber = array();
-while($r_jber = mysqli_fetch_assoc($result_jber)) {
-	$JBerId = $r_jber['JBerId'];
-	settype($JBerId, "integer");
-	// jber_uebersicht dieses Jahrs abfragen
-	// nur, wenn JBerJahr nicht NULL ist, sont gibt das einen Fehler!
-	if ($r_jber['JBerJahr']) {
-		$result_jber_uebersicht = mysqli_query($link, "SELECT JbuJahr, JbuBemerkungen FROM tblJBerUebersicht WHERE JbuJahr=".$r_jber['JBerJahr']);
-		// jber_uebersicht aufbauen
-		$rows_jber_uebersicht = array();
-		while($r_jber_uebersicht = mysqli_fetch_assoc($result_jber_uebersicht)) {
-			$JbuJahr = $r_jber_uebersicht['JbuJahr'];
-			settype($JbuJahr, "integer");
-			// jber_uebersicht setzen
-			$attr_jber_uebersicht = array("id" => $JbuJahr, "typ" => "jber_uebersicht");
-			$jber_uebersicht = array("data" => "Übersicht zu allen Arten", "attr" => $attr_jber_uebersicht);
-			// jber_uebersicht-Array um jber_uebersicht ergänzen
-		    $rows_jber_uebersicht[] = $jber_uebersicht;
-		}
-		mysqli_free_result($result_jber_uebersicht);
-		// jber setzen
-		$attr_jber = array("id" => $JBerId, "typ" => "jber");
-		$jber = array("data" => $r_jber['JBerJahr'], "attr" => $attr_jber, "children" => $rows_jber_uebersicht);
-	} else {
-		// jber setzen
-		$attr_jber = array("id" => $JBerId, "typ" => "jber");
-		// Baum-node sinnvoll beschriften, auch wenn JBerJahr leer
-		if ($r_jber['JBerJahr']) {
-			$jberbeschriftung = $r_jber['JBerJahr'];
-		} else {
-			$jberbeschriftung = "(kein Jahr)";
-		}
-		$jber = array("data" => $jberbeschriftung, "attr" => $attr_jber);
-	}
-	// jber-Array um jber ergänzen
-    $rows_jber[] = $jber;
-}
-mysqli_free_result($result_jber);
 	
 
 // AP-Ordner setzen
@@ -527,13 +484,9 @@ $ap_ordner_apziel = array("data" => "AP-Ziele (".$anz_apzieljahr.")", "attr" => 
 $meineId = "ap_ordner_erfkrit".$ApArtId;
 $ap_ordner_erfkrit_attr = array("id" => $meineId, "typ" => "ap_ordner_erfkrit");
 $ap_ordner_erfkrit = array("data" => "AP-Erfolgskriterien (".$anz_erfkrit.")", "attr" => $ap_ordner_erfkrit_attr, "children" => $rows_erfkrit);
-// AP-Berichte
-$meineId = "ap_ordner_jber".$ApArtId;
-$ap_ordner_jber_attr = array("id" => $meineId, "typ" => "ap_ordner_jber");
-$ap_ordner_jber = array("data" => "AP-Berichte (".$anz_jber.")", "attr" => $ap_ordner_jber_attr, "children" => $rows_jber);
 
 // zusammensetzen
-$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit, 3 => $ap_ordner_jber);
+$ap_ordner = array(0 => $ap_ordner_pop, 1 => $ap_ordner_apziel, 2 => $ap_ordner_erfkrit);
 
 	
 // in json verwandeln

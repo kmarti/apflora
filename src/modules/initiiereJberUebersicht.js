@@ -15,16 +15,14 @@ var initiiereJberUebersicht = function() {
     // Daten für die jber_uebersicht aus der DB holen
     var getJberÜbersicht = $.ajax({
             type: 'get',
-            url: 'php/jber_uebersicht.php',
-            dataType: 'json',
-            data: {
-                "JbuJahr": localStorage.jber_uebersicht_id
-            }
+            url: 'api/select/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wertNumber=' + localStorage.jber_uebersicht_id,
+            dataType: 'json'
         }),
         $JbuJahr = $("#JbuJahr");
-    getJberÜbersicht.always(function(data) {
+    getJberÜbersicht.done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-        if (data) {
+        if (data && data[0]) {
+            data = data[0];
             // jber_uebersicht bereitstellen
             window.apf.jber_übersicht = data;
             // Felder mit Daten beliefern

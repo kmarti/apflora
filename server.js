@@ -198,7 +198,7 @@ server.route({
 
 server.route({
     method: 'POST',
-    path: '/api/update/tabelle={tabelle}/tabelleIdFeld={tabelleIdFeld}/tabelleId={tabelleId}/feld={feld}/wert={wert?}/user={user}',
+    path: '/api/update/apflora/tabelle={tabelle}/tabelleIdFeld={tabelleIdFeld}/tabelleId={tabelleId}/feld={feld}/wert={wert?}/user={user}',
     handler: function (request, reply) {
         queryTabelleUpdate(request, reply);
     }
@@ -206,7 +206,7 @@ server.route({
 
 server.route({
     method: 'POST',
-    path: '/api/insert/tabelle={tabelle}/feld={feld}/wert={wert}/user={user}',
+    path: '/api/insert/apflora/tabelle={tabelle}/feld={feld}/wert={wert}/user={user}',
     handler: function (request, reply) {
         queryTabelleInsert(request, reply);
     }
@@ -214,7 +214,7 @@ server.route({
 
 server.route({
     method: 'POST',
-    path: '/api/delete/tabelle={tabelle}/tabelleIdFeld={tabelleIdFeld}/tabelleId={tabelleId}',
+    path: '/api/delete/apflora/tabelle={tabelle}/tabelleIdFeld={tabelleIdFeld}/tabelleId={tabelleId}',
     handler: function (request, reply) {
         queryTabelleDelete(request, reply);
     }
