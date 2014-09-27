@@ -17,15 +17,13 @@ var initiiereApziel = function() {
     // Daten für die apziel aus der DB holen
     var getApZiel = $.ajax({
         type: 'get',
-        url: 'php/apziel.php',
-        dataType: 'json',
-        data: {
-            "id": localStorage.apziel_id
-        }
+        url: 'api/select/apflora/tabelle=tblZiel/feld=ZielId/wertNumber=' + localStorage.apziel_id,
+        dataType: 'json'
     });
-    getApZiel.always(function(data) {
+    getApZiel.done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-        if (data) {
+        if (data && data[0]) {
+            data = data[0];
             // apziel bereitstellen
             window.apf.apziel = data;
             // Felder mit Daten beliefern

@@ -94,17 +94,14 @@ window.apf.setzeWindowApziel = function(id) {
 	localStorage.apziel_id = id;
 	var getApziel = $.ajax({
 		type: 'get',
-		url: 'php/apziel.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.apziel_id
-		}
+		url: 'api/select/apflora/tabelle=tblZiel/feld=ZielId/wertNumber=' + localStorage.apziel_id,
+		dataType: 'json'
 	});
-	getApziel.always(function(data) {
+	getApziel.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
+		if (data && data[0]) {
 			// apziel bereitstellen
-			window.apf.apziel = data;
+			window.apf.apziel = data[0];
 		}
 	});
 };
