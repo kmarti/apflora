@@ -7983,13 +7983,10 @@ window.apf.treeKontextmenu = function(node) {
                                     window.apf.deleted.typ = "apziel";
                                     var deleteApziel = $.ajax({
                                         type: 'post',
-                                        url: 'php/apziel_delete.php',
-                                        dataType: 'json',
-                                        data: {
-                                            "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                                        }
+                                        url: 'api/delete/apflora/tabelle=tblZiel/tabelleIdFeld=ZielId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                                        dataType: 'json'
                                     });
-                                    deleteApziel.always(function() {
+                                    deleteApziel.done(function() {
                                         delete localStorage.apziel_id;
                                         delete window.apf.apziel;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
