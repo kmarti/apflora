@@ -30,24 +30,23 @@ var returnFunction = function(request, reply) {
                     if (err) reply(err);
                     popListe = result;
                     popIds = _.pluck(popListe, 'PopId');
-                    callback(err, popIds);
+                    callback(err, popIds, popListe);
                 }
             );
         },
-        function(popIds, callback) {
+        function(popIds, popListe, callback) {
             connection.query(
                     'SELECT TPopNr, TPopFlurname, TPopId, PopId FROM tblTeilpopulation where PopId in (' + popIds.join() + ') ORDER BY TPopNr, TPopFlurname',
                 function (err, result) {
                     if (err) reply(err);
                     tpopListe = result;
                     tpopIds = _.pluck(tpopListe, 'TPopId');
-                    callback(err, tpopListe);
+                    var pass = [popListe, tpopListe];
+                    callback(err, pass);
                 }
             );
         }
     ], function(err, result) {
-        console.log('popListe: ', popListe);
-        console.log('tpopListe: ', tpopListe);
         // jetzt parallel alle übrigen Daten aus dem pop-baum
         async.parallel({
             tpopMassnListe: function(callback) {
@@ -145,11 +144,6 @@ var returnFunction = function(request, reply) {
             };
             popOrdnerNodeChildren = [];
             popOrdnerNode.children = popOrdnerNodeChildren;
-
-            // in der apzielliste alls ZielJahr NULL mit '(kein Jahr)' ersetzen
-            _.each(popListe, function(apziel) {
-                if (!apziel.ZielJahr) apziel.ZielJahr = '(kein Jahr)';
-            });
 
             _.each(popListe, function(pop) {
                 // nodes für pop aufbauen
