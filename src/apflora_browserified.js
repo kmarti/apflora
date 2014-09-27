@@ -7873,15 +7873,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertApziel = $.ajax({
                             type: 'post',
-                            url: 'php/apziel_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-                                "typ": "apziel",
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertApziel.always(function(id) {
+                        insertApziel.done(function(id) {
                             var strukturtyp = "apziel",
                                 beschriftung = "neues Ziel";
                             // mitteilen, dass von ganz oben ein apziel erstellt wird und daher noch ein Zwischenordner erstellt werden muss
@@ -7913,15 +7908,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertApziel_2 = $.ajax({
                             type: 'post',
-                            url: 'php/apziel_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")),
-                                "typ": "apziel",
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertApziel_2.always(function(id) {
+                        insertApziel_2.done(function(id) {
                             var strukturtyp = "apziel",
                                 beschriftung = "neues Ziel";
                             localStorage.apziel_von_apzieljahr = true;
@@ -7950,14 +7940,10 @@ window.apf.treeKontextmenu = function(node) {
                         grandparent_node = $.jstree._reference(parent_node)._get_parent(parent_node);
                         var insertApziel_3 = $.ajax( {
                             type: 'post',
-                            url: 'php/apziel_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(grandparent_node).attr("id")),
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(grandparent_node).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertApziel_3.always(function(id) {
+                        insertApziel_3.done(function(id) {
                             var strukturtyp = "apziel",
                                 beschriftung = "neues Ziel";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
