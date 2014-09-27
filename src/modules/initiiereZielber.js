@@ -15,16 +15,14 @@ var initiiereZielber = function() {
     // Daten für die zielber aus der DB holen
     var getZielBer = $.ajax({
             type: 'get',
-            url: 'php/zielber.php',
-            dataType: 'json',
-            data: {
-                "id": localStorage.zielber_id
-            }
+            url: 'api/select/apflora/tabelle=tblZielBericht/feld=ZielBerId/wertString=' + localStorage.zielber_id,
+            dataType: 'json'
         }),
         $ZielBerJahr = $("#ZielBerJahr");
-    getZielBer.always(function(data) {
+    getZielBer.done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-        if (data) {
+        if (data && data[0]) {
+            data = data[0];
             // zeilber bereitstellen
             window.apf.zielber = data;
             // Felder mit Daten beliefern
