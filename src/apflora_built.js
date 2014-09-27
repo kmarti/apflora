@@ -30934,14 +30934,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertZielber = $.ajax({
                             type: 'post',
-                            url: 'php/zielber_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/insert/apflora/tabelle=tblZielBericht/feld=ZielId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertZielber.always(function(id) {
+                        insertZielber.done(function(id) {
                             var strukturtyp = "zielber",
                                 beschriftung = "neuer Ziel-Bericht";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
@@ -30962,15 +30958,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertZielber_2 = $.ajax({
                             type: 'post',
-                            url: 'php/zielber_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")),
-                                "typ": "zielber",
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/insert/apflora/tabelle=tblZielBericht/feld=ZielId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertZielber_2.always(function(id) {
+                        insertZielber_2.done(function(id) {
                             var strukturtyp = "zielber",
                                 beschriftung = "neuer Ziel-Bericht";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
