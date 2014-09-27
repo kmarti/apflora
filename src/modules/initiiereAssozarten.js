@@ -15,7 +15,7 @@ var initiiereAssozarten = function() {
     // Daten für die assozarten aus der DB holen
     var getAssozarten = $.ajax({
             type: 'get',
-            url: '/api/select/apflora/tabelle=tblAssozArten/feld=AaId/wertNumber=' + localStorage.assozarten_id,
+            url: '/api/v1/apflora/tabelle=tblAssozArten/feld=AaId/wertNumber=' + localStorage.assozarten_id,
             dataType: 'json'
         }),
         $AaSisfNr = $("#AaSisfNr");

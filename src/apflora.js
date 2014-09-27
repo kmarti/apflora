@@ -33,7 +33,7 @@ window.apf.hole_artliste_html = function() {
 	if (!window.apf.artliste_html) {
 		var getArtliste = $.ajax({
 			type: 'get',
-			url: 'api/artliste',
+			url: 'api/v1/artliste',
 			dataType: 'json'
 		});
 		getArtliste.always(function(data) {
@@ -94,7 +94,7 @@ window.apf.setzeWindowApziel = function(id) {
 	localStorage.apziel_id = id;
 	var getApziel = $.ajax({
 		type: 'get',
-		url: 'api/select/apflora/tabelle=tblZiel/feld=ZielId/wertNumber=' + localStorage.apziel_id,
+		url: 'api/v1/apflora/tabelle=tblZiel/feld=ZielId/wertNumber=' + localStorage.apziel_id,
 		dataType: 'json'
 	});
 	getApziel.done(function(data) {
@@ -113,7 +113,7 @@ window.apf.setzeWindowZielber = function(id) {
 	localStorage.zielber_id = id;
 	var getZielber = $.ajax({
 		type: 'get',
-		url: 'api/select/apflora/tabelle=tblZielBericht/feld=ZielBerId/wertString=' + localStorage.zielber_id,
+		url: 'api/v1/apflora/tabelle=tblZielBericht/feld=ZielBerId/wertString=' + localStorage.zielber_id,
 		dataType: 'json'
 	});
 	getZielber.always(function(data) {
@@ -132,7 +132,7 @@ window.apf.setzeWindowErfkrit = function(id) {
 	localStorage.erfkrit_id = id;
 	var getErfkrit = $.ajax({
 		type: 'get',
-		url: 'api/select/apflora/tabelle=tblErfKrit/feld=ErfkritId/wertString=' + localStorage.erfkrit_id,
+		url: 'api/v1/apflora/tabelle=tblErfKrit/feld=ErfkritId/wertString=' + localStorage.erfkrit_id,
 		dataType: 'json'
 	});
 	getErfkrit.done(function(data) {
@@ -151,7 +151,7 @@ window.apf.setzeWindowJber = function(id) {
 	localStorage.jber_id = id;
 	var getJber = $.ajax({
 		type: 'get',
-        url: '/api/select/apflora/tabelle=tblJBer/feld=JBerId/wertNumber=' + localStorage.jber_id,
+        url: '/api/v1/apflora/tabelle=tblJBer/feld=JBerId/wertNumber=' + localStorage.jber_id,
 		dataType: 'json'
 	});
 	getJber.always(function(data) {
@@ -170,7 +170,7 @@ window.apf.setzeWindowJberUebersicht = function(id) {
 	localStorage.jber_uebersicht_id = id;
 	var getJberUebersicht = $.ajax({
 		type: 'get',
-        url: 'api/select/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wertNumber=' + localStorage.jber_uebersicht_id,
+        url: 'api/v1/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wertNumber=' + localStorage.jber_uebersicht_id,
 		dataType: 'json'
 	});
 	getJberUebersicht.done(function(data) {
@@ -189,7 +189,7 @@ window.apf.setzeWindowBer = function(id) {
 	localStorage.ber_id = id;
 	var getBer = $.ajax({
 		type: 'get',
-        url: '/api/select/apflora/tabelle=tblBer/feld=BerId/wertNumber=' + localStorage.ber_id,
+        url: '/api/v1/apflora/tabelle=tblBer/feld=BerId/wertNumber=' + localStorage.ber_id,
 		dataType: 'json'
 	});
 	getBer.done(function(data) {
@@ -209,7 +209,7 @@ window.apf.setzeWindowIdealbiotop = function(id) {
 	localStorage.idealbiotop_id = id;
 	var getIdealbiotop = $.ajax({
 		type: 'get',
-		url: '/api/select/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wertNumber=' + localStorage.idealbiotop_id,
+		url: '/api/v1/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wertNumber=' + localStorage.idealbiotop_id,
 		dataType: 'json'
 	});
 	getIdealbiotop.done(function(data) {
@@ -228,7 +228,7 @@ window.apf.setzeWindowAssozarten = function(id) {
 	localStorage.assozarten_id = id;
 	var getAssozarten = $.ajax({
 		type: 'get',
-		url: '/api/select/apflora/tabelle=tblAssozArten/feld=AaId/wertNumber=' + localStorage.assozarten_id,
+		url: '/api/v1/apflora/tabelle=tblAssozArten/feld=AaId/wertNumber=' + localStorage.assozarten_id,
 		dataType: 'json'
 	});
 	getAssozarten.done(function(data) {
@@ -625,7 +625,7 @@ window.apf.erstelle_ap_liste = function(programm) {
 	var apliste_erstellt = $.Deferred(),
 		getApliste = $.ajax({
 			type: 'get',
-			url: 'api/apliste/programm=' + programm,
+			url: 'api/v1/apliste/programm=' + programm,
 			dataType: 'json'
 		});
 	getApliste.always(function(data) {
@@ -681,7 +681,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 	$("#tree").jstree({
 		"json_data": {
 			"ajax": {
-				"url": "api/tree/ap=" + ApArtId,
+				"url": "api/v1/tree/ap=" + ApArtId,
 				"progressive_render": true
 			}
 		},
@@ -1790,7 +1790,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 				}
 				var ordneBeobachtungZu_2 = $.ajax({
 					type: 'post',
-					url: 'api/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + localStorage.beob_id + '/feld=TPopId/wert=' + neue_tpop_id + '/user=' + sessionStorage.User,
+					url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + localStorage.beob_id + '/feld=TPopId/wert=' + neue_tpop_id + '/user=' + sessionStorage.User,
 					dataType: 'json'
 				});
 				ordneBeobachtungZu_2.done(function() {
@@ -1821,14 +1821,14 @@ window.apf.erstelle_tree = function(ApArtId) {
 				// zugeordnet > nicht zuzuordnen
 				var ordneBeobachtungZu_3 = $.ajax({
 					type: 'post',
-					url: 'api/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=BeobNichtZuordnen/wert=1/user=' + sessionStorage.User,
+					url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=BeobNichtZuordnen/wert=1/user=' + sessionStorage.User,
 					dataType: 'json'
 				});
 				ordneBeobachtungZu_3.done(function() {
 					// TPopId null setzen
 					var setzeTpopid = $.ajax({
 						type: 'post',
-						url: 'api/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=TPopId/wert=/user=' + sessionStorage.User,
+						url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=TPopId/wert=/user=' + sessionStorage.User,
 						dataType: 'json'
 					});
 					setzeTpopid.done(function() {
@@ -1883,7 +1883,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 					// jetzt aktualisieren
 					var updateBeob = $.ajax({
 						type: 'post',
-						url: 'api/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=TPopId/wert=' + neue_tpop_id + '/user=' + sessionStorage.User,
+						url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=TPopId/wert=' + neue_tpop_id + '/user=' + sessionStorage.User,
 						dataType: 'json'
 					});
 					updateBeob.done(function() {
@@ -1933,7 +1933,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 					// jetzt aktualisieren
 					var updateBeob_2 = $.ajax({
 						type: 'post',
-						url: 'api/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=BeobNichtZuordnen/wert=1/user=' + sessionStorage.User,
+						url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=BeobNichtZuordnen/wert=1/user=' + sessionStorage.User,
 						dataType: 'json'
 					});
 					updateBeob_2.done(function() {
@@ -2009,13 +2009,13 @@ window.apf.erstelle_tree = function(ApArtId) {
 				}
 				var updateBeob_3 = $.ajax({
 					type: 'post',
-					url: 'api/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=BeobNichtZuordnen/wert=1/user=' + sessionStorage.User,
+					url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=BeobNichtZuordnen/wert=1/user=' + sessionStorage.User,
 						dataType: 'json'
 				});
 				updateBeob_3.done(function() {
 					var updateBeob_4 = $.ajax({
 						type: 'post',
-						url: 'api/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=TPopId/wert=' + neue_tpop_id + '/user=' + sessionStorage.User,
+						url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=TPopId/wert=' + neue_tpop_id + '/user=' + sessionStorage.User,
 						dataType: 'json'
 					});
 					updateBeob_4.done(function() {
@@ -2455,7 +2455,7 @@ window.apf.speichern = function(that) {
 		}
 		var updateFormular = $.ajax({
 			type: 'post',
-			url: 'api/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + localStorage[formular + "_id"] + '/feld=' + feldname + '/wert=' + feldwert + '/user=' + sessionStorage.User,
+			url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + localStorage[formular + "_id"] + '/feld=' + feldname + '/wert=' + feldwert + '/user=' + sessionStorage.User,
 			dataType: 'json'
 		});
 		updateFormular.done(function() {
@@ -6919,7 +6919,7 @@ window.apf.erstelleGemeindeliste = function() {
 	if (!window.apf.gemeinden) {
 		var getGemeinden = $.ajax({
 			type: 'get',
-			url: 'api/gemeinden',
+			url: 'api/v1/gemeinden',
 			dataType: 'json'
 		});
 		getGemeinden.always(function(data) {
@@ -7071,7 +7071,7 @@ window.apf.prüfeAnmeldung = function() {
 	if ($anmeldung_name && $anmeldung_passwort) {
 		var getAnmeldung = $.ajax({
 			type: 'get',
-			url: 'api/anmeldung/name=' + $anmeldung_name + '/pwd=' + $anmeldung_passwort,
+			url: 'api/v1/anmeldung/name=' + $anmeldung_name + '/pwd=' + $anmeldung_passwort,
 			dataType: 'json'
 		});
 		getAnmeldung.always(function(data) {
@@ -7869,7 +7869,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertApziel = $.ajax({
                             type: 'post',
-                            url: 'api/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
+                            url: 'api/v1/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
                         insertApziel.done(function(id) {
@@ -7904,7 +7904,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertApziel_2 = $.ajax({
                             type: 'post',
-                            url: 'api/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
+                            url: 'api/v1/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
                         insertApziel_2.done(function(id) {
@@ -7936,7 +7936,7 @@ window.apf.treeKontextmenu = function(node) {
                         grandparent_node = $.jstree._reference(parent_node)._get_parent(parent_node);
                         var insertApziel_3 = $.ajax( {
                             type: 'post',
-                            url: 'api/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(grandparent_node).attr("id")) + '/user=' + sessionStorage.User,
+                            url: 'api/v1/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(grandparent_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
                         insertApziel_3.done(function(id) {
@@ -7979,8 +7979,8 @@ window.apf.treeKontextmenu = function(node) {
                                     window.apf.deleted = window.apf.apziel;
                                     window.apf.deleted.typ = "apziel";
                                     var deleteApziel = $.ajax({
-                                        type: 'post',
-                                        url: 'api/delete/apflora/tabelle=tblZiel/tabelleIdFeld=ZielId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                                        type: 'delete',
+                                        url: 'api/v1/apflora/tabelle=tblZiel/tabelleIdFeld=ZielId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
                                     deleteApziel.done(function() {
@@ -8019,7 +8019,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertZielber = $.ajax({
                             type: 'post',
-                            url: 'api/insert/apflora/tabelle=tblZielBericht/feld=ZielId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
+                            url: 'api/v1/insert/apflora/tabelle=tblZielBericht/feld=ZielId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
                         insertZielber.done(function(id) {
@@ -8043,7 +8043,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertZielber_2 = $.ajax({
                             type: 'post',
-                            url: 'api/insert/apflora/tabelle=tblZielBericht/feld=ZielId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
+                            url: 'api/v1/insert/apflora/tabelle=tblZielBericht/feld=ZielId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
                         insertZielber_2.done(function(id) {
@@ -8086,8 +8086,8 @@ window.apf.treeKontextmenu = function(node) {
                                     window.apf.deleted = window.apf.zielber;
                                     window.apf.deleted.typ = "zielber";
                                     var deleteZielber = $.ajax({
-                                        type: 'post',
-                                        url: 'api/delete/apflora/tabelle=tblZielBericht/tabelleIdFeld=ZielBerId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                                        type: 'delete',
+                                        url: 'api/v1/apflora/tabelle=tblZielBericht/tabelleIdFeld=ZielBerId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
                                     deleteZielber.done(function() {
@@ -8121,7 +8121,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertErfkrit = $.ajax({
                             type: 'post',
-                            url: 'api/insert/apflora/tabelle=tblErfKrit/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
+                            url: 'api/v1/insert/apflora/tabelle=tblErfKrit/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
                         insertErfkrit.done(function(id) {
@@ -8145,7 +8145,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertErfkrit_2 = $.ajax({
                             type: 'post',
-                            url: 'api/insert/apflora/tabelle=tblErfKrit/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
+                            url: 'api/v1/insert/apflora/tabelle=tblErfKrit/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
                         insertErfkrit_2.done(function(id) {
@@ -8188,8 +8188,8 @@ window.apf.treeKontextmenu = function(node) {
                                     window.apf.deleted = window.apf.erfkrit;
                                     window.apf.deleted.typ = "erfkrit";
                                     var deleteErfkrit = $.ajax({
-                                        type: 'post',
-                                        url: 'api/delete/apflora/tabelle=tblErfKrit/tabelleIdFeld=ErfkritId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                                        type: 'delete',
+                                        url: 'api/v1/apflora/tabelle=tblErfKrit/tabelleIdFeld=ErfkritId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
                                     deleteErfkrit.done(function() {
@@ -8230,7 +8230,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertJber = $.ajax({
                             type: 'post',
-                            url: 'api/insert/apflora/tabelle=tblJBer/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
+                            url: 'api/v1/insert/apflora/tabelle=tblJBer/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
                         insertJber.done(function(id) {
@@ -8254,7 +8254,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertJber_2 = $.ajax({
                             type: 'post',
-                            url: 'api/insert/apflora/tabelle=tblJBer/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
+                            url: 'api/v1/insert/apflora/tabelle=tblJBer/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
                         insertJber_2.done(function(id) {
@@ -8297,8 +8297,8 @@ window.apf.treeKontextmenu = function(node) {
                                     window.apf.deleted = window.apf.jber;
                                     window.apf.deleted.typ = "jber";
                                     var deleteJber = $.ajax({
-                                        type: 'post',
-                                        url: 'api/delete/apflora/tabelle=tblJBer/tabelleIdFeld=JBerId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                                        type: 'delete',
+                                        url: 'api/v1/apflora/tabelle=tblJBer/tabelleIdFeld=JBerId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
                                     deleteJber.done(function() {
@@ -8332,7 +8332,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertJberUebersicht = $.ajax({
                             type: 'post',
-                            url: 'api/insert/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wert=' + $.jstree._reference(aktiver_node).get_text(aktiver_node) + '/user=' + sessionStorage.User,
+                            url: 'api/v1/insert/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wert=' + $.jstree._reference(aktiver_node).get_text(aktiver_node) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
                         insertJberUebersicht.done(function() {
@@ -8378,8 +8378,8 @@ window.apf.treeKontextmenu = function(node) {
                                     window.apf.deleted = window.apf.jber_übersicht;
                                     window.apf.deleted.typ = "jber_uebersicht";
                                     var deleteJberUebersicht = $.ajax({
-                                        type: 'post',
-                                        url: 'api/delete/apflora/tabelle=tblJBerUebersicht/tabelleIdFeld=JbuJahr/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                                        type: 'delete',
+                                        url: 'api/v1/apflora/tabelle=tblJBerUebersicht/tabelleIdFeld=JbuJahr/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
                                     deleteJberUebersicht.done(function() {
@@ -8411,7 +8411,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertBer = $.ajax({
                             type: 'post',
-                            url: 'api/insert/apflora/tabelle=tblBer/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) +'/user=' + sessionStorage.User,
+                            url: 'api/v1/insert/apflora/tabelle=tblBer/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) +'/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
                         insertBer.done(function(id) {
@@ -8435,7 +8435,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertBer_2 = $.ajax({
                             type: 'post',
-                            url: 'api/insert/apflora/tabelle=tblBer/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) +'/user=' + sessionStorage.User,
+                            url: 'api/v1/insert/apflora/tabelle=tblBer/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) +'/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
                         insertBer_2.done(function(id) {
@@ -8478,8 +8478,8 @@ window.apf.treeKontextmenu = function(node) {
                                     window.apf.deleted = window.apf.ber;
                                     window.apf.deleted.typ = "ber";
                                     var deleteBer = $.ajax({
-                                        type: 'post',
-                                        url: 'api/delete/apflora/tabelle=tblBer/tabelleIdFeld=BerId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                                        type: 'delete',
+                                        url: 'api/v1/apflora/tabelle=tblBer/tabelleIdFeld=BerId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
                                     deleteBer.done(function() {
@@ -8513,7 +8513,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertAssozarten = $.ajax({
                             type: 'post',
-                            url: 'api/insert/apflora/tabelle=tblAssozArten/feld=AaApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
+                            url: 'api/v1/insert/apflora/tabelle=tblAssozArten/feld=AaApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
                         insertAssozarten.done(function(id) {
@@ -8537,7 +8537,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertAssozarten_2 = $.ajax({
                             type: 'post',
-                            url: 'api/insert/apflora/tabelle=tblAssozArten/feld=AaApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
+                            url: 'api/v1/insert/apflora/tabelle=tblAssozArten/feld=AaApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
                         insertAssozarten_2.done(function(id) {
@@ -8580,8 +8580,8 @@ window.apf.treeKontextmenu = function(node) {
                                     window.apf.deleted = window.apf.assozarten;
                                     window.apf.deleted.typ = "assozarten";
                                     var deleteAssozarten = $.ajax({
-                                        type: 'post',
-                                        url: 'api/delete/apflora/tabelle=tblAssozArten/tabelleIdFeld=AaId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                                        type: 'delete',
+                                        url: 'api/v1/apflora/tabelle=tblAssozArten/tabelleIdFeld=AaId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
                                     deleteAssozarten.done(function() {
@@ -10358,7 +10358,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var getBeobKarte = $.ajax({
                             type: 'get',
-                            url: '/api/beobKarte/apId=/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/beobId=/nichtZuzuordnen=',
+                            url: '/api/v1/beobKarte/apId=/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/beobId=/nichtZuzuordnen=',
                             dataType: 'json'
                         });
                         getBeobKarte.done(function(data) {
@@ -10406,7 +10406,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var getBeobKarte_2 = $.ajax({
                             type: 'get',
-                            url: '/api/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen=',
+                            url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen=',
                             dataType: 'json'
                         });
                         getBeobKarte_2.done(function(data) {
@@ -10429,7 +10429,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var getBeobKarte_3 = $.ajax({
                             type: 'get',
-                            url: '/api/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen=',
+                            url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen=',
                             dataType: 'json'
                         });
                         getBeobKarte_3.done(function(beob) {
@@ -10621,7 +10621,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var getBeobKarte_4 = $.ajax({
                             type: 'get',
-                            url: '/api/beobKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen=',
+                            url: '/api/v1/beobKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen=',
                             dataType: 'json'
                         });
                         getBeobKarte_4.done(function(data) {
@@ -10644,7 +10644,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var getBeobKarte_5 = $.ajax({
                             type: 'get',
-                            url: '/api/beobKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen=',
+                            url: '/api/v1/beobKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen=',
                             dataType: 'json'
                         });
                         getBeobKarte_5.done(function(beob) {
@@ -10695,7 +10695,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var getBeobKarte_6 = $.ajax({
                             type: 'get',
-                            url: '/api/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen=',
+                            url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen=',
                             dataType: 'json'
                         });
                         getBeobKarte_6.done(function(data) {
@@ -10718,7 +10718,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var getBeobKarte_7 = $.ajax({
                             type: 'get',
-                            url: '/api/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen=',
+                            url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen=',
                             dataType: 'json'
                         });
                         getBeobKarte_7.done(function(beob) {
@@ -10792,7 +10792,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var getBeobKarte_8 = $.ajax({
                             type: 'get',
-                            url: '/api/beobKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen=1',
+                            url: '/api/v1/beobKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen=1',
                             dataType: 'json'
                         });
                         getBeobKarte_8.done(function(data) {
@@ -10829,7 +10829,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var getBeobKarte_9 = $.ajax({
                             type: 'get',
-                            url: '/api/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen=',
+                            url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen=',
                             dataType: 'json'
                         });
                         getBeobKarte_9.done(function(data) {

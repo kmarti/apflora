@@ -15,7 +15,7 @@ var initiiereIdealbiotop = function() {
     // Daten für die idealbiotop aus der DB holen
     var getIdealbiotop = $.ajax({
             type: 'get',
-            url: '/api/select/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wertNumber=' + localStorage.ap_id,
+            url: '/api/v1/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wertNumber=' + localStorage.ap_id,
             dataType: 'json'
         }),
         $IbErstelldatum = $("#IbErstelldatum");
@@ -61,7 +61,7 @@ var initiiereIdealbiotop = function() {
             // null zurückgekommen > Datensatz schaffen
             var insertIdealbiotop = $.ajax({
                 type: 'post',
-                url: '/api/insert/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wert=' + localStorage.ap_id + '/user=' + sessionStorage.User,
+                url: '/api/v1/insert/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wert=' + localStorage.ap_id + '/user=' + sessionStorage.User,
                 dataType: 'json'
             });
             insertIdealbiotop.done(function(data) {

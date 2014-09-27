@@ -37,7 +37,7 @@ var initiiereBer = function() {
     // Daten für die ber aus der DB holen
     var getBer = $.ajax({
             type: 'get',
-            url: '/api/select/apflora/tabelle=tblBer/feld=BerId/wertNumber=' + localStorage.ber_id,
+            url: '/api/v1/apflora/tabelle=tblBer/feld=BerId/wertNumber=' + localStorage.ber_id,
             dataType: 'json'
         }),
         $BerAutor = $("#BerAutor"),

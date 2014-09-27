@@ -40,7 +40,7 @@ var initiiereAp = function() {
                 if (!window.apf.adressen_html) {
                     var getAdressen = $.ajax({
                         type: 'get',
-                        url: 'api/adressen',
+                        url: 'api/v1/adressen',
                         dataType: 'json'
                     });
                     getAdressen.always(function(data2) {

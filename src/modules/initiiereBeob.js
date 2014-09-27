@@ -37,9 +37,9 @@ var initiiereBeob = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
 
     // EvAB oder Infospezies? > entsprechende url zusammensetzen
     if (beobTyp === 'evab') {
-        url = 'api/select/beob/tabelle=tblBeobEvab/feld=NO_NOTE_PROJET/wertString=' + beobId;
+        url = 'api/v1/beob/tabelle=tblBeobEvab/feld=NO_NOTE_PROJET/wertString=' + beobId;
     } else {
-        url = 'api/select/beob/tabelle=tblBeobInfospezies/feld=NO_NOTE/wertNumber=' + beobId;
+        url = 'api/v1/beob/tabelle=tblBeobInfospezies/feld=NO_NOTE/wertNumber=' + beobId;
     }
 
     // Daten für die beob aus der DB holen
@@ -60,7 +60,7 @@ var initiiereBeob = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
             $("#beob_table").html(html_beobfelder);
 
             // Abstand zu TPop aus der DB holen
-            url_distzutpop = 'api/beobDistzutpop' + capitaliseFirstLetter(beobTyp) + '/beobId=' + beobId;
+            url_distzutpop = 'api/v1/beobDistzutpop' + capitaliseFirstLetter(beobTyp) + '/beobId=' + beobId;
             var getDistZuTPop = $.ajax({
                 type: 'get',
                 url: url_distzutpop,
@@ -100,7 +100,7 @@ var initiiereBeob = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
                         // Daten der Zuordnung holen
                         var getBeobZuordnung = $.ajax({
                             type: 'get',
-                            url: 'api/select/apflora/tabelle=tblBeobZuordnung/feld=NO_NOTE/wertString=' + beobId,
+                            url: 'api/v1/apflora/tabelle=tblBeobZuordnung/feld=NO_NOTE/wertString=' + beobId,
                             dataType: 'json'
                         });
                         getBeobZuordnung.done(function(data) {

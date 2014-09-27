@@ -37,7 +37,7 @@ var initiiereErfkrit = function() {
     // Daten für die erfkrit aus der DB holen
     var getErfkrit = $.ajax({
             type: 'get',
-            url: 'api/select/apflora/tabelle=tblErfKrit/feld=ErfkritId/wertString=' + localStorage.erfkrit_id,
+            url: 'api/v1/apflora/tabelle=tblErfKrit/feld=ErfkritId/wertString=' + localStorage.erfkrit_id,
             dataType: 'json'
         }),
         $ErfkritErreichungsgrad = $("#ErfkritErreichungsgrad");

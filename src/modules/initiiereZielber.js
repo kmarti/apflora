@@ -15,7 +15,7 @@ var initiiereZielber = function() {
     // Daten für die zielber aus der DB holen
     var getZielBer = $.ajax({
             type: 'get',
-            url: 'api/select/apflora/tabelle=tblZielBericht/feld=ZielBerId/wertString=' + localStorage.zielber_id,
+            url: 'api/v1/apflora/tabelle=tblZielBericht/feld=ZielBerId/wertString=' + localStorage.zielber_id,
             dataType: 'json'
         }),
         $ZielBerJahr = $("#ZielBerJahr");

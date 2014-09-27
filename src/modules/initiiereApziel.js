@@ -17,7 +17,7 @@ var initiiereApziel = function() {
     // Daten für die apziel aus der DB holen
     var getApZiel = $.ajax({
         type: 'get',
-        url: 'api/select/apflora/tabelle=tblZiel/feld=ZielId/wertNumber=' + localStorage.apziel_id,
+        url: 'api/v1/apflora/tabelle=tblZiel/feld=ZielId/wertNumber=' + localStorage.apziel_id,
         dataType: 'json'
     });
     getApZiel.done(function(data) {

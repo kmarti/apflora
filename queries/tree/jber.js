@@ -23,8 +23,7 @@ var returnFunction = function(request, reply) {
                 connection.query(
                     'SELECT JBerId, ApArtId, JBerJahr FROM tblJBer where ApArtId = ' + apId + ' ORDER BY JBerJahr',
                     function (err, jber) {
-                        if (err) callback(err);
-                        callback(null, jber);
+                        callback(err, jber);
                     }
                 )
             },
@@ -32,8 +31,7 @@ var returnFunction = function(request, reply) {
                 connection.query(
                     'SELECT JbuJahr FROM tblJBerUebersicht',
                     function (err, jberÜbersicht) {
-                        if (err) callback(err);
-                        callback(null, jberÜbersicht);
+                        callback(err, jberÜbersicht);
                     }
                 );
             }

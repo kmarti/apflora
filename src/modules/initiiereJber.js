@@ -38,7 +38,7 @@ var initiiereJber = function() {
     // Daten für die jber aus der DB holen
     var getJber = $.ajax({
             type: 'get',
-            url: '/api/select/apflora/tabelle=tblJBer/feld=JBerId/wertNumber=' + localStorage.jber_id,
+            url: '/api/v1/apflora/tabelle=tblJBer/feld=JBerId/wertNumber=' + localStorage.jber_id,
             dataType: 'json'
         }),
         $JBerJahr = $("#JBerJahr");
@@ -74,7 +74,7 @@ var initiiereJber = function() {
             if (!window.apf.adressen_html) {
                 var getAdressen = $.ajax({
                     type: 'get',
-                    url: 'api/adressen',
+                    url: 'api/v1/adressen',
                     dataType: 'json'
                 });
                 getAdressen.always(function(data2) {

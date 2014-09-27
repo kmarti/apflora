@@ -15,7 +15,7 @@ var initiiereJberUebersicht = function() {
     // Daten für die jber_uebersicht aus der DB holen
     var getJberÜbersicht = $.ajax({
             type: 'get',
-            url: 'api/select/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wertNumber=' + localStorage.jber_uebersicht_id,
+            url: 'api/v1/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wertNumber=' + localStorage.jber_uebersicht_id,
             dataType: 'json'
         }),
         $JbuJahr = $("#JbuJahr");
