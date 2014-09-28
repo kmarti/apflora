@@ -124,17 +124,8 @@ var returnFunction = function(request, reply) {
                 , popMassnBerListe        = results.popMassnBerListe
                 ;
 
-            var apziele,
-                zielbere,
-                popOrdnerNode = {},
-                popOrdnerNodeChildren,
-                popNode = {},
-                popNodeChildren = [],
-                apzielNode = {},
-                apzielNodeChildren = [],
-                apzielOrdnerNode = {},
-                apzielOrdnerNodeChildren = [],
-                zielberNode = {};
+            var popOrdnerNode = {},
+                popOrdnerNodeChildren;
 
             // node für ap_ordner_pop aufbauen
             popOrdnerNode.data = 'Populationen (' + popListe.length + ')';
@@ -152,6 +143,17 @@ var returnFunction = function(request, reply) {
             }).PopNr;
 
             _.each(popListe, function(pop) {
+                var popNode = {},
+                    popNodeChildren = [],
+                    popNodeTpopOrdner = {},
+                    popNodePopberOrdner = {},
+                    popNodeMassnberOrdner = {},
+                    popNodeTpopOrdnerChildren = [],
+                    popNodePopberOrdnerChildren = [],
+                    popNodeMassnberOrdnerChildren = [],
+                    tpopVonPop = [],
+                    popberVonPop = [],
+                    massnberVonPop = [];
 
                 pop.PopNr = ergänzePopNrUmFührendeNullen(popNrMax, pop.PopNr);
 
@@ -180,58 +182,46 @@ var returnFunction = function(request, reply) {
                     typ: 'pop',
                     sort: popSort
                 };
-                popNodeChildren = [];
                 // popNode.children ist ein Array, der enthält: pop_ordner_tpop, pop_ordner_popber, pop_ordner_massnber
+                popNodeChildren = [];
+
+                // Listen der nächsten Ebene erstellen
+                tpopVonPop = _.filter(tpopListe, function(tpop) {
+                    return tpop.PopId === pop.PopId;
+                });
+                popberVonPop = _.filter(popBerListe, function(popBer) {
+                    return popBer.PopId === pop.PopId;
+                });
+                massnberVonPop = _.filter(popMassnBerListe, function(popMassnBer) {
+                    return popMassnBer.PopId === pop.PopId;
+                });
+
+                popNodeTpopOrdner.data = 'Teilpopulationen (' + tpopVonPop.length + ')';
+                popNodeTpopOrdner.attr = {
+                    id: pop.PopId,
+                    typ: 'pop_ordner_tpop'
+                };
+                popNodeTpopOrdner.children = popNodeTpopOrdnerChildren;
+                popNodeChildren.push(popNodeTpopOrdner);
+
+                popNodePopberOrdner.data = 'Populations-Berichte (' + popberVonPop.length + ')';
+                popNodePopberOrdner.attr = {
+                    id: pop.PopId,
+                    typ: 'pop_ordner_popber'
+                };
+                popNodePopberOrdner.children = popNodePopberOrdnerChildren;
+                popNodeChildren.push(popNodePopberOrdner);
+
+                popNodeMassnberOrdner.data = 'Massnahmen-Berichte (' + massnberVonPop.length + ')';
+                popNodeMassnberOrdner.attr = {
+                    id: pop.PopId,
+                    typ: 'pop_ordner_massnber'
+                };
+                popNodeMassnberOrdner.children = popNodeMassnberOrdnerChildren;
+                popNodeChildren.push(popNodeMassnberOrdner);
+                
                 popNode.children = popNodeChildren;
                 popOrdnerNodeChildren.push(popNode);
-
-                /*_.each(apziele, function(apziel) {
-                 zielbere = _.filter(tpopListe, function(zielber) {
-                 return zielber.ZielId === apziel.ZielId;
-                 });
-                 // node für apziele aufbauen
-                 apzielNode = {};
-                 apzielNode.data = apziel.ZielBezeichnung || '(Ziel nicht beschrieben)';
-                 apzielNode.attr = {
-                 id: apziel.ZielId,
-                 typ: 'apziel'
-                 };
-                 apzielNodeChildren = [];
-                 apzielNode.children = apzielNodeChildren;
-                 popNodeChildren.push(apzielNode);
-
-                 // ...und gleich seinen node für zielber-Ordner aufbauen
-                 apzielOrdnerNode = {};
-                 apzielOrdnerNode.data = 'Ziel-Berichte (' + zielbere.length + ')';
-                 apzielOrdnerNode.attr = {
-                 id: apziel.ZielId,
-                 typ: 'zielber_ordner'
-                 };
-                 apzielOrdnerNodeChildren = [];
-                 apzielOrdnerNode.children = apzielOrdnerNodeChildren;
-                 apzielNodeChildren.push(apzielOrdnerNode);
-
-                 _.each(zielbere, function(zielber) {
-                 var data = '';
-                 if (zielber.ZielBerJahr && zielber.ZielBerErreichung) {
-                 data = zielber.ZielBerJahr + ': ' + zielber.ZielBerErreichung;
-                 } else if (zielber.ZielBerJahr) {
-                 data = zielber.ZielBerJahr + ': (keine Entwicklung)';
-                 } else if (zielber.ZielBerErreichung) {
-                 data = '(kein jahr): ' + zielber.ZielBerErreichung;
-                 } else {
-                 data = '(kein jahr): (keine Entwicklung)';
-                 }
-                 // nodes für zielbere aufbauen
-                 zielberNode = {};
-                 zielberNode.data = data;
-                 zielberNode.attr = {
-                 id: zielber.ZielBerId,
-                 typ: 'zielber'
-                 };
-                 apzielOrdnerNodeChildren.push(zielberNode);
-                 });
-                 });*/
             });
             reply(null, popOrdnerNode);
         });
