@@ -24101,7 +24101,7 @@ window.apf.erstelle_tree = function(ApArtId) {
             initiiere_beob          = require('./modules/initiiereBeob'),
             initiiere_idealbiotop   = require('./modules/initiiereIdealbiotop'),
             initiiereAp             = require('./modules/initiiereAp'),
-            initiierePop            = require('./modules/initiiereBeob'),
+            initiierePop            = require('./modules/initiierePop'),
             initiiereApziel         = require('./modules/initiiereApziel'),
             initiiereZielber        = require('./modules/initiiereZielber'),
             initiiereErfkrit        = require('./modules/initiiereErfkrit'),
@@ -60255,9 +60255,9 @@ var $ = require('jquery'),
     _ = require('underscore'),
     capitaliseFirstLetter = require('../lib/capitaliseFirstLetter'),
     initiiereAp = require('./initiiereAp'),
-    initiierePop = require('./initiiereBeob');
+    initiiereBeob = require('./initiiereBeob');
 
-var initiiereBeob = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
+var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
     // beob_status markiert, ob die Beobachtung:
     // - schon zugewiesen ist (zugeordnet)
     // - noch nicht beurteilt ist (nicht_beurteilt)
@@ -60274,7 +60274,7 @@ var initiiereBeob = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
         if (beobStatus === "nicht_beurteilt" || beobStatus === "nicht_zuzuordnen") {
             initiiereAp();
         } else {
-            initiierePop();
+            initiiereBeob();
         }
         return;
     }
@@ -60399,7 +60399,7 @@ var initiiereBeob = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
     });
 };
 
-module.exports = initiiereBeob;
+module.exports = returnFunction;
 },{"../lib/capitaliseFirstLetter":8,"./initiiereAp":22,"./initiiereBeob":25,"jquery":4,"underscore":5}],26:[function(require,module,exports){
 'use strict';
 
@@ -60864,10 +60864,10 @@ module.exports = initiiereJberUebersicht;
 'use strict';
 
 var $ = require('jquery'),
-    limiter = require('../lib/limiter');
-    //initiiereAp = require('./initiiereAp');
+    limiter = require('../lib/limiter'),
+    initiiereAp = require('./initiiereAp');
 
-var initiierePop = function() {
+var initiierePop = function(ohne_zu_zeigen) {
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
@@ -60943,7 +60943,7 @@ var initiierePop = function() {
 };
 
 module.exports = initiierePop;
-},{"../lib/limiter":17,"jquery":4}],33:[function(require,module,exports){
+},{"../lib/limiter":17,"./initiiereAp":22,"jquery":4}],33:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -61038,7 +61038,7 @@ var $ = require('jquery'),
     //initiierePop = require('./initiierePop');
 //require('jquery-ui');
 
-var initiiereTPop = function() {
+var initiiereTPop = function(ohne_zu_zeigen) {
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
