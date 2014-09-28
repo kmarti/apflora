@@ -7740,15 +7740,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertPop = $.ajax({
                             type: 'post',
-                            url: 'php/pop_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-                                "typ": "pop",
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/v1/insert/apflora/tabelle=tblPopulation/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertPop.always(function(id) {
+                        insertPop.done(function(id) {
                             var strukturtyp = "pop",
                                 beschriftung = "neue Population";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
@@ -8614,15 +8609,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertPop_2 = $.ajax( {
                             type: 'post',
-                            url: 'php/pop_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")),
-                                "typ": "pop",
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/v1/insert/apflora/tabelle=tblPopulation/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertPop_2.always(function(id) {
+                        insertPop_2.done(function(id) {
                             var strukturtyp = "pop",
                                 beschriftung = "neue Population";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
