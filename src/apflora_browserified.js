@@ -3928,6 +3928,7 @@ window.apf.olmap.erstellePopLayer = function(popliste, popid_markiert, visible) 
 	    // Schaltfläche olmap_auswaehlen aktivieren
 	    $('#olmap_auswaehlen')
             .prop('checked', true)
+            .button()
             .button("refresh");
     }
 
@@ -4053,6 +4054,7 @@ window.apf.olmap.erstelleTPopLayer = function(tpop_liste, tpopid_markiert, visib
         // Schaltfläche olmap_auswaehlen aktivieren
         $('#olmap_auswaehlen')
             .prop('checked', true)
+            .button()
             .button("refresh");
     }
 
