@@ -23480,6 +23480,7 @@ window.apf.olmap.blendeOlmapExportieren = function() {
     map_size = window.apf.olmap.map.getSize();
     // resolution nicht berücksichtigen - das funktionierte nicht zuverlässig und gab Probleme
     anz_kartenpixel = /*window.apf.olmap.map.getView().getResolution() * */map_size[0] * map_size[1];
+    $('#olmap_exportieren').button();
     if (anz_kartenpixel > 500000) {
         $('#olmap_exportieren').button("disable");
         tooltip_title = 'Karte als png herunterladen<br>Diese Funktion ist inaktiv<br>Um sie zu aktivieren, müssen Sie die Karte verkleinern<br>Packen Sie dazu die untere rechte Ecke und ziehen Sie sie nach oben links';
@@ -26382,8 +26383,8 @@ window.apf.olmap.wähleAusschnittFürÜbergebenePop = function(pop_liste_markier
         y_min,
         // bounds der anzuzeigenden bestimmen
 		popid_markiert = [];
-	if (pop_liste_markiert && pop_liste_markiert.rows.length > 0) {
-        _.each(pop_liste_markiert.rows, function(pop) {
+	if (pop_liste_markiert && pop_liste_markiert.length > 0) {
+        _.each(pop_liste_markiert, function(pop) {
             popid_markiert.push(pop.PopId);
             xkoord_array.push(pop.PopXKoord);
 	        ykoord_array.push(pop.PopYKoord);
@@ -31598,14 +31599,11 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var getPopChKarte_2 = $.ajax({
                             type: 'get',
-                            url: 'php/pop_ch_karte.php',
-                            dataType: 'json',
-                            data: {
-                                "pop_id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                            }
+                            url: 'api/v1/popChKarte/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                            dataType: 'json'
                         });
-                        getPopChKarte_2.always(function(data) {
-                            if (data.rows.length > 0) {
+                        getPopChKarte_2.done(function(data) {
+                            if (data && data.length > 0) {
                                 window.apf.zeigePopAufOlmap(data);
                             } else {
                                 window.apf.melde("Die Population hat keine Koordinaten", "Aktion abgebrochen");
