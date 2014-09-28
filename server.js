@@ -47,7 +47,8 @@ var  _       = require('underscore')
     , queryBeobDistzutpopEvab         = require('./queries/beobDistzutpopEvab')
     , queryBeobDistzutpopInfospezies  = require('./queries/beobDistzutpopInfospezies')
     , queryBeobKarte                  = require('./queries/beobKarte')
-    , queryPopKarte                  = require('./queries/popKarte')
+    , queryPopKarte                   = require('./queries/popKarte')
+    , queryPopChKarte                 = require('./queries/popChKarte')
     ;
 
 connectionApflora.connect();
@@ -121,9 +122,7 @@ server.method('gemeinden', serverMethodGemeinden, {
 server.route({
     method: 'GET',
     path: '/api/v1/gemeinden',
-    handler: function (request, reply) {
-        server.methods.gemeinden(request, reply);
-    }
+    handler: server.methods.gemeinden
 });
 
 server.method('artliste', serverMethodArtliste, {
@@ -133,9 +132,7 @@ server.route({
     method: 'GET',
     path: '/api/v1/artliste',
     config: {
-        handler: function (request, reply) {
-            server.methods.artliste(request, reply);
-        }
+        handler: server.methods.artliste
     }
 });
 
@@ -145,17 +142,13 @@ server.method('apliste', serverMethodApliste, {
 server.route({
     method: 'GET',
     path: '/api/v1/apliste/programm={programm}',
-    handler: function (request, reply) {
-        server.methods.apliste(request, reply);
-    }
+    handler: server.methods.apliste
 });
 
 server.route({
     method: 'GET',
     path: '/api/v1/anmeldung/name={name}/pwd={pwd}',
-    handler: function (request, reply) {
-        queryAnmeldung(request, reply);
-    }
+    handler: queryAnmeldung
 });
 
 server.method('adressen', serverMethodAdressen, {
@@ -164,81 +157,61 @@ server.method('adressen', serverMethodAdressen, {
 server.route({
     method: 'GET',
     path: '/api/v1/adressen',
-    handler: function (request, reply) {
-        server.methods.adressen(request, reply);
-    }
+    handler: server.methods.adressen
 });
 
 server.route({
     method: 'GET',
     path: '/api/v1/apflora/tabelle={tabelle}/feld={feld}/wertNumber={wert}',
-    handler: function (request, reply) {
-        queryTabelleSelectApfloraNumber(request, reply);
-    }
+    handler: queryTabelleSelectApfloraNumber
 });
 
 server.route({
     method: 'GET',
     path: '/api/v1/beob/tabelle={tabelle}/feld={feld}/wertNumber={wert}',
-    handler: function (request, reply) {
-        queryTabelleSelectBeobNumber(request, reply);
-    }
+    handler: queryTabelleSelectBeobNumber
 });
 
 server.route({
     method: 'GET',
     path: '/api/v1/apflora/tabelle={tabelle}/feld={feld}/wertString={wert}',
-    handler: function (request, reply) {
-        queryTabelleSelectApfloraString(request, reply);
-    }
+    handler: queryTabelleSelectApfloraString
 });
 
 server.route({
     method: 'GET',
     path: '/api/v1/beob/tabelle={tabelle}/feld={feld}/wertString={wert}',
-    handler: function (request, reply) {
-        queryTabelleSelectBeobString(request, reply);
-    }
+    handler: queryTabelleSelectBeobString
 });
 
 server.route({
     method: 'POST',
     path: '/api/v1/update/apflora/tabelle={tabelle}/tabelleIdFeld={tabelleIdFeld}/tabelleId={tabelleId}/feld={feld}/wert={wert?}/user={user}',
-    handler: function (request, reply) {
-        queryTabelleUpdateApflora(request, reply);
-    }
+    handler: queryTabelleUpdateApflora
 });
 
 server.route({
     method: 'POST',
     path: '/api/v1/update/beob/tabelle={tabelle}/tabelleIdFeld={tabelleIdFeld}/tabelleId={tabelleId}/feld={feld}/wert={wert?}/user={user}',
-    handler: function (request, reply) {
-        queryTabelleUpdateBeob(request, reply);
-    }
+    handler: queryTabelleUpdateBeob
 });
 
 server.route({
     method: 'POST',
     path: '/api/v1/insert/apflora/tabelle={tabelle}/feld={feld}/wert={wert}/user={user}',
-    handler: function (request, reply) {
-        queryTabelleInsertApflora(request, reply);
-    }
+    handler: queryTabelleInsertApflora
 });
 
 server.route({
     method: 'DELETE',
     path: '/api/v1/apflora/tabelle={tabelle}/tabelleIdFeld={tabelleIdFeld}/tabelleId={tabelleId}',
-    handler: function (request, reply) {
-        queryTabelleDeleteApflora(request, reply);
-    }
+    handler: queryTabelleDeleteApflora
 });
 
 server.route({
     method: 'GET',
     path: '/ap={apId}',
-    handler: function (request, reply) {
-        queryAp(request, reply);
-    }
+    handler: queryAp
 });
 
 /**
@@ -286,31 +259,29 @@ server.route({
 server.route({
     method: 'GET',
     path: '/api/v1/beobDistzutpopEvab/beobId={beobId}',
-    handler: function (request, reply) {
-        queryBeobDistzutpopEvab(request, reply);
-    }
+    handler: queryBeobDistzutpopEvab
 });
 
 server.route({
     method: 'GET',
     path: '/api/v1/beobDistzutpopInfospezies/beobId={beobId}',
-    handler: function (request, reply) {
-        queryBeobDistzutpopInfospezies(request, reply);
-    }
+    handler: queryBeobDistzutpopInfospezies
 });
 
 server.route({
     method: 'GET',
     path: '/api/v1/beobKarte/apId={apId?}/tpopId={tpopId?}/beobId={beobId?}/nichtZuzuordnen={nichtZuzuordnen?}',
-    handler: function (request, reply) {
-        queryBeobKarte(request, reply);
-    }
+    handler: queryBeobKarte
 });
 
 server.route({
     method: 'GET',
     path: '/api/v1/popKarte/popId={popId}',
-    handler: function (request, reply) {
-        queryPopKarte(request, reply);
-    }
+    handler: queryPopKarte
+});
+
+server.route({
+    method: 'GET',
+    path: '/api/v1/popChKarte/popId={popId}',
+    handler: queryPopChKarte
 });

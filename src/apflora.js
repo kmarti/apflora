@@ -7713,7 +7713,7 @@ window.apf.treeKontextmenu = function(node) {
         parent_nodeText,
         grandparent_node,
         neue_apziele_node,
-        zeigeTPop = require('./modules/zeigeTPop');
+        zeigeTPop =  require('./modules/zeigeTPop');
     // relevante nodes zwischenspeichern
     // aktiver_node = node;	 das hat auch funktioniert
     aktiver_node = $("#tree").jstree('get_selected');
