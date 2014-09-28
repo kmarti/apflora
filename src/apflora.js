@@ -72,17 +72,14 @@ window.apf.setzeWindowPop = function(id) {
 	localStorage.pop_id = id;
 	var getPop = $.ajax({
 		type: 'get',
-		url: 'php/pop.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.pop_id
-		}
+		url: 'api/v1/apflora/tabelle=tblPopulation/feld=PopId/wertNumber=' + localStorage.pop_id,
+		dataType: 'json'
 	});
-	getPop.always(function(data) {
+	getPop.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
+		if (data && data[0]) {
 			// pop bereitstellen
-			window.apf.pop = data;
+			window.apf.pop = data[0];
 		}
 	});
 };
