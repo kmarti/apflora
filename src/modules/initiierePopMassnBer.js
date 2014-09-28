@@ -15,15 +15,13 @@ var initiierePopMassnBer = function() {
     // Daten für die pop aus der DB holen
     var getPopmassnber = $.ajax({
         type: 'get',
-        url: 'php/popmassnber.php',
-        dataType: 'json',
-        data: {
-            "id": localStorage.popmassnber_id
-        }
+        url: 'api/v1/apflora/tabelle=tblPopMassnBericht/feld=PopMassnBerId/wertNumber=' + localStorage.popmassnber_id,
+        dataType: 'json'
     });
-    getPopmassnber.always(function(data) {
+    getPopmassnber.done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-        if (data) {
+        if (data && data[0]) {
+            data = data[0];
             // popmassnber bereitstellen
             window.apf.popmassnber = data;
             // Felder mit Daten beliefern

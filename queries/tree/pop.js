@@ -219,6 +219,28 @@ var returnFunction = function(request, reply) {
                 };
                 popNodeMassnberOrdner.children = popNodeMassnberOrdnerChildren;
                 popNodeChildren.push(popNodeMassnberOrdner);
+
+                // massnber aufbauen
+                _.each(massnberVonPop, function(massnber) {
+                    var node  = {},
+                        nodeText;
+                    // Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
+                    if (massnber.PopMassnBerJahr && massnber.BeurteilTxt) {
+                        nodeText = massnber.PopMassnBerJahr + ": " + massnber.BeurteilTxt;
+                    } else if (massnber.PopMassnBerJahr) {
+                        nodeText = massnber.PopMassnBerJahr + ": (nicht beurteilt)";
+                    } else if (massnber.BeurteilTxt) {
+                        nodeText = "(kein Jahr): " + massnber.BeurteilTxt;
+                    } else {
+                        nodeText = "(kein Jahr): (nicht beurteilt)";
+                    }
+                    node.data = nodeText;
+                    node.attr = {
+                        id: massnber.PopMassnBerId,
+                        typ: 'popmassnber'
+                    };
+                    popNodeMassnberOrdnerChildren.push(node);
+                });
                 
                 popNode.children = popNodeChildren;
                 popOrdnerNodeChildren.push(popNode);

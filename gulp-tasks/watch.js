@@ -9,9 +9,12 @@ return gulp.task('watch', function() {
             'img/*',
             'kml/*',
             'queries/*',
+            'queries/tree/*',
             'serverMethods/*',
             'shp/*',
             'src/apflora.js',
+            'src/lib/*',
+            'src/modules/*',
             'index.html'
         ],
         ['dev_when_watch']

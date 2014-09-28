@@ -245,17 +245,14 @@ window.apf.setzeWindowPopmassnber = function(id) {
 	localStorage.popmassnber_id = id;
 	var getPopmassnber = $.ajax({
 		type: 'get',
-		url: 'php/popmassnber.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.popmassnber_id
-		}
+		url: 'api/v1/apflora/tabelle=tblPopMassnBericht/feld=PopMassnBerId/wertNumber=' + localStorage.popmassnber_id,
+		dataType: 'json'
 	});
-	getPopmassnber.always(function(data) {
+	getPopmassnber.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
+		if (data && data[0]) {
 			// popmassnber bereitstellen
-			window.apf.popmassnber = data;
+			window.apf.popmassnber = data[0];
 		}
 	});
 };
@@ -9284,14 +9281,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertPopMassnBer = $.ajax({
                             type: 'post',
-                            url: 'php/popmassnber_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/v1/insert/apflora/tabelle=tblPopMassnBericht/feld=PopId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertPopMassnBer.always(function(id) {
+                        insertPopMassnBer.done(function(id) {
                             var strukturtyp = "popmassnber",
                                 beschriftung = "neuer Massnahmen-Bericht";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
@@ -9312,15 +9305,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertPopMassnBer_2 = $.ajax({
                             type: 'post',
-                            url: 'php/popmassnber_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")),
-                                "typ": "popmassnber",
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/v1/insert/apflora/tabelle=tblPopMassnBericht/feld=PopId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertPopMassnBer_2.always(function(id) {
+                        insertPopMassnBer_2.done(function(id) {
                             var strukturtyp = "popmassnber",
                                 beschriftung = "neuer Massnahmen-Bericht";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
@@ -9354,14 +9342,11 @@ window.apf.treeKontextmenu = function(node) {
                                     window.apf.deleted = window.apf.popmassnber;
                                     window.apf.deleted.typ = "popmassnber";
                                     var deletePopMassnBer = $.ajax({
-                                        type: 'post',
-                                        url: 'php/popmassnber_delete.php',
-                                        dataType: 'json',
-                                        data: {
-                                            "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                                        }
+                                        type: 'delete',
+                                        url: 'api/v1/apflora/tabelle=tblPopMassnBericht/tabelleIdFeld=PopMassnBerId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                                        dataType: 'json'
                                     });
-                                    deletePopMassnBer.always(function() {
+                                    deletePopMassnBer.done(function() {
                                         delete localStorage.popmassnber_id;
                                         delete window.apf.popmassnber;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -38045,15 +38030,13 @@ var initiierePopMassnBer = function() {
     // Daten für die pop aus der DB holen
     var getPopmassnber = $.ajax({
         type: 'get',
-        url: 'php/popmassnber.php',
-        dataType: 'json',
-        data: {
-            "id": localStorage.popmassnber_id
-        }
+        url: 'api/v1/apflora/tabelle=tblPopMassnBericht/feld=PopMassnBerId/wertNumber=' + localStorage.popmassnber_id,
+        dataType: 'json'
     });
-    getPopmassnber.always(function(data) {
+    getPopmassnber.done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-        if (data) {
+        if (data && data[0]) {
+            data = data[0];
             // popmassnber bereitstellen
             window.apf.popmassnber = data;
             // Felder mit Daten beliefern
