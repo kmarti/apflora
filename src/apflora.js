@@ -8709,14 +8709,11 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var getPopKarte = $.ajax({
                             type: 'get',
-                            url: 'php/pop_karte.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                            }
+                            url: 'api/v1/popKarte/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                            dataType: 'json'
                         });
-                        getPopKarte.always(function(data) {
-                            if (data.rows.length > 0) {
+                        getPopKarte.done(function(data) {
+                            if (data && data.length > 0) {
                                 zeigeTPop(data);
                             } else {
                                 window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
@@ -8857,14 +8854,11 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var getPopKarte_2 = $.ajax({
                             type: 'get',
-                            url: 'php/pop_karte.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                            }
+                            url: 'api/v1/popKarte/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                            dataType: 'json'
                         });
-                        getPopKarte_2.always(function(data) {
-                            if (data.rows.length > 0) {
+                        getPopKarte_2.done(function(data) {
+                            if (data && data.length > 0) {
                                 zeigeTPop(data);
                             } else {
                                 window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");

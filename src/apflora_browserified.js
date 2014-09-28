@@ -8710,14 +8710,11 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var getPopKarte = $.ajax({
                             type: 'get',
-                            url: 'php/pop_karte.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                            }
+                            url: 'api/v1/popKarte/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                            dataType: 'json'
                         });
-                        getPopKarte.always(function(data) {
-                            if (data.rows.length > 0) {
+                        getPopKarte.done(function(data) {
+                            if (data && data.length > 0) {
                                 zeigeTPop(data);
                             } else {
                                 window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
@@ -8858,14 +8855,11 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var getPopKarte_2 = $.ajax({
                             type: 'get',
-                            url: 'php/pop_karte.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                            }
+                            url: 'api/v1/popKarte/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                            dataType: 'json'
                         });
-                        getPopKarte_2.always(function(data) {
-                            if (data.rows.length > 0) {
+                        getPopKarte_2.done(function(data) {
+                            if (data && data.length > 0) {
                                 zeigeTPop(data);
                             } else {
                                 window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
@@ -38893,7 +38887,7 @@ module.exports = initiiereZielber;
 var $ = require('jquery'),
     _ = require('underscore');
 
-var zeigeTPop = function() {
+var zeigeTPop = function(tpop_liste) {
     var anz_tpop,
         infowindow,
         tpop_beschriftung,
@@ -38921,18 +38915,18 @@ var zeigeTPop = function() {
     // TPopListe bearbeiten:
     // Objekte löschen, die keine Koordinaten haben
     // Lat und Lng ergänzen
-    _.each(tpop_liste.rows, function(tpop, index) {
+    _.each(tpop_liste, function(tpop, index) {
         if (!tpop.TPopXKoord || !tpop.TPopYKoord) {
             // tpop einsetzen geht nicht, weil Chrome Fehler meldet
-            delete tpop_liste.rows[index];
+            delete tpop_liste[index];
         } else {
             tpop.Lat = cHtoWGSlat(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
             tpop.Lng = cHtoWGSlng(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
         }
     });
     // TPop zählen
-    anz_tpop = tpop_liste.rows.length;
-    // Karte mal auf Zürich zentrieren, falls in den TPopListe.rows keine Koordinaten kommen
+    anz_tpop = tpop_liste.length;
+    // Karte mal auf Zürich zentrieren, falls in den TPopListe keine Koordinaten kommen
     // auf die die Karte ausgerichtet werden kann
     lat = 47.383333;
     lng = 8.533333;
@@ -38948,7 +38942,7 @@ var zeigeTPop = function() {
     bounds = new google.maps.LatLngBounds();
     // für alle TPop Marker erstellen
     markers = [];
-    _.each(tpop_liste.rows, function(tpop) {
+    _.each(tpop_liste, function(tpop) {
         tpop_id = tpop.TPopId;
         tpop_beschriftung = window.apf.beschrifteTPopMitNrFürKarte(tpop.PopNr, tpop.TPopNr);
         latlng2 = new google.maps.LatLng(tpop.Lat, tpop.Lng);
