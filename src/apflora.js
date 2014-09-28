@@ -8651,7 +8651,7 @@ window.apf.treeKontextmenu = function(node) {
                                     window.apf.deleted = window.apf.pop;
                                     window.apf.deleted.typ = "pop";
                                     var deletePop = $.ajax({
-                                        type: 'post',
+                                        type: 'delete',
                                         url: 'api/v1/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
