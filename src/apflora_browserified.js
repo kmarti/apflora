@@ -4085,7 +4085,6 @@ window.apf.olmap.onFeatureUnselect = function(feature) {
 
 window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
 	'use strict';
-	window.tpop_liste = tpop_liste;
 	var anz_beob,
         anz_tpop,
         infowindow_beob,
@@ -4127,10 +4126,10 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
         beob.Lng = cHtoWGSlng(parseInt(beob.X), parseInt(beob.Y));
     });
 	// dito in TPopListe
-    _.each(tpop_liste.rows, function(tpop, index) {
+    _.each(tpop_liste, function(tpop, index) {
         if (!tpop.TPopXKoord || !tpop.TPopYKoord) {
             // tpop gibt in Chrome Fehler
-            delete tpop_liste.rows[index];
+            delete tpop_liste[index];
         } else {
             tpop.Lat = cHtoWGSlat(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
             tpop.Lng = cHtoWGSlng(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
@@ -4139,7 +4138,7 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
 	// Beob zählen
 	anz_beob = beob_liste.length;
 	// TPop zählen
-	anz_tpop = tpop_liste.rows.length;
+	anz_tpop = tpop_liste.length;
 	// Karte mal auf Zürich zentrieren, falls in den BeobListe.rows keine Koordinaten kommen
 	// auf die die Karte ausgerichtet werden kann
 	lat = 47.383333;
@@ -4157,7 +4156,7 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
 
 	// für alle TPop Marker erstellen
 	markers_tpop = [];
-    _.each(tpop_liste.rows, function(tpop) {
+    _.each(tpop_liste, function(tpop) {
         tpop_id = tpop.TPopId;
         latlng2 = new google.maps.LatLng(tpop.Lat, tpop.Lng);
         // Kartenausschnitt um diese Koordinate erweitern
@@ -7782,14 +7781,11 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var getApKarte = $.ajax({
                             type: 'get',
-                            url: 'php/ap_karte.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                            }
+                            url: 'api/v1/apKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                            dataType: 'json'
                         });
-                        getApKarte.always(function(data) {
-                            if (data.rows.length > 0) {
+                        getApKarte.done(function(data) {
+                            if (data && data.length > 0) {
                                 zeigeTPop(data);
                             } else {
                                 window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
@@ -10406,14 +10402,11 @@ window.apf.treeKontextmenu = function(node) {
                             if (beob.length > 0) {
                                 var getApKarte = $.ajax({
                                     type: 'get',
-                                    url: 'php/ap_karte.php',
-                                    dataType: 'json',
-                                    data: {
-                                        "id": localStorage.ap_id
-                                    }
+                                    url: 'api/v1/apKarte/apId=' + localStorage.ap_id,
+                                    dataType: 'json'
                                 });
-                                getApKarte.always(function(tpop) {
-                                    if (tpop.rows.length > 0) {
+                                getApKarte.done(function(tpop) {
+                                    if (tpop && tpop.length > 0) {
                                         window.apf.gmap.zeigeBeobUndTPop(beob, tpop);
                                     } else {
                                         window.apf.gmap.zeigeBeob(beob);
@@ -10621,13 +10614,10 @@ window.apf.treeKontextmenu = function(node) {
                             if (beob.length > 0) {
                                 $.ajax({
                                     type: 'get',
-                                    url: 'php/ap_karte.php',
+                                    url: 'api/v1/apKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                     dataType: 'json',
-                                    data: {
-                                        "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                                    },
                                     success: function(tpop) {
-                                        if (tpop.rows.length > 0) {
+                                        if (tpop && tpop.length > 0) {
                                             window.apf.gmap.zeigeBeobUndTPop(beob, tpop);
                                         } else {
                                             window.apf.gmap.zeigeBeob(beob);
@@ -10695,14 +10685,11 @@ window.apf.treeKontextmenu = function(node) {
                             if (beob.length > 0) {
                                 var getApKarte_2 = $.ajax({
                                     type: 'get',
-                                    url: 'php/ap_karte.php',
-                                    dataType: 'json',
-                                    data: {
-                                        "id": window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id"))
-                                    }
+                                    url: 'api/v1/apKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")),
+                                    dataType: 'json'
                                 });
-                                getApKarte_2.always(function(tpop) {
-                                    if (tpop.rows.length > 0) {
+                                getApKarte_2.done(function(tpop) {
+                                    if (tpop && tpop.length > 0) {
                                         window.apf.gmap.zeigeBeobUndTPop(beob, tpop);
                                     } else {
                                         window.apf.gmap.zeigeBeob(beob);
