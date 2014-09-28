@@ -51,6 +51,7 @@ var  _       = require('underscore')
     , queryPopKarte                   = require('./queries/popKarte')
     , queryPopKarteAlle               = require('./queries/popKarteAlle')
     , queryPopChKarte                 = require('./queries/popChKarte')
+    , queryPopsChKarte                = require('./queries/popsChKarte')
     , queryTPopKarteAlle              = require('./queries/tpopKarteAlle')
     ;
 
@@ -299,6 +300,12 @@ server.route({
     method: 'GET',
     path: '/api/v1/popChKarte/popId={popId}',
     handler: queryPopChKarte
+});
+
+server.route({
+    method: 'GET',
+    path: '/api/v1/popsChKarte/apId={apId}',
+    handler: queryPopsChKarte
 });
 
 server.route({

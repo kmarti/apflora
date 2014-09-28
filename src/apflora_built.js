@@ -30668,16 +30668,12 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var getPopsChKarte = $.ajax({
                             type: 'get',
-                            url: 'php/pops_ch_karte.php',
-                            dataType: 'json',
-                            data: {
-                                "ApArtId": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                            }
+                            url: 'api/v1/popsChKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                            dataType: 'json'
                         });
-                        getPopsChKarte.always(function(data) {
-                            if (data.rows.length > 0) {
+                        getPopsChKarte.done(function(data) {
+                            if (data && data.length > 0) {
                                 window.apf.zeigePopAufOlmap();
-                                //window.apf.zeigePopAufOlmap(data);
                             } else {
                                 window.apf.melde("Die Population hat keine Koordinaten", "Aktion abgebrochen");
                             }
