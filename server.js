@@ -48,7 +48,9 @@ var  _       = require('underscore')
     , queryBeobDistzutpopInfospezies  = require('./queries/beobDistzutpopInfospezies')
     , queryBeobKarte                  = require('./queries/beobKarte')
     , queryPopKarte                   = require('./queries/popKarte')
+    , queryPopKarteAlle               = require('./queries/popKarteAlle')
     , queryPopChKarte                 = require('./queries/popChKarte')
+    , queryTPopKarteAlle              = require('./queries/tpopKarteAlle')
     ;
 
 connectionApflora.connect();
@@ -282,6 +284,18 @@ server.route({
 
 server.route({
     method: 'GET',
+    path: '/api/v1/popKarteAlle/apId={apId}',
+    handler: queryPopKarteAlle
+});
+
+server.route({
+    method: 'GET',
     path: '/api/v1/popChKarte/popId={popId}',
     handler: queryPopChKarte
+});
+
+server.route({
+    method: 'GET',
+    path: '/api/v1/tpopKarteAlle/apId={apId}',
+    handler: queryTPopKarteAlle
 });

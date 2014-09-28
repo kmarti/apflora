@@ -3339,14 +3339,11 @@ window.apf.zeigeTPopAufOlmap = function(TPopListeMarkiert) {
 			// alle tpop holen
 			var getTPopKarteAlle = $.ajax({
 				type: 'get',
-				url: 'php/tpop_karte_alle.php',
-				dataType: 'json',
-				data: {
-					"ApArtId": window.apf.ap.ApArtId
-				}
+				url: 'api/v1/tpopKarteAlle/apId=' + window.apf.ap.ApArtId,
+				dataType: 'json'
 			});
 
-			getTPopKarteAlle.always(function(tpop_liste) {
+			getTPopKarteAlle.done(function(tpop_liste) {
 				$.when(
 					// Layer für Symbole und Beschriftung erstellen
 					window.apf.olmap.erstelleTPopLayer(tpop_liste, markierte_tpop.tpopid_markiert, true),
@@ -3391,14 +3388,11 @@ window.apf.zeigePopAufOlmap = function(PopListeMarkiert) {
 			// alle tpop holen
 			var getTPopKarteAlle_2 = $.ajax({
 				type: 'get',
-				url: 'php/tpop_karte_alle.php',
-				dataType: 'json',
-				data: {
-					"ApArtId": window.apf.ap.ApArtId
-				}
+				url: 'api/v1/tpopKarteAlle/apId=' + window.apf.ap.ApArtId,
+				dataType: 'json'
 			});
 
-			getTPopKarteAlle_2.always(function(TPopListe) {
+			getTPopKarteAlle_2.done(function(TPopListe) {
 				$.when(
 					// Layer für Symbole und Beschriftung erstellen
                     window.apf.olmap.erstelleTPopLayer(TPopListe),
@@ -3494,13 +3488,10 @@ window.apf.olmap.zeigePopInTPop = function(overlay_pop_visible, overlay_popnr_vi
 	var pop_gezeigt = $.Deferred(),
 		getPopKarteAlle = $.ajax({
 			type: 'get',
-			url: 'php/pop_karte_alle.php',
-			dataType: 'json',
-			data: {
-				"ApArtId": window.apf.ap.ApArtId
-			}
+			url: 'api/v1/popKarteAlle/apId=' + window.apf.ap.ApArtId,
+			dataType: 'json'
 		});
-	getPopKarteAlle.always(function(PopListe) {
+	getPopKarteAlle.done(function(PopListe) {
 		// Layer für Symbole und Beschriftung erstellen
 		$.when(
 			window.apf.olmap.erstellePopLayer(PopListe, popid_markiert, overlay_pop_visible)
@@ -3879,7 +3870,7 @@ window.apf.olmap.erstellePopLayer = function(popliste, popid_markiert, visible) 
         visible = true;
     }
 
-    _.each(popliste.rows, function(pop) {
+    _.each(popliste, function(pop) {
         my_name = pop.PopName || '(kein Name)';
         popup_content = window.apf.olmap.erstelleContentFürPop(pop);
 
@@ -4025,7 +4016,7 @@ window.apf.olmap.erstelleTPopLayer = function(tpop_liste, tpopid_markiert, visib
         visible = true;
     }
 
-    _.each(tpop_liste.rows, function(tpop) {
+    _.each(tpop_liste, function(tpop) {
         // marker erstellen...
         marker = window.apf.olmap.erstelleMarkerFürTPopLayer(tpop);
 
