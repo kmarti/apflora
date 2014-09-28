@@ -145,7 +145,16 @@ var returnFunction = function(request, reply) {
             popOrdnerNodeChildren = [];
             popOrdnerNode.children = popOrdnerNodeChildren;
 
+            // PopNr: Je nach Anzahl Stellen der maximalen PopNr bei denjenigen mit weniger Nullen
+            // Nullen voranstellen, damit sie im tree auch als String richtig sortiert werden
+            var popNrMax = _.max(popListe, function(pop) {
+                return pop.PopNr;
+            }).PopNr;
+
             _.each(popListe, function(pop) {
+
+                pop.PopNr = ergänzePopNrUmFührendeNullen(popNrMax, pop.PopNr);
+
                 // nodes für pop aufbauen
                 var data,
                     popSort;
@@ -230,3 +239,21 @@ var returnFunction = function(request, reply) {
 };
 
 module.exports = returnFunction;
+
+// erhält die höchste PopNr der Liste und die aktuelle
+// stellt der aktuellen PopNr soviele Nullen voran, dass
+// alle Nummern dieselbe Anzahl stellen haben
+function ergänzePopNrUmFührendeNullen(popNrMax, popNr) {
+    if (!popNr && popNr !== 0) return null;
+    if (!popNrMax && popNrMax !== 0) return null;
+    // Nummern in Strings umwandeln
+    popNrMax = popNrMax.toString();
+    popNr = popNr.toString();
+    var stellendifferenz = popNrMax.length - popNr.length;
+    // Voranzustellende Nullen generieren
+    while (stellendifferenz > 0) {
+        popNr = '0' + popNr;
+        stellendifferenz--;
+    }
+    return popNr;
+}
