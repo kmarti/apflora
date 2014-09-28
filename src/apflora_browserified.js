@@ -8653,13 +8653,10 @@ window.apf.treeKontextmenu = function(node) {
                                     window.apf.deleted.typ = "pop";
                                     var deletePop = $.ajax({
                                         type: 'post',
-                                        url: 'php/pop_delete.php',
-                                        dataType: 'json',
-                                        data: {
-                                            "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                                        }
+                                        url: 'api/v1/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                                        dataType: 'json'
                                     });
-                                    deletePop.always(function() {
+                                    deletePop.done(function() {
                                         delete localStorage.pop_id;
                                         delete window.apf.pop;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
