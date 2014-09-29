@@ -233,10 +233,6 @@ var returnFunction = function(request, reply) {
                     popNodeTpopOrdnerChildren.push(node);
                 });
 
-
-
-
-
                 // PopberOrdner aufbauen
                 popNodePopberOrdner.data = 'Populations-Berichte (' + popberVonPop.length + ')';
                 popNodePopberOrdner.attr = {

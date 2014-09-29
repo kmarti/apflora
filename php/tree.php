@@ -1,22 +1,4 @@
 <?php
-// Verbindung aufbauen, Datenbank auswählen
-$MysqlUser = getenv('MYSQL_USER');
-$MysqlPasswort = getenv('MYSQL_PASSWORD');
-$link_beob = new mysqli("localhost", $MysqlUser, $MysqlPasswort, "alexande_beob");
-$link = new mysqli("localhost", $MysqlUser, $MysqlPasswort, "alexande_apflora");
-
-/* check connection */
-if ($link->connect_errno) {
-    printf("Connect failed: %s\n", $link->connect_error);
-    exit();
-}
-if ($link_beob->connect_errno) {
-    printf("Connect failed: %s\n", $link_beob->connect_error);
-    exit();
-}
-
-mysqli_set_charset($link, "utf8");
-mysqli_set_charset($link_beob, "utf8");
 
 $ApArtId = $_GET["id"];
 settype($id, "integer");
@@ -36,32 +18,6 @@ $rows_pop = array();
 while($r_pop = mysqli_fetch_assoc($result_pop)) {
 	$PopId = $r_pop['PopId'];
 	settype($PopId, "integer");
-	
-	// PopNr: Je nach Anzahl Stellen der maximalen PopNr bei denjenigen mit weniger Nullen
-	// Nullen voranstellen, damit sie im tree auch als String richtig sortiert werden   FUNKTIONIERT NICHT!!!!
-	$PopNr_number = strval($r_pop['PopNr']);
-	$Stellendifferenz = strlen($PopNr_max) - strlen($PopNr_number);
-	$PopNr = strval($PopNr_number);
-	switch ($Stellendifferenz) {
-		case 0:
-			// belassen
-			break;
-		case 1:
-			$PopNr = "0".$PopNr;
-			break;
-		case 2:
-			$PopNr = "00".$PopNr;
-			break;
-		case 3:
-			$PopNr = "000".$PopNr;
-			break;
-		case 4:
-			$PopNr = "0000".$PopNr;
-			break;
-		case 5:
-			$PopNr = "00000".$PopNr;
-			break;
-	}
 	
 	// TPop dieser Pop abfragen
 	$result_tpop = mysqli_query($link, "SELECT TPopNr, TPopFlurname, TPopId, PopId FROM tblTeilpopulation where PopId = $PopId ORDER BY TPopNr, TPopFlurname");
@@ -264,90 +220,3 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 		$tpop_ordner_beob_zugeordnet = array("data" => "Beobachtungen (".$anz_beob_zugeordnet.")", "attr" => $tpop_ordner_beob_zugeordnet_attr, "children" => $rows_beob_zugeordnet);
 		// zusammensetzen
 		$tpop_ordner = array(0 => $tpop_ordner_massn, 1 => $tpop_ordner_massnber, 2 => $tpop_ordner_feldkontr, 3 => $tpop_ordner_freiwkontr, 4 => $tpop_ordner_tpopber, 5 => $tpop_ordner_beob_zugeordnet);
-
-		// TPop setzen
-		// Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
-		if ($r_tpop['TPopNr'] & $r_tpop['TPopFlurname']) {
-			$TPopBezeichnung = $r_tpop['TPopNr'].": ".$r_tpop['TPopFlurname'];
-			$tpop_sort = $r_tpop['TPopNr'];
-		} else if ($r_tpop['TPopNr']) {
-			$TPopBezeichnung = $r_tpop['TPopNr'].": (kein Flurname)";
-			$tpop_sort = $r_tpop['TPopNr'];
-		} else if ($r_tpop['TPopFlurname']) {
-			$TPopBezeichnung = "(keine Nr): ".$r_tpop['TPopFlurname'];
-			$tpop_sort = 1000;
-		} else {
-			$TPopBezeichnung = "(keine Nr): (kein Flurname)";
-			$tpop_sort = 1000;
-		}
-		$attr_tpop = array("id" => $TPopId, "typ" => "tpop", "sort" => $tpop_sort);
-		$tpop = array("data" => $TPopBezeichnung, "attr" => $attr_tpop, "children" => $tpop_ordner);
-		// tpop-Array um tpop ergänzen
-	    $rows_tpop[] = $tpop;
-	}
-	mysqli_free_result($result_tpop);
-
-	// popber dieser Pop abfragen
-	$result_popber = mysqli_query($link, "SELECT PopBerId, PopId, PopBerJahr, EntwicklungTxt, EntwicklungOrd FROM tblPopBericht LEFT JOIN DomainPopEntwicklung ON PopBerEntwicklung = EntwicklungId where PopId = $PopId ORDER BY PopBerJahr, EntwicklungOrd");
-	$anz_popber = mysqli_num_rows($result_popber);
-	// Datenstruktur für popber aufbauen
-	$rows_popber = array();
-	while($r_popber = mysqli_fetch_assoc($result_popber)) {
-		$PopBerId = $r_popber['PopBerId'];
-		settype($PopBerId, "integer");
-		// popber setzen
-		$attr_popber = array("id" => $PopBerId, "typ" => "popber");
-		// Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
-		if ($r_popber['PopBerJahr'] & $r_popber['EntwicklungTxt']) {
-			$PopBerBezeichnung = $r_popber['PopBerJahr'].": ".$r_popber['EntwicklungTxt'];
-		} else if ($r_popber['PopBerJahr']) {
-			$PopBerBezeichnung = $r_popber['PopBerJahr'].": (nicht beurteilt)";
-		} else if ($r_popber['EntwicklungTxt']) {
-			$PopBerBezeichnung = "(kein Jahr): ".$r_popber['EntwicklungTxt'];
-		} else {
-			$PopBerBezeichnung = "(kein Jahr): (nicht beurteilt)";
-		}
-		$popber = array("data" => $PopBerBezeichnung, "attr" => $attr_popber);
-		// popber-Array um popber ergänzen
-	    $rows_popber[] = $popber;
-	}
-	mysqli_free_result($result_popber);
-
-	// massnber dieser Pop abfragen
-	$result_massnber = mysqli_query($link, "SELECT PopMassnBerId, PopId, PopMassnBerJahr, BeurteilTxt, BeurteilOrd FROM tblPopMassnBericht LEFT JOIN DomainTPopMassnErfolgsbeurteilung ON PopMassnBerErfolgsbeurteilung = BeurteilId where PopId = $PopId ORDER BY PopMassnBerJahr, BeurteilOrd");
-	$anz_massnber = mysqli_num_rows($result_massnber);
-	// Datenstruktur für massnber aufbauen
-	$rows_massnber = array();
-	while($r_massnber = mysqli_fetch_assoc($result_massnber)) {
-		$PopMassnBerId = $r_massnber['PopMassnBerId'];
-		settype($PopMassnBerId, "integer");
-		// massnber setzen
-		$attr_massnber = array("id" => $PopMassnBerId, "typ" => "popmassnber");
-		// Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
-		if ($r_massnber['PopMassnBerJahr'] & $r_massnber['BeurteilTxt']) {
-			$PopMassnBerBezeichnung = $r_massnber['PopMassnBerJahr'].": ".$r_massnber['BeurteilTxt'];
-		} else if ($r_massnber['PopMassnBerJahr']) {
-			$PopMassnBerBezeichnung = $r_massnber['PopMassnBerJahr'].": (nicht beurteilt)";
-		} else if ($r_massnber['BeurteilTxt']) {
-			$PopMassnBerBezeichnung = "(kein Jahr): ".$r_massnber['BeurteilTxt'];
-		} else {
-			$PopMassnBerBezeichnung = "(kein Jahr): (nicht beurteilt)";
-		}
-		$massnber = array("data" => $PopMassnBerBezeichnung, "attr" => $attr_massnber);
-		// massnber-Array um massnber ergänzen
-	    $rows_massnber[] = $massnber;
-	}
-	mysqli_free_result($result_massnber);
-	
-	// pop-ordner setzen
-	// Teilpopulationen
-	$pop_ordner_tpop_attr = array("id" => $PopId, "typ" => "pop_ordner_tpop");
-	$pop_ordner_tpop = array("data" => "Teilpopulationen (".$anz_tpop.")", "attr" => $pop_ordner_tpop_attr, "children" => $rows_tpop);
-	// Populations-Berichte
-	$pop_ordner_popber_attr = array("id" => $PopId, "typ" => "pop_ordner_popber");
-	$pop_ordner_popber = array("data" => "Populations-Berichte (".$anz_popber.")", "attr" => $pop_ordner_popber_attr, "children" => $rows_popber);
-	// Massnahmen-Berichte
-	$pop_ordner_massnber_attr = array("id" => $PopId, "typ" => "pop_ordner_massnber");
-	$pop_ordner_massnber = array("data" => "Massnahmen-Berichte (".$anz_massnber.")", "attr" => $pop_ordner_massnber_attr, "children" => $rows_massnber);
-	// zusammensetzen
-	$pop_ordner = array(0 => $pop_ordner_tpop, 1 => $pop_ordner_popber, 2 => $pop_ordner_massnber);

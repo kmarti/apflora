@@ -23178,17 +23178,14 @@ window.apf.setzeWindowTpop = function(id) {
 	localStorage.tpop_id = id;
 	var getTPop = $.ajax({
 		type: 'get',
-		url: 'php/tpop.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.tpop_id
-		}
+		url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + localStorage.tpop_id,
+		dataType: 'json'
 	});
-	getTPop.always(function(data) {
+	getTPop.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
+		if (data && data[0]) {
 			// tpop bereitstellen
-			window.apf.tpop = data;
+			window.apf.tpop = data[0];
 		}
 	});
 };
@@ -31925,14 +31922,11 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var getTPop_2 = $.ajax({
                             type: 'get',
-                            url: 'php/tpop.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                            }
+                            url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                            dataType: 'json'
                         });
-                        getTPop_2.always(function(data) {
-                            window.apf.verorteTPopAufOlmap(data);
+                        getTPop_2.done(function(data) {
+                            window.apf.verorteTPopAufOlmap(data[0]);
                         });
                         getTPop_2.fail(function() {
                             //window.apf.melde("Fehler: Keine Teilpopulation erhalten");
@@ -31973,14 +31967,11 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var getTPop_3 = $.ajax({
                             type: 'get',
-                            url: 'php/tpop.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                            }
+                            url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                            dataType: 'json'
                         });
-                        getTPop_3.always(function(data) {
-                            window.apf.gmap.verorteTPop(data);
+                        getTPop_3.done(function(data) {
+                            window.apf.gmap.verorteTPop(data[0]);
                         });
                         getTPop_3.fail(function() {
                             //window.apf.melde("Fehler: Keine Daten erhalten");
@@ -32030,14 +32021,11 @@ window.apf.treeKontextmenu = function(node) {
                         // Daten des Objekts holen
                         var getTPop_4 = $.ajax({
                             type: 'get',
-                            url: 'php/tpop.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(window.apf.tpop_node_kopiert).attr("id"))
-                            }
+                            url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + window.apf.erstelleIdAusDomAttributId($(tpop_node_kopiert).attr("id")),
+                            dataType: 'json'
                         });
-                        getTPop_4.always(function(data) {
-                            window.apf.tpop_objekt_kopiert = data;
+                        getTPop_4.done(function(data) {
+                            window.apf.tpop_objekt_kopiert = data[0];
                         });
                         getTPop_4.fail(function() {
                             //window.apf.melde("Fehler: Die Teilpopulation wurde nicht kopiert");
@@ -61010,15 +60998,13 @@ var initiiereTPop = function(ohne_zu_zeigen) {
     // Daten für die pop aus der DB holen
     var getTPop = $.ajax({
         type: 'get',
-        url: 'php/tpop.php',
-        dataType: 'json',
-        data: {
-            "id": localStorage.tpop_id
-        }
+        url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + localStorage.tpop_id,
+        dataType: 'json'
     });
-    getTPop.always(function(data) {
+    getTPop.done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-        if (data) {
+        if (data && data[0]) {
+            data = data[0];
             // tpop bereitstellen
             window.apf.tpop = data;
             // Felder mit Daten beliefern

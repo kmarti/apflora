@@ -40,15 +40,13 @@ var initiiereTPop = function(ohne_zu_zeigen) {
     // Daten für die pop aus der DB holen
     var getTPop = $.ajax({
         type: 'get',
-        url: 'php/tpop.php',
-        dataType: 'json',
-        data: {
-            "id": localStorage.tpop_id
-        }
+        url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + localStorage.tpop_id,
+        dataType: 'json'
     });
-    getTPop.always(function(data) {
+    getTPop.done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-        if (data) {
+        if (data && data[0]) {
+            data = data[0];
             // tpop bereitstellen
             window.apf.tpop = data;
             // Felder mit Daten beliefern
