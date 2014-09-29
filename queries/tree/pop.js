@@ -196,6 +196,7 @@ var returnFunction = function(request, reply) {
                     return popMassnBer.PopId === pop.PopId;
                 });
 
+                // tpopOrdner aufbauen
                 popNodeTpopOrdner.data = 'Teilpopulationen (' + tpopVonPop.length + ')';
                 popNodeTpopOrdner.attr = {
                     id: pop.PopId,
@@ -203,6 +204,38 @@ var returnFunction = function(request, reply) {
                 };
                 popNodeTpopOrdner.children = popNodeTpopOrdnerChildren;
                 popNodeChildren.push(popNodeTpopOrdner);
+
+                // tpop aufbauen
+                _.each(tpopVonPop, function(tpop) {
+                    var node  = {},
+                        nodeText,
+                        tpopSort;
+                    // Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
+                    if (tpop.TPopNr && tpop.TPopFlurname) {
+                        nodeText = tpop.TPopNr + ": " + tpop.TPopFlurname;
+                        tpopSort = tpop.TPopNr;
+                    } else if (tpop.PopBerJahr) {
+                        nodeText = tpop.TPopNr + ": (kein Flurname)";
+                        tpopSort = tpop.TPopNr;
+                    } else if (tpop.TPopFlurname) {
+                        nodeText = "(keine Nr): " + tpop.TPopFlurname;
+                        tpopSort = 1000;
+                    } else {
+                        nodeText = "(keine Nr): (kein Flurname)";
+                        tpopSort = 1000;
+                    }
+                    node.data = nodeText;
+                    node.attr = {
+                        id: tpop.TPopId,
+                        typ: 'tpop',
+                        sort: tpopSort
+                    };
+                    popNodeTpopOrdnerChildren.push(node);
+                });
+
+
+
+
 
                 // PopberOrdner aufbauen
                 popNodePopberOrdner.data = 'Populations-Berichte (' + popberVonPop.length + ')';
