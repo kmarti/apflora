@@ -2821,28 +2821,16 @@ window.apf.aktualisiereKoordinatenVonTPop = function(tpop) {
     // Datensatz updaten
     var updateTPop = $.ajax({
         type: 'post',
-        url: 'php/tpop_update.php',
-        dataType: 'json',
-        data: {
-            "id": tpop.TPopId,
-            "Feld": "TPopXKoord",
-            "Wert": tpop.TPopXKoord,
-            "user": sessionStorage.User
-        }
+        url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + tpop.TPopId + '/feld=TPopXKoord/wert=' + tpop.TPopXKoord + '/user=' + sessionStorage.User,
+        dataType: 'json'
     });
-    updateTPop.always(function() {
+    updateTPop.done(function() {
         var updateTPop_2 = $.ajax({
             type: 'post',
-            url: 'php/tpop_update.php',
-            dataType: 'json',
-            data: {
-                "id": tpop.TPopId,
-                "Feld": "TPopYKoord",
-                "Wert": tpop.TPopYKoord,
-                "user": sessionStorage.User
-            }
+            url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + tpop.TPopId + '/feld=TPopYKoord/wert=' + tpop.TPopYKoord + '/user=' + sessionStorage.User,
+            dataType: 'json'
         });
-        updateTPop_2.always(function() {
+        updateTPop_2.done(function() {
             koord_aktualisiert.resolve();
         });
     });
@@ -4764,28 +4752,16 @@ window.apf.gmap.SetLocationTPop = function(LatLng, map, marker, TPop) {
 	Y = ddInChX(lat, lng);
 	var updateTPop_3 = $.ajax({
 		type: 'post',
-		url: 'php/tpop_update.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.tpop_id,
-			"Feld": "TPopXKoord",
-			"Wert": X,
-			"user": sessionStorage.User
-		}
+		url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + localStorage.tpop_id + '/feld=TPopXKoord/wert=' + X + '/user=' + sessionStorage.User,
+		dataType: 'json'
 	});
-	updateTPop_3.always(function() {
+	updateTPop_3.done(function() {
 		var updateTPop_4 = $.ajax({
 			type: 'post',
-			url: 'php/tpop_update.php',
-			dataType: 'json',
-			data: {
-				"id": localStorage.tpop_id,
-				"Feld": "TPopYKoord",
-				"Wert": Y,
-				"user": sessionStorage.User
-			}
+			url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + localStorage.tpop_id + '/feld=TPopYKoord/wert=' + Y + '/user=' + sessionStorage.User,
+			dataType: 'json'
 		});
-		updateTPop_4.always(function() {
+		updateTPop_4.done(function() {
 			window.apf.gmap.clearInfoWindows();
 			contentString = '<div id="content">'+
 				'<div id="siteNotice">'+
@@ -8779,15 +8755,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertTPop = $.ajax({
                             type: 'post',
-                            url: 'php/tpop_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-                                "typ": "tpop",
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/v1/insert/apflora/tabelle=tblTeilpopulation/feld=PopId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertTPop.always(function(id) {
+                        insertTPop.done(function(id) {
                             var strukturtyp = "tpop",
                                 beschriftung = "neue Teilpopulation";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
@@ -8897,15 +8868,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertTPop_2 = $.ajax({
                             type: 'post',
-                            url: 'php/tpop_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")),
-                                "typ": "tpop",
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/v1/insert/apflora/tabelle=tblTeilpopulation/feld=PopId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertTPop_2.always(function(id) {
+                        insertTPop_2.done(function(id) {
                             var strukturtyp = "tpop",
                                 beschriftung = "neue Teilpopulation";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
@@ -8947,13 +8913,10 @@ window.apf.treeKontextmenu = function(node) {
                                     // löschen
                                     var deleteTPop = $.ajax({
                                         type: 'post',
-                                        url: 'php/tpop_delete.php',
-                                        dataType: 'json',
-                                        data: {
-                                            "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                                        }
+                                        url: 'api/v1/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                                        dataType: 'json'
                                     });
-                                    deleteTPop.always(function() {
+                                    deleteTPop.done(function() {
                                         delete localStorage.tpop_id;
                                         delete window.apf.tpop;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
