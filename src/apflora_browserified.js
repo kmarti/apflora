@@ -10851,7 +10851,12 @@ window.apf.erstelleGuid = function() {
 	    return v.toString(16);
 	});
 };
-},{"./lib/cHtoWGSlat":6,"./lib/cHtoWGSlng":7,"./lib/capitaliseFirstLetter":8,"./lib/ddInChX":9,"./lib/ddInChY":10,"./modules/configuration":20,"./modules/initiiereAp":22,"./modules/initiiereApziel":23,"./modules/initiiereAssozarten":24,"./modules/initiiereBeob":25,"./modules/initiiereBer":26,"./modules/initiiereErfkrit":27,"./modules/initiiereIdealbiotop":28,"./modules/initiiereIndex":29,"./modules/initiiereJber":30,"./modules/initiiereJberUebersicht":31,"./modules/initiierePop":32,"./modules/initiierePopBer":33,"./modules/initiierePopMassnBer":34,"./modules/initiiereTPop":35,"./modules/initiiereTPopBer":36,"./modules/initiiereTPopFeldkontr":37,"./modules/initiiereTPopMassn":38,"./modules/initiiereTPopMassnBer":39,"./modules/initiiereZielber":40,"./modules/zeigeTPop":41}],2:[function(require,module,exports){
+},{"./lib/cHtoWGSlat":7,"./lib/cHtoWGSlng":8,"./lib/capitaliseFirstLetter":9,"./lib/ddInChX":10,"./lib/ddInChY":11,"./modules/configuration":21,"./modules/initiiereAp":22,"./modules/initiiereApziel":23,"./modules/initiiereAssozarten":24,"./modules/initiiereBeob":25,"./modules/initiiereBer":26,"./modules/initiiereErfkrit":27,"./modules/initiiereIdealbiotop":28,"./modules/initiiereIndex":29,"./modules/initiiereJber":30,"./modules/initiiereJberUebersicht":31,"./modules/initiierePop":32,"./modules/initiierePopBer":33,"./modules/initiierePopMassnBer":34,"./modules/initiiereTPop":35,"./modules/initiiereTPopBer":36,"./modules/initiiereTPopFeldkontr":37,"./modules/initiiereTPopMassn":38,"./modules/initiiereTPopMassnBer":39,"./modules/initiiereZielber":40,"./modules/zeigeTPop":41}],2:[function(require,module,exports){
+module.exports={
+    "user": "alexande",
+    "pass": "y3oYksFsQL49es9x"
+}
+},{}],3:[function(require,module,exports){
 /*
  * Date Format 1.2.3
  * (c) 2007-2009 Steven Levithan <stevenlevithan.com>
@@ -11036,7 +11041,7 @@ if (typeof exports !== "undefined") {
   module.exports = dateFormat;
 }
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 var jQuery = require('jquery');
 
 /*! jQuery UI - v1.10.3 - 2013-05-03
@@ -26043,7 +26048,7 @@ $.widget( "ui.tooltip", {
 
 }( jQuery ) );
 
-},{"jquery":4}],4:[function(require,module,exports){
+},{"jquery":5}],5:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.1
  * http://jquery.com/
@@ -35235,7 +35240,7 @@ return jQuery;
 
 }));
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 //     Underscore.js 1.7.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -36652,7 +36657,7 @@ return jQuery;
   }
 }.call(this));
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /**
  * Convert CH y/x to WGS lat
  * @return {number}
@@ -36683,7 +36688,7 @@ module.exports = function(y, x) {
 
     return lat;
 };
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /**
  * Convert CH y/x to WGS long
  * @return {number}
@@ -36713,7 +36718,7 @@ module.exports = function(y, x) {
 
     return lng;
 };
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /**
  * übernimmt einen string
  * der erste Buchstabe wird mit einem Grossbuchstaben ersetzt
@@ -36726,7 +36731,7 @@ var capitalizeFirstLetter = function(string) {
 };
 
 module.exports = capitalizeFirstLetter;
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /**
  * wandelt decimal degrees (vom GPS) in CH-Landeskoordinaten um
  * @return {number}
@@ -36750,7 +36755,7 @@ module.exports = function(breite, länge) {
         Wgs84InChX = require('./wgs84InChX');
     return Math.floor(Wgs84InChX(breiteGrad, breiteMin, breiteSec, längeGrad, längeMin, längeSec));
 };
-},{"./ddInWgs84BreiteGrad":11,"./ddInWgs84BreiteMin":12,"./ddInWgs84BreiteSec":13,"./ddInWgs84LaengeGrad":14,"./ddInWgs84LaengeMin":15,"./ddInWgs84LaengeSec":16,"./wgs84InChX":18}],10:[function(require,module,exports){
+},{"./ddInWgs84BreiteGrad":12,"./ddInWgs84BreiteMin":13,"./ddInWgs84BreiteSec":14,"./ddInWgs84LaengeGrad":15,"./ddInWgs84LaengeMin":16,"./ddInWgs84LaengeSec":17,"./wgs84InChX":19}],11:[function(require,module,exports){
 /**
  * wandelt decimal degrees (vom GPS) in CH-Landeskoordinaten um
  * @return {number}
@@ -36774,7 +36779,7 @@ module.exports = function(breite, länge) {
         Wgs84InChY = require('./wgs84InChY');
     return Math.floor(Wgs84InChY(breiteGrad, breiteMin, breiteSec, längeGrad, längeMin, längeSec));
 };
-},{"./ddInWgs84BreiteGrad":11,"./ddInWgs84BreiteMin":12,"./ddInWgs84BreiteSec":13,"./ddInWgs84LaengeGrad":14,"./ddInWgs84LaengeMin":15,"./ddInWgs84LaengeSec":16,"./wgs84InChY":19}],11:[function(require,module,exports){
+},{"./ddInWgs84BreiteGrad":12,"./ddInWgs84BreiteMin":13,"./ddInWgs84BreiteSec":14,"./ddInWgs84LaengeGrad":15,"./ddInWgs84LaengeMin":16,"./ddInWgs84LaengeSec":17,"./wgs84InChY":20}],12:[function(require,module,exports){
 /**
  * wandelt decimal degrees (vom GPS) in WGS84 um
  * @return {number}
@@ -36785,7 +36790,7 @@ module.exports = function(breite, länge) {
 module.exports = function(Breite) {
     return Math.floor(Breite);
 };
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 /**
  * wandelt Projektionen um
  * @return {number}
@@ -36797,7 +36802,7 @@ module.exports = function(Breite) {
     var BreiteGrad = Math.floor(Breite);
     return Math.floor((Breite-BreiteGrad)*60);
 };
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /**
  * Konvertiert Projektionen
  * @return {number}
@@ -36810,7 +36815,7 @@ module.exports = function(Breite) {
         BreiteMin = Math.floor((Breite-BreiteGrad)*60);
     return Math.round((((Breite - BreiteGrad) - (BreiteMin/60)) * 60 * 60) * 100) / 100;
 };
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /**
  * Konvertiert Projektionen
  * @return {number}
@@ -36821,7 +36826,7 @@ module.exports = function(Breite) {
 module.exports = function(Laenge) {
     return Math.floor(Laenge);
 };
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /**
  * Konvertiert Projektionen
  * @return {number}
@@ -36833,7 +36838,7 @@ module.exports = function(Laenge) {
     var LaengeGrad = Math.floor(Laenge);
     return Math.floor((Laenge-LaengeGrad)*60);
 };
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /**
  * Konvertiert Projektionen
  * @return {number}
@@ -36846,7 +36851,7 @@ module.exports = function(Laenge) {
         LaengeMin = Math.floor((Laenge-LaengeGrad)*60);
     return Math.round((((Laenge - LaengeGrad) - (LaengeMin/60)) * 60 * 60) * 100 ) / 100;
 };
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /**
  * damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
  * Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
@@ -36874,7 +36879,7 @@ module.exports = (function($) {
         }
     });
 })(jQuery);
-},{"jquery":4}],18:[function(require,module,exports){
+},{"jquery":5}],19:[function(require,module,exports){
 /**
  * Wandelt WGS84 lat/long (° dec) in CH-Landeskoordinaten um
  * @return {number}
@@ -36906,7 +36911,7 @@ module.exports = function(breiteGrad, breiteMin, breiteSec, längeGrad, längeMi
 
     return x;
 };
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 /**
  * Wandelt WGS84 in CH-Landeskoordinaten um
  * @return {number}
@@ -36938,7 +36943,7 @@ module.exports = function(breiteGrad, breiteMin, breiteSec, längeGrad, längeMi
 
     return y;
 };
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 /**
  * Hier werden zentral alle Konfigurationsparameter gesammelt
  */
@@ -36946,7 +36951,7 @@ module.exports = function(breiteGrad, breiteMin, breiteSec, längeGrad, längeMi
 'use strict';
 
 var config = {}
-    , dbPassfile   = require('./dbPass.json')
+    , dbPassfile   = require('../../dbPass.json')
     ;
 
 config.db          = {};
@@ -37103,12 +37108,7 @@ config.tables = [
 ];
 
 module.exports = config;
-},{"./dbPass.json":21}],21:[function(require,module,exports){
-module.exports={
-    "user": "alexande",
-    "pass": "y3oYksFsQL49es9x"
-}
-},{}],22:[function(require,module,exports){
+},{"../../dbPass.json":2}],22:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -37185,7 +37185,7 @@ var initiiereAp = function() {
 };
 
 module.exports = initiiereAp;
-},{"jquery":4,"underscore":5}],23:[function(require,module,exports){
+},{"jquery":5,"underscore":6}],23:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -37232,7 +37232,7 @@ var initiiereApziel = function() {
 };
 
 module.exports = initiiereApziel;
-},{"./initiiereAp":22,"jquery":4}],24:[function(require,module,exports){
+},{"./initiiereAp":22,"jquery":5}],24:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -37274,7 +37274,7 @@ var initiiereAssozarten = function() {
 };
 
 module.exports = initiiereAssozarten;
-},{"./initiiereAp":22,"jquery":4}],25:[function(require,module,exports){
+},{"./initiiereAp":22,"jquery":5}],25:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -37426,7 +37426,7 @@ var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
 };
 
 module.exports = returnFunction;
-},{"../lib/capitaliseFirstLetter":8,"./initiiereAp":22,"./initiiereBeob":25,"jquery":4,"underscore":5}],26:[function(require,module,exports){
+},{"../lib/capitaliseFirstLetter":9,"./initiiereAp":22,"./initiiereBeob":25,"jquery":5,"underscore":6}],26:[function(require,module,exports){
 'use strict';
 
 var $ = jQuery = require('jquery'),
@@ -37508,7 +37508,7 @@ var initiiereBer = function() {
 };
 
 module.exports = initiiereBer;
-},{"./initiiereAp":22,"jquery":4}],27:[function(require,module,exports){
+},{"./initiiereAp":22,"jquery":5}],27:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -37575,7 +37575,7 @@ var initiiereErfkrit = function() {
 };
 
 module.exports = initiiereErfkrit;
-},{"./initiiereAp":22,"jquery":4}],28:[function(require,module,exports){
+},{"./initiiereAp":22,"jquery":5}],28:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -37655,7 +37655,7 @@ var initiiereIdealbiotop = function() {
 };
 
 module.exports = initiiereIdealbiotop;
-},{"./initiiereAp":22,"dateformat":2,"jquery":4}],29:[function(require,module,exports){
+},{"./initiiereAp":22,"dateformat":3,"jquery":5}],29:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -37730,7 +37730,7 @@ var initiiereIndex = function() {
 };
 
 module.exports = initiiereIndex;
-},{"jquery":4,"jquery-ui":3}],30:[function(require,module,exports){
+},{"jquery":5,"jquery-ui":4}],30:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -37842,7 +37842,7 @@ var initiiereJber = function() {
 };
 
 module.exports = initiiereJber;
-},{"../lib/limiter":17,"jquery":4,"underscore":5}],31:[function(require,module,exports){
+},{"../lib/limiter":18,"jquery":5,"underscore":6}],31:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -37886,7 +37886,7 @@ var initiiereJberUebersicht = function() {
 };
 
 module.exports = initiiereJberUebersicht;
-},{"./initiiereAp":22,"jquery":4}],32:[function(require,module,exports){
+},{"./initiiereAp":22,"jquery":5}],32:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -37969,7 +37969,7 @@ var initiierePop = function(ohne_zu_zeigen) {
 };
 
 module.exports = initiierePop;
-},{"../lib/limiter":17,"./initiiereAp":22,"jquery":4}],33:[function(require,module,exports){
+},{"../lib/limiter":18,"./initiiereAp":22,"jquery":5}],33:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -38012,7 +38012,7 @@ var initiierePopBer = function() {
 };
 
 module.exports = initiierePopBer;
-},{"./initiierePop":32,"jquery":4}],34:[function(require,module,exports){
+},{"./initiierePop":32,"jquery":5}],34:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -38053,7 +38053,7 @@ var initiierePopMassnBer = function() {
 };
 
 module.exports = initiierePopMassnBer;
-},{"./initiierePop":32,"jquery":4}],35:[function(require,module,exports){
+},{"./initiierePop":32,"jquery":5}],35:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -38209,7 +38209,7 @@ var initiiereTPop = function(ohne_zu_zeigen) {
 };
 
 module.exports = initiiereTPop;
-},{"../lib/limiter":17,"jquery":4,"underscore":5}],36:[function(require,module,exports){
+},{"../lib/limiter":18,"jquery":5,"underscore":6}],36:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -38252,7 +38252,7 @@ var initiiereTPopBer = function() {
 };
 
 module.exports = initiiereTPopBer;
-},{"./initiierePop":32,"jquery":4}],37:[function(require,module,exports){
+},{"./initiierePop":32,"jquery":5}],37:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -38587,7 +38587,7 @@ var initiiereTPopFeldkontr = function() {
 };
 
 module.exports = initiiereTPopFeldkontr;
-},{"./initiierePop":32,"jquery":4,"jquery-ui":3,"underscore":5}],38:[function(require,module,exports){
+},{"./initiierePop":32,"jquery":5,"jquery-ui":4,"underscore":6}],38:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -38751,7 +38751,7 @@ var initiiereTPopMassn = function() {
 };
 
 module.exports = initiiereTPopMassn;
-},{"./initiierePop":32,"jquery":4,"underscore":5}],39:[function(require,module,exports){
+},{"./initiierePop":32,"jquery":5,"underscore":6}],39:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -38794,7 +38794,7 @@ var initiiereTPopMassnBer = function() {
 };
 
 module.exports = initiiereTPopMassnBer;
-},{"./initiierePop":32,"jquery":4}],40:[function(require,module,exports){
+},{"./initiierePop":32,"jquery":5}],40:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -38838,7 +38838,7 @@ var initiiereZielber = function() {
 };
 
 module.exports = initiiereZielber;
-},{"./initiiereAp":22,"jquery":4}],41:[function(require,module,exports){
+},{"./initiiereAp":22,"jquery":5}],41:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -38970,4 +38970,4 @@ var zeigeTPop = function(tpop_liste) {
 };
 
 module.exports = zeigeTPop;
-},{"../lib/cHtoWGSlat":6,"../lib/cHtoWGSlng":7,"jquery":4,"underscore":5}]},{},[1]);
+},{"../lib/cHtoWGSlat":7,"../lib/cHtoWGSlng":8,"jquery":5,"underscore":6}]},{},[1]);

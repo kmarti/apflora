@@ -5,7 +5,7 @@
 'use strict';
 
 var config = {}
-    , dbPassfile   = require('./dbPass.json')
+    , dbPassfile   = require('../../dbPass.json')
     ;
 
 config.db          = {};
