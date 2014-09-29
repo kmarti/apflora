@@ -12,10 +12,6 @@ var _ = require('underscore')
     })
     , response = {}
     , apId
-    , tpopListe
-    , popListe
-    , popIds
-    , tpopIds
     ;
 
 var returnFunction = function(request, reply) {
@@ -28,8 +24,8 @@ var returnFunction = function(request, reply) {
                 'SELECT PopNr, PopName, PopId, ApArtId FROM tblPopulation where ApArtId = ' + apId + ' ORDER BY PopNr, PopName',
                 function (err, result) {
                     if (err) reply(err);
-                    popListe = result;
-                    popIds = _.pluck(popListe, 'PopId');
+                    var popListe = result,
+                        popIds = _.pluck(popListe, 'PopId');
                     callback(err, popIds, popListe);
                 }
             );
@@ -39,89 +35,93 @@ var returnFunction = function(request, reply) {
                     'SELECT TPopNr, TPopFlurname, TPopId, PopId FROM tblTeilpopulation where PopId in (' + popIds.join() + ') ORDER BY TPopNr, TPopFlurname',
                 function (err, result) {
                     if (err) reply(err);
-                    tpopListe = result;
-                    tpopIds = _.pluck(tpopListe, 'TPopId');
-                    var pass = [popListe, tpopListe];
-                    callback(err, pass);
+                    var tpopListe = result,
+                        tpopIds = _.pluck(tpopListe, 'TPopId');
+                    callback(err, [popIds, tpopIds, popListe, tpopListe]);
                 }
             );
         }
     ], function(err, result) {
+        var popIds = result[0],
+            tpopIds = result[1],
+            popListe = result[2],
+            tpopListe = result[3];
+            
         // jetzt parallel alle übrigen Daten aus dem pop-baum
         async.parallel({
             tpopMassnListe: function(callback) {
                 connection.query(
-                    'SELECT TPopMassnId, TPopId, TPopMassnJahr, TPopMassnDatum, MassnTypTxt FROM tblTeilPopMassnahme LEFT JOIN DomainTPopMassnTyp ON TPopMassnTyp = MassnTypCode where TPopId in (' + tpopIds.join() + ' ORDER BY TPopMassnJahr, TPopMassnDatum, MassnTypTxt',
-                    function(err, tpopMassnListe) {
-                        callback(err, tpopMassnListe);
+                    'SELECT TPopMassnId, TPopId, TPopMassnJahr, TPopMassnDatum, MassnTypTxt FROM tblTeilPopMassnahme LEFT JOIN DomainTPopMassnTyp ON TPopMassnTyp = MassnTypCode where TPopId in (' + tpopIds.join() + ') ORDER BY TPopMassnJahr, TPopMassnDatum, MassnTypTxt',
+                    function(err, data) {
+                        callback(err, data);
                     }
                 );
             },
             tpopMassnBerListe: function(callback) {
                 connection.query(
-                    'SELECT TPopMassnBerId, TPopId, TPopMassnBerJahr, BeurteilTxt FROM tblTeilPopMassnBericht LEFT JOIN DomainTPopMassnErfolgsbeurteilung ON TPopMassnBerErfolgsbeurteilung = BeurteilId where TPopId in (' + tpopIds.join() + ' ORDER BY TPopMassnBerJahr, BeurteilTxt',
-                    function(err, tpopMassnBerListe) {
-                        callback(err, tpopMassnBerListe);
+                    'SELECT TPopMassnBerId, TPopId, TPopMassnBerJahr, BeurteilTxt FROM tblTeilPopMassnBericht LEFT JOIN DomainTPopMassnErfolgsbeurteilung ON TPopMassnBerErfolgsbeurteilung = BeurteilId where TPopId in (' + tpopIds.join() + ') ORDER BY TPopMassnBerJahr, BeurteilTxt',
+                    function(err, data) {
+                        callback(err, data);
                     }
                 );
             },
             tpopFeldkontrListe: function(callback) {
                 connection.query(
                     'SELECT TPopKontrId, TPopId, TPopKontrJahr, TPopKontrTyp FROM tblTeilPopFeldkontrolle where (TPopId in (' + tpopIds.join() + ')) AND (TPopKontrTyp<>"Freiwilligen-Erfolgskontrolle" OR TPopKontrTyp IS NULL) ORDER BY TPopKontrJahr, TPopKontrTyp',
-                    function(err, tpopFeldkontrListe) {
-                        callback(err, tpopFeldkontrListe);
+                    function(err, data) {
+                        callback(err, data);
                     }
                 );
             },
             tpopFreiwkontrListe : function(callback) {
                 connection.query(
                     'SELECT TPopKontrId, TPopId, TPopKontrJahr, TPopKontrTyp FROM tblTeilPopFeldkontrolle where (TPopId in (' + tpopIds.join() + ')) AND (TPopKontrTyp="Freiwilligen-Erfolgskontrolle") ORDER BY TPopKontrJahr, TPopKontrTyp',
-                    function(err, tpopFreiwkontrListe) {
-                        callback(err, tpopFreiwkontrListe);
+                    function(err, data) {
+                        callback(err, data);
                     }
                 );
             },
             tpopBerListe: function(callback) {
                 connection.query(
                     'SELECT TPopBerId, TPopId, TPopBerJahr, EntwicklungTxt, EntwicklungOrd FROM tblTeilPopBericht LEFT JOIN DomainTPopEntwicklung ON TPopBerEntwicklung = EntwicklungCode where TPopId in (' + tpopIds.join() + ') ORDER BY TPopBerJahr, EntwicklungOrd',
-                    function(err, tpopBerListe) {
-                        callback(err, tpopBerListe);
+                    function(err, data) {
+                        callback(err, data);
                     }
                 );
             },
             tpopBeobZugeordnetListe: function(callback) {
                 connection.query(
-                    'SELECT alexande_apflora.tblBeobZuordnung.NO_NOTE, alexande_apflora.tblBeobZuordnung.TPopId, alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen, alexande_apflora.tblBeobZuordnung.BeobBemerkungen, alexande_apflora.tblBeobZuordnung.BeobMutWann, alexande_apflora.tblBeobZuordnung.BeobMutWer, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor, "evab" AS beobtyp FROM alexande_apflora.tblBeobZuordnung INNER JOIN alexande_beob.tblBeobBereitgestellt ON alexande_apflora.tblBeobZuordnung.NO_NOTE = alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET WHERE alexande_apflora.tblBeobZuordnung.TPopId=$TPopId AND (alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen=0 OR alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen IS NULL) UNION SELECT alexande_apflora.tblBeobZuordnung.NO_NOTE, alexande_apflora.tblBeobZuordnung.TPopId, alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen, alexande_apflora.tblBeobZuordnung.BeobBemerkungen, alexande_apflora.tblBeobZuordnung.BeobMutWann, alexande_apflora.tblBeobZuordnung.BeobMutWer, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor, "infospezies" AS beobtyp FROM alexande_apflora.tblBeobZuordnung INNER JOIN alexande_beob.tblBeobBereitgestellt ON alexande_apflora.tblBeobZuordnung.NO_NOTE = alexande_beob.tblBeobBereitgestellt.NO_NOTE WHERE alexande_apflora.tblBeobZuordnung.TPopId in (' + tpopIds.join() + ') AND (alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen=0 OR alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen IS NULL) ORDER BY Datum',
-                    function(err, tpopBeobZugeordnetListe) {
-                        callback(err, tpopBeobZugeordnetListe);
+                    'SELECT alexande_apflora.tblBeobZuordnung.NO_NOTE, alexande_apflora.tblBeobZuordnung.TPopId, alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen, alexande_apflora.tblBeobZuordnung.BeobBemerkungen, alexande_apflora.tblBeobZuordnung.BeobMutWann, alexande_apflora.tblBeobZuordnung.BeobMutWer, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor, "evab" AS beobtyp FROM alexande_apflora.tblBeobZuordnung INNER JOIN alexande_beob.tblBeobBereitgestellt ON alexande_apflora.tblBeobZuordnung.NO_NOTE = alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET WHERE alexande_apflora.tblBeobZuordnung.TPopId in (' + tpopIds.join() + ') AND (alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen=0 OR alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen IS NULL) UNION SELECT alexande_apflora.tblBeobZuordnung.NO_NOTE, alexande_apflora.tblBeobZuordnung.TPopId, alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen, alexande_apflora.tblBeobZuordnung.BeobBemerkungen, alexande_apflora.tblBeobZuordnung.BeobMutWann, alexande_apflora.tblBeobZuordnung.BeobMutWer, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor, "infospezies" AS beobtyp FROM alexande_apflora.tblBeobZuordnung INNER JOIN alexande_beob.tblBeobBereitgestellt ON alexande_apflora.tblBeobZuordnung.NO_NOTE = alexande_beob.tblBeobBereitgestellt.NO_NOTE WHERE alexande_apflora.tblBeobZuordnung.TPopId in (' + tpopIds.join() + ') AND (alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen=0 OR alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen IS NULL) ORDER BY Datum',
+                    function(err, data) {
+                        callback(err, data);
                     }
                 );
             },
             popBerListe: function(callback) {
                 connection.query(
                     'SELECT PopBerId, PopId, PopBerJahr, EntwicklungTxt, EntwicklungOrd FROM tblPopBericht LEFT JOIN DomainPopEntwicklung ON PopBerEntwicklung = EntwicklungId where PopId in (' + popIds.join() + ') ORDER BY PopBerJahr, EntwicklungOrd',
-                    function(err, popBerListe) {
-                        callback(err, popBerListe);
+                    function(err, data) {
+                        callback(err, data);
                     }
                 );
             },
             popMassnBerListe: function(callback) {
                 connection.query(
                     'SELECT PopMassnBerId, PopId, PopMassnBerJahr, BeurteilTxt, BeurteilOrd FROM tblPopMassnBericht LEFT JOIN DomainTPopMassnErfolgsbeurteilung ON PopMassnBerErfolgsbeurteilung = BeurteilId where PopId in (' + popIds.join() + ') ORDER BY PopMassnBerJahr, BeurteilOrd',
-                    function(err, popMassnBerListe) {
-                        callback(err, popMassnBerListe);
+                    function(err, data) {
+                        callback(err, data);
                     }
                 );
             }
         }, function(err, results) {
-            var tpopMassnListe            = results.tpopMassnListe
-                , tpopMassnBerListe       = results.tpopMassnBerListe
-                , tpopFeldkontrListe      = results.tpopFeldkontrListe
-                , tpopFreiwkontrListe     = results.tpopFreiwkontrListe
-                , tpopBerListe            = results.tpopBerListe
-                , tpopBeobZugeordnetListe = results.tpopBeobZugeordnetListe
-                , popBerListe             = results.popBerListe
-                , popMassnBerListe        = results.popMassnBerListe
+            var tpopMassnListe            = results.tpopMassnListe || []
+                , tpopMassnBerListe       = results.tpopMassnBerListe || []
+                , tpopFeldkontrListe      = results.tpopFeldkontrListe || []
+                , tpopFreiwkontrListe     = results.tpopFreiwkontrListe || []
+                , tpopBerListe            = results.tpopBerListe || []
+                , tpopBeobZugeordnetListe = results.tpopBeobZugeordnetListe || []
+                , popBerListe             = results.popBerListe || []
+                , popMassnBerListe        = results.popMassnBerListe || []
                 ;
 
             var popOrdnerNode = {},
@@ -204,6 +204,7 @@ var returnFunction = function(request, reply) {
                 popNodeTpopOrdner.children = popNodeTpopOrdnerChildren;
                 popNodeChildren.push(popNodeTpopOrdner);
 
+                // PopberOrdner aufbauen
                 popNodePopberOrdner.data = 'Populations-Berichte (' + popberVonPop.length + ')';
                 popNodePopberOrdner.attr = {
                     id: pop.PopId,
@@ -212,6 +213,29 @@ var returnFunction = function(request, reply) {
                 popNodePopberOrdner.children = popNodePopberOrdnerChildren;
                 popNodeChildren.push(popNodePopberOrdner);
 
+                // popber aufbauen
+                _.each(popberVonPop, function(popber) {
+                    var node  = {},
+                        nodeText;
+                    // Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
+                    if (popber.PopBerJahr && popber.EntwicklungTxt) {
+                        nodeText = popber.PopBerJahr + ": " + popber.EntwicklungTxt;
+                    } else if (popber.PopBerJahr) {
+                        nodeText = popber.PopBerJahr + ": (nicht beurteilt)";
+                    } else if (popber.EntwicklungTxt) {
+                        nodeText = "(kein Jahr): " + popber.EntwicklungTxt;
+                    } else {
+                        nodeText = "(kein Jahr): (nicht beurteilt)";
+                    }
+                    node.data = nodeText;
+                    node.attr = {
+                        id: popber.PopBerId,
+                        typ: 'popber'
+                    };
+                    popNodePopberOrdnerChildren.push(node);
+                });
+
+                // MassnberOrdner aufbauen
                 popNodeMassnberOrdner.data = 'Massnahmen-Berichte (' + massnberVonPop.length + ')';
                 popNodeMassnberOrdner.attr = {
                     id: pop.PopId,
