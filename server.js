@@ -227,7 +227,7 @@ server.route({
 
 server.route({
     method: 'GET',
-    path: '/api/v1/tree/ap={id}',
+    path: '/api/v1/tree/apId={apId}',
     config: {
         pre: [
             [

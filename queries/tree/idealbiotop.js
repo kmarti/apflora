@@ -1,11 +1,11 @@
 'use strict';
 
 var idealbiotop = function(request, reply) {
-    var id = decodeURIComponent(request.params.id),
+    var apId = decodeURIComponent(request.params.apId),
         response = {};
     response.data = 'Idealbiotop';
     response.attr = {
-        id: 'idealbiotop' + id,
+        id: 'idealbiotop' + apId,
         typ: 'idealbiotop'
     };
     reply(null, response);

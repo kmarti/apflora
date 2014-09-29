@@ -16,7 +16,7 @@ var _ = require('underscore')
     ;
 
 var returnFunction = function(request, reply) {
-    apId = decodeURIComponent(request.params.id);
+    apId = decodeURIComponent(request.params.apId);
 
     // zuerst die Daten holen
     async.waterfall([
@@ -45,101 +45,105 @@ var returnFunction = function(request, reply) {
             );
         }
     ], function (err, result) {
-        var apzielListe = result[0],
-            zielberListe = result[1] || [],
-            apzieljahre,
-            apziele,
-            zielbere,
-            apzieleOrdnerNode = {},
-            apzieleOrdnerNodeChildren = [],
-            apzieljahrNode = {},
-            apzieljahrNodeChildren = [],
-            apzielNode = {},
-            apzielNodeChildren = [],
-            apzielOrdnerNode = {},
-            apzielOrdnerNodeChildren = [],
-            zielberNode = {};
+        if (result) {
+            var apzielListe = result[0] || [],
+                zielberListe = result[1] || [],
+                apzieljahre,
+                apziele,
+                zielbere,
+                apzieleOrdnerNode = {},
+                apzieleOrdnerNodeChildren = [],
+                apzieljahrNode = {},
+                apzieljahrNodeChildren = [],
+                apzielNode = {},
+                apzielNodeChildren = [],
+                apzielOrdnerNode = {},
+                apzielOrdnerNodeChildren = [],
+                zielberNode = {};
 
-        // in der apzielliste alls ZielJahr NULL mit '(kein Jahr)' ersetzen
-        _.each(apzielListe, function(apziel) {
-            if (!apziel.ZielJahr) apziel.ZielJahr = '(kein Jahr)';
-        });
-
-        apzieljahre = _.union(_.pluck(apzielListe, 'ZielJahr'));
-        // nodes für apzieljahre aufbauen
-        apzieleOrdnerNode.data = 'AP-Ziele (' + apzielListe.length + ')';
-        apzieleOrdnerNode.attr = {
-            id: 'ap_ordner_apziel' + apId,
-            typ: 'ap_ordner_apziel'
-        };
-        apzieleOrdnerNodeChildren = [];
-        apzieleOrdnerNode.children = apzieleOrdnerNodeChildren;
-
-        _.each(apzieljahre, function(zielJahr) {
-            apziele = _.filter(apzielListe, function(apziel) {
-                return apziel.ZielJahr === zielJahr;
+            // in der apzielliste alls ZielJahr NULL mit '(kein Jahr)' ersetzen
+            _.each(apzielListe, function(apziel) {
+                if (!apziel.ZielJahr) apziel.ZielJahr = '(kein Jahr)';
             });
-            // nodes für apziele aufbauen
-            apzieljahrNode = {};
-            apzieljahrNode.data = zielJahr + ' (' + apziele.length + ')';
-            apzieljahrNode.metadata = [apId];
-            apzieljahrNode.attr = {
-                id: apId,
-                typ: 'apzieljahr'
+
+            apzieljahre = _.union(_.pluck(apzielListe, 'ZielJahr'));
+            // nodes für apzieljahre aufbauen
+            apzieleOrdnerNode.data = 'AP-Ziele (' + apzielListe.length + ')';
+            apzieleOrdnerNode.attr = {
+                id: 'ap_ordner_apziel' + apId,
+                typ: 'ap_ordner_apziel'
             };
-            apzieljahrNodeChildren = [];
-            apzieljahrNode.children = apzieljahrNodeChildren;
-            apzieleOrdnerNodeChildren.push(apzieljahrNode);
+            apzieleOrdnerNodeChildren = [];
+            apzieleOrdnerNode.children = apzieleOrdnerNodeChildren;
 
-            _.each(apziele, function(apziel) {
-                zielbere = _.filter(zielberListe, function(zielber) {
-                    return zielber.ZielId === apziel.ZielId;
+            _.each(apzieljahre, function(zielJahr) {
+                apziele = _.filter(apzielListe, function(apziel) {
+                    return apziel.ZielJahr === zielJahr;
                 });
-                // node für apziele aufbauen
-                apzielNode = {};
-                apzielNode.data = apziel.ZielBezeichnung || '(Ziel nicht beschrieben)';
-                apzielNode.attr = {
-                    id: apziel.ZielId,
-                    typ: 'apziel'
+                // nodes für apziele aufbauen
+                apzieljahrNode = {};
+                apzieljahrNode.data = zielJahr + ' (' + apziele.length + ')';
+                apzieljahrNode.metadata = [apId];
+                apzieljahrNode.attr = {
+                    id: apId,
+                    typ: 'apzieljahr'
                 };
-                apzielNodeChildren = [];
-                apzielNode.children = apzielNodeChildren;
-                apzieljahrNodeChildren.push(apzielNode);
+                apzieljahrNodeChildren = [];
+                apzieljahrNode.children = apzieljahrNodeChildren;
+                apzieleOrdnerNodeChildren.push(apzieljahrNode);
 
-                // ...und gleich seinen node für zielber-Ordner aufbauen
-                apzielOrdnerNode = {};
-                apzielOrdnerNode.data = 'Ziel-Berichte (' + zielbere.length + ')';
-                apzielOrdnerNode.attr = {
-                    id: apziel.ZielId,
-                    typ: 'zielber_ordner'
-                };
-                apzielOrdnerNodeChildren = [];
-                apzielOrdnerNode.children = apzielOrdnerNodeChildren;
-                apzielNodeChildren.push(apzielOrdnerNode);
-
-                _.each(zielbere, function(zielber) {
-                    var data = '';
-                    if (zielber.ZielBerJahr && zielber.ZielBerErreichung) {
-                        data = zielber.ZielBerJahr + ': ' + zielber.ZielBerErreichung;
-                    } else if (zielber.ZielBerJahr) {
-                        data = zielber.ZielBerJahr + ': (keine Entwicklung)';
-                    } else if (zielber.ZielBerErreichung) {
-                        data = '(kein jahr): ' + zielber.ZielBerErreichung;
-                    } else {
-                        data = '(kein jahr): (keine Entwicklung)';
-                    }
-                    // nodes für zielbere aufbauen
-                    zielberNode = {};
-                    zielberNode.data = data;
-                    zielberNode.attr = {
-                        id: zielber.ZielBerId,
-                        typ: 'zielber'
+                _.each(apziele, function(apziel) {
+                    zielbere = _.filter(zielberListe, function(zielber) {
+                        return zielber.ZielId === apziel.ZielId;
+                    });
+                    // node für apziele aufbauen
+                    apzielNode = {};
+                    apzielNode.data = apziel.ZielBezeichnung || '(Ziel nicht beschrieben)';
+                    apzielNode.attr = {
+                        id: apziel.ZielId,
+                        typ: 'apziel'
                     };
-                    apzielOrdnerNodeChildren.push(zielberNode);
+                    apzielNodeChildren = [];
+                    apzielNode.children = apzielNodeChildren;
+                    apzieljahrNodeChildren.push(apzielNode);
+
+                    // ...und gleich seinen node für zielber-Ordner aufbauen
+                    apzielOrdnerNode = {};
+                    apzielOrdnerNode.data = 'Ziel-Berichte (' + zielbere.length + ')';
+                    apzielOrdnerNode.attr = {
+                        id: apziel.ZielId,
+                        typ: 'zielber_ordner'
+                    };
+                    apzielOrdnerNodeChildren = [];
+                    apzielOrdnerNode.children = apzielOrdnerNodeChildren;
+                    apzielNodeChildren.push(apzielOrdnerNode);
+
+                    _.each(zielbere, function(zielber) {
+                        var data = '';
+                        if (zielber.ZielBerJahr && zielber.ZielBerErreichung) {
+                            data = zielber.ZielBerJahr + ': ' + zielber.ZielBerErreichung;
+                        } else if (zielber.ZielBerJahr) {
+                            data = zielber.ZielBerJahr + ': (keine Entwicklung)';
+                        } else if (zielber.ZielBerErreichung) {
+                            data = '(kein jahr): ' + zielber.ZielBerErreichung;
+                        } else {
+                            data = '(kein jahr): (keine Entwicklung)';
+                        }
+                        // nodes für zielbere aufbauen
+                        zielberNode = {};
+                        zielberNode.data = data;
+                        zielberNode.attr = {
+                            id: zielber.ZielBerId,
+                            typ: 'zielber'
+                        };
+                        apzielOrdnerNodeChildren.push(zielberNode);
+                    });
                 });
             });
-        });
-        reply(null, apzieleOrdnerNode);
+            reply(null, apzieleOrdnerNode);
+        } else {
+            reply(null, {});
+        }
     });
 };
 

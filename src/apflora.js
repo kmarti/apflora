@@ -676,7 +676,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 	$("#tree").jstree({
 		"json_data": {
 			"ajax": {
-				"url": "api/v1/tree/ap=" + ApArtId,
+				"url": "api/v1/tree/apId=" + ApArtId,
 				"progressive_render": true
 			}
 		},

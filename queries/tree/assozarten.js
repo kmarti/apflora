@@ -13,14 +13,14 @@ var _ = require('underscore')
     ;
 
 var assozarten = function(request, reply) {
-    var id = decodeURIComponent(request.params.id);
+    var apId = decodeURIComponent(request.params.apId);
     connection.query(
-        'SELECT AaId, alexande_beob.ArtenDb_Arteigenschaften.Artname FROM tblAssozArten LEFT JOIN alexande_beob.ArtenDb_Arteigenschaften ON AaSisfNr = alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId where AaApArtId = ' + id + ' ORDER BY alexande_beob.ArtenDb_Arteigenschaften.Artname',
+        'SELECT AaId, alexande_beob.ArtenDb_Arteigenschaften.Artname FROM tblAssozArten LEFT JOIN alexande_beob.ArtenDb_Arteigenschaften ON AaSisfNr = alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId where AaApArtId = ' + apId + ' ORDER BY alexande_beob.ArtenDb_Arteigenschaften.Artname',
         function(err, data) {
             if (err) reply(err);
             response.data = 'assoziierte Arten (' + data.length + ')';
             response.attr = {
-                id: 'ap_ordner_assozarten' + id,
+                id: 'ap_ordner_assozarten' + apId,
                 typ: 'ap_ordner_assozarten'
             };
             response.children = buildChildFromData(data);

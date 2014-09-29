@@ -13,15 +13,15 @@ var _ = require('underscore')
     ;
 
 var erfkrit = function(request, reply) {
-    var id = decodeURIComponent(request.params.id);
+    var apId = decodeURIComponent(request.params.apId);
     connection.query(
-        'SELECT ErfkritId, ApArtId, BeurteilTxt, ErfkritTxt, BeurteilOrd FROM tblErfKrit LEFT JOIN DomainApErfKrit ON ErfkritErreichungsgrad = BeurteilId where ApArtId = ' + id + ' ORDER BY BeurteilOrd',
+        'SELECT ErfkritId, ApArtId, BeurteilTxt, ErfkritTxt, BeurteilOrd FROM tblErfKrit LEFT JOIN DomainApErfKrit ON ErfkritErreichungsgrad = BeurteilId where ApArtId = ' + apId + ' ORDER BY BeurteilOrd',
         function(err, data) {
             if (err) reply(err);
 
             response.data = 'AP-Erfolgskriterien (' + data.length + ')';
             response.attr = {
-                id: 'ap_ordner_erfkrit' + id,
+                id: 'ap_ordner_erfkrit' + apId,
                 typ: 'ap_ordner_erfkrit'
             };
             response.children = buildChildFromData(data);

@@ -15,7 +15,7 @@ var _ = require('underscore')
     ;
 
 var returnFunction = function(request, reply) {
-    apId = decodeURIComponent(request.params.id);
+    apId = decodeURIComponent(request.params.apId);
 
     // query ber AND jberUebersicht first
     async.parallel({
