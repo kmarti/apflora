@@ -205,34 +205,6 @@ var returnFunction = function(request, reply) {
                 popNodeTpopOrdner.children = popNodeTpopOrdnerChildren;
                 popNodeChildren.push(popNodeTpopOrdner);
 
-                // tpop aufbauen
-                _.each(tpopVonPop, function(tpop) {
-                    var node  = {},
-                        nodeText,
-                        tpopSort;
-                    // Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
-                    if (tpop.TPopNr && tpop.TPopFlurname) {
-                        nodeText = tpop.TPopNr + ": " + tpop.TPopFlurname;
-                        tpopSort = tpop.TPopNr;
-                    } else if (tpop.PopBerJahr) {
-                        nodeText = tpop.TPopNr + ": (kein Flurname)";
-                        tpopSort = tpop.TPopNr;
-                    } else if (tpop.TPopFlurname) {
-                        nodeText = "(keine Nr): " + tpop.TPopFlurname;
-                        tpopSort = 1000;
-                    } else {
-                        nodeText = "(keine Nr): (kein Flurname)";
-                        tpopSort = 1000;
-                    }
-                    node.data = nodeText;
-                    node.attr = {
-                        id: tpop.TPopId,
-                        typ: 'tpop',
-                        sort: tpopSort
-                    };
-                    popNodeTpopOrdnerChildren.push(node);
-                });
-
                 // PopberOrdner aufbauen
                 popNodePopberOrdner.data = 'Populations-Berichte (' + popberVonPop.length + ')';
                 popNodePopberOrdner.attr = {
@@ -297,6 +269,130 @@ var returnFunction = function(request, reply) {
                 
                 popNode.children = popNodeChildren;
                 popOrdnerNodeChildren.push(popNode);
+
+                // tpop aufbauen
+                _.each(tpopVonPop, function(tpop) {
+                    var tpopNode  = {},
+                        tpopNodeText,
+                        tpopSort,
+                        tpopNodeChildren = [],
+                        massnVonTpop,
+                        massnberVonTpop,
+                        feldkontrVonTpop,
+                        freiwkontrVonTpop,
+                        tpopberVonTpop,
+                        tpopbeobzugeordnetVonTpop,
+                        tpopNodeMassnOrdner = {},
+                        tpopNodeMassnBerOrdner = {},
+                        tpopNodeFeldkontrOrdner = {},
+                        tpopNodeFreiwkontrOrdner = {},
+                        tpopNodeTpopberOrdner = {},
+                        tpopNodeTpopBeobZugeordnetOrdner = {},
+                        tpopNodeMassnOrdnerChildren = [],
+                        tpopNodeMassnBerOrdnerChildren = [],
+                        tpopNodeFeldkontrOrdnerChildren = [],
+                        tpopNodeFreiwkontrOrdnerChildren = [],
+                        tpopNodeTpopberOrdnerChildren = [],
+                        tpopNodeTpopBeobZugeordnetOrdnerChildren = [];
+
+                    // Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
+                    if (tpop.TPopNr && tpop.TPopFlurname) {
+                        tpopNodeText = tpop.TPopNr + ": " + tpop.TPopFlurname;
+                        tpopSort = tpop.TPopNr;
+                    } else if (tpop.PopBerJahr) {
+                        tpopNodeText = tpop.TPopNr + ": (kein Flurname)";
+                        tpopSort = tpop.TPopNr;
+                    } else if (tpop.TPopFlurname) {
+                        tpopNodeText = "(keine Nr): " + tpop.TPopFlurname;
+                        tpopSort = 1000;
+                    } else {
+                        tpopNodeText = "(keine Nr): (kein Flurname)";
+                        tpopSort = 1000;
+                    }
+                    tpopNode.data = tpopNodeText;
+                    tpopNode.attr = {
+                        id: tpop.TPopId,
+                        typ: 'tpop',
+                        sort: tpopSort
+                    };
+                    tpopNode.children = tpopNodeChildren;
+                    popNodeTpopOrdnerChildren.push(tpopNode);
+
+
+                    // Listen der nächsten Ebene erstellen
+                    massnVonTpop = _.filter(tpopMassnListe, function(tpopMassn) {
+                        return tpopMassn.TPopId === tpop.TPopId;
+                    });
+                    massnberVonTpop = _.filter(tpopMassnBerListe, function(tpopMassnBer) {
+                        return tpopMassnBer.TPopId === tpop.TPopId;
+                    });
+                    feldkontrVonTpop = _.filter(tpopFeldkontrListe, function(tpopFeldkontr) {
+                        return tpopFeldkontr.TPopId === tpop.TPopId;
+                    });
+                    freiwkontrVonTpop = _.filter(tpopFreiwkontrListe, function(tpopFreiwkontr) {
+                        return tpopFreiwkontr.TPopId === tpop.TPopId;
+                    });
+                    tpopberVonTpop = _.filter(tpopBerListe, function(tpopBer) {
+                        return tpopBer.TPopId === tpop.TPopId;
+                    });
+                    tpopbeobzugeordnetVonTpop = _.filter(tpopBeobZugeordnetListe, function(tpopBeobZugeordnet) {
+                        return tpopBeobZugeordnet.TPopId === tpop.TPopId;
+                    });
+
+                    // tpopOrdnerMassnahmen aufbauen
+                    tpopNodeMassnOrdner.data = 'Massnahmen (' + massnVonTpop.length + ')';
+                    tpopNodeMassnOrdner.attr = {
+                        id: 'tpop_ordner_massn' + tpop.TPopId,
+                        typ: 'tpop_ordner_massn'
+                    };
+                    tpopNodeMassnOrdner.children = tpopNodeMassnOrdnerChildren;
+                    tpopNodeChildren.push(tpopNodeMassnOrdner);
+
+                    // tpopOrdnerMassnBer aufbauen
+                    tpopNodeMassnBerOrdner.data = 'Massnahmen-Berichte (' + massnberVonTpop.length + ')';
+                    tpopNodeMassnBerOrdner.attr = {
+                        id: 'tpop_ordner_massnber' + tpop.TPopId,
+                        typ: 'tpop_ordner_massnber'
+                    };
+                    tpopNodeMassnBerOrdner.children = tpopNodeMassnBerOrdnerChildren;
+                    tpopNodeChildren.push(tpopNodeMassnBerOrdner);
+
+                    // tpopOrdnerFeldkontr aufbauen
+                    tpopNodeFeldkontrOrdner.data = 'Feldkontrollen (' + feldkontrVonTpop.length + ')';
+                    tpopNodeFeldkontrOrdner.attr = {
+                        id: 'tpop_ordner_feldkontr' + tpop.TPopId,
+                        typ: 'tpop_ordner_feldkontr'
+                    };
+                    tpopNodeFeldkontrOrdner.children = tpopNodeFeldkontrOrdnerChildren;
+                    tpopNodeChildren.push(tpopNodeFeldkontrOrdner);
+
+                    // tpopOrdnerFreiwkontr aufbauen
+                    tpopNodeFreiwkontrOrdner.data = 'Freiwilligen-Kontrollen (' + freiwkontrVonTpop.length + ')';
+                    tpopNodeFreiwkontrOrdner.attr = {
+                        id: 'tpop_ordner_freiwkontr' + tpop.TPopId,
+                        typ: 'tpop_ordner_freiwkontr'
+                    };
+                    tpopNodeFreiwkontrOrdner.children = tpopNodeFreiwkontrOrdnerChildren;
+                    tpopNodeChildren.push(tpopNodeFreiwkontrOrdner);
+
+                    // tpopOrdnerTpopber aufbauen
+                    tpopNodeTpopberOrdner.data = 'Teilpopulations-Berichte (' + tpopberVonTpop.length + ')';
+                    tpopNodeTpopberOrdner.attr = {
+                        id: 'tpop_ordner_tpopber' + tpop.TPopId,
+                        typ: 'tpop_ordner_tpopber'
+                    };
+                    tpopNodeTpopberOrdner.children = tpopNodeTpopberOrdnerChildren;
+                    tpopNodeChildren.push(tpopNodeTpopberOrdner);
+
+                    // tpopOrdnerBeobZugeordnet aufbauen
+                    tpopNodeTpopBeobZugeordnetOrdner.data = 'Beobachtungen (' + tpopbeobzugeordnetVonTpop.length + ')';
+                    tpopNodeTpopBeobZugeordnetOrdner.attr = {
+                        id: 'tpop_ordner_beob_zugeordnet' + tpop.TPopId,
+                        typ: 'tpop_ordner_beob_zugeordnet'
+                    };
+                    tpopNodeTpopBeobZugeordnetOrdner.children = tpopNodeTpopBeobZugeordnetOrdnerChildren;
+                    tpopNodeChildren.push(tpopNodeTpopBeobZugeordnetOrdner);
+                });
             });
             reply(null, popOrdnerNode);
         });

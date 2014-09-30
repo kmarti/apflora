@@ -194,22 +194,6 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 		mysqli_free_result($result_beob_zugeordnet);
 
 		// TPop-Ordner setzen
-		// Massnahmen
-		$myId = "tpop_ordner_massn".mysqli_real_escape_string($link, $TPopId);
-		$tpop_ordner_massn_attr = array("id" => $myId, "typ" => "tpop_ordner_massn");
-		$tpop_ordner_massn = array("data" => "Massnahmen (".$anz_tpopmassn.")", "attr" => $tpop_ordner_massn_attr, "children" => $rows_tpopmassn);
-		// Massnahmen-Berichte
-		$myId = "tpop_ordner_massnber".mysqli_real_escape_string($link, $TPopId);
-		$tpop_ordner_massnber_attr = array("id" => $myId, "typ" => "tpop_ordner_massnber");
-		$tpop_ordner_massnber = array("data" => "Massnahmen-Berichte (".$anz_tpopmassnber.")", "attr" => $tpop_ordner_massnber_attr, "children" => $rows_tpopmassnber);
-		// Feldkontrollen
-		$myId = "tpop_ordner_feldkontr".mysqli_real_escape_string($link, $TPopId);
-		$tpop_ordner_feldkontr_attr = array("id" => $myId, "typ" => "tpop_ordner_feldkontr");
-		$tpop_ordner_feldkontr = array("data" => "Feldkontrollen (".$anz_tpopfeldkontr.")", "attr" => $tpop_ordner_feldkontr_attr, "children" => $rows_tpopfeldkontr);
-		// Freiwilligen-Kontrollen
-		$myId = "tpop_ordner_freiwkontr".mysqli_real_escape_string($link, $TPopId);
-		$tpop_ordner_freiwkontr_attr = array("id" => $myId, "typ" => "tpop_ordner_freiwkontr");
-		$tpop_ordner_freiwkontr = array("data" => "Freiwilligen-Kontrollen (".$anz_tpopfreiwkontr.")", "attr" => $tpop_ordner_freiwkontr_attr, "children" => $rows_tpopfreiwkontr);
 		// Teilpopulations-Berichte
 		$myId = "tpop_ordner_tpopber".mysqli_real_escape_string($link, $TPopId);
 		$tpop_ordner_tpopber_attr = array("id" => $myId, "typ" => "tpop_ordner_tpopber");
