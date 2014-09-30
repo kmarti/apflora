@@ -14,7 +14,7 @@ var _ = require('underscore')
     , apId
     , erstelleTpop        = require('./tpop')
     , erstellePopMassnBerOrdner = require('./popMassnBerOrdner')
-    , erstellePopBer = require('./popBer')
+    , erstellePopBerOrdner = require('./popBerOrdner')
     ;
 
 var returnFunction = function(request, reply) {
@@ -159,7 +159,8 @@ var returnFunction = function(request, reply) {
                     tpopVonPop = [],
                     popberVonPop = [],
                     massnberVonPop = [],
-                    popBerNode;
+                    popBerNode,
+                    popBerOrdnerNode;
 
                 pop.PopNr = ergänzePopNrUmFührendeNullen(popNrMax, pop.PopNr);
 
@@ -190,13 +191,11 @@ var returnFunction = function(request, reply) {
                 };
                 // popNode.children ist ein Array, der enthält: pop_ordner_tpop, pop_ordner_popber, pop_ordner_massnber
                 popNodeChildren = [];
+                popNode.children = popNodeChildren;
 
                 // Listen der nächsten Ebene erstellen
                 tpopVonPop = _.filter(tpopListe, function(tpop) {
                     return tpop.PopId === pop.PopId;
-                });
-                popberVonPop = _.filter(popBerListe, function(popBer) {
-                    return popBer.PopId === pop.PopId;
                 });
                 
 
@@ -210,26 +209,14 @@ var returnFunction = function(request, reply) {
                 popNodeChildren.push(popNodeTpopOrdner);
 
                 // PopberOrdner aufbauen
-                popNodePopberOrdner.data = 'Populations-Berichte (' + popberVonPop.length + ')';
-                popNodePopberOrdner.attr = {
-                    id: pop.PopId,
-                    typ: 'pop_ordner_popber'
-                };
-                popNodePopberOrdner.children = popNodePopberOrdnerChildren;
-                popNodeChildren.push(popNodePopberOrdner);
-
-                // popber aufbauen
-                _.each(popberVonPop, function(popber) {
-                    popBerNode = erstellePopBer(popber);
-                    popNodePopberOrdnerChildren.push(popBerNode);
-                });
+                popBerOrdnerNode = erstellePopBerOrdner(popBerListe, pop);
+                popNodeChildren.push(popBerOrdnerNode);
 
                 // MassnberOrdner aufbauen
                 popMassnberOrdnerNode = erstellePopMassnBerOrdner(popMassnBerListe, pop);
                 popNodeChildren.push(popMassnberOrdnerNode);
 
                 
-                popNode.children = popNodeChildren;
                 popOrdnerNodeChildren.push(popNode);
 
                 // tpop aufbauen
