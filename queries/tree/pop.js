@@ -1,21 +1,20 @@
 'use strict';
 
-var _ = require('underscore')
-    , mysql = require('mysql')
-    , async = require('async')
-    , config = require('../../src/modules/configuration')
-    , connection = mysql.createConnection({
+var _ = require('underscore'),
+    mysql = require('mysql'),
+    async = require('async'),
+    config = require('../../src/modules/configuration'),
+    connection = mysql.createConnection({
         host: 'localhost',
         user: config.db.userName,
         password: config.db.passWord,
         database: 'alexande_apflora'
-    })
-    , response = {}
-    , apId
-    , erstelleTpopOrdner        = require('./tpopOrdner')
-    , erstellePopMassnBerOrdner = require('./popMassnBerOrdner')
-    , erstellePopBerOrdner      = require('./popBerOrdner')
-    ;
+    }),
+    response = {},
+    apId,
+    erstelleTpopOrdner        = require('./tpopOrdner'),
+    erstellePopMassnBerOrdner = require('./popMassnBerOrdner'),
+    erstellePopBerOrdner      = require('./popBerOrdner');
 
 var returnFunction = function(request, reply) {
     apId = decodeURIComponent(request.params.apId);
@@ -117,17 +116,9 @@ var returnFunction = function(request, reply) {
                 );
             }
         }, function(err, results) {
-            var tpopMassnListe            = results.tpopMassnListe || []
-                , tpopMassnBerListe       = results.tpopMassnBerListe || []
-                , tpopFeldkontrListe      = results.tpopFeldkontrListe || []
-                , tpopFreiwkontrListe     = results.tpopFreiwkontrListe || []
-                , tpopBerListe            = results.tpopBerListe || []
-                , tpopBeobZugeordnetListe = results.tpopBeobZugeordnetListe || []
-                , popBerListe             = results.popBerListe || []
-                , popMassnBerListe        = results.popMassnBerListe || []
-                ;
-
-            var popOrdnerNode = {},
+            var popBerListe      = results.popBerListe || [],
+                popMassnBerListe = results.popMassnBerListe || [],
+                popOrdnerNode = {},
                 popOrdnerNodeChildren;
 
             // node für ap_ordner_pop aufbauen
@@ -172,7 +163,6 @@ var returnFunction = function(request, reply) {
                     popSort = 1000;
                 }
 
-                popNode = {};
                 popNode.data = data;
                 popNode.attr = {
                     id: pop.PopId,
@@ -180,7 +170,6 @@ var returnFunction = function(request, reply) {
                     sort: popSort
                 };
                 // popNode.children ist ein Array, der enthält: pop_ordner_tpop, pop_ordner_popber, pop_ordner_massnber
-                popNodeChildren = [];
                 popNode.children = popNodeChildren;
 
                 popOrdnerNodeChildren.push(popNode);
