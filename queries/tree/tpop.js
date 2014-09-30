@@ -35,6 +35,8 @@ var returnFunction = function(results, tpop) {
         tpopNodeText = "(keine Nr): (kein Flurname)";
         tpopSort = 1000;
     }
+
+    // node aufbauen
     tpopNode.data = tpopNodeText;
     tpopNode.attr = {
         id: tpop.TPopId,
