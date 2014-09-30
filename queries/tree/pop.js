@@ -12,7 +12,8 @@ var _ = require('underscore')
     })
     , response = {}
     , apId
-    , erstelleTpop = require('./tpop')
+    , erstelleTpop        = require('./tpop')
+    , erstellePopMassnBerOrdner = require('./popMassnBerOrdner')
     ;
 
 var returnFunction = function(request, reply) {
@@ -115,7 +116,13 @@ var returnFunction = function(request, reply) {
                 );
             }
         }, function(err, results) {
-            var popBerListe             = results.popBerListe || []
+            var tpopMassnListe            = results.tpopMassnListe || []
+                , tpopMassnBerListe       = results.tpopMassnBerListe || []
+                , tpopFeldkontrListe      = results.tpopFeldkontrListe || []
+                , tpopFreiwkontrListe     = results.tpopFreiwkontrListe || []
+                , tpopBerListe            = results.tpopBerListe || []
+                , tpopBeobZugeordnetListe = results.tpopBeobZugeordnetListe || []
+                , popBerListe             = results.popBerListe || []
                 , popMassnBerListe        = results.popMassnBerListe || []
                 ;
 
@@ -143,6 +150,8 @@ var returnFunction = function(request, reply) {
                     popNodeTpopOrdner = {},
                     popNodePopberOrdner = {},
                     popNodeMassnberOrdner = {},
+                    popMassnberOrdnerNode,
+                    popNodeMassnberNode,
                     popNodeTpopOrdnerChildren = [],
                     popNodePopberOrdnerChildren = [],
                     popNodeMassnberOrdnerChildren = [],
@@ -187,9 +196,7 @@ var returnFunction = function(request, reply) {
                 popberVonPop = _.filter(popBerListe, function(popBer) {
                     return popBer.PopId === pop.PopId;
                 });
-                massnberVonPop = _.filter(popMassnBerListe, function(popMassnBer) {
-                    return popMassnBer.PopId === pop.PopId;
-                });
+                
 
                 // tpopOrdner aufbauen
                 popNodeTpopOrdner.data = 'Teilpopulationen (' + tpopVonPop.length + ')';
@@ -232,35 +239,9 @@ var returnFunction = function(request, reply) {
                 });
 
                 // MassnberOrdner aufbauen
-                popNodeMassnberOrdner.data = 'Massnahmen-Berichte (' + massnberVonPop.length + ')';
-                popNodeMassnberOrdner.attr = {
-                    id: pop.PopId,
-                    typ: 'pop_ordner_massnber'
-                };
-                popNodeMassnberOrdner.children = popNodeMassnberOrdnerChildren;
-                popNodeChildren.push(popNodeMassnberOrdner);
+                popMassnberOrdnerNode = erstellePopMassnBerOrdner(popMassnBerListe, pop);
+                popNodeChildren.push(popMassnberOrdnerNode);
 
-                // massnber aufbauen
-                _.each(massnberVonPop, function(massnber) {
-                    var node  = {},
-                        nodeText;
-                    // Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
-                    if (massnber.PopMassnBerJahr && massnber.BeurteilTxt) {
-                        nodeText = massnber.PopMassnBerJahr + ": " + massnber.BeurteilTxt;
-                    } else if (massnber.PopMassnBerJahr) {
-                        nodeText = massnber.PopMassnBerJahr + ": (nicht beurteilt)";
-                    } else if (massnber.BeurteilTxt) {
-                        nodeText = "(kein Jahr): " + massnber.BeurteilTxt;
-                    } else {
-                        nodeText = "(kein Jahr): (nicht beurteilt)";
-                    }
-                    node.data = nodeText;
-                    node.attr = {
-                        id: massnber.PopMassnBerId,
-                        typ: 'popmassnber'
-                    };
-                    popNodeMassnberOrdnerChildren.push(node);
-                });
                 
                 popNode.children = popNodeChildren;
                 popOrdnerNodeChildren.push(popNode);
