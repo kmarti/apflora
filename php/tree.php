@@ -192,15 +192,3 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 		    $rows_beob_zugeordnet[] = $beob_zugeordnet;
 		}
 		mysqli_free_result($result_beob_zugeordnet);
-
-		// TPop-Ordner setzen
-		// Teilpopulations-Berichte
-		$myId = "tpop_ordner_tpopber".mysqli_real_escape_string($link, $TPopId);
-		$tpop_ordner_tpopber_attr = array("id" => $myId, "typ" => "tpop_ordner_tpopber");
-		$tpop_ordner_tpopber = array("data" => "Teilpopulations-Berichte (".$anz_tpopber.")", "attr" => $tpop_ordner_tpopber_attr, "children" => $rows_tpopber);
-		// Beobachtungen
-		$myId = "tpop_ordner_beob_zugeordnet".mysqli_real_escape_string($link, $TPopId);
-		$tpop_ordner_beob_zugeordnet_attr = array("id" => $myId, "typ" => "tpop_ordner_beob_zugeordnet");
-		$tpop_ordner_beob_zugeordnet = array("data" => "Beobachtungen (".$anz_beob_zugeordnet.")", "attr" => $tpop_ordner_beob_zugeordnet_attr, "children" => $rows_beob_zugeordnet);
-		// zusammensetzen
-		$tpop_ordner = array(0 => $tpop_ordner_massn, 1 => $tpop_ordner_massnber, 2 => $tpop_ordner_feldkontr, 3 => $tpop_ordner_freiwkontr, 4 => $tpop_ordner_tpopber, 5 => $tpop_ordner_beob_zugeordnet);

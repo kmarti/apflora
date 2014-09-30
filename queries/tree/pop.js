@@ -12,6 +12,12 @@ var _ = require('underscore')
     })
     , response = {}
     , apId
+    , erstelleTpopMassn          = require('./tpopMassn')
+    , erstelleTpopMassnBer       = require('./tpopMassnBer')
+    , erstelleTpopFeldkontr      = require('./tpopFeldkontr')
+    , erstelleTpopFreiwkontr     = require('./tpopFreiwkontr')
+    , erstelleTpopBer            = require('./tpopBer')
+    , erstelleTpopBeobZugeordnet = require('./tpopBeobZugeordnet')
     ;
 
 var returnFunction = function(request, reply) {
@@ -282,13 +288,11 @@ var returnFunction = function(request, reply) {
                         freiwkontrVonTpop,
                         tpopberVonTpop,
                         tpopbeobzugeordnetVonTpop,
-                        tpopNodeMassnOrdner = {},
                         tpopNodeMassnBerOrdner = {},
                         tpopNodeFeldkontrOrdner = {},
                         tpopNodeFreiwkontrOrdner = {},
                         tpopNodeTpopberOrdner = {},
                         tpopNodeTpopBeobZugeordnetOrdner = {},
-                        tpopNodeMassnOrdnerChildren = [],
                         tpopNodeMassnBerOrdnerChildren = [],
                         tpopNodeFeldkontrOrdnerChildren = [],
                         tpopNodeFreiwkontrOrdnerChildren = [],
@@ -318,80 +322,18 @@ var returnFunction = function(request, reply) {
                     tpopNode.children = tpopNodeChildren;
                     popNodeTpopOrdnerChildren.push(tpopNode);
 
-
-                    // Listen der nächsten Ebene erstellen
-                    massnVonTpop = _.filter(tpopMassnListe, function(tpopMassn) {
-                        return tpopMassn.TPopId === tpop.TPopId;
-                    });
-                    massnberVonTpop = _.filter(tpopMassnBerListe, function(tpopMassnBer) {
-                        return tpopMassnBer.TPopId === tpop.TPopId;
-                    });
-                    feldkontrVonTpop = _.filter(tpopFeldkontrListe, function(tpopFeldkontr) {
-                        return tpopFeldkontr.TPopId === tpop.TPopId;
-                    });
-                    freiwkontrVonTpop = _.filter(tpopFreiwkontrListe, function(tpopFreiwkontr) {
-                        return tpopFreiwkontr.TPopId === tpop.TPopId;
-                    });
-                    tpopberVonTpop = _.filter(tpopBerListe, function(tpopBer) {
-                        return tpopBer.TPopId === tpop.TPopId;
-                    });
-                    tpopbeobzugeordnetVonTpop = _.filter(tpopBeobZugeordnetListe, function(tpopBeobZugeordnet) {
-                        return tpopBeobZugeordnet.TPopId === tpop.TPopId;
-                    });
-
                     // tpopOrdnerMassnahmen aufbauen
-                    tpopNodeMassnOrdner.data = 'Massnahmen (' + massnVonTpop.length + ')';
-                    tpopNodeMassnOrdner.attr = {
-                        id: 'tpop_ordner_massn' + tpop.TPopId,
-                        typ: 'tpop_ordner_massn'
-                    };
-                    tpopNodeMassnOrdner.children = tpopNodeMassnOrdnerChildren;
-                    tpopNodeChildren.push(tpopNodeMassnOrdner);
-
+                    tpopNodeChildren.push(erstelleTpopMassn(tpopMassnListe, tpop));
                     // tpopOrdnerMassnBer aufbauen
-                    tpopNodeMassnBerOrdner.data = 'Massnahmen-Berichte (' + massnberVonTpop.length + ')';
-                    tpopNodeMassnBerOrdner.attr = {
-                        id: 'tpop_ordner_massnber' + tpop.TPopId,
-                        typ: 'tpop_ordner_massnber'
-                    };
-                    tpopNodeMassnBerOrdner.children = tpopNodeMassnBerOrdnerChildren;
-                    tpopNodeChildren.push(tpopNodeMassnBerOrdner);
-
+                    tpopNodeChildren.push(erstelleTpopMassnBer(tpopMassnBerListe, tpop));
                     // tpopOrdnerFeldkontr aufbauen
-                    tpopNodeFeldkontrOrdner.data = 'Feldkontrollen (' + feldkontrVonTpop.length + ')';
-                    tpopNodeFeldkontrOrdner.attr = {
-                        id: 'tpop_ordner_feldkontr' + tpop.TPopId,
-                        typ: 'tpop_ordner_feldkontr'
-                    };
-                    tpopNodeFeldkontrOrdner.children = tpopNodeFeldkontrOrdnerChildren;
-                    tpopNodeChildren.push(tpopNodeFeldkontrOrdner);
-
+                    tpopNodeChildren.push(erstelleTpopFeldkontr(tpopFeldkontrListe, tpop));
                     // tpopOrdnerFreiwkontr aufbauen
-                    tpopNodeFreiwkontrOrdner.data = 'Freiwilligen-Kontrollen (' + freiwkontrVonTpop.length + ')';
-                    tpopNodeFreiwkontrOrdner.attr = {
-                        id: 'tpop_ordner_freiwkontr' + tpop.TPopId,
-                        typ: 'tpop_ordner_freiwkontr'
-                    };
-                    tpopNodeFreiwkontrOrdner.children = tpopNodeFreiwkontrOrdnerChildren;
-                    tpopNodeChildren.push(tpopNodeFreiwkontrOrdner);
-
+                    tpopNodeChildren.push(erstelleTpopFreiwkontr(tpopFreiwkontrListe, tpop));
                     // tpopOrdnerTpopber aufbauen
-                    tpopNodeTpopberOrdner.data = 'Teilpopulations-Berichte (' + tpopberVonTpop.length + ')';
-                    tpopNodeTpopberOrdner.attr = {
-                        id: 'tpop_ordner_tpopber' + tpop.TPopId,
-                        typ: 'tpop_ordner_tpopber'
-                    };
-                    tpopNodeTpopberOrdner.children = tpopNodeTpopberOrdnerChildren;
-                    tpopNodeChildren.push(tpopNodeTpopberOrdner);
-
+                    tpopNodeChildren.push(erstelleTpopBer(tpopBerListe, tpop));
                     // tpopOrdnerBeobZugeordnet aufbauen
-                    tpopNodeTpopBeobZugeordnetOrdner.data = 'Beobachtungen (' + tpopbeobzugeordnetVonTpop.length + ')';
-                    tpopNodeTpopBeobZugeordnetOrdner.attr = {
-                        id: 'tpop_ordner_beob_zugeordnet' + tpop.TPopId,
-                        typ: 'tpop_ordner_beob_zugeordnet'
-                    };
-                    tpopNodeTpopBeobZugeordnetOrdner.children = tpopNodeTpopBeobZugeordnetOrdnerChildren;
-                    tpopNodeChildren.push(tpopNodeTpopBeobZugeordnetOrdner);
+                    tpopNodeChildren.push(erstelleTpopBeobZugeordnet(tpopBeobZugeordnetListe, tpop));
                 });
             });
             reply(null, popOrdnerNode);
