@@ -3,6 +3,7 @@
 var returnFunction = function(massnber) {
     var node  = {},
         nodeText;
+
     // Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
     if (massnber.PopMassnBerJahr && massnber.BeurteilTxt) {
         nodeText = massnber.PopMassnBerJahr + ": " + massnber.BeurteilTxt;
@@ -13,11 +14,14 @@ var returnFunction = function(massnber) {
     } else {
         nodeText = "(kein Jahr): (nicht beurteilt)";
     }
+
+    // node aufbauen
     node.data = nodeText;
     node.attr = {
         id: massnber.PopMassnBerId,
         typ: 'popmassnber'
     };
+
     return node;
 };
 

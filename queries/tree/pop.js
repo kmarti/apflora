@@ -148,18 +148,7 @@ var returnFunction = function(request, reply) {
             _.each(popListe, function(pop) {
                 var popNode = {},
                     popNodeChildren = [],
-                    popNodeTpopOrdner = {},
-                    popNodePopberOrdner = {},
-                    popNodeMassnberOrdner = {},
                     popMassnberOrdnerNode,
-                    popNodeMassnberNode,
-                    popNodeTpopOrdnerChildren = [],
-                    popNodePopberOrdnerChildren = [],
-                    popNodeMassnberOrdnerChildren = [],
-                    tpopVonPop = [],
-                    popberVonPop = [],
-                    massnberVonPop = [],
-                    popBerNode,
                     popBerOrdnerNode,
                     popTpopOrdnerNode;
 
@@ -194,6 +183,8 @@ var returnFunction = function(request, reply) {
                 popNodeChildren = [];
                 popNode.children = popNodeChildren;
 
+                popOrdnerNodeChildren.push(popNode);
+
                 // tpopOrdner aufbauen
                 popTpopOrdnerNode = erstelleTpopOrdner(results, tpopListe, pop);
                 popNodeChildren.push(popTpopOrdnerNode);
@@ -205,9 +196,6 @@ var returnFunction = function(request, reply) {
                 // MassnberOrdner aufbauen
                 popMassnberOrdnerNode = erstellePopMassnBerOrdner(popMassnBerListe, pop);
                 popNodeChildren.push(popMassnberOrdnerNode);
-
-                
-                popOrdnerNodeChildren.push(popNode);
             });
             reply(null, popOrdnerNode);
         });
