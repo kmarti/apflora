@@ -12,9 +12,9 @@ var _ = require('underscore')
     })
     , response = {}
     , apId
-    , erstelleTpop        = require('./tpop')
+    , erstelleTpopOrdner        = require('./tpopOrdner')
     , erstellePopMassnBerOrdner = require('./popMassnBerOrdner')
-    , erstellePopBerOrdner = require('./popBerOrdner')
+    , erstellePopBerOrdner      = require('./popBerOrdner')
     ;
 
 var returnFunction = function(request, reply) {
@@ -160,7 +160,8 @@ var returnFunction = function(request, reply) {
                     popberVonPop = [],
                     massnberVonPop = [],
                     popBerNode,
-                    popBerOrdnerNode;
+                    popBerOrdnerNode,
+                    popTpopOrdnerNode;
 
                 pop.PopNr = ergänzePopNrUmFührendeNullen(popNrMax, pop.PopNr);
 
@@ -193,20 +194,9 @@ var returnFunction = function(request, reply) {
                 popNodeChildren = [];
                 popNode.children = popNodeChildren;
 
-                // Listen der nächsten Ebene erstellen
-                tpopVonPop = _.filter(tpopListe, function(tpop) {
-                    return tpop.PopId === pop.PopId;
-                });
-                
-
                 // tpopOrdner aufbauen
-                popNodeTpopOrdner.data = 'Teilpopulationen (' + tpopVonPop.length + ')';
-                popNodeTpopOrdner.attr = {
-                    id: pop.PopId,
-                    typ: 'pop_ordner_tpop'
-                };
-                popNodeTpopOrdner.children = popNodeTpopOrdnerChildren;
-                popNodeChildren.push(popNodeTpopOrdner);
+                popTpopOrdnerNode = erstelleTpopOrdner(results, tpopListe, pop);
+                popNodeChildren.push(popTpopOrdnerNode);
 
                 // PopberOrdner aufbauen
                 popBerOrdnerNode = erstellePopBerOrdner(popBerListe, pop);
@@ -218,12 +208,6 @@ var returnFunction = function(request, reply) {
 
                 
                 popOrdnerNodeChildren.push(popNode);
-
-                // tpop aufbauen
-                _.each(tpopVonPop, function(tpop) {
-                    var tpopNode = erstelleTpop(results, tpop);
-                    popNodeTpopOrdnerChildren.push(tpopNode);
-                });
             });
             reply(null, popOrdnerNode);
         });
