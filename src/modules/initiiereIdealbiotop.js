@@ -1,10 +1,11 @@
 'use strict';
 
 var $ = require('jquery'),
-    dateFormat = require('dateformat'),
-    initiiereAp = require('./initiiereAp');
+    dateFormat           = require('dateformat'),
+    initiiereAp          = require('./initiiereAp'),
+    initiiereIdealbiotop = require('./initiiereIdealbiotop');
 
-var initiiereIdealbiotop = function() {
+var returnFunction = function() {
     if (!localStorage.ap_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp();
@@ -66,7 +67,7 @@ var initiiereIdealbiotop = function() {
             });
             insertIdealbiotop.done(function(data) {
                 localStorage.idealbiotop_id = data.IbApArtId;
-                window.apf.initiiere_idealbiotop();
+                initiiereIdealbiotop();
             });
             insertIdealbiotop.fail(function() {
                 //window.apf.melde("Fehler: Kein Idealbiotop erstellt");
@@ -76,4 +77,4 @@ var initiiereIdealbiotop = function() {
     });
 };
 
-module.exports = initiiereIdealbiotop;
+module.exports = returnFunction;

@@ -1176,7 +1176,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 	.bind("select_node.jstree", function(e, data) {
 		var node,
             initiiere_beob          = require('./modules/initiiereBeob'),
-            initiiere_idealbiotop   = require('./modules/initiiereIdealbiotop'),
+            initiiereIdealbiotop    = require('./modules/initiiereIdealbiotop'),
             initiiereAp             = require('./modules/initiiereAp'),
             initiierePop            = require('./modules/initiierePop'),
             initiiereApziel         = require('./modules/initiiereApziel'),
@@ -1253,8 +1253,8 @@ window.apf.erstelle_tree = function(ApArtId) {
 			if (!$("#idealbiotop").is(':visible')) {
 				// eigene id nicht nötig
 				// 1:1 mit ap verbunden, gleich id
-				// wenn noch kein Datensatz existiert erstellt ihn initiiere_idealbiotop
-				initiiere_idealbiotop();
+				// wenn noch kein Datensatz existiert erstellt ihn initiiereIdealbiotop
+				initiiereIdealbiotop();
 			}
 		} else if (node_typ === "assozarten") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -5110,7 +5110,7 @@ window.apf.öffneUri = function() {
 	var uri = new Uri($(location).attr('href')),
 		anchor = uri.anchor() || null,
 		ap_id = uri.getQueryParamValue('ap'),
-        initiiere_idealbiotop   = require('./modules/initiiereIdealbiotop'),
+        initiiereIdealbiotop   = require('./modules/initiiereIdealbiotop'),
         initiiereAp             = require('./modules/initiiereAp'),
         initiierePop            = require('./modules/initiiereBeob'),
         initiiereApziel         = require('./modules/initiiereApziel'),
@@ -5285,7 +5285,7 @@ window.apf.öffneUri = function() {
 			// Die Markierung wird im load-Event wieder entfernt
 			window.apf.idealbiotop_zeigen = true;
 			// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-			initiiere_idealbiotop();
+			initiiereIdealbiotop();
 		} else if (uri.getQueryParamValue('assozarten')) {
 			// globale Variablen setzen
 			window.apf.setzeWindowAssozarten(uri.getQueryParamValue('assozarten'));
@@ -7224,7 +7224,7 @@ window.apf.frageObAktionRückgängigGemachtWerdenSoll = function(wasIstPassiert)
 window.apf.insertNeuenNodeAufGleicherHierarchiestufe = function(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung) {
 	'use strict';
 	var NeuerNode,
-        capitaliseFirstLetter = require('./lib/capitaliseFirstLetter');
+        initiiereFormularMitStrukturtyp = require('./modules/initiiereFormularMitStrukturtyp');
 	// id global verfügbar machen
 	localStorage[strukturtyp + "_id"] = ds_id;
 	// letzte globale Variable entfernen
@@ -7273,24 +7273,15 @@ window.apf.insertNeuenNodeAufGleicherHierarchiestufe = function(aktiver_node, pa
 	$.jstree._reference(aktiver_node).deselect_all();
 	$.jstree._reference(NeuerNode).select_node(NeuerNode);
 	// Formular initiieren
-	if (strukturtyp === "tpopfreiwkontr") {
-		// der Initiierung mitteilen, dass es eine Freiwilligenkontrolle ist und keine Feldkontrolle
-		localStorage.tpopfreiwkontr = true;
-		// Freiwilligen-Kontrollen werden von derselben Funktion initiiert, wie Feldkontrollen
-		window.apf["initiiere_tpopfeldkontr"]();
-        initiiereTPopFeldKontr();
-
-	} else {
-		//window.apf["initiiere_"+strukturtyp]();
-        'initiiere' + capitaliseFirstLetter(strukturtyp)();
-	}
+	initiiereFormularMitStrukturtyp(strukturtyp);
 };
 
 // Baut einen neuen Knoten auf der näcshttieferen Hierarchiestufe, als der Befehl aufgerufen wurde
 // parent_node wird nur von Strukturtyp apziel benutzt
 window.apf.insertNeuenNodeEineHierarchiestufeTiefer = function(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung) {
 	'use strict';
-	var NeuerNode;
+	var NeuerNode,
+		initiiereFormularMitStrukturtyp = require('./modules/initiiereFormularMitStrukturtyp');
 	// id global verfügbar machen
 	localStorage[strukturtyp + "_id"] = ds_id;
 	// letzte globale Variable entfernen
@@ -7358,14 +7349,7 @@ window.apf.insertNeuenNodeEineHierarchiestufeTiefer = function(aktiver_node, par
 	$.jstree._reference(aktiver_node).deselect_all();
 	$.jstree._reference(NeuerNode).select_node(NeuerNode);
 	// Formular initiieren
-	if (strukturtyp === "tpopfreiwkontr") {
-		// der Initiierung mitteilen, dass es eine Freiwilligenkontrolle ist und keine Feldkontrolle
-		localStorage.tpopfreiwkontr = true;
-		// Freiwilligen-Kontrollen werden von derselben Funktion initiiert, wie Feldkontrollen
-		window.apf["initiiere_tpopfeldkontr"]();
-	} else {
-		window.apf["initiiere_"+strukturtyp]();
-	}
+	initiiereFormularMitStrukturtyp(strukturtyp);
 };
 
 // erstellt alle Unterordner des Ordners vom Typ pop

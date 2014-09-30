@@ -1177,7 +1177,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 	.bind("select_node.jstree", function(e, data) {
 		var node,
             initiiere_beob          = require('./modules/initiiereBeob'),
-            initiiere_idealbiotop   = require('./modules/initiiereIdealbiotop'),
+            initiiereIdealbiotop    = require('./modules/initiiereIdealbiotop'),
             initiiereAp             = require('./modules/initiiereAp'),
             initiierePop            = require('./modules/initiierePop'),
             initiiereApziel         = require('./modules/initiiereApziel'),
@@ -1254,8 +1254,8 @@ window.apf.erstelle_tree = function(ApArtId) {
 			if (!$("#idealbiotop").is(':visible')) {
 				// eigene id nicht nötig
 				// 1:1 mit ap verbunden, gleich id
-				// wenn noch kein Datensatz existiert erstellt ihn initiiere_idealbiotop
-				initiiere_idealbiotop();
+				// wenn noch kein Datensatz existiert erstellt ihn initiiereIdealbiotop
+				initiiereIdealbiotop();
 			}
 		} else if (node_typ === "assozarten") {
 			// verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -5111,7 +5111,7 @@ window.apf.öffneUri = function() {
 	var uri = new Uri($(location).attr('href')),
 		anchor = uri.anchor() || null,
 		ap_id = uri.getQueryParamValue('ap'),
-        initiiere_idealbiotop   = require('./modules/initiiereIdealbiotop'),
+        initiiereIdealbiotop   = require('./modules/initiiereIdealbiotop'),
         initiiereAp             = require('./modules/initiiereAp'),
         initiierePop            = require('./modules/initiiereBeob'),
         initiiereApziel         = require('./modules/initiiereApziel'),
@@ -5286,7 +5286,7 @@ window.apf.öffneUri = function() {
 			// Die Markierung wird im load-Event wieder entfernt
 			window.apf.idealbiotop_zeigen = true;
 			// direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-			initiiere_idealbiotop();
+			initiiereIdealbiotop();
 		} else if (uri.getQueryParamValue('assozarten')) {
 			// globale Variablen setzen
 			window.apf.setzeWindowAssozarten(uri.getQueryParamValue('assozarten'));
@@ -7225,7 +7225,7 @@ window.apf.frageObAktionRückgängigGemachtWerdenSoll = function(wasIstPassiert)
 window.apf.insertNeuenNodeAufGleicherHierarchiestufe = function(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung) {
 	'use strict';
 	var NeuerNode,
-        capitaliseFirstLetter = require('./lib/capitaliseFirstLetter');
+        initiiereFormularMitStrukturtyp = require('./modules/initiiereFormularMitStrukturtyp');
 	// id global verfügbar machen
 	localStorage[strukturtyp + "_id"] = ds_id;
 	// letzte globale Variable entfernen
@@ -7274,24 +7274,15 @@ window.apf.insertNeuenNodeAufGleicherHierarchiestufe = function(aktiver_node, pa
 	$.jstree._reference(aktiver_node).deselect_all();
 	$.jstree._reference(NeuerNode).select_node(NeuerNode);
 	// Formular initiieren
-	if (strukturtyp === "tpopfreiwkontr") {
-		// der Initiierung mitteilen, dass es eine Freiwilligenkontrolle ist und keine Feldkontrolle
-		localStorage.tpopfreiwkontr = true;
-		// Freiwilligen-Kontrollen werden von derselben Funktion initiiert, wie Feldkontrollen
-		window.apf["initiiere_tpopfeldkontr"]();
-        initiiereTPopFeldKontr();
-
-	} else {
-		//window.apf["initiiere_"+strukturtyp]();
-        'initiiere' + capitaliseFirstLetter(strukturtyp)();
-	}
+	initiiereFormularMitStrukturtyp(strukturtyp);
 };
 
 // Baut einen neuen Knoten auf der näcshttieferen Hierarchiestufe, als der Befehl aufgerufen wurde
 // parent_node wird nur von Strukturtyp apziel benutzt
 window.apf.insertNeuenNodeEineHierarchiestufeTiefer = function(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung) {
 	'use strict';
-	var NeuerNode;
+	var NeuerNode,
+		initiiereFormularMitStrukturtyp = require('./modules/initiiereFormularMitStrukturtyp');
 	// id global verfügbar machen
 	localStorage[strukturtyp + "_id"] = ds_id;
 	// letzte globale Variable entfernen
@@ -7359,14 +7350,7 @@ window.apf.insertNeuenNodeEineHierarchiestufeTiefer = function(aktiver_node, par
 	$.jstree._reference(aktiver_node).deselect_all();
 	$.jstree._reference(NeuerNode).select_node(NeuerNode);
 	// Formular initiieren
-	if (strukturtyp === "tpopfreiwkontr") {
-		// der Initiierung mitteilen, dass es eine Freiwilligenkontrolle ist und keine Feldkontrolle
-		localStorage.tpopfreiwkontr = true;
-		// Freiwilligen-Kontrollen werden von derselben Funktion initiiert, wie Feldkontrollen
-		window.apf["initiiere_tpopfeldkontr"]();
-	} else {
-		window.apf["initiiere_"+strukturtyp]();
-	}
+	initiiereFormularMitStrukturtyp(strukturtyp);
 };
 
 // erstellt alle Unterordner des Ordners vom Typ pop
@@ -10787,7 +10771,7 @@ window.apf.erstelleGuid = function() {
 	    return v.toString(16);
 	});
 };
-},{"./lib/cHtoWGSlat":7,"./lib/cHtoWGSlng":8,"./lib/capitaliseFirstLetter":9,"./lib/ddInChX":10,"./lib/ddInChY":11,"./modules/configuration":21,"./modules/initiiereAp":22,"./modules/initiiereApziel":23,"./modules/initiiereAssozarten":24,"./modules/initiiereBeob":25,"./modules/initiiereBer":26,"./modules/initiiereErfkrit":27,"./modules/initiiereIdealbiotop":28,"./modules/initiiereIndex":29,"./modules/initiiereJber":30,"./modules/initiiereJberUebersicht":31,"./modules/initiierePop":32,"./modules/initiierePopBer":33,"./modules/initiierePopMassnBer":34,"./modules/initiiereTPop":35,"./modules/initiiereTPopBer":36,"./modules/initiiereTPopFeldkontr":37,"./modules/initiiereTPopMassn":38,"./modules/initiiereTPopMassnBer":39,"./modules/initiiereZielber":40,"./modules/zeigeTPop":41}],2:[function(require,module,exports){
+},{"./lib/cHtoWGSlat":7,"./lib/cHtoWGSlng":8,"./lib/ddInChX":10,"./lib/ddInChY":11,"./modules/configuration":21,"./modules/initiiereAp":22,"./modules/initiiereApziel":23,"./modules/initiiereAssozarten":24,"./modules/initiiereBeob":25,"./modules/initiiereBer":26,"./modules/initiiereErfkrit":27,"./modules/initiiereFormularMitStrukturtyp":28,"./modules/initiiereIdealbiotop":29,"./modules/initiiereIndex":30,"./modules/initiiereJber":31,"./modules/initiiereJberUebersicht":32,"./modules/initiierePop":33,"./modules/initiierePopBer":34,"./modules/initiierePopMassnBer":35,"./modules/initiiereTPop":36,"./modules/initiiereTPopBer":37,"./modules/initiiereTPopFeldkontr":38,"./modules/initiiereTPopMassn":39,"./modules/initiiereTPopMassnBer":40,"./modules/initiiereZielber":41,"./modules/zeigeTPop":42}],2:[function(require,module,exports){
 module.exports={
     "user": "alexande",
     "pass": "y3oYksFsQL49es9x"
@@ -36904,7 +36888,9 @@ config.tables = [
         tabelleIdFeld: 'ApArtId',
         mutWannFeld: 'MutWann',
         mutWerFeld: 'MutWer',
-        form: 'ap'
+        form: 'ap',
+        initiiereFunktion: 'initiiereAp',
+        treeTyp: 'gibt es nicht!'
     },
     {
         database: 'apflora',
@@ -36912,7 +36898,9 @@ config.tables = [
         tabelleIdFeld: 'PopId',
         mutWannFeld: 'MutWann',
         mutWerFeld: 'MutWer',
-        form: 'pop'
+        form: 'pop',
+        initiiereFunktion: 'initiierePop',
+        treeTyp: 'pop'
     },
     {
         database: 'apflora',
@@ -36920,7 +36908,9 @@ config.tables = [
         tabelleIdFeld: 'TPopId',
         mutWannFeld: 'MutWann',
         mutWerFeld: 'MutWer',
-        form: 'tpop'
+        form: 'tpop',
+        initiiereFunktion: 'initiiereTPop',
+        treeTyp: 'tpop'
     },
     {
         database: 'apflora',
@@ -36928,7 +36918,9 @@ config.tables = [
         tabelleIdFeld: 'TPopKontrId',
         mutWannFeld: 'MutWann',
         mutWerFeld: 'MutWer',
-        form: 'tpopfeldkontr'
+        form: 'tpopfeldkontr',
+        initiiereFunktion: 'initiiereTPopFeldkontr',
+        treeTyp: 'tpopfeldkontr'
     },
     {
         database: 'apflora',
@@ -36936,7 +36928,9 @@ config.tables = [
         tabelleIdFeld: 'TPopMassnId',
         mutWannFeld: 'MutWann',
         mutWerFeld: 'MutWer',
-        form: 'tpopmassn'
+        form: 'tpopmassn',
+        initiiereFunktion: 'initiiereTPopMassn',
+        treeTyp: 'tpopmassn'
     },
     {
         database: 'apflora',
@@ -36944,7 +36938,9 @@ config.tables = [
         tabelleIdFeld: 'ZielId',
         mutWannFeld: 'MutWann',
         mutWerFeld: 'MutWer',
-        form: 'apziel'
+        form: 'apziel',
+        initiiereFunktion: 'initiiereApziel',
+        treeTyp: 'apziel'
     },
     {
         database: 'apflora',
@@ -36952,7 +36948,9 @@ config.tables = [
         tabelleIdFeld: 'ZielBerId',
         mutWannFeld: 'MutWann',
         mutWerFeld: 'MutWer',
-        form: 'zielber'
+        form: 'zielber',
+        initiiereFunktion: 'initiiereZielber',
+        treeTyp: 'zielber'
     },
     {
         database: 'apflora',
@@ -36960,7 +36958,9 @@ config.tables = [
         tabelleIdFeld: 'ErfkritId',
         mutWannFeld: 'MutWann',
         mutWerFeld: 'MutWer',
-        form: 'erfkrit'
+        form: 'erfkrit',
+        initiiereFunktion: 'initiiereErfkrit',
+        treeTyp: 'erfkrit'
     },
     {
         database: 'apflora',
@@ -36968,7 +36968,9 @@ config.tables = [
         tabelleIdFeld: 'JBerId',
         mutWannFeld: 'MutWann',
         mutWerFeld: 'MutWer',
-        form: 'jber'
+        form: 'jber',
+        initiiereFunktion: 'initiiereJber',
+        treeTyp: 'jber'
     },
     {
         database: 'apflora',
@@ -36976,7 +36978,9 @@ config.tables = [
         tabelleIdFeld: 'JbuJahr',
         mutWannFeld: 'MutWann',
         mutWerFeld: 'MutWer',
-        form: 'jber_uebersicht'
+        form: 'jber_uebersicht',
+        initiiereFunktion: 'initiiereJberUebersicht',
+        treeTyp: 'jber_uebersicht'
     },
     {
         database: 'apflora',
@@ -36984,7 +36988,9 @@ config.tables = [
         tabelleIdFeld: 'BerId',
         mutWannFeld: 'MutWann',
         mutWerFeld: 'MutWer',
-        form: 'ber'
+        form: 'ber',
+        initiiereFunktion: 'initiiereBer',
+        treeTyp: 'ber'
     },
     {
         database: 'apflora',
@@ -36992,7 +36998,9 @@ config.tables = [
         tabelleIdFeld: 'IbApArtId',
         mutWannFeld: 'MutWann',
         mutWerFeld: 'MutWer',
-        form: 'idealbiotop'
+        form: 'idealbiotop',
+        initiiereFunktion: 'initiiereIdealbiotop',
+        treeTyp: 'idealbiotop'
     },
     {
         database: 'apflora',
@@ -37000,7 +37008,9 @@ config.tables = [
         tabelleIdFeld: 'AaId',
         mutWannFeld: 'MutWann',
         mutWerFeld: 'MutWer',
-        form: 'assozarten'
+        form: 'assozarten',
+        initiiereFunktion: 'initiiereAssozarten',
+        treeTyp: 'assozarten'
     },
     {
         database: 'apflora',
@@ -37008,7 +37018,9 @@ config.tables = [
         tabelleIdFeld: 'PopBerId',
         mutWannFeld: 'MutWann',
         mutWerFeld: 'MutWer',
-        form: 'popber'
+        form: 'popber',
+        initiiereFunktion: 'initiierePopBer',
+        treeTyp: 'popber'
     },
     {
         database: 'apflora',
@@ -37016,7 +37028,9 @@ config.tables = [
         tabelleIdFeld: 'PopMassnBerId',
         mutWannFeld: 'MutWann',
         mutWerFeld: 'MutWer',
-        form: 'popmassnber'
+        form: 'popmassnber',
+        initiiereFunktion: 'initiierePopMassnBer',
+        treeTyp: 'popmassnber'
     },
     {
         database: 'apflora',
@@ -37024,7 +37038,9 @@ config.tables = [
         tabelleIdFeld: 'TPopBerId',
         mutWannFeld: 'MutWann',
         mutWerFeld: 'MutWer',
-        form: 'tpopber'
+        form: 'tpopber',
+        initiiereFunktion: 'initiiereTPopBer',
+        treeTyp: 'tpopber'
     },
     {
         database: 'apflora',
@@ -37032,14 +37048,18 @@ config.tables = [
         tabelleIdFeld: 'PopMassnBerId',
         mutWannFeld: 'MutWann',
         mutWerFeld: 'MutWer',
-        form: 'tpopmassnber'
+        form: 'tpopmassnber',
+        initiiereFunktion: 'initiiereTPopMassnBer',
+        treeTyp: 'tpopmassnber'
     },
     {
         database: 'apflora',
         tabelleInDb: 'tblBeobZuordnung',
         tabelleIdFeld: 'NO_NOTE',
         mutWannFeld: 'BeobMutWann',
-        mutWerFeld: 'BeobMutWer'
+        mutWerFeld: 'BeobMutWer',
+        initiiereFunktion: '',
+        treeTyp: 'drei verschiedene!'
     }
 ];
 
@@ -37514,11 +37534,59 @@ module.exports = initiiereErfkrit;
 },{"./initiiereAp":22,"jquery":5}],28:[function(require,module,exports){
 'use strict';
 
-var $ = require('jquery'),
-    dateFormat = require('dateformat'),
-    initiiereAp = require('./initiiereAp');
+/**
+ * nimmt einen Strukturtyp des tree entgegen
+ * sucht die Funktion, welche dessen Formular initiiert
+ * ruft diese Funktion auf
+ */
 
-var initiiereIdealbiotop = function() {
+var conf                       = require('./configuration'),
+    fn                         = {},
+    fnInitiiereFunktion;
+
+fn.initiiereIdealbiotop    = require('./initiiereIdealbiotop');
+fn.initiiereAp             = require('./initiiereAp');
+fn.initiierePop            = require('./initiierePop');
+fn.initiiereApziel         = require('./initiiereApziel');
+fn.initiiereZielber        = require('./initiiereZielber');
+fn.initiiereErfkrit        = require('./initiiereErfkrit');
+fn.initiiereJber           = require('./initiiereJber');
+fn.initiiereJberUebersicht = require('./initiiereJberUebersicht');
+fn.initiiereBer            = require('./initiiereBer');
+fn.initiiereAssozarten     = require('./initiiereAssozarten');
+fn.initiierePopMassnBer    = require('./initiierePopMassnBer');
+fn.initiiereTPop           = require('./initiiereTPop');
+fn.initiierePopBer         = require('./initiierePopBer');
+fn.initiiereTPopFeldkontr  = require('./initiiereTPopFeldkontr');
+fn.initiiereTPopMassn      = require('./initiiereTPopMassn');
+fn.initiiereTPopMassnBer   = require('./initiiereTPopMassnBer');
+fn.initiiereTPopBer        = require('./initiiereTPopBer');
+
+var returnFunction = function(strukturtyp) {
+    if (strukturtyp === "tpopfreiwkontr") {
+        // der Initiierung mitteilen, dass es eine Freiwilligenkontrolle ist und keine Feldkontrolle
+        localStorage.tpopfreiwkontr = true;
+        // Freiwilligen-Kontrollen werden von derselben Funktion initiiert, wie Feldkontrollen
+        fn.initiiereTPopFeldkontr();
+
+    } else {
+        fnInitiiereFunktion = _.filter(conf.tables, function(table) {
+            return table.treeTyp === strukturtyp;
+        }).initiiereFunktion;
+        fn[fnInitiiereFunktion]();
+    }
+};
+
+module.exports = returnFunction;
+},{"./configuration":21,"./initiiereAp":22,"./initiiereApziel":23,"./initiiereAssozarten":24,"./initiiereBer":26,"./initiiereErfkrit":27,"./initiiereIdealbiotop":29,"./initiiereJber":31,"./initiiereJberUebersicht":32,"./initiierePop":33,"./initiierePopBer":34,"./initiierePopMassnBer":35,"./initiiereTPop":36,"./initiiereTPopBer":37,"./initiiereTPopFeldkontr":38,"./initiiereTPopMassn":39,"./initiiereTPopMassnBer":40,"./initiiereZielber":41}],29:[function(require,module,exports){
+'use strict';
+
+var $ = require('jquery'),
+    dateFormat           = require('dateformat'),
+    initiiereAp          = require('./initiiereAp'),
+    initiiereIdealbiotop = require('./initiiereIdealbiotop');
+
+var returnFunction = function() {
     if (!localStorage.ap_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp();
@@ -37580,7 +37648,7 @@ var initiiereIdealbiotop = function() {
             });
             insertIdealbiotop.done(function(data) {
                 localStorage.idealbiotop_id = data.IbApArtId;
-                window.apf.initiiere_idealbiotop();
+                initiiereIdealbiotop();
             });
             insertIdealbiotop.fail(function() {
                 //window.apf.melde("Fehler: Kein Idealbiotop erstellt");
@@ -37590,8 +37658,8 @@ var initiiereIdealbiotop = function() {
     });
 };
 
-module.exports = initiiereIdealbiotop;
-},{"./initiiereAp":22,"dateformat":3,"jquery":5}],29:[function(require,module,exports){
+module.exports = returnFunction;
+},{"./initiiereAp":22,"./initiiereIdealbiotop":29,"dateformat":3,"jquery":5}],30:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -37666,7 +37734,7 @@ var initiiereIndex = function() {
 };
 
 module.exports = initiiereIndex;
-},{"jquery":5,"jquery-ui":4}],30:[function(require,module,exports){
+},{"jquery":5,"jquery-ui":4}],31:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -37778,7 +37846,7 @@ var initiiereJber = function() {
 };
 
 module.exports = initiiereJber;
-},{"../lib/limiter":18,"jquery":5,"underscore":6}],31:[function(require,module,exports){
+},{"../lib/limiter":18,"jquery":5,"underscore":6}],32:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -37822,7 +37890,7 @@ var initiiereJberUebersicht = function() {
 };
 
 module.exports = initiiereJberUebersicht;
-},{"./initiiereAp":22,"jquery":5}],32:[function(require,module,exports){
+},{"./initiiereAp":22,"jquery":5}],33:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -37905,7 +37973,7 @@ var initiierePop = function(ohne_zu_zeigen) {
 };
 
 module.exports = initiierePop;
-},{"../lib/limiter":18,"./initiiereAp":22,"jquery":5}],33:[function(require,module,exports){
+},{"../lib/limiter":18,"./initiiereAp":22,"jquery":5}],34:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -37946,7 +38014,7 @@ var initiierePopBer = function() {
 };
 
 module.exports = initiierePopBer;
-},{"./initiierePop":32,"jquery":5}],34:[function(require,module,exports){
+},{"./initiierePop":33,"jquery":5}],35:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -37987,7 +38055,7 @@ var initiierePopMassnBer = function() {
 };
 
 module.exports = initiierePopMassnBer;
-},{"./initiierePop":32,"jquery":5}],35:[function(require,module,exports){
+},{"./initiierePop":33,"jquery":5}],36:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -38141,7 +38209,7 @@ var initiiereTPop = function(ohne_zu_zeigen) {
 };
 
 module.exports = initiiereTPop;
-},{"../lib/limiter":18,"jquery":5,"underscore":6}],36:[function(require,module,exports){
+},{"../lib/limiter":18,"jquery":5,"underscore":6}],37:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -38184,7 +38252,7 @@ var initiiereTPopBer = function() {
 };
 
 module.exports = initiiereTPopBer;
-},{"./initiierePop":32,"jquery":5}],37:[function(require,module,exports){
+},{"./initiierePop":33,"jquery":5}],38:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -38519,7 +38587,7 @@ var initiiereTPopFeldkontr = function() {
 };
 
 module.exports = initiiereTPopFeldkontr;
-},{"./initiierePop":32,"jquery":5,"jquery-ui":4,"underscore":6}],38:[function(require,module,exports){
+},{"./initiierePop":33,"jquery":5,"jquery-ui":4,"underscore":6}],39:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -38683,7 +38751,7 @@ var initiiereTPopMassn = function() {
 };
 
 module.exports = initiiereTPopMassn;
-},{"./initiierePop":32,"jquery":5,"underscore":6}],39:[function(require,module,exports){
+},{"./initiierePop":33,"jquery":5,"underscore":6}],40:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -38726,7 +38794,7 @@ var initiiereTPopMassnBer = function() {
 };
 
 module.exports = initiiereTPopMassnBer;
-},{"./initiierePop":32,"jquery":5}],40:[function(require,module,exports){
+},{"./initiierePop":33,"jquery":5}],41:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -38770,7 +38838,7 @@ var initiiereZielber = function() {
 };
 
 module.exports = initiiereZielber;
-},{"./initiiereAp":22,"jquery":5}],41:[function(require,module,exports){
+},{"./initiiereAp":22,"jquery":5}],42:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
