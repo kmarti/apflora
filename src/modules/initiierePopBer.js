@@ -15,15 +15,13 @@ var initiierePopBer = function() {
     // Daten für die popber aus der DB holen
     var getPopber = $.ajax({
         type: 'get',
-        url: 'php/popber.php',
-        dataType: 'json',
-        data: {
-            "id": localStorage.popber_id
-        }
+        url: 'api/v1/apflora/tabelle=tblPopBericht/feld=PopBerId/wertNumber=' + localStorage.popber_id,
+        dataType: 'json'
     });
-    getPopber.always(function(data) {
+    getPopber.done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-        if (data) {
+        if (data && data[0]) {
+            data = data[0];
             // popber bereitstellen
             window.apf.popber = data;
             // Felder mit Daten beliefern
