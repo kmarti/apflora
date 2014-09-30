@@ -1,7 +1,5 @@
 'use strict';
 
-var _ = require('underscore');
-
 var returnFunction = function(massnber) {
     var node  = {},
         nodeText;

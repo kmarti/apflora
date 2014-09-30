@@ -14,6 +14,7 @@ var _ = require('underscore')
     , apId
     , erstelleTpop        = require('./tpop')
     , erstellePopMassnBerOrdner = require('./popMassnBerOrdner')
+    , erstellePopBer = require('./popBer')
     ;
 
 var returnFunction = function(request, reply) {
@@ -157,7 +158,8 @@ var returnFunction = function(request, reply) {
                     popNodeMassnberOrdnerChildren = [],
                     tpopVonPop = [],
                     popberVonPop = [],
-                    massnberVonPop = [];
+                    massnberVonPop = [],
+                    popBerNode;
 
                 pop.PopNr = ergänzePopNrUmFührendeNullen(popNrMax, pop.PopNr);
 
@@ -218,24 +220,8 @@ var returnFunction = function(request, reply) {
 
                 // popber aufbauen
                 _.each(popberVonPop, function(popber) {
-                    var node  = {},
-                        nodeText;
-                    // Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
-                    if (popber.PopBerJahr && popber.EntwicklungTxt) {
-                        nodeText = popber.PopBerJahr + ": " + popber.EntwicklungTxt;
-                    } else if (popber.PopBerJahr) {
-                        nodeText = popber.PopBerJahr + ": (nicht beurteilt)";
-                    } else if (popber.EntwicklungTxt) {
-                        nodeText = "(kein Jahr): " + popber.EntwicklungTxt;
-                    } else {
-                        nodeText = "(kein Jahr): (nicht beurteilt)";
-                    }
-                    node.data = nodeText;
-                    node.attr = {
-                        id: popber.PopBerId,
-                        typ: 'popber'
-                    };
-                    popNodePopberOrdnerChildren.push(node);
+                    popBerNode = erstellePopBer(popber);
+                    popNodePopberOrdnerChildren.push(popBerNode);
                 });
 
                 // MassnberOrdner aufbauen
