@@ -12,12 +12,7 @@ var _ = require('underscore')
     })
     , response = {}
     , apId
-    , erstelleTpopMassn          = require('./tpopMassn')
-    , erstelleTpopMassnBer       = require('./tpopMassnBer')
-    , erstelleTpopFeldkontr      = require('./tpopFeldkontr')
-    , erstelleTpopFreiwkontr     = require('./tpopFreiwkontr')
-    , erstelleTpopBer            = require('./tpopBer')
-    , erstelleTpopBeobZugeordnet = require('./tpopBeobZugeordnet')
+    , erstelleTpop = require('./tpop')
     ;
 
 var returnFunction = function(request, reply) {
@@ -120,13 +115,7 @@ var returnFunction = function(request, reply) {
                 );
             }
         }, function(err, results) {
-            var tpopMassnListe            = results.tpopMassnListe || []
-                , tpopMassnBerListe       = results.tpopMassnBerListe || []
-                , tpopFeldkontrListe      = results.tpopFeldkontrListe || []
-                , tpopFreiwkontrListe     = results.tpopFreiwkontrListe || []
-                , tpopBerListe            = results.tpopBerListe || []
-                , tpopBeobZugeordnetListe = results.tpopBeobZugeordnetListe || []
-                , popBerListe             = results.popBerListe || []
+            var popBerListe             = results.popBerListe || []
                 , popMassnBerListe        = results.popMassnBerListe || []
                 ;
 
@@ -278,62 +267,8 @@ var returnFunction = function(request, reply) {
 
                 // tpop aufbauen
                 _.each(tpopVonPop, function(tpop) {
-                    var tpopNode  = {},
-                        tpopNodeText,
-                        tpopSort,
-                        tpopNodeChildren = [],
-                        massnVonTpop,
-                        massnberVonTpop,
-                        feldkontrVonTpop,
-                        freiwkontrVonTpop,
-                        tpopberVonTpop,
-                        tpopbeobzugeordnetVonTpop,
-                        tpopNodeMassnBerOrdner = {},
-                        tpopNodeFeldkontrOrdner = {},
-                        tpopNodeFreiwkontrOrdner = {},
-                        tpopNodeTpopberOrdner = {},
-                        tpopNodeTpopBeobZugeordnetOrdner = {},
-                        tpopNodeMassnBerOrdnerChildren = [],
-                        tpopNodeFeldkontrOrdnerChildren = [],
-                        tpopNodeFreiwkontrOrdnerChildren = [],
-                        tpopNodeTpopberOrdnerChildren = [],
-                        tpopNodeTpopBeobZugeordnetOrdnerChildren = [];
-
-                    // Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
-                    if (tpop.TPopNr && tpop.TPopFlurname) {
-                        tpopNodeText = tpop.TPopNr + ": " + tpop.TPopFlurname;
-                        tpopSort = tpop.TPopNr;
-                    } else if (tpop.PopBerJahr) {
-                        tpopNodeText = tpop.TPopNr + ": (kein Flurname)";
-                        tpopSort = tpop.TPopNr;
-                    } else if (tpop.TPopFlurname) {
-                        tpopNodeText = "(keine Nr): " + tpop.TPopFlurname;
-                        tpopSort = 1000;
-                    } else {
-                        tpopNodeText = "(keine Nr): (kein Flurname)";
-                        tpopSort = 1000;
-                    }
-                    tpopNode.data = tpopNodeText;
-                    tpopNode.attr = {
-                        id: tpop.TPopId,
-                        typ: 'tpop',
-                        sort: tpopSort
-                    };
-                    tpopNode.children = tpopNodeChildren;
+                    var tpopNode = erstelleTpop(results, tpop);
                     popNodeTpopOrdnerChildren.push(tpopNode);
-
-                    // tpopOrdnerMassnahmen aufbauen
-                    tpopNodeChildren.push(erstelleTpopMassn(tpopMassnListe, tpop));
-                    // tpopOrdnerMassnBer aufbauen
-                    tpopNodeChildren.push(erstelleTpopMassnBer(tpopMassnBerListe, tpop));
-                    // tpopOrdnerFeldkontr aufbauen
-                    tpopNodeChildren.push(erstelleTpopFeldkontr(tpopFeldkontrListe, tpop));
-                    // tpopOrdnerFreiwkontr aufbauen
-                    tpopNodeChildren.push(erstelleTpopFreiwkontr(tpopFreiwkontrListe, tpop));
-                    // tpopOrdnerTpopber aufbauen
-                    tpopNodeChildren.push(erstelleTpopBer(tpopBerListe, tpop));
-                    // tpopOrdnerBeobZugeordnet aufbauen
-                    tpopNodeChildren.push(erstelleTpopBeobZugeordnet(tpopBeobZugeordnetListe, tpop));
                 });
             });
             reply(null, popOrdnerNode);
