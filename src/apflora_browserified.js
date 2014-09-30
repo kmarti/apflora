@@ -8910,7 +8910,7 @@ window.apf.treeKontextmenu = function(node) {
                                     window.apf.deleted.typ = "tpop";
                                     // löschen
                                     var deleteTPop = $.ajax({
-                                        type: 'post',
+                                        type: 'delete',
                                         url: 'api/v1/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
@@ -9121,14 +9121,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertPopber = $.ajax({
                             type: 'post',
-                            url: 'php/popber_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/v1/insert/apflora/tabelle=tblPopBericht/feld=PopId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertPopber.always(function(id) {
+                        insertPopber.done(function(id) {
                             var strukturtyp = "popber",
                                 beschriftung = "neuer Populations-Bericht";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
@@ -9149,15 +9145,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertPopber_2 = $.ajax({
                             type: 'post',
-                            url: 'php/popber_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")),
-                                "typ": "popber",
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/v1/insert/apflora/tabelle=tblPopBericht/feld=PopId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertPopber_2.always(function(id) {
+                        insertPopber_2.done(function(id) {
                             var strukturtyp = "popber",
                                 beschriftung = "neuer Populations-Bericht";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
@@ -9191,14 +9182,11 @@ window.apf.treeKontextmenu = function(node) {
                                     window.apf.deleted = window.apf.popber;
                                     window.apf.deleted.typ = "popber";
                                     var deletePopber = $.ajax({
-                                        type: 'post',
-                                        url: 'php/popber_delete.php',
-                                        dataType: 'json',
-                                        data: {
-                                            "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                                        }
+                                        type: 'delete',
+                                        url: 'api/v1/apflora/tabelle=tblPopBericht/tabelleIdFeld=PopBerId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                                        dataType: 'json'
                                     });
-                                    deletePopber.always(function() {
+                                    deletePopber.done(function() {
                                         delete localStorage.popber_id;
                                         delete window.apf.popber;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
