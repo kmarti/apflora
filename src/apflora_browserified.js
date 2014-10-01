@@ -1530,15 +1530,10 @@ window.apf.erstelle_tree = function(ApArtId) {
 			if (ziel_node_typ === "tpopmassn") {
 				var fügeTPopMassnEin = $.ajax({
 					type: 'post',
-					url: 'php/tpopmassn_einfuegen.php',
-					dataType: 'json',
-					data: {
-						"tpop_id": ziel_parent_node_id,
-						"tpopmassn_id": herkunft_node_id,
-						"user": sessionStorage.User
-					}
+					url: 'api/v1/update/apflora/tabelle=tblTeilPopMassnahme/tabelleIdFeld=TPopId/tabelleId=' + ziel_parent_node_id + '/feld=TPopMassnId/wert=' + herkunft_node_id + '/user=' + sessionStorage.User,
+					dataType: 'json'
 				});
-				fügeTPopMassnEin.always(function() {
+				fügeTPopMassnEin.done(function() {
                     var initiiereTPopMassn = require('./modules/initiiereTPopMassn');
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.apf.beschrifte_ordner_tpopmassn(ziel_parent_node);
@@ -1561,15 +1556,10 @@ window.apf.erstelle_tree = function(ApArtId) {
 			if (ziel_node_typ === "tpop_ordner_massn") {
 				var fügeTPopMassnEin_2 = $.ajax({
 					type: 'post',
-					url: 'php/tpopmassn_einfuegen.php',
-					dataType: 'json',
-					data: {
-						"tpop_id": ziel_node_id,
-						"tpopmassn_id": herkunft_node_id,
-						"user": sessionStorage.User
-					}
+					url: 'api/v1/update/apflora/tabelle=tblTeilPopMassnahme/tabelleIdFeld=TPopId/tabelleId=' + ziel_node_id + '/feld=TPopMassnId/wert=' + herkunft_node_id + '/user=' + sessionStorage.User,
+					dataType: 'json'
 				});
-				fügeTPopMassnEin_2.always(function() {
+				fügeTPopMassnEin_2.done(function() {
                     var initiiereTPopMassn = require('./modules/initiiereTPopMassn');
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.apf.beschrifte_ordner_tpopmassn(ziel_node);
