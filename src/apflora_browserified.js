@@ -10174,14 +10174,11 @@ window.apf.treeKontextmenu = function(node) {
                                     window.apf.deleted = window.apf.tpopber;
                                     window.apf.deleted.typ = "tpopber";
                                     var deleteTPopBer = $.ajax({
-                                        type: 'post',
-                                        url: 'php/tpopber_delete.php',
-                                        dataType: 'json',
-                                        data: {
-                                            "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                                        }
+                                        type: 'delete',
+                                        url: 'api/v1/apflora/tabelle=tblTeilPopBericht/tabelleIdFeld=TPopBerId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                                        dataType: 'json'
                                     });
-                                    deleteTPopBer.always(function() {
+                                    deleteTPopBer.done(function() {
                                         delete localStorage.tpopber_id;
                                         delete window.apf.tpopber;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
