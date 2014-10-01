@@ -6893,14 +6893,10 @@ window.apf.wähleAp = function(ap_id) {
 			// zuerst einen neuen Datensatz anlegen
 			var insertAp = $.ajax({
 				type: 'post',
-				url: 'php/ap_insert.php',
-				dataType: 'json',
-				data: {
-					"id": localStorage.ap_id,
-					"user": sessionStorage.User
-				}
+				url: 'api/v1/apInsert/ap=' + localStorage.ap_id + '/user=' + sessionStorage.User,
+				dataType: 'json'
 			});
-			insertAp.always(function() {
+			insertAp.done(function() {
 				// nachdem ein neues Programm erstellt wurde, soll nicht mehr "neu" zur Wahl stehen, sondern "alle"
 				$("#programm_neu").attr("checked", false);
 				$("#programm_alle").attr("checked", true);

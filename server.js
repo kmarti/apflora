@@ -26,6 +26,7 @@ var  _       = require('underscore')
     , serverMethodApliste             = require('./serverMethods/apliste')
     , serverMethodAdressen            = require('./serverMethods/adressen')
     , queryAp                         = require('./queries/ap')
+    , queryApInsert                   = require('./queries/apInsert')
     , queryFeldkontrZähleinheit       = require('./queries/feldkontrZaehleinheit')
     , queryIdealbiotopÜbereinst       = require('./queries/idealbiotopUebereinst')
     , queryTabelleSelectApfloraNumber = require('./queries/tabelleSelectApfloraNumber')
@@ -225,6 +226,12 @@ server.route({
     method: 'GET',
     path: '/ap={apId}',
     handler: queryAp
+});
+
+server.route({
+    method: 'POST',
+    path: '/api/v1/apInsert/ap={apId}/user={user}',
+    handler: queryApInsert
 });
 
 server.route({

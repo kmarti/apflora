@@ -33,15 +33,19 @@ var returnFunction = function(request, reply) {
             );
         },
         function(popIds, popListe, callback) {
-            connection.query(
+            if (popIds.length > 0) {
+                connection.query(
                     'SELECT TPopNr, TPopFlurname, TPopId, PopId FROM tblTeilpopulation where PopId in (' + popIds.join() + ') ORDER BY TPopNr, TPopFlurname',
-                function (err, result) {
-                    if (err) reply(err);
-                    var tpopListe = result,
-                        tpopIds = _.pluck(tpopListe, 'TPopId');
-                    callback(err, [popIds, tpopIds, popListe, tpopListe]);
-                }
-            );
+                    function (err, result) {
+                        if (err) reply(err);
+                        var tpopListe = result,
+                            tpopIds = _.pluck(tpopListe, 'TPopId');
+                        callback(err, [popIds, tpopIds, popListe, tpopListe]);
+                    }
+                );
+            } else {
+                callback(null, [popIds, [], popListe, []]);
+            }
         }
     ], function(err, result) {
         var popIds = result[0],
