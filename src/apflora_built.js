@@ -33027,14 +33027,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertTPopBer = $.ajax({
                             type: 'post',
-                            url: 'php/tpopber_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/v1/insert/apflora/tabelle=tblTeilPopBericht/feld=TPopId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertTPopBer.always(function(id) {
+                        insertTPopBer.done(function(id) {
                             var strukturtyp = "tpopber",
                                 beschriftung = "neuer Teilpopulations-Bericht";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
@@ -33055,15 +33051,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertTPopBer_2 = $.ajax({
                             type: 'post',
-                            url: 'php/tpopber_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")),
-                                "typ": "tpopber",
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/v1/insert/apflora/tabelle=tblTeilPopBericht/feld=TPopId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertTPopBer_2.always(function(id) {
+                        insertTPopBer_2.done(function(id) {
                             var strukturtyp = "tpopber",
                                 beschriftung = "neuer Teilpopulations-Bericht";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
