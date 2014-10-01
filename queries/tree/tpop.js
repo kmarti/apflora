@@ -1,13 +1,12 @@
 'use strict';
 
-var _ = require('underscore')
-    , erstelleTpopMassn            = require('./tpopMassn')
-    , erstelleTpopMassnBer         = require('./tpopMassnBer')
-    , erstelleTpopFeldkontr        = require('./tpopFeldkontr')
-    , erstelleTpopFreiwkontrOrdner = require('./tpopFreiwkontrOrdner')
-    , erstelleTpopBerOrdner        = require('./tpopBerOrdner')
-    , erstelleTpopBeobZugeordnet   = require('./tpopBeobZugeordnet')
-    ;
+var _                            = require('underscore'),
+    erstelleTpopMassn            = require('./tpopMassn'),
+    erstelleTpopMassnBer         = require('./tpopMassnBer'),
+    erstelleTpopFeldkontr        = require('./tpopFeldkontr'),
+    erstelleTpopFreiwkontrOrdner = require('./tpopFreiwkontrOrdner'),
+    erstelleTpopBerOrdner        = require('./tpopBerOrdner'),
+    erstelleTpopBeobZugeordnet   = require('./tpopBeobZugeordnet');
 
 var returnFunction = function(results, tpop) {
     var tpopNode  = {},
@@ -64,11 +63,11 @@ var returnFunction = function(results, tpop) {
     // tpopOrdnerTpopber aufbauen
     tpopBerNode = erstelleTpopBerOrdner(results.tpopBerListe, tpop);
     tpopNodeChildren.push(tpopBerNode);
-    
+
     // tpopOrdnerBeobZugeordnet aufbauen
     tpopBeobZugeordnetNode = erstelleTpopBeobZugeordnet(results.tpopBeobZugeordnetListe, tpop);
     tpopNodeChildren.push(tpopBeobZugeordnetNode);
-	
+
     return tpopNode;
 };
 

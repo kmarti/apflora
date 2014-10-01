@@ -20,7 +20,7 @@ var returnFunction = function(request, reply) {
             connection.query(
                 'INSERT INTO tblAktionsplan (ApArtId, MutWann, MutWer) VALUES (' + apId + ', "' + date + '", "' + user + '")',
                 function(err, data) {
-                    callback(err, data.insertId);
+                    callback(err, null);
                 }
             );
         },

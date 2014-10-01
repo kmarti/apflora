@@ -1380,17 +1380,13 @@ window.apf.erstelle_tree = function(ApArtId) {
 
 		if (herkunft_node_typ === "pop") {
 			if (ziel_node_typ === "pop") {
+				console.log('verschiebe pop');
 				var fügePopEin = $.ajax({
 					type: 'post',
-					url: 'php/pop_einfuegen.php',
-					dataType: 'json',
-					data: {
-						"ap_art_id": ziel_parent_node_id,
-						"pop_id": ziel_node_id,
-						"user": sessionStorage.User
-					}
+					url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + ziel_node_id + '/feld=ApArtId/wert=' + ziel_parent_node_id + '/user=' + sessionStorage.User,
+					dataType: 'json'
 				});
-				fügePopEin.always(function() {
+				fügePopEin.done(function() {
                     var initiierePop = require('./modules/initiierePop');
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.apf.beschrifte_ordner_pop(ziel_parent_node);
@@ -6902,18 +6898,17 @@ window.apf.wähleAp = function(ap_id) {
 				$("#programm_wahl").buttonset();
 				// Auswahlliste für Programme updaten
 				$.when(window.apf.wähleApListe("programm_alle"))
+				.then(function() {
+					// Strukturbaum updaten
+					$.when(window.apf.erstelle_tree(localStorage.ap_id))
 					.then(function() {
-						// Strukturbaum updaten
-						$.when(window.apf.erstelle_tree(localStorage.ap_id))
-							.then(function() {
-                                var initiiereAp = require('./modules/initiiereAp');
-								// gewählte Art in Auswahlliste anzeigen
-								$('#ap_waehlen').val(localStorage.ap_id);
-								$('#ap_waehlen option[value =' + localStorage.ap_id + ']').attr('selected', true);
-								$("#ApArtId").val(localStorage.ap_id);
-								// gewählte Art in Formular anzeigen
-								initiiereAp();
-							});
+						// gewählte Art in Auswahlliste anzeigen
+						$('#ap_waehlen').val(localStorage.ap_id);
+						$('#ap_waehlen option[value =' + localStorage.ap_id + ']').attr('selected', true);
+						$("#ApArtId").val(localStorage.ap_id);
+						// gewählte Art in Formular anzeigen
+						initiiereAp();
+					});
 				});
 			});
 			insertAp.fail(function() {
@@ -6947,28 +6942,16 @@ window.apf.kopiereKoordinatenInPop = function(x_koord, y_koord) {
 		// Koordinaten der Pop nachführen
 		var update_pop = $.ajax({
 			type: 'post',
-			url: 'php/pop_update.php',
-			dataType: 'json',
-			data: {
-				"id": localStorage.pop_id,
-				"Feld": "PopXKoord",
-				"Wert": x_koord,
-				"user": sessionStorage.User
-			}
+			url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + localStorage.pop_id + '/feld=PopXKoord/wert=' + x_koord + '/user=' + sessionStorage.User,
+			dataType: 'json'
 		});
-		update_pop.always(function() {
+		update_pop.done(function() {
 			var updatePop_4 = $.ajax({
 				type: 'post',
-				url: 'php/pop_update.php',
-				dataType: 'json',
-				data: {
-					"id": localStorage.pop_id,
-					"Feld": "PopYKoord",
-					"Wert": y_koord,
-					"user": sessionStorage.User
-				}
+				url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + localStorage.pop_id + '/feld=PopYKoord/wert=' + y_koord + '/user=' + sessionStorage.User,
+				dataType: 'json'
 			});
-			updatePop_4.always(function() {
+			updatePop_4.done(function() {
 				$("#kopiereKoordinatenInPopRueckmeldung").fadeIn('slow');
 				setTimeout(function() {
 					$("#kopiereKoordinatenInPopRueckmeldung").fadeOut('slow');
@@ -7414,9 +7397,10 @@ window.apf.löscheAp = function(ap_id) {
 		delete localStorage.ap_id;
 		delete window.apf.ap;
 		delete localStorage.ap;
-		$("#programm_neu").attr("checked", false);
-		$("#programm_alle").attr("checked", true);
+		$("#programm_neu").attr("checked", false).trigger('change');
+		$("#programm_alle").attr("checked", true).trigger('change');
 		$("#programm_wahl").buttonset();
+		//$("#programm_wahl").buttonset('refresh');
 		window.apf.erstelle_ap_liste("programm_alle");
 		$('#ap_waehlen').val('');
 		$("#ap_waehlen_label").html("Artförderprogramm wählen:").show();
@@ -7720,16 +7704,10 @@ window.apf.treeKontextmenu = function(node) {
                         // db aktualisieren
                         var updatePop = $.ajax({
                             type: 'post',
-                            url: 'php/pop_update.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.pop_id,
-                                "Feld": "ApArtId",
-                                "Wert": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + window.apf.pop_id + '/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        updatePop.always(function() {
+                        updatePop.done(function() {
                             // Baum neu aufbauen
                             $.when(window.apf.erstelle_tree(window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))))
                                 .then(function() {
@@ -8658,16 +8636,10 @@ window.apf.treeKontextmenu = function(node) {
                         // db aktualisieren
                         var updatePop_2 = $.ajax({
                             type: 'post',
-                            url: 'php/pop_update.php',
-                            dataType: 'json',
-                            data: {
-                                "id": popid,
-                                "Feld": "ApArtId",
-                                "Wert": apartid,
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + popid + '/feld=ApArtId/wert=' + apartid + '/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        updatePop_2.always(function() {
+                        updatePop_2.done(function() {
                             // Baum wieder aufbauen
                             $.when(window.apf.erstelle_tree(apartid))
                                 .then(function() {
