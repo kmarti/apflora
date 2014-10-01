@@ -84,30 +84,3 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 		    $rows_tpopmassnber[] = $tpopmassnber;
 		}
 		mysqli_free_result($result_tpopmassnber);
-
-		// Beobachtungen dieser TPop abfragen
-		$result_beob_zugeordnet = mysqli_query($link, "SELECT alexande_apflora.tblBeobZuordnung.NO_NOTE, alexande_apflora.tblBeobZuordnung.TPopId, alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen, alexande_apflora.tblBeobZuordnung.BeobBemerkungen, alexande_apflora.tblBeobZuordnung.BeobMutWann, alexande_apflora.tblBeobZuordnung.BeobMutWer, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor, 'evab' AS beobtyp FROM alexande_apflora.tblBeobZuordnung INNER JOIN alexande_beob.tblBeobBereitgestellt ON alexande_apflora.tblBeobZuordnung.NO_NOTE = alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET WHERE alexande_apflora.tblBeobZuordnung.TPopId=$TPopId AND (alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen=0 OR alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen IS NULL) UNION SELECT alexande_apflora.tblBeobZuordnung.NO_NOTE, alexande_apflora.tblBeobZuordnung.TPopId, alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen, alexande_apflora.tblBeobZuordnung.BeobBemerkungen, alexande_apflora.tblBeobZuordnung.BeobMutWann, alexande_apflora.tblBeobZuordnung.BeobMutWer, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor, 'infospezies' AS beobtyp FROM alexande_apflora.tblBeobZuordnung INNER JOIN alexande_beob.tblBeobBereitgestellt ON alexande_apflora.tblBeobZuordnung.NO_NOTE = alexande_beob.tblBeobBereitgestellt.NO_NOTE WHERE alexande_apflora.tblBeobZuordnung.TPopId=$TPopId AND (alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen=0 OR alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen IS NULL) ORDER BY Datum");
-		$anz_beob_zugeordnet = mysqli_num_rows($result_beob_zugeordnet);
-		// Datenstruktur für beob_zugeordnet aufbauen
-		$rows_beob_zugeordnet = array();
-		while($r_beob_zugeordnet = mysqli_fetch_assoc($result_beob_zugeordnet)) {
-			// beob voransetzen, damit die ID im ganzen Baum eindeutig ist
-			$BeobId = 'beob'.$r_beob_zugeordnet['NO_NOTE'];
-			$beobtyp = $r_beob_zugeordnet['beobtyp'];
-			if ($r_beob_zugeordnet['Autor'] && $r_beob_zugeordnet['Autor'] <> " ") {
-				$Autor = $r_beob_zugeordnet['Autor'];
-			} else {
-				$Autor = "(kein Autor)";
-			}
-			if ($r_beob_zugeordnet['Datum']) {
-				$datum = $r_beob_zugeordnet['Datum'];
-			} else {
-				$datum = "(kein Datum)";
-			}
-			// TPopFeldKontr setzen
-			$attr_beob_zugeordnet = array("id" => $BeobId, "typ" => "beob_zugeordnet", "beobtyp" => $beobtyp);
-			$beob_zugeordnet = array("data" => $datum.": ".$Autor, "attr" => $attr_beob_zugeordnet);
-			// beob_zugeordnet-Array um beob_zugeordnet ergänzen
-		    $rows_beob_zugeordnet[] = $beob_zugeordnet;
-		}
-		mysqli_free_result($result_beob_zugeordnet);
