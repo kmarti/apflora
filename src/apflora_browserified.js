@@ -37557,7 +37557,7 @@ var returnFunction = function(strukturtyp) {
     } else {
         fnInitiiereFunktion = _.filter(conf.tables, function(table) {
             return table.treeTyp === strukturtyp;
-        }).initiiereFunktion;
+        })[0].initiiereFunktion;
         fn[fnInitiiereFunktion]();
     }
 };
