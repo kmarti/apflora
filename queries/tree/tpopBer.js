@@ -2,24 +2,29 @@
 
 var _ = require('underscore');
 
-var returnFunction = function(tpopBerListe, tpop) {
-	var tpopNodeTpopberOrdner = {},
-    	tpopNodeTpopberOrdnerChildren = [],
-        tpopberVonTpop;
+var returnFunction = function(tpopber) {
+    var node  = {},
+        nodeText;
 
-    // Liste der Berichte dieser tpop erstellen
-    tpopberVonTpop = _.filter(tpopBerListe, function(tpopBer) {
-        return tpopBer.TPopId === tpop.TPopId;
-    });
+    // Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
+    if (tpopber.TPopBerJahr && tpopber.EntwicklungTxt) {
+        nodeText = tpopber.TPopBerJahr + ": " + tpopber.EntwicklungTxt;
+    } else if (tpopber.TPopBerJahr) {
+        nodeText = tpopber.TPopBerJahr + ": (nicht beurteilt)";
+    } else if (tpopber.EntwicklungTxt) {
+        nodeText = "(kein Jahr): " + tpopber.EntwicklungTxt;
+    } else {
+        nodeText = "(kein Jahr): (keine Beurteilung)";
+    }
 
-	// tpopOrdnerTpopber aufbauen
-    tpopNodeTpopberOrdner.data = 'Teilpopulations-Berichte (' + tpopberVonTpop.length + ')';
-    tpopNodeTpopberOrdner.attr = {
-        id: 'tpop_ordner_tpopber' + tpop.TPopId,
-        typ: 'tpop_ordner_tpopber'
+    // node aufbauen
+    node.data = nodeText;
+    node.attr = {
+        id: tpopber.TPopBerId,
+        typ: 'tpopber'
     };
-    tpopNodeTpopberOrdner.children = tpopNodeTpopberOrdnerChildren;
-    return tpopNodeTpopberOrdner;
+
+    return node;
 };
 
 module.exports = returnFunction;

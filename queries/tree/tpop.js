@@ -5,7 +5,7 @@ var _ = require('underscore')
     , erstelleTpopMassnBer       = require('./tpopMassnBer')
     , erstelleTpopFeldkontr      = require('./tpopFeldkontr')
     , erstelleTpopFreiwkontr     = require('./tpopFreiwkontr')
-    , erstelleTpopBer            = require('./tpopBer')
+    , erstelleTpopBerOrdner            = require('./tpopBerOrdner')
     , erstelleTpopBeobZugeordnet = require('./tpopBeobZugeordnet')
     ;
 
@@ -62,7 +62,7 @@ var returnFunction = function(results, tpop) {
     tpopNodeChildren.push(tpopFreiwkontrNode);
 
     // tpopOrdnerTpopber aufbauen
-    tpopBerNode = erstelleTpopBer(results.tpopBerListe, tpop);
+    tpopBerNode = erstelleTpopBerOrdner(results.tpopBerListe, tpop);
     tpopNodeChildren.push(tpopBerNode);
     
     // tpopOrdnerBeobZugeordnet aufbauen
