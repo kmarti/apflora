@@ -38486,8 +38486,7 @@ var initiiereTPopMassn = function() {
                     dataType: 'json'
                 });
                 getTPopMassnTyp.done(function(data2) {
-                    if (data2 && data2[0]) {
-                        data2 = data2[0];
+                    if (data2 && data2.length > 0) {
                         // Feld mit Daten beliefern
                         var html;
                         html = "<option></option>";

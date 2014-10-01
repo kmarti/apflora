@@ -23,7 +23,7 @@ var returnFunction = function(request, callback) {
                 'CREATE TEMPORARY TABLE tmp SELECT * FROM tblTeilPopMassnahme WHERE TPopMassnId =' + tpopMassnId,
                 function(err) {
                     // nur allfällige Fehler weiterleiten
-                    callback(err);
+                    callback(err, null);
                 }
             );
         },
@@ -33,7 +33,7 @@ var returnFunction = function(request, callback) {
                 'UPDATE tmp SET TPopMassnId = NULL, TPopId = ' + tpopId + ', MutWann="' + date + '", MutWer="' + user + '"',
                 function(err) {
                     // nur allfällige Fehler weiterleiten
-                    callback(err);
+                    callback(err, null);
                 }
             );
         },
@@ -47,9 +47,8 @@ var returnFunction = function(request, callback) {
             );
         }
     ], function(err, results) {
-        console.log('results: ', results);
         // neue id zurück liefern
-        return results[0];
+        return results[2];
     });
 };
 
