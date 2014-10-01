@@ -33243,7 +33243,7 @@ window.apf.treeKontextmenu = function(node) {
                                     window.apf.deleted = window.apf.tpopmassnber;
                                     window.apf.deleted.typ = "tpopmassnber";
                                     var deleteTPopMassnBer = $.ajax({
-                                        type: 'post',
+                                        type: 'delete',
                                         url: 'api/v1/apflora/tabelle=tblTeilPopMassnBericht/tabelleIdFeld=TPopMassnBerId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
@@ -59838,8 +59838,8 @@ config.tables = [
     },
     {
         database: 'apflora',
-        tabelleInDb: 'tblPopMassnBericht',
-        tabelleIdFeld: 'PopMassnBerId',
+        tabelleInDb: 'tblTeilPopMassnBericht',
+        tabelleIdFeld: 'TPopMassnBerId',
         mutWannFeld: 'MutWann',
         mutWerFeld: 'MutWer',
         form: 'tpopmassnber',

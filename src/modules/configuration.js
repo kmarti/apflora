@@ -178,8 +178,8 @@ config.tables = [
     },
     {
         database: 'apflora',
-        tabelleInDb: 'tblPopMassnBericht',
-        tabelleIdFeld: 'PopMassnBerId',
+        tabelleInDb: 'tblTeilPopMassnBericht',
+        tabelleIdFeld: 'TPopMassnBerId',
         mutWannFeld: 'MutWann',
         mutWerFeld: 'MutWer',
         form: 'tpopmassnber',
