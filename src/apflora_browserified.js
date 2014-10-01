@@ -38427,7 +38427,7 @@ var initiiereTPopFeldkontr = function() {
             if (!window.apf.IdealBiotopÜbereinst_html) {
                 var getIdealbiotopübereinst = $.ajax({
                     type: 'get',
-                    url: 'api/v1/idealbiotopÜbereinst',
+                    url: 'api/v1/idealbiotopUebereinst',
                     dataType: 'json'
                 });
                 getIdealbiotopübereinst.done(function(data5) {
