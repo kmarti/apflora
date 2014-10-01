@@ -3,10 +3,10 @@
 var _ = require('underscore');
 
 var returnFunction = function(tpopber) {
-    if (tpopber) {
-        var node  = {},
-            nodeText;
+    var node  = {},
+        nodeText;
 
+    if (tpopber) {
         // Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
         if (tpopber.TPopBerJahr && tpopber.EntwicklungTxt) {
             nodeText = tpopber.TPopBerJahr + ": " + tpopber.EntwicklungTxt;
@@ -24,11 +24,9 @@ var returnFunction = function(tpopber) {
             id: tpopber.TPopBerId,
             typ: 'tpopber'
         };
-
-        return node;
-    } else {
-        return {};
     }
+    
+    return node;
 };
 
 module.exports = returnFunction;

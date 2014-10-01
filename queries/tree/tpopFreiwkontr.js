@@ -1,13 +1,12 @@
 'use strict';
 
 var returnFunction = function(freiwkontr) {
+    var node  = {},
+        nodeText;
     if (freiwkontr) {
-        var node  = {},
-            nodeText;
-
         // Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
-        if (freiwkontr.TPopKontrJahr > 0) {
-            nodeText = freiwkontr.TPopKontrJahr;
+        if (freiwkontr.TPopKontrJahr && freiwkontr.TPopKontrJahr >= 0) {
+            nodeText = freiwkontr.TPopKontrJahr.toString();
         } else {
             nodeText = "(kein Jahr)";
         }
@@ -15,14 +14,11 @@ var returnFunction = function(freiwkontr) {
         // node aufbauen
         node.data = nodeText;
         node.attr = {
-            id: freiwkontr.TPopKontrId,
+            id: 'tpopfreiwkontr' + freiwkontr.TPopKontrId,
             typ: 'tpopfreiwkontr'
         };
-
-        return node;
-    } else {
-        return {};
     }
+    return node;
 };
 
 module.exports = returnFunction;

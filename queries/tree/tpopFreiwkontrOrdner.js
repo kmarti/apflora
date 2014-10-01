@@ -4,8 +4,7 @@ var _ = require('underscore'),
     erstelleTPopFreiwKontr = require('./tpopFreiwkontr');
 
 var returnFunction = function(tpopFreiwkontrListe, tpop) {
-	var tpopNodeFreiwkontrOrdner = {},
-    	tpopNodeFreiwkontrOrdnerChildren = [],
+	var tpopFreiwkontrOrdner = {},
         freiwkontrVonTpop,
         freiwkontrNode;
 
@@ -15,20 +14,20 @@ var returnFunction = function(tpopFreiwkontrListe, tpop) {
     });
 
 	// tpopOrdnerFreiwkontr aufbauen
-    tpopNodeFreiwkontrOrdner.data = 'Freiwilligen-Kontrollen (' + freiwkontrVonTpop.length + ')';
-    tpopNodeFreiwkontrOrdner.attr = {
+    tpopFreiwkontrOrdner.data = 'Freiwilligen-Kontrollen (' + freiwkontrVonTpop.length + ')';
+    tpopFreiwkontrOrdner.attr = {
         id: 'tpop_ordner_freiwkontr' + tpop.TPopId,
         typ: 'tpop_ordner_freiwkontr'
     };
-    tpopNodeFreiwkontrOrdner.children = tpopNodeFreiwkontrOrdnerChildren;
+    tpopFreiwkontrOrdner.children = [];
 
     // freiwkontr aufbauen
     _.each(freiwkontrVonTpop, function(freiwkontr) {
         freiwkontrNode = erstelleTPopFreiwKontr(freiwkontr);
-        tpopNodeFreiwkontrOrdnerChildren.push(freiwkontrNode);
+        tpopFreiwkontrOrdner.children.push(freiwkontrNode);
     });
 
-    return tpopNodeFreiwkontrOrdner;
+    return tpopFreiwkontrOrdner;
 };
 
 module.exports = returnFunction;
