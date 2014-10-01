@@ -1,7 +1,7 @@
 'use strict';
 
-var _ = require('underscore')
-    , erstellePopMassnBer = require('./popMassnBer');
+var _ = require('underscore'),
+    erstellePopMassnBer = require('./popMassnBer');
 
 var returnFunction = function(popMassnBerListe, pop) {
 	var popNodeMassnberOrdner = {},
