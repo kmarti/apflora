@@ -32780,14 +32780,11 @@ window.apf.treeKontextmenu = function(node) {
                                     window.apf.deleted = window.apf.tpopmassn;
                                     window.apf.deleted.typ = "tpopmassn";
                                     var deleteTPopMassn = $.ajax({
-                                        type: 'post',
-                                        url: 'php/tpopmassn_delete.php',
-                                        dataType: 'json',
-                                        data: {
-                                            "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                                        }
+                                        type: 'delete',
+                                        url: 'api/v1/apflora/tabelle=tblTeilPopMassnahme/tabelleIdFeld=TPopMassnId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                                        dataType: 'json'
                                     });
-                                    deleteTPopMassn.always(function() {
+                                    deleteTPopMassn.done(function() {
                                         delete localStorage.tpopmassn_id;
                                         delete window.apf.tpopmassn;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
