@@ -3,62 +3,61 @@
  */
 
 'use strict';
-var  _       = require('underscore')
-    , Hapi   = require('hapi')
-    , server = new Hapi.Server(
+var  _       = require('underscore'),
+    Hapi   = require('hapi'),
+    server = new Hapi.Server(
         'localhost',
         4000,
         {
             debug: { request: ['error'] }
         }
-    )
-    //, moonbootsConfig = require('./moonbootsConfig')
-    , mysql  = require('mysql')
-    , config = require('./src/modules/configuration')
-    , connectionApflora = mysql.createConnection({
-        host: 'localhost',
-        user: config.db.userName,
-        password: config.db.passWord,
-        database: 'alexande_apflora'
-    })
-    , serverMethodGemeinden           = require('./serverMethods/gemeinden')
-    , serverMethodArtliste            = require('./serverMethods/artliste')
-    , serverMethodApliste             = require('./serverMethods/apliste')
-    , serverMethodAdressen            = require('./serverMethods/adressen')
-    , queryAp                         = require('./queries/ap')
-    , queryApInsert                   = require('./queries/apInsert')
-    , queryFeldkontrZähleinheit       = require('./queries/feldkontrZaehleinheit')
-    , queryIdealbiotopÜbereinst       = require('./queries/idealbiotopUebereinst')
-    , queryTabelleSelectApfloraNumber = require('./queries/tabelleSelectApfloraNumber')
-    , queryTabelleSelectApfloraString = require('./queries/tabelleSelectApfloraString')
-    , queryTabelleSelectBeobNumber    = require('./queries/tabelleSelectBeobNumber')
-    , queryTabelleSelectBeobString    = require('./queries/tabelleSelectBeobString')
-    , queryTabelleInsertApflora       = require('./queries/tabelleInsertApflora')
-    , queryTabelleInsertKopieApflora  = require('./queries/tabelleInsertKopieApflora')
-    , queryFeldkontrInsert            = require('./queries/feldkontrInsert')
-    , queryTabelleUpdateApflora       = require('./queries/tabelleUpdateApflora')
-    , queryTabelleUpdateBeob          = require('./queries/tabelleUpdateBeob')
-    , queryTabelleDeleteApflora       = require('./queries/tabelleDeleteApflora')
-    , queryAnmeldung                  = require('./queries/anmeldung')
-    , treeAssozarten                  = require('./queries/tree/assozarten')
-    , treeIdealbiotop                 = require('./queries/tree/idealbiotop')
-    , treeBeobNichtZuzuordnen         = require('./queries/tree/beobNichtZuzuordnen')
-    , treeBeobNichtBeurteilt          = require('./queries/tree/beobNichtBeurteilt')
-    , treeBer                         = require('./queries/tree/ber')
-    , treeJBer                        = require('./queries/tree/jber')
-    , treeErfkrit                     = require('./queries/tree/erfkrit')
-    , treeApziel                      = require('./queries/tree/apziel')
-    , treePop                         = require('./queries/tree/pop')
-    , queryBeobDistzutpopEvab         = require('./queries/beobDistzutpopEvab')
-    , queryBeobDistzutpopInfospezies  = require('./queries/beobDistzutpopInfospezies')
-    , queryBeobKarte                  = require('./queries/beobKarte')
-    , queryApKarte                    = require('./queries/apKarte')
-    , queryPopKarte                   = require('./queries/popKarte')
-    , queryPopKarteAlle               = require('./queries/popKarteAlle')
-    , queryPopChKarte                 = require('./queries/popChKarte')
-    , queryPopsChKarte                = require('./queries/popsChKarte')
-    , queryTPopKarteAlle              = require('./queries/tpopKarteAlle')
-    ;
+    ),
+    mysql                           = require('mysql'),
+    config                          = require('./src/modules/configuration'),
+    connectionApflora               = mysql.createConnection({
+                                        host: 'localhost',
+                                        user: config.db.userName,
+                                        password: config.db.passWord,
+                                        database: 'alexande_apflora'
+                                    }),
+    serverMethodGemeinden           = require('./serverMethods/gemeinden'),
+    serverMethodArtliste            = require('./serverMethods/artliste'),
+    serverMethodApliste             = require('./serverMethods/apliste'),
+    serverMethodAdressen            = require('./serverMethods/adressen'),
+    queryLrDelarze                  = require('./queries/alrDelarze'),
+    queryAp                         = require('./queries/ap'),
+    queryApInsert                   = require('./queries/apInsert'),
+    queryFeldkontrZähleinheit       = require('./queries/feldkontrZaehleinheit'),
+    queryIdealbiotopÜbereinst       = require('./queries/idealbiotopUebereinst'),
+    queryTabelleSelectApfloraNumber = require('./queries/tabelleSelectApfloraNumber'),
+    queryTabelleSelectApfloraString = require('./queries/tabelleSelectApfloraString'),
+    queryTabelleSelectBeobNumber    = require('./queries/tabelleSelectBeobNumber'),
+    queryTabelleSelectBeobString    = require('./queries/tabelleSelectBeobString'),
+    queryTabelleInsertApflora       = require('./queries/tabelleInsertApflora'),
+    queryTabelleInsertKopieApflora  = require('./queries/tabelleInsertKopieApflora'),
+    queryFeldkontrInsert            = require('./queries/feldkontrInsert'),
+    queryTabelleUpdateApflora       = require('./queries/tabelleUpdateApflora'),
+    queryTabelleUpdateBeob          = require('./queries/tabelleUpdateBeob'),
+    queryTabelleDeleteApflora       = require('./queries/tabelleDeleteApflora'),
+    queryAnmeldung                  = require('./queries/anmeldung'),
+    treeAssozarten                  = require('./queries/tree/assozarten'),
+    treeIdealbiotop                 = require('./queries/tree/idealbiotop'),
+    treeBeobNichtZuzuordnen         = require('./queries/tree/beobNichtZuzuordnen'),
+    treeBeobNichtBeurteilt          = require('./queries/tree/beobNichtBeurteilt'),
+    treeBer                         = require('./queries/tree/ber'),
+    treeJBer                        = require('./queries/tree/jber'),
+    treeErfkrit                     = require('./queries/tree/erfkrit'),
+    treeApziel                      = require('./queries/tree/apziel'),
+    treePop                         = require('./queries/tree/pop'),
+    queryBeobDistzutpopEvab         = require('./queries/beobDistzutpopEvab'),
+    queryBeobDistzutpopInfospezies  = require('./queries/beobDistzutpopInfospezies'),
+    queryBeobKarte                  = require('./queries/beobKarte'),
+    queryApKarte                    = require('./queries/apKarte'),
+    queryPopKarte                   = require('./queries/popKarte'),
+    queryPopKarteAlle               = require('./queries/popKarteAlle'),
+    queryPopChKarte                 = require('./queries/popChKarte'),
+    queryPopsChKarte                = require('./queries/popsChKarte'),
+    queryTPopKarteAlle              = require('./queries/tpopKarteAlle');
 
 connectionApflora.connect();
 
@@ -228,6 +227,12 @@ server.route({
     method: 'DELETE',
     path: '/api/v1/apflora/tabelle={tabelle}/tabelleIdFeld={tabelleIdFeld}/tabelleId={tabelleId}',
     handler: queryTabelleDeleteApflora
+});
+
+server.route({
+    method: 'GET',
+    path: '/api/v1/lrDelarze',
+    handler: queryLrDelarze
 });
 
 server.route({

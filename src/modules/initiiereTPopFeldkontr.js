@@ -211,15 +211,15 @@ var initiiereTPopFeldkontr = function() {
                 if (!window.apf.lrdelarze_html) {
                     var getLrDelarze = $.ajax({
                         type: 'get',
-                        url: 'php/lrdelarze.php',
+                        url: 'api/v1/lrDelarze',
                         dataType: 'json'
                     });
-                    getLrDelarze.always(function(data4) {
+                    getLrDelarze.done(function(data4) {
                         if (data4) {
                             // Feld mit Daten beliefern
                             var html;
                             html = "<option></option>";
-                            _.each(data4.rows, function(lr) {
+                            _.each(data4, function(lr) {
                                 html += "<option value=\"" + lr.id + "\">" + lr.Einheit + "</option>";
                             });
                             window.apf.lrdelarze_html = html;
