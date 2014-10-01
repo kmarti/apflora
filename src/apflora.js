@@ -1603,15 +1603,10 @@ window.apf.erstelle_tree = function(ApArtId) {
 			if (ziel_node_typ === "tpopfeldkontr") {
 				var fügeTPopFeldkontrEin = $.ajax({
 					type: 'post',
-					url: 'php/tpopfeldkontr_einfuegen.php',
-					dataType: 'json',
-					data: {
-						"tpop_id": ziel_parent_node_id,
-						"tpopfeldkontr_id": herkunft_node_id,
-						"user": sessionStorage.User
-					}
+					url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + ziel_parent_node_id + '/user=' + sessionStorage.User,
+					dataType: 'json'
 				});
-				fügeTPopFeldkontrEin.always(function() {
+				fügeTPopFeldkontrEin.done(function() {
                     var initiiereTPopFeldkontr  = require('./modules/initiiereTPopFeldkontr');
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.apf.beschrifte_ordner_tpopfeldkontr(ziel_parent_node);
@@ -1634,15 +1629,10 @@ window.apf.erstelle_tree = function(ApArtId) {
 			if (ziel_node_typ === "tpop_ordner_feldkontr") {
 				var fügeTPopFeldkontrEin_2 = $.ajax({
 					type: 'post',
-					url: 'php/tpopfeldkontr_einfuegen.php',
-					dataType: 'json',
-					data: {
-						"tpop_id": ziel_node_id,
-						"tpopfeldkontr_id": herkunft_node_id,
-						"user": sessionStorage.User
-					}
+					url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + ziel_node_id + '/user=' + sessionStorage.User,
+					dataType: 'json'
 				});
-				fügeTPopFeldkontrEin_2.always(function() {
+				fügeTPopFeldkontrEin_2.done(function() {
                     var initiiereTPopFeldkontr  = require('./modules/initiiereTPopFeldkontr');
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.apf.beschrifte_ordner_tpopfeldkontr(ziel_node);
@@ -1667,15 +1657,10 @@ window.apf.erstelle_tree = function(ApArtId) {
 			if (ziel_node_typ === "tpopfreiwkontr") {
 				var fügeTPopFeldkontrEin_3 = $.ajax({
 					type: 'post',
-					url: 'php/tpopfeldkontr_einfuegen.php',
-					dataType: 'json',
-					data: {
-						"tpop_id": ziel_parent_node_id,
-						"tpopfeldkontr_id": herkunft_node_id,
-						"user": sessionStorage.User
-					}
+					url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + ziel_parent_node_id + '/user=' + sessionStorage.User,
+					dataType: 'json'
 				});
-				fügeTPopFeldkontrEin_3.always(function() {
+				fügeTPopFeldkontrEin_3.done(function() {
                     var initiiereTPopFeldkontr  = require('./modules/initiiereTPopFeldkontr');
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.apf.beschrifte_ordner_tpopfreiwkontr(ziel_parent_node);
@@ -1699,15 +1684,10 @@ window.apf.erstelle_tree = function(ApArtId) {
 			if (ziel_node_typ === "tpop_ordner_freiwkontr") {
 				var fügeTPopFeldkontrEin_4 = $.ajax({
 					type: 'post',
-					url: 'php/tpopfeldkontr_einfuegen.php',
-					dataType: 'json',
-					data: {
-						"tpop_id": ziel_node_id,
-						"tpopfeldkontr_id": herkunft_node_id,
-						"user": sessionStorage.User
-					}
+					url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + ziel_node_id + '/user=' + sessionStorage.User,
+					dataType: 'json'
 				});
-				fügeTPopFeldkontrEin_4.always(function() {
+				fügeTPopFeldkontrEin_4.done(function() {
                     var initiiereTPopFeldkontr  = require('./modules/initiiereTPopFeldkontr');
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.apf.beschrifte_ordner_tpopfreiwkontr(ziel_node);
