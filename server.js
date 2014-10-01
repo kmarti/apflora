@@ -27,6 +27,7 @@ var  _       = require('underscore')
     , serverMethodAdressen            = require('./serverMethods/adressen')
     , queryAp                         = require('./queries/ap')
     , queryFeldkontrZähleinheit       = require('./queries/feldkontrZaehleinheit')
+    , queryIdealbiotopÜbereinst       = require('./queries/idealbiotopÜbereinst')
     , queryTabelleSelectApfloraNumber = require('./queries/tabelleSelectApfloraNumber')
     , queryTabelleSelectApfloraString = require('./queries/tabelleSelectApfloraString')
     , queryTabelleSelectBeobNumber    = require('./queries/tabelleSelectBeobNumber')
@@ -230,6 +231,12 @@ server.route({
     method: 'GET',
     path: '/api/v1/feldkontrZaehleinheit',
     handler: queryFeldkontrZähleinheit
+});
+
+server.route({
+    method: 'GET',
+    path: '/api/v1/idealbiotopÜbereinst',
+    handler: queryIdealbiotopÜbereinst
 });
 
 /**

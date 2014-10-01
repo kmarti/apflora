@@ -61208,7 +61208,7 @@ var initiiereTPopFeldkontr = function() {
                     dataType: 'json'
                 });
                 getTpopfeldkontrZaehleinheit.done(function(data3) {
-                    if (data3) {
+                    if (data3 && data3.length > 0) {
                         // Feld mit Daten beliefern
                         var html;
                         html = "<option></option>";
@@ -61341,15 +61341,15 @@ var initiiereTPopFeldkontr = function() {
             if (!window.apf.IdealBiotopÜbereinst_html) {
                 var getIdealbiotopübereinst = $.ajax({
                     type: 'get',
-                    url: 'php/idealbiotopuebereinst.php',
+                    url: 'api/v1/idealbiotopÜbereinst',
                     dataType: 'json'
                 });
-                getIdealbiotopübereinst.always(function(data5) {
-                    if (data5) {
+                getIdealbiotopübereinst.done(function(data5) {
+                    if (data5 && data5.length > 0) {
                         // Feld mit Daten beliefern
                         var html;
                         html = "<option></option>";
-                        _.each(data5.rows, function(übereinst) {
+                        _.each(data5, function(übereinst) {
                             html += "<option value=\"" + übereinst.id + "\">" + übereinst.DomainTxt + "</option>";
                         });
                         window.apf.IdealBiotopÜbereinst_html = html;
