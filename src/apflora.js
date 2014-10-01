@@ -10329,13 +10329,10 @@ window.apf.treeKontextmenu = function(node) {
                                     window.apf.deleted.typ = "tpopmassnber";
                                     var deleteTPopMassnBer = $.ajax({
                                         type: 'post',
-                                        url: 'php/tpopmassnber_delete.php',
-                                        dataType: 'json',
-                                        data: {
-                                            "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                                        }
+                                        url: 'api/v1/apflora/tabelle=tblTeilPopMassnBericht/tabelleIdFeld=TPopMassnBerId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                                        dataType: 'json'
                                     });
-                                    deleteTPopMassnBer.always(function() {
+                                    deleteTPopMassnBer.done(function() {
                                         delete localStorage.tpopmassnber_id;
                                         delete window.apf.tpopmassnber;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
