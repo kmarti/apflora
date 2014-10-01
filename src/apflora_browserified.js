@@ -7406,14 +7406,11 @@ window.apf.löscheAp = function(ap_id) {
 	//Artname in Textform merken
 	window.apf.deleted.Artname = $("#ap_waehlen option[value='" + $("#ap_waehlen").val() + "']").text();
 	var deleteAp = $.ajax({
-		type: 'post',
-		url: 'php/ap_delete.php',
-		dataType: 'json',
-		data: {
-			"id": ap_id
-		}
+		type: 'delete',
+		url: 'api/v1/apflora/tabelle=tblAktionsplan/tabelleIdFeld=ApArtId/tabelleId=' + ap_id,
+		dataType: 'json'
 	});
-	deleteAp.always(function() {
+	deleteAp.done(function() {
         var $exportieren_2 = $("#exportieren_2");
 		delete localStorage.ap_id;
 		delete window.apf.ap;
