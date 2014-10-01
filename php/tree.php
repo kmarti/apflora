@@ -85,58 +85,6 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 		}
 		mysqli_free_result($result_tpopmassnber);
 
-		// Feldkontrollen dieser TPop abfragen
-		$result_tpopfeldkontr = mysqli_query($link, "SELECT TPopKontrId, TPopId, TPopKontrJahr, TPopKontrTyp FROM tblTeilPopFeldkontrolle where (TPopId = $TPopId) AND (TPopKontrTyp<>\"Freiwilligen-Erfolgskontrolle\" OR TPopKontrTyp IS NULL) ORDER BY TPopKontrJahr, TPopKontrTyp");
-		$anz_tpopfeldkontr = mysqli_num_rows($result_tpopfeldkontr);
-		// Datenstruktur für tpopfeldkontr aufbauen
-		$rows_tpopfeldkontr = array();
-		while($r_tpopfeldkontr = mysqli_fetch_assoc($result_tpopfeldkontr)) {
-			$TPopKontrId = $r_tpopfeldkontr['TPopKontrId'];
-			settype($TPopKontrId, "integer");
-			// TPopKontrJahr soll immer existieren
-			if ($r_tpopfeldkontr['TPopKontrJahr']) {
-				$TPopKontrJahr = $r_tpopfeldkontr['TPopKontrJahr'];
-				settype($TPopKontrJahr, "integer");
-			} else {
-				$TPopKontrJahr = "(kein Jahr)";
-			}
-			// TPopKontrTyp soll immer existieren
-			if ($r_tpopfeldkontr['TPopKontrTyp']) {
-				$TPopKontrTyp = $r_tpopfeldkontr['TPopKontrTyp'];
-			} else {
-				$TPopKontrTyp = "(kein Typ)";
-			}
-			// TPopFeldKontr setzen
-			$attr_tpopfeldkontr = array("id" => $TPopKontrId, "typ" => "tpopfeldkontr");
-			$tpopfeldkontr = array("data" => $TPopKontrJahr.": ".$TPopKontrTyp, "attr" => $attr_tpopfeldkontr);
-			// tpopfeldkontr-Array um tpopfeldkontr ergänzen
-		    $rows_tpopfeldkontr[] = $tpopfeldkontr;
-		}
-		mysqli_free_result($result_tpopfeldkontr);
-
-		// Freiwilligen-kontrollen dieser TPop abfragen
-		$result_tpopfreiwkontr = mysqli_query($link, "SELECT TPopKontrId, TPopId, TPopKontrJahr, TPopKontrTyp FROM tblTeilPopFeldkontrolle where (TPopId = $TPopId) AND (TPopKontrTyp=\"Freiwilligen-Erfolgskontrolle\") ORDER BY TPopKontrJahr, TPopKontrTyp");
-		$anz_tpopfreiwkontr = mysqli_num_rows($result_tpopfreiwkontr);
-		// Datenstruktur für tpopfreiwkontr aufbauen
-		$rows_tpopfreiwkontr = array();
-		while($r_tpopfreiwkontr = mysqli_fetch_assoc($result_tpopfreiwkontr)) {
-			$TPopKontrId = $r_tpopfreiwkontr['TPopKontrId'];
-			settype($TPopKontrId, "integer");
-			if ($r_tpopfreiwkontr['TPopKontrJahr'] > 0) {
-				$TPopKontrJahr =  $r_tpopfreiwkontr['TPopKontrJahr'];
-			} else {
-				$TPopKontrJahr =  "(kein Jahr)";
-			}
-			//settype($TPopKontrJahr, "integer");
-			$TPopKontrTyp = $r_tpopfreiwkontr['TPopKontrTyp'];
-			// TPopFeldKontr setzen
-			$attr_tpopfreiwkontr = array("id" => $TPopKontrId, "typ" => "tpopfreiwkontr");
-			$tpopfreiwkontr = array("data" => $TPopKontrJahr, "attr" => $attr_tpopfreiwkontr);
-			// tpopfreiwkontr-Array um tpopfreiwkontr ergänzen
-		    $rows_tpopfreiwkontr[] = $tpopfreiwkontr;
-		}
-		mysqli_free_result($result_tpopfreiwkontr);
-
 		// Beobachtungen dieser TPop abfragen
 		$result_beob_zugeordnet = mysqli_query($link, "SELECT alexande_apflora.tblBeobZuordnung.NO_NOTE, alexande_apflora.tblBeobZuordnung.TPopId, alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen, alexande_apflora.tblBeobZuordnung.BeobBemerkungen, alexande_apflora.tblBeobZuordnung.BeobMutWann, alexande_apflora.tblBeobZuordnung.BeobMutWer, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor, 'evab' AS beobtyp FROM alexande_apflora.tblBeobZuordnung INNER JOIN alexande_beob.tblBeobBereitgestellt ON alexande_apflora.tblBeobZuordnung.NO_NOTE = alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET WHERE alexande_apflora.tblBeobZuordnung.TPopId=$TPopId AND (alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen=0 OR alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen IS NULL) UNION SELECT alexande_apflora.tblBeobZuordnung.NO_NOTE, alexande_apflora.tblBeobZuordnung.TPopId, alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen, alexande_apflora.tblBeobZuordnung.BeobBemerkungen, alexande_apflora.tblBeobZuordnung.BeobMutWann, alexande_apflora.tblBeobZuordnung.BeobMutWer, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor, 'infospezies' AS beobtyp FROM alexande_apflora.tblBeobZuordnung INNER JOIN alexande_beob.tblBeobBereitgestellt ON alexande_apflora.tblBeobZuordnung.NO_NOTE = alexande_beob.tblBeobBereitgestellt.NO_NOTE WHERE alexande_apflora.tblBeobZuordnung.TPopId=$TPopId AND (alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen=0 OR alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen IS NULL) ORDER BY Datum");
 		$anz_beob_zugeordnet = mysqli_num_rows($result_beob_zugeordnet);

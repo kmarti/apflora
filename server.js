@@ -3,15 +3,14 @@
  */
 
 'use strict';
-var  _       = require('underscore'),
-    Hapi   = require('hapi'),
-    server = new Hapi.Server(
-        'localhost',
-        4000,
-        {
-            debug: { request: ['error'] }
-        }
-    ),
+var  _                              = require('underscore'),
+    Hapi                            = require('hapi'),
+    server                          = new Hapi.Server(
+                                        'localhost',
+                                        4000, {
+                                            debug: { request: ['error'] }
+                                        }
+                                    ),
     mysql                           = require('mysql'),
     config                          = require('./src/modules/configuration'),
     connectionApflora               = mysql.createConnection({
