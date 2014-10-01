@@ -1,25 +1,31 @@
 'use strict';
 
-var _ = require('underscore');
+var returnFunction = function(feldkontr) {
+    var node  = {},
+        nodeText1,
+        nodeText2;
+    if (feldkontr) {
+        // Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
+        if (feldkontr.TPopKontrJahr && feldkontr.TPopKontrJahr >= 0) {
+            nodeText1 = feldkontr.TPopKontrJahr.toString();
+        } else {
+            nodeText1 = "(kein Jahr)";
+        }
 
-var returnFunction = function(tpopFeldkontrListe, tpop) {
-	var tpopNodeFeldkontrOrdner = {},
-    	tpopNodeFeldkontrOrdnerChildren = [],
-        feldkontrVonTpop;
+        if (feldkontr.TPopKontrTyp) {
+            nodeText2 = feldkontr.TPopKontrTyp;
+        } else {
+            nodeText2 = "(kein Typ)";
+        }
 
-    // Liste der Feldkontrollen dieser tpop erstellen
-    feldkontrVonTpop = _.filter(tpopFeldkontrListe, function(tpopFeldkontr) {
-        return tpopFeldkontr.TPopId === tpop.TPopId;
-    });
-
-	// tpopOrdnerFeldkontr aufbauen
-    tpopNodeFeldkontrOrdner.data = 'Feldkontrollen (' + feldkontrVonTpop.length + ')';
-    tpopNodeFeldkontrOrdner.attr = {
-        id: 'tpop_ordner_feldkontr' + tpop.TPopId,
-        typ: 'tpop_ordner_feldkontr'
-    };
-    tpopNodeFeldkontrOrdner.children = tpopNodeFeldkontrOrdnerChildren;
-    return tpopNodeFeldkontrOrdner;
+        // node aufbauen
+        node.data = nodeText1 + ': ' + nodeText2;
+        node.attr = {
+            id: feldkontr.TPopKontrId,
+            typ: 'tpopfeldkontr'
+        };
+    }
+    return node;
 };
 
 module.exports = returnFunction;
