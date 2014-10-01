@@ -38492,17 +38492,16 @@ var initiiereTPopMassn = function() {
             if (!window.apf.tpopmassntyp_html) {
                 var getTPopMassnTyp = $.ajax({
                     type: 'get',
-                    url: 'php/tpopmassn_typ.php',
+                    url: 'api/v1/tpopMassnTypen',
                     dataType: 'json'
                 });
-                getTPopMassnTyp.always(function(data2) {
-                    if (data2) {
-                        // tpopmassn_typ bereitstellen
-                        window.apf.tpopmassn_typ = data2;
+                getTPopMassnTyp.done(function(data2) {
+                    if (data2 && data2[0]) {
+                        data2 = data2[0];
                         // Feld mit Daten beliefern
                         var html;
                         html = "<option></option>";
-                        _.each(data2.rows, function(tpopmassn_typ) {
+                        _.each(data2, function(tpopmassn_typ) {
                             html += "<option value=\"" + tpopmassn_typ.id + "\">" + tpopmassn_typ.MassnTypTxt + "</option>";
                         });
                         window.apf.tpopmassntyp_html = html;

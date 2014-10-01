@@ -24,6 +24,7 @@ var  _                              = require('underscore'),
     serverMethodApliste             = require('./serverMethods/apliste'),
     serverMethodAdressen            = require('./serverMethods/adressen'),
     queryLrDelarze                  = require('./queries/lrDelarze'),
+    queryTpopMassnTypen             = require('./queries/tpopMassnTypen'),
     queryAp                         = require('./queries/ap'),
     queryApInsert                   = require('./queries/apInsert'),
     queryFeldkontrZähleinheit       = require('./queries/feldkontrZaehleinheit'),
@@ -232,6 +233,12 @@ server.route({
     method: 'GET',
     path: '/api/v1/lrDelarze',
     handler: queryLrDelarze
+});
+
+server.route({
+    method: 'GET',
+    path: '/api/v1/tpopMassnTypen',
+    handler: queryTpopMassnTypen
 });
 
 server.route({
