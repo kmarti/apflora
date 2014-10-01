@@ -342,17 +342,14 @@ window.apf.setzeWindowTpopmassnber = function(id) {
 	localStorage.tpopmassnber_id = id;
 	var getTPopMassnBer = $.ajax({
 		type: 'get',
-		url: 'php/tpopmassnber.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.tpopmassnber_id
-		}
+		url: 'api/v1/apflora/tabelle=tblTeilPopMassnBericht/feld=TPopMassnBerId/wertNumber=' + localStorage.tpopmassnber_id,
+		dataType: 'json'
 	});
-	getTPopMassnBer.always(function(data) {
+	getTPopMassnBer.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
+		if (data && data[0]) {
 			// tpopmassnber bereitstellen
-			window.apf.tpopmassnber = data;
+			window.apf.tpopmassnber = data[0];
 		}
 	});
 };
