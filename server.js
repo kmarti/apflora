@@ -31,6 +31,7 @@ var  _       = require('underscore')
     , queryTabelleSelectBeobNumber    = require('./queries/tabelleSelectBeobNumber')
     , queryTabelleSelectBeobString    = require('./queries/tabelleSelectBeobString')
     , queryTabelleInsertApflora       = require('./queries/tabelleInsertApflora')
+    , queryFeldkontrInsert            = require('./queries/feldkontrInsert')
     , queryTabelleUpdateApflora       = require('./queries/tabelleUpdateApflora')
     , queryTabelleUpdateBeob          = require('./queries/tabelleUpdateBeob')
     , queryTabelleDeleteApflora       = require('./queries/tabelleDeleteApflora')
@@ -204,6 +205,12 @@ server.route({
     method: 'POST',
     path: '/api/v1/insert/apflora/tabelle={tabelle}/feld={feld}/wert={wert}/user={user}',
     handler: queryTabelleInsertApflora
+});
+
+server.route({
+    method: 'POST',
+    path: '/api/v1/insert/feldkontr/tpopId={tpopId}/tpopKontrtyp={tpopKontrtyp?}/user={user}',
+    handler: queryFeldkontrInsert
 });
 
 server.route({

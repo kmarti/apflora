@@ -9270,15 +9270,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertTPopFeldKontr = $.ajax({
                             type: 'post',
-                            url: 'php/tpopfeldkontr_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-                                "typ": "tpopfeldkontr",
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/v1/insert/feldkontr/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopKontrtyp=tpopfeldkontr/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertTPopFeldKontr.always(function(id) {
+                        insertTPopFeldKontr.done(function(id) {
                             var strukturtyp = "tpopfeldkontr",
                                 beschriftung = "neue Feldkontrolle";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
@@ -9338,15 +9333,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertTPopFeldKontr_2 = $.ajax({
                             type: 'post',
-                            url: 'php/tpopfeldkontr_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")),
-                                "typ": "tpopfeldkontr",
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/v1/insert/feldkontr/tpopId=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/tpopKontrtyp=tpopfeldkontr/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertTPopFeldKontr_2.always(function(id) {
+                        insertTPopFeldKontr_2.done(function(id) {
                             var strukturtyp = "tpopfeldkontr",
                                 beschriftung = "neue Feldkontrolle";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
@@ -9609,15 +9599,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertTPopFeldKontr_3 = $.ajax({
                             type: 'post',
-                            url: 'php/tpopfeldkontr_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-                                "user": sessionStorage.User,
-                                "typ": "Freiwilligen-Erfolgskontrolle"
-                            }
+                            url: 'api/v1/insert/feldkontr/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopKontrtyp=tpopfreiwkontr/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertTPopFeldKontr_3.always(function(id) {
+                        insertTPopFeldKontr_3.done(function(id) {
                             var strukturtyp = "tpopfreiwkontr",
                                 beschriftung = "neue Freiwilligen-Kontrolle";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
@@ -9677,15 +9662,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertTPopFeldKontr_4 = $.ajax({
                             type: 'post',
-                            url: 'php/tpopfeldkontr_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")),
-                                "user": sessionStorage.User,
-                                "typ": "Freiwilligen-Erfolgskontrolle"
-                            }
+                            url: 'api/v1/insert/feldkontr/tpopId=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/tpopKontrtyp=tpopfreiwkontr/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertTPopFeldKontr_4.always(function(id) {
+                        insertTPopFeldKontr_4.done(function(id) {
                             var strukturtyp = "tpopfreiwkontr",
                                 beschriftung = "neue Freiwilligen-Kontrolle";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
