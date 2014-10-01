@@ -33182,14 +33182,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertTPopMassnBer = $.ajax({
                             type: 'post',
-                            url: 'php/tpopmassnber_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/v1/insert/apflora/tabelle=tblTeilPopMassnBericht/feld=TPopId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertTPopMassnBer.always(function(id) {
+                        insertTPopMassnBer.done(function(id) {
                             var strukturtyp = "tpopmassnber",
                                 beschriftung = "neuer Massnahmen-Bericht";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
@@ -33210,15 +33206,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertTPopMassBer_2 = $.ajax({
                             type: 'post',
-                            url: 'php/tpopmassnber_insert.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")),
-                                "typ": "tpopmassnber",
-                                "user": sessionStorage.User
-                            }
+                            url: 'api/v1/insert/apflora/tabelle=tblTeilPopMassnBericht/feld=TPopId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertTPopMassBer_2.always(function(id) {
+                        insertTPopMassBer_2.done(function(id) {
                             var strukturtyp = "tpopmassnber",
                                 beschriftung = "neuer Massnahmen-Bericht";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
