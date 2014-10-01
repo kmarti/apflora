@@ -39,15 +39,13 @@ var initiiereTPopMassn = function() {
     // Daten für die pop aus der DB holen
     var getTPopMassn = $.ajax({
         type: 'get',
-        url: 'php/tpopmassn.php',
-        dataType: 'json',
-        data: {
-            "id": localStorage.tpopmassn_id
-        }
+        url: 'api/v1/apflora/tabelle=tblTeilPopMassnahme/feld=TPopMassnId/wertNumber=' + localStorage.tpopmassn_id,
+        dataType: 'json'
     });
-    getTPopMassn.always(function(data) {
+    getTPopMassn.done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-        if (data) {
+        if (data && data[0]) {
+            data = data[0];
             // tpopmassn bereitstellen
             window.apf.tpopmassn = data;
             // Felder mit Daten beliefern

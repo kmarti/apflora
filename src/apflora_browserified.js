@@ -321,17 +321,14 @@ window.apf.setzeWindowTpopmassn = function(id) {
 	localStorage.tpopmassn_id = id;
 	var getTPopMassn = $.ajax({
 		type: 'get',
-		url: 'php/tpopmassn.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.tpopmassn_id
-		}
+		url: 'api/v1/apflora/tabelle=tblTeilPopMassnahme/feld=TPopMassnId/wertNumber=' + localStorage.tpopmassn_id,
+		dataType: 'json'
 	});
-	getTPopMassn.always(function(data) {
+	getTPopMassn.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
+		if (data && data[0]) {
 			// tpopmassn bereitstellen
-			window.apf.tpopmassn = data;
+			window.apf.tpopmassn = data[0];
 		}
 	});
 };
@@ -9951,20 +9948,19 @@ window.apf.treeKontextmenu = function(node) {
                         // Daten des Objekts holen
                         var getTPopMassn_2 = $.ajax({
                                 type: 'get',
-                                url: 'php/tpopmassn.php',
-                                dataType: 'json',
-                                data: {
-                                    "id": window.apf.erstelleIdAusDomAttributId($(window.apf.tpopmassn_node_kopiert).attr("id"))
-                                }
+                                url: 'api/v1/apflora/tabelle=tblTeilPopMassnahme/feld=TPopMassnId/wertNumber=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpopmassn_node_kopiert).attr("id")),
+                                dataType: 'json'
                             }),
                             $TPopMassnTypChecked = $("#TPopMassnTyp option:checked");
-                        getTPopMassn_2.always(function(data) {
-                            window.apf.tpopmassn_objekt_kopiert = data;
-                            // den Beurteilungstext holen - ist nur mühsam aus der DB zu holen
-                            window.apf.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt = "";
-                            if ($TPopMassnTypChecked.text()) {
-                                window.apf.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt = $TPopMassnTypChecked.text();
-                            }
+                        getTPopMassn_2.done(function(data) {
+                        	if (data && data[0]) {
+                        		window.apf.tpopmassn_objekt_kopiert = data[0];
+	                            // den Beurteilungstext holen - ist nur mühsam aus der DB zu holen
+	                            window.apf.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt = "";
+	                            if ($TPopMassnTypChecked.text()) {
+	                                window.apf.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt = $TPopMassnTypChecked.text();
+	                            }
+                        	}
                         });
                         getTPopMassn_2.fail(function() {
                             //window.apf.melde("Fehler: Die Massnahme wurde nicht kopiert");
@@ -38505,15 +38501,13 @@ var initiiereTPopMassn = function() {
     // Daten für die pop aus der DB holen
     var getTPopMassn = $.ajax({
         type: 'get',
-        url: 'php/tpopmassn.php',
-        dataType: 'json',
-        data: {
-            "id": localStorage.tpopmassn_id
-        }
+        url: 'api/v1/apflora/tabelle=tblTeilPopMassnahme/feld=TPopMassnId/wertNumber=' + localStorage.tpopmassn_id,
+        dataType: 'json'
     });
-    getTPopMassn.always(function(data) {
+    getTPopMassn.done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-        if (data) {
+        if (data && data[0]) {
+            data = data[0];
             // tpopmassn bereitstellen
             window.apf.tpopmassn = data;
             // Felder mit Daten beliefern
