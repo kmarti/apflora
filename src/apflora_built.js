@@ -32714,15 +32714,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertTPopMassnKopie = $.ajax({
                             type: 'post',
-                            url: 'php/tpopmassn_insert_kopie.php',
-                            dataType: 'json',
-                            data: {
-                                "user": sessionStorage.User,
-                                "TPopId": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-                                "TPopMassnId": window.apf.erstelleIdAusDomAttributId($(window.apf.tpopmassn_node_kopiert).attr("id"))
-                            }
+                            url: 'api/v1/tpopmassnInsertKopie/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopMassnId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpopmassn_node_kopiert).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertTPopMassnKopie.always(function(id) {
+                        insertTPopMassnKopie.done(function(id) {
                             var strukturtyp = "tpopmassn",
                                 beschriftung = window.apf.erstelleLabelFürMassnahme(window.apf.tpopmassn_objekt_kopiert.TPopMassnJahr, window.apf.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt);
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
@@ -32878,15 +32873,10 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         var insertTPopMassnKopie_2 = $.ajax({
                             type: 'post',
-                            url: 'php/tpopmassn_insert_kopie.php',
-                            dataType: 'json',
-                            data: {
-                                "user": sessionStorage.User,
-                                "TPopId": window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")),
-                                "TPopMassnId": window.apf.erstelleIdAusDomAttributId($(window.apf.tpopmassn_node_kopiert).attr("id"))
-                            }
+                            url: 'api/v1/tpopmassnInsertKopie/tpopId=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/tpopMassnId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpopmassn_node_kopiert).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
                         });
-                        insertTPopMassnKopie_2.always(function(id) {
+                        insertTPopMassnKopie_2.done(function(id) {
                             var strukturtyp = "tpopmassn",
                                 beschriftung = window.apf.erstelleLabelFürMassnahme(window.apf.tpopmassn_objekt_kopiert.TPopMassnJahr, window.apf.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt);
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
