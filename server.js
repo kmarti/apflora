@@ -26,6 +26,7 @@ var  _       = require('underscore')
     , serverMethodApliste             = require('./serverMethods/apliste')
     , serverMethodAdressen            = require('./serverMethods/adressen')
     , queryAp                         = require('./queries/ap')
+    , queryFeldkontrZähleinheit       = require('./queries/feldkontrZaehleinheit')
     , queryTabelleSelectApfloraNumber = require('./queries/tabelleSelectApfloraNumber')
     , queryTabelleSelectApfloraString = require('./queries/tabelleSelectApfloraString')
     , queryTabelleSelectBeobNumber    = require('./queries/tabelleSelectBeobNumber')
@@ -223,6 +224,12 @@ server.route({
     method: 'GET',
     path: '/ap={apId}',
     handler: queryAp
+});
+
+server.route({
+    method: 'GET',
+    path: '/api/v1/feldkontrZaehleinheit',
+    handler: queryFeldkontrZähleinheit
 });
 
 /**

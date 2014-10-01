@@ -38290,15 +38290,15 @@ var initiiereTPopFeldkontr = function() {
             if (!window.apf.TPopKontrZähleinheit_html) {
                 var getTpopfeldkontrZaehleinheit = $.ajax({
                     type: 'get',
-                    url: 'php/tpopfeldkontr_zaehleinheit.php',
+                    url: 'api/v1/feldkontrZaehleinheit',
                     dataType: 'json'
                 });
-                getTpopfeldkontrZaehleinheit.always(function(data3) {
+                getTpopfeldkontrZaehleinheit.done(function(data3) {
                     if (data3) {
                         // Feld mit Daten beliefern
                         var html;
                         html = "<option></option>";
-                        _.each(data3.rows, function(zähleinheit) {
+                        _.each(data3, function(zähleinheit) {
                             html += "<option value=\"" + zähleinheit.id + "\">" + zähleinheit.ZaehleinheitTxt + "</option>";
                         });
                         window.apf.TPopKontrZähleinheit_html = html;
