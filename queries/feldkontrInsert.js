@@ -17,10 +17,11 @@ var returnFunction = function(request, callback) {
         sql;
 
     // sql schreiben
-    if (tpopKontrtyp === 'tpopfeldkontr') {
-        // es wurde kein typ übergeben > feldkontrolle
-        sql = 'INSERT INTO tblTeilPopFeldkontrolle (TPopId, TPopKontrTyp, MutWann, MutWer) VALUES (' + tpopId + ', "' + tpopKontrtyp + '", "' + date + '", "' + user + '")';
+    if (tpopKontrtyp === 'tpopfreiwkontr') {
+        // Die Freiwilligen-Erfolgskontrolle erhält direkt einen Typ
+        sql = 'INSERT INTO tblTeilPopFeldkontrolle (TPopId, TPopKontrTyp, MutWann, MutWer) VALUES (' + tpopId + ', "Freiwilligen-Erfolgskontrolle", "' + date + '", "' + user + '")';
     } else {
+        // die feldkontrolle erhält erst später einen Typ
         sql = 'INSERT INTO tblTeilPopFeldkontrolle (TPopId, MutWann, MutWer) VALUES (' + tpopId + ', "' + date + '", "' + user + '")';
     }
 

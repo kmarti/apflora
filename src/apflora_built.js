@@ -32611,7 +32611,7 @@ window.apf.treeKontextmenu = function(node) {
                                     window.apf.deleted = window.apf.tpopfeldkontr;
                                     window.apf.deleted.typ = "tpopfreiwkontr";
                                     var deleteTPopFeldKontr_2 = $.ajax({
-                                        type: 'post',
+                                        type: 'delete',
                                         url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/tabelleIdFeld=TPopKontrId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
