@@ -301,17 +301,14 @@ window.apf.setzeWindowTpopfeldkontr = function(id) {
 	localStorage.tpopfeldkontr_id = id;
 	var getTpopfeldkontr = $.ajax({
 		type: 'get',
-		url: 'php/tpopfeldkontr.php',
-		dataType: 'json',
-		data: {
-			"id": localStorage.tpopfeldkontr_id
-		}
+		url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + localStorage.tpopfeldkontr_id,
+		dataType: 'json'
 	});
-	getTpopfeldkontr.always(function(data) {
+	getTpopfeldkontr.done(function(data) {
 		// Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-		if (data) {
+		if (data && data[0]) {
 			// tpopfeldkontr bereitstellen
-			window.apf.tpopfeldkontr = data;
+			window.apf.tpopfeldkontr = data[0];
 		}
 	});
 };
@@ -9571,14 +9568,11 @@ window.apf.treeKontextmenu = function(node) {
                         // Daten des Objekts holen
                         var getTPopFeldkontr_2 = $.ajax({
                             type: 'get',
-                            url: 'php/tpopfeldkontr.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(window.apf.tpopfeldkontr_node_kopiert).attr("id"))
-                            }
+                            url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpopfeldkontr_node_kopiert).attr("id")),
+                            dataType: 'json'
                         });
-                        getTPopFeldkontr_2.always(function(data) {
-                            window.apf.tpopfeldkontr_objekt_kopiert = data;
+                        getTPopFeldkontr_2.done(function(data) {
+                            window.apf.tpopfeldkontr_objekt_kopiert = data[0];
                         });
                         getTPopFeldkontr_2.fail(function() {
                             //window.apf.melde("Fehler: Die Feldkontrolle wurde nicht kopiert");
@@ -9808,14 +9802,11 @@ window.apf.treeKontextmenu = function(node) {
                         // Daten des Objekts holen
                         var getTPopFeldkontr_3 = $.ajax({
                             type: 'get',
-                            url: 'php/tpopfeldkontr.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(window.apf.tpopfreiwkontr_node_kopiert).attr("id"))
-                            }
+                            url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpopfreiwkontr_node_kopiert).attr("id")),
+                            dataType: 'json'
                         });
-                        getTPopFeldkontr_3.always(function(data) {
-                            window.apf.tpopfreiwkontr_objekt_kopiert = data;
+                        getTPopFeldkontr_3.done(function(data) {
+                            window.apf.tpopfreiwkontr_objekt_kopiert = data[0];
                         });
                         getTPopFeldkontr_3.fail(function() {
                             //window.apf.melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht kopiert");

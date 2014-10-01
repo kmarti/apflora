@@ -137,35 +137,6 @@ while($r_pop = mysqli_fetch_assoc($result_pop)) {
 		}
 		mysqli_free_result($result_tpopfreiwkontr);
 
-		// TPop-Berichte dieser TPop abfragen
-		$result_tpopber = mysqli_query($link, "SELECT TPopBerId, TPopId, TPopBerJahr, EntwicklungTxt, EntwicklungOrd FROM tblTeilPopBericht LEFT JOIN DomainTPopEntwicklung ON TPopBerEntwicklung = EntwicklungCode where TPopId = $TPopId ORDER BY TPopBerJahr, EntwicklungOrd");
-		$anz_tpopber = mysqli_num_rows($result_tpopber);
-		// Datenstruktur für tpopber aufbauen
-		$rows_tpopber = array();
-		while($r_tpopber = mysqli_fetch_assoc($result_tpopber)) {
-			$TPopBerId = $r_tpopber['TPopBerId'];
-			settype($TPopBerId, "integer");
-			// TPopBerJahr soll immer existieren
-			if ($r_tpopber['TPopBerJahr']) {
-				$TPopBerJahr = $r_tpopber['TPopBerJahr'];
-				settype($TPopBerJahr, "integer");
-			} else {
-				$TPopBerJahr = "(kein Jahr)";
-			}
-			// EntwicklungTxt soll immer existieren
-			if ($r_tpopber['EntwicklungTxt']) {
-				$EntwicklungTxt = $r_tpopber['EntwicklungTxt'];
-			} else {
-				$EntwicklungTxt = "(keine Beurteilung)";
-			}
-			// TPopFeldKontr setzen
-			$attr_tpopber = array("id" => $TPopBerId, "typ" => "tpopber");
-			$tpopber = array("data" => $TPopBerJahr.": ".$EntwicklungTxt, "attr" => $attr_tpopber);
-			// tpopber-Array um tpopber ergänzen
-		    $rows_tpopber[] = $tpopber;
-		}
-		mysqli_free_result($result_tpopber);
-
 		// Beobachtungen dieser TPop abfragen
 		$result_beob_zugeordnet = mysqli_query($link, "SELECT alexande_apflora.tblBeobZuordnung.NO_NOTE, alexande_apflora.tblBeobZuordnung.TPopId, alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen, alexande_apflora.tblBeobZuordnung.BeobBemerkungen, alexande_apflora.tblBeobZuordnung.BeobMutWann, alexande_apflora.tblBeobZuordnung.BeobMutWer, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor, 'evab' AS beobtyp FROM alexande_apflora.tblBeobZuordnung INNER JOIN alexande_beob.tblBeobBereitgestellt ON alexande_apflora.tblBeobZuordnung.NO_NOTE = alexande_beob.tblBeobBereitgestellt.NO_NOTE_PROJET WHERE alexande_apflora.tblBeobZuordnung.TPopId=$TPopId AND (alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen=0 OR alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen IS NULL) UNION SELECT alexande_apflora.tblBeobZuordnung.NO_NOTE, alexande_apflora.tblBeobZuordnung.TPopId, alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen, alexande_apflora.tblBeobZuordnung.BeobBemerkungen, alexande_apflora.tblBeobZuordnung.BeobMutWann, alexande_apflora.tblBeobZuordnung.BeobMutWer, alexande_beob.tblBeobBereitgestellt.Datum, alexande_beob.tblBeobBereitgestellt.Autor, 'infospezies' AS beobtyp FROM alexande_apflora.tblBeobZuordnung INNER JOIN alexande_beob.tblBeobBereitgestellt ON alexande_apflora.tblBeobZuordnung.NO_NOTE = alexande_beob.tblBeobBereitgestellt.NO_NOTE WHERE alexande_apflora.tblBeobZuordnung.TPopId=$TPopId AND (alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen=0 OR alexande_apflora.tblBeobZuordnung.BeobNichtZuordnen IS NULL) ORDER BY Datum");
 		$anz_beob_zugeordnet = mysqli_num_rows($result_beob_zugeordnet);

@@ -1,25 +1,28 @@
 'use strict';
 
-var _ = require('underscore');
+var returnFunction = function(freiwkontr) {
+    if (freiwkontr) {
+        var node  = {},
+            nodeText;
 
-var returnFunction = function(tpopFreiwkontrListe, tpop) {
-	var tpopNodeFreiwkontrOrdner = {},
-    	tpopNodeFreiwkontrOrdnerChildren = [],
-        freiwkontrVonTpop;
+        // Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
+        if (freiwkontr.TPopKontrJahr > 0) {
+            nodeText = freiwkontr.TPopKontrJahr;
+        } else {
+            nodeText = "(kein Jahr)";
+        }
 
-    // Liste der Freiwkontrollen dieser tpop erstellen
-    freiwkontrVonTpop = _.filter(tpopFreiwkontrListe, function(tpopFreiwkontr) {
-        return tpopFreiwkontr.TPopId === tpop.TPopId;
-    });
+        // node aufbauen
+        node.data = nodeText;
+        node.attr = {
+            id: freiwkontr.TPopKontrId,
+            typ: 'tpopfreiwkontr'
+        };
 
-	// tpopOrdnerFreiwkontr aufbauen
-    tpopNodeFreiwkontrOrdner.data = 'Freiwilligen-Kontrollen (' + freiwkontrVonTpop.length + ')';
-    tpopNodeFreiwkontrOrdner.attr = {
-        id: 'tpop_ordner_freiwkontr' + tpop.TPopId,
-        typ: 'tpop_ordner_freiwkontr'
-    };
-    tpopNodeFreiwkontrOrdner.children = tpopNodeFreiwkontrOrdnerChildren;
-    return tpopNodeFreiwkontrOrdner;
+        return node;
+    } else {
+        return {};
+    }
 };
 
 module.exports = returnFunction;

@@ -47,19 +47,17 @@ var initiiereTPopFeldkontr = function() {
     // Daten für die tpopfeldkontr aus der DB holen
     var getTpopfeldkontr = $.ajax({
             type: 'get',
-            url: 'php/tpopfeldkontr.php',
-            dataType: 'json',
-            data: {
-                "id": localStorage.tpopfeldkontr_id
-            }
+            url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + localStorage.tpopfeldkontr_id,
+            dataType: 'json'
         }),
         $TPopKontrJahr = $("#TPopKontrJahr"),
         $TPopKontrJungPflJN_ja = $("#TPopKontrJungPflJN_ja"),
         $TPopKontrJungPflJN_nein = $("#TPopKontrJungPflJN_nein"),
         $TPopKontrJungPflJN_leer = $("#TPopKontrJungPflJN_leer");
-    getTpopfeldkontr.always(function(data) {
+    getTpopfeldkontr.done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-        if (data) {
+        if (data && data[0]) {
+            data = data[0];
             // tpopfeldkontr bereitstellen
             window.apf.tpopfeldkontr = data;
             // gemeinsame Felder
