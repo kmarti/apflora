@@ -9370,14 +9370,11 @@ window.apf.treeKontextmenu = function(node) {
                                     window.apf.deleted = window.apf.tpopfeldkontr;
                                     window.apf.deleted.typ = "tpopfeldkontr";
                                     var deleteTPopFeldKontr = $.ajax({
-                                        type: 'post',
-                                        url: 'php/tpopfeldkontr_delete.php',
-                                        dataType: 'json',
-                                        data: {
-                                            "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                                        }
+                                        type: 'delete',
+                                        url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/tabelleIdFeld=TPopKontrId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                                        dataType: 'json'
                                     });
-                                    deleteTPopFeldKontr.always(function() {
+                                    deleteTPopFeldKontr.done(function() {
                                         delete localStorage.tpopfeldkontr_id;
                                         delete window.apf.tpopfeldkontr;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -9700,13 +9697,10 @@ window.apf.treeKontextmenu = function(node) {
                                     window.apf.deleted.typ = "tpopfreiwkontr";
                                     var deleteTPopFeldKontr_2 = $.ajax({
                                         type: 'post',
-                                        url: 'php/tpopfeldkontr_delete.php',
-                                        dataType: 'json',
-                                        data: {
-                                            "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                                        }
+                                        url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/tabelleIdFeld=TPopKontrId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                                        dataType: 'json'
                                     });
-                                    deleteTPopFeldKontr_2.always(function() {
+                                    deleteTPopFeldKontr_2.done(function() {
                                         delete localStorage.tpopfeldkontr_id;
                                         delete localStorage.tpopfreiwkontr;
                                         delete window.apf.tpopfeldkontr;
