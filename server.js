@@ -37,6 +37,7 @@ var  _                              = require('underscore'),
     queryTabelleInsertKopieApflora  = require('./queries/tabelleInsertKopieApflora'),
     queryTpopmassnInsertKopie       = require('./queries/tpopmassnInsertKopie'),
     queryTpopfeldkontrInsertKopie   = require('./queries/tpopfeldkontrInsertKopie'),
+    queryTpopInsertKopie            = require('./queries/tpopInsertKopie'),
     queryFeldkontrInsert            = require('./queries/feldkontrInsert'),
     queryTabelleUpdateApflora       = require('./queries/tabelleUpdateApflora'),
     queryTabelleUpdateBeob          = require('./queries/tabelleUpdateBeob'),
@@ -230,6 +231,12 @@ server.route({
     method: 'POST',
     path: '/api/v1/tpopfeldkontrInsertKopie/tpopId={tpopId}/tpopKontrId={tpopKontrId}/user={user}',
     handler: queryTpopfeldkontrInsertKopie
+});
+
+server.route({
+    method: 'POST',
+    path: '/api/v1/tpopInsertKopie/popId={popId}/tpopId={tpopId}/user={user}',
+    handler: queryTpopInsertKopie
 });
 
 server.route({

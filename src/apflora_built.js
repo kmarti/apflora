@@ -25039,75 +25039,21 @@ window.apf.beschrifte_ordner_beob_nicht_zuzuordnen = function(node) {
 
 window.apf.tpopKopiertInPopOrdnerTpopEinfügen = function(aktiver_node) {
 	'use strict';
-	var insertTPopKopie = $.ajax({
+	$.ajax({
 		type: 'post',
-		url: 'php/tpop_insert_kopie.php',
-		dataType: 'json',
-		data: {
-			"user": sessionStorage.User,
-			"PopId": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-			"TPopId": window.apf.erstelleIdAusDomAttributId($(window.apf.tpop_node_kopiert).attr("id"))
-		}
-	});
-	insertTPopKopie.always(function(id) {
+		url: 'api/v1/tpopInsertKopie/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpop_node_kopiert).attr("id")) + '/user=' + sessionStorage.User,
+		dataType: 'json'
+	}).done(function(id) {
 		var strukturtyp = "tpop",
 			beschriftung = window.apf.tpop_objekt_kopiert.TPopFlurname;
 		if (window.apf.tpop_objekt_kopiert.TPopNr) {
 			beschriftung = window.apf.tpop_objekt_kopiert.TPopNr + ': ' + window.apf.tpop_objekt_kopiert.TPopFlurname
 		}
 		window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, "", strukturtyp, id, beschriftung);
-	});
-	insertTPopKopie.fail(function() {
-		//window.apf.melde("Fehler: Die Teilpopulation wurde nicht erstellt");
-		console.log('Fehler: Die Teilpopulation wurde nicht erstellt');
+	}).fail(function() {
+		window.apf.melde("Fehler: Die Teilpopulation wurde nicht erstellt");
 	});
 };
-
-// wird offenbar momentan nicht verwendet
-/*window.apf.popKopiertInPopEinfügen = function(aktiver_node, parent_node) {
-	'use strict';
-	var data = {};
-	// nur aktualisieren, wenn Schreibrechte bestehen
-	if (!window.apf.prüfeSchreibvoraussetzungen()) {
-		return;
-	}
-	// drop kennt den parent nicht
-	if (!parent_node) {
-		parent_node = $.jstree._reference(aktiver_node)._get_parent(aktiver_node);
-	}
-	// User und neue ApArtId mitgeben
-	data.MutWer = sessionStorage.User;
-	data.ApArtId = window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id"));
-	// die alten id's entfernen
-	delete window.apf.pop_objekt_kopiert.ApArtId;
-	delete window.apf.pop_objekt_kopiert.PopId;
-	// das wird gleich neu gesetzt, alte Werte verwerfen
-	delete window.apf.pop_objekt_kopiert.MutWann;
-	delete window.apf.pop_objekt_kopiert.MutWer;
-	// alle verbliebenen Felder an die url hängen
-    _.each(window.apf.pop_objekt_kopiert, function(value, key) {
-        // Nullwerte ausschliessen
-        if (value !== null) {
-            data[key] = value;
-        }
-    });
-	// und an die DB schicken
-	var insertPopKopie_2 = $.ajax({
-		type: 'post',
-		url: 'php/pop_insert_kopie.php',
-		dataType: 'json',
-		data: data
-	});
-	insertPopKopie_2.always(function(pop_id) {
-		var strukturtyp = "pop",
-			beschriftung = window.apf.pop_objekt_kopiert.PopNr + " " + window.apf.pop_objekt_kopiert.PopName;
-		window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, pop_id, beschriftung);
-	});
-	insertPopKopie_2.fail(function() {
-		//window.apf.melde("Fehler: Die Population wurde nicht erstellt");
-		console.log('Die Population wurde nicht erstellt');
-	});
-};*/
 
 // wird offenbar momentan nicht verwendet
 window.apf.tpopKopiertInTpopEinfügen = function(aktiver_node, parent_node) {
@@ -25138,20 +25084,16 @@ window.apf.tpopKopiertInTpopEinfügen = function(aktiver_node, parent_node) {
         }
     });
 	// und an die DB schicken
-	var insertTPopKopie_2 = $.ajax({
+	$.ajax({
 		type: 'post',
-		url: 'php/tpop_insert_kopie.php',
-		dataType: 'json',
-		data: data
-	});
-	insertTPopKopie_2.always(function(tpop_id) {
+		url: 'api/v1/tpopInsertKopie/popId=' + data.PopId + '/tpopId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpop_node_kopiert).attr("id")) + '/user=' + data.MutWer,
+		dataType: 'json'
+	}).done(function(tpop_id) {
 		var strukturtyp = "tpop",
 			beschriftung = window.apf.tpop_objekt_kopiert.TPopNr + " " + window.apf.tpop_objekt_kopiert.TPopFlurname;
 		window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, tpop_id, beschriftung);
-	});
-	insertTPopKopie_2.fail(function() {
-		//window.apf.melde("Fehler: Die Teilpopulation wurde nicht erstellt");
-		console.log('Fehler: Die Teilpopulation wurde nicht erstellt');
+	}).fail(function() {
+		window.apf.melde("Fehler: Die Teilpopulation wurde nicht erstellt");
 	});
 };
 

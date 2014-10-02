@@ -12,7 +12,7 @@ var mysql      = require('mysql'),
 
 var returnFunction = function(request, callback) {
     var tpopId      = decodeURIComponent(request.params.tpopId),
-        tpopMassnId = decodeURIComponent(request.params.tpopMassnId),
+        popId       = decodeURIComponent(request.params.popId),
         user        = decodeURIComponent(request.params.user),          // der Benutzername
         date        = new Date().toISOString();                         // wann gespeichert wird
 
@@ -20,7 +20,7 @@ var returnFunction = function(request, callback) {
         function(callback) {
             // Temporäre Tabelle erstellen mit dem zu kopierenden Datensatz
             connection.query(
-                'CREATE TEMPORARY TABLE tmp SELECT * FROM tblTeilPopMassnahme WHERE TPopMassnId =' + tpopMassnId,
+                'CREATE TEMPORARY TABLE tmp SELECT * FROM tblTeilpopulation WHERE TPopId = ' + tpopId,
                 function(err) {
                     // nur allfällige Fehler weiterleiten
                     callback(err, null);
@@ -30,7 +30,7 @@ var returnFunction = function(request, callback) {
         function(callback) {
             // TPopId anpassen
             connection.query(
-                'UPDATE tmp SET TPopMassnId = NULL, TPopId = ' + tpopId + ', MutWann="' + date + '", MutWer="' + user + '"',
+                'UPDATE tmp SET TPopId = NULL, PopId = ' + popId + ', MutWann="' + date + '", MutWer="' + user + '"',
                 function(err) {
                     // nur allfällige Fehler weiterleiten
                     callback(err, null);
@@ -39,7 +39,7 @@ var returnFunction = function(request, callback) {
         },
         function(callback) {
             connection.query(
-                'INSERT INTO tblTeilPopMassnahme SELECT * FROM tmp',
+                'INSERT INTO tblTeilpopulation SELECT * FROM tmp',
                 function(err, data) {
                     callback(err, data.insertId);
                 }

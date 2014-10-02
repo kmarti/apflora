@@ -41,7 +41,6 @@ var returnFunction = function(request, callback) {
             connection.query(
                 'INSERT INTO tblTeilPopFeldkontrolle SELECT * FROM tmp',
                 function(err, data) {
-                    if (err) throw err;
                     callback(err, data.insertId);
                 }
             );
