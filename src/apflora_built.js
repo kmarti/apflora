@@ -27158,7 +27158,10 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
 							// dem bind.move_node mitteilen, dass das Formular nicht initiiert werden soll
 							localStorage.karte_fokussieren = true;
 							// Beob der TPop zuweisen
+							console.log('Beob.NO_NOTE: ', Beob.NO_NOTE);
+							// TODO: Was ist, wenn diese Beobachtung im Baum nicht dargestellt wird????
 							$("#tree").jstree("move_node", "#beob" + Beob.NO_NOTE, "#tpop_ordner_beob_zugeordnet" + data[0].TPopId, "first");
+							//$("#tree").jstree("move_node", "#beob" + Beob.NO_NOTE, "#tpop_ordner_beob_zugeordnet" + data[0].TPopId, "first");
 							// Den Marker der zugewiesenen Beobachtung entfernen
 							that.setMap(null);
 						},

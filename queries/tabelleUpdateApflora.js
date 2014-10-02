@@ -5,16 +5,15 @@
 
 'use strict';
 
-var mysql = require('mysql')
-    , _ = require('underscore')
-    , config = require('../src/modules/configuration')
-    , connection = mysql.createConnection({
+var mysql = require('mysql'),
+    _ = require('underscore'),
+    config = require('../src/modules/configuration'),
+    connection = mysql.createConnection({
         host: 'localhost',
         user: config.db.userName,
         password: config.db.passWord,
         database: 'alexande_apflora'
-    })
-    ;
+    });
 
 var tabelleUpdate = function(request, callback) {
     var tabelle       = decodeURIComponent(request.params.tabelle),         // der Name der Tabelle, in der die Daten gespeichert werden sollen

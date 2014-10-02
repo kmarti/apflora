@@ -1,23 +1,21 @@
 'use strict';
 
-var _ = require('underscore'),
-    mysql = require('mysql'),
-    async = require('async'),
-    config = require('../../src/modules/configuration'),
-    connection = mysql.createConnection({
+var _                         = require('underscore'),
+    async                     = require('async'),
+    mysql                     = require('mysql'),
+    config                    = require('../../src/modules/configuration'),
+    connection                = mysql.createConnection({
         host: 'localhost',
         user: config.db.userName,
         password: config.db.passWord,
         database: 'alexande_apflora'
     }),
-    response = {},
-    apId,
     erstelleTpopOrdner        = require('./tpopOrdner'),
     erstellePopMassnBerOrdner = require('./popMassnBerOrdner'),
     erstellePopBerOrdner      = require('./popBerOrdner');
 
 var returnFunction = function(request, reply) {
-    apId = decodeURIComponent(request.params.apId);
+    var apId = decodeURIComponent(request.params.apId);
 
     // zuerst die popliste holen
     async.waterfall([
@@ -25,9 +23,8 @@ var returnFunction = function(request, reply) {
             connection.query(
                 'SELECT PopNr, PopName, PopId, ApArtId FROM tblPopulation where ApArtId = ' + apId + ' ORDER BY PopNr, PopName',
                 function (err, result) {
-                    if (err) reply(err);
                     var popListe = result,
-                        popIds = _.pluck(popListe, 'PopId');
+                        popIds   = _.pluck(popListe, 'PopId');
                     callback(err, popIds, popListe);
                 }
             );
@@ -37,9 +34,8 @@ var returnFunction = function(request, reply) {
                 connection.query(
                     'SELECT TPopNr, TPopFlurname, TPopId, PopId FROM tblTeilpopulation where PopId in (' + popIds.join() + ') ORDER BY TPopNr, TPopFlurname',
                     function (err, result) {
-                        if (err) reply(err);
                         var tpopListe = result,
-                            tpopIds = _.pluck(tpopListe, 'TPopId');
+                            tpopIds   = _.pluck(tpopListe, 'TPopId');
                         callback(err, [popIds, tpopIds, popListe, tpopListe]);
                     }
                 );
@@ -48,11 +44,11 @@ var returnFunction = function(request, reply) {
             }
         }
     ], function(err, result) {
-        var popIds = result[0],
-            tpopIds = result[1],
-            popListe = result[2],
+        var popIds    = result[0],
+            tpopIds   = result[1],
+            popListe  = result[2],
             tpopListe = result[3];
-            
+
         // jetzt parallel alle übrigen Daten aus dem pop-baum
         async.parallel({
             tpopMassnListe: function(callback) {

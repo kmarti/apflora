@@ -1,19 +1,18 @@
 'use strict';
 
-var _ = require('underscore')
-    , mysql = require('mysql')
-    , async = require('async')
-    , config = require('../../src/modules/configuration')
-    , connection = mysql.createConnection({
+var _ = require('underscore'),
+    mysql = require('mysql'),
+    async = require('async'),
+    config = require('../../src/modules/configuration'),
+    connection = mysql.createConnection({
         host: 'localhost',
         user: config.db.userName,
         password: config.db.passWord,
         database: 'alexande_apflora'
-    })
-    , response = {}
-    , apId
-    , zielIds
-    ;
+    }),
+    response = {},
+    apId,
+    zielIds;
 
 var returnFunction = function(request, reply) {
     apId = decodeURIComponent(request.params.apId);
@@ -27,7 +26,7 @@ var returnFunction = function(request, reply) {
                     if (err) callback(err);
                     callback(null, apzielListe);
                 }
-            )
+            );
         },
         function (apzielListe, callback) {
             // sicherstellen, dass eine apzielListe existiert - auf wenn sie leer ist

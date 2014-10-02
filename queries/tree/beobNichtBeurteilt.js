@@ -1,16 +1,15 @@
 'use strict';
 
-var _ = require('underscore')
-    , mysql = require('mysql')
-    , config = require('../../src/modules/configuration')
-    , connection = mysql.createConnection({
+var _          = require('underscore'),
+    mysql      = require('mysql'),
+    config     = require('../../src/modules/configuration'),
+    connection = mysql.createConnection({
         host: 'localhost',
         user: config.db.userName,
         password: config.db.passWord,
         database: 'alexande_apflora'
-    })
-    , response = {}
-    ;
+    }),
+    response   = {};
 
 var beobNichtBeurteilt = function(request, reply) {
     var apId = decodeURIComponent(request.params.apId);
@@ -46,11 +45,11 @@ function buildChildFromData(data) {
         object.attr = {
             typ: 'beob_nicht_beurteilt'
         };
-        if (beob['NO_NOTE']) {
-            object.attr.id = 'beob' + beob['NO_NOTE'];
+        if (beob.NO_NOTE) {
+            object.attr.id = 'beob' + beob.NO_NOTE;
             object.attr.beobtyp = 'infospezies';
         } else {
-            object.attr.id = 'beob' + beob['NO_NOTE_PROJET'];
+            object.attr.id = 'beob' + beob.NO_NOTE_PROJET;
             object.attr.beobtyp = 'evab';
         }
         childrenArray.push(object);
