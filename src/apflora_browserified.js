@@ -8374,17 +8374,15 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "neue assoziierte Art",
                     "icon": "style/images/neu.png",
                     "action": function() {
-                        var insertAssozarten_2 = $.ajax({
+                        $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblAssozArten/feld=AaApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
-                        });
-                        insertAssozarten_2.done(function(id) {
+                        }).done(function(id) {
                             var strukturtyp = "assozarten",
                                 beschriftung = "neue assoziierte Art";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
-                        });
-                        insertAssozarten_2.fail(function() {
+                        }).fail(function() {
                             //window.apf.melde("Fehler: Keine assoziierte Art erstellt");
                             console.log('Fehler: Keine assoziierte Art erstellt');
                         });
@@ -8588,7 +8586,7 @@ window.apf.treeKontextmenu = function(node) {
                         window.apf.pop_bezeichnung = $("#PopNr").val() + " " + $("#PopName").val();
 
                     }
-                }
+                };
             }
             if (window.apf.pop_zum_verschieben_gemerkt) {
                 items.einfuegen = {
@@ -8622,7 +8620,7 @@ window.apf.treeKontextmenu = function(node) {
                             console.log('Fehler: Die Population wurde nicht verschoben');
                         });
                     }
-                }
+                };
             }
             return items;
         case "pop_ordner_tpop":
@@ -8712,7 +8710,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         $.jstree._reference(aktiver_node).move_node(window.apf.tpop_node_ausgeschnitten, aktiver_node, "first", false);
                     }
-                }
+                };
             }
             if (window.apf.tpop_node_kopiert) {
                 label = "";
@@ -8735,7 +8733,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         window.apf.tpopKopiertInPopOrdnerTpopEinfügen(aktiver_node);
                     }
-                }
+                };
             }
             return items;
         case "tpop":
@@ -8938,7 +8936,7 @@ window.apf.treeKontextmenu = function(node) {
                         delete window.apf.tpop_node_kopiert;
                         delete window.apf.tpop_objekt_kopiert;
                     }
-                }
+                };
             }
             if (!window.apf.tpop_node_ausgeschnitten) {
                 items.kopieren = {
@@ -8965,7 +8963,7 @@ window.apf.treeKontextmenu = function(node) {
                             console.log('Fehler: Die Teilpopulation wurde nicht kopiert');
                         });
                     }
-                }
+                };
             }
             if (window.apf.tpop_node_kopiert) {
                 var label = "";
@@ -8987,7 +8985,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         window.apf.tpopKopiertInPopOrdnerTpopEinfügen(parent_node);
                     }
-                }
+                };
             }
             if (window.apf.tpop_node_ausgeschnitten) {
                 items.einfuegen = {
@@ -8997,7 +8995,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         $.jstree._reference(parent_node).move_node(window.apf.tpop_node_ausgeschnitten, parent_node, "first", false);
                     }
-                }
+                };
             }
             return items;
         case "pop_ordner_popber":
@@ -9223,7 +9221,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         $.jstree._reference(aktiver_node).move_node(window.apf.tpopfeldkontr_node_ausgeschnitten, aktiver_node, "first", false);
                     }
-                }
+                };
             }
             if (window.apf.tpopfeldkontr_node_kopiert) {
                 items.einfuegen = {
@@ -9232,27 +9230,19 @@ window.apf.treeKontextmenu = function(node) {
                     "icon": "style/images/einfuegen.png",
                     "action": function() {
                         // und an die DB schicken
-                        var insertTPopFeldKontrKopie = $.ajax({
+                        $.ajax({
                             type: 'post',
-                            url: 'php/tpopfeldkontr_insert_kopie.php',
-                            dataType: 'json',
-                            data: {
-                                "user": sessionStorage.User,
-                                "TPopId": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-                                "TPopKontrId": window.apf.erstelleIdAusDomAttributId($(window.apf.tpopfeldkontr_node_kopiert).attr("id"))
-                            }
-                        });
-                        insertTPopFeldKontrKopie.always(function(id) {
+                            url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopKontrId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpopfeldkontr_node_kopiert).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
+                        }).done(function(id) {
                             var strukturtyp = "tpopfeldkontr",
                                 beschriftung = window.apf.erstelleLabelFürFeldkontrolle(window.apf.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.apf.tpopfeldkontr_objekt_kopiert.TPopKontrTyp);
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
-                        });
-                        insertTPopFeldKontrKopie.fail(function() {
-                            //window.apf.melde("Fehler: Die Feldkontrolle wurde nicht erstellt");
-                            console.log('Fehler: Die Feldkontrolle wurde nicht erstellt');
+                        }).fail(function() {
+                            window.apf.melde("Fehler: Die Feldkontrolle wurde nicht erstellt");
                         });
                     }
-                }
+                };
             }
             return items;
         case "tpopfeldkontr":
@@ -9430,7 +9420,7 @@ window.apf.treeKontextmenu = function(node) {
                             console.log('Fehler: Das kopierte Biotop wurde nicht eingefügt');
                         });
                     }
-                }
+                };
             }
             if (!window.apf.tpopfeldkontr_node_ausgeschnitten) {
                 items.ausschneiden = {
@@ -9449,7 +9439,7 @@ window.apf.treeKontextmenu = function(node) {
                         delete window.apf.tpopfeldkontr_node_kopiert;
                         delete window.apf.tpopfeldkontr_objekt_kopiert;
                     }
-                }
+                };
             }
             if (!window.apf.tpopfeldkontr_node_ausgeschnitten) {
                 items.kopieren = {
@@ -9476,7 +9466,7 @@ window.apf.treeKontextmenu = function(node) {
                             console.log('Fehler: Die Feldkontrolle wurde nicht kopiert');
                         });
                     }
-                }
+                };
             }
             if (window.apf.tpopfeldkontr_node_ausgeschnitten) {
                 items.einfuegen = {
@@ -9486,7 +9476,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         $.jstree._reference(parent_node).move_node(window.apf.tpopfeldkontr_node_ausgeschnitten, parent_node, "first", false);
                     }
-                }
+                };
             }
             if (window.apf.tpopfeldkontr_node_kopiert) {
                 items.einfuegen = {
@@ -9495,27 +9485,19 @@ window.apf.treeKontextmenu = function(node) {
                     "icon": "style/images/einfuegen.png",
                     "action": function() {
                         // und an die DB schicken
-                        var insertTPopFeldKontrKopie_2 = $.ajax({
+                        $.ajax({
                             type: 'post',
-                            url: 'php/tpopfeldkontr_insert_kopie.php',
-                            dataType: 'json',
-                            data: {
-                                "user": sessionStorage.User,
-                                "TPopId": window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")),
-                                "TPopKontrId": window.apf.erstelleIdAusDomAttributId($(window.apf.tpopfeldkontr_node_kopiert).attr("id"))
-                            }
-                        });
-                        insertTPopFeldKontrKopie_2.always(function(id) {
+                            url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/tpopKontrId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpopfeldkontr_node_kopiert).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
+                        }).done(function(id) {
                             var strukturtyp = "tpopfeldkontr",
                                 beschriftung = window.apf.erstelleLabelFürFeldkontrolle(window.apf.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.apf.tpopfeldkontr_objekt_kopiert.TPopKontrTyp);
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
-                        });
-                        insertTPopFeldKontrKopie_2.fail(function() {
-                            //window.apf.melde("Fehler: Die Feldkontrolle wurde nicht erstellt");
-                            console.log('Fehler: Die Feldkontrolle wurde nicht erstellt');
+                        }).fail(function() {
+                            window.apf.melde("Fehler: Die Feldkontrolle wurde nicht erstellt");
                         });
                     }
-                }
+                };
             }
             return items;
         case "tpop_ordner_freiwkontr":
@@ -9558,27 +9540,19 @@ window.apf.treeKontextmenu = function(node) {
                     "icon": "style/images/einfuegen.png",
                     "action": function() {
                         // und an die DB schicken
-                        var insertTPopFeldKontrKopie_3 = $.ajax({
+                        $.ajax({
                             type: 'post',
-                            url: 'php/tpopfeldkontr_insert_kopie.php',
-                            dataType: 'json',
-                            data: {
-                                "user": sessionStorage.User,
-                                "TPopId": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-                                "TPopKontrId": window.apf.erstelleIdAusDomAttributId($(window.apf.tpopfreiwkontr_node_kopiert).attr("id"))
-                            }
-                        });
-                        insertTPopFeldKontrKopie_3.always(function(id) {
+                            url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopKontrId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpopfreiwkontr_node_kopiert).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
+                        }).done(function(id) {
                             var strukturtyp = "tpopfreiwkontr",
                                 beschriftung = window.apf.tpopfreiwkontr_objekt_kopiert.TPopKontrJahr;
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
-                        });
-                        insertTPopFeldKontrKopie_3.fail(function() {
-                            //window.apf.melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
-                            console.log('Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt');
+                        }).fail(function() {
+                            window.apf.melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
                         });
                     }
-                }
+                };
             }
             return items;
         case "tpopfreiwkontr":
@@ -9716,27 +9690,19 @@ window.apf.treeKontextmenu = function(node) {
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
                     "action": function() {
-                        var insertTPopFeldKontrKopie_4 = $.ajax({
+                        $.ajax({
                             type: 'post',
-                            url: 'php/tpopfeldkontr_insert_kopie.php',
-                            dataType: 'json',
-                            data: {
-                                "user": sessionStorage.User,
-                                "TPopId": window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")),
-                                "TPopKontrId": window.apf.erstelleIdAusDomAttributId($(window.apf.tpopfreiwkontr_node_kopiert).attr("id"))
-                            }
-                        });
-                        insertTPopFeldKontrKopie_4.always(function(id) {
+                            url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/tpopKontrId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpopfreiwkontr_node_kopiert).attr("id")) + '/user=' + sessionStorage.User,
+                            dataType: 'json'
+                        }).done(function(id) {
                             var strukturtyp = "tpopfreiwkontr",
                                 beschriftung = window.apf.tpopfreiwkontr_objekt_kopiert.TPopKontrJahr;
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
-                        });
-                        insertTPopFeldKontrKopie_4.fail(function() {
-                            //window.apf.melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
-                            console.log('Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt');
+                        }).fail(function() {
+                            window.apf.melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
                         });
                     }
-                }
+                };
             }
             return items;
         case "tpop_ordner_massn":
