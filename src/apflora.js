@@ -7400,10 +7400,6 @@ window.apf.undeleteDatensatz = function() {
 			window.apf.melde("Wiederherstellung gescheitert", "Fehler");
 	}
 
-	// tabelle wird in php benutzt, um zu wissen, in welche Tabelle der Datensatz eingefügt werden soll
-	// wird danach aus dem Felderarray entfernt
-	data.tabelle = tabelle;
-
 	// window.apf.deleted enthält alle Feldnamen - viele können leer sein
 	// daher nur solche mit Werten übernehmen
     _.each(window.apf.deleted, function(feldwert, feldname) {
@@ -7415,12 +7411,9 @@ window.apf.undeleteDatensatz = function() {
 	// Datensatz hinzufügen
 	var insertMultiple = $.ajax({
 		type: 'post',
-		url: 'php/insert_multiple.php',
-		dataType: 'json',
-		data: data
-	});
-
-	insertMultiple.always(function() {
+		url: 'api/v1/insertMultiple/apflora/tabelle=' + tabelle + '/felder=' + JSON.stringify(data),
+		dataType: 'json'
+	}).done(function() {
 		$(".undelete").hide();
 		$("#forms").css("top", "");
 		// ap kann nicht via Strukturbaum gewählt werden
@@ -7440,11 +7433,8 @@ window.apf.undeleteDatensatz = function() {
 					$("#tree").jstree("select_node", "[typ='" + typ + "']#" + id);
 				});
 		}
-	});
-
-	insertMultiple.fail(function() {
-		//window.apf.melde("Fehler: Wiederherstellung gescheitert");
-		console.log('Fehler: Wiederherstellung gescheitert');
+	}).fail(function() {
+		window.apf.melde("Fehler: Wiederherstellung gescheitert");
 	});
 };
 
