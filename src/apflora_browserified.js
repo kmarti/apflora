@@ -9299,7 +9299,7 @@ window.apf.treeKontextmenu = function(node) {
                         // jetzt alles speichern
                         $.ajax({
                             type: 'post',
-                            url: 'api/v1/updateMultiple/apflora/tabelle=tblTeilPopFeldkontrolle/felder=' + data,
+                            url: 'api/v1/updateMultiple/apflora/tabelle=tblTeilPopFeldkontrolle/felder=' + JSON.stringify(data),
                             dataType: 'json'
                         }).fail(function() {
                             window.apf.melde("Fehler: Das kopierte Biotop wurde nicht eingefügt");

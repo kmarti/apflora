@@ -27,6 +27,8 @@ var tabelleUpdate = function(request, callback) {
         nameMutWerFeld  = configTable.mutWerFeld  || 'MutWer',                // so heisst das MutWer-Feld in dieser Tabelle
         tabelleIdFeld   = configTable.tabelleIdFeld;                          // so heisst das Schlüsselfeld dieser Tabelle
 
+    felder = JSON.parse(felder);
+
     // id wird nur für die WHERE-Klausel benutzt
     id = felder.id;
     delete felder.id;
