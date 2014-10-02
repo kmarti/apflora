@@ -4,11 +4,6 @@ var $ = require('jquery');
 require('jquery-ui');
 
 var returnFunction = function() {
-    // Versuch, damit $.ajax auch in IE funktioniert
-    // jQuery hängt an jede Anfrage ein &_= und Zufahlszahl
-    // AUSGESCHALTET, WEIL TPOPFELDKONTR_UPDATE_MULTIPLE.PHP NICHT MEHR FUNKTIONIERTE (UND MEHR?)
-    //$.ajaxSetup({cache:false})
-
     // jQuery ui widgets initiieren
     $("#programm_wahl").buttonset({
         create: function() {
@@ -51,9 +46,35 @@ var returnFunction = function() {
     var monate = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
         wochentageKurz = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
         wochentageLang = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
-    $("#TPopKontrDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopKontrJahr", altFormat: "yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
-    $("#TPopMassnDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopMassnJahr", altFormat: "yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
-    $("#JBerDatum, #IbErstelldatum").datepicker({ dateFormat: "dd.mm.yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
+
+    $.datepicker.setDefaults({
+        buttonImage: "style/images/calendar.gif",
+        buttonImageOnly: true,
+        dateFormat: "dd.mm.yy",
+        altFormat: "dd.mm.yy",
+        monthNames: monate,
+        dayNamesMin: wochentageKurz,
+        dayNames: wochentageLang,
+        firstDay: 1,
+        showOn: "button",
+        defaultDate: +0,
+        onSelect: function() {
+            window.apf.speichern(this);
+        }
+    });
+
+    $("#TPopKontrDatum").datepicker({
+        altField: "#TPopKontrJahr"
+    });
+    $("#TPopMassnDatum").datepicker({
+        altField: "#TPopMassnJahr"
+    });
+    $("#JBerDatum").datepicker({
+        altField: "#JBerDatum"
+    });
+    $("#IbErstelldatum").datepicker({
+        altField: "#IbErstelldatum"
+    });
 
     // Variablen setzen für Formular Feldkontrollen, hier damit nur ein mal
     window.apf.feldliste_feldkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrTyp', 'TPopKontrJungpfl', 'TPopKontrVitalitaet', 'TPopKontrUeberleb', 'TPopKontrEntwicklung', 'TPopKontrUrsach', 'TPopKontrUrteil', 'TPopKontrAendUms', 'TPopKontrAendKontr', 'TPopKontrGuid', 'TPopKontrFlaeche', 'TPopKontrVegTyp', 'TPopKontrKonkurrenz', 'TPopKontrMoosschicht', 'TPopKontrKrautschicht', 'TPopKontrStrauchschicht', 'TPopKontrBaumschicht', 'TPopKontrBodenTyp', 'TPopKontrBodenKalkgehalt', 'TPopKontrBodenDurchlaessigkeit', 'TPopKontrBodenHumus', 'TPopKontrBodenNaehrstoffgehalt', 'TPopKontrBodenAbtrag', 'TPopKontrWasserhaushalt', 'TPopKontrHandlungsbedarf', 'TPopKontrIdealBiotopUebereinst', 'TPopKontrLeb', 'TPopKontrLebUmg'];

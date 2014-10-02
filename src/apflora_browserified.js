@@ -37170,6 +37170,7 @@ var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
                             html_distzutpop += beob.TPopFlurname;
                         }
                     });
+
                     // Tabellenzeile abschliessen
                     html_distzutpop += '</div></td></tr>';
 
@@ -37212,10 +37213,12 @@ var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
                         // beob_status ist "nicht beurteilt"
                         $("#BeobNichtBeurteilt").prop("checked", true);
                         $("#BeobNichtZuordnen").prop("checked", false);
+
                         // allfällige im letzen beob enthaltene Werte entfernen
                         $BeobBemerkungen
                             .val("")
                             .attr("placeholder", "Bemerkungen sind nur in zugeordneten oder nicht zuzuordnenden Beobachtungen möglich");
+
                         // Formulare blenden
                         // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
                         if (!ohneZuZeigen) {
@@ -37245,6 +37248,7 @@ var initiiereBer = function() {
         $BerTitel = $("#BerTitel"),
         $BerURL   = $("#BerURL");
 
+    // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     limiter($);
 
     if (!localStorage.ber_id) {
@@ -37303,32 +37307,15 @@ module.exports = initiiereBer;
 },{"../lib/limiter":18,"./initiiereAp":22,"jquery":5}],27:[function(require,module,exports){
 'use strict';
 
-var $ = require('jquery'),
-    initiiereAp = require('./initiiereAp');
-    //limiter = require('../lib/limiter');
+var $           = require('jquery'),
+    initiiereAp = require('./initiiereAp'),
+    limiter     = require('../lib/limiter');
 
-var initiiereErfkrit = function() {
+var returnFunction = function() {
+    var $ErfkritErreichungsgrad = $("#ErfkritErreichungsgrad");
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
-    // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
-    (function($) {
-        $.fn.extend( {
-            limiter: function(limit, elem) {
-                $(this).on("keyup focus", function() {
-                    setCount(this, elem);
-                });
-                function setCount(src, elem) {
-                    var chars = src.value.length;
-                    if (chars > limit) {
-                        src.value = src.value.substr(0, limit);
-                        chars = limit;
-                    }
-                    elem.html(limit - chars);
-                }
-                setCount($(this)[0], elem);
-            }
-        });
-    })(jQuery);
+    limiter($);
 
     if (!localStorage.erfkrit_id) {
         // es fehlen benötigte Daten > eine Ebene höher
@@ -37337,27 +37324,30 @@ var initiiereErfkrit = function() {
     }
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("erfkrit");
+
     // Daten für die erfkrit aus der DB holen
-    var getErfkrit = $.ajax({
-            type: 'get',
-            url: 'api/v1/apflora/tabelle=tblErfKrit/feld=ErfkritId/wertString=' + localStorage.erfkrit_id,
-            dataType: 'json'
-        }),
-        $ErfkritErreichungsgrad = $("#ErfkritErreichungsgrad");
-    getErfkrit.done(function(data) {
+    $.ajax({
+        type: 'get',
+        url: 'api/v1/apflora/tabelle=tblErfKrit/feld=ErfkritId/wertString=' + localStorage.erfkrit_id,
+        dataType: 'json'
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
+
             // erfkrit bereitstellen
             window.apf.erfkrit = data;
+
             // Felder mit Daten beliefern
             $("#ErfkritErreichungsgrad" + data.ErfkritErreichungsgrad).prop("checked", true);
             $("#ErfkritTxt")
                 .val(data.ErfkritTxt)
                 .limiter(255, $("#ErfkritTxt_limit"));
+
             // Formulare blenden
             window.apf.zeigeFormular("erfkrit");
             history.replaceState({erfkrit: "erfkrit"}, "erfkrit", "index.html?ap=" + localStorage.ap_id + "&erfkrit=" + localStorage.erfkrit_id);
+
             // bei neuen Datensätzen Fokus steuern
             if (!$ErfkritErreichungsgrad.val()) {
                 $ErfkritErreichungsgrad.focus();
@@ -37366,8 +37356,8 @@ var initiiereErfkrit = function() {
     });
 };
 
-module.exports = initiiereErfkrit;
-},{"./initiiereAp":22,"jquery":5}],28:[function(require,module,exports){
+module.exports = returnFunction;
+},{"../lib/limiter":18,"./initiiereAp":22,"jquery":5}],28:[function(require,module,exports){
 'use strict';
 
 /**
@@ -37376,10 +37366,12 @@ module.exports = initiiereErfkrit;
  * ruft diese Funktion auf
  */
 
-var conf                       = require('./configuration'),
-    fn                         = {},
+var conf                   = require('./configuration'),
+    fn                     = {},
     fnInitiiereFunktion;
 
+// diese Funktionen werden in ein Objekt gepackt
+// Grund: Ihr Name kann für die Ausführung als String übergeben werden
 fn.initiiereIdealbiotop    = require('./initiiereIdealbiotop');
 fn.initiiereAp             = require('./initiiereAp');
 fn.initiierePop            = require('./initiierePop');
@@ -37404,11 +37396,11 @@ var returnFunction = function(strukturtyp) {
         localStorage.tpopfreiwkontr = true;
         // Freiwilligen-Kontrollen werden von derselben Funktion initiiert, wie Feldkontrollen
         fn.initiiereTPopFeldkontr();
-
     } else {
         fnInitiiereFunktion = _.filter(conf.tables, function(table) {
             return table.treeTyp === strukturtyp;
         })[0].initiiereFunktion;
+
         fn[fnInitiiereFunktion]();
     }
 };
@@ -37417,35 +37409,41 @@ module.exports = returnFunction;
 },{"./configuration":21,"./initiiereAp":22,"./initiiereApziel":23,"./initiiereAssozarten":24,"./initiiereBer":26,"./initiiereErfkrit":27,"./initiiereIdealbiotop":29,"./initiiereJber":31,"./initiiereJberUebersicht":32,"./initiierePop":33,"./initiierePopBer":34,"./initiierePopMassnBer":35,"./initiiereTPop":36,"./initiiereTPopBer":37,"./initiiereTPopFeldkontr":38,"./initiiereTPopMassn":39,"./initiiereTPopMassnBer":40,"./initiiereZielber":41}],29:[function(require,module,exports){
 'use strict';
 
-var $ = require('jquery'),
+var $                    = require('jquery'),
     dateFormat           = require('dateformat'),
     initiiereAp          = require('./initiiereAp'),
     initiiereIdealbiotop = require('./initiiereIdealbiotop');
 
 var returnFunction = function() {
+    var $IbErstelldatum  = $("#IbErstelldatum");
+
     if (!localStorage.ap_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp();
         return;
     }
+
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("idealbiotop");
+
     // Daten für die idealbiotop aus der DB holen
-    var getIdealbiotop = $.ajax({
-            type: 'get',
-            url: '/api/v1/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wertNumber=' + localStorage.ap_id,
-            dataType: 'json'
-        }),
-        $IbErstelldatum = $("#IbErstelldatum");
-    getIdealbiotop.done(function(data) {
+    $.ajax({
+        type: 'get',
+        url: '/api/v1/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wertNumber=' + localStorage.ap_id,
+        dataType: 'json'
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
+
             // idealbiotop bereitstellen
             localStorage.idealbiotop_id = data.IbApArtId;
-            window.apf.idealbiotop = data;
+            window.apf.idealbiotop      = data;
+
             // Felder mit Daten beliefern
-            if (data.IbErstelldatum) $("#IbErstelldatum").val(dateFormat(data.IbErstelldatum, 'dd.mm.yyyy'));
+            if (data.IbErstelldatum) {
+                $("#IbErstelldatum").val(dateFormat(data.IbErstelldatum, 'dd.mm.yyyy'));
+            }
             $("#IbHoehenlage").val(data.IbHoehenlage);
             $("#IbRegion").val(data.IbRegion);
             $("#IbExposition").val(data.IbExposition);
@@ -37463,9 +37461,11 @@ var returnFunction = function() {
             $("#IbStrauchschicht").val(data.IbStrauchschicht);
             $("#IbBaumschicht").val(data.IbBaumschicht);
             $("#IbBemerkungen").val(data.IbBemerkungen);
+
             // Formulare blenden
             window.apf.zeigeFormular("idealbiotop");
             history.replaceState({idealbiotop: "idealbiotop"}, "idealbiotop", "index.html?ap=" + localStorage.ap_id + "&idealbiotop=" + localStorage.idealbiotop_id);
+
             // bei neuen Datensätzen Fokus steuern
             if (!$IbErstelldatum.val()) {
                 $IbErstelldatum.focus();
@@ -37477,16 +37477,14 @@ var returnFunction = function() {
             }
 
             // null zurückgekommen > Datensatz schaffen
-            var insertIdealbiotop = $.ajax({
+            $.ajax({
                 type: 'post',
                 url: '/api/v1/insert/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wert=' + localStorage.ap_id + '/user=' + sessionStorage.User,
                 dataType: 'json'
-            });
-            insertIdealbiotop.done(function(data) {
+            }).done(function(data) {
                 localStorage.idealbiotop_id = data.IbApArtId;
                 initiiereIdealbiotop();
-            });
-            insertIdealbiotop.fail(function() {
+            }).fail(function() {
                 //window.apf.melde("Fehler: Kein Idealbiotop erstellt");
                 console.log("Fehler: Kein Idealbiotop erstellt");
             });
@@ -37502,11 +37500,6 @@ var $ = require('jquery');
 require('jquery-ui');
 
 var returnFunction = function() {
-    // Versuch, damit $.ajax auch in IE funktioniert
-    // jQuery hängt an jede Anfrage ein &_= und Zufahlszahl
-    // AUSGESCHALTET, WEIL TPOPFELDKONTR_UPDATE_MULTIPLE.PHP NICHT MEHR FUNKTIONIERTE (UND MEHR?)
-    //$.ajaxSetup({cache:false})
-
     // jQuery ui widgets initiieren
     $("#programm_wahl").buttonset({
         create: function() {
@@ -37549,9 +37542,35 @@ var returnFunction = function() {
     var monate = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
         wochentageKurz = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
         wochentageLang = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
-    $("#TPopKontrDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopKontrJahr", altFormat: "yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
-    $("#TPopMassnDatum").datepicker({ dateFormat: "dd.mm.yy", altField: "#TPopMassnJahr", altFormat: "yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
-    $("#JBerDatum, #IbErstelldatum").datepicker({ dateFormat: "dd.mm.yy", defaultDate: +0, showOn: "button", buttonImage: "style/images/calendar.gif", buttonImageOnly: true, monthNames: monate, dayNamesMin: wochentageKurz, dayNames: wochentageLang, firstDay: 1 });
+
+    $.datepicker.setDefaults({
+        buttonImage: "style/images/calendar.gif",
+        buttonImageOnly: true,
+        dateFormat: "dd.mm.yy",
+        altFormat: "dd.mm.yy",
+        monthNames: monate,
+        dayNamesMin: wochentageKurz,
+        dayNames: wochentageLang,
+        firstDay: 1,
+        showOn: "button",
+        defaultDate: +0,
+        onSelect: function() {
+            window.apf.speichern(this);
+        }
+    });
+
+    $("#TPopKontrDatum").datepicker({
+        altField: "#TPopKontrJahr"
+    });
+    $("#TPopMassnDatum").datepicker({
+        altField: "#TPopMassnJahr"
+    });
+    $("#JBerDatum").datepicker({
+        altField: "#JBerDatum"
+    });
+    $("#IbErstelldatum").datepicker({
+        altField: "#IbErstelldatum"
+    });
 
     // Variablen setzen für Formular Feldkontrollen, hier damit nur ein mal
     window.apf.feldliste_feldkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrTyp', 'TPopKontrJungpfl', 'TPopKontrVitalitaet', 'TPopKontrUeberleb', 'TPopKontrEntwicklung', 'TPopKontrUrsach', 'TPopKontrUrteil', 'TPopKontrAendUms', 'TPopKontrAendKontr', 'TPopKontrGuid', 'TPopKontrFlaeche', 'TPopKontrVegTyp', 'TPopKontrKonkurrenz', 'TPopKontrMoosschicht', 'TPopKontrKrautschicht', 'TPopKontrStrauchschicht', 'TPopKontrBaumschicht', 'TPopKontrBodenTyp', 'TPopKontrBodenKalkgehalt', 'TPopKontrBodenDurchlaessigkeit', 'TPopKontrBodenHumus', 'TPopKontrBodenNaehrstoffgehalt', 'TPopKontrBodenAbtrag', 'TPopKontrWasserhaushalt', 'TPopKontrHandlungsbedarf', 'TPopKontrIdealBiotopUebereinst', 'TPopKontrLeb', 'TPopKontrLebUmg'];
@@ -37573,54 +37592,41 @@ module.exports = returnFunction;
 },{"jquery":5,"jquery-ui":4}],31:[function(require,module,exports){
 'use strict';
 
-var $ = require('jquery'),
-    _ = require('underscore'),
-    limiter = require('../lib/limiter');
-    //initiiereAp = require('./initiiereAp');
+var $           = require('jquery'),
+    _           = require('underscore'),
+    limiter     = require('../lib/limiter'),
+    initiiereAp = require('./initiiereAp');
+
+require('jquery-ui');
 
 var returnFunction = function() {
+    var $JBerJahr = $("#JBerJahr");
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
-    // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
-    (function($) {
-        $.fn.extend( {
-            limiter: function(limit, elem) {
-                $(this).on("keyup focus", function() {
-                    setCount(this, elem);
-                });
-                function setCount(src, elem) {
-                    var chars = src.value.length;
-                    if (chars > limit) {
-                        src.value = src.value.substr(0, limit);
-                        chars = limit;
-                    }
-                    elem.html(limit - chars);
-                }
-                setCount($(this)[0], elem);
-            }
-        });
-    })(jQuery);
+    limiter($);
 
     if (!localStorage.jber_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp();
         return;
     }
+
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("jber");
+
     // Daten für die jber aus der DB holen
-    var getJber = $.ajax({
-            type: 'get',
-            url: '/api/v1/apflora/tabelle=tblJBer/feld=JBerId/wertNumber=' + localStorage.jber_id,
-            dataType: 'json'
-        }),
-        $JBerJahr = $("#JBerJahr");
-    getJber.always(function(data) {
+    $.ajax({
+        type: 'get',
+        url: '/api/v1/apflora/tabelle=tblJBer/feld=JBerId/wertNumber=' + localStorage.jber_id,
+        dataType: 'json'
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
+
             // jber bereitstellen
             window.apf.jber = data;
+
             // Felder mit Daten beliefern
             $JBerJahr.val(data.JBerJahr);
             $("#JBerSituation").val(data.JBerSituation);
@@ -37637,20 +37643,14 @@ var returnFunction = function() {
             $("#JBerBTxt").val(data.JBerBTxt);
             $("#JBerCTxt").val(data.JBerCTxt);
             $("#JBerDTxt").val(data.JBerDTxt);
-            if (data.JBerDatum !== "01.01.1970") {
-                // php macht aus einem Nullwert im Datum den 1.1.1970!!!
-                $("#JBerDatum").val(data.JBerDatum);
-            } else {
-                $("#JBerDatum").val("");
-            }
+            $("#JBerDatum").val(data.JBerDatum);
             // JBerBearb: Daten holen - oder vorhandene nutzen
             if (!window.apf.adressen_html) {
-                var getAdressen = $.ajax({
+                $.ajax({
                     type: 'get',
                     url: 'api/v1/adressen',
                     dataType: 'json'
-                });
-                getAdressen.always(function(data2) {
+                }).done(function(data2) {
                     if (data2) {
                         // adressen bereitstellen
                         // Feld mit Daten beliefern
@@ -37682,7 +37682,7 @@ var returnFunction = function() {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":18,"jquery":5,"underscore":6}],32:[function(require,module,exports){
+},{"../lib/limiter":18,"./initiiereAp":22,"jquery":5,"jquery-ui":4,"underscore":6}],32:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -37736,25 +37736,7 @@ var $ = require('jquery'),
 var returnFunction = function(ohne_zu_zeigen) {
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
-    // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
-    (function($) {
-        $.fn.extend( {
-            limiter: function(limit, elem) {
-                $(this).on("keyup focus", function() {
-                    setCount(this, elem);
-                });
-                function setCount(src, elem) {
-                    var chars = src.value.length;
-                    if (chars > limit) {
-                        src.value = src.value.substr(0, limit);
-                        chars = limit;
-                    }
-                    elem.html(limit - chars);
-                }
-                setCount($(this)[0], elem);
-            }
-        });
-    })(jQuery);
+    limiter($);
 
     if (!localStorage.pop_id) {
         // es fehlen benötigte Daten > eine Ebene höher
@@ -37894,34 +37876,16 @@ module.exports = returnFunction;
 },{"./initiierePop":33,"jquery":5}],36:[function(require,module,exports){
 'use strict';
 
-var $ = require('jquery'),
-    _ = require('underscore'),
-    limiter = require('../lib/limiter');
-    //initiierePop = require('./initiierePop');
+var $            = require('jquery'),
+    _            = require('underscore'),
+    limiter      = require('../lib/limiter'),
+    initiierePop = require('./initiierePop');
 //require('jquery-ui');
 
 var returnFunction = function(ohne_zu_zeigen) {
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
-    // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
-    (function($) {
-        $.fn.extend( {
-            limiter: function(limit, elem) {
-                $(this).on("keyup focus", function() {
-                    setCount(this, elem);
-                });
-                function setCount(src, elem) {
-                    var chars = src.value.length;
-                    if (chars > limit) {
-                        src.value = src.value.substr(0, limit);
-                        chars = limit;
-                    }
-                    elem.html(limit - chars);
-                }
-                setCount($(this)[0], elem);
-            }
-        });
-    })(jQuery);
+    limiter($);
 
     var $TPopFlurname = $("#TPopFlurname");
     if (!localStorage.tpop_id) {
@@ -38045,7 +38009,7 @@ var returnFunction = function(ohne_zu_zeigen) {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":18,"jquery":5,"underscore":6}],37:[function(require,module,exports){
+},{"../lib/limiter":18,"./initiierePop":33,"jquery":5,"underscore":6}],37:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -38089,9 +38053,9 @@ module.exports = returnFunction;
 },{"./initiierePop":33,"jquery":5}],38:[function(require,module,exports){
 'use strict';
 
-var $ = require('jquery'),
-    _ = require('underscore'),
-    //limiter = require('../lib/limiter'),
+var $            = require('jquery'),
+    _            = require('underscore'),
+    limiter      = require('../lib/limiter'),
     initiierePop = require('./initiierePop');
 
 require('jquery-ui');
@@ -38099,25 +38063,7 @@ require('jquery-ui');
 var returnFunction = function() {
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
-    // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
-    (function($) {
-        $.fn.extend( {
-            limiter: function(limit, elem) {
-                $(this).on("keyup focus", function() {
-                    setCount(this, elem);
-                });
-                function setCount(src, elem) {
-                    var chars = src.value.length;
-                    if (chars > limit) {
-                        src.value = src.value.substr(0, limit);
-                        chars = limit;
-                    }
-                    elem.html(limit - chars);
-                }
-                setCount($(this)[0], elem);
-            }
-        });
-    })(jQuery);
+    limiter($);
 
     // wird gemeinsam für Feld- und Freiwilligenkontrollen verwendet
     // Feldkontrollen: Felder der Freiwilligenkontrollen ausblenden
@@ -38419,37 +38365,19 @@ var returnFunction = function() {
 };
 
 module.exports = returnFunction;
-},{"./initiierePop":33,"jquery":5,"jquery-ui":4,"underscore":6}],39:[function(require,module,exports){
+},{"../lib/limiter":18,"./initiierePop":33,"jquery":5,"jquery-ui":4,"underscore":6}],39:[function(require,module,exports){
 'use strict';
 
-var $ = require('jquery'),
-    _ = require('underscore'),
-    //limiter = require('../lib/limiter'),
+var $            = require('jquery'),
+    _            = require('underscore'),
+    limiter      = require('../lib/limiter'),
     initiierePop = require('./initiierePop');
 //require('jquery-ui');
 
 var returnFunction = function() {
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
-    // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
-    (function($) {
-        $.fn.extend( {
-            limiter: function(limit, elem) {
-                $(this).on("keyup focus", function() {
-                    setCount(this, elem);
-                });
-                function setCount(src, elem) {
-                    var chars = src.value.length;
-                    if (chars > limit) {
-                        src.value = src.value.substr(0, limit);
-                        chars = limit;
-                    }
-                    elem.html(limit - chars);
-                }
-                setCount($(this)[0], elem);
-            }
-        });
-    })(jQuery);
+    limiter($);
 
     if (!localStorage.tpopmassn_id) {
         // es fehlen benötigte Daten > eine Ebene höher
@@ -38579,7 +38507,7 @@ var returnFunction = function() {
 };
 
 module.exports = returnFunction;
-},{"./initiierePop":33,"jquery":5,"underscore":6}],40:[function(require,module,exports){
+},{"../lib/limiter":18,"./initiierePop":33,"jquery":5,"underscore":6}],40:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),

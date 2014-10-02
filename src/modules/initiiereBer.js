@@ -12,6 +12,7 @@ var initiiereBer = function() {
         $BerTitel = $("#BerTitel"),
         $BerURL   = $("#BerURL");
 
+    // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     limiter($);
 
     if (!localStorage.ber_id) {

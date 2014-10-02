@@ -1,34 +1,40 @@
 'use strict';
 
-var $ = require('jquery'),
+var $                    = require('jquery'),
     dateFormat           = require('dateformat'),
     initiiereAp          = require('./initiiereAp'),
     initiiereIdealbiotop = require('./initiiereIdealbiotop');
 
 var returnFunction = function() {
+    var $IbErstelldatum  = $("#IbErstelldatum");
+
     if (!localStorage.ap_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp();
         return;
     }
+
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("idealbiotop");
+
     // Daten für die idealbiotop aus der DB holen
-    var getIdealbiotop = $.ajax({
-            type: 'get',
-            url: '/api/v1/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wertNumber=' + localStorage.ap_id,
-            dataType: 'json'
-        }),
-        $IbErstelldatum = $("#IbErstelldatum");
-    getIdealbiotop.done(function(data) {
+    $.ajax({
+        type: 'get',
+        url: '/api/v1/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wertNumber=' + localStorage.ap_id,
+        dataType: 'json'
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
+
             // idealbiotop bereitstellen
             localStorage.idealbiotop_id = data.IbApArtId;
-            window.apf.idealbiotop = data;
+            window.apf.idealbiotop      = data;
+
             // Felder mit Daten beliefern
-            if (data.IbErstelldatum) $("#IbErstelldatum").val(dateFormat(data.IbErstelldatum, 'dd.mm.yyyy'));
+            if (data.IbErstelldatum) {
+                $("#IbErstelldatum").val(dateFormat(data.IbErstelldatum, 'dd.mm.yyyy'));
+            }
             $("#IbHoehenlage").val(data.IbHoehenlage);
             $("#IbRegion").val(data.IbRegion);
             $("#IbExposition").val(data.IbExposition);
@@ -46,9 +52,11 @@ var returnFunction = function() {
             $("#IbStrauchschicht").val(data.IbStrauchschicht);
             $("#IbBaumschicht").val(data.IbBaumschicht);
             $("#IbBemerkungen").val(data.IbBemerkungen);
+
             // Formulare blenden
             window.apf.zeigeFormular("idealbiotop");
             history.replaceState({idealbiotop: "idealbiotop"}, "idealbiotop", "index.html?ap=" + localStorage.ap_id + "&idealbiotop=" + localStorage.idealbiotop_id);
+
             // bei neuen Datensätzen Fokus steuern
             if (!$IbErstelldatum.val()) {
                 $IbErstelldatum.focus();
@@ -60,16 +68,14 @@ var returnFunction = function() {
             }
 
             // null zurückgekommen > Datensatz schaffen
-            var insertIdealbiotop = $.ajax({
+            $.ajax({
                 type: 'post',
                 url: '/api/v1/insert/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wert=' + localStorage.ap_id + '/user=' + sessionStorage.User,
                 dataType: 'json'
-            });
-            insertIdealbiotop.done(function(data) {
+            }).done(function(data) {
                 localStorage.idealbiotop_id = data.IbApArtId;
                 initiiereIdealbiotop();
-            });
-            insertIdealbiotop.fail(function() {
+            }).fail(function() {
                 //window.apf.melde("Fehler: Kein Idealbiotop erstellt");
                 console.log("Fehler: Kein Idealbiotop erstellt");
             });

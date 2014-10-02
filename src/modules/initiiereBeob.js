@@ -86,6 +86,7 @@ var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
                             html_distzutpop += beob.TPopFlurname;
                         }
                     });
+
                     // Tabellenzeile abschliessen
                     html_distzutpop += '</div></td></tr>';
 
@@ -128,10 +129,12 @@ var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
                         // beob_status ist "nicht beurteilt"
                         $("#BeobNichtBeurteilt").prop("checked", true);
                         $("#BeobNichtZuordnen").prop("checked", false);
+
                         // allfällige im letzen beob enthaltene Werte entfernen
                         $BeobBemerkungen
                             .val("")
                             .attr("placeholder", "Bemerkungen sind nur in zugeordneten oder nicht zuzuordnenden Beobachtungen möglich");
+
                         // Formulare blenden
                         // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
                         if (!ohneZuZeigen) {

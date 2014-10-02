@@ -6,10 +6,12 @@
  * ruft diese Funktion auf
  */
 
-var conf                       = require('./configuration'),
-    fn                         = {},
+var conf                   = require('./configuration'),
+    fn                     = {},
     fnInitiiereFunktion;
 
+// diese Funktionen werden in ein Objekt gepackt
+// Grund: Ihr Name kann für die Ausführung als String übergeben werden
 fn.initiiereIdealbiotop    = require('./initiiereIdealbiotop');
 fn.initiiereAp             = require('./initiiereAp');
 fn.initiierePop            = require('./initiierePop');
@@ -34,11 +36,11 @@ var returnFunction = function(strukturtyp) {
         localStorage.tpopfreiwkontr = true;
         // Freiwilligen-Kontrollen werden von derselben Funktion initiiert, wie Feldkontrollen
         fn.initiiereTPopFeldkontr();
-
     } else {
         fnInitiiereFunktion = _.filter(conf.tables, function(table) {
             return table.treeTyp === strukturtyp;
         })[0].initiiereFunktion;
+
         fn[fnInitiiereFunktion]();
     }
 };
