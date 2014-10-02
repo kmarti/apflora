@@ -26166,8 +26166,8 @@ window.apf.olmap.wähleAusschnittFürÜbergebeneTPop = function(tpop_liste_marki
 
 	// bounds der anzuzeigenden bestimmen
 	var tpopid_markiert = [];
-	if (tpop_liste_markiert && tpop_liste_markiert.rows && tpop_liste_markiert.rows.length > 0) {
-        _.each(tpop_liste_markiert.rows, function(tpop) {
+	if (tpop_liste_markiert && tpop_liste_markiert.length > 0) {
+        _.each(tpop_liste_markiert, function(tpop) {
             tpopid_markiert.push(tpop.TPopId);
             xkoord_array.push(tpop.TPopXKoord);
 	        ykoord_array.push(tpop.TPopYKoord);
@@ -31648,24 +31648,18 @@ window.apf.treeKontextmenu = function(node) {
                     "separator_before": true,
                     "icon": "style/images/flora_icon_gelb.png",
                     "action": function() {
-                        var getTPopKarte_2 = $.ajax({
+                        $.ajax({
                             type: 'get',
-                            url: 'php/tpop_karte.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                            }
-                        });
-                        getTPopKarte_2.always(function(data) {
-                            if (data.rows.length > 0) {
+                            url: 'api/v1/tpopKarte/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                            dataType: 'json'
+                        }).done(function(data) {
+                            if (data.length > 0) {
                                 window.apf.zeigeTPopAufOlmap(data);
                             } else {
                                 window.apf.melde("Die Teilpopulation hat keine Koordinaten", "Aktion abgebrochen");
                             }
-                        });
-                        getTPopKarte_2.fail(function() {
-                            //window.apf.melde("Fehler: Keine Teilpopulationen erhalten");
-                            console.log('Fehler: Keine Teilpopulationen erhalten');
+                        }).fail(function() {
+                            window.apf.melde("Fehler: Keine Teilpopulationen erhalten");
                         });
                     }
                 },
@@ -31693,24 +31687,18 @@ window.apf.treeKontextmenu = function(node) {
                     "separator_before": true,
                     "icon": "style/images/flora_icon.png",
                     "action": function() {
-                        var getTPopKarte_3 = $.ajax({
+                        $.ajax({
                             type: 'get',
-                            url: 'php/tpop_karte.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                            }
-                        });
-                        getTPopKarte_3.always(function(data) {
-                            if (data.rows.length > 0) {
+                            url: 'api/v1/tpopKarte/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                            dataType: 'json'
+                        }).done(function(data) {
+                            if (data.length > 0) {
                                 zeigeTPop(data);
                             } else {
                                 window.apf.melde("Die Teilpopulation hat keine Koordinaten", "Aktion abgebrochen");
                             }
-                        });
-                        getTPopKarte_3.fail(function() {
-                            //window.apf.melde("Fehler: Keine Daten erhalten");
-                            console.log('Fehler: Keine Daten erhalten');
+                        }).fail(function() {
+                            window.apf.melde("Fehler: Keine Daten erhalten");
                         });
                     }
                 },
