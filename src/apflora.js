@@ -6856,8 +6856,7 @@ window.apf.prüfeAnmeldung = function() {
 			type: 'get',
 			url: 'api/v1/anmeldung/name=' + $anmeldung_name + '/pwd=' + $anmeldung_passwort,
 			dataType: 'json'
-		});
-		getAnmeldung.always(function(data) {
+		}).done(function(data) {
 			if (data && data.length > 0) {
 				sessionStorage.User = $anmeldung_name;
 				// wenn NurLesen, globale Variable setzen
@@ -6878,10 +6877,8 @@ window.apf.prüfeAnmeldung = function() {
 					$("#anmeldung_rueckmeldung").removeClass("ui-state-highlight", 1500);
 				}, 500);
 			}
-		});
-		getAnmeldung.fail(function() {
+		}).fail(function() {
 			window.apf.melde("Anmeldung gescheitert", "Oops!");
-			//console.log('Anmeldung gescheitert');
 		});
 	} else {
 		$("#anmeldung_rueckmeldung")
