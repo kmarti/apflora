@@ -4140,7 +4140,7 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
 
 	// für alle Beob Marker erstellen
 	window.markersBeob = [];
-    _.each(beob_liste.rows, function(beob) {
+    _.each(beob_liste, function(beob) {
         datum = beob.Datum;
         latlng2 = new google.maps.LatLng(beob.Lat, beob.Lng);
         if (anz_beob === 1) {
@@ -10078,8 +10078,8 @@ window.apf.treeKontextmenu = function(node) {
                             dataType: 'json'
                         });
                         getBeobKarte.done(function(data) {
-                            if (data.length > 0) {
-                                window.apf.gmap.zeigeTPopBeob(data);
+                            if (data && data[0]) {
+                                window.apf.gmap.zeigeTPopBeob(data[0]);
                             } else {
                                 window.apf.melde("Es gibt keine Beobachtungen mit Koordinaten", "Aktion abgebrochen");
                             }
@@ -10126,8 +10126,8 @@ window.apf.treeKontextmenu = function(node) {
                             dataType: 'json'
                         });
                         getBeobKarte_2.done(function(data) {
-                            if (data.length > 0) {
-                                window.apf.gmap.zeigeTPopBeob(data);
+                            if (data && data[0]) {
+                                window.apf.gmap.zeigeTPopBeob(data[0]);
                             } else {
                                 window.apf.melde("Die Beobachtung hat keine Koordinaten", "Aktion abgebrochen");
                             }
@@ -10149,7 +10149,8 @@ window.apf.treeKontextmenu = function(node) {
                             dataType: 'json'
                         });
                         getBeobKarte_3.done(function(beob) {
-                            if (beob.length > 0) {
+                            if (beob && beob[0]) {
+                            	beob = beob[0];
                                 var getApKarte = $.ajax({
                                     type: 'get',
                                     url: 'api/v1/apKarte/apId=' + localStorage.ap_id,
@@ -10397,8 +10398,8 @@ window.apf.treeKontextmenu = function(node) {
                             dataType: 'json'
                         });
                         getBeobKarte_6.done(function(data) {
-                            if (data.length > 0) {
-                                window.apf.gmap.zeigeBeob(data);
+                            if (data && data[0]) {
+                                window.apf.gmap.zeigeBeob(data[0]);
                             } else {
                                 window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
                             }
@@ -10420,7 +10421,8 @@ window.apf.treeKontextmenu = function(node) {
                             dataType: 'json'
                         });
                         getBeobKarte_7.done(function(beob) {
-                            if (beob.length > 0) {
+                            if (beob && beob[0]) {
+                            	beob = beob[0];
                                 var getApKarte_2 = $.ajax({
                                     type: 'get',
                                     url: 'api/v1/apKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")),
@@ -10528,8 +10530,8 @@ window.apf.treeKontextmenu = function(node) {
                             dataType: 'json'
                         });
                         getBeobKarte_9.done(function(data) {
-                            if (data.length > 0) {
-                                window.apf.gmap.zeigeBeob(data);
+                            if (data && data[0]) {
+                                window.apf.gmap.zeigeBeob(data[0]);
                             } else {
                                 window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
                             }

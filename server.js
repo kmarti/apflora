@@ -324,14 +324,14 @@ server.route({
 
 server.route({
     method: 'GET',
-    path: '/api/v1/beobDistzutpopEvab/beobId={beobId}',
-    handler: queryBeobNächsteTpop
+    path: '/api/v1/beobDistzutpopInfospezies/beobId={beobId}',
+    handler: queryBeobDistzutpopInfospezies
 });
 
 server.route({
     method: 'GET',
     path: '/api/v1/beobNaechsteTpop/apId={apId}/X={X}/Y={Y}',
-    handler: queryBeobDistzutpopInfospezies
+    handler: queryBeobNächsteTpop
 });
 
 server.route({
