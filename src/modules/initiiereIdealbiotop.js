@@ -32,9 +32,7 @@ var returnFunction = function() {
             window.apf.idealbiotop      = data;
 
             // Felder mit Daten beliefern
-            if (data.IbErstelldatum) {
-                $("#IbErstelldatum").val(dateFormat(data.IbErstelldatum, 'dd.mm.yyyy'));
-            }
+            $("#IbErstelldatum").val(dateFormat(data.IbErstelldatum, 'yyyy.mm.dd'));
             $("#IbHoehenlage").val(data.IbHoehenlage);
             $("#IbRegion").val(data.IbRegion);
             $("#IbExposition").val(data.IbExposition);

@@ -50,8 +50,8 @@ var returnFunction = function() {
     $.datepicker.setDefaults({
         buttonImage: "style/images/calendar.gif",
         buttonImageOnly: true,
-        dateFormat: "dd.mm.yy",
-        altFormat: "dd.mm.yy",
+        dateFormat: "yy.mm.dd",
+        altFormat: "yy.mm.dd",
         monthNames: monate,
         dayNamesMin: wochentageKurz,
         dayNames: wochentageLang,
@@ -63,18 +63,7 @@ var returnFunction = function() {
         }
     });
 
-    $("#TPopKontrDatum").datepicker({
-        altField: "#TPopKontrJahr"
-    });
-    $("#TPopMassnDatum").datepicker({
-        altField: "#TPopMassnJahr"
-    });
-    $("#JBerDatum").datepicker({
-        altField: "#JBerDatum"
-    });
-    $("#IbErstelldatum").datepicker({
-        altField: "#IbErstelldatum"
-    });
+    $("#TPopKontrDatum, #TPopMassnDatum, #JBerDatum, #IbErstelldatum").datepicker();
 
     // Variablen setzen für Formular Feldkontrollen, hier damit nur ein mal
     window.apf.feldliste_feldkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrTyp', 'TPopKontrJungpfl', 'TPopKontrVitalitaet', 'TPopKontrUeberleb', 'TPopKontrEntwicklung', 'TPopKontrUrsach', 'TPopKontrUrteil', 'TPopKontrAendUms', 'TPopKontrAendKontr', 'TPopKontrGuid', 'TPopKontrFlaeche', 'TPopKontrVegTyp', 'TPopKontrKonkurrenz', 'TPopKontrMoosschicht', 'TPopKontrKrautschicht', 'TPopKontrStrauchschicht', 'TPopKontrBaumschicht', 'TPopKontrBodenTyp', 'TPopKontrBodenKalkgehalt', 'TPopKontrBodenDurchlaessigkeit', 'TPopKontrBodenHumus', 'TPopKontrBodenNaehrstoffgehalt', 'TPopKontrBodenAbtrag', 'TPopKontrWasserhaushalt', 'TPopKontrHandlungsbedarf', 'TPopKontrIdealBiotopUebereinst', 'TPopKontrLeb', 'TPopKontrLebUmg'];

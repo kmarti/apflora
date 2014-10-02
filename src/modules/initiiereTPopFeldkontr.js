@@ -1,6 +1,7 @@
 'use strict';
 
 var $            = require('jquery'),
+    dateFormat   = require('dateformat'),
     _            = require('underscore'),
     limiter      = require('../lib/limiter'),
     initiierePop = require('./initiierePop');
@@ -45,12 +46,7 @@ var returnFunction = function() {
             // gemeinsame Felder
             // mit Daten beliefern
             $TPopKontrJahr.val(data.TPopKontrJahr);
-            if (data.TPopKontrDatum !== "01.01.1970") {
-                // php macht aus einem Nullwert im Datum den 1.1.1970!!!
-                $("#TPopKontrDatum").val(data.TPopKontrDatum);
-            } else {
-                $("#TPopKontrDatum").val("");
-            }
+            $("#TPopKontrDatum").val(dateFormat(data.TPopKontrDatum, 'yyyy.mm.dd'));
             $("#TPopKontrMethode1" + data.TPopKontrMethode1).prop("checked", true);
             $("#TPopKontrAnz1").val(data.TPopKontrAnz1);
             $("#TPopKontrMethode2" + data.TPopKontrMethode2).prop("checked", true);

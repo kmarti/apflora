@@ -1,6 +1,7 @@
 'use strict';
 
 var $           = require('jquery'),
+    dateFormat  = require('dateformat'),
     _           = require('underscore'),
     limiter     = require('../lib/limiter'),
     initiiereAp = require('./initiiereAp');
@@ -51,7 +52,7 @@ var returnFunction = function() {
             $("#JBerBTxt").val(data.JBerBTxt);
             $("#JBerCTxt").val(data.JBerCTxt);
             $("#JBerDTxt").val(data.JBerDTxt);
-            $("#JBerDatum").val(data.JBerDatum);
+            $("#JBerDatum").val(dateFormat(data.JBerDatum, 'yyyy.mm.dd'));
             // JBerBearb: Daten holen - oder vorhandene nutzen
             if (!window.apf.adressen_html) {
                 $.ajax({

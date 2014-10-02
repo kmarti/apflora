@@ -1,6 +1,7 @@
 'use strict';
 
 var $            = require('jquery'),
+    dateFormat   = require('dateformat'),
     _            = require('underscore'),
     limiter      = require('../lib/limiter'),
     initiierePop = require('./initiierePop');
@@ -61,12 +62,7 @@ var returnFunction = function() {
                 .val(data.TPopMassnTxt)
                 .limiter(255, $("#TPopMassnTxt_limit"));
             $("#TPopMassnJahr").val(data.TPopMassnJahr);
-            if (data.TPopMassnDatum !== "01.01.1970") {
-                // php macht aus einem Nullwert im Datum den 1.1.1970!!!
-                $("#TPopMassnDatum").val(data.TPopMassnDatum);
-            } else {
-                $("#TPopMassnDatum").val("");
-            }
+            $("#TPopMassnDatum").val(dateFormat(data.TPopMassnDatum, 'yyyy.mm.dd'));
             // TPopMassnBearb: Daten holen - oder vorhandene nutzen
             if (!window.apf.adressen_html) {
                 var getAdressen = $.ajax({

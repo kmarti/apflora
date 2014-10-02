@@ -60355,9 +60355,7 @@ var returnFunction = function() {
             window.apf.idealbiotop      = data;
 
             // Felder mit Daten beliefern
-            if (data.IbErstelldatum) {
-                $("#IbErstelldatum").val(dateFormat(data.IbErstelldatum, 'dd.mm.yyyy'));
-            }
+            $("#IbErstelldatum").val(dateFormat(data.IbErstelldatum, 'yyyy.mm.dd'));
             $("#IbHoehenlage").val(data.IbHoehenlage);
             $("#IbRegion").val(data.IbRegion);
             $("#IbExposition").val(data.IbExposition);
@@ -60460,8 +60458,8 @@ var returnFunction = function() {
     $.datepicker.setDefaults({
         buttonImage: "style/images/calendar.gif",
         buttonImageOnly: true,
-        dateFormat: "dd.mm.yy",
-        altFormat: "dd.mm.yy",
+        dateFormat: "yy.mm.dd",
+        altFormat: "yy.mm.dd",
         monthNames: monate,
         dayNamesMin: wochentageKurz,
         dayNames: wochentageLang,
@@ -60473,18 +60471,7 @@ var returnFunction = function() {
         }
     });
 
-    $("#TPopKontrDatum").datepicker({
-        altField: "#TPopKontrJahr"
-    });
-    $("#TPopMassnDatum").datepicker({
-        altField: "#TPopMassnJahr"
-    });
-    $("#JBerDatum").datepicker({
-        altField: "#JBerDatum"
-    });
-    $("#IbErstelldatum").datepicker({
-        altField: "#IbErstelldatum"
-    });
+    $("#TPopKontrDatum, #TPopMassnDatum, #JBerDatum, #IbErstelldatum").datepicker();
 
     // Variablen setzen für Formular Feldkontrollen, hier damit nur ein mal
     window.apf.feldliste_feldkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrTyp', 'TPopKontrJungpfl', 'TPopKontrVitalitaet', 'TPopKontrUeberleb', 'TPopKontrEntwicklung', 'TPopKontrUrsach', 'TPopKontrUrteil', 'TPopKontrAendUms', 'TPopKontrAendKontr', 'TPopKontrGuid', 'TPopKontrFlaeche', 'TPopKontrVegTyp', 'TPopKontrKonkurrenz', 'TPopKontrMoosschicht', 'TPopKontrKrautschicht', 'TPopKontrStrauchschicht', 'TPopKontrBaumschicht', 'TPopKontrBodenTyp', 'TPopKontrBodenKalkgehalt', 'TPopKontrBodenDurchlaessigkeit', 'TPopKontrBodenHumus', 'TPopKontrBodenNaehrstoffgehalt', 'TPopKontrBodenAbtrag', 'TPopKontrWasserhaushalt', 'TPopKontrHandlungsbedarf', 'TPopKontrIdealBiotopUebereinst', 'TPopKontrLeb', 'TPopKontrLebUmg'];
@@ -60507,6 +60494,7 @@ module.exports = returnFunction;
 'use strict';
 
 var $           = require('jquery'),
+    dateFormat  = require('dateformat'),
     _           = require('underscore'),
     limiter     = require('../lib/limiter'),
     initiiereAp = require('./initiiereAp');
@@ -60557,7 +60545,7 @@ var returnFunction = function() {
             $("#JBerBTxt").val(data.JBerBTxt);
             $("#JBerCTxt").val(data.JBerCTxt);
             $("#JBerDTxt").val(data.JBerDTxt);
-            $("#JBerDatum").val(data.JBerDatum);
+            $("#JBerDatum").val(dateFormat(data.JBerDatum, 'yyyy.mm.dd'));
             // JBerBearb: Daten holen - oder vorhandene nutzen
             if (!window.apf.adressen_html) {
                 $.ajax({
@@ -60596,7 +60584,7 @@ var returnFunction = function() {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":18,"./initiiereAp":22,"jquery":5,"jquery-ui":4,"underscore":6}],32:[function(require,module,exports){
+},{"../lib/limiter":18,"./initiiereAp":22,"dateformat":3,"jquery":5,"jquery-ui":4,"underscore":6}],32:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -60968,6 +60956,7 @@ module.exports = returnFunction;
 'use strict';
 
 var $            = require('jquery'),
+    dateFormat   = require('dateformat'),
     _            = require('underscore'),
     limiter      = require('../lib/limiter'),
     initiierePop = require('./initiierePop');
@@ -61012,12 +61001,7 @@ var returnFunction = function() {
             // gemeinsame Felder
             // mit Daten beliefern
             $TPopKontrJahr.val(data.TPopKontrJahr);
-            if (data.TPopKontrDatum !== "01.01.1970") {
-                // php macht aus einem Nullwert im Datum den 1.1.1970!!!
-                $("#TPopKontrDatum").val(data.TPopKontrDatum);
-            } else {
-                $("#TPopKontrDatum").val("");
-            }
+            $("#TPopKontrDatum").val(dateFormat(data.TPopKontrDatum, 'yyyy.mm.dd'));
             $("#TPopKontrMethode1" + data.TPopKontrMethode1).prop("checked", true);
             $("#TPopKontrAnz1").val(data.TPopKontrAnz1);
             $("#TPopKontrMethode2" + data.TPopKontrMethode2).prop("checked", true);
@@ -61279,10 +61263,11 @@ var returnFunction = function() {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":18,"./initiierePop":33,"jquery":5,"jquery-ui":4,"underscore":6}],39:[function(require,module,exports){
+},{"../lib/limiter":18,"./initiierePop":33,"dateformat":3,"jquery":5,"jquery-ui":4,"underscore":6}],39:[function(require,module,exports){
 'use strict';
 
 var $            = require('jquery'),
+    dateFormat   = require('dateformat'),
     _            = require('underscore'),
     limiter      = require('../lib/limiter'),
     initiierePop = require('./initiierePop');
@@ -61343,12 +61328,7 @@ var returnFunction = function() {
                 .val(data.TPopMassnTxt)
                 .limiter(255, $("#TPopMassnTxt_limit"));
             $("#TPopMassnJahr").val(data.TPopMassnJahr);
-            if (data.TPopMassnDatum !== "01.01.1970") {
-                // php macht aus einem Nullwert im Datum den 1.1.1970!!!
-                $("#TPopMassnDatum").val(data.TPopMassnDatum);
-            } else {
-                $("#TPopMassnDatum").val("");
-            }
+            $("#TPopMassnDatum").val(dateFormat(data.TPopMassnDatum, 'yyyy.mm.dd'));
             // TPopMassnBearb: Daten holen - oder vorhandene nutzen
             if (!window.apf.adressen_html) {
                 var getAdressen = $.ajax({
@@ -61421,7 +61401,7 @@ var returnFunction = function() {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":18,"./initiierePop":33,"jquery":5,"underscore":6}],40:[function(require,module,exports){
+},{"../lib/limiter":18,"./initiierePop":33,"dateformat":3,"jquery":5,"underscore":6}],40:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
