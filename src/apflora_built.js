@@ -27133,15 +27133,10 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
 			// nächstgelegene TPop aus DB holen
 			var BeobNächsteTPop = $.ajax({
 				type: 'get',
-				url: 'php/beob_naechste_tpop.php',
-				data: {
-					"ApArtId": Beob.NO_ISFS,
-					"X": X,
-					"Y": Y
-				},
+				url: 'api/v1/beobNaechsteTpop/apId=' + Beob.NO_ISFS + '/X=' + X + '/Y=' + Y,
 				dataType: 'json'
 			});
-			BeobNächsteTPop.always(function(data) {
+			BeobNächsteTPop.done(function(data) {
 				var beobtxt,
 					cHtoWGSlng = require('./lib/cHtoWGSlng'),
 					cHtoWGSlat = require('./lib/cHtoWGSlat');

@@ -51,6 +51,7 @@ var  _                              = require('underscore'),
     treeApziel                      = require('./queries/tree/apziel'),
     treePop                         = require('./queries/tree/pop'),
     queryBeobDistzutpopEvab         = require('./queries/beobDistzutpopEvab'),
+    queryBeobNächsteTpop            = require('./queries/beobNaechsteTpop'),
     queryBeobDistzutpopInfospezies  = require('./queries/beobDistzutpopInfospezies'),
     queryBeobKarte                  = require('./queries/beobKarte'),
     queryApKarte                    = require('./queries/apKarte'),
@@ -323,7 +324,13 @@ server.route({
 
 server.route({
     method: 'GET',
-    path: '/api/v1/beobDistzutpopInfospezies/beobId={beobId}',
+    path: '/api/v1/beobDistzutpopEvab/beobId={beobId}',
+    handler: queryBeobNächsteTpop
+});
+
+server.route({
+    method: 'GET',
+    path: '/api/v1/beobNaechsteTpop/apId={apId}/X={X}/Y={Y}',
     handler: queryBeobDistzutpopInfospezies
 });
 
