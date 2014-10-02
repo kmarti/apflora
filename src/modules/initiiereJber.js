@@ -6,8 +6,6 @@ var $           = require('jquery'),
     limiter     = require('../lib/limiter'),
     initiiereAp = require('./initiiereAp');
 
-require('jquery-ui');
-
 var returnFunction = function() {
     var $JBerJahr = $("#JBerJahr");
 
@@ -81,9 +79,11 @@ var returnFunction = function() {
                     .html(window.apf.adressen_html)
                     .val(window.apf.jber.JBerBearb);
             }
+
             // Formulare blenden
             window.apf.zeigeFormular("jber");
             history.replaceState({jber: "jber"}, "jber", "index.html?ap=" + localStorage.ap_id + "&jber=" + localStorage.jber_id);
+
             // bei neuen Datensätzen Fokus steuern
             if (!$JBerJahr.val()) {
                 $JBerJahr.focus();

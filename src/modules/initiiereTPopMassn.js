@@ -5,7 +5,6 @@ var $            = require('jquery'),
     _            = require('underscore'),
     limiter      = require('../lib/limiter'),
     initiierePop = require('./initiierePop');
-//require('jquery-ui');
 
 var returnFunction = function() {
 
@@ -17,29 +16,31 @@ var returnFunction = function() {
         initiierePop();
         return;
     }
+
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("tpopmassn");
+
     // Daten für die pop aus der DB holen
-    var getTPopMassn = $.ajax({
+    $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblTeilPopMassnahme/feld=TPopMassnId/wertNumber=' + localStorage.tpopmassn_id,
         dataType: 'json'
-    });
-    getTPopMassn.done(function(data) {
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
+
             // tpopmassn bereitstellen
             window.apf.tpopmassn = data;
+
             // Felder mit Daten beliefern
             // für select TPopMassnTyp Daten holen - oder vorhandene nutzen
             if (!window.apf.tpopmassntyp_html) {
-                var getTPopMassnTyp = $.ajax({
-                    type: 'get',
-                    url: 'api/v1/tpopMassnTypen',
+                $.ajax({
+                    type:     'get',
+                    url:      'api/v1/tpopMassnTypen',
                     dataType: 'json'
-                });
-                getTPopMassnTyp.done(function(data2) {
+                }).done(function(data2) {
                     if (data2 && data2.length > 0) {
                         // Feld mit Daten beliefern
                         var html;
@@ -67,12 +68,11 @@ var returnFunction = function() {
             }
             // TPopMassnBearb: Daten holen - oder vorhandene nutzen
             if (!window.apf.adressen_html) {
-                var getAdressen = $.ajax({
-                    type: 'get',
-                    url: 'api/v1/adressen',
+                $.ajax({
+                    type:     'get',
+                    url:      'api/v1/adressen',
                     dataType: 'json'
-                });
-                getAdressen.always(function(data2) {
+                }).done(function(data2) {
                     if (data2) {
                         // Feld mit Daten beliefern
                         var html;
@@ -92,7 +92,7 @@ var returnFunction = function() {
                     .val(window.apf.tpopmassn.TPopMassnBearb);
             }
             $("#TPopMassnBemTxt").val(data.TPopMassnBemTxt);
-            if (data.TPopMassnPlan == 1) {
+            if (data.TPopMassnPlan === 1) {
                 $("#TPopMassnPlan").prop("checked", true);
             } else {
                 $("#TPopMassnPlan").prop("checked", false);
@@ -126,9 +126,11 @@ var returnFunction = function() {
                         .val(data.TPopMassnAnsiedDatSamm)
                         .limiter(50, $("#TPopMassnAnsiedDatSamm_limit"));
                     $("#TPopMassnGuid").val(data.TPopMassnGuid);
+
                     // Formulare blenden
                     window.apf.zeigeFormular("tpopmassn");
                     history.replaceState({tpopmassn: "tpopmassn"}, "tpopmassn", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopmassn=" + localStorage.tpopmassn_id);
+
                     // bei neuen Datensätzen Fokus steuern
                     $('#TPopMassnJahr').focus();
                 });

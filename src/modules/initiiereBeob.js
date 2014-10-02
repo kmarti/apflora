@@ -18,7 +18,8 @@ var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
 
     var url,
         url_distzutpop,
-        $BeobBemerkungen = $("#BeobBemerkungen");
+        $BeobBemerkungen = $("#BeobBemerkungen"),
+        idFeld;
 
     if (!beobId && !ohneZuZeigen) {
         // es fehlen benötigte Daten > eine Ebene höher
@@ -39,10 +40,11 @@ var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
 
     // EvAB oder Infospezies? > entsprechende url zusammensetzen
     if (beobTyp === 'evab') {
-        url = 'api/v1/beob/tabelle=tblBeobEvab/feld=NO_NOTE_PROJET/wertString=' + beobId;
+        idFeld = 'NO_NOTE_PROJET';
     } else {
-        url = 'api/v1/beob/tabelle=tblBeobInfospezies/feld=NO_NOTE/wertNumber=' + beobId;
+        idFeld = 'NO_NOTE';
     }
+    url = 'api/v1/beob/tabelle=tblBeobEvab/feld=' + idFeld + '/wertString=' + beobId;
 
     // Daten für die beob aus der DB holen
     $.ajax({
@@ -78,7 +80,13 @@ var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
                         html_distzutpop += beob.TPopId;
                         html_distzutpop += '" DistZuTPop="';
                         html_distzutpop += beob.DistZuTPop;
-                        html_distzutpop += '">';
+                        html_distzutpop += '"';
+                        // jetzt ermitteln, ob das die angezeigte Beob ist
+                        // wenn ja: checked
+                        if (beob[idFeld] === beobId) {
+                            html_distzutpop += ' checked';
+                        }
+                        html_distzutpop += '>';
                         // Wenn TPop keine Koordinaten haben, dies anzeigen und Anzeige von NAN verhindern
                         if (parseInt(beob.DistZuTPop, 10) >= 0) {
                             html_distzutpop += parseInt(beob.DistZuTPop) + "m: " + beob.TPopFlurname;

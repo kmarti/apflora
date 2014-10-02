@@ -23,11 +23,13 @@ var returnFunction = function(tpop_liste) {
         my_flurname,
         cHtoWGSlat = require('../lib/cHtoWGSlat'),
         cHtoWGSlng = require('../lib/cHtoWGSlng');
+
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
     window.apf.zeigeFormular("google_karte");
     window.apf.gmap.markers_array = [];
     window.apf.gmap.info_window_array = [];
     infowindow = new google.maps.InfoWindow();
+
     // TPopListe bearbeiten:
     // Objekte löschen, die keine Koordinaten haben
     // Lat und Lng ergänzen
@@ -40,8 +42,10 @@ var returnFunction = function(tpop_liste) {
             tpop.Lng = cHtoWGSlng(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
         }
     });
+
     // TPop zählen
     anz_tpop = tpop_liste.length;
+
     // Karte mal auf Zürich zentrieren, falls in den TPopListe keine Koordinaten kommen
     // auf die die Karte ausgerichtet werden kann
     lat = 47.383333;
@@ -53,9 +57,11 @@ var returnFunction = function(tpop_liste) {
         streetViewControl: false,
         mapTypeId: google.maps.MapTypeId.SATELLITE
     };
+
     map = new google.maps.Map(document.getElementById("google_karten_div"), options);
     window.apf.gmap.map = map;
     bounds = new google.maps.LatLngBounds();
+
     // für alle TPop Marker erstellen
     markers = [];
     _.each(tpop_liste, function(tpop) {
@@ -70,13 +76,13 @@ var returnFunction = function(tpop_liste) {
             bounds.extend(latlng2);
         }
         marker = new MarkerWithLabel({
-            map: map,
-            position: latlng2,
-            title: tpop_beschriftung,
+            map:          map,
+            position:     latlng2,
+            title:        tpop_beschriftung,
             labelContent: tpop_beschriftung,
-            labelAnchor: new google.maps.Point(75, 0),
-            labelClass: "MapLabel",
-            icon: "img/flora_icon.png"
+            labelAnchor:  new google.maps.Point(75, 0),
+            labelClass:   "MapLabel",
+            icon:         "img/flora_icon.png"
         });
         markers.push(marker);
         my_flurname = tpop.TPopFlurname || '(kein Flurname)';
@@ -99,16 +105,17 @@ var returnFunction = function(tpop_liste) {
         maxZoom: 17, 
         styles: [{
                 height: 53,
-                url: "img/m8.png",
-                width: 53
+                url:    "img/m8.png",
+                width:  53
             }]
     };
+
     // globale Variable verwenden, damit ein Klick auf die Checkbox die Ebene einblenden kann
     window.apf.google_karte_detailpläne = new google.maps.KmlLayer({
-        //url: '//www.apflora.ch/kml/rueteren.kmz',
         url: 'kml/rueteren.kmz',
         preserveViewport: true
     });
+
     window.apf.google_karte_detailpläne.setMap(null);
     marker_cluster = new MarkerClusterer(map, markers, marker_options);
     if (anz_tpop === 1) {
@@ -119,6 +126,7 @@ var returnFunction = function(tpop_liste) {
         // Karte auf Ausschnitt anpassen
         map.fitBounds(bounds);
     }
+
     // diese Funktion muss hier sein, damit infowindow bekannt ist
     function makeListener(map, marker, contentString) {
         google.maps.event.addListener(marker, 'click', function() {

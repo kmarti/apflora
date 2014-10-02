@@ -1,10 +1,12 @@
 'use strict';
 
-var $ = require('jquery'),
-    limiter = require('../lib/limiter'),
+var $           = require('jquery'),
+    limiter     = require('../lib/limiter'),
     initiiereAp = require('./initiiereAp');
 
 var returnFunction = function(ohne_zu_zeigen) {
+    var $PopName = $("#PopName"),
+        $PopNr   = $("#PopNr");
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     limiter($);
@@ -14,22 +16,23 @@ var returnFunction = function(ohne_zu_zeigen) {
         initiiereAp();
         return;
     }
+
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("pop");
+
     // Daten für die pop aus der DB holen
-    var getPop = $.ajax({
-            type: 'get',
-            url: 'api/v1/apflora/tabelle=tblPopulation/feld=PopId/wertNumber=' + localStorage.pop_id,
-            dataType: 'json'
-        }),
-        $PopName = $("#PopName"),
-        $PopNr = $("#PopNr");
-    getPop.done(function(data) {
+    $.ajax({
+        type: 'get',
+        url: 'api/v1/apflora/tabelle=tblPopulation/feld=PopId/wertNumber=' + localStorage.pop_id,
+        dataType: 'json'
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
+
             // pop bereitstellen
             window.apf.pop = data;
+
             // Felder mit Daten beliefern
             $("#PopHerkunft" + data.PopHerkunft).prop("checked", true);
             if (data.PopHerkunftUnklar == 1) {
@@ -47,11 +50,13 @@ var returnFunction = function(ohne_zu_zeigen) {
             $("#PopBekanntSeit").val(data.PopBekanntSeit);
             $("#PopXKoord").val(data.PopXKoord);
             $("#PopYKoord").val(data.PopYKoord);
+
             // Formulare blenden
             // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
             if (!ohne_zu_zeigen) {
                 window.apf.zeigeFormular("pop");
                 history.replaceState({pop: "pop"}, "pop", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id);
+
                 // bei neuen Datensätzen Fokus steuern
                 if (!$PopName.val()) {
                     $PopNr.focus();

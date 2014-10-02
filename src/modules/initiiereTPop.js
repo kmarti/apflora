@@ -4,7 +4,6 @@ var $            = require('jquery'),
     _            = require('underscore'),
     limiter      = require('../lib/limiter'),
     initiierePop = require('./initiierePop');
-//require('jquery-ui');
 
 var returnFunction = function(ohne_zu_zeigen) {
 
@@ -17,20 +16,23 @@ var returnFunction = function(ohne_zu_zeigen) {
         initiierePop();
         return;
     }
+
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("tpop");
+
     // Daten für die pop aus der DB holen
-    var getTPop = $.ajax({
+    $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + localStorage.tpop_id,
         dataType: 'json'
-    });
-    getTPop.done(function(data) {
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
+
             // tpop bereitstellen
             window.apf.tpop = data;
+
             // Felder mit Daten beliefern
             $TPopFlurname
                 .val(data.TPopFlurname)
@@ -87,16 +89,16 @@ var returnFunction = function(ohne_zu_zeigen) {
             $("#TPopTxt").val(data.TPopTxt);
             // für select Daten holen - oder vorhandene nutzen
             if (!window.apf.adressen_html) {
-                var getAdressen = $.ajax({
+                $.ajax({
                     type: 'get',
                     url: 'api/v1/adressen',
                     dataType: 'json'
-                });
-                getAdressen.always(function(data2) {
+                }).done(function(data2) {
                     if (data2) {
                         // adressen bereitstellen
                         window.apf.adressen = data2;
                         localStorage.adressen = JSON.stringify(data2);
+
                         // Feld mit Daten beliefern
                         var html;
                         html = "<option></option>";
@@ -114,19 +116,20 @@ var returnFunction = function(ohne_zu_zeigen) {
                     .html(window.apf.adressen_html)
                     .val(window.apf.tpop.TPopVerantw);
             }
+
             // Formulare blenden
             // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
             if (!ohne_zu_zeigen) {
                 window.apf.zeigeFormular("tpop");
                 history.replaceState({tpop: "tpop"}, "tpop", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id);
+
                 // bei neuen Datensätzen Fokus steuern
                 if (!$TPopFlurname.val()) {
                     $('#TPopNr').focus();
                 }
             }
         }
-    });
-    getTPop.fail(function() {
+    }).fail(function() {
         //window.apf.melde('Fehler: keine Daten für die Teilpopulation erhalten');
         console.log('Fehler: keine Daten für die Teilpopulation erhalten');
     });

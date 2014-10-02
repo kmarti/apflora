@@ -1,3 +1,7 @@
+// wird gemeinsam für Feld- und Freiwilligenkontrollen verwendet
+// Feldkontrollen: Felder der Freiwilligenkontrollen ausblenden
+// Freiwilligenkontrollen: Felder der Feldkontrollen ausblenen plus Register Biotop
+
 'use strict';
 
 var $            = require('jquery'),
@@ -9,40 +13,41 @@ var $            = require('jquery'),
 require('jquery-ui');
 
 var returnFunction = function() {
+    var $TPopKontrJahr           = $("#TPopKontrJahr"),
+        $TPopKontrJungPflJN_ja   = $("#TPopKontrJungPflJN_ja"),
+        $TPopKontrJungPflJN_nein = $("#TPopKontrJungPflJN_nein"),
+        $TPopKontrJungPflJN_leer = $("#TPopKontrJungPflJN_leer");
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     limiter($);
 
-    // wird gemeinsam für Feld- und Freiwilligenkontrollen verwendet
-    // Feldkontrollen: Felder der Freiwilligenkontrollen ausblenden
-    // Freiwilligenkontrollen: Felder der Feldkontrollen ausblenen plus Register Biotop
     if (!localStorage.tpopfeldkontr_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiierePop();
         return;
     }
+
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("tpopfeldkontr");
+
     // alle Felder ausblenden. Später werden die benötigten eingeblendet
     $('.feld_tpopfeldkontr').each(function() {
         $(this).hide();
     });
+
     // Daten für die tpopfeldkontr aus der DB holen
-    var getTpopfeldkontr = $.ajax({
-            type: 'get',
-            url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + localStorage.tpopfeldkontr_id,
-            dataType: 'json'
-        }),
-        $TPopKontrJahr = $("#TPopKontrJahr"),
-        $TPopKontrJungPflJN_ja = $("#TPopKontrJungPflJN_ja"),
-        $TPopKontrJungPflJN_nein = $("#TPopKontrJungPflJN_nein"),
-        $TPopKontrJungPflJN_leer = $("#TPopKontrJungPflJN_leer");
-    getTpopfeldkontr.done(function(data) {
+    $.ajax({
+        type:     'get',
+        url:      'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + localStorage.tpopfeldkontr_id,
+        dataType: 'json'
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
+
             // tpopfeldkontr bereitstellen
             window.apf.tpopfeldkontr = data;
+
             // gemeinsame Felder
             // mit Daten beliefern
             $TPopKontrJahr.val(data.TPopKontrJahr);
@@ -59,12 +64,11 @@ var returnFunction = function() {
             $("#TPopKontrGuid").val(data.TPopKontrGuid);
             // TPopKontrBearb: Daten holen - oder vorhandene nutzen
             if (!window.apf.adressen_html) {
-                var getAdressen = $.ajax({
-                    type: 'get',
-                    url: 'api/v1/adressen',
+                $.ajax({
+                    type:     'get',
+                    url:      'api/v1/adressen',
                     dataType: 'json'
-                });
-                getAdressen.always(function(data2) {
+                }).done(function(data2) {
                     if (data2) {
                         // Feld mit Daten beliefern
                         var html;
@@ -85,12 +89,11 @@ var returnFunction = function() {
             }
             // für 3 selectfelder TPopKontrZaehleinheit Daten holen - oder vorhandene nutzen
             if (!window.apf.TPopKontrZähleinheit_html) {
-                var getTpopfeldkontrZaehleinheit = $.ajax({
-                    type: 'get',
-                    url: 'api/v1/feldkontrZaehleinheit',
+                $.ajax({
+                    type:     'get',
+                    url:      'api/v1/feldkontrZaehleinheit',
                     dataType: 'json'
-                });
-                getTpopfeldkontrZaehleinheit.done(function(data3) {
+                }).done(function(data3) {
                     if (data3 && data3.length > 0) {
                         // Feld mit Daten beliefern
                         var html;
@@ -99,6 +102,7 @@ var returnFunction = function() {
                             html += "<option value=\"" + zähleinheit.id + "\">" + zähleinheit.ZaehleinheitTxt + "</option>";
                         });
                         window.apf.TPopKontrZähleinheit_html = html;
+
                         // alle 3 Felder setzen
                         $("#TPopKontrZaehleinheit1")
                             .html(html)
@@ -123,6 +127,7 @@ var returnFunction = function() {
                     .html(window.apf.TPopKontrZähleinheit_html)
                     .val(window.apf.tpopfeldkontr.TPopKontrZaehleinheit3);
             }
+
             // Felder, die nur in der Feldkontrolle vorkommen
             if (!localStorage.tpopfreiwkontr) {
                 $("#TPopKontrTyp" + data.TPopKontrTyp).prop("checked", true);
@@ -189,12 +194,11 @@ var returnFunction = function() {
                 $("#TPopKontrIdealBiotopUebereinst" + data.TPopKontrIdealBiotopUebereinst).prop("checked", true);
                 // TPopKontrLeb: Daten holen - oder vorhandene nutzen
                 if (!window.apf.lrdelarze_html) {
-                    var getLrDelarze = $.ajax({
-                        type: 'get',
-                        url: 'api/v1/lrDelarze',
+                    $.ajax({
+                        type:     'get',
+                        url:      'api/v1/lrDelarze',
                         dataType: 'json'
-                    });
-                    getLrDelarze.done(function(data4) {
+                    }).done(function(data4) {
                         if (data4) {
                             // Feld mit Daten beliefern
                             var html;
@@ -222,12 +226,11 @@ var returnFunction = function() {
             }
             // TPopKontrIdealBiotopUebereinst: Daten holen - oder vorhandene nutzen
             if (!window.apf.IdealBiotopÜbereinst_html) {
-                var getIdealbiotopübereinst = $.ajax({
-                    type: 'get',
-                    url: 'api/v1/idealbiotopUebereinst',
+                $.ajax({
+                    type:     'get',
+                    url:      'api/v1/idealbiotopUebereinst',
                     dataType: 'json'
-                });
-                getIdealbiotopübereinst.done(function(data5) {
+                }).done(function(data5) {
                     if (data5 && data5.length > 0) {
                         // Feld mit Daten beliefern
                         var html;
@@ -246,6 +249,7 @@ var returnFunction = function() {
                     .html(window.apf.IdealBiotopÜbereinst_html)
                     .val(window.apf.tpopfeldkontr.TPopKontrIdealBiotopUebereinst);
             }
+
             // Felder, die nur in freiwkontr vorkommen
             if (localStorage.tpopfreiwkontr) {
                 if (data.TPopKontrPlan == 1) {
@@ -272,6 +276,7 @@ var returnFunction = function() {
                     .val(data.TPopKontrGefaehrdung)
                     .limiter(255, $("#TPopKontrGefaehrdung_limit"));
             }
+
             // fieldcontain-divs der benötigten Felder einblenden
             if (localStorage.tpopfreiwkontr) {
                 _.each(window.apf.feldliste_freiwkontr, function(feld) {
@@ -282,6 +287,7 @@ var returnFunction = function() {
                     $("#fieldcontain_" + feld).show();
                 });
             }
+
             // Formulare blenden
             window.apf.zeigeFormular("tpopfeldkontr");
             if (!localStorage.tpopfreiwkontr) {
@@ -289,6 +295,7 @@ var returnFunction = function() {
             } else {
                 history.replaceState({tpopfreiwkontr: "tpopfreiwkontr"}, "tpopfreiwkontr", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopfreiwkontr=" + localStorage.tpopfeldkontr_id);
             }
+
             // Register in Feldkontr blenden
             if (localStorage.tpopfreiwkontr) {
                 $("#tpopfeldkontr_tabs_biotop").hide();
@@ -302,6 +309,7 @@ var returnFunction = function() {
                 // ausblenden!
                 $("#tpopfeldkontr_tabs_biotop").hide();
             }
+
             // Fokus steuern
             $TPopKontrJahr.focus();
             $(window).scrollTop(0);

@@ -60016,7 +60016,8 @@ var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
 
     var url,
         url_distzutpop,
-        $BeobBemerkungen = $("#BeobBemerkungen");
+        $BeobBemerkungen = $("#BeobBemerkungen"),
+        idFeld;
 
     if (!beobId && !ohneZuZeigen) {
         // es fehlen benötigte Daten > eine Ebene höher
@@ -60037,10 +60038,11 @@ var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
 
     // EvAB oder Infospezies? > entsprechende url zusammensetzen
     if (beobTyp === 'evab') {
-        url = 'api/v1/beob/tabelle=tblBeobEvab/feld=NO_NOTE_PROJET/wertString=' + beobId;
+        idFeld = 'NO_NOTE_PROJET';
     } else {
-        url = 'api/v1/beob/tabelle=tblBeobInfospezies/feld=NO_NOTE/wertNumber=' + beobId;
+        idFeld = 'NO_NOTE';
     }
+    url = 'api/v1/beob/tabelle=tblBeobEvab/feld=' + idFeld + '/wertString=' + beobId;
 
     // Daten für die beob aus der DB holen
     $.ajax({
@@ -60076,7 +60078,13 @@ var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
                         html_distzutpop += beob.TPopId;
                         html_distzutpop += '" DistZuTPop="';
                         html_distzutpop += beob.DistZuTPop;
-                        html_distzutpop += '">';
+                        html_distzutpop += '"';
+                        // jetzt ermitteln, ob das die angezeigte Beob ist
+                        // wenn ja: checked
+                        if (beob[idFeld] === beobId) {
+                            html_distzutpop += ' checked';
+                        }
+                        html_distzutpop += '>';
                         // Wenn TPop keine Koordinaten haben, dies anzeigen und Anzeige von NAN verhindern
                         if (parseInt(beob.DistZuTPop, 10) >= 0) {
                             html_distzutpop += parseInt(beob.DistZuTPop) + "m: " + beob.TPopFlurname;
@@ -60501,8 +60509,6 @@ var $           = require('jquery'),
     limiter     = require('../lib/limiter'),
     initiiereAp = require('./initiiereAp');
 
-require('jquery-ui');
-
 var returnFunction = function() {
     var $JBerJahr = $("#JBerJahr");
 
@@ -60576,9 +60582,11 @@ var returnFunction = function() {
                     .html(window.apf.adressen_html)
                     .val(window.apf.jber.JBerBearb);
             }
+
             // Formulare blenden
             window.apf.zeigeFormular("jber");
             history.replaceState({jber: "jber"}, "jber", "index.html?ap=" + localStorage.ap_id + "&jber=" + localStorage.jber_id);
+
             // bei neuen Datensätzen Fokus steuern
             if (!$JBerJahr.val()) {
                 $JBerJahr.focus();
@@ -60588,41 +60596,46 @@ var returnFunction = function() {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":18,"./initiiereAp":22,"dateformat":3,"jquery":5,"jquery-ui":4,"underscore":6}],32:[function(require,module,exports){
+},{"../lib/limiter":18,"./initiiereAp":22,"dateformat":3,"jquery":5,"underscore":6}],32:[function(require,module,exports){
 'use strict';
 
-var $ = require('jquery'),
+var $           = require('jquery'),
     initiiereAp = require('./initiiereAp');
-//require('jquery-ui');
 
 var returnFunction = function() {
+    var $JbuJahr = $("#JbuJahr");
+
     if (!localStorage.jber_uebersicht_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp();
         return;
     }
+
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("jber_uebersicht");
+
     // Daten für die jber_uebersicht aus der DB holen
-    var getJberÜbersicht = $.ajax({
-            type: 'get',
-            url: 'api/v1/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wertNumber=' + localStorage.jber_uebersicht_id,
-            dataType: 'json'
-        }),
-        $JbuJahr = $("#JbuJahr");
-    getJberÜbersicht.done(function(data) {
+    $.ajax({
+        type: 'get',
+        url: 'api/v1/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wertNumber=' + localStorage.jber_uebersicht_id,
+        dataType: 'json'
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
+
             // jber_uebersicht bereitstellen
             window.apf.jber_übersicht = data;
+
             // Felder mit Daten beliefern
             $JbuJahr.val(data.JbuJahr);
             $("#JbuBemerkungen").val(data.JbuBemerkungen);
             // window.apf.fitTextareaToContent("Bemerkungen", document.documentElement.clientHeight);
+
             // Formulare blenden
             window.apf.zeigeFormular("jber_uebersicht");
             history.replaceState({jber_uebersicht: "jber_uebersicht"}, "jber_uebersicht", "index.html?ap=" + localStorage.ap_id + "&jber_uebersicht=" + localStorage.jber_uebersicht_id);
+
             // bei neuen Datensätzen Fokus steuern
             if (!$JbuJahr.val()) {
                 $JbuJahr.focus();
@@ -60635,11 +60648,13 @@ module.exports = returnFunction;
 },{"./initiiereAp":22,"jquery":5}],33:[function(require,module,exports){
 'use strict';
 
-var $ = require('jquery'),
-    limiter = require('../lib/limiter'),
+var $           = require('jquery'),
+    limiter     = require('../lib/limiter'),
     initiiereAp = require('./initiiereAp');
 
 var returnFunction = function(ohne_zu_zeigen) {
+    var $PopName = $("#PopName"),
+        $PopNr   = $("#PopNr");
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     limiter($);
@@ -60649,22 +60664,23 @@ var returnFunction = function(ohne_zu_zeigen) {
         initiiereAp();
         return;
     }
+
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("pop");
+
     // Daten für die pop aus der DB holen
-    var getPop = $.ajax({
-            type: 'get',
-            url: 'api/v1/apflora/tabelle=tblPopulation/feld=PopId/wertNumber=' + localStorage.pop_id,
-            dataType: 'json'
-        }),
-        $PopName = $("#PopName"),
-        $PopNr = $("#PopNr");
-    getPop.done(function(data) {
+    $.ajax({
+        type: 'get',
+        url: 'api/v1/apflora/tabelle=tblPopulation/feld=PopId/wertNumber=' + localStorage.pop_id,
+        dataType: 'json'
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
+
             // pop bereitstellen
             window.apf.pop = data;
+
             // Felder mit Daten beliefern
             $("#PopHerkunft" + data.PopHerkunft).prop("checked", true);
             if (data.PopHerkunftUnklar == 1) {
@@ -60682,11 +60698,13 @@ var returnFunction = function(ohne_zu_zeigen) {
             $("#PopBekanntSeit").val(data.PopBekanntSeit);
             $("#PopXKoord").val(data.PopXKoord);
             $("#PopYKoord").val(data.PopYKoord);
+
             // Formulare blenden
             // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
             if (!ohne_zu_zeigen) {
                 window.apf.zeigeFormular("pop");
                 history.replaceState({pop: "pop"}, "pop", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id);
+
                 // bei neuen Datensätzen Fokus steuern
                 if (!$PopName.val()) {
                     $PopNr.focus();
@@ -60700,9 +60718,8 @@ module.exports = returnFunction;
 },{"../lib/limiter":18,"./initiiereAp":22,"jquery":5}],34:[function(require,module,exports){
 'use strict';
 
-var $ = require('jquery'),
+var $            = require('jquery'),
     initiierePop = require('./initiierePop');
-//require('jquery-ui');
 
 var returnFunction = function() {
     if (!localStorage.popber_id) {
@@ -60710,27 +60727,32 @@ var returnFunction = function() {
         initiierePop();
         return;
     }
+
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("popber");
+
     // Daten für die popber aus der DB holen
-    var getPopber = $.ajax({
+    $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblPopBericht/feld=PopBerId/wertNumber=' + localStorage.popber_id,
         dataType: 'json'
-    });
-    getPopber.done(function(data) {
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
+
             // popber bereitstellen
             window.apf.popber = data;
+
             // Felder mit Daten beliefern
             $("#PopBerJahr").val(data.PopBerJahr);
             $("#PopBerEntwicklung" + data.PopBerEntwicklung).prop("checked", true);
             $("#PopBerTxt").val(data.PopBerTxt);
+
             // Formulare blenden
             window.apf.zeigeFormular("popber");
             history.replaceState({tpopber: "popber"}, "popber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&popber=" + localStorage.popber_id);
+
             // bei neuen Datensätzen Fokus steuern
             $('#PopBerJahr').focus();
         }
@@ -60741,9 +60763,8 @@ module.exports = returnFunction;
 },{"./initiierePop":33,"jquery":5}],35:[function(require,module,exports){
 'use strict';
 
-var $ = require('jquery'),
+var $            = require('jquery'),
     initiierePop = require('./initiierePop');
-//require('jquery-ui');
 
 var returnFunction = function() {
     if (!localStorage.popmassnber_id) {
@@ -60751,27 +60772,32 @@ var returnFunction = function() {
         initiierePop();
         return;
     }
+
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("popmassnber");
+
     // Daten für die pop aus der DB holen
-    var getPopmassnber = $.ajax({
+    $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblPopMassnBericht/feld=PopMassnBerId/wertNumber=' + localStorage.popmassnber_id,
         dataType: 'json'
-    });
-    getPopmassnber.done(function(data) {
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
+
             // popmassnber bereitstellen
             window.apf.popmassnber = data;
+
             // Felder mit Daten beliefern
             $("#PopMassnBerJahr").val(data.PopMassnBerJahr);
             $("#PopMassnBerErfolgsbeurteilung" + data.PopMassnBerErfolgsbeurteilung).prop("checked", true);
             $("#PopMassnBerTxt").val(data.PopMassnBerTxt);
+
             // Formulare blenden
             window.apf.zeigeFormular("popmassnber");
             history.replaceState({popmassnber: "popmassnber"}, "popmassnber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&popmassnber=" + localStorage.popmassnber_id);
+
             // bei neuen Datensätzen Fokus steuern
             $('#PopMassnBerJahr').focus();
         }
@@ -60786,7 +60812,6 @@ var $            = require('jquery'),
     _            = require('underscore'),
     limiter      = require('../lib/limiter'),
     initiierePop = require('./initiierePop');
-//require('jquery-ui');
 
 var returnFunction = function(ohne_zu_zeigen) {
 
@@ -60799,20 +60824,23 @@ var returnFunction = function(ohne_zu_zeigen) {
         initiierePop();
         return;
     }
+
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("tpop");
+
     // Daten für die pop aus der DB holen
-    var getTPop = $.ajax({
+    $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + localStorage.tpop_id,
         dataType: 'json'
-    });
-    getTPop.done(function(data) {
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
+
             // tpop bereitstellen
             window.apf.tpop = data;
+
             // Felder mit Daten beliefern
             $TPopFlurname
                 .val(data.TPopFlurname)
@@ -60869,16 +60897,16 @@ var returnFunction = function(ohne_zu_zeigen) {
             $("#TPopTxt").val(data.TPopTxt);
             // für select Daten holen - oder vorhandene nutzen
             if (!window.apf.adressen_html) {
-                var getAdressen = $.ajax({
+                $.ajax({
                     type: 'get',
                     url: 'api/v1/adressen',
                     dataType: 'json'
-                });
-                getAdressen.always(function(data2) {
+                }).done(function(data2) {
                     if (data2) {
                         // adressen bereitstellen
                         window.apf.adressen = data2;
                         localStorage.adressen = JSON.stringify(data2);
+
                         // Feld mit Daten beliefern
                         var html;
                         html = "<option></option>";
@@ -60896,19 +60924,20 @@ var returnFunction = function(ohne_zu_zeigen) {
                     .html(window.apf.adressen_html)
                     .val(window.apf.tpop.TPopVerantw);
             }
+
             // Formulare blenden
             // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
             if (!ohne_zu_zeigen) {
                 window.apf.zeigeFormular("tpop");
                 history.replaceState({tpop: "tpop"}, "tpop", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id);
+
                 // bei neuen Datensätzen Fokus steuern
                 if (!$TPopFlurname.val()) {
                     $('#TPopNr').focus();
                 }
             }
         }
-    });
-    getTPop.fail(function() {
+    }).fail(function() {
         //window.apf.melde('Fehler: keine Daten für die Teilpopulation erhalten');
         console.log('Fehler: keine Daten für die Teilpopulation erhalten');
     });
@@ -60918,9 +60947,8 @@ module.exports = returnFunction;
 },{"../lib/limiter":18,"./initiierePop":33,"jquery":5,"underscore":6}],37:[function(require,module,exports){
 'use strict';
 
-var $ = require('jquery'),
+var $            = require('jquery'),
     initiierePop = require('./initiierePop');
-//require('jquery-ui');
 
 var returnFunction = function() {
     if (!localStorage.tpopber_id) {
@@ -60928,27 +60956,32 @@ var returnFunction = function() {
         initiierePop();
         return;
     }
+
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("tpopber");
+
     // Daten für die tpopber aus der DB holen
-    var getTPopBer = $.ajax({
+    $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblTeilPopBericht/feld=TPopBerId/wertNumber=' + localStorage.tpopber_id,
         dataType: 'json'
-    });
-    getTPopBer.done(function(data) {
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
+
             // tpopber bereitstellen
             window.apf.tpopber = data;
+
             // Felder mit Daten beliefern
             $("#TPopBerJahr").val(data.TPopBerJahr);
             $("#TPopBerEntwicklung" + data.TPopBerEntwicklung).prop("checked", true);
             $("#TPopBerTxt").val(data.TPopBerTxt);
+
             // Formulare blenden
             window.apf.zeigeFormular("tpopber");
             history.replaceState({tpopber: "tpopber"}, "tpopber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopber=" + localStorage.tpopber_id);
+
             // bei neuen Datensätzen Fokus steuern
             $('#TPopBerJahr').focus();
         }
@@ -60957,6 +60990,10 @@ var returnFunction = function() {
 
 module.exports = returnFunction;
 },{"./initiierePop":33,"jquery":5}],38:[function(require,module,exports){
+// wird gemeinsam für Feld- und Freiwilligenkontrollen verwendet
+// Feldkontrollen: Felder der Freiwilligenkontrollen ausblenden
+// Freiwilligenkontrollen: Felder der Feldkontrollen ausblenen plus Register Biotop
+
 'use strict';
 
 var $            = require('jquery'),
@@ -60968,40 +61005,41 @@ var $            = require('jquery'),
 require('jquery-ui');
 
 var returnFunction = function() {
+    var $TPopKontrJahr           = $("#TPopKontrJahr"),
+        $TPopKontrJungPflJN_ja   = $("#TPopKontrJungPflJN_ja"),
+        $TPopKontrJungPflJN_nein = $("#TPopKontrJungPflJN_nein"),
+        $TPopKontrJungPflJN_leer = $("#TPopKontrJungPflJN_leer");
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     limiter($);
 
-    // wird gemeinsam für Feld- und Freiwilligenkontrollen verwendet
-    // Feldkontrollen: Felder der Freiwilligenkontrollen ausblenden
-    // Freiwilligenkontrollen: Felder der Feldkontrollen ausblenen plus Register Biotop
     if (!localStorage.tpopfeldkontr_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiierePop();
         return;
     }
+
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("tpopfeldkontr");
+
     // alle Felder ausblenden. Später werden die benötigten eingeblendet
     $('.feld_tpopfeldkontr').each(function() {
         $(this).hide();
     });
+
     // Daten für die tpopfeldkontr aus der DB holen
-    var getTpopfeldkontr = $.ajax({
-            type: 'get',
-            url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + localStorage.tpopfeldkontr_id,
-            dataType: 'json'
-        }),
-        $TPopKontrJahr = $("#TPopKontrJahr"),
-        $TPopKontrJungPflJN_ja = $("#TPopKontrJungPflJN_ja"),
-        $TPopKontrJungPflJN_nein = $("#TPopKontrJungPflJN_nein"),
-        $TPopKontrJungPflJN_leer = $("#TPopKontrJungPflJN_leer");
-    getTpopfeldkontr.done(function(data) {
+    $.ajax({
+        type:     'get',
+        url:      'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + localStorage.tpopfeldkontr_id,
+        dataType: 'json'
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
+
             // tpopfeldkontr bereitstellen
             window.apf.tpopfeldkontr = data;
+
             // gemeinsame Felder
             // mit Daten beliefern
             $TPopKontrJahr.val(data.TPopKontrJahr);
@@ -61018,12 +61056,11 @@ var returnFunction = function() {
             $("#TPopKontrGuid").val(data.TPopKontrGuid);
             // TPopKontrBearb: Daten holen - oder vorhandene nutzen
             if (!window.apf.adressen_html) {
-                var getAdressen = $.ajax({
-                    type: 'get',
-                    url: 'api/v1/adressen',
+                $.ajax({
+                    type:     'get',
+                    url:      'api/v1/adressen',
                     dataType: 'json'
-                });
-                getAdressen.always(function(data2) {
+                }).done(function(data2) {
                     if (data2) {
                         // Feld mit Daten beliefern
                         var html;
@@ -61044,12 +61081,11 @@ var returnFunction = function() {
             }
             // für 3 selectfelder TPopKontrZaehleinheit Daten holen - oder vorhandene nutzen
             if (!window.apf.TPopKontrZähleinheit_html) {
-                var getTpopfeldkontrZaehleinheit = $.ajax({
-                    type: 'get',
-                    url: 'api/v1/feldkontrZaehleinheit',
+                $.ajax({
+                    type:     'get',
+                    url:      'api/v1/feldkontrZaehleinheit',
                     dataType: 'json'
-                });
-                getTpopfeldkontrZaehleinheit.done(function(data3) {
+                }).done(function(data3) {
                     if (data3 && data3.length > 0) {
                         // Feld mit Daten beliefern
                         var html;
@@ -61058,6 +61094,7 @@ var returnFunction = function() {
                             html += "<option value=\"" + zähleinheit.id + "\">" + zähleinheit.ZaehleinheitTxt + "</option>";
                         });
                         window.apf.TPopKontrZähleinheit_html = html;
+
                         // alle 3 Felder setzen
                         $("#TPopKontrZaehleinheit1")
                             .html(html)
@@ -61082,6 +61119,7 @@ var returnFunction = function() {
                     .html(window.apf.TPopKontrZähleinheit_html)
                     .val(window.apf.tpopfeldkontr.TPopKontrZaehleinheit3);
             }
+
             // Felder, die nur in der Feldkontrolle vorkommen
             if (!localStorage.tpopfreiwkontr) {
                 $("#TPopKontrTyp" + data.TPopKontrTyp).prop("checked", true);
@@ -61148,12 +61186,11 @@ var returnFunction = function() {
                 $("#TPopKontrIdealBiotopUebereinst" + data.TPopKontrIdealBiotopUebereinst).prop("checked", true);
                 // TPopKontrLeb: Daten holen - oder vorhandene nutzen
                 if (!window.apf.lrdelarze_html) {
-                    var getLrDelarze = $.ajax({
-                        type: 'get',
-                        url: 'api/v1/lrDelarze',
+                    $.ajax({
+                        type:     'get',
+                        url:      'api/v1/lrDelarze',
                         dataType: 'json'
-                    });
-                    getLrDelarze.done(function(data4) {
+                    }).done(function(data4) {
                         if (data4) {
                             // Feld mit Daten beliefern
                             var html;
@@ -61181,12 +61218,11 @@ var returnFunction = function() {
             }
             // TPopKontrIdealBiotopUebereinst: Daten holen - oder vorhandene nutzen
             if (!window.apf.IdealBiotopÜbereinst_html) {
-                var getIdealbiotopübereinst = $.ajax({
-                    type: 'get',
-                    url: 'api/v1/idealbiotopUebereinst',
+                $.ajax({
+                    type:     'get',
+                    url:      'api/v1/idealbiotopUebereinst',
                     dataType: 'json'
-                });
-                getIdealbiotopübereinst.done(function(data5) {
+                }).done(function(data5) {
                     if (data5 && data5.length > 0) {
                         // Feld mit Daten beliefern
                         var html;
@@ -61205,6 +61241,7 @@ var returnFunction = function() {
                     .html(window.apf.IdealBiotopÜbereinst_html)
                     .val(window.apf.tpopfeldkontr.TPopKontrIdealBiotopUebereinst);
             }
+
             // Felder, die nur in freiwkontr vorkommen
             if (localStorage.tpopfreiwkontr) {
                 if (data.TPopKontrPlan == 1) {
@@ -61231,6 +61268,7 @@ var returnFunction = function() {
                     .val(data.TPopKontrGefaehrdung)
                     .limiter(255, $("#TPopKontrGefaehrdung_limit"));
             }
+
             // fieldcontain-divs der benötigten Felder einblenden
             if (localStorage.tpopfreiwkontr) {
                 _.each(window.apf.feldliste_freiwkontr, function(feld) {
@@ -61241,6 +61279,7 @@ var returnFunction = function() {
                     $("#fieldcontain_" + feld).show();
                 });
             }
+
             // Formulare blenden
             window.apf.zeigeFormular("tpopfeldkontr");
             if (!localStorage.tpopfreiwkontr) {
@@ -61248,6 +61287,7 @@ var returnFunction = function() {
             } else {
                 history.replaceState({tpopfreiwkontr: "tpopfreiwkontr"}, "tpopfreiwkontr", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopfreiwkontr=" + localStorage.tpopfeldkontr_id);
             }
+
             // Register in Feldkontr blenden
             if (localStorage.tpopfreiwkontr) {
                 $("#tpopfeldkontr_tabs_biotop").hide();
@@ -61261,6 +61301,7 @@ var returnFunction = function() {
                 // ausblenden!
                 $("#tpopfeldkontr_tabs_biotop").hide();
             }
+
             // Fokus steuern
             $TPopKontrJahr.focus();
             $(window).scrollTop(0);
@@ -61277,7 +61318,6 @@ var $            = require('jquery'),
     _            = require('underscore'),
     limiter      = require('../lib/limiter'),
     initiierePop = require('./initiierePop');
-//require('jquery-ui');
 
 var returnFunction = function() {
 
@@ -61289,29 +61329,31 @@ var returnFunction = function() {
         initiierePop();
         return;
     }
+
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("tpopmassn");
+
     // Daten für die pop aus der DB holen
-    var getTPopMassn = $.ajax({
+    $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblTeilPopMassnahme/feld=TPopMassnId/wertNumber=' + localStorage.tpopmassn_id,
         dataType: 'json'
-    });
-    getTPopMassn.done(function(data) {
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
+
             // tpopmassn bereitstellen
             window.apf.tpopmassn = data;
+
             // Felder mit Daten beliefern
             // für select TPopMassnTyp Daten holen - oder vorhandene nutzen
             if (!window.apf.tpopmassntyp_html) {
-                var getTPopMassnTyp = $.ajax({
-                    type: 'get',
-                    url: 'api/v1/tpopMassnTypen',
+                $.ajax({
+                    type:     'get',
+                    url:      'api/v1/tpopMassnTypen',
                     dataType: 'json'
-                });
-                getTPopMassnTyp.done(function(data2) {
+                }).done(function(data2) {
                     if (data2 && data2.length > 0) {
                         // Feld mit Daten beliefern
                         var html;
@@ -61339,12 +61381,11 @@ var returnFunction = function() {
             }
             // TPopMassnBearb: Daten holen - oder vorhandene nutzen
             if (!window.apf.adressen_html) {
-                var getAdressen = $.ajax({
-                    type: 'get',
-                    url: 'api/v1/adressen',
+                $.ajax({
+                    type:     'get',
+                    url:      'api/v1/adressen',
                     dataType: 'json'
-                });
-                getAdressen.always(function(data2) {
+                }).done(function(data2) {
                     if (data2) {
                         // Feld mit Daten beliefern
                         var html;
@@ -61364,7 +61405,7 @@ var returnFunction = function() {
                     .val(window.apf.tpopmassn.TPopMassnBearb);
             }
             $("#TPopMassnBemTxt").val(data.TPopMassnBemTxt);
-            if (data.TPopMassnPlan == 1) {
+            if (data.TPopMassnPlan === 1) {
                 $("#TPopMassnPlan").prop("checked", true);
             } else {
                 $("#TPopMassnPlan").prop("checked", false);
@@ -61398,9 +61439,11 @@ var returnFunction = function() {
                         .val(data.TPopMassnAnsiedDatSamm)
                         .limiter(50, $("#TPopMassnAnsiedDatSamm_limit"));
                     $("#TPopMassnGuid").val(data.TPopMassnGuid);
+
                     // Formulare blenden
                     window.apf.zeigeFormular("tpopmassn");
                     history.replaceState({tpopmassn: "tpopmassn"}, "tpopmassn", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopmassn=" + localStorage.tpopmassn_id);
+
                     // bei neuen Datensätzen Fokus steuern
                     $('#TPopMassnJahr').focus();
                 });
@@ -61412,9 +61455,8 @@ module.exports = returnFunction;
 },{"../lib/limiter":18,"./initiierePop":33,"dateformat":3,"jquery":5,"underscore":6}],40:[function(require,module,exports){
 'use strict';
 
-var $ = require('jquery'),
+var $            = require('jquery'),
     initiierePop = require('./initiierePop');
-//require('jquery-ui');
 
 var returnFunction = function() {
     if (!localStorage.tpopmassnber_id) {
@@ -61422,27 +61464,32 @@ var returnFunction = function() {
         initiierePop();
         return;
     }
+
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("tpopmassnber");
+
     // Daten für die pop aus der DB holen
-    var getTPopMassnBer = $.ajax({
-        type: 'get',
-        url: 'api/v1/apflora/tabelle=tblTeilPopMassnBericht/feld=TPopMassnBerId/wertNumber=' + localStorage.tpopmassnber_id,
+    $.ajax({
+        type:     'get',
+        url:      'api/v1/apflora/tabelle=tblTeilPopMassnBericht/feld=TPopMassnBerId/wertNumber=' + localStorage.tpopmassnber_id,
         dataType: 'json'
-    });
-    getTPopMassnBer.done(function(data) {
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
+
             // tpopmassnber bereitstellen
             window.apf.tpopmassnber = data;
+
             // Felder mit Daten beliefern
             $("#TPopMassnBerJahr").val(data.TPopMassnBerJahr);
             $("#TPopMassnBerErfolgsbeurteilung" + data.TPopMassnBerErfolgsbeurteilung).prop("checked", true);
             $("#TPopMassnBerTxt").val(data.TPopMassnBerTxt);
+
             // Formulare blenden
             window.apf.zeigeFormular("tpopmassnber");
             history.replaceState({tpopmassnber: "tpopmassnber"}, "tpopmassnber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopmassnber=" + localStorage.tpopmassnber_id);
+
             // bei neuen Datensätzen Fokus steuern
             $('#TPopMassnBerJahr').focus();
         }
@@ -61453,38 +61500,43 @@ module.exports = returnFunction;
 },{"./initiierePop":33,"jquery":5}],41:[function(require,module,exports){
 'use strict';
 
-var $ = require('jquery'),
+var $           = require('jquery'),
     initiiereAp = require('./initiiereAp');
-//require('jquery-ui');
 
 var returnFunction = function() {
+    var $ZielBerJahr = $("#ZielBerJahr");
+
     if (!localStorage.zielber_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp();
         return;
     }
+
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("zielber");
+
     // Daten für die zielber aus der DB holen
     var getZielBer = $.ajax({
-            type: 'get',
-            url: 'api/v1/apflora/tabelle=tblZielBericht/feld=ZielBerId/wertString=' + localStorage.zielber_id,
-            dataType: 'json'
-        }),
-        $ZielBerJahr = $("#ZielBerJahr");
-    getZielBer.done(function(data) {
+        type:     'get',
+        url:      'api/v1/apflora/tabelle=tblZielBericht/feld=ZielBerId/wertString=' + localStorage.zielber_id,
+        dataType: 'json'
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
+
             // zeilber bereitstellen
             window.apf.zielber = data;
+
             // Felder mit Daten beliefern
             $ZielBerJahr.val(data.ZielBerJahr);
             $("#ZielBerErreichung").val(data.ZielBerErreichung);
             $("#ZielBerTxt").val(data.ZielBerTxt);
+
             // Formulare blenden
             window.apf.zeigeFormular("zielber");
             history.replaceState({zielber: "zielber"}, "zielber", "index.html?ap=" + localStorage.ap_id + "&apziel=" + localStorage.apziel_id + "&zielber=" + localStorage.zielber_id);
+
             // bei neuen Datensätzen Fokus steuern
             if (!$ZielBerJahr.val()) {
                 $ZielBerJahr.focus();
@@ -61520,11 +61572,13 @@ var returnFunction = function(tpop_liste) {
         my_flurname,
         cHtoWGSlat = require('../lib/cHtoWGSlat'),
         cHtoWGSlng = require('../lib/cHtoWGSlng');
+
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
     window.apf.zeigeFormular("google_karte");
     window.apf.gmap.markers_array = [];
     window.apf.gmap.info_window_array = [];
     infowindow = new google.maps.InfoWindow();
+
     // TPopListe bearbeiten:
     // Objekte löschen, die keine Koordinaten haben
     // Lat und Lng ergänzen
@@ -61537,8 +61591,10 @@ var returnFunction = function(tpop_liste) {
             tpop.Lng = cHtoWGSlng(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
         }
     });
+
     // TPop zählen
     anz_tpop = tpop_liste.length;
+
     // Karte mal auf Zürich zentrieren, falls in den TPopListe keine Koordinaten kommen
     // auf die die Karte ausgerichtet werden kann
     lat = 47.383333;
@@ -61550,9 +61606,11 @@ var returnFunction = function(tpop_liste) {
         streetViewControl: false,
         mapTypeId: google.maps.MapTypeId.SATELLITE
     };
+
     map = new google.maps.Map(document.getElementById("google_karten_div"), options);
     window.apf.gmap.map = map;
     bounds = new google.maps.LatLngBounds();
+
     // für alle TPop Marker erstellen
     markers = [];
     _.each(tpop_liste, function(tpop) {
@@ -61567,13 +61625,13 @@ var returnFunction = function(tpop_liste) {
             bounds.extend(latlng2);
         }
         marker = new MarkerWithLabel({
-            map: map,
-            position: latlng2,
-            title: tpop_beschriftung,
+            map:          map,
+            position:     latlng2,
+            title:        tpop_beschriftung,
             labelContent: tpop_beschriftung,
-            labelAnchor: new google.maps.Point(75, 0),
-            labelClass: "MapLabel",
-            icon: "img/flora_icon.png"
+            labelAnchor:  new google.maps.Point(75, 0),
+            labelClass:   "MapLabel",
+            icon:         "img/flora_icon.png"
         });
         markers.push(marker);
         my_flurname = tpop.TPopFlurname || '(kein Flurname)';
@@ -61596,16 +61654,17 @@ var returnFunction = function(tpop_liste) {
         maxZoom: 17, 
         styles: [{
                 height: 53,
-                url: "img/m8.png",
-                width: 53
+                url:    "img/m8.png",
+                width:  53
             }]
     };
+
     // globale Variable verwenden, damit ein Klick auf die Checkbox die Ebene einblenden kann
     window.apf.google_karte_detailpläne = new google.maps.KmlLayer({
-        //url: '//www.apflora.ch/kml/rueteren.kmz',
         url: 'kml/rueteren.kmz',
         preserveViewport: true
     });
+
     window.apf.google_karte_detailpläne.setMap(null);
     marker_cluster = new MarkerClusterer(map, markers, marker_options);
     if (anz_tpop === 1) {
@@ -61616,6 +61675,7 @@ var returnFunction = function(tpop_liste) {
         // Karte auf Ausschnitt anpassen
         map.fitBounds(bounds);
     }
+
     // diese Funktion muss hier sein, damit infowindow bekannt ist
     function makeListener(map, marker, contentString) {
         google.maps.event.addListener(marker, 'click', function() {
