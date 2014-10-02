@@ -37107,10 +37107,11 @@ var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
     // EvAB oder Infospezies? > entsprechende url zusammensetzen
     if (beobTyp === 'evab') {
         idFeld = 'NO_NOTE_PROJET';
+        url = 'api/v1/beob/tabelle=tblBeobEvab/feld=' + idFeld + '/wertString=' + beobId;
     } else {
         idFeld = 'NO_NOTE';
+        url = 'api/v1/beob/tabelle=tblBeobInfospezies/feld=' + idFeld + '/wertNumber=' + beobId;
     }
-    url = 'api/v1/beob/tabelle=tblBeobEvab/feld=' + idFeld + '/wertString=' + beobId;
 
     // Daten für die beob aus der DB holen
     $.ajax({
@@ -37149,7 +37150,7 @@ var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
                         html_distzutpop += '"';
                         // jetzt ermitteln, ob das die angezeigte Beob ist
                         // wenn ja: checked
-                        if (beob[idFeld] === beobId) {
+                        if (beobStatus === 'zugeordnet' && beob.TPopId == localStorage.tpop_id) {
                             html_distzutpop += ' checked';
                         }
                         html_distzutpop += '>';

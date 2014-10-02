@@ -29,10 +29,10 @@ var tabelleUpdate = function(request, callback) {
         sql;
 
 
-    sql = 'UPDATE ' + tabelle + ' SET ' + feld + '="' + wert + '", ' + mutWannFeld + '="' + date + '", ' + mutWerFeld + '="' + user + '" WHERE ' + tabelleIdFeld + ' = ' + tabelleId;
+    sql = 'UPDATE ' + tabelle + ' SET ' + feld + '="' + wert + '", ' + mutWannFeld + '="' + date + '", ' + mutWerFeld + '="' + user + '" WHERE ' + tabelleIdFeld + ' = "' + tabelleId + '"';
     // Ist ein Feld neu leer, muss NULL übergeben werden. wert ist dann 'undefined'
     if (wert === 'undefined') {
-        sql = 'UPDATE ' + tabelle + ' SET ' + feld + '= NULL, ' + mutWannFeld + '="' + date + '", ' + mutWerFeld + '="' + user + '" WHERE ' + tabelleIdFeld + ' = ' + tabelleId;
+        sql = 'UPDATE ' + tabelle + ' SET ' + feld + '= NULL, ' + mutWannFeld + '="' + date + '", ' + mutWerFeld + '="' + user + '" WHERE ' + tabelleIdFeld + ' = "' + tabelleId + '"';
     }
 
     connection.query(

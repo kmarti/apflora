@@ -15,7 +15,7 @@ var tabelle = function(request, callback) {
         tabelleId     = decodeURIComponent(request.params.tabelleId);     // der Wert der ID des zu löschenden Datensatzes
 
     connection.query(
-        'DELETE FROM ' + tabelle + ' WHERE ' + tabelleIdFeld + '=' + tabelleId,
+        'DELETE FROM ' + tabelle + ' WHERE ' + tabelleIdFeld + '="' + tabelleId + '"',
         function(err, data) {
             if (err) throw err;
             callback(data);
