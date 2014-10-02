@@ -7429,7 +7429,7 @@ window.apf.undeleteDatensatz = function() {
 			history.replaceState({ap: "ap"}, "ap", "index.html?ap=" + id);
 		} else {
 			//tree neu aufbauen
-			$.when(window.apf.erstelle_tree(window.apf.olmap.erstellePopLayer))
+			$.when(window.apf.erstelle_tree(localStorage.ap_id))
 				.then(function() {
 					$("#tree").jstree("select_node", "[typ='" + typ + "']#" + id);
 				});
