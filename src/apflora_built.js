@@ -24310,22 +24310,15 @@ window.apf.erstelle_tree = function(ApArtId) {
 					initiierePop();
 				});
 				fügePopEin.fail(function(data) {
-					//window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
-					console.log("Fehler: Die Teilpopulation wurde nicht verschoben");
+					window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
 				});
 			}
 			if (ziel_node_typ === "tpop") {
-				var fügeTPopEin = $.ajax({
+				$.ajax({
 					type: 'post',
-					url: 'php/tpop_einfuegen.php',
-					dataType: 'json',
-					data: {
-						"pop_id": ziel_parent_node_id,
-						"tpop_id": ziel_node_id,
-						"user": sessionStorage.User
-					}
-				});
-				fügeTPopEin.always(function() {
+					url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=PopId/tabelleId=' + ziel_parent_node_id + '/feld=TPopId/wert=' + ziel_node_id + '/user=' + sessionStorage.User,
+					dataType: 'json'
+				}).done(function() {
                     var initiiereTPop = require('./modules/initiiereTPop');
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.apf.beschrifte_ordner_tpop(ziel_parent_node);
@@ -24339,24 +24332,16 @@ window.apf.erstelle_tree = function(ApArtId) {
 					delete window.apf.tpop_node_ausgeschnitten;
 					delete window.apf.herkunft_parent_node;
 					initiiereTPop();
-				});
-				fügeTPopEin.fail(function(data) {
-					//window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
-					console.log("Fehler: Die Teilpopulation wurde nicht verschoben");
+				}).fail(function(data) {
+					window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
 				});
 			}
 			if (ziel_node_typ === "pop_ordner_tpop") {
-				var fügeTPopEin_2 = $.ajax({
+				$.ajax({
 					type: 'post',
-					url: 'php/tpop_einfuegen.php',
-					dataType: 'json',
-					data: {
-						"pop_id": ziel_node_id,
-						"tpop_id": herkunft_node_id,
-						"user": sessionStorage.User
-					}
-				});
-				fügeTPopEin_2.always(function() {
+					url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=PopId/tabelleId=' + ziel_node_id + '/feld=TPopId/wert=' + herkunft_node_id + '/user=' + sessionStorage.User,
+					dataType: 'json'
+				}).done(function() {
                     var initiiereTPop = require('./modules/initiiereTPop');
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.apf.beschrifte_ordner_tpop(ziel_node);
@@ -24369,26 +24354,18 @@ window.apf.erstelle_tree = function(ApArtId) {
 					delete window.apf.tpop;
 					delete window.apf.tpop_node_ausgeschnitten;
 					initiiereTPop();
-				});
-				fügeTPopEin_2.fail(function(data) {
-					//window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
-					console.log("Fehler: Die Teilpopulation wurde nicht verschoben");
+				}).fail(function(data) {
+					window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
 				});
 			}
 		}
 		if (herkunft_node_typ === "tpop") {
 			if (ziel_node_typ === "tpop") {
-				var fügeTPopEin_3 = $.ajax({
+				$.ajax({
 					type: 'post',
-					url: 'php/tpop_einfuegen.php',
-					dataType: 'json',
-					data: {
-						"pop_id": ziel_parent_node_id,
-						"tpop_id": herkunft_node_id,
-						"user": sessionStorage.User
-					}
-				});
-				fügeTPopEin_3.always(function() {
+					url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=PopId/tabelleId=' + ziel_parent_node_id + '/feld=TPopId/wert=' + herkunft_node_id + '/user=' + sessionStorage.User,
+					dataType: 'json'
+				}).done(function() {
                     var initiiereTPop = require('./modules/initiiereTPop');
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.apf.beschrifte_ordner_tpop(ziel_parent_node);
@@ -24402,24 +24379,16 @@ window.apf.erstelle_tree = function(ApArtId) {
 					delete window.apf.tpop_node_ausgeschnitten;
 					delete window.apf.herkunft_parent_node;
 					initiiereTPop();
-				});
-				fügeTPopEin_3.fail(function(data) {
-					//window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
-					console.log("Fehler: Die Teilpopulation wurde nicht verschoben");
+				}).fail(function(data) {
+					window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
 				});
 			}
 			if (ziel_node_typ === "pop_ordner_tpop") {
-				var fügeTPopEin_4 = $.ajax({
+				$.ajax({
 					type: 'post',
-					url: 'php/tpop_einfuegen.php',
-					dataType: 'json',
-					data: {
-						"pop_id": ziel_node_id,
-						"tpop_id": herkunft_node_id,
-						"user": sessionStorage.User
-					}
-				});
-				fügeTPopEin_4.always(function() {
+					url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=PopId/tabelleId=' + ziel_node_id + '/feld=TPopId/wert=' + herkunft_node_id + '/user=' + sessionStorage.User,
+					dataType: 'json'
+				}).done(function() {
                     var initiiereTPop = require('./modules/initiiereTPop');
 					// Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
 					window.apf.beschrifte_ordner_tpop(ziel_node);
@@ -24433,10 +24402,8 @@ window.apf.erstelle_tree = function(ApArtId) {
 					delete window.apf.tpop_node_ausgeschnitten;
 					delete window.apf.herkunft_parent_node;
 					initiiereTPop();
-				});
-				fügeTPopEin_4.fail(function(data) {
-					//window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
-					console.log("Fehler: Die Teilpopulation wurde nicht verschoben");
+				}).fail(function(data) {
+					window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
 				});
 			}
 		}

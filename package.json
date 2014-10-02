@@ -36,7 +36,7 @@
     "watchify": "^1.0.2"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "npm run gulp & npm start"
   },
   "repository": {
     "type": "git",
