@@ -8545,19 +8545,16 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "neue Teilpopulation",
                     "icon": "style/images/neu.png",
                     "action": function() {
-                        var insertTPop = $.ajax({
+                        $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblTeilpopulation/feld=PopId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
-                        });
-                        insertTPop.done(function(id) {
+                        }).done(function(id) {
                             var strukturtyp = "tpop",
                                 beschriftung = "neue Teilpopulation";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
-                        });
-                        insertTPop.fail(function() {
-                            //window.apf.melde("Fehler: Keine neue Teilpopulation erstellt");
-                            console.log('Fehler: Keine neue Teilpopulation erstellt');
+                        }).fail(function() {
+                            window.apf.melde("Fehler: Keine neue Teilpopulation erstellt");
                         });
                     }
                 },
@@ -9300,15 +9297,12 @@ window.apf.treeKontextmenu = function(node) {
                             data[key] = value;
                         });
                         // jetzt alles speichern
-                        var updateTPopFeldKontrMultiple = $.ajax({
+                        $.ajax({
                             type: 'post',
-                            url: 'php/tpopfeldkontr_update_multiple.php',
-                            dataType: 'json',
-                            data: data
-                        });
-                        updateTPopFeldKontrMultiple.fail(function() {
-                            //window.apf.melde("Fehler: Das kopierte Biotop wurde nicht eingefügt");
-                            console.log('Fehler: Das kopierte Biotop wurde nicht eingefügt');
+                            url: 'api/v1/updateMultiple/apflora/tabelle=tblTeilPopFeldkontrolle/felder=' + data,
+                            dataType: 'json'
+                        }).fail(function() {
+                            window.apf.melde("Fehler: Das kopierte Biotop wurde nicht eingefügt");
                         });
                     }
                 };
