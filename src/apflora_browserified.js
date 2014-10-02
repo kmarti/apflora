@@ -1694,15 +1694,11 @@ window.apf.erstelle_tree = function(ApArtId) {
 			// zugeordnet
 			if (ziel_node_typ === "beob_nicht_beurteilt" || ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
 				// zugeordnet > nicht beurteilt
-				var ordneBeobachtungZu = $.ajax({
-					type: 'post',
-					url: 'php/beob_zuordnung_delete.php',
-					dataType: 'json',
-					data: {
-						"id": herkunft_node_id
-					}
-				});
-				ordneBeobachtungZu.always(function() {
+				$.ajax({
+					type: 'delete',
+					url: 'api/v1/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id,
+					dataType: 'json'
+				}).done(function() {
                     var initiiere_beob = require('./modules/initiiereBeob');
 					// typ des nodes anpassen
 					herkunft_node.attr("typ", "beob_nicht_beurteilt");
@@ -1719,8 +1715,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 					// Variablen aufräumen
 					delete window.apf.beob_zugeordnet_node_ausgeschnitten;
 					delete window.apf.herkunft_parent_node;
-				});
-				ordneBeobachtungZu.fail(function() {
+				}).fail(function() {
 					//window.apf.melde("Fehler: Die Beobachtung wurde nicht auf 'nicht beurteilt' gesetzt");
 					console.log("Fehler: Die Beobachtung wurde nicht auf 'nicht beurteilt' gesetzt");
 				});
@@ -1912,19 +1907,17 @@ window.apf.erstelle_tree = function(ApArtId) {
 			// nicht zuzuordnen
 			if (ziel_node_typ === "beob_nicht_beurteilt" || ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
 				// nicht zuzuordnen > nicht beurteilt
-				var deleteZuordnung = $.ajax({
-					type: 'post',
-					url: 'php/beob_zuordnung_delete.php',
-					dataType: 'json',
-					data: {
-						"id": herkunft_node_id
-					}
-				});
-				deleteZuordnung.always(function() {
+				$.ajax({
+					type: 'delete',
+					url: 'api/v1/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id,
+					dataType: 'json'
+				}).done(function() {
                     var initiiere_beob = require('./modules/initiiereBeob');
+
 					// typ des nodes anpassen
 					$(herkunft_node).attr("typ", "beob_nicht_beurteilt");
 					localStorage.beobtyp = "beob_nicht_beurteilt";
+
 					// Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
 					window.apf.beschrifte_ordner_beob_nicht_zuzuordnen(window.apf.herkunft_parent_node);
 					if (ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
@@ -1932,13 +1925,14 @@ window.apf.erstelle_tree = function(ApArtId) {
 					} else {
 						window.apf.beschrifte_ordner_beob_nicht_beurteilt(ziel_parent_node);
 					}
+
 					// selektieren
 					initiiere_beob(herkunft_node.attr("beobtyp"), herkunft_node_id, "nicht_beurteilt");
+
 					// Variablen aufräumen
 					delete window.apf.beob_node_ausgeschnitten;
 					delete window.apf.herkunft_parent_node;
-				});
-				deleteZuordnung.fail(function() {
+				}).fail(function() {
 					//window.apf.melde("Fehler: Die Zuordnung der Beobachtung wurde nicht entfernt");
 					console.log('Fehler: Die Zuordnung der Beobachtung wurde nicht entfernt');
 				});
