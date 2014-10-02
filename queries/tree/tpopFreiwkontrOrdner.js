@@ -4,7 +4,7 @@ var _ = require('underscore'),
     erstelleTPopFreiwKontr = require('./tpopFreiwkontr');
 
 var returnFunction = function(tpopFreiwkontrListe, tpop) {
-	var tpopFreiwkontrOrdner = {},
+    var tpopFreiwkontrOrdner = {},
         freiwkontrVonTpop,
         freiwkontrNode;
 
@@ -13,7 +13,7 @@ var returnFunction = function(tpopFreiwkontrListe, tpop) {
         return tpopFreiwkontr.TPopId === tpop.TPopId;
     });
 
-	// tpopOrdnerFreiwkontr aufbauen
+    // tpopOrdnerFreiwkontr aufbauen
     tpopFreiwkontrOrdner.data = 'Freiwilligen-Kontrollen (' + freiwkontrVonTpop.length + ')';
     tpopFreiwkontrOrdner.attr = {
         id: 'tpop_ordner_freiwkontr' + tpop.TPopId,

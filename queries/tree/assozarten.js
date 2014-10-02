@@ -1,8 +1,8 @@
 'use strict';
 
-var _ = require('underscore'),
-    mysql = require('mysql'),
-    config = require('../../src/modules/configuration'),
+var _          = require('underscore'),
+    mysql      = require('mysql'),
+    config     = require('../../src/modules/configuration'),
     connection = mysql.createConnection({
         host: 'localhost',
         user: config.db.userName,
@@ -31,6 +31,7 @@ var assozarten = function(request, reply) {
 function buildChildFromData(data) {
     var childrenArray = [],
         object;
+
     _.each(data, function(assArt) {
         object = {};
         object.data = assArt.Artname || '(keine Art gewählt)';
@@ -40,6 +41,7 @@ function buildChildFromData(data) {
         };
         childrenArray.push(object);
     });
+
     return childrenArray;
 }
 

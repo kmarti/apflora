@@ -1,11 +1,11 @@
 'use strict';
 
-var _ = require('underscore')
-    , erstelleTPopBer = require('./tpopBer');
+var _ = require('underscore'),
+    erstelleTPopBer = require('./tpopBer');
 
 var returnFunction = function(tpopBerListe, tpop) {
-	var tpopNodeTpopberOrdner = {},
-    	tpopNodeTpopberOrdnerChildren = [],
+    var tpopNodeTpopberOrdner = {},
+        tpopNodeTpopberOrdnerChildren = [],
         tpopberVonTpop,
         tpopBerNode;
 
@@ -14,7 +14,7 @@ var returnFunction = function(tpopBerListe, tpop) {
         return tpopBer.TPopId === tpop.TPopId;
     });
 
-	// tpopOrdnerTpopber aufbauen
+    // tpopOrdnerTpopber aufbauen
     tpopNodeTpopberOrdner.data = 'Teilpopulations-Berichte (' + tpopberVonTpop.length + ')';
     tpopNodeTpopberOrdner.attr = {
         id: 'tpop_ordner_tpopber' + tpop.TPopId,

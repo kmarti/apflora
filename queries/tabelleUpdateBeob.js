@@ -5,9 +5,9 @@
 
 'use strict';
 
-var mysql = require('mysql'),
-    _ = require('underscore'),
-    config = require('../src/modules/configuration'),
+var mysql      = require('mysql'),
+    _          = require('underscore'),
+    config     = require('../src/modules/configuration'),
     connection = mysql.createConnection({
         host: 'localhost',
         user: config.db.userName,

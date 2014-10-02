@@ -4,7 +4,7 @@ var _ = require('underscore'),
     erstelleTPopBeob = require('./tpopBeob');
 
 var returnFunction = function(tpopBeobZugeordnetListe, tpop) {
-	var tpopTpopBeobOrdner = {},
+    var tpopTpopBeobOrdner = {},
         tpopbeobVonTpop,
         feldkontrNode;
 
@@ -13,7 +13,7 @@ var returnFunction = function(tpopBeobZugeordnetListe, tpop) {
         return tpopBeob.TPopId === tpop.TPopId;
     });
 
-	// tpopOrdnerBeobZugeordnet aufbauen
+    // tpopOrdnerBeobZugeordnet aufbauen
     tpopTpopBeobOrdner.data = 'Beobachtungen (' + tpopbeobVonTpop.length + ')';
     tpopTpopBeobOrdner.attr = {
         id: 'tpop_ordner_beob_zugeordnet' + tpop.TPopId,

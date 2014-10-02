@@ -8,23 +8,25 @@ var _          = require('underscore'),
         user: config.db.userName,
         password: config.db.passWord,
         database: 'alexande_apflora'
-    }),
-    response   = {};
+    });
 
 var ber = function(request, reply) {
     var apId = decodeURIComponent(request.params.apId);
     connection.query(
         "SELECT BerId, ApArtId, BerJahr, BerTitel FROM tblBer where ApArtId =" + apId + " ORDER BY BerJahr DESC, BerTitel",
         function(err, data) {
+            var node = {};
+
             if (err) reply(err);
 
-            response.data = 'Berichte (' + data.length + ')';
-            response.attr = {
+            node.data = 'Berichte (' + data.length + ')';
+            node.attr = {
                 id: 'ap_ordner_ber' + apId,
                 typ: 'ap_ordner_ber'
             };
-            response.children = buildChildFromData(data);
-            reply(null, response);
+            node.children = buildChildFromData(data);
+
+            reply(null, node);
         }
     );
 };
@@ -33,6 +35,7 @@ function buildChildFromData(data) {
     var childrenArray = [],
         object,
         beschriftung;
+
     _.each(data, function(ber) {
         object = {};
 
@@ -55,6 +58,7 @@ function buildChildFromData(data) {
         };
         childrenArray.push(object);
     });
+
     return childrenArray;
 }
 

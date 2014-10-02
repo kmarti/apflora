@@ -2,15 +2,15 @@
 
 var idealbiotop = function(request, reply) {
     var apId     = decodeURIComponent(request.params.apId),
-        response = {};
+        node = {};
 
-    response.data = 'Idealbiotop';
-    response.attr = {
+    node.data = 'Idealbiotop';
+    node.attr = {
         id: 'idealbiotop' + apId,
         typ: 'idealbiotop'
     };
 
-    reply(null, response);
+    reply(null, node);
 };
 
 module.exports = idealbiotop;

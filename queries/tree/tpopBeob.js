@@ -4,6 +4,7 @@ var returnFunction = function(tpopbeob) {
     var node  = {},
         autor,
         datum;
+
     if (tpopbeob) {
         // Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
         if (tpopbeob.Autor && tpopbeob.Autor !== " ") {

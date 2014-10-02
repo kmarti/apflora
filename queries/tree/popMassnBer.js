@@ -1,10 +1,10 @@
 'use strict';
 
 var returnFunction = function(massnber) {
-    if (massnber) {
-        var node  = {},
-            nodeText;
+    var node  = {},
+        nodeText;
 
+    if (massnber) {
         // Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
         if (massnber.PopMassnBerJahr && massnber.BeurteilTxt) {
             nodeText = massnber.PopMassnBerJahr + ": " + massnber.BeurteilTxt;
@@ -22,11 +22,9 @@ var returnFunction = function(massnber) {
             id: massnber.PopMassnBerId,
             typ: 'popmassnber'
         };
-
-        return node;
-    } else {
-        return {};
     }
+
+    return node;
 };
 
 module.exports = returnFunction;

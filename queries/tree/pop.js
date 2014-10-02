@@ -118,7 +118,7 @@ var returnFunction = function(request, reply) {
         }, function(err, results) {
             var popBerListe      = results.popBerListe || [],
                 popMassnBerListe = results.popMassnBerListe || [],
-                popOrdnerNode = {},
+                popOrdnerNode    = {},
                 popOrdnerNodeChildren;
 
             // node für ap_ordner_pop aufbauen
@@ -137,7 +137,7 @@ var returnFunction = function(request, reply) {
             }).PopNr;
 
             _.each(popListe, function(pop) {
-                var popNode = {},
+                var popNode         = {},
                     popNodeChildren = [],
                     popMassnberOrdnerNode,
                     popBerOrdnerNode,
@@ -199,14 +199,18 @@ module.exports = returnFunction;
 function ergänzePopNrUmFührendeNullen(popNrMax, popNr) {
     if (!popNr && popNr !== 0) return null;
     if (!popNrMax && popNrMax !== 0) return null;
+
     // Nummern in Strings umwandeln
     popNrMax = popNrMax.toString();
     popNr = popNr.toString();
+
     var stellendifferenz = popNrMax.length - popNr.length;
+
     // Voranzustellende Nullen generieren
     while (stellendifferenz > 0) {
         popNr = '0' + popNr;
         stellendifferenz--;
     }
+    
     return popNr;
 }

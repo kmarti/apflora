@@ -4,16 +4,16 @@ var _ = require('underscore'),
     erstelleTpopMassn = require('./tpopMassn');
 
 var returnFunction = function(tpopMassnListe, tpop) {
-	var tpopMassnOrdner = {},
-		massnVonTpop,
+    var tpopMassnOrdner = {},
+        massnVonTpop,
         tpopMassnNode;
 
-	// Liste der Massnahmen dieser tpop erstellen
-	massnVonTpop = _.filter(tpopMassnListe, function(tpopMassn) {
+    // Liste der Massnahmen dieser tpop erstellen
+    massnVonTpop = _.filter(tpopMassnListe, function(tpopMassn) {
         return tpopMassn.TPopId === tpop.TPopId;
     });
 
-	// tpopOrdnerMassnahmen aufbauen
+    // tpopOrdnerMassnahmen aufbauen
     tpopMassnOrdner.data = 'Massnahmen (' + massnVonTpop.length + ')';
     tpopMassnOrdner.attr = {
         id: 'tpop_ordner_massn' + tpop.TPopId,

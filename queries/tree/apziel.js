@@ -1,21 +1,19 @@
 'use strict';
 
-var _ = require('underscore'),
-    mysql = require('mysql'),
-    async = require('async'),
-    config = require('../../src/modules/configuration'),
+var _          = require('underscore'),
+    mysql      = require('mysql'),
+    async      = require('async'),
+    config     = require('../../src/modules/configuration'),
     connection = mysql.createConnection({
         host: 'localhost',
         user: config.db.userName,
         password: config.db.passWord,
         database: 'alexande_apflora'
-    }),
-    response = {},
-    apId,
-    zielIds;
+    });
 
 var returnFunction = function(request, reply) {
-    apId = decodeURIComponent(request.params.apId);
+    var apId = decodeURIComponent(request.params.apId),
+        zielIds;
 
     // zuerst die Daten holen
     async.waterfall([

@@ -4,6 +4,7 @@ var returnFunction = function(feldkontr) {
     var node  = {},
         nodeText1,
         nodeText2;
+
     if (feldkontr) {
         // Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
         if (feldkontr.TPopKontrJahr && feldkontr.TPopKontrJahr >= 0) {
@@ -25,6 +26,7 @@ var returnFunction = function(feldkontr) {
             typ: 'tpopfeldkontr'
         };
     }
+
     return node;
 };
 

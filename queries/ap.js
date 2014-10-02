@@ -1,14 +1,13 @@
 'use strict';
 
-var mysql = require('mysql')
-    , config = require('../src/modules/configuration')
-    , connection = mysql.createConnection({
+var mysql = require('mysql'),
+    config = require('../src/modules/configuration'),
+    connection = mysql.createConnection({
         host: 'localhost',
         user: config.db.userName,
         password: config.db.passWord,
         database: 'alexande_apflora'
-    })
-    ;
+    });
 
 var ap = function(request, callback) {
     var apId = decodeURIComponent(request.params.apId);

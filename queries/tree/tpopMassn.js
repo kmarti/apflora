@@ -26,7 +26,7 @@ var returnFunction = function(tpopMassn) {
             typ: 'tpopmassn'
         };
     }
-    
+
     return node;
 };
 

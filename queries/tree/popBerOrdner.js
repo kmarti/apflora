@@ -1,10 +1,10 @@
 'use strict';
 
-var _ = require('underscore')
-    , erstellePopBer = require('./popBer');
+var _ = require('underscore'),
+    erstellePopBer = require('./popBer');
 
 var returnFunction = function(popBerListe, pop) {
-	var popNodePopberOrdner = {},
+	var popNodePopberOrdner         = {},
     	popNodePopberOrdnerChildren = [],
         popberVonPop,
         popBerNode;

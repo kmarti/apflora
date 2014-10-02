@@ -4,8 +4,8 @@ var _ = require('underscore'),
     erstellePopMassnBer = require('./popMassnBer');
 
 var returnFunction = function(popMassnBerListe, pop) {
-	var popNodeMassnberOrdner = {},
-    	popNodeMassnberOrdnerChildren = [],
+    var popNodeMassnberOrdner = {},
+        popNodeMassnberOrdnerChildren = [],
         massnberVonPop,
         popNodeMassnberNode;
 
@@ -14,7 +14,7 @@ var returnFunction = function(popMassnBerListe, pop) {
         return popMassnBer.PopId === pop.PopId;
     });
 
-	// tpopOrdnerTpopber aufbauen
+    // tpopOrdnerTpopber aufbauen
     popNodeMassnberOrdner.data = 'Massnahmen-Berichte (' + massnberVonPop.length + ')';
     popNodeMassnberOrdner.attr = {
         id: pop.PopId,

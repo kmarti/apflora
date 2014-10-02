@@ -1,7 +1,7 @@
 'use strict';
 
-var mysql = require('mysql'),
-    config = require('../src/modules/configuration'),
+var mysql     = require('mysql'),
+    config    = require('../src/modules/configuration'),
     onnection = mysql.createConnection({
         host: 'localhost',
         user: config.db.userName,
@@ -10,11 +10,12 @@ var mysql = require('mysql'),
     });
 
 var beobKarte = function(request, callback) {
-    var apId = decodeURIComponent(request.params.apId),
-        tpopId = decodeURIComponent(request.params.tpopId),
-        beobId = decodeURIComponent(request.params.beobId),
+    var apId            = decodeURIComponent(request.params.apId),
+        tpopId          = decodeURIComponent(request.params.tpopId),
+        beobId          = decodeURIComponent(request.params.beobId),
         nichtZuzuordnen = decodeURIComponent(request.params.nichtZuzuordnen),
         url;
+
     if (beobId !== 'undefined') {
         // beobid wurde übergeben > auf eine Beobachtung filtern
         url = 'SELECT tblBeobInfospezies.NO_NOTE, tblBeobInfospezies.NO_ISFS, tblBeobInfospezies.FNS_XGIS AS X, tblBeobInfospezies.FNS_YGIS AS Y, tblBeobInfospezies.A_NOTE, tblBeobBereitgestellt.Datum, tblBeobBereitgestellt.Autor, tblBeobInfospezies.PROJET, tblBeobInfospezies.DESC_LOCALITE FROM tblBeobInfospezies INNER JOIN tblBeobBereitgestellt ON tblBeobInfospezies.NO_NOTE = tblBeobBereitgestellt.NO_NOTE WHERE tblBeobInfospezies.FNS_XGIS>0 AND tblBeobInfospezies.FNS_YGIS>0 AND tblBeobInfospezies.NO_NOTE="' + beobId + '" UNION SELECT tblBeobEvab.NO_NOTE_PROJET AS NO_NOTE, tblBeobEvab.NO_ISFS, tblBeobEvab.COORDONNEE_FED_E AS X, tblBeobEvab.COORDONNEE_FED_N AS Y, tblBeobEvab.A_NOTE, tblBeobBereitgestellt.Datum, tblBeobBereitgestellt.Autor, tblBeobEvab.Projekt_ZH AS PROJET, tblBeobEvab.DESC_LOCALITE_ AS DESC_LOCALITE FROM tblBeobBereitgestellt INNER JOIN tblBeobEvab ON tblBeobBereitgestellt.NO_NOTE_PROJET = tblBeobEvab.NO_NOTE_PROJET WHERE tblBeobEvab.COORDONNEE_FED_E>0 AND tblBeobEvab.COORDONNEE_FED_N>0 AND tblBeobEvab.NO_NOTE_PROJET="' + beobId + '"';

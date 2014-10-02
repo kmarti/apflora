@@ -4,6 +4,7 @@ var returnFunction = function(tpopMassnber) {
     var node  = {},
         nodeText1,
         nodeText2;
+
     if (tpopMassnber) {
         // Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
         if (tpopMassnber.TPopMassnBerJahr) {
@@ -25,6 +26,7 @@ var returnFunction = function(tpopMassnber) {
             typ: 'tpopmassnber'
         };
     }
+
     return node;
 };
 

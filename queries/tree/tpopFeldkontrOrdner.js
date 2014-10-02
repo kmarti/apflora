@@ -4,7 +4,7 @@ var _ = require('underscore'),
     erstelleTPopFeldKontr = require('./tpopFeldkontr');
 
 var returnFunction = function(tpopFeldkontrListe, tpop) {
-	var tpopFeldkontrOrdner = {},
+    var tpopFeldkontrOrdner = {},
         feldkontrVonTpop,
         feldkontrNode;
 
@@ -13,7 +13,7 @@ var returnFunction = function(tpopFeldkontrListe, tpop) {
         return tpopFeldkontr.TPopId === tpop.TPopId;
     });
 
-	// tpopOrdnerFeldkontr aufbauen
+    // tpopOrdnerFeldkontr aufbauen
     tpopFeldkontrOrdner.data = 'Feldkontrollen (' + feldkontrVonTpop.length + ')';
     tpopFeldkontrOrdner.attr = {
         id: 'tpop_ordner_feldkontr' + tpop.TPopId,

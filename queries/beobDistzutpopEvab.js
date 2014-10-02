@@ -1,14 +1,13 @@
 'use strict';
 
-var mysql = require('mysql')
-    , config = require('../src/modules/configuration')
-    , connection = mysql.createConnection({
+var mysql      = require('mysql'),
+    config     = require('../src/modules/configuration'),
+    connection = mysql.createConnection({
         host: 'localhost',
         user: config.db.userName,
         password: config.db.passWord,
         database: 'alexande_apflora'
-    })
-    ;
+    });
 
 var distzutpop = function(request, callback) {
     var beobId = decodeURIComponent(request.params.beobId);

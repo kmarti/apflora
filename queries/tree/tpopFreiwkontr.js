@@ -3,6 +3,7 @@
 var returnFunction = function(freiwkontr) {
     var node  = {},
         nodeText;
+
     if (freiwkontr) {
         // Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
         if (freiwkontr.TPopKontrJahr && freiwkontr.TPopKontrJahr >= 0) {
@@ -18,6 +19,7 @@ var returnFunction = function(freiwkontr) {
             typ: 'tpopfreiwkontr'
         };
     }
+    
     return node;
 };
 

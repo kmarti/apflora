@@ -1,7 +1,5 @@
 'use strict';
 
-var _ = require('underscore');
-
 var returnFunction = function(tpopber) {
     var node  = {},
         nodeText;
@@ -25,7 +23,7 @@ var returnFunction = function(tpopber) {
             typ: 'tpopber'
         };
     }
-    
+
     return node;
 };
 
