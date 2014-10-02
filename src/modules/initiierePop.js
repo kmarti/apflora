@@ -4,7 +4,7 @@ var $ = require('jquery'),
     limiter = require('../lib/limiter'),
     initiiereAp = require('./initiiereAp');
 
-var initiierePop = function(ohne_zu_zeigen) {
+var returnFunction = function(ohne_zu_zeigen) {
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
@@ -20,7 +20,7 @@ var initiierePop = function(ohne_zu_zeigen) {
                         src.value = src.value.substr(0, limit);
                         chars = limit;
                     }
-                    elem.html( limit - chars );
+                    elem.html(limit - chars);
                 }
                 setCount($(this)[0], elem);
             }
@@ -79,4 +79,4 @@ var initiierePop = function(ohne_zu_zeigen) {
     });
 };
 
-module.exports = initiierePop;
+module.exports = returnFunction;

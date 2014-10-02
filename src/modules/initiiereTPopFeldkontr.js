@@ -7,7 +7,7 @@ var $ = require('jquery'),
 
 require('jquery-ui');
 
-var initiiereTPopFeldkontr = function() {
+var returnFunction = function() {
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
@@ -23,7 +23,7 @@ var initiiereTPopFeldkontr = function() {
                         src.value = src.value.substr(0, limit);
                         chars = limit;
                     }
-                    elem.html( limit - chars );
+                    elem.html(limit - chars);
                 }
                 setCount($(this)[0], elem);
             }
@@ -329,4 +329,4 @@ var initiiereTPopFeldkontr = function() {
     });
 };
 
-module.exports = initiiereTPopFeldkontr;
+module.exports = returnFunction;

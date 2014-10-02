@@ -13,12 +13,12 @@ module.exports = function(breiteGrad, breiteMin, breiteSec, längeGrad, längeMi
         x;
 
     // Converts degrees dec to sex
-    lat = breiteSec + breiteMin*60 + breiteGrad*3600;
-    lng = längeSec + längeMin*60 + längeGrad*3600;
+    lat = breiteSec + breiteMin * 60 + breiteGrad * 3600;
+    lng = längeSec  +  längeMin * 60 +  längeGrad * 3600;
 
     // Axiliary values (% Bern)
-    lat_aux = (lat - 169028.66)/10000;
-    lng_aux = (lng - 26782.5)/10000;
+    lat_aux = (lat - 169028.66) / 10000;
+    lng_aux = (lng -  26782.5)  / 10000;
 
     x = 200147.07
         + 308807.95 * lat_aux

@@ -1,26 +1,28 @@
 'use strict';
 
-var $ = require('jquery'),
+var $           = require('jquery'),
     initiiereAp = require('./initiiereAp');
 //require('jquery-ui');
 
-var initiiereApziel = function() {
+var returnFunction = function() {
     if (!localStorage.apziel_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp();
         return;
     }
+
     var apziel_initiiert = $.Deferred(),
-        $ZielJahr = $("#ZielJahr");
+        $ZielJahr        = $("#ZielJahr");
+
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("apziel");
+
     // Daten für die apziel aus der DB holen
-    var getApZiel = $.ajax({
+    $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblZiel/feld=ZielId/wertNumber=' + localStorage.apziel_id,
         dataType: 'json'
-    });
-    getApZiel.done(function(data) {
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
@@ -40,7 +42,8 @@ var initiiereApziel = function() {
             apziel_initiiert.resolve();
         }
     });
+
     return apziel_initiiert.promise();
 };
 
-module.exports = initiiereApziel;
+module.exports = returnFunction;

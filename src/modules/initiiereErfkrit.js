@@ -20,7 +20,7 @@ var initiiereErfkrit = function() {
                         src.value = src.value.substr(0, limit);
                         chars = limit;
                     }
-                    elem.html( limit - chars );
+                    elem.html(limit - chars);
                 }
                 setCount($(this)[0], elem);
             }

@@ -3,7 +3,7 @@
 var $ = require('jquery'),
     _ = require('underscore');
 
-var zeigeTPop = function(tpop_liste) {
+var returnFunction = function(tpop_liste) {
     var anz_tpop,
         infowindow,
         tpop_beschriftung,
@@ -128,4 +128,4 @@ var zeigeTPop = function(tpop_liste) {
     }
 };
 
-module.exports = zeigeTPop;
+module.exports = returnFunction;

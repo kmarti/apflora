@@ -7,7 +7,7 @@
 
 var $ = require('jquery');
 
-module.exports = (function($) {
+module.exports = function($) {
     $.fn.extend( {
         limiter: function(limit, elem) {
             $(this).on("keyup focus", function() {
@@ -19,9 +19,9 @@ module.exports = (function($) {
                     src.value = src.value.substr(0, limit);
                     chars = limit;
                 }
-                elem.html( limit - chars );
+                elem.html(limit - chars);
             }
             setCount($(this)[0], elem);
         }
     });
-})(jQuery);
+};

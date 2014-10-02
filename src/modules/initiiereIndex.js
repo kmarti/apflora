@@ -3,7 +3,7 @@
 var $ = require('jquery');
 require('jquery-ui');
 
-var initiiereIndex = function() {
+var returnFunction = function() {
     // Versuch, damit $.ajax auch in IE funktioniert
     // jQuery hängt an jede Anfrage ein &_= und Zufahlszahl
     // AUSGESCHALTET, WEIL TPOPFELDKONTR_UPDATE_MULTIPLE.PHP NICHT MEHR FUNKTIONIERTE (UND MEHR?)
@@ -71,4 +71,4 @@ var initiiereIndex = function() {
         });
 };
 
-module.exports = initiiereIndex;
+module.exports = returnFunction;

@@ -3,7 +3,7 @@
 var $ = require('jquery'),
     _ = require('underscore');
 
-var initiiereAp = function() {
+var returnFunction = function() {
     if (!localStorage.ap_id) {
         // es fehlen benötigte Daten > zurück zum Anfang
         // LIEGT HIER DER WURM BEGRABEN?
@@ -12,11 +12,13 @@ var initiiereAp = function() {
         //history.replaceState({ap: "keinap"}, "keinap", "index.html");
         return;
     }
+
     // Programm-Wahl konfigurieren
-    var programm_wahl;
-    programm_wahl = $("[name='programm_wahl']:checked").attr("id");
+    var programm_wahl = $("[name='programm_wahl']:checked").attr("id");
+
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("ap");
+
     // Wenn ein ap ausgewählt ist: Seine Daten anzeigen
     if ($("#ap_waehlen").val() && programm_wahl !== "programm_neu") {
         // Daten für den ap aus der DB holen
@@ -24,8 +26,7 @@ var initiiereAp = function() {
             type: 'get',
             url: 'ap=' + localStorage.ap_id,
             dataType: 'json'
-        });
-        getAp.always(function(data) {
+        }).done(function(data) {
             // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
             if (data && data[0]) {
                 // ap bereitstellen
@@ -43,7 +44,7 @@ var initiiereAp = function() {
                         url: 'api/v1/adressen',
                         dataType: 'json'
                     });
-                    getAdressen.always(function(data2) {
+                    getAdressen.done(function(data2) {
                         if (data2) {
                             // Feld mit Daten beliefern
                             var html;
@@ -73,4 +74,4 @@ var initiiereAp = function() {
     }
 };
 
-module.exports = initiiereAp;
+module.exports = returnFunction;

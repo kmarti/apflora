@@ -4,7 +4,7 @@ var $ = require('jquery'),
     initiiereAp = require('./initiiereAp');
 //require('jquery-ui');
 
-var initiiereJberUebersicht = function() {
+var returnFunction = function() {
     if (!localStorage.jber_uebersicht_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp();
@@ -40,4 +40,4 @@ var initiiereJberUebersicht = function() {
     });
 };
 
-module.exports = initiiereJberUebersicht;
+module.exports = returnFunction;

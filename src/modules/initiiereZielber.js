@@ -4,7 +4,7 @@ var $ = require('jquery'),
     initiiereAp = require('./initiiereAp');
 //require('jquery-ui');
 
-var initiiereZielber = function() {
+var returnFunction = function() {
     if (!localStorage.zielber_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp();
@@ -40,4 +40,4 @@ var initiiereZielber = function() {
     });
 };
 
-module.exports = initiiereZielber;
+module.exports = returnFunction;

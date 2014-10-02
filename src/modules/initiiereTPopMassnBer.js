@@ -4,7 +4,7 @@ var $ = require('jquery'),
     initiierePop = require('./initiierePop');
 //require('jquery-ui');
 
-var initiiereTPopMassnBer = function() {
+var returnFunction = function() {
     if (!localStorage.tpopmassnber_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiierePop();
@@ -37,4 +37,4 @@ var initiiereTPopMassnBer = function() {
     });
 };
 
-module.exports = initiiereTPopMassnBer;
+module.exports = returnFunction;

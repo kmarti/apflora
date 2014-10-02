@@ -6,18 +6,19 @@
 'use strict';
 
 module.exports = function(breite, länge) {
-    var DdInWgs84BreiteGrad = require('./ddInWgs84BreiteGrad'),
-        breiteGrad = DdInWgs84BreiteGrad(breite),
-        DdInWgs84BreiteMin = require('./ddInWgs84BreiteMin'),
-        breiteMin = DdInWgs84BreiteMin(breite),
-        DdInWgs84BreiteSec = require('./ddInWgs84BreiteSec'),
-        breiteSec = DdInWgs84BreiteSec(breite),
-        DdInWgs84LängeGrad = require('./ddInWgs84LaengeGrad'),
-        längeGrad = DdInWgs84LängeGrad(länge),
-        DdInWgs84LängeMin = require('./ddInWgs84LaengeMin'),
-        längeMin = DdInWgs84LängeMin(länge),
-        DdInWgs84LängeSec = require('./ddInWgs84LaengeSec'),
-        längeSec = DdInWgs84LängeSec(länge),
-        Wgs84InChX = require('./wgs84InChX');
-    return Math.floor(Wgs84InChX(breiteGrad, breiteMin, breiteSec, längeGrad, längeMin, längeSec));
+    var ddInWgs84BreiteGrad = require('./ddInWgs84BreiteGrad'),
+        breiteGrad          = ddInWgs84BreiteGrad(breite),
+        ddInWgs84BreiteMin  = require('./ddInWgs84BreiteMin'),
+        breiteMin           = ddInWgs84BreiteMin(breite),
+        ddInWgs84BreiteSec  = require('./ddInWgs84BreiteSec'),
+        breiteSec           = ddInWgs84BreiteSec(breite),
+        ddInWgs84LängeGrad  = require('./ddInWgs84LaengeGrad'),
+        längeGrad           = ddInWgs84LängeGrad(länge),
+        ddInWgs84LängeMin   = require('./ddInWgs84LaengeMin'),
+        längeMin            = ddInWgs84LängeMin(länge),
+        ddInWgs84LängeSec   = require('./ddInWgs84LaengeSec'),
+        längeSec            = ddInWgs84LängeSec(länge),
+        wgs84InChX          = require('./wgs84InChX');
+
+    return Math.floor(wgs84InChX(breiteGrad, breiteMin, breiteSec, längeGrad, längeMin, längeSec));
 };

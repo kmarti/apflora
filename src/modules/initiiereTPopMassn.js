@@ -6,7 +6,7 @@ var $ = require('jquery'),
     initiierePop = require('./initiierePop');
 //require('jquery-ui');
 
-var initiiereTPopMassn = function() {
+var returnFunction = function() {
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
@@ -22,7 +22,7 @@ var initiiereTPopMassn = function() {
                         src.value = src.value.substr(0, limit);
                         chars = limit;
                     }
-                    elem.html( limit - chars );
+                    elem.html(limit - chars);
                 }
                 setCount($(this)[0], elem);
             }
@@ -156,4 +156,4 @@ var initiiereTPopMassn = function() {
     });
 };
 
-module.exports = initiiereTPopMassn;
+module.exports = returnFunction;

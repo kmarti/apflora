@@ -10598,7 +10598,7 @@ window.apf.treeKontextmenu = function(node) {
 					src.value = src.value.substr(0, limit);
 					chars = limit;
 				}
-				elem.html( limit - chars );
+				elem.html(limit - chars);
 			}
 			setCount($(this)[0], elem);
 		}
@@ -36503,20 +36503,21 @@ module.exports = capitalizeFirstLetter;
 'use strict';
 
 module.exports = function(breite, länge) {
-    var DdInWgs84BreiteGrad = require('./ddInWgs84BreiteGrad'),
-        breiteGrad = DdInWgs84BreiteGrad(breite),
-        DdInWgs84BreiteMin = require('./ddInWgs84BreiteMin'),
-        breiteMin = DdInWgs84BreiteMin(breite),
-        DdInWgs84BreiteSec = require('./ddInWgs84BreiteSec'),
-        breiteSec = DdInWgs84BreiteSec(breite),
-        DdInWgs84LängeGrad = require('./ddInWgs84LaengeGrad'),
-        längeGrad = DdInWgs84LängeGrad(länge),
-        DdInWgs84LängeMin = require('./ddInWgs84LaengeMin'),
-        längeMin = DdInWgs84LängeMin(länge),
-        DdInWgs84LängeSec = require('./ddInWgs84LaengeSec'),
-        längeSec = DdInWgs84LängeSec(länge),
-        Wgs84InChX = require('./wgs84InChX');
-    return Math.floor(Wgs84InChX(breiteGrad, breiteMin, breiteSec, längeGrad, längeMin, längeSec));
+    var ddInWgs84BreiteGrad = require('./ddInWgs84BreiteGrad'),
+        breiteGrad          = ddInWgs84BreiteGrad(breite),
+        ddInWgs84BreiteMin  = require('./ddInWgs84BreiteMin'),
+        breiteMin           = ddInWgs84BreiteMin(breite),
+        ddInWgs84BreiteSec  = require('./ddInWgs84BreiteSec'),
+        breiteSec           = ddInWgs84BreiteSec(breite),
+        ddInWgs84LängeGrad  = require('./ddInWgs84LaengeGrad'),
+        längeGrad           = ddInWgs84LängeGrad(länge),
+        ddInWgs84LängeMin   = require('./ddInWgs84LaengeMin'),
+        längeMin            = ddInWgs84LängeMin(länge),
+        ddInWgs84LängeSec   = require('./ddInWgs84LaengeSec'),
+        längeSec            = ddInWgs84LängeSec(länge),
+        wgs84InChX          = require('./wgs84InChX');
+
+    return Math.floor(wgs84InChX(breiteGrad, breiteMin, breiteSec, längeGrad, längeMin, längeSec));
 };
 },{"./ddInWgs84BreiteGrad":12,"./ddInWgs84BreiteMin":13,"./ddInWgs84BreiteSec":14,"./ddInWgs84LaengeGrad":15,"./ddInWgs84LaengeMin":16,"./ddInWgs84LaengeSec":17,"./wgs84InChX":19}],11:[function(require,module,exports){
 /**
@@ -36527,20 +36528,21 @@ module.exports = function(breite, länge) {
 'use strict';
 
 module.exports = function(breite, länge) {
-    var DdInWgs84BreiteGrad = require('./ddInWgs84BreiteGrad'),
-        breiteGrad = DdInWgs84BreiteGrad(breite),
-        DdInWgs84BreiteMin = require('./ddInWgs84BreiteMin'),
-        breiteMin = DdInWgs84BreiteMin(breite),
-        DdInWgs84BreiteSec = require('./ddInWgs84BreiteSec'),
-        breiteSec = DdInWgs84BreiteSec(breite),
-        DdInWgs84LängeGrad = require('./ddInWgs84LaengeGrad'),
-        längeGrad = DdInWgs84LängeGrad(länge),
-        DdInWgs84LängeMin = require('./ddInWgs84LaengeMin'),
-        längeMin = DdInWgs84LängeMin(länge),
-        DdInWgs84LängeSec = require('./ddInWgs84LaengeSec'),
-        längeSec = DdInWgs84LängeSec(länge),
-        Wgs84InChY = require('./wgs84InChY');
-    return Math.floor(Wgs84InChY(breiteGrad, breiteMin, breiteSec, längeGrad, längeMin, längeSec));
+    var ddInWgs84BreiteGrad = require('./ddInWgs84BreiteGrad'),
+        breiteGrad          = ddInWgs84BreiteGrad(breite),
+        ddInWgs84BreiteMin  = require('./ddInWgs84BreiteMin'),
+        breiteMin           = ddInWgs84BreiteMin(breite),
+        ddInWgs84BreiteSec  = require('./ddInWgs84BreiteSec'),
+        breiteSec           = ddInWgs84BreiteSec(breite),
+        ddInWgs84LängeGrad  = require('./ddInWgs84LaengeGrad'),
+        längeGrad           = ddInWgs84LängeGrad(länge),
+        ddInWgs84LängeMin   = require('./ddInWgs84LaengeMin'),
+        längeMin            = ddInWgs84LängeMin(länge),
+        ddInWgs84LängeSec   = require('./ddInWgs84LaengeSec'),
+        längeSec            = ddInWgs84LängeSec(länge),
+        wgs84InChY          = require('./wgs84InChY');
+
+    return Math.floor(wgs84InChY(breiteGrad, breiteMin, breiteSec, längeGrad, längeMin, längeSec));
 };
 },{"./ddInWgs84BreiteGrad":12,"./ddInWgs84BreiteMin":13,"./ddInWgs84BreiteSec":14,"./ddInWgs84LaengeGrad":15,"./ddInWgs84LaengeMin":16,"./ddInWgs84LaengeSec":17,"./wgs84InChY":20}],12:[function(require,module,exports){
 /**
@@ -36563,7 +36565,7 @@ module.exports = function(Breite) {
 
 module.exports = function(Breite) {
     var BreiteGrad = Math.floor(Breite);
-    return Math.floor((Breite-BreiteGrad)*60);
+    return Math.floor((Breite - BreiteGrad) * 60);
 };
 },{}],14:[function(require,module,exports){
 /**
@@ -36575,8 +36577,9 @@ module.exports = function(Breite) {
 
 module.exports = function(Breite) {
     var BreiteGrad = Math.floor(Breite),
-        BreiteMin = Math.floor((Breite-BreiteGrad)*60);
-    return Math.round((((Breite - BreiteGrad) - (BreiteMin/60)) * 60 * 60) * 100) / 100;
+        BreiteMin  = Math.floor((Breite - BreiteGrad) * 60);
+
+    return Math.round((((Breite - BreiteGrad) - (BreiteMin / 60)) * 60 * 60) * 100) / 100;
 };
 },{}],15:[function(require,module,exports){
 /**
@@ -36599,7 +36602,7 @@ module.exports = function(Laenge) {
 
 module.exports = function(Laenge) {
     var LaengeGrad = Math.floor(Laenge);
-    return Math.floor((Laenge-LaengeGrad)*60);
+    return Math.floor((Laenge - LaengeGrad) * 60);
 };
 },{}],17:[function(require,module,exports){
 /**
@@ -36611,8 +36614,9 @@ module.exports = function(Laenge) {
 
 module.exports = function(Laenge) {
     var LaengeGrad = Math.floor(Laenge),
-        LaengeMin = Math.floor((Laenge-LaengeGrad)*60);
-    return Math.round((((Laenge - LaengeGrad) - (LaengeMin/60)) * 60 * 60) * 100 ) / 100;
+        LaengeMin  = Math.floor((Laenge - LaengeGrad) * 60);
+
+    return Math.round((((Laenge - LaengeGrad) - (LaengeMin / 60)) * 60 * 60) * 100) / 100;
 };
 },{}],18:[function(require,module,exports){
 /**
@@ -36624,7 +36628,7 @@ module.exports = function(Laenge) {
 
 var $ = require('jquery');
 
-module.exports = (function($) {
+module.exports = function($) {
     $.fn.extend( {
         limiter: function(limit, elem) {
             $(this).on("keyup focus", function() {
@@ -36636,12 +36640,12 @@ module.exports = (function($) {
                     src.value = src.value.substr(0, limit);
                     chars = limit;
                 }
-                elem.html( limit - chars );
+                elem.html(limit - chars);
             }
             setCount($(this)[0], elem);
         }
     });
-})(jQuery);
+};
 },{"jquery":5}],19:[function(require,module,exports){
 /**
  * Wandelt WGS84 lat/long (° dec) in CH-Landeskoordinaten um
@@ -36658,12 +36662,12 @@ module.exports = function(breiteGrad, breiteMin, breiteSec, längeGrad, längeMi
         x;
 
     // Converts degrees dec to sex
-    lat = breiteSec + breiteMin*60 + breiteGrad*3600;
-    lng = längeSec + längeMin*60 + längeGrad*3600;
+    lat = breiteSec + breiteMin * 60 + breiteGrad * 3600;
+    lng = längeSec  +  längeMin * 60 +  längeGrad * 3600;
 
     // Axiliary values (% Bern)
-    lat_aux = (lat - 169028.66)/10000;
-    lng_aux = (lng - 26782.5)/10000;
+    lat_aux = (lat - 169028.66) / 10000;
+    lng_aux = (lng -  26782.5)  / 10000;
 
     x = 200147.07
         + 308807.95 * lat_aux
@@ -36690,12 +36694,12 @@ module.exports = function(breiteGrad, breiteMin, breiteSec, längeGrad, längeMi
         y;
 
     // Converts degrees dec to sex
-    lat = breiteSec + breiteMin*60 + breiteGrad*3600;
-    lng = läengeSec + längeMin*60 + längeGrad*3600;
+    lat = breiteSec + breiteMin * 60 + breiteGrad * 3600;
+    lng = läengeSec +  längeMin * 60 +  längeGrad * 3600;
 
     // Axiliary values (% Bern)
-    lat_aux = (lat - 169028.66)/10000;
-    lng_aux = (lng - 26782.5)/10000;
+    lat_aux = (lat - 169028.66) / 10000;
+    lng_aux = (lng -  26782.5)  / 10000;
 
     // Process Y
     y = 600072.37
@@ -36713,9 +36717,8 @@ module.exports = function(breiteGrad, breiteMin, breiteSec, längeGrad, längeMi
 
 'use strict';
 
-var config = {}
-    , dbPassfile   = require('../../dbPass.json')
-    ;
+var config = {},
+    dbPassfile   = require('../../dbPass.json');
 
 config.db          = {};
 config.db.userName = dbPassfile.user;
@@ -36913,7 +36916,7 @@ module.exports = config;
 var $ = require('jquery'),
     _ = require('underscore');
 
-var initiiereAp = function() {
+var returnFunction = function() {
     if (!localStorage.ap_id) {
         // es fehlen benötigte Daten > zurück zum Anfang
         // LIEGT HIER DER WURM BEGRABEN?
@@ -36922,11 +36925,13 @@ var initiiereAp = function() {
         //history.replaceState({ap: "keinap"}, "keinap", "index.html");
         return;
     }
+
     // Programm-Wahl konfigurieren
-    var programm_wahl;
-    programm_wahl = $("[name='programm_wahl']:checked").attr("id");
+    var programm_wahl = $("[name='programm_wahl']:checked").attr("id");
+
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("ap");
+
     // Wenn ein ap ausgewählt ist: Seine Daten anzeigen
     if ($("#ap_waehlen").val() && programm_wahl !== "programm_neu") {
         // Daten für den ap aus der DB holen
@@ -36934,8 +36939,7 @@ var initiiereAp = function() {
             type: 'get',
             url: 'ap=' + localStorage.ap_id,
             dataType: 'json'
-        });
-        getAp.always(function(data) {
+        }).done(function(data) {
             // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
             if (data && data[0]) {
                 // ap bereitstellen
@@ -36953,7 +36957,7 @@ var initiiereAp = function() {
                         url: 'api/v1/adressen',
                         dataType: 'json'
                     });
-                    getAdressen.always(function(data2) {
+                    getAdressen.done(function(data2) {
                         if (data2) {
                             // Feld mit Daten beliefern
                             var html;
@@ -36983,31 +36987,33 @@ var initiiereAp = function() {
     }
 };
 
-module.exports = initiiereAp;
+module.exports = returnFunction;
 },{"jquery":5,"underscore":6}],23:[function(require,module,exports){
 'use strict';
 
-var $ = require('jquery'),
+var $           = require('jquery'),
     initiiereAp = require('./initiiereAp');
 //require('jquery-ui');
 
-var initiiereApziel = function() {
+var returnFunction = function() {
     if (!localStorage.apziel_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp();
         return;
     }
+
     var apziel_initiiert = $.Deferred(),
-        $ZielJahr = $("#ZielJahr");
+        $ZielJahr        = $("#ZielJahr");
+
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("apziel");
+
     // Daten für die apziel aus der DB holen
-    var getApZiel = $.ajax({
+    $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblZiel/feld=ZielId/wertNumber=' + localStorage.apziel_id,
         dataType: 'json'
-    });
-    getApZiel.done(function(data) {
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
@@ -37027,33 +37033,35 @@ var initiiereApziel = function() {
             apziel_initiiert.resolve();
         }
     });
+
     return apziel_initiiert.promise();
 };
 
-module.exports = initiiereApziel;
+module.exports = returnFunction;
 },{"./initiiereAp":22,"jquery":5}],24:[function(require,module,exports){
 'use strict';
 
-var $ = require('jquery'),
+var $           = require('jquery'),
     initiiereAp = require('./initiiereAp');
-//require('jquery-ui');
 
-var initiiereAssozarten = function() {
+var returnFunction = function() {
     if (!localStorage.assozarten_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp();
         return;
     }
+
+    var $AaSisfNr = $("#AaSisfNr");
+
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("assozarten");
+
     // Daten für die assozarten aus der DB holen
-    var getAssozarten = $.ajax({
-            type: 'get',
-            url: '/api/v1/apflora/tabelle=tblAssozArten/feld=AaId/wertNumber=' + localStorage.assozarten_id,
-            dataType: 'json'
-        }),
-        $AaSisfNr = $("#AaSisfNr");
-    getAssozarten.done(function(data) {
+    $.ajax({
+        type: 'get',
+        url: '/api/v1/apflora/tabelle=tblAssozArten/feld=AaId/wertNumber=' + localStorage.assozarten_id,
+        dataType: 'json'
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data.length > 0) {
             // assozarten bereitstellen
@@ -37072,15 +37080,15 @@ var initiiereAssozarten = function() {
     });
 };
 
-module.exports = initiiereAssozarten;
+module.exports = returnFunction;
 },{"./initiiereAp":22,"jquery":5}],25:[function(require,module,exports){
 'use strict';
 
-var $ = require('jquery'),
-    _ = require('underscore'),
+var $                     = require('jquery'),
+    _                     = require('underscore'),
     capitaliseFirstLetter = require('../lib/capitaliseFirstLetter'),
-    initiiereAp = require('./initiiereAp'),
-    initiiereBeob = require('./initiiereBeob');
+    initiiereAp           = require('./initiiereAp'),
+    initiiereBeob         = require('./initiiereBeob');
 
 var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
     // beob_status markiert, ob die Beobachtung:
@@ -37093,7 +37101,9 @@ var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
     localStorage.beobtyp = beobTyp;
 
     var url,
-        url_distzutpop;
+        url_distzutpop,
+        $BeobBemerkungen = $("#BeobBemerkungen");
+
     if (!beobId && !ohneZuZeigen) {
         // es fehlen benötigte Daten > eine Ebene höher
         if (beobStatus === "nicht_beurteilt" || beobStatus === "nicht_zuzuordnen") {
@@ -37119,14 +37129,11 @@ var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
     }
 
     // Daten für die beob aus der DB holen
-    var getBeob = $.ajax({
-            type: 'get',
-            url: url,
-            dataType: 'json'
-        }),
-        $BeobBemerkungen = $("#BeobBemerkungen");
-
-    getBeob.done(function(data_beob) {
+    $.ajax({
+        type: 'get',
+        url: url,
+        dataType: 'json'
+    }).done(function(data_beob) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data_beob && data_beob.length > 0) {
             data_beob = data_beob[0];
@@ -37137,12 +37144,11 @@ var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
 
             // Abstand zu TPop aus der DB holen
             url_distzutpop = 'api/v1/beobDistzutpop' + capitaliseFirstLetter(beobTyp) + '/beobId=' + beobId;
-            var getDistZuTPop = $.ajax({
+            $.ajax({
                 type: 'get',
                 url: url_distzutpop,
                 dataType: 'json'
-            });
-            getDistZuTPop.done(function(data) {
+            }).done(function(data) {
                 // Tabellenzeile beginnen
                 var html_distzutpop = '<tr class="fieldcontain DistZuTPop"><td class="label"><label id="DistZuTPop_label" for="DistZuTPop">Einer Teilpopulation zuordnen:</label></td><td class="Datenfelder"><div class="Datenfelder" id="DistZuTPop_Felder">';
                 if (data) {
@@ -37174,12 +37180,11 @@ var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
 
                     if (beobStatus !== "nicht_beurteilt") {
                         // Daten der Zuordnung holen
-                        var getBeobZuordnung = $.ajax({
+                        $.ajax({
                             type: 'get',
                             url: 'api/v1/apflora/tabelle=tblBeobZuordnung/feld=NO_NOTE/wertString=' + beobId,
                             dataType: 'json'
-                        });
-                        getBeobZuordnung.done(function(data) {
+                        }).done(function(data) {
                             // Felder mit Daten beliefern
                             $("#BeobNichtBeurteilt").prop("checked", false);
                             if (data.BeobNichtZuordnen == 1) {
@@ -37228,56 +37233,41 @@ module.exports = returnFunction;
 },{"../lib/capitaliseFirstLetter":9,"./initiiereAp":22,"./initiiereBeob":25,"jquery":5,"underscore":6}],26:[function(require,module,exports){
 'use strict';
 
-var $ = jQuery = require('jquery'),
-    initiiereAp = require('./initiiereAp');
-    //limiter = require('../lib/limiter');
+var $ = jQuery  = require('jquery'),
+    initiiereAp = require('./initiiereAp'),
+    limiter     = require('../lib/limiter');
 
 // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
 // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
 var initiiereBer = function() {
+    var $BerAutor = $("#BerAutor"),
+        $BerJahr  = $("#BerJahr"),
+        $BerTitel = $("#BerTitel"),
+        $BerURL   = $("#BerURL");
 
-    (function($) {
-        $.fn.extend( {
-            limiter: function(limit, elem) {
-                $(this).on("keyup focus", function() {
-                    setCount(this, elem);
-                });
-                function setCount(src, elem) {
-                    var chars = src.value.length;
-                    if (chars > limit) {
-                        src.value = src.value.substr(0, limit);
-                        chars = limit;
-                    }
-                    elem.html( limit - chars );
-                }
-                setCount($(this)[0], elem);
-            }
-        });
-    })(jQuery);
+    limiter($);
 
     if (!localStorage.ber_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp();
         return;
     }
+
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("ber");
     // Daten für die ber aus der DB holen
-    var getBer = $.ajax({
-            type: 'get',
-            url: '/api/v1/apflora/tabelle=tblBer/feld=BerId/wertNumber=' + localStorage.ber_id,
-            dataType: 'json'
-        }),
-        $BerAutor = $("#BerAutor"),
-        $BerJahr = $("#BerJahr"),
-        $BerTitel = $("#BerTitel"),
-        $BerURL = $("#BerURL");
-    getBer.done(function(data) {
+    $.ajax({
+        type: 'get',
+        url: '/api/v1/apflora/tabelle=tblBer/feld=BerId/wertNumber=' + localStorage.ber_id,
+        dataType: 'json'
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
+
             // ber bereitstellen
             window.apf.ber = data;
+
             // Felder mit Daten beliefern
             $BerAutor.val(data.BerAutor);
             $BerJahr.val(data.BerJahr);
@@ -37287,11 +37277,14 @@ var initiiereBer = function() {
             $BerURL
                 .val(data.BerURL)
                 .limiter(255, $("#BerURL_limit"));
+
             // URL-Link initialisieren, wird bei Änderung der URL in index.html angepasst
             $('#BerURLHref').attr('onClick', "window.open('" + data.BerURL + "', target='_blank')");
+
             // Formulare blenden
             window.apf.zeigeFormular("ber");
             history.replaceState({ber: "ber"}, "ber", "index.html?ap=" + localStorage.ap_id + "&ber=" + localStorage.ber_id);
+
             // bei neuen Datensätzen Fokus steuern
             if (!$BerAutor.val()) {
                 $BerAutor.focus();
@@ -37307,7 +37300,7 @@ var initiiereBer = function() {
 };
 
 module.exports = initiiereBer;
-},{"./initiiereAp":22,"jquery":5}],27:[function(require,module,exports){
+},{"../lib/limiter":18,"./initiiereAp":22,"jquery":5}],27:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -37330,7 +37323,7 @@ var initiiereErfkrit = function() {
                         src.value = src.value.substr(0, limit);
                         chars = limit;
                     }
-                    elem.html( limit - chars );
+                    elem.html(limit - chars);
                 }
                 setCount($(this)[0], elem);
             }
@@ -37508,7 +37501,7 @@ module.exports = returnFunction;
 var $ = require('jquery');
 require('jquery-ui');
 
-var initiiereIndex = function() {
+var returnFunction = function() {
     // Versuch, damit $.ajax auch in IE funktioniert
     // jQuery hängt an jede Anfrage ein &_= und Zufahlszahl
     // AUSGESCHALTET, WEIL TPOPFELDKONTR_UPDATE_MULTIPLE.PHP NICHT MEHR FUNKTIONIERTE (UND MEHR?)
@@ -37576,7 +37569,7 @@ var initiiereIndex = function() {
         });
 };
 
-module.exports = initiiereIndex;
+module.exports = returnFunction;
 },{"jquery":5,"jquery-ui":4}],31:[function(require,module,exports){
 'use strict';
 
@@ -37585,7 +37578,7 @@ var $ = require('jquery'),
     limiter = require('../lib/limiter');
     //initiiereAp = require('./initiiereAp');
 
-var initiiereJber = function() {
+var returnFunction = function() {
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
@@ -37601,7 +37594,7 @@ var initiiereJber = function() {
                         src.value = src.value.substr(0, limit);
                         chars = limit;
                     }
-                    elem.html( limit - chars );
+                    elem.html(limit - chars);
                 }
                 setCount($(this)[0], elem);
             }
@@ -37688,7 +37681,7 @@ var initiiereJber = function() {
     });
 };
 
-module.exports = initiiereJber;
+module.exports = returnFunction;
 },{"../lib/limiter":18,"jquery":5,"underscore":6}],32:[function(require,module,exports){
 'use strict';
 
@@ -37696,7 +37689,7 @@ var $ = require('jquery'),
     initiiereAp = require('./initiiereAp');
 //require('jquery-ui');
 
-var initiiereJberUebersicht = function() {
+var returnFunction = function() {
     if (!localStorage.jber_uebersicht_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp();
@@ -37732,7 +37725,7 @@ var initiiereJberUebersicht = function() {
     });
 };
 
-module.exports = initiiereJberUebersicht;
+module.exports = returnFunction;
 },{"./initiiereAp":22,"jquery":5}],33:[function(require,module,exports){
 'use strict';
 
@@ -37740,7 +37733,7 @@ var $ = require('jquery'),
     limiter = require('../lib/limiter'),
     initiiereAp = require('./initiiereAp');
 
-var initiierePop = function(ohne_zu_zeigen) {
+var returnFunction = function(ohne_zu_zeigen) {
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
@@ -37756,7 +37749,7 @@ var initiierePop = function(ohne_zu_zeigen) {
                         src.value = src.value.substr(0, limit);
                         chars = limit;
                     }
-                    elem.html( limit - chars );
+                    elem.html(limit - chars);
                 }
                 setCount($(this)[0], elem);
             }
@@ -37815,7 +37808,7 @@ var initiierePop = function(ohne_zu_zeigen) {
     });
 };
 
-module.exports = initiierePop;
+module.exports = returnFunction;
 },{"../lib/limiter":18,"./initiiereAp":22,"jquery":5}],34:[function(require,module,exports){
 'use strict';
 
@@ -37823,7 +37816,7 @@ var $ = require('jquery'),
     initiierePop = require('./initiierePop');
 //require('jquery-ui');
 
-var initiierePopBer = function() {
+var returnFunction = function() {
     if (!localStorage.popber_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiierePop();
@@ -37856,7 +37849,7 @@ var initiierePopBer = function() {
     });
 };
 
-module.exports = initiierePopBer;
+module.exports = returnFunction;
 },{"./initiierePop":33,"jquery":5}],35:[function(require,module,exports){
 'use strict';
 
@@ -37864,7 +37857,7 @@ var $ = require('jquery'),
     initiierePop = require('./initiierePop');
 //require('jquery-ui');
 
-var initiierePopMassnBer = function() {
+var returnFunction = function() {
     if (!localStorage.popmassnber_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiierePop();
@@ -37897,7 +37890,7 @@ var initiierePopMassnBer = function() {
     });
 };
 
-module.exports = initiierePopMassnBer;
+module.exports = returnFunction;
 },{"./initiierePop":33,"jquery":5}],36:[function(require,module,exports){
 'use strict';
 
@@ -37907,7 +37900,7 @@ var $ = require('jquery'),
     //initiierePop = require('./initiierePop');
 //require('jquery-ui');
 
-var initiiereTPop = function(ohne_zu_zeigen) {
+var returnFunction = function(ohne_zu_zeigen) {
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
@@ -37923,7 +37916,7 @@ var initiiereTPop = function(ohne_zu_zeigen) {
                         src.value = src.value.substr(0, limit);
                         chars = limit;
                     }
-                    elem.html( limit - chars );
+                    elem.html(limit - chars);
                 }
                 setCount($(this)[0], elem);
             }
@@ -38051,7 +38044,7 @@ var initiiereTPop = function(ohne_zu_zeigen) {
     });
 };
 
-module.exports = initiiereTPop;
+module.exports = returnFunction;
 },{"../lib/limiter":18,"jquery":5,"underscore":6}],37:[function(require,module,exports){
 'use strict';
 
@@ -38059,7 +38052,7 @@ var $ = require('jquery'),
     initiierePop = require('./initiierePop');
 //require('jquery-ui');
 
-var initiiereTPopBer = function() {
+var returnFunction = function() {
     if (!localStorage.tpopber_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiierePop();
@@ -38092,7 +38085,7 @@ var initiiereTPopBer = function() {
     });
 };
 
-module.exports = initiiereTPopBer;
+module.exports = returnFunction;
 },{"./initiierePop":33,"jquery":5}],38:[function(require,module,exports){
 'use strict';
 
@@ -38103,7 +38096,7 @@ var $ = require('jquery'),
 
 require('jquery-ui');
 
-var initiiereTPopFeldkontr = function() {
+var returnFunction = function() {
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
@@ -38119,7 +38112,7 @@ var initiiereTPopFeldkontr = function() {
                         src.value = src.value.substr(0, limit);
                         chars = limit;
                     }
-                    elem.html( limit - chars );
+                    elem.html(limit - chars);
                 }
                 setCount($(this)[0], elem);
             }
@@ -38425,7 +38418,7 @@ var initiiereTPopFeldkontr = function() {
     });
 };
 
-module.exports = initiiereTPopFeldkontr;
+module.exports = returnFunction;
 },{"./initiierePop":33,"jquery":5,"jquery-ui":4,"underscore":6}],39:[function(require,module,exports){
 'use strict';
 
@@ -38435,7 +38428,7 @@ var $ = require('jquery'),
     initiierePop = require('./initiierePop');
 //require('jquery-ui');
 
-var initiiereTPopMassn = function() {
+var returnFunction = function() {
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
@@ -38451,7 +38444,7 @@ var initiiereTPopMassn = function() {
                         src.value = src.value.substr(0, limit);
                         chars = limit;
                     }
-                    elem.html( limit - chars );
+                    elem.html(limit - chars);
                 }
                 setCount($(this)[0], elem);
             }
@@ -38585,7 +38578,7 @@ var initiiereTPopMassn = function() {
     });
 };
 
-module.exports = initiiereTPopMassn;
+module.exports = returnFunction;
 },{"./initiierePop":33,"jquery":5,"underscore":6}],40:[function(require,module,exports){
 'use strict';
 
@@ -38593,7 +38586,7 @@ var $ = require('jquery'),
     initiierePop = require('./initiierePop');
 //require('jquery-ui');
 
-var initiiereTPopMassnBer = function() {
+var returnFunction = function() {
     if (!localStorage.tpopmassnber_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiierePop();
@@ -38626,7 +38619,7 @@ var initiiereTPopMassnBer = function() {
     });
 };
 
-module.exports = initiiereTPopMassnBer;
+module.exports = returnFunction;
 },{"./initiierePop":33,"jquery":5}],41:[function(require,module,exports){
 'use strict';
 
@@ -38634,7 +38627,7 @@ var $ = require('jquery'),
     initiiereAp = require('./initiiereAp');
 //require('jquery-ui');
 
-var initiiereZielber = function() {
+var returnFunction = function() {
     if (!localStorage.zielber_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp();
@@ -38670,14 +38663,14 @@ var initiiereZielber = function() {
     });
 };
 
-module.exports = initiiereZielber;
+module.exports = returnFunction;
 },{"./initiiereAp":22,"jquery":5}],42:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
     _ = require('underscore');
 
-var zeigeTPop = function(tpop_liste) {
+var returnFunction = function(tpop_liste) {
     var anz_tpop,
         infowindow,
         tpop_beschriftung,
@@ -38802,5 +38795,5 @@ var zeigeTPop = function(tpop_liste) {
     }
 };
 
-module.exports = zeigeTPop;
+module.exports = returnFunction;
 },{"../lib/cHtoWGSlat":7,"../lib/cHtoWGSlng":8,"jquery":5,"underscore":6}]},{},[1]);
