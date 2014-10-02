@@ -1808,16 +1808,11 @@ window.apf.erstelle_tree = function(ApArtId) {
 					neue_tpop_id = ziel_parent_node_id;
 				}
 				// Zuerst eine neue Zuordnung erstellen
-				var insertZuordnung = $.ajax({
+				$.ajax({
 					type: 'post',
-					url: 'php/beob_zuordnung_insert.php',
-					dataType: 'json',
-					data: {
-						"no_note": herkunft_node_id,
-						"user": sessionStorage.User
-					}
-				});
-				insertZuordnung.always(function() {
+					url: 'api/v1/insert/apflora/tabelle=tblBeobZuordnung/feld=NO_NOTE/wert=' + herkunft_node_id + '/user=' + sessionStorage.User,
+					dataType: 'json'
+				}).done(function() {
 					// jetzt aktualisieren
 					var updateBeob = $.ajax({
 						type: 'post',
@@ -1850,24 +1845,18 @@ window.apf.erstelle_tree = function(ApArtId) {
 						//window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
 						console.log('Fehler: Die Beobachtung wurde nicht zugeordnet');
 					});
-				});
-				insertZuordnung.fail(function() {
+				}).fail(function() {
 					//window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
 					console.log('Fehler: Die Beobachtung wurde nicht zugeordnet');
 				});
 			}
 			if (ziel_node_typ === "beob_nicht_zuzuordnen" || ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
 				// nicht beurteilt > nicht zuordnen
-				var insertZuordnung_2 = $.ajax({
+				$.ajax({
 					type: 'post',
-					url: 'php/beob_zuordnung_insert.php',
-					dataType: 'json',
-					data: {
-						"no_note": herkunft_node_id,
-						"user": sessionStorage.User
-					}
-				});
-				insertZuordnung_2.always(function() {
+					url: 'api/v1/insert/apflora/tabelle=tblBeobZuordnung/feld=NO_NOTE/wert=' + herkunft_node_id + '/user=' + sessionStorage.User,
+					dataType: 'json'
+				}).done(function() {
 					// jetzt aktualisieren
 					var updateBeob_2 = $.ajax({
 						type: 'post',
@@ -1895,8 +1884,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 					updateBeob_2.fail(function() {
 						console.log("Fehler: Die Beobachtung wurde nicht zugeordnet");
 					});
-				});
-				insertZuordnung_2.fail(function() {
+				}).fail(function() {
 					//window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
 					console.log("Fehler: Die Beobachtung wurde nicht zugeordnet");
 				});
