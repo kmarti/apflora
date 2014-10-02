@@ -1,6 +1,6 @@
 'use strict';
 
-var _ = require('underscore'),
+var _                     = require('underscore'),
     erstelleTPopFeldKontr = require('./tpopFeldkontr');
 
 var returnFunction = function(tpopFeldkontrListe, tpop) {

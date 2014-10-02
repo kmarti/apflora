@@ -8,24 +8,26 @@ var _             = require('underscore'),
         user: config.db.userName,
         password: config.db.passWord,
         database: 'alexande_apflora'
-    }),
-    response      = {},
-    responseArray = [];
+    });
 
 var jberÜbersicht = function(JBerJahr) {
     connection.query(
         'SELECT JbuJahr FROM tblJBerUebersicht WHERE JbuJahr=' + JBerJahr,
         function(err, data) {
+            var node      = {},
+                nodeArray = [];
+
             if (err) throw err;
+
             if (data && data[0]) {
                 data = data[0];
-                response.data = 'Übersicht zu allen Arten';
-                response.attr = {
+                node.data = 'Übersicht zu allen Arten';
+                node.attr = {
                     id: data.JbuJahr,
                     typ: 'jber_uebersicht'
                 };
-                responseArray.push(response);
-                return responseArray;
+                nodeArray.push(node);
+                return nodeArray;
             } else {
                 return null;
             }

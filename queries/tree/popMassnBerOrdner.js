@@ -4,10 +4,9 @@ var _ = require('underscore'),
     erstellePopMassnBer = require('./popMassnBer');
 
 var returnFunction = function(popMassnBerListe, pop) {
-    var popNodeMassnberOrdner = {},
-        popNodeMassnberOrdnerChildren = [],
+    var popMassnberOrdner = {},
         massnberVonPop,
-        popNodeMassnberNode;
+        popMassnberNode;
 
     // Liste der MassnBer dieser pop erstellen
     massnberVonPop = _.filter(popMassnBerListe, function(popMassnBer) {
@@ -15,20 +14,20 @@ var returnFunction = function(popMassnBerListe, pop) {
     });
 
     // tpopOrdnerTpopber aufbauen
-    popNodeMassnberOrdner.data = 'Massnahmen-Berichte (' + massnberVonPop.length + ')';
-    popNodeMassnberOrdner.attr = {
+    popMassnberOrdner.data = 'Massnahmen-Berichte (' + massnberVonPop.length + ')';
+    popMassnberOrdner.attr = {
         id: pop.PopId,
         typ: 'pop_ordner_massnber'
     };
-    popNodeMassnberOrdner.children = popNodeMassnberOrdnerChildren;
+    popMassnberOrdner.children = [];
 
     // massnber aufbauen
     _.each(massnberVonPop, function(massnber) {
-        popNodeMassnberNode = erstellePopMassnBer(massnber);
-        popNodeMassnberOrdnerChildren.push(popNodeMassnberNode);
+        popMassnberNode = erstellePopMassnBer(massnber);
+        popMassnberOrdner.children.push(popMassnberNode);
     });
 
-    return popNodeMassnberOrdner;
+    return popMassnberOrdner;
 };
 
 module.exports = returnFunction;

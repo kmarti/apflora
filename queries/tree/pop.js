@@ -116,18 +116,18 @@ var returnFunction = function(request, reply) {
                 );
             }
         }, function(err, results) {
-            var popBerListe      = results.popBerListe || [],
+            var popBerListe      = results.popBerListe      || [],
                 popMassnBerListe = results.popMassnBerListe || [],
                 popOrdnerNode    = {},
                 popOrdnerNodeChildren;
 
             // node für ap_ordner_pop aufbauen
-            popOrdnerNode.data = 'Populationen (' + popListe.length + ')';
-            popOrdnerNode.attr = {
+            popOrdnerNode.data     = 'Populationen (' + popListe.length + ')';
+            popOrdnerNode.attr     = {
                 id: 'ap_ordner_pop' + apId,
                 typ: 'ap_ordner_pop'
             };
-            popOrdnerNodeChildren = [];
+            popOrdnerNodeChildren  = [];
             popOrdnerNode.children = popOrdnerNodeChildren;
 
             // PopNr: Je nach Anzahl Stellen der maximalen PopNr bei denjenigen mit weniger Nullen

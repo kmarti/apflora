@@ -4,8 +4,7 @@ var _ = require('underscore'),
     erstellePopBer = require('./popBer');
 
 var returnFunction = function(popBerListe, pop) {
-	var popNodePopberOrdner         = {},
-    	popNodePopberOrdnerChildren = [],
+    var popPopberOrdner = {},
         popberVonPop,
         popBerNode;
 
@@ -14,21 +13,21 @@ var returnFunction = function(popBerListe, pop) {
         return popBer.PopId === pop.PopId;
     });
 
-	// tpopOrdnerTpopber aufbauen
-    popNodePopberOrdner.data = 'Populations-Berichte (' + popberVonPop.length + ')';
-    popNodePopberOrdner.attr = {
+    // tpopOrdnerTpopber aufbauen
+    popPopberOrdner.data = 'Populations-Berichte (' + popberVonPop.length + ')';
+    popPopberOrdner.attr = {
         id: pop.PopId,
         typ: 'pop_ordner_popber'
     };
-    popNodePopberOrdner.children = popNodePopberOrdnerChildren;
+    popPopberOrdner.children = [];
 
     // popber aufbauen
     _.each(popberVonPop, function(popber) {
         popBerNode = erstellePopBer(popber);
-        popNodePopberOrdnerChildren.push(popBerNode);
+        popPopberOrdner.children.push(popBerNode);
     });
 
-    return popNodePopberOrdner;
+    return popPopberOrdner;
 };
 
 module.exports = returnFunction;

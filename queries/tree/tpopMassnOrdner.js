@@ -1,6 +1,6 @@
 'use strict';
 
-var _ = require('underscore'),
+var _                 = require('underscore'),
     erstelleTpopMassn = require('./tpopMassn');
 
 var returnFunction = function(tpopMassnListe, tpop) {

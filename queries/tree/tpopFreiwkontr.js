@@ -19,7 +19,7 @@ var returnFunction = function(freiwkontr) {
             typ: 'tpopfreiwkontr'
         };
     }
-    
+
     return node;
 };
 

@@ -1,11 +1,10 @@
 'use strict';
 
-var _ = require('underscore'),
+var _               = require('underscore'),
     erstelleTPopBer = require('./tpopBer');
 
 var returnFunction = function(tpopBerListe, tpop) {
-    var tpopNodeTpopberOrdner = {},
-        tpopNodeTpopberOrdnerChildren = [],
+    var tpopTpopberOrdner = {},
         tpopberVonTpop,
         tpopBerNode;
 
@@ -15,20 +14,20 @@ var returnFunction = function(tpopBerListe, tpop) {
     });
 
     // tpopOrdnerTpopber aufbauen
-    tpopNodeTpopberOrdner.data = 'Teilpopulations-Berichte (' + tpopberVonTpop.length + ')';
-    tpopNodeTpopberOrdner.attr = {
+    tpopTpopberOrdner.data = 'Teilpopulations-Berichte (' + tpopberVonTpop.length + ')';
+    tpopTpopberOrdner.attr = {
         id: 'tpop_ordner_tpopber' + tpop.TPopId,
         typ: 'tpop_ordner_tpopber'
     };
-    tpopNodeTpopberOrdner.children = tpopNodeTpopberOrdnerChildren;
+    tpopTpopberOrdner.children = [];
 
     // tpopber aufbauen
     _.each(tpopberVonTpop, function(tpopber) {
         tpopBerNode = erstelleTPopBer(tpopber);
-        tpopNodeTpopberOrdnerChildren.push(tpopBerNode);
+        tpopTpopberOrdner.children.push(tpopBerNode);
     });
 
-    return tpopNodeTpopberOrdner;
+    return tpopTpopberOrdner;
 };
 
 module.exports = returnFunction;

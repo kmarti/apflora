@@ -9,12 +9,10 @@ var _          = require('underscore'),
         user: config.db.userName,
         password: config.db.passWord,
         database: 'alexande_apflora'
-    }),
-    response   = {},
-    apId;
+    });
 
 var returnFunction = function(request, reply) {
-    apId = decodeURIComponent(request.params.apId);
+    var apId = decodeURIComponent(request.params.apId);
 
     // query ber AND jberUebersicht first
     async.parallel({
@@ -36,22 +34,26 @@ var returnFunction = function(request, reply) {
         }
     }, function (err, results) {
         var jberListe = results.jberListe,
-            responseChildren;
-        response.data = 'AP-Berichte (' + jberListe.length + ')';
-        response.attr = {
+            nodeChildren,
+            node = {};
+
+        node.data = 'AP-Berichte (' + jberListe.length + ')';
+        node.attr = {
             id: 'ap_ordner_jber' + apId,
             typ: 'ap_ordner_jber'
         };
-        responseChildren = buildChildrenForJBerOrdner(results);
-        response.children = responseChildren;
-        reply(null, response);
+        nodeChildren = buildChildrenForJBerOrdner(results);
+        node.children = nodeChildren;
+
+        reply(null, node);
     });
 };
 
 function buildChildrenForJBerOrdner(results) {
     var childrenArray = [],
         object,
-        beschriftung = '(kein Jahr)';
+        beschriftung  = '(kein Jahr)';
+
     _.each(results.jberListe, function(jber) {
         object = {};
 
@@ -68,6 +70,7 @@ function buildChildrenForJBerOrdner(results) {
         }
         childrenArray.push(object);
     });
+
     return childrenArray;
 }
 
