@@ -31480,24 +31480,18 @@ window.apf.treeKontextmenu = function(node) {
                     "separator_before": true,
                     "icon": "style/images/flora_icon_gelb.png",
                     "action": function() {
-                        var getTpopsKarte = $.ajax({
+                        $.ajax({
                             type: 'get',
-                            url: 'php/tpops_karte.php',
-                            dataType: 'json',
-                            data: {
-                                "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                            }
-                        });
-                        getTpopsKarte.always(function(data) {
-                            if (data.rows.length > 0) {
+                            url: 'api/v1/tpopsKarte/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
+                            dataType: 'json'
+                        }).done(function(data) {
+                            if (data.length > 0) {
                                 window.apf.zeigeTPopAufOlmap(data);
                             } else {
                                 window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
                             }
-                        });
-                        getTpopsKarte.fail(function() {
-                            //window.apf.melde("Fehler: Keine Teilpopulationen erhalten");
-                            console.log('Fehler: Keine Teilpopulationen erhalten');
+                        }).fail(function() {
+                            window.apf.melde("Fehler: Keine Teilpopulationen erhalten");
                         });
                     }
                 },

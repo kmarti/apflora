@@ -61,7 +61,8 @@ var  _                              = require('underscore'),
     queryPopKarteAlle               = require('./queries/popKarteAlle'),
     queryPopChKarte                 = require('./queries/popChKarte'),
     queryPopsChKarte                = require('./queries/popsChKarte'),
-    queryTPopKarte                  = require('./queries/tpopKarte')
+    queryTPopKarte                  = require('./queries/tpopKarte'),
+    queryTPopsKarte                 = require('./queries/tpopsKarte'),
     queryTPopKarteAlle              = require('./queries/tpopKarteAlle');
 
 connectionApflora.connect();
@@ -388,6 +389,12 @@ server.route({
     method: 'GET',
     path: '/api/v1/tpopKarte/tpopId={tpopId}',
     handler: queryTPopKarte
+});
+
+server.route({
+    method: 'GET',
+    path: '/api/v1/tpopsKarte/popId={popId}',
+    handler: queryTPopsKarte
 });
 
 server.route({
