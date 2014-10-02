@@ -59998,6 +59998,7 @@ var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
 
     var url,
         url_distzutpop,
+        urlZuordnung,
         $BeobBemerkungen = $("#BeobBemerkungen"),
         idFeld;
 
@@ -60086,9 +60087,14 @@ var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
 
                     if (beobStatus !== "nicht_beurteilt") {
                         // Daten der Zuordnung holen
+                        if (beobTyp === 'evab') {
+                            urlZuordnung = 'api/v1/apflora/tabelle=tblBeobZuordnung/feld=NO_NOTE/wertString=' + beobId;
+                        } else {
+                            urlZuordnung = 'api/v1/apflora/tabelle=tblBeobZuordnung/feld=NO_NOTE/wertNumber=' + beobId;
+                        }
                         $.ajax({
                             type: 'get',
-                            url: 'api/v1/apflora/tabelle=tblBeobZuordnung/feld=NO_NOTE/wertString=' + beobId,
+                            url: urlZuordnung,
                             dataType: 'json'
                         }).done(function(data) {
                             // Felder mit Daten beliefern
