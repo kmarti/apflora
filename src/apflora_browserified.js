@@ -37441,7 +37441,9 @@ var returnFunction = function() {
             window.apf.idealbiotop      = data;
 
             // Felder mit Daten beliefern
-            $("#IbErstelldatum").val(dateFormat(data.IbErstelldatum, 'yyyy.mm.dd'));
+            if (data.IbErstelldatum) {
+                $("#IbErstelldatum").val(dateFormat(data.IbErstelldatum, 'yyyy.mm.dd'));
+            }
             $("#IbHoehenlage").val(data.IbHoehenlage);
             $("#IbRegion").val(data.IbRegion);
             $("#IbExposition").val(data.IbExposition);
@@ -37631,7 +37633,9 @@ var returnFunction = function() {
             $("#JBerBTxt").val(data.JBerBTxt);
             $("#JBerCTxt").val(data.JBerCTxt);
             $("#JBerDTxt").val(data.JBerDTxt);
-            $("#JBerDatum").val(dateFormat(data.JBerDatum, 'yyyy.mm.dd'));
+            if (data.JBerDatum) {
+                $("#JBerDatum").val(dateFormat(data.JBerDatum, 'yyyy.mm.dd'));
+            }
             // JBerBearb: Daten holen - oder vorhandene nutzen
             if (!window.apf.adressen_html) {
                 $.ajax({
@@ -38087,7 +38091,9 @@ var returnFunction = function() {
             // gemeinsame Felder
             // mit Daten beliefern
             $TPopKontrJahr.val(data.TPopKontrJahr);
-            $("#TPopKontrDatum").val(dateFormat(data.TPopKontrDatum, 'yyyy.mm.dd'));
+            if (data.TPopKontrDatum) {
+                $("#TPopKontrDatum").val(dateFormat(data.TPopKontrDatum, 'yyyy.mm.dd'));
+            }
             $("#TPopKontrMethode1" + data.TPopKontrMethode1).prop("checked", true);
             $("#TPopKontrAnz1").val(data.TPopKontrAnz1);
             $("#TPopKontrMethode2" + data.TPopKontrMethode2).prop("checked", true);
@@ -38414,7 +38420,9 @@ var returnFunction = function() {
                 .val(data.TPopMassnTxt)
                 .limiter(255, $("#TPopMassnTxt_limit"));
             $("#TPopMassnJahr").val(data.TPopMassnJahr);
-            $("#TPopMassnDatum").val(dateFormat(data.TPopMassnDatum, 'yyyy.mm.dd'));
+            if (data.TPopMassnDatum) {
+                $("#TPopMassnDatum").val(dateFormat(data.TPopMassnDatum, 'yyyy.mm.dd'));
+            }
             // TPopMassnBearb: Daten holen - oder vorhandene nutzen
             if (!window.apf.adressen_html) {
                 var getAdressen = $.ajax({

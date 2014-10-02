@@ -62,7 +62,9 @@ var returnFunction = function() {
                 .val(data.TPopMassnTxt)
                 .limiter(255, $("#TPopMassnTxt_limit"));
             $("#TPopMassnJahr").val(data.TPopMassnJahr);
-            $("#TPopMassnDatum").val(dateFormat(data.TPopMassnDatum, 'yyyy.mm.dd'));
+            if (data.TPopMassnDatum) {
+                $("#TPopMassnDatum").val(dateFormat(data.TPopMassnDatum, 'yyyy.mm.dd'));
+            }
             // TPopMassnBearb: Daten holen - oder vorhandene nutzen
             if (!window.apf.adressen_html) {
                 var getAdressen = $.ajax({

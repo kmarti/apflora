@@ -46,7 +46,9 @@ var returnFunction = function() {
             // gemeinsame Felder
             // mit Daten beliefern
             $TPopKontrJahr.val(data.TPopKontrJahr);
-            $("#TPopKontrDatum").val(dateFormat(data.TPopKontrDatum, 'yyyy.mm.dd'));
+            if (data.TPopKontrDatum) {
+                $("#TPopKontrDatum").val(dateFormat(data.TPopKontrDatum, 'yyyy.mm.dd'));
+            }
             $("#TPopKontrMethode1" + data.TPopKontrMethode1).prop("checked", true);
             $("#TPopKontrAnz1").val(data.TPopKontrAnz1);
             $("#TPopKontrMethode2" + data.TPopKontrMethode2).prop("checked", true);
