@@ -65,7 +65,7 @@ var returnFunction = function (apId, popId, tpopId, tpopBerId) {
 
             // Formulare blenden
             window.apf.zeigeFormular("tpopber");
-            history.replaceState({tpopber: "tpopber"}, "tpopber", "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopber=" + tpopBerId);
+            history.pushState(null, null, "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopber=" + tpopBerId);
 
             // bei neuen Datensätzen Fokus steuern
             $('#TPopBerJahr').focus();

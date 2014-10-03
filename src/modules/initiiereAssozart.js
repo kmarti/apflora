@@ -57,7 +57,7 @@ var returnFunction = function (apId, assozId) {
 
             // Formulare blenden
             window.apf.zeigeFormular("assozarten");
-            history.replaceState({assozarten: "assozarten"}, "assozarten", "index.html?ap=" + apId + "&assozarten=" + assozId);
+            history.pushState(null, null, "index.html?ap=" + apId + "&assozarten=" + assozId);
 
             // bei neuen Datensätzen Fokus steuern
             if (!$AaSisfNr.val()) {

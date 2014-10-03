@@ -356,7 +356,7 @@ window.apf.initiiereExporte = function (anchor) {
     $("#testart_div").hide();
     $("#forms_titelzeile").hide();
     window.apf.zeigeFormular("exporte");
-    history.replaceState({ex: "ex"}, "ex", "index.html?exporte=true");
+    history.pushState(null, null, "index.html?exporte=true");
     if (anchor) {
         location.hash = "#" + anchor;
     }
@@ -6746,7 +6746,7 @@ window.apf.wähleAp = function (ap_id) {
         $("#exportieren_1").show();
         $("#ap").hide();
         window.apf.zeigeFormular();
-        history.replaceState({ap: "ap"}, "ap", "index.html");
+        history.pushState(null, null, "index.html");
     }
 };
 
@@ -7361,7 +7361,7 @@ window.apf.undeleteDatensatz = function () {
             // TODO: DAS TESTEN
             // Formulare blenden
             window.apf.zeigeFormular("ap");
-            history.replaceState({ap: "ap"}, "ap", "index.html?ap=" + id);
+            history.pushState(null, null, "index.html?ap=" + id);
         } else {
             //tree neu aufbauen
             $.when(window.apf.erstelle_tree(localStorage.ap_id))

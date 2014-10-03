@@ -2280,6 +2280,11 @@
 
                 window.apf.initiiereIndex();
 
+                // sicherstellen, dass die Rücktaste des Browsers benutzt werden kann
+                $(window).on('popstate', function() {
+                	window.apf.öffneUri();
+                });
+
                 $('#olmap_layertree')
                     .on('click', '.olmap_layertree_checkbox', function(event) {
                         var layers = window.apf.olmap.map.getLayers().getArray();

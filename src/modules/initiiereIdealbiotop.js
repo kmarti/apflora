@@ -65,7 +65,7 @@ var initiiereIdealbiotop = function (apId) {
 
             // Formulare blenden
             window.apf.zeigeFormular("idealbiotop");
-            history.replaceState({idealbiotop: "idealbiotop"}, "idealbiotop", "index.html?ap=" + localStorage.ap_id + "&idealbiotop=" + localStorage.idealbiotop_id);
+            history.pushState(null, null, "index.html?ap=" + localStorage.ap_id + "&idealbiotop=" + localStorage.idealbiotop_id);
 
             // bei neuen Datensätzen Fokus steuern
             if (!$IbErstelldatum.val()) {

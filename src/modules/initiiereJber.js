@@ -86,7 +86,7 @@ var returnFunction = function (apId, apBerId) {
 
             // Formulare blenden
             window.apf.zeigeFormular("jber");
-            history.replaceState({jber: "jber"}, "jber", "index.html?ap=" + localStorage.ap_id + "&jber=" + localStorage.jber_id);
+            history.pushState(null, null, "index.html?ap=" + localStorage.ap_id + "&jber=" + localStorage.jber_id);
 
             // bei neuen Datensätzen Fokus steuern
             if (!$JBerJahr.val()) {

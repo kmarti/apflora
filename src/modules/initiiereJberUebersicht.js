@@ -58,7 +58,7 @@ var returnFunction = function (apId, uebId) {
 
             // Formulare blenden
             window.apf.zeigeFormular("jber_uebersicht");
-            history.replaceState({jber_uebersicht: "jber_uebersicht"}, "jber_uebersicht", "index.html?ap=" + apId + "&jber_uebersicht=" + uebId);
+            history.pushState(null, null, "index.html?ap=" + apId + "&jber_uebersicht=" + uebId);
 
             // bei neuen Datensätzen Fokus steuern
             if (!$JbuJahr.val()) {

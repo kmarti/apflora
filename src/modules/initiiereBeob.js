@@ -134,9 +134,9 @@ var returnFunction = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
                             if (!ohneZuZeigen) {
                                 window.apf.zeigeFormular("beob");
                                 if (beobStatus === "zugeordnet") {
-                                    history.replaceState({beob_zugeordnet: "beob_zugeordnet"}, "beob_zugeordnet", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&beob_zugeordnet=" + beobId);
+                                    history.pushState(null, null, "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&beob_zugeordnet=" + beobId);
                                 } else if (beobStatus === "nicht_zuzuordnen") {
-                                    history.replaceState({beob_nicht_zuzuordnen: "beob_nicht_zuzuordnen"}, "beob_nicht_zuzuordnen", "index.html?ap=" + localStorage.ap_id + "&beob_nicht_zuzuordnen=" + beobId);
+                                    history.pushState(null, null, "index.html?ap=" + localStorage.ap_id + "&beob_nicht_zuzuordnen=" + beobId);
                                 }
                             }
                         });
@@ -154,7 +154,7 @@ var returnFunction = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
                         // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
                         if (!ohneZuZeigen) {
                             window.apf.zeigeFormular("beob");
-                            history.replaceState({beob_nicht_beurteilt: "beob_nicht_beurteilt"}, "beob_nicht_beurteilt", "index.html?ap=" + localStorage.ap_id + "&beob_nicht_beurteilt=" + beobId);
+                            history.pushState(null, null, "index.html?ap=" + localStorage.ap_id + "&beob_nicht_beurteilt=" + beobId);
                         }
                     }
                 }

@@ -54,7 +54,7 @@ var returnFunction = function (apId) {
                 });
                 // Formulare blenden
                 window.apf.zeigeFormular("ap");
-                history.replaceState({ap: "ap"}, "ap", "index.html?ap=" + data.ApArtId);
+                history.pushState(null, null, "index.html?ap=" + data.ApArtId);
             }
         }).fail(function () {
             window.apf.melde('Fehler: Keine Daten für den Aktionsplan erhalten');

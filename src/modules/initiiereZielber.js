@@ -72,7 +72,7 @@ var returnFunction = function (apId, apZielId, zielberId) {
 
             // Formulare blenden
             window.apf.zeigeFormular("zielber");
-            history.replaceState({zielber: "zielber"}, "zielber", "index.html?ap=" + apId + "&apziel=" + apZielId + "&zielber=" + zielberId);
+            history.pushState(null, null, "index.html?ap=" + apId + "&apziel=" + apZielId + "&zielber=" + zielberId);
 
             // bei neuen Datensätzen Fokus steuern
             if (!$ZielBerJahr.val()) {

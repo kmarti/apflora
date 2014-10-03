@@ -74,7 +74,7 @@ var initiiereBer = function (apId, berId) {
 
             // Formulare blenden
             window.apf.zeigeFormular("ber");
-            history.replaceState({ber: "ber"}, "ber", "index.html?ap=" + localStorage.ap_id + "&ber=" + localStorage.ber_id);
+            history.pushState(null, null, "index.html?ap=" + localStorage.ap_id + "&ber=" + localStorage.ber_id);
 
             // bei neuen Datensätzen Fokus steuern
             if (!$BerAutor.val()) {

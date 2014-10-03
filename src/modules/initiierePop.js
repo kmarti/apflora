@@ -78,7 +78,7 @@ var returnFunction = function (apId, popId, ohne_zu_zeigen) {
             // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
             if (!ohne_zu_zeigen) {
                 window.apf.zeigeFormular("pop");
-                history.replaceState({pop: "pop"}, "pop", "index.html?ap=" + apId + "&pop=" + popId);
+                history.pushState(null, null, "index.html?ap=" + apId + "&pop=" + popId);
 
                 // bei neuen Datensätzen Fokus steuern
                 if (!$PopName.val()) {

@@ -123,7 +123,7 @@ var returnFunction = function (apId, popId, tpopId, ohne_zu_zeigen) {
             // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
             if (!ohne_zu_zeigen) {
                 window.apf.zeigeFormular("tpop");
-                history.replaceState({tpop: "tpop"}, "tpop", "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId);
+                history.pushState(null, null, "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId);
 
                 // bei neuen Datensätzen Fokus steuern
                 if (!$TPopFlurname.val()) {

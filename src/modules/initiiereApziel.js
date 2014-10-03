@@ -55,7 +55,7 @@ var returnFunction = function (apId, apZielId) {
             $("#ZielBezeichnung").val(data.ZielBezeichnung);
             // Formulare blenden
             window.apf.zeigeFormular("apziel");
-            history.replaceState({apziel: "apziel"}, "apziel", "index.html?ap=" + apId + "&apziel=" + apZielId);
+            history.pushState(null, null, "index.html?ap=" + apId + "&apziel=" + apZielId);
             // bei neuen Datensätzen Fokus steuern
             if (!$ZielJahr.val()) {
                 $ZielJahr.focus();

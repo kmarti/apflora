@@ -253,9 +253,9 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
             // Formulare blenden
             window.apf.zeigeFormular("tpopfeldkontr");
             if (kontrTyp === 'feldKontr') {
-                history.replaceState({tpopfeldkontr: "tpopfeldkontr"}, "tpopfeldkontr", "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopfeldkontr=" + feldKontrId);
+                history.pushState(null, null, "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopfeldkontr=" + feldKontrId);
             } else {
-                history.replaceState({tpopfreiwkontr: "tpopfreiwkontr"}, "tpopfreiwkontr", "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopfreiwkontr=" + feldKontrId);
+                history.pushState(null, null, "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopfreiwkontr=" + feldKontrId);
             }
 
             // Register in Feldkontr blenden
