@@ -32,12 +32,11 @@ window.apf.hole_artliste_html = function() {
     // wird benutzt von function window.apf.erstelle_artlisten und window.apf.initiiere_tpopmassn
     // baut eine vollständige Artliste auf
     if (!window.apf.artliste_html) {
-        var getArtliste = $.ajax({
+        $.ajax({
             type: 'get',
             url: 'api/v1/artliste',
             dataType: 'json'
-        });
-        getArtliste.always(function(data) {
+        }).done(function(data) {
             var html;
             html = "<option></option>";
             _.each(data, function(art) {
@@ -71,12 +70,11 @@ window.apf.erstelle_artlisten = function() {
 window.apf.setzeWindowPop = function(id) {
     'use strict';
     localStorage.pop_id = id;
-    var getPop = $.ajax({
+    $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblPopulation/feld=PopId/wertNumber=' + localStorage.pop_id,
         dataType: 'json'
-    });
-    getPop.done(function(data) {
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // pop bereitstellen
@@ -90,12 +88,11 @@ window.apf.setzeWindowPop = function(id) {
 window.apf.setzeWindowApziel = function(id) {
     'use strict';
     localStorage.apziel_id = id;
-    var getApziel = $.ajax({
+    $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblZiel/feld=ZielId/wertNumber=' + localStorage.apziel_id,
         dataType: 'json'
-    });
-    getApziel.done(function(data) {
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // apziel bereitstellen
@@ -109,12 +106,11 @@ window.apf.setzeWindowApziel = function(id) {
 window.apf.setzeWindowZielber = function(id) {
     'use strict';
     localStorage.zielber_id = id;
-    var getZielber = $.ajax({
+    $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblZielBericht/feld=ZielBerId/wertString=' + localStorage.zielber_id,
         dataType: 'json'
-    });
-    getZielber.always(function(data) {
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // zielber bereitstellen
@@ -128,12 +124,11 @@ window.apf.setzeWindowZielber = function(id) {
 window.apf.setzeWindowErfkrit = function(id) {
     'use strict';
     localStorage.erfkrit_id = id;
-    var getErfkrit = $.ajax({
+    $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblErfKrit/feld=ErfkritId/wertString=' + localStorage.erfkrit_id,
         dataType: 'json'
-    });
-    getErfkrit.done(function(data) {
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // erfkrit bereitstellen
@@ -147,12 +142,11 @@ window.apf.setzeWindowErfkrit = function(id) {
 window.apf.setzeWindowJber = function(id) {
     'use strict';
     localStorage.jber_id = id;
-    var getJber = $.ajax({
+    $.ajax({
         type: 'get',
         url: '/api/v1/apflora/tabelle=tblJBer/feld=JBerId/wertNumber=' + localStorage.jber_id,
         dataType: 'json'
-    });
-    getJber.always(function(data) {
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // jber bereitstellen
@@ -166,12 +160,11 @@ window.apf.setzeWindowJber = function(id) {
 window.apf.setzeWindowJberUebersicht = function(id) {
     'use strict';
     localStorage.jber_uebersicht_id = id;
-    var getJberUebersicht = $.ajax({
+    $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wertNumber=' + localStorage.jber_uebersicht_id,
         dataType: 'json'
-    });
-    getJberUebersicht.done(function(data) {
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // jber_uebersicht bereitstellen
@@ -185,12 +178,11 @@ window.apf.setzeWindowJberUebersicht = function(id) {
 window.apf.setzeWindowBer = function(id) {
     'use strict';
     localStorage.ber_id = id;
-    var getBer = $.ajax({
+    $.ajax({
         type: 'get',
         url: '/api/v1/apflora/tabelle=tblBer/feld=BerId/wertNumber=' + localStorage.ber_id,
         dataType: 'json'
-    });
-    getBer.done(function(data) {
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
@@ -205,12 +197,11 @@ window.apf.setzeWindowBer = function(id) {
 window.apf.setzeWindowIdealbiotop = function(id) {
     'use strict';
     localStorage.idealbiotop_id = id;
-    var getIdealbiotop = $.ajax({
+    $.ajax({
         type: 'get',
         url: '/api/v1/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wertNumber=' + localStorage.idealbiotop_id,
         dataType: 'json'
-    });
-    getIdealbiotop.done(function(data) {
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // idealbiotop bereitstellen
@@ -224,12 +215,11 @@ window.apf.setzeWindowIdealbiotop = function(id) {
 window.apf.setzeWindowAssozarten = function(id) {
     'use strict';
     localStorage.assozarten_id = id;
-    var getAssozarten = $.ajax({
+    $.ajax({
         type: 'get',
         url: '/api/v1/apflora/tabelle=tblAssozArten/feld=AaId/wertNumber=' + localStorage.assozarten_id,
         dataType: 'json'
-    });
-    getAssozarten.done(function(data) {
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data) {
             // assozarten bereitstellen
@@ -243,12 +233,11 @@ window.apf.setzeWindowAssozarten = function(id) {
 window.apf.setzeWindowPopmassnber = function(id) {
     'use strict';
     localStorage.popmassnber_id = id;
-    var getPopmassnber = $.ajax({
+    $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblPopMassnBericht/feld=PopMassnBerId/wertNumber=' + localStorage.popmassnber_id,
         dataType: 'json'
-    });
-    getPopmassnber.done(function(data) {
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // popmassnber bereitstellen
@@ -262,12 +251,11 @@ window.apf.setzeWindowPopmassnber = function(id) {
 window.apf.setzeWindowTpop = function(id) {
     'use strict';
     localStorage.tpop_id = id;
-    var getTPop = $.ajax({
+    $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + localStorage.tpop_id,
         dataType: 'json'
-    });
-    getTPop.done(function(data) {
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // tpop bereitstellen
@@ -281,12 +269,11 @@ window.apf.setzeWindowTpop = function(id) {
 window.apf.setzeWindowPopber = function(id) {
     'use strict';
     localStorage.popber_id = id;
-    var getPopber = $.ajax({
+    $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblPopBericht/feld=PopBerId/wertNumber=' + localStorage.popber_id,
         dataType: 'json'
-    });
-    getPopber.done(function(data) {
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // popber bereitstellen
@@ -300,12 +287,11 @@ window.apf.setzeWindowPopber = function(id) {
 window.apf.setzeWindowTpopfeldkontr = function(id) {
     'use strict';
     localStorage.tpopfeldkontr_id = id;
-    var getTpopfeldkontr = $.ajax({
+    $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + localStorage.tpopfeldkontr_id,
         dataType: 'json'
-    });
-    getTpopfeldkontr.done(function(data) {
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // tpopfeldkontr bereitstellen
@@ -319,12 +305,11 @@ window.apf.setzeWindowTpopfeldkontr = function(id) {
 window.apf.setzeWindowTpopmassn = function(id) {
     'use strict';
     localStorage.tpopmassn_id = id;
-    var getTPopMassn = $.ajax({
+    $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblTeilPopMassnahme/feld=TPopMassnId/wertNumber=' + localStorage.tpopmassn_id,
         dataType: 'json'
-    });
-    getTPopMassn.done(function(data) {
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // tpopmassn bereitstellen
@@ -338,12 +323,11 @@ window.apf.setzeWindowTpopmassn = function(id) {
 window.apf.setzeWindowTpopmassnber = function(id) {
     'use strict';
     localStorage.tpopmassnber_id = id;
-    var getTPopMassnBer = $.ajax({
+    $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblTeilPopMassnBericht/feld=TPopMassnBerId/wertNumber=' + localStorage.tpopmassnber_id,
         dataType: 'json'
-    });
-    getTPopMassnBer.done(function(data) {
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // tpopmassnber bereitstellen
@@ -357,12 +341,11 @@ window.apf.setzeWindowTpopmassnber = function(id) {
 window.apf.setzeWindowTpopber = function(id) {
     'use strict';
     localStorage.tpopber_id = id;
-    var getTPopBer = $.ajax({
+    $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblTeilPopBericht/feld=TPopBerId/wertNumber=' + localStorage.tpopber_id,
         dataType: 'json'
-    });
-    getTPopBer.done(function(data) {
+    }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // tpopber bereitstellen
@@ -600,13 +583,12 @@ window.apf.fitTextareaToContent = function(id, maxHeight) {
 
 window.apf.erstelle_ap_liste = function(programm) {
     'use strict';
-    var apliste_erstellt = $.Deferred(),
-        getApliste = $.ajax({
-            type: 'get',
-            url: 'api/v1/apliste/programm=' + programm,
-            dataType: 'json'
-        });
-    getApliste.always(function(data) {
+    var apliste_erstellt = $.Deferred();
+    $.ajax({
+        type: 'get',
+        url: 'api/v1/apliste/programm=' + programm,
+        dataType: 'json'
+    }).done(function(data) {
         var html;
         html = "<option></option>";
         _.each(data, function(ap) {
@@ -1376,12 +1358,11 @@ window.apf.erstelle_tree = function(ApArtId) {
         if (herkunft_node_typ === "pop") {
             if (ziel_node_typ === "pop") {
                 console.log('verschiebe pop');
-                var fügePopEin = $.ajax({
+                $.ajax({
                     type: 'post',
                     url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + ziel_node_id + '/feld=ApArtId/wert=' + ziel_parent_node_id + '/user=' + sessionStorage.User,
                     dataType: 'json'
-                });
-                fügePopEin.done(function() {
+                }).done(function() {
                     var initiierePop = require('./modules/initiierePop');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_pop(ziel_parent_node);
@@ -1394,8 +1375,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     delete window.apf.pop;
                     delete window.apf.herkunft_parent_node;
                     initiierePop();
-                });
-                fügePopEin.fail(function(data) {
+                }).fail(function() {
                     window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
                 });
             }
@@ -1418,7 +1398,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     delete window.apf.tpop_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
                     initiiereTPop();
-                }).fail(function(data) {
+                }).fail(function() {
                     window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
                 });
             }
@@ -1440,7 +1420,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     delete window.apf.tpop;
                     delete window.apf.tpop_node_ausgeschnitten;
                     initiiereTPop();
-                }).fail(function(data) {
+                }).fail(function() {
                     window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
                 });
             }
@@ -1465,7 +1445,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     delete window.apf.tpop_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
                     initiiereTPop();
-                }).fail(function(data) {
+                }).fail(function() {
                     window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
                 });
             }
@@ -1488,19 +1468,18 @@ window.apf.erstelle_tree = function(ApArtId) {
                     delete window.apf.tpop_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
                     initiiereTPop();
-                }).fail(function(data) {
+                }).fail(function() {
                     window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
                 });
             }
         }
         if (herkunft_node_typ === "tpopmassn") {
             if (ziel_node_typ === "tpopmassn") {
-                var fügeTPopMassnEin = $.ajax({
+                $.ajax({
                     type: 'post',
                     url: 'api/v1/update/apflora/tabelle=tblTeilPopMassnahme/tabelleIdFeld=TPopId/tabelleId=' + ziel_parent_node_id + '/feld=TPopMassnId/wert=' + herkunft_node_id + '/user=' + sessionStorage.User,
                     dataType: 'json'
-                });
-                fügeTPopMassnEin.done(function() {
+                }).done(function() {
                     var initiiereTPopMassn = require('./modules/initiiereTPopMassn');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpopmassn(ziel_parent_node);
@@ -1514,10 +1493,8 @@ window.apf.erstelle_tree = function(ApArtId) {
                     delete window.apf.tpopmassn_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
                     initiiereTPopMassn();
-                });
-                fügeTPopMassnEin.fail(function(data) {
-                    //window.apf.melde("Fehler: Die Massnahme wurde nicht verschoben");
-                    console.log("Fehler: Die Massnahme wurde nicht verschoben");
+                }).fail(function() {
+                    window.apf.melde("Fehler: Die Massnahme wurde nicht verschoben");
                 });
             }
             if (ziel_node_typ === "tpop_ordner_massn") {
