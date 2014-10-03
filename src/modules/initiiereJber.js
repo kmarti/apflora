@@ -1,10 +1,11 @@
 'use strict';
 
-var $           = require('jquery'),
-    dateFormat  = require('dateformat'),
-    _           = require('underscore'),
-    limiter     = require('../lib/limiter'),
-    initiiereAp = require('./initiiereAp');
+var $               = require('jquery'),
+    dateFormat      = require('dateformat'),
+    _               = require('underscore'),
+    limiter         = require('../lib/limiter'),
+    initiiereAp     = require('./initiiereAp'),
+    getAdressenHtml = require('./getAdressenHtml');
 
 var returnFunction = function() {
     var $JBerJahr = $("#JBerJahr");
@@ -53,32 +54,12 @@ var returnFunction = function() {
             if (data.JBerDatum) {
                 $("#JBerDatum").val(dateFormat(data.JBerDatum, 'yyyy.mm.dd'));
             }
-            // JBerBearb: Daten holen - oder vorhandene nutzen
-            if (!window.apf.adressen_html) {
-                $.ajax({
-                    type: 'get',
-                    url: 'api/v1/adressen',
-                    dataType: 'json'
-                }).done(function(data2) {
-                    if (data2) {
-                        // adressen bereitstellen
-                        // Feld mit Daten beliefern
-                        var html;
-                        html = "<option></option>";
-                        _.each(data2, function(adresse) {
-                            html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
-                        });
-                        window.apf.adressen_html = html;
-                        $("#JBerBearb")
-                            .html(html)
-                            .val(window.apf.jber.JBerBearb);
-                    }
-                });
-            } else {
+            // adressen holen, um JBerBearb zu füllen
+            getAdressenHtml(function(html) {
                 $("#JBerBearb")
-                    .html(window.apf.adressen_html)
+                    .html(html)
                     .val(window.apf.jber.JBerBearb);
-            }
+            });
 
             // Formulare blenden
             window.apf.zeigeFormular("jber");

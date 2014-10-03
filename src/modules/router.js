@@ -1,9 +1,10 @@
 'use strict';
 
-var $ = require('jquery'),
-    Backbone = require('backbone'),
-    initiiereAp = require('./initiiereAp'),
-    initiiereIndex = require('./initiiereIndex');
+var $                    = require('jquery'),
+    Backbone             = require('backbone'),
+    initiiereIndex       = require('./initiiereIndex'),
+    initiiereAp          = require('./initiiereAp'),
+    initiiereAssozart    = require('./initiiereAssozart');
 
 var returnFunction = function() {
     var router = new Backbone.Router.extend({
@@ -39,6 +40,7 @@ var returnFunction = function() {
             initiiereAp(apId);
         },
         assozart: function(apId, assozId) {
+            initiiereAssozart(apId, assozId);
         },
         idealbiotop: function(apId) {
         },

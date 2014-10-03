@@ -1,10 +1,11 @@
 'use strict';
 
-var $            = require('jquery'),
-    dateFormat   = require('dateformat'),
-    _            = require('underscore'),
-    limiter      = require('../lib/limiter'),
-    initiierePop = require('./initiierePop');
+var $               = require('jquery'),
+    dateFormat      = require('dateformat'),
+    _               = require('underscore'),
+    limiter         = require('../lib/limiter'),
+    initiierePop    = require('./initiierePop'),
+    getAdressenHtml = require('./getAdressenHtml');
 
 var returnFunction = function() {
 
@@ -66,31 +67,12 @@ var returnFunction = function() {
             if (data.TPopMassnDatum) {
                 $("#TPopMassnDatum").val(dateFormat(data.TPopMassnDatum, 'yyyy.mm.dd'));
             }
-            // TPopMassnBearb: Daten holen - oder vorhandene nutzen
-            if (!window.apf.adressen_html) {
-                $.ajax({
-                    type:     'get',
-                    url:      'api/v1/adressen',
-                    dataType: 'json'
-                }).done(function(data2) {
-                    if (data2) {
-                        // Feld mit Daten beliefern
-                        var html;
-                        html = "<option></option>";
-                        _.each(data2, function(adresse) {
-                            html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
-                        });
-                        window.apf.adressen_html = html;
-                        $("#TPopMassnBearb")
-                            .html(html)
-                            .val(window.apf.tpopmassn.TPopMassnBearb);
-                    }
-                });
-            } else {
+            // Adressen holen, um TPopMassnBearb zu füllen
+            getAdressenHtml(function(html) {
                 $("#TPopMassnBearb")
-                    .html(window.apf.adressen_html)
+                    .html(html)
                     .val(window.apf.tpopmassn.TPopMassnBearb);
-            }
+            });
             $("#TPopMassnBemTxt").val(data.TPopMassnBemTxt);
             if (data.TPopMassnPlan === 1) {
                 $("#TPopMassnPlan").prop("checked", true);

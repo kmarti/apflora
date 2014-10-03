@@ -72,12 +72,10 @@ var initiiereIdealbiotop = function() {
                 url: '/api/v1/insert/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wert=' + localStorage.ap_id + '/user=' + sessionStorage.User,
                 dataType: 'json'
             }).done(function() {
-                console.log('neues idealbiotop');
                 localStorage.idealbiotop_id = localStorage.ap_id;
                 initiiereIdealbiotop();
             }).fail(function() {
-                //window.apf.melde("Fehler: Kein Idealbiotop erstellt");
-                console.log("Fehler: Kein Idealbiotop erstellt");
+                window.apf.melde("Fehler: Kein Idealbiotop erstellt");
             });
         }
     });

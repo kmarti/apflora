@@ -4,11 +4,12 @@
 
 'use strict';
 
-var $            = require('jquery'),
-    dateFormat   = require('dateformat'),
-    _            = require('underscore'),
-    limiter      = require('../lib/limiter'),
-    initiierePop = require('./initiierePop');
+var $               = require('jquery'),
+    dateFormat      = require('dateformat'),
+    _               = require('underscore'),
+    limiter         = require('../lib/limiter'),
+    initiierePop    = require('./initiierePop'),
+    getAdressenHtml = require('./getAdressenHtml');
 
 require('jquery-ui');
 
@@ -62,31 +63,12 @@ var returnFunction = function() {
             $("#TPopKontrAnz3").val(data.TPopKontrAnz3);
             $("#TPopKontrTxt").val(data.TPopKontrTxt);
             $("#TPopKontrGuid").val(data.TPopKontrGuid);
-            // TPopKontrBearb: Daten holen - oder vorhandene nutzen
-            if (!window.apf.adressen_html) {
-                $.ajax({
-                    type:     'get',
-                    url:      'api/v1/adressen',
-                    dataType: 'json'
-                }).done(function(data2) {
-                    if (data2) {
-                        // Feld mit Daten beliefern
-                        var html;
-                        html = "<option></option>";
-                        _.each(data2, function(adresse) {
-                            html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
-                        });
-                        window.apf.adressen_html = html;
-                        $("#TPopKontrBearb")
-                            .html(html)
-                            .val(window.apf.tpopfeldkontr.TPopKontrBearb);
-                    }
-                });
-            } else {
+            // Adressen holen, um TPopKontrBearb zu füllen
+            getAdressenHtml(function(html) {
                 $("#TPopKontrBearb")
-                    .html(window.apf.adressen_html)
+                    .html(html)
                     .val(window.apf.tpopfeldkontr.TPopKontrBearb);
-            }
+            });
             // für 3 selectfelder TPopKontrZaehleinheit Daten holen - oder vorhandene nutzen
             if (!window.apf.TPopKontrZähleinheit_html) {
                 $.ajax({

@@ -1,9 +1,10 @@
 'use strict';
 
-var $            = require('jquery'),
-    _            = require('underscore'),
-    limiter      = require('../lib/limiter'),
-    initiierePop = require('./initiierePop');
+var $               = require('jquery'),
+    _               = require('underscore'),
+    limiter         = require('../lib/limiter'),
+    initiierePop    = require('./initiierePop'),
+    getAdressenHtml = require('./getAdressenHtml');
 
 var returnFunction = function(ohne_zu_zeigen) {
 
@@ -87,35 +88,13 @@ var returnFunction = function(ohne_zu_zeigen) {
                 .val(data.TPopBewirtschaftung)
                 .limiter(255, $("#TPopBewirtschaftung_limit"));
             $("#TPopTxt").val(data.TPopTxt);
-            // für select Daten holen - oder vorhandene nutzen
-            if (!window.apf.adressen_html) {
-                $.ajax({
-                    type: 'get',
-                    url: 'api/v1/adressen',
-                    dataType: 'json'
-                }).done(function(data2) {
-                    if (data2) {
-                        // adressen bereitstellen
-                        window.apf.adressen = data2;
-                        localStorage.adressen = JSON.stringify(data2);
 
-                        // Feld mit Daten beliefern
-                        var html;
-                        html = "<option></option>";
-                        _.each(data2, function(adresse) {
-                            html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
-                        });
-                        window.apf.adressen_html = html;
-                        $("#TPopVerantw")
-                            .html(html)
-                            .val(window.apf.tpop.TPopVerantw);
-                    }
-                });
-            } else {
+            // Adressen holen, um TPopVerantw zu füllen
+            getAdressenHtml(function(html) {
                 $("#TPopVerantw")
-                    .html(window.apf.adressen_html)
+                    .html(html)
                     .val(window.apf.tpop.TPopVerantw);
-            }
+            });
 
             // Formulare blenden
             // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
@@ -130,8 +109,7 @@ var returnFunction = function(ohne_zu_zeigen) {
             }
         }
     }).fail(function() {
-        //window.apf.melde('Fehler: keine Daten für die Teilpopulation erhalten');
-        console.log('Fehler: keine Daten für die Teilpopulation erhalten');
+        window.apf.melde('Fehler: keine Daten für die Teilpopulation erhalten');
     });
 };
 

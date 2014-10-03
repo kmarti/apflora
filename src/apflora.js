@@ -1155,7 +1155,7 @@ window.apf.erstelle_tree = function(ApArtId) {
             initiiereJber           = require('./modules/initiiereJber'),
             initiiereJberUebersicht = require('./modules/initiiereJberUebersicht'),
             initiiereBer            = require('./modules/initiiereBer'),
-            initiiereAssozarten     = require('./modules/initiiereAssozarten'),
+            initiiereAssozart       = require('./modules/initiiereAssozart'),
             initiierePopMassnBer    = require('./modules/initiierePopMassnBer'),
             initiiereTPop           = require('./modules/initiiereTPop'),
             initiierePopBer         = require('./modules/initiierePopBer'),
@@ -1230,7 +1230,7 @@ window.apf.erstelle_tree = function(ApArtId) {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
             if (!$("#assozarten").is(':visible') || localStorage.assozarten_id !== node_id) {
                 localStorage.assozarten_id = node_id;
-                initiiereAssozarten();
+                initiiereAssozart(localStorage.ap_id, node_id);
             }
         } else if (node_typ === "popber") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden

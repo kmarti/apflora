@@ -24070,7 +24070,7 @@ window.apf.erstelle_tree = function(ApArtId) {
             initiiereJber           = require('./modules/initiiereJber'),
             initiiereJberUebersicht = require('./modules/initiiereJberUebersicht'),
             initiiereBer            = require('./modules/initiiereBer'),
-            initiiereAssozarten     = require('./modules/initiiereAssozarten'),
+            initiiereAssozart       = require('./modules/initiiereAssozart'),
             initiierePopMassnBer    = require('./modules/initiierePopMassnBer'),
             initiiereTPop           = require('./modules/initiiereTPop'),
             initiierePopBer         = require('./modules/initiierePopBer'),
@@ -24145,7 +24145,7 @@ window.apf.erstelle_tree = function(ApArtId) {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
             if (!$("#assozarten").is(':visible') || localStorage.assozarten_id !== node_id) {
                 localStorage.assozarten_id = node_id;
-                initiiereAssozarten();
+                initiiereAssozart(localStorage.ap_id, node_id);
             }
         } else if (node_typ === "popber") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -33219,7 +33219,7 @@ window.apf.erstelleGuid = function() {
         return v.toString(16);
     });
 };
-},{"./lib/cHtoWGSlat":8,"./lib/cHtoWGSlng":9,"./lib/ddInChX":11,"./lib/ddInChY":12,"./modules/configuration":22,"./modules/initiiereAp":23,"./modules/initiiereApziel":24,"./modules/initiiereAssozarten":25,"./modules/initiiereBeob":26,"./modules/initiiereBer":27,"./modules/initiiereErfkrit":28,"./modules/initiiereFormularMitStrukturtyp":29,"./modules/initiiereIdealbiotop":30,"./modules/initiiereIndex":31,"./modules/initiiereJber":32,"./modules/initiiereJberUebersicht":33,"./modules/initiierePop":34,"./modules/initiierePopBer":35,"./modules/initiierePopMassnBer":36,"./modules/initiiereTPop":37,"./modules/initiiereTPopBer":38,"./modules/initiiereTPopFeldkontr":39,"./modules/initiiereTPopMassn":40,"./modules/initiiereTPopMassnBer":41,"./modules/initiiereZielber":42,"./modules/router":43,"./modules/zeigeTPop":44}],2:[function(require,module,exports){
+},{"./lib/cHtoWGSlat":8,"./lib/cHtoWGSlng":9,"./lib/ddInChX":11,"./lib/ddInChY":12,"./modules/configuration":22,"./modules/initiiereAp":24,"./modules/initiiereApziel":25,"./modules/initiiereAssozart":26,"./modules/initiiereBeob":27,"./modules/initiiereBer":28,"./modules/initiiereErfkrit":29,"./modules/initiiereFormularMitStrukturtyp":30,"./modules/initiiereIdealbiotop":31,"./modules/initiiereIndex":32,"./modules/initiiereJber":33,"./modules/initiiereJberUebersicht":34,"./modules/initiierePop":35,"./modules/initiierePopBer":36,"./modules/initiierePopMassnBer":37,"./modules/initiiereTPop":38,"./modules/initiiereTPopBer":39,"./modules/initiiereTPopFeldkontr":40,"./modules/initiiereTPopMassn":41,"./modules/initiiereTPopMassnBer":42,"./modules/initiiereZielber":43,"./modules/router":44,"./modules/zeigeTPop":45}],2:[function(require,module,exports){
 module.exports={
     "user": "alexande",
     "pass": "y3oYksFsQL49es9x"
@@ -61070,7 +61070,7 @@ config.tables = [
         mutWannFeld: 'MutWann',
         mutWerFeld: 'MutWer',
         form: 'assozarten',
-        initiiereFunktion: 'initiiereAssozarten',
+        initiiereFunktion: 'initiiereAssozart',
         treeTyp: 'assozarten'
     },
     {
@@ -61126,19 +61126,64 @@ config.tables = [
 
 module.exports = config;
 },{"../../dbPass.json":2}],23:[function(require,module,exports){
+/**
+ * baut das html für die Dropdown-Liste der Adressen
+ * wird in mehreren Felder benutzt
+ * speichert die Liste in window.apf.adressen_html
+ * um wiederholte DB-Zugriffe zu vermeiden
+ */
+
 'use strict';
 
 var $ = require('jquery'),
     _ = require('underscore');
 
+var returnFunction = function(callback) {
+    var html = '';
+
+    if (!window.apf.adressen_html) {
+        $.ajax({
+            type: 'get',
+            url: 'api/v1/adressen',
+            dataType: 'json'
+        }).done(function(data2) {
+            if (data2) {
+                // Feld mit Daten beliefern
+                html = "<option></option>";
+                _.each(data2, function(adresse) {
+                    html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
+                });
+                window.apf.adressen_html = html;
+            }
+            callback(html);
+        });
+    }
+    callback(window.apf.adressen_html);
+};
+
+module.exports = returnFunction;
+},{"jquery":6,"underscore":7}],24:[function(require,module,exports){
+'use strict';
+
+var $               = require('jquery'),
+    _               = require('underscore'),
+    initiiereIndex  = require('./initiiereIndex'),
+    getAdressenHtml = require('./getAdressenHtml');
+
 var returnFunction = function(apId) {
+    // prüfen, ob voraussetzungen gegeben sind
     if (!localStorage.ap_id && !apId) {
         // es fehlen benötigte Daten > zurück zum Anfang
+        initiiereIndex();
         return;
     }
 
-    if (apId) {
+    // apId setzen
+    if (!localStorage.ap_id) {
         localStorage.ap_id = apId;
+    }
+    if (!apId) {
+        apId = localStorage.ap_id;
     }
 
     // Programm-Wahl konfigurieren
@@ -61150,47 +61195,28 @@ var returnFunction = function(apId) {
     // Wenn ein ap ausgewählt ist: Seine Daten anzeigen
     if ($("#ap_waehlen").val() && programm_wahl !== "programm_neu") {
         // Daten für den ap aus der DB holen
-        var getAp = $.ajax({
+        $.ajax({
             type: 'get',
-            url: 'ap=' + localStorage.ap_id,
+            url: 'ap=' + apId,
             dataType: 'json'
         }).done(function(data) {
             // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
             if (data && data[0]) {
+                data = data[0];
                 // ap bereitstellen
-                window.apf.ap = data[0];
+                window.apf.ap = data;
                 // Felder mit Daten beliefern
-                $("#ApStatus" + data[0].ApStatus).prop("checked", true);
-                $("#ApUmsetzung" + data[0].ApUmsetzung).prop("checked", true);
-                $("#ApJahr").val(data[0].ApJahr);
-                $("#ApArtwert").val(data[0].ApArtwert);
-                $("#Artname").val(data[0].Artname);
-                // ApBearb: Daten holen - oder vorhandene nutzen
-                if (!window.apf.adressen_html) {
-                    var getAdressen = $.ajax({
-                        type: 'get',
-                        url: 'api/v1/adressen',
-                        dataType: 'json'
-                    });
-                    getAdressen.done(function(data2) {
-                        if (data2) {
-                            // Feld mit Daten beliefern
-                            var html;
-                            html = "<option></option>";
-                            _.each(data2, function(adresse) {
-                                html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
-                            });
-                            window.apf.adressen_html = html;
-                            $("#ApBearb")
-                                .html(html)
-                                .val(window.apf.ApBearb);
-                        }
-                    });
-                } else {
+                $("#ApStatus" + data.ApStatus).prop("checked", true);
+                $("#ApUmsetzung" + data.ApUmsetzung).prop("checked", true);
+                $("#ApJahr").val(data.ApJahr);
+                $("#ApArtwert").val(data.ApArtwert);
+                $("#Artname").val(data.Artname);
+                // Adressen holen, um ApBearb zu füllen
+                getAdressenHtml(function(html) {
                     $("#ApBearb")
-                        .html(window.apf.adressen_html)
+                        .html(html)
                         .val(window.apf.ApBearb);
-                }
+                });
                 // Formulare blenden
                 window.apf.zeigeFormular("ap");
                 history.replaceState({ap: "ap"}, "ap", "index.html?ap=" + data.ApArtId);
@@ -61203,7 +61229,7 @@ var returnFunction = function(apId) {
 };
 
 module.exports = returnFunction;
-},{"jquery":6,"underscore":7}],24:[function(require,module,exports){
+},{"./getAdressenHtml":23,"./initiiereIndex":32,"jquery":6,"underscore":7}],25:[function(require,module,exports){
 'use strict';
 
 var $           = require('jquery'),
@@ -61253,17 +61279,40 @@ var returnFunction = function() {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":23,"jquery":6}],25:[function(require,module,exports){
+},{"./initiiereAp":24,"jquery":6}],26:[function(require,module,exports){
 'use strict';
 
-var $           = require('jquery'),
-    initiiereAp = require('./initiiereAp');
+var $              = require('jquery'),
+    initiiereIndex = require('./initiiereIndex'),
+    initiiereAp    = require('./initiiereAp');
 
-var returnFunction = function() {
-    if (!localStorage.assozarten_id) {
-        // es fehlen benötigte Daten > eine Ebene höher
-        initiiereAp();
+var returnFunction = function(apId, assozId) {
+    // prüfen, ob voraussetzungen gegeben sind
+    if (!apId && !localStorage.ap_id) {
+        // Anwendung neu initiieren
+        initiiereIndex();
         return;
+    }
+    if (!assozId && !localStorage.assozarten_id) {
+        // es fehlen benötigte Daten > eine Ebene höher
+        initiiereAp(apId);
+        return;
+    }
+
+    // apId setzen
+    if (!localStorage.ap_id) {
+        localStorage.ap_id = apId;
+    }
+    if (!apId) {
+        apId = localStorage.ap_id;
+    }
+
+    // assozId setzen
+    if (!localStorage.assozarten_id) {
+        localStorage.assozarten_id = assozId;
+    }
+    if (!assozId) {
+        assozId = localStorage.assozarten_id;
     }
 
     var $AaSisfNr = $("#AaSisfNr");
@@ -61274,7 +61323,7 @@ var returnFunction = function() {
     // Daten für die assozarten aus der DB holen
     $.ajax({
         type: 'get',
-        url: '/api/v1/apflora/tabelle=tblAssozArten/feld=AaId/wertNumber=' + localStorage.assozarten_id,
+        url: '/api/v1/apflora/tabelle=tblAssozArten/feld=AaId/wertNumber=' + assozId,
         dataType: 'json'
     }).done(function(data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
@@ -61286,7 +61335,7 @@ var returnFunction = function() {
             $("#AaBem").val(data[0].AaBem);
             // Formulare blenden
             window.apf.zeigeFormular("assozarten");
-            history.replaceState({assozarten: "assozarten"}, "assozarten", "index.html?ap=" + localStorage.ap_id + "&assozarten=" + localStorage.assozarten_id);
+            history.replaceState({assozarten: "assozarten"}, "assozarten", "index.html?ap=" + apId + "&assozarten=" + assozId);
             // bei neuen Datensätzen Fokus steuern
             if (!$AaSisfNr.val()) {
                 $AaSisfNr.focus();
@@ -61296,7 +61345,7 @@ var returnFunction = function() {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":23,"jquery":6}],26:[function(require,module,exports){
+},{"./initiiereAp":24,"./initiiereIndex":32,"jquery":6}],27:[function(require,module,exports){
 'use strict';
 
 var $                     = require('jquery'),
@@ -61463,7 +61512,7 @@ var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
 };
 
 module.exports = returnFunction;
-},{"../lib/capitaliseFirstLetter":10,"./initiiereAp":23,"./initiiereBeob":26,"jquery":6,"underscore":7}],27:[function(require,module,exports){
+},{"../lib/capitaliseFirstLetter":10,"./initiiereAp":24,"./initiiereBeob":27,"jquery":6,"underscore":7}],28:[function(require,module,exports){
 'use strict';
 
 var $ = jQuery  = require('jquery'),
@@ -61534,7 +61583,7 @@ var initiiereBer = function() {
 };
 
 module.exports = initiiereBer;
-},{"../lib/limiter":19,"./initiiereAp":23,"jquery":6}],28:[function(require,module,exports){
+},{"../lib/limiter":19,"./initiiereAp":24,"jquery":6}],29:[function(require,module,exports){
 'use strict';
 
 var $           = require('jquery'),
@@ -61587,7 +61636,7 @@ var returnFunction = function() {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":19,"./initiiereAp":23,"jquery":6}],29:[function(require,module,exports){
+},{"../lib/limiter":19,"./initiiereAp":24,"jquery":6}],30:[function(require,module,exports){
 'use strict';
 
 /**
@@ -61611,7 +61660,7 @@ fn.initiiereErfkrit        = require('./initiiereErfkrit');
 fn.initiiereJber           = require('./initiiereJber');
 fn.initiiereJberUebersicht = require('./initiiereJberUebersicht');
 fn.initiiereBer            = require('./initiiereBer');
-fn.initiiereAssozarten     = require('./initiiereAssozarten');
+fn.initiiereAssozart       = require('./initiiereAssozart');
 fn.initiierePopMassnBer    = require('./initiierePopMassnBer');
 fn.initiiereTPop           = require('./initiiereTPop');
 fn.initiierePopBer         = require('./initiierePopBer');
@@ -61636,7 +61685,7 @@ var returnFunction = function(strukturtyp) {
 };
 
 module.exports = returnFunction;
-},{"./configuration":22,"./initiiereAp":23,"./initiiereApziel":24,"./initiiereAssozarten":25,"./initiiereBer":27,"./initiiereErfkrit":28,"./initiiereIdealbiotop":30,"./initiiereJber":32,"./initiiereJberUebersicht":33,"./initiierePop":34,"./initiierePopBer":35,"./initiierePopMassnBer":36,"./initiiereTPop":37,"./initiiereTPopBer":38,"./initiiereTPopFeldkontr":39,"./initiiereTPopMassn":40,"./initiiereTPopMassnBer":41,"./initiiereZielber":42}],30:[function(require,module,exports){
+},{"./configuration":22,"./initiiereAp":24,"./initiiereApziel":25,"./initiiereAssozart":26,"./initiiereBer":28,"./initiiereErfkrit":29,"./initiiereIdealbiotop":31,"./initiiereJber":33,"./initiiereJberUebersicht":34,"./initiierePop":35,"./initiierePopBer":36,"./initiierePopMassnBer":37,"./initiiereTPop":38,"./initiiereTPopBer":39,"./initiiereTPopFeldkontr":40,"./initiiereTPopMassn":41,"./initiiereTPopMassnBer":42,"./initiiereZielber":43}],31:[function(require,module,exports){
 'use strict';
 
 var $                    = require('jquery'),
@@ -61711,19 +61760,17 @@ var initiiereIdealbiotop = function() {
                 url: '/api/v1/insert/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wert=' + localStorage.ap_id + '/user=' + sessionStorage.User,
                 dataType: 'json'
             }).done(function() {
-                console.log('neues idealbiotop');
                 localStorage.idealbiotop_id = localStorage.ap_id;
                 initiiereIdealbiotop();
             }).fail(function() {
-                //window.apf.melde("Fehler: Kein Idealbiotop erstellt");
-                console.log("Fehler: Kein Idealbiotop erstellt");
+                window.apf.melde("Fehler: Kein Idealbiotop erstellt");
             });
         }
     });
 };
 
 module.exports = initiiereIdealbiotop;
-},{"./initiiereAp":23,"dateformat":4,"jquery":6}],31:[function(require,module,exports){
+},{"./initiiereAp":24,"dateformat":4,"jquery":6}],32:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -61808,14 +61855,15 @@ var returnFunction = function() {
 };
 
 module.exports = returnFunction;
-},{"jquery":6,"jquery-ui":5}],32:[function(require,module,exports){
+},{"jquery":6,"jquery-ui":5}],33:[function(require,module,exports){
 'use strict';
 
-var $           = require('jquery'),
-    dateFormat  = require('dateformat'),
-    _           = require('underscore'),
-    limiter     = require('../lib/limiter'),
-    initiiereAp = require('./initiiereAp');
+var $               = require('jquery'),
+    dateFormat      = require('dateformat'),
+    _               = require('underscore'),
+    limiter         = require('../lib/limiter'),
+    initiiereAp     = require('./initiiereAp'),
+    getAdressenHtml = require('./getAdressenHtml');
 
 var returnFunction = function() {
     var $JBerJahr = $("#JBerJahr");
@@ -61864,32 +61912,12 @@ var returnFunction = function() {
             if (data.JBerDatum) {
                 $("#JBerDatum").val(dateFormat(data.JBerDatum, 'yyyy.mm.dd'));
             }
-            // JBerBearb: Daten holen - oder vorhandene nutzen
-            if (!window.apf.adressen_html) {
-                $.ajax({
-                    type: 'get',
-                    url: 'api/v1/adressen',
-                    dataType: 'json'
-                }).done(function(data2) {
-                    if (data2) {
-                        // adressen bereitstellen
-                        // Feld mit Daten beliefern
-                        var html;
-                        html = "<option></option>";
-                        _.each(data2, function(adresse) {
-                            html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
-                        });
-                        window.apf.adressen_html = html;
-                        $("#JBerBearb")
-                            .html(html)
-                            .val(window.apf.jber.JBerBearb);
-                    }
-                });
-            } else {
+            // adressen holen, um JBerBearb zu füllen
+            getAdressenHtml(function(html) {
                 $("#JBerBearb")
-                    .html(window.apf.adressen_html)
+                    .html(html)
                     .val(window.apf.jber.JBerBearb);
-            }
+            });
 
             // Formulare blenden
             window.apf.zeigeFormular("jber");
@@ -61904,7 +61932,7 @@ var returnFunction = function() {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":19,"./initiiereAp":23,"dateformat":4,"jquery":6,"underscore":7}],33:[function(require,module,exports){
+},{"../lib/limiter":19,"./getAdressenHtml":23,"./initiiereAp":24,"dateformat":4,"jquery":6,"underscore":7}],34:[function(require,module,exports){
 'use strict';
 
 var $           = require('jquery'),
@@ -61953,7 +61981,7 @@ var returnFunction = function() {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":23,"jquery":6}],34:[function(require,module,exports){
+},{"./initiiereAp":24,"jquery":6}],35:[function(require,module,exports){
 'use strict';
 
 var $           = require('jquery'),
@@ -62023,7 +62051,7 @@ var returnFunction = function(ohne_zu_zeigen) {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":19,"./initiiereAp":23,"jquery":6}],35:[function(require,module,exports){
+},{"../lib/limiter":19,"./initiiereAp":24,"jquery":6}],36:[function(require,module,exports){
 'use strict';
 
 var $            = require('jquery'),
@@ -62068,7 +62096,7 @@ var returnFunction = function() {
 };
 
 module.exports = returnFunction;
-},{"./initiierePop":34,"jquery":6}],36:[function(require,module,exports){
+},{"./initiierePop":35,"jquery":6}],37:[function(require,module,exports){
 'use strict';
 
 var $            = require('jquery'),
@@ -62113,13 +62141,14 @@ var returnFunction = function() {
 };
 
 module.exports = returnFunction;
-},{"./initiierePop":34,"jquery":6}],37:[function(require,module,exports){
+},{"./initiierePop":35,"jquery":6}],38:[function(require,module,exports){
 'use strict';
 
-var $            = require('jquery'),
-    _            = require('underscore'),
-    limiter      = require('../lib/limiter'),
-    initiierePop = require('./initiierePop');
+var $               = require('jquery'),
+    _               = require('underscore'),
+    limiter         = require('../lib/limiter'),
+    initiierePop    = require('./initiierePop'),
+    getAdressenHtml = require('./getAdressenHtml');
 
 var returnFunction = function(ohne_zu_zeigen) {
 
@@ -62203,35 +62232,13 @@ var returnFunction = function(ohne_zu_zeigen) {
                 .val(data.TPopBewirtschaftung)
                 .limiter(255, $("#TPopBewirtschaftung_limit"));
             $("#TPopTxt").val(data.TPopTxt);
-            // für select Daten holen - oder vorhandene nutzen
-            if (!window.apf.adressen_html) {
-                $.ajax({
-                    type: 'get',
-                    url: 'api/v1/adressen',
-                    dataType: 'json'
-                }).done(function(data2) {
-                    if (data2) {
-                        // adressen bereitstellen
-                        window.apf.adressen = data2;
-                        localStorage.adressen = JSON.stringify(data2);
 
-                        // Feld mit Daten beliefern
-                        var html;
-                        html = "<option></option>";
-                        _.each(data2, function(adresse) {
-                            html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
-                        });
-                        window.apf.adressen_html = html;
-                        $("#TPopVerantw")
-                            .html(html)
-                            .val(window.apf.tpop.TPopVerantw);
-                    }
-                });
-            } else {
+            // Adressen holen, um TPopVerantw zu füllen
+            getAdressenHtml(function(html) {
                 $("#TPopVerantw")
-                    .html(window.apf.adressen_html)
+                    .html(html)
                     .val(window.apf.tpop.TPopVerantw);
-            }
+            });
 
             // Formulare blenden
             // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
@@ -62246,13 +62253,12 @@ var returnFunction = function(ohne_zu_zeigen) {
             }
         }
     }).fail(function() {
-        //window.apf.melde('Fehler: keine Daten für die Teilpopulation erhalten');
-        console.log('Fehler: keine Daten für die Teilpopulation erhalten');
+        window.apf.melde('Fehler: keine Daten für die Teilpopulation erhalten');
     });
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":19,"./initiierePop":34,"jquery":6,"underscore":7}],38:[function(require,module,exports){
+},{"../lib/limiter":19,"./getAdressenHtml":23,"./initiierePop":35,"jquery":6,"underscore":7}],39:[function(require,module,exports){
 'use strict';
 
 var $            = require('jquery'),
@@ -62297,18 +62303,19 @@ var returnFunction = function() {
 };
 
 module.exports = returnFunction;
-},{"./initiierePop":34,"jquery":6}],39:[function(require,module,exports){
+},{"./initiierePop":35,"jquery":6}],40:[function(require,module,exports){
 // wird gemeinsam für Feld- und Freiwilligenkontrollen verwendet
 // Feldkontrollen: Felder der Freiwilligenkontrollen ausblenden
 // Freiwilligenkontrollen: Felder der Feldkontrollen ausblenen plus Register Biotop
 
 'use strict';
 
-var $            = require('jquery'),
-    dateFormat   = require('dateformat'),
-    _            = require('underscore'),
-    limiter      = require('../lib/limiter'),
-    initiierePop = require('./initiierePop');
+var $               = require('jquery'),
+    dateFormat      = require('dateformat'),
+    _               = require('underscore'),
+    limiter         = require('../lib/limiter'),
+    initiierePop    = require('./initiierePop'),
+    getAdressenHtml = require('./getAdressenHtml');
 
 require('jquery-ui');
 
@@ -62362,31 +62369,12 @@ var returnFunction = function() {
             $("#TPopKontrAnz3").val(data.TPopKontrAnz3);
             $("#TPopKontrTxt").val(data.TPopKontrTxt);
             $("#TPopKontrGuid").val(data.TPopKontrGuid);
-            // TPopKontrBearb: Daten holen - oder vorhandene nutzen
-            if (!window.apf.adressen_html) {
-                $.ajax({
-                    type:     'get',
-                    url:      'api/v1/adressen',
-                    dataType: 'json'
-                }).done(function(data2) {
-                    if (data2) {
-                        // Feld mit Daten beliefern
-                        var html;
-                        html = "<option></option>";
-                        _.each(data2, function(adresse) {
-                            html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
-                        });
-                        window.apf.adressen_html = html;
-                        $("#TPopKontrBearb")
-                            .html(html)
-                            .val(window.apf.tpopfeldkontr.TPopKontrBearb);
-                    }
-                });
-            } else {
+            // Adressen holen, um TPopKontrBearb zu füllen
+            getAdressenHtml(function(html) {
                 $("#TPopKontrBearb")
-                    .html(window.apf.adressen_html)
+                    .html(html)
                     .val(window.apf.tpopfeldkontr.TPopKontrBearb);
-            }
+            });
             // für 3 selectfelder TPopKontrZaehleinheit Daten holen - oder vorhandene nutzen
             if (!window.apf.TPopKontrZähleinheit_html) {
                 $.ajax({
@@ -62618,14 +62606,15 @@ var returnFunction = function() {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":19,"./initiierePop":34,"dateformat":4,"jquery":6,"jquery-ui":5,"underscore":7}],40:[function(require,module,exports){
+},{"../lib/limiter":19,"./getAdressenHtml":23,"./initiierePop":35,"dateformat":4,"jquery":6,"jquery-ui":5,"underscore":7}],41:[function(require,module,exports){
 'use strict';
 
-var $            = require('jquery'),
-    dateFormat   = require('dateformat'),
-    _            = require('underscore'),
-    limiter      = require('../lib/limiter'),
-    initiierePop = require('./initiierePop');
+var $               = require('jquery'),
+    dateFormat      = require('dateformat'),
+    _               = require('underscore'),
+    limiter         = require('../lib/limiter'),
+    initiierePop    = require('./initiierePop'),
+    getAdressenHtml = require('./getAdressenHtml');
 
 var returnFunction = function() {
 
@@ -62687,31 +62676,12 @@ var returnFunction = function() {
             if (data.TPopMassnDatum) {
                 $("#TPopMassnDatum").val(dateFormat(data.TPopMassnDatum, 'yyyy.mm.dd'));
             }
-            // TPopMassnBearb: Daten holen - oder vorhandene nutzen
-            if (!window.apf.adressen_html) {
-                $.ajax({
-                    type:     'get',
-                    url:      'api/v1/adressen',
-                    dataType: 'json'
-                }).done(function(data2) {
-                    if (data2) {
-                        // Feld mit Daten beliefern
-                        var html;
-                        html = "<option></option>";
-                        _.each(data2, function(adresse) {
-                            html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
-                        });
-                        window.apf.adressen_html = html;
-                        $("#TPopMassnBearb")
-                            .html(html)
-                            .val(window.apf.tpopmassn.TPopMassnBearb);
-                    }
-                });
-            } else {
+            // Adressen holen, um TPopMassnBearb zu füllen
+            getAdressenHtml(function(html) {
                 $("#TPopMassnBearb")
-                    .html(window.apf.adressen_html)
+                    .html(html)
                     .val(window.apf.tpopmassn.TPopMassnBearb);
-            }
+            });
             $("#TPopMassnBemTxt").val(data.TPopMassnBemTxt);
             if (data.TPopMassnPlan === 1) {
                 $("#TPopMassnPlan").prop("checked", true);
@@ -62760,7 +62730,7 @@ var returnFunction = function() {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":19,"./initiierePop":34,"dateformat":4,"jquery":6,"underscore":7}],41:[function(require,module,exports){
+},{"../lib/limiter":19,"./getAdressenHtml":23,"./initiierePop":35,"dateformat":4,"jquery":6,"underscore":7}],42:[function(require,module,exports){
 'use strict';
 
 var $            = require('jquery'),
@@ -62805,7 +62775,7 @@ var returnFunction = function() {
 };
 
 module.exports = returnFunction;
-},{"./initiierePop":34,"jquery":6}],42:[function(require,module,exports){
+},{"./initiierePop":35,"jquery":6}],43:[function(require,module,exports){
 'use strict';
 
 var $           = require('jquery'),
@@ -62854,13 +62824,14 @@ var returnFunction = function() {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":23,"jquery":6}],43:[function(require,module,exports){
+},{"./initiiereAp":24,"jquery":6}],44:[function(require,module,exports){
 'use strict';
 
-var $ = require('jquery'),
-    Backbone = require('backbone'),
-    initiiereAp = require('./initiiereAp'),
-    initiiereIndex = require('./initiiereIndex');
+var $                    = require('jquery'),
+    Backbone             = require('backbone'),
+    initiiereIndex       = require('./initiiereIndex'),
+    initiiereAp          = require('./initiiereAp'),
+    initiiereAssozart    = require('./initiiereAssozart');
 
 var returnFunction = function() {
     var router = new Backbone.Router.extend({
@@ -62896,6 +62867,7 @@ var returnFunction = function() {
             initiiereAp(apId);
         },
         assozart: function(apId, assozId) {
+            initiiereAssozart(apId, assozId);
         },
         idealbiotop: function(apId) {
         },
@@ -62946,7 +62918,7 @@ var returnFunction = function() {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":23,"./initiiereIndex":31,"backbone":3,"jquery":6}],44:[function(require,module,exports){
+},{"./initiiereAp":24,"./initiiereAssozart":26,"./initiiereIndex":32,"backbone":3,"jquery":6}],45:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),

@@ -142,7 +142,7 @@ config.tables = [
         mutWannFeld: 'MutWann',
         mutWerFeld: 'MutWer',
         form: 'assozarten',
-        initiiereFunktion: 'initiiereAssozarten',
+        initiiereFunktion: 'initiiereAssozart',
         treeTyp: 'assozarten'
     },
     {
