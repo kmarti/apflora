@@ -39,7 +39,7 @@ var returnFunction = function () {
 
             // Formulare blenden
             window.apf.zeigeFormular("erfkrit");
-            history.replaceState({erfkrit: "erfkrit"}, "erfkrit", "index.html?ap=" + localStorage.ap_id + "&erfkrit=" + localStorage.erfkrit_id);
+            history.replaceState({erfkrit: "erfkrit"}, "erfkrit", "index.html?ap=" + localStorage.apId + "&erfkrit=" + localStorage.erfkrit_id);
 
             // bei neuen Datensätzen Fokus steuern
             if (!$ErfkritErreichungsgrad.val()) {

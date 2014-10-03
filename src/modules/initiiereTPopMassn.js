@@ -111,7 +111,7 @@ var returnFunction = function () {
 
                     // Formulare blenden
                     window.apf.zeigeFormular("tpopmassn");
-                    history.replaceState({tpopmassn: "tpopmassn"}, "tpopmassn", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopmassn=" + localStorage.tpopmassn_id);
+                    history.replaceState({tpopmassn: "tpopmassn"}, "tpopmassn", "index.html?ap=" + localStorage.apId + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopmassn=" + localStorage.tpopmassn_id);
 
                     // bei neuen Datensätzen Fokus steuern
                     $('#TPopMassnJahr').focus();

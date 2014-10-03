@@ -8,11 +8,11 @@ var $                     = require('jquery'),
 
 var returnFunction = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
     // beob_status markiert, ob die Beobachtung:
-    // - schon zugewiesen ist (zugeordnet)
+    // - schon zugewiesen ist     (zugeordnet)
     // - noch nicht beurteilt ist (nicht_beurteilt)
-    // - nicht zuzuordnen ist (nicht_zuzuordnen)
+    // - nicht zuzuordnen ist     (nicht_zuzuordnen)
     // beob_status muss gespeichert werden, damit bei Datenänderungen bekannt ist, ob ein bestehender Datensatz bearbeitet oder ein neuer geschaffen werden muss
-    localStorage.beob_status = beobStatus;
+    localStorage.beobStatus = beobStatus;
     // sicherstellen, dass beobtyp immer bekannt ist
     localStorage.beobtyp = beobTyp;
 
@@ -134,9 +134,9 @@ var returnFunction = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
                             if (!ohneZuZeigen) {
                                 window.apf.zeigeFormular("beob");
                                 if (beobStatus === "zugeordnet") {
-                                    history.replaceState({beob_zugeordnet: "beob_zugeordnet"}, "beob_zugeordnet", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&beob_zugeordnet=" + beobId);
+                                    history.replaceState({beob_zugeordnet: "beob_zugeordnet"}, "beob_zugeordnet", "index.html?ap=" + localStorage.apId + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&beob_zugeordnet=" + beobId);
                                 } else if (beobStatus === "nicht_zuzuordnen") {
-                                    history.replaceState({beob_nicht_zuzuordnen: "beob_nicht_zuzuordnen"}, "beob_nicht_zuzuordnen", "index.html?ap=" + localStorage.ap_id + "&beob_nicht_zuzuordnen=" + beobId);
+                                    history.replaceState({beob_nicht_zuzuordnen: "beob_nicht_zuzuordnen"}, "beob_nicht_zuzuordnen", "index.html?ap=" + localStorage.apId + "&beob_nicht_zuzuordnen=" + beobId);
                                 }
                             }
                         });
@@ -154,7 +154,7 @@ var returnFunction = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
                         // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
                         if (!ohneZuZeigen) {
                             window.apf.zeigeFormular("beob");
-                            history.replaceState({beob_nicht_beurteilt: "beob_nicht_beurteilt"}, "beob_nicht_beurteilt", "index.html?ap=" + localStorage.ap_id + "&beob_nicht_beurteilt=" + beobId);
+                            history.replaceState({beob_nicht_beurteilt: "beob_nicht_beurteilt"}, "beob_nicht_beurteilt", "index.html?ap=" + localStorage.apId + "&beob_nicht_beurteilt=" + beobId);
                         }
                     }
                 }

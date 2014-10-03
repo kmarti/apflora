@@ -4,7 +4,9 @@ var $                    = require('jquery'),
     Backbone             = require('backbone'),
     initiiereIndex       = require('./initiiereIndex'),
     initiiereAp          = require('./initiiereAp'),
-    initiiereAssozart    = require('./initiiereAssozart');
+    initiiereAssozart    = require('./initiiereAssozart'),
+    initiiereIdealbiotop = require('./initiiereIdealbiotop'),
+    initiiereBeob        = require('./initiiereBeob');
 
 var returnFunction = function () {
     var router = new Backbone.Router.extend({
@@ -43,8 +45,10 @@ var returnFunction = function () {
             initiiereAssozart(apId, assozId);
         },
         idealbiotop: function (apId) {
+            initiiereIdealbiotop(apId);
         },
         beobNichtZuzuordnen: function (apId, beobId) {
+            //initiiereBeob();
         },
         beobNichtBeurteilt: function (apId, beobId) {
         },

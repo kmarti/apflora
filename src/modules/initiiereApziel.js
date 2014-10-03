@@ -5,7 +5,7 @@ var $           = require('jquery'),
 //require('jquery-ui');
 
 var returnFunction = function () {
-    if (!localStorage.apziel_id) {
+    if (!localStorage.apzielId) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp();
         return;
@@ -20,7 +20,7 @@ var returnFunction = function () {
     // Daten für die apziel aus der DB holen
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblZiel/feld=ZielId/wertNumber=' + localStorage.apziel_id,
+        url: 'api/v1/apflora/tabelle=tblZiel/feld=ZielId/wertNumber=' + localStorage.apzielId,
         dataType: 'json'
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
@@ -34,7 +34,7 @@ var returnFunction = function () {
             $("#ZielBezeichnung").val(data.ZielBezeichnung);
             // Formulare blenden
             window.apf.zeigeFormular("apziel");
-            history.replaceState({apziel: "apziel"}, "apziel", "index.html?ap=" + localStorage.ap_id + "&apziel=" + localStorage.apziel_id);
+            history.replaceState({apziel: "apziel"}, "apziel", "index.html?ap=" + localStorage.apId + "&apziel=" + localStorage.apzielId);
             // bei neuen Datensätzen Fokus steuern
             if (!$ZielJahr.val()) {
                 $ZielJahr.focus();

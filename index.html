@@ -2545,7 +2545,7 @@
                                     width: 500,
                                     buttons: {
                                         ja: function() {
-                                            window.apf.löscheAp(localStorage.ap_id);
+                                            window.apf.löscheAp(localStorage.apId);
                                             $(this).dialog("close");
                                         },
                                         nein: function() {
@@ -2564,7 +2564,7 @@
                         var $BeobNichtBeurteilt = $("#BeobNichtBeurteilt");
                         if ($BeobNichtBeurteilt.prop("checked") === true) {
                             // node verschieben. Den rest macht der callback zu jstree.move_node
-                            $("#tree").jstree("move_node", "#beob" + localStorage.beob_id, "#ap_ordner_beob_nicht_beurteilt" + localStorage.ap_id, "first");
+                            $("#tree").jstree("move_node", "#beob" + localStorage.beob_id, "#ap_ordner_beob_nicht_beurteilt" + localStorage.apId, "first");
                         } else {
                             // es bringt nichts, diesen Haken zu entfernen
                             // stattdessen soll ein anderer Wert gewählt werden
@@ -2574,10 +2574,10 @@
                     .on("change", "#BeobNichtZuordnen", function() {
                         if ($("#BeobNichtZuordnen").prop("checked") === true) {
                             // node verschieben. Der Rest wird vom Callback fon jstree.move_node erledigt
-                            $("#tree").jstree("move_node", "#beob" + localStorage.beob_id, "#ap_ordner_beob_nicht_zuzuordnen" + localStorage.ap_id, "first");
+                            $("#tree").jstree("move_node", "#beob" + localStorage.beob_id, "#ap_ordner_beob_nicht_zuzuordnen" + localStorage.apId, "first");
                         } else {
                             // node verschieben. Den Rest macht der callback zu jstree.move_node
-                            $("#tree").jstree("move_node", "#beob" + localStorage.beob_id, "#ap_ordner_beob_nicht_beurteilt" + localStorage.ap_id, "first");
+                            $("#tree").jstree("move_node", "#beob" + localStorage.beob_id, "#ap_ordner_beob_nicht_beurteilt" + localStorage.apId, "first");
                         }
                     })
                     .on("change", "[name='DistZuTPop']", function() {

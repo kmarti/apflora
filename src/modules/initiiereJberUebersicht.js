@@ -35,7 +35,7 @@ var returnFunction = function () {
 
             // Formulare blenden
             window.apf.zeigeFormular("jber_uebersicht");
-            history.replaceState({jber_uebersicht: "jber_uebersicht"}, "jber_uebersicht", "index.html?ap=" + localStorage.ap_id + "&jber_uebersicht=" + localStorage.jber_uebersicht_id);
+            history.replaceState({jber_uebersicht: "jber_uebersicht"}, "jber_uebersicht", "index.html?ap=" + localStorage.apId + "&jber_uebersicht=" + localStorage.jber_uebersicht_id);
 
             // bei neuen Datensätzen Fokus steuern
             if (!$JbuJahr.val()) {

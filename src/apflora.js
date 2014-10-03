@@ -7,14 +7,14 @@ window.apf.router = require('./modules/router');
 
 window.apf.initiiereIndex = require('./modules/initiiereIndex');
 
-// setzt window.apf und localStorage.ap_id
+// setzt window.apf und localStorage.apId
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowAp = function (id) {
     'use strict';
-    localStorage.ap_id = id;
+    localStorage.apId = id;
     $.ajax({
         type: 'get',
-        url: 'ap=' + localStorage.ap_id,
+        url: 'ap=' + localStorage.apId,
         dataType: 'json'
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
@@ -82,14 +82,14 @@ window.apf.setzeWindowPop = function (id) {
     });
 };
 
-// setzt window.apf.apziel und localStorage.apziel_id
+// setzt window.apf.apziel und localStorage.apzielId
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowApziel = function (id) {
     'use strict';
-    localStorage.apziel_id = id;
+    localStorage.apzielId = id;
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblZiel/feld=ZielId/wertNumber=' + localStorage.apziel_id,
+        url: 'api/v1/apflora/tabelle=tblZiel/feld=ZielId/wertNumber=' + localStorage.apzielId,
         dataType: 'json'
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
@@ -100,14 +100,14 @@ window.apf.setzeWindowApziel = function (id) {
     });
 };
 
-// setzt window.apf.zielber und localStorage.zielber_id
+// setzt window.apf.zielber und localStorage.zielberId
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowZielber = function (id) {
     'use strict';
-    localStorage.zielber_id = id;
+    localStorage.zielberId = id;
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblZielBericht/feld=ZielBerId/wertString=' + localStorage.zielber_id,
+        url: 'api/v1/apflora/tabelle=tblZielBericht/feld=ZielBerId/wertString=' + localStorage.zielberId,
         dataType: 'json'
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
@@ -1079,12 +1079,12 @@ window.apf.erstelle_tree = function (ApArtId) {
             delete window.apf.tpopmassnber_zeigen;
         }
         if (window.apf.apziel_zeigen) {
-            $("#tree").jstree("select_node", "[typ='apziel']#" + localStorage.apziel_id);
+            $("#tree").jstree("select_node", "[typ='apziel']#" + localStorage.apzielId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese apziel geöffnet wird
             delete window.apf.apziel_zeigen;
         }
         if (window.apf.zielber_zeigen) {
-            $("#tree").jstree("select_node", "[typ='zielber']#" + localStorage.zielber_id);
+            $("#tree").jstree("select_node", "[typ='zielber']#" + localStorage.zielberId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese zielber geöffnet wird
             delete window.apf.zielber_zeigen;
         }
@@ -1171,8 +1171,8 @@ window.apf.erstelle_tree = function (ApArtId) {
         $.jstree._reference(node).open_node(node);
         if (node_typ.slice(0, 3) === "ap_" || node_typ === "apzieljahr") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#ap").is(':visible') || localStorage.ap_id !== node_id) {
-                localStorage.ap_id = node_id;
+            if (!$("#ap").is(':visible') || localStorage.apId !== node_id) {
+                localStorage.apId = node_id;
                 delete localStorage.pop_id;
                 initiiereAp();
             }
@@ -1184,14 +1184,14 @@ window.apf.erstelle_tree = function (ApArtId) {
             }
         } else if (node_typ === "apziel" || node_typ === "zielber_ordner") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#apziel").is(':visible') || localStorage.apziel_id !== node_id) {
-                localStorage.apziel_id = node_id;
+            if (!$("#apziel").is(':visible') || localStorage.apzielId !== node_id) {
+                localStorage.apzielId = node_id;
                 initiiereApziel();
             }
         } else if (node_typ === "zielber") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#zielber").is(':visible') || localStorage.zielber_id !== node_id) {
-                localStorage.zielber_id = node_id;
+            if (!$("#zielber").is(':visible') || localStorage.zielberId !== node_id) {
+                localStorage.zielberId = node_id;
                 initiiereZielber();
             }
         } else if (node_typ === "erfkrit") {
@@ -1230,7 +1230,7 @@ window.apf.erstelle_tree = function (ApArtId) {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
             if (!$("#assozarten").is(':visible') || localStorage.assozarten_id !== node_id) {
                 localStorage.assozarten_id = node_id;
-                initiiereAssozart(localStorage.ap_id, node_id);
+                initiiereAssozart(localStorage.apId, node_id);
             }
         } else if (node_typ === "popber") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -1277,14 +1277,14 @@ window.apf.erstelle_tree = function (ApArtId) {
             }
         } else if (node_typ === "beob_zugeordnet") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#beob").is(':visible') || localStorage.beob_id !== node_id || localStorage.beob_status !== "zugeordnet") {
+            if (!$("#beob").is(':visible') || localStorage.beob_id !== node_id || localStorage.beobStatus !== "zugeordnet") {
                 localStorage.beob_id = node_id;
                 localStorage.beobtyp = node.attr("beobtyp");
                 initiiere_beob(node.attr("beobtyp"), node_id, "zugeordnet");
             }
         } else if (node_typ === "beob_nicht_beurteilt") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#beob").is(':visible') || localStorage.beob_id !== node_id || localStorage.beob_status !== "nicht_beurteilt") {
+            if (!$("#beob").is(':visible') || localStorage.beob_id !== node_id || localStorage.beobStatus !== "nicht_beurteilt") {
                 localStorage.beob_id = node_id;
                 localStorage.beobtyp = node.attr("beobtyp");
                 // den Beobtyp mitgeben
@@ -1292,7 +1292,7 @@ window.apf.erstelle_tree = function (ApArtId) {
             }
         } else if (node_typ === "beob_nicht_zuzuordnen") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#beob").is(':visible') || localStorage.beob_id !== node_id || localStorage.beob_status !== "nicht_zuzuordnen") {
+            if (!$("#beob").is(':visible') || localStorage.beob_id !== node_id || localStorage.beobStatus !== "nicht_zuzuordnen") {
                 localStorage.beob_id = node_id;
                 localStorage.beobtyp = node.attr("beobtyp");
                 // den Beobtyp mitgeben
@@ -2236,7 +2236,7 @@ window.apf.speichern = function (that) {
                 feldwert = "";
             }
         }
-        if (feldname === "BeobBemerkungen" && localStorage.beob_status === "nicht_beurteilt") {
+        if (feldname === "BeobBemerkungen" && localStorage.beobStatus === "nicht_beurteilt") {
             // hier soll nicht gespeichert werden
             $("#BeobBemerkungen").val("");
             window.apf.melde("Bemerkungen sind nur in zugeordneten oder nicht zuzuordnenden Beobachtungen möglich", "Aktion abgebrochen");
@@ -2458,7 +2458,7 @@ window.apf.speichern = function (that) {
                 } else {
                     zielbeschriftung = "(Ziel nicht beschrieben)";
                 }
-                $tree.jstree("rename_node", "[typ='apzieljahr'] #" + localStorage.apziel_id, zielbeschriftung);
+                $tree.jstree("rename_node", "[typ='apzieljahr'] #" + localStorage.apzielId, zielbeschriftung);
                 break;
             case "ZielBerJahr":
             case "ZielBerErreichung":
@@ -2472,7 +2472,7 @@ window.apf.speichern = function (that) {
                 } else {
                     zielberbeschriftung = "(kein Jahr): (keine Beurteilung)";
                 }
-                $tree.jstree("rename_node", "[typ='zielber_ordner'] #" + localStorage.zielber_id, zielberbeschriftung);
+                $tree.jstree("rename_node", "[typ='zielber_ordner'] #" + localStorage.zielberId, zielberbeschriftung);
                 break;
             case "ErfkritErreichungsgrad":
             case "ErfkritTxt":
@@ -4610,7 +4610,7 @@ window.apf.öffneTPop = function (tpop_id) {
 
 window.apf.öffneTPopInNeuemTab = function (tpop_id) {
     'use strict';
-    window.open("index.html?ap="+localStorage.ap_id+"&pop=" + localStorage.pop_id+"&tpop="+tpop_id, "_blank");
+    window.open("index.html?ap="+localStorage.apId+"&pop=" + localStorage.pop_id+"&tpop="+tpop_id, "_blank");
 };
 
 window.apf.öffnePop = function (pop_id) {
@@ -4622,7 +4622,7 @@ window.apf.öffnePop = function (pop_id) {
 
 window.apf.öffnePopInNeuemTab = function (pop_id) {
     'use strict';
-    window.open("index.html?ap="+localStorage.ap_id+"&pop=" + pop_id, "_blank");
+    window.open("index.html?ap="+localStorage.apId+"&pop=" + pop_id, "_blank");
 };
 
 window.apf.öffneBeob = function (beob_id) {
@@ -4634,7 +4634,7 @@ window.apf.öffneBeob = function (beob_id) {
 
 window.apf.öffneBeobInNeuemTab = function (beob_id) {
     'use strict';
-    window.open("index.html?ap="+localStorage.ap_id+"&beob_nicht_beurteilt=" + beob_id, "_blank");
+    window.open("index.html?ap="+localStorage.apId+"&beob_nicht_beurteilt=" + beob_id, "_blank");
 };
 
 window.apf.öffneTPopBeob = function (beob_id) {
@@ -4646,7 +4646,7 @@ window.apf.öffneTPopBeob = function (beob_id) {
 
 window.apf.öffneTPopBeobInNeuemTab = function (beob_id) {
     'use strict';
-    window.open("index.html?ap="+localStorage.ap_id+"&beob_nicht_beurteilt=" + beob_id, "_blank");
+    window.open("index.html?ap="+localStorage.apId+"&beob_nicht_beurteilt=" + beob_id, "_blank");
 };
 
 
@@ -5035,7 +5035,7 @@ window.apf.öffneUri = function () {
                 // Die Markierung wird im load-Event wieder entfernt
                 window.apf.apziel_zeigen = true;
                 // direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-                localStorage.apziel_id = uri.getQueryParamValue('apziel');
+                localStorage.apzielId = uri.getQueryParamValue('apziel');
                 initiiereApziel();
             }
         } else if (uri.getQueryParamValue('erfkrit')) {
@@ -5097,7 +5097,7 @@ window.apf.öffneUri = function () {
             // Die Markierung wird im load-Event wieder entfernt
             window.apf.ap_zeigen = true;
             // direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-            localStorage.ap_id = ap_id;
+            localStorage.apId = ap_id;
             initiiereAp();
         }
         window.apf.erstelle_tree(ap_id);
@@ -6702,12 +6702,12 @@ window.apf.wähleAp = function (ap_id) {
     if (ap_id) {
         // einen AP gewählt
         $("#ap_waehlen_label").hide();
-        localStorage.ap_id = ap_id;
+        localStorage.apId = ap_id;
         if ($("[name='programm_wahl']:checked").attr("id") === "programm_neu") {
             // zuerst einen neuen Datensatz anlegen
             var insertAp = $.ajax({
                 type: 'post',
-                url: 'api/v1/apInsert/ap=' + localStorage.ap_id + '/user=' + sessionStorage.User,
+                url: 'api/v1/apInsert/ap=' + localStorage.apId + '/user=' + sessionStorage.User,
                 dataType: 'json'
             });
             insertAp.done(function () {
@@ -6719,12 +6719,12 @@ window.apf.wähleAp = function (ap_id) {
                 $.when(window.apf.wähleApListe("programm_alle"))
                 .then(function () {
                     // Strukturbaum updaten
-                    $.when(window.apf.erstelle_tree(localStorage.ap_id))
+                    $.when(window.apf.erstelle_tree(localStorage.apId))
                     .then(function () {
                         // gewählte Art in Auswahlliste anzeigen
-                        $('#ap_waehlen').val(localStorage.ap_id);
-                        $('#ap_waehlen option[value =' + localStorage.ap_id + ']').attr('selected', true);
-                        $("#ApArtId").val(localStorage.ap_id);
+                        $('#ap_waehlen').val(localStorage.apId);
+                        $('#ap_waehlen option[value =' + localStorage.apId + ']').attr('selected', true);
+                        $("#ApArtId").val(localStorage.apId);
                         // gewählte Art in Formular anzeigen
                         initiiereAp();
                     });
@@ -7207,7 +7207,7 @@ window.apf.löscheAp = function (ap_id) {
     });
     deleteAp.done(function () {
         var $exportieren_2 = $("#exportieren_2");
-        delete localStorage.ap_id;
+        delete localStorage.apId;
         delete window.apf.ap;
         delete localStorage.ap;
         $("#programm_neu").attr("checked", false).trigger('change');
@@ -7367,7 +7367,7 @@ window.apf.undeleteDatensatz = function () {
             history.replaceState({ap: "ap"}, "ap", "index.html?ap=" + id);
         } else {
             //tree neu aufbauen
-            $.when(window.apf.erstelle_tree(localStorage.ap_id))
+            $.when(window.apf.erstelle_tree(localStorage.apId))
                 .then(function () {
                     $("#tree").jstree("select_node", "[typ='" + typ + "']#" + id);
                 });
@@ -7653,7 +7653,7 @@ window.apf.treeKontextmenu = function (node) {
                                         dataType: 'json'
                                     });
                                     deleteApziel.done(function () {
-                                        delete localStorage.apziel_id;
+                                        delete localStorage.apzielId;
                                         delete window.apf.apziel;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
                                         // grandparent Node-Beschriftung: Anzahl anpassen
@@ -7757,7 +7757,7 @@ window.apf.treeKontextmenu = function (node) {
                                         dataType: 'json'
                                     });
                                     deleteZielber.done(function () {
-                                        delete localStorage.zielber_id;
+                                        delete localStorage.zielberId;
                                         delete window.apf.zielber;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
                                         // Parent Node-Beschriftung: Anzahl anpassen
@@ -9857,7 +9857,7 @@ window.apf.treeKontextmenu = function (node) {
                                 beob = beob[0];
                                 var getApKarte = $.ajax({
                                     type: 'get',
-                                    url: 'api/v1/apKarte/apId=' + localStorage.ap_id,
+                                    url: 'api/v1/apKarte/apId=' + localStorage.apId,
                                     dataType: 'json'
                                 });
                                 getApKarte.done(function (tpop) {

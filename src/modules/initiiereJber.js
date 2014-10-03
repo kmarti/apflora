@@ -63,7 +63,7 @@ var returnFunction = function () {
 
             // Formulare blenden
             window.apf.zeigeFormular("jber");
-            history.replaceState({jber: "jber"}, "jber", "index.html?ap=" + localStorage.ap_id + "&jber=" + localStorage.jber_id);
+            history.replaceState({jber: "jber"}, "jber", "index.html?ap=" + localStorage.apId + "&jber=" + localStorage.jber_id);
 
             // bei neuen Datensätzen Fokus steuern
             if (!$JBerJahr.val()) {
