@@ -61641,10 +61641,9 @@ module.exports = returnFunction;
 
 var $                    = require('jquery'),
     dateFormat           = require('dateformat'),
-    initiiereAp          = require('./initiiereAp'),
-    initiiereIdealbiotop = require('./initiiereIdealbiotop');
+    initiiereAp          = require('./initiiereAp');
 
-var returnFunction = function() {
+var initiiereIdealbiotop = function() {
     var $IbErstelldatum  = $("#IbErstelldatum");
 
     if (!localStorage.ap_id) {
@@ -61711,9 +61710,9 @@ var returnFunction = function() {
                 type: 'post',
                 url: '/api/v1/insert/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wert=' + localStorage.ap_id + '/user=' + sessionStorage.User,
                 dataType: 'json'
-            }).done(function(data) {
-                console.log('data returned: ', data);
-                localStorage.idealbiotop_id = data.IbApArtId;
+            }).done(function() {
+                console.log('neues idealbiotop');
+                localStorage.idealbiotop_id = localStorage.ap_id;
                 initiiereIdealbiotop();
             }).fail(function() {
                 //window.apf.melde("Fehler: Kein Idealbiotop erstellt");
@@ -61723,8 +61722,8 @@ var returnFunction = function() {
     });
 };
 
-module.exports = returnFunction;
-},{"./initiiereAp":23,"./initiiereIdealbiotop":30,"dateformat":4,"jquery":6}],31:[function(require,module,exports){
+module.exports = initiiereIdealbiotop;
+},{"./initiiereAp":23,"dateformat":4,"jquery":6}],31:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
