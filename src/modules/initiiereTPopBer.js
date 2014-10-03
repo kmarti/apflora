@@ -70,6 +70,8 @@ var returnFunction = function (apId, popId, tpopId, tpopBerId) {
             // bei neuen Datensätzen Fokus steuern
             $('#TPopBerJahr').focus();
         }
+    }).fail(function () {
+        window.apf.melde('Fehler: keine Daten für den Teilpopulations-Bericht erhalten');
     });
 };
 

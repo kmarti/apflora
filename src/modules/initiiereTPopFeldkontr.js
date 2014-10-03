@@ -276,6 +276,8 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
             $TPopKontrJahr.focus();
             $(window).scrollTop(0);
         }
+    }).fail(function () {
+        window.apf.melde('Fehler: keine Daten für die Kontrolle erhalten');
     });
 };
 

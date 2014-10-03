@@ -16,7 +16,8 @@ var Backbone                = require('backbone'),
     initiierePopBer         = require('./initiierePopBer'),
     initiiereTPop           = require('./initiiereTPop'),
     initiiereTPopBer        = require('./initiiereTPopBer'),
-    initiiereTPopFeldkontr  = require('./initiiereTPopFeldkontr');
+    initiiereTPopFeldkontr  = require('./initiiereTPopFeldkontr'),
+    initiiereTPopMassnBer   = require('./initiiereTPopMassnBer');
 
 var returnFunction = function () {
     var router = new Backbone.Router.extend({
@@ -96,13 +97,14 @@ var returnFunction = function () {
         tpopBer: function (apId, popId, tpopId, tpopBerId) {
             initiiereTPopBer(apId, popId, tpopId, tpopBerId);
         },
-        freiwKontr: function (apId, popId, tpopId, feldKontrId, 'freiwKontr') {
-            initiiereTPopFeldkontr(apId, popId, tpopId, feldKontrId);
+        freiwKontr: function (apId, popId, tpopId, feldKontrId) {
+            initiiereTPopFeldkontr(apId, popId, tpopId, 'freiwKontr');
         },
-        feldKontr: function (apId, popId, tpopId, feldKontrId, 'feldKontr') {
-            initiiereTPopFeldkontr(apId, popId, tpopId, feldKontrId);
+        feldKontr: function (apId, popId, tpopId, feldKontrId) {
+            initiiereTPopFeldkontr(apId, popId, tpopId, 'feldKontr');
         },
         massnBer: function (apId, popId, tpopId, massnBerId) {
+            initiiereTPopMassnBer(apId, popId, tpopId, massnBerId);
         },
         massn: function (apId, popId, tpopId, massnId) {
         },
