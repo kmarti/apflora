@@ -1616,8 +1616,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     initiiereTPopFeldkontr();
                 });
                 fügeTPopFeldkontrEin_4.fail(function() {
-                    //window.apf.melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben");
-                    console.log('Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben');
+                    window.apf.melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben");
                 });
             }
         }
@@ -1774,8 +1773,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                         window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
                     });
                 }).fail(function() {
-                    //window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
-                    console.log('Fehler: Die Beobachtung wurde nicht zugeordnet');
+                    window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
                 });
             }
             if (ziel_node_typ === "beob_nicht_zuzuordnen" || ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
@@ -1813,8 +1811,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                         console.log("Fehler: Die Beobachtung wurde nicht zugeordnet");
                     });
                 }).fail(function() {
-                    //window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
-                    console.log("Fehler: Die Beobachtung wurde nicht zugeordnet");
+                    window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
                 });
             }
         }
@@ -6779,8 +6776,7 @@ window.apf.kopiereKoordinatenInPop = function(x_koord, y_koord) {
                 }, 3000);
             });
             updatePop_4.fail(function() {
-                //window.apf.melde("Fehler: Y-Koordinate wurde nicht kopiert (die X-Koordinate offenbar schon)");
-                console.log('Fehler: Y-Koordinate wurde nicht kopiert (die X-Koordinate offenbar schon)');
+                window.apf.melde("Fehler: Y-Koordinate wurde nicht kopiert (die X-Koordinate offenbar schon)");
             });
         });
         update_pop.fail(function() {
@@ -7493,8 +7489,7 @@ window.apf.treeKontextmenu = function(node) {
                             }
                         });
                         getApKarte.fail(function() {
-                            //window.apf.melde("Fehler: Keine Daten erhalten");
-                            console.log('Fehler: Keine Daten erhalten');
+                            window.apf.melde("Fehler: Keine Daten erhalten");
                         });
                     }
                 }
@@ -7525,11 +7520,10 @@ window.apf.treeKontextmenu = function(node) {
                             delete window.apf.pop_id;
                         });
                         updatePop.fail(function() {
-                            //window.apf.melde("Fehler: Die Population wurde nicht verschoben");
-                            console.log('Fehler: Die Population wurde nicht verschoben');
+                            window.apf.melde("Fehler: Die Population wurde nicht verschoben");
                         });
                     }
-                }
+                };
             }
             return items;
         case "ap_ordner_apziel":
@@ -7560,8 +7554,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertApziel.fail(function() {
-                            //window.apf.melde("Fehler: Keine neues AP-Ziel erstellt");
-                            console.log('Fehler: Keine neues AP-Ziel erstellt');
+                            window.apf.melde("Fehler: Keine neues AP-Ziel erstellt");
                         });
                     }
                 }
@@ -7594,8 +7587,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertApziel_2.fail(function() {
-                            //window.apf.melde("Fehler: Keine neues Ziel erstellt");
-                            console.log('Fehler: Keine neues Ziel erstellt');
+                            window.apf.melde("Fehler: Keine neues Ziel erstellt");
                         });
                     }
                 }
@@ -7623,8 +7615,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertApziel_3.fail(function() {
-                            //window.apf.melde("Fehler: Kein neues AP-Ziel erstellt");
-                            console.log('Fehler: Kein neues AP-Ziel erstellt');
+                            window.apf.melde("Fehler: Kein neues AP-Ziel erstellt");
                         });
                     }
                 },
@@ -7676,8 +7667,7 @@ window.apf.treeKontextmenu = function(node) {
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Das AP-Ziel '" + bezeichnung + "' wurde gelöscht.");
                                     });
                                     deleteApziel.fail(function() {
-                                        //window.apf.melde("Fehler: Das AP-Ziel wurde nicht gelöscht");
-                                        console.log('Fehler: Das AP-Ziel wurde nicht gelöscht');
+                                        window.apf.melde("Fehler: Das AP-Ziel wurde nicht gelöscht");
                                     });
                                 },
                                 "abbrechen": function() {
@@ -7706,8 +7696,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertZielber.fail(function() {
-                            //window.apf.melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
-                            console.log('Fehler: Keinen neuen Ziel-Bericht erstellt');
+                            window.apf.melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
                         });
                     }
                 }
@@ -7730,8 +7719,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertZielber_2.fail(function() {
-                            //window.apf.melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
-                            console.log('Fehler: Keinen neuen Ziel-Bericht erstellt');
+                            window.apf.melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
                         });
                     }
                 },
@@ -7778,8 +7766,7 @@ window.apf.treeKontextmenu = function(node) {
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Der Ziel-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                     });
                                     deleteZielber.fail(function() {
-                                        //window.apf.melde("Fehler: Der Ziel-Bericht wurde nicht gelöscht");
-                                        console.log('Fehler: Der Ziel-Bericht wurde nicht gelöscht');
+                                        window.apf.melde("Fehler: Der Ziel-Bericht wurde nicht gelöscht");
                                     });
                                 },
                                 "abbrechen": function() {
@@ -7808,8 +7795,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertErfkrit.fail(function() {
-                            //window.apf.melde("Fehler: Kein neues Erfolgskriterium erstellt");
-                            console.log('Fehler: Kein neues Erfolgskriterium erstellt');
+                            window.apf.melde("Fehler: Kein neues Erfolgskriterium erstellt");
                         });
                     }
                 }
@@ -7832,8 +7818,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertErfkrit_2.fail(function() {
-                            //window.apf.melde("Fehler: Kein neues Erfolgskriterium erstellt");
-                            console.log('Fehler: Kein neues Erfolgskriterium erstellt');
+                            window.apf.melde("Fehler: Kein neues Erfolgskriterium erstellt");
                         });
                     }
                 },
@@ -7880,8 +7865,7 @@ window.apf.treeKontextmenu = function(node) {
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Das Erfolgskriterium '" + bezeichnung + "' wurde gelöscht.");
                                     });
                                     deleteErfkrit.fail(function() {
-                                        //window.apf.melde("Fehler: Das Erfolgskriterium wurde nicht gelöscht");
-                                        console.log('Fehler: Das Erfolgskriterium wurde nicht gelöscht');
+                                        window.apf.melde("Fehler: Das Erfolgskriterium wurde nicht gelöscht");
                                     });
                                 },
                                 "abbrechen": function() {
@@ -7917,8 +7901,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertJber.fail(function() {
-                            //window.apf.melde("Fehler: Keinen neuen AP-Bericht erstellt");
-                            console.log('Fehler: Keinen neuen AP-Bericht erstellt');
+                            window.apf.melde("Fehler: Keinen neuen AP-Bericht erstellt");
                         });
                     }
                 }
@@ -7941,8 +7924,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertJber_2.fail(function() {
-                            //window.apf.melde("Fehler: Keinen neuen AP-Bericht erstellt");
-                            console.log('Fehler: Keinen neuen AP-Bericht erstellt');
+                            window.apf.melde("Fehler: Keinen neuen AP-Bericht erstellt");
                         });
                     }
                 },
@@ -7989,8 +7971,7 @@ window.apf.treeKontextmenu = function(node) {
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Der AP-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                     });
                                     deleteJber.fail(function() {
-                                        //window.apf.melde("Fehler: Der AP-Bericht wurde nicht gelöscht");
-                                        console.log('Fehler: Der AP-Bericht wurde nicht gelöscht');
+                                        window.apf.melde("Fehler: Der AP-Bericht wurde nicht gelöscht");
                                     });
                                 },
                                 "abbrechen": function() {
@@ -8020,11 +8001,10 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
                         });
                         insertJberUebersicht.fail(function() {
-                            //window.apf.melde("Fehler: Keine Übersicht zu allen Arten erstellt");
-                            console.log('Fehler: Keine Übersicht zu allen Arten erstellt');
+                            window.apf.melde("Fehler: Keine Übersicht zu allen Arten erstellt");
                         });
                     }
-                }
+                };
             }
             return items;
         case "jber_uebersicht":
@@ -8068,8 +8048,7 @@ window.apf.treeKontextmenu = function(node) {
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Die Übersicht für den AP-Bericht des Jahrs \"" + window.apf.deleted.JbuJahr + "\" wurde gelöscht.");
                                     });
                                     deleteJberUebersicht.fail(function() {
-                                        //window.apf.melde("Fehler: Die Übersicht zu allen Arten wurde nicht gelöscht");
-                                        console.log('Fehler: Die Übersicht zu allen Arten wurde nicht gelöscht');
+                                        window.apf.melde("Fehler: Die Übersicht zu allen Arten wurde nicht gelöscht");
                                     });
                                 },
                                 "abbrechen": function() {
@@ -8098,8 +8077,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertBer.fail(function() {
-                            //window.apf.melde("Fehler: Keinen neuen Bericht erstellt");
-                            console.log('Fehler: Keinen neuen Bericht erstellt');
+                            window.apf.melde("Fehler: Keinen neuen Bericht erstellt");
                         });
                     }
                 }
@@ -8122,8 +8100,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertBer_2.fail(function() {
-                            //window.apf.melde("Fehler: Keinen neuen Bericht erstellt");
-                            console.log('Fehler: Keinen neuen Bericht erstellt');
+                            window.apf.melde("Fehler: Keinen neuen Bericht erstellt");
                         });
                     }
                 },
@@ -8170,8 +8147,7 @@ window.apf.treeKontextmenu = function(node) {
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Der Bericht '" + bezeichnung + "' wurde gelöscht.");
                                     });
                                     deleteBer.fail(function() {
-                                        //window.apf.melde("Fehler: Der Bericht wurde nicht gelöscht");
-                                        console.log('Fehler: Der Bericht wurde nicht gelöscht');
+                                        window.apf.melde("Fehler: Der Bericht wurde nicht gelöscht");
                                     });
                                 },
                                 "abbrechen": function() {
@@ -8200,8 +8176,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertAssozarten.fail(function() {
-                            //window.apf.melde("Fehler: keine assoziierte Art erstellt");
-                            console.log('Fehler: keine assoziierte Art erstellt');
+                            window.apf.melde("Fehler: keine assoziierte Art erstellt");
                         });
                     }
                 }
@@ -8222,8 +8197,7 @@ window.apf.treeKontextmenu = function(node) {
                                 beschriftung = "neue assoziierte Art";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         }).fail(function() {
-                            //window.apf.melde("Fehler: Keine assoziierte Art erstellt");
-                            console.log('Fehler: Keine assoziierte Art erstellt');
+                            window.apf.melde("Fehler: Keine assoziierte Art erstellt");
                         });
                     }
                 },
@@ -8271,8 +8245,7 @@ window.apf.treeKontextmenu = function(node) {
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Die assoziierte Art '" + bezeichnung + "' wurde gelöscht.");
                                     });
                                     deleteAssozarten.fail(function() {
-                                        //window.apf.melde("Fehler: Die assoziierte Art wurde nicht gelöscht");
-                                        console.log('Fehler: Die assoziierte Art wurde nicht gelöscht');
+                                        window.apf.melde("Fehler: Die assoziierte Art wurde nicht gelöscht");
                                     });
                                 },
                                 "abbrechen": function() {
@@ -8301,8 +8274,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertPop_2.fail(function() {
-                            //window.apf.melde("Fehler: Keine neue Population erstellt");
-                            console.log('Fehler: Keine neue Population erstellt');
+                            window.apf.melde("Fehler: Keine neue Population erstellt");
                         });
                     }
                 },
@@ -8349,8 +8321,7 @@ window.apf.treeKontextmenu = function(node) {
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Population '" + bezeichnung + "' wurde gelöscht.");
                                     });
                                     deletePop.fail(function() {
-                                        //window.apf.melde("Fehler: Die Population wurde nicht gelöscht");
-                                        console.log('Fehler: Die Population wurde nicht gelöscht');
+                                        window.apf.melde("Fehler: Die Population wurde nicht gelöscht");
                                     });
                                 },
                                 "abbrechen": function() {

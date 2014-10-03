@@ -73,6 +73,7 @@ var returnFunction = function() {
                 url: '/api/v1/insert/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wert=' + localStorage.ap_id + '/user=' + sessionStorage.User,
                 dataType: 'json'
             }).done(function(data) {
+                console.log('data returned: ', data);
                 localStorage.idealbiotop_id = data.IbApArtId;
                 initiiereIdealbiotop();
             }).fail(function() {
