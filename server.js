@@ -75,7 +75,7 @@ server.start(function (err) {
 
 server.route({
     method: 'GET',
-    path: '/',
+    path: '/{path*}',
     handler: function (request, reply) {
         reply.file('index.html');
     }
