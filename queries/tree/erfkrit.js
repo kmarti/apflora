@@ -10,11 +10,11 @@ var _          = require('underscore'),
         database: 'alexande_apflora'
     });
 
-var erfkrit = function(request, reply) {
+var erfkrit = function (request, reply) {
     var apId = decodeURIComponent(request.params.apId);
     connection.query(
         'SELECT ErfkritId, ApArtId, BeurteilTxt, ErfkritTxt, BeurteilOrd FROM tblErfKrit LEFT JOIN DomainApErfKrit ON ErfkritErreichungsgrad = BeurteilId where ApArtId = ' + apId + ' ORDER BY BeurteilOrd',
-        function(err, data) {
+        function (err, data) {
             var node = {};
 
             if (err) reply(err);
@@ -36,7 +36,7 @@ function buildChildFromData(data) {
         object,
         beschriftung;
 
-    _.each(data, function(erfkrit) {
+    _.each(data, function (erfkrit) {
         object = {};
 
         if (erfkrit.BeurteilTxt && erfkrit.ErfkritTxt) {

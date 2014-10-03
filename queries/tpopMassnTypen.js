@@ -9,10 +9,10 @@ var mysql      = require('mysql'),
         database: 'alexande_apflora'
     });
 
-var returnFunction = function(request, callback) {
+var returnFunction = function (request, callback) {
     connection.query(
         'SELECT MassnTypCode as id, MassnTypTxt FROM DomainTPopMassnTyp ORDER BY MassnTypOrd',
-        function(err, data) {
+        function (err, data) {
             if (err) throw err;
             callback(data);
         }

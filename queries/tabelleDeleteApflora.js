@@ -9,14 +9,14 @@ var mysql      = require('mysql'),
         database: 'alexande_apflora'
     });
 
-var tabelle = function(request, callback) {
+var tabelle = function (request, callback) {
     var tabelle       = decodeURIComponent(request.params.tabelle),       // der Name der Tabelle, aus der die Daten gelöscht werden sollen
         tabelleIdFeld = decodeURIComponent(request.params.tabelleIdFeld), // das ist der Name der ID der Tabelle
         tabelleId     = decodeURIComponent(request.params.tabelleId);     // der Wert der ID des zu löschenden Datensatzes
 
     connection.query(
         'DELETE FROM ' + tabelle + ' WHERE ' + tabelleIdFeld + '="' + tabelleId + '"',
-        function(err, data) {
+        function (err, data) {
             if (err) throw err;
             callback(data);
         }

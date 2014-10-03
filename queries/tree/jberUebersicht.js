@@ -10,10 +10,10 @@ var _             = require('underscore'),
         database: 'alexande_apflora'
     });
 
-var jberÜbersicht = function(JBerJahr) {
+var jberÜbersicht = function (JBerJahr) {
     connection.query(
         'SELECT JbuJahr FROM tblJBerUebersicht WHERE JbuJahr=' + JBerJahr,
-        function(err, data) {
+        function (err, data) {
             var node      = {},
                 nodeArray = [];
 

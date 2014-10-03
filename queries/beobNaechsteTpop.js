@@ -9,13 +9,13 @@ var mysql      = require('mysql'),
         database: 'alexande_apflora'
     });
 
-var tabelle = function(request, callback) {
+var tabelle = function (request, callback) {
     var apId = decodeURIComponent(request.params.apId),
         X    = decodeURIComponent(request.params.X),
         Y    = decodeURIComponent(request.params.Y);
     connection.query(
         'SELECT TPopId, TPopFlurname, SQRT((' + X + '-TPopXKoord)*(' + X + '-TPopXKoord)+(' + Y + '-TPopYKoord)*(' + Y + '-TPopYKoord)) AS DistZuTPop FROM tblPopulation INNER JOIN tblTeilpopulation ON tblPopulation.PopId = tblTeilpopulation.PopId WHERE ApArtId = ' + apId + ' AND TPopXKoord IS NOT NULL AND TPopYKoord IS NOT NULL ORDER BY DistzuTPop LIMIT 1',
-        function(err, data) {
+        function (err, data) {
             if (err) throw err;
             callback(data);
         }

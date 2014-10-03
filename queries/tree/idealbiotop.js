@@ -1,6 +1,6 @@
 'use strict';
 
-var idealbiotop = function(request, reply) {
+var idealbiotop = function (request, reply) {
     var apId     = decodeURIComponent(request.params.apId),
         node = {};
 

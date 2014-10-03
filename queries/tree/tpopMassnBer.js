@@ -1,6 +1,6 @@
 'use strict';
 
-var returnFunction = function(tpopMassnber) {
+var returnFunction = function (tpopMassnber) {
     var node  = {},
         nodeText1,
         nodeText2;

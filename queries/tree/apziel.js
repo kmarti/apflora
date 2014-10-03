@@ -11,7 +11,7 @@ var _          = require('underscore'),
         database: 'alexande_apflora'
     });
 
-var returnFunction = function(request, reply) {
+var returnFunction = function (request, reply) {
     var apId = decodeURIComponent(request.params.apId),
         zielIds;
 
@@ -59,7 +59,7 @@ var returnFunction = function(request, reply) {
                 zielberNode = {};
 
             // in der apzielliste alls ZielJahr NULL mit '(kein Jahr)' ersetzen
-            _.each(apzielListe, function(apziel) {
+            _.each(apzielListe, function (apziel) {
                 if (!apziel.ZielJahr) apziel.ZielJahr = '(kein Jahr)';
             });
 
@@ -73,8 +73,8 @@ var returnFunction = function(request, reply) {
             apzieleOrdnerNodeChildren = [];
             apzieleOrdnerNode.children = apzieleOrdnerNodeChildren;
 
-            _.each(apzieljahre, function(zielJahr) {
-                apziele = _.filter(apzielListe, function(apziel) {
+            _.each(apzieljahre, function (zielJahr) {
+                apziele = _.filter(apzielListe, function (apziel) {
                     return apziel.ZielJahr === zielJahr;
                 });
                 // nodes für apziele aufbauen
@@ -89,8 +89,8 @@ var returnFunction = function(request, reply) {
                 apzieljahrNode.children = apzieljahrNodeChildren;
                 apzieleOrdnerNodeChildren.push(apzieljahrNode);
 
-                _.each(apziele, function(apziel) {
-                    zielbere = _.filter(zielberListe, function(zielber) {
+                _.each(apziele, function (apziel) {
+                    zielbere = _.filter(zielberListe, function (zielber) {
                         return zielber.ZielId === apziel.ZielId;
                     });
                     // node für apziele aufbauen
@@ -115,7 +115,7 @@ var returnFunction = function(request, reply) {
                     apzielOrdnerNode.children = apzielOrdnerNodeChildren;
                     apzielNodeChildren.push(apzielOrdnerNode);
 
-                    _.each(zielbere, function(zielber) {
+                    _.each(zielbere, function (zielber) {
                         var data = '';
                         if (zielber.ZielBerJahr && zielber.ZielBerErreichung) {
                             data = zielber.ZielBerJahr + ': ' + zielber.ZielBerErreichung;

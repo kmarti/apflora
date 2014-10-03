@@ -11,7 +11,7 @@ var _          = require('underscore'),
         database: 'alexande_apflora'
     });
 
-var returnFunction = function(request, reply) {
+var returnFunction = function (request, reply) {
     var apId = decodeURIComponent(request.params.apId);
 
     // query ber AND jberUebersicht first
@@ -54,7 +54,7 @@ function buildChildrenForJBerOrdner(results) {
         object,
         beschriftung  = '(kein Jahr)';
 
-    _.each(results.jberListe, function(jber) {
+    _.each(results.jberListe, function (jber) {
         object = {};
 
         if (jber.JBerJahr) beschriftung = jber.JBerJahr.toString();
@@ -76,7 +76,7 @@ function buildChildrenForJBerOrdner(results) {
 
 function buildChildForJBer(JBerJahr, jberÜbersichtListe) {
     // zuerst den Datensatz extrahieren
-    var jberÜbersicht = _.find(jberÜbersichtListe, function(jberÜbersicht) {
+    var jberÜbersicht = _.find(jberÜbersichtListe, function (jberÜbersicht) {
         return jberÜbersicht.JbuJahr === JBerJahr;
     });
     

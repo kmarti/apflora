@@ -9,14 +9,14 @@ var mysql      = require('mysql'),
         database: 'alexande_apflora'
     });
 
-var tabelle = function(request, callback) {
+var tabelle = function (request, callback) {
     var tabelle = decodeURIComponent(request.params.tabelle), // Name der Tabelle, aus der die Daten geholt werden sollen
         feld    = decodeURIComponent(request.params.feld),    // Name der ID der Tabelle
         wert    = decodeURIComponent(request.params.wert);    // Wert der ID
 
     connection.query(
         'SELECT * FROM ' + tabelle + ' WHERE ' + feld + '=' + wert,
-        function(err, data) {
+        function (err, data) {
             if (err) throw err;
             callback(data);
         }

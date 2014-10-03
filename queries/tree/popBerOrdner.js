@@ -3,13 +3,13 @@
 var _ = require('underscore'),
     erstellePopBer = require('./popBer');
 
-var returnFunction = function(popBerListe, pop) {
+var returnFunction = function (popBerListe, pop) {
     var popPopberOrdner = {},
         popberVonPop,
         popBerNode;
 
     // Liste der Berichte dieser pop erstellen
-    popberVonPop = _.filter(popBerListe, function(popBer) {
+    popberVonPop = _.filter(popBerListe, function (popBer) {
         return popBer.PopId === pop.PopId;
     });
 
@@ -22,7 +22,7 @@ var returnFunction = function(popBerListe, pop) {
     popPopberOrdner.children = [];
 
     // popber aufbauen
-    _.each(popberVonPop, function(popber) {
+    _.each(popberVonPop, function (popber) {
         popBerNode = erstellePopBer(popber);
         popPopberOrdner.children.push(popBerNode);
     });

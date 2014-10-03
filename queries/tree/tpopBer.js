@@ -1,6 +1,6 @@
 'use strict';
 
-var returnFunction = function(tpopber) {
+var returnFunction = function (tpopber) {
     var node  = {},
         nodeText;
 

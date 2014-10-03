@@ -9,7 +9,7 @@ var mysql     = require('mysql'),
         database: 'alexande_beob'
     });
 
-var beobKarte = function(request, callback) {
+var beobKarte = function (request, callback) {
     var apId            = decodeURIComponent(request.params.apId),
         tpopId          = decodeURIComponent(request.params.tpopId),
         beobId          = decodeURIComponent(request.params.beobId),
@@ -35,7 +35,7 @@ var beobKarte = function(request, callback) {
     // Daten abfragen
     connection.query(
         url,
-        function(err, data) {
+        function (err, data) {
             if (err) throw err;
             callback(data);
         }

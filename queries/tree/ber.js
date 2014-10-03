@@ -10,11 +10,11 @@ var _          = require('underscore'),
         database: 'alexande_apflora'
     });
 
-var ber = function(request, reply) {
+var ber = function (request, reply) {
     var apId = decodeURIComponent(request.params.apId);
     connection.query(
         "SELECT BerId, ApArtId, BerJahr, BerTitel FROM tblBer where ApArtId =" + apId + " ORDER BY BerJahr DESC, BerTitel",
-        function(err, data) {
+        function (err, data) {
             var node = {};
 
             if (err) reply(err);
@@ -36,7 +36,7 @@ function buildChildFromData(data) {
         object,
         beschriftung;
 
-    _.each(data, function(ber) {
+    _.each(data, function (ber) {
         object = {};
 
         if (ber.BerJahr && ber.BerTitel) {

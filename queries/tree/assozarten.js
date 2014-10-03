@@ -11,11 +11,11 @@ var _          = require('underscore'),
     }),
     response = {};
 
-var assozarten = function(request, reply) {
+var assozarten = function (request, reply) {
     var apId = decodeURIComponent(request.params.apId);
     connection.query(
         'SELECT AaId, alexande_beob.ArtenDb_Arteigenschaften.Artname FROM tblAssozArten LEFT JOIN alexande_beob.ArtenDb_Arteigenschaften ON AaSisfNr = alexande_beob.ArtenDb_Arteigenschaften.TaxonomieId where AaApArtId = ' + apId + ' ORDER BY alexande_beob.ArtenDb_Arteigenschaften.Artname',
-        function(err, data) {
+        function (err, data) {
             if (err) reply(err);
             response.data = 'assoziierte Arten (' + data.length + ')';
             response.attr = {
@@ -32,7 +32,7 @@ function buildChildFromData(data) {
     var childrenArray = [],
         object;
 
-    _.each(data, function(assArt) {
+    _.each(data, function (assArt) {
         object = {};
         object.data = assArt.Artname || '(keine Art gewählt)';
         object.attr = {

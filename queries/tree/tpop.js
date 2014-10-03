@@ -8,7 +8,7 @@ var _                            = require('underscore'),
     erstelleTpopBerOrdner        = require('./tpopBerOrdner'),
     erstelleTpopBeobOrdner       = require('./tpopBeobOrdner');
 
-var returnFunction = function(results, tpop) {
+var returnFunction = function (results, tpop) {
     var tpopNode  = {},
         tpopNodeText,
         tpopSort,

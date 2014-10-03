@@ -15,7 +15,7 @@ var mysql      = require('mysql'),
         database: 'alexande_apflora'
     });
 
-var tabelleUpdate = function(request, callback) {
+var tabelleUpdate = function (request, callback) {
     var tabelle         = decodeURIComponent(request.params.tabelle),         // der Name der Tabelle, in der die Daten gespeichert werden sollen
         felder          = decodeURIComponent(request.params.felder),          // Ein Objekt mit allen feldern und deren Werten. PLUS: der id
         date            = new Date().toISOString(),                           // wann gespeichert wird
@@ -41,7 +41,7 @@ var tabelleUpdate = function(request, callback) {
     sql = 'UPDATE ' + tabelle + ' SET ' + nameMutwannFeld + '="' + date + '", ' + nameMutWerFeld + '="' + felder.user + '"';
 
     // jetzt für jedes key/value-Paar des Objekts set-Anweisungen generieren
-    _.each(felder, function(feldwert, feldname) {
+    _.each(felder, function (feldwert, feldname) {
         if (feldwert || feldwert === 0) {
             // Anführungszeichen eliminieren!
             sql += ',' + feldname + '="' + feldwert.replace('"', '') + '"';
@@ -55,7 +55,7 @@ var tabelleUpdate = function(request, callback) {
 
     connection.query(
         sql,
-        function(err, data) {
+        function (err, data) {
             if (err) throw err;
             callback(data);
         }

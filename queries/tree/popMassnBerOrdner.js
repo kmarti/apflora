@@ -3,13 +3,13 @@
 var _ = require('underscore'),
     erstellePopMassnBer = require('./popMassnBer');
 
-var returnFunction = function(popMassnBerListe, pop) {
+var returnFunction = function (popMassnBerListe, pop) {
     var popMassnberOrdner = {},
         massnberVonPop,
         popMassnberNode;
 
     // Liste der MassnBer dieser pop erstellen
-    massnberVonPop = _.filter(popMassnBerListe, function(popMassnBer) {
+    massnberVonPop = _.filter(popMassnBerListe, function (popMassnBer) {
         return popMassnBer.PopId === pop.PopId;
     });
 
@@ -22,7 +22,7 @@ var returnFunction = function(popMassnBerListe, pop) {
     popMassnberOrdner.children = [];
 
     // massnber aufbauen
-    _.each(massnberVonPop, function(massnber) {
+    _.each(massnberVonPop, function (massnber) {
         popMassnberNode = erstellePopMassnBer(massnber);
         popMassnberOrdner.children.push(popMassnberNode);
     });

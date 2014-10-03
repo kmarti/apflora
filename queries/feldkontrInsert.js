@@ -9,7 +9,7 @@ var mysql      = require('mysql'),
         database: 'alexande_apflora'
     });
 
-var returnFunction = function(request, callback) {
+var returnFunction = function (request, callback) {
     var tpopId       = decodeURIComponent(request.params.tpopId),        // die id
         tpopKontrtyp = decodeURIComponent(request.params.tpopKontrtyp),  // feldkontr oder freiwkontr
         user         = decodeURIComponent(request.params.user),          // der Benutzername
@@ -27,7 +27,7 @@ var returnFunction = function(request, callback) {
 
     connection.query(
         sql,
-        function(err, data) {
+        function (err, data) {
             if (err) throw err;
             callback(data.insertId);
         }

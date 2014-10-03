@@ -1,6 +1,6 @@
 'use strict';
 
-var returnFunction = function(feldkontr) {
+var returnFunction = function (feldkontr) {
     var node  = {},
         nodeText1,
         nodeText2;

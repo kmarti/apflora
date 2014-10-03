@@ -1,6 +1,6 @@
 'use strict';
 
-var returnFunction = function(tpopbeob) {
+var returnFunction = function (tpopbeob) {
     var node  = {},
         autor,
         datum;

@@ -3,12 +3,12 @@
 var _            = require('underscore'),
     erstelleTpop = require('./tpop');
 
-var returnFunction = function(results, tpopListe, pop) {
+var returnFunction = function (results, tpopListe, pop) {
     var popTpopOrdner = {},
         tpopVonPop;
 
     // Liste der tpop dieser pop erstellen
-    tpopVonPop = _.filter(tpopListe, function(tpop) {
+    tpopVonPop = _.filter(tpopListe, function (tpop) {
         return tpop.PopId === pop.PopId;
     });
 
@@ -21,7 +21,7 @@ var returnFunction = function(results, tpopListe, pop) {
     popTpopOrdner.children = [];
 
     // tpop aufbauen
-    _.each(tpopVonPop, function(tpop) {
+    _.each(tpopVonPop, function (tpop) {
         var tpopNode = erstelleTpop(results, tpop);
         popTpopOrdner.children.push(tpopNode);
     });

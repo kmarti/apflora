@@ -1,6 +1,6 @@
 'use strict';
 
-var returnFunction = function(massnber) {
+var returnFunction = function (massnber) {
     var node  = {},
         nodeText;
 

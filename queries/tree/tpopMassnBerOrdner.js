@@ -3,13 +3,13 @@
 var _                    = require('underscore'),
     erstelleTPopMassnBer = require('./tpopMassnBer');
 
-var returnFunction = function(tpopMassnBerListe, tpop) {
+var returnFunction = function (tpopMassnBerListe, tpop) {
     var tpopMassnBerOrdner = {},
         massnberVonTpop,
         massnberNode;
 
     // Liste der Massnahmen-Berichte dieser tpop erstellen
-    massnberVonTpop = _.filter(tpopMassnBerListe, function(tpopMassnBer) {
+    massnberVonTpop = _.filter(tpopMassnBerListe, function (tpopMassnBer) {
         return tpopMassnBer.TPopId === tpop.TPopId;
     });
 
@@ -22,7 +22,7 @@ var returnFunction = function(tpopMassnBerListe, tpop) {
     tpopMassnBerOrdner.children = [];
 
     // massnber aufbauen
-    _.each(massnberVonTpop, function(massnber) {
+    _.each(massnberVonTpop, function (massnber) {
         massnberNode = erstelleTPopMassnBer(massnber);
         tpopMassnBerOrdner.children.push(massnberNode);
     });

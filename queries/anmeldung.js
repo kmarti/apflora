@@ -9,12 +9,12 @@ var mysql = require('mysql'),
         database: 'alexande_apflora'
     });
 
-var ap = function(request, callback) {
+var ap = function (request, callback) {
     var userName = decodeURIComponent(request.params.name),
         password = decodeURIComponent(request.params.pwd);
     connection.query(
         'SELECT NurLesen FROM tblUser WHERE UserName = "' + userName + '" AND Passwort = "' + password + '"',
-        function(err, data) {
+        function (err, data) {
             if (err) throw err;
             callback(data);
         }

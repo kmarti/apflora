@@ -1,6 +1,6 @@
 'use strict';
 
-var returnFunction = function(freiwkontr) {
+var returnFunction = function (freiwkontr) {
     var node  = {},
         nodeText;
 
