@@ -1,9 +1,10 @@
 'use strict';
 
-var $                    = require('jquery'),
-    dateFormat           = require('dateformat'),
-    initiiereIndex       = require('./initiiereIndex'),
-    initiiereAp          = require('./initiiereAp');
+var $                            = require('jquery'),
+    dateFormat                   = require('dateformat'),
+    initiiereIndex               = require('./initiiereIndex'),
+    initiiereAp                  = require('./initiiereAp'),
+    pruefeSchreibvoraussetzungen = require('./pruefeSchreibvoraussetzungen');
 
 var initiiereIdealbiotop = function (apId) {
     var $IbErstelldatum  = $("#IbErstelldatum");
@@ -72,7 +73,7 @@ var initiiereIdealbiotop = function (apId) {
             }
         } else {
             // nur aktualisieren, wenn Schreibrechte bestehen
-            if (!window.apf.prüfeSchreibvoraussetzungen()) {
+            if (!pruefeSchreibvoraussetzungen()) {
                 return;
             }
 

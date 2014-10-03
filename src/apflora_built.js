@@ -22918,8 +22918,6 @@ window.apf = window.apf || {};
 window.apf.gmap = window.apf.gmap || {};
 window.apf.olmap = window.apf.olmap || {};
 
-//window.apf.router = require('./modules/router');
-
 window.apf.initiiereIndex = require('./modules/initiiereIndex');
 
 // setzt window.apf und localStorage.ap_id
@@ -25069,9 +25067,9 @@ window.apf.prüfeLesevoraussetzungen = function () {
                 }
             });
         return false;
-    } else {
-        return true;
     }
+    
+    return true;
 };
 
 window.apf.prüfeSchreibvoraussetzungen = function () {
@@ -25082,9 +25080,8 @@ window.apf.prüfeSchreibvoraussetzungen = function () {
         if (sessionStorage.NurLesen) {
             window.apf.melde("Sie haben keine Schreibrechte", "Speichern abgebrochen");
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 };
 
@@ -33219,7 +33216,7 @@ window.apf.erstelleGuid = function () {
         return v.toString(16);
     });
 };
-},{"./lib/cHtoWGSlat":7,"./lib/cHtoWGSlng":8,"./lib/ddInChX":10,"./lib/ddInChY":11,"./modules/configuration":21,"./modules/initiiereAp":27,"./modules/initiiereApziel":28,"./modules/initiiereAssozart":29,"./modules/initiiereBeob":30,"./modules/initiiereBer":31,"./modules/initiiereErfkrit":32,"./modules/initiiereFormularMitStrukturtyp":33,"./modules/initiiereIdealbiotop":34,"./modules/initiiereIndex":35,"./modules/initiiereJber":36,"./modules/initiiereJberUebersicht":37,"./modules/initiierePop":38,"./modules/initiierePopBer":39,"./modules/initiierePopMassnBer":40,"./modules/initiiereTPop":41,"./modules/initiiereTPopBer":42,"./modules/initiiereTPopFeldkontr":43,"./modules/initiiereTPopMassn":44,"./modules/initiiereTPopMassnBer":45,"./modules/initiiereZielber":46,"./modules/zeigeTPop":47}],2:[function(require,module,exports){
+},{"./lib/cHtoWGSlat":7,"./lib/cHtoWGSlng":8,"./lib/ddInChX":10,"./lib/ddInChY":11,"./modules/configuration":21,"./modules/initiiereAp":27,"./modules/initiiereApziel":28,"./modules/initiiereAssozart":29,"./modules/initiiereBeob":30,"./modules/initiiereBer":31,"./modules/initiiereErfkrit":32,"./modules/initiiereFormularMitStrukturtyp":33,"./modules/initiiereIdealbiotop":34,"./modules/initiiereIndex":35,"./modules/initiiereJber":36,"./modules/initiiereJberUebersicht":37,"./modules/initiierePop":38,"./modules/initiierePopBer":39,"./modules/initiierePopMassnBer":40,"./modules/initiiereTPop":41,"./modules/initiiereTPopBer":42,"./modules/initiiereTPopFeldkontr":43,"./modules/initiiereTPopMassn":44,"./modules/initiiereTPopMassnBer":45,"./modules/initiiereZielber":46,"./modules/zeigeTPop":49}],2:[function(require,module,exports){
 module.exports={
     "user": "alexande",
     "pass": "y3oYksFsQL49es9x"
@@ -60317,10 +60314,11 @@ module.exports = returnFunction;
 },{"./configuration":21,"./initiiereAp":27,"./initiiereApziel":28,"./initiiereAssozart":29,"./initiiereBer":31,"./initiiereErfkrit":32,"./initiiereIdealbiotop":34,"./initiiereJber":36,"./initiiereJberUebersicht":37,"./initiierePop":38,"./initiierePopBer":39,"./initiierePopMassnBer":40,"./initiiereTPop":41,"./initiiereTPopBer":42,"./initiiereTPopFeldkontr":43,"./initiiereTPopMassn":44,"./initiiereTPopMassnBer":45,"./initiiereZielber":46}],34:[function(require,module,exports){
 'use strict';
 
-var $                    = require('jquery'),
-    dateFormat           = require('dateformat'),
-    initiiereIndex       = require('./initiiereIndex'),
-    initiiereAp          = require('./initiiereAp');
+var $                            = require('jquery'),
+    dateFormat                   = require('dateformat'),
+    initiiereIndex               = require('./initiiereIndex'),
+    initiiereAp                  = require('./initiiereAp'),
+    pruefeSchreibvoraussetzungen = require('./pruefeSchreibvoraussetzungen');
 
 var initiiereIdealbiotop = function (apId) {
     var $IbErstelldatum  = $("#IbErstelldatum");
@@ -60389,7 +60387,7 @@ var initiiereIdealbiotop = function (apId) {
             }
         } else {
             // nur aktualisieren, wenn Schreibrechte bestehen
-            if (!window.apf.prüfeSchreibvoraussetzungen()) {
+            if (!pruefeSchreibvoraussetzungen()) {
                 return;
             }
 
@@ -60409,7 +60407,7 @@ var initiiereIdealbiotop = function (apId) {
 };
 
 module.exports = initiiereIdealbiotop;
-},{"./initiiereAp":27,"./initiiereIndex":35,"dateformat":3,"jquery":5}],35:[function(require,module,exports){
+},{"./initiiereAp":27,"./initiiereIndex":35,"./pruefeSchreibvoraussetzungen":48,"dateformat":3,"jquery":5}],35:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -61743,6 +61741,48 @@ var returnFunction = function (apId, apZielId, zielberId) {
 
 module.exports = returnFunction;
 },{"./initiiereAp":27,"./initiiereApziel":28,"./initiiereIndex":35,"jquery":5}],47:[function(require,module,exports){
+'use strict';
+
+var $ = require('jquery');
+require('jquery-ui');
+
+module.exports = function () {
+    // kontrollieren, ob der User offline ist
+    if (!navigator.onLine) {
+        console.log('offline');
+        $("#offline_dialog")
+            .show()
+            .dialog({
+                modal: true,
+                width: 400,
+                buttons: {
+                    Ok: function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+        return false;
+    }
+    return true;
+};
+},{"jquery":5,"jquery-ui":4}],48:[function(require,module,exports){
+'use strict';
+
+var $                         = require('jquery'),
+    pruefeLesevoraussetzungen = require('./pruefeLesevoraussetzungen');
+
+module.exports = function () {
+    // kontrollieren, ob der User online ist
+    if (window.apf.prüfeLesevoraussetzungen()) {
+        // kontrollieren, ob der User Schreibrechte hat
+        if (sessionStorage.NurLesen) {
+            window.apf.melde("Sie haben keine Schreibrechte", "Speichern abgebrochen");
+            return false;
+        }
+        return true;
+    }
+};
+},{"./pruefeLesevoraussetzungen":47,"jquery":5}],49:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),

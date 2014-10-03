@@ -3,8 +3,6 @@ window.apf = window.apf || {};
 window.apf.gmap = window.apf.gmap || {};
 window.apf.olmap = window.apf.olmap || {};
 
-//window.apf.router = require('./modules/router');
-
 window.apf.initiiereIndex = require('./modules/initiiereIndex');
 
 // setzt window.apf und localStorage.ap_id
@@ -2154,9 +2152,9 @@ window.apf.prüfeLesevoraussetzungen = function () {
                 }
             });
         return false;
-    } else {
-        return true;
     }
+    
+    return true;
 };
 
 window.apf.prüfeSchreibvoraussetzungen = function () {
@@ -2167,9 +2165,8 @@ window.apf.prüfeSchreibvoraussetzungen = function () {
         if (sessionStorage.NurLesen) {
             window.apf.melde("Sie haben keine Schreibrechte", "Speichern abgebrochen");
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 };
 
