@@ -24562,8 +24562,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     delete window.apf.beob_zugeordnet_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
                 }).fail(function() {
-                    //window.apf.melde("Fehler: Die Beobachtung wurde nicht auf 'nicht beurteilt' gesetzt");
-                    console.log("Fehler: Die Beobachtung wurde nicht auf 'nicht beurteilt' gesetzt");
+                    window.apf.melde("Fehler: Die Beobachtung wurde nicht auf 'nicht beurteilt' gesetzt");
                 });
             }
             if (ziel_node_typ === "beob_zugeordnet" || ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
@@ -24598,8 +24597,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     delete window.apf.herkunft_parent_node;
                 });
                 ordneBeobachtungZu_2.fail(function() {
-                    //window.apf.melde("Fehler: Die Beobachtung wurde nicht verschoben");
-                    console.log('Fehler: Die Beobachtung wurde nicht verschoben');
+                    window.apf.melde("Fehler: Die Beobachtung wurde nicht verschoben");
                 });
             }
             if (ziel_node_typ === "beob_nicht_zuzuordnen" || ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
@@ -24640,8 +24638,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     });
                 });
                 ordneBeobachtungZu_3.fail(function() {
-                    //window.apf.melde("Fehler: Die Beobachtung wurde nicht verschoben");
-                    console.log('Fehler: Die Beobachtung wurde nicht verschoben');
+                    window.apf.melde("Fehler: Die Beobachtung wurde nicht verschoben");
                 });
             }
         }
@@ -24689,8 +24686,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                         delete window.apf.herkunft_parent_node;
                     });
                     updateBeob.fail(function() {
-                        //window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
-                        console.log('Fehler: Die Beobachtung wurde nicht zugeordnet');
+                        window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
                     });
                 }).fail(function() {
                     //window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
@@ -24767,8 +24763,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     delete window.apf.beob_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
                 }).fail(function() {
-                    //window.apf.melde("Fehler: Die Zuordnung der Beobachtung wurde nicht entfernt");
-                    console.log('Fehler: Die Zuordnung der Beobachtung wurde nicht entfernt');
+                    window.apf.melde("Fehler: Die Zuordnung der Beobachtung wurde nicht entfernt");
                 });
             }
             if (ziel_node_typ === "beob_zugeordnet" || ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
@@ -24809,13 +24804,11 @@ window.apf.erstelle_tree = function(ApArtId) {
                         delete window.apf.herkunft_parent_node;
                     });
                     updateBeob_4.fail(function() {
-                        //window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
-                        console.log('Fehler: Die Beobachtung wurde nicht zugeordnet');
+                        window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
                     });
                 });
                 updateBeob_3.fail(function() {
-                    //window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
-                    console.log('Fehler: Die Beobachtung wurde nicht zugeordnet');
+                    window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
                 });
             }
         }
@@ -25254,8 +25247,7 @@ window.apf.speichern = function(that) {
             }
         });
         updateFormular.fail(function() {
-            //window.apf.melde("Fehler: Die letzte Änderung wurde nicht gespeichert");
-            console.log('Fehler: Die letzte Änderung wurde nicht gespeichert');
+            window.apf.melde("Fehler: Die letzte Änderung wurde nicht gespeichert");
         });
         // nodes im Tree updaten, wenn deren Bezeichnung ändert
         switch(feldname) {
@@ -26061,8 +26053,7 @@ window.apf.zeigeTPopAufOlmap = function(TPopListeMarkiert) {
             });
 
             getTPopKarteAlle.fail(function() {
-                //window.apf.melde("Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden");
-                console.log('Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden');
+                window.apf.melde("Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden");
             });
     });
 };
@@ -26110,8 +26101,7 @@ window.apf.zeigePopAufOlmap = function(PopListeMarkiert) {
             });
 
             getTPopKarteAlle_2.fail(function() {
-                //window.apf.melde("Fehler: Es konnten keine Daten aus der Datenbank abgerufen werden");
-                console.log('Fehler: Es konnten keine Daten aus der Datenbank abgerufen werden');
+                window.apf.melde("Fehler: Es konnten keine Daten aus der Datenbank abgerufen werden");
             });
     });
 };
@@ -26207,8 +26197,7 @@ window.apf.olmap.zeigePopInTPop = function(overlay_pop_visible, overlay_popnr_vi
         });
     });
     getPopKarteAlle.fail(function() {
-        //window.apf.melde("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
-        console.log('Fehler: Es konnten keine Daten aus der Datenbank abgerufen werden');
+        window.apf.melde("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
         pop_gezeigt.resolve();
     });
     return pop_gezeigt.promise();
@@ -26293,8 +26282,7 @@ window.apf.speichereWert = function(tabelle, id, feld, wert) {
         }
     });
     updateTabelle.fail(function() {
-        //window.apf.melde("Fehler: Die letzte Änderung wurde nicht gespeichert");
-        console.log('Fehler: Die letzte Änderung wurde nicht gespeichert');
+        window.apf.melde("Fehler: Die letzte Änderung wurde nicht gespeichert");
     });
 };
 
@@ -27033,8 +27021,7 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
                 });
             });
             BeobNächsteTPop.fail(function() {
-                //window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
-                console.log('Fehler: Die Beobachtung wurde nicht zugeordnet');
+                window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
             });
         });
     }
@@ -27506,13 +27493,11 @@ window.apf.gmap.SetLocationTPop = function(LatLng, map, marker, TPop) {
             });
         });
         updateTPop_4.fail(function() {
-            //window.apf.melde("Fehler: Die Y-Koordinate wurde nicht übernommen (die X-Koordinate offenbar schon)");
-            console.log('Fehler: Die Y-Koordinate wurde nicht übernommen (die X-Koordinate offenbar schon)');
+            window.apf.melde("Fehler: Die Y-Koordinate wurde nicht übernommen (die X-Koordinate offenbar schon)");
         });
     });
     updateTPop_3.fail(function() {
-        //window.apf.melde("Fehler: Die Koordinaten wurden nicht übernommen");
-        console.log('Fehler: Die Koordinaten wurden nicht übernommen');
+        window.apf.melde("Fehler: Die Koordinaten wurden nicht übernommen");
     });
 };
 
@@ -29602,7 +29587,7 @@ window.apf.erstelleGemeindeliste = function() {
             url: 'api/v1/gemeinden',
             dataType: 'json'
         });
-        getGemeinden.always(function(data) {
+        getGemeinden.done(function(data) {
             if (data) {
                 // Gemeinden bereitstellen
                 // Feld mit Daten beliefern
@@ -29624,8 +29609,7 @@ window.apf.erstelleGemeindeliste = function() {
             }
         });
         getGemeinden.fail(function() {
-            //window.apf.melde("Fehler: Die Liste der Gemeinden konnte nicht bereitgestellt werden");
-            console.log('Fehler: Die Liste der Gemeinden konnte nicht bereitgestellt werden');
+            window.apf.melde("Fehler: Die Liste der Gemeinden konnte nicht bereitgestellt werden");
         });
     }
 };
@@ -29665,8 +29649,7 @@ window.apf.wähleAp = function(ap_id) {
                 });
             });
             insertAp.fail(function() {
-                //window.apf.melde("Fehler: Keine Daten für Programme erhalten");
-                console.log('Fehler: Keine Daten für Programme erhalten');
+                window.apf.melde("Fehler: Keine Daten für Programme erhalten");
             });
         } else {
             window.apf.erstelle_tree(ap_id);
@@ -29716,8 +29699,7 @@ window.apf.kopiereKoordinatenInPop = function(x_koord, y_koord) {
             });
         });
         update_pop.fail(function() {
-            //window.apf.melde("Fehler: Koordinaten wurden nicht kopiert");
-            console.log('Fehler: Koordinaten wurden nicht kopiert');
+            window.apf.melde("Fehler: Koordinaten wurden nicht kopiert");
         });
     } else {
         // auffordern, die Koordinaten zu vergeben und Speichern abbrechen
@@ -29732,7 +29714,7 @@ window.apf.prüfeAnmeldung = function() {
     // Leserechte zurücksetzen
     delete sessionStorage.NurLesen;
     if ($anmeldung_name && $anmeldung_passwort) {
-        var getAnmeldung = $.ajax({
+        $.ajax({
             type: 'get',
             url: 'api/v1/anmeldung/name=' + $anmeldung_name + '/pwd=' + $anmeldung_passwort,
             dataType: 'json'
@@ -30169,9 +30151,8 @@ window.apf.löscheAp = function(ap_id) {
         //forms muss eingeblendet sein, weil undelete_div darin ist
         window.apf.zeigeFormular("keines");
     });
-    deleteAp.fail(function(data) {
-        //window.apf.melde("Fehler: Das Programm wurde nicht gelöscht");
-        console.log('Fehler: Das Programm wurde nicht gelöscht');
+    deleteAp.fail(function() {
+        window.apf.melde("Fehler: Das Programm wurde nicht gelöscht");
     });
 };
 
@@ -30383,8 +30364,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertPop.fail(function() {
-                            //window.apf.melde("Fehler: Keine neue Population erstellt");
-                            console.log('Fehler: Keine neue Population erstellt');
+                            window.apf.melde("Fehler: Keine neue Population erstellt");
                         });
                     }
                 },
@@ -30400,14 +30380,13 @@ window.apf.treeKontextmenu = function(node) {
                         });
                         getPopsChKarte.done(function(data) {
                             if (data && data.length > 0) {
-                                window.apf.zeigePopAufOlmap();
+                                window.apf.zeigePopAufOlmap(data);
                             } else {
                                 window.apf.melde("Die Population hat keine Koordinaten", "Aktion abgebrochen");
                             }
                         });
                         getPopsChKarte.fail(function() {
-                            //window.apf.melde("Fehler: Keine Daten erhalten");
-                            console.log('Fehler: Keine Daten erhalten');
+                            window.apf.melde("Fehler: Keine Daten erhalten");
                         });
                     }
                 },
@@ -31314,8 +31293,7 @@ window.apf.treeKontextmenu = function(node) {
                             }
                         });
                         getPopChKarte_2.fail(function() {
-                            //window.apf.melde("Fehler: Keine Populationen erhalten");
-                            console.log('Fehler: Keine Populationen erhalten');
+                            window.apf.melde("Fehler: Keine Populationen erhalten");
                         });
                     }
                 },
@@ -31337,8 +31315,7 @@ window.apf.treeKontextmenu = function(node) {
                             }
                         });
                         getPopKarte.fail(function() {
-                            //window.apf.melde("Fehler: Keine Teilpopulationen erhalten");
-                            console.log('Fehler: Keine Teilpopulationen erhalten');
+                            window.apf.melde("Fehler: Keine Teilpopulationen erhalten");
                         });
                     }
                 }
@@ -31391,8 +31368,7 @@ window.apf.treeKontextmenu = function(node) {
                             delete window.apf.pop_id;
                         });
                         updatePop_2.fail(function() {
-                            //window.apf.melde("Fehler: Die Population wurde nicht verschoben");
-                            console.log('Fehler: Die Population wurde nicht verschoben');
+                            window.apf.melde("Fehler: Die Population wurde nicht verschoben");
                         });
                     }
                 };
@@ -31462,8 +31438,7 @@ window.apf.treeKontextmenu = function(node) {
                             }
                         });
                         getPopKarte_2.fail(function() {
-                            //window.apf.melde("Fehler: Keine Teilpopulationen erhalten");
-                            console.log('Fehler: Keine Teilpopulationen erhalten');
+                            window.apf.melde("Fehler: Keine Teilpopulationen erhalten");
                         });
                     }
                 }
@@ -31526,8 +31501,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertTPop_2.fail(function() {
-                            //window.apf.melde("Fehler: Keine neue Teilpopulation erstellt");
-                            console.log('Fehler: Keine neue Teilpopulation erstellt');
+                            window.apf.melde("Fehler: Keine neue Teilpopulation erstellt");
                         });
                     }
                 },
@@ -31575,8 +31549,7 @@ window.apf.treeKontextmenu = function(node) {
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Teilpopulation '" + bezeichnung + "' wurde gelöscht.");
                                     });
                                     deleteTPop.fail(function() {
-                                        //window.apf.melde("Fehler: Die Teilpopulation wurde nicht gelöscht");
-                                        console.log('Fehler: Die Teilpopulation wurde nicht gelöscht');
+                                        window.apf.melde("Fehler: Die Teilpopulation wurde nicht gelöscht");
                                     });
                                 },
                                 "abbrechen": function() {
@@ -31620,8 +31593,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.verorteTPopAufOlmap(data[0]);
                         });
                         getTPop_2.fail(function() {
-                            //window.apf.melde("Fehler: Keine Teilpopulation erhalten");
-                            console.log('Fehler: Keine Teilpopulation erhalten');
+                            window.apf.melde("Fehler: Keine Teilpopulation erhalten");
                         });
                     }
                 },
@@ -31659,8 +31631,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.gmap.verorteTPop(data[0]);
                         });
                         getTPop_3.fail(function() {
-                            //window.apf.melde("Fehler: Keine Daten erhalten");
-                            console.log('Fehler: Keine Daten erhalten');
+                            window.apf.melde("Fehler: Keine Daten erhalten");
                         });
                     }
                 },
@@ -31713,8 +31684,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.tpop_objekt_kopiert = data[0];
                         });
                         getTPop_4.fail(function() {
-                            //window.apf.melde("Fehler: Die Teilpopulation wurde nicht kopiert");
-                            console.log('Fehler: Die Teilpopulation wurde nicht kopiert');
+                            window.apf.melde("Fehler: Die Teilpopulation wurde nicht kopiert");
                         });
                     }
                 };
