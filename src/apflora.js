@@ -353,7 +353,7 @@ window.apf.setzeWindowTpopber = function (id) {
     });
 };
 
-window.apf.initiiere_exporte = function (anchor) {
+window.apf.initiiereExporte = function (anchor) {
     'use strict';
     $("#testart_div").hide();
     $("#forms_titelzeile").hide();
@@ -5105,7 +5105,7 @@ window.apf.öffneUri = function () {
     } else {
         var exporte = uri.getQueryParamValue('exporte');
         if (exporte) {
-            window.apf.initiiere_exporte(anchor);
+            window.apf.initiiereExporte(anchor);
         }
     }
 };
