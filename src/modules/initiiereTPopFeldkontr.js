@@ -4,17 +4,18 @@
 
 'use strict';
 
-var $                     = require('jquery'),
-    dateFormat            = require('dateformat'),
-    _                     = require('underscore'),
-    limiter               = require('../lib/limiter'),
-    initiiereIndex        = require('./initiiereIndex'),
-    initiiereAp           = require('./initiiereAp'),
-    initiierePop          = require('./initiierePop'),
-    initiiereTPop         = require('./initiiereTPop'),
-    getAdressenHtml       = require('./getAdressenHtml'),
-    getZaehleinheitenHtml = require('./getZaehleinheitenHtml'),
-    getLrDelarzeHtml      = require('./getLrDelarzeHtml');
+var $                            = require('jquery'),
+    dateFormat                   = require('dateformat'),
+    _                            = require('underscore'),
+    limiter                      = require('../lib/limiter'),
+    initiiereIndex               = require('./initiiereIndex'),
+    initiiereAp                  = require('./initiiereAp'),
+    initiierePop                 = require('./initiierePop'),
+    initiiereTPop                = require('./initiiereTPop'),
+    getAdressenHtml              = require('./getAdressenHtml'),
+    getZaehleinheitenHtml        = require('./getZaehleinheitenHtml'),
+    getLrDelarzeHtml             = require('./getLrDelarzeHtml'),
+    getIdealbiotopUebereinstHtml = require('./getIdealbiotopUebereinstHtml');
 
 require('jquery-ui');
 
@@ -183,7 +184,7 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId) {
                     .limiter(255, $("#TPopKontrWasserhaushalt_limit"));
                 $("#TPopKontrHandlungsbedarf").val(data.TPopKontrHandlungsbedarf);
                 $("#TPopKontrIdealBiotopUebereinst" + data.TPopKontrIdealBiotopUebereinst).prop("checked", true);
-                
+
                 // TPopKontrLeb: Daten holen - oder vorhandene nutzen
                 getLrDelarzeHtml(function (html) {
                     $("#TPopKontrLeb")
@@ -194,31 +195,13 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId) {
                         .val(window.apf.tpopfeldkontr.TPopKontrLebUmg);
                 });
             }
+            
             // TPopKontrIdealBiotopUebereinst: Daten holen - oder vorhandene nutzen
-            if (!window.apf.IdealBiotopÜbereinst_html) {
-                $.ajax({
-                    type:     'get',
-                    url:      'api/v1/idealbiotopUebereinst',
-                    dataType: 'json'
-                }).done(function (data5) {
-                    if (data5 && data5.length > 0) {
-                        // Feld mit Daten beliefern
-                        var html;
-                        html = "<option></option>";
-                        _.each(data5, function (übereinst) {
-                            html += "<option value=\"" + übereinst.id + "\">" + übereinst.DomainTxt + "</option>";
-                        });
-                        window.apf.IdealBiotopÜbereinst_html = html;
-                        $("#TPopKontrIdealBiotopUebereinst")
-                            .html(html)
-                            .val(window.apf.tpopfeldkontr.TPopKontrIdealBiotopUebereinst);
-                    }
-                });
-            } else {
+            getIdealbiotopUebereinstHtml(function (html) {
                 $("#TPopKontrIdealBiotopUebereinst")
-                    .html(window.apf.IdealBiotopÜbereinst_html)
+                    .html(html)
                     .val(window.apf.tpopfeldkontr.TPopKontrIdealBiotopUebereinst);
-            }
+            });
 
             // Felder, die nur in freiwkontr vorkommen
             if (localStorage.tpopfreiwkontr) {
