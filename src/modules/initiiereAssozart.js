@@ -6,7 +6,7 @@ var $              = require('jquery'),
 
 var returnFunction = function (apId, assozId) {
     // prüfen, ob voraussetzungen gegeben sind
-    if (!apId && !localStorage.apId) {
+    if (!apId && !localStorage.ap_id) {
         // Anwendung neu initiieren
         initiiereIndex();
         return;
@@ -18,11 +18,11 @@ var returnFunction = function (apId, assozId) {
     }
 
     // apId setzen
-    if (!localStorage.apId) {
-        localStorage.apId = apId;
+    if (!localStorage.ap_id) {
+        localStorage.ap_id = apId;
     }
     if (!apId) {
-        apId = localStorage.apId;
+        apId = localStorage.ap_id;
     }
 
     // assozId setzen

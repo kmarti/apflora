@@ -4,20 +4,43 @@ var $               = require('jquery'),
     dateFormat      = require('dateformat'),
     _               = require('underscore'),
     limiter         = require('../lib/limiter'),
+    initiiereIndex  = require('./initiiereIndex'),
     initiiereAp     = require('./initiiereAp'),
     getAdressenHtml = require('./getAdressenHtml');
 
-var returnFunction = function () {
+var returnFunction = function (apId, apBerId) {
+    // prüfen, ob voraussetzungen gegeben sind
+    if (!apId && !localStorage.ap_id) {
+        // Anwendung neu initiieren
+        initiiereIndex();
+        return;
+    }
+    if (!apBerId && !localStorage.jber_id) {
+        // es fehlen benötigte Daten > eine Ebene höher
+        initiiereAp(apId);
+        return;
+    }
+
+    // apId setzen
+    if (!localStorage.ap_id) {
+        localStorage.ap_id = apId;
+    }
+    if (!apId) {
+        apId = localStorage.ap_id;
+    }
+
+    // apBerId setzen
+    if (!localStorage.jber_id) {
+        localStorage.jber_id = apBerId;
+    }
+    if (!apBerId) {
+        apBerId = localStorage.jber_id;
+    }
+
     var $JBerJahr = $("#JBerJahr");
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     limiter($);
-
-    if (!localStorage.jber_id) {
-        // es fehlen benötigte Daten > eine Ebene höher
-        initiiereAp();
-        return;
-    }
 
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("jber");
@@ -63,13 +86,15 @@ var returnFunction = function () {
 
             // Formulare blenden
             window.apf.zeigeFormular("jber");
-            history.replaceState({jber: "jber"}, "jber", "index.html?ap=" + localStorage.apId + "&jber=" + localStorage.jber_id);
+            history.replaceState({jber: "jber"}, "jber", "index.html?ap=" + localStorage.ap_id + "&jber=" + localStorage.jber_id);
 
             // bei neuen Datensätzen Fokus steuern
             if (!$JBerJahr.val()) {
                 $JBerJahr.focus();
             }
         }
+    }).fail(function () {
+        window.apf.melde('Fehler: Keine Daten für den AP-Bericht erhalten');
     });
 };
 

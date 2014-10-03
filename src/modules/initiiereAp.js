@@ -7,18 +7,18 @@ var $               = require('jquery'),
 
 var returnFunction = function (apId) {
     // prüfen, ob voraussetzungen gegeben sind
-    if (!localStorage.apId && !apId) {
+    if (!localStorage.ap_id && !apId) {
         // es fehlen benötigte Daten > zurück zum Anfang
         initiiereIndex();
         return;
     }
 
     // apId setzen
-    if (!localStorage.apId) {
-        localStorage.apId = apId;
+    if (!localStorage.ap_id) {
+        localStorage.ap_id = apId;
     }
     if (!apId) {
-        apId = localStorage.apId;
+        apId = localStorage.ap_id;
     }
 
     // Programm-Wahl konfigurieren
@@ -56,6 +56,8 @@ var returnFunction = function (apId) {
                 window.apf.zeigeFormular("ap");
                 history.replaceState({ap: "ap"}, "ap", "index.html?ap=" + data.ApArtId);
             }
+        }).fail(function () {
+            window.apf.melde('Fehler: Keine Daten für den Aktionsplan erhalten');
         });
     } else if ($("#ap_waehlen").val() && programm_wahl === "programm_neu") {
         // Formulare blenden

@@ -9,18 +9,18 @@ var initiiereIdealbiotop = function (apId) {
     var $IbErstelldatum  = $("#IbErstelldatum");
 
     // prüfen, ob voraussetzungen gegeben sind
-    if (!apId && !localStorage.apId) {
-        // Anwendung neu initiieren
+    if (!localStorage.ap_id && !apId) {
+        // es fehlen benötigte Daten > zurück zum Anfang
         initiiereIndex();
         return;
     }
 
     // apId setzen
-    if (!localStorage.apId) {
-        localStorage.apId = apId;
+    if (!localStorage.ap_id) {
+        localStorage.ap_id = apId;
     }
     if (!apId) {
-        apId = localStorage.apId;
+        apId = localStorage.ap_id;
     }
 
     // Felder zurücksetzen
@@ -29,7 +29,7 @@ var initiiereIdealbiotop = function (apId) {
     // Daten für die idealbiotop aus der DB holen
     $.ajax({
         type: 'get',
-        url: '/api/v1/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wertNumber=' + apId,
+        url: '/api/v1/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wertNumber=' + localStorage.ap_id,
         dataType: 'json'
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
@@ -64,7 +64,7 @@ var initiiereIdealbiotop = function (apId) {
 
             // Formulare blenden
             window.apf.zeigeFormular("idealbiotop");
-            history.replaceState({idealbiotop: "idealbiotop"}, "idealbiotop", "index.html?ap=" + apId + "&idealbiotop=" + localStorage.idealbiotop_id);
+            history.replaceState({idealbiotop: "idealbiotop"}, "idealbiotop", "index.html?ap=" + localStorage.ap_id + "&idealbiotop=" + localStorage.idealbiotop_id);
 
             // bei neuen Datensätzen Fokus steuern
             if (!$IbErstelldatum.val()) {
@@ -79,10 +79,11 @@ var initiiereIdealbiotop = function (apId) {
             // null zurückgekommen > Datensatz schaffen
             $.ajax({
                 type: 'post',
-                url: '/api/v1/insert/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wert=' + apId + '/user=' + sessionStorage.User,
+                url: '/api/v1/insert/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wert=' + localStorage.ap_id + '/user=' + sessionStorage.User,
                 dataType: 'json'
             }).done(function () {
-                initiiereIdealbiotop(apId);
+                localStorage.idealbiotop_id = localStorage.ap_id;
+                initiiereIdealbiotop();
             }).fail(function () {
                 window.apf.melde("Fehler: Kein Idealbiotop erstellt");
             });

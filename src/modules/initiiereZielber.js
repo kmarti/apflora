@@ -1,24 +1,61 @@
 'use strict';
 
-var $           = require('jquery'),
-    initiiereAp = require('./initiiereAp');
+var $               = require('jquery'),
+    initiiereIndex  = require('./initiiereIndex'),
+    initiiereAp     = require('./initiiereAp'),
+    initiiereApziel = require('./initiiereApziel');
 
-var returnFunction = function () {
+var returnFunction = function (apId, apZielId, zielberId) {
     var $ZielBerJahr = $("#ZielBerJahr");
 
-    if (!localStorage.zielberId) {
-        // es fehlen benötigte Daten > eine Ebene höher
-        initiiereAp();
+    // prüfen, ob voraussetzungen gegeben sind
+    if (!apId && !localStorage.ap_id) {
+        // Anwendung neu initiieren
+        initiiereIndex();
         return;
+    }
+    if (!apZielId && !localStorage.apziel_id) {
+        // es fehlen benötigte Daten > zwei Ebenen höher
+        initiiereAp(apId);
+        return;
+    }
+    if (!zielberId && !localStorage.zielber_id) {
+        // es fehlen benötigte Daten > eine Ebene höher
+        initiiereApziel(apId, apZielId);
+        return;
+    }
+
+    // apId setzen
+    if (!localStorage.ap_id) {
+        localStorage.ap_id = apId;
+    }
+    if (!apId) {
+        apId = localStorage.ap_id;
+    }
+
+    // apZielId setzen
+    if (!localStorage.apziel_id) {
+        localStorage.apziel_id = apZielId;
+    }
+    if (!zielberId) {
+        apZielId = localStorage.apziel_id;
+    }
+
+    // zielberId setzen
+    if (!localStorage.zielber_id) {
+        localStorage.zielber_id = zielberId;
+    }
+    if (!zielberId) {
+        zielberId = localStorage.zielber_id;
     }
 
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("zielber");
 
     // Daten für die zielber aus der DB holen
-    var getZielBer = $.ajax({
-        type:     'get',
-        url:      'api/v1/apflora/tabelle=tblZielBericht/feld=ZielBerId/wertString=' + localStorage.zielberId,
+    $.ajax({
+        type: 'get',
+        url: 'api/v1/apflora/tabelle=tblZielBericht/feld=ZielBerId/wertString=' + zielberId,
         dataType: 'json'
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
@@ -35,13 +72,15 @@ var returnFunction = function () {
 
             // Formulare blenden
             window.apf.zeigeFormular("zielber");
-            history.replaceState({zielber: "zielber"}, "zielber", "index.html?ap=" + localStorage.apId + "&apziel=" + localStorage.apzielId + "&zielber=" + localStorage.zielberId);
+            history.replaceState({zielber: "zielber"}, "zielber", "index.html?ap=" + apId + "&apziel=" + apZielId + "&zielber=" + zielberId);
 
             // bei neuen Datensätzen Fokus steuern
             if (!$ZielBerJahr.val()) {
                 $ZielBerJahr.focus();
             }
         }
+    }).fail(function () {
+        window.apf.melde('Fehler: Keine Daten für den Zielbericht erhalten');
     });
 };
 

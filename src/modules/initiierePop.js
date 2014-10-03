@@ -1,21 +1,44 @@
 'use strict';
 
-var $           = require('jquery'),
-    limiter     = require('../lib/limiter'),
-    initiiereAp = require('./initiiereAp');
+var $              = require('jquery'),
+    limiter        = require('../lib/limiter'),
+    initiiereIndex = require('./initiiereIndex'),
+    initiiereAp    = require('./initiiereAp');
 
-var returnFunction = function (ohne_zu_zeigen) {
+var returnFunction = function (apId, popId, ohne_zu_zeigen) {
     var $PopName = $("#PopName"),
         $PopNr   = $("#PopNr");
 
-    // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
-    limiter($);
-
-    if (!localStorage.pop_id) {
-        // es fehlen benötigte Daten > eine Ebene höher
-        initiiereAp();
+    // prüfen, ob voraussetzungen gegeben sind
+    if (!apId && !localStorage.ap_id) {
+        // Anwendung neu initiieren
+        initiiereIndex();
         return;
     }
+    if (!popId && !localStorage.pop_id) {
+        // es fehlen benötigte Daten > eine Ebene höher
+        initiiereAp(apId);
+        return;
+    }
+
+    // apId setzen
+    if (!localStorage.ap_id) {
+        localStorage.ap_id = apId;
+    }
+    if (!apId) {
+        apId = localStorage.ap_id;
+    }
+
+    // popId setzen
+    if (!localStorage.pop_id) {
+        localStorage.pop_id = popId;
+    }
+    if (!popId) {
+        popId = localStorage.pop_id;
+    }
+
+    // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
+    limiter($);
 
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("pop");
@@ -23,7 +46,7 @@ var returnFunction = function (ohne_zu_zeigen) {
     // Daten für die pop aus der DB holen
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblPopulation/feld=PopId/wertNumber=' + localStorage.pop_id,
+        url: 'api/v1/apflora/tabelle=tblPopulation/feld=PopId/wertNumber=' + popId,
         dataType: 'json'
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
@@ -55,7 +78,7 @@ var returnFunction = function (ohne_zu_zeigen) {
             // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
             if (!ohne_zu_zeigen) {
                 window.apf.zeigeFormular("pop");
-                history.replaceState({pop: "pop"}, "pop", "index.html?ap=" + localStorage.apId + "&pop=" + localStorage.pop_id);
+                history.replaceState({pop: "pop"}, "pop", "index.html?ap=" + apId + "&pop=" + popId);
 
                 // bei neuen Datensätzen Fokus steuern
                 if (!$PopName.val()) {

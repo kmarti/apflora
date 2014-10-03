@@ -1,18 +1,39 @@
 'use strict';
 
-var $           = require('jquery'),
-    initiiereAp = require('./initiiereAp');
-//require('jquery-ui');
+var $              = require('jquery'),
+    initiiereIndex = require('./initiiereIndex'),
+    initiiereAp    = require('./initiiereAp');
 
-var returnFunction = function () {
-    if (!localStorage.apzielId) {
+var returnFunction = function (apId, apZielId) {
+    // prüfen, ob voraussetzungen gegeben sind
+    if (!apId && !localStorage.ap_id) {
+        // Anwendung neu initiieren
+        initiiereIndex();
+        return;
+    }
+    if (!apZielId && !localStorage.apziel_id) {
         // es fehlen benötigte Daten > eine Ebene höher
-        initiiereAp();
+        initiiereAp(apId);
         return;
     }
 
-    var apziel_initiiert = $.Deferred(),
-        $ZielJahr        = $("#ZielJahr");
+    // apId setzen
+    if (!localStorage.ap_id) {
+        localStorage.ap_id = apId;
+    }
+    if (!apId) {
+        apId = localStorage.ap_id;
+    }
+
+    // apZielId setzen
+    if (!localStorage.apziel_id) {
+        localStorage.apziel_id = apZielId;
+    }
+    if (!apZielId) {
+        apZielId = localStorage.apziel_id;
+    }
+
+    var $ZielJahr = $("#ZielJahr");
 
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("apziel");
@@ -20,7 +41,7 @@ var returnFunction = function () {
     // Daten für die apziel aus der DB holen
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblZiel/feld=ZielId/wertNumber=' + localStorage.apzielId,
+        url: 'api/v1/apflora/tabelle=tblZiel/feld=ZielId/wertNumber=' + apZielId,
         dataType: 'json'
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
@@ -34,16 +55,15 @@ var returnFunction = function () {
             $("#ZielBezeichnung").val(data.ZielBezeichnung);
             // Formulare blenden
             window.apf.zeigeFormular("apziel");
-            history.replaceState({apziel: "apziel"}, "apziel", "index.html?ap=" + localStorage.apId + "&apziel=" + localStorage.apzielId);
+            history.replaceState({apziel: "apziel"}, "apziel", "index.html?ap=" + apId + "&apziel=" + apZielId);
             // bei neuen Datensätzen Fokus steuern
             if (!$ZielJahr.val()) {
                 $ZielJahr.focus();
             }
-            apziel_initiiert.resolve();
         }
+    }).fail(function () {
+        window.apf.melde('Fehler: Keine Daten für das AP-Ziel erhalten');
     });
-
-    return apziel_initiiert.promise();
 };
 
 module.exports = returnFunction;

@@ -1,15 +1,38 @@
 'use strict';
 
-var $           = require('jquery'),
-    initiiereAp = require('./initiiereAp');
+var $              = require('jquery'),
+    initiiereIndex = require('./initiiereIndex'),
+    initiiereAp    = require('./initiiereAp');
 
-var returnFunction = function () {
+var returnFunction = function (apId, uebId) {
     var $JbuJahr = $("#JbuJahr");
 
-    if (!localStorage.jber_uebersicht_id) {
-        // es fehlen benötigte Daten > eine Ebene höher
-        initiiereAp();
+    // prüfen, ob voraussetzungen gegeben sind
+    if (!apId && !localStorage.ap_id) {
+        // Anwendung neu initiieren
+        initiiereIndex();
         return;
+    }
+    if (!uebId && !localStorage.jber_uebersicht_id) {
+        // es fehlen benötigte Daten > eine Ebene höher
+        initiiereAp(apId);
+        return;
+    }
+
+    // apId setzen
+    if (!localStorage.ap_id) {
+        localStorage.ap_id = apId;
+    }
+    if (!apId) {
+        apId = localStorage.ap_id;
+    }
+
+    // uebId setzen
+    if (!localStorage.jber_uebersicht_id) {
+        localStorage.jber_uebersicht_id = uebId;
+    }
+    if (!uebId) {
+        uebId = localStorage.jber_uebersicht_id;
     }
 
     // Felder zurücksetzen
@@ -18,7 +41,7 @@ var returnFunction = function () {
     // Daten für die jber_uebersicht aus der DB holen
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wertNumber=' + localStorage.jber_uebersicht_id,
+        url: 'api/v1/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wertNumber=' + uebId,
         dataType: 'json'
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
@@ -35,13 +58,15 @@ var returnFunction = function () {
 
             // Formulare blenden
             window.apf.zeigeFormular("jber_uebersicht");
-            history.replaceState({jber_uebersicht: "jber_uebersicht"}, "jber_uebersicht", "index.html?ap=" + localStorage.apId + "&jber_uebersicht=" + localStorage.jber_uebersicht_id);
+            history.replaceState({jber_uebersicht: "jber_uebersicht"}, "jber_uebersicht", "index.html?ap=" + apId + "&jber_uebersicht=" + uebId);
 
             // bei neuen Datensätzen Fokus steuern
             if (!$JbuJahr.val()) {
                 $JbuJahr.focus();
             }
         }
+    }).fail(function () {
+        window.apf.melde('Fehler: Keine Daten für die Übersicht erhalten');
     });
 };
 

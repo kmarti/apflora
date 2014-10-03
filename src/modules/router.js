@@ -1,12 +1,17 @@
 'use strict';
 
-var $                    = require('jquery'),
-    Backbone             = require('backbone'),
-    initiiereIndex       = require('./initiiereIndex'),
-    initiiereAp          = require('./initiiereAp'),
-    initiiereAssozart    = require('./initiiereAssozart'),
-    initiiereIdealbiotop = require('./initiiereIdealbiotop'),
-    initiiereBeob        = require('./initiiereBeob');
+var Backbone                = require('backbone'),
+    initiiereIndex          = require('./initiiereIndex'),
+    initiiereAp             = require('./initiiereAp'),
+    initiiereAssozart       = require('./initiiereAssozart'),
+    initiiereIdealbiotop    = require('./initiiereIdealbiotop'),
+    initiiereBer            = require('./initiiereBer'),
+    initiiereJber           = require('./initiiereJber'),
+    initiiereJberUebersicht = require('./initiiereJberUebersicht'),
+    initiiereErfkrit        = require('./initiiereErfkrit'),
+    initiiereApziel         = require('./initiiereApziel'),
+    initiiereZielber        = require('./initiiereZielber'),
+    initiierePop            = require('./initiierePop');
 
 var returnFunction = function () {
     var router = new Backbone.Router.extend({
@@ -48,23 +53,29 @@ var returnFunction = function () {
             initiiereIdealbiotop(apId);
         },
         beobNichtZuzuordnen: function (apId, beobId) {
-            //initiiereBeob();
         },
         beobNichtBeurteilt: function (apId, beobId) {
         },
         bericht: function (apId, berId) {
+            initiiereBer(apId, berId);
         },
         apBericht: function (apId, apBerId) {
+            initiiereJber(apId, apBerId);
         },
         apBerÜbersicht: function (apId, uebId) {
+            initiiereJberUebersicht(apId, uebId);
         },
         erfolgskriterium: function (apId, erfkritId) {
+            initiiereErfkrit(apId, erfkritId);
         },
         apZiel: function (apId, apZielId) {
+            initiiereApziel(apId, apZielId);
         },
-        zielBericht: function (apId, zielberId) {
+        zielBericht: function (apId, apZielId, zielberId) {
+            initiiereZielber(apId, apZielId, zielberId);
         },
         pop: function (apId, popId) {
+            initiierePop(apId, popId);
         },
         popMassnBer: function (apId, popId, massnberId) {
         },
@@ -88,10 +99,8 @@ var returnFunction = function () {
         }
     });
 
-
-
-
     // TODO: home initiieren
+
 };
 
 module.exports = returnFunction;

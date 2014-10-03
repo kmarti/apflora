@@ -1,12 +1,41 @@
 'use strict';
 
-var $ = jQuery  = require('jquery'),
-    initiiereAp = require('./initiiereAp'),
-    limiter     = require('../lib/limiter');
+var $ = jQuery     = require('jquery'),
+    initiiereIndex = require('./initiiereIndex'),
+    initiiereAp    = require('./initiiereAp'),
+    limiter        = require('../lib/limiter');
 
 // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
 // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
-var initiiereBer = function () {
+var initiiereBer = function (apId, berId) {
+    // prüfen, ob voraussetzungen gegeben sind
+    if (!apId && !localStorage.ap_id) {
+        // Anwendung neu initiieren
+        initiiereIndex();
+        return;
+    }
+    if (!berId && !localStorage.ber_id) {
+        // es fehlen benötigte Daten > eine Ebene höher
+        initiiereAp(apId);
+        return;
+    }
+
+    // apId setzen
+    if (!localStorage.ap_id) {
+        localStorage.ap_id = apId;
+    }
+    if (!apId) {
+        apId = localStorage.ap_id;
+    }
+
+    // berId setzen
+    if (!localStorage.ber_id) {
+        localStorage.ber_id = berId;
+    }
+    if (!berId) {
+        berId = localStorage.ber_id;
+    }
+
     var $BerAutor = $("#BerAutor"),
         $BerJahr  = $("#BerJahr"),
         $BerTitel = $("#BerTitel"),
@@ -14,12 +43,6 @@ var initiiereBer = function () {
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     limiter($);
-
-    if (!localStorage.ber_id) {
-        // es fehlen benötigte Daten > eine Ebene höher
-        initiiereAp();
-        return;
-    }
 
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("ber");
@@ -51,7 +74,7 @@ var initiiereBer = function () {
 
             // Formulare blenden
             window.apf.zeigeFormular("ber");
-            history.replaceState({ber: "ber"}, "ber", "index.html?ap=" + localStorage.apId + "&ber=" + localStorage.ber_id);
+            history.replaceState({ber: "ber"}, "ber", "index.html?ap=" + localStorage.ap_id + "&ber=" + localStorage.ber_id);
 
             // bei neuen Datensätzen Fokus steuern
             if (!$BerAutor.val()) {
@@ -64,6 +87,8 @@ var initiiereBer = function () {
                 $BerURL.focus();
             }
         }
+    }).fail(function () {
+        window.apf.melde('Fehler: Keine Daten für den Bericht erhalten');
     });
 };
 

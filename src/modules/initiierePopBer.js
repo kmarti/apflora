@@ -33,7 +33,7 @@ var returnFunction = function () {
 
             // Formulare blenden
             window.apf.zeigeFormular("popber");
-            history.replaceState({tpopber: "popber"}, "popber", "index.html?ap=" + localStorage.apId + "&pop=" + localStorage.pop_id + "&popber=" + localStorage.popber_id);
+            history.replaceState({tpopber: "popber"}, "popber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&popber=" + localStorage.popber_id);
 
             // bei neuen Datensätzen Fokus steuern
             $('#PopBerJahr').focus();
