@@ -6,7 +6,7 @@ var $ = jQuery  = require('jquery'),
 
 // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
 // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
-var initiiereBer = function() {
+var initiiereBer = function () {
     var $BerAutor = $("#BerAutor"),
         $BerJahr  = $("#BerJahr"),
         $BerTitel = $("#BerTitel"),
@@ -28,7 +28,7 @@ var initiiereBer = function() {
         type: 'get',
         url: '/api/v1/apflora/tabelle=tblBer/feld=BerId/wertNumber=' + localStorage.ber_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];

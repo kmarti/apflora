@@ -3,6 +3,8 @@
  * wird in mehreren Felder benutzt
  * speichert die Liste in window.apf.adressen_html
  * um wiederholte DB-Zugriffe zu vermeiden
+ * nimmt eine callback-Funktion entgegen
+ * diser wird das generierte html übergeben
  */
 
 'use strict';
@@ -10,7 +12,7 @@
 var $ = require('jquery'),
     _ = require('underscore');
 
-var returnFunction = function(callback) {
+var returnFunction = function (callback) {
     var html = '';
 
     if (!window.apf.adressen_html) {
@@ -18,11 +20,11 @@ var returnFunction = function(callback) {
             type: 'get',
             url: 'api/v1/adressen',
             dataType: 'json'
-        }).done(function(data2) {
+        }).done(function (data2) {
             if (data2) {
                 // Feld mit Daten beliefern
                 html = "<option></option>";
-                _.each(data2, function(adresse) {
+                _.each(data2, function (adresse) {
                     html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
                 });
                 window.apf.adressen_html = html;

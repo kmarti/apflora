@@ -5,7 +5,7 @@ var $               = require('jquery'),
     initiiereIndex  = require('./initiiereIndex'),
     getAdressenHtml = require('./getAdressenHtml');
 
-var returnFunction = function(apId) {
+var returnFunction = function (apId) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!localStorage.ap_id && !apId) {
         // es fehlen benötigte Daten > zurück zum Anfang
@@ -34,7 +34,7 @@ var returnFunction = function(apId) {
             type: 'get',
             url: 'ap=' + apId,
             dataType: 'json'
-        }).done(function(data) {
+        }).done(function (data) {
             // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
             if (data && data[0]) {
                 data = data[0];
@@ -47,7 +47,7 @@ var returnFunction = function(apId) {
                 $("#ApArtwert").val(data.ApArtwert);
                 $("#Artname").val(data.Artname);
                 // Adressen holen, um ApBearb zu füllen
-                getAdressenHtml(function(html) {
+                getAdressenHtml(function (html) {
                     $("#ApBearb")
                         .html(html)
                         .val(window.apf.ApBearb);

@@ -6,7 +6,7 @@ var $                    = require('jquery'),
     initiiereAp          = require('./initiiereAp'),
     initiiereAssozart    = require('./initiiereAssozart');
 
-var returnFunction = function() {
+var returnFunction = function () {
     var router = new Backbone.Router.extend({
         routes: {
             "":                                                        "home",
@@ -33,54 +33,54 @@ var returnFunction = function() {
             "ap=:apId/pop=:popId/tpop:tpopId/massn:massnId":           "massn",
             "exportieren":                                             "exportieren"
         },
-        home: function() {
+        home: function () {
             initiiereIndex();
         },
-        ap: function(apId) {
+        ap: function (apId) {
             initiiereAp(apId);
         },
-        assozart: function(apId, assozId) {
+        assozart: function (apId, assozId) {
             initiiereAssozart(apId, assozId);
         },
-        idealbiotop: function(apId) {
+        idealbiotop: function (apId) {
         },
-        beobNichtZuzuordnen: function(apId, beobId) {
+        beobNichtZuzuordnen: function (apId, beobId) {
         },
-        beobNichtBeurteilt: function(apId, beobId) {
+        beobNichtBeurteilt: function (apId, beobId) {
         },
-        bericht: function(apId, berId) {
+        bericht: function (apId, berId) {
         },
-        apBericht: function(apId, apBerId) {
+        apBericht: function (apId, apBerId) {
         },
-        apBerÜbersicht: function(apId, uebId) {
+        apBerÜbersicht: function (apId, uebId) {
         },
-        erfolgskriterium: function(apId, erfkritId) {
+        erfolgskriterium: function (apId, erfkritId) {
         },
-        apZiel: function(apId, apZielId) {
+        apZiel: function (apId, apZielId) {
         },
-        zielBericht: function(apId, zielberId) {
+        zielBericht: function (apId, zielberId) {
         },
-        pop: function(apId, popId) {
+        pop: function (apId, popId) {
         },
-        popMassnBer: function(apId, popId, massnberId) {
+        popMassnBer: function (apId, popId, massnberId) {
         },
-        popBer: function(apId, popId, popberId) {
+        popBer: function (apId, popId, popberId) {
         },
-        tpop: function(apId, popId, tpopId) {
+        tpop: function (apId, popId, tpopId) {
         },
-        beobZugeordnet: function(apId, popId, tpopId, beobId) {
+        beobZugeordnet: function (apId, popId, tpopId, beobId) {
         },
-        tpopBer: function(apId, popId, tpopId, tpopBerId) {
+        tpopBer: function (apId, popId, tpopId, tpopBerId) {
         },
-        freiwKontr: function(apId, popId, tpopId, freiwKontrId) {
+        freiwKontr: function (apId, popId, tpopId, freiwKontrId) {
         },
-        feldKontr: function(apId, popId, tpopId, feldKontrId) {
+        feldKontr: function (apId, popId, tpopId, feldKontrId) {
         },
-        massnBer: function(apId, popId, tpopId, massnBerId) {
+        massnBer: function (apId, popId, tpopId, massnBerId) {
         },
-        massn: function(apId, popId, tpopId, massnId) {
+        massn: function (apId, popId, tpopId, massnId) {
         },
-        exportieren: function() {
+        exportieren: function () {
         }
     });
 

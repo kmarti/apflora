@@ -3,7 +3,7 @@
 var $ = require('jquery'),
     _ = require('underscore');
 
-var returnFunction = function(tpop_liste) {
+var returnFunction = function (tpop_liste) {
     var anz_tpop,
         infowindow,
         tpop_beschriftung,
@@ -33,7 +33,7 @@ var returnFunction = function(tpop_liste) {
     // TPopListe bearbeiten:
     // Objekte löschen, die keine Koordinaten haben
     // Lat und Lng ergänzen
-    _.each(tpop_liste, function(tpop, index) {
+    _.each(tpop_liste, function (tpop, index) {
         if (!tpop.TPopXKoord || !tpop.TPopYKoord) {
             // tpop einsetzen geht nicht, weil Chrome Fehler meldet
             delete tpop_liste[index];
@@ -64,7 +64,7 @@ var returnFunction = function(tpop_liste) {
 
     // für alle TPop Marker erstellen
     markers = [];
-    _.each(tpop_liste, function(tpop) {
+    _.each(tpop_liste, function (tpop) {
         tpop_id = tpop.TPopId;
         tpop_beschriftung = window.apf.beschrifteTPopMitNrFürKarte(tpop.PopNr, tpop.TPopNr);
         latlng2 = new google.maps.LatLng(tpop.Lat, tpop.Lng);
@@ -129,7 +129,7 @@ var returnFunction = function(tpop_liste) {
 
     // diese Funktion muss hier sein, damit infowindow bekannt ist
     function makeListener(map, marker, contentString) {
-        google.maps.event.addListener(marker, 'click', function() {
+        google.maps.event.addListener(marker, 'click', function () {
             infowindow.setContent(contentString);
             infowindow.open(map, marker);
         });

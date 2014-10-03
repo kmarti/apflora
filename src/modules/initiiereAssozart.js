@@ -4,7 +4,7 @@ var $              = require('jquery'),
     initiiereIndex = require('./initiiereIndex'),
     initiiereAp    = require('./initiiereAp');
 
-var returnFunction = function(apId, assozId) {
+var returnFunction = function (apId, assozId) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.ap_id) {
         // Anwendung neu initiieren
@@ -43,22 +43,29 @@ var returnFunction = function(apId, assozId) {
         type: 'get',
         url: '/api/v1/apflora/tabelle=tblAssozArten/feld=AaId/wertNumber=' + assozId,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-        if (data && data.length > 0) {
+        if (data && data[0]) {
+            data = data[0];
+
             // assozarten bereitstellen
-            window.apf.assozarten = data[0];
+            window.apf.assozarten = data;
+
             // Felder mit Daten beliefern
-            $AaSisfNr.val(data[0].AaSisfNr);
-            $("#AaBem").val(data[0].AaBem);
+            $AaSisfNr.val(data.AaSisfNr);
+            $("#AaBem").val(data.AaBem);
+
             // Formulare blenden
             window.apf.zeigeFormular("assozarten");
             history.replaceState({assozarten: "assozarten"}, "assozarten", "index.html?ap=" + apId + "&assozarten=" + assozId);
+
             // bei neuen Datensätzen Fokus steuern
             if (!$AaSisfNr.val()) {
                 $AaSisfNr.focus();
             }
         }
+    }).fail(function () {
+        window.apf.melde('Fehler: Keine Daten für die assoziierte Art erhalten');
     });
 };
 

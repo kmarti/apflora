@@ -6,7 +6,7 @@ var $                     = require('jquery'),
     initiiereAp           = require('./initiiereAp'),
     initiiereBeob         = require('./initiiereBeob');
 
-var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
+var returnFunction = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
     // beob_status markiert, ob die Beobachtung:
     // - schon zugewiesen ist (zugeordnet)
     // - noch nicht beurteilt ist (nicht_beurteilt)
@@ -53,7 +53,7 @@ var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
         type: 'get',
         url: url,
         dataType: 'json'
-    }).done(function(data_beob) {
+    }).done(function (data_beob) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data_beob && data_beob.length > 0) {
             data_beob = data_beob[0];
@@ -68,11 +68,11 @@ var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
                 type: 'get',
                 url: url_distzutpop,
                 dataType: 'json'
-            }).done(function(data) {
+            }).done(function (data) {
                 // Tabellenzeile beginnen
                 var html_distzutpop = '<tr class="fieldcontain DistZuTPop"><td class="label"><label id="DistZuTPop_label" for="DistZuTPop">Einer Teilpopulation zuordnen:</label></td><td class="Datenfelder"><div class="Datenfelder" id="DistZuTPop_Felder">';
                 if (data) {
-                    _.each(data, function(beob, index) {
+                    _.each(data, function (beob, index) {
                         if (index>0) {
                             html_distzutpop += "<br>";
                         }
@@ -116,7 +116,7 @@ var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
                             type: 'get',
                             url: urlZuordnung,
                             dataType: 'json'
-                        }).done(function(data) {
+                        }).done(function (data) {
                             // Felder mit Daten beliefern
                             $("#BeobNichtBeurteilt").prop("checked", false);
                             if (data.BeobNichtZuordnen == 1) {

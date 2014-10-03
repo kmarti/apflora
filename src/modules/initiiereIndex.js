@@ -3,10 +3,10 @@
 var $ = require('jquery');
 require('jquery-ui');
 
-var returnFunction = function() {
+var returnFunction = function () {
     // jQuery ui widgets initiieren
     $("#programm_wahl").buttonset({
-        create: function() {
+        create: function () {
             // erst jetzt einblenden, weil sonst die normalen checkboxen aufblitzen
             $("#programm_wahl").show();
         }
@@ -19,14 +19,14 @@ var returnFunction = function() {
     // tooltip: Klasse zuweisen, damit gestylt werden kann
     $("#label_olmap_infos_abfragen, #label_olmap_distanz_messen, #label_olmap_flaeche_messen, #label_olmap_auswaehlen, #olmap_exportieren_div, .apf_tooltip").tooltip({
         tooltipClass: "tooltip-styling-hinterlegt",
-        content: function() {
+        content: function () {
             return $(this).attr('title');
         }
     });
 
     $(".export_abschnitt").tooltip({
         tooltipClass: "export_abschnitt_tooltip_class",
-        content: function() {
+        content: function () {
             return $(this).attr('title');
         }
     });
@@ -58,7 +58,7 @@ var returnFunction = function() {
         firstDay: 1,
         showOn: "button",
         defaultDate: +0,
-        onSelect: function() {
+        onSelect: function () {
             window.apf.speichern(this);
         }
     });
@@ -75,7 +75,7 @@ var returnFunction = function() {
 
     // HIER WIRD IN FIREFOX EINE ENDLOSSCHLAUFE AUSGELÖST
     $.when(window.apf.wähleApListe("programm_alle"))
-        .then(function() {
+        .then(function () {
             // falls eine Unteradresse angewählt wurde, diese öffnen
             window.apf.öffneUri();
         });

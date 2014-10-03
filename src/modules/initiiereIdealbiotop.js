@@ -4,7 +4,7 @@ var $                    = require('jquery'),
     dateFormat           = require('dateformat'),
     initiiereAp          = require('./initiiereAp');
 
-var initiiereIdealbiotop = function() {
+var initiiereIdealbiotop = function () {
     var $IbErstelldatum  = $("#IbErstelldatum");
 
     if (!localStorage.ap_id) {
@@ -21,7 +21,7 @@ var initiiereIdealbiotop = function() {
         type: 'get',
         url: '/api/v1/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wertNumber=' + localStorage.ap_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
@@ -71,10 +71,10 @@ var initiiereIdealbiotop = function() {
                 type: 'post',
                 url: '/api/v1/insert/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wert=' + localStorage.ap_id + '/user=' + sessionStorage.User,
                 dataType: 'json'
-            }).done(function() {
+            }).done(function () {
                 localStorage.idealbiotop_id = localStorage.ap_id;
                 initiiereIdealbiotop();
-            }).fail(function() {
+            }).fail(function () {
                 window.apf.melde("Fehler: Kein Idealbiotop erstellt");
             });
         }

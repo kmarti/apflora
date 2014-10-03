@@ -13,7 +13,7 @@ var $               = require('jquery'),
 
 require('jquery-ui');
 
-var returnFunction = function() {
+var returnFunction = function () {
     var $TPopKontrJahr           = $("#TPopKontrJahr"),
         $TPopKontrJungPflJN_ja   = $("#TPopKontrJungPflJN_ja"),
         $TPopKontrJungPflJN_nein = $("#TPopKontrJungPflJN_nein"),
@@ -32,7 +32,7 @@ var returnFunction = function() {
     window.apf.leereFelderVonFormular("tpopfeldkontr");
 
     // alle Felder ausblenden. Später werden die benötigten eingeblendet
-    $('.feld_tpopfeldkontr').each(function() {
+    $('.feld_tpopfeldkontr').each(function () {
         $(this).hide();
     });
 
@@ -41,7 +41,7 @@ var returnFunction = function() {
         type:     'get',
         url:      'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + localStorage.tpopfeldkontr_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
@@ -64,7 +64,7 @@ var returnFunction = function() {
             $("#TPopKontrTxt").val(data.TPopKontrTxt);
             $("#TPopKontrGuid").val(data.TPopKontrGuid);
             // Adressen holen, um TPopKontrBearb zu füllen
-            getAdressenHtml(function(html) {
+            getAdressenHtml(function (html) {
                 $("#TPopKontrBearb")
                     .html(html)
                     .val(window.apf.tpopfeldkontr.TPopKontrBearb);
@@ -75,12 +75,12 @@ var returnFunction = function() {
                     type:     'get',
                     url:      'api/v1/feldkontrZaehleinheit',
                     dataType: 'json'
-                }).done(function(data3) {
+                }).done(function (data3) {
                     if (data3 && data3.length > 0) {
                         // Feld mit Daten beliefern
                         var html;
                         html = "<option></option>";
-                        _.each(data3, function(zähleinheit) {
+                        _.each(data3, function (zähleinheit) {
                             html += "<option value=\"" + zähleinheit.id + "\">" + zähleinheit.ZaehleinheitTxt + "</option>";
                         });
                         window.apf.TPopKontrZähleinheit_html = html;
@@ -180,12 +180,12 @@ var returnFunction = function() {
                         type:     'get',
                         url:      'api/v1/lrDelarze',
                         dataType: 'json'
-                    }).done(function(data4) {
+                    }).done(function (data4) {
                         if (data4) {
                             // Feld mit Daten beliefern
                             var html;
                             html = "<option></option>";
-                            _.each(data4, function(lr) {
+                            _.each(data4, function (lr) {
                                 html += "<option value=\"" + lr.id + "\">" + lr.Einheit + "</option>";
                             });
                             window.apf.lrdelarze_html = html;
@@ -212,12 +212,12 @@ var returnFunction = function() {
                     type:     'get',
                     url:      'api/v1/idealbiotopUebereinst',
                     dataType: 'json'
-                }).done(function(data5) {
+                }).done(function (data5) {
                     if (data5 && data5.length > 0) {
                         // Feld mit Daten beliefern
                         var html;
                         html = "<option></option>";
-                        _.each(data5, function(übereinst) {
+                        _.each(data5, function (übereinst) {
                             html += "<option value=\"" + übereinst.id + "\">" + übereinst.DomainTxt + "</option>";
                         });
                         window.apf.IdealBiotopÜbereinst_html = html;
@@ -261,11 +261,11 @@ var returnFunction = function() {
 
             // fieldcontain-divs der benötigten Felder einblenden
             if (localStorage.tpopfreiwkontr) {
-                _.each(window.apf.feldliste_freiwkontr, function(feld) {
+                _.each(window.apf.feldliste_freiwkontr, function (feld) {
                     $("#fieldcontain_" + feld).show();
                 });
             } else {
-                _.each(window.apf.feldliste_feldkontr, function(feld) {
+                _.each(window.apf.feldliste_feldkontr, function (feld) {
                     $("#fieldcontain_" + feld).show();
                 });
             }

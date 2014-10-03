@@ -10,14 +10,14 @@ window.apf.initiiereIndex = require('./modules/initiiereIndex');
 
 // setzt window.apf und localStorage.ap_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-window.apf.setzeWindowAp = function(id) {
+window.apf.setzeWindowAp = function (id) {
     'use strict';
     localStorage.ap_id = id;
     $.ajax({
         type: 'get',
         url: 'ap=' + localStorage.ap_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // ap bereitstellen
@@ -26,7 +26,7 @@ window.apf.setzeWindowAp = function(id) {
     });
 };
 
-window.apf.hole_artliste_html = function() {
+window.apf.hole_artliste_html = function () {
     'use strict';
     var liste_geholt = $.Deferred();
     // wird benutzt von function window.apf.erstelle_artlisten und window.apf.initiiere_tpopmassn
@@ -36,10 +36,10 @@ window.apf.hole_artliste_html = function() {
             type: 'get',
             url: 'api/v1/artliste',
             dataType: 'json'
-        }).done(function(data) {
+        }).done(function (data) {
             var html;
             html = "<option></option>";
-            _.each(data, function(art) {
+            _.each(data, function (art) {
                 html += "<option value=\"" + art.TaxonomieId + "\">" + art.Artname + "</option>";
             });
             window.apf.artliste_html = html;
@@ -53,11 +53,11 @@ window.apf.hole_artliste_html = function() {
 
 // wird benutzt von Formular ap, pop und TPopMassn
 // setzt vollständige Artlisten în Select-Felder
-window.apf.erstelle_artlisten = function() {
+window.apf.erstelle_artlisten = function () {
     'use strict';
     var liste_erstellt = $.Deferred();
     $.when(window.apf.hole_artliste_html())
-        .then(function() {
+        .then(function () {
             $("#AaSisfNr").html(window.apf.artliste_html);
             $("#TPopMassnAnsiedWirtspfl").html(window.apf.artliste_html);
             liste_erstellt.resolve();
@@ -67,14 +67,14 @@ window.apf.erstelle_artlisten = function() {
 
 // setzt window.apf.pop und localStorage.pop_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-window.apf.setzeWindowPop = function(id) {
+window.apf.setzeWindowPop = function (id) {
     'use strict';
     localStorage.pop_id = id;
     $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblPopulation/feld=PopId/wertNumber=' + localStorage.pop_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // pop bereitstellen
@@ -85,14 +85,14 @@ window.apf.setzeWindowPop = function(id) {
 
 // setzt window.apf.apziel und localStorage.apziel_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-window.apf.setzeWindowApziel = function(id) {
+window.apf.setzeWindowApziel = function (id) {
     'use strict';
     localStorage.apziel_id = id;
     $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblZiel/feld=ZielId/wertNumber=' + localStorage.apziel_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // apziel bereitstellen
@@ -103,14 +103,14 @@ window.apf.setzeWindowApziel = function(id) {
 
 // setzt window.apf.zielber und localStorage.zielber_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-window.apf.setzeWindowZielber = function(id) {
+window.apf.setzeWindowZielber = function (id) {
     'use strict';
     localStorage.zielber_id = id;
     $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblZielBericht/feld=ZielBerId/wertString=' + localStorage.zielber_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // zielber bereitstellen
@@ -121,14 +121,14 @@ window.apf.setzeWindowZielber = function(id) {
 
 // setzt window.apf.erfkrit und localStorage.erfkrit_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-window.apf.setzeWindowErfkrit = function(id) {
+window.apf.setzeWindowErfkrit = function (id) {
     'use strict';
     localStorage.erfkrit_id = id;
     $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblErfKrit/feld=ErfkritId/wertString=' + localStorage.erfkrit_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // erfkrit bereitstellen
@@ -139,14 +139,14 @@ window.apf.setzeWindowErfkrit = function(id) {
 
 // setzt window.apf.jber und localStorage.jber_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-window.apf.setzeWindowJber = function(id) {
+window.apf.setzeWindowJber = function (id) {
     'use strict';
     localStorage.jber_id = id;
     $.ajax({
         type: 'get',
         url: '/api/v1/apflora/tabelle=tblJBer/feld=JBerId/wertNumber=' + localStorage.jber_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // jber bereitstellen
@@ -157,14 +157,14 @@ window.apf.setzeWindowJber = function(id) {
 
 // setzt window.apf.jber_übersicht und localStorage.jber_uebersicht_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-window.apf.setzeWindowJberUebersicht = function(id) {
+window.apf.setzeWindowJberUebersicht = function (id) {
     'use strict';
     localStorage.jber_uebersicht_id = id;
     $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wertNumber=' + localStorage.jber_uebersicht_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // jber_uebersicht bereitstellen
@@ -175,14 +175,14 @@ window.apf.setzeWindowJberUebersicht = function(id) {
 
 // setzt window.apf.ber und localStorage.ber_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-window.apf.setzeWindowBer = function(id) {
+window.apf.setzeWindowBer = function (id) {
     'use strict';
     localStorage.ber_id = id;
     $.ajax({
         type: 'get',
         url: '/api/v1/apflora/tabelle=tblBer/feld=BerId/wertNumber=' + localStorage.ber_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
@@ -194,14 +194,14 @@ window.apf.setzeWindowBer = function(id) {
 
 // setzt window.apf.idealbiotop und localStorage.idealbiotop_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-window.apf.setzeWindowIdealbiotop = function(id) {
+window.apf.setzeWindowIdealbiotop = function (id) {
     'use strict';
     localStorage.idealbiotop_id = id;
     $.ajax({
         type: 'get',
         url: '/api/v1/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wertNumber=' + localStorage.idealbiotop_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // idealbiotop bereitstellen
@@ -212,14 +212,14 @@ window.apf.setzeWindowIdealbiotop = function(id) {
 
 // setzt window.apf.assozarten und localStorage.assozarten_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-window.apf.setzeWindowAssozarten = function(id) {
+window.apf.setzeWindowAssozarten = function (id) {
     'use strict';
     localStorage.assozarten_id = id;
     $.ajax({
         type: 'get',
         url: '/api/v1/apflora/tabelle=tblAssozArten/feld=AaId/wertNumber=' + localStorage.assozarten_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data) {
             // assozarten bereitstellen
@@ -230,14 +230,14 @@ window.apf.setzeWindowAssozarten = function(id) {
 
 // setzt window.apf.popmassnber und localStorage.popmassnber_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-window.apf.setzeWindowPopmassnber = function(id) {
+window.apf.setzeWindowPopmassnber = function (id) {
     'use strict';
     localStorage.popmassnber_id = id;
     $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblPopMassnBericht/feld=PopMassnBerId/wertNumber=' + localStorage.popmassnber_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // popmassnber bereitstellen
@@ -248,14 +248,14 @@ window.apf.setzeWindowPopmassnber = function(id) {
 
 // setzt window.apf.tpop und localStorage.tpop_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-window.apf.setzeWindowTpop = function(id) {
+window.apf.setzeWindowTpop = function (id) {
     'use strict';
     localStorage.tpop_id = id;
     $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + localStorage.tpop_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // tpop bereitstellen
@@ -266,14 +266,14 @@ window.apf.setzeWindowTpop = function(id) {
 
 // setzt window.apf.popber und localStorage.popber_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-window.apf.setzeWindowPopber = function(id) {
+window.apf.setzeWindowPopber = function (id) {
     'use strict';
     localStorage.popber_id = id;
     $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblPopBericht/feld=PopBerId/wertNumber=' + localStorage.popber_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // popber bereitstellen
@@ -284,14 +284,14 @@ window.apf.setzeWindowPopber = function(id) {
 
 // setzt window.apf.tpopfeldkontr und localStorage.tpopfeldkontr_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-window.apf.setzeWindowTpopfeldkontr = function(id) {
+window.apf.setzeWindowTpopfeldkontr = function (id) {
     'use strict';
     localStorage.tpopfeldkontr_id = id;
     $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + localStorage.tpopfeldkontr_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // tpopfeldkontr bereitstellen
@@ -302,14 +302,14 @@ window.apf.setzeWindowTpopfeldkontr = function(id) {
 
 // setzt window.apf.tpopmassn und localStorage.tpopmassn_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-window.apf.setzeWindowTpopmassn = function(id) {
+window.apf.setzeWindowTpopmassn = function (id) {
     'use strict';
     localStorage.tpopmassn_id = id;
     $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblTeilPopMassnahme/feld=TPopMassnId/wertNumber=' + localStorage.tpopmassn_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // tpopmassn bereitstellen
@@ -320,14 +320,14 @@ window.apf.setzeWindowTpopmassn = function(id) {
 
 // setzt window.apf.tpopmassnber und localStorage.tpopmassnber_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-window.apf.setzeWindowTpopmassnber = function(id) {
+window.apf.setzeWindowTpopmassnber = function (id) {
     'use strict';
     localStorage.tpopmassnber_id = id;
     $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblTeilPopMassnBericht/feld=TPopMassnBerId/wertNumber=' + localStorage.tpopmassnber_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // tpopmassnber bereitstellen
@@ -338,14 +338,14 @@ window.apf.setzeWindowTpopmassnber = function(id) {
 
 // setzt window.apf.tpopber und localStorage.tpopber_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
-window.apf.setzeWindowTpopber = function(id) {
+window.apf.setzeWindowTpopber = function (id) {
     'use strict';
     localStorage.tpopber_id = id;
     $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblTeilPopBericht/feld=TPopBerId/wertNumber=' + localStorage.tpopber_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // tpopber bereitstellen
@@ -354,7 +354,7 @@ window.apf.setzeWindowTpopber = function(id) {
     });
 };
 
-window.apf.initiiere_exporte = function(anchor) {
+window.apf.initiiere_exporte = function (anchor) {
     'use strict';
     $("#testart_div").hide();
     $("#forms_titelzeile").hide();
@@ -370,7 +370,7 @@ window.apf.initiiere_exporte = function(anchor) {
 // wird ein Formularname übergeben, wird dieses Formular gezeigt
 // und alle anderen ausgeblendet
 // zusätzlich wird die Höhe von textinput-Feldern an den Textinhalt angepasst
-window.apf.zeigeFormular = function(Formularname) {
+window.apf.zeigeFormular = function (Formularname) {
     'use strict';
     var formular_angezeigt = $.Deferred(),
         $forms = $("#forms"),
@@ -381,11 +381,11 @@ window.apf.zeigeFormular = function(Formularname) {
         $Formularname;
     // zuerst alle Formulare ausblenden
     $forms.hide();
-    $form.each(function() {
+    $form.each(function () {
         $(this).hide();
     });
     // Karten sind in div statt form
-    $('.karte').each(function() {
+    $('.karte').each(function () {
         $(this).hide();
     });
 
@@ -437,11 +437,11 @@ window.apf.zeigeFormular = function(Formularname) {
             }
         } else {
             $forms.css("background-color", "#FFE");
-            $form.each(function() {
+            $form.each(function () {
                 $(this).hide();
                 if ($(this).attr("id") === Formularname) {
                     $(this).show();
-                    $('textarea').each(function() {
+                    $('textarea').each(function () {
                         window.apf.fitTextareaToContent(this, document.documentElement.clientHeight);
                     });
                 }
@@ -454,21 +454,21 @@ window.apf.zeigeFormular = function(Formularname) {
 };
 
 // leert alle Felder und stellt ihre Breite ein
-window.apf.leereFelderVonFormular = function(Formular) {
+window.apf.leereFelderVonFormular = function (Formular) {
     'use strict';
-    $('#' + Formular + ' input[type="text"]').each(function(){
+    $('#' + Formular + ' input[type="text"]').each(function (){
         $(this).val("");
     });
-    $('#' + Formular + ' input[type="radio"]:checked').each(function(){
+    $('#' + Formular + ' input[type="radio"]:checked').each(function (){
         $(this).prop('checked', false);
     });
-    $('#' + Formular + ' select').each(function(){
+    $('#' + Formular + ' select').each(function (){
         $(this).val("");
     });
 };
 
 // begrenzt die maximale Höhe des Baums auf die Seitenhöhe, wenn nötig
-window.apf.setzeTreehöhe = function() {
+window.apf.setzeTreehöhe = function () {
     'use strict';
     if ($(window).width() > 1000) {
         if (($(".jstree-no-icons").height() + 157) > $(window).height()) {
@@ -482,7 +482,7 @@ window.apf.setzeTreehöhe = function() {
     }
 };
 
-window.apf.setzeKartenhöhe = function() {
+window.apf.setzeKartenhöhe = function () {
     'use strict';
     var lyt_max_height = window.apf.berechneOlmapLayertreeMaxhöhe,
         forms_height,
@@ -520,7 +520,7 @@ window.apf.setzeKartenhöhe = function() {
     }
 };
 
-window.apf.olmap.blendeOlmapExportieren = function() {
+window.apf.olmap.blendeOlmapExportieren = function () {
     'use strict';
     var map_size,
         anz_kartenpixel,
@@ -542,7 +542,7 @@ window.apf.olmap.blendeOlmapExportieren = function() {
     });
 };
 
-window.apf.berechneOlmapLayertreeMaxhöhe = function() {
+window.apf.berechneOlmapLayertreeMaxhöhe = function () {
     var lyt_max_height;
     if ($(window).width() > 1000) {
         lyt_max_height = $(window).height() - 115;
@@ -553,14 +553,14 @@ window.apf.berechneOlmapLayertreeMaxhöhe = function() {
     return lyt_max_height;
 };
 
-(function($) {
-    $.fn.hasScrollBar = function() {
+(function ($) {
+    $.fn.hasScrollBar = function () {
         return this.get(0).scrollHeight > this.height();
     }
 })(jQuery);
 
 // setzt die Höhe von textareas so, dass der Text genau rein passt
-window.apf.fitTextareaToContent = function(id, maxHeight) {
+window.apf.fitTextareaToContent = function (id, maxHeight) {
     'use strict';
    var text = id && id.style ? id : document.getElementById(id);
    if (!text)
@@ -581,17 +581,17 @@ window.apf.fitTextareaToContent = function(id, maxHeight) {
    }
 };
 
-window.apf.erstelle_ap_liste = function(programm) {
+window.apf.erstelle_ap_liste = function (programm) {
     'use strict';
     var apliste_erstellt = $.Deferred();
     $.ajax({
         type: 'get',
         url: 'api/v1/apliste/programm=' + programm,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         var html;
         html = "<option></option>";
-        _.each(data, function(ap) {
+        _.each(data, function (ap) {
             html += "<option value=\"" + ap.id + "\">" + ap.ap_name + "</option>";
         });
         $("#ap_waehlen").html(html);
@@ -600,7 +600,7 @@ window.apf.erstelle_ap_liste = function(programm) {
     return apliste_erstellt.promise();
 };
 
-window.apf.wähleApListe = function(programm) {
+window.apf.wähleApListe = function (programm) {
     'use strict';
     var apliste_gewählt = $.Deferred(),
         $ap_waehlen_label = $("#ap_waehlen_label"),
@@ -619,7 +619,7 @@ window.apf.wähleApListe = function(programm) {
     $ap_waehlen.val("");
     initiiereAp();
     $.when(window.apf.erstelle_ap_liste(programm))
-        .then(function() {
+        .then(function () {
             var $programm_wahl_checked = $("[name='programm_wahl']:checked");
             if ($programm_wahl_checked.attr("id") === "programm_neu") {
                 $ap_waehlen_label.html("Art für neues Förderprogramm wählen:");
@@ -635,7 +635,7 @@ window.apf.wähleApListe = function(programm) {
 };
 
 // diese Funktion kann nicht modularisiert werden, weil jstree nicht für node entwickelt wurde!!!!
-window.apf.erstelle_tree = function(ApArtId) {
+window.apf.erstelle_tree = function (ApArtId) {
     'use strict';
     var jstree_erstellt = $.Deferred();
     $("#tree").jstree({
@@ -660,7 +660,7 @@ window.apf.erstelle_tree = function(ApArtId) {
         "search": {
             "case_insensitive": true
         },
-        "sort": function(a, b) {
+        "sort": function (a, b) {
             if ($(a).attr("sort") && $(b).attr("sort")) {
                 return parseInt($(a).attr("sort"), 10) > parseInt($(b).attr("sort"), 10) ? 1 : -1;
             }
@@ -675,7 +675,7 @@ window.apf.erstelle_tree = function(ApArtId) {
         "crrm": {
             "move": {
                 "default_position": "first",
-                "check_move": function(m) {
+                "check_move": function (m) {
                     // hier wird bestimmt, welche drag-drop-Kombinationen zulässig sind
                     if (m.o.attr("typ") === "pop") {
                         if (m.r.attr("typ") === "pop") {
@@ -1021,7 +1021,7 @@ window.apf.erstelle_tree = function(ApArtId) {
         //"plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "contextmenu", "crrm", "dnd", "types"]   // dnd ausgeschaltet, weil es Speichern verhindert im letzten Feld vor Klick in Baum
     })
     .show()
-    .bind("loaded.jstree", function(event, data) {
+    .bind("loaded.jstree", function (event, data) {
         var initiiereAp = require('./modules/initiiereAp');
         jstree_erstellt.resolve();
         window.apf.setzeTreehöhe();
@@ -1136,15 +1136,15 @@ window.apf.erstelle_tree = function(ApArtId) {
         }
     })
     // auch auf Mobilgeräten soll das Kontextmenü zugänglich sein!
-    .hammer().bind("hold doubletap", function(event) {
+    .hammer().bind("hold doubletap", function (event) {
         // auf PC's verhindern: Menu erscheint sonst beim Scrollen
         if ($(window).width() < 1000) {
-            setTimeout(function() {
+            setTimeout(function () {
                 $("#tree").jstree('get_selected').children('a').trigger('contextmenu');
             }, 500);
         }
     })
-    .bind("select_node.jstree", function(e, data) {
+    .bind("select_node.jstree", function (e, data) {
         var node,
             initiiere_beob          = require('./modules/initiiereBeob'),
             initiiereIdealbiotop    = require('./modules/initiiereIdealbiotop'),
@@ -1307,17 +1307,17 @@ window.apf.erstelle_tree = function(ApArtId) {
             }
         }
     })
-    .bind("after_open.jstree", function(e, data) {
+    .bind("after_open.jstree", function (e, data) {
         window.apf.setzeTreehöhe();
     })
-    .bind("after_close.jstree", function(e, data) {
+    .bind("after_close.jstree", function (e, data) {
         window.apf.setzeTreehöhe();
     })
-    .bind("prepare_move.jstree", function(e, data) {
+    .bind("prepare_move.jstree", function (e, data) {
         // herkunft_parent_node muss vor dem move ermittelt werden - danach ist der parent ein anderer!
         window.apf.herkunft_parent_node = $.jstree._reference(data.rslt.o)._get_parent(data.rslt.o);
     })
-    .bind("create_node.jstree", function(e, data) {
+    .bind("create_node.jstree", function (e, data) {
         if (data.rslt.parent[0].attributes.typ.nodeValue === "apzieljahr") {
             var Objekt = {};
             Objekt.name = "ZielJahr";
@@ -1328,7 +1328,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                 .focus();
         }
     })
-    .bind("move_node.jstree", function(e, data) {
+    .bind("move_node.jstree", function (e, data) {
         var herkunft_node,
             herkunft_node_id,
             herkunft_node_typ,
@@ -1362,7 +1362,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     type: 'post',
                     url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + ziel_node_id + '/feld=ApArtId/wert=' + ziel_parent_node_id + '/user=' + sessionStorage.User,
                     dataType: 'json'
-                }).done(function() {
+                }).done(function () {
                     var initiierePop = require('./modules/initiierePop');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_pop(ziel_parent_node);
@@ -1375,7 +1375,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     delete window.apf.pop;
                     delete window.apf.herkunft_parent_node;
                     initiierePop();
-                }).fail(function() {
+                }).fail(function () {
                     window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
                 });
             }
@@ -1384,7 +1384,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     type: 'post',
                     url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=PopId/tabelleId=' + ziel_parent_node_id + '/feld=TPopId/wert=' + ziel_node_id + '/user=' + sessionStorage.User,
                     dataType: 'json'
-                }).done(function() {
+                }).done(function () {
                     var initiiereTPop = require('./modules/initiiereTPop');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpop(ziel_parent_node);
@@ -1398,7 +1398,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     delete window.apf.tpop_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
                     initiiereTPop();
-                }).fail(function() {
+                }).fail(function () {
                     window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
                 });
             }
@@ -1407,7 +1407,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     type: 'post',
                     url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=PopId/tabelleId=' + ziel_node_id + '/feld=TPopId/wert=' + herkunft_node_id + '/user=' + sessionStorage.User,
                     dataType: 'json'
-                }).done(function() {
+                }).done(function () {
                     var initiiereTPop = require('./modules/initiiereTPop');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpop(ziel_node);
@@ -1420,7 +1420,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     delete window.apf.tpop;
                     delete window.apf.tpop_node_ausgeschnitten;
                     initiiereTPop();
-                }).fail(function() {
+                }).fail(function () {
                     window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
                 });
             }
@@ -1431,7 +1431,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     type: 'post',
                     url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=PopId/tabelleId=' + ziel_parent_node_id + '/feld=TPopId/wert=' + herkunft_node_id + '/user=' + sessionStorage.User,
                     dataType: 'json'
-                }).done(function() {
+                }).done(function () {
                     var initiiereTPop = require('./modules/initiiereTPop');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpop(ziel_parent_node);
@@ -1445,7 +1445,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     delete window.apf.tpop_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
                     initiiereTPop();
-                }).fail(function() {
+                }).fail(function () {
                     window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
                 });
             }
@@ -1454,7 +1454,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     type: 'post',
                     url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=PopId/tabelleId=' + ziel_node_id + '/feld=TPopId/wert=' + herkunft_node_id + '/user=' + sessionStorage.User,
                     dataType: 'json'
-                }).done(function() {
+                }).done(function () {
                     var initiiereTPop = require('./modules/initiiereTPop');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpop(ziel_node);
@@ -1468,7 +1468,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     delete window.apf.tpop_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
                     initiiereTPop();
-                }).fail(function() {
+                }).fail(function () {
                     window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
                 });
             }
@@ -1479,7 +1479,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     type: 'post',
                     url: 'api/v1/update/apflora/tabelle=tblTeilPopMassnahme/tabelleIdFeld=TPopId/tabelleId=' + ziel_parent_node_id + '/feld=TPopMassnId/wert=' + herkunft_node_id + '/user=' + sessionStorage.User,
                     dataType: 'json'
-                }).done(function() {
+                }).done(function () {
                     var initiiereTPopMassn = require('./modules/initiiereTPopMassn');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpopmassn(ziel_parent_node);
@@ -1493,7 +1493,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     delete window.apf.tpopmassn_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
                     initiiereTPopMassn();
-                }).fail(function() {
+                }).fail(function () {
                     window.apf.melde("Fehler: Die Massnahme wurde nicht verschoben");
                 });
             }
@@ -1502,7 +1502,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     type: 'post',
                     url: 'api/v1/update/apflora/tabelle=tblTeilPopMassnahme/tabelleIdFeld=TPopId/tabelleId=' + ziel_node_id + '/feld=TPopMassnId/wert=' + herkunft_node_id + '/user=' + sessionStorage.User,
                     dataType: 'json'
-                }).done(function() {
+                }).done(function () {
                     var initiiereTPopMassn = require('./modules/initiiereTPopMassn');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpopmassn(ziel_node);
@@ -1516,7 +1516,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     delete window.apf.tpopmassn_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
                     initiiereTPopMassn();
-                }).fail(function() {
+                }).fail(function () {
                     window.apf.melde("Fehler: Die Massnahme wurde nicht verschoben");
                 });
             }
@@ -1527,7 +1527,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     type: 'post',
                     url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + ziel_parent_node_id + '/user=' + sessionStorage.User,
                     dataType: 'json'
-                }).done(function() {
+                }).done(function () {
                     var initiiereTPopFeldkontr  = require('./modules/initiiereTPopFeldkontr');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpopfeldkontr(ziel_parent_node);
@@ -1541,7 +1541,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     delete window.apf.tpopfeldkontr_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
                     initiiereTPopFeldkontr();
-                }).fail(function() {
+                }).fail(function () {
                     window.apf.melde("Fehler: Die Feldkontrolle wurde nicht verschoben");
                 });
             }
@@ -1550,7 +1550,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     type: 'post',
                     url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + ziel_node_id + '/user=' + sessionStorage.User,
                     dataType: 'json'
-                }).done(function() {
+                }).done(function () {
                     var initiiereTPopFeldkontr  = require('./modules/initiiereTPopFeldkontr');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpopfeldkontr(ziel_node);
@@ -1564,7 +1564,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     delete window.apf.tpopfeldkontr_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
                     initiiereTPopFeldkontr();
-                }).fail(function() {
+                }).fail(function () {
                     window.apf.melde("Fehler: Die Feldkontrolle wurde nicht verschoben");
                 });
             }
@@ -1575,7 +1575,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     type: 'post',
                     url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + ziel_parent_node_id + '/user=' + sessionStorage.User,
                     dataType: 'json'
-                }).done(function() {
+                }).done(function () {
                     var initiiereTPopFeldkontr  = require('./modules/initiiereTPopFeldkontr');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpopfreiwkontr(ziel_parent_node);
@@ -1590,7 +1590,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     delete window.apf.herkunft_parent_node;
                     localStorage.tpopfreiwkontr = true;
                     initiiereTPopFeldkontr();
-                }).fail(function() {
+                }).fail(function () {
                     window.apf.melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben");
                 });
             }
@@ -1600,7 +1600,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + ziel_node_id + '/user=' + sessionStorage.User,
                     dataType: 'json'
                 });
-                fügeTPopFeldkontrEin_4.done(function() {
+                fügeTPopFeldkontrEin_4.done(function () {
                     var initiiereTPopFeldkontr  = require('./modules/initiiereTPopFeldkontr');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpopfreiwkontr(ziel_node);
@@ -1616,7 +1616,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     localStorage.tpopfreiwkontr = true;
                     initiiereTPopFeldkontr();
                 });
-                fügeTPopFeldkontrEin_4.fail(function() {
+                fügeTPopFeldkontrEin_4.fail(function () {
                     window.apf.melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben");
                 });
             }
@@ -1629,7 +1629,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     type: 'delete',
                     url: 'api/v1/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id,
                     dataType: 'json'
-                }).done(function() {
+                }).done(function () {
                     var initiiere_beob = require('./modules/initiiereBeob');
                     // typ des nodes anpassen
                     herkunft_node.attr("typ", "beob_nicht_beurteilt");
@@ -1646,7 +1646,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     // Variablen aufräumen
                     delete window.apf.beob_zugeordnet_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
-                }).fail(function() {
+                }).fail(function () {
                     window.apf.melde("Fehler: Die Beobachtung wurde nicht auf 'nicht beurteilt' gesetzt");
                 });
             }
@@ -1662,7 +1662,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + localStorage.beob_id + '/feld=TPopId/wert=' + neue_tpop_id + '/user=' + sessionStorage.User,
                     dataType: 'json'
                 });
-                ordneBeobachtungZu_2.done(function() {
+                ordneBeobachtungZu_2.done(function () {
                     var initiiere_beob = require('./modules/initiiereBeob');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
@@ -1681,7 +1681,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     delete window.apf.beob_zugeordnet_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
                 });
-                ordneBeobachtungZu_2.fail(function() {
+                ordneBeobachtungZu_2.fail(function () {
                     window.apf.melde("Fehler: Die Beobachtung wurde nicht verschoben");
                 });
             }
@@ -1692,14 +1692,14 @@ window.apf.erstelle_tree = function(ApArtId) {
                     url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=BeobNichtZuordnen/wert=1/user=' + sessionStorage.User,
                     dataType: 'json'
                 });
-                ordneBeobachtungZu_3.done(function() {
+                ordneBeobachtungZu_3.done(function () {
                     // TPopId null setzen
                     var setzeTpopid = $.ajax({
                         type: 'post',
                         url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=TPopId/wert=/user=' + sessionStorage.User,
                         dataType: 'json'
                     });
-                    setzeTpopid.done(function() {
+                    setzeTpopid.done(function () {
                         var initiiere_beob = require('./modules/initiiereBeob');
                         // aus unerfindlichen Gründen läuft der success callback nicht, darum done
                         // typ des nodes anpassen
@@ -1718,11 +1718,11 @@ window.apf.erstelle_tree = function(ApArtId) {
                         delete window.apf.beob_node_ausgeschnitten;
                         delete window.apf.herkunft_parent_node;
                     });
-                    setzeTpopid.fail(function() {
+                    setzeTpopid.fail(function () {
                         console.log("fehler beim Leeren von TPopId");
                     });
                 });
-                ordneBeobachtungZu_3.fail(function() {
+                ordneBeobachtungZu_3.fail(function () {
                     window.apf.melde("Fehler: Die Beobachtung wurde nicht verschoben");
                 });
             }
@@ -1741,14 +1741,14 @@ window.apf.erstelle_tree = function(ApArtId) {
                     type: 'post',
                     url: 'api/v1/insert/apflora/tabelle=tblBeobZuordnung/feld=NO_NOTE/wert=' + herkunft_node_id + '/user=' + sessionStorage.User,
                     dataType: 'json'
-                }).done(function() {
+                }).done(function () {
                     // jetzt aktualisieren
                     var updateBeob = $.ajax({
                         type: 'post',
                         url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=TPopId/wert=' + neue_tpop_id + '/user=' + sessionStorage.User,
                         dataType: 'json'
                     });
-                    updateBeob.done(function() {
+                    updateBeob.done(function () {
                         var initiiere_beob = require('./modules/initiiereBeob');
                         // typ des nodes anpassen
                         herkunft_node.attr("typ", "beob_zugeordnet");
@@ -1770,10 +1770,10 @@ window.apf.erstelle_tree = function(ApArtId) {
                         delete window.apf.beob_node_ausgeschnitten;
                         delete window.apf.herkunft_parent_node;
                     });
-                    updateBeob.fail(function() {
+                    updateBeob.fail(function () {
                         window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
                     });
-                }).fail(function() {
+                }).fail(function () {
                     window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
                 });
             }
@@ -1783,14 +1783,14 @@ window.apf.erstelle_tree = function(ApArtId) {
                     type: 'post',
                     url: 'api/v1/insert/apflora/tabelle=tblBeobZuordnung/feld=NO_NOTE/wert=' + herkunft_node_id + '/user=' + sessionStorage.User,
                     dataType: 'json'
-                }).done(function() {
+                }).done(function () {
                     // jetzt aktualisieren
                     var updateBeob_2 = $.ajax({
                         type: 'post',
                         url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=BeobNichtZuordnen/wert=1/user=' + sessionStorage.User,
                         dataType: 'json'
                     });
-                    updateBeob_2.done(function() {
+                    updateBeob_2.done(function () {
                         var initiiere_beob = require('./modules/initiiereBeob');
                         // typ des nodes anpassen
                         $(herkunft_node).attr("typ", "beob_nicht_zuzuordnen");
@@ -1808,10 +1808,10 @@ window.apf.erstelle_tree = function(ApArtId) {
                         delete window.apf.beob_node_ausgeschnitten;
                         delete window.apf.herkunft_parent_node;
                     });
-                    updateBeob_2.fail(function() {
+                    updateBeob_2.fail(function () {
                         console.log("Fehler: Die Beobachtung wurde nicht zugeordnet");
                     });
-                }).fail(function() {
+                }).fail(function () {
                     window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
                 });
             }
@@ -1824,7 +1824,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     type: 'delete',
                     url: 'api/v1/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id,
                     dataType: 'json'
-                }).done(function() {
+                }).done(function () {
                     var initiiere_beob = require('./modules/initiiereBeob');
 
                     // typ des nodes anpassen
@@ -1845,7 +1845,7 @@ window.apf.erstelle_tree = function(ApArtId) {
                     // Variablen aufräumen
                     delete window.apf.beob_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
-                }).fail(function() {
+                }).fail(function () {
                     window.apf.melde("Fehler: Die Zuordnung der Beobachtung wurde nicht entfernt");
                 });
             }
@@ -1862,13 +1862,13 @@ window.apf.erstelle_tree = function(ApArtId) {
                     url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=BeobNichtZuordnen/wert=1/user=' + sessionStorage.User,
                         dataType: 'json'
                 });
-                updateBeob_3.done(function() {
+                updateBeob_3.done(function () {
                     var updateBeob_4 = $.ajax({
                         type: 'post',
                         url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=TPopId/wert=' + neue_tpop_id + '/user=' + sessionStorage.User,
                         dataType: 'json'
                     });
-                    updateBeob_4.done(function() {
+                    updateBeob_4.done(function () {
                         var initiiere_beob = require('./modules/initiiereBeob');
                         // typ des nodes anpassen
                         $(herkunft_node).attr("typ", "beob_zugeordnet");
@@ -1886,11 +1886,11 @@ window.apf.erstelle_tree = function(ApArtId) {
                         delete window.apf.beob_node_ausgeschnitten;
                         delete window.apf.herkunft_parent_node;
                     });
-                    updateBeob_4.fail(function() {
+                    updateBeob_4.fail(function () {
                         window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
                     });
                 });
-                updateBeob_3.fail(function() {
+                updateBeob_3.fail(function () {
                     window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
                 });
             }
@@ -1901,7 +1901,7 @@ window.apf.erstelle_tree = function(ApArtId) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_pop = function(node) {
+window.apf.beschrifte_ordner_pop = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "Populationen (" + anz + ")";
@@ -1910,12 +1910,12 @@ window.apf.beschrifte_ordner_pop = function(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_apziel = function(node) {
+window.apf.beschrifte_ordner_apziel = function (node) {
     'use strict';
     var anz = 0,
         anzTxt;
-    $($.jstree._reference(node)._get_children(node)).each(function(index) {
-        $($(this).find("> ul > li")).each(function(index) {
+    $($.jstree._reference(node)._get_children(node)).each(function (index) {
+        $($(this).find("> ul > li")).each(function (index) {
             anz += 1;
         });
     });
@@ -1925,7 +1925,7 @@ window.apf.beschrifte_ordner_apziel = function(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_apzieljahr = function(node) {
+window.apf.beschrifte_ordner_apzieljahr = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt;
@@ -1936,7 +1936,7 @@ window.apf.beschrifte_ordner_apzieljahr = function(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_zielber = function(node) {
+window.apf.beschrifte_ordner_zielber = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "Ziel-Berichte (" + anz + ")";
@@ -1945,7 +1945,7 @@ window.apf.beschrifte_ordner_zielber = function(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_erfkrit = function(node) {
+window.apf.beschrifte_ordner_erfkrit = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "AP-Erfolgskriterien (" + anz + ")";
@@ -1954,7 +1954,7 @@ window.apf.beschrifte_ordner_erfkrit = function(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_jber = function(node) {
+window.apf.beschrifte_ordner_jber = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "AP-Berichte (" + anz + ")";
@@ -1963,7 +1963,7 @@ window.apf.beschrifte_ordner_jber = function(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_ber = function(node) {
+window.apf.beschrifte_ordner_ber = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "Berichte (" + anz + ")";
@@ -1972,7 +1972,7 @@ window.apf.beschrifte_ordner_ber = function(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_assozarten = function(node) {
+window.apf.beschrifte_ordner_assozarten = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "assoziierte Arten (" + anz + ")";
@@ -1981,7 +1981,7 @@ window.apf.beschrifte_ordner_assozarten = function(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_tpop = function(node) {
+window.apf.beschrifte_ordner_tpop = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "Teilpopulationen (" + anz + ")";
@@ -1990,7 +1990,7 @@ window.apf.beschrifte_ordner_tpop = function(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_popber = function(node) {
+window.apf.beschrifte_ordner_popber = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "Populations-Berichte (" + anz + ")";
@@ -1999,7 +1999,7 @@ window.apf.beschrifte_ordner_popber = function(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_popmassnber = function(node) {
+window.apf.beschrifte_ordner_popmassnber = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "Massnahmen-Berichte (" + anz + ")";
@@ -2008,7 +2008,7 @@ window.apf.beschrifte_ordner_popmassnber = function(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_tpopmassnber = function(node) {
+window.apf.beschrifte_ordner_tpopmassnber = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "Massnahmen-Berichte (" + anz + ")";
@@ -2017,7 +2017,7 @@ window.apf.beschrifte_ordner_tpopmassnber = function(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_tpopmassn = function(node) {
+window.apf.beschrifte_ordner_tpopmassn = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "Massnahmen (" + anz + ")";
@@ -2026,7 +2026,7 @@ window.apf.beschrifte_ordner_tpopmassn = function(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_tpopber = function(node) {
+window.apf.beschrifte_ordner_tpopber = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "Teilpopulations-Berichte (" + anz + ")";
@@ -2035,7 +2035,7 @@ window.apf.beschrifte_ordner_tpopber = function(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_tpopfeldkontr = function(node) {
+window.apf.beschrifte_ordner_tpopfeldkontr = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "Feldkontrollen (" + anz + ")";
@@ -2044,7 +2044,7 @@ window.apf.beschrifte_ordner_tpopfeldkontr = function(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_tpopfreiwkontr = function(node) {
+window.apf.beschrifte_ordner_tpopfreiwkontr = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "Freiwilligen-Kontrollen (" + anz + ")";
@@ -2053,7 +2053,7 @@ window.apf.beschrifte_ordner_tpopfreiwkontr = function(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_beob_zugeordnet = function(node) {
+window.apf.beschrifte_ordner_beob_zugeordnet = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "Beobachtungen (" + anz + ")";
@@ -2062,7 +2062,7 @@ window.apf.beschrifte_ordner_beob_zugeordnet = function(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_beob_nicht_beurteilt = function(node) {
+window.apf.beschrifte_ordner_beob_nicht_beurteilt = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "nicht beurteilte Beobachtungen (" + anz + ")";
@@ -2071,33 +2071,33 @@ window.apf.beschrifte_ordner_beob_nicht_beurteilt = function(node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_beob_nicht_zuzuordnen = function(node) {
+window.apf.beschrifte_ordner_beob_nicht_zuzuordnen = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "nicht zuzuordnende Beobachtungen (" + anz + ")";
     $.jstree._reference(node).rename_node(node, anzTxt);
 };
 
-window.apf.tpopKopiertInPopOrdnerTpopEinfügen = function(aktiver_node) {
+window.apf.tpopKopiertInPopOrdnerTpopEinfügen = function (aktiver_node) {
     'use strict';
     $.ajax({
         type: 'post',
         url: 'api/v1/tpopInsertKopie/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpop_node_kopiert).attr("id")) + '/user=' + sessionStorage.User,
         dataType: 'json'
-    }).done(function(id) {
+    }).done(function (id) {
         var strukturtyp = "tpop",
             beschriftung = window.apf.tpop_objekt_kopiert.TPopFlurname;
         if (window.apf.tpop_objekt_kopiert.TPopNr) {
             beschriftung = window.apf.tpop_objekt_kopiert.TPopNr + ': ' + window.apf.tpop_objekt_kopiert.TPopFlurname
         }
         window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, "", strukturtyp, id, beschriftung);
-    }).fail(function() {
+    }).fail(function () {
         window.apf.melde("Fehler: Die Teilpopulation wurde nicht erstellt");
     });
 };
 
 // wird offenbar momentan nicht verwendet
-window.apf.tpopKopiertInTpopEinfügen = function(aktiver_node, parent_node) {
+window.apf.tpopKopiertInTpopEinfügen = function (aktiver_node, parent_node) {
     'use strict';
     var data = {};
     // nur aktualisieren, wenn Schreibrechte bestehen
@@ -2118,7 +2118,7 @@ window.apf.tpopKopiertInTpopEinfügen = function(aktiver_node, parent_node) {
     delete window.apf.tpop_objekt_kopiert.MutWann;
     delete window.apf.tpop_objekt_kopiert.MutWer;
     // alle verbliebenen Felder an die url hängen
-    _.each(window.apf.tpop_objekt_kopiert, function(value, key) {
+    _.each(window.apf.tpop_objekt_kopiert, function (value, key) {
         // Nullwerte ausschliessen
         if (value !== null) {
             data[key] = value;
@@ -2129,16 +2129,16 @@ window.apf.tpopKopiertInTpopEinfügen = function(aktiver_node, parent_node) {
         type: 'post',
         url: 'api/v1/tpopInsertKopie/popId=' + data.PopId + '/tpopId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpop_node_kopiert).attr("id")) + '/user=' + data.MutWer,
         dataType: 'json'
-    }).done(function(tpop_id) {
+    }).done(function (tpop_id) {
         var strukturtyp = "tpop",
             beschriftung = window.apf.tpop_objekt_kopiert.TPopNr + " " + window.apf.tpop_objekt_kopiert.TPopFlurname;
         window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, tpop_id, beschriftung);
-    }).fail(function() {
+    }).fail(function () {
         window.apf.melde("Fehler: Die Teilpopulation wurde nicht erstellt");
     });
 };
 
-window.apf.prüfeLesevoraussetzungen = function() {
+window.apf.prüfeLesevoraussetzungen = function () {
     'use strict';
     // kontrollieren, ob der User offline ist
     if (!navigator.onLine) {
@@ -2149,7 +2149,7 @@ window.apf.prüfeLesevoraussetzungen = function() {
                 modal: true,
                 width: 400,
                 buttons: {
-                    Ok: function() {
+                    Ok: function () {
                         $(this).dialog("close");
                     }
                 }
@@ -2160,7 +2160,7 @@ window.apf.prüfeLesevoraussetzungen = function() {
     }
 };
 
-window.apf.prüfeSchreibvoraussetzungen = function() {
+window.apf.prüfeSchreibvoraussetzungen = function () {
     'use strict';
     // kontrollieren, ob der User online ist
     if (window.apf.prüfeLesevoraussetzungen()) {
@@ -2178,7 +2178,7 @@ window.apf.prüfeSchreibvoraussetzungen = function() {
 // speichert den Wert eines Feldes in einem Formular
 // übernimmt das Objekt, in dem geändert wurde
 // kann nicht modularisiert werden, weil jstree verwendet wird und dieses nicht mit node kompatibel ist
-window.apf.speichern = function(that) {
+window.apf.speichern = function (that) {
     'use strict';
     var feldtyp,
         formular,
@@ -2248,7 +2248,7 @@ window.apf.speichern = function(that) {
             url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + localStorage[formular + "_id"] + '/feld=' + feldname + '/wert=' + feldwert + '/user=' + sessionStorage.User,
             dataType: 'json'
         });
-        updateFormular.done(function() {
+        updateFormular.done(function () {
             // Variable für Objekt nachführen
             window.apf[formular][feldname] = feldwert;
             // Wenn ApArtId verändert wurde: Formular aktualisieren
@@ -2329,7 +2329,7 @@ window.apf.speichern = function(that) {
                 }
             }
         });
-        updateFormular.fail(function() {
+        updateFormular.fail(function () {
             window.apf.melde("Fehler: Die letzte Änderung wurde nicht gespeichert");
         });
         // nodes im Tree updaten, wenn deren Bezeichnung ändert
@@ -2525,16 +2525,16 @@ window.apf.speichern = function(that) {
     }
 };
 
-(function($) {
+(function ($) {
     // friendly helper //tinyurl.com/6aow6yn
     // Läuft durch alle Felder im Formular
     // Wenn ein Wert enthalten ist, wird Feldname und Wert ins Objekt geschrieben
     // nicht vergessen: Typ, _id und _rev dazu geben, um zu speichern
-    $.fn.serializeObject = function() {
+    $.fn.serializeObject = function () {
         var o, a;
         o = {};
         a = this.serializeArray();
-        $.each(a, function() {
+        $.each(a, function () {
             if (this.value) {
                 if (o[this.name]) {
                     if (!o[this.name].push) {
@@ -2550,9 +2550,9 @@ window.apf.speichern = function(that) {
     };
 })(jQuery);
 
-window.apf.olmap.getLayerNames = function() {
+window.apf.olmap.getLayerNames = function () {
     var layer_objekt_array = window.apf.olmap.map.getLayers().getArray(),
-        layers = _.map(layer_objekt_array, function(layer_objekt) {
+        layers = _.map(layer_objekt_array, function (layer_objekt) {
             if (layer_objekt.values_ && layer_objekt.values_.title) {
                  return layer_objekt.values_.title;
             }
@@ -2560,9 +2560,9 @@ window.apf.olmap.getLayerNames = function() {
     return layers;
 };
 
-window.apf.olmap.getLayersWithTitle = function() {
+window.apf.olmap.getLayersWithTitle = function () {
     var layers_array = window.apf.olmap.map.getLayers().getArray(),
-        layers = _.map(layers_array, function(layer) {
+        layers = _.map(layers_array, function (layer) {
             if (layer.get('title')) {
                  return layer;
             }
@@ -2570,11 +2570,11 @@ window.apf.olmap.getLayersWithTitle = function() {
     return layers || [];
 };
 
-window.apf.olmap.entferneLayerNachName = function(name) {
+window.apf.olmap.entferneLayerNachName = function (name) {
     var layers_array = window.apf.olmap.getLayersWithTitle(),
         layername,
         layer_kategorie;
-    _.each(layers_array, function(layer) {
+    _.each(layers_array, function (layer) {
         layername = layer.get('title');
         layer_kategorie = layer.get('kategorie');
         if (layername === name) {
@@ -2588,7 +2588,7 @@ window.apf.olmap.entferneLayerNachName = function(name) {
     });
 };
 
-window.apf.olmap.entferneAlleApfloraLayer = function() {
+window.apf.olmap.entferneAlleApfloraLayer = function () {
     'use strict';
     if (window.apf.olmap && window.apf.olmap.map) {
         // getLayers retourniert ein Objekt!!!
@@ -2599,21 +2599,21 @@ window.apf.olmap.entferneAlleApfloraLayer = function() {
             zu_löschende_layer = [];
         // zuerst nur einen Array mit den zu löschenden Layern erstellen
         // wenn man sofort löscht, wird nur der erste entfernt!
-        _.each(layers_array, function(layer) {
+        _.each(layers_array, function (layer) {
             kategorie = layer.get('kategorie');
             title = layer.get('title');
             if (kategorie && kategorie === 'AP Flora' && title !== 'Detailpläne') {
                 zu_löschende_layer.push(layer);
             }
         });
-        _.each(zu_löschende_layer, function(layer) {
+        _.each(zu_löschende_layer, function (layer) {
             window.apf.olmap.map.removeLayer(layer);
         });
         window.apf.olmap.initiiereLayertree();
     }
 };
 
-window.apf.aktualisiereKoordinatenVonTPop = function(tpop) {
+window.apf.aktualisiereKoordinatenVonTPop = function (tpop) {
     var koord_aktualisiert = $.Deferred();
     // Datensatz updaten
     var updateTPop = $.ajax({
@@ -2621,24 +2621,24 @@ window.apf.aktualisiereKoordinatenVonTPop = function(tpop) {
         url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + tpop.TPopId + '/feld=TPopXKoord/wert=' + tpop.TPopXKoord + '/user=' + sessionStorage.User,
         dataType: 'json'
     });
-    updateTPop.done(function() {
+    updateTPop.done(function () {
         var updateTPop_2 = $.ajax({
             type: 'post',
             url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + tpop.TPopId + '/feld=TPopYKoord/wert=' + tpop.TPopYKoord + '/user=' + sessionStorage.User,
             dataType: 'json'
         });
-        updateTPop_2.done(function() {
+        updateTPop_2.done(function () {
             koord_aktualisiert.resolve();
         });
     });
     return koord_aktualisiert.promise();
 };
 
-window.apf.olmap.stapleLayerZuoberst = function(layer_title) {
+window.apf.olmap.stapleLayerZuoberst = function (layer_title) {
     var layers = window.apf.olmap.map.getLayers(),
         layers_array = window.apf.olmap.map.getLayers().getArray(),
         top_layer;
-    _.each(layers_array, function(layer, index) {
+    _.each(layers_array, function (layer, index) {
         if (layer.get('title') === layer_title) {
             top_layer = layers.removeAt(index);
             layers.insertAt(layers_array.length, top_layer);
@@ -2647,7 +2647,7 @@ window.apf.olmap.stapleLayerZuoberst = function(layer_title) {
     window.apf.olmap.initiiereLayertree();
 };
 
-window.apf.verorteTPopAufOlmap = function(tpop) {
+window.apf.verorteTPopAufOlmap = function (tpop) {
     'use strict';
     var bounds,
         x_max,
@@ -2663,7 +2663,7 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
 
     //$.when(window.apf.zeigeFormular("GeoAdminKarte"))
     $.when(window.apf.zeigeTPopAufOlmap())
-        .then(function() {
+        .then(function () {
             window.apf.olmap.deactivateMenuItems();
 
              // modify-layer erstellen
@@ -2672,7 +2672,7 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
                  title: 'verortende Teilpopulation',
                  kategorie: 'AP Flora',
                  source: window.apf.olmap.modify_source,
-                 style: function(feature, resolution) {
+                 style: function (feature, resolution) {
                     return window.apf.olmap.tpopStyle(feature, resolution, false, true);
                  }
              });
@@ -2695,7 +2695,7 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
                 window.apf.olmap.map.updateSize();
                 window.apf.olmap.map.getView().fitExtent(bounds, window.apf.olmap.map.getSize());
                 // verzögern, sonst funktioniert es nicht
-                setTimeout(function() {
+                setTimeout(function () {
                     window.apf.olmap.stapleLayerZuoberst('verortende Teilpopulation');
                 }, 200);
             } else {
@@ -2706,13 +2706,13 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
                 });
                 window.apf.olmap.map.addInteraction(window.apf.olmap.draw_interaction);
                 
-                window.apf.olmap.draw_interaction.once('drawend', function(event) {
+                window.apf.olmap.draw_interaction.once('drawend', function (event) {
                     var coordinates = event.feature.getGeometry().getCoordinates();
                     // Koordinaten in tpop ergänzen
                     tpop.TPopXKoord  = parseInt(coordinates[0]);
                     tpop.TPopYKoord = parseInt(coordinates[1]);
                     $.when(window.apf.aktualisiereKoordinatenVonTPop(tpop))
-                        .then(function() {
+                        .then(function () {
                             // marker in tpop_layer ergänzen
                             // tpop_layer holen
                             var layers = window.apf.olmap.map.getLayers().getArray(),
@@ -2729,14 +2729,14 @@ window.apf.verorteTPopAufOlmap = function(tpop) {
                     window.apf.olmap.erstelleModifyInteractionFürTPop();
                 }, this);
                 // verzögern, sonst funktioniert es nicht
-                setTimeout(function() {
+                setTimeout(function () {
                     window.apf.olmap.stapleLayerZuoberst('verortende Teilpopulation');
                 }, 200);
             }
         });
 };
 
-window.apf.olmap.entferneModifyInteractionFürTpop = function() {
+window.apf.olmap.entferneModifyInteractionFürTpop = function () {
     'use strict';
     if (window.apf.olmap.modify_interaction) {
         window.apf.olmap.map.removeInteraction(window.apf.olmap.modify_interaction);
@@ -2744,13 +2744,13 @@ window.apf.olmap.entferneModifyInteractionFürTpop = function() {
     }
 };
 
-window.apf.olmap.erstelleModifyInteractionFürTPop = function() {
+window.apf.olmap.erstelleModifyInteractionFürTPop = function () {
     'use strict';
     // allfällige bestehende Interaction entfernen
     window.apf.olmap.entferneModifyInteractionFürTpop();
     // feature-overlay erstellen
     window.apf.olmap.modify_overlay = new ol.FeatureOverlay({
-        style: function(feature, resolution) {
+        style: function (feature, resolution) {
             return window.apf.olmap.tpopStyle(feature, resolution, false, true);
         }
     });
@@ -2764,7 +2764,7 @@ window.apf.olmap.erstelleModifyInteractionFürTPop = function() {
     window.apf.olmap.modify_interaction.zähler = 0;
     // interaction.Modify meldet nicht, wenn etwas verändert wurde
     // daher muss registriert werden, wann das feature geändert wird
-    window.apf.olmap.modify_overlay.getFeatures().getArray()[0].on('change', function() {
+    window.apf.olmap.modify_overlay.getFeatures().getArray()[0].on('change', function () {
         // funktioniert zwar, wird aber beim Verschieben Dutzende bis hunderte Male ausgelöst
         var zähler,
             coordinates = this.getGeometry().getCoordinates(),
@@ -2772,14 +2772,14 @@ window.apf.olmap.erstelleModifyInteractionFürTPop = function() {
         window.apf.olmap.modify_interaction.zähler++;
         // speichert, wieviele male .on('change') ausgelöst wurde, bis setTimout aufgerufen wurde
         zähler = window.apf.olmap.modify_interaction.zähler;
-        setTimeout(function() {
+        setTimeout(function () {
             if (zähler === window.apf.olmap.modify_interaction.zähler) {
                 // in den letzten 200 Millisekunden hat sich nichts geändert > speichern
                 // Koordinaten in tpop ergänzen
                 window.apf.tpop.TPopXKoord  = parseInt(coordinates[0]);
                 window.apf.tpop.TPopYKoord = parseInt(coordinates[1]);
                 $.when(window.apf.aktualisiereKoordinatenVonTPop(window.apf.tpop))
-                    .then(function() {
+                    .then(function () {
                         // marker in tpop_layer ergänzen
                         // tpop_layer neu zeichnen
                         var layers = window.apf.olmap.map.getLayers().getArray(),
@@ -2787,7 +2787,7 @@ window.apf.olmap.erstelleModifyInteractionFürTPop = function() {
                             tpop_layer = layers[tpop_layer_nr],
                             tpop_layer_source = tpop_layer.getSource(),
                             tpop_layer_features = tpop_layer_source.getFeatures(),
-                            aktuelles_feature = _.find(tpop_layer_features, function(feature) {
+                            aktuelles_feature = _.find(tpop_layer_features, function (feature) {
                                 return feature.get('myId') === window.apf.tpop.TPopId;
                             });
                         aktuelles_feature.getGeometry().setCoordinates(coordinates);
@@ -2801,7 +2801,7 @@ window.apf.olmap.erstelleModifyInteractionFürTPop = function() {
     });
     /*
     // change scheint nicht zu passieren. Probiert: change, pointerdrag, click, drawend
-    window.apf.olmap.modify_interaction.on('move', function(event) {
+    window.apf.olmap.modify_interaction.on('move', function (event) {
         console.log('jetzt die Koordinaten aktualisieren');
 
     });*/
@@ -2809,7 +2809,7 @@ window.apf.olmap.erstelleModifyInteractionFürTPop = function() {
 };
 
 // input_div: div des Layers, das jetzt aktiviert wird
-window.apf.olmap.entferneModifyInteractionFürVectorLayer = function(input_div) {
+window.apf.olmap.entferneModifyInteractionFürVectorLayer = function (input_div) {
     'use strict';
     var $modify_layer = $('.modify_layer');
     input_div = input_div || null;
@@ -2838,7 +2838,7 @@ window.apf.olmap.entferneModifyInteractionFürVectorLayer = function(input_div) 
     // geom_select ausblenden
     $('.modify_layer_geom_type').hide();
     // übrige Layer deaktivieren
-    $modify_layer.each(function() {
+    $modify_layer.each(function () {
         // sicherstellen, dass der jetzt zu aktivierende Layer nicht deaktiviert wird
         if ($(this).prop('checked') && !$(this).is(input_div)) {
             $(this).prop("checked", false).change();
@@ -2846,7 +2846,7 @@ window.apf.olmap.entferneModifyInteractionFürVectorLayer = function(input_div) 
     })
 };
 
-window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer) {
+window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function (vectorlayer) {
     'use strict';
 
     var defaultStyle = {
@@ -2912,7 +2912,7 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
             source: new ol.source.Vector(),
             title: 'neue Ebene',
             kategorie: 'Eigene Ebenen',
-            style: function(feature, resolution) {
+            style: function (feature, resolution) {
                 return defaultStyle[feature.getGeometry().getType()];
             }
         });
@@ -2933,7 +2933,7 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
 
     // select interaction erstellen
     window.apf.olmap.select_interaction_für_vectorlayer = new ol.interaction.Select({
-        layers: function(layer) {
+        layers: function (layer) {
             // selectable sind nur features aus dem gewählten layer
             return layer.get('title') === layer_title;
         }
@@ -2942,7 +2942,7 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
     // selected features sollen modifiziert werden können
     window.apf.olmap.selected_features = window.apf.olmap.select_interaction_für_vectorlayer.getFeatures();
 
-    window.apf.olmap.selected_features.on('add', function(event) {
+    window.apf.olmap.selected_features.on('add', function (event) {
         // now listen if the feature is changed
         var feature = event.element,
             feature_id = feature.getId();
@@ -2951,7 +2951,7 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
         if (!feature_id) {
             feature.setId(_.uniqueId());
         }
-        feature.on('change', function(event) {
+        feature.on('change', function (event) {
             var feature = event.target,
                 feature_id = feature.getId();
             window.apf.olmap.modified_features = window.apf.olmap.modified_features || [];
@@ -2962,15 +2962,15 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
         });
 
         // listen to pressing of delete key, then delete selected features
-        $(document).on('keyup', function(event) {
+        $(document).on('keyup', function (event) {
             if (event.keyCode == 46) {
                 // alle gewählten features aus select_interaction und source entfernen
-                window.apf.olmap.selected_features.forEach(function(selected_feature) {
+                window.apf.olmap.selected_features.forEach(function (selected_feature) {
                     var selected_feature_id = selected_feature.getId();
                     window.apf.olmap.selected_features.remove(selected_feature);
                     // features aus vectorlayer_source entfernen
                     var vectorlayer_features = vectorlayer.getSource().getFeatures();
-                    vectorlayer_features.forEach(function(source_feature) {
+                    vectorlayer_features.forEach(function (source_feature) {
                         var source_feature_id = source_feature.getId();
                         if (source_feature_id === selected_feature_id) {
                             vectorlayer.getSource().removeFeature(source_feature);
@@ -2987,7 +2987,7 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
         $.jstree._reference("[typ='ap_ordner_pop']").deselect_all();
     });
 
-    window.apf.olmap.selected_features.on('remove', function(event) {
+    window.apf.olmap.selected_features.on('remove', function (event) {
         var feature = event.element,
             feature_id = feature.getId(),
             feature_index = window.apf.olmap.modified_features.indexOf(feature_id);
@@ -3005,13 +3005,13 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
         // the SHIFT key must be pressed to delete vertices, so
         // that new vertices can be drawn at the same position
         // of existing vertices
-        deleteCondition: function(event) {
+        deleteCondition: function (event) {
             return ol.events.condition.shiftKeyOnly(event) &&
                 ol.events.condition.singleClick(event);
         }
     });
 
-    $geom_type_select.on('selectmenuchange', function(event) {
+    $geom_type_select.on('selectmenuchange', function (event) {
         window.apf.olmap.map.removeInteraction(window.apf.olmap.draw_interaction_für_vectorlayer);
         addDrawInteraction();
     });
@@ -3024,7 +3024,7 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
             });
             window.apf.olmap.map.addInteraction(window.apf.olmap.draw_interaction_für_vectorlayer);
             // bei 'drawend' würde man Änderungen in die DB schreiben
-            window.apf.olmap.draw_interaction_für_vectorlayer.on('drawend', function(event) {
+            window.apf.olmap.draw_interaction_für_vectorlayer.on('drawend', function (event) {
                 var id = _.uniqueId();
                 event.feature.setId(id);
                 window.apf.olmap.modified_features = window.apf.olmap.modified_features || [];
@@ -3041,7 +3041,7 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function(vectorlayer
     window.apf.olmap.map.addInteraction(window.apf.olmap.modify_interaction_für_vectorlayer);
 };
 
-window.apf.olmap.exportiereLayer = function(layer, selected_value) {
+window.apf.olmap.exportiereLayer = function (layer, selected_value) {
     'use strict';
     var layer_name = layer.get('title') || 'Eigene_Ebene',
         allFeatures = layer.getSource().getFeatures(),
@@ -3074,7 +3074,7 @@ window.apf.olmap.exportiereLayer = function(layer, selected_value) {
     window.apf.download(layer_name, data_stringified);
 };
 
-window.apf.download = function(filename, text) {
+window.apf.download = function (filename, text) {
     'use strict';
     var pom = document.createElement('a');
     pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
@@ -3082,14 +3082,14 @@ window.apf.download = function(filename, text) {
     pom.click();
 };
 
-window.apf.olmap.istLayerSichtbarNachName = function(layername) {
+window.apf.olmap.istLayerSichtbarNachName = function (layername) {
     'use strict';
     var layer_objekt_array,
         layer_ist_sichtbar;
     // prüfen, ob eine map existiert
     if (window.apf.olmap.map) {
         layer_objekt_array = window.apf.olmap.map.getLayers().getArray();
-        layer_ist_sichtbar = _.find(layer_objekt_array, function(layer_objekt) {
+        layer_ist_sichtbar = _.find(layer_objekt_array, function (layer_objekt) {
             return layer_objekt.get('title') === layername && layer_objekt.get('visible');
         });
         if (layer_ist_sichtbar) {
@@ -3099,7 +3099,7 @@ window.apf.olmap.istLayerSichtbarNachName = function(layername) {
     return false;
 };
 
-window.apf.zeigeTPopAufOlmap = function(TPopListeMarkiert) {
+window.apf.zeigeTPopAufOlmap = function (TPopListeMarkiert) {
     'use strict';
     // wenn layer "Populationen" sichtbar ist, sichtbar behalten
     var overlay_pop_visible = window.apf.olmap.istLayerSichtbarNachName("Populationen");
@@ -3110,7 +3110,7 @@ window.apf.zeigeTPopAufOlmap = function(TPopListeMarkiert) {
 
     // Grundkarte aufbauen
     $.when(window.apf.zeigeFormular("GeoAdminKarte"))
-        .then(function() {
+        .then(function () {
             // Karte zum richtigen Ausschnitt zoomen
             window.apf.olmap.map.updateSize();
             window.apf.olmap.map.getView().fitExtent(markierte_tpop.bounds, window.apf.olmap.map.getSize());
@@ -3122,26 +3122,26 @@ window.apf.zeigeTPopAufOlmap = function(TPopListeMarkiert) {
                 dataType: 'json'
             });
 
-            getTPopKarteAlle.done(function(tpop_liste) {
+            getTPopKarteAlle.done(function (tpop_liste) {
                 $.when(
                     // Layer für Symbole und Beschriftung erstellen
                     window.apf.olmap.erstelleTPopLayer(tpop_liste, markierte_tpop.tpopid_markiert, true),
                     // alle Pop holen
                     window.apf.olmap.zeigePopInTPop(overlay_pop_visible, overlay_popnr_visible)
                 )
-                .then(function() {
+                .then(function () {
                     // layertree neu aufbauen
                     window.apf.olmap.initiiereLayertree();
                 });
             });
 
-            getTPopKarteAlle.fail(function() {
+            getTPopKarteAlle.fail(function () {
                 window.apf.melde("Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden");
             });
     });
 };
 
-window.apf.zeigePopAufOlmap = function(PopListeMarkiert) {
+window.apf.zeigePopAufOlmap = function (PopListeMarkiert) {
     'use strict';
     // falls noch aus dem Verorten ein Klick-Handler besteht: deaktivieren
     if (window.apf.olmap.LetzterKlickHandler) {
@@ -3153,7 +3153,7 @@ window.apf.zeigePopAufOlmap = function(PopListeMarkiert) {
 
     // Grundkarte aufbauen
     $.when(window.apf.zeigeFormular("GeoAdminKarte"))
-        .then(function() {
+        .then(function () {
             // Karte zum richtigen Ausschnitt zoomen
             // aber nur, wenn keine Auswahl aktiv
             if (window.apf.olmap.auswahlPolygonLayer && window.apf.olmap.auswahlPolygonLayer.features.length > 0) {
@@ -3170,20 +3170,20 @@ window.apf.zeigePopAufOlmap = function(PopListeMarkiert) {
                 dataType: 'json'
             });
 
-            getTPopKarteAlle_2.done(function(TPopListe) {
+            getTPopKarteAlle_2.done(function (TPopListe) {
                 $.when(
                     // Layer für Symbole und Beschriftung erstellen
                     window.apf.olmap.erstelleTPopLayer(TPopListe),
                     // alle Pop holen, symbole und nr sichtbar schalten, Markierung übergeben
                     window.apf.olmap.zeigePopInTPop(true, true, markierte_pop.popid_markiert)
                 )
-                .then(function() {
+                .then(function () {
                     // layertree neu aufbauen
                     window.apf.olmap.initiiereLayertree();
                 });
             });
 
-            getTPopKarteAlle_2.fail(function() {
+            getTPopKarteAlle_2.fail(function () {
                 window.apf.melde("Fehler: Es konnten keine Daten aus der Datenbank abgerufen werden");
             });
     });
@@ -3192,7 +3192,7 @@ window.apf.zeigePopAufOlmap = function(PopListeMarkiert) {
 // übernimmt eine Liste von (markierten) TPop
 // retourniert den Ausschnitt = bounds der angezeigt werden soll
 // und einen array mit den tpop_id's der liste
-window.apf.olmap.wähleAusschnittFürÜbergebeneTPop = function(tpop_liste_markiert) {
+window.apf.olmap.wähleAusschnittFürÜbergebeneTPop = function (tpop_liste_markiert) {
     'use strict';
     var bounds,
         xkoord_array = [],
@@ -3205,7 +3205,7 @@ window.apf.olmap.wähleAusschnittFürÜbergebeneTPop = function(tpop_liste_marki
     // bounds der anzuzeigenden bestimmen
     var tpopid_markiert = [];
     if (tpop_liste_markiert && tpop_liste_markiert.length > 0) {
-        _.each(tpop_liste_markiert, function(tpop) {
+        _.each(tpop_liste_markiert, function (tpop) {
             tpopid_markiert.push(tpop.TPopId);
             xkoord_array.push(tpop.TPopXKoord);
             ykoord_array.push(tpop.TPopYKoord);
@@ -3228,7 +3228,7 @@ window.apf.olmap.wähleAusschnittFürÜbergebeneTPop = function(tpop_liste_marki
 // übernimmt eine Liste von (markierten) Pop
 // retourniert den Ausschnitt = bounds der angezeigt werden soll
 // und einen array mit den tpop_id's der liste
-window.apf.olmap.wähleAusschnittFürÜbergebenePop = function(pop_liste_markiert) {
+window.apf.olmap.wähleAusschnittFürÜbergebenePop = function (pop_liste_markiert) {
     'use strict';
     var bounds,
         xkoord_array = [],
@@ -3240,7 +3240,7 @@ window.apf.olmap.wähleAusschnittFürÜbergebenePop = function(pop_liste_markier
         // bounds der anzuzeigenden bestimmen
         popid_markiert = [];
     if (pop_liste_markiert && pop_liste_markiert.length > 0) {
-        _.each(pop_liste_markiert, function(pop) {
+        _.each(pop_liste_markiert, function (pop) {
             popid_markiert.push(pop.PopId);
             xkoord_array.push(pop.PopXKoord);
             ykoord_array.push(pop.PopYKoord);
@@ -3260,7 +3260,7 @@ window.apf.olmap.wähleAusschnittFürÜbergebenePop = function(pop_liste_markier
     return {bounds: bounds, popid_markiert: popid_markiert};
 };
 
-window.apf.olmap.zeigePopInTPop = function(overlay_pop_visible, overlay_popnr_visible, popid_markiert) {
+window.apf.olmap.zeigePopInTPop = function (overlay_pop_visible, overlay_popnr_visible, popid_markiert) {
     'use strict';
     var pop_gezeigt = $.Deferred(),
         getPopKarteAlle = $.ajax({
@@ -3268,25 +3268,25 @@ window.apf.olmap.zeigePopInTPop = function(overlay_pop_visible, overlay_popnr_vi
             url: 'api/v1/popKarteAlle/apId=' + window.apf.ap.ApArtId,
             dataType: 'json'
         });
-    getPopKarteAlle.done(function(PopListe) {
+    getPopKarteAlle.done(function (PopListe) {
         // Layer für Symbole und Beschriftung erstellen
         $.when(
             window.apf.olmap.erstellePopLayer(PopListe, popid_markiert, overlay_pop_visible)
         )
-        .then(function() {
+        .then(function () {
             // layertree neu aufbauen
             window.apf.olmap.initiiereLayertree();
             pop_gezeigt.resolve();
         });
     });
-    getPopKarteAlle.fail(function() {
+    getPopKarteAlle.fail(function () {
         window.apf.melde("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
         pop_gezeigt.resolve();
     });
     return pop_gezeigt.promise();
 };
 
-window.apf.olmap.erstelleTPopulation = function(TPop) {
+window.apf.olmap.erstelleTPopulation = function (TPop) {
     'use strict';
     // styles für overlay_top definieren
     var defaultStyle = new OpenLayers.Style({
@@ -3329,7 +3329,7 @@ window.apf.olmap.erstelleTPopulation = function(TPop) {
 
     // die marker sollen verschoben werden können
     var dragControl = new OpenLayers.Control.DragFeature(overlay_tpopulation, {
-        onComplete: function(feature) {
+        onComplete: function (feature) {
             // x und y merken
             TPop.TPopXKoord = feature.geometry.x;
             TPop.TPopYKoord = feature.geometry.y;
@@ -3351,7 +3351,7 @@ window.apf.olmap.erstelleTPopulation = function(TPop) {
 };
 
 // dieser Funktion kann man einen Wert zum speichern übergeben
-window.apf.speichereWert = function(tabelle, id, feld, wert) {
+window.apf.speichereWert = function (tabelle, id, feld, wert) {
     'use strict';
     var updateTabelle = $.ajax({
         type: 'post',
@@ -3364,12 +3364,12 @@ window.apf.speichereWert = function(tabelle, id, feld, wert) {
             "user": sessionStorage.User
         }
     });
-    updateTabelle.fail(function() {
+    updateTabelle.fail(function () {
         window.apf.melde("Fehler: Die letzte Änderung wurde nicht gespeichert");
     });
 };
 
-window.apf.olmap.erstelleContentFürTPop = function(tpop) {
+window.apf.olmap.erstelleContentFürTPop = function (tpop) {
     'use strict';
     var my_flurname = tpop.TPopFlurname || '(kein Flurname)';
     return '<table>'+
@@ -3385,11 +3385,11 @@ window.apf.olmap.erstelleContentFürTPop = function(tpop) {
 
 // retourniert features
 // übergibt man einen Typ, werden nur features dieses Typs retourniert
-window.apf.olmap.listSelectedFeatures = function(typ) {
+window.apf.olmap.listSelectedFeatures = function (typ) {
     'use strict';
     var selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray(),
         features_to_return;
-    features_to_return = _.filter(selected_features, function(feature) {
+    features_to_return = _.filter(selected_features, function (feature) {
         if (typ) {
             return feature.get('myTyp') === typ;
         } else {
@@ -3399,7 +3399,7 @@ window.apf.olmap.listSelectedFeatures = function(typ) {
     return features_to_return;
 };
 
-window.apf.olmap.erstelleListeDerAusgewähltenPopTPop = function(pop_selected, tpop_selected) {
+window.apf.olmap.erstelleListeDerAusgewähltenPopTPop = function (pop_selected, tpop_selected) {
     'use strict';
     // rückmelden, welche Objekte gewählt wurden
     var rückmeldung = "",
@@ -3412,7 +3412,7 @@ window.apf.olmap.erstelleListeDerAusgewähltenPopTPop = function(pop_selected, t
 
     if (pop_selected.length > 0) {
         // pop nach nr sortieren
-        pop_selected = _.sortBy(pop_selected, function(pop) {
+        pop_selected = _.sortBy(pop_selected, function (pop) {
             var pop_nr = pop.get('pop_nr');
             return parseInt(pop_nr);
         });
@@ -3421,7 +3421,7 @@ window.apf.olmap.erstelleListeDerAusgewähltenPopTPop = function(pop_selected, t
             rückmeldung += "<p class='ergebnisAuswahlListeTitel'>" + pop_selected.length + " Populationen: </p>";
         }
         rückmeldung += "<table>";
-        _.each(pop_selected, function(pop) {
+        _.each(pop_selected, function (pop) {
             pop_id = pop.get('myId');
             rückmeldung += "<tr><td><a href=\"#\" onclick=\"window.apf.öffnePop('" + pop_id + "')\">";
             rückmeldung += pop.get('pop_nr') + ":<\/a></td><td><a href=\"#\" onclick=\"window.apf.öffnePop('" + pop_id + "')\">" + pop.get('pop_name') + "<\/a></td></tr>";
@@ -3430,7 +3430,7 @@ window.apf.olmap.erstelleListeDerAusgewähltenPopTPop = function(pop_selected, t
     }
     if (tpop_selected.length > 0) {
         // tpop nach nr dann tpopnr sortieren
-        tpop_selected = _.sortBy(tpop_selected, function(tpop) {
+        tpop_selected = _.sortBy(tpop_selected, function (tpop) {
             var pop_nr = tpop.get('pop_nr') || 0,
                 tpop_nr = tpop.get('tpop_nr') || 0,
                 pop_tpop_nr = parseFloat(parseInt(pop_nr) + '.' + parseInt(tpop_nr));
@@ -3441,7 +3441,7 @@ window.apf.olmap.erstelleListeDerAusgewähltenPopTPop = function(pop_selected, t
             rückmeldung += "<p class='ergebnisAuswahlListeTitel ergebnisAuswahlListeTitelTPop'>" + tpop_selected.length + " Teilpopulationen: </p>";
         }
         rückmeldung += "<table>";
-        _.each(tpop_selected, function(tpop) {
+        _.each(tpop_selected, function (tpop) {
             tpop_id = tpop.get('myId');
             rückmeldung += "<tr><td><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop_id + "')\">";
             rückmeldung += tpop.get('tpop_nr_label') + ":<\/a></td><td><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop_id + "')\">";
@@ -3481,32 +3481,32 @@ window.apf.olmap.erstelleListeDerAusgewähltenPopTPop = function(pop_selected, t
 };
 
 // sucht features an einem Ort in der Karte
-window.apf.olmap.sucheFeatures = function(pixel) {
+window.apf.olmap.sucheFeatures = function (pixel) {
     var features = [];
-    window.apf.olmap.map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+    window.apf.olmap.map.forEachFeatureAtPixel(pixel, function (feature, layer) {
         features.push(feature);
     });
     return features;
 };
 
-window.apf.olmap.entfernePopupOverlays = function() {
+window.apf.olmap.entfernePopupOverlays = function () {
     var overlays = window.apf.olmap.map.getOverlays().getArray(),
         zu_löschender_overlay = [];
-    _.each(overlays, function(overlay) {
+    _.each(overlays, function (overlay) {
         if (overlay.get('typ') === 'popup') {
             zu_löschender_overlay.push(overlay);
         }
     });
-    _.each(zu_löschender_overlay, function(overlay) {
+    _.each(zu_löschender_overlay, function (overlay) {
         window.apf.olmap.map.removeOverlay(overlay);
     });
     // alle qtips entfernen
-    $('.qtip').each(function() {
+    $('.qtip').each(function () {
         $(this).qtip('destroy', true);
     });
 };
 
-window.apf.olmap.zeigeFeatureInfo = function(pixel, coordinate) {
+window.apf.olmap.zeigeFeatureInfo = function (pixel, coordinate) {
     var features = window.apf.olmap.sucheFeatures(pixel),
         overlay,
         popup_id,
@@ -3517,13 +3517,13 @@ window.apf.olmap.zeigeFeatureInfo = function(pixel, coordinate) {
         features_mit_typ;
     // es scheint auch weitere Features zu geben (z.B. wenn man genau auf die Koordinate einer Pop klickt)
     // nur die gewollten behalten
-    features_mit_typ = _.filter(features, function(feature) {
+    features_mit_typ = _.filter(features, function (feature) {
         return feature.get('myTyp') ||  feature.get('popup_title');
     });
     if (features_mit_typ && features_mit_typ.length > 0) {
         // wenn mehrere features_mit_typ vorkommen: die Infos aller sammeln und anzeigen
         if (features_mit_typ.length > 1) {
-            _.each(features_mit_typ, function(feature, index) {
+            _.each(features_mit_typ, function (feature, index) {
                 if (feature.get('myTyp') === 'Detailplan') {
                     popup_text += '<h3>Objekt ID: ' + feature.get('OBJECTID') + '</h3>';
                     popup_text += '<table><tr><td><p>Typ:</p></td><td><p>Detailplan</p></td></tr>'+
@@ -3562,7 +3562,7 @@ window.apf.olmap.zeigeFeatureInfo = function(pixel, coordinate) {
         }
 
         // zuerst mit gtip einen popup erzeugen
-        $('.olmap_popup').each(function() {
+        $('.olmap_popup').each(function () {
             $(this).qtip({
                 content: {
                     text: popup_text,
@@ -3591,7 +3591,7 @@ window.apf.olmap.zeigeFeatureInfo = function(pixel, coordinate) {
         });
 
         // id des popups ermitteln
-        $('.qtip').each(function() {
+        $('.qtip').each(function () {
             popup_id_array.push($(this).attr('data-qtip-id'));
         });
         popup_id = _.max(popup_id_array);
@@ -3609,7 +3609,7 @@ window.apf.olmap.zeigeFeatureInfo = function(pixel, coordinate) {
     }
 };
 
-window.apf.olmap.erstelleContentFürPop = function(pop) {
+window.apf.olmap.erstelleContentFürPop = function (pop) {
     'use strict';
     return '<table>'+
         '<tr><td><p>Typ:</p></td><td><p>Population</p></td></tr>'+
@@ -3623,7 +3623,7 @@ window.apf.olmap.erstelleContentFürPop = function(pop) {
 // übernimmt drei Variablen: popliste ist das Objekt mit den Populationen
 // popid_markiert der Array mit den ausgewählten Pop
 // visible: Ob die Ebene sichtbar geschaltet wird (oder bloss im Layertree verfügbar ist)
-window.apf.olmap.erstellePopLayer = function(popliste, popid_markiert, visible) {
+window.apf.olmap.erstellePopLayer = function (popliste, popid_markiert, visible) {
     'use strict';
     var pop_layer_erstellt = $.Deferred(),
         markers = [],
@@ -3645,7 +3645,7 @@ window.apf.olmap.erstellePopLayer = function(popliste, popid_markiert, visible) 
         visible = true;
     }
 
-    _.each(popliste, function(pop) {
+    _.each(popliste, function (pop) {
         my_name = pop.PopName || '(kein Name)';
         popup_content = window.apf.olmap.erstelleContentFürPop(pop);
 
@@ -3687,7 +3687,7 @@ window.apf.olmap.erstellePopLayer = function(popliste, popid_markiert, visible) 
         source: new ol.source.Vector({
             features: markers
         }),
-        style: function(feature, resolution) {
+        style: function (feature, resolution) {
             return window.apf.olmap.popStyle(feature, resolution);
         }
     });
@@ -3696,7 +3696,7 @@ window.apf.olmap.erstellePopLayer = function(popliste, popid_markiert, visible) 
     window.apf.olmap.map.addLayer(pop_mit_nr_layer);
 
     if (selected_features && selected_features.length > 0) {
-        setTimeout(function() {
+        setTimeout(function () {
             window.apf.olmap.prüfeObPopTpopGewähltWurden();
         }, 100);
         // Schaltfläche olmap_auswaehlen aktivieren
@@ -3712,7 +3712,7 @@ window.apf.olmap.erstellePopLayer = function(popliste, popid_markiert, visible) 
 
 
 // ermöglicht es, nach dem toolip zu sortieren
-window.apf.vergleicheTPopZumSortierenNachTooltip = function(a,b) {
+window.apf.vergleicheTPopZumSortierenNachTooltip = function (a,b) {
     'use strict';
     if (a.tooltip < b.tooltip)
          return -1;
@@ -3721,7 +3721,7 @@ window.apf.vergleicheTPopZumSortierenNachTooltip = function(a,b) {
     return 0;
 };
 
-window.apf.deaktiviereGeoAdminAuswahl = function() {
+window.apf.deaktiviereGeoAdminAuswahl = function () {
     'use strict';
     if (window.apf.olmap.auswahlPolygonLayer) {
         window.apf.olmap.auswahlPolygonLayer.removeAllFeatures();
@@ -3736,7 +3736,7 @@ window.apf.deaktiviereGeoAdminAuswahl = function() {
     delete window.pop_id_liste;
 };
 
-window.apf.erstelleTPopNrLabel = function(popnr, tpopnr) {
+window.apf.erstelleTPopNrLabel = function (popnr, tpopnr) {
     'use strict';
     // tooltip bzw. label vorbereiten: nullwerte ausblenden
     if (popnr && tpopnr) {
@@ -3750,7 +3750,7 @@ window.apf.erstelleTPopNrLabel = function(popnr, tpopnr) {
     }
 };
 
-window.apf.olmap.erstelleMarkerFürTPopLayer = function(tpop) {
+window.apf.olmap.erstelleMarkerFürTPopLayer = function (tpop) {
     return new ol.Feature({
         geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
         tpop_nr: tpop.TPopNr,
@@ -3772,7 +3772,7 @@ window.apf.olmap.erstelleMarkerFürTPopLayer = function(tpop) {
 // tpop_liste: Die Liste der darzustellenden Teilpopulationen
 // tpopid_markiert: die ID der zu markierenden TPop
 // visible: Ob das Layer sichtbar sein soll
-window.apf.olmap.erstelleTPopLayer = function(tpop_liste, tpopid_markiert, visible) {
+window.apf.olmap.erstelleTPopLayer = function (tpop_liste, tpopid_markiert, visible) {
     'use strict';
 
     var tpop_layer_erstellt = $.Deferred(),
@@ -3792,7 +3792,7 @@ window.apf.olmap.erstelleTPopLayer = function(tpop_liste, tpopid_markiert, visib
         visible = true;
     }
 
-    _.each(tpop_liste, function(tpop) {
+    _.each(tpop_liste, function (tpop) {
         // marker erstellen...
         marker = window.apf.olmap.erstelleMarkerFürTPopLayer(tpop);
 
@@ -3811,7 +3811,7 @@ window.apf.olmap.erstelleTPopLayer = function(tpop_liste, tpopid_markiert, visib
         source: new ol.source.Vector({
                 features: markers
             }),
-        style: function(feature, resolution) {
+        style: function (feature, resolution) {
             return window.apf.olmap.tpopStyle(feature, resolution);
         }
     });
@@ -3822,7 +3822,7 @@ window.apf.olmap.erstelleTPopLayer = function(tpop_liste, tpopid_markiert, visib
     window.apf.olmap.map.addLayer(tpop_layer);
 
     if (selected_features && selected_features.length > 0) {
-        setTimeout(function() {
+        setTimeout(function () {
             window.apf.olmap.prüfeObPopTpopGewähltWurden();
         }, 100);
         // Schaltfläche olmap_auswaehlen aktivieren
@@ -3836,7 +3836,7 @@ window.apf.olmap.erstelleTPopLayer = function(tpop_liste, tpopid_markiert, visib
     return tpop_layer_erstellt.promise();
 };
 
-window.apf.olmap.onFeatureSelect = function(feature) {
+window.apf.olmap.onFeatureSelect = function (feature) {
     'use strict';
     var popup = new OpenLayers.Popup.FramedCloud("popup",
             feature.geometry.getBounds().getCenterLonLat(),
@@ -3852,12 +3852,12 @@ window.apf.olmap.onFeatureSelect = function(feature) {
     window.apf.gmap.addPopup(popup);
 };
 
-window.apf.olmap.onFeatureUnselect = function(feature) {
+window.apf.olmap.onFeatureUnselect = function (feature) {
     'use strict';
     feature.popup.hide();
 };
 
-window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
+window.apf.gmap.zeigeBeobUndTPop = function (beob_liste, tpop_liste) {
     'use strict';
     var anz_beob,
         anz_tpop,
@@ -3895,12 +3895,12 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
     infowindow_beob = new google.maps.InfoWindow();
     infowindow_tpop = new google.maps.InfoWindow();
     // Lat und Lng in BeobListe ergänzen
-    _.each(beob_liste, function(beob) {
+    _.each(beob_liste, function (beob) {
         beob.Lat = cHtoWGSlat(parseInt(beob.X), parseInt(beob.Y));
         beob.Lng = cHtoWGSlng(parseInt(beob.X), parseInt(beob.Y));
     });
     // dito in TPopListe
-    _.each(tpop_liste, function(tpop, index) {
+    _.each(tpop_liste, function (tpop, index) {
         if (!tpop.TPopXKoord || !tpop.TPopYKoord) {
             // tpop gibt in Chrome Fehler
             delete tpop_liste[index];
@@ -3930,7 +3930,7 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
 
     // für alle TPop Marker erstellen
     markers_tpop = [];
-    _.each(tpop_liste, function(tpop) {
+    _.each(tpop_liste, function (tpop) {
         tpop_id = tpop.TPopId;
         latlng2 = new google.maps.LatLng(tpop.Lat, tpop.Lng);
         // Kartenausschnitt um diese Koordinate erweitern
@@ -3974,7 +3974,7 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
     
     // diese Funktion muss hier sein, damit infowindow bekannt ist
     function makeListener(map, markerTPop, contentStringTPop) {
-        google.maps.event.addListener(markerTPop, 'click', function() {
+        google.maps.event.addListener(markerTPop, 'click', function () {
             infowindow_tpop.setContent(contentStringTPop);
             infowindow_tpop.open(map, markerTPop);
         });
@@ -3982,7 +3982,7 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
 
     // für alle Beob Marker erstellen
     window.markersBeob = [];
-    _.each(beob_liste, function(beob) {
+    _.each(beob_liste, function (beob) {
         datum = beob.Datum;
         latlng2 = new google.maps.LatLng(beob.Lat, beob.Lng);
         if (anz_beob === 1) {
@@ -4040,7 +4040,7 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
     
     // diese Funktion muss hier sein, damit infowindow bekannt ist
     function makeListenerBeob(map, markerBeob, contentStringBeob) {
-        google.maps.event.addListener(markerBeob, 'click', function() {
+        google.maps.event.addListener(markerBeob, 'click', function () {
             infowindow_beob.setContent(contentStringBeob);
             infowindow_beob.open(map, markerBeob);
         });
@@ -4049,7 +4049,7 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
     function makeListenerMarkerBeobDragend(markerBeob, Beob) {
         var ddInChY = require('./lib/ddInChY'),
             ddInChX = require('./lib/ddInChX');
-        google.maps.event.addListener(markerBeob, "dragend", function(event) {
+        google.maps.event.addListener(markerBeob, "dragend", function (event) {
             var lat, lng, X, Y, that;
             that = this;
             // Koordinaten berechnen
@@ -4063,7 +4063,7 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
                 url: 'api/v1/beobNaechsteTpop/apId=' + Beob.NO_ISFS + '/X=' + X + '/Y=' + Y,
                 dataType: 'json'
             });
-            BeobNächsteTPop.done(function(data) {
+            BeobNächsteTPop.done(function (data) {
                 var beobtxt,
                     cHtoWGSlng = require('./lib/cHtoWGSlng'),
                     cHtoWGSlat = require('./lib/cHtoWGSlat');
@@ -4080,7 +4080,7 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
                     title: "Zuordnung bestätigen",
                     width: 600,
                     buttons: {
-                        Ja: function() {
+                        Ja: function () {
                             $(this).dialog("close");
                             // dem bind.move_node mitteilen, dass das Formular nicht initiiert werden soll
                             localStorage.karte_fokussieren = true;
@@ -4092,7 +4092,7 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
                             // Den Marker der zugewiesenen Beobachtung entfernen
                             that.setMap(null);
                         },
-                        Nein: function() {
+                        Nein: function () {
                             $(this).dialog("close");
                             // drag rückgängig machen
                             lng = cHtoWGSlng(Beob.X, Beob.Y);
@@ -4103,7 +4103,7 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
                     }
                 });
             });
-            BeobNächsteTPop.fail(function() {
+            BeobNächsteTPop.fail(function () {
                 window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
             });
         });
@@ -4119,7 +4119,7 @@ window.apf.gmap.zeigeBeobUndTPop = function(beob_liste, tpop_liste) {
     }
 };
 
-window.apf.gmap.zeigeBeob = function(beob_liste) {
+window.apf.gmap.zeigeBeob = function (beob_liste) {
     'use strict';
     var anz_beob,
         infowindow,
@@ -4146,7 +4146,7 @@ window.apf.gmap.zeigeBeob = function(beob_liste) {
     window.apf.gmap.info_window_array = [];
     infowindow = new google.maps.InfoWindow();
     // Lat und Lng in BeobListe ergänzen
-    _.each(beob_liste, function(beob) {
+    _.each(beob_liste, function (beob) {
         beob.Lat = cHtoWGSlat(parseInt(beob.X), parseInt(beob.Y));
         beob.Lng = cHtoWGSlng(parseInt(beob.X), parseInt(beob.Y));
     });
@@ -4176,7 +4176,7 @@ window.apf.gmap.zeigeBeob = function(beob_liste) {
     bounds = new google.maps.LatLngBounds();
     // für alle Orte Marker erstellen
     markers = [];
-    _.each(beob_liste, function(beob) {
+    _.each(beob_liste, function (beob) {
         datum = beob.Datum;
         latlng2 = new google.maps.LatLng(beob.Lat, beob.Lng);
         if (anz_beob === 1) {
@@ -4250,14 +4250,14 @@ window.apf.gmap.zeigeBeob = function(beob_liste) {
     }
     // diese Funktion muss hier sein, damit infowindow bekannt ist
     function makeListener(map, marker, contentString) {
-        google.maps.event.addListener(marker, 'click', function() {
+        google.maps.event.addListener(marker, 'click', function () {
             infowindow.setContent(contentString);
             infowindow.open(map, marker);
         });
     }
 };
 
-window.apf.gmap.zeigeTPopBeob = function(tpop_beob_liste) {
+window.apf.gmap.zeigeTPopBeob = function (tpop_beob_liste) {
     'use strict';
     var anz_tpop_beob,
         infowindow,
@@ -4285,7 +4285,7 @@ window.apf.gmap.zeigeTPopBeob = function(tpop_beob_liste) {
     // TPopListe bearbeiten:
     // Objekte löschen, die keine Koordinaten haben
     // Lat und Lng ergänzen
-    _.each(tpop_beob_liste, function(tpop_beob) {
+    _.each(tpop_beob_liste, function (tpop_beob) {
         tpop_beob.Lat = cHtoWGSlat(parseInt(tpop_beob.X), parseInt(tpop_beob.Y));
         tpop_beob.Lng = cHtoWGSlng(parseInt(tpop_beob.X), parseInt(tpop_beob.Y));
     });
@@ -4320,7 +4320,7 @@ window.apf.gmap.zeigeTPopBeob = function(tpop_beob_liste) {
     bounds = new google.maps.LatLngBounds();
     // für alle Orte Marker erstellen
     markers = [];
-    _.each(tpop_beob_liste, function(tpop_beob) {
+    _.each(tpop_beob_liste, function (tpop_beob) {
         datum = tpop_beob.Datum;
         latlng2 = new google.maps.LatLng(tpop_beob.Lat, tpop_beob.Lng);
         if (anz_tpop_beob === 1) {
@@ -4384,14 +4384,14 @@ window.apf.gmap.zeigeTPopBeob = function(tpop_beob_liste) {
     }
     // diese Funktion muss hier sein, damit infowindow bekannt ist
     function makeListener(map, marker, contentString) {
-        google.maps.event.addListener(marker, 'click', function() {
+        google.maps.event.addListener(marker, 'click', function () {
             infowindow.setContent(contentString);
             infowindow.open(map, marker);
         });
     }
 };
 
-window.apf.gmap.verorteTPop = function(tpop) {
+window.apf.gmap.verorteTPop = function (tpop) {
     'use strict';
     var infowindow = new google.maps.InfoWindow(),
         lat,
@@ -4473,22 +4473,22 @@ window.apf.gmap.verorteTPop = function(tpop) {
         }
         window.apf.gmap.info_window_array.push(infowindow);
 
-        google.maps.event.addListener(marker, 'click', function() {
+        google.maps.event.addListener(marker, 'click', function () {
             infowindow.open(map, marker);
         });
-        google.maps.event.addListener(marker, "dragend", function(event) {
+        google.maps.event.addListener(marker, "dragend", function (event) {
             window.apf.gmap.SetLocationTPop(event.latLng, map, marker, tpop);
         });
     }
 
     // listener bei klick in Karte
     // entfernt bestehenden marker, erstellt neuen und aktualisiert Koordinaten
-    google.maps.event.addListener(map, 'click', function(event) {
+    google.maps.event.addListener(map, 'click', function (event) {
         window.apf.gmap.erstelleMarker(event.latLng, map, marker, tpop);
     });
 };
 
-window.apf.gmap.erstelleMarker = function(location, map, marker, tpop) {
+window.apf.gmap.erstelleMarker = function (location, map, marker, tpop) {
     'use strict';
     var title;
 
@@ -4509,13 +4509,13 @@ window.apf.gmap.erstelleMarker = function(location, map, marker, tpop) {
     });
     // Marker in Array speichern, damit er gelöscht werden kann
     window.apf.gmap.markers_array.push(marker);
-    google.maps.event.addListener(marker, "dragend", function(event) {
+    google.maps.event.addListener(marker, "dragend", function (event) {
         window.apf.gmap.SetLocationTPop(event.latLng, map, marker, tpop);
     });
     window.apf.gmap.SetLocationTPop(location, map, marker);
 };
 
-window.apf.gmap.SetLocationTPop = function(LatLng, map, marker, TPop) {
+window.apf.gmap.SetLocationTPop = function (LatLng, map, marker, TPop) {
     'use strict';
     var lat,
         lng,
@@ -4545,13 +4545,13 @@ window.apf.gmap.SetLocationTPop = function(LatLng, map, marker, TPop) {
         url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + localStorage.tpop_id + '/feld=TPopXKoord/wert=' + X + '/user=' + sessionStorage.User,
         dataType: 'json'
     });
-    updateTPop_3.done(function() {
+    updateTPop_3.done(function () {
         var updateTPop_4 = $.ajax({
             type: 'post',
             url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + localStorage.tpop_id + '/feld=TPopYKoord/wert=' + Y + '/user=' + sessionStorage.User,
             dataType: 'json'
         });
-        updateTPop_4.done(function() {
+        updateTPop_4.done(function () {
             window.apf.gmap.clearInfoWindows();
             contentString = '<div id="content">'+
                 '<div id="siteNotice">'+
@@ -4571,81 +4571,81 @@ window.apf.gmap.SetLocationTPop = function(LatLng, map, marker, TPop) {
                 window.apf.gmap.info_window_array = [];
             }
             window.apf.gmap.info_window_array.push(infowindow);
-            google.maps.event.addListener(marker, 'click', function() {
+            google.maps.event.addListener(marker, 'click', function () {
                 infowindow.open(map, marker);
             });
         });
-        updateTPop_4.fail(function() {
+        updateTPop_4.fail(function () {
             window.apf.melde("Fehler: Die Y-Koordinate wurde nicht übernommen (die X-Koordinate offenbar schon)");
         });
     });
-    updateTPop_3.fail(function() {
+    updateTPop_3.fail(function () {
         window.apf.melde("Fehler: Die Koordinaten wurden nicht übernommen");
     });
 };
 
 // GoogleMap: alle Marker löschen
 // benutzt wo in GoogleMaps Marker gesetzt und verschoben werden
-window.apf.gmap.clearMarkers = function() {
+window.apf.gmap.clearMarkers = function () {
     'use strict';
-    _.each(window.apf.gmap.markers_array, function(marker) {
+    _.each(window.apf.gmap.markers_array, function (marker) {
         marker.setMap(null);
     });
 };
 
 // GoogleMap: alle InfoWindows löschen
 // benutzt wo in GoogleMaps Infowindows neu gesetzt werden müssen, weil die Daten verändert wurden
-window.apf.gmap.clearInfoWindows = function() {
+window.apf.gmap.clearInfoWindows = function () {
     'use strict';
-    _.each(window.apf.gmap.info_window_array, function(info_window) {
+    _.each(window.apf.gmap.info_window_array, function (info_window) {
         info_window.setMap(null);
     });
 };
 
-window.apf.öffneTPop = function(tpop_id) {
+window.apf.öffneTPop = function (tpop_id) {
     'use strict';
     localStorage.tpop_id = tpop_id;
     $.jstree._reference("[typ='tpop']#" + tpop_id).deselect_all();
     $("#tree").jstree("select_node", "[typ='tpop']#" + tpop_id);
 };
 
-window.apf.öffneTPopInNeuemTab = function(tpop_id) {
+window.apf.öffneTPopInNeuemTab = function (tpop_id) {
     'use strict';
     window.open("index.html?ap="+localStorage.ap_id+"&pop=" + localStorage.pop_id+"&tpop="+tpop_id, "_blank");
 };
 
-window.apf.öffnePop = function(pop_id) {
+window.apf.öffnePop = function (pop_id) {
     'use strict';
     localStorage.pop_id = pop_id;
     $.jstree._reference("[typ='pop']#" + pop_id).deselect_all();
     $("#tree").jstree("select_node", "[typ='pop']#" + pop_id);
 };
 
-window.apf.öffnePopInNeuemTab = function(pop_id) {
+window.apf.öffnePopInNeuemTab = function (pop_id) {
     'use strict';
     window.open("index.html?ap="+localStorage.ap_id+"&pop=" + pop_id, "_blank");
 };
 
-window.apf.öffneBeob = function(beob_id) {
+window.apf.öffneBeob = function (beob_id) {
     'use strict';
     localStorage.beob_id = beob_id;
     $.jstree._reference("[typ='beob_nicht_beurteilt']#beob" + beob_id).deselect_all();
     $("#tree").jstree("select_node", "[typ='beob_nicht_beurteilt']#beob" + beob_id);
 };
 
-window.apf.öffneBeobInNeuemTab = function(beob_id) {
+window.apf.öffneBeobInNeuemTab = function (beob_id) {
     'use strict';
     window.open("index.html?ap="+localStorage.ap_id+"&beob_nicht_beurteilt=" + beob_id, "_blank");
 };
 
-window.apf.öffneTPopBeob = function(beob_id) {
+window.apf.öffneTPopBeob = function (beob_id) {
     'use strict';
     localStorage.beob_id = beob_id;
     $.jstree._reference("[typ='beob_zugeordnet']#beob" + beob_id).deselect_all();
     $("#tree").jstree("select_node", "[typ='beob_zugeordnet']#beob" + beob_id);
 };
 
-window.apf.öffneTPopBeobInNeuemTab = function(beob_id) {
+window.apf.öffneTPopBeobInNeuemTab = function (beob_id) {
     'use strict';
     window.open("index.html?ap="+localStorage.ap_id+"&beob_nicht_beurteilt=" + beob_id, "_blank");
 };
@@ -4692,7 +4692,7 @@ function MercatorProjection() {
     this.pixelsPerLonRadian_ = MERCATOR_RANGE / (2 * Math.PI);
 }
 
-MercatorProjection.prototype.fromLatLngToPoint = function(latLng, opt_point) {
+MercatorProjection.prototype.fromLatLngToPoint = function (latLng, opt_point) {
     var me = this,
         point = opt_point || new google.maps.Point(0, 0),
         origin = me.pixelOrigin_;
@@ -4704,7 +4704,7 @@ MercatorProjection.prototype.fromLatLngToPoint = function(latLng, opt_point) {
     return point;
 };
 
-MercatorProjection.prototype.fromDivPixelToLatLng = function(pixel, zoom) {
+MercatorProjection.prototype.fromDivPixelToLatLng = function (pixel, zoom) {
     var me = this,
         origin = me.pixelOrigin_,
         scale = Math.pow(2, zoom),
@@ -4714,7 +4714,7 @@ MercatorProjection.prototype.fromDivPixelToLatLng = function(pixel, zoom) {
     return new google.maps.LatLng(lat, lng);
 };
 
-MercatorProjection.prototype.fromDivPixelToSphericalMercator = function(pixel, zoom) {
+MercatorProjection.prototype.fromDivPixelToSphericalMercator = function (pixel, zoom) {
     var me = this,
         coord = me.fromDivPixelToLatLng(pixel, zoom),
         r = 6378137.0,
@@ -4759,7 +4759,7 @@ function loadWMS(map, baseURL, customParams){
     wmsParams = wmsParams.concat(customParams);
 
     var overlayOptions = {
-        getTileUrl: function(coord, zoom) {
+        getTileUrl: function (coord, zoom) {
             var lULP = new google.maps.Point(coord.x*256,(coord.y+1)*256);
             var lLRP = new google.maps.Point((coord.x+1)*256,coord.y*256);
 
@@ -4823,7 +4823,7 @@ function loadWMS(map, baseURL, customParams){
  *
  */
 
-(function($) {
+(function ($) {
 
 var types = ['DOMMouseScroll', 'mousewheel'];
 
@@ -4834,7 +4834,7 @@ if ($.event.fixHooks) {
 }
 
 $.event.special.mousewheel = {
-    setup: function() {
+    setup: function () {
         if ( this.addEventListener ) {
             for ( var i=types.length; i; ) {
                 this.addEventListener( types[--i], handler, false );
@@ -4844,7 +4844,7 @@ $.event.special.mousewheel = {
         }
     },
     
-    teardown: function() {
+    teardown: function () {
         if ( this.removeEventListener ) {
             for ( var i=types.length; i; ) {
                 this.removeEventListener( types[--i], handler, false );
@@ -4856,11 +4856,11 @@ $.event.special.mousewheel = {
 };
 
 $.fn.extend({
-    mousewheel: function(fn) {
+    mousewheel: function (fn) {
         return fn ? this.bind("mousewheel", fn) : this.trigger("mousewheel");
     },
     
-    unmousewheel: function(fn) {
+    unmousewheel: function (fn) {
         return this.unbind("mousewheel", fn);
     }
 });
@@ -4896,7 +4896,7 @@ function handler(event) {
 
 })(jQuery);
 
-window.apf.öffneUri = function() {
+window.apf.öffneUri = function () {
     'use strict';
     var uri = new Uri($(location).attr('href')),
         anchor = uri.anchor() || null,
@@ -5111,7 +5111,7 @@ window.apf.öffneUri = function() {
     }
 };
 
-window.apf.getInternetExplorerVersion = function() {
+window.apf.getInternetExplorerVersion = function () {
     'use strict';
 // Returns the version of Internet Explorer or a -1
 // (indicating the use of another browser).
@@ -5125,7 +5125,7 @@ window.apf.getInternetExplorerVersion = function() {
   return rv;
 };
 
-window.apf.olmap.createLayersForOlmap = function() {
+window.apf.olmap.createLayersForOlmap = function () {
     'use strict';
     // bing-maps wäre schön
     // ol3 can't reproject raster tiles yet though
@@ -5137,7 +5137,7 @@ window.apf.olmap.createLayersForOlmap = function() {
         },
         bing_styles = _.keys(bing_styles_object),
         bing_layers = [];
-    _.each(bing_styles, function(bing_style) {
+    _.each(bing_styles, function (bing_style) {
         bing_layers.push(new ol.layer.Tile({
             title: bing_styles_object[bing_style],
             kategorie: 'Welt Hintergrund',
@@ -5230,7 +5230,7 @@ window.apf.olmap.createLayersForOlmap = function() {
          myTyp: 'Detailplan'*/    // funktioniert nicht
     });
     /* funktioniert nicht:
-     detailpläne_layer_source.forEachFeature(function(feature) {
+     detailpläne_layer_source.forEachFeature(function (feature) {
      feature.setValues('myTyp', 'Detailplan');
      });*/
 
@@ -5267,7 +5267,7 @@ window.apf.olmap.createLayersForOlmap = function() {
             featureType: 'polygon'
         }),
         //format: new ol.format.GML(),
-        loader: function(extent, resolution, projection) {
+        loader: function (extent, resolution, projection) {
             $.ajax({
                 type: GET,
                 url: '//maps.zh.ch/wfs/FnsNSWFS',
@@ -5289,7 +5289,7 @@ window.apf.olmap.createLayersForOlmap = function() {
         projection: 'EPSG:21781'
     });
 
-    var load_zh_kartierungen_layer_source = function(response) {
+    var load_zh_kartierungen_layer_source = function (response) {
         //console.log('response', response);
           zh_kartierungen_layer_source.addFeatures(zh_kartierungen_layer_source.readFeatures(response));    // funktioniert nicht!
     };
@@ -5555,7 +5555,7 @@ window.apf.olmap.createLayersForOlmap = function() {
                 })
             })]
         };
-        var styleFunction = function(feature, resolution) {
+        var styleFunction = function (feature, resolution) {
             var featureStyleFunction = feature.getStyleFunction();
             if (featureStyleFunction) {
                 return featureStyleFunction.call(feature, resolution);
@@ -5566,7 +5566,7 @@ window.apf.olmap.createLayersForOlmap = function() {
         // diese hinzufügen
         var eigene_ebenen = JSON.parse(localStorage.olmap_eigene_ebenen),
             eigene_ebenen_layers = [];
-        _.each(eigene_ebenen, function(ebene) {
+        _.each(eigene_ebenen, function (ebene) {
             var format = new ol.format.GeoJSON(),
                 features = format.readFeatures(ebene);
             //window.eigene_ebenen.push(features);
@@ -5592,7 +5592,7 @@ window.apf.olmap.createLayersForOlmap = function() {
 // remove: wenn vorhanden, wird die Ebene entfernt
 // sonst wird die enthaltene Version durch die aktuelle ersetzt
 // geschrieben wird GeoJSON. Grund: Die Layerobjekte sind rekursiv und können daher nicht stringified werden
-window.apf.olmap.aktualisiereEbeneInLocalStorage = function(layer, remove) {
+window.apf.olmap.aktualisiereEbeneInLocalStorage = function (layer, remove) {
     'use strict';
     // mit der guid kontrollieren, ob die Ebene schon existiert
     var guid = layer.get('guid'),
@@ -5606,7 +5606,7 @@ window.apf.olmap.aktualisiereEbeneInLocalStorage = function(layer, remove) {
     if (guid) {
         // den layer entfernen
         // wenn er nicht entfernt werden soll, wird er im nächsten Schritt mit den aktuellen Daten ersetzt
-        eigene_ebenen = _.reject(eigene_ebenen, function(ebene) {
+        eigene_ebenen = _.reject(eigene_ebenen, function (ebene) {
             return ebene.guid && ebene.guid === guid;
         });
         // wenn die Ebene nicht entfernt werden sollte, mit den aktuellen Daten ergänzen
@@ -5632,7 +5632,7 @@ window.apf.olmap.aktualisiereEbeneInLocalStorage = function(layer, remove) {
     }
 };
 
-window.apf.initiiereOlmap = function() {
+window.apf.initiiereOlmap = function () {
     'use strict';
     // Proxy Host for Ajax Requests to overcome Cross-Domain HTTTP Requests
     //OpenLayers.ProxyHost = "../cgi-bin/proxy.cgi?url=";
@@ -5663,7 +5663,7 @@ window.apf.initiiereOlmap = function() {
         window.apf.olmap.addMousePositionControl();
         window.apf.olmap.addFullScreenControl();
 
-        window.apf.olmap.map.on('change:size', function() {
+        window.apf.olmap.map.on('change:size', function () {
             // steuern, ob das Export-Tool sichtbar ist
             // wenn es bei hoher Pixelzahl sichtbar ist, gibt es Probleme
             window.apf.olmap.blendeOlmapExportieren();
@@ -5672,7 +5672,7 @@ window.apf.initiiereOlmap = function() {
 };
 
 // deaktiviert Messen und Auswählen
-window.apf.olmap.deactivateMenuItems = function() {
+window.apf.olmap.deactivateMenuItems = function () {
     // messen deaktivieren
     window.apf.olmap.removeMeasureInteraction();
     // Auswählen deaktivieren
@@ -5685,7 +5685,7 @@ window.apf.olmap.deactivateMenuItems = function() {
     window.apf.olmap.entferneModifyInteractionFürTpop();
 };
 
-window.apf.olmap.removeSelectFeaturesInSelectableLayers = function() {
+window.apf.olmap.removeSelectFeaturesInSelectableLayers = function () {
     'use strict';
     if (window.apf.olmap.map.olmap_select_interaction) {
         window.apf.olmap.map.removeInteraction(window.apf.olmap.map.olmap_select_interaction);
@@ -5695,14 +5695,14 @@ window.apf.olmap.removeSelectFeaturesInSelectableLayers = function() {
     }
 };
 
-window.apf.olmap.addSelectFeaturesInSelectableLayers = function() {
+window.apf.olmap.addSelectFeaturesInSelectableLayers = function () {
     'use strict';
     window.apf.olmap.map.olmap_select_interaction = new ol.interaction.Select({
         // TODO: 'layerFilter' will soon be deprecated > change to 'layers' when deprecated
-        layerFilter: function(layer) {
+        layerFilter: function (layer) {
             return layer.get('selectable') === true;
         },
-        style: function(feature, resolution) {
+        style: function (feature, resolution) {
             switch(feature.get('myTyp')) {
                 case 'pop':
                     return window.apf.olmap.popStyle(feature, resolution, true);
@@ -5717,7 +5717,7 @@ window.apf.olmap.addSelectFeaturesInSelectableLayers = function() {
         }
         /*,
          // wenn man das feature zum zweiten mal klickt, soll es nicht mehr selected sein
-         toggleCondition: function(event) {
+         toggleCondition: function (event) {
          return event === 'click';
          }*/
     });
@@ -5726,7 +5726,7 @@ window.apf.olmap.addSelectFeaturesInSelectableLayers = function() {
     window.apf.olmap.addDragBoxForPopTpop();
 };
 
-window.apf.olmap.getSelectedFeatures = function() {
+window.apf.olmap.getSelectedFeatures = function () {
     if (window.apf.olmap.map.olmap_select_interaction) {
         return window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
     } else {
@@ -5734,14 +5734,14 @@ window.apf.olmap.getSelectedFeatures = function() {
     }
 };
 
-window.apf.olmap.getSelectedFeaturesOfType = function(type) {
+window.apf.olmap.getSelectedFeaturesOfType = function (type) {
     var features_array = window.apf.olmap.getSelectedFeatures(),
         return_array = [],
         feature_type;
     if (features_array.length === 0) {
         return [];
     }
-    _.each(features_array, function(feature) {
+    _.each(features_array, function (feature) {
         feature_type = feature.get('myTyp');
         if (feature_type === type) {
             return_array.push(feature);
@@ -5750,7 +5750,7 @@ window.apf.olmap.getSelectedFeaturesOfType = function(type) {
     return return_array;
 };
 
-window.apf.olmap.removeDragBox = function() {
+window.apf.olmap.removeDragBox = function () {
     'use strict';
     if (window.apf.olmap.drag_box_interaction) {
         window.apf.olmap.map.removeInteraction(window.apf.olmap.drag_box_interaction);
@@ -5759,7 +5759,7 @@ window.apf.olmap.removeDragBox = function() {
     }
 };
 
-window.apf.olmap.addDragBoxForPopTpop = function() {
+window.apf.olmap.addDragBoxForPopTpop = function () {
     'use strict';
     window.apf.olmap.drag_box_interaction = new ol.interaction.DragBox({
         /* dragbox interaction is active only if alt key is pressed */
@@ -5775,7 +5775,7 @@ window.apf.olmap.addDragBoxForPopTpop = function() {
             })
         })
     });
-    window.apf.olmap.drag_box_interaction.on('boxend', function(event) {
+    window.apf.olmap.drag_box_interaction.on('boxend', function (event) {
         var geometry = window.apf.olmap.drag_box_interaction.getGeometry(),
             extent = geometry.getExtent(),
             layers = window.apf.olmap.map.getLayers().getArray(),
@@ -5796,16 +5796,16 @@ window.apf.olmap.addDragBoxForPopTpop = function() {
                 selected_features.push(feature);
             });
         }
-        setTimeout(function() {
+        setTimeout(function () {
             window.apf.olmap.prüfeObPopTpopGewähltWurden();
         }, 100);
     });
     window.apf.olmap.map.addInteraction(window.apf.olmap.drag_box_interaction);
 };
 
-window.apf.olmap.addShowFeatureInfoOnClick = function() {
+window.apf.olmap.addShowFeatureInfoOnClick = function () {
     'use strict';
-    window.apf.olmap.map.on('singleclick', function(event) {
+    window.apf.olmap.map.on('singleclick', function (event) {
         var pixel = event.pixel,
             coordinate = event.coordinate;
         // nur machen, wenn nicht selektiert wird
@@ -5814,13 +5814,13 @@ window.apf.olmap.addShowFeatureInfoOnClick = function() {
         }
         // prüfen, ob pop / tpop gewählt wurden
         // verzögern, weil die neuste selection sonst nicht erfasst wird
-        setTimeout(function() {
+        setTimeout(function () {
             window.apf.olmap.prüfeObPopTpopGewähltWurden();
         }, 100);
     });
 };
 
-window.apf.olmap.prüfeObPopTpopGewähltWurden = function() {
+window.apf.olmap.prüfeObPopTpopGewähltWurden = function () {
     var pop_selected = [],
         tpop_selected = [];
     // prüfen, ob pop / tpop gewählt wurden
@@ -5834,11 +5834,11 @@ window.apf.olmap.prüfeObPopTpopGewähltWurden = function() {
     }
 };
 
-window.apf.olmap.changeCursorOverFeature = function() {
+window.apf.olmap.changeCursorOverFeature = function () {
     'use strict';
-    $(window.apf.olmap.map.getViewport()).on('mousemove', function(e) {
+    $(window.apf.olmap.map.getViewport()).on('mousemove', function (e) {
         var pixel = window.apf.olmap.map.getEventPixel(e.originalEvent),
-            hit = window.apf.olmap.map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+            hit = window.apf.olmap.map.forEachFeatureAtPixel(pixel, function (feature, layer) {
                 return true;
             });
         if (hit) {
@@ -5849,7 +5849,7 @@ window.apf.olmap.changeCursorOverFeature = function() {
     });
 };
 
-window.apf.olmap.addMousePositionControl = function() {
+window.apf.olmap.addMousePositionControl = function () {
     'use strict';
     var mousePositionControl = new ol.control.MousePosition({
         //This is the format we want the coordinate in
@@ -5861,7 +5861,7 @@ window.apf.olmap.addMousePositionControl = function() {
     window.apf.olmap.map.addControl(mousePositionControl);
 };
 
-window.apf.olmap.addFullScreenControl = function() {
+window.apf.olmap.addFullScreenControl = function () {
     'use strict';
     var myFullScreenControl = new ol.control.FullScreen();
     window.apf.olmap.map.addControl(myFullScreenControl);
@@ -5869,7 +5869,7 @@ window.apf.olmap.addFullScreenControl = function() {
     $('#ga_karten_div').find('.ol-full-screen').find('span[role="tooltip"]').html('Vollbild wechseln');
 };
 
-window.apf.olmap.addDragAndDropGeofiles = function() {
+window.apf.olmap.addDragAndDropGeofiles = function () {
     'use strict';
     // drag and drop geo-files
     var drag_and_drop_defaultStyle = {
@@ -5928,7 +5928,7 @@ window.apf.olmap.addDragAndDropGeofiles = function() {
             })
         })]
     };
-    var drag_and_drop_styleFunction = function(feature, resolution) {
+    var drag_and_drop_styleFunction = function (feature, resolution) {
         var featureStyleFunction = feature.getStyleFunction();
         if (featureStyleFunction) {
             return featureStyleFunction.call(feature, resolution);
@@ -5948,7 +5948,7 @@ window.apf.olmap.addDragAndDropGeofiles = function() {
 
     window.apf.olmap.map.addInteraction(drag_and_drop_interaction);
 
-    drag_and_drop_interaction.on('addfeatures', function(event) {
+    drag_and_drop_interaction.on('addfeatures', function (event) {
         var vectorSource = new ol.source.Vector({
             features: event.features
         });
@@ -5968,7 +5968,7 @@ window.apf.olmap.addDragAndDropGeofiles = function() {
     });
 };
 
-window.apf.olmap.frageNameFürEbene = function(eigene_ebene) {
+window.apf.olmap.frageNameFürEbene = function (eigene_ebene) {
     'use strict';
     var name_erfragt = $.Deferred(),
         $eigene_ebene_name = $('#eigene_ebene_name'),
@@ -5987,7 +5987,7 @@ window.apf.olmap.frageNameFürEbene = function(eigene_ebene) {
             buttons: [
                 {
                     text: "speichern",
-                    click: function() {
+                    click: function () {
                         // umbenennen
                         window.apf.olmap.nenneEbeneUm(eigene_ebene, $eigene_ebene_name.val());
                         // Namen zurücksetzen
@@ -5998,14 +5998,14 @@ window.apf.olmap.frageNameFürEbene = function(eigene_ebene) {
                 },
                 {
                     text: "abbrechen",
-                    click: function() {
+                    click: function () {
                         $(this).dialog( "close" );
                     }
                 }
             ]
         })
         .dialog('open');
-    $eigene_ebene_name.on('keyup', function(event) {
+    $eigene_ebene_name.on('keyup', function (event) {
         if (event.which == 13 && window.apf.olmap.eigene_ebene) {
             // enter pressed
             // umbenennen
@@ -6021,7 +6021,7 @@ window.apf.olmap.frageNameFürEbene = function(eigene_ebene) {
     return name_erfragt.promise();
 };
 
-window.apf.olmap.nenneEbeneUm = function(layer, title) {
+window.apf.olmap.nenneEbeneUm = function (layer, title) {
     'use strict';
     layer.set('title', title);
     window.apf.olmap.initiiereLayertree('Eigene Ebenen');
@@ -6033,7 +6033,7 @@ window.apf.olmap.nenneEbeneUm = function(layer, title) {
 // Muster:
 // <li><input type="checkbox" id="olmap_layertree_Ebene 1"><label for="olmap_layertree_Ebene 1">Ebene 1</label></li><hr>
 // active_kategorie: der Bereich dieser Kategorie soll offen sein
-window.apf.olmap.initiiereLayertree = function(active_kategorie) {
+window.apf.olmap.initiiereLayertree = function (active_kategorie) {
     'use strict';
     var layertitel,
         visible,
@@ -6083,7 +6083,7 @@ window.apf.olmap.initiiereLayertree = function(active_kategorie) {
         .accordion({collapsible:true, active: false, heightStyle: 'content'})
         .accordion("destroy");
 
-    _.each(layers, function(layer, index) {
+    _.each(layers, function (layer, index) {
         layertitel = layer.get('title') || '(Ebene ohne Titel)';
         visible = layer.get('visible');
         kategorie = layer.get('kategorie');
@@ -6242,7 +6242,7 @@ window.apf.olmap.initiiereLayertree = function(active_kategorie) {
         .button('refresh');
     $('.export_layer_select').selectmenu();
     // jetzt tooltips erstellen
-    _.each(export_layer_select_ids, function(id) {
+    _.each(export_layer_select_ids, function (id) {
         // give the selectmenu a tooltip
         $('#' + id + '-button').tooltip({
             tooltipClass: "tooltip-styling-hinterlegt",
@@ -6260,7 +6260,7 @@ window.apf.olmap.initiiereLayertree = function(active_kategorie) {
         $('.modify_layer_label, .export_layer_select_label, .rename_layer_label, .entferne_layer_label, .apf_tooltip')
             .tooltip({
                 tooltipClass: "tooltip-styling-hinterlegt",
-                content: function() {
+                content: function () {
                     return $(this).attr('title');
                 }
             });
@@ -6285,7 +6285,7 @@ window.apf.olmap.initiiereLayertree = function(active_kategorie) {
                 ,at: "right bottom"
                 ,collision: "flipfit"
             }
-            ,content: function() {
+            ,content: function () {
                 var url = $(this).attr('href');
                 return "<img src='" + url + "'>";
             }
@@ -6293,7 +6293,7 @@ window.apf.olmap.initiiereLayertree = function(active_kategorie) {
         // die tooltips sind beim ersten Öffnen zu weit rechts > nicht sichtbar!
         // darum alle einmal öffnen
         // ab dem zweiten mal liegen sie am richtigen Ort
-        $(".olmap_layertreee_legende").each(function() {
+        $(".olmap_layertreee_legende").each(function () {
             $(this).tooltip('open');
             $(this).tooltip('close');
         });
@@ -6303,7 +6303,7 @@ window.apf.olmap.initiiereLayertree = function(active_kategorie) {
 // das ist der Versuch, existierende Formulare als dialog zu öffnen
 // braucht die id des Formulars
 // und die id des Datensatzes, der anzuzeigen ist
-window.apf.öffneFormularAlsPopup = function(formularname, id) {
+window.apf.öffneFormularAlsPopup = function (formularname, id) {
     var $formularname = $('#' + formularname),
         title;
     // titel bestimmen
@@ -6330,7 +6330,7 @@ window.apf.öffneFormularAlsPopup = function(formularname, id) {
     }
     // dialog öffnen
     $formularname.dialog({
-        close: function() {
+        close: function () {
             $formularname.dialog("destroy");
         },
           //height: 600,
@@ -6347,7 +6347,7 @@ window.apf.öffneFormularAlsPopup = function(formularname, id) {
     $formularname.dialog("open");
 };
 
-window.apf.olmap.detailplanStyle = function(feature, resolution) {
+window.apf.olmap.detailplanStyle = function (feature, resolution) {
     'use strict';
     return new ol.style.Style({
         fill: new ol.style.Fill({
@@ -6360,7 +6360,7 @@ window.apf.olmap.detailplanStyle = function(feature, resolution) {
     });
 };
 
-window.apf.olmap.detailplanStyleSelected = function(feature, resolution) {
+window.apf.olmap.detailplanStyleSelected = function (feature, resolution) {
     'use strict';
     return new ol.style.Style({
         fill: new ol.style.Fill({
@@ -6375,7 +6375,7 @@ window.apf.olmap.detailplanStyleSelected = function(feature, resolution) {
 
 // steuert den style von pop
 // selected: mit der Maus oder drag_box markierte
-window.apf.olmap.popStyle = function(feature, resolution, selected) {
+window.apf.olmap.popStyle = function (feature, resolution, selected) {
     'use strict';
     
     var icon = 'img/flora_icon_braun.png',
@@ -6446,7 +6446,7 @@ window.apf.olmap.popStyle = function(feature, resolution, selected) {
 // tpopid_markiert: beim Aufbau des Layers werden markierte mitgegeben
 // selected: mit der Maus oder drag_box markierte
 // verorten: beim Verorten soll das Symbol rot sein
-window.apf.olmap.tpopStyle = function(feature, resolution, selected, verorten) {
+window.apf.olmap.tpopStyle = function (feature, resolution, selected, verorten) {
     'use strict';
 
     var icon = 'img/flora_icon.png',
@@ -6517,7 +6517,7 @@ window.apf.olmap.tpopStyle = function(feature, resolution, selected, verorten) {
     return [style];
 };
 
-window.apf.olmap.messe = function(element) {
+window.apf.olmap.messe = function (element) {
     'use strict';
     window.apf.olmap.deactivateMenuItems();
     if (element.value === 'line' && element.checked) {
@@ -6529,7 +6529,7 @@ window.apf.olmap.messe = function(element) {
     }
 };
 
-window.apf.olmap.removeMeasureInteraction = function() {
+window.apf.olmap.removeMeasureInteraction = function () {
     window.apf.olmap.entferneLayerNachName('messen');
     window.apf.olmap.map.removeInteraction(window.apf.olmap.drawMeasure);
     delete window.apf.olmap.drawMeasure;
@@ -6538,7 +6538,7 @@ window.apf.olmap.removeMeasureInteraction = function() {
 };
 
 // erhält den Typ der Interaktion: 'Polygon' oder 'LineString'
-window.apf.olmap.addMeasureInteraction = function(type) {
+window.apf.olmap.addMeasureInteraction = function (type) {
     // allfällige Resten entfernen
     window.apf.olmap.removeMeasureInteraction();
     // neu aufbauen
@@ -6577,7 +6577,7 @@ window.apf.olmap.addMeasureInteraction = function(type) {
 
     // handle pointer move
     // @param {Event} evt
-    var mouseMoveHandler = function(evt) {
+    var mouseMoveHandler = function (evt) {
         if (sketch) {
             var output,
                 geom = (sketch.getGeometry());
@@ -6600,7 +6600,7 @@ window.apf.olmap.addMeasureInteraction = function(type) {
     window.apf.olmap.map.addInteraction(window.apf.olmap.drawMeasure);
 
     window.apf.olmap.drawMeasure.on('drawstart',
-        function(evt) {
+        function (evt) {
             // set sketch
             sketch = evt.feature;
             sketchElement = document.createElement('li');
@@ -6613,7 +6613,7 @@ window.apf.olmap.addMeasureInteraction = function(type) {
         }, this);
 
     window.apf.olmap.drawMeasure.on('drawend',
-        function(evt) {
+        function (evt) {
             // unset sketch
             sketch = null;
             sketchElement = null;
@@ -6625,7 +6625,7 @@ window.apf.olmap.addMeasureInteraction = function(type) {
  * @param {ol.geom.LineString} line
  * @return {string}
 */
-window.apf.olmap.formatLength = function(line) {
+window.apf.olmap.formatLength = function (line) {
     var length = Math.round(line.getLength() * 100) / 100,
         output;
     if (length > 100) {
@@ -6641,7 +6641,7 @@ window.apf.olmap.formatLength = function(line) {
  * @param {ol.geom.Polygon} polygon
  * @return {string}
 */
-window.apf.olmap.formatArea = function(polygon) {
+window.apf.olmap.formatArea = function (polygon) {
     var area = polygon.getArea(),
         output;
     if (area > 10000) {
@@ -6652,17 +6652,17 @@ window.apf.olmap.formatArea = function(polygon) {
     return output;
 };
 
-window.apf.olmap.wähleAus = function() {
+window.apf.olmap.wähleAus = function () {
     window.apf.olmap.deactivateMenuItems();
     window.apf.olmap.addSelectFeaturesInSelectableLayers();
 };
 
-window.apf.olmap.schliesseLayeroptionen = function() {
+window.apf.olmap.schliesseLayeroptionen = function () {
     'use strict';
     $("#olmap_layertree").accordion("option", "active", false);
 };
 
-window.apf.erstelleGemeindeliste = function() {
+window.apf.erstelleGemeindeliste = function () {
     'use strict';
     if (!window.apf.gemeinden) {
         var getGemeinden = $.ajax({
@@ -6670,11 +6670,11 @@ window.apf.erstelleGemeindeliste = function() {
             url: 'api/v1/gemeinden',
             dataType: 'json'
         });
-        getGemeinden.done(function(data) {
+        getGemeinden.done(function (data) {
             if (data) {
                 // Gemeinden bereitstellen
                 // Feld mit Daten beliefern
-                var gemeinden = _.map(data, function(gemeinde) {
+                var gemeinden = _.map(data, function (gemeinde) {
                     if (gemeinde.GmdName) {
                         return gemeinde.GmdName;
                     }
@@ -6685,19 +6685,19 @@ window.apf.erstelleGemeindeliste = function() {
                     source: gemeinden,
                     delay: 0,
                     // Change-Event wird nicht ausgelöst > hier aufrufen
-                    change: function(event, ui) {
+                    change: function (event, ui) {
                         window.apf.speichern(event.target);
                     }
                 });
             }
         });
-        getGemeinden.fail(function() {
+        getGemeinden.fail(function () {
             window.apf.melde("Fehler: Die Liste der Gemeinden konnte nicht bereitgestellt werden");
         });
     }
 };
 
-window.apf.wähleAp = function(ap_id) {
+window.apf.wähleAp = function (ap_id) {
     'use strict';
     var initiiereAp = require('./modules/initiiereAp');
     if (ap_id) {
@@ -6711,17 +6711,17 @@ window.apf.wähleAp = function(ap_id) {
                 url: 'api/v1/apInsert/ap=' + localStorage.ap_id + '/user=' + sessionStorage.User,
                 dataType: 'json'
             });
-            insertAp.done(function() {
+            insertAp.done(function () {
                 // nachdem ein neues Programm erstellt wurde, soll nicht mehr "neu" zur Wahl stehen, sondern "alle"
                 $("#programm_neu").attr("checked", false);
                 $("#programm_alle").attr("checked", true);
                 $("#programm_wahl").buttonset();
                 // Auswahlliste für Programme updaten
                 $.when(window.apf.wähleApListe("programm_alle"))
-                .then(function() {
+                .then(function () {
                     // Strukturbaum updaten
                     $.when(window.apf.erstelle_tree(localStorage.ap_id))
-                    .then(function() {
+                    .then(function () {
                         // gewählte Art in Auswahlliste anzeigen
                         $('#ap_waehlen').val(localStorage.ap_id);
                         $('#ap_waehlen option[value =' + localStorage.ap_id + ']').attr('selected', true);
@@ -6731,7 +6731,7 @@ window.apf.wähleAp = function(ap_id) {
                     });
                 });
             });
-            insertAp.fail(function() {
+            insertAp.fail(function () {
                 window.apf.melde("Fehler: Keine Daten für Programme erhalten");
             });
         } else {
@@ -6754,7 +6754,7 @@ window.apf.wähleAp = function(ap_id) {
     }
 };
 
-window.apf.kopiereKoordinatenInPop = function(x_koord, y_koord) {
+window.apf.kopiereKoordinatenInPop = function (x_koord, y_koord) {
     'use strict';
     // prüfen, ob X- und Y-Koordinaten vergeben sind
     if (x_koord > 100000 && y_koord > 100000) {
@@ -6764,23 +6764,23 @@ window.apf.kopiereKoordinatenInPop = function(x_koord, y_koord) {
             url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + localStorage.pop_id + '/feld=PopXKoord/wert=' + x_koord + '/user=' + sessionStorage.User,
             dataType: 'json'
         });
-        update_pop.done(function() {
+        update_pop.done(function () {
             var updatePop_4 = $.ajax({
                 type: 'post',
                 url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + localStorage.pop_id + '/feld=PopYKoord/wert=' + y_koord + '/user=' + sessionStorage.User,
                 dataType: 'json'
             });
-            updatePop_4.done(function() {
+            updatePop_4.done(function () {
                 $("#kopiereKoordinatenInPopRueckmeldung").fadeIn('slow');
-                setTimeout(function() {
+                setTimeout(function () {
                     $("#kopiereKoordinatenInPopRueckmeldung").fadeOut('slow');
                 }, 3000);
             });
-            updatePop_4.fail(function() {
+            updatePop_4.fail(function () {
                 window.apf.melde("Fehler: Y-Koordinate wurde nicht kopiert (die X-Koordinate offenbar schon)");
             });
         });
-        update_pop.fail(function() {
+        update_pop.fail(function () {
             window.apf.melde("Fehler: Koordinaten wurden nicht kopiert");
         });
     } else {
@@ -6789,7 +6789,7 @@ window.apf.kopiereKoordinatenInPop = function(x_koord, y_koord) {
     }
 };
 
-window.apf.prüfeAnmeldung = function() {
+window.apf.prüfeAnmeldung = function () {
     'use strict';
     var $anmeldung_name = $("#anmeldung_name").val(),
         $anmeldung_passwort = $("#anmeldung_passwort").val();
@@ -6800,7 +6800,7 @@ window.apf.prüfeAnmeldung = function() {
             type: 'get',
             url: 'api/v1/anmeldung/name=' + $anmeldung_name + '/pwd=' + $anmeldung_passwort,
             dataType: 'json'
-        }).done(function(data) {
+        }).done(function (data) {
             if (data && data.length > 0) {
                 sessionStorage.User = $anmeldung_name;
                 // wenn NurLesen, globale Variable setzen
@@ -6810,25 +6810,25 @@ window.apf.prüfeAnmeldung = function() {
                 $("#anmeldung_rueckmeldung")
                     .html("Willkommen " + $anmeldung_name)
                     .addClass("ui-state-highlight");
-                setTimeout(function() {
+                setTimeout(function () {
                     $("#anmelde_dialog").dialog("close", 2000);
                 }, 1000);
             } else {
                 $("#anmeldung_rueckmeldung")
                     .html("Anmeldung gescheitert")
                     .addClass("ui-state-highlight");
-                setTimeout(function() {
+                setTimeout(function () {
                     $("#anmeldung_rueckmeldung").removeClass("ui-state-highlight", 1500);
                 }, 500);
             }
-        }).fail(function() {
+        }).fail(function () {
             window.apf.melde("Anmeldung gescheitert", "Oops!");
         });
     } else {
         $("#anmeldung_rueckmeldung")
             .html("Bitte Name und Passwort ausfüllen")
             .addClass( "ui-state-highlight" );
-        setTimeout(function() {
+        setTimeout(function () {
             $("#anmeldung_rueckmeldung").removeClass("ui-state-highlight", 1500);
         }, 500);
     }
@@ -6836,7 +6836,7 @@ window.apf.prüfeAnmeldung = function() {
 
 // erwartet aktuelle Werte für jahr und typ
 // erstellt den label für den Baum
-window.apf.erstelleLabelFürFeldkontrolle = function(jahr, typ) {
+window.apf.erstelleLabelFürFeldkontrolle = function (jahr, typ) {
     'use strict';
     if (typeof jahr === "undefined") {
         jahr = "(kein Jahr)";
@@ -6849,7 +6849,7 @@ window.apf.erstelleLabelFürFeldkontrolle = function(jahr, typ) {
 
 // erwartet aktuelle Werte für jahr und beurteilung
 // erstellt den label für den Baum
-window.apf.erstelleLabelFürMassnahme = function(jahr, beurteilung) {
+window.apf.erstelleLabelFürMassnahme = function (jahr, beurteilung) {
     'use strict';
     if (typeof jahr === "undefined") {
         jahr = "(kein Jahr)";
@@ -6862,7 +6862,7 @@ window.apf.erstelleLabelFürMassnahme = function(jahr, beurteilung) {
 
 // gibt HTML zurück, mit dem die Informationen über eine Beobachtung dargestellt werden
 // erwartet die Daten der Beobachtung
-window.apf.erstelleFelderFürBeob = function(data, beobtyp) {
+window.apf.erstelleFelderFürBeob = function (data, beobtyp) {
     'use strict';
     // Titel für Beob im Formular erstellen
     var beobtitel = "<h1>Informationen aus ";
@@ -6876,7 +6876,7 @@ window.apf.erstelleFelderFürBeob = function(data, beobtyp) {
     var html_beobfelder = "<table>",
         html_beobfeld,
         nichtAnzuzeigendeFelder = ["NO_ISFS", "ESPECE", "CUSTOM_TEXT_5_", "OBJECTID", "FNS_GISLAYER", "FNS_ISFS", "ID", "FNS_JAHR", "NOM_COMPLET", "FAMILLE"];
-    $.each(data, function(index, value) {
+    $.each(data, function (index, value) {
         if ((value || value === 0) && nichtAnzuzeigendeFelder.indexOf(index) === -1) {
             // TODO: Zahlen, text und Memofelder unterscheiden
             // TODO: Felder durch externe Funktion erstellen lassen
@@ -6899,7 +6899,7 @@ window.apf.erstelleFelderFürBeob = function(data, beobtyp) {
 
 // in DOM-Objekten sind viele ID's der Name des DOM-Elements vorangestellt, damit die ID eindeutig ist
 // ACHTUNG auf die Reihenfolge der Ersatzbefehle. Sonst wird z.B. in 'tpopber' 'popber' ersetzt und es bleibt 't'
-window.apf.erstelleIdAusDomAttributId = function(domAttributId) {
+window.apf.erstelleIdAusDomAttributId = function (domAttributId) {
     'use strict';
     var returnWert = domAttributId.replace('ap_ordner_pop', '').replace('ap_ordner_apziel', '').replace('ap_ordner_erfkrit', '').replace('ap_ordner_jber', '').replace('ap_ordner_ber', '').replace('ap_ordner_beob_nicht_beurteilt', '').replace('ap_ordner_beob_nicht_zuzuordnen', '').replace('idealbiotop', '').replace('ap_ordner_assozarten', '').replace('tpop_ordner_massnber', '').replace('tpop_ordner_massn', '').replace('tpopmassnber', '').replace('pop_ordner_massnber', '').replace('popmassnber', '').replace('tpop_ordner_feldkontr', '').replace('tpop_ordner_freiwkontr', '').replace('tpopfreiwkontr', '').replace('tpop_ordner_tpopber', '').replace('tpopber', '').replace('pop_ordner_popber', '').replace('popber', '').replace('tpop_ordner_beob_zugeordnet', '').replace('beob', '').replace('ber', '');
     if (domAttributId == returnWert && parseInt(returnWert) && parseInt(returnWert) != returnWert) {
@@ -6908,7 +6908,7 @@ window.apf.erstelleIdAusDomAttributId = function(domAttributId) {
     return returnWert;
 };
 
-window.apf.zeigeBeobKoordinatenImGisBrowser = function() {
+window.apf.zeigeBeobKoordinatenImGisBrowser = function () {
     'use strict';
     var URL,
         target,
@@ -6940,7 +6940,7 @@ window.apf.zeigeBeobKoordinatenImGisBrowser = function() {
 // retourniert die Beschriftung für TPop auf Karten
 // Wenn TPop mit ihrer Nummer beschriftet sein sollen
 // tpop_nr und pop_nr wird übernommen
-window.apf.beschrifteTPopMitNrFürKarte = function(pop_nr, tpop_nr) {
+window.apf.beschrifteTPopMitNrFürKarte = function (pop_nr, tpop_nr) {
     'use strict';
     var tpop_beschriftung;
     pop_nr = pop_nr || "?";
@@ -6953,7 +6953,7 @@ window.apf.beschrifteTPopMitNrFürKarte = function(pop_nr, tpop_nr) {
 };
 
 //öffnet ein modal und teilt etwas mit
-window.apf.melde = function(meldung, title) {
+window.apf.melde = function (meldung, title) {
     'use strict';
     var title = title || ' ';
     $("#Meldung")
@@ -6962,7 +6962,7 @@ window.apf.melde = function(meldung, title) {
         .dialog({
             modal: true,
             buttons: {
-                Ok: function() {
+                Ok: function () {
                     $(this).dialog("close");
                 }
             }
@@ -6971,7 +6971,7 @@ window.apf.melde = function(meldung, title) {
 
 // zeigt während 25 Sekunden einen Hinweis an und einen Link, mit dem eine Aktion rückgängig gemacht werden kann
 // erwartet die Mitteilung, was passiert ist
-window.apf.frageObAktionRückgängigGemachtWerdenSoll = function(wasIstPassiert) {
+window.apf.frageObAktionRückgängigGemachtWerdenSoll = function (wasIstPassiert) {
     'use strict';
     // Hinweis zum rückgängig machen anzeigen
     $("#undelete_div").html(wasIstPassiert + " <a href='#' id='undelete'>Rückgängig machen?</a>");
@@ -6979,7 +6979,7 @@ window.apf.frageObAktionRückgängigGemachtWerdenSoll = function(wasIstPassiert)
     if ($( window ).width() > 1000) {
         $("#forms").css("top", "37px");
     }
-    setTimeout(function() {
+    setTimeout(function () {
         $("#undelete_div").html("");
         $(".undelete").hide();
         $("#forms").css("top", "");
@@ -6988,7 +6988,7 @@ window.apf.frageObAktionRückgängigGemachtWerdenSoll = function(wasIstPassiert)
 
 
 // Baut einen neuen Knoten auf derselben Hierarchiestufe, von welcher der Befehl aufgerufen wurde
-window.apf.insertNeuenNodeAufGleicherHierarchiestufe = function(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung) {
+window.apf.insertNeuenNodeAufGleicherHierarchiestufe = function (aktiver_node, parent_node, strukturtyp, ds_id, beschriftung) {
     'use strict';
     var NeuerNode,
         initiiereFormularMitStrukturtyp = require('./modules/initiiereFormularMitStrukturtyp');
@@ -7045,7 +7045,7 @@ window.apf.insertNeuenNodeAufGleicherHierarchiestufe = function(aktiver_node, pa
 
 // Baut einen neuen Knoten auf der näcshttieferen Hierarchiestufe, als der Befehl aufgerufen wurde
 // parent_node wird nur von Strukturtyp apziel benutzt
-window.apf.insertNeuenNodeEineHierarchiestufeTiefer = function(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung) {
+window.apf.insertNeuenNodeEineHierarchiestufeTiefer = function (aktiver_node, parent_node, strukturtyp, ds_id, beschriftung) {
     'use strict';
     var NeuerNode,
         initiiereFormularMitStrukturtyp = require('./modules/initiiereFormularMitStrukturtyp');
@@ -7121,7 +7121,7 @@ window.apf.insertNeuenNodeEineHierarchiestufeTiefer = function(aktiver_node, par
 
 // erstellt alle Unterordner des Ordners vom Typ pop
 // erwartet den node des pop-ordners
-window.apf.insertOrdnerVonPop = function(pop_node, pop_id) {
+window.apf.insertOrdnerVonPop = function (pop_node, pop_id) {
     'use strict';
     $.jstree._reference(pop_node).create_node(pop_node, "last", {
         "data": "Teilpopulationen",
@@ -7148,7 +7148,7 @@ window.apf.insertOrdnerVonPop = function(pop_node, pop_id) {
 
 // erstellt alle Unterordner des Ordners vom Typ tpop
 // erwartet den node des tpop-ordners
-window.apf.insertOrdnerVonTPop = function(TPopNode, tpop_id) {
+window.apf.insertOrdnerVonTPop = function (TPopNode, tpop_id) {
     'use strict';
     $.jstree._reference(TPopNode).create_node(TPopNode, "last", {
         "data": "Massnahmen",
@@ -7194,7 +7194,7 @@ window.apf.insertOrdnerVonTPop = function(TPopNode, tpop_id) {
     });
 };
 
-window.apf.löscheAp = function(ap_id) {
+window.apf.löscheAp = function (ap_id) {
     'use strict';
     //Variable zum rückgängig machen erstellen
     window.apf.deleted = window.apf;
@@ -7206,7 +7206,7 @@ window.apf.löscheAp = function(ap_id) {
         url: 'api/v1/apflora/tabelle=tblAktionsplan/tabelleIdFeld=ApArtId/tabelleId=' + ap_id,
         dataType: 'json'
     });
-    deleteAp.done(function() {
+    deleteAp.done(function () {
         var $exportieren_2 = $("#exportieren_2");
         delete localStorage.ap_id;
         delete window.apf.ap;
@@ -7233,7 +7233,7 @@ window.apf.löscheAp = function(ap_id) {
         //forms muss eingeblendet sein, weil undelete_div darin ist
         window.apf.zeigeFormular("keines");
     });
-    deleteAp.fail(function() {
+    deleteAp.fail(function () {
         window.apf.melde("Fehler: Das Programm wurde nicht gelöscht");
     });
 };
@@ -7248,7 +7248,7 @@ window.apf.löscheAp = function(ap_id) {
 ** jeder Datensatz hat Schaltfläche
 ** bei Klick: Ja nach Typ der Daten Wiederherstellung starten und Erfolg melden
 */
-window.apf.undeleteDatensatz = function() {
+window.apf.undeleteDatensatz = function () {
     'use strict';
     var tabelle,
         data = {},
@@ -7342,7 +7342,7 @@ window.apf.undeleteDatensatz = function() {
 
     // window.apf.deleted enthält alle Feldnamen - viele können leer sein
     // daher nur solche mit Werten übernehmen
-    _.each(window.apf.deleted, function(feldwert, feldname) {
+    _.each(window.apf.deleted, function (feldwert, feldname) {
         if (feldwert) {
             data[feldname] = feldwert;
         }
@@ -7353,7 +7353,7 @@ window.apf.undeleteDatensatz = function() {
         type: 'post',
         url: 'api/v1/insertMultiple/apflora/tabelle=' + tabelle + '/felder=' + JSON.stringify(data),
         dataType: 'json'
-    }).done(function() {
+    }).done(function () {
         $(".undelete").hide();
         $("#forms").css("top", "");
         // ap kann nicht via Strukturbaum gewählt werden
@@ -7369,21 +7369,21 @@ window.apf.undeleteDatensatz = function() {
         } else {
             //tree neu aufbauen
             $.when(window.apf.erstelle_tree(localStorage.ap_id))
-                .then(function() {
+                .then(function () {
                     $("#tree").jstree("select_node", "[typ='" + typ + "']#" + id);
                 });
         }
-    }).fail(function() {
+    }).fail(function () {
         window.apf.melde("Fehler: Wiederherstellung gescheitert");
     });
 };
 
-window.apf.olmap.exportiereKarte = function(event) {
+window.apf.olmap.exportiereKarte = function (event) {
     'use strict';
     var exportPNGElement = document.getElementById('olmap_exportieren');
     if ('download' in exportPNGElement) {
-          exportPNGElement.addEventListener('click', function(e) {
-            window.apf.olmap.map.once('postcompose', function(event) {
+          exportPNGElement.addEventListener('click', function (e) {
+            window.apf.olmap.map.once('postcompose', function (event) {
                 var canvas = event.context.canvas;
                 exportPNGElement.href = canvas.toDataURL('image/png');
             });
@@ -7393,7 +7393,7 @@ window.apf.olmap.exportiereKarte = function(event) {
             // beim ersten mal soll der Event gleich wiederholt werden
             window.apf.olmap.recentlyClicked = true;
             // warten, sonst kommen zwei Downloads
-            setTimeout(function() {
+            setTimeout(function () {
                 exportPNGElement.click();
             }, 200);
         }
@@ -7403,7 +7403,7 @@ window.apf.olmap.exportiereKarte = function(event) {
     }
 };
 
-window.apf.treeKontextmenu = function(node) {
+window.apf.treeKontextmenu = function (node) {
     var items,
         aktiver_node,
         aktiver_nodeText,
@@ -7427,25 +7427,25 @@ window.apf.treeKontextmenu = function(node) {
                 "untergeordneteKnotenOeffnen": {
                     "label": "untergeordnete Knoten öffnen",
                     "icon": "style/images/tree16x16.png",
-                    "action": function() {
+                    "action": function () {
                         $.jstree._reference(node).open_all(node);
                     }
                 },
                 "neu": {
                     "label": "neue Population",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertPop = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblPopulation/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertPop.done(function(id) {
+                        insertPop.done(function (id) {
                             var strukturtyp = "pop",
                                 beschriftung = "neue Population";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertPop.fail(function() {
+                        insertPop.fail(function () {
                             window.apf.melde("Fehler: Keine neue Population erstellt");
                         });
                     }
@@ -7454,20 +7454,20 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "auf CH-Karten zeigen",
                     "separator_before": true,
                     "icon": "style/images/flora_icon_gelb.png",
-                    "action": function() {
+                    "action": function () {
                         var getPopsChKarte = $.ajax({
                             type: 'get',
                             url: 'api/v1/popsChKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                             dataType: 'json'
                         });
-                        getPopsChKarte.done(function(data) {
+                        getPopsChKarte.done(function (data) {
                             if (data && data.length > 0) {
                                 window.apf.zeigePopAufOlmap(data);
                             } else {
                                 window.apf.melde("Die Population hat keine Koordinaten", "Aktion abgebrochen");
                             }
                         });
-                        getPopsChKarte.fail(function() {
+                        getPopsChKarte.fail(function () {
                             window.apf.melde("Fehler: Keine Daten erhalten");
                         });
                     }
@@ -7476,20 +7476,20 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "auf Google-Karten zeigen",
                     "separator_before": true,
                     "icon": "style/images/flora_icon.png",
-                    "action": function() {
+                    "action": function () {
                         var getApKarte = $.ajax({
                             type: 'get',
                             url: 'api/v1/apKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                             dataType: 'json'
                         });
-                        getApKarte.done(function(data) {
+                        getApKarte.done(function (data) {
                             if (data && data.length > 0) {
                                 zeigeTPop(data);
                             } else {
                                 window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
                             }
                         });
-                        getApKarte.fail(function() {
+                        getApKarte.fail(function () {
                             window.apf.melde("Fehler: Keine Daten erhalten");
                         });
                     }
@@ -7500,17 +7500,17 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "'" + window.apf.pop_bezeichnung + "' einfügen",
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
-                    "action": function() {
+                    "action": function () {
                         // db aktualisieren
                         var updatePop = $.ajax({
                             type: 'post',
                             url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + window.apf.pop_id + '/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        updatePop.done(function() {
+                        updatePop.done(function () {
                             // Baum neu aufbauen
                             $.when(window.apf.erstelle_tree(window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))))
-                                .then(function() {
+                                .then(function () {
                                     // dann den eingefügten Node wählen
                                     $("#tree").jstree("select_node", "[typ='pop']#" + localStorage.pop_id);
                                 });
@@ -7520,7 +7520,7 @@ window.apf.treeKontextmenu = function(node) {
                             delete window.apf.pop_bezeichnung;
                             delete window.apf.pop_id;
                         });
-                        updatePop.fail(function() {
+                        updatePop.fail(function () {
                             window.apf.melde("Fehler: Die Population wurde nicht verschoben");
                         });
                     }
@@ -7532,20 +7532,20 @@ window.apf.treeKontextmenu = function(node) {
                 "untergeordneteKnotenOeffnen": {
                     "label": "untergeordnete Knoten öffnen",
                     "icon": "style/images/tree16x16.png",
-                    "action": function() {
+                    "action": function () {
                         $.jstree._reference(node).open_all(node);
                     }
                 },
                 "neu": {
                     "label": "neues Ziel",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertApziel = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertApziel.done(function(id) {
+                        insertApziel.done(function (id) {
                             var strukturtyp = "apziel",
                                 beschriftung = "neues Ziel";
                             // mitteilen, dass von ganz oben ein apziel erstellt wird und daher noch ein Zwischenordner erstellt werden muss
@@ -7554,7 +7554,7 @@ window.apf.treeKontextmenu = function(node) {
                             delete localStorage.apziel_von_apzieljahr;
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertApziel.fail(function() {
+                        insertApziel.fail(function () {
                             window.apf.melde("Fehler: Keine neues AP-Ziel erstellt");
                         });
                     }
@@ -7566,20 +7566,20 @@ window.apf.treeKontextmenu = function(node) {
                 "untergeordneteKnotenOeffnen": {
                     "label": "untergeordnete Knoten öffnen",
                     "icon": "style/images/tree16x16.png",
-                    "action": function() {
+                    "action": function () {
                         $.jstree._reference(node).open_all(node);
                     }
                 },
                 "neu": {
                     "label": "neues Ziel",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertApziel_2 = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertApziel_2.done(function(id) {
+                        insertApziel_2.done(function (id) {
                             var strukturtyp = "apziel",
                                 beschriftung = "neues Ziel";
                             localStorage.apziel_von_apzieljahr = true;
@@ -7587,7 +7587,7 @@ window.apf.treeKontextmenu = function(node) {
                             delete localStorage.apziel_von_ordner_apziel;
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertApziel_2.fail(function() {
+                        insertApziel_2.fail(function () {
                             window.apf.melde("Fehler: Keine neues Ziel erstellt");
                         });
                     }
@@ -7599,7 +7599,7 @@ window.apf.treeKontextmenu = function(node) {
                 "neu": {
                     "label": "neues Ziel",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -7610,12 +7610,12 @@ window.apf.treeKontextmenu = function(node) {
                             url: 'api/v1/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(grandparent_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertApziel_3.done(function(id) {
+                        insertApziel_3.done(function (id) {
                             var strukturtyp = "apziel",
                                 beschriftung = "neues Ziel";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertApziel_3.fail(function() {
+                        insertApziel_3.fail(function () {
                             window.apf.melde("Fehler: Kein neues AP-Ziel erstellt");
                         });
                     }
@@ -7624,7 +7624,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "löschen",
                     "separator_before": true,
                     "icon": "style/images/loeschen.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -7643,7 +7643,7 @@ window.apf.treeKontextmenu = function(node) {
                             width: 400,
                             modal: true,
                             buttons: {
-                                "ja, löschen!": function() {
+                                "ja, löschen!": function () {
                                     $(this).dialog("close");
                                     // Variable zum rückgängig machen erstellen
                                     window.apf.deleted = window.apf.apziel;
@@ -7653,7 +7653,7 @@ window.apf.treeKontextmenu = function(node) {
                                         url: 'api/v1/apflora/tabelle=tblZiel/tabelleIdFeld=ZielId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
-                                    deleteApziel.done(function() {
+                                    deleteApziel.done(function () {
                                         delete localStorage.apziel_id;
                                         delete window.apf.apziel;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -7667,11 +7667,11 @@ window.apf.treeKontextmenu = function(node) {
                                         // Hinweis zum rückgängig machen anzeigen
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Das AP-Ziel '" + bezeichnung + "' wurde gelöscht.");
                                     });
-                                    deleteApziel.fail(function() {
+                                    deleteApziel.fail(function () {
                                         window.apf.melde("Fehler: Das AP-Ziel wurde nicht gelöscht");
                                     });
                                 },
-                                "abbrechen": function() {
+                                "abbrechen": function () {
                                     $(this).dialog("close");
                                 }
                             }
@@ -7685,18 +7685,18 @@ window.apf.treeKontextmenu = function(node) {
                 "neu": {
                     "label": "neuer Ziel-Bericht",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertZielber = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblZielBericht/feld=ZielId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertZielber.done(function(id) {
+                        insertZielber.done(function (id) {
                             var strukturtyp = "zielber",
                                 beschriftung = "neuer Ziel-Bericht";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertZielber.fail(function() {
+                        insertZielber.fail(function () {
                             window.apf.melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
                         });
                     }
@@ -7708,18 +7708,18 @@ window.apf.treeKontextmenu = function(node) {
                 "neu": {
                     "label": "neuer Ziel-Bericht",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertZielber_2 = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblZielBericht/feld=ZielId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertZielber_2.done(function(id) {
+                        insertZielber_2.done(function (id) {
                             var strukturtyp = "zielber",
                                 beschriftung = "neuer Ziel-Bericht";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertZielber_2.fail(function() {
+                        insertZielber_2.fail(function () {
                             window.apf.melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
                         });
                     }
@@ -7728,7 +7728,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "löschen",
                     "separator_before": true,
                     "icon": "style/images/loeschen.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -7747,7 +7747,7 @@ window.apf.treeKontextmenu = function(node) {
                             width: 400,
                             modal: true,
                             buttons: {
-                                "ja, löschen!": function() {
+                                "ja, löschen!": function () {
                                     $(this).dialog("close");
                                     // Variable zum rückgängig machen erstellen
                                     window.apf.deleted = window.apf.zielber;
@@ -7757,7 +7757,7 @@ window.apf.treeKontextmenu = function(node) {
                                         url: 'api/v1/apflora/tabelle=tblZielBericht/tabelleIdFeld=ZielBerId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
-                                    deleteZielber.done(function() {
+                                    deleteZielber.done(function () {
                                         delete localStorage.zielber_id;
                                         delete window.apf.zielber;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -7766,11 +7766,11 @@ window.apf.treeKontextmenu = function(node) {
                                         // Hinweis zum rückgängig machen anzeigen
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Der Ziel-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                     });
-                                    deleteZielber.fail(function() {
+                                    deleteZielber.fail(function () {
                                         window.apf.melde("Fehler: Der Ziel-Bericht wurde nicht gelöscht");
                                     });
                                 },
-                                "abbrechen": function() {
+                                "abbrechen": function () {
                                     $(this).dialog("close");
                                 }
                             }
@@ -7784,18 +7784,18 @@ window.apf.treeKontextmenu = function(node) {
                 "neu": {
                     "label": "neues Erfolgskriterium",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertErfkrit = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblErfKrit/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertErfkrit.done(function(id) {
+                        insertErfkrit.done(function (id) {
                             var strukturtyp = "erfkrit",
                                 beschriftung = "neues Erfolgskriterium";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertErfkrit.fail(function() {
+                        insertErfkrit.fail(function () {
                             window.apf.melde("Fehler: Kein neues Erfolgskriterium erstellt");
                         });
                     }
@@ -7807,18 +7807,18 @@ window.apf.treeKontextmenu = function(node) {
                 "neu": {
                     "label": "neues Erfolgskriterium",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertErfkrit_2 = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblErfKrit/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertErfkrit_2.done(function(id) {
+                        insertErfkrit_2.done(function (id) {
                             var strukturtyp = "erfkrit",
                                 beschriftung = "neues Erfolgskriterium";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertErfkrit_2.fail(function() {
+                        insertErfkrit_2.fail(function () {
                             window.apf.melde("Fehler: Kein neues Erfolgskriterium erstellt");
                         });
                     }
@@ -7827,7 +7827,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "löschen",
                     "separator_before": true,
                     "icon": "style/images/loeschen.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -7846,7 +7846,7 @@ window.apf.treeKontextmenu = function(node) {
                             width: 400,
                             modal: true,
                             buttons: {
-                                "ja, löschen!": function() {
+                                "ja, löschen!": function () {
                                     $(this).dialog("close");
                                     // Variable zum rückgängig machen erstellen
                                     window.apf.deleted = window.apf.erfkrit;
@@ -7856,7 +7856,7 @@ window.apf.treeKontextmenu = function(node) {
                                         url: 'api/v1/apflora/tabelle=tblErfKrit/tabelleIdFeld=ErfkritId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
-                                    deleteErfkrit.done(function() {
+                                    deleteErfkrit.done(function () {
                                         delete localStorage.erfkrit_id;
                                         delete window.apf.erfkrit;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -7865,11 +7865,11 @@ window.apf.treeKontextmenu = function(node) {
                                         // Hinweis zum rückgängig machen anzeigen
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Das Erfolgskriterium '" + bezeichnung + "' wurde gelöscht.");
                                     });
-                                    deleteErfkrit.fail(function() {
+                                    deleteErfkrit.fail(function () {
                                         window.apf.melde("Fehler: Das Erfolgskriterium wurde nicht gelöscht");
                                     });
                                 },
-                                "abbrechen": function() {
+                                "abbrechen": function () {
                                     $(this).dialog("close");
                                 }
                             }
@@ -7883,25 +7883,25 @@ window.apf.treeKontextmenu = function(node) {
                 "untergeordneteKnotenOeffnen": {
                     "label": "untergeordnete Knoten öffnen",
                     "icon": "style/images/tree16x16.png",
-                    "action": function() {
+                    "action": function () {
                         $.jstree._reference(node).open_all(node);
                     }
                 },
                 "neu": {
                     "label": "neuer AP-Bericht",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertJber = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblJBer/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertJber.done(function(id) {
+                        insertJber.done(function (id) {
                             var strukturtyp = "jber",
                                 beschriftung = "neuer AP-Bericht";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertJber.fail(function() {
+                        insertJber.fail(function () {
                             window.apf.melde("Fehler: Keinen neuen AP-Bericht erstellt");
                         });
                     }
@@ -7913,18 +7913,18 @@ window.apf.treeKontextmenu = function(node) {
                 "neu": {
                     "label": "neuer AP-Bericht",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertJber_2 = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblJBer/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertJber_2.done(function(id) {
+                        insertJber_2.done(function (id) {
                             var strukturtyp = "jber",
                                 beschriftung = "neuer AP-Bericht";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertJber_2.fail(function() {
+                        insertJber_2.fail(function () {
                             window.apf.melde("Fehler: Keinen neuen AP-Bericht erstellt");
                         });
                     }
@@ -7933,7 +7933,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "löschen",
                     "separator_before": true,
                     "icon": "style/images/loeschen.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -7952,7 +7952,7 @@ window.apf.treeKontextmenu = function(node) {
                             width: 400,
                             modal: true,
                             buttons: {
-                                "ja, löschen!": function() {
+                                "ja, löschen!": function () {
                                     $(this).dialog("close");
                                     // Variable zum rückgängig machen erstellen
                                     window.apf.deleted = window.apf.jber;
@@ -7962,7 +7962,7 @@ window.apf.treeKontextmenu = function(node) {
                                         url: 'api/v1/apflora/tabelle=tblJBer/tabelleIdFeld=JBerId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
-                                    deleteJber.done(function() {
+                                    deleteJber.done(function () {
                                         delete localStorage.jber_id;
                                         delete window.apf.jber;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -7971,11 +7971,11 @@ window.apf.treeKontextmenu = function(node) {
                                         // Hinweis zum rückgängig machen anzeigen
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Der AP-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                     });
-                                    deleteJber.fail(function() {
+                                    deleteJber.fail(function () {
                                         window.apf.melde("Fehler: Der AP-Bericht wurde nicht gelöscht");
                                     });
                                 },
-                                "abbrechen": function() {
+                                "abbrechen": function () {
                                     $(this).dialog("close");
                                 }
                             }
@@ -7989,19 +7989,19 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "neue Übersicht zu allen Arten",
                     "separator_before": true,
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertJberUebersicht = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wert=' + $.jstree._reference(aktiver_node).get_text(aktiver_node) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertJberUebersicht.done(function() {
+                        insertJberUebersicht.done(function () {
                             var strukturtyp = "jber_uebersicht",
                                 ds_id = $.jstree._reference(aktiver_node).get_text(aktiver_node),
                                 beschriftung = "neue Übersicht zu allen Arten";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
                         });
-                        insertJberUebersicht.fail(function() {
+                        insertJberUebersicht.fail(function () {
                             window.apf.melde("Fehler: Keine Übersicht zu allen Arten erstellt");
                         });
                     }
@@ -8013,7 +8013,7 @@ window.apf.treeKontextmenu = function(node) {
                 "loeschen": {
                     "label": "lösche Übersicht zu allen Arten",
                     "icon": "style/images/loeschen.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -8031,7 +8031,7 @@ window.apf.treeKontextmenu = function(node) {
                             width: 400,
                             modal: true,
                             buttons: {
-                                "ja, löschen!": function() {
+                                "ja, löschen!": function () {
                                     $(this).dialog("close");
                                     // Variable zum rückgängig machen erstellen
                                     window.apf.deleted = window.apf.jber_übersicht;
@@ -8041,18 +8041,18 @@ window.apf.treeKontextmenu = function(node) {
                                         url: 'api/v1/apflora/tabelle=tblJBerUebersicht/tabelleIdFeld=JbuJahr/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
-                                    deleteJberUebersicht.done(function() {
+                                    deleteJberUebersicht.done(function () {
                                         delete localStorage.jber_uebersicht_id;
                                         delete window.apf.jber_übersicht;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
                                         // Hinweis zum rückgängig machen anzeigen
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Die Übersicht für den AP-Bericht des Jahrs \"" + window.apf.deleted.JbuJahr + "\" wurde gelöscht.");
                                     });
-                                    deleteJberUebersicht.fail(function() {
+                                    deleteJberUebersicht.fail(function () {
                                         window.apf.melde("Fehler: Die Übersicht zu allen Arten wurde nicht gelöscht");
                                     });
                                 },
-                                "abbrechen": function() {
+                                "abbrechen": function () {
                                     $(this).dialog("close");
                                 }
                             }
@@ -8066,18 +8066,18 @@ window.apf.treeKontextmenu = function(node) {
                 "neu": {
                     "label": "neuer Bericht",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertBer = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblBer/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) +'/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertBer.done(function(id) {
+                        insertBer.done(function (id) {
                             var strukturtyp = "ber",
                                 beschriftung = "neuer Bericht";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertBer.fail(function() {
+                        insertBer.fail(function () {
                             window.apf.melde("Fehler: Keinen neuen Bericht erstellt");
                         });
                     }
@@ -8089,18 +8089,18 @@ window.apf.treeKontextmenu = function(node) {
                 "neu": {
                     "label": "Neuer Bericht",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertBer_2 = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblBer/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) +'/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertBer_2.done(function(id) {
+                        insertBer_2.done(function (id) {
                             var strukturtyp = "ber",
                                 beschriftung = "neuer Bericht";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertBer_2.fail(function() {
+                        insertBer_2.fail(function () {
                             window.apf.melde("Fehler: Keinen neuen Bericht erstellt");
                         });
                     }
@@ -8109,7 +8109,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "löschen",
                     "separator_before": true,
                     "icon": "style/images/loeschen.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -8128,7 +8128,7 @@ window.apf.treeKontextmenu = function(node) {
                             width: 400,
                             modal: true,
                             buttons: {
-                                "ja, löschen!": function() {
+                                "ja, löschen!": function () {
                                     $(this).dialog("close");
                                     // Variable zum rückgängig machen erstellen
                                     window.apf.deleted = window.apf.ber;
@@ -8138,7 +8138,7 @@ window.apf.treeKontextmenu = function(node) {
                                         url: 'api/v1/apflora/tabelle=tblBer/tabelleIdFeld=BerId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
-                                    deleteBer.done(function() {
+                                    deleteBer.done(function () {
                                         delete localStorage.ber_id;
                                         delete window.apf.ber;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -8147,11 +8147,11 @@ window.apf.treeKontextmenu = function(node) {
                                         // Hinweis zum rückgängig machen anzeigen
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Der Bericht '" + bezeichnung + "' wurde gelöscht.");
                                     });
-                                    deleteBer.fail(function() {
+                                    deleteBer.fail(function () {
                                         window.apf.melde("Fehler: Der Bericht wurde nicht gelöscht");
                                     });
                                 },
-                                "abbrechen": function() {
+                                "abbrechen": function () {
                                     $(this).dialog("close");
                                 }
                             }
@@ -8165,18 +8165,18 @@ window.apf.treeKontextmenu = function(node) {
                 "neu": {
                     "label": "neue assoziierte Art",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertAssozarten = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblAssozArten/feld=AaApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertAssozarten.done(function(id) {
+                        insertAssozarten.done(function (id) {
                             var strukturtyp = "assozarten",
                                 beschriftung = "neue assoziierte Art";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertAssozarten.fail(function() {
+                        insertAssozarten.fail(function () {
                             window.apf.melde("Fehler: keine assoziierte Art erstellt");
                         });
                     }
@@ -8188,16 +8188,16 @@ window.apf.treeKontextmenu = function(node) {
                 "neu": {
                     "label": "neue assoziierte Art",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblAssozArten/feld=AaApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
-                        }).done(function(id) {
+                        }).done(function (id) {
                             var strukturtyp = "assozarten",
                                 beschriftung = "neue assoziierte Art";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
-                        }).fail(function() {
+                        }).fail(function () {
                             window.apf.melde("Fehler: Keine assoziierte Art erstellt");
                         });
                     }
@@ -8206,7 +8206,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "löschen",
                     "separator_before": true,
                     "icon": "style/images/loeschen.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -8225,7 +8225,7 @@ window.apf.treeKontextmenu = function(node) {
                             width: 400,
                             modal: true,
                             buttons: {
-                                "ja, löschen!": function() {
+                                "ja, löschen!": function () {
                                     $(this).dialog("close");
                                     // Variable zum rückgängig machen erstellen
                                     window.apf.deleted = window.apf.assozarten;
@@ -8235,7 +8235,7 @@ window.apf.treeKontextmenu = function(node) {
                                         url: 'api/v1/apflora/tabelle=tblAssozArten/tabelleIdFeld=AaId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
-                                    deleteAssozarten.done(function() {
+                                    deleteAssozarten.done(function () {
                                         console.log('assozart gelöscht');
                                         delete localStorage.assozarten_id;
                                         delete window.apf.assozarten;
@@ -8245,11 +8245,11 @@ window.apf.treeKontextmenu = function(node) {
                                         // Hinweis zum rückgängig machen anzeigen
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Die assoziierte Art '" + bezeichnung + "' wurde gelöscht.");
                                     });
-                                    deleteAssozarten.fail(function() {
+                                    deleteAssozarten.fail(function () {
                                         window.apf.melde("Fehler: Die assoziierte Art wurde nicht gelöscht");
                                     });
                                 },
-                                "abbrechen": function() {
+                                "abbrechen": function () {
                                     $(this).dialog("close");
                                 }
                             }
@@ -8263,18 +8263,18 @@ window.apf.treeKontextmenu = function(node) {
                 "neu": {
                     "label": "neue Population",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertPop_2 = $.ajax( {
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblPopulation/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertPop_2.done(function(id) {
+                        insertPop_2.done(function (id) {
                             var strukturtyp = "pop",
                                 beschriftung = "neue Population";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertPop_2.fail(function() {
+                        insertPop_2.fail(function () {
                             window.apf.melde("Fehler: Keine neue Population erstellt");
                         });
                     }
@@ -8283,7 +8283,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "löschen",
                     "separator_before": true,
                     "icon": "style/images/loeschen.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -8302,7 +8302,7 @@ window.apf.treeKontextmenu = function(node) {
                             width: 400,
                             modal: true,
                             buttons: {
-                                "ja, löschen!": function() {
+                                "ja, löschen!": function () {
                                     $(this).dialog("close");
                                     // Variable zum rückgängig machen erstellen
                                     window.apf.deleted = window.apf.pop;
@@ -8312,7 +8312,7 @@ window.apf.treeKontextmenu = function(node) {
                                         url: 'api/v1/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
-                                    deletePop.done(function() {
+                                    deletePop.done(function () {
                                         delete localStorage.pop_id;
                                         delete window.apf.pop;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -8321,11 +8321,11 @@ window.apf.treeKontextmenu = function(node) {
                                         // Hinweis zum rückgängig machen anzeigen
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Population '" + bezeichnung + "' wurde gelöscht.");
                                     });
-                                    deletePop.fail(function() {
+                                    deletePop.fail(function () {
                                         window.apf.melde("Fehler: Die Population wurde nicht gelöscht");
                                     });
                                 },
-                                "abbrechen": function() {
+                                "abbrechen": function () {
                                     $(this).dialog("close");
                                 }
                             }
@@ -8336,20 +8336,20 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "auf CH-Karten zeigen",
                     "separator_before": true,
                     "icon": "style/images/flora_icon_gelb.png",
-                    "action": function() {
+                    "action": function () {
                         var getPopChKarte_2 = $.ajax({
                             type: 'get',
                             url: 'api/v1/popChKarte/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                             dataType: 'json'
                         });
-                        getPopChKarte_2.done(function(data) {
+                        getPopChKarte_2.done(function (data) {
                             if (data && data.length > 0) {
                                 window.apf.zeigePopAufOlmap(data);
                             } else {
                                 window.apf.melde("Die Population hat keine Koordinaten", "Aktion abgebrochen");
                             }
                         });
-                        getPopChKarte_2.fail(function() {
+                        getPopChKarte_2.fail(function () {
                             window.apf.melde("Fehler: Keine Populationen erhalten");
                         });
                     }
@@ -8358,20 +8358,20 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "auf Google-Karten zeigen",
                     "separator_before": true,
                     "icon": "style/images/flora_icon.png",
-                    "action": function() {
+                    "action": function () {
                         var getPopKarte = $.ajax({
                             type: 'get',
                             url: 'api/v1/popKarte/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                             dataType: 'json'
                         });
-                        getPopKarte.done(function(data) {
+                        getPopKarte.done(function (data) {
                             if (data && data.length > 0) {
                                 zeigeTPop(data);
                             } else {
                                 window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
                             }
                         });
-                        getPopKarte.fail(function() {
+                        getPopKarte.fail(function () {
                             window.apf.melde("Fehler: Keine Teilpopulationen erhalten");
                         });
                     }
@@ -8382,7 +8382,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "zum Verschieben merken",
                     "separator_before": true,
                     "icon": "style/images/ausschneiden.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -8402,7 +8402,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "'" + window.apf.pop_bezeichnung + "' einfügen",
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
-                    "action": function() {
+                    "action": function () {
                         var popid = window.apf.pop_id;
                         var apartid = window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id"));
                         // db aktualisieren
@@ -8411,10 +8411,10 @@ window.apf.treeKontextmenu = function(node) {
                             url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + popid + '/feld=ApArtId/wert=' + apartid + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        updatePop_2.done(function() {
+                        updatePop_2.done(function () {
                             // Baum wieder aufbauen
                             $.when(window.apf.erstelle_tree(apartid))
-                                .then(function() {
+                                .then(function () {
                                     // dann den eingefügten Node wählen
                                     $("#tree").jstree("select_node", "[typ='pop']#" + popid);
                                 });
@@ -8424,7 +8424,7 @@ window.apf.treeKontextmenu = function(node) {
                             delete window.apf.pop_bezeichnung;
                             delete window.apf.pop_id;
                         });
-                        updatePop_2.fail(function() {
+                        updatePop_2.fail(function () {
                             window.apf.melde("Fehler: Die Population wurde nicht verschoben");
                         });
                     }
@@ -8436,23 +8436,23 @@ window.apf.treeKontextmenu = function(node) {
                 "untergeordneteKnotenOeffnen": {
                     "label": "untergeordnete Knoten öffnen",
                     "icon": "style/images/tree16x16.png",
-                    "action": function() {
+                    "action": function () {
                         $.jstree._reference(node).open_all(node);
                     }
                 },
                 "neu": {
                     "label": "neue Teilpopulation",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblTeilpopulation/feld=PopId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
-                        }).done(function(id) {
+                        }).done(function (id) {
                             var strukturtyp = "tpop",
                                 beschriftung = "neue Teilpopulation";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
-                        }).fail(function() {
+                        }).fail(function () {
                             window.apf.melde("Fehler: Keine neue Teilpopulation erstellt");
                         });
                     }
@@ -8461,18 +8461,18 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "auf CH-Karten zeigen",
                     "separator_before": true,
                     "icon": "style/images/flora_icon_gelb.png",
-                    "action": function() {
+                    "action": function () {
                         $.ajax({
                             type: 'get',
                             url: 'api/v1/tpopsKarte/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                             dataType: 'json'
-                        }).done(function(data) {
+                        }).done(function (data) {
                             if (data.length > 0) {
                                 window.apf.zeigeTPopAufOlmap(data);
                             } else {
                                 window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
                             }
-                        }).fail(function() {
+                        }).fail(function () {
                             window.apf.melde("Fehler: Keine Teilpopulationen erhalten");
                         });
                     }
@@ -8481,20 +8481,20 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "auf Google-Karten zeigen",
                     "separator_before": true,
                     "icon": "style/images/flora_icon.png",
-                    "action": function() {
+                    "action": function () {
                         var getPopKarte_2 = $.ajax({
                             type: 'get',
                             url: 'api/v1/popKarte/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                             dataType: 'json'
                         });
-                        getPopKarte_2.done(function(data) {
+                        getPopKarte_2.done(function (data) {
                             if (data && data.length > 0) {
                                 zeigeTPop(data);
                             } else {
                                 window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
                             }
                         });
-                        getPopKarte_2.fail(function() {
+                        getPopKarte_2.fail(function () {
                             window.apf.melde("Fehler: Keine Teilpopulationen erhalten");
                         });
                     }
@@ -8505,7 +8505,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": $.jstree._reference(window.apf.tpop_node_ausgeschnitten).get_text(window.apf.tpop_node_ausgeschnitten) + " einfügen",
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
-                    "action": function() {
+                    "action": function () {
                         $.jstree._reference(aktiver_node).move_node(window.apf.tpop_node_ausgeschnitten, aktiver_node, "first", false);
                     }
                 };
@@ -8528,7 +8528,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": label + " einfügen",
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
-                    "action": function() {
+                    "action": function () {
                         window.apf.tpopKopiertInPopOrdnerTpopEinfügen(aktiver_node);
                     }
                 };
@@ -8539,25 +8539,25 @@ window.apf.treeKontextmenu = function(node) {
                 "untergeordneteKnotenOeffnen": {
                     "label": "untergeordnete Knoten öffnen",
                     "icon": "style/images/tree16x16.png",
-                    "action": function() {
+                    "action": function () {
                         $.jstree._reference(node).open_all(node);
                     }
                 },
                 "neu": {
                     "label": "neue Teilpopulation",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertTPop_2 = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblTeilpopulation/feld=PopId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertTPop_2.done(function(id) {
+                        insertTPop_2.done(function (id) {
                             var strukturtyp = "tpop",
                                 beschriftung = "neue Teilpopulation";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertTPop_2.fail(function() {
+                        insertTPop_2.fail(function () {
                             window.apf.melde("Fehler: Keine neue Teilpopulation erstellt");
                         });
                     }
@@ -8566,7 +8566,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "löschen",
                     "separator_before": true,
                     "icon": "style/images/loeschen.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -8585,7 +8585,7 @@ window.apf.treeKontextmenu = function(node) {
                             width: 400,
                             modal: true,
                             buttons: {
-                                "ja, löschen!": function() {
+                                "ja, löschen!": function () {
                                     $(this).dialog("close");
                                     // Variable zum rückgängig machen erstellen
                                     window.apf.deleted = window.apf.tpop;
@@ -8596,7 +8596,7 @@ window.apf.treeKontextmenu = function(node) {
                                         url: 'api/v1/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
-                                    deleteTPop.done(function() {
+                                    deleteTPop.done(function () {
                                         delete localStorage.tpop_id;
                                         delete window.apf.tpop;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -8605,11 +8605,11 @@ window.apf.treeKontextmenu = function(node) {
                                         // Hinweis zum rückgängig machen anzeigen
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Teilpopulation '" + bezeichnung + "' wurde gelöscht.");
                                     });
-                                    deleteTPop.fail(function() {
+                                    deleteTPop.fail(function () {
                                         window.apf.melde("Fehler: Die Teilpopulation wurde nicht gelöscht");
                                     });
                                 },
-                                "abbrechen": function() {
+                                "abbrechen": function () {
                                     $(this).dialog("close");
                                 }
                             }
@@ -8620,18 +8620,18 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "auf CH-Karten zeigen",
                     "separator_before": true,
                     "icon": "style/images/flora_icon_gelb.png",
-                    "action": function() {
+                    "action": function () {
                         $.ajax({
                             type: 'get',
                             url: 'api/v1/tpopKarte/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                             dataType: 'json'
-                        }).done(function(data) {
+                        }).done(function (data) {
                             if (data.length > 0) {
                                 window.apf.zeigeTPopAufOlmap(data);
                             } else {
                                 window.apf.melde("Die Teilpopulation hat keine Koordinaten", "Aktion abgebrochen");
                             }
-                        }).fail(function() {
+                        }).fail(function () {
                             window.apf.melde("Fehler: Keine Teilpopulationen erhalten");
                         });
                     }
@@ -8640,16 +8640,16 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "auf CH-Karten verorten",
                     "separator_before": true,
                     "icon": "style/images/flora_icon_rot.png",
-                    "action": function() {
+                    "action": function () {
                         var getTPop_2 = $.ajax({
                             type: 'get',
                             url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                             dataType: 'json'
                         });
-                        getTPop_2.done(function(data) {
+                        getTPop_2.done(function (data) {
                             window.apf.verorteTPopAufOlmap(data[0]);
                         });
-                        getTPop_2.fail(function() {
+                        getTPop_2.fail(function () {
                             window.apf.melde("Fehler: Keine Teilpopulation erhalten");
                         });
                     }
@@ -8658,18 +8658,18 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "auf Google-Karten zeigen",
                     "separator_before": true,
                     "icon": "style/images/flora_icon.png",
-                    "action": function() {
+                    "action": function () {
                         $.ajax({
                             type: 'get',
                             url: 'api/v1/tpopKarte/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                             dataType: 'json'
-                        }).done(function(data) {
+                        }).done(function (data) {
                             if (data.length > 0) {
                                 zeigeTPop(data);
                             } else {
                                 window.apf.melde("Die Teilpopulation hat keine Koordinaten", "Aktion abgebrochen");
                             }
-                        }).fail(function() {
+                        }).fail(function () {
                             window.apf.melde("Fehler: Keine Daten erhalten");
                         });
                     }
@@ -8678,16 +8678,16 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "auf Google-Karten verorten",
                     "separator_before": true,
                     "icon": "style/images/flora_icon_rot.png",
-                    "action": function() {
+                    "action": function () {
                         var getTPop_3 = $.ajax({
                             type: 'get',
                             url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                             dataType: 'json'
                         });
-                        getTPop_3.done(function(data) {
+                        getTPop_3.done(function (data) {
                             window.apf.gmap.verorteTPop(data[0]);
                         });
-                        getTPop_3.fail(function() {
+                        getTPop_3.fail(function () {
                             window.apf.melde("Fehler: Keine Daten erhalten");
                         });
                     }
@@ -8696,7 +8696,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "im GIS-Browser zeigen",
                     "separator_before": true,
                     "icon": "style/images/wappen_zuerich.png",
-                    "action": function() {
+                    "action": function () {
                         window.apf.zeigeBeobKoordinatenImGisBrowser();
                     }
                 }
@@ -8707,7 +8707,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "ausschneiden",
                     "separator_before": true,
                     "icon": "style/images/ausschneiden.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -8725,7 +8725,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "kopieren",
                     "separator_before": true,
                     "icon": "style/images/kopieren.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -8737,10 +8737,10 @@ window.apf.treeKontextmenu = function(node) {
                             url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + window.apf.erstelleIdAusDomAttributId($(tpop_node_kopiert).attr("id")),
                             dataType: 'json'
                         });
-                        getTPop_4.done(function(data) {
+                        getTPop_4.done(function (data) {
                             window.apf.tpop_objekt_kopiert = data[0];
                         });
-                        getTPop_4.fail(function() {
+                        getTPop_4.fail(function () {
                             window.apf.melde("Fehler: Die Teilpopulation wurde nicht kopiert");
                         });
                     }
@@ -8763,7 +8763,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": label + " einfügen",
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
-                    "action": function() {
+                    "action": function () {
                         window.apf.tpopKopiertInPopOrdnerTpopEinfügen(parent_node);
                     }
                 };
@@ -8773,7 +8773,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": $.jstree._reference(window.apf.tpop_node_ausgeschnitten).get_text(window.apf.tpop_node_ausgeschnitten) + " einfügen",
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
-                    "action": function() {
+                    "action": function () {
                         $.jstree._reference(parent_node).move_node(window.apf.tpop_node_ausgeschnitten, parent_node, "first", false);
                     }
                 };
@@ -8784,18 +8784,18 @@ window.apf.treeKontextmenu = function(node) {
                 "neu": {
                     "label": "neuer Populations-Bericht",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertPopber = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblPopBericht/feld=PopId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertPopber.done(function(id) {
+                        insertPopber.done(function (id) {
                             var strukturtyp = "popber",
                                 beschriftung = "neuer Populations-Bericht";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertPopber.fail(function() {
+                        insertPopber.fail(function () {
                             window.apf.melde("Fehler: Keinen neuen Populations-Bericht erstellt");
                         });
                     }
@@ -8807,18 +8807,18 @@ window.apf.treeKontextmenu = function(node) {
                 "neu": {
                     "label": "neuer Populations-Bericht",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertPopber_2 = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblPopBericht/feld=PopId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertPopber_2.done(function(id) {
+                        insertPopber_2.done(function (id) {
                             var strukturtyp = "popber",
                                 beschriftung = "neuer Populations-Bericht";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertPopber_2.fail(function() {
+                        insertPopber_2.fail(function () {
                             window.apf.melde("Fehler: Keinen neuen Populations-Bericht erstellt");
                         });
                     }
@@ -8827,7 +8827,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "löschen",
                     "separator_before": true,
                     "icon": "style/images/loeschen.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -8840,7 +8840,7 @@ window.apf.treeKontextmenu = function(node) {
                             width: 400,
                             modal: true,
                             buttons: {
-                                "ja, löschen!": function() {
+                                "ja, löschen!": function () {
                                     $(this).dialog("close");
                                     // Variable zum rückgängig machen erstellen
                                     window.apf.deleted = window.apf.popber;
@@ -8850,7 +8850,7 @@ window.apf.treeKontextmenu = function(node) {
                                         url: 'api/v1/apflora/tabelle=tblPopBericht/tabelleIdFeld=PopBerId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
-                                    deletePopber.done(function() {
+                                    deletePopber.done(function () {
                                         delete localStorage.popber_id;
                                         delete window.apf.popber;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -8859,11 +8859,11 @@ window.apf.treeKontextmenu = function(node) {
                                         // Hinweis zum rückgängig machen anzeigen
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Der Populations-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                     });
-                                    deletePopber.fail(function() {
+                                    deletePopber.fail(function () {
                                         window.apf.melde("Fehler: Der Populations-Bericht wurde nicht gelöscht");
                                     });
                                 },
-                                "abbrechen": function() {
+                                "abbrechen": function () {
                                     $(this).dialog("close");
                                 }
                             }
@@ -8877,18 +8877,18 @@ window.apf.treeKontextmenu = function(node) {
                 "neu": {
                     "label": "neuer Massnahmen-Bericht",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertPopMassnBer = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblPopMassnBericht/feld=PopId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertPopMassnBer.done(function(id) {
+                        insertPopMassnBer.done(function (id) {
                             var strukturtyp = "popmassnber",
                                 beschriftung = "neuer Massnahmen-Bericht";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertPopMassnBer.fail(function() {
+                        insertPopMassnBer.fail(function () {
                             window.apf.melde("Fehler: Es wurde kein neuer Massnahmen-Bericht erstellt");
                         });
                     }
@@ -8900,18 +8900,18 @@ window.apf.treeKontextmenu = function(node) {
                 "neu": {
                     "label": "neuer Massnahmen-Bericht",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertPopMassnBer_2 = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblPopMassnBericht/feld=PopId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertPopMassnBer_2.done(function(id) {
+                        insertPopMassnBer_2.done(function (id) {
                             var strukturtyp = "popmassnber",
                                 beschriftung = "neuer Massnahmen-Bericht";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertPopMassnBer_2.fail(function() {
+                        insertPopMassnBer_2.fail(function () {
                             window.apf.melde("Fehler: Es wurde kein neuer Massnahmen-Bericht erstellt");
                         });
                     }
@@ -8920,7 +8920,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "löschen",
                     "separator_before": true,
                     "icon": "style/images/loeschen.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -8933,7 +8933,7 @@ window.apf.treeKontextmenu = function(node) {
                             width: 400,
                             modal: true,
                             buttons: {
-                                "ja, löschen!": function() {
+                                "ja, löschen!": function () {
                                     $(this).dialog("close");
                                     // Variable zum rückgängig machen erstellen
                                     window.apf.deleted = window.apf.popmassnber;
@@ -8943,7 +8943,7 @@ window.apf.treeKontextmenu = function(node) {
                                         url: 'api/v1/apflora/tabelle=tblPopMassnBericht/tabelleIdFeld=PopMassnBerId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
-                                    deletePopMassnBer.done(function() {
+                                    deletePopMassnBer.done(function () {
                                         delete localStorage.popmassnber_id;
                                         delete window.apf.popmassnber;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -8952,11 +8952,11 @@ window.apf.treeKontextmenu = function(node) {
                                         // Hinweis zum rückgängig machen anzeigen
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Der Massnahmen-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                     });
-                                    deletePopMassnBer.fail(function() {
+                                    deletePopMassnBer.fail(function () {
                                         window.apf.melde("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
                                     });
                                 },
-                                "abbrechen": function() {
+                                "abbrechen": function () {
                                     $(this).dialog("close");
                                 }
                             }
@@ -8970,18 +8970,18 @@ window.apf.treeKontextmenu = function(node) {
                 "neu": {
                     "label": "neue Feldkontrolle",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertTPopFeldKontr = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/feldkontr/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopKontrtyp=tpopfeldkontr/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertTPopFeldKontr.done(function(id) {
+                        insertTPopFeldKontr.done(function (id) {
                             var strukturtyp = "tpopfeldkontr",
                                 beschriftung = "neue Feldkontrolle";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertTPopFeldKontr.fail(function() {
+                        insertTPopFeldKontr.fail(function () {
                             window.apf.melde("Fehler: Keine neue Feldkontrolle erstellt");
                         });
                     }
@@ -8992,7 +8992,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": $.jstree._reference(window.apf.tpopfeldkontr_node_ausgeschnitten).get_text(window.apf.tpopfeldkontr_node_ausgeschnitten) + " einfügen",
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
-                    "action": function() {
+                    "action": function () {
                         $.jstree._reference(aktiver_node).move_node(window.apf.tpopfeldkontr_node_ausgeschnitten, aktiver_node, "first", false);
                     }
                 };
@@ -9002,17 +9002,17 @@ window.apf.treeKontextmenu = function(node) {
                     "label": $.jstree._reference(window.apf.tpopfeldkontr_node_kopiert).get_text(window.apf.tpopfeldkontr_node_kopiert) + " einfügen",
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
-                    "action": function() {
+                    "action": function () {
                         // und an die DB schicken
                         $.ajax({
                             type: 'post',
                             url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopKontrId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpopfeldkontr_node_kopiert).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
-                        }).done(function(id) {
+                        }).done(function (id) {
                             var strukturtyp = "tpopfeldkontr",
                                 beschriftung = window.apf.erstelleLabelFürFeldkontrolle(window.apf.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.apf.tpopfeldkontr_objekt_kopiert.TPopKontrTyp);
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
-                        }).fail(function() {
+                        }).fail(function () {
                             window.apf.melde("Fehler: Die Feldkontrolle wurde nicht erstellt");
                         });
                     }
@@ -9024,18 +9024,18 @@ window.apf.treeKontextmenu = function(node) {
                 "neu": {
                     "label": "neue Feldkontrolle",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertTPopFeldKontr_2 = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/feldkontr/tpopId=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/tpopKontrtyp=tpopfeldkontr/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertTPopFeldKontr_2.done(function(id) {
+                        insertTPopFeldKontr_2.done(function (id) {
                             var strukturtyp = "tpopfeldkontr",
                                 beschriftung = "neue Feldkontrolle";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertTPopFeldKontr_2.fail(function() {
+                        insertTPopFeldKontr_2.fail(function () {
                             window.apf.melde("Fehler: Keine neue Feldkontrolle erstellt");
                         });
                     }
@@ -9044,7 +9044,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "löschen",
                     "separator_before": true,
                     "icon": "style/images/loeschen.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -9057,7 +9057,7 @@ window.apf.treeKontextmenu = function(node) {
                             width: 400,
                             modal: true,
                             buttons: {
-                                "ja, löschen!": function() {
+                                "ja, löschen!": function () {
                                     $(this).dialog("close");
                                     // Variable zum rückgängig machen erstellen
                                     window.apf.deleted = window.apf.tpopfeldkontr;
@@ -9067,7 +9067,7 @@ window.apf.treeKontextmenu = function(node) {
                                         url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/tabelleIdFeld=TPopKontrId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
-                                    deleteTPopFeldKontr.done(function() {
+                                    deleteTPopFeldKontr.done(function () {
                                         delete localStorage.tpopfeldkontr_id;
                                         delete window.apf.tpopfeldkontr;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -9076,11 +9076,11 @@ window.apf.treeKontextmenu = function(node) {
                                         // Hinweis zum rückgängig machen anzeigen
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Die Feldkontrolle '" + bezeichnung + "' wurde gelöscht.");
                                     });
-                                    deleteTPopFeldKontr.fail(function() {
+                                    deleteTPopFeldKontr.fail(function () {
                                         window.apf.melde("Fehler: Die Feldkontrolle wurde nicht gelöscht");
                                     });
                                 },
-                                "abbrechen": function() {
+                                "abbrechen": function () {
                                     $(this).dialog("close");
                                 }
                             }
@@ -9091,7 +9091,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "Biotop kopieren",
                     "separator_before": true,
                     "icon": "style/images/kopieren.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -9168,7 +9168,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "Biotop einfügen",
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
-                    "action": function() {
+                    "action": function () {
                         var data = {};
                         data.id = window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"));
                         data.user = sessionStorage.User;
@@ -9176,7 +9176,7 @@ window.apf.treeKontextmenu = function(node) {
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
                         }
-                        _.each(window.apf.feldkontr_biotop, function(value, key) {
+                        _.each(window.apf.feldkontr_biotop, function (value, key) {
                             $("#" + key).val(value);
                             data[key] = value;
                         });
@@ -9185,7 +9185,7 @@ window.apf.treeKontextmenu = function(node) {
                             type: 'post',
                             url: 'api/v1/updateMultiple/apflora/tabelle=tblTeilPopFeldkontrolle/felder=' + JSON.stringify(data),
                             dataType: 'json'
-                        }).fail(function() {
+                        }).fail(function () {
                             window.apf.melde("Fehler: Das kopierte Biotop wurde nicht eingefügt");
                         });
                     }
@@ -9197,7 +9197,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "ausschneiden",
                     "separator_before": true,
                     "icon": "style/images/ausschneiden.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -9215,7 +9215,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "kopieren",
                     "separator_before": true,
                     "icon": "style/images/kopieren.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -9227,10 +9227,10 @@ window.apf.treeKontextmenu = function(node) {
                             url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpopfeldkontr_node_kopiert).attr("id")),
                             dataType: 'json'
                         });
-                        getTPopFeldkontr_2.done(function(data) {
+                        getTPopFeldkontr_2.done(function (data) {
                             window.apf.tpopfeldkontr_objekt_kopiert = data[0];
                         });
-                        getTPopFeldkontr_2.fail(function() {
+                        getTPopFeldkontr_2.fail(function () {
                             window.apf.melde("Fehler: Die Feldkontrolle wurde nicht kopiert");
                         });
                     }
@@ -9241,7 +9241,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": $.jstree._reference(window.apf.tpopfeldkontr_node_ausgeschnitten).get_text(window.apf.tpopfeldkontr_node_ausgeschnitten) + " einfügen",
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
-                    "action": function() {
+                    "action": function () {
                         $.jstree._reference(parent_node).move_node(window.apf.tpopfeldkontr_node_ausgeschnitten, parent_node, "first", false);
                     }
                 };
@@ -9251,17 +9251,17 @@ window.apf.treeKontextmenu = function(node) {
                     "label": $.jstree._reference(window.apf.tpopfeldkontr_node_kopiert).get_text(window.apf.tpopfeldkontr_node_kopiert) + " einfügen",
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
-                    "action": function() {
+                    "action": function () {
                         // und an die DB schicken
                         $.ajax({
                             type: 'post',
                             url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/tpopKontrId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpopfeldkontr_node_kopiert).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
-                        }).done(function(id) {
+                        }).done(function (id) {
                             var strukturtyp = "tpopfeldkontr",
                                 beschriftung = window.apf.erstelleLabelFürFeldkontrolle(window.apf.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.apf.tpopfeldkontr_objekt_kopiert.TPopKontrTyp);
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
-                        }).fail(function() {
+                        }).fail(function () {
                             window.apf.melde("Fehler: Die Feldkontrolle wurde nicht erstellt");
                         });
                     }
@@ -9273,18 +9273,18 @@ window.apf.treeKontextmenu = function(node) {
                 "neu": {
                     "label": "neue Freiwilligen-Kontrolle",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertTPopFeldKontr_3 = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/feldkontr/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopKontrtyp=tpopfreiwkontr/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertTPopFeldKontr_3.done(function(id) {
+                        insertTPopFeldKontr_3.done(function (id) {
                             var strukturtyp = "tpopfreiwkontr",
                                 beschriftung = "neue Freiwilligen-Kontrolle";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertTPopFeldKontr_3.fail(function() {
+                        insertTPopFeldKontr_3.fail(function () {
                             window.apf.melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
                         });
                     }
@@ -9295,7 +9295,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": $.jstree._reference(window.apf.tpopfreiwkontr_node_ausgeschnitten).get_text(window.apf.tpopfreiwkontr_node_ausgeschnitten) + " einfügen",
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
-                    "action": function() {
+                    "action": function () {
                         $.jstree._reference(aktiver_node).move_node(window.apf.tpopfreiwkontr_node_ausgeschnitten, aktiver_node, "first", false);
                     }
                 }
@@ -9305,17 +9305,17 @@ window.apf.treeKontextmenu = function(node) {
                     "label": $.jstree._reference(window.apf.tpopfreiwkontr_node_kopiert).get_text(window.apf.tpopfreiwkontr_node_kopiert) + " einfügen",
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
-                    "action": function() {
+                    "action": function () {
                         // und an die DB schicken
                         $.ajax({
                             type: 'post',
                             url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopKontrId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpopfreiwkontr_node_kopiert).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
-                        }).done(function(id) {
+                        }).done(function (id) {
                             var strukturtyp = "tpopfreiwkontr",
                                 beschriftung = window.apf.tpopfreiwkontr_objekt_kopiert.TPopKontrJahr;
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
-                        }).fail(function() {
+                        }).fail(function () {
                             window.apf.melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
                         });
                     }
@@ -9327,18 +9327,18 @@ window.apf.treeKontextmenu = function(node) {
                 "neu": {
                     "label": "neue Freiwilligen-Kontrolle",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertTPopFeldKontr_4 = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/feldkontr/tpopId=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/tpopKontrtyp=tpopfreiwkontr/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertTPopFeldKontr_4.done(function(id) {
+                        insertTPopFeldKontr_4.done(function (id) {
                             var strukturtyp = "tpopfreiwkontr",
                                 beschriftung = "neue Freiwilligen-Kontrolle";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertTPopFeldKontr_4.fail(function() {
+                        insertTPopFeldKontr_4.fail(function () {
                             window.apf.melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
                         });
                     }
@@ -9347,7 +9347,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "löschen",
                     "separator_before": true,
                     "icon": "style/images/loeschen.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -9360,7 +9360,7 @@ window.apf.treeKontextmenu = function(node) {
                             width: 400,
                             modal: true,
                             buttons: {
-                                "ja, löschen!": function() {
+                                "ja, löschen!": function () {
                                     $(this).dialog("close");
                                     // Variable zum rückgängig machen erstellen
                                     window.apf.deleted = window.apf.tpopfeldkontr;
@@ -9370,7 +9370,7 @@ window.apf.treeKontextmenu = function(node) {
                                         url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/tabelleIdFeld=TPopKontrId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
-                                    deleteTPopFeldKontr_2.done(function() {
+                                    deleteTPopFeldKontr_2.done(function () {
                                         delete localStorage.tpopfeldkontr_id;
                                         delete localStorage.tpopfreiwkontr;
                                         delete window.apf.tpopfeldkontr;
@@ -9380,11 +9380,11 @@ window.apf.treeKontextmenu = function(node) {
                                         // Hinweis zum rückgängig machen anzeigen
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Die Freiwilligen-Kontrolle '" + bezeichnung + "' wurde gelöscht.");
                                     });
-                                    deleteTPopFeldKontr_2.fail(function() {
+                                    deleteTPopFeldKontr_2.fail(function () {
                                         window.apf.melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht gelöscht");
                                     });
                                 },
-                                "abbrechen": function() {
+                                "abbrechen": function () {
                                     $(this).dialog("close");
                                 }
                             }
@@ -9398,7 +9398,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "ausschneiden",
                     "separator_before": true,
                     "icon": "style/images/ausschneiden.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -9416,7 +9416,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "kopieren",
                     "separator_before": true,
                     "icon": "style/images/kopieren.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -9428,10 +9428,10 @@ window.apf.treeKontextmenu = function(node) {
                             url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpopfreiwkontr_node_kopiert).attr("id")),
                             dataType: 'json'
                         });
-                        getTPopFeldkontr_3.done(function(data) {
+                        getTPopFeldkontr_3.done(function (data) {
                             window.apf.tpopfreiwkontr_objekt_kopiert = data[0];
                         });
-                        getTPopFeldkontr_3.fail(function() {
+                        getTPopFeldkontr_3.fail(function () {
                             window.apf.melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht kopiert");
                         });
                     }
@@ -9442,7 +9442,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": $.jstree._reference(window.apf.tpopfreiwkontr_node_ausgeschnitten).get_text(window.apf.tpopfreiwkontr_node_ausgeschnitten) + " einfügen",
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
-                    "action": function() {
+                    "action": function () {
                         $.jstree._reference(parent_node).move_node(window.apf.tpopfreiwkontr_node_ausgeschnitten, parent_node, "first", false);
                         localStorage.tpopfreiwkontr = true;
                     }
@@ -9453,16 +9453,16 @@ window.apf.treeKontextmenu = function(node) {
                     "label": $.jstree._reference(window.apf.tpopfreiwkontr_node_kopiert).get_text(window.apf.tpopfreiwkontr_node_kopiert) + " einfügen",
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
-                    "action": function() {
+                    "action": function () {
                         $.ajax({
                             type: 'post',
                             url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/tpopKontrId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpopfreiwkontr_node_kopiert).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
-                        }).done(function(id) {
+                        }).done(function (id) {
                             var strukturtyp = "tpopfreiwkontr",
                                 beschriftung = window.apf.tpopfreiwkontr_objekt_kopiert.TPopKontrJahr;
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
-                        }).fail(function() {
+                        }).fail(function () {
                             window.apf.melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
                         });
                     }
@@ -9474,18 +9474,18 @@ window.apf.treeKontextmenu = function(node) {
                 "neu": {
                     "label": "neue Massnahme",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertTPopMassn = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblTeilPopMassnahme/feld=TPopId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertTPopMassn.done(function(id) {
+                        insertTPopMassn.done(function (id) {
                             var strukturtyp = "tpopmassn",
                                 beschriftung = "neue Massnahme";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertTPopMassn.fail(function() {
+                        insertTPopMassn.fail(function () {
                             window.apf.melde("Fehler: Keine neue Massnahme erstellt");
                         });
                     }
@@ -9496,7 +9496,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": $.jstree._reference(window.apf.tpopmassn_node_ausgeschnitten).get_text(window.apf.tpopmassn_node_ausgeschnitten) + " einfügen",
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
-                    "action": function() {
+                    "action": function () {
                         $.jstree._reference(aktiver_node).move_node(window.apf.tpopmassn_node_ausgeschnitten, aktiver_node, "first", false);
                     }
                 };
@@ -9506,18 +9506,18 @@ window.apf.treeKontextmenu = function(node) {
                     "label": $.jstree._reference(window.apf.tpopmassn_node_kopiert).get_text(window.apf.tpopmassn_node_kopiert) + " einfügen",
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
-                    "action": function() {
+                    "action": function () {
                         var insertTPopMassnKopie = $.ajax({
                             type: 'post',
                             url: 'api/v1/tpopmassnInsertKopie/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopMassnId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpopmassn_node_kopiert).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertTPopMassnKopie.done(function(id) {
+                        insertTPopMassnKopie.done(function (id) {
                             var strukturtyp = "tpopmassn",
                                 beschriftung = window.apf.erstelleLabelFürMassnahme(window.apf.tpopmassn_objekt_kopiert.TPopMassnJahr, window.apf.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt);
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertTPopMassnKopie.fail(function() {
+                        insertTPopMassnKopie.fail(function () {
                             window.apf.melde("Fehler: Die Massnahme wurde nicht erstellt");
                         });
                     }
@@ -9529,18 +9529,18 @@ window.apf.treeKontextmenu = function(node) {
                 "neu": {
                     "label": "neue Massnahme",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertTPopMassn_2 = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblTeilPopMassnahme/feld=TPopId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertTPopMassn_2.done(function(id) {
+                        insertTPopMassn_2.done(function (id) {
                             var strukturtyp = "tpopmassn",
                                 beschriftung = "neue Massnahme";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertTPopMassn_2.fail(function() {
+                        insertTPopMassn_2.fail(function () {
                             window.apf.melde("Fehler: Keine neue Massnahme erstellt");
                         });
                     }
@@ -9549,7 +9549,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "löschen",
                     "separator_before": true,
                     "icon": "style/images/loeschen.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -9562,7 +9562,7 @@ window.apf.treeKontextmenu = function(node) {
                             width: 400,
                             modal: true,
                             buttons: {
-                                "ja, löschen!": function() {
+                                "ja, löschen!": function () {
                                     $(this).dialog("close");
                                     // Variable zum rückgängig machen erstellen
                                     window.apf.deleted = window.apf.tpopmassn;
@@ -9572,7 +9572,7 @@ window.apf.treeKontextmenu = function(node) {
                                         url: 'api/v1/apflora/tabelle=tblTeilPopMassnahme/tabelleIdFeld=TPopMassnId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
-                                    deleteTPopMassn.done(function() {
+                                    deleteTPopMassn.done(function () {
                                         delete localStorage.tpopmassn_id;
                                         delete window.apf.tpopmassn;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -9581,11 +9581,11 @@ window.apf.treeKontextmenu = function(node) {
                                         // Hinweis zum rückgängig machen anzeigen
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Die Massnahme '" + bezeichnung + "' wurde gelöscht.");
                                     });
-                                    deleteTPopMassn.fail(function() {
+                                    deleteTPopMassn.fail(function () {
                                         window.apf.melde("Fehler: Die Massnahme wurde nicht gelöscht");
                                     });
                                 },
-                                "abbrechen": function() {
+                                "abbrechen": function () {
                                     $(this).dialog("close");
                                 }
                             }
@@ -9599,7 +9599,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "ausschneiden",
                     "separator_before": true,
                     "icon": "style/images/ausschneiden.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -9617,7 +9617,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "kopieren",
                     "separator_before": true,
                     "icon": "style/images/kopieren.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -9630,7 +9630,7 @@ window.apf.treeKontextmenu = function(node) {
                                 dataType: 'json'
                             }),
                             $TPopMassnTypChecked = $("#TPopMassnTyp option:checked");
-                        getTPopMassn_2.done(function(data) {
+                        getTPopMassn_2.done(function (data) {
                             if (data && data[0]) {
                                 window.apf.tpopmassn_objekt_kopiert = data[0];
                                 // den Beurteilungstext holen - ist nur mühsam aus der DB zu holen
@@ -9640,7 +9640,7 @@ window.apf.treeKontextmenu = function(node) {
                                 }
                             }
                         });
-                        getTPopMassn_2.fail(function() {
+                        getTPopMassn_2.fail(function () {
                             window.apf.melde("Fehler: Die Massnahme wurde nicht kopiert");
                         });
                     }
@@ -9651,7 +9651,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": $.jstree._reference(window.apf.tpopmassn_node_ausgeschnitten).get_text(window.apf.tpopmassn_node_ausgeschnitten) + " einfügen",
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
-                    "action": function() {
+                    "action": function () {
                         $.jstree._reference(parent_node).move_node(window.apf.tpopmassn_node_ausgeschnitten, parent_node, "first", false);
                     }
                 };
@@ -9661,18 +9661,18 @@ window.apf.treeKontextmenu = function(node) {
                     "label": $.jstree._reference(window.apf.tpopmassn_node_kopiert).get_text(window.apf.tpopmassn_node_kopiert) + " einfügen",
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
-                    "action": function() {
+                    "action": function () {
                         var insertTPopMassnKopie_2 = $.ajax({
                             type: 'post',
                             url: 'api/v1/tpopmassnInsertKopie/tpopId=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/tpopMassnId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpopmassn_node_kopiert).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertTPopMassnKopie_2.done(function(id) {
+                        insertTPopMassnKopie_2.done(function (id) {
                             var strukturtyp = "tpopmassn",
                                 beschriftung = window.apf.erstelleLabelFürMassnahme(window.apf.tpopmassn_objekt_kopiert.TPopMassnJahr, window.apf.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt);
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertTPopMassnKopie_2.fail(function() {
+                        insertTPopMassnKopie_2.fail(function () {
                             window.apf.melde("Fehler: Die Massnahme wurde nicht erstellt");
                         });
                     }
@@ -9684,18 +9684,18 @@ window.apf.treeKontextmenu = function(node) {
                 "neu": {
                     "label": "neuer Teilpopulations-Bericht",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertTPopBer = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblTeilPopBericht/feld=TPopId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertTPopBer.done(function(id) {
+                        insertTPopBer.done(function (id) {
                             var strukturtyp = "tpopber",
                                 beschriftung = "neuer Teilpopulations-Bericht";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertTPopBer.fail(function() {
+                        insertTPopBer.fail(function () {
                             window.apf.melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
                         });
                     }
@@ -9707,18 +9707,18 @@ window.apf.treeKontextmenu = function(node) {
                 "neu": {
                     "label": "neuer Teilpopulations-Bericht",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertTPopBer_2 = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblTeilPopBericht/feld=TPopId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertTPopBer_2.done(function(id) {
+                        insertTPopBer_2.done(function (id) {
                             var strukturtyp = "tpopber",
                                 beschriftung = "neuer Teilpopulations-Bericht";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertTPopBer_2.fail(function() {
+                        insertTPopBer_2.fail(function () {
                             window.apf.melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
                         });
                     }
@@ -9727,7 +9727,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "löschen",
                     "separator_before": true,
                     "icon": "style/images/loeschen.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -9740,7 +9740,7 @@ window.apf.treeKontextmenu = function(node) {
                             width: 400,
                             modal: true,
                             buttons: {
-                                "ja, löschen!": function() {
+                                "ja, löschen!": function () {
                                     $(this).dialog("close");
                                     // Variable zum rückgängig machen erstellen
                                     window.apf.deleted = window.apf.tpopber;
@@ -9750,7 +9750,7 @@ window.apf.treeKontextmenu = function(node) {
                                         url: 'api/v1/apflora/tabelle=tblTeilPopBericht/tabelleIdFeld=TPopBerId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
-                                    deleteTPopBer.done(function() {
+                                    deleteTPopBer.done(function () {
                                         delete localStorage.tpopber_id;
                                         delete window.apf.tpopber;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -9759,11 +9759,11 @@ window.apf.treeKontextmenu = function(node) {
                                         // Hinweis zum rückgängig machen anzeigen
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Der Teilpopulations-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                     });
-                                    deleteTPopBer.fail(function() {
+                                    deleteTPopBer.fail(function () {
                                         window.apf.melde("Fehler: Der Teilpopulations-Bericht wurde nicht gelöscht");
                                     });
                                 },
-                                "abbrechen": function() {
+                                "abbrechen": function () {
                                     $(this).dialog("close");
                                 }
                             }
@@ -9778,20 +9778,20 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "auf Luftbild zeigen",
                     "separator_before": true,
                     "icon": "style/images/flora_icon.png",
-                    "action": function() {
+                    "action": function () {
                         var getBeobKarte = $.ajax({
                             type: 'get',
                             url: '/api/v1/beobKarte/apId=/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/beobId=/nichtZuzuordnen=',
                             dataType: 'json'
                         });
-                        getBeobKarte.done(function(data) {
+                        getBeobKarte.done(function (data) {
                             if (data && data[0]) {
                                 window.apf.gmap.zeigeTPopBeob(data[0]);
                             } else {
                                 window.apf.melde("Es gibt keine Beobachtungen mit Koordinaten", "Aktion abgebrochen");
                             }
                         });
-                        getBeobKarte.fail(function() {
+                        getBeobKarte.fail(function () {
                             window.apf.melde("Fehler: Keine Daten erhalten");
                         });
                     }
@@ -9803,7 +9803,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": $.jstree._reference(window.apf.beob_zugeordnet_node_ausgeschnitten).get_text(window.apf.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
-                    "action": function() {
+                    "action": function () {
                         $.jstree._reference(aktiver_node).move_node(window.apf.beob_zugeordnet_node_ausgeschnitten, aktiver_node, "first", false);
                     }
                 };
@@ -9813,7 +9813,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": $.jstree._reference(window.apf.beob_node_ausgeschnitten).get_text(window.apf.beob_node_ausgeschnitten) + " einfügen",
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
-                    "action": function() {
+                    "action": function () {
                         $("#tree").jstree("move_node", window.apf.beob_node_ausgeschnitten, aktiver_node, "first");
                     }
                 };
@@ -9825,20 +9825,20 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "auf Luftbild zeigen",
                     "separator_before": true,
                     "icon": "style/images/flora_icon.png",
-                    "action": function() {
+                    "action": function () {
                         var getBeobKarte_2 = $.ajax({
                             type: 'get',
                             url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen=',
                             dataType: 'json'
                         });
-                        getBeobKarte_2.done(function(data) {
+                        getBeobKarte_2.done(function (data) {
                             if (data && data[0]) {
                                 window.apf.gmap.zeigeTPopBeob(data[0]);
                             } else {
                                 window.apf.melde("Die Beobachtung hat keine Koordinaten", "Aktion abgebrochen");
                             }
                         });
-                        getBeobKarte_2.fail(function() {
+                        getBeobKarte_2.fail(function () {
                             window.apf.melde("Fehler: Keine Daten erhalten");
                         });
                     }
@@ -9847,13 +9847,13 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "auf Luftbild einer neuen<br>&nbsp;&nbsp;&nbsp;Teilpopulation zuordnen",
                     "separator_before": true,
                     "icon": "style/images/flora_icon_violett.png",
-                    "action": function() {
+                    "action": function () {
                         var getBeobKarte_3 = $.ajax({
                             type: 'get',
                             url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen=',
                             dataType: 'json'
                         });
-                        getBeobKarte_3.done(function(beob) {
+                        getBeobKarte_3.done(function (beob) {
                             if (beob && beob[0]) {
                                 beob = beob[0];
                                 var getApKarte = $.ajax({
@@ -9861,7 +9861,7 @@ window.apf.treeKontextmenu = function(node) {
                                     url: 'api/v1/apKarte/apId=' + localStorage.ap_id,
                                     dataType: 'json'
                                 });
-                                getApKarte.done(function(tpop) {
+                                getApKarte.done(function (tpop) {
                                     if (tpop && tpop.length > 0) {
                                         window.apf.gmap.zeigeBeobUndTPop(beob, tpop);
                                     } else {
@@ -9872,7 +9872,7 @@ window.apf.treeKontextmenu = function(node) {
                                 window.apf.melde("Die Beobachtung hat keine Koordinaten<br>Bitte im Formular zuordnen", "Aktion abgebrochen");
                             }
                         });
-                        getBeobKarte_3.fail(function() {
+                        getBeobKarte_3.fail(function () {
                             window.apf.melde("Fehler: Keine Daten erhalten");
                         });
                     }
@@ -9881,7 +9881,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "im GIS-Browser zeigen",
                     "separator_before": true,
                     "icon": "style/images/wappen_zuerich.png",
-                    "action": function() {
+                    "action": function () {
                         window.apf.zeigeBeobKoordinatenImGisBrowser();
                     }
                 }
@@ -9892,7 +9892,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "ausschneiden",
                     "separator_before": true,
                     "icon": "style/images/ausschneiden.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -9906,7 +9906,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": $.jstree._reference(window.apf.beob_zugeordnet_node_ausgeschnitten).get_text(window.apf.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
-                    "action": function() {
+                    "action": function () {
                         $.jstree._reference(parent_node).move_node(window.apf.beob_zugeordnet_node_ausgeschnitten, parent_node, "first", false);
                     }
                 };
@@ -9916,7 +9916,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": $.jstree._reference(window.apf.beob_node_ausgeschnitten).get_text(window.apf.beob_node_ausgeschnitten) + " einfügen",
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
-                    "action": function() {
+                    "action": function () {
                         $.jstree._reference(parent_node).move_node(window.apf.beob_node_ausgeschnitten, parent_node, "first", false);
                     }
                 };
@@ -9927,18 +9927,18 @@ window.apf.treeKontextmenu = function(node) {
                 "neu": {
                     "label": "neuer Massnahmen-Bericht",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertTPopMassnBer = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblTeilPopMassnBericht/feld=TPopId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertTPopMassnBer.done(function(id) {
+                        insertTPopMassnBer.done(function (id) {
                             var strukturtyp = "tpopmassnber",
                                 beschriftung = "neuer Massnahmen-Bericht";
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertTPopMassnBer.fail(function() {
+                        insertTPopMassnBer.fail(function () {
                             window.apf.melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
                         });
                     }
@@ -9950,18 +9950,18 @@ window.apf.treeKontextmenu = function(node) {
                 "neu": {
                     "label": "neuer Massnahmen-Bericht",
                     "icon": "style/images/neu.png",
-                    "action": function() {
+                    "action": function () {
                         var insertTPopMassBer_2 = $.ajax({
                             type: 'post',
                             url: 'api/v1/insert/apflora/tabelle=tblTeilPopMassnBericht/feld=TPopId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User,
                             dataType: 'json'
                         });
-                        insertTPopMassBer_2.done(function(id) {
+                        insertTPopMassBer_2.done(function (id) {
                             var strukturtyp = "tpopmassnber",
                                 beschriftung = "neuer Massnahmen-Bericht";
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
-                        insertTPopMassBer_2.fail(function() {
+                        insertTPopMassBer_2.fail(function () {
                             window.apf.melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
                         });
                     }
@@ -9970,7 +9970,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "löschen",
                     "separator_before": true,
                     "icon": "style/images/loeschen.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -9983,7 +9983,7 @@ window.apf.treeKontextmenu = function(node) {
                             width: 400,
                             modal: true,
                             buttons: {
-                                "ja, löschen!": function() {
+                                "ja, löschen!": function () {
                                     $(this).dialog("close");
                                     // Variable zum rückgängig machen erstellen
                                     window.apf.deleted = window.apf.tpopmassnber;
@@ -9993,7 +9993,7 @@ window.apf.treeKontextmenu = function(node) {
                                         url: 'api/v1/apflora/tabelle=tblTeilPopMassnBericht/tabelleIdFeld=TPopMassnBerId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                         dataType: 'json'
                                     });
-                                    deleteTPopMassnBer.done(function() {
+                                    deleteTPopMassnBer.done(function () {
                                         delete localStorage.tpopmassnber_id;
                                         delete window.apf.tpopmassnber;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
@@ -10002,11 +10002,11 @@ window.apf.treeKontextmenu = function(node) {
                                         // Hinweis zum rückgängig machen anzeigen
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Der Massnahmen-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                     });
-                                    deleteTPopMassnBer.fail(function() {
+                                    deleteTPopMassnBer.fail(function () {
                                         window.apf.melde("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
                                     });
                                 },
-                                "abbrechen": function() {
+                                "abbrechen": function () {
                                     $(this).dialog("close");
                                 }
                             }
@@ -10021,20 +10021,20 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "auf Luftbild zeigen",
                     "separator_before": true,
                     "icon": "style/images/flora_icon_violett.png",
-                    "action": function() {
+                    "action": function () {
                         var getBeobKarte_4 = $.ajax({
                             type: 'get',
                             url: '/api/v1/beobKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen=',
                             dataType: 'json'
                         });
-                        getBeobKarte_4.done(function(data) {
+                        getBeobKarte_4.done(function (data) {
                             if (data.length > 0) {
                                 window.apf.gmap.zeigeBeob(data);
                             } else {
                                 window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
                             }
                         });
-                        getBeobKarte_4.fail(function() {
+                        getBeobKarte_4.fail(function () {
                             window.apf.melde("Fehler: Keine Daten erhalten");
                         });
                     }
@@ -10043,19 +10043,19 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "auf Luftbild Teilpopulationen<br>&nbsp;&nbsp;&nbsp;zuordnen<br>&nbsp;&nbsp;&nbsp;Tipp: Beobachtungen auf<br>&nbsp;&nbsp;&nbsp;Teilpopulationen ziehen!",
                     "separator_before": true,
                     "icon": "style/images/flora_icon_violett.png",
-                    "action": function() {
+                    "action": function () {
                         var getBeobKarte_5 = $.ajax({
                             type: 'get',
                             url: '/api/v1/beobKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen=',
                             dataType: 'json'
                         });
-                        getBeobKarte_5.done(function(beob) {
+                        getBeobKarte_5.done(function (beob) {
                             if (beob.length > 0) {
                                 $.ajax({
                                     type: 'get',
                                     url: 'api/v1/apKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
                                     dataType: 'json',
-                                    success: function(tpop) {
+                                    success: function (tpop) {
                                         if (tpop && tpop.length > 0) {
                                             window.apf.gmap.zeigeBeobUndTPop(beob, tpop);
                                         } else {
@@ -10067,7 +10067,7 @@ window.apf.treeKontextmenu = function(node) {
                                 window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
                             }
                         });
-                        getBeobKarte_5.fail(function() {
+                        getBeobKarte_5.fail(function () {
                             window.apf.melde("Fehler: Keine Daten erhalten");
                         });
                     }
@@ -10078,7 +10078,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": $.jstree._reference(window.apf.beob_zugeordnet_node_ausgeschnitten).get_text(window.apf.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
-                    "action": function() {
+                    "action": function () {
                         $("#tree").jstree("move_node", window.apf.beob_zugeordnet_node_ausgeschnitten, aktiver_node, "first");
                     }
                 }
@@ -10090,20 +10090,20 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "auf Luftbild zeigen",
                     "separator_before": true,
                     "icon": "style/images/flora_icon_violett.png",
-                    "action": function() {
+                    "action": function () {
                         var getBeobKarte_6 = $.ajax({
                             type: 'get',
                             url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen=',
                             dataType: 'json'
                         });
-                        getBeobKarte_6.done(function(data) {
+                        getBeobKarte_6.done(function (data) {
                             if (data && data[0]) {
                                 window.apf.gmap.zeigeBeob(data[0]);
                             } else {
                                 window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
                             }
                         });
-                        getBeobKarte_6.fail(function() {
+                        getBeobKarte_6.fail(function () {
                             window.apf.melde("Fehler: Keine Daten erhalten");
                         });
                     }
@@ -10112,13 +10112,13 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "auf Luftbild einer Teilpopulation<br>&nbsp;&nbsp;&nbsp;zuordnen",
                     "separator_before": true,
                     "icon": "style/images/flora_icon_violett.png",
-                    "action": function() {
+                    "action": function () {
                         var getBeobKarte_7 = $.ajax({
                             type: 'get',
                             url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen=',
                             dataType: 'json'
                         });
-                        getBeobKarte_7.done(function(beob) {
+                        getBeobKarte_7.done(function (beob) {
                             if (beob && beob[0]) {
                                 beob = beob[0];
                                 var getApKarte_2 = $.ajax({
@@ -10126,7 +10126,7 @@ window.apf.treeKontextmenu = function(node) {
                                     url: 'api/v1/apKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")),
                                     dataType: 'json'
                                 });
-                                getApKarte_2.done(function(tpop) {
+                                getApKarte_2.done(function (tpop) {
                                     if (tpop && tpop.length > 0) {
                                         window.apf.gmap.zeigeBeobUndTPop(beob, tpop);
                                     } else {
@@ -10137,7 +10137,7 @@ window.apf.treeKontextmenu = function(node) {
                                 window.apf.melde("Die Beobachtung hat keine Koordinaten<br>Bitte im Formular zuordnen", "Aktion abgebrochen");
                             }
                         });
-                        getBeobKarte_7.fail(function() {
+                        getBeobKarte_7.fail(function () {
                             window.apf.melde("Fehler: Keine Daten erhalten");
                         });
                     }
@@ -10146,7 +10146,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "im GIS-Browser zeigen",
                     "separator_before": true,
                     "icon": "style/images/wappen_zuerich.png",
-                    "action": function() {
+                    "action": function () {
                         window.apf.zeigeBeobKoordinatenImGisBrowser();
                     }
                 }
@@ -10157,7 +10157,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "ausschneiden",
                     "separator_before": true,
                     "icon": "style/images/ausschneiden.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -10171,7 +10171,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": $.jstree._reference(window.apf.beob_zugeordnet_node_ausgeschnitten).get_text(window.apf.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
-                    "action": function() {
+                    "action": function () {
                         $("#tree").jstree("move_node", window.apf.beob_zugeordnet_node_ausgeschnitten, parent_node, "first");
                     }
                 };
@@ -10183,20 +10183,20 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "auf Luftbild zeigen",
                     "separator_before": true,
                     "icon": "style/images/flora_icon_violett.png",
-                    "action": function() {
+                    "action": function () {
                         var getBeobKarte_8 = $.ajax({
                             type: 'get',
                             url: '/api/v1/beobKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen=1',
                             dataType: 'json'
                         });
-                        getBeobKarte_8.done(function(data) {
+                        getBeobKarte_8.done(function (data) {
                             if (data.length > 0) {
                                 window.apf.gmap.zeigeBeob(data);
                             } else {
                                 window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
                             }
                         });
-                        getBeobKarte_8.fail(function() {
+                        getBeobKarte_8.fail(function () {
                             window.apf.melde("Fehler: Keine Daten erhalten");
                         });
                     }
@@ -10207,7 +10207,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": $.jstree._reference(window.apf.beob_zugeordnet_node_ausgeschnitten).get_text(window.apf.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
-                    "action": function() {
+                    "action": function () {
                         $("#tree").jstree("move_node", window.apf.beob_zugeordnet_node_ausgeschnitten, aktiver_node, "first");
                     }
                 };
@@ -10219,20 +10219,20 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "auf Luftbild zeigen",
                     "separator_before": true,
                     "icon": "style/images/flora_icon_violett.png",
-                    "action": function() {
+                    "action": function () {
                         var getBeobKarte_9 = $.ajax({
                             type: 'get',
                             url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen=',
                             dataType: 'json'
                         });
-                        getBeobKarte_9.done(function(data) {
+                        getBeobKarte_9.done(function (data) {
                             if (data && data[0]) {
                                 window.apf.gmap.zeigeBeob(data[0]);
                             } else {
                                 window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
                             }
                         });
-                        getBeobKarte_9.fail(function() {
+                        getBeobKarte_9.fail(function () {
                             window.apf.melde("Fehler: Keine Daten erhalten");
                         });
                     }
@@ -10241,7 +10241,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "im GIS-Browser zeigen",
                     "separator_before": true,
                     "icon": "style/images/wappen_zuerich.png",
-                    "action": function() {
+                    "action": function () {
                         window.apf.zeigeBeobKoordinatenImGisBrowser();
                     }
                 }
@@ -10252,7 +10252,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": "ausschneiden",
                     "separator_before": true,
                     "icon": "style/images/ausschneiden.png",
-                    "action": function() {
+                    "action": function () {
                         // nur aktualisieren, wenn Schreibrechte bestehen
                         if (!window.apf.prüfeSchreibvoraussetzungen()) {
                             return;
@@ -10266,7 +10266,7 @@ window.apf.treeKontextmenu = function(node) {
                     "label": $.jstree._reference(window.apf.beob_zugeordnet_node_ausgeschnitten).get_text(window.apf.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
                     "separator_before": true,
                     "icon": "style/images/einfuegen.png",
-                    "action": function() {
+                    "action": function () {
                         $("#tree").jstree("move_node", window.apf.beob_zugeordnet_node_ausgeschnitten, parent_node, "first");
                     }
                 };
@@ -10277,10 +10277,10 @@ window.apf.treeKontextmenu = function(node) {
 
 // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
 // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
-(function($) {
+(function ($) {
     $.fn.extend( {
-        limiter: function(limit, elem) {
-            $(this).on("keyup focus", function() {
+        limiter: function (limit, elem) {
+            $(this).on("keyup focus", function () {
                 setCount(this, elem);
             });
             function setCount(src, elem) {
@@ -10298,9 +10298,9 @@ window.apf.treeKontextmenu = function(node) {
 
 // erstellt einen guid
 // Quelle: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
-window.apf.erstelleGuid = function() {
+window.apf.erstelleGuid = function () {
     'use strict';
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
         return v.toString(16);
     });
@@ -38217,6 +38217,8 @@ module.exports = config;
  * wird in mehreren Felder benutzt
  * speichert die Liste in window.apf.adressen_html
  * um wiederholte DB-Zugriffe zu vermeiden
+ * nimmt eine callback-Funktion entgegen
+ * diser wird das generierte html übergeben
  */
 
 'use strict';
@@ -38224,7 +38226,7 @@ module.exports = config;
 var $ = require('jquery'),
     _ = require('underscore');
 
-var returnFunction = function(callback) {
+var returnFunction = function (callback) {
     var html = '';
 
     if (!window.apf.adressen_html) {
@@ -38232,11 +38234,11 @@ var returnFunction = function(callback) {
             type: 'get',
             url: 'api/v1/adressen',
             dataType: 'json'
-        }).done(function(data2) {
+        }).done(function (data2) {
             if (data2) {
                 // Feld mit Daten beliefern
                 html = "<option></option>";
-                _.each(data2, function(adresse) {
+                _.each(data2, function (adresse) {
                     html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
                 });
                 window.apf.adressen_html = html;
@@ -38256,7 +38258,7 @@ var $               = require('jquery'),
     initiiereIndex  = require('./initiiereIndex'),
     getAdressenHtml = require('./getAdressenHtml');
 
-var returnFunction = function(apId) {
+var returnFunction = function (apId) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!localStorage.ap_id && !apId) {
         // es fehlen benötigte Daten > zurück zum Anfang
@@ -38285,7 +38287,7 @@ var returnFunction = function(apId) {
             type: 'get',
             url: 'ap=' + apId,
             dataType: 'json'
-        }).done(function(data) {
+        }).done(function (data) {
             // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
             if (data && data[0]) {
                 data = data[0];
@@ -38298,7 +38300,7 @@ var returnFunction = function(apId) {
                 $("#ApArtwert").val(data.ApArtwert);
                 $("#Artname").val(data.Artname);
                 // Adressen holen, um ApBearb zu füllen
-                getAdressenHtml(function(html) {
+                getAdressenHtml(function (html) {
                     $("#ApBearb")
                         .html(html)
                         .val(window.apf.ApBearb);
@@ -38322,7 +38324,7 @@ var $           = require('jquery'),
     initiiereAp = require('./initiiereAp');
 //require('jquery-ui');
 
-var returnFunction = function() {
+var returnFunction = function () {
     if (!localStorage.apziel_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp();
@@ -38340,7 +38342,7 @@ var returnFunction = function() {
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblZiel/feld=ZielId/wertNumber=' + localStorage.apziel_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
@@ -38372,7 +38374,7 @@ var $              = require('jquery'),
     initiiereIndex = require('./initiiereIndex'),
     initiiereAp    = require('./initiiereAp');
 
-var returnFunction = function(apId, assozId) {
+var returnFunction = function (apId, assozId) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.ap_id) {
         // Anwendung neu initiieren
@@ -38411,22 +38413,29 @@ var returnFunction = function(apId, assozId) {
         type: 'get',
         url: '/api/v1/apflora/tabelle=tblAssozArten/feld=AaId/wertNumber=' + assozId,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-        if (data && data.length > 0) {
+        if (data && data[0]) {
+            data = data[0];
+
             // assozarten bereitstellen
-            window.apf.assozarten = data[0];
+            window.apf.assozarten = data;
+
             // Felder mit Daten beliefern
-            $AaSisfNr.val(data[0].AaSisfNr);
-            $("#AaBem").val(data[0].AaBem);
+            $AaSisfNr.val(data.AaSisfNr);
+            $("#AaBem").val(data.AaBem);
+
             // Formulare blenden
             window.apf.zeigeFormular("assozarten");
             history.replaceState({assozarten: "assozarten"}, "assozarten", "index.html?ap=" + apId + "&assozarten=" + assozId);
+
             // bei neuen Datensätzen Fokus steuern
             if (!$AaSisfNr.val()) {
                 $AaSisfNr.focus();
             }
         }
+    }).fail(function () {
+        window.apf.melde('Fehler: Keine Daten für die assoziierte Art erhalten');
     });
 };
 
@@ -38440,7 +38449,7 @@ var $                     = require('jquery'),
     initiiereAp           = require('./initiiereAp'),
     initiiereBeob         = require('./initiiereBeob');
 
-var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
+var returnFunction = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
     // beob_status markiert, ob die Beobachtung:
     // - schon zugewiesen ist (zugeordnet)
     // - noch nicht beurteilt ist (nicht_beurteilt)
@@ -38487,7 +38496,7 @@ var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
         type: 'get',
         url: url,
         dataType: 'json'
-    }).done(function(data_beob) {
+    }).done(function (data_beob) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data_beob && data_beob.length > 0) {
             data_beob = data_beob[0];
@@ -38502,11 +38511,11 @@ var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
                 type: 'get',
                 url: url_distzutpop,
                 dataType: 'json'
-            }).done(function(data) {
+            }).done(function (data) {
                 // Tabellenzeile beginnen
                 var html_distzutpop = '<tr class="fieldcontain DistZuTPop"><td class="label"><label id="DistZuTPop_label" for="DistZuTPop">Einer Teilpopulation zuordnen:</label></td><td class="Datenfelder"><div class="Datenfelder" id="DistZuTPop_Felder">';
                 if (data) {
-                    _.each(data, function(beob, index) {
+                    _.each(data, function (beob, index) {
                         if (index>0) {
                             html_distzutpop += "<br>";
                         }
@@ -38550,7 +38559,7 @@ var returnFunction = function(beobTyp, beobId, beobStatus, ohneZuZeigen) {
                             type: 'get',
                             url: urlZuordnung,
                             dataType: 'json'
-                        }).done(function(data) {
+                        }).done(function (data) {
                             // Felder mit Daten beliefern
                             $("#BeobNichtBeurteilt").prop("checked", false);
                             if (data.BeobNichtZuordnen == 1) {
@@ -38607,7 +38616,7 @@ var $ = jQuery  = require('jquery'),
 
 // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
 // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
-var initiiereBer = function() {
+var initiiereBer = function () {
     var $BerAutor = $("#BerAutor"),
         $BerJahr  = $("#BerJahr"),
         $BerTitel = $("#BerTitel"),
@@ -38629,7 +38638,7 @@ var initiiereBer = function() {
         type: 'get',
         url: '/api/v1/apflora/tabelle=tblBer/feld=BerId/wertNumber=' + localStorage.ber_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
@@ -38676,7 +38685,7 @@ var $           = require('jquery'),
     initiiereAp = require('./initiiereAp'),
     limiter     = require('../lib/limiter');
 
-var returnFunction = function() {
+var returnFunction = function () {
     var $ErfkritErreichungsgrad = $("#ErfkritErreichungsgrad");
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
@@ -38695,7 +38704,7 @@ var returnFunction = function() {
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblErfKrit/feld=ErfkritId/wertString=' + localStorage.erfkrit_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
@@ -38755,14 +38764,14 @@ fn.initiiereTPopMassn      = require('./initiiereTPopMassn');
 fn.initiiereTPopMassnBer   = require('./initiiereTPopMassnBer');
 fn.initiiereTPopBer        = require('./initiiereTPopBer');
 
-var returnFunction = function(strukturtyp) {
+var returnFunction = function (strukturtyp) {
     if (strukturtyp === "tpopfreiwkontr") {
         // der Initiierung mitteilen, dass es eine Freiwilligenkontrolle ist und keine Feldkontrolle
         localStorage.tpopfreiwkontr = true;
         // Freiwilligen-Kontrollen werden von derselben Funktion initiiert, wie Feldkontrollen
         fn.initiiereTPopFeldkontr();
     } else {
-        fnInitiiereFunktion = _.filter(conf.tables, function(table) {
+        fnInitiiereFunktion = _.filter(conf.tables, function (table) {
             return table.treeTyp === strukturtyp;
         })[0].initiiereFunktion;
 
@@ -38778,7 +38787,7 @@ var $                    = require('jquery'),
     dateFormat           = require('dateformat'),
     initiiereAp          = require('./initiiereAp');
 
-var initiiereIdealbiotop = function() {
+var initiiereIdealbiotop = function () {
     var $IbErstelldatum  = $("#IbErstelldatum");
 
     if (!localStorage.ap_id) {
@@ -38795,7 +38804,7 @@ var initiiereIdealbiotop = function() {
         type: 'get',
         url: '/api/v1/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wertNumber=' + localStorage.ap_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
@@ -38845,10 +38854,10 @@ var initiiereIdealbiotop = function() {
                 type: 'post',
                 url: '/api/v1/insert/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wert=' + localStorage.ap_id + '/user=' + sessionStorage.User,
                 dataType: 'json'
-            }).done(function() {
+            }).done(function () {
                 localStorage.idealbiotop_id = localStorage.ap_id;
                 initiiereIdealbiotop();
-            }).fail(function() {
+            }).fail(function () {
                 window.apf.melde("Fehler: Kein Idealbiotop erstellt");
             });
         }
@@ -38862,10 +38871,10 @@ module.exports = initiiereIdealbiotop;
 var $ = require('jquery');
 require('jquery-ui');
 
-var returnFunction = function() {
+var returnFunction = function () {
     // jQuery ui widgets initiieren
     $("#programm_wahl").buttonset({
-        create: function() {
+        create: function () {
             // erst jetzt einblenden, weil sonst die normalen checkboxen aufblitzen
             $("#programm_wahl").show();
         }
@@ -38878,14 +38887,14 @@ var returnFunction = function() {
     // tooltip: Klasse zuweisen, damit gestylt werden kann
     $("#label_olmap_infos_abfragen, #label_olmap_distanz_messen, #label_olmap_flaeche_messen, #label_olmap_auswaehlen, #olmap_exportieren_div, .apf_tooltip").tooltip({
         tooltipClass: "tooltip-styling-hinterlegt",
-        content: function() {
+        content: function () {
             return $(this).attr('title');
         }
     });
 
     $(".export_abschnitt").tooltip({
         tooltipClass: "export_abschnitt_tooltip_class",
-        content: function() {
+        content: function () {
             return $(this).attr('title');
         }
     });
@@ -38917,7 +38926,7 @@ var returnFunction = function() {
         firstDay: 1,
         showOn: "button",
         defaultDate: +0,
-        onSelect: function() {
+        onSelect: function () {
             window.apf.speichern(this);
         }
     });
@@ -38934,7 +38943,7 @@ var returnFunction = function() {
 
     // HIER WIRD IN FIREFOX EINE ENDLOSSCHLAUFE AUSGELÖST
     $.when(window.apf.wähleApListe("programm_alle"))
-        .then(function() {
+        .then(function () {
             // falls eine Unteradresse angewählt wurde, diese öffnen
             window.apf.öffneUri();
         });
@@ -38951,7 +38960,7 @@ var $               = require('jquery'),
     initiiereAp     = require('./initiiereAp'),
     getAdressenHtml = require('./getAdressenHtml');
 
-var returnFunction = function() {
+var returnFunction = function () {
     var $JBerJahr = $("#JBerJahr");
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
@@ -38971,7 +38980,7 @@ var returnFunction = function() {
         type: 'get',
         url: '/api/v1/apflora/tabelle=tblJBer/feld=JBerId/wertNumber=' + localStorage.jber_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
@@ -38999,7 +39008,7 @@ var returnFunction = function() {
                 $("#JBerDatum").val(dateFormat(data.JBerDatum, 'yyyy.mm.dd'));
             }
             // adressen holen, um JBerBearb zu füllen
-            getAdressenHtml(function(html) {
+            getAdressenHtml(function (html) {
                 $("#JBerBearb")
                     .html(html)
                     .val(window.apf.jber.JBerBearb);
@@ -39024,7 +39033,7 @@ module.exports = returnFunction;
 var $           = require('jquery'),
     initiiereAp = require('./initiiereAp');
 
-var returnFunction = function() {
+var returnFunction = function () {
     var $JbuJahr = $("#JbuJahr");
 
     if (!localStorage.jber_uebersicht_id) {
@@ -39041,7 +39050,7 @@ var returnFunction = function() {
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wertNumber=' + localStorage.jber_uebersicht_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
@@ -39074,7 +39083,7 @@ var $           = require('jquery'),
     limiter     = require('../lib/limiter'),
     initiiereAp = require('./initiiereAp');
 
-var returnFunction = function(ohne_zu_zeigen) {
+var returnFunction = function (ohne_zu_zeigen) {
     var $PopName = $("#PopName"),
         $PopNr   = $("#PopNr");
 
@@ -39095,7 +39104,7 @@ var returnFunction = function(ohne_zu_zeigen) {
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblPopulation/feld=PopId/wertNumber=' + localStorage.pop_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
@@ -39143,7 +39152,7 @@ module.exports = returnFunction;
 var $            = require('jquery'),
     initiierePop = require('./initiierePop');
 
-var returnFunction = function() {
+var returnFunction = function () {
     if (!localStorage.popber_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiierePop();
@@ -39158,7 +39167,7 @@ var returnFunction = function() {
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblPopBericht/feld=PopBerId/wertNumber=' + localStorage.popber_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
@@ -39188,7 +39197,7 @@ module.exports = returnFunction;
 var $            = require('jquery'),
     initiierePop = require('./initiierePop');
 
-var returnFunction = function() {
+var returnFunction = function () {
     if (!localStorage.popmassnber_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiierePop();
@@ -39203,7 +39212,7 @@ var returnFunction = function() {
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblPopMassnBericht/feld=PopMassnBerId/wertNumber=' + localStorage.popmassnber_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
@@ -39236,7 +39245,7 @@ var $               = require('jquery'),
     initiierePop    = require('./initiierePop'),
     getAdressenHtml = require('./getAdressenHtml');
 
-var returnFunction = function(ohne_zu_zeigen) {
+var returnFunction = function (ohne_zu_zeigen) {
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     limiter($);
@@ -39256,7 +39265,7 @@ var returnFunction = function(ohne_zu_zeigen) {
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + localStorage.tpop_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
@@ -39320,7 +39329,7 @@ var returnFunction = function(ohne_zu_zeigen) {
             $("#TPopTxt").val(data.TPopTxt);
 
             // Adressen holen, um TPopVerantw zu füllen
-            getAdressenHtml(function(html) {
+            getAdressenHtml(function (html) {
                 $("#TPopVerantw")
                     .html(html)
                     .val(window.apf.tpop.TPopVerantw);
@@ -39338,7 +39347,7 @@ var returnFunction = function(ohne_zu_zeigen) {
                 }
             }
         }
-    }).fail(function() {
+    }).fail(function () {
         window.apf.melde('Fehler: keine Daten für die Teilpopulation erhalten');
     });
 };
@@ -39350,7 +39359,7 @@ module.exports = returnFunction;
 var $            = require('jquery'),
     initiierePop = require('./initiierePop');
 
-var returnFunction = function() {
+var returnFunction = function () {
     if (!localStorage.tpopber_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiierePop();
@@ -39365,7 +39374,7 @@ var returnFunction = function() {
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblTeilPopBericht/feld=TPopBerId/wertNumber=' + localStorage.tpopber_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
@@ -39405,7 +39414,7 @@ var $               = require('jquery'),
 
 require('jquery-ui');
 
-var returnFunction = function() {
+var returnFunction = function () {
     var $TPopKontrJahr           = $("#TPopKontrJahr"),
         $TPopKontrJungPflJN_ja   = $("#TPopKontrJungPflJN_ja"),
         $TPopKontrJungPflJN_nein = $("#TPopKontrJungPflJN_nein"),
@@ -39424,7 +39433,7 @@ var returnFunction = function() {
     window.apf.leereFelderVonFormular("tpopfeldkontr");
 
     // alle Felder ausblenden. Später werden die benötigten eingeblendet
-    $('.feld_tpopfeldkontr').each(function() {
+    $('.feld_tpopfeldkontr').each(function () {
         $(this).hide();
     });
 
@@ -39433,7 +39442,7 @@ var returnFunction = function() {
         type:     'get',
         url:      'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + localStorage.tpopfeldkontr_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
@@ -39456,7 +39465,7 @@ var returnFunction = function() {
             $("#TPopKontrTxt").val(data.TPopKontrTxt);
             $("#TPopKontrGuid").val(data.TPopKontrGuid);
             // Adressen holen, um TPopKontrBearb zu füllen
-            getAdressenHtml(function(html) {
+            getAdressenHtml(function (html) {
                 $("#TPopKontrBearb")
                     .html(html)
                     .val(window.apf.tpopfeldkontr.TPopKontrBearb);
@@ -39467,12 +39476,12 @@ var returnFunction = function() {
                     type:     'get',
                     url:      'api/v1/feldkontrZaehleinheit',
                     dataType: 'json'
-                }).done(function(data3) {
+                }).done(function (data3) {
                     if (data3 && data3.length > 0) {
                         // Feld mit Daten beliefern
                         var html;
                         html = "<option></option>";
-                        _.each(data3, function(zähleinheit) {
+                        _.each(data3, function (zähleinheit) {
                             html += "<option value=\"" + zähleinheit.id + "\">" + zähleinheit.ZaehleinheitTxt + "</option>";
                         });
                         window.apf.TPopKontrZähleinheit_html = html;
@@ -39572,12 +39581,12 @@ var returnFunction = function() {
                         type:     'get',
                         url:      'api/v1/lrDelarze',
                         dataType: 'json'
-                    }).done(function(data4) {
+                    }).done(function (data4) {
                         if (data4) {
                             // Feld mit Daten beliefern
                             var html;
                             html = "<option></option>";
-                            _.each(data4, function(lr) {
+                            _.each(data4, function (lr) {
                                 html += "<option value=\"" + lr.id + "\">" + lr.Einheit + "</option>";
                             });
                             window.apf.lrdelarze_html = html;
@@ -39604,12 +39613,12 @@ var returnFunction = function() {
                     type:     'get',
                     url:      'api/v1/idealbiotopUebereinst',
                     dataType: 'json'
-                }).done(function(data5) {
+                }).done(function (data5) {
                     if (data5 && data5.length > 0) {
                         // Feld mit Daten beliefern
                         var html;
                         html = "<option></option>";
-                        _.each(data5, function(übereinst) {
+                        _.each(data5, function (übereinst) {
                             html += "<option value=\"" + übereinst.id + "\">" + übereinst.DomainTxt + "</option>";
                         });
                         window.apf.IdealBiotopÜbereinst_html = html;
@@ -39653,11 +39662,11 @@ var returnFunction = function() {
 
             // fieldcontain-divs der benötigten Felder einblenden
             if (localStorage.tpopfreiwkontr) {
-                _.each(window.apf.feldliste_freiwkontr, function(feld) {
+                _.each(window.apf.feldliste_freiwkontr, function (feld) {
                     $("#fieldcontain_" + feld).show();
                 });
             } else {
-                _.each(window.apf.feldliste_feldkontr, function(feld) {
+                _.each(window.apf.feldliste_feldkontr, function (feld) {
                     $("#fieldcontain_" + feld).show();
                 });
             }
@@ -39702,7 +39711,7 @@ var $               = require('jquery'),
     initiierePop    = require('./initiierePop'),
     getAdressenHtml = require('./getAdressenHtml');
 
-var returnFunction = function() {
+var returnFunction = function () {
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     limiter($);
@@ -39721,7 +39730,7 @@ var returnFunction = function() {
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblTeilPopMassnahme/feld=TPopMassnId/wertNumber=' + localStorage.tpopmassn_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
@@ -39736,12 +39745,12 @@ var returnFunction = function() {
                     type:     'get',
                     url:      'api/v1/tpopMassnTypen',
                     dataType: 'json'
-                }).done(function(data2) {
+                }).done(function (data2) {
                     if (data2 && data2.length > 0) {
                         // Feld mit Daten beliefern
                         var html;
                         html = "<option></option>";
-                        _.each(data2, function(tpopmassn_typ) {
+                        _.each(data2, function (tpopmassn_typ) {
                             html += "<option value=\"" + tpopmassn_typ.id + "\">" + tpopmassn_typ.MassnTypTxt + "</option>";
                         });
                         window.apf.tpopmassntyp_html = html;
@@ -39763,7 +39772,7 @@ var returnFunction = function() {
                 $("#TPopMassnDatum").val(dateFormat(data.TPopMassnDatum, 'yyyy.mm.dd'));
             }
             // Adressen holen, um TPopMassnBearb zu füllen
-            getAdressenHtml(function(html) {
+            getAdressenHtml(function (html) {
                 $("#TPopMassnBearb")
                     .html(html)
                     .val(window.apf.tpopmassn.TPopMassnBearb);
@@ -39794,7 +39803,7 @@ var returnFunction = function() {
             // wenn die Anwendung direkt auf einer TPopMassn geöffnet wird, ist die Liste noch nicht bereit
             // darum hier nochmals holen
             $.when(window.apf.erstelle_artlisten())
-                .then(function() {
+                .then(function () {
                     $("#TPopMassnAnsiedWirtspfl").val(data.TPopMassnAnsiedWirtspfl);
                     $("#TPopMassnAnsiedHerkunftPop")
                         .val(data.TPopMassnAnsiedHerkunftPop)
@@ -39822,7 +39831,7 @@ module.exports = returnFunction;
 var $            = require('jquery'),
     initiierePop = require('./initiierePop');
 
-var returnFunction = function() {
+var returnFunction = function () {
     if (!localStorage.tpopmassnber_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiierePop();
@@ -39837,7 +39846,7 @@ var returnFunction = function() {
         type:     'get',
         url:      'api/v1/apflora/tabelle=tblTeilPopMassnBericht/feld=TPopMassnBerId/wertNumber=' + localStorage.tpopmassnber_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
@@ -39867,7 +39876,7 @@ module.exports = returnFunction;
 var $           = require('jquery'),
     initiiereAp = require('./initiiereAp');
 
-var returnFunction = function() {
+var returnFunction = function () {
     var $ZielBerJahr = $("#ZielBerJahr");
 
     if (!localStorage.zielber_id) {
@@ -39884,7 +39893,7 @@ var returnFunction = function() {
         type:     'get',
         url:      'api/v1/apflora/tabelle=tblZielBericht/feld=ZielBerId/wertString=' + localStorage.zielber_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
@@ -39919,7 +39928,7 @@ var $                    = require('jquery'),
     initiiereAp          = require('./initiiereAp'),
     initiiereAssozart    = require('./initiiereAssozart');
 
-var returnFunction = function() {
+var returnFunction = function () {
     var router = new Backbone.Router.extend({
         routes: {
             "":                                                        "home",
@@ -39946,54 +39955,54 @@ var returnFunction = function() {
             "ap=:apId/pop=:popId/tpop:tpopId/massn:massnId":           "massn",
             "exportieren":                                             "exportieren"
         },
-        home: function() {
+        home: function () {
             initiiereIndex();
         },
-        ap: function(apId) {
+        ap: function (apId) {
             initiiereAp(apId);
         },
-        assozart: function(apId, assozId) {
+        assozart: function (apId, assozId) {
             initiiereAssozart(apId, assozId);
         },
-        idealbiotop: function(apId) {
+        idealbiotop: function (apId) {
         },
-        beobNichtZuzuordnen: function(apId, beobId) {
+        beobNichtZuzuordnen: function (apId, beobId) {
         },
-        beobNichtBeurteilt: function(apId, beobId) {
+        beobNichtBeurteilt: function (apId, beobId) {
         },
-        bericht: function(apId, berId) {
+        bericht: function (apId, berId) {
         },
-        apBericht: function(apId, apBerId) {
+        apBericht: function (apId, apBerId) {
         },
-        apBerÜbersicht: function(apId, uebId) {
+        apBerÜbersicht: function (apId, uebId) {
         },
-        erfolgskriterium: function(apId, erfkritId) {
+        erfolgskriterium: function (apId, erfkritId) {
         },
-        apZiel: function(apId, apZielId) {
+        apZiel: function (apId, apZielId) {
         },
-        zielBericht: function(apId, zielberId) {
+        zielBericht: function (apId, zielberId) {
         },
-        pop: function(apId, popId) {
+        pop: function (apId, popId) {
         },
-        popMassnBer: function(apId, popId, massnberId) {
+        popMassnBer: function (apId, popId, massnberId) {
         },
-        popBer: function(apId, popId, popberId) {
+        popBer: function (apId, popId, popberId) {
         },
-        tpop: function(apId, popId, tpopId) {
+        tpop: function (apId, popId, tpopId) {
         },
-        beobZugeordnet: function(apId, popId, tpopId, beobId) {
+        beobZugeordnet: function (apId, popId, tpopId, beobId) {
         },
-        tpopBer: function(apId, popId, tpopId, tpopBerId) {
+        tpopBer: function (apId, popId, tpopId, tpopBerId) {
         },
-        freiwKontr: function(apId, popId, tpopId, freiwKontrId) {
+        freiwKontr: function (apId, popId, tpopId, freiwKontrId) {
         },
-        feldKontr: function(apId, popId, tpopId, feldKontrId) {
+        feldKontr: function (apId, popId, tpopId, feldKontrId) {
         },
-        massnBer: function(apId, popId, tpopId, massnBerId) {
+        massnBer: function (apId, popId, tpopId, massnBerId) {
         },
-        massn: function(apId, popId, tpopId, massnId) {
+        massn: function (apId, popId, tpopId, massnId) {
         },
-        exportieren: function() {
+        exportieren: function () {
         }
     });
 
@@ -40010,7 +40019,7 @@ module.exports = returnFunction;
 var $ = require('jquery'),
     _ = require('underscore');
 
-var returnFunction = function(tpop_liste) {
+var returnFunction = function (tpop_liste) {
     var anz_tpop,
         infowindow,
         tpop_beschriftung,
@@ -40040,7 +40049,7 @@ var returnFunction = function(tpop_liste) {
     // TPopListe bearbeiten:
     // Objekte löschen, die keine Koordinaten haben
     // Lat und Lng ergänzen
-    _.each(tpop_liste, function(tpop, index) {
+    _.each(tpop_liste, function (tpop, index) {
         if (!tpop.TPopXKoord || !tpop.TPopYKoord) {
             // tpop einsetzen geht nicht, weil Chrome Fehler meldet
             delete tpop_liste[index];
@@ -40071,7 +40080,7 @@ var returnFunction = function(tpop_liste) {
 
     // für alle TPop Marker erstellen
     markers = [];
-    _.each(tpop_liste, function(tpop) {
+    _.each(tpop_liste, function (tpop) {
         tpop_id = tpop.TPopId;
         tpop_beschriftung = window.apf.beschrifteTPopMitNrFürKarte(tpop.PopNr, tpop.TPopNr);
         latlng2 = new google.maps.LatLng(tpop.Lat, tpop.Lng);
@@ -40136,7 +40145,7 @@ var returnFunction = function(tpop_liste) {
 
     // diese Funktion muss hier sein, damit infowindow bekannt ist
     function makeListener(map, marker, contentString) {
-        google.maps.event.addListener(marker, 'click', function() {
+        google.maps.event.addListener(marker, 'click', function () {
             infowindow.setContent(contentString);
             infowindow.open(map, marker);
         });

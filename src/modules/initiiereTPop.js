@@ -6,7 +6,7 @@ var $               = require('jquery'),
     initiierePop    = require('./initiierePop'),
     getAdressenHtml = require('./getAdressenHtml');
 
-var returnFunction = function(ohne_zu_zeigen) {
+var returnFunction = function (ohne_zu_zeigen) {
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     limiter($);
@@ -26,7 +26,7 @@ var returnFunction = function(ohne_zu_zeigen) {
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + localStorage.tpop_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
@@ -90,7 +90,7 @@ var returnFunction = function(ohne_zu_zeigen) {
             $("#TPopTxt").val(data.TPopTxt);
 
             // Adressen holen, um TPopVerantw zu füllen
-            getAdressenHtml(function(html) {
+            getAdressenHtml(function (html) {
                 $("#TPopVerantw")
                     .html(html)
                     .val(window.apf.tpop.TPopVerantw);
@@ -108,7 +108,7 @@ var returnFunction = function(ohne_zu_zeigen) {
                 }
             }
         }
-    }).fail(function() {
+    }).fail(function () {
         window.apf.melde('Fehler: keine Daten für die Teilpopulation erhalten');
     });
 };

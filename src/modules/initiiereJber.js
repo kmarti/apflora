@@ -7,7 +7,7 @@ var $               = require('jquery'),
     initiiereAp     = require('./initiiereAp'),
     getAdressenHtml = require('./getAdressenHtml');
 
-var returnFunction = function() {
+var returnFunction = function () {
     var $JBerJahr = $("#JBerJahr");
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
@@ -27,7 +27,7 @@ var returnFunction = function() {
         type: 'get',
         url: '/api/v1/apflora/tabelle=tblJBer/feld=JBerId/wertNumber=' + localStorage.jber_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
@@ -55,7 +55,7 @@ var returnFunction = function() {
                 $("#JBerDatum").val(dateFormat(data.JBerDatum, 'yyyy.mm.dd'));
             }
             // adressen holen, um JBerBearb zu füllen
-            getAdressenHtml(function(html) {
+            getAdressenHtml(function (html) {
                 $("#JBerBearb")
                     .html(html)
                     .val(window.apf.jber.JBerBearb);

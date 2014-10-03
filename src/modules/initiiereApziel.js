@@ -4,7 +4,7 @@ var $           = require('jquery'),
     initiiereAp = require('./initiiereAp');
 //require('jquery-ui');
 
-var returnFunction = function() {
+var returnFunction = function () {
     if (!localStorage.apziel_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp();
@@ -22,7 +22,7 @@ var returnFunction = function() {
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblZiel/feld=ZielId/wertNumber=' + localStorage.apziel_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];

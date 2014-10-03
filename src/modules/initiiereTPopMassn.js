@@ -7,7 +7,7 @@ var $               = require('jquery'),
     initiierePop    = require('./initiierePop'),
     getAdressenHtml = require('./getAdressenHtml');
 
-var returnFunction = function() {
+var returnFunction = function () {
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     limiter($);
@@ -26,7 +26,7 @@ var returnFunction = function() {
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblTeilPopMassnahme/feld=TPopMassnId/wertNumber=' + localStorage.tpopmassn_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
@@ -41,12 +41,12 @@ var returnFunction = function() {
                     type:     'get',
                     url:      'api/v1/tpopMassnTypen',
                     dataType: 'json'
-                }).done(function(data2) {
+                }).done(function (data2) {
                     if (data2 && data2.length > 0) {
                         // Feld mit Daten beliefern
                         var html;
                         html = "<option></option>";
-                        _.each(data2, function(tpopmassn_typ) {
+                        _.each(data2, function (tpopmassn_typ) {
                             html += "<option value=\"" + tpopmassn_typ.id + "\">" + tpopmassn_typ.MassnTypTxt + "</option>";
                         });
                         window.apf.tpopmassntyp_html = html;
@@ -68,7 +68,7 @@ var returnFunction = function() {
                 $("#TPopMassnDatum").val(dateFormat(data.TPopMassnDatum, 'yyyy.mm.dd'));
             }
             // Adressen holen, um TPopMassnBearb zu füllen
-            getAdressenHtml(function(html) {
+            getAdressenHtml(function (html) {
                 $("#TPopMassnBearb")
                     .html(html)
                     .val(window.apf.tpopmassn.TPopMassnBearb);
@@ -99,7 +99,7 @@ var returnFunction = function() {
             // wenn die Anwendung direkt auf einer TPopMassn geöffnet wird, ist die Liste noch nicht bereit
             // darum hier nochmals holen
             $.when(window.apf.erstelle_artlisten())
-                .then(function() {
+                .then(function () {
                     $("#TPopMassnAnsiedWirtspfl").val(data.TPopMassnAnsiedWirtspfl);
                     $("#TPopMassnAnsiedHerkunftPop")
                         .val(data.TPopMassnAnsiedHerkunftPop)

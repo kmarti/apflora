@@ -4,7 +4,7 @@ var $           = require('jquery'),
     limiter     = require('../lib/limiter'),
     initiiereAp = require('./initiiereAp');
 
-var returnFunction = function(ohne_zu_zeigen) {
+var returnFunction = function (ohne_zu_zeigen) {
     var $PopName = $("#PopName"),
         $PopNr   = $("#PopNr");
 
@@ -25,7 +25,7 @@ var returnFunction = function(ohne_zu_zeigen) {
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblPopulation/feld=PopId/wertNumber=' + localStorage.pop_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];

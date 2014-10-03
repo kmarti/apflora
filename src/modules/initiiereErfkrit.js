@@ -4,7 +4,7 @@ var $           = require('jquery'),
     initiiereAp = require('./initiiereAp'),
     limiter     = require('../lib/limiter');
 
-var returnFunction = function() {
+var returnFunction = function () {
     var $ErfkritErreichungsgrad = $("#ErfkritErreichungsgrad");
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
@@ -23,7 +23,7 @@ var returnFunction = function() {
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblErfKrit/feld=ErfkritId/wertString=' + localStorage.erfkrit_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];

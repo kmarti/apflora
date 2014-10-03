@@ -3,7 +3,7 @@
 var $            = require('jquery'),
     initiierePop = require('./initiierePop');
 
-var returnFunction = function() {
+var returnFunction = function () {
     if (!localStorage.popmassnber_id) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiierePop();
@@ -18,7 +18,7 @@ var returnFunction = function() {
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblPopMassnBericht/feld=PopMassnBerId/wertNumber=' + localStorage.popmassnber_id,
         dataType: 'json'
-    }).done(function(data) {
+    }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
