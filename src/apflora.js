@@ -8824,8 +8824,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertPopber.fail(function() {
-                            //window.apf.melde("Fehler: Keinen neuen Populations-Bericht erstellt");
-                            console.log('Fehler: Keinen neuen Populations-Bericht erstellt');
+                            window.apf.melde("Fehler: Keinen neuen Populations-Bericht erstellt");
                         });
                     }
                 }
@@ -8848,8 +8847,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertPopber_2.fail(function() {
-                            //window.apf.melde("Fehler: Keinen neuen Populations-Bericht erstellt");
-                            console.log('Fehler: Keinen neuen Populations-Bericht erstellt');
+                            window.apf.melde("Fehler: Keinen neuen Populations-Bericht erstellt");
                         });
                     }
                 },
@@ -8890,8 +8888,7 @@ window.apf.treeKontextmenu = function(node) {
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Der Populations-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                     });
                                     deletePopber.fail(function() {
-                                        //window.apf.melde("Fehler: Der Populations-Bericht wurde nicht gelöscht");
-                                        console.log('Fehler: Der Populations-Bericht wurde nicht gelöscht');
+                                        window.apf.melde("Fehler: Der Populations-Bericht wurde nicht gelöscht");
                                     });
                                 },
                                 "abbrechen": function() {
@@ -8920,8 +8917,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertPopMassnBer.fail(function() {
-                            //window.apf.melde("Fehler: Es wurde kein neuer Massnahmen-Bericht erstellt");
-                            console.log('Fehler: Es wurde kein neuer Massnahmen-Bericht erstellt');
+                            window.apf.melde("Fehler: Es wurde kein neuer Massnahmen-Bericht erstellt");
                         });
                     }
                 }
@@ -8944,8 +8940,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertPopMassnBer_2.fail(function() {
-                            //window.apf.melde("Fehler: Es wurde kein neuer Massnahmen-Bericht erstellt");
-                            console.log('Fehler: Es wurde kein neuer Massnahmen-Bericht erstellt');
+                            window.apf.melde("Fehler: Es wurde kein neuer Massnahmen-Bericht erstellt");
                         });
                     }
                 },
@@ -8986,8 +8981,7 @@ window.apf.treeKontextmenu = function(node) {
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Der Massnahmen-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                     });
                                     deletePopMassnBer.fail(function() {
-                                        //window.apf.melde("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
-                                        console.log('Fehler: Der Massnahmen-Bericht wurde nicht gelöscht');
+                                        window.apf.melde("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
                                     });
                                 },
                                 "abbrechen": function() {
@@ -9016,8 +9010,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertTPopFeldKontr.fail(function() {
-                            //window.apf.melde("Fehler: Keine neue Feldkontrolle erstellt");
-                            console.log('Fehler: Keine neue Feldkontrolle erstellt');
+                            window.apf.melde("Fehler: Keine neue Feldkontrolle erstellt");
                         });
                     }
                 }
@@ -9071,8 +9064,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertTPopFeldKontr_2.fail(function() {
-                            //window.apf.melde("Fehler: Keine neue Feldkontrolle erstellt");
-                            console.log('Fehler: Keine neue Feldkontrolle erstellt');
+                            window.apf.melde("Fehler: Keine neue Feldkontrolle erstellt");
                         });
                     }
                 },
@@ -9113,8 +9105,7 @@ window.apf.treeKontextmenu = function(node) {
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Die Feldkontrolle '" + bezeichnung + "' wurde gelöscht.");
                                     });
                                     deleteTPopFeldKontr.fail(function() {
-                                        //window.apf.melde("Fehler: Die Feldkontrolle wurde nicht gelöscht");
-                                        console.log('Fehler: Die Feldkontrolle wurde nicht gelöscht');
+                                        window.apf.melde("Fehler: Die Feldkontrolle wurde nicht gelöscht");
                                     });
                                 },
                                 "abbrechen": function() {
@@ -9268,8 +9259,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.tpopfeldkontr_objekt_kopiert = data[0];
                         });
                         getTPopFeldkontr_2.fail(function() {
-                            //window.apf.melde("Fehler: Die Feldkontrolle wurde nicht kopiert");
-                            console.log('Fehler: Die Feldkontrolle wurde nicht kopiert');
+                            window.apf.melde("Fehler: Die Feldkontrolle wurde nicht kopiert");
                         });
                     }
                 };
@@ -9323,8 +9313,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertTPopFeldKontr_3.fail(function() {
-                            //window.apf.melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
-                            console.log('Fehler: Keine neue Freiwilligen-Kontrolle erstellt');
+                            window.apf.melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
                         });
                     }
                 }
@@ -9378,8 +9367,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertTPopFeldKontr_4.fail(function() {
-                            //window.apf.melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
-                            console.log('Fehler: Keine neue Freiwilligen-Kontrolle erstellt');
+                            window.apf.melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
                         });
                     }
                 },
@@ -9421,8 +9409,7 @@ window.apf.treeKontextmenu = function(node) {
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Die Freiwilligen-Kontrolle '" + bezeichnung + "' wurde gelöscht.");
                                     });
                                     deleteTPopFeldKontr_2.fail(function() {
-                                        //window.apf.melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht gelöscht");
-                                        console.log('Fehler: Die Freiwilligen-Kontrolle wurde nicht gelöscht');
+                                        window.apf.melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht gelöscht");
                                     });
                                 },
                                 "abbrechen": function() {
@@ -9450,7 +9437,7 @@ window.apf.treeKontextmenu = function(node) {
                         delete window.apf.tpopfreiwkontr_node_kopiert;
                         delete window.apf.tpopfreiwkontr_objekt_kopiert;
                     }
-                }
+                };
             }
             if (!window.apf.tpopfreiwkontr_node_ausgeschnitten) {
                 items.kopieren = {
@@ -9473,11 +9460,10 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.tpopfreiwkontr_objekt_kopiert = data[0];
                         });
                         getTPopFeldkontr_3.fail(function() {
-                            //window.apf.melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht kopiert");
-                            console.log('Fehler: Die Freiwilligen-Kontrolle wurde nicht kopiert');
+                            window.apf.melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht kopiert");
                         });
                     }
-                }
+                };
             }
             if (window.apf.tpopfreiwkontr_node_ausgeschnitten) {
                 items.einfuegen = {
@@ -9488,7 +9474,7 @@ window.apf.treeKontextmenu = function(node) {
                         $.jstree._reference(parent_node).move_node(window.apf.tpopfreiwkontr_node_ausgeschnitten, parent_node, "first", false);
                         localStorage.tpopfreiwkontr = true;
                     }
-                }
+                };
             }
             if (window.apf.tpopfreiwkontr_node_kopiert) {
                 items.einfuegen = {
@@ -9528,8 +9514,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertTPopMassn.fail(function() {
-                            //window.apf.melde("Fehler: Keine neue Massnahme erstellt");
-                            console.log('Fehler: Keine neue Massnahme erstellt');
+                            window.apf.melde("Fehler: Keine neue Massnahme erstellt");
                         });
                     }
                 }
@@ -9542,7 +9527,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         $.jstree._reference(aktiver_node).move_node(window.apf.tpopmassn_node_ausgeschnitten, aktiver_node, "first", false);
                     }
-                }
+                };
             }
             if (window.apf.tpopmassn_node_kopiert) {
                 items.einfuegen = {
@@ -9561,11 +9546,10 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertTPopMassnKopie.fail(function() {
-                            //window.apf.melde("Fehler: Die Massnahme wurde nicht erstellt");
-                            console.log('Fehler: Die Massnahme wurde nicht erstellt');
+                            window.apf.melde("Fehler: Die Massnahme wurde nicht erstellt");
                         });
                     }
-                }
+                };
             }
             return items;
         case "tpopmassn":
@@ -9585,8 +9569,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertTPopMassn_2.fail(function() {
-                            //window.apf.melde("Fehler: Keine neue Massnahme erstellt");
-                            console.log('Fehler: Keine neue Massnahme erstellt');
+                            window.apf.melde("Fehler: Keine neue Massnahme erstellt");
                         });
                     }
                 },
@@ -9627,8 +9610,7 @@ window.apf.treeKontextmenu = function(node) {
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Die Massnahme '" + bezeichnung + "' wurde gelöscht.");
                                     });
                                     deleteTPopMassn.fail(function() {
-                                        //window.apf.melde("Fehler: Die Massnahme wurde nicht gelöscht");
-                                        console.log('Fehler: Die Massnahme wurde nicht gelöscht');
+                                        window.apf.melde("Fehler: Die Massnahme wurde nicht gelöscht");
                                     });
                                 },
                                 "abbrechen": function() {
@@ -9656,7 +9638,7 @@ window.apf.treeKontextmenu = function(node) {
                         delete window.apf.tpopmassn_node_kopiert;
                         delete window.apf.tpopmassn_objekt_kopiert;
                     }
-                }
+                };
             }
             if (!window.apf.tpopmassn_node_ausgeschnitten) {
                 items.kopieren = {
@@ -9687,11 +9669,10 @@ window.apf.treeKontextmenu = function(node) {
                             }
                         });
                         getTPopMassn_2.fail(function() {
-                            //window.apf.melde("Fehler: Die Massnahme wurde nicht kopiert");
-                            console.log('Fehler: Die Massnahme wurde nicht kopiert');
+                            window.apf.melde("Fehler: Die Massnahme wurde nicht kopiert");
                         });
                     }
-                }
+                };
             }
             if (window.apf.tpopmassn_node_ausgeschnitten) {
                 items.einfuegen = {
@@ -9701,7 +9682,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         $.jstree._reference(parent_node).move_node(window.apf.tpopmassn_node_ausgeschnitten, parent_node, "first", false);
                     }
-                }
+                };
             }
             if (window.apf.tpopmassn_node_kopiert) {
                 items.einfuegen = {
@@ -9720,11 +9701,10 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertTPopMassnKopie_2.fail(function() {
-                            //window.apf.melde("Fehler: Die Massnahme wurde nicht erstellt");
-                            console.log('Fehler: Die Massnahme wurde nicht erstellt');
+                            window.apf.melde("Fehler: Die Massnahme wurde nicht erstellt");
                         });
                     }
-                }
+                };
             }
             return items;
         case "tpop_ordner_tpopber":
@@ -9744,8 +9724,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertTPopBer.fail(function() {
-                            //window.apf.melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
-                            console.log('Fehler: Keinen neuen Teilpopulations-Bericht erstellt');
+                            window.apf.melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
                         });
                     }
                 }
@@ -9768,8 +9747,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertTPopBer_2.fail(function() {
-                            //window.apf.melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
-                            console.log('Fehler: Keinen neuen Teilpopulations-Bericht erstellt');
+                            window.apf.melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
                         });
                     }
                 },
@@ -9810,8 +9788,7 @@ window.apf.treeKontextmenu = function(node) {
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Der Teilpopulations-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                     });
                                     deleteTPopBer.fail(function() {
-                                        //window.apf.melde("Fehler: Der Teilpopulations-Bericht wurde nicht gelöscht");
-                                        console.log('Fehler: Der Teilpopulations-Bericht wurde nicht gelöscht');
+                                        window.apf.melde("Fehler: Der Teilpopulations-Bericht wurde nicht gelöscht");
                                     });
                                 },
                                 "abbrechen": function() {
@@ -9843,8 +9820,7 @@ window.apf.treeKontextmenu = function(node) {
                             }
                         });
                         getBeobKarte.fail(function() {
-                            //window.apf.melde("Fehler: Keine Daten erhalten");
-                            console.log('Fehler: Keine Daten erhalten');
+                            window.apf.melde("Fehler: Keine Daten erhalten");
                         });
                     }
                 }
@@ -9858,7 +9834,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         $.jstree._reference(aktiver_node).move_node(window.apf.beob_zugeordnet_node_ausgeschnitten, aktiver_node, "first", false);
                     }
-                }
+                };
             }
             if (window.apf.beob_node_ausgeschnitten) {
                 items.einfuegen = {
@@ -9868,7 +9844,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         $("#tree").jstree("move_node", window.apf.beob_node_ausgeschnitten, aktiver_node, "first");
                     }
-                }
+                };
             }
             return items;
         case "beob_zugeordnet":
@@ -9891,8 +9867,7 @@ window.apf.treeKontextmenu = function(node) {
                             }
                         });
                         getBeobKarte_2.fail(function() {
-                            //window.apf.melde("Fehler: Keine Daten erhalten");
-                            console.log('Fehler: Keine Daten erhalten');
+                            window.apf.melde("Fehler: Keine Daten erhalten");
                         });
                     }
                 },
@@ -9926,8 +9901,7 @@ window.apf.treeKontextmenu = function(node) {
                             }
                         });
                         getBeobKarte_3.fail(function() {
-                            //window.apf.melde("Fehler: Keine Daten erhalten");
-                            console.log('Fehler: Keine Daten erhalten');
+                            window.apf.melde("Fehler: Keine Daten erhalten");
                         });
                     }
                 },
@@ -9963,7 +9937,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         $.jstree._reference(parent_node).move_node(window.apf.beob_zugeordnet_node_ausgeschnitten, parent_node, "first", false);
                     }
-                }
+                };
             }
             if (window.apf.beob_node_ausgeschnitten) {
                 items.einfuegen_beob = {
@@ -9973,7 +9947,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         $.jstree._reference(parent_node).move_node(window.apf.beob_node_ausgeschnitten, parent_node, "first", false);
                     }
-                }
+                };
             }
             return items;
         case "tpop_ordner_massnber":
@@ -9993,8 +9967,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertTPopMassnBer.fail(function() {
-                            //window.apf.melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
-                            console.log('Fehler: Keinen neuen Massnahmen-Bericht erstellt');
+                            window.apf.melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
                         });
                     }
                 }
@@ -10017,8 +9990,7 @@ window.apf.treeKontextmenu = function(node) {
                             window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                         });
                         insertTPopMassBer_2.fail(function() {
-                            //window.apf.melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
-                            console.log('Fehler: Keinen neuen Massnahmen-Bericht erstellt');
+                            window.apf.melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
                         });
                     }
                 },
@@ -10059,8 +10031,7 @@ window.apf.treeKontextmenu = function(node) {
                                         window.apf.frageObAktionRückgängigGemachtWerdenSoll("Der Massnahmen-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                     });
                                     deleteTPopMassnBer.fail(function() {
-                                        //window.apf.melde("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
-                                        console.log('Fehler: Der Massnahmen-Bericht wurde nicht gelöscht');
+                                        window.apf.melde("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
                                     });
                                 },
                                 "abbrechen": function() {
@@ -10092,8 +10063,7 @@ window.apf.treeKontextmenu = function(node) {
                             }
                         });
                         getBeobKarte_4.fail(function() {
-                            //window.apf.melde("Fehler: Keine Daten erhalten");
-                            console.log('Fehler: Keine Daten erhalten');
+                            window.apf.melde("Fehler: Keine Daten erhalten");
                         });
                     }
                 },
@@ -10126,8 +10096,7 @@ window.apf.treeKontextmenu = function(node) {
                             }
                         });
                         getBeobKarte_5.fail(function() {
-                            //window.apf.melde("Fehler: Keine Daten erhalten");
-                            console.log('Fehler: Keine Daten erhalten');
+                            window.apf.melde("Fehler: Keine Daten erhalten");
                         });
                     }
                 }
@@ -10163,8 +10132,7 @@ window.apf.treeKontextmenu = function(node) {
                             }
                         });
                         getBeobKarte_6.fail(function() {
-                            //window.apf.melde("Fehler: Keine Daten erhalten");
-                            console.log('Fehler: Keine Daten erhalten');
+                            window.apf.melde("Fehler: Keine Daten erhalten");
                         });
                     }
                 },
@@ -10198,8 +10166,7 @@ window.apf.treeKontextmenu = function(node) {
                             }
                         });
                         getBeobKarte_7.fail(function() {
-                            //window.apf.melde("Fehler: Keine Daten erhalten");
-                            console.log('Fehler: Keine Daten erhalten');
+                            window.apf.melde("Fehler: Keine Daten erhalten");
                         });
                     }
                 },
@@ -10225,7 +10192,7 @@ window.apf.treeKontextmenu = function(node) {
                         }
                         window.apf.beob_node_ausgeschnitten = aktiver_node;
                     }
-                }
+                };
             }
             if (window.apf.beob_zugeordnet_node_ausgeschnitten) {
                 items.einfuegen = {
@@ -10235,7 +10202,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         $("#tree").jstree("move_node", window.apf.beob_zugeordnet_node_ausgeschnitten, parent_node, "first");
                     }
-                }
+                };
             }
             return items;
         case "ap_ordner_beob_nicht_zuzuordnen":
@@ -10258,8 +10225,7 @@ window.apf.treeKontextmenu = function(node) {
                             }
                         });
                         getBeobKarte_8.fail(function() {
-                            //window.apf.melde("Fehler: Keine Daten erhalten");
-                            console.log('Fehler: Keine Daten erhalten');
+                            window.apf.melde("Fehler: Keine Daten erhalten");
                         });
                     }
                 }
@@ -10272,7 +10238,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         $("#tree").jstree("move_node", window.apf.beob_zugeordnet_node_ausgeschnitten, aktiver_node, "first");
                     }
-                }
+                };
             }
             return items;
         case "beob_nicht_zuzuordnen":
@@ -10295,8 +10261,7 @@ window.apf.treeKontextmenu = function(node) {
                             }
                         });
                         getBeobKarte_9.fail(function() {
-                            //window.apf.melde("Fehler: Keine Daten erhalten");
-                            console.log('Fehler: Keine Daten erhalten');
+                            window.apf.melde("Fehler: Keine Daten erhalten");
                         });
                     }
                 },
@@ -10322,7 +10287,7 @@ window.apf.treeKontextmenu = function(node) {
                         }
                         window.apf.beob_node_ausgeschnitten = aktiver_node;
                     }
-                }
+                };
             }
             if (window.apf.beob_zugeordnet_node_ausgeschnitten) {
                 items.einfuegen = {
@@ -10332,7 +10297,7 @@ window.apf.treeKontextmenu = function(node) {
                     "action": function() {
                         $("#tree").jstree("move_node", window.apf.beob_zugeordnet_node_ausgeschnitten, parent_node, "first");
                     }
-                }
+                };
             }
             return items;
     }
