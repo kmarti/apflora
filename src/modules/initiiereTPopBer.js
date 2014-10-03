@@ -35,11 +35,9 @@ var returnFunction = function (apId, popId, tpopId, tpopBerId) {
     // popId setzen
     if (!localStorage.pop_id)         localStorage.pop_id = popId;
     if (!popId)                                     popId = localStorage.pop_id;
-
     // tpopId setzen
     if (!localStorage.tpop_id)       localStorage.tpop_id = tpopId;
     if (!tpopId)                                   tpopId = localStorage.tpop_id;
-
     // tpopBerId setzen
     if (!localStorage.tpopber_id) localStorage.tpopber_id = tpopBerId;
     if (!tpopBerId)                             tpopBerId = localStorage.tpopber_id;

@@ -4,29 +4,62 @@
 
 'use strict';
 
-var $               = require('jquery'),
-    dateFormat      = require('dateformat'),
-    _               = require('underscore'),
-    limiter         = require('../lib/limiter'),
-    initiierePop    = require('./initiierePop'),
-    getAdressenHtml = require('./getAdressenHtml');
+var $                     = require('jquery'),
+    dateFormat            = require('dateformat'),
+    _                     = require('underscore'),
+    limiter               = require('../lib/limiter'),
+    initiiereIndex        = require('./initiiereIndex'),
+    initiiereAp           = require('./initiiereAp'),
+    initiierePop          = require('./initiierePop'),
+    initiiereTPop         = require('./initiiereTPop'),
+    getAdressenHtml       = require('./getAdressenHtml'),
+    getZaehleinheitenHtml = require('./getZaehleinheitenHtml');
 
 require('jquery-ui');
 
-var returnFunction = function () {
+var returnFunction = function (apId, popId, tpopId, feldKontrId) {
     var $TPopKontrJahr           = $("#TPopKontrJahr"),
         $TPopKontrJungPflJN_ja   = $("#TPopKontrJungPflJN_ja"),
         $TPopKontrJungPflJN_nein = $("#TPopKontrJungPflJN_nein"),
         $TPopKontrJungPflJN_leer = $("#TPopKontrJungPflJN_leer");
 
-    // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
-    limiter($);
-
-    if (!localStorage.tpopfeldkontr_id) {
-        // es fehlen benötigte Daten > eine Ebene höher
-        initiierePop();
+    // prüfen, ob voraussetzungen gegeben sind
+    if (!apId && !localStorage.ap_id) {
+        // Anwendung neu initiieren
+        initiiereIndex();
         return;
     }
+    if (!popId && !localStorage.pop_id) {
+        // es fehlen benötigte Daten > zwei Ebenen höher
+        initiiereAp(apId);
+        return;
+    }
+    if (!tpopId && !localStorage.tpop_id) {
+        // es fehlen benötigte Daten > eine Ebene höher
+        initiierePop(apId, popId);
+        return;
+    }
+    if (!feldKontrId && !localStorage.tpopfeldkontr_id) {
+        // es fehlen benötigte Daten > eine Ebene höher
+        initiiereTPop(apId, popId, tpopId);
+        return;
+    }
+
+    // apId setzen
+    if (!localStorage.ap_id) localStorage.ap_id = apId;
+    if (!apId) apId = localStorage.ap_id;
+    // popId setzen
+    if (!localStorage.pop_id) localStorage.pop_id = popId;
+    if (!popId) popId = localStorage.pop_id;
+    // tpopId setzen
+    if (!localStorage.tpop_id) localStorage.tpop_id = tpopId;
+    if (!tpopId) tpopId = localStorage.tpop_id;
+    // feldKontrId setzen
+    if (!localStorage.tpopfeldkontr_id) localStorage.tpopfeldkontr_id = feldKontrId;
+    if (!feldKontrId) feldKontrId = localStorage.tpopfeldkontr_id;
+
+    // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
+    limiter($);
 
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("tpopfeldkontr");
@@ -39,7 +72,7 @@ var returnFunction = function () {
     // Daten für die tpopfeldkontr aus der DB holen
     $.ajax({
         type:     'get',
-        url:      'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + localStorage.tpopfeldkontr_id,
+        url:      'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + feldKontrId,
         dataType: 'json'
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
@@ -63,52 +96,27 @@ var returnFunction = function () {
             $("#TPopKontrAnz3").val(data.TPopKontrAnz3);
             $("#TPopKontrTxt").val(data.TPopKontrTxt);
             $("#TPopKontrGuid").val(data.TPopKontrGuid);
+
             // Adressen holen, um TPopKontrBearb zu füllen
             getAdressenHtml(function (html) {
                 $("#TPopKontrBearb")
                     .html(html)
                     .val(window.apf.tpopfeldkontr.TPopKontrBearb);
             });
-            // für 3 selectfelder TPopKontrZaehleinheit Daten holen - oder vorhandene nutzen
-            if (!window.apf.TPopKontrZähleinheit_html) {
-                $.ajax({
-                    type:     'get',
-                    url:      'api/v1/feldkontrZaehleinheit',
-                    dataType: 'json'
-                }).done(function (data3) {
-                    if (data3 && data3.length > 0) {
-                        // Feld mit Daten beliefern
-                        var html;
-                        html = "<option></option>";
-                        _.each(data3, function (zähleinheit) {
-                            html += "<option value=\"" + zähleinheit.id + "\">" + zähleinheit.ZaehleinheitTxt + "</option>";
-                        });
-                        window.apf.TPopKontrZähleinheit_html = html;
 
-                        // alle 3 Felder setzen
-                        $("#TPopKontrZaehleinheit1")
-                            .html(html)
-                            .val(window.apf.tpopfeldkontr.TPopKontrZaehleinheit1);
-                        $("#TPopKontrZaehleinheit2")
-                            .html(html)
-                            .val(window.apf.tpopfeldkontr.TPopKontrZaehleinheit2);
-                        $("#TPopKontrZaehleinheit3")
-                            .html(html)
-                            .val(window.apf.tpopfeldkontr.TPopKontrZaehleinheit3);
-                    }
-                });
-            } else {
+            // für 3 selectfelder TPopKontrZaehleinheit Daten holen - oder vorhandene nutzen
+            getZaehleinheitenHtml(function (html) {
                 // alle 3 Felder setzen
                 $("#TPopKontrZaehleinheit1")
-                    .html(window.apf.TPopKontrZähleinheit_html)
+                    .html(html)
                     .val(window.apf.tpopfeldkontr.TPopKontrZaehleinheit1);
                 $("#TPopKontrZaehleinheit2")
-                    .html(window.apf.TPopKontrZähleinheit_html)
+                    .html(html)
                     .val(window.apf.tpopfeldkontr.TPopKontrZaehleinheit2);
                 $("#TPopKontrZaehleinheit3")
-                    .html(window.apf.TPopKontrZähleinheit_html)
+                    .html(html)
                     .val(window.apf.tpopfeldkontr.TPopKontrZaehleinheit3);
-            }
+            });
 
             // Felder, die nur in der Feldkontrolle vorkommen
             if (!localStorage.tpopfreiwkontr) {
@@ -273,9 +281,9 @@ var returnFunction = function () {
             // Formulare blenden
             window.apf.zeigeFormular("tpopfeldkontr");
             if (!localStorage.tpopfreiwkontr) {
-                history.replaceState({tpopfeldkontr: "tpopfeldkontr"}, "tpopfeldkontr", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopfeldkontr=" + localStorage.tpopfeldkontr_id);
+                history.replaceState({tpopfeldkontr: "tpopfeldkontr"}, "tpopfeldkontr", "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopfeldkontr=" + feldKontrId);
             } else {
-                history.replaceState({tpopfreiwkontr: "tpopfreiwkontr"}, "tpopfreiwkontr", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopfreiwkontr=" + localStorage.tpopfeldkontr_id);
+                history.replaceState({tpopfreiwkontr: "tpopfreiwkontr"}, "tpopfreiwkontr", "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopfreiwkontr=" + feldKontrId);
             }
 
             // Register in Feldkontr blenden
