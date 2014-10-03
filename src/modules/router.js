@@ -2,8 +2,8 @@
 
 var $ = require('jquery'),
     Backbone = require('backbone'),
-    initiiereAp = require('./modules/initiiereAp'),
-    initiiereIndex = require('./modules/initiiereIndex');
+    initiiereAp = require('./initiiereAp'),
+    initiiereIndex = require('./initiiereIndex');
 
 var returnFunction = function() {
     var router = new Backbone.Router.extend({
