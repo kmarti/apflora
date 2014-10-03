@@ -3,14 +3,14 @@
 var $ = require('jquery'),
     _ = require('underscore');
 
-var returnFunction = function() {
-    if (!localStorage.ap_id) {
+var returnFunction = function(apId) {
+    if (!localStorage.ap_id && !apId) {
         // es fehlen benötigte Daten > zurück zum Anfang
-        // LIEGT HIER DER WURM BEGRABEN?
-        // ACHTUNG, DIESE ZEILE VERURSACHTE STARTABSTÜRZE IN FIREFOX UND ZT OFFENBAR AUCH IN CHROME, DA REKURSIV IMMER WIEDER INITIIERE_INDEX AUFGERUFEN WURDE
-        //window.apf.initiiere_index();
-        //history.replaceState({ap: "keinap"}, "keinap", "index.html");
         return;
+    }
+
+    if (apId) {
+        localStorage.ap_id = apId;
     }
 
     // Programm-Wahl konfigurieren

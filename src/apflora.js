@@ -3,8 +3,7 @@ window.apf = window.apf || {};
 window.apf.gmap = window.apf.gmap || {};
 window.apf.olmap = window.apf.olmap || {};
 
-// hier als global gründen, weil es in index.html benutzt wird
-window.apf.initiiereIndex = require('./modules/initiiereIndex');
+window.apf.router = require('./modules/router');
 
 // setzt window.apf und localStorage.ap_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
