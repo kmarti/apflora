@@ -24412,12 +24412,11 @@ window.apf.erstelle_tree = function(ApArtId) {
                 });
             }
             if (ziel_node_typ === "tpop_ordner_massn") {
-                var fügeTPopMassnEin_2 = $.ajax({
+                $.ajax({
                     type: 'post',
                     url: 'api/v1/update/apflora/tabelle=tblTeilPopMassnahme/tabelleIdFeld=TPopId/tabelleId=' + ziel_node_id + '/feld=TPopMassnId/wert=' + herkunft_node_id + '/user=' + sessionStorage.User,
                     dataType: 'json'
-                });
-                fügeTPopMassnEin_2.done(function() {
+                }).done(function() {
                     var initiiereTPopMassn = require('./modules/initiiereTPopMassn');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpopmassn(ziel_node);
@@ -24431,21 +24430,18 @@ window.apf.erstelle_tree = function(ApArtId) {
                     delete window.apf.tpopmassn_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
                     initiiereTPopMassn();
-                });
-                fügeTPopMassnEin_2.fail(function(data) {
-                    //window.apf.melde("Fehler: Die Massnahme wurde nicht verschoben");
-                    console.log("Fehler: Die Massnahme wurde nicht verschoben");
+                }).fail(function() {
+                    window.apf.melde("Fehler: Die Massnahme wurde nicht verschoben");
                 });
             }
         }
         if (herkunft_node_typ === "tpopfeldkontr") {
             if (ziel_node_typ === "tpopfeldkontr") {
-                var fügeTPopFeldkontrEin = $.ajax({
+                $.ajax({
                     type: 'post',
                     url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + ziel_parent_node_id + '/user=' + sessionStorage.User,
                     dataType: 'json'
-                });
-                fügeTPopFeldkontrEin.done(function() {
+                }).done(function() {
                     var initiiereTPopFeldkontr  = require('./modules/initiiereTPopFeldkontr');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpopfeldkontr(ziel_parent_node);
@@ -24459,19 +24455,16 @@ window.apf.erstelle_tree = function(ApArtId) {
                     delete window.apf.tpopfeldkontr_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
                     initiiereTPopFeldkontr();
-                });
-                fügeTPopFeldkontrEin.fail(function(data) {
-                    //window.apf.melde("Fehler: Die Feldkontrolle wurde nicht verschoben");
-                    console.log('Fehler: Die Feldkontrolle wurde nicht verschoben');
+                }).fail(function() {
+                    window.apf.melde("Fehler: Die Feldkontrolle wurde nicht verschoben");
                 });
             }
             if (ziel_node_typ === "tpop_ordner_feldkontr") {
-                var fügeTPopFeldkontrEin_2 = $.ajax({
+                $.ajax({
                     type: 'post',
                     url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + ziel_node_id + '/user=' + sessionStorage.User,
                     dataType: 'json'
-                });
-                fügeTPopFeldkontrEin_2.done(function() {
+                }).done(function() {
                     var initiiereTPopFeldkontr  = require('./modules/initiiereTPopFeldkontr');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpopfeldkontr(ziel_node);
@@ -24485,21 +24478,18 @@ window.apf.erstelle_tree = function(ApArtId) {
                     delete window.apf.tpopfeldkontr_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
                     initiiereTPopFeldkontr();
-                });
-                fügeTPopFeldkontrEin_2.fail(function() {
-                    //window.apf.melde("Fehler: Die Feldkontrolle wurde nicht verschoben");
-                    console.log('Fehler: Die Feldkontrolle wurde nicht verschoben');
+                }).fail(function() {
+                    window.apf.melde("Fehler: Die Feldkontrolle wurde nicht verschoben");
                 });
             }
         }
         if (herkunft_node_typ === "tpopfreiwkontr") {
             if (ziel_node_typ === "tpopfreiwkontr") {
-                var fügeTPopFeldkontrEin_3 = $.ajax({
+                $.ajax({
                     type: 'post',
                     url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + ziel_parent_node_id + '/user=' + sessionStorage.User,
                     dataType: 'json'
-                });
-                fügeTPopFeldkontrEin_3.done(function() {
+                }).done(function() {
                     var initiiereTPopFeldkontr  = require('./modules/initiiereTPopFeldkontr');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpopfreiwkontr(ziel_parent_node);
@@ -24514,10 +24504,8 @@ window.apf.erstelle_tree = function(ApArtId) {
                     delete window.apf.herkunft_parent_node;
                     localStorage.tpopfreiwkontr = true;
                     initiiereTPopFeldkontr();
-                });
-                fügeTPopFeldkontrEin_3.fail(function() {
-                    //window.apf.melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben");
-                    console.log('Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben');
+                }).fail(function() {
+                    window.apf.melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben");
                 });
             }
             if (ziel_node_typ === "tpop_ordner_freiwkontr") {
