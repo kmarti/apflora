@@ -10305,7 +10305,7 @@ window.apf.erstelleGuid = function () {
         return v.toString(16);
     });
 };
-},{"./lib/cHtoWGSlat":7,"./lib/cHtoWGSlng":8,"./lib/ddInChX":10,"./lib/ddInChY":11,"./modules/configuration":21,"./modules/initiiereAp":24,"./modules/initiiereApziel":25,"./modules/initiiereAssozart":26,"./modules/initiiereBeob":27,"./modules/initiiereBer":28,"./modules/initiiereErfkrit":29,"./modules/initiiereFormularMitStrukturtyp":30,"./modules/initiiereIdealbiotop":31,"./modules/initiiereIndex":32,"./modules/initiiereJber":33,"./modules/initiiereJberUebersicht":34,"./modules/initiierePop":35,"./modules/initiierePopBer":36,"./modules/initiierePopMassnBer":37,"./modules/initiiereTPop":38,"./modules/initiiereTPopBer":39,"./modules/initiiereTPopFeldkontr":40,"./modules/initiiereTPopMassn":41,"./modules/initiiereTPopMassnBer":42,"./modules/initiiereZielber":43,"./modules/zeigeTPop":44}],2:[function(require,module,exports){
+},{"./lib/cHtoWGSlat":7,"./lib/cHtoWGSlng":8,"./lib/ddInChX":10,"./lib/ddInChY":11,"./modules/configuration":21,"./modules/initiiereAp":25,"./modules/initiiereApziel":26,"./modules/initiiereAssozart":27,"./modules/initiiereBeob":28,"./modules/initiiereBer":29,"./modules/initiiereErfkrit":30,"./modules/initiiereFormularMitStrukturtyp":31,"./modules/initiiereIdealbiotop":32,"./modules/initiiereIndex":33,"./modules/initiiereJber":34,"./modules/initiiereJberUebersicht":35,"./modules/initiierePop":36,"./modules/initiierePopBer":37,"./modules/initiierePopMassnBer":38,"./modules/initiiereTPop":39,"./modules/initiiereTPopBer":40,"./modules/initiiereTPopFeldkontr":41,"./modules/initiiereTPopMassn":42,"./modules/initiiereTPopMassnBer":43,"./modules/initiiereZielber":44,"./modules/zeigeTPop":45}],2:[function(require,module,exports){
 module.exports={
     "user": "alexande",
     "pass": "y3oYksFsQL49es9x"
@@ -36642,6 +36642,45 @@ var returnFunction = function (callback) {
 module.exports = returnFunction;
 },{"jquery":5,"underscore":6}],23:[function(require,module,exports){
 /**
+ * baut das html für die Dropdown-Liste der Delarze-Lebensräume
+ * wird in mehreren Felder benutzt
+ * speichert die Liste in window.apf.lrdelarze_html
+ * um wiederholte DB-Zugriffe zu vermeiden
+ * nimmt eine callback-Funktion entgegen
+ * diser wird das generierte html übergeben
+ */
+
+'use strict';
+
+var $ = require('jquery'),
+    _ = require('underscore');
+
+var returnFunction = function (callback) {
+    var html = '';
+
+    if (!window.apf.lrdelarze_html) {
+        $.ajax({
+            type: 'get',
+            url: 'api/v1/lrDelarze',
+            dataType: 'json'
+        }).done(function (data) {
+            if (data) {
+                // Feld mit Daten beliefern
+                html = "<option></option>";
+                _.each(data, function (lr) {
+                    html += "<option value=\"" + lr.id + "\">" + lr.Einheit + "</option>";
+                });
+                window.apf.lrdelarze_html = html;
+            }
+            callback(html);
+        });
+    }
+    callback(window.apf.lrdelarze_html);
+};
+
+module.exports = returnFunction;
+},{"jquery":5,"underscore":6}],24:[function(require,module,exports){
+/**
  * baut das html für die Dropdown-Liste der Zähleinheiten
  * wird in mehreren Felder benutzt
  * speichert die Liste in window.apf.TPopKontrZähleinheit_html
@@ -36666,7 +36705,6 @@ var returnFunction = function (callback) {
         }).done(function (data) {
             if (data && data.length > 0) {
                 // Feld mit Daten beliefern
-                var html;
                 html = "<option></option>";
                 _.each(data, function (zähleinheit) {
                     html += "<option value=\"" + zähleinheit.id + "\">" + zähleinheit.ZaehleinheitTxt + "</option>";
@@ -36676,11 +36714,11 @@ var returnFunction = function (callback) {
             callback(html);
         });
     }
-    callback(window.apf.adressen_html);
+    callback(window.apf.TPopKontrZähleinheit_html);
 };
 
 module.exports = returnFunction;
-},{"jquery":5,"underscore":6}],24:[function(require,module,exports){
+},{"jquery":5,"underscore":6}],25:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
@@ -36749,7 +36787,7 @@ var returnFunction = function (apId) {
 };
 
 module.exports = returnFunction;
-},{"./getAdressenHtml":22,"./initiiereIndex":32,"jquery":5,"underscore":6}],25:[function(require,module,exports){
+},{"./getAdressenHtml":22,"./initiiereIndex":33,"jquery":5,"underscore":6}],26:[function(require,module,exports){
 'use strict';
 
 var $              = require('jquery'),
@@ -36819,7 +36857,7 @@ var returnFunction = function (apId, apZielId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":24,"./initiiereIndex":32,"jquery":5}],26:[function(require,module,exports){
+},{"./initiiereAp":25,"./initiiereIndex":33,"jquery":5}],27:[function(require,module,exports){
 'use strict';
 
 var $              = require('jquery'),
@@ -36892,7 +36930,7 @@ var returnFunction = function (apId, assozId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":24,"./initiiereIndex":32,"jquery":5}],27:[function(require,module,exports){
+},{"./initiiereAp":25,"./initiiereIndex":33,"jquery":5}],28:[function(require,module,exports){
 'use strict';
 
 var $                     = require('jquery'),
@@ -37061,7 +37099,7 @@ var returnFunction = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
 };
 
 module.exports = returnFunction;
-},{"../lib/capitaliseFirstLetter":9,"./initiiereAp":24,"./initiiereBeob":27,"jquery":5,"underscore":6}],28:[function(require,module,exports){
+},{"../lib/capitaliseFirstLetter":9,"./initiiereAp":25,"./initiiereBeob":28,"jquery":5,"underscore":6}],29:[function(require,module,exports){
 'use strict';
 
 var $ = jQuery     = require('jquery'),
@@ -37157,7 +37195,7 @@ var initiiereBer = function (apId, berId) {
 };
 
 module.exports = initiiereBer;
-},{"../lib/limiter":18,"./initiiereAp":24,"./initiiereIndex":32,"jquery":5}],29:[function(require,module,exports){
+},{"../lib/limiter":18,"./initiiereAp":25,"./initiiereIndex":33,"jquery":5}],30:[function(require,module,exports){
 'use strict';
 
 var $              = require('jquery'),
@@ -37236,7 +37274,7 @@ var returnFunction = function (apId, erfkritId) {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":18,"./initiiereAp":24,"./initiiereIndex":32,"jquery":5}],30:[function(require,module,exports){
+},{"../lib/limiter":18,"./initiiereAp":25,"./initiiereIndex":33,"jquery":5}],31:[function(require,module,exports){
 'use strict';
 
 /**
@@ -37285,7 +37323,7 @@ var returnFunction = function (strukturtyp) {
 };
 
 module.exports = returnFunction;
-},{"./configuration":21,"./initiiereAp":24,"./initiiereApziel":25,"./initiiereAssozart":26,"./initiiereBer":28,"./initiiereErfkrit":29,"./initiiereIdealbiotop":31,"./initiiereJber":33,"./initiiereJberUebersicht":34,"./initiierePop":35,"./initiierePopBer":36,"./initiierePopMassnBer":37,"./initiiereTPop":38,"./initiiereTPopBer":39,"./initiiereTPopFeldkontr":40,"./initiiereTPopMassn":41,"./initiiereTPopMassnBer":42,"./initiiereZielber":43}],31:[function(require,module,exports){
+},{"./configuration":21,"./initiiereAp":25,"./initiiereApziel":26,"./initiiereAssozart":27,"./initiiereBer":29,"./initiiereErfkrit":30,"./initiiereIdealbiotop":32,"./initiiereJber":34,"./initiiereJberUebersicht":35,"./initiierePop":36,"./initiierePopBer":37,"./initiierePopMassnBer":38,"./initiiereTPop":39,"./initiiereTPopBer":40,"./initiiereTPopFeldkontr":41,"./initiiereTPopMassn":42,"./initiiereTPopMassnBer":43,"./initiiereZielber":44}],32:[function(require,module,exports){
 'use strict';
 
 var $                    = require('jquery'),
@@ -37380,7 +37418,7 @@ var initiiereIdealbiotop = function (apId) {
 };
 
 module.exports = initiiereIdealbiotop;
-},{"./initiiereAp":24,"./initiiereIndex":32,"dateformat":3,"jquery":5}],32:[function(require,module,exports){
+},{"./initiiereAp":25,"./initiiereIndex":33,"dateformat":3,"jquery":5}],33:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -37465,7 +37503,7 @@ var returnFunction = function () {
 };
 
 module.exports = returnFunction;
-},{"jquery":5,"jquery-ui":4}],33:[function(require,module,exports){
+},{"jquery":5,"jquery-ui":4}],34:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
@@ -37567,7 +37605,7 @@ var returnFunction = function (apId, apBerId) {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":18,"./getAdressenHtml":22,"./initiiereAp":24,"./initiiereIndex":32,"dateformat":3,"jquery":5,"underscore":6}],34:[function(require,module,exports){
+},{"../lib/limiter":18,"./getAdressenHtml":22,"./initiiereAp":25,"./initiiereIndex":33,"dateformat":3,"jquery":5,"underscore":6}],35:[function(require,module,exports){
 'use strict';
 
 var $              = require('jquery'),
@@ -37641,7 +37679,7 @@ var returnFunction = function (apId, uebId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":24,"./initiiereIndex":32,"jquery":5}],35:[function(require,module,exports){
+},{"./initiiereAp":25,"./initiiereIndex":33,"jquery":5}],36:[function(require,module,exports){
 'use strict';
 
 var $              = require('jquery'),
@@ -37736,7 +37774,7 @@ var returnFunction = function (apId, popId, ohne_zu_zeigen) {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":18,"./initiiereAp":24,"./initiiereIndex":32,"jquery":5}],36:[function(require,module,exports){
+},{"../lib/limiter":18,"./initiiereAp":25,"./initiiereIndex":33,"jquery":5}],37:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
@@ -37818,7 +37856,7 @@ var returnFunction = function (apId, popId, popberId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":24,"./initiiereIndex":32,"./initiierePop":35,"jquery":5}],37:[function(require,module,exports){
+},{"./initiiereAp":25,"./initiiereIndex":33,"./initiierePop":36,"jquery":5}],38:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
@@ -37902,7 +37940,7 @@ var returnFunction = function (apId, popId, massnberId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":24,"./initiiereIndex":32,"./initiierePop":35,"jquery":5}],38:[function(require,module,exports){
+},{"./initiiereAp":25,"./initiiereIndex":33,"./initiierePop":36,"jquery":5}],39:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
@@ -38042,7 +38080,7 @@ var returnFunction = function (apId, popId, tpopId, ohne_zu_zeigen) {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":18,"./getAdressenHtml":22,"./initiiereAp":24,"./initiiereIndex":32,"./initiierePop":35,"jquery":5,"underscore":6}],39:[function(require,module,exports){
+},{"../lib/limiter":18,"./getAdressenHtml":22,"./initiiereAp":25,"./initiiereIndex":33,"./initiierePop":36,"jquery":5,"underscore":6}],40:[function(require,module,exports){
 'use strict';
 
 var $              = require('jquery'),
@@ -38119,7 +38157,7 @@ var returnFunction = function (apId, popId, tpopId, tpopBerId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":24,"./initiiereIndex":32,"./initiierePop":35,"./initiiereTPop":38,"jquery":5}],40:[function(require,module,exports){
+},{"./initiiereAp":25,"./initiiereIndex":33,"./initiierePop":36,"./initiiereTPop":39,"jquery":5}],41:[function(require,module,exports){
 // wird gemeinsam für Feld- und Freiwilligenkontrollen verwendet
 // Feldkontrollen: Felder der Freiwilligenkontrollen ausblenden
 // Freiwilligenkontrollen: Felder der Feldkontrollen ausblenen plus Register Biotop
@@ -38135,7 +38173,8 @@ var $                     = require('jquery'),
     initiierePop          = require('./initiierePop'),
     initiiereTPop         = require('./initiiereTPop'),
     getAdressenHtml       = require('./getAdressenHtml'),
-    getZaehleinheitenHtml = require('./getZaehleinheitenHtml');
+    getZaehleinheitenHtml = require('./getZaehleinheitenHtml'),
+    getLrDelarzeHtml      = require('./getLrDelarzeHtml');
 
 require('jquery-ui');
 
@@ -38304,37 +38343,16 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId) {
                     .limiter(255, $("#TPopKontrWasserhaushalt_limit"));
                 $("#TPopKontrHandlungsbedarf").val(data.TPopKontrHandlungsbedarf);
                 $("#TPopKontrIdealBiotopUebereinst" + data.TPopKontrIdealBiotopUebereinst).prop("checked", true);
+                
                 // TPopKontrLeb: Daten holen - oder vorhandene nutzen
-                if (!window.apf.lrdelarze_html) {
-                    $.ajax({
-                        type:     'get',
-                        url:      'api/v1/lrDelarze',
-                        dataType: 'json'
-                    }).done(function (data4) {
-                        if (data4) {
-                            // Feld mit Daten beliefern
-                            var html;
-                            html = "<option></option>";
-                            _.each(data4, function (lr) {
-                                html += "<option value=\"" + lr.id + "\">" + lr.Einheit + "</option>";
-                            });
-                            window.apf.lrdelarze_html = html;
-                            $("#TPopKontrLeb")
-                                .html(html)
-                                .val(window.apf.tpopfeldkontr.TPopKontrLeb);
-                            $("#TPopKontrLebUmg")
-                                .html(html)
-                                .val(window.apf.tpopfeldkontr.TPopKontrLebUmg);
-                        }
-                    });
-                } else {
+                getLrDelarzeHtml(function (html) {
                     $("#TPopKontrLeb")
-                        .html(window.apf.lrdelarze_html)
+                        .html(html)
                         .val(window.apf.tpopfeldkontr.TPopKontrLeb);
                     $("#TPopKontrLebUmg")
-                        .html(window.apf.lrdelarze_html)
+                        .html(html)
                         .val(window.apf.tpopfeldkontr.TPopKontrLebUmg);
-                }
+                });
             }
             // TPopKontrIdealBiotopUebereinst: Daten holen - oder vorhandene nutzen
             if (!window.apf.IdealBiotopÜbereinst_html) {
@@ -38430,7 +38448,7 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId) {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":18,"./getAdressenHtml":22,"./getZaehleinheitenHtml":23,"./initiiereAp":24,"./initiiereIndex":32,"./initiierePop":35,"./initiiereTPop":38,"dateformat":3,"jquery":5,"jquery-ui":4,"underscore":6}],41:[function(require,module,exports){
+},{"../lib/limiter":18,"./getAdressenHtml":22,"./getLrDelarzeHtml":23,"./getZaehleinheitenHtml":24,"./initiiereAp":25,"./initiiereIndex":33,"./initiierePop":36,"./initiiereTPop":39,"dateformat":3,"jquery":5,"jquery-ui":4,"underscore":6}],42:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
@@ -38554,7 +38572,7 @@ var returnFunction = function () {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":18,"./getAdressenHtml":22,"./initiierePop":35,"dateformat":3,"jquery":5,"underscore":6}],42:[function(require,module,exports){
+},{"../lib/limiter":18,"./getAdressenHtml":22,"./initiierePop":36,"dateformat":3,"jquery":5,"underscore":6}],43:[function(require,module,exports){
 'use strict';
 
 var $            = require('jquery'),
@@ -38599,7 +38617,7 @@ var returnFunction = function () {
 };
 
 module.exports = returnFunction;
-},{"./initiierePop":35,"jquery":5}],43:[function(require,module,exports){
+},{"./initiierePop":36,"jquery":5}],44:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
@@ -38687,7 +38705,7 @@ var returnFunction = function (apId, apZielId, zielberId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":24,"./initiiereApziel":25,"./initiiereIndex":32,"jquery":5}],44:[function(require,module,exports){
+},{"./initiiereAp":25,"./initiiereApziel":26,"./initiiereIndex":33,"jquery":5}],45:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),

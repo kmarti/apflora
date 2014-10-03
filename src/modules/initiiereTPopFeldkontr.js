@@ -13,7 +13,8 @@ var $                     = require('jquery'),
     initiierePop          = require('./initiierePop'),
     initiiereTPop         = require('./initiiereTPop'),
     getAdressenHtml       = require('./getAdressenHtml'),
-    getZaehleinheitenHtml = require('./getZaehleinheitenHtml');
+    getZaehleinheitenHtml = require('./getZaehleinheitenHtml'),
+    getLrDelarzeHtml      = require('./getLrDelarzeHtml');
 
 require('jquery-ui');
 
@@ -182,37 +183,16 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId) {
                     .limiter(255, $("#TPopKontrWasserhaushalt_limit"));
                 $("#TPopKontrHandlungsbedarf").val(data.TPopKontrHandlungsbedarf);
                 $("#TPopKontrIdealBiotopUebereinst" + data.TPopKontrIdealBiotopUebereinst).prop("checked", true);
+                
                 // TPopKontrLeb: Daten holen - oder vorhandene nutzen
-                if (!window.apf.lrdelarze_html) {
-                    $.ajax({
-                        type:     'get',
-                        url:      'api/v1/lrDelarze',
-                        dataType: 'json'
-                    }).done(function (data4) {
-                        if (data4) {
-                            // Feld mit Daten beliefern
-                            var html;
-                            html = "<option></option>";
-                            _.each(data4, function (lr) {
-                                html += "<option value=\"" + lr.id + "\">" + lr.Einheit + "</option>";
-                            });
-                            window.apf.lrdelarze_html = html;
-                            $("#TPopKontrLeb")
-                                .html(html)
-                                .val(window.apf.tpopfeldkontr.TPopKontrLeb);
-                            $("#TPopKontrLebUmg")
-                                .html(html)
-                                .val(window.apf.tpopfeldkontr.TPopKontrLebUmg);
-                        }
-                    });
-                } else {
+                getLrDelarzeHtml(function (html) {
                     $("#TPopKontrLeb")
-                        .html(window.apf.lrdelarze_html)
+                        .html(html)
                         .val(window.apf.tpopfeldkontr.TPopKontrLeb);
                     $("#TPopKontrLebUmg")
-                        .html(window.apf.lrdelarze_html)
+                        .html(html)
                         .val(window.apf.tpopfeldkontr.TPopKontrLebUmg);
-                }
+                });
             }
             // TPopKontrIdealBiotopUebereinst: Daten holen - oder vorhandene nutzen
             if (!window.apf.IdealBiotopÜbereinst_html) {
