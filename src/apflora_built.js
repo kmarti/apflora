@@ -61549,24 +61549,25 @@ var returnFunction = function (apId, popId, tpopId, massnId) {
             // für TPopMassnAnsiedWirtspfl wurde die Artliste schon bereitgestellt
             // wenn die Anwendung direkt auf einer TPopMassn geöffnet wird, ist die Liste noch nicht bereit
             // darum hier nochmals holen
+            // TODO: kann das optimiert werden? (nicht auf Artlisten warten)
             $.when(window.apf.erstelle_artlisten())
-                .then(function () {
-                    $("#TPopMassnAnsiedWirtspfl").val(data.TPopMassnAnsiedWirtspfl);
-                    $("#TPopMassnAnsiedHerkunftPop")
-                        .val(data.TPopMassnAnsiedHerkunftPop)
-                        .limiter(255, $("#TPopMassnAnsiedHerkunftPop_limit"));
-                    $("#TPopMassnAnsiedDatSamm")
-                        .val(data.TPopMassnAnsiedDatSamm)
-                        .limiter(50, $("#TPopMassnAnsiedDatSamm_limit"));
-                    $("#TPopMassnGuid").val(data.TPopMassnGuid);
+            .then(function () {
+                $("#TPopMassnAnsiedWirtspfl").val(data.TPopMassnAnsiedWirtspfl);
+                $("#TPopMassnAnsiedHerkunftPop")
+                    .val(data.TPopMassnAnsiedHerkunftPop)
+                    .limiter(255, $("#TPopMassnAnsiedHerkunftPop_limit"));
+                $("#TPopMassnAnsiedDatSamm")
+                    .val(data.TPopMassnAnsiedDatSamm)
+                    .limiter(50, $("#TPopMassnAnsiedDatSamm_limit"));
+                $("#TPopMassnGuid").val(data.TPopMassnGuid);
 
-                    // Formulare blenden
-                    window.apf.zeigeFormular("tpopmassn");
-                    history.replaceState({tpopmassn: "tpopmassn"}, "tpopmassn", "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopmassn=" + massnId);
+                // Formulare blenden
+                window.apf.zeigeFormular("tpopmassn");
+                history.replaceState({tpopmassn: "tpopmassn"}, "tpopmassn", "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopmassn=" + massnId);
 
-                    // bei neuen Datensätzen Fokus steuern
-                    $('#TPopMassnJahr').focus();
-                });
+                // bei neuen Datensätzen Fokus steuern
+                $('#TPopMassnJahr').focus();
+            });
         }
     }).fail(function () {
         window.apf.melde('Fehler: keine Daten für die Massnahme erhalten');
