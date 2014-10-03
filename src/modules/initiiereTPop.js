@@ -22,33 +22,20 @@ var returnFunction = function (apId, popId, tpopId, ohne_zu_zeigen) {
     }
     if (!tpopId && !localStorage.tpop_id) {
         // es fehlen benötigte Daten > eine Ebene höher
-        initiiereApziel(apId, popId);
+        initiierePop(apId, popId);
         return;
     }
 
     // apId setzen
-    if (!localStorage.ap_id) {
-        localStorage.ap_id = apId;
-    }
-    if (!apId) {
-        apId = localStorage.ap_id;
-    }
-
+    if (!localStorage.ap_id)     localStorage.ap_id = apId;
+    if (!apId)                                 apId = localStorage.ap_id;
     // popId setzen
-    if (!localStorage.pop_id) {
-        localStorage.pop_id = popId;
-    }
-    if (!popId) {
-        popId = localStorage.pop_id;
-    }
+    if (!localStorage.pop_id)   localStorage.pop_id = popId;
+    if (!popId)                               popId = localStorage.pop_id;
 
     // tpopId setzen
-    if (!localStorage.tpop_id) {
-        localStorage.tpop_id = tpopId;
-    }
-    if (!tpopId) {
-        tpopId = localStorage.tpop_id;
-    }
+    if (!localStorage.tpop_id) localStorage.tpop_id = tpopId;
+    if (!tpopId)                             tpopId = localStorage.tpop_id;
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     limiter($);

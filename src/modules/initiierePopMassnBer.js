@@ -19,7 +19,7 @@ var returnFunction = function (apId, popId, massnberId) {
     }
     if (!massnberId && !localStorage.popmassnber_id) {
         // es fehlen benötigte Daten > eine Ebene höher
-        initiiereApziel(apId, popId);
+        initiierePop(apId, popId);
         return;
     }
 
