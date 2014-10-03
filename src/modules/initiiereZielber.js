@@ -37,7 +37,7 @@ var returnFunction = function (apId, apZielId, zielberId) {
     if (!localStorage.apziel_id) {
         localStorage.apziel_id = apZielId;
     }
-    if (!zielberId) {
+    if (!apZielId) {
         apZielId = localStorage.apziel_id;
     }
 

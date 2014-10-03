@@ -3,20 +3,57 @@
 var $               = require('jquery'),
     _               = require('underscore'),
     limiter         = require('../lib/limiter'),
+    initiiereIndex  = require('./initiiereIndex'),
+    initiiereAp     = require('./initiiereAp'),
     initiierePop    = require('./initiierePop'),
     getAdressenHtml = require('./getAdressenHtml');
 
-var returnFunction = function (ohne_zu_zeigen) {
+var returnFunction = function (apId, popId, tpopId, ohne_zu_zeigen) {
+    // prüfen, ob voraussetzungen gegeben sind
+    if (!apId && !localStorage.ap_id) {
+        // Anwendung neu initiieren
+        initiiereIndex();
+        return;
+    }
+    if (!popId && !localStorage.pop_id) {
+        // es fehlen benötigte Daten > zwei Ebenen höher
+        initiiereAp(apId);
+        return;
+    }
+    if (!tpopId && !localStorage.tpop_id) {
+        // es fehlen benötigte Daten > eine Ebene höher
+        initiiereApziel(apId, popId);
+        return;
+    }
+
+    // apId setzen
+    if (!localStorage.ap_id) {
+        localStorage.ap_id = apId;
+    }
+    if (!apId) {
+        apId = localStorage.ap_id;
+    }
+
+    // popId setzen
+    if (!localStorage.pop_id) {
+        localStorage.pop_id = popId;
+    }
+    if (!popId) {
+        popId = localStorage.pop_id;
+    }
+
+    // tpopId setzen
+    if (!localStorage.tpop_id) {
+        localStorage.tpop_id = tpopId;
+    }
+    if (!tpopId) {
+        tpopId = localStorage.tpop_id;
+    }
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     limiter($);
 
     var $TPopFlurname = $("#TPopFlurname");
-    if (!localStorage.tpop_id) {
-        // es fehlen benötigte Daten > eine Ebene höher
-        initiierePop();
-        return;
-    }
 
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("tpop");
@@ -24,7 +61,7 @@ var returnFunction = function (ohne_zu_zeigen) {
     // Daten für die pop aus der DB holen
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + localStorage.tpop_id,
+        url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + tpopId,
         dataType: 'json'
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
@@ -40,7 +77,7 @@ var returnFunction = function (ohne_zu_zeigen) {
                 .limiter(255, $("#TPopFlurname_limit"));
             $("#TPopNr").val(data.TPopNr);
             $("#TPopHerkunft" + data.TPopHerkunft).prop("checked", true);
-            if (data.TPopHerkunftUnklar == 1) {
+            if (data.TPopHerkunftUnklar === 1) {
                 $("#TPopHerkunftUnklar").prop("checked", true);
             } else {
                 $("#TPopHerkunftUnklar").prop("checked", false);
@@ -100,7 +137,7 @@ var returnFunction = function (ohne_zu_zeigen) {
             // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
             if (!ohne_zu_zeigen) {
                 window.apf.zeigeFormular("tpop");
-                history.replaceState({tpop: "tpop"}, "tpop", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id);
+                history.replaceState({tpop: "tpop"}, "tpop", "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId);
 
                 // bei neuen Datensätzen Fokus steuern
                 if (!$TPopFlurname.val()) {

@@ -86,6 +86,8 @@ var returnFunction = function (apId, popId, ohne_zu_zeigen) {
                 }
             }
         }
+    }).fail(function () {
+        window.apf.melde('Fehler: Keine Daten für die Population erhalten');
     });
 };
 

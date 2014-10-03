@@ -11,7 +11,10 @@ var Backbone                = require('backbone'),
     initiiereErfkrit        = require('./initiiereErfkrit'),
     initiiereApziel         = require('./initiiereApziel'),
     initiiereZielber        = require('./initiiereZielber'),
-    initiierePop            = require('./initiierePop');
+    initiierePop            = require('./initiierePop'),
+    initiierePopMassnBer    = require('./initiierePopMassnBer'),
+    initiierePopBer         = require('./initiierePopBer'),
+    initiiereTPop           = require('./initiiereTPop');
 
 var returnFunction = function () {
     var router = new Backbone.Router.extend({
@@ -78,10 +81,13 @@ var returnFunction = function () {
             initiierePop(apId, popId);
         },
         popMassnBer: function (apId, popId, massnberId) {
+            initiierePopMassnBer(apId, popId, massnberId);
         },
         popBer: function (apId, popId, popberId) {
+            initiierePopBer(apId, popId, popberId);
         },
         tpop: function (apId, popId, tpopId) {
+            initiiereTPop(apId, popId, tpopId);
         },
         beobZugeordnet: function (apId, popId, tpopId, beobId) {
         },

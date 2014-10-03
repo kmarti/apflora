@@ -60604,6 +60604,8 @@ var returnFunction = function (apId, popId, ohne_zu_zeigen) {
                 }
             }
         }
+    }).fail(function () {
+        window.apf.melde('Fehler: Keine Daten für die Population erhalten');
     });
 };
 
@@ -60611,14 +60613,51 @@ module.exports = returnFunction;
 },{"../lib/limiter":18,"./initiiereAp":23,"./initiiereIndex":31,"jquery":5}],35:[function(require,module,exports){
 'use strict';
 
-var $            = require('jquery'),
-    initiierePop = require('./initiierePop');
+var $               = require('jquery'),
+    initiiereIndex  = require('./initiiereIndex'),
+    initiiereAp     = require('./initiiereAp'),
+    initiierePop    = require('./initiierePop');
 
-var returnFunction = function () {
-    if (!localStorage.popber_id) {
-        // es fehlen benötigte Daten > eine Ebene höher
-        initiierePop();
+var returnFunction = function (apId, popId, popberId) {
+    // prüfen, ob voraussetzungen gegeben sind
+    if (!apId && !localStorage.ap_id) {
+        // Anwendung neu initiieren
+        initiiereIndex();
         return;
+    }
+    if (!popId && !localStorage.pop_id) {
+        // es fehlen benötigte Daten > zwei Ebenen höher
+        initiiereAp(apId);
+        return;
+    }
+    if (!popberId && !localStorage.popber_id) {
+        // es fehlen benötigte Daten > eine Ebene höher
+        initiiereApziel(apId, popId);
+        return;
+    }
+
+    // apId setzen
+    if (!localStorage.ap_id) {
+        localStorage.ap_id = apId;
+    }
+    if (!apId) {
+        apId = localStorage.ap_id;
+    }
+
+    // popId setzen
+    if (!localStorage.pop_id) {
+        localStorage.pop_id = popId;
+    }
+    if (!popId) {
+        popId = localStorage.pop_id;
+    }
+
+    // popberId setzen
+    if (!localStorage.popber_id) {
+        localStorage.popber_id = popberId;
+    }
+    if (!popberId) {
+        popberId = localStorage.popber_id;
     }
 
     // Felder zurücksetzen
@@ -60627,7 +60666,7 @@ var returnFunction = function () {
     // Daten für die popber aus der DB holen
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblPopBericht/feld=PopBerId/wertNumber=' + localStorage.popber_id,
+        url: 'api/v1/apflora/tabelle=tblPopBericht/feld=PopBerId/wertNumber=' + popberId,
         dataType: 'json'
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
@@ -60644,7 +60683,7 @@ var returnFunction = function () {
 
             // Formulare blenden
             window.apf.zeigeFormular("popber");
-            history.replaceState({tpopber: "popber"}, "popber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&popber=" + localStorage.popber_id);
+            history.replaceState({tpopber: "popber"}, "popber", "index.html?ap=" + apId + "&pop=" + popId + "&popber=" + popberId);
 
             // bei neuen Datensätzen Fokus steuern
             $('#PopBerJahr').focus();
@@ -60653,17 +60692,54 @@ var returnFunction = function () {
 };
 
 module.exports = returnFunction;
-},{"./initiierePop":34,"jquery":5}],36:[function(require,module,exports){
+},{"./initiiereAp":23,"./initiiereIndex":31,"./initiierePop":34,"jquery":5}],36:[function(require,module,exports){
 'use strict';
 
-var $            = require('jquery'),
-    initiierePop = require('./initiierePop');
+var $               = require('jquery'),
+    initiiereIndex  = require('./initiiereIndex'),
+    initiiereAp     = require('./initiiereAp'),
+    initiierePop    = require('./initiierePop');
 
-var returnFunction = function () {
-    if (!localStorage.popmassnber_id) {
-        // es fehlen benötigte Daten > eine Ebene höher
-        initiierePop();
+var returnFunction = function (apId, popId, massnberId) {
+    // prüfen, ob voraussetzungen gegeben sind
+    if (!apId && !localStorage.ap_id) {
+        // Anwendung neu initiieren
+        initiiereIndex();
         return;
+    }
+    if (!popId && !localStorage.pop_id) {
+        // es fehlen benötigte Daten > zwei Ebenen höher
+        initiiereAp(apId);
+        return;
+    }
+    if (!massnberId && !localStorage.popmassnber_id) {
+        // es fehlen benötigte Daten > eine Ebene höher
+        initiiereApziel(apId, popId);
+        return;
+    }
+
+    // apId setzen
+    if (!localStorage.ap_id) {
+        localStorage.ap_id = apId;
+    }
+    if (!apId) {
+        apId = localStorage.ap_id;
+    }
+
+    // popId setzen
+    if (!localStorage.pop_id) {
+        localStorage.pop_id = popId;
+    }
+    if (!popId) {
+        popId = localStorage.pop_id;
+    }
+
+    // massnberId setzen
+    if (!localStorage.popmassnber_id) {
+        localStorage.popmassnber_id = massnberId;
+    }
+    if (!massnberId) {
+        massnberId = localStorage.popmassnber_id;
     }
 
     // Felder zurücksetzen
@@ -60672,7 +60748,7 @@ var returnFunction = function () {
     // Daten für die pop aus der DB holen
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblPopMassnBericht/feld=PopMassnBerId/wertNumber=' + localStorage.popmassnber_id,
+        url: 'api/v1/apflora/tabelle=tblPopMassnBericht/feld=PopMassnBerId/wertNumber=' + massnberId,
         dataType: 'json'
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
@@ -60689,35 +60765,74 @@ var returnFunction = function () {
 
             // Formulare blenden
             window.apf.zeigeFormular("popmassnber");
-            history.replaceState({popmassnber: "popmassnber"}, "popmassnber", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&popmassnber=" + localStorage.popmassnber_id);
+            history.replaceState({popmassnber: "popmassnber"}, "popmassnber", "index.html?ap=" + apId + "&pop=" + popId + "&popmassnber=" + massnberId);
 
             // bei neuen Datensätzen Fokus steuern
             $('#PopMassnBerJahr').focus();
         }
+    }).fail(function () {
+        window.apf.melde('Fehler: Keine Daten für den Massnahmenbericht erhalten');
     });
 };
 
 module.exports = returnFunction;
-},{"./initiierePop":34,"jquery":5}],37:[function(require,module,exports){
+},{"./initiiereAp":23,"./initiiereIndex":31,"./initiierePop":34,"jquery":5}],37:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
     _               = require('underscore'),
     limiter         = require('../lib/limiter'),
+    initiiereIndex  = require('./initiiereIndex'),
+    initiiereAp     = require('./initiiereAp'),
     initiierePop    = require('./initiierePop'),
     getAdressenHtml = require('./getAdressenHtml');
 
-var returnFunction = function (ohne_zu_zeigen) {
+var returnFunction = function (apId, popId, tpopId, ohne_zu_zeigen) {
+    // prüfen, ob voraussetzungen gegeben sind
+    if (!apId && !localStorage.ap_id) {
+        // Anwendung neu initiieren
+        initiiereIndex();
+        return;
+    }
+    if (!popId && !localStorage.pop_id) {
+        // es fehlen benötigte Daten > zwei Ebenen höher
+        initiiereAp(apId);
+        return;
+    }
+    if (!tpopId && !localStorage.tpop_id) {
+        // es fehlen benötigte Daten > eine Ebene höher
+        initiiereApziel(apId, popId);
+        return;
+    }
+
+    // apId setzen
+    if (!localStorage.ap_id) {
+        localStorage.ap_id = apId;
+    }
+    if (!apId) {
+        apId = localStorage.ap_id;
+    }
+
+    // popId setzen
+    if (!localStorage.pop_id) {
+        localStorage.pop_id = popId;
+    }
+    if (!popId) {
+        popId = localStorage.pop_id;
+    }
+
+    // tpopId setzen
+    if (!localStorage.tpop_id) {
+        localStorage.tpop_id = tpopId;
+    }
+    if (!tpopId) {
+        tpopId = localStorage.tpop_id;
+    }
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     limiter($);
 
     var $TPopFlurname = $("#TPopFlurname");
-    if (!localStorage.tpop_id) {
-        // es fehlen benötigte Daten > eine Ebene höher
-        initiierePop();
-        return;
-    }
 
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("tpop");
@@ -60725,7 +60840,7 @@ var returnFunction = function (ohne_zu_zeigen) {
     // Daten für die pop aus der DB holen
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + localStorage.tpop_id,
+        url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + tpopId,
         dataType: 'json'
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
@@ -60741,7 +60856,7 @@ var returnFunction = function (ohne_zu_zeigen) {
                 .limiter(255, $("#TPopFlurname_limit"));
             $("#TPopNr").val(data.TPopNr);
             $("#TPopHerkunft" + data.TPopHerkunft).prop("checked", true);
-            if (data.TPopHerkunftUnklar == 1) {
+            if (data.TPopHerkunftUnklar === 1) {
                 $("#TPopHerkunftUnklar").prop("checked", true);
             } else {
                 $("#TPopHerkunftUnklar").prop("checked", false);
@@ -60801,7 +60916,7 @@ var returnFunction = function (ohne_zu_zeigen) {
             // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
             if (!ohne_zu_zeigen) {
                 window.apf.zeigeFormular("tpop");
-                history.replaceState({tpop: "tpop"}, "tpop", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id);
+                history.replaceState({tpop: "tpop"}, "tpop", "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId);
 
                 // bei neuen Datensätzen Fokus steuern
                 if (!$TPopFlurname.val()) {
@@ -60815,7 +60930,7 @@ var returnFunction = function (ohne_zu_zeigen) {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":18,"./getAdressenHtml":22,"./initiierePop":34,"jquery":5,"underscore":6}],38:[function(require,module,exports){
+},{"../lib/limiter":18,"./getAdressenHtml":22,"./initiiereAp":23,"./initiiereIndex":31,"./initiierePop":34,"jquery":5,"underscore":6}],38:[function(require,module,exports){
 'use strict';
 
 var $            = require('jquery'),
@@ -61372,7 +61487,7 @@ var returnFunction = function (apId, apZielId, zielberId) {
     if (!localStorage.apziel_id) {
         localStorage.apziel_id = apZielId;
     }
-    if (!zielberId) {
+    if (!apZielId) {
         apZielId = localStorage.apziel_id;
     }
 
