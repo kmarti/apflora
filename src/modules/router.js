@@ -96,10 +96,11 @@ var returnFunction = function () {
         tpopBer: function (apId, popId, tpopId, tpopBerId) {
             initiiereTPopBer(apId, popId, tpopId, tpopBerId);
         },
-        freiwKontr: function (apId, popId, tpopId, feldKontrId) {
+        freiwKontr: function (apId, popId, tpopId, feldKontrId, 'freiwKontr') {
             initiiereTPopFeldkontr(apId, popId, tpopId, feldKontrId);
         },
-        feldKontr: function (apId, popId, tpopId, feldKontrId) {
+        feldKontr: function (apId, popId, tpopId, feldKontrId, 'feldKontr') {
+            initiiereTPopFeldkontr(apId, popId, tpopId, feldKontrId);
         },
         massnBer: function (apId, popId, tpopId, massnBerId) {
         },

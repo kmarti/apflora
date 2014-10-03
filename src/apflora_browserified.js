@@ -38217,7 +38217,7 @@ var $                            = require('jquery'),
 
 require('jquery-ui');
 
-var returnFunction = function (apId, popId, tpopId, feldKontrId) {
+var returnFunction = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
     var $TPopKontrJahr           = $("#TPopKontrJahr"),
         $TPopKontrJungPflJN_ja   = $("#TPopKontrJungPflJN_ja"),
         $TPopKontrJungPflJN_nein = $("#TPopKontrJungPflJN_nein"),
@@ -38257,6 +38257,15 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId) {
     // feldKontrId setzen
     if (!localStorage.tpopfeldkontr_id) localStorage.tpopfeldkontr_id = feldKontrId;
     if (!feldKontrId) feldKontrId = localStorage.tpopfeldkontr_id;
+
+    // typ setzen, falls er nicht übergeben wurde (provisorisch)
+    // TODO: entfernen, wenn router übernimmt
+    if (!kontrTyp && localStorage.tpopfreiwkontr) {
+        kontrTyp = 'freiwKontr';
+    }
+    if (!kontrTyp && !localStorage.tpopfreiwkontr) {
+        kontrTyp = 'feldKontr';
+    }
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     limiter($);
@@ -38319,7 +38328,7 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId) {
             });
 
             // Felder, die nur in der Feldkontrolle vorkommen
-            if (!localStorage.tpopfreiwkontr) {
+            if (kontrTyp === 'feldKontr') {
                 $("#TPopKontrTyp" + data.TPopKontrTyp).prop("checked", true);
                 $("#TPopKontrJungpfl").val(data.TPopKontrJungpfl);
                 $("#TPopKontrVitalitaet")
@@ -38393,7 +38402,7 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId) {
                         .val(window.apf.tpopfeldkontr.TPopKontrLebUmg);
                 });
             }
-            
+
             // TPopKontrIdealBiotopUebereinst: Daten holen - oder vorhandene nutzen
             getIdealbiotopUebereinstHtml(function (html) {
                 $("#TPopKontrIdealBiotopUebereinst")
@@ -38402,7 +38411,7 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId) {
             });
 
             // Felder, die nur in freiwkontr vorkommen
-            if (localStorage.tpopfreiwkontr) {
+            if (kontrTyp === 'freiwKontr') {
                 if (data.TPopKontrPlan == 1) {
                     $("#TPopKontrPlan").prop("checked", true);
                 } else {
@@ -38429,7 +38438,7 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId) {
             }
 
             // fieldcontain-divs der benötigten Felder einblenden
-            if (localStorage.tpopfreiwkontr) {
+            if (kontrTyp === 'freiwKontr') {
                 _.each(window.apf.feldliste_freiwkontr, function (feld) {
                     $("#fieldcontain_" + feld).show();
                 });
@@ -38441,14 +38450,14 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId) {
 
             // Formulare blenden
             window.apf.zeigeFormular("tpopfeldkontr");
-            if (!localStorage.tpopfreiwkontr) {
+            if (kontrTyp === 'feldKontr') {
                 history.replaceState({tpopfeldkontr: "tpopfeldkontr"}, "tpopfeldkontr", "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopfeldkontr=" + feldKontrId);
             } else {
                 history.replaceState({tpopfreiwkontr: "tpopfreiwkontr"}, "tpopfreiwkontr", "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopfreiwkontr=" + feldKontrId);
             }
 
             // Register in Feldkontr blenden
-            if (localStorage.tpopfreiwkontr) {
+            if (kontrTyp === 'freiwKontr') {
                 $("#tpopfeldkontr_tabs_biotop").hide();
                 $("#biotop_tab_li").hide();
                 $("#tpopfeldkontr_tabs").tabs("option", "active", 0);
