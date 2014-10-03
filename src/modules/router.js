@@ -17,7 +17,8 @@ var Backbone                = require('backbone'),
     initiiereTPop           = require('./initiiereTPop'),
     initiiereTPopBer        = require('./initiiereTPopBer'),
     initiiereTPopFeldkontr  = require('./initiiereTPopFeldkontr'),
-    initiiereTPopMassnBer   = require('./initiiereTPopMassnBer');
+    initiiereTPopMassnBer   = require('./initiiereTPopMassnBer'),
+    initiiereTPopMassn      = require('./initiiereTPopMassn');
 
 var returnFunction = function () {
     var router = new Backbone.Router.extend({
@@ -107,6 +108,7 @@ var returnFunction = function () {
             initiiereTPopMassnBer(apId, popId, tpopId, massnBerId);
         },
         massn: function (apId, popId, tpopId, massnId) {
+            initiiereTPopMassn(apId, popId, tpopId, massnId);
         },
         exportieren: function () {
         }

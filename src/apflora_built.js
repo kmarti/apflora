@@ -33219,7 +33219,7 @@ window.apf.erstelleGuid = function () {
         return v.toString(16);
     });
 };
-},{"./lib/cHtoWGSlat":7,"./lib/cHtoWGSlng":8,"./lib/ddInChX":10,"./lib/ddInChY":11,"./modules/configuration":21,"./modules/initiiereAp":26,"./modules/initiiereApziel":27,"./modules/initiiereAssozart":28,"./modules/initiiereBeob":29,"./modules/initiiereBer":30,"./modules/initiiereErfkrit":31,"./modules/initiiereFormularMitStrukturtyp":32,"./modules/initiiereIdealbiotop":33,"./modules/initiiereIndex":34,"./modules/initiiereJber":35,"./modules/initiiereJberUebersicht":36,"./modules/initiierePop":37,"./modules/initiierePopBer":38,"./modules/initiierePopMassnBer":39,"./modules/initiiereTPop":40,"./modules/initiiereTPopBer":41,"./modules/initiiereTPopFeldkontr":42,"./modules/initiiereTPopMassn":43,"./modules/initiiereTPopMassnBer":44,"./modules/initiiereZielber":45,"./modules/zeigeTPop":46}],2:[function(require,module,exports){
+},{"./lib/cHtoWGSlat":7,"./lib/cHtoWGSlng":8,"./lib/ddInChX":10,"./lib/ddInChY":11,"./modules/configuration":21,"./modules/initiiereAp":27,"./modules/initiiereApziel":28,"./modules/initiiereAssozart":29,"./modules/initiiereBeob":30,"./modules/initiiereBer":31,"./modules/initiiereErfkrit":32,"./modules/initiiereFormularMitStrukturtyp":33,"./modules/initiiereIdealbiotop":34,"./modules/initiiereIndex":35,"./modules/initiiereJber":36,"./modules/initiiereJberUebersicht":37,"./modules/initiierePop":38,"./modules/initiierePopBer":39,"./modules/initiierePopMassnBer":40,"./modules/initiiereTPop":41,"./modules/initiiereTPopBer":42,"./modules/initiiereTPopFeldkontr":43,"./modules/initiiereTPopMassn":44,"./modules/initiiereTPopMassnBer":45,"./modules/initiiereZielber":46,"./modules/zeigeTPop":47}],2:[function(require,module,exports){
 module.exports={
     "user": "alexande",
     "pass": "y3oYksFsQL49es9x"
@@ -59633,6 +59633,45 @@ var returnFunction = function (callback) {
 module.exports = returnFunction;
 },{"jquery":5,"underscore":6}],25:[function(require,module,exports){
 /**
+ * baut das html für die Dropdown-Liste der Massnahmentypen
+ * wird in mehreren Felder benutzt
+ * speichert die Liste in window.apf.tpopmassntyp_html
+ * um wiederholte DB-Zugriffe zu vermeiden
+ * nimmt eine callback-Funktion entgegen
+ * diser wird das generierte html übergeben
+ */
+
+'use strict';
+
+var $ = require('jquery'),
+    _ = require('underscore');
+
+var returnFunction = function (callback) {
+    var html = '';
+
+    if (!window.apf.tpopmassntyp_html) {
+        $.ajax({
+            type:     'get',
+            url:      'api/v1/tpopMassnTypen',
+            dataType: 'json'
+        }).done(function (data) {
+            if (data && data.length > 0) {
+                // Feld mit Daten beliefern
+                html = "<option></option>";
+                _.each(data, function (tpopmassn_typ) {
+                    html += "<option value=\"" + tpopmassn_typ.id + "\">" + tpopmassn_typ.MassnTypTxt + "</option>";
+                });
+                window.apf.tpopmassntyp_html = html;
+            }
+            callback(html);
+        });
+    }
+    callback(window.apf.tpopmassntyp_html);
+};
+
+module.exports = returnFunction;
+},{"jquery":5,"underscore":6}],26:[function(require,module,exports){
+/**
  * baut das html für die Dropdown-Liste der Zähleinheiten
  * wird in mehreren Felder benutzt
  * speichert die Liste in window.apf.TPopKontrZähleinheit_html
@@ -59670,7 +59709,7 @@ var returnFunction = function (callback) {
 };
 
 module.exports = returnFunction;
-},{"jquery":5,"underscore":6}],26:[function(require,module,exports){
+},{"jquery":5,"underscore":6}],27:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
@@ -59739,7 +59778,7 @@ var returnFunction = function (apId) {
 };
 
 module.exports = returnFunction;
-},{"./getAdressenHtml":22,"./initiiereIndex":34,"jquery":5,"underscore":6}],27:[function(require,module,exports){
+},{"./getAdressenHtml":22,"./initiiereIndex":35,"jquery":5,"underscore":6}],28:[function(require,module,exports){
 'use strict';
 
 var $              = require('jquery'),
@@ -59809,7 +59848,7 @@ var returnFunction = function (apId, apZielId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":26,"./initiiereIndex":34,"jquery":5}],28:[function(require,module,exports){
+},{"./initiiereAp":27,"./initiiereIndex":35,"jquery":5}],29:[function(require,module,exports){
 'use strict';
 
 var $              = require('jquery'),
@@ -59882,7 +59921,7 @@ var returnFunction = function (apId, assozId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":26,"./initiiereIndex":34,"jquery":5}],29:[function(require,module,exports){
+},{"./initiiereAp":27,"./initiiereIndex":35,"jquery":5}],30:[function(require,module,exports){
 'use strict';
 
 var $                     = require('jquery'),
@@ -60051,7 +60090,7 @@ var returnFunction = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
 };
 
 module.exports = returnFunction;
-},{"../lib/capitaliseFirstLetter":9,"./initiiereAp":26,"./initiiereBeob":29,"jquery":5,"underscore":6}],30:[function(require,module,exports){
+},{"../lib/capitaliseFirstLetter":9,"./initiiereAp":27,"./initiiereBeob":30,"jquery":5,"underscore":6}],31:[function(require,module,exports){
 'use strict';
 
 var $ = jQuery     = require('jquery'),
@@ -60147,7 +60186,7 @@ var initiiereBer = function (apId, berId) {
 };
 
 module.exports = initiiereBer;
-},{"../lib/limiter":18,"./initiiereAp":26,"./initiiereIndex":34,"jquery":5}],31:[function(require,module,exports){
+},{"../lib/limiter":18,"./initiiereAp":27,"./initiiereIndex":35,"jquery":5}],32:[function(require,module,exports){
 'use strict';
 
 var $              = require('jquery'),
@@ -60226,7 +60265,7 @@ var returnFunction = function (apId, erfkritId) {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":18,"./initiiereAp":26,"./initiiereIndex":34,"jquery":5}],32:[function(require,module,exports){
+},{"../lib/limiter":18,"./initiiereAp":27,"./initiiereIndex":35,"jquery":5}],33:[function(require,module,exports){
 'use strict';
 
 /**
@@ -60275,7 +60314,7 @@ var returnFunction = function (strukturtyp) {
 };
 
 module.exports = returnFunction;
-},{"./configuration":21,"./initiiereAp":26,"./initiiereApziel":27,"./initiiereAssozart":28,"./initiiereBer":30,"./initiiereErfkrit":31,"./initiiereIdealbiotop":33,"./initiiereJber":35,"./initiiereJberUebersicht":36,"./initiierePop":37,"./initiierePopBer":38,"./initiierePopMassnBer":39,"./initiiereTPop":40,"./initiiereTPopBer":41,"./initiiereTPopFeldkontr":42,"./initiiereTPopMassn":43,"./initiiereTPopMassnBer":44,"./initiiereZielber":45}],33:[function(require,module,exports){
+},{"./configuration":21,"./initiiereAp":27,"./initiiereApziel":28,"./initiiereAssozart":29,"./initiiereBer":31,"./initiiereErfkrit":32,"./initiiereIdealbiotop":34,"./initiiereJber":36,"./initiiereJberUebersicht":37,"./initiierePop":38,"./initiierePopBer":39,"./initiierePopMassnBer":40,"./initiiereTPop":41,"./initiiereTPopBer":42,"./initiiereTPopFeldkontr":43,"./initiiereTPopMassn":44,"./initiiereTPopMassnBer":45,"./initiiereZielber":46}],34:[function(require,module,exports){
 'use strict';
 
 var $                    = require('jquery'),
@@ -60370,7 +60409,7 @@ var initiiereIdealbiotop = function (apId) {
 };
 
 module.exports = initiiereIdealbiotop;
-},{"./initiiereAp":26,"./initiiereIndex":34,"dateformat":3,"jquery":5}],34:[function(require,module,exports){
+},{"./initiiereAp":27,"./initiiereIndex":35,"dateformat":3,"jquery":5}],35:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -60455,7 +60494,7 @@ var returnFunction = function () {
 };
 
 module.exports = returnFunction;
-},{"jquery":5,"jquery-ui":4}],35:[function(require,module,exports){
+},{"jquery":5,"jquery-ui":4}],36:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
@@ -60557,7 +60596,7 @@ var returnFunction = function (apId, apBerId) {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":18,"./getAdressenHtml":22,"./initiiereAp":26,"./initiiereIndex":34,"dateformat":3,"jquery":5,"underscore":6}],36:[function(require,module,exports){
+},{"../lib/limiter":18,"./getAdressenHtml":22,"./initiiereAp":27,"./initiiereIndex":35,"dateformat":3,"jquery":5,"underscore":6}],37:[function(require,module,exports){
 'use strict';
 
 var $              = require('jquery'),
@@ -60631,7 +60670,7 @@ var returnFunction = function (apId, uebId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":26,"./initiiereIndex":34,"jquery":5}],37:[function(require,module,exports){
+},{"./initiiereAp":27,"./initiiereIndex":35,"jquery":5}],38:[function(require,module,exports){
 'use strict';
 
 var $              = require('jquery'),
@@ -60726,7 +60765,7 @@ var returnFunction = function (apId, popId, ohne_zu_zeigen) {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":18,"./initiiereAp":26,"./initiiereIndex":34,"jquery":5}],38:[function(require,module,exports){
+},{"../lib/limiter":18,"./initiiereAp":27,"./initiiereIndex":35,"jquery":5}],39:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
@@ -60808,7 +60847,7 @@ var returnFunction = function (apId, popId, popberId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":26,"./initiiereIndex":34,"./initiierePop":37,"jquery":5}],39:[function(require,module,exports){
+},{"./initiiereAp":27,"./initiiereIndex":35,"./initiierePop":38,"jquery":5}],40:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
@@ -60892,7 +60931,7 @@ var returnFunction = function (apId, popId, massnberId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":26,"./initiiereIndex":34,"./initiierePop":37,"jquery":5}],40:[function(require,module,exports){
+},{"./initiiereAp":27,"./initiiereIndex":35,"./initiierePop":38,"jquery":5}],41:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
@@ -61032,7 +61071,7 @@ var returnFunction = function (apId, popId, tpopId, ohne_zu_zeigen) {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":18,"./getAdressenHtml":22,"./initiiereAp":26,"./initiiereIndex":34,"./initiierePop":37,"jquery":5,"underscore":6}],41:[function(require,module,exports){
+},{"../lib/limiter":18,"./getAdressenHtml":22,"./initiiereAp":27,"./initiiereIndex":35,"./initiierePop":38,"jquery":5,"underscore":6}],42:[function(require,module,exports){
 'use strict';
 
 var $              = require('jquery'),
@@ -61111,7 +61150,7 @@ var returnFunction = function (apId, popId, tpopId, tpopBerId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":26,"./initiiereIndex":34,"./initiierePop":37,"./initiiereTPop":40,"jquery":5}],42:[function(require,module,exports){
+},{"./initiiereAp":27,"./initiiereIndex":35,"./initiierePop":38,"./initiiereTPop":41,"jquery":5}],43:[function(require,module,exports){
 // wird gemeinsam für Feld- und Freiwilligenkontrollen verwendet
 // Feldkontrollen: Felder der Freiwilligenkontrollen ausblenden
 // Freiwilligenkontrollen: Felder der Feldkontrollen ausblenen plus Register Biotop
@@ -61396,26 +61435,58 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":18,"./getAdressenHtml":22,"./getIdealbiotopUebereinstHtml":23,"./getLrDelarzeHtml":24,"./getZaehleinheitenHtml":25,"./initiiereAp":26,"./initiiereIndex":34,"./initiierePop":37,"./initiiereTPop":40,"dateformat":3,"jquery":5,"jquery-ui":4,"underscore":6}],43:[function(require,module,exports){
+},{"../lib/limiter":18,"./getAdressenHtml":22,"./getIdealbiotopUebereinstHtml":23,"./getLrDelarzeHtml":24,"./getZaehleinheitenHtml":26,"./initiiereAp":27,"./initiiereIndex":35,"./initiierePop":38,"./initiiereTPop":41,"dateformat":3,"jquery":5,"jquery-ui":4,"underscore":6}],44:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
     dateFormat      = require('dateformat'),
     _               = require('underscore'),
     limiter         = require('../lib/limiter'),
+    initiiereIndex  = require('./initiiereIndex'),
+    initiiereAp     = require('./initiiereAp'),
     initiierePop    = require('./initiierePop'),
-    getAdressenHtml = require('./getAdressenHtml');
+    initiiereTPop   = require('./initiiereTPop'),
+    getAdressenHtml = require('./getAdressenHtml'),
+    getMassntypHtml = require('./getMassntypHtml');
 
-var returnFunction = function () {
+var returnFunction = function (apId, popId, tpopId, massnId) {
+    // prüfen, ob voraussetzungen gegeben sind
+    if (!apId && !localStorage.ap_id) {
+        // Anwendung neu initiieren
+        initiiereIndex();
+        return;
+    }
+    if (!popId && !localStorage.pop_id) {
+        // es fehlen benötigte Daten > zwei Ebenen höher
+        initiiereAp(apId);
+        return;
+    }
+    if (!tpopId && !localStorage.tpop_id) {
+        // es fehlen benötigte Daten > eine Ebene höher
+        initiierePop(apId, popId);
+        return;
+    }
+    if (!massnId && !localStorage.tpopmassn_id) {
+        // es fehlen benötigte Daten > eine Ebene höher
+        initiiereTPop(apId, popId, tpopId);
+        return;
+    }
+
+    // apId setzen
+    if (!localStorage.ap_id) localStorage.ap_id = apId;
+    if (!apId) apId = localStorage.ap_id;
+    // popId setzen
+    if (!localStorage.pop_id) localStorage.pop_id = popId;
+    if (!popId) popId = localStorage.pop_id;
+    // tpopId setzen
+    if (!localStorage.tpop_id) localStorage.tpop_id = tpopId;
+    if (!tpopId) tpopId = localStorage.tpop_id;
+    // massnId setzen
+    if (!localStorage.tpopmassn_id) localStorage.tpopmassn_id = massnId;
+    if (!massnId) massnId = localStorage.tpopmassn_id;
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     limiter($);
-
-    if (!localStorage.tpopmassn_id) {
-        // es fehlen benötigte Daten > eine Ebene höher
-        initiierePop();
-        return;
-    }
 
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("tpopmassn");
@@ -61423,7 +61494,7 @@ var returnFunction = function () {
     // Daten für die pop aus der DB holen
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblTeilPopMassnahme/feld=TPopMassnId/wertNumber=' + localStorage.tpopmassn_id,
+        url: 'api/v1/apflora/tabelle=tblTeilPopMassnahme/feld=TPopMassnId/wertNumber=' + massnId,
         dataType: 'json'
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
@@ -61435,30 +61506,11 @@ var returnFunction = function () {
 
             // Felder mit Daten beliefern
             // für select TPopMassnTyp Daten holen - oder vorhandene nutzen
-            if (!window.apf.tpopmassntyp_html) {
-                $.ajax({
-                    type:     'get',
-                    url:      'api/v1/tpopMassnTypen',
-                    dataType: 'json'
-                }).done(function (data2) {
-                    if (data2 && data2.length > 0) {
-                        // Feld mit Daten beliefern
-                        var html;
-                        html = "<option></option>";
-                        _.each(data2, function (tpopmassn_typ) {
-                            html += "<option value=\"" + tpopmassn_typ.id + "\">" + tpopmassn_typ.MassnTypTxt + "</option>";
-                        });
-                        window.apf.tpopmassntyp_html = html;
-                        $("#TPopMassnTyp")
-                            .html(html)
-                            .val(window.apf.tpopmassn.TPopMassnTyp);
-                    }
-                });
-            } else {
+            getMassntypHtml(function (html) {
                 $("#TPopMassnTyp")
-                    .html(window.apf.tpopmassntyp_html)
+                    .html(html)
                     .val(window.apf.tpopmassn.TPopMassnTyp);
-            }
+            });
             $("#TPopMassnTxt")
                 .val(data.TPopMassnTxt)
                 .limiter(255, $("#TPopMassnTxt_limit"));
@@ -61510,17 +61562,19 @@ var returnFunction = function () {
 
                     // Formulare blenden
                     window.apf.zeigeFormular("tpopmassn");
-                    history.replaceState({tpopmassn: "tpopmassn"}, "tpopmassn", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopmassn=" + localStorage.tpopmassn_id);
+                    history.replaceState({tpopmassn: "tpopmassn"}, "tpopmassn", "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopmassn=" + massnId);
 
                     // bei neuen Datensätzen Fokus steuern
                     $('#TPopMassnJahr').focus();
                 });
         }
+    }).fail(function () {
+        window.apf.melde('Fehler: keine Daten für die Massnahme erhalten');
     });
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":18,"./getAdressenHtml":22,"./initiierePop":37,"dateformat":3,"jquery":5,"underscore":6}],44:[function(require,module,exports){
+},{"../lib/limiter":18,"./getAdressenHtml":22,"./getMassntypHtml":25,"./initiiereAp":27,"./initiiereIndex":35,"./initiierePop":38,"./initiiereTPop":41,"dateformat":3,"jquery":5,"underscore":6}],45:[function(require,module,exports){
 'use strict';
 
 var $              = require('jquery'),
@@ -61599,7 +61653,7 @@ var returnFunction = function (apId, popId, tpopId, massnBerId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":26,"./initiiereIndex":34,"./initiierePop":37,"./initiiereTPop":40,"jquery":5}],45:[function(require,module,exports){
+},{"./initiiereAp":27,"./initiiereIndex":35,"./initiierePop":38,"./initiiereTPop":41,"jquery":5}],46:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
@@ -61687,7 +61741,7 @@ var returnFunction = function (apId, apZielId, zielberId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":26,"./initiiereApziel":27,"./initiiereIndex":34,"jquery":5}],46:[function(require,module,exports){
+},{"./initiiereAp":27,"./initiiereApziel":28,"./initiiereIndex":35,"jquery":5}],47:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),

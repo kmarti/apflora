@@ -4,19 +4,51 @@ var $               = require('jquery'),
     dateFormat      = require('dateformat'),
     _               = require('underscore'),
     limiter         = require('../lib/limiter'),
+    initiiereIndex  = require('./initiiereIndex'),
+    initiiereAp     = require('./initiiereAp'),
     initiierePop    = require('./initiierePop'),
-    getAdressenHtml = require('./getAdressenHtml');
+    initiiereTPop   = require('./initiiereTPop'),
+    getAdressenHtml = require('./getAdressenHtml'),
+    getMassntypHtml = require('./getMassntypHtml');
 
-var returnFunction = function () {
+var returnFunction = function (apId, popId, tpopId, massnId) {
+    // prüfen, ob voraussetzungen gegeben sind
+    if (!apId && !localStorage.ap_id) {
+        // Anwendung neu initiieren
+        initiiereIndex();
+        return;
+    }
+    if (!popId && !localStorage.pop_id) {
+        // es fehlen benötigte Daten > zwei Ebenen höher
+        initiiereAp(apId);
+        return;
+    }
+    if (!tpopId && !localStorage.tpop_id) {
+        // es fehlen benötigte Daten > eine Ebene höher
+        initiierePop(apId, popId);
+        return;
+    }
+    if (!massnId && !localStorage.tpopmassn_id) {
+        // es fehlen benötigte Daten > eine Ebene höher
+        initiiereTPop(apId, popId, tpopId);
+        return;
+    }
+
+    // apId setzen
+    if (!localStorage.ap_id) localStorage.ap_id = apId;
+    if (!apId) apId = localStorage.ap_id;
+    // popId setzen
+    if (!localStorage.pop_id) localStorage.pop_id = popId;
+    if (!popId) popId = localStorage.pop_id;
+    // tpopId setzen
+    if (!localStorage.tpop_id) localStorage.tpop_id = tpopId;
+    if (!tpopId) tpopId = localStorage.tpop_id;
+    // massnId setzen
+    if (!localStorage.tpopmassn_id) localStorage.tpopmassn_id = massnId;
+    if (!massnId) massnId = localStorage.tpopmassn_id;
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     limiter($);
-
-    if (!localStorage.tpopmassn_id) {
-        // es fehlen benötigte Daten > eine Ebene höher
-        initiierePop();
-        return;
-    }
 
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("tpopmassn");
@@ -24,7 +56,7 @@ var returnFunction = function () {
     // Daten für die pop aus der DB holen
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblTeilPopMassnahme/feld=TPopMassnId/wertNumber=' + localStorage.tpopmassn_id,
+        url: 'api/v1/apflora/tabelle=tblTeilPopMassnahme/feld=TPopMassnId/wertNumber=' + massnId,
         dataType: 'json'
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
@@ -36,30 +68,11 @@ var returnFunction = function () {
 
             // Felder mit Daten beliefern
             // für select TPopMassnTyp Daten holen - oder vorhandene nutzen
-            if (!window.apf.tpopmassntyp_html) {
-                $.ajax({
-                    type:     'get',
-                    url:      'api/v1/tpopMassnTypen',
-                    dataType: 'json'
-                }).done(function (data2) {
-                    if (data2 && data2.length > 0) {
-                        // Feld mit Daten beliefern
-                        var html;
-                        html = "<option></option>";
-                        _.each(data2, function (tpopmassn_typ) {
-                            html += "<option value=\"" + tpopmassn_typ.id + "\">" + tpopmassn_typ.MassnTypTxt + "</option>";
-                        });
-                        window.apf.tpopmassntyp_html = html;
-                        $("#TPopMassnTyp")
-                            .html(html)
-                            .val(window.apf.tpopmassn.TPopMassnTyp);
-                    }
-                });
-            } else {
+            getMassntypHtml(function (html) {
                 $("#TPopMassnTyp")
-                    .html(window.apf.tpopmassntyp_html)
+                    .html(html)
                     .val(window.apf.tpopmassn.TPopMassnTyp);
-            }
+            });
             $("#TPopMassnTxt")
                 .val(data.TPopMassnTxt)
                 .limiter(255, $("#TPopMassnTxt_limit"));
@@ -111,12 +124,14 @@ var returnFunction = function () {
 
                     // Formulare blenden
                     window.apf.zeigeFormular("tpopmassn");
-                    history.replaceState({tpopmassn: "tpopmassn"}, "tpopmassn", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&tpopmassn=" + localStorage.tpopmassn_id);
+                    history.replaceState({tpopmassn: "tpopmassn"}, "tpopmassn", "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopmassn=" + massnId);
 
                     // bei neuen Datensätzen Fokus steuern
                     $('#TPopMassnJahr').focus();
                 });
         }
+    }).fail(function () {
+        window.apf.melde('Fehler: keine Daten für die Massnahme erhalten');
     });
 };
 
