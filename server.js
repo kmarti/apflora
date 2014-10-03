@@ -273,7 +273,7 @@ server.route({
 
 server.route({
     method: 'GET',
-    path: '/ap={apId}',
+    path: '/api/v1/ap={apId}',
     handler: queryAp
 });
 

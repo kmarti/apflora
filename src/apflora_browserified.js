@@ -13,7 +13,7 @@ window.apf.setzeWindowAp = function (id) {
     localStorage.ap_id = id;
     $.ajax({
         type: 'get',
-        url: 'ap=' + localStorage.ap_id,
+        url: 'api/v1/ap=' + localStorage.ap_id,
         dataType: 'json'
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
@@ -36827,7 +36827,7 @@ var returnFunction = function (apId) {
         // Daten für den ap aus der DB holen
         $.ajax({
             type: 'get',
-            url: 'ap=' + apId,
+            url: 'api/v1/ap=' + apId,
             dataType: 'json'
         }).done(function (data) {
             // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern

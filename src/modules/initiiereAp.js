@@ -32,7 +32,7 @@ var returnFunction = function (apId) {
         // Daten für den ap aus der DB holen
         $.ajax({
             type: 'get',
-            url: 'ap=' + apId,
+            url: 'api/v1/ap=' + apId,
             dataType: 'json'
         }).done(function (data) {
             // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
