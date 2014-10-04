@@ -23271,7 +23271,7 @@ window.apf.initiiereExporte = function (anchor) {
     $("#testart_div").hide();
     $("#forms_titelzeile").hide();
     window.apf.zeigeFormular("exporte");
-    history.replaceState({ex: "ex"}, "ex", "index.html?exporte=true");
+    history.pushState(null, null, "index.html?exporte=true");
     if (anchor) {
         location.hash = "#" + anchor;
     }
@@ -29661,7 +29661,7 @@ window.apf.wähleAp = function (ap_id) {
         $("#exportieren_1").show();
         $("#ap").hide();
         window.apf.zeigeFormular();
-        history.replaceState({ap: "ap"}, "ap", "index.html");
+        history.pushState(null, null, "index.html");
     }
 };
 
@@ -30276,7 +30276,7 @@ window.apf.undeleteDatensatz = function () {
             // TODO: DAS TESTEN
             // Formulare blenden
             window.apf.zeigeFormular("ap");
-            history.replaceState({ap: "ap"}, "ap", "index.html?ap=" + id);
+            history.pushState(null, null, "index.html?ap=" + id);
         } else {
             //tree neu aufbauen
             $.when(window.apf.erstelle_tree(localStorage.ap_id))
@@ -59763,7 +59763,7 @@ var returnFunction = function (apId) {
                 });
                 // Formulare blenden
                 window.apf.zeigeFormular("ap");
-                history.replaceState({ap: "ap"}, "ap", "index.html?ap=" + data.ApArtId);
+                history.pushState(null, null, "index.html?ap=" + data.ApArtId);
             }
         }).fail(function () {
             window.apf.melde('Fehler: Keine Daten für den Aktionsplan erhalten');
@@ -59833,7 +59833,7 @@ var returnFunction = function (apId, apZielId) {
             $("#ZielBezeichnung").val(data.ZielBezeichnung);
             // Formulare blenden
             window.apf.zeigeFormular("apziel");
-            history.replaceState({apziel: "apziel"}, "apziel", "index.html?ap=" + apId + "&apziel=" + apZielId);
+            history.pushState(null, null, "index.html?ap=" + apId + "&apziel=" + apZielId);
             // bei neuen Datensätzen Fokus steuern
             if (!$ZielJahr.val()) {
                 $ZielJahr.focus();
@@ -59905,7 +59905,7 @@ var returnFunction = function (apId, assozId) {
 
             // Formulare blenden
             window.apf.zeigeFormular("assozarten");
-            history.replaceState({assozarten: "assozarten"}, "assozarten", "index.html?ap=" + apId + "&assozarten=" + assozId);
+            history.pushState(null, null, "index.html?ap=" + apId + "&assozarten=" + assozId);
 
             // bei neuen Datensätzen Fokus steuern
             if (!$AaSisfNr.val()) {
@@ -60055,9 +60055,9 @@ var returnFunction = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
                             if (!ohneZuZeigen) {
                                 window.apf.zeigeFormular("beob");
                                 if (beobStatus === "zugeordnet") {
-                                    history.replaceState({beob_zugeordnet: "beob_zugeordnet"}, "beob_zugeordnet", "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&beob_zugeordnet=" + beobId);
+                                    history.pushState(null, null, "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&beob_zugeordnet=" + beobId);
                                 } else if (beobStatus === "nicht_zuzuordnen") {
-                                    history.replaceState({beob_nicht_zuzuordnen: "beob_nicht_zuzuordnen"}, "beob_nicht_zuzuordnen", "index.html?ap=" + localStorage.ap_id + "&beob_nicht_zuzuordnen=" + beobId);
+                                    history.pushState(null, null, "index.html?ap=" + localStorage.ap_id + "&beob_nicht_zuzuordnen=" + beobId);
                                 }
                             }
                         });
@@ -60075,7 +60075,7 @@ var returnFunction = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
                         // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
                         if (!ohneZuZeigen) {
                             window.apf.zeigeFormular("beob");
-                            history.replaceState({beob_nicht_beurteilt: "beob_nicht_beurteilt"}, "beob_nicht_beurteilt", "index.html?ap=" + localStorage.ap_id + "&beob_nicht_beurteilt=" + beobId);
+                            history.pushState(null, null, "index.html?ap=" + localStorage.ap_id + "&beob_nicht_beurteilt=" + beobId);
                         }
                     }
                 }
@@ -60164,7 +60164,7 @@ var initiiereBer = function (apId, berId) {
 
             // Formulare blenden
             window.apf.zeigeFormular("ber");
-            history.replaceState({ber: "ber"}, "ber", "index.html?ap=" + localStorage.ap_id + "&ber=" + localStorage.ber_id);
+            history.pushState(null, null, "index.html?ap=" + localStorage.ap_id + "&ber=" + localStorage.ber_id);
 
             // bei neuen Datensätzen Fokus steuern
             if (!$BerAutor.val()) {
@@ -60249,7 +60249,7 @@ var returnFunction = function (apId, erfkritId) {
 
             // Formulare blenden
             window.apf.zeigeFormular("erfkrit");
-            history.replaceState({erfkrit: "erfkrit"}, "erfkrit", "index.html?ap=" + apId + "&erfkrit=" + erfkritId);
+            history.pushState(null, null, "index.html?ap=" + apId + "&erfkrit=" + erfkritId);
 
             // bei neuen Datensätzen Fokus steuern
             if (!$ErfkritErreichungsgrad.val()) {
@@ -60379,7 +60379,7 @@ var initiiereIdealbiotop = function (apId) {
 
             // Formulare blenden
             window.apf.zeigeFormular("idealbiotop");
-            history.replaceState({idealbiotop: "idealbiotop"}, "idealbiotop", "index.html?ap=" + localStorage.ap_id + "&idealbiotop=" + localStorage.idealbiotop_id);
+            history.pushState(null, null, "index.html?ap=" + localStorage.ap_id + "&idealbiotop=" + localStorage.idealbiotop_id);
 
             // bei neuen Datensätzen Fokus steuern
             if (!$IbErstelldatum.val()) {
@@ -60581,7 +60581,7 @@ var returnFunction = function (apId, apBerId) {
 
             // Formulare blenden
             window.apf.zeigeFormular("jber");
-            history.replaceState({jber: "jber"}, "jber", "index.html?ap=" + localStorage.ap_id + "&jber=" + localStorage.jber_id);
+            history.pushState(null, null, "index.html?ap=" + localStorage.ap_id + "&jber=" + localStorage.jber_id);
 
             // bei neuen Datensätzen Fokus steuern
             if (!$JBerJahr.val()) {
@@ -60655,7 +60655,7 @@ var returnFunction = function (apId, uebId) {
 
             // Formulare blenden
             window.apf.zeigeFormular("jber_uebersicht");
-            history.replaceState({jber_uebersicht: "jber_uebersicht"}, "jber_uebersicht", "index.html?ap=" + apId + "&jber_uebersicht=" + uebId);
+            history.pushState(null, null, "index.html?ap=" + apId + "&jber_uebersicht=" + uebId);
 
             // bei neuen Datensätzen Fokus steuern
             if (!$JbuJahr.val()) {
@@ -60749,7 +60749,7 @@ var returnFunction = function (apId, popId, ohne_zu_zeigen) {
             // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
             if (!ohne_zu_zeigen) {
                 window.apf.zeigeFormular("pop");
-                history.replaceState({pop: "pop"}, "pop", "index.html?ap=" + apId + "&pop=" + popId);
+                history.pushState(null, null, "index.html?ap=" + apId + "&pop=" + popId);
 
                 // bei neuen Datensätzen Fokus steuern
                 if (!$PopName.val()) {
@@ -60836,7 +60836,7 @@ var returnFunction = function (apId, popId, popberId) {
 
             // Formulare blenden
             window.apf.zeigeFormular("popber");
-            history.replaceState({tpopber: "popber"}, "popber", "index.html?ap=" + apId + "&pop=" + popId + "&popber=" + popberId);
+            history.pushState(null, null, "index.html?ap=" + apId + "&pop=" + popId + "&popber=" + popberId);
 
             // bei neuen Datensätzen Fokus steuern
             $('#PopBerJahr').focus();
@@ -60918,7 +60918,7 @@ var returnFunction = function (apId, popId, massnberId) {
 
             // Formulare blenden
             window.apf.zeigeFormular("popmassnber");
-            history.replaceState({popmassnber: "popmassnber"}, "popmassnber", "index.html?ap=" + apId + "&pop=" + popId + "&popmassnber=" + massnberId);
+            history.pushState(null, null, "index.html?ap=" + apId + "&pop=" + popId + "&popmassnber=" + massnberId);
 
             // bei neuen Datensätzen Fokus steuern
             $('#PopMassnBerJahr').focus();
@@ -61055,7 +61055,7 @@ var returnFunction = function (apId, popId, tpopId, ohne_zu_zeigen) {
             // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
             if (!ohne_zu_zeigen) {
                 window.apf.zeigeFormular("tpop");
-                history.replaceState({tpop: "tpop"}, "tpop", "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId);
+                history.pushState(null, null, "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId);
 
                 // bei neuen Datensätzen Fokus steuern
                 if (!$TPopFlurname.val()) {
@@ -61137,7 +61137,7 @@ var returnFunction = function (apId, popId, tpopId, tpopBerId) {
 
             // Formulare blenden
             window.apf.zeigeFormular("tpopber");
-            history.replaceState({tpopber: "tpopber"}, "tpopber", "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopber=" + tpopBerId);
+            history.pushState(null, null, "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopber=" + tpopBerId);
 
             // bei neuen Datensätzen Fokus steuern
             $('#TPopBerJahr').focus();
@@ -61404,9 +61404,9 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
             // Formulare blenden
             window.apf.zeigeFormular("tpopfeldkontr");
             if (kontrTyp === 'feldKontr') {
-                history.replaceState({tpopfeldkontr: "tpopfeldkontr"}, "tpopfeldkontr", "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopfeldkontr=" + feldKontrId);
+                history.pushState(null, null, "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopfeldkontr=" + feldKontrId);
             } else {
-                history.replaceState({tpopfreiwkontr: "tpopfreiwkontr"}, "tpopfreiwkontr", "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopfreiwkontr=" + feldKontrId);
+                history.pushState(null, null, "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopfreiwkontr=" + feldKontrId);
             }
 
             // Register in Feldkontr blenden
@@ -61561,7 +61561,7 @@ var returnFunction = function (apId, popId, tpopId, massnId) {
 
                 // Formulare blenden
                 window.apf.zeigeFormular("tpopmassn");
-                history.replaceState({tpopmassn: "tpopmassn"}, "tpopmassn", "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopmassn=" + massnId);
+                history.pushState(null, null, "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopmassn=" + massnId);
 
                 // bei neuen Datensätzen Fokus steuern
                 $('#TPopMassnJahr').focus();
@@ -61641,7 +61641,7 @@ var returnFunction = function (apId, popId, tpopId, massnBerId) {
 
             // Formulare blenden
             window.apf.zeigeFormular("tpopmassnber");
-            history.replaceState({tpopmassnber: "tpopmassnber"}, "tpopmassnber", "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopmassnber=" + massnBerId);
+            history.pushState(null, null, "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopmassnber=" + massnBerId);
 
             // bei neuen Datensätzen Fokus steuern
             $('#TPopMassnBerJahr').focus();
@@ -61727,7 +61727,7 @@ var returnFunction = function (apId, apZielId, zielberId) {
 
             // Formulare blenden
             window.apf.zeigeFormular("zielber");
-            history.replaceState({zielber: "zielber"}, "zielber", "index.html?ap=" + apId + "&apziel=" + apZielId + "&zielber=" + zielberId);
+            history.pushState(null, null, "index.html?ap=" + apId + "&apziel=" + apZielId + "&zielber=" + zielberId);
 
             // bei neuen Datensätzen Fokus steuern
             if (!$ZielBerJahr.val()) {

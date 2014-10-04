@@ -2746,7 +2746,9 @@
 
 			$("#exporte")
                 .on("click", "#export_ap", function() {
-                    var url = "php/export_ap.php";
+                	console.log('exportiere ap');
+                	url = 'api/v1/exportView/csv/view=vProgramme/filename=Programme';
+                	//url = 'api/v1/exportView/xlsx/view=vProgramme/filename=Programme';
                     $.fileDownload(url, {
                         preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
                         failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."

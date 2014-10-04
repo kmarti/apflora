@@ -10,12 +10,14 @@ return gulp.task('watch', function() {
             'kml/*',
             'queries/*',
             'queries/tree/*',
+            'queries/export/*',
             'serverMethods/*',
             'shp/*',
             'src/apflora.js',
             'src/lib/*',
             'src/modules/*',
-            'index.html'
+            'index.html',
+            'server.js'
         ],
         ['dev_when_watch']
     );

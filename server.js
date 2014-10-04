@@ -3,22 +3,23 @@
  */
 
 'use strict';
-var  _                                = require('underscore'),
+var _                                 = require('underscore'),
+    json2xls                          = require('json2xls'),
+    json2csv                          = require('json2csv'),
     Hapi                              = require('hapi'),
     server                            = new Hapi.Server(
-                                          'localhost',
-                                          4000, {
-                                              debug: { request: ['error'] }
-                                          }
-                                      ),
+        'localhost',
+        4000,
+        { debug: { request: ['error'] } }
+    ),
     mysql                             = require('mysql'),
     config                            = require('./src/modules/configuration'),
     connectionApflora                 = mysql.createConnection({
-                                          host: 'localhost',
-                                          user: config.db.userName,
-                                          password: config.db.passWord,
-                                          database: 'alexande_apflora'
-                                      }),
+        host: 'localhost',
+        user: config.db.userName,
+        password: config.db.passWord,
+        database: 'alexande_apflora'
+    }),
     serverMethodGemeinden             = require('./serverMethods/gemeinden'),
     serverMethodArtliste              = require('./serverMethods/artliste'),
     serverMethodApliste               = require('./serverMethods/apliste'),
@@ -64,7 +65,8 @@ var  _                                = require('underscore'),
     queryPopsChKarte                  = require('./queries/popsChKarte'),
     queryTPopKarte                    = require('./queries/tpopKarte'),
     queryTPopsKarte                   = require('./queries/tpopsKarte'),
-    queryTPopKarteAlle                = require('./queries/tpopKarteAlle');
+    queryTPopKarteAlle                = require('./queries/tpopKarteAlle'),
+    exportView                        = require('./queries/exportView');
 
 connectionApflora.connect();
 
@@ -407,4 +409,48 @@ server.route({
     method: 'GET',
     path: '/api/v1/tpopKarteAlle/apId={apId}',
     handler: queryTPopKarteAlle
+});
+
+server.route({
+    method: 'GET',
+    path: '/api/v1/exportView/csv/view={view}/filename={filename}',
+    handler: function(request, reply) {
+        var filename = decodeURIComponent(request.params.filename);
+        exportView(request, function(data) {
+            var fields = _.keys(data[0]);
+            json2csv({
+                data: data,
+                fields: fields
+            }, function (err, csv) {
+                if (err) console.log(err);
+                reply(csv)
+                    .header('Content-Type', 'text/x-csv; charset=utf-8')
+                    .header('Content-disposition', 'attachment; filename=' + filename + '.csv')
+                    .header('Pragma', 'no-cache')
+                    .header('Set-Cookie', 'fileDownload=true; path=/');
+            });
+        });
+    }
+});
+
+server.route({
+    method: 'GET',
+    path: '/api/v1/exportView/xslx/view={view}/filename={filename}',
+    handler: function(request, reply) {
+        var filename = decodeURIComponent(request.params.filename);
+        exportView(request, function(data) {
+            console.log('data: ', data);
+            var fields = _.keys(data[0]);
+            var xls = json2xls(data, {
+                fields: fields
+            });
+            reply(xls)
+                //.type('application/octet-stream')
+                //.header('Content-Type', 'application/octet-stream')
+                .header('Content-Type', 'application/vnd.ms-excel; charset=utf-8')
+                .header('Content-disposition', 'attachment; filename=' + filename + '.xlsx')
+                .header('Pragma', 'no-cache')
+                .header('Set-Cookie', 'fileDownload=true; path=/');
+        });
+    }
 });
