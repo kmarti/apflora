@@ -261,6 +261,17 @@ window.apf.setzeWindowTpop = function (id) {
     });
 };
 
+window.apf.downloadFileFromView = function (view, filename, format) {
+    // löst einen Download aus
+    // als Formate steht momenatn nur csv zur Verfügung, weil xlsx leider nicht funktioniert hat
+    var format = format || 'csv',
+        url = 'api/v1/exportView/' + format + '/view=' + view + '/filename=' + filename;
+    $.fileDownload(url, {
+        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
+        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
+    });
+};
+
 // setzt window.apf.popber und localStorage.popber_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowPopber = function (id) {

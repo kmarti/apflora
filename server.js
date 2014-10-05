@@ -423,6 +423,19 @@ server.route({
                 fields: fields
             }, function (err, csv) {
                 if (err) console.log(err);
+                // null-Einträge entfernen (nur ganze Felder)
+                // Problem: regex fährt dort weiter, wo er zuletzt aufgehört hat
+                // daher werden aufeinanderfolgende nullen verpasst
+                // daher zuerst mehrfach aufeinanderfolgende suchen
+                // Diese Lösung wäre eleganter: http://stackoverflow.com/questions/14863026/javascript-regex-find-all-possible-matches-even-in-already-captured-matches
+                csv = csv.replace(/,null,null,null,null,null,null,null,null,/g, ',,');
+                csv = csv.replace(/,null,null,null,null,null,null,null,/g, ',,');
+                csv = csv.replace(/,null,null,null,null,null,null,/g, ',,');
+                csv = csv.replace(/,null,null,null,null,null,/g, ',,');
+                csv = csv.replace(/,null,null,null,null,/g, ',,');
+                csv = csv.replace(/,null,null,null,/g, ',,');
+                csv = csv.replace(/,null,null,/g, ',,');
+                csv = csv.replace(/,null,/g, ',,');
                 reply(csv)
                     .header('Content-Type', 'text/x-csv; charset=utf-8')
                     .header('Content-disposition', 'attachment; filename=' + filename + '.csv')
@@ -433,6 +446,7 @@ server.route({
     }
 });
 
+// versucht - hat nicht funktioniert: 'unexpected token <'
 server.route({
     method: 'GET',
     path: '/api/v1/exportView/xslx/view={view}/filename={filename}',

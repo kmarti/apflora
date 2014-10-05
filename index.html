@@ -2746,246 +2746,144 @@
 
 			$("#exporte")
                 .on("click", "#export_ap", function() {
-                	console.log('exportiere ap');
-                	url = 'api/v1/exportView/csv/view=vProgramme/filename=Programme';
-                	//url = 'api/v1/exportView/xlsx/view=vProgramme/filename=Programme';
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
+                	window.apf.downloadFileFromView('vProgramme', 'Programme', 'csv');
                     return false; // this is critical to stop the click event which will trigger a normal file download!
                 })
                 .on("click", "#export_ap_ohne_pop", function() {
-                    var url = "php/export_ap_ohne_pop.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                	window.apf.downloadFileFromView('vApOhnePop', 'ProgrammeOhnePopulationen', 'csv');
+                    return false;
                 })
                 .on("click", "#export_ap_anz_massn", function() {
-                    var url = "php/export_ap_anz_massn.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                	window.apf.downloadFileFromView('vApAnzMassn', 'ProgrammeAnzahlMassnahmen', 'csv');
+                    return false;
                 })
                 .on("click", "#export_ap_anz_kontr", function() {
-                    var url = "php/export_ap_anz_kontr.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                	window.apf.downloadFileFromView('vApAnzKontr', 'ProgrammeAnzahlKontrollen', 'csv');
+                    return false;
                 })
                 .on("click", "#export_jber", function() {
-                    var url = "php/export_jber.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                	window.apf.downloadFileFromView('vApJahresberichte', 'Jahresberichte', 'csv');
+                    return false;
                 })
                 .on("click", "#export_jber_massn", function() {
-                    var url = "php/export_jber_massn.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                	window.apf.downloadFileFromView('vApJahresberichteUndMassnahmen', 'ApJahresberichteUndMassnahmen', 'csv');
+                    return false;
                 })
                 .on("click", "#export_apziel", function() {
-                    var url = "php/export_apziel.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                	window.apf.downloadFileFromView('vApZiele', 'ApZiele', 'csv');
+                    return false;
                 })
                 .on("click", "#export_zielber", function() {
-                    var url = "php/export_zielber.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                	window.apf.downloadFileFromView('vZielBer', 'Zielberichte', 'csv');
+                    return false;
                 })
                 .on("click", "#export_ber", function() {
-                    var url = "php/export_ber.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                	window.apf.downloadFileFromView('vBer', 'Berichte', 'csv');
+                    return false;
                 })
                 .on("click", "#export_erfkrit", function() {
-                    var url = "php/export_erfkrit.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                	window.apf.downloadFileFromView('vErfKrit', 'Erfolgskriterien', 'csv');
+                    return false;
                 })
                 .on("click", "#export_idealbiotop", function() {
-                    var url = "php/export_idealbiotop.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                	window.apf.downloadFileFromView('vIdealbiotop', 'Idealbiotope', 'csv');
+                    return false;
                 })
                 .on("click", "#export_assoz_arten", function() {
-                    var url = "php/export_assoz_arten.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                	window.apf.downloadFileFromView('vAssozArten', 'AssoziierteArten', 'csv');
+                    return false;
                 })
                 .on("click", "#export_pop_fuer_kml", function() {
+                	window.apf.downloadFileFromView('view', 'filename', 'csv');
                     var url = "php/export_pop_fuer_kml.php";
                     $.fileDownload(url, {
                         preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
                         failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
                     });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                    return false;
                 })
                 .on("click", "#export_pop_fuer_kml_namen", function() {
+                	window.apf.downloadFileFromView('view', 'filename', 'csv');
                     var url = "php/export_pop_fuer_kml_namen.php";
                     $.fileDownload(url, {
                         preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
                         failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
                     });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                    return false;
                 })
                 .on("click", "#export_pop_ohne_tpop", function() {
-                    var url = "php/export_pop_ohne_tpop.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                	window.apf.downloadFileFromView('vPopOhneTPop', 'PopulationenOhneTeilpopulationen', 'csv');
+                    return false;
 			    })
                 .on("click", "#export_pop_von_ap_ohne_status", function() {
-                    var url = "php/export_pop_von_ap_ohne_status.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                	window.apf.downloadFileFromView('vPopVonApOhneStatus', 'PopulationenVonApArtenOhneStatus', 'csv');
+                    return false;
                 })
                 .on("click", "#export_pop_ohne_koord", function() {
-                    var url = "php/export_pop_ohne_koord.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                	window.apf.downloadFileFromView('vPopOhneKoord', 'PopulationenOhneKoordinaten', 'csv');
+                    return false;
                 })
                 .on("click", "#export_pop_mit_massnber_anz_massn", function() {
-                    var url = "php/export_pop_mit_massnber_anz_massn.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                	window.apf.downloadFileFromView('vPopMassnberAnzMassn', 'PopulationenAnzMassnProMassnber', 'csv');
+                    return false;
                 })
                 .on("click", "#export_pop_anz_massn", function() {
-                    var url = "php/export_pop_anz_massn.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                	window.apf.downloadFileFromView('vPopAnzMassn', 'PopulationenAnzahlMassnahmen', 'csv');
+                    return false;
                 })
                 .on("click", "#export_pop_anz_kontr", function() {
-                    var url = "php/export_pop_anz_kontr.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                	window.apf.downloadFileFromView('vPopAnzKontr', 'PopulationenAnzahlKontrollen', 'csv');
+                    return false;
                 })
                 .on("click", "#export_popber_massnber", function() {
-                    var url = "php/export_popber_massnber.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                	window.apf.downloadFileFromView('vPop_BerUndMassnBer', 'PopulationenPopUndMassnBerichte', 'csv');
+                    return false;
                 })
                 .on("click", "#export_tpop_fuer_kml", function() {
+                	window.apf.downloadFileFromView('view', 'filename', 'csv');
                     var url = "php/export_tpop_fuer_kml.php";
                     $.fileDownload(url, {
                         preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
                         failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
                     });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                    return false;
                 })
                 .on("click", "#export_tpop_fuer_kml_namen", function() {
+                	window.apf.downloadFileFromView('view', 'filename', 'csv');
                     var url = "php/export_tpop_fuer_kml_namen.php";
                     $.fileDownload(url, {
                         preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
                         failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
                     });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                    return false;
                 })
                 .on("click", "#export_tpop_ohne_bekannt_seit", function() {
-                    var url = "php/export_tpop_ohne_bekannt_seit.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                	window.apf.downloadFileFromView('vTPopOhneBekanntSeit', 'TeilpopulationenVonApArtenOhneBekanntSeit', 'csv');
+                    return false;
                 })
                 .on("click", "#export_tpop_anz_massn", function() {
-                    var url = "php/export_tpop_anz_massn.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                	window.apf.downloadFileFromView('vTPopAnzMassn', 'TeilpopulationenAnzahlMassnahmen', 'csv');
+                    return false;
                 })
                 .on("click", "#export_tpop_anz_kontr_inkl_letzte", function() {
-                    var url = "php/export_tpop_anz_kontr_inkl_letzte.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                	window.apf.downloadFileFromView('vTPopAnzKontrInklLetzteKontr', 'TeilpopulationenAnzahlKontrollenInklusiveLetzteKontrolle', 'csv');
+                    return false;
                 })
                 .on("click", "#export_tpopber_massnber", function() {
-                    var url = "php/export_tpopber_massnber.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                	window.apf.downloadFileFromView('vTPop_BerUndMassnBer', 'TeilpopulationenTPopUndMassnBerichte', 'csv');
+                    return false;
                 })
                 .on("click", "#export_kontr_anz_pro_zaehleinheit", function() {
-                    var url = "php/export_kontr_anz_pro_zaehleinheit.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                	window.apf.downloadFileFromView('vKontrAnzProZaehleinheit', 'KontrollenAnzahlProZaehleinheit', 'csv');
+                    return false;
                 })
                 .on("click", "#export_beob", function() {
-                    var url = "php/export_beob.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                	window.apf.downloadFileFromView('vBeob', 'Beobachtungen', 'csv');
+                    return false;
                 })
                 .on("click", "#export_datenstruktur", function() {
-                    var url = "php/export_datenstruktur.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
-                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                	window.apf.downloadFileFromView('vDatenstruktur', 'Datenstruktur', 'csv');
+                    return false;
                 })
                 .on("click", "#export_datenstruktur_grafisch", function() {
                     window.open("etc/Beziehungen.pdf");
