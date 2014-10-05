@@ -265,8 +265,9 @@ window.apf.setzeWindowTpop = function (id) {
 window.apf.downloadFileFromView = function (view, filename, format) {
     // löst einen Download aus
     // als Formate steht momenatn nur csv zur Verfügung, weil xlsx leider nicht funktioniert hat
-    var format = format || 'csv',
-        url = 'api/v1/exportView/' + format + '/view=' + view + '/filename=' + filename;
+    var getTimestamp = require('./modules/getTimestamp'),
+        format = format || 'csv',
+        url = 'api/v1/exportView/' + format + '/view=' + view + '/filename=' + filename + '_' + getTimestamp();
     $.fileDownload(url, {
         preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
         failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
@@ -10313,7 +10314,7 @@ window.apf.erstelleGuid = function () {
         return v.toString(16);
     });
 };
-},{"./lib/cHtoWGSlat":7,"./lib/cHtoWGSlng":8,"./lib/ddInChX":10,"./lib/ddInChY":11,"./modules/configuration":21,"./modules/initiiereAp":27,"./modules/initiiereApziel":28,"./modules/initiiereAssozart":29,"./modules/initiiereBeob":30,"./modules/initiiereBer":31,"./modules/initiiereErfkrit":32,"./modules/initiiereFormularMitStrukturtyp":33,"./modules/initiiereIdealbiotop":34,"./modules/initiiereIndex":35,"./modules/initiiereJber":36,"./modules/initiiereJberUebersicht":37,"./modules/initiierePop":38,"./modules/initiierePopBer":39,"./modules/initiierePopMassnBer":40,"./modules/initiiereTPop":41,"./modules/initiiereTPopBer":42,"./modules/initiiereTPopFeldkontr":43,"./modules/initiiereTPopMassn":44,"./modules/initiiereTPopMassnBer":45,"./modules/initiiereZielber":46,"./modules/zeigeTPop":49}],2:[function(require,module,exports){
+},{"./lib/cHtoWGSlat":8,"./lib/cHtoWGSlng":9,"./lib/ddInChX":11,"./lib/ddInChY":12,"./modules/configuration":22,"./modules/getTimestamp":27,"./modules/initiiereAp":29,"./modules/initiiereApziel":30,"./modules/initiiereAssozart":31,"./modules/initiiereBeob":32,"./modules/initiiereBer":33,"./modules/initiiereErfkrit":34,"./modules/initiiereFormularMitStrukturtyp":35,"./modules/initiiereIdealbiotop":36,"./modules/initiiereIndex":37,"./modules/initiiereJber":38,"./modules/initiiereJberUebersicht":39,"./modules/initiierePop":40,"./modules/initiierePopBer":41,"./modules/initiierePopMassnBer":42,"./modules/initiiereTPop":43,"./modules/initiiereTPopBer":44,"./modules/initiiereTPopFeldkontr":45,"./modules/initiiereTPopMassn":46,"./modules/initiiereTPopMassnBer":47,"./modules/initiiereZielber":48,"./modules/zeigeTPop":51}],2:[function(require,module,exports){
 module.exports={
     "user": "alexande",
     "pass": "y3oYksFsQL49es9x"
@@ -10504,6 +10505,8 @@ if (typeof exports !== "undefined") {
 }
 
 },{}],4:[function(require,module,exports){
+module.exports=require(3)
+},{"C:\\Users\\alex\\apflora\\node_modules\\dateFormat\\lib\\dateformat.js":3}],5:[function(require,module,exports){
 var jQuery = require('jquery');
 
 /*! jQuery UI - v1.10.3 - 2013-05-03
@@ -25510,7 +25513,7 @@ $.widget( "ui.tooltip", {
 
 }( jQuery ) );
 
-},{"jquery":5}],5:[function(require,module,exports){
+},{"jquery":6}],6:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.1
  * http://jquery.com/
@@ -34702,7 +34705,7 @@ return jQuery;
 
 }));
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 //     Underscore.js 1.7.0
 //     http://underscorejs.org
 //     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -36119,7 +36122,7 @@ return jQuery;
   }
 }.call(this));
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 /**
  * Convert CH y/x to WGS lat
  * @return {number}
@@ -36150,7 +36153,7 @@ module.exports = function(y, x) {
 
     return lat;
 };
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /**
  * Convert CH y/x to WGS long
  * @return {number}
@@ -36180,7 +36183,7 @@ module.exports = function(y, x) {
 
     return lng;
 };
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 /**
  * übernimmt einen string
  * der erste Buchstabe wird mit einem Grossbuchstaben ersetzt
@@ -36193,7 +36196,7 @@ var capitalizeFirstLetter = function(string) {
 };
 
 module.exports = capitalizeFirstLetter;
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 /**
  * wandelt decimal degrees (vom GPS) in CH-Landeskoordinaten um
  * @return {number}
@@ -36218,7 +36221,7 @@ module.exports = function(breite, länge) {
 
     return Math.floor(wgs84InChX(breiteGrad, breiteMin, breiteSec, längeGrad, längeMin, längeSec));
 };
-},{"./ddInWgs84BreiteGrad":12,"./ddInWgs84BreiteMin":13,"./ddInWgs84BreiteSec":14,"./ddInWgs84LaengeGrad":15,"./ddInWgs84LaengeMin":16,"./ddInWgs84LaengeSec":17,"./wgs84InChX":19}],11:[function(require,module,exports){
+},{"./ddInWgs84BreiteGrad":13,"./ddInWgs84BreiteMin":14,"./ddInWgs84BreiteSec":15,"./ddInWgs84LaengeGrad":16,"./ddInWgs84LaengeMin":17,"./ddInWgs84LaengeSec":18,"./wgs84InChX":20}],12:[function(require,module,exports){
 /**
  * wandelt decimal degrees (vom GPS) in CH-Landeskoordinaten um
  * @return {number}
@@ -36243,7 +36246,7 @@ module.exports = function(breite, länge) {
 
     return Math.floor(wgs84InChY(breiteGrad, breiteMin, breiteSec, längeGrad, längeMin, längeSec));
 };
-},{"./ddInWgs84BreiteGrad":12,"./ddInWgs84BreiteMin":13,"./ddInWgs84BreiteSec":14,"./ddInWgs84LaengeGrad":15,"./ddInWgs84LaengeMin":16,"./ddInWgs84LaengeSec":17,"./wgs84InChY":20}],12:[function(require,module,exports){
+},{"./ddInWgs84BreiteGrad":13,"./ddInWgs84BreiteMin":14,"./ddInWgs84BreiteSec":15,"./ddInWgs84LaengeGrad":16,"./ddInWgs84LaengeMin":17,"./ddInWgs84LaengeSec":18,"./wgs84InChY":21}],13:[function(require,module,exports){
 /**
  * wandelt decimal degrees (vom GPS) in WGS84 um
  * @return {number}
@@ -36254,7 +36257,7 @@ module.exports = function(breite, länge) {
 module.exports = function(Breite) {
     return Math.floor(Breite);
 };
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /**
  * wandelt Projektionen um
  * @return {number}
@@ -36266,7 +36269,7 @@ module.exports = function(Breite) {
     var BreiteGrad = Math.floor(Breite);
     return Math.floor((Breite - BreiteGrad) * 60);
 };
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /**
  * Konvertiert Projektionen
  * @return {number}
@@ -36280,7 +36283,7 @@ module.exports = function(Breite) {
 
     return Math.round((((Breite - BreiteGrad) - (BreiteMin / 60)) * 60 * 60) * 100) / 100;
 };
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /**
  * Konvertiert Projektionen
  * @return {number}
@@ -36291,7 +36294,7 @@ module.exports = function(Breite) {
 module.exports = function(Laenge) {
     return Math.floor(Laenge);
 };
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /**
  * Konvertiert Projektionen
  * @return {number}
@@ -36303,7 +36306,7 @@ module.exports = function(Laenge) {
     var LaengeGrad = Math.floor(Laenge);
     return Math.floor((Laenge - LaengeGrad) * 60);
 };
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /**
  * Konvertiert Projektionen
  * @return {number}
@@ -36317,7 +36320,7 @@ module.exports = function(Laenge) {
 
     return Math.round((((Laenge - LaengeGrad) - (LaengeMin / 60)) * 60 * 60) * 100) / 100;
 };
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /**
  * damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
  * Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
@@ -36345,7 +36348,7 @@ module.exports = function($) {
         }
     });
 };
-},{"jquery":5}],19:[function(require,module,exports){
+},{"jquery":6}],20:[function(require,module,exports){
 /**
  * Wandelt WGS84 lat/long (° dec) in CH-Landeskoordinaten um
  * @return {number}
@@ -36377,7 +36380,7 @@ module.exports = function(breiteGrad, breiteMin, breiteSec, längeGrad, längeMi
 
     return x;
 };
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 /**
  * Wandelt WGS84 in CH-Landeskoordinaten um
  * @return {number}
@@ -36409,7 +36412,7 @@ module.exports = function(breiteGrad, breiteMin, breiteSec, längeGrad, längeMi
 
     return y;
 };
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 /**
  * Hier werden zentral alle Konfigurationsparameter gesammelt
  */
@@ -36609,7 +36612,7 @@ config.tables = [
 ];
 
 module.exports = config;
-},{"../../dbPass.json":2}],22:[function(require,module,exports){
+},{"../../dbPass.json":2}],23:[function(require,module,exports){
 /**
  * baut das html für die Dropdown-Liste der Adressen
  * wird in mehreren Felder benutzt
@@ -36648,7 +36651,7 @@ var returnFunction = function (callback) {
 };
 
 module.exports = returnFunction;
-},{"jquery":5,"underscore":6}],23:[function(require,module,exports){
+},{"jquery":6,"underscore":7}],24:[function(require,module,exports){
 /**
  * baut das html für die Dropdown-Liste der Übereinstimmung mit dem Idealbiotop
  * speichert die Liste in window.apf.IdealBiotopÜbereinst_html
@@ -36686,7 +36689,7 @@ var returnFunction = function (callback) {
 };
 
 module.exports = returnFunction;
-},{"jquery":5,"underscore":6}],24:[function(require,module,exports){
+},{"jquery":6,"underscore":7}],25:[function(require,module,exports){
 /**
  * baut das html für die Dropdown-Liste der Delarze-Lebensräume
  * wird in mehreren Felder benutzt
@@ -36725,7 +36728,7 @@ var returnFunction = function (callback) {
 };
 
 module.exports = returnFunction;
-},{"jquery":5,"underscore":6}],25:[function(require,module,exports){
+},{"jquery":6,"underscore":7}],26:[function(require,module,exports){
 /**
  * baut das html für die Dropdown-Liste der Massnahmentypen
  * wird in mehreren Felder benutzt
@@ -36764,7 +36767,18 @@ var returnFunction = function (callback) {
 };
 
 module.exports = returnFunction;
-},{"jquery":5,"underscore":6}],26:[function(require,module,exports){
+},{"jquery":6,"underscore":7}],27:[function(require,module,exports){
+'use strict';
+
+var dateFormat = require('dateFormat');
+
+var returnFunction = function () {
+    var now = new Date();
+    return dateFormat(now, 'yyyy-mm-dd_hh-MM:ss');
+};
+
+module.exports = returnFunction;
+},{"dateFormat":3}],28:[function(require,module,exports){
 /**
  * baut das html für die Dropdown-Liste der Zähleinheiten
  * wird in mehreren Felder benutzt
@@ -36803,7 +36817,7 @@ var returnFunction = function (callback) {
 };
 
 module.exports = returnFunction;
-},{"jquery":5,"underscore":6}],27:[function(require,module,exports){
+},{"jquery":6,"underscore":7}],29:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
@@ -36872,7 +36886,7 @@ var returnFunction = function (apId) {
 };
 
 module.exports = returnFunction;
-},{"./getAdressenHtml":22,"./initiiereIndex":35,"jquery":5,"underscore":6}],28:[function(require,module,exports){
+},{"./getAdressenHtml":23,"./initiiereIndex":37,"jquery":6,"underscore":7}],30:[function(require,module,exports){
 'use strict';
 
 var $              = require('jquery'),
@@ -36942,7 +36956,7 @@ var returnFunction = function (apId, apZielId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":27,"./initiiereIndex":35,"jquery":5}],29:[function(require,module,exports){
+},{"./initiiereAp":29,"./initiiereIndex":37,"jquery":6}],31:[function(require,module,exports){
 'use strict';
 
 var $              = require('jquery'),
@@ -37015,7 +37029,7 @@ var returnFunction = function (apId, assozId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":27,"./initiiereIndex":35,"jquery":5}],30:[function(require,module,exports){
+},{"./initiiereAp":29,"./initiiereIndex":37,"jquery":6}],32:[function(require,module,exports){
 'use strict';
 
 var $                     = require('jquery'),
@@ -37184,7 +37198,7 @@ var returnFunction = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
 };
 
 module.exports = returnFunction;
-},{"../lib/capitaliseFirstLetter":9,"./initiiereAp":27,"./initiiereBeob":30,"jquery":5,"underscore":6}],31:[function(require,module,exports){
+},{"../lib/capitaliseFirstLetter":10,"./initiiereAp":29,"./initiiereBeob":32,"jquery":6,"underscore":7}],33:[function(require,module,exports){
 'use strict';
 
 var $ = jQuery     = require('jquery'),
@@ -37280,7 +37294,7 @@ var initiiereBer = function (apId, berId) {
 };
 
 module.exports = initiiereBer;
-},{"../lib/limiter":18,"./initiiereAp":27,"./initiiereIndex":35,"jquery":5}],32:[function(require,module,exports){
+},{"../lib/limiter":19,"./initiiereAp":29,"./initiiereIndex":37,"jquery":6}],34:[function(require,module,exports){
 'use strict';
 
 var $              = require('jquery'),
@@ -37359,7 +37373,7 @@ var returnFunction = function (apId, erfkritId) {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":18,"./initiiereAp":27,"./initiiereIndex":35,"jquery":5}],33:[function(require,module,exports){
+},{"../lib/limiter":19,"./initiiereAp":29,"./initiiereIndex":37,"jquery":6}],35:[function(require,module,exports){
 'use strict';
 
 /**
@@ -37408,7 +37422,7 @@ var returnFunction = function (strukturtyp) {
 };
 
 module.exports = returnFunction;
-},{"./configuration":21,"./initiiereAp":27,"./initiiereApziel":28,"./initiiereAssozart":29,"./initiiereBer":31,"./initiiereErfkrit":32,"./initiiereIdealbiotop":34,"./initiiereJber":36,"./initiiereJberUebersicht":37,"./initiierePop":38,"./initiierePopBer":39,"./initiierePopMassnBer":40,"./initiiereTPop":41,"./initiiereTPopBer":42,"./initiiereTPopFeldkontr":43,"./initiiereTPopMassn":44,"./initiiereTPopMassnBer":45,"./initiiereZielber":46}],34:[function(require,module,exports){
+},{"./configuration":22,"./initiiereAp":29,"./initiiereApziel":30,"./initiiereAssozart":31,"./initiiereBer":33,"./initiiereErfkrit":34,"./initiiereIdealbiotop":36,"./initiiereJber":38,"./initiiereJberUebersicht":39,"./initiierePop":40,"./initiierePopBer":41,"./initiierePopMassnBer":42,"./initiiereTPop":43,"./initiiereTPopBer":44,"./initiiereTPopFeldkontr":45,"./initiiereTPopMassn":46,"./initiiereTPopMassnBer":47,"./initiiereZielber":48}],36:[function(require,module,exports){
 'use strict';
 
 var $                            = require('jquery'),
@@ -37504,7 +37518,7 @@ var initiiereIdealbiotop = function (apId) {
 };
 
 module.exports = initiiereIdealbiotop;
-},{"./initiiereAp":27,"./initiiereIndex":35,"./pruefeSchreibvoraussetzungen":48,"dateformat":3,"jquery":5}],35:[function(require,module,exports){
+},{"./initiiereAp":29,"./initiiereIndex":37,"./pruefeSchreibvoraussetzungen":50,"dateformat":4,"jquery":6}],37:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -37589,7 +37603,7 @@ var returnFunction = function () {
 };
 
 module.exports = returnFunction;
-},{"jquery":5,"jquery-ui":4}],36:[function(require,module,exports){
+},{"jquery":6,"jquery-ui":5}],38:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
@@ -37691,7 +37705,7 @@ var returnFunction = function (apId, apBerId) {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":18,"./getAdressenHtml":22,"./initiiereAp":27,"./initiiereIndex":35,"dateformat":3,"jquery":5,"underscore":6}],37:[function(require,module,exports){
+},{"../lib/limiter":19,"./getAdressenHtml":23,"./initiiereAp":29,"./initiiereIndex":37,"dateformat":4,"jquery":6,"underscore":7}],39:[function(require,module,exports){
 'use strict';
 
 var $              = require('jquery'),
@@ -37765,7 +37779,7 @@ var returnFunction = function (apId, uebId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":27,"./initiiereIndex":35,"jquery":5}],38:[function(require,module,exports){
+},{"./initiiereAp":29,"./initiiereIndex":37,"jquery":6}],40:[function(require,module,exports){
 'use strict';
 
 var $              = require('jquery'),
@@ -37860,7 +37874,7 @@ var returnFunction = function (apId, popId, ohne_zu_zeigen) {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":18,"./initiiereAp":27,"./initiiereIndex":35,"jquery":5}],39:[function(require,module,exports){
+},{"../lib/limiter":19,"./initiiereAp":29,"./initiiereIndex":37,"jquery":6}],41:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
@@ -37942,7 +37956,7 @@ var returnFunction = function (apId, popId, popberId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":27,"./initiiereIndex":35,"./initiierePop":38,"jquery":5}],40:[function(require,module,exports){
+},{"./initiiereAp":29,"./initiiereIndex":37,"./initiierePop":40,"jquery":6}],42:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
@@ -38026,7 +38040,7 @@ var returnFunction = function (apId, popId, massnberId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":27,"./initiiereIndex":35,"./initiierePop":38,"jquery":5}],41:[function(require,module,exports){
+},{"./initiiereAp":29,"./initiiereIndex":37,"./initiierePop":40,"jquery":6}],43:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
@@ -38166,7 +38180,7 @@ var returnFunction = function (apId, popId, tpopId, ohne_zu_zeigen) {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":18,"./getAdressenHtml":22,"./initiiereAp":27,"./initiiereIndex":35,"./initiierePop":38,"jquery":5,"underscore":6}],42:[function(require,module,exports){
+},{"../lib/limiter":19,"./getAdressenHtml":23,"./initiiereAp":29,"./initiiereIndex":37,"./initiierePop":40,"jquery":6,"underscore":7}],44:[function(require,module,exports){
 'use strict';
 
 var $              = require('jquery'),
@@ -38245,7 +38259,7 @@ var returnFunction = function (apId, popId, tpopId, tpopBerId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":27,"./initiiereIndex":35,"./initiierePop":38,"./initiiereTPop":41,"jquery":5}],43:[function(require,module,exports){
+},{"./initiiereAp":29,"./initiiereIndex":37,"./initiierePop":40,"./initiiereTPop":43,"jquery":6}],45:[function(require,module,exports){
 // wird gemeinsam für Feld- und Freiwilligenkontrollen verwendet
 // Feldkontrollen: Felder der Freiwilligenkontrollen ausblenden
 // Freiwilligenkontrollen: Felder der Feldkontrollen ausblenen plus Register Biotop
@@ -38530,7 +38544,7 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":18,"./getAdressenHtml":22,"./getIdealbiotopUebereinstHtml":23,"./getLrDelarzeHtml":24,"./getZaehleinheitenHtml":26,"./initiiereAp":27,"./initiiereIndex":35,"./initiierePop":38,"./initiiereTPop":41,"dateformat":3,"jquery":5,"jquery-ui":4,"underscore":6}],44:[function(require,module,exports){
+},{"../lib/limiter":19,"./getAdressenHtml":23,"./getIdealbiotopUebereinstHtml":24,"./getLrDelarzeHtml":25,"./getZaehleinheitenHtml":28,"./initiiereAp":29,"./initiiereIndex":37,"./initiierePop":40,"./initiiereTPop":43,"dateformat":4,"jquery":6,"jquery-ui":5,"underscore":7}],46:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
@@ -38670,7 +38684,7 @@ var returnFunction = function (apId, popId, tpopId, massnId) {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":18,"./getAdressenHtml":22,"./getMassntypHtml":25,"./initiiereAp":27,"./initiiereIndex":35,"./initiierePop":38,"./initiiereTPop":41,"dateformat":3,"jquery":5,"underscore":6}],45:[function(require,module,exports){
+},{"../lib/limiter":19,"./getAdressenHtml":23,"./getMassntypHtml":26,"./initiiereAp":29,"./initiiereIndex":37,"./initiierePop":40,"./initiiereTPop":43,"dateformat":4,"jquery":6,"underscore":7}],47:[function(require,module,exports){
 'use strict';
 
 var $              = require('jquery'),
@@ -38749,7 +38763,7 @@ var returnFunction = function (apId, popId, tpopId, massnBerId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":27,"./initiiereIndex":35,"./initiierePop":38,"./initiiereTPop":41,"jquery":5}],46:[function(require,module,exports){
+},{"./initiiereAp":29,"./initiiereIndex":37,"./initiierePop":40,"./initiiereTPop":43,"jquery":6}],48:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
@@ -38837,7 +38851,7 @@ var returnFunction = function (apId, apZielId, zielberId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":27,"./initiiereApziel":28,"./initiiereIndex":35,"jquery":5}],47:[function(require,module,exports){
+},{"./initiiereAp":29,"./initiiereApziel":30,"./initiiereIndex":37,"jquery":6}],49:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -38862,7 +38876,7 @@ module.exports = function () {
     }
     return true;
 };
-},{"jquery":5,"jquery-ui":4}],48:[function(require,module,exports){
+},{"jquery":6,"jquery-ui":5}],50:[function(require,module,exports){
 'use strict';
 
 var $                         = require('jquery'),
@@ -38879,7 +38893,7 @@ module.exports = function () {
         return true;
     }
 };
-},{"./pruefeLesevoraussetzungen":47,"jquery":5}],49:[function(require,module,exports){
+},{"./pruefeLesevoraussetzungen":49,"jquery":6}],51:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
@@ -39019,4 +39033,4 @@ var returnFunction = function (tpop_liste) {
 };
 
 module.exports = returnFunction;
-},{"../lib/cHtoWGSlat":7,"../lib/cHtoWGSlng":8,"jquery":5,"underscore":6}]},{},[1]);
+},{"../lib/cHtoWGSlat":8,"../lib/cHtoWGSlng":9,"jquery":6,"underscore":7}]},{},[1]);

@@ -20,10 +20,10 @@ var _                                 = require('underscore'),
         password: config.db.passWord,
         database: 'alexande_apflora'
     }),
-    serverMethodGemeinden             = require('./serverMethods/gemeinden'),
-    serverMethodArtliste              = require('./serverMethods/artliste'),
-    serverMethodApliste               = require('./serverMethods/apliste'),
-    serverMethodAdressen              = require('./serverMethods/adressen'),
+    queryGemeinden                    = require('./queries/gemeinden'),
+    queryArtliste                     = require('./queries/artliste'),
+    queryApliste                      = require('./queries/apliste'),
+    queryAdressen                     = require('./queries/adressen'),
     queryLrDelarze                    = require('./queries/lrDelarze'),
     queryTpopMassnTypen               = require('./queries/tpopMassnTypen'),
     queryAp                           = require('./queries/ap'),
@@ -133,33 +133,24 @@ server.route({
     }
 });
 
-server.method('gemeinden', serverMethodGemeinden, {
-    cache: { expiresIn: 8 * 60 * 60 * 1000 }
-});
 server.route({
     method: 'GET',
     path: '/api/v1/gemeinden',
-    handler: server.methods.gemeinden
+    handler: queryGemeinden
 });
 
-server.method('artliste', serverMethodArtliste, {
-    cache: { expiresIn: 8 * 60 * 60 * 1000 }
-});
 server.route({
     method: 'GET',
     path: '/api/v1/artliste',
     config: {
-        handler: server.methods.artliste
+        handler: queryArtliste
     }
 });
 
-server.method('apliste', serverMethodApliste, {
-    cache: { expiresIn: 8 * 60 * 60 * 1000 }
-});
 server.route({
     method: 'GET',
     path: '/api/v1/apliste/programm={programm}',
-    handler: server.methods.apliste
+    handler: queryApliste
 });
 
 server.route({
@@ -168,13 +159,10 @@ server.route({
     handler: queryAnmeldung
 });
 
-server.method('adressen', serverMethodAdressen, {
-    cache: { expiresIn: 60 * 1000 }
-});
 server.route({
     method: 'GET',
     path: '/api/v1/adressen',
-    handler: server.methods.adressen
+    handler: queryAdressen
 });
 
 server.route({
@@ -423,19 +411,6 @@ server.route({
                 fields: fields
             }, function (err, csv) {
                 if (err) console.log(err);
-                // null-Einträge entfernen (nur ganze Felder)
-                // Problem: regex fährt dort weiter, wo er zuletzt aufgehört hat
-                // daher werden aufeinanderfolgende nullen verpasst
-                // daher zuerst mehrfach aufeinanderfolgende suchen
-                // Diese Lösung wäre eleganter: http://stackoverflow.com/questions/14863026/javascript-regex-find-all-possible-matches-even-in-already-captured-matches
-                csv = csv.replace(/,null,null,null,null,null,null,null,null,/g, ',,');
-                csv = csv.replace(/,null,null,null,null,null,null,null,/g, ',,');
-                csv = csv.replace(/,null,null,null,null,null,null,/g, ',,');
-                csv = csv.replace(/,null,null,null,null,null,/g, ',,');
-                csv = csv.replace(/,null,null,null,null,/g, ',,');
-                csv = csv.replace(/,null,null,null,/g, ',,');
-                csv = csv.replace(/,null,null,/g, ',,');
-                csv = csv.replace(/,null,/g, ',,');
                 reply(csv)
                     .header('Content-Type', 'text/x-csv; charset=utf-8')
                     .header('Content-disposition', 'attachment; filename=' + filename + '.csv')

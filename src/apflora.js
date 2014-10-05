@@ -264,8 +264,9 @@ window.apf.setzeWindowTpop = function (id) {
 window.apf.downloadFileFromView = function (view, filename, format) {
     // löst einen Download aus
     // als Formate steht momenatn nur csv zur Verfügung, weil xlsx leider nicht funktioniert hat
-    var format = format || 'csv',
-        url = 'api/v1/exportView/' + format + '/view=' + view + '/filename=' + filename;
+    var getTimestamp = require('./modules/getTimestamp'),
+        format = format || 'csv',
+        url = 'api/v1/exportView/' + format + '/view=' + view + '/filename=' + filename + '_' + getTimestamp();
     $.fileDownload(url, {
         preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
         failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."

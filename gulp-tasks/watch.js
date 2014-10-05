@@ -11,7 +11,6 @@ return gulp.task('watch', function() {
             'queries/*',
             'queries/tree/*',
             'queries/export/*',
-            'serverMethods/*',
             'shp/*',
             'src/apflora.js',
             'src/lib/*',
