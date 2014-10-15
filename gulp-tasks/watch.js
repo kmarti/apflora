@@ -20,8 +20,8 @@ return gulp.task('watch', function() {
         ],
         ['dev_when_watch']
     );
-    gulp.watch(
-        ['style/apflora.css'],
-        ['dev_style']
-    );
+    gulp.watch([
+        'style/apflora.css',
+        'dev_style'
+    ]);
 });
