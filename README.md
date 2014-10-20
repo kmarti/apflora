@@ -121,7 +121,7 @@ Dazu werden die Feld- und Freiwilligenkontrollen (ausser solche von soeben anges
 - Daten für die Anzeige in GIS und [Web-GIS BUN](//www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/web_gis.html):
  - [Teilpopulationen](http://apflora.ch/php/export_tpop.php)
  - [Kontrollen](http://apflora.ch/api/v1/exportView/csv/view=vKontr/filename=Kontrollen)
- - [Massnahmen](http://apflora.ch/php/export_massn.php)
+ - [Massnahmen](http://apflora.ch/api/v1/exportView/csv/view=vMassn/filename=Massnahmen)
 
 <a href="#top">&#8593; top</a>
 

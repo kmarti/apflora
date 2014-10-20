@@ -2721,7 +2721,6 @@
                 .on("click", ".export_massn", function() {
                     // wenn tpop ausgewählt, diese übergeben
                     var tpop_id_liste = "";
-                    var url = "php/export_massn.php";
                     if (window.apf.olmap.tpop_selected) {
                         _.each(window.apf.olmap.tpop_selected, function(tpop, index) {
                             tpop_id_liste +=  tpop.get('myId');
@@ -2729,12 +2728,10 @@
                                 tpop_id_liste += ",";
                             }
                         });
-                        url += "?tpop_id_liste=" + tpop_id_liste;
+                    	window.apf.downloadFileFromViewWehreIdIn('vMassn', 'TPop ID', tpop_id_liste, 'Massnahmen', 'csv');
+                    } else {
+                    	window.apf.downloadFileFromView('vMassn', 'Massnahmen', 'csv');
                     }
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
                     return false; // this is critical to stop the click event which will trigger a normal file download!
                 });
 
