@@ -66,7 +66,8 @@ var _                                 = require('underscore'),
     queryTPopKarte                    = require('./queries/tpopKarte'),
     queryTPopsKarte                   = require('./queries/tpopsKarte'),
     queryTPopKarteAlle                = require('./queries/tpopKarteAlle'),
-    exportView                        = require('./queries/exportView');
+    exportView                        = require('./queries/exportView'),
+    exportViewWhereIdIn               = require('./queries/exportViewWhereIdIn');
 
 connectionApflora.connect();
 
@@ -440,6 +441,28 @@ server.route({
                 .header('Content-disposition', 'attachment; filename=' + filename + '.xlsx')
                 .header('Pragma', 'no-cache')
                 .header('Set-Cookie', 'fileDownload=true; path=/');
+        });
+    }
+});
+
+server.route({
+    method: 'GET',
+    path: '/api/v1/exportViewWhereIdIn/csv/view={view}/idName={idName}/idListe={idListe}/filename={filename}',
+    handler: function(request, reply) {
+        var filename = decodeURIComponent(request.params.filename);
+        exportViewWhereIdIn(request, function(data) {
+            var fields = _.keys(data[0]);
+            json2csv({
+                data: data,
+                fields: fields
+            }, function (err, csv) {
+                if (err) console.log(err);
+                reply(csv)
+                    .header('Content-Type', 'text/x-csv; charset=utf-8')
+                    .header('Content-disposition', 'attachment; filename=' + filename + '.csv')
+                    .header('Pragma', 'no-cache')
+                    .header('Set-Cookie', 'fileDownload=true; path=/');
+            });
         });
     }
 });

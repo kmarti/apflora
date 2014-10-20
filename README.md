@@ -120,7 +120,7 @@ Die FNS erhält aus der ApFloraDb folgende Produkte:
 Dazu werden die Feld- und Freiwilligenkontrollen (ausser solche von soeben angesäten, noch nicht etablierten Teilpopulationen) aus der Access-Admin-DB in einer Form exportiert, die einfach in [EvAB](//www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/tools/evab.html#a-content) importiert werden kann
 - Daten für die Anzeige in GIS und [Web-GIS BUN](//www.aln.zh.ch/internet/baudirektion/aln/de/naturschutz/naturschutzdaten/web_gis.html):
  - [Teilpopulationen](http://apflora.ch/php/export_tpop.php)
- - [Kontrollen](http://apflora.ch/php/export_kontr.php)
+ - [Kontrollen](http://apflora.ch/api/v1/exportView/csv/view=vKontr/filename=Kontrollen)
  - [Massnahmen](http://apflora.ch/php/export_massn.php)
 
 <a href="#top">&#8593; top</a>
