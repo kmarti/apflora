@@ -2702,7 +2702,6 @@
                 .on("click", ".export_tpop", function() {
                     // wenn tpop ausgewählt, diese übergeben
                     var tpop_id_liste = "";
-                    var url = "php/export_tpop.php";
                     if (window.apf.olmap.tpop_selected) {
                         _.each(window.apf.olmap.tpop_selected, function(tpop, index) {
                             tpop_id_liste +=  tpop.get('myId');
@@ -2710,12 +2709,10 @@
                                 tpop_id_liste += ",";
                             }
                         });
-                        url += "?tpop_id_liste=" + tpop_id_liste;
+                    	window.apf.downloadFileFromViewWehreIdIn('vTPop', 'TPop ID', tpop_id_liste, 'Teilpopulationen', 'csv');
+                    } else {
+                    	window.apf.downloadFileFromView('vTPop', 'Teilpopulationen', 'csv');
                     }
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
                     return false; // this is critical to stop the click event which will trigger a normal file download!
                 })
                 .on("click", ".export_massn", function() {
