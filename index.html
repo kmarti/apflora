@@ -2666,8 +2666,7 @@
                 })
                 .on("click", ".export_pop", function() {
                     // wenn pop ausgewählt, diese übergeben
-                    var pop_id_liste = "",
-                        url = "php/export_pop.php";
+                    var pop_id_liste = "";
                     if (window.apf.olmap.pop_selected) {
                         _.each(window.apf.olmap.pop_selected, function(pop, index) {
                             pop_id_liste +=  pop.get('myId');
@@ -2675,12 +2674,10 @@
                                 pop_id_liste += ",";
                             }
                         });
-                        url += "?pop_id_liste=" + pop_id_liste;
+                    	window.apf.downloadFileFromViewWehreIdIn('vPop', 'PopId', pop_id_liste, 'Populationen', 'csv');
+                    } else {
+                    	window.apf.downloadFileFromView('vPop', 'Populationen', 'csv');
                     }
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
                     return false; // this is critical to stop the click event which will trigger a normal file download!
                 })
                 .on("click", ".export_kontr", function() {
