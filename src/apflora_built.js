@@ -23191,7 +23191,7 @@ window.apf.setzeWindowTpop = function (id) {
 
 window.apf.downloadFileFromView = function (view, filename, format) {
     // löst einen Download aus
-    // als Formate steht momentan nur csv zur Verfügung, weil xlsx leider nicht funktioniert hat
+    // als Formate steht momentan nur csv (und teilweise kml) zur Verfügung, weil xlsx leider nicht funktioniert hat
     var getTimestamp = require('./modules/getTimestamp'),
         format = format || 'csv',
         url = 'api/v1/exportView/' + format + '/view=' + view + '/filename=' + filename + '_' + getTimestamp();

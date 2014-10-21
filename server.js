@@ -466,3 +466,28 @@ server.route({
         });
     }
 });
+
+server.route({
+    method: 'GET',
+    path: '/api/v1/exportView/kml/view={view}/filename={filename}',
+    handler: function(request, reply) {
+        var filename = decodeURIComponent(request.params.filename),
+            view = decodeURIComponent(request.params.view),
+            kml;
+
+        exportView(request, function(data) {
+            switch (view) {
+            case 'vPopFuerKml':
+                kml = require('./src/modules/getKmlForPop') (data);
+                break;
+            }
+            if (kml) {
+                reply(kml)
+                    .header('Content-Type', 'application/vnd.google-earth.kml+xml kml; charset=utf-8')
+                    .header('Content-disposition', 'attachment; filename=' + filename + '.kml')
+                    .header('Pragma', 'no-cache')
+                    .header('Set-Cookie', 'fileDownload=true; path=/');
+            }
+        });
+    }
+});

@@ -2783,12 +2783,7 @@
                     return false;
                 })
                 .on("click", "#export_pop_fuer_kml", function() {
-                	window.apf.downloadFileFromView('view', 'filename', 'csv');
-                    var url = "php/export_pop_fuer_kml.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
+                	window.apf.downloadFileFromView('vPopFuerKml', 'ApFloraPopulationen', 'kml');
                     return false;
                 })
                 .on("click", "#export_pop_fuer_kml_namen", function() {
