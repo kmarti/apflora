@@ -478,7 +478,12 @@ server.route({
         exportView(request, function(data) {
             switch (view) {
             case 'vPopFuerKml':
+            case 'vPopFuerKmlNamen':
                 kml = require('./src/modules/getKmlForPop') (data);
+                break;
+            case 'vTPopFuerKml':
+            case 'vTPopFuerKmlNamen':
+                kml = require('./src/modules/getKmlForTpop') (data);
                 break;
             }
             if (kml) {

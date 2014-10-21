@@ -2787,12 +2787,7 @@
                     return false;
                 })
                 .on("click", "#export_pop_fuer_kml_namen", function() {
-                	window.apf.downloadFileFromView('view', 'filename', 'csv');
-                    var url = "php/export_pop_fuer_kml_namen.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
+                	window.apf.downloadFileFromView('vPopFuerKmlNamen', 'PopulationenNachNamen', 'kml');
                     return false;
                 })
                 .on("click", "#export_pop_ohne_tpop", function() {
@@ -2824,21 +2819,11 @@
                     return false;
                 })
                 .on("click", "#export_tpop_fuer_kml", function() {
-                	window.apf.downloadFileFromView('view', 'filename', 'csv');
-                    var url = "php/export_tpop_fuer_kml.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
+                	window.apf.downloadFileFromView('vTPopFuerKml', 'Teilpopulationen', 'kml');
                     return false;
                 })
                 .on("click", "#export_tpop_fuer_kml_namen", function() {
-                	window.apf.downloadFileFromView('view', 'filename', 'csv');
-                    var url = "php/export_tpop_fuer_kml_namen.php";
-                    $.fileDownload(url, {
-                        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-                    });
+                	window.apf.downloadFileFromView('vTPopFuerKmlNamen', 'TeilpopulationenNachNamen', 'kml');
                     return false;
                 })
                 .on("click", "#export_tpop_ohne_bekannt_seit", function() {
