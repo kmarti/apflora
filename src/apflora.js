@@ -3906,8 +3906,8 @@ window.apf.gmap.zeigeBeobUndTPop = function (beob_liste, tpop_liste) {
         tpop_beschriftung,
         a_note,
         my_flurname,
-        cHtoWGSlat = require('./lib/cHtoWGSlat'),
-        cHtoWGSlng = require('./lib/cHtoWGSlng');
+        chToWgsLat = require('./lib/chToWgsLat'),
+        chToWgsLng = require('./lib/chToWgsLng');
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
     window.apf.zeigeFormular("google_karte");
     window.apf.gmap.markers_array = [];
@@ -3916,8 +3916,8 @@ window.apf.gmap.zeigeBeobUndTPop = function (beob_liste, tpop_liste) {
     infowindow_tpop = new google.maps.InfoWindow();
     // Lat und Lng in BeobListe ergänzen
     _.each(beob_liste, function (beob) {
-        beob.Lat = cHtoWGSlat(parseInt(beob.X), parseInt(beob.Y));
-        beob.Lng = cHtoWGSlng(parseInt(beob.X), parseInt(beob.Y));
+        beob.Lat = chToWgsLat(parseInt(beob.X), parseInt(beob.Y));
+        beob.Lng = chToWgsLng(parseInt(beob.X), parseInt(beob.Y));
     });
     // dito in TPopListe
     _.each(tpop_liste, function (tpop, index) {
@@ -3925,8 +3925,8 @@ window.apf.gmap.zeigeBeobUndTPop = function (beob_liste, tpop_liste) {
             // tpop gibt in Chrome Fehler
             delete tpop_liste[index];
         } else {
-            tpop.Lat = cHtoWGSlat(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
-            tpop.Lng = cHtoWGSlng(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
+            tpop.Lat = chToWgsLat(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
+            tpop.Lng = chToWgsLng(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
         }
     });
     // Beob zählen
@@ -4085,8 +4085,8 @@ window.apf.gmap.zeigeBeobUndTPop = function (beob_liste, tpop_liste) {
             });
             BeobNächsteTPop.done(function (data) {
                 var beobtxt,
-                    cHtoWGSlng = require('./lib/cHtoWGSlng'),
-                    cHtoWGSlat = require('./lib/cHtoWGSlat');
+                    chToWgsLng = require('./lib/chToWgsLng'),
+                    chToWgsLat = require('./lib/chToWgsLat');
                 if (Beob.Autor) {
                     beobtxt = "Beobachtung von " + Beob.Autor + " aus dem Jahr " + Beob.A_NOTE;
                 } else {
@@ -4115,8 +4115,8 @@ window.apf.gmap.zeigeBeobUndTPop = function (beob_liste, tpop_liste) {
                         Nein: function () {
                             $(this).dialog("close");
                             // drag rückgängig machen
-                            lng = cHtoWGSlng(Beob.X, Beob.Y);
-                            lat = cHtoWGSlat(Beob.X, Beob.Y);
+                            lng = chToWgsLng(Beob.X, Beob.Y);
+                            lat = chToWgsLat(Beob.X, Beob.Y);
                             var latlng3 = new google.maps.LatLng(lat, lng);
                             that.setPosition(latlng3);
                         }
@@ -4158,8 +4158,8 @@ window.apf.gmap.zeigeBeob = function (beob_liste) {
         datum,
         titel,
         a_note,
-        cHtoWGSlng = require('./lib/cHtoWGSlng'),
-        cHtoWGSlat = require('./lib/cHtoWGSlat');
+        chToWgsLng = require('./lib/chToWgsLng'),
+        chToWgsLat = require('./lib/chToWgsLat');
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
     window.apf.zeigeFormular("google_karte");
     window.apf.gmap.markers_array = [];
@@ -4167,8 +4167,8 @@ window.apf.gmap.zeigeBeob = function (beob_liste) {
     infowindow = new google.maps.InfoWindow();
     // Lat und Lng in BeobListe ergänzen
     _.each(beob_liste, function (beob) {
-        beob.Lat = cHtoWGSlat(parseInt(beob.X), parseInt(beob.Y));
-        beob.Lng = cHtoWGSlng(parseInt(beob.X), parseInt(beob.Y));
+        beob.Lat = chToWgsLat(parseInt(beob.X), parseInt(beob.Y));
+        beob.Lng = chToWgsLng(parseInt(beob.X), parseInt(beob.Y));
     });
     // TPop zählen
     anz_beob = beob_liste.length;
@@ -4295,8 +4295,8 @@ window.apf.gmap.zeigeTPopBeob = function (tpop_beob_liste) {
         marker_cluster,
         datum,
         titel,
-        cHtoWGSlng = require('./lib/cHtoWGSlng'),
-        cHtoWGSlat = require('./lib/cHtoWGSlat');
+        chToWgsLng = require('./lib/chToWgsLng'),
+        chToWgsLat = require('./lib/chToWgsLat');
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
     window.apf.zeigeFormular("google_karte");
     window.apf.gmap.markers_array = [];
@@ -4306,8 +4306,8 @@ window.apf.gmap.zeigeTPopBeob = function (tpop_beob_liste) {
     // Objekte löschen, die keine Koordinaten haben
     // Lat und Lng ergänzen
     _.each(tpop_beob_liste, function (tpop_beob) {
-        tpop_beob.Lat = cHtoWGSlat(parseInt(tpop_beob.X), parseInt(tpop_beob.Y));
-        tpop_beob.Lng = cHtoWGSlng(parseInt(tpop_beob.X), parseInt(tpop_beob.Y));
+        tpop_beob.Lat = chToWgsLat(parseInt(tpop_beob.X), parseInt(tpop_beob.Y));
+        tpop_beob.Lng = chToWgsLng(parseInt(tpop_beob.X), parseInt(tpop_beob.Y));
     });
     // TPop zählen
     anz_tpop_beob = tpop_beob_liste.length;
@@ -4426,8 +4426,8 @@ window.apf.gmap.verorteTPop = function (tpop) {
         content_string,
         tpop_beschriftung,
         my_flurname,
-        cHtoWGSlng = require('./lib/cHtoWGSlng'),
-        cHtoWGSlat = require('./lib/cHtoWGSlat');
+        chToWgsLng = require('./lib/chToWgsLng'),
+        chToWgsLat = require('./lib/chToWgsLat');
     window.apf.gmap.markers_array = [];
 
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
@@ -4436,8 +4436,8 @@ window.apf.gmap.verorteTPop = function (tpop) {
     // Optionen für die Anzeige
     if (tpop && tpop.TPopXKoord && tpop.TPopYKoord) {
         // Wenn Koordinaten vorhanden, Lat und Lng ergänzen
-        lat = cHtoWGSlat(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
-        lng = cHtoWGSlng(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
+        lat = chToWgsLat(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
+        lng = chToWgsLng(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
         zoom_level = 15;
         verorted = true;
     } else {

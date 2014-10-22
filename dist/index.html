@@ -1,0 +1,624 @@
+<!doctype html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width, initial-scale=1"><link rel="SHORTCUT ICON" href=img/favicon.ico><link rel=stylesheet href=style/jquery-ui.css><link rel=stylesheet href=style/apflora_built.css><script type=text/javascript src=//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js></script><script>window.jQuery || document.write('<script src="src/jquery.js" type="text/javascript"><\/script>')</script><script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script><script src="http://api3.geo.admin.ch/loader.js?lang=de"></script><script src=src/apflora_built.js></script><script src=src/jquery.jstree.js></script><title>AP Flora Kt ZH</title></head><body><div id=wrapper><fieldset id=menu><div class=fieldcontain><label id=ap_waehlen_label for=ap_waehlen class=select style=color:#6F6F66;>Artförderprogramm wählen aha:</label><select id=ap_waehlen style="width:100%; font-size:17px;"><option></option></select></div><div class=fieldcontain style="margin-top:3px; margin-bottom:3px;"><label for=programm_wahl style="color:#6F6F66; margin-right:5px; overflow:hidden;">Programme:</label> <span id=programm_wahl style=display:none;><input type=radio id=programm_alle name=programm_wahl checked> <label for=programm_alle>alle</label> <input type=radio id=programm_ap name=programm_wahl> <label for=programm_ap>Aktionspläne</label> <input type=radio id=programm_neu name=programm_wahl> <label for=programm_neu>neu</label></span> <button id=ap_loeschen style="margin-left:6px; display:none;">löschen</button> <button id=exportieren_1 class=exportieren style=margin-left:6px;>exportieren</button></div><input type=search id=suchen placeholder=suchen> <button id=exportieren_2 class=exportieren style="margin-left:6px; display:none;">exportieren</button><div id=tree style=margin-bottom:5px;></div><div id=hilfe style="font-size:80%; color:#6F6F66; display:none;">Für Menüs: mit rechter Maustaste im Strukturbaum klicken<a href=https://github.com/FNSKtZH/apflora/wiki class="ui-icon ui-icon-info" style=float:right; target=_blank title="Infos über AP Flora Web"></a></div></fieldset><fieldset id=undelete_div class=undelete></fieldset><fieldset id=forms style=display:none;><div id=forms_titelzeile class=undelete style="margin:0 0 0 0; line-height:27px; padding: 0 7px 0 9px; height:auto; display:none;"><div id=testart_div style="font-weight:bold; color:#196319; float:left; padding-right:7px;"></div></div><form id=ap class=form action=# method=get autocomplete=off style=display:none;><table><tr class=fieldcontain><td class=label><label id=Artname_label for=ApArtwert>Art:</label></td><td class=Datenfelder><input id=Artname name=Artname formular=ap type=text readonly style="font-weight: bold"></td></tr><tr class=fieldcontain><td class=label><label id=ApStatus_label for=ApStatus class="apf-with-tooltip erforderlich"><span>Aktionsplan:</span></label><div class=tooltiptext><table><tr class=apf-tr-with-border-bottom><td>keiner:</td><td>kein Aktionsplan vorgesehen</td></tr><tr><td>erstellt:</td><td>Aktionsplan fertig, auf der Website der FNS</td></tr></table></div></td><td class=Datenfelder><input type=radio name=ApStatus id=ApStatus0 class=speichern formular=ap value=0>(kein Eintrag)<br><input type=radio name=ApStatus id=ApStatus4 class=speichern formular=ap value=4>keiner<br><input type=radio name=ApStatus id=ApStatus1 class=speichern formular=ap value=1>vorgesehen<br><input type=radio name=ApStatus id=ApStatus2 class=speichern formular=ap value=2>in Bearbeitung<br><input type=radio name=ApStatus id=ApStatus3 class=speichern formular=ap value=3>erstellt</td><td></td></tr><tr class=fieldcontain><td class=label><label id=ApJahr_label for=ApJahr>Start im Jahr:</label></td><td class=Datenfelder><input id=ApJahr name=ApJahr class=speichern formular=ap type=number></td></tr><tr class=fieldcontain><td class=label><label id=ApUmsetzung_label for=ApUmsetzung class=apf-with-tooltip><span>Stand Umsetzung:</span></label><div class=tooltiptext><table><tr class=apf-tr-with-border-bottom><td>noch keine Umsetzung:</td><td>noch keine Massnahmen ausgeführt</td></tr><tr><td>in Umsetzung:</td><td>bereits Massnahmen ausgeführt (auch wenn AP noch nicht erstellt)</td></tr></table></div></td><td class=Datenfelder><input type=radio name=ApUmsetzung class=speichern formular=ap id=ApUmsetzung0 value=0>noch keine Umsetzung<br><input type=radio name=ApUmsetzung class=speichern formular=ap id=ApUmsetzung1 value=1>in Umsetzung<br><input type=radio name=ApUmsetzung class=speichern formular=ap id=ApUmsetzung2 value=2>umgesetzt</td></tr><tr class=fieldcontain><td class=label><label id=ApBearb_label for=ApBearb>Verantwortlich:</label></td><td class=Datenfelder><select id=ApBearb name=ApBearb class=speichern formular=ap><option></option></select></td></tr><tr class=fieldcontain><td class=label><label id=ApArtwert_label for=ApArtwert>Artwert:</label></td><td class=Datenfelder><input id=ApArtwert name=ApArtwert class=speichern formular=ap type=text readonly></td></tr></table></form><form id=pop class=form action=# method=get autocomplete=off style=display:none;><table><tr class=fieldcontain><td class=label><label id=PopNr_label for=PopNr>Nr.:</label></td><td class=Datenfelder><input id=PopNr name=PopNr class=speichern formular=pop type=number></td></tr><tr class=fieldcontain><td class=label><label id=PopName_label for=PopName class="apf-with-tooltip erforderlich"><span>Name:</span></label><div class=tooltiptext><p>Dieses Feld möglichst immer ausfüllen</p></div></td><td class=Datenfelder><input id=PopName name=PopName class=speichern formular=pop type=text maxlength=150><div id=PopName_limit class=limiter></div></td></tr><tr class=fieldcontain><td class=label><label id=PopHerkunft_label for=PopHerkunft class="apf-with-tooltip erforderlich"><span>Status:</span></label><div class=tooltiptext><table><tr class=apf-tr-with-border-bottom><td>autochthon:</td><td>Population ist ursprünglich</td></tr><tr class=apf-tr-with-border-bottom><td>neu entdeckt, autochthon:</td><td>Population neu entdeckt (ab 1990)</td></tr><tr class=apf-tr-with-border-bottom><td>neu entdeckt, angesiedelt:</td><td>Population neu entdeckt (ab 1990)</td></tr><tr class=apf-tr-with-border-bottom><td>nur angesät:</td><td>wenn alle Teilpopulationen nur angesät sind und noch keine Kontrollen mit Pflanzenfunden durchgeführt wurden, oder wenn zwar Kontrollen durchgeführt aber keine Pflanzen gefunden wurden und noch nicht entschieden wurde, dass Population nicht etabliert ist</td></tr><tr><td>überprüft, kein Vorkommen:</td><td>Dies sind Orte, die ohne dass vorher Angaben darüber vorhanden gewesen wären, explizit auf eine Art hin untersucht wurden und diese Art dort aber nicht gefunden wurde</td></tr></table></div></td><td class=Datenfelder><input type=radio name=PopHerkunft id=PopHerkunft1 class=speichern formular=pop value=1>autochthon<br><input type=radio name=PopHerkunft id=PopHerkunft6 class=speichern formular=pop value=6>neu entdeckt, autochthon<br><input type=radio name=PopHerkunft id=PopHerkunft9 class=speichern formular=pop value=9>neu entdeckt, angesiedelt<br><input type=radio name=PopHerkunft id=PopHerkunft8 class=speichern formular=pop value=8>angesiedelt, vor Beginn AP<br><input type=radio name=PopHerkunft id=PopHerkunft2 class=speichern formular=pop value=2>angesiedelt, nach Beginn AP<br><input type=radio name=PopHerkunft id=PopHerkunft1198167213 class=speichern formular=pop value=1198167213>nur angesät<br><input type=radio name=PopHerkunft id=PopHerkunft4 class=speichern formular=pop value=4>erloschen, zuvor autochthon<br><input type=radio name=PopHerkunft id=PopHerkunft1200498803 class=speichern formular=pop value=1200498803>erloschen, vor AP angesiedelt<br><input type=radio name=PopHerkunft id=PopHerkunft7 class=speichern formular=pop value=7>erloschen, nach Beginn AP angesiedelt<br><input type=radio name=PopHerkunft id=PopHerkunft10 class=speichern formular=pop value=10>überprüft, kein Vorkommen<br><input type=radio name=PopHerkunft id=PopHerkunft11 class=speichern formular=pop value=11>potenzielles Biotop</td></tr><tr class=fieldcontain><td class=label><label id=PopHerkunftUnklar_label for=PopHerkunftUnklar class=apf-with-tooltip><span>Status unklar:</span></label><div class=tooltiptext><p>Will heissen: Die Aussage zum Status ist unsicher<br>Bitte auch einen Status wählen</p></div></td><td class=Datenfelder><input type=checkbox name=PopHerkunftUnklar id=PopHerkunftUnklar class=speichern formular=pop></td></tr><tr class=fieldcontain><td class=label><label id=PopHerkunftUnklarBegruendung_label for=PopHerkunftUnklarBegruendung>Begründung:</label></td><td class=Datenfelder><textarea name=PopHerkunftUnklarBegruendung id=PopHerkunftUnklarBegruendung class=speichern formular=pop placeholder="...für unklaren Status" maxlength=255></textarea><div id=PopHerkunftUnklarBegruendung_limit class=limiter></div></td></tr><tr class=fieldcontain><td class=label><label id=PopBekanntSeit_label for=PopBekanntSeit class="apf-with-tooltip erforderlich"><span>Bekannt seit:</span></label><div class=tooltiptext><p>Dieses Feld möglichst immer ausfüllen</p></div></td><td class=Datenfelder><input id=PopBekanntSeit name=PopBekanntSeit class=speichern formular=pop type=number></td></tr><tr class=fieldcontain><td class=label><label id=PopXKoord_label for=PopXKoord>X-Koordinaten:</label></td><td class=Datenfelder><input id=PopXKoord name=PopXKoord class=speichern formular=pop type=number></td></tr><tr class=fieldcontain><td class=label><label id=PopYKoord_label for=PopYKoord>Y-Koordinaten:</label></td><td class=Datenfelder><input id=PopYKoord name=PopYKoord class=speichern formular=pop type=number></td></tr></table></form><form id=tpop class=form action=# method=get autocomplete=off style=display:none;><table><tr class=fieldcontain><td class=label><label id=TPopNr_label for=TPopNr>Nr.:</label></td><td class=Datenfelder><input id=TPopNr name=TPopNr class=speichern formular=tpop type=number></td></tr><tr class=fieldcontain><td class=label><label id=TPopFlurname_label for=TPopFlurname class="apf-with-tooltip erforderlich"><span>Flurname:</span></label><div class=tooltiptext><p>Dieses Feld möglichst immer ausfüllen</p></div></td><td class=Datenfelder><input id=TPopFlurname name=TPopFlurname class=speichern formular=tpop type=text maxlength=255><div id=TPopFlurname_limit class=limiter></div></td></tr><tr class=fieldcontain><td class=label><label id=TPopHerkunft_label for=TPopHerkunft class="apf-with-tooltip erforderlich"><span>Status:</span></label><div class=tooltiptext><table><tr class=apf-tr-with-border-bottom><td>autochthon:</td><td>Population ist ursprünglich</td></tr><tr><td>neu entdeckt, autochthon:</td><td>Population neu entdeckt (ab 1990)</td></tr><tr><td>neu entdeckt, angesiedelt:</td><td>Population neu entdeckt (ab 1990)</td></tr><tr><td>nur angesät:</td><td>wenn alle Teilpopulationen nur angesät sind und noch keine Kontrollen mit Pflanzenfunden durchgeführt wurden, oder wenn zwar Kontrollen durchgeführt aber keine Pflanzen gefunden wurden und noch nicht entschieden wurde, dass Population nicht etabliert ist</td></tr><tr><td>überprüft, kein Vorkommen:</td><td>Dies sind Orte, die ohne dass vorher Angaben darüber vorhanden gewesen wären, explizit auf eine Art hin untersucht wurden und diese Art dort aber nicht gefunden wurde</td></tr></table></div></td><td class=Datenfelder><input type=radio name=TPopHerkunft id=TPopHerkunft1 class=speichern formular=tpop value=1>autochthon<br><input type=radio name=TPopHerkunft id=TPopHerkunft6 class=speichern formular=tpop value=6>neu entdeckt, autochthon<br><input type=radio name=TPopHerkunft id=TPopHerkunft9 class=speichern formular=tpop value=9>neu entdeckt, angesiedelt<br><input type=radio name=TPopHerkunft id=TPopHerkunft8 class=speichern formular=tpop value=8>angesiedelt, vor Beginn AP<br><input type=radio name=TPopHerkunft id=TPopHerkunft2 class=speichern formular=tpop value=2>angesiedelt, nach Beginn AP<br><input type=radio name=TPopHerkunft id=TPopHerkunft1198167213 class=speichern formular=tpop value=1198167213>nur angesät<br><input type=radio name=TPopHerkunft id=TPopHerkunft4 class=speichern formular=tpop value=4>erloschen, zuvor autochthon<br><input type=radio name=TPopHerkunft id=TPopHerkunft1200498803 class=speichern formular=tpop value=1200498803>erloschen, vor AP angesiedelt<br><input type=radio name=TPopHerkunft id=TPopHerkunft7 class=speichern formular=tpop value=7>erloschen, nach Beginn AP angesiedelt<br><input type=radio name=TPopHerkunft id=TPopHerkunft10 class=speichern formular=tpop value=10>überprüft, kein Vorkommen<br><input type=radio name=TPopHerkunft id=TPopHerkunft11 class=speichern formular=tpop value=11>potenzielles Biotop</td></tr><tr class=fieldcontain><td class=label><label id=TPopHerkunftUnklar_label for=TPopHerkunftUnklar class=apf-with-tooltip><span>Status unklar:</span></label><div class=tooltiptext><p>Will heissen: Die Aussage zum Status ist unsicher<br>Bitte auch einen Status wählen</p></div></td><td class=Datenfelder><input type=checkbox name=TPopHerkunftUnklar id=TPopHerkunftUnklar class=speichern formular=tpop></td></tr><tr class=fieldcontain><td class=label><label id=TPopHerkunftUnklarBegruendung_label for=TPopHerkunftUnklarBegruendung>Begründung:</label></td><td class=Datenfelder><textarea name=TPopHerkunftUnklarBegruendung id=TPopHerkunftUnklarBegruendung class=speichern formular=tpop placeholder="...für unklaren Status" maxlength=255></textarea><div id=TPopHerkunftUnklarBegruendung_limit class=limiter></div></td></tr><tr class=fieldcontain><td class=label><label id=TPopApBerichtRelevant_label for=TPopApBerichtRelevant class="apf-with-tooltip erforderlich"><span>Für AP-Bericht<br>relevant?</span></label><div class=tooltiptext><p>Dieses Feld möglichst immer ausfüllen</p><table><tr class=apf-tr-with-border-bottom><td>nein (historisch):</td><td>vor 1950 ohne Kontrolle (historisch = erloschen)</td></tr><tr><td>nein (kein Vorkommen):</td><td>siehe bei Populationen "überprüft kein Vorkommen"</td></tr></table></div></td><td class=Datenfelder><input type=radio name=TPopApBerichtRelevant id=TPopApBerichtRelevant1 class=speichern formular=tpop value=1>ja<br><input type=radio name=TPopApBerichtRelevant id=TPopApBerichtRelevant2 class=speichern formular=tpop value=2>nein (historisch)<br><input type=radio name=TPopApBerichtRelevant id=TPopApBerichtRelevant3 class=speichern formular=tpop value=3>nein (ausserkantonal)<br><input type=radio name=TPopApBerichtRelevant id=TPopApBerichtRelevant4 class=speichern formular=tpop value=4>nein (Status unklar)<br><input type=radio name=TPopApBerichtRelevant id=TPopApBerichtRelevant5 class=speichern formular=tpop value=5>nein (kein Vorkommen)</td></tr><tr class=fieldcontain><td class=label><label id=TPopBekanntSeit_label for=TPopBekanntSeit class="apf-with-tooltip erforderlich"><span>Bekannt seit:</span></label><div class=tooltiptext><p>Dieses Feld möglichst immer ausfüllen</p></div></td><td class=Datenfelder><input id=TPopBekanntSeit name=TPopBekanntSeit class=speichern formular=tpop type=number></td></tr><tr class="fieldcontain TPopGemeinde"><td class=label><label id=TPopGemeinde_label for=TPopGemeinde>Gemeinde:</label></td><td class=Datenfelder><input id=TPopGemeinde name=TPopGemeinde class=speichern formular=tpop type=text maxlength=255><div id=TPopGemeinde_limit class=limiter></div></td></tr><tr class=fieldcontain><td class=label><label id=TPopXKoord_label for=TPopXKoord>X-Koordinaten:</label></td><td class=Datenfelder><input id=TPopXKoord name=TPopXKoord class=speichern formular=tpop type=number></td></tr><tr class=fieldcontain><td class=label><label id=TPopYKoord_label for=TPopYKoord>Y-Koordinaten:</label></td><td class=Datenfelder><input id=TPopYKoord name=TPopYKoord class=speichern formular=tpop type=number></td></tr><tr class=fieldcontain><td class=label></td><td class=Datenfelder><button id=kopiereKoordinatenInPop type=button style=float:left;>Koordinaten in die Population kopieren</button><div id=kopiereKoordinatenInPopRueckmeldung style="display:none; line-height:26px; margin-left:35px;">&nbsp;&nbsp;Koordinaten kopiert</div></td></tr><tr class=fieldcontain><td class=label><label id=TPopRadius_label for=TPopRadius>Radius (m):</label></td><td class=Datenfelder><input id=TPopRadius name=TPopRadius class=speichern formular=tpop type=number></td></tr><tr class=fieldcontain><td class=label><label id=TPopHoehe_label for=TPopHoehe>Höhe (m.ü.M.):</label></td><td class=Datenfelder><input id=TPopHoehe name=TPopHoehe class=speichern formular=tpop type=number></td></tr><tr class=fieldcontain><td class=label><label id=TPopExposition_label for=TPopExposition>Exposition,<br>Besonnung:</label></td><td class=Datenfelder><input id=TPopExposition name=TPopExposition class=speichern formular=tpop type=text maxlength=50><div id=TPopExposition_limit class=limiter></div></td></tr><tr class=fieldcontain><td class=label><label id=TPopKlima_label for=TPopKlima>Klima:</label></td><td class=Datenfelder><input id=TPopKlima name=TPopKlima class=speichern formular=tpop type=text maxlength=50><div id=TPopKlima_limit class=limiter></div></td></tr><tr class=fieldcontain><td class=label><label id=TPopNeigung_label for=TPopNeigung>Hangneigung:</label></td><td class=Datenfelder><input id=TPopNeigung name=TPopNeigung class=speichern formular=tpop type=text maxlength=50><div id=TPopNeigung_limit class=limiter></div></td></tr><tr class=fieldcontain><td class=label><label id=TPopBeschr_label for=TPopBeschr>Beschreibung:</label></td><td class=Datenfelder><textarea id=TPopBeschr name=TPopBeschr class=speichern formular=tpop type=text maxlength=255></textarea><div id=TPopBeschr_limit class=limiter></div></td></tr><tr class=fieldcontain><td class=label><label id=TPopKatNr_label for=TPopKatNr>Kataster-Nr.:</label></td><td class=Datenfelder><input id=TPopKatNr name=TPopKatNr class=speichern formular=tpop type=text maxlength=255><div id=TPopKatNr_limit class=limiter></div></td></tr><tr class=fieldcontain><td class=label><label id=TPopVerantw_label for=TPopVerantw>Verantwortlich:</label></td><td class=Datenfelder><select id=TPopVerantw name=TPopVerantw class=speichern formular=tpop><option></option></select></td></tr><tr class=fieldcontain><td class=label><label id=TPopEigen_label for=TPopEigen>EigentümerIn:</label></td><td class=Datenfelder><input id=TPopEigen name=TPopEigen class=speichern formular=tpop type=text maxlength=255><div id=TPopEigen_limit class=limiter></div></td></tr><tr class=fieldcontain><td class=label><label id=TPopKontakt_label for=TPopKontakt>Kontakt vor Ort:</label></td><td class=Datenfelder><input id=TPopKontakt name=TPopKontakt class=speichern formular=tpop type=text maxlength=255><div id=TPopKontakt_limit class=limiter></div></td></tr><tr class=fieldcontain><td class=label><label id=TPopNutzungszone_label for=TPopNutzungszone>Nutzungszone:</label></td><td class=Datenfelder><input id=TPopNutzungszone name=TPopNutzungszone class=speichern formular=tpop type=text maxlength=255><div id=TPopNutzungszone_limit class=limiter></div></td></tr><tr class=fieldcontain><td class=label><label id=TPopBewirtschafterIn_label for=TPopBewirtschafterIn>BewirtschafterIn:</label></td><td class=Datenfelder><input id=TPopBewirtschafterIn name=TPopBewirtschafterIn class=speichern formular=tpop type=text maxlength=255><div id=TPopBewirtschafterIn_limit class=limiter></div></td></tr><tr class=fieldcontain><td class=label><label id=TPopBewirtschaftung_label for=TPopBewirtschaftung>Bewirtschaftung:</label></td><td class=Datenfelder><input id=TPopBewirtschaftung name=TPopBewirtschaftung class=speichern formular=tpop type=text maxlength=255><div id=TPopBewirtschaftung_limit class=limiter></div></td></tr><tr class=fieldcontain><td class=label><label id=TPopTxt_label for=TPopTxt>Bemerkungen:</label></td><td class=Datenfelder><textarea id=TPopTxt name=TPopTxt class=speichern formular=tpop type=text></textarea></td></tr></table></form><form id=tpopfeldkontr class=form action=# method=get autocomplete=off style=display:none;><div id=tpopfeldkontr_tabs><ul><li><a href=#tpopfeldkontr_tabs_entwicklung>Entwicklung</a></li><li id=biotop_tab_li><a href=#tpopfeldkontr_tabs_biotop>Biotop</a></li></ul><div id=tpopfeldkontr_tabs_entwicklung><table><tr id=fieldcontain_TPopKontrJahr class="fieldcontain feld_tpopfeldkontr TPopKontrJahr"><td class=label><label id=TPopKontrJahr_label for=TPopKontrJahr>Jahr:</label></td><td class=Datenfelder><input id=TPopKontrJahr name=TPopKontrJahr class=speichern formular=tpopfeldkontr type=number></td></tr><tr id=fieldcontain_TPopKontrDatum class="fieldcontain feld_tpopfeldkontr TPopKontrDatum"><td class=label><label id=TPopKontrDatum_label for=TPopKontrDatum>Datum:</label></td><td class=Datenfelder><input id=TPopKontrDatum name=TPopKontrDatum class="speichern Datum" formular=tpopfeldkontr type=text placeholder="Muster: "1.1.2000"" pattern=[0-9]{4}\.[0-9]{1,2}\.[0-9]{1,2} title="Jahr vierstellig eingeben"></td></tr><tr id=fieldcontain_TPopKontrTyp class="fieldcontain feld_tpopfeldkontr TPopKontrTyp"><td class=label><label id=TPopKontrTyp_label for=TPopKontrTyp>Kontrolltyp:</label></td><td class=Datenfelder><input type=radio name=TPopKontrTyp id=TPopKontrTypAusgangszustand class=speichern formular=tpopfeldkontr value=Ausgangszustand><span id=spanTPopKontrTypAusgangszustand>Ausgangszustand</span><br><input type=radio name=TPopKontrTyp id=TPopKontrTypZwischenbeurteilung class=speichern formular=tpopfeldkontr value=Zwischenbeurteilung><span id=spanTPopKontrTypZwischenbeurteilung>Zwischenbeurteilung</span><br><input type=radio name=TPopKontrTyp id=TPopKontrTypZwischenziel class=speichern formular=tpopfeldkontr value=Zwischenziel><span id=spanTPopKontrTypZwischenziel>Zwischenziel</span><br><input type=radio name=TPopKontrTyp id=TPopKontrTypZiel class=speichern formular=tpopfeldkontr value=Ziel><span id=spanTPopKontrTypZiel>Ziel</span></td></tr><tr id=fieldcontain_TPopKontrBearb class="fieldcontain feld_tpopfeldkontr TPopKontrBearb"><td class=label><label id=TPopKontrBearb_label for=TPopKontrBearb>BearbeiterIn:</label></td><td class=Datenfelder><select id=TPopKontrBearb name=TPopKontrBearb class=speichern formular=tpopfeldkontr><option></option></select></td></tr></table><fieldset style=background:none;><legend>1. Zähleinheit</legend><table><tr id=fieldcontain_TPopKontrZaehleinheit1 class="fieldcontain feld_tpopfeldkontr TPopKontrZaehleinheit1"><td class=label_fieldset><label id=TPopKontrZaehleinheit1_label for=TPopKontrZaehleinheit1 style=width:115px class=apf-with-tooltip><span>Einheit:</span></label><div class=tooltiptext><p>Spezialfall<br>Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p><ul><li>Einheit: "Art ist vorhanden" (letzter Punkt auf Auswahlliste)</li><li>Anzahl: 1</li></ul></div></td><td class=Datenfelder><select id=TPopKontrZaehleinheit1 name=TPopKontrZaehleinheit1 class=speichern formular=tpopfeldkontr><option></option></select></td></tr><tr id=fieldcontain_TPopKontrMethode1 class="fieldcontain feld_tpopfeldkontr TPopKontrMethode1"><td class=label_fieldset><label id=TPopKontrMethode1_label for=TPopKontrMethode1 style=width:115px>Methode:</label></td><td class=Datenfelder><input type=radio name=TPopKontrMethode1 id=TPopKontrMethode11 class=speichern formular=tpopfeldkontr value=1>geschätzt<br><input type=radio name=TPopKontrMethode1 id=TPopKontrMethode12 class=speichern formular=tpopfeldkontr value=2>gezählt<br><input type=radio name=TPopKontrMethode1 id=TPopKontrMethode13 class=speichern formular=tpopfeldkontr value=3>geschätzt/gezählt</td></tr><tr id=fieldcontain_TPopKontrAnz1 class="fieldcontain feld_tpopfeldkontr TPopKontrAnz1"><td class=label_fieldset><label id=TPopKontrAnz1_label for=TPopKontrAnz1 style=width:115px class=apf-with-tooltip><span>Anzahl:</span></label><div class=tooltiptext><p>Spezialfall<br>Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p><ul><li>Einheit: "Art ist vorhanden" (letzter Punkt auf Auswahlliste)</li><li>Anzahl: 1</li></ul></div></td><td class=Datenfelder><input id=TPopKontrAnz1 name=TPopKontrAnz1 class=speichern formular=tpopfeldkontr type=number></td></tr></table></fieldset><fieldset style=background:none;><legend>2. Zähleinheit</legend><table><tr id=fieldcontain_TPopKontrZaehleinheit2 class="fieldcontain feld_tpopfeldkontr TPopKontrZaehleinheit2"><td class=label_fieldset><label id=TPopKontrZaehleinheit2_label for=TPopKontrZaehleinheit2 style=width:115px class=apf-with-tooltip><span>Einheit:</span></label><div class=tooltiptext><p>Spezialfall<br>Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p><ul><li>Einheit: "Art ist vorhanden" (letzter Punkt auf Auswahlliste)</li><li>Anzahl: 1</li></ul></div></td><td class=Datenfelder><select id=TPopKontrZaehleinheit2 name=TPopKontrZaehleinheit2 class=speichern formular=tpopfeldkontr><option></option></select></td></tr><tr id=fieldcontain_TPopKontrMethode2 class="fieldcontain feld_tpopfeldkontr TPopKontrMethode2"><td class=label_fieldset><label id=TPopKontrMethode2_label for=TPopKontrMethode2 style=width:115px>Methode:</label></td><td class=Datenfelder><input type=radio name=TPopKontrMethode2 id=TPopKontrMethode21 class=speichern formular=tpopfeldkontr value=1>geschätzt<br><input type=radio name=TPopKontrMethode2 id=TPopKontrMethode22 class=speichern formular=tpopfeldkontr value=2>gezählt<br><input type=radio name=TPopKontrMethode2 id=TPopKontrMethode23 class=speichern formular=tpopfeldkontr value=3>geschätzt/gezählt</td></tr><tr id=fieldcontain_TPopKontrAnz2 class="fieldcontain feld_tpopfeldkontr TPopKontrAnz2"><td class=label_fieldset><label id=TPopKontrAnz2_label for=TPopKontrAnz2 style=width:115px class=apf-with-tooltip><span>Anzahl:</span></label><div class=tooltiptext><p>Spezialfall<br>Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p><ul><li>Einheit: "Art ist vorhanden" (letzter Punkt auf Auswahlliste)</li><li>Anzahl: 1</li></ul></div></td><td class=Datenfelder><input id=TPopKontrAnz2 name=TPopKontrAnz2 class=speichern formular=tpopfeldkontr type=number></td></tr></table></fieldset><fieldset style=background:none;><legend>3. Zähleinheit</legend><table><tr id=fieldcontain_TPopKontrZaehleinheit3 class="fieldcontain feld_tpopfeldkontr TPopKontrZaehleinheit3"><td class=label_fieldset><label id=TPopKontrZaehleinheit3_label for=TPopKontrZaehleinheit3 style=width:115px class=apf-with-tooltip><span>Einheit:</span></label><div class=tooltiptext><p>Spezialfall<br>Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p><ul><li>Einheit: "Art ist vorhanden" (letzter Punkt auf Auswahlliste)</li><li>Anzahl: 1</li></ul></div></td><td class=Datenfelder><select id=TPopKontrZaehleinheit3 name=TPopKontrZaehleinheit3 class=speichern formular=tpopfeldkontr><option></option></select></td></tr><tr id=fieldcontain_TPopKontrMethode3 class="fieldcontain feld_tpopfeldkontr TPopKontrMethode3"><td class=label_fieldset><label id=TPopKontrMethode3_label for=TPopKontrMethode3 style=width:115px>Methode:</label></td><td class=Datenfelder><input type=radio name=TPopKontrMethode3 id=TPopKontrMethode31 class=speichern formular=tpopfeldkontr value=1>geschätzt<br><input type=radio name=TPopKontrMethode3 id=TPopKontrMethode32 class=speichern formular=tpopfeldkontr value=2>gezählt<br><input type=radio name=TPopKontrMethode3 id=TPopKontrMethode33 class=speichern formular=tpopfeldkontr value=3>geschätzt/gezählt</td></tr><tr id=fieldcontain_TPopKontrAnz3 class="fieldcontain feld_tpopfeldkontr TPopKontrAnz3"><td class=label_fieldset><label id=TPopKontrAnz3_label for=TPopKontrAnz3 style=width:115px class=apf-with-tooltip><span>Anzahl:</span></label><div class=tooltiptext><p>Spezialfall<br>Vorkommen gemeldet ohne Zahlenangabe, z.B. durch Dritte:</p><ul><li>Einheit: "Art ist vorhanden" (letzter Punkt auf Auswahlliste)</li><li>Anzahl: 1</li></ul></div></td><td class=Datenfelder><input id=TPopKontrAnz3 name=TPopKontrAnz3 class=speichern formular=tpopfeldkontr type=number></td></tr></table></fieldset><table><tr id=fieldcontain_TPopKontrPlan class="fieldcontain feld_tpopfeldkontr TPopKontrPlan"><td class=label><label id=TPopKontrPlan_label for=TPopKontrPlan>Auf Plan eingezeichnet?</label></td><td class=Datenfelder><input type=checkbox name=TPopKontrPlan id=TPopKontrPlan class=speichern formular=tpopfeldkontr></td></tr><tr id=fieldcontain_TPopKontrUebFlaeche class="fieldcontain feld_tpopfeldkontr TPopKontrUebFlaeche"><td class=label><label id=TPopKontrUebFlaeche_label for=TPopKontrUebFlaeche>Überprüfte Fläche in m2:</label></td><td class=Datenfelder><input id=TPopKontrUebFlaeche name=TPopKontrUebFlaeche class=speichern formular=tpopfeldkontr type=number></td></tr><tr id=fieldcontain_TPopKontrUebPfl class="fieldcontain feld_tpopfeldkontr TPopKontrUebPfl"><td class=label><label id=TPopKontrUebPfl_label for=TPopKontrUebPfl>Deckung überprüfte Art (%):</label></td><td class=Datenfelder><input id=TPopKontrUebPfl name=TPopKontrUebPfl class=speichern formular=tpopfeldkontr type=number></td></tr><tr id=fieldcontain_TPopKontrNaBo class="fieldcontain feld_tpopfeldkontr TPopKontrNaBo"><td class=label><label id=TPopKontrNaBo_label for=TPopKontrNaBo>Deckung nackter Boden (%):</label></td><td class=Datenfelder><input id=TPopKontrNaBo name=TPopKontrNaBo class=speichern formular=tpopfeldkontr type=number></td></tr><tr id=fieldcontain_TPopKontrVeg class="fieldcontain feld_tpopfeldkontr TPopKontrVeg"><td class=label><label id=TPopKontrVeg_label for=TPopKontrVeg>Deckung Pflanzen, Streu u. Moos (%):</label></td><td class=Datenfelder><input id=TPopKontrVeg name=TPopKontrVeg class=speichern formular=tpopfeldkontr type=number></td></tr><tr id=fieldcontain_TPopKontrJungPflJN class="fieldcontain feld_tpopfeldkontr TPopKontrJungPflJN"><td class=label><label id=TPopKontrJungPflJN_label for=TPopKontrJungPflJN>Auch junge Pflanzen vorhanden?</label></td><td class=Datenfelder><input type=radio name=TPopKontrJungPflJN id=TPopKontrJungPflJN_leer class=speichern formular=tpopfeldkontr>kein Wert<br><input type=radio name=TPopKontrJungPflJN id=TPopKontrJungPflJN_ja class=speichern formular=tpopfeldkontr value=1>ja<br><input type=radio name=TPopKontrJungPflJN id=TPopKontrJungPflJN_nein class=speichern formular=tpopfeldkontr value=0>nein</td></tr><tr id=fieldcontain_TPopKontrVegHoeMax class="fieldcontain feld_tpopfeldkontr TPopKontrVegHoeMax"><td class=label><label id=TPopKontrVegHoeMax_label for=TPopKontrVegHoeMax>Vegetationshöhe Maximum in cm:</label></td><td class=Datenfelder><input id=TPopKontrVegHoeMax name=TPopKontrVegHoeMax class=speichern formular=tpopfeldkontr type=number></td></tr><tr id=fieldcontain_TPopKontrVegHoeMit class="fieldcontain feld_tpopfeldkontr TPopKontrVegHoeMit"><td class=label><label id=TPopKontrVegHoeMit_label for=TPopKontrVegHoeMit>Vegetationshöhe Mittelwert in cm:</label></td><td class=Datenfelder><input id=TPopKontrVegHoeMit name=TPopKontrVegHoeMit class=speichern formular=tpopfeldkontr type=number></td></tr><tr id=fieldcontain_TPopKontrGefaehrdung class="fieldcontain feld_tpopfeldkontr TPopKontrGefaehrdung"><td class=label><label id=TPopKontrGefaehrdung_label for=TPopKontrGefaehrdung>Gefährdung:</label></td><td class=Datenfelder><textarea name=TPopKontrGefaehrdung id=TPopKontrGefaehrdung class=speichern formular=tpopfeldkontr maxlength=255></textarea><div id=TPopKontrGefaehrdung_limit class=limiter></div></td></tr><tr id=fieldcontain_TPopKontrJungpfl class="fieldcontain feld_tpopfeldkontr TPopKontrJungpfl"><td class=label><label id=TPopKontrJungpfl_label for=TPopKontrJungpfl>Anzahl Jungpflanzen:</label></td><td class=Datenfelder><input id=TPopKontrJungpfl name=TPopKontrJungpfl class=speichern formular=tpopfeldkontr type=number></td></tr><tr id=fieldcontain_TPopKontrVitalitaet class="fieldcontain feld_tpopfeldkontr TPopKontrVitalitaet"><td class=label><label id=TPopKontrVitalitaet_label for=TPopKontrVitalitaet>Vitalität:</label></td><td class=Datenfelder><input id=TPopKontrVitalitaet name=TPopKontrVitalitaet class=speichern formular=tpopfeldkontr type=text maxlength=255><div id=TPopKontrVitalitaet_limit class=limiter></div></td></tr><tr id=fieldcontain_TPopKontrUeberleb class="fieldcontain feld_tpopfeldkontr TPopKontrUeberleb"><td class=label><label id=TPopKontrUeberleb_label for=TPopKontrUeberleb>Überlebensrate:</label></td><td class=Datenfelder><input id=TPopKontrUeberleb name=TPopKontrUeberleb class=speichern formular=tpopfeldkontr type=number></td></tr><tr id=fieldcontain_TPopKontrEntwicklung class="fieldcontain feld_tpopfeldkontr TPopKontrEntwicklung"><td class=label><label id=TPopKontrEntwicklung_label for=TPopKontrEntwicklung class="apf-with-tooltip erforderlich"><span>Entwicklung:</span></label><div class=tooltiptext><p>Dieses Feld möglichst immer ausfüllen.</p><p>Im 1. Jahr der Beobachtung die Entwicklung an der Massnahme beurteilen, nachher an vorhergehenden EK.</p><table><tr class=apf-tr-with-border-bottom><td>zunehmend:</td><td>> 10% Zunahme</td></tr><tr class=apf-tr-with-border-bottom><td>stabil:</td><td>± 10%</td></tr><tr class=apf-tr-with-border-bottom><td>abnehmend:</td><td>> 10% Abnahme</td></tr><tr class=apf-tr-with-border-bottom><td>erloschen / nicht etabliert:</td><td>nach 2 aufeinander folgenden Kontrollen ohne Funde oder nach Einschätzung AP-VerantwortlicheR</td></tr><tr class=apf-tr-with-border-bottom><td>unsicher:</td><td>keine Funde aber noch nicht erloschen (nach zwei Kontrollen ohne Funde kann Status erloschen/nicht etabliert gewählt werden)</td></tr><tr><td>neu entdeckt (unsicher):</td><td>neu autochthone Fundorte im 1. Jahr (es kann noch keine Aussage zur Entwicklung gemacht werden)</td></tr></table></div></td><td class=Datenfelder><input type=radio name=TPopKontrEntwicklung id=TPopKontrEntwicklung3 class=speichern formular=tpopfeldkontr value=3>zunehmend<br><input type=radio name=TPopKontrEntwicklung id=TPopKontrEntwicklung2 class=speichern formular=tpopfeldkontr value=2>stabil<br><input type=radio name=TPopKontrEntwicklung id=TPopKontrEntwicklung1 class=speichern formular=tpopfeldkontr value=1>abnehmend<br><input type=radio name=TPopKontrEntwicklung id=TPopKontrEntwicklung8 class=speichern formular=tpopfeldkontr value=8>erloschen / nicht etabliert<br><input type=radio name=TPopKontrEntwicklung id=TPopKontrEntwicklung4 class=speichern formular=tpopfeldkontr value=4>unsicher<br><input type=radio name=TPopKontrEntwicklung id=TPopKontrEntwicklung9 class=speichern formular=tpopfeldkontr value=9>neu entdeckt (unsicher)<br><input type=radio name=TPopKontrEntwicklung id=TPopKontrEntwicklung99 class=speichern formular=tpopfeldkontr value=99>andere Einstufung</td></tr><tr id=fieldcontain_TPopKontrUrsach class="fieldcontain feld_tpopfeldkontr TPopKontrUrsach"><td class=label><label id=TPopKontrUrsach_label for=TPopKontrUrsach>Ursachen:</label></td><td class=Datenfelder><textarea id=TPopKontrUrsach name=TPopKontrUrsach class=speichern formular=tpopfeldkontr type=text placeholder="Standort: ... / Klima: ... / anderes: ..." maxlength=255></textarea><div id=TPopKontrUrsach_limit class=limiter></div></td></tr><tr id=fieldcontain_TPopKontrUrteil class="fieldcontain feld_tpopfeldkontr TPopKontrUrteil"><td class=label><label id=TPopKontrUrteil_label for=TPopKontrUrteil>Erfolgsbeurteilung:</label></td><td class=Datenfelder><textarea name=TPopKontrUrteil id=TPopKontrUrteil class=speichern formular=tpopfeldkontr maxlength=255></textarea><div id=TPopKontrUrteil_limit class=limiter></div></td></tr><tr id=fieldcontain_TPopKontrAendUms class="fieldcontain feld_tpopfeldkontr TPopKontrAendUms"><td class=label><label id=TPopKontrAendUms_label for=TPopKontrAendUms>Änd.-vorschläge Umsetzung:</label></td><td class=Datenfelder><textarea name=TPopKontrAendUms id=TPopKontrAendUms class=speichern formular=tpopfeldkontr maxlength=255></textarea><div id=TPopKontrAendUms_limit class=limiter></div></td></tr><tr id=fieldcontain_TPopKontrAendKontr class="fieldcontain feld_tpopfeldkontr TPopKontrAendKontr"><td class=label><label id=TPopKontrAendKontr_label for=TPopKontrAendKontr>Änd.-vorschläge Kontrolle:</label></td><td class=Datenfelder><textarea name=TPopKontrAendKontr id=TPopKontrAendKontr class=speichern formular=tpopfeldkontr maxlength=255></textarea><div id=TPopKontrAendKontr_limit class=limiter></div></td></tr><tr id=fieldcontain_TPopKontrTxt class="fieldcontain feld_tpopfeldkontr TPopKontrTxt"><td class=label><label id=TPopKontrTxt_label for=TPopKontrTxt>Bemerkungen:</label></td><td class=Datenfelder><textarea name=TPopKontrTxt id=TPopKontrTxt class=speichern formular=tpopfeldkontr></textarea></td></tr><tr id=fieldcontain_TPopKontrGuid class="fieldcontain feld_tpopfeldkontr TPopKontrGuid"><td class=label><label id=TPopKontrGuid_label for=TPopKontrGuid>GUID:</label></td><td class=Datenfelder><input id=TPopKontrGuid name=TPopKontrGuid class="speichern guid" formular=tpopfeldkontr type=text readonly></td></tr></table></div><div id=tpopfeldkontr_tabs_biotop><table><tr id=fieldcontain_TPopKontrFlaeche class="fieldcontain feld_tpopfeldkontr TPopKontrFlaeche"><td class=label><label id=TPopKontrFlaeche_label for=TPopKontrFlaeche>Fläche:</label></td><td class=Datenfelder><input id=TPopKontrFlaeche name=TPopKontrFlaeche class=speichern formular=tpopfeldkontr type=number></td></tr></table><fieldset style=background:none;><legend>Vegetation</legend><table><tr id=fieldcontain_TPopKontrLeb class="fieldcontain feld_tpopfeldkontr TPopKontrLeb"><td class=label_fieldset><label id=TPopKontrLeb_label for=TPopKontrLeb style=width:115px>Lebensraum nach Delarze:</label></td><td class=Datenfelder><select id=TPopKontrLeb name=TPopKontrLeb class=speichern formular=tpopfeldkontr style=white-space:pre;><option></option></select></td></tr><tr id=fieldcontain_TPopKontrLebUmg class="fieldcontain feld_tpopfeldkontr TPopKontrLebUmg"><td class=label_fieldset><label id=TPopKontrLebUmg_label for=TPopKontrLebUmg style=width:115px>Umgebung:</label></td><td class=Datenfelder><select id=TPopKontrLebUmg name=TPopKontrLebUmg class=speichern formular=tpopfeldkontr style=white-space:pre;><option></option></select></td></tr><tr id=fieldcontain_TPopKontrVegTyp class="fieldcontain feld_tpopfeldkontr TPopKontrVegTyp"><td class=label_fieldset><label id=TPopKontrVegTyp_label for=TPopKontrVegTyp style=width:115px>Vegetationstyp:</label></td><td class=Datenfelder><input id=TPopKontrVegTyp name=TPopKontrVegTyp class=speichern formular=tpopfeldkontr type=text maxlength=100><div id=TPopKontrVegTyp_limit class=limiter></div></td></tr><tr id=fieldcontain_TPopKontrKonkurrenz class="fieldcontain feld_tpopfeldkontr TPopKontrKonkurrenz"><td class=label_fieldset><label id=TPopKontrKonkurrenz_label for=TPopKontrKonkurrenz style=width:115px>Konkurrenz:</label></td><td class=Datenfelder><input id=TPopKontrKonkurrenz name=TPopKontrKonkurrenz class=speichern formular=tpopfeldkontr type=text maxlength=100><div id=TPopKontrKonkurrenz_limit class=limiter></div></td></tr><tr id=fieldcontain_TPopKontrMoosschicht class="fieldcontain feld_tpopfeldkontr TPopKontrMoosschicht"><td class=label_fieldset><label id=TPopKontrMoosschicht_label for=TPopKontrMoosschicht style=width:115px>Moosschicht:</label></td><td class=Datenfelder><input id=TPopKontrMoosschicht name=TPopKontrMoosschicht class=speichern formular=tpopfeldkontr type=text maxlength=100><div id=TPopKontrMoosschicht_limit class=limiter></div></td></tr><tr id=fieldcontain_TPopKontrKrautschicht class="fieldcontain feld_tpopfeldkontr TPopKontrKrautschicht"><td class=label_fieldset><label id=TPopKontrKrautschicht_label for=TPopKontrKrautschicht style=width:115px>Krautschicht:</label></td><td class=Datenfelder><input id=TPopKontrKrautschicht name=TPopKontrKrautschicht class=speichern formular=tpopfeldkontr type=text maxlength=100><div id=TPopKontrKrautschicht_limit class=limiter></div></td></tr><tr id=fieldcontain_TPopKontrStrauchschicht class="fieldcontain feld_tpopfeldkontr TPopKontrStrauchschicht"><td class=label_fieldset><label id=TPopKontrStrauchschicht_label for=TPopKontrStrauchschicht style=width:115px>Strauchschicht:</label></td><td class=Datenfelder><input id=TPopKontrStrauchschicht name=TPopKontrStrauchschicht class=speichern formular=tpopfeldkontr type=text maxlength=255><div id=TPopKontrStrauchschicht_limit class=limiter></div></td></tr><tr id=fieldcontain_TPopKontrBaumschicht class="fieldcontain feld_tpopfeldkontr TPopKontrBaumschicht"><td class=label_fieldset><label id=TPopKontrBaumschicht_label for=TPopKontrBaumschicht style=width:115px>Baumschicht:</label></td><td class=Datenfelder><input id=TPopKontrBaumschicht name=TPopKontrBaumschicht class=speichern formular=tpopfeldkontr type=text maxlength=100><div id=TPopKontrBaumschicht_limit class=limiter></div></td></tr></table></fieldset><fieldset style=background:none;><legend>Boden</legend><table><tr id=fieldcontain_TPopKontrBodenTyp class="fieldcontain feld_tpopfeldkontr TPopKontrBodenTyp"><td class=label_fieldset><label id=TPopKontrBodenTyp_label for=TPopKontrBodenTyp style=width:115px>Typ:</label></td><td class=Datenfelder><input id=TPopKontrBodenTyp name=TPopKontrBodenTyp class=speichern formular=tpopfeldkontr type=text maxlength=255><div id=TPopKontrBodenTyp_limit class=limiter></div></td></tr><tr id=fieldcontain_TPopKontrBodenKalkgehalt class="fieldcontain feld_tpopfeldkontr TPopKontrBodenKalkgehalt"><td class=label_fieldset><label id=TPopKontrBodenKalkgehalt_label for=TPopKontrBodenKalkgehalt style=width:115px>Kalkgehalt:</label></td><td class=Datenfelder><input id=TPopKontrBodenKalkgehalt name=TPopKontrBodenKalkgehalt class=speichern formular=tpopfeldkontr type=text maxlength=100><div id=TPopKontrBodenKalkgehalt_limit class=limiter></div></td></tr><tr id=fieldcontain_TPopKontrBodenDurchlaessigkeit class="fieldcontain feld_tpopfeldkontr TPopKontrBodenDurchlaessigkeit"><td class=label_fieldset><label id=TPopKontrBodenDurchlaessigkeit_label for=TPopKontrBodenDurchlaessigkeit style=width:115px>Durchlässigkeit:</label></td><td class=Datenfelder><input id=TPopKontrBodenDurchlaessigkeit name=TPopKontrBodenDurchlaessigkeit class=speichern formular=tpopfeldkontr type=text maxlength=100><div id=TPopKontrBodenDurchlaessigkeit_limit class=limiter></div></td></tr><tr id=fieldcontain_TPopKontrBodenHumus class="fieldcontain feld_tpopfeldkontr TPopKontrBodenHumus"><td class=label_fieldset><label id=TPopKontrBodenHumus_label for=TPopKontrBodenHumus style=width:115px>Humusgehalt:</label></td><td class=Datenfelder><input id=TPopKontrBodenHumus name=TPopKontrBodenHumus class=speichern formular=tpopfeldkontr type=text maxlength=100><div id=TPopKontrBodenHumus_limit class=limiter></div></td></tr><tr id=fieldcontain_TPopKontrBodenNaehrstoffgehalt class="fieldcontain feld_tpopfeldkontr TPopKontrBodenNaehrstoffgehalt"><td class=label_fieldset><label id=TPopKontrBodenNaehrstoffgehalt_label for=TPopKontrBodenNaehrstoffgehalt style=width:115px>Nährstoffgehalt:</label></td><td class=Datenfelder><input id=TPopKontrBodenNaehrstoffgehalt name=TPopKontrBodenNaehrstoffgehalt class=speichern formular=tpopfeldkontr type=text maxlength=100><div id=TPopKontrBodenNaehrstoffgehalt_limit class=limiter></div></td></tr><tr id=fieldcontain_TPopKontrBodenAbtrag class="fieldcontain feld_tpopfeldkontr TPopKontrBodenAbtrag"><td class=label_fieldset><label id=TPopKontrBodenAbtrag_label for=TPopKontrBodenAbtrag style=width:115px>Bodenabtrag:</label></td><td class=Datenfelder><input id=TPopKontrBodenAbtrag name=TPopKontrBodenAbtrag class=speichern formular=tpopfeldkontr type=text maxlength=255><div id=TPopKontrBodenAbtrag_limit class=limiter></div></td></tr><tr id=fieldcontain_TPopKontrWasserhaushalt class="fieldcontain feld_tpopfeldkontr TPopKontrWasserhaushalt"><td class=label_fieldset><label id=TPopKontrWasserhaushalt_label for=TPopKontrWasserhaushalt style=width:115px>Wasserhaushalt:</label></td><td class=Datenfelder><input id=TPopKontrWasserhaushalt name=TPopKontrWasserhaushalt class=speichern formular=tpopfeldkontr type=text maxlength=255><div id=TPopKontrWasserhaushalt_limit class=limiter></div></td></tr><tr id=fieldcontain_TPopKontrHandlungsbedarf class="fieldcontain feld_tpopfeldkontr TPopKontrHandlungsbedarf"><td class=label_fieldset><label id=TPopKontrHandlungsbedarf_label for=TPopKontrHandlungsbedarf style=width:115px>Handlungsbedarf:</label></td><td class=Datenfelder><textarea name=TPopKontrHandlungsbedarf id=TPopKontrHandlungsbedarf class=speichern formular=tpopfeldkontr></textarea></td></tr><tr id=fieldcontain_TPopKontrIdealBiotopUebereinst class="fieldcontain feld_tpopfeldkontr TPopKontrIdealBiotopUebereinst"><td class=label_fieldset><label id=TPopKontrIdealBiotopUebereinst_label for=TPopKontrIdealBiotopUebereinst style=width:115px>Übereinst. mit Idealbiotop:</label></td><td class=Datenfelder><select id=TPopKontrIdealBiotopUebereinst name=TPopKontrIdealBiotopUebereinst class=speichern formular=tpopfeldkontr style=white-space:pre;><option></option></select></td></tr></table></fieldset></div></div></form><form id=tpopmassn class=form action=# method=get autocomplete=off style=display:none;><table><tr class="fieldcontain TPopMassnJahr"><td class=label><label id=TPopMassnJahr_label for=TPopMassnJahr>Jahr:</label></td><td class=Datenfelder><input id=TPopMassnJahr name=TPopMassnJahr class=speichern formular=tpopmassn type=number></td></tr><tr class="fieldcontain TPopMassnDatum"><td class=label><label id=TPopMassnDatum_label for=TPopMassnDatum>Datum:</label></td><td class=Datenfelder><input id=TPopMassnDatum name=TPopMassnDatum class="speichern Datum" formular=tpopmassn type=text placeholder="Muster: "1.1.2000"" pattern=[0-9]{4}\.[0-9]{1,2}\.[0-9]{1,2} title="Jahr vierstellig eingeben"></td></tr><tr class="fieldcontain TPopMassnTyp"><td class=label><label id=TPopMassnTyp_label for=TPopMassnTyp>Typ:</label></td><td class=Datenfelder><select id=TPopMassnTyp name=TPopMassnTyp class=speichern formular=tpopmassn><option></option></select></td></tr><tr class="fieldcontain TPopMassnTxt"><td class=label><label id=TPopMassnTxt_label for=TPopMassnTxt>Massnahme:</label></td><td class=Datenfelder><input id=TPopMassnTxt name=TPopMassnTxt class=speichern formular=tpopmassn type=text maxlength=255><div id=TPopMassnTxt_limit class=limiter></div></td></tr><tr class="fieldcontain TPopMassnBearb"><td class=label><label id=TPopMassnBearb_label for=TPopMassnBearb>BearbeiterIn:</label></td><td class=Datenfelder><select id=TPopMassnBearb name=TPopMassnBearb class=speichern formular=tpopmassn><option></option></select></td></tr><tr class="fieldcontain TPopMassnBemTxt"><td class=label><label id=TPopMassnBemTxt_label for=TPopMassnBemTxt>Bemerkungen:</label></td><td class=Datenfelder><textarea name=TPopMassnBemTxt id=TPopMassnBemTxt class=speichern formular=tpopmassn></textarea></td></tr><tr class="fieldcontain TPopMassnPlan"><td class=label><label id=TPopMassnPlan_label for=TPopMassnPlan>Plan vorhanden:</label></td><td class=Datenfelder><input type=checkbox name=TPopMassnPlan id=TPopMassnPlan class=speichern formular=tpopmassn></td></tr><tr class="fieldcontain TPopMassnPlanBez"><td class=label><label id=TPopMassnPlanBez_label for=TPopMassnPlanBez>Plan Bezeichnung:</label></td><td class=Datenfelder><input id=TPopMassnPlanBez name=TPopMassnPlanBez class=speichern formular=tpopmassn type=text maxlength=255><div id=TPopMassnPlanBez_limit class=limiter></div></td></tr><tr class="fieldcontain TPopMassnFlaeche"><td class=label><label id=TPopMassnFlaeche_label for=TPopMassnFlaeche>Fläche (m2):</label></td><td class=Datenfelder><input id=TPopMassnFlaeche name=TPopMassnFlaeche class=speichern formular=tpopmassn type=number></td></tr><tr class="fieldcontain TPopMassnAnsiedForm"><td class=label><label id=TPopMassnAnsiedForm_label for=TPopMassnAnsiedForm>Form der Ansiedlung:</label></td><td class=Datenfelder><input id=TPopMassnAnsiedForm name=TPopMassnAnsiedForm class=speichern formular=tpopmassn type=text maxlength=255><div id=TPopMassnAnsiedForm_limit class=limiter></div></td></tr><tr class="fieldcontain TPopMassnAnsiedPflanzanordnung"><td class=label><label id=TPopMassnAnsiedPflanzanordnung_label for=TPopMassnAnsiedPflanzanordnung>Pflanzanordnung:</label></td><td class=Datenfelder><input id=TPopMassnAnsiedPflanzanordnung name=TPopMassnAnsiedPflanzanordnung class=speichern formular=tpopmassn type=text maxlength=255><div id=TPopMassnAnsiedPflanzanordnung_limit class=limiter></div></td></tr><tr class="fieldcontain TPopMassnMarkierung"><td class=label><label id=TPopMassnMarkierung_label for=TPopMassnMarkierung>Markierung:</label></td><td class=Datenfelder><input id=TPopMassnMarkierung name=TPopMassnMarkierung class=speichern formular=tpopmassn type=text maxlength=255><div id=TPopMassnMarkierung_limit class=limiter></div></td></tr><tr class="fieldcontain TPopMassnAnsiedAnzTriebe"><td class=label><label id=TPopMassnAnsiedAnzTriebe_label for=TPopMassnAnsiedAnzTriebe>Anzahl Triebe:</label></td><td class=Datenfelder><input id=TPopMassnAnsiedAnzTriebe name=TPopMassnAnsiedAnzTriebe class=speichern formular=tpopmassn type=number></td></tr><tr class="fieldcontain TPopMassnAnsiedAnzPfl"><td class=label><label id=TPopMassnAnsiedAnzPfl_label for=TPopMassnAnsiedAnzPfl>Anzahl Pflanzen:</label></td><td class=Datenfelder><input id=TPopMassnAnsiedAnzPfl name=TPopMassnAnsiedAnzPfl class=speichern formular=tpopmassn type=number></td></tr><tr class="fieldcontain TPopMassnAnzPflanzstellen"><td class=label><label id=TPopMassnAnzPflanzstellen_label for=TPopMassnAnzPflanzstellen>Anz. Pflanzstellen:</label></td><td class=Datenfelder><input id=TPopMassnAnzPflanzstellen name=TPopMassnAnzPflanzstellen class=speichern formular=tpopmassn type=number></td></tr><tr class="fieldcontain TPopMassnAnsiedWirtspfl"><td class=label><label id=TPopMassnAnsiedWirtspfl_label for=TPopMassnAnsiedWirtspfl>Wirtspflanze:</label></td><td class=Datenfelder><select id=TPopMassnAnsiedWirtspfl name=TPopMassnAnsiedWirtspfl class=speichern formular=tpopmassn><option></option></select></td></tr><tr class="fieldcontain TPopMassnAnsiedHerkunftPop"><td class=label><label id=TPopMassnAnsiedHerkunftPop_label for=TPopMassnAnsiedHerkunftPop>Herkunftspopulation:</label></td><td class=Datenfelder><input id=TPopMassnAnsiedHerkunftPop name=TPopMassnAnsiedHerkunftPop class=speichern formular=tpopmassn type=text maxlength=255><div id=TPopMassnAnsiedHerkunftPop_limit class=limiter></div></td></tr><tr class="fieldcontain TPopMassnAnsiedDatSamm"><td class=label><label id=TPopMassnAnsiedDatSamm_label for=TPopMassnAnsiedDatSamm>Sammeldatum:</label></td><td class=Datenfelder><input id=TPopMassnAnsiedDatSamm name=TPopMassnAnsiedDatSamm class=speichern formular=tpopmassn type=text maxlength=50><div id=TPopMassnAnsiedDatSamm_limit class=limiter></div></td></tr><tr class="fieldcontain TPopMassnGuid"><td class=label><label id=TPopMassnGuid_label for=TPopMassnGuid>GUID:</label></td><td class=Datenfelder><input id=TPopMassnGuid name=TPopMassnGuid class="speichern guid" formular=tpopmassn type=text readonly></td></tr></table></form><form id=apziel class=form action=# method=get autocomplete=off style=display:none;><table><tr class="fieldcontain ZielJahr"><td class=label><label id=ZielJahr_label for=ZielJahr>Jahr:</label></td><td class=Datenfelder><input id=ZielJahr name=ZielJahr class=speichern formular=apziel type=number></td></tr><tr class="fieldcontain ZielTyp"><td class=label><label id=ZielTyp_label for=ZielTyp>Zieltyp:</label></td><td class=Datenfelder><input type=radio name=ZielTyp id=ZielTyp1170775556 class=speichern formular=apziel value=1170775556>Zwischenziel<br><input type=radio name=ZielTyp id=ZielTyp1 class=speichern formular=apziel value=1>10-Jahresziel<br><input type=radio name=ZielTyp id=ZielTyp2 class=speichern formular=apziel value=2>Gesamtziel</td></tr><tr class="fieldcontain ZielBezeichnung"><td class=label><label id=ZielBezeichnung_label for=ZielBezeichnung>Ziel:</label></td><td class=Datenfelder><textarea name=ZielBezeichnung id=ZielBezeichnung class=speichern formular=apziel></textarea></td></tr></table></form><form id=zielber class=form action=# method=get autocomplete=off style=display:none;><table><tr class="fieldcontain ZielBerJahr"><td class=label><label id=ZielBerJahr_label for=ZielBerJahr>Jahr:</label></td><td class=Datenfelder><input id=ZielBerJahr name=ZielBerJahr class=speichern formular=zielber type=number></td></tr><tr class="fieldcontain ZielBerErreichung"><td class=label><label id=ZielBerErreichung_label for=ZielBerErreichung>Entwicklung:</label></td><td class=Datenfelder><input id=ZielBerErreichung name=ZielBerErreichung class=speichern formular=zielber type=text></td></tr><tr class="fieldcontain ZielBerTxt"><td class=label><label id=ZielBerTxt_label for=ZielBerTxt>Bemerkungen:</label></td><td class=Datenfelder><textarea name=ZielBerTxt id=ZielBerTxt class=speichern formular=zielber></textarea></td></tr></table></form><form id=erfkrit class=form action=# method=get autocomplete=off style=display:none;><table><tr class="fieldcontain ErfkritErreichungsgrad"><td class=label><label id=ErfkritErreichungsgrad_label for=ErfkritErreichungsgrad>Beurteilung:</label></td><td class=Datenfelder><input type=radio name=ErfkritErreichungsgrad id=ErfkritErreichungsgrad4 class=speichern formular=erfkrit value=4><span id=SpanErfkritErreichungsgrad4>sehr erfolgreich</span><br><input type=radio name=ErfkritErreichungsgrad id=ErfkritErreichungsgrad1 class=speichern formular=erfkrit value=1><span id=SpanErfkritErreichungsgrad1>erfolgreich</span><br><input type=radio name=ErfkritErreichungsgrad id=ErfkritErreichungsgrad5 class=speichern formular=erfkrit value=5><span id=SpanErfkritErreichungsgrad5>mässig erfolgreich</span><br><input type=radio name=ErfkritErreichungsgrad id=ErfkritErreichungsgrad6 class=speichern formular=erfkrit value=6><span id=SpanErfkritErreichungsgrad6>wenig erfolgreich</span><br><input type=radio name=ErfkritErreichungsgrad id=ErfkritErreichungsgrad3 class=speichern formular=erfkrit value=3><span id=SpanErfkritErreichungsgrad3>nicht erfolgreich</span><br><input type=radio name=ErfkritErreichungsgrad id=ErfkritErreichungsgrad1168274204 class=speichern formular=erfkrit value=1168274204><span id=SpanErfkritErreichungsgrad1168274204>unsichere Entwicklung</span></td></tr><tr class="fieldcontain ErfkritTxt"><td class=label><label id=ErfkritTxt_label for=ErfkritTxt>Kriterien:</label></td><td class=Datenfelder><textarea name=ErfkritTxt id=ErfkritTxt class=speichern formular=erfkrit maxlength=255></textarea><div id=ErfkritTxt_limit class=limiter></div></td></tr></table></form><form id=jber class=form action=# method=get autocomplete=off style=display:none;><table><tr class="fieldcontain JBerJahr"><td class=label><label id=JBerJahr_label for=JBerJahr>Jahr:</label></td><td class=Datenfelder><input id=JBerJahr name=JBerJahr class=speichern formular=jber type=number></td></tr><tr class="fieldcontain JBerSituation"><td class=label><label id=JBerSituation_label for=JBerSituation>Situation:</label></td><td class=Datenfelder><textarea name=JBerSituation id=JBerSituation class=speichern formular=jber></textarea></td></tr><tr class="fieldcontain JBerVergleichVorjahrGesamtziel"><td class=label><label id=JBerVergleichVorjahrGesamtziel_label for=JBerVergleichVorjahrGesamtziel>Vergleich Vorjahr - Gesamtziel:</label></td><td class=Datenfelder><textarea name=JBerVergleichVorjahrGesamtziel id=JBerVergleichVorjahrGesamtziel class=speichern formular=jber></textarea></td></tr><tr class="fieldcontain JBerBeurteilung"><td class=label><label id=JBerBeurteilung_label for=JBerBeurteilung>Beurteilung:</label></td><td class=Datenfelder><input type=radio name=JBerBeurteilung id=JBerBeurteilung class=speichern formular=jber><span id=SpanJBerBeurteilung>(Auswahl aufheben)</span><br><input type=radio name=JBerBeurteilung id=JBerBeurteilung4 class=speichern formular=jber value=4><span id=SpanJBerBeurteilung4>sehr erfolgreich</span><br><input type=radio name=JBerBeurteilung id=JBerBeurteilung1 class=speichern formular=jber value=1><span id=SpanJBerBeurteilung1>erfolgreich</span><br><input type=radio name=JBerBeurteilung id=JBerBeurteilung5 class=speichern formular=jber value=5><span id=SpanJBerBeurteilung5>mässig erfolgreich</span><br><input type=radio name=JBerBeurteilung id=JBerBeurteilung6 class=speichern formular=jber value=6><span id=SpanJBerBeurteilung6>wenig erfolgreich</span><br><input type=radio name=JBerBeurteilung id=JBerBeurteilung3 class=speichern formular=jber value=3><span id=SpanJBerBeurteilung3>nicht erfolgreich</span><br><input type=radio name=JBerBeurteilung id=JBerBeurteilung1168274204 class=speichern formular=jber value=1168274204><span id=SpanJBerBeurteilung1168274204>unsichere Entwicklung</span></td></tr><tr class="fieldcontain JBerVeraenGegenVorjahr"><td class=label><label id=JBerVeraenGegenVorjahr_label for=JBerVeraenGegenVorjahr>Veränderung zum Vorjahr:</label></td><td class=Datenfelder><input type=radio name=JBerVeraenGegenVorjahr id=JBerVeraenGegenVorjahr class=speichern formular=jber>(Auswahl aufheben)<br><input type=radio name=JBerVeraenGegenVorjahr id=JBerVeraenGegenVorjahr+ class=speichern formular=jber value=+>+<br><input type=radio name=JBerVeraenGegenVorjahr id=JBerVeraenGegenVorjahr- class=speichern formular=jber value=->-</td></tr><tr class="fieldcontain JBerAnalyse"><td class=label><label id=JBerAnalyse_label for=JBerAnalyse>Analyse:</label></td><td class=Datenfelder><textarea name=JBerAnalyse id=JBerAnalyse class=speichern formular=jber maxlength=255></textarea><div id=JBerAnalyse_limit class=limiter></div></td></tr><tr class="fieldcontain JBerUmsetzung"><td class=label><label id=ApBerUmsetzung_label for=JBerUmsetzung>Konsequenzen Umsetzung:</label></td><td class=Datenfelder><textarea name=JBerUmsetzung id=JBerUmsetzung class=speichern formular=jber></textarea></td></tr><tr class="fieldcontain JBerErfko"><td class=label><label id=JBerErfko_label for=JBerErfko>Konsequenzen Erfolgskontrolle:</label></td><td class=Datenfelder><textarea name=JBerErfko id=JBerErfko class=speichern formular=jber></textarea></td></tr><tr class="fieldcontain JBerATxt"><td class=label><label id=JBerATxt_label for=JBerATxt>Bemerkungen zum Aussagebereich A (neue Biotope):</label></td><td class=Datenfelder><textarea name=JBerATxt id=JBerATxt class=speichern formular=jber></textarea></td></tr><tr class="fieldcontain JBerBTxt"><td class=label><label id=JBerBTxt_label for=JBerBTxt>Bemerkungen zum Aussagebereich B (Optimierung Biotope):</label></td><td class=Datenfelder><textarea name=JBerBTxt id=JBerBTxt class=speichern formular=jber></textarea></td></tr><tr class="fieldcontain JBerCTxt"><td class=label><label id=JBerCTxt_label for=JBerCTxt>Bemerkungen zum Aussagebereich C (Optimierung Massnahmen):</label></td><td class=Datenfelder><textarea name=JBerCTxt id=JBerCTxt class=speichern formular=jber></textarea></td></tr><tr class="fieldcontain JBerDTxt"><td class=label><label id=JBerDTxt_label for=JBerDTxt>Bemerkungen zum Aussagebereich D:</label></td><td class=Datenfelder><textarea name=JBerDTxt id=JBerDTxt class=speichern formular=jber></textarea></td></tr><tr class="fieldcontain JBerDatum"><td class=label><label id=JBerDatum_label for=JBerDatum>Datum:</label></td><td class=Datenfelder><input id=JBerDatum name=JBerDatum class="speichern Datum" formular=jber type=text placeholder="Muster: "1.1.2000"" pattern=[0-9]{4}\.[0-9]{1,2}\.[0-9]{1,2} title="Jahr vierstellig eingeben"></td></tr><tr class="fieldcontain JBerBearb"><td class=label><label id=JBerBearb_label for=JBerBearb>BearbeiterIn:</label></td><td class=Datenfelder><select id=JBerBearb name=JBerBearb class=speichern formular=jber><option></option></select></td></tr></table></form><form id=jber_uebersicht class=form action=# method=get autocomplete=off style=display:none;><table><tr class="fieldcontain JbuJahr" style=display:none;><td class=label><label id=JbuJahr_label for=JbuJahr>Jahr:</label></td><td class=Datenfelder><input id=JbuJahr name=JbuJahr class=speichern formular=jber_uebersicht type=number></td></tr><tr class="fieldcontain JbuBemerkungen"><td class=label><label id=JbuBemerkungen_label for=JbuBemerkungen>Bemerkungen:</label></td><td class=Datenfelder><textarea name=JbuBemerkungen id=JbuBemerkungen class=speichern formular=jber_uebersicht></textarea></td></tr></table></form><form id=ber class=form action=# method=get autocomplete=off style=display:none;><table><tr class="fieldcontain BerAutor"><td class=label><label id=BerAutor_label for=BerAutor>AutorIn:</label></td><td class=Datenfelder><input id=BerAutor name=BerAutor class=speichern formular=ber type=text></td></tr><tr class="fieldcontain BerJahr"><td class=label><label id=BerJahr_label for=BerJahr>Jahr:</label></td><td class=Datenfelder><input id=BerJahr name=BerJahr class=speichern formular=ber type=number></td></tr><tr class="fieldcontain BerTitel"><td class=label><label id=BerTitel_label for=BerTitel>Titel:</label></td><td class=Datenfelder><textarea name=BerTitel id=BerTitel class=speichern formular=ber maxlength=255></textarea><div id=BerTitel_limit class=limiter></div></td></tr><tr class="fieldcontain BerURL"><td class=label><label id=BerURL_label for=BerURL>URL:</label></td><td class=Datenfelder><textarea type=url name=BerURL id=BerURL class=speichern formular=ber maxlength=255></textarea><div id=BerURL_limit class=limiter></div><label for=BerURLHref style=display:none;>URL öffnen</label> <input type=button id=BerURLHref value="URL öffnen"></td></tr></table></form><form id=idealbiotop class=form action=# method=get autocomplete=off style=display:none;><table><tr class="fieldcontain IbErstelldatum"><td class=label><label id=IbErstelldatum_label for=IbErstelldatum>Erstelldatum:</label></td><td class=Datenfelder><input id=IbErstelldatum name=IbErstelldatum class="speichern Datum" formular=idealbiotop type=text placeholder="Muster: "1.1.2000"" pattern=[0-9]{4}\.[0-9]{1,2}\.[0-9]{1,2} title="Jahr vierstellig eingeben"></td></tr></table><fieldset><legend>Lage</legend><table><tr class="fieldcontain IbHoehenlage"><td class=label_fieldset><label id=IbHoehenlage_label for=IbHoehenlage>Höhe:</label></td><td class=Datenfelder><textarea id=IbHoehenlage name=IbHoehenlage class=speichern formular=idealbiotop type=text></textarea></td></tr><tr class="fieldcontain IbRegion"><td class=label_fieldset><label id=IbRegion_label for=IbRegion>Region:</label></td><td class=Datenfelder><textarea id=IbRegion name=IbRegion class=speichern formular=idealbiotop type=text></textarea></td></tr><tr class="fieldcontain IbExposition"><td class=label_fieldset><label id=IbExposition_label for=IbExposition>Exposition:</label></td><td class=Datenfelder><textarea id=IbExposition name=IbExposition class=speichern formular=idealbiotop type=text></textarea></td></tr><tr class="fieldcontain IbBesonnung"><td class=label_fieldset><label id=IbBesonnung_label for=IbBesonnung>Besonnung:</label></td><td class=Datenfelder><textarea id=IbBesonnung name=IbBesonnung class=speichern formular=idealbiotop type=text></textarea></td></tr><tr class="fieldcontain IbHangneigung"><td class=label_fieldset><label id=IbHangneigung_label for=IbHangneigung>Hangneigung:</label></td><td class=Datenfelder><textarea id=IbHangneigung name=IbHangneigung class=speichern formular=idealbiotop type=text></textarea></td></tr></table></fieldset><fieldset><legend>Boden</legend><table><tr class="fieldcontain IbBodenTyp"><td class=label_fieldset><label id=IbBodenTyp_label for=IbBodenTyp>Typ:</label></td><td class=Datenfelder><textarea id=IbBodenTyp name=IbBodenTyp class=speichern formular=idealbiotop type=text></textarea></td></tr><tr class="fieldcontain IbBodenKalkgehalt"><td class=label_fieldset><label id=IbBodenKalkgehalt_label for=IbBodenKalkgehalt>Kalkgehalt:</label></td><td class=Datenfelder><textarea id=IbBodenKalkgehalt name=IbBodenKalkgehalt class=speichern formular=idealbiotop type=text></textarea></td></tr><tr class="fieldcontain IbBodenDurchlaessigkeit"><td class=label_fieldset><label id=IbBodenDurchlaessigkeit_label for=IbBodenDurchlaessigkeit>Durchlässigkeit:</label></td><td class=Datenfelder><textarea id=IbBodenDurchlaessigkeit name=IbBodenDurchlaessigkeit class=speichern formular=idealbiotop type=text></textarea></td></tr><tr class="fieldcontain IbBodenHumus"><td class=label_fieldset><label id=IbBodenHumus_label for=IbBodenHumus>Humus:</label></td><td class=Datenfelder><textarea id=IbBodenHumus name=IbBodenHumus class=speichern formular=idealbiotop type=text></textarea></td></tr><tr class="fieldcontain IbBodenNaehrstoffgehalt"><td class=label_fieldset><label id=IbBodenNaehrstoffgehalt_label for=IbBodenNaehrstoffgehalt>Nährstoffgehalt:</label></td><td class=Datenfelder><textarea id=IbBodenNaehrstoffgehalt name=IbBodenNaehrstoffgehalt class=speichern formular=idealbiotop type=text></textarea></td></tr><tr class="fieldcontain IbWasserhaushalt"><td class=label_fieldset><label id=IbWasserhaushalt_label for=IbWasserhaushalt>Wasserhaushalt:</label></td><td class=Datenfelder><textarea id=IbWasserhaushalt name=IbWasserhaushalt class=speichern formular=idealbiotop type=text></textarea></td></tr></table></fieldset><fieldset><legend>Vegetation</legend><table><tr class="fieldcontain IbKonkurrenz"><td class=label_fieldset><label id=IbKonkurrenz_label for=IbKonkurrenz>Konkurrenz:</label></td><td class=Datenfelder><textarea id=IbKonkurrenz name=IbKonkurrenz class=speichern formular=idealbiotop type=text></textarea></td></tr><tr class="fieldcontain IbMoosschicht"><td class=label_fieldset><label id=IbMoosschicht_label for=IbMoosschicht>Moosschicht:</label></td><td class=Datenfelder><textarea id=IbMoosschicht name=IbMoosschicht class=speichern formular=idealbiotop type=text></textarea></td></tr><tr class="fieldcontain IbKrautschicht"><td class=label_fieldset><label id=IbKrautschicht_label for=IbKrautschicht>Krautschicht:</label></td><td class=Datenfelder><textarea id=IbKrautschicht name=IbKrautschicht class=speichern formular=idealbiotop type=text></textarea></td></tr><tr class="fieldcontain IbStrauchschicht"><td class=label_fieldset><label id=IbStrauchschicht_label for=IbStrauchschicht>Strauchschicht:</label></td><td class=Datenfelder><textarea id=IbStrauchschicht name=IbStrauchschicht class=speichern formular=idealbiotop type=text></textarea></td></tr><tr class="fieldcontain IbBaumschicht"><td class=label_fieldset><label id=IbBaumschicht_label for=IbBaumschicht>Baumschicht:</label></td><td class=Datenfelder><textarea id=IbBaumschicht name=IbBaumschicht class=speichern formular=idealbiotop type=text></textarea></td></tr></table></fieldset><table><tr class="fieldcontain IbBemerkungen"><td class=label><label id=IbBemerkungen_label for=IbBemerkungen>Bemerkungen:</label></td><td class=Datenfelder><textarea name=IbBemerkungen id=IbBemerkungen class=speichern formular=idealbiotop></textarea></td></tr></table></form><form id=assozarten class=form action=# method=get autocomplete=off style=display:none;><table><tr class="fieldcontain AaSisfNr"><td class=label><label id=AaSisfNr_label for=AaSisfNr>Art:</label></td><td class=Datenfelder><select id=AaSisfNr name=AaSisfNr class=speichern formular=assozarten><option></option></select></td></tr><tr class="fieldcontain AaBem"><td class=label><label id=AaBem_label for=AaBem>Bemerkungen zur Assoziation:</label></td><td class=Datenfelder><textarea name=AaBem id=AaBem class=speichern formular=assozarten></textarea></td></tr></table></form><form id=popber class=form action=# method=get autocomplete=off style=display:none;><table><tr class="fieldcontain PopBerJahr"><td class=label><label id=PopBerJahr_label for=PopBerJahr>Jahr:</label></td><td class=Datenfelder><input id=PopBerJahr name=PopBerJahr class=speichern formular=popber type=number></td></tr><tr class="fieldcontain PopBerEntwicklung"><td class=label><label id=PopBerEntwicklung_label for=PopBerEntwicklung class="apf-with-tooltip erforderlich"><span>Entwicklung:</span></label><div class=tooltiptext><p>Entgegen dem Vorgehen bei der Entwicklungsbeurteilung der Teilpopulationen kann die Beurteilung der Gesamtentwicklung einer Population nicht rein rechnerisch bestimmt werden. Weil meist nicht alle Teilpopulationen einer Population im laufenden Jahr kontrolliert und beurteilt werden, kann die Entwicklung der Population deshalb meist nur fachlich beurteilt werden. Es sind dazu auch allfällige frühere Beurteilungen von verschiedenen Teilpopulationen bei der Beurteilung der gesamten Population zu berücksichtigen.</p><p>Beispiele:</p><ul><li>Wenn nur 3 von 20 Teilpopulationen kontrolliert werden > unsichere Entwicklung</li><li>Ist bei 5 Teilpopulationen 1 sehr gross, die übrigen klein und wurde die grosse kontrolliert, kann diese grosse Teilpopulation massgeblich für die Entwicklungsangabe der gesamten Population verwendet werden</li><li>Werden über Jahre hinweg abwechslungsweise verschiedene Teilpopulationen kontrolliert und sind diese über Jahre hinweg konstant, dann kann auch die Gesamtpopulation als konstant angesehen werden</li></ul></div></td><td class=Datenfelder><input type=radio name=PopBerEntwicklung id=PopBerEntwicklung3 class=speichern formular=popber value=3><span id=spanPopBerEntwicklung3>zunehmend</span><br><input type=radio name=PopBerEntwicklung id=PopBerEntwicklung2 class=speichern formular=popber value=2><span id=spanPopBerEntwicklung2>stabil</span><br><input type=radio name=PopBerEntwicklung id=PopBerEntwicklung1 class=speichern formular=popber value=1><span id=spanPopBerEntwicklung1>abnehmend</span><br><input type=radio name=PopBerEntwicklung id=PopBerEntwicklung8 class=speichern formular=popber value=8><span id=spanPopBerEntwicklung8>erloschen / nicht etabliert</span><br><input type=radio name=PopBerEntwicklung id=PopBerEntwicklung4 class=speichern formular=popber value=4><span id=spanPopBerEntwicklung4>unsicher</span><br><input type=radio name=PopBerEntwicklung id=PopBerEntwicklung9 class=speichern formular=popber value=9><span id=spanPopBerEntwicklung9>neu entdeckt (unsicher)</span><br><input type=radio name=PopBerEntwicklung id=PopBerEntwicklung99 class=speichern formular=popber value=99><span id=spanPopBerEntwicklung99>andere Einstufung</span></td></tr><tr class="fieldcontain PopBerTxt"><td class=label><label id=PopBerTxt_label for=PopBerTxt>Bemerkungen:</label></td><td class=Datenfelder><textarea name=PopBerTxt id=PopBerTxt class=speichern formular=popber></textarea></td></tr></table></form><form id=popmassnber class=form action=# method=get autocomplete=off style=display:none;><table><tr class="fieldcontain PopMassnBerJahr"><td class=label><label id=PopMassnBerJahr_label for=PopMassnBerJahr>Jahr:</label></td><td class=Datenfelder><input id=PopMassnBerJahr name=PopMassnBerJahr class=speichern formular=popmassnber type=number></td></tr><tr class="fieldcontain PopMassnBerErfolgsbeurteilung"><td class=label><label id=PopMassnBerErfolgsbeurteilung_label for=PopMassnBerErfolgsbeurteilung class="apf-with-tooltip erforderlich"><span>Entwicklung:</span></label><div class=tooltiptext><p>Dieses Feld möglichst immer ausfüllen.</p><p>Die aktuelle Kontrolle wird im Vergleich zu allen bisherigen Massnahmen beurteilt.</p></div></td><td class=Datenfelder><input type=radio name=PopMassnBerErfolgsbeurteilung id=PopMassnBerErfolgsbeurteilung1 class=speichern formular=popmassnber value=1><span id=spanPopMassnBerErfolgsbeurteilung1>sehr erfolgreich (>= 150%)</span><br><input type=radio name=PopMassnBerErfolgsbeurteilung id=PopMassnBerErfolgsbeurteilung2 class=speichern formular=popmassnber value=2><span id=spanPopMassnBerErfolgsbeurteilung2>erfolgreich (90 - 149%)</span><br><input type=radio name=PopMassnBerErfolgsbeurteilung id=PopMassnBerErfolgsbeurteilung3 class=speichern formular=popmassnber value=3><span id=spanPopMassnBerErfolgsbeurteilung3>weniger erfolgreich (1 - 89%)</span><br><input type=radio name=PopMassnBerErfolgsbeurteilung id=PopMassnBerErfolgsbeurteilung4 class=speichern formular=popmassnber value=4><span id=spanPopMassnBerErfolgsbeurteilung4>nicht erfolgreich (0%)</span><br><input type=radio name=PopMassnBerErfolgsbeurteilung id=PopMassnBerErfolgsbeurteilung5 class=speichern formular=popmassnber value=5><span id=spanPopMassnBerErfolgsbeurteilung5>unsicher</span></td></tr><tr class="fieldcontain PopMassnBerTxt"><td class=label><label id=PopMassnBerTxt_label for=PopMassnBerTxt>Interpretation:</label></td><td class=Datenfelder><textarea name=PopMassnBerTxt id=PopMassnBerTxt class=speichern formular=popmassnber></textarea></td></tr></table></form><form id=tpopber class=form action=# method=get autocomplete=off style=display:none;><table><tr class="fieldcontain TPopBerJahr"><td class=label><label id=TPopBerJahr_label for=TPopBerJahr>Jahr:</label></td><td class=Datenfelder><input id=TPopBerJahr name=TPopBerJahr class=speichern formular=tpopber type=number></td></tr><tr class="fieldcontain TPopBerEntwicklung"><td class=label><label id=TPopBerEntwicklung_label for=TPopBerEntwicklung class="apf-with-tooltip erforderlich"><span>Entwicklung:</span></label><div class=tooltiptext><p>Dieses Feld möglichst immer ausfüllen.</p><p>Im 1. Jahr der Beobachtung die Entwicklung an der Massnahme beurteilen, nachher an vorhergehenden EK.</p><table><tr class=apf-tr-with-border-bottom><td>zunehmend:</td><td>> 10% Zunahme</td></tr><tr class=apf-tr-with-border-bottom><td>stabil:</td><td>± 10%</td></tr><tr class=apf-tr-with-border-bottom><td>abnehmend:</td><td>> 10% Abnahme</td></tr><tr class=apf-tr-with-border-bottom><td>erloschen / nicht etabliert:</td><td>nach 2 aufeinander folgenden Kontrollen ohne Funde oder nach Einschätzung AP-VerantwortlicheR</td></tr><tr class=apf-tr-with-border-bottom><td>unsicher:</td><td>keine Funde aber noch nicht erloschen (nach zwei Kontrollen ohne Funde kann Status erloschen/nicht etabliert gewählt werden)</td></tr><tr><td>neu entdeckt (unsicher):</td><td>neu autochthone Fundorte im 1. Jahr (es kann noch keine Aussage zur Entwicklung gemacht werden)</td></tr></table></div></td><td class=Datenfelder><input type=radio name=TPopBerEntwicklung id=TPopBerEntwicklung3 class=speichern formular=tpopber value=3><span id=spanTPopBerEntwicklung3>zunehmend</span><br><input type=radio name=TPopBerEntwicklung id=TPopBerEntwicklung2 class=speichern formular=tpopber value=2><span id=spanTPopBerEntwicklung2>stabil</span><br><input type=radio name=TPopBerEntwicklung id=TPopBerEntwicklung1 class=speichern formular=tpopber value=1><span id=spanTPopBerEntwicklung1>abnehmend</span><br><input type=radio name=TPopBerEntwicklung id=TPopBerEntwicklung8 class=speichern formular=tpopber value=8><span id=spanTPopBerEntwicklung8>erloschen / nicht etabliert</span><br><input type=radio name=TPopBerEntwicklung id=TPopBerEntwicklung4 class=speichern formular=tpopber value=4><span id=spanTPopBerEntwicklung4>unsicher</span><br><input type=radio name=TPopBerEntwicklung id=TPopBerEntwicklung9 class=speichern formular=tpopber value=9><span id=spanTPopBerEntwicklung9>neu entdeckt (unsicher)</span><br><input type=radio name=TPopBerEntwicklung id=TPopBerEntwicklung99 class=speichern formular=tpopber value=99><span id=spanTPopBerEntwicklung99>andere Einstufung</span></td></tr><tr class="fieldcontain TPopBerTxt"><td class=label><label id=TPopBerTxt_label for=TPopBerTxt>Bemerkungen:</label></td><td class=Datenfelder><textarea name=TPopBerTxt id=TPopBerTxt class=speichern formular=tpopber></textarea></td></tr></table></form><form id=tpopmassnber class=form action=# method=get autocomplete=off style=display:none;><table><tr class="fieldcontain TPopMassnBerJahr"><td class=label><label id=TPopMassnBerJahr_label for=TPopMassnBerJahr>Jahr:</label></td><td class=Datenfelder><input id=TPopMassnBerJahr name=TPopMassnBerJahr class=speichern formular=tpopmassnber type=number></td></tr><tr class="fieldcontain TPopMassnBerErfolgsbeurteilung"><td class=label><label id=TPopMassnBerErfolgsbeurteilung_label for=TPopMassnBerErfolgsbeurteilung class="apf-with-tooltip erforderlich"><span>Entwicklung:</span></label><div class=tooltiptext><p>Dieses Feld möglichst immer ausfüllen.</p><p>Die aktuelle Kontrolle wird im Vergleich zu allen bisherigen Massnahmen beurteilt.</p></div></td><td class=Datenfelder><input type=radio name=TPopMassnBerErfolgsbeurteilung id=TPopMassnBerErfolgsbeurteilung1 class=speichern formular=tpopmassnber value=1><span id=spanTPopMassnBerErfolgsbeurteilung1>sehr erfolgreich (>= 150%)</span><br><input type=radio name=TPopMassnBerErfolgsbeurteilung id=TPopMassnBerErfolgsbeurteilung2 class=speichern formular=tpopmassnber value=2><span id=spanTPopMassnBerErfolgsbeurteilung2>erfolgreich (90 - 149%)</span><br><input type=radio name=TPopMassnBerErfolgsbeurteilung id=TPopMassnBerErfolgsbeurteilung3 class=speichern formular=tpopmassnber value=3><span id=spanTPopMassnBerErfolgsbeurteilung3>weniger erfolgreich (1 - 89%)</span><br><input type=radio name=TPopMassnBerErfolgsbeurteilung id=TPopMassnBerErfolgsbeurteilung4 class=speichern formular=tpopmassnber value=4><span id=spanTPopMassnBerErfolgsbeurteilung4>nicht erfolgreich (0%)</span><br><input type=radio name=TPopMassnBerErfolgsbeurteilung id=TPopMassnBerErfolgsbeurteilung5 class=speichern formular=tpopmassnber value=5><span id=spanTPopMassnBerErfolgsbeurteilung5>unsicher</span></td></tr><tr class="fieldcontain TPopMassnBerTxt"><td class=label><label id=TPopMassnBerTxt_label for=TPopMassnBerTxt>Interpretation:</label></td><td class=Datenfelder><textarea name=TPopMassnBerTxt id=TPopMassnBerTxt class=speichern formular=tpopmassnber></textarea></td></tr></table></form><form id=beob class=form action=# method=get autocomplete=off style=display:none;><h1>Informationen des Aktionsplans</h1><table><tr class=fieldcontain><td class=label><label id=BeobNichtBeurteilt_label for=BeobNichtBeurteilt>Nicht beurteilt:</label></td><td class=Datenfelder><input type=checkbox name=BeobNichtBeurteilt id=BeobNichtBeurteilt formular=beob></td></tr></table><table id=beob_zuordnungsfelder></table><table><tr class=fieldcontain><td class=label><label id=BeobNichtZuordnen_label for=BeobNichtZuordnen class=apf-with-tooltip><span>Nicht zuordnen:</span></label><div class=tooltiptext><p>Will heissen: Die Beobachtung kann nicht zugeordnet werden</p><p>Mögliche Gründe: Unsichere Bestimmung, nicht lokalisierbar</p><p>Bitte im Bemerkungsfeld begründen</p></div></td><td class=Datenfelder><input type=checkbox name=BeobNichtZuordnen id=BeobNichtZuordnen formular=beob></td></tr><tr class=fieldcontain><td class=label><label id=BeobBemerkungen_label for=BeobBemerkungen>Bemerkungen zur Zuordnung:</label></td><td class=Datenfelder><textarea name=BeobBemerkungen id=BeobBemerkungen class=speichern formular=beob></textarea></td></tr><tr class=fieldcontain><td class=label><label for=BeobMutWann>Zuletzt verändert...</label></td><td class=Datenfelder><input id=BeobMutWann class="Datenfelder Datum" formular=beob type=text readonly style=border:none;></td></tr><tr class=fieldcontain><td class=label><label for=BeobMutWer>...von:</label></td><td class=Datenfelder><input id=BeobMutWer class=Datenfelder formular=beob type=text readonly style=border:none;></td></tr></table><hr><div id=beob_table></div></form><div id=google_karte class=karte><button id=distanz_messen>Distanz messen</button> <button id=distanz_messen_entfernen>Messung entfernen</button><div class=google_detailplaene_div><input id=google_karte_detailplaene_checkbox type=checkbox class=google_karte_detailplaene_checkbox><label for=google_karte_detailplaene_checkbox>Detailpläne</label></div><div id=google_karten_div style="width:100%; height:100%;"></div></div><div id=GeoAdminKarte class=karte><div id=ga_karten_div class=apf-resizable><div id=menuleiste><span id=messen><input type=radio name=type value=olmap_infos_abfragen id=olmap_infos_abfragen onclick=window.apf.olmap.messe(this); checked> <label id=label_olmap_infos_abfragen for=olmap_infos_abfragen title="Infos abfragen: auf Objekte klicken<br>Zoomen: Mausrad drehen<br>Auf Rechteck Zoomen: Shift-Taste halten und mit der Maus ein Rechteck aufziehen">Infos abfragen</label> <input type=radio name=type value=line id=olmap_distanz_messen onclick=window.apf.olmap.messe(this);> <label id=label_olmap_distanz_messen for=olmap_distanz_messen title="Klicken um Punkte zu setzen<br>Doppelklicken um die Messung abzuschliessen">Distanz messen</label> <input type=radio name=type value=polygon id=olmap_flaeche_messen onclick=window.apf.olmap.messe(this);> <label id=label_olmap_flaeche_messen for=olmap_flaeche_messen title="Klicken um Punkte zu setzen<br>Doppelklicken um die Messung abzuschliessen">Fläche messen</label> <input type=radio name=type value=drawPolygon id=olmap_auswaehlen onclick=window.apf.olmap.wähleAus();> <label id=label_olmap_auswaehlen for=olmap_auswaehlen title="Einzelne Objekte wählen: drauf klicken<br>Weitere hinzufügen: SHIFT-Taste halten und weitere Objekte anklicken<br>Rechteck wählen: ALT-Taste halten und mit der Maus ein Rechteck aufziehen<br>Auswahl löschen: auf einen leeren Bereich der Karte klicken">auswählen</label></span><ol id=ergebnisMessung reversed></ol><div id=ergebnisAuswahl><div id=ergebnisAuswahlHeader><div id=ergebnisAuswahlHeaderText></div><a href=# class="ui-dialog-titlebar-close ui-corner-all" role=button><span class="ui-icon ui-icon-closethick">schliessen</span></a></div><div id=ergebnisAuswahlListe></div><div id=ergebnisAuswahlFooter></div></div></div><div id=olmap_exportieren_div title="Karte als png herunterladen<br>Diese Funktion ist inaktiv<br>Um sie zu aktivieren, müssen Sie die Karte verkleinern<br>Packen Sie dazu die untere rechte Ecke und ziehen Sie sie nach oben links"><a id=olmap_exportieren download=map.png>Karte als png herunterladen</a></div><div id=olmap_layertree class=accordion><h3 style=font-weight:bold;>Ebenen</h3><div id=olmap_layertree_layers class=accordion></div></div></div><div style=display:none;><div id=olmap_popup class=olmap_popup></div></div><div id=eigene_ebene_name_container style=display:none><input id=eigene_ebene_name type=text placeholder="hier benennen..."></div></div><form id=exporte style=display:none;><a name=top></a><h2 style="-webkit-margin-before: 0em;">Exporte</h2><ul style="font-weight:bold; -webkit-padding-start: 22px; -webkit-margin-before: 0.5em;"><li><a href=#Anleitung>So geht's</a></li><li><a href=#ProgrammArt>Programm / Art</a></li><li><a href=#Populationen>Populationen</a></li><li><a href=#Teilpopulationen>Teilpopulationen</a></li><li><a href=#Kontrollen>Kontrollen</a></li><li><a href=#Massnahmen>Massnahmen</a></li><li><a href=#Beobachtungen>Beobachtungen</a></li><li><a href=#Anwendung>Anwendung</a></li></ul><a name=Anleitung></a><h2 class=border_top>So geht's</h2><p>Hier sind alle Auswertungen (bzw. Abfragen, Kontrollen, Listen).</p><p>Die Daten werden direkt als mit Strichpunkten (=Semikolon) getrennte .csv-Datei heruntergeladen.</p><p>Diese Datei kann nach dem Download auf zwei Arten geöffnet werden:</p><ol><li>Heruntergeladene Datei doppelklicken. Meist wählt das Betriebssystem ein geeignetes Programm, um die Datei damit zu öffnen und dieses Programm erkennt am Datenformat, dass der Importassistent geöffnet werden muss. In Excel funktioniert dies manchmal nicht!</li><li>Gewünschtes Programm öffnen und damit die heruntergeladene Datei öffnen oder die Daten importieren</li></ol><div style="padding:10px 5px 10px 5px; margin-right:10px; border-radius:5px; background-color: #FFDA8F; box-shadow: 5px 5px 5px #888;"><b>ACHTUNG: Microsoft Excel braucht Streicheleinheiten:</b><ol style="-webkit-margin-after: 0em; -webkit-margin-before: 0.5em;"><li>Excel öffnen</li><li>"Daten" > "Externe Daten abrufen" > "Aus Text" wählen</li><li>Nun erscheit der Textkonvertierungs-Assistent. Im Schritt 1 als Dateiursprung statt dem vorgegebenen "Windows (ANSI)" dies hier wählen: "65001 : Unicode (UTF-8)". Excel versteht sonst partout keine Umlaute</li></ol></div><p>Fragt das Programm, mit welchem Zeichen die einzelnen Felder getrennt werden? Es sind Strichpunkte (=Semikolon, =";").</p><p>Zeigt das Programm nach dem Öffnen ungeordnete Daten an? Dann muss die Datei nochmals geöffnet werden und dabei ist die Option zu suchen, mit der eine Trennung der Felder mittels Strichpunkten erzwungen werden kann. Vielleicht muss wie in Excel statt dem Öffnen-Befehl ein Import-Befehl verwendet werden. Vorsicht: Es sollte nicht noch zusätzlich eine andere Option gewählt sein, z.B. Trennung durch Kommatas.</p><div style="padding:10px 5px 10px 5px; margin-right:10px; border-radius:5px; background-color: #FFDA8F; box-shadow: 5px 5px 5px #888;"><b>Enthält der Export zuviele Daten?</b><br>Meist werden alle verfügbaren Datensätze und Felder angezeigt. Daher können Listen sehr viele Zeilen und Spalten enthalten und unübersichtlich werden.<ul style="-webkit-margin-after: 0em; -webkit-margin-before: 0.5em;"><li>Filtere die Zeilen nach den gewünschten Kriterien</li><li>Blende unerwünschte Spalten aus (oder lösche sie)</li></ul></div><p>Ist nach dem Herunterladen das Exportformular verschwunden und es muss wieder ein Programm gewählt werden? In Safari auf Mac scheint das leider die Standardeinstellung zu sein. Man kann dies korrigieren: "Safari" > "Tabs" > "Neue Tabs oder Fenster im Vordergrund öffnen" wählen. Falls das auf einem anderen Browser passiert: Einstellungen suchen, die das Öffnen von neuen Tabs beeinflussen und ausprobieren.</p><br><a href=#top>&uArr;&nbsp;top</a><div class=export_abschnitt><a name=ProgrammArt></a><h2 class=border_top>Programm / Art</h2><div class=export_abschnitt_exporte><button id=export_ap>Programme</button><br><button id=export_ap_ohne_pop>Programme ohne Populationen</button><br><br><button id=export_ap_anz_massn>Anzahl Massnahmen pro Programm</button><br><button id=export_ap_anz_kontr>Anzahl Kontrollen pro Programm</button><br><br><button id=export_jber>AP-Berichte (Jahresberichte)</button><br><button id=export_jber_massn>AP-Berichte und Massnahmen</button><br><br><button id=export_apziel>Ziele</button><br><br><button id=export_zielber>Ziel-Berichte</button><br><br><button id=export_ber>Berichte</button><br><br><button id=export_erfkrit>Erfolgskriterien</button><br><br><button id=export_idealbiotop>Idealbiotope</button><br><br><button id=export_assoz_arten>Assoziierte Arten</button><br></div><br><br><a href=#top>&uArr;&nbsp;top</a></div><div class=export_abschnitt><a name=Populationen></a><h2 class=border_top>Populationen</h2><div class=export_abschnitt_exporte><button id=export_pop class=export_pop>Populationen</button><br><button id=export_pop_fuer_kml class=GoogleEarthButton>Populationen für Google Earth<br>(beschriftet mit PopNr)</button><br><button id=export_pop_fuer_kml_namen class=GoogleEarthButton>Populationen für Google Earth<br>(beschriftet mit Artname, PopNr)</button><br><button id=export_pop_ohne_tpop>Populationen ohne Teilpopulationen</button><br><button id=export_pop_von_ap_ohne_status>Populationen von AP-Arten ohne "Status"</button><br><button id=export_pop_ohne_koord>Populationen ohne Koordinaten</button><br><br><button id=export_pop_mit_massnber_anz_massn>Populationen mit Massnahmen-Berichten:<br>Anzahl Massnahmen im Berichtsjahr</button><br><button id=export_pop_anz_massn>Anzahl Massnahmen pro Population</button><br><button id=export_pop_anz_kontr>Anzahl Kontrollen pro Population</button><br><br><button id=export_popber_massnber>Populationen inkl. Populations- und Massnahmen-Berichte</button><br></div><br><a href=#top>&uArr;&nbsp;top</a></div><div class=export_abschnitt><a name=Teilpopulationen></a><h2 class=border_top>Teilpopulationen</h2><div class=export_abschnitt_exporte><button id=export_tpop class=export_tpop>Teilpopulationen</button><br><button id=export_tpop_fuer_kml>Teilpopulationen für Google Earth<br>(beschriftet mit PopNr/TPopNr)</button><br><button id=export_tpop_fuer_kml_namen>Teilpopulationen für Google Earth<br>(beschriftet mit Artname, PopNr/TPopNr)</button><br><button id=export_tpop_ohne_bekannt_seit>Teilpopulationen von AP-Arten ohne "Bekannt seit"</button><br><br><button id=export_tpop_anz_massn>Anzahl Massnahmen pro Teilpopulation</button><br><button id=export_tpop_anz_kontr_inkl_letzte>Anzahl Kontrollen pro Teilpopulation<br>inklusive der letzten Kontrolle</button><br><br><button id=export_tpopber_massnber>Teilpopulationen inklusive Teilpopulations- und Massnahmen-Berichten</button><br></div><br><a href=#top>&uArr;&nbsp;top</a></div><div class=export_abschnitt><a name=Kontrollen></a><h2 class=border_top>Kontrollen</h2><div class=export_abschnitt_exporte><button id=export_kontr class=export_kontr>Kontrollen</button><br><button id=export_kontr_anz_pro_zaehleinheit title="Die Abfrage fasst pro Kontrolle die Informationen über Zähleinheiten zusammen.<br><br>Was in 1 bis drei Trippel-Spalten (Zähleinheiten) erfasst war, wird in nur noch einer Trippel-Spalte in 1 bis 3 Zeilen dargestellt.<br><br>Das Praktische ist: Einheit, Methode und Anzahl sind nun immer in derselben Spalte.<br><br>So lassen sich diese drei Informationen einfach auswerten (z.B. Summen pro Zähleinheit ermitteln)">Kontrollen: Anzahl pro Zähleinheit</button><br></div><br><a href=#top>&uArr;&nbsp;top</a></div><div class=export_abschnitt><a name=Massnahmen></a><h2 class=border_top>Massnahmen</h2><div class=export_abschnitt_exporte><button id=export_massn class=export_massn>Massnahmen</button><br></div><br><a href=#top>&uArr;&nbsp;top</a></div><div class=export_abschnitt><a name=Beobachtungen></a><h2 class=border_top>Beobachtungen</h2><div class=export_abschnitt_exporte><button id=export_beob>zugeordnete und nicht zuzuordnende Beobachtungen</button><br></div><br><a href=#top>&uArr;&nbsp;top</a></div><div class=export_abschnitt><a name=Anwendung></a><h2 class=border_top>Anwendung</h2><div class=export_abschnitt_exporte><button id=export_datenstruktur>Tabellen und Felder</button><br></div><div class=export_abschnitt_exporte><button id=export_datenstruktur_grafisch>Datenstruktur grafisch dargestellt</button><br></div><br><a href=#top>&uArr;&nbsp;top</a></div></form></fieldset></div><div id=anmelde_dialog title="Anmeldung erforderlich"><p id=anmeldung_rueckmeldung style="margin: 16px 0 16px 0;">Logins werden von Topos vergeben</p><label for=anmeldung_name style=display:block;>Name</label> <input type=text id=anmeldung_name style="width:270px; margin: 2px 0 2px 0;"> <label for=anmeldung_passwort style=display:block;>Passwort</label> <input type=password id=anmeldung_passwort style="width:270px; margin: 2px 0 2px 0;"></div><div id=loeschen_dialog title="Sind sie sicher?" style=display:none;><p id=loeschen_dialog_mitteilung>Dieser Knoten und alle darunter befindlichen werden unwiederbringlich gelöscht.</p></div><div id=entferne_eigene_ebene_dialog title="Ebene entfernen?" style=display:none;><p id=entferne_eigene_ebene_dialog_mitteilung>Wollen Sie diese Ebene unwiederbringlich entfernen?</p></div><div id=Meldung></div><div id=offline_dialog title=offline style=display:none;><p>Sie sind nicht mit dem Internet verbunden.<br>Das Speichern und Abfragen von Daten ist nur online möglich</p></div><script>
+            //'use strict';
+            // benötigte globale Variabeln initialisieren
+			window.apf = window.apf || {};
+			window.apf.gmap = window.apf.gmap || {};
+			window.apf.olmap = window.apf.olmap || {};
+
+			$(document).ready(function () {
+				var $Useranmeldung = $("#anmelde_dialog").dialog( {
+					autoOpen: false,
+					height: 320,
+					width: 310,
+					modal: true,
+					closeOnEscape: false,
+					buttons: {
+						"anmelden": function() {
+							window.apf.prüfeAnmeldung();
+						}
+					},
+					open: function(event, ui) {
+						$(".ui-dialog-titlebar-close", ui.dialog).hide();
+						//Reaktion auf Enter-Taste in anmelde_dialog
+						$("#anmelde_dialog").on("keydown", function (e) {
+							if (e.keyCode == $.ui.keyCode.ENTER) {
+								window.apf.prüfeAnmeldung();
+							}
+						});
+					}
+				});
+
+				if (!sessionStorage.User) {
+					$Useranmeldung.dialog("open");
+				}
+
+				//Bei jedem Lesezugriff soll geprüft werden, ob alle Voraussetzungen erfüllt sind
+				//v.a., ob der User online ist
+				$.ajaxSetup({
+					beforeSend: function() {
+						if (!window.apf.prüfeLesevoraussetzungen()) {
+							return false;
+						}
+					}
+				});
+
+                window.apf.initiiereIndex();
+
+                // sicherstellen, dass die Rücktaste des Browsers benutzt werden kann
+                $(window).on('popstate', function() {
+                	window.apf.öffneUri();
+                });
+
+                $('#olmap_layertree')
+                    .on('click', '.olmap_layertree_checkbox', function(event) {
+                        var layers = window.apf.olmap.map.getLayers().getArray();
+                        layers[event.target.value].setVisible(event.target.checked);
+                    })
+                    .on('click', '.layertree_pop_style', function(event) {
+                        var layers = window.apf.olmap.map.getLayers().getArray(),
+                            layer = $('#olmap_layertree_Populationen').val(),
+                            that = this;
+                        // style setzen
+                        layers[layer].setStyle(window.apf.olmap.popStyle);
+                        // jeweils andere box unchecken
+                        if ($(that).hasClass('pop_nr') && that.checked) {
+                            $('#layertree_pop_name').prop('checked', false);
+                        } else if ($(that).hasClass('pop_name') && that.checked) {
+                            $('#layertree_pop_nr').prop('checked', false);
+                        }
+                    })
+                    .on('click', '.layertree_tpop_style', function(event) {
+                        var layers = window.apf.olmap.map.getLayers().getArray(),
+                            layer = $('#olmap_layertree_Teilpopulationen').val(),
+                            that = this;
+                        // style setzen
+                        layers[layer].setStyle(window.apf.olmap.tpopStyle);
+                        // jeweils andere box unchecken
+                        if ($(that).hasClass('tpop_nr') && that.checked) {
+                            // andere box unchecken
+                            $('#layertree_tpop_name').prop('checked', false);
+                        } else if ($(that).hasClass('tpop_name') && that.checked) {
+                            // andere box unchecken
+                            $('#layertree_tpop_nr').prop('checked', false);
+                        }
+                    })
+                    .on('click', '.modify_layer', function(event) {
+                        // layer holen
+                        var layer_div = $(this).parent().siblings('input'),
+                            layer_index = layer_div.val(),
+                            layer = window.apf.olmap.map.getLayers().getArray()[layer_index],
+                            button_div = $(this).siblings('label').first(),
+                            geom_select_div = $(this).siblings('.modify_layer_geom_type'),
+                            geom_select_div_id = geom_select_div.attr('id'),
+                            button_icon = $(this).button('option', 'icons').primary,
+                            $non_modify_options = $(this).siblings('.non_modify_options'),
+                            tooltip_content;
+
+                        // modify-layer steuern
+                        if (window.apf.olmap.modify_interaction_für_vectorlayer) {
+                            // modify entfernen
+                            // input_div mitgeben, damit alle übrigen Layer deaktiviert werden können
+                            window.apf.olmap.entferneModifyInteractionFürVectorLayer(layer_div);
+                        }
+
+                        // modify_layer_geom_type selectmenu zurücksetzen...
+                        $('.modify_layer_geom_type')
+                            .selectmenu()
+                            .selectmenu('destroy')
+                            .hide();
+
+                        // Zustand der Layeranzeige steuern
+                        if (button_icon === 'ui-icon-locked') {
+                            // war inaktiv, also aktivieren
+                            window.apf.olmap.erstelleModifyInteractionFürVectorLayer(layer);
+                            // title ändern
+                            tooltip_content = 'Ebene schützen';
+                            // selectmenu initiieren
+                            geom_select_div.selectmenu({
+                                width: 140
+                            });
+                            // give the selectmenu a tooltip
+                            $('#' + geom_select_div_id + '-button').tooltip({
+                                tooltipClass: "tooltip-styling-hinterlegt",
+                                items: 'span',
+                                content: geom_select_div.attr('title')
+                            });
+                            // Optionen, die nicht der Bearbeitung dienen, auf zweite Zeile
+                            $non_modify_options
+                                .css('display', 'block')
+                                .css('margin-left', '3px');
+                            // button is pencil
+                            $(this)
+                                .button({
+                                    icons: {primary: 'ui-icon-pencil'},
+                                    text: false
+                                })
+                                .button('refresh');
+                        } else {
+                            // button war aktiv > deaktivieren
+                            // title ändern
+                            tooltip_content = 'Ebene bearbeiten';
+                            // Optionen, die nicht der Bearbeitung dienen, auf gleiche Zeile
+                            $non_modify_options
+                                .css('display', 'inline')
+                                .css('margin-left', '0');
+                            // button is locked
+                            $(this)
+                                .button({
+                                    icons: {primary: 'ui-icon-locked'},
+                                    text: false
+                                })
+                                .button('refresh');
+                        }
+                        // tooltip von .modify_layer anpassen
+                        button_div
+                            .attr('title', tooltip_content)
+                            .tooltip({
+                                tooltipClass: "tooltip-styling-hinterlegt",
+                                content: tooltip_content
+                            });
+                    })
+                    .on('selectmenuchange', '.export_layer_select', function(event) {
+                        // layer holen
+                        var $layer_div = $(this).parent().parent().siblings('input'),
+                            layer_index = $layer_div.val(),
+                            layer = window.apf.olmap.map.getLayers().getArray()[layer_index],
+                            $select_div = this,
+                            selected_value = $select_div.options[$select_div.selectedIndex].value;
+                        if (selected_value !== 'leerwert') {
+                            window.apf.olmap.exportiereLayer(layer, selected_value);
+                            $select_div.value = 'leerwert';
+                            $(this).selectmenu('refresh');
+                        }
+                    })
+                    .on('click', '.rename_layer', function(event) {
+                        // layer holen
+                        var layer_div = $(this).parent().parent().siblings('input'),
+                            layer_index = layer_div.val(),
+                            layer = window.apf.olmap.map.getLayers().getArray()[layer_index];
+                        window.apf.olmap.frageNameFürEbene(layer);
+                    })
+                    .on('click', '.entferne_layer', function(event) {
+                        // layer holen
+                        var layer_div = $(this).parent().parent().siblings('input'),
+                            layer_index = layer_div.val(),
+                            layer = window.apf.olmap.map.getLayers().getArray()[layer_index],
+                            layer_name = layer.get('title');
+                        if (layer_name) {
+                            // open a dialog
+                            $("#entferne_eigene_ebene_dialog").dialog({
+                                resizable: false,
+                                height:'auto',
+                                width: 400,
+                                modal: true,
+                                buttons: {
+                                    "ja, entfernen!": function() {
+                                        $(this).dialog("close");
+                                        window.apf.olmap.entferneLayerNachName(layer_name);
+                                        window.apf.olmap.initiiereLayertree('Eigene Ebenen');
+                                    },
+                                    "abbrechen": function() {
+                                        $(this).dialog("close");
+                                    }
+                                }
+                            });
+                        } else {
+                            window.apf.melde('Fehler: Layer nicht entfernt');
+                        }
+                    })
+                    .on('click', '.neues_layer', function() {
+                        window.apf.olmap.erstelleModifyInteractionFürVectorLayer('neuer_layer');
+                    });
+
+                $('#GeoAdminKarte')
+                    .on('click', '#olmap_exportieren', function(event) {
+                        window.apf.olmap.exportiereKarte(event);
+                    });
+
+				$("#ber").on("change", "#BerURL", function() {
+					var $BerURL = $("#BerURL"),
+                        url = $BerURL.val();
+					if (url.substring(0,3) === "www") {
+						$BerURL.val("//" + url);
+					} else if (url.substring(0,4) !== "http") {
+						$BerURL.val("//www." + url);
+					}
+					$('#BerURLHref').attr('onClick', "window.open('" + $BerURL.val() + "', target='_blank')")
+				});
+
+                $("#forms").on("keydown", ".form", function(event) {
+                    if (event.keyCode === 46) {
+                        event.stopPropagation();
+                    }
+                });
+
+                $('.apf-with-tooltip')
+                    .each(function() {
+                        $(this).qtip({
+                            content: {
+                                text: $(this).next('.tooltiptext'),
+                                title: 'Legende'
+                            },
+                            style: {
+                                // Use the jQuery UI widget classes
+                                widget: true,
+                                // Remove the default styling
+                                def: false,
+                                tip: false
+                            },
+                            position: {
+                                my: 'top right',
+                                at: 'bottom right',
+                                target: $(this),
+                                viewport: $(window)
+                            }
+                        });
+                    })
+                    .qtip({
+                        events: {
+                            render: function(event, api) {
+                                api.elements.wrapper.addClass('ui-corner-all');
+                            }
+                        }
+                    });
+
+				// Für jedes Feld bei Änderung speichern
+				$(".form")
+                    .on("change", ".speichern", function() {
+                        window.apf.speichern(this);
+                    })
+                    .on("click", "#kopiereKoordinatenInPop", function() {
+                        window.apf.kopiereKoordinatenInPop($("#TPopXKoord").val(), $("#TPopYKoord").val());
+                    })
+                    .on("keyup focus", "textarea", function() {
+                        window.apf.fitTextareaToContent(this, document.documentElement.clientHeight);
+                    });
+
+				// verhindern, dass Zahlen durch Scrollen am Mausrad aus Versehen verändert werden
+				$("[type='number']").mousewheel(function(event){
+				   event.preventDefault() ;
+				});
+
+				// Wenn im Suchfeld oder in einem Datenfeld die Taste Delete gedrückt wird,
+				// wird anschliessend im Baum der markierte node entfernt!
+				$("#menu")
+                    .on("keydown", "#suchen", function(event) {
+                        if (event.keyCode === 46) {
+                            event.stopPropagation();
+                        }
+                    })
+                    .on("click", ".exportieren", function() {
+                        window.apf.initiiereExporte();
+                    })
+                    .on("click", "[name=programm_wahl]", function() {
+                        window.apf.wähleApListe($(this).attr("id"));
+                    })
+                    .on("click", "#ap_loeschen", function() {
+                        var $ap_waehlen = $("#ap_waehlen");
+                        if (!$ap_waehlen.val()) {
+                            $("#Meldung")
+                                .html("Bitte wählen Sie vor dem Löschen ein Artförderprogramm")
+                                .dialog({
+                                    modal: true,
+                                    buttons: {
+                                        Ok: function() {
+                                            $(this).dialog("close");
+                                        }
+                                    }
+                                });
+                        } else {
+                            $("#Meldung")
+                                .html("Wollen Sie das Artförderprogramm für '" + $("#ap_waehlen option[value='" + $ap_waehlen.val() + "']").text() + "' wirklich löschen?")
+                                .dialog({
+                                    modal: true,
+                                    width: 500,
+                                    buttons: {
+                                        ja: function() {
+                                            window.apf.löscheAp(localStorage.ap_id);
+                                            $(this).dialog("close");
+                                        },
+                                        nein: function() {
+                                            $(this).dialog("close");
+                                        }
+                                    }
+                                });
+                        }
+                    })
+                    .on("change", "#ap_waehlen", function() {
+                        window.apf.wähleAp(this.value);
+                    });
+
+				$("#beob")
+                    .on("change", "#BeobNichtBeurteilt", function() {
+                        var $BeobNichtBeurteilt = $("#BeobNichtBeurteilt");
+                        if ($BeobNichtBeurteilt.prop("checked") === true) {
+                            // node verschieben. Den rest macht der callback zu jstree.move_node
+                            $("#tree").jstree("move_node", "#beob" + localStorage.beob_id, "#ap_ordner_beob_nicht_beurteilt" + localStorage.ap_id, "first");
+                        } else {
+                            // es bringt nichts, diesen Haken zu entfernen
+                            // stattdessen soll ein anderer Wert gewählt werden
+                            $BeobNichtBeurteilt.prop("checked", true);
+                        }
+                    })
+                    .on("change", "#BeobNichtZuordnen", function() {
+                        if ($("#BeobNichtZuordnen").prop("checked") === true) {
+                            // node verschieben. Der Rest wird vom Callback fon jstree.move_node erledigt
+                            $("#tree").jstree("move_node", "#beob" + localStorage.beob_id, "#ap_ordner_beob_nicht_zuzuordnen" + localStorage.ap_id, "first");
+                        } else {
+                            // node verschieben. Den Rest macht der callback zu jstree.move_node
+                            $("#tree").jstree("move_node", "#beob" + localStorage.beob_id, "#ap_ordner_beob_nicht_beurteilt" + localStorage.ap_id, "first");
+                        }
+                    })
+                    .on("change", "[name='DistZuTPop']", function() {
+                        var tpop_id = $(this).val();
+                        $("#tree").jstree("move_node", "#beob" + localStorage.beob_id, "#tpop_ordner_beob_zugeordnet" + tpop_id, "first");
+                    });
+
+				$("#google_karte")
+                    .on("click", "#distanz_messen", function(event) {
+                        event.preventDefault();
+                        addruler();
+                    })
+                    .on("click", "#distanz_messen_entfernen", function(event) {
+                        event.preventDefault();
+                        removeruler();
+                    });
+
+				$("#undelete_div").on("click", "#undelete", function(event) {
+					event.preventDefault();
+					window.apf.undeleteDatensatz();
+				});
+
+				//Suche steuern
+				$("body").on("keyup click", "#suchen", function(e) {
+					//if (this.value.length > 2) {
+					if (e.keyCode === 13) {
+						$("#tree").jstree("search", this.value);
+					} else {
+						$("#tree").jstree("clear_search");
+					}
+				});
+			});
+
+			// Paarige Jahr/Datumfelder: Datum zurückstellen, wenn Jahr verändert wurde
+			$("#tpopfeldkontr").on("change", "#TPopKontrJahr", function() {
+				var Objekt,
+                    $TPopKontrDatum = $("#TPopKontrDatum");
+				if ($TPopKontrDatum.val()) {
+					$TPopKontrDatum.val(null);
+					Objekt = {};
+					Objekt.name = "TPopKontrDatum";
+					Objekt.formular = "tpopfeldkontr";
+                    window.apf.speichern(Objekt);
+				}
+			});
+
+			// Paarige Jahr/Datumfelder: Datum zurückstellen, wenn Jahr verändert wurde
+			$("#tpopmassn").on("change", "#TPopMassnJahr", function() {
+				var Objekt,
+                    $TPopMassnDatum = $("#TPopMassnDatum");
+				if ($TPopMassnDatum.val()) {
+					$TPopMassnDatum.val(null);
+					Objekt = {};
+					Objekt.name = "TPopMassnDatum";
+					Objekt.formular = "tpopmassn";
+                    window.apf.speichern(Objekt);
+				}
+			});
+
+			$(".karte").on("change", ".google_karte_detailplaene_checkbox", function() {
+				console.log("toggle Detailpläne");
+				if (window.apf.google_karte_detailpläne.getMap() === null) {
+					window.apf.google_karte_detailpläne.setMap(window.apf.gmap.map);
+				} else {
+					window.apf.google_karte_detailpläne.setMap(null);
+				}
+			});
+
+			$(window).resize(function() {
+                window.apf.setzeTreehöhe();
+				// Karten sollen ca. Bildschirmhöhe haben
+				// da Formulare so hoch wie der Inhalt sind, muss die Kartenhöhe manuell eingestellt werden
+                window.apf.setzeKartenhöhe();
+			});
+
+			$("#forms")
+                .on("click", ".guid", function() {
+                    // die GUIDS sollen einfach kopiert werden können
+                    $(this).select();
+                })
+                .on("click", ".export_pop", function() {
+                    // wenn pop ausgewählt, diese übergeben
+                    var pop_id_liste = "";
+                    if (window.apf.olmap.pop_selected) {
+                        _.each(window.apf.olmap.pop_selected, function(pop, index) {
+                            pop_id_liste +=  pop.get('myId');
+                            if (index + 1 < window.apf.olmap.pop_selected.length) {
+                                pop_id_liste += ",";
+                            }
+                        });
+                    	window.apf.downloadFileFromViewWehreIdIn('vPop', 'PopId', pop_id_liste, 'Populationen', 'csv');
+                    } else {
+                    	window.apf.downloadFileFromView('vPop', 'Populationen', 'csv');
+                    }
+                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                })
+                .on("click", ".export_kontr", function() {
+                    // wenn tpop ausgewählt, diese übergeben
+                    var tpop_id_liste = "";
+                    if (window.apf.olmap.tpop_selected) {
+                        _.each(window.apf.olmap.tpop_selected, function(tpop, index) {
+                            tpop_id_liste +=  tpop.get('myId');
+                            if (index + 1 < window.apf.olmap.tpop_selected.length) {
+                                tpop_id_liste += ",";
+                            }
+                        });
+                    	window.apf.downloadFileFromViewWehreIdIn('vKontr', 'TPop ID', tpop_id_liste, 'Kontrollen', 'csv');
+                    } else {
+                    	window.apf.downloadFileFromView('vKontr', 'Kontrollen', 'csv');
+                    }
+                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                })
+                .on("click", ".export_tpop", function() {
+                    // wenn tpop ausgewählt, diese übergeben
+                    var tpop_id_liste = "";
+                    if (window.apf.olmap.tpop_selected) {
+                        _.each(window.apf.olmap.tpop_selected, function(tpop, index) {
+                            tpop_id_liste +=  tpop.get('myId');
+                            if (index + 1 < window.apf.olmap.tpop_selected.length) {
+                                tpop_id_liste += ",";
+                            }
+                        });
+                    	window.apf.downloadFileFromViewWehreIdIn('vTPop', 'TPop ID', tpop_id_liste, 'Teilpopulationen', 'csv');
+                    } else {
+                    	window.apf.downloadFileFromView('vTPop', 'Teilpopulationen', 'csv');
+                    }
+                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                })
+                .on("click", ".export_massn", function() {
+                    // wenn tpop ausgewählt, diese übergeben
+                    var tpop_id_liste = "";
+                    if (window.apf.olmap.tpop_selected) {
+                        _.each(window.apf.olmap.tpop_selected, function(tpop, index) {
+                            tpop_id_liste +=  tpop.get('myId');
+                            if (index + 1 < window.apf.olmap.tpop_selected.length) {
+                                tpop_id_liste += ",";
+                            }
+                        });
+                    	window.apf.downloadFileFromViewWehreIdIn('vMassn', 'TPop ID', tpop_id_liste, 'Massnahmen', 'csv');
+                    } else {
+                    	window.apf.downloadFileFromView('vMassn', 'Massnahmen', 'csv');
+                    }
+                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                });
+
+            $("#ergebnisAuswahlHeader").on("click", ".ui-icon.ui-icon-closethick", function() {
+                window.apf.deaktiviereGeoAdminAuswahl();
+            });
+
+			$("#exporte")
+                .on("click", "#export_ap", function() {
+                	window.apf.downloadFileFromView('vProgramme', 'Programme', 'csv');
+                    return false; // this is critical to stop the click event which will trigger a normal file download!
+                })
+                .on("click", "#export_ap_ohne_pop", function() {
+                	window.apf.downloadFileFromView('vApOhnePop', 'ProgrammeOhnePopulationen', 'csv');
+                    return false;
+                })
+                .on("click", "#export_ap_anz_massn", function() {
+                	window.apf.downloadFileFromView('vApAnzMassn', 'ProgrammeAnzahlMassnahmen', 'csv');
+                    return false;
+                })
+                .on("click", "#export_ap_anz_kontr", function() {
+                	window.apf.downloadFileFromView('vApAnzKontr', 'ProgrammeAnzahlKontrollen', 'csv');
+                    return false;
+                })
+                .on("click", "#export_jber", function() {
+                	window.apf.downloadFileFromView('vApJahresberichte', 'Jahresberichte', 'csv');
+                    return false;
+                })
+                .on("click", "#export_jber_massn", function() {
+                	window.apf.downloadFileFromView('vApJahresberichteUndMassnahmen', 'ApJahresberichteUndMassnahmen', 'csv');
+                    return false;
+                })
+                .on("click", "#export_apziel", function() {
+                	window.apf.downloadFileFromView('vApZiele', 'ApZiele', 'csv');
+                    return false;
+                })
+                .on("click", "#export_zielber", function() {
+                	window.apf.downloadFileFromView('vZielBer', 'Zielberichte', 'csv');
+                    return false;
+                })
+                .on("click", "#export_ber", function() {
+                	window.apf.downloadFileFromView('vBer', 'Berichte', 'csv');
+                    return false;
+                })
+                .on("click", "#export_erfkrit", function() {
+                	window.apf.downloadFileFromView('vErfKrit', 'Erfolgskriterien', 'csv');
+                    return false;
+                })
+                .on("click", "#export_idealbiotop", function() {
+                	window.apf.downloadFileFromView('vIdealbiotop', 'Idealbiotope', 'csv');
+                    return false;
+                })
+                .on("click", "#export_assoz_arten", function() {
+                	window.apf.downloadFileFromView('vAssozArten', 'AssoziierteArten', 'csv');
+                    return false;
+                })
+                .on("click", "#export_pop_fuer_kml", function() {
+                	window.apf.downloadFileFromView('vPopFuerKml', 'ApFloraPopulationen', 'kml');
+                    return false;
+                })
+                .on("click", "#export_pop_fuer_kml_namen", function() {
+                	window.apf.downloadFileFromView('vPopFuerKmlNamen', 'PopulationenNachNamen', 'kml');
+                    return false;
+                })
+                .on("click", "#export_pop_ohne_tpop", function() {
+                	window.apf.downloadFileFromView('vPopOhneTPop', 'PopulationenOhneTeilpopulationen', 'csv');
+                    return false;
+			    })
+                .on("click", "#export_pop_von_ap_ohne_status", function() {
+                	window.apf.downloadFileFromView('vPopVonApOhneStatus', 'PopulationenVonApArtenOhneStatus', 'csv');
+                    return false;
+                })
+                .on("click", "#export_pop_ohne_koord", function() {
+                	window.apf.downloadFileFromView('vPopOhneKoord', 'PopulationenOhneKoordinaten', 'csv');
+                    return false;
+                })
+                .on("click", "#export_pop_mit_massnber_anz_massn", function() {
+                	window.apf.downloadFileFromView('vPopMassnberAnzMassn', 'PopulationenAnzMassnProMassnber', 'csv');
+                    return false;
+                })
+                .on("click", "#export_pop_anz_massn", function() {
+                	window.apf.downloadFileFromView('vPopAnzMassn', 'PopulationenAnzahlMassnahmen', 'csv');
+                    return false;
+                })
+                .on("click", "#export_pop_anz_kontr", function() {
+                	window.apf.downloadFileFromView('vPopAnzKontr', 'PopulationenAnzahlKontrollen', 'csv');
+                    return false;
+                })
+                .on("click", "#export_popber_massnber", function() {
+                	window.apf.downloadFileFromView('vPop_BerUndMassnBer', 'PopulationenPopUndMassnBerichte', 'csv');
+                    return false;
+                })
+                .on("click", "#export_tpop_fuer_kml", function() {
+                	window.apf.downloadFileFromView('vTPopFuerKml', 'Teilpopulationen', 'kml');
+                    return false;
+                })
+                .on("click", "#export_tpop_fuer_kml_namen", function() {
+                	window.apf.downloadFileFromView('vTPopFuerKmlNamen', 'TeilpopulationenNachNamen', 'kml');
+                    return false;
+                })
+                .on("click", "#export_tpop_ohne_bekannt_seit", function() {
+                	window.apf.downloadFileFromView('vTPopOhneBekanntSeit', 'TeilpopulationenVonApArtenOhneBekanntSeit', 'csv');
+                    return false;
+                })
+                .on("click", "#export_tpop_anz_massn", function() {
+                	window.apf.downloadFileFromView('vTPopAnzMassn', 'TeilpopulationenAnzahlMassnahmen', 'csv');
+                    return false;
+                })
+                .on("click", "#export_tpop_anz_kontr_inkl_letzte", function() {
+                	window.apf.downloadFileFromView('vTPopAnzKontrInklLetzteKontr', 'TeilpopulationenAnzahlKontrollenInklusiveLetzteKontrolle', 'csv');
+                    return false;
+                })
+                .on("click", "#export_tpopber_massnber", function() {
+                	window.apf.downloadFileFromView('vTPop_BerUndMassnBer', 'TeilpopulationenTPopUndMassnBerichte', 'csv');
+                    return false;
+                })
+                .on("click", "#export_kontr_anz_pro_zaehleinheit", function() {
+                	window.apf.downloadFileFromView('vKontrAnzProZaehleinheit', 'KontrollenAnzahlProZaehleinheit', 'csv');
+                    return false;
+                })
+                .on("click", "#export_beob", function() {
+                	window.apf.downloadFileFromView('vBeob', 'Beobachtungen', 'csv');
+                    return false;
+                })
+                .on("click", "#export_datenstruktur", function() {
+                	window.apf.downloadFileFromView('vDatenstruktur', 'Datenstruktur', 'csv');
+                    return false;
+                })
+                .on("click", "#export_datenstruktur_grafisch", function() {
+                    window.open("etc/Beziehungen.pdf");
+                });
+
+		</script></body></html>

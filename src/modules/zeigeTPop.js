@@ -21,8 +21,8 @@ var returnFunction = function (tpop_liste) {
         marker_options,
         marker_cluster,
         my_flurname,
-        cHtoWGSlat = require('../lib/cHtoWGSlat'),
-        cHtoWGSlng = require('../lib/cHtoWGSlng');
+        chToWgsLat = require('../lib/chToWgsLat'),
+        chToWgsLng = require('../lib/chToWgsLng');
 
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
     window.apf.zeigeFormular("google_karte");
@@ -38,8 +38,8 @@ var returnFunction = function (tpop_liste) {
             // tpop einsetzen geht nicht, weil Chrome Fehler meldet
             delete tpop_liste[index];
         } else {
-            tpop.Lat = cHtoWGSlat(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
-            tpop.Lng = cHtoWGSlng(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
+            tpop.Lat = chToWgsLat(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
+            tpop.Lng = chToWgsLng(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
         }
     });
 
