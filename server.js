@@ -8,7 +8,7 @@ var _                                 = require('underscore'),
     json2csv                          = require('json2csv'),
     Hapi                              = require('hapi'),
     server                            = new Hapi.Server(
-        '0.0.0.0',
+        'localhost',
         4000,
         { debug: { request: ['error'] } }
     ),

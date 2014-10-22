@@ -3908,7 +3908,7 @@ window.apf.gmap.zeigeBeobUndTPop = function (beob_liste, tpop_liste) {
         a_note,
         my_flurname,
         chToWgsLat = require('./lib/chToWgsLat'),
-        chToWgsLng = require('./lib/chToWgslng');
+        chToWgsLng = require('./lib/chToWgsLng');
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
     window.apf.zeigeFormular("google_karte");
     window.apf.gmap.markers_array = [];
@@ -10326,7 +10326,7 @@ window.apf.erstelleGuid = function () {
         return v.toString(16);
     });
 };
-},{"./lib/chToWgsLat":9,"./lib/chToWgsLng":10,"./lib/chToWgslng":11,"./lib/ddInChX":12,"./lib/ddInChY":13,"./modules/configuration":23,"./modules/getTimestamp":28,"./modules/initiiereAp":30,"./modules/initiiereApziel":31,"./modules/initiiereAssozart":32,"./modules/initiiereBeob":33,"./modules/initiiereBer":34,"./modules/initiiereErfkrit":35,"./modules/initiiereFormularMitStrukturtyp":36,"./modules/initiiereIdealbiotop":37,"./modules/initiiereIndex":38,"./modules/initiiereJber":39,"./modules/initiiereJberUebersicht":40,"./modules/initiierePop":41,"./modules/initiierePopBer":42,"./modules/initiierePopMassnBer":43,"./modules/initiiereTPop":44,"./modules/initiiereTPopBer":45,"./modules/initiiereTPopFeldkontr":46,"./modules/initiiereTPopMassn":47,"./modules/initiiereTPopMassnBer":48,"./modules/initiiereZielber":49,"./modules/zeigeTPop":52}],2:[function(require,module,exports){
+},{"./lib/chToWgsLat":9,"./lib/chToWgsLng":10,"./lib/ddInChX":11,"./lib/ddInChY":12,"./modules/configuration":22,"./modules/getTimestamp":27,"./modules/initiiereAp":29,"./modules/initiiereApziel":30,"./modules/initiiereAssozart":31,"./modules/initiiereBeob":32,"./modules/initiiereBer":33,"./modules/initiiereErfkrit":34,"./modules/initiiereFormularMitStrukturtyp":35,"./modules/initiiereIdealbiotop":36,"./modules/initiiereIndex":37,"./modules/initiiereJber":38,"./modules/initiiereJberUebersicht":39,"./modules/initiierePop":40,"./modules/initiierePopBer":41,"./modules/initiierePopMassnBer":42,"./modules/initiiereTPop":43,"./modules/initiiereTPopBer":44,"./modules/initiiereTPopFeldkontr":45,"./modules/initiiereTPopMassn":46,"./modules/initiiereTPopMassnBer":47,"./modules/initiiereZielber":48,"./modules/zeigeTPop":51}],2:[function(require,module,exports){
 module.exports={
     "user": "alexande",
     "pass": "y3oYksFsQL49es9x"
@@ -10518,7 +10518,7 @@ if (typeof exports !== "undefined") {
 
 },{}],4:[function(require,module,exports){
 module.exports=require(3)
-},{"C:\\Users\\Alexander\\apflora\\node_modules\\dateFormat\\lib\\dateformat.js":3}],5:[function(require,module,exports){
+},{"C:\\Users\\alex\\apflora\\node_modules\\dateFormat\\lib\\dateformat.js":3}],5:[function(require,module,exports){
 var jQuery = require('jquery');
 
 /*! jQuery UI - v1.10.3 - 2013-05-03
@@ -36209,8 +36209,6 @@ module.exports = function(y, x) {
     return lng;
 };
 },{}],11:[function(require,module,exports){
-module.exports=require(10)
-},{"C:\\Users\\Alexander\\apflora\\src\\lib\\chToWgsLng.js":10}],12:[function(require,module,exports){
 /**
  * wandelt decimal degrees (vom GPS) in CH-Landeskoordinaten um
  * @return {number}
@@ -36235,7 +36233,7 @@ module.exports = function(breite, länge) {
 
     return Math.floor(wgs84InChX(breiteGrad, breiteMin, breiteSec, längeGrad, längeMin, längeSec));
 };
-},{"./ddInWgs84BreiteGrad":14,"./ddInWgs84BreiteMin":15,"./ddInWgs84BreiteSec":16,"./ddInWgs84LaengeGrad":17,"./ddInWgs84LaengeMin":18,"./ddInWgs84LaengeSec":19,"./wgs84InChX":21}],13:[function(require,module,exports){
+},{"./ddInWgs84BreiteGrad":13,"./ddInWgs84BreiteMin":14,"./ddInWgs84BreiteSec":15,"./ddInWgs84LaengeGrad":16,"./ddInWgs84LaengeMin":17,"./ddInWgs84LaengeSec":18,"./wgs84InChX":20}],12:[function(require,module,exports){
 /**
  * wandelt decimal degrees (vom GPS) in CH-Landeskoordinaten um
  * @return {number}
@@ -36260,7 +36258,7 @@ module.exports = function(breite, länge) {
 
     return Math.floor(wgs84InChY(breiteGrad, breiteMin, breiteSec, längeGrad, längeMin, längeSec));
 };
-},{"./ddInWgs84BreiteGrad":14,"./ddInWgs84BreiteMin":15,"./ddInWgs84BreiteSec":16,"./ddInWgs84LaengeGrad":17,"./ddInWgs84LaengeMin":18,"./ddInWgs84LaengeSec":19,"./wgs84InChY":22}],14:[function(require,module,exports){
+},{"./ddInWgs84BreiteGrad":13,"./ddInWgs84BreiteMin":14,"./ddInWgs84BreiteSec":15,"./ddInWgs84LaengeGrad":16,"./ddInWgs84LaengeMin":17,"./ddInWgs84LaengeSec":18,"./wgs84InChY":21}],13:[function(require,module,exports){
 /**
  * wandelt decimal degrees (vom GPS) in WGS84 um
  * @return {number}
@@ -36271,7 +36269,7 @@ module.exports = function(breite, länge) {
 module.exports = function(Breite) {
     return Math.floor(Breite);
 };
-},{}],15:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /**
  * wandelt Projektionen um
  * @return {number}
@@ -36283,7 +36281,7 @@ module.exports = function(Breite) {
     var BreiteGrad = Math.floor(Breite);
     return Math.floor((Breite - BreiteGrad) * 60);
 };
-},{}],16:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /**
  * Konvertiert Projektionen
  * @return {number}
@@ -36297,7 +36295,7 @@ module.exports = function(Breite) {
 
     return Math.round((((Breite - BreiteGrad) - (BreiteMin / 60)) * 60 * 60) * 100) / 100;
 };
-},{}],17:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /**
  * Konvertiert Projektionen
  * @return {number}
@@ -36308,7 +36306,7 @@ module.exports = function(Breite) {
 module.exports = function(Laenge) {
     return Math.floor(Laenge);
 };
-},{}],18:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /**
  * Konvertiert Projektionen
  * @return {number}
@@ -36320,7 +36318,7 @@ module.exports = function(Laenge) {
     var LaengeGrad = Math.floor(Laenge);
     return Math.floor((Laenge - LaengeGrad) * 60);
 };
-},{}],19:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /**
  * Konvertiert Projektionen
  * @return {number}
@@ -36334,7 +36332,7 @@ module.exports = function(Laenge) {
 
     return Math.round((((Laenge - LaengeGrad) - (LaengeMin / 60)) * 60 * 60) * 100) / 100;
 };
-},{}],20:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 /**
  * damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
  * Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
@@ -36362,7 +36360,7 @@ module.exports = function($) {
         }
     });
 };
-},{"jquery":6}],21:[function(require,module,exports){
+},{"jquery":6}],20:[function(require,module,exports){
 /**
  * Wandelt WGS84 lat/long (° dec) in CH-Landeskoordinaten um
  * @return {number}
@@ -36394,7 +36392,7 @@ module.exports = function(breiteGrad, breiteMin, breiteSec, längeGrad, längeMi
 
     return x;
 };
-},{}],22:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 /**
  * Wandelt WGS84 in CH-Landeskoordinaten um
  * @return {number}
@@ -36426,7 +36424,7 @@ module.exports = function(breiteGrad, breiteMin, breiteSec, längeGrad, längeMi
 
     return y;
 };
-},{}],23:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 /**
  * Hier werden zentral alle Konfigurationsparameter gesammelt
  */
@@ -36626,7 +36624,7 @@ config.tables = [
 ];
 
 module.exports = config;
-},{"../../dbPass.json":2}],24:[function(require,module,exports){
+},{"../../dbPass.json":2}],23:[function(require,module,exports){
 /**
  * baut das html für die Dropdown-Liste der Adressen
  * wird in mehreren Felder benutzt
@@ -36665,7 +36663,7 @@ var returnFunction = function (callback) {
 };
 
 module.exports = returnFunction;
-},{"jquery":6,"underscore":7}],25:[function(require,module,exports){
+},{"jquery":6,"underscore":7}],24:[function(require,module,exports){
 /**
  * baut das html für die Dropdown-Liste der Übereinstimmung mit dem Idealbiotop
  * speichert die Liste in window.apf.IdealBiotopÜbereinst_html
@@ -36703,7 +36701,7 @@ var returnFunction = function (callback) {
 };
 
 module.exports = returnFunction;
-},{"jquery":6,"underscore":7}],26:[function(require,module,exports){
+},{"jquery":6,"underscore":7}],25:[function(require,module,exports){
 /**
  * baut das html für die Dropdown-Liste der Delarze-Lebensräume
  * wird in mehreren Felder benutzt
@@ -36742,7 +36740,7 @@ var returnFunction = function (callback) {
 };
 
 module.exports = returnFunction;
-},{"jquery":6,"underscore":7}],27:[function(require,module,exports){
+},{"jquery":6,"underscore":7}],26:[function(require,module,exports){
 /**
  * baut das html für die Dropdown-Liste der Massnahmentypen
  * wird in mehreren Felder benutzt
@@ -36781,7 +36779,7 @@ var returnFunction = function (callback) {
 };
 
 module.exports = returnFunction;
-},{"jquery":6,"underscore":7}],28:[function(require,module,exports){
+},{"jquery":6,"underscore":7}],27:[function(require,module,exports){
 'use strict';
 
 var dateFormat = require('dateFormat');
@@ -36792,7 +36790,7 @@ var returnFunction = function () {
 };
 
 module.exports = returnFunction;
-},{"dateFormat":3}],29:[function(require,module,exports){
+},{"dateFormat":3}],28:[function(require,module,exports){
 /**
  * baut das html für die Dropdown-Liste der Zähleinheiten
  * wird in mehreren Felder benutzt
@@ -36831,7 +36829,7 @@ var returnFunction = function (callback) {
 };
 
 module.exports = returnFunction;
-},{"jquery":6,"underscore":7}],30:[function(require,module,exports){
+},{"jquery":6,"underscore":7}],29:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
@@ -36900,7 +36898,7 @@ var returnFunction = function (apId) {
 };
 
 module.exports = returnFunction;
-},{"./getAdressenHtml":24,"./initiiereIndex":38,"jquery":6,"underscore":7}],31:[function(require,module,exports){
+},{"./getAdressenHtml":23,"./initiiereIndex":37,"jquery":6,"underscore":7}],30:[function(require,module,exports){
 'use strict';
 
 var $              = require('jquery'),
@@ -36970,7 +36968,7 @@ var returnFunction = function (apId, apZielId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":30,"./initiiereIndex":38,"jquery":6}],32:[function(require,module,exports){
+},{"./initiiereAp":29,"./initiiereIndex":37,"jquery":6}],31:[function(require,module,exports){
 'use strict';
 
 var $              = require('jquery'),
@@ -37043,7 +37041,7 @@ var returnFunction = function (apId, assozId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":30,"./initiiereIndex":38,"jquery":6}],33:[function(require,module,exports){
+},{"./initiiereAp":29,"./initiiereIndex":37,"jquery":6}],32:[function(require,module,exports){
 'use strict';
 
 var $                     = require('jquery'),
@@ -37212,7 +37210,7 @@ var returnFunction = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
 };
 
 module.exports = returnFunction;
-},{"../lib/capitaliseFirstLetter":8,"./initiiereAp":30,"./initiiereBeob":33,"jquery":6,"underscore":7}],34:[function(require,module,exports){
+},{"../lib/capitaliseFirstLetter":8,"./initiiereAp":29,"./initiiereBeob":32,"jquery":6,"underscore":7}],33:[function(require,module,exports){
 'use strict';
 
 var $ = jQuery     = require('jquery'),
@@ -37308,7 +37306,7 @@ var initiiereBer = function (apId, berId) {
 };
 
 module.exports = initiiereBer;
-},{"../lib/limiter":20,"./initiiereAp":30,"./initiiereIndex":38,"jquery":6}],35:[function(require,module,exports){
+},{"../lib/limiter":19,"./initiiereAp":29,"./initiiereIndex":37,"jquery":6}],34:[function(require,module,exports){
 'use strict';
 
 var $              = require('jquery'),
@@ -37387,7 +37385,7 @@ var returnFunction = function (apId, erfkritId) {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":20,"./initiiereAp":30,"./initiiereIndex":38,"jquery":6}],36:[function(require,module,exports){
+},{"../lib/limiter":19,"./initiiereAp":29,"./initiiereIndex":37,"jquery":6}],35:[function(require,module,exports){
 'use strict';
 
 /**
@@ -37436,7 +37434,7 @@ var returnFunction = function (strukturtyp) {
 };
 
 module.exports = returnFunction;
-},{"./configuration":23,"./initiiereAp":30,"./initiiereApziel":31,"./initiiereAssozart":32,"./initiiereBer":34,"./initiiereErfkrit":35,"./initiiereIdealbiotop":37,"./initiiereJber":39,"./initiiereJberUebersicht":40,"./initiierePop":41,"./initiierePopBer":42,"./initiierePopMassnBer":43,"./initiiereTPop":44,"./initiiereTPopBer":45,"./initiiereTPopFeldkontr":46,"./initiiereTPopMassn":47,"./initiiereTPopMassnBer":48,"./initiiereZielber":49}],37:[function(require,module,exports){
+},{"./configuration":22,"./initiiereAp":29,"./initiiereApziel":30,"./initiiereAssozart":31,"./initiiereBer":33,"./initiiereErfkrit":34,"./initiiereIdealbiotop":36,"./initiiereJber":38,"./initiiereJberUebersicht":39,"./initiierePop":40,"./initiierePopBer":41,"./initiierePopMassnBer":42,"./initiiereTPop":43,"./initiiereTPopBer":44,"./initiiereTPopFeldkontr":45,"./initiiereTPopMassn":46,"./initiiereTPopMassnBer":47,"./initiiereZielber":48}],36:[function(require,module,exports){
 'use strict';
 
 var $                            = require('jquery'),
@@ -37532,7 +37530,7 @@ var initiiereIdealbiotop = function (apId) {
 };
 
 module.exports = initiiereIdealbiotop;
-},{"./initiiereAp":30,"./initiiereIndex":38,"./pruefeSchreibvoraussetzungen":51,"dateformat":4,"jquery":6}],38:[function(require,module,exports){
+},{"./initiiereAp":29,"./initiiereIndex":37,"./pruefeSchreibvoraussetzungen":50,"dateformat":4,"jquery":6}],37:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -37617,7 +37615,7 @@ var returnFunction = function () {
 };
 
 module.exports = returnFunction;
-},{"jquery":6,"jquery-ui":5}],39:[function(require,module,exports){
+},{"jquery":6,"jquery-ui":5}],38:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
@@ -37719,7 +37717,7 @@ var returnFunction = function (apId, apBerId) {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":20,"./getAdressenHtml":24,"./initiiereAp":30,"./initiiereIndex":38,"dateformat":4,"jquery":6,"underscore":7}],40:[function(require,module,exports){
+},{"../lib/limiter":19,"./getAdressenHtml":23,"./initiiereAp":29,"./initiiereIndex":37,"dateformat":4,"jquery":6,"underscore":7}],39:[function(require,module,exports){
 'use strict';
 
 var $              = require('jquery'),
@@ -37793,7 +37791,7 @@ var returnFunction = function (apId, uebId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":30,"./initiiereIndex":38,"jquery":6}],41:[function(require,module,exports){
+},{"./initiiereAp":29,"./initiiereIndex":37,"jquery":6}],40:[function(require,module,exports){
 'use strict';
 
 var $              = require('jquery'),
@@ -37888,7 +37886,7 @@ var returnFunction = function (apId, popId, ohne_zu_zeigen) {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":20,"./initiiereAp":30,"./initiiereIndex":38,"jquery":6}],42:[function(require,module,exports){
+},{"../lib/limiter":19,"./initiiereAp":29,"./initiiereIndex":37,"jquery":6}],41:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
@@ -37970,7 +37968,7 @@ var returnFunction = function (apId, popId, popberId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":30,"./initiiereIndex":38,"./initiierePop":41,"jquery":6}],43:[function(require,module,exports){
+},{"./initiiereAp":29,"./initiiereIndex":37,"./initiierePop":40,"jquery":6}],42:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
@@ -38054,7 +38052,7 @@ var returnFunction = function (apId, popId, massnberId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":30,"./initiiereIndex":38,"./initiierePop":41,"jquery":6}],44:[function(require,module,exports){
+},{"./initiiereAp":29,"./initiiereIndex":37,"./initiierePop":40,"jquery":6}],43:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
@@ -38194,7 +38192,7 @@ var returnFunction = function (apId, popId, tpopId, ohne_zu_zeigen) {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":20,"./getAdressenHtml":24,"./initiiereAp":30,"./initiiereIndex":38,"./initiierePop":41,"jquery":6,"underscore":7}],45:[function(require,module,exports){
+},{"../lib/limiter":19,"./getAdressenHtml":23,"./initiiereAp":29,"./initiiereIndex":37,"./initiierePop":40,"jquery":6,"underscore":7}],44:[function(require,module,exports){
 'use strict';
 
 var $              = require('jquery'),
@@ -38273,7 +38271,7 @@ var returnFunction = function (apId, popId, tpopId, tpopBerId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":30,"./initiiereIndex":38,"./initiierePop":41,"./initiiereTPop":44,"jquery":6}],46:[function(require,module,exports){
+},{"./initiiereAp":29,"./initiiereIndex":37,"./initiierePop":40,"./initiiereTPop":43,"jquery":6}],45:[function(require,module,exports){
 // wird gemeinsam für Feld- und Freiwilligenkontrollen verwendet
 // Feldkontrollen: Felder der Freiwilligenkontrollen ausblenden
 // Freiwilligenkontrollen: Felder der Feldkontrollen ausblenen plus Register Biotop
@@ -38558,7 +38556,7 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":20,"./getAdressenHtml":24,"./getIdealbiotopUebereinstHtml":25,"./getLrDelarzeHtml":26,"./getZaehleinheitenHtml":29,"./initiiereAp":30,"./initiiereIndex":38,"./initiierePop":41,"./initiiereTPop":44,"dateformat":4,"jquery":6,"jquery-ui":5,"underscore":7}],47:[function(require,module,exports){
+},{"../lib/limiter":19,"./getAdressenHtml":23,"./getIdealbiotopUebereinstHtml":24,"./getLrDelarzeHtml":25,"./getZaehleinheitenHtml":28,"./initiiereAp":29,"./initiiereIndex":37,"./initiierePop":40,"./initiiereTPop":43,"dateformat":4,"jquery":6,"jquery-ui":5,"underscore":7}],46:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
@@ -38698,7 +38696,7 @@ var returnFunction = function (apId, popId, tpopId, massnId) {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":20,"./getAdressenHtml":24,"./getMassntypHtml":27,"./initiiereAp":30,"./initiiereIndex":38,"./initiierePop":41,"./initiiereTPop":44,"dateformat":4,"jquery":6,"underscore":7}],48:[function(require,module,exports){
+},{"../lib/limiter":19,"./getAdressenHtml":23,"./getMassntypHtml":26,"./initiiereAp":29,"./initiiereIndex":37,"./initiierePop":40,"./initiiereTPop":43,"dateformat":4,"jquery":6,"underscore":7}],47:[function(require,module,exports){
 'use strict';
 
 var $              = require('jquery'),
@@ -38777,7 +38775,7 @@ var returnFunction = function (apId, popId, tpopId, massnBerId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":30,"./initiiereIndex":38,"./initiierePop":41,"./initiiereTPop":44,"jquery":6}],49:[function(require,module,exports){
+},{"./initiiereAp":29,"./initiiereIndex":37,"./initiierePop":40,"./initiiereTPop":43,"jquery":6}],48:[function(require,module,exports){
 'use strict';
 
 var $               = require('jquery'),
@@ -38865,7 +38863,7 @@ var returnFunction = function (apId, apZielId, zielberId) {
 };
 
 module.exports = returnFunction;
-},{"./initiiereAp":30,"./initiiereApziel":31,"./initiiereIndex":38,"jquery":6}],50:[function(require,module,exports){
+},{"./initiiereAp":29,"./initiiereApziel":30,"./initiiereIndex":37,"jquery":6}],49:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -38890,7 +38888,7 @@ module.exports = function () {
     }
     return true;
 };
-},{"jquery":6,"jquery-ui":5}],51:[function(require,module,exports){
+},{"jquery":6,"jquery-ui":5}],50:[function(require,module,exports){
 'use strict';
 
 var $                         = require('jquery'),
@@ -38907,7 +38905,7 @@ module.exports = function () {
         return true;
     }
 };
-},{"./pruefeLesevoraussetzungen":50,"jquery":6}],52:[function(require,module,exports){
+},{"./pruefeLesevoraussetzungen":49,"jquery":6}],51:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery'),
