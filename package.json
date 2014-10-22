@@ -1,6 +1,6 @@
 {
   "name": "apflora",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Aktionsplan Flora Kt. Zürich",
   "main": "server.js",
   "dependencies": {
