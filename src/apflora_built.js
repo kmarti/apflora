@@ -22965,7 +22965,7 @@ window.apf.hole_artliste_html = function () {
             var html;
             html = "<option></option>";
             _.each(data, function (art) {
-                html += "<option value=\"" + art.TaxonomieId + "\">" + art.Artname + "</option>";
+                html += '<option value="' + art.TaxonomieId + '">' + art.Artname + '</option>';
             });
             window.apf.artliste_html = html;
             liste_geholt.resolve();
@@ -22981,12 +22981,17 @@ window.apf.hole_artliste_html = function () {
 window.apf.erstelle_artlisten = function () {
     'use strict';
     var liste_erstellt = $.Deferred();
-    $.when(window.apf.hole_artliste_html())
+    // nur machen, wenn noch nicht passiert - sonst werden die html dauernd ersetzt
+    if (!window.apf.artliste_html) {
+        $.when(window.apf.hole_artliste_html())
         .then(function () {
             $("#AaSisfNr").html(window.apf.artliste_html);
             $("#TPopMassnAnsiedWirtspfl").html(window.apf.artliste_html);
             liste_erstellt.resolve();
         });
+    } else {
+        liste_erstellt.resolve();
+    }
     return liste_erstellt.promise();
 };
 
@@ -23160,7 +23165,7 @@ window.apf.setzeWindowPopmassnber = function (id) {
     localStorage.popmassnber_id = id;
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblPopMassnBericht/feld=PopMassnBerId/wertNumber=' + localStorage.popmassnber_id,
+        url: 'api/v1/apflora/tabelle=tblPopMassnBericht/feld=PopMassnBerId/wertNumber=' + id,
         dataType: 'json'
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
@@ -23220,7 +23225,7 @@ window.apf.setzeWindowPopber = function (id) {
     localStorage.popber_id = id;
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblPopBericht/feld=PopBerId/wertNumber=' + localStorage.popber_id,
+        url: 'api/v1/apflora/tabelle=tblPopBericht/feld=PopBerId/wertNumber=' + id,
         dataType: 'json'
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
@@ -23238,7 +23243,7 @@ window.apf.setzeWindowTpopfeldkontr = function (id) {
     localStorage.tpopfeldkontr_id = id;
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + localStorage.tpopfeldkontr_id,
+        url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + id,
         dataType: 'json'
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
@@ -23256,7 +23261,7 @@ window.apf.setzeWindowTpopmassn = function (id) {
     localStorage.tpopmassn_id = id;
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblTeilPopMassnahme/feld=TPopMassnId/wertNumber=' + localStorage.tpopmassn_id,
+        url: 'api/v1/apflora/tabelle=tblTeilPopMassnahme/feld=TPopMassnId/wertNumber=' + id,
         dataType: 'json'
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
@@ -23274,7 +23279,7 @@ window.apf.setzeWindowTpopmassnber = function (id) {
     localStorage.tpopmassnber_id = id;
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblTeilPopMassnBericht/feld=TPopMassnBerId/wertNumber=' + localStorage.tpopmassnber_id,
+        url: 'api/v1/apflora/tabelle=tblTeilPopMassnBericht/feld=TPopMassnBerId/wertNumber=' + id,
         dataType: 'json'
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
@@ -23292,7 +23297,7 @@ window.apf.setzeWindowTpopber = function (id) {
     localStorage.tpopber_id = id;
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblTeilPopBericht/feld=TPopBerId/wertNumber=' + localStorage.tpopber_id,
+        url: 'api/v1/apflora/tabelle=tblTeilPopBericht/feld=TPopBerId/wertNumber=' + id,
         dataType: 'json'
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
@@ -23541,7 +23546,7 @@ window.apf.erstelle_ap_liste = function (programm) {
         var html;
         html = "<option></option>";
         _.each(data, function (ap) {
-            html += "<option value=\"" + ap.id + "\">" + ap.ap_name + "</option>";
+            html += '<option value="' + ap.id + '">' + ap.ap_name + '</option>';
         });
         $("#ap_waehlen").html(html);
         apliste_erstellt.resolve();
@@ -26371,8 +26376,8 @@ window.apf.olmap.erstelleListeDerAusgewähltenPopTPop = function (pop_selected, 
         rückmeldung += "<table>";
         _.each(pop_selected, function (pop) {
             pop_id = pop.get('myId');
-            rückmeldung += "<tr><td><a href=\"#\" onclick=\"window.apf.öffnePop('" + pop_id + "')\">";
-            rückmeldung += pop.get('pop_nr') + ":<\/a></td><td><a href=\"#\" onclick=\"window.apf.öffnePop('" + pop_id + "')\">" + pop.get('pop_name') + "<\/a></td></tr>";
+            rückmeldung += '<tr><td><a href="#" onclick="window.apf.öffnePop("' + pop_id + '")">';
+            rückmeldung += pop.get('pop_nr') + ':<\/a></td><td><a href="#" onclick="window.apf.öffnePop("' + pop_id + '")">' + pop.get('pop_name') + '<\/a></td></tr>';
         });
         rückmeldung += "</table>";
     }
@@ -26391,8 +26396,8 @@ window.apf.olmap.erstelleListeDerAusgewähltenPopTPop = function (pop_selected, 
         rückmeldung += "<table>";
         _.each(tpop_selected, function (tpop) {
             tpop_id = tpop.get('myId');
-            rückmeldung += "<tr><td><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop_id + "')\">";
-            rückmeldung += tpop.get('tpop_nr_label') + ":<\/a></td><td><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop_id + "')\">";
+            rückmeldung += '<tr><td><a href="#" onclick="window.apf.öffneTPopInNeuemTab("' + tpop_id + '")">';
+            rückmeldung += tpop.get('tpop_nr_label') + ':<\/a></td><td><a href="#" onclick="window.apf.öffneTPopInNeuemTab("' + tpop_id + '")">';
             rückmeldung += tpop.get('tpop_name') + "<\/a></td></tr>";
         });
         rückmeldung += "</table>";
@@ -26563,9 +26568,9 @@ window.apf.olmap.erstelleContentFürPop = function (pop) {
         '<tr><td><p>Typ:</p></td><td><p>Population</p></td></tr>'+
         '<tr><td><p>Koordinaten:</p></td><td><p>' + pop.PopXKoord + ' / ' + pop.PopYKoord + '</p></td></tr>'+
         '</table>'+
-        "<p><a href=\"#\" onclick=\"window.apf.öffnePop('" + pop.PopId + "')\">Formular anstelle Karte öffnen<\/a></p>"+
-        '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'pop\', ' + pop.PopId + ')\">Formular neben der Karte öffnen<\/a></p>'+
-        "<p><a href=\"#\" onclick=\"window.apf.öffnePopInNeuemTab('" + pop.PopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
+        '<p><a href="#" onclick="window.apf.öffnePop("' + pop.PopId + '")">Formular anstelle Karte öffnen<\/a></p>'+
+        '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'pop\', ' + pop.PopId + ')">Formular neben der Karte öffnen<\/a></p>'+
+        '<p><a href="#" onclick="window.apf.öffnePopInNeuemTab("' + pop.PopId + '")">Formular in neuem Fenster öffnen<\/a></p>';
 };
 
 // übernimmt drei Variablen: popliste ist das Objekt mit den Populationen
@@ -29849,10 +29854,13 @@ window.apf.erstelleFelderFürBeob = function (data, beobtyp) {
 // ACHTUNG auf die Reihenfolge der Ersatzbefehle. Sonst wird z.B. in 'tpopber' 'popber' ersetzt und es bleibt 't'
 window.apf.erstelleIdAusDomAttributId = function (domAttributId) {
     'use strict';
+    if (!domAttributId) return null;
     var returnWert = domAttributId.replace('ap_ordner_pop', '').replace('ap_ordner_apziel', '').replace('ap_ordner_erfkrit', '').replace('ap_ordner_jber', '').replace('ap_ordner_ber', '').replace('ap_ordner_beob_nicht_beurteilt', '').replace('ap_ordner_beob_nicht_zuzuordnen', '').replace('idealbiotop', '').replace('ap_ordner_assozarten', '').replace('tpop_ordner_massnber', '').replace('tpop_ordner_massn', '').replace('tpopmassnber', '').replace('pop_ordner_massnber', '').replace('popmassnber', '').replace('tpop_ordner_feldkontr', '').replace('tpop_ordner_freiwkontr', '').replace('tpopfreiwkontr', '').replace('tpop_ordner_tpopber', '').replace('tpopber', '').replace('pop_ordner_popber', '').replace('popber', '').replace('tpop_ordner_beob_zugeordnet', '').replace('beob', '').replace('ber', '');
+
     if (domAttributId == returnWert && parseInt(returnWert) && parseInt(returnWert) != returnWert) {
         console.log('window.apf.erstelleIdAusDomAttributId meldet: erhalten ' + domAttributId + ', zurückgegeben: ' + returnWert + '. Die Regel in der function muss wohl angepasst werden');
     }
+
     return returnWert;
 };
 
@@ -59574,12 +59582,12 @@ var returnFunction = function (callback) {
             type: 'get',
             url: 'api/v1/adressen',
             dataType: 'json'
-        }).done(function (data2) {
-            if (data2) {
+        }).done(function (data) {
+            if (data) {
                 // Feld mit Daten beliefern
                 html = "<option></option>";
-                _.each(data2, function (adresse) {
-                    html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
+                _.each(data, function (adresse) {
+                    html += '<option value="' + adresse.id + '">' + adresse.AdrName + '</option>';
                 });
                 window.apf.adressen_html = html;
             }
@@ -59695,7 +59703,7 @@ var returnFunction = function (callback) {
                 // Feld mit Daten beliefern
                 html = "<option></option>";
                 _.each(data, function (tpopmassn_typ) {
-                    html += "<option value=\"" + tpopmassn_typ.id + "\">" + tpopmassn_typ.MassnTypTxt + "</option>";
+                    html += '<option value="' + tpopmassn_typ.id + '">' + tpopmassn_typ.MassnTypTxt + '</option>';
                 });
                 window.apf.tpopmassntyp_html = html;
             }
@@ -59974,10 +59982,9 @@ module.exports = returnFunction;
 var $                     = require('jquery'),
     _                     = require('underscore'),
     capitaliseFirstLetter = require('../lib/capitaliseFirstLetter'),
-    initiiereAp           = require('./initiiereAp'),
-    initiiereBeob         = require('./initiiereBeob');
+    initiiereAp           = require('./initiiereAp');
 
-var returnFunction = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
+var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
     // beob_status markiert, ob die Beobachtung:
     // - schon zugewiesen ist (zugeordnet)
     // - noch nicht beurteilt ist (nicht_beurteilt)
@@ -60136,8 +60143,8 @@ var returnFunction = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
     });
 };
 
-module.exports = returnFunction;
-},{"../lib/capitaliseFirstLetter":8,"./initiiereAp":29,"./initiiereBeob":32,"jquery":6,"underscore":7}],33:[function(require,module,exports){
+module.exports = initiiereBeob;
+},{"../lib/capitaliseFirstLetter":8,"./initiiereAp":29,"jquery":6,"underscore":7}],33:[function(require,module,exports){
 'use strict';
 
 var $ = jQuery     = require('jquery'),

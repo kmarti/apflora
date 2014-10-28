@@ -3,10 +3,9 @@
 var $                     = require('jquery'),
     _                     = require('underscore'),
     capitaliseFirstLetter = require('../lib/capitaliseFirstLetter'),
-    initiiereAp           = require('./initiiereAp'),
-    initiiereBeob         = require('./initiiereBeob');
+    initiiereAp           = require('./initiiereAp');
 
-var returnFunction = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
+var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
     // beob_status markiert, ob die Beobachtung:
     // - schon zugewiesen ist (zugeordnet)
     // - noch nicht beurteilt ist (nicht_beurteilt)
@@ -165,4 +164,4 @@ var returnFunction = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
     });
 };
 
-module.exports = returnFunction;
+module.exports = initiiereBeob;

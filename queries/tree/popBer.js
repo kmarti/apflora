@@ -1,17 +1,17 @@
 'use strict';
 
-var returnFunction = function (massnber) {
+var returnFunction = function (popber) {
     var node  = {},
         nodeText;
 
-    if (massnber) {
+    if (popber) {
         // Baum-node sinnvoll beschreiben, auch wenn leere Werte vorhanden
-        if (massnber.PopMassnBerJahr && massnber.BeurteilTxt) {
-            nodeText = massnber.PopMassnBerJahr + ": " + massnber.BeurteilTxt;
-        } else if (massnber.PopMassnBerJahr) {
-            nodeText = massnber.PopMassnBerJahr + ": (nicht beurteilt)";
-        } else if (massnber.BeurteilTxt) {
-            nodeText = "(kein Jahr): " + massnber.BeurteilTxt;
+        if (popber.PopBerJahr && popber.EntwicklungTxt) {
+            nodeText = popber.PopBerJahr + ": " + popber.EntwicklungTxt;
+        } else if (popber.PopBerJahr) {
+            nodeText = popber.PopBerJahr + ": (nicht beurteilt)";
+        } else if (popber.EntwicklungTxt) {
+            nodeText = "(kein Jahr): " + popber.EntwicklungTxt;
         } else {
             nodeText = "(kein Jahr): (nicht beurteilt)";
         }
@@ -19,8 +19,8 @@ var returnFunction = function (massnber) {
         // node aufbauen
         node.data = nodeText;
         node.attr = {
-            id: massnber.PopMassnBerId,
-            typ: 'popmassnber'
+            id: popber.PopBerId,
+            typ: 'popber'
         };
     }
 

@@ -23,6 +23,7 @@ var returnFunction = function (popBerListe, pop) {
 
     // popber aufbauen
     _.each(popberVonPop, function (popber) {
+
         popBerNode = erstellePopBer(popber);
         popPopberOrdner.children.push(popBerNode);
     });

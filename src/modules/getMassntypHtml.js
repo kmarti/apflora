@@ -25,7 +25,7 @@ var returnFunction = function (callback) {
                 // Feld mit Daten beliefern
                 html = "<option></option>";
                 _.each(data, function (tpopmassn_typ) {
-                    html += "<option value=\"" + tpopmassn_typ.id + "\">" + tpopmassn_typ.MassnTypTxt + "</option>";
+                    html += '<option value="' + tpopmassn_typ.id + '">' + tpopmassn_typ.MassnTypTxt + '</option>';
                 });
                 window.apf.tpopmassntyp_html = html;
             }

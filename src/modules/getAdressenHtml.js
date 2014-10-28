@@ -20,12 +20,12 @@ var returnFunction = function (callback) {
             type: 'get',
             url: 'api/v1/adressen',
             dataType: 'json'
-        }).done(function (data2) {
-            if (data2) {
+        }).done(function (data) {
+            if (data) {
                 // Feld mit Daten beliefern
                 html = "<option></option>";
-                _.each(data2, function (adresse) {
-                    html += "<option value=\"" + adresse.id + "\">" + adresse.AdrName + "</option>";
+                _.each(data, function (adresse) {
+                    html += '<option value="' + adresse.id + '">' + adresse.AdrName + '</option>';
                 });
                 window.apf.adressen_html = html;
             }
