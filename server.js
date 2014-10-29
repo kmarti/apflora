@@ -145,9 +145,7 @@ server.route({
 server.route({
     method: 'GET',
     path: '/api/v1/artliste',
-    config: {
-        handler: queryArtliste
-    }
+    handler: queryArtliste
 });
 
 server.route({
@@ -272,7 +270,7 @@ server.route({
 
 server.route({
     method: 'POST',
-    path: '/api/v1/apInsert/ap={apId}/user={user}',
+    path: '/api/v1/apInsert/apId={apId}/user={user}',
     handler: queryApInsert
 });
 
