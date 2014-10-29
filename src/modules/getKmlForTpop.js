@@ -4,7 +4,9 @@
  * retourniert das kml
  */
 
+/*jslint node: true, browser: true */
 'use strict';
+
 
 var _                    = require('underscore'),
     removeKmlNogoStrings = require('./removeKmlNogoStrings'),

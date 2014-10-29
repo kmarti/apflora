@@ -1,4 +1,6 @@
+/*jslint node: true, browser: true */
 'use strict';
+
 
 var mysql      = require('mysql'),
     config     = require('../src/modules/configuration'),

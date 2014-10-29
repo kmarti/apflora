@@ -2,6 +2,7 @@
 // Feldkontrollen: Felder der Freiwilligenkontrollen ausblenden
 // Freiwilligenkontrollen: Felder der Feldkontrollen ausblenen plus Register Biotop
 
+/*jslint node: true, browser: true */
 'use strict';
 
 var $                            = require('jquery'),

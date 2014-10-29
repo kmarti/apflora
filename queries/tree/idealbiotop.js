@@ -1,4 +1,6 @@
+/*jslint node: true, browser: true */
 'use strict';
+
 
 var idealbiotop = function (request, reply) {
     var apId     = decodeURIComponent(request.params.apId),

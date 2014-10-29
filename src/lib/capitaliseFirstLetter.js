@@ -3,7 +3,9 @@
  * der erste Buchstabe wird mit einem Grossbuchstaben ersetzt
  */
 
+/*jslint node: true, browser: true */
 'use strict';
+
 
 var capitalizeFirstLetter = function (string) {
     return string.charAt(0).toUpperCase() + string.slice(1);

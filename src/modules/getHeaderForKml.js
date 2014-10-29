@@ -4,7 +4,9 @@
  * retourniert das kml für den Header
  */
 
+/*jslint node: true, browser: true */
 'use strict';
+
 
 var returnFunction = function (filename) {
     return "<?xml version='1.0' encoding='UTF-8'?><kml xmlns='http://earth.google.com/kml/2.1'><Document><name>" + filename + "</name><Style id='MyStyle'><IconStyle><Icon><href>http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png</href></Icon></IconStyle></Style>";

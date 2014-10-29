@@ -2236,7 +2236,8 @@
 		</div>
 
 		<script>
-            //'use strict';
+            /*jslint node: true, browser: true */
+			'use strict';
             // benötigte globale Variabeln initialisieren
 			window.apf = window.apf || {};
 			window.apf.gmap = window.apf.gmap || {};
@@ -2273,7 +2274,8 @@
 				//v.a., ob der User online ist
 				$.ajaxSetup({
 					beforeSend: function() {
-						if (!window.apf.prüfeLesevoraussetzungen()) {
+						if (!window.apf.pruefeLesevoraussetzungen
+()) {
 							return false;
 						}
 					}

@@ -3,7 +3,9 @@
  * @return {number}
  */
 
+/*jslint node: true, browser: true */
 'use strict';
+
 
 module.exports = function (breiteGrad, breiteMin, breiteSec, längeGrad, längeMin, längeSec) {
     var lat,
@@ -22,10 +24,10 @@ module.exports = function (breiteGrad, breiteMin, breiteSec, längeGrad, längeM
 
     x = 200147.07
         + 308807.95 * lat_aux
-        +   3745.25 * Math.pow(lng_aux,2)
-        +     76.63 * Math.pow(lat_aux,2)
-        -    194.56 * Math.pow(lng_aux,2) * lat_aux
-        +    119.79 * Math.pow(lat_aux,3);
+        +   3745.25 * Math.pow(lng_aux, 2)
+        +     76.63 * Math.pow(lat_aux, 2)
+        -    194.56 * Math.pow(lng_aux, 2) * lat_aux
+        +    119.79 * Math.pow(lat_aux, 3);
 
     return x;
 };

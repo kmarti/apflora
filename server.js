@@ -2,7 +2,9 @@
  * startet die Anwendung, indem der Server gestartet wird
  */
 
+/*jslint node: true, browser: true */
 'use strict';
+
 var _                                 = require('underscore'),
     json2xls                          = require('json2xls'),
     json2csv                          = require('json2csv'),

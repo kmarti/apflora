@@ -1,8 +1,10 @@
+/*jslint node: true, browser: true */
 'use strict';
+
 
 var gulp = require('gulp');
 
-return gulp.task('watch', function() {
+return gulp.task('watch', function () {
     gulp.watch(
         [
             'geojson/*',

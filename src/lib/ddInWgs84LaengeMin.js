@@ -3,7 +3,9 @@
  * @return {number}
  */
 
+/*jslint node: true, browser: true */
 'use strict';
+
 
 module.exports = function (Laenge) {
     var LaengeGrad = Math.floor(Laenge);

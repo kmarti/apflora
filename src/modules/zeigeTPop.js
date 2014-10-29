@@ -1,3 +1,5 @@
+/*jslint node: true, browser: true*/
+/*global google*/
 'use strict';
 
 var $ = require('jquery'),
@@ -38,8 +40,8 @@ var returnFunction = function (tpop_liste) {
             // tpop einsetzen geht nicht, weil Chrome Fehler meldet
             delete tpop_liste[index];
         } else {
-            tpop.Lat = chToWgsLat(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
-            tpop.Lng = chToWgsLng(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
+            tpop.Lat = chToWgsLat(parseInt(tpop.TPopXKoord, 10), parseInt(tpop.TPopYKoord, 10));
+            tpop.Lng = chToWgsLng(parseInt(tpop.TPopXKoord, 10), parseInt(tpop.TPopYKoord, 10));
         }
     });
 

@@ -1,4 +1,6 @@
+/*jslint node: true, browser: true */
 'use strict';
+
 
 var _             = require('underscore'),
     mysql         = require('mysql'),
@@ -28,9 +30,8 @@ var jberÜbersicht = function (JBerJahr) {
                 };
                 nodeArray.push(node);
                 return nodeArray;
-            } else {
-                return null;
             }
+            return null;
         }
     );
 };

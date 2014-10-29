@@ -1,3 +1,4 @@
+/*jslint node: true, browser: true */
 'use strict';
 
 var $                         = require('jquery'),
@@ -5,7 +6,8 @@ var $                         = require('jquery'),
 
 module.exports = function () {
     // kontrollieren, ob der User online ist
-    if (window.apf.prüfeLesevoraussetzungen()) {
+    if (window.apf.pruefeLesevoraussetzungen
+()) {
         // kontrollieren, ob der User Schreibrechte hat
         if (sessionStorage.NurLesen) {
             window.apf.melde("Sie haben keine Schreibrechte", "Speichern abgebrochen");

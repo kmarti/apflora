@@ -3,16 +3,13 @@
  * Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
  */
 
+/*jslint node: true, browser: true */
 'use strict';
 
-var $ = require('jquery');
 
-module.exports = function($) {
-    $.fn.extend( {
+module.exports = function ($) {
+    $.fn.extend({
         limiter: function (limit, elem) {
-            $(this).on("keyup focus", function() {
-                setCount(this, elem);
-            });
             function setCount(src, elem) {
                 var chars = src.value.length;
                 if (chars > limit) {
@@ -21,6 +18,9 @@ module.exports = function($) {
                 }
                 elem.html(limit - chars);
             }
+            $(this).on("keyup focus", function () {
+                setCount(this, elem);
+            });
             setCount($(this)[0], elem);
         }
     });

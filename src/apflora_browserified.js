@@ -2165,7 +2165,8 @@ window.apf.tpopKopiertInTpopEinfügen = function (aktiver_node, parent_node) {
     });
 };
 
-window.apf.prüfeLesevoraussetzungen = function () {
+window.apf.pruefeLesevoraussetzungen
+ = function () {
     'use strict';
     // kontrollieren, ob der User offline ist
     if (!navigator.onLine) {
@@ -2190,7 +2191,8 @@ window.apf.prüfeLesevoraussetzungen = function () {
 window.apf.prüfeSchreibvoraussetzungen = function () {
     'use strict';
     // kontrollieren, ob der User online ist
-    if (window.apf.prüfeLesevoraussetzungen()) {
+    if (window.apf.pruefeLesevoraussetzungen
+()) {
         // kontrollieren, ob der User Schreibrechte hat
         if (sessionStorage.NurLesen) {
             window.apf.melde("Sie haben keine Schreibrechte", "Speichern abgebrochen");
@@ -36148,9 +36150,11 @@ return jQuery;
  * der erste Buchstabe wird mit einem Grossbuchstaben ersetzt
  */
 
+/*jslint node: true, browser: true */
 'use strict';
 
-var capitalizeFirstLetter = function(string) {
+
+var capitalizeFirstLetter = function (string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
@@ -36161,28 +36165,30 @@ module.exports = capitalizeFirstLetter;
  * @return {number}
  */
 
+/*jslint node: true, browser: true */
 'use strict';
 
-module.exports = function(y, x) {
+
+module.exports = function (y, x) {
     // Converts militar to civil and to unit = 1000km
     var lat,
         y_aux,
         x_aux;
 
     // Axiliary values (% Bern)
-    y_aux = (y - 600000)/1000000;
-    x_aux = (x - 200000)/1000000;
+    y_aux = (y - 600000) / 1000000;
+    x_aux = (x - 200000) / 1000000;
 
     // Process lat
     lat = 16.9023892
         +  3.238272 * x_aux
-        -  0.270978 * Math.pow(y_aux,2)
-        -  0.002528 * Math.pow(x_aux,2)
-        -  0.0447   * Math.pow(y_aux,2) * x_aux
-        -  0.0140   * Math.pow(x_aux,3);
+        -  0.270978 * Math.pow(y_aux, 2)
+        -  0.002528 * Math.pow(x_aux, 2)
+        -  0.0447   * Math.pow(y_aux, 2) * x_aux
+        -  0.0140   * Math.pow(x_aux, 3);
 
     // Unit 10000" to 1 " and converts seconds to degrees (dec)
-    lat = lat * 100/36;
+    lat = lat * 100 / 36;
 
     return lat;
 };
@@ -36192,27 +36198,29 @@ module.exports = function(y, x) {
  * @return {number}
  */
 
+/*jslint node: true, browser: true */
 'use strict';
 
-module.exports = function(y, x) {
+
+module.exports = function (y, x) {
     // Converts militar to civil and to unit = 1000km
     var lng,
         y_aux,
         x_aux;
 
     // Axiliary values (% Bern)
-    y_aux = (y - 600000)/1000000;
-    x_aux = (x - 200000)/1000000;
+    y_aux = (y - 600000) / 1000000;
+    x_aux = (x - 200000) / 1000000;
 
     // Process long
     lng = 2.6779094
         + 4.728982 * y_aux
         + 0.791484 * y_aux * x_aux
-        + 0.1306   * y_aux * Math.pow(x_aux,2)
-        - 0.0436   * Math.pow(y_aux,3);
+        + 0.1306   * y_aux * Math.pow(x_aux, 2)
+        - 0.0436   * Math.pow(y_aux, 3);
 
     // Unit 10000" to 1 " and converts seconds to degrees (dec)
-    lng = lng * 100/36;
+    lng = lng * 100 / 36;
 
     return lng;
 };
@@ -36222,9 +36230,11 @@ module.exports = function(y, x) {
  * @return {number}
  */
 
+/*jslint node: true, browser: true */
 'use strict';
 
-module.exports = function(breite, länge) {
+
+module.exports = function (breite, länge) {
     var ddInWgs84BreiteGrad = require('./ddInWgs84BreiteGrad'),
         breiteGrad          = ddInWgs84BreiteGrad(breite),
         ddInWgs84BreiteMin  = require('./ddInWgs84BreiteMin'),
@@ -36247,9 +36257,11 @@ module.exports = function(breite, länge) {
  * @return {number}
  */
 
+/*jslint node: true, browser: true */
 'use strict';
 
-module.exports = function(breite, länge) {
+
+module.exports = function (breite, länge) {
     var ddInWgs84BreiteGrad = require('./ddInWgs84BreiteGrad'),
         breiteGrad          = ddInWgs84BreiteGrad(breite),
         ddInWgs84BreiteMin  = require('./ddInWgs84BreiteMin'),
@@ -36272,9 +36284,11 @@ module.exports = function(breite, länge) {
  * @return {number}
  */
 
+/*jslint node: true, browser: true */
 'use strict';
 
-module.exports = function(Breite) {
+
+module.exports = function (Breite) {
     return Math.floor(Breite);
 };
 },{}],14:[function(require,module,exports){
@@ -36283,9 +36297,11 @@ module.exports = function(Breite) {
  * @return {number}
  */
 
+/*jslint node: true, browser: true */
 'use strict';
 
-module.exports = function(Breite) {
+
+module.exports = function (Breite) {
     var BreiteGrad = Math.floor(Breite);
     return Math.floor((Breite - BreiteGrad) * 60);
 };
@@ -36295,9 +36311,11 @@ module.exports = function(Breite) {
  * @return {number}
  */
 
+/*jslint node: true, browser: true */
 'use strict';
 
-module.exports = function(Breite) {
+
+module.exports = function (Breite) {
     var BreiteGrad = Math.floor(Breite),
         BreiteMin  = Math.floor((Breite - BreiteGrad) * 60);
 
@@ -36309,9 +36327,11 @@ module.exports = function(Breite) {
  * @return {number}
  */
 
+/*jslint node: true, browser: true */
 'use strict';
 
-module.exports = function(Laenge) {
+
+module.exports = function (Laenge) {
     return Math.floor(Laenge);
 };
 },{}],17:[function(require,module,exports){
@@ -36320,9 +36340,11 @@ module.exports = function(Laenge) {
  * @return {number}
  */
 
+/*jslint node: true, browser: true */
 'use strict';
 
-module.exports = function(Laenge) {
+
+module.exports = function (Laenge) {
     var LaengeGrad = Math.floor(Laenge);
     return Math.floor((Laenge - LaengeGrad) * 60);
 };
@@ -36332,9 +36354,11 @@ module.exports = function(Laenge) {
  * @return {number}
  */
 
+/*jslint node: true, browser: true */
 'use strict';
 
-module.exports = function(Laenge) {
+
+module.exports = function (Laenge) {
     var LaengeGrad = Math.floor(Laenge),
         LaengeMin  = Math.floor((Laenge - LaengeGrad) * 60);
 
@@ -36346,16 +36370,13 @@ module.exports = function(Laenge) {
  * Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
  */
 
+/*jslint node: true, browser: true */
 'use strict';
 
-var $ = require('jquery');
 
-module.exports = function($) {
-    $.fn.extend( {
-        limiter: function(limit, elem) {
-            $(this).on("keyup focus", function() {
-                setCount(this, elem);
-            });
+module.exports = function ($) {
+    $.fn.extend({
+        limiter: function (limit, elem) {
             function setCount(src, elem) {
                 var chars = src.value.length;
                 if (chars > limit) {
@@ -36364,19 +36385,24 @@ module.exports = function($) {
                 }
                 elem.html(limit - chars);
             }
+            $(this).on("keyup focus", function () {
+                setCount(this, elem);
+            });
             setCount($(this)[0], elem);
         }
     });
 };
-},{"jquery":6}],20:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 /**
  * Wandelt WGS84 lat/long (° dec) in CH-Landeskoordinaten um
  * @return {number}
  */
 
+/*jslint node: true, browser: true */
 'use strict';
 
-module.exports = function(breiteGrad, breiteMin, breiteSec, längeGrad, längeMin, längeSec) {
+
+module.exports = function (breiteGrad, breiteMin, breiteSec, längeGrad, längeMin, längeSec) {
     var lat,
         lng,
         lat_aux,
@@ -36393,10 +36419,10 @@ module.exports = function(breiteGrad, breiteMin, breiteSec, längeGrad, längeMi
 
     x = 200147.07
         + 308807.95 * lat_aux
-        +   3745.25 * Math.pow(lng_aux,2)
-        +     76.63 * Math.pow(lat_aux,2)
-        -    194.56 * Math.pow(lng_aux,2) * lat_aux
-        +    119.79 * Math.pow(lat_aux,3);
+        +   3745.25 * Math.pow(lng_aux, 2)
+        +     76.63 * Math.pow(lat_aux, 2)
+        -    194.56 * Math.pow(lng_aux, 2) * lat_aux
+        +    119.79 * Math.pow(lat_aux, 3);
 
     return x;
 };
@@ -36406,9 +36432,11 @@ module.exports = function(breiteGrad, breiteMin, breiteSec, längeGrad, längeMi
  * @return {number}
  */
 
+/*jslint node: true, browser: true */
 'use strict';
 
-module.exports = function(breiteGrad, breiteMin, breiteSec, längeGrad, längeMin, läengeSec) {
+
+module.exports = function (breiteGrad, breiteMin, breiteSec, längeGrad, längeMin, läengeSec) {
     var lat,
         lng,
         lat_aux,
@@ -36427,8 +36455,8 @@ module.exports = function(breiteGrad, breiteMin, breiteSec, längeGrad, längeMi
     y = 600072.37
         + 211455.93 * lng_aux
         -  10938.51 * lng_aux * lat_aux
-        -      0.36 * lng_aux * Math.pow(lat_aux,2)
-        -     44.54 * Math.pow(lng_aux,3);
+        -      0.36 * lng_aux * Math.pow(lat_aux, 2)
+        -     44.54 * Math.pow(lng_aux, 3);
 
     return y;
 };
@@ -36437,7 +36465,9 @@ module.exports = function(breiteGrad, breiteMin, breiteSec, längeGrad, längeMi
  * Hier werden zentral alle Konfigurationsparameter gesammelt
  */
 
+/*jslint node: true, browser: true */
 'use strict';
+
 
 var config = {},
     dbPassfile   = require('../../dbPass.json');
@@ -36642,7 +36672,9 @@ module.exports = config;
  * diser wird das generierte html übergeben
  */
 
+/*jslint node: true, browser: true */
 'use strict';
+
 
 var $ = require('jquery'),
     _ = require('underscore');
@@ -36680,7 +36712,9 @@ module.exports = returnFunction;
  * diser wird das generierte html übergeben
  */
 
+/*jslint node: true, browser: true */
 'use strict';
+
 
 var $ = require('jquery'),
     _ = require('underscore');
@@ -36719,7 +36753,9 @@ module.exports = returnFunction;
  * diser wird das generierte html übergeben
  */
 
+/*jslint node: true, browser: true */
 'use strict';
+
 
 var $ = require('jquery'),
     _ = require('underscore');
@@ -36758,6 +36794,7 @@ module.exports = returnFunction;
  * diser wird das generierte html übergeben
  */
 
+/*jslint node: true, browser: true */
 'use strict';
 
 var $ = require('jquery'),
@@ -36788,7 +36825,9 @@ var returnFunction = function (callback) {
 
 module.exports = returnFunction;
 },{"jquery":6,"underscore":7}],27:[function(require,module,exports){
+/*jslint node: true, browser: true */
 'use strict';
+
 
 var dateFormat = require('dateFormat');
 
@@ -36808,6 +36847,7 @@ module.exports = returnFunction;
  * diser wird das generierte html übergeben
  */
 
+/*jslint node: true, browser: true */
 'use strict';
 
 var $ = require('jquery'),
@@ -36838,6 +36878,7 @@ var returnFunction = function (callback) {
 
 module.exports = returnFunction;
 },{"jquery":6,"underscore":7}],29:[function(require,module,exports){
+/*jslint node: true, browser: true */
 'use strict';
 
 var $               = require('jquery'),
@@ -36907,6 +36948,7 @@ var returnFunction = function (apId) {
 
 module.exports = returnFunction;
 },{"./getAdressenHtml":23,"./initiiereIndex":37,"jquery":6,"underscore":7}],30:[function(require,module,exports){
+/*jslint node: true, browser: true */
 'use strict';
 
 var $              = require('jquery'),
@@ -36977,6 +37019,7 @@ var returnFunction = function (apId, apZielId) {
 
 module.exports = returnFunction;
 },{"./initiiereAp":29,"./initiiereIndex":37,"jquery":6}],31:[function(require,module,exports){
+/*jslint node: true, browser: true */
 'use strict';
 
 var $              = require('jquery'),
@@ -37050,6 +37093,7 @@ var returnFunction = function (apId, assozId) {
 
 module.exports = returnFunction;
 },{"./initiiereAp":29,"./initiiereIndex":37,"jquery":6}],32:[function(require,module,exports){
+/*jslint node: true, browser: true */
 'use strict';
 
 var $                     = require('jquery'),
@@ -37218,7 +37262,9 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
 
 module.exports = initiiereBeob;
 },{"../lib/capitaliseFirstLetter":8,"./initiiereAp":29,"jquery":6,"underscore":7}],33:[function(require,module,exports){
+/*jslint node: true, browser: true */
 'use strict';
+
 
 var $ = jQuery     = require('jquery'),
     initiiereIndex = require('./initiiereIndex'),
@@ -37314,6 +37360,7 @@ var initiiereBer = function (apId, berId) {
 
 module.exports = initiiereBer;
 },{"../lib/limiter":19,"./initiiereAp":29,"./initiiereIndex":37,"jquery":6}],34:[function(require,module,exports){
+/*jslint node: true, browser: true */
 'use strict';
 
 var $              = require('jquery'),
@@ -37393,6 +37440,7 @@ var returnFunction = function (apId, erfkritId) {
 
 module.exports = returnFunction;
 },{"../lib/limiter":19,"./initiiereAp":29,"./initiiereIndex":37,"jquery":6}],35:[function(require,module,exports){
+/*jslint node: true, browser: true */
 'use strict';
 
 /**
@@ -37442,6 +37490,7 @@ var returnFunction = function (strukturtyp) {
 
 module.exports = returnFunction;
 },{"./configuration":22,"./initiiereAp":29,"./initiiereApziel":30,"./initiiereAssozart":31,"./initiiereBer":33,"./initiiereErfkrit":34,"./initiiereIdealbiotop":36,"./initiiereJber":38,"./initiiereJberUebersicht":39,"./initiierePop":40,"./initiierePopBer":41,"./initiierePopMassnBer":42,"./initiiereTPop":43,"./initiiereTPopBer":44,"./initiiereTPopFeldkontr":45,"./initiiereTPopMassn":46,"./initiiereTPopMassnBer":47,"./initiiereZielber":48}],36:[function(require,module,exports){
+/*jslint node: true, browser: true */
 'use strict';
 
 var $                            = require('jquery'),
@@ -37538,6 +37587,7 @@ var initiiereIdealbiotop = function (apId) {
 
 module.exports = initiiereIdealbiotop;
 },{"./initiiereAp":29,"./initiiereIndex":37,"./pruefeSchreibvoraussetzungen":50,"dateformat":4,"jquery":6}],37:[function(require,module,exports){
+/*jslint node: true, browser: true */
 'use strict';
 
 var $ = require('jquery');
@@ -37623,11 +37673,11 @@ var returnFunction = function () {
 
 module.exports = returnFunction;
 },{"jquery":6,"jquery-ui":5}],38:[function(require,module,exports){
+/*jslint node: true, browser: true */
 'use strict';
 
 var $               = require('jquery'),
     dateFormat      = require('dateformat'),
-    _               = require('underscore'),
     limiter         = require('../lib/limiter'),
     initiiereIndex  = require('./initiiereIndex'),
     initiiereAp     = require('./initiiereAp'),
@@ -37724,7 +37774,8 @@ var returnFunction = function (apId, apBerId) {
 };
 
 module.exports = returnFunction;
-},{"../lib/limiter":19,"./getAdressenHtml":23,"./initiiereAp":29,"./initiiereIndex":37,"dateformat":4,"jquery":6,"underscore":7}],39:[function(require,module,exports){
+},{"../lib/limiter":19,"./getAdressenHtml":23,"./initiiereAp":29,"./initiiereIndex":37,"dateformat":4,"jquery":6}],39:[function(require,module,exports){
+/*jslint node: true, browser: true */
 'use strict';
 
 var $              = require('jquery'),
@@ -37799,6 +37850,7 @@ var returnFunction = function (apId, uebId) {
 
 module.exports = returnFunction;
 },{"./initiiereAp":29,"./initiiereIndex":37,"jquery":6}],40:[function(require,module,exports){
+/*jslint node: true, browser: true */
 'use strict';
 
 var $              = require('jquery'),
@@ -37894,6 +37946,7 @@ var returnFunction = function (apId, popId, ohne_zu_zeigen) {
 
 module.exports = returnFunction;
 },{"../lib/limiter":19,"./initiiereAp":29,"./initiiereIndex":37,"jquery":6}],41:[function(require,module,exports){
+/*jslint node: true, browser: true */
 'use strict';
 
 var $               = require('jquery'),
@@ -37976,6 +38029,7 @@ var returnFunction = function (apId, popId, popberId) {
 
 module.exports = returnFunction;
 },{"./initiiereAp":29,"./initiiereIndex":37,"./initiierePop":40,"jquery":6}],42:[function(require,module,exports){
+/*jslint node: true, browser: true */
 'use strict';
 
 var $               = require('jquery'),
@@ -38060,6 +38114,7 @@ var returnFunction = function (apId, popId, massnberId) {
 
 module.exports = returnFunction;
 },{"./initiiereAp":29,"./initiiereIndex":37,"./initiierePop":40,"jquery":6}],43:[function(require,module,exports){
+/*jslint node: true, browser: true */
 'use strict';
 
 var $               = require('jquery'),
@@ -38200,6 +38255,7 @@ var returnFunction = function (apId, popId, tpopId, ohne_zu_zeigen) {
 
 module.exports = returnFunction;
 },{"../lib/limiter":19,"./getAdressenHtml":23,"./initiiereAp":29,"./initiiereIndex":37,"./initiierePop":40,"jquery":6,"underscore":7}],44:[function(require,module,exports){
+/*jslint node: true, browser: true */
 'use strict';
 
 var $              = require('jquery'),
@@ -38283,6 +38339,7 @@ module.exports = returnFunction;
 // Feldkontrollen: Felder der Freiwilligenkontrollen ausblenden
 // Freiwilligenkontrollen: Felder der Feldkontrollen ausblenen plus Register Biotop
 
+/*jslint node: true, browser: true */
 'use strict';
 
 var $                            = require('jquery'),
@@ -38564,6 +38621,7 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
 
 module.exports = returnFunction;
 },{"../lib/limiter":19,"./getAdressenHtml":23,"./getIdealbiotopUebereinstHtml":24,"./getLrDelarzeHtml":25,"./getZaehleinheitenHtml":28,"./initiiereAp":29,"./initiiereIndex":37,"./initiierePop":40,"./initiiereTPop":43,"dateformat":4,"jquery":6,"jquery-ui":5,"underscore":7}],46:[function(require,module,exports){
+/*jslint node: true, browser: true */
 'use strict';
 
 var $               = require('jquery'),
@@ -38704,6 +38762,7 @@ var returnFunction = function (apId, popId, tpopId, massnId) {
 
 module.exports = returnFunction;
 },{"../lib/limiter":19,"./getAdressenHtml":23,"./getMassntypHtml":26,"./initiiereAp":29,"./initiiereIndex":37,"./initiierePop":40,"./initiiereTPop":43,"dateformat":4,"jquery":6,"underscore":7}],47:[function(require,module,exports){
+/*jslint node: true, browser: true */
 'use strict';
 
 var $              = require('jquery'),
@@ -38783,6 +38842,7 @@ var returnFunction = function (apId, popId, tpopId, massnBerId) {
 
 module.exports = returnFunction;
 },{"./initiiereAp":29,"./initiiereIndex":37,"./initiierePop":40,"./initiiereTPop":43,"jquery":6}],48:[function(require,module,exports){
+/*jslint node: true, browser: true */
 'use strict';
 
 var $               = require('jquery'),
@@ -38871,6 +38931,7 @@ var returnFunction = function (apId, apZielId, zielberId) {
 
 module.exports = returnFunction;
 },{"./initiiereAp":29,"./initiiereApziel":30,"./initiiereIndex":37,"jquery":6}],49:[function(require,module,exports){
+/*jslint node: true, browser: true */
 'use strict';
 
 var $ = require('jquery');
@@ -38896,6 +38957,7 @@ module.exports = function () {
     return true;
 };
 },{"jquery":6,"jquery-ui":5}],50:[function(require,module,exports){
+/*jslint node: true, browser: true */
 'use strict';
 
 var $                         = require('jquery'),
@@ -38903,7 +38965,8 @@ var $                         = require('jquery'),
 
 module.exports = function () {
     // kontrollieren, ob der User online ist
-    if (window.apf.prüfeLesevoraussetzungen()) {
+    if (window.apf.pruefeLesevoraussetzungen
+()) {
         // kontrollieren, ob der User Schreibrechte hat
         if (sessionStorage.NurLesen) {
             window.apf.melde("Sie haben keine Schreibrechte", "Speichern abgebrochen");
@@ -38913,6 +38976,8 @@ module.exports = function () {
     }
 };
 },{"./pruefeLesevoraussetzungen":49,"jquery":6}],51:[function(require,module,exports){
+/*jslint node: true, browser: true*/
+/*global google*/
 'use strict';
 
 var $ = require('jquery'),
@@ -38953,8 +39018,8 @@ var returnFunction = function (tpop_liste) {
             // tpop einsetzen geht nicht, weil Chrome Fehler meldet
             delete tpop_liste[index];
         } else {
-            tpop.Lat = chToWgsLat(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
-            tpop.Lng = chToWgsLng(parseInt(tpop.TPopXKoord), parseInt(tpop.TPopYKoord));
+            tpop.Lat = chToWgsLat(parseInt(tpop.TPopXKoord, 10), parseInt(tpop.TPopYKoord, 10));
+            tpop.Lng = chToWgsLng(parseInt(tpop.TPopXKoord, 10), parseInt(tpop.TPopYKoord, 10));
         }
     });
 

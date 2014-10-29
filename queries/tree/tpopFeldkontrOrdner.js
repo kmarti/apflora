@@ -1,4 +1,6 @@
+/*jslint node: true, browser: true */
 'use strict';
+
 
 var _                     = require('underscore'),
     erstelleTPopFeldKontr = require('./tpopFeldkontr');

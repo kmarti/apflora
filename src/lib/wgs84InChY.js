@@ -3,7 +3,9 @@
  * @return {number}
  */
 
+/*jslint node: true, browser: true */
 'use strict';
+
 
 module.exports = function (breiteGrad, breiteMin, breiteSec, längeGrad, längeMin, läengeSec) {
     var lat,
@@ -24,8 +26,8 @@ module.exports = function (breiteGrad, breiteMin, breiteSec, längeGrad, längeM
     y = 600072.37
         + 211455.93 * lng_aux
         -  10938.51 * lng_aux * lat_aux
-        -      0.36 * lng_aux * Math.pow(lat_aux,2)
-        -     44.54 * Math.pow(lng_aux,3);
+        -      0.36 * lng_aux * Math.pow(lat_aux, 2)
+        -     44.54 * Math.pow(lng_aux, 3);
 
     return y;
 };

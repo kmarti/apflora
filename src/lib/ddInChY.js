@@ -3,7 +3,9 @@
  * @return {number}
  */
 
+/*jslint node: true, browser: true */
 'use strict';
+
 
 module.exports = function (breite, länge) {
     var ddInWgs84BreiteGrad = require('./ddInWgs84BreiteGrad'),

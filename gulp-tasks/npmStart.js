@@ -1,4 +1,6 @@
+/*jslint node: true, browser: true */
 'use strict';
+
 
 var gulp  = require('gulp');
 var shell = require('gulp-shell');

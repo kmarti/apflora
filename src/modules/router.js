@@ -1,3 +1,4 @@
+/*jslint node: true, browser: true */
 'use strict';
 
 var Backbone                = require('backbone'),

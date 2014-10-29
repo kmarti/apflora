@@ -1,4 +1,6 @@
+/*jslint node: true, browser: true */
 'use strict';
+
 
 var mysql      = require('mysql'),
     async      = require('async'),

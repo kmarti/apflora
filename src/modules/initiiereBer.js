@@ -1,4 +1,6 @@
+/*jslint node: true, browser: true */
 'use strict';
+
 
 var $ = jQuery     = require('jquery'),
     initiiereIndex = require('./initiiereIndex'),

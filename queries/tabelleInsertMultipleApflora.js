@@ -3,7 +3,9 @@
  * stellt ihn wieder her
  */
 
+/*jslint node: true, browser: true */
 'use strict';
+
 
 var mysql      = require('mysql'),
     _          = require('underscore'),
@@ -23,8 +25,6 @@ var tabelleUpdate = function (request, callback) {
         feldwerte;
 
     felder = JSON.parse(felder);
-
-    console.log('felder: ', felder);
 
     // Feldnamen und -werte extrahieren
     feldnamen = _.keys(felder).join();

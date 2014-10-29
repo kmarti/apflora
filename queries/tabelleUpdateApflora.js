@@ -3,7 +3,9 @@
  * Namen von Tabelle und Feld werden übermittelt
  */
 
+/*jslint node: true, browser: true */
 'use strict';
+
 
 var mysql      = require('mysql'),
     _          = require('underscore'),

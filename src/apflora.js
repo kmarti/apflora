@@ -2164,7 +2164,8 @@ window.apf.tpopKopiertInTpopEinfügen = function (aktiver_node, parent_node) {
     });
 };
 
-window.apf.prüfeLesevoraussetzungen = function () {
+window.apf.pruefeLesevoraussetzungen
+ = function () {
     'use strict';
     // kontrollieren, ob der User offline ist
     if (!navigator.onLine) {
@@ -2189,7 +2190,8 @@ window.apf.prüfeLesevoraussetzungen = function () {
 window.apf.prüfeSchreibvoraussetzungen = function () {
     'use strict';
     // kontrollieren, ob der User online ist
-    if (window.apf.prüfeLesevoraussetzungen()) {
+    if (window.apf.pruefeLesevoraussetzungen
+()) {
         // kontrollieren, ob der User Schreibrechte hat
         if (sessionStorage.NurLesen) {
             window.apf.melde("Sie haben keine Schreibrechte", "Speichern abgebrochen");

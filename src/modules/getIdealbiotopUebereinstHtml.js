@@ -6,7 +6,9 @@
  * diser wird das generierte html übergeben
  */
 
+/*jslint node: true, browser: true */
 'use strict';
+
 
 var $ = require('jquery'),
     _ = require('underscore');

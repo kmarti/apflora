@@ -1,7 +1,8 @@
+/*jslint node: true, browser: true */
 'use strict';
 
-var _                            = require('underscore'),
-    erstelleTpopMassnOrdner      = require('./tpopMassnOrdner'),
+
+var erstelleTpopMassnOrdner      = require('./tpopMassnOrdner'),
     erstelleTpopMassnBerOrdner   = require('./tpopMassnBerOrdner'),
     erstelleTpopFeldkontrOrdner  = require('./tpopFeldkontrOrdner'),
     erstelleTpopFreiwkontrOrdner = require('./tpopFreiwkontrOrdner'),

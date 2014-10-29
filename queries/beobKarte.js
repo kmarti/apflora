@@ -1,8 +1,10 @@
+/*jslint node: true, browser: true */
 'use strict';
+
 
 var mysql     = require('mysql'),
     config    = require('../src/modules/configuration'),
-    onnection = mysql.createConnection({
+    connection = mysql.createConnection({
         host: 'localhost',
         user: config.db.userName,
         password: config.db.passWord,

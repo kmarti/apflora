@@ -1,8 +1,8 @@
+/*jslint node: true, browser: true */
 'use strict';
 
 var $               = require('jquery'),
     dateFormat      = require('dateformat'),
-    _               = require('underscore'),
     limiter         = require('../lib/limiter'),
     initiiereIndex  = require('./initiiereIndex'),
     initiiereAp     = require('./initiiereAp'),
