@@ -13,7 +13,7 @@ var mysql      = require('mysql'),
 
 var artliste = function (request, callback) {
     connection.query(
-        "SELECT TaxonomieId, IF(Status NOT LIKE 'akzeptierter Name', CONCAT(Artname, '   ', Status), Artname) AS Artname FROM ArtenDb_Arteigenschaften ORDER BY Artname",
+        "SELECT TaxonomieId, IF(Status NOT LIKE 'akzeptierter Name', CONCAT(Artname, ' (', Status, ')'), Artname) AS Artname FROM ArtenDb_Arteigenschaften ORDER BY Artname",
         function (err, data) {
             callback(err, data);
         }
