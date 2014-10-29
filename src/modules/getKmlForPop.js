@@ -4,7 +4,7 @@
  * retourniert das kml
  */
 
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 

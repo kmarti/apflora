@@ -2,7 +2,7 @@
  * startet die Anwendung, indem der Server gestartet wird
  */
 
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 var _                                 = require('underscore'),

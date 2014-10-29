@@ -2,7 +2,7 @@
  * baut den footer für ein kml-file
  */
 
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 
