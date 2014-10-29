@@ -5,6 +5,6 @@
 
 'use strict';
 
-module.exports = function(Laenge) {
+module.exports = function (Laenge) {
     return Math.floor(Laenge);
 };

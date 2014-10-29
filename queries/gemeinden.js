@@ -9,10 +9,10 @@ var mysql = require('mysql'),
         database: 'alexande_apflora'
     });
 
-var gemeinden = function(request, callback) {
+var gemeinden = function (request, callback) {
     connection.query(
         'SELECT GmdName FROM DomainGemeinden ORDER BY GmdName',
-        function(err, data) {
+        function (err, data) {
             callback(err, data);
         }
     );

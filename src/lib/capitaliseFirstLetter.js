@@ -5,7 +5,7 @@
 
 'use strict';
 
-var capitalizeFirstLetter = function(string) {
+var capitalizeFirstLetter = function (string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 };
 

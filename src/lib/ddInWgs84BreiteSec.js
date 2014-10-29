@@ -5,7 +5,7 @@
 
 'use strict';
 
-module.exports = function(Breite) {
+module.exports = function (Breite) {
     var BreiteGrad = Math.floor(Breite),
         BreiteMin  = Math.floor((Breite - BreiteGrad) * 60);
 

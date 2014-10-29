@@ -9,10 +9,10 @@ var mysql      = require('mysql'),
         database: 'alexande_beob'
     });
 
-var artliste = function(request, callback) {
+var artliste = function (request, callback) {
     connection.query(
         "SELECT TaxonomieId, IF(Status Is Not Null, CONCAT(Artname, '   ', Status), Artname) AS Artname FROM ArtenDb_Arteigenschaften ORDER BY Artname",
-        function(err, data) {
+        function (err, data) {
             callback(err, data);
         }
     );

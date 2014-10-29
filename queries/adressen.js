@@ -9,10 +9,10 @@ var mysql      = require('mysql'),
         database: 'alexande_apflora'
     });
 
-var adressen = function(request, callback) {
+var adressen = function (request, callback) {
     connection.query(
         'SELECT AdrId AS id, AdrName FROM tblAdresse ORDER BY AdrName',
-        function(err, data) {
+        function (err, data) {
             callback(err, data);
         }
     );

@@ -2254,7 +2254,7 @@
 							window.apf.prüfeAnmeldung();
 						}
 					},
-					open: function(event, ui) {
+					open: function (event, ui) {
 						$(".ui-dialog-titlebar-close", ui.dialog).hide();
 						//Reaktion auf Enter-Taste in anmelde_dialog
 						$("#anmelde_dialog").on("keydown", function (e) {
@@ -2287,11 +2287,11 @@
                 });
 
                 $('#olmap_layertree')
-                    .on('click', '.olmap_layertree_checkbox', function(event) {
+                    .on('click', '.olmap_layertree_checkbox', function (event) {
                         var layers = window.apf.olmap.map.getLayers().getArray();
                         layers[event.target.value].setVisible(event.target.checked);
                     })
-                    .on('click', '.layertree_pop_style', function(event) {
+                    .on('click', '.layertree_pop_style', function (event) {
                         var layers = window.apf.olmap.map.getLayers().getArray(),
                             layer = $('#olmap_layertree_Populationen').val(),
                             that = this;
@@ -2304,7 +2304,7 @@
                             $('#layertree_pop_nr').prop('checked', false);
                         }
                     })
-                    .on('click', '.layertree_tpop_style', function(event) {
+                    .on('click', '.layertree_tpop_style', function (event) {
                         var layers = window.apf.olmap.map.getLayers().getArray(),
                             layer = $('#olmap_layertree_Teilpopulationen').val(),
                             that = this;
@@ -2319,7 +2319,7 @@
                             $('#layertree_tpop_nr').prop('checked', false);
                         }
                     })
-                    .on('click', '.modify_layer', function(event) {
+                    .on('click', '.modify_layer', function (event) {
                         // layer holen
                         var layer_div = $(this).parent().siblings('input'),
                             layer_index = layer_div.val(),
@@ -2395,7 +2395,7 @@
                                 content: tooltip_content
                             });
                     })
-                    .on('selectmenuchange', '.export_layer_select', function(event) {
+                    .on('selectmenuchange', '.export_layer_select', function (event) {
                         // layer holen
                         var $layer_div = $(this).parent().parent().siblings('input'),
                             layer_index = $layer_div.val(),
@@ -2408,14 +2408,14 @@
                             $(this).selectmenu('refresh');
                         }
                     })
-                    .on('click', '.rename_layer', function(event) {
+                    .on('click', '.rename_layer', function (event) {
                         // layer holen
                         var layer_div = $(this).parent().parent().siblings('input'),
                             layer_index = layer_div.val(),
                             layer = window.apf.olmap.map.getLayers().getArray()[layer_index];
                         window.apf.olmap.frageNameFürEbene(layer);
                     })
-                    .on('click', '.entferne_layer', function(event) {
+                    .on('click', '.entferne_layer', function (event) {
                         // layer holen
                         var layer_div = $(this).parent().parent().siblings('input'),
                             layer_index = layer_div.val(),
@@ -2448,7 +2448,7 @@
                     });
 
                 $('#GeoAdminKarte')
-                    .on('click', '#olmap_exportieren', function(event) {
+                    .on('click', '#olmap_exportieren', function (event) {
                         window.apf.olmap.exportiereKarte(event);
                     });
 
@@ -2463,7 +2463,7 @@
 					$('#BerURLHref').attr('onClick', "window.open('" + $BerURL.val() + "', target='_blank')")
 				});
 
-                $("#forms").on("keydown", ".form", function(event) {
+                $("#forms").on("keydown", ".form", function (event) {
                     if (event.keyCode === 46) {
                         event.stopPropagation();
                     }
@@ -2493,7 +2493,7 @@
                     })
                     .qtip({
                         events: {
-                            render: function(event, api) {
+                            render: function (event, api) {
                                 api.elements.wrapper.addClass('ui-corner-all');
                             }
                         }
@@ -2512,14 +2512,14 @@
                     });
 
 				// verhindern, dass Zahlen durch Scrollen am Mausrad aus Versehen verändert werden
-				$("[type='number']").mousewheel(function(event){
+				$("[type='number']").mousewheel(function (event){
 				   event.preventDefault() ;
 				});
 
 				// Wenn im Suchfeld oder in einem Datenfeld die Taste Delete gedrückt wird,
 				// wird anschliessend im Baum der markierte node entfernt!
 				$("#menu")
-                    .on("keydown", "#suchen", function(event) {
+                    .on("keydown", "#suchen", function (event) {
                         if (event.keyCode === 46) {
                             event.stopPropagation();
                         }
@@ -2592,22 +2592,22 @@
                     });
 
 				$("#google_karte")
-                    .on("click", "#distanz_messen", function(event) {
+                    .on("click", "#distanz_messen", function (event) {
                         event.preventDefault();
                         addruler();
                     })
-                    .on("click", "#distanz_messen_entfernen", function(event) {
+                    .on("click", "#distanz_messen_entfernen", function (event) {
                         event.preventDefault();
                         removeruler();
                     });
 
-				$("#undelete_div").on("click", "#undelete", function(event) {
+				$("#undelete_div").on("click", "#undelete", function (event) {
 					event.preventDefault();
 					window.apf.undeleteDatensatz();
 				});
 
 				//Suche steuern
-				$("body").on("keyup click", "#suchen", function(e) {
+				$("body").on("keyup click", "#suchen", function (e) {
 					//if (this.value.length > 2) {
 					if (e.keyCode === 13) {
 						$("#tree").jstree("search", this.value);
@@ -2668,7 +2668,7 @@
                     // wenn pop ausgewählt, diese übergeben
                     var pop_id_liste = "";
                     if (window.apf.olmap.pop_selected) {
-                        _.each(window.apf.olmap.pop_selected, function(pop, index) {
+                        _.each(window.apf.olmap.pop_selected, function (pop, index) {
                             pop_id_liste +=  pop.get('myId');
                             if (index + 1 < window.apf.olmap.pop_selected.length) {
                                 pop_id_liste += ",";
@@ -2684,7 +2684,7 @@
                     // wenn tpop ausgewählt, diese übergeben
                     var tpop_id_liste = "";
                     if (window.apf.olmap.tpop_selected) {
-                        _.each(window.apf.olmap.tpop_selected, function(tpop, index) {
+                        _.each(window.apf.olmap.tpop_selected, function (tpop, index) {
                             tpop_id_liste +=  tpop.get('myId');
                             if (index + 1 < window.apf.olmap.tpop_selected.length) {
                                 tpop_id_liste += ",";
@@ -2700,7 +2700,7 @@
                     // wenn tpop ausgewählt, diese übergeben
                     var tpop_id_liste = "";
                     if (window.apf.olmap.tpop_selected) {
-                        _.each(window.apf.olmap.tpop_selected, function(tpop, index) {
+                        _.each(window.apf.olmap.tpop_selected, function (tpop, index) {
                             tpop_id_liste +=  tpop.get('myId');
                             if (index + 1 < window.apf.olmap.tpop_selected.length) {
                                 tpop_id_liste += ",";
@@ -2716,7 +2716,7 @@
                     // wenn tpop ausgewählt, diese übergeben
                     var tpop_id_liste = "";
                     if (window.apf.olmap.tpop_selected) {
-                        _.each(window.apf.olmap.tpop_selected, function(tpop, index) {
+                        _.each(window.apf.olmap.tpop_selected, function (tpop, index) {
                             tpop_id_liste +=  tpop.get('myId');
                             if (index + 1 < window.apf.olmap.tpop_selected.length) {
                                 tpop_id_liste += ",";

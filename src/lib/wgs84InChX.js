@@ -5,7 +5,7 @@
 
 'use strict';
 
-module.exports = function(breiteGrad, breiteMin, breiteSec, längeGrad, längeMin, längeSec) {
+module.exports = function (breiteGrad, breiteMin, breiteSec, längeGrad, längeMin, längeSec) {
     var lat,
         lng,
         lat_aux,

@@ -18,8 +18,8 @@ var returnFunction = function (request, callback) {
             if (err) throw err;
             // null-werte eliminieren
             var data2 = data;
-            _.each(data2, function(object) {
-                _.each(object, function(value, key) {
+            _.each(data2, function (object) {
+                _.each(object, function (value, key) {
                     if (value === null) {
                         object[key] = '';
                     }

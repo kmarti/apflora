@@ -5,7 +5,7 @@
 
 'use strict';
 
-module.exports = function(y, x) {
+module.exports = function (y, x) {
     // Converts militar to civil and to unit = 1000km
     var lat,
         y_aux,

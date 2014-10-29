@@ -5,7 +5,7 @@
 
 'use strict';
 
-module.exports = function(breite, länge) {
+module.exports = function (breite, länge) {
     var ddInWgs84BreiteGrad = require('./ddInWgs84BreiteGrad'),
         breiteGrad          = ddInWgs84BreiteGrad(breite),
         ddInWgs84BreiteMin  = require('./ddInWgs84BreiteMin'),

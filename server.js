@@ -403,9 +403,9 @@ server.route({
 server.route({
     method: 'GET',
     path: '/api/v1/exportView/csv/view={view}/filename={filename}',
-    handler: function(request, reply) {
+    handler: function (request, reply) {
         var filename = decodeURIComponent(request.params.filename);
-        exportView(request, function(data) {
+        exportView(request, function (data) {
             var fields = _.keys(data[0]);
             json2csv({
                 data: data,
@@ -426,9 +426,9 @@ server.route({
 server.route({
     method: 'GET',
     path: '/api/v1/exportView/xslx/view={view}/filename={filename}',
-    handler: function(request, reply) {
+    handler: function (request, reply) {
         var filename = decodeURIComponent(request.params.filename);
-        exportView(request, function(data) {
+        exportView(request, function (data) {
             console.log('data: ', data);
             var fields = _.keys(data[0]);
             var xls = json2xls(data, {
@@ -448,9 +448,9 @@ server.route({
 server.route({
     method: 'GET',
     path: '/api/v1/exportViewWhereIdIn/csv/view={view}/idName={idName}/idListe={idListe}/filename={filename}',
-    handler: function(request, reply) {
+    handler: function (request, reply) {
         var filename = decodeURIComponent(request.params.filename);
-        exportViewWhereIdIn(request, function(data) {
+        exportViewWhereIdIn(request, function (data) {
             var fields = _.keys(data[0]);
             json2csv({
                 data: data,
@@ -470,12 +470,12 @@ server.route({
 server.route({
     method: 'GET',
     path: '/api/v1/exportView/kml/view={view}/filename={filename}',
-    handler: function(request, reply) {
+    handler: function (request, reply) {
         var filename = decodeURIComponent(request.params.filename),
             view = decodeURIComponent(request.params.view),
             kml;
 
-        exportView(request, function(data) {
+        exportView(request, function (data) {
             switch (view) {
             case 'vPopFuerKml':
             case 'vPopFuerKmlNamen':

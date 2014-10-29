@@ -5,6 +5,6 @@
 
 'use strict';
 
-module.exports = function(Breite) {
+module.exports = function (Breite) {
     return Math.floor(Breite);
 };
