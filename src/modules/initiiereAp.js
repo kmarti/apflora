@@ -7,6 +7,7 @@ var $               = require('jquery'),
     getAdressenHtml = require('./getAdressenHtml');
 
 var returnFunction = function (apId) {
+
     // prüfen, ob voraussetzungen gegeben sind
     if (!localStorage.ap_id && !apId) {
         // es fehlen benötigte Daten > zurück zum Anfang
@@ -21,6 +22,8 @@ var returnFunction = function (apId) {
     if (!apId) {
         apId = localStorage.ap_id;
     }
+
+    console.log('initiiereAp, apid = ', apId);
 
     // Programm-Wahl konfigurieren
     var programm_wahl = $("[name='programm_wahl']:checked").attr("id");

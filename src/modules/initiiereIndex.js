@@ -2,9 +2,13 @@
 'use strict';
 
 var $ = require('jquery');
+
 require('jquery-ui');
 
 var returnFunction = function () {
+
+    console.log('initiiereIndex');
+
     // jQuery ui widgets initiieren
     $("#programm_wahl").buttonset({
         create: function () {
@@ -76,11 +80,12 @@ var returnFunction = function () {
     window.apf.erstelleArtlisten();
 
     // HIER WIRD IN FIREFOX EINE ENDLOSSCHLAUFE AUSGELÖST
-    window.apf.wähleApListe('programm_alle', function () {
+    $.when(window.apf.wähleApListe('programm_alle'))
+    .then(function () {
         console.log('wähleApListe aufgerufen in initiiereIndex');
         // falls eine Unteradresse angewählt wurde, diese öffnen
         window.apf.öffneUri();
-    });
+    });    
 };
 
 module.exports = returnFunction;

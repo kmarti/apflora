@@ -3,25 +3,26 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     notify = require('gulp-notify');
 
-gulp.task('prod_build_src', function() {
+gulp.task('prod_build_src', function () {
     return gulp.src([
-            'src/jquery-ui.js',
-            'src/jquery.ui.touch-punch.js',
-            'src/jquery.cookie.js',
-            'src/jquery.hotkeys.js',
-            'src/hammer.js',
-            'src/jquery.hammer.js',
-            'src/markerclusterer.js',
-            'src/markerwithlabel.js',
-            'src/ruler.js',
-            'src/jsuri.js',
-            'src/jquery.qtip.js',
-            'src/proj4.js',
-            'src/jquery.fileDownload.js',
-            'src/apflora_browserified.js',
-            'src/jquery.file.download.js',
-            'src/underscore.js'
-        ])
+        'src/jquery-ui.js',
+        'src/jquery.ui.touch-punch.js',
+        'src/jquery.cookie.js',
+        'src/jquery.hotkeys.js',
+        'src/hammer.js',
+        'src/jquery.hammer.js',
+        'src/markerclusterer.js',
+        'src/markerwithlabel.js',
+        'src/ruler.js',
+        'src/jsuri.js',
+        'src/jquery.qtip.js',
+        'src/proj4.js',
+        'src/jquery.fileDownload.js',
+        'src/apflora_browserified.js',
+        'src/jquery.file.download.js',
+        'src/underscore.js',
+        'src/backbone.js'
+    ])
         .pipe(concat('apflora_built.js'))
         .pipe(uglify())
         .pipe(gulp.dest('./dist/src'))

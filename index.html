@@ -13,6 +13,7 @@
         <!--script src="http://api3.geo.admin.ch/loader.js?lang=de&mode=debug"></script-->
         <script src="src/apflora_built.js"></script>
         <script src="src/jquery.jstree.js"></script>
+        <script src="src/backbone.js"></script>
         <title>AP Flora Kt ZH</title>
     </head>
     <body>
@@ -1266,9 +1267,7 @@
                                 <label id="TPopMassnAnsiedWirtspfl_label" for='TPopMassnAnsiedWirtspfl'>Wirtspflanze:</label>
                             </td>
                             <td class="Datenfelder">
-                                <select id="TPopMassnAnsiedWirtspfl" name="TPopMassnAnsiedWirtspfl" class="speichern" formular="tpopmassn">
-                                    <option></option>
-                                </select>
+                                <select id="TPopMassnAnsiedWirtspfl" name="TPopMassnAnsiedWirtspfl" class="speichern" formular="tpopmassn"></select>
                             </td>
                         </tr>
                         <tr class='fieldcontain TPopMassnAnsiedHerkunftPop'>
@@ -2272,8 +2271,7 @@
                 //v.a., ob der User online ist
                 $.ajaxSetup({
                     beforeSend: function() {
-                        if (!window.apf.pruefeLesevoraussetzungen
-()) {
+                        if (!window.apf.pruefeLesevoraussetzungen()) {
                             return false;
                         }
                     }
@@ -2283,6 +2281,7 @@
 
                 // sicherstellen, dass die Rücktaste des Browsers benutzt werden kann
                 $(window).on('popstate', function() {
+                	console.log('event: window popstate');
                     window.apf.öffneUri();
                 });
 
@@ -2564,7 +2563,8 @@
                     })
                     .on("change", "#ap_waehlen", function() {
                         console.log('this.value = ', this.value);
-                        window.apf.wähleAp(this.value);
+                        var value = this.value || localStorage.ap_id;
+                        window.apf.wähleAp(value);
                     });
 
                 $("#beob")

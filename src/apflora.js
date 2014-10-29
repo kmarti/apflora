@@ -40,15 +40,28 @@ window.apf.erstelleArtlisten = function (callback) {
         }).done(function (data) {
             var html;
             html = '<option></option>';
-            _.each(data, function (art) {
-                html += '<option value="' + art.TaxonomieId + '">' + art.Artname + '</option>';
-            });
-            $AaSisfNr.html(html);
-            $("#TPopMassnAnsiedWirtspfl").html(html);
-            if (callback) { callback(); }
+            /*_.each(data, function (art) {
+                html += '<option value="' + art.id + '">' + art.name + '</option>';
+            });*/
+            html += _.map(data, function (art) {
+                return '<option value="' + art.id + '">' + art.name + '</option>';
+            }).join();
+
+
+            // TODO: DAS IST EXTREM LANGSAM
+            // FELDER IRGENDWIE ANDERS UMSETZEN - OHNE, DASS HTML EINGEFÜGT WERDEN MUSS
+            //$AaSisfNr.html(html);
+            //$("#TPopMassnAnsiedWirtspfl").html(html);
+
+
+            if (callback) {
+                callback();
+            }
         });
     } else {
-        if (callback) { callback(); }
+        if (callback) {
+            callback();
+        }
     }
 };
 
@@ -618,9 +631,9 @@ window.apf.erstelleApliste = function (programm, callback) {
         }).done(function (data) {
             var html;
             html = '<option></option>';
-            _.each(data, function (ap) {
-                html += '<option value="' + ap.id + '">' + ap.ap_name + '</option>';
-            });
+            html += _.map(data, function (ap) {
+                return '<option value="' + ap.id + '">' + ap.ap_name + '</option>';
+            }).join();
             $ap_waehlen.html(html);
             if (callback) { callback(); }
         });
@@ -629,7 +642,7 @@ window.apf.erstelleApliste = function (programm, callback) {
     }
 };
 
-window.apf.wähleApListe = function (programm, callback) {
+window.apf.wähleApListe = function (programm) {
     'use strict';
     var $ap_waehlen_label = $("#ap_waehlen_label"),
         $ap_waehlen = $("#ap_waehlen"),
@@ -646,8 +659,11 @@ window.apf.wähleApListe = function (programm, callback) {
     $("#ap_loeschen").hide();
     $("#exportieren_1").show();
     $ap_waehlen.val("");
-    initiiereAp();
-    window.apf.erstelleApliste(programm, function (callback) {
+
+    // TODO: Das gibt Abstürze!!!
+    //initiiereAp();
+
+    window.apf.erstelleApliste(programm, function () {
         var $programm_wahl_checked = $("[name='programm_wahl']:checked");
         if ($programm_wahl_checked.attr("id") === "programm_neu") {
             $ap_waehlen_label.html("Art für neues Förderprogramm wählen:");
@@ -657,13 +673,13 @@ window.apf.wähleApListe = function (programm, callback) {
             $ap_waehlen_label.html("Artförderprogramm wählen:");
         }
         $ap_waehlen_label.show();
-        if (callback) { callback(); }
     });
 };
 
 // diese Funktion kann nicht modularisiert werden, weil jstree nicht für node entwickelt wurde!!!!
 window.apf.erstelle_tree = function (ApArtId) {
     'use strict';
+    console.log('erstelle tree für apId = ', ApArtId);
     var jstree_erstellt = $.Deferred();
     $("#tree").jstree({
         "json_data": {
@@ -1157,7 +1173,9 @@ window.apf.erstelle_tree = function (ApArtId) {
             delete window.apf.beob_nicht_zuzuordnen_zeigen;
         }
         if (window.apf.ap_zeigen) {
-            initiiereAp();
+            initiiereAp(ApArtId);
+            //localStorage.ap_id = ApArtId;
+            //$('#ap_waehlen').trigger('change');
             // diese Markierung entfernen, damit das nächste mal nicht mehr dieser AP geöffnet wird
             delete window.apf.ap_zeigen;
         }
@@ -2271,12 +2289,11 @@ window.apf.speichern = function (that) {
             window.apf.melde("Bemerkungen sind nur in zugeordneten oder nicht zuzuordnenden Beobachtungen möglich", "Aktion abgebrochen");
             return;
         }
-        var updateFormular = $.ajax({
+        $.ajax({
             type: 'post',
             url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + localStorage[formular + "_id"] + '/feld=' + feldname + '/wert=' + feldwert + '/user=' + sessionStorage.User,
             dataType: 'json'
-        });
-        updateFormular.done(function () {
+        }).done(function () {
             // Variable für Objekt nachführen
             window.apf[formular][feldname] = feldwert;
             // Wenn ApArtId verändert wurde: Formular aktualisieren
@@ -2356,8 +2373,7 @@ window.apf.speichern = function (that) {
                     window.apf.speichern(objekt);
                 }
             }
-        });
-        updateFormular.fail(function () {
+        }).fail(function () {
             window.apf.melde("Fehler: Die letzte Änderung wurde nicht gespeichert");
         });
         // nodes im Tree updaten, wenn deren Bezeichnung ändert
@@ -4955,7 +4971,10 @@ window.apf.öffneUri = function () {
         initiiereTPopFeldkontr  = require('./modules/initiiereTPopFeldkontr'),
         initiiereTPopMassnBer   = require('./modules/initiiereTPopMassnBer'),
         initiiereTPopBer        = require('./modules/initiiereTPopBer');
+
+    console.log('öffneUri');
     if (ap_id) {
+        console.log('öffneUri, ap_id: ', ap_id);
         // globale Variablen setzen
         window.apf.setzeWindowAp(ap_id);
         // Dem Feld im Formular den Wert zuweisen
@@ -5139,7 +5158,9 @@ window.apf.öffneUri = function () {
             window.apf.ap_zeigen = true;
             // direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
             localStorage.ap_id = ap_id;
-            initiiereAp();
+            initiiereAp(ap_id);
+            //window.apf.wähleAp(ap_id);
+            return true;
         }
         window.apf.erstelle_tree(ap_id);
         $("#ap_waehlen_label").hide();
@@ -6757,17 +6778,18 @@ window.apf.wähleAp = function (ap_id) {
                 $("#programm_alle").attr("checked", true);
                 $("#programm_wahl").buttonset();
                 // Auswahlliste für Programme updaten
-                window.apf.wähleApListe("programm_alle", function () {
+                $.when(window.apf.wähleApListe("programm_alle"))
+                .then(function () {
                     console.log('wähleApListe aufgerufen in wähleAp');
                     // Strukturbaum updaten
-                    $.when(window.apf.erstelle_tree(localStorage.ap_id))
+                    $.when(window.apf.erstelle_tree(ap_id))
                     .then(function () {
                         // gewählte Art in Auswahlliste anzeigen
-                        $('#ap_waehlen').val(localStorage.ap_id);
-                        $('#ap_waehlen option[value =' + localStorage.ap_id + ']').attr('selected', true);
-                        $("#ApArtId").val(localStorage.ap_id);
+                        $('#ap_waehlen').val(ap_id);
+                        $('#ap_waehlen option[value =' + ap_id + ']').attr('selected', true);
+                        $("#ApArtId").val(ap_id);
                         // gewählte Art in Formular anzeigen
-                        initiiereAp();
+                        initiiereAp(ap_id);
                     });
                 });
             }).fail(function () {
@@ -6776,7 +6798,7 @@ window.apf.wähleAp = function (ap_id) {
         } else {
             window.apf.erstelle_tree(ap_id);
             $("#ap").show();
-            initiiereAp();
+            initiiereAp(ap_id);
         }
     } else {
         console.log('wähleAp: kein AP gewählt');

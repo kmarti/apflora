@@ -511,51 +511,51 @@
 
 
 /*--------------------------------*\
-	1. #GRUNDSTRUKTUR
+    1. #GRUNDSTRUKTUR
 \*--------------------------------*/
 
 body {
-	background-color: #FFFFF7;
+    background-color: #FFFFF7;
 }
 
 #wrapper {
-	width: 100%;
+    width: 100%;
 }
 
 /* über 1000px Menu und Forms nebeneinander */
 @media screen and (min-width: 1001px) {
-	#menu {
+    #menu {
         float: left;
-		width: 370px;
-		margin-right:  8px;
-		margin-bottom: 0;
-	}
+        width: 370px;
+        margin-right:  8px;
+        margin-bottom: 0;
+    }
 
-	#tree {
-		width: 370px;
-	}
+    #tree {
+        width: 370px;
+    }
 }
 
 fieldset {
-	background-color: #FFE;
+    background-color: #FFE;
     border: 1px solid #A5A59A;
     border-radius: 8px;
 
-	font-family: Arial, Verdana, Helvetica, sans-serif !important;
-	font-size: 16px !important;
+    font-family: Arial, Verdana, Helvetica, sans-serif !important;
+    font-size: 16px !important;
 
-	/*irgendwoher inherited #forms 2px margin rechts und links*/
-	margin-left:  0;
-	margin-right: 0;
-	padding: 0 0 0 0;
+    /*irgendwoher inherited #forms 2px margin rechts und links*/
+    margin-left:  0;
+    margin-right: 0;
+    padding: 0 0 0 0;
 }
 
 #undelete_div {
-	margin-bottom: 8px;
-	text-align: center;
-	font-weight: bold;
-	background-color: rgba(255, 204, 51, 0.7);
-	display: none;
+    margin-bottom: 8px;
+    text-align: center;
+    font-weight: bold;
+    background-color: rgba(255, 204, 51, 0.7);
+    display: none;
 }
 
 
@@ -563,7 +563,7 @@ fieldset {
 
 
 /*--------------------------------*\
-	2. #MENU
+    2. #MENU
 \*--------------------------------*/
 
 #menu {
@@ -573,38 +573,38 @@ fieldset {
 
 /* Text umbrechen lassen */
 #tree a {
-	white-space: normal;
-	height: auto;
-	padding: 1px 2px;
+    white-space: normal;
+    height: auto;
+    padding: 1px 2px;
 }
 
 #tree li > ins {
-	vertical-align: top;
+    vertical-align: top;
 }
 
 #tree .jstree-hovered, #tree .jstree-clicked {
-	border: 0;
+    border: 0;
 }
 
 /*Abstände zwischen nodes vergrössern*/
 #tree li {
-	min-height:  22px;
-	line-height: 22px;
+    min-height:  22px;
+    line-height: 22px;
 }
 
 #tree a ins {
-	height: 20px;
-	width:  20px;
-	background-position: -56px -17px;
+    height: 20px;
+    width:  20px;
+    background-position: -56px -17px;
 }
 
 #tree {
-	overflow: auto;
+    overflow: auto;
 }
 
 /* gesuchte Einträge formatieren */
 .jstree-search {
-	color: #CC012A !important;
+    color: #CC012A !important;
 }
 
 #suchen {
@@ -643,35 +643,35 @@ a {
 
 
 /*--------------------------------*\
-	2. #FORMS
-	   allgemein / querbeet
+    2. #FORMS
+       allgemein / querbeet
 \*--------------------------------*/
 
 #forms form {
-	padding: 7px 7px 7px 7px;
+    padding: 7px 7px 7px 7px;
 }
 
 form h1 {
-	margin-bottom: 10px;
-	margin-top:    10px;
-	margin-left:   10px;
+    margin-bottom: 10px;
+    margin-top:    10px;
+    margin-left:   10px;
 }
 
 form table {
-	width: 100%;
+    width: 100%;
 }
 
 form table label {
-	display:      block;
-	margin-top:     2px;
-	text-align:   right;
-	vertical-align: top;
-	color:      #6F6F66;
+    display:      block;
+    margin-top:     2px;
+    text-align:   right;
+    vertical-align: top;
+    color:      #6F6F66;
 }
 
 .label {
-	width:   140px;
-	display: block;
+    width:   140px;
+    display: block;
 }
 
 /*
@@ -680,8 +680,8 @@ form table label {
  */
 #beob .label,
 #tpopbeob .label {
-	width:          215px;
-	word-wrap: break-word;
+    width:          215px;
+    word-wrap: break-word;
 }
 
 /*
@@ -689,162 +689,162 @@ form table label {
  * muss das Label schmaler sein, damit alle Felder ausgerichtet sind
  */
 .label_fieldset {
-	width:   129px;
-	display: block;
+    width:   129px;
+    display: block;
 }
 
 form table td {
-	padding-bottom: 8px;
+    padding-bottom: 8px;
 }
 
 form table tr {
-	width: 100%;
+    width: 100%;
 }
 
 td.Datenfelder {
-	padding-left:   5px;
+    padding-left:   5px;
     padding-right: 10px;
-	width:        100%;
+    width:        100%;
 }
 
 /* im tab soll der zusätzliche Rand klein sein */
 .ui-tabs .ui-tabs-panel {
-	padding-left:  0;
-	padding-right: 0;
+    padding-left:  0;
+    padding-right: 0;
 }
 
 form fieldset {
-	padding-left:  10px;
-	padding-bottom: 4px;
-	margin-bottom: 10px;
+    padding-left:  10px;
+    padding-bottom: 4px;
+    margin-bottom: 10px;
 }
 
 fieldset legend {
-	color: #6F6F66;
-	font-weight: bold;
+    color: #6F6F66;
+    font-weight: bold;
 }
 
 input {
-	background-color: #FFFFF7;
+    background-color: #FFFFF7;
 }
 
 [readonly='readonly'] {
-	background-color: #FFE;
-	border: none;
+    background-color: #FFE;
+    border: none;
 }
 
 [type=text],
 [type=url],
 textarea,
 select {
-	width: 100%;
+    width: 100%;
 }
 
 [type=radio]:first-child,
 [type=checkbox]:first-child {
-	margin-top: 6px;
+    margin-top: 6px;
 }
 
 [type=number] {
-	width: 150px;
+    width: 150px;
 }
 
 .Datum {
-	width: 150px;
+    width: 150px;
 }
 
 #forms input,
 #forms select,
 #forms textarea {
-	font-size: 17px !important;
-	/*alle inputs genau links ausrichten - sind sonst nicht alle gleich weit links*/
-	margin-left: 2px !important;
+    font-size: 17px !important;
+    /*alle inputs genau links ausrichten - sind sonst nicht alle gleich weit links*/
+    margin-left: 2px !important;
 }
 
 /* komischerweise kommen textareas in anderer Schrift */
 textarea {
-	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 17px;
+    font-family: Arial, Verdana, Helvetica, sans-serif;
+    font-size: 17px;
 }
 
 .ui-button-text {
-	padding: .1em .5em !important;
-	font-size: .8em !important;
+    padding: .1em .5em !important;
+    font-size: .8em !important;
 }
 
 .ui-widget-content {
-	background: #FAF3D9!important;
+    background: #FAF3D9!important;
 }
 
 .form .ui-widget-content {
-	background: #FFE!important;
+    background: #FFE!important;
 }
 
 .form .ui-tabs {
-	border-width: 0;
+    border-width: 0;
 }
 
 option {
-	white-space: pre;
+    white-space: pre;
 }
 
 /* der limiter ergänzt unter Feldern, wieviele Zeichen eingegeben werden können */
 .limiter {
-	font-size: 11px;
-	font-style: italic;
-	color: grey;
-	margin-left: 4px;
-	margin-top: -4px;
+    font-size: 11px;
+    font-style: italic;
+    color: grey;
+    margin-left: 4px;
+    margin-top: -4px;
 }
 
 .ui-widget .fieldcontain {
-	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: 16px;
+    font-family: Arial, Verdana, Helvetica, sans-serif;
+    font-size: 16px;
 }
 
 .ui-tabs .ui-widget-header {
-	background: none;
-	border-top:    0;
-	border-right:  0;
-	border-left:   0;
-	border-radius: 0;
-	border-color: #A5A59A;
+    background: none;
+    border-top:    0;
+    border-right:  0;
+    border-left:   0;
+    border-radius: 0;
+    border-color: #A5A59A;
 }
 
 .ui-tabs .ui-state-default {
-	background: none;
-	border-color: #E2E2CF;
+    background: none;
+    border-color: #E2E2CF;
 }
 
 .ui-tabs .ui-state-active {
-	border-color: #A5A59A;
+    border-color: #A5A59A;
 }
 
 .ui-tabs .ui-tabs-nav li {
-	border-bottom: 1px solid #FFE;
+    border-bottom: 1px solid #FFE;
 }
 
 .border_top {
-	border-top: 1px solid #999;
-	padding-top:  10px;
-	margin-right: 10px;
+    border-top: 1px solid #999;
+    padding-top:  10px;
+    margin-right: 10px;
 }
 
 /* pattern: wenn nicht erfüllt, markieren */
 :invalid {
-	border: 2px solid #ff0000;
+    border: 2px solid #ff0000;
 }
 
 /* Für Tool-Tipps */
 .apf-with-tooltip span {
-	border-bottom: 1px dotted #000000;
-	cursor: help;
+    border-bottom: 1px dotted #000000;
+    cursor: help;
 }
 
 /* erforderliche Felder rot markieren */
 label.erforderlich,
 label.erforderlich span {
-	color: #800000;
+    color: #800000;
 }
 
 /* tooltip gestalten, jQuery ui überprägen */
@@ -865,12 +865,12 @@ label.erforderlich span {
 
 /* Tabelle in Dialog stylen */
 .ui-dialog-content td:first-child {
-	text-align: right;
-	padding-right: 8px;
+    text-align: right;
+    padding-right: 8px;
 }
 
 .ui-dialog-content td {
-	font-size: 16px;
+    font-size: 16px;
 }
 
 /*
@@ -916,29 +916,29 @@ label.erforderlich span {
 }
 
 .qtip {
-	font-size:  13px;
-	max-width: 450px;
+    font-size:  13px;
+    max-width: 450px;
 }
 
 .qtip-titlebar {
        -moz-border-radius: 5px 5px 0 0;
-	-webkit-border-radius: 5px 5px 0 0;
-	        border-radius: 5px 5px 0 0;
-  	line-height: 1.1;
+    -webkit-border-radius: 5px 5px 0 0;
+            border-radius: 5px 5px 0 0;
+      line-height: 1.1;
 }
 
 .qtip-content {
-	padding-bottom: 0;
-	padding-top:    0;
+    padding-bottom: 0;
+    padding-top:    0;
     line-height:  1.2;
        -moz-border-radius: 0 0 5px 5px;
-	-webkit-border-radius: 0 0 5px 5px;
-	        border-radius: 0 0 5px 5px;
+    -webkit-border-radius: 0 0 5px 5px;
+            border-radius: 0 0 5px 5px;
 }
 
 /*--------------------------------*\
-	2. #FORMS
-	   google_karte
+    2. #FORMS
+       google_karte
 \*--------------------------------*/
 
 #GeoAdminKarte,
@@ -1029,8 +1029,8 @@ label.erforderlich span {
 
 
 /*--------------------------------*\
-	2. #FORMS
-	   GeoAdminKarte
+    2. #FORMS
+       GeoAdminKarte
 \*--------------------------------*/
 
 /*
@@ -1443,8 +1443,8 @@ p.ergebnisAuswahlListeTitelTPop {
 
 
 /*--------------------------------*\
-	2. #FORMS
-	   exporte
+    2. #FORMS
+       exporte
 \*--------------------------------*/
 
 #forms #exporte {
