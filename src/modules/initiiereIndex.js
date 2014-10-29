@@ -72,7 +72,7 @@ var returnFunction = function () {
 
     // Auswahllisten aufbauen
     $("#ap_loeschen").hide();
-    window.apf.erstelle_artlisten();
+    window.apf.erstelleArtlisten();
 
     // HIER WIRD IN FIREFOX EINE ENDLOSSCHLAUFE AUSGELÖST
     $.when(window.apf.wähleApListe("programm_alle"))

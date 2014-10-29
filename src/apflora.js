@@ -27,7 +27,7 @@ window.apf.setzeWindowAp = function (id) {
 
 // wird benutzt von Formular ap, pop und TPopMassn
 // setzt vollständige Artlisten in Select-Felder
-window.apf.erstelle_artlisten = function (callback) {
+window.apf.erstelleArtlisten = function (callback) {
     'use strict';
     var $AaSisfNr = $("#AaSisfNr");
 
@@ -598,10 +598,9 @@ window.apf.fitTextareaToContent = function (id, maxHeight) {
    }
 };
 
-window.apf.erstelle_ap_liste = function (programm) {
+window.apf.erstelle_ap_liste = function (programm, callback) {
     'use strict';
-    var apliste_erstellt = $.Deferred(),
-        $ap_waehlen = $("#ap_waehlen");
+    var $ap_waehlen = $("#ap_waehlen");
     
     // sicherstellen, dass ein Programm übergeben wurde
     if (!programm) {
@@ -618,17 +617,16 @@ window.apf.erstelle_ap_liste = function (programm) {
             dataType: 'json'
         }).done(function (data) {
             var html;
-            html = "<option></option>";
+            html = '<option></option>';
             _.each(data, function (ap) {
                 html += '<option value="' + ap.id + '">' + ap.ap_name + '</option>';
             });
             $ap_waehlen.html(html);
-            apliste_erstellt.resolve();
+            if (callback) { callback(); }
         });
     } else {
-        apliste_erstellt.resolve();
+        if (callback) { callback(); }
     }
-    return apliste_erstellt.promise();
 };
 
 window.apf.wähleApListe = function (programm) {
@@ -649,19 +647,18 @@ window.apf.wähleApListe = function (programm) {
     $("#exportieren_1").show();
     $ap_waehlen.val("");
     initiiereAp();
-    $.when(window.apf.erstelle_ap_liste(programm))
-        .then(function () {
-            var $programm_wahl_checked = $("[name='programm_wahl']:checked");
-            if ($programm_wahl_checked.attr("id") === "programm_neu") {
-                $ap_waehlen_label.html("Art für neues Förderprogramm wählen:");
-            } else if ($programm_wahl_checked.attr("id") === "programm_ap") {
-                $ap_waehlen_label.html("Aktionsplan wählen:");
-            } else {
-                $ap_waehlen_label.html("Artförderprogramm wählen:");
-            }
-            $ap_waehlen_label.show();
-            apliste_gewählt.resolve();
-        });
+    window.apf.erstelle_ap_liste(programm, function () {
+        var $programm_wahl_checked = $("[name='programm_wahl']:checked");
+        if ($programm_wahl_checked.attr("id") === "programm_neu") {
+            $ap_waehlen_label.html("Art für neues Förderprogramm wählen:");
+        } else if ($programm_wahl_checked.attr("id") === "programm_ap") {
+            $ap_waehlen_label.html("Aktionsplan wählen:");
+        } else {
+            $ap_waehlen_label.html("Artförderprogramm wählen:");
+        }
+        $ap_waehlen_label.show();
+        apliste_gewählt.resolve();
+    });
     return apliste_gewählt.promise();
 };
 
@@ -7246,12 +7243,11 @@ window.apf.löscheAp = function (ap_id) {
     window.apf.deleted.typ = "ap";
     //Artname in Textform merken
     window.apf.deleted.Artname = $("#ap_waehlen option[value='" + $("#ap_waehlen").val() + "']").text();
-    var deleteAp = $.ajax({
+    $.ajax({
         type: 'delete',
         url: 'api/v1/apflora/tabelle=tblAktionsplan/tabelleIdFeld=ApArtId/tabelleId=' + ap_id,
         dataType: 'json'
-    });
-    deleteAp.done(function () {
+    }).done(function () {
         var $exportieren_2 = $("#exportieren_2");
         delete localStorage.ap_id;
         delete window.apf.ap;
@@ -7277,8 +7273,7 @@ window.apf.löscheAp = function (ap_id) {
         delete window.apf.deleted.Artname;
         //forms muss eingeblendet sein, weil undelete_div darin ist
         window.apf.zeigeFormular("keines");
-    });
-    deleteAp.fail(function () {
+    }).fail(function () {
         window.apf.melde("Fehler: Das Programm wurde nicht gelöscht");
     });
 };

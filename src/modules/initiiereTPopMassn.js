@@ -113,7 +113,7 @@ var returnFunction = function (apId, popId, tpopId, massnId) {
             // wenn die Anwendung direkt auf einer TPopMassn geöffnet wird, ist die Liste noch nicht bereit
             // darum hier nochmals holen
             // TODO: kann das optimiert werden? (nicht auf Artlisten warten)
-            window.apf.erstelle_artlisten(function () {
+            window.apf.erstelleArtlisten(function () {
                 $("#TPopMassnAnsiedWirtspfl").val(data.TPopMassnAnsiedWirtspfl);
                 $("#TPopMassnAnsiedHerkunftPop")
                     .val(data.TPopMassnAnsiedHerkunftPop)
