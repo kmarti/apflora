@@ -19,7 +19,7 @@
 		<div id="wrapper">
 			<fieldset id="menu">
 				<div class='fieldcontain'>
-					<label id="ap_waehlen_label" for='ap_waehlen' class='select' style="color:#6F6F66;">Artförderprogramm wählen aha:</label>
+					<label id="ap_waehlen_label" for='ap_waehlen' class='select' style="color:#6F6F66;">Artförderprogramm wählen:</label>
 					<select id="ap_waehlen" style="width:100%; font-size:17px;">
 						<option></option>
 					</select>
@@ -2528,6 +2528,7 @@
                         window.apf.initiiereExporte();
                     })
                     .on("click", "[name=programm_wahl]", function() {
+                    	console.log('wähleApListe aufgerufen in index.html on click programm_wahl');
                         window.apf.wähleApListe($(this).attr("id"));
                     })
                     .on("click", "#ap_loeschen", function() {
@@ -2562,6 +2563,7 @@
                         }
                     })
                     .on("change", "#ap_waehlen", function() {
+                    	console.log('this.value = ', this.value);
                         window.apf.wähleAp(this.value);
                     });
 
