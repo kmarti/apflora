@@ -3404,9 +3404,9 @@ window.apf.olmap.erstelleContentFürTPop = function (tpop) {
         '<tr><td><p>Teilpopulation:</p></td><td><p>' + my_flurname + '</p></td></tr>'+
         '<tr><td><p>Koordinaten:</p></td><td><p>' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p></td></tr>'+
         '</table>'+
-        "<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + tpop.TPopId + "')\">Formular anstelle Karte öffnen<\/a></p>"+
-        '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')\">Formular neben der Karte öffnen<\/a></p>'+
-        "<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>";
+        '<p><a href="#" onclick="window.apf.öffneTPop("' + tpop.TPopId + '")">Formular anstelle Karte öffnen<\/a></p>'+
+        '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')">Formular neben der Karte öffnen<\/a></p>'+
+        '<p><a href="#" onclick="window.apf.öffneTPopInNeuemTab("' + tpop.TPopId + '")">Formular in neuem Fenster öffnen<\/a></p>';
 };
 
 // retourniert features
@@ -3981,9 +3981,9 @@ window.apf.gmap.zeigeBeobUndTPop = function (beob_liste, tpop_liste) {
             '<p>Population: ' + tpop.PopName + '</p>'+
             '<p>TPop: ' + my_flurname + '</p>'+
             '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
-            "<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + tpop.TPopId + "')\">Formular anstelle Karte öffnen<\/a></p>"+
-            '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')\">Formular neben der Karte öffnen<\/a></p>'+
-            "<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+            '<p><a href="#" onclick="window.apf.öffneTPop("' + tpop.TPopId + '")">Formular anstelle Karte öffnen<\/a></p>'+
+            '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')">Formular neben der Karte öffnen<\/a></p>'+
+            '<p><a href="#" onclick="window.apf.öffneTPopInNeuemTab("' + tpop.TPopId + '")">Formular in neuem Fenster öffnen<\/a></p>'+
             '</div>'+
             '</div>';
         makeListener(map, marker_tpop, contentstring_tpop);
@@ -4054,9 +4054,9 @@ window.apf.gmap.zeigeBeobUndTPop = function (beob_liste, tpop_liste) {
             '<p>Projekt: ' + Projekt + '</p>'+
             '<p>Ort: ' + Ort + '</p>'+
             '<p>Koordinaten: ' + beob.X + ' / ' + beob.Y + '</p>'+
-            "<p><a href=\"#\" onclick=\"window.apf.öffneBeob('" + beob.NO_NOTE + "')\">Formular anstelle Karte öffnen<\/a></p>"+
-            //'<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'beob\', ' + beob.NO_NOTE + ')\">Formular neben der Karte öffnen<\/a></p>'+
-            "<p><a href=\"#\" onclick=\"window.apf.öffneBeobInNeuemTab('" + beob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+            '<p><a href="#" onclick="window.apf.öffneBeob("' + beob.NO_NOTE + '")">Formular anstelle Karte öffnen<\/a></p>'+
+            //'<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'beob\', ' + beob.NO_NOTE + ')">Formular neben der Karte öffnen<\/a></p>'+
+            '<p><a href="#" onclick="window.apf.öffneBeobInNeuemTab("' + beob.NO_NOTE + '")">Formular in neuem Fenster öffnen<\/a></p>'+
             '</div>'+
             '</div>';
         makeListenerBeob(map, marker_beob, contentstring_beob);
@@ -4251,8 +4251,8 @@ window.apf.gmap.zeigeBeob = function (beob_liste) {
             '<p>Projekt: ' + Projekt + '</p>'+
             '<p>Ort: ' + Ort + '</p>'+
             '<p>Koordinaten: ' + beob.X + ' / ' + beob.Y + '</p>'+
-            "<p><a href=\"#\" onclick=\"window.apf.öffneBeob('" + beob.NO_NOTE + "')\">Formular anstelle Karte öffnen<\/a></p>"+
-            "<p><a href=\"#\" onclick=\"window.apf.öffneBeobInNeuemTab('" + beob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+            '<p><a href="#" onclick="window.apf.öffneBeob("' + beob.NO_NOTE + '")">Formular anstelle Karte öffnen<\/a></p>'+
+            '<p><a href="#" onclick="window.apf.öffneBeobInNeuemTab("' + beob.NO_NOTE + '")">Formular in neuem Fenster öffnen<\/a></p>'+
             '</div>'+
             '</div>';
         makeListener(map, marker, contentString);
@@ -4385,8 +4385,8 @@ window.apf.gmap.zeigeTPopBeob = function (tpop_beob_liste) {
             '<p>Projekt: ' + Projekt + '</p>'+
             '<p>Ort: ' + Ort + '</p>'+
             '<p>Koordinaten: ' + tpop_beob.X + ' / ' + tpop_beob.Y + '</p>'+
-            "<p><a href=\"#\" onclick=\"window.apf.öffneTPopBeob('" + tpop_beob.NO_NOTE + "')\">Formular anstelle Karte öffnen<\/a></p>"+
-            "<p><a href=\"#\" onclick=\"window.apf.öffneTPopBeobInNeuemTab('" + tpop_beob.NO_NOTE + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+            '<p><a href="#" onclick="window.apf.öffneTPopBeob("' + tpop_beob.NO_NOTE + '")">Formular anstelle Karte öffnen<\/a></p>'+
+            '<p><a href="#" onclick="window.apf.öffneTPopBeobInNeuemTab("' + tpop_beob.NO_NOTE + '")">Formular in neuem Fenster öffnen<\/a></p>'+
             '</div>'+
             '</div>';
         makeListener(map, marker, contentString);
@@ -4486,9 +4486,9 @@ window.apf.gmap.verorteTPop = function (tpop) {
             '<div id="bodyContent" class="GmInfowindow">'+
             '<h3>' + my_flurname + '</h3>'+
             '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
-            "<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + tpop.TPopId + "')\">Formular anstelle Karte öffnen<\/a></p>"+
-            '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')\">Formular neben der Karte öffnen<\/a></p>'+
-            "<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+            '<p><a href="#" onclick="window.apf.öffneTPop("' + tpop.TPopId + '")">Formular anstelle Karte öffnen<\/a></p>'+
+            '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')">Formular neben der Karte öffnen<\/a></p>'+
+            '<p><a href="#" onclick="window.apf.öffneTPopInNeuemTab("' + tpop.TPopId + '")">Formular in neuem Fenster öffnen<\/a></p>'+
             '</div>'+
             '</div>';
         infowindow = new google.maps.InfoWindow({
@@ -4585,9 +4585,9 @@ window.apf.gmap.SetLocationTPop = function (LatLng, map, marker, TPop) {
                 '<div id="bodyContent" class="GmInfowindow">'+
                 '<h3>' + title + '</h3>'+
                 '<p>Koordinaten: ' + X + ' / ' + Y + '</p>'+
-                "<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + localStorage.tpop_id + "')\">Formular anstelle Karte öffnen<\/a></p>"+
-                '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + localStorage.tpop_id + ')\">Formular neben der Karte öffnen<\/a></p>'+
-                "<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + localStorage.tpop_id + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+                '<p><a href="#" onclick="window.apf.öffneTPop("' + localStorage.tpop_id + '")">Formular anstelle Karte öffnen<\/a></p>'+
+                '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'tpop\', ' + localStorage.tpop_id + ')">Formular neben der Karte öffnen<\/a></p>'+
+                '<p><a href="#" onclick="window.apf.öffneTPopInNeuemTab("' + localStorage.tpop_id + '")">Formular in neuem Fenster öffnen<\/a></p>'+
                 '</div>'+
                 '</div>';
             infowindow = new google.maps.InfoWindow({
@@ -8075,7 +8075,7 @@ window.apf.treeKontextmenu = function (node) {
                                         delete window.apf.jber_übersicht;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);
                                         // Hinweis zum rückgängig machen anzeigen
-                                        window.apf.frageObAktionRückgängigGemachtWerdenSoll("Die Übersicht für den AP-Bericht des Jahrs \"" + window.apf.deleted.JbuJahr + "\" wurde gelöscht.");
+                                        window.apf.frageObAktionRückgängigGemachtWerdenSoll('Die Übersicht für den AP-Bericht des Jahrs "' + window.apf.deleted.JbuJahr + '" wurde gelöscht.');
                                     });
                                     deleteJberUebersicht.fail(function () {
                                         window.apf.melde("Fehler: Die Übersicht zu allen Arten wurde nicht gelöscht");
@@ -36698,7 +36698,7 @@ var returnFunction = function (callback) {
                 // Feld mit Daten beliefern
                 html = "<option></option>";
                 _.each(data, function (übereinst) {
-                    html += "<option value=\"" + übereinst.id + "\">" + übereinst.DomainTxt + "</option>";
+                    html += '<option value="' + übereinst.id + '">' + übereinst.DomainTxt + '</option>';
                 });
                 window.apf.IdealBiotopÜbereinst_html = html;
             }
@@ -36737,7 +36737,7 @@ var returnFunction = function (callback) {
                 // Feld mit Daten beliefern
                 html = "<option></option>";
                 _.each(data, function (lr) {
-                    html += "<option value=\"" + lr.id + "\">" + lr.Einheit + "</option>";
+                    html += '<option value="' + lr.id + '">' + lr.Einheit + '</option>';
                 });
                 window.apf.lrdelarze_html = html;
             }
@@ -36826,7 +36826,7 @@ var returnFunction = function (callback) {
                 // Feld mit Daten beliefern
                 html = "<option></option>";
                 _.each(data, function (zähleinheit) {
-                    html += "<option value=\"" + zähleinheit.id + "\">" + zähleinheit.ZaehleinheitTxt + "</option>";
+                    html += '<option value="' + zähleinheit.id + '">' + zähleinheit.ZaehleinheitTxt + '</option>';
                 });
                 window.apf.TPopKontrZähleinheit_html = html;
             }
@@ -39009,9 +39009,9 @@ var returnFunction = function (tpop_liste) {
             '<p>Population: ' + tpop.PopName + '</p>'+
             '<p>TPop: ' + my_flurname + '</p>'+
             '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
-            "<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + tpop.TPopId + "')\">Formular anstelle Karte öffnen<\/a></p>"+
-            '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')\">Formular neben der Karte öffnen<\/a></p>'+
-            "<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+            '<p><a href="#" onclick="window.apf.öffneTPop("' + tpop.TPopId + '")">Formular anstelle Karte öffnen<\/a></p>'+
+            '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')">Formular neben der Karte öffnen<\/a></p>'+
+            '<p><a href="#" onclick="window.apf.öffneTPopInNeuemTab("' + tpop.TPopId + '")">Formular in neuem Fenster öffnen<\/a></p>'+
             '</div>'+
             '</div>';
         makeListener(map, marker, contentString);

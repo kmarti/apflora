@@ -25,7 +25,7 @@ var returnFunction = function (callback) {
                 // Feld mit Daten beliefern
                 html = "<option></option>";
                 _.each(data, function (zähleinheit) {
-                    html += "<option value=\"" + zähleinheit.id + "\">" + zähleinheit.ZaehleinheitTxt + "</option>";
+                    html += '<option value="' + zähleinheit.id + '">' + zähleinheit.ZaehleinheitTxt + '</option>';
                 });
                 window.apf.TPopKontrZähleinheit_html = html;
             }

@@ -24,7 +24,7 @@ var returnFunction = function (callback) {
                 // Feld mit Daten beliefern
                 html = "<option></option>";
                 _.each(data, function (übereinst) {
-                    html += "<option value=\"" + übereinst.id + "\">" + übereinst.DomainTxt + "</option>";
+                    html += '<option value="' + übereinst.id + '">' + übereinst.DomainTxt + '</option>';
                 });
                 window.apf.IdealBiotopÜbereinst_html = html;
             }

@@ -25,7 +25,7 @@ var returnFunction = function (callback) {
                 // Feld mit Daten beliefern
                 html = "<option></option>";
                 _.each(data, function (lr) {
-                    html += "<option value=\"" + lr.id + "\">" + lr.Einheit + "</option>";
+                    html += '<option value="' + lr.id + '">' + lr.Einheit + '</option>';
                 });
                 window.apf.lrdelarze_html = html;
             }

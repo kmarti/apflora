@@ -94,9 +94,9 @@ var returnFunction = function (tpop_liste) {
             '<p>Population: ' + tpop.PopName + '</p>'+
             '<p>TPop: ' + my_flurname + '</p>'+
             '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
-            "<p><a href=\"#\" onclick=\"window.apf.öffneTPop('" + tpop.TPopId + "')\">Formular anstelle Karte öffnen<\/a></p>"+
-            '<p><a href="#" onclick=\"window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')\">Formular neben der Karte öffnen<\/a></p>'+
-            "<p><a href=\"#\" onclick=\"window.apf.öffneTPopInNeuemTab('" + tpop.TPopId + "')\">Formular in neuem Fenster öffnen<\/a></p>"+
+            '<p><a href="#" onclick="window.apf.öffneTPop("' + tpop.TPopId + '")">Formular anstelle Karte öffnen<\/a></p>'+
+            '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')">Formular neben der Karte öffnen<\/a></p>'+
+            '<p><a href="#" onclick="window.apf.öffneTPopInNeuemTab("' + tpop.TPopId + '")">Formular in neuem Fenster öffnen<\/a></p>'+
             '</div>'+
             '</div>';
         makeListener(map, marker, contentString);
