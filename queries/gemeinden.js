@@ -12,9 +12,11 @@ var mysql = require('mysql'),
     });
 
 var gemeinden = function (request, callback) {
+    console.log('get gemeinden');
     connection.query(
         'SELECT GmdName FROM DomainGemeinden ORDER BY GmdName',
         function (err, data) {
+            console.log('GOT gemeinden');
             callback(err, data);
         }
     );

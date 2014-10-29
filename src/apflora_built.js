@@ -22926,6 +22926,8 @@ $.extend({
 
 
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/*jslint node: true, browser: true, nomen: true*/
+
 // benötigte globale Variablen initialisieren
 window.apf = window.apf || {};
 window.apf.gmap = window.apf.gmap || {};
@@ -22951,48 +22953,31 @@ window.apf.setzeWindowAp = function (id) {
     });
 };
 
-window.apf.hole_artliste_html = function () {
+// wird benutzt von Formular ap, pop und TPopMassn
+// setzt vollständige Artlisten in Select-Felder
+window.apf.erstelle_artlisten = function (callback) {
     'use strict';
-    var liste_geholt = $.Deferred();
-    // wird benutzt von function window.apf.erstelle_artlisten und window.apf.initiiere_tpopmassn
-    // baut eine vollständige Artliste auf
-    if (!window.apf.artliste_html) {
+    var $AaSisfNr = $("#AaSisfNr");
+
+    // nur machen, wenn noch nicht passiert - sonst werden die html dauernd ersetzt
+    if (!$AaSisfNr.html()) {
         $.ajax({
             type: 'get',
             url: 'api/v1/artliste',
             dataType: 'json'
         }).done(function (data) {
             var html;
-            html = "<option></option>";
+            html = '<option></option>';
             _.each(data, function (art) {
                 html += '<option value="' + art.TaxonomieId + '">' + art.Artname + '</option>';
             });
-            window.apf.artliste_html = html;
-            liste_geholt.resolve();
+            $AaSisfNr.html(html);
+            $("#TPopMassnAnsiedWirtspfl").html(html);
+            if (callback) { callback(); }
         });
     } else {
-        liste_geholt.resolve();
+        if (callback) { callback(); }
     }
-    return liste_geholt.promise();
-};
-
-// wird benutzt von Formular ap, pop und TPopMassn
-// setzt vollständige Artlisten în Select-Felder
-window.apf.erstelle_artlisten = function () {
-    'use strict';
-    var liste_erstellt = $.Deferred();
-    // nur machen, wenn noch nicht passiert - sonst werden die html dauernd ersetzt
-    if (!window.apf.artliste_html) {
-        $.when(window.apf.hole_artliste_html())
-        .then(function () {
-            $("#AaSisfNr").html(window.apf.artliste_html);
-            $("#TPopMassnAnsiedWirtspfl").html(window.apf.artliste_html);
-            liste_erstellt.resolve();
-        });
-    } else {
-        liste_erstellt.resolve();
-    }
-    return liste_erstellt.promise();
 };
 
 // setzt window.apf.pop und localStorage.pop_id
@@ -23198,8 +23183,11 @@ window.apf.downloadFileFromView = function (view, filename, format) {
     // löst einen Download aus
     // als Formate steht momentan nur csv (und teilweise kml) zur Verfügung, weil xlsx leider nicht funktioniert hat
     var getTimestamp = require('./modules/getTimestamp'),
-        format = format || 'csv',
-        url = 'api/v1/exportView/' + format + '/view=' + view + '/filename=' + filename + '_' + getTimestamp();
+        url;
+
+    format = format || 'csv';
+    url = 'api/v1/exportView/' + format + '/view=' + view + '/filename=' + filename + '_' + getTimestamp();
+
     $.fileDownload(url, {
         preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
         failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
@@ -23210,8 +23198,11 @@ window.apf.downloadFileFromViewWehreIdIn = function (view, idName, idListe, file
     // löst einen Download aus
     // als Formate steht momentan nur csv zur Verfügung, weil xlsx leider nicht funktioniert hat
     var getTimestamp = require('./modules/getTimestamp'),
-        format = format || 'csv',
-        url = 'api/v1/exportViewWhereIdIn/' + format + '/view=' + view + '/idName=' + idName + '/idListe=' + idListe + '/filename=' + filename + '_' + getTimestamp();
+        url;
+
+    format = format || 'csv';
+    url = 'api/v1/exportViewWhereIdIn/' + format + '/view=' + view + '/idName=' + idName + '/idListe=' + idListe + '/filename=' + filename + '_' + getTimestamp();
+
     $.fileDownload(url, {
         preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
         failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
@@ -23537,20 +23528,34 @@ window.apf.fitTextareaToContent = function (id, maxHeight) {
 
 window.apf.erstelle_ap_liste = function (programm) {
     'use strict';
-    var apliste_erstellt = $.Deferred();
-    $.ajax({
-        type: 'get',
-        url: 'api/v1/apliste/programm=' + programm,
-        dataType: 'json'
-    }).done(function (data) {
-        var html;
-        html = "<option></option>";
-        _.each(data, function (ap) {
-            html += '<option value="' + ap.id + '">' + ap.ap_name + '</option>';
-        });
-        $("#ap_waehlen").html(html);
+    var apliste_erstellt = $.Deferred(),
+        $ap_waehlen = $("#ap_waehlen");
+    
+    // sicherstellen, dass ein Programm übergeben wurde
+    if (!programm) {
+        console.log('erstelle_ap_liste: Kein Programm übergeben');
         apliste_erstellt.resolve();
-    });
+        return apliste_erstellt.promise();
+    }
+
+    // nur machen, wenn $ap_waehlen.html() leer ist
+    if (!$ap_waehlen.html()) {
+        $.ajax({
+            type: 'get',
+            url: 'api/v1/apliste/programm=' + programm,
+            dataType: 'json'
+        }).done(function (data) {
+            var html;
+            html = "<option></option>";
+            _.each(data, function (ap) {
+                html += '<option value="' + ap.id + '">' + ap.ap_name + '</option>';
+            });
+            $ap_waehlen.html(html);
+            apliste_erstellt.resolve();
+        });
+    } else {
+        apliste_erstellt.resolve();
+    }
     return apliste_erstellt.promise();
 };
 
@@ -26813,6 +26818,7 @@ window.apf.olmap.onFeatureUnselect = function (feature) {
 };
 
 window.apf.gmap.zeigeBeobUndTPop = function (beob_liste, tpop_liste) {
+    /*global Google*/
     'use strict';
     var anz_beob,
         anz_tpop,
@@ -27002,6 +27008,7 @@ window.apf.gmap.zeigeBeobUndTPop = function (beob_liste, tpop_liste) {
     }
 
     function makeListenerMarkerBeobDragend(markerBeob, Beob) {
+        /*global Google*/
         var ddInChY = require('./lib/ddInChY'),
             ddInChX = require('./lib/ddInChX');
         google.maps.event.addListener(markerBeob, "dragend", function (event) {
@@ -27075,6 +27082,7 @@ window.apf.gmap.zeigeBeobUndTPop = function (beob_liste, tpop_liste) {
 };
 
 window.apf.gmap.zeigeBeob = function (beob_liste) {
+    /*global Google*/
     'use strict';
     var anz_beob,
         infowindow,
@@ -27213,6 +27221,7 @@ window.apf.gmap.zeigeBeob = function (beob_liste) {
 };
 
 window.apf.gmap.zeigeTPopBeob = function (tpop_beob_liste) {
+    /*global Google*/
     'use strict';
     var anz_tpop_beob,
         infowindow,
@@ -27347,6 +27356,7 @@ window.apf.gmap.zeigeTPopBeob = function (tpop_beob_liste) {
 };
 
 window.apf.gmap.verorteTPop = function (tpop) {
+    /*global Google*/
     'use strict';
     var infowindow = new google.maps.InfoWindow(),
         lat,
@@ -27444,6 +27454,7 @@ window.apf.gmap.verorteTPop = function (tpop) {
 };
 
 window.apf.gmap.erstelleMarker = function (location, map, marker, tpop) {
+    /*global Google*/
     'use strict';
     var title;
 
@@ -27471,6 +27482,7 @@ window.apf.gmap.erstelleMarker = function (location, map, marker, tpop) {
 };
 
 window.apf.gmap.SetLocationTPop = function (LatLng, map, marker, TPop) {
+    /*global Google*/
     'use strict';
     var lat,
         lng,
@@ -27640,6 +27652,7 @@ function radiansToDegrees(rad) {
 }
 
 function MercatorProjection() {
+    /*global Google*/
     var MERCATOR_RANGE = 256;
     this.pixelOrigin_ = new google.maps.Point(
         MERCATOR_RANGE / 2, MERCATOR_RANGE / 2);
@@ -27648,6 +27661,7 @@ function MercatorProjection() {
 }
 
 MercatorProjection.prototype.fromLatLngToPoint = function (latLng, opt_point) {
+    /*global Google*/
     var me = this,
         point = opt_point || new google.maps.Point(0, 0),
         origin = me.pixelOrigin_;
@@ -27660,6 +27674,7 @@ MercatorProjection.prototype.fromLatLngToPoint = function (latLng, opt_point) {
 };
 
 MercatorProjection.prototype.fromDivPixelToLatLng = function (pixel, zoom) {
+    /*global Google*/
     var me = this,
         origin = me.pixelOrigin_,
         scale = Math.pow(2, zoom),
@@ -27670,6 +27685,7 @@ MercatorProjection.prototype.fromDivPixelToLatLng = function (pixel, zoom) {
 };
 
 MercatorProjection.prototype.fromDivPixelToSphericalMercator = function (pixel, zoom) {
+    /*global Google*/
     var me = this,
         coord = me.fromDivPixelToLatLng(pixel, zoom),
         r = 6378137.0,
@@ -27679,7 +27695,8 @@ MercatorProjection.prototype.fromDivPixelToSphericalMercator = function (pixel, 
     return new google.maps.Point(x,y);
 };
 
-function loadWMS(map, baseURL, customParams){
+function loadWMS(map, baseURL, customParams) {
+    /*global Google*/
     var tileHeight = 256,
         tileWidth = 256,
         opacityLevel = 0.75,
@@ -29620,12 +29637,11 @@ window.apf.olmap.schliesseLayeroptionen = function () {
 window.apf.erstelleGemeindeliste = function () {
     'use strict';
     if (!window.apf.gemeinden) {
-        var getGemeinden = $.ajax({
+        $.ajax({
             type: 'get',
             url: 'api/v1/gemeinden',
             dataType: 'json'
-        });
-        getGemeinden.done(function (data) {
+        }).done(function (data) {
             if (data) {
                 // Gemeinden bereitstellen
                 // Feld mit Daten beliefern
@@ -29645,8 +29661,7 @@ window.apf.erstelleGemeindeliste = function () {
                     }
                 });
             }
-        });
-        getGemeinden.fail(function () {
+        }).fail(function () {
             window.apf.melde("Fehler: Die Liste der Gemeinden konnte nicht bereitgestellt werden");
         });
     }
@@ -59077,7 +59092,7 @@ return jQuery;
  * der erste Buchstabe wird mit einem Grossbuchstaben ersetzt
  */
 
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 
@@ -59092,7 +59107,7 @@ module.exports = capitalizeFirstLetter;
  * @return {number}
  */
 
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 
@@ -59125,7 +59140,7 @@ module.exports = function (y, x) {
  * @return {number}
  */
 
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 
@@ -59157,7 +59172,7 @@ module.exports = function (y, x) {
  * @return {number}
  */
 
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 
@@ -59184,7 +59199,7 @@ module.exports = function (breite, länge) {
  * @return {number}
  */
 
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 
@@ -59211,7 +59226,7 @@ module.exports = function (breite, länge) {
  * @return {number}
  */
 
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 
@@ -59224,7 +59239,7 @@ module.exports = function (Breite) {
  * @return {number}
  */
 
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 
@@ -59238,7 +59253,7 @@ module.exports = function (Breite) {
  * @return {number}
  */
 
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 
@@ -59254,7 +59269,7 @@ module.exports = function (Breite) {
  * @return {number}
  */
 
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 
@@ -59267,7 +59282,7 @@ module.exports = function (Laenge) {
  * @return {number}
  */
 
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 
@@ -59281,7 +59296,7 @@ module.exports = function (Laenge) {
  * @return {number}
  */
 
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 
@@ -59297,7 +59312,7 @@ module.exports = function (Laenge) {
  * Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
  */
 
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 
@@ -59325,7 +59340,7 @@ module.exports = function ($) {
  * @return {number}
  */
 
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 
@@ -59359,7 +59374,7 @@ module.exports = function (breiteGrad, breiteMin, breiteSec, längeGrad, längeM
  * @return {number}
  */
 
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 
@@ -59392,7 +59407,7 @@ module.exports = function (breiteGrad, breiteMin, breiteSec, längeGrad, längeM
  * Hier werden zentral alle Konfigurationsparameter gesammelt
  */
 
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 
@@ -59599,7 +59614,7 @@ module.exports = config;
  * diser wird das generierte html übergeben
  */
 
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 
@@ -59639,7 +59654,7 @@ module.exports = returnFunction;
  * diser wird das generierte html übergeben
  */
 
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 
@@ -59680,7 +59695,7 @@ module.exports = returnFunction;
  * diser wird das generierte html übergeben
  */
 
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 
@@ -59721,7 +59736,7 @@ module.exports = returnFunction;
  * diser wird das generierte html übergeben
  */
 
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 var $ = require('jquery'),
@@ -59752,7 +59767,7 @@ var returnFunction = function (callback) {
 
 module.exports = returnFunction;
 },{"jquery":6,"underscore":7}],27:[function(require,module,exports){
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 
@@ -59774,7 +59789,7 @@ module.exports = returnFunction;
  * diser wird das generierte html übergeben
  */
 
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 var $ = require('jquery'),
@@ -59805,7 +59820,7 @@ var returnFunction = function (callback) {
 
 module.exports = returnFunction;
 },{"jquery":6,"underscore":7}],29:[function(require,module,exports){
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 var $               = require('jquery'),
@@ -59875,7 +59890,7 @@ var returnFunction = function (apId) {
 
 module.exports = returnFunction;
 },{"./getAdressenHtml":23,"./initiiereIndex":37,"jquery":6,"underscore":7}],30:[function(require,module,exports){
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 var $              = require('jquery'),
@@ -59946,7 +59961,7 @@ var returnFunction = function (apId, apZielId) {
 
 module.exports = returnFunction;
 },{"./initiiereAp":29,"./initiiereIndex":37,"jquery":6}],31:[function(require,module,exports){
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 var $              = require('jquery'),
@@ -60020,7 +60035,7 @@ var returnFunction = function (apId, assozId) {
 
 module.exports = returnFunction;
 },{"./initiiereAp":29,"./initiiereIndex":37,"jquery":6}],32:[function(require,module,exports){
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 var $                     = require('jquery'),
@@ -60189,7 +60204,7 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
 
 module.exports = initiiereBeob;
 },{"../lib/capitaliseFirstLetter":8,"./initiiereAp":29,"jquery":6,"underscore":7}],33:[function(require,module,exports){
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 
@@ -60287,7 +60302,7 @@ var initiiereBer = function (apId, berId) {
 
 module.exports = initiiereBer;
 },{"../lib/limiter":19,"./initiiereAp":29,"./initiiereIndex":37,"jquery":6}],34:[function(require,module,exports){
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 var $              = require('jquery'),
@@ -60367,7 +60382,7 @@ var returnFunction = function (apId, erfkritId) {
 
 module.exports = returnFunction;
 },{"../lib/limiter":19,"./initiiereAp":29,"./initiiereIndex":37,"jquery":6}],35:[function(require,module,exports){
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 /**
@@ -60417,7 +60432,7 @@ var returnFunction = function (strukturtyp) {
 
 module.exports = returnFunction;
 },{"./configuration":22,"./initiiereAp":29,"./initiiereApziel":30,"./initiiereAssozart":31,"./initiiereBer":33,"./initiiereErfkrit":34,"./initiiereIdealbiotop":36,"./initiiereJber":38,"./initiiereJberUebersicht":39,"./initiierePop":40,"./initiierePopBer":41,"./initiierePopMassnBer":42,"./initiiereTPop":43,"./initiiereTPopBer":44,"./initiiereTPopFeldkontr":45,"./initiiereTPopMassn":46,"./initiiereTPopMassnBer":47,"./initiiereZielber":48}],36:[function(require,module,exports){
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 var $                            = require('jquery'),
@@ -60514,7 +60529,7 @@ var initiiereIdealbiotop = function (apId) {
 
 module.exports = initiiereIdealbiotop;
 },{"./initiiereAp":29,"./initiiereIndex":37,"./pruefeSchreibvoraussetzungen":50,"dateformat":4,"jquery":6}],37:[function(require,module,exports){
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 var $ = require('jquery');
@@ -60600,7 +60615,7 @@ var returnFunction = function () {
 
 module.exports = returnFunction;
 },{"jquery":6,"jquery-ui":5}],38:[function(require,module,exports){
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 var $               = require('jquery'),
@@ -60702,7 +60717,7 @@ var returnFunction = function (apId, apBerId) {
 
 module.exports = returnFunction;
 },{"../lib/limiter":19,"./getAdressenHtml":23,"./initiiereAp":29,"./initiiereIndex":37,"dateformat":4,"jquery":6}],39:[function(require,module,exports){
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 var $              = require('jquery'),
@@ -60777,7 +60792,7 @@ var returnFunction = function (apId, uebId) {
 
 module.exports = returnFunction;
 },{"./initiiereAp":29,"./initiiereIndex":37,"jquery":6}],40:[function(require,module,exports){
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 var $              = require('jquery'),
@@ -60873,7 +60888,7 @@ var returnFunction = function (apId, popId, ohne_zu_zeigen) {
 
 module.exports = returnFunction;
 },{"../lib/limiter":19,"./initiiereAp":29,"./initiiereIndex":37,"jquery":6}],41:[function(require,module,exports){
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 var $               = require('jquery'),
@@ -60956,7 +60971,7 @@ var returnFunction = function (apId, popId, popberId) {
 
 module.exports = returnFunction;
 },{"./initiiereAp":29,"./initiiereIndex":37,"./initiierePop":40,"jquery":6}],42:[function(require,module,exports){
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 var $               = require('jquery'),
@@ -61041,7 +61056,7 @@ var returnFunction = function (apId, popId, massnberId) {
 
 module.exports = returnFunction;
 },{"./initiiereAp":29,"./initiiereIndex":37,"./initiierePop":40,"jquery":6}],43:[function(require,module,exports){
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 var $               = require('jquery'),
@@ -61182,7 +61197,7 @@ var returnFunction = function (apId, popId, tpopId, ohne_zu_zeigen) {
 
 module.exports = returnFunction;
 },{"../lib/limiter":19,"./getAdressenHtml":23,"./initiiereAp":29,"./initiiereIndex":37,"./initiierePop":40,"jquery":6,"underscore":7}],44:[function(require,module,exports){
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 var $              = require('jquery'),
@@ -61266,7 +61281,7 @@ module.exports = returnFunction;
 // Feldkontrollen: Felder der Freiwilligenkontrollen ausblenden
 // Freiwilligenkontrollen: Felder der Feldkontrollen ausblenen plus Register Biotop
 
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 var $                            = require('jquery'),
@@ -61548,7 +61563,7 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
 
 module.exports = returnFunction;
 },{"../lib/limiter":19,"./getAdressenHtml":23,"./getIdealbiotopUebereinstHtml":24,"./getLrDelarzeHtml":25,"./getZaehleinheitenHtml":28,"./initiiereAp":29,"./initiiereIndex":37,"./initiierePop":40,"./initiiereTPop":43,"dateformat":4,"jquery":6,"jquery-ui":5,"underscore":7}],46:[function(require,module,exports){
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 var $               = require('jquery'),
@@ -61663,8 +61678,7 @@ var returnFunction = function (apId, popId, tpopId, massnId) {
             // wenn die Anwendung direkt auf einer TPopMassn geöffnet wird, ist die Liste noch nicht bereit
             // darum hier nochmals holen
             // TODO: kann das optimiert werden? (nicht auf Artlisten warten)
-            $.when(window.apf.erstelle_artlisten())
-            .then(function () {
+            window.apf.erstelle_artlisten(function () {
                 $("#TPopMassnAnsiedWirtspfl").val(data.TPopMassnAnsiedWirtspfl);
                 $("#TPopMassnAnsiedHerkunftPop")
                     .val(data.TPopMassnAnsiedHerkunftPop)
@@ -61689,7 +61703,7 @@ var returnFunction = function (apId, popId, tpopId, massnId) {
 
 module.exports = returnFunction;
 },{"../lib/limiter":19,"./getAdressenHtml":23,"./getMassntypHtml":26,"./initiiereAp":29,"./initiiereIndex":37,"./initiierePop":40,"./initiiereTPop":43,"dateformat":4,"jquery":6,"underscore":7}],47:[function(require,module,exports){
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 var $              = require('jquery'),
@@ -61769,7 +61783,7 @@ var returnFunction = function (apId, popId, tpopId, massnBerId) {
 
 module.exports = returnFunction;
 },{"./initiiereAp":29,"./initiiereIndex":37,"./initiierePop":40,"./initiiereTPop":43,"jquery":6}],48:[function(require,module,exports){
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 var $               = require('jquery'),
@@ -61858,7 +61872,7 @@ var returnFunction = function (apId, apZielId, zielberId) {
 
 module.exports = returnFunction;
 },{"./initiiereAp":29,"./initiiereApziel":30,"./initiiereIndex":37,"jquery":6}],49:[function(require,module,exports){
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 var $ = require('jquery');
@@ -61884,7 +61898,7 @@ module.exports = function () {
     return true;
 };
 },{"jquery":6,"jquery-ui":5}],50:[function(require,module,exports){
-/*jslint node: true, browser: true */
+/*jslint node: true, browser: true, nomen: true */
 'use strict';
 
 var $                         = require('jquery'),
