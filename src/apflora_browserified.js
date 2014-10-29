@@ -599,7 +599,7 @@ window.apf.fitTextareaToContent = function (id, maxHeight) {
    }
 };
 
-window.apf.erstelle_ap_liste = function (programm, callback) {
+window.apf.erstelleApliste = function (programm, callback) {
     'use strict';
     var $ap_waehlen = $("#ap_waehlen");
     
@@ -630,12 +630,12 @@ window.apf.erstelle_ap_liste = function (programm, callback) {
     }
 };
 
-window.apf.wähleApListe = function (programm) {
+window.apf.wähleApListe = function (programm, callback) {
     'use strict';
-    var apliste_gewählt = $.Deferred(),
-        $ap_waehlen_label = $("#ap_waehlen_label"),
+    var $ap_waehlen_label = $("#ap_waehlen_label"),
         $ap_waehlen = $("#ap_waehlen"),
         initiiereAp = require('./modules/initiiereAp');
+
     $ap_waehlen_label.html("Daten werden aufbereitet...");
     $ap_waehlen.html("");
     $("#ap").hide();
@@ -648,7 +648,7 @@ window.apf.wähleApListe = function (programm) {
     $("#exportieren_1").show();
     $ap_waehlen.val("");
     initiiereAp();
-    window.apf.erstelle_ap_liste(programm, function () {
+    window.apf.erstelleApliste(programm, function (callback) {
         var $programm_wahl_checked = $("[name='programm_wahl']:checked");
         if ($programm_wahl_checked.attr("id") === "programm_neu") {
             $ap_waehlen_label.html("Art für neues Förderprogramm wählen:");
@@ -658,9 +658,8 @@ window.apf.wähleApListe = function (programm) {
             $ap_waehlen_label.html("Artförderprogramm wählen:");
         }
         $ap_waehlen_label.show();
-        apliste_gewählt.resolve();
+        if (callback) { callback(); }
     });
-    return apliste_gewählt.promise();
 };
 
 // diese Funktion kann nicht modularisiert werden, weil jstree nicht für node entwickelt wurde!!!!
@@ -6741,24 +6740,26 @@ window.apf.wähleAp = function (ap_id) {
     'use strict';
     var initiiereAp = require('./modules/initiiereAp');
     if (ap_id) {
+
+        console.log('wähleAp: AP gewählt = ', ap_id);
+
         // einen AP gewählt
         $("#ap_waehlen_label").hide();
         localStorage.ap_id = ap_id;
         if ($("[name='programm_wahl']:checked").attr("id") === "programm_neu") {
             // zuerst einen neuen Datensatz anlegen
-            var insertAp = $.ajax({
+            $.ajax({
                 type: 'post',
-                url: 'api/v1/apInsert/ap=' + localStorage.ap_id + '/user=' + sessionStorage.User,
+                url: 'api/v1/apInsert/apId=' + localStorage.ap_id + '/user=' + sessionStorage.User,
                 dataType: 'json'
-            });
-            insertAp.done(function () {
+            }).done(function () {
                 // nachdem ein neues Programm erstellt wurde, soll nicht mehr "neu" zur Wahl stehen, sondern "alle"
                 $("#programm_neu").attr("checked", false);
                 $("#programm_alle").attr("checked", true);
                 $("#programm_wahl").buttonset();
                 // Auswahlliste für Programme updaten
-                $.when(window.apf.wähleApListe("programm_alle"))
-                .then(function () {
+                window.apf.wähleApListe("programm_alle", function () {
+                    console.log('wähleApListe aufgerufen in wähleAp');
                     // Strukturbaum updaten
                     $.when(window.apf.erstelle_tree(localStorage.ap_id))
                     .then(function () {
@@ -6770,8 +6771,7 @@ window.apf.wähleAp = function (ap_id) {
                         initiiereAp();
                     });
                 });
-            });
-            insertAp.fail(function () {
+            }).fail(function () {
                 window.apf.melde("Fehler: Keine Daten für Programme erhalten");
             });
         } else {
@@ -6780,6 +6780,7 @@ window.apf.wähleAp = function (ap_id) {
             initiiereAp();
         }
     } else {
+        console.log('wähleAp: kein AP gewählt');
         // leeren Wert gewählt
         $("#ap_waehlen_label").html("Artförderprogramm wählen:").show();
         $("#tree").hide();
@@ -7257,7 +7258,7 @@ window.apf.löscheAp = function (ap_id) {
         $("#programm_alle").attr("checked", true).trigger('change');
         $("#programm_wahl").buttonset();
         //$("#programm_wahl").buttonset('refresh');
-        window.apf.erstelle_ap_liste("programm_alle");
+        window.apf.erstelleApliste("programm_alle");
         $('#ap_waehlen').val('');
         $("#ap_waehlen_label").html("Artförderprogramm wählen:").show();
         $("#tree").hide();
@@ -37667,6 +37668,7 @@ var returnFunction = function () {
 
     // Variablen setzen für Formular Feldkontrollen, hier damit nur ein mal
     window.apf.feldliste_feldkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrTyp', 'TPopKontrJungpfl', 'TPopKontrVitalitaet', 'TPopKontrUeberleb', 'TPopKontrEntwicklung', 'TPopKontrUrsach', 'TPopKontrUrteil', 'TPopKontrAendUms', 'TPopKontrAendKontr', 'TPopKontrGuid', 'TPopKontrFlaeche', 'TPopKontrVegTyp', 'TPopKontrKonkurrenz', 'TPopKontrMoosschicht', 'TPopKontrKrautschicht', 'TPopKontrStrauchschicht', 'TPopKontrBaumschicht', 'TPopKontrBodenTyp', 'TPopKontrBodenKalkgehalt', 'TPopKontrBodenDurchlaessigkeit', 'TPopKontrBodenHumus', 'TPopKontrBodenNaehrstoffgehalt', 'TPopKontrBodenAbtrag', 'TPopKontrWasserhaushalt', 'TPopKontrHandlungsbedarf', 'TPopKontrIdealBiotopUebereinst', 'TPopKontrLeb', 'TPopKontrLebUmg'];
+
     window.apf.feldliste_freiwkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrPlan', 'TPopKontrUebFlaeche', 'TPopKontrUebPfl', 'TPopKontrNaBo', 'TPopKontrJungPflJN', 'TPopKontrVegHoeMax', 'TPopKontrVegHoeMit', 'TPopKontrGefaehrdung', 'TPopKontrGuid'];
 
     // Auswahllisten aufbauen
@@ -37674,11 +37676,11 @@ var returnFunction = function () {
     window.apf.erstelleArtlisten();
 
     // HIER WIRD IN FIREFOX EINE ENDLOSSCHLAUFE AUSGELÖST
-    $.when(window.apf.wähleApListe("programm_alle"))
-        .then(function () {
-            // falls eine Unteradresse angewählt wurde, diese öffnen
-            window.apf.öffneUri();
-        });
+    window.apf.wähleApListe('programm_alle', function () {
+        console.log('wähleApListe aufgerufen in initiiereIndex');
+        // falls eine Unteradresse angewählt wurde, diese öffnen
+        window.apf.öffneUri();
+    });
 };
 
 module.exports = returnFunction;
