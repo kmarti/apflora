@@ -397,7 +397,7 @@
                             </td>
                             <td class="Datenfelder">
                                 <Input id="TPopGemeinde" name="TPopGemeinde" class="speichern" formular="tpop" type="text" maxlength="255">
-                                    <div id="TPopGemeinde_limit" class="limiter"></div>
+                                <div id="TPopGemeinde_limit" class="limiter"></div>
                             </td>
                         </tr>
                         <tr class="fieldcontain">
@@ -1267,7 +1267,7 @@
                                 <label id="TPopMassnAnsiedWirtspfl_label" for='TPopMassnAnsiedWirtspfl'>Wirtspflanze:</label>
                             </td>
                             <td class="Datenfelder">
-                                <select id="TPopMassnAnsiedWirtspfl" name="TPopMassnAnsiedWirtspfl" class="speichern" formular="tpopmassn"></select>
+                                <input type="text" id="TPopMassnAnsiedWirtspfl" name="TPopMassnAnsiedWirtspfl" class="speichern" formular="tpopmassn">
                             </td>
                         </tr>
                         <tr class='fieldcontain TPopMassnAnsiedHerkunftPop'>
@@ -1746,10 +1746,11 @@
                     <table>
                         <tr class='fieldcontain AaSisfNr'>
                             <td class="label">
-                                <label id="AaSisfNr_label" for='AaSisfNr'>Art:</label>
+                                <label id="AaSisfNrText_label" for='AaSisfNrText'>Art:</label>
                             </td>
                             <td class="Datenfelder">
-                                <select id="AaSisfNr" name="AaSisfNr" class="speichern" formular="assozarten"></select>
+                                <input type="text" id="AaSisfNrText">
+                                <input type="hidden" id="AaSisfNr" name="AaSisfNr" class="speichern" formular="assozarten">
                             </td>
                         </tr>
                         <tr class='fieldcontain AaBem'>

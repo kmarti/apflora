@@ -60,6 +60,7 @@ var returnFunction = function (apId, popId, tpopId, massnId) {
         url: 'api/v1/apflora/tabelle=tblTeilPopMassnahme/feld=TPopMassnId/wertNumber=' + massnId,
         dataType: 'json'
     }).done(function (data) {
+        var tPopMassnAnsiedWirtspflTxt;
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
@@ -109,27 +110,21 @@ var returnFunction = function (apId, popId, tpopId, massnId) {
             $("#TPopMassnAnsiedAnzTriebe").val(data.TPopMassnAnsiedAnzTriebe);
             $("#TPopMassnAnsiedAnzPfl").val(data.TPopMassnAnsiedAnzPfl);
             $("#TPopMassnAnzPflanzstellen").val(data.TPopMassnAnzPflanzstellen);
-            // für TPopMassnAnsiedWirtspfl wurde die Artliste schon bereitgestellt
-            // wenn die Anwendung direkt auf einer TPopMassn geöffnet wird, ist die Liste noch nicht bereit
-            // darum hier nochmals holen
-            // TODO: kann das optimiert werden? (nicht auf Artlisten warten)
-            window.apf.erstelleArtlisten(function () {
-                $("#TPopMassnAnsiedWirtspfl").val(data.TPopMassnAnsiedWirtspfl);
-                $("#TPopMassnAnsiedHerkunftPop")
-                    .val(data.TPopMassnAnsiedHerkunftPop)
-                    .limiter(255, $("#TPopMassnAnsiedHerkunftPop_limit"));
-                $("#TPopMassnAnsiedDatSamm")
-                    .val(data.TPopMassnAnsiedDatSamm)
-                    .limiter(50, $("#TPopMassnAnsiedDatSamm_limit"));
-                $("#TPopMassnGuid").val(data.TPopMassnGuid);
+            $("#TPopMassnAnsiedWirtspfl").val(data.TPopMassnAnsiedWirtspfl);
+            $("#TPopMassnAnsiedHerkunftPop")
+                .val(data.TPopMassnAnsiedHerkunftPop)
+                .limiter(255, $("#TPopMassnAnsiedHerkunftPop_limit"));
+            $("#TPopMassnAnsiedDatSamm")
+                .val(data.TPopMassnAnsiedDatSamm)
+                .limiter(50, $("#TPopMassnAnsiedDatSamm_limit"));
+            $("#TPopMassnGuid").val(data.TPopMassnGuid);
 
-                // Formulare blenden
-                window.apf.zeigeFormular("tpopmassn");
-                history.pushState(null, null, "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopmassn=" + massnId);
+            // Formulare blenden
+            window.apf.zeigeFormular("tpopmassn");
+            history.pushState(null, null, "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopmassn=" + massnId);
 
-                // bei neuen Datensätzen Fokus steuern
-                $('#TPopMassnJahr').focus();
-            });
+            // bei neuen Datensätzen Fokus steuern
+            $('#TPopMassnJahr').focus();
         }
     }).fail(function () {
         window.apf.melde('Fehler: keine Daten für die Massnahme erhalten');

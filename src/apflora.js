@@ -29,30 +29,44 @@ window.apf.setzeWindowAp = function (id) {
 // setzt vollständige Artlisten in Select-Felder
 window.apf.erstelleArtlisten = function (callback) {
     'use strict';
-    var $AaSisfNr = $("#AaSisfNr");
+    var $AaSisfNr = $('#AaSisfNr'),
+        $AaSisfNrText = $("#AaSisfNrText"),
+        $TPopMassnAnsiedWirtspfl = $('#TPopMassnAnsiedWirtspfl');
+
+    console.log('erstelleArtlisten');
 
     // nur machen, wenn noch nicht passiert - sonst werden die html dauernd ersetzt
-    if (!$AaSisfNr.html()) {
+    if (!window.apf.artliste) {
         $.ajax({
             type: 'get',
             url: 'api/v1/artliste',
             dataType: 'json'
         }).done(function (data) {
-            var html;
-            html = '<option></option>';
-            /*_.each(data, function (art) {
-                html += '<option value="' + art.id + '">' + art.name + '</option>';
-            });*/
-            html += _.map(data, function (art) {
-                return '<option value="' + art.id + '">' + art.name + '</option>';
-            }).join();
+            // data ist Objekt-Array
+            // Felder: id, label
+            // globale Variable setzen, damit initiiereAssozart sie verwenden kann
+            window.apf.artliste = data;
 
+            $AaSisfNrText.autocomplete({
+                minLength: 2,
+                source: window.apf.artliste,
+                select: function (event, ui) {
+                    $AaSisfNrText.val(ui.item.label);
+                    $AaSisfNr.val(ui.item.id);
+                    $AaSisfNr.trigger('change');
+                    return false;
+                }
+            });
 
-            // TODO: DAS IST EXTREM LANGSAM
-            // FELDER IRGENDWIE ANDERS UMSETZEN - OHNE, DASS HTML EINGEFÜGT WERDEN MUSS
-            //$AaSisfNr.html(html);
-            //$("#TPopMassnAnsiedWirtspfl").html(html);
-
+            $TPopMassnAnsiedWirtspfl.autocomplete({
+                minLength: 2,
+                source: window.apf.artliste,
+                select: function (event, ui) {
+                    $TPopMassnAnsiedWirtspfl.val(ui.item.label);
+                    $TPopMassnAnsiedWirtspfl.trigger('change');
+                    return false;
+                }
+            });
 
             if (callback) {
                 callback();

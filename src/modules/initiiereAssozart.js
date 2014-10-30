@@ -34,7 +34,8 @@ var returnFunction = function (apId, assozId) {
         assozId = localStorage.assozarten_id;
     }
 
-    var $AaSisfNr = $("#AaSisfNr");
+    var $AaSisfNrText = $("#AaSisfNrText"),
+        AaSisfNrText;
 
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("assozarten");
@@ -53,7 +54,17 @@ var returnFunction = function (apId, assozId) {
             window.apf.assozarten = data;
 
             // Felder mit Daten beliefern
-            $AaSisfNr.val(data.AaSisfNr);
+            // autocomplete, d.h. ein Feld für den Text und eines für die nummer
+            if (data.AaSisfNr) {
+                $("#AaSisfNr").val(data.AaSisfNr);
+                AaSisfNrText = _.find(window.apf.artliste, function (art) {
+                    return art.id === data.AaSisfNr;
+                });
+                // falls die erfasste Nummer in der Artliste nicht (mehr) enthalten ist!
+                if (AaSisfNrText) {
+                    $AaSisfNrText.val(AaSisfNrText.label);
+                }
+            }
             $("#AaBem").val(data.AaBem);
 
             // Formulare blenden
@@ -61,8 +72,8 @@ var returnFunction = function (apId, assozId) {
             history.pushState(null, null, "index.html?ap=" + apId + "&assozarten=" + assozId);
 
             // bei neuen Datensätzen Fokus steuern
-            if (!$AaSisfNr.val()) {
-                $AaSisfNr.focus();
+            if (!$AaSisfNrText.val()) {
+                $AaSisfNrText.focus();
             }
         }
     }).fail(function () {

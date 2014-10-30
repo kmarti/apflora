@@ -12,8 +12,9 @@ var mysql      = require('mysql'),
     });
 
 var artliste = function (request, callback) {
+    // Artname muss 'label' heissen, sonst funktioniert jquery ui autocomplete nicht
     connection.query(
-        "SELECT TaxonomieId AS id, IF(Status NOT LIKE 'akzeptierter Name', CONCAT(Artname, ' (', Status, ')'), Artname) AS name FROM alexande_beob.ArtenDb_Arteigenschaften ORDER BY Artname",
+        "SELECT TaxonomieId AS id, IF(Status NOT LIKE 'akzeptierter Name', CONCAT(Artname, ' (', Status, ')'), Artname) AS label FROM alexande_beob.ArtenDb_Arteigenschaften ORDER BY Artname",
         function (err, data) {
             callback(err, data);
         }
