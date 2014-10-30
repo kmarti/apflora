@@ -4986,7 +4986,6 @@ window.apf.öffneUri = function () {
         initiiereTPopMassnBer   = require('./modules/initiiereTPopMassnBer'),
         initiiereTPopBer        = require('./modules/initiiereTPopBer');
 
-    console.log('öffneUri');
     if (ap_id) {
         console.log('öffneUri, ap_id: ', ap_id);
         // globale Variablen setzen

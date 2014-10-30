@@ -16,7 +16,7 @@ var returnFunction = function (apId, popId, tpopId, ohne_zu_zeigen) {
         initiiereIndex();
         return;
     }
-    if (!popId && !localStorage.pop_id) {
+    if (!popId && !localStorage.pop_id && !window.apf.pop && !window.apf.pop.PopId) {
         // es fehlen benötigte Daten > zwei Ebenen höher
         initiiereAp(apId);
         return;
@@ -28,14 +28,36 @@ var returnFunction = function (apId, popId, tpopId, ohne_zu_zeigen) {
     }
 
     // apId setzen
-    if (!localStorage.ap_id)     localStorage.ap_id = apId;
-    if (!apId)                                 apId = localStorage.ap_id;
+    if (!localStorage.ap_id) {
+        localStorage.ap_id = apId;
+    }
+    if (!apId) {
+        apId = localStorage.ap_id;
+    }
+
     // popId setzen
-    if (!localStorage.pop_id)   localStorage.pop_id = popId;
-    if (!popId)                               popId = localStorage.pop_id;
+    if (!localStorage.pop_id) {
+        if (!window.apf.pop || !window.apf.pop.PopId) {
+            localStorage.pop_id = popId;
+        } else {
+            localStorage.pop_id = window.apf.pop.PopId;
+        }
+    }
+    if (!popId) {
+        if (!window.apf.pop || !window.apf.pop.PopId) {
+            popId = localStorage.pop_id;
+        } else {
+            popId = window.apf.pop.PopId;
+        }
+    }
+
     // tpopId setzen
-    if (!localStorage.tpop_id) localStorage.tpop_id = tpopId;
-    if (!tpopId)                             tpopId = localStorage.tpop_id;
+    if (!localStorage.tpop_id) {
+        localStorage.tpop_id = tpopId;
+    }
+    if (!tpopId) {
+        tpopId = localStorage.tpop_id;
+    }
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     limiter($);

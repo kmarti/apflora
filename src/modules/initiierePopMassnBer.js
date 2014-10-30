@@ -13,7 +13,7 @@ var returnFunction = function (apId, popId, massnberId) {
         initiiereIndex();
         return;
     }
-    if (!popId && !localStorage.pop_id) {
+    if (!popId && !localStorage.pop_id && !window.apf.pop && !window.apf.pop.PopId) {
         // es fehlen benötigte Daten > zwei Ebenen höher
         initiiereAp(apId);
         return;
@@ -34,10 +34,18 @@ var returnFunction = function (apId, popId, massnberId) {
 
     // popId setzen
     if (!localStorage.pop_id) {
-        localStorage.pop_id = popId;
+        if (!window.apf.pop || !window.apf.pop.PopId) {
+            localStorage.pop_id = popId;
+        } else {
+            localStorage.pop_id = window.apf.pop.PopId;
+        }
     }
     if (!popId) {
-        popId = localStorage.pop_id;
+        if (!window.apf.pop || !window.apf.pop.PopId) {
+            popId = localStorage.pop_id;
+        } else {
+            popId = window.apf.pop.PopId;
+        }
     }
 
     // massnberId setzen
