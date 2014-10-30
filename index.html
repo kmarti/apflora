@@ -21,9 +21,8 @@
             <fieldset id="menu">
                 <div class='fieldcontain'>
                     <label id="ap_waehlen_label" for='ap_waehlen' class='select' style="color:#6F6F66;">Artförderprogramm wählen:</label>
-                    <select id="ap_waehlen" style="width:100%; font-size:17px;">
-                        <option></option>
-                    </select>
+                    <input type="text" id="ap_waehlen_text" style="width:100%; font-size:17px;">
+                    <input type="text" id="ap_waehlen">
                 </div>
                 <div class='fieldcontain' style="margin-top:3px; margin-bottom:3px;">
                     <label for="programm_wahl" style="color:#6F6F66; margin-right:5px; overflow:hidden;">Programme:</label>
@@ -2546,7 +2545,7 @@
                                 });
                         } else {
                             $("#Meldung")
-                                .html("Wollen Sie das Artförderprogramm für '" + $("#ap_waehlen option[value='" + $ap_waehlen.val() + "']").text() + "' wirklich löschen?")
+                                .html("Wollen Sie das Artförderprogramm für '" + $('#ap_waehlen_text').val() + "' wirklich löschen?")
                                 .dialog({
                                     modal: true,
                                     width: 500,
@@ -2563,7 +2562,6 @@
                         }
                     })
                     .on("change", "#ap_waehlen", function() {
-                        console.log('this.value = ', this.value);
                         var value = this.value || localStorage.ap_id;
                         window.apf.wähleAp(value);
                     });

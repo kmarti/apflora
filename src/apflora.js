@@ -628,8 +628,10 @@ window.apf.fitTextareaToContent = function (id, maxHeight) {
 
 window.apf.erstelleApliste = function (programm, callback) {
     'use strict';
-    var $ap_waehlen = $("#ap_waehlen");
-    
+    window.apf.apliste = window.apf.apliste || {};
+
+    console.log('erstelleApliste für programm: ', programm);
+
     // sicherstellen, dass ein Programm übergeben wurde
     if (!programm) {
         console.log('erstelle_ap_liste: Kein Programm übergeben');
@@ -637,24 +639,44 @@ window.apf.erstelleApliste = function (programm, callback) {
         return apliste_erstellt.promise();
     }
 
-    // nur machen, wenn $ap_waehlen.html() leer ist
-    if (!$ap_waehlen.html()) {
+    // nur machen, wenn window.apf.apliste noch nicht existiert
+    if (!window.apf.apliste[programm]) {
         $.ajax({
             type: 'get',
             url: 'api/v1/apliste/programm=' + programm,
             dataType: 'json'
         }).done(function (data) {
-            var html;
-            html = '<option></option>';
-            html += _.map(data, function (ap) {
-                return '<option value="' + ap.id + '">' + ap.ap_name + '</option>';
-            }).join();
-            $ap_waehlen.html(html);
+            // die Daten werden später benötigt > globale Variable erstellen
+            window.apf.apliste[programm] = data;
+            window.apf.setzeAutocompleteFuerApliste(programm);
             if (callback) { callback(); }
         });
     } else {
+        window.apf.setzeAutocompleteFuerApliste(programm);
         if (callback) { callback(); }
     }
+};
+
+window.apf.setzeAutocompleteFuerApliste = function (programm) {
+    var $ap_waehlen_text = $("#ap_waehlen_text"),
+        minLength = 0;
+
+    if (programm === "programm_neu") {
+        minLength = 2;
+    }
+
+    $ap_waehlen_text.autocomplete({
+        minLength: minLength,
+        source: window.apf.apliste[programm],
+        select: function (event, ui) {
+            console.log('ap_waehlen_text selected');
+            $ap_waehlen_text.val(ui.item.label);
+            $("#ap_waehlen")
+                .val(ui.item.id)
+                .trigger('change');
+            return false;
+        }
+    });
 };
 
 window.apf.wähleApListe = function (programm) {
@@ -664,7 +686,8 @@ window.apf.wähleApListe = function (programm) {
         initiiereAp = require('./modules/initiiereAp');
 
     $ap_waehlen_label.html("Daten werden aufbereitet...");
-    $ap_waehlen.html("");
+    $ap_waehlen.val("");
+    $('#ap_waehlen_text').val("");
     $("#ap").hide();
     $("#forms").hide();
     $('#tree').hide();
@@ -673,7 +696,6 @@ window.apf.wähleApListe = function (programm) {
     $("#hilfe").hide();
     $("#ap_loeschen").hide();
     $("#exportieren_1").show();
-    $ap_waehlen.val("");
 
     // TODO: Das gibt Abstürze!!!
     //initiiereAp();
@@ -4972,6 +4994,7 @@ window.apf.öffneUri = function () {
     var uri = new Uri($(location).attr('href')),
         anchor = uri.anchor() || null,
         ap_id = uri.getQueryParamValue('ap'),
+        ap_waehlen_text,
         initiiereIdealbiotop   = require('./modules/initiiereIdealbiotop'),
         initiiereAp             = require('./modules/initiiereAp'),
         initiierePop            = require('./modules/initiiereBeob'),
@@ -4993,6 +5016,13 @@ window.apf.öffneUri = function () {
         window.apf.setzeWindowAp(ap_id);
         // Dem Feld im Formular den Wert zuweisen
         $("#ap_waehlen").val(ap_id);
+        // gewählte Art in Auswahlliste anzeigen
+        ap_waehlen_text = _.find(window.apf.apliste.programm_alle, function (art) {
+            return art.id === ap_id;
+        });
+        if (ap_waehlen_text) {
+            $("#ap_waehlen_text").val(ap_waehlen_text);
+        }
         if (uri.getQueryParamValue('tpop')) {
             // globale Variablen setzen
             window.apf.setzeWindowPop(uri.getQueryParamValue('pop'));
@@ -6772,15 +6802,17 @@ window.apf.erstelleGemeindeliste = function () {
 
 window.apf.wähleAp = function (ap_id) {
     'use strict';
-    var initiiereAp = require('./modules/initiiereAp');
+    var initiiereAp = require('./modules/initiiereAp'),
+        programm;
     if (ap_id) {
+        programm = $("[name='programm_wahl']:checked").attr("id");
 
         console.log('wähleAp: AP gewählt = ', ap_id);
 
         // einen AP gewählt
         $("#ap_waehlen_label").hide();
         localStorage.ap_id = ap_id;
-        if ($("[name='programm_wahl']:checked").attr("id") === "programm_neu") {
+        if (programm === "programm_neu") {
             // zuerst einen neuen Datensatz anlegen
             $.ajax({
                 type: 'post',
@@ -6799,8 +6831,13 @@ window.apf.wähleAp = function (ap_id) {
                     $.when(window.apf.erstelle_tree(ap_id))
                     .then(function () {
                         // gewählte Art in Auswahlliste anzeigen
-                        $('#ap_waehlen').val(ap_id);
-                        $('#ap_waehlen option[value =' + ap_id + ']').attr('selected', true);
+                        var ap_waehlen_text = _.find(window.apf.apliste.programm_alle, function (art) {
+                            return art.id === ap_id;
+                        });
+                        if (ap_waehlen_text) {
+                            $('#ap_waehlen').val(ap_id);
+                            $('#ap_waehlen_text').val(ap_waehlen_text);
+                        }
                         $("#ApArtId").val(ap_id);
                         // gewählte Art in Formular anzeigen
                         initiiereAp(ap_id);
@@ -7279,7 +7316,7 @@ window.apf.löscheAp = function (ap_id) {
     window.apf.deleted = window.apf;
     window.apf.deleted.typ = "ap";
     //Artname in Textform merken
-    window.apf.deleted.Artname = $("#ap_waehlen option[value='" + $("#ap_waehlen").val() + "']").text();
+    window.apf.deleted.Artname = $("#ap_waehlen_text").val();
     $.ajax({
         type: 'delete',
         url: 'api/v1/apflora/tabelle=tblAktionsplan/tabelleIdFeld=ApArtId/tabelleId=' + ap_id,
@@ -7295,6 +7332,7 @@ window.apf.löscheAp = function (ap_id) {
         //$("#programm_wahl").buttonset('refresh');
         window.apf.erstelleApliste("programm_alle");
         $('#ap_waehlen').val('');
+        $('#ap_waehlen_text').val('');
         $("#ap_waehlen_label").html("Artförderprogramm wählen:").show();
         $("#tree").hide();
         $("#suchen").hide();
