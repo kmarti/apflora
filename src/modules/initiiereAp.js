@@ -2,7 +2,6 @@
 'use strict';
 
 var $               = require('jquery'),
-    _               = require('underscore'),
     initiiereIndex  = require('./initiiereIndex'),
     getAdressenHtml = require('./getAdressenHtml');
 

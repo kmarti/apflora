@@ -29,11 +29,7 @@ window.apf.setzeWindowAp = function (id) {
 // setzt vollständige Artlisten in Select-Felder
 window.apf.erstelleArtlisten = function (callback) {
     'use strict';
-    var $AaSisfNr = $('#AaSisfNr'),
-        $AaSisfNrText = $("#AaSisfNrText"),
-        $TPopMassnAnsiedWirtspfl = $('#TPopMassnAnsiedWirtspfl');
-
-    console.log('erstelleArtlisten');
+    var $AaSisfNr = $('#AaSisfNr');
 
     // nur machen, wenn noch nicht passiert - sonst werden die html dauernd ersetzt
     if (!window.apf.artliste) {
@@ -47,23 +43,32 @@ window.apf.erstelleArtlisten = function (callback) {
             // globale Variable setzen, damit initiiereAssozart sie verwenden kann
             window.apf.artliste = data;
 
-            $AaSisfNrText.autocomplete({
-                minLength: 2,
+            $("#AaSisfNrText").autocomplete({
+                minLength: 0,
                 source: window.apf.artliste,
                 select: function (event, ui) {
-                    $AaSisfNrText.val(ui.item.label);
-                    $AaSisfNr.val(ui.item.id);
-                    $AaSisfNr.trigger('change');
+                    $(this).val(ui.item.label);
+                    $AaSisfNr
+                        .val(ui.item.id)
+                        .trigger('change');
                     return false;
+                },
+                change: function (event, ui) {
+                    if (!ui.item) {
+                        // kein zulässiger Eintrag > Feld leeren
+                        $(this).val('');
+                        $AaSisfNr.val('');
+                    }
                 }
             });
 
-            $TPopMassnAnsiedWirtspfl.autocomplete({
-                minLength: 2,
+            $('#TPopMassnAnsiedWirtspfl').autocomplete({
+                minLength: 0,
                 source: window.apf.artliste,
                 select: function (event, ui) {
-                    $TPopMassnAnsiedWirtspfl.val(ui.item.label);
-                    $TPopMassnAnsiedWirtspfl.trigger('change');
+                    $(this)
+                        .val(ui.item.label)
+                        .trigger('change');
                     return false;
                 }
             });
@@ -630,8 +635,6 @@ window.apf.erstelleApliste = function (programm, callback) {
     'use strict';
     window.apf.apliste = window.apf.apliste || {};
 
-    console.log('erstelleApliste für programm: ', programm);
-
     // sicherstellen, dass ein Programm übergeben wurde
     if (!programm) {
         console.log('erstelle_ap_liste: Kein Programm übergeben');
@@ -658,36 +661,36 @@ window.apf.erstelleApliste = function (programm, callback) {
 };
 
 window.apf.setzeAutocompleteFuerApliste = function (programm) {
-    var $ap_waehlen_text = $("#ap_waehlen_text"),
-        minLength = 0;
-
-    if (programm === "programm_neu") {
-        minLength = 2;
-    }
-
-    $ap_waehlen_text.autocomplete({
-        minLength: minLength,
+    $("#ap_waehlen_text").autocomplete({
+        minLength: 0,
         source: window.apf.apliste[programm],
         select: function (event, ui) {
-            console.log('ap_waehlen_text selected');
-            $ap_waehlen_text.val(ui.item.label);
+            $(this).val(ui.item.label);
             $("#ap_waehlen")
                 .val(ui.item.id)
                 .trigger('change');
             return false;
+        },
+        change: function (event, ui) {
+            if (!ui.item) {
+                // kein zulässiger Eintrag > Feld leeren
+                console.log('kein zulässiger Eintrag');
+                $(this).val('');
+                $("#ap_waehlen").val('');
+            }
         }
     });
 };
 
 window.apf.wähleApListe = function (programm) {
     'use strict';
-    var $ap_waehlen_label = $("#ap_waehlen_label"),
-        $ap_waehlen = $("#ap_waehlen"),
+    var $ap_waehlen = $("#ap_waehlen"),
+        $ap_waehlen_text = $("#ap_waehlen_text"),
         initiiereAp = require('./modules/initiiereAp');
 
-    $ap_waehlen_label.html("Daten werden aufbereitet...");
-    $ap_waehlen.val("");
-    $('#ap_waehlen_text').val("");
+    $ap_waehlen_text.attr('placeholder', 'Daten werden aufbereitet...');
+    $ap_waehlen.val('');
+    $ap_waehlen_text.val('');
     $("#ap").hide();
     $("#forms").hide();
     $('#tree').hide();
@@ -697,19 +700,23 @@ window.apf.wähleApListe = function (programm) {
     $("#ap_loeschen").hide();
     $("#exportieren_1").show();
 
-    // TODO: Das gibt Abstürze!!!
-    //initiiereAp();
+    initiiereAp();
 
     window.apf.erstelleApliste(programm, function () {
-        var $programm_wahl_checked = $("[name='programm_wahl']:checked");
+        var $programm_wahl_checked = $("[name='programm_wahl']:checked"),
+            hinweisText;
+
         if ($programm_wahl_checked.attr("id") === "programm_neu") {
-            $ap_waehlen_label.html("Art für neues Förderprogramm wählen:");
+            hinweisText = 'Art für neues Förderprogramm wählen';
         } else if ($programm_wahl_checked.attr("id") === "programm_ap") {
-            $ap_waehlen_label.html("Aktionsplan wählen:");
+            hinweisText = 'Aktionsplan wählen';
         } else {
-            $ap_waehlen_label.html("Artförderprogramm wählen:");
+            hinweisText = 'Artförderprogramm wählen';
         }
-        $ap_waehlen_label.show();
+
+        $ap_waehlen_text
+            .attr('placeholder', hinweisText)
+            .focus();
     });
 };
 
@@ -1251,7 +1258,9 @@ window.apf.erstelle_tree = function (ApArtId) {
         var node_typ = node.attr("typ");
         // in der ID des Nodes enthaltene Texte müssen entfernt werden
         var node_id = window.apf.erstelleIdAusDomAttributId(node.attr("id"));
+        // node öffnen
         $.jstree._reference(node).open_node(node);
+        // richtiges Formular initiieren
         if (node_typ.slice(0, 3) === "ap_" || node_typ === "apzieljahr") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
             if (!$("#ap").is(':visible') || localStorage.ap_id !== node_id) {
@@ -2596,7 +2605,7 @@ window.apf.speichern = function (that) {
             case "AaSisfNr":
                 var aabeschriftung;
                 if (feldwert) {
-                    aabeschriftung = $("#AaSisfNr option[value='" + feldwert + "']").text();
+                    aabeschriftung = $("#AaSisfNrText").val();
                 } else {
                     aabeschriftung = "(kein Artname)";
                 }
@@ -4991,14 +5000,33 @@ function handler(event) {
 
 window.apf.öffneUri = function () {
     'use strict';
-    var uri = new Uri($(location).attr('href')),
-        anchor = uri.anchor() || null,
-        ap_id = uri.getQueryParamValue('ap'),
+    var uri                     = new Uri($(location).attr('href')),
+        anchor                  = uri.anchor() || null,
+        apId                    = uri.getQueryParamValue('ap'),
+        popId                   = uri.getQueryParamValue('pop'),
+        tpopId                  = uri.getQueryParamValue('tpop'),
+        tpopfeldkontrId         = uri.getQueryParamValue('tpopfeldkontr'),
+        tpopfreiwkontrId        = uri.getQueryParamValue('tpopfreiwkontr'),
+        tpopmassnId             = uri.getQueryParamValue('tpopmassn'),
+        tpopberId               = uri.getQueryParamValue('tpopber'),
+        tpopmassnberId          = uri.getQueryParamValue('tpopmassnber'),
+        popberId                = uri.getQueryParamValue('popber'),
+        popmassnberId           = uri.getQueryParamValue('popmassnber'),
+        apzielId                = uri.getQueryParamValue('apziel'),
+        zielberId               = uri.getQueryParamValue('zielber'),
+        erfkritId               = uri.getQueryParamValue('erfkrit'),
+        jberId                  = uri.getQueryParamValue('jber'),
+        jber_uebersichtId       = uri.getQueryParamValue('jber_uebersicht'),
+        berId                   = uri.getQueryParamValue('ber'),
+        idealbiotopId           = uri.getQueryParamValue('idealbiotop'),
+        assozartenId            = uri.getQueryParamValue('assozarten'),
+        exporte                 = uri.getQueryParamValue('exporte'),
         ap_waehlen_text,
-        initiiereIdealbiotop   = require('./modules/initiiereIdealbiotop'),
+        initiiereIdealbiotop    = require('./modules/initiiereIdealbiotop'),
         initiiereAp             = require('./modules/initiiereAp'),
         initiierePop            = require('./modules/initiiereBeob'),
         initiiereApziel         = require('./modules/initiiereApziel'),
+        initiiereErfkrit        = require('./modules/initiiereErfkrit'),
         initiiereZielber        = require('./modules/initiiereZielber'),
         initiiereJber           = require('./modules/initiiereJber'),
         initiiereJberUebersicht = require('./modules/initiiereJberUebersicht'),
@@ -5010,63 +5038,64 @@ window.apf.öffneUri = function () {
         initiiereTPopMassnBer   = require('./modules/initiiereTPopMassnBer'),
         initiiereTPopBer        = require('./modules/initiiereTPopBer');
 
-    if (ap_id) {
-        console.log('öffneUri, ap_id: ', ap_id);
-        // globale Variablen setzen
-        window.apf.setzeWindowAp(ap_id);
+    // zuerst die globalen Variabeln setzen
+    if (apId)              window.apf.setzeWindowAp(apId);
+    if (popId)             window.apf.setzeWindowPop(popId);
+    if (tpopId)            window.apf.setzeWindowTpop(tpopId);
+    if (tpopfeldkontrId)   window.apf.setzeWindowTpopfeldkontr(tpopfeldkontrId);
+    if (tpopfreiwkontrId)  window.apf.setzeWindowTpopfeldkontr(tpopfreiwkontrId);
+    if (tpopmassnId)       window.apf.setzeWindowTpopmassn(tpopmassnId);
+    if (tpopberId)         window.apf.setzeWindowTpopber(tpopberId);
+    if (tpopmassnberId)    window.apf.setzeWindowTpopmassnber(tpopmassnberId);
+    if (popberId)          window.apf.setzeWindowPopber(popberId);
+    if (popmassnberId)     window.apf.setzeWindowPopmassnber(popmassnberId);
+    if (apzielId)          window.apf.setzeWindowApziel(apzielId);
+    if (zielberId)         window.apf.setzeWindowZielber(zielberId);
+    if (erfkritId)         window.apf.setzeWindowErfkrit(erfkritId);
+    if (jberId)            window.apf.setzeWindowJber(jberId);
+    if (jber_uebersichtId) window.apf.setzeWindowJberUebersicht(jber_uebersichtId);
+    if (berId)             window.apf.setzeWindowBer(berId);
+    if (idealbiotopId)     window.apf.setzeWindowIdealbiotop(idealbiotopId);
+    if (assozartenId)      window.apf.setzeWindowAssozarten(assozartenId);
+
+    if (apId) {
         // Dem Feld im Formular den Wert zuweisen
-        $("#ap_waehlen").val(ap_id);
+        $("#ap_waehlen").val(apId);
         // gewählte Art in Auswahlliste anzeigen
         ap_waehlen_text = _.find(window.apf.apliste.programm_alle, function (art) {
-            return art.id === ap_id;
+            return art.id === apId;
         });
         if (ap_waehlen_text) {
             $("#ap_waehlen_text").val(ap_waehlen_text);
         }
-        if (uri.getQueryParamValue('tpop')) {
-            // globale Variablen setzen
-            window.apf.setzeWindowPop(uri.getQueryParamValue('pop'));
-            window.apf.setzeWindowTpop(uri.getQueryParamValue('tpop'));
-            var tpopfeldkontr_id = uri.getQueryParamValue('tpopfeldkontr');
-            if (tpopfeldkontr_id) {
-                // globale Variablen setzen
-                window.apf.setzeWindowTpopfeldkontr(tpopfeldkontr_id);
-                // markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
+        if (tpopId) {
+            if (tpopfeldkontrId) {
+                // markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll
                 // Die Markierung wird im load-Event wieder entfernt
                 window.apf.tpopfeldkontr_zeigen = true;
-                // direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-                initiiereTPopFeldkontr();
-            } else if (uri.getQueryParamValue('tpopfreiwkontr')) {
-                // globale Variablen setzen
-                window.apf.setzeWindowTpopfeldkontr(uri.getQueryParamValue('tpopfreiwkontr'));
-                // markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
-                // Die Markierung wird im load-Event wieder entfernt
+                // direkt initiieren, bevor der baum fertig aufgebaut ist
+                initiiereTPopFeldkontr(apId, popId, tpopId, tpopfeldkontrId, 'feldKontr');
+            } else if (tpopfreiwkontrId) {
+                // markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll
                 window.apf.tpopfreiwkontr_zeigen = true;
-                // direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+                // direkt initiieren, bevor der baum fertig aufgebaut ist
                 localStorage.tpopfreiwkontr = true;
-                initiiereTPopFeldkontr();
-            } else if (uri.getQueryParamValue('tpopmassn')) {
+                initiiereTPopFeldkontr(apId, popId, tpopId, tpopfeldkontrId, 'freiwKontr');
+            } else if (tpopmassnId) {
                 var initiiereTPopMassn = require('./modules/initiiereTPopMassn');
-                // globale Variablen setzen
-                window.apf.setzeWindowTpopmassn(uri.getQueryParamValue('tpopmassn'));
-                // markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll 
-                // Die Markierung wird im load-Event wieder entfernt
+                // markieren, dass nach dem loaded-event im Tree die TPopkontr angezeigt werden soll
                 window.apf.tpopmassn_zeigen = true;
-                // direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-                initiiereTPopMassn();
-            } else if (uri.getQueryParamValue('tpopber')) {
-                // globale Variablen setzen
-                window.apf.setzeWindowTpopber(uri.getQueryParamValue('tpopber'));
-                // markieren, dass nach dem loaded-event im Tree die tpopber angezeigt werden soll 
-                // Die Markierung wird im load-Event wieder entfernt
+                // direkt initiieren, bevor der baum fertig aufgebaut ist
+                initiiereTPopMassn(apId, popId, tpopId, tpopmassnId);
+            } else if (tpopberId) {
+                // markieren, dass nach dem loaded-event im Tree die tpopber angezeigt werden soll
                 window.apf.tpopber_zeigen = true;
-                // direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-                initiiereTPopBer();
+                // direkt initiieren, bevor der baum fertig aufgebaut ist
+                initiiereTPopBer(apId, popId, tpopId, tpopberId);
             } else if (uri.getQueryParamValue('beob_zugeordnet')) {
-                // markieren, dass nach dem loaded-event im Tree die beob_zugeordnet angezeigt werden soll 
-                // Die Markierung wird im load-Event wieder entfernt
+                // markieren, dass nach dem loaded-event im Tree die beob_zugeordnet angezeigt werden soll
                 window.apf.beob_zugeordnet_zeigen = true;
-                // direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
+                // direkt initiieren, bevor der baum fertig aufgebaut ist
                 /*ausgeschaltet - funktioniert nicht! vermutlich, weil tree.php und beob_distzutpop sich in quere kommen
                 // herausfinden, ob beobtyp infospezies oder evab ist
                 localStorage.beob_id = uri.getQueryParamValue('beob_zugeordnet');
@@ -5078,138 +5107,94 @@ window.apf.öffneUri = function () {
                     localStorage.beobtyp = "infospezies";
                     window.apf.initiiere_beob("infospezies", localStorage.beob_id, "zugeordnet");
                 }*/
-            } else if (uri.getQueryParamValue('tpopmassnber')) {
-                // globale Variablen setzen
-                window.apf.setzeWindowTpopmassnber(uri.getQueryParamValue('tpopmassnber'));
-                // markieren, dass nach dem loaded-event im Tree die tpopmassnber angezeigt werden soll 
-                // Die Markierung wird im load-Event wieder entfernt
+            } else if (tpopmassnberId) {
+                // markieren, dass nach dem loaded-event im Tree die tpopmassnber angezeigt werden soll
                 window.apf.tpopmassnber_zeigen = true;
-                // direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-                initiiereTPopMassnBer();
+                // direkt initiieren, bevor der baum fertig aufgebaut ist
+                initiiereTPopMassnBer(apId, popId, tpopmassnberId);
             } else {
                 // muss tpop sein
-                // markieren, dass nach dem loaded-event im Tree die TPop angezeigt werden soll 
-                // Die Markierung wird im load-Event wieder entfernt
+                // markieren, dass nach dem loaded-event im Tree die TPop angezeigt werden soll
                 window.apf.tpop_zeigen = true;
-                // direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-                initiiereTPop();
+                // direkt initiieren, bevor der baum fertig aufgebaut ist
+                initiiereTPop(apId, popId, tpopId);
             }
-        } else if (uri.getQueryParamValue('pop')) {
-            // globale Variablen setzen
-            window.apf.setzeWindowPop(uri.getQueryParamValue('pop'));
-            if (uri.getQueryParamValue('popber')) {
-                // globale Variablen setzen
-                window.apf.setzeWindowPopber(uri.getQueryParamValue('popber'));
-                // markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
-                // Die Markierung wird im load-Event wieder entfernt
+        } else if (popId) {
+            if (popberId) {
+                // markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll
                 window.apf.popber_zeigen = true;
-                // direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-                initiierePopBer();
-            } else if (uri.getQueryParamValue('popmassnber')) {
-                // globale Variablen setzen
-                window.apf.setzeWindowPopmassnber(uri.getQueryParamValue('popmassnber'));
-                // markieren, dass nach dem loaded-event im Tree die popmassnber angezeigt werden soll 
-                // Die Markierung wird im load-Event wieder entfernt
+                // direkt initiieren, bevor der baum fertig aufgebaut ist
+                initiierePopBer(apId, popId, popberId);
+            } else if (popmassnberId) {
+                // markieren, dass nach dem loaded-event im Tree die popmassnber angezeigt werden soll
                 window.apf.popmassnber_zeigen = true;
-                // direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-                initiierePopMassnBer();
+                // direkt initiieren, bevor der baum fertig aufgebaut ist
+                initiierePopMassnBer(apId, popId, popmassnberId);
             } else {
                 // muss pop sein
-                // markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
-                // Die Markierung wird im load-Event wieder entfernt
+                // markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll
                 window.apf.pop_zeigen = true;
-                // direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-                localStorage.pop_id = uri.getQueryParamValue('pop');
-                initiierePop();
+                // direkt initiieren, bevor der baum fertig aufgebaut ist
+                initiierePop(apId, popId);
             }
-        } else if (uri.getQueryParamValue('apziel')) {
-            // globale Variablen setzen
-            window.apf.setzeWindowApziel(uri.getQueryParamValue('apziel'));
-            if (uri.getQueryParamValue('zielber')) {
-                // globale Variablen setzen
-                window.apf.setzeWindowZielber(uri.getQueryParamValue('zielber'));
-                // markieren, dass nach dem loaded-event im Tree die zielber angezeigt werden soll 
-                // Die Markierung wird im load-Event wieder entfernt
+        } else if (apzielId) {
+            if (zielberId) {
+                // markieren, dass nach dem loaded-event im Tree die zielber angezeigt werden soll
                 window.apf.zielber_zeigen = true;
-                // direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-                initiiereZielber();
+                // direkt initiieren, bevor der baum fertig aufgebaut ist
+                initiiereZielber(apId, apzielId, zielberId);
             } else {
                 // muss ein apziel sein
-                // markieren, dass nach dem loaded-event im Tree die apziel angezeigt werden soll 
-                // Die Markierung wird im load-Event wieder entfernt
+                // markieren, dass nach dem loaded-event im Tree die apziel angezeigt werden soll
                 window.apf.apziel_zeigen = true;
-                // direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-                localStorage.apziel_id = uri.getQueryParamValue('apziel');
-                initiiereApziel();
+                // direkt initiieren, bevor der baum fertig aufgebaut ist
+                initiiereApziel(apId, apzielId);
             }
-        } else if (uri.getQueryParamValue('erfkrit')) {
-            // globale Variablen setzen
-            window.apf.setzeWindowErfkrit(uri.getQueryParamValue('erfkrit'));
+        } else if (erfkritId) {
             // markieren, dass nach dem loaded-event im Tree die erfkrit angezeigt werden soll 
-            // Die Markierung wird im load-Event wieder entfernt
             window.apf.erfkrit_zeigen = true;
-        } else if (uri.getQueryParamValue('jber')) {
-            // globale Variablen setzen
-            window.apf.setzeWindowJber(uri.getQueryParamValue('jber'));
+            // direkt laden
+            initiiereErfkrit(apId, erfkritId);
+        } else if (jberId) {
             // markieren, dass nach dem loaded-event im Tree die jber angezeigt werden soll 
-            // Die Markierung wird im load-Event wieder entfernt
             window.apf.jber_zeigen = true;
-            // direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-            initiiereJber();
-        } else if (uri.getQueryParamValue('jber_uebersicht')) {
-            // globale Variablen setzen
-            window.apf.setzeWindowJberUebersicht(uri.getQueryParamValue('jber_uebersicht'));
+            // direkt initiieren, bevor der baum fertig aufgebaut ist
+            initiiereJber(apId, jberId);
+        } else if (jber_uebersichtId) {
             // markieren, dass nach dem loaded-event im Tree die jber_uebersicht angezeigt werden soll 
-            // Die Markierung wird im load-Event wieder entfernt
             window.apf.jber_übersicht_zeigen = true;
-            // direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-            initiiereJberUebersicht();
-        } else if (uri.getQueryParamValue('ber')) {
-            // globale Variablen setzen
-            window.apf.setzeWindowBer(uri.getQueryParamValue('ber'));
+            // direkt initiieren, bevor der baum fertig aufgebaut ist
+            initiiereJberUebersicht(apId, jber_uebersichtId);
+        } else if (berId) {
             // markieren, dass nach dem loaded-event im Tree die ber angezeigt werden soll 
-            // Die Markierung wird im load-Event wieder entfernt
             window.apf.ber_zeigen = true;
-            // direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-            initiiereBer();
-        } else if (uri.getQueryParamValue('idealbiotop')) {
-            // globale Variablen setzen
-            window.apf.setzeWindowIdealbiotop(uri.getQueryParamValue('idealbiotop'));
+            // direkt initiieren, bevor der baum fertig aufgebaut ist
+            initiiereBer(apId, berId);
+        } else if (idealbiotopId) {
             // markieren, dass nach dem loaded-event im Tree die idealbiotop angezeigt werden soll 
-            // Die Markierung wird im load-Event wieder entfernt
             window.apf.idealbiotop_zeigen = true;
-            // direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-            initiiereIdealbiotop();
-        } else if (uri.getQueryParamValue('assozarten')) {
-            // globale Variablen setzen
-            window.apf.setzeWindowAssozarten(uri.getQueryParamValue('assozarten'));
+            // direkt initiieren, bevor der baum fertig aufgebaut ist
+            initiiereIdealbiotop(apId);
+        } else if (assozartenId) {
             // markieren, dass nach dem loaded-event im Tree die assozarten angezeigt werden soll 
-            // Die Markierung wird im load-Event wieder entfernt
             window.apf.assozarten_zeigen = true;
             // NICHT direkt initiieren, weil sonst die Artliste noch nicht existiert
         } else if (uri.getQueryParamValue('beob_nicht_beurteilt')) {
             // markieren, dass nach dem loaded-event im Tree die beob angezeigt werden soll 
-            // Die Markierung wird im load-Event wieder entfernt
             window.apf.beob_nicht_beurteilt_zeigen = true;
         } else if (uri.getQueryParamValue('beob_nicht_zuzuordnen')) {
             // markieren, dass nach dem loaded-event im Tree die beob angezeigt werden soll 
-            // Die Markierung wird im load-Event wieder entfernt
             window.apf.beob_nicht_zuzuordnen_zeigen = true;
         } else {
             // muss ap sein
             // markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
-            // Die Markierung wird im load-Event wieder entfernt
             window.apf.ap_zeigen = true;
-            // direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
-            localStorage.ap_id = ap_id;
-            initiiereAp(ap_id);
-            //window.apf.wähleAp(ap_id);
+            // direkt initiieren, bevor der baum fertig aufgebaut ist
+            initiiereAp(apId);
             return true;
         }
-        window.apf.erstelle_tree(ap_id);
-        $("#ap_waehlen_label").hide();
+        window.apf.erstelle_tree(apId);
     } else {
-        var exporte = uri.getQueryParamValue('exporte');
         if (exporte) {
             window.apf.initiiereExporte(anchor);
         }
@@ -6810,7 +6795,6 @@ window.apf.wähleAp = function (ap_id) {
         console.log('wähleAp: AP gewählt = ', ap_id);
 
         // einen AP gewählt
-        $("#ap_waehlen_label").hide();
         localStorage.ap_id = ap_id;
         if (programm === "programm_neu") {
             // zuerst einen neuen Datensatz anlegen
@@ -6854,7 +6838,7 @@ window.apf.wähleAp = function (ap_id) {
     } else {
         console.log('wähleAp: kein AP gewählt');
         // leeren Wert gewählt
-        $("#ap_waehlen_label").html("Artförderprogramm wählen:").show();
+        $("#ap_waehlen_text").attr('placeholder', 'Artförderprogramm wählen');
         $("#tree").hide();
         $("#suchen").hide();
         $("#exportieren_2").hide();
@@ -7312,11 +7296,12 @@ window.apf.insertOrdnerVonTPop = function (TPopNode, tpop_id) {
 
 window.apf.löscheAp = function (ap_id) {
     'use strict';
+    var $ap_waehlen_text = $("#ap_waehlen_text")
     //Variable zum rückgängig machen erstellen
     window.apf.deleted = window.apf;
     window.apf.deleted.typ = "ap";
     //Artname in Textform merken
-    window.apf.deleted.Artname = $("#ap_waehlen_text").val();
+    window.apf.deleted.Artname = $ap_waehlen_text.val();
     $.ajax({
         type: 'delete',
         url: 'api/v1/apflora/tabelle=tblAktionsplan/tabelleIdFeld=ApArtId/tabelleId=' + ap_id,
@@ -7332,8 +7317,8 @@ window.apf.löscheAp = function (ap_id) {
         //$("#programm_wahl").buttonset('refresh');
         window.apf.erstelleApliste("programm_alle");
         $('#ap_waehlen').val('');
-        $('#ap_waehlen_text').val('');
-        $("#ap_waehlen_label").html("Artförderprogramm wählen:").show();
+        $ap_waehlen_text.val('');
+        $ap_waehlen_text.attr('placeholder', 'Artförderprogramm wählen');
         $("#tree").hide();
         $("#suchen").hide();
         $exportieren_2.hide();
