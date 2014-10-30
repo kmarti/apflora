@@ -1459,6 +1459,7 @@ p.ergebnisAuswahlListeTitelTPop {
 
 #exporte button {
     text-align: left;
+    margin: 2px 2px 2px 0;
 }
 
 .export_abschnitt_tooltip_class {

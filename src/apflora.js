@@ -400,6 +400,7 @@ window.apf.setzeWindowTpopber = function (id) {
 
 window.apf.initiiereExporte = function (anchor) {
     'use strict';
+    console.log('initiiereExporte');
     $("#testart_div").hide();
     $("#forms_titelzeile").hide();
     window.apf.zeigeFormular("exporte");
