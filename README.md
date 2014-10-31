@@ -135,7 +135,7 @@ Serverseitig wird sie mit [node.js](//nodejs.org/) gesteuert. Als Webserver dien
 - alexande_apflora_views: die Views. Sie liegen getrennt, weil der Aufbau komplexer Views eine Wiederherstellung der DB mittels sql-Dumpfile empfindlich stören kann
 - alexande_beob: benutzte Fremddaten, v.a. Beobachtungen von Info Spezies und der FNS sowie Arteigenschaften
 
-Die Benutzeroberfläche basiert auf [HTML5](//de.wikipedia.org/wiki/HTML5), [CSS](//de.wikipedia.org/wiki/Cascading_Style_Sheets), [jQuery UI](//jqueryui.com), [JavaScript](//de.wikipedia.org/wiki/JavaScript), [jQuery](//jquery.com/) und [jsTree](//www.jstree.com/). Sie baut auf einer einzigen HTML-Seite auf.
+Die Benutzeroberfläche basiert auf [HTML5](//de.wikipedia.org/wiki/HTML5), [CSS](//de.wikipedia.org/wiki/Cascading_Style_Sheets), [jQuery UI](//jqueryui.com), [jQuery](//jquery.com/) und [jsTree](//www.jstree.com/) und wird mit [JavaScript](//de.wikipedia.org/wiki/JavaScript) gesteuert. Sie baut auf einer einzigen HTML-Seite auf.
 
 Für die Karten werden [Open Layers 3](//ol3js.org/) mit [api.geo.admin.ch](http://www.geo.admin.ch/internet/geoportal/de/home/services/geoservices/display_services/api_services.html) und [GoogleMaps](https://developers.google.com/maps/documentation/javascript/reference) verwendet.
 
