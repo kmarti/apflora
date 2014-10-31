@@ -1,13 +1,12 @@
 /*jslint node: true, browser: true, nomen: true */
 'use strict';
 
-var $ = require('jquery');
+var $ = require('jquery'),
+    clearLocalStorage = require('./clearLocalStorage');
 
 require('jquery-ui');
 
 var returnFunction = function () {
-
-    console.log('initiiereIndex');
 
     // jQuery ui widgets initiieren
     $("#programm_wahl").buttonset({
@@ -44,6 +43,9 @@ var returnFunction = function () {
         disabled: true
     });
 
+    // localStorage ausräumen
+    clearLocalStorage();
+
     // Gemeindeliste erstellen (wenn nötig)
     window.apf.erstelleGemeindeliste();
 
@@ -76,13 +78,12 @@ var returnFunction = function () {
     window.apf.feldliste_freiwkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrPlan', 'TPopKontrUebFlaeche', 'TPopKontrUebPfl', 'TPopKontrNaBo', 'TPopKontrJungPflJN', 'TPopKontrVegHoeMax', 'TPopKontrVegHoeMit', 'TPopKontrGefaehrdung', 'TPopKontrGuid'];
 
     // Auswahllisten aufbauen
-    $("#ap_loeschen").hide();
+    //$("#ap_loeschen").hide();
     window.apf.erstelleArtlisten();
 
     // HIER WIRD IN FIREFOX EINE ENDLOSSCHLAUFE AUSGELÖST
     $.when(window.apf.wähleApListe('programm_alle'))
     .then(function () {
-        console.log('wähleApListe aufgerufen in initiiereIndex');
         // falls eine Unteradresse angewählt wurde, diese öffnen
         window.apf.öffneUri();
     });    

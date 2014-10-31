@@ -769,6 +769,10 @@ textarea {
 
 .ui-button-text {
     padding: .1em .5em !important;
+}
+
+/* buttons in Dialogen nicht verändern */
+#wrapper .ui-button-text {
     font-size: .8em !important;
 }
 

@@ -684,6 +684,9 @@ window.apf.setzeAutocompleteFuerApliste = function (programm) {
 
 window.apf.wähleApListe = function (programm) {
     'use strict';
+
+    console.log('wähleApListe für programm: ', programm);
+
     var $ap_waehlen = $("#ap_waehlen"),
         $ap_waehlen_text = $("#ap_waehlen_text"),
         initiiereAp = require('./modules/initiiereAp');
@@ -700,7 +703,7 @@ window.apf.wähleApListe = function (programm) {
     $("#ap_loeschen").hide();
     $("#exportieren_1").show();
 
-    initiiereAp();
+    //initiiereAp();
 
     window.apf.erstelleApliste(programm, function () {
         var $programm_wahl_checked = $("[name='programm_wahl']:checked"),
@@ -1217,6 +1220,7 @@ window.apf.erstelle_tree = function (ApArtId) {
             delete window.apf.beob_nicht_zuzuordnen_zeigen;
         }
         if (window.apf.ap_zeigen) {
+            console.log('jstree initiiert AP 2');
             initiiereAp(ApArtId);
             //localStorage.ap_id = ApArtId;
             //$('#ap_waehlen').trigger('change');
@@ -1253,6 +1257,7 @@ window.apf.erstelle_tree = function (ApArtId) {
             initiiereTPopMassn      = require('./modules/initiiereTPopMassn'),
             initiiereTPopMassnBer   = require('./modules/initiiereTPopMassnBer'),
             initiiereTPopBer        = require('./modules/initiiereTPopBer');
+
         delete localStorage.tpopfreiwkontr;    // Erinnerung an letzten Klick im Baum löschen
         node = data.rslt.obj;
         var node_typ = node.attr("typ");
@@ -1266,6 +1271,7 @@ window.apf.erstelle_tree = function (ApArtId) {
             if (!$("#ap").is(':visible') || localStorage.ap_id !== node_id) {
                 localStorage.ap_id = node_id;
                 delete localStorage.pop_id;
+                console.log('jstree initiiert AP 1');
                 initiiereAp();
             }
         } else if (node_typ === "pop" || node_typ.slice(0, 4) === "pop_") {
@@ -5190,6 +5196,7 @@ window.apf.öffneUri = function () {
             // markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
             window.apf.ap_zeigen = true;
             // direkt initiieren, bevor der baum fertig aufgebaut ist
+            console.log('jstree initiiert ap 3');
             initiiereAp(apId);
             return true;
         }
@@ -6810,7 +6817,6 @@ window.apf.wähleAp = function (ap_id) {
                 // Auswahlliste für Programme updaten
                 $.when(window.apf.wähleApListe("programm_alle"))
                 .then(function () {
-                    console.log('wähleApListe aufgerufen in wähleAp');
                     // Strukturbaum updaten
                     $.when(window.apf.erstelle_tree(ap_id))
                     .then(function () {
@@ -6824,6 +6830,7 @@ window.apf.wähleAp = function (ap_id) {
                         }
                         $("#ApArtId").val(ap_id);
                         // gewählte Art in Formular anzeigen
+                        console.log('wähleAp initiiert AP');
                         initiiereAp(ap_id);
                     });
                 });
@@ -6833,6 +6840,7 @@ window.apf.wähleAp = function (ap_id) {
         } else {
             window.apf.erstelle_tree(ap_id);
             $("#ap").show();
+            console.log('wähleAp initiiert AP');
             initiiereAp(ap_id);
         }
     } else {
@@ -6909,6 +6917,9 @@ window.apf.prüfeAnmeldung = function () {
                     .addClass("ui-state-highlight");
                 setTimeout(function () {
                     $("#anmelde_dialog").dialog("close", 2000);
+                    if (!$('#forms').is(':visible')) {
+                        $('#ap_waehlen_text').focus();
+                    }
                 }, 1000);
             } else {
                 $("#anmeldung_rueckmeldung")
