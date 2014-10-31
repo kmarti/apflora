@@ -130,18 +130,14 @@ Dazu werden die Feld- und Freiwilligenkontrollen (ausser solche von soeben anges
 #Technische Umsetzung
 Die Anwendung wird auf einem virtuellen Server mit Ubuntu 14.04 gehostet.
 
-Serverseitig wird sie mit [node.js](//nodejs.org/) gesteuert. Als Webserver dient [hapi](//hapijs.com/), als Datenbank [MySQL](//de.wikipedia.org/wiki/MySQL).
-
-Die Benutzeroberfläche basiert auf [HTML5](//de.wikipedia.org/wiki/HTML5), [CSS](//de.wikipedia.org/wiki/Cascading_Style_Sheets), [jQuery UI](//jqueryui.com), [JavaScript](//de.wikipedia.org/wiki/JavaScript), [jQuery](//jquery.com/) und [jsTree](//www.jstree.com/)).
-
-Für die Karten werden [Open Layers 3](//ol3js.org/), [api.geo.admin.ch](http://www.geo.admin.ch/internet/geoportal/de/home/services/geoservices/display_services/api_services.html) und [GoogleMaps](https://developers.google.com/maps/documentation/javascript/reference) verwendet.
-
-Die Anwendung baut auf einer einzigen HTML-Seite auf und aktualisiert die Oberfläche inkl. URL mit AJAX.
-
-Die Anwendung verwendet drei MySQL-Datenbanken:
+Serverseitig wird sie mit [node.js](//nodejs.org/) gesteuert. Als Webserver dient [hapi](//hapijs.com/), als Datenbank [MySQL](//de.wikipedia.org/wiki/MySQL) mit drei separaten Datenbanken:
 - alexande_apflora: die projekteigenen Daten. Sie sind vollständig von den übrigen Datenbanken getrennt, um Datensicherung und -wiederherstellung zu vereinfachen
 - alexande_apflora_views: die Views. Sie liegen getrennt, weil der Aufbau komplexer Views eine Wiederherstellung der DB mittels sql-Dumpfile empfindlich stören kann
 - alexande_beob: benutzte Fremddaten, v.a. Beobachtungen von Info Spezies und der FNS sowie Arteigenschaften
+
+Die Benutzeroberfläche basiert auf [HTML5](//de.wikipedia.org/wiki/HTML5), [CSS](//de.wikipedia.org/wiki/Cascading_Style_Sheets), [jQuery UI](//jqueryui.com), [JavaScript](//de.wikipedia.org/wiki/JavaScript), [jQuery](//jquery.com/) und [jsTree](//www.jstree.com/). Sie baut auf einer einzigen HTML-Seite auf.
+
+Für die Karten werden [Open Layers 3](//ol3js.org/) mit [api.geo.admin.ch](http://www.geo.admin.ch/internet/geoportal/de/home/services/geoservices/display_services/api_services.html) und [GoogleMaps](https://developers.google.com/maps/documentation/javascript/reference) verwendet.
 
 <a href="#top">&#8593; top</a>
 
