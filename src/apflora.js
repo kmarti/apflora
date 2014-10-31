@@ -6798,22 +6798,25 @@ window.apf.wähleAp = function (ap_id) {
         programm;
     if (ap_id) {
         programm = $("[name='programm_wahl']:checked").attr("id");
-
+        console.log('wähleAp: programm = ', programm);
         console.log('wähleAp: AP gewählt = ', ap_id);
 
         // einen AP gewählt
         localStorage.ap_id = ap_id;
         if (programm === "programm_neu") {
+            console.log('wähleAp: programm ist neu');
             // zuerst einen neuen Datensatz anlegen
             $.ajax({
                 type: 'post',
-                url: 'api/v1/apInsert/apId=' + localStorage.ap_id + '/user=' + sessionStorage.User,
+                url: 'api/v1/apInsert/apId=' + ap_id + '/user=' + sessionStorage.User,
                 dataType: 'json'
             }).done(function () {
                 // nachdem ein neues Programm erstellt wurde, soll nicht mehr "neu" zur Wahl stehen, sondern "alle"
                 $("#programm_neu").attr("checked", false);
                 $("#programm_alle").attr("checked", true);
                 $("#programm_wahl").buttonset();
+                // alle zwischengespeicherten aplisten löschen
+                delete window.apf.apliste;
                 // Auswahlliste für Programme updaten
                 $.when(window.apf.wähleApListe("programm_alle"))
                 .then(function () {
@@ -7322,6 +7325,8 @@ window.apf.löscheAp = function (ap_id) {
         delete localStorage.ap_id;
         delete window.apf.ap;
         delete localStorage.ap;
+        // alle zwischengespeicherten aplisten löschen
+        delete window.apf.apliste;
         $("#programm_neu").attr("checked", false).trigger('change');
         $("#programm_alle").attr("checked", true).trigger('change');
         $("#programm_wahl").buttonset();
