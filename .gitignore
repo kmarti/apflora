@@ -1,6 +1,7 @@
 /*.sublime-workspace
 /.ftppass
 node_modules/
+dist/
 .idea/
 npm-debug.log
 src/modules/dbPass.json

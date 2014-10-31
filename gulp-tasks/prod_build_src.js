@@ -1,4 +1,4 @@
-var gulp = require('gulp'),
+var gulp   = require('gulp'),
     uglify = require('gulp-uglify'),
     concat = require('gulp-concat'),
     notify = require('gulp-notify');
@@ -24,6 +24,7 @@ gulp.task('prod_build_src', function () {
         'src/backbone.js'
     ])
         .pipe(concat('apflora_built.js'))
+        .pipe(gulp.dest('./src'))
         .pipe(uglify())
         .pipe(gulp.dest('./dist/src'))
         .pipe(notify({ message: 'prod_build_src task beendet' }));

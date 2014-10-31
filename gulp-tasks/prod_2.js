@@ -16,12 +16,12 @@ return gulp.task(
     ],
     function () {
         gulp.start([
-            'dev_copy_xampp',
             'prod_copy_geojson_to_dist',
             'prod_copy_queries_to_dist',
             'prod_copy_shp_to_dist',
             'prod_copy_img_to_dist',
-            'prod_copy_kml_to_dist'
+            'prod_copy_kml_to_dist',
+            'prod_copy_root_to_dist'
         ]);
     }
 );
