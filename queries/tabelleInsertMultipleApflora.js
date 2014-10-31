@@ -33,8 +33,6 @@ var tabelleUpdate = function (request, callback) {
     // sql beginnen
     sql = 'INSERT INTO ' + tabelle + ' (' + feldnamen + ') VALUES ("' + feldwerte + '")';
 
-    console.log('sql: ', sql);
-
     connection.query(
         sql,
         function (err, data) {

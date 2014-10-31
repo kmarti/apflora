@@ -45,6 +45,7 @@ window.apf.erstelleArtlisten = function (callback) {
 
             $("#AaSisfNrText").autocomplete({
                 minLength: 0,
+                delay: 500,
                 source: window.apf.artliste,
                 select: function (event, ui) {
                     $(this).val(ui.item.label);
@@ -64,6 +65,7 @@ window.apf.erstelleArtlisten = function (callback) {
 
             $('#TPopMassnAnsiedWirtspfl').autocomplete({
                 minLength: 0,
+                delay: 500,
                 source: window.apf.artliste,
                 select: function (event, ui) {
                     $(this)
@@ -405,7 +407,6 @@ window.apf.setzeWindowTpopber = function (id) {
 
 window.apf.initiiereExporte = function (anchor) {
     'use strict';
-    console.log('initiiereExporte');
     $("#testart_div").hide();
     $("#forms_titelzeile").hide();
     window.apf.zeigeFormular("exporte");
@@ -445,8 +446,6 @@ window.apf.zeigeFormular = function (Formularname) {
     $forms.height('auto');
     $testart_div.hide();
     $forms_titelzeile.hide();
-    // Titelzeile anzeigen, weil sie für die Kartenanzeige entfernt wird
-    //$("#forms_titelzeile").css("display", "inline-block");
     // Bei Testarten Hinweis anzeigen
     if ($ap_waehlen.val()) {
         // titelzeile inline, sonst gibt es einen unschönen Abstand nach oben
@@ -637,7 +636,6 @@ window.apf.erstelleApliste = function (programm, callback) {
 
     // sicherstellen, dass ein Programm übergeben wurde
     if (!programm) {
-        console.log('erstelle_ap_liste: Kein Programm übergeben');
         apliste_erstellt.resolve();
         return apliste_erstellt.promise();
     }
@@ -663,6 +661,7 @@ window.apf.erstelleApliste = function (programm, callback) {
 window.apf.setzeAutocompleteFuerApliste = function (programm) {
     $("#ap_waehlen_text").autocomplete({
         minLength: 0,
+        delay: 500,
         source: window.apf.apliste[programm],
         select: function (event, ui) {
             $(this).val(ui.item.label);
@@ -672,11 +671,25 @@ window.apf.setzeAutocompleteFuerApliste = function (programm) {
             return false;
         },
         change: function (event, ui) {
-            if (!ui.item) {
-                // kein zulässiger Eintrag > Feld leeren
+            // sicherstellen, dass nur Werte aus der Liste gewählt werden können
+            var textPasstZuId = true,
+                id = $("#ap_waehlen").val(),
+                text;
+
+            if (id) {
+                text = _.find(window.apf.apliste.programm_alle, function (art) {
+                    return art.id == id;
+                });
+                if (text && text.label) {
+                    if (text.label !== $(this).val()) {
+                        textPasstZuId = false;
+                    }
+                }
+            }
+            if (!textPasstZuId) {
+                // kein zulässiger Eintrag > Feld wiederherstellen
                 console.log('kein zulässiger Eintrag');
-                $(this).val('');
-                $("#ap_waehlen").val('');
+                $(this).val(text.label);
             }
         }
     });
@@ -685,11 +698,10 @@ window.apf.setzeAutocompleteFuerApliste = function (programm) {
 window.apf.wähleApListe = function (programm) {
     'use strict';
 
-    console.log('wähleApListe für programm: ', programm);
-
     var $ap_waehlen = $("#ap_waehlen"),
         $ap_waehlen_text = $("#ap_waehlen_text"),
-        initiiereAp = require('./modules/initiiereAp');
+        initiiereAp = require('./modules/initiiereAp'),
+        aplisteErstellt = $.Deferred();
 
     $ap_waehlen_text.attr('placeholder', 'Daten werden aufbereitet...');
     $ap_waehlen.val('');
@@ -720,14 +732,17 @@ window.apf.wähleApListe = function (programm) {
         $ap_waehlen_text
             .attr('placeholder', hinweisText)
             .focus();
+
+        aplisteErstellt.resolve();
     });
+
+    return aplisteErstellt.promise();
 };
 
 // diese Funktion kann nicht modularisiert werden, weil jstree nicht für node entwickelt wurde!!!!
 window.apf.erstelle_tree = function (ApArtId) {
     'use strict';
     localStorage.ap_id = ApArtId;
-    console.log('erstelle tree für apId = ', ApArtId);
     var jstree_erstellt = $.Deferred();
     $("#tree").jstree({
         "json_data": {
@@ -1221,7 +1236,6 @@ window.apf.erstelle_tree = function (ApArtId) {
             delete window.apf.beob_nicht_zuzuordnen_zeigen;
         }
         if (window.apf.ap_zeigen) {
-            console.log('jstree initiiert AP 2');
             initiiereAp(ApArtId);
             //localStorage.ap_id = ApArtId;
             //$('#ap_waehlen').trigger('change');
@@ -1272,7 +1286,6 @@ window.apf.erstelle_tree = function (ApArtId) {
             if (!$("#ap").is(':visible') || localStorage.ap_id !== node_id) {
                 localStorage.ap_id = node_id;
                 delete localStorage.pop_id;
-                console.log('jstree initiiert AP 1');
                 initiiereAp(node_id);
             }
         } else if (node_typ === "pop" || node_typ.slice(0, 4) === "pop_") {
@@ -1455,7 +1468,6 @@ window.apf.erstelle_tree = function (ApArtId) {
 
         if (herkunft_node_typ === "pop") {
             if (ziel_node_typ === "pop") {
-                console.log('verschiebe pop');
                 $.ajax({
                     type: 'post',
                     url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + ziel_node_id + '/feld=ApArtId/wert=' + ziel_parent_node_id + '/user=' + sessionStorage.User,
@@ -4184,7 +4196,6 @@ window.apf.gmap.zeigeBeobUndTPop = function (beob_liste, tpop_liste) {
                             // dem bind.move_node mitteilen, dass das Formular nicht initiiert werden soll
                             localStorage.karte_fokussieren = true;
                             // Beob der TPop zuweisen
-                            console.log('Beob.NO_NOTE: ', Beob.NO_NOTE);
                             // TODO: Was ist, wenn diese Beobachtung im Baum nicht dargestellt wird????
                             $("#tree").jstree("move_node", "#beob" + Beob.NO_NOTE, "#tpop_ordner_beob_zugeordnet" + data[0].TPopId, "first");
                             //$("#tree").jstree("move_node", "#beob" + Beob.NO_NOTE, "#tpop_ordner_beob_zugeordnet" + data[0].TPopId, "first");
@@ -5007,7 +5018,6 @@ function handler(event) {
 
 window.apf.öffneUri = function () {
     'use strict';
-    console.log('öffneUri');
     var uri                     = new Uri($(location).attr('href')),
         anchor                  = uri.anchor() || null,
         apId                    = uri.getQueryParamValue('ap'),
@@ -5071,10 +5081,10 @@ window.apf.öffneUri = function () {
         $("#ap_waehlen").val(apId);
         // gewählte Art in Auswahlliste anzeigen
         ap_waehlen_text = _.find(window.apf.apliste.programm_alle, function (art) {
-            return art.id === apId;
+            return art.id == apId;
         });
         if (ap_waehlen_text) {
-            $("#ap_waehlen_text").val(ap_waehlen_text);
+            $("#ap_waehlen_text").val(ap_waehlen_text.label);
         }
         if (tpopId) {
             if (tpopfeldkontrId) {
@@ -5198,7 +5208,6 @@ window.apf.öffneUri = function () {
             // markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
             window.apf.ap_zeigen = true;
             // direkt initiieren, bevor der baum fertig aufgebaut ist
-            console.log('öffneUri initiiert ap');
             initiiereAp(apId);
         }
         window.apf.erstelle_tree(apId);
@@ -5388,7 +5397,6 @@ window.apf.olmap.createLayersForOlmap = function () {
     });
 
     var load_zh_kartierungen_layer_source = function (response) {
-        //console.log('response', response);
           zh_kartierungen_layer_source.addFeatures(zh_kartierungen_layer_source.readFeatures(response));    // funktioniert nicht!
     };
 
@@ -6793,19 +6801,21 @@ window.apf.erstelleGemeindeliste = function () {
     }
 };
 
+// wird aufgerufen, wenn der ap geändert wird
 window.apf.wähleAp = function (ap_id) {
     'use strict';
+
     var initiiereAp = require('./modules/initiiereAp'),
-        programm;
+        programm,
+        ap_waehlen_text;
+
     if (ap_id) {
         programm = $("[name='programm_wahl']:checked").attr("id");
-        console.log('wähleAp: programm = ', programm);
-        console.log('wähleAp: AP gewählt = ', ap_id);
 
         // einen AP gewählt
         localStorage.ap_id = ap_id;
+
         if (programm === "programm_neu") {
-            console.log('wähleAp: programm ist neu');
             // zuerst einen neuen Datensatz anlegen
             $.ajax({
                 type: 'post',
@@ -6826,15 +6836,14 @@ window.apf.wähleAp = function (ap_id) {
                     .then(function () {
                         // gewählte Art in Auswahlliste anzeigen
                         var ap_waehlen_text = _.find(window.apf.apliste.programm_alle, function (art) {
-                            return art.id === ap_id;
+                            return art.id == ap_id;
                         });
                         if (ap_waehlen_text) {
                             $('#ap_waehlen').val(ap_id);
-                            $('#ap_waehlen_text').val(ap_waehlen_text);
+                            $('#ap_waehlen_text').val(ap_waehlen_text.label);
                         }
                         $("#ApArtId").val(ap_id);
                         // gewählte Art in Formular anzeigen
-                        console.log('wähleAp initiiert AP');
                         initiiereAp(ap_id);
                     });
                 });
@@ -6844,11 +6853,9 @@ window.apf.wähleAp = function (ap_id) {
         } else {
             window.apf.erstelle_tree(ap_id);
             $("#ap").show();
-            console.log('wähleAp initiiert AP');
             initiiereAp(ap_id);
         }
     } else {
-        console.log('wähleAp: kein AP gewählt');
         // leeren Wert gewählt
         $("#ap_waehlen_text").attr('placeholder', 'Artförderprogramm wählen');
         $("#tree").hide();
@@ -8353,7 +8360,6 @@ window.apf.treeKontextmenu = function (node) {
                                         dataType: 'json'
                                     });
                                     deleteAssozarten.done(function () {
-                                        console.log('assozart gelöscht');
                                         delete localStorage.assozarten_id;
                                         delete window.apf.assozarten;
                                         $.jstree._reference(aktiver_node).delete_node(aktiver_node);

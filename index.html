@@ -19,9 +19,9 @@
     <body>
         <div id="wrapper">
             <fieldset id="menu">
-                <div class='fieldcontain'>
+                <div class='fieldcontain' style="margin-right:5px; margin-bottom:5px;">
                     <input type="text" id="ap_waehlen_text" style="width:100%; font-size:17px;" placeholder="Artförderprogramm wählen">
-                    <input type="text" id="ap_waehlen">
+                    <input type="number" id="ap_waehlen" style="display:none">
                 </div>
                 <div class='fieldcontain' style="margin-top:3px; margin-bottom:3px;">
                     <label for="programm_wahl" style="color:#6F6F66; margin-right:5px; overflow:hidden;">Programme:</label>
@@ -2526,7 +2526,6 @@
                         window.apf.initiiereExporte();
                     })
                     .on("click", "[name=programm_wahl]", function() {
-                        console.log('wähleApListe aufgerufen in index.html on click programm_wahl');
                         window.apf.wähleApListe($(this).attr("id"));
                     })
                     .on("click", "#ap_loeschen", function() {
@@ -2644,7 +2643,6 @@
             });
 
             $(".karte").on("change", ".google_karte_detailplaene_checkbox", function() {
-                console.log("toggle Detailpläne");
                 if (window.apf.google_karte_detailpläne.getMap() === null) {
                     window.apf.google_karte_detailpläne.setMap(window.apf.gmap.map);
                 } else {

@@ -22,8 +22,6 @@ var returnFunction = function (apId) {
         apId = localStorage.ap_id;
     }
 
-    console.log('initiiereAp, apid = ', apId);
-
     // Programm-Wahl konfigurieren
     var programm_wahl = $("[name='programm_wahl']:checked").attr("id");
 
