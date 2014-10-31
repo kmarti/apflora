@@ -10,7 +10,7 @@ var _                                 = require('underscore'),
     json2csv                          = require('json2csv'),
     Hapi                              = require('hapi'),
     server                            = new Hapi.Server(
-        'localhost',
+        '0.0.0.0',
         4000,
         { debug: { request: ['error'] } }
     ),
@@ -92,6 +92,16 @@ server.route({
     handler: {
         directory: {
             path: 'src'
+        }
+    }
+});
+
+server.route({
+    method: 'GET',
+    path: '/style/images/{param*}',
+    handler: {
+        directory: {
+            path: 'style/images'
         }
     }
 });

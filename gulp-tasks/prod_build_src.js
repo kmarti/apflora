@@ -24,8 +24,8 @@ gulp.task('prod_build_src', function () {
         'src/backbone.js'
     ])
         .pipe(concat('apflora_built.js'))
-        .pipe(gulp.dest('./src'))
         .pipe(uglify())
+        .pipe(gulp.dest('./src'))
         .pipe(gulp.dest('./dist/src'))
         .pipe(notify({ message: 'prod_build_src task beendet' }));
 });
