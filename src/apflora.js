@@ -726,6 +726,7 @@ window.apf.wähleApListe = function (programm) {
 // diese Funktion kann nicht modularisiert werden, weil jstree nicht für node entwickelt wurde!!!!
 window.apf.erstelle_tree = function (ApArtId) {
     'use strict';
+    localStorage.ap_id = ApArtId;
     console.log('erstelle tree für apId = ', ApArtId);
     var jstree_erstellt = $.Deferred();
     $("#tree").jstree({
@@ -1272,13 +1273,13 @@ window.apf.erstelle_tree = function (ApArtId) {
                 localStorage.ap_id = node_id;
                 delete localStorage.pop_id;
                 console.log('jstree initiiert AP 1');
-                initiiereAp();
+                initiiereAp(node_id);
             }
         } else if (node_typ === "pop" || node_typ.slice(0, 4) === "pop_") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
             if (!$("#pop").is(':visible') || localStorage.pop_id !== node_id) {
                 localStorage.pop_id = node_id;
-                initiierePop();
+                initiierePop(ApArtId, node_id);
             }
         } else if (node_typ === "apziel" || node_typ === "zielber_ordner") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
@@ -5006,6 +5007,7 @@ function handler(event) {
 
 window.apf.öffneUri = function () {
     'use strict';
+    console.log('öffneUri');
     var uri                     = new Uri($(location).attr('href')),
         anchor                  = uri.anchor() || null,
         apId                    = uri.getQueryParamValue('ap'),
@@ -5196,9 +5198,8 @@ window.apf.öffneUri = function () {
             // markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
             window.apf.ap_zeigen = true;
             // direkt initiieren, bevor der baum fertig aufgebaut ist
-            console.log('jstree initiiert ap 3');
+            console.log('öffneUri initiiert ap');
             initiiereAp(apId);
-            return true;
         }
         window.apf.erstelle_tree(apId);
     } else {

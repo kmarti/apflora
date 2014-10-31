@@ -2,7 +2,7 @@
 'use strict';
 
 var $               = require('jquery'),
-    initiiereApp  = require('./initiiereApp'),
+    initiiereApp    = require('./initiiereApp'),
     getAdressenHtml = require('./getAdressenHtml');
 
 var returnFunction = function (apId) {

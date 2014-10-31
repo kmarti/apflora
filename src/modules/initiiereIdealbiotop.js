@@ -3,7 +3,7 @@
 
 var $                            = require('jquery'),
     dateFormat                   = require('dateformat'),
-    initiiereApp               = require('./initiiereApp'),
+    initiiereApp                 = require('./initiiereApp'),
     initiiereAp                  = require('./initiiereAp'),
     pruefeSchreibvoraussetzungen = require('./pruefeSchreibvoraussetzungen');
 

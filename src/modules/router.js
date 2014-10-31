@@ -2,7 +2,7 @@
 'use strict';
 
 var Backbone                = require('backbone'),
-    initiiereApp          = require('./initiiereApp'),
+    initiiereApp            = require('./initiiereApp'),
     initiiereAp             = require('./initiiereAp'),
     initiiereAssozart       = require('./initiiereAssozart'),
     initiiereIdealbiotop    = require('./initiiereIdealbiotop'),

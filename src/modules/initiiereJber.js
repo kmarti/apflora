@@ -4,7 +4,7 @@
 var $               = require('jquery'),
     dateFormat      = require('dateformat'),
     limiter         = require('../lib/limiter'),
-    initiiereApp  = require('./initiiereApp'),
+    initiiereApp    = require('./initiiereApp'),
     initiiereAp     = require('./initiiereAp'),
     getAdressenHtml = require('./getAdressenHtml');
 

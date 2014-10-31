@@ -2,7 +2,7 @@
 'use strict';
 
 var $               = require('jquery'),
-    initiiereApp  = require('./initiiereApp'),
+    initiiereApp    = require('./initiiereApp'),
     initiiereAp     = require('./initiiereAp'),
     initiiereApziel = require('./initiiereApziel');
 

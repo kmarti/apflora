@@ -4,7 +4,7 @@
 var $               = require('jquery'),
     _               = require('underscore'),
     limiter         = require('../lib/limiter'),
-    initiiereApp  = require('./initiiereApp'),
+    initiiereApp    = require('./initiiereApp'),
     initiiereAp     = require('./initiiereAp'),
     initiierePop    = require('./initiierePop'),
     getAdressenHtml = require('./getAdressenHtml');

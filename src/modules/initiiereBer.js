@@ -3,7 +3,7 @@
 
 
 var $ = jQuery     = require('jquery'),
-    initiiereApp = require('./initiiereApp'),
+    initiiereApp   = require('./initiiereApp'),
     initiiereAp    = require('./initiiereAp'),
     limiter        = require('../lib/limiter');
 

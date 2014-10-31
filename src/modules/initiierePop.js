@@ -3,7 +3,7 @@
 
 var $              = require('jquery'),
     limiter        = require('../lib/limiter'),
-    initiiereApp = require('./initiiereApp'),
+    initiiereApp   = require('./initiiereApp'),
     initiiereAp    = require('./initiiereAp');
 
 var returnFunction = function (apId, popId, ohne_zu_zeigen) {
