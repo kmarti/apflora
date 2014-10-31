@@ -295,6 +295,7 @@ textarea {
     background: #FAF3D9!important;
 }
 
+/*autocomplete-Listen sollen begrenzt hoch sein*/
 body ul.ui-autocomplete {
     overflow-y:                     scroll;
     max-height: -webkit-calc(100vh - 50px);
