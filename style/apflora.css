@@ -295,6 +295,13 @@ textarea {
     background: #FAF3D9!important;
 }
 
+body ul.ui-autocomplete {
+    overflow-y:                     scroll;
+    max-height: -webkit-calc(100vh - 50px);
+    max-height:      -o-calc(100vh - 50px);
+    max-height:         calc(100vh - 50px);
+}
+
 .form .ui-widget-content {
     background: #FFE!important;
 }
