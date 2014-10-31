@@ -3,7 +3,7 @@
 
 var $              = require('jquery'),
     limiter        = require('../lib/limiter'),
-    initiiereIndex = require('./initiiereIndex'),
+    initiiereApp = require('./initiiereApp'),
     initiiereAp    = require('./initiiereAp');
 
 var returnFunction = function (apId, popId, ohne_zu_zeigen) {
@@ -13,7 +13,7 @@ var returnFunction = function (apId, popId, ohne_zu_zeigen) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.ap_id) {
         // Anwendung neu initiieren
-        initiiereIndex();
+        initiiereApp();
         return;
     }
     if (!popId && !localStorage.pop_id && !window.apf.pop && !window.apf.pop.PopId) {

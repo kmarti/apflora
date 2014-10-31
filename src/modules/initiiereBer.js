@@ -3,7 +3,7 @@
 
 
 var $ = jQuery     = require('jquery'),
-    initiiereIndex = require('./initiiereIndex'),
+    initiiereApp = require('./initiiereApp'),
     initiiereAp    = require('./initiiereAp'),
     limiter        = require('../lib/limiter');
 
@@ -13,7 +13,7 @@ var initiiereBer = function (apId, berId) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.ap_id) {
         // Anwendung neu initiieren
-        initiiereIndex();
+        initiiereApp();
         return;
     }
     if (!berId && !localStorage.ber_id) {

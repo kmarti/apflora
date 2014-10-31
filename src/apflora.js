@@ -5,7 +5,7 @@ window.apf = window.apf || {};
 window.apf.gmap = window.apf.gmap || {};
 window.apf.olmap = window.apf.olmap || {};
 
-window.apf.initiiereIndex = require('./modules/initiiereIndex');
+window.apf.initiiereApp = require('./modules/initiiereApp');
 
 // setzt window.apf und localStorage.ap_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird

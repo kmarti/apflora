@@ -9,7 +9,7 @@ var $                            = require('jquery'),
     dateFormat                   = require('dateformat'),
     _                            = require('underscore'),
     limiter                      = require('../lib/limiter'),
-    initiiereIndex               = require('./initiiereIndex'),
+    initiiereApp               = require('./initiiereApp'),
     initiiereAp                  = require('./initiiereAp'),
     initiierePop                 = require('./initiierePop'),
     initiiereTPop                = require('./initiiereTPop'),
@@ -29,7 +29,7 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.ap_id) {
         // Anwendung neu initiieren
-        initiiereIndex();
+        initiiereApp();
         return;
     }
     if (!popId && !localStorage.pop_id && !window.apf.pop && !window.apf.pop.PopId) {

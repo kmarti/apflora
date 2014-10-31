@@ -2,7 +2,7 @@
 'use strict';
 
 var $               = require('jquery'),
-    initiiereIndex  = require('./initiiereIndex'),
+    initiiereApp  = require('./initiiereApp'),
     initiiereAp     = require('./initiiereAp'),
     initiiereApziel = require('./initiiereApziel');
 
@@ -12,7 +12,7 @@ var returnFunction = function (apId, apZielId, zielberId) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.ap_id) {
         // Anwendung neu initiieren
-        initiiereIndex();
+        initiiereApp();
         return;
     }
     if (!apZielId && !localStorage.apziel_id) {

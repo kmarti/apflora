@@ -4,7 +4,7 @@
 var $               = require('jquery'),
     dateFormat      = require('dateformat'),
     limiter         = require('../lib/limiter'),
-    initiiereIndex  = require('./initiiereIndex'),
+    initiiereApp  = require('./initiiereApp'),
     initiiereAp     = require('./initiiereAp'),
     getAdressenHtml = require('./getAdressenHtml');
 
@@ -12,7 +12,7 @@ var returnFunction = function (apId, apBerId) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.ap_id) {
         // Anwendung neu initiieren
-        initiiereIndex();
+        initiiereApp();
         return;
     }
     if (!apBerId && !localStorage.jber_id) {

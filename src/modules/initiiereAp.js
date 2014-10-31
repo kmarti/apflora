@@ -2,7 +2,7 @@
 'use strict';
 
 var $               = require('jquery'),
-    initiiereIndex  = require('./initiiereIndex'),
+    initiiereApp  = require('./initiiereApp'),
     getAdressenHtml = require('./getAdressenHtml');
 
 var returnFunction = function (apId) {
@@ -10,7 +10,7 @@ var returnFunction = function (apId) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!localStorage.ap_id && !apId) {
         // es fehlen benötigte Daten > zurück zum Anfang
-        initiiereIndex();
+        initiiereApp();
         return;
     }
 
