@@ -128,11 +128,15 @@ Dazu werden die Feld- und Freiwilligenkontrollen (ausser solche von soeben anges
 
 <a name="Technik"></a>
 #Technische Umsetzung
-Die Weboberfläche ([HTML5](//de.wikipedia.org/wiki/HTML5), [CSS](//de.wikipedia.org/wiki/Cascading_Style_Sheets), [jQuery UI](//jqueryui.com), [JavaScript](//de.wikipedia.org/wiki/JavaScript), [jQuery](//jquery.com/) und [jsTree](//www.jstree.com/)) greift mithilfe von [PHP](//de.wikipedia.org/wiki/PHP) auf eine [MySQL-Datenbank](//de.wikipedia.org/wiki/MySQL).
+Die Anwendung wird auf einem virtuellen Server mit Ubuntu 14.04 gehostet.
+
+Serverseitig wird sie mit [node.js](//nodejs.org/) gesteuert. Als Webserver dient [hapi](//hapijs.com/), als Datenbank [MySQL](//de.wikipedia.org/wiki/MySQL).
+
+Die Benutzeroberfläche basiert auf [HTML5](//de.wikipedia.org/wiki/HTML5), [CSS](//de.wikipedia.org/wiki/Cascading_Style_Sheets), [jQuery UI](//jqueryui.com), [JavaScript](//de.wikipedia.org/wiki/JavaScript), [jQuery](//jquery.com/) und [jsTree](//www.jstree.com/)).
 
 Für die Karten werden [Open Layers 3](//ol3js.org/), [api.geo.admin.ch](http://www.geo.admin.ch/internet/geoportal/de/home/services/geoservices/display_services/api_services.html) und [GoogleMaps](https://developers.google.com/maps/documentation/javascript/reference) verwendet.
 
-Die Applikation baut auf einer einzigen Seite auf und aktualisiert die Oberfläche inkl. URL mit AJAX.
+Die Anwendung baut auf einer einzigen HTML-Seite auf und aktualisiert die Oberfläche inkl. URL mit AJAX.
 
 Die Anwendung verwendet drei MySQL-Datenbanken:
 - alexande_apflora: die projekteigenen Daten. Sie sind vollständig von den übrigen Datenbanken getrennt, um Datensicherung und -wiederherstellung zu vereinfachen
