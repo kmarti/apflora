@@ -6857,6 +6857,7 @@ window.apf.wähleAp = function (ap_id) {
         }
     } else {
         // leeren Wert gewählt
+        $('#ap_waehlen_text').val('');
         $("#ap_waehlen_text").attr('placeholder', 'Artförderprogramm wählen');
         $("#tree").hide();
         $("#suchen").hide();

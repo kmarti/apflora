@@ -18,8 +18,9 @@
     <body>
         <div id="wrapper">
             <fieldset id="menu">
-                <div class='fieldcontain' style="margin-right:5px; margin-bottom:5px;">
-                    <input type="text" id="ap_waehlen_text" style="width:100%; font-size:17px;" placeholder="Artförderprogramm wählen">
+                <div class='fieldcontain' style="margin-right:5px; margin-bottom:5px; position:relative;">
+                    <input type="text" id="ap_waehlen_text" style="width:100%; font-size:17px; box-sizing:border-box; padding-right:20px;" placeholder="Artförderprogramm wählen">
+                    <div id="ap_waehlen_text_loeschen" class="ui-icon ui-icon-closethick" style="position:absolute;top:5px;right:4px;cursor:pointer;"></div>
                     <input type="number" id="ap_waehlen" style="display:none">
                 </div>
                 <div class='fieldcontain' style="margin-top:3px; margin-bottom:3px;">
@@ -2561,7 +2562,11 @@
                     .on("change", "#ap_waehlen", function() {
                         var value = this.value || localStorage.ap_id;
                         window.apf.wähleAp(value);
+                    })
+                    .on("click", "#ap_waehlen_text_loeschen", function() {
+                        window.apf.wähleAp();
                     });
+                        
 
                 $("#beob")
                     .on("change", "#BeobNichtBeurteilt", function() {
