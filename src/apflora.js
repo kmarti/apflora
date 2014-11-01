@@ -6806,12 +6806,11 @@ window.apf.wähleAp = function (ap_id) {
     'use strict';
 
     var initiiereAp = require('./modules/initiiereAp'),
-        programm,
-        ap_waehlen_text;
+        programm = $("[name='programm_wahl']:checked").attr("id"),
+        ap_waehlen_text,
+        placeholderText = 'Artförderprogramm wählen';
 
     if (ap_id) {
-        programm = $("[name='programm_wahl']:checked").attr("id");
-
         // einen AP gewählt
         localStorage.ap_id = ap_id;
 
@@ -6858,7 +6857,9 @@ window.apf.wähleAp = function (ap_id) {
     } else {
         // leeren Wert gewählt
         $('#ap_waehlen_text').val('');
-        $("#ap_waehlen_text").attr('placeholder', 'Artförderprogramm wählen');
+        if (programm === 'programm_neu') placeholderText = 'Art für neues Förderprogramm wählen';
+        if (programm === 'programm_ap')  placeholderText = 'Aktionsplan wählen';
+        $("#ap_waehlen_text").attr('placeholder', placeholderText);
         $("#tree").hide();
         $("#suchen").hide();
         $("#exportieren_2").hide();
