@@ -37,8 +37,6 @@ var tabelleUpdate = function (request, callback) {
         sql = 'UPDATE ' + tabelle + ' SET ' + feld + '= NULL, ' + mutWannFeld + '="' + date + '", ' + mutWerFeld + '="' + user + '" WHERE ' + tabelleIdFeld + ' = "' + tabelleId + '"';
     }
 
-    console.log('sql = ', sql);
-
     connection.query(
         sql,
         function (err, data) {

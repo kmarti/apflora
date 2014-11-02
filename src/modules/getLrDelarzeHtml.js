@@ -20,8 +20,7 @@ var returnFunction = function (callback) {
     if (!window.apf.lrdelarze_html) {
         $.ajax({
             type: 'get',
-            url: 'api/v1/lrDelarze',
-            dataType: 'json'
+            url: 'api/v1/lrDelarze'
         }).done(function (data) {
             if (data) {
                 // Feld mit Daten beliefern

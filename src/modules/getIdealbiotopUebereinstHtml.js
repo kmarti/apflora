@@ -19,8 +19,7 @@ var returnFunction = function (callback) {
     if (!window.apf.IdealBiotopÜbereinst_html) {
         $.ajax({
             type: 'get',
-            url: 'api/v1/idealbiotopUebereinst',
-            dataType: 'json'
+            url: 'api/v1/idealbiotopUebereinst'
         }).done(function (data) {
             if (data && data.length > 0) {
                 // Feld mit Daten beliefern

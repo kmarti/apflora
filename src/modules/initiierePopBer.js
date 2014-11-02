@@ -62,8 +62,7 @@ var returnFunction = function (apId, popId, popberId) {
     // Daten für die popber aus der DB holen
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblPopBericht/feld=PopBerId/wertNumber=' + popberId,
-        dataType: 'json'
+        url: 'api/v1/apflora/tabelle=tblPopBericht/feld=PopBerId/wertNumber=' + popberId
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {

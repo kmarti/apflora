@@ -51,8 +51,7 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
     // Daten für die beob aus der DB holen
     $.ajax({
         type: 'get',
-        url: url,
-        dataType: 'json'
+        url: url
     }).done(function (data_beob) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data_beob && data_beob.length > 0) {
@@ -66,8 +65,7 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
             url_distzutpop = 'api/v1/beobDistzutpop' + capitaliseFirstLetter(beobTyp) + '/beobId=' + beobId;
             $.ajax({
                 type: 'get',
-                url: url_distzutpop,
-                dataType: 'json'
+                url: url_distzutpop
             }).done(function (data) {
                 // Tabellenzeile beginnen
                 var html_distzutpop = '<tr class="fieldcontain DistZuTPop"><td class="label"><label id="DistZuTPop_label" for="DistZuTPop">Einer Teilpopulation zuordnen:</label></td><td class="Datenfelder"><div class="Datenfelder" id="DistZuTPop_Felder">';
@@ -120,8 +118,7 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
                         }
                         $.ajax({
                             type: 'get',
-                            url: urlZuordnung,
-                            dataType: 'json'
+                            url: urlZuordnung
                         }).done(function (data) {
                             if (data && data[0]) data = data[0];
                             // Felder mit Daten beliefern

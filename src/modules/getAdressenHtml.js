@@ -20,8 +20,7 @@ var returnFunction = function (callback) {
     if (!window.apf.adressen_html) {
         $.ajax({
             type: 'get',
-            url: 'api/v1/adressen',
-            dataType: 'json'
+            url: 'api/v1/adressen'
         }).done(function (data) {
             if (data) {
                 // Feld mit Daten beliefern

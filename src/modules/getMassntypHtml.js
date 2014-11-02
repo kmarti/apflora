@@ -19,8 +19,7 @@ var returnFunction = function (callback) {
     if (!window.apf.tpopmassntyp_html) {
         $.ajax({
             type:     'get',
-            url:      'api/v1/tpopMassnTypen',
-            dataType: 'json'
+            url:      'api/v1/tpopMassnTypen'
         }).done(function (data) {
             if (data && data.length > 0) {
                 // Feld mit Daten beliefern
