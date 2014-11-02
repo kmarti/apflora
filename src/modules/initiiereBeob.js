@@ -85,7 +85,7 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
                         html_distzutpop += '"';
                         // jetzt ermitteln, ob das die angezeigte Beob ist
                         // wenn ja: checked
-                        if (beobStatus === 'zugeordnet' && beob.TPopId == localStorage.tpop_id) {
+                        if (/*beobStatus === 'zugeordnet' && */beob.TPopId == localStorage.tpop_id) {
                             html_distzutpop += ' checked';
                         }
                         html_distzutpop += '>';
@@ -123,14 +123,15 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
                             url: urlZuordnung,
                             dataType: 'json'
                         }).done(function (data) {
+                            if (data && data[0]) data = data[0];
                             // Felder mit Daten beliefern
                             $("#BeobNichtBeurteilt").prop("checked", false);
-                            if (data.BeobNichtZuordnen == 1) {
+                            if (data.BeobNichtZuordnen === 1) {
                                 $("#BeobNichtZuordnen").prop("checked", true);
                             } else {
                                 $("#BeobNichtZuordnen").prop("checked", false);
                             }
-                            $("#DistZuTPop"+data.TPopId).prop("checked", true);
+                            $("#DistZuTPop" + data.TPopId).prop("checked", true);
                             $("#BeobBemerkungen").val(data.BeobBemerkungen);
                             $("#BeobMutWann").val(data.BeobMutWann);
                             $("#BeobMutWer").val(data.BeobMutWer);
