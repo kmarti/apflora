@@ -2499,16 +2499,12 @@ window.apf.speichern = function (that) {
             case "TPopKontrTyp":
             case "TPopKontrJahr":
                 // wenn kein Typ/Jahr gewählt: "(kein Typ/Jahr)"
-                var tpopkontrjahr = "(kein Jahr)",
-                    tpopfeldkontr_label,
-                    $TPopKontrJahr = $("#TPopKontrJahr").val();
-                if ($TPopKontrJahr) {
-                    tpopkontrjahr = $TPopKontrJahr;
-                }
+                var $TPopKontrJahr = $("#TPopKontrJahr").val(),
+                    tpopkontrjahr = ($TPopKontrJahr ? $TPopKontrJahr : "(kein Jahr)"),
+                    tpopfeldkontr_label = tpopkontrjahr + ': ' +  $("label[for='" + $('input[name="TPopKontrTyp"]:checked').attr('id') + "']").text();
                 // Problem: Es ist nicht bekannt, ob eine Freiwilligenkontrolle umbennant wird oder eine Feldkontrolle
                 // Lösung: Beide nodes umbenennen. Nur eine davon hat die richtige id
                 $tree.jstree("rename_node", "[typ='tpop_ordner_freiwkontr'] #" + localStorage.tpopfeldkontr_id, tpopkontrjahr);
-                tpopfeldkontr_label = window.apf.erstelleLabelFürFeldkontrolle($TPopKontrJahr, $("#spanTPopKontrTyp" + $('input[name="TPopKontrTyp"]:checked').val()).text());
                 $tree.jstree("rename_node", "[typ='tpop_ordner_feldkontr'] #" + localStorage.tpopfeldkontr_id, tpopfeldkontr_label);
                 break;
             case "TPopBerJahr":
@@ -2562,12 +2558,7 @@ window.apf.speichern = function (that) {
                 $tree.jstree("rename_node", "[typ='tpop_ordner_massnber'] #" + localStorage.tpopmassnber_id, tpopmassberbeschriftung);
                 break;
             case "ZielBezeichnung":
-                var zielbeschriftung;
-                if (feldwert) {
-                    zielbeschriftung = feldwert;
-                } else {
-                    zielbeschriftung = "(Ziel nicht beschrieben)";
-                }
+                var zielbeschriftung = (feldwert ? feldwert : "(Ziel nicht beschrieben)");
                 $tree.jstree("rename_node", "[typ='apzieljahr'] #" + localStorage.apziel_id, zielbeschriftung);
                 break;
             case "ZielBerJahr":
@@ -2600,12 +2591,7 @@ window.apf.speichern = function (that) {
                 $tree.jstree("rename_node", "[typ='ap_ordner_erfkrit'] #" + localStorage.erfkrit_id, erfkritbeschriftung);
                 break;
             case "JBerJahr":
-                var jberbeschriftung;
-                if (feldwert) {
-                    jberbeschriftung = feldwert;
-                } else {
-                    jberbeschriftung = "(kein Jahr)";
-                }
+                var jberbeschriftung = (feldwert ? feldwert : "(kein Jahr)");
                 $tree.jstree("rename_node", "[typ='ap_ordner_jber'] #" + localStorage.jber_id, jberbeschriftung);
                 break;
             case "BerTitel":
@@ -2623,12 +2609,7 @@ window.apf.speichern = function (that) {
                 $tree.jstree("rename_node", "[typ='ap_ordner_ber'] #" + localStorage.ber_id, berbeschriftung);
                 break;
             case "AaSisfNr":
-                var aabeschriftung;
-                if (feldwert) {
-                    aabeschriftung = $("#AaSisfNrText").val();
-                } else {
-                    aabeschriftung = "(kein Artname)";
-                }
+                var aabeschriftung = (feldwert ? $("#AaSisfNrText").val() : "(kein Artname)");
                 $tree.jstree("rename_node", "[typ='ap_ordner_assozarten'] #" + localStorage.assozarten_id, aabeschriftung);
                 break;
         }
