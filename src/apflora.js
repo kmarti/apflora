@@ -2302,21 +2302,15 @@ window.apf.speichern = function (that) {
         $PopNr = $("#PopNr"),
         $tree = $("#tree"),
         $PopBerJahr = $("#PopBerJahr"),
-        $PopBerEntwicklungChecked = $('input[name="PopBerEntwicklung"]:checked'),
-        $spanPopBerEntwicklungPlus$PopBerEntwicklungChecked = $("#spanPopBerEntwicklung" + $PopBerEntwicklungChecked.val()),
-        $spanPopMassnBerErfolgsbeurteilungPlusPopMassnBerErfolgsbeurteilungChecked = $("#spanPopMassnBerErfolgsbeurteilung" + $('input[name="PopMassnBerErfolgsbeurteilung"]:checked').val()),
         $PopMassnBerJahr = $("#PopMassnBerJahr"),
         $TPopNr = $("#TPopNr"),
         $TPopFlurname = $("#TPopFlurname"),
         $TPopBerJahr = $("#TPopBerJahr"),
-        $spanTPopBerEntwicklungPlusTPopBerEntwicklungChecked = $("#spanTPopBerEntwicklung" + $('input[name="TPopBerEntwicklung"]:checked').val()),
         $TPopMassnJahr = $("#TPopMassnJahr"),
         $TPopMassnTypChecked = $("#TPopMassnTyp option:checked"),
         $TPopMassnBerJahr = $("#TPopMassnBerJahr"),
-        $spanTPopMassnBerErfolgsbeurteilungPlusTPopMassnBerErfolgsbeurteilungChecked = $("#spanTPopMassnBerErfolgsbeurteilung" + $('input[name="TPopMassnBerErfolgsbeurteilung"]:checked').val()),
         $ZielBerJahr = $("#ZielBerJahr"),
         $ZielBerErreichung = $("#ZielBerErreichung"),
-        $SpanErfkritErreichungsgradPlusErfkritErreichungsgradChecked = $("#SpanErfkritErreichungsgrad" + $("input:radio[name='ErfkritErreichungsgrad']:checked").val()),
         $BerJahr = $("#BerJahr"),
         $BerTitel = $("#BerTitel"),
         configuration = require('./modules/configuration');
@@ -2360,7 +2354,8 @@ window.apf.speichern = function (that) {
             dataType: 'json'
         }).done(function () {
             // Variable für Objekt nachführen
-            window.apf[formular][feldname] = feldwert;
+            // jber_uebersicht speichert kein window.formular, daher testen, ob es existiert
+            if (window.apf[formular]) window.apf[formular][feldname] = feldwert;
             // Wenn ApArtId verändert wurde: Formular aktualisieren
             if (feldname === "ApArtId" && feldwert) {
                 window.apf.wähleAp(feldwert);
@@ -2459,13 +2454,14 @@ window.apf.speichern = function (that) {
                 break;
             case "PopBerJahr":
             case "PopBerEntwicklung":
-                var popberbeschriftung;
-                if ($PopBerJahr.val() && $spanPopBerEntwicklungPlus$PopBerEntwicklungChecked.text()) {
-                    popberbeschriftung = $PopBerJahr.val() + ": " + $spanPopBerEntwicklungPlus$PopBerEntwicklungChecked.text();
+                var popberbeschriftung,
+                    popberentwicklungLabel = $("label[for='" + $('input[name="PopBerEntwicklung"]:checked').attr('id') + "']").text();
+                if ($PopBerJahr.val() && popberentwicklungLabel) {
+                    popberbeschriftung = $PopBerJahr.val() + ": " + popberentwicklungLabel;
                 } else if ($PopBerJahr.val()) {
                     popberbeschriftung = $PopBerJahr.val() + ": (kein Status)";
-                } else if ($spanPopBerEntwicklungPlus$PopBerEntwicklungChecked.text()) {
-                    popberbeschriftung = "(kein Jahr): " + $spanPopBerEntwicklungPlus$PopBerEntwicklungChecked.text();
+                } else if (popberentwicklungLabel) {
+                    popberbeschriftung = "(kein Jahr): " + popberentwicklungLabel;
                 } else {
                     popberbeschriftung = "(kein Jahr): (kein Status)";
                 }
@@ -2473,13 +2469,14 @@ window.apf.speichern = function (that) {
                 break;
             case "PopMassnBerJahr":
             case "PopMassnBerErfolgsbeurteilung":
-                var popmassnberbeschriftung;
-                if ($PopMassnBerJahr.val() && $spanPopMassnBerErfolgsbeurteilungPlusPopMassnBerErfolgsbeurteilungChecked.text()) {
-                    popmassnberbeschriftung = $PopMassnBerJahr.val() + ": " + $spanPopMassnBerErfolgsbeurteilungPlusPopMassnBerErfolgsbeurteilungChecked.text();
+                var popmassnberbeschriftung,
+                    popmassnberbeschriftungLabel = $("label[for='" + $('input[name="PopMassnBerErfolgsbeurteilung"]:checked').attr('id') + "']").text();
+                if ($PopMassnBerJahr.val() && popmassnberbeschriftungLabel) {
+                    popmassnberbeschriftung = $PopMassnBerJahr.val() + ": " + popmassnberbeschriftungLabel;
                 } else if ($PopMassnBerJahr.val()) {
                     popmassnberbeschriftung = $PopMassnBerJahr.val() + ": (nicht beurteilt)";
-                } else if ($spanPopMassnBerErfolgsbeurteilungPlusPopMassnBerErfolgsbeurteilungChecked.text()) {
-                    popmassnberbeschriftung = "(kein Jahr): " + $spanPopMassnBerErfolgsbeurteilungPlusPopMassnBerErfolgsbeurteilungChecked.text();
+                } else if (popmassnberbeschriftungLabel) {
+                    popmassnberbeschriftung = "(kein Jahr): " + popmassnberbeschriftungLabel;
                 } else {
                     popmassnberbeschriftung = "(kein Jahr): (nicht beurteilt)";
                 }
@@ -2517,14 +2514,16 @@ window.apf.speichern = function (that) {
             case "TPopBerJahr":
             case "TPopBerEntwicklung":
                 // wenn kein Jahr/Entwicklung gewählt: "(kein Jahr/Entwicklung)"
-                var tpopberjahr, tpopberentwicklung;
+                var tpopberjahr,
+                    tpopberentwicklung,
+                    tpopberentwicklungLabel = $("label[for='" + $('input[name="TPopBerEntwicklung"]:checked').attr('id') + "']").text();
                 if ($TPopBerJahr.val()) {
                     tpopberjahr = $TPopBerJahr.val();
                 } else {
                     tpopberjahr = "(kein Jahr)";
                 }
-                if ($spanTPopBerEntwicklungPlusTPopBerEntwicklungChecked.text()) {
-                    tpopberentwicklung = $spanTPopBerEntwicklungPlusTPopBerEntwicklungChecked.text();
+                if (tpopberentwicklungLabel) {
+                    tpopberentwicklung = tpopberentwicklungLabel;
                 } else {
                     tpopberentwicklung = "(keine Beurteilung)";
                 }
@@ -2549,13 +2548,14 @@ window.apf.speichern = function (that) {
             case "TPopMassnBerJahr":
             case "TPopMassnBerErfolgsbeurteilung":
                 // wenn kein Jahr/Beurteilung: "(kein Jahr/Beurteilung)"
-                var tpopmassberbeschriftung;
-                if ($TPopMassnBerJahr.val() && $spanTPopMassnBerErfolgsbeurteilungPlusTPopMassnBerErfolgsbeurteilungChecked.text()) {
-                    tpopmassberbeschriftung = $TPopMassnBerJahr.val() + ": " + $spanTPopMassnBerErfolgsbeurteilungPlusTPopMassnBerErfolgsbeurteilungChecked.text();
+                var tpopmassberbeschriftung,
+                    tpopmassberbeschriftungLabel = $("label[for='" + $('input[name="TPopMassnBerErfolgsbeurteilung"]:checked').attr('id') + "']").text();
+                if ($TPopMassnBerJahr.val() && tpopmassberbeschriftungLabel) {
+                    tpopmassberbeschriftung = $TPopMassnBerJahr.val() + ": " + tpopmassberbeschriftungLabel;
                 } else if ($TPopMassnBerJahr.val()) {
                     tpopmassberbeschriftung = $TPopMassnBerJahr.val() + ": (keine Beurteilung)";
-                } else if ($spanTPopMassnBerErfolgsbeurteilungPlusTPopMassnBerErfolgsbeurteilungChecked.text()) {
-                    tpopmassberbeschriftung = "(kein Jahr): " + $spanTPopMassnBerErfolgsbeurteilungPlusTPopMassnBerErfolgsbeurteilungChecked.text();
+                } else if (tpopmassberbeschriftungLabel) {
+                    tpopmassberbeschriftung = "(kein Jahr): " + tpopmassberbeschriftungLabel;
                 } else {
                     tpopmassberbeschriftung = "(kein Jahr): (keine Beurteilung)";
                 }
@@ -2586,11 +2586,12 @@ window.apf.speichern = function (that) {
                 break;
             case "ErfkritErreichungsgrad":
             case "ErfkritTxt":
-                var erfkritbeschriftung;
-                if ($SpanErfkritErreichungsgradPlusErfkritErreichungsgradChecked.text() && $("#ErfkritTxt").val()) {
-                    erfkritbeschriftung = $SpanErfkritErreichungsgradPlusErfkritErreichungsgradChecked.text() + ": " + $("#ErfkritTxt").val();
-                } else if ($SpanErfkritErreichungsgradPlusErfkritErreichungsgradChecked.text()) {
-                    erfkritbeschriftung = $SpanErfkritErreichungsgradPlusErfkritErreichungsgradChecked.text() + ": (kein Kriterium)";
+                var erfkritbeschriftung,
+                    erfkritbeschriftungLabel = $("label[for='" + $('input[name="ErfkritErreichungsgrad"]:checked').attr('id') + "']").text();
+                if (erfkritbeschriftungLabel && $("#ErfkritTxt").val()) {
+                    erfkritbeschriftung = erfkritbeschriftungLabel + ": " + $("#ErfkritTxt").val();
+                } else if (erfkritbeschriftungLabel) {
+                    erfkritbeschriftung = erfkritbeschriftungLabel + ": (kein Kriterium)";
                 } else if ($("#ErfkritTxt").val()) {
                     erfkritbeschriftung = "(keine Beurteilung): " + $("#ErfkritTxt").val();
                 } else {

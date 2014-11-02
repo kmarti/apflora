@@ -89,12 +89,18 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
                             html_distzutpop += ' checked';
                         }
                         html_distzutpop += '>';
+                        // Label beginnen
+                        html_distzutpop += '<label for="DistZuTPop';
+                        html_distzutpop += beob.TPopId;
+                        html_distzutpop += '">';
                         // Wenn TPop keine Koordinaten haben, dies anzeigen und Anzeige von NAN verhindern
                         if (parseInt(beob.DistZuTPop, 10) >= 0) {
                             html_distzutpop += parseInt(beob.DistZuTPop) + "m: " + beob.TPopFlurname;
                         } else {
                             html_distzutpop += beob.TPopFlurname;
                         }
+                        // Label abschliessen
+                        html_distzutpop += '</label>';
                     });
 
                     // Tabellenzeile abschliessen

@@ -661,12 +661,13 @@ form table {
     width: 100%;
 }
 
-form table label {
-    display:      block;
-    margin-top:     2px;
-    text-align:   right;
-    vertical-align: top;
-    color:      #6F6F66;
+/*2.11.2014: label > .label, damit label in '.Datenfelder' nicht betroffen werden*/
+form table .label {
+    display:          block;
+    margin-top:         2px;
+    text-align:       right;
+    vertical-align:     top;
+    color:          #6F6F66;
 }
 
 .label {
