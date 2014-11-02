@@ -14,7 +14,7 @@ var returnFunction = function (apId, popId, tpopId, tpopBerId) {
         initiiereApp();
         return;
     }
-    if (!popId && !localStorage.pop_id && !window.apf.pop && !window.apf.pop.PopId) {
+    if (!popId && !localStorage.pop_id && !window.apf.pop && (window.apf.pop && !window.apf.pop.PopId)) {
         // es fehlen benötigte Daten > zwei Ebenen höher
         initiiereAp(apId);
         return;
