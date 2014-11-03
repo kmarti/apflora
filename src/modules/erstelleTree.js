@@ -57,190 +57,200 @@ var returnFunction = function ($, ApArtId) {
                         return false;
                     }
                     if (m.o.attr("typ") === "tpop") {
-                        if (m.r.attr("typ") === "tpop") {
+                        switch (m.r.attr("typ")) {
+                        case 'tpop':
                             return {
                                 after: true,
                                 before: true,
                                 inside: false
                             };
-                        }
-                        if (m.r.attr("typ") === "pop_ordner_tpop") {
+                        case 'pop_ordner_tpop':
                             return {
                                 after: false,
                                 before: false,
                                 inside: true
                             };
+                        default:
+                            return false;
                         }
-                        return false;
                     }
                     if (m.o.attr("typ") === "tpopmassn") {
-                        if (m.r.attr("typ") === "tpopmassn") {
+                        switch (m.r.attr("typ")) {
+                        case 'tpopmassn':
                             return {
                                 after: true,
                                 before: true,
                                 inside: false
                             };
-                        }
-                        if (m.r.attr("typ") === "tpop_ordner_massn") {
+                        case 'tpop_ordner_massn':
                             return {
                                 after: false,
                                 before: false,
                                 inside: true
                             };
+                        default:
+                            return false;
                         }
-                        return false;
                     }
                     if (m.o.attr("typ") === "tpopfeldkontr") {
-                        if (m.r.attr("typ") === "tpopfeldkontr") {
+                        switch (m.r.attr("typ")) {
+                        case 'tpopfeldkontr':
                             return {
                                 after: true,
                                 before: true,
                                 inside: false
                             };
-                        }
-                        if (m.r.attr("typ") === "tpop_ordner_feldkontr") {
+                        case 'tpop_ordner_feldkontr':
                             return {
                                 after: false,
                                 before: false,
                                 inside: true
                             };
+                        default:
+                            return false;
                         }
-                        return false;
                     }
                     if (m.o.attr("typ") === "tpopfreiwkontr") {
-                        if (m.r.attr("typ") === "tpopfreiwkontr") {
+                        switch (m.r.attr("typ")) {
+                        case 'tpopfreiwkontr':
                             return {
                                 after: true,
                                 before: true,
                                 inside: false
                             };
-                        }
-                        if (m.r.attr("typ") === "tpop_ordner_freiwkontr") {
+                        case 'tpop_ordner_freiwkontr':
                             return {
                                 after: false,
                                 before: false,
                                 inside: true
                             };
-                        }
-                        return false;
-                    } else if (m.o.attr("typ") === "beob_zugeordnet") {
-                        if (m.r.attr("typ") === "beob_zugeordnet") {
-                            return {
-                                after: true,
-                                before: true,
-                                inside: false
-                            };
-                        } else if (m.r.attr("typ") === "tpop_ordner_beob_zugeordnet") {
-                            return {
-                                after: false,
-                                before: false,
-                                inside: true
-                            };
-                        } else if (m.r.attr("typ") === "ap_ordner_beob_nicht_beurteilt") {
-                            return {
-                                after: false,
-                                before: false,
-                                inside: true
-                            };
-                        } else if (m.r.attr("typ") === "beob_nicht_beurteilt") {
-                            return {
-                                after: true,
-                                before: true,
-                                inside: false
-                            };
-                        } else if (m.r.attr("typ") === "ap_ordner_beob_nicht_zuzuordnen") {
-                            return {
-                                after: false,
-                                before: false,
-                                inside: true
-                            };
-                        } else if (m.r.attr("typ") === "beob_nicht_zuzuordnen") {
-                            return {
-                                after: true,
-                                before: true,
-                                inside: false
-                            };
-                        } else {
+                        default:
                             return false;
                         }
-                    } else if (m.o.attr("typ") === "beob_nicht_beurteilt") {
-                        if (m.r.attr("typ") === "beob_zugeordnet") {
+                    }
+                    if (m.o.attr("typ") === "beob_zugeordnet") {
+                        switch (m.r.attr("typ")) {
+                        case 'beob_zugeordnet':
                             return {
                                 after: true,
                                 before: true,
                                 inside: false
                             };
-                        } else if (m.r.attr("typ") === "tpop_ordner_beob_zugeordnet") {
+                        case 'tpop_ordner_beob_zugeordnet':
                             return {
                                 after: false,
                                 before: false,
                                 inside: true
                             };
-                        } else if (m.r.attr("typ") === "ap_ordner_beob_nicht_beurteilt") {
+                        case 'ap_ordner_beob_nicht_beurteilt':
                             return {
                                 after: false,
                                 before: false,
                                 inside: true
                             };
-                        } else if (m.r.attr("typ") === "beob_nicht_beurteilt") {
+                        case 'beob_nicht_beurteilt':
                             return {
                                 after: true,
                                 before: true,
                                 inside: false
                             };
-                        } else if (m.r.attr("typ") === "ap_ordner_beob_nicht_zuzuordnen") {
+                        case 'ap_ordner_beob_nicht_zuzuordnen':
                             return {
                                 after: false,
                                 before: false,
                                 inside: true
                             };
-                        } else if (m.r.attr("typ") === "beob_nicht_zuzuordnen") {
+                        case 'beob_nicht_zuzuordnen':
                             return {
                                 after: true,
                                 before: true,
                                 inside: false
                             };
-                        } else {
+                        default:
                             return false;
                         }
-                    } else if (m.o.attr("typ") === "beob_nicht_zuzuordnen") {
-                        if (m.r.attr("typ") === "beob_zugeordnet") {
+                    }
+                    if (m.o.attr("typ") === "beob_nicht_beurteilt") {
+                        switch (m.r.attr("typ")) {
+                        case 'beob_zugeordnet':
                             return {
                                 after: true,
                                 before: true,
                                 inside: false
                             };
-                        } else if (m.r.attr("typ") === "tpop_ordner_beob_zugeordnet") {
+                        case 'tpop_ordner_beob_zugeordnet':
                             return {
                                 after: false,
                                 before: false,
                                 inside: true
                             };
-                        } else if (m.r.attr("typ") === "ap_ordner_beob_nicht_beurteilt") {
+                        case 'ap_ordner_beob_nicht_beurteilt':
                             return {
                                 after: false,
                                 before: false,
                                 inside: true
                             };
-                        } else if (m.r.attr("typ") === "beob_nicht_beurteilt") {
+                        case 'beob_nicht_beurteilt':
                             return {
                                 after: true,
                                 before: true,
                                 inside: false
                             };
-                        } else if (m.r.attr("typ") === "ap_ordner_beob_nicht_zuzuordnen") {
+                        case 'ap_ordner_beob_nicht_zuzuordnen':
                             return {
                                 after: false,
                                 before: false,
                                 inside: true
                             };
-                        } else if (m.r.attr("typ") === "beob_nicht_zuzuordnen") {
+                        case 'beob_nicht_zuzuordnen':
                             return {
                                 after: true,
                                 before: true,
                                 inside: false
                             };
-                        } else {
+                        default:
+                            return false;
+                        }
+                    }
+                    if (m.o.attr("typ") === "beob_nicht_zuzuordnen") {
+                        switch (m.r.attr("typ")) {
+                        case 'beob_zugeordnet':
+                            return {
+                                after: true,
+                                before: true,
+                                inside: false
+                            };
+                        case 'tpop_ordner_beob_zugeordnet':
+                            return {
+                                after: false,
+                                before: false,
+                                inside: true
+                            };
+                        case 'ap_ordner_beob_nicht_beurteilt':
+                            return {
+                                after: false,
+                                before: false,
+                                inside: true
+                            };
+                        case 'beob_nicht_beurteilt':
+                            return {
+                                after: true,
+                                before: true,
+                                inside: false
+                            };
+                        case 'ap_ordner_beob_nicht_zuzuordnen':
+                            return {
+                                after: false,
+                                before: false,
+                                inside: true
+                            };
+                        case 'beob_nicht_zuzuordnen':
+                            return {
+                                after: true,
+                                before: true,
+                                inside: false
+                            };
+                        default:
                             return false;
                         }
                     }
@@ -684,10 +694,10 @@ var returnFunction = function ($, ApArtId) {
             }
         }
     })
-    .bind("after_open.jstree", function (e, data) {
+    .bind("after_open.jstree", function () {
         window.apf.setzeTreehöhe();
     })
-    .bind("after_close.jstree", function (e, data) {
+    .bind("after_close.jstree", function () {
         window.apf.setzeTreehöhe();
     })
     .bind("prepare_move.jstree", function (e, data) {
