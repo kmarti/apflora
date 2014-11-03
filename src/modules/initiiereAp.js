@@ -51,7 +51,7 @@ var returnFunction = function (apId) {
                 getAdressenHtml(function (html) {
                     $("#ApBearb")
                         .html(html)
-                        .val(window.apf.ApBearb);
+                        .val(window.apf.ap.ApBearb);
                 });
                 // Formulare blenden
                 zeigeFormular("ap");
