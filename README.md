@@ -54,8 +54,8 @@ Web-Applikation zur Verwaltung des [Aktionsplans Flora der Fachstelle Naturschut
 **Auf die Plätze, fertig, los!**
 
 - "No hassle": Keine Installation, keine Installationskosten, automatische Updates
-- Von ausserhalb (Auftragnehmer) und endlich auch innerhalb der Fachstelle Naturschutz arbeiten
-- Ein moderner Browser wird vorausgesetzt. Entwickelt für Google Chrome. Funktioniert auch auf auch auf Firefox und Safari für PC (neuste Versionen), sowie Chrome für Android und Safari auf iOS. Auf Internet Explorer funktioniert ApFloraDb nicht (ev. ab Version 11 aber kaum getestet)
+- Von ausserhalb (Auftragnehmer) und innerhalb der Fachstelle Naturschutz arbeiten (trotz strenger firewall)
+- Ein moderner Browser wird vorausgesetzt. Entwickelt für Google Chrome. Funktioniert auch auf auch auf Firefox und Safari für PC (neuste Versionen), sowie Chrome für Android und Safari auf iOS. Auf Internet Explorer funktioniert ApFloraDb offenbar ab Version 10 (aber kaum getestet)
 
 **Sich rasch zurechtfinden:**
 
