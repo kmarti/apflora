@@ -2382,10 +2382,11 @@
                 window.apf.initiiereApp();
 
                 // sicherstellen, dass die Rücktaste des Browsers benutzt werden kann
-                $(window).on('popstate', function() {
+                // 3.11.2014: ausgeschaltet, weil beim Aufruf von Exporten wiederholt öffneUri aufgerufen wurde
+                /*$(window).on('popstate', function() {
                 	console.log('event: window popstate');
                     window.apf.öffneUri();
-                });
+                });*/
 
                 $('#olmap_layertree')
                     .on('click', '.olmap_layertree_checkbox', function (event) {
