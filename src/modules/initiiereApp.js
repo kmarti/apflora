@@ -1,8 +1,9 @@
 /*jslint node: true, browser: true, nomen: true */
 'use strict';
 
-var $ = require('jquery'),
-    clearLocalStorage = require('./clearLocalStorage');
+var $                 = require('jquery'),
+    clearLocalStorage = require('./clearLocalStorage'),
+    erstelleArtlisten = require('./erstelleArtlisten');
 
 require('jquery-ui');
 
@@ -78,8 +79,7 @@ var returnFunction = function () {
     window.apf.feldliste_freiwkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrPlan', 'TPopKontrUebFlaeche', 'TPopKontrUebPfl', 'TPopKontrNaBo', 'TPopKontrJungPflJN', 'TPopKontrVegHoeMax', 'TPopKontrVegHoeMit', 'TPopKontrGefaehrdung', 'TPopKontrGuid'];
 
     // Auswahllisten aufbauen
-    //$("#ap_loeschen").hide();
-    window.apf.erstelleArtlisten();
+    erstelleArtlisten();
 
     // HIER WIRD IN FIREFOX EINE ENDLOSSCHLAUFE AUSGELÖST
     $.when(window.apf.wähleApListe('programm_alle'))

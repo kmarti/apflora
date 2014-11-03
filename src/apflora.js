@@ -24,66 +24,6 @@ window.apf.setzeWindowAp = function (id) {
     });
 };
 
-// wird benutzt von Formular ap, pop und TPopMassn
-// setzt vollständige Artlisten in Select-Felder
-window.apf.erstelleArtlisten = function (callback) {
-    'use strict';
-    var $AaSisfNr = $('#AaSisfNr');
-
-    // nur machen, wenn noch nicht passiert - sonst werden die html dauernd ersetzt
-    if (!window.apf.artliste) {
-        $.ajax({
-            type: 'get',
-            url: 'api/v1/artliste'
-        }).done(function (data) {
-            // data ist Objekt-Array
-            // Felder: id, label
-            // globale Variable setzen, damit initiiereAssozart sie verwenden kann
-            window.apf.artliste = data;
-
-            $("#AaSisfNrText").autocomplete({
-                minLength: 0,
-                delay: 500,
-                source: window.apf.artliste,
-                select: function (event, ui) {
-                    $(this).val(ui.item.label);
-                    $AaSisfNr
-                        .val(ui.item.id)
-                        .trigger('change');
-                    return false;
-                },
-                change: function (event, ui) {
-                    if (!ui.item) {
-                        // kein zulässiger Eintrag > Feld leeren
-                        $(this).val('');
-                        $AaSisfNr.val('');
-                    }
-                }
-            });
-
-            $('#TPopMassnAnsiedWirtspfl').autocomplete({
-                minLength: 0,
-                delay: 500,
-                source: window.apf.artliste,
-                select: function (event, ui) {
-                    $(this)
-                        .val(ui.item.label)
-                        .trigger('change');
-                    return false;
-                }
-            });
-
-            if (callback) {
-                callback();
-            }
-        });
-    } else {
-        if (callback) {
-            callback();
-        }
-    }
-};
-
 // setzt window.apf.pop und localStorage.pop_id
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowPop = function (id) {
