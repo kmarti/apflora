@@ -531,48 +531,9 @@ window.apf.setzeAutocompleteFuerApliste = function (programm) {
     });
 };
 
+// wird in index.html benutzt
 window.apf.wähleApListe = function (programm) {
-    'use strict';
-
-    var $ap_waehlen = $("#ap_waehlen"),
-        $ap_waehlen_text = $("#ap_waehlen_text"),
-        initiiereAp = require('./modules/initiiereAp'),
-        aplisteErstellt = $.Deferred();
-
-    $ap_waehlen_text.attr('placeholder', 'Daten werden aufbereitet...');
-    $ap_waehlen.val('');
-    $ap_waehlen_text.val('');
-    $("#ap").hide();
-    $("#forms").hide();
-    $('#tree').hide();
-    $("#suchen").hide();
-    $("#exportieren_2").hide();
-    $("#hilfe").hide();
-    $("#ap_loeschen").hide();
-    $("#exportieren_1").show();
-
-    //initiiereAp();
-
-    window.apf.erstelleApliste(programm, function () {
-        var $programm_wahl_checked = $("[name='programm_wahl']:checked"),
-            hinweisText;
-
-        if ($programm_wahl_checked.attr("id") === "programm_neu") {
-            hinweisText = 'Art für neues Förderprogramm wählen';
-        } else if ($programm_wahl_checked.attr("id") === "programm_ap") {
-            hinweisText = 'Aktionsplan wählen';
-        } else {
-            hinweisText = 'Artförderprogramm wählen';
-        }
-
-        $ap_waehlen_text
-            .attr('placeholder', hinweisText)
-            .focus();
-
-        aplisteErstellt.resolve();
-    });
-
-    return aplisteErstellt.promise();
+    require('./modules/waehleApliste') (programm);
 };
 
 // diese Funktion kann nicht modularisiert werden, weil jstree nicht für node entwickelt wurde!!!!
@@ -6586,7 +6547,8 @@ window.apf.wähleAp = function (ap_id) {
         programm = $("[name='programm_wahl']:checked").attr("id"),
         ap_waehlen_text,
         placeholderText = 'Artförderprogramm wählen',
-        zeigeFormular = require('./modules/zeigeFormular');
+        zeigeFormular   = require('./modules/zeigeFormular'),
+        waehleApliste   = require('./modules/waehleApliste');
 
     if (ap_id) {
         // einen AP gewählt
@@ -6605,7 +6567,7 @@ window.apf.wähleAp = function (ap_id) {
                 // alle zwischengespeicherten aplisten löschen
                 delete window.apf.apliste;
                 // Auswahlliste für Programme updaten
-                $.when(window.apf.wähleApListe("programm_alle"))
+                $.when(waehleApliste("programm_alle"))
                 .then(function () {
                     // Strukturbaum updaten
                     $.when(window.apf.erstelle_tree(ap_id))

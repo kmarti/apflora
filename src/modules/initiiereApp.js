@@ -3,7 +3,8 @@
 
 var $                 = require('jquery'),
     clearLocalStorage = require('./clearLocalStorage'),
-    erstelleArtlisten = require('./erstelleArtlisten');
+    erstelleArtlisten = require('./erstelleArtlisten'),
+    waehleApliste     = require('./waehleApliste');
 
 require('jquery-ui');
 
@@ -82,7 +83,7 @@ var returnFunction = function () {
     erstelleArtlisten();
 
     // HIER WIRD IN FIREFOX EINE ENDLOSSCHLAUFE AUSGELÖST
-    $.when(window.apf.wähleApListe('programm_alle'))
+    $.when(waehleApliste('programm_alle'))
     .then(function () {
         // falls eine Unteradresse angewählt wurde, diese öffnen
         window.apf.öffneUri();
