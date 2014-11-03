@@ -6,7 +6,8 @@ require('jquery-ui');
 // übernimmt $ wegen jstree
 var returnFunction = function ($, ApArtId) {
     localStorage.ap_id = ApArtId;
-    var jstree_erstellt = $.Deferred();
+    var jstree_erstellt = $.Deferred(),
+        treeKontextmenu = require('./treeKontextmenu');
     $("#tree").jstree({
         "json_data": {
             "ajax": {
