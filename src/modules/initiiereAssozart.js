@@ -1,9 +1,10 @@
 /*jslint node: true, browser: true, nomen: true */
 'use strict';
 
-var $              = require('jquery'),
-    initiiereApp   = require('./initiiereApp'),
-    initiiereAp    = require('./initiiereAp');
+var $             = require('jquery'),
+    initiiereApp  = require('./initiiereApp'),
+    initiiereAp   = require('./initiiereAp'),
+    zeigeFormular = require('./zeigeFormular');
 
 var returnFunction = function (apId, assozId) {
     // prüfen, ob voraussetzungen gegeben sind
@@ -67,7 +68,7 @@ var returnFunction = function (apId, assozId) {
             $("#AaBem").val(data.AaBem);
 
             // Formulare blenden
-            window.apf.zeigeFormular("assozarten");
+            zeigeFormular("assozarten");
             history.pushState(null, null, "index.html?ap=" + apId + "&assozarten=" + assozId);
 
             // bei neuen Datensätzen Fokus steuern

@@ -4,7 +4,8 @@
 var $                     = require('jquery'),
     _                     = require('underscore'),
     capitaliseFirstLetter = require('../lib/capitaliseFirstLetter'),
-    initiiereAp           = require('./initiiereAp');
+    initiiereAp           = require('./initiiereAp'),
+    zeigeFormular         = require('./zeigeFormular');
 
 var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
     // beob_status markiert, ob die Beobachtung:
@@ -136,7 +137,7 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
                             // Formulare blenden
                             // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
                             if (!ohneZuZeigen) {
-                                window.apf.zeigeFormular("beob");
+                                zeigeFormular("beob");
                                 if (beobStatus === "zugeordnet") {
                                     history.pushState(null, null, "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&beob_zugeordnet=" + beobId);
                                 } else if (beobStatus === "nicht_zuzuordnen") {
@@ -157,7 +158,7 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
                         // Formulare blenden
                         // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
                         if (!ohneZuZeigen) {
-                            window.apf.zeigeFormular("beob");
+                            zeigeFormular("beob");
                             history.pushState(null, null, "index.html?ap=" + localStorage.ap_id + "&beob_nicht_beurteilt=" + beobId);
                         }
                     }

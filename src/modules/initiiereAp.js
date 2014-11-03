@@ -3,7 +3,8 @@
 
 var $               = require('jquery'),
     initiiereApp    = require('./initiiereApp'),
-    getAdressenHtml = require('./getAdressenHtml');
+    getAdressenHtml = require('./getAdressenHtml'),
+    zeigeFormular   = require('./zeigeFormular');
 
 var returnFunction = function (apId) {
 
@@ -53,7 +54,7 @@ var returnFunction = function (apId) {
                         .val(window.apf.ApBearb);
                 });
                 // Formulare blenden
-                window.apf.zeigeFormular("ap");
+                zeigeFormular("ap");
                 history.pushState(null, null, "index.html?ap=" + data.ApArtId);
             }
         }).fail(function () {
@@ -61,7 +62,7 @@ var returnFunction = function (apId) {
         });
     } else if ($("#ap_waehlen").val() && programm_wahl === "programm_neu") {
         // Formulare blenden
-        window.apf.zeigeFormular("ap");
+        zeigeFormular("ap");
     }
 };
 

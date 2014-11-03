@@ -23,11 +23,12 @@ var returnFunction = function (tpop_liste) {
         marker_options,
         marker_cluster,
         my_flurname,
-        chToWgsLat = require('../lib/chToWgsLat'),
-        chToWgsLng = require('../lib/chToWgsLng');
+        chToWgsLat    = require('../lib/chToWgsLat'),
+        chToWgsLng    = require('../lib/chToWgsLng'),
+        zeigeFormular = require('./zeigeFormular');
 
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-    window.apf.zeigeFormular("google_karte");
+    zeigeFormular("google_karte");
     window.apf.gmap.markers_array = [];
     window.apf.gmap.info_window_array = [];
     infowindow = new google.maps.InfoWindow();

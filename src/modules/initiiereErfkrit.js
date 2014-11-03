@@ -1,10 +1,11 @@
 /*jslint node: true, browser: true, nomen: true */
 'use strict';
 
-var $              = require('jquery'),
-    initiiereApp   = require('./initiiereApp'),
-    initiiereAp    = require('./initiiereAp'),
-    limiter        = require('../lib/limiter');
+var $             = require('jquery'),
+    initiiereApp  = require('./initiiereApp'),
+    initiiereAp   = require('./initiiereAp'),
+    limiter       = require('../lib/limiter'),
+    zeigeFormular = require('./zeigeFormular');
 
 var returnFunction = function (apId, erfkritId) {
     var $ErfkritErreichungsgrad = $("#ErfkritErreichungsgrad");
@@ -62,7 +63,7 @@ var returnFunction = function (apId, erfkritId) {
                 .limiter(255, $("#ErfkritTxt_limit"));
 
             // Formulare blenden
-            window.apf.zeigeFormular("erfkrit");
+            zeigeFormular("erfkrit");
             history.pushState(null, null, "index.html?ap=" + apId + "&erfkrit=" + erfkritId);
 
             // bei neuen Datensätzen Fokus steuern

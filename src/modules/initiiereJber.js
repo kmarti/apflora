@@ -6,7 +6,8 @@ var $               = require('jquery'),
     limiter         = require('../lib/limiter'),
     initiiereApp    = require('./initiiereApp'),
     initiiereAp     = require('./initiiereAp'),
-    getAdressenHtml = require('./getAdressenHtml');
+    getAdressenHtml = require('./getAdressenHtml'),
+    zeigeFormular   = require('./zeigeFormular');
 
 var returnFunction = function (apId, apBerId) {
     // prüfen, ob voraussetzungen gegeben sind
@@ -84,7 +85,7 @@ var returnFunction = function (apId, apBerId) {
             });
 
             // Formulare blenden
-            window.apf.zeigeFormular("jber");
+            zeigeFormular("jber");
             history.pushState(null, null, "index.html?ap=" + localStorage.ap_id + "&jber=" + localStorage.jber_id);
 
             // bei neuen Datensätzen Fokus steuern

@@ -329,99 +329,14 @@ window.apf.setzeWindowTpopber = function (id) {
 
 window.apf.initiiereExporte = function (anchor) {
     'use strict';
+    var zeigeFormular = require('./modules/zeigeFormular');
     $("#testart_div").hide();
     $("#forms_titelzeile").hide();
-    window.apf.zeigeFormular("exporte");
+    zeigeFormular("exporte");
     history.pushState(null, null, "index.html?exporte=true");
     if (anchor) {
         location.hash = "#" + anchor;
     }
-};
-
-// managed die Sichtbarkeit von Formularen
-// wird von allen initiiere_-Funktionen verwendet
-// wird ein Formularname übergeben, wird dieses Formular gezeigt
-// und alle anderen ausgeblendet
-// zusätzlich wird die Höhe von textinput-Feldern an den Textinhalt angepasst
-window.apf.zeigeFormular = function (Formularname) {
-    'use strict';
-    var formular_angezeigt = $.Deferred(),
-        $forms = $("#forms"),
-        $form = $('form'),
-        $testart_div = $("#testart_div"),
-        $forms_titelzeile = $("#forms_titelzeile"),
-        $ap_waehlen = $("#ap_waehlen"),
-        $Formularname;
-    // zuerst alle Formulare ausblenden
-    $forms.hide();
-    $form.each(function () {
-        $(this).hide();
-    });
-    // Karten sind in div statt form
-    $('.karte').each(function () {
-        $(this).hide();
-    });
-
-    // damit kann bei Grössenänderung die Formularhöhe von Karten gemanagt werden
-    window.apf.kartenhöhe_manuell = false;
-    // höhe von forms auf auto setzen, weil dies von den Kartenansichten verändert wird
-    $forms.height('auto');
-    $testart_div.hide();
-    $forms_titelzeile.hide();
-    // Bei Testarten Hinweis anzeigen
-    if ($ap_waehlen.val()) {
-        // titelzeile inline, sonst gibt es einen unschönen Abstand nach oben
-        //$("#forms_titelzeile").css("display", "inline");
-        $forms_titelzeile.css("display", "none");
-        if ($ap_waehlen.val() <= 150 && Formularname !== "jber_uebersicht" && Formularname !== "exporte" && Formularname !== "GeoAdminKarte") {
-            // titelzeile inline-block, sonst werden Tabs nach rechts verschoben
-            $("#forms_titelzeile").css("display", "inline-block");
-            $testart_div
-                .css("color", "#03970F")
-                .show()
-                .html("Das ist eine Testart - hier kann man alles ausprobieren!");
-        } else if ($("#ap_waehlen").val() <= 150 && Formularname === "jber_uebersicht") {
-            $("#forms_titelzeile").css("display", "inline-block");
-            $testart_div
-                .css("color", "#DF0303")
-                .show()
-                .html("Vorsicht: Die Übericht ist für alle Arten, daher HIER NICHT TESTEN");
-        }
-    }
-
-    if (Formularname) {
-        $forms.show();
-        $("#ap_loeschen").show();
-        $("#exportieren_1").hide();
-        if (Formularname === "google_karte" || Formularname === "GeoAdminKarte") {
-            // Titelzeile entfernen
-            $("#forms_titelzeile").css("display", "none");
-            // höhe einstellen
-            $Formularname = $("#" + Formularname);
-            $Formularname.css("height", $(window).height()-17 + "px");
-            // markieren, dass die Formularhöhe anders gesetzt werden soll
-            window.apf.kartenhöhe_manuell = true;
-            window.apf.setzeKartenhöhe();
-            $Formularname.show();
-            if (Formularname === "GeoAdminKarte") {
-                window.apf.initiiereOlmap();
-            }
-        } else {
-            $forms.css("background-color", "#FFE");
-            $form.each(function () {
-                $(this).hide();
-                if ($(this).attr("id") === Formularname) {
-                    $(this).show();
-                    $('textarea').each(function () {
-                        window.apf.fitTextareaToContent(this, document.documentElement.clientHeight);
-                    });
-                }
-            });
-            $(window).scrollTop(0);
-        }
-        formular_angezeigt.resolve();
-    }
-    return formular_angezeigt.promise();
 };
 
 // leert alle Felder und stellt ihre Breite ein
@@ -2631,7 +2546,6 @@ window.apf.verorteTPopAufOlmap = function (tpop) {
     tpop.PopName = window.apf.pop.PopName;
     tpop.Artname = window.apf.ap.Artname;
 
-    //$.when(window.apf.zeigeFormular("GeoAdminKarte"))
     $.when(window.apf.zeigeTPopAufOlmap())
         .then(function () {
             window.apf.olmap.deactivateMenuItems();
@@ -3071,6 +2985,7 @@ window.apf.olmap.istLayerSichtbarNachName = function (layername) {
 
 window.apf.zeigeTPopAufOlmap = function (TPopListeMarkiert) {
     'use strict';
+    var zeigeFormular = require('./modules/zeigeFormular');
     // wenn layer "Populationen" sichtbar ist, sichtbar behalten
     var overlay_pop_visible = window.apf.olmap.istLayerSichtbarNachName("Populationen");
     // wenn layer "Populationen Namen" sichtbar ist, sichtbar behalten
@@ -3079,7 +2994,7 @@ window.apf.zeigeTPopAufOlmap = function (TPopListeMarkiert) {
     var markierte_tpop = window.apf.olmap.wähleAusschnittFürÜbergebeneTPop(TPopListeMarkiert);
 
     // Grundkarte aufbauen
-    $.when(window.apf.zeigeFormular("GeoAdminKarte"))
+    $.when(zeigeFormular("GeoAdminKarte"))
         .then(function () {
             // Karte zum richtigen Ausschnitt zoomen
             window.apf.olmap.map.updateSize();
@@ -3112,6 +3027,8 @@ window.apf.zeigeTPopAufOlmap = function (TPopListeMarkiert) {
 
 window.apf.zeigePopAufOlmap = function (PopListeMarkiert) {
     'use strict';
+    var zeigeFormular = require('./modules/zeigeFormular');
+
     // falls noch aus dem Verorten ein Klick-Handler besteht: deaktivieren
     if (window.apf.olmap.LetzterKlickHandler) {
         window.apf.olmap.LetzterKlickHandler.deactivate();
@@ -3121,7 +3038,7 @@ window.apf.zeigePopAufOlmap = function (PopListeMarkiert) {
         extent;
 
     // Grundkarte aufbauen
-    $.when(window.apf.zeigeFormular("GeoAdminKarte"))
+    $.when(zeigeFormular("GeoAdminKarte"))
         .then(function () {
             // Karte zum richtigen Ausschnitt zoomen
             // aber nur, wenn keine Auswahl aktiv
@@ -3854,9 +3771,11 @@ window.apf.gmap.zeigeBeobUndTPop = function (beob_liste, tpop_liste) {
         a_note,
         my_flurname,
         chToWgsLat = require('./lib/chToWgsLat'),
-        chToWgsLng = require('./lib/chToWgsLng');
+        chToWgsLng = require('./lib/chToWgsLng'),
+        zeigeFormular = require('./modules/zeigeFormular');
+
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-    window.apf.zeigeFormular("google_karte");
+    zeigeFormular("google_karte");
     window.apf.gmap.markers_array = [];
     window.apf.gmap.info_window_array = [];
     infowindow_beob = new google.maps.InfoWindow();
@@ -4106,9 +4025,10 @@ window.apf.gmap.zeigeBeob = function (beob_liste) {
         titel,
         a_note,
         chToWgsLng = require('./lib/chToWgsLng'),
-        chToWgsLat = require('./lib/chToWgsLat');
+        chToWgsLat = require('./lib/chToWgsLat'),
+        zeigeFormular = require('./modules/zeigeFormular');
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-    window.apf.zeigeFormular("google_karte");
+    zeigeFormular("google_karte");
     window.apf.gmap.markers_array = [];
     window.apf.gmap.info_window_array = [];
     infowindow = new google.maps.InfoWindow();
@@ -4244,9 +4164,11 @@ window.apf.gmap.zeigeTPopBeob = function (tpop_beob_liste) {
         datum,
         titel,
         chToWgsLng = require('./lib/chToWgsLng'),
-        chToWgsLat = require('./lib/chToWgsLat');
+        chToWgsLat = require('./lib/chToWgsLat'),
+        zeigeFormular = require('./modules/zeigeFormular');
+
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-    window.apf.zeigeFormular("google_karte");
+    zeigeFormular("google_karte");
     window.apf.gmap.markers_array = [];
     window.apf.gmap.info_window_array = [];
     infowindow = new google.maps.InfoWindow();
@@ -4376,11 +4298,13 @@ window.apf.gmap.verorteTPop = function (tpop) {
         tpop_beschriftung,
         my_flurname,
         chToWgsLng = require('./lib/chToWgsLng'),
-        chToWgsLat = require('./lib/chToWgsLat');
+        chToWgsLat = require('./lib/chToWgsLat'),
+        zeigeFormular = require('./modules/zeigeFormular');
+
     window.apf.gmap.markers_array = [];
 
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-    window.apf.zeigeFormular("google_karte");
+    zeigeFormular("google_karte");
 
     // Optionen für die Anzeige
     if (tpop && tpop.TPopXKoord && tpop.TPopYKoord) {
@@ -6661,7 +6585,8 @@ window.apf.wähleAp = function (ap_id) {
     var initiiereAp = require('./modules/initiiereAp'),
         programm = $("[name='programm_wahl']:checked").attr("id"),
         ap_waehlen_text,
-        placeholderText = 'Artförderprogramm wählen';
+        placeholderText = 'Artförderprogramm wählen',
+        zeigeFormular = require('./modules/zeigeFormular');
 
     if (ap_id) {
         // einen AP gewählt
@@ -6719,7 +6644,7 @@ window.apf.wähleAp = function (ap_id) {
         $("#ap_loeschen").hide();
         $("#exportieren_1").show();
         $("#ap").hide();
-        window.apf.zeigeFormular();
+        zeigeFormular();
         history.pushState(null, null, "index.html");
     }
 };
@@ -7169,7 +7094,9 @@ window.apf.insertOrdnerVonTPop = function (TPopNode, tpop_id) {
 
 window.apf.löscheAp = function (ap_id) {
     'use strict';
-    var $ap_waehlen_text = $("#ap_waehlen_text")
+    var $ap_waehlen_text = $("#ap_waehlen_text"),
+        zeigeFormular = require('./modules/zeigeFormular');
+
     //Variable zum rückgängig machen erstellen
     window.apf.deleted = window.apf;
     window.apf.deleted.typ = "ap";
@@ -7206,7 +7133,7 @@ window.apf.löscheAp = function (ap_id) {
         //Artname wird nicht mehr gebraucht und soll später nicht in Datensatz eingefügt werden
         delete window.apf.deleted.Artname;
         //forms muss eingeblendet sein, weil undelete_div darin ist
-        window.apf.zeigeFormular("keines");
+        zeigeFormular("keines");
     }).fail(function () {
         window.apf.melde("Fehler: Das Programm wurde nicht gelöscht");
     });
@@ -7227,7 +7154,8 @@ window.apf.undeleteDatensatz = function () {
     var tabelle,
         data = {},
         typ,
-        id;
+        id,
+        zeigeFormular = require('./modules/zeigeFormular');
     
     if (!window.apf.deleted) {
         window.apf.melde("Wiederherstellung gescheitert", "Fehler");
@@ -7332,12 +7260,12 @@ window.apf.undeleteDatensatz = function () {
         // ap kann nicht via Strukturbaum gewählt werden
         if (typ === "ap") {
             //Formulare ausblenden
-            window.apf.zeigeFormular();
+            zeigeFormular();
             //neu initiieren, damit die gelöschte Art gewählt werden kann
             window.apf.initiiere_index();
             // TODO: DAS TESTEN
             // Formulare blenden
-            window.apf.zeigeFormular("ap");
+            zeigeFormular("ap");
             history.pushState(null, null, "index.html?ap=" + id);
         } else {
             //tree neu aufbauen

@@ -5,7 +5,8 @@ var $                            = require('jquery'),
     dateFormat                   = require('dateformat'),
     initiiereApp                 = require('./initiiereApp'),
     initiiereAp                  = require('./initiiereAp'),
-    pruefeSchreibvoraussetzungen = require('./pruefeSchreibvoraussetzungen');
+    pruefeSchreibvoraussetzungen = require('./pruefeSchreibvoraussetzungen'),
+    zeigeFormular                = require('./zeigeFormular');
 
 var initiiereIdealbiotop = function (apId) {
     var $IbErstelldatum  = $("#IbErstelldatum");
@@ -64,7 +65,7 @@ var initiiereIdealbiotop = function (apId) {
             $("#IbBemerkungen").val(data.IbBemerkungen);
 
             // Formulare blenden
-            window.apf.zeigeFormular("idealbiotop");
+            zeigeFormular("idealbiotop");
             history.pushState(null, null, "index.html?ap=" + localStorage.ap_id + "&idealbiotop=" + localStorage.idealbiotop_id);
 
             // bei neuen Datensätzen Fokus steuern

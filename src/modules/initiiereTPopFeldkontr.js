@@ -16,7 +16,8 @@ var $                            = require('jquery'),
     getAdressenHtml              = require('./getAdressenHtml'),
     getZaehleinheitenHtml        = require('./getZaehleinheitenHtml'),
     getLrDelarzeHtml             = require('./getLrDelarzeHtml'),
-    getIdealbiotopUebereinstHtml = require('./getIdealbiotopUebereinstHtml');
+    getIdealbiotopUebereinstHtml = require('./getIdealbiotopUebereinstHtml'),
+    zeigeFormular                = require('./zeigeFormular');
 
 require('jquery-ui');
 
@@ -263,7 +264,7 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
             }
 
             // Formulare blenden
-            window.apf.zeigeFormular("tpopfeldkontr");
+            zeigeFormular("tpopfeldkontr");
             if (kontrTyp === 'feldKontr') {
                 history.pushState(null, null, "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopfeldkontr=" + feldKontrId);
             } else {

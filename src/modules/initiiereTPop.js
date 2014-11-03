@@ -7,7 +7,8 @@ var $               = require('jquery'),
     initiiereApp    = require('./initiiereApp'),
     initiiereAp     = require('./initiiereAp'),
     initiierePop    = require('./initiierePop'),
-    getAdressenHtml = require('./getAdressenHtml');
+    getAdressenHtml = require('./getAdressenHtml'),
+    zeigeFormular   = require('./zeigeFormular');
 
 var returnFunction = function (apId, popId, tpopId, ohne_zu_zeigen) {
     // prüfen, ob voraussetzungen gegeben sind
@@ -144,7 +145,7 @@ var returnFunction = function (apId, popId, tpopId, ohne_zu_zeigen) {
             // Formulare blenden
             // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
             if (!ohne_zu_zeigen) {
-                window.apf.zeigeFormular("tpop");
+                zeigeFormular("tpop");
                 history.pushState(null, null, "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId);
 
                 // bei neuen Datensätzen Fokus steuern

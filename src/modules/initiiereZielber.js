@@ -4,7 +4,8 @@
 var $               = require('jquery'),
     initiiereApp    = require('./initiiereApp'),
     initiiereAp     = require('./initiiereAp'),
-    initiiereApziel = require('./initiiereApziel');
+    initiiereApziel = require('./initiiereApziel'),
+    zeigeFormular   = require('./zeigeFormular');
 
 var returnFunction = function (apId, apZielId, zielberId) {
     var $ZielBerJahr = $("#ZielBerJahr");
@@ -71,7 +72,7 @@ var returnFunction = function (apId, apZielId, zielberId) {
             $("#ZielBerTxt").val(data.ZielBerTxt);
 
             // Formulare blenden
-            window.apf.zeigeFormular("zielber");
+            zeigeFormular("zielber");
             history.pushState(null, null, "index.html?ap=" + apId + "&apziel=" + apZielId + "&zielber=" + zielberId);
 
             // bei neuen Datensätzen Fokus steuern

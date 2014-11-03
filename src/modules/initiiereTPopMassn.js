@@ -10,7 +10,8 @@ var $               = require('jquery'),
     initiierePop    = require('./initiierePop'),
     initiiereTPop   = require('./initiiereTPop'),
     getAdressenHtml = require('./getAdressenHtml'),
-    getMassntypHtml = require('./getMassntypHtml');
+    getMassntypHtml = require('./getMassntypHtml'),
+    zeigeFormular   = require('./zeigeFormular');
 
 var returnFunction = function (apId, popId, tpopId, massnId) {
     // prüfen, ob voraussetzungen gegeben sind
@@ -131,7 +132,7 @@ var returnFunction = function (apId, popId, tpopId, massnId) {
             $("#TPopMassnGuid").val(data.TPopMassnGuid);
 
             // Formulare blenden
-            window.apf.zeigeFormular("tpopmassn");
+            zeigeFormular("tpopmassn");
             history.pushState(null, null, "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId + "&tpopmassn=" + massnId);
 
             // bei neuen Datensätzen Fokus steuern

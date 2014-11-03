@@ -3,7 +3,8 @@
 
 var $              = require('jquery'),
     initiiereApp   = require('./initiiereApp'),
-    initiiereAp    = require('./initiiereAp');
+    initiiereAp    = require('./initiiereAp'),
+    zeigeFormular  = require('./zeigeFormular');
 
 var returnFunction = function (apId, uebId) {
     var $JbuJahr = $("#JbuJahr");
@@ -57,7 +58,7 @@ var returnFunction = function (apId, uebId) {
             // window.apf.fitTextareaToContent("Bemerkungen", document.documentElement.clientHeight);
 
             // Formulare blenden
-            window.apf.zeigeFormular("jber_uebersicht");
+            zeigeFormular("jber_uebersicht");
             history.pushState(null, null, "index.html?ap=" + apId + "&jber_uebersicht=" + uebId);
 
             // bei neuen Datensätzen Fokus steuern

@@ -2,10 +2,11 @@
 'use strict';
 
 
-var $ = jQuery     = require('jquery'),
-    initiiereApp   = require('./initiiereApp'),
-    initiiereAp    = require('./initiiereAp'),
-    limiter        = require('../lib/limiter');
+var $ = jQuery    = require('jquery'),
+    initiiereApp  = require('./initiiereApp'),
+    initiiereAp   = require('./initiiereAp'),
+    limiter       = require('../lib/limiter'),
+    zeigeFormular = require('./zeigeFormular');
 
 // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
 // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
@@ -74,7 +75,7 @@ var initiiereBer = function (apId, berId) {
             $('#BerURLHref').attr('onClick', "window.open('" + data.BerURL + "', target='_blank')");
 
             // Formulare blenden
-            window.apf.zeigeFormular("ber");
+            zeigeFormular("ber");
             history.pushState(null, null, "index.html?ap=" + localStorage.ap_id + "&ber=" + localStorage.ber_id);
 
             // bei neuen Datensätzen Fokus steuern

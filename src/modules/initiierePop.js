@@ -1,10 +1,11 @@
 /*jslint node: true, browser: true, nomen: true */
 'use strict';
 
-var $              = require('jquery'),
-    limiter        = require('../lib/limiter'),
-    initiiereApp   = require('./initiiereApp'),
-    initiiereAp    = require('./initiiereAp');
+var $             = require('jquery'),
+    limiter       = require('../lib/limiter'),
+    initiiereApp  = require('./initiiereApp'),
+    initiiereAp   = require('./initiiereAp'),
+    zeigeFormular = require('./zeigeFormular');
 
 var returnFunction = function (apId, popId, ohne_zu_zeigen) {
     var $PopName = $("#PopName"),
@@ -85,7 +86,7 @@ var returnFunction = function (apId, popId, ohne_zu_zeigen) {
             // Formulare blenden
             // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
             if (!ohne_zu_zeigen) {
-                window.apf.zeigeFormular("pop");
+                zeigeFormular("pop");
                 history.pushState(null, null, "index.html?ap=" + apId + "&pop=" + popId);
 
                 // bei neuen Datensätzen Fokus steuern

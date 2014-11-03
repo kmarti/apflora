@@ -3,7 +3,8 @@
 
 var $              = require('jquery'),
     initiiereApp   = require('./initiiereApp'),
-    initiiereAp    = require('./initiiereAp');
+    initiiereAp    = require('./initiiereAp'),
+    zeigeFormular  = require('./zeigeFormular');
 
 var returnFunction = function (apId, apZielId) {
     // prüfen, ob voraussetzungen gegeben sind
@@ -54,7 +55,7 @@ var returnFunction = function (apId, apZielId) {
             $("#ZielTyp" + data.ZielTyp).prop("checked", true);
             $("#ZielBezeichnung").val(data.ZielBezeichnung);
             // Formulare blenden
-            window.apf.zeigeFormular("apziel");
+            zeigeFormular("apziel");
             history.pushState(null, null, "index.html?ap=" + apId + "&apziel=" + apZielId);
             // bei neuen Datensätzen Fokus steuern
             if (!$ZielJahr.val()) {

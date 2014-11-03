@@ -1,10 +1,11 @@
 /*jslint node: true, browser: true, nomen: true */
 'use strict';
 
-var $               = require('jquery'),
-    initiiereApp    = require('./initiiereApp'),
-    initiiereAp     = require('./initiiereAp'),
-    initiierePop    = require('./initiierePop');
+var $             = require('jquery'),
+    initiiereApp  = require('./initiiereApp'),
+    initiiereAp   = require('./initiiereAp'),
+    initiierePop  = require('./initiierePop'),
+    zeigeFormular = require('./zeigeFormular');
 
 var returnFunction = function (apId, popId, popberId) {
     // prüfen, ob voraussetzungen gegeben sind
@@ -77,7 +78,7 @@ var returnFunction = function (apId, popId, popberId) {
             $("#PopBerTxt").val(data.PopBerTxt);
 
             // Formulare blenden
-            window.apf.zeigeFormular("popber");
+            zeigeFormular("popber");
             history.pushState(null, null, "index.html?ap=" + apId + "&pop=" + popId + "&popber=" + popberId);
 
             // bei neuen Datensätzen Fokus steuern
