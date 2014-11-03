@@ -1016,9 +1016,9 @@ WHERE alexande_apflora.tblPopulation.PopYKoord > 0 AND alexande_apflora.tblPopul
 ORDER BY alexande_beob.ArtenDb_Arteigenschaften.Artname, alexande_apflora.tblPopulation.PopNr, alexande_apflora.tblPopulation.PopName;
 
 CREATE OR REPLACE VIEW vKontrAnzProZaehleinheit0 AS
-SELECT TPopKontrId, ZaehleinheitTxt AS TPopKontrZaehleinheit, Count(TPopKontrAnz1) AS TPopKontrAnz FROM alexande_apflora.tblTeilPopFeldkontrolle INNER JOIN alexande_apflora.DomainTPopKontrZaehleinheit ON alexande_apflora.tblTeilPopFeldkontrolle.TPopKontrZaehleinheit1 = DomainTPopKontrZaehleinheit.ZaehleinheitCode GROUP BY TPopKontrId, ZaehleinheitTxt
-Union SELECT TPopKontrId, ZaehleinheitTxt AS TPopKontrZaehleinheit, Count(TPopKontrAnz2) AS TPopKontrAnz FROM alexande_apflora.tblTeilPopFeldkontrolle INNER JOIN alexande_apflora.DomainTPopKontrZaehleinheit ON alexande_apflora.tblTeilPopFeldkontrolle.TPopKontrZaehleinheit2 = DomainTPopKontrZaehleinheit.ZaehleinheitCode GROUP BY TPopKontrId, ZaehleinheitTxt
-Union SELECT TPopKontrId, ZaehleinheitTxt AS TPopKontrZaehleinheit, Count(TPopKontrAnz3) AS TPopKontrAnz FROM alexande_apflora.tblTeilPopFeldkontrolle INNER JOIN alexande_apflora.DomainTPopKontrZaehleinheit ON alexande_apflora.tblTeilPopFeldkontrolle.TPopKontrZaehleinheit3 = DomainTPopKontrZaehleinheit.ZaehleinheitCode GROUP BY TPopKontrId, ZaehleinheitTxt
+SELECT TPopKontrId, ZaehleinheitTxt AS TPopKontrZaehleinheit, Sum(TPopKontrAnz1) AS TPopKontrAnz FROM alexande_apflora.tblTeilPopFeldkontrolle INNER JOIN alexande_apflora.DomainTPopKontrZaehleinheit ON alexande_apflora.tblTeilPopFeldkontrolle.TPopKontrZaehleinheit1 = DomainTPopKontrZaehleinheit.ZaehleinheitCode GROUP BY TPopKontrId, ZaehleinheitTxt
+Union SELECT TPopKontrId, ZaehleinheitTxt AS TPopKontrZaehleinheit, Sum(TPopKontrAnz2) AS TPopKontrAnz FROM alexande_apflora.tblTeilPopFeldkontrolle INNER JOIN alexande_apflora.DomainTPopKontrZaehleinheit ON alexande_apflora.tblTeilPopFeldkontrolle.TPopKontrZaehleinheit2 = DomainTPopKontrZaehleinheit.ZaehleinheitCode GROUP BY TPopKontrId, ZaehleinheitTxt
+Union SELECT TPopKontrId, ZaehleinheitTxt AS TPopKontrZaehleinheit, Sum(TPopKontrAnz3) AS TPopKontrAnz FROM alexande_apflora.tblTeilPopFeldkontrolle INNER JOIN alexande_apflora.DomainTPopKontrZaehleinheit ON alexande_apflora.tblTeilPopFeldkontrolle.TPopKontrZaehleinheit3 = DomainTPopKontrZaehleinheit.ZaehleinheitCode GROUP BY TPopKontrId, ZaehleinheitTxt
 ORDER BY TPopKontrId, TPopKontrZaehleinheit;
 
 CREATE OR REPLACE VIEW vKontrAnzProZaehleinheit AS
