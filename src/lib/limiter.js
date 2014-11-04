@@ -3,7 +3,7 @@
  * Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
  */
 
-/*jslint node: true, browser: true, nomen: true */
+/*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
 

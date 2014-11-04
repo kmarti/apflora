@@ -3,7 +3,7 @@
  * der erste Buchstabe wird mit einem Grossbuchstaben ersetzt
  */
 
-/*jslint node: true, browser: true, nomen: true */
+/*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
 

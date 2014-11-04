@@ -4,7 +4,7 @@
  * retourniert das kml für den Header
  */
 
-/*jslint node: true, browser: true, nomen: true */
+/*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
 

@@ -3,7 +3,7 @@
 // <li><input type="checkbox" id="olmap_layertree_Ebene 1"><label for="olmap_layertree_Ebene 1">Ebene 1</label></li><hr>
 // active_kategorie: der Bereich dieser Kategorie soll offen sein
 
-/*jslint node: true, browser: true, nomen: true */
+/*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
 var _ = require('underscore');
