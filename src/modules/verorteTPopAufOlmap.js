@@ -9,7 +9,8 @@ var returnFunction = function (tpop) {
         x_min,
         y_max,
         y_min,
-        erstelleModifyInteractionFuerTPop = require('./erstelleModifyInteractionFuerTPop');
+        erstelleModifyInteractionFuerTPop = require('./erstelleModifyInteractionFuerTPop'),
+        zeigeTPopAufOlmap = require('./zeigeTPopAufOlmap');
 
     // tpop hat keine PopNr
     // Infos von Pop müssen ergänzt werden, weil sie als Label angezeigt werden
@@ -17,7 +18,7 @@ var returnFunction = function (tpop) {
     tpop.PopName = window.apf.pop.PopName;
     tpop.Artname = window.apf.ap.Artname;
 
-    $.when(window.apf.zeigeTPopAufOlmap())
+    $.when(zeigeTPopAufOlmap())
         .then(function () {
             window.apf.olmap.deactivateMenuItems();
 
@@ -60,19 +61,19 @@ var returnFunction = function (tpop) {
                     type: /** @type {ol.geom.GeometryType} */ ('Point')
                 });
                 window.apf.olmap.map.addInteraction(window.apf.olmap.draw_interaction);
-                
+
                 window.apf.olmap.draw_interaction.once('drawend', function (event) {
                     var coordinates = event.feature.getGeometry().getCoordinates();
                     // Koordinaten in tpop ergänzen
-                    tpop.TPopXKoord  = parseInt(coordinates[0]);
-                    tpop.TPopYKoord = parseInt(coordinates[1]);
+                    tpop.TPopXKoord  = parseInt(coordinates[0], 10);
+                    tpop.TPopYKoord = parseInt(coordinates[1], 10);
                     $.when(window.apf.aktualisiereKoordinatenVonTPop(tpop))
                         .then(function () {
                             // marker in tpop_layer ergänzen
                             // tpop_layer holen
-                            var layers = window.apf.olmap.map.getLayers().getArray(),
-                                tpop_layer_nr = $('#olmap_layertree_Teilpopulationen').val(),
-                                tpop_layer = layers[tpop_layer_nr],
+                            var layers            = window.apf.olmap.map.getLayers().getArray(),
+                                tpop_layer_nr     = $('#olmap_layertree_Teilpopulationen').val(),
+                                tpop_layer        = layers[tpop_layer_nr],
                                 tpop_layer_source = tpop_layer.getSource();
                             // marker ergänzen
                             tpop_layer_source.addFeature(window.apf.olmap.erstelleMarkerFürTPopLayer(tpop));

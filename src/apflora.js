@@ -960,37 +960,9 @@ window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function (vectorlaye
     require('./modules/erstelleModifyInteractionFuerVectorLayer')(vectorlayer);
 };
 
+// wird in index.html benutzt
 window.apf.olmap.exportiereLayer = function (layer, selected_value) {
-    'use strict';
-    var layer_name = layer.get('title') || 'Eigene_Ebene',
-        allFeatures = layer.getSource().getFeatures(),
-        format = new ol.format[selected_value](),
-        data_parsed,
-        data_stringified;
-    layer_name += '.' + selected_value;
-    try {
-        data_parsed = format.writeFeatures(allFeatures);
-    } catch (e) {
-        window.apf.melde('Sorry, das kann Open Layers 3 noch nicht richtig', 'Fehler beim Export');
-        return;
-    }
-    if (selected_value === 'GeoJSON') {
-        try {
-            data_stringified = JSON.stringify(data_parsed, null, 4);
-        }
-        catch (e) {
-            window.apf.melde('Sorry, das kann Open Layers 3 noch nicht richtig', 'Fehler beim Export');
-        }
-    } else {
-        var serializer = new XMLSerializer();
-        try {
-            data_stringified = serializer.serializeToString(data_parsed);
-        }
-        catch (e) {
-            window.apf.melde('Sorry, das kann Open Layers 3 noch nicht richtig', 'Fehler beim Export');
-        }
-    }
-    window.apf.download(layer_name, data_stringified);
+    require('./modules/exportiereLayer')(layer, selected_value);
 };
 
 window.apf.download = function (filename, text) {
@@ -1016,97 +988,6 @@ window.apf.olmap.istLayerSichtbarNachName = function (layername) {
         }
     }
     return false;
-};
-
-window.apf.zeigeTPopAufOlmap = function (TPopListeMarkiert) {
-    'use strict';
-    var zeigeFormular = require('./modules/zeigeFormular');
-    // wenn layer "Populationen" sichtbar ist, sichtbar behalten
-    var overlay_pop_visible = window.apf.olmap.istLayerSichtbarNachName("Populationen");
-    // wenn layer "Populationen Namen" sichtbar ist, sichtbar behalten
-    var overlay_popnr_visible = window.apf.olmap.istLayerSichtbarNachName("Populationen Nummern");
-    
-    var markierte_tpop = window.apf.olmap.wähleAusschnittFürÜbergebeneTPop(TPopListeMarkiert);
-
-    // Grundkarte aufbauen
-    $.when(zeigeFormular("GeoAdminKarte"))
-        .then(function () {
-            // Karte zum richtigen Ausschnitt zoomen
-            window.apf.olmap.map.updateSize();
-            window.apf.olmap.map.getView().fitExtent(markierte_tpop.bounds, window.apf.olmap.map.getSize());
-            // tpop und pop ergänzen
-            // alle tpop holen
-            var getTPopKarteAlle = $.ajax({
-                type: 'get',
-                url: 'api/v1/tpopKarteAlle/apId=' + window.apf.ap.ApArtId
-            });
-
-            getTPopKarteAlle.done(function (tpop_liste) {
-                $.when(
-                    // Layer für Symbole und Beschriftung erstellen
-                    window.apf.olmap.erstelleTPopLayer(tpop_liste, markierte_tpop.tpopid_markiert, true),
-                    // alle Pop holen
-                    window.apf.olmap.zeigePopInTPop(overlay_pop_visible, overlay_popnr_visible)
-                )
-                .then(function () {
-                    // layertree neu aufbauen
-                    window.apf.olmap.initiiereLayertree();
-                });
-            });
-
-            getTPopKarteAlle.fail(function () {
-                window.apf.melde("Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden");
-            });
-    });
-};
-
-window.apf.zeigePopAufOlmap = function (PopListeMarkiert) {
-    'use strict';
-    var zeigeFormular = require('./modules/zeigeFormular');
-
-    // falls noch aus dem Verorten ein Klick-Handler besteht: deaktivieren
-    if (window.apf.olmap.LetzterKlickHandler) {
-        window.apf.olmap.LetzterKlickHandler.deactivate();
-    }
-    
-    var markierte_pop = window.apf.olmap.wähleAusschnittFürÜbergebenePop(PopListeMarkiert),
-        extent;
-
-    // Grundkarte aufbauen
-    $.when(zeigeFormular("GeoAdminKarte"))
-        .then(function () {
-            // Karte zum richtigen Ausschnitt zoomen
-            // aber nur, wenn keine Auswahl aktiv
-            if (window.apf.olmap.auswahlPolygonLayer && window.apf.olmap.auswahlPolygonLayer.features.length > 0) {
-                // Auswahl aktiv, Zoomstufe belassen
-            } else {
-                window.apf.olmap.map.updateSize();
-                window.apf.olmap.map.getView().fitExtent(markierte_pop.bounds, window.apf.olmap.map.getSize());
-            }
-            // tpop und pop ergänzen
-            // alle tpop holen
-            var getTPopKarteAlle_2 = $.ajax({
-                type: 'get',
-                url: 'api/v1/tpopKarteAlle/apId=' + window.apf.ap.ApArtId
-            });
-
-            getTPopKarteAlle_2.done(function (TPopListe) {
-                $.when(
-                    // Layer für Symbole und Beschriftung erstellen
-                    window.apf.olmap.erstelleTPopLayer(TPopListe),
-                    // alle Pop holen, symbole und nr sichtbar schalten, Markierung übergeben
-                    window.apf.olmap.zeigePopInTPop(true, true, markierte_pop.popid_markiert)
-                )
-                .then(function () {
-                    // layertree neu aufbauen
-                    window.apf.olmap.initiiereLayertree();
-                });
-            });
-
-            getTPopKarteAlle_2.fail(function () {
-                window.apf.melde("Fehler: Es konnten keine Daten aus der Datenbank abgerufen werden");
-            });
-    });
 };
 
 // übernimmt eine Liste von (markierten) TPop

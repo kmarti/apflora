@@ -15,12 +15,13 @@ var mysql      = require('mysql'),
 var returnFunction = function (request, callback) {
     var view = decodeURIComponent(request.params.view), // Name des Views, aus dem die Daten geholt werden sollen
         idName = decodeURIComponent(request.params.idName), // name des Felds, für den ID's übergeben werden
-        idListe = decodeURIComponent(request.params.idListe); // liste der ID's
+        idListe = decodeURIComponent(request.params.idListe), // liste der ID's
+        sql = 'SELECT * FROM ' + view + ' WHERE `' + idName + '` IN (' + idListe + ')';
 
     connection.query(
-        'SELECT * FROM ' + view + ' WHERE `' + idName + '` IN (' + idListe + ')',
+        sql,
         function (err, data) {
-            if (err) throw err;
+            if (err) { throw err; }
             // null-werte eliminieren
             var data2 = data;
             _.each(data2, function (object) {

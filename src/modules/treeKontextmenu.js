@@ -54,18 +54,17 @@ var returnFunction = function ($, node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_gelb.png",
                 "action": function () {
-                    var getPopsChKarte = $.ajax({
+                    var zeigePopAufOlmap = require('./zeigePopAufOlmap');
+                    $.ajax({
                         type: 'get',
                         url: 'api/v1/popsChKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                    });
-                    getPopsChKarte.done(function (data) {
+                    }).done(function (data) {
                         if (data && data.length > 0) {
-                            window.apf.zeigePopAufOlmap(data);
+                            zeigePopAufOlmap(data);
                         } else {
                             window.apf.melde("Die Population hat keine Koordinaten", "Aktion abgebrochen");
                         }
-                    });
-                    getPopsChKarte.fail(function () {
+                    }).fail(function () {
                         window.apf.melde("Fehler: Keine Daten erhalten");
                     });
                 }
@@ -896,18 +895,17 @@ var returnFunction = function ($, node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_gelb.png",
                 "action": function () {
-                    var getPopChKarte_2 = $.ajax({
+                    var zeigePopAufOlmap = require('./zeigePopAufOlmap');
+                    $.ajax({
                         type: 'get',
                         url: 'api/v1/popChKarte/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                    });
-                    getPopChKarte_2.done(function (data) {
+                    }).done(function (data) {
                         if (data && data.length > 0) {
-                            window.apf.zeigePopAufOlmap(data);
+                            zeigePopAufOlmap(data);
                         } else {
                             window.apf.melde("Die Population hat keine Koordinaten", "Aktion abgebrochen");
                         }
-                    });
-                    getPopChKarte_2.fail(function () {
+                    }).fail(function () {
                         window.apf.melde("Fehler: Keine Populationen erhalten");
                     });
                 }
@@ -1017,12 +1015,13 @@ var returnFunction = function ($, node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_gelb.png",
                 "action": function () {
+                    var zeigeTPopAufOlmap = require('./zeigeTPopAufOlmap');
                     $.ajax({
                         type: 'get',
                         url: 'api/v1/tpopsKarte/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
                     }).done(function (data) {
                         if (data.length > 0) {
-                            window.apf.zeigeTPopAufOlmap(data);
+                            zeigeTPopAufOlmap(data);
                         } else {
                             window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
                         }
@@ -1172,12 +1171,13 @@ var returnFunction = function ($, node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_gelb.png",
                 "action": function () {
+                    var zeigeTPopAufOlmap = require('./zeigeTPopAufOlmap');
                     $.ajax({
                         type: 'get',
                         url: 'api/v1/tpopKarte/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
                     }).done(function (data) {
                         if (data.length > 0) {
-                            window.apf.zeigeTPopAufOlmap(data);
+                            zeigeTPopAufOlmap(data);
                         } else {
                             window.apf.melde("Die Teilpopulation hat keine Koordinaten", "Aktion abgebrochen");
                         }
