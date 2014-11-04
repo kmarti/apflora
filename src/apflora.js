@@ -778,8 +778,7 @@ window.apf.tpopKopiertInTpopEinfügen = function (aktiver_node, parent_node) {
     });
 };
 
-window.apf.pruefeLesevoraussetzungen
- = function () {
+window.apf.pruefeLesevoraussetzungen = function () {
     'use strict';
     // kontrollieren, ob der User offline ist
     if (!navigator.onLine) {
@@ -797,15 +796,13 @@ window.apf.pruefeLesevoraussetzungen
             });
         return false;
     }
-    
     return true;
 };
 
 window.apf.prüfeSchreibvoraussetzungen = function () {
     'use strict';
     // kontrollieren, ob der User online ist
-    if (window.apf.pruefeLesevoraussetzungen
-()) {
+    if (window.apf.pruefeLesevoraussetzungen()) {
         // kontrollieren, ob der User Schreibrechte hat
         if (sessionStorage.NurLesen) {
             window.apf.melde("Sie haben keine Schreibrechte", "Speichern abgebrochen");
@@ -872,6 +869,7 @@ window.apf.olmap.entferneLayerNachName = function (name) {
     var layers_array = window.apf.olmap.getLayersWithTitle(),
         layername,
         layer_kategorie;
+
     _.each(layers_array, function (layer) {
         layername = layer.get('title');
         layer_kategorie = layer.get('kategorie');
@@ -934,6 +932,7 @@ window.apf.olmap.stapleLayerZuoberst = function (layer_title) {
     var layers = window.apf.olmap.map.getLayers(),
         layers_array = window.apf.olmap.map.getLayers().getArray(),
         top_layer;
+
     _.each(layers_array, function (layer, index) {
         if (layer.get('title') === layer_title) {
             top_layer = layers.removeAt(index);
@@ -941,94 +940,6 @@ window.apf.olmap.stapleLayerZuoberst = function (layer_title) {
         }
     });
     window.apf.olmap.initiiereLayertree();
-};
-
-window.apf.verorteTPopAufOlmap = function (tpop) {
-    'use strict';
-    var bounds,
-        x_max,
-        x_min,
-        y_max,
-        y_min;
-
-    // tpop hat keine PopNr
-    // Infos von Pop müssen ergänzt werden, weil sie als Label angezeigt werden
-    tpop.PopNr = window.apf.pop.PopNr;
-    tpop.PopName = window.apf.pop.PopName;
-    tpop.Artname = window.apf.ap.Artname;
-
-    $.when(window.apf.zeigeTPopAufOlmap())
-        .then(function () {
-            window.apf.olmap.deactivateMenuItems();
-
-             // modify-layer erstellen
-             window.apf.olmap.modify_source = new ol.source.Vector();
-             var modify_layer = new ol.layer.Vector({
-                 title: 'verortende Teilpopulation',
-                 kategorie: 'AP Flora',
-                 source: window.apf.olmap.modify_source,
-                 style: function (feature, resolution) {
-                    return window.apf.olmap.tpopStyle(feature, resolution, false, true);
-                 }
-             });
-            window.apf.olmap.map.addLayer(modify_layer);
-
-            if (tpop && tpop.TPopXKoord && tpop.TPopYKoord) {
-                // bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
-                x_max = parseInt(tpop.TPopXKoord) + 200;
-                x_min = parseInt(tpop.TPopXKoord) - 200;
-                y_max = parseInt(tpop.TPopYKoord) + 200;
-                y_min = parseInt(tpop.TPopYKoord) - 200;
-                bounds = [x_min, y_min, x_max, y_max];
-                // wenn schon eine Koordinate existiert:
-                // tpop als feature zum modify hinzufügen
-                var new_feature = new ol.Feature(new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]));
-                window.apf.olmap.modify_source.addFeature(new_feature);
-                // modify-handler erstellen
-                window.apf.olmap.erstelleModifyInteractionFürTPop();
-                // Karte zum richtigen Ausschnitt zoomen
-                window.apf.olmap.map.updateSize();
-                window.apf.olmap.map.getView().fitExtent(bounds, window.apf.olmap.map.getSize());
-                // verzögern, sonst funktioniert es nicht
-                setTimeout(function () {
-                    window.apf.olmap.stapleLayerZuoberst('verortende Teilpopulation');
-                }, 200);
-            } else {
-                // wenn keine Koordinate existiert:
-                window.apf.olmap.draw_interaction = new ol.interaction.Draw({
-                    source: window.apf.olmap.modify_source,
-                    type: /** @type {ol.geom.GeometryType} */ ('Point')
-                });
-                window.apf.olmap.map.addInteraction(window.apf.olmap.draw_interaction);
-                
-                window.apf.olmap.draw_interaction.once('drawend', function (event) {
-                    var coordinates = event.feature.getGeometry().getCoordinates();
-                    // Koordinaten in tpop ergänzen
-                    tpop.TPopXKoord  = parseInt(coordinates[0]);
-                    tpop.TPopYKoord = parseInt(coordinates[1]);
-                    $.when(window.apf.aktualisiereKoordinatenVonTPop(tpop))
-                        .then(function () {
-                            // marker in tpop_layer ergänzen
-                            // tpop_layer holen
-                            var layers = window.apf.olmap.map.getLayers().getArray(),
-                                tpop_layer_nr = $('#olmap_layertree_Teilpopulationen').val(),
-                                tpop_layer = layers[tpop_layer_nr],
-                                tpop_layer_source = tpop_layer.getSource();
-                            // marker ergänzen
-                            tpop_layer_source.addFeature(window.apf.olmap.erstelleMarkerFürTPopLayer(tpop));
-                            // selects entfernen - aus unerfindlichem Grund ist der neue Marker selektiert
-                            window.apf.olmap.removeSelectFeaturesInSelectableLayers();
-                        });
-                    window.apf.olmap.map.removeInteraction(window.apf.olmap.draw_interaction);
-                    // modify-interaction erstellen
-                    window.apf.olmap.erstelleModifyInteractionFürTPop();
-                }, this);
-                // verzögern, sonst funktioniert es nicht
-                setTimeout(function () {
-                    window.apf.olmap.stapleLayerZuoberst('verortende Teilpopulation');
-                }, 200);
-            }
-        });
 };
 
 window.apf.olmap.entferneModifyInteractionFürTpop = function () {
@@ -1039,301 +950,14 @@ window.apf.olmap.entferneModifyInteractionFürTpop = function () {
     }
 };
 
-window.apf.olmap.erstelleModifyInteractionFürTPop = function () {
-    'use strict';
-    // allfällige bestehende Interaction entfernen
-    window.apf.olmap.entferneModifyInteractionFürTpop();
-    // feature-overlay erstellen
-    window.apf.olmap.modify_overlay = new ol.FeatureOverlay({
-        style: function (feature, resolution) {
-            return window.apf.olmap.tpopStyle(feature, resolution, false, true);
-        }
-    });
-    // neues oder gewähltes feature hinzufügen
-    window.apf.olmap.modify_overlay.addFeature(window.apf.olmap.modify_source.getFeatures()[0]);
-    // modify-interaction erstellen
-    window.apf.olmap.modify_interaction = new ol.interaction.Modify({
-        features: window.apf.olmap.modify_overlay.getFeatures()
-    });
-    // zählt, wieviele male .on('change') ausgelöst wurde
-    window.apf.olmap.modify_interaction.zähler = 0;
-    // interaction.Modify meldet nicht, wenn etwas verändert wurde
-    // daher muss registriert werden, wann das feature geändert wird
-    window.apf.olmap.modify_overlay.getFeatures().getArray()[0].on('change', function () {
-        // funktioniert zwar, wird aber beim Verschieben Dutzende bis hunderte Male ausgelöst
-        var zähler,
-            coordinates = this.getGeometry().getCoordinates(),
-            feature = this;
-        window.apf.olmap.modify_interaction.zähler++;
-        // speichert, wieviele male .on('change') ausgelöst wurde, bis setTimout aufgerufen wurde
-        zähler = window.apf.olmap.modify_interaction.zähler;
-        setTimeout(function () {
-            if (zähler === window.apf.olmap.modify_interaction.zähler) {
-                // in den letzten 200 Millisekunden hat sich nichts geändert > speichern
-                // Koordinaten in tpop ergänzen
-                window.apf.tpop.TPopXKoord  = parseInt(coordinates[0]);
-                window.apf.tpop.TPopYKoord = parseInt(coordinates[1]);
-                $.when(window.apf.aktualisiereKoordinatenVonTPop(window.apf.tpop))
-                    .then(function () {
-                        // marker in tpop_layer ergänzen
-                        // tpop_layer neu zeichnen
-                        var layers = window.apf.olmap.map.getLayers().getArray(),
-                            tpop_layer_nr = $('#olmap_layertree_Teilpopulationen').val(),
-                            tpop_layer = layers[tpop_layer_nr],
-                            tpop_layer_source = tpop_layer.getSource(),
-                            tpop_layer_features = tpop_layer_source.getFeatures(),
-                            aktuelles_feature = _.find(tpop_layer_features, function (feature) {
-                                return feature.get('myId') === window.apf.tpop.TPopId;
-                            });
-                        aktuelles_feature.getGeometry().setCoordinates(coordinates);
-                        // abhängige Eigenschaften aktualisieren
-                        aktuelles_feature.set('xkoord', window.apf.tpop.TPopXKoord);
-                        aktuelles_feature.set('ykoord', window.apf.tpop.TPopYKoord);
-                        aktuelles_feature.set('popup_content', window.apf.olmap.erstelleContentFürTPop(window.apf.tpop));
-                    });
-            }
-        }, 200);
-    });
-    /*
-    // change scheint nicht zu passieren. Probiert: change, pointerdrag, click, drawend
-    window.apf.olmap.modify_interaction.on('move', function (event) {
-        console.log('jetzt die Koordinaten aktualisieren');
-
-    });*/
-    window.apf.olmap.map.addInteraction(window.apf.olmap.modify_interaction);
-};
-
-// input_div: div des Layers, das jetzt aktiviert wird
+// wird in index.html benutzt
 window.apf.olmap.entferneModifyInteractionFürVectorLayer = function (input_div) {
-    'use strict';
-    var $modify_layer = $('.modify_layer');
-    input_div = input_div || null;
-    if (window.apf.olmap.modify_interaction_für_vectorlayer) {
-        window.apf.olmap.map.removeInteraction(window.apf.olmap.modify_interaction_für_vectorlayer);
-        window.apf.olmap.map.removeInteraction(window.apf.olmap.select_interaction_für_vectorlayer);
-        window.apf.olmap.map.removeInteraction(window.apf.olmap.draw_interaction_für_vectorlayer);
-        delete window.apf.olmap.modify_interaction_für_vectorlayer;
-        delete window.apf.olmap.select_interaction_für_vectorlayer;
-        delete window.apf.olmap.draw_interaction_für_vectorlayer;
-    }
-    // alle buttons im layer-tool zurückstellen
-    $modify_layer
-        .button({
-            icons: {primary: 'ui-icon-locked'},
-            text: false
-        })
-        .button('refresh');
-    // tooltip zurücksetzen
-    $('.modify_layer_label')
-        .attr('title', 'Ebene bearbeiten')
-        .tooltip({
-            tooltipClass: "tooltip-styling-hinterlegt",
-            content: 'Ebene bearbeiten'
-        });
-    // geom_select ausblenden
-    $('.modify_layer_geom_type').hide();
-    // übrige Layer deaktivieren
-    $modify_layer.each(function () {
-        // sicherstellen, dass der jetzt zu aktivierende Layer nicht deaktiviert wird
-        if ($(this).prop('checked') && !$(this).is(input_div)) {
-            $(this).prop("checked", false).change();
-        }
-    })
+    require('./modules/entferneModifyInteractionFuerVectorLayer')(input_div);
 };
 
+// wird in index.html benutzt
 window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function (vectorlayer) {
-    'use strict';
-
-    var defaultStyle = {
-        'Point': [new ol.style.Style({
-            image: new ol.style.Circle({
-                fill: new ol.style.Fill({
-                    color: 'rgba(255,255,0,0.5)'
-                }),
-                radius: 5,
-                stroke: new ol.style.Stroke({
-                    color: '#ff0',
-                    width: 1
-                })
-            })
-        })],
-        'LineString': [new ol.style.Style({
-            stroke: new ol.style.Stroke({
-                color: '#f00',
-                width: 3
-            })
-        })],
-        'Polygon': [new ol.style.Style({
-            fill: new ol.style.Fill({
-                color: 'rgba(0,255,255,0.5)'
-            }),
-            stroke: new ol.style.Stroke({
-                color: '#0ff',
-                width: 1
-            })
-        })],
-        'MultiPoint': [new ol.style.Style({
-            image: new ol.style.Circle({
-                fill: new ol.style.Fill({
-                    color: 'rgba(255,0,255,0.5)'
-                }),
-                radius: 5,
-                stroke: new ol.style.Stroke({
-                    color: '#f0f',
-                    width: 1
-                })
-            })
-        })],
-        'MultiLineString': [new ol.style.Style({
-            stroke: new ol.style.Stroke({
-                color: '#0f0',
-                width: 3
-            })
-        })],
-        'MultiPolygon': [new ol.style.Style({
-            fill: new ol.style.Fill({
-                color: 'rgba(0,0,255,0.5)'
-            }),
-            stroke: new ol.style.Stroke({
-                color: '#00f',
-                width: 1
-            })
-        })]
-    };
-
-    if (vectorlayer === 'neuer_layer') {
-        vectorlayer = new ol.layer.Vector({
-            guid: window.apf.erstelleGuid(),
-            source: new ol.source.Vector(),
-            title: 'neue Ebene',
-            kategorie: 'Eigene Ebenen',
-            style: function (feature, resolution) {
-                return defaultStyle[feature.getGeometry().getType()];
-            }
-        });
-        window.apf.olmap.map.addLayer(vectorlayer);
-        // umbenennen, dann ModifyInteraction erstellen
-        window.apf.olmap.frageNameFürEbene(vectorlayer);
-        return;
-    }
-
-    var layer_title = vectorlayer.get('title'),
-        $geom_type_select = $('#modify_layer_geom_type_' + layer_title.replace(" ", "_"));
-
-    // darin werden die ids von selectierten features gespeichert
-    window.apf.olmap.modified_features = [];
-
-    // allfällige bestehende Interaction entfernen
-    window.apf.olmap.entferneModifyInteractionFürVectorLayer();
-
-    // select interaction erstellen
-    window.apf.olmap.select_interaction_für_vectorlayer = new ol.interaction.Select({
-        layers: function (layer) {
-            // selectable sind nur features aus dem gewählten layer
-            return layer.get('title') === layer_title;
-        }
-    });
-
-    // selected features sollen modifiziert werden können
-    window.apf.olmap.selected_features = window.apf.olmap.select_interaction_für_vectorlayer.getFeatures();
-
-    window.apf.olmap.selected_features.on('add', function (event) {
-        // now listen if the feature is changed
-        var feature = event.element,
-            feature_id = feature.getId();
-        // wenn jemand eine eigene Ebene ergänzt hat, kann es sein, dass die features keine id's haben
-        // also wenn nötig ergänzen
-        if (!feature_id) {
-            feature.setId(_.uniqueId());
-        }
-        feature.on('change', function (event) {
-            var feature = event.target,
-                feature_id = feature.getId();
-            window.apf.olmap.modified_features = window.apf.olmap.modified_features || [];
-            // id in modified_features ergänzen
-            window.apf.olmap.modified_features = _.union(window.apf.olmap.modified_features, [feature_id]);
-            // speichern
-            window.apf.olmap.aktualisiereEbeneInLocalStorage(vectorlayer);
-        });
-
-        // listen to pressing of delete key, then delete selected features
-        $(document).on('keyup', function (event) {
-            if (event.keyCode == 46) {
-                // alle gewählten features aus select_interaction und source entfernen
-                window.apf.olmap.selected_features.forEach(function (selected_feature) {
-                    var selected_feature_id = selected_feature.getId();
-                    window.apf.olmap.selected_features.remove(selected_feature);
-                    // features aus vectorlayer_source entfernen
-                    var vectorlayer_features = vectorlayer.getSource().getFeatures();
-                    vectorlayer_features.forEach(function (source_feature) {
-                        var source_feature_id = source_feature.getId();
-                        if (source_feature_id === selected_feature_id) {
-                            vectorlayer.getSource().removeFeature(source_feature);
-                            // speichern
-                            window.apf.olmap.aktualisiereEbeneInLocalStorage(vectorlayer);
-                        }
-                    });
-                });
-                $(document).off('keyup');
-            }
-        });
-
-        // verhindern, dass Knoten im Strukturbaum entfernt werden
-        $.jstree._reference("[typ='ap_ordner_pop']").deselect_all();
-    });
-
-    window.apf.olmap.selected_features.on('remove', function (event) {
-        var feature = event.element,
-            feature_id = feature.getId(),
-            feature_index = window.apf.olmap.modified_features.indexOf(feature_id);
-        if (feature_index > -1) {
-            // speichern
-            window.apf.olmap.aktualisiereEbeneInLocalStorage(vectorlayer);
-            // erst wieder speichern, wenn neu verändert wurde
-            window.apf.olmap.modified_features.splice(feature_index, 1);
-        }
-    });
-
-    // global definieren: wird benötigt, um später (beim Klick auf 'Ebene bearbeiten') festzustellen, ob eine modify-interaction existiert
-    window.apf.olmap.modify_interaction_für_vectorlayer = new ol.interaction.Modify({
-        features: window.apf.olmap.select_interaction_für_vectorlayer.getFeatures(),
-        // the SHIFT key must be pressed to delete vertices, so
-        // that new vertices can be drawn at the same position
-        // of existing vertices
-        deleteCondition: function (event) {
-            return ol.events.condition.shiftKeyOnly(event) &&
-                ol.events.condition.singleClick(event);
-        }
-    });
-
-    $geom_type_select.on('selectmenuchange', function (event) {
-        window.apf.olmap.map.removeInteraction(window.apf.olmap.draw_interaction_für_vectorlayer);
-        addDrawInteraction();
-    });
-
-    function addDrawInteraction() {
-        if ($geom_type_select.val() !== 'leerwert') {
-            window.apf.olmap.draw_interaction_für_vectorlayer = new ol.interaction.Draw({
-                source: vectorlayer.getSource(),
-                type: /** @type {ol.geom.GeometryType} */ ($geom_type_select.val())
-            });
-            window.apf.olmap.map.addInteraction(window.apf.olmap.draw_interaction_für_vectorlayer);
-            // bei 'drawend' würde man Änderungen in die DB schreiben
-            window.apf.olmap.draw_interaction_für_vectorlayer.on('drawend', function (event) {
-                var id = _.uniqueId();
-                event.feature.setId(id);
-                window.apf.olmap.modified_features = window.apf.olmap.modified_features || [];
-                // id in modified_features ergänzen
-                window.apf.olmap.modified_features = _.union(window.apf.olmap.modified_features, [id]);
-                // speichern
-                window.apf.olmap.aktualisiereEbeneInLocalStorage(vectorlayer);
-            });
-        }
-    }
-
-    addDrawInteraction();
-    window.apf.olmap.map.addInteraction(window.apf.olmap.select_interaction_für_vectorlayer);
-    window.apf.olmap.map.addInteraction(window.apf.olmap.modify_interaction_für_vectorlayer);
+    require('./modules/erstelleModifyInteractionFuerVectorLayer')(vectorlayer);
 };
 
 window.apf.olmap.exportiereLayer = function (layer, selected_value) {

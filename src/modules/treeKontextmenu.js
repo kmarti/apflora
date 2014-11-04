@@ -1191,14 +1191,13 @@ var returnFunction = function ($, node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_rot.png",
                 "action": function () {
-                    var getTPop_2 = $.ajax({
+                    var verorteTPopAufOlmap = require('./verorteTPopAufOlmap');
+                    $.ajax({
                         type: 'get',
                         url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                    });
-                    getTPop_2.done(function (data) {
-                        window.apf.verorteTPopAufOlmap(data[0]);
-                    });
-                    getTPop_2.fail(function () {
+                    }).done(function (data) {
+                        verorteTPopAufOlmap(data[0]);
+                    }).fail(function () {
                         window.apf.melde("Fehler: Keine Teilpopulation erhalten");
                     });
                 }
