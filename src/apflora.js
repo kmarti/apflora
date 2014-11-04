@@ -3352,6 +3352,7 @@ window.apf.olmap.removeSelectFeaturesInSelectableLayers = function () {
 
 window.apf.olmap.addSelectFeaturesInSelectableLayers = function () {
     'use strict';
+    var addDragBoxForPopTpop = require('./modules/addDragBoxForPopTpop');
     window.apf.olmap.map.olmap_select_interaction = new ol.interaction.Select({
         // TODO: 'layerFilter' will soon be deprecated > change to 'layers' when deprecated
         layerFilter: function (layer) {
@@ -3359,15 +3360,12 @@ window.apf.olmap.addSelectFeaturesInSelectableLayers = function () {
         },
         style: function (feature, resolution) {
             switch(feature.get('myTyp')) {
-                case 'pop':
-                    return window.apf.olmap.popStyle(feature, resolution, true);
-                    break;
-                case 'tpop':
-                    return window.apf.olmap.tpopStyle(feature, resolution, true);
-                    break;
-                case 'Detailplan':
-                    return window.apf.olmap.detailplanStyleSelected(feature, resolution);
-                    break;
+            case 'pop':
+                return window.apf.olmap.popStyle(feature, resolution, true);
+            case 'tpop':
+                return window.apf.olmap.tpopStyle(feature, resolution, true);
+            case 'Detailplan':
+                return window.apf.olmap.detailplanStyleSelected(feature, resolution);
             }
         }
         /*,
@@ -3378,7 +3376,7 @@ window.apf.olmap.addSelectFeaturesInSelectableLayers = function () {
     });
     window.apf.olmap.map.addInteraction(window.apf.olmap.map.olmap_select_interaction);
     // man soll auch mit dragbox selecten können
-    window.apf.olmap.addDragBoxForPopTpop();
+    addDragBoxForPopTpop();
 };
 
 window.apf.olmap.getSelectedFeatures = function () {
@@ -3416,46 +3414,7 @@ window.apf.olmap.removeDragBox = function () {
 
 window.apf.olmap.addDragBoxForPopTpop = function () {
     'use strict';
-    window.apf.olmap.drag_box_interaction = new ol.interaction.DragBox({
-        /* dragbox interaction is active only if alt key is pressed */
-        condition: ol.events.condition.altKeyOnly,
-        /* style the box */
-        style: new ol.style.Style({
-            fill: new ol.style.Fill({
-                color: 'rgba(255,0,0,0.1)'
-            }),
-            stroke: new ol.style.Stroke({
-                color: [255, 0, 0, 1],
-                width: 3
-            })
-        })
-    });
-    window.apf.olmap.drag_box_interaction.on('boxend', function (event) {
-        var geometry = window.apf.olmap.drag_box_interaction.getGeometry(),
-            extent = geometry.getExtent(),
-            layers = window.apf.olmap.map.getLayers().getArray(),
-            pop_layer_nr = $('#olmap_layertree_Populationen').val(),
-            pop_layer = layers[pop_layer_nr],
-            tpop_layer_nr = $('#olmap_layertree_Teilpopulationen').val(),
-            tpop_layer = layers[tpop_layer_nr],
-            pop_layer_source = pop_layer.getSource(),
-            tpop_layer_source = tpop_layer.getSource(),
-            selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
-        if (pop_layer.get('visible') === true) {
-            pop_layer_source.forEachFeatureInExtent(extent, function (feature) {
-                selected_features.push(feature);
-            });
-        }
-        if (tpop_layer.get('visible') === true) {
-            tpop_layer_source.forEachFeatureInExtent(extent, function (feature) {
-                selected_features.push(feature);
-            });
-        }
-        setTimeout(function () {
-            window.apf.olmap.prüfeObPopTpopGewähltWurden();
-        }, 100);
-    });
-    window.apf.olmap.map.addInteraction(window.apf.olmap.drag_box_interaction);
+    
 };
 
 window.apf.olmap.addShowFeatureInfoOnClick = function () {
@@ -3478,7 +3437,7 @@ window.apf.olmap.addShowFeatureInfoOnClick = function () {
 window.apf.olmap.prüfeObPopTpopGewähltWurden = function () {
     var pop_selected = [],
         tpop_selected = [],
-        erstelleListeDerAusgewaehltenPopTPop = require('./mdules/erstelleListeDerAusgewaehltenPopTPop');
+        erstelleListeDerAusgewaehltenPopTPop = require('./modules/erstelleListeDerAusgewaehltenPopTPop');
 
     // prüfen, ob pop / tpop gewählt wurden
     pop_selected = window.apf.olmap.getSelectedFeaturesOfType('pop');
@@ -3693,6 +3652,9 @@ window.apf.olmap.nenneEbeneUm = function (layer, title) {
 // active_kategorie: der Bereich dieser Kategorie soll offen sein
 window.apf.olmap.initiiereLayertree = function (active_kategorie) {
     'use strict';
+
+    console.log('initiiereLayertree: active_kategorie = ', active_kategorie);
+
     var layertitel,
         visible,
         kategorie,
@@ -3748,6 +3710,8 @@ window.apf.olmap.initiiereLayertree = function (active_kategorie) {
         legende = layer.get('legende') || false;
         legende_url = layer.get('legende_url') || null;
 
+        console.log('layertitel: ', layertitel);
+
         if (layertitel !== 'messen') {
             html_prov = '<li><input type="checkbox" class="olmap_layertree_checkbox" id="olmap_layertree_' + layertitel + '" value="' + index + '"';
             // sichtbare Layer sollen gecheckt sein
@@ -3758,6 +3722,9 @@ window.apf.olmap.initiiereLayertree = function (active_kategorie) {
             html_prov += '<label for="olmap_layertree_' + layertitel + '">' + layertitel + '</label>';
             // bei pop und tpop muss style gewählt werden können
             if (layertitel === 'Populationen') {
+
+                console.log('Pop-Layer wird erstellt');
+
                 html_prov += '<div class="layeroptionen">';
                 html_prov += '<label for="layertree_pop_nr" class="layertree_pop_style pop_nr">Nr.</label>';
                 html_prov += '<input type="checkbox" id="layertree_pop_nr" class="layertree_pop_style pop_nr" checked="checked"> ';
@@ -3766,6 +3733,9 @@ window.apf.olmap.initiiereLayertree = function (active_kategorie) {
                 html_prov += '</div>';
             }
             if (layertitel === 'Teilpopulationen') {
+
+                console.log('TPop-Layer wird erstellt');
+
                 html_prov += '<div class="layeroptionen">';
                 html_prov += '<label for="layertree_tpop_nr" class="layertree_tpop_style tpop_nr">Nr.</label>';
                 html_prov += '<input type="checkbox" id="layertree_tpop_nr" class="layertree_tpop_style tpop_nr" checked="checked"> ';
@@ -3800,32 +3770,32 @@ window.apf.olmap.initiiereLayertree = function (active_kategorie) {
             html_prov += '</li>';
             html_prov += '<hr>';
             switch (kategorie) {
-                /*case "Welt Hintergrund":
-                    html_welt_hintergrund += html_prov;
-                    break;*/
-                case "Hintergrund":
-                    html_ch_hintergrund += html_prov;
-                    break;
-                case "CH Sachinformationen":
-                    html_ch_sachinfos += html_prov;
-                    break;
-                case "CH Biotopinventare":
-                    html_ch_biotopinv += html_prov;
-                    break;
-                case "ZH Sachinformationen":
-                    html_zh_sachinfos += html_prov;
-                    break;
-                case "AP Flora":
-                    html_apflora += html_prov;
-                    break;
-                case "Eigene Ebenen":
-                    html_eigene_layer += html_prov;
-                    eigene_layer_zähler++;
-                    break;
-                default:
-                    //html_eigene_layer += html_prov;
-                    //eigene_layer_zähler++;
-                    break;
+            /*case "Welt Hintergrund":
+                html_welt_hintergrund += html_prov;
+                break;*/
+            case "Hintergrund":
+                html_ch_hintergrund += html_prov;
+                break;
+            case "CH Sachinformationen":
+                html_ch_sachinfos += html_prov;
+                break;
+            case "CH Biotopinventare":
+                html_ch_biotopinv += html_prov;
+                break;
+            case "ZH Sachinformationen":
+                html_zh_sachinfos += html_prov;
+                break;
+            case "AP Flora":
+                html_apflora += html_prov;
+                break;
+            case "Eigene Ebenen":
+                html_eigene_layer += html_prov;
+                eigene_layer_zähler++;
+                break;
+            default:
+                //html_eigene_layer += html_prov;
+                //eigene_layer_zähler++;
+                break;
             }
         }
     });
@@ -3937,13 +3907,13 @@ window.apf.olmap.initiiereLayertree = function (active_kategorie) {
     }
     if (initialize_legende) {
         $(".olmap_layertreee_legende").tooltip({
-            tooltipClass: "tooltip_olmap_layertree_legende"
-            ,position: {
-                my: "right top+15"
-                ,at: "right bottom"
-                ,collision: "flipfit"
-            }
-            ,content: function () {
+            tooltipClass: "tooltip_olmap_layertree_legende",
+            position: {
+                my: "right top+15",
+                at: "right bottom",
+                collision: "flipfit"
+            },
+            content: function () {
                 var url = $(this).attr('href');
                 return "<img src='" + url + "'>";
             }

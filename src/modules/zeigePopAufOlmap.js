@@ -11,7 +11,7 @@ var returnFunction = function (PopListeMarkiert) {
 
     var markierte_pop = window.apf.olmap.wähleAusschnittFürÜbergebenePop(PopListeMarkiert),
         extent,
-        zeigeFormular = require('./modules/zeigeFormular');
+        zeigeFormular = require('./zeigeFormular');
 
     // Grundkarte aufbauen
     $.when(zeigeFormular("GeoAdminKarte"))

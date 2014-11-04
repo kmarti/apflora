@@ -61,7 +61,7 @@ var returnFunction = function (vectorlayer) {
                 })
             })]
         },
-        entferneModifyInteractionFuerVectorLayer = require('./modules/entferneModifyInteractionFuerVectorLayer');
+        entferneModifyInteractionFuerVectorLayer = require('./entferneModifyInteractionFuerVectorLayer');
 
     if (vectorlayer === 'neuer_layer') {
         vectorlayer = new ol.layer.Vector({
