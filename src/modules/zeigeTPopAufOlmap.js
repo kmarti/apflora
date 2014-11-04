@@ -32,8 +32,9 @@ var returnFunction = function (TPopListeMarkiert) {
                     window.apf.olmap.zeigePopInTPop(overlay_pop_visible, overlay_popnr_visible)
                 )
                 .then(function () {
+                    var initiiereLayertree = require('./initiiereLayertree');
                     // layertree neu aufbauen
-                    window.apf.olmap.initiiereLayertree();
+                    initiiereLayertree($);
                 });
             });
 

@@ -1,9 +1,9 @@
 /*jslint node: true, browser: true, nomen: true */
 'use strict';
 
-var $ = require('jquery');
+//var $ = require('jquery');
 
-var returnFunction = function (PopListeMarkiert) {
+var returnFunction = function ($, PopListeMarkiert) {
     // falls noch aus dem Verorten ein Klick-Handler besteht: deaktivieren
     if (window.apf.olmap.LetzterKlickHandler) {
         window.apf.olmap.LetzterKlickHandler.deactivate();
@@ -37,8 +37,9 @@ var returnFunction = function (PopListeMarkiert) {
                     window.apf.olmap.zeigePopInTPop(true, true, markierte_pop.popid_markiert)
                 )
                 .then(function () {
+                    var initiiereLayertree = require('./initiiereLayertree');
                     // layertree neu aufbauen
-                    window.apf.olmap.initiiereLayertree();
+                    initiiereLayertree($);
                 });
             }).fail(function () {
                 window.apf.melde("Fehler: Es konnten keine Daten aus der Datenbank abgerufen werden");

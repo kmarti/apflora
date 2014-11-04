@@ -60,7 +60,7 @@ var returnFunction = function ($, node) {
                         url: 'api/v1/popsChKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
                     }).done(function (data) {
                         if (data && data.length > 0) {
-                            zeigePopAufOlmap(data);
+                            zeigePopAufOlmap($, data);
                         } else {
                             window.apf.melde("Die Population hat keine Koordinaten", "Aktion abgebrochen");
                         }
@@ -901,7 +901,7 @@ var returnFunction = function ($, node) {
                         url: 'api/v1/popChKarte/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
                     }).done(function (data) {
                         if (data && data.length > 0) {
-                            zeigePopAufOlmap(data);
+                            zeigePopAufOlmap($, data);
                         } else {
                             window.apf.melde("Die Population hat keine Koordinaten", "Aktion abgebrochen");
                         }
@@ -1021,7 +1021,7 @@ var returnFunction = function ($, node) {
                         url: 'api/v1/tpopsKarte/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
                     }).done(function (data) {
                         if (data.length > 0) {
-                            zeigeTPopAufOlmap(data);
+                            zeigeTPopAufOlmap($, data);
                         } else {
                             window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
                         }
@@ -1177,7 +1177,7 @@ var returnFunction = function ($, node) {
                         url: 'api/v1/tpopKarte/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
                     }).done(function (data) {
                         if (data.length > 0) {
-                            zeigeTPopAufOlmap(data);
+                            zeigeTPopAufOlmap($, data);
                         } else {
                             window.apf.melde("Die Teilpopulation hat keine Koordinaten", "Aktion abgebrochen");
                         }
