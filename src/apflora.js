@@ -4581,9 +4581,14 @@ window.apf.löscheAp = function (ap_id) {
         delete localStorage.ap;
         // alle zwischengespeicherten aplisten löschen
         delete window.apf.apliste;
-        $("#programm_neu").attr("checked", false).trigger('change');
-        $("#programm_alle").attr("checked", true).trigger('change');
-        $("#programm_wahl").buttonset();
+        $("#programm_neu")
+            .attr("checked", false)
+            .trigger('change');
+        $("#programm_alle")
+            .attr("checked", true)
+            .trigger('change');
+        $("#programm_wahl")
+            .buttonset();
         //$("#programm_wahl").buttonset('refresh');
         window.apf.erstelleApliste("programm_alle");
         $('#ap_waehlen').val('');
@@ -4607,7 +4612,6 @@ window.apf.löscheAp = function (ap_id) {
         window.apf.melde("Fehler: Das Programm wurde nicht gelöscht");
     });
 };
-
 
 window.apf.undeleteDatensatz = function () {
     require('./modules/undeleteDatensatz')();
