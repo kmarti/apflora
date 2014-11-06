@@ -2291,18 +2291,17 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon.png",
                 "action": function () {
-                    var getBeobKarte = $.ajax({
+                    var zeigeTPopBeobAufGmap = require('./zeigeTPopBeobAufGmap');
+                    $.ajax({
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/beobId=/nichtZuzuordnen='
-                    });
-                    getBeobKarte.done(function (data) {
+                    }).done(function (data) {
                         if (data && data[0]) {
-                            window.apf.gmap.zeigeTPopBeob(data[0]);
+                            zeigeTPopBeobAufGmap(data[0]);
                         } else {
                             window.apf.melde("Es gibt keine Beobachtungen mit Koordinaten", "Aktion abgebrochen");
                         }
-                    });
-                    getBeobKarte.fail(function () {
+                    }).fail(function () {
                         window.apf.melde("Fehler: Keine Daten erhalten");
                     });
                 }
@@ -2337,18 +2336,17 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon.png",
                 "action": function () {
-                    var getBeobKarte_2 = $.ajax({
+                    var zeigeTPopBeobAufGmap = require('./zeigeTPopBeobAufGmap');
+                    $.ajax({
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen='
-                    });
-                    getBeobKarte_2.done(function (data) {
+                    }).done(function (data) {
                         if (data && data[0]) {
-                            window.apf.gmap.zeigeTPopBeob(data[0]);
+                            zeigeTPopBeobAufGmap(data[0]);
                         } else {
                             window.apf.melde("Die Beobachtung hat keine Koordinaten", "Aktion abgebrochen");
                         }
-                    });
-                    getBeobKarte_2.fail(function () {
+                    }).fail(function () {
                         window.apf.melde("Fehler: Keine Daten erhalten");
                     });
                 }
@@ -2358,29 +2356,28 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_violett.png",
                 "action": function () {
-                    var getBeobKarte_3 = $.ajax({
+                    var zeigeBeobUndTPopAufGmap = require('./zeigeBeobUndTPopAufGmap'),
+                        zeigeBeobAufGmap = require('./zeigeBeobAufGmap');
+                    $.ajax({
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen='
-                    });
-                    getBeobKarte_3.done(function (beob) {
+                    }).done(function (beob) {
                         if (beob && beob[0]) {
                             beob = beob[0];
-                            var getApKarte = $.ajax({
+                            $.ajax({
                                 type: 'get',
                                 url: 'api/v1/apKarte/apId=' + localStorage.ap_id
-                            });
-                            getApKarte.done(function (tpop) {
+                            }).done(function (tpop) {
                                 if (tpop && tpop.length > 0) {
-                                    window.apf.gmap.zeigeBeobUndTPop(beob, tpop);
+                                    zeigeBeobUndTPopAufGmap(beob, tpop);
                                 } else {
-                                    window.apf.gmap.zeigeBeob(beob);
+                                    zeigeBeobAufGmap(beob);
                                 }
                             });
                         } else {
                             window.apf.melde("Die Beobachtung hat keine Koordinaten<br>Bitte im Formular zuordnen", "Aktion abgebrochen");
                         }
-                    });
-                    getBeobKarte_3.fail(function () {
+                    }).fail(function () {
                         window.apf.melde("Fehler: Keine Daten erhalten");
                     });
                 }
@@ -2525,18 +2522,17 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_violett.png",
                 "action": function () {
-                    var getBeobKarte_4 = $.ajax({
+                    var zeigeBeobAufGmap = require('./zeigeBeobAufGmap');
+                    $.ajax({
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen='
-                    });
-                    getBeobKarte_4.done(function (data) {
+                    }).done(function (data) {
                         if (data.length > 0) {
-                            window.apf.gmap.zeigeBeob(data);
+                            zeigeBeobAufGmap(data);
                         } else {
                             window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
                         }
-                    });
-                    getBeobKarte_4.fail(function () {
+                    }).fail(function () {
                         window.apf.melde("Fehler: Keine Daten erhalten");
                     });
                 }
@@ -2546,28 +2542,27 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_violett.png",
                 "action": function () {
-                    var getBeobKarte_5 = $.ajax({
+                    var zeigeBeobUndTPopAufGmap = require('./zeigeBeobUndTPopAufGmap'),
+                        zeigeBeobAufGmap = require('./zeigeBeobAufGmap');
+                    $.ajax({
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen='
-                    });
-                    getBeobKarte_5.done(function (beob) {
+                    }).done(function (beob) {
                         if (beob.length > 0) {
                             $.ajax({
                                 type: 'get',
-                                url: 'api/v1/apKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-                                success: function (tpop) {
-                                    if (tpop && tpop.length > 0) {
-                                        window.apf.gmap.zeigeBeobUndTPop(beob, tpop);
-                                    } else {
-                                        window.apf.gmap.zeigeBeob(beob);
-                                    }
-                                }
+                                url: 'api/v1/apKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                            }).done(function (tpop) {
+                                if (tpop && tpop.length > 0) {
+                                    zeigeBeobUndTPopAufGmap(beob, tpop);
+                                } else {
+                                    zeigeBeobAufGmap(beob);
+                                } 
                             });
                         } else {
                             window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
                         }
-                    });
-                    getBeobKarte_5.fail(function () {
+                    }).fail(function () {
                         window.apf.melde("Fehler: Keine Daten erhalten");
                     });
                 }
@@ -2581,7 +2576,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     $("#tree").jstree("move_node", window.apf.beob_zugeordnet_node_ausgeschnitten, aktiver_node, "first");
                 }
-            }
+            };
         }
         return items;
     case "beob_nicht_beurteilt":
@@ -2591,18 +2586,17 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_violett.png",
                 "action": function () {
-                    var getBeobKarte_6 = $.ajax({
+                    var zeigeBeobAufGmap = require('./zeigeBeobAufGmap');
+                    $.ajax({
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen='
-                    });
-                    getBeobKarte_6.done(function (data) {
+                    }).done(function (data) {
                         if (data && data[0]) {
-                            window.apf.gmap.zeigeBeob(data[0]);
+                            zeigeBeobAufGmap(data[0]);
                         } else {
                             window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
                         }
-                    });
-                    getBeobKarte_6.fail(function () {
+                    }).fail(function () {
                         window.apf.melde("Fehler: Keine Daten erhalten");
                     });
                 }
@@ -2612,29 +2606,28 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_violett.png",
                 "action": function () {
-                    var getBeobKarte_7 = $.ajax({
+                    var zeigeBeobUndTPopAufGmap = require('./zeigeBeobUndTPopAufGmap'),
+                        zeigeBeobAufGmap = require('./zeigeBeobAufGmap');
+                    $.ajax({
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen='
-                    });
-                    getBeobKarte_7.done(function (beob) {
+                    }).done(function (beob) {
                         if (beob && beob[0]) {
                             beob = beob[0];
-                            var getApKarte_2 = $.ajax({
+                            $.ajax({
                                 type: 'get',
                                 url: 'api/v1/apKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id"))
-                            });
-                            getApKarte_2.done(function (tpop) {
+                            }).done(function (tpop) {
                                 if (tpop && tpop.length > 0) {
-                                    window.apf.gmap.zeigeBeobUndTPop(beob, tpop);
+                                    zeigeBeobUndTPopAufGmap(beob, tpop);
                                 } else {
-                                    window.apf.gmap.zeigeBeob(beob);
+                                    zeigeBeobAufGmap(beob);
                                 }
                             });
                         } else {
                             window.apf.melde("Die Beobachtung hat keine Koordinaten<br>Bitte im Formular zuordnen", "Aktion abgebrochen");
                         }
-                    });
-                    getBeobKarte_7.fail(function () {
+                    }).fail(function () {
                         window.apf.melde("Fehler: Keine Daten erhalten");
                     });
                 }
@@ -2681,18 +2674,17 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_violett.png",
                 "action": function () {
-                    var getBeobKarte_8 = $.ajax({
+                    var zeigeBeobAufGmap = require('./zeigeBeobAufGmap');
+                    $.ajax({
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen=1'
-                    });
-                    getBeobKarte_8.done(function (data) {
+                    }).done(function (data) {
                         if (data.length > 0) {
-                            window.apf.gmap.zeigeBeob(data);
+                            zeigeBeobAufGmap(data);
                         } else {
                             window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
                         }
-                    });
-                    getBeobKarte_8.fail(function () {
+                    }).fail(function () {
                         window.apf.melde("Fehler: Keine Daten erhalten");
                     });
                 }
@@ -2716,18 +2708,17 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_violett.png",
                 "action": function () {
-                    var getBeobKarte_9 = $.ajax({
+                    var zeigeBeobAufGmap = require('./zeigeBeobAufGmap');
+                    $.ajax({
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen='
-                    });
-                    getBeobKarte_9.done(function (data) {
+                    }).done(function (data) {
                         if (data && data[0]) {
-                            window.apf.gmap.zeigeBeob(data[0]);
+                            zeigeBeobAufGmap(data[0]);
                         } else {
                             window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
                         }
-                    });
-                    getBeobKarte_9.fail(function () {
+                    }).fail(function () {
                         window.apf.melde("Fehler: Keine Daten erhalten");
                     });
                 }
