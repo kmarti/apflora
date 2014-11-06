@@ -9,7 +9,9 @@
   "browserify-shim": {
     "jquery": "global:$",
     "jquery.jstree": "global:$.jstree",
-    "Uri": "global:Uri"
+    "Uri": "global:Uri",
+    "ol": "global:ol",
+    "ga": "global:ga"
   },
   "dependencies": {
     "async": "^0.9.0",

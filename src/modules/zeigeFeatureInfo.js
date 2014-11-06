@@ -1,8 +1,9 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $ = require('jquery'),
-    _ = require('underscore');
+var $  = require('jquery'),
+    _  = require('underscore'),
+    ol = require('ol');
 
 // braucht $ wegen $.qtip
 var returnFunction = function (pixel, coordinate) {

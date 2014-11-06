@@ -1,6 +1,8 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
+var ol = require('ol');
+
 var returnFunction = function (layer, selected_value) {
     var layer_name = layer.get('title') || 'Eigene_Ebene',
         allFeatures = layer.getSource().getFeatures(),

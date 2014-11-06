@@ -1,7 +1,8 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $ = require('jquery');
+var $ = require('jquery'),
+    ol = require('ol');
 
 var returnFunction = function () {
     window.apf.olmap.drag_box_interaction = new ol.interaction.DragBox({

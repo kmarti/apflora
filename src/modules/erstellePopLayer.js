@@ -5,8 +5,9 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $ = require('jquery'),
-    _ = require('underscore');
+var $  = require('jquery'),
+    _  = require('underscore'),
+    ol = require('ol');
 
 var returnFunction = function (popliste, popid_markiert, visible) {
     var pop_layer_erstellt = $.Deferred(),
@@ -17,8 +18,6 @@ var returnFunction = function (popliste, popid_markiert, visible) {
         popup_content,
         pop_mit_nr_layer,
         selected_features;
-
-    console.log('erstellePopLayer');
 
     if (window.apf.olmap.map && window.apf.olmap.map.olmap_select_interaction && popid_markiert) {
         selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();

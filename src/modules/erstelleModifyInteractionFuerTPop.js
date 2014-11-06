@@ -1,7 +1,9 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $ = require('jquery');
+var $  = require('jquery'),
+    _  = require('underscore'),
+    ol = require('ol');
 
 var returnFunction = function () {
     // allfällige bestehende Interaction entfernen
@@ -34,26 +36,26 @@ var returnFunction = function () {
             if (zähler === window.apf.olmap.modify_interaction.zähler) {
                 // in den letzten 200 Millisekunden hat sich nichts geändert > speichern
                 // Koordinaten in tpop ergänzen
-                window.apf.tpop.TPopXKoord  = parseInt(coordinates[0]);
+                window.apf.tpop.TPopXKoord = parseInt(coordinates[0]);
                 window.apf.tpop.TPopYKoord = parseInt(coordinates[1]);
                 $.when(window.apf.aktualisiereKoordinatenVonTPop(window.apf.tpop))
-                    .then(function () {
-                        // marker in tpop_layer ergänzen
-                        // tpop_layer neu zeichnen
-                        var layers = window.apf.olmap.map.getLayers().getArray(),
-                            tpop_layer_nr = $('#olmap_layertree_Teilpopulationen').val(),
-                            tpop_layer = layers[tpop_layer_nr],
-                            tpop_layer_source = tpop_layer.getSource(),
-                            tpop_layer_features = tpop_layer_source.getFeatures(),
-                            aktuelles_feature = _.find(tpop_layer_features, function (feature) {
-                                return feature.get('myId') === window.apf.tpop.TPopId;
-                            });
-                        aktuelles_feature.getGeometry().setCoordinates(coordinates);
-                        // abhängige Eigenschaften aktualisieren
-                        aktuelles_feature.set('xkoord', window.apf.tpop.TPopXKoord);
-                        aktuelles_feature.set('ykoord', window.apf.tpop.TPopYKoord);
-                        aktuelles_feature.set('popup_content', window.apf.olmap.erstelleContentFürTPop(window.apf.tpop));
-                    });
+                .then(function () {
+                    // marker in tpop_layer ergänzen
+                    // tpop_layer neu zeichnen
+                    var layers = window.apf.olmap.map.getLayers().getArray(),
+                        tpop_layer_nr = $('#olmap_layertree_Teilpopulationen').val(),
+                        tpop_layer = layers[tpop_layer_nr],
+                        tpop_layer_source = tpop_layer.getSource(),
+                        tpop_layer_features = tpop_layer_source.getFeatures(),
+                        aktuelles_feature = _.find(tpop_layer_features, function (feature) {
+                            return feature.get('myId') === window.apf.tpop.TPopId;
+                        });
+                    aktuelles_feature.getGeometry().setCoordinates(coordinates);
+                    // abhängige Eigenschaften aktualisieren
+                    aktuelles_feature.set('xkoord', window.apf.tpop.TPopXKoord);
+                    aktuelles_feature.set('ykoord', window.apf.tpop.TPopYKoord);
+                    aktuelles_feature.set('popup_content', window.apf.olmap.erstelleContentFürTPop(window.apf.tpop));
+                });
             }
         }, 200);
     });
