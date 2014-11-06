@@ -2398,7 +2398,7 @@
                             layer = $('#olmap_layertree_Populationen').val(),
                             that = this;
                         // style setzen
-                        layers[layer].setStyle(window.apf.olmap.popStyle);
+                        layers[layer].setStyle(window.apf.olmap.stylePop);
                         // jeweils andere box unchecken
                         if ($(that).hasClass('pop_nr') && that.checked) {
                             $('#layertree_pop_name').prop('checked', false);

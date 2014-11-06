@@ -17,7 +17,8 @@ var returnFunction = function (popliste, popid_markiert, visible) {
         my_name,
         popup_content,
         pop_mit_nr_layer,
-        selected_features;
+        selected_features,
+        stylePop = require('./stylePop');
 
     if (window.apf.olmap.map && window.apf.olmap.map.olmap_select_interaction && popid_markiert) {
         selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
@@ -69,7 +70,7 @@ var returnFunction = function (popliste, popid_markiert, visible) {
             features: markers
         }),
         style: function (feature, resolution) {
-            return window.apf.olmap.popStyle(feature, resolution);
+            return stylePop(feature, resolution);
         }
     });
     pop_mit_nr_layer.set('visible', visible);
