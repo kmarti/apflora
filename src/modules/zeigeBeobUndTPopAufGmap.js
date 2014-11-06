@@ -104,9 +104,9 @@ var returnFunction = function (beob_liste, tpop_liste) {
             '<p>Population: ' + tpop.PopName + '</p>'+
             '<p>TPop: ' + my_flurname + '</p>'+
             '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
-            '<p><a href="#" onclick="window.apf.öffneTPop("' + tpop.TPopId + '")">Formular anstelle Karte öffnen<\/a></p>'+
+            '<p><a href="#" onclick="window.apf.öffneTPop(\'' + tpop.TPopId + '\')">Formular anstelle Karte öffnen<\/a></p>'+
             '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')">Formular neben der Karte öffnen<\/a></p>'+
-            '<p><a href="#" onclick="window.apf.öffneTPopInNeuemTab("' + tpop.TPopId + '")">Formular in neuem Fenster öffnen<\/a></p>'+
+            '<p><a href="#" onclick="window.apf.öffneTPopInNeuemTab(\'' + tpop.TPopId + '\')">Formular in neuem Fenster öffnen<\/a></p>'+
             '</div>'+
             '</div>';
         makeListener(map, marker_tpop, contentstring_tpop);
@@ -177,9 +177,9 @@ var returnFunction = function (beob_liste, tpop_liste) {
             '<p>Projekt: ' + Projekt + '</p>'+
             '<p>Ort: ' + Ort + '</p>'+
             '<p>Koordinaten: ' + beob.X + ' / ' + beob.Y + '</p>'+
-            '<p><a href="#" onclick="window.apf.öffneBeob("' + beob.NO_NOTE + '")">Formular anstelle Karte öffnen<\/a></p>'+
+            '<p><a href="#" onclick="window.apf.öffneBeob(\'' + beob.NO_NOTE + '\')">Formular anstelle Karte öffnen<\/a></p>'+
             //'<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'beob\', ' + beob.NO_NOTE + ')">Formular neben der Karte öffnen<\/a></p>'+
-            '<p><a href="#" onclick="window.apf.öffneBeobInNeuemTab("' + beob.NO_NOTE + '")">Formular in neuem Fenster öffnen<\/a></p>'+
+            '<p><a href="#" onclick="window.apf.öffneBeobInNeuemTab(\'' + beob.NO_NOTE + '\')">Formular in neuem Fenster öffnen<\/a></p>'+
             '</div>'+
             '</div>';
         makeListenerBeob(map, marker_beob, contentstring_beob);

@@ -120,8 +120,8 @@ var returnFunction = function (beob_liste) {
             '<p>Projekt: ' + Projekt + '</p>' +
             '<p>Ort: ' + Ort + '</p>' +
             '<p>Koordinaten: ' + beob.X + ' / ' + beob.Y + '</p>' +
-            '<p><a href="#" onclick="window.apf.öffneBeob("' + beob.NO_NOTE + '")">Formular anstelle Karte öffnen<\/a></p>' +
-            '<p><a href="#" onclick="window.apf.öffneBeobInNeuemTab("' + beob.NO_NOTE + '")">Formular in neuem Fenster öffnen<\/a></p>' +
+            '<p><a href="#" onclick="window.apf.öffneBeob(\'' + beob.NO_NOTE + '\')">Formular anstelle Karte öffnen<\/a></p>' +
+            '<p><a href="#" onclick="window.apf.öffneBeobInNeuemTab(\'' + beob.NO_NOTE + '\')">Formular in neuem Fenster öffnen<\/a></p>' +
             '</div>' +
             '</div>';
         makeListener(map, marker, contentString);

@@ -27,8 +27,8 @@ var returnFunction = function (pop_selected, tpop_selected) {
         rückmeldung += "<table>";
         _.each(pop_selected, function (pop) {
             pop_id = pop.get('myId');
-            rückmeldung += '<tr><td><a href="#" onclick="window.apf.öffnePop("' + pop_id + '")">';
-            rückmeldung += pop.get('pop_nr') + ':<\/a></td><td><a href="#" onclick="window.apf.öffnePop("' + pop_id + '")">' + pop.get('pop_name') + '<\/a></td></tr>';
+            rückmeldung += '<tr><td><a href="#" onclick="window.apf.öffnePop(\'' + pop_id + '\')">';
+            rückmeldung += pop.get('pop_nr') + ':<\/a></td><td><a href="#" onclick="window.apf.öffnePop(\'' + pop_id + '\')">' + pop.get('pop_name') + '<\/a></td></tr>';
         });
         rückmeldung += "</table>";
     }
@@ -47,8 +47,8 @@ var returnFunction = function (pop_selected, tpop_selected) {
         rückmeldung += "<table>";
         _.each(tpop_selected, function (tpop) {
             tpop_id = tpop.get('myId');
-            rückmeldung += '<tr><td><a href="#" onclick="window.apf.öffneTPopInNeuemTab("' + tpop_id + '")">';
-            rückmeldung += tpop.get('tpop_nr_label') + ':<\/a></td><td><a href="#" onclick="window.apf.öffneTPopInNeuemTab("' + tpop_id + '")">';
+            rückmeldung += '<tr><td><a href="#" onclick="window.apf.öffneTPopInNeuemTab(\'' + tpop_id + '\')">';
+            rückmeldung += tpop.get('tpop_nr_label') + ':<\/a></td><td><a href="#" onclick="window.apf.öffneTPopInNeuemTab(\'' + tpop_id + '\')">';
             rückmeldung += tpop.get('tpop_name') + "<\/a></td></tr>";
         });
         rückmeldung += "</table>";

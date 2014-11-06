@@ -1073,9 +1073,9 @@ window.apf.olmap.erstelleContentFürTPop = function (tpop) {
         '<tr><td><p>Teilpopulation:</p></td><td><p>' + my_flurname + '</p></td></tr>'+
         '<tr><td><p>Koordinaten:</p></td><td><p>' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p></td></tr>'+
         '</table>'+
-        '<p><a href="#" onclick="window.apf.öffneTPop("' + tpop.TPopId + '")">Formular anstelle Karte öffnen<\/a></p>'+
+        '<p><a href="#" onclick="window.apf.öffneTPop(\'' + tpop.TPopId + '\')">Formular anstelle Karte öffnen<\/a></p>'+
         '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')">Formular neben der Karte öffnen<\/a></p>'+
-        '<p><a href="#" onclick="window.apf.öffneTPopInNeuemTab("' + tpop.TPopId + '")">Formular in neuem Fenster öffnen<\/a></p>';
+        '<p><a href="#" onclick="window.apf.öffneTPopInNeuemTab(\'' + tpop.TPopId + '\')">Formular in neuem Fenster öffnen<\/a></p>';
 };
 
 // retourniert features
@@ -1282,9 +1282,9 @@ window.apf.gmap.verorteTPop = function (tpop) {
             '<div id="bodyContent" class="GmInfowindow">'+
             '<h3>' + my_flurname + '</h3>'+
             '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
-            '<p><a href="#" onclick="window.apf.öffneTPop("' + tpop.TPopId + '")">Formular anstelle Karte öffnen<\/a></p>'+
+            '<p><a href="#" onclick="window.apf.öffneTPop(\'' + tpop.TPopId + '\')">Formular anstelle Karte öffnen<\/a></p>'+
             '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')">Formular neben der Karte öffnen<\/a></p>'+
-            '<p><a href="#" onclick="window.apf.öffneTPopInNeuemTab("' + tpop.TPopId + '")">Formular in neuem Fenster öffnen<\/a></p>'+
+            '<p><a href="#" onclick="window.apf.öffneTPopInNeuemTab(\'' + tpop.TPopId + '\')">Formular in neuem Fenster öffnen<\/a></p>'+
             '</div>'+
             '</div>';
         infowindow = new google.maps.InfoWindow({
@@ -1381,9 +1381,9 @@ window.apf.gmap.SetLocationTPop = function (LatLng, map, marker, TPop) {
                 '<div id="bodyContent" class="GmInfowindow">'+
                 '<h3>' + title + '</h3>'+
                 '<p>Koordinaten: ' + X + ' / ' + Y + '</p>'+
-                '<p><a href="#" onclick="window.apf.öffneTPop("' + localStorage.tpop_id + '")">Formular anstelle Karte öffnen<\/a></p>'+
+                '<p><a href="#" onclick="window.apf.öffneTPop(\'' + localStorage.tpop_id + '\')">Formular anstelle Karte öffnen<\/a></p>'+
                 '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'tpop\', ' + localStorage.tpop_id + ')">Formular neben der Karte öffnen<\/a></p>'+
-                '<p><a href="#" onclick="window.apf.öffneTPopInNeuemTab("' + localStorage.tpop_id + '")">Formular in neuem Fenster öffnen<\/a></p>'+
+                '<p><a href="#" onclick="window.apf.öffneTPopInNeuemTab(\'' + localStorage.tpop_id + '\')">Formular in neuem Fenster öffnen<\/a></p>'+
                 '</div>'+
                 '</div>';
             infowindow = new google.maps.InfoWindow({
@@ -1433,7 +1433,7 @@ window.apf.öffneTPop = function (tpop_id) {
 
 window.apf.öffneTPopInNeuemTab = function (tpop_id) {
     'use strict';
-    window.open("index.html?ap="+localStorage.ap_id+"&pop=" + localStorage.pop_id+"&tpop="+tpop_id, "_blank");
+    window.open("index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + tpop_id, "_blank");
 };
 
 window.apf.öffnePop = function (pop_id) {
@@ -1446,7 +1446,7 @@ window.apf.öffnePop = function (pop_id) {
 
 window.apf.öffnePopInNeuemTab = function (pop_id) {
     'use strict';
-    window.open("index.html?ap="+localStorage.ap_id+"&pop=" + pop_id, "_blank");
+    window.open("index.html?ap=" + localStorage.ap_id + "&pop=" + pop_id, "_blank");
 };
 
 window.apf.öffneBeob = function (beob_id) {
@@ -1458,7 +1458,7 @@ window.apf.öffneBeob = function (beob_id) {
 
 window.apf.öffneBeobInNeuemTab = function (beob_id) {
     'use strict';
-    window.open("index.html?ap="+localStorage.ap_id+"&beob_nicht_beurteilt=" + beob_id, "_blank");
+    window.open("index.html?ap="+localStorage.ap_id + "&beob_nicht_beurteilt=" + beob_id, "_blank");
 };
 
 window.apf.öffneTPopBeob = function (beob_id) {
@@ -1470,7 +1470,7 @@ window.apf.öffneTPopBeob = function (beob_id) {
 
 window.apf.öffneTPopBeobInNeuemTab = function (beob_id) {
     'use strict';
-    window.open("index.html?ap="+localStorage.ap_id+"&beob_nicht_beurteilt=" + beob_id, "_blank");
+    window.open("index.html?ap="+localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&beob_nicht_beurteilt=" + beob_id, "_blank");
 };
 
 

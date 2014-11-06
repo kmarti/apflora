@@ -2296,8 +2296,8 @@ var returnFunction = function (node) {
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/beobId=/nichtZuzuordnen='
                     }).done(function (data) {
-                        if (data && data[0]) {
-                            zeigeTPopBeobAufGmap(data[0]);
+                        if (data) {
+                            zeigeTPopBeobAufGmap(data);
                         } else {
                             window.apf.melde("Es gibt keine Beobachtungen mit Koordinaten", "Aktion abgebrochen");
                         }
@@ -2341,8 +2341,8 @@ var returnFunction = function (node) {
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen='
                     }).done(function (data) {
-                        if (data && data[0]) {
-                            zeigeTPopBeobAufGmap(data[0]);
+                        if (data) {
+                            zeigeTPopBeobAufGmap(data);
                         } else {
                             window.apf.melde("Die Beobachtung hat keine Koordinaten", "Aktion abgebrochen");
                         }

@@ -19,14 +19,12 @@ var returnFunction = function (tpop_beob_liste) {
         marker,
         contentString,
         marker_options,
+        marker_cluster,
         datum,
         titel,
         chToWgsLng = require('../lib/chToWgsLng'),
         chToWgsLat = require('../lib/chToWgsLat'),
         zeigeFormular = require('./zeigeFormular');
-
-
-    console.log('zeigeTPopBeobAufGmap');
 
     // diese Funktion muss hier sein, damit infowindow bekannt ist
     function makeListener(map, marker, contentString) {
@@ -118,8 +116,8 @@ var returnFunction = function (tpop_beob_liste) {
             '<p>Projekt: ' + Projekt + '</p>' +
             '<p>Ort: ' + Ort + '</p>' +
             '<p>Koordinaten: ' + tpop_beob.X + ' / ' + tpop_beob.Y + '</p>' +
-            '<p><a href="#" onclick="window.apf.öffneTPopBeob("' + tpop_beob.NO_NOTE + '")">Formular anstelle Karte öffnen<\/a></p>' +
-            '<p><a href="#" onclick="window.apf.öffneTPopBeobInNeuemTab("' + tpop_beob.NO_NOTE + '")">Formular in neuem Fenster öffnen<\/a></p>' +
+            '<p><a href="#" onclick="window.apf.öffneTPopBeob(\'' + tpop_beob.NO_NOTE + '\')">Formular anstelle Karte öffnen<\/a></p>' +
+            '<p><a href="#" onclick="window.apf.öffneTPopBeobInNeuemTab(\'' + tpop_beob.NO_NOTE + '\')">Formular in neuem Fenster öffnen<\/a></p>' +
             '</div>' +
             '</div>';
         makeListener(map, marker, contentString);
