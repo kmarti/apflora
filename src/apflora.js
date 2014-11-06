@@ -738,47 +738,6 @@ window.apf.tpopKopiertInPopOrdnerTpopEinfügen = function (aktiver_node) {
     });
 };
 
-// wird offenbar momentan nicht verwendet
-window.apf.tpopKopiertInTpopEinfügen = function (aktiver_node, parent_node) {
-    'use strict';
-    var data = {};
-    // nur aktualisieren, wenn Schreibrechte bestehen
-    if (!window.apf.prüfeSchreibvoraussetzungen()) {
-        return;
-    }
-    // drop kennt den parent nicht
-    if (!parent_node) {
-        parent_node = $.jstree._reference(aktiver_node)._get_parent(aktiver_node);
-    }
-    // User und neue PopId mitgeben
-    data.MutWer = sessionStorage.User;
-    data.PopId = window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id"));
-    // die alten id's entfernen
-    delete window.apf.tpop_objekt_kopiert.PopId;
-    delete window.apf.tpop_objekt_kopiert.TPopId;
-    // das wird gleich neu gesetzt, alte Werte verwerfen
-    delete window.apf.tpop_objekt_kopiert.MutWann;
-    delete window.apf.tpop_objekt_kopiert.MutWer;
-    // alle verbliebenen Felder an die url hängen
-    _.each(window.apf.tpop_objekt_kopiert, function (value, key) {
-        // Nullwerte ausschliessen
-        if (value !== null) {
-            data[key] = value;
-        }
-    });
-    // und an die DB schicken
-    $.ajax({
-        type: 'post',
-        url: 'api/v1/tpopInsertKopie/popId=' + data.PopId + '/tpopId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpop_node_kopiert).attr("id")) + '/user=' + data.MutWer
-    }).done(function (tpop_id) {
-        var strukturtyp = "tpop",
-            beschriftung = window.apf.tpop_objekt_kopiert.TPopNr + " " + window.apf.tpop_objekt_kopiert.TPopFlurname;
-        window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, tpop_id, beschriftung);
-    }).fail(function () {
-        window.apf.melde("Fehler: Die Teilpopulation wurde nicht erstellt");
-    });
-};
-
 window.apf.pruefeLesevoraussetzungen = function () {
     'use strict';
     // kontrollieren, ob der User offline ist
@@ -1228,74 +1187,6 @@ window.apf.olmap.erstelleMarkerFürTPopLayer = function (tpop) {
         myTyp: 'tpop',
         myId: tpop.TPopId
     });
-};
-
-// nimmt drei Variablen entgegen:
-// tpop_liste: Die Liste der darzustellenden Teilpopulationen
-// tpopid_markiert: die ID der zu markierenden TPop
-// visible: Ob das Layer sichtbar sein soll
-window.apf.olmap.erstelleTPopLayer = function (tpop_liste, tpopid_markiert, visible) {
-    'use strict';
-
-    var tpop_layer_erstellt = $.Deferred(),
-        tpop_layer,
-        markers = [],
-        marker,
-        selected_features;
-
-    if (window.apf.olmap.map.olmap_select_interaction && tpopid_markiert) {
-        selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
-    } else if (tpopid_markiert) {
-        window.apf.olmap.addSelectFeaturesInSelectableLayers();
-        selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
-    }
-
-    if (visible === null) {
-        visible = true;
-    }
-
-    _.each(tpop_liste, function (tpop) {
-        // marker erstellen...
-        marker = window.apf.olmap.erstelleMarkerFürTPopLayer(tpop);
-
-        // ...und in Array speichern
-        markers.push(marker);
-
-        // markierte in window.apf.olmap.map.olmap_select_interaction ergänzen
-        if (tpopid_markiert && tpopid_markiert.indexOf(tpop.TPopId) !== -1) {
-            selected_features.push(marker);
-        }
-    });
-
-    // layer für Marker erstellen
-    tpop_layer = new ol.layer.Vector({
-        title: 'Teilpopulationen',
-        source: new ol.source.Vector({
-                features: markers
-            }),
-        style: function (feature, resolution) {
-            return window.apf.olmap.tpopStyle(feature, resolution);
-        }
-    });
-    tpop_layer.set('visible', visible);
-    tpop_layer.set('kategorie', 'AP Flora');
-    
-    // ...und der Karte hinzufügen
-    window.apf.olmap.map.addLayer(tpop_layer);
-
-    if (selected_features && selected_features.length > 0) {
-        setTimeout(function () {
-            window.apf.olmap.prüfeObPopTpopGewähltWurden();
-        }, 100);
-        // Schaltfläche olmap_auswaehlen aktivieren
-        $('#olmap_auswaehlen')
-            .prop('checked', true)
-            .button()
-            .button("refresh");
-    }
-
-    tpop_layer_erstellt.resolve();
-    return tpop_layer_erstellt.promise();
 };
 
 window.apf.olmap.onFeatureSelect = function (feature) {

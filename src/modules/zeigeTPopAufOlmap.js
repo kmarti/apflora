@@ -9,7 +9,8 @@ var returnFunction = function (TPopListeMarkiert) {
         overlay_pop_visible = window.apf.olmap.istLayerSichtbarNachName("Populationen"),
         // wenn layer "Populationen Namen" sichtbar ist, sichtbar behalten
         overlay_popnr_visible = window.apf.olmap.istLayerSichtbarNachName("Populationen Nummern"),
-        markierte_tpop = window.apf.olmap.wähleAusschnittFürÜbergebeneTPop(TPopListeMarkiert);
+        markierte_tpop = window.apf.olmap.wähleAusschnittFürÜbergebeneTPop(TPopListeMarkiert),
+        erstelleTPopLayer = require('./erstelleTPopLayer');
 
     // Grundkarte aufbauen
     $.when(zeigeFormular("GeoAdminKarte"))
@@ -27,7 +28,7 @@ var returnFunction = function (TPopListeMarkiert) {
             getTPopKarteAlle.done(function (tpop_liste) {
                 $.when(
                     // Layer für Symbole und Beschriftung erstellen
-                    window.apf.olmap.erstelleTPopLayer(tpop_liste, markierte_tpop.tpopid_markiert, true),
+                    erstelleTPopLayer(tpop_liste, markierte_tpop.tpopid_markiert, true),
                     // alle Pop holen
                     window.apf.olmap.zeigePopInTPop(overlay_pop_visible, overlay_popnr_visible)
                 )

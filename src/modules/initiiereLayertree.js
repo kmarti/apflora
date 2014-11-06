@@ -10,9 +10,6 @@ var _ = require('underscore'),
     $ = require('jquery');
 
 var returnFunction = function (active_kategorie) {
-
-    console.log('initiiereLayertree: active_kategorie = ', active_kategorie);
-
     var layertitel,
         visible,
         kategorie,
@@ -68,8 +65,6 @@ var returnFunction = function (active_kategorie) {
         legende = layer.get('legende') || false;
         legende_url = layer.get('legende_url') || null;
 
-        console.log('layertitel: ', layertitel);
-
         if (layertitel !== 'messen') {
             html_prov = '<li><input type="checkbox" class="olmap_layertree_checkbox" id="olmap_layertree_' + layertitel + '" value="' + index + '"';
             // sichtbare Layer sollen gecheckt sein
@@ -80,9 +75,6 @@ var returnFunction = function (active_kategorie) {
             html_prov += '<label for="olmap_layertree_' + layertitel + '">' + layertitel + '</label>';
             // bei pop und tpop muss style gewählt werden können
             if (layertitel === 'Populationen') {
-
-                console.log('Pop-Layer wird erstellt');
-
                 html_prov += '<div class="layeroptionen">';
                 html_prov += '<label for="layertree_pop_nr" class="layertree_pop_style pop_nr">Nr.</label>';
                 html_prov += '<input type="checkbox" id="layertree_pop_nr" class="layertree_pop_style pop_nr" checked="checked"> ';
@@ -91,9 +83,6 @@ var returnFunction = function (active_kategorie) {
                 html_prov += '</div>';
             }
             if (layertitel === 'Teilpopulationen') {
-
-                console.log('TPop-Layer wird erstellt');
-
                 html_prov += '<div class="layeroptionen">';
                 html_prov += '<label for="layertree_tpop_nr" class="layertree_tpop_style tpop_nr">Nr.</label>';
                 html_prov += '<input type="checkbox" id="layertree_tpop_nr" class="layertree_tpop_style tpop_nr" checked="checked"> ';
