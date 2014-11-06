@@ -1267,9 +1267,9 @@ window.apf.olmap.erstelleContentFürPop = function (pop) {
         '<tr><td><p>Typ:</p></td><td><p>Population</p></td></tr>'+
         '<tr><td><p>Koordinaten:</p></td><td><p>' + pop.PopXKoord + ' / ' + pop.PopYKoord + '</p></td></tr>'+
         '</table>'+
-        '<p><a href="#" onclick="window.apf.öffnePop("' + pop.PopId + '")">Formular anstelle Karte öffnen<\/a></p>'+
+        '<p><a href="#" onclick="window.apf.öffnePop(\'' + pop.PopId + '\')">Formular anstelle Karte öffnen<\/a></p>'+
         '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'pop\', ' + pop.PopId + ')">Formular neben der Karte öffnen<\/a></p>'+
-        '<p><a href="#" onclick="window.apf.öffnePopInNeuemTab("' + pop.PopId + '")">Formular in neuem Fenster öffnen<\/a></p>';
+        '<p><a href="#" onclick="window.apf.öffnePopInNeuemTab(\'' + pop.PopId + '\')">Formular in neuem Fenster öffnen<\/a></p>';
 };
 
 // übernimmt drei Variablen: popliste ist das Objekt mit den Populationen
@@ -2278,6 +2278,7 @@ window.apf.öffneTPopInNeuemTab = function (tpop_id) {
 
 window.apf.öffnePop = function (pop_id) {
     'use strict';
+    console.log('pop_id = ', pop_id);
     localStorage.pop_id = pop_id;
     $.jstree._reference("[typ='pop']#" + pop_id).deselect_all();
     $("#tree").jstree("select_node", "[typ='pop']#" + pop_id);
