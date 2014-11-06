@@ -3652,34 +3652,37 @@ window.apf.olmap.initiiereLayertree = function (active_kategorie) {
     require('./modules/initiiereLayertree')($, active_kategorie);
 };
 
-// das ist der Versuch, existierende Formulare als dialog zu öffnen
+// Formulare als dialog öffnen
 // braucht die id des Formulars
 // und die id des Datensatzes, der anzuzeigen ist
 window.apf.öffneFormularAlsPopup = function (formularname, id) {
     var $formularname = $('#' + formularname),
         title;
-    // titel bestimmen
-    switch (formularname) {
-        case 'pop':
-            title = 'Population';
-            break;
-        case 'tpop':
-            title = 'Teilpopulation';
-            break;
-        case 'beob':
-            title = 'Beobachtung';
-            break;
-        default:
-            title = '';
-    }
+
     // id setzen
     localStorage[formularname + '_id'] = id;
-    // formular initiieren, ohne anzuzeigen
-    if (formularname === 'beob') {
-        window.apf['initiiere_' + formularname]('beob_nicht_beurteilt', id, 'nicht_beurteilt', true);
-    } else {
-        window.apf['initiiere_' + formularname](true);
+
+    // titel bestimmen
+    switch (formularname) {
+    case 'pop':
+        title = 'Population';
+        // formular initiieren, ohne anzuzeigen
+        require('./modules/initiierePop')(null, id, true);
+        break;
+    case 'tpop':
+        title = 'Teilpopulation';
+        // formular initiieren, ohne anzuzeigen
+        require('./modules/initiiereTpop')(null, null, id, true);
+        break;
+    case 'beob':
+        title = 'Beobachtung';
+        // formular initiieren, ohne anzuzeigen
+        require('./modules/initiiereBeob')('beob_nicht_beurteilt', id, 'nicht_beurteilt', true);
+        break;
+    default:
+        title = '';
     }
+
     // dialog öffnen
     $formularname.dialog({
         close: function () {
