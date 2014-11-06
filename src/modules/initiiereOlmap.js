@@ -1,7 +1,9 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var returnFunction = function ($) {
+var $ = require('jquery');
+
+var returnFunction = function () {
     var initiiereLayertree = require('./initiiereLayertree');
 
     // allfällige Apflora-Ebenen entfernen
@@ -24,7 +26,7 @@ var returnFunction = function ($) {
         window.apf.olmap.addDragAndDropGeofiles();
         window.apf.olmap.addShowFeatureInfoOnClick();
         window.apf.olmap.changeCursorOverFeature();
-        initiiereLayertree($);
+        initiiereLayertree();
         window.apf.olmap.addMousePositionControl();
         window.apf.olmap.addFullScreenControl();
 

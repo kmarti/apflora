@@ -70,7 +70,7 @@ var returnFunction = function (Formularname) {
             window.apf.setzeKartenhöhe();
             $Formularname.show();
             if (Formularname === "GeoAdminKarte") {
-                initiiereOlmap($);
+                initiiereOlmap();
             }
         } else {
             $forms.css("background-color", "#FFE");

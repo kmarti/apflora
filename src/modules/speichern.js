@@ -6,8 +6,10 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
+var $ = require('jquery');
+
 // braucht $ wegen jstree
-var returnFunction = function ($, that) {
+var speichern = function (that) {
     var feldtyp,
         formular,
         tabelleInDb,
@@ -83,14 +85,14 @@ var returnFunction = function ($, that) {
                 objekt = {};
                 objekt.name = "TPopKontrJahr";
                 objekt.formular = "tpopfeldkontr";
-                window.apf.speichern(objekt);
+                speichern(objekt);
             }
             // dito bei tpopmassn
             if (feldname === "TPopMassnDatum" && feldwert) {
                 objekt = {};
                 objekt.name = "TPopMassnJahr";
                 objekt.formular = "tpopmassn";
-                window.apf.speichern(objekt);
+                speichern(objekt);
             }
             // wenn in TPopKontrZaehleinheit 1 bis 3 ein Leerwert eingeführt wurde
             // sollen auch die Felder TPopKontrMethode 1 bis 3 und TPopKontrAnz 1 bis 3 Leerwerte erhalten
@@ -106,12 +108,12 @@ var returnFunction = function ($, that) {
                     objekt = {};
                     objekt.name = "TPopKontrMethode1";
                     objekt.formular = formular;
-                    window.apf.speichern(objekt);
+                    speichern(objekt);
                     // Feld TPopKontrAnz1
                     objekt = {};
                     objekt.name = "TPopKontrAnz1";
                     objekt.formular = formular;
-                    window.apf.speichern(objekt);
+                    speichern(objekt);
                 }
                 if (feldname === "TPopKontrZaehleinheit2") {
                     // UI aktualisieren
@@ -124,12 +126,12 @@ var returnFunction = function ($, that) {
                     objekt = {};
                     objekt.name = "TPopKontrMethode2";
                     objekt.formular = formular;
-                    window.apf.speichern(objekt);
+                    speichern(objekt);
                     // Feld TPopKontrAnz2
                     objekt = {};
                     objekt.name = "TPopKontrAnz2";
                     objekt.formular = formular;
-                    window.apf.speichern(objekt);
+                    speichern(objekt);
                 }
                 if (feldname === "TPopKontrZaehleinheit3") {
                     // UI aktualisieren
@@ -142,12 +144,12 @@ var returnFunction = function ($, that) {
                     objekt = {};
                     objekt.name = "TPopKontrMethode3";
                     objekt.formular = formular;
-                    window.apf.speichern(objekt);
+                    speichern(objekt);
                     // Feld TPopKontrAnz3
                     objekt = {};
                     objekt.name = "TPopKontrAnz3";
                     objekt.formular = formular;
-                    window.apf.speichern(objekt);
+                    speichern(objekt);
                 }
             }
         }).fail(function () {
@@ -333,4 +335,4 @@ var returnFunction = function ($, that) {
     }
 };
 
-module.exports = returnFunction;
+module.exports = speichern;

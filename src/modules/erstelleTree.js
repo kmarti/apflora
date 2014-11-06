@@ -1,13 +1,17 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
+var $               = require('jquery'),
+    speichern       = require('./speichern'),
+    treeKontextmenu = require('./treeKontextmenu');
+
 require('jquery-ui');
+$.jstree = require('jquery.jstree');
 
 // übernimmt $ wegen jstree
-var returnFunction = function ($, ApArtId) {
+var returnFunction = function (ApArtId) {
+    var jstree_erstellt = $.Deferred();
     localStorage.ap_id = ApArtId;
-    var jstree_erstellt = $.Deferred(),
-        treeKontextmenu = require('./treeKontextmenu');
     $("#tree").jstree({
         "json_data": {
             "ajax": {
@@ -710,7 +714,7 @@ var returnFunction = function ($, ApArtId) {
             var Objekt = {};
             Objekt.name = "ZielJahr";
             Objekt.formular = "apziel";
-            window.apf.speichern(Objekt);
+            speichern(Objekt);
             $("#ZielJahr")
                 .val(data.rslt.parent[0].innerText.slice(1, 5))
                 .focus();

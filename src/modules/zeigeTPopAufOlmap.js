@@ -1,9 +1,9 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-//var $ = require('jquery');
+var $ = require('jquery');
 
-var returnFunction = function ($, TPopListeMarkiert) {
+var returnFunction = function (TPopListeMarkiert) {
     var zeigeFormular = require('./zeigeFormular'),
         // wenn layer "Populationen" sichtbar ist, sichtbar behalten
         overlay_pop_visible = window.apf.olmap.istLayerSichtbarNachName("Populationen"),
@@ -12,7 +12,7 @@ var returnFunction = function ($, TPopListeMarkiert) {
         markierte_tpop = window.apf.olmap.wähleAusschnittFürÜbergebeneTPop(TPopListeMarkiert);
 
     // Grundkarte aufbauen
-    $.when(zeigeFormular($, "GeoAdminKarte"))
+    $.when(zeigeFormular("GeoAdminKarte"))
         .then(function () {
             // Karte zum richtigen Ausschnitt zoomen
             window.apf.olmap.map.updateSize();
@@ -34,7 +34,7 @@ var returnFunction = function ($, TPopListeMarkiert) {
                 .then(function () {
                     var initiiereLayertree = require('./initiiereLayertree');
                     // layertree neu aufbauen
-                    initiiereLayertree($);
+                    initiiereLayertree();
                 });
             });
 

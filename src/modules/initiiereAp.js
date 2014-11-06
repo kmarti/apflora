@@ -54,7 +54,7 @@ var returnFunction = function (apId) {
                         .val(window.apf.ap.ApBearb);
                 });
                 // Formulare blenden
-                zeigeFormular("ap", $);
+                zeigeFormular("ap");
                 history.pushState(null, null, "index.html?ap=" + data.ApArtId);
             }
         }).fail(function () {

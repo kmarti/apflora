@@ -332,7 +332,7 @@ window.apf.initiiereExporte = function (anchor) {
     var zeigeFormular = require('./modules/zeigeFormular');
     $("#testart_div").hide();
     $("#forms_titelzeile").hide();
-    zeigeFormular("exporte", $);
+    zeigeFormular("exporte");
     history.pushState(null, null, "index.html?exporte=true");
     if (anchor) {
         location.hash = "#" + anchor;
@@ -534,12 +534,12 @@ window.apf.setzeAutocompleteFuerApliste = function (programm) {
 
 // wird in index.html benutzt
 window.apf.wähleApListe = function (programm) {
-    require('./modules/waehleApliste') (programm);
+    require('./modules/waehleApliste')(programm);
 };
 
 // diese Funktion kann nicht modularisiert werden, weil jstree nicht für node entwickelt wurde!!!!
 window.apf.erstelle_tree = function (ApArtId) {
-    require('./modules/erstelleTree') ($, ApArtId);
+    require('./modules/erstelleTree')(ApArtId);
 };
 
 // übernimmt einen node
@@ -817,8 +817,7 @@ window.apf.prüfeSchreibvoraussetzungen = function () {
 // vorläufig indirekt aufrufen, damit $ übergeben wird
 // später durch jstree 3 ablösen
 window.apf.speichern = function (that) {
-    'use strict';
-    require('./modules/speichern') ($, that);
+    require('./modules/speichern')(that);
 };
 
 (function ($) {
@@ -907,7 +906,7 @@ window.apf.olmap.entferneAlleApfloraLayer = function () {
         _.each(zu_löschende_layer, function (layer) {
             window.apf.olmap.map.removeLayer(layer);
         });
-        initiiereLayertree($);
+        initiiereLayertree();
     }
 };
 
@@ -940,7 +939,7 @@ window.apf.olmap.stapleLayerZuoberst = function (layer_title) {
             layers.insertAt(layers_array.length, top_layer);
         }
     });
-    initiiereLayertree($);
+    initiiereLayertree();
 };
 
 window.apf.olmap.entferneModifyInteractionFürTpop = function () {
@@ -1078,7 +1077,7 @@ window.apf.olmap.zeigePopInTPop = function (overlay_pop_visible, overlay_popnr_v
         $.when(erstellePopLayer(PopListe, popid_markiert, overlay_pop_visible))
         .then(function () {
             // layertree neu aufbauen
-            initiiereLayertree($);
+            initiiereLayertree();
             pop_gezeigt.resolve();
         });
     }).fail(function () {
@@ -1355,7 +1354,7 @@ window.apf.gmap.zeigeBeobUndTPop = function (beob_liste, tpop_liste) {
         zeigeFormular = require('./modules/zeigeFormular');
 
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-    zeigeFormular("google_karte", $);
+    zeigeFormular("google_karte");
     window.apf.gmap.markers_array = [];
     window.apf.gmap.info_window_array = [];
     infowindow_beob = new google.maps.InfoWindow();
@@ -1608,7 +1607,7 @@ window.apf.gmap.zeigeBeob = function (beob_liste) {
         chToWgsLat = require('./lib/chToWgsLat'),
         zeigeFormular = require('./modules/zeigeFormular');
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-    zeigeFormular("google_karte", $);
+    zeigeFormular("google_karte");
     window.apf.gmap.markers_array = [];
     window.apf.gmap.info_window_array = [];
     infowindow = new google.maps.InfoWindow();
@@ -1748,7 +1747,7 @@ window.apf.gmap.zeigeTPopBeob = function (tpop_beob_liste) {
         zeigeFormular = require('./modules/zeigeFormular');
 
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-    zeigeFormular("google_karte", $);
+    zeigeFormular("google_karte");
     window.apf.gmap.markers_array = [];
     window.apf.gmap.info_window_array = [];
     infowindow = new google.maps.InfoWindow();
@@ -1884,7 +1883,7 @@ window.apf.gmap.verorteTPop = function (tpop) {
     window.apf.gmap.markers_array = [];
 
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-    zeigeFormular("google_karte", $);
+    zeigeFormular("google_karte");
 
     // Optionen für die Anzeige
     if (tpop && tpop.TPopXKoord && tpop.TPopYKoord) {
@@ -3192,7 +3191,7 @@ window.apf.olmap.addShowFeatureInfoOnClick = function () {
             zeigeFeatureInfo = require('./modules/zeigeFeatureInfo');
         // nur machen, wenn nicht selektiert wird
         if (!window.apf.olmap.map.olmap_select_interaction) {
-            zeigeFeatureInfo(pixel, coordinate, $);
+            zeigeFeatureInfo(pixel, coordinate);
         }
         // prüfen, ob pop / tpop gewählt wurden
         // verzögern, weil die neuste selection sonst nicht erfasst wird
@@ -3349,7 +3348,7 @@ window.apf.olmap.addDragAndDropGeofiles = function () {
         var view = window.apf.olmap.map.getView();
         view.fitExtent(vectorSource.getExtent(), /** @type {ol.Size} */ (window.apf.olmap.map.getSize()));
         // layertree aktualisieren
-        initiiereLayertree($, 'Eigene Ebenen');
+        initiiereLayertree('Eigene Ebenen');
         window.apf.olmap.frageNameFürEbene(drag_and_drop_layer);
     });
 };
@@ -3411,14 +3410,14 @@ window.apf.olmap.nenneEbeneUm = function (layer, title) {
     'use strict';
     var initiiereLayertree = require('./modules/initiiereLayertree');
     layer.set('title', title);
-    initiiereLayertree($, 'Eigene Ebenen');
+    initiiereLayertree('Eigene Ebenen');
     // layer in localStorage speichern
     window.apf.olmap.aktualisiereEbeneInLocalStorage(layer);
 };
 
 
 window.apf.olmap.initiiereLayertree = function (active_kategorie) {
-    require('./modules/initiiereLayertree')($, active_kategorie);
+    require('./modules/initiiereLayertree')(active_kategorie);
 };
 
 // Formulare als dialog öffnen
@@ -3788,6 +3787,7 @@ window.apf.olmap.schliesseLayeroptionen = function () {
 
 window.apf.erstelleGemeindeliste = function () {
     'use strict';
+    var speichern = require('./modules/speichern');
     if (!window.apf.gemeinden) {
         $.ajax({
             type: 'get',
@@ -3808,7 +3808,7 @@ window.apf.erstelleGemeindeliste = function () {
                     delay: 0,
                     // Change-Event wird nicht ausgelöst > hier aufrufen
                     change: function (event, ui) {
-                        window.apf.speichern(event.target);
+                        speichern(event.target);
                     }
                 });
             }
@@ -3885,7 +3885,7 @@ window.apf.wähleAp = function (ap_id) {
         $("#ap_loeschen").hide();
         $("#exportieren_1").show();
         $("#ap").hide();
-        zeigeFormular(null, $);
+        zeigeFormular();
         history.pushState(null, null, "index.html");
     }
 };
@@ -4379,7 +4379,7 @@ window.apf.löscheAp = function (ap_id) {
         //Artname wird nicht mehr gebraucht und soll später nicht in Datensatz eingefügt werden
         delete window.apf.deleted.Artname;
         //forms muss eingeblendet sein, weil undelete_div darin ist
-        zeigeFormular("keines", $);
+        zeigeFormular("keines");
     }).fail(function () {
         window.apf.melde("Fehler: Das Programm wurde nicht gelöscht");
     });
@@ -4416,7 +4416,7 @@ window.apf.olmap.exportiereKarte = function (event) {
 
 // hier behalten, damit $ eingefügt werden kann
 window.apf.treeKontextmenu = function (node) {
-    return require('./modules/treeKontextmenu') ($, node);
+    return require('./modules/treeKontextmenu') (node);
 };
 
 // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen

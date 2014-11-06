@@ -1,10 +1,11 @@
-/*jslint node: true, browser: true*/
+/*jslint node: true, browser: true, nomen: true, todo: true */
 /*global google*/
 'use strict';
 
-var _ = require('underscore');
+var _ = require('underscore'),
+    $ = require('jquery');
 
-var returnFunction = function (tpop_liste, $) {
+var returnFunction = function (tpop_liste) {
     var anz_tpop,
         infowindow,
         tpop_beschriftung,

@@ -4,7 +4,8 @@
 var $                 = require('jquery'),
     clearLocalStorage = require('./clearLocalStorage'),
     erstelleArtlisten = require('./erstelleArtlisten'),
-    waehleApliste     = require('./waehleApliste');
+    waehleApliste     = require('./waehleApliste'),
+    speichern         = require('./speichern');
 
 require('jquery-ui');
 
@@ -68,7 +69,7 @@ var returnFunction = function () {
         showOn: "button",
         defaultDate: +0,
         onSelect: function () {
-            window.apf.speichern(this);
+            speichern(this);
         }
     });
 

@@ -1,9 +1,9 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-//var $ = require('jquery');
+var $ = require('jquery');
 
-var returnFunction = function ($, tpop) {
+var returnFunction = function (tpop) {
     var bounds,
         x_max,
         x_min,
@@ -18,7 +18,7 @@ var returnFunction = function ($, tpop) {
     tpop.PopName = window.apf.pop.PopName;
     tpop.Artname = window.apf.ap.Artname;
 
-    $.when(zeigeTPopAufOlmap($))
+    $.when(zeigeTPopAufOlmap())
         .then(function () {
             window.apf.olmap.deactivateMenuItems();
 
@@ -29,7 +29,7 @@ var returnFunction = function ($, tpop) {
                 kategorie: 'AP Flora',
                 source: window.apf.olmap.modify_source,
                 style: function (feature, resolution) {
-                   return window.apf.olmap.tpopStyle(feature, resolution, false, true);
+                    return window.apf.olmap.tpopStyle(feature, resolution, false, true);
                 }
             });
             window.apf.olmap.map.addLayer(modify_layer);

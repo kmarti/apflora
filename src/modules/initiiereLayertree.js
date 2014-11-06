@@ -6,12 +6,10 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var _ = require('underscore');
+var _ = require('underscore'),
+    $ = require('jquery');
 
-//require('jquery-ui');
-
-// $ nötig wegen .selectmenu()
-var returnFunction = function ($, active_kategorie) {
+var returnFunction = function (active_kategorie) {
 
     console.log('initiiereLayertree: active_kategorie = ', active_kategorie);
 

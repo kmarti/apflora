@@ -7,7 +7,8 @@
     "transform": [ "browserify-shim" ]
   },
   "browserify-shim": {
-    "jquery": "global:$"
+    "jquery": "global:$",
+    "jquery.jstree": "global:$.jstree"
   },
   "dependencies": {
     "async": "^0.9.0",

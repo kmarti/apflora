@@ -5,7 +5,7 @@ var $ = require('jquery'),
     _ = require('underscore');
 
 // braucht $ wegen $.qtip
-var returnFunction = function (pixel, coordinate, $) {
+var returnFunction = function (pixel, coordinate) {
     var features = window.apf.olmap.sucheFeatures(pixel),
         overlay,
         popup_id,

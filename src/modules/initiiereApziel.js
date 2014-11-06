@@ -6,7 +6,7 @@ var $              = require('jquery'),
     initiiereAp    = require('./initiiereAp'),
     zeigeFormular  = require('./zeigeFormular');
 
-var returnFunction = function (apId, apZielId, $) {
+var returnFunction = function (apId, apZielId) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.ap_id) {
         // Anwendung neu initiieren
