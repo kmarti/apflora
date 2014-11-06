@@ -16,7 +16,8 @@ var returnFunction = function (Formularname) {
         $testart_div = $("#testart_div"),
         $forms_titelzeile = $("#forms_titelzeile"),
         $ap_waehlen = $("#ap_waehlen"),
-        $Formularname;
+        $Formularname,
+        initiiereOlmap = require('./initiiereOlmap');
     // zuerst alle Formulare ausblenden
     $forms.hide();
     $form.each(function () {
@@ -69,7 +70,7 @@ var returnFunction = function (Formularname) {
             window.apf.setzeKartenhöhe();
             $Formularname.show();
             if (Formularname === "GeoAdminKarte") {
-                window.apf.initiiereOlmap();
+                initiiereOlmap($);
             }
         } else {
             $forms.css("background-color", "#FFE");

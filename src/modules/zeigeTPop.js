@@ -2,10 +2,9 @@
 /*global google*/
 'use strict';
 
-var $ = require('jquery'),
-    _ = require('underscore');
+var _ = require('underscore');
 
-var returnFunction = function (tpop_liste) {
+var returnFunction = function (tpop_liste, $) {
     var anz_tpop,
         infowindow,
         tpop_beschriftung,
@@ -28,7 +27,7 @@ var returnFunction = function (tpop_liste) {
         zeigeFormular = require('./zeigeFormular');
 
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-    zeigeFormular("google_karte");
+    zeigeFormular("google_karte", $);
     window.apf.gmap.markers_array = [];
     window.apf.gmap.info_window_array = [];
     infowindow = new google.maps.InfoWindow();

@@ -332,7 +332,7 @@ window.apf.initiiereExporte = function (anchor) {
     var zeigeFormular = require('./modules/zeigeFormular');
     $("#testart_div").hide();
     $("#forms_titelzeile").hide();
-    zeigeFormular("exporte");
+    zeigeFormular("exporte", $);
     history.pushState(null, null, "index.html?exporte=true");
     if (anchor) {
         location.hash = "#" + anchor;
@@ -1355,7 +1355,7 @@ window.apf.gmap.zeigeBeobUndTPop = function (beob_liste, tpop_liste) {
         zeigeFormular = require('./modules/zeigeFormular');
 
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-    zeigeFormular("google_karte");
+    zeigeFormular("google_karte", $);
     window.apf.gmap.markers_array = [];
     window.apf.gmap.info_window_array = [];
     infowindow_beob = new google.maps.InfoWindow();
@@ -1608,7 +1608,7 @@ window.apf.gmap.zeigeBeob = function (beob_liste) {
         chToWgsLat = require('./lib/chToWgsLat'),
         zeigeFormular = require('./modules/zeigeFormular');
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-    zeigeFormular("google_karte");
+    zeigeFormular("google_karte", $);
     window.apf.gmap.markers_array = [];
     window.apf.gmap.info_window_array = [];
     infowindow = new google.maps.InfoWindow();
@@ -1748,7 +1748,7 @@ window.apf.gmap.zeigeTPopBeob = function (tpop_beob_liste) {
         zeigeFormular = require('./modules/zeigeFormular');
 
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-    zeigeFormular("google_karte");
+    zeigeFormular("google_karte", $);
     window.apf.gmap.markers_array = [];
     window.apf.gmap.info_window_array = [];
     infowindow = new google.maps.InfoWindow();
@@ -1884,7 +1884,7 @@ window.apf.gmap.verorteTPop = function (tpop) {
     window.apf.gmap.markers_array = [];
 
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-    zeigeFormular("google_karte");
+    zeigeFormular("google_karte", $);
 
     // Optionen für die Anzeige
     if (tpop && tpop.TPopXKoord && tpop.TPopYKoord) {
@@ -2567,7 +2567,7 @@ window.apf.öffneUri = function () {
             // markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
             window.apf.ap_zeigen = true;
             // direkt initiieren, bevor der baum fertig aufgebaut ist
-            initiiereAp(apId);
+            initiiereAp(apId, $);
         }
         window.apf.erstelle_tree(apId);
     } else {
@@ -3097,45 +3097,9 @@ window.apf.olmap.aktualisiereEbeneInLocalStorage = function (layer, remove) {
     }
 };
 
-window.apf.initiiereOlmap = function () {
-    'use strict';
-    var initiiereLayertree = require('./modules/initiiereLayertree');
-
-    // allfällige Apflora-Ebenen entfernen
-    window.apf.olmap.entferneAlleApfloraLayer();
-    // allfällige Modify-Interaktion entfernen
-    window.apf.olmap.entferneModifyInteractionFürTpop();
-
-    // Karte nur aufbauen, wenn dies nicht schon passiert ist
-    if (!window.apf.olmap.map) {
-
-        window.apf.olmap.map = new ga.Map({
-            target: 'ga_karten_div',
-            layers: window.apf.olmap.createLayersForOlmap(),
-            view: new ol.View2D({
-                resolution: 4,
-                center: [693000, 253000]
-            })
-        });
-
-        // diverse features und Fähigkeiten ergänzen
-        window.apf.olmap.addDragAndDropGeofiles();
-        window.apf.olmap.addShowFeatureInfoOnClick();
-        window.apf.olmap.changeCursorOverFeature();
-        initiiereLayertree($);
-        window.apf.olmap.addMousePositionControl();
-        window.apf.olmap.addFullScreenControl();
-
-        window.apf.olmap.map.on('change:size', function () {
-            // steuern, ob das Export-Tool sichtbar ist
-            // wenn es bei hoher Pixelzahl sichtbar ist, gibt es Probleme
-            window.apf.olmap.blendeOlmapExportieren();
-        });
-    }
-};
-
 // deaktiviert Messen und Auswählen
 window.apf.olmap.deactivateMenuItems = function () {
+    'use strict';
     // messen deaktivieren
     window.apf.olmap.removeMeasureInteraction();
     // Auswählen deaktivieren
@@ -3897,7 +3861,7 @@ window.apf.wähleAp = function (ap_id) {
                         }
                         $("#ApArtId").val(ap_id);
                         // gewählte Art in Formular anzeigen
-                        initiiereAp(ap_id);
+                        initiiereAp(ap_id, $);
                     });
                 });
             }).fail(function () {
@@ -3906,7 +3870,7 @@ window.apf.wähleAp = function (ap_id) {
         } else {
             window.apf.erstelle_tree(ap_id);
             $("#ap").show();
-            initiiereAp(ap_id);
+            initiiereAp(ap_id, $);
         }
     } else {
         // leeren Wert gewählt
@@ -3921,7 +3885,7 @@ window.apf.wähleAp = function (ap_id) {
         $("#ap_loeschen").hide();
         $("#exportieren_1").show();
         $("#ap").hide();
-        zeigeFormular();
+        zeigeFormular(null, $);
         history.pushState(null, null, "index.html");
     }
 };
@@ -4415,7 +4379,7 @@ window.apf.löscheAp = function (ap_id) {
         //Artname wird nicht mehr gebraucht und soll später nicht in Datensatz eingefügt werden
         delete window.apf.deleted.Artname;
         //forms muss eingeblendet sein, weil undelete_div darin ist
-        zeigeFormular("keines");
+        zeigeFormular("keines", $);
     }).fail(function () {
         window.apf.melde("Fehler: Das Programm wurde nicht gelöscht");
     });

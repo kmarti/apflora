@@ -1,7 +1,7 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $ = require('jquery');
+//var $ = require('jquery');
 
 var returnFunction = function ($, TPopListeMarkiert) {
     var zeigeFormular = require('./zeigeFormular'),
@@ -12,7 +12,7 @@ var returnFunction = function ($, TPopListeMarkiert) {
         markierte_tpop = window.apf.olmap.wähleAusschnittFürÜbergebeneTPop(TPopListeMarkiert);
 
     // Grundkarte aufbauen
-    $.when(zeigeFormular("GeoAdminKarte"))
+    $.when(zeigeFormular($, "GeoAdminKarte"))
         .then(function () {
             // Karte zum richtigen Ausschnitt zoomen
             window.apf.olmap.map.updateSize();

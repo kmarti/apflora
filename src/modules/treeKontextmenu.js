@@ -80,7 +80,7 @@ var returnFunction = function ($, node) {
                     });
                     getApKarte.done(function (data) {
                         if (data && data.length > 0) {
-                            zeigeTPop(data);
+                            zeigeTPop(data, $);
                         } else {
                             window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
                         }
@@ -921,7 +921,7 @@ var returnFunction = function ($, node) {
                     });
                     getPopKarte.done(function (data) {
                         if (data && data.length > 0) {
-                            zeigeTPop(data);
+                            zeigeTPop(data, $);
                         } else {
                             window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
                         }
@@ -1041,7 +1041,7 @@ var returnFunction = function ($, node) {
                     });
                     getPopKarte_2.done(function (data) {
                         if (data && data.length > 0) {
-                            zeigeTPop(data);
+                            zeigeTPop(data, $);
                         } else {
                             window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
                         }
@@ -1212,7 +1212,7 @@ var returnFunction = function ($, node) {
                         url: 'api/v1/tpopKarte/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
                     }).done(function (data) {
                         if (data.length > 0) {
-                            zeigeTPop(data);
+                            zeigeTPop(data, $);
                         } else {
                             window.apf.melde("Die Teilpopulation hat keine Koordinaten", "Aktion abgebrochen");
                         }
