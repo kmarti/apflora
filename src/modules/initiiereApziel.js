@@ -15,7 +15,7 @@ var returnFunction = function (apId, apZielId) {
     }
     if (!apZielId && !localStorage.apziel_id) {
         // es fehlen benötigte Daten > eine Ebene höher
-        initiiereAp(apId, $);
+        initiiereAp(apId);
         return;
     }
 

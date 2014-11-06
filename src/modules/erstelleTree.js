@@ -517,7 +517,7 @@ var returnFunction = function (ApArtId) {
             delete window.apf.beob_nicht_zuzuordnen_zeigen;
         }
         if (window.apf.ap_zeigen) {
-            initiiereAp(ApArtId, $);
+            initiiereAp(ApArtId);
             //localStorage.ap_id = ApArtId;
             //$('#ap_waehlen').trigger('change');
             // diese Markierung entfernen, damit das nächste mal nicht mehr dieser AP geöffnet wird
@@ -567,7 +567,7 @@ var returnFunction = function (ApArtId) {
             if (!$("#ap").is(':visible') || localStorage.ap_id !== node_id) {
                 localStorage.ap_id = node_id;
                 delete localStorage.pop_id;
-                initiiereAp(node_id, $);
+                initiiereAp(node_id);
             }
         } else if (node_typ === "pop" || node_typ.slice(0, 4) === "pop_") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden

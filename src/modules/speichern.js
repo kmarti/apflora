@@ -6,7 +6,8 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $ = require('jquery');
+var $ = require('jquery'),
+    _ = require('underscore');
 
 // braucht $ wegen jstree
 var speichern = function (that) {
@@ -17,23 +18,23 @@ var speichern = function (that) {
         feldname,
         feldwert,
         objekt,
-        $PopName = $("#PopName"),
-        $PopNr = $("#PopNr"),
-        $tree = $("#tree"),
-        $PopBerJahr = $("#PopBerJahr"),
-        $PopMassnBerJahr = $("#PopMassnBerJahr"),
-        $TPopNr = $("#TPopNr"),
-        $TPopFlurname = $("#TPopFlurname"),
-        $TPopBerJahr = $("#TPopBerJahr"),
-        $TPopMassnJahr = $("#TPopMassnJahr"),
+        $PopName             = $("#PopName"),
+        $PopNr               = $("#PopNr"),
+        $tree                = $("#tree"),
+        $PopBerJahr          = $("#PopBerJahr"),
+        $PopMassnBerJahr     = $("#PopMassnBerJahr"),
+        $TPopNr              = $("#TPopNr"),
+        $TPopFlurname        = $("#TPopFlurname"),
+        $TPopBerJahr         = $("#TPopBerJahr"),
+        $TPopMassnJahr       = $("#TPopMassnJahr"),
         $TPopMassnTypChecked = $("#TPopMassnTyp option:checked"),
-        $TPopMassnBerJahr = $("#TPopMassnBerJahr"),
-        $ZielBerJahr = $("#ZielBerJahr"),
-        $ZielBerErreichung = $("#ZielBerErreichung"),
-        $BerJahr = $("#BerJahr"),
-        $BerTitel = $("#BerTitel"),
-        configuration = require('./configuration'),
-        _ = require('underscore');
+        $TPopMassnBerJahr    = $("#TPopMassnBerJahr"),
+        $ZielBerJahr         = $("#ZielBerJahr"),
+        $ZielBerErreichung   = $("#ZielBerErreichung"),
+        $BerJahr             = $("#BerJahr"),
+        $BerTitel            = $("#BerTitel"),
+        configuration        = require('./configuration'),
+        waehleAp             = require('./waehleAp');
 
     if (window.apf.prüfeSchreibvoraussetzungen()) {
         formular = $(that).attr("formular");
@@ -77,7 +78,7 @@ var speichern = function (that) {
             if (window.apf[formular]) window.apf[formular][feldname] = feldwert;
             // Wenn ApArtId verändert wurde: Formular aktualisieren
             if (feldname === "ApArtId" && feldwert) {
-                window.apf.wähleAp(feldwert);
+                waehleAp(feldwert);
                 return;
             }
             // Wenn in feldkontr Datum erfasst, auch Jahr speichern

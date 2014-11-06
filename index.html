@@ -2670,10 +2670,10 @@
                     })
                     .on("change", "#ap_waehlen", function() {
                         var value = this.value || localStorage.ap_id;
-                        window.apf.wähleAp(value);
+                        window.apf.waehleAp(value);
                     })
                     .on("click", "#ap_waehlen_text_loeschen", function() {
-                        window.apf.wähleAp();
+                        window.apf.waehleAp();
                         $('#ap_waehlen_text').focus();
                     });
                         

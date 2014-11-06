@@ -2246,75 +2246,9 @@ window.apf.erstelleGemeindeliste = function () {
 };
 
 // wird aufgerufen, wenn der ap geändert wird
-window.apf.wähleAp = function (ap_id) {
-    'use strict';
-
-    var initiiereAp = require('./modules/initiiereAp'),
-        programm = $("[name='programm_wahl']:checked").attr("id"),
-        ap_waehlen_text,
-        placeholderText = 'Artförderprogramm wählen',
-        zeigeFormular   = require('./modules/zeigeFormular'),
-        waehleApliste   = require('./modules/waehleApliste');
-
-    if (ap_id) {
-        // einen AP gewählt
-        localStorage.ap_id = ap_id;
-
-        if (programm === "programm_neu") {
-            // zuerst einen neuen Datensatz anlegen
-            $.ajax({
-                type: 'post',
-                url: 'api/v1/apInsert/apId=' + ap_id + '/user=' + sessionStorage.User
-            }).done(function () {
-                // nachdem ein neues Programm erstellt wurde, soll nicht mehr "neu" zur Wahl stehen, sondern "alle"
-                $("#programm_neu").attr("checked", false);
-                $("#programm_alle").attr("checked", true);
-                $("#programm_wahl").buttonset();
-                // alle zwischengespeicherten aplisten löschen
-                delete window.apf.apliste;
-                // Auswahlliste für Programme updaten
-                $.when(waehleApliste("programm_alle"))
-                .then(function () {
-                    // Strukturbaum updaten
-                    $.when(window.apf.erstelle_tree(ap_id))
-                    .then(function () {
-                        // gewählte Art in Auswahlliste anzeigen
-                        var ap_waehlen_text = _.find(window.apf.apliste.programm_alle, function (art) {
-                            return art.id == ap_id;
-                        });
-                        if (ap_waehlen_text) {
-                            $('#ap_waehlen').val(ap_id);
-                            $('#ap_waehlen_text').val(ap_waehlen_text.label);
-                        }
-                        $("#ApArtId").val(ap_id);
-                        // gewählte Art in Formular anzeigen
-                        initiiereAp(ap_id, $);
-                    });
-                });
-            }).fail(function () {
-                window.apf.melde("Fehler: Keine Daten für Programme erhalten");
-            });
-        } else {
-            window.apf.erstelle_tree(ap_id);
-            $("#ap").show();
-            initiiereAp(ap_id, $);
-        }
-    } else {
-        // leeren Wert gewählt
-        $('#ap_waehlen_text').val('');
-        if (programm === 'programm_neu') placeholderText = 'Art für neues Förderprogramm wählen';
-        if (programm === 'programm_ap')  placeholderText = 'Aktionsplan wählen';
-        $("#ap_waehlen_text").attr('placeholder', placeholderText);
-        $("#tree").hide();
-        $("#suchen").hide();
-        $("#exportieren_2").hide();
-        $("#hilfe").hide();
-        $("#ap_loeschen").hide();
-        $("#exportieren_1").show();
-        $("#ap").hide();
-        zeigeFormular();
-        history.pushState(null, null, "index.html");
-    }
+// wird in index.html benutzt
+window.apf.waehleAp = function (ap_id) {
+    require('./modules/waehleAp')(ap_id);
 };
 
 window.apf.kopiereKoordinatenInPop = function (x_koord, y_koord) {
@@ -2322,26 +2256,22 @@ window.apf.kopiereKoordinatenInPop = function (x_koord, y_koord) {
     // prüfen, ob X- und Y-Koordinaten vergeben sind
     if (x_koord > 100000 && y_koord > 100000) {
         // Koordinaten der Pop nachführen
-        var update_pop = $.ajax({
+        $.ajax({
             type: 'post',
             url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + localStorage.pop_id + '/feld=PopXKoord/wert=' + x_koord + '/user=' + sessionStorage.User
-        });
-        update_pop.done(function () {
-            var updatePop_4 = $.ajax({
+        }).done(function () {
+            $.ajax({
                 type: 'post',
                 url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + localStorage.pop_id + '/feld=PopYKoord/wert=' + y_koord + '/user=' + sessionStorage.User
-            });
-            updatePop_4.done(function () {
+            }).done(function () {
                 $("#kopiereKoordinatenInPopRueckmeldung").fadeIn('slow');
                 setTimeout(function () {
                     $("#kopiereKoordinatenInPopRueckmeldung").fadeOut('slow');
                 }, 3000);
-            });
-            updatePop_4.fail(function () {
+            }).fail(function () {
                 window.apf.melde("Fehler: Y-Koordinate wurde nicht kopiert (die X-Koordinate offenbar schon)");
             });
-        });
-        update_pop.fail(function () {
+        }).fail(function () {
             window.apf.melde("Fehler: Koordinaten wurden nicht kopiert");
         });
     } else {

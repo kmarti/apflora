@@ -196,7 +196,7 @@ var returnFunction = function () {
             // markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
             window.apf.ap_zeigen = true;
             // direkt initiieren, bevor der baum fertig aufgebaut ist
-            initiiereAp(apId, $);
+            initiiereAp(apId);
         }
         window.apf.erstelle_tree(apId);
     } else {
