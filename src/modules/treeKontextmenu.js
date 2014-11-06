@@ -1196,7 +1196,7 @@ var returnFunction = function ($, node) {
                         type: 'get',
                         url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
                     }).done(function (data) {
-                        verorteTPopAufOlmap(data[0]);
+                        verorteTPopAufOlmap($, data[0]);
                     }).fail(function () {
                         window.apf.melde("Fehler: Keine Teilpopulation erhalten");
                     });
