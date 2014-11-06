@@ -16,7 +16,7 @@ var returnFunction = function (tpop_liste, tpopid_markiert, visible) {
         markers = [],
         marker,
         selected_features,
-        styleTPop = require('/styleTPop');
+        styleTPop = require('./styleTPop');
 
     if (window.apf.olmap.map.olmap_select_interaction && tpopid_markiert) {
         selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();

@@ -2151,11 +2151,12 @@ window.apf.olmap.styleTPop = function (feature, resolution, selected, verorten) 
 
 window.apf.olmap.messe = function (element) {
     'use strict';
+    var addMeasureInteraction = require('./modules/olmap/addMeasureInteraction');
     window.apf.olmap.deactivateMenuItems();
     if (element.value === 'line' && element.checked) {
-        window.apf.olmap.addMeasureInteraction('LineString');
+        addMeasureInteraction('LineString');
     } else if (element.value === 'polygon' && element.checked) {
-        window.apf.olmap.addMeasureInteraction('Polygon');
+        addMeasureInteraction('Polygon');
     } else {
         window.apf.olmap.removeMeasureInteraction();
     }
@@ -2167,89 +2168,6 @@ window.apf.olmap.removeMeasureInteraction = function () {
     delete window.apf.olmap.drawMeasure;
     $("#ergebnisMessung").text("");
     $(window.apf.olmap.map.getViewport()).off('mousemove');
-};
-
-// erhält den Typ der Interaktion: 'Polygon' oder 'LineString'
-window.apf.olmap.addMeasureInteraction = function (type) {
-    // allfällige Resten entfernen
-    window.apf.olmap.removeMeasureInteraction();
-    // neu aufbauen
-    var source = new ol.source.Vector();
-    var messen_layer = new ol.layer.Vector({
-        title: 'messen',
-        source: source,
-        style: new ol.style.Style({
-            fill: new ol.style.Fill({
-                color: 'rgba(255, 255, 255, 0.2)'
-            }),
-            stroke: new ol.style.Stroke({
-                color: 'rgba(255, 0, 0, 1)',
-                width: 3,
-                lineDash: [2, 2],
-                lineCap: 'square'
-            }),
-            image: new ol.style.Circle({
-                radius: 7,
-                fill: new ol.style.Fill({
-                    color: '#ffcc33'
-                })
-            })
-        })
-    });
-
-    window.apf.olmap.map.addLayer(messen_layer);
-
-    // Currently drawed feature
-    // @type {ol.Feature}
-    var sketch = null;
-
-    // Element for currently drawed feature
-    // @type {Element}
-    var sketchElement;
-
-    // handle pointer move
-    // @param {Event} evt
-    var mouseMoveHandler = function (evt) {
-        if (sketch) {
-            var output,
-                geom = (sketch.getGeometry());
-            if (geom instanceof ol.geom.Polygon) {
-                output = window.apf.olmap.formatArea(/** @type {ol.geom.Polygon} */ (geom));
-
-            } else if (geom instanceof ol.geom.LineString) {
-                output = window.apf.olmap.formatLength( /** @type {ol.geom.LineString} */ (geom));
-            }
-            sketchElement.innerHTML = output;
-        }
-    };
-
-    $(window.apf.olmap.map.getViewport()).on('mousemove', mouseMoveHandler);
-
-    window.apf.olmap.drawMeasure = new ol.interaction.Draw({
-        source: source,
-        type: /** @type {ol.geom.GeometryType} */ (type)
-    });
-    window.apf.olmap.map.addInteraction(window.apf.olmap.drawMeasure);
-
-    window.apf.olmap.drawMeasure.on('drawstart',
-        function (evt) {
-            // set sketch
-            sketch = evt.feature;
-            sketchElement = document.createElement('li');
-            var outputList = document.getElementById('ergebnisMessung');
-            if (outputList.childNodes) {
-                outputList.insertBefore(sketchElement, outputList.firstChild);
-            } else {
-                outputList.appendChild(sketchElement);
-            }
-        }, this);
-
-    window.apf.olmap.drawMeasure.on('drawend',
-        function (evt) {
-            // unset sketch
-            sketch = null;
-            sketchElement = null;
-        }, this);
 };
 
 /**
