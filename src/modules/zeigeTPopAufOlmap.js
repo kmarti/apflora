@@ -3,7 +3,7 @@
 
 var $ = require('jquery');
 
-var returnFunction = function (TPopListeMarkiert) {
+var returnFunction = function ($, TPopListeMarkiert) {
     var zeigeFormular = require('./zeigeFormular'),
         // wenn layer "Populationen" sichtbar ist, sichtbar behalten
         overlay_pop_visible = window.apf.olmap.istLayerSichtbarNachName("Populationen"),

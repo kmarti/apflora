@@ -1005,8 +1005,10 @@ window.apf.olmap.wähleAusschnittFürÜbergebeneTPop = function (tpop_liste_mark
 
     // bounds der anzuzeigenden bestimmen
     var tpopid_markiert = [];
+    console.log('tpop_liste_markiert: ', tpop_liste_markiert);
     if (tpop_liste_markiert && tpop_liste_markiert.length > 0) {
         _.each(tpop_liste_markiert, function (tpop) {
+            console.log('tpop: ', tpop);
             tpopid_markiert.push(tpop.TPopId);
             xkoord_array.push(tpop.TPopXKoord);
             ykoord_array.push(tpop.TPopYKoord);
@@ -1064,14 +1066,15 @@ window.apf.olmap.wähleAusschnittFürÜbergebenePop = function (pop_liste_markie
 window.apf.olmap.zeigePopInTPop = function (overlay_pop_visible, overlay_popnr_visible, popid_markiert) {
     'use strict';
     var pop_gezeigt = $.Deferred(),
-        initiiereLayertree = require('./modules/initiiereLayertree');
+        initiiereLayertree = require('./modules/initiiereLayertree'),
+        erstellePopLayer = require('./modules/erstellePopLayer');
     
     $.ajax({
         type: 'get',
         url: 'api/v1/popKarteAlle/apId=' + window.apf.ap.ApArtId
     }).done(function (PopListe) {
         // Layer für Symbole und Beschriftung erstellen
-        $.when(window.apf.olmap.erstellePopLayer(PopListe, popid_markiert, overlay_pop_visible))
+        $.when(erstellePopLayer(PopListe, popid_markiert, overlay_pop_visible))
         .then(function () {
             // layertree neu aufbauen
             initiiereLayertree($);
@@ -1272,94 +1275,10 @@ window.apf.olmap.erstelleContentFürPop = function (pop) {
         '<p><a href="#" onclick="window.apf.öffnePopInNeuemTab(\'' + pop.PopId + '\')">Formular in neuem Fenster öffnen<\/a></p>';
 };
 
-// übernimmt drei Variablen: popliste ist das Objekt mit den Populationen
-// popid_markiert der Array mit den ausgewählten Pop
-// visible: Ob die Ebene sichtbar geschaltet wird (oder bloss im Layertree verfügbar ist)
+
 window.apf.olmap.erstellePopLayer = function (popliste, popid_markiert, visible) {
     'use strict';
-    var pop_layer_erstellt = $.Deferred(),
-        markers = [],
-        marker,
-        my_label,
-        my_name,
-        popup_content,
-        pop_mit_nr_layer,
-        selected_features;
-
-    if (window.apf.olmap.map && window.apf.olmap.map.olmap_select_interaction && popid_markiert) {
-        selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
-    } else if (popid_markiert) {
-        window.apf.olmap.addSelectFeaturesInSelectableLayers();
-        selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
-    }
-
-    if (visible === null) {
-        visible = true;
-    }
-
-    _.each(popliste, function (pop) {
-        my_name = pop.PopName || '(kein Name)';
-        popup_content = window.apf.olmap.erstelleContentFürPop(pop);
-
-        // tooltip bzw. label vorbereiten: nullwerte ausblenden
-        if (pop.PopNr) {
-            my_label = pop.PopNr.toString();
-        } else {
-            my_label = '?';
-        }
-
-        // marker erstellen...
-        marker = new ol.Feature({
-            geometry: new ol.geom.Point([pop.PopXKoord, pop.PopYKoord]),
-            pop_nr: my_label,
-            pop_name: my_name,
-            name: my_label, // noch benötigt? TODO: entfernen
-            popup_content: popup_content,
-            popup_title: my_name,
-            // Koordinaten werden gebraucht, damit das popup richtig platziert werden kann
-            xkoord: pop.PopXKoord,
-            ykoord: pop.PopYKoord,
-            myTyp: 'pop',
-            myId: pop.PopId
-        });
-
-        // marker in Array speichern
-        markers.push(marker);
-
-        // markierte in window.apf.olmap.map.olmap_select_interaction ergänzen
-        if (popid_markiert && popid_markiert.indexOf(pop.PopId) !== -1) {
-            selected_features.push(marker);
-        }
-    });
-
-    // layer für Marker erstellen
-    pop_mit_nr_layer = new ol.layer.Vector({
-        title: 'Populationen',
-        selectable: true,
-        source: new ol.source.Vector({
-            features: markers
-        }),
-        style: function (feature, resolution) {
-            return window.apf.olmap.popStyle(feature, resolution);
-        }
-    });
-    pop_mit_nr_layer.set('visible', visible);
-    pop_mit_nr_layer.set('kategorie', 'AP Flora');
-    window.apf.olmap.map.addLayer(pop_mit_nr_layer);
-
-    if (selected_features && selected_features.length > 0) {
-        setTimeout(function () {
-            window.apf.olmap.prüfeObPopTpopGewähltWurden();
-        }, 100);
-        // Schaltfläche olmap_auswaehlen aktivieren
-        $('#olmap_auswaehlen')
-            .prop('checked', true)
-            .button()
-            .button("refresh");
-    }
-
-    pop_layer_erstellt.resolve();
-    return pop_layer_erstellt.promise();
+    
 };
 
 
