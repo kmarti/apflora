@@ -9,10 +9,11 @@ var returnFunction = function (PopListeMarkiert) {
         window.apf.olmap.LetzterKlickHandler.deactivate();
     }
 
-    var markierte_pop = window.apf.olmap.wähleAusschnittFürÜbergebenePop(PopListeMarkiert),
+    var markierte_pop      = window.apf.olmap.wähleAusschnittFürÜbergebenePop(PopListeMarkiert),
         extent,
-        zeigeFormular = require('./zeigeFormular'),
-        erstelleTPopLayer = require('./erstelleTPopLayer');
+        zeigeFormular      = require('../zeigeFormular'),
+        erstelleTPopLayer  = require('./erstelleTPopLayer'),
+        initiiereLayertree = require('./initiiereLayertree');
 
     // Grundkarte aufbauen
     $.when(zeigeFormular("GeoAdminKarte"))
@@ -38,7 +39,6 @@ var returnFunction = function (PopListeMarkiert) {
                     window.apf.olmap.zeigePopInTPop(true, true, markierte_pop.popid_markiert)
                 )
                 .then(function () {
-                    var initiiereLayertree = require('./initiiereLayertree');
                     // layertree neu aufbauen
                     initiiereLayertree();
                 });

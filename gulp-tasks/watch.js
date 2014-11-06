@@ -17,13 +17,12 @@ return gulp.task('watch', function () {
             'src/apflora.js',
             'src/lib/*',
             'src/modules/*',
+            'src/modules/gmap/*',
+            'src/modules/olmap/*',
             'index.html',
             'server.js'
         ],
         ['dev_when_watch']
     );
-    gulp.watch([
-        'style/apflora.css',
-        'dev_style'
-    ]);
+    gulp.watch(['style/apflora.css'], ['dev_style']);
 });

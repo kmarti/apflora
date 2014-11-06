@@ -4,13 +4,14 @@
 var $ = require('jquery');
 
 var returnFunction = function (TPopListeMarkiert) {
-    var zeigeFormular = require('./zeigeFormular'),
+    var zeigeFormular         = require('../zeigeFormular'),
         // wenn layer "Populationen" sichtbar ist, sichtbar behalten
-        overlay_pop_visible = window.apf.olmap.istLayerSichtbarNachName("Populationen"),
+        overlay_pop_visible   = window.apf.olmap.istLayerSichtbarNachName("Populationen"),
         // wenn layer "Populationen Namen" sichtbar ist, sichtbar behalten
         overlay_popnr_visible = window.apf.olmap.istLayerSichtbarNachName("Populationen Nummern"),
-        markierte_tpop = window.apf.olmap.wähleAusschnittFürÜbergebeneTPop(TPopListeMarkiert),
-        erstelleTPopLayer = require('./erstelleTPopLayer');
+        markierte_tpop        = window.apf.olmap.wähleAusschnittFürÜbergebeneTPop(TPopListeMarkiert),
+        erstelleTPopLayer     = require('./erstelleTPopLayer'),
+        initiiereLayertree    = require('./initiiereLayertree');
 
     // Grundkarte aufbauen
     $.when(zeigeFormular("GeoAdminKarte"))
@@ -33,7 +34,6 @@ var returnFunction = function (TPopListeMarkiert) {
                     window.apf.olmap.zeigePopInTPop(overlay_pop_visible, overlay_popnr_visible)
                 )
                 .then(function () {
-                    var initiiereLayertree = require('./initiiereLayertree');
                     // layertree neu aufbauen
                     initiiereLayertree();
                 });

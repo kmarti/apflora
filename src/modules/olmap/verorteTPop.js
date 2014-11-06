@@ -12,7 +12,7 @@ var returnFunction = function (tpop) {
         y_min,
         new_feature,
         erstelleModifyInteractionFuerTPop = require('./erstelleModifyInteractionFuerTPop'),
-        zeigeTPopAufOlmap = require('./zeigeTPopAufOlmap');
+        zeigeTPop = require('./zeigeTPop');
 
     // tpop hat keine PopNr
     // Infos von Pop müssen ergänzt werden, weil sie als Label angezeigt werden
@@ -20,7 +20,7 @@ var returnFunction = function (tpop) {
     tpop.PopName = window.apf.pop.PopName;
     tpop.Artname = window.apf.ap.Artname;
 
-    $.when(zeigeTPopAufOlmap()).then(function () {
+    $.when(zeigeTPop()).then(function () {
         window.apf.olmap.deactivateMenuItems();
 
         // modify-layer erstellen

@@ -7,7 +7,7 @@ var $  = require('jquery'),
 
 var returnFunction = function () {
     var initiiereLayertree   = require('./initiiereLayertree'),
-        createLayersForOlmap = require('./createLayersForOlmap');
+        createLayers         = require('./createLayers');
 
     // allfällige Apflora-Ebenen entfernen
     window.apf.olmap.entferneAlleApfloraLayer();
@@ -18,7 +18,7 @@ var returnFunction = function () {
     if (!window.apf.olmap.map) {
         window.apf.olmap.map = new ga.Map({
             target: 'ga_karten_div',
-            layers: createLayersForOlmap(),
+            layers: createLayers(),
             view: new ol.View2D({
                 resolution: 4,
                 center: [693000, 253000]

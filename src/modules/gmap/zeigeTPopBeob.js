@@ -22,9 +22,9 @@ var returnFunction = function (tpop_beob_liste) {
         marker_cluster,
         datum,
         titel,
-        chToWgsLng = require('../lib/chToWgsLng'),
-        chToWgsLat = require('../lib/chToWgsLat'),
-        zeigeFormular = require('./zeigeFormular');
+        chToWgsLng = require('../../lib/chToWgsLng'),
+        chToWgsLat = require('../../lib/chToWgsLat'),
+        zeigeFormular = require('../zeigeFormular');
 
     // diese Funktion muss hier sein, damit infowindow bekannt ist
     function makeListener(map, marker, contentString) {

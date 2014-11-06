@@ -17,7 +17,7 @@ var returnFunction = function (Formularname) {
         $forms_titelzeile = $("#forms_titelzeile"),
         $ap_waehlen = $("#ap_waehlen"),
         $Formularname,
-        initiiereOlmap = require('./initiiereOlmap');
+        initiiereOlmap = require('./olmap/initiiereOlmap');
     // zuerst alle Formulare ausblenden
     $forms.hide();
     $form.each(function () {

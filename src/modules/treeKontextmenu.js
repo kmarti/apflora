@@ -55,13 +55,13 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_gelb.png",
                 "action": function () {
-                    var zeigePopAufOlmap = require('./zeigePopAufOlmap');
+                    var zeigePop = require('./olmap/zeigePop');
                     $.ajax({
                         type: 'get',
                         url: 'api/v1/popsChKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
                     }).done(function (data) {
                         if (data && data.length > 0) {
-                            zeigePopAufOlmap(data);
+                            zeigePop(data);
                         } else {
                             window.apf.melde("Die Population hat keine Koordinaten", "Aktion abgebrochen");
                         }
@@ -896,13 +896,13 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_gelb.png",
                 "action": function () {
-                    var zeigePopAufOlmap = require('./zeigePopAufOlmap');
+                    var zeigePop = require('./olmap/zeigePop');
                     $.ajax({
                         type: 'get',
                         url: 'api/v1/popChKarte/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
                     }).done(function (data) {
                         if (data && data.length > 0) {
-                            zeigePopAufOlmap(data);
+                            zeigePop(data);
                         } else {
                             window.apf.melde("Die Population hat keine Koordinaten", "Aktion abgebrochen");
                         }
@@ -1016,13 +1016,13 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_gelb.png",
                 "action": function () {
-                    var zeigeTPopAufOlmap = require('./zeigeTPopAufOlmap');
+                    var zeigeTPop = require('./olmap/zeigeTPop');
                     $.ajax({
                         type: 'get',
                         url: 'api/v1/tpopsKarte/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
                     }).done(function (data) {
                         if (data.length > 0) {
-                            zeigeTPopAufOlmap(data);
+                            zeigeTPop(data);
                         } else {
                             window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
                         }
@@ -1172,13 +1172,13 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_gelb.png",
                 "action": function () {
-                    var zeigeTPopAufOlmap = require('./zeigeTPopAufOlmap');
+                    var zeigeTPop = require('./olmap/zeigeTPop');
                     $.ajax({
                         type: 'get',
                         url: 'api/v1/tpopKarte/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
                     }).done(function (data) {
                         if (data.length > 0) {
-                            zeigeTPopAufOlmap(data);
+                            zeigeTPop(data);
                         } else {
                             window.apf.melde("Die Teilpopulation hat keine Koordinaten", "Aktion abgebrochen");
                         }
@@ -1192,12 +1192,12 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_rot.png",
                 "action": function () {
-                    var verorteTPopAufOlmap = require('./verorteTPopAufOlmap');
+                    var verorteTPop = require('./olmap/verorteTPop');
                     $.ajax({
                         type: 'get',
                         url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
                     }).done(function (data) {
-                        verorteTPopAufOlmap(data[0]);
+                        verorteTPop(data[0]);
                     }).fail(function () {
                         window.apf.melde("Fehler: Keine Teilpopulation erhalten");
                     });
@@ -2291,13 +2291,13 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon.png",
                 "action": function () {
-                    var zeigeTPopBeobAufGmap = require('./zeigeTPopBeobAufGmap');
+                    var zeigeTPopBeob = require('./gmap/zeigeTPopBeob');
                     $.ajax({
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/beobId=/nichtZuzuordnen='
                     }).done(function (data) {
                         if (data) {
-                            zeigeTPopBeobAufGmap(data);
+                            zeigeTPopBeob(data);
                         } else {
                             window.apf.melde("Es gibt keine Beobachtungen mit Koordinaten", "Aktion abgebrochen");
                         }
@@ -2336,13 +2336,13 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon.png",
                 "action": function () {
-                    var zeigeTPopBeobAufGmap = require('./zeigeTPopBeobAufGmap');
+                    var zeigeTPopBeob = require('./gmap/zeigeTPopBeob');
                     $.ajax({
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen='
                     }).done(function (data) {
                         if (data) {
-                            zeigeTPopBeobAufGmap(data);
+                            zeigeTPopBeob(data);
                         } else {
                             window.apf.melde("Die Beobachtung hat keine Koordinaten", "Aktion abgebrochen");
                         }
@@ -2356,8 +2356,8 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_violett.png",
                 "action": function () {
-                    var zeigeBeobUndTPopAufGmap = require('./zeigeBeobUndTPopAufGmap'),
-                        zeigeBeobAufGmap = require('./zeigeBeobAufGmap');
+                    var zeigeBeobUndTPop = require('./gmap/zeigeBeobUndTPop'),
+                        zeigeBeob = require('./gmap/zeigeBeob');
                     $.ajax({
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen='
@@ -2369,9 +2369,9 @@ var returnFunction = function (node) {
                                 url: 'api/v1/apKarte/apId=' + localStorage.ap_id
                             }).done(function (tpop) {
                                 if (tpop && tpop.length > 0) {
-                                    zeigeBeobUndTPopAufGmap(beob, tpop);
+                                    zeigeBeobUndTPop(beob, tpop);
                                 } else {
-                                    zeigeBeobAufGmap(beob);
+                                    zeigeBeob(beob);
                                 }
                             });
                         } else {
@@ -2522,13 +2522,13 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_violett.png",
                 "action": function () {
-                    var zeigeBeobAufGmap = require('./zeigeBeobAufGmap');
+                    var zeigeBeob = require('./gmap/zeigeBeob');
                     $.ajax({
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen='
                     }).done(function (data) {
                         if (data.length > 0) {
-                            zeigeBeobAufGmap(data);
+                            zeigeBeob(data);
                         } else {
                             window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
                         }
@@ -2542,8 +2542,8 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_violett.png",
                 "action": function () {
-                    var zeigeBeobUndTPopAufGmap = require('./zeigeBeobUndTPopAufGmap'),
-                        zeigeBeobAufGmap = require('./zeigeBeobAufGmap');
+                    var zeigeBeobUndTPop = require('./gmap/zeigeBeobUndTPop'),
+                        zeigeBeob = require('./gmap/zeigeBeob');
                     $.ajax({
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen='
@@ -2554,9 +2554,9 @@ var returnFunction = function (node) {
                                 url: 'api/v1/apKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
                             }).done(function (tpop) {
                                 if (tpop && tpop.length > 0) {
-                                    zeigeBeobUndTPopAufGmap(beob, tpop);
+                                    zeigeBeobUndTPop(beob, tpop);
                                 } else {
-                                    zeigeBeobAufGmap(beob);
+                                    zeigeBeob(beob);
                                 } 
                             });
                         } else {
@@ -2586,13 +2586,13 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_violett.png",
                 "action": function () {
-                    var zeigeBeobAufGmap = require('./zeigeBeobAufGmap');
+                    var zeigeBeob = require('./gmap/zeigeBeob');
                     $.ajax({
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen='
                     }).done(function (data) {
                         if (data && data[0]) {
-                            zeigeBeobAufGmap(data[0]);
+                            zeigeBeob(data[0]);
                         } else {
                             window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
                         }
@@ -2606,8 +2606,8 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_violett.png",
                 "action": function () {
-                    var zeigeBeobUndTPopAufGmap = require('./zeigeBeobUndTPopAufGmap'),
-                        zeigeBeobAufGmap = require('./zeigeBeobAufGmap');
+                    var zeigeBeobUndTPop = require('./gmap/zeigeBeobUndTPop'),
+                        zeigeBeob = require('./gmap/zeigeBeob');
                     $.ajax({
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen='
@@ -2619,9 +2619,9 @@ var returnFunction = function (node) {
                                 url: 'api/v1/apKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id"))
                             }).done(function (tpop) {
                                 if (tpop && tpop.length > 0) {
-                                    zeigeBeobUndTPopAufGmap(beob, tpop);
+                                    zeigeBeobUndTPop(beob, tpop);
                                 } else {
-                                    zeigeBeobAufGmap(beob);
+                                    zeigeBeob(beob);
                                 }
                             });
                         } else {
@@ -2674,13 +2674,13 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_violett.png",
                 "action": function () {
-                    var zeigeBeobAufGmap = require('./zeigeBeobAufGmap');
+                    var zeigeBeob = require('./gmap/zeigeBeob');
                     $.ajax({
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen=1'
                     }).done(function (data) {
                         if (data.length > 0) {
-                            zeigeBeobAufGmap(data);
+                            zeigeBeob(data);
                         } else {
                             window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
                         }
@@ -2708,13 +2708,13 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_violett.png",
                 "action": function () {
-                    var zeigeBeobAufGmap = require('./zeigeBeobAufGmap');
+                    var zeigeBeob = require('./gmap/zeigeBeob');
                     $.ajax({
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen='
                     }).done(function (data) {
                         if (data && data[0]) {
-                            zeigeBeobAufGmap(data[0]);
+                            zeigeBeob(data[0]);
                         } else {
                             window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
                         }

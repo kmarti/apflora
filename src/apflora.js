@@ -845,7 +845,7 @@ window.apf.olmap.entferneLayerNachName = function (name) {
 
 window.apf.olmap.entferneAlleApfloraLayer = function () {
     'use strict';
-    var initiiereLayertree = require('./modules/initiiereLayertree');
+    var initiiereLayertree = require('./modules/olmap/initiiereLayertree');
     if (window.apf.olmap && window.apf.olmap.map) {
         // getLayers retourniert ein Objekt!!!
         // um die eigentlichen Layers zu erhalten, muss man .getLayers().getArray() aufrufen!!!
@@ -890,7 +890,7 @@ window.apf.olmap.stapleLayerZuoberst = function (layer_title) {
     var layers = window.apf.olmap.map.getLayers(),
         layers_array = window.apf.olmap.map.getLayers().getArray(),
         top_layer,
-        initiiereLayertree = require('./modules/initiiereLayertree');
+        initiiereLayertree = require('./modules/olmap/initiiereLayertree');
 
     _.each(layers_array, function (layer, index) {
         if (layer.get('title') === layer_title) {
@@ -911,17 +911,17 @@ window.apf.olmap.entferneModifyInteractionFürTpop = function () {
 
 // wird in index.html benutzt
 window.apf.olmap.entferneModifyInteractionFürVectorLayer = function (input_div) {
-    require('./modules/entferneModifyInteractionFuerVectorLayer')(input_div);
+    require('./modules/olmap/entferneModifyInteractionFuerVectorLayer')(input_div);
 };
 
 // wird in index.html benutzt
 window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function (vectorlayer) {
-    require('./modules/erstelleModifyInteractionFuerVectorLayer')(vectorlayer);
+    require('./modules/olmap/erstelleModifyInteractionFuerVectorLayer')(vectorlayer);
 };
 
 // wird in index.html benutzt
 window.apf.olmap.exportiereLayer = function (layer, selected_value) {
-    require('./modules/exportiereLayer')(layer, selected_value);
+    require('./modules/olmap/exportiereLayer')(layer, selected_value);
 };
 
 window.apf.download = function (filename, text) {
@@ -1025,8 +1025,8 @@ window.apf.olmap.wähleAusschnittFürÜbergebenePop = function (pop_liste_markie
 window.apf.olmap.zeigePopInTPop = function (overlay_pop_visible, overlay_popnr_visible, popid_markiert) {
     'use strict';
     var pop_gezeigt = $.Deferred(),
-        initiiereLayertree = require('./modules/initiiereLayertree'),
-        erstellePopLayer = require('./modules/erstellePopLayer');
+        initiiereLayertree = require('./modules/olmap/initiiereLayertree'),
+        erstellePopLayer = require('./modules/olmap/erstellePopLayer');
     
     $.ajax({
         type: 'get',
@@ -1809,7 +1809,7 @@ window.apf.olmap.removeSelectFeaturesInSelectableLayers = function () {
 
 window.apf.olmap.addSelectFeaturesInSelectableLayers = function () {
     'use strict';
-    var addDragBoxForPopTpop = require('./modules/addDragBoxForPopTpop');
+    var addDragBoxForPopTpop = require('./modules/olmap/addDragBoxForPopTpop');
     window.apf.olmap.map.olmap_select_interaction = new ol.interaction.Select({
         // TODO: 'layerFilter' will soon be deprecated > change to 'layers' when deprecated
         layerFilter: function (layer) {
@@ -1874,7 +1874,7 @@ window.apf.olmap.addShowFeatureInfoOnClick = function () {
     window.apf.olmap.map.on('singleclick', function (event) {
         var pixel = event.pixel,
             coordinate = event.coordinate,
-            zeigeFeatureInfo = require('./modules/zeigeFeatureInfo');
+            zeigeFeatureInfo = require('./modules/olmap/zeigeFeatureInfo');
         // nur machen, wenn nicht selektiert wird
         if (!window.apf.olmap.map.olmap_select_interaction) {
             zeigeFeatureInfo(pixel, coordinate);
@@ -2019,7 +2019,7 @@ window.apf.olmap.addDragAndDropGeofiles = function () {
     window.apf.olmap.map.addInteraction(drag_and_drop_interaction);
 
     drag_and_drop_interaction.on('addfeatures', function (event) {
-        var initiiereLayertree = require('./modules/initiiereLayertree');
+        var initiiereLayertree = require('./modules/olmap/initiiereLayertree');
         var vectorSource = new ol.source.Vector({
             features: event.features
         });
@@ -2094,7 +2094,7 @@ window.apf.olmap.frageNameFürEbene = function (eigene_ebene) {
 
 window.apf.olmap.nenneEbeneUm = function (layer, title) {
     'use strict';
-    var initiiereLayertree = require('./modules/initiiereLayertree');
+    var initiiereLayertree = require('./modules/olmap/initiiereLayertree');
     layer.set('title', title);
     initiiereLayertree('Eigene Ebenen');
     // layer in localStorage speichern
@@ -2103,7 +2103,7 @@ window.apf.olmap.nenneEbeneUm = function (layer, title) {
 
 
 window.apf.olmap.initiiereLayertree = function (active_kategorie) {
-    require('./modules/initiiereLayertree')(active_kategorie);
+    require('./modules/olmap/initiiereLayertree')(active_kategorie);
 };
 
 // Formulare als dialog öffnen

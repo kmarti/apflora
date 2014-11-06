@@ -23,9 +23,9 @@ var returnFunction = function (beob_liste) {
         datum,
         titel,
         a_note,
-        chToWgsLng = require('../lib/chToWgsLng'),
-        chToWgsLat = require('../lib/chToWgsLat'),
-        zeigeFormular = require('./zeigeFormular');
+        chToWgsLng = require('../../lib/chToWgsLng'),
+        chToWgsLat = require('../../lib/chToWgsLat'),
+        zeigeFormular = require('../zeigeFormular');
 
     // diese Funktion muss hier sein, damit infowindow bekannt ist
     function makeListener(map, marker, contentString) {

@@ -16,8 +16,6 @@ var returnFunction = function (pixel, coordinate) {
         popup_text = '',
         features_mit_typ;
 
-    console.log('zeigeFeatureInfo');
-
     // es scheint auch weitere Features zu geben (z.B. wenn man genau auf die Koordinate einer Pop klickt)
     // nur die gewollten behalten
     features_mit_typ = _.filter(features, function (feature) {

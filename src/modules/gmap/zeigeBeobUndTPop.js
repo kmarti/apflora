@@ -33,9 +33,9 @@ var returnFunction = function (beob_liste, tpop_liste) {
         tpop_beschriftung,
         a_note,
         my_flurname,
-        chToWgsLat = require('../lib/chToWgsLat'),
-        chToWgsLng = require('../lib/chToWgsLng'),
-        zeigeFormular = require('./zeigeFormular');
+        chToWgsLat = require('../../lib/chToWgsLat'),
+        chToWgsLng = require('../../lib/chToWgsLng'),
+        zeigeFormular = require('../zeigeFormular');
 
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
     zeigeFormular("google_karte");
@@ -197,8 +197,8 @@ var returnFunction = function (beob_liste, tpop_liste) {
 
     function makeListenerMarkerBeobDragend(markerBeob, Beob) {
         /*global Google*/
-        var ddInChY = require('../lib/ddInChY'),
-            ddInChX = require('../lib/ddInChX');
+        var ddInChY = require('../../lib/ddInChY'),
+            ddInChX = require('../../lib/ddInChX');
 
         google.maps.event.addListener(markerBeob, "dragend", function (event) {
             var lat, lng, X, Y, that;
@@ -215,8 +215,8 @@ var returnFunction = function (beob_liste, tpop_liste) {
             });
             BeobNächsteTPop.done(function (data) {
                 var beobtxt,
-                    chToWgsLng = require('../lib/chToWgsLng'),
-                    chToWgsLat = require('../lib/chToWgsLat');
+                    chToWgsLng = require('../../lib/chToWgsLng'),
+                    chToWgsLat = require('../../lib/chToWgsLat');
                 if (Beob.Autor) {
                     beobtxt = "Beobachtung von " + Beob.Autor + " aus dem Jahr " + Beob.A_NOTE;
                 } else {
