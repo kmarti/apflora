@@ -8,3 +8,4 @@ src/modules/dbPass.json
 src/apflora_browserified.js
 src/apflora_built.js
 *.map
+*.TMP
