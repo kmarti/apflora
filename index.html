@@ -2460,7 +2460,11 @@
                             $('#' + geom_select_div_id + '-button').tooltip({
                                 tooltipClass: "tooltip-styling-hinterlegt",
                                 items: 'span',
-                                content: geom_select_div.attr('title')
+                                content: geom_select_div.attr('title'),
+                                position: {
+                                    my: 'left bottom-5',
+                                    at: 'left top'
+                                }
                             });
                             // Optionen, die nicht der Bearbeitung dienen, auf zweite Zeile
                             $non_modify_options

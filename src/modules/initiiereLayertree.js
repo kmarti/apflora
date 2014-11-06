@@ -222,7 +222,11 @@ var returnFunction = function (active_kategorie) {
         $('#' + id + '-button').tooltip({
             tooltipClass: "tooltip-styling-hinterlegt",
             items: 'span',
-            content: 'Ebene exportieren<br>Wählen Sie ein Format'
+            content: 'Ebene exportieren<br>Wählen Sie ein Format',
+            position: {
+                my: 'left bottom-5',
+                at: 'left top'
+            }
         });
     });
     if (initialize_modify_layer) {
@@ -237,6 +241,13 @@ var returnFunction = function (active_kategorie) {
                 tooltipClass: "tooltip-styling-hinterlegt",
                 content: function () {
                     return $(this).attr('title');
+                }
+            });
+        $('#modify_layer_geom_type_test-button')
+            .tooltip({
+                position: {
+                    my: 'left bottom-5',
+                    at: 'left top'
                 }
             });
         $('.rename_layer')
