@@ -15,7 +15,8 @@ var returnFunction = function (tpop_liste, tpopid_markiert, visible) {
         tpop_layer,
         markers = [],
         marker,
-        selected_features;
+        selected_features,
+        styleTPop = require('/styleTPop');
 
     if (window.apf.olmap.map.olmap_select_interaction && tpopid_markiert) {
         selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
@@ -48,7 +49,7 @@ var returnFunction = function (tpop_liste, tpopid_markiert, visible) {
                 features: markers
             }),
         style: function (feature, resolution) {
-            return window.apf.olmap.tpopStyle(feature, resolution);
+            return styleTPop(feature, resolution);
         }
     });
     tpop_layer.set('visible', visible);

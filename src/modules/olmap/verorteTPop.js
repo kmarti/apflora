@@ -12,7 +12,8 @@ var returnFunction = function (tpop) {
         y_min,
         new_feature,
         erstelleModifyInteractionFuerTPop = require('./erstelleModifyInteractionFuerTPop'),
-        zeigeTPop = require('./zeigeTPop');
+        zeigeTPop = require('./zeigeTPop'),
+        styleTPop = require('./styleTPop');
 
     // tpop hat keine PopNr
     // Infos von Pop müssen ergänzt werden, weil sie als Label angezeigt werden
@@ -30,7 +31,7 @@ var returnFunction = function (tpop) {
             kategorie: 'AP Flora',
             source: window.apf.olmap.modify_source,
             style: function (feature, resolution) {
-                return window.apf.olmap.tpopStyle(feature, resolution, false, true);
+                return styleTPop(feature, resolution, false, true);
             }
         });
         window.apf.olmap.map.addLayer(modify_layer);

@@ -6,12 +6,13 @@ var $  = require('jquery'),
     ol = require('ol');
 
 var returnFunction = function () {
+    var styleTPop = require('./styleTPop');
     // allfällige bestehende Interaction entfernen
     window.apf.olmap.entferneModifyInteractionFürTpop();
     // feature-overlay erstellen
     window.apf.olmap.modify_overlay = new ol.FeatureOverlay({
         style: function (feature, resolution) {
-            return window.apf.olmap.tpopStyle(feature, resolution, false, true);
+            return styleTPop(feature, resolution, false, true);
         }
     });
     // neues oder gewähltes feature hinzufügen
