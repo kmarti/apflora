@@ -2,7 +2,7 @@
 'use strict';
 
 var $               = require('jquery'),
-    speichern       = require('./speichern'),
+    speichern       = require('../speichern'),
     treeKontextmenu = require('./treeKontextmenu');
 
 require('jquery-ui');
@@ -409,7 +409,7 @@ var returnFunction = function (ApArtId) {
     })
     .show()
     .bind("loaded.jstree", function (event, data) {
-        var initiiereAp = require('./initiiereAp');
+        var initiiereAp = require('../initiiereAp');
         jstree_erstellt.resolve();
         window.apf.setzeTreehöhe();
         $("#suchen").show();
@@ -535,24 +535,24 @@ var returnFunction = function (ApArtId) {
     })
     .bind("select_node.jstree", function (e, data) {
         var node,
-            initiiere_beob          = require('./initiiereBeob'),
-            initiiereIdealbiotop    = require('./initiiereIdealbiotop'),
-            initiiereAp             = require('./initiiereAp'),
-            initiierePop            = require('./initiierePop'),
-            initiiereApziel         = require('./initiiereApziel'),
-            initiiereZielber        = require('./initiiereZielber'),
-            initiiereErfkrit        = require('./initiiereErfkrit'),
-            initiiereJber           = require('./initiiereJber'),
-            initiiereJberUebersicht = require('./initiiereJberUebersicht'),
-            initiiereBer            = require('./initiiereBer'),
-            initiiereAssozart       = require('./initiiereAssozart'),
-            initiierePopMassnBer    = require('./initiierePopMassnBer'),
-            initiiereTPop           = require('./initiiereTPop'),
-            initiierePopBer         = require('./initiierePopBer'),
-            initiiereTPopFeldkontr  = require('./initiiereTPopFeldkontr'),
-            initiiereTPopMassn      = require('./initiiereTPopMassn'),
-            initiiereTPopMassnBer   = require('./initiiereTPopMassnBer'),
-            initiiereTPopBer        = require('./initiiereTPopBer');
+            initiiere_beob          = require('../initiiereBeob'),
+            initiiereIdealbiotop    = require('../initiiereIdealbiotop'),
+            initiiereAp             = require('../initiiereAp'),
+            initiierePop            = require('../initiierePop'),
+            initiiereApziel         = require('../initiiereApziel'),
+            initiiereZielber        = require('../initiiereZielber'),
+            initiiereErfkrit        = require('../initiiereErfkrit'),
+            initiiereJber           = require('../initiiereJber'),
+            initiiereJberUebersicht = require('../initiiereJberUebersicht'),
+            initiiereBer            = require('../initiiereBer'),
+            initiiereAssozart       = require('../initiiereAssozart'),
+            initiierePopMassnBer    = require('../initiierePopMassnBer'),
+            initiiereTPop           = require('../initiiereTPop'),
+            initiierePopBer         = require('../initiierePopBer'),
+            initiiereTPopFeldkontr  = require('../initiiereTPopFeldkontr'),
+            initiiereTPopMassn      = require('../initiiereTPopMassn'),
+            initiiereTPopMassnBer   = require('../initiiereTPopMassnBer'),
+            initiiereTPopBer        = require('../initiiereTPopBer');
 
         delete localStorage.tpopfreiwkontr;    // Erinnerung an letzten Klick im Baum löschen
         node = data.rslt.obj;
@@ -753,7 +753,7 @@ var returnFunction = function (ApArtId) {
                     type: 'post',
                     url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + ziel_node_id + '/feld=ApArtId/wert=' + ziel_parent_node_id + '/user=' + sessionStorage.User
                 }).done(function () {
-                    var initiierePop = require('./initiierePop');
+                    var initiierePop = require('../initiierePop');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_pop(ziel_parent_node);
                     window.apf.beschrifte_ordner_pop(window.apf.herkunft_parent_node);
@@ -774,7 +774,7 @@ var returnFunction = function (ApArtId) {
                     type: 'post',
                     url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=PopId/tabelleId=' + ziel_parent_node_id + '/feld=TPopId/wert=' + ziel_node_id + '/user=' + sessionStorage.User
                 }).done(function () {
-                    var initiiereTPop = require('./initiiereTPop');
+                    var initiiereTPop = require('../initiiereTPop');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpop(ziel_parent_node);
                     window.apf.beschrifte_ordner_tpop(window.apf.herkunft_parent_node);
@@ -796,7 +796,7 @@ var returnFunction = function (ApArtId) {
                     type: 'post',
                     url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=PopId/tabelleId=' + ziel_node_id + '/feld=TPopId/wert=' + herkunft_node_id + '/user=' + sessionStorage.User
                 }).done(function () {
-                    var initiiereTPop = require('./initiiereTPop');
+                    var initiiereTPop = require('../initiiereTPop');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpop(ziel_node);
                     window.apf.beschrifte_ordner_tpop(window.apf.herkunft_parent_node);
@@ -819,7 +819,7 @@ var returnFunction = function (ApArtId) {
                     type: 'post',
                     url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=PopId/tabelleId=' + ziel_parent_node_id + '/feld=TPopId/wert=' + herkunft_node_id + '/user=' + sessionStorage.User
                 }).done(function () {
-                    var initiiereTPop = require('./initiiereTPop');
+                    var initiiereTPop = require('../initiiereTPop');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpop(ziel_parent_node);
                     window.apf.beschrifte_ordner_tpop(window.apf.herkunft_parent_node);
@@ -841,7 +841,7 @@ var returnFunction = function (ApArtId) {
                     type: 'post',
                     url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=PopId/tabelleId=' + ziel_node_id + '/feld=TPopId/wert=' + herkunft_node_id + '/user=' + sessionStorage.User
                 }).done(function () {
-                    var initiiereTPop = require('./initiiereTPop');
+                    var initiiereTPop = require('../initiiereTPop');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpop(ziel_node);
                     window.apf.beschrifte_ordner_tpop(window.apf.herkunft_parent_node);
@@ -865,7 +865,7 @@ var returnFunction = function (ApArtId) {
                     type: 'post',
                     url: 'api/v1/update/apflora/tabelle=tblTeilPopMassnahme/tabelleIdFeld=TPopId/tabelleId=' + ziel_parent_node_id + '/feld=TPopMassnId/wert=' + herkunft_node_id + '/user=' + sessionStorage.User
                 }).done(function () {
-                    var initiiereTPopMassn = require('./initiiereTPopMassn');
+                    var initiiereTPopMassn = require('../initiiereTPopMassn');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpopmassn(ziel_parent_node);
                     window.apf.beschrifte_ordner_tpopmassn(window.apf.herkunft_parent_node);
@@ -887,7 +887,7 @@ var returnFunction = function (ApArtId) {
                     type: 'post',
                     url: 'api/v1/update/apflora/tabelle=tblTeilPopMassnahme/tabelleIdFeld=TPopId/tabelleId=' + ziel_node_id + '/feld=TPopMassnId/wert=' + herkunft_node_id + '/user=' + sessionStorage.User
                 }).done(function () {
-                    var initiiereTPopMassn = require('./initiiereTPopMassn');
+                    var initiiereTPopMassn = require('../initiiereTPopMassn');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpopmassn(ziel_node);
                     window.apf.beschrifte_ordner_tpopmassn(window.apf.herkunft_parent_node);
@@ -911,7 +911,7 @@ var returnFunction = function (ApArtId) {
                     type: 'post',
                     url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + ziel_parent_node_id + '/user=' + sessionStorage.User
                 }).done(function () {
-                    var initiiereTPopFeldkontr  = require('./initiiereTPopFeldkontr');
+                    var initiiereTPopFeldkontr  = require('../initiiereTPopFeldkontr');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpopfeldkontr(ziel_parent_node);
                     window.apf.beschrifte_ordner_tpopfeldkontr(window.apf.herkunft_parent_node);
@@ -933,7 +933,7 @@ var returnFunction = function (ApArtId) {
                     type: 'post',
                     url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + ziel_node_id + '/user=' + sessionStorage.User
                 }).done(function () {
-                    var initiiereTPopFeldkontr  = require('./initiiereTPopFeldkontr');
+                    var initiiereTPopFeldkontr  = require('../initiiereTPopFeldkontr');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpopfeldkontr(ziel_node);
                     window.apf.beschrifte_ordner_tpopfeldkontr(window.apf.herkunft_parent_node);
@@ -957,7 +957,7 @@ var returnFunction = function (ApArtId) {
                     type: 'post',
                     url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + ziel_parent_node_id + '/user=' + sessionStorage.User
                 }).done(function () {
-                    var initiiereTPopFeldkontr  = require('./initiiereTPopFeldkontr');
+                    var initiiereTPopFeldkontr  = require('../initiiereTPopFeldkontr');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpopfreiwkontr(ziel_parent_node);
                     window.apf.beschrifte_ordner_tpopfreiwkontr(window.apf.herkunft_parent_node);
@@ -981,7 +981,7 @@ var returnFunction = function (ApArtId) {
                     url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + ziel_node_id + '/user=' + sessionStorage.User
                 });
                 fügeTPopFeldkontrEin_4.done(function () {
-                    var initiiereTPopFeldkontr  = require('./initiiereTPopFeldkontr');
+                    var initiiereTPopFeldkontr  = require('../initiiereTPopFeldkontr');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpopfreiwkontr(ziel_node);
                     window.apf.beschrifte_ordner_tpopfreiwkontr(window.apf.herkunft_parent_node);

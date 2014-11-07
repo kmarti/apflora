@@ -10,7 +10,7 @@ $.jstree = require('jquery.jstree');
 var returnFunction = function (aktiverNode, parentNode, strukturtyp, dsId, beschriftung) {
     var NeuerNode,
         neueApzieleNode,
-        initiiereFormularMitStrukturtyp = require('./initiiereFormularMitStrukturtyp'),
+        initiiereFormularMitStrukturtyp = require('../initiiereFormularMitStrukturtyp'),
         erstelleUnterordnerVonTpop      = require('./erstelleUnterordnerVonTpop'),
         erstelleUnterordnerVonPop       = require('./erstelleUnterordnerVonPop');
     // id global verfügbar machen

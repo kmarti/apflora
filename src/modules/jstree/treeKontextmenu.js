@@ -14,7 +14,7 @@ var returnFunction = function (node) {
         parent_nodeText,
         grandparent_node,
         neue_apziele_node,
-        zeigeTPop                                = require('./zeigeTPop'),
+        zeigeTPop                                = require('../zeigeTPop'),
         insertNeuenNodeEineHierarchiestufeTiefer = require('./insertNeuenNodeEineHierarchiestufeTiefer');
 
     // relevante nodes zwischenspeichern
@@ -58,7 +58,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_gelb.png",
                 "action": function () {
-                    var zeigePop = require('./olmap/zeigePop');
+                    var zeigePop = require('../olmap/zeigePop');
                     $.ajax({
                         type: 'get',
                         url: 'api/v1/popsChKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
@@ -899,7 +899,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_gelb.png",
                 "action": function () {
-                    var zeigePop = require('./olmap/zeigePop');
+                    var zeigePop = require('../olmap/zeigePop');
                     $.ajax({
                         type: 'get',
                         url: 'api/v1/popChKarte/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
@@ -1019,7 +1019,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_gelb.png",
                 "action": function () {
-                    var zeigeTPop = require('./olmap/zeigeTPop');
+                    var zeigeTPop = require('../olmap/zeigeTPop');
                     $.ajax({
                         type: 'get',
                         url: 'api/v1/tpopsKarte/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
@@ -1175,7 +1175,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_gelb.png",
                 "action": function () {
-                    var zeigeTPop = require('./olmap/zeigeTPop');
+                    var zeigeTPop = require('../olmap/zeigeTPop');
                     $.ajax({
                         type: 'get',
                         url: 'api/v1/tpopKarte/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
@@ -1195,7 +1195,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_rot.png",
                 "action": function () {
-                    var verorteTPop = require('./olmap/verorteTPop');
+                    var verorteTPop = require('../olmap/verorteTPop');
                     $.ajax({
                         type: 'get',
                         url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
@@ -2294,7 +2294,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon.png",
                 "action": function () {
-                    var zeigeTPopBeob = require('./gmap/zeigeTPopBeob');
+                    var zeigeTPopBeob = require('../gmap/zeigeTPopBeob');
                     $.ajax({
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/beobId=/nichtZuzuordnen='
@@ -2339,7 +2339,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon.png",
                 "action": function () {
-                    var zeigeTPopBeob = require('./gmap/zeigeTPopBeob');
+                    var zeigeTPopBeob = require('../gmap/zeigeTPopBeob');
                     $.ajax({
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen='
@@ -2359,8 +2359,8 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_violett.png",
                 "action": function () {
-                    var zeigeBeobUndTPop = require('./gmap/zeigeBeobUndTPop'),
-                        zeigeBeob = require('./gmap/zeigeBeob');
+                    var zeigeBeobUndTPop = require('../gmap/zeigeBeobUndTPop'),
+                        zeigeBeob        = require('../gmap/zeigeBeob');
                     $.ajax({
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen='
@@ -2525,7 +2525,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_violett.png",
                 "action": function () {
-                    var zeigeBeob = require('./gmap/zeigeBeob');
+                    var zeigeBeob = require('../gmap/zeigeBeob');
                     $.ajax({
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen='
@@ -2545,8 +2545,8 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_violett.png",
                 "action": function () {
-                    var zeigeBeobUndTPop = require('./gmap/zeigeBeobUndTPop'),
-                        zeigeBeob = require('./gmap/zeigeBeob');
+                    var zeigeBeobUndTPop = require('../gmap/zeigeBeobUndTPop'),
+                        zeigeBeob        = require('../gmap/zeigeBeob');
                     $.ajax({
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen='
@@ -2589,7 +2589,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_violett.png",
                 "action": function () {
-                    var zeigeBeob = require('./gmap/zeigeBeob');
+                    var zeigeBeob = require('../gmap/zeigeBeob');
                     $.ajax({
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen='
@@ -2609,8 +2609,8 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_violett.png",
                 "action": function () {
-                    var zeigeBeobUndTPop = require('./gmap/zeigeBeobUndTPop'),
-                        zeigeBeob = require('./gmap/zeigeBeob');
+                    var zeigeBeobUndTPop = require('../gmap/zeigeBeobUndTPop'),
+                        zeigeBeob        = require('../gmap/zeigeBeob');
                     $.ajax({
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen='
@@ -2677,7 +2677,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_violett.png",
                 "action": function () {
-                    var zeigeBeob = require('./gmap/zeigeBeob');
+                    var zeigeBeob = require('../gmap/zeigeBeob');
                     $.ajax({
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen=1'
@@ -2711,7 +2711,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_violett.png",
                 "action": function () {
-                    var zeigeBeob = require('./gmap/zeigeBeob');
+                    var zeigeBeob = require('../gmap/zeigeBeob');
                     $.ajax({
                         type: 'get',
                         url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen='

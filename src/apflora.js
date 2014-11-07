@@ -539,7 +539,7 @@ window.apf.wähleApListe = function (programm) {
 
 // diese Funktion kann nicht modularisiert werden, weil jstree nicht für node entwickelt wurde!!!!
 window.apf.erstelle_tree = function (ApArtId) {
-    require('./modules/erstelleTree')(ApArtId);
+    require('./modules/jstree/erstelleTree')(ApArtId);
 };
 
 // übernimmt einen node
@@ -723,7 +723,7 @@ window.apf.beschrifte_ordner_beob_nicht_zuzuordnen = function (node) {
 
 window.apf.tpopKopiertInPopOrdnerTpopEinfügen = function (aktiver_node) {
     'use strict';
-    var insertNeuenNodeEineHierarchiestufeTiefer = require('./modules/insertNeuenNodeEineHierarchiestufeTiefer');
+    var insertNeuenNodeEineHierarchiestufeTiefer = require('./modules/jstree/insertNeuenNodeEineHierarchiestufeTiefer');
     $.ajax({
         type: 'post',
         url: 'api/v1/tpopInsertKopie/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpop_node_kopiert).attr("id")) + '/user=' + sessionStorage.User
@@ -2489,8 +2489,8 @@ window.apf.insertNeuenNodeAufGleicherHierarchiestufe = function (aktiver_node, p
     'use strict';
     var NeuerNode,
         initiiereFormularMitStrukturtyp = require('./modules/initiiereFormularMitStrukturtyp'),
-        erstelleUnterordnerVonTpop      = require('./modules/erstelleUnterordnerVonTpop'),
-        erstelleUnterordnerVonPop       = require('./modules/erstelleUnterordnerVonPop');
+        erstelleUnterordnerVonTpop      = require('./modules/jstree/erstelleUnterordnerVonTpop'),
+        erstelleUnterordnerVonPop       = require('./modules/jstree/erstelleUnterordnerVonPop');
     // id global verfügbar machen
     localStorage[strukturtyp + "_id"] = ds_id;
     // letzte globale Variable entfernen
@@ -2579,7 +2579,7 @@ window.apf.olmap.exportiereKarte = function (event) {
 
 // hier behalten, damit $ eingefügt werden kann
 window.apf.treeKontextmenu = function (node) {
-    return require('./modules/treeKontextmenu') (node);
+    return require('./modules/jstree/treeKontextmenu')(node);
 };
 
 // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
