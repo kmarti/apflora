@@ -443,7 +443,7 @@ window.apf.berechneOlmapLayertreeMaxhöhe = function () {
 (function ($) {
     $.fn.hasScrollBar = function () {
         return this.get(0).scrollHeight > this.height();
-    }
+    };
 })(jQuery);
 
 // setzt die Höhe von textareas so, dass der Text genau rein passt
