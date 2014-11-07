@@ -2487,7 +2487,8 @@ window.apf.frageObAktionRückgängigGemachtWerdenSoll = function (wasIstPassiert
 window.apf.insertNeuenNodeAufGleicherHierarchiestufe = function (aktiver_node, parent_node, strukturtyp, ds_id, beschriftung) {
     'use strict';
     var NeuerNode,
-        initiiereFormularMitStrukturtyp = require('./modules/initiiereFormularMitStrukturtyp');
+        initiiereFormularMitStrukturtyp = require('./modules/initiiereFormularMitStrukturtyp'),
+        erstelleUnterordnerVonTpop      = require('./modules/erstelleUnterordnerVonTpop');
     // id global verfügbar machen
     localStorage[strukturtyp + "_id"] = ds_id;
     // letzte globale Variable entfernen
@@ -2505,7 +2506,7 @@ window.apf.insertNeuenNodeAufGleicherHierarchiestufe = function (aktiver_node, p
         window.apf.insertOrdnerVonPop(NeuerNode, ds_id);
     }
     if (strukturtyp === "tpop") {
-        window.apf.insertOrdnerVonTPop(NeuerNode, ds_id);
+        erstelleUnterordnerVonTpop(NeuerNode, ds_id);
     }
     if (strukturtyp === "apziel") {
         $.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
@@ -2544,7 +2545,8 @@ window.apf.insertNeuenNodeAufGleicherHierarchiestufe = function (aktiver_node, p
 window.apf.insertNeuenNodeEineHierarchiestufeTiefer = function (aktiver_node, parent_node, strukturtyp, ds_id, beschriftung) {
     'use strict';
     var NeuerNode,
-        initiiereFormularMitStrukturtyp = require('./modules/initiiereFormularMitStrukturtyp');
+        initiiereFormularMitStrukturtyp = require('./modules/initiiereFormularMitStrukturtyp'),
+        erstelleUnterordnerVonTpop      = require('./modules/erstelleUnterordnerVonTpop');
     // id global verfügbar machen
     localStorage[strukturtyp + "_id"] = ds_id;
     // letzte globale Variable entfernen
@@ -2583,7 +2585,7 @@ window.apf.insertNeuenNodeEineHierarchiestufeTiefer = function (aktiver_node, pa
         window.apf.insertOrdnerVonPop(NeuerNode, ds_id);
     }
     if (strukturtyp === "tpop") {
-        window.apf.insertOrdnerVonTPop(NeuerNode, ds_id);
+        erstelleUnterordnerVonTpop(NeuerNode, ds_id);
     }
     if (strukturtyp === "apziel") {
         $.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
@@ -2642,59 +2644,12 @@ window.apf.insertOrdnerVonPop = function (pop_node, pop_id) {
     });
 };
 
-// erstellt alle Unterordner des Ordners vom Typ tpop
-// erwartet den node des tpop-ordners
-window.apf.insertOrdnerVonTPop = function (TPopNode, tpop_id) {
-    'use strict';
-    $.jstree._reference(TPopNode).create_node(TPopNode, "last", {
-        "data": "Massnahmen",
-        "attr": {
-            "id": tpop_id,
-            "typ": "tpop_ordner_massn"
-        }
-    });
-    $.jstree._reference(TPopNode).create_node(TPopNode, "last", {
-        "data": "Massnahmen-Berichte",
-        "attr": {
-            "id": tpop_id,
-            "typ": "tpop_ordner_massnber"
-        }
-    });
-    $.jstree._reference(TPopNode).create_node(TPopNode, "last", {
-        "data": "Feldkontrollen",
-        "attr": {
-            "id": tpop_id,
-            "typ": "tpop_ordner_feldkontr"
-        }
-    });
-    $.jstree._reference(TPopNode).create_node(TPopNode, "last", {
-        "data": "Freiwilligen-Kontrollen",
-        "attr": {
-            "id": tpop_id,
-            "typ": "tpop_ordner_freiwkontr"
-        }
-    });
-    $.jstree._reference(TPopNode).create_node(TPopNode, "last", {
-        "data": "Teilpopulations-Berichte",
-        "attr": {
-            "id": tpop_id,
-            "typ": "tpop_ordner_tpopber"
-        }
-    });
-    $.jstree._reference(TPopNode).create_node(TPopNode, "last", {
-        "data": "Beobachtungen",
-        "attr": {
-            "id": tpop_id,
-            "typ": "tpop_ordner_beob_zugeordnet"
-        }
-    });
-};
-
+// wird in index.html benutzt
 window.apf.löscheAp = function (ap_id) {
-    'use strict';
     require('./modules/loescheAp')(ap_id);
 };
 
+// wird in index.html benutzt
 window.apf.undeleteDatensatz = function () {
     require('./modules/undeleteDatensatz')();
 };
