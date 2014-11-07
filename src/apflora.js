@@ -2281,51 +2281,9 @@ window.apf.kopiereKoordinatenInPop = function (x_koord, y_koord) {
     }
 };
 
+// wird in index.html benutzt
 window.apf.prüfeAnmeldung = function () {
-    'use strict';
-    var $anmeldung_name = $("#anmeldung_name").val(),
-        $anmeldung_passwort = $("#anmeldung_passwort").val();
-    // Leserechte zurücksetzen
-    delete sessionStorage.NurLesen;
-    if ($anmeldung_name && $anmeldung_passwort) {
-        $.ajax({
-            type: 'get',
-            url: 'api/v1/anmeldung/name=' + $anmeldung_name + '/pwd=' + $anmeldung_passwort
-        }).done(function (data) {
-            if (data && data.length > 0) {
-                sessionStorage.User = $anmeldung_name;
-                // wenn NurLesen, globale Variable setzen
-                if (data[0].NurLesen === -1) {
-                    sessionStorage.NurLesen = true;
-                }
-                $("#anmeldung_rueckmeldung")
-                    .html("Willkommen " + $anmeldung_name)
-                    .addClass("ui-state-highlight");
-                setTimeout(function () {
-                    $("#anmelde_dialog").dialog("close", 2000);
-                    if (!$('#forms').is(':visible')) {
-                        $('#ap_waehlen_text').focus();
-                    }
-                }, 1000);
-            } else {
-                $("#anmeldung_rueckmeldung")
-                    .html("Anmeldung gescheitert")
-                    .addClass("ui-state-highlight");
-                setTimeout(function () {
-                    $("#anmeldung_rueckmeldung").removeClass("ui-state-highlight", 1500);
-                }, 500);
-            }
-        }).fail(function () {
-            window.apf.melde("Anmeldung gescheitert", "Oops!");
-        });
-    } else {
-        $("#anmeldung_rueckmeldung")
-            .html("Bitte Name und Passwort ausfüllen")
-            .addClass( "ui-state-highlight" );
-        setTimeout(function () {
-            $("#anmeldung_rueckmeldung").removeClass("ui-state-highlight", 1500);
-        }, 500);
-    }
+    require('./modules/pruefeAnmeldung')();
 };
 
 // erwartet aktuelle Werte für jahr und typ
@@ -2481,65 +2439,6 @@ window.apf.frageObAktionRückgängigGemachtWerdenSoll = function (wasIstPassiert
         $(".undelete").hide();
         $("#forms").css("top", "");
     }, 30000);
-};
-
-
-// Baut einen neuen Knoten auf derselben Hierarchiestufe, von welcher der Befehl aufgerufen wurde
-window.apf.insertNeuenNodeAufGleicherHierarchiestufe = function (aktiver_node, parent_node, strukturtyp, ds_id, beschriftung) {
-    'use strict';
-    var NeuerNode,
-        initiiereFormularMitStrukturtyp = require('./modules/initiiereFormularMitStrukturtyp'),
-        erstelleUnterordnerVonTpop      = require('./modules/jstree/erstelleUnterordnerVonTpop'),
-        erstelleUnterordnerVonPop       = require('./modules/jstree/erstelleUnterordnerVonPop');
-    // id global verfügbar machen
-    localStorage[strukturtyp + "_id"] = ds_id;
-    // letzte globale Variable entfernen
-    delete window.apf[strukturtyp];
-    // neuen Node bauen
-    NeuerNode = $.jstree._reference(parent_node).create_node(parent_node, "last", {
-        "data": beschriftung,
-        "attr": {
-            "id": ds_id,
-            "typ": strukturtyp
-        }
-    });
-    // allfällige Unterordner anlegen
-    if (strukturtyp === "pop") {
-        erstelleUnterordnerVonPop(NeuerNode, ds_id);
-    }
-    if (strukturtyp === "tpop") {
-        erstelleUnterordnerVonTpop(NeuerNode, ds_id);
-    }
-    if (strukturtyp === "apziel") {
-        $.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-            "data": "0 Ziel-Berichte",
-            "attr": {
-                "id": ds_id,
-                "typ": "zielber_ordner"
-            }
-        });
-    }
-
-    // Parent Node-Beschriftung: Anzahl anpassen
-    if (strukturtyp === "apziel") {
-        var grandparent_node = $.jstree._reference(parent_node)._get_parent(parent_node);
-        // grandparent Node-Beschriftung: Anzahl anpassen
-        window.apf.beschrifte_ordner_apziel(grandparent_node);
-        // parent Node-Beschriftung: Anzahl anpassen
-        // nur, wenn es nicht der Ordner ist, der "neue AP-Ziele" heisst
-        if ($.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
-            window.apf.beschrifte_ordner_apzieljahr(parent_node);
-        }
-    } else {
-        // Normalfall
-        window.apf["beschrifte_ordner_"+strukturtyp](parent_node);
-    }
-    
-    // node selecten
-    $.jstree._reference(aktiver_node).deselect_all();
-    $.jstree._reference(NeuerNode).select_node(NeuerNode);
-    // Formular initiieren
-    initiiereFormularMitStrukturtyp(strukturtyp);
 };
 
 // wird in index.html benutzt

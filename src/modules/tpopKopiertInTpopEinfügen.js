@@ -7,7 +7,8 @@ var $ = require('jquery'),
     _ = require('underscore');
 
 var returnFunction = function (aktiver_node, parent_node) {
-    var data = {};
+    var data = {},
+        insertNeuenNodeAufGleicherHierarchiestufe = require('./jstree/insertNeuenNodeAufGleicherHierarchiestufe');
     // nur aktualisieren, wenn Schreibrechte bestehen
     if (!window.apf.prüfeSchreibvoraussetzungen()) {
         return;
@@ -39,7 +40,7 @@ var returnFunction = function (aktiver_node, parent_node) {
     }).done(function (tpop_id) {
         var strukturtyp = "tpop",
             beschriftung = window.apf.tpop_objekt_kopiert.TPopNr + " " + window.apf.tpop_objekt_kopiert.TPopFlurname;
-        window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, tpop_id, beschriftung);
+        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, tpop_id, beschriftung);
     }).fail(function () {
         window.apf.melde("Fehler: Die Teilpopulation wurde nicht erstellt");
     });

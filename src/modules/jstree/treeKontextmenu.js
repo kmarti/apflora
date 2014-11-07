@@ -14,8 +14,9 @@ var returnFunction = function (node) {
         parent_nodeText,
         grandparent_node,
         neue_apziele_node,
-        zeigeTPop                                = require('../zeigeTPop'),
-        insertNeuenNodeEineHierarchiestufeTiefer = require('./insertNeuenNodeEineHierarchiestufeTiefer');
+        zeigeTPop                                 = require('../zeigeTPop'),
+        insertNeuenNodeEineHierarchiestufeTiefer  = require('./insertNeuenNodeEineHierarchiestufeTiefer'),
+        insertNeuenNodeAufGleicherHierarchiestufe = require('./insertNeuenNodeAufGleicherHierarchiestufe');
 
     // relevante nodes zwischenspeichern
     aktiver_node = node;
@@ -207,7 +208,7 @@ var returnFunction = function (node) {
                     insertApziel_3.done(function (id) {
                         var strukturtyp = "apziel",
                             beschriftung = "neues Ziel";
-                        window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertApziel_3.fail(function () {
                         window.apf.melde("Fehler: Kein neues AP-Ziel erstellt");
@@ -306,7 +307,7 @@ var returnFunction = function (node) {
                     insertZielber_2.done(function (id) {
                         var strukturtyp = "zielber",
                             beschriftung = "neuer Ziel-Bericht";
-                        window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertZielber_2.fail(function () {
                         window.apf.melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
@@ -400,7 +401,7 @@ var returnFunction = function (node) {
                     insertErfkrit_2.done(function (id) {
                         var strukturtyp = "erfkrit",
                             beschriftung = "neues Erfolgskriterium";
-                        window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertErfkrit_2.fail(function () {
                         window.apf.melde("Fehler: Kein neues Erfolgskriterium erstellt");
@@ -501,7 +502,7 @@ var returnFunction = function (node) {
                     insertJber_2.done(function (id) {
                         var strukturtyp = "jber",
                             beschriftung = "neuer AP-Bericht";
-                        window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertJber_2.fail(function () {
                         window.apf.melde("Fehler: Keinen neuen AP-Bericht erstellt");
@@ -670,7 +671,7 @@ var returnFunction = function (node) {
                     insertBer_2.done(function (id) {
                         var strukturtyp = "ber",
                             beschriftung = "neuer Bericht";
-                        window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertBer_2.fail(function () {
                         window.apf.melde("Fehler: Keinen neuen Bericht erstellt");
@@ -763,7 +764,7 @@ var returnFunction = function (node) {
                     }).done(function (id) {
                         var strukturtyp = "assozarten",
                             beschriftung = "neue assoziierte Art";
-                        window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     }).fail(function () {
                         window.apf.melde("Fehler: Keine assoziierte Art erstellt");
                     });
@@ -835,7 +836,7 @@ var returnFunction = function (node) {
                     insertPop_2.done(function (id) {
                         var strukturtyp = "pop",
                             beschriftung = "neue Population";
-                        window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertPop_2.fail(function () {
                         window.apf.melde("Fehler: Keine neue Population erstellt");
@@ -1110,7 +1111,7 @@ var returnFunction = function (node) {
                     insertTPop_2.done(function (id) {
                         var strukturtyp = "tpop",
                             beschriftung = "neue Teilpopulation";
-                        window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertTPop_2.fail(function () {
                         window.apf.melde("Fehler: Keine neue Teilpopulation erstellt");
@@ -1362,7 +1363,7 @@ var returnFunction = function (node) {
                     insertPopber_2.done(function (id) {
                         var strukturtyp = "popber",
                             beschriftung = "neuer Populations-Bericht";
-                        window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertPopber_2.fail(function () {
                         window.apf.melde("Fehler: Keinen neuen Populations-Bericht erstellt");
@@ -1450,7 +1451,7 @@ var returnFunction = function (node) {
                     insertPopMassnBer_2.done(function (id) {
                         var strukturtyp = "popmassnber",
                             beschriftung = "neuer Massnahmen-Bericht";
-                        window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertPopMassnBer_2.fail(function () {
                         window.apf.melde("Fehler: Es wurde kein neuer Massnahmen-Bericht erstellt");
@@ -1569,7 +1570,7 @@ var returnFunction = function (node) {
                     insertTPopFeldKontr_2.done(function (id) {
                         var strukturtyp = "tpopfeldkontr",
                             beschriftung = "neue Feldkontrolle";
-                        window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertTPopFeldKontr_2.fail(function () {
                         window.apf.melde("Fehler: Keine neue Feldkontrolle erstellt");
@@ -1792,7 +1793,7 @@ var returnFunction = function (node) {
                     }).done(function (id) {
                         var strukturtyp = "tpopfeldkontr",
                             beschriftung = window.apf.erstelleLabelFürFeldkontrolle(window.apf.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.apf.tpopfeldkontr_objekt_kopiert.TPopKontrTyp);
-                        window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     }).fail(function () {
                         window.apf.melde("Fehler: Die Feldkontrolle wurde nicht erstellt");
                     });
@@ -1865,7 +1866,7 @@ var returnFunction = function (node) {
                     insertTPopFeldKontr_4.done(function (id) {
                         var strukturtyp = "tpopfreiwkontr",
                             beschriftung = "neue Freiwilligen-Kontrolle";
-                        window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertTPopFeldKontr_4.fail(function () {
                         window.apf.melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
@@ -1987,7 +1988,7 @@ var returnFunction = function (node) {
                     }).done(function (id) {
                         var strukturtyp = "tpopfreiwkontr",
                             beschriftung = window.apf.tpopfreiwkontr_objekt_kopiert.TPopKontrJahr;
-                        window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     }).fail(function () {
                         window.apf.melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
                     });
@@ -2061,7 +2062,7 @@ var returnFunction = function (node) {
                     insertTPopMassn_2.done(function (id) {
                         var strukturtyp = "tpopmassn",
                             beschriftung = "neue Massnahme";
-                        window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertTPopMassn_2.fail(function () {
                         window.apf.melde("Fehler: Keine neue Massnahme erstellt");
@@ -2190,7 +2191,7 @@ var returnFunction = function (node) {
                     insertTPopMassnKopie_2.done(function (id) {
                         var strukturtyp = "tpopmassn",
                             beschriftung = window.apf.erstelleLabelFürMassnahme(window.apf.tpopmassn_objekt_kopiert.TPopMassnJahr, window.apf.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt);
-                        window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertTPopMassnKopie_2.fail(function () {
                         window.apf.melde("Fehler: Die Massnahme wurde nicht erstellt");
@@ -2233,7 +2234,7 @@ var returnFunction = function (node) {
                     insertTPopBer_2.done(function (id) {
                         var strukturtyp = "tpopber",
                             beschriftung = "neuer Teilpopulations-Bericht";
-                        window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertTPopBer_2.fail(function () {
                         window.apf.melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
@@ -2464,7 +2465,7 @@ var returnFunction = function (node) {
                     insertTPopMassBer_2.done(function (id) {
                         var strukturtyp = "tpopmassnber",
                             beschriftung = "neuer Massnahmen-Bericht";
-                        window.apf.insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertTPopMassBer_2.fail(function () {
                         window.apf.melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
