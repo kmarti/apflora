@@ -9,12 +9,14 @@ var returnFunction = function (PopListeMarkiert) {
         window.apf.olmap.LetzterKlickHandler.deactivate();
     }
 
-    var markierte_pop      = window.apf.olmap.wähleAusschnittFürÜbergebenePop(PopListeMarkiert),
-        extent,
+    var markierte_pop,
         zeigeFormular      = require('../zeigeFormular'),
         erstelleTPopLayer  = require('./erstelleTPopLayer'),
         initiiereLayertree = require('./initiiereLayertree'),
-        zeigePopInTPop     = require('./zeigePopInTPop');
+        zeigePopInTPop     = require('./zeigePopInTPop'),
+        waehleAusschnittFuerUebergebenePop = require('./waehleAusschnittFuerUebergebenePop');
+
+    markierte_pop = waehleAusschnittFuerUebergebenePop(PopListeMarkiert);
 
     // Grundkarte aufbauen
     $.when(zeigeFormular("GeoAdminKarte"))
