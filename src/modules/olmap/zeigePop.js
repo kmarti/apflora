@@ -13,7 +13,8 @@ var returnFunction = function (PopListeMarkiert) {
         extent,
         zeigeFormular      = require('../zeigeFormular'),
         erstelleTPopLayer  = require('./erstelleTPopLayer'),
-        initiiereLayertree = require('./initiiereLayertree');
+        initiiereLayertree = require('./initiiereLayertree'),
+        zeigePopInTPop     = require('./zeigePopInTPop');
 
     // Grundkarte aufbauen
     $.when(zeigeFormular("GeoAdminKarte"))
@@ -36,9 +37,8 @@ var returnFunction = function (PopListeMarkiert) {
                     // Layer für Symbole und Beschriftung erstellen
                     erstelleTPopLayer(TPopListe),
                     // alle Pop holen, symbole und nr sichtbar schalten, Markierung übergeben
-                    window.apf.olmap.zeigePopInTPop(true, true, markierte_pop.popid_markiert)
-                )
-                .then(function () {
+                    zeigePopInTPop(true, true, markierte_pop.popid_markiert)
+                ).then(function () {
                     // layertree neu aufbauen
                     initiiereLayertree();
                 });

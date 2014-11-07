@@ -966,10 +966,8 @@ window.apf.olmap.wähleAusschnittFürÜbergebeneTPop = function (tpop_liste_mark
 
     // bounds der anzuzeigenden bestimmen
     var tpopid_markiert = [];
-    console.log('tpop_liste_markiert: ', tpop_liste_markiert);
     if (tpop_liste_markiert && tpop_liste_markiert.length > 0) {
         _.each(tpop_liste_markiert, function (tpop) {
-            console.log('tpop: ', tpop);
             tpopid_markiert.push(tpop.TPopId);
             xkoord_array.push(tpop.TPopXKoord);
             ykoord_array.push(tpop.TPopYKoord);
@@ -1022,30 +1020,6 @@ window.apf.olmap.wähleAusschnittFürÜbergebenePop = function (pop_liste_markie
         bounds = [669000, 222000, 717000, 284000];
     }
     return {bounds: bounds, popid_markiert: popid_markiert};
-};
-
-window.apf.olmap.zeigePopInTPop = function (overlay_pop_visible, overlay_popnr_visible, popid_markiert) {
-    'use strict';
-    var pop_gezeigt = $.Deferred(),
-        initiiereLayertree = require('./modules/olmap/initiiereLayertree'),
-        erstellePopLayer = require('./modules/olmap/erstellePopLayer');
-    
-    $.ajax({
-        type: 'get',
-        url: 'api/v1/popKarteAlle/apId=' + window.apf.ap.ApArtId
-    }).done(function (PopListe) {
-        // Layer für Symbole und Beschriftung erstellen
-        $.when(erstellePopLayer(PopListe, popid_markiert, overlay_pop_visible))
-        .then(function () {
-            // layertree neu aufbauen
-            initiiereLayertree();
-            pop_gezeigt.resolve();
-        });
-    }).fail(function () {
-        window.apf.melde("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
-        pop_gezeigt.resolve();
-    });
-    return pop_gezeigt.promise();
 };
 
 // dieser Funktion kann man einen Wert zum speichern übergeben
