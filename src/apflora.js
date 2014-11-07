@@ -723,6 +723,7 @@ window.apf.beschrifte_ordner_beob_nicht_zuzuordnen = function (node) {
 
 window.apf.tpopKopiertInPopOrdnerTpopEinfügen = function (aktiver_node) {
     'use strict';
+    var insertNeuenNodeEineHierarchiestufeTiefer = require('./modules/insertNeuenNodeEineHierarchiestufeTiefer');
     $.ajax({
         type: 'post',
         url: 'api/v1/tpopInsertKopie/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpop_node_kopiert).attr("id")) + '/user=' + sessionStorage.User
@@ -732,7 +733,7 @@ window.apf.tpopKopiertInPopOrdnerTpopEinfügen = function (aktiver_node) {
         if (window.apf.tpop_objekt_kopiert.TPopNr) {
             beschriftung = window.apf.tpop_objekt_kopiert.TPopNr + ': ' + window.apf.tpop_objekt_kopiert.TPopFlurname
         }
-        window.apf.insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, "", strukturtyp, id, beschriftung);
+        insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, "", strukturtyp, id, beschriftung);
     }).fail(function () {
         window.apf.melde("Fehler: Die Teilpopulation wurde nicht erstellt");
     });
@@ -2488,7 +2489,8 @@ window.apf.insertNeuenNodeAufGleicherHierarchiestufe = function (aktiver_node, p
     'use strict';
     var NeuerNode,
         initiiereFormularMitStrukturtyp = require('./modules/initiiereFormularMitStrukturtyp'),
-        erstelleUnterordnerVonTpop      = require('./modules/erstelleUnterordnerVonTpop');
+        erstelleUnterordnerVonTpop      = require('./modules/erstelleUnterordnerVonTpop'),
+        erstelleUnterordnerVonPop       = require('./modules/erstelleUnterordnerVonPop');
     // id global verfügbar machen
     localStorage[strukturtyp + "_id"] = ds_id;
     // letzte globale Variable entfernen
@@ -2503,7 +2505,7 @@ window.apf.insertNeuenNodeAufGleicherHierarchiestufe = function (aktiver_node, p
     });
     // allfällige Unterordner anlegen
     if (strukturtyp === "pop") {
-        window.apf.insertOrdnerVonPop(NeuerNode, ds_id);
+        erstelleUnterordnerVonPop(NeuerNode, ds_id);
     }
     if (strukturtyp === "tpop") {
         erstelleUnterordnerVonTpop(NeuerNode, ds_id);
@@ -2538,110 +2540,6 @@ window.apf.insertNeuenNodeAufGleicherHierarchiestufe = function (aktiver_node, p
     $.jstree._reference(NeuerNode).select_node(NeuerNode);
     // Formular initiieren
     initiiereFormularMitStrukturtyp(strukturtyp);
-};
-
-// Baut einen neuen Knoten auf der näcshttieferen Hierarchiestufe, als der Befehl aufgerufen wurde
-// parent_node wird nur von Strukturtyp apziel benutzt
-window.apf.insertNeuenNodeEineHierarchiestufeTiefer = function (aktiver_node, parent_node, strukturtyp, ds_id, beschriftung) {
-    'use strict';
-    var NeuerNode,
-        initiiereFormularMitStrukturtyp = require('./modules/initiiereFormularMitStrukturtyp'),
-        erstelleUnterordnerVonTpop      = require('./modules/erstelleUnterordnerVonTpop');
-    // id global verfügbar machen
-    localStorage[strukturtyp + "_id"] = ds_id;
-    // letzte globale Variable entfernen
-    delete window.apf[strukturtyp];
-    if (strukturtyp === "apziel" && localStorage.apziel_von_ordner_apziel) {
-        // localStorage.apziel_von_ordner_apziel sagt: apziel wird vom ordner_apziel aus angelegt > temporären Unterordner anlegen
-        var neue_apziele_node = $.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-            "data": "neue AP-Ziele",
-            "attr": {
-                "id": window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")),
-                "typ": "apzieljahr"
-            }
-        });
-        // darunter neuen Node bauen
-        NeuerNode = $.jstree._reference(neue_apziele_node).create_node(neue_apziele_node, "last", {
-            "data": beschriftung,
-            "attr": {
-                "id": ds_id,
-                "typ": strukturtyp
-            }
-        });
-        delete localStorage.apziel_von_ordner_apziel;
-    } else {
-        // Normalfall
-        // neuen Node bauen
-        NeuerNode = $.jstree._reference(aktiver_node).create_node(aktiver_node, "last", {
-            "data": beschriftung,
-            "attr": {
-                "id": ds_id,
-                "typ": strukturtyp
-            }
-        });
-    }
-    // allfällige Unterordner anlegen
-    if (strukturtyp === "pop") {
-        window.apf.insertOrdnerVonPop(NeuerNode, ds_id);
-    }
-    if (strukturtyp === "tpop") {
-        erstelleUnterordnerVonTpop(NeuerNode, ds_id);
-    }
-    if (strukturtyp === "apziel") {
-        $.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
-            "data": "0 Ziel-Berichte",
-            "attr": {
-                "id": ds_id,
-                "typ": "zielber_ordner"
-            }
-        });
-        // im create_node-Event von jstree wird Jahr eingefügt und gespeichert
-    }
-    // Node-Beschriftung: Anzahl anpassen
-    if (strukturtyp === "apziel" && localStorage.apziel_von_apzieljahr) {
-        // hier ist ein Ordner zwischengeschaltet
-        // Parent Node-Beschriftung: Anzahl anpassen, wenns nicht der neue Ordner ist
-        if ($.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
-            window.apf.beschrifte_ordner_apziel(parent_node);
-        }
-        // aktiver Node-Beschriftung: Anzahl anpassen
-        window.apf.beschrifte_ordner_apzieljahr(aktiver_node);
-        delete localStorage.apziel_von_apzieljahr;
-    } else if (strukturtyp !== "jber_uebersicht") {
-        window.apf["beschrifte_ordner_"+strukturtyp](aktiver_node);
-    }
-    // node selecten
-    $.jstree._reference(aktiver_node).deselect_all();
-    $.jstree._reference(NeuerNode).select_node(NeuerNode);
-    // Formular initiieren
-    initiiereFormularMitStrukturtyp(strukturtyp);
-};
-
-// erstellt alle Unterordner des Ordners vom Typ pop
-// erwartet den node des pop-ordners
-window.apf.insertOrdnerVonPop = function (pop_node, pop_id) {
-    'use strict';
-    $.jstree._reference(pop_node).create_node(pop_node, "last", {
-        "data": "Teilpopulationen",
-        "attr": {
-            "id": pop_id,
-            "typ": "pop_ordner_tpop"
-        }
-    });
-    $.jstree._reference(pop_node).create_node(pop_node, "last", {
-        "data": "Populations-Berichte",
-        "attr": {
-            "id": pop_id,
-            "typ": "pop_ordner_popber"
-        }
-    });
-    $.jstree._reference(pop_node).create_node(pop_node, "last", {
-        "data": "Massnahmen-Berichte",
-        "attr": {
-            "id": pop_id,
-            "typ": "pop_ordner_massnber"
-        }
-    });
 };
 
 // wird in index.html benutzt

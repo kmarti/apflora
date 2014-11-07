@@ -3,7 +3,7 @@
 
 var $ = require('jquery');
 
-var returnFunction = function (ap_id) {
+var returnFunction = function (apId) {
     var $ap_waehlen_text = $("#ap_waehlen_text"),
         zeigeFormular = require('./zeigeFormular');
 
@@ -14,10 +14,10 @@ var returnFunction = function (ap_id) {
     window.apf.deleted.Artname = $ap_waehlen_text.val();
     $.ajax({
         type: 'delete',
-        url: 'api/v1/apflora/tabelle=tblAktionsplan/tabelleIdFeld=ApArtId/tabelleId=' + ap_id
+        url: 'api/v1/apflora/tabelle=tblAktionsplan/tabelleIdFeld=ApArtId/tabelleId=' + apId
     }).done(function () {
         var $exportieren_2 = $("#exportieren_2");
-        delete localStorage.ap_id;
+        delete localStorage.apId;
         delete window.apf.ap;
         delete localStorage.ap;
         // alle zwischengespeicherten aplisten löschen
