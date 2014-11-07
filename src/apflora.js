@@ -1942,60 +1942,8 @@ window.apf.olmap.addFullScreenControl = function () {
     $('#ga_karten_div').find('.ol-full-screen').find('span[role="tooltip"]').html('Vollbild wechseln');
 };
 
-window.apf.olmap.addDragAndDropGeofiles = function () {
-    'use strict';
-    // drag and drop geo-files
-    var frageNameFuerEbene         = require('./modules/olmap/frageNameFuerEbene'),
-        drag_and_drop_defaultStyle = require('./modules/olmap/defaultStyle'),
-        drag_and_drop_styleFunction,
-        drag_and_drop_interaction;
-
-    drag_and_drop_styleFunction = function (feature, resolution) {
-        var featureStyleFunction = feature.getStyleFunction();
-        if (featureStyleFunction) {
-            return featureStyleFunction.call(feature, resolution);
-        } else {
-            return drag_and_drop_defaultStyle[feature.getGeometry().getType()];
-        }
-    };
-    drag_and_drop_interaction = new ol.interaction.DragAndDrop({
-        formatConstructors: [
-            ol.format.GPX,
-            ol.format.GeoJSON,
-            ol.format.IGC,
-            ol.format.KML,
-            ol.format.TopoJSON
-        ]
-    });
-
-    window.apf.olmap.map.addInteraction(drag_and_drop_interaction);
-
-    drag_and_drop_interaction.on('addfeatures', function (event) {
-        var initiiereLayertree = require('./modules/olmap/initiiereLayertree'),
-            vectorSource,
-            drag_and_drop_layer,
-            view;
-        vectorSource = new ol.source.Vector({
-            features: event.features
-        });
-        drag_and_drop_layer = new ol.layer.Vector({
-            guid: window.apf.erstelleGuid(),
-            source: vectorSource,
-            style: drag_and_drop_styleFunction,
-            title: 'eigene Ebene',
-            kategorie: 'Eigene Ebenen'
-        });
-        window.apf.olmap.map.addLayer(drag_and_drop_layer);
-        view = window.apf.olmap.map.getView();
-        view.fitExtent(vectorSource.getExtent(), /** @type {ol.Size} */ (window.apf.olmap.map.getSize()));
-        // layertree aktualisieren
-        initiiereLayertree('Eigene Ebenen');
-        window.apf.olmap.frageNameFuerEbene(drag_and_drop_layer);
-    });
-};
-
 // wird in index.html benutzt
-window.apf.olmap.frageNameFürEbene = function (eigene_ebene) {
+window.apf.olmap.frageNameFuerEbene = function (eigene_ebene) {
     return require('./modules/olmap/frageNameFuerEbene')(eigene_ebene);
 };
 

@@ -6,8 +6,9 @@ var $  = require('jquery'),
     ga = require('ga');
 
 var returnFunction = function () {
-    var initiiereLayertree   = require('./initiiereLayertree'),
-        createLayers         = require('./createLayers');
+    var initiiereLayertree     = require('./initiiereLayertree'),
+        createLayers           = require('./createLayers'),
+        addDragAndDropGeofiles = require('./addDragAndDropGeofiles');
 
     // allfällige Apflora-Ebenen entfernen
     window.apf.olmap.entferneAlleApfloraLayer();
@@ -26,7 +27,7 @@ var returnFunction = function () {
         });
 
         // diverse features und Fähigkeiten ergänzen
-        window.apf.olmap.addDragAndDropGeofiles();
+        addDragAndDropGeofiles();
         window.apf.olmap.addShowFeatureInfoOnClick();
         window.apf.olmap.changeCursorOverFeature();
         initiiereLayertree();
