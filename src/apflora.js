@@ -1228,9 +1228,10 @@ window.apf.gmap.verorteTPop = function (tpop) {
         content_string,
         tpop_beschriftung,
         my_flurname,
-        chToWgsLng = require('./lib/chToWgsLng'),
-        chToWgsLat = require('./lib/chToWgsLat'),
-        zeigeFormular = require('./modules/zeigeFormular');
+        chToWgsLng      = require('./lib/chToWgsLng'),
+        chToWgsLat      = require('./lib/chToWgsLat'),
+        zeigeFormular   = require('./modules/zeigeFormular'),
+        setLocationTPop = require('./modules/gmap/setLocationTPop');
 
     window.apf.gmap.markers_array = [];
 
@@ -1301,7 +1302,7 @@ window.apf.gmap.verorteTPop = function (tpop) {
             infowindow.open(map, marker);
         });
         google.maps.event.addListener(marker, "dragend", function (event) {
-            window.apf.gmap.SetLocationTPop(event.latLng, map, marker, tpop);
+            setLocationTPop(event.latLng, map, marker, tpop);
         });
     }
 
@@ -1315,7 +1316,8 @@ window.apf.gmap.verorteTPop = function (tpop) {
 window.apf.gmap.erstelleMarker = function (location, map, marker, tpop) {
     /*global Google*/
     'use strict';
-    var title;
+    var title,
+        setLocationTPop = require('./modules/gmap/setLocationTPop');
 
     // title muss String sein
     if (tpop && tpop.TPopFlurname) {
@@ -1335,77 +1337,9 @@ window.apf.gmap.erstelleMarker = function (location, map, marker, tpop) {
     // Marker in Array speichern, damit er gelöscht werden kann
     window.apf.gmap.markers_array.push(marker);
     google.maps.event.addListener(marker, "dragend", function (event) {
-        window.apf.gmap.SetLocationTPop(event.latLng, map, marker, tpop);
+        setLocationTPop(event.latLng, map, marker, tpop);
     });
-    window.apf.gmap.SetLocationTPop(location, map, marker);
-};
-
-window.apf.gmap.SetLocationTPop = function (LatLng, map, marker, TPop) {
-    /*global Google*/
-    'use strict';
-    var lat,
-        lng,
-        contentString,
-        infowindow,
-        Objekt,
-        title,
-        X,
-        Y,
-        ddInChY = require('./lib/ddInChY'),
-        ddInChX = require('./lib/ddInChX');
-    // nur aktualisieren, wenn Schreibrechte bestehen
-    if (!window.apf.prüfeSchreibvoraussetzungen()) {
-        return;
-    }
-    if (TPop && TPop.TPopFlurname) {
-        title = TPop.TPopFlurname;
-    } else {
-        title = "neue Teilpopulation";
-    }
-    lat = LatLng.lat();
-    lng = LatLng.lng();
-    X = ddInChY(lat, lng);
-    Y = ddInChX(lat, lng);
-    var updateTPop_3 = $.ajax({
-        type: 'post',
-        url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + localStorage.tpop_id + '/feld=TPopXKoord/wert=' + X + '/user=' + sessionStorage.User
-    });
-    updateTPop_3.done(function () {
-        var updateTPop_4 = $.ajax({
-            type: 'post',
-            url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + localStorage.tpop_id + '/feld=TPopYKoord/wert=' + Y + '/user=' + sessionStorage.User
-        });
-        updateTPop_4.done(function () {
-            window.apf.gmap.clearInfoWindows();
-            contentString = '<div id="content">'+
-                '<div id="siteNotice">'+
-                '</div>'+
-                '<div id="bodyContent" class="GmInfowindow">'+
-                '<h3>' + title + '</h3>'+
-                '<p>Koordinaten: ' + X + ' / ' + Y + '</p>'+
-                '<p><a href="#" onclick="window.apf.öffneTPop(\'' + localStorage.tpop_id + '\')">Formular anstelle Karte öffnen<\/a></p>'+
-                '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'tpop\', ' + localStorage.tpop_id + ')">Formular neben der Karte öffnen<\/a></p>'+
-                '<p><a href="#" onclick="window.apf.öffneTPopInNeuemTab(\'' + localStorage.tpop_id + '\')">Formular in neuem Fenster öffnen<\/a></p>'+
-                '</div>'+
-                '</div>';
-            infowindow = new google.maps.InfoWindow({
-                content: contentString
-            });
-            if (!window.apf.gmap.info_window_array) {
-                window.apf.gmap.info_window_array = [];
-            }
-            window.apf.gmap.info_window_array.push(infowindow);
-            google.maps.event.addListener(marker, 'click', function () {
-                infowindow.open(map, marker);
-            });
-        });
-        updateTPop_4.fail(function () {
-            window.apf.melde("Fehler: Die Y-Koordinate wurde nicht übernommen (die X-Koordinate offenbar schon)");
-        });
-    });
-    updateTPop_3.fail(function () {
-        window.apf.melde("Fehler: Die Koordinaten wurden nicht übernommen");
-    });
+    setLocationTPop(location, map, marker);
 };
 
 // GoogleMap: alle Marker löschen
@@ -1726,6 +1660,7 @@ function handler(event) {
 
 })(jQuery);
 
+// offenbar nicht benutzt
 window.apf.getInternetExplorerVersion = function () {
     'use strict';
 // Returns the version of Internet Explorer or a -1

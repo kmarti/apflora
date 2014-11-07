@@ -2,8 +2,9 @@
 /*global Google*/
 'use strict';
 
-var $ = require('jquery'),
-    _ = require('underscore');
+var $      = require('jquery'),
+    _      = require('underscore'),
+    google = require('google');
 
 var returnFunction = function (beob_liste, tpop_liste) {
     var anz_beob,

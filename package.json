@@ -11,7 +11,8 @@
     "jquery.jstree": "global:$.jstree",
     "Uri": "global:Uri",
     "ol": "global:ol",
-    "ga": "global:ga"
+    "ga": "global:ga",
+    "google": "global:google"
   },
   "dependencies": {
     "async": "^0.9.0",
