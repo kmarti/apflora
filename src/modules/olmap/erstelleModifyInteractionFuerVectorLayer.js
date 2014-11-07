@@ -6,6 +6,7 @@ var $  = require('jquery'),
     ol = require('ol');
 
 var returnFunction = function (vectorlayer) {
+    var frageNameFuerEbene = require('./frageNameFuerEbene');
     var defaultStyle = {
             'Point': [new ol.style.Style({
                 image: new ol.style.Circle({
@@ -76,7 +77,7 @@ var returnFunction = function (vectorlayer) {
         });
         window.apf.olmap.map.addLayer(vectorlayer);
         // umbenennen, dann ModifyInteraction erstellen
-        window.apf.olmap.frageNameFürEbene(vectorlayer);
+        frageNameFuerEbene(vectorlayer);
         return;
     }
 

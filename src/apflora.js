@@ -1945,6 +1945,7 @@ window.apf.olmap.addFullScreenControl = function () {
 window.apf.olmap.addDragAndDropGeofiles = function () {
     'use strict';
     // drag and drop geo-files
+    var frageNameFuerEbene = require('./modules/olmap/frageNameFuerEbene');
     var drag_and_drop_defaultStyle = {
         'Point': [new ol.style.Style({
             image: new ol.style.Circle({
@@ -2038,61 +2039,13 @@ window.apf.olmap.addDragAndDropGeofiles = function () {
         view.fitExtent(vectorSource.getExtent(), /** @type {ol.Size} */ (window.apf.olmap.map.getSize()));
         // layertree aktualisieren
         initiiereLayertree('Eigene Ebenen');
-        window.apf.olmap.frageNameFürEbene(drag_and_drop_layer);
+        window.apf.olmap.frageNameFuerEbene(drag_and_drop_layer);
     });
 };
 
+// wird in index.html benutzt
 window.apf.olmap.frageNameFürEbene = function (eigene_ebene) {
-    'use strict';
-    var name_erfragt = $.Deferred(),
-        $eigene_ebene_name = $('#eigene_ebene_name'),
-        $eigene_ebene_name_container = $('#eigene_ebene_name_container');
-    // eigene Ebene global speichern, damit der eventhandler darauf zugreifen kann
-    window.apf.olmap.eigene_ebene = eigene_ebene;
-    $eigene_ebene_name_container
-        .dialog({
-            title: 'Ebene taufen',
-            modal: true,
-            position: {
-                my: 'center',
-                at: 'center',
-                of: $('#ga_karten_div')
-            },
-            buttons: [
-                {
-                    text: "speichern",
-                    click: function () {
-                        // umbenennen
-                        window.apf.olmap.nenneEbeneUm(eigene_ebene, $eigene_ebene_name.val());
-                        // Namen zurücksetzen
-                        $eigene_ebene_name.val('');
-                        $(this).dialog( "close" );
-                        name_erfragt.resolve();
-                    }
-                },
-                {
-                    text: "abbrechen",
-                    click: function () {
-                        $(this).dialog( "close" );
-                    }
-                }
-            ]
-        })
-        .dialog('open');
-    $eigene_ebene_name.on('keyup', function (event) {
-        if (event.which == 13 && window.apf.olmap.eigene_ebene) {
-            // enter pressed
-            // umbenennen
-            window.apf.olmap.nenneEbeneUm(window.apf.olmap.eigene_ebene, event.target.value);
-            // Namen zurücksetzen
-            $eigene_ebene_name.val('');
-            $('#eigene_ebene_name_container').dialog( "close" );
-            $('#GeoAdminKarte').off('keyup', '#eigene_ebene_name');
-            delete window.apf.olmap.eigene_ebene;
-            name_erfragt.resolve();
-        }
-    });
-    return name_erfragt.promise();
+    return require('./modules/olmap/frageNameFuerEbene')(eigene_ebene);
 };
 
 window.apf.olmap.nenneEbeneUm = function (layer, title) {
@@ -2104,7 +2057,7 @@ window.apf.olmap.nenneEbeneUm = function (layer, title) {
     window.apf.olmap.aktualisiereEbeneInLocalStorage(layer);
 };
 
-
+// wird in index.html benutzt
 window.apf.olmap.initiiereLayertree = function (active_kategorie) {
     require('./modules/olmap/initiiereLayertree')(active_kategorie);
 };
