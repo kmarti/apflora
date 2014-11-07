@@ -19,6 +19,7 @@ return gulp.task('watch', function () {
             'src/modules/*',
             'src/modules/gmap/*',
             'src/modules/olmap/*',
+            'src/modules/jstree/*',
             'index.html',
             'server.js'
         ],

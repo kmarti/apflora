@@ -7,16 +7,56 @@ var $  = require('jquery'),
     ga = require('ga');
 
 var returnFunction = function () {
+    var bing_styles_object,
+        bing_styles,
+        bing_layers,
+        ch_ortholuftbild_layer,
+        ch_lk_grau_layer,
+        ch_lk_farbe_layer,
+        ch_siegriedkarte_layer,
+        ch_gemeinden_layer,
+        ch_kantone_layer,
+        ch_parzellen_layer,
+        ch_am_layer,
+        ch_am_wander_layer,
+        ch_auen_layer,
+        ch_fm_layer,
+        ch_hm_layer,
+        ch_tww_layer,
+        ch_vogelreservate_layer,
+        detailpläne_layer_source,
+        detailpläne_layer,
+        zh_av_layer,
+        zh_kartierungen_layer_source,
+        load_zh_kartierungen_layer_source,
+        zh_kartierungen_layer,
+        zh_svo_farbig_layer,
+        zh_svo_grau_layer,
+        zh_lichte_wälder_layer,
+        zh_waldkartierung_layer,
+        zh_gemeinden_layer,
+        zh_ortholuftbild_layer_1,
+        zh_ortholuftbild_layer,
+        zh_üp_layer,
+        zh_basiskarten_layer,
+        zh_höhenmodell_layer,
+        layers_prov,
+        layers,
+        defaultStyle = require('./defaultStyle'),
+        styleFunction,
+        eigene_ebenen,
+        eigene_ebenen_layers;
+
     // bing-maps wäre schön
     // ol3 can't reproject raster tiles yet though
     // daher werden die Layer noch nicht angezeigt
-    var bing_styles_object = {
-            'Aerial': 'Bing Luftbild',
-            'AerialWithLabels': 'Bing Luftbild beschriftet',
-            'Road': 'Bing Strassenkarte'
-        },
-        bing_styles = _.keys(bing_styles_object),
-        bing_layers = [];
+    bing_styles_object = {
+        'Aerial': 'Bing Luftbild',
+        'AerialWithLabels': 'Bing Luftbild beschriftet',
+        'Road': 'Bing Strassenkarte'
+    };
+    bing_styles = _.keys(bing_styles_object);
+    bing_layers = [];
 
     _.each(bing_styles, function (bing_style) {
         bing_layers.push(new ol.layer.Tile({
@@ -34,79 +74,79 @@ var returnFunction = function () {
         }));
     });
 
-    var ch_ortholuftbild_layer = ga.layer.create('ch.swisstopo.swissimage');
+    ch_ortholuftbild_layer = ga.layer.create('ch.swisstopo.swissimage');
     ch_ortholuftbild_layer.set('title', 'Luftbild CH');
     ch_ortholuftbild_layer.set('visible', false);
     ch_ortholuftbild_layer.set('kategorie', 'Hintergrund');
 
-    var ch_lk_grau_layer = ga.layer.create('ch.swisstopo.pixelkarte-grau');
+    ch_lk_grau_layer = ga.layer.create('ch.swisstopo.pixelkarte-grau');
     ch_lk_grau_layer.set('title', 'Landeskarten CH grau');
     ch_lk_grau_layer.set('visible', false);
     ch_lk_grau_layer.set('kategorie', 'Hintergrund');
 
-    var ch_lk_farbe_layer = ga.layer.create('ch.swisstopo.pixelkarte-farbe');
+    ch_lk_farbe_layer = ga.layer.create('ch.swisstopo.pixelkarte-farbe');
     ch_lk_farbe_layer.set('title', 'Landeskarten CH farbig');
     ch_lk_farbe_layer.set('visible', true);
     ch_lk_farbe_layer.set('kategorie', 'Hintergrund');
 
-    var ch_siegriedkarte_layer = ga.layer.create('ch.swisstopo.hiks-siegfried');
+    ch_siegriedkarte_layer = ga.layer.create('ch.swisstopo.hiks-siegfried');
     ch_siegriedkarte_layer.set('title', 'Siegfriedkarte 1881');
     ch_siegriedkarte_layer.set('visible', false);
     ch_siegriedkarte_layer.set('kategorie', 'Hintergrund');
 
-    var ch_gemeinden_layer = ga.layer.create('ch.swisstopo-vd.geometa-gemeinde');
+    ch_gemeinden_layer = ga.layer.create('ch.swisstopo-vd.geometa-gemeinde');
     ch_gemeinden_layer.set('title', 'Gemeinden');
     ch_gemeinden_layer.set('visible', false);
     ch_gemeinden_layer.set('kategorie', 'CH Sachinformationen');
 
-    var ch_kantone_layer = ga.layer.create('ch.swisstopo.swissboundaries3d-kanton-flaeche.fill');
+    ch_kantone_layer = ga.layer.create('ch.swisstopo.swissboundaries3d-kanton-flaeche.fill');
     ch_kantone_layer.set('title', 'Kantone');
     ch_kantone_layer.set('visible', false);
     ch_kantone_layer.set('crossOrigin', null);
     ch_kantone_layer.set('kategorie', 'CH Sachinformationen');
 
-    var ch_parzellen_layer = ga.layer.create('ch.kantone.cadastralwebmap-farbe');
+    ch_parzellen_layer = ga.layer.create('ch.kantone.cadastralwebmap-farbe');
     ch_parzellen_layer.set('title', 'Parzellen');
     ch_parzellen_layer.set('visible', false);
     ch_kantone_layer.set('crossOrigin', null);
     ch_parzellen_layer.set('kategorie', 'CH Sachinformationen');
 
-    var ch_am_layer = ga.layer.create('ch.bafu.bundesinventare-amphibien');
+    ch_am_layer = ga.layer.create('ch.bafu.bundesinventare-amphibien');
     ch_am_layer.set('title', 'Amphibien');
     ch_am_layer.set('visible', false);
     ch_am_layer.set('kategorie', 'CH Biotopinventare');
 
-    var ch_am_wander_layer = ga.layer.create('ch.bafu.bundesinventare-amphibien_wanderobjekte');
+    ch_am_wander_layer = ga.layer.create('ch.bafu.bundesinventare-amphibien_wanderobjekte');
     ch_am_wander_layer.set('title', 'Amphibien Wanderobjekte');
     ch_am_wander_layer.set('visible', false);
     ch_am_wander_layer.set('kategorie', 'CH Biotopinventare');
 
-    var ch_auen_layer = ga.layer.create('ch.bafu.bundesinventare-auen');
+    ch_auen_layer = ga.layer.create('ch.bafu.bundesinventare-auen');
     ch_auen_layer.set('title', 'Auen');
     ch_auen_layer.set('visible', false);
     ch_auen_layer.set('kategorie', 'CH Biotopinventare');
 
-    var ch_fm_layer = ga.layer.create('ch.bafu.bundesinventare-flachmoore');
+    ch_fm_layer = ga.layer.create('ch.bafu.bundesinventare-flachmoore');
     ch_fm_layer.set('title', 'Flachmoore');
     ch_fm_layer.set('visible', false);
     ch_fm_layer.set('kategorie', 'CH Biotopinventare');
 
-    var ch_hm_layer = ga.layer.create('ch.bafu.bundesinventare-hochmoore');
+    ch_hm_layer = ga.layer.create('ch.bafu.bundesinventare-hochmoore');
     ch_hm_layer.set('title', 'Hochchmoore');
     ch_hm_layer.set('visible', false);
     ch_hm_layer.set('kategorie', 'CH Biotopinventare');
 
-    var ch_tww_layer = ga.layer.create('ch.bafu.bundesinventare-trockenwiesen_trockenweiden');
+    ch_tww_layer = ga.layer.create('ch.bafu.bundesinventare-trockenwiesen_trockenweiden');
     ch_tww_layer.set('title', 'Trockenwiesen und -weiden');
     ch_tww_layer.set('visible', false);
     ch_tww_layer.set('kategorie', 'CH Biotopinventare');
 
-    var ch_vogelreservate_layer = ga.layer.create('ch.bafu.bundesinventare-vogelreservate');
+    ch_vogelreservate_layer = ga.layer.create('ch.bafu.bundesinventare-vogelreservate');
     ch_vogelreservate_layer.set('title', 'Vogelreservate');
     ch_vogelreservate_layer.set('visible', false);
     ch_vogelreservate_layer.set('kategorie', 'CH Biotopinventare');
 
-    var detailpläne_layer_source = new ol.source.GeoJSON({
+    detailpläne_layer_source = new ol.source.GeoJSON({
         url: 'geojson/detailplaene.geojson'/*,
          myTyp: 'Detailplan'*/    // funktioniert nicht
     });
@@ -115,7 +155,7 @@ var returnFunction = function () {
      feature.setValues('myTyp', 'Detailplan');
      });*/
 
-    var detailpläne_layer = new ol.layer.Vector({
+    detailpläne_layer = new ol.layer.Vector({
         title: 'Detailpläne',
         opacity: 1,
         visible: false,
@@ -126,7 +166,7 @@ var returnFunction = function () {
     });
 
     // ausgeschaltet, da es nicht funktioniert (authorization required)
-    var zh_av_layer = new ol.layer.Tile({
+    zh_av_layer = new ol.layer.Tile({
         title: 'Amtliche Vermessung',
         visible: false,
         kategorie: 'ZH Sachinformationen',
@@ -141,7 +181,7 @@ var returnFunction = function () {
     });
 
     // OL3 hat noch Probleme und bereinigt die Methoden für WFS - zuwarten
-    var zh_kartierungen_layer_source = new ol.source.ServerVector({
+    zh_kartierungen_layer_source = new ol.source.ServerVector({
         //format: new ol.format.GeoJSON(),    // holt nicht mal die Daten
         format: new ol.format.WFS({    // holt die Daten - sollte aber bald die Attrribute nicht mehr benötigen
             featureNS: '//maps.zh.ch',
@@ -170,11 +210,11 @@ var returnFunction = function () {
         projection: 'EPSG:21781'
     });
 
-    var load_zh_kartierungen_layer_source = function (response) {
+    load_zh_kartierungen_layer_source = function (response) {
           zh_kartierungen_layer_source.addFeatures(zh_kartierungen_layer_source.readFeatures(response));    // funktioniert nicht!
     };
 
-    var zh_kartierungen_layer = new ol.layer.Vector({
+    zh_kartierungen_layer = new ol.layer.Vector({
         title: 'Lebensraum-Kartierungen',
         opacity: 0.7,
         visible: false,
@@ -188,7 +228,7 @@ var returnFunction = function () {
         })
     });
 
-    var zh_svo_farbig_layer = new ol.layer.Tile({
+    zh_svo_farbig_layer = new ol.layer.Tile({
         title: 'SVO farbig',
         opacity: 0.7,
         visible: false,
@@ -204,7 +244,7 @@ var returnFunction = function () {
         })
     });
 
-    var zh_svo_grau_layer = new ol.layer.Tile({
+    zh_svo_grau_layer = new ol.layer.Tile({
         title: 'SVO schwarz/weiss',
         visible: false,
         kategorie: 'ZH Sachinformationen',
@@ -220,7 +260,7 @@ var returnFunction = function () {
         })
     });
 
-    var zh_lichte_wälder_layer = new ol.layer.Tile({
+    zh_lichte_wälder_layer = new ol.layer.Tile({
         title: 'Wälder: lichte',
         visible: false,
         kategorie: 'ZH Sachinformationen',
@@ -237,7 +277,7 @@ var returnFunction = function () {
     });
 
     // nicht eingeschaltet, da ohne Legende wenig brauchbar
-    var zh_waldkartierung_layer = new ol.layer.Tile({
+    zh_waldkartierung_layer = new ol.layer.Tile({
         title: 'Wälder: Vegetation',
         visible: false,
         kategorie: 'ZH Sachinformationen',
@@ -254,7 +294,7 @@ var returnFunction = function () {
     });
 
     // nicht im Gebrauch
-    var zh_gemeinden_layer = new ol.layer.Tile({
+    zh_gemeinden_layer = new ol.layer.Tile({
         title: 'Kanton',
         visible: false,
         kategorie: 'ZH Sachinformationen',
@@ -269,7 +309,7 @@ var returnFunction = function () {
     });
 
     // error 401 (Authorization required)
-    var zh_ortholuftbild_layer_1 = new ol.layer.Tile({
+    zh_ortholuftbild_layer_1 = new ol.layer.Tile({
         title: 'Luftbild',
         visible: false,
         kategorie: 'Hintergrund',
@@ -284,7 +324,7 @@ var returnFunction = function () {
     });
 
     // error 401 (Authorization required)
-    var zh_ortholuftbild_layer = new ol.layer.Tile({
+    zh_ortholuftbild_layer = new ol.layer.Tile({
         title: 'Luftbild ZH',
         visible: false,
         kategorie: 'Hintergrund',
@@ -298,7 +338,7 @@ var returnFunction = function () {
         })
     });
 
-    var zh_üp_layer = new ol.layer.Tile({
+    zh_üp_layer = new ol.layer.Tile({
         title: 'Übersichtsplan ZH',
         visible: false,
         kategorie: 'Hintergrund',
@@ -312,7 +352,7 @@ var returnFunction = function () {
         })
     });
 
-    var zh_basiskarten_layer = new ol.layer.Tile({
+    zh_basiskarten_layer = new ol.layer.Tile({
         title: 'Landeskarten ZH',
         visible: false,
         kategorie: 'Hintergrund',
@@ -326,7 +366,7 @@ var returnFunction = function () {
         })
     });
 
-    var zh_höhenmodell_layer = new ol.layer.Tile({
+    zh_höhenmodell_layer = new ol.layer.Tile({
         title: 'Höhenmodell ZH',
         visible: false,
         kategorie: 'Hintergrund',
@@ -341,7 +381,7 @@ var returnFunction = function () {
     });
 
     // Zunächst alle Layer definieren
-    var layers_prov = [
+    layers_prov = [
         zh_höhenmodell_layer,
         zh_ortholuftbild_layer,
         ch_ortholuftbild_layer,
@@ -373,69 +413,13 @@ var returnFunction = function () {
     // ol3 can't reproject raster tiles yet though
     // daher werden die Layer noch nicht angezeigt
     //var layers = layers_prov.concat(bing_layers);
-    var layers = layers_prov;
+    layers = layers_prov;
 
     // prüfen, ob in localStorage eigene Layer existieren
     // ausgeschaltet, weil die LayerObjekte von OL3 rekursiv sind und nicht für die localStorage stringified werden können
     if (localStorage.olmap_eigene_ebenen) {
         // drag and drop geo-files
-        var defaultStyle = {
-            'Point': [new ol.style.Style({
-                image: new ol.style.Circle({
-                    fill: new ol.style.Fill({
-                        color: 'rgba(255,255,0,0.5)'
-                    }),
-                    radius: 5,
-                    stroke: new ol.style.Stroke({
-                        color: '#ff0',
-                        width: 1
-                    })
-                })
-            })],
-            'LineString': [new ol.style.Style({
-                stroke: new ol.style.Stroke({
-                    color: '#f00',
-                    width: 3
-                })
-            })],
-            'Polygon': [new ol.style.Style({
-                fill: new ol.style.Fill({
-                    color: 'rgba(0,255,255,0.5)'
-                }),
-                stroke: new ol.style.Stroke({
-                    color: '#0ff',
-                    width: 1
-                })
-            })],
-            'MultiPoint': [new ol.style.Style({
-                image: new ol.style.Circle({
-                    fill: new ol.style.Fill({
-                        color: 'rgba(255,0,255,0.5)'
-                    }),
-                    radius: 5,
-                    stroke: new ol.style.Stroke({
-                        color: '#f0f',
-                        width: 1
-                    })
-                })
-            })],
-            'MultiLineString': [new ol.style.Style({
-                stroke: new ol.style.Stroke({
-                    color: '#0f0',
-                    width: 3
-                })
-            })],
-            'MultiPolygon': [new ol.style.Style({
-                fill: new ol.style.Fill({
-                    color: 'rgba(0,0,255,0.5)'
-                }),
-                stroke: new ol.style.Stroke({
-                    color: '#00f',
-                    width: 1
-                })
-            })]
-        };
-        var styleFunction = function (feature, resolution) {
+        styleFunction = function (feature, resolution) {
             var featureStyleFunction = feature.getStyleFunction();
             if (featureStyleFunction) {
                 return featureStyleFunction.call(feature, resolution);
@@ -443,8 +427,8 @@ var returnFunction = function () {
             return defaultStyle[feature.getGeometry().getType()];
         };
         // diese hinzufügen
-        var eigene_ebenen = JSON.parse(localStorage.olmap_eigene_ebenen),
-            eigene_ebenen_layers = [];
+        eigene_ebenen = JSON.parse(localStorage.olmap_eigene_ebenen);
+        eigene_ebenen_layers = [];
         _.each(eigene_ebenen, function (ebene) {
             var format = new ol.format.GeoJSON(),
                 features = format.readFeatures(ebene);

@@ -6,64 +6,11 @@ var $  = require('jquery'),
     ol = require('ol');
 
 var returnFunction = function (vectorlayer) {
-    var frageNameFuerEbene = require('./frageNameFuerEbene');
-    var defaultStyle = {
-            'Point': [new ol.style.Style({
-                image: new ol.style.Circle({
-                    fill: new ol.style.Fill({
-                        color: 'rgba(255,255,0,0.5)'
-                    }),
-                    radius: 5,
-                    stroke: new ol.style.Stroke({
-                        color: '#ff0',
-                        width: 1
-                    })
-                })
-            })],
-            'LineString': [new ol.style.Style({
-                stroke: new ol.style.Stroke({
-                    color: '#f00',
-                    width: 3
-                })
-            })],
-            'Polygon': [new ol.style.Style({
-                fill: new ol.style.Fill({
-                    color: 'rgba(0,255,255,0.5)'
-                }),
-                stroke: new ol.style.Stroke({
-                    color: '#0ff',
-                    width: 1
-                })
-            })],
-            'MultiPoint': [new ol.style.Style({
-                image: new ol.style.Circle({
-                    fill: new ol.style.Fill({
-                        color: 'rgba(255,0,255,0.5)'
-                    }),
-                    radius: 5,
-                    stroke: new ol.style.Stroke({
-                        color: '#f0f',
-                        width: 1
-                    })
-                })
-            })],
-            'MultiLineString': [new ol.style.Style({
-                stroke: new ol.style.Stroke({
-                    color: '#0f0',
-                    width: 3
-                })
-            })],
-            'MultiPolygon': [new ol.style.Style({
-                fill: new ol.style.Fill({
-                    color: 'rgba(0,0,255,0.5)'
-                }),
-                stroke: new ol.style.Stroke({
-                    color: '#00f',
-                    width: 1
-                })
-            })]
-        },
-        entferneModifyInteractionFuerVectorLayer = require('./entferneModifyInteractionFuerVectorLayer');
+    var frageNameFuerEbene                       = require('./frageNameFuerEbene'),
+        entferneModifyInteractionFuerVectorLayer = require('./entferneModifyInteractionFuerVectorLayer'),
+        defaultStyle                             = require('./defaultStyle'),
+        layerTitle,
+        $geom_type_select;
 
     if (vectorlayer === 'neuer_layer') {
         vectorlayer = new ol.layer.Vector({
@@ -81,8 +28,8 @@ var returnFunction = function (vectorlayer) {
         return;
     }
 
-    var layer_title = vectorlayer.get('title'),
-        $geom_type_select = $('#modify_layer_geom_type_' + layer_title.replace(" ", "_"));
+    layerTitle = vectorlayer.get('title');
+    $geom_type_select = $('#modify_layer_geom_type_' + layerTitle.replace(" ", "_"));
 
     // darin werden die ids von selectierten features gespeichert
     window.apf.olmap.modified_features = [];
@@ -94,7 +41,7 @@ var returnFunction = function (vectorlayer) {
     window.apf.olmap.select_interaction_für_vectorlayer = new ol.interaction.Select({
         layers: function (layer) {
             // selectable sind nur features aus dem gewählten layer
-            return layer.get('title') === layer_title;
+            return layer.get('title') === layerTitle;
         }
     });
 
@@ -165,8 +112,7 @@ var returnFunction = function (vectorlayer) {
         // that new vertices can be drawn at the same position
         // of existing vertices
         deleteCondition: function (event) {
-            return ol.events.condition.shiftKeyOnly(event) &&
-                ol.events.condition.singleClick(event);
+            return ol.events.condition.shiftKeyOnly(event) && ol.events.condition.singleClick(event);
         }
     });
 
