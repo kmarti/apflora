@@ -17,7 +17,7 @@ var returnFunction = function () {
         }
         return drag_and_drop_defaultStyle[feature.getGeometry().getType()];
     };
-    
+
     drag_and_drop_interaction = new ol.interaction.DragAndDrop({
         formatConstructors: [
             ol.format.GPX,

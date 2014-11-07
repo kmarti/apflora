@@ -9,6 +9,7 @@ var returnFunction = function (vectorlayer) {
     var frageNameFuerEbene                       = require('./frageNameFuerEbene'),
         entferneModifyInteractionFuerVectorLayer = require('./entferneModifyInteractionFuerVectorLayer'),
         defaultStyle                             = require('./defaultStyle'),
+        aktualisiereEbeneInLocalStorage          = require('./aktualisiereEbeneInLocalStorage'),
         layerTitle,
         $geom_type_select;
 
@@ -64,7 +65,7 @@ var returnFunction = function (vectorlayer) {
             // id in modified_features ergänzen
             window.apf.olmap.modified_features = _.union(window.apf.olmap.modified_features, [feature_id]);
             // speichern
-            window.apf.olmap.aktualisiereEbeneInLocalStorage(vectorlayer);
+            aktualisiereEbeneInLocalStorage(vectorlayer);
         });
 
         // listen to pressing of delete key, then delete selected features
@@ -81,7 +82,7 @@ var returnFunction = function (vectorlayer) {
                         if (source_feature_id === selected_feature_id) {
                             vectorlayer.getSource().removeFeature(source_feature);
                             // speichern
-                            window.apf.olmap.aktualisiereEbeneInLocalStorage(vectorlayer);
+                            aktualisiereEbeneInLocalStorage(vectorlayer);
                         }
                     });
                 });
@@ -99,7 +100,7 @@ var returnFunction = function (vectorlayer) {
             feature_index = window.apf.olmap.modified_features.indexOf(feature_id);
         if (feature_index > -1) {
             // speichern
-            window.apf.olmap.aktualisiereEbeneInLocalStorage(vectorlayer);
+            aktualisiereEbeneInLocalStorage(vectorlayer);
             // erst wieder speichern, wenn neu verändert wurde
             window.apf.olmap.modified_features.splice(feature_index, 1);
         }
@@ -136,7 +137,7 @@ var returnFunction = function (vectorlayer) {
                 // id in modified_features ergänzen
                 window.apf.olmap.modified_features = _.union(window.apf.olmap.modified_features, [id]);
                 // speichern
-                window.apf.olmap.aktualisiereEbeneInLocalStorage(vectorlayer);
+                aktualisiereEbeneInLocalStorage(vectorlayer);
             });
         }
     }

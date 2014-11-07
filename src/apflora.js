@@ -828,7 +828,8 @@ window.apf.olmap.getLayersWithTitle = function () {
 window.apf.olmap.entferneLayerNachName = function (name) {
     var layers_array = window.apf.olmap.getLayersWithTitle(),
         layername,
-        layer_kategorie;
+        layer_kategorie,
+        aktualisiereEbeneInLocalStorage = require('./modules/olmap/aktualisiereEbeneInLocalStorage');
 
     _.each(layers_array, function (layer) {
         layername = layer.get('title');
@@ -837,8 +838,8 @@ window.apf.olmap.entferneLayerNachName = function (name) {
             window.apf.olmap.map.removeLayer(layer);
             if (layer_kategorie === 'Eigene Ebenen') {
                 // ebene aus localStorage entfernen
-                console.log('entferneLayerNachName meldet: lasse entfernen layer mit title ' + layername);
-                window.apf.olmap.aktualisiereEbeneInLocalStorage(layer, true);
+                //console.log('entferneLayerNachName meldet: lasse entfernen layer mit title ' + layername);
+                aktualisiereEbeneInLocalStorage(layer, true);
             }
         }
     });
@@ -1739,50 +1740,6 @@ window.apf.getInternetExplorerVersion = function () {
   return rv;
 };
 
-// aktualisiert eine Kopie eigener Ebenen in localStorage
-// remove: wenn vorhanden, wird die Ebene entfernt
-// sonst wird die enthaltene Version durch die aktuelle ersetzt
-// geschrieben wird GeoJSON. Grund: Die Layerobjekte sind rekursiv und können daher nicht stringified werden
-window.apf.olmap.aktualisiereEbeneInLocalStorage = function (layer, remove) {
-    'use strict';
-    // mit der guid kontrollieren, ob die Ebene schon existiert
-    var guid = layer.get('guid'),
-        index_to_remove,
-        eigene_ebenen = [];
-
-    if (localStorage.olmap_eigene_ebenen) {
-        eigene_ebenen = JSON.parse(localStorage.olmap_eigene_ebenen);
-    }
-
-    if (guid) {
-        // den layer entfernen
-        // wenn er nicht entfernt werden soll, wird er im nächsten Schritt mit den aktuellen Daten ersetzt
-        eigene_ebenen = _.reject(eigene_ebenen, function (ebene) {
-            return ebene.guid && ebene.guid === guid;
-        });
-        // wenn die Ebene nicht entfernt werden sollte, mit den aktuellen Daten ergänzen
-        if (!remove) {
-            var format = new ol.format.GeoJSON(),
-                data_parsed = format.writeFeatures(layer.getSource().getFeatures());
-            // alle zugefügten Eigenschaften anfügen
-            data_parsed.title = layer.get('title');
-            data_parsed.guid = guid;
-            data_parsed.kategorie = layer.get('kategorie');
-            eigene_ebenen.push(data_parsed);
-        }
-        try {
-            // TODO: wenn rueteren.kml importiert wurde erscheint Fehler 'Converting circular structure to JSON'
-            localStorage.olmap_eigene_ebenen = JSON.stringify(eigene_ebenen);
-        }
-        catch (e) {
-            console.log('Ebene konnte nicht in localStorage gespeichert werden. Fehlermeldung: ' + e);
-            $('#eigene_layer_meldung_' + layer.get('title').replace(" ", "_"))
-                .html('Ebene kann nicht im Cache des Browsers gespeichert werden')
-                .show();
-        }
-    }
-};
-
 // deaktiviert Messen und Auswählen
 window.apf.olmap.deactivateMenuItems = function () {
     'use strict';
@@ -1949,11 +1906,12 @@ window.apf.olmap.frageNameFuerEbene = function (eigene_ebene) {
 
 window.apf.olmap.nenneEbeneUm = function (layer, title) {
     'use strict';
-    var initiiereLayertree = require('./modules/olmap/initiiereLayertree');
+    var initiiereLayertree              = require('./modules/olmap/initiiereLayertree'),
+        aktualisiereEbeneInLocalStorage = require('./modules/olmap/aktualisiereEbeneInLocalStorage');
     layer.set('title', title);
     initiiereLayertree('Eigene Ebenen');
     // layer in localStorage speichern
-    window.apf.olmap.aktualisiereEbeneInLocalStorage(layer);
+    aktualisiereEbeneInLocalStorage(layer);
 };
 
 // wird in index.html benutzt
