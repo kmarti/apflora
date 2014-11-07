@@ -14,8 +14,8 @@ var returnFunction = function (LatLng, map, marker, TPop) {
         title,
         X,
         Y,
-        ddInChY = require('./lib/ddInChY'),
-        ddInChX = require('./lib/ddInChX');
+        ddInChY = require('../../lib/ddInChY'),
+        ddInChX = require('../../lib/ddInChX');
 
     // nur aktualisieren, wenn Schreibrechte bestehen
     if (!window.apf.prüfeSchreibvoraussetzungen()) { return; }

@@ -1231,14 +1231,13 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_rot.png",
                 "action": function () {
-                    var getTPop_3 = $.ajax({
+                    var verorteTPop = require('../gmap/verorteTPop');
+                    $.ajax({
                         type: 'get',
                         url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
-                    });
-                    getTPop_3.done(function (data) {
-                        window.apf.gmap.verorteTPop(data[0]);
-                    });
-                    getTPop_3.fail(function () {
+                    }).done(function (data) {
+                        verorteTPop(data[0]);
+                    }).fail(function () {
                         window.apf.melde("Fehler: Keine Daten erhalten");
                     });
                 }
