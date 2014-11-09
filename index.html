@@ -200,28 +200,50 @@
                                 </div>
                             </td>
                             <td class="Datenfelder">
-                                <input type="radio" name="PopHerkunft" id="PopHerkunft1" class="speichern" formular="pop" value="1">
-                                <label for="PopHerkunft1">autochthon</label><br>
-                                <input type="radio" name="PopHerkunft" id="PopHerkunft6" class="speichern" formular="pop" value="6">
-                                <label for="PopHerkunft6">neu entdeckt, autochthon</label><br>
-                                <input type="radio" name="PopHerkunft" id="PopHerkunft9" class="speichern" formular="pop" value="9">
-                                <label for="PopHerkunft9">neu entdeckt, angesiedelt</label><br>
-                                <input type="radio" name="PopHerkunft" id="PopHerkunft8" class="speichern" formular="pop" value="8">
-                                <label for="PopHerkunft8">angesiedelt, vor Beginn AP</label><br>
-                                <input type="radio" name="PopHerkunft" id="PopHerkunft2" class="speichern" formular="pop" value="2">
-                                <label for="PopHerkunft2">angesiedelt, nach Beginn AP</label><br>
-                                <input type="radio" name="PopHerkunft" id="PopHerkunft1198167213" class="speichern" formular="pop" value="1198167213">
-                                <label for="PopHerkunft1198167213">nur angesät</label><br>
-                                <input type="radio" name="PopHerkunft" id="PopHerkunft4" class="speichern" formular="pop" value="4">
-                                <label for="PopHerkunft4">erloschen, zuvor autochthon</label><br>
-                                <input type="radio" name="PopHerkunft" id="PopHerkunft1200498803" class="speichern" formular="pop" value="1200498803">
-                                <label for="PopHerkunft1200498803">erloschen, vor AP angesiedelt</label><br>
-                                <input type="radio" name="PopHerkunft" id="PopHerkunft7" class="speichern" formular="pop" value="7">
-                                <label for="PopHerkunft7">erloschen, nach Beginn AP angesiedelt</label><br>
-                                <input type="radio" name="PopHerkunft" id="PopHerkunft10" class="speichern" formular="pop" value="10">
-                                <label for="PopHerkunft10"></label>überprüft, kein Vorkommen<br>
-                                <input type="radio" name="PopHerkunft" id="PopHerkunft11" class="speichern" formular="pop" value="11">
-                                <label for="PopHerkunft11">potenzielles Biotop</label>
+                                <div class="herkunft">
+                                    <div class="herkunftspalte">
+                                        <h4>ursprünglich</h4>
+                                        <div>
+                                            <input type="radio" name="PopHerkunft" id="PopHerkunft100" class="speichern" formular="pop" value="100">
+                                            <label for="PopHerkunft100">aktuell</label>
+                                        </div>
+                                        <div>
+                                            <input type="radio" name="PopHerkunft" id="PopHerkunft101" class="speichern" formular="pop" value="101">
+                                            <label for="PopHerkunft101">erloschen</label>
+                                        </div>
+                                    </div>
+                                    <div class="herkunftspalte">
+                                        <h4>angesiedelt</h4>
+                                        <div>
+                                            <input type="radio" name="PopHerkunft" id="PopHerkunft200" class="speichern" formular="pop" value="200">
+                                            <label for="PopHerkunft200">aktuell</label>
+                                        </div>
+                                        <div>
+                                            <input type="radio" name="PopHerkunft" id="PopHerkunft201" class="speichern" formular="pop" value="201">
+                                            <label for="PopHerkunft201">Ansaatversuch</label>
+                                        </div>
+                                        <div>
+                                            <input type="radio" name="PopHerkunft" id="PopHerkunft211" class="speichern" formular="pop" value="211">
+                                            <label for="PopHerkunft211">erloschen /<br>nicht etabliert</label>
+                                        </div>
+                                    </div>
+                                    <div class="herkunftspalte">
+                                        <h4>potenziell</h4>
+                                        <div>
+                                            <input type="radio" name="PopHerkunft" id="PopHerkunft300" class="speichern" formular="pop" value="300">
+                                            <label for="PopHerkunft300">potenzieller Wuchs-/<br>Ansiedlungsort</label>
+                                        </div>
+                                    </div>
+                                    <div class="herkunftspalte">
+                                        <h4>bekannt seit</h4>
+                                        <div>
+                                            <input id="PopBekanntSeit" name="PopBekanntSeit" class="speichern apf-with-tooltip erforderlich" formular="pop" type="number">
+                                            <div class="tooltiptext">
+                                            <p>Dieses Feld möglichst immer ausfüllen</p>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                         <tr class="fieldcontain">
@@ -244,19 +266,6 @@
                             <td class="Datenfelder">
                                 <textarea name="PopHerkunftUnklarBegruendung" id="PopHerkunftUnklarBegruendung" class="speichern" formular="pop" placeholder="...für unklaren Status" maxlength="255"></textarea>
                                 <div id="PopHerkunftUnklarBegruendung_limit" class="limiter"></div>
-                            </td>
-                        </tr>
-                        <tr class="fieldcontain">
-                            <td class="label">
-                                <label id="PopBekanntSeit_label" for='PopBekanntSeit' class='apf-with-tooltip erforderlich'>
-                                    <span>Bekannt seit:</span>
-                                </label>
-                                <div class="tooltiptext">
-                                    <p>Dieses Feld möglichst immer ausfüllen</p>
-                                </div>
-                            </td>
-                            <td class="Datenfelder">
-                                <input id="PopBekanntSeit" name="PopBekanntSeit" class="speichern" formular="pop" type="number">
                             </td>
                         </tr>
                         <tr class="fieldcontain">
@@ -333,28 +342,50 @@
                                 </div>
                             </td>
                             <td class="Datenfelder">
-                                <input type="radio" name="TPopHerkunft" id="TPopHerkunft1" class="speichern" formular="tpop" value="1">
-                                <label for="TPopHerkunft1">autochthon</label><br>
-                                <input type="radio" name="TPopHerkunft" id="TPopHerkunft6" class="speichern" formular="tpop" value="6">
-                                <label for="TPopHerkunft6">neu entdeckt, autochthon</label><br>
-                                <input type="radio" name="TPopHerkunft" id="TPopHerkunft9" class="speichern" formular="tpop" value="9">
-                                <label for="TPopHerkunft9">neu entdeckt, angesiedelt</label><br>
-                                <input type="radio" name="TPopHerkunft" id="TPopHerkunft8" class="speichern" formular="tpop" value="8">
-                                <label for="TPopHerkunft8">angesiedelt, vor Beginn AP</label><br>
-                                <input type="radio" name="TPopHerkunft" id="TPopHerkunft2" class="speichern" formular="tpop" value="2">
-                                <label for="TPopHerkunft2">angesiedelt, nach Beginn AP</label><br>
-                                <input type="radio" name="TPopHerkunft" id="TPopHerkunft1198167213" class="speichern" formular="tpop" value="1198167213">
-                                <label for="TPopHerkunft1198167213">nur angesät</label><br>
-                                <input type="radio" name="TPopHerkunft" id="TPopHerkunft4" class="speichern" formular="tpop" value="4">
-                                <label for="TPopHerkunft4">erloschen, zuvor autochthon</label><br>
-                                <input type="radio" name="TPopHerkunft" id="TPopHerkunft1200498803" class="speichern" formular="tpop" value="1200498803">
-                                <label for="TPopHerkunft1200498803">erloschen, vor AP angesiedelt</label><br>
-                                <input type="radio" name="TPopHerkunft" id="TPopHerkunft7" class="speichern" formular="tpop" value="7">
-                                <label for="TPopHerkunft7">erloschen, nach Beginn AP angesiedelt</label><br>
-                                <input type="radio" name="TPopHerkunft" id="TPopHerkunft10" class="speichern" formular="tpop" value="10">
-                                <label for="TPopHerkunft10">überprüft, kein Vorkommen</label><br>
-                                <input type="radio" name="TPopHerkunft" id="TPopHerkunft11" class="speichern" formular="tpop" value="11">
-                                <label for="TPopHerkunft11">potenzielles Biotop</label>
+                                <div class="herkunft">
+                                    <div class="herkunftspalte">
+                                        <h4>ursprünglich</h4>
+                                        <div>
+                                            <input type="radio" name="TPopHerkunft" id="TPopHerkunft100" class="speichern" formular="tpop" value="100">
+                                            <label for="TPopHerkunft100">aktuell</label>
+                                        </div>
+                                        <div>
+                                            <input type="radio" name="TPopHerkunft" id="TPopHerkunft101" class="speichern" formular="tpop" value="101">
+                                            <label for="TPopHerkunft101">erloschen</label>
+                                        </div>
+                                    </div>
+                                    <div class="herkunftspalte">
+                                        <h4>angesiedelt</h4>
+                                        <div>
+                                            <input type="radio" name="TPopHerkunft" id="TPopHerkunft200" class="speichern" formular="tpop" value="200">
+                                            <label for="TPopHerkunft200">aktuell</label>
+                                        </div>
+                                        <div>
+                                            <input type="radio" name="TPopHerkunft" id="TPopHerkunft201" class="speichern" formular="tpop" value="201">
+                                            <label for="TPopHerkunft201">Ansaatversuch</label>
+                                        </div>
+                                        <div>
+                                            <input type="radio" name="TPopHerkunft" id="TPopHerkunft211" class="speichern" formular="tpop" value="211">
+                                            <label for="TPopHerkunft211">erloschen /<br>nicht etabliert</label>
+                                        </div>
+                                    </div>
+                                    <div class="herkunftspalte">
+                                        <h4>potenziell</h4>
+                                        <div>
+                                            <input type="radio" name="TPopHerkunft" id="TPopHerkunft300" class="speichern" formular="tpop" value="300">
+                                            <label for="TPopHerkunft300">potenzieller Wuchs-/<br>Ansiedlungsort</label>
+                                        </div>
+                                    </div>
+                                    <div class="herkunftspalte">
+                                        <h4>bekannt seit</h4>
+                                        <div>
+                                            <input id="TPopBekanntSeit" name="TPopBekanntSeit" class="speichern apf-with-tooltip erforderlich" formular="tpop" type="number">
+                                            <div class="tooltiptext">
+                                            <p>Dieses Feld möglichst immer ausfüllen</p>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                         <tr class="fieldcontain">
@@ -409,19 +440,6 @@
                                 <label for="TPopApBerichtRelevant4">nein (Status unklar)</label><br>
                                 <input type="radio" name="TPopApBerichtRelevant" id="TPopApBerichtRelevant5" class="speichern" formular="tpop" value="5">
                                 <label for="TPopApBerichtRelevant5">nein (kein Vorkommen)</label>
-                            </td>
-                        </tr>
-                        <tr class="fieldcontain">
-                            <td class="label">
-                                <label id="TPopBekanntSeit_label" for='TPopBekanntSeit' class='apf-with-tooltip erforderlich'>
-                                    <span>Bekannt seit:</span>
-                                </label>
-                                <div class="tooltiptext">
-                                    <p>Dieses Feld möglichst immer ausfüllen</p>
-                                </div>
-                            </td>
-                            <td class="Datenfelder">
-                                <input id="TPopBekanntSeit" name="TPopBekanntSeit" class="speichern" formular="tpop" type="number">
                             </td>
                         </tr>
                         <tr class='fieldcontain TPopGemeinde'>
