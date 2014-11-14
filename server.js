@@ -9,10 +9,19 @@ var _                                 = require('underscore'),
     json2xls                          = require('json2xls'),
     json2csv                          = require('json2csv'),
     Hapi                              = require('hapi'),
+    fs                                = require('fs'),
     server                            = new Hapi.Server(
         '0.0.0.0',
         4000,
-        { debug: { request: ['error'] } }
+        {
+            debug: {
+                request: ['error']
+            }/*,        ausgeschaltet, da es lokal nicht funktioniert
+            tls: {
+                key: fs.readFileSync('./ssl/ssl.key'),
+                cert: fs.readFileSync('./ssl/ssl.crt'),
+            }*/
+        }
     ),
     mysql                             = require('mysql'),
     config                            = require('./src/modules/configuration'),
@@ -30,8 +39,8 @@ var _                                 = require('underscore'),
     queryTpopMassnTypen               = require('./queries/tpopMassnTypen'),
     queryAp                           = require('./queries/ap'),
     queryApInsert                     = require('./queries/apInsert'),
-    queryFeldkontrZähleinheit         = require('./queries/feldkontrZaehleinheit'),
-    queryIdealbiotopÜbereinst         = require('./queries/idealbiotopUebereinst'),
+    queryFeldkontrZaehleinheit        = require('./queries/feldkontrZaehleinheit'),
+    queryIdealbiotopUebereinst        = require('./queries/idealbiotopUebereinst'),
     queryTabelleSelectApfloraNumber   = require('./queries/tabelleSelectApfloraNumber'),
     queryTabelleSelectApfloraString   = require('./queries/tabelleSelectApfloraString'),
     queryTabelleSelectBeobNumber      = require('./queries/tabelleSelectBeobNumber'),
@@ -57,7 +66,7 @@ var _                                 = require('underscore'),
     treeApziel                        = require('./queries/tree/apziel'),
     treePop                           = require('./queries/tree/pop'),
     queryBeobDistzutpopEvab           = require('./queries/beobDistzutpopEvab'),
-    queryBeobNächsteTpop              = require('./queries/beobNaechsteTpop'),
+    queryBeobNaechsteTpop             = require('./queries/beobNaechsteTpop'),
     queryBeobDistzutpopInfospezies    = require('./queries/beobDistzutpopInfospezies'),
     queryBeobKarte                    = require('./queries/beobKarte'),
     queryApKarte                      = require('./queries/apKarte'),
@@ -74,7 +83,9 @@ var _                                 = require('underscore'),
 connectionApflora.connect();
 
 server.start(function (err) {
-    if (err) throw err;
+    if (err) {
+        throw err;
+    }
     console.log('Server running at:', server.info.uri);
 });
 
@@ -287,13 +298,13 @@ server.route({
 server.route({
     method: 'GET',
     path: '/api/v1/feldkontrZaehleinheit',
-    handler: queryFeldkontrZähleinheit
+    handler: queryFeldkontrZaehleinheit
 });
 
 server.route({
     method: 'GET',
     path: '/api/v1/idealbiotopUebereinst',
-    handler: queryIdealbiotopÜbereinst
+    handler: queryIdealbiotopUebereinst
 });
 
 /**
@@ -353,7 +364,7 @@ server.route({
 server.route({
     method: 'GET',
     path: '/api/v1/beobNaechsteTpop/apId={apId}/X={X}/Y={Y}',
-    handler: queryBeobNächsteTpop
+    handler: queryBeobNaechsteTpop
 });
 
 server.route({
@@ -421,7 +432,9 @@ server.route({
                 data: data,
                 fields: fields
             }, function (err, csv) {
-                if (err) console.log(err);
+                if (err) {
+                    console.log(err);
+                }
                 reply(csv)
                     .header('Content-Type', 'text/x-csv; charset=utf-8')
                     .header('Content-disposition', 'attachment; filename=' + filename + '.csv')
@@ -440,10 +453,10 @@ server.route({
         var filename = decodeURIComponent(request.params.filename);
         exportView(request, function (data) {
             console.log('data: ', data);
-            var fields = _.keys(data[0]);
-            var xls = json2xls(data, {
-                fields: fields
-            });
+            var fields = _.keys(data[0]),
+                xls = json2xls(data, {
+                    fields: fields
+                });
             reply(xls)
                 //.type('application/octet-stream')
                 //.header('Content-Type', 'application/octet-stream')

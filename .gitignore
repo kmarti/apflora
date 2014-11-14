@@ -1,6 +1,7 @@
 /*.sublime-workspace
 /.ftppass
 node_modules/
+ssl/
 dist/
 .idea/
 npm-debug.log
