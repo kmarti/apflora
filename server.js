@@ -78,7 +78,9 @@ var _                                 = require('underscore'),
     queryTPopsKarte                   = require('./queries/tpopsKarte'),
     queryTPopKarteAlle                = require('./queries/tpopKarteAlle'),
     exportView                        = require('./queries/exportView'),
-    exportViewWhereIdIn               = require('./queries/exportViewWhereIdIn');
+    exportViewWhereIdIn               = require('./queries/exportViewWhereIdIn'),
+    getKmlForPop                      = require('./src/modules/getKmlForPop'),
+    getKmlForTpop                     = require('./src/modules/getKmlForTpop');
 
 connectionApflora.connect();
 
@@ -495,18 +497,18 @@ server.route({
     path: '/api/v1/exportView/kml/view={view}/filename={filename}',
     handler: function (request, reply) {
         var filename = decodeURIComponent(request.params.filename),
-            view = decodeURIComponent(request.params.view),
+            view     = decodeURIComponent(request.params.view),
             kml;
 
         exportView(request, function (data) {
             switch (view) {
             case 'vPopFuerKml':
             case 'vPopFuerKmlNamen':
-                kml = require('./src/modules/getKmlForPop') (data);
+                kml = getKmlForPop(data);
                 break;
             case 'vTPopFuerKml':
             case 'vTPopFuerKmlNamen':
-                kml = require('./src/modules/getKmlForTpop') (data);
+                kml = getKmlForTpop(data);
                 break;
             }
             if (kml) {
