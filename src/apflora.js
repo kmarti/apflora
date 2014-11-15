@@ -712,21 +712,22 @@ window.apf.beschrifte_ordner_beob_nicht_zuzuordnen = function (node) {
     $.jstree._reference(node).rename_node(node, anzTxt);
 };
 
-window.apf.tpopKopiertInPopOrdnerTpopEinfügen = function (aktiver_node) {
+window.apf.tpopKopiertInPopOrdnerTpopEinfügen = function (aktiverNode) {
     'use strict';
     var insertNeuenNodeEineHierarchiestufeTiefer = require('./modules/jstree/insertNeuenNodeEineHierarchiestufeTiefer'),
-        melde                                    = require('./modules/melde');
+        melde                                    = require('./modules/melde'),
+        erstelleIdAusDomAttributId               = require('./modules/erstelleIdAusDomAttributId');
 
     $.ajax({
         type: 'post',
-        url: 'api/v1/tpopInsertKopie/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpop_node_kopiert).attr("id")) + '/user=' + sessionStorage.User
+        url: 'api/v1/tpopInsertKopie/popId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopId=' + erstelleIdAusDomAttributId($(window.apf.tpop_node_kopiert).attr("id")) + '/user=' + sessionStorage.User
     }).done(function (id) {
         var strukturtyp = "tpop",
-            beschriftung = window.apf.tpop_objekt_kopiert.TPopFlurname;
-        if (window.apf.tpop_objekt_kopiert.TPopNr) {
-            beschriftung = window.apf.tpop_objekt_kopiert.TPopNr + ': ' + window.apf.tpop_objekt_kopiert.TPopFlurname
+            beschriftung = window.apf.tpopObjektKopiert.TPopFlurname;
+        if (window.apf.tpopObjektKopiert.TPopNr) {
+            beschriftung = window.apf.tpopObjektKopiert.TPopNr + ': ' + window.apf.tpopObjektKopiert.TPopFlurname
         }
-        insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, "", strukturtyp, id, beschriftung);
+        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, "", strukturtyp, id, beschriftung);
     }).fail(function () {
         melde("Fehler: Die Teilpopulation wurde nicht erstellt");
     });
@@ -753,7 +754,7 @@ window.apf.pruefeLesevoraussetzungen = function () {
     return true;
 };
 
-window.apf.prüfeSchreibvoraussetzungen = function () {
+window.apf.pruefeSchreibvoraussetzungen = function () {
     'use strict';
     var melde = require('./modules/melde');
 
@@ -1864,20 +1865,6 @@ window.apf.erstelleFelderFürBeob = function (data, beobtyp) {
     });
     html_beobfelder += "</table>";
     return beobtitel + html_beobfelder;
-};
-
-// in DOM-Objekten sind viele ID's der Name des DOM-Elements vorangestellt, damit die ID eindeutig ist
-// ACHTUNG auf die Reihenfolge der Ersatzbefehle. Sonst wird z.B. in 'tpopber' 'popber' ersetzt und es bleibt 't'
-window.apf.erstelleIdAusDomAttributId = function (domAttributId) {
-    'use strict';
-    if (!domAttributId) return null;
-    var returnWert = domAttributId.replace('ap_ordner_pop', '').replace('ap_ordner_apziel', '').replace('ap_ordner_erfkrit', '').replace('ap_ordner_jber', '').replace('ap_ordner_ber', '').replace('ap_ordner_beob_nicht_beurteilt', '').replace('ap_ordner_beob_nicht_zuzuordnen', '').replace('idealbiotop', '').replace('ap_ordner_assozarten', '').replace('tpop_ordner_massnber', '').replace('tpop_ordner_massn', '').replace('tpopmassnber', '').replace('pop_ordner_massnber', '').replace('popmassnber', '').replace('tpop_ordner_feldkontr', '').replace('tpop_ordner_freiwkontr', '').replace('tpopfreiwkontr', '').replace('tpop_ordner_tpopber', '').replace('tpopber', '').replace('pop_ordner_popber', '').replace('popber', '').replace('tpop_ordner_beob_zugeordnet', '').replace('beob', '').replace('ber', '');
-
-    if (domAttributId == returnWert && parseInt(returnWert) && parseInt(returnWert) != returnWert) {
-        console.log('window.apf.erstelleIdAusDomAttributId meldet: erhalten ' + domAttributId + ', zurückgegeben: ' + returnWert + '. Die Regel in der function muss wohl angepasst werden');
-    }
-
-    return returnWert;
 };
 
 

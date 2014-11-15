@@ -12,7 +12,9 @@ var returnFunction = function (aktiverNode, parentNode, strukturtyp, dsId, besch
         neueApzieleNode,
         initiiereFormularMitStrukturtyp = require('../initiiereFormularMitStrukturtyp'),
         erstelleUnterordnerVonTpop      = require('./erstelleUnterordnerVonTpop'),
-        erstelleUnterordnerVonPop       = require('./erstelleUnterordnerVonPop');
+        erstelleUnterordnerVonPop       = require('./erstelleUnterordnerVonPop'),
+        erstelleIdAusDomAttributId      = require('../erstelleIdAusDomAttributId');
+
     // id global verfügbar machen
     localStorage[strukturtyp + "_id"] = dsId;
     // letzte globale Variable entfernen
@@ -22,7 +24,7 @@ var returnFunction = function (aktiverNode, parentNode, strukturtyp, dsId, besch
         neueApzieleNode = $.jstree._reference(aktiverNode).create_node(aktiverNode, "last", {
             "data": "neue AP-Ziele",
             "attr": {
-                "id": window.apf.erstelleIdAusDomAttributId($(aktiverNode).attr("id")),
+                "id": erstelleIdAusDomAttributId($(aktiverNode).attr("id")),
                 "typ": "apzieljahr"
             }
         });

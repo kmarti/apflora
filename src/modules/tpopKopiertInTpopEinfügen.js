@@ -7,28 +7,30 @@ var $     = require('jquery'),
     _     = require('underscore'),
     melde = require('./melde');
 
-var returnFunction = function (aktiver_node, parent_node) {
+var returnFunction = function (aktiverNode, parentNode) {
     var data = {},
-        insertNeuenNodeAufGleicherHierarchiestufe = require('./jstree/insertNeuenNodeAufGleicherHierarchiestufe');
+        insertNeuenNodeAufGleicherHierarchiestufe = require('./jstree/insertNeuenNodeAufGleicherHierarchiestufe'),
+        erstelleIdAusDomAttributId                = require('./erstelleIdAusDomAttributId');
+
     // nur aktualisieren, wenn Schreibrechte bestehen
-    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+    if (!window.apf.pruefeSchreibvoraussetzungen()) {
         return;
     }
     // drop kennt den parent nicht
-    if (!parent_node) {
-        parent_node = $.jstree._reference(aktiver_node)._get_parent(aktiver_node);
+    if (!parentNode) {
+        parentNode = $.jstree._reference(aktiverNode)._get_parent(aktiverNode);
     }
     // User und neue PopId mitgeben
     data.MutWer = sessionStorage.User;
-    data.PopId = window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id"));
+    data.PopId = erstelleIdAusDomAttributId($(parentNode).attr("id"));
     // die alten id's entfernen
-    delete window.apf.tpop_objekt_kopiert.PopId;
-    delete window.apf.tpop_objekt_kopiert.TPopId;
+    delete window.apf.tpopObjektKopiert.PopId;
+    delete window.apf.tpopObjektKopiert.TPopId;
     // das wird gleich neu gesetzt, alte Werte verwerfen
-    delete window.apf.tpop_objekt_kopiert.MutWann;
-    delete window.apf.tpop_objekt_kopiert.MutWer;
+    delete window.apf.tpopObjektKopiert.MutWann;
+    delete window.apf.tpopObjektKopiert.MutWer;
     // alle verbliebenen Felder an die url hängen
-    _.each(window.apf.tpop_objekt_kopiert, function (value, key) {
+    _.each(window.apf.tpopObjektKopiert, function (value, key) {
         // Nullwerte ausschliessen
         if (value !== null) {
             data[key] = value;
@@ -37,11 +39,11 @@ var returnFunction = function (aktiver_node, parent_node) {
     // und an die DB schicken
     $.ajax({
         type: 'post',
-        url: 'api/v1/tpopInsertKopie/popId=' + data.PopId + '/tpopId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpop_node_kopiert).attr("id")) + '/user=' + data.MutWer
+        url: 'api/v1/tpopInsertKopie/popId=' + data.PopId + '/tpopId=' + erstelleIdAusDomAttributId($(window.apf.tpop_node_kopiert).attr("id")) + '/user=' + data.MutWer
     }).done(function (tpop_id) {
         var strukturtyp = "tpop",
-            beschriftung = window.apf.tpop_objekt_kopiert.TPopNr + " " + window.apf.tpop_objekt_kopiert.TPopFlurname;
-        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, tpop_id, beschriftung);
+            beschriftung = window.apf.tpopObjektKopiert.TPopNr + " " + window.apf.tpopObjektKopiert.TPopFlurname;
+        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, tpop_id, beschriftung);
     }).fail(function () {
         melde("Fehler: Die Teilpopulation wurde nicht erstellt");
     });

@@ -8,28 +8,29 @@ $.jstree = require('jquery.jstree');
 
 var returnFunction = function (node) {
     var items,
-        aktiver_node,
+        aktiverNode,
         aktiver_nodeText,
-        parent_node,
+        parentNode,
         parent_nodeText,
-        grandparent_node,
+        grandparentNode,
         neue_apziele_node,
         zeigeTPop                                  = require('../zeigeTPop'),
         insertNeuenNodeEineHierarchiestufeTiefer   = require('./insertNeuenNodeEineHierarchiestufeTiefer'),
         insertNeuenNodeAufGleicherHierarchiestufe  = require('./insertNeuenNodeAufGleicherHierarchiestufe'),
         frageObUndeleteDatensatz                   = require('../frageObUndeleteDatensatz'),
         melde                                      = require('../melde'),
-        zeigeBeobKoordinatenImGisBrowser           = require('../zeigeBeobKoordinatenImGisBrowser');
+        zeigeBeobKoordinatenImGisBrowser           = require('../zeigeBeobKoordinatenImGisBrowser'),
+        erstelleIdAusDomAttributId                 = require('../erstelleIdAusDomAttributId');
 
     // relevante nodes zwischenspeichern
-    aktiver_node = node;
-    aktiver_nodeText = $.jstree._reference(aktiver_node).get_text(aktiver_node);
+    aktiverNode = node;
+    aktiver_nodeText = $.jstree._reference(aktiverNode).get_text(aktiverNode);
     // parent nur ermitteln, wenn parents exisiteren - sonst gibt es einen Fehler
-    if ($(aktiver_node).attr("typ").slice(0, 9) !== "ap_ordner" && $(aktiver_node).attr("typ") !== "idealbiotop") {
-        parent_node = $.jstree._reference(aktiver_node)._get_parent(aktiver_node);
-        parent_nodeText = $.jstree._reference(parent_node).get_text(parent_node);
+    if ($(aktiverNode).attr("typ").slice(0, 9) !== "ap_ordner" && $(aktiverNode).attr("typ") !== "idealbiotop") {
+        parentNode = $.jstree._reference(aktiverNode)._get_parent(aktiverNode);
+        parent_nodeText = $.jstree._reference(parentNode).get_text(parentNode);
     }
-    switch ($(aktiver_node).attr("typ")) {
+    switch ($(aktiverNode).attr("typ")) {
     case "ap_ordner_pop":
         items = {
             "untergeordneteKnotenOeffnen": {
@@ -45,12 +46,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertPop = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblPopulation/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblPopulation/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
                     });
                     insertPop.done(function (id) {
                         var strukturtyp = "pop",
                             beschriftung = "neue Population";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertPop.fail(function () {
                         melde("Fehler: Keine neue Population erstellt");
@@ -65,7 +66,7 @@ var returnFunction = function (node) {
                     var zeigePop = require('../olmap/zeigePop');
                     $.ajax({
                         type: 'get',
-                        url: 'api/v1/popsChKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                        url: 'api/v1/popsChKarte/apId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                     }).done(function (data) {
                         if (data && data.length > 0) {
                             zeigePop(data);
@@ -84,7 +85,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var getApKarte = $.ajax({
                         type: 'get',
-                        url: 'api/v1/apKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                        url: 'api/v1/apKarte/apId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                     });
                     getApKarte.done(function (data) {
                         if (data && data.length > 0) {
@@ -108,11 +109,11 @@ var returnFunction = function (node) {
                     // db aktualisieren
                     var updatePop = $.ajax({
                         type: 'post',
-                        url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + window.apf.pop_id + '/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + window.apf.pop_id + '/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
                     });
                     updatePop.done(function () {
                         // Baum neu aufbauen
-                        $.when(window.apf.erstelle_tree(window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))))
+                        $.when(window.apf.erstelle_tree(erstelleIdAusDomAttributId($(aktiverNode).attr("id"))))
                             .then(function () {
                                 // dann den eingefügten Node wählen
                                 $("#tree").jstree("select_node", "[typ='pop']#" + localStorage.pop_id);
@@ -145,7 +146,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertApziel = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
                     });
                     insertApziel.done(function (id) {
                         var strukturtyp = "apziel",
@@ -154,7 +155,7 @@ var returnFunction = function (node) {
                         localStorage.apziel_von_ordner_apziel = true;
                         // zur Sicherheit den anderen Zeiger löschen
                         delete localStorage.apziel_von_apzieljahr;
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertApziel.fail(function () {
                         melde("Fehler: Keine neues AP-Ziel erstellt");
@@ -177,7 +178,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertApziel_2 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.User
                     });
                     insertApziel_2.done(function (id) {
                         var strukturtyp = "apziel",
@@ -185,7 +186,7 @@ var returnFunction = function (node) {
                         localStorage.apziel_von_apzieljahr = true;
                         // zur Sicherheit den anderen Zeiger löschen
                         delete localStorage.apziel_von_ordner_apziel;
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertApziel_2.fail(function () {
                         melde("Fehler: Keine neues Ziel erstellt");
@@ -200,18 +201,18 @@ var returnFunction = function (node) {
                 "icon": "style/images/neu.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
-                    grandparent_node = $.jstree._reference(parent_node)._get_parent(parent_node);
+                    grandparentNode = $.jstree._reference(parentNode)._get_parent(parentNode);
                     var insertApziel_3 = $.ajax( {
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(grandparent_node).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(grandparentNode).attr("id")) + '/user=' + sessionStorage.User
                     });
                     insertApziel_3.done(function (id) {
                         var strukturtyp = "apziel",
                             beschriftung = "neues Ziel";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertApziel_3.fail(function () {
                         melde("Fehler: Kein neues AP-Ziel erstellt");
@@ -224,16 +225,16 @@ var returnFunction = function (node) {
                 "icon": "style/images/loeschen.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
                     // selektieren, falls direkt mit der rechten Maustaste gewählt wurde
-                    $.jstree._reference(aktiver_node).deselect_all();
+                    $.jstree._reference(aktiverNode).deselect_all();
                     // alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
-                    $.jstree._reference(aktiver_node).open_all(aktiver_node);
-                    $.jstree._reference(aktiver_node).deselect_all();
-                    $.jstree._reference(aktiver_node).select_node(aktiver_node);
-                    var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
+                    $.jstree._reference(aktiverNode).open_all(aktiverNode);
+                    $.jstree._reference(aktiverNode).deselect_all();
+                    $.jstree._reference(aktiverNode).select_node(aktiverNode);
+                    var bezeichnung = $.jstree._reference(aktiverNode).get_text(aktiverNode);
                     $("#loeschen_dialog_mitteilung").html("Das AP-Ziel '" + bezeichnung + "' wird gelöscht.");
                     $("#loeschen_dialog").dialog({
                         resizable: false,
@@ -248,18 +249,18 @@ var returnFunction = function (node) {
                                 window.apf.deleted.typ = "apziel";
                                 var deleteApziel = $.ajax({
                                     type: 'delete',
-                                    url: 'api/v1/apflora/tabelle=tblZiel/tabelleIdFeld=ZielId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                                    url: 'api/v1/apflora/tabelle=tblZiel/tabelleIdFeld=ZielId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deleteApziel.done(function () {
                                     delete localStorage.apziel_id;
                                     delete window.apf.apziel;
-                                    $.jstree._reference(aktiver_node).delete_node(aktiver_node);
+                                    $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // grandparent Node-Beschriftung: Anzahl anpassen
-                                    grandparent_node = $.jstree._reference(parent_node)._get_parent(parent_node);
-                                    window.apf.beschrifte_ordner_apziel(grandparent_node);
+                                    grandparentNode = $.jstree._reference(parentNode)._get_parent(parentNode);
+                                    window.apf.beschrifte_ordner_apziel(grandparentNode);
                                     // parent Node-Beschriftung: Anzahl anpassen
-                                    if ($.jstree._reference(parent_node).get_text(parent_node) !== "neue AP-Ziele") {
-                                        window.apf.beschrifte_ordner_apzieljahr(parent_node);
+                                    if ($.jstree._reference(parentNode).get_text(parentNode) !== "neue AP-Ziele") {
+                                        window.apf.beschrifte_ordner_apzieljahr(parentNode);
                                     }
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Das AP-Ziel '" + bezeichnung + "' wurde gelöscht.");
@@ -284,12 +285,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertZielber = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblZielBericht/feld=ZielId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblZielBericht/feld=ZielId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
                     });
                     insertZielber.done(function (id) {
                         var strukturtyp = "zielber",
                             beschriftung = "neuer Ziel-Bericht";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertZielber.fail(function () {
                         melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
@@ -305,12 +306,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertZielber_2 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblZielBericht/feld=ZielId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblZielBericht/feld=ZielId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.User
                     });
                     insertZielber_2.done(function (id) {
                         var strukturtyp = "zielber",
                             beschriftung = "neuer Ziel-Bericht";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertZielber_2.fail(function () {
                         melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
@@ -323,16 +324,16 @@ var returnFunction = function (node) {
                 "icon": "style/images/loeschen.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
                     // selektieren, falls direkt mit der rechten Maustaste gewählt wurde
-                    $.jstree._reference(aktiver_node).deselect_all();
+                    $.jstree._reference(aktiverNode).deselect_all();
                     // alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
-                    $.jstree._reference(aktiver_node).open_all(aktiver_node);
-                    $.jstree._reference(aktiver_node).deselect_all();
-                    $.jstree._reference(aktiver_node).select_node(aktiver_node);
-                    var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
+                    $.jstree._reference(aktiverNode).open_all(aktiverNode);
+                    $.jstree._reference(aktiverNode).deselect_all();
+                    $.jstree._reference(aktiverNode).select_node(aktiverNode);
+                    var bezeichnung = $.jstree._reference(aktiverNode).get_text(aktiverNode);
                     $("#loeschen_dialog_mitteilung").html("Der Ziel-Bericht '" + bezeichnung + "' wird gelöscht.");
                     $("#loeschen_dialog").dialog({
                         resizable: false,
@@ -347,14 +348,14 @@ var returnFunction = function (node) {
                                 window.apf.deleted.typ = "zielber";
                                 var deleteZielber = $.ajax({
                                     type: 'delete',
-                                    url: 'api/v1/apflora/tabelle=tblZielBericht/tabelleIdFeld=ZielBerId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                                    url: 'api/v1/apflora/tabelle=tblZielBericht/tabelleIdFeld=ZielBerId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deleteZielber.done(function () {
                                     delete localStorage.zielber_id;
                                     delete window.apf.zielber;
-                                    $.jstree._reference(aktiver_node).delete_node(aktiver_node);
+                                    $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_zielber(parent_node);
+                                    window.apf.beschrifte_ordner_zielber(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Der Ziel-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -378,12 +379,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertErfkrit = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblErfKrit/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblErfKrit/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
                     });
                     insertErfkrit.done(function (id) {
                         var strukturtyp = "erfkrit",
                             beschriftung = "neues Erfolgskriterium";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertErfkrit.fail(function () {
                         melde("Fehler: Kein neues Erfolgskriterium erstellt");
@@ -399,12 +400,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertErfkrit_2 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblErfKrit/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblErfKrit/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.User
                     });
                     insertErfkrit_2.done(function (id) {
                         var strukturtyp = "erfkrit",
                             beschriftung = "neues Erfolgskriterium";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertErfkrit_2.fail(function () {
                         melde("Fehler: Kein neues Erfolgskriterium erstellt");
@@ -417,16 +418,16 @@ var returnFunction = function (node) {
                 "icon": "style/images/loeschen.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
                     // selektieren, falls direkt mit der rechten Maustaste gewählt wurde
-                    $.jstree._reference(aktiver_node).deselect_all();
+                    $.jstree._reference(aktiverNode).deselect_all();
                     // alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
-                    $.jstree._reference(aktiver_node).open_all(aktiver_node);
-                    $.jstree._reference(aktiver_node).deselect_all();
-                    $.jstree._reference(aktiver_node).select_node(aktiver_node);
-                    var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
+                    $.jstree._reference(aktiverNode).open_all(aktiverNode);
+                    $.jstree._reference(aktiverNode).deselect_all();
+                    $.jstree._reference(aktiverNode).select_node(aktiverNode);
+                    var bezeichnung = $.jstree._reference(aktiverNode).get_text(aktiverNode);
                     $("#loeschen_dialog_mitteilung").html("Das Erfolgskriterium '" + bezeichnung + "' wird gelöscht.");
                     $("#loeschen_dialog").dialog({
                         resizable: false,
@@ -441,14 +442,14 @@ var returnFunction = function (node) {
                                 window.apf.deleted.typ = "erfkrit";
                                 var deleteErfkrit = $.ajax({
                                     type: 'delete',
-                                    url: 'api/v1/apflora/tabelle=tblErfKrit/tabelleIdFeld=ErfkritId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                                    url: 'api/v1/apflora/tabelle=tblErfKrit/tabelleIdFeld=ErfkritId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deleteErfkrit.done(function () {
                                     delete localStorage.erfkrit_id;
                                     delete window.apf.erfkrit;
-                                    $.jstree._reference(aktiver_node).delete_node(aktiver_node);
+                                    $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_erfkrit(parent_node);
+                                    window.apf.beschrifte_ordner_erfkrit(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Das Erfolgskriterium '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -479,12 +480,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertJber = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblJBer/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblJBer/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
                     });
                     insertJber.done(function (id) {
                         var strukturtyp = "jber",
                             beschriftung = "neuer AP-Bericht";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertJber.fail(function () {
                         melde("Fehler: Keinen neuen AP-Bericht erstellt");
@@ -500,12 +501,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertJber_2 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblJBer/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblJBer/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.User
                     });
                     insertJber_2.done(function (id) {
                         var strukturtyp = "jber",
                             beschriftung = "neuer AP-Bericht";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertJber_2.fail(function () {
                         melde("Fehler: Keinen neuen AP-Bericht erstellt");
@@ -518,16 +519,16 @@ var returnFunction = function (node) {
                 "icon": "style/images/loeschen.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
                     // selektieren, falls direkt mit der rechten Maustaste gewählt wurde
-                    $.jstree._reference(aktiver_node).deselect_all();
+                    $.jstree._reference(aktiverNode).deselect_all();
                     // alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
-                    $.jstree._reference(aktiver_node).open_all(aktiver_node);
-                    $.jstree._reference(aktiver_node).deselect_all();
-                    $.jstree._reference(aktiver_node).select_node(aktiver_node);
-                    var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
+                    $.jstree._reference(aktiverNode).open_all(aktiverNode);
+                    $.jstree._reference(aktiverNode).deselect_all();
+                    $.jstree._reference(aktiverNode).select_node(aktiverNode);
+                    var bezeichnung = $.jstree._reference(aktiverNode).get_text(aktiverNode);
                     $("#loeschen_dialog_mitteilung").html("Der AP-Bericht '" + bezeichnung + "' wird gelöscht.");
                     $("#loeschen_dialog").dialog({
                         resizable: false,
@@ -542,14 +543,14 @@ var returnFunction = function (node) {
                                 window.apf.deleted.typ = "jber";
                                 var deleteJber = $.ajax({
                                     type: 'delete',
-                                    url: 'api/v1/apflora/tabelle=tblJBer/tabelleIdFeld=JBerId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                                    url: 'api/v1/apflora/tabelle=tblJBer/tabelleIdFeld=JBerId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deleteJber.done(function () {
                                     delete localStorage.jber_id;
                                     delete window.apf.jber;
-                                    $.jstree._reference(aktiver_node).delete_node(aktiver_node);
+                                    $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_jber(parent_node);
+                                    window.apf.beschrifte_ordner_jber(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Der AP-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -566,7 +567,7 @@ var returnFunction = function (node) {
             }
         };
         // Wenn noch keine existiert, kann einen neue Übersicht zu allen Arten erstellt werden
-        if ($.jstree._reference(aktiver_node)._get_children(aktiver_node).length === 0) {
+        if ($.jstree._reference(aktiverNode)._get_children(aktiverNode).length === 0) {
             items.neu_jber_uebersicht = {
                 "label": "neue Übersicht zu allen Arten",
                 "separator_before": true,
@@ -574,13 +575,13 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertJberUebersicht = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wert=' + $.jstree._reference(aktiver_node).get_text(aktiver_node) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wert=' + $.jstree._reference(aktiverNode).get_text(aktiverNode) + '/user=' + sessionStorage.User
                     });
                     insertJberUebersicht.done(function () {
                         var strukturtyp = "jber_uebersicht",
-                            ds_id = $.jstree._reference(aktiver_node).get_text(aktiver_node),
+                            dsId = $.jstree._reference(aktiverNode).get_text(aktiverNode),
                             beschriftung = "neue Übersicht zu allen Arten";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
+                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, dsId, beschriftung);
                     });
                     insertJberUebersicht.fail(function () {
                         melde("Fehler: Keine Übersicht zu allen Arten erstellt");
@@ -596,15 +597,15 @@ var returnFunction = function (node) {
                 "icon": "style/images/loeschen.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
                     // selektieren, falls direkt mit der rechten Maustaste gewählt wurde
-                    $.jstree._reference(aktiver_node).deselect_all();
+                    $.jstree._reference(aktiverNode).deselect_all();
                     // alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
-                    $.jstree._reference(aktiver_node).open_all(aktiver_node);
-                    $.jstree._reference(aktiver_node).deselect_all();
-                    $.jstree._reference(aktiver_node).select_node(aktiver_node);
+                    $.jstree._reference(aktiverNode).open_all(aktiverNode);
+                    $.jstree._reference(aktiverNode).deselect_all();
+                    $.jstree._reference(aktiverNode).select_node(aktiverNode);
                     $("#loeschen_dialog_mitteilung").html("Die Übersicht zu allen Arten wird gelöscht");
                     $("#loeschen_dialog").dialog({
                         resizable: false,
@@ -619,12 +620,12 @@ var returnFunction = function (node) {
                                 window.apf.deleted.typ = "jber_uebersicht";
                                 var deleteJberUebersicht = $.ajax({
                                     type: 'delete',
-                                    url: 'api/v1/apflora/tabelle=tblJBerUebersicht/tabelleIdFeld=JbuJahr/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                                    url: 'api/v1/apflora/tabelle=tblJBerUebersicht/tabelleIdFeld=JbuJahr/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deleteJberUebersicht.done(function () {
                                     delete localStorage.jber_uebersicht_id;
                                     delete window.apf.jber_übersicht;
-                                    $.jstree._reference(aktiver_node).delete_node(aktiver_node);
+                                    $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz('Die Übersicht für den AP-Bericht des Jahrs "' + window.apf.deleted.JbuJahr + '" wurde gelöscht.');
                                 });
@@ -648,12 +649,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertBer = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblBer/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) +'/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblBer/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) +'/user=' + sessionStorage.User
                     });
                     insertBer.done(function (id) {
                         var strukturtyp = "ber",
                             beschriftung = "neuer Bericht";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertBer.fail(function () {
                         melde("Fehler: Keinen neuen Bericht erstellt");
@@ -669,12 +670,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertBer_2 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblBer/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) +'/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblBer/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) +'/user=' + sessionStorage.User
                     });
                     insertBer_2.done(function (id) {
                         var strukturtyp = "ber",
                             beschriftung = "neuer Bericht";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertBer_2.fail(function () {
                         melde("Fehler: Keinen neuen Bericht erstellt");
@@ -687,16 +688,16 @@ var returnFunction = function (node) {
                 "icon": "style/images/loeschen.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
                     // selektieren, falls direkt mit der rechten Maustaste gewählt wurde
-                    $.jstree._reference(aktiver_node).deselect_all();
+                    $.jstree._reference(aktiverNode).deselect_all();
                     // alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
-                    $.jstree._reference(aktiver_node).open_all(aktiver_node);
-                    $.jstree._reference(aktiver_node).deselect_all();
-                    $.jstree._reference(aktiver_node).select_node(aktiver_node);
-                    var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
+                    $.jstree._reference(aktiverNode).open_all(aktiverNode);
+                    $.jstree._reference(aktiverNode).deselect_all();
+                    $.jstree._reference(aktiverNode).select_node(aktiverNode);
+                    var bezeichnung = $.jstree._reference(aktiverNode).get_text(aktiverNode);
                     $("#loeschen_dialog_mitteilung").html("Der Bericht '" + bezeichnung + "' wird gelöscht.");
                     $("#loeschen_dialog").dialog({
                         resizable: false,
@@ -711,14 +712,14 @@ var returnFunction = function (node) {
                                 window.apf.deleted.typ = "ber";
                                 var deleteBer = $.ajax({
                                     type: 'delete',
-                                    url: 'api/v1/apflora/tabelle=tblBer/tabelleIdFeld=BerId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                                    url: 'api/v1/apflora/tabelle=tblBer/tabelleIdFeld=BerId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deleteBer.done(function () {
                                     delete localStorage.ber_id;
                                     delete window.apf.ber;
-                                    $.jstree._reference(aktiver_node).delete_node(aktiver_node);
+                                    $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_ber(parent_node);
+                                    window.apf.beschrifte_ordner_ber(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Der Bericht '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -742,12 +743,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertAssozarten = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblAssozArten/feld=AaApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblAssozArten/feld=AaApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
                     });
                     insertAssozarten.done(function (id) {
                         var strukturtyp = "assozarten",
                             beschriftung = "neue assoziierte Art";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertAssozarten.fail(function () {
                         melde("Fehler: keine assoziierte Art erstellt");
@@ -763,11 +764,11 @@ var returnFunction = function (node) {
                 "action": function () {
                     $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblAssozArten/feld=AaApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblAssozArten/feld=AaApArtId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.User
                     }).done(function (id) {
                         var strukturtyp = "assozarten",
                             beschriftung = "neue assoziierte Art";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     }).fail(function () {
                         melde("Fehler: Keine assoziierte Art erstellt");
                     });
@@ -779,16 +780,16 @@ var returnFunction = function (node) {
                 "icon": "style/images/loeschen.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
                     // selektieren, falls direkt mit der rechten Maustaste gewählt wurde
-                    $.jstree._reference(aktiver_node).deselect_all();
+                    $.jstree._reference(aktiverNode).deselect_all();
                     // alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
-                    $.jstree._reference(aktiver_node).open_all(aktiver_node);
-                    $.jstree._reference(aktiver_node).deselect_all();
-                    $.jstree._reference(aktiver_node).select_node(aktiver_node);
-                    var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
+                    $.jstree._reference(aktiverNode).open_all(aktiverNode);
+                    $.jstree._reference(aktiverNode).deselect_all();
+                    $.jstree._reference(aktiverNode).select_node(aktiverNode);
+                    var bezeichnung = $.jstree._reference(aktiverNode).get_text(aktiverNode);
                     $("#loeschen_dialog_mitteilung").html("Die assoziierte Art '" + bezeichnung + "' wird gelöscht.");
                     $("#loeschen_dialog").dialog({
                         resizable: false,
@@ -803,14 +804,14 @@ var returnFunction = function (node) {
                                 window.apf.deleted.typ = "assozarten";
                                 var deleteAssozarten = $.ajax({
                                     type: 'delete',
-                                    url: 'api/v1/apflora/tabelle=tblAssozArten/tabelleIdFeld=AaId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                                    url: 'api/v1/apflora/tabelle=tblAssozArten/tabelleIdFeld=AaId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deleteAssozarten.done(function () {
                                     delete localStorage.assozarten_id;
                                     delete window.apf.assozarten;
-                                    $.jstree._reference(aktiver_node).delete_node(aktiver_node);
+                                    $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_assozarten(parent_node);
+                                    window.apf.beschrifte_ordner_assozarten(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Die assoziierte Art '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -834,12 +835,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertPop_2 = $.ajax( {
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblPopulation/feld=ApArtId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblPopulation/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.User
                     });
                     insertPop_2.done(function (id) {
                         var strukturtyp = "pop",
                             beschriftung = "neue Population";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertPop_2.fail(function () {
                         melde("Fehler: Keine neue Population erstellt");
@@ -852,16 +853,16 @@ var returnFunction = function (node) {
                 "icon": "style/images/loeschen.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
                     // selektieren, falls direkt mit der rechten Maustaste gewählt wurde
-                    $.jstree._reference(aktiver_node).deselect_all();
+                    $.jstree._reference(aktiverNode).deselect_all();
                     // alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
-                    $.jstree._reference(aktiver_node).open_all(aktiver_node);
-                    $.jstree._reference(aktiver_node).deselect_all();
-                    $.jstree._reference(aktiver_node).select_node(aktiver_node);
-                    var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
+                    $.jstree._reference(aktiverNode).open_all(aktiverNode);
+                    $.jstree._reference(aktiverNode).deselect_all();
+                    $.jstree._reference(aktiverNode).select_node(aktiverNode);
+                    var bezeichnung = $.jstree._reference(aktiverNode).get_text(aktiverNode);
                     $("#loeschen_dialog_mitteilung").html("Die Population '" + bezeichnung + "' wird gelöscht.");
                     $("#loeschen_dialog").dialog({
                         resizable: false,
@@ -876,14 +877,14 @@ var returnFunction = function (node) {
                                 window.apf.deleted.typ = "pop";
                                 var deletePop = $.ajax({
                                     type: 'delete',
-                                    url: 'api/v1/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                                    url: 'api/v1/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deletePop.done(function () {
                                     delete localStorage.pop_id;
                                     delete window.apf.pop;
-                                    $.jstree._reference(aktiver_node).delete_node(aktiver_node);
+                                    $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_pop(parent_node);
+                                    window.apf.beschrifte_ordner_pop(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Population '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -906,7 +907,7 @@ var returnFunction = function (node) {
                     var zeigePop = require('../olmap/zeigePop');
                     $.ajax({
                         type: 'get',
-                        url: 'api/v1/popChKarte/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                        url: 'api/v1/popChKarte/popId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                     }).done(function (data) {
                         if (data && data.length > 0) {
                             zeigePop(data);
@@ -925,7 +926,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var getPopKarte = $.ajax({
                         type: 'get',
-                        url: 'api/v1/popKarte/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                        url: 'api/v1/popKarte/popId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                     });
                     getPopKarte.done(function (data) {
                         if (data && data.length > 0) {
@@ -947,11 +948,11 @@ var returnFunction = function (node) {
                 "icon": "style/images/ausschneiden.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
                     // Jetzt die PopId merken - ihr muss danach eine andere ApArtId zugeteilt werden
-                    window.apf.pop_id = window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"));
+                    window.apf.pop_id = erstelleIdAusDomAttributId($(aktiverNode).attr("id"));
                     // merken, dass ein node ausgeschnitten wurde
                     window.apf.pop_zum_verschieben_gemerkt = true;
                     // und wie er heisst (um es später im Kontextmenü anzuzeigen)
@@ -967,7 +968,7 @@ var returnFunction = function (node) {
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
                     var popid = window.apf.pop_id;
-                    var apartid = window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id"));
+                    var apartid = erstelleIdAusDomAttributId($(parentNode).attr("id"));
                     // db aktualisieren
                     var updatePop_2 = $.ajax({
                         type: 'post',
@@ -1008,11 +1009,11 @@ var returnFunction = function (node) {
                 "action": function () {
                     $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblTeilpopulation/feld=PopId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblTeilpopulation/feld=PopId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
                     }).done(function (id) {
                         var strukturtyp = "tpop",
                             beschriftung = "neue Teilpopulation";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     }).fail(function () {
                         melde("Fehler: Keine neue Teilpopulation erstellt");
                     });
@@ -1026,7 +1027,7 @@ var returnFunction = function (node) {
                     var zeigeTPop = require('../olmap/zeigeTPop');
                     $.ajax({
                         type: 'get',
-                        url: 'api/v1/tpopsKarte/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                        url: 'api/v1/tpopsKarte/popId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                     }).done(function (data) {
                         if (data.length > 0) {
                             zeigeTPop(data);
@@ -1045,7 +1046,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var getPopKarte_2 = $.ajax({
                         type: 'get',
-                        url: 'api/v1/popKarte/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                        url: 'api/v1/popKarte/popId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                     });
                     getPopKarte_2.done(function (data) {
                         if (data && data.length > 0) {
@@ -1066,20 +1067,20 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $.jstree._reference(aktiver_node).move_node(window.apf.tpop_node_ausgeschnitten, aktiver_node, "first", false);
+                    $.jstree._reference(aktiverNode).move_node(window.apf.tpop_node_ausgeschnitten, aktiverNode, "first", false);
                 }
             };
         }
         if (window.apf.tpop_node_kopiert) {
             label = "";
-            if (window.apf.tpop_objekt_kopiert.TPopNr) {
-                label += window.apf.tpop_objekt_kopiert.TPopNr;
+            if (window.apf.tpopObjektKopiert.TPopNr) {
+                label += window.apf.tpopObjektKopiert.TPopNr;
             } else {
                 label += "(keine Nr.)";
             }
             label += ": ";
-            if (window.apf.tpop_objekt_kopiert.TPopFlurname) {
-                label += window.apf.tpop_objekt_kopiert.TPopFlurname;
+            if (window.apf.tpopObjektKopiert.TPopFlurname) {
+                label += window.apf.tpopObjektKopiert.TPopFlurname;
             } else {
                 label += "(kein Flurname)";
             }
@@ -1089,7 +1090,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    window.apf.tpopKopiertInPopOrdnerTpopEinfügen(aktiver_node);
+                    window.apf.tpopKopiertInPopOrdnerTpopEinfügen(aktiverNode);
                 }
             };
         }
@@ -1109,12 +1110,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertTPop_2 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblTeilpopulation/feld=PopId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblTeilpopulation/feld=PopId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.User
                     });
                     insertTPop_2.done(function (id) {
                         var strukturtyp = "tpop",
                             beschriftung = "neue Teilpopulation";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertTPop_2.fail(function () {
                         melde("Fehler: Keine neue Teilpopulation erstellt");
@@ -1127,16 +1128,16 @@ var returnFunction = function (node) {
                 "icon": "style/images/loeschen.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
                     // selektieren, falls direkt mit der rechten Maustaste gewählt wurde
-                    $.jstree._reference(aktiver_node).deselect_all();
+                    $.jstree._reference(aktiverNode).deselect_all();
                     // alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
-                    $.jstree._reference(aktiver_node).open_all(aktiver_node);
-                    $.jstree._reference(aktiver_node).deselect_all();
-                    $.jstree._reference(aktiver_node).select_node(aktiver_node);
-                    var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
+                    $.jstree._reference(aktiverNode).open_all(aktiverNode);
+                    $.jstree._reference(aktiverNode).deselect_all();
+                    $.jstree._reference(aktiverNode).select_node(aktiverNode);
+                    var bezeichnung = $.jstree._reference(aktiverNode).get_text(aktiverNode);
                     $("#loeschen_dialog_mitteilung").html("Die Teilpopulation '" + bezeichnung + "' wird gelöscht.");
                     $("#loeschen_dialog").dialog({
                         resizable: false,
@@ -1152,14 +1153,14 @@ var returnFunction = function (node) {
                                 // löschen
                                 var deleteTPop = $.ajax({
                                     type: 'delete',
-                                    url: 'api/v1/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                                    url: 'api/v1/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deleteTPop.done(function () {
                                     delete localStorage.tpop_id;
                                     delete window.apf.tpop;
-                                    $.jstree._reference(aktiver_node).delete_node(aktiver_node);
+                                    $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_tpop(parent_node);
+                                    window.apf.beschrifte_ordner_tpop(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Teilpopulation '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -1182,7 +1183,7 @@ var returnFunction = function (node) {
                     var zeigeTPop = require('../olmap/zeigeTPop');
                     $.ajax({
                         type: 'get',
-                        url: 'api/v1/tpopKarte/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                        url: 'api/v1/tpopKarte/tpopId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                     }).done(function (data) {
                         if (data.length > 0) {
                             zeigeTPop(data);
@@ -1202,7 +1203,7 @@ var returnFunction = function (node) {
                     var verorteTPop = require('../olmap/verorteTPop');
                     $.ajax({
                         type: 'get',
-                        url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                        url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                     }).done(function (data) {
                         verorteTPop(data[0]);
                     }).fail(function () {
@@ -1217,7 +1218,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     $.ajax({
                         type: 'get',
-                        url: 'api/v1/tpopKarte/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                        url: 'api/v1/tpopKarte/tpopId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                     }).done(function (data) {
                         if (data.length > 0) {
                             zeigeTPop(data);
@@ -1237,7 +1238,7 @@ var returnFunction = function (node) {
                     var verorteTPop = require('../gmap/verorteTPop');
                     $.ajax({
                         type: 'get',
-                        url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                        url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                     }).done(function (data) {
                         verorteTPop(data[0]);
                     }).fail(function () {
@@ -1262,14 +1263,14 @@ var returnFunction = function (node) {
                 "icon": "style/images/ausschneiden.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
-                    window.apf.tpop_node_ausgeschnitten = aktiver_node;
+                    window.apf.tpop_node_ausgeschnitten = aktiverNode;
                     // es macht keinen Sinn mehr, den kopierten node zu behalten
                     // und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
                     delete window.apf.tpop_node_kopiert;
-                    delete window.apf.tpop_objekt_kopiert;
+                    delete window.apf.tpopObjektKopiert;
                 }
             };
         }
@@ -1280,17 +1281,17 @@ var returnFunction = function (node) {
                 "icon": "style/images/kopieren.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
-                    window.apf.tpop_node_kopiert = aktiver_node;
+                    window.apf.tpop_node_kopiert = aktiverNode;
                     // Daten des Objekts holen
                     var getTPop_4 = $.ajax({
                         type: 'get',
-                        url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + window.apf.erstelleIdAusDomAttributId($(tpop_node_kopiert).attr("id"))
+                        url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + erstelleIdAusDomAttributId($(tpop_node_kopiert).attr("id"))
                     });
                     getTPop_4.done(function (data) {
-                        window.apf.tpop_objekt_kopiert = data[0];
+                        window.apf.tpopObjektKopiert = data[0];
                     });
                     getTPop_4.fail(function () {
                         melde("Fehler: Die Teilpopulation wurde nicht kopiert");
@@ -1300,14 +1301,14 @@ var returnFunction = function (node) {
         }
         if (window.apf.tpop_node_kopiert) {
             var label = "";
-            if (window.apf.tpop_objekt_kopiert.TPopNr) {
-                label += window.apf.tpop_objekt_kopiert.TPopNr;
+            if (window.apf.tpopObjektKopiert.TPopNr) {
+                label += window.apf.tpopObjektKopiert.TPopNr;
             } else {
                 label += "(keine Nr.)";
             }
             label += ": ";
-            if (window.apf.tpop_objekt_kopiert.TPopFlurname) {
-                label += window.apf.tpop_objekt_kopiert.TPopFlurname;
+            if (window.apf.tpopObjektKopiert.TPopFlurname) {
+                label += window.apf.tpopObjektKopiert.TPopFlurname;
             } else {
                 label += "(kein Flurname)";
             }
@@ -1316,7 +1317,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    window.apf.tpopKopiertInPopOrdnerTpopEinfügen(parent_node);
+                    window.apf.tpopKopiertInPopOrdnerTpopEinfügen(parentNode);
                 }
             };
         }
@@ -1326,7 +1327,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $.jstree._reference(parent_node).move_node(window.apf.tpop_node_ausgeschnitten, parent_node, "first", false);
+                    $.jstree._reference(parentNode).move_node(window.apf.tpop_node_ausgeschnitten, parentNode, "first", false);
                 }
             };
         }
@@ -1339,12 +1340,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertPopber = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblPopBericht/feld=PopId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblPopBericht/feld=PopId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
                     });
                     insertPopber.done(function (id) {
                         var strukturtyp = "popber",
                             beschriftung = "neuer Populations-Bericht";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertPopber.fail(function () {
                         melde("Fehler: Keinen neuen Populations-Bericht erstellt");
@@ -1360,12 +1361,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertPopber_2 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblPopBericht/feld=PopId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblPopBericht/feld=PopId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.User
                     });
                     insertPopber_2.done(function (id) {
                         var strukturtyp = "popber",
                             beschriftung = "neuer Populations-Bericht";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertPopber_2.fail(function () {
                         melde("Fehler: Keinen neuen Populations-Bericht erstellt");
@@ -1378,10 +1379,10 @@ var returnFunction = function (node) {
                 "icon": "style/images/loeschen.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
-                    var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
+                    var bezeichnung = $.jstree._reference(aktiverNode).get_text(aktiverNode);
                     $("#loeschen_dialog_mitteilung").html("Der Populations-Bericht '" + bezeichnung + "' wird gelöscht.");
                     $("#loeschen_dialog").dialog({
                         resizable: false,
@@ -1396,14 +1397,14 @@ var returnFunction = function (node) {
                                 window.apf.deleted.typ = "popber";
                                 var deletePopber = $.ajax({
                                     type: 'delete',
-                                    url: 'api/v1/apflora/tabelle=tblPopBericht/tabelleIdFeld=PopBerId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                                    url: 'api/v1/apflora/tabelle=tblPopBericht/tabelleIdFeld=PopBerId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deletePopber.done(function () {
                                     delete localStorage.popber_id;
                                     delete window.apf.popber;
-                                    $.jstree._reference(aktiver_node).delete_node(aktiver_node);
+                                    $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_popber(parent_node);
+                                    window.apf.beschrifte_ordner_popber(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Der Populations-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -1427,12 +1428,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertPopMassnBer = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblPopMassnBericht/feld=PopId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblPopMassnBericht/feld=PopId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
                     });
                     insertPopMassnBer.done(function (id) {
                         var strukturtyp = "popmassnber",
                             beschriftung = "neuer Massnahmen-Bericht";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertPopMassnBer.fail(function () {
                         melde("Fehler: Es wurde kein neuer Massnahmen-Bericht erstellt");
@@ -1448,12 +1449,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertPopMassnBer_2 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblPopMassnBericht/feld=PopId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblPopMassnBericht/feld=PopId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.User
                     });
                     insertPopMassnBer_2.done(function (id) {
                         var strukturtyp = "popmassnber",
                             beschriftung = "neuer Massnahmen-Bericht";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertPopMassnBer_2.fail(function () {
                         melde("Fehler: Es wurde kein neuer Massnahmen-Bericht erstellt");
@@ -1466,10 +1467,10 @@ var returnFunction = function (node) {
                 "icon": "style/images/loeschen.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
-                    var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
+                    var bezeichnung = $.jstree._reference(aktiverNode).get_text(aktiverNode);
                     $("#loeschen_dialog_mitteilung").html("Der Massnahmen-Bericht '" + bezeichnung + "' wird gelöscht.");
                     $("#loeschen_dialog").dialog({
                         resizable: false,
@@ -1484,14 +1485,14 @@ var returnFunction = function (node) {
                                 window.apf.deleted.typ = "popmassnber";
                                 var deletePopMassnBer = $.ajax({
                                     type: 'delete',
-                                    url: 'api/v1/apflora/tabelle=tblPopMassnBericht/tabelleIdFeld=PopMassnBerId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                                    url: 'api/v1/apflora/tabelle=tblPopMassnBericht/tabelleIdFeld=PopMassnBerId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deletePopMassnBer.done(function () {
                                     delete localStorage.popmassnber_id;
                                     delete window.apf.popmassnber;
-                                    $.jstree._reference(aktiver_node).delete_node(aktiver_node);
+                                    $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_popmassnber(parent_node);
+                                    window.apf.beschrifte_ordner_popmassnber(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Der Massnahmen-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -1515,12 +1516,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertTPopFeldKontr = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/feldkontr/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopKontrtyp=tpopfeldkontr/user=' + sessionStorage.User
+                        url: 'api/v1/insert/feldkontr/tpopId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopKontrtyp=tpopfeldkontr/user=' + sessionStorage.User
                     });
                     insertTPopFeldKontr.done(function (id) {
                         var strukturtyp = "tpopfeldkontr",
                             beschriftung = "neue Feldkontrolle";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertTPopFeldKontr.fail(function () {
                         melde("Fehler: Keine neue Feldkontrolle erstellt");
@@ -1534,7 +1535,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $.jstree._reference(aktiver_node).move_node(window.apf.tpopfeldkontr_node_ausgeschnitten, aktiver_node, "first", false);
+                    $.jstree._reference(aktiverNode).move_node(window.apf.tpopfeldkontr_node_ausgeschnitten, aktiverNode, "first", false);
                 }
             };
         }
@@ -1547,11 +1548,11 @@ var returnFunction = function (node) {
                     // und an die DB schicken
                     $.ajax({
                         type: 'post',
-                        url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopKontrId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpopfeldkontr_node_kopiert).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopKontrId=' + erstelleIdAusDomAttributId($(window.apf.tpopfeldkontr_node_kopiert).attr("id")) + '/user=' + sessionStorage.User
                     }).done(function (id) {
                         var strukturtyp = "tpopfeldkontr",
                             beschriftung = window.apf.erstelleLabelFürFeldkontrolle(window.apf.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.apf.tpopfeldkontr_objekt_kopiert.TPopKontrTyp);
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     }).fail(function () {
                         melde("Fehler: Die Feldkontrolle wurde nicht erstellt");
                     });
@@ -1567,12 +1568,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertTPopFeldKontr_2 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/feldkontr/tpopId=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/tpopKontrtyp=tpopfeldkontr/user=' + sessionStorage.User
+                        url: 'api/v1/insert/feldkontr/tpopId=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/tpopKontrtyp=tpopfeldkontr/user=' + sessionStorage.User
                     });
                     insertTPopFeldKontr_2.done(function (id) {
                         var strukturtyp = "tpopfeldkontr",
                             beschriftung = "neue Feldkontrolle";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertTPopFeldKontr_2.fail(function () {
                         melde("Fehler: Keine neue Feldkontrolle erstellt");
@@ -1585,10 +1586,10 @@ var returnFunction = function (node) {
                 "icon": "style/images/loeschen.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
-                    var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
+                    var bezeichnung = $.jstree._reference(aktiverNode).get_text(aktiverNode);
                     $("#loeschen_dialog_mitteilung").html("Die Feldkontrolle '" + bezeichnung + "' wird gelöscht.");
                     $("#loeschen_dialog").dialog({
                         resizable: false,
@@ -1603,14 +1604,14 @@ var returnFunction = function (node) {
                                 window.apf.deleted.typ = "tpopfeldkontr";
                                 var deleteTPopFeldKontr = $.ajax({
                                     type: 'delete',
-                                    url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/tabelleIdFeld=TPopKontrId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                                    url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/tabelleIdFeld=TPopKontrId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deleteTPopFeldKontr.done(function () {
                                     delete localStorage.tpopfeldkontr_id;
                                     delete window.apf.tpopfeldkontr;
-                                    $.jstree._reference(aktiver_node).delete_node(aktiver_node);
+                                    $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_tpopfeldkontr(parent_node);
+                                    window.apf.beschrifte_ordner_tpopfeldkontr(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Die Feldkontrolle '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -1631,7 +1632,7 @@ var returnFunction = function (node) {
                 "icon": "style/images/kopieren.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
                     delete window.apf.feldkontr_biotop;
@@ -1708,10 +1709,10 @@ var returnFunction = function (node) {
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
                     var data = {};
-                    data.id = window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"));
+                    data.id = erstelleIdAusDomAttributId($(aktiverNode).attr("id"));
                     data.user = sessionStorage.User;
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
                     _.each(window.apf.feldkontr_biotop, function (value, key) {
@@ -1736,10 +1737,10 @@ var returnFunction = function (node) {
                 "icon": "style/images/ausschneiden.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
-                    window.apf.tpopfeldkontr_node_ausgeschnitten = aktiver_node;
+                    window.apf.tpopfeldkontr_node_ausgeschnitten = aktiverNode;
                     // es macht keinen Sinn mehr, den kopierten node zu behalten
                     // und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
                     delete window.apf.tpopfeldkontr_node_kopiert;
@@ -1754,14 +1755,14 @@ var returnFunction = function (node) {
                 "icon": "style/images/kopieren.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
-                    window.apf.tpopfeldkontr_node_kopiert = aktiver_node;
+                    window.apf.tpopfeldkontr_node_kopiert = aktiverNode;
                     // Daten des Objekts holen
                     var getTPopFeldkontr_2 = $.ajax({
                         type: 'get',
-                        url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpopfeldkontr_node_kopiert).attr("id"))
+                        url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + erstelleIdAusDomAttributId($(window.apf.tpopfeldkontr_node_kopiert).attr("id"))
                     });
                     getTPopFeldkontr_2.done(function (data) {
                         window.apf.tpopfeldkontr_objekt_kopiert = data[0];
@@ -1778,7 +1779,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $.jstree._reference(parent_node).move_node(window.apf.tpopfeldkontr_node_ausgeschnitten, parent_node, "first", false);
+                    $.jstree._reference(parentNode).move_node(window.apf.tpopfeldkontr_node_ausgeschnitten, parentNode, "first", false);
                 }
             };
         }
@@ -1791,11 +1792,11 @@ var returnFunction = function (node) {
                     // und an die DB schicken
                     $.ajax({
                         type: 'post',
-                        url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/tpopKontrId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpopfeldkontr_node_kopiert).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/tpopKontrId=' + erstelleIdAusDomAttributId($(window.apf.tpopfeldkontr_node_kopiert).attr("id")) + '/user=' + sessionStorage.User
                     }).done(function (id) {
                         var strukturtyp = "tpopfeldkontr",
                             beschriftung = window.apf.erstelleLabelFürFeldkontrolle(window.apf.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.apf.tpopfeldkontr_objekt_kopiert.TPopKontrTyp);
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     }).fail(function () {
                         melde("Fehler: Die Feldkontrolle wurde nicht erstellt");
                     });
@@ -1811,12 +1812,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertTPopFeldKontr_3 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/feldkontr/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopKontrtyp=tpopfreiwkontr/user=' + sessionStorage.User
+                        url: 'api/v1/insert/feldkontr/tpopId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopKontrtyp=tpopfreiwkontr/user=' + sessionStorage.User
                     });
                     insertTPopFeldKontr_3.done(function (id) {
                         var strukturtyp = "tpopfreiwkontr",
                             beschriftung = "neue Freiwilligen-Kontrolle";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertTPopFeldKontr_3.fail(function () {
                         melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
@@ -1830,7 +1831,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $.jstree._reference(aktiver_node).move_node(window.apf.tpopfreiwkontr_node_ausgeschnitten, aktiver_node, "first", false);
+                    $.jstree._reference(aktiverNode).move_node(window.apf.tpopfreiwkontr_node_ausgeschnitten, aktiverNode, "first", false);
                 }
             }
         }
@@ -1843,11 +1844,11 @@ var returnFunction = function (node) {
                     // und an die DB schicken
                     $.ajax({
                         type: 'post',
-                        url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopKontrId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpopfreiwkontr_node_kopiert).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopKontrId=' + erstelleIdAusDomAttributId($(window.apf.tpopfreiwkontr_node_kopiert).attr("id")) + '/user=' + sessionStorage.User
                     }).done(function (id) {
                         var strukturtyp = "tpopfreiwkontr",
                             beschriftung = window.apf.tpopfreiwkontr_objekt_kopiert.TPopKontrJahr;
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     }).fail(function () {
                         melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
                     });
@@ -1863,12 +1864,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertTPopFeldKontr_4 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/feldkontr/tpopId=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/tpopKontrtyp=tpopfreiwkontr/user=' + sessionStorage.User
+                        url: 'api/v1/insert/feldkontr/tpopId=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/tpopKontrtyp=tpopfreiwkontr/user=' + sessionStorage.User
                     });
                     insertTPopFeldKontr_4.done(function (id) {
                         var strukturtyp = "tpopfreiwkontr",
                             beschriftung = "neue Freiwilligen-Kontrolle";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertTPopFeldKontr_4.fail(function () {
                         melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
@@ -1881,10 +1882,10 @@ var returnFunction = function (node) {
                 "icon": "style/images/loeschen.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
-                    var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
+                    var bezeichnung = $.jstree._reference(aktiverNode).get_text(aktiverNode);
                     $("#loeschen_dialog_mitteilung").html("Die Freiwilligen-Kontrolle '" + bezeichnung + "' wird gelöscht.");
                     $("#loeschen_dialog").dialog({
                         resizable: false,
@@ -1899,15 +1900,15 @@ var returnFunction = function (node) {
                                 window.apf.deleted.typ = "tpopfreiwkontr";
                                 var deleteTPopFeldKontr_2 = $.ajax({
                                     type: 'delete',
-                                    url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/tabelleIdFeld=TPopKontrId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                                    url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/tabelleIdFeld=TPopKontrId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deleteTPopFeldKontr_2.done(function () {
                                     delete localStorage.tpopfeldkontr_id;
                                     delete localStorage.tpopfreiwkontr;
                                     delete window.apf.tpopfeldkontr;
-                                    $.jstree._reference(aktiver_node).delete_node(aktiver_node);
+                                    $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_tpopfreiwkontr(parent_node);
+                                    window.apf.beschrifte_ordner_tpopfreiwkontr(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Die Freiwilligen-Kontrolle '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -1931,10 +1932,10 @@ var returnFunction = function (node) {
                 "icon": "style/images/ausschneiden.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
-                    window.apf.tpopfreiwkontr_node_ausgeschnitten = aktiver_node;
+                    window.apf.tpopfreiwkontr_node_ausgeschnitten = aktiverNode;
                     // es macht keinen Sinn mehr, den kopierten node zu behalten
                     // und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
                     delete window.apf.tpopfreiwkontr_node_kopiert;
@@ -1949,14 +1950,14 @@ var returnFunction = function (node) {
                 "icon": "style/images/kopieren.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
-                    window.apf.tpopfreiwkontr_node_kopiert = aktiver_node;
+                    window.apf.tpopfreiwkontr_node_kopiert = aktiverNode;
                     // Daten des Objekts holen
                     var getTPopFeldkontr_3 = $.ajax({
                         type: 'get',
-                        url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpopfreiwkontr_node_kopiert).attr("id"))
+                        url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + erstelleIdAusDomAttributId($(window.apf.tpopfreiwkontr_node_kopiert).attr("id"))
                     });
                     getTPopFeldkontr_3.done(function (data) {
                         window.apf.tpopfreiwkontr_objekt_kopiert = data[0];
@@ -1973,7 +1974,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $.jstree._reference(parent_node).move_node(window.apf.tpopfreiwkontr_node_ausgeschnitten, parent_node, "first", false);
+                    $.jstree._reference(parentNode).move_node(window.apf.tpopfreiwkontr_node_ausgeschnitten, parentNode, "first", false);
                     localStorage.tpopfreiwkontr = true;
                 }
             };
@@ -1986,11 +1987,11 @@ var returnFunction = function (node) {
                 "action": function () {
                     $.ajax({
                         type: 'post',
-                        url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/tpopKontrId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpopfreiwkontr_node_kopiert).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/tpopKontrId=' + erstelleIdAusDomAttributId($(window.apf.tpopfreiwkontr_node_kopiert).attr("id")) + '/user=' + sessionStorage.User
                     }).done(function (id) {
                         var strukturtyp = "tpopfreiwkontr",
                             beschriftung = window.apf.tpopfreiwkontr_objekt_kopiert.TPopKontrJahr;
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     }).fail(function () {
                         melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
                     });
@@ -2006,12 +2007,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertTPopMassn = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopMassnahme/feld=TPopId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopMassnahme/feld=TPopId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
                     });
                     insertTPopMassn.done(function (id) {
                         var strukturtyp = "tpopmassn",
                             beschriftung = "neue Massnahme";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertTPopMassn.fail(function () {
                         melde("Fehler: Keine neue Massnahme erstellt");
@@ -2025,7 +2026,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $.jstree._reference(aktiver_node).move_node(window.apf.tpopmassn_node_ausgeschnitten, aktiver_node, "first", false);
+                    $.jstree._reference(aktiverNode).move_node(window.apf.tpopmassn_node_ausgeschnitten, aktiverNode, "first", false);
                 }
             };
         }
@@ -2037,12 +2038,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertTPopMassnKopie = $.ajax({
                         type: 'post',
-                        url: 'api/v1/tpopmassnInsertKopie/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopMassnId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpopmassn_node_kopiert).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/tpopmassnInsertKopie/tpopId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopMassnId=' + erstelleIdAusDomAttributId($(window.apf.tpopmassn_node_kopiert).attr("id")) + '/user=' + sessionStorage.User
                     });
                     insertTPopMassnKopie.done(function (id) {
                         var strukturtyp = "tpopmassn",
                             beschriftung = window.apf.erstelleLabelFürMassnahme(window.apf.tpopmassn_objekt_kopiert.TPopMassnJahr, window.apf.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt);
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertTPopMassnKopie.fail(function () {
                         melde("Fehler: Die Massnahme wurde nicht erstellt");
@@ -2059,12 +2060,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertTPopMassn_2 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopMassnahme/feld=TPopId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopMassnahme/feld=TPopId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.User
                     });
                     insertTPopMassn_2.done(function (id) {
                         var strukturtyp = "tpopmassn",
                             beschriftung = "neue Massnahme";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertTPopMassn_2.fail(function () {
                         melde("Fehler: Keine neue Massnahme erstellt");
@@ -2077,10 +2078,10 @@ var returnFunction = function (node) {
                 "icon": "style/images/loeschen.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
-                    var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
+                    var bezeichnung = $.jstree._reference(aktiverNode).get_text(aktiverNode);
                     $("#loeschen_dialog_mitteilung").html("Die Massnahme '" + bezeichnung + "' wird gelöscht.");
                     $("#loeschen_dialog").dialog({
                         resizable: false,
@@ -2095,14 +2096,14 @@ var returnFunction = function (node) {
                                 window.apf.deleted.typ = "tpopmassn";
                                 var deleteTPopMassn = $.ajax({
                                     type: 'delete',
-                                    url: 'api/v1/apflora/tabelle=tblTeilPopMassnahme/tabelleIdFeld=TPopMassnId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                                    url: 'api/v1/apflora/tabelle=tblTeilPopMassnahme/tabelleIdFeld=TPopMassnId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deleteTPopMassn.done(function () {
                                     delete localStorage.tpopmassn_id;
                                     delete window.apf.tpopmassn;
-                                    $.jstree._reference(aktiver_node).delete_node(aktiver_node);
+                                    $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_tpopmassn(parent_node);
+                                    window.apf.beschrifte_ordner_tpopmassn(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Die Massnahme '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -2126,10 +2127,10 @@ var returnFunction = function (node) {
                 "icon": "style/images/ausschneiden.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
-                    window.apf.tpopmassn_node_ausgeschnitten = aktiver_node;
+                    window.apf.tpopmassn_node_ausgeschnitten = aktiverNode;
                     // es macht keinen Sinn mehr, den kopierten node zu behalten
                     // und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
                     delete window.apf.tpopmassn_node_kopiert;
@@ -2144,14 +2145,14 @@ var returnFunction = function (node) {
                 "icon": "style/images/kopieren.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
-                    window.apf.tpopmassn_node_kopiert = aktiver_node;
+                    window.apf.tpopmassn_node_kopiert = aktiverNode;
                     // Daten des Objekts holen
                     var getTPopMassn_2 = $.ajax({
                             type: 'get',
-                            url: 'api/v1/apflora/tabelle=tblTeilPopMassnahme/feld=TPopMassnId/wertNumber=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpopmassn_node_kopiert).attr("id"))
+                            url: 'api/v1/apflora/tabelle=tblTeilPopMassnahme/feld=TPopMassnId/wertNumber=' + erstelleIdAusDomAttributId($(window.apf.tpopmassn_node_kopiert).attr("id"))
                         }),
                         $TPopMassnTypChecked = $("#TPopMassnTyp option:checked");
                     getTPopMassn_2.done(function (data) {
@@ -2176,7 +2177,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $.jstree._reference(parent_node).move_node(window.apf.tpopmassn_node_ausgeschnitten, parent_node, "first", false);
+                    $.jstree._reference(parentNode).move_node(window.apf.tpopmassn_node_ausgeschnitten, parentNode, "first", false);
                 }
             };
         }
@@ -2188,12 +2189,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertTPopMassnKopie_2 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/tpopmassnInsertKopie/tpopId=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/tpopMassnId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpopmassn_node_kopiert).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/tpopmassnInsertKopie/tpopId=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/tpopMassnId=' + erstelleIdAusDomAttributId($(window.apf.tpopmassn_node_kopiert).attr("id")) + '/user=' + sessionStorage.User
                     });
                     insertTPopMassnKopie_2.done(function (id) {
                         var strukturtyp = "tpopmassn",
                             beschriftung = window.apf.erstelleLabelFürMassnahme(window.apf.tpopmassn_objekt_kopiert.TPopMassnJahr, window.apf.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt);
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertTPopMassnKopie_2.fail(function () {
                         melde("Fehler: Die Massnahme wurde nicht erstellt");
@@ -2210,12 +2211,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertTPopBer = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopBericht/feld=TPopId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopBericht/feld=TPopId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
                     });
                     insertTPopBer.done(function (id) {
                         var strukturtyp = "tpopber",
                             beschriftung = "neuer Teilpopulations-Bericht";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertTPopBer.fail(function () {
                         melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
@@ -2231,12 +2232,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertTPopBer_2 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopBericht/feld=TPopId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopBericht/feld=TPopId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.User
                     });
                     insertTPopBer_2.done(function (id) {
                         var strukturtyp = "tpopber",
                             beschriftung = "neuer Teilpopulations-Bericht";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertTPopBer_2.fail(function () {
                         melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
@@ -2249,10 +2250,10 @@ var returnFunction = function (node) {
                 "icon": "style/images/loeschen.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
-                    var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
+                    var bezeichnung = $.jstree._reference(aktiverNode).get_text(aktiverNode);
                     $("#loeschen_dialog_mitteilung").html("Der Teilpopulations-Bericht '" + bezeichnung + "' wird gelöscht.");
                     $("#loeschen_dialog").dialog({
                         resizable: false,
@@ -2267,14 +2268,14 @@ var returnFunction = function (node) {
                                 window.apf.deleted.typ = "tpopber";
                                 var deleteTPopBer = $.ajax({
                                     type: 'delete',
-                                    url: 'api/v1/apflora/tabelle=tblTeilPopBericht/tabelleIdFeld=TPopBerId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                                    url: 'api/v1/apflora/tabelle=tblTeilPopBericht/tabelleIdFeld=TPopBerId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deleteTPopBer.done(function () {
                                     delete localStorage.tpopber_id;
                                     delete window.apf.tpopber;
-                                    $.jstree._reference(aktiver_node).delete_node(aktiver_node);
+                                    $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_tpopber(parent_node);
+                                    window.apf.beschrifte_ordner_tpopber(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Der Teilpopulations-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -2300,7 +2301,7 @@ var returnFunction = function (node) {
                     var zeigeTPopBeob = require('../gmap/zeigeTPopBeob');
                     $.ajax({
                         type: 'get',
-                        url: '/api/v1/beobKarte/apId=/tpopId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/beobId=/nichtZuzuordnen='
+                        url: '/api/v1/beobKarte/apId=/tpopId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/beobId=/nichtZuzuordnen='
                     }).done(function (data) {
                         if (data) {
                             zeigeTPopBeob(data);
@@ -2320,7 +2321,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $.jstree._reference(aktiver_node).move_node(window.apf.beob_zugeordnet_node_ausgeschnitten, aktiver_node, "first", false);
+                    $.jstree._reference(aktiverNode).move_node(window.apf.beob_zugeordnet_node_ausgeschnitten, aktiverNode, "first", false);
                 }
             };
         }
@@ -2330,7 +2331,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $("#tree").jstree("move_node", window.apf.beob_node_ausgeschnitten, aktiver_node, "first");
+                    $("#tree").jstree("move_node", window.apf.beob_node_ausgeschnitten, aktiverNode, "first");
                 }
             };
         }
@@ -2345,7 +2346,7 @@ var returnFunction = function (node) {
                     var zeigeTPopBeob = require('../gmap/zeigeTPopBeob');
                     $.ajax({
                         type: 'get',
-                        url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen='
+                        url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/nichtZuzuordnen='
                     }).done(function (data) {
                         if (data) {
                             zeigeTPopBeob(data);
@@ -2366,7 +2367,7 @@ var returnFunction = function (node) {
                         zeigeBeob        = require('../gmap/zeigeBeob');
                     $.ajax({
                         type: 'get',
-                        url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen='
+                        url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/nichtZuzuordnen='
                     }).done(function (beob) {
                         if (beob && beob[0]) {
                             beob = beob[0];
@@ -2405,10 +2406,10 @@ var returnFunction = function (node) {
                 "icon": "style/images/ausschneiden.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
-                    window.apf.beob_zugeordnet_node_ausgeschnitten = aktiver_node;
+                    window.apf.beob_zugeordnet_node_ausgeschnitten = aktiverNode;
                 }
             };
         }
@@ -2418,7 +2419,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $.jstree._reference(parent_node).move_node(window.apf.beob_zugeordnet_node_ausgeschnitten, parent_node, "first", false);
+                    $.jstree._reference(parentNode).move_node(window.apf.beob_zugeordnet_node_ausgeschnitten, parentNode, "first", false);
                 }
             };
         }
@@ -2428,7 +2429,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $.jstree._reference(parent_node).move_node(window.apf.beob_node_ausgeschnitten, parent_node, "first", false);
+                    $.jstree._reference(parentNode).move_node(window.apf.beob_node_ausgeschnitten, parentNode, "first", false);
                 }
             };
         }
@@ -2441,12 +2442,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertTPopMassnBer = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopMassnBericht/feld=TPopId/wert=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopMassnBericht/feld=TPopId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
                     });
                     insertTPopMassnBer.done(function (id) {
                         var strukturtyp = "tpopmassnber",
                             beschriftung = "neuer Massnahmen-Bericht";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertTPopMassnBer.fail(function () {
                         melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
@@ -2462,12 +2463,12 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertTPopMassBer_2 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopMassnBericht/feld=TPopId/wert=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopMassnBericht/feld=TPopId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.User
                     });
                     insertTPopMassBer_2.done(function (id) {
                         var strukturtyp = "tpopmassnber",
                             beschriftung = "neuer Massnahmen-Bericht";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
+                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertTPopMassBer_2.fail(function () {
                         melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
@@ -2480,10 +2481,10 @@ var returnFunction = function (node) {
                 "icon": "style/images/loeschen.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
-                    var bezeichnung = $.jstree._reference(aktiver_node).get_text(aktiver_node);
+                    var bezeichnung = $.jstree._reference(aktiverNode).get_text(aktiverNode);
                     $("#loeschen_dialog_mitteilung").html("Der Massnahmen-Bericht '" + bezeichnung + "' wird gelöscht.");
                     $("#loeschen_dialog").dialog({
                         resizable: false,
@@ -2498,14 +2499,14 @@ var returnFunction = function (node) {
                                 window.apf.deleted.typ = "tpopmassnber";
                                 var deleteTPopMassnBer = $.ajax({
                                     type: 'delete',
-                                    url: 'api/v1/apflora/tabelle=tblTeilPopMassnBericht/tabelleIdFeld=TPopMassnBerId/tabelleId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                                    url: 'api/v1/apflora/tabelle=tblTeilPopMassnBericht/tabelleIdFeld=TPopMassnBerId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deleteTPopMassnBer.done(function () {
                                     delete localStorage.tpopmassnber_id;
                                     delete window.apf.tpopmassnber;
-                                    $.jstree._reference(aktiver_node).delete_node(aktiver_node);
+                                    $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_popmassnber(parent_node);
+                                    window.apf.beschrifte_ordner_popmassnber(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Der Massnahmen-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -2531,7 +2532,7 @@ var returnFunction = function (node) {
                     var zeigeBeob = require('../gmap/zeigeBeob');
                     $.ajax({
                         type: 'get',
-                        url: '/api/v1/beobKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen='
+                        url: '/api/v1/beobKarte/apId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen='
                     }).done(function (data) {
                         if (data.length > 0) {
                             zeigeBeob(data);
@@ -2552,12 +2553,12 @@ var returnFunction = function (node) {
                         zeigeBeob        = require('../gmap/zeigeBeob');
                     $.ajax({
                         type: 'get',
-                        url: '/api/v1/beobKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen='
+                        url: '/api/v1/beobKarte/apId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen='
                     }).done(function (beob) {
                         if (beob.length > 0) {
                             $.ajax({
                                 type: 'get',
-                                url: 'api/v1/apKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id"))
+                                url: 'api/v1/apKarte/apId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                             }).done(function (tpop) {
                                 if (tpop && tpop.length > 0) {
                                     zeigeBeobUndTPop(beob, tpop);
@@ -2580,7 +2581,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $("#tree").jstree("move_node", window.apf.beob_zugeordnet_node_ausgeschnitten, aktiver_node, "first");
+                    $("#tree").jstree("move_node", window.apf.beob_zugeordnet_node_ausgeschnitten, aktiverNode, "first");
                 }
             };
         }
@@ -2595,7 +2596,7 @@ var returnFunction = function (node) {
                     var zeigeBeob = require('../gmap/zeigeBeob');
                     $.ajax({
                         type: 'get',
-                        url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen='
+                        url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/nichtZuzuordnen='
                     }).done(function (data) {
                         if (data && data[0]) {
                             zeigeBeob(data[0]);
@@ -2616,13 +2617,13 @@ var returnFunction = function (node) {
                         zeigeBeob        = require('../gmap/zeigeBeob');
                     $.ajax({
                         type: 'get',
-                        url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen='
+                        url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/nichtZuzuordnen='
                     }).done(function (beob) {
                         if (beob && beob[0]) {
                             beob = beob[0];
                             $.ajax({
                                 type: 'get',
-                                url: 'api/v1/apKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(parent_node).attr("id"))
+                                url: 'api/v1/apKarte/apId=' + erstelleIdAusDomAttributId($(parentNode).attr("id"))
                             }).done(function (tpop) {
                                 if (tpop && tpop.length > 0) {
                                     zeigeBeobUndTPop(beob, tpop);
@@ -2655,10 +2656,10 @@ var returnFunction = function (node) {
                 "icon": "style/images/ausschneiden.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
-                    window.apf.beob_node_ausgeschnitten = aktiver_node;
+                    window.apf.beob_node_ausgeschnitten = aktiverNode;
                 }
             };
         }
@@ -2668,7 +2669,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $("#tree").jstree("move_node", window.apf.beob_zugeordnet_node_ausgeschnitten, parent_node, "first");
+                    $("#tree").jstree("move_node", window.apf.beob_zugeordnet_node_ausgeschnitten, parentNode, "first");
                 }
             };
         }
@@ -2683,7 +2684,7 @@ var returnFunction = function (node) {
                     var zeigeBeob = require('../gmap/zeigeBeob');
                     $.ajax({
                         type: 'get',
-                        url: '/api/v1/beobKarte/apId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen=1'
+                        url: '/api/v1/beobKarte/apId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen=1'
                     }).done(function (data) {
                         if (data.length > 0) {
                             zeigeBeob(data);
@@ -2702,7 +2703,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $("#tree").jstree("move_node", window.apf.beob_zugeordnet_node_ausgeschnitten, aktiver_node, "first");
+                    $("#tree").jstree("move_node", window.apf.beob_zugeordnet_node_ausgeschnitten, aktiverNode, "first");
                 }
             };
         }
@@ -2717,7 +2718,7 @@ var returnFunction = function (node) {
                     var zeigeBeob = require('../gmap/zeigeBeob');
                     $.ajax({
                         type: 'get',
-                        url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/nichtZuzuordnen='
+                        url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/nichtZuzuordnen='
                     }).done(function (data) {
                         if (data && data[0]) {
                             zeigeBeob(data[0]);
@@ -2746,10 +2747,10 @@ var returnFunction = function (node) {
                 "icon": "style/images/ausschneiden.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.prüfeSchreibvoraussetzungen()) {
+                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
-                    window.apf.beob_node_ausgeschnitten = aktiver_node;
+                    window.apf.beob_node_ausgeschnitten = aktiverNode;
                 }
             };
         }
@@ -2759,7 +2760,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $("#tree").jstree("move_node", window.apf.beob_zugeordnet_node_ausgeschnitten, parent_node, "first");
+                    $("#tree").jstree("move_node", window.apf.beob_zugeordnet_node_ausgeschnitten, parentNode, "first");
                 }
             };
         }

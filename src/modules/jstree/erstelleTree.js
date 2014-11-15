@@ -553,13 +553,14 @@ var returnFunction = function (ApArtId) {
             initiiereTPopFeldkontr  = require('../initiiereTPopFeldkontr'),
             initiiereTPopMassn      = require('../initiiereTPopMassn'),
             initiiereTPopMassnBer   = require('../initiiereTPopMassnBer'),
-            initiiereTPopBer        = require('../initiiereTPopBer');
+            initiiereTPopBer        = require('../initiiereTPopBer'),
+            erstelleIdAusDomAttributId = require('../erstelleIdAusDomAttributId');
 
         delete localStorage.tpopfreiwkontr;    // Erinnerung an letzten Klick im Baum löschen
         node = data.rslt.obj;
         var node_typ = node.attr("typ");
         // in der ID des Nodes enthaltene Texte müssen entfernt werden
-        var node_id = window.apf.erstelleIdAusDomAttributId(node.attr("id"));
+        var node_id = erstelleIdAusDomAttributId(node.attr("id"));
         // node öffnen
         $.jstree._reference(node).open_node(node);
         // richtiges Formular initiieren
@@ -732,20 +733,20 @@ var returnFunction = function (ApArtId) {
             ziel_parent_node_id;
         
         // nur aktualisieren, wenn Schreibrechte bestehen
-        if (!window.apf.prüfeSchreibvoraussetzungen()) {
+        if (!window.apf.pruefeSchreibvoraussetzungen()) {
             return;
         }
 
         // Variablen setzen
         herkunft_node = data.rslt.o;
-        herkunft_node_id = window.apf.erstelleIdAusDomAttributId($(herkunft_node).attr("id"));
+        herkunft_node_id = erstelleIdAusDomAttributId($(herkunft_node).attr("id"));
         herkunft_node_typ = herkunft_node.attr("typ");
         ziel_node = data.rslt.r;
-        ziel_node_id = window.apf.erstelleIdAusDomAttributId($(ziel_node).attr("id"));
+        ziel_node_id = erstelleIdAusDomAttributId($(ziel_node).attr("id"));
         ziel_node_typ = ziel_node.attr("typ");
         ziel_parent_node = $.jstree._reference(data.rslt.r)._get_parent(data.rslt.r);
         if ($(ziel_parent_node).attr("id")) {
-            ziel_parent_node_id = window.apf.erstelleIdAusDomAttributId($(ziel_parent_node).attr("id"));
+            ziel_parent_node_id = erstelleIdAusDomAttributId($(ziel_parent_node).attr("id"));
         }
 
         if (herkunft_node_typ === "pop") {

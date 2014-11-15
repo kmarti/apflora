@@ -37,7 +37,7 @@ var speichern = function (that) {
         waehleAp             = require('./waehleAp'),
         melde                = require('./melde');
 
-    if (window.apf.prüfeSchreibvoraussetzungen()) {
+    if (window.apf.pruefeSchreibvoraussetzungen()) {
         formular = $(that).attr("formular");
         // infos über die betroffene Tabelle holen
         var table = _.findWhere(configuration.tables, {form: formular});

@@ -19,7 +19,7 @@ var returnFunction = function (LatLng, map, marker, TPop) {
         melde   = require('../melde');
 
     // nur aktualisieren, wenn Schreibrechte bestehen
-    if (!window.apf.prüfeSchreibvoraussetzungen()) { return; }
+    if (!window.apf.pruefeSchreibvoraussetzungen()) { return; }
     title = (TPop && TPop.TPopFlurname ? TPop.TPopFlurname : "neue Teilpopulation");
     lat = LatLng.lat();
     lng = LatLng.lng();
