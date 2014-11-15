@@ -5,7 +5,7 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var returnFunction = function () {
+module.exports = function () {
     delete localStorage.ap_id;
     delete localStorage.apziel_id;
     delete localStorage.assozarten_id;
@@ -28,5 +28,3 @@ var returnFunction = function () {
     delete localStorage.tpopmassnber_id;
     delete localStorage.zielber_id;
 };
-
-module.exports = returnFunction;

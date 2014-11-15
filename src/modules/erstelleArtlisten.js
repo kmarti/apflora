@@ -1,10 +1,10 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-require('jquery-ui');
+var $ = require('jquery');
 
 // übernimmt $ wegen jquery ui
-var returnFunction = function () {
+module.exports = function () {
     var $AaSisfNr = $('#AaSisfNr');
 
     // nur machen, wenn noch nicht passiert - sonst werden die html dauernd ersetzt
@@ -52,5 +52,3 @@ var returnFunction = function () {
         });
     }
 };
-
-module.exports = returnFunction;

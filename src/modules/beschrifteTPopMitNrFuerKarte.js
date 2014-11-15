@@ -5,17 +5,12 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $ = require('jquery');
-
 var returnFunction = function (popNr, tpopNr) {
     var tpopBeschriftung;
 
     popNr = popNr || "?";
-    if (tpopNr) {
-        tpopBeschriftung = popNr + "/" + tpopNr;
-    } else {
-        tpopBeschriftung = popNr + "/?";
-    }
+    tpopBeschriftung = (tpopNr ? popNr + "/" + tpopNr : popNr + "/?");
+
     return tpopBeschriftung;
 };
 
