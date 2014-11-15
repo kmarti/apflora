@@ -35,7 +35,7 @@ var returnFunction = function (feature, resolution, selected) {
 
     // text bestimmen, abhängig von der Einstellung im Layertree
     if ($layertree_pop_nr.is(':checked')) {
-        text_inhalt = feature.get('pop_nr');
+        text_inhalt = feature.get('popNr');
     } else if ($('#layertree_pop_name').is(':checked')) {
         text_inhalt = feature.get('pop_name');
     }

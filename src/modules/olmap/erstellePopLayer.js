@@ -41,7 +41,7 @@ var returnFunction = function (popliste, popid_markiert, visible) {
         // marker erstellen...
         marker = new ol.Feature({
             geometry: new ol.geom.Point([pop.PopXKoord, pop.PopYKoord]),
-            pop_nr: my_label,
+            popNr: my_label,
             pop_name: my_name,
             name: my_label, // noch benötigt? TODO: entfernen
             popup_content: popup_content,

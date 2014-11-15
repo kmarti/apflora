@@ -17,8 +17,8 @@ var returnFunction = function (pop_selected, tpop_selected) {
     if (pop_selected.length > 0) {
         // pop nach nr sortieren
         pop_selected = _.sortBy(pop_selected, function (pop) {
-            var pop_nr = pop.get('pop_nr');
-            return parseInt(pop_nr);
+            var popNr = pop.get('popNr');
+            return parseInt(popNr);
         });
         if (tpop_selected.length > 0) {
             // tpop und pop betitteln
@@ -28,16 +28,16 @@ var returnFunction = function (pop_selected, tpop_selected) {
         _.each(pop_selected, function (pop) {
             pop_id = pop.get('myId');
             rückmeldung += '<tr><td><a href="#" onclick="window.apf.öffnePop(\'' + pop_id + '\')">';
-            rückmeldung += pop.get('pop_nr') + ':<\/a></td><td><a href="#" onclick="window.apf.öffnePop(\'' + pop_id + '\')">' + pop.get('pop_name') + '<\/a></td></tr>';
+            rückmeldung += pop.get('popNr') + ':<\/a></td><td><a href="#" onclick="window.apf.öffnePop(\'' + pop_id + '\')">' + pop.get('pop_name') + '<\/a></td></tr>';
         });
         rückmeldung += "</table>";
     }
     if (tpop_selected.length > 0) {
         // tpop nach nr dann tpopnr sortieren
         tpop_selected = _.sortBy(tpop_selected, function (tpop) {
-            var pop_nr = tpop.get('pop_nr') || 0,
-                tpop_nr = tpop.get('tpop_nr') || 0,
-                pop_tpop_nr = parseFloat(parseInt(pop_nr) + '.' + parseInt(tpop_nr));
+            var popNr = tpop.get('popNr') || 0,
+                tpopNr = tpop.get('tpopNr') || 0,
+                pop_tpop_nr = parseFloat(parseInt(popNr) + '.' + parseInt(tpopNr));
             return pop_tpop_nr;
         });
         if (pop_selected.length > 0) {

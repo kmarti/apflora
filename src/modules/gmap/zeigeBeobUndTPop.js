@@ -31,13 +31,14 @@ var returnFunction = function (beob_liste, tpop_liste) {
         marker_cluster_tpop,
         datum,
         titel_beob,
-        tpop_beschriftung,
+        tpopBeschriftung,
         a_note,
         my_flurname,
-        chToWgsLat    = require('../../lib/chToWgsLat'),
-        chToWgsLng    = require('../../lib/chToWgsLng'),
-        zeigeFormular = require('../zeigeFormular'),
-        melde         = require('../melde');
+        chToWgsLat                   = require('../../lib/chToWgsLat'),
+        chToWgsLng                   = require('../../lib/chToWgsLng'),
+        zeigeFormular                = require('../zeigeFormular'),
+        melde                        = require('../melde'),
+        beschrifteTPopMitNrFuerKarte = require('../beschrifteTPopMitNrFuerKarte');
 
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
     zeigeFormular("google_karte");
@@ -86,12 +87,12 @@ var returnFunction = function (beob_liste, tpop_liste) {
         latlng2 = new google.maps.LatLng(tpop.Lat, tpop.Lng);
         // Kartenausschnitt um diese Koordinate erweitern
         bounds.extend(latlng2);
-        tpop_beschriftung = window.apf.beschrifteTPopMitNrFürKarte(tpop.PopNr, tpop.TPopNr);
+        tpopBeschriftung = beschrifteTPopMitNrFuerKarte(tpop.PopNr, tpop.TPopNr);
         marker_tpop = new MarkerWithLabel({
             map: map,
             position: latlng2,
-            title: tpop_beschriftung,
-            labelContent: tpop_beschriftung,
+            title: tpopBeschriftung,
+            labelContent: tpopBeschriftung,
             labelAnchor: new google.maps.Point(75, 0),
             labelClass: "MapLabel",
             icon: "img/flora_icon.png"

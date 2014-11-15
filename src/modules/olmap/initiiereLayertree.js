@@ -76,16 +76,16 @@ var returnFunction = function (active_kategorie) {
             // bei pop und tpop muss style gewählt werden können
             if (layertitel === 'Populationen') {
                 html_prov += '<div class="layeroptionen">';
-                html_prov += '<label for="layertree_pop_nr" class="layertree_pop_style pop_nr">Nr.</label>';
-                html_prov += '<input type="checkbox" id="layertree_pop_nr" class="layertree_pop_style pop_nr" checked="checked"> ';
+                html_prov += '<label for="layertree_pop_nr" class="layertree_pop_style popNr">Nr.</label>';
+                html_prov += '<input type="checkbox" id="layertree_pop_nr" class="layertree_pop_style popNr" checked="checked"> ';
                 html_prov += '<label for="layertree_pop_name" class="layertree_pop_style pop_name">Namen</label>';
                 html_prov += '<input type="checkbox" id="layertree_pop_name" class="layertree_pop_style pop_name">';
                 html_prov += '</div>';
             }
             if (layertitel === 'Teilpopulationen') {
                 html_prov += '<div class="layeroptionen">';
-                html_prov += '<label for="layertree_tpop_nr" class="layertree_tpop_style tpop_nr">Nr.</label>';
-                html_prov += '<input type="checkbox" id="layertree_tpop_nr" class="layertree_tpop_style tpop_nr" checked="checked"> ';
+                html_prov += '<label for="layertree_tpop_nr" class="layertree_tpop_style tpopNr">Nr.</label>';
+                html_prov += '<input type="checkbox" id="layertree_tpop_nr" class="layertree_tpop_style tpopNr" checked="checked"> ';
                 html_prov += '<label for="layertree_tpop_name" class="layertree_tpop_style tpop_name">Namen</label>';
                 html_prov += '<input type="checkbox" id="layertree_tpop_name" class="layertree_tpop_style tpop_name">';
                 html_prov += '</div>';

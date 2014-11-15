@@ -8,7 +8,7 @@ var _ = require('underscore'),
 var returnFunction = function (tpop_liste) {
     var anz_tpop,
         infowindow,
-        tpop_beschriftung,
+        tpopBeschriftung,
         lat,
         lng,
         latlng,
@@ -23,9 +23,10 @@ var returnFunction = function (tpop_liste) {
         marker_options,
         marker_cluster,
         my_flurname,
-        chToWgsLat    = require('../lib/chToWgsLat'),
-        chToWgsLng    = require('../lib/chToWgsLng'),
-        zeigeFormular = require('./zeigeFormular');
+        chToWgsLat                   = require('../lib/chToWgsLat'),
+        chToWgsLng                   = require('../lib/chToWgsLng'),
+        zeigeFormular                = require('./zeigeFormular'),
+        beschrifteTPopMitNrFuerKarte = require('./beschrifteTPopMitNrFuerKarte');
 
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
     zeigeFormular("google_karte", $);
@@ -69,7 +70,7 @@ var returnFunction = function (tpop_liste) {
     markers = [];
     _.each(tpop_liste, function (tpop) {
         tpop_id = tpop.TPopId;
-        tpop_beschriftung = window.apf.beschrifteTPopMitNrFürKarte(tpop.PopNr, tpop.TPopNr);
+        tpopBeschriftung = beschrifteTPopMitNrFuerKarte(tpop.PopNr, tpop.TPopNr);
         latlng2 = new google.maps.LatLng(tpop.Lat, tpop.Lng);
         if (anz_tpop === 1) {
             // map.fitbounds setzt zu hohen zoom, wenn nur eine TPop Koordinaten hat > verhindern
@@ -81,8 +82,8 @@ var returnFunction = function (tpop_liste) {
         marker = new MarkerWithLabel({
             map:          map,
             position:     latlng2,
-            title:        tpop_beschriftung,
-            labelContent: tpop_beschriftung,
+            title:        tpopBeschriftung,
+            labelContent: tpopBeschriftung,
             labelAnchor:  new google.maps.Point(75, 0),
             labelClass:   "MapLabel",
             icon:         "img/flora_icon.png"

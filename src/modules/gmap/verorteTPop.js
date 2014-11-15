@@ -17,13 +17,14 @@ var returnFunction = function (tpop) {
         verorted,
         marker,
         content_string,
-        tpop_beschriftung,
+        tpopBeschriftung,
         my_flurname,
-        chToWgsLng      = require('../../lib/chToWgsLng'),
-        chToWgsLat      = require('../../lib/chToWgsLat'),
-        zeigeFormular   = require('../zeigeFormular'),
-        setLocationTPop = require('./setLocationTPop'),
-        erstelleMarker  = require('./erstelleMarker');
+        chToWgsLng                   = require('../../lib/chToWgsLng'),
+        chToWgsLat                   = require('../../lib/chToWgsLat'),
+        zeigeFormular                = require('../zeigeFormular'),
+        setLocationTPop              = require('./setLocationTPop'),
+        erstelleMarker               = require('./erstelleMarker'),
+        beschrifteTPopMitNrFuerKarte = require('../beschrifteTPopMitNrFuerKarte');
 
     window.apf.gmap.markers_array = [];
 
@@ -58,11 +59,11 @@ var returnFunction = function (tpop) {
 
     if (verorted) {
         // marker erstellen
-        tpop_beschriftung = window.apf.beschrifteTPopMitNrFürKarte(tpop.PopNr, tpop.TPopNr);
+        tpopBeschriftung = beschrifteTPopMitNrFuerKarte(tpop.PopNr, tpop.TPopNr);
         marker = new google.maps.Marker({
-            position: latlng, 
+            position: latlng,
             map: map,
-            title: tpop_beschriftung,
+            title: tpopBeschriftung,
             icon: "img/flora_icon_rot.png",
             draggable: true
         });

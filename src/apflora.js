@@ -1075,8 +1075,8 @@ window.apf.erstelleTPopNrLabel = function (popnr, tpopnr) {
 window.apf.olmap.erstelleMarkerFürTPopLayer = function (tpop) {
     return new ol.Feature({
         geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
-        tpop_nr: tpop.TPopNr,
-        pop_nr: tpop.PopNr,
+        tpopNr: tpop.TPopNr,
+        popNr: tpop.PopNr,
         tpop_nr_label: window.apf.erstelleTPopNrLabel(tpop.PopNr, tpop.TPopNr),
         tpop_name: tpop.TPopFlurname || '(kein Name)',
         name: window.apf.erstelleTPopNrLabel(tpop.PopNr, tpop.TPopNr),  // brauchts das noch? TODO: entfernen
@@ -1878,21 +1878,6 @@ window.apf.erstelleIdAusDomAttributId = function (domAttributId) {
     }
 
     return returnWert;
-};
-
-// retourniert die Beschriftung für TPop auf Karten
-// Wenn TPop mit ihrer Nummer beschriftet sein sollen
-// tpop_nr und pop_nr wird übernommen
-window.apf.beschrifteTPopMitNrFürKarte = function (pop_nr, tpop_nr) {
-    'use strict';
-    var tpop_beschriftung;
-    pop_nr = pop_nr || "?";
-    if (tpop_nr) {
-        tpop_beschriftung = pop_nr + "/" + tpop_nr;
-    } else {
-        tpop_beschriftung = pop_nr + "/?";
-    }
-    return tpop_beschriftung;
 };
 
 
