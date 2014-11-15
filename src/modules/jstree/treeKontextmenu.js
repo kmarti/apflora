@@ -18,7 +18,8 @@ var returnFunction = function (node) {
         insertNeuenNodeEineHierarchiestufeTiefer   = require('./insertNeuenNodeEineHierarchiestufeTiefer'),
         insertNeuenNodeAufGleicherHierarchiestufe  = require('./insertNeuenNodeAufGleicherHierarchiestufe'),
         frageObUndeleteDatensatz                   = require('../frageObUndeleteDatensatz'),
-        melde                                      = require('../melde');
+        melde                                      = require('../melde'),
+        zeigeBeobKoordinatenImGisBrowser           = require('../zeigeBeobKoordinatenImGisBrowser');
 
     // relevante nodes zwischenspeichern
     aktiver_node = node;
@@ -1249,7 +1250,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/wappen_zuerich.png",
                 "action": function () {
-                    window.apf.zeigeBeobKoordinatenImGisBrowser();
+                    zeigeBeobKoordinatenImGisBrowser();
                 }
             }
         };
@@ -2392,7 +2393,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/wappen_zuerich.png",
                 "action": function () {
-                    window.apf.zeigeBeobKoordinatenImGisBrowser();
+                    zeigeBeobKoordinatenImGisBrowser();
                 }
             }
         };
@@ -2642,7 +2643,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/wappen_zuerich.png",
                 "action": function () {
-                    window.apf.zeigeBeobKoordinatenImGisBrowser();
+                    zeigeBeobKoordinatenImGisBrowser();
                 }
             }
         };
@@ -2733,7 +2734,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/wappen_zuerich.png",
                 "action": function () {
-                    window.apf.zeigeBeobKoordinatenImGisBrowser();
+                    zeigeBeobKoordinatenImGisBrowser();
                 }
             }
         };
