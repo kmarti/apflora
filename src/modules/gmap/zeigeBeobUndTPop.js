@@ -99,18 +99,18 @@ var returnFunction = function (beob_liste, tpop_liste) {
         });
         markers_tpop.push(marker_tpop);
         my_flurname = tpop.TPopFlurname || '(kein Flurname)';
-        contentstring_tpop = '<div id="content">'+
-            '<div id="siteNotice">'+
-            '</div>'+
-            '<div id="bodyContent" class="GmInfowindow">'+
-            '<h3>' + tpop.Artname + '</h3>'+
-            '<p>Population: ' + tpop.PopName + '</p>'+
-            '<p>TPop: ' + my_flurname + '</p>'+
-            '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
-            '<p><a href="#" onclick="window.apf.öffneTPop(\'' + tpop.TPopId + '\')">Formular anstelle Karte öffnen<\/a></p>'+
-            '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')">Formular neben der Karte öffnen<\/a></p>'+
-            '<p><a href="#" onclick="window.apf.öffneTPopInNeuemTab(\'' + tpop.TPopId + '\')">Formular in neuem Fenster öffnen<\/a></p>'+
-            '</div>'+
+        contentstring_tpop = '<div id="content">' +
+            '<div id="siteNotice">' +
+            '</div>' +
+            '<div id="bodyContent" class="GmInfowindow">' +
+            '<h3>' + tpop.Artname + '</h3>' +
+            '<p>Population: ' + tpop.PopName + '</p>' +
+            '<p>TPop: ' + my_flurname + '</p>' +
+            '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>' +
+            '<p><a href="#" onclick="window.apf.öffneTPop(\'' + tpop.TPopId + '\')">Formular anstelle Karte öffnen<\/a></p>' +
+            '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')">Formular neben der Karte öffnen<\/a></p>' +
+            '<p><a href="#" onclick="window.apf.öffneTPopInNeuemTab(\'' + tpop.TPopId + '\')">Formular in neuem Fenster öffnen<\/a></p>' +
+            '</div>' +
             '</div>';
         makeListener(map, marker_tpop, contentstring_tpop);
     });
@@ -171,25 +171,25 @@ var returnFunction = function (beob_liste, tpop_liste) {
         var Autor = beob.Autor || "(keiner)";
         var Projekt = beob.PROJET || "(keines)";
         var Ort = beob.DESC_LOCALITE || "(keiner)";
-        contentstring_beob = '<div id="content">'+
-            '<div id="siteNotice">'+
-            '</div>'+
-            '<div id="bodyContent" class="GmInfowindow">'+
-            '<h3>' + datum + '</h3>'+
-            '<p>Autor: ' + Autor + '</p>'+
-            '<p>Projekt: ' + Projekt + '</p>'+
-            '<p>Ort: ' + Ort + '</p>'+
-            '<p>Koordinaten: ' + beob.X + ' / ' + beob.Y + '</p>'+
-            '<p><a href="#" onclick="window.apf.öffneBeob(\'' + beob.NO_NOTE + '\')">Formular anstelle Karte öffnen<\/a></p>'+
-            //'<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'beob\', ' + beob.NO_NOTE + ')">Formular neben der Karte öffnen<\/a></p>'+
-            '<p><a href="#" onclick="window.apf.öffneBeobInNeuemTab(\'' + beob.NO_NOTE + '\')">Formular in neuem Fenster öffnen<\/a></p>'+
-            '</div>'+
+        contentstring_beob = '<div id="content">' +
+            '<div id="siteNotice">' +
+            '</div>' +
+            '<div id="bodyContent" class="GmInfowindow">' +
+            '<h3>' + datum + '</h3>' +
+            '<p>Autor: ' + Autor + '</p>' +
+            '<p>Projekt: ' + Projekt + '</p>' +
+            '<p>Ort: ' + Ort + '</p>' +
+            '<p>Koordinaten: ' + beob.X + ' / ' + beob.Y + '</p>' +
+            '<p><a href="#" onclick="window.apf.öffneBeob(\'' + beob.NO_NOTE + '\')">Formular anstelle Karte öffnen<\/a></p>' +
+            //'<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'beob\', ' + beob.NO_NOTE + ')">Formular neben der Karte öffnen<\/a></p>' +
+            '<p><a href="#" onclick="window.apf.öffneBeobInNeuemTab(\'' + beob.NO_NOTE + '\')">Formular in neuem Fenster öffnen<\/a></p>' +
+            '</div>' +
             '</div>';
         makeListenerBeob(map, marker_beob, contentstring_beob);
     });
     // KEIN MARKERCLUSTERER: er verhindert das Entfernen einzelner Marker!
     // ausserdem macht er es schwierig, eng liegende Marker zuzuordnen
-    
+
     // diese Funktion muss hier sein, damit infowindow bekannt ist
     function makeListenerBeob(map, markerBeob, contentStringBeob) {
         google.maps.event.addListener(markerBeob, 'click', function () {

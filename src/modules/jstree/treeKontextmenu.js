@@ -14,13 +14,13 @@ var returnFunction = function (node) {
         parent_nodeText,
         grandparentNode,
         neue_apziele_node,
-        zeigeTPop                                  = require('../zeigeTPop'),
-        insertNeuenNodeEineHierarchiestufeTiefer   = require('./insertNeuenNodeEineHierarchiestufeTiefer'),
-        insertNeuenNodeAufGleicherHierarchiestufe  = require('./insertNeuenNodeAufGleicherHierarchiestufe'),
-        frageObUndeleteDatensatz                   = require('../frageObUndeleteDatensatz'),
-        melde                                      = require('../melde'),
-        zeigeBeobKoordinatenImGisBrowser           = require('../zeigeBeobKoordinatenImGisBrowser'),
-        erstelleIdAusDomAttributId                 = require('../erstelleIdAusDomAttributId');
+        zeigeTPop                                 = require('../zeigeTPop'),
+        insertNeuenNodeEineHierarchiestufeTiefer  = require('./insertNeuenNodeEineHierarchiestufeTiefer'),
+        insertNeuenNodeAufGleicherHierarchiestufe = require('./insertNeuenNodeAufGleicherHierarchiestufe'),
+        frageObUndeleteDatensatz                  = require('../frageObUndeleteDatensatz'),
+        melde                                     = require('../melde'),
+        zeigeBeobKoordinatenImGisBrowser          = require('../zeigeBeobKoordinatenImGisBrowser'),
+        erstelleIdAusDomAttributId                = require('../erstelleIdAusDomAttributId');
 
     // relevante nodes zwischenspeichern
     aktiverNode = node;
@@ -2042,7 +2042,7 @@ var returnFunction = function (node) {
                     });
                     insertTPopMassnKopie.done(function (id) {
                         var strukturtyp = "tpopmassn",
-                            beschriftung = window.apf.erstelleLabelFürMassnahme(window.apf.tpopmassn_objekt_kopiert.TPopMassnJahr, window.apf.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt);
+                            beschriftung = window.apf.erstelleLabelFuerMassnahme(window.apf.tpopmassn_objekt_kopiert.TPopMassnJahr, window.apf.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt);
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertTPopMassnKopie.fail(function () {
@@ -2193,7 +2193,7 @@ var returnFunction = function (node) {
                     });
                     insertTPopMassnKopie_2.done(function (id) {
                         var strukturtyp = "tpopmassn",
-                            beschriftung = window.apf.erstelleLabelFürMassnahme(window.apf.tpopmassn_objekt_kopiert.TPopMassnJahr, window.apf.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt);
+                            beschriftung = window.apf.erstelleLabelFuerMassnahme(window.apf.tpopmassn_objekt_kopiert.TPopMassnJahr, window.apf.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt);
                         insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertTPopMassnKopie_2.fail(function () {

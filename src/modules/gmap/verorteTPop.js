@@ -72,16 +72,16 @@ var returnFunction = function (tpop) {
 
         // infowindow erstellen
         my_flurname = tpop.TPopFlurname || '(kein Flurname)';
-        content_string = '<div id="content">'+
-            '<div id="siteNotice">'+
-            '</div>'+
-            '<div id="bodyContent" class="GmInfowindow">'+
-            '<h3>' + my_flurname + '</h3>'+
-            '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
-            '<p><a href="#" onclick="window.apf.öffneTPop(\'' + tpop.TPopId + '\')">Formular anstelle Karte öffnen<\/a></p>'+
-            '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')">Formular neben der Karte öffnen<\/a></p>'+
-            '<p><a href="#" onclick="window.apf.öffneTPopInNeuemTab(\'' + tpop.TPopId + '\')">Formular in neuem Fenster öffnen<\/a></p>'+
-            '</div>'+
+        content_string = '<div id="content">' +
+            '<div id="siteNotice">' +
+            '</div>' +
+            '<div id="bodyContent" class="GmInfowindow">' +
+            '<h3>' + my_flurname + '</h3>' +
+            '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>' +
+            '<p><a href="#" onclick="window.apf.öffneTPop(\'' + tpop.TPopId + '\')">Formular anstelle Karte öffnen<\/a></p>' +
+            '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')">Formular neben der Karte öffnen<\/a></p>' +
+            '<p><a href="#" onclick="window.apf.öffneTPopInNeuemTab(\'' + tpop.TPopId + '\')">Formular in neuem Fenster öffnen<\/a></p>' +
+            '</div>' +
             '</div>';
         infowindow = new google.maps.InfoWindow({
             content: content_string

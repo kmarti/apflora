@@ -969,14 +969,14 @@ window.apf.speichereWert = function (tabelle, id, feld, wert) {
 window.apf.olmap.erstelleContentFürTPop = function (tpop) {
     'use strict';
     var my_flurname = tpop.TPopFlurname || '(kein Flurname)';
-    return '<table>'+
-        '<tr><td><p>Typ:</p></td><td><p>Teilpopulation</p></td></tr>'+
-        '<tr><td><p>Population:</p></td><td><p>' + tpop.PopName + '</p></td></tr>'+
-        '<tr><td><p>Teilpopulation:</p></td><td><p>' + my_flurname + '</p></td></tr>'+
-        '<tr><td><p>Koordinaten:</p></td><td><p>' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p></td></tr>'+
-        '</table>'+
-        '<p><a href="#" onclick="window.apf.öffneTPop(\'' + tpop.TPopId + '\')">Formular anstelle Karte öffnen<\/a></p>'+
-        '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')">Formular neben der Karte öffnen<\/a></p>'+
+    return '<table>' +
+        '<tr><td><p>Typ:</p></td><td><p>Teilpopulation</p></td></tr>' +
+        '<tr><td><p>Population:</p></td><td><p>' + tpop.PopName + '</p></td></tr>' +
+        '<tr><td><p>Teilpopulation:</p></td><td><p>' + my_flurname + '</p></td></tr>' +
+        '<tr><td><p>Koordinaten:</p></td><td><p>' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p></td></tr>' +
+        '</table>' +
+        '<p><a href="#" onclick="window.apf.öffneTPop(\'' + tpop.TPopId + '\')">Formular anstelle Karte öffnen<\/a></p>' +
+        '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')">Formular neben der Karte öffnen<\/a></p>' +
         '<p><a href="#" onclick="window.apf.öffneTPopInNeuemTab(\'' + tpop.TPopId + '\')">Formular in neuem Fenster öffnen<\/a></p>';
 };
 
@@ -1024,12 +1024,12 @@ window.apf.olmap.entfernePopupOverlays = function () {
 
 window.apf.olmap.erstelleContentFürPop = function (pop) {
     'use strict';
-    return '<table>'+
-        '<tr><td><p>Typ:</p></td><td><p>Population</p></td></tr>'+
-        '<tr><td><p>Koordinaten:</p></td><td><p>' + pop.PopXKoord + ' / ' + pop.PopYKoord + '</p></td></tr>'+
-        '</table>'+
-        '<p><a href="#" onclick="window.apf.öffnePop(\'' + pop.PopId + '\')">Formular anstelle Karte öffnen<\/a></p>'+
-        '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'pop\', ' + pop.PopId + ')">Formular neben der Karte öffnen<\/a></p>'+
+    return '<table>' +
+        '<tr><td><p>Typ:</p></td><td><p>Population</p></td></tr>' +
+        '<tr><td><p>Koordinaten:</p></td><td><p>' + pop.PopXKoord + ' / ' + pop.PopYKoord + '</p></td></tr>' +
+        '</table>' +
+        '<p><a href="#" onclick="window.apf.öffnePop(\'' + pop.PopId + '\')">Formular anstelle Karte öffnen<\/a></p>' +
+        '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'pop\', ' + pop.PopId + ')">Formular neben der Karte öffnen<\/a></p>' +
         '<p><a href="#" onclick="window.apf.öffnePopInNeuemTab(\'' + pop.PopId + '\')">Formular in neuem Fenster öffnen<\/a></p>';
 };
 
@@ -1819,7 +1819,7 @@ window.apf.erstelleLabelFürFeldkontrolle = function (jahr, typ) {
 
 // erwartet aktuelle Werte für jahr und beurteilung
 // erstellt den label für den Baum
-window.apf.erstelleLabelFürMassnahme = function (jahr, beurteilung) {
+window.apf.erstelleLabelFuerMassnahme = function (jahr, beurteilung) {
     'use strict';
     if (typeof jahr === "undefined") {
         jahr = "(kein Jahr)";

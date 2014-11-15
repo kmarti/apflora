@@ -90,37 +90,37 @@ var returnFunction = function (tpop_liste) {
         });
         markers.push(marker);
         my_flurname = tpop.TPopFlurname || '(kein Flurname)';
-        contentString = '<div id="content">'+
-            '<div id="siteNotice">'+
-            '</div>'+
-            '<div id="bodyContent" class="GmInfowindow">'+
-            '<h3>' + tpop.Artname + '</h3>'+
-            '<p>Population: ' + tpop.PopName + '</p>'+
-            '<p>TPop: ' + my_flurname + '</p>'+
-            '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>'+
-            '<p><a href="#" onclick="window.apf.öffneTPop(\'' + tpop.TPopId + '\')">Formular anstelle Karte öffnen<\/a></p>'+
-            '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')">Formular neben der Karte öffnen<\/a></p>'+
-            '<p><a href="#" onclick="window.apf.öffneTPopInNeuemTab(\'' + tpop.TPopId + '\')">Formular in neuem Fenster öffnen<\/a></p>'+
-            '</div>'+
+        contentString = '<div id="content">' +
+            '<div id="siteNotice">' +
+            '</div>' +
+            '<div id="bodyContent" class="GmInfowindow">' +
+            '<h3>' + tpop.Artname + '</h3>' +
+            '<p>Population: ' + tpop.PopName + '</p>' +
+            '<p>TPop: ' + my_flurname + '</p>' +
+            '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>' +
+            '<p><a href="#" onclick="window.apf.öffneTPop(\'' + tpop.TPopId + '\')">Formular anstelle Karte öffnen<\/a></p>' +
+            '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')">Formular neben der Karte öffnen<\/a></p>' +
+            '<p><a href="#" onclick="window.apf.öffneTPopInNeuemTab(\'' + tpop.TPopId + '\')">Formular in neuem Fenster öffnen<\/a></p>' +
+            '</div>' +
             '</div>';
         makeListener(map, marker, contentString);
     });
     marker_options = {
-        maxZoom: 17, 
+        maxZoom: 17,
         styles: [{
-                height: 53,
-                url:    "img/m8.png",
-                width:  53
-            }]
+            height: 53,
+            url:    "img/m8.png",
+            width:  53
+        }]
     };
 
     // globale Variable verwenden, damit ein Klick auf die Checkbox die Ebene einblenden kann
-    window.apf.google_karte_detailpläne = new google.maps.KmlLayer({
+    window.apf.googleKarteDetailplaene = new google.maps.KmlLayer({
         url: 'kml/rueteren.kmz',
         preserveViewport: true
     });
 
-    window.apf.google_karte_detailpläne.setMap(null);
+    window.apf.googleKarteDetailplaene.setMap(null);
     marker_cluster = new MarkerClusterer(map, markers, marker_options);
     if (anz_tpop === 1) {
         // map.fitbounds setzt zu hohen zoom, wenn nur eine Beobachtung erfasst wurde > verhindern

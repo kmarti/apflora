@@ -6,7 +6,7 @@
 var $ = require('jquery');
 
 var returnFunction = function (aktiverNode, parentNode, strukturtyp, dsId, beschriftung) {
-    var NeuerNode,
+    var neuerNode,
         grandparentNode,
         initiiereFormularMitStrukturtyp = require('../initiiereFormularMitStrukturtyp'),
         erstelleUnterordnerVonTpop      = require('./erstelleUnterordnerVonTpop'),
@@ -16,7 +16,7 @@ var returnFunction = function (aktiverNode, parentNode, strukturtyp, dsId, besch
     // letzte globale Variable entfernen
     delete window.apf[strukturtyp];
     // neuen Node bauen
-    NeuerNode = $.jstree._reference(parentNode).create_node(parentNode, "last", {
+    neuerNode = $.jstree._reference(parentNode).create_node(parentNode, "last", {
         "data": beschriftung,
         "attr": {
             "id": dsId,
@@ -25,13 +25,13 @@ var returnFunction = function (aktiverNode, parentNode, strukturtyp, dsId, besch
     });
     // allfällige Unterordner anlegen
     if (strukturtyp === "pop") {
-        erstelleUnterordnerVonPop(NeuerNode, dsId);
+        erstelleUnterordnerVonPop(neuerNode, dsId);
     }
     if (strukturtyp === "tpop") {
-        erstelleUnterordnerVonTpop(NeuerNode, dsId);
+        erstelleUnterordnerVonTpop(neuerNode, dsId);
     }
     if (strukturtyp === "apziel") {
-        $.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
+        $.jstree._reference(neuerNode).create_node(neuerNode, "last", {
             "data": "0 Ziel-Berichte",
             "attr": {
                 "id": dsId,
@@ -57,7 +57,7 @@ var returnFunction = function (aktiverNode, parentNode, strukturtyp, dsId, besch
 
     // node selecten
     $.jstree._reference(aktiverNode).deselect_all();
-    $.jstree._reference(NeuerNode).select_node(NeuerNode);
+    $.jstree._reference(neuerNode).select_node(neuerNode);
     // Formular initiieren
     initiiereFormularMitStrukturtyp(strukturtyp);
 };

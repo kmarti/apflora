@@ -4,13 +4,12 @@
 var $ = require('jquery'),
     google = require('google');
 
-var returnFunction = function (LatLng, map, marker, TPop) {
+var returnFunction = function (latLng, map, marker, TPop) {
     /*global Google*/
     var lat,
         lng,
         contentString,
         infowindow,
-        Objekt,
         title,
         X,
         Y,
@@ -19,10 +18,12 @@ var returnFunction = function (LatLng, map, marker, TPop) {
         melde   = require('../melde');
 
     // nur aktualisieren, wenn Schreibrechte bestehen
-    if (!window.apf.pruefeSchreibvoraussetzungen()) { return; }
+    if (!window.apf.pruefeSchreibvoraussetzungen()) {
+        return;
+    }
     title = (TPop && TPop.TPopFlurname ? TPop.TPopFlurname : "neue Teilpopulation");
-    lat = LatLng.lat();
-    lng = LatLng.lng();
+    lat = latLng.lat();
+    lng = latLng.lng();
     X = ddInChY(lat, lng);
     Y = ddInChX(lat, lng);
     $.ajax({
@@ -34,16 +35,16 @@ var returnFunction = function (LatLng, map, marker, TPop) {
             url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + localStorage.tpop_id + '/feld=TPopYKoord/wert=' + Y + '/user=' + sessionStorage.User
         }).done(function () {
             window.apf.gmap.clearInfoWindows();
-            contentString = '<div id="content">'+
-                '<div id="siteNotice">'+
-                '</div>'+
-                '<div id="bodyContent" class="GmInfowindow">'+
-                '<h3>' + title + '</h3>'+
-                '<p>Koordinaten: ' + X + ' / ' + Y + '</p>'+
-                '<p><a href="#" onclick="window.apf.öffneTPop(\'' + localStorage.tpop_id + '\')">Formular anstelle Karte öffnen<\/a></p>'+
-                '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'tpop\', ' + localStorage.tpop_id + ')">Formular neben der Karte öffnen<\/a></p>'+
-                '<p><a href="#" onclick="window.apf.öffneTPopInNeuemTab(\'' + localStorage.tpop_id + '\')">Formular in neuem Fenster öffnen<\/a></p>'+
-                '</div>'+
+            contentString = '<div id="content">' +
+                '<div id="siteNotice">' +
+                '</div>' +
+                '<div id="bodyContent" class="GmInfowindow">' +
+                '<h3>' + title + '</h3>' +
+                '<p>Koordinaten: ' + X + ' / ' + Y + '</p>' +
+                '<p><a href="#" onclick="window.apf.öffneTPop(\'' + localStorage.tpop_id + '\')">Formular anstelle Karte öffnen<\/a></p>' +
+                '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'tpop\', ' + localStorage.tpop_id + ')">Formular neben der Karte öffnen<\/a></p>' +
+                '<p><a href="#" onclick="window.apf.öffneTPopInNeuemTab(\'' + localStorage.tpop_id + '\')">Formular in neuem Fenster öffnen<\/a></p>' +
+                '</div>' +
                 '</div>';
             infowindow = new google.maps.InfoWindow({
                 content: contentString

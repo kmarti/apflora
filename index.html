@@ -2775,10 +2775,10 @@
             });
 
             $(".karte").on("change", ".google_karte_detailplaene_checkbox", function() {
-                if (window.apf.google_karte_detailpläne.getMap() === null) {
-                    window.apf.google_karte_detailpläne.setMap(window.apf.gmap.map);
+                if (window.apf.googleKarteDetailplaene.getMap() === null) {
+                    window.apf.googleKarteDetailplaene.setMap(window.apf.gmap.map);
                 } else {
-                    window.apf.google_karte_detailpläne.setMap(null);
+                    window.apf.googleKarteDetailplaene.setMap(null);
                 }
             });
 
