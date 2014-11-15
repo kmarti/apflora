@@ -5,7 +5,8 @@ var $                     = require('jquery'),
     _                     = require('underscore'),
     capitaliseFirstLetter = require('../lib/capitaliseFirstLetter'),
     initiiereAp           = require('./initiiereAp'),
-    zeigeFormular         = require('./zeigeFormular');
+    zeigeFormular         = require('./zeigeFormular'),
+    melde                 = require('./melde');
 
 var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
     // beob_status markiert, ob die Beobachtung:
@@ -166,7 +167,7 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
             });
         }
     }).fail(function () {
-        window.apf.melde('Fehler: Keine Daten für die Beobachtung erhalten');
+        melde('Fehler: Keine Daten für die Beobachtung erhalten');
     });
 };
 

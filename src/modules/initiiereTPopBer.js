@@ -6,7 +6,8 @@ var $             = require('jquery'),
     initiiereAp   = require('./initiiereAp'),
     initiierePop  = require('./initiierePop'),
     initiiereTPop = require('./initiiereTPop'),
-    zeigeFormular = require('./zeigeFormular');
+    zeigeFormular = require('./zeigeFormular'),
+    melde         = require('./melde');
 
 var returnFunction = function (apId, popId, tpopId, tpopBerId) {
     // prüfen, ob voraussetzungen gegeben sind
@@ -84,7 +85,7 @@ var returnFunction = function (apId, popId, tpopId, tpopBerId) {
             $('#TPopBerJahr').focus();
         }
     }).fail(function () {
-        window.apf.melde('Fehler: keine Daten für den Teilpopulations-Bericht erhalten');
+        melde('Fehler: keine Daten für den Teilpopulations-Bericht erhalten');
     });
 };
 

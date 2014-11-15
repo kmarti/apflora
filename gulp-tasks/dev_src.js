@@ -1,14 +1,12 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-
 var gulp   = require('gulp'),
     concat = require('gulp-concat-sourcemap'),
     notify = require('gulp-notify');
 
 gulp.task('dev_src', function () {
     return gulp.src([
-        'src/jquery.js',
         'src/jquery-ui.js',
         'src/jquery.ui.touch-punch.js',
         'src/jquery.cookie.js',
@@ -22,6 +20,8 @@ gulp.task('dev_src', function () {
         'src/jquery.qtip.js',
         'src/proj4.js',
         'src/jquery.fileDownload.js',
+        'src/xlsx.js',
+        'src/FileSaver.js',
         'src/apflora_browserified.js',
         'src/jquery.file.download.js',
         'src/underscore.js'

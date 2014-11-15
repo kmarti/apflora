@@ -5,7 +5,8 @@ var $             = require('jquery'),
     initiiereApp  = require('./initiiereApp'),
     initiiereAp   = require('./initiiereAp'),
     initiierePop  = require('./initiierePop'),
-    zeigeFormular = require('./zeigeFormular');
+    zeigeFormular = require('./zeigeFormular'),
+    melde         = require('./melde');
 
 var returnFunction = function (apId, popId, massnberId) {
     // prüfen, ob voraussetzungen gegeben sind
@@ -85,7 +86,7 @@ var returnFunction = function (apId, popId, massnberId) {
             $('#PopMassnBerJahr').focus();
         }
     }).fail(function () {
-        window.apf.melde('Fehler: Keine Daten für den Massnahmenbericht erhalten');
+        melde('Fehler: Keine Daten für den Massnahmenbericht erhalten');
     });
 };
 

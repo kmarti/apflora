@@ -5,7 +5,8 @@ var $             = require('jquery'),
     initiiereApp  = require('./initiiereApp'),
     initiiereAp   = require('./initiiereAp'),
     limiter       = require('../lib/limiter'),
-    zeigeFormular = require('./zeigeFormular');
+    zeigeFormular = require('./zeigeFormular'),
+    melde         = require('./melde');
 
 var returnFunction = function (apId, erfkritId) {
     var $ErfkritErreichungsgrad = $("#ErfkritErreichungsgrad");
@@ -72,7 +73,7 @@ var returnFunction = function (apId, erfkritId) {
             }
         }
     }).fail(function () {
-        window.apf.melde('Fehler: Keine Daten für das Erfolgskriterium erhalten');
+        melde('Fehler: Keine Daten für das Erfolgskriterium erhalten');
     });
 };
 

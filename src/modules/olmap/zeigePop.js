@@ -14,7 +14,8 @@ var returnFunction = function (PopListeMarkiert) {
         erstelleTPopLayer  = require('./erstelleTPopLayer'),
         initiiereLayertree = require('./initiiereLayertree'),
         zeigePopInTPop     = require('./zeigePopInTPop'),
-        waehleAusschnittFuerUebergebenePop = require('./waehleAusschnittFuerUebergebenePop');
+        waehleAusschnittFuerUebergebenePop = require('./waehleAusschnittFuerUebergebenePop'),
+        melde              = require('../melde');
 
     markierte_pop = waehleAusschnittFuerUebergebenePop(PopListeMarkiert);
 
@@ -45,7 +46,7 @@ var returnFunction = function (PopListeMarkiert) {
                     initiiereLayertree();
                 });
             }).fail(function () {
-                window.apf.melde("Fehler: Es konnten keine Daten aus der Datenbank abgerufen werden");
+                melde("Fehler: Es konnten keine Daten aus der Datenbank abgerufen werden");
             });
     });
 };

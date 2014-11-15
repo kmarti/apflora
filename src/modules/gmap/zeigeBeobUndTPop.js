@@ -34,9 +34,10 @@ var returnFunction = function (beob_liste, tpop_liste) {
         tpop_beschriftung,
         a_note,
         my_flurname,
-        chToWgsLat = require('../../lib/chToWgsLat'),
-        chToWgsLng = require('../../lib/chToWgsLng'),
-        zeigeFormular = require('../zeigeFormular');
+        chToWgsLat    = require('../../lib/chToWgsLat'),
+        chToWgsLng    = require('../../lib/chToWgsLng'),
+        zeigeFormular = require('../zeigeFormular'),
+        melde         = require('../melde');
 
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
     zeigeFormular("google_karte");
@@ -254,7 +255,7 @@ var returnFunction = function (beob_liste, tpop_liste) {
                 });
             });
             BeobNächsteTPop.fail(function () {
-                window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
+                melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
             });
         });
     }

@@ -14,9 +14,11 @@ var returnFunction = function (node) {
         parent_nodeText,
         grandparent_node,
         neue_apziele_node,
-        zeigeTPop                                 = require('../zeigeTPop'),
-        insertNeuenNodeEineHierarchiestufeTiefer  = require('./insertNeuenNodeEineHierarchiestufeTiefer'),
-        insertNeuenNodeAufGleicherHierarchiestufe = require('./insertNeuenNodeAufGleicherHierarchiestufe');
+        zeigeTPop                                  = require('../zeigeTPop'),
+        insertNeuenNodeEineHierarchiestufeTiefer   = require('./insertNeuenNodeEineHierarchiestufeTiefer'),
+        insertNeuenNodeAufGleicherHierarchiestufe  = require('./insertNeuenNodeAufGleicherHierarchiestufe'),
+        frageObUndeleteDatensatz                   = require('../frageObUndeleteDatensatz'),
+        melde                                      = require('../melde');
 
     // relevante nodes zwischenspeichern
     aktiver_node = node;
@@ -50,7 +52,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertPop.fail(function () {
-                        window.apf.melde("Fehler: Keine neue Population erstellt");
+                        melde("Fehler: Keine neue Population erstellt");
                     });
                 }
             },
@@ -67,10 +69,10 @@ var returnFunction = function (node) {
                         if (data && data.length > 0) {
                             zeigePop(data);
                         } else {
-                            window.apf.melde("Die Population hat keine Koordinaten", "Aktion abgebrochen");
+                            melde("Die Population hat keine Koordinaten", "Aktion abgebrochen");
                         }
                     }).fail(function () {
-                        window.apf.melde("Fehler: Keine Daten erhalten");
+                        melde("Fehler: Keine Daten erhalten");
                     });
                 }
             },
@@ -87,11 +89,11 @@ var returnFunction = function (node) {
                         if (data && data.length > 0) {
                             zeigeTPop(data);
                         } else {
-                            window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
+                            melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
                         }
                     });
                     getApKarte.fail(function () {
-                        window.apf.melde("Fehler: Keine Daten erhalten");
+                        melde("Fehler: Keine Daten erhalten");
                     });
                 }
             }
@@ -121,7 +123,7 @@ var returnFunction = function (node) {
                         delete window.apf.pop_id;
                     });
                     updatePop.fail(function () {
-                        window.apf.melde("Fehler: Die Population wurde nicht verschoben");
+                        melde("Fehler: Die Population wurde nicht verschoben");
                     });
                 }
             };
@@ -154,7 +156,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertApziel.fail(function () {
-                        window.apf.melde("Fehler: Keine neues AP-Ziel erstellt");
+                        melde("Fehler: Keine neues AP-Ziel erstellt");
                     });
                 }
             }
@@ -185,7 +187,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertApziel_2.fail(function () {
-                        window.apf.melde("Fehler: Keine neues Ziel erstellt");
+                        melde("Fehler: Keine neues Ziel erstellt");
                     });
                 }
             }
@@ -211,7 +213,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertApziel_3.fail(function () {
-                        window.apf.melde("Fehler: Kein neues AP-Ziel erstellt");
+                        melde("Fehler: Kein neues AP-Ziel erstellt");
                     });
                 }
             },
@@ -259,10 +261,10 @@ var returnFunction = function (node) {
                                         window.apf.beschrifte_ordner_apzieljahr(parent_node);
                                     }
                                     // Hinweis zum rückgängig machen anzeigen
-                                    window.apf.frageObAktionRückgängigGemachtWerdenSoll("Das AP-Ziel '" + bezeichnung + "' wurde gelöscht.");
+                                    frageObUndeleteDatensatz("Das AP-Ziel '" + bezeichnung + "' wurde gelöscht.");
                                 });
                                 deleteApziel.fail(function () {
-                                    window.apf.melde("Fehler: Das AP-Ziel wurde nicht gelöscht");
+                                    melde("Fehler: Das AP-Ziel wurde nicht gelöscht");
                                 });
                             },
                             "abbrechen": function () {
@@ -289,7 +291,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertZielber.fail(function () {
-                        window.apf.melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
+                        melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
                     });
                 }
             }
@@ -310,7 +312,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertZielber_2.fail(function () {
-                        window.apf.melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
+                        melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
                     });
                 }
             },
@@ -353,10 +355,10 @@ var returnFunction = function (node) {
                                     // Parent Node-Beschriftung: Anzahl anpassen
                                     window.apf.beschrifte_ordner_zielber(parent_node);
                                     // Hinweis zum rückgängig machen anzeigen
-                                    window.apf.frageObAktionRückgängigGemachtWerdenSoll("Der Ziel-Bericht '" + bezeichnung + "' wurde gelöscht.");
+                                    frageObUndeleteDatensatz("Der Ziel-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                 });
                                 deleteZielber.fail(function () {
-                                    window.apf.melde("Fehler: Der Ziel-Bericht wurde nicht gelöscht");
+                                    melde("Fehler: Der Ziel-Bericht wurde nicht gelöscht");
                                 });
                             },
                             "abbrechen": function () {
@@ -383,7 +385,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertErfkrit.fail(function () {
-                        window.apf.melde("Fehler: Kein neues Erfolgskriterium erstellt");
+                        melde("Fehler: Kein neues Erfolgskriterium erstellt");
                     });
                 }
             }
@@ -404,7 +406,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertErfkrit_2.fail(function () {
-                        window.apf.melde("Fehler: Kein neues Erfolgskriterium erstellt");
+                        melde("Fehler: Kein neues Erfolgskriterium erstellt");
                     });
                 }
             },
@@ -447,10 +449,10 @@ var returnFunction = function (node) {
                                     // Parent Node-Beschriftung: Anzahl anpassen
                                     window.apf.beschrifte_ordner_erfkrit(parent_node);
                                     // Hinweis zum rückgängig machen anzeigen
-                                    window.apf.frageObAktionRückgängigGemachtWerdenSoll("Das Erfolgskriterium '" + bezeichnung + "' wurde gelöscht.");
+                                    frageObUndeleteDatensatz("Das Erfolgskriterium '" + bezeichnung + "' wurde gelöscht.");
                                 });
                                 deleteErfkrit.fail(function () {
-                                    window.apf.melde("Fehler: Das Erfolgskriterium wurde nicht gelöscht");
+                                    melde("Fehler: Das Erfolgskriterium wurde nicht gelöscht");
                                 });
                             },
                             "abbrechen": function () {
@@ -484,7 +486,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertJber.fail(function () {
-                        window.apf.melde("Fehler: Keinen neuen AP-Bericht erstellt");
+                        melde("Fehler: Keinen neuen AP-Bericht erstellt");
                     });
                 }
             }
@@ -505,7 +507,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertJber_2.fail(function () {
-                        window.apf.melde("Fehler: Keinen neuen AP-Bericht erstellt");
+                        melde("Fehler: Keinen neuen AP-Bericht erstellt");
                     });
                 }
             },
@@ -548,10 +550,10 @@ var returnFunction = function (node) {
                                     // Parent Node-Beschriftung: Anzahl anpassen
                                     window.apf.beschrifte_ordner_jber(parent_node);
                                     // Hinweis zum rückgängig machen anzeigen
-                                    window.apf.frageObAktionRückgängigGemachtWerdenSoll("Der AP-Bericht '" + bezeichnung + "' wurde gelöscht.");
+                                    frageObUndeleteDatensatz("Der AP-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                 });
                                 deleteJber.fail(function () {
-                                    window.apf.melde("Fehler: Der AP-Bericht wurde nicht gelöscht");
+                                    melde("Fehler: Der AP-Bericht wurde nicht gelöscht");
                                 });
                             },
                             "abbrechen": function () {
@@ -580,7 +582,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, ds_id, beschriftung);
                     });
                     insertJberUebersicht.fail(function () {
-                        window.apf.melde("Fehler: Keine Übersicht zu allen Arten erstellt");
+                        melde("Fehler: Keine Übersicht zu allen Arten erstellt");
                     });
                 }
             };
@@ -623,10 +625,10 @@ var returnFunction = function (node) {
                                     delete window.apf.jber_übersicht;
                                     $.jstree._reference(aktiver_node).delete_node(aktiver_node);
                                     // Hinweis zum rückgängig machen anzeigen
-                                    window.apf.frageObAktionRückgängigGemachtWerdenSoll('Die Übersicht für den AP-Bericht des Jahrs "' + window.apf.deleted.JbuJahr + '" wurde gelöscht.');
+                                    frageObUndeleteDatensatz('Die Übersicht für den AP-Bericht des Jahrs "' + window.apf.deleted.JbuJahr + '" wurde gelöscht.');
                                 });
                                 deleteJberUebersicht.fail(function () {
-                                    window.apf.melde("Fehler: Die Übersicht zu allen Arten wurde nicht gelöscht");
+                                    melde("Fehler: Die Übersicht zu allen Arten wurde nicht gelöscht");
                                 });
                             },
                             "abbrechen": function () {
@@ -653,7 +655,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertBer.fail(function () {
-                        window.apf.melde("Fehler: Keinen neuen Bericht erstellt");
+                        melde("Fehler: Keinen neuen Bericht erstellt");
                     });
                 }
             }
@@ -674,7 +676,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertBer_2.fail(function () {
-                        window.apf.melde("Fehler: Keinen neuen Bericht erstellt");
+                        melde("Fehler: Keinen neuen Bericht erstellt");
                     });
                 }
             },
@@ -717,10 +719,10 @@ var returnFunction = function (node) {
                                     // Parent Node-Beschriftung: Anzahl anpassen
                                     window.apf.beschrifte_ordner_ber(parent_node);
                                     // Hinweis zum rückgängig machen anzeigen
-                                    window.apf.frageObAktionRückgängigGemachtWerdenSoll("Der Bericht '" + bezeichnung + "' wurde gelöscht.");
+                                    frageObUndeleteDatensatz("Der Bericht '" + bezeichnung + "' wurde gelöscht.");
                                 });
                                 deleteBer.fail(function () {
-                                    window.apf.melde("Fehler: Der Bericht wurde nicht gelöscht");
+                                    melde("Fehler: Der Bericht wurde nicht gelöscht");
                                 });
                             },
                             "abbrechen": function () {
@@ -747,7 +749,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertAssozarten.fail(function () {
-                        window.apf.melde("Fehler: keine assoziierte Art erstellt");
+                        melde("Fehler: keine assoziierte Art erstellt");
                     });
                 }
             }
@@ -766,7 +768,7 @@ var returnFunction = function (node) {
                             beschriftung = "neue assoziierte Art";
                         insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     }).fail(function () {
-                        window.apf.melde("Fehler: Keine assoziierte Art erstellt");
+                        melde("Fehler: Keine assoziierte Art erstellt");
                     });
                 }
             },
@@ -809,10 +811,10 @@ var returnFunction = function (node) {
                                     // Parent Node-Beschriftung: Anzahl anpassen
                                     window.apf.beschrifte_ordner_assozarten(parent_node);
                                     // Hinweis zum rückgängig machen anzeigen
-                                    window.apf.frageObAktionRückgängigGemachtWerdenSoll("Die assoziierte Art '" + bezeichnung + "' wurde gelöscht.");
+                                    frageObUndeleteDatensatz("Die assoziierte Art '" + bezeichnung + "' wurde gelöscht.");
                                 });
                                 deleteAssozarten.fail(function () {
-                                    window.apf.melde("Fehler: Die assoziierte Art wurde nicht gelöscht");
+                                    melde("Fehler: Die assoziierte Art wurde nicht gelöscht");
                                 });
                             },
                             "abbrechen": function () {
@@ -839,7 +841,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertPop_2.fail(function () {
-                        window.apf.melde("Fehler: Keine neue Population erstellt");
+                        melde("Fehler: Keine neue Population erstellt");
                     });
                 }
             },
@@ -882,10 +884,10 @@ var returnFunction = function (node) {
                                     // Parent Node-Beschriftung: Anzahl anpassen
                                     window.apf.beschrifte_ordner_pop(parent_node);
                                     // Hinweis zum rückgängig machen anzeigen
-                                    window.apf.frageObAktionRückgängigGemachtWerdenSoll("Population '" + bezeichnung + "' wurde gelöscht.");
+                                    frageObUndeleteDatensatz("Population '" + bezeichnung + "' wurde gelöscht.");
                                 });
                                 deletePop.fail(function () {
-                                    window.apf.melde("Fehler: Die Population wurde nicht gelöscht");
+                                    melde("Fehler: Die Population wurde nicht gelöscht");
                                 });
                             },
                             "abbrechen": function () {
@@ -908,10 +910,10 @@ var returnFunction = function (node) {
                         if (data && data.length > 0) {
                             zeigePop(data);
                         } else {
-                            window.apf.melde("Die Population hat keine Koordinaten", "Aktion abgebrochen");
+                            melde("Die Population hat keine Koordinaten", "Aktion abgebrochen");
                         }
                     }).fail(function () {
-                        window.apf.melde("Fehler: Keine Populationen erhalten");
+                        melde("Fehler: Keine Populationen erhalten");
                     });
                 }
             },
@@ -928,11 +930,11 @@ var returnFunction = function (node) {
                         if (data && data.length > 0) {
                             zeigeTPop(data);
                         } else {
-                            window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
+                            melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
                         }
                     });
                     getPopKarte.fail(function () {
-                        window.apf.melde("Fehler: Keine Teilpopulationen erhalten");
+                        melde("Fehler: Keine Teilpopulationen erhalten");
                     });
                 }
             }
@@ -984,7 +986,7 @@ var returnFunction = function (node) {
                         delete window.apf.pop_id;
                     });
                     updatePop_2.fail(function () {
-                        window.apf.melde("Fehler: Die Population wurde nicht verschoben");
+                        melde("Fehler: Die Population wurde nicht verschoben");
                     });
                 }
             };
@@ -1011,7 +1013,7 @@ var returnFunction = function (node) {
                             beschriftung = "neue Teilpopulation";
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     }).fail(function () {
-                        window.apf.melde("Fehler: Keine neue Teilpopulation erstellt");
+                        melde("Fehler: Keine neue Teilpopulation erstellt");
                     });
                 }
             },
@@ -1028,10 +1030,10 @@ var returnFunction = function (node) {
                         if (data.length > 0) {
                             zeigeTPop(data);
                         } else {
-                            window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
+                            melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
                         }
                     }).fail(function () {
-                        window.apf.melde("Fehler: Keine Teilpopulationen erhalten");
+                        melde("Fehler: Keine Teilpopulationen erhalten");
                     });
                 }
             },
@@ -1048,11 +1050,11 @@ var returnFunction = function (node) {
                         if (data && data.length > 0) {
                             zeigeTPop(data);
                         } else {
-                            window.apf.melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
+                            melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
                         }
                     });
                     getPopKarte_2.fail(function () {
-                        window.apf.melde("Fehler: Keine Teilpopulationen erhalten");
+                        melde("Fehler: Keine Teilpopulationen erhalten");
                     });
                 }
             }
@@ -1114,7 +1116,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertTPop_2.fail(function () {
-                        window.apf.melde("Fehler: Keine neue Teilpopulation erstellt");
+                        melde("Fehler: Keine neue Teilpopulation erstellt");
                     });
                 }
             },
@@ -1158,10 +1160,10 @@ var returnFunction = function (node) {
                                     // Parent Node-Beschriftung: Anzahl anpassen
                                     window.apf.beschrifte_ordner_tpop(parent_node);
                                     // Hinweis zum rückgängig machen anzeigen
-                                    window.apf.frageObAktionRückgängigGemachtWerdenSoll("Teilpopulation '" + bezeichnung + "' wurde gelöscht.");
+                                    frageObUndeleteDatensatz("Teilpopulation '" + bezeichnung + "' wurde gelöscht.");
                                 });
                                 deleteTPop.fail(function () {
-                                    window.apf.melde("Fehler: Die Teilpopulation wurde nicht gelöscht");
+                                    melde("Fehler: Die Teilpopulation wurde nicht gelöscht");
                                 });
                             },
                             "abbrechen": function () {
@@ -1184,10 +1186,10 @@ var returnFunction = function (node) {
                         if (data.length > 0) {
                             zeigeTPop(data);
                         } else {
-                            window.apf.melde("Die Teilpopulation hat keine Koordinaten", "Aktion abgebrochen");
+                            melde("Die Teilpopulation hat keine Koordinaten", "Aktion abgebrochen");
                         }
                     }).fail(function () {
-                        window.apf.melde("Fehler: Keine Teilpopulationen erhalten");
+                        melde("Fehler: Keine Teilpopulationen erhalten");
                     });
                 }
             },
@@ -1203,7 +1205,7 @@ var returnFunction = function (node) {
                     }).done(function (data) {
                         verorteTPop(data[0]);
                     }).fail(function () {
-                        window.apf.melde("Fehler: Keine Teilpopulation erhalten");
+                        melde("Fehler: Keine Teilpopulation erhalten");
                     });
                 }
             },
@@ -1219,10 +1221,10 @@ var returnFunction = function (node) {
                         if (data.length > 0) {
                             zeigeTPop(data);
                         } else {
-                            window.apf.melde("Die Teilpopulation hat keine Koordinaten", "Aktion abgebrochen");
+                            melde("Die Teilpopulation hat keine Koordinaten", "Aktion abgebrochen");
                         }
                     }).fail(function () {
-                        window.apf.melde("Fehler: Keine Daten erhalten");
+                        melde("Fehler: Keine Daten erhalten");
                     });
                 }
             },
@@ -1238,7 +1240,7 @@ var returnFunction = function (node) {
                     }).done(function (data) {
                         verorteTPop(data[0]);
                     }).fail(function () {
-                        window.apf.melde("Fehler: Keine Daten erhalten");
+                        melde("Fehler: Keine Daten erhalten");
                     });
                 }
             },
@@ -1290,7 +1292,7 @@ var returnFunction = function (node) {
                         window.apf.tpop_objekt_kopiert = data[0];
                     });
                     getTPop_4.fail(function () {
-                        window.apf.melde("Fehler: Die Teilpopulation wurde nicht kopiert");
+                        melde("Fehler: Die Teilpopulation wurde nicht kopiert");
                     });
                 }
             };
@@ -1344,7 +1346,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertPopber.fail(function () {
-                        window.apf.melde("Fehler: Keinen neuen Populations-Bericht erstellt");
+                        melde("Fehler: Keinen neuen Populations-Bericht erstellt");
                     });
                 }
             }
@@ -1365,7 +1367,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertPopber_2.fail(function () {
-                        window.apf.melde("Fehler: Keinen neuen Populations-Bericht erstellt");
+                        melde("Fehler: Keinen neuen Populations-Bericht erstellt");
                     });
                 }
             },
@@ -1402,10 +1404,10 @@ var returnFunction = function (node) {
                                     // Parent Node-Beschriftung: Anzahl anpassen
                                     window.apf.beschrifte_ordner_popber(parent_node);
                                     // Hinweis zum rückgängig machen anzeigen
-                                    window.apf.frageObAktionRückgängigGemachtWerdenSoll("Der Populations-Bericht '" + bezeichnung + "' wurde gelöscht.");
+                                    frageObUndeleteDatensatz("Der Populations-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                 });
                                 deletePopber.fail(function () {
-                                    window.apf.melde("Fehler: Der Populations-Bericht wurde nicht gelöscht");
+                                    melde("Fehler: Der Populations-Bericht wurde nicht gelöscht");
                                 });
                             },
                             "abbrechen": function () {
@@ -1432,7 +1434,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertPopMassnBer.fail(function () {
-                        window.apf.melde("Fehler: Es wurde kein neuer Massnahmen-Bericht erstellt");
+                        melde("Fehler: Es wurde kein neuer Massnahmen-Bericht erstellt");
                     });
                 }
             }
@@ -1453,7 +1455,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertPopMassnBer_2.fail(function () {
-                        window.apf.melde("Fehler: Es wurde kein neuer Massnahmen-Bericht erstellt");
+                        melde("Fehler: Es wurde kein neuer Massnahmen-Bericht erstellt");
                     });
                 }
             },
@@ -1490,10 +1492,10 @@ var returnFunction = function (node) {
                                     // Parent Node-Beschriftung: Anzahl anpassen
                                     window.apf.beschrifte_ordner_popmassnber(parent_node);
                                     // Hinweis zum rückgängig machen anzeigen
-                                    window.apf.frageObAktionRückgängigGemachtWerdenSoll("Der Massnahmen-Bericht '" + bezeichnung + "' wurde gelöscht.");
+                                    frageObUndeleteDatensatz("Der Massnahmen-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                 });
                                 deletePopMassnBer.fail(function () {
-                                    window.apf.melde("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
+                                    melde("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
                                 });
                             },
                             "abbrechen": function () {
@@ -1520,7 +1522,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertTPopFeldKontr.fail(function () {
-                        window.apf.melde("Fehler: Keine neue Feldkontrolle erstellt");
+                        melde("Fehler: Keine neue Feldkontrolle erstellt");
                     });
                 }
             }
@@ -1550,7 +1552,7 @@ var returnFunction = function (node) {
                             beschriftung = window.apf.erstelleLabelFürFeldkontrolle(window.apf.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.apf.tpopfeldkontr_objekt_kopiert.TPopKontrTyp);
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     }).fail(function () {
-                        window.apf.melde("Fehler: Die Feldkontrolle wurde nicht erstellt");
+                        melde("Fehler: Die Feldkontrolle wurde nicht erstellt");
                     });
                 }
             };
@@ -1572,7 +1574,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertTPopFeldKontr_2.fail(function () {
-                        window.apf.melde("Fehler: Keine neue Feldkontrolle erstellt");
+                        melde("Fehler: Keine neue Feldkontrolle erstellt");
                     });
                 }
             },
@@ -1609,10 +1611,10 @@ var returnFunction = function (node) {
                                     // Parent Node-Beschriftung: Anzahl anpassen
                                     window.apf.beschrifte_ordner_tpopfeldkontr(parent_node);
                                     // Hinweis zum rückgängig machen anzeigen
-                                    window.apf.frageObAktionRückgängigGemachtWerdenSoll("Die Feldkontrolle '" + bezeichnung + "' wurde gelöscht.");
+                                    frageObUndeleteDatensatz("Die Feldkontrolle '" + bezeichnung + "' wurde gelöscht.");
                                 });
                                 deleteTPopFeldKontr.fail(function () {
-                                    window.apf.melde("Fehler: Die Feldkontrolle wurde nicht gelöscht");
+                                    melde("Fehler: Die Feldkontrolle wurde nicht gelöscht");
                                 });
                             },
                             "abbrechen": function () {
@@ -1720,7 +1722,7 @@ var returnFunction = function (node) {
                         type: 'post',
                         url: 'api/v1/updateMultiple/apflora/tabelle=tblTeilPopFeldkontrolle/felder=' + JSON.stringify(data)
                     }).fail(function () {
-                        window.apf.melde("Fehler: Das kopierte Biotop wurde nicht eingefügt");
+                        melde("Fehler: Das kopierte Biotop wurde nicht eingefügt");
                     });
                 }
             };
@@ -1764,7 +1766,7 @@ var returnFunction = function (node) {
                         window.apf.tpopfeldkontr_objekt_kopiert = data[0];
                     });
                     getTPopFeldkontr_2.fail(function () {
-                        window.apf.melde("Fehler: Die Feldkontrolle wurde nicht kopiert");
+                        melde("Fehler: Die Feldkontrolle wurde nicht kopiert");
                     });
                 }
             };
@@ -1794,7 +1796,7 @@ var returnFunction = function (node) {
                             beschriftung = window.apf.erstelleLabelFürFeldkontrolle(window.apf.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.apf.tpopfeldkontr_objekt_kopiert.TPopKontrTyp);
                         insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     }).fail(function () {
-                        window.apf.melde("Fehler: Die Feldkontrolle wurde nicht erstellt");
+                        melde("Fehler: Die Feldkontrolle wurde nicht erstellt");
                     });
                 }
             };
@@ -1816,7 +1818,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertTPopFeldKontr_3.fail(function () {
-                        window.apf.melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
+                        melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
                     });
                 }
             }
@@ -1846,7 +1848,7 @@ var returnFunction = function (node) {
                             beschriftung = window.apf.tpopfreiwkontr_objekt_kopiert.TPopKontrJahr;
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     }).fail(function () {
-                        window.apf.melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
+                        melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
                     });
                 }
             };
@@ -1868,7 +1870,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertTPopFeldKontr_4.fail(function () {
-                        window.apf.melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
+                        melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
                     });
                 }
             },
@@ -1906,10 +1908,10 @@ var returnFunction = function (node) {
                                     // Parent Node-Beschriftung: Anzahl anpassen
                                     window.apf.beschrifte_ordner_tpopfreiwkontr(parent_node);
                                     // Hinweis zum rückgängig machen anzeigen
-                                    window.apf.frageObAktionRückgängigGemachtWerdenSoll("Die Freiwilligen-Kontrolle '" + bezeichnung + "' wurde gelöscht.");
+                                    frageObUndeleteDatensatz("Die Freiwilligen-Kontrolle '" + bezeichnung + "' wurde gelöscht.");
                                 });
                                 deleteTPopFeldKontr_2.fail(function () {
-                                    window.apf.melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht gelöscht");
+                                    melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht gelöscht");
                                 });
                             },
                             "abbrechen": function () {
@@ -1959,7 +1961,7 @@ var returnFunction = function (node) {
                         window.apf.tpopfreiwkontr_objekt_kopiert = data[0];
                     });
                     getTPopFeldkontr_3.fail(function () {
-                        window.apf.melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht kopiert");
+                        melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht kopiert");
                     });
                 }
             };
@@ -1989,7 +1991,7 @@ var returnFunction = function (node) {
                             beschriftung = window.apf.tpopfreiwkontr_objekt_kopiert.TPopKontrJahr;
                         insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     }).fail(function () {
-                        window.apf.melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
+                        melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
                     });
                 }
             };
@@ -2011,7 +2013,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertTPopMassn.fail(function () {
-                        window.apf.melde("Fehler: Keine neue Massnahme erstellt");
+                        melde("Fehler: Keine neue Massnahme erstellt");
                     });
                 }
             }
@@ -2042,7 +2044,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertTPopMassnKopie.fail(function () {
-                        window.apf.melde("Fehler: Die Massnahme wurde nicht erstellt");
+                        melde("Fehler: Die Massnahme wurde nicht erstellt");
                     });
                 }
             };
@@ -2064,7 +2066,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertTPopMassn_2.fail(function () {
-                        window.apf.melde("Fehler: Keine neue Massnahme erstellt");
+                        melde("Fehler: Keine neue Massnahme erstellt");
                     });
                 }
             },
@@ -2101,10 +2103,10 @@ var returnFunction = function (node) {
                                     // Parent Node-Beschriftung: Anzahl anpassen
                                     window.apf.beschrifte_ordner_tpopmassn(parent_node);
                                     // Hinweis zum rückgängig machen anzeigen
-                                    window.apf.frageObAktionRückgängigGemachtWerdenSoll("Die Massnahme '" + bezeichnung + "' wurde gelöscht.");
+                                    frageObUndeleteDatensatz("Die Massnahme '" + bezeichnung + "' wurde gelöscht.");
                                 });
                                 deleteTPopMassn.fail(function () {
-                                    window.apf.melde("Fehler: Die Massnahme wurde nicht gelöscht");
+                                    melde("Fehler: Die Massnahme wurde nicht gelöscht");
                                 });
                             },
                             "abbrechen": function () {
@@ -2162,7 +2164,7 @@ var returnFunction = function (node) {
                         }
                     });
                     getTPopMassn_2.fail(function () {
-                        window.apf.melde("Fehler: Die Massnahme wurde nicht kopiert");
+                        melde("Fehler: Die Massnahme wurde nicht kopiert");
                     });
                 }
             };
@@ -2193,7 +2195,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertTPopMassnKopie_2.fail(function () {
-                        window.apf.melde("Fehler: Die Massnahme wurde nicht erstellt");
+                        melde("Fehler: Die Massnahme wurde nicht erstellt");
                     });
                 }
             };
@@ -2215,7 +2217,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertTPopBer.fail(function () {
-                        window.apf.melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
+                        melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
                     });
                 }
             }
@@ -2236,7 +2238,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertTPopBer_2.fail(function () {
-                        window.apf.melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
+                        melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
                     });
                 }
             },
@@ -2273,10 +2275,10 @@ var returnFunction = function (node) {
                                     // Parent Node-Beschriftung: Anzahl anpassen
                                     window.apf.beschrifte_ordner_tpopber(parent_node);
                                     // Hinweis zum rückgängig machen anzeigen
-                                    window.apf.frageObAktionRückgängigGemachtWerdenSoll("Der Teilpopulations-Bericht '" + bezeichnung + "' wurde gelöscht.");
+                                    frageObUndeleteDatensatz("Der Teilpopulations-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                 });
                                 deleteTPopBer.fail(function () {
-                                    window.apf.melde("Fehler: Der Teilpopulations-Bericht wurde nicht gelöscht");
+                                    melde("Fehler: Der Teilpopulations-Bericht wurde nicht gelöscht");
                                 });
                             },
                             "abbrechen": function () {
@@ -2302,10 +2304,10 @@ var returnFunction = function (node) {
                         if (data) {
                             zeigeTPopBeob(data);
                         } else {
-                            window.apf.melde("Es gibt keine Beobachtungen mit Koordinaten", "Aktion abgebrochen");
+                            melde("Es gibt keine Beobachtungen mit Koordinaten", "Aktion abgebrochen");
                         }
                     }).fail(function () {
-                        window.apf.melde("Fehler: Keine Daten erhalten");
+                        melde("Fehler: Keine Daten erhalten");
                     });
                 }
             }
@@ -2347,10 +2349,10 @@ var returnFunction = function (node) {
                         if (data) {
                             zeigeTPopBeob(data);
                         } else {
-                            window.apf.melde("Die Beobachtung hat keine Koordinaten", "Aktion abgebrochen");
+                            melde("Die Beobachtung hat keine Koordinaten", "Aktion abgebrochen");
                         }
                     }).fail(function () {
-                        window.apf.melde("Fehler: Keine Daten erhalten");
+                        melde("Fehler: Keine Daten erhalten");
                     });
                 }
             },
@@ -2378,10 +2380,10 @@ var returnFunction = function (node) {
                                 }
                             });
                         } else {
-                            window.apf.melde("Die Beobachtung hat keine Koordinaten<br>Bitte im Formular zuordnen", "Aktion abgebrochen");
+                            melde("Die Beobachtung hat keine Koordinaten<br>Bitte im Formular zuordnen", "Aktion abgebrochen");
                         }
                     }).fail(function () {
-                        window.apf.melde("Fehler: Keine Daten erhalten");
+                        melde("Fehler: Keine Daten erhalten");
                     });
                 }
             },
@@ -2446,7 +2448,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertTPopMassnBer.fail(function () {
-                        window.apf.melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
+                        melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
                     });
                 }
             }
@@ -2467,7 +2469,7 @@ var returnFunction = function (node) {
                         insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, id, beschriftung);
                     });
                     insertTPopMassBer_2.fail(function () {
-                        window.apf.melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
+                        melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
                     });
                 }
             },
@@ -2504,10 +2506,10 @@ var returnFunction = function (node) {
                                     // Parent Node-Beschriftung: Anzahl anpassen
                                     window.apf.beschrifte_ordner_popmassnber(parent_node);
                                     // Hinweis zum rückgängig machen anzeigen
-                                    window.apf.frageObAktionRückgängigGemachtWerdenSoll("Der Massnahmen-Bericht '" + bezeichnung + "' wurde gelöscht.");
+                                    frageObUndeleteDatensatz("Der Massnahmen-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                 });
                                 deleteTPopMassnBer.fail(function () {
-                                    window.apf.melde("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
+                                    melde("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
                                 });
                             },
                             "abbrechen": function () {
@@ -2533,10 +2535,10 @@ var returnFunction = function (node) {
                         if (data.length > 0) {
                             zeigeBeob(data);
                         } else {
-                            window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
+                            melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
                         }
                     }).fail(function () {
-                        window.apf.melde("Fehler: Keine Daten erhalten");
+                        melde("Fehler: Keine Daten erhalten");
                     });
                 }
             },
@@ -2563,10 +2565,10 @@ var returnFunction = function (node) {
                                 } 
                             });
                         } else {
-                            window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
+                            melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
                         }
                     }).fail(function () {
-                        window.apf.melde("Fehler: Keine Daten erhalten");
+                        melde("Fehler: Keine Daten erhalten");
                     });
                 }
             }
@@ -2597,10 +2599,10 @@ var returnFunction = function (node) {
                         if (data && data[0]) {
                             zeigeBeob(data[0]);
                         } else {
-                            window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
+                            melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
                         }
                     }).fail(function () {
-                        window.apf.melde("Fehler: Keine Daten erhalten");
+                        melde("Fehler: Keine Daten erhalten");
                     });
                 }
             },
@@ -2628,10 +2630,10 @@ var returnFunction = function (node) {
                                 }
                             });
                         } else {
-                            window.apf.melde("Die Beobachtung hat keine Koordinaten<br>Bitte im Formular zuordnen", "Aktion abgebrochen");
+                            melde("Die Beobachtung hat keine Koordinaten<br>Bitte im Formular zuordnen", "Aktion abgebrochen");
                         }
                     }).fail(function () {
-                        window.apf.melde("Fehler: Keine Daten erhalten");
+                        melde("Fehler: Keine Daten erhalten");
                     });
                 }
             },
@@ -2685,10 +2687,10 @@ var returnFunction = function (node) {
                         if (data.length > 0) {
                             zeigeBeob(data);
                         } else {
-                            window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
+                            melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
                         }
                     }).fail(function () {
-                        window.apf.melde("Fehler: Keine Daten erhalten");
+                        melde("Fehler: Keine Daten erhalten");
                     });
                 }
             }
@@ -2719,10 +2721,10 @@ var returnFunction = function (node) {
                         if (data && data[0]) {
                             zeigeBeob(data[0]);
                         } else {
-                            window.apf.melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
+                            melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
                         }
                     }).fail(function () {
-                        window.apf.melde("Fehler: Keine Daten erhalten");
+                        melde("Fehler: Keine Daten erhalten");
                     });
                 }
             },

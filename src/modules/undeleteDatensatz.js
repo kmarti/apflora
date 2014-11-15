@@ -13,8 +13,9 @@
 
 'use strict';
 
-var $ = require('jquery'),
-    _ = require('underscore');
+var $     = require('jquery'),
+    _     = require('underscore'),
+    melde = require('./melde');
 
 var returnFunction = function () {
     var tabelle,
@@ -24,7 +25,7 @@ var returnFunction = function () {
         zeigeFormular = require('./zeigeFormular');
 
     if (!window.apf.deleted) {
-        window.apf.melde("Wiederherstellung gescheitert", "Fehler");
+        melde("Wiederherstellung gescheitert", "Fehler");
         return false;
     }
 
@@ -105,7 +106,7 @@ var returnFunction = function () {
         id = window.apf.deleted.AaId;
         break;
     default:
-        window.apf.melde("Wiederherstellung gescheitert", "Fehler");
+        melde("Wiederherstellung gescheitert", "Fehler");
     }
 
     // window.apf.deleted enthält alle Feldnamen - viele können leer sein
@@ -140,7 +141,7 @@ var returnFunction = function () {
             });
         }
     }).fail(function () {
-        window.apf.melde("Fehler: Wiederherstellung gescheitert");
+        melde("Fehler: Wiederherstellung gescheitert");
     });
 };
 

@@ -5,7 +5,8 @@ var $             = require('jquery'),
     limiter       = require('../lib/limiter'),
     initiiereApp  = require('./initiiereApp'),
     initiiereAp   = require('./initiiereAp'),
-    zeigeFormular = require('./zeigeFormular');
+    zeigeFormular = require('./zeigeFormular'),
+    melde         = require('./melde');
 
 var returnFunction = function (apId, popId, ohne_zu_zeigen) {
     var $PopName = $("#PopName"),
@@ -96,7 +97,7 @@ var returnFunction = function (apId, popId, ohne_zu_zeigen) {
             }
         }
     }).fail(function () {
-        window.apf.melde('Fehler: Keine Daten für die Population erhalten');
+        melde('Fehler: Keine Daten für die Population erhalten');
     });
 };
 

@@ -4,7 +4,8 @@
 var $             = require('jquery'),
     initiiereApp  = require('./initiiereApp'),
     initiiereAp   = require('./initiiereAp'),
-    zeigeFormular = require('./zeigeFormular');
+    zeigeFormular = require('./zeigeFormular'),
+    melde         = require('./melde');
 
 var returnFunction = function (apId, assozId) {
     // prüfen, ob voraussetzungen gegeben sind
@@ -77,7 +78,7 @@ var returnFunction = function (apId, assozId) {
             }
         }
     }).fail(function () {
-        window.apf.melde('Fehler: Keine Daten für die assoziierte Art erhalten');
+        melde('Fehler: Keine Daten für die assoziierte Art erhalten');
     });
 };
 

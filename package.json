@@ -4,7 +4,9 @@
   "description": "Aktionsplan Flora Kt. Zürich",
   "main": "server.js",
   "browserify": {
-    "transform": [ "browserify-shim" ]
+    "transform": [
+      "browserify-shim"
+    ]
   },
   "browserify-shim": {
     "jquery": "global:$",
@@ -12,7 +14,9 @@
     "Uri": "global:Uri",
     "ol": "global:ol",
     "ga": "global:ga",
-    "google": "global:google"
+    "google": "global:google",
+    "XLSX": "global:XLSX",
+    "saveAs": "global:saveAs"
   },
   "dependencies": {
     "async": "^0.9.0",

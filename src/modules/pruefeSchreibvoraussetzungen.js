@@ -2,15 +2,15 @@
 'use strict';
 
 var $                         = require('jquery'),
-    pruefeLesevoraussetzungen = require('./pruefeLesevoraussetzungen');
+    pruefeLesevoraussetzungen = require('./pruefeLesevoraussetzungen'),
+    melde                     = require('./melde');
 
 module.exports = function () {
     // kontrollieren, ob der User online ist
-    if (window.apf.pruefeLesevoraussetzungen
-()) {
+    if (window.apf.pruefeLesevoraussetzungen()) {
         // kontrollieren, ob der User Schreibrechte hat
         if (sessionStorage.NurLesen) {
-            window.apf.melde("Sie haben keine Schreibrechte", "Speichern abgebrochen");
+            melde("Sie haben keine Schreibrechte", "Speichern abgebrochen");
             return false;
         }
         return true;

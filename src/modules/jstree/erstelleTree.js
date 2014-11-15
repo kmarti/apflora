@@ -3,7 +3,8 @@
 
 var $               = require('jquery'),
     speichern       = require('../speichern'),
-    treeKontextmenu = require('./treeKontextmenu');
+    treeKontextmenu = require('./treeKontextmenu'),
+    melde           = require('../melde');
 
 require('jquery-ui');
 $.jstree = require('jquery.jstree');
@@ -766,7 +767,7 @@ var returnFunction = function (ApArtId) {
                     delete window.apf.herkunft_parent_node;
                     initiierePop();
                 }).fail(function () {
-                    window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
+                    melde("Fehler: Die Teilpopulation wurde nicht verschoben");
                 });
             }
             if (ziel_node_typ === "tpop") {
@@ -788,7 +789,7 @@ var returnFunction = function (ApArtId) {
                     delete window.apf.herkunft_parent_node;
                     initiiereTPop();
                 }).fail(function () {
-                    window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
+                    melde("Fehler: Die Teilpopulation wurde nicht verschoben");
                 });
             }
             if (ziel_node_typ === "pop_ordner_tpop") {
@@ -809,7 +810,7 @@ var returnFunction = function (ApArtId) {
                     delete window.apf.tpop_node_ausgeschnitten;
                     initiiereTPop();
                 }).fail(function () {
-                    window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
+                    melde("Fehler: Die Teilpopulation wurde nicht verschoben");
                 });
             }
         }
@@ -833,7 +834,7 @@ var returnFunction = function (ApArtId) {
                     delete window.apf.herkunft_parent_node;
                     initiiereTPop();
                 }).fail(function () {
-                    window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
+                    melde("Fehler: Die Teilpopulation wurde nicht verschoben");
                 });
             }
             if (ziel_node_typ === "pop_ordner_tpop") {
@@ -855,7 +856,7 @@ var returnFunction = function (ApArtId) {
                     delete window.apf.herkunft_parent_node;
                     initiiereTPop();
                 }).fail(function () {
-                    window.apf.melde("Fehler: Die Teilpopulation wurde nicht verschoben");
+                    melde("Fehler: Die Teilpopulation wurde nicht verschoben");
                 });
             }
         }
@@ -879,7 +880,7 @@ var returnFunction = function (ApArtId) {
                     delete window.apf.herkunft_parent_node;
                     initiiereTPopMassn();
                 }).fail(function () {
-                    window.apf.melde("Fehler: Die Massnahme wurde nicht verschoben");
+                    melde("Fehler: Die Massnahme wurde nicht verschoben");
                 });
             }
             if (ziel_node_typ === "tpop_ordner_massn") {
@@ -901,7 +902,7 @@ var returnFunction = function (ApArtId) {
                     delete window.apf.herkunft_parent_node;
                     initiiereTPopMassn();
                 }).fail(function () {
-                    window.apf.melde("Fehler: Die Massnahme wurde nicht verschoben");
+                    melde("Fehler: Die Massnahme wurde nicht verschoben");
                 });
             }
         }
@@ -925,7 +926,7 @@ var returnFunction = function (ApArtId) {
                     delete window.apf.herkunft_parent_node;
                     initiiereTPopFeldkontr();
                 }).fail(function () {
-                    window.apf.melde("Fehler: Die Feldkontrolle wurde nicht verschoben");
+                    melde("Fehler: Die Feldkontrolle wurde nicht verschoben");
                 });
             }
             if (ziel_node_typ === "tpop_ordner_feldkontr") {
@@ -947,7 +948,7 @@ var returnFunction = function (ApArtId) {
                     delete window.apf.herkunft_parent_node;
                     initiiereTPopFeldkontr();
                 }).fail(function () {
-                    window.apf.melde("Fehler: Die Feldkontrolle wurde nicht verschoben");
+                    melde("Fehler: Die Feldkontrolle wurde nicht verschoben");
                 });
             }
         }
@@ -972,7 +973,7 @@ var returnFunction = function (ApArtId) {
                     localStorage.tpopfreiwkontr = true;
                     initiiereTPopFeldkontr();
                 }).fail(function () {
-                    window.apf.melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben");
+                    melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben");
                 });
             }
             if (ziel_node_typ === "tpop_ordner_freiwkontr") {
@@ -997,7 +998,7 @@ var returnFunction = function (ApArtId) {
                     initiiereTPopFeldkontr();
                 });
                 fügeTPopFeldkontrEin_4.fail(function () {
-                    window.apf.melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben");
+                    melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben");
                 });
             }
         }
@@ -1030,7 +1031,7 @@ var returnFunction = function (ApArtId) {
                     delete window.apf.beob_zugeordnet_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
                 }).fail(function () {
-                    window.apf.melde("Fehler: Die Beobachtung wurde nicht auf 'nicht beurteilt' gesetzt");
+                    melde("Fehler: Die Beobachtung wurde nicht auf 'nicht beurteilt' gesetzt");
                 });
             }
             if (ziel_node_typ === "beob_zugeordnet" || ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
@@ -1058,7 +1059,7 @@ var returnFunction = function (ApArtId) {
                     delete window.apf.beob_zugeordnet_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
                 }).fail(function () {
-                    window.apf.melde("Fehler: Die Beobachtung wurde nicht verschoben");
+                    melde("Fehler: Die Beobachtung wurde nicht verschoben");
                 });
             }
             if (ziel_node_typ === "beob_nicht_zuzuordnen" || ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
@@ -1096,7 +1097,7 @@ var returnFunction = function (ApArtId) {
                         console.log("fehler beim Leeren von TPopId");
                     });
                 }).fail(function () {
-                    window.apf.melde("Fehler: Die Beobachtung wurde nicht verschoben");
+                    melde("Fehler: Die Beobachtung wurde nicht verschoben");
                 });
             }
         }
@@ -1139,10 +1140,10 @@ var returnFunction = function (ApArtId) {
                         delete window.apf.beob_node_ausgeschnitten;
                         delete window.apf.herkunft_parent_node;
                     }).fail(function () {
-                        window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
+                        melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
                     });
                 }).fail(function () {
-                    window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
+                    melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
                 });
             }
             if (ziel_node_typ === "beob_nicht_zuzuordnen" || ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
@@ -1178,7 +1179,7 @@ var returnFunction = function (ApArtId) {
                         console.log("Fehler: Die Beobachtung wurde nicht zugeordnet");
                     });
                 }).fail(function () {
-                    window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
+                    melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
                 });
             }
         }
@@ -1209,7 +1210,7 @@ var returnFunction = function (ApArtId) {
                     delete window.apf.beob_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
                 }).fail(function () {
-                    window.apf.melde("Fehler: Die Zuordnung der Beobachtung wurde nicht entfernt");
+                    melde("Fehler: Die Zuordnung der Beobachtung wurde nicht entfernt");
                 });
             }
             if (ziel_node_typ === "beob_zugeordnet" || ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
@@ -1242,10 +1243,10 @@ var returnFunction = function (ApArtId) {
                         delete window.apf.beob_node_ausgeschnitten;
                         delete window.apf.herkunft_parent_node;
                     }).fail(function () {
-                        window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
+                        melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
                     });
                 }).fail(function () {
-                    window.apf.melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
+                    melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
                 });
             }
         }

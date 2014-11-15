@@ -4,7 +4,8 @@
 var $               = require('jquery'),
     initiiereApp    = require('./initiiereApp'),
     getAdressenHtml = require('./getAdressenHtml'),
-    zeigeFormular   = require('./zeigeFormular');
+    zeigeFormular   = require('./zeigeFormular'),
+    melde           = require('./melde');
 
 var returnFunction = function (apId) {
 
@@ -58,7 +59,7 @@ var returnFunction = function (apId) {
                 history.pushState(null, null, "index.html?ap=" + data.ApArtId);
             }
         }).fail(function () {
-            window.apf.melde('Fehler: Keine Daten für den Aktionsplan erhalten');
+            melde('Fehler: Keine Daten für den Aktionsplan erhalten');
         });
     } else if ($("#ap_waehlen").val() && programm_wahl === "programm_neu") {
         // Formulare blenden

@@ -6,7 +6,8 @@ var $ = jQuery    = require('jquery'),
     initiiereApp  = require('./initiiereApp'),
     initiiereAp   = require('./initiiereAp'),
     limiter       = require('../lib/limiter'),
-    zeigeFormular = require('./zeigeFormular');
+    zeigeFormular = require('./zeigeFormular'),
+    melde         = require('./melde');
 
 // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
 // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
@@ -90,7 +91,7 @@ var initiiereBer = function (apId, berId) {
             }
         }
     }).fail(function () {
-        window.apf.melde('Fehler: Keine Daten für den Bericht erhalten');
+        melde('Fehler: Keine Daten für den Bericht erhalten');
     });
 };
 

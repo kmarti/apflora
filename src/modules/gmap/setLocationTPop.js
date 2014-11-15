@@ -15,7 +15,8 @@ var returnFunction = function (LatLng, map, marker, TPop) {
         X,
         Y,
         ddInChY = require('../../lib/ddInChY'),
-        ddInChX = require('../../lib/ddInChX');
+        ddInChX = require('../../lib/ddInChX'),
+        melde   = require('../melde');
 
     // nur aktualisieren, wenn Schreibrechte bestehen
     if (!window.apf.prüfeSchreibvoraussetzungen()) { return; }
@@ -55,10 +56,10 @@ var returnFunction = function (LatLng, map, marker, TPop) {
                 infowindow.open(map, marker);
             });
         }).fail(function () {
-            window.apf.melde("Fehler: Die Y-Koordinate wurde nicht übernommen (die X-Koordinate offenbar schon)");
+            melde("Fehler: Die Y-Koordinate wurde nicht übernommen (die X-Koordinate offenbar schon)");
         });
     }).fail(function () {
-        window.apf.melde("Fehler: Die Koordinaten wurden nicht übernommen");
+        melde("Fehler: Die Koordinaten wurden nicht übernommen");
     });
 };
 

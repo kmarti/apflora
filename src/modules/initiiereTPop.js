@@ -8,7 +8,8 @@ var $               = require('jquery'),
     initiiereAp     = require('./initiiereAp'),
     initiierePop    = require('./initiierePop'),
     getAdressenHtml = require('./getAdressenHtml'),
-    zeigeFormular   = require('./zeigeFormular');
+    zeigeFormular   = require('./zeigeFormular'),
+    melde           = require('./melde');
 
 var returnFunction = function (apId, popId, tpopId, ohne_zu_zeigen) {
     // prüfen, ob voraussetzungen gegeben sind
@@ -155,7 +156,7 @@ var returnFunction = function (apId, popId, tpopId, ohne_zu_zeigen) {
             }
         }
     }).fail(function () {
-        window.apf.melde('Fehler: keine Daten für die Teilpopulation erhalten');
+        melde('Fehler: keine Daten für die Teilpopulation erhalten');
     });
 };
 

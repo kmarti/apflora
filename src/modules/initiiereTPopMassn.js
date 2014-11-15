@@ -11,7 +11,8 @@ var $               = require('jquery'),
     initiiereTPop   = require('./initiiereTPop'),
     getAdressenHtml = require('./getAdressenHtml'),
     getMassntypHtml = require('./getMassntypHtml'),
-    zeigeFormular   = require('./zeigeFormular');
+    zeigeFormular   = require('./zeigeFormular'),
+    melde           = require('./melde');
 
 var returnFunction = function (apId, popId, tpopId, massnId) {
     // prüfen, ob voraussetzungen gegeben sind
@@ -139,7 +140,7 @@ var returnFunction = function (apId, popId, tpopId, massnId) {
             $('#TPopMassnJahr').focus();
         }
     }).fail(function () {
-        window.apf.melde('Fehler: keine Daten für die Massnahme erhalten');
+        melde('Fehler: keine Daten für die Massnahme erhalten');
     });
 };
 

@@ -12,7 +12,8 @@ var returnFunction = function (ap_id) {
         ap_waehlen_text,
         placeholderText = 'Artförderprogramm wählen',
         zeigeFormular   = require('./zeigeFormular'),
-        waehleApliste   = require('./waehleApliste');
+        waehleApliste   = require('./waehleApliste'),
+        melde           = require('./melde');
 
     if (ap_id) {
         // einen AP gewählt
@@ -48,7 +49,7 @@ var returnFunction = function (ap_id) {
                     });
                 });
             }).fail(function () {
-                window.apf.melde("Fehler: Keine Daten für Programme erhalten");
+                melde("Fehler: Keine Daten für Programme erhalten");
             });
         } else {
             window.apf.erstelle_tree(ap_id);

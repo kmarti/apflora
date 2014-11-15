@@ -7,7 +7,8 @@ var $               = require('jquery'),
     initiiereApp    = require('./initiiereApp'),
     initiiereAp     = require('./initiiereAp'),
     getAdressenHtml = require('./getAdressenHtml'),
-    zeigeFormular   = require('./zeigeFormular');
+    zeigeFormular   = require('./zeigeFormular'),
+    melde           = require('./melde');
 
 var returnFunction = function (apId, apBerId) {
     // prüfen, ob voraussetzungen gegeben sind
@@ -94,7 +95,7 @@ var returnFunction = function (apId, apBerId) {
             }
         }
     }).fail(function () {
-        window.apf.melde('Fehler: Keine Daten für den AP-Bericht erhalten');
+        melde('Fehler: Keine Daten für den AP-Bericht erhalten');
     });
 };
 

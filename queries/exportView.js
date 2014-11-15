@@ -17,7 +17,9 @@ var returnFunction = function (request, callback) {
     connection.query(
         'SELECT * FROM ' + view,
         function (err, data) {
-            if (err) throw err;
+            if (err) {
+                throw err;
+            }
             // null-werte eliminieren
             var data2 = data;
             _.each(data2, function (object) {
@@ -27,7 +29,7 @@ var returnFunction = function (request, callback) {
                     }
                 });
             });
-            callback(data2);
+            callback(err, data2);
         }
     );
 };

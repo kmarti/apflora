@@ -3,8 +3,9 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $ = require('jquery'),
-    _ = require('underscore');
+var $     = require('jquery'),
+    _     = require('underscore'),
+    melde = require('./melde');
 
 var returnFunction = function (aktiver_node, parent_node) {
     var data = {},
@@ -42,7 +43,7 @@ var returnFunction = function (aktiver_node, parent_node) {
             beschriftung = window.apf.tpop_objekt_kopiert.TPopNr + " " + window.apf.tpop_objekt_kopiert.TPopFlurname;
         insertNeuenNodeAufGleicherHierarchiestufe(aktiver_node, parent_node, strukturtyp, tpop_id, beschriftung);
     }).fail(function () {
-        window.apf.melde("Fehler: Die Teilpopulation wurde nicht erstellt");
+        melde("Fehler: Die Teilpopulation wurde nicht erstellt");
     });
 };
 

@@ -4,8 +4,10 @@
 var $ = require('jquery');
 
 var returnFunction = function () {
-    var $anmeldung_name = $("#anmeldung_name").val(),
-        $anmeldung_passwort = $("#anmeldung_passwort").val();
+    var $anmeldung_name     = $("#anmeldung_name").val(),
+        $anmeldung_passwort = $("#anmeldung_passwort").val(),
+        melde               = require('./melde');
+
     // Leserechte zurücksetzen
     delete sessionStorage.NurLesen;
     if ($anmeldung_name && $anmeldung_passwort) {
@@ -37,7 +39,7 @@ var returnFunction = function () {
                 }, 500);
             }
         }).fail(function () {
-            window.apf.melde("Anmeldung gescheitert", "Oops!");
+            melde("Anmeldung gescheitert", "Oops!");
         });
     } else {
         $("#anmeldung_rueckmeldung")

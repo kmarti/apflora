@@ -425,10 +425,26 @@ server.route({
 
 server.route({
     method: 'GET',
+    path: '/api/v1/exportView/xslx/view={view}',
+    //handler: exportView
+    handler: function (request, reply) {
+        exportView(request, function (err, data) {
+            reply(data)
+                .header('Content-Type', 'application/json;')
+                .header('Accept', 'application/json;')
+                //.header('Content-disposition', 'attachment; filename=' + filename + '.csv')
+                .header('Pragma', 'no-cache');
+                //.header('Set-Cookie', 'fileDownload=true; path=/');
+        });
+    }
+});
+
+server.route({
+    method: 'GET',
     path: '/api/v1/exportView/csv/view={view}/filename={filename}',
     handler: function (request, reply) {
         var filename = decodeURIComponent(request.params.filename);
-        exportView(request, function (data) {
+        exportView(request, function (err, data) {
             var fields = _.keys(data[0]);
             json2csv({
                 data: data,
@@ -443,29 +459,6 @@ server.route({
                     .header('Pragma', 'no-cache')
                     .header('Set-Cookie', 'fileDownload=true; path=/');
             });
-        });
-    }
-});
-
-// versucht - hat nicht funktioniert: 'unexpected token <'
-server.route({
-    method: 'GET',
-    path: '/api/v1/exportView/xslx/view={view}/filename={filename}',
-    handler: function (request, reply) {
-        var filename = decodeURIComponent(request.params.filename);
-        exportView(request, function (data) {
-            console.log('data: ', data);
-            var fields = _.keys(data[0]),
-                xls = json2xls(data, {
-                    fields: fields
-                });
-            reply(xls)
-                //.type('application/octet-stream')
-                //.header('Content-Type', 'application/octet-stream')
-                .header('Content-Type', 'application/vnd.ms-excel; charset=utf-8')
-                .header('Content-disposition', 'attachment; filename=' + filename + '.xlsx')
-                .header('Pragma', 'no-cache')
-                .header('Set-Cookie', 'fileDownload=true; path=/');
         });
     }
 });
@@ -500,7 +493,7 @@ server.route({
             view     = decodeURIComponent(request.params.view),
             kml;
 
-        exportView(request, function (data) {
+        exportView(request, function (err, data) {
             switch (view) {
             case 'vPopFuerKml':
             case 'vPopFuerKmlNamen':

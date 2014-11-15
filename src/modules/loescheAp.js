@@ -4,8 +4,10 @@
 var $ = require('jquery');
 
 var returnFunction = function (apId) {
-    var $ap_waehlen_text = $("#ap_waehlen_text"),
-        zeigeFormular = require('./zeigeFormular');
+    var $ap_waehlen_text         = $("#ap_waehlen_text"),
+        zeigeFormular            = require('./zeigeFormular'),
+        frageObUndeleteDatensatz = require('./frageObUndeleteDatensatz'),
+        melde                    = require('./melde');
 
     //Variable zum rückgängig machen erstellen
     window.apf.deleted = window.apf;
@@ -44,13 +46,13 @@ var returnFunction = function (apId) {
         $("#ap").hide();
         $("#forms").hide();
         //Hinweis zum rückgängig machen anzeigen
-        window.apf.frageObAktionRückgängigGemachtWerdenSoll("Das Programm der Art '" + window.apf.deleted.Artname + "' wurde gelöscht.");
+        frageObUndeleteDatensatz("Das Programm der Art '" + window.apf.deleted.Artname + "' wurde gelöscht.");
         //Artname wird nicht mehr gebraucht und soll später nicht in Datensatz eingefügt werden
         delete window.apf.deleted.Artname;
         //forms muss eingeblendet sein, weil undelete_div darin ist
         zeigeFormular("keines");
     }).fail(function () {
-        window.apf.melde("Fehler: Das Programm wurde nicht gelöscht");
+        melde("Fehler: Das Programm wurde nicht gelöscht");
     });
 };
 

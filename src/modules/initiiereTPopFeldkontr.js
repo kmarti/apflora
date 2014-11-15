@@ -17,7 +17,8 @@ var $                            = require('jquery'),
     getZaehleinheitenHtml        = require('./getZaehleinheitenHtml'),
     getLrDelarzeHtml             = require('./getLrDelarzeHtml'),
     getIdealbiotopUebereinstHtml = require('./getIdealbiotopUebereinstHtml'),
-    zeigeFormular                = require('./zeigeFormular');
+    zeigeFormular                = require('./zeigeFormular'),
+    melde                        = require('./melde');
 
 require('jquery-ui');
 
@@ -290,7 +291,7 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
             $(window).scrollTop(0);
         }
     }).fail(function () {
-        window.apf.melde('Fehler: keine Daten für die Kontrolle erhalten');
+        melde('Fehler: keine Daten für die Kontrolle erhalten');
     });
 };
 

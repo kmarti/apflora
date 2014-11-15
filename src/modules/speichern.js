@@ -34,7 +34,8 @@ var speichern = function (that) {
         $BerJahr             = $("#BerJahr"),
         $BerTitel            = $("#BerTitel"),
         configuration        = require('./configuration'),
-        waehleAp             = require('./waehleAp');
+        waehleAp             = require('./waehleAp'),
+        melde                = require('./melde');
 
     if (window.apf.prüfeSchreibvoraussetzungen()) {
         formular = $(that).attr("formular");
@@ -66,7 +67,7 @@ var speichern = function (that) {
         if (feldname === "BeobBemerkungen" && localStorage.beob_status === "nicht_beurteilt") {
             // hier soll nicht gespeichert werden
             $("#BeobBemerkungen").val("");
-            window.apf.melde("Bemerkungen sind nur in zugeordneten oder nicht zuzuordnenden Beobachtungen möglich", "Aktion abgebrochen");
+            melde("Bemerkungen sind nur in zugeordneten oder nicht zuzuordnenden Beobachtungen möglich", "Aktion abgebrochen");
             return;
         }
         $.ajax({
@@ -154,7 +155,7 @@ var speichern = function (that) {
                 }
             }
         }).fail(function () {
-            window.apf.melde("Fehler: Die letzte Änderung wurde nicht gespeichert");
+            melde("Fehler: Die letzte Änderung wurde nicht gespeichert");
         });
         // nodes im Tree updaten, wenn deren Bezeichnung ändert
         switch(feldname) {

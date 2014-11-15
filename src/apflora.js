@@ -215,16 +215,43 @@ window.apf.setzeWindowTpop = function (id) {
 window.apf.downloadFileFromView = function (view, filename, format) {
     // löst einen Download aus
     // als Formate steht momentan nur csv (und teilweise kml) zur Verfügung, weil xlsx leider nicht funktioniert hat
-    var getTimestamp = require('./modules/getTimestamp'),
-        url;
+    var getTimestamp       = require('./modules/getTimestamp'),
+        createBlobDataXlsx = require('./modules/createBlobDataXlsx'),
+        url,
+        blob,
+        blobData;
 
     format = format || 'csv';
-    url = 'api/v1/exportView/' + format + '/view=' + view + '/filename=' + filename + '_' + getTimestamp();
 
-    $.fileDownload(url, {
-        preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-        failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-    });
+    if (format === 'xlsx') {
+        // Daten als json holen
+        // TODO: wird als text/html geholt!!!????
+        $.ajax({
+            /*beforeSend: function(xhrObj){
+                    xhrObj.setRequestHeader("Content-Type","application/json");
+                    xhrObj.setRequestHeader("Accept","application/json");
+            },*/
+            type: 'get',
+            url: 'api/v1/exportView/xlsx/view=' + view,
+            //contentType: "application/json",
+            dataType: 'json',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        }).done(function (data) {
+            // als Blob verpacken und downloaden
+            blobData = createBlobDataXlsx(data);
+            blob     = new Blob([blobData], {type: "application/octet-stream;charset=utf-8;"});
+            saveAs(blob, filename + "_" + getTimestamp() + '.xlsx');
+        });
+    } else {
+        url = 'api/v1/exportView/' + format + '/view=' + view + '/filename=' + filename + '_' + getTimestamp();
+        $.fileDownload(url, {
+            preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
+            failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
+        });
+    }
 };
 
 window.apf.downloadFileFromViewWehreIdIn = function (view, idName, idListe, filename, format) {
@@ -687,7 +714,9 @@ window.apf.beschrifte_ordner_beob_nicht_zuzuordnen = function (node) {
 
 window.apf.tpopKopiertInPopOrdnerTpopEinfügen = function (aktiver_node) {
     'use strict';
-    var insertNeuenNodeEineHierarchiestufeTiefer = require('./modules/jstree/insertNeuenNodeEineHierarchiestufeTiefer');
+    var insertNeuenNodeEineHierarchiestufeTiefer = require('./modules/jstree/insertNeuenNodeEineHierarchiestufeTiefer'),
+        melde                                    = require('./modules/melde');
+
     $.ajax({
         type: 'post',
         url: 'api/v1/tpopInsertKopie/popId=' + window.apf.erstelleIdAusDomAttributId($(aktiver_node).attr("id")) + '/tpopId=' + window.apf.erstelleIdAusDomAttributId($(window.apf.tpop_node_kopiert).attr("id")) + '/user=' + sessionStorage.User
@@ -699,7 +728,7 @@ window.apf.tpopKopiertInPopOrdnerTpopEinfügen = function (aktiver_node) {
         }
         insertNeuenNodeEineHierarchiestufeTiefer(aktiver_node, "", strukturtyp, id, beschriftung);
     }).fail(function () {
-        window.apf.melde("Fehler: Die Teilpopulation wurde nicht erstellt");
+        melde("Fehler: Die Teilpopulation wurde nicht erstellt");
     });
 };
 
@@ -726,11 +755,13 @@ window.apf.pruefeLesevoraussetzungen = function () {
 
 window.apf.prüfeSchreibvoraussetzungen = function () {
     'use strict';
+    var melde = require('./modules/melde');
+
     // kontrollieren, ob der User online ist
     if (window.apf.pruefeLesevoraussetzungen()) {
         // kontrollieren, ob der User Schreibrechte hat
         if (sessionStorage.NurLesen) {
-            window.apf.melde("Sie haben keine Schreibrechte", "Speichern abgebrochen");
+            melde("Sie haben keine Schreibrechte", "Speichern abgebrochen");
             return false;
         }
         return true;
@@ -918,7 +949,9 @@ window.apf.olmap.istLayerSichtbarNachName = function (layername) {
 // dieser Funktion kann man einen Wert zum speichern übergeben
 window.apf.speichereWert = function (tabelle, id, feld, wert) {
     'use strict';
-    var updateTabelle = $.ajax({
+    var melde = require('./modules/melde');
+
+    $.ajax({
         type: 'post',
         url: 'php/' + tabelle + '_update.php',
         data: {
@@ -927,9 +960,8 @@ window.apf.speichereWert = function (tabelle, id, feld, wert) {
             "Wert": wert,
             "user": sessionStorage.User
         }
-    });
-    updateTabelle.fail(function () {
-        window.apf.melde("Fehler: Die letzte Änderung wurde nicht gespeichert");
+    }).fail(function () {
+        melde("Fehler: Die letzte Änderung wurde nicht gespeichert");
     });
 };
 
@@ -1697,7 +1729,8 @@ window.apf.olmap.schliesseLayeroptionen = function () {
 
 window.apf.erstelleGemeindeliste = function () {
     'use strict';
-    var speichern = require('./modules/speichern');
+    var speichern = require('./modules/speichern'),
+        melde     = require('./modules/melde');
     if (!window.apf.gemeinden) {
         $.ajax({
             type: 'get',
@@ -1723,7 +1756,7 @@ window.apf.erstelleGemeindeliste = function () {
                 });
             }
         }).fail(function () {
-            window.apf.melde("Fehler: Die Liste der Gemeinden konnte nicht bereitgestellt werden");
+            melde("Fehler: Die Liste der Gemeinden konnte nicht bereitgestellt werden");
         });
     }
 };
@@ -1736,6 +1769,8 @@ window.apf.waehleAp = function (ap_id) {
 
 window.apf.kopiereKoordinatenInPop = function (x_koord, y_koord) {
     'use strict';
+    var melde = require('./modules/melde');
+
     // prüfen, ob X- und Y-Koordinaten vergeben sind
     if (x_koord > 100000 && y_koord > 100000) {
         // Koordinaten der Pop nachführen
@@ -1752,14 +1787,14 @@ window.apf.kopiereKoordinatenInPop = function (x_koord, y_koord) {
                     $("#kopiereKoordinatenInPopRueckmeldung").fadeOut('slow');
                 }, 3000);
             }).fail(function () {
-                window.apf.melde("Fehler: Y-Koordinate wurde nicht kopiert (die X-Koordinate offenbar schon)");
+                melde("Fehler: Y-Koordinate wurde nicht kopiert (die X-Koordinate offenbar schon)");
             });
         }).fail(function () {
-            window.apf.melde("Fehler: Koordinaten wurden nicht kopiert");
+            melde("Fehler: Koordinaten wurden nicht kopiert");
         });
     } else {
         // auffordern, die Koordinaten zu vergeben und Speichern abbrechen
-        window.apf.melde("Sie müssen zuerst Koordinaten erfassen", "Koordinaten nicht kopiert");
+        melde("Sie müssen zuerst Koordinaten erfassen", "Koordinaten nicht kopiert");
     }
 };
 
@@ -1849,14 +1884,16 @@ window.apf.zeigeBeobKoordinatenImGisBrowser = function () {
     'use strict';
     var URL,
         target,
-        $beobfelder_FNS_XGIS = $("#beobfelder_FNS_XGIS"),
-        $beobfelder_FNS_YGIS = $("#beobfelder_FNS_YGIS"),
+        $beobfelder_FNS_XGIS         = $("#beobfelder_FNS_XGIS"),
+        $beobfelder_FNS_YGIS         = $("#beobfelder_FNS_YGIS"),
         $beobfelder_COORDONNEE_FED_E = $("#beobfelder_COORDONNEE_FED_E"),
         $beobfelder_COORDONNEE_FED_N = $("#beobfelder_COORDONNEE_FED_N"),
-        $TPopXKoord = $("#TPopXKoord"),
-        $TPopYKoord = $("#TPopYKoord"),
-        $PopXKoord = $("#PopXKoord"),
-        $PopYKoord = $("#PopYKoord");
+        $TPopXKoord                  = $("#TPopXKoord"),
+        $TPopYKoord                  = $("#TPopYKoord"),
+        $PopXKoord                   = $("#PopXKoord"),
+        $PopYKoord                   = $("#PopYKoord"),
+        melde                        = require('./modules/melde');
+
     if ($beobfelder_FNS_XGIS.val() && $beobfelder_FNS_YGIS.val()) {
         URL = "//www.maps.zh.ch/?x=" + $beobfelder_FNS_XGIS.val() + "&y=" + $beobfelder_FNS_YGIS.val() + "&scale=3000&markers=ring";
         window.open(URL, target="_blank");
@@ -1870,7 +1907,7 @@ window.apf.zeigeBeobKoordinatenImGisBrowser = function () {
         URL = "//www.maps.zh.ch/?x=" + $PopXKoord.val() + "&y=" + $PopYKoord.val() + "&scale=3000&markers=ring";
         window.open(URL, target="_blank");
     } else {
-        window.apf.melde("Fehler: Keine Koordinaten zum Anzeigen", "Aktion abgebrochen");
+        melde("Fehler: Keine Koordinaten zum Anzeigen", "Aktion abgebrochen");
     }
 };
 
@@ -1889,38 +1926,10 @@ window.apf.beschrifteTPopMitNrFürKarte = function (pop_nr, tpop_nr) {
     return tpop_beschriftung;
 };
 
-//öffnet ein modal und teilt etwas mit
+
 window.apf.melde = function (meldung, title) {
     'use strict';
-    var title = title || ' ';
-    $("#Meldung")
-        .html(meldung)
-        .attr('title', title)
-        .dialog({
-            modal: true,
-            buttons: {
-                Ok: function () {
-                    $(this).dialog("close");
-                }
-            }
-        });
-};
-
-// zeigt während 25 Sekunden einen Hinweis an und einen Link, mit dem eine Aktion rückgängig gemacht werden kann
-// erwartet die Mitteilung, was passiert ist
-window.apf.frageObAktionRückgängigGemachtWerdenSoll = function (wasIstPassiert) {
-    'use strict';
-    // Hinweis zum rückgängig machen anzeigen
-    $("#undelete_div").html(wasIstPassiert + " <a href='#' id='undelete'>Rückgängig machen?</a>");
-    $(".undelete").show();
-    if ($( window ).width() > 1000) {
-        $("#forms").css("top", "37px");
-    }
-    setTimeout(function () {
-        $("#undelete_div").html("");
-        $(".undelete").hide();
-        $("#forms").css("top", "");
-    }, 30000);
+    require('./modules/melde')(meldung, title);
 };
 
 // wird in index.html benutzt
@@ -1933,29 +1942,10 @@ window.apf.undeleteDatensatz = function () {
     require('./modules/undeleteDatensatz')();
 };
 
+// wird in index benutzt
 window.apf.olmap.exportiereKarte = function (event) {
     'use strict';
-    var exportPNGElement = document.getElementById('olmap_exportieren');
-    if ('download' in exportPNGElement) {
-          exportPNGElement.addEventListener('click', function (e) {
-            window.apf.olmap.map.once('postcompose', function (event) {
-                var canvas = event.context.canvas;
-                exportPNGElement.href = canvas.toDataURL('image/png');
-            });
-            window.apf.olmap.map.renderSync();
-          }, false);
-        if (!window.apf.olmap.recentlyClicked) {
-            // beim ersten mal soll der Event gleich wiederholt werden
-            window.apf.olmap.recentlyClicked = true;
-            // warten, sonst kommen zwei Downloads
-            setTimeout(function () {
-                exportPNGElement.click();
-            }, 200);
-        }
-    } else {
-        var info = 'Der Download ist nur möglich, wenn Ihr Browser das moderne Download-Attribut unterstützt <a href="http://caniuse.com/#feat=download">(hier eine aktuelle Liste der unterstützenden Browser)</a>';
-        window.apf.melde(info, "Export abgebrochen");
-    }
+    require('./modules/olmap/exportiereKarte')(event);
 };
 
 // hier behalten, damit $ eingefügt werden kann

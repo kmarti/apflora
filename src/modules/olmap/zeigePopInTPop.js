@@ -1,8 +1,9 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $  = require('jquery'),
-    ol = require('ol');
+var $     = require('jquery'),
+    ol    = require('ol'),
+    melde = require('../melde');
 
 var returnFunction = function (overlay_pop_visible, overlay_popnr_visible, popid_markiert) {
     var pop_gezeigt = $.Deferred(),
@@ -20,7 +21,7 @@ var returnFunction = function (overlay_pop_visible, overlay_popnr_visible, popid
             pop_gezeigt.resolve();
         });
     }).fail(function () {
-        window.apf.melde("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
+        melde("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
         pop_gezeigt.resolve();
     });
     return pop_gezeigt.promise();

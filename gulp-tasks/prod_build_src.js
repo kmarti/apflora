@@ -1,3 +1,6 @@
+/*jslint node: true, browser: true, nomen: true, todo: true */
+'use strict';
+
 var gulp   = require('gulp'),
     uglify = require('gulp-uglify'),
     concat = require('gulp-concat'),
@@ -18,10 +21,11 @@ gulp.task('prod_build_src', function () {
         'src/jquery.qtip.js',
         'src/proj4.js',
         'src/jquery.fileDownload.js',
+        'src/xlsx.js',
+        'src/FileSaver.js',
         'src/apflora_browserified.js',
         'src/jquery.file.download.js',
-        'src/underscore.js',
-        'src/backbone.js'
+        'src/underscore.js'
     ])
         .pipe(concat('apflora_built.js'))
         .pipe(uglify())

@@ -5,7 +5,8 @@ var $               = require('jquery'),
     initiiereApp    = require('./initiiereApp'),
     initiiereAp     = require('./initiiereAp'),
     initiiereApziel = require('./initiiereApziel'),
-    zeigeFormular   = require('./zeigeFormular');
+    zeigeFormular   = require('./zeigeFormular'),
+    melde           = require('./melde');
 
 var returnFunction = function (apId, apZielId, zielberId) {
     var $ZielBerJahr = $("#ZielBerJahr");
@@ -81,7 +82,7 @@ var returnFunction = function (apId, apZielId, zielberId) {
             }
         }
     }).fail(function () {
-        window.apf.melde('Fehler: Keine Daten für den Zielbericht erhalten');
+        melde('Fehler: Keine Daten für den Zielbericht erhalten');
     });
 };
 

@@ -6,7 +6,8 @@ var $                            = require('jquery'),
     initiiereApp                 = require('./initiiereApp'),
     initiiereAp                  = require('./initiiereAp'),
     pruefeSchreibvoraussetzungen = require('./pruefeSchreibvoraussetzungen'),
-    zeigeFormular                = require('./zeigeFormular');
+    zeigeFormular                = require('./zeigeFormular'),
+    melde                        = require('./melde');
 
 var initiiereIdealbiotop = function (apId) {
     var $IbErstelldatum  = $("#IbErstelldatum");
@@ -86,7 +87,7 @@ var initiiereIdealbiotop = function (apId) {
                 localStorage.idealbiotop_id = localStorage.ap_id;
                 initiiereIdealbiotop();
             }).fail(function () {
-                window.apf.melde("Fehler: Kein Idealbiotop erstellt");
+                melde("Fehler: Kein Idealbiotop erstellt");
             });
         }
     });

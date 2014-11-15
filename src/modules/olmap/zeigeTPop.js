@@ -13,7 +13,8 @@ var returnFunction = function (TPopListeMarkiert) {
         erstelleTPopLayer                   = require('./erstelleTPopLayer'),
         initiiereLayertree                  = require('./initiiereLayertree'),
         zeigePopInTPop                      = require('./zeigePopInTPop'),
-        waehleAusschnittFuerUebergebeneTPop = require('./waehleAusschnittFuerUebergebeneTPop');
+        waehleAusschnittFuerUebergebeneTPop = require('./waehleAusschnittFuerUebergebeneTPop'),
+        melde                               = require('../melde');
 
 
     markierte_tpop = waehleAusschnittFuerUebergebeneTPop(TPopListeMarkiert);
@@ -39,7 +40,7 @@ var returnFunction = function (TPopListeMarkiert) {
                 initiiereLayertree();
             });
         }).fail(function () {
-            window.apf.melde("Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden");
+            melde("Fehler: Es konnten keine Teilpopulationen aus der Datenbank abgerufen werden");
         });
     });
 };
