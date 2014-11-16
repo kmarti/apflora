@@ -26,6 +26,7 @@ module.exports = function () {
         berId                   = uri.getQueryParamValue('ber'),
         idealbiotopId           = uri.getQueryParamValue('idealbiotop'),
         assozartenId            = uri.getQueryParamValue('assozarten'),
+        beobZugeordnetId        = uri.getQueryParamValue('beob_zugeordnet'),
         exporte                 = uri.getQueryParamValue('exporte'),
         apWaehlenText,
         initiiereIdealbiotop    = require('./initiiereIdealbiotop'),
@@ -43,7 +44,8 @@ module.exports = function () {
         initiiereTPopFeldkontr  = require('./initiiereTPopFeldkontr'),
         initiiereTPopMassn      = require('./initiiereTPopMassn'),
         initiiereTPopMassnBer   = require('./initiiereTPopMassnBer'),
-        initiiereTPopBer        = require('./initiiereTPopBer');
+        initiiereTPopBer        = require('./initiiereTPopBer'),
+        initiiereBeob           = require('./initiiereBeob');
 
     // ids in Zahlen umwandeln
     if (apId)              { apId              = parseInt(apId, 10); }
@@ -119,21 +121,20 @@ module.exports = function () {
                 window.apf.tpopberZeigen = true;
                 // direkt initiieren, bevor der baum fertig aufgebaut ist
                 initiiereTPopBer(apId, popId, tpopId, tpopberId);
-            } else if (uri.getQueryParamValue('beob_zugeordnet')) {
+            } else if (beobZugeordnetId) {
                 // markieren, dass nach dem loaded-event im Tree die beob_zugeordnet angezeigt werden soll
                 window.apf.beobZugeordnetZeigen = true;
                 // direkt initiieren, bevor der baum fertig aufgebaut ist
-                /*ausgeschaltet - funktioniert nicht! vermutlich, weil tree.php und beob_distzutpop sich in quere kommen
                 // herausfinden, ob beobtyp infospezies oder evab ist
-                localStorage.beobId = uri.getQueryParamValue('beob_zugeordnet');
-                if (isNaN(uri.getQueryParamValue('beob_zugeordnet'))) {
+                localStorage.beobId = beobZugeordnetId;
+                if (isNaN(beobZugeordnetId)) {
                     // evab
                     localStorage.beobtyp = "evab";
-                    window.apf.initiiere_beob("evab", localStorage.beobId, "zugeordnet");
+                    initiiereBeob("evab", localStorage.beobId, "zugeordnet");
                 } else {
                     localStorage.beobtyp = "infospezies";
-                    window.apf.initiiere_beob("infospezies", localStorage.beobId, "zugeordnet");
-                }*/
+                    initiiereBeob("infospezies", localStorage.beobId, "zugeordnet");
+                }
             } else if (tpopmassnberId) {
                 // markieren, dass nach dem loaded-event im Tree die tpopmassnber angezeigt werden soll
                 window.apf.tpopmassnberZeigen = true;
