@@ -3,7 +3,7 @@
 
 var $ = require('jquery');
 
-var returnFunction = function () {
+module.exports = function () {
     var $anmeldung_name     = $("#anmeldung_name").val(),
         $anmeldung_passwort = $("#anmeldung_passwort").val(),
         melde               = require('./melde');
@@ -50,5 +50,3 @@ var returnFunction = function () {
         }, 500);
     }
 };
-
-module.exports = returnFunction;

@@ -1,17 +1,34 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $               = require('jquery'),
-    speichern       = require('../speichern'),
-    treeKontextmenu = require('./treeKontextmenu'),
-    melde           = require('../melde');
-
-require('jquery-ui');
-$.jstree = require('jquery.jstree');
+var $                          = require('jquery'),
+    speichern                  = require('../speichern'),
+    treeKontextmenu            = require('./treeKontextmenu'),
+    melde                      = require('../melde'),
+    initiiere_beob             = require('../initiiereBeob'),
+    initiiereIdealbiotop       = require('../initiiereIdealbiotop'),
+    initiiereAp                = require('../initiiereAp'),
+    initiierePop               = require('../initiierePop'),
+    initiiereApziel            = require('../initiiereApziel'),
+    initiiereZielber           = require('../initiiereZielber'),
+    initiiereErfkrit           = require('../initiiereErfkrit'),
+    initiiereJber              = require('../initiiereJber'),
+    initiiereJberUebersicht    = require('../initiiereJberUebersicht'),
+    initiiereBer               = require('../initiiereBer'),
+    initiiereAssozart          = require('../initiiereAssozart'),
+    initiierePopMassnBer       = require('../initiierePopMassnBer'),
+    initiiereTPop              = require('../initiiereTPop'),
+    initiierePopBer            = require('../initiierePopBer'),
+    initiiereTPopFeldkontr     = require('../initiiereTPopFeldkontr'),
+    initiiereTPopMassn         = require('../initiiereTPopMassn'),
+    initiiereTPopMassnBer      = require('../initiiereTPopMassnBer'),
+    initiiereTPopBer           = require('../initiiereTPopBer'),
+    erstelleIdAusDomAttributId = require('../erstelleIdAusDomAttributId');
 
 // übernimmt $ wegen jstree
-var returnFunction = function (ApArtId) {
-    var jstree_erstellt = $.Deferred();
+module.exports = function (ApArtId) {
+    var jstreeErstellt = $.Deferred();
+
     localStorage.apId = ApArtId;
     $("#tree").jstree({
         "json_data": {
@@ -407,213 +424,191 @@ var returnFunction = function (ApArtId) {
         },
         "plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "contextmenu", "crrm", "types"]
         //"plugins" : ["themes", "json_data", "ui", "hotkeys", "search", "contextmenu", "crrm", "dnd", "types"]   // dnd ausgeschaltet, weil es Speichern verhindert im letzten Feld vor Klick in Baum
-    })
-    .show()
-    .bind("loaded.jstree", function (event, data) {
-        var initiiereAp = require('../initiiereAp');
-        jstree_erstellt.resolve();
-        window.apf.setzeTreehöhe();
+    }).show().bind("loaded.jstree", function (event, data) {
+        jstreeErstellt.resolve();
+        window.apf.setzeTreehoehe();
         $("#suchen").show();
         $("#exportieren_2").show();
         $("#exportieren_1").hide();
         $("#hilfe").show();
-        if (window.apf.pop_zeigen) {
+        if (window.apf.popZeigen) {
             $("#tree").jstree("select_node", "[typ='pop']#" + localStorage.popId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese Pop geöffnet wird
-            delete window.apf.pop_zeigen;
+            delete window.apf.popZeigen;
         }
-        if (window.apf.popber_zeigen) {
+        if (window.apf.popberZeigen) {
             $("#tree").jstree("select_node", "[typ='popber']#" + localStorage.popberId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese Popber geöffnet wird
-            delete window.apf.popber_zeigen;
+            delete window.apf.popberZeigen;
         }
-        if (window.apf.popmassnber_zeigen) {
+        if (window.apf.popmassnberZeigen) {
             $("#tree").jstree("select_node", "[typ='popmassnber']#" + localStorage.popmassnberId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese popmassnber geöffnet wird
-            delete window.apf.popmassnber_zeigen;
+            delete window.apf.popmassnberZeigen;
         }
-        if (window.apf.tpop_zeigen) {
+        if (window.apf.tpopZeigen) {
             $("#tree").jstree("select_node", "[typ='tpop']#" + localStorage.tpopId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese TPop geöffnet wird
-            delete window.apf.tpop_zeigen;
+            delete window.apf.tpopZeigen;
         }
-        if (window.apf.tpopfeldkontr_zeigen) {
+        if (window.apf.tpopfeldkontrZeigen) {
             $("#tree").jstree("select_node", "[typ='tpopfeldkontr']#" + localStorage.tpopfeldkontrId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopfeldkontr geöffnet wird
-            delete window.apf.tpopfeldkontr_zeigen;
+            delete window.apf.tpopfeldkontrZeigen;
         }
-        if (window.apf.tpopfreiwkontr_zeigen) {
+        if (window.apf.tpopfreiwkontrZeigen) {
             $("#tree").jstree("select_node", "[typ='tpopfreiwkontr']#" + localStorage.tpopfeldkontrId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopfreiwkontr geöffnet wird
-            delete window.apf.tpopfreiwkontr_zeigen;
+            delete window.apf.tpopfreiwkontrZeigen;
         }
-        if (window.apf.tpopmassn_zeigen) {
+        if (window.apf.tpopmassnZeigen) {
             $("#tree").jstree("select_node", "[typ='tpopmassn']#" + localStorage.tpopmassnId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopmassn geöffnet wird
-            delete window.apf.tpopmassn_zeigen;
+            delete window.apf.tpopmassnZeigen;
         }
-        if (window.apf.tpopber_zeigen) {
+        if (window.apf.tpopberZeigen) {
             $("#tree").jstree("select_node", "[typ='tpopber']#" + localStorage.tpopberId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopber geöffnet wird
-            delete window.apf.tpopber_zeigen;
+            delete window.apf.tpopberZeigen;
         }
-        if (window.apf.beob_zugeordnet_zeigen) {
+        if (window.apf.beobZugeordnetZeigen) {
             $("#tree").jstree("select_node", "#beob" + localStorage.beobId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese beob_zugeordnet geöffnet wird
-            delete window.apf.beob_zugeordnet_zeigen;
+            delete window.apf.beobZugeordnetZeigen;
         }
-        if (window.apf.tpopmassnber_zeigen) {
+        if (window.apf.tpopmassnberZeigen) {
             $("#tree").jstree("select_node", "[typ='tpopmassnber']#" + localStorage.tpopmassnberId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopmassnber geöffnet wird
-            delete window.apf.tpopmassnber_zeigen;
+            delete window.apf.tpopmassnberZeigen;
         }
-        if (window.apf.apziel_zeigen) {
+        if (window.apf.apzielZeigen) {
             $("#tree").jstree("select_node", "[typ='apziel']#" + localStorage.apzielId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese apziel geöffnet wird
-            delete window.apf.apziel_zeigen;
+            delete window.apf.apzielZeigen;
         }
-        if (window.apf.zielber_zeigen) {
+        if (window.apf.zielberZeigen) {
             $("#tree").jstree("select_node", "[typ='zielber']#" + localStorage.zielberId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese zielber geöffnet wird
-            delete window.apf.zielber_zeigen;
+            delete window.apf.zielberZeigen;
         }
-        if (window.apf.erfkrit_zeigen) {
+        if (window.apf.erfkritZeigen) {
             $("#tree").jstree("select_node", "[typ='erfkrit']#" + localStorage.erfkritId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese erfkrit geöffnet wird
-            delete window.apf.erfkrit_zeigen;
+            delete window.apf.erfkritZeigen;
         }
-        if (window.apf.jber_zeigen) {
+        if (window.apf.jberZeigen) {
             $("#tree").jstree("select_node", "[typ='jber']#" + localStorage.jberId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese jber geöffnet wird
-            delete window.apf.jber_zeigen;
+            delete window.apf.jberZeigen;
         }
-        if (window.apf.jber_übersicht_zeigen) {
+        if (window.apf.jberUebersichtZeigen) {
             $("#tree").jstree("select_node", "[typ='jber_uebersicht']#" + localStorage.jberUebersichtId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese jber_uebersicht geöffnet wird
-            delete window.apf.jber_übersicht_zeigen;
+            delete window.apf.jberUebersichtZeigen;
         }
-        if (window.apf.ber_zeigen) {
+        if (window.apf.berZeigen) {
             $("#tree").jstree("select_node", "[typ='ber']#" + localStorage.berId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese ber geöffnet wird
-            delete window.apf.ber_zeigen;
+            delete window.apf.berZeigen;
         }
-        if (window.apf.idealbiotop_zeigen) {
+        if (window.apf.idealbiotopZeigen) {
             $("#tree").jstree("select_node", "[typ='idealbiotop']#" + localStorage.idealbiotopId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese idealbiotop geöffnet wird
-            delete window.apf.idealbiotop_zeigen;
+            delete window.apf.idealbiotopZeigen;
         }
-        if (window.apf.assozarten_zeigen) {
+        if (window.apf.assozartenZeigen) {
             $("#tree").jstree("select_node", "[typ='assozarten']#" + localStorage.assozartenId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese assozarten geöffnet wird
-            delete window.apf.assozarten_zeigen;
+            delete window.apf.assozartenZeigen;
         }
-        if (window.apf.beob_nicht_beurteilt_zeigen) {
+        if (window.apf.beobNichtBeurteiltZeigen) {
             $("#tree").jstree("select_node", "#beob" + localStorage.beobId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese beob geöffnet wird
-            delete window.apf.beob_nicht_beurteilt_zeigen;
+            delete window.apf.beobNichtBeurteiltZeigen;
         }
-        if (window.apf.beob_nicht_zuzuordnen_zeigen) {
+        if (window.apf.beobNichtZuzuordnenZeigen) {
             $("#tree").jstree("select_node", "#beob" + localStorage.beobId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese beob geöffnet wird
-            delete window.apf.beob_nicht_zuzuordnen_zeigen;
+            delete window.apf.beobNichtZuzuordnenZeigen;
         }
-        if (window.apf.ap_zeigen) {
+        if (window.apf.apZeigen) {
             initiiereAp(ApArtId);
             //localStorage.apId = ApArtId;
             //$('#ap_waehlen').trigger('change');
             // diese Markierung entfernen, damit das nächste mal nicht mehr dieser AP geöffnet wird
-            delete window.apf.ap_zeigen;
+            delete window.apf.apZeigen;
         }
-    })
-    // auch auf Mobilgeräten soll das Kontextmenü zugänglich sein!
-    .hammer().bind("hold doubletap", function (event) {
+    }).hammer().bind("hold doubletap", function (event) {
+        // auch auf Mobilgeräten soll das Kontextmenü zugänglich sein!
         // auf PC's verhindern: Menu erscheint sonst beim Scrollen
         if ($(window).width() < 1000) {
             setTimeout(function () {
                 $("#tree").jstree('get_selected').children('a').trigger('contextmenu');
             }, 500);
         }
-    })
-    .bind("select_node.jstree", function (e, data) {
+    }).bind("select_node.jstree", function (e, data) {
         var node,
-            initiiere_beob             = require('../initiiereBeob'),
-            initiiereIdealbiotop       = require('../initiiereIdealbiotop'),
-            initiiereAp                = require('../initiiereAp'),
-            initiierePop               = require('../initiierePop'),
-            initiiereApziel            = require('../initiiereApziel'),
-            initiiereZielber           = require('../initiiereZielber'),
-            initiiereErfkrit           = require('../initiiereErfkrit'),
-            initiiereJber              = require('../initiiereJber'),
-            initiiereJberUebersicht    = require('../initiiereJberUebersicht'),
-            initiiereBer               = require('../initiiereBer'),
-            initiiereAssozart          = require('../initiiereAssozart'),
-            initiierePopMassnBer       = require('../initiierePopMassnBer'),
-            initiiereTPop              = require('../initiiereTPop'),
-            initiierePopBer            = require('../initiierePopBer'),
-            initiiereTPopFeldkontr     = require('../initiiereTPopFeldkontr'),
-            initiiereTPopMassn         = require('../initiiereTPopMassn'),
-            initiiereTPopMassnBer      = require('../initiiereTPopMassnBer'),
-            initiiereTPopBer           = require('../initiiereTPopBer'),
-            erstelleIdAusDomAttributId = require('../erstelleIdAusDomAttributId');
+            nodeTyp,
+            nodeId;
 
         delete localStorage.tpopfreiwkontr;    // Erinnerung an letzten Klick im Baum löschen
         node = data.rslt.obj;
-        var node_typ = node.attr("typ");
+        nodeTyp = node.attr("typ");
         // in der ID des Nodes enthaltene Texte müssen entfernt werden
-        var node_id = erstelleIdAusDomAttributId(node.attr("id"));
+        nodeId = erstelleIdAusDomAttributId(node.attr("id"));
         // node öffnen
         $.jstree._reference(node).open_node(node);
         // richtiges Formular initiieren
-        if (node_typ.slice(0, 3) === "ap_" || node_typ === "apzieljahr") {
+        if (nodeTyp.slice(0, 3) === "ap_" || nodeTyp === "apzieljahr") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#ap").is(':visible') || localStorage.apId !== node_id) {
-                localStorage.apId = node_id;
+            if (!$("#ap").is(':visible') || localStorage.apId !== nodeId) {
+                localStorage.apId = nodeId;
                 delete localStorage.popId;
-                initiiereAp(node_id);
+                initiiereAp(nodeId);
             }
-        } else if (node_typ === "pop" || node_typ.slice(0, 4) === "pop_") {
+        } else if (nodeTyp === "pop" || nodeTyp.slice(0, 4) === "pop_") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#pop").is(':visible') || localStorage.popId !== node_id) {
-                localStorage.popId = node_id;
-                initiierePop(ApArtId, node_id);
+            if (!$("#pop").is(':visible') || localStorage.popId !== nodeId) {
+                localStorage.popId = nodeId;
+                initiierePop(ApArtId, nodeId);
             }
-        } else if (node_typ === "apziel" || node_typ === "zielber_ordner") {
+        } else if (nodeTyp === "apziel" || nodeTyp === "zielber_ordner") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#apziel").is(':visible') || localStorage.apzielId !== node_id) {
-                localStorage.apzielId = node_id;
+            if (!$("#apziel").is(':visible') || localStorage.apzielId !== nodeId) {
+                localStorage.apzielId = nodeId;
                 initiiereApziel();
             }
-        } else if (node_typ === "zielber") {
+        } else if (nodeTyp === "zielber") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#zielber").is(':visible') || localStorage.zielberId !== node_id) {
-                localStorage.zielberId = node_id;
+            if (!$("#zielber").is(':visible') || localStorage.zielberId !== nodeId) {
+                localStorage.zielberId = nodeId;
                 initiiereZielber();
             }
-        } else if (node_typ === "erfkrit") {
+        } else if (nodeTyp === "erfkrit") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#erfkrit").is(':visible') || localStorage.erfkritId !== node_id) {
-                localStorage.erfkritId = node_id;
+            if (!$("#erfkrit").is(':visible') || localStorage.erfkritId !== nodeId) {
+                localStorage.erfkritId = nodeId;
                 initiiereErfkrit();
             }
-        } else if (node_typ === "jber") {
+        } else if (nodeTyp === "jber") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#jber").is(':visible') || localStorage.jberId !== node_id) {
-                localStorage.jberId = node_id;
+            if (!$("#jber").is(':visible') || localStorage.jberId !== nodeId) {
+                localStorage.jberId = nodeId;
                 initiiereJber();
             }
-        } else if (node_typ === "jber_uebersicht") {
+        } else if (nodeTyp === "jber_uebersicht") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#jber_uebersicht").is(':visible') || localStorage.jberUebersichtId !== node_id) {
-                localStorage.jberUebersichtId = node_id;
+            if (!$("#jber_uebersicht").is(':visible') || localStorage.jberUebersichtId !== nodeId) {
+                localStorage.jberUebersichtId = nodeId;
                 initiiereJberUebersicht();
             }
-        } else if (node_typ === "ber") {
+        } else if (nodeTyp === "ber") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#ber").is(':visible') || localStorage.berId !== node_id) {
-                localStorage.berId = node_id;
+            if (!$("#ber").is(':visible') || localStorage.berId !== nodeId) {
+                localStorage.berId = nodeId;
                 initiiereBer();
             }
-        } else if (node_typ === "idealbiotop") {
+        } else if (nodeTyp === "idealbiotop") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
             if (!$("#idealbiotop").is(':visible')) {
                 // eigene id nicht nötig
@@ -621,97 +616,93 @@ var returnFunction = function (ApArtId) {
                 // wenn noch kein Datensatz existiert erstellt ihn initiiereIdealbiotop
                 initiiereIdealbiotop();
             }
-        } else if (node_typ === "assozarten") {
+        } else if (nodeTyp === "assozarten") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#assozarten").is(':visible') || localStorage.assozartenId !== node_id) {
-                localStorage.assozartenId = node_id;
-                initiiereAssozart(localStorage.apId, node_id);
+            if (!$("#assozarten").is(':visible') || localStorage.assozartenId !== nodeId) {
+                localStorage.assozartenId = nodeId;
+                initiiereAssozart(localStorage.apId, nodeId);
             }
-        } else if (node_typ === "popber") {
+        } else if (nodeTyp === "popber") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#popber").is(':visible') || localStorage.popberId !== node_id) {
-                localStorage.popberId = node_id;
+            if (!$("#popber").is(':visible') || localStorage.popberId !== nodeId) {
+                localStorage.popberId = nodeId;
                 initiierePopBer();
             }
-        } else if (node_typ === "popmassnber") {
+        } else if (nodeTyp === "popmassnber") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#popmassnber").is(':visible') || localStorage.popmassnberId !== node_id) {
-                localStorage.popmassnberId = node_id;
+            if (!$("#popmassnber").is(':visible') || localStorage.popmassnberId !== nodeId) {
+                localStorage.popmassnberId = nodeId;
                 initiierePopMassnBer();
             }
-        } else if (node_typ === "tpop" || node_typ.slice(0, 5) === "tpop_") {
+        } else if (nodeTyp === "tpop" || nodeTyp.slice(0, 5) === "tpop_") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#tpop").is(':visible') || localStorage.tpopId !== node_id) {
-                localStorage.tpopId = node_id;
+            if (!$("#tpop").is(':visible') || localStorage.tpopId !== nodeId) {
+                localStorage.tpopId = nodeId;
                 initiiereTPop();
             }
-        } else if (node_typ === "tpopfeldkontr") {
+        } else if (nodeTyp === "tpopfeldkontr") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#tpopfeldkontr").is(':visible') || localStorage.tpopfeldkontrId !== node_id) {
-                localStorage.tpopfeldkontrId = node_id;
+            if (!$("#tpopfeldkontr").is(':visible') || localStorage.tpopfeldkontrId !== nodeId) {
+                localStorage.tpopfeldkontrId = nodeId;
                 initiiereTPopFeldkontr();
             }
-        } else if (node_typ === "tpopfreiwkontr") {
+        } else if (nodeTyp === "tpopfreiwkontr") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#tpopfeldkontr").is(':visible') || localStorage.tpopfeldkontrId !== node_id) {
-                localStorage.tpopfeldkontrId = node_id;
+            if (!$("#tpopfeldkontr").is(':visible') || localStorage.tpopfeldkontrId !== nodeId) {
+                localStorage.tpopfeldkontrId = nodeId;
                 localStorage.tpopfreiwkontr = true;
                 initiiereTPopFeldkontr();
             }
-        } else if (node_typ === "tpopmassn") {
+        } else if (nodeTyp === "tpopmassn") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#tpopmassn").is(':visible') || localStorage.tpopmassnId !== node_id) {
-                localStorage.tpopmassnId = node_id;
+            if (!$("#tpopmassn").is(':visible') || localStorage.tpopmassnId !== nodeId) {
+                localStorage.tpopmassnId = nodeId;
                 initiiereTPopMassn();
             }
-        } else if (node_typ === "tpopber") {
+        } else if (nodeTyp === "tpopber") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#tpopber").is(':visible') || localStorage.tpopberId !== node_id) {
-                localStorage.tpopberId = node_id;
+            if (!$("#tpopber").is(':visible') || localStorage.tpopberId !== nodeId) {
+                localStorage.tpopberId = nodeId;
                 initiiereTPopBer();
             }
-        } else if (node_typ === "beob_zugeordnet") {
+        } else if (nodeTyp === "beob_zugeordnet") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#beob").is(':visible') || localStorage.beobId !== node_id || localStorage.beobStatus !== "zugeordnet") {
-                localStorage.beobId = node_id;
+            if (!$("#beob").is(':visible') || localStorage.beobId !== nodeId || localStorage.beobStatus !== "zugeordnet") {
+                localStorage.beobId = nodeId;
                 localStorage.beobtyp = node.attr("beobtyp");
-                initiiere_beob(node.attr("beobtyp"), node_id, "zugeordnet");
+                initiiere_beob(node.attr("beobtyp"), nodeId, "zugeordnet");
             }
-        } else if (node_typ === "beob_nicht_beurteilt") {
+        } else if (nodeTyp === "beob_nicht_beurteilt") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#beob").is(':visible') || localStorage.beobId !== node_id || localStorage.beobStatus !== "nicht_beurteilt") {
-                localStorage.beobId = node_id;
-                localStorage.beobtyp = node.attr("beobtyp");
-                // den Beobtyp mitgeben
-                initiiere_beob(node.attr("beobtyp"), node_id, "nicht_beurteilt");
-            }
-        } else if (node_typ === "beob_nicht_zuzuordnen") {
-            // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#beob").is(':visible') || localStorage.beobId !== node_id || localStorage.beobStatus !== "nicht_zuzuordnen") {
-                localStorage.beobId = node_id;
+            if (!$("#beob").is(':visible') || localStorage.beobId !== nodeId || localStorage.beobStatus !== "nicht_beurteilt") {
+                localStorage.beobId = nodeId;
                 localStorage.beobtyp = node.attr("beobtyp");
                 // den Beobtyp mitgeben
-                initiiere_beob(node.attr("beobtyp"), node_id, "nicht_zuzuordnen");
+                initiiere_beob(node.attr("beobtyp"), nodeId, "nicht_beurteilt");
             }
-        } else if (node_typ === "tpopmassnber") {
+        } else if (nodeTyp === "beob_nicht_zuzuordnen") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#tpopmassnber").is(':visible') || localStorage.tpopmassnberId !== node_id) {
-                localStorage.tpopmassnberId = node_id;
+            if (!$("#beob").is(':visible') || localStorage.beobId !== nodeId || localStorage.beobStatus !== "nicht_zuzuordnen") {
+                localStorage.beobId = nodeId;
+                localStorage.beobtyp = node.attr("beobtyp");
+                // den Beobtyp mitgeben
+                initiiere_beob(node.attr("beobtyp"), nodeId, "nicht_zuzuordnen");
+            }
+        } else if (nodeTyp === "tpopmassnber") {
+            // verhindern, dass bereits offene Seiten nochmals geöffnet werden
+            if (!$("#tpopmassnber").is(':visible') || localStorage.tpopmassnberId !== nodeId) {
+                localStorage.tpopmassnberId = nodeId;
                 initiiereTPopMassnBer();
             }
         }
-    })
-    .bind("after_open.jstree", function () {
-        window.apf.setzeTreehöhe();
-    })
-    .bind("after_close.jstree", function () {
-        window.apf.setzeTreehöhe();
-    })
-    .bind("prepare_move.jstree", function (e, data) {
+    }).bind("after_open.jstree", function () {
+        window.apf.setzeTreehoehe();
+    }).bind("after_close.jstree", function () {
+        window.apf.setzeTreehoehe();
+    }).bind("prepare_move.jstree", function (e, data) {
         // herkunft_parent_node muss vor dem move ermittelt werden - danach ist der parent ein anderer!
-        window.apf.herkunft_parent_node = $.jstree._reference(data.rslt.o)._get_parent(data.rslt.o);
-    })
-    .bind("create_node.jstree", function (e, data) {
+        window.apf.herkunftParentNode = $.jstree._reference(data.rslt.o)._get_parent(data.rslt.o);
+    }).bind("create_node.jstree", function (e, data) {
         if (data.rslt.parent[0].attributes.typ.value === "apzieljahr") {
             var Objekt = {};
             Objekt.name = "ZielJahr";
@@ -721,8 +712,7 @@ var returnFunction = function (ApArtId) {
                 .val(data.rslt.parent[0].innerText.slice(1, 5))
                 .focus();
         }
-    })
-    .bind("move_node.jstree", function (e, data) {
+    })bind("move_node.jstree", function (e, data) {
         var herkunft_node,
             herkunft_node_id,
             herkunft_node_typ,
@@ -731,20 +721,20 @@ var returnFunction = function (ApArtId) {
             ziel_node_typ,
             ziel_parent_node,
             ziel_parent_node_id;
-        
+
         // nur aktualisieren, wenn Schreibrechte bestehen
         if (!window.apf.pruefeSchreibvoraussetzungen()) {
             return;
         }
 
         // Variablen setzen
-        herkunft_node = data.rslt.o;
-        herkunft_node_id = erstelleIdAusDomAttributId($(herkunft_node).attr("id"));
+        herkunft_node     = data.rslt.o;
+        herkunft_node_id  = erstelleIdAusDomAttributId($(herkunft_node).attr("id"));
         herkunft_node_typ = herkunft_node.attr("typ");
-        ziel_node = data.rslt.r;
-        ziel_node_id = erstelleIdAusDomAttributId($(ziel_node).attr("id"));
-        ziel_node_typ = ziel_node.attr("typ");
-        ziel_parent_node = $.jstree._reference(data.rslt.r)._get_parent(data.rslt.r);
+        ziel_node         = data.rslt.r;
+        ziel_node_id      = erstelleIdAusDomAttributId($(ziel_node).attr("id"));
+        ziel_node_typ     = ziel_node.attr("typ");
+        ziel_parent_node  = $.jstree._reference(data.rslt.r)._get_parent(data.rslt.r);
         if ($(ziel_parent_node).attr("id")) {
             ziel_parent_node_id = erstelleIdAusDomAttributId($(ziel_parent_node).attr("id"));
         }
@@ -755,17 +745,16 @@ var returnFunction = function (ApArtId) {
                     type: 'post',
                     url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + ziel_node_id + '/feld=ApArtId/wert=' + ziel_parent_node_id + '/user=' + sessionStorage.User
                 }).done(function () {
-                    var initiierePop = require('../initiierePop');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_pop(ziel_parent_node);
-                    window.apf.beschrifte_ordner_pop(window.apf.herkunft_parent_node);
+                    window.apf.beschrifte_ordner_pop(window.apf.herkunftParentNode);
                     // selection steuern
                     $.jstree._reference(ziel_node).deselect_all();
                     $.jstree._reference(herkunft_node).select_node(herkunft_node);
                     // Variablen aufräumen
                     localStorage.popId = herkunft_node_id;
                     delete window.apf.pop;
-                    delete window.apf.herkunft_parent_node;
+                    delete window.apf.herkunftParentNode;
                     initiierePop();
                 }).fail(function () {
                     melde("Fehler: Die Teilpopulation wurde nicht verschoben");
@@ -776,10 +765,9 @@ var returnFunction = function (ApArtId) {
                     type: 'post',
                     url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=PopId/tabelleId=' + ziel_parent_node_id + '/feld=TPopId/wert=' + ziel_node_id + '/user=' + sessionStorage.User
                 }).done(function () {
-                    var initiiereTPop = require('../initiiereTPop');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpop(ziel_parent_node);
-                    window.apf.beschrifte_ordner_tpop(window.apf.herkunft_parent_node);
+                    window.apf.beschrifte_ordner_tpop(window.apf.herkunftParentNode);
                     // selection steuern
                     $.jstree._reference(ziel_node).deselect_all();
                     $.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -787,7 +775,7 @@ var returnFunction = function (ApArtId) {
                     localStorage.tpopId = herkunft_node_id;
                     delete window.apf.tpop;
                     delete window.apf.tpop_node_ausgeschnitten;
-                    delete window.apf.herkunft_parent_node;
+                    delete window.apf.herkunftParentNode;
                     initiiereTPop();
                 }).fail(function () {
                     melde("Fehler: Die Teilpopulation wurde nicht verschoben");
@@ -798,10 +786,9 @@ var returnFunction = function (ApArtId) {
                     type: 'post',
                     url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=PopId/tabelleId=' + ziel_node_id + '/feld=TPopId/wert=' + herkunft_node_id + '/user=' + sessionStorage.User
                 }).done(function () {
-                    var initiiereTPop = require('../initiiereTPop');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpop(ziel_node);
-                    window.apf.beschrifte_ordner_tpop(window.apf.herkunft_parent_node);
+                    window.apf.beschrifte_ordner_tpop(window.apf.herkunftParentNode);
                     // select steuern
                     $.jstree._reference(ziel_node).deselect_all();
                     $.jstree._reference(ziel_node).select_node(herkunft_node);
@@ -821,10 +808,9 @@ var returnFunction = function (ApArtId) {
                     type: 'post',
                     url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=PopId/tabelleId=' + ziel_parent_node_id + '/feld=TPopId/wert=' + herkunft_node_id + '/user=' + sessionStorage.User
                 }).done(function () {
-                    var initiiereTPop = require('../initiiereTPop');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpop(ziel_parent_node);
-                    window.apf.beschrifte_ordner_tpop(window.apf.herkunft_parent_node);
+                    window.apf.beschrifte_ordner_tpop(window.apf.herkunftParentNode);
                     // selection steuern
                     $.jstree._reference(herkunft_node).deselect_all();
                     $.jstree._reference(ziel_parent_node).select_node(herkunft_node);
@@ -832,7 +818,7 @@ var returnFunction = function (ApArtId) {
                     localStorage.tpopId = herkunft_node_id;
                     delete window.apf.tpop;
                     delete window.apf.tpop_node_ausgeschnitten;
-                    delete window.apf.herkunft_parent_node;
+                    delete window.apf.herkunftParentNode;
                     initiiereTPop();
                 }).fail(function () {
                     melde("Fehler: Die Teilpopulation wurde nicht verschoben");
@@ -843,10 +829,9 @@ var returnFunction = function (ApArtId) {
                     type: 'post',
                     url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=PopId/tabelleId=' + ziel_node_id + '/feld=TPopId/wert=' + herkunft_node_id + '/user=' + sessionStorage.User
                 }).done(function () {
-                    var initiiereTPop = require('../initiiereTPop');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpop(ziel_node);
-                    window.apf.beschrifte_ordner_tpop(window.apf.herkunft_parent_node);
+                    window.apf.beschrifte_ordner_tpop(window.apf.herkunftParentNode);
                     // selection steuern
                     $.jstree._reference(herkunft_node).deselect_all();
                     $.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -854,7 +839,7 @@ var returnFunction = function (ApArtId) {
                     localStorage.tpopId = herkunft_node_id;
                     delete window.apf.tpop;
                     delete window.apf.tpop_node_ausgeschnitten;
-                    delete window.apf.herkunft_parent_node;
+                    delete window.apf.herkunftParentNode;
                     initiiereTPop();
                 }).fail(function () {
                     melde("Fehler: Die Teilpopulation wurde nicht verschoben");
@@ -867,10 +852,9 @@ var returnFunction = function (ApArtId) {
                     type: 'post',
                     url: 'api/v1/update/apflora/tabelle=tblTeilPopMassnahme/tabelleIdFeld=TPopId/tabelleId=' + ziel_parent_node_id + '/feld=TPopMassnId/wert=' + herkunft_node_id + '/user=' + sessionStorage.User
                 }).done(function () {
-                    var initiiereTPopMassn = require('../initiiereTPopMassn');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpopmassn(ziel_parent_node);
-                    window.apf.beschrifte_ordner_tpopmassn(window.apf.herkunft_parent_node);
+                    window.apf.beschrifte_ordner_tpopmassn(window.apf.herkunftParentNode);
                     // selection steuern
                     $.jstree._reference(herkunft_node).deselect_all();
                     $.jstree._reference(ziel_parent_node).select_node(herkunft_node);
@@ -878,7 +862,7 @@ var returnFunction = function (ApArtId) {
                     localStorage.tpopmassnId = herkunft_node_id;
                     delete window.apf.tpopmassn;
                     delete window.apf.tpopmassn_node_ausgeschnitten;
-                    delete window.apf.herkunft_parent_node;
+                    delete window.apf.herkunftParentNode;
                     initiiereTPopMassn();
                 }).fail(function () {
                     melde("Fehler: Die Massnahme wurde nicht verschoben");
@@ -889,10 +873,9 @@ var returnFunction = function (ApArtId) {
                     type: 'post',
                     url: 'api/v1/update/apflora/tabelle=tblTeilPopMassnahme/tabelleIdFeld=TPopId/tabelleId=' + ziel_node_id + '/feld=TPopMassnId/wert=' + herkunft_node_id + '/user=' + sessionStorage.User
                 }).done(function () {
-                    var initiiereTPopMassn = require('../initiiereTPopMassn');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpopmassn(ziel_node);
-                    window.apf.beschrifte_ordner_tpopmassn(window.apf.herkunft_parent_node);
+                    window.apf.beschrifte_ordner_tpopmassn(window.apf.herkunftParentNode);
                     // selection steuern
                     $.jstree._reference(herkunft_node).deselect_all();
                     $.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -900,7 +883,7 @@ var returnFunction = function (ApArtId) {
                     localStorage.tpopmassnId = herkunft_node_id;
                     delete window.apf.tpopmassn;
                     delete window.apf.tpopmassn_node_ausgeschnitten;
-                    delete window.apf.herkunft_parent_node;
+                    delete window.apf.herkunftParentNode;
                     initiiereTPopMassn();
                 }).fail(function () {
                     melde("Fehler: Die Massnahme wurde nicht verschoben");
@@ -913,10 +896,9 @@ var returnFunction = function (ApArtId) {
                     type: 'post',
                     url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + ziel_parent_node_id + '/user=' + sessionStorage.User
                 }).done(function () {
-                    var initiiereTPopFeldkontr  = require('../initiiereTPopFeldkontr');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpopfeldkontr(ziel_parent_node);
-                    window.apf.beschrifte_ordner_tpopfeldkontr(window.apf.herkunft_parent_node);
+                    window.apf.beschrifte_ordner_tpopfeldkontr(window.apf.herkunftParentNode);
                     // selection steuern
                     $.jstree._reference(herkunft_node).deselect_all();
                     $.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -924,7 +906,7 @@ var returnFunction = function (ApArtId) {
                     localStorage.tpopfeldkontrId = herkunft_node_id;
                     delete window.apf.tpopfeldkontr;
                     delete window.apf.tpopfeldkontr_node_ausgeschnitten;
-                    delete window.apf.herkunft_parent_node;
+                    delete window.apf.herkunftParentNode;
                     initiiereTPopFeldkontr();
                 }).fail(function () {
                     melde("Fehler: Die Feldkontrolle wurde nicht verschoben");
@@ -935,10 +917,9 @@ var returnFunction = function (ApArtId) {
                     type: 'post',
                     url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + ziel_node_id + '/user=' + sessionStorage.User
                 }).done(function () {
-                    var initiiereTPopFeldkontr  = require('../initiiereTPopFeldkontr');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpopfeldkontr(ziel_node);
-                    window.apf.beschrifte_ordner_tpopfeldkontr(window.apf.herkunft_parent_node);
+                    window.apf.beschrifte_ordner_tpopfeldkontr(window.apf.herkunftParentNode);
                     // selection steuern
                     $.jstree._reference(herkunft_node).deselect_all();
                     $.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -946,7 +927,7 @@ var returnFunction = function (ApArtId) {
                     localStorage.tpopfeldkontrId = herkunft_node_id;
                     delete window.apf.tpopfeldkontr;
                     delete window.apf.tpopfeldkontr_node_ausgeschnitten;
-                    delete window.apf.herkunft_parent_node;
+                    delete window.apf.herkunftParentNode;
                     initiiereTPopFeldkontr();
                 }).fail(function () {
                     melde("Fehler: Die Feldkontrolle wurde nicht verschoben");
@@ -959,10 +940,9 @@ var returnFunction = function (ApArtId) {
                     type: 'post',
                     url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + ziel_parent_node_id + '/user=' + sessionStorage.User
                 }).done(function () {
-                    var initiiereTPopFeldkontr  = require('../initiiereTPopFeldkontr');
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpopfreiwkontr(ziel_parent_node);
-                    window.apf.beschrifte_ordner_tpopfreiwkontr(window.apf.herkunft_parent_node);
+                    window.apf.beschrifte_ordner_tpopfreiwkontr(window.apf.herkunftParentNode);
                     // selection steuern
                     $.jstree._reference(herkunft_node).deselect_all();
                     $.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -970,7 +950,7 @@ var returnFunction = function (ApArtId) {
                     localStorage.tpopfeldkontrId = herkunft_node_id;
                     delete window.apf.tpopfeldkontr;
                     delete window.apf.tpopfreiwkontr_node_ausgeschnitten;
-                    delete window.apf.herkunft_parent_node;
+                    delete window.apf.herkunftParentNode;
                     localStorage.tpopfreiwkontr = true;
                     initiiereTPopFeldkontr();
                 }).fail(function () {
@@ -978,15 +958,13 @@ var returnFunction = function (ApArtId) {
                 });
             }
             if (ziel_node_typ === "tpop_ordner_freiwkontr") {
-                var fügeTPopFeldkontrEin_4 = $.ajax({
+                $.ajax({
                     type: 'post',
                     url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + ziel_node_id + '/user=' + sessionStorage.User
-                });
-                fügeTPopFeldkontrEin_4.done(function () {
-                    var initiiereTPopFeldkontr  = require('../initiiereTPopFeldkontr');
+                }).done(function () {
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     window.apf.beschrifte_ordner_tpopfreiwkontr(ziel_node);
-                    window.apf.beschrifte_ordner_tpopfreiwkontr(window.apf.herkunft_parent_node);
+                    window.apf.beschrifte_ordner_tpopfreiwkontr(window.apf.herkunftParentNode);
                     // selection steuern
                     $.jstree._reference(herkunft_node).deselect_all();
                     $.jstree._reference(herkunft_node).select_node(herkunft_node);
@@ -994,11 +972,10 @@ var returnFunction = function (ApArtId) {
                     localStorage.tpopfeldkontrId = herkunft_node_id;
                     delete window.apf.tpopfeldkontr;
                     delete window.apf.tpopfreiwkontr_node_ausgeschnitten;
-                    delete window.apf.herkunft_parent_node;
+                    delete window.apf.herkunftParentNode;
                     localStorage.tpopfreiwkontr = true;
                     initiiereTPopFeldkontr();
-                });
-                fügeTPopFeldkontrEin_4.fail(function () {
+                }).fail(function () {
                     melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben");
                 });
             }
@@ -1026,11 +1003,11 @@ var returnFunction = function (ApArtId) {
                     } else {
                         window.apf.beschrifte_ordner_beob_nicht_beurteilt(ziel_node);
                     }
-                    window.apf.beschrifte_ordner_beob_zugeordnet(window.apf.herkunft_parent_node);
+                    window.apf.beschrifteOrdnerBeobZugeordnet(window.apf.herkunftParentNode);
 
                     // Variablen aufräumen
                     delete window.apf.beob_zugeordnet_node_ausgeschnitten;
-                    delete window.apf.herkunft_parent_node;
+                    delete window.apf.herkunftParentNode;
                 }).fail(function () {
                     melde("Fehler: Die Beobachtung wurde nicht auf 'nicht beurteilt' gesetzt");
                 });
@@ -1045,11 +1022,11 @@ var returnFunction = function (ApArtId) {
                 }).done(function () {
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
-                        window.apf.beschrifte_ordner_beob_zugeordnet(ziel_node);
+                        window.apf.beschrifteOrdnerBeobZugeordnet(ziel_node);
                     } else {
-                        window.apf.beschrifte_ordner_beob_zugeordnet(ziel_parent_node);
+                        window.apf.beschrifteOrdnerBeobZugeordnet(ziel_parent_node);
                     }
-                    window.apf.beschrifte_ordner_beob_zugeordnet(window.apf.herkunft_parent_node);
+                    window.apf.beschrifteOrdnerBeobZugeordnet(window.apf.herkunftParentNode);
 
                     // selection steuern
                     if (localStorage.karte_fokussieren) {
@@ -1058,7 +1035,7 @@ var returnFunction = function (ApArtId) {
 
                     // Variablen aufräumen
                     delete window.apf.beob_zugeordnet_node_ausgeschnitten;
-                    delete window.apf.herkunft_parent_node;
+                    delete window.apf.herkunftParentNode;
                 }).fail(function () {
                     melde("Fehler: Die Beobachtung wurde nicht verschoben");
                 });
@@ -1085,15 +1062,15 @@ var returnFunction = function (ApArtId) {
 
                         // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                         if (ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
-                            window.apf.beschrifte_ordner_beob_nicht_zuzuordnen(ziel_node);
+                            window.apf.beschrifteOrdnerBeobNichtNuzuordnen(ziel_node);
                         } else {
-                            window.apf.beschrifte_ordner_beob_nicht_zuzuordnen(ziel_parent_node);
+                            window.apf.beschrifteOrdnerBeobNichtNuzuordnen(ziel_parent_node);
                         }
-                        window.apf.beschrifte_ordner_beob_zugeordnet(window.apf.herkunft_parent_node);
+                        window.apf.beschrifteOrdnerBeobZugeordnet(window.apf.herkunftParentNode);
 
                         // Variablen aufräumen
-                        delete window.apf.beob_node_ausgeschnitten;
-                        delete window.apf.herkunft_parent_node;
+                        delete window.apf.beobNodeAusgeschnitten;
+                        delete window.apf.herkunftParentNode;
                     }).fail(function () {
                         console.log("fehler beim Leeren von TPopId");
                     });
@@ -1122,11 +1099,11 @@ var returnFunction = function (ApArtId) {
                         localStorage.beobtyp = "beob_zugeordnet";
 
                         // Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
-                        window.apf.beschrifte_ordner_beob_nicht_beurteilt(window.apf.herkunft_parent_node);
+                        window.apf.beschrifte_ordner_beob_nicht_beurteilt(window.apf.herkunftParentNode);
                         if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
-                            window.apf.beschrifte_ordner_beob_zugeordnet(ziel_node);
+                            window.apf.beschrifteOrdnerBeobZugeordnet(ziel_node);
                         } else {
-                            window.apf.beschrifte_ordner_beob_zugeordnet(ziel_parent_node);
+                            window.apf.beschrifteOrdnerBeobZugeordnet(ziel_parent_node);
                         }
 
                         // Nicht beurteilt: Deaktivieren
@@ -1138,8 +1115,8 @@ var returnFunction = function (ApArtId) {
                         }
 
                         // Variablen aufräumen
-                        delete window.apf.beob_node_ausgeschnitten;
-                        delete window.apf.herkunft_parent_node;
+                        delete window.apf.beobNodeAusgeschnitten;
+                        delete window.apf.herkunftParentNode;
                     }).fail(function () {
                         melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
                     });
@@ -1163,19 +1140,19 @@ var returnFunction = function (ApArtId) {
                         localStorage.beobtyp = "beob_nicht_zuzuordnen";
 
                         // Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
-                        window.apf.beschrifte_ordner_beob_nicht_beurteilt(window.apf.herkunft_parent_node);
+                        window.apf.beschrifte_ordner_beob_nicht_beurteilt(window.apf.herkunftParentNode);
                         if (ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
-                            window.apf.beschrifte_ordner_beob_nicht_zuzuordnen(ziel_node);
+                            window.apf.beschrifteOrdnerBeobNichtNuzuordnen(ziel_node);
                         } else {
-                            window.apf.beschrifte_ordner_beob_nicht_zuzuordnen(ziel_parent_node);
+                            window.apf.beschrifteOrdnerBeobNichtNuzuordnen(ziel_parent_node);
                         }
 
                         // Nicht beurteilt: Deaktivieren
                         $('#BeobNichtBeurteilt').prop('checked', false);
 
                         // Variablen aufräumen
-                        delete window.apf.beob_node_ausgeschnitten;
-                        delete window.apf.herkunft_parent_node;
+                        delete window.apf.beobNodeAusgeschnitten;
+                        delete window.apf.herkunftParentNode;
                     }).fail(function () {
                         console.log("Fehler: Die Beobachtung wurde nicht zugeordnet");
                     });
@@ -1197,7 +1174,7 @@ var returnFunction = function (ApArtId) {
                     localStorage.beobtyp = "beob_nicht_beurteilt";
 
                     // Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
-                    window.apf.beschrifte_ordner_beob_nicht_zuzuordnen(window.apf.herkunft_parent_node);
+                    window.apf.beschrifteOrdnerBeobNichtNuzuordnen(window.apf.herkunftParentNode);
                     if (ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
                         window.apf.beschrifte_ordner_beob_nicht_beurteilt(ziel_node);
                     } else {
@@ -1208,8 +1185,8 @@ var returnFunction = function (ApArtId) {
                     $('#BeobNichtZuordnen').prop('checked', false);
 
                     // Variablen aufräumen
-                    delete window.apf.beob_node_ausgeschnitten;
-                    delete window.apf.herkunft_parent_node;
+                    delete window.apf.beobNodeAusgeschnitten;
+                    delete window.apf.herkunftParentNode;
                 }).fail(function () {
                     melde("Fehler: Die Zuordnung der Beobachtung wurde nicht entfernt");
                 });
@@ -1230,19 +1207,19 @@ var returnFunction = function (ApArtId) {
                         localStorage.beobtyp = "beob_zugeordnet";
 
                         // Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
-                        window.apf.beschrifte_ordner_beob_nicht_zuzuordnen(window.apf.herkunft_parent_node);
+                        window.apf.beschrifteOrdnerBeobNichtNuzuordnen(window.apf.herkunftParentNode);
                         if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
-                            window.apf.beschrifte_ordner_beob_zugeordnet(ziel_node);
+                            window.apf.beschrifteOrdnerBeobZugeordnet(ziel_node);
                         } else {
-                            window.apf.beschrifte_ordner_beob_zugeordnet(ziel_parent_node);
+                            window.apf.beschrifteOrdnerBeobZugeordnet(ziel_parent_node);
                         }
 
                         // nicht zuzuordnen deaktivieren
                         $('#BeobNichtZuordnen').prop('checked', false);
 
                         // Variablen aufräumen
-                        delete window.apf.beob_node_ausgeschnitten;
-                        delete window.apf.herkunft_parent_node;
+                        delete window.apf.beobNodeAusgeschnitten;
+                        delete window.apf.herkunftParentNode;
                     }).fail(function () {
                         melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
                     });
@@ -1252,7 +1229,5 @@ var returnFunction = function (ApArtId) {
             }
         }
     });
-    return jstree_erstellt.promise();
+    return jstreeErstellt.promise();
 };
-
-module.exports = returnFunction;

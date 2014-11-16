@@ -381,7 +381,7 @@ window.apf.leereFelderVonFormular = function (Formular) {
 };
 
 // begrenzt die maximale Höhe des Baums auf die Seitenhöhe, wenn nötig
-window.apf.setzeTreehöhe = function () {
+window.apf.setzeTreehoehe = function () {
     'use strict';
     if ($(window).width() > 1000) {
         if (($(".jstree-no-icons").height() + 157) > $(window).height()) {
@@ -529,7 +529,7 @@ window.apf.wähleApListe = function (programm) {
 };
 
 // diese Funktion kann nicht modularisiert werden, weil jstree nicht für node entwickelt wurde!!!!
-window.apf.erstelle_tree = function (ApArtId) {
+window.apf.erstelleTree = function (ApArtId) {
     require('./modules/jstree/erstelleTree')(ApArtId);
 };
 
@@ -687,7 +687,7 @@ window.apf.beschrifte_ordner_tpopfreiwkontr = function (node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_beob_zugeordnet = function (node) {
+window.apf.beschrifteOrdnerBeobZugeordnet = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "Beobachtungen (" + anz + ")";
@@ -705,7 +705,7 @@ window.apf.beschrifte_ordner_beob_nicht_beurteilt = function (node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_beob_nicht_zuzuordnen = function (node) {
+window.apf.beschrifteOrdnerBeobNichtNuzuordnen = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "nicht zuzuordnende Beobachtungen (" + anz + ")";

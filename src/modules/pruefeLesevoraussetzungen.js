@@ -2,7 +2,6 @@
 'use strict';
 
 var $ = require('jquery');
-require('jquery-ui');
 
 module.exports = function () {
     // kontrollieren, ob der User offline ist

@@ -4,7 +4,7 @@
 var $ = require('jquery'),
     _ = require('underscore');
 
-var returnFunction = function (programm) {
+module.exports = function (programm) {
     $("#ap_waehlen_text").autocomplete({
         minLength: 0,
         delay: 500,
@@ -40,5 +40,3 @@ var returnFunction = function (programm) {
         }
     });
 };
-
-module.exports = returnFunction;

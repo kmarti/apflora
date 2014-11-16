@@ -7,7 +7,7 @@
 
 var $ = require('jquery');
 
-var returnFunction = function (formularname, id) {
+module.exports = function (formularname, id) {
     var $formularname = $('#' + formularname),
         title;
 
@@ -53,5 +53,3 @@ var returnFunction = function (formularname, id) {
     });
     $formularname.dialog("open");
 };
-
-module.exports = returnFunction;

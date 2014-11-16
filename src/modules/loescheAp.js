@@ -3,8 +3,9 @@
 
 var $ = require('jquery');
 
-var returnFunction = function (apId) {
+module.exports = function (apId) {
     var $ap_waehlen_text         = $("#ap_waehlen_text"),
+        $exportieren_2           = $("#exportieren_2"),
         zeigeFormular            = require('./zeigeFormular'),
         frageObUndeleteDatensatz = require('./frageObUndeleteDatensatz'),
         melde                    = require('./melde');
@@ -18,7 +19,6 @@ var returnFunction = function (apId) {
         type: 'delete',
         url: 'api/v1/apflora/tabelle=tblAktionsplan/tabelleIdFeld=ApArtId/tabelleId=' + apId
     }).done(function () {
-        var $exportieren_2 = $("#exportieren_2");
         delete localStorage.apId;
         delete window.apf.ap;
         delete localStorage.ap;
@@ -55,5 +55,3 @@ var returnFunction = function (apId) {
         melde("Fehler: Das Programm wurde nicht gelöscht");
     });
 };
-
-module.exports = returnFunction;

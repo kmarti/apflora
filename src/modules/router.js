@@ -21,7 +21,7 @@ var Backbone                = require('backbone'),
     initiiereTPopMassnBer   = require('./initiiereTPopMassnBer'),
     initiiereTPopMassn      = require('./initiiereTPopMassn');
 
-var returnFunction = Backbone.Router.extend({
+module.exports = Backbone.Router.extend({
     routes: {
         '':                                                        'home',
         'ap=:apId':                                                'ap',
@@ -55,7 +55,7 @@ var returnFunction = Backbone.Router.extend({
         console.log('route zu ap ', apId);
         // markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
         // Die Markierung wird im load-Event wieder entfernt
-        window.apf.ap_zeigen = true;
+        window.apf.apZeigen = true;
         // direkt initiieren, nicht erst, wenn baum fertig aufgebaut ist
         initiiereAp(apId);
     },
@@ -142,5 +142,3 @@ var returnFunction = Backbone.Router.extend({
     }
 
 });
-
-module.exports = returnFunction;

@@ -34,7 +34,7 @@ var returnFunction = function (apId) {
                 // Auswahlliste für Programme updaten
                 $.when(waehleApliste("programm_alle")).then(function () {
                     // Strukturbaum updaten
-                    $.when(window.apf.erstelle_tree(apId)).then(function () {
+                    $.when(window.apf.erstelleTree(apId)).then(function () {
                         // gewählte Art in Auswahlliste anzeigen
                         ap_waehlen_text = _.find(window.apf.apliste.programm_alle, function (art) {
                             return art.id == apId;
@@ -52,7 +52,7 @@ var returnFunction = function (apId) {
                 melde("Fehler: Keine Daten für Programme erhalten");
             });
         } else {
-            window.apf.erstelle_tree(apId);
+            window.apf.erstelleTree(apId);
             $("#ap").show();
             initiiereAp(apId);
         }

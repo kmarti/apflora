@@ -113,7 +113,7 @@ var returnFunction = function (node) {
                     });
                     updatePop.done(function () {
                         // Baum neu aufbauen
-                        $.when(window.apf.erstelle_tree(erstelleIdAusDomAttributId($(aktiverNode).attr("id"))))
+                        $.when(window.apf.erstelleTree(erstelleIdAusDomAttributId($(aktiverNode).attr("id"))))
                             .then(function () {
                                 // dann den eingefügten Node wählen
                                 $("#tree").jstree("select_node", "[typ='pop']#" + localStorage.popId);
@@ -976,7 +976,7 @@ var returnFunction = function (node) {
                     });
                     updatePop_2.done(function () {
                         // Baum wieder aufbauen
-                        $.when(window.apf.erstelle_tree(apartid))
+                        $.when(window.apf.erstelleTree(apartid))
                             .then(function () {
                                 // dann den eingefügten Node wählen
                                 $("#tree").jstree("select_node", "[typ='pop']#" + popid);
@@ -2325,13 +2325,13 @@ var returnFunction = function (node) {
                 }
             };
         }
-        if (window.apf.beob_node_ausgeschnitten) {
+        if (window.apf.beobNodeAusgeschnitten) {
             items.einfuegen = {
-                "label": $.jstree._reference(window.apf.beob_node_ausgeschnitten).get_text(window.apf.beob_node_ausgeschnitten) + " einfügen",
+                "label": $.jstree._reference(window.apf.beobNodeAusgeschnitten).get_text(window.apf.beobNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $("#tree").jstree("move_node", window.apf.beob_node_ausgeschnitten, aktiverNode, "first");
+                    $("#tree").jstree("move_node", window.apf.beobNodeAusgeschnitten, aktiverNode, "first");
                 }
             };
         }
@@ -2423,13 +2423,13 @@ var returnFunction = function (node) {
                 }
             };
         }
-        if (window.apf.beob_node_ausgeschnitten) {
+        if (window.apf.beobNodeAusgeschnitten) {
             items.einfuegen_beob = {
-                "label": $.jstree._reference(window.apf.beob_node_ausgeschnitten).get_text(window.apf.beob_node_ausgeschnitten) + " einfügen",
+                "label": $.jstree._reference(window.apf.beobNodeAusgeschnitten).get_text(window.apf.beobNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $.jstree._reference(parentNode).move_node(window.apf.beob_node_ausgeschnitten, parentNode, "first", false);
+                    $.jstree._reference(parentNode).move_node(window.apf.beobNodeAusgeschnitten, parentNode, "first", false);
                 }
             };
         }
@@ -2648,7 +2648,7 @@ var returnFunction = function (node) {
                 }
             }
         };
-        if (!window.apf.beob_node_ausgeschnitten) {
+        if (!window.apf.beobNodeAusgeschnitten) {
             items.ausschneiden = {
                 //"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
                 "label": "ausschneiden",
@@ -2659,7 +2659,7 @@ var returnFunction = function (node) {
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
-                    window.apf.beob_node_ausgeschnitten = aktiverNode;
+                    window.apf.beobNodeAusgeschnitten = aktiverNode;
                 }
             };
         }
@@ -2739,7 +2739,7 @@ var returnFunction = function (node) {
                 }
             }
         };
-        if (!window.apf.beob_node_ausgeschnitten) {
+        if (!window.apf.beobNodeAusgeschnitten) {
             items.ausschneiden = {
                 //"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
                 "label": "ausschneiden",
@@ -2750,7 +2750,7 @@ var returnFunction = function (node) {
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
-                    window.apf.beob_node_ausgeschnitten = aktiverNode;
+                    window.apf.beobNodeAusgeschnitten = aktiverNode;
                 }
             };
         }

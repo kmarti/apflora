@@ -1,11 +1,11 @@
-//öffnet ein modal und teilt etwas mit
+// öffnet ein modal und teilt etwas mit
 
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
 var $ = require('jquery');
 
-var returnFunction = function (meldung, title) {
+module.exports = function (meldung, title) {
     title = title || ' ';
 
     $("#Meldung")
@@ -20,5 +20,3 @@ var returnFunction = function (meldung, title) {
             }
         });
 };
-
-module.exports = returnFunction;

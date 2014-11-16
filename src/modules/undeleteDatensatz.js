@@ -138,7 +138,7 @@ var returnFunction = function () {
             });
         } else {
             //tree neu aufbauen
-            $.when(window.apf.erstelle_tree(localStorage.apId)).then(function () {
+            $.when(window.apf.erstelleTree(localStorage.apId)).then(function () {
                 $("#tree").jstree("select_node", "[typ='" + typ + "']#" + id);
             });
         }
