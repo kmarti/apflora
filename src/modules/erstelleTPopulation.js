@@ -3,28 +3,39 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var returnFunction = function (TPop) {
-    // styles für overlay_top definieren
-    var defaultStyle = new OpenLayers.Style({
-            externalGraphic: '//www.apflora.ch/img/flora_icon_rot.png',
-            graphicWidth: 32, graphicHeight: 37, graphicYOffset: -37,
-            title: '${tooltip}'
-        }),
-        selectStyle = new OpenLayers.Style({
-            externalGraphic: '//www.apflora.ch/img/flora_icon_gelb.png'
-        }),
-        // overlay layer für Marker vorbereiten
-        overlay_tpopulation = new OpenLayers.Layer.Vector('Teilpopulation', {
-            styleMap: new OpenLayers.StyleMap({
-                'default': defaultStyle,
-                'select': defaultStyle
-            })
-        }),
-        myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord),
-        myTPopFlurname = TPop.TPopFlurname || '(kein Flurname)',
-        // tooltip bzw. label vorbereiten: nullwerte ausblenden
-        myTooltip;
+var OpenLayers = require('OpenLayers');
 
+module.exports = function (TPop) {
+    var defaultStyle,
+        selectStyle,
+        overlayTPop,
+        myLocation,
+        myTPopFlurname = TPop.TPopFlurname || '(kein Flurname)',
+        myTooltip,
+        marker,
+        dragControl;
+
+    // styles für overlay_top definieren
+    defaultStyle = new OpenLayers.Style({
+        externalGraphic: '//www.apflora.ch/img/flora_icon_rot.png',
+        graphicWidth: 32,
+        graphicHeight: 37,
+        graphicYOffset: -37,
+        title: '${tooltip}'
+    });
+    selectStyle = new OpenLayers.Style({
+        externalGraphic: '//www.apflora.ch/img/flora_icon_gelb.png'
+    });
+    // overlay layer für Marker vorbereiten
+    overlayTPop = new OpenLayers.Layer.Vector('Teilpopulation', {
+        styleMap: new OpenLayers.StyleMap({
+            'default': defaultStyle,
+            'select': defaultStyle
+        })
+    });
+    myLocation = new OpenLayers.Geometry.Point(TPop.TPopXKoord, TPop.TPopYKoord);
+
+    // tooltip bzw. label vorbereiten: nullwerte ausblenden
     if (window.apf.pop.PopNr && TPop.TPopNr) {
         myTooltip = window.apf.pop.PopNr + '/' + TPop.TPopNr + ' ' + myTPopFlurname;
     } else if (window.apf.pop.PopNr) {
@@ -37,15 +48,15 @@ var returnFunction = function (TPop) {
 
     // marker erstellen...
     // gewählte erhalten style gelb und zuoberst
-    var marker = new OpenLayers.Feature.Vector(myLocation, {
+    marker = new OpenLayers.Feature.Vector(myLocation, {
         tooltip: myTooltip
     });
 
     // die marker der Ebene hinzufügen
-    overlay_tpopulation.addFeatures(marker);
+    overlayTPop.addFeatures(marker);
 
     // die marker sollen verschoben werden können
-    var dragControl = new OpenLayers.Control.DragFeature(overlay_tpopulation, {
+    dragControl = new OpenLayers.Control.DragFeature(overlayTPop, {
         onComplete: function (feature) {
             // x und y merken
             TPop.TPopXKoord = feature.geometry.x;
@@ -59,12 +70,10 @@ var returnFunction = function (TPop) {
     dragControl.activate();
 
     // overlay zur Karte hinzufügen
-    window.apf.olmap.addLayer(overlay_tpopulation);
+    window.apf.olmap.addLayer(overlayTPop);
 
     // control zur Karte hinzufügen
-    window.selectControlTPop = new OpenLayers.Control.SelectFeature(overlay_tpopulation, {clickout: true});
+    window.selectControlTPop = new OpenLayers.Control.SelectFeature(overlayTPop, {clickout: true});
     window.apf.olmap.addControl(window.selectControlTPop);
     window.selectControlTPop.activate();
 };
-
-module.exports = returnFunction;

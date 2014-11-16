@@ -1,22 +1,21 @@
 /**
  * baut das html für die Dropdown-Liste der Übereinstimmung mit dem Idealbiotop
- * speichert die Liste in window.apf.IdealBiotopÜbereinst_html
+ * speichert die Liste in window.apf.IdealBiotopUebereinstHtml
  * um wiederholte DB-Zugriffe zu vermeiden
  * nimmt eine callback-Funktion entgegen
- * diser wird das generierte html übergeben
+ * dieser wird das generierte html übergeben
  */
 
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-
 var $ = require('jquery'),
     _ = require('underscore');
 
-var returnFunction = function (callback) {
-    var html = '';
+module.exports = function (callback) {
+    var html = window.apf.IdealBiotopUebereinstHtml;
 
-    if (!window.apf.IdealBiotopÜbereinst_html) {
+    if (!html) {
         $.ajax({
             type: 'get',
             url: 'api/v1/idealbiotopUebereinst'
@@ -24,15 +23,14 @@ var returnFunction = function (callback) {
             if (data && data.length > 0) {
                 // Feld mit Daten beliefern
                 html = "<option></option>";
-                _.each(data, function (übereinst) {
-                    html += '<option value="' + übereinst.id + '">' + übereinst.DomainTxt + '</option>';
+                _.each(data, function (uebereinst) {
+                    html += '<option value="' + uebereinst.id + '">' + uebereinst.DomainTxt + '</option>';
                 });
-                window.apf.IdealBiotopÜbereinst_html = html;
+                window.apf.IdealBiotopUebereinstHtml = html;
             }
             callback(html);
+            return;
         });
     }
-    callback(window.apf.IdealBiotopÜbereinst_html);
+    callback(html);
 };
-
-module.exports = returnFunction;

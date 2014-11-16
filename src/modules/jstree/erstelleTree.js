@@ -712,7 +712,7 @@ var returnFunction = function (ApArtId) {
         window.apf.herkunft_parent_node = $.jstree._reference(data.rslt.o)._get_parent(data.rslt.o);
     })
     .bind("create_node.jstree", function (e, data) {
-        if (data.rslt.parent[0].attributes.typ.nodeValue === "apzieljahr") {
+        if (data.rslt.parent[0].attributes.typ.value === "apzieljahr") {
             var Objekt = {};
             Objekt.name = "ZielJahr";
             Objekt.formular = "apziel";

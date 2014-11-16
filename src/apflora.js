@@ -1551,17 +1551,17 @@ window.apf.olmap.addShowFeatureInfoOnClick = function () {
 };
 
 window.apf.olmap.prüfeObPopTpopGewähltWurden = function () {
-    var pop_selected = [],
-        tpop_selected = [],
+    var popSelected = [],
+        tpopSelected = [],
         erstelleListeDerAusgewaehltenPopTPop = require('./modules/erstelleListeDerAusgewaehltenPopTPop');
 
     // prüfen, ob pop / tpop gewählt wurden
-    pop_selected = window.apf.olmap.getSelectedFeaturesOfType('pop');
-    tpop_selected = window.apf.olmap.getSelectedFeaturesOfType('tpop');
+    popSelected = window.apf.olmap.getSelectedFeaturesOfType('pop');
+    tpopSelected = window.apf.olmap.getSelectedFeaturesOfType('tpop');
 
     // wenn ja: anzeigen
-    if (pop_selected.length > 0 || tpop_selected.length > 0) {
-        erstelleListeDerAusgewaehltenPopTPop(pop_selected, tpop_selected);
+    if (popSelected.length > 0 || tpopSelected.length > 0) {
+        erstelleListeDerAusgewaehltenPopTPop(popSelected, tpopSelected);
     } else {
         $("#ergebnisAuswahl").hide();
     }

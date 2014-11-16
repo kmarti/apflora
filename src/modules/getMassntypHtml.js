@@ -1,10 +1,10 @@
 /**
  * baut das html für die Dropdown-Liste der Massnahmentypen
  * wird in mehreren Felder benutzt
- * speichert die Liste in window.apf.tpopmassntyp_html
+ * speichert die Liste in window.apf.tpopmassntypHtml
  * um wiederholte DB-Zugriffe zu vermeiden
  * nimmt eine callback-Funktion entgegen
- * diser wird das generierte html übergeben
+ * dieser wird das generierte html übergeben
  */
 
 /*jslint node: true, browser: true, nomen: true, todo: true */
@@ -13,10 +13,10 @@
 var $ = require('jquery'),
     _ = require('underscore');
 
-var returnFunction = function (callback) {
-    var html = '';
+module.exports = function (callback) {
+    var html = window.apf.tpopmassntypHtml;
 
-    if (!window.apf.tpopmassntyp_html) {
+    if (!html) {
         $.ajax({
             type:     'get',
             url:      'api/v1/tpopMassnTypen'
@@ -24,15 +24,14 @@ var returnFunction = function (callback) {
             if (data && data.length > 0) {
                 // Feld mit Daten beliefern
                 html = "<option></option>";
-                _.each(data, function (tpopmassn_typ) {
-                    html += '<option value="' + tpopmassn_typ.id + '">' + tpopmassn_typ.MassnTypTxt + '</option>';
+                _.each(data, function (tpopmassnTyp) {
+                    html += '<option value="' + tpopmassnTyp.id + '">' + tpopmassnTyp.MassnTypTxt + '</option>';
                 });
-                window.apf.tpopmassntyp_html = html;
+                window.apf.tpopmassntypHtml = html;
             }
             callback(html);
+            return;
         });
     }
-    callback(window.apf.tpopmassntyp_html);
+    callback(html);
 };
-
-module.exports = returnFunction;

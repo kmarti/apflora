@@ -1,10 +1,10 @@
 /**
  * baut das html für die Dropdown-Liste der Delarze-Lebensräume
  * wird in mehreren Felder benutzt
- * speichert die Liste in window.apf.lrdelarze_html
+ * speichert die Liste in window.apf.lrdelarzeHtml
  * um wiederholte DB-Zugriffe zu vermeiden
  * nimmt eine callback-Funktion entgegen
- * diser wird das generierte html übergeben
+ * dieser wird das generierte html übergeben
  */
 
 /*jslint node: true, browser: true, nomen: true, todo: true */
@@ -14,10 +14,10 @@
 var $ = require('jquery'),
     _ = require('underscore');
 
-var returnFunction = function (callback) {
-    var html = '';
+module.exports = function (callback) {
+    var html = window.apf.lrdelarzeHtml;
 
-    if (!window.apf.lrdelarze_html) {
+    if (!html) {
         $.ajax({
             type: 'get',
             url: 'api/v1/lrDelarze'
@@ -28,12 +28,11 @@ var returnFunction = function (callback) {
                 _.each(data, function (lr) {
                     html += '<option value="' + lr.id + '">' + lr.Einheit + '</option>';
                 });
-                window.apf.lrdelarze_html = html;
+                window.apf.lrdelarzeHtml = html;
             }
             callback(html);
+            return;
         });
     }
-    callback(window.apf.lrdelarze_html);
+    callback(html);
 };
-
-module.exports = returnFunction;

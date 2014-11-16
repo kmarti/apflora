@@ -29,12 +29,8 @@ var returnFunction = function (apId, apZielId, zielberId) {
     }
 
     // apId setzen
-    if (!localStorage.apId) {
-        localStorage.apId = apId;
-    }
-    if (!apId) {
-        apId = localStorage.apId;
-    }
+    localStorage.apId = localStorage.apId || apId;
+    apId              = apId || localStorage.apId;
 
     // apZielId setzen
     if (!localStorage.apzielId) {

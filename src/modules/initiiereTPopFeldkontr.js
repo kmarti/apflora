@@ -20,13 +20,18 @@ var $                            = require('jquery'),
     zeigeFormular                = require('./zeigeFormular'),
     melde                        = require('./melde');
 
-require('jquery-ui');
-
 var returnFunction = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
-    var $TPopKontrJahr           = $("#TPopKontrJahr"),
+    var feldlisteFeldkontr,
+        feldlisteFreiwkontr,
+        $TPopKontrJahr           = $("#TPopKontrJahr"),
         $TPopKontrJungPflJN_ja   = $("#TPopKontrJungPflJN_ja"),
         $TPopKontrJungPflJN_nein = $("#TPopKontrJungPflJN_nein"),
         $TPopKontrJungPflJN_leer = $("#TPopKontrJungPflJN_leer");
+
+    // Variablen setzen für Formular Feldkontrollen, hier damit nur ein mal
+    feldlisteFeldkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrTyp', 'TPopKontrJungpfl', 'TPopKontrVitalitaet', 'TPopKontrUeberleb', 'TPopKontrEntwicklung', 'TPopKontrUrsach', 'TPopKontrUrteil', 'TPopKontrAendUms', 'TPopKontrAendKontr', 'TPopKontrGuid', 'TPopKontrFlaeche', 'TPopKontrVegTyp', 'TPopKontrKonkurrenz', 'TPopKontrMoosschicht', 'TPopKontrKrautschicht', 'TPopKontrStrauchschicht', 'TPopKontrBaumschicht', 'TPopKontrBodenTyp', 'TPopKontrBodenKalkgehalt', 'TPopKontrBodenDurchlaessigkeit', 'TPopKontrBodenHumus', 'TPopKontrBodenNaehrstoffgehalt', 'TPopKontrBodenAbtrag', 'TPopKontrWasserhaushalt', 'TPopKontrHandlungsbedarf', 'TPopKontrIdealBiotopUebereinst', 'TPopKontrLeb', 'TPopKontrLebUmg'];
+
+    feldlisteFreiwkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrPlan', 'TPopKontrUebFlaeche', 'TPopKontrUebPfl', 'TPopKontrNaBo', 'TPopKontrJungPflJN', 'TPopKontrVegHoeMax', 'TPopKontrVegHoeMit', 'TPopKontrGefaehrdung', 'TPopKontrGuid'];
 
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.apId) {
@@ -255,11 +260,11 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
 
             // fieldcontain-divs der benötigten Felder einblenden
             if (kontrTyp === 'freiwKontr') {
-                _.each(window.apf.feldliste_freiwkontr, function (feld) {
+                _.each(feldlisteFreiwkontr, function (feld) {
                     $("#fieldcontain_" + feld).show();
                 });
             } else {
-                _.each(window.apf.feldliste_feldkontr, function (feld) {
+                _.each(feldlisteFeldkontr, function (feld) {
                     $("#fieldcontain_" + feld).show();
                 });
             }

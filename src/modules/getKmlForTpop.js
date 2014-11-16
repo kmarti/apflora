@@ -7,14 +7,13 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-
 var _                    = require('underscore'),
     removeKmlNogoStrings = require('./removeKmlNogoStrings'),
     getHeaderForKml      = require('./getHeaderForKml'),
     getFooterForKml      = require('./getFooterForKml'),
     getTimestamp         = require('./getTimestamp');
 
-var returnFunction = function (pops) {
+module.exports = function (pops) {
     var filename = 'Teilpopulationen_' + getTimestamp(),
         kml,
         art,
@@ -65,7 +64,4 @@ var returnFunction = function (pops) {
 
     // kml zurück geben
     return kml;
-
 };
-
-module.exports = returnFunction;

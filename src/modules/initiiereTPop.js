@@ -30,12 +30,8 @@ var returnFunction = function (apId, popId, tpopId, ohne_zu_zeigen) {
     }
 
     // apId setzen
-    if (!localStorage.apId) {
-        localStorage.apId = apId;
-    }
-    if (!apId) {
-        apId = localStorage.apId;
-    }
+    localStorage.apId = localStorage.apId || apId;
+    apId              = apId || localStorage.apId;
 
     // popId setzen
     if (!localStorage.popId) {

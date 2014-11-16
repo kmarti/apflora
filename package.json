@@ -16,7 +16,8 @@
     "ga": "global:ga",
     "google": "global:google",
     "XLSX": "global:XLSX",
-    "saveAs": "global:saveAs"
+    "saveAs": "global:saveAs",
+    "OpenLayers": "global:OpenLayers"
   },
   "dependencies": {
     "async": "^0.9.0",

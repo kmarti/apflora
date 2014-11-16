@@ -24,12 +24,8 @@ var returnFunction = function (apId, erfkritId) {
     }
 
     // apId setzen
-    if (!localStorage.apId) {
-        localStorage.apId = apId;
-    }
-    if (!apId) {
-        apId = localStorage.apId;
-    }
+    localStorage.apId = localStorage.apId || apId;
+    apId              = apId || localStorage.apId;
 
     // erfkritId setzen
     if (!localStorage.erfkritId) {

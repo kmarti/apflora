@@ -7,7 +7,8 @@ var $              = require('jquery'),
     zeigeFormular  = require('./zeigeFormular'),
     melde          = require('./melde');
 
-var returnFunction = function (apId, apZielId) {
+module.exports = function (apId, apZielId) {
+
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.apId) {
         // Anwendung neu initiieren
@@ -21,12 +22,8 @@ var returnFunction = function (apId, apZielId) {
     }
 
     // apId setzen
-    if (!localStorage.apId) {
-        localStorage.apId = apId;
-    }
-    if (!apId) {
-        apId = localStorage.apId;
-    }
+    localStorage.apId = localStorage.apId || apId;
+    apId              = apId || localStorage.apId;
 
     // apZielId setzen
     if (!localStorage.apzielId) {
@@ -67,5 +64,3 @@ var returnFunction = function (apId, apZielId) {
         melde('Fehler: Keine Daten für das AP-Ziel erhalten');
     });
 };
-
-module.exports = returnFunction;

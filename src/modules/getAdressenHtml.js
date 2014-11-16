@@ -1,10 +1,10 @@
 /**
  * baut das html für die Dropdown-Liste der Adressen
  * wird in mehreren Felder benutzt
- * speichert die Liste in window.apf.adressen_html
+ * speichert die Liste in window.apf.adressenHtml
  * um wiederholte DB-Zugriffe zu vermeiden
  * nimmt eine callback-Funktion entgegen
- * diser wird das generierte html übergeben
+ * dieser wird das generierte html übergeben
  */
 
 /*jslint node: true, browser: true, nomen: true, todo: true */
@@ -14,10 +14,10 @@
 var $ = require('jquery'),
     _ = require('underscore');
 
-var returnFunction = function (callback) {
-    var html = '';
+module.exports = function (callback) {
+    var html = window.apf.adressenHtml;
 
-    if (!window.apf.adressen_html) {
+    if (!html) {
         $.ajax({
             type: 'get',
             url: 'api/v1/adressen'
@@ -28,12 +28,11 @@ var returnFunction = function (callback) {
                 _.each(data, function (adresse) {
                     html += '<option value="' + adresse.id + '">' + adresse.AdrName + '</option>';
                 });
-                window.apf.adressen_html = html;
+                window.apf.adressenHtml = html;
             }
             callback(html);
+            return;
         });
     }
-    callback(window.apf.adressen_html);
+    callback(html);
 };
-
-module.exports = returnFunction;

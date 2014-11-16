@@ -2,12 +2,13 @@
 'use strict';
 
 var $             = require('jquery'),
+    _             = require('underscore'),
     initiiereApp  = require('./initiiereApp'),
     initiiereAp   = require('./initiiereAp'),
     zeigeFormular = require('./zeigeFormular'),
     melde         = require('./melde');
 
-var returnFunction = function (apId, assozId) {
+module.exports = function (apId, assozId) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.apId) {
         // Anwendung neu initiieren
@@ -21,12 +22,8 @@ var returnFunction = function (apId, assozId) {
     }
 
     // apId setzen
-    if (!localStorage.apId) {
-        localStorage.apId = apId;
-    }
-    if (!apId) {
-        apId = localStorage.apId;
-    }
+    localStorage.apId = localStorage.apId || apId;
+    apId              = apId || localStorage.apId;
 
     // assozId setzen
     if (!localStorage.assozartenId) {
@@ -37,7 +34,7 @@ var returnFunction = function (apId, assozId) {
     }
 
     var $AaSisfNrText = $("#AaSisfNrText"),
-        AaSisfNrText;
+        aaSisfNrText;
 
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("assozarten");
@@ -58,12 +55,12 @@ var returnFunction = function (apId, assozId) {
             // autocomplete, d.h. ein Feld für den Text und eines für die nummer
             if (data.AaSisfNr) {
                 $("#AaSisfNr").val(data.AaSisfNr);
-                AaSisfNrText = _.find(window.apf.artliste, function (art) {
+                aaSisfNrText = _.find(window.apf.artliste, function (art) {
                     return art.id === data.AaSisfNr;
                 });
                 // falls die erfasste Nummer in der Artliste nicht (mehr) enthalten ist!
-                if (AaSisfNrText) {
-                    $AaSisfNrText.val(AaSisfNrText.label);
+                if (aaSisfNrText) {
+                    $AaSisfNrText.val(aaSisfNrText.label);
                 }
             }
             $("#AaBem").val(data.AaBem);
@@ -81,5 +78,3 @@ var returnFunction = function (apId, assozId) {
         melde('Fehler: Keine Daten für die assoziierte Art erhalten');
     });
 };
-
-module.exports = returnFunction;

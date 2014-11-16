@@ -1,10 +1,10 @@
 /**
  * baut das html für die Dropdown-Liste der Zähleinheiten
  * wird in mehreren Felder benutzt
- * speichert die Liste in window.apf.TPopKontrZähleinheit_html
+ * speichert die Liste in window.apf.TPopKontrZaehleinheitHtml
  * um wiederholte DB-Zugriffe zu vermeiden
  * nimmt eine callback-Funktion entgegen
- * diser wird das generierte html übergeben
+ * dieser wird das generierte html übergeben
  */
 
 /*jslint node: true, browser: true, nomen: true, todo: true */
@@ -13,10 +13,10 @@
 var $ = require('jquery'),
     _ = require('underscore');
 
-var returnFunction = function (callback) {
-    var html = '';
+module.exports = function (callback) {
+    var html = window.apf.TPopKontrZaehleinheitHtml;
 
-    if (!window.apf.TPopKontrZähleinheit_html) {
+    if (!html) {
         $.ajax({
             type: 'get',
             url: 'api/v1/feldkontrZaehleinheit'
@@ -24,15 +24,14 @@ var returnFunction = function (callback) {
             if (data && data.length > 0) {
                 // Feld mit Daten beliefern
                 html = "<option></option>";
-                _.each(data, function (zähleinheit) {
-                    html += '<option value="' + zähleinheit.ZaehleinheitCode + '">' + zähleinheit.ZaehleinheitTxt + '</option>';
+                _.each(data, function (zaehleinheit) {
+                    html += '<option value="' + zaehleinheit.ZaehleinheitCode + '">' + zaehleinheit.ZaehleinheitTxt + '</option>';
                 });
-                window.apf.TPopKontrZähleinheit_html = html;
+                window.apf.TPopKontrZaehleinheitHtml = html;
             }
             callback(html);
+            return;
         });
     }
-    callback(window.apf.TPopKontrZähleinheit_html);
+    callback(html);
 };
-
-module.exports = returnFunction;

@@ -20,12 +20,8 @@ var initiiereIdealbiotop = function (apId) {
     }
 
     // apId setzen
-    if (!localStorage.apId) {
-        localStorage.apId = apId;
-    }
-    if (!apId) {
-        apId = localStorage.apId;
-    }
+    localStorage.apId = localStorage.apId || apId;
+    apId              = apId || localStorage.apId;
 
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("idealbiotop");

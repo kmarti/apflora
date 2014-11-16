@@ -5,7 +5,7 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var returnFunction = function (popNr, tpopNr) {
+module.exports = function (popNr, tpopNr) {
     var tpopBeschriftung;
 
     popNr = popNr || "?";
@@ -13,5 +13,3 @@ var returnFunction = function (popNr, tpopNr) {
 
     return tpopBeschriftung;
 };
-
-module.exports = returnFunction;

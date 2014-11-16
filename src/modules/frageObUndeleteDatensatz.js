@@ -6,7 +6,7 @@
 
 var $ = require('jquery');
 
-var returnFunction = function (wasIstPassiert) {
+module.exports = function (wasIstPassiert) {
     // Hinweis zum rückgängig machen anzeigen
     $("#undelete_div").html(wasIstPassiert + " <a href='#' id='undelete'>Rückgängig machen?</a>");
     $(".undelete").show();
@@ -19,5 +19,3 @@ var returnFunction = function (wasIstPassiert) {
         $("#forms").css("top", "");
     }, 30000);
 };
-
-module.exports = returnFunction;

@@ -7,7 +7,7 @@ var $               = require('jquery'),
     zeigeFormular   = require('./zeigeFormular'),
     melde           = require('./melde');
 
-var returnFunction = function (apId) {
+module.exports = function (apId) {
 
     // prüfen, ob voraussetzungen gegeben sind
     if (!localStorage.apId && !apId) {
@@ -17,12 +17,8 @@ var returnFunction = function (apId) {
     }
 
     // apId setzen
-    if (!localStorage.apId) {
-        localStorage.apId = apId;
-    }
-    if (!apId) {
-        apId = localStorage.apId;
-    }
+    localStorage.apId = localStorage.apId || apId;
+    apId              = apId || localStorage.apId;
 
     // Programm-Wahl konfigurieren
     var programm_wahl = $("[name='programm_wahl']:checked").attr("id");
@@ -66,5 +62,3 @@ var returnFunction = function (apId) {
         zeigeFormular("ap");
     }
 };
-
-module.exports = returnFunction;
