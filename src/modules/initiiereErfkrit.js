@@ -8,8 +8,7 @@ var $             = require('jquery'),
     zeigeFormular = require('./zeigeFormular'),
     melde         = require('./melde');
 
-var returnFunction = function (apId, erfkritId) {
-    var $ErfkritErreichungsgrad = $("#ErfkritErreichungsgrad");
+module.exports = function (apId, erfkritId) {
 
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.apId) {
@@ -28,12 +27,10 @@ var returnFunction = function (apId, erfkritId) {
     apId              = apId || localStorage.apId;
 
     // erfkritId setzen
-    if (!localStorage.erfkritId) {
-        localStorage.erfkritId = erfkritId;
-    }
-    if (!erfkritId) {
-        erfkritId = localStorage.erfkritId;
-    }
+    localStorage.erfkritId = localStorage.erfkritId || erfkritId;
+    erfkritId              = erfkritId || localStorage.erfkritId;
+
+    var $ErfkritErreichungsgrad = $("#ErfkritErreichungsgrad");
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     limiter($);
@@ -72,5 +69,3 @@ var returnFunction = function (apId, erfkritId) {
         melde('Fehler: Keine Daten für das Erfolgskriterium erhalten');
     });
 };
-
-module.exports = returnFunction;

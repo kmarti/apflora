@@ -8,7 +8,7 @@ var $             = require('jquery'),
     zeigeFormular = require('./zeigeFormular'),
     melde         = require('./melde');
 
-var returnFunction = function (apId, popId, ohne_zu_zeigen) {
+module.exports = function (apId, popId, ohneZuZeigen) {
     var $PopName = $("#PopName"),
         $PopNr   = $("#PopNr");
 
@@ -64,7 +64,7 @@ var returnFunction = function (apId, popId, ohne_zu_zeigen) {
 
             // Felder mit Daten beliefern
             $("#PopHerkunft" + data.PopHerkunft).prop("checked", true);
-            if (data.PopHerkunftUnklar == 1) {
+            if (data.PopHerkunftUnklar === 1) {
                 $("#PopHerkunftUnklar").prop("checked", true);
             } else {
                 $("#PopHerkunftUnklar").prop("checked", false);
@@ -81,8 +81,8 @@ var returnFunction = function (apId, popId, ohne_zu_zeigen) {
             $("#PopYKoord").val(data.PopYKoord);
 
             // Formulare blenden
-            // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
-            if (!ohne_zu_zeigen) {
+            // nur, wenn ohneZuZeigen nicht true ist (true, um in dialog anzuzeigen)
+            if (!ohneZuZeigen) {
                 zeigeFormular("pop");
                 history.pushState(null, null, "index.html?ap=" + apId + "&pop=" + popId);
 
@@ -96,5 +96,3 @@ var returnFunction = function (apId, popId, ohne_zu_zeigen) {
         melde('Fehler: Keine Daten für die Population erhalten');
     });
 };
-
-module.exports = returnFunction;

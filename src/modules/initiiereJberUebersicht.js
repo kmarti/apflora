@@ -7,9 +7,7 @@ var $              = require('jquery'),
     zeigeFormular  = require('./zeigeFormular'),
     melde          = require('./melde');
 
-var returnFunction = function (apId, uebId) {
-    var $JbuJahr = $("#JbuJahr");
-
+module.exports = function (apId, uebId) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.apId) {
         // Anwendung neu initiieren
@@ -27,12 +25,10 @@ var returnFunction = function (apId, uebId) {
     apId              = apId || localStorage.apId;
 
     // uebId setzen
-    if (!localStorage.jberUebersichtId) {
-        localStorage.jberUebersichtId = uebId;
-    }
-    if (!uebId) {
-        uebId = localStorage.jberUebersichtId;
-    }
+    localStorage.jberUebersichtId = localStorage.jberUebersichtId || uebId;
+    uebId                         = uebId || localStorage.jberUebersichtId;
+
+    var $JbuJahr = $("#JbuJahr");
 
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("jber_uebersicht");
@@ -47,12 +43,11 @@ var returnFunction = function (apId, uebId) {
             data = data[0];
 
             // jber_uebersicht bereitstellen
-            window.apf.jber_übersicht = data;
+            window.apf.jberUebersicht = data;
 
             // Felder mit Daten beliefern
             $JbuJahr.val(data.JbuJahr);
             $("#JbuBemerkungen").val(data.JbuBemerkungen);
-            // window.apf.fitTextareaToContent("Bemerkungen", document.documentElement.clientHeight);
 
             // Formulare blenden
             zeigeFormular("jber_uebersicht");
@@ -67,5 +62,3 @@ var returnFunction = function (apId, uebId) {
         melde('Fehler: Keine Daten für die Übersicht erhalten');
     });
 };
-
-module.exports = returnFunction;

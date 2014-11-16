@@ -10,8 +10,6 @@ var $                            = require('jquery'),
     melde                        = require('./melde');
 
 var initiiereIdealbiotop = function (apId) {
-    var $IbErstelldatum  = $("#IbErstelldatum");
-
     // prüfen, ob voraussetzungen gegeben sind
     if (!localStorage.apId && !apId) {
         // es fehlen benötigte Daten > zurück zum Anfang
@@ -22,6 +20,8 @@ var initiiereIdealbiotop = function (apId) {
     // apId setzen
     localStorage.apId = localStorage.apId || apId;
     apId              = apId || localStorage.apId;
+
+    var $IbErstelldatum  = $("#IbErstelldatum");
 
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("idealbiotop");
@@ -37,7 +37,7 @@ var initiiereIdealbiotop = function (apId) {
 
             // idealbiotop bereitstellen
             localStorage.idealbiotopId = data.IbApArtId;
-            window.apf.idealbiotop      = data;
+            window.apf.idealbiotop     = data;
 
             // Felder mit Daten beliefern
             if (data.IbErstelldatum) {

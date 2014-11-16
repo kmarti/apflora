@@ -19,10 +19,12 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
     localStorage.beobtyp = beobTyp;
 
     var url,
-        url_distzutpop,
+        urlDistzutpop,
         urlZuordnung,
-        $BeobBemerkungen = $("#BeobBemerkungen"),
-        idFeld;
+        $BeobBemerkungen,
+        idFeld,
+        htmlBeobfelder,
+        htmlDistzutpop;
 
     if (!beobId && !ohneZuZeigen) {
         // es fehlen benötigte Daten > eine Ebene höher
@@ -33,6 +35,8 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
         }
         return;
     }
+
+    $BeobBemerkungen = $("#BeobBemerkungen");
 
     // beobid hat meist 'beob' vorangestellt - entfernen!
     if (beobId.indexOf('beob') > -1) {
@@ -54,60 +58,60 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
     $.ajax({
         type: 'get',
         url: url
-    }).done(function (data_beob) {
+    }).done(function (dataBeob) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
-        if (data_beob && data_beob.length > 0) {
-            data_beob = data_beob[0];
+        if (dataBeob && dataBeob.length > 0) {
+            dataBeob = dataBeob[0];
 
             // boebfelder bereitstellen
-            var html_beobfelder = window.apf.erstelleFelderFürBeob(data_beob, beobTyp);
-            $("#beob_table").html(html_beobfelder);
+            htmlBeobfelder = window.apf.erstelleFelderFuerBeob(dataBeob, beobTyp);
+            $("#beob_table").html(htmlBeobfelder);
 
             // Abstand zu TPop aus der DB holen
-            url_distzutpop = 'api/v1/beobDistzutpop' + capitaliseFirstLetter(beobTyp) + '/beobId=' + beobId;
+            urlDistzutpop = 'api/v1/beobDistzutpop' + capitaliseFirstLetter(beobTyp) + '/beobId=' + beobId;
             $.ajax({
                 type: 'get',
-                url: url_distzutpop
+                url: urlDistzutpop
             }).done(function (data) {
                 // Tabellenzeile beginnen
-                var html_distzutpop = '<tr class="fieldcontain DistZuTPop"><td class="label"><label id="DistZuTPop_label" for="DistZuTPop">Einer Teilpopulation zuordnen:</label></td><td class="Datenfelder"><div class="Datenfelder" id="DistZuTPop_Felder">';
+                htmlDistzutpop = '<tr class="fieldcontain DistZuTPop"><td class="label"><label id="DistZuTPop_label" for="DistZuTPop">Einer Teilpopulation zuordnen:</label></td><td class="Datenfelder"><div class="Datenfelder" id="DistZuTPop_Felder">';
                 if (data) {
                     _.each(data, function (beob, index) {
-                        if (index>0) {
-                            html_distzutpop += "<br>";
+                        if (index > 0) {
+                            htmlDistzutpop += "<br>";
                         }
-                        html_distzutpop += '<input type="radio" name="DistZuTPop" id="DistZuTPop';
-                        html_distzutpop += beob.TPopId;
-                        html_distzutpop += '" class="DistZuTPop" formular="beob" value="';
-                        html_distzutpop += beob.TPopId;
-                        html_distzutpop += '" DistZuTPop="';
-                        html_distzutpop += beob.DistZuTPop;
-                        html_distzutpop += '"';
+                        htmlDistzutpop += '<input type="radio" name="DistZuTPop" id="DistZuTPop';
+                        htmlDistzutpop += beob.TPopId;
+                        htmlDistzutpop += '" class="DistZuTPop" formular="beob" value="';
+                        htmlDistzutpop += beob.TPopId;
+                        htmlDistzutpop += '" DistZuTPop="';
+                        htmlDistzutpop += beob.DistZuTPop;
+                        htmlDistzutpop += '"';
                         // jetzt ermitteln, ob das die angezeigte Beob ist
                         // wenn ja: checked
-                        if (/*beobStatus === 'zugeordnet' && */beob.TPopId == localStorage.tpopId) {
-                            html_distzutpop += ' checked';
+                        if (beob.TPopId === localStorage.tpopId) {
+                            htmlDistzutpop += ' checked';
                         }
-                        html_distzutpop += '>';
+                        htmlDistzutpop += '>';
                         // Label beginnen
-                        html_distzutpop += '<label for="DistZuTPop';
-                        html_distzutpop += beob.TPopId;
-                        html_distzutpop += '">';
+                        htmlDistzutpop += '<label for="DistZuTPop';
+                        htmlDistzutpop += beob.TPopId;
+                        htmlDistzutpop += '">';
                         // Wenn TPop keine Koordinaten haben, dies anzeigen und Anzeige von NAN verhindern
                         if (parseInt(beob.DistZuTPop, 10) >= 0) {
-                            html_distzutpop += parseInt(beob.DistZuTPop) + "m: " + beob.TPopFlurname;
+                            htmlDistzutpop += parseInt(beob.DistZuTPop, 10) + "m: " + beob.TPopFlurname;
                         } else {
-                            html_distzutpop += beob.TPopFlurname;
+                            htmlDistzutpop += beob.TPopFlurname;
                         }
                         // Label abschliessen
-                        html_distzutpop += '</label>';
+                        htmlDistzutpop += '</label>';
                     });
 
                     // Tabellenzeile abschliessen
-                    html_distzutpop += '</div></td></tr>';
+                    htmlDistzutpop += '</div></td></tr>';
 
                     // distzutpop bereitstellen
-                    $("#beob_zuordnungsfelder").html(html_distzutpop);
+                    $("#beob_zuordnungsfelder").html(htmlDistzutpop);
 
                     $BeobBemerkungen.attr("placeholder", "");
 
@@ -122,27 +126,29 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
                             type: 'get',
                             url: urlZuordnung
                         }).done(function (data) {
-                            if (data && data[0]) data = data[0];
-                            // Felder mit Daten beliefern
-                            $("#BeobNichtBeurteilt").prop("checked", false);
-                            if (data.BeobNichtZuordnen === 1) {
-                                $("#BeobNichtZuordnen").prop("checked", true);
-                            } else {
-                                $("#BeobNichtZuordnen").prop("checked", false);
-                            }
-                            $("#DistZuTPop" + data.TPopId).prop("checked", true);
-                            $("#BeobBemerkungen").val(data.BeobBemerkungen);
-                            $("#BeobMutWann").val(data.BeobMutWann);
-                            $("#BeobMutWer").val(data.BeobMutWer);
+                            if (data && data[0]) {
+                                data = data[0];
+                                // Felder mit Daten beliefern
+                                $("#BeobNichtBeurteilt").prop("checked", false);
+                                if (data.BeobNichtZuordnen === 1) {
+                                    $("#BeobNichtZuordnen").prop("checked", true);
+                                } else {
+                                    $("#BeobNichtZuordnen").prop("checked", false);
+                                }
+                                $("#DistZuTPop" + data.TPopId).prop("checked", true);
+                                $("#BeobBemerkungen").val(data.BeobBemerkungen);
+                                $("#BeobMutWann").val(data.BeobMutWann);
+                                $("#BeobMutWer").val(data.BeobMutWer);
 
-                            // Formulare blenden
-                            // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
-                            if (!ohneZuZeigen) {
-                                zeigeFormular("beob");
-                                if (beobStatus === "zugeordnet") {
-                                    history.pushState(null, null, "index.html?ap=" + localStorage.apId + "&pop=" + localStorage.popId + "&tpop=" + localStorage.tpopId + "&beob_zugeordnet=" + beobId);
-                                } else if (beobStatus === "nicht_zuzuordnen") {
-                                    history.pushState(null, null, "index.html?ap=" + localStorage.apId + "&beob_nicht_zuzuordnen=" + beobId);
+                                // Formulare blenden
+                                // nur, wenn ohneZuZeigen nicht true ist (true, um in dialog anzuzeigen)
+                                if (!ohneZuZeigen) {
+                                    zeigeFormular("beob");
+                                    if (beobStatus === "zugeordnet") {
+                                        history.pushState(null, null, "index.html?ap=" + localStorage.apId + "&pop=" + localStorage.popId + "&tpop=" + localStorage.tpopId + "&beob_zugeordnet=" + beobId);
+                                    } else if (beobStatus === "nicht_zuzuordnen") {
+                                        history.pushState(null, null, "index.html?ap=" + localStorage.apId + "&beob_nicht_zuzuordnen=" + beobId);
+                                    }
                                 }
                             }
                         });
@@ -157,7 +163,7 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
                             .attr("placeholder", "Bemerkungen sind nur in zugeordneten oder nicht zuzuordnenden Beobachtungen möglich");
 
                         // Formulare blenden
-                        // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
+                        // nur, wenn ohneZuZeigen nicht true ist (true, um in dialog anzuzeigen)
                         if (!ohneZuZeigen) {
                             zeigeFormular("beob");
                             history.pushState(null, null, "index.html?ap=" + localStorage.apId + "&beob_nicht_beurteilt=" + beobId);

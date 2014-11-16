@@ -7,7 +7,8 @@
  * ruft diese Funktion auf
  */
 
-var conf                   = require('./configuration'),
+var _                      = require('underscore'),
+    conf                   = require('./configuration'),
     fn                     = {},
     fnInitiiereFunktion;
 
@@ -31,19 +32,17 @@ fn.initiiereTPopMassn      = require('./initiiereTPopMassn');
 fn.initiiereTPopMassnBer   = require('./initiiereTPopMassnBer');
 fn.initiiereTPopBer        = require('./initiiereTPopBer');
 
-var returnFunction = function (strukturtyp) {
+module.exports = function (strukturtyp) {
     if (strukturtyp === "tpopfreiwkontr") {
         // der Initiierung mitteilen, dass es eine Freiwilligenkontrolle ist und keine Feldkontrolle
         localStorage.tpopfreiwkontr = true;
         // Freiwilligen-Kontrollen werden von derselben Funktion initiiert, wie Feldkontrollen
         fn.initiiereTPopFeldkontr();
-    } else {
-        fnInitiiereFunktion = _.filter(conf.tables, function (table) {
-            return table.treeTyp === strukturtyp;
-        })[0].initiiereFunktion;
-
-        fn[fnInitiiereFunktion]();
+        return;
     }
-};
+    fnInitiiereFunktion = _.filter(conf.tables, function (table) {
+        return table.treeTyp === strukturtyp;
+    })[0].initiiereFunktion;
 
-module.exports = returnFunction;
+    fn[fnInitiiereFunktion]();
+};

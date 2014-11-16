@@ -616,7 +616,7 @@ var returnFunction = function (node) {
                             "ja, löschen!": function () {
                                 $(this).dialog("close");
                                 // Variable zum rückgängig machen erstellen
-                                window.apf.deleted = window.apf.jber_übersicht;
+                                window.apf.deleted = window.apf.jberUebersicht;
                                 window.apf.deleted.typ = "jber_uebersicht";
                                 var deleteJberUebersicht = $.ajax({
                                     type: 'delete',
@@ -624,7 +624,7 @@ var returnFunction = function (node) {
                                 });
                                 deleteJberUebersicht.done(function () {
                                     delete localStorage.jberUebersichtId;
-                                    delete window.apf.jber_übersicht;
+                                    delete window.apf.jberUebersicht;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz('Die Übersicht für den AP-Bericht des Jahrs "' + window.apf.deleted.JbuJahr + '" wurde gelöscht.');

@@ -1,8 +1,7 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-
-var $ = jQuery    = require('jquery'),
+var $             = require('jquery'),
     initiiereApp  = require('./initiiereApp'),
     initiiereAp   = require('./initiiereAp'),
     limiter       = require('../lib/limiter'),
@@ -11,7 +10,7 @@ var $ = jQuery    = require('jquery'),
 
 // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
 // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
-var initiiereBer = function (apId, berId) {
+module.exports = function (apId, berId) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.apId) {
         // Anwendung neu initiieren
@@ -29,12 +28,8 @@ var initiiereBer = function (apId, berId) {
     apId              = apId || localStorage.apId;
 
     // berId setzen
-    if (!localStorage.berId) {
-        localStorage.berId = berId;
-    }
-    if (!berId) {
-        berId = localStorage.berId;
-    }
+    localStorage.berId = localStorage.berId || berId;
+    berId              = berId || localStorage.berId;
 
     var $BerAutor = $("#BerAutor"),
         $BerJahr  = $("#BerJahr"),
@@ -90,5 +85,3 @@ var initiiereBer = function (apId, berId) {
         melde('Fehler: Keine Daten für den Bericht erhalten');
     });
 };
-
-module.exports = initiiereBer;

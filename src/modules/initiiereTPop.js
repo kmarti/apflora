@@ -11,7 +11,7 @@ var $               = require('jquery'),
     zeigeFormular   = require('./zeigeFormular'),
     melde           = require('./melde');
 
-var returnFunction = function (apId, popId, tpopId, ohne_zu_zeigen) {
+var returnFunction = function (apId, popId, tpopId, ohneZuZeigen) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.apId) {
         // Anwendung neu initiieren
@@ -140,8 +140,8 @@ var returnFunction = function (apId, popId, tpopId, ohne_zu_zeigen) {
             });
 
             // Formulare blenden
-            // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
-            if (!ohne_zu_zeigen) {
+            // nur, wenn ohneZuZeigen nicht true ist (true, um in dialog anzuzeigen)
+            if (!ohneZuZeigen) {
                 zeigeFormular("tpop");
                 history.pushState(null, null, "index.html?ap=" + apId + "&pop=" + popId + "&tpop=" + tpopId);
 

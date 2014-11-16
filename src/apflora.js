@@ -109,7 +109,7 @@ window.apf.setzeWindowJber = function (id) {
     });
 };
 
-// setzt window.apf.jber_übersicht und localStorage.jberUebersichtId
+// setzt window.apf.jberUebersicht und localStorage.jberUebersichtId
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowJberUebersicht = function (id) {
     'use strict';
@@ -121,7 +121,7 @@ window.apf.setzeWindowJberUebersicht = function (id) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             // jber_uebersicht bereitstellen
-            window.apf.jber_übersicht = data[0];
+            window.apf.jberUebersicht = data[0];
         }
     });
 };
@@ -1830,7 +1830,7 @@ window.apf.erstelleLabelFuerMassnahme = function (jahr, beurteilung) {
 
 // gibt HTML zurück, mit dem die Informationen über eine Beobachtung dargestellt werden
 // erwartet die Daten der Beobachtung
-window.apf.erstelleFelderFürBeob = function (data, beobtyp) {
+window.apf.erstelleFelderFuerBeob = function (data, beobtyp) {
     'use strict';
     // Titel für Beob im Formular erstellen
     var beobtitel = "<h1>Informationen aus ";

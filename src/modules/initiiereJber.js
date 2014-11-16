@@ -10,7 +10,7 @@ var $               = require('jquery'),
     zeigeFormular   = require('./zeigeFormular'),
     melde           = require('./melde');
 
-var returnFunction = function (apId, apBerId) {
+module.exports = function (apId, apBerId) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.apId) {
         // Anwendung neu initiieren
@@ -28,12 +28,8 @@ var returnFunction = function (apId, apBerId) {
     apId              = apId || localStorage.apId;
 
     // apBerId setzen
-    if (!localStorage.jberId) {
-        localStorage.jberId = apBerId;
-    }
-    if (!apBerId) {
-        apBerId = localStorage.jberId;
-    }
+    localStorage.jberId = localStorage.jberId || apBerId;
+    apBerId             = apBerId || localStorage.jberId;
 
     var $JBerJahr = $("#JBerJahr");
 
@@ -94,5 +90,3 @@ var returnFunction = function (apId, apBerId) {
         melde('Fehler: Keine Daten für den AP-Bericht erhalten');
     });
 };
-
-module.exports = returnFunction;
