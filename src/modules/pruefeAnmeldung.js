@@ -1,15 +1,16 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $ = require('jquery');
+var $     = require('jquery'),
+    melde = require('./melde');
 
 module.exports = function () {
     var $anmeldung_name     = $("#anmeldung_name").val(),
-        $anmeldung_passwort = $("#anmeldung_passwort").val(),
-        melde               = require('./melde');
+        $anmeldung_passwort = $("#anmeldung_passwort").val();
 
     // Leserechte zurücksetzen
     delete sessionStorage.NurLesen;
+
     if ($anmeldung_name && $anmeldung_passwort) {
         $.ajax({
             type: 'get',

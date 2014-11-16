@@ -6,8 +6,11 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $ = require('jquery'),
-    _ = require('underscore');
+var $             = require('jquery'),
+    _             = require('underscore'),
+    configuration = require('./configuration'),
+    waehleAp      = require('./waehleAp'),
+    melde         = require('./melde');
 
 // braucht $ wegen jstree
 var speichern = function (that) {
@@ -55,10 +58,7 @@ var speichern = function (that) {
         $BerJahr,
         $BerTitel,
         aabeschriftung,
-        $tree         = $("#tree"),
-        configuration = require('./configuration'),
-        waehleAp      = require('./waehleAp'),
-        melde         = require('./melde');
+        $tree         = $("#tree");
 
     if (window.apf.pruefeSchreibvoraussetzungen()) {
         formular = $(that).attr("formular");
@@ -81,11 +81,7 @@ var speichern = function (that) {
         }
         // ja/nein Felder zu boolean umbauen
         if (feldname === "PopHerkunftUnklar" || feldname === "TPopHerkunftUnklar" || feldname === "TPopMassnPlan" || feldname === "TPopKontrPlan") {
-            if (feldwert) {
-                feldwert = 1;
-            } else {
-                feldwert = "";
-            }
+            feldwert = (feldwert ? 1 : '');
         }
         if (feldname === "BeobBemerkungen" && localStorage.beobStatus === "nicht_beurteilt") {
             // hier soll nicht gespeichert werden

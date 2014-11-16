@@ -1,14 +1,14 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $ = require('jquery');
+var $                        = require('jquery'),
+    zeigeFormular            = require('./zeigeFormular'),
+    frageObUndeleteDatensatz = require('./frageObUndeleteDatensatz'),
+    melde                    = require('./melde');
 
 module.exports = function (apId) {
-    var $ap_waehlen_text         = $("#ap_waehlen_text"),
-        $exportieren_2           = $("#exportieren_2"),
-        zeigeFormular            = require('./zeigeFormular'),
-        frageObUndeleteDatensatz = require('./frageObUndeleteDatensatz'),
-        melde                    = require('./melde');
+    var $ap_waehlen_text = $("#ap_waehlen_text"),
+        $exportieren_2   = $("#exportieren_2");
 
     //Variable zum rückgängig machen erstellen
     window.apf.deleted = window.apf.ap;

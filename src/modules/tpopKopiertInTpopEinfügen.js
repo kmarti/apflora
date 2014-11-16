@@ -3,14 +3,14 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $     = require('jquery'),
-    _     = require('underscore'),
-    melde = require('./melde');
+var $                                         = require('jquery'),
+    _                                         = require('underscore'),
+    insertNeuenNodeAufGleicherHierarchiestufe = require('./jstree/insertNeuenNodeAufGleicherHierarchiestufe'),
+    erstelleIdAusDomAttributId                = require('./erstelleIdAusDomAttributId'),
+    melde                                     = require('./melde');
 
-var returnFunction = function (aktiverNode, parentNode) {
-    var data = {},
-        insertNeuenNodeAufGleicherHierarchiestufe = require('./jstree/insertNeuenNodeAufGleicherHierarchiestufe'),
-        erstelleIdAusDomAttributId                = require('./erstelleIdAusDomAttributId');
+module.exports = function (aktiverNode, parentNode) {
+    var data = {};
 
     // nur aktualisieren, wenn Schreibrechte bestehen
     if (!window.apf.pruefeSchreibvoraussetzungen()) {
@@ -22,7 +22,7 @@ var returnFunction = function (aktiverNode, parentNode) {
     }
     // User und neue PopId mitgeben
     data.MutWer = sessionStorage.User;
-    data.PopId = erstelleIdAusDomAttributId($(parentNode).attr("id"));
+    data.PopId  = erstelleIdAusDomAttributId($(parentNode).attr("id"));
     // die alten id's entfernen
     delete window.apf.tpopObjektKopiert.PopId;
     delete window.apf.tpopObjektKopiert.TPopId;
@@ -41,12 +41,11 @@ var returnFunction = function (aktiverNode, parentNode) {
         type: 'post',
         url: 'api/v1/tpopInsertKopie/popId=' + data.PopId + '/tpopId=' + erstelleIdAusDomAttributId($(window.apf.tpop_node_kopiert).attr("id")) + '/user=' + data.MutWer
     }).done(function (tpopId) {
-        var strukturtyp = "tpop",
+        var strukturtyp  = "tpop",
             beschriftung = window.apf.tpopObjektKopiert.TPopNr + " " + window.apf.tpopObjektKopiert.TPopFlurname;
+
         insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, tpopId, beschriftung);
     }).fail(function () {
         melde("Fehler: Die Teilpopulation wurde nicht erstellt");
     });
 };
-
-module.exports = returnFunction;

@@ -9,7 +9,6 @@ var $                 = require('jquery'),
     oeffneUri         = require('./oeffneUri');
 
 module.exports = function () {
-
     // jQuery ui widgets initiieren
     $("#programm_wahl").buttonset({
         create: function () {

@@ -1,9 +1,26 @@
 /*jslint node: true, browser: true, nomen: true, todo: true, white: true */
 'use strict';
 
-var $   = require('jquery'),
-    _   = require('underscore'),
-    Uri = require('Uri');
+var $                       = require('jquery'),
+    _                       = require('underscore'),
+    Uri                     = require('Uri'),
+    initiiereIdealbiotop    = require('./initiiereIdealbiotop'),
+    initiiereAp             = require('./initiiereAp'),
+    initiierePop            = require('./initiierePop'),
+    initiiereApziel         = require('./initiiereApziel'),
+    initiiereErfkrit        = require('./initiiereErfkrit'),
+    initiiereZielber        = require('./initiiereZielber'),
+    initiiereJber           = require('./initiiereJber'),
+    initiiereJberUebersicht = require('./initiiereJberUebersicht'),
+    initiiereBer            = require('./initiiereBer'),
+    initiierePopMassnBer    = require('./initiierePopMassnBer'),
+    initiiereTPop           = require('./initiiereTPop'),
+    initiierePopBer         = require('./initiierePopBer'),
+    initiiereTPopFeldkontr  = require('./initiiereTPopFeldkontr'),
+    initiiereTPopMassn      = require('./initiiereTPopMassn'),
+    initiiereTPopMassnBer   = require('./initiiereTPopMassnBer'),
+    initiiereTPopBer        = require('./initiiereTPopBer'),
+    initiiereBeob           = require('./initiiereBeob');
 
 module.exports = function () {
     var uri                     = new Uri($(location).attr('href')),
@@ -30,24 +47,7 @@ module.exports = function () {
         beobNichtBeurteiltId    = uri.getQueryParamValue('beob_nicht_beurteilt'),
         beobNichtZuzuordnenId   = uri.getQueryParamValue('beob_nicht_zuzuordnen'),
         exporte                 = uri.getQueryParamValue('exporte'),
-        apWaehlenText,
-        initiiereIdealbiotop    = require('./initiiereIdealbiotop'),
-        initiiereAp             = require('./initiiereAp'),
-        initiierePop            = require('./initiierePop'),
-        initiiereApziel         = require('./initiiereApziel'),
-        initiiereErfkrit        = require('./initiiereErfkrit'),
-        initiiereZielber        = require('./initiiereZielber'),
-        initiiereJber           = require('./initiiereJber'),
-        initiiereJberUebersicht = require('./initiiereJberUebersicht'),
-        initiiereBer            = require('./initiiereBer'),
-        initiierePopMassnBer    = require('./initiierePopMassnBer'),
-        initiiereTPop           = require('./initiiereTPop'),
-        initiierePopBer         = require('./initiierePopBer'),
-        initiiereTPopFeldkontr  = require('./initiiereTPopFeldkontr'),
-        initiiereTPopMassn      = require('./initiiereTPopMassn'),
-        initiiereTPopMassnBer   = require('./initiiereTPopMassnBer'),
-        initiiereTPopBer        = require('./initiiereTPopBer'),
-        initiiereBeob           = require('./initiiereBeob');
+        apWaehlenText;
 
     // ids in Zahlen umwandeln
     if (apId)              { apId              = parseInt(apId, 10); }

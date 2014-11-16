@@ -1,19 +1,19 @@
 // wird aufgerufen, wenn der ap geändert wird
 
-/*jslint node: true, browser: true, nomen: true, todo: true */
+/*jslint node: true, browser: true, nomen: true, todo: true, white: true */
 'use strict';
 
-var $ = require('jquery'),
-    _ = require('underscore');
+var $             = require('jquery'),
+    _             = require('underscore'),
+    zeigeFormular = require('./zeigeFormular'),
+    initiiereAp   = require('./initiiereAp'),
+    waehleApliste = require('./waehleApliste'),
+    melde         = require('./melde');
 
-var returnFunction = function (apId) {
-    var initiiereAp = require('./initiiereAp'),
-        programm = $("[name='programm_wahl']:checked").attr("id"),
-        ap_waehlen_text,
-        placeholderText = 'Artförderprogramm wählen',
-        zeigeFormular   = require('./zeigeFormular'),
-        waehleApliste   = require('./waehleApliste'),
-        melde           = require('./melde');
+module.exports = function (apId) {
+    var programm = $("[name='programm_wahl']:checked").attr("id"),
+        apWaehlenText,
+        placeholderText = 'Artförderprogramm wählen';
 
     if (apId) {
         // einen AP gewählt
@@ -36,12 +36,12 @@ var returnFunction = function (apId) {
                     // Strukturbaum updaten
                     $.when(window.apf.erstelleTree(apId)).then(function () {
                         // gewählte Art in Auswahlliste anzeigen
-                        ap_waehlen_text = _.find(window.apf.apliste.programm_alle, function (art) {
+                        apWaehlenText = _.find(window.apf.apliste.programm_alle, function (art) {
                             return art.id == apId;
                         });
-                        if (ap_waehlen_text) {
+                        if (apWaehlenText) {
                             $('#ap_waehlen').val(apId);
-                            $('#ap_waehlen_text').val(ap_waehlen_text.label);
+                            $('#ap_waehlen_text').val(apWaehlenText.label);
                         }
                         $("#ApArtId").val(apId);
                         // gewählte Art in Formular anzeigen
@@ -60,7 +60,7 @@ var returnFunction = function (apId) {
         // leeren Wert gewählt
         $('#ap_waehlen_text').val('');
         if (programm === 'programm_neu') { placeholderText = 'Art für neues Förderprogramm wählen'; }
-        if (programm === 'programm_ap')  { placeholderText = 'Aktionsplan wählen' };
+        if (programm === 'programm_ap')  { placeholderText = 'Aktionsplan wählen'; }
         $("#ap_waehlen_text").attr('placeholder', placeholderText);
         $("#tree").hide();
         $("#suchen").hide();
@@ -73,5 +73,3 @@ var returnFunction = function (apId) {
         history.pushState(null, null, "index.html");
     }
 };
-
-module.exports = returnFunction;

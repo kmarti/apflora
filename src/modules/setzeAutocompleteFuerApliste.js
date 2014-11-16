@@ -34,7 +34,6 @@ module.exports = function (programm) {
             }
             if (!textPasstZuId) {
                 // kein zulässiger Eintrag > Feld wiederherstellen
-                console.log('kein zulässiger Eintrag');
                 $(this).val(text.label);
             }
         }

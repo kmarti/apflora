@@ -13,19 +13,19 @@
 
 'use strict';
 
-var $     = require('jquery'),
-    _     = require('underscore'),
-    melde = require('./melde');
+var $             = require('jquery'),
+    _             = require('underscore'),
+    melde         = require('./melde'),
+    zeigeFormular = require('./zeigeFormular'),
+    initiiereApp  = require('./initiiereApp'),
+    waehleApliste = require('./waehleApliste'),
+    oeffneUri     = require('./oeffneUri');
 
-var returnFunction = function () {
+module.exports = function () {
     var tabelle,
         data = {},
         typ,
-        id,
-        zeigeFormular = require('./zeigeFormular'),
-        initiiereApp  = require('./initiiereApp'),
-        waehleApliste = require('./waehleApliste'),
-        oeffneUri     = require('./oeffneUri');
+        id;
 
     if (!window.apf.deleted) {
         melde("Wiederherstellung gescheitert", "Fehler");
@@ -146,5 +146,3 @@ var returnFunction = function () {
         melde("Fehler: Wiederherstellung gescheitert");
     });
 };
-
-module.exports = returnFunction;

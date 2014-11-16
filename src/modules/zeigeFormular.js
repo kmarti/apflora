@@ -7,17 +7,18 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $ = require('jquery');
+var $              = require('jquery'),
+    initiiereOlmap = require('./olmap/initiiereOlmap');
 
 var returnFunction = function (Formularname) {
-    var formular_angezeigt = $.Deferred(),
-        $forms = $("#forms"),
-        $form = $('form'),
-        $testart_div = $("#testart_div"),
+    var formularAngezeigt = $.Deferred(),
+        $forms            = $("#forms"),
+        $form             = $('form'),
+        $testart_div      = $("#testart_div"),
         $forms_titelzeile = $("#forms_titelzeile"),
-        $ap_waehlen = $("#ap_waehlen"),
-        $Formularname,
-        initiiereOlmap = require('./olmap/initiiereOlmap');
+        $ap_waehlen       = $("#ap_waehlen"),
+        $Formularname;
+
     // zuerst alle Formulare ausblenden
     $forms.hide();
     $form.each(function () {
@@ -85,9 +86,9 @@ var returnFunction = function (Formularname) {
             });
             $(window).scrollTop(0);
         }
-        formular_angezeigt.resolve();
+        formularAngezeigt.resolve();
     }
-    return formular_angezeigt.promise();
+    return formularAngezeigt.promise();
 };
 
 module.exports = returnFunction;

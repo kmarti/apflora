@@ -4,10 +4,10 @@
 var $           = require('jquery'),
     initiiereAp = require('./initiiereAp');
 
-var returnFunction = function (programm) {
-    var $ap_waehlen = $("#ap_waehlen"),
+module.exports = function (programm) {
+    var $ap_waehlen      = $("#ap_waehlen"),
         $ap_waehlen_text = $("#ap_waehlen_text"),
-        aplisteErstellt = $.Deferred();
+        aplisteErstellt  = $.Deferred();
 
     $ap_waehlen_text.attr('placeholder', 'Daten werden aufbereitet...');
     $ap_waehlen.val('');
@@ -42,5 +42,3 @@ var returnFunction = function (programm) {
 
     return aplisteErstellt.promise();
 };
-
-module.exports = returnFunction;
