@@ -14,7 +14,7 @@ var $               = require('jquery'),
     zeigeFormular   = require('./zeigeFormular'),
     melde           = require('./melde');
 
-var returnFunction = function (apId, popId, tpopId, massnId) {
+module.exports = function (apId, popId, tpopId, massnId) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.apId) {
         // Anwendung neu initiieren
@@ -38,8 +38,8 @@ var returnFunction = function (apId, popId, tpopId, massnId) {
     }
 
     // apId setzen
-    if (!localStorage.apId) localStorage.apId = apId;
-    if (!apId) apId = localStorage.apId;
+    localStorage.apId = localStorage.apId || apId;
+    apId = apId || localStorage.apId;
     // popId setzen
     if (!localStorage.popId) {
         if (!window.apf.pop || !window.apf.pop.PopId) {
@@ -56,11 +56,11 @@ var returnFunction = function (apId, popId, tpopId, massnId) {
         }
     }
     // tpopId setzen
-    if (!localStorage.tpopId) localStorage.tpopId = tpopId;
-    if (!tpopId) tpopId = localStorage.tpopId;
+    localStorage.tpopId = localStorage.tpopId || tpopId;
+    tpopId = tpopId || localStorage.tpopId;
     // massnId setzen
-    if (!localStorage.tpopmassnId) localStorage.tpopmassnId = massnId;
-    if (!massnId) massnId = localStorage.tpopmassnId;
+    localStorage.tpopmassnId = localStorage.tpopmassnId || massnId;
+    massnId = massnId || localStorage.tpopmassnId;
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     limiter($);
@@ -73,7 +73,6 @@ var returnFunction = function (apId, popId, tpopId, massnId) {
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblTeilPopMassnahme/feld=TPopMassnId/wertNumber=' + massnId
     }).done(function (data) {
-        var tPopMassnAnsiedWirtspflTxt;
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
@@ -143,5 +142,3 @@ var returnFunction = function (apId, popId, tpopId, massnId) {
         melde('Fehler: keine Daten für die Massnahme erhalten');
     });
 };
-
-module.exports = returnFunction;

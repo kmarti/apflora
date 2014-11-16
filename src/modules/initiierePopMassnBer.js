@@ -8,7 +8,7 @@ var $             = require('jquery'),
     zeigeFormular = require('./zeigeFormular'),
     melde         = require('./melde');
 
-var returnFunction = function (apId, popId, massnberId) {
+module.exports = function (apId, popId, massnberId) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.apId) {
         // Anwendung neu initiieren
@@ -47,12 +47,8 @@ var returnFunction = function (apId, popId, massnberId) {
     }
 
     // massnberId setzen
-    if (!localStorage.popmassnberId) {
-        localStorage.popmassnberId = massnberId;
-    }
-    if (!massnberId) {
-        massnberId = localStorage.popmassnberId;
-    }
+    localStorage.popmassnberId = localStorage.popmassnberId || massnberId;
+    massnberId                 = massnberId || localStorage.popmassnberId;
 
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("popmassnber");
@@ -85,5 +81,3 @@ var returnFunction = function (apId, popId, massnberId) {
         melde('Fehler: Keine Daten für den Massnahmenbericht erhalten');
     });
 };
-
-module.exports = returnFunction;

@@ -7,7 +7,7 @@ var $             = require('jquery'),
     initiierePop  = require('./initiierePop'),
     zeigeFormular = require('./zeigeFormular');
 
-var returnFunction = function (apId, popId, popberId) {
+module.exports = function (apId, popId, popberId) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.apId) {
         // Anwendung neu initiieren
@@ -46,12 +46,8 @@ var returnFunction = function (apId, popId, popberId) {
     }
 
     // popberId setzen
-    if (!localStorage.popberId) {
-        localStorage.popberId = popberId;
-    }
-    if (!popberId) {
-        popberId = localStorage.popberId;
-    }
+    localStorage.popberId = localStorage.popberId || popberId;
+    popberId              = popberId || localStorage.popberId;
 
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("popber");
@@ -82,5 +78,3 @@ var returnFunction = function (apId, popId, popberId) {
         }
     });
 };
-
-module.exports = returnFunction;

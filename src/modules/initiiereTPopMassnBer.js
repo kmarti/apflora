@@ -9,7 +9,7 @@ var $             = require('jquery'),
     zeigeFormular = require('./zeigeFormular'),
     melde         = require('./melde');
 
-var returnFunction = function (apId, popId, tpopId, massnBerId) {
+module.exports = function (apId, popId, tpopId, massnBerId) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.apId) {
         // Anwendung neu initiieren
@@ -33,8 +33,8 @@ var returnFunction = function (apId, popId, tpopId, massnBerId) {
     }
 
     // apId setzen
-    if (!localStorage.apId) localStorage.apId = apId;
-    if (!apId) apId = localStorage.apId;
+    localStorage.apId = localStorage.apId || apId;
+    apId = apId || localStorage.apId;
     // popId setzen
     if (!localStorage.popId) {
         if (!window.apf.pop || !window.apf.pop.PopId) {
@@ -51,11 +51,11 @@ var returnFunction = function (apId, popId, tpopId, massnBerId) {
         }
     }
     // tpopId setzen
-    if (!localStorage.tpopId) localStorage.tpopId = tpopId;
-    if (!tpopId) tpopId = localStorage.tpopId;
+    localStorage.tpopId = localStorage.tpopId || tpopId;
+    tpopId = tpopId || localStorage.tpopId;
     // massnBerId setzen
-    if (!localStorage.tpopmassnberId) localStorage.tpopmassnberId = massnBerId;
-    if (!massnBerId) massnBerId = localStorage.tpopmassnberId;
+    localStorage.tpopmassnberId = localStorage.tpopmassnberId || massnBerId;
+    massnBerId = massnBerId || localStorage.tpopmassnberId;
 
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("tpopmassnber");
@@ -88,5 +88,3 @@ var returnFunction = function (apId, popId, tpopId, massnBerId) {
         melde('Fehler: keine Daten für den Massnahmen-Bericht erhalten');
     });
 };
-
-module.exports = returnFunction;

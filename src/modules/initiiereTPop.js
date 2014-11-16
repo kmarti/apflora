@@ -11,7 +11,7 @@ var $               = require('jquery'),
     zeigeFormular   = require('./zeigeFormular'),
     melde           = require('./melde');
 
-var returnFunction = function (apId, popId, tpopId, ohneZuZeigen) {
+module.exports = function (apId, popId, tpopId, ohneZuZeigen) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.apId) {
         // Anwendung neu initiieren
@@ -50,12 +50,8 @@ var returnFunction = function (apId, popId, tpopId, ohneZuZeigen) {
     }
 
     // tpopId setzen
-    if (!localStorage.tpopId) {
-        localStorage.tpopId = tpopId;
-    }
-    if (!tpopId) {
-        tpopId = localStorage.tpopId;
-    }
+    localStorage.tpopId = localStorage.tpopId || tpopId;
+    tpopId              = tpopId || localStorage.tpopId;
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     limiter($);
@@ -155,5 +151,3 @@ var returnFunction = function (apId, popId, tpopId, ohneZuZeigen) {
         melde('Fehler: keine Daten für die Teilpopulation erhalten');
     });
 };
-
-module.exports = returnFunction;

@@ -8,7 +8,7 @@ var $               = require('jquery'),
     zeigeFormular   = require('./zeigeFormular'),
     melde           = require('./melde');
 
-var returnFunction = function (apId, apZielId, zielberId) {
+module.exports = function (apId, apZielId, zielberId) {
     var $ZielBerJahr = $("#ZielBerJahr");
 
     // prüfen, ob voraussetzungen gegeben sind
@@ -33,20 +33,12 @@ var returnFunction = function (apId, apZielId, zielberId) {
     apId              = apId || localStorage.apId;
 
     // apZielId setzen
-    if (!localStorage.apzielId) {
-        localStorage.apzielId = apZielId;
-    }
-    if (!apZielId) {
-        apZielId = localStorage.apzielId;
-    }
+    localStorage.apzielId = localStorage.apzielId || apZielId;
+    apZielId = apZielId || localStorage.apzielId;
 
     // zielberId setzen
-    if (!localStorage.zielberId) {
-        localStorage.zielberId = zielberId;
-    }
-    if (!zielberId) {
-        zielberId = localStorage.zielberId;
-    }
+    localStorage.zielberId = localStorage.zielberId || zielberId;
+    zielberId = zielberId || localStorage.zielberId;
 
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("zielber");
@@ -81,5 +73,3 @@ var returnFunction = function (apId, apZielId, zielberId) {
         melde('Fehler: Keine Daten für den Zielbericht erhalten');
     });
 };
-
-module.exports = returnFunction;

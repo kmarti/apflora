@@ -10,7 +10,7 @@ var returnFunction = function (apId) {
         melde                    = require('./melde');
 
     //Variable zum rückgängig machen erstellen
-    window.apf.deleted = window.apf;
+    window.apf.deleted = window.apf.ap;
     window.apf.deleted.typ = "ap";
     //Artname in Textform merken
     window.apf.deleted.Artname = $ap_waehlen_text.val();

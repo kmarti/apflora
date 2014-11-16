@@ -20,19 +20,7 @@ var $                            = require('jquery'),
     zeigeFormular                = require('./zeigeFormular'),
     melde                        = require('./melde');
 
-var returnFunction = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
-    var feldlisteFeldkontr,
-        feldlisteFreiwkontr,
-        $TPopKontrJahr           = $("#TPopKontrJahr"),
-        $TPopKontrJungPflJN_ja   = $("#TPopKontrJungPflJN_ja"),
-        $TPopKontrJungPflJN_nein = $("#TPopKontrJungPflJN_nein"),
-        $TPopKontrJungPflJN_leer = $("#TPopKontrJungPflJN_leer");
-
-    // Variablen setzen für Formular Feldkontrollen, hier damit nur ein mal
-    feldlisteFeldkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrTyp', 'TPopKontrJungpfl', 'TPopKontrVitalitaet', 'TPopKontrUeberleb', 'TPopKontrEntwicklung', 'TPopKontrUrsach', 'TPopKontrUrteil', 'TPopKontrAendUms', 'TPopKontrAendKontr', 'TPopKontrGuid', 'TPopKontrFlaeche', 'TPopKontrVegTyp', 'TPopKontrKonkurrenz', 'TPopKontrMoosschicht', 'TPopKontrKrautschicht', 'TPopKontrStrauchschicht', 'TPopKontrBaumschicht', 'TPopKontrBodenTyp', 'TPopKontrBodenKalkgehalt', 'TPopKontrBodenDurchlaessigkeit', 'TPopKontrBodenHumus', 'TPopKontrBodenNaehrstoffgehalt', 'TPopKontrBodenAbtrag', 'TPopKontrWasserhaushalt', 'TPopKontrHandlungsbedarf', 'TPopKontrIdealBiotopUebereinst', 'TPopKontrLeb', 'TPopKontrLebUmg'];
-
-    feldlisteFreiwkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrPlan', 'TPopKontrUebFlaeche', 'TPopKontrUebPfl', 'TPopKontrNaBo', 'TPopKontrJungPflJN', 'TPopKontrVegHoeMax', 'TPopKontrVegHoeMit', 'TPopKontrGefaehrdung', 'TPopKontrGuid'];
-
+module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.apId) {
         // Anwendung neu initiieren
@@ -56,8 +44,8 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
     }
 
     // apId setzen
-    if (!localStorage.apId) localStorage.apId = apId;
-    if (!apId) apId = localStorage.apId;
+    localStorage.apId = localStorage.apId || apId;
+    apId = apId || localStorage.apId;
     // popId setzen
     if (!localStorage.popId) {
         if (!window.apf.pop || !window.apf.pop.PopId) {
@@ -74,11 +62,11 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
         }
     }
     // tpopId setzen
-    if (!localStorage.tpopId) localStorage.tpopId = tpopId;
-    if (!tpopId) tpopId = localStorage.tpopId;
+    localStorage.tpopId = localStorage.tpopId || tpopId;
+    tpopId = tpopId || localStorage.tpopId;
     // feldKontrId setzen
-    if (!localStorage.tpopfeldkontrId) localStorage.tpopfeldkontrId = feldKontrId;
-    if (!feldKontrId) feldKontrId = localStorage.tpopfeldkontrId;
+    localStorage.tpopfeldkontrId = localStorage.tpopfeldkontrId || feldKontrId;
+    feldKontrId = feldKontrId || localStorage.tpopfeldkontrId;
 
     // typ setzen, falls er nicht übergeben wurde (provisorisch)
     // TODO: entfernen, wenn router übernimmt
@@ -88,6 +76,18 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
     if (!kontrTyp && !localStorage.tpopfreiwkontr) {
         kontrTyp = 'feldKontr';
     }
+
+    var feldlisteFeldkontr,
+        feldlisteFreiwkontr,
+        $TPopKontrJahr           = $("#TPopKontrJahr"),
+        $TPopKontrJungPflJN_ja   = $("#TPopKontrJungPflJN_ja"),
+        $TPopKontrJungPflJN_nein = $("#TPopKontrJungPflJN_nein"),
+        $TPopKontrJungPflJN_leer = $("#TPopKontrJungPflJN_leer");
+
+    // Variablen setzen für Formular Feldkontrollen, hier damit nur ein mal
+    feldlisteFeldkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrTyp', 'TPopKontrJungpfl', 'TPopKontrVitalitaet', 'TPopKontrUeberleb', 'TPopKontrEntwicklung', 'TPopKontrUrsach', 'TPopKontrUrteil', 'TPopKontrAendUms', 'TPopKontrAendKontr', 'TPopKontrGuid', 'TPopKontrFlaeche', 'TPopKontrVegTyp', 'TPopKontrKonkurrenz', 'TPopKontrMoosschicht', 'TPopKontrKrautschicht', 'TPopKontrStrauchschicht', 'TPopKontrBaumschicht', 'TPopKontrBodenTyp', 'TPopKontrBodenKalkgehalt', 'TPopKontrBodenDurchlaessigkeit', 'TPopKontrBodenHumus', 'TPopKontrBodenNaehrstoffgehalt', 'TPopKontrBodenAbtrag', 'TPopKontrWasserhaushalt', 'TPopKontrHandlungsbedarf', 'TPopKontrIdealBiotopUebereinst', 'TPopKontrLeb', 'TPopKontrLebUmg'];
+
+    feldlisteFreiwkontr = ['TPopKontrJahr', 'TPopKontrDatum', 'TPopKontrMethode1', 'TPopKontrAnz1', 'TPopKontrMethode2', 'TPopKontrAnz2', 'TPopKontrMethode3', 'TPopKontrAnz3', 'TPopKontrTxt', 'TPopKontrBearb', 'TPopKontrZaehleinheit1', 'TPopKontrZaehleinheit2', 'TPopKontrZaehleinheit3', 'TPopKontrPlan', 'TPopKontrUebFlaeche', 'TPopKontrUebPfl', 'TPopKontrNaBo', 'TPopKontrJungPflJN', 'TPopKontrVegHoeMax', 'TPopKontrVegHoeMit', 'TPopKontrGefaehrdung', 'TPopKontrGuid'];
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     limiter($);
@@ -233,7 +233,7 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
 
             // Felder, die nur in freiwkontr vorkommen
             if (kontrTyp === 'freiwKontr') {
-                if (data.TPopKontrPlan == 1) {
+                if (data.TPopKontrPlan === 1) {
                     $("#TPopKontrPlan").prop("checked", true);
                 } else {
                     $("#TPopKontrPlan").prop("checked", false);
@@ -244,9 +244,9 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
                 $TPopKontrJungPflJN_ja.prop("checked", false);
                 $TPopKontrJungPflJN_nein.prop("checked", false);
                 $TPopKontrJungPflJN_leer.prop("checked", false);
-                if (data.TPopKontrJungPflJN == 1) {
+                if (data.TPopKontrJungPflJN === 1) {
                     $TPopKontrJungPflJN_ja.prop("checked", true);
-                } else if (data.TPopKontrJungPflJN == 0) {
+                } else if (data.TPopKontrJungPflJN === 0) {
                     $TPopKontrJungPflJN_nein.prop("checked", true);
                 } else {
                     $TPopKontrJungPflJN_leer.prop("checked", true);
@@ -299,5 +299,3 @@ var returnFunction = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
         melde('Fehler: keine Daten für die Kontrolle erhalten');
     });
 };
-
-module.exports = returnFunction;

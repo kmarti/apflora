@@ -22,7 +22,10 @@ var returnFunction = function () {
         data = {},
         typ,
         id,
-        zeigeFormular = require('./zeigeFormular');
+        zeigeFormular = require('./zeigeFormular'),
+        initiiereApp  = require('./initiiereApp'),
+        waehleApliste = require('./waehleApliste'),
+        oeffneUri     = require('./oeffneUri');
 
     if (!window.apf.deleted) {
         melde("Wiederherstellung gescheitert", "Fehler");
@@ -126,14 +129,13 @@ var returnFunction = function () {
         $("#forms").css("top", "");
         // ap kann nicht via Strukturbaum gewählt werden
         if (typ === "ap") {
-            //Formulare ausblenden
-            zeigeFormular();
-            //neu initiieren, damit die gelöschte Art gewählt werden kann
-            window.apf.initiiere_index();
-            // TODO: DAS TESTEN
-            // Formulare blenden
-            zeigeFormular("ap");
-            history.pushState(null, null, "index.html?ap=" + id);
+            // erzwingen, dass die apliste neu geholt wird
+            delete window.apf.apliste.programm_alle;
+            $.when(waehleApliste('programm_alle')).then(function () {
+                // pushState funktioniert nicht, unklar wieso
+                history.pushState(null, null, "index.html?ap=" + id);
+                oeffneUri();
+            });
         } else {
             //tree neu aufbauen
             $.when(window.apf.erstelle_tree(localStorage.apId)).then(function () {
