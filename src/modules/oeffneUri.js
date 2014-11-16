@@ -28,6 +28,7 @@ module.exports = function () {
         assozartenId            = uri.getQueryParamValue('assozarten'),
         beobZugeordnetId        = uri.getQueryParamValue('beob_zugeordnet'),
         beobNichtBeurteiltId    = uri.getQueryParamValue('beob_nicht_beurteilt'),
+        beobNichtZuzuordnenId   = uri.getQueryParamValue('beob_nicht_zuzuordnen'),
         exporte                 = uri.getQueryParamValue('exporte'),
         apWaehlenText,
         initiiereIdealbiotop    = require('./initiiereIdealbiotop'),
@@ -87,9 +88,6 @@ module.exports = function () {
     if (berId)             { window.apf.setzeWindowBer(berId); }
     if (idealbiotopId)     { window.apf.setzeWindowIdealbiotop(idealbiotopId); }
     if (assozartenId)      { window.apf.setzeWindowAssozarten(assozartenId); }
-
-    console.log('beobZugeordnetId: ', beobZugeordnetId);
-    console.log('beobNichtBeurteiltId: ', beobNichtBeurteiltId);
 
     if (apId) {
         // Dem Feld im Formular den Wert zuweisen
@@ -220,14 +218,25 @@ module.exports = function () {
             if (isNaN(beobNichtBeurteiltId)) {
                 // evab
                 localStorage.beobtyp = "evab";
-                initiiereBeob("evab", localStorage.beobId, "zugeordnet");
+                initiiereBeob("evab", localStorage.beobId, "nicht_beurteilt");
             } else {
                 localStorage.beobtyp = "infospezies";
-                initiiereBeob("infospezies", localStorage.beobId, "zugeordnet");
+                initiiereBeob("infospezies", localStorage.beobId, "nicht_beurteilt");
             }
-        } else if (uri.getQueryParamValue('beob_nicht_zuzuordnen')) {
+        } else if (beobNichtZuzuordnenId) {
             // markieren, dass nach dem loaded-event im Tree die beob angezeigt werden soll 
             window.apf.beobNichtZuzuordnenZeigen = true;
+            // direkt initiieren, bevor der baum fertig aufgebaut ist
+            // herausfinden, ob beobtyp infospezies oder evab ist
+            localStorage.beobId = beobNichtZuzuordnenId;
+            if (isNaN(beobNichtZuzuordnenId)) {
+                // evab
+                localStorage.beobtyp = "evab";
+                initiiereBeob("evab", localStorage.beobId, "nicht_zuzuordnen");
+            } else {
+                localStorage.beobtyp = "infospezies";
+                initiiereBeob("infospezies", localStorage.beobId, "nicht_zuzuordnen");
+            }
         } else {
             // muss ap sein
             // markieren, dass nach dem loaded-event im Tree die Pop angezeigt werden soll 
