@@ -56,6 +56,11 @@ module.exports = function (ApArtId) {
         // diese Markierung entfernen, damit das nächste mal nicht mehr diese beob_zugeordnet geöffnet wird
         delete window.apf.beobZugeordnetZeigen;
     }
+    if (window.apf.beobNichtBeurteilZeigen) {
+        $("#tree").jstree("select_node", "#beob" + localStorage.beobId);
+        // diese Markierung entfernen, damit das nächste mal nicht mehr diese beob_zugeordnet geöffnet wird
+        delete window.apf.beobNichtBeurteilZeigen;
+    }
     if (window.apf.tpopmassnberZeigen) {
         $("#tree").jstree("select_node", "[typ='tpopmassnber']#" + localStorage.tpopmassnberId);
         // diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopmassnber geöffnet wird

@@ -27,6 +27,7 @@ module.exports = function () {
         idealbiotopId           = uri.getQueryParamValue('idealbiotop'),
         assozartenId            = uri.getQueryParamValue('assozarten'),
         beobZugeordnetId        = uri.getQueryParamValue('beob_zugeordnet'),
+        beobNichtBeurteiltId    = uri.getQueryParamValue('beob_nicht_beurteilt'),
         exporte                 = uri.getQueryParamValue('exporte'),
         apWaehlenText,
         initiiereIdealbiotop    = require('./initiiereIdealbiotop'),
@@ -86,6 +87,9 @@ module.exports = function () {
     if (berId)             { window.apf.setzeWindowBer(berId); }
     if (idealbiotopId)     { window.apf.setzeWindowIdealbiotop(idealbiotopId); }
     if (assozartenId)      { window.apf.setzeWindowAssozarten(assozartenId); }
+
+    console.log('beobZugeordnetId: ', beobZugeordnetId);
+    console.log('beobNichtBeurteiltId: ', beobNichtBeurteiltId);
 
     if (apId) {
         // Dem Feld im Formular den Wert zuweisen
@@ -207,9 +211,20 @@ module.exports = function () {
             // markieren, dass nach dem loaded-event im Tree die assozarten angezeigt werden soll 
             window.apf.assozartenZeigen = true;
             // NICHT direkt initiieren, weil sonst die Artliste noch nicht existiert
-        } else if (uri.getQueryParamValue('beob_nicht_beurteilt')) {
-            // markieren, dass nach dem loaded-event im Tree die beob angezeigt werden soll 
+        } else if (beobNichtBeurteiltId) {
+            // markieren, dass nach dem loaded-event im Tree die beob_zugeordnet angezeigt werden soll
             window.apf.beobNichtBeurteiltZeigen = true;
+            // direkt initiieren, bevor der baum fertig aufgebaut ist
+            // herausfinden, ob beobtyp infospezies oder evab ist
+            localStorage.beobId = beobNichtBeurteiltId;
+            if (isNaN(beobNichtBeurteiltId)) {
+                // evab
+                localStorage.beobtyp = "evab";
+                initiiereBeob("evab", localStorage.beobId, "zugeordnet");
+            } else {
+                localStorage.beobtyp = "infospezies";
+                initiiereBeob("infospezies", localStorage.beobId, "zugeordnet");
+            }
         } else if (uri.getQueryParamValue('beob_nicht_zuzuordnen')) {
             // markieren, dass nach dem loaded-event im Tree die beob angezeigt werden soll 
             window.apf.beobNichtZuzuordnenZeigen = true;
