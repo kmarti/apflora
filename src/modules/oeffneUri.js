@@ -30,7 +30,7 @@ module.exports = function () {
         apWaehlenText,
         initiiereIdealbiotop    = require('./initiiereIdealbiotop'),
         initiiereAp             = require('./initiiereAp'),
-        initiierePop            = require('./initiiereBeob'),
+        initiierePop            = require('./initiierePop'),
         initiiereApziel         = require('./initiiereApziel'),
         initiiereErfkrit        = require('./initiiereErfkrit'),
         initiiereZielber        = require('./initiiereZielber'),
@@ -44,6 +44,26 @@ module.exports = function () {
         initiiereTPopMassn      = require('./initiiereTPopMassn'),
         initiiereTPopMassnBer   = require('./initiiereTPopMassnBer'),
         initiiereTPopBer        = require('./initiiereTPopBer');
+
+    // ids in Zahlen umwandeln
+    if (apId)              { apId              = parseInt(apId, 10); }
+    if (popId)             { popId             = parseInt(popId, 10); }
+    if (tpopId)            { tpopId            = parseInt(tpopId, 10); }
+    if (tpopfeldkontrId)   { tpopfeldkontrId   = parseInt(tpopfeldkontrId, 10); }
+    if (tpopfreiwkontrId)  { tpopfreiwkontrId  = parseInt(tpopfreiwkontrId, 10); }
+    if (tpopmassnId)       { tpopmassnId       = parseInt(tpopmassnId, 10); }
+    if (tpopberId)         { tpopberId         = parseInt(tpopberId, 10); }
+    if (tpopmassnberId)    { tpopmassnberId    = parseInt(tpopmassnberId, 10); }
+    if (popberId)          { popberId          = parseInt(popberId, 10); }
+    if (popmassnberId)     { popmassnberId     = parseInt(popmassnberId, 10); }
+    if (apzielId)          { apzielId          = parseInt(apzielId, 10); }
+    if (zielberId)         { zielberId         = parseInt(zielberId, 10); }
+    if (erfkritId)         { erfkritId         = parseInt(erfkritId, 10); }
+    if (jberId)            { jberId            = parseInt(jberId, 10); }
+    if (jber_uebersichtId) { jber_uebersichtId = parseInt(jber_uebersichtId, 10); }
+    if (berId)             { berId             = parseInt(berId, 10); }
+    if (idealbiotopId)     { idealbiotopId     = parseInt(idealbiotopId, 10); }
+    if (assozartenId)      { assozartenId      = parseInt(assozartenId, 10); }
 
     // zuerst die globalen Variabeln setzen
     if (apId)              { window.apf.setzeWindowAp(apId); }
@@ -68,9 +88,10 @@ module.exports = function () {
     if (apId) {
         // Dem Feld im Formular den Wert zuweisen
         $("#ap_waehlen").val(apId);
+        // TODO: funktioniert nicht
         // gewählte Art in Auswahlliste anzeigen
         apWaehlenText = _.find(window.apf.apliste.programm_alle, function (art) {
-            return art.id == apId;
+            return art.id === apId;
         });
         if (apWaehlenText) {
             $("#ap_waehlen_text").val(apWaehlenText.label);

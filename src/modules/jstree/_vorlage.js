@@ -3,10 +3,6 @@
 
 var $ = require('jquery');
 
-$.jstree = require('jquery.jstree');
-
-var returnFunction = function () {
+module.exports = function () {
     
 };
-
-module.exports = returnFunction;

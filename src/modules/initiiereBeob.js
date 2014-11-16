@@ -9,6 +9,9 @@ var $                     = require('jquery'),
     melde                 = require('./melde');
 
 var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
+
+    console.log('initiiereBeob');
+
     // beobStatus markiert, ob die Beobachtung:
     // - schon zugewiesen ist (zugeordnet)
     // - noch nicht beurteilt ist (nicht_beurteilt)

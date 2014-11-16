@@ -1,0 +1,141 @@
+{
+    "type_attr": "typ",
+    "max_children": -2,
+    "max_depth": -2,
+    "valid_children": ["ap_ordner_pop", "ap_ordner_apziel", "ap_ordner_erfkrit", "ap_ordner_jber", "ap_ordner_ber", "ap_ordner_beob_nicht_beurteilt", "ap_ordner_beob_nicht_zuzuordnen", "idealbiotop", "ap_ordner_assozarten"],
+    "types": {
+        "ap_ordner_pop": {
+            "valid_children": "pop"
+        },
+        "pop": {
+            "valid_children": ["pop_ordner_tpop", "pop_ordner_popber", "pop_ordner_massnber"],
+            "new_node": "neue Population"
+        },
+        "pop_ordner_tpop": {
+            "valid_children": "tpop"
+        },
+        "tpop": {
+            "valid_children": ["tpop_ordner_massn", "tpop_ordner_massnber", "tpop_ordner_feldkontr", "tpop_ordner_freiwkontr", "tpop_ordner_tpopber", "tpop_ordner_beob_zugeordnet"],
+            "new_node": "neue Teilpopulation"
+        },
+        "tpop_ordner_massn": {
+            "valid_children": "tpopmassn"
+        },
+        "tpopmassn": {
+            "valid_children": "none",
+            "new_node": "neue Massnahme"
+        },
+        "tpop_ordner_massnber": {
+            "valid_children": "tpopmassnber"
+        },
+        "tpopmassnber": {
+            "valid_children": "none",
+            "new_node": "neuer Massnahmen-Bericht"
+        },
+        "tpop_ordner_feldkontr": {
+            "valid_children": "tpopfeldkontr"
+        },
+        "tpopfeldkontr": {
+            "valid_children": "none",
+            "new_node": "neue Feldkontrolle"
+        },
+        "tpop_ordner_freiwkontr": {
+            "valid_children": "tpopfreiwkontr"
+        },
+        "tpopfreiwkontr": {
+            "valid_children": "none",
+            "new_node": "neue Freiwilligen-Kontrolle"
+        },
+        "tpop_ordner_tpopber": {
+            "valid_children": "tpopber"
+        },
+        "tpopber": {
+            "valid_children": "none",
+            "new_node": "neuer Teilpopulations-Bericht"
+        },
+        "tpop_ordner_beob_zugeordnet": {
+            "valid_children": "beob_zugeordnet"
+        },
+        "beob_zugeordnet": {
+            "valid_children": "none"
+        },
+        "pop_ordner_popber": {
+            "valid_children": "popber"
+        },
+        "popber": {
+            "valid_children": "none",
+            "new_node": "neuer Populations-Bericht"
+        },
+        "pop_ordner_massnber": {
+            "valid_children": "massnber"
+        },
+        "massnber": {
+            "valid_children": "none",
+            "new_node": "neuer Massnahmen-Bericht"
+        },
+        "ap_ordner_apziel": {
+            "valid_children": "apzieljahr"
+        },
+        "apzieljahr": {
+            "valid_children": "apziel"
+        },
+        "apziel": {
+            "valid_children": "zielber_ordner",
+            "new_node": "neues AP-Ziel"
+        },
+        "zielber_ordner": {
+            "valid_children": "zielber"
+        },
+        "zielber": {
+            "valid_children": "none",
+            "new_node": "neuer Ziel-Bericht"
+        },
+        "ap_ordner_erfkrit": {
+            "valid_children": "erfkrit"
+        },
+        "erfkrit": {
+            "valid_children": "none",
+            "new_node": "neues Erfolgskriterium"
+        },
+        "ap_ordner_jber": {
+            "valid_children": "jber"
+        },
+        "jber": {
+            "valid_children": "jber_uebersicht",
+            "new_node": "neuer AP-Bericht"
+        },
+        "jber_uebersicht": {
+            "valid_children": "none",
+            "new_node": "neue Übersicht zu allen Arten"
+        },
+        "ap_ordner_ber": {
+            "valid_children": "ber"
+        },
+        "ber": {
+            "valid_children": "none",
+            "new_node": "neuer Bericht"
+        },
+        "ap_ordner_beob_nicht_beurteilt": {
+            "valid_children": "beob_nicht_beurteilt"
+        },
+        "beob_nicht_beurteilt": {
+            "valid_children": "none"
+        },
+        "ap_ordner_beob_nicht_zuzuordnen": {
+            "valid_children": "beob_nicht_zuzuordnen"
+        },
+        "beob_nicht_zuzuordnen": {
+            "valid_children": "none"
+        },
+        "idealbiotop": {
+            "valid_children": "none"
+        },
+        "ap_ordner_assozarten": {
+            "valid_children": "assozarten"
+        },
+        "assozarten": {
+            "valid_children": "none",
+            "new_node": "neue assoziierte Art"
+        }
+    }
+}
