@@ -109,20 +109,20 @@ var returnFunction = function (node) {
                     // db aktualisieren
                     var updatePop = $.ajax({
                         type: 'post',
-                        url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + window.apf.pop_id + '/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + window.apf.popId + '/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
                     });
                     updatePop.done(function () {
                         // Baum neu aufbauen
                         $.when(window.apf.erstelle_tree(erstelleIdAusDomAttributId($(aktiverNode).attr("id"))))
                             .then(function () {
                                 // dann den eingefügten Node wählen
-                                $("#tree").jstree("select_node", "[typ='pop']#" + localStorage.pop_id);
+                                $("#tree").jstree("select_node", "[typ='pop']#" + localStorage.popId);
                             });
                         // einfügen soll nicht mehr angezeigt werden
                         delete window.apf.pop_zum_verschieben_gemerkt;
                         // nicht mehr benötigte Variablen entfernen
                         delete window.apf.pop_bezeichnung;
-                        delete window.apf.pop_id;
+                        delete window.apf.popId;
                     });
                     updatePop.fail(function () {
                         melde("Fehler: Die Population wurde nicht verschoben");
@@ -252,7 +252,7 @@ var returnFunction = function (node) {
                                     url: 'api/v1/apflora/tabelle=tblZiel/tabelleIdFeld=ZielId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deleteApziel.done(function () {
-                                    delete localStorage.apziel_id;
+                                    delete localStorage.apzielId;
                                     delete window.apf.apziel;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // grandparent Node-Beschriftung: Anzahl anpassen
@@ -351,7 +351,7 @@ var returnFunction = function (node) {
                                     url: 'api/v1/apflora/tabelle=tblZielBericht/tabelleIdFeld=ZielBerId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deleteZielber.done(function () {
-                                    delete localStorage.zielber_id;
+                                    delete localStorage.zielberId;
                                     delete window.apf.zielber;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
@@ -445,7 +445,7 @@ var returnFunction = function (node) {
                                     url: 'api/v1/apflora/tabelle=tblErfKrit/tabelleIdFeld=ErfkritId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deleteErfkrit.done(function () {
-                                    delete localStorage.erfkrit_id;
+                                    delete localStorage.erfkritId;
                                     delete window.apf.erfkrit;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
@@ -546,7 +546,7 @@ var returnFunction = function (node) {
                                     url: 'api/v1/apflora/tabelle=tblJBer/tabelleIdFeld=JBerId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deleteJber.done(function () {
-                                    delete localStorage.jber_id;
+                                    delete localStorage.jberId;
                                     delete window.apf.jber;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
@@ -623,7 +623,7 @@ var returnFunction = function (node) {
                                     url: 'api/v1/apflora/tabelle=tblJBerUebersicht/tabelleIdFeld=JbuJahr/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deleteJberUebersicht.done(function () {
-                                    delete localStorage.jber_uebersicht_id;
+                                    delete localStorage.jberUebersichtId;
                                     delete window.apf.jber_übersicht;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Hinweis zum rückgängig machen anzeigen
@@ -715,7 +715,7 @@ var returnFunction = function (node) {
                                     url: 'api/v1/apflora/tabelle=tblBer/tabelleIdFeld=BerId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deleteBer.done(function () {
-                                    delete localStorage.ber_id;
+                                    delete localStorage.berId;
                                     delete window.apf.ber;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
@@ -807,7 +807,7 @@ var returnFunction = function (node) {
                                     url: 'api/v1/apflora/tabelle=tblAssozArten/tabelleIdFeld=AaId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deleteAssozarten.done(function () {
-                                    delete localStorage.assozarten_id;
+                                    delete localStorage.assozartenId;
                                     delete window.apf.assozarten;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
@@ -880,7 +880,7 @@ var returnFunction = function (node) {
                                     url: 'api/v1/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deletePop.done(function () {
-                                    delete localStorage.pop_id;
+                                    delete localStorage.popId;
                                     delete window.apf.pop;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
@@ -952,7 +952,7 @@ var returnFunction = function (node) {
                         return;
                     }
                     // Jetzt die PopId merken - ihr muss danach eine andere ApArtId zugeteilt werden
-                    window.apf.pop_id = erstelleIdAusDomAttributId($(aktiverNode).attr("id"));
+                    window.apf.popId = erstelleIdAusDomAttributId($(aktiverNode).attr("id"));
                     // merken, dass ein node ausgeschnitten wurde
                     window.apf.pop_zum_verschieben_gemerkt = true;
                     // und wie er heisst (um es später im Kontextmenü anzuzeigen)
@@ -967,7 +967,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    var popid = window.apf.pop_id;
+                    var popid = window.apf.popId;
                     var apartid = erstelleIdAusDomAttributId($(parentNode).attr("id"));
                     // db aktualisieren
                     var updatePop_2 = $.ajax({
@@ -985,7 +985,7 @@ var returnFunction = function (node) {
                         delete window.apf.pop_zum_verschieben_gemerkt;
                         // nicht mehr benötigte Variablen entfernen
                         delete window.apf.pop_bezeichnung;
-                        delete window.apf.pop_id;
+                        delete window.apf.popId;
                     });
                     updatePop_2.fail(function () {
                         melde("Fehler: Die Population wurde nicht verschoben");
@@ -1156,7 +1156,7 @@ var returnFunction = function (node) {
                                     url: 'api/v1/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deleteTPop.done(function () {
-                                    delete localStorage.tpop_id;
+                                    delete localStorage.tpopId;
                                     delete window.apf.tpop;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
@@ -1400,7 +1400,7 @@ var returnFunction = function (node) {
                                     url: 'api/v1/apflora/tabelle=tblPopBericht/tabelleIdFeld=PopBerId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deletePopber.done(function () {
-                                    delete localStorage.popber_id;
+                                    delete localStorage.popberId;
                                     delete window.apf.popber;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
@@ -1488,7 +1488,7 @@ var returnFunction = function (node) {
                                     url: 'api/v1/apflora/tabelle=tblPopMassnBericht/tabelleIdFeld=PopMassnBerId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deletePopMassnBer.done(function () {
-                                    delete localStorage.popmassnber_id;
+                                    delete localStorage.popmassnberId;
                                     delete window.apf.popmassnber;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
@@ -1607,7 +1607,7 @@ var returnFunction = function (node) {
                                     url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/tabelleIdFeld=TPopKontrId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deleteTPopFeldKontr.done(function () {
-                                    delete localStorage.tpopfeldkontr_id;
+                                    delete localStorage.tpopfeldkontrId;
                                     delete window.apf.tpopfeldkontr;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
@@ -1903,7 +1903,7 @@ var returnFunction = function (node) {
                                     url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/tabelleIdFeld=TPopKontrId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deleteTPopFeldKontr_2.done(function () {
-                                    delete localStorage.tpopfeldkontr_id;
+                                    delete localStorage.tpopfeldkontrId;
                                     delete localStorage.tpopfreiwkontr;
                                     delete window.apf.tpopfeldkontr;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
@@ -2099,7 +2099,7 @@ var returnFunction = function (node) {
                                     url: 'api/v1/apflora/tabelle=tblTeilPopMassnahme/tabelleIdFeld=TPopMassnId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deleteTPopMassn.done(function () {
-                                    delete localStorage.tpopmassn_id;
+                                    delete localStorage.tpopmassnId;
                                     delete window.apf.tpopmassn;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
@@ -2271,7 +2271,7 @@ var returnFunction = function (node) {
                                     url: 'api/v1/apflora/tabelle=tblTeilPopBericht/tabelleIdFeld=TPopBerId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deleteTPopBer.done(function () {
-                                    delete localStorage.tpopber_id;
+                                    delete localStorage.tpopberId;
                                     delete window.apf.tpopber;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
@@ -2373,7 +2373,7 @@ var returnFunction = function (node) {
                             beob = beob[0];
                             $.ajax({
                                 type: 'get',
-                                url: 'api/v1/apKarte/apId=' + localStorage.ap_id
+                                url: 'api/v1/apKarte/apId=' + localStorage.apId
                             }).done(function (tpop) {
                                 if (tpop && tpop.length > 0) {
                                     zeigeBeobUndTPop(beob, tpop);
@@ -2502,7 +2502,7 @@ var returnFunction = function (node) {
                                     url: 'api/v1/apflora/tabelle=tblTeilPopMassnBericht/tabelleIdFeld=TPopMassnBerId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                                 });
                                 deleteTPopMassnBer.done(function () {
-                                    delete localStorage.tpopmassnber_id;
+                                    delete localStorage.tpopmassnberId;
                                     delete window.apf.tpopmassnber;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen

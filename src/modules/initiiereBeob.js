@@ -9,12 +9,12 @@ var $                     = require('jquery'),
     melde                 = require('./melde');
 
 var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
-    // beob_status markiert, ob die Beobachtung:
+    // beobStatus markiert, ob die Beobachtung:
     // - schon zugewiesen ist (zugeordnet)
     // - noch nicht beurteilt ist (nicht_beurteilt)
     // - nicht zuzuordnen ist (nicht_zuzuordnen)
-    // beob_status muss gespeichert werden, damit bei Datenänderungen bekannt ist, ob ein bestehender Datensatz bearbeitet oder ein neuer geschaffen werden muss
-    localStorage.beob_status = beobStatus;
+    // beobStatus muss gespeichert werden, damit bei Datenänderungen bekannt ist, ob ein bestehender Datensatz bearbeitet oder ein neuer geschaffen werden muss
+    localStorage.beobStatus = beobStatus;
     // sicherstellen, dass beobtyp immer bekannt ist
     localStorage.beobtyp = beobTyp;
 
@@ -39,7 +39,7 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
         beobId = beobId.replace('beob', '');
     }
     // beobid bereitstellen
-    localStorage.beob_id = beobId;
+    localStorage.beobId = beobId;
 
     // EvAB oder Infospezies? > entsprechende url zusammensetzen
     if (beobTyp === 'evab') {
@@ -85,7 +85,7 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
                         html_distzutpop += '"';
                         // jetzt ermitteln, ob das die angezeigte Beob ist
                         // wenn ja: checked
-                        if (/*beobStatus === 'zugeordnet' && */beob.TPopId == localStorage.tpop_id) {
+                        if (/*beobStatus === 'zugeordnet' && */beob.TPopId == localStorage.tpopId) {
                             html_distzutpop += ' checked';
                         }
                         html_distzutpop += '>';
@@ -140,14 +140,14 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
                             if (!ohneZuZeigen) {
                                 zeigeFormular("beob");
                                 if (beobStatus === "zugeordnet") {
-                                    history.pushState(null, null, "index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&beob_zugeordnet=" + beobId);
+                                    history.pushState(null, null, "index.html?ap=" + localStorage.apId + "&pop=" + localStorage.popId + "&tpop=" + localStorage.tpopId + "&beob_zugeordnet=" + beobId);
                                 } else if (beobStatus === "nicht_zuzuordnen") {
-                                    history.pushState(null, null, "index.html?ap=" + localStorage.ap_id + "&beob_nicht_zuzuordnen=" + beobId);
+                                    history.pushState(null, null, "index.html?ap=" + localStorage.apId + "&beob_nicht_zuzuordnen=" + beobId);
                                 }
                             }
                         });
                     } else {
-                        // beob_status ist "nicht beurteilt"
+                        // beobStatus ist "nicht beurteilt"
                         $("#BeobNichtBeurteilt").prop("checked", true);
                         $("#BeobNichtZuordnen").prop("checked", false);
 
@@ -160,7 +160,7 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
                         // nur, wenn ohne_zu_zeigen nicht true ist (true, um in dialog anzuzeigen)
                         if (!ohneZuZeigen) {
                             zeigeFormular("beob");
-                            history.pushState(null, null, "index.html?ap=" + localStorage.ap_id + "&beob_nicht_beurteilt=" + beobId);
+                            history.pushState(null, null, "index.html?ap=" + localStorage.apId + "&beob_nicht_beurteilt=" + beobId);
                         }
                     }
                 }

@@ -104,14 +104,14 @@ var returnFunction = function () {
                 // direkt initiieren, bevor der baum fertig aufgebaut ist
                 /*ausgeschaltet - funktioniert nicht! vermutlich, weil tree.php und beob_distzutpop sich in quere kommen
                 // herausfinden, ob beobtyp infospezies oder evab ist
-                localStorage.beob_id = uri.getQueryParamValue('beob_zugeordnet');
+                localStorage.beobId = uri.getQueryParamValue('beob_zugeordnet');
                 if (isNaN(uri.getQueryParamValue('beob_zugeordnet'))) {
                     // evab
                     localStorage.beobtyp = "evab";
-                    window.apf.initiiere_beob("evab", localStorage.beob_id, "zugeordnet");
+                    window.apf.initiiere_beob("evab", localStorage.beobId, "zugeordnet");
                 } else {
                     localStorage.beobtyp = "infospezies";
-                    window.apf.initiiere_beob("infospezies", localStorage.beob_id, "zugeordnet");
+                    window.apf.initiiere_beob("infospezies", localStorage.beobId, "zugeordnet");
                 }*/
             } else if (tpopmassnberId) {
                 // markieren, dass nach dem loaded-event im Tree die tpopmassnber angezeigt werden soll

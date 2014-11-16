@@ -13,7 +13,7 @@ var returnFunction = function () {
     // allfällige Apflora-Ebenen entfernen
     window.apf.olmap.entferneAlleApfloraLayer();
     // allfällige Modify-Interaktion entfernen
-    window.apf.olmap.entferneModifyInteractionFürTpop();
+    window.apf.olmap.entferneModifyInteractionFuerTpop();
 
     // Karte nur aufbauen, wenn dies nicht schon passiert ist
     if (!window.apf.olmap.map) {

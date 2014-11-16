@@ -12,44 +12,44 @@ var returnFunction = function (apId, apZielId, zielberId) {
     var $ZielBerJahr = $("#ZielBerJahr");
 
     // prüfen, ob voraussetzungen gegeben sind
-    if (!apId && !localStorage.ap_id) {
+    if (!apId && !localStorage.apId) {
         // Anwendung neu initiieren
         initiiereApp();
         return;
     }
-    if (!apZielId && !localStorage.apziel_id) {
+    if (!apZielId && !localStorage.apzielId) {
         // es fehlen benötigte Daten > zwei Ebenen höher
         initiiereAp(apId);
         return;
     }
-    if (!zielberId && !localStorage.zielber_id) {
+    if (!zielberId && !localStorage.zielberId) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereApziel(apId, apZielId);
         return;
     }
 
     // apId setzen
-    if (!localStorage.ap_id) {
-        localStorage.ap_id = apId;
+    if (!localStorage.apId) {
+        localStorage.apId = apId;
     }
     if (!apId) {
-        apId = localStorage.ap_id;
+        apId = localStorage.apId;
     }
 
     // apZielId setzen
-    if (!localStorage.apziel_id) {
-        localStorage.apziel_id = apZielId;
+    if (!localStorage.apzielId) {
+        localStorage.apzielId = apZielId;
     }
     if (!apZielId) {
-        apZielId = localStorage.apziel_id;
+        apZielId = localStorage.apzielId;
     }
 
     // zielberId setzen
-    if (!localStorage.zielber_id) {
-        localStorage.zielber_id = zielberId;
+    if (!localStorage.zielberId) {
+        localStorage.zielberId = zielberId;
     }
     if (!zielberId) {
-        zielberId = localStorage.zielber_id;
+        zielberId = localStorage.zielberId;
     }
 
     // Felder zurücksetzen

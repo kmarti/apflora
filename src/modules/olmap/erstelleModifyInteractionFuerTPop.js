@@ -8,7 +8,7 @@ var $  = require('jquery'),
 var returnFunction = function () {
     var styleTPop = require('./styleTPop');
     // allfällige bestehende Interaction entfernen
-    window.apf.olmap.entferneModifyInteractionFürTpop();
+    window.apf.olmap.entferneModifyInteractionFuerTpop();
     // feature-overlay erstellen
     window.apf.olmap.modify_overlay = new ol.FeatureOverlay({
         style: function (feature, resolution) {
@@ -55,7 +55,7 @@ var returnFunction = function () {
                     // abhängige Eigenschaften aktualisieren
                     aktuelles_feature.set('xkoord', window.apf.tpop.TPopXKoord);
                     aktuelles_feature.set('ykoord', window.apf.tpop.TPopYKoord);
-                    aktuelles_feature.set('popup_content', window.apf.olmap.erstelleContentFürTPop(window.apf.tpop));
+                    aktuelles_feature.set('popup_content', window.apf.olmap.erstelleContentFuerTPop(window.apf.tpop));
                 });
             }
         }, 200);

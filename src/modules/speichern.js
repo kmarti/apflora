@@ -87,7 +87,7 @@ var speichern = function (that) {
                 feldwert = "";
             }
         }
-        if (feldname === "BeobBemerkungen" && localStorage.beob_status === "nicht_beurteilt") {
+        if (feldname === "BeobBemerkungen" && localStorage.beobStatus === "nicht_beurteilt") {
             // hier soll nicht gespeichert werden
             $("#BeobBemerkungen").val("");
             melde("Bemerkungen sind nur in zugeordneten oder nicht zuzuordnenden Beobachtungen möglich", "Aktion abgebrochen");
@@ -95,7 +95,7 @@ var speichern = function (that) {
         }
         $.ajax({
             type: 'post',
-            url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + localStorage[formular + "_id"] + '/feld=' + feldname + '/wert=' + feldwert + '/user=' + sessionStorage.User
+            url: 'api/v1/update/apflora/tabelle=' + tabelleInDb + '/tabelleIdFeld=' + tabelleIdFeld + '/tabelleId=' + localStorage[formular + "Id"] + '/feld=' + feldname + '/wert=' + feldwert + '/user=' + sessionStorage.User
         }).done(function () {
             // Variable für Objekt nachführen
             // jber_uebersicht speichert kein window.formular, daher testen, ob es existiert
@@ -197,7 +197,7 @@ var speichern = function (that) {
             } else {
                 popbeschriftung = "(keine Nr, kein Name)";
             }
-            $tree.jstree("rename_node", "[typ='ap_ordner_pop'] #" + localStorage.pop_id, popbeschriftung);
+            $tree.jstree("rename_node", "[typ='ap_ordner_pop'] #" + localStorage.popId, popbeschriftung);
             break;
         case "PopBerJahr":
         case "PopBerEntwicklung":
@@ -212,7 +212,7 @@ var speichern = function (that) {
             } else {
                 popberbeschriftung = "(kein Jahr): (kein Status)";
             }
-            $tree.jstree("rename_node", "[typ='pop_ordner_popber'] #" + localStorage.popber_id, popberbeschriftung);
+            $tree.jstree("rename_node", "[typ='pop_ordner_popber'] #" + localStorage.popberId, popberbeschriftung);
             break;
         case "PopMassnBerJahr":
         case "PopMassnBerErfolgsbeurteilung":
@@ -227,7 +227,7 @@ var speichern = function (that) {
             } else {
                 popmassnberbeschriftung = "(kein Jahr): (nicht beurteilt)";
             }
-            $tree.jstree("rename_node", "[typ='pop_ordner_massnber'] #" + localStorage.popmassnber_id, popmassnberbeschriftung);
+            $tree.jstree("rename_node", "[typ='pop_ordner_massnber'] #" + localStorage.popmassnberId, popmassnberbeschriftung);
             break;
         case "TPopNr":
         case "TPopFlurname":
@@ -242,7 +242,7 @@ var speichern = function (that) {
             } else {
                 tpopbeschriftung = "(keine Nr, kein Flurname)";
             }
-            $tree.jstree("rename_node", "[typ='pop_ordner_tpop'] #" + localStorage.tpop_id, tpopbeschriftung);
+            $tree.jstree("rename_node", "[typ='pop_ordner_tpop'] #" + localStorage.tpopId, tpopbeschriftung);
             break;
         case "TPopKontrTyp":
         case "TPopKontrJahr":
@@ -252,8 +252,8 @@ var speichern = function (that) {
             tpopfeldkontr_label = tpopkontrjahr + ': ' +  $("label[for='" + $('input[name="TPopKontrTyp"]:checked').attr('id') + "']").text();
             // Problem: Es ist nicht bekannt, ob eine Freiwilligenkontrolle umbennant wird oder eine Feldkontrolle
             // Lösung: Beide nodes umbenennen. Nur eine davon hat die richtige id
-            $tree.jstree("rename_node", "[typ='tpop_ordner_freiwkontr'] #" + localStorage.tpopfeldkontr_id, tpopkontrjahr);
-            $tree.jstree("rename_node", "[typ='tpop_ordner_feldkontr'] #" + localStorage.tpopfeldkontr_id, tpopfeldkontr_label);
+            $tree.jstree("rename_node", "[typ='tpop_ordner_freiwkontr'] #" + localStorage.tpopfeldkontrId, tpopkontrjahr);
+            $tree.jstree("rename_node", "[typ='tpop_ordner_feldkontr'] #" + localStorage.tpopfeldkontrId, tpopfeldkontr_label);
             break;
         case "TPopBerJahr":
         case "TPopBerEntwicklung":
@@ -262,7 +262,7 @@ var speichern = function (that) {
             tpopberentwicklungLabel = $("label[for='" + $('input[name="TPopBerEntwicklung"]:checked').attr('id') + "']").text();
             tpopberjahr        = $TPopBerJahr.val()      || "(kein Jahr)";
             tpopberentwicklung = tpopberentwicklungLabel || "(keine Beurteilung)";
-            $tree.jstree("rename_node", "[typ='tpop_ordner_tpopber'] #" + localStorage.tpopber_id, tpopberjahr + ": " + tpopberentwicklung);
+            $tree.jstree("rename_node", "[typ='tpop_ordner_tpopber'] #" + localStorage.tpopberId, tpopberjahr + ": " + tpopberentwicklung);
             break;
         case "TPopMassnJahr":
         case "TPopMassnTyp":
@@ -279,7 +279,7 @@ var speichern = function (that) {
                 tpopmassnbezeichnung = "(kein Jahr): (kein Typ)";
             }
             tpopmassnbezeichnung = window.apf.erstelleLabelFuerMassnahme($TPopMassnJahr.val(), $TPopMassnTypChecked.text());
-            $tree.jstree("rename_node", "[typ='tpop_ordner_massn'] #" + localStorage.tpopmassn_id, tpopmassnbezeichnung);
+            $tree.jstree("rename_node", "[typ='tpop_ordner_massn'] #" + localStorage.tpopmassnId, tpopmassnbezeichnung);
             break;
         case "TPopMassnBerJahr":
         case "TPopMassnBerErfolgsbeurteilung":
@@ -295,11 +295,11 @@ var speichern = function (that) {
             } else {
                 tpopmassberbeschriftung = "(kein Jahr): (keine Beurteilung)";
             }
-            $tree.jstree("rename_node", "[typ='tpop_ordner_massnber'] #" + localStorage.tpopmassnber_id, tpopmassberbeschriftung);
+            $tree.jstree("rename_node", "[typ='tpop_ordner_massnber'] #" + localStorage.tpopmassnberId, tpopmassberbeschriftung);
             break;
         case "ZielBezeichnung":
             zielbeschriftung = feldwert || "(Ziel nicht beschrieben)";
-            $tree.jstree("rename_node", "[typ='apzieljahr'] #" + localStorage.apziel_id, zielbeschriftung);
+            $tree.jstree("rename_node", "[typ='apzieljahr'] #" + localStorage.apzielId, zielbeschriftung);
             break;
         case "ZielBerJahr":
         case "ZielBerErreichung":
@@ -314,7 +314,7 @@ var speichern = function (that) {
             } else {
                 zielberbeschriftung = "(kein Jahr): (keine Beurteilung)";
             }
-            $tree.jstree("rename_node", "[typ='zielber_ordner'] #" + localStorage.zielber_id, zielberbeschriftung);
+            $tree.jstree("rename_node", "[typ='zielber_ordner'] #" + localStorage.zielberId, zielberbeschriftung);
             break;
         case "ErfkritErreichungsgrad":
         case "ErfkritTxt":
@@ -328,11 +328,11 @@ var speichern = function (that) {
             } else {
                 erfkritbeschriftung = "(keine Beurteilung): (kein Kriterium)";
             }
-            $tree.jstree("rename_node", "[typ='ap_ordner_erfkrit'] #" + localStorage.erfkrit_id, erfkritbeschriftung);
+            $tree.jstree("rename_node", "[typ='ap_ordner_erfkrit'] #" + localStorage.erfkritId, erfkritbeschriftung);
             break;
         case "JBerJahr":
             jberbeschriftung = feldwert || "(kein Jahr)";
-            $tree.jstree("rename_node", "[typ='ap_ordner_jber'] #" + localStorage.jber_id, jberbeschriftung);
+            $tree.jstree("rename_node", "[typ='ap_ordner_jber'] #" + localStorage.jberId, jberbeschriftung);
             break;
         case "BerTitel":
         case "BerJahr":
@@ -347,11 +347,11 @@ var speichern = function (that) {
             } else {
                 berbeschriftung = "(kein Jahr): (kein Titel)";
             }
-            $tree.jstree("rename_node", "[typ='ap_ordner_ber'] #" + localStorage.ber_id, berbeschriftung);
+            $tree.jstree("rename_node", "[typ='ap_ordner_ber'] #" + localStorage.berId, berbeschriftung);
             break;
         case "AaSisfNr":
             aabeschriftung = $("#AaSisfNrText").val() || "(kein Artname)";
-            $tree.jstree("rename_node", "[typ='ap_ordner_assozarten'] #" + localStorage.assozarten_id, aabeschriftung);
+            $tree.jstree("rename_node", "[typ='ap_ordner_assozarten'] #" + localStorage.assozartenId, aabeschriftung);
             break;
         }
     }

@@ -16,7 +16,7 @@ var returnFunction = function (tpop_liste) {
         map,
         bounds,
         markers,
-        tpop_id,
+        tpopId,
         latlng2,
         marker,
         contentString,
@@ -69,7 +69,7 @@ var returnFunction = function (tpop_liste) {
     // für alle TPop Marker erstellen
     markers = [];
     _.each(tpop_liste, function (tpop) {
-        tpop_id = tpop.TPopId;
+        tpopId = tpop.TPopId;
         tpopBeschriftung = beschrifteTPopMitNrFuerKarte(tpop.PopNr, tpop.TPopNr);
         latlng2 = new google.maps.LatLng(tpop.Lat, tpop.Lng);
         if (anz_tpop === 1) {

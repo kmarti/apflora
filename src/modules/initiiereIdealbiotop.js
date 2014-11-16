@@ -13,18 +13,18 @@ var initiiereIdealbiotop = function (apId) {
     var $IbErstelldatum  = $("#IbErstelldatum");
 
     // prüfen, ob voraussetzungen gegeben sind
-    if (!localStorage.ap_id && !apId) {
+    if (!localStorage.apId && !apId) {
         // es fehlen benötigte Daten > zurück zum Anfang
         initiiereApp();
         return;
     }
 
     // apId setzen
-    if (!localStorage.ap_id) {
-        localStorage.ap_id = apId;
+    if (!localStorage.apId) {
+        localStorage.apId = apId;
     }
     if (!apId) {
-        apId = localStorage.ap_id;
+        apId = localStorage.apId;
     }
 
     // Felder zurücksetzen
@@ -33,14 +33,14 @@ var initiiereIdealbiotop = function (apId) {
     // Daten für die idealbiotop aus der DB holen
     $.ajax({
         type: 'get',
-        url: '/api/v1/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wertNumber=' + localStorage.ap_id
+        url: '/api/v1/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wertNumber=' + localStorage.apId
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
             data = data[0];
 
             // idealbiotop bereitstellen
-            localStorage.idealbiotop_id = data.IbApArtId;
+            localStorage.idealbiotopId = data.IbApArtId;
             window.apf.idealbiotop      = data;
 
             // Felder mit Daten beliefern
@@ -67,7 +67,7 @@ var initiiereIdealbiotop = function (apId) {
 
             // Formulare blenden
             zeigeFormular("idealbiotop");
-            history.pushState(null, null, "index.html?ap=" + localStorage.ap_id + "&idealbiotop=" + localStorage.idealbiotop_id);
+            history.pushState(null, null, "index.html?ap=" + localStorage.apId + "&idealbiotop=" + localStorage.idealbiotopId);
 
             // bei neuen Datensätzen Fokus steuern
             if (!$IbErstelldatum.val()) {
@@ -82,9 +82,9 @@ var initiiereIdealbiotop = function (apId) {
             // null zurückgekommen > Datensatz schaffen
             $.ajax({
                 type: 'post',
-                url: '/api/v1/insert/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wert=' + localStorage.ap_id + '/user=' + sessionStorage.User
+                url: '/api/v1/insert/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wert=' + localStorage.apId + '/user=' + sessionStorage.User
             }).done(function () {
-                localStorage.idealbiotop_id = localStorage.ap_id;
+                localStorage.idealbiotopId = localStorage.apId;
                 initiiereIdealbiotop();
             }).fail(function () {
                 melde("Fehler: Kein Idealbiotop erstellt");

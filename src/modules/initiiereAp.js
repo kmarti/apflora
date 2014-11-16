@@ -10,18 +10,18 @@ var $               = require('jquery'),
 var returnFunction = function (apId) {
 
     // prüfen, ob voraussetzungen gegeben sind
-    if (!localStorage.ap_id && !apId) {
+    if (!localStorage.apId && !apId) {
         // es fehlen benötigte Daten > zurück zum Anfang
         initiiereApp();
         return;
     }
 
     // apId setzen
-    if (!localStorage.ap_id) {
-        localStorage.ap_id = apId;
+    if (!localStorage.apId) {
+        localStorage.apId = apId;
     }
     if (!apId) {
-        apId = localStorage.ap_id;
+        apId = localStorage.apId;
     }
 
     // Programm-Wahl konfigurieren

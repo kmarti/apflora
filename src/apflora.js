@@ -7,14 +7,14 @@ window.apf.olmap = window.apf.olmap || {};
 
 window.apf.initiiereApp = require('./modules/initiiereApp');
 
-// setzt window.apf und localStorage.ap_id
+// setzt window.apf und localStorage.apId
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowAp = function (id) {
     'use strict';
-    localStorage.ap_id = id;
+    localStorage.apId = id;
     $.ajax({
         type: 'get',
-        url: 'api/v1/ap=' + localStorage.ap_id
+        url: 'api/v1/ap=' + localStorage.apId
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
@@ -24,14 +24,14 @@ window.apf.setzeWindowAp = function (id) {
     });
 };
 
-// setzt window.apf.pop und localStorage.pop_id
+// setzt window.apf.pop und localStorage.popId
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowPop = function (id) {
     'use strict';
-    localStorage.pop_id = id;
+    localStorage.popId = id;
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblPopulation/feld=PopId/wertNumber=' + localStorage.pop_id
+        url: 'api/v1/apflora/tabelle=tblPopulation/feld=PopId/wertNumber=' + localStorage.popId
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
@@ -41,14 +41,14 @@ window.apf.setzeWindowPop = function (id) {
     });
 };
 
-// setzt window.apf.apziel und localStorage.apziel_id
+// setzt window.apf.apziel und localStorage.apzielId
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowApziel = function (id) {
     'use strict';
-    localStorage.apziel_id = id;
+    localStorage.apzielId = id;
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblZiel/feld=ZielId/wertNumber=' + localStorage.apziel_id
+        url: 'api/v1/apflora/tabelle=tblZiel/feld=ZielId/wertNumber=' + localStorage.apzielId
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
@@ -58,14 +58,14 @@ window.apf.setzeWindowApziel = function (id) {
     });
 };
 
-// setzt window.apf.zielber und localStorage.zielber_id
+// setzt window.apf.zielber und localStorage.zielberId
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowZielber = function (id) {
     'use strict';
-    localStorage.zielber_id = id;
+    localStorage.zielberId = id;
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblZielBericht/feld=ZielBerId/wertString=' + localStorage.zielber_id
+        url: 'api/v1/apflora/tabelle=tblZielBericht/feld=ZielBerId/wertString=' + localStorage.zielberId
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
@@ -75,14 +75,14 @@ window.apf.setzeWindowZielber = function (id) {
     });
 };
 
-// setzt window.apf.erfkrit und localStorage.erfkrit_id
+// setzt window.apf.erfkrit und localStorage.erfkritId
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowErfkrit = function (id) {
     'use strict';
-    localStorage.erfkrit_id = id;
+    localStorage.erfkritId = id;
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblErfKrit/feld=ErfkritId/wertString=' + localStorage.erfkrit_id
+        url: 'api/v1/apflora/tabelle=tblErfKrit/feld=ErfkritId/wertString=' + localStorage.erfkritId
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
@@ -92,14 +92,14 @@ window.apf.setzeWindowErfkrit = function (id) {
     });
 };
 
-// setzt window.apf.jber und localStorage.jber_id
+// setzt window.apf.jber und localStorage.jberId
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowJber = function (id) {
     'use strict';
-    localStorage.jber_id = id;
+    localStorage.jberId = id;
     $.ajax({
         type: 'get',
-        url: '/api/v1/apflora/tabelle=tblJBer/feld=JBerId/wertNumber=' + localStorage.jber_id
+        url: '/api/v1/apflora/tabelle=tblJBer/feld=JBerId/wertNumber=' + localStorage.jberId
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
@@ -109,14 +109,14 @@ window.apf.setzeWindowJber = function (id) {
     });
 };
 
-// setzt window.apf.jber_übersicht und localStorage.jber_uebersicht_id
+// setzt window.apf.jber_übersicht und localStorage.jberUebersichtId
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowJberUebersicht = function (id) {
     'use strict';
-    localStorage.jber_uebersicht_id = id;
+    localStorage.jberUebersichtId = id;
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wertNumber=' + localStorage.jber_uebersicht_id
+        url: 'api/v1/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wertNumber=' + localStorage.jberUebersichtId
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
@@ -126,14 +126,14 @@ window.apf.setzeWindowJberUebersicht = function (id) {
     });
 };
 
-// setzt window.apf.ber und localStorage.ber_id
+// setzt window.apf.ber und localStorage.berId
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowBer = function (id) {
     'use strict';
-    localStorage.ber_id = id;
+    localStorage.berId = id;
     $.ajax({
         type: 'get',
-        url: '/api/v1/apflora/tabelle=tblBer/feld=BerId/wertNumber=' + localStorage.ber_id
+        url: '/api/v1/apflora/tabelle=tblBer/feld=BerId/wertNumber=' + localStorage.berId
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
@@ -144,14 +144,14 @@ window.apf.setzeWindowBer = function (id) {
     });
 };
 
-// setzt window.apf.idealbiotop und localStorage.idealbiotop_id
+// setzt window.apf.idealbiotop und localStorage.idealbiotopId
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowIdealbiotop = function (id) {
     'use strict';
-    localStorage.idealbiotop_id = id;
+    localStorage.idealbiotopId = id;
     $.ajax({
         type: 'get',
-        url: '/api/v1/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wertNumber=' + localStorage.idealbiotop_id
+        url: '/api/v1/apflora/tabelle=tblIdealbiotop/feld=IbApArtId/wertNumber=' + localStorage.idealbiotopId
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
@@ -161,14 +161,14 @@ window.apf.setzeWindowIdealbiotop = function (id) {
     });
 };
 
-// setzt window.apf.assozarten und localStorage.assozarten_id
+// setzt window.apf.assozarten und localStorage.assozartenId
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowAssozarten = function (id) {
     'use strict';
-    localStorage.assozarten_id = id;
+    localStorage.assozartenId = id;
     $.ajax({
         type: 'get',
-        url: '/api/v1/apflora/tabelle=tblAssozArten/feld=AaId/wertNumber=' + localStorage.assozarten_id
+        url: '/api/v1/apflora/tabelle=tblAssozArten/feld=AaId/wertNumber=' + localStorage.assozartenId
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data) {
@@ -178,11 +178,11 @@ window.apf.setzeWindowAssozarten = function (id) {
     });
 };
 
-// setzt window.apf.popmassnber und localStorage.popmassnber_id
+// setzt window.apf.popmassnber und localStorage.popmassnberId
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowPopmassnber = function (id) {
     'use strict';
-    localStorage.popmassnber_id = id;
+    localStorage.popmassnberId = id;
     $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblPopMassnBericht/feld=PopMassnBerId/wertNumber=' + id
@@ -195,14 +195,14 @@ window.apf.setzeWindowPopmassnber = function (id) {
     });
 };
 
-// setzt window.apf.tpop und localStorage.tpop_id
+// setzt window.apf.tpop und localStorage.tpopId
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowTpop = function (id) {
     'use strict';
-    localStorage.tpop_id = id;
+    localStorage.tpopId = id;
     $.ajax({
         type: 'get',
-        url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + localStorage.tpop_id
+        url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + localStorage.tpopId
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
@@ -269,11 +269,11 @@ window.apf.downloadFileFromViewWehreIdIn = function (view, idName, idListe, file
     });
 };
 
-// setzt window.apf.popber und localStorage.popber_id
+// setzt window.apf.popber und localStorage.popberId
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowPopber = function (id) {
     'use strict';
-    localStorage.popber_id = id;
+    localStorage.popberId = id;
     $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblPopBericht/feld=PopBerId/wertNumber=' + id
@@ -286,11 +286,11 @@ window.apf.setzeWindowPopber = function (id) {
     });
 };
 
-// setzt window.apf.tpopfeldkontr und localStorage.tpopfeldkontr_id
+// setzt window.apf.tpopfeldkontr und localStorage.tpopfeldkontrId
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowTpopfeldkontr = function (id) {
     'use strict';
-    localStorage.tpopfeldkontr_id = id;
+    localStorage.tpopfeldkontrId = id;
     $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + id
@@ -303,11 +303,11 @@ window.apf.setzeWindowTpopfeldkontr = function (id) {
     });
 };
 
-// setzt window.apf.tpopmassn und localStorage.tpopmassn_id
+// setzt window.apf.tpopmassn und localStorage.tpopmassnId
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowTpopmassn = function (id) {
     'use strict';
-    localStorage.tpopmassn_id = id;
+    localStorage.tpopmassnId = id;
     $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblTeilPopMassnahme/feld=TPopMassnId/wertNumber=' + id
@@ -320,11 +320,11 @@ window.apf.setzeWindowTpopmassn = function (id) {
     });
 };
 
-// setzt window.apf.tpopmassnber und localStorage.tpopmassnber_id
+// setzt window.apf.tpopmassnber und localStorage.tpopmassnberId
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowTpopmassnber = function (id) {
     'use strict';
-    localStorage.tpopmassnber_id = id;
+    localStorage.tpopmassnberId = id;
     $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblTeilPopMassnBericht/feld=TPopMassnBerId/wertNumber=' + id
@@ -337,11 +337,11 @@ window.apf.setzeWindowTpopmassnber = function (id) {
     });
 };
 
-// setzt window.apf.tpopber und localStorage.tpopber_id
+// setzt window.apf.tpopber und localStorage.tpopberId
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowTpopber = function (id) {
     'use strict';
-    localStorage.tpopber_id = id;
+    localStorage.tpopberId = id;
     $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblTeilPopBericht/feld=TPopBerId/wertNumber=' + id
@@ -899,7 +899,7 @@ window.apf.olmap.stapleLayerZuoberst = function (layer_title) {
     initiiereLayertree();
 };
 
-window.apf.olmap.entferneModifyInteractionFürTpop = function () {
+window.apf.olmap.entferneModifyInteractionFuerTpop = function () {
     'use strict';
     if (window.apf.olmap.modify_interaction) {
         window.apf.olmap.map.removeInteraction(window.apf.olmap.modify_interaction);
@@ -908,7 +908,7 @@ window.apf.olmap.entferneModifyInteractionFürTpop = function () {
 };
 
 // wird in index.html benutzt
-window.apf.olmap.entferneModifyInteractionFürVectorLayer = function (input_div) {
+window.apf.olmap.entferneModifyInteractionFuerVectorLayer = function (input_div) {
     require('./modules/olmap/entferneModifyInteractionFuerVectorLayer')(input_div);
 };
 
@@ -966,7 +966,7 @@ window.apf.speichereWert = function (tabelle, id, feld, wert) {
     });
 };
 
-window.apf.olmap.erstelleContentFürTPop = function (tpop) {
+window.apf.olmap.erstelleContentFuerTPop = function (tpop) {
     'use strict';
     var my_flurname = tpop.TPopFlurname || '(kein Flurname)';
     return '<table>' +
@@ -1022,7 +1022,7 @@ window.apf.olmap.entfernePopupOverlays = function () {
     });
 };
 
-window.apf.olmap.erstelleContentFürPop = function (pop) {
+window.apf.olmap.erstelleContentFuerPop = function (pop) {
     'use strict';
     return '<table>' +
         '<tr><td><p>Typ:</p></td><td><p>Population</p></td></tr>' +
@@ -1037,10 +1037,8 @@ window.apf.olmap.erstelleContentFürPop = function (pop) {
 // ermöglicht es, nach dem toolip zu sortieren
 window.apf.vergleicheTPopZumSortierenNachTooltip = function (a,b) {
     'use strict';
-    if (a.tooltip < b.tooltip)
-         return -1;
-    if (a.tooltip > b.tooltip)
-        return 1;
+    if (a.tooltip < b.tooltip) {return -1;}
+    if (a.tooltip > b.tooltip) {return 1;}
     return 0;
 };
 
@@ -1081,7 +1079,7 @@ window.apf.olmap.erstelleMarkerFürTPopLayer = function (tpop) {
         tpop_nr_label: window.apf.erstelleTPopNrLabel(tpop.PopNr, tpop.TPopNr),
         tpop_name: tpop.TPopFlurname || '(kein Name)',
         name: window.apf.erstelleTPopNrLabel(tpop.PopNr, tpop.TPopNr),  // brauchts das noch? TODO: entfernen
-        popup_content: window.apf.olmap.erstelleContentFürTPop(tpop),
+        popup_content: window.apf.olmap.erstelleContentFuerTPop(tpop),
         popup_title: tpop.Artname,
         // koordinaten werden benötigt damit das popup am richtigen Ort verankert wird
         xkoord: tpop.TPopXKoord,
@@ -1130,53 +1128,53 @@ window.apf.gmap.clearInfoWindows = function () {
     });
 };
 
-window.apf.öffneTPop = function (tpop_id) {
+window.apf.öffneTPop = function (tpopId) {
     'use strict';
-    localStorage.tpop_id = tpop_id;
-    $.jstree._reference("[typ='tpop']#" + tpop_id).deselect_all();
-    $("#tree").jstree("select_node", "[typ='tpop']#" + tpop_id);
+    localStorage.tpopId = tpopId;
+    $.jstree._reference("[typ='tpop']#" + tpopId).deselect_all();
+    $("#tree").jstree("select_node", "[typ='tpop']#" + tpopId);
 };
 
-window.apf.öffneTPopInNeuemTab = function (tpop_id) {
+window.apf.öffneTPopInNeuemTab = function (tpopId) {
     'use strict';
-    window.open("index.html?ap=" + localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + tpop_id, "_blank");
+    window.open("index.html?ap=" + localStorage.apId + "&pop=" + localStorage.popId + "&tpop=" + tpopId, "_blank");
 };
 
-window.apf.öffnePop = function (pop_id) {
+window.apf.öffnePop = function (popId) {
     'use strict';
-    console.log('pop_id = ', pop_id);
-    localStorage.pop_id = pop_id;
-    $.jstree._reference("[typ='pop']#" + pop_id).deselect_all();
-    $("#tree").jstree("select_node", "[typ='pop']#" + pop_id);
+    console.log('popId = ', popId);
+    localStorage.popId = popId;
+    $.jstree._reference("[typ='pop']#" + popId).deselect_all();
+    $("#tree").jstree("select_node", "[typ='pop']#" + popId);
 };
 
-window.apf.öffnePopInNeuemTab = function (pop_id) {
+window.apf.öffnePopInNeuemTab = function (popId) {
     'use strict';
-    window.open("index.html?ap=" + localStorage.ap_id + "&pop=" + pop_id, "_blank");
+    window.open("index.html?ap=" + localStorage.apId + "&pop=" + popId, "_blank");
 };
 
-window.apf.öffneBeob = function (beob_id) {
+window.apf.öffneBeob = function (beobId) {
     'use strict';
-    localStorage.beob_id = beob_id;
-    $.jstree._reference("[typ='beob_nicht_beurteilt']#beob" + beob_id).deselect_all();
-    $("#tree").jstree("select_node", "[typ='beob_nicht_beurteilt']#beob" + beob_id);
+    localStorage.beobId = beobId;
+    $.jstree._reference("[typ='beob_nicht_beurteilt']#beob" + beobId).deselect_all();
+    $("#tree").jstree("select_node", "[typ='beob_nicht_beurteilt']#beob" + beobId);
 };
 
-window.apf.öffneBeobInNeuemTab = function (beob_id) {
+window.apf.öffneBeobInNeuemTab = function (beobId) {
     'use strict';
-    window.open("index.html?ap="+localStorage.ap_id + "&beob_nicht_beurteilt=" + beob_id, "_blank");
+    window.open("index.html?ap="+localStorage.apId + "&beob_nicht_beurteilt=" + beobId, "_blank");
 };
 
-window.apf.öffneTPopBeob = function (beob_id) {
+window.apf.öffneTPopBeob = function (beobId) {
     'use strict';
-    localStorage.beob_id = beob_id;
-    $.jstree._reference("[typ='beob_zugeordnet']#beob" + beob_id).deselect_all();
-    $("#tree").jstree("select_node", "[typ='beob_zugeordnet']#beob" + beob_id);
+    localStorage.beobId = beobId;
+    $.jstree._reference("[typ='beob_zugeordnet']#beob" + beobId).deselect_all();
+    $("#tree").jstree("select_node", "[typ='beob_zugeordnet']#beob" + beobId);
 };
 
-window.apf.öffneTPopBeobInNeuemTab = function (beob_id) {
+window.apf.öffneTPopBeobInNeuemTab = function (beobId) {
     'use strict';
-    window.open("index.html?ap="+localStorage.ap_id + "&pop=" + localStorage.pop_id + "&tpop=" + localStorage.tpop_id + "&beob_nicht_beurteilt=" + beob_id, "_blank");
+    window.open("index.html?ap="+localStorage.apId + "&pop=" + localStorage.popId + "&tpop=" + localStorage.tpopId + "&beob_nicht_beurteilt=" + beobId, "_blank");
 };
 
 
@@ -1457,7 +1455,7 @@ window.apf.olmap.deactivateMenuItems = function () {
     // allfällige tooltips von ga-karten verstecken
     $('div.ga-tooltip').hide();
     // allfällige modify-interaction entfernen
-    window.apf.olmap.entferneModifyInteractionFürTpop();
+    window.apf.olmap.entferneModifyInteractionFuerTpop();
 };
 
 window.apf.olmap.removeSelectFeaturesInSelectableLayers = function () {
@@ -1764,8 +1762,8 @@ window.apf.erstelleGemeindeliste = function () {
 
 // wird aufgerufen, wenn der ap geändert wird
 // wird in index.html benutzt
-window.apf.waehleAp = function (ap_id) {
-    require('./modules/waehleAp')(ap_id);
+window.apf.waehleAp = function (apId) {
+    require('./modules/waehleAp')(apId);
 };
 
 window.apf.kopiereKoordinatenInPop = function (x_koord, y_koord) {
@@ -1777,11 +1775,11 @@ window.apf.kopiereKoordinatenInPop = function (x_koord, y_koord) {
         // Koordinaten der Pop nachführen
         $.ajax({
             type: 'post',
-            url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + localStorage.pop_id + '/feld=PopXKoord/wert=' + x_koord + '/user=' + sessionStorage.User
+            url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + localStorage.popId + '/feld=PopXKoord/wert=' + x_koord + '/user=' + sessionStorage.User
         }).done(function () {
             $.ajax({
                 type: 'post',
-                url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + localStorage.pop_id + '/feld=PopYKoord/wert=' + y_koord + '/user=' + sessionStorage.User
+                url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + localStorage.popId + '/feld=PopYKoord/wert=' + y_koord + '/user=' + sessionStorage.User
             }).done(function () {
                 $("#kopiereKoordinatenInPopRueckmeldung").fadeIn('slow');
                 setTimeout(function () {
@@ -1874,8 +1872,8 @@ window.apf.melde = function (meldung, title) {
 };
 
 // wird in index.html benutzt
-window.apf.löscheAp = function (ap_id) {
-    require('./modules/loescheAp')(ap_id);
+window.apf.löscheAp = function (apId) {
+    require('./modules/loescheAp')(apId);
 };
 
 // wird in index.html benutzt

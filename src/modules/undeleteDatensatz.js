@@ -136,7 +136,7 @@ var returnFunction = function () {
             history.pushState(null, null, "index.html?ap=" + id);
         } else {
             //tree neu aufbauen
-            $.when(window.apf.erstelle_tree(localStorage.ap_id)).then(function () {
+            $.when(window.apf.erstelle_tree(localStorage.apId)).then(function () {
                 $("#tree").jstree("select_node", "[typ='" + typ + "']#" + id);
             });
         }

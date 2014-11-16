@@ -2455,7 +2455,7 @@
                         if (window.apf.olmap.modify_interaction_für_vectorlayer) {
                             // modify entfernen
                             // input_div mitgeben, damit alle übrigen Layer deaktiviert werden können
-                            window.apf.olmap.entferneModifyInteractionFürVectorLayer(layer_div);
+                            window.apf.olmap.entferneModifyInteractionFuerVectorLayer(layer_div);
                         }
 
                         // modify_layer_geom_type selectmenu zurücksetzen...
@@ -2676,7 +2676,7 @@
                                     width: 500,
                                     buttons: {
                                         ja: function() {
-                                            window.apf.löscheAp(localStorage.ap_id);
+                                            window.apf.löscheAp(localStorage.apId);
                                             $(this).dialog("close");
                                         },
                                         nein: function() {
@@ -2687,7 +2687,7 @@
                         }
                     })
                     .on("change", "#ap_waehlen", function() {
-                        var value = this.value || localStorage.ap_id;
+                        var value = this.value || localStorage.apId;
                         window.apf.waehleAp(value);
                     })
                     .on("click", "#ap_waehlen_text_loeschen", function() {
@@ -2701,7 +2701,7 @@
                         var $BeobNichtBeurteilt = $("#BeobNichtBeurteilt");
                         if ($BeobNichtBeurteilt.prop("checked") === true) {
                             // node verschieben. Den rest macht der callback zu jstree.move_node
-                            $("#tree").jstree("move_node", "#beob" + localStorage.beob_id, "#ap_ordner_beob_nicht_beurteilt" + localStorage.ap_id, "first");
+                            $("#tree").jstree("move_node", "#beob" + localStorage.beobId, "#ap_ordner_beob_nicht_beurteilt" + localStorage.apId, "first");
                         } else {
                             // es bringt nichts, diesen Haken zu entfernen
                             // stattdessen soll ein anderer Wert gewählt werden
@@ -2711,15 +2711,15 @@
                     .on("change", "#BeobNichtZuordnen", function() {
                         if ($("#BeobNichtZuordnen").prop("checked") === true) {
                             // node verschieben. Der Rest wird vom Callback fon jstree.move_node erledigt
-                            $("#tree").jstree("move_node", "#beob" + localStorage.beob_id, "#ap_ordner_beob_nicht_zuzuordnen" + localStorage.ap_id, "first");
+                            $("#tree").jstree("move_node", "#beob" + localStorage.beobId, "#ap_ordner_beob_nicht_zuzuordnen" + localStorage.apId, "first");
                         } else {
                             // node verschieben. Den Rest macht der callback zu jstree.move_node
-                            $("#tree").jstree("move_node", "#beob" + localStorage.beob_id, "#ap_ordner_beob_nicht_beurteilt" + localStorage.ap_id, "first");
+                            $("#tree").jstree("move_node", "#beob" + localStorage.beobId, "#ap_ordner_beob_nicht_beurteilt" + localStorage.apId, "first");
                         }
                     })
                     .on("change", "[name='DistZuTPop']", function() {
-                        var tpop_id = $(this).val();
-                        $("#tree").jstree("move_node", "#beob" + localStorage.beob_id, "#tpop_ordner_beob_zugeordnet" + tpop_id, "first");
+                        var tpopId = $(this).val();
+                        $("#tree").jstree("move_node", "#beob" + localStorage.beobId, "#tpop_ordner_beob_zugeordnet" + tpopId, "first");
                     });
 
                 $("#google_karte")

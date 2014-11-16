@@ -51,8 +51,8 @@ var returnFunction = function (TPop) {
             TPop.TPopXKoord = feature.geometry.x;
             TPop.TPopYKoord = feature.geometry.y;
             // Datensatz updaten
-            window.apf.speichereWert('tpop', localStorage.tpop_id, 'TPopXKoord', TPop.TPopXKoord);
-            window.apf.speichereWert('tpop', localStorage.tpop_id, 'TPopYKoord', TPop.TPopYKoord);
+            window.apf.speichereWert('tpop', localStorage.tpopId, 'TPopXKoord', TPop.TPopXKoord);
+            window.apf.speichereWert('tpop', localStorage.tpopId, 'TPopYKoord', TPop.TPopYKoord);
         }
     });
     window.apf.olmap.addControl(dragControl);

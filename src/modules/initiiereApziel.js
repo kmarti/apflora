@@ -9,31 +9,31 @@ var $              = require('jquery'),
 
 var returnFunction = function (apId, apZielId) {
     // prüfen, ob voraussetzungen gegeben sind
-    if (!apId && !localStorage.ap_id) {
+    if (!apId && !localStorage.apId) {
         // Anwendung neu initiieren
         initiiereApp();
         return;
     }
-    if (!apZielId && !localStorage.apziel_id) {
+    if (!apZielId && !localStorage.apzielId) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp(apId);
         return;
     }
 
     // apId setzen
-    if (!localStorage.ap_id) {
-        localStorage.ap_id = apId;
+    if (!localStorage.apId) {
+        localStorage.apId = apId;
     }
     if (!apId) {
-        apId = localStorage.ap_id;
+        apId = localStorage.apId;
     }
 
     // apZielId setzen
-    if (!localStorage.apziel_id) {
-        localStorage.apziel_id = apZielId;
+    if (!localStorage.apzielId) {
+        localStorage.apzielId = apZielId;
     }
     if (!apZielId) {
-        apZielId = localStorage.apziel_id;
+        apZielId = localStorage.apzielId;
     }
 
     var $ZielJahr = $("#ZielJahr");

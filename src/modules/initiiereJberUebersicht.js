@@ -11,31 +11,31 @@ var returnFunction = function (apId, uebId) {
     var $JbuJahr = $("#JbuJahr");
 
     // prüfen, ob voraussetzungen gegeben sind
-    if (!apId && !localStorage.ap_id) {
+    if (!apId && !localStorage.apId) {
         // Anwendung neu initiieren
         initiiereApp();
         return;
     }
-    if (!uebId && !localStorage.jber_uebersicht_id) {
+    if (!uebId && !localStorage.jberUebersichtId) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp(apId);
         return;
     }
 
     // apId setzen
-    if (!localStorage.ap_id) {
-        localStorage.ap_id = apId;
+    if (!localStorage.apId) {
+        localStorage.apId = apId;
     }
     if (!apId) {
-        apId = localStorage.ap_id;
+        apId = localStorage.apId;
     }
 
     // uebId setzen
-    if (!localStorage.jber_uebersicht_id) {
-        localStorage.jber_uebersicht_id = uebId;
+    if (!localStorage.jberUebersichtId) {
+        localStorage.jberUebersichtId = uebId;
     }
     if (!uebId) {
-        uebId = localStorage.jber_uebersicht_id;
+        uebId = localStorage.jberUebersichtId;
     }
 
     // Felder zurücksetzen

@@ -12,7 +12,7 @@ $.jstree = require('jquery.jstree');
 // übernimmt $ wegen jstree
 var returnFunction = function (ApArtId) {
     var jstree_erstellt = $.Deferred();
-    localStorage.ap_id = ApArtId;
+    localStorage.apId = ApArtId;
     $("#tree").jstree({
         "json_data": {
             "ajax": {
@@ -418,108 +418,108 @@ var returnFunction = function (ApArtId) {
         $("#exportieren_1").hide();
         $("#hilfe").show();
         if (window.apf.pop_zeigen) {
-            $("#tree").jstree("select_node", "[typ='pop']#" + localStorage.pop_id);
+            $("#tree").jstree("select_node", "[typ='pop']#" + localStorage.popId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese Pop geöffnet wird
             delete window.apf.pop_zeigen;
         }
         if (window.apf.popber_zeigen) {
-            $("#tree").jstree("select_node", "[typ='popber']#" + localStorage.popber_id);
+            $("#tree").jstree("select_node", "[typ='popber']#" + localStorage.popberId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese Popber geöffnet wird
             delete window.apf.popber_zeigen;
         }
         if (window.apf.popmassnber_zeigen) {
-            $("#tree").jstree("select_node", "[typ='popmassnber']#" + localStorage.popmassnber_id);
+            $("#tree").jstree("select_node", "[typ='popmassnber']#" + localStorage.popmassnberId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese popmassnber geöffnet wird
             delete window.apf.popmassnber_zeigen;
         }
         if (window.apf.tpop_zeigen) {
-            $("#tree").jstree("select_node", "[typ='tpop']#" + localStorage.tpop_id);
+            $("#tree").jstree("select_node", "[typ='tpop']#" + localStorage.tpopId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese TPop geöffnet wird
             delete window.apf.tpop_zeigen;
         }
         if (window.apf.tpopfeldkontr_zeigen) {
-            $("#tree").jstree("select_node", "[typ='tpopfeldkontr']#" + localStorage.tpopfeldkontr_id);
+            $("#tree").jstree("select_node", "[typ='tpopfeldkontr']#" + localStorage.tpopfeldkontrId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopfeldkontr geöffnet wird
             delete window.apf.tpopfeldkontr_zeigen;
         }
         if (window.apf.tpopfreiwkontr_zeigen) {
-            $("#tree").jstree("select_node", "[typ='tpopfreiwkontr']#" + localStorage.tpopfeldkontr_id);
+            $("#tree").jstree("select_node", "[typ='tpopfreiwkontr']#" + localStorage.tpopfeldkontrId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopfreiwkontr geöffnet wird
             delete window.apf.tpopfreiwkontr_zeigen;
         }
         if (window.apf.tpopmassn_zeigen) {
-            $("#tree").jstree("select_node", "[typ='tpopmassn']#" + localStorage.tpopmassn_id);
+            $("#tree").jstree("select_node", "[typ='tpopmassn']#" + localStorage.tpopmassnId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopmassn geöffnet wird
             delete window.apf.tpopmassn_zeigen;
         }
         if (window.apf.tpopber_zeigen) {
-            $("#tree").jstree("select_node", "[typ='tpopber']#" + localStorage.tpopber_id);
+            $("#tree").jstree("select_node", "[typ='tpopber']#" + localStorage.tpopberId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopber geöffnet wird
             delete window.apf.tpopber_zeigen;
         }
         if (window.apf.beob_zugeordnet_zeigen) {
-            $("#tree").jstree("select_node", "#beob" + localStorage.beob_id);
+            $("#tree").jstree("select_node", "#beob" + localStorage.beobId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese beob_zugeordnet geöffnet wird
             delete window.apf.beob_zugeordnet_zeigen;
         }
         if (window.apf.tpopmassnber_zeigen) {
-            $("#tree").jstree("select_node", "[typ='tpopmassnber']#" + localStorage.tpopmassnber_id);
+            $("#tree").jstree("select_node", "[typ='tpopmassnber']#" + localStorage.tpopmassnberId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopmassnber geöffnet wird
             delete window.apf.tpopmassnber_zeigen;
         }
         if (window.apf.apziel_zeigen) {
-            $("#tree").jstree("select_node", "[typ='apziel']#" + localStorage.apziel_id);
+            $("#tree").jstree("select_node", "[typ='apziel']#" + localStorage.apzielId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese apziel geöffnet wird
             delete window.apf.apziel_zeigen;
         }
         if (window.apf.zielber_zeigen) {
-            $("#tree").jstree("select_node", "[typ='zielber']#" + localStorage.zielber_id);
+            $("#tree").jstree("select_node", "[typ='zielber']#" + localStorage.zielberId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese zielber geöffnet wird
             delete window.apf.zielber_zeigen;
         }
         if (window.apf.erfkrit_zeigen) {
-            $("#tree").jstree("select_node", "[typ='erfkrit']#" + localStorage.erfkrit_id);
+            $("#tree").jstree("select_node", "[typ='erfkrit']#" + localStorage.erfkritId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese erfkrit geöffnet wird
             delete window.apf.erfkrit_zeigen;
         }
         if (window.apf.jber_zeigen) {
-            $("#tree").jstree("select_node", "[typ='jber']#" + localStorage.jber_id);
+            $("#tree").jstree("select_node", "[typ='jber']#" + localStorage.jberId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese jber geöffnet wird
             delete window.apf.jber_zeigen;
         }
         if (window.apf.jber_übersicht_zeigen) {
-            $("#tree").jstree("select_node", "[typ='jber_uebersicht']#" + localStorage.jber_uebersicht_id);
+            $("#tree").jstree("select_node", "[typ='jber_uebersicht']#" + localStorage.jberUebersichtId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese jber_uebersicht geöffnet wird
             delete window.apf.jber_übersicht_zeigen;
         }
         if (window.apf.ber_zeigen) {
-            $("#tree").jstree("select_node", "[typ='ber']#" + localStorage.ber_id);
+            $("#tree").jstree("select_node", "[typ='ber']#" + localStorage.berId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese ber geöffnet wird
             delete window.apf.ber_zeigen;
         }
         if (window.apf.idealbiotop_zeigen) {
-            $("#tree").jstree("select_node", "[typ='idealbiotop']#" + localStorage.idealbiotop_id);
+            $("#tree").jstree("select_node", "[typ='idealbiotop']#" + localStorage.idealbiotopId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese idealbiotop geöffnet wird
             delete window.apf.idealbiotop_zeigen;
         }
         if (window.apf.assozarten_zeigen) {
-            $("#tree").jstree("select_node", "[typ='assozarten']#" + localStorage.assozarten_id);
+            $("#tree").jstree("select_node", "[typ='assozarten']#" + localStorage.assozartenId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese assozarten geöffnet wird
             delete window.apf.assozarten_zeigen;
         }
         if (window.apf.beob_nicht_beurteilt_zeigen) {
-            $("#tree").jstree("select_node", "#beob" + localStorage.beob_id);
+            $("#tree").jstree("select_node", "#beob" + localStorage.beobId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese beob geöffnet wird
             delete window.apf.beob_nicht_beurteilt_zeigen;
         }
         if (window.apf.beob_nicht_zuzuordnen_zeigen) {
-            $("#tree").jstree("select_node", "#beob" + localStorage.beob_id);
+            $("#tree").jstree("select_node", "#beob" + localStorage.beobId);
             // diese Markierung entfernen, damit das nächste mal nicht mehr diese beob geöffnet wird
             delete window.apf.beob_nicht_zuzuordnen_zeigen;
         }
         if (window.apf.ap_zeigen) {
             initiiereAp(ApArtId);
-            //localStorage.ap_id = ApArtId;
+            //localStorage.apId = ApArtId;
             //$('#ap_waehlen').trigger('change');
             // diese Markierung entfernen, damit das nächste mal nicht mehr dieser AP geöffnet wird
             delete window.apf.ap_zeigen;
@@ -566,51 +566,51 @@ var returnFunction = function (ApArtId) {
         // richtiges Formular initiieren
         if (node_typ.slice(0, 3) === "ap_" || node_typ === "apzieljahr") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#ap").is(':visible') || localStorage.ap_id !== node_id) {
-                localStorage.ap_id = node_id;
-                delete localStorage.pop_id;
+            if (!$("#ap").is(':visible') || localStorage.apId !== node_id) {
+                localStorage.apId = node_id;
+                delete localStorage.popId;
                 initiiereAp(node_id);
             }
         } else if (node_typ === "pop" || node_typ.slice(0, 4) === "pop_") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#pop").is(':visible') || localStorage.pop_id !== node_id) {
-                localStorage.pop_id = node_id;
+            if (!$("#pop").is(':visible') || localStorage.popId !== node_id) {
+                localStorage.popId = node_id;
                 initiierePop(ApArtId, node_id);
             }
         } else if (node_typ === "apziel" || node_typ === "zielber_ordner") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#apziel").is(':visible') || localStorage.apziel_id !== node_id) {
-                localStorage.apziel_id = node_id;
+            if (!$("#apziel").is(':visible') || localStorage.apzielId !== node_id) {
+                localStorage.apzielId = node_id;
                 initiiereApziel();
             }
         } else if (node_typ === "zielber") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#zielber").is(':visible') || localStorage.zielber_id !== node_id) {
-                localStorage.zielber_id = node_id;
+            if (!$("#zielber").is(':visible') || localStorage.zielberId !== node_id) {
+                localStorage.zielberId = node_id;
                 initiiereZielber();
             }
         } else if (node_typ === "erfkrit") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#erfkrit").is(':visible') || localStorage.erfkrit_id !== node_id) {
-                localStorage.erfkrit_id = node_id;
+            if (!$("#erfkrit").is(':visible') || localStorage.erfkritId !== node_id) {
+                localStorage.erfkritId = node_id;
                 initiiereErfkrit();
             }
         } else if (node_typ === "jber") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#jber").is(':visible') || localStorage.jber_id !== node_id) {
-                localStorage.jber_id = node_id;
+            if (!$("#jber").is(':visible') || localStorage.jberId !== node_id) {
+                localStorage.jberId = node_id;
                 initiiereJber();
             }
         } else if (node_typ === "jber_uebersicht") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#jber_uebersicht").is(':visible') || localStorage.jber_uebersicht_id !== node_id) {
-                localStorage.jber_uebersicht_id = node_id;
+            if (!$("#jber_uebersicht").is(':visible') || localStorage.jberUebersichtId !== node_id) {
+                localStorage.jberUebersichtId = node_id;
                 initiiereJberUebersicht();
             }
         } else if (node_typ === "ber") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#ber").is(':visible') || localStorage.ber_id !== node_id) {
-                localStorage.ber_id = node_id;
+            if (!$("#ber").is(':visible') || localStorage.berId !== node_id) {
+                localStorage.berId = node_id;
                 initiiereBer();
             }
         } else if (node_typ === "idealbiotop") {
@@ -623,80 +623,80 @@ var returnFunction = function (ApArtId) {
             }
         } else if (node_typ === "assozarten") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#assozarten").is(':visible') || localStorage.assozarten_id !== node_id) {
-                localStorage.assozarten_id = node_id;
-                initiiereAssozart(localStorage.ap_id, node_id);
+            if (!$("#assozarten").is(':visible') || localStorage.assozartenId !== node_id) {
+                localStorage.assozartenId = node_id;
+                initiiereAssozart(localStorage.apId, node_id);
             }
         } else if (node_typ === "popber") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#popber").is(':visible') || localStorage.popber_id !== node_id) {
-                localStorage.popber_id = node_id;
+            if (!$("#popber").is(':visible') || localStorage.popberId !== node_id) {
+                localStorage.popberId = node_id;
                 initiierePopBer();
             }
         } else if (node_typ === "popmassnber") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#popmassnber").is(':visible') || localStorage.popmassnber_id !== node_id) {
-                localStorage.popmassnber_id = node_id;
+            if (!$("#popmassnber").is(':visible') || localStorage.popmassnberId !== node_id) {
+                localStorage.popmassnberId = node_id;
                 initiierePopMassnBer();
             }
         } else if (node_typ === "tpop" || node_typ.slice(0, 5) === "tpop_") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#tpop").is(':visible') || localStorage.tpop_id !== node_id) {
-                localStorage.tpop_id = node_id;
+            if (!$("#tpop").is(':visible') || localStorage.tpopId !== node_id) {
+                localStorage.tpopId = node_id;
                 initiiereTPop();
             }
         } else if (node_typ === "tpopfeldkontr") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#tpopfeldkontr").is(':visible') || localStorage.tpopfeldkontr_id !== node_id) {
-                localStorage.tpopfeldkontr_id = node_id;
+            if (!$("#tpopfeldkontr").is(':visible') || localStorage.tpopfeldkontrId !== node_id) {
+                localStorage.tpopfeldkontrId = node_id;
                 initiiereTPopFeldkontr();
             }
         } else if (node_typ === "tpopfreiwkontr") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#tpopfeldkontr").is(':visible') || localStorage.tpopfeldkontr_id !== node_id) {
-                localStorage.tpopfeldkontr_id = node_id;
+            if (!$("#tpopfeldkontr").is(':visible') || localStorage.tpopfeldkontrId !== node_id) {
+                localStorage.tpopfeldkontrId = node_id;
                 localStorage.tpopfreiwkontr = true;
                 initiiereTPopFeldkontr();
             }
         } else if (node_typ === "tpopmassn") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#tpopmassn").is(':visible') || localStorage.tpopmassn_id !== node_id) {
-                localStorage.tpopmassn_id = node_id;
+            if (!$("#tpopmassn").is(':visible') || localStorage.tpopmassnId !== node_id) {
+                localStorage.tpopmassnId = node_id;
                 initiiereTPopMassn();
             }
         } else if (node_typ === "tpopber") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#tpopber").is(':visible') || localStorage.tpopber_id !== node_id) {
-                localStorage.tpopber_id = node_id;
+            if (!$("#tpopber").is(':visible') || localStorage.tpopberId !== node_id) {
+                localStorage.tpopberId = node_id;
                 initiiereTPopBer();
             }
         } else if (node_typ === "beob_zugeordnet") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#beob").is(':visible') || localStorage.beob_id !== node_id || localStorage.beob_status !== "zugeordnet") {
-                localStorage.beob_id = node_id;
+            if (!$("#beob").is(':visible') || localStorage.beobId !== node_id || localStorage.beobStatus !== "zugeordnet") {
+                localStorage.beobId = node_id;
                 localStorage.beobtyp = node.attr("beobtyp");
                 initiiere_beob(node.attr("beobtyp"), node_id, "zugeordnet");
             }
         } else if (node_typ === "beob_nicht_beurteilt") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#beob").is(':visible') || localStorage.beob_id !== node_id || localStorage.beob_status !== "nicht_beurteilt") {
-                localStorage.beob_id = node_id;
+            if (!$("#beob").is(':visible') || localStorage.beobId !== node_id || localStorage.beobStatus !== "nicht_beurteilt") {
+                localStorage.beobId = node_id;
                 localStorage.beobtyp = node.attr("beobtyp");
                 // den Beobtyp mitgeben
                 initiiere_beob(node.attr("beobtyp"), node_id, "nicht_beurteilt");
             }
         } else if (node_typ === "beob_nicht_zuzuordnen") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#beob").is(':visible') || localStorage.beob_id !== node_id || localStorage.beob_status !== "nicht_zuzuordnen") {
-                localStorage.beob_id = node_id;
+            if (!$("#beob").is(':visible') || localStorage.beobId !== node_id || localStorage.beobStatus !== "nicht_zuzuordnen") {
+                localStorage.beobId = node_id;
                 localStorage.beobtyp = node.attr("beobtyp");
                 // den Beobtyp mitgeben
                 initiiere_beob(node.attr("beobtyp"), node_id, "nicht_zuzuordnen");
             }
         } else if (node_typ === "tpopmassnber") {
             // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-            if (!$("#tpopmassnber").is(':visible') || localStorage.tpopmassnber_id !== node_id) {
-                localStorage.tpopmassnber_id = node_id;
+            if (!$("#tpopmassnber").is(':visible') || localStorage.tpopmassnberId !== node_id) {
+                localStorage.tpopmassnberId = node_id;
                 initiiereTPopMassnBer();
             }
         }
@@ -763,7 +763,7 @@ var returnFunction = function (ApArtId) {
                     $.jstree._reference(ziel_node).deselect_all();
                     $.jstree._reference(herkunft_node).select_node(herkunft_node);
                     // Variablen aufräumen
-                    localStorage.pop_id = herkunft_node_id;
+                    localStorage.popId = herkunft_node_id;
                     delete window.apf.pop;
                     delete window.apf.herkunft_parent_node;
                     initiierePop();
@@ -784,7 +784,7 @@ var returnFunction = function (ApArtId) {
                     $.jstree._reference(ziel_node).deselect_all();
                     $.jstree._reference(herkunft_node).select_node(herkunft_node);
                     // Variablen aufräumen
-                    localStorage.tpop_id = herkunft_node_id;
+                    localStorage.tpopId = herkunft_node_id;
                     delete window.apf.tpop;
                     delete window.apf.tpop_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
@@ -806,7 +806,7 @@ var returnFunction = function (ApArtId) {
                     $.jstree._reference(ziel_node).deselect_all();
                     $.jstree._reference(ziel_node).select_node(herkunft_node);
                     // Variablen aufräumen
-                    localStorage.tpop_id = herkunft_node_id;
+                    localStorage.tpopId = herkunft_node_id;
                     delete window.apf.tpop;
                     delete window.apf.tpop_node_ausgeschnitten;
                     initiiereTPop();
@@ -829,7 +829,7 @@ var returnFunction = function (ApArtId) {
                     $.jstree._reference(herkunft_node).deselect_all();
                     $.jstree._reference(ziel_parent_node).select_node(herkunft_node);
                     // Variablen aufräumen
-                    localStorage.tpop_id = herkunft_node_id;
+                    localStorage.tpopId = herkunft_node_id;
                     delete window.apf.tpop;
                     delete window.apf.tpop_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
@@ -851,7 +851,7 @@ var returnFunction = function (ApArtId) {
                     $.jstree._reference(herkunft_node).deselect_all();
                     $.jstree._reference(herkunft_node).select_node(herkunft_node);
                     // Variablen aufräumen
-                    localStorage.tpop_id = herkunft_node_id;
+                    localStorage.tpopId = herkunft_node_id;
                     delete window.apf.tpop;
                     delete window.apf.tpop_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
@@ -875,7 +875,7 @@ var returnFunction = function (ApArtId) {
                     $.jstree._reference(herkunft_node).deselect_all();
                     $.jstree._reference(ziel_parent_node).select_node(herkunft_node);
                     // Variablen aufräumen
-                    localStorage.tpopmassn_id = herkunft_node_id;
+                    localStorage.tpopmassnId = herkunft_node_id;
                     delete window.apf.tpopmassn;
                     delete window.apf.tpopmassn_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
@@ -897,7 +897,7 @@ var returnFunction = function (ApArtId) {
                     $.jstree._reference(herkunft_node).deselect_all();
                     $.jstree._reference(herkunft_node).select_node(herkunft_node);
                     // Variablen aufräumen
-                    localStorage.tpopmassn_id = herkunft_node_id;
+                    localStorage.tpopmassnId = herkunft_node_id;
                     delete window.apf.tpopmassn;
                     delete window.apf.tpopmassn_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
@@ -921,7 +921,7 @@ var returnFunction = function (ApArtId) {
                     $.jstree._reference(herkunft_node).deselect_all();
                     $.jstree._reference(herkunft_node).select_node(herkunft_node);
                     // Variablen aufräumen
-                    localStorage.tpopfeldkontr_id = herkunft_node_id;
+                    localStorage.tpopfeldkontrId = herkunft_node_id;
                     delete window.apf.tpopfeldkontr;
                     delete window.apf.tpopfeldkontr_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
@@ -943,7 +943,7 @@ var returnFunction = function (ApArtId) {
                     $.jstree._reference(herkunft_node).deselect_all();
                     $.jstree._reference(herkunft_node).select_node(herkunft_node);
                     // Variablen aufräumen
-                    localStorage.tpopfeldkontr_id = herkunft_node_id;
+                    localStorage.tpopfeldkontrId = herkunft_node_id;
                     delete window.apf.tpopfeldkontr;
                     delete window.apf.tpopfeldkontr_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
@@ -967,7 +967,7 @@ var returnFunction = function (ApArtId) {
                     $.jstree._reference(herkunft_node).deselect_all();
                     $.jstree._reference(herkunft_node).select_node(herkunft_node);
                     // Variablen aufräumen
-                    localStorage.tpopfeldkontr_id = herkunft_node_id;
+                    localStorage.tpopfeldkontrId = herkunft_node_id;
                     delete window.apf.tpopfeldkontr;
                     delete window.apf.tpopfreiwkontr_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
@@ -991,7 +991,7 @@ var returnFunction = function (ApArtId) {
                     $.jstree._reference(herkunft_node).deselect_all();
                     $.jstree._reference(herkunft_node).select_node(herkunft_node);
                     // Variablen aufräumen
-                    localStorage.tpopfeldkontr_id = herkunft_node_id;
+                    localStorage.tpopfeldkontrId = herkunft_node_id;
                     delete window.apf.tpopfeldkontr;
                     delete window.apf.tpopfreiwkontr_node_ausgeschnitten;
                     delete window.apf.herkunft_parent_node;
@@ -1041,7 +1041,7 @@ var returnFunction = function (ApArtId) {
 
                 $.ajax({
                     type: 'post',
-                    url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + localStorage.beob_id + '/feld=TPopId/wert=' + neue_tpop_id + '/user=' + sessionStorage.User
+                    url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + localStorage.beobId + '/feld=TPopId/wert=' + neue_tpop_id + '/user=' + sessionStorage.User
                 }).done(function () {
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
                     if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {

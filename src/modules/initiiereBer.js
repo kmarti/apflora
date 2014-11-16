@@ -13,31 +13,31 @@ var $ = jQuery    = require('jquery'),
 // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
 var initiiereBer = function (apId, berId) {
     // prüfen, ob voraussetzungen gegeben sind
-    if (!apId && !localStorage.ap_id) {
+    if (!apId && !localStorage.apId) {
         // Anwendung neu initiieren
         initiiereApp();
         return;
     }
-    if (!berId && !localStorage.ber_id) {
+    if (!berId && !localStorage.berId) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp(apId);
         return;
     }
 
     // apId setzen
-    if (!localStorage.ap_id) {
-        localStorage.ap_id = apId;
+    if (!localStorage.apId) {
+        localStorage.apId = apId;
     }
     if (!apId) {
-        apId = localStorage.ap_id;
+        apId = localStorage.apId;
     }
 
     // berId setzen
-    if (!localStorage.ber_id) {
-        localStorage.ber_id = berId;
+    if (!localStorage.berId) {
+        localStorage.berId = berId;
     }
     if (!berId) {
-        berId = localStorage.ber_id;
+        berId = localStorage.berId;
     }
 
     var $BerAutor = $("#BerAutor"),
@@ -53,7 +53,7 @@ var initiiereBer = function (apId, berId) {
     // Daten für die ber aus der DB holen
     $.ajax({
         type: 'get',
-        url: '/api/v1/apflora/tabelle=tblBer/feld=BerId/wertNumber=' + localStorage.ber_id
+        url: '/api/v1/apflora/tabelle=tblBer/feld=BerId/wertNumber=' + localStorage.berId
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
@@ -77,7 +77,7 @@ var initiiereBer = function (apId, berId) {
 
             // Formulare blenden
             zeigeFormular("ber");
-            history.pushState(null, null, "index.html?ap=" + localStorage.ap_id + "&ber=" + localStorage.ber_id);
+            history.pushState(null, null, "index.html?ap=" + localStorage.apId + "&ber=" + localStorage.berId);
 
             // bei neuen Datensätzen Fokus steuern
             if (!$BerAutor.val()) {

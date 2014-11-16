@@ -33,7 +33,7 @@ var returnFunction = function (popliste, popid_markiert, visible) {
 
     _.each(popliste, function (pop) {
         my_name = pop.PopName || '(kein Name)';
-        popup_content = window.apf.olmap.erstelleContentFürPop(pop);
+        popup_content = window.apf.olmap.erstelleContentFuerPop(pop);
 
         // tooltip bzw. label vorbereiten: nullwerte ausblenden
         my_label = (pop.PopNr ? pop.PopNr.toString() : '?');

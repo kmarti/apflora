@@ -16,7 +16,7 @@ var returnFunction = function (aktiverNode, parentNode, strukturtyp, dsId, besch
         erstelleIdAusDomAttributId      = require('../erstelleIdAusDomAttributId');
 
     // id global verfügbar machen
-    localStorage[strukturtyp + "_id"] = dsId;
+    localStorage[strukturtyp + "Id"] = dsId;
     // letzte globale Variable entfernen
     delete window.apf[strukturtyp];
     if (strukturtyp === "apziel" && localStorage.apziel_von_ordner_apziel) {

@@ -1,6 +1,6 @@
 // übernimmt eine Liste von (markierten) Pop
 // retourniert den Ausschnitt = bounds der angezeigt werden soll
-// und einen array mit den tpop_id's der liste
+// und einen array mit den tpopId's der liste
 
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';

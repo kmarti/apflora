@@ -19,7 +19,7 @@ var returnFunction = function (beob_liste, tpop_liste) {
         map,
         bounds,
         markers_tpop,
-        tpop_id,
+        tpopId,
         latlng2,
         marker_beob,
         marker_tpop,
@@ -83,7 +83,7 @@ var returnFunction = function (beob_liste, tpop_liste) {
     // für alle TPop Marker erstellen
     markers_tpop = [];
     _.each(tpop_liste, function (tpop) {
-        tpop_id = tpop.TPopId;
+        tpopId = tpop.TPopId;
         latlng2 = new google.maps.LatLng(tpop.Lat, tpop.Lng);
         // Kartenausschnitt um diese Koordinate erweitern
         bounds.extend(latlng2);

@@ -40,10 +40,10 @@ var returnFunction = function (aktiverNode, parentNode) {
     $.ajax({
         type: 'post',
         url: 'api/v1/tpopInsertKopie/popId=' + data.PopId + '/tpopId=' + erstelleIdAusDomAttributId($(window.apf.tpop_node_kopiert).attr("id")) + '/user=' + data.MutWer
-    }).done(function (tpop_id) {
+    }).done(function (tpopId) {
         var strukturtyp = "tpop",
             beschriftung = window.apf.tpopObjektKopiert.TPopNr + " " + window.apf.tpopObjektKopiert.TPopFlurname;
-        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, tpop_id, beschriftung);
+        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, tpopId, beschriftung);
     }).fail(function () {
         melde("Fehler: Die Teilpopulation wurde nicht erstellt");
     });

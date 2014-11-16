@@ -12,7 +12,7 @@ var returnFunction = function (formularname, id) {
         title;
 
     // id setzen
-    localStorage[formularname + '_id'] = id;
+    localStorage[formularname + 'Id'] = id;
 
     // titel bestimmen
     switch (formularname) {

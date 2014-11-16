@@ -11,51 +11,51 @@ var $             = require('jquery'),
 
 var returnFunction = function (apId, popId, tpopId, massnBerId) {
     // prüfen, ob voraussetzungen gegeben sind
-    if (!apId && !localStorage.ap_id) {
+    if (!apId && !localStorage.apId) {
         // Anwendung neu initiieren
         initiiereApp();
         return;
     }
-    if (!popId && !localStorage.pop_id && !window.apf.pop && (window.apf.pop && !window.apf.pop.PopId)) {
+    if (!popId && !localStorage.popId && !window.apf.pop && (window.apf.pop && !window.apf.pop.PopId)) {
         // es fehlen benötigte Daten > zwei Ebenen höher
         initiiereAp(apId);
         return;
     }
-    if (!tpopId && !localStorage.tpop_id) {
+    if (!tpopId && !localStorage.tpopId) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiierePop(apId, popId);
         return;
     }
-    if (!massnBerId && !localStorage.tpopmassnber_id) {
+    if (!massnBerId && !localStorage.tpopmassnberId) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereTPop(apId, popId, tpopId);
         return;
     }
 
     // apId setzen
-    if (!localStorage.ap_id) localStorage.ap_id = apId;
-    if (!apId) apId = localStorage.ap_id;
+    if (!localStorage.apId) localStorage.apId = apId;
+    if (!apId) apId = localStorage.apId;
     // popId setzen
-    if (!localStorage.pop_id) {
+    if (!localStorage.popId) {
         if (!window.apf.pop || !window.apf.pop.PopId) {
-            localStorage.pop_id = popId;
+            localStorage.popId = popId;
         } else {
-            localStorage.pop_id = window.apf.pop.PopId;
+            localStorage.popId = window.apf.pop.PopId;
         }
     }
     if (!popId) {
         if (!window.apf.pop || !window.apf.pop.PopId) {
-            popId = localStorage.pop_id;
+            popId = localStorage.popId;
         } else {
             popId = window.apf.pop.PopId;
         }
     }
     // tpopId setzen
-    if (!localStorage.tpop_id) localStorage.tpop_id = tpopId;
-    if (!tpopId) tpopId = localStorage.tpop_id;
+    if (!localStorage.tpopId) localStorage.tpopId = tpopId;
+    if (!tpopId) tpopId = localStorage.tpopId;
     // massnBerId setzen
-    if (!localStorage.tpopmassnber_id) localStorage.tpopmassnber_id = massnBerId;
-    if (!massnBerId) massnBerId = localStorage.tpopmassnber_id;
+    if (!localStorage.tpopmassnberId) localStorage.tpopmassnberId = massnBerId;
+    if (!massnBerId) massnBerId = localStorage.tpopmassnberId;
 
     // Felder zurücksetzen
     window.apf.leereFelderVonFormular("tpopmassnber");

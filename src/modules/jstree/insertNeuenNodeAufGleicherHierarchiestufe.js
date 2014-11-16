@@ -12,7 +12,7 @@ var returnFunction = function (aktiverNode, parentNode, strukturtyp, dsId, besch
         erstelleUnterordnerVonTpop      = require('./erstelleUnterordnerVonTpop'),
         erstelleUnterordnerVonPop       = require('./erstelleUnterordnerVonPop');
     // id global verfügbar machen
-    localStorage[strukturtyp + "_id"] = dsId;
+    localStorage[strukturtyp + "Id"] = dsId;
     // letzte globale Variable entfernen
     delete window.apf[strukturtyp];
     // neuen Node bauen

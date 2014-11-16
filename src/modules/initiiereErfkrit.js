@@ -12,31 +12,31 @@ var returnFunction = function (apId, erfkritId) {
     var $ErfkritErreichungsgrad = $("#ErfkritErreichungsgrad");
 
     // prüfen, ob voraussetzungen gegeben sind
-    if (!apId && !localStorage.ap_id) {
+    if (!apId && !localStorage.apId) {
         // Anwendung neu initiieren
         initiiereApp();
         return;
     }
-    if (!erfkritId && !localStorage.erfkrit_id) {
+    if (!erfkritId && !localStorage.erfkritId) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp(apId);
         return;
     }
 
     // apId setzen
-    if (!localStorage.ap_id) {
-        localStorage.ap_id = apId;
+    if (!localStorage.apId) {
+        localStorage.apId = apId;
     }
     if (!apId) {
-        apId = localStorage.ap_id;
+        apId = localStorage.apId;
     }
 
     // erfkritId setzen
-    if (!localStorage.erfkrit_id) {
-        localStorage.erfkrit_id = erfkritId;
+    if (!localStorage.erfkritId) {
+        localStorage.erfkritId = erfkritId;
     }
     if (!erfkritId) {
-        erfkritId = localStorage.erfkrit_id;
+        erfkritId = localStorage.erfkritId;
     }
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen

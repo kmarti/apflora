@@ -6,9 +6,9 @@ var $ = require('jquery'),
 
 var returnFunction = function (pop_selected, tpop_selected) {
     // rückmelden, welche Objekte gewählt wurden
-    var rückmeldung = "",
-        pop_id,
-        tpop_id;
+    var rueckmeldung = "",
+        popId,
+        tpopId;
 
     // globale Variabeln anlegen, damit die Exportfunktionen sie später nutzen können
     window.apf.olmap.pop_selected = pop_selected;
@@ -22,15 +22,15 @@ var returnFunction = function (pop_selected, tpop_selected) {
         });
         if (tpop_selected.length > 0) {
             // tpop und pop betitteln
-            rückmeldung += "<p class='ergebnisAuswahlListeTitel'>" + pop_selected.length + " Populationen: </p>";
+            rueckmeldung += "<p class='ergebnisAuswahlListeTitel'>" + pop_selected.length + " Populationen: </p>";
         }
-        rückmeldung += "<table>";
+        rueckmeldung += "<table>";
         _.each(pop_selected, function (pop) {
-            pop_id = pop.get('myId');
-            rückmeldung += '<tr><td><a href="#" onclick="window.apf.öffnePop(\'' + pop_id + '\')">';
-            rückmeldung += pop.get('popNr') + ':<\/a></td><td><a href="#" onclick="window.apf.öffnePop(\'' + pop_id + '\')">' + pop.get('pop_name') + '<\/a></td></tr>';
+            popId = pop.get('myId');
+            rueckmeldung += '<tr><td><a href="#" onclick="window.apf.öffnePop(\'' + popId + '\')">';
+            rueckmeldung += pop.get('popNr') + ':<\/a></td><td><a href="#" onclick="window.apf.öffnePop(\'' + popId + '\')">' + pop.get('pop_name') + '<\/a></td></tr>';
         });
-        rückmeldung += "</table>";
+        rueckmeldung += "</table>";
     }
     if (tpop_selected.length > 0) {
         // tpop nach nr dann tpopnr sortieren
@@ -42,16 +42,16 @@ var returnFunction = function (pop_selected, tpop_selected) {
         });
         if (pop_selected.length > 0) {
             // tpop und pop betitteln
-            rückmeldung += "<p class='ergebnisAuswahlListeTitel ergebnisAuswahlListeTitelTPop'>" + tpop_selected.length + " Teilpopulationen: </p>";
+            rueckmeldung += "<p class='ergebnisAuswahlListeTitel ergebnisAuswahlListeTitelTPop'>" + tpop_selected.length + " Teilpopulationen: </p>";
         }
-        rückmeldung += "<table>";
+        rueckmeldung += "<table>";
         _.each(tpop_selected, function (tpop) {
-            tpop_id = tpop.get('myId');
-            rückmeldung += '<tr><td><a href="#" onclick="window.apf.öffneTPopInNeuemTab(\'' + tpop_id + '\')">';
-            rückmeldung += tpop.get('tpop_nr_label') + ':<\/a></td><td><a href="#" onclick="window.apf.öffneTPopInNeuemTab(\'' + tpop_id + '\')">';
-            rückmeldung += tpop.get('tpop_name') + "<\/a></td></tr>";
+            tpopId = tpop.get('myId');
+            rueckmeldung += '<tr><td><a href="#" onclick="window.apf.öffneTPopInNeuemTab(\'' + tpopId + '\')">';
+            rueckmeldung += tpop.get('tpop_nr_label') + ':<\/a></td><td><a href="#" onclick="window.apf.öffneTPopInNeuemTab(\'' + tpopId + '\')">';
+            rueckmeldung += tpop.get('tpop_name') + "<\/a></td></tr>";
         });
-        rückmeldung += "</table>";
+        rueckmeldung += "</table>";
     }
     // Höhe der Meldung begrenzen. Leider funktioniert maxHeight nicht
     var height = "auto";
@@ -78,7 +78,7 @@ var returnFunction = function (pop_selected, tpop_selected) {
         exportieren = "";
     }
     $("#ergebnisAuswahlHeaderText").html(listentitel);
-    $("#ergebnisAuswahlListe").html(rückmeldung);
+    $("#ergebnisAuswahlListe").html(rueckmeldung);
     $("#ergebnisAuswahlFooter").html(exportieren);
     // Ergebnis-Div einblenden
     $("#ergebnisAuswahl").css("display", "block");

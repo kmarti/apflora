@@ -9,31 +9,31 @@ var $             = require('jquery'),
 
 var returnFunction = function (apId, assozId) {
     // prüfen, ob voraussetzungen gegeben sind
-    if (!apId && !localStorage.ap_id) {
+    if (!apId && !localStorage.apId) {
         // Anwendung neu initiieren
         initiiereApp();
         return;
     }
-    if (!assozId && !localStorage.assozarten_id) {
+    if (!assozId && !localStorage.assozartenId) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp(apId);
         return;
     }
 
     // apId setzen
-    if (!localStorage.ap_id) {
-        localStorage.ap_id = apId;
+    if (!localStorage.apId) {
+        localStorage.apId = apId;
     }
     if (!apId) {
-        apId = localStorage.ap_id;
+        apId = localStorage.apId;
     }
 
     // assozId setzen
-    if (!localStorage.assozarten_id) {
-        localStorage.assozarten_id = assozId;
+    if (!localStorage.assozartenId) {
+        localStorage.assozartenId = assozId;
     }
     if (!assozId) {
-        assozId = localStorage.assozarten_id;
+        assozId = localStorage.assozartenId;
     }
 
     var $AaSisfNrText = $("#AaSisfNrText"),

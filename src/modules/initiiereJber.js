@@ -12,31 +12,31 @@ var $               = require('jquery'),
 
 var returnFunction = function (apId, apBerId) {
     // prüfen, ob voraussetzungen gegeben sind
-    if (!apId && !localStorage.ap_id) {
+    if (!apId && !localStorage.apId) {
         // Anwendung neu initiieren
         initiiereApp();
         return;
     }
-    if (!apBerId && !localStorage.jber_id) {
+    if (!apBerId && !localStorage.jberId) {
         // es fehlen benötigte Daten > eine Ebene höher
         initiiereAp(apId);
         return;
     }
 
     // apId setzen
-    if (!localStorage.ap_id) {
-        localStorage.ap_id = apId;
+    if (!localStorage.apId) {
+        localStorage.apId = apId;
     }
     if (!apId) {
-        apId = localStorage.ap_id;
+        apId = localStorage.apId;
     }
 
     // apBerId setzen
-    if (!localStorage.jber_id) {
-        localStorage.jber_id = apBerId;
+    if (!localStorage.jberId) {
+        localStorage.jberId = apBerId;
     }
     if (!apBerId) {
-        apBerId = localStorage.jber_id;
+        apBerId = localStorage.jberId;
     }
 
     var $JBerJahr = $("#JBerJahr");
@@ -50,7 +50,7 @@ var returnFunction = function (apId, apBerId) {
     // Daten für die jber aus der DB holen
     $.ajax({
         type: 'get',
-        url: '/api/v1/apflora/tabelle=tblJBer/feld=JBerId/wertNumber=' + localStorage.jber_id
+        url: '/api/v1/apflora/tabelle=tblJBer/feld=JBerId/wertNumber=' + localStorage.jberId
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
@@ -87,7 +87,7 @@ var returnFunction = function (apId, apBerId) {
 
             // Formulare blenden
             zeigeFormular("jber");
-            history.pushState(null, null, "index.html?ap=" + localStorage.ap_id + "&jber=" + localStorage.jber_id);
+            history.pushState(null, null, "index.html?ap=" + localStorage.apId + "&jber=" + localStorage.jberId);
 
             // bei neuen Datensätzen Fokus steuern
             if (!$JBerJahr.val()) {
