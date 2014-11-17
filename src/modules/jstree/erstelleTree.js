@@ -16,7 +16,8 @@ var $                          = require('jquery'),
     select_node                = require('./select_node');
 
 module.exports = function (ApArtId) {
-    var jstreeErstellt = $.Deferred();
+    var jstreeErstellt = $.Deferred(),
+        neueTpopId;
 
     localStorage.apId = ApArtId;
     $("#tree").jstree({
@@ -100,14 +101,14 @@ module.exports = function (ApArtId) {
                 .focus();
         }
     }).bind("move_node.jstree", function (e, data) {
-        var herkunft_node,
-            herkunft_node_id,
-            herkunft_node_typ,
-            ziel_node,
-            ziel_node_id,
-            ziel_node_typ,
-            ziel_parent_node,
-            ziel_parent_node_id;
+        var herkunftNode,
+            herkunftNodeId,
+            herkunftNodeTyp,
+            zielNode,
+            zielNodeId,
+            zielNodeTyp,
+            zielParentNode,
+            zielParentNodeId;
 
         // nur aktualisieren, wenn Schreibrechte bestehen
         if (!window.apf.pruefeSchreibvoraussetzungen()) {
@@ -115,31 +116,31 @@ module.exports = function (ApArtId) {
         }
 
         // Variablen setzen
-        herkunft_node     = data.rslt.o;
-        herkunft_node_id  = erstelleIdAusDomAttributId($(herkunft_node).attr("id"));
-        herkunft_node_typ = herkunft_node.attr("typ");
-        ziel_node         = data.rslt.r;
-        ziel_node_id      = erstelleIdAusDomAttributId($(ziel_node).attr("id"));
-        ziel_node_typ     = ziel_node.attr("typ");
-        ziel_parent_node  = $.jstree._reference(data.rslt.r)._get_parent(data.rslt.r);
-        if ($(ziel_parent_node).attr("id")) {
-            ziel_parent_node_id = erstelleIdAusDomAttributId($(ziel_parent_node).attr("id"));
+        herkunftNode    = data.rslt.o;
+        herkunftNodeId  = erstelleIdAusDomAttributId($(herkunftNode).attr("id"));
+        herkunftNodeTyp = herkunftNode.attr("typ");
+        zielNode        = data.rslt.r;
+        zielNodeId      = erstelleIdAusDomAttributId($(zielNode).attr("id"));
+        zielNodeTyp     = zielNode.attr("typ");
+        zielParentNode  = $.jstree._reference(data.rslt.r)._get_parent(data.rslt.r);
+        if ($(zielParentNode).attr("id")) {
+            zielParentNodeId = erstelleIdAusDomAttributId($(zielParentNode).attr("id"));
         }
 
-        if (herkunft_node_typ === "pop") {
-            if (ziel_node_typ === "pop") {
+        if (herkunftNodeTyp === "pop") {
+            if (zielNodeTyp === "pop") {
                 $.ajax({
                     type: 'post',
-                    url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + ziel_node_id + '/feld=ApArtId/wert=' + ziel_parent_node_id + '/user=' + sessionStorage.User
+                    url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + zielNodeId + '/feld=ApArtId/wert=' + zielParentNodeId + '/user=' + sessionStorage.user
                 }).done(function () {
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-                    window.apf.beschrifte_ordner_pop(ziel_parent_node);
-                    window.apf.beschrifte_ordner_pop(window.apf.herkunftParentNode);
+                    window.apf.beschrifteOrdnerPop(zielParentNode);
+                    window.apf.beschrifteOrdnerPop(window.apf.herkunftParentNode);
                     // selection steuern
-                    $.jstree._reference(ziel_node).deselect_all();
-                    $.jstree._reference(herkunft_node).select_node(herkunft_node);
+                    $.jstree._reference(zielNode).deselect_all();
+                    $.jstree._reference(herkunftNode).select_node(herkunftNode);
                     // Variablen aufräumen
-                    localStorage.popId = herkunft_node_id;
+                    localStorage.popId = herkunftNodeId;
                     delete window.apf.pop;
                     delete window.apf.herkunftParentNode;
                     initiierePop();
@@ -147,85 +148,85 @@ module.exports = function (ApArtId) {
                     melde("Fehler: Die Teilpopulation wurde nicht verschoben");
                 });
             }
-            if (ziel_node_typ === "tpop") {
+            if (zielNodeTyp === "tpop") {
                 $.ajax({
                     type: 'post',
-                    url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=PopId/tabelleId=' + ziel_parent_node_id + '/feld=TPopId/wert=' + ziel_node_id + '/user=' + sessionStorage.User
+                    url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=PopId/tabelleId=' + zielParentNodeId + '/feld=TPopId/wert=' + zielNodeId + '/user=' + sessionStorage.user
                 }).done(function () {
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-                    window.apf.beschrifte_ordner_tpop(ziel_parent_node);
-                    window.apf.beschrifte_ordner_tpop(window.apf.herkunftParentNode);
+                    window.apf.beschrifteOrdnerTpop(zielParentNode);
+                    window.apf.beschrifteOrdnerTpop(window.apf.herkunftParentNode);
                     // selection steuern
-                    $.jstree._reference(ziel_node).deselect_all();
-                    $.jstree._reference(herkunft_node).select_node(herkunft_node);
+                    $.jstree._reference(zielNode).deselect_all();
+                    $.jstree._reference(herkunftNode).select_node(herkunftNode);
                     // Variablen aufräumen
-                    localStorage.tpopId = herkunft_node_id;
+                    localStorage.tpopId = herkunftNodeId;
                     delete window.apf.tpop;
-                    delete window.apf.tpop_node_ausgeschnitten;
+                    delete window.apf.tpopNodeAusgeschnitten;
                     delete window.apf.herkunftParentNode;
                     initiiereTPop();
                 }).fail(function () {
                     melde("Fehler: Die Teilpopulation wurde nicht verschoben");
                 });
             }
-            if (ziel_node_typ === "pop_ordner_tpop") {
+            if (zielNodeTyp === "pop_ordner_tpop") {
                 $.ajax({
                     type: 'post',
-                    url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=PopId/tabelleId=' + ziel_node_id + '/feld=TPopId/wert=' + herkunft_node_id + '/user=' + sessionStorage.User
+                    url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=PopId/tabelleId=' + zielNodeId + '/feld=TPopId/wert=' + herkunftNodeId + '/user=' + sessionStorage.user
                 }).done(function () {
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-                    window.apf.beschrifte_ordner_tpop(ziel_node);
-                    window.apf.beschrifte_ordner_tpop(window.apf.herkunftParentNode);
+                    window.apf.beschrifteOrdnerTpop(zielNode);
+                    window.apf.beschrifteOrdnerTpop(window.apf.herkunftParentNode);
                     // select steuern
-                    $.jstree._reference(ziel_node).deselect_all();
-                    $.jstree._reference(ziel_node).select_node(herkunft_node);
+                    $.jstree._reference(zielNode).deselect_all();
+                    $.jstree._reference(zielNode).select_node(herkunftNode);
                     // Variablen aufräumen
-                    localStorage.tpopId = herkunft_node_id;
+                    localStorage.tpopId = herkunftNodeId;
                     delete window.apf.tpop;
-                    delete window.apf.tpop_node_ausgeschnitten;
+                    delete window.apf.tpopNodeAusgeschnitten;
                     initiiereTPop();
                 }).fail(function () {
                     melde("Fehler: Die Teilpopulation wurde nicht verschoben");
                 });
             }
         }
-        if (herkunft_node_typ === "tpop") {
-            if (ziel_node_typ === "tpop") {
+        if (herkunftNodeTyp === "tpop") {
+            if (zielNodeTyp === "tpop") {
                 $.ajax({
                     type: 'post',
-                    url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=PopId/tabelleId=' + ziel_parent_node_id + '/feld=TPopId/wert=' + herkunft_node_id + '/user=' + sessionStorage.User
+                    url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=PopId/tabelleId=' + zielParentNodeId + '/feld=TPopId/wert=' + herkunftNodeId + '/user=' + sessionStorage.user
                 }).done(function () {
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-                    window.apf.beschrifte_ordner_tpop(ziel_parent_node);
-                    window.apf.beschrifte_ordner_tpop(window.apf.herkunftParentNode);
+                    window.apf.beschrifteOrdnerTpop(zielParentNode);
+                    window.apf.beschrifteOrdnerTpop(window.apf.herkunftParentNode);
                     // selection steuern
-                    $.jstree._reference(herkunft_node).deselect_all();
-                    $.jstree._reference(ziel_parent_node).select_node(herkunft_node);
+                    $.jstree._reference(herkunftNode).deselect_all();
+                    $.jstree._reference(zielParentNode).select_node(herkunftNode);
                     // Variablen aufräumen
-                    localStorage.tpopId = herkunft_node_id;
+                    localStorage.tpopId = herkunftNodeId;
                     delete window.apf.tpop;
-                    delete window.apf.tpop_node_ausgeschnitten;
+                    delete window.apf.tpopNodeAusgeschnitten;
                     delete window.apf.herkunftParentNode;
                     initiiereTPop();
                 }).fail(function () {
                     melde("Fehler: Die Teilpopulation wurde nicht verschoben");
                 });
             }
-            if (ziel_node_typ === "pop_ordner_tpop") {
+            if (zielNodeTyp === "pop_ordner_tpop") {
                 $.ajax({
                     type: 'post',
-                    url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=PopId/tabelleId=' + ziel_node_id + '/feld=TPopId/wert=' + herkunft_node_id + '/user=' + sessionStorage.User
+                    url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=PopId/tabelleId=' + zielNodeId + '/feld=TPopId/wert=' + herkunftNodeId + '/user=' + sessionStorage.user
                 }).done(function () {
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-                    window.apf.beschrifte_ordner_tpop(ziel_node);
-                    window.apf.beschrifte_ordner_tpop(window.apf.herkunftParentNode);
+                    window.apf.beschrifteOrdnerTpop(zielNode);
+                    window.apf.beschrifteOrdnerTpop(window.apf.herkunftParentNode);
                     // selection steuern
-                    $.jstree._reference(herkunft_node).deselect_all();
-                    $.jstree._reference(herkunft_node).select_node(herkunft_node);
+                    $.jstree._reference(herkunftNode).deselect_all();
+                    $.jstree._reference(herkunftNode).select_node(herkunftNode);
                     // Variablen aufräumen
-                    localStorage.tpopId = herkunft_node_id;
+                    localStorage.tpopId = herkunftNodeId;
                     delete window.apf.tpop;
-                    delete window.apf.tpop_node_ausgeschnitten;
+                    delete window.apf.tpopNodeAusgeschnitten;
                     delete window.apf.herkunftParentNode;
                     initiiereTPop();
                 }).fail(function () {
@@ -233,43 +234,43 @@ module.exports = function (ApArtId) {
                 });
             }
         }
-        if (herkunft_node_typ === "tpopmassn") {
-            if (ziel_node_typ === "tpopmassn") {
+        if (herkunftNodeTyp === "tpopmassn") {
+            if (zielNodeTyp === "tpopmassn") {
                 $.ajax({
                     type: 'post',
-                    url: 'api/v1/update/apflora/tabelle=tblTeilPopMassnahme/tabelleIdFeld=TPopId/tabelleId=' + ziel_parent_node_id + '/feld=TPopMassnId/wert=' + herkunft_node_id + '/user=' + sessionStorage.User
+                    url: 'api/v1/update/apflora/tabelle=tblTeilPopMassnahme/tabelleIdFeld=TPopId/tabelleId=' + zielParentNodeId + '/feld=TPopMassnId/wert=' + herkunftNodeId + '/user=' + sessionStorage.user
                 }).done(function () {
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-                    window.apf.beschrifte_ordner_tpopmassn(ziel_parent_node);
-                    window.apf.beschrifte_ordner_tpopmassn(window.apf.herkunftParentNode);
+                    window.apf.beschrifteOrdnerTpopmassn(zielParentNode);
+                    window.apf.beschrifteOrdnerTpopmassn(window.apf.herkunftParentNode);
                     // selection steuern
-                    $.jstree._reference(herkunft_node).deselect_all();
-                    $.jstree._reference(ziel_parent_node).select_node(herkunft_node);
+                    $.jstree._reference(herkunftNode).deselect_all();
+                    $.jstree._reference(zielParentNode).select_node(herkunftNode);
                     // Variablen aufräumen
-                    localStorage.tpopmassnId = herkunft_node_id;
+                    localStorage.tpopmassnId = herkunftNodeId;
                     delete window.apf.tpopmassn;
-                    delete window.apf.tpopmassn_node_ausgeschnitten;
+                    delete window.apf.tpopmassnNodeAusgeschnitten;
                     delete window.apf.herkunftParentNode;
                     initiiereTPopMassn();
                 }).fail(function () {
                     melde("Fehler: Die Massnahme wurde nicht verschoben");
                 });
             }
-            if (ziel_node_typ === "tpop_ordner_massn") {
+            if (zielNodeTyp === "tpop_ordner_massn") {
                 $.ajax({
                     type: 'post',
-                    url: 'api/v1/update/apflora/tabelle=tblTeilPopMassnahme/tabelleIdFeld=TPopId/tabelleId=' + ziel_node_id + '/feld=TPopMassnId/wert=' + herkunft_node_id + '/user=' + sessionStorage.User
+                    url: 'api/v1/update/apflora/tabelle=tblTeilPopMassnahme/tabelleIdFeld=TPopId/tabelleId=' + zielNodeId + '/feld=TPopMassnId/wert=' + herkunftNodeId + '/user=' + sessionStorage.user
                 }).done(function () {
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-                    window.apf.beschrifte_ordner_tpopmassn(ziel_node);
-                    window.apf.beschrifte_ordner_tpopmassn(window.apf.herkunftParentNode);
+                    window.apf.beschrifteOrdnerTpopmassn(zielNode);
+                    window.apf.beschrifteOrdnerTpopmassn(window.apf.herkunftParentNode);
                     // selection steuern
-                    $.jstree._reference(herkunft_node).deselect_all();
-                    $.jstree._reference(herkunft_node).select_node(herkunft_node);
+                    $.jstree._reference(herkunftNode).deselect_all();
+                    $.jstree._reference(herkunftNode).select_node(herkunftNode);
                     // Variablen aufräumen
-                    localStorage.tpopmassnId = herkunft_node_id;
+                    localStorage.tpopmassnId = herkunftNodeId;
                     delete window.apf.tpopmassn;
-                    delete window.apf.tpopmassn_node_ausgeschnitten;
+                    delete window.apf.tpopmassnNodeAusgeschnitten;
                     delete window.apf.herkunftParentNode;
                     initiiereTPopMassn();
                 }).fail(function () {
@@ -277,43 +278,43 @@ module.exports = function (ApArtId) {
                 });
             }
         }
-        if (herkunft_node_typ === "tpopfeldkontr") {
-            if (ziel_node_typ === "tpopfeldkontr") {
+        if (herkunftNodeTyp === "tpopfeldkontr") {
+            if (zielNodeTyp === "tpopfeldkontr") {
                 $.ajax({
                     type: 'post',
-                    url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + ziel_parent_node_id + '/user=' + sessionStorage.User
+                    url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + zielParentNodeId + '/user=' + sessionStorage.user
                 }).done(function () {
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-                    window.apf.beschrifte_ordner_tpopfeldkontr(ziel_parent_node);
-                    window.apf.beschrifte_ordner_tpopfeldkontr(window.apf.herkunftParentNode);
+                    window.apf.beschrifteOrdnerTpopfeldkontr(zielParentNode);
+                    window.apf.beschrifteOrdnerTpopfeldkontr(window.apf.herkunftParentNode);
                     // selection steuern
-                    $.jstree._reference(herkunft_node).deselect_all();
-                    $.jstree._reference(herkunft_node).select_node(herkunft_node);
+                    $.jstree._reference(herkunftNode).deselect_all();
+                    $.jstree._reference(herkunftNode).select_node(herkunftNode);
                     // Variablen aufräumen
-                    localStorage.tpopfeldkontrId = herkunft_node_id;
+                    localStorage.tpopfeldkontrId = herkunftNodeId;
                     delete window.apf.tpopfeldkontr;
-                    delete window.apf.tpopfeldkontr_node_ausgeschnitten;
+                    delete window.apf.tpopfeldkontrNodeAusgeschnitten;
                     delete window.apf.herkunftParentNode;
                     initiiereTPopFeldkontr();
                 }).fail(function () {
                     melde("Fehler: Die Feldkontrolle wurde nicht verschoben");
                 });
             }
-            if (ziel_node_typ === "tpop_ordner_feldkontr") {
+            if (zielNodeTyp === "tpop_ordner_feldkontr") {
                 $.ajax({
                     type: 'post',
-                    url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + ziel_node_id + '/user=' + sessionStorage.User
+                    url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + zielNodeId + '/user=' + sessionStorage.user
                 }).done(function () {
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-                    window.apf.beschrifte_ordner_tpopfeldkontr(ziel_node);
-                    window.apf.beschrifte_ordner_tpopfeldkontr(window.apf.herkunftParentNode);
+                    window.apf.beschrifteOrdnerTpopfeldkontr(zielNode);
+                    window.apf.beschrifteOrdnerTpopfeldkontr(window.apf.herkunftParentNode);
                     // selection steuern
-                    $.jstree._reference(herkunft_node).deselect_all();
-                    $.jstree._reference(herkunft_node).select_node(herkunft_node);
+                    $.jstree._reference(herkunftNode).deselect_all();
+                    $.jstree._reference(herkunftNode).select_node(herkunftNode);
                     // Variablen aufräumen
-                    localStorage.tpopfeldkontrId = herkunft_node_id;
+                    localStorage.tpopfeldkontrId = herkunftNodeId;
                     delete window.apf.tpopfeldkontr;
-                    delete window.apf.tpopfeldkontr_node_ausgeschnitten;
+                    delete window.apf.tpopfeldkontrNodeAusgeschnitten;
                     delete window.apf.herkunftParentNode;
                     initiiereTPopFeldkontr();
                 }).fail(function () {
@@ -321,22 +322,22 @@ module.exports = function (ApArtId) {
                 });
             }
         }
-        if (herkunft_node_typ === "tpopfreiwkontr") {
-            if (ziel_node_typ === "tpopfreiwkontr") {
+        if (herkunftNodeTyp === "tpopfreiwkontr") {
+            if (zielNodeTyp === "tpopfreiwkontr") {
                 $.ajax({
                     type: 'post',
-                    url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + ziel_parent_node_id + '/user=' + sessionStorage.User
+                    url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + zielParentNodeId + '/user=' + sessionStorage.user
                 }).done(function () {
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-                    window.apf.beschrifte_ordner_tpopfreiwkontr(ziel_parent_node);
-                    window.apf.beschrifte_ordner_tpopfreiwkontr(window.apf.herkunftParentNode);
+                    window.apf.beschrifteOrdnerTpopfreiwkontr(zielParentNode);
+                    window.apf.beschrifteOrdnerTpopfreiwkontr(window.apf.herkunftParentNode);
                     // selection steuern
-                    $.jstree._reference(herkunft_node).deselect_all();
-                    $.jstree._reference(herkunft_node).select_node(herkunft_node);
+                    $.jstree._reference(herkunftNode).deselect_all();
+                    $.jstree._reference(herkunftNode).select_node(herkunftNode);
                     // Variablen aufräumen
-                    localStorage.tpopfeldkontrId = herkunft_node_id;
+                    localStorage.tpopfeldkontrId = herkunftNodeId;
                     delete window.apf.tpopfeldkontr;
-                    delete window.apf.tpopfreiwkontr_node_ausgeschnitten;
+                    delete window.apf.tpopfreiwkontrNodeAusgeschnitten;
                     delete window.apf.herkunftParentNode;
                     localStorage.tpopfreiwkontr = true;
                     initiiereTPopFeldkontr();
@@ -344,21 +345,21 @@ module.exports = function (ApArtId) {
                     melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht verschoben");
                 });
             }
-            if (ziel_node_typ === "tpop_ordner_freiwkontr") {
+            if (zielNodeTyp === "tpop_ordner_freiwkontr") {
                 $.ajax({
                     type: 'post',
-                    url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + ziel_node_id + '/user=' + sessionStorage.User
+                    url: 'api/v1/insert/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopId/wert=' + zielNodeId + '/user=' + sessionStorage.user
                 }).done(function () {
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-                    window.apf.beschrifte_ordner_tpopfreiwkontr(ziel_node);
-                    window.apf.beschrifte_ordner_tpopfreiwkontr(window.apf.herkunftParentNode);
+                    window.apf.beschrifteOrdnerTpopfreiwkontr(zielNode);
+                    window.apf.beschrifteOrdnerTpopfreiwkontr(window.apf.herkunftParentNode);
                     // selection steuern
-                    $.jstree._reference(herkunft_node).deselect_all();
-                    $.jstree._reference(herkunft_node).select_node(herkunft_node);
+                    $.jstree._reference(herkunftNode).deselect_all();
+                    $.jstree._reference(herkunftNode).select_node(herkunftNode);
                     // Variablen aufräumen
-                    localStorage.tpopfeldkontrId = herkunft_node_id;
+                    localStorage.tpopfeldkontrId = herkunftNodeId;
                     delete window.apf.tpopfeldkontr;
-                    delete window.apf.tpopfreiwkontr_node_ausgeschnitten;
+                    delete window.apf.tpopfreiwkontrNodeAusgeschnitten;
                     delete window.apf.herkunftParentNode;
                     localStorage.tpopfreiwkontr = true;
                     initiiereTPopFeldkontr();
@@ -367,13 +368,13 @@ module.exports = function (ApArtId) {
                 });
             }
         }
-        if (herkunft_node_typ === "beob_zugeordnet") {
+        if (herkunftNodeTyp === "beob_zugeordnet") {
             // zugeordnet
-            if (ziel_node_typ === "beob_nicht_beurteilt" || ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
+            if (zielNodeTyp === "beob_nicht_beurteilt" || zielNodeTyp === "ap_ordner_beob_nicht_beurteilt") {
                 // zugeordnet > nicht beurteilt
                 $.ajax({
                     type: 'delete',
-                    url: 'api/v1/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id
+                    url: 'api/v1/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunftNodeId
                 }).done(function () {
                     // Zuordnung entfernen
                     $('[name="DistZuTPop"]').each(function () {
@@ -381,62 +382,62 @@ module.exports = function (ApArtId) {
                     });
 
                     // typ des nodes anpassen
-                    herkunft_node.attr("typ", "beob_nicht_beurteilt");
+                    herkunftNode.attr("typ", "beob_nicht_beurteilt");
                     localStorage.beobtyp = "beob_nicht_beurteilt";
 
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-                    if (ziel_node_typ === "beob_nicht_beurteilt") {
-                        window.apf.beschrifte_ordner_beob_nicht_beurteilt(ziel_parent_node);
+                    if (zielNodeTyp === "beob_nicht_beurteilt") {
+                        window.apf.beschrifteOrdnerBeobNichtBeurteilt(zielParentNode);
                     } else {
-                        window.apf.beschrifte_ordner_beob_nicht_beurteilt(ziel_node);
+                        window.apf.beschrifteOrdnerBeobNichtBeurteilt(zielNode);
                     }
                     window.apf.beschrifteOrdnerBeobZugeordnet(window.apf.herkunftParentNode);
 
                     // Variablen aufräumen
-                    delete window.apf.beob_zugeordnet_node_ausgeschnitten;
+                    delete window.apf.beobZugeordnetNodeAusgeschnitten;
                     delete window.apf.herkunftParentNode;
                 }).fail(function () {
                     melde("Fehler: Die Beobachtung wurde nicht auf 'nicht beurteilt' gesetzt");
                 });
             }
-            if (ziel_node_typ === "beob_zugeordnet" || ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
+            if (zielNodeTyp === "beob_zugeordnet" || zielNodeTyp === "tpop_ordner_beob_zugeordnet") {
                 // zugeordnet > zugeordnet
-                neue_tpop_id = (ziel_node_typ === "tpop_ordner_beob_zugeordnet" ? ziel_node_id : ziel_parent_node_id);
+                neueTpopId = (zielNodeTyp === "tpop_ordner_beob_zugeordnet" ? zielNodeId : zielParentNodeId);
 
                 $.ajax({
                     type: 'post',
-                    url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + localStorage.beobId + '/feld=TPopId/wert=' + neue_tpop_id + '/user=' + sessionStorage.User
+                    url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + localStorage.beobId + '/feld=TPopId/wert=' + neueTpopId + '/user=' + sessionStorage.user
                 }).done(function () {
                     // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-                    if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
-                        window.apf.beschrifteOrdnerBeobZugeordnet(ziel_node);
+                    if (zielNodeTyp === "tpop_ordner_beob_zugeordnet") {
+                        window.apf.beschrifteOrdnerBeobZugeordnet(zielNode);
                     } else {
-                        window.apf.beschrifteOrdnerBeobZugeordnet(ziel_parent_node);
+                        window.apf.beschrifteOrdnerBeobZugeordnet(zielParentNode);
                     }
                     window.apf.beschrifteOrdnerBeobZugeordnet(window.apf.herkunftParentNode);
 
                     // selection steuern
-                    if (localStorage.karte_fokussieren) {
-                        delete localStorage.karte_fokussieren;
+                    if (localStorage.karteFokussieren) {
+                        delete localStorage.karteFokussieren;
                     }
 
                     // Variablen aufräumen
-                    delete window.apf.beob_zugeordnet_node_ausgeschnitten;
+                    delete window.apf.beobZugeordnetNodeAusgeschnitten;
                     delete window.apf.herkunftParentNode;
                 }).fail(function () {
                     melde("Fehler: Die Beobachtung wurde nicht verschoben");
                 });
             }
-            if (ziel_node_typ === "beob_nicht_zuzuordnen" || ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
+            if (zielNodeTyp === "beob_nicht_zuzuordnen" || zielNodeTyp === "ap_ordner_beob_nicht_zuzuordnen") {
                 // zugeordnet > nicht zuzuordnen
                 $.ajax({
                     type: 'post',
-                    url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=BeobNichtZuordnen/wert=1/user=' + sessionStorage.User
+                    url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunftNodeId + '/feld=BeobNichtZuordnen/wert=1/user=' + sessionStorage.user
                 }).done(function () {
                     // TPopId null setzen
                     $.ajax({
                         type: 'post',
-                        url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=TPopId/wert=/user=' + sessionStorage.User
+                        url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunftNodeId + '/feld=TPopId/wert=/user=' + sessionStorage.user
                     }).done(function () {
                         // Zuordnung entfernen
                         $('[name="DistZuTPop"]').each(function () {
@@ -444,14 +445,14 @@ module.exports = function (ApArtId) {
                         });
 
                         // typ des nodes anpassen
-                        herkunft_node.attr("typ", "beob_nicht_zuzuordnen");
+                        herkunftNode.attr("typ", "beob_nicht_zuzuordnen");
                         localStorage.beobtyp = "beob_nicht_zuzuordnen";
 
                         // Anzahlen anpassen der parent-nodes am Herkunfts- und Zielort
-                        if (ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
-                            window.apf.beschrifteOrdnerBeobNichtNuzuordnen(ziel_node);
+                        if (zielNodeTyp === "ap_ordner_beob_nicht_zuzuordnen") {
+                            window.apf.beschrifteOrdnerBeobNichtNuzuordnen(zielNode);
                         } else {
-                            window.apf.beschrifteOrdnerBeobNichtNuzuordnen(ziel_parent_node);
+                            window.apf.beschrifteOrdnerBeobNichtNuzuordnen(zielParentNode);
                         }
                         window.apf.beschrifteOrdnerBeobZugeordnet(window.apf.herkunftParentNode);
 
@@ -466,39 +467,39 @@ module.exports = function (ApArtId) {
                 });
             }
         }
-        if (herkunft_node_typ === "beob_nicht_beurteilt") {
+        if (herkunftNodeTyp === "beob_nicht_beurteilt") {
             // nicht beurteilt
-            if (ziel_node_typ === "beob_zugeordnet" || ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
+            if (zielNodeTyp === "beob_zugeordnet" || zielNodeTyp === "tpop_ordner_beob_zugeordnet") {
                 // nicht beurteilt > zugeordnet
-                neue_tpop_id = (ziel_node_typ === "tpop_ordner_beob_zugeordnet" ? ziel_node_id : ziel_parent_node_id);
+                neueTpopId = (zielNodeTyp === "tpop_ordner_beob_zugeordnet" ? zielNodeId : zielParentNodeId);
                 // Zuerst eine neue Zuordnung erstellen
                 $.ajax({
                     type: 'post',
-                    url: 'api/v1/insert/apflora/tabelle=tblBeobZuordnung/feld=NO_NOTE/wert=' + herkunft_node_id + '/user=' + sessionStorage.User
+                    url: 'api/v1/insert/apflora/tabelle=tblBeobZuordnung/feld=NO_NOTE/wert=' + herkunftNodeId + '/user=' + sessionStorage.user
                 }).done(function () {
                     // jetzt aktualisieren
                     $.ajax({
                         type: 'post',
-                        url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=TPopId/wert=' + neue_tpop_id + '/user=' + sessionStorage.User
+                        url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunftNodeId + '/feld=TPopId/wert=' + neueTpopId + '/user=' + sessionStorage.user
                     }).done(function () {
                         // typ des nodes anpassen
-                        herkunft_node.attr("typ", "beob_zugeordnet");
+                        herkunftNode.attr("typ", "beob_zugeordnet");
                         localStorage.beobtyp = "beob_zugeordnet";
 
                         // Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
-                        window.apf.beschrifte_ordner_beob_nicht_beurteilt(window.apf.herkunftParentNode);
-                        if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
-                            window.apf.beschrifteOrdnerBeobZugeordnet(ziel_node);
+                        window.apf.beschrifteOrdnerBeobNichtBeurteilt(window.apf.herkunftParentNode);
+                        if (zielNodeTyp === "tpop_ordner_beob_zugeordnet") {
+                            window.apf.beschrifteOrdnerBeobZugeordnet(zielNode);
                         } else {
-                            window.apf.beschrifteOrdnerBeobZugeordnet(ziel_parent_node);
+                            window.apf.beschrifteOrdnerBeobZugeordnet(zielParentNode);
                         }
 
                         // Nicht beurteilt: Deaktivieren
                         $('#BeobNichtBeurteilt').prop('checked', false);
 
                         // selection steuern
-                        if (localStorage.karte_fokussieren) {
-                            delete localStorage.karte_fokussieren;
+                        if (localStorage.karteFokussieren) {
+                            delete localStorage.karteFokussieren;
                         }
 
                         // Variablen aufräumen
@@ -511,27 +512,27 @@ module.exports = function (ApArtId) {
                     melde("Fehler: Die Beobachtung wurde nicht zugeordnet");
                 });
             }
-            if (ziel_node_typ === "beob_nicht_zuzuordnen" || ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
+            if (zielNodeTyp === "beob_nicht_zuzuordnen" || zielNodeTyp === "ap_ordner_beob_nicht_zuzuordnen") {
                 // nicht beurteilt > nicht zuordnen
                 $.ajax({
                     type: 'post',
-                    url: 'api/v1/insert/apflora/tabelle=tblBeobZuordnung/feld=NO_NOTE/wert=' + herkunft_node_id + '/user=' + sessionStorage.User
+                    url: 'api/v1/insert/apflora/tabelle=tblBeobZuordnung/feld=NO_NOTE/wert=' + herkunftNodeId + '/user=' + sessionStorage.user
                 }).done(function () {
                     // jetzt aktualisieren
                     $.ajax({
                         type: 'post',
-                        url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=BeobNichtZuordnen/wert=1/user=' + sessionStorage.User
+                        url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunftNodeId + '/feld=BeobNichtZuordnen/wert=1/user=' + sessionStorage.user
                     }).done(function () {
                         // typ des nodes anpassen
-                        $(herkunft_node).attr("typ", "beob_nicht_zuzuordnen");
+                        $(herkunftNode).attr("typ", "beob_nicht_zuzuordnen");
                         localStorage.beobtyp = "beob_nicht_zuzuordnen";
 
                         // Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
-                        window.apf.beschrifte_ordner_beob_nicht_beurteilt(window.apf.herkunftParentNode);
-                        if (ziel_node_typ === "ap_ordner_beob_nicht_zuzuordnen") {
-                            window.apf.beschrifteOrdnerBeobNichtNuzuordnen(ziel_node);
+                        window.apf.beschrifteOrdnerBeobNichtBeurteilt(window.apf.herkunftParentNode);
+                        if (zielNodeTyp === "ap_ordner_beob_nicht_zuzuordnen") {
+                            window.apf.beschrifteOrdnerBeobNichtNuzuordnen(zielNode);
                         } else {
-                            window.apf.beschrifteOrdnerBeobNichtNuzuordnen(ziel_parent_node);
+                            window.apf.beschrifteOrdnerBeobNichtNuzuordnen(zielParentNode);
                         }
 
                         // Nicht beurteilt: Deaktivieren
@@ -548,24 +549,24 @@ module.exports = function (ApArtId) {
                 });
             }
         }
-        if (herkunft_node_typ === "beob_nicht_zuzuordnen") {
+        if (herkunftNodeTyp === "beob_nicht_zuzuordnen") {
             // nicht zuzuordnen
-            if (ziel_node_typ === "beob_nicht_beurteilt" || ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
+            if (zielNodeTyp === "beob_nicht_beurteilt" || zielNodeTyp === "ap_ordner_beob_nicht_beurteilt") {
                 // nicht zuzuordnen > nicht beurteilt
                 $.ajax({
                     type: 'delete',
-                    url: 'api/v1/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id
+                    url: 'api/v1/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunftNodeId
                 }).done(function () {
                     // typ des nodes anpassen
-                    $(herkunft_node).attr("typ", "beob_nicht_beurteilt");
+                    $(herkunftNode).attr("typ", "beob_nicht_beurteilt");
                     localStorage.beobtyp = "beob_nicht_beurteilt";
 
                     // Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
                     window.apf.beschrifteOrdnerBeobNichtNuzuordnen(window.apf.herkunftParentNode);
-                    if (ziel_node_typ === "ap_ordner_beob_nicht_beurteilt") {
-                        window.apf.beschrifte_ordner_beob_nicht_beurteilt(ziel_node);
+                    if (zielNodeTyp === "ap_ordner_beob_nicht_beurteilt") {
+                        window.apf.beschrifteOrdnerBeobNichtBeurteilt(zielNode);
                     } else {
-                        window.apf.beschrifte_ordner_beob_nicht_beurteilt(ziel_parent_node);
+                        window.apf.beschrifteOrdnerBeobNichtBeurteilt(zielParentNode);
                     }
 
                     // nicht zuzuordnen deaktivieren
@@ -578,27 +579,27 @@ module.exports = function (ApArtId) {
                     melde("Fehler: Die Zuordnung der Beobachtung wurde nicht entfernt");
                 });
             }
-            if (ziel_node_typ === "beob_zugeordnet" || ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
+            if (zielNodeTyp === "beob_zugeordnet" || zielNodeTyp === "tpop_ordner_beob_zugeordnet") {
                 // nicht zuzuordnen > zugeordnet
-                var neue_tpop_id = (ziel_node_typ === "tpop_ordner_beob_zugeordnet" ? ziel_node_id : ziel_parent_node_id);
+                neueTpopId = (zielNodeTyp === "tpop_ordner_beob_zugeordnet" ? zielNodeId : zielParentNodeId);
                 $.ajax({
                     type: 'post',
-                    url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=BeobNichtZuordnen/wert=/user=' + sessionStorage.User
+                    url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunftNodeId + '/feld=BeobNichtZuordnen/wert=/user=' + sessionStorage.user
                 }).done(function () {
                     $.ajax({
                         type: 'post',
-                        url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunft_node_id + '/feld=TPopId/wert=' + neue_tpop_id + '/user=' + sessionStorage.User
+                        url: 'api/v1/update/apflora/tabelle=tblBeobZuordnung/tabelleIdFeld=NO_NOTE/tabelleId=' + herkunftNodeId + '/feld=TPopId/wert=' + neueTpopId + '/user=' + sessionStorage.user
                     }).done(function () {
                         // typ des nodes anpassen
-                        $(herkunft_node).attr("typ", "beob_zugeordnet");
+                        $(herkunftNode).attr("typ", "beob_zugeordnet");
                         localStorage.beobtyp = "beob_zugeordnet";
 
                         // Parent Node-Beschriftung am Herkunft- und Zielort: Anzahl anpassen
                         window.apf.beschrifteOrdnerBeobNichtNuzuordnen(window.apf.herkunftParentNode);
-                        if (ziel_node_typ === "tpop_ordner_beob_zugeordnet") {
-                            window.apf.beschrifteOrdnerBeobZugeordnet(ziel_node);
+                        if (zielNodeTyp === "tpop_ordner_beob_zugeordnet") {
+                            window.apf.beschrifteOrdnerBeobZugeordnet(zielNode);
                         } else {
-                            window.apf.beschrifteOrdnerBeobZugeordnet(ziel_parent_node);
+                            window.apf.beschrifteOrdnerBeobZugeordnet(zielParentNode);
                         }
 
                         // nicht zuzuordnen deaktivieren

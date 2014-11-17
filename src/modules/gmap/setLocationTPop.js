@@ -29,11 +29,11 @@ module.exports = function (latLng, map, marker, tpop) {
 
     $.ajax({
         type: 'post',
-        url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + localStorage.tpopId + '/feld=TPopXKoord/wert=' + X + '/user=' + sessionStorage.User
+        url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + localStorage.tpopId + '/feld=TPopXKoord/wert=' + X + '/user=' + sessionStorage.user
     }).done(function () {
         $.ajax({
             type: 'post',
-            url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + localStorage.tpopId + '/feld=TPopYKoord/wert=' + Y + '/user=' + sessionStorage.User
+            url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + localStorage.tpopId + '/feld=TPopYKoord/wert=' + Y + '/user=' + sessionStorage.user
         }).done(function () {
             window.apf.gmap.clearInfoWindows();
             contentString = '<div id="content">' +

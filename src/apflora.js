@@ -535,7 +535,7 @@ window.apf.erstelleTree = function (ApArtId) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_pop = function (node) {
+window.apf.beschrifteOrdnerPop = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "Populationen (" + anz + ")";
@@ -615,7 +615,7 @@ window.apf.beschrifte_ordner_assozarten = function (node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_tpop = function (node) {
+window.apf.beschrifteOrdnerTpop = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "Teilpopulationen (" + anz + ")";
@@ -651,7 +651,7 @@ window.apf.beschrifte_ordner_tpopmassnber = function (node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_tpopmassn = function (node) {
+window.apf.beschrifteOrdnerTpopmassn = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "Massnahmen (" + anz + ")";
@@ -669,7 +669,7 @@ window.apf.beschrifte_ordner_tpopber = function (node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_tpopfeldkontr = function (node) {
+window.apf.beschrifteOrdnerTpopfeldkontr = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "Feldkontrollen (" + anz + ")";
@@ -678,7 +678,7 @@ window.apf.beschrifte_ordner_tpopfeldkontr = function (node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_tpopfreiwkontr = function (node) {
+window.apf.beschrifteOrdnerTpopfreiwkontr = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "Freiwilligen-Kontrollen (" + anz + ")";
@@ -696,7 +696,7 @@ window.apf.beschrifteOrdnerBeobZugeordnet = function (node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_beob_nicht_beurteilt = function (node) {
+window.apf.beschrifteOrdnerBeobNichtBeurteilt = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "nicht beurteilte Beobachtungen (" + anz + ")";
@@ -720,7 +720,7 @@ window.apf.tpopKopiertInPopOrdnerTpopEinfügen = function (aktiverNode) {
 
     $.ajax({
         type: 'post',
-        url: 'api/v1/tpopInsertKopie/popId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopId=' + erstelleIdAusDomAttributId($(window.apf.tpop_node_kopiert).attr("id")) + '/user=' + sessionStorage.User
+        url: 'api/v1/tpopInsertKopie/popId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopId=' + erstelleIdAusDomAttributId($(window.apf.tpop_node_kopiert).attr("id")) + '/user=' + sessionStorage.user
     }).done(function (id) {
         var strukturtyp = "tpop",
             beschriftung = window.apf.tpopObjektKopiert.TPopFlurname;
@@ -872,11 +872,11 @@ window.apf.aktualisiereKoordinatenVonTPop = function (tpop) {
     // Datensatz updaten
     $.ajax({
         type: 'post',
-        url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + tpop.TPopId + '/feld=TPopXKoord/wert=' + tpop.TPopXKoord + '/user=' + sessionStorage.User
+        url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + tpop.TPopId + '/feld=TPopXKoord/wert=' + tpop.TPopXKoord + '/user=' + sessionStorage.user
     }).done(function () {
         $.ajax({
             type: 'post',
-            url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + tpop.TPopId + '/feld=TPopYKoord/wert=' + tpop.TPopYKoord + '/user=' + sessionStorage.User
+            url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + tpop.TPopId + '/feld=TPopYKoord/wert=' + tpop.TPopYKoord + '/user=' + sessionStorage.user
         }).done(function () {
             koord_aktualisiert.resolve();
         });
@@ -959,7 +959,7 @@ window.apf.speichereWert = function (tabelle, id, feld, wert) {
             "id": id,
             "Feld": feld,
             "Wert": wert,
-            "user": sessionStorage.User
+            "user": sessionStorage.user
         }
     }).fail(function () {
         melde("Fehler: Die letzte Änderung wurde nicht gespeichert");
@@ -1781,11 +1781,11 @@ window.apf.kopiereKoordinatenInPop = function (x_koord, y_koord) {
         // Koordinaten der Pop nachführen
         $.ajax({
             type: 'post',
-            url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + localStorage.popId + '/feld=PopXKoord/wert=' + x_koord + '/user=' + sessionStorage.User
+            url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + localStorage.popId + '/feld=PopXKoord/wert=' + x_koord + '/user=' + sessionStorage.user
         }).done(function () {
             $.ajax({
                 type: 'post',
-                url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + localStorage.popId + '/feld=PopYKoord/wert=' + y_koord + '/user=' + sessionStorage.User
+                url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + localStorage.popId + '/feld=PopYKoord/wert=' + y_koord + '/user=' + sessionStorage.user
             }).done(function () {
                 $("#kopiereKoordinatenInPopRueckmeldung").fadeIn('slow');
                 setTimeout(function () {

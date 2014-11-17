@@ -46,7 +46,7 @@ module.exports = function (markerBeob, Beob) {
                         Ja: function () {
                             $(this).dialog("close");
                             // dem bind.move_node mitteilen, dass das Formular nicht initiiert werden soll
-                            localStorage.karte_fokussieren = true;
+                            localStorage.karteFokussieren = true;
                             // Beob der TPop zuweisen
                             // TODO: Was ist, wenn diese Beobachtung im Baum nicht dargestellt wird????
                             $("#tree").jstree("move_node", "#beob" + Beob.NO_NOTE, "#tpop_ordner_beob_zugeordnet" + data[0].TPopId, "first");

@@ -47,7 +47,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertPop = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblPopulation/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblPopulation/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
                     });
                     insertPop.done(function (id) {
                         var strukturtyp = "pop",
@@ -110,7 +110,7 @@ var returnFunction = function (node) {
                     // db aktualisieren
                     var updatePop = $.ajax({
                         type: 'post',
-                        url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + window.apf.popId + '/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + window.apf.popId + '/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
                     });
                     updatePop.done(function () {
                         // Baum neu aufbauen
@@ -147,7 +147,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertApziel = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
                     });
                     insertApziel.done(function (id) {
                         var strukturtyp = "apziel",
@@ -179,7 +179,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertApziel_2 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.user
                     });
                     insertApziel_2.done(function (id) {
                         var strukturtyp = "apziel",
@@ -208,7 +208,7 @@ var returnFunction = function (node) {
                     grandparentNode = $.jstree._reference(parentNode)._get_parent(parentNode);
                     var insertApziel_3 = $.ajax( {
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(grandparentNode).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(grandparentNode).attr("id")) + '/user=' + sessionStorage.user
                     });
                     insertApziel_3.done(function (id) {
                         var strukturtyp = "apziel",
@@ -286,7 +286,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertZielber = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblZielBericht/feld=ZielId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblZielBericht/feld=ZielId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
                     });
                     insertZielber.done(function (id) {
                         var strukturtyp = "zielber",
@@ -307,7 +307,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertZielber_2 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblZielBericht/feld=ZielId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblZielBericht/feld=ZielId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.user
                     });
                     insertZielber_2.done(function (id) {
                         var strukturtyp = "zielber",
@@ -380,7 +380,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertErfkrit = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblErfKrit/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblErfKrit/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
                     });
                     insertErfkrit.done(function (id) {
                         var strukturtyp = "erfkrit",
@@ -401,7 +401,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertErfkrit_2 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblErfKrit/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblErfKrit/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.user
                     });
                     insertErfkrit_2.done(function (id) {
                         var strukturtyp = "erfkrit",
@@ -481,7 +481,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertJber = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblJBer/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblJBer/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
                     });
                     insertJber.done(function (id) {
                         var strukturtyp = "jber",
@@ -502,7 +502,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertJber_2 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblJBer/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblJBer/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.user
                     });
                     insertJber_2.done(function (id) {
                         var strukturtyp = "jber",
@@ -576,7 +576,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertJberUebersicht = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wert=' + $.jstree._reference(aktiverNode).get_text(aktiverNode) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wert=' + $.jstree._reference(aktiverNode).get_text(aktiverNode) + '/user=' + sessionStorage.user
                     });
                     insertJberUebersicht.done(function () {
                         var strukturtyp = "jber_uebersicht",
@@ -650,7 +650,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertBer = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblBer/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) +'/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblBer/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) +'/user=' + sessionStorage.user
                     });
                     insertBer.done(function (id) {
                         var strukturtyp = "ber",
@@ -671,7 +671,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertBer_2 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblBer/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) +'/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblBer/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) +'/user=' + sessionStorage.user
                     });
                     insertBer_2.done(function (id) {
                         var strukturtyp = "ber",
@@ -744,7 +744,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertAssozarten = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblAssozArten/feld=AaApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblAssozArten/feld=AaApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
                     });
                     insertAssozarten.done(function (id) {
                         var strukturtyp = "assozarten",
@@ -765,7 +765,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblAssozArten/feld=AaApArtId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblAssozArten/feld=AaApArtId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.user
                     }).done(function (id) {
                         var strukturtyp = "assozarten",
                             beschriftung = "neue assoziierte Art";
@@ -836,7 +836,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertPop_2 = $.ajax( {
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblPopulation/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblPopulation/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.user
                     });
                     insertPop_2.done(function (id) {
                         var strukturtyp = "pop",
@@ -885,7 +885,7 @@ var returnFunction = function (node) {
                                     delete window.apf.pop;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_pop(parentNode);
+                                    window.apf.beschrifteOrdnerPop(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Population '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -973,7 +973,7 @@ var returnFunction = function (node) {
                     // db aktualisieren
                     var updatePop_2 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + popid + '/feld=ApArtId/wert=' + apartid + '/user=' + sessionStorage.User
+                        url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + popid + '/feld=ApArtId/wert=' + apartid + '/user=' + sessionStorage.user
                     });
                     updatePop_2.done(function () {
                         // Baum wieder aufbauen
@@ -1010,7 +1010,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblTeilpopulation/feld=PopId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblTeilpopulation/feld=PopId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
                     }).done(function (id) {
                         var strukturtyp = "tpop",
                             beschriftung = "neue Teilpopulation";
@@ -1061,13 +1061,13 @@ var returnFunction = function (node) {
                 }
             }
         };
-        if (window.apf.tpop_node_ausgeschnitten) {
+        if (window.apf.tpopNodeAusgeschnitten) {
             items.einfuegen = {
-                "label": $.jstree._reference(window.apf.tpop_node_ausgeschnitten).get_text(window.apf.tpop_node_ausgeschnitten) + " einfügen",
+                "label": $.jstree._reference(window.apf.tpopNodeAusgeschnitten).get_text(window.apf.tpopNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $.jstree._reference(aktiverNode).move_node(window.apf.tpop_node_ausgeschnitten, aktiverNode, "first", false);
+                    $.jstree._reference(aktiverNode).move_node(window.apf.tpopNodeAusgeschnitten, aktiverNode, "first", false);
                 }
             };
         }
@@ -1110,7 +1110,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertTPop_2 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblTeilpopulation/feld=PopId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblTeilpopulation/feld=PopId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.user
                     });
                     insertTPop_2.done(function (id) {
                         var strukturtyp = "tpop",
@@ -1160,7 +1160,7 @@ var returnFunction = function (node) {
                                     delete window.apf.tpop;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_tpop(parentNode);
+                                    window.apf.beschrifteOrdnerTpop(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Teilpopulation '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -1254,7 +1254,7 @@ var returnFunction = function (node) {
                 }
             }
         };
-        if (!window.apf.tpop_node_ausgeschnitten) {
+        if (!window.apf.tpopNodeAusgeschnitten) {
             items.ausschneiden = {
                 //"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
                 "label": "ausschneiden",
@@ -1265,7 +1265,7 @@ var returnFunction = function (node) {
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
-                    window.apf.tpop_node_ausgeschnitten = aktiverNode;
+                    window.apf.tpopNodeAusgeschnitten = aktiverNode;
                     // es macht keinen Sinn mehr, den kopierten node zu behalten
                     // und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
                     delete window.apf.tpop_node_kopiert;
@@ -1273,7 +1273,7 @@ var returnFunction = function (node) {
                 }
             };
         }
-        if (!window.apf.tpop_node_ausgeschnitten) {
+        if (!window.apf.tpopNodeAusgeschnitten) {
             items.kopieren = {
                 "label": "kopieren",
                 "separator_before": true,
@@ -1320,13 +1320,13 @@ var returnFunction = function (node) {
                 }
             };
         }
-        if (window.apf.tpop_node_ausgeschnitten) {
+        if (window.apf.tpopNodeAusgeschnitten) {
             items.einfuegen = {
-                "label": $.jstree._reference(window.apf.tpop_node_ausgeschnitten).get_text(window.apf.tpop_node_ausgeschnitten) + " einfügen",
+                "label": $.jstree._reference(window.apf.tpopNodeAusgeschnitten).get_text(window.apf.tpopNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $.jstree._reference(parentNode).move_node(window.apf.tpop_node_ausgeschnitten, parentNode, "first", false);
+                    $.jstree._reference(parentNode).move_node(window.apf.tpopNodeAusgeschnitten, parentNode, "first", false);
                 }
             };
         }
@@ -1339,7 +1339,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertPopber = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblPopBericht/feld=PopId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblPopBericht/feld=PopId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
                     });
                     insertPopber.done(function (id) {
                         var strukturtyp = "popber",
@@ -1360,7 +1360,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertPopber_2 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblPopBericht/feld=PopId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblPopBericht/feld=PopId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.user
                     });
                     insertPopber_2.done(function (id) {
                         var strukturtyp = "popber",
@@ -1427,7 +1427,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertPopMassnBer = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblPopMassnBericht/feld=PopId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblPopMassnBericht/feld=PopId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
                     });
                     insertPopMassnBer.done(function (id) {
                         var strukturtyp = "popmassnber",
@@ -1448,7 +1448,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertPopMassnBer_2 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblPopMassnBericht/feld=PopId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblPopMassnBericht/feld=PopId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.user
                     });
                     insertPopMassnBer_2.done(function (id) {
                         var strukturtyp = "popmassnber",
@@ -1515,7 +1515,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertTPopFeldKontr = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/feldkontr/tpopId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopKontrtyp=tpopfeldkontr/user=' + sessionStorage.User
+                        url: 'api/v1/insert/feldkontr/tpopId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopKontrtyp=tpopfeldkontr/user=' + sessionStorage.user
                     });
                     insertTPopFeldKontr.done(function (id) {
                         var strukturtyp = "tpopfeldkontr",
@@ -1528,13 +1528,13 @@ var returnFunction = function (node) {
                 }
             }
         };
-        if (window.apf.tpopfeldkontr_node_ausgeschnitten) {
+        if (window.apf.tpopfeldkontrNodeAusgeschnitten) {
             items.einfuegen = {
-                "label": $.jstree._reference(window.apf.tpopfeldkontr_node_ausgeschnitten).get_text(window.apf.tpopfeldkontr_node_ausgeschnitten) + " einfügen",
+                "label": $.jstree._reference(window.apf.tpopfeldkontrNodeAusgeschnitten).get_text(window.apf.tpopfeldkontrNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $.jstree._reference(aktiverNode).move_node(window.apf.tpopfeldkontr_node_ausgeschnitten, aktiverNode, "first", false);
+                    $.jstree._reference(aktiverNode).move_node(window.apf.tpopfeldkontrNodeAusgeschnitten, aktiverNode, "first", false);
                 }
             };
         }
@@ -1547,7 +1547,7 @@ var returnFunction = function (node) {
                     // und an die DB schicken
                     $.ajax({
                         type: 'post',
-                        url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopKontrId=' + erstelleIdAusDomAttributId($(window.apf.tpopfeldkontr_node_kopiert).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopKontrId=' + erstelleIdAusDomAttributId($(window.apf.tpopfeldkontr_node_kopiert).attr("id")) + '/user=' + sessionStorage.user
                     }).done(function (id) {
                         var strukturtyp = "tpopfeldkontr",
                             beschriftung = window.apf.erstelleLabelFürFeldkontrolle(window.apf.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.apf.tpopfeldkontr_objekt_kopiert.TPopKontrTyp);
@@ -1567,7 +1567,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertTPopFeldKontr_2 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/feldkontr/tpopId=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/tpopKontrtyp=tpopfeldkontr/user=' + sessionStorage.User
+                        url: 'api/v1/insert/feldkontr/tpopId=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/tpopKontrtyp=tpopfeldkontr/user=' + sessionStorage.user
                     });
                     insertTPopFeldKontr_2.done(function (id) {
                         var strukturtyp = "tpopfeldkontr",
@@ -1610,7 +1610,7 @@ var returnFunction = function (node) {
                                     delete window.apf.tpopfeldkontr;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_tpopfeldkontr(parentNode);
+                                    window.apf.beschrifteOrdnerTpopfeldkontr(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Die Feldkontrolle '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -1709,7 +1709,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var data = {};
                     data.id = erstelleIdAusDomAttributId($(aktiverNode).attr("id"));
-                    data.user = sessionStorage.User;
+                    data.user = sessionStorage.user;
                     // nur aktualisieren, wenn Schreibrechte bestehen
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
@@ -1728,7 +1728,7 @@ var returnFunction = function (node) {
                 }
             };
         }
-        if (!window.apf.tpopfeldkontr_node_ausgeschnitten) {
+        if (!window.apf.tpopfeldkontrNodeAusgeschnitten) {
             items.ausschneiden = {
                 //"label": "Feldkontrolle ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
                 "label": "ausschneiden",
@@ -1739,7 +1739,7 @@ var returnFunction = function (node) {
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
-                    window.apf.tpopfeldkontr_node_ausgeschnitten = aktiverNode;
+                    window.apf.tpopfeldkontrNodeAusgeschnitten = aktiverNode;
                     // es macht keinen Sinn mehr, den kopierten node zu behalten
                     // und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
                     delete window.apf.tpopfeldkontr_node_kopiert;
@@ -1747,7 +1747,7 @@ var returnFunction = function (node) {
                 }
             };
         }
-        if (!window.apf.tpopfeldkontr_node_ausgeschnitten) {
+        if (!window.apf.tpopfeldkontrNodeAusgeschnitten) {
             items.kopieren = {
                 "label": "kopieren",
                 "separator_before": true,
@@ -1772,13 +1772,13 @@ var returnFunction = function (node) {
                 }
             };
         }
-        if (window.apf.tpopfeldkontr_node_ausgeschnitten) {
+        if (window.apf.tpopfeldkontrNodeAusgeschnitten) {
             items.einfuegen = {
-                "label": $.jstree._reference(window.apf.tpopfeldkontr_node_ausgeschnitten).get_text(window.apf.tpopfeldkontr_node_ausgeschnitten) + " einfügen",
+                "label": $.jstree._reference(window.apf.tpopfeldkontrNodeAusgeschnitten).get_text(window.apf.tpopfeldkontrNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $.jstree._reference(parentNode).move_node(window.apf.tpopfeldkontr_node_ausgeschnitten, parentNode, "first", false);
+                    $.jstree._reference(parentNode).move_node(window.apf.tpopfeldkontrNodeAusgeschnitten, parentNode, "first", false);
                 }
             };
         }
@@ -1791,7 +1791,7 @@ var returnFunction = function (node) {
                     // und an die DB schicken
                     $.ajax({
                         type: 'post',
-                        url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/tpopKontrId=' + erstelleIdAusDomAttributId($(window.apf.tpopfeldkontr_node_kopiert).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/tpopKontrId=' + erstelleIdAusDomAttributId($(window.apf.tpopfeldkontr_node_kopiert).attr("id")) + '/user=' + sessionStorage.user
                     }).done(function (id) {
                         var strukturtyp = "tpopfeldkontr",
                             beschriftung = window.apf.erstelleLabelFürFeldkontrolle(window.apf.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.apf.tpopfeldkontr_objekt_kopiert.TPopKontrTyp);
@@ -1811,7 +1811,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertTPopFeldKontr_3 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/feldkontr/tpopId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopKontrtyp=tpopfreiwkontr/user=' + sessionStorage.User
+                        url: 'api/v1/insert/feldkontr/tpopId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopKontrtyp=tpopfreiwkontr/user=' + sessionStorage.user
                     });
                     insertTPopFeldKontr_3.done(function (id) {
                         var strukturtyp = "tpopfreiwkontr",
@@ -1824,13 +1824,13 @@ var returnFunction = function (node) {
                 }
             }
         };
-        if (window.apf.tpopfreiwkontr_node_ausgeschnitten) {
+        if (window.apf.tpopfreiwkontrNodeAusgeschnitten) {
             items.einfuegen = {
-                "label": $.jstree._reference(window.apf.tpopfreiwkontr_node_ausgeschnitten).get_text(window.apf.tpopfreiwkontr_node_ausgeschnitten) + " einfügen",
+                "label": $.jstree._reference(window.apf.tpopfreiwkontrNodeAusgeschnitten).get_text(window.apf.tpopfreiwkontrNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $.jstree._reference(aktiverNode).move_node(window.apf.tpopfreiwkontr_node_ausgeschnitten, aktiverNode, "first", false);
+                    $.jstree._reference(aktiverNode).move_node(window.apf.tpopfreiwkontrNodeAusgeschnitten, aktiverNode, "first", false);
                 }
             }
         }
@@ -1843,7 +1843,7 @@ var returnFunction = function (node) {
                     // und an die DB schicken
                     $.ajax({
                         type: 'post',
-                        url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopKontrId=' + erstelleIdAusDomAttributId($(window.apf.tpopfreiwkontr_node_kopiert).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopKontrId=' + erstelleIdAusDomAttributId($(window.apf.tpopfreiwkontr_node_kopiert).attr("id")) + '/user=' + sessionStorage.user
                     }).done(function (id) {
                         var strukturtyp = "tpopfreiwkontr",
                             beschriftung = window.apf.tpopfreiwkontr_objekt_kopiert.TPopKontrJahr;
@@ -1863,7 +1863,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertTPopFeldKontr_4 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/feldkontr/tpopId=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/tpopKontrtyp=tpopfreiwkontr/user=' + sessionStorage.User
+                        url: 'api/v1/insert/feldkontr/tpopId=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/tpopKontrtyp=tpopfreiwkontr/user=' + sessionStorage.user
                     });
                     insertTPopFeldKontr_4.done(function (id) {
                         var strukturtyp = "tpopfreiwkontr",
@@ -1907,7 +1907,7 @@ var returnFunction = function (node) {
                                     delete window.apf.tpopfeldkontr;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_tpopfreiwkontr(parentNode);
+                                    window.apf.beschrifteOrdnerTpopfreiwkontr(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Die Freiwilligen-Kontrolle '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -1923,7 +1923,7 @@ var returnFunction = function (node) {
                 }
             }
         };
-        if (!window.apf.tpopfreiwkontr_node_ausgeschnitten) {
+        if (!window.apf.tpopfreiwkontrNodeAusgeschnitten) {
             items.ausschneiden = {
                 //"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
                 "label": "ausschneiden",
@@ -1934,7 +1934,7 @@ var returnFunction = function (node) {
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
-                    window.apf.tpopfreiwkontr_node_ausgeschnitten = aktiverNode;
+                    window.apf.tpopfreiwkontrNodeAusgeschnitten = aktiverNode;
                     // es macht keinen Sinn mehr, den kopierten node zu behalten
                     // und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
                     delete window.apf.tpopfreiwkontr_node_kopiert;
@@ -1942,7 +1942,7 @@ var returnFunction = function (node) {
                 }
             };
         }
-        if (!window.apf.tpopfreiwkontr_node_ausgeschnitten) {
+        if (!window.apf.tpopfreiwkontrNodeAusgeschnitten) {
             items.kopieren = {
                 "label": "kopieren",
                 "separator_before": true,
@@ -1967,13 +1967,13 @@ var returnFunction = function (node) {
                 }
             };
         }
-        if (window.apf.tpopfreiwkontr_node_ausgeschnitten) {
+        if (window.apf.tpopfreiwkontrNodeAusgeschnitten) {
             items.einfuegen = {
-                "label": $.jstree._reference(window.apf.tpopfreiwkontr_node_ausgeschnitten).get_text(window.apf.tpopfreiwkontr_node_ausgeschnitten) + " einfügen",
+                "label": $.jstree._reference(window.apf.tpopfreiwkontrNodeAusgeschnitten).get_text(window.apf.tpopfreiwkontrNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $.jstree._reference(parentNode).move_node(window.apf.tpopfreiwkontr_node_ausgeschnitten, parentNode, "first", false);
+                    $.jstree._reference(parentNode).move_node(window.apf.tpopfreiwkontrNodeAusgeschnitten, parentNode, "first", false);
                     localStorage.tpopfreiwkontr = true;
                 }
             };
@@ -1986,7 +1986,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     $.ajax({
                         type: 'post',
-                        url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/tpopKontrId=' + erstelleIdAusDomAttributId($(window.apf.tpopfreiwkontr_node_kopiert).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/tpopKontrId=' + erstelleIdAusDomAttributId($(window.apf.tpopfreiwkontr_node_kopiert).attr("id")) + '/user=' + sessionStorage.user
                     }).done(function (id) {
                         var strukturtyp = "tpopfreiwkontr",
                             beschriftung = window.apf.tpopfreiwkontr_objekt_kopiert.TPopKontrJahr;
@@ -2006,7 +2006,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertTPopMassn = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopMassnahme/feld=TPopId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopMassnahme/feld=TPopId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
                     });
                     insertTPopMassn.done(function (id) {
                         var strukturtyp = "tpopmassn",
@@ -2019,13 +2019,13 @@ var returnFunction = function (node) {
                 }
             }
         };
-        if (window.apf.tpopmassn_node_ausgeschnitten) {
+        if (window.apf.tpopmassnNodeAusgeschnitten) {
             items.einfuegen = {
-                "label": $.jstree._reference(window.apf.tpopmassn_node_ausgeschnitten).get_text(window.apf.tpopmassn_node_ausgeschnitten) + " einfügen",
+                "label": $.jstree._reference(window.apf.tpopmassnNodeAusgeschnitten).get_text(window.apf.tpopmassnNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $.jstree._reference(aktiverNode).move_node(window.apf.tpopmassn_node_ausgeschnitten, aktiverNode, "first", false);
+                    $.jstree._reference(aktiverNode).move_node(window.apf.tpopmassnNodeAusgeschnitten, aktiverNode, "first", false);
                 }
             };
         }
@@ -2037,7 +2037,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertTPopMassnKopie = $.ajax({
                         type: 'post',
-                        url: 'api/v1/tpopmassnInsertKopie/tpopId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopMassnId=' + erstelleIdAusDomAttributId($(window.apf.tpopmassn_node_kopiert).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/tpopmassnInsertKopie/tpopId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopMassnId=' + erstelleIdAusDomAttributId($(window.apf.tpopmassn_node_kopiert).attr("id")) + '/user=' + sessionStorage.user
                     });
                     insertTPopMassnKopie.done(function (id) {
                         var strukturtyp = "tpopmassn",
@@ -2059,7 +2059,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertTPopMassn_2 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopMassnahme/feld=TPopId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopMassnahme/feld=TPopId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.user
                     });
                     insertTPopMassn_2.done(function (id) {
                         var strukturtyp = "tpopmassn",
@@ -2102,7 +2102,7 @@ var returnFunction = function (node) {
                                     delete window.apf.tpopmassn;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_tpopmassn(parentNode);
+                                    window.apf.beschrifteOrdnerTpopmassn(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Die Massnahme '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -2118,7 +2118,7 @@ var returnFunction = function (node) {
                 }
             }
         };
-        if (!window.apf.tpopmassn_node_ausgeschnitten) {
+        if (!window.apf.tpopmassnNodeAusgeschnitten) {
             items.ausschneiden = {
                 //"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
                 "label": "ausschneiden",
@@ -2129,7 +2129,7 @@ var returnFunction = function (node) {
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
-                    window.apf.tpopmassn_node_ausgeschnitten = aktiverNode;
+                    window.apf.tpopmassnNodeAusgeschnitten = aktiverNode;
                     // es macht keinen Sinn mehr, den kopierten node zu behalten
                     // und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
                     delete window.apf.tpopmassn_node_kopiert;
@@ -2137,7 +2137,7 @@ var returnFunction = function (node) {
                 }
             };
         }
-        if (!window.apf.tpopmassn_node_ausgeschnitten) {
+        if (!window.apf.tpopmassnNodeAusgeschnitten) {
             items.kopieren = {
                 "label": "kopieren",
                 "separator_before": true,
@@ -2170,13 +2170,13 @@ var returnFunction = function (node) {
                 }
             };
         }
-        if (window.apf.tpopmassn_node_ausgeschnitten) {
+        if (window.apf.tpopmassnNodeAusgeschnitten) {
             items.einfuegen = {
-                "label": $.jstree._reference(window.apf.tpopmassn_node_ausgeschnitten).get_text(window.apf.tpopmassn_node_ausgeschnitten) + " einfügen",
+                "label": $.jstree._reference(window.apf.tpopmassnNodeAusgeschnitten).get_text(window.apf.tpopmassnNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $.jstree._reference(parentNode).move_node(window.apf.tpopmassn_node_ausgeschnitten, parentNode, "first", false);
+                    $.jstree._reference(parentNode).move_node(window.apf.tpopmassnNodeAusgeschnitten, parentNode, "first", false);
                 }
             };
         }
@@ -2188,7 +2188,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertTPopMassnKopie_2 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/tpopmassnInsertKopie/tpopId=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/tpopMassnId=' + erstelleIdAusDomAttributId($(window.apf.tpopmassn_node_kopiert).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/tpopmassnInsertKopie/tpopId=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/tpopMassnId=' + erstelleIdAusDomAttributId($(window.apf.tpopmassn_node_kopiert).attr("id")) + '/user=' + sessionStorage.user
                     });
                     insertTPopMassnKopie_2.done(function (id) {
                         var strukturtyp = "tpopmassn",
@@ -2210,7 +2210,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertTPopBer = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopBericht/feld=TPopId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopBericht/feld=TPopId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
                     });
                     insertTPopBer.done(function (id) {
                         var strukturtyp = "tpopber",
@@ -2231,7 +2231,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertTPopBer_2 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopBericht/feld=TPopId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopBericht/feld=TPopId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.user
                     });
                     insertTPopBer_2.done(function (id) {
                         var strukturtyp = "tpopber",
@@ -2313,14 +2313,14 @@ var returnFunction = function (node) {
                 }
             }
         };
-        if (window.apf.beob_zugeordnet_node_ausgeschnitten) {
+        if (window.apf.beobZugeordnetNodeAusgeschnitten) {
             items = {};
             items.einfuegen = {
-                "label": $.jstree._reference(window.apf.beob_zugeordnet_node_ausgeschnitten).get_text(window.apf.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
+                "label": $.jstree._reference(window.apf.beobZugeordnetNodeAusgeschnitten).get_text(window.apf.beobZugeordnetNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $.jstree._reference(aktiverNode).move_node(window.apf.beob_zugeordnet_node_ausgeschnitten, aktiverNode, "first", false);
+                    $.jstree._reference(aktiverNode).move_node(window.apf.beobZugeordnetNodeAusgeschnitten, aktiverNode, "first", false);
                 }
             };
         }
@@ -2397,7 +2397,7 @@ var returnFunction = function (node) {
                 }
             }
         };
-        if (!window.apf.beob_zugeordnet_node_ausgeschnitten) {
+        if (!window.apf.beobZugeordnetNodeAusgeschnitten) {
             items.ausschneiden = {
                 //"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
                 "label": "ausschneiden",
@@ -2408,17 +2408,17 @@ var returnFunction = function (node) {
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
-                    window.apf.beob_zugeordnet_node_ausgeschnitten = aktiverNode;
+                    window.apf.beobZugeordnetNodeAusgeschnitten = aktiverNode;
                 }
             };
         }
-        if (window.apf.beob_zugeordnet_node_ausgeschnitten) {
+        if (window.apf.beobZugeordnetNodeAusgeschnitten) {
             items.einfuegen_beob_zugeordnet = {
-                "label": $.jstree._reference(window.apf.beob_zugeordnet_node_ausgeschnitten).get_text(window.apf.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
+                "label": $.jstree._reference(window.apf.beobZugeordnetNodeAusgeschnitten).get_text(window.apf.beobZugeordnetNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $.jstree._reference(parentNode).move_node(window.apf.beob_zugeordnet_node_ausgeschnitten, parentNode, "first", false);
+                    $.jstree._reference(parentNode).move_node(window.apf.beobZugeordnetNodeAusgeschnitten, parentNode, "first", false);
                 }
             };
         }
@@ -2441,7 +2441,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertTPopMassnBer = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopMassnBericht/feld=TPopId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopMassnBericht/feld=TPopId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
                     });
                     insertTPopMassnBer.done(function (id) {
                         var strukturtyp = "tpopmassnber",
@@ -2462,7 +2462,7 @@ var returnFunction = function (node) {
                 "action": function () {
                     var insertTPopMassBer_2 = $.ajax({
                         type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopMassnBericht/feld=TPopId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.User
+                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopMassnBericht/feld=TPopId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.user
                     });
                     insertTPopMassBer_2.done(function (id) {
                         var strukturtyp = "tpopmassnber",
@@ -2574,13 +2574,13 @@ var returnFunction = function (node) {
                 }
             }
         };
-        if (window.apf.beob_zugeordnet_node_ausgeschnitten) {
+        if (window.apf.beobZugeordnetNodeAusgeschnitten) {
             items.einfuegen = {
-                "label": $.jstree._reference(window.apf.beob_zugeordnet_node_ausgeschnitten).get_text(window.apf.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
+                "label": $.jstree._reference(window.apf.beobZugeordnetNodeAusgeschnitten).get_text(window.apf.beobZugeordnetNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $("#tree").jstree("move_node", window.apf.beob_zugeordnet_node_ausgeschnitten, aktiverNode, "first");
+                    $("#tree").jstree("move_node", window.apf.beobZugeordnetNodeAusgeschnitten, aktiverNode, "first");
                 }
             };
         }
@@ -2663,13 +2663,13 @@ var returnFunction = function (node) {
                 }
             };
         }
-        if (window.apf.beob_zugeordnet_node_ausgeschnitten) {
+        if (window.apf.beobZugeordnetNodeAusgeschnitten) {
             items.einfuegen = {
-                "label": $.jstree._reference(window.apf.beob_zugeordnet_node_ausgeschnitten).get_text(window.apf.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
+                "label": $.jstree._reference(window.apf.beobZugeordnetNodeAusgeschnitten).get_text(window.apf.beobZugeordnetNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $("#tree").jstree("move_node", window.apf.beob_zugeordnet_node_ausgeschnitten, parentNode, "first");
+                    $("#tree").jstree("move_node", window.apf.beobZugeordnetNodeAusgeschnitten, parentNode, "first");
                 }
             };
         }
@@ -2697,13 +2697,13 @@ var returnFunction = function (node) {
                 }
             }
         };
-        if (window.apf.beob_zugeordnet_node_ausgeschnitten) {
+        if (window.apf.beobZugeordnetNodeAusgeschnitten) {
             items.einfuegen = {
-                "label": $.jstree._reference(window.apf.beob_zugeordnet_node_ausgeschnitten).get_text(window.apf.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
+                "label": $.jstree._reference(window.apf.beobZugeordnetNodeAusgeschnitten).get_text(window.apf.beobZugeordnetNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $("#tree").jstree("move_node", window.apf.beob_zugeordnet_node_ausgeschnitten, aktiverNode, "first");
+                    $("#tree").jstree("move_node", window.apf.beobZugeordnetNodeAusgeschnitten, aktiverNode, "first");
                 }
             };
         }
@@ -2755,13 +2755,13 @@ var returnFunction = function (node) {
                 }
             };
         }
-        if (window.apf.beob_zugeordnet_node_ausgeschnitten) {
+        if (window.apf.beobZugeordnetNodeAusgeschnitten) {
             items.einfuegen = {
-                "label": $.jstree._reference(window.apf.beob_zugeordnet_node_ausgeschnitten).get_text(window.apf.beob_zugeordnet_node_ausgeschnitten) + " einfügen",
+                "label": $.jstree._reference(window.apf.beobZugeordnetNodeAusgeschnitten).get_text(window.apf.beobZugeordnetNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    $("#tree").jstree("move_node", window.apf.beob_zugeordnet_node_ausgeschnitten, parentNode, "first");
+                    $("#tree").jstree("move_node", window.apf.beobZugeordnetNodeAusgeschnitten, parentNode, "first");
                 }
             };
         }

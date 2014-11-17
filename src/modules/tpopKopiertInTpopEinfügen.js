@@ -21,7 +21,7 @@ module.exports = function (aktiverNode, parentNode) {
         parentNode = $.jstree._reference(aktiverNode)._get_parent(aktiverNode);
     }
     // User und neue PopId mitgeben
-    data.MutWer = sessionStorage.User;
+    data.MutWer = sessionStorage.user;
     data.PopId  = erstelleIdAusDomAttributId($(parentNode).attr("id"));
     // die alten id's entfernen
     delete window.apf.tpopObjektKopiert.PopId;

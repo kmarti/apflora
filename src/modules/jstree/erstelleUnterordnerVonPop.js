@@ -5,9 +5,8 @@
 'use strict';
 
 var $ = require('jquery');
-$.jstree = require('jquery.jstree');
 
-var returnFunction = function (popNode, popId) {
+module.exports = function (popNode, popId) {
     $.jstree._reference(popNode).create_node(popNode, "last", {
         "data": "Teilpopulationen",
         "attr": {
@@ -30,5 +29,3 @@ var returnFunction = function (popNode, popId) {
         }
     });
 };
-
-module.exports = returnFunction;

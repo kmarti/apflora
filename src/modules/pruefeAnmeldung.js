@@ -17,7 +17,7 @@ module.exports = function () {
             url: 'api/v1/anmeldung/name=' + $anmeldung_name + '/pwd=' + $anmeldung_passwort
         }).done(function (data) {
             if (data && data.length > 0) {
-                sessionStorage.User = $anmeldung_name;
+                sessionStorage.user = $anmeldung_name;
                 // wenn NurLesen, globale Variable setzen
                 if (data[0].NurLesen === -1) {
                     sessionStorage.NurLesen = true;
