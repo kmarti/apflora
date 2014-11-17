@@ -3,14 +3,15 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $ = require('jquery');
+var $                               = require('jquery'),
+    initiiereFormularMitStrukturtyp = require('../initiiereFormularMitStrukturtyp'),
+    erstelleUnterordnerVonTpop      = require('./erstelleUnterordnerVonTpop'),
+    erstelleUnterordnerVonPop       = require('./erstelleUnterordnerVonPop');
 
 var returnFunction = function (aktiverNode, parentNode, strukturtyp, dsId, beschriftung) {
     var neuerNode,
-        grandparentNode,
-        initiiereFormularMitStrukturtyp = require('../initiiereFormularMitStrukturtyp'),
-        erstelleUnterordnerVonTpop      = require('./erstelleUnterordnerVonTpop'),
-        erstelleUnterordnerVonPop       = require('./erstelleUnterordnerVonPop');
+        grandparentNode;
+
     // id global verfügbar machen
     localStorage[strukturtyp + "Id"] = dsId;
     // letzte globale Variable entfernen

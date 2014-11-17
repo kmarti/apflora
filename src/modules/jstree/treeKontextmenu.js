@@ -261,7 +261,7 @@ var returnFunction = function (node) {
                                     window.apf.beschrifte_ordner_apziel(grandparentNode);
                                     // parent Node-Beschriftung: Anzahl anpassen
                                     if ($.jstree._reference(parentNode).get_text(parentNode) !== "neue AP-Ziele") {
-                                        window.apf.beschrifte_ordner_apzieljahr(parentNode);
+                                        window.apf.beschrifteOrdnerApzieljahr(parentNode);
                                     }
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Das AP-Ziel '" + bezeichnung + "' wurde gelöscht.");
