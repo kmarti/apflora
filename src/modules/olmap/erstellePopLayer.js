@@ -1,5 +1,5 @@
 // übernimmt drei Variablen: popliste ist das Objekt mit den Populationen
-// popid_markiert der Array mit den ausgewählten Pop
+// popidMarkiert der Array mit den ausgewählten Pop
 // visible: Ob die Ebene sichtbar geschaltet wird (oder bloss im Layertree verfügbar ist)
 
 /*jslint node: true, browser: true, nomen: true, todo: true */
@@ -9,7 +9,7 @@ var $  = require('jquery'),
     _  = require('underscore'),
     ol = require('ol');
 
-var returnFunction = function (popliste, popid_markiert, visible) {
+var returnFunction = function (popliste, popidMarkiert, visible) {
     var pop_layer_erstellt = $.Deferred(),
         markers = [],
         marker,
@@ -20,9 +20,9 @@ var returnFunction = function (popliste, popid_markiert, visible) {
         selected_features,
         stylePop = require('./stylePop');
 
-    if (window.apf.olmap.map && window.apf.olmap.map.olmap_select_interaction && popid_markiert) {
+    if (window.apf.olmap.map && window.apf.olmap.map.olmap_select_interaction && popidMarkiert) {
         selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
-    } else if (popid_markiert) {
+    } else if (popidMarkiert) {
         window.apf.olmap.addSelectFeaturesInSelectableLayers();
         selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
     }
@@ -57,7 +57,7 @@ var returnFunction = function (popliste, popid_markiert, visible) {
         markers.push(marker);
 
         // markierte in window.apf.olmap.map.olmap_select_interaction ergänzen
-        if (popid_markiert && popid_markiert.indexOf(pop.PopId) !== -1) {
+        if (popidMarkiert && popidMarkiert.indexOf(pop.PopId) !== -1) {
             selected_features.push(marker);
         }
     });

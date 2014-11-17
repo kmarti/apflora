@@ -55,8 +55,8 @@ module.exports = function (popSelected, tpopSelected) {
         rueckmeldung += "<table>";
         _.each(tpopSelected, function (tpop) {
             tpopId        = tpop.get('myId');
-            rueckmeldung += '<tr><td><a href="#" onclick="window.apf.öffneTPopInNeuemTab(\'' + tpopId + '\')">';
-            rueckmeldung += tpop.get('tpop_nr_label') + ':<\/a></td><td><a href="#" onclick="window.apf.öffneTPopInNeuemTab(\'' + tpopId + '\')">';
+            rueckmeldung += '<tr><td><a href="#" onclick="window.apf.oeffneTPopInNeuemTab(\'' + tpopId + '\')">';
+            rueckmeldung += tpop.get('tpop_nr_label') + ':<\/a></td><td><a href="#" onclick="window.apf.oeffneTPopInNeuemTab(\'' + tpopId + '\')">';
             rueckmeldung += tpop.get('tpop_name') + "<\/a></td></tr>";
         });
         rueckmeldung += "</table>";
@@ -72,13 +72,13 @@ module.exports = function (popSelected, tpopSelected) {
     exportierenPop = "<a href='#' class='export_pop'>Populationen</a>";
     exportierenTPop = "<a href='#' class='export_tpop'>Teilpopulationen</a>, <a href='#' class='export_kontr'>Kontrollen</a>, <a href='#' class='export_massn'>Massnahmen</a>";
     if (popSelected.length > 0 && tpopSelected.length > 0) {
-        listentitel = "Gewählt wurden " + popSelected.length + " Populationen und " + tpopSelected.length + " Teilpopulationen";
+        listentitel  = "Gewählt wurden " + popSelected.length + " Populationen und " + tpopSelected.length + " Teilpopulationen";
         exportieren += exportierenPop + ", " + exportierenTPop;
     } else if (popSelected.length > 0) {
-        listentitel = "Gewählt wurden " + popSelected.length + " Populationen:";
+        listentitel  = "Gewählt wurden " + popSelected.length + " Populationen:";
         exportieren += exportierenPop;
     } else if (tpopSelected.length > 0) {
-        listentitel = "Gewählt wurden " + tpopSelected.length + " Teilpopulationen:";
+        listentitel  = "Gewählt wurden " + tpopSelected.length + " Teilpopulationen:";
         exportieren += exportierenTPop;
     } else {
         listentitel = "Keine Populationen/Teilpopulationen gewählt";

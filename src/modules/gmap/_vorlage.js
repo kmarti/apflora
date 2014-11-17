@@ -5,7 +5,6 @@ var $      = require('jquery'),
     google = require('google');
 
 var returnFunction = function () {
-    /*global Google*/
     
 };
 

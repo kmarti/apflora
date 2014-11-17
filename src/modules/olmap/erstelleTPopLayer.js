@@ -1,5 +1,5 @@
 // nimmt drei Variablen entgegen:
-// tpop_liste: Die Liste der darzustellenden Teilpopulationen
+// tpopListe: Die Liste der darzustellenden Teilpopulationen
 // tpopid_markiert: die ID der zu markierenden TPop
 // visible: Ob das Layer sichtbar sein soll
 
@@ -10,7 +10,7 @@ var $  = require('jquery'),
     _  = require('underscore'),
     ol = require('ol');
 
-var returnFunction = function (tpop_liste, tpopid_markiert, visible) {
+var returnFunction = function (tpopListe, tpopid_markiert, visible) {
     var tpop_layer_erstellt = $.Deferred(),
         tpop_layer,
         markers = [],
@@ -29,7 +29,7 @@ var returnFunction = function (tpop_liste, tpopid_markiert, visible) {
         visible = true;
     }
 
-    _.each(tpop_liste, function (tpop) {
+    _.each(tpopListe, function (tpop) {
         // marker erstellen...
         marker = window.apf.olmap.erstelleMarkerFürTPopLayer(tpop);
 

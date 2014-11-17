@@ -395,13 +395,13 @@ window.apf.setzeTreehoehe = function () {
     }
 };
 
-window.apf.setzeKartenhöhe = function () {
+window.apf.setzeKartenhoehe = function () {
     'use strict';
     var lyt_max_height = window.apf.berechneOlmapLayertreeMaxhöhe,
         forms_height,
         max_width;
     // Formulare sind unbegrenzt hoch aber Karten sollen das nicht sein
-    if (window.apf.kartenhöhe_manuell) {
+    if (window.apf.kartenhoeheManuell) {
         forms_height = $(window).height() - 17;
         max_width = $("#forms").width();
         // resizable neu rechnen lassen, sonst bleibt ga_karten_div in falscher Grösse
@@ -968,16 +968,16 @@ window.apf.speichereWert = function (tabelle, id, feld, wert) {
 
 window.apf.olmap.erstelleContentFuerTPop = function (tpop) {
     'use strict';
-    var my_flurname = tpop.TPopFlurname || '(kein Flurname)';
+    var myFlurname = tpop.TPopFlurname || '(kein Flurname)';
     return '<table>' +
         '<tr><td><p>Typ:</p></td><td><p>Teilpopulation</p></td></tr>' +
         '<tr><td><p>Population:</p></td><td><p>' + tpop.PopName + '</p></td></tr>' +
-        '<tr><td><p>Teilpopulation:</p></td><td><p>' + my_flurname + '</p></td></tr>' +
+        '<tr><td><p>Teilpopulation:</p></td><td><p>' + myFlurname + '</p></td></tr>' +
         '<tr><td><p>Koordinaten:</p></td><td><p>' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p></td></tr>' +
         '</table>' +
-        '<p><a href="#" onclick="window.apf.öffneTPop(\'' + tpop.TPopId + '\')">Formular anstelle Karte öffnen<\/a></p>' +
-        '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')">Formular neben der Karte öffnen<\/a></p>' +
-        '<p><a href="#" onclick="window.apf.öffneTPopInNeuemTab(\'' + tpop.TPopId + '\')">Formular in neuem Fenster öffnen<\/a></p>';
+        '<p><a href="#" onclick="window.apf.oeffneTPop(\'' + tpop.TPopId + '\')">Formular anstelle Karte öffnen<\/a></p>' +
+        '<p><a href="#" onclick="window.apf.oeffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')">Formular neben der Karte öffnen<\/a></p>' +
+        '<p><a href="#" onclick="window.apf.oeffneTPopInNeuemTab(\'' + tpop.TPopId + '\')">Formular in neuem Fenster öffnen<\/a></p>';
 };
 
 // retourniert features
@@ -1029,7 +1029,7 @@ window.apf.olmap.erstelleContentFuerPop = function (pop) {
         '<tr><td><p>Koordinaten:</p></td><td><p>' + pop.PopXKoord + ' / ' + pop.PopYKoord + '</p></td></tr>' +
         '</table>' +
         '<p><a href="#" onclick="window.apf.öffnePop(\'' + pop.PopId + '\')">Formular anstelle Karte öffnen<\/a></p>' +
-        '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'pop\', ' + pop.PopId + ')">Formular neben der Karte öffnen<\/a></p>' +
+        '<p><a href="#" onclick="window.apf.oeffneFormularAlsPopup(\'pop\', ' + pop.PopId + ')">Formular neben der Karte öffnen<\/a></p>' +
         '<p><a href="#" onclick="window.apf.öffnePopInNeuemTab(\'' + pop.PopId + '\')">Formular in neuem Fenster öffnen<\/a></p>';
 };
 
@@ -1114,7 +1114,7 @@ window.apf.olmap.onFeatureUnselect = function (feature) {
 // benutzt wo in GoogleMaps Marker gesetzt und verschoben werden
 window.apf.gmap.clearMarkers = function () {
     'use strict';
-    _.each(window.apf.gmap.markers_array, function (marker) {
+    _.each(window.apf.gmap.markersArray, function (marker) {
         marker.setMap(null);
     });
 };
@@ -1128,14 +1128,14 @@ window.apf.gmap.clearInfoWindows = function () {
     });
 };
 
-window.apf.öffneTPop = function (tpopId) {
+window.apf.oeffneTPop = function (tpopId) {
     'use strict';
     localStorage.tpopId = tpopId;
     $.jstree._reference("[typ='tpop']#" + tpopId).deselect_all();
     $("#tree").jstree("select_node", "[typ='tpop']#" + tpopId);
 };
 
-window.apf.öffneTPopInNeuemTab = function (tpopId) {
+window.apf.oeffneTPopInNeuemTab = function (tpopId) {
     'use strict';
     window.open("index.html?ap=" + localStorage.apId + "&pop=" + localStorage.popId + "&tpop=" + tpopId, "_blank");
 };
@@ -1153,14 +1153,14 @@ window.apf.öffnePopInNeuemTab = function (popId) {
     window.open("index.html?ap=" + localStorage.apId + "&pop=" + popId, "_blank");
 };
 
-window.apf.öffneBeob = function (beobId) {
+window.apf.oeffneBeob = function (beobId) {
     'use strict';
     localStorage.beobId = beobId;
     $.jstree._reference("[typ='beob_nicht_beurteilt']#beob" + beobId).deselect_all();
     $("#tree").jstree("select_node", "[typ='beob_nicht_beurteilt']#beob" + beobId);
 };
 
-window.apf.öffneBeobInNeuemTab = function (beobId) {
+window.apf.oeffneBeobInNeuemTab = function (beobId) {
     'use strict';
     window.open("index.html?ap="+localStorage.apId + "&beob_nicht_beurteilt=" + beobId, "_blank");
 };
@@ -1623,7 +1623,7 @@ window.apf.olmap.initiiereLayertree = function (active_kategorie) {
 };
 
 // wird in index.html verwendet
-window.apf.öffneFormularAlsPopup = function (formularname, id) {
+window.apf.oeffneFormularAlsPopup = function (formularname, id) {
     require('./modules/oeffneFormularAlsPopup')(formularname, id);
 };
 

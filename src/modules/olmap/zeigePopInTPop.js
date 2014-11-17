@@ -1,21 +1,21 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $     = require('jquery'),
-    ol    = require('ol'),
-    melde = require('../melde');
+var $                  = require('jquery'),
+    ol                 = require('ol'),
+    melde              = require('../melde'),
+    initiiereLayertree = require('./initiiereLayertree'),
+    erstellePopLayer   = require('./erstellePopLayer');
 
-var returnFunction = function (overlay_pop_visible, overlay_popnr_visible, popid_markiert) {
-    var pop_gezeigt = $.Deferred(),
-        initiiereLayertree = require('./initiiereLayertree'),
-        erstellePopLayer = require('./erstellePopLayer');
+module.exports = function (overlayPopVisible, overlayPopnrVisible, popidMarkiert) {
+    var pop_gezeigt = $.Deferred();
 
     $.ajax({
         type: 'get',
         url: 'api/v1/popKarteAlle/apId=' + window.apf.ap.ApArtId
     }).done(function (PopListe) {
         // Layer für Symbole und Beschriftung erstellen
-        $.when(erstellePopLayer(PopListe, popid_markiert, overlay_pop_visible)).then(function () {
+        $.when(erstellePopLayer(PopListe, popidMarkiert, overlayPopVisible)).then(function () {
             // layertree neu aufbauen
             initiiereLayertree();
             pop_gezeigt.resolve();
@@ -26,5 +26,3 @@ var returnFunction = function (overlay_pop_visible, overlay_popnr_visible, popid
     });
     return pop_gezeigt.promise();
 };
-
-module.exports = returnFunction;

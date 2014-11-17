@@ -2,11 +2,18 @@
 /*global google*/
 'use strict';
 
-var _ = require('underscore'),
-    $ = require('jquery');
+var _                            = require('underscore'),
+    $                            = require('jquery'),
+    google                       = require('google'),
+    MarkerClusterer              = require('MarkerClusterer'),
+    MarkerWithLabel              = require('MarkerWithLabel'),
+    chToWgsLat                   = require('../../lib/chToWgsLat'),
+    chToWgsLng                   = require('../../lib/chToWgsLng'),
+    zeigeFormular                = require('../zeigeFormular'),
+    beschrifteTPopMitNrFuerKarte = require('../beschrifteTPopMitNrFuerKarte');
 
-var returnFunction = function (tpop_liste) {
-    var anz_tpop,
+module.exports = function (tpopListe) {
+    var anzTpop,
         infowindow,
         tpopBeschriftung,
         lat,
@@ -20,27 +27,31 @@ var returnFunction = function (tpop_liste) {
         latlng2,
         marker,
         contentString,
-        marker_options,
-        marker_cluster,
-        my_flurname,
-        chToWgsLat                   = require('../lib/chToWgsLat'),
-        chToWgsLng                   = require('../lib/chToWgsLng'),
-        zeigeFormular                = require('./zeigeFormular'),
-        beschrifteTPopMitNrFuerKarte = require('./beschrifteTPopMitNrFuerKarte');
+        markerOptions,
+        markerCluster,
+        myFlurname;
+
+    // diese Funktion muss hier sein, damit infowindow bekannt ist
+    function makeListener(map, marker, contentString) {
+        google.maps.event.addListener(marker, 'click', function () {
+            infowindow.setContent(contentString);
+            infowindow.open(map, marker);
+        });
+    }
 
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
-    zeigeFormular("google_karte", $);
-    window.apf.gmap.markers_array = [];
+    zeigeFormular("google_karte");
+    window.apf.gmap.markersArray = [];
     window.apf.gmap.info_window_array = [];
     infowindow = new google.maps.InfoWindow();
 
     // TPopListe bearbeiten:
     // Objekte löschen, die keine Koordinaten haben
     // Lat und Lng ergänzen
-    _.each(tpop_liste, function (tpop, index) {
+    _.each(tpopListe, function (tpop, index) {
         if (!tpop.TPopXKoord || !tpop.TPopYKoord) {
             // tpop einsetzen geht nicht, weil Chrome Fehler meldet
-            delete tpop_liste[index];
+            delete tpopListe[index];
         } else {
             tpop.Lat = chToWgsLat(parseInt(tpop.TPopXKoord, 10), parseInt(tpop.TPopYKoord, 10));
             tpop.Lng = chToWgsLng(parseInt(tpop.TPopXKoord, 10), parseInt(tpop.TPopYKoord, 10));
@@ -48,7 +59,7 @@ var returnFunction = function (tpop_liste) {
     });
 
     // TPop zählen
-    anz_tpop = tpop_liste.length;
+    anzTpop = tpopListe.length;
 
     // Karte mal auf Zürich zentrieren, falls in den TPopListe keine Koordinaten kommen
     // auf die die Karte ausgerichtet werden kann
@@ -68,11 +79,11 @@ var returnFunction = function (tpop_liste) {
 
     // für alle TPop Marker erstellen
     markers = [];
-    _.each(tpop_liste, function (tpop) {
+    _.each(tpopListe, function (tpop) {
         tpopId = tpop.TPopId;
         tpopBeschriftung = beschrifteTPopMitNrFuerKarte(tpop.PopNr, tpop.TPopNr);
         latlng2 = new google.maps.LatLng(tpop.Lat, tpop.Lng);
-        if (anz_tpop === 1) {
+        if (anzTpop === 1) {
             // map.fitbounds setzt zu hohen zoom, wenn nur eine TPop Koordinaten hat > verhindern
             latlng = latlng2;
         } else {
@@ -89,23 +100,23 @@ var returnFunction = function (tpop_liste) {
             icon:         "img/flora_icon.png"
         });
         markers.push(marker);
-        my_flurname = tpop.TPopFlurname || '(kein Flurname)';
+        myFlurname = tpop.TPopFlurname || '(kein Flurname)';
         contentString = '<div id="content">' +
             '<div id="siteNotice">' +
             '</div>' +
             '<div id="bodyContent" class="GmInfowindow">' +
             '<h3>' + tpop.Artname + '</h3>' +
             '<p>Population: ' + tpop.PopName + '</p>' +
-            '<p>TPop: ' + my_flurname + '</p>' +
+            '<p>TPop: ' + myFlurname + '</p>' +
             '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>' +
-            '<p><a href="#" onclick="window.apf.öffneTPop(\'' + tpop.TPopId + '\')">Formular anstelle Karte öffnen<\/a></p>' +
-            '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')">Formular neben der Karte öffnen<\/a></p>' +
-            '<p><a href="#" onclick="window.apf.öffneTPopInNeuemTab(\'' + tpop.TPopId + '\')">Formular in neuem Fenster öffnen<\/a></p>' +
+            '<p><a href="#" onclick="window.apf.oeffneTPop(\'' + tpop.TPopId + '\')">Formular anstelle Karte öffnen<\/a></p>' +
+            '<p><a href="#" onclick="window.apf.oeffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')">Formular neben der Karte öffnen<\/a></p>' +
+            '<p><a href="#" onclick="window.apf.oeffneTPopInNeuemTab(\'' + tpop.TPopId + '\')">Formular in neuem Fenster öffnen<\/a></p>' +
             '</div>' +
             '</div>';
         makeListener(map, marker, contentString);
     });
-    marker_options = {
+    markerOptions = {
         maxZoom: 17,
         styles: [{
             height: 53,
@@ -121,8 +132,8 @@ var returnFunction = function (tpop_liste) {
     });
 
     window.apf.googleKarteDetailplaene.setMap(null);
-    marker_cluster = new MarkerClusterer(map, markers, marker_options);
-    if (anz_tpop === 1) {
+    markerCluster = new MarkerClusterer(map, markers, markerOptions);
+    if (anzTpop === 1) {
         // map.fitbounds setzt zu hohen zoom, wenn nur eine Beobachtung erfasst wurde > verhindern
         map.setCenter(latlng);
         map.setZoom(18);
@@ -130,14 +141,4 @@ var returnFunction = function (tpop_liste) {
         // Karte auf Ausschnitt anpassen
         map.fitBounds(bounds);
     }
-
-    // diese Funktion muss hier sein, damit infowindow bekannt ist
-    function makeListener(map, marker, contentString) {
-        google.maps.event.addListener(marker, 'click', function () {
-            infowindow.setContent(contentString);
-            infowindow.open(map, marker);
-        });
-    }
 };
-
-module.exports = returnFunction;

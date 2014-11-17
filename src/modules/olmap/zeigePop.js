@@ -40,7 +40,7 @@ var returnFunction = function (PopListeMarkiert) {
                     // Layer für Symbole und Beschriftung erstellen
                     erstelleTPopLayer(TPopListe),
                     // alle Pop holen, symbole und nr sichtbar schalten, Markierung übergeben
-                    zeigePopInTPop(true, true, markierte_pop.popid_markiert)
+                    zeigePopInTPop(true, true, markierte_pop.popidMarkiert)
                 ).then(function () {
                     // layertree neu aufbauen
                     initiiereLayertree();

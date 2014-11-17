@@ -1,10 +1,14 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
-/*global Google*/
 'use strict';
 
-var $      = require('jquery'),
-    _      = require('underscore'),
-    google = require('google');
+var $               = require('jquery'),
+    _               = require('underscore'),
+    google          = require('google'),
+    MarkerWithLabel = require('MarkerWithLabel'),
+    MarkerClusterer = require('MarkerClusterer'),
+    chToWgsLng      = require('../../lib/chToWgsLng'),
+    chToWgsLat      = require('../../lib/chToWgsLat'),
+    zeigeFormular   = require('../zeigeFormular');
 
 var returnFunction = function (tpop_beob_liste) {
     var anz_tpop_beob,
@@ -19,13 +23,10 @@ var returnFunction = function (tpop_beob_liste) {
         latlng2,
         marker,
         contentString,
-        marker_options,
-        marker_cluster,
+        markerOptions,
+        markerCluster,
         datum,
-        titel,
-        chToWgsLng = require('../../lib/chToWgsLng'),
-        chToWgsLat = require('../../lib/chToWgsLat'),
-        zeigeFormular = require('../zeigeFormular');
+        titel;
 
     // diese Funktion muss hier sein, damit infowindow bekannt ist
     function makeListener(map, marker, contentString) {
@@ -37,7 +38,7 @@ var returnFunction = function (tpop_beob_liste) {
 
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
     zeigeFormular("google_karte");
-    window.apf.gmap.markers_array = [];
+    window.apf.gmap.markersArray = [];
     window.apf.gmap.info_window_array = [];
     infowindow = new google.maps.InfoWindow();
     // TPopListe bearbeiten:
@@ -123,7 +124,7 @@ var returnFunction = function (tpop_beob_liste) {
             '</div>';
         makeListener(map, marker, contentString);
     });
-    marker_options = {
+    markerOptions = {
         maxZoom: 17,
         styles: [{
             height: 53,
@@ -131,7 +132,7 @@ var returnFunction = function (tpop_beob_liste) {
             width: 53
         }]
     };
-    marker_cluster = new MarkerClusterer(map, markers, marker_options);
+    markerCluster = new MarkerClusterer(map, markers, markerOptions);
     if (anz_tpop_beob === 1) {
         // map.fitbounds setzt zu hohen zoom, wenn nur eine Beobachtung erfasst wurde > verhindern
         map.setCenter(latlng);

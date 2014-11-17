@@ -17,11 +17,11 @@ var returnFunction = function (pop_liste_markiert) {
         x_min,
         y_min,
         // bounds der anzuzeigenden bestimmen
-        popid_markiert = [];
+        popidMarkiert = [];
 
     if (pop_liste_markiert && pop_liste_markiert.length > 0) {
         _.each(pop_liste_markiert, function (pop) {
-            popid_markiert.push(pop.PopId);
+            popidMarkiert.push(pop.PopId);
             xkoord_array.push(pop.PopXKoord);
             ykoord_array.push(pop.PopYKoord);
         });
@@ -39,7 +39,7 @@ var returnFunction = function (pop_liste_markiert) {
     }
     return {
         bounds: bounds,
-        popid_markiert: popid_markiert
+        popidMarkiert: popidMarkiert
     };
 };
 

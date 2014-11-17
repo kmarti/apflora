@@ -1,13 +1,12 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $      = require('jquery'),
-    google = require('google');
+var $               = require('jquery'),
+    google          = require('google'),
+    setLocationTPop = require('./setLocationTPop');
 
-var returnFunction = function (location, map, marker, tpop) {
-    /*global Google*/
-    var title,
-        setLocationTPop = require('./setLocationTPop');
+module.exports = function (location, map, marker, tpop) {
+    var title;
 
     // title muss String sein
     title = (tpop && tpop.TPopFlurname ? tpop.TPopFlurname : "neue Teilpopulation");
@@ -22,11 +21,9 @@ var returnFunction = function (location, map, marker, tpop) {
         draggable: true
     });
     // Marker in Array speichern, damit er gelöscht werden kann
-    window.apf.gmap.markers_array.push(marker);
+    window.apf.gmap.markersArray.push(marker);
     google.maps.event.addListener(marker, "dragend", function (event) {
         setLocationTPop(event.latLng, map, marker, tpop);
     });
     setLocationTPop(location, map, marker);
 };
-
-module.exports = returnFunction;

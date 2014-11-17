@@ -1,32 +1,31 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $      = require('jquery'),
-    google = require('google');
+var $                            = require('jquery'),
+    google                       = require('google'),
+    chToWgsLng                   = require('../../lib/chToWgsLng'),
+    chToWgsLat                   = require('../../lib/chToWgsLat'),
+    zeigeFormular                = require('../zeigeFormular'),
+    setLocationTPop              = require('./setLocationTPop'),
+    erstelleMarker               = require('./erstelleMarker'),
+    beschrifteTPopMitNrFuerKarte = require('../beschrifteTPopMitNrFuerKarte');
 
-var returnFunction = function (tpop) {
-    /*global Google*/
+module.exports = function (tpop) {
     var infowindow = new google.maps.InfoWindow(),
         lat,
         lng,
         latlng,
-        zoom_level,
+        zoomLevel,
         options,
         map,
-        map_canvas = $('#google_karten_div'),
+        mapCanvas = $('#google_karten_div'),
         verorted,
         marker,
-        content_string,
+        contentString,
         tpopBeschriftung,
-        my_flurname,
-        chToWgsLng                   = require('../../lib/chToWgsLng'),
-        chToWgsLat                   = require('../../lib/chToWgsLat'),
-        zeigeFormular                = require('../zeigeFormular'),
-        setLocationTPop              = require('./setLocationTPop'),
-        erstelleMarker               = require('./erstelleMarker'),
-        beschrifteTPopMitNrFuerKarte = require('../beschrifteTPopMitNrFuerKarte');
+        myFlurname;
 
-    window.apf.gmap.markers_array = [];
+    window.apf.gmap.markersArray = [];
 
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
     zeigeFormular("google_karte");
@@ -34,27 +33,27 @@ var returnFunction = function (tpop) {
     // Optionen für die Anzeige
     if (tpop && tpop.TPopXKoord && tpop.TPopYKoord) {
         // Wenn Koordinaten vorhanden, Lat und Lng ergänzen
-        lat = chToWgsLat(parseInt(tpop.TPopXKoord, 10), parseInt(tpop.TPopYKoord, 10));
-        lng = chToWgsLng(parseInt(tpop.TPopXKoord, 10), parseInt(tpop.TPopYKoord, 10));
-        zoom_level = 15;
-        verorted = true;
+        lat       = chToWgsLat(parseInt(tpop.TPopXKoord, 10), parseInt(tpop.TPopYKoord, 10));
+        lng       = chToWgsLng(parseInt(tpop.TPopXKoord, 10), parseInt(tpop.TPopYKoord, 10));
+        zoomLevel = 15;
+        verorted  = true;
     } else {
         // sonst auf Zürich zentrieren
-        lat = 47.360566;
-        lng = 8.542829;
-        zoom_level = 12;
-        verorted = false;
+        lat       = 47.360566;
+        lng       = 8.542829;
+        zoomLevel = 12;
+        verorted  = false;
     }
     latlng = new google.maps.LatLng(lat, lng);
     options = {
-        zoom: zoom_level,
+        zoom: zoomLevel,
         center: latlng,
         streetViewControl: false,
         mapTypeId: google.maps.MapTypeId.SATELLITE
     };
 
     // Karte gründen
-    map = new google.maps.Map(map_canvas[0], options);
+    map = new google.maps.Map(mapCanvas[0], options);
     window.apf.gmap.map = map;
 
     if (verorted) {
@@ -68,23 +67,23 @@ var returnFunction = function (tpop) {
             draggable: true
         });
         // Marker in Array speichern, damit er gelöscht werden kann
-        window.apf.gmap.markers_array.push(marker);
+        window.apf.gmap.markersArray.push(marker);
 
         // infowindow erstellen
-        my_flurname = tpop.TPopFlurname || '(kein Flurname)';
-        content_string = '<div id="content">' +
+        myFlurname = tpop.TPopFlurname || '(kein Flurname)';
+        contentString = '<div id="content">' +
             '<div id="siteNotice">' +
             '</div>' +
             '<div id="bodyContent" class="GmInfowindow">' +
-            '<h3>' + my_flurname + '</h3>' +
+            '<h3>' + myFlurname + '</h3>' +
             '<p>Koordinaten: ' + tpop.TPopXKoord + ' / ' + tpop.TPopYKoord + '</p>' +
-            '<p><a href="#" onclick="window.apf.öffneTPop(\'' + tpop.TPopId + '\')">Formular anstelle Karte öffnen<\/a></p>' +
-            '<p><a href="#" onclick="window.apf.öffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')">Formular neben der Karte öffnen<\/a></p>' +
-            '<p><a href="#" onclick="window.apf.öffneTPopInNeuemTab(\'' + tpop.TPopId + '\')">Formular in neuem Fenster öffnen<\/a></p>' +
+            '<p><a href="#" onclick="window.apf.oeffneTPop(\'' + tpop.TPopId + '\')">Formular anstelle Karte öffnen<\/a></p>' +
+            '<p><a href="#" onclick="window.apf.oeffneFormularAlsPopup(\'tpop\', ' + tpop.TPopId + ')">Formular neben der Karte öffnen<\/a></p>' +
+            '<p><a href="#" onclick="window.apf.oeffneTPopInNeuemTab(\'' + tpop.TPopId + '\')">Formular in neuem Fenster öffnen<\/a></p>' +
             '</div>' +
             '</div>';
         infowindow = new google.maps.InfoWindow({
-            content: content_string
+            content: contentString
         });
         if (!window.apf.gmap.info_window_array) {
             window.apf.gmap.info_window_array = [];
@@ -105,5 +104,3 @@ var returnFunction = function (tpop) {
         erstelleMarker(event.latLng, map, marker, tpop);
     });
 };
-
-module.exports = returnFunction;

@@ -14,7 +14,8 @@ var returnFunction = function (node) {
         parent_nodeText,
         grandparentNode,
         neue_apziele_node,
-        zeigeTPop                                 = require('../zeigeTPop'),
+        zeigeTPopAufGmap                          = require('../gmap/zeigeTPop'),
+        zeigeTPopAufOlmap                         = require('../olmap/zeigeTPop'),
         insertNeuenNodeEineHierarchiestufeTiefer  = require('./insertNeuenNodeEineHierarchiestufeTiefer'),
         insertNeuenNodeAufGleicherHierarchiestufe = require('./insertNeuenNodeAufGleicherHierarchiestufe'),
         frageObUndeleteDatensatz                  = require('../frageObUndeleteDatensatz'),
@@ -89,7 +90,7 @@ var returnFunction = function (node) {
                     });
                     getApKarte.done(function (data) {
                         if (data && data.length > 0) {
-                            zeigeTPop(data);
+                            zeigeTPopAufGmap(data);
                         } else {
                             melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
                         }
@@ -930,7 +931,7 @@ var returnFunction = function (node) {
                     });
                     getPopKarte.done(function (data) {
                         if (data && data.length > 0) {
-                            zeigeTPop(data);
+                            zeigeTPopAufGmap(data);
                         } else {
                             melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
                         }
@@ -1024,13 +1025,12 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_gelb.png",
                 "action": function () {
-                    var zeigeTPop = require('../olmap/zeigeTPop');
                     $.ajax({
                         type: 'get',
                         url: 'api/v1/tpopsKarte/popId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                     }).done(function (data) {
                         if (data.length > 0) {
-                            zeigeTPop(data);
+                            zeigeTPopAufOlmap(data);
                         } else {
                             melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
                         }
@@ -1050,7 +1050,7 @@ var returnFunction = function (node) {
                     });
                     getPopKarte_2.done(function (data) {
                         if (data && data.length > 0) {
-                            zeigeTPop(data);
+                            zeigeTPopAufGmap(data);
                         } else {
                             melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
                         }
@@ -1180,13 +1180,12 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_gelb.png",
                 "action": function () {
-                    var zeigeTPop = require('../olmap/zeigeTPop');
                     $.ajax({
                         type: 'get',
                         url: 'api/v1/tpopKarte/tpopId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                     }).done(function (data) {
                         if (data.length > 0) {
-                            zeigeTPop(data);
+                            zeigeTPopAufOlmap(data);
                         } else {
                             melde("Die Teilpopulation hat keine Koordinaten", "Aktion abgebrochen");
                         }
@@ -1221,7 +1220,7 @@ var returnFunction = function (node) {
                         url: 'api/v1/tpopKarte/tpopId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                     }).done(function (data) {
                         if (data.length > 0) {
-                            zeigeTPop(data);
+                            zeigeTPopAufGmap(data);
                         } else {
                             melde("Die Teilpopulation hat keine Koordinaten", "Aktion abgebrochen");
                         }

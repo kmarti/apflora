@@ -10,7 +10,7 @@
 var $              = require('jquery'),
     initiiereOlmap = require('./olmap/initiiereOlmap');
 
-var returnFunction = function (Formularname) {
+module.exports = function (Formularname) {
     var formularAngezeigt = $.Deferred(),
         $forms            = $("#forms"),
         $form             = $('form'),
@@ -30,7 +30,7 @@ var returnFunction = function (Formularname) {
     });
 
     // damit kann bei Grössenänderung die Formularhöhe von Karten gemanagt werden
-    window.apf.kartenhöhe_manuell = false;
+    window.apf.kartenhoeheManuell = false;
     // höhe von forms auf auto setzen, weil dies von den Kartenansichten verändert wird
     $forms.height('auto');
     $testart_div.hide();
@@ -67,8 +67,8 @@ var returnFunction = function (Formularname) {
             $Formularname = $("#" + Formularname);
             $Formularname.css("height", $(window).height() - 17 + "px");
             // markieren, dass die Formularhöhe anders gesetzt werden soll
-            window.apf.kartenhöhe_manuell = true;
-            window.apf.setzeKartenhöhe();
+            window.apf.kartenhoeheManuell = true;
+            window.apf.setzeKartenhoehe();
             $Formularname.show();
             if (Formularname === "GeoAdminKarte") {
                 initiiereOlmap();
@@ -90,5 +90,3 @@ var returnFunction = function (Formularname) {
     }
     return formularAngezeigt.promise();
 };
-
-module.exports = returnFunction;
