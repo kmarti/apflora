@@ -40,14 +40,14 @@ module.exports = function (Formularname) {
         // titelzeile inline, sonst gibt es einen unschönen Abstand nach oben
         //$("#forms_titelzeile").css("display", "inline");
         $forms_titelzeile.css("display", "none");
-        if ($ap_waehlen.val() <= 150 && Formularname !== "jber_uebersicht" && Formularname !== "exporte" && Formularname !== "GeoAdminKarte") {
+        if ($ap_waehlen.val() <= 150 && Formularname !== "jberUebersicht" && Formularname !== "exporte" && Formularname !== "GeoAdminKarte") {
             // titelzeile inline-block, sonst werden Tabs nach rechts verschoben
             $("#forms_titelzeile").css("display", "inline-block");
             $testart_div
                 .css("color", "#03970F")
                 .show()
                 .html("Das ist eine Testart - hier kann man alles ausprobieren!");
-        } else if ($("#ap_waehlen").val() <= 150 && Formularname === "jber_uebersicht") {
+        } else if ($("#ap_waehlen").val() <= 150 && Formularname === "jberUebersicht") {
             $("#forms_titelzeile").css("display", "inline-block");
             $testart_div
                 .css("color", "#DF0303")

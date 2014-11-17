@@ -6,9 +6,10 @@
 var $                               = require('jquery'),
     initiiereFormularMitStrukturtyp = require('../initiiereFormularMitStrukturtyp'),
     erstelleUnterordnerVonTpop      = require('./erstelleUnterordnerVonTpop'),
-    erstelleUnterordnerVonPop       = require('./erstelleUnterordnerVonPop');
+    erstelleUnterordnerVonPop       = require('./erstelleUnterordnerVonPop'),
+    capitaliseFirstLetter           = require('../../lib/capitaliseFirstLetter');
 
-var returnFunction = function (aktiverNode, parentNode, strukturtyp, dsId, beschriftung) {
+module.exports = function (aktiverNode, parentNode, strukturtyp, dsId, beschriftung) {
     var neuerNode,
         grandparentNode;
 
@@ -45,15 +46,15 @@ var returnFunction = function (aktiverNode, parentNode, strukturtyp, dsId, besch
     if (strukturtyp === "apziel") {
         grandparentNode = $.jstree._reference(parentNode)._get_parent(parentNode);
         // grandparent Node-Beschriftung: Anzahl anpassen
-        window.apf.beschrifte_ordner_apziel(grandparentNode);
+        window.apf.beschrifteOrdnerApziel(grandparentNode);
         // parent Node-Beschriftung: Anzahl anpassen
         // nur, wenn es nicht der Ordner ist, der "neue AP-Ziele" heisst
         if ($.jstree._reference(parentNode).get_text(parentNode) !== "neue AP-Ziele") {
-            window.apf.beschrifte_ordner_apzieljahr(parentNode);
+            window.apf.beschrifteOrdnerApzieljahr(parentNode);
         }
     } else {
         // Normalfall
-        window.apf["beschrifte_ordner_" + strukturtyp](parentNode);
+        window.apf["beschrifteOrdner" + capitaliseFirstLetter(strukturtyp)](parentNode);
     }
 
     // node selecten
@@ -62,5 +63,3 @@ var returnFunction = function (aktiverNode, parentNode, strukturtyp, dsId, besch
     // Formular initiieren
     initiiereFormularMitStrukturtyp(strukturtyp);
 };
-
-module.exports = returnFunction;

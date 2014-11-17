@@ -1607,14 +1607,14 @@
                     </table>
                 </form>
 
-                <form id="jber_uebersicht" class="form" action="#" method="get" autocomplete="off" style="display:none;">
+                <form id="jberUebersicht" class="form" action="#" method="get" autocomplete="off" style="display:none;">
                     <table>
                         <tr class='fieldcontain JbuJahr' style="display:none;">
                             <td class="label">
                                 <label id="JbuJahr_label" for='JbuJahr'>Jahr:</label>
                             </td>
                             <td class="Datenfelder">
-                                <input id="JbuJahr" name="JbuJahr" class="speichern" formular="jber_uebersicht" type="number">
+                                <input id="JbuJahr" name="JbuJahr" class="speichern" formular="jberUebersicht" type="number">
                             </td>
                         </tr>
                         <tr class='fieldcontain JbuBemerkungen'>
@@ -1622,7 +1622,7 @@
                                 <label id="JbuBemerkungen_label" for='JbuBemerkungen'>Bemerkungen:</label>
                             </td>
                             <td class="Datenfelder">
-                                <textarea name="JbuBemerkungen" id="JbuBemerkungen" class="speichern" formular="jber_uebersicht"></textarea>
+                                <textarea name="JbuBemerkungen" id="JbuBemerkungen" class="speichern" formular="jberUebersicht"></textarea>
                             </td>
                         </tr>
                     </table>
@@ -2663,7 +2663,7 @@
                         window.apf.initiiereExporte();
                     })
                     .on("click", "[name=programm_wahl]", function() {
-                        window.apf.wähleApListe($(this).attr("id"));
+                        window.apf.waehleApListe($(this).attr("id"));
                     })
                     .on("click", "#ap_loeschen", function() {
                         var $ap_waehlen = $("#ap_waehlen");
@@ -2711,7 +2711,7 @@
                         var $BeobNichtBeurteilt = $("#BeobNichtBeurteilt");
                         if ($BeobNichtBeurteilt.prop("checked") === true) {
                             // node verschieben. Den rest macht der callback zu jstree.move_node
-                            $("#tree").jstree("move_node", "#beob" + localStorage.beobId, "#ap_ordner_beob_nicht_beurteilt" + localStorage.apId, "first");
+                            $("#tree").jstree("move_node", "#beob" + localStorage.beobId, "#apOrdnerBeobNichtBeurteilt" + localStorage.apId, "first");
                         } else {
                             // es bringt nichts, diesen Haken zu entfernen
                             // stattdessen soll ein anderer Wert gewählt werden
@@ -2721,15 +2721,15 @@
                     .on("change", "#BeobNichtZuordnen", function() {
                         if ($("#BeobNichtZuordnen").prop("checked") === true) {
                             // node verschieben. Der Rest wird vom Callback fon jstree.move_node erledigt
-                            $("#tree").jstree("move_node", "#beob" + localStorage.beobId, "#ap_ordner_beob_nicht_zuzuordnen" + localStorage.apId, "first");
+                            $("#tree").jstree("move_node", "#beob" + localStorage.beobId, "#apOrdnerBeobNichtZuzuordnen" + localStorage.apId, "first");
                         } else {
                             // node verschieben. Den Rest macht der callback zu jstree.move_node
-                            $("#tree").jstree("move_node", "#beob" + localStorage.beobId, "#ap_ordner_beob_nicht_beurteilt" + localStorage.apId, "first");
+                            $("#tree").jstree("move_node", "#beob" + localStorage.beobId, "#apOrdnerBeobNichtBeurteilt" + localStorage.apId, "first");
                         }
                     })
                     .on("change", "[name='DistZuTPop']", function() {
                         var tpopId = $(this).val();
-                        $("#tree").jstree("move_node", "#beob" + localStorage.beobId, "#tpop_ordner_beob_zugeordnet" + tpopId, "first");
+                        $("#tree").jstree("move_node", "#beob" + localStorage.beobId, "#tpopOrdnerBeobZugeordnet" + tpopId, "first");
                     });
 
                 $("#google_karte")

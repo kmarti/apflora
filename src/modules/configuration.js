@@ -113,9 +113,9 @@ config.tables = [
         tabelleIdFeld: 'JbuJahr',
         mutWannFeld: 'MutWann',
         mutWerFeld: 'MutWer',
-        form: 'jber_uebersicht',
+        form: 'jberUebersicht',
         initiiereFunktion: 'initiiereJberUebersicht',
-        treeTyp: 'jber_uebersicht'
+        treeTyp: 'jberUebersicht'
     },
     {
         database: 'apflora',

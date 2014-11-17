@@ -146,9 +146,9 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
                                 if (!ohneZuZeigen) {
                                     zeigeFormular("beob");
                                     if (beobStatus === "zugeordnet") {
-                                        history.pushState(null, null, "index.html?ap=" + localStorage.apId + "&pop=" + localStorage.popId + "&tpop=" + localStorage.tpopId + "&beob_zugeordnet=" + beobId);
+                                        history.pushState(null, null, "index.html?ap=" + localStorage.apId + "&pop=" + localStorage.popId + "&tpop=" + localStorage.tpopId + "&beobZugeordnet=" + beobId);
                                     } else if (beobStatus === "nicht_zuzuordnen") {
-                                        history.pushState(null, null, "index.html?ap=" + localStorage.apId + "&beob_nicht_zuzuordnen=" + beobId);
+                                        history.pushState(null, null, "index.html?ap=" + localStorage.apId + "&beobNichtZuzuordnen=" + beobId);
                                     }
                                 }
                             }
@@ -167,7 +167,7 @@ var initiiereBeob = function (beobTyp, beobId, beobStatus, ohneZuZeigen) {
                         // nur, wenn ohneZuZeigen nicht true ist (true, um in dialog anzuzeigen)
                         if (!ohneZuZeigen) {
                             zeigeFormular("beob");
-                            history.pushState(null, null, "index.html?ap=" + localStorage.apId + "&beob_nicht_beurteilt=" + beobId);
+                            history.pushState(null, null, "index.html?ap=" + localStorage.apId + "&beobNichtBeurteilt=" + beobId);
                         }
                     }
                 }

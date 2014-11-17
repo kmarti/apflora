@@ -18,7 +18,7 @@ var returnFunction = function (results, tpopListe, pop) {
     popTpopOrdner.data = 'Teilpopulationen (' + tpopVonPop.length + ')';
     popTpopOrdner.attr = {
         id: pop.PopId,
-        typ: 'pop_ordner_tpop'
+        typ: 'popOrdnerTpop'
     };
     popTpopOrdner.children = [];
 

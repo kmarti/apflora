@@ -18,8 +18,8 @@ var returnFunction = function (tpopFreiwkontrListe, tpop) {
     // tpopOrdnerFreiwkontr aufbauen
     tpopFreiwkontrOrdner.data = 'Freiwilligen-Kontrollen (' + freiwkontrVonTpop.length + ')';
     tpopFreiwkontrOrdner.attr = {
-        id: 'tpop_ordner_freiwkontr' + tpop.TPopId,
-        typ: 'tpop_ordner_freiwkontr'
+        id: 'tpopOrdnerFreiwkontr' + tpop.TPopId,
+        typ: 'tpopOrdnerFreiwkontr'
     };
     tpopFreiwkontrOrdner.children = [];
 

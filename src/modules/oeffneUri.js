@@ -39,13 +39,13 @@ module.exports = function () {
         zielberId               = uri.getQueryParamValue('zielber'),
         erfkritId               = uri.getQueryParamValue('erfkrit'),
         jberId                  = uri.getQueryParamValue('jber'),
-        jber_uebersichtId       = uri.getQueryParamValue('jber_uebersicht'),
+        jber_uebersichtId       = uri.getQueryParamValue('jberUebersicht'),
         berId                   = uri.getQueryParamValue('ber'),
         idealbiotopId           = uri.getQueryParamValue('idealbiotop'),
         assozartenId            = uri.getQueryParamValue('assozarten'),
-        beobZugeordnetId        = uri.getQueryParamValue('beob_zugeordnet'),
-        beobNichtBeurteiltId    = uri.getQueryParamValue('beob_nicht_beurteilt'),
-        beobNichtZuzuordnenId   = uri.getQueryParamValue('beob_nicht_zuzuordnen'),
+        beobZugeordnetId        = uri.getQueryParamValue('beobZugeordnet'),
+        beobNichtBeurteiltId    = uri.getQueryParamValue('beobNichtBeurteilt'),
+        beobNichtZuzuordnenId   = uri.getQueryParamValue('beobNichtZuzuordnen'),
         exporte                 = uri.getQueryParamValue('exporte'),
         apWaehlenText;
 
@@ -124,7 +124,7 @@ module.exports = function () {
                 // direkt initiieren, bevor der baum fertig aufgebaut ist
                 initiiereTPopBer(apId, popId, tpopId, tpopberId);
             } else if (beobZugeordnetId) {
-                // markieren, dass nach dem loaded-event im Tree die beob_zugeordnet angezeigt werden soll
+                // markieren, dass nach dem loaded-event im Tree die beobZugeordnet angezeigt werden soll
                 window.apf.beobZugeordnetZeigen = true;
                 // direkt initiieren, bevor der baum fertig aufgebaut ist
                 // herausfinden, ob beobtyp infospezies oder evab ist
@@ -191,7 +191,7 @@ module.exports = function () {
             // direkt initiieren, bevor der baum fertig aufgebaut ist
             initiiereJber(apId, jberId);
         } else if (jber_uebersichtId) {
-            // markieren, dass nach dem loaded-event im Tree die jber_uebersicht angezeigt werden soll 
+            // markieren, dass nach dem loaded-event im Tree die jberUebersicht angezeigt werden soll 
             window.apf.jberUebersichtZeigen = true;
             // direkt initiieren, bevor der baum fertig aufgebaut ist
             initiiereJberUebersicht(apId, jber_uebersichtId);
@@ -210,7 +210,7 @@ module.exports = function () {
             window.apf.assozartenZeigen = true;
             // NICHT direkt initiieren, weil sonst die Artliste noch nicht existiert
         } else if (beobNichtBeurteiltId) {
-            // markieren, dass nach dem loaded-event im Tree die beob_zugeordnet angezeigt werden soll
+            // markieren, dass nach dem loaded-event im Tree die beobZugeordnet angezeigt werden soll
             window.apf.beobNichtBeurteiltZeigen = true;
             // direkt initiieren, bevor der baum fertig aufgebaut ist
             // herausfinden, ob beobtyp infospezies oder evab ist

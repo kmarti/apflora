@@ -1,38 +1,35 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var _ = require('underscore'),
-    $ = require('jquery');
-
-$.jstree = require('jquery.jstree');
+var _                                         = require('underscore'),
+    $                                         = require('jquery'),
+    zeigeTPopAufGmap                          = require('../gmap/zeigeTPop'),
+    zeigeTPopAufOlmap                         = require('../olmap/zeigeTPop'),
+    insertNeuenNodeEineHierarchiestufeTiefer  = require('./insertNeuenNodeEineHierarchiestufeTiefer'),
+    insertNeuenNodeAufGleicherHierarchiestufe = require('./insertNeuenNodeAufGleicherHierarchiestufe'),
+    frageObUndeleteDatensatz                  = require('../frageObUndeleteDatensatz'),
+    melde                                     = require('../melde'),
+    zeigeBeobKoordinatenImGisBrowser          = require('../zeigeBeobKoordinatenImGisBrowser'),
+    erstelleIdAusDomAttributId                = require('../erstelleIdAusDomAttributId');
 
 var returnFunction = function (node) {
     var items,
         aktiverNode,
-        aktiver_nodeText,
+        aktiverNodeText,
         parentNode,
-        parent_nodeText,
-        grandparentNode,
-        neue_apziele_node,
-        zeigeTPopAufGmap                          = require('../gmap/zeigeTPop'),
-        zeigeTPopAufOlmap                         = require('../olmap/zeigeTPop'),
-        insertNeuenNodeEineHierarchiestufeTiefer  = require('./insertNeuenNodeEineHierarchiestufeTiefer'),
-        insertNeuenNodeAufGleicherHierarchiestufe = require('./insertNeuenNodeAufGleicherHierarchiestufe'),
-        frageObUndeleteDatensatz                  = require('../frageObUndeleteDatensatz'),
-        melde                                     = require('../melde'),
-        zeigeBeobKoordinatenImGisBrowser          = require('../zeigeBeobKoordinatenImGisBrowser'),
-        erstelleIdAusDomAttributId                = require('../erstelleIdAusDomAttributId');
+        parentNodeText,
+        grandparentNode;
 
     // relevante nodes zwischenspeichern
     aktiverNode = node;
-    aktiver_nodeText = $.jstree._reference(aktiverNode).get_text(aktiverNode);
+    aktiverNodeText = $.jstree._reference(aktiverNode).get_text(aktiverNode);
     // parent nur ermitteln, wenn parents exisiteren - sonst gibt es einen Fehler
     if ($(aktiverNode).attr("typ").slice(0, 9) !== "ap_ordner" && $(aktiverNode).attr("typ") !== "idealbiotop") {
         parentNode = $.jstree._reference(aktiverNode)._get_parent(aktiverNode);
-        parent_nodeText = $.jstree._reference(parentNode).get_text(parentNode);
+        parentNodeText = $.jstree._reference(parentNode).get_text(parentNode);
     }
     switch ($(aktiverNode).attr("typ")) {
-    case "ap_ordner_pop":
+    case "apOrdnerPop":
         items = {
             "untergeordneteKnotenOeffnen": {
                 "label": "untergeordnete Knoten öffnen",
@@ -132,7 +129,7 @@ var returnFunction = function (node) {
             };
         }
         return items;
-    case "ap_ordner_apziel":
+    case "apOrdnerApziel":
         return {
             "untergeordneteKnotenOeffnen": {
                 "label": "untergeordnete Knoten öffnen",
@@ -153,9 +150,9 @@ var returnFunction = function (node) {
                         var strukturtyp = "apziel",
                             beschriftung = "neues Ziel";
                         // mitteilen, dass von ganz oben ein apziel erstellt wird und daher noch ein Zwischenordner erstellt werden muss
-                        localStorage.apziel_von_ordner_apziel = true;
+                        localStorage.apzielVonOrdnerApziel = true;
                         // zur Sicherheit den anderen Zeiger löschen
-                        delete localStorage.apziel_von_apzieljahr;
+                        delete localStorage.apzielVonApzieljahr;
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertApziel.fail(function () {
@@ -184,9 +181,9 @@ var returnFunction = function (node) {
                     insertApziel_2.done(function (id) {
                         var strukturtyp = "apziel",
                             beschriftung = "neues Ziel";
-                        localStorage.apziel_von_apzieljahr = true;
+                        localStorage.apzielVonApzieljahr = true;
                         // zur Sicherheit den anderen Zeiger löschen
-                        delete localStorage.apziel_von_ordner_apziel;
+                        delete localStorage.apzielVonOrdnerApziel;
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     });
                     insertApziel_2.fail(function () {
@@ -258,7 +255,7 @@ var returnFunction = function (node) {
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // grandparent Node-Beschriftung: Anzahl anpassen
                                     grandparentNode = $.jstree._reference(parentNode)._get_parent(parentNode);
-                                    window.apf.beschrifte_ordner_apziel(grandparentNode);
+                                    window.apf.beschrifteOrdnerApziel(grandparentNode);
                                     // parent Node-Beschriftung: Anzahl anpassen
                                     if ($.jstree._reference(parentNode).get_text(parentNode) !== "neue AP-Ziele") {
                                         window.apf.beschrifteOrdnerApzieljahr(parentNode);
@@ -356,7 +353,7 @@ var returnFunction = function (node) {
                                     delete window.apf.zielber;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_zielber(parentNode);
+                                    window.apf.beschrifteOrdnerZielber(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Der Ziel-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -372,7 +369,7 @@ var returnFunction = function (node) {
                 }
             }
         };
-    case "ap_ordner_erfkrit":
+    case "apOrdnerErfkrit":
         return {
             "neu": {
                 "label": "neues Erfolgskriterium",
@@ -450,7 +447,7 @@ var returnFunction = function (node) {
                                     delete window.apf.erfkrit;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_erfkrit(parentNode);
+                                    window.apf.beschrifteOrdnerErfkrit(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Das Erfolgskriterium '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -466,7 +463,7 @@ var returnFunction = function (node) {
                 }
             }
         };
-    case "ap_ordner_jber":
+    case "apOrdnerJber":
         return {
             "untergeordneteKnotenOeffnen": {
                 "label": "untergeordnete Knoten öffnen",
@@ -551,7 +548,7 @@ var returnFunction = function (node) {
                                     delete window.apf.jber;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_jber(parentNode);
+                                    window.apf.beschrifteOrdnerJber(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Der AP-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -579,7 +576,7 @@ var returnFunction = function (node) {
                         url: 'api/v1/insert/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wert=' + $.jstree._reference(aktiverNode).get_text(aktiverNode) + '/user=' + sessionStorage.user
                     });
                     insertJberUebersicht.done(function () {
-                        var strukturtyp = "jber_uebersicht",
+                        var strukturtyp = "jberUebersicht",
                             dsId = $.jstree._reference(aktiverNode).get_text(aktiverNode),
                             beschriftung = "neue Übersicht zu allen Arten";
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, dsId, beschriftung);
@@ -591,7 +588,7 @@ var returnFunction = function (node) {
             };
         }
         return items;
-    case "jber_uebersicht":
+    case "jberUebersicht":
         return {
             "loeschen": {
                 "label": "lösche Übersicht zu allen Arten",
@@ -618,7 +615,7 @@ var returnFunction = function (node) {
                                 $(this).dialog("close");
                                 // Variable zum rückgängig machen erstellen
                                 window.apf.deleted = window.apf.jberUebersicht;
-                                window.apf.deleted.typ = "jber_uebersicht";
+                                window.apf.deleted.typ = "jberUebersicht";
                                 var deleteJberUebersicht = $.ajax({
                                     type: 'delete',
                                     url: 'api/v1/apflora/tabelle=tblJBerUebersicht/tabelleIdFeld=JbuJahr/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
@@ -642,7 +639,7 @@ var returnFunction = function (node) {
                 }
             }
         };
-    case "ap_ordner_ber":
+    case "apOrdnerBer":
         return {
             "neu": {
                 "label": "neuer Bericht",
@@ -720,7 +717,7 @@ var returnFunction = function (node) {
                                     delete window.apf.ber;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_ber(parentNode);
+                                    window.apf.beschrifteOrdnerBer(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Der Bericht '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -736,7 +733,7 @@ var returnFunction = function (node) {
                 }
             }
         };
-    case "ap_ordner_assozarten":
+    case "apOrdnerAssozarten":
         return {
             "neu": {
                 "label": "neue assoziierte Art",
@@ -812,7 +809,7 @@ var returnFunction = function (node) {
                                     delete window.apf.assozarten;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_assozarten(parentNode);
+                                    window.apf.beschrifteOrdnerAssozarten(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Die assoziierte Art '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -995,7 +992,7 @@ var returnFunction = function (node) {
             };
         }
         return items;
-    case "pop_ordner_tpop":
+    case "popOrdnerTpop":
         items = {
             "untergeordneteKnotenOeffnen": {
                 "label": "untergeordnete Knoten öffnen",
@@ -1071,7 +1068,7 @@ var returnFunction = function (node) {
                 }
             };
         }
-        if (window.apf.tpop_node_kopiert) {
+        if (window.apf.tpopNodeKopiert) {
             label = "";
             if (window.apf.tpopObjektKopiert.TPopNr) {
                 label += window.apf.tpopObjektKopiert.TPopNr;
@@ -1085,12 +1082,12 @@ var returnFunction = function (node) {
                 label += "(kein Flurname)";
             }
             items.einfuegen = {
-                //"label": $.jstree._reference(window.apf.tpop_node_kopiert).get_text(window.apf.tpop_node_kopiert) + " einfügen",
+                //"label": $.jstree._reference(window.apf.tpopNodeKopiert).get_text(window.apf.tpopNodeKopiert) + " einfügen",
                 "label": label + " einfügen",
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    window.apf.tpopKopiertInPopOrdnerTpopEinfügen(aktiverNode);
+                    window.apf.tpopKopiertInPopOrdnerTpopEinfuegen(aktiverNode);
                 }
             };
         }
@@ -1268,7 +1265,7 @@ var returnFunction = function (node) {
                     window.apf.tpopNodeAusgeschnitten = aktiverNode;
                     // es macht keinen Sinn mehr, den kopierten node zu behalten
                     // und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
-                    delete window.apf.tpop_node_kopiert;
+                    delete window.apf.tpopNodeKopiert;
                     delete window.apf.tpopObjektKopiert;
                 }
             };
@@ -1283,7 +1280,7 @@ var returnFunction = function (node) {
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
                     }
-                    window.apf.tpop_node_kopiert = aktiverNode;
+                    window.apf.tpopNodeKopiert = aktiverNode;
                     // Daten des Objekts holen
                     var getTPop_4 = $.ajax({
                         type: 'get',
@@ -1298,7 +1295,7 @@ var returnFunction = function (node) {
                 }
             };
         }
-        if (window.apf.tpop_node_kopiert) {
+        if (window.apf.tpopNodeKopiert) {
             var label = "";
             if (window.apf.tpopObjektKopiert.TPopNr) {
                 label += window.apf.tpopObjektKopiert.TPopNr;
@@ -1316,7 +1313,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    window.apf.tpopKopiertInPopOrdnerTpopEinfügen(parentNode);
+                    window.apf.tpopKopiertInPopOrdnerTpopEinfuegen(parentNode);
                 }
             };
         }
@@ -1403,7 +1400,7 @@ var returnFunction = function (node) {
                                     delete window.apf.popber;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_popber(parentNode);
+                                    window.apf.beschrifteOrdnerPopber(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Der Populations-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -1491,7 +1488,7 @@ var returnFunction = function (node) {
                                     delete window.apf.popmassnber;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_popmassnber(parentNode);
+                                    window.apf.beschrifteOrdnerPopmassnber(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Der Massnahmen-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -1507,7 +1504,7 @@ var returnFunction = function (node) {
                 }
             }
         };
-    case "tpop_ordner_feldkontr":
+    case "tpopOrdnerFeldkontr":
         items = {
             "neu": {
                 "label": "neue Feldkontrolle",
@@ -1803,7 +1800,7 @@ var returnFunction = function (node) {
             };
         }
         return items;
-    case "tpop_ordner_freiwkontr":
+    case "tpopOrdnerFreiwkontr":
         items = {
             "neu": {
                 "label": "neue Freiwilligen-Kontrolle",
@@ -2274,7 +2271,7 @@ var returnFunction = function (node) {
                                     delete window.apf.tpopber;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_tpopber(parentNode);
+                                    window.apf.beschrifteOrdnerTpopber(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Der Teilpopulations-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -2290,7 +2287,7 @@ var returnFunction = function (node) {
                 }
             }
         };
-    case "tpop_ordner_beob_zugeordnet":
+    case "tpopOrdnerBeobZugeordnet":
         items = {
             "GoogleMaps": {
                 "label": "auf Luftbild zeigen",
@@ -2335,7 +2332,7 @@ var returnFunction = function (node) {
             };
         }
         return items;
-    case "beob_zugeordnet":
+    case "beobZugeordnet":
         items = {
             "GoogleMaps": {
                 "label": "auf Luftbild zeigen",
@@ -2433,7 +2430,7 @@ var returnFunction = function (node) {
             };
         }
         return items;
-    case "tpop_ordner_massnber":
+    case "tpopOrdnerMassnber":
         return {
             "neu": {
                 "label": "neuer Massnahmen-Bericht",
@@ -2505,7 +2502,7 @@ var returnFunction = function (node) {
                                     delete window.apf.tpopmassnber;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifte_ordner_popmassnber(parentNode);
+                                    window.apf.beschrifteOrdnerPopmassnber(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Der Massnahmen-Bericht '" + bezeichnung + "' wurde gelöscht.");
                                 });
@@ -2521,7 +2518,7 @@ var returnFunction = function (node) {
                 }
             }
         };
-    case "ap_ordner_beob_nicht_beurteilt":
+    case "apOrdnerBeobNichtBeurteilt":
         items = {
             "GoogleMaps": {
                 "label": "auf Luftbild zeigen",
@@ -2585,7 +2582,7 @@ var returnFunction = function (node) {
             };
         }
         return items;
-    case "beob_nicht_beurteilt":
+    case "beobNichtBeurteilt":
         items = {
             "GoogleMaps": {
                 "label": "auf Luftbild zeigen",
@@ -2674,7 +2671,7 @@ var returnFunction = function (node) {
             };
         }
         return items;
-    case "ap_ordner_beob_nicht_zuzuordnen":
+    case "apOrdnerBeobNichtZuzuordnen":
         items = {
             "GoogleMaps": {
                 "label": "auf Luftbild zeigen",
@@ -2708,7 +2705,7 @@ var returnFunction = function (node) {
             };
         }
         return items;
-    case "beob_nicht_zuzuordnen":
+    case "beobNichtZuzuordnen":
         items = {
             "GoogleMaps": {
                 "label": "auf Luftbild zeigen",

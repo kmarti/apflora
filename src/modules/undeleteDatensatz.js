@@ -96,7 +96,7 @@ module.exports = function () {
         tabelle = "tblJBer";
         id = window.apf.deleted.JBerId;
         break;
-    case "jber_uebersicht":
+    case "jberUebersicht":
         tabelle = "tblJBerUebersicht";
         id = window.apf.deleted.JbuJahr;
         break;

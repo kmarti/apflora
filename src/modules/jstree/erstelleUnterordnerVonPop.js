@@ -11,7 +11,7 @@ module.exports = function (popNode, popId) {
         "data": "Teilpopulationen",
         "attr": {
             "id": popId,
-            "typ": "pop_ordner_tpop"
+            "typ": "popOrdnerTpop"
         }
     });
     $.jstree._reference(popNode).create_node(popNode, "last", {

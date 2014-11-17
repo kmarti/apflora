@@ -123,11 +123,11 @@ var returnFunction = function (request, reply) {
                 popOrdnerNode    = {},
                 popOrdnerNodeChildren;
 
-            // node für ap_ordner_pop aufbauen
+            // node für apOrdnerPop aufbauen
             popOrdnerNode.data     = 'Populationen (' + popListe.length + ')';
             popOrdnerNode.attr     = {
-                id: 'ap_ordner_pop' + apId,
-                typ: 'ap_ordner_pop'
+                id: 'apOrdnerPop' + apId,
+                typ: 'apOrdnerPop'
             };
             popOrdnerNodeChildren  = [];
             popOrdnerNode.children = popOrdnerNodeChildren;
@@ -171,7 +171,7 @@ var returnFunction = function (request, reply) {
                     typ: 'pop',
                     sort: popSort
                 };
-                // popNode.children ist ein Array, der enthält: pop_ordner_tpop, pop_ordner_popber, pop_ordner_massnber
+                // popNode.children ist ein Array, der enthält: popOrdnerTpop, pop_ordner_popber, pop_ordner_massnber
                 popNode.children = popNodeChildren;
 
                 popOrdnerNodeChildren.push(popNode);

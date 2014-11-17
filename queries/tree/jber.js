@@ -41,8 +41,8 @@ var returnFunction = function (request, reply) {
 
         node.data = 'AP-Berichte (' + jberListe.length + ')';
         node.attr = {
-            id: 'ap_ordner_jber' + apId,
-            typ: 'ap_ordner_jber'
+            id: 'apOrdnerJber' + apId,
+            typ: 'apOrdnerJber'
         };
         nodeChildren = buildChildrenForJBerOrdner(results);
         node.children = nodeChildren;
@@ -87,7 +87,7 @@ function buildChildForJBer(JBerJahr, jberÜbersichtListe) {
         object.data = 'Übersicht zu allen Arten';
         object.attr = {
             id: jberÜbersicht.JbuJahr,
-            typ: 'jber_uebersicht'
+            typ: 'jberUebersicht'
         };
         return [object];
     } else {

@@ -26,7 +26,7 @@ var jberÜbersicht = function (JBerJahr) {
                 node.data = 'Übersicht zu allen Arten';
                 node.attr = {
                     id: data.JbuJahr,
-                    typ: 'jber_uebersicht'
+                    typ: 'jberUebersicht'
                 };
                 nodeArray.push(node);
                 return nodeArray;

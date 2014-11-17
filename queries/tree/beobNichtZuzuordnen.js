@@ -28,8 +28,8 @@ var beobNichtZuzuordnen = function (request, reply) {
             }
 
             node.attr = {
-                id: 'ap_ordner_beob_nicht_zuzuordnen' + apId,
-                typ: 'ap_ordner_beob_nicht_zuzuordnen'
+                id: 'apOrdnerBeobNichtZuzuordnen' + apId,
+                typ: 'apOrdnerBeobNichtZuzuordnen'
             };
             node.children = buildChildFromData(data);
 
@@ -51,7 +51,7 @@ function buildChildFromData(data) {
         // beob voransetzen, damit die ID im ganzen Baum eindeutig ist
         object.attr = {
             id: 'beob' + beob.NO_NOTE,
-            typ: 'beob_nicht_zuzuordnen',
+            typ: 'beobNichtZuzuordnen',
             beobtyp: beob.beobtyp
         };
         childrenArray.push(object);

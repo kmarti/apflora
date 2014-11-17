@@ -49,8 +49,8 @@ module.exports = function (markerBeob, Beob) {
                             localStorage.karteFokussieren = true;
                             // Beob der TPop zuweisen
                             // TODO: Was ist, wenn diese Beobachtung im Baum nicht dargestellt wird????
-                            $("#tree").jstree("move_node", "#beob" + Beob.NO_NOTE, "#tpop_ordner_beob_zugeordnet" + data[0].TPopId, "first");
-                            //$("#tree").jstree("move_node", "#beob" + Beob.NO_NOTE, "#tpop_ordner_beob_zugeordnet" + data[0].TPopId, "first");
+                            $("#tree").jstree("move_node", "#beob" + Beob.NO_NOTE, "#tpopOrdnerBeobZugeordnet" + data[0].TPopId, "first");
+                            //$("#tree").jstree("move_node", "#beob" + Beob.NO_NOTE, "#tpopOrdnerBeobZugeordnet" + data[0].TPopId, "first");
                             // Den Marker der zugewiesenen Beobachtung entfernen
                             that.setMap(null);
                         },

@@ -1,31 +1,31 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $ = require('jquery');
+var $                          = require('jquery'),
+    initiiereBeob              = require('../initiiereBeob'),
+    initiiereIdealbiotop       = require('../initiiereIdealbiotop'),
+    initiiereAp                = require('../initiiereAp'),
+    initiierePop               = require('../initiierePop'),
+    initiiereApziel            = require('../initiiereApziel'),
+    initiiereZielber           = require('../initiiereZielber'),
+    initiiereErfkrit           = require('../initiiereErfkrit'),
+    initiiereJber              = require('../initiiereJber'),
+    initiiereJberUebersicht    = require('../initiiereJberUebersicht'),
+    initiiereBer               = require('../initiiereBer'),
+    initiiereAssozart          = require('../initiiereAssozart'),
+    initiierePopMassnBer       = require('../initiierePopMassnBer'),
+    initiiereTPop              = require('../initiiereTPop'),
+    initiierePopBer            = require('../initiierePopBer'),
+    initiiereTPopFeldkontr     = require('../initiiereTPopFeldkontr'),
+    initiiereTPopMassn         = require('../initiiereTPopMassn'),
+    initiiereTPopMassnBer      = require('../initiiereTPopMassnBer'),
+    initiiereTPopBer           = require('../initiiereTPopBer'),
+    erstelleIdAusDomAttributId = require('../erstelleIdAusDomAttributId');
 
 module.exports = function (event, data, ApArtId) {
     var node,
         nodeTyp,
-        nodeId,
-        initiiereBeob              = require('../initiiereBeob'),
-        initiiereIdealbiotop       = require('../initiiereIdealbiotop'),
-        initiiereAp                = require('../initiiereAp'),
-        initiierePop               = require('../initiierePop'),
-        initiiereApziel            = require('../initiiereApziel'),
-        initiiereZielber           = require('../initiiereZielber'),
-        initiiereErfkrit           = require('../initiiereErfkrit'),
-        initiiereJber              = require('../initiiereJber'),
-        initiiereJberUebersicht    = require('../initiiereJberUebersicht'),
-        initiiereBer               = require('../initiiereBer'),
-        initiiereAssozart          = require('../initiiereAssozart'),
-        initiierePopMassnBer       = require('../initiierePopMassnBer'),
-        initiiereTPop              = require('../initiiereTPop'),
-        initiierePopBer            = require('../initiierePopBer'),
-        initiiereTPopFeldkontr     = require('../initiiereTPopFeldkontr'),
-        initiiereTPopMassn         = require('../initiiereTPopMassn'),
-        initiiereTPopMassnBer      = require('../initiiereTPopMassnBer'),
-        initiiereTPopBer           = require('../initiiereTPopBer'),
-        erstelleIdAusDomAttributId = require('../erstelleIdAusDomAttributId');
+        nodeId;
 
     // Erinnerung an letzten Klick im Baum löschen
     delete localStorage.tpopfreiwkontr;
@@ -44,7 +44,7 @@ module.exports = function (event, data, ApArtId) {
             delete localStorage.popId;
             initiiereAp(nodeId);
         }
-    } else if (nodeTyp === "pop" || nodeTyp.slice(0, 4) === "pop_") {
+    } else if (nodeTyp === "pop" || nodeTyp.slice(0, 3) === "pop") {
         // verhindern, dass bereits offene Seiten nochmals geöffnet werden
         if (!$("#pop").is(':visible') || localStorage.popId !== nodeId) {
             localStorage.popId = nodeId;
@@ -74,9 +74,9 @@ module.exports = function (event, data, ApArtId) {
             localStorage.jberId = nodeId;
             initiiereJber();
         }
-    } else if (nodeTyp === "jber_uebersicht") {
+    } else if (nodeTyp === "jberUebersicht") {
         // verhindern, dass bereits offene Seiten nochmals geöffnet werden
-        if (!$("#jber_uebersicht").is(':visible') || localStorage.jberUebersichtId !== nodeId) {
+        if (!$("#jberUebersicht").is(':visible') || localStorage.jberUebersichtId !== nodeId) {
             localStorage.jberUebersichtId = nodeId;
             initiiereJberUebersicht();
         }
@@ -143,14 +143,14 @@ module.exports = function (event, data, ApArtId) {
             localStorage.tpopberId = nodeId;
             initiiereTPopBer();
         }
-    } else if (nodeTyp === "beob_zugeordnet") {
+    } else if (nodeTyp === "beobZugeordnet") {
         // verhindern, dass bereits offene Seiten nochmals geöffnet werden
         if (!$("#beob").is(':visible') || localStorage.beobId !== nodeId || localStorage.beobStatus !== "zugeordnet") {
             localStorage.beobId = nodeId;
             localStorage.beobtyp = node.attr("beobtyp");
             initiiereBeob(node.attr("beobtyp"), nodeId, "zugeordnet");
         }
-    } else if (nodeTyp === "beob_nicht_beurteilt") {
+    } else if (nodeTyp === "beobNichtBeurteilt") {
         // verhindern, dass bereits offene Seiten nochmals geöffnet werden
         if (!$("#beob").is(':visible') || localStorage.beobId !== nodeId || localStorage.beobStatus !== "nicht_beurteilt") {
             localStorage.beobId = nodeId;
@@ -158,7 +158,7 @@ module.exports = function (event, data, ApArtId) {
             // den Beobtyp mitgeben
             initiiereBeob(node.attr("beobtyp"), nodeId, "nicht_beurteilt");
         }
-    } else if (nodeTyp === "beob_nicht_zuzuordnen") {
+    } else if (nodeTyp === "beobNichtZuzuordnen") {
         // verhindern, dass bereits offene Seiten nochmals geöffnet werden
         if (!$("#beob").is(':visible') || localStorage.beobId !== nodeId || localStorage.beobStatus !== "nicht_zuzuordnen") {
             localStorage.beobId = nodeId;

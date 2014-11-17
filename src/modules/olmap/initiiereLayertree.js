@@ -208,7 +208,7 @@ var returnFunction = function (active_kategorie) {
     }
 
     // Maximalgrösse des Layertree begrenzen
-    $olmap_layertree_layers.css('max-height', window.apf.berechneOlmapLayertreeMaxhöhe);
+    $olmap_layertree_layers.css('max-height', window.apf.berechneOlmapLayertreeMaxhoehe);
     // buttons initiieren
     $('.neues_layer')
         .button({

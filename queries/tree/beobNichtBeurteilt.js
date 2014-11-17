@@ -27,8 +27,8 @@ var beobNichtBeurteilt = function (request, reply) {
                 node.data = 'nicht beurteilte Beobachtungen (erste ' + data.length + ')';
             }
             node.attr = {
-                id: 'ap_ordner_beob_nicht_beurteilt' + apId,
-                typ: 'ap_ordner_beob_nicht_beurteilt'
+                id: 'apOrdnerBeobNichtBeurteilt' + apId,
+                typ: 'apOrdnerBeobNichtBeurteilt'
             };
             node.children = buildChildFromData(data);
             reply(null, node);
@@ -47,7 +47,7 @@ function buildChildFromData(data) {
         object.data = datum + ': ' + autor;
         // beob voransetzen, damit die ID im ganzen Baum eindeutig ist
         object.attr = {
-            typ: 'beob_nicht_beurteilt'
+            typ: 'beobNichtBeurteilt'
         };
 
         if (beob.NO_NOTE) {

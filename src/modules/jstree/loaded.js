@@ -1,10 +1,10 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $ = require('jquery');
+var $           = require('jquery'),
+    initiiereAp = require('../initiiereAp');
 
 module.exports = function (ApArtId) {
-    var initiiereAp = require('../initiiereAp');
 
     window.apf.setzeTreehoehe();
     $("#suchen").show();
@@ -53,17 +53,17 @@ module.exports = function (ApArtId) {
     }
     if (window.apf.beobZugeordnetZeigen) {
         $("#tree").jstree("select_node", "#beob" + localStorage.beobId);
-        // diese Markierung entfernen, damit das nächste mal nicht mehr diese beob_zugeordnet geöffnet wird
+        // diese Markierung entfernen, damit das nächste mal nicht mehr diese beobZugeordnet geöffnet wird
         delete window.apf.beobZugeordnetZeigen;
     }
     if (window.apf.beobNichtBeurteilZeigen) {
         $("#tree").jstree("select_node", "#beob" + localStorage.beobId);
-        // diese Markierung entfernen, damit das nächste mal nicht mehr diese beob_zugeordnet geöffnet wird
+        // diese Markierung entfernen, damit das nächste mal nicht mehr diese beobZugeordnet geöffnet wird
         delete window.apf.beobNichtBeurteilZeigen;
     }
     if (window.apf.beobNichtZuzuordnenZeigen) {
         $("#tree").jstree("select_node", "#beob" + localStorage.beobId);
-        // diese Markierung entfernen, damit das nächste mal nicht mehr diese beob_zugeordnet geöffnet wird
+        // diese Markierung entfernen, damit das nächste mal nicht mehr diese beobZugeordnet geöffnet wird
         delete window.apf.beobNichtZuzuordnenZeigen;
     }
     if (window.apf.tpopmassnberZeigen) {
@@ -92,8 +92,8 @@ module.exports = function (ApArtId) {
         delete window.apf.jberZeigen;
     }
     if (window.apf.jberUebersichtZeigen) {
-        $("#tree").jstree("select_node", "[typ='jber_uebersicht']#" + localStorage.jberUebersichtId);
-        // diese Markierung entfernen, damit das nächste mal nicht mehr diese jber_uebersicht geöffnet wird
+        $("#tree").jstree("select_node", "[typ='jberUebersicht']#" + localStorage.jberUebersichtId);
+        // diese Markierung entfernen, damit das nächste mal nicht mehr diese jberUebersicht geöffnet wird
         delete window.apf.jberUebersichtZeigen;
     }
     if (window.apf.berZeigen) {

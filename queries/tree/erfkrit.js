@@ -23,8 +23,8 @@ var erfkrit = function (request, reply) {
 
             node.data = 'AP-Erfolgskriterien (' + data.length + ')';
             node.attr = {
-                id: 'ap_ordner_erfkrit' + apId,
-                typ: 'ap_ordner_erfkrit'
+                id: 'apOrdnerErfkrit' + apId,
+                typ: 'apOrdnerErfkrit'
             };
             node.children = buildChildFromData(data);
 

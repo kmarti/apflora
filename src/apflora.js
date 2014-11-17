@@ -1,5 +1,10 @@
 /*jslint node: true, browser: true, nomen: true*/
 
+var _      = require('underscore'),
+    $      = require('jquery'),
+    google = require('google'),
+    saveAs = require('saveAs');
+
 // benötigte globale Variablen initialisieren
 window.apf = window.apf || {};
 window.apf.gmap = window.apf.gmap || {};
@@ -120,7 +125,7 @@ window.apf.setzeWindowJberUebersicht = function (id) {
     }).done(function (data) {
         // Rückgabewert null wird offenbar auch als success gewertet, gibt weiter unten Fehler, also Ausführung verhindern
         if (data && data[0]) {
-            // jber_uebersicht bereitstellen
+            // jberUebersicht bereitstellen
             window.apf.jberUebersicht = data[0];
         }
     });
@@ -213,6 +218,7 @@ window.apf.setzeWindowTpop = function (id) {
 };
 
 window.apf.downloadFileFromView = function (view, filename, format) {
+    'use strict';
     // löst einen Download aus
     // als Formate steht momentan nur csv (und teilweise kml) zur Verfügung, weil xlsx leider nicht funktioniert hat
     var getTimestamp       = require('./modules/getTimestamp'),
@@ -255,6 +261,7 @@ window.apf.downloadFileFromView = function (view, filename, format) {
 };
 
 window.apf.downloadFileFromViewWehreIdIn = function (view, idName, idListe, filename, format) {
+    'use strict';
     // löst einen Download aus
     // als Formate steht momentan nur csv zur Verfügung, weil xlsx leider nicht funktioniert hat
     var getTimestamp = require('./modules/getTimestamp'),
@@ -369,13 +376,13 @@ window.apf.initiiereExporte = function (anchor) {
 // leert alle Felder und stellt ihre Breite ein
 window.apf.leereFelderVonFormular = function (Formular) {
     'use strict';
-    $('#' + Formular + ' input[type="text"]').each(function (){
+    $('#' + Formular).find('input[type="text"]').each(function () {
         $(this).val("");
     });
-    $('#' + Formular + ' input[type="radio"]:checked').each(function (){
+    $('#' + Formular).find('input[type="radio"]:checked').each(function () {
         $(this).prop('checked', false);
     });
-    $('#' + Formular + ' select').each(function (){
+    $('#' + Formular).find('select').each(function () {
         $(this).val("");
     });
 };
@@ -389,7 +396,7 @@ window.apf.setzeTreehoehe = function () {
         }
     } else {
         // Spalten sind untereinander. Baum 75px weniger hoch, damit Formulare immer erreicht werden können
-        if (($(".jstree-no-icons").height() + 157) > $(window).height()-75) {
+        if (($(".jstree-no-icons").height() + 157) > $(window).height() - 75) {
             $("#tree").css("max-height", $(window).height() - 220);
         }
     }
@@ -397,7 +404,7 @@ window.apf.setzeTreehoehe = function () {
 
 window.apf.setzeKartenhoehe = function () {
     'use strict';
-    var lyt_max_height = window.apf.berechneOlmapLayertreeMaxhöhe,
+    var lytMaxHeight = window.apf.berechneOlmapLayertreeMaxhoehe,
         forms_height,
         max_width;
     // Formulare sind unbegrenzt hoch aber Karten sollen das nicht sein
@@ -423,9 +430,9 @@ window.apf.setzeKartenhoehe = function () {
         if (window.apf.olmap && window.apf.olmap.map) {
             window.apf.olmap.map.updateSize();
             // Maximalgrösse des Layertree begrenzen
-            $('#olmap_layertree_layers').css('max-height', lyt_max_height);
+            $('#olmap_layertree_layers').css('max-height', lytMaxHeight);
         }
-        if (typeof google !== "undefined" && google.maps && window.apf.gmap && window.apf.gmap.map !== undefined) {
+        if (google !== undefined && google.maps && window.apf.gmap && window.apf.gmap.map !== undefined) {
             google.maps.event.trigger(window.apf.gmap.map, 'resize');
         }
     } else {
@@ -456,18 +463,20 @@ window.apf.olmap.blendeOlmapExportieren = function () {
     });
 };
 
-window.apf.berechneOlmapLayertreeMaxhöhe = function () {
-    var lyt_max_height;
+window.apf.berechneOlmapLayertreeMaxhoehe = function () {
+    'use strict';
+    var lytMaxHeight;
     if ($(window).width() > 1000) {
-        lyt_max_height = $(window).height() - 115;
+        lytMaxHeight = $(window).height() - 115;
     } else {
         // Spalten sind untereinander
-        lyt_max_height = 200;
+        lytMaxHeight = 200;
     }
-    return lyt_max_height;
+    return lytMaxHeight;
 };
 
 (function ($) {
+    'use strict';
     $.fn.hasScrollBar = function () {
         return this.get(0).scrollHeight > this.height();
     };
@@ -476,23 +485,28 @@ window.apf.berechneOlmapLayertreeMaxhöhe = function () {
 // setzt die Höhe von textareas so, dass der Text genau rein passt
 window.apf.fitTextareaToContent = function (id, maxHeight) {
     'use strict';
-   var text = id && id.style ? id : document.getElementById(id);
-   if (!text)
-      return;
+    var text = id && id.style ? id : document.getElementById(id),
+        adjustedHeight;
 
-   /* Accounts for rows being deleted, pixel value may need adjusting */
-   if (text.clientHeight == text.scrollHeight) {
-      text.style.height = "30px";
-   }       
+    if (!text) {
+        return;
+    }
 
-   var adjustedHeight = text.clientHeight;
-   if (!maxHeight || maxHeight > adjustedHeight) {
-      adjustedHeight = Math.max(text.scrollHeight, adjustedHeight);
-      if (maxHeight)
-         adjustedHeight = Math.min(maxHeight, adjustedHeight);
-      if (adjustedHeight > text.clientHeight)
-         text.style.height = adjustedHeight + "px";
-   }
+    /* Accounts for rows being deleted, pixel value may need adjusting */
+    if (text.clientHeight == text.scrollHeight) {
+        text.style.height = "30px";
+    }
+
+    adjustedHeight = text.clientHeight;
+    if (!maxHeight || maxHeight > adjustedHeight) {
+        adjustedHeight = Math.max(text.scrollHeight, adjustedHeight);
+        if (maxHeight) {
+            adjustedHeight = Math.min(maxHeight, adjustedHeight);
+        }
+        if (adjustedHeight > text.clientHeight) {
+            text.style.height = adjustedHeight + "px";
+        }
+    }
 };
 
 window.apf.erstelleApliste = function (programm, callback) {
@@ -502,8 +516,7 @@ window.apf.erstelleApliste = function (programm, callback) {
 
     // sicherstellen, dass ein Programm übergeben wurde
     if (!programm) {
-        apliste_erstellt.resolve();
-        return apliste_erstellt.promise();
+        return;
     }
 
     // nur machen, wenn window.apf.apliste noch nicht existiert
@@ -515,21 +528,27 @@ window.apf.erstelleApliste = function (programm, callback) {
             // die Daten werden später benötigt > globale Variable erstellen
             window.apf.apliste[programm] = data;
             setzeAutocompleteFuerApliste(programm);
-            if (callback) { callback(); }
+            if (callback) {
+                callback();
+            }
         });
     } else {
         setzeAutocompleteFuerApliste(programm);
-        if (callback) { callback(); }
+        if (callback) {
+            callback();
+        }
     }
 };
 
 // wird in index.html benutzt
-window.apf.wähleApListe = function (programm) {
+window.apf.waehleApListe = function (programm) {
+    'use strict';
     require('./modules/waehleApliste')(programm);
 };
 
 // diese Funktion kann nicht modularisiert werden, weil jstree nicht für node entwickelt wurde!!!!
 window.apf.erstelleTree = function (ApArtId) {
+    'use strict';
     require('./modules/jstree/erstelleTree')(ApArtId);
 };
 
@@ -544,12 +563,12 @@ window.apf.beschrifteOrdnerPop = function (node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_apziel = function (node) {
+window.apf.beschrifteOrdnerApziel = function (node) {
     'use strict';
     var anz = 0,
         anzTxt;
-    $($.jstree._reference(node)._get_children(node)).each(function (index) {
-        $($(this).find("> ul > li")).each(function (index) {
+    $($.jstree._reference(node)._get_children(node)).each(function () {
+        $($(this).find("> ul > li")).each(function () {
             anz += 1;
         });
     });
@@ -559,10 +578,11 @@ window.apf.beschrifte_ordner_apziel = function (node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_apzieljahr = function (node) {
+window.apf.beschrifteOrdnerApzieljahr = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt;
+
     anzTxt = $.jstree._reference(node).get_text(node).slice(0, 6);
     anzTxt += anz + ")";
     $.jstree._reference(node).rename_node(node, anzTxt);
@@ -570,7 +590,7 @@ window.apf.beschrifte_ordner_apzieljahr = function (node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_zielber = function (node) {
+window.apf.beschrifteOrdnerZielber = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "Ziel-Berichte (" + anz + ")";
@@ -579,7 +599,7 @@ window.apf.beschrifte_ordner_zielber = function (node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_erfkrit = function (node) {
+window.apf.beschrifteOrdnerErfkrit = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "AP-Erfolgskriterien (" + anz + ")";
@@ -588,7 +608,7 @@ window.apf.beschrifte_ordner_erfkrit = function (node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_jber = function (node) {
+window.apf.beschrifteOrdnerJber = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "AP-Berichte (" + anz + ")";
@@ -597,7 +617,7 @@ window.apf.beschrifte_ordner_jber = function (node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_ber = function (node) {
+window.apf.beschrifteOrdnerBer = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "Berichte (" + anz + ")";
@@ -606,7 +626,7 @@ window.apf.beschrifte_ordner_ber = function (node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_assozarten = function (node) {
+window.apf.beschrifteOrdnerAssozarten = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "assoziierte Arten (" + anz + ")";
@@ -624,7 +644,7 @@ window.apf.beschrifteOrdnerTpop = function (node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_popber = function (node) {
+window.apf.beschrifteOrdnerPopber = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "Populations-Berichte (" + anz + ")";
@@ -633,7 +653,7 @@ window.apf.beschrifte_ordner_popber = function (node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_popmassnber = function (node) {
+window.apf.beschrifteOrdnerPopmassnber = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "Massnahmen-Berichte (" + anz + ")";
@@ -642,7 +662,7 @@ window.apf.beschrifte_ordner_popmassnber = function (node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_tpopmassnber = function (node) {
+window.apf.beschrifteOrdnerTpopmassnber = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "Massnahmen-Berichte (" + anz + ")";
@@ -660,7 +680,7 @@ window.apf.beschrifteOrdnerTpopmassn = function (node) {
 
 // übernimmt einen node
 // zählt dessen children und passt die Beschriftung an
-window.apf.beschrifte_ordner_tpopber = function (node) {
+window.apf.beschrifteOrdnerTpopber = function (node) {
     'use strict';
     var anz = $(node).find("> ul > li").length,
         anzTxt = "Teilpopulations-Berichte (" + anz + ")";
@@ -712,7 +732,7 @@ window.apf.beschrifteOrdnerBeobNichtNuzuordnen = function (node) {
     $.jstree._reference(node).rename_node(node, anzTxt);
 };
 
-window.apf.tpopKopiertInPopOrdnerTpopEinfügen = function (aktiverNode) {
+window.apf.tpopKopiertInPopOrdnerTpopEinfuegen = function (aktiverNode) {
     'use strict';
     var insertNeuenNodeEineHierarchiestufeTiefer = require('./modules/jstree/insertNeuenNodeEineHierarchiestufeTiefer'),
         melde                                    = require('./modules/melde'),
@@ -720,12 +740,12 @@ window.apf.tpopKopiertInPopOrdnerTpopEinfügen = function (aktiverNode) {
 
     $.ajax({
         type: 'post',
-        url: 'api/v1/tpopInsertKopie/popId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopId=' + erstelleIdAusDomAttributId($(window.apf.tpop_node_kopiert).attr("id")) + '/user=' + sessionStorage.user
+        url: 'api/v1/tpopInsertKopie/popId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopId=' + erstelleIdAusDomAttributId($(window.apf.tpopNodeKopiert).attr("id")) + '/user=' + sessionStorage.user
     }).done(function (id) {
         var strukturtyp = "tpop",
             beschriftung = window.apf.tpopObjektKopiert.TPopFlurname;
         if (window.apf.tpopObjektKopiert.TPopNr) {
-            beschriftung = window.apf.tpopObjektKopiert.TPopNr + ': ' + window.apf.tpopObjektKopiert.TPopFlurname
+            beschriftung = window.apf.tpopObjektKopiert.TPopNr + ': ' + window.apf.tpopObjektKopiert.TPopFlurname;
         }
         insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, "", strukturtyp, id, beschriftung);
     }).fail(function () {
@@ -773,10 +793,12 @@ window.apf.pruefeSchreibvoraussetzungen = function () {
 // vorläufig indirekt aufrufen, damit $ übergeben wird
 // später durch jstree 3 ablösen
 window.apf.speichern = function (that) {
+    'use strict';
     require('./modules/speichern')(that);
 };
 
 (function ($) {
+    'use strict';
     // friendly helper //tinyurl.com/6aow6yn
     // Läuft durch alle Felder im Formular
     // Wenn ein Wert enthalten ist, wird Feldname und Wert ins Objekt geschrieben
@@ -802,26 +824,29 @@ window.apf.speichern = function (that) {
 })(jQuery);
 
 window.apf.olmap.getLayerNames = function () {
+    'use strict';
     var layer_objekt_array = window.apf.olmap.map.getLayers().getArray(),
         layers = _.map(layer_objekt_array, function (layer_objekt) {
             if (layer_objekt.values_ && layer_objekt.values_.title) {
-                 return layer_objekt.values_.title;
+                return layer_objekt.values_.title;
             }
         });
     return layers;
 };
 
 window.apf.olmap.getLayersWithTitle = function () {
+    'use strict';
     var layers_array = window.apf.olmap.map.getLayers().getArray(),
         layers = _.map(layers_array, function (layer) {
             if (layer.get('title')) {
-                 return layer;
+                return layer;
             }
         });
     return layers || [];
 };
 
 window.apf.olmap.entferneLayerNachName = function (name) {
+    'use strict';
     var layers_array = window.apf.olmap.getLayersWithTitle(),
         layername,
         layer_kategorie,
@@ -868,6 +893,7 @@ window.apf.olmap.entferneAlleApfloraLayer = function () {
 };
 
 window.apf.aktualisiereKoordinatenVonTPop = function (tpop) {
+    'use strict';
     var koord_aktualisiert = $.Deferred();
     // Datensatz updaten
     $.ajax({
@@ -885,6 +911,7 @@ window.apf.aktualisiereKoordinatenVonTPop = function (tpop) {
 };
 
 window.apf.olmap.stapleLayerZuoberst = function (layer_title) {
+    'use strict';
     var layers = window.apf.olmap.map.getLayers(),
         layers_array = window.apf.olmap.map.getLayers().getArray(),
         top_layer,
@@ -909,16 +936,19 @@ window.apf.olmap.entferneModifyInteractionFuerTpop = function () {
 
 // wird in index.html benutzt
 window.apf.olmap.entferneModifyInteractionFuerVectorLayer = function (input_div) {
+    'use strict';
     require('./modules/olmap/entferneModifyInteractionFuerVectorLayer')(input_div);
 };
 
 // wird in index.html benutzt
 window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function (vectorlayer) {
+    'use strict';
     require('./modules/olmap/erstelleModifyInteractionFuerVectorLayer')(vectorlayer);
 };
 
 // wird in index.html benutzt
 window.apf.olmap.exportiereLayer = function (layer, selected_value) {
+    'use strict';
     require('./modules/olmap/exportiereLayer')(layer, selected_value);
 };
 
@@ -998,6 +1028,7 @@ window.apf.olmap.listSelectedFeatures = function (typ) {
 
 // sucht features an einem Ort in der Karte
 window.apf.olmap.sucheFeatures = function (pixel) {
+    'use strict';
     var features = [];
     window.apf.olmap.map.forEachFeatureAtPixel(pixel, function (feature, layer) {
         features.push(feature);
@@ -1006,6 +1037,7 @@ window.apf.olmap.sucheFeatures = function (pixel) {
 };
 
 window.apf.olmap.entfernePopupOverlays = function () {
+    'use strict';
     var overlays = window.apf.olmap.map.getOverlays().getArray(),
         zu_löschender_overlay = [];
     _.each(overlays, function (overlay) {
@@ -1072,6 +1104,7 @@ window.apf.erstelleTPopNrLabel = function (popnr, tpopnr) {
 };
 
 window.apf.olmap.erstelleMarkerFürTPopLayer = function (tpop) {
+    'use strict';
     return new ol.Feature({
         geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
         tpopNr: tpop.TPopNr,
@@ -1167,20 +1200,20 @@ window.apf.oeffneBeob = function (beob) {
 
 window.apf.oeffneBeobInNeuemTab = function (beob) {
     'use strict';
-    var beobStatus = (beob.BeobNichtZuordnen ? 'beob_nicht_zuzuordnen' : 'beob_nicht_beurteilt');
+    var beobStatus = (beob.BeobNichtZuordnen ? 'beobNichtZuzuordnen' : 'beobNichtBeurteilt');
     window.open("index.html?ap=" + localStorage.apId + "&" + beobStatus + "=" + beob.NO_NOTE, "_blank");
 };
 
 window.apf.öffneTPopBeob = function (beobId) {
     'use strict';
     localStorage.beobId = beobId;
-    $.jstree._reference("[typ='beob_zugeordnet']#beob" + beobId).deselect_all();
-    $("#tree").jstree("select_node", "[typ='beob_zugeordnet']#beob" + beobId);
+    $.jstree._reference("[typ='beobZugeordnet']#beob" + beobId).deselect_all();
+    $("#tree").jstree("select_node", "[typ='beobZugeordnet']#beob" + beobId);
 };
 
 window.apf.öffneTPopBeobInNeuemTab = function (beobId) {
     'use strict';
-    window.open("index.html?ap="+localStorage.apId + "&pop=" + localStorage.popId + "&tpop=" + localStorage.tpopId + "&beob_nicht_beurteilt=" + beobId, "_blank");
+    window.open("index.html?ap="+localStorage.apId + "&pop=" + localStorage.popId + "&tpop=" + localStorage.tpopId + "&beobNichtBeurteilt=" + beobId, "_blank");
 };
 
 
@@ -1506,14 +1539,15 @@ window.apf.olmap.addSelectFeaturesInSelectableLayers = function () {
 };
 
 window.apf.olmap.getSelectedFeatures = function () {
+    'use strict';
     if (window.apf.olmap.map.olmap_select_interaction) {
         return window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
-    } else {
-        return [];
     }
+    return [];
 };
 
 window.apf.olmap.getSelectedFeaturesOfType = function (type) {
+    'use strict';
     var features_array = window.apf.olmap.getSelectedFeatures(),
         return_array = [],
         feature_type;
@@ -1557,6 +1591,7 @@ window.apf.olmap.addShowFeatureInfoOnClick = function () {
 };
 
 window.apf.olmap.prüfeObPopTpopGewähltWurden = function () {
+    'use strict';
     var popSelected = [],
         tpopSelected = [],
         erstelleListeDerAusgewaehltenPopTPop = require('./modules/erstelleListeDerAusgewaehltenPopTPop');
@@ -1610,6 +1645,7 @@ window.apf.olmap.addFullScreenControl = function () {
 
 // wird in index.html benutzt
 window.apf.olmap.frageNameFuerEbene = function (eigene_ebene) {
+    'use strict';
     return require('./modules/olmap/frageNameFuerEbene')(eigene_ebene);
 };
 
@@ -1625,11 +1661,13 @@ window.apf.olmap.nenneEbeneUm = function (layer, title) {
 
 // wird in index.html benutzt
 window.apf.olmap.initiiereLayertree = function (active_kategorie) {
+    'use strict';
     require('./modules/olmap/initiiereLayertree')(active_kategorie);
 };
 
 // wird in index.html verwendet
 window.apf.oeffneFormularAlsPopup = function (formularname, id) {
+    'use strict';
     require('./modules/oeffneFormularAlsPopup')(formularname, id);
 };
 
@@ -1661,11 +1699,13 @@ window.apf.olmap.detailplanStyleSelected = function (feature, resolution) {
 
 // wird in index.js benutzt
 window.apf.olmap.stylePop = function (feature, resolution, selected) {
+    'use strict';
     return require('./modules/olmap/stylePop')(feature, resolution, selected);
 };
 
 // wird in index.js benutzt
 window.apf.olmap.styleTPop = function (feature, resolution, selected, verorten) {
+    'use strict';
     return require('./modules/olmap/styleTPop')(feature, resolution, selected, verorten);
 };
 
@@ -1683,6 +1723,7 @@ window.apf.olmap.messe = function (element) {
 };
 
 window.apf.olmap.removeMeasureInteraction = function () {
+    'use strict';
     window.apf.olmap.entferneLayerNachName('messen');
     window.apf.olmap.map.removeInteraction(window.apf.olmap.drawMeasure);
     delete window.apf.olmap.drawMeasure;
@@ -1696,6 +1737,7 @@ window.apf.olmap.removeMeasureInteraction = function () {
  * @return {string}
 */
 window.apf.olmap.formatLength = function (line) {
+    'use strict';
     var length = Math.round(line.getLength() * 100) / 100,
         output;
     if (length > 100) {
@@ -1712,6 +1754,7 @@ window.apf.olmap.formatLength = function (line) {
  * @return {string}
 */
 window.apf.olmap.formatArea = function (polygon) {
+    'use strict';
     var area = polygon.getArea(),
         output;
     if (area > 10000) {
@@ -1723,6 +1766,7 @@ window.apf.olmap.formatArea = function (polygon) {
 };
 
 window.apf.olmap.wähleAus = function () {
+    'use strict';
     window.apf.olmap.deactivateMenuItems();
     window.apf.olmap.addSelectFeaturesInSelectableLayers();
 };
@@ -1769,6 +1813,7 @@ window.apf.erstelleGemeindeliste = function () {
 // wird aufgerufen, wenn der ap geändert wird
 // wird in index.html benutzt
 window.apf.waehleAp = function (apId) {
+    'use strict';
     require('./modules/waehleAp')(apId);
 };
 
@@ -1805,6 +1850,7 @@ window.apf.kopiereKoordinatenInPop = function (x_koord, y_koord) {
 
 // wird in index.html benutzt
 window.apf.prüfeAnmeldung = function () {
+    'use strict';
     require('./modules/pruefeAnmeldung')();
 };
 
@@ -1879,11 +1925,13 @@ window.apf.melde = function (meldung, title) {
 
 // wird in index.html benutzt
 window.apf.löscheAp = function (apId) {
+    'use strict';
     require('./modules/loescheAp')(apId);
 };
 
 // wird in index.html benutzt
 window.apf.undeleteDatensatz = function () {
+    'use strict';
     require('./modules/undeleteDatensatz')();
 };
 
@@ -1895,12 +1943,14 @@ window.apf.olmap.exportiereKarte = function (event) {
 
 // hier behalten, damit $ eingefügt werden kann
 window.apf.treeKontextmenu = function (node) {
+    'use strict';
     return require('./modules/jstree/treeKontextmenu')(node);
 };
 
 // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
 // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
 (function ($) {
+    'use strict';
     $.fn.extend( {
         limiter: function (limit, elem) {
             $(this).on("keyup focus", function () {

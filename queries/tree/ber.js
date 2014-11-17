@@ -23,8 +23,8 @@ var ber = function (request, reply) {
 
             node.data = 'Berichte (' + data.length + ')';
             node.attr = {
-                id: 'ap_ordner_ber' + apId,
-                typ: 'ap_ordner_ber'
+                id: 'apOrdnerBer' + apId,
+                typ: 'apOrdnerBer'
             };
             node.children = buildChildFromData(data);
 

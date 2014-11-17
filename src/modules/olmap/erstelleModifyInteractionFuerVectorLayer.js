@@ -91,7 +91,7 @@ var returnFunction = function (vectorlayer) {
         });
 
         // verhindern, dass Knoten im Strukturbaum entfernt werden
-        $.jstree._reference("[typ='ap_ordner_pop']").deselect_all();
+        $.jstree._reference("[typ='apOrdnerPop']").deselect_all();
     });
 
     window.apf.olmap.selected_features.on('remove', function (event) {

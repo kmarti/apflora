@@ -4,23 +4,23 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $ = require('jquery');
-$.jstree = require('jquery.jstree');
+var $                               = require('jquery'),
+    initiiereFormularMitStrukturtyp = require('../initiiereFormularMitStrukturtyp'),
+    erstelleUnterordnerVonTpop      = require('./erstelleUnterordnerVonTpop'),
+    erstelleUnterordnerVonPop       = require('./erstelleUnterordnerVonPop'),
+    erstelleIdAusDomAttributId      = require('../erstelleIdAusDomAttributId'),
+    capitaliseFirstLetter           = require('../../lib/capitaliseFirstLetter');
 
-var returnFunction = function (aktiverNode, parentNode, strukturtyp, dsId, beschriftung) {
-    var NeuerNode,
-        neueApzieleNode,
-        initiiereFormularMitStrukturtyp = require('../initiiereFormularMitStrukturtyp'),
-        erstelleUnterordnerVonTpop      = require('./erstelleUnterordnerVonTpop'),
-        erstelleUnterordnerVonPop       = require('./erstelleUnterordnerVonPop'),
-        erstelleIdAusDomAttributId      = require('../erstelleIdAusDomAttributId');
+module.exports = function (aktiverNode, parentNode, strukturtyp, dsId, beschriftung) {
+    var neuerNode,
+        neueApzieleNode;
 
     // id global verfügbar machen
     localStorage[strukturtyp + "Id"] = dsId;
     // letzte globale Variable entfernen
     delete window.apf[strukturtyp];
-    if (strukturtyp === "apziel" && localStorage.apziel_von_ordner_apziel) {
-        // localStorage.apziel_von_ordner_apziel sagt: apziel wird vom ordner_apziel aus angelegt > temporären Unterordner anlegen
+    if (strukturtyp === "apziel" && localStorage.apzielVonOrdnerApziel) {
+        // localStorage.apzielVonOrdnerApziel sagt: apziel wird vom ordner_apziel aus angelegt > temporären Unterordner anlegen
         neueApzieleNode = $.jstree._reference(aktiverNode).create_node(aktiverNode, "last", {
             "data": "neue AP-Ziele",
             "attr": {
@@ -29,18 +29,18 @@ var returnFunction = function (aktiverNode, parentNode, strukturtyp, dsId, besch
             }
         });
         // darunter neuen Node bauen
-        NeuerNode = $.jstree._reference(neueApzieleNode).create_node(neueApzieleNode, "last", {
+        neuerNode = $.jstree._reference(neueApzieleNode).create_node(neueApzieleNode, "last", {
             "data": beschriftung,
             "attr": {
                 "id": dsId,
                 "typ": strukturtyp
             }
         });
-        delete localStorage.apziel_von_ordner_apziel;
+        delete localStorage.apzielVonOrdnerApziel;
     } else {
         // Normalfall
         // neuen Node bauen
-        NeuerNode = $.jstree._reference(aktiverNode).create_node(aktiverNode, "last", {
+        neuerNode = $.jstree._reference(aktiverNode).create_node(aktiverNode, "last", {
             "data": beschriftung,
             "attr": {
                 "id": dsId,
@@ -50,13 +50,13 @@ var returnFunction = function (aktiverNode, parentNode, strukturtyp, dsId, besch
     }
     // allfällige Unterordner anlegen
     if (strukturtyp === "pop") {
-        erstelleUnterordnerVonPop(NeuerNode, dsId);
+        erstelleUnterordnerVonPop(neuerNode, dsId);
     }
     if (strukturtyp === "tpop") {
-        erstelleUnterordnerVonTpop(NeuerNode, dsId);
+        erstelleUnterordnerVonTpop(neuerNode, dsId);
     }
     if (strukturtyp === "apziel") {
-        $.jstree._reference(NeuerNode).create_node(NeuerNode, "last", {
+        $.jstree._reference(neuerNode).create_node(neuerNode, "last", {
             "data": "0 Ziel-Berichte",
             "attr": {
                 "id": dsId,
@@ -66,23 +66,22 @@ var returnFunction = function (aktiverNode, parentNode, strukturtyp, dsId, besch
         // im create_node-Event von jstree wird Jahr eingefügt und gespeichert
     }
     // Node-Beschriftung: Anzahl anpassen
-    if (strukturtyp === "apziel" && localStorage.apziel_von_apzieljahr) {
+    if (strukturtyp === "apziel" && localStorage.apzielVonApzieljahr) {
         // hier ist ein Ordner zwischengeschaltet
         // Parent Node-Beschriftung: Anzahl anpassen, wenns nicht der neue Ordner ist
         if ($.jstree._reference(parentNode).get_text(parentNode) !== "neue AP-Ziele") {
-            window.apf.beschrifte_ordner_apziel(parentNode);
+            window.apf.beschrifteOrdnerApziel(parentNode);
         }
         // aktiver Node-Beschriftung: Anzahl anpassen
-        window.apf.beschrifte_ordner_apzieljahr(aktiverNode);
-        delete localStorage.apziel_von_apzieljahr;
-    } else if (strukturtyp !== "jber_uebersicht") {
-        window.apf["beschrifte_ordner_" + strukturtyp](aktiverNode);
+        window.apf.beschrifteOrdnerApzieljahr(aktiverNode);
+        delete localStorage.apzielVonApzieljahr;
+    } else if (strukturtyp !== "jberUebersicht") {
+        console.log('strukturtyp: ', strukturtyp);
+        window.apf["beschrifteOrdner" + capitaliseFirstLetter(strukturtyp)](aktiverNode);
     }
     // node selecten
     $.jstree._reference(aktiverNode).deselect_all();
-    $.jstree._reference(NeuerNode).select_node(NeuerNode);
+    $.jstree._reference(neuerNode).select_node(neuerNode);
     // Formular initiieren
     initiiereFormularMitStrukturtyp(strukturtyp);
 };
-
-module.exports = returnFunction;

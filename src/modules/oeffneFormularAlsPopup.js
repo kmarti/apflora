@@ -29,7 +29,7 @@ module.exports = function (formularname, id) {
     case 'beob':
         title = 'Beobachtung';
         // formular initiieren, ohne anzuzeigen
-        require('./initiiereBeob')('beob_nicht_beurteilt', id, 'nicht_beurteilt', true);
+        require('./initiiereBeob')('beobNichtBeurteilt', id, 'nicht_beurteilt', true);
         break;
     default:
         title = '';

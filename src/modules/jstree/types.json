@@ -2,20 +2,20 @@
     "type_attr": "typ",
     "max_children": -2,
     "max_depth": -2,
-    "valid_children": ["ap_ordner_pop", "ap_ordner_apziel", "ap_ordner_erfkrit", "ap_ordner_jber", "ap_ordner_ber", "ap_ordner_beob_nicht_beurteilt", "ap_ordner_beob_nicht_zuzuordnen", "idealbiotop", "ap_ordner_assozarten"],
+    "valid_children": ["apOrdnerPop", "apOrdnerApziel", "apOrdnerErfkrit", "apOrdnerJber", "apOrdnerBer", "apOrdnerBeobNichtBeurteilt", "apOrdnerBeobNichtZuzuordnen", "idealbiotop", "apOrdnerAssozarten"],
     "types": {
-        "ap_ordner_pop": {
+        "apOrdnerPop": {
             "valid_children": "pop"
         },
         "pop": {
-            "valid_children": ["pop_ordner_tpop", "pop_ordner_popber", "pop_ordner_massnber"],
+            "valid_children": ["popOrdnerTpop", "pop_ordner_popber", "pop_ordner_massnber"],
             "new_node": "neue Population"
         },
-        "pop_ordner_tpop": {
+        "popOrdnerTpop": {
             "valid_children": "tpop"
         },
         "tpop": {
-            "valid_children": ["tpop_ordner_massn", "tpop_ordner_massnber", "tpop_ordner_feldkontr", "tpop_ordner_freiwkontr", "tpop_ordner_tpopber", "tpop_ordner_beob_zugeordnet"],
+            "valid_children": ["tpop_ordner_massn", "tpopOrdnerMassnber", "tpopOrdnerFeldkontr", "tpopOrdnerFreiwkontr", "tpop_ordner_tpopber", "tpopOrdnerBeobZugeordnet"],
             "new_node": "neue Teilpopulation"
         },
         "tpop_ordner_massn": {
@@ -25,21 +25,21 @@
             "valid_children": "none",
             "new_node": "neue Massnahme"
         },
-        "tpop_ordner_massnber": {
+        "tpopOrdnerMassnber": {
             "valid_children": "tpopmassnber"
         },
         "tpopmassnber": {
             "valid_children": "none",
             "new_node": "neuer Massnahmen-Bericht"
         },
-        "tpop_ordner_feldkontr": {
+        "tpopOrdnerFeldkontr": {
             "valid_children": "tpopfeldkontr"
         },
         "tpopfeldkontr": {
             "valid_children": "none",
             "new_node": "neue Feldkontrolle"
         },
-        "tpop_ordner_freiwkontr": {
+        "tpopOrdnerFreiwkontr": {
             "valid_children": "tpopfreiwkontr"
         },
         "tpopfreiwkontr": {
@@ -53,10 +53,10 @@
             "valid_children": "none",
             "new_node": "neuer Teilpopulations-Bericht"
         },
-        "tpop_ordner_beob_zugeordnet": {
-            "valid_children": "beob_zugeordnet"
+        "tpopOrdnerBeobZugeordnet": {
+            "valid_children": "beobZugeordnet"
         },
-        "beob_zugeordnet": {
+        "beobZugeordnet": {
             "valid_children": "none"
         },
         "pop_ordner_popber": {
@@ -73,7 +73,7 @@
             "valid_children": "none",
             "new_node": "neuer Massnahmen-Bericht"
         },
-        "ap_ordner_apziel": {
+        "apOrdnerApziel": {
             "valid_children": "apzieljahr"
         },
         "apzieljahr": {
@@ -90,47 +90,47 @@
             "valid_children": "none",
             "new_node": "neuer Ziel-Bericht"
         },
-        "ap_ordner_erfkrit": {
+        "apOrdnerErfkrit": {
             "valid_children": "erfkrit"
         },
         "erfkrit": {
             "valid_children": "none",
             "new_node": "neues Erfolgskriterium"
         },
-        "ap_ordner_jber": {
+        "apOrdnerJber": {
             "valid_children": "jber"
         },
         "jber": {
-            "valid_children": "jber_uebersicht",
+            "valid_children": "jberUebersicht",
             "new_node": "neuer AP-Bericht"
         },
-        "jber_uebersicht": {
+        "jberUebersicht": {
             "valid_children": "none",
             "new_node": "neue Übersicht zu allen Arten"
         },
-        "ap_ordner_ber": {
+        "apOrdnerBer": {
             "valid_children": "ber"
         },
         "ber": {
             "valid_children": "none",
             "new_node": "neuer Bericht"
         },
-        "ap_ordner_beob_nicht_beurteilt": {
-            "valid_children": "beob_nicht_beurteilt"
+        "apOrdnerBeobNichtBeurteilt": {
+            "valid_children": "beobNichtBeurteilt"
         },
-        "beob_nicht_beurteilt": {
+        "beobNichtBeurteilt": {
             "valid_children": "none"
         },
-        "ap_ordner_beob_nicht_zuzuordnen": {
-            "valid_children": "beob_nicht_zuzuordnen"
+        "apOrdnerBeobNichtZuzuordnen": {
+            "valid_children": "beobNichtZuzuordnen"
         },
-        "beob_nicht_zuzuordnen": {
+        "beobNichtZuzuordnen": {
             "valid_children": "none"
         },
         "idealbiotop": {
             "valid_children": "none"
         },
-        "ap_ordner_assozarten": {
+        "apOrdnerAssozarten": {
             "valid_children": "assozarten"
         },
         "assozarten": {

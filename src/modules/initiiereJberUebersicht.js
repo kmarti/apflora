@@ -31,9 +31,9 @@ module.exports = function (apId, uebId) {
     var $JbuJahr = $("#JbuJahr");
 
     // Felder zurücksetzen
-    window.apf.leereFelderVonFormular("jber_uebersicht");
+    window.apf.leereFelderVonFormular("jberUebersicht");
 
-    // Daten für die jber_uebersicht aus der DB holen
+    // Daten für die jberUebersicht aus der DB holen
     $.ajax({
         type: 'get',
         url: 'api/v1/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wertNumber=' + uebId
@@ -42,7 +42,7 @@ module.exports = function (apId, uebId) {
         if (data && data[0]) {
             data = data[0];
 
-            // jber_uebersicht bereitstellen
+            // jberUebersicht bereitstellen
             window.apf.jberUebersicht = data;
 
             // Felder mit Daten beliefern
@@ -50,8 +50,8 @@ module.exports = function (apId, uebId) {
             $("#JbuBemerkungen").val(data.JbuBemerkungen);
 
             // Formulare blenden
-            zeigeFormular("jber_uebersicht");
-            history.pushState(null, null, "index.html?ap=" + apId + "&jber_uebersicht=" + uebId);
+            zeigeFormular("jberUebersicht");
+            history.pushState(null, null, "index.html?ap=" + apId + "&jberUebersicht=" + uebId);
 
             // bei neuen Datensätzen Fokus steuern
             if (!$JbuJahr.val()) {

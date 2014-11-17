@@ -69,8 +69,8 @@ var returnFunction = function (request, reply) {
             // nodes für apzieljahre aufbauen
             apzieleOrdnerNode.data = 'AP-Ziele (' + apzielListe.length + ')';
             apzieleOrdnerNode.attr = {
-                id: 'ap_ordner_apziel' + apId,
-                typ: 'ap_ordner_apziel'
+                id: 'apOrdnerApziel' + apId,
+                typ: 'apOrdnerApziel'
             };
             apzieleOrdnerNodeChildren = [];
             apzieleOrdnerNode.children = apzieleOrdnerNodeChildren;

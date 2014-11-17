@@ -102,7 +102,7 @@ module.exports = function (beobListe) {
         // marker.set("typ", "beob");
         // marker.set("id", Beob.BeobId);
         marker.metadata = {
-            typ: "beob_nicht_beurteilt",
+            typ: "beobNichtBeurteilt",
             id:  beob.NO_NOTE
         };
         markers.push(marker);

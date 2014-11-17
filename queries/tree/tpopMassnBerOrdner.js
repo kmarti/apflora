@@ -18,8 +18,8 @@ var returnFunction = function (tpopMassnBerListe, tpop) {
     // tpopOrdnerMassnahmenBer aufbauen
     tpopMassnBerOrdner.data = 'Massnahmen-Berichte (' + massnberVonTpop.length + ')';
     tpopMassnBerOrdner.attr = {
-        id: 'tpop_ordner_massnber' + tpop.TPopId,
-        typ: 'tpop_ordner_massnber'
+        id: 'tpopOrdnerMassnber' + tpop.TPopId,
+        typ: 'tpopOrdnerMassnber'
     };
     tpopMassnBerOrdner.children = [];
 

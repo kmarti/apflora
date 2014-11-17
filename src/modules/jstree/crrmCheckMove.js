@@ -22,7 +22,7 @@ module.exports = function (m) {
                 before: true,
                 inside: false
             };
-        case 'pop_ordner_tpop':
+        case 'popOrdnerTpop':
             return {
                 after: false,
                 before: false,
@@ -40,7 +40,7 @@ module.exports = function (m) {
                 before: true,
                 inside: false
             };
-        case 'tpop_ordner_massn':
+        case 'tpopOrdnerMassn':
             return {
                 after: false,
                 before: false,
@@ -58,7 +58,7 @@ module.exports = function (m) {
                 before: true,
                 inside: false
             };
-        case 'tpop_ordner_feldkontr':
+        case 'tpopOrdnerFeldkontr':
             return {
                 after: false,
                 before: false,
@@ -76,7 +76,7 @@ module.exports = function (m) {
                 before: true,
                 inside: false
             };
-        case 'tpop_ordner_freiwkontr':
+        case 'tpopOrdnerFreiwkontr':
             return {
                 after: false,
                 before: false,
@@ -86,39 +86,39 @@ module.exports = function (m) {
             return false;
         }
     }
-    if (m.o.attr("typ") === "beob_zugeordnet") {
+    if (m.o.attr("typ") === "beobZugeordnet") {
         switch (m.r.attr("typ")) {
-        case 'beob_zugeordnet':
+        case 'beobZugeordnet':
             return {
                 after: true,
                 before: true,
                 inside: false
             };
-        case 'tpop_ordner_beob_zugeordnet':
+        case 'tpopOrdnerBeobZugeordnet':
             return {
                 after: false,
                 before: false,
                 inside: true
             };
-        case 'ap_ordner_beob_nicht_beurteilt':
+        case 'apOrdnerBeobNichtBeurteilt':
             return {
                 after: false,
                 before: false,
                 inside: true
             };
-        case 'beob_nicht_beurteilt':
+        case 'beobNichtBeurteilt':
             return {
                 after: true,
                 before: true,
                 inside: false
             };
-        case 'ap_ordner_beob_nicht_zuzuordnen':
+        case 'apOrdnerBeobNichtZuzuordnen':
             return {
                 after: false,
                 before: false,
                 inside: true
             };
-        case 'beob_nicht_zuzuordnen':
+        case 'beobNichtZuzuordnen':
             return {
                 after: true,
                 before: true,
@@ -128,39 +128,39 @@ module.exports = function (m) {
             return false;
         }
     }
-    if (m.o.attr("typ") === "beob_nicht_beurteilt") {
+    if (m.o.attr("typ") === "beobNichtBeurteilt") {
         switch (m.r.attr("typ")) {
-        case 'beob_zugeordnet':
+        case 'beobZugeordnet':
             return {
                 after: true,
                 before: true,
                 inside: false
             };
-        case 'tpop_ordner_beob_zugeordnet':
+        case 'tpopOrdnerBeobZugeordnet':
             return {
                 after: false,
                 before: false,
                 inside: true
             };
-        case 'ap_ordner_beob_nicht_beurteilt':
+        case 'apOrdnerBeobNichtBeurteilt':
             return {
                 after: false,
                 before: false,
                 inside: true
             };
-        case 'beob_nicht_beurteilt':
+        case 'beobNichtBeurteilt':
             return {
                 after: true,
                 before: true,
                 inside: false
             };
-        case 'ap_ordner_beob_nicht_zuzuordnen':
+        case 'apOrdnerBeobNichtZuzuordnen':
             return {
                 after: false,
                 before: false,
                 inside: true
             };
-        case 'beob_nicht_zuzuordnen':
+        case 'beobNichtZuzuordnen':
             return {
                 after: true,
                 before: true,
@@ -170,39 +170,39 @@ module.exports = function (m) {
             return false;
         }
     }
-    if (m.o.attr("typ") === "beob_nicht_zuzuordnen") {
+    if (m.o.attr("typ") === "beobNichtZuzuordnen") {
         switch (m.r.attr("typ")) {
-        case 'beob_zugeordnet':
+        case 'beobZugeordnet':
             return {
                 after: true,
                 before: true,
                 inside: false
             };
-        case 'tpop_ordner_beob_zugeordnet':
+        case 'tpopOrdnerBeobZugeordnet':
             return {
                 after: false,
                 before: false,
                 inside: true
             };
-        case 'ap_ordner_beob_nicht_beurteilt':
+        case 'apOrdnerBeobNichtBeurteilt':
             return {
                 after: false,
                 before: false,
                 inside: true
             };
-        case 'beob_nicht_beurteilt':
+        case 'beobNichtBeurteilt':
             return {
                 after: true,
                 before: true,
                 inside: false
             };
-        case 'ap_ordner_beob_nicht_zuzuordnen':
+        case 'apOrdnerBeobNichtZuzuordnen':
             return {
                 after: false,
                 before: false,
                 inside: true
             };
-        case 'beob_nicht_zuzuordnen':
+        case 'beobNichtZuzuordnen':
             return {
                 after: true,
                 before: true,

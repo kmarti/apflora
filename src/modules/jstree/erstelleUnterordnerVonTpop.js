@@ -18,21 +18,21 @@ module.exports = function (tpopNode, tpopId) {
         "data": "Massnahmen-Berichte",
         "attr": {
             "id": tpopId,
-            "typ": "tpop_ordner_massnber"
+            "typ": "tpopOrdnerMassnber"
         }
     });
     $.jstree._reference(tpopNode).create_node(tpopNode, "last", {
         "data": "Feldkontrollen",
         "attr": {
             "id": tpopId,
-            "typ": "tpop_ordner_feldkontr"
+            "typ": "tpopOrdnerFeldkontr"
         }
     });
     $.jstree._reference(tpopNode).create_node(tpopNode, "last", {
         "data": "Freiwilligen-Kontrollen",
         "attr": {
             "id": tpopId,
-            "typ": "tpop_ordner_freiwkontr"
+            "typ": "tpopOrdnerFreiwkontr"
         }
     });
     $.jstree._reference(tpopNode).create_node(tpopNode, "last", {
@@ -46,7 +46,7 @@ module.exports = function (tpopNode, tpopId) {
         "data": "Beobachtungen",
         "attr": {
             "id": tpopId,
-            "typ": "tpop_ordner_beob_zugeordnet"
+            "typ": "tpopOrdnerBeobZugeordnet"
         }
     });
 };

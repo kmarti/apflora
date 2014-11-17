@@ -18,8 +18,8 @@ var returnFunction = function (tpopBeobZugeordnetListe, tpop) {
     // tpopOrdnerBeobZugeordnet aufbauen
     tpopTpopBeobOrdner.data = 'Beobachtungen (' + tpopbeobVonTpop.length + ')';
     tpopTpopBeobOrdner.attr = {
-        id: 'tpop_ordner_beob_zugeordnet' + tpop.TPopId,
-        typ: 'tpop_ordner_beob_zugeordnet'
+        id: 'tpopOrdnerBeobZugeordnet' + tpop.TPopId,
+        typ: 'tpopOrdnerBeobZugeordnet'
     };
     tpopTpopBeobOrdner.children = [];
 

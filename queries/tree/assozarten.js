@@ -21,8 +21,8 @@ var assozarten = function (request, reply) {
             if (err) reply(err);
             response.data = 'assoziierte Arten (' + data.length + ')';
             response.attr = {
-                id: 'ap_ordner_assozarten' + apId,
-                typ: 'ap_ordner_assozarten'
+                id: 'apOrdnerAssozarten' + apId,
+                typ: 'apOrdnerAssozarten'
             };
             response.children = buildChildFromData(data);
             reply(null, response);

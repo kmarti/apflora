@@ -39,7 +39,7 @@ module.exports = function (aktiverNode, parentNode) {
     // und an die DB schicken
     $.ajax({
         type: 'post',
-        url: 'api/v1/tpopInsertKopie/popId=' + data.PopId + '/tpopId=' + erstelleIdAusDomAttributId($(window.apf.tpop_node_kopiert).attr("id")) + '/user=' + data.MutWer
+        url: 'api/v1/tpopInsertKopie/popId=' + data.PopId + '/tpopId=' + erstelleIdAusDomAttributId($(window.apf.tpopNodeKopiert).attr("id")) + '/user=' + data.MutWer
     }).done(function (tpopId) {
         var strukturtyp  = "tpop",
             beschriftung = window.apf.tpopObjektKopiert.TPopNr + " " + window.apf.tpopObjektKopiert.TPopFlurname;

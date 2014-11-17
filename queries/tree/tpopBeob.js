@@ -25,7 +25,7 @@ var returnFunction = function (tpopbeob) {
         node.data = datum + ': ' + autor;
         node.attr = {
             id: 'beob' + tpopbeob.NO_NOTE,
-            typ: 'beob_zugeordnet',
+            typ: 'beobZugeordnet',
             beobtyp: tpopbeob.beobtyp
         };
     }

@@ -18,8 +18,8 @@ var returnFunction = function (tpopFeldkontrListe, tpop) {
     // tpopOrdnerFeldkontr aufbauen
     tpopFeldkontrOrdner.data = 'Feldkontrollen (' + feldkontrVonTpop.length + ')';
     tpopFeldkontrOrdner.attr = {
-        id: 'tpop_ordner_feldkontr' + tpop.TPopId,
-        typ: 'tpop_ordner_feldkontr'
+        id: 'tpopOrdnerFeldkontr' + tpop.TPopId,
+        typ: 'tpopOrdnerFeldkontr'
     };
     tpopFeldkontrOrdner.children = [];
 
