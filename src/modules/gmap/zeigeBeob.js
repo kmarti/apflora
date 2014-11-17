@@ -8,11 +8,12 @@ var $               = require('jquery'),
     MarkerClusterer = require('MarkerClusterer'),
     chToWgsLng      = require('../../lib/chToWgsLng'),
     chToWgsLat      = require('../../lib/chToWgsLat'),
-    zeigeFormular   = require('../zeigeFormular');
+    zeigeFormular   = require('../zeigeFormular'),
+    makeListener    = require('./makeListener');
 
 module.exports = function (beobListe) {
     var anz_beob,
-        infowindow,
+        infowindow = new google.maps.InfoWindow(),
         lat,
         lng,
         latlng,
@@ -32,23 +33,19 @@ module.exports = function (beobListe) {
         projekt,
         ort;
 
-    // diese Funktion muss hier sein, damit infowindow bekannt ist
-    function makeListener(map, marker, contentString) {
-        google.maps.event.addListener(marker, 'click', function () {
-            infowindow.setContent(contentString);
-            infowindow.open(map, marker);
-        });
-    }
-
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
     zeigeFormular("google_karte");
     window.apf.gmap.markersArray = [];
-    window.apf.gmap.info_window_array = [];
-    infowindow = new google.maps.InfoWindow();
+    window.apf.gmap.infoWindowArray = [];
     // Lat und Lng in BeobListe ergänzen
-    _.each(beobListe, function (beob) {
-        beob.Lat = chToWgsLat(parseInt(beob.X, 10), parseInt(beob.Y, 10));
-        beob.Lng = chToWgsLng(parseInt(beob.X, 10), parseInt(beob.Y, 10));
+    _.each(beobListe, function (beob, index) {
+        if (beob.X && beob.Y) {
+            beob.Lat = chToWgsLat(parseInt(beob.X, 10), parseInt(beob.Y, 10));
+            beob.Lng = chToWgsLng(parseInt(beob.X, 10), parseInt(beob.Y, 10));
+        } else {
+            // beob entfernen, da keine Koordinaten
+            beobListe.splice(index, 1);
+        }
     });
     // TPop zählen
     anz_beob = beobListe.length;
@@ -74,6 +71,7 @@ module.exports = function (beobListe) {
     map = new google.maps.Map(document.getElementById("google_karten_div"), options);
     window.apf.gmap.map = map;
     bounds = new google.maps.LatLngBounds();
+
     // für alle Orte Marker erstellen
     markers = [];
     _.each(beobListe, function (beob) {
@@ -124,7 +122,7 @@ module.exports = function (beobListe) {
             '<p><a href="#" onclick="window.apf.oeffneBeobInNeuemTab(\'' + beob.NO_NOTE + '\')">Formular in neuem Fenster öffnen<\/a></p>' +
             '</div>' +
             '</div>';
-        makeListener(map, marker, contentString);
+        makeListener(map, marker, contentString, infowindow);
     });
     markerOptions = {
         maxZoom: 17,

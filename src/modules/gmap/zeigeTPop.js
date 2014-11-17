@@ -10,11 +10,12 @@ var _                            = require('underscore'),
     chToWgsLat                   = require('../../lib/chToWgsLat'),
     chToWgsLng                   = require('../../lib/chToWgsLng'),
     zeigeFormular                = require('../zeigeFormular'),
-    beschrifteTPopMitNrFuerKarte = require('../beschrifteTPopMitNrFuerKarte');
+    beschrifteTPopMitNrFuerKarte = require('../beschrifteTPopMitNrFuerKarte'),
+    makeListener                 = require('./makeListener');
 
 module.exports = function (tpopListe) {
     var anzTpop,
-        infowindow,
+        infowindow = new google.maps.InfoWindow(),
         tpopBeschriftung,
         lat,
         lng,
@@ -31,19 +32,10 @@ module.exports = function (tpopListe) {
         markerCluster,
         myFlurname;
 
-    // diese Funktion muss hier sein, damit infowindow bekannt ist
-    function makeListener(map, marker, contentString) {
-        google.maps.event.addListener(marker, 'click', function () {
-            infowindow.setContent(contentString);
-            infowindow.open(map, marker);
-        });
-    }
-
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
     zeigeFormular("google_karte");
     window.apf.gmap.markersArray = [];
-    window.apf.gmap.info_window_array = [];
-    infowindow = new google.maps.InfoWindow();
+    window.apf.gmap.infoWindowArray = [];
 
     // TPopListe bearbeiten:
     // Objekte löschen, die keine Koordinaten haben
@@ -114,7 +106,7 @@ module.exports = function (tpopListe) {
             '<p><a href="#" onclick="window.apf.oeffneTPopInNeuemTab(\'' + tpop.TPopId + '\')">Formular in neuem Fenster öffnen<\/a></p>' +
             '</div>' +
             '</div>';
-        makeListener(map, marker, contentString);
+        makeListener(map, marker, contentString, infowindow);
     });
     markerOptions = {
         maxZoom: 17,

@@ -12,13 +12,14 @@ var $                            = require('jquery'),
     melde                        = require('../melde'),
     beschrifteTPopMitNrFuerKarte = require('../beschrifteTPopMitNrFuerKarte'),
     ddInChY                      = require('../../lib/ddInChY'),
-    ddInChX                      = require('../../lib/ddInChX');
+    ddInChX                      = require('../../lib/ddInChX'),
+    makeListener                 = require('./makeListener');
 
 var returnFunction = function (beobListe, tpopListe) {
     var anz_beob,
         anzTpop,
-        infowindow_beob,
-        infowindow_tpop,
+        infowindow_beob = new google.maps.InfoWindow(),
+        infowindow_tpop = new google.maps.InfoWindow(),
         tpop,
         lat,
         lng,
@@ -46,13 +47,13 @@ var returnFunction = function (beobListe, tpopListe) {
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
     zeigeFormular("google_karte");
     window.apf.gmap.markersArray = [];
-    window.apf.gmap.info_window_array = [];
-    infowindow_beob = new google.maps.InfoWindow();
-    infowindow_tpop = new google.maps.InfoWindow();
+    window.apf.gmap.infoWindowArray = [];
     // Lat und Lng in BeobListe ergänzen
     _.each(beobListe, function (beob) {
-        beob.Lat = chToWgsLat(parseInt(beob.X, 10), parseInt(beob.Y, 10));
-        beob.Lng = chToWgsLng(parseInt(beob.X, 10), parseInt(beob.Y, 10));
+        if (beob.X && beob.Y) {
+            beob.Lat = chToWgsLat(parseInt(beob.X, 10), parseInt(beob.Y, 10));
+            beob.Lng = chToWgsLng(parseInt(beob.X, 10), parseInt(beob.Y, 10));
+        }
     });
     // dito in TPopListe
     _.each(tpopListe, function (tpop, index) {
@@ -115,7 +116,7 @@ var returnFunction = function (beobListe, tpopListe) {
             '<p><a href="#" onclick="window.apf.oeffneTPopInNeuemTab(\'' + tpop.TPopId + '\')">Formular in neuem Fenster öffnen<\/a></p>' +
             '</div>' +
             '</div>';
-        makeListener(map, marker_tpop, contentstring_tpop);
+        makeListener(map, marker_tpop, contentstring_tpop, infowindow_tpop);
     });
     marker_options_tpop = {
         maxZoom: 17,
@@ -126,14 +127,6 @@ var returnFunction = function (beobListe, tpopListe) {
         }]
     };
     marker_cluster_tpop = new MarkerClusterer(map, markers_tpop, marker_options_tpop);
-
-    // diese Funktion muss hier sein, damit infowindow bekannt ist
-    function makeListener(map, markerTPop, contentStringTPop) {
-        google.maps.event.addListener(markerTPop, 'click', function () {
-            infowindow_tpop.setContent(contentStringTPop);
-            infowindow_tpop.open(map, markerTPop);
-        });
-    }
 
     // für alle Beob Marker erstellen
     window.markersBeob = [];
@@ -188,18 +181,10 @@ var returnFunction = function (beobListe, tpopListe) {
             '<p><a href="#" onclick="window.apf.oeffneBeobInNeuemTab(\'' + beob.NO_NOTE + '\')">Formular in neuem Fenster öffnen<\/a></p>' +
             '</div>' +
             '</div>';
-        makeListenerBeob(map, marker_beob, contentstring_beob);
+        makeListener(map, marker_beob, contentstring_beob, infowindow_beob);
     });
     // KEIN MARKERCLUSTERER: er verhindert das Entfernen einzelner Marker!
     // ausserdem macht er es schwierig, eng liegende Marker zuzuordnen
-
-    // diese Funktion muss hier sein, damit infowindow bekannt ist
-    function makeListenerBeob(map, markerBeob, contentStringBeob) {
-        google.maps.event.addListener(markerBeob, 'click', function () {
-            infowindow_beob.setContent(contentStringBeob);
-            infowindow_beob.open(map, markerBeob);
-        });
-    }
 
     function makeListenerMarkerBeobDragend(markerBeob, Beob) {
         google.maps.event.addListener(markerBeob, "dragend", function (event) {

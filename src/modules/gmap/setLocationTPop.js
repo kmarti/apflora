@@ -20,11 +20,13 @@ module.exports = function (latLng, map, marker, TPop) {
     if (!window.apf.pruefeSchreibvoraussetzungen()) {
         return;
     }
+
     title = (TPop && TPop.TPopFlurname ? TPop.TPopFlurname : "neue Teilpopulation");
     lat   = latLng.lat();
     lng   = latLng.lng();
     X     = ddInChY(lat, lng);
     Y     = ddInChX(lat, lng);
+
     $.ajax({
         type: 'post',
         url: 'api/v1/update/apflora/tabelle=tblTeilpopulation/tabelleIdFeld=TPopId/tabelleId=' + localStorage.tpopId + '/feld=TPopXKoord/wert=' + X + '/user=' + sessionStorage.User
@@ -48,10 +50,8 @@ module.exports = function (latLng, map, marker, TPop) {
             infowindow = new google.maps.InfoWindow({
                 content: contentString
             });
-            if (!window.apf.gmap.info_window_array) {
-                window.apf.gmap.info_window_array = [];
-            }
-            window.apf.gmap.info_window_array.push(infowindow);
+            window.apf.gmap.infoWindowArray = window.apf.gmap.infoWindowArray || [];
+            window.apf.gmap.infoWindowArray.push(infowindow);
             google.maps.event.addListener(marker, 'click', function () {
                 infowindow.open(map, marker);
             });

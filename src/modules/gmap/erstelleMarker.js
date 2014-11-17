@@ -6,10 +6,8 @@ var $               = require('jquery'),
     setLocationTPop = require('./setLocationTPop');
 
 module.exports = function (location, map, marker, tpop) {
-    var title;
-
     // title muss String sein
-    title = (tpop && tpop.TPopFlurname ? tpop.TPopFlurname : "neue Teilpopulation");
+    var title = (tpop && tpop.TPopFlurname ? tpop.TPopFlurname : "neue Teilpopulation");
 
     // zuerst bisherigen Marker löschen
     window.apf.gmap.clearMarkers();

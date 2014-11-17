@@ -46,24 +46,23 @@ module.exports = function (tpop) {
     }
     latlng = new google.maps.LatLng(lat, lng);
     options = {
-        zoom: zoomLevel,
-        center: latlng,
+        zoom:              zoomLevel,
+        center:            latlng,
         streetViewControl: false,
-        mapTypeId: google.maps.MapTypeId.SATELLITE
+        mapTypeId:         google.maps.MapTypeId.SATELLITE
     };
 
     // Karte gründen
-    map = new google.maps.Map(mapCanvas[0], options);
-    window.apf.gmap.map = map;
+    window.apf.gmap.map = map = new google.maps.Map(mapCanvas[0], options);
 
     if (verorted) {
         // marker erstellen
         tpopBeschriftung = beschrifteTPopMitNrFuerKarte(tpop.PopNr, tpop.TPopNr);
         marker = new google.maps.Marker({
-            position: latlng,
-            map: map,
-            title: tpopBeschriftung,
-            icon: "img/flora_icon_rot.png",
+            position:  latlng,
+            map:       map,
+            title:     tpopBeschriftung,
+            icon:      "img/flora_icon_rot.png",
             draggable: true
         });
         // Marker in Array speichern, damit er gelöscht werden kann
@@ -85,10 +84,8 @@ module.exports = function (tpop) {
         infowindow = new google.maps.InfoWindow({
             content: contentString
         });
-        if (!window.apf.gmap.info_window_array) {
-            window.apf.gmap.info_window_array = [];
-        }
-        window.apf.gmap.info_window_array.push(infowindow);
+        window.apf.gmap.infoWindowArray = window.apf.gmap.infoWindowArray || [];
+        window.apf.gmap.infoWindowArray.push(infowindow);
 
         google.maps.event.addListener(marker, 'click', function () {
             infowindow.open(map, marker);

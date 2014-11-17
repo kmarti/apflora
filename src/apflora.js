@@ -1123,7 +1123,7 @@ window.apf.gmap.clearMarkers = function () {
 // benutzt wo in GoogleMaps Infowindows neu gesetzt werden müssen, weil die Daten verändert wurden
 window.apf.gmap.clearInfoWindows = function () {
     'use strict';
-    _.each(window.apf.gmap.info_window_array, function (info_window) {
+    _.each(window.apf.gmap.infoWindowArray, function (info_window) {
         info_window.setMap(null);
     });
 };

@@ -2369,7 +2369,7 @@ var returnFunction = function (node) {
                         url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/nichtZuzuordnen='
                     }).done(function (beob) {
                         if (beob && beob[0]) {
-                            beob = beob[0];
+                            // Array belassen -zeigeBeob benötigt einen Array
                             $.ajax({
                                 type: 'get',
                                 url: 'api/v1/apKarte/apId=' + localStorage.apId
@@ -2598,7 +2598,8 @@ var returnFunction = function (node) {
                         url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/nichtZuzuordnen='
                     }).done(function (data) {
                         if (data && data[0]) {
-                            zeigeBeob(data[0]);
+                            // zeigeBeob erwartet einen Array von Beob
+                            zeigeBeob(data);
                         } else {
                             melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
                         }
@@ -2619,7 +2620,7 @@ var returnFunction = function (node) {
                         url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/nichtZuzuordnen='
                     }).done(function (beob) {
                         if (beob && beob[0]) {
-                            beob = beob[0];
+                            // zeigeBeob erwartet einen Array, daher diesen belassen
                             $.ajax({
                                 type: 'get',
                                 url: 'api/v1/apKarte/apId=' + erstelleIdAusDomAttributId($(parentNode).attr("id"))
@@ -2720,7 +2721,8 @@ var returnFunction = function (node) {
                         url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/nichtZuzuordnen='
                     }).done(function (data) {
                         if (data && data[0]) {
-                            zeigeBeob(data[0]);
+                            // zeigeBeob erwaret einen Array, daher diesen belassen
+                            zeigeBeob(data);
                         } else {
                             melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
                         }

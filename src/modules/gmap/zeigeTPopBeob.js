@@ -8,11 +8,12 @@ var $               = require('jquery'),
     MarkerClusterer = require('MarkerClusterer'),
     chToWgsLng      = require('../../lib/chToWgsLng'),
     chToWgsLat      = require('../../lib/chToWgsLat'),
-    zeigeFormular   = require('../zeigeFormular');
+    zeigeFormular   = require('../zeigeFormular'),
+    makeListener    = require('./makeListener');
 
 var returnFunction = function (tpop_beob_liste) {
     var anz_tpop_beob,
-        infowindow,
+        infowindow = new google.maps.InfoWindow(),
         lat,
         lng,
         latlng,
@@ -28,19 +29,10 @@ var returnFunction = function (tpop_beob_liste) {
         datum,
         titel;
 
-    // diese Funktion muss hier sein, damit infowindow bekannt ist
-    function makeListener(map, marker, contentString) {
-        google.maps.event.addListener(marker, 'click', function () {
-            infowindow.setContent(contentString);
-            infowindow.open(map, marker);
-        });
-    }
-
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
     zeigeFormular("google_karte");
     window.apf.gmap.markersArray = [];
-    window.apf.gmap.info_window_array = [];
-    infowindow = new google.maps.InfoWindow();
+    window.apf.gmap.infoWindowArray = [];
     // TPopListe bearbeiten:
     // Objekte löschen, die keine Koordinaten haben
     // Lat und Lng ergänzen
@@ -77,6 +69,7 @@ var returnFunction = function (tpop_beob_liste) {
     // Versuch: AV einblenden
     //loadWMS(map, "//wms.zh.ch/avwms?");
     bounds = new google.maps.LatLngBounds();
+
     // für alle Orte Marker erstellen
     markers = [];
     _.each(tpop_beob_liste, function (tpop_beob) {
@@ -122,7 +115,7 @@ var returnFunction = function (tpop_beob_liste) {
             '<p><a href="#" onclick="window.apf.öffneTPopBeobInNeuemTab(\'' + tpop_beob.NO_NOTE + '\')">Formular in neuem Fenster öffnen<\/a></p>' +
             '</div>' +
             '</div>';
-        makeListener(map, marker, contentString);
+        makeListener(map, marker, contentString, infowindow);
     });
     markerOptions = {
         maxZoom: 17,
