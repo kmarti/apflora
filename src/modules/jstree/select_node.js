@@ -32,8 +32,10 @@ module.exports = function (event, data, ApArtId) {
 
     node = data.rslt.obj;
     nodeTyp = node.attr("typ");
+
     // in der ID des Nodes enthaltene Texte müssen entfernt werden
     nodeId = erstelleIdAusDomAttributId(node.attr("id"));
+
     // node öffnen
     $.jstree._reference(node).open_node(node);
     // richtiges Formular initiieren
@@ -44,7 +46,7 @@ module.exports = function (event, data, ApArtId) {
             delete localStorage.popId;
             initiiereAp(nodeId);
         }
-    } else if (nodeTyp === "pop" || nodeTyp.slice(0, 3) === "pop") {
+    } else if (nodeTyp === "pop" || nodeTyp.slice(0, 9) === "popOrdner") {
         // verhindern, dass bereits offene Seiten nochmals geöffnet werden
         if (!$("#pop").is(':visible') || localStorage.popId !== nodeId) {
             localStorage.popId = nodeId;
@@ -112,7 +114,7 @@ module.exports = function (event, data, ApArtId) {
             localStorage.popmassnberId = nodeId;
             initiierePopMassnBer();
         }
-    } else if (nodeTyp === "tpop" || nodeTyp.slice(0, 4) === "tpop") {
+    } else if (nodeTyp === "tpop" || nodeTyp.slice(0, 10) === "tpopOrdner") {
         // verhindern, dass bereits offene Seiten nochmals geöffnet werden
         if (!$("#tpop").is(':visible') || localStorage.tpopId !== nodeId) {
             localStorage.tpopId = nodeId;

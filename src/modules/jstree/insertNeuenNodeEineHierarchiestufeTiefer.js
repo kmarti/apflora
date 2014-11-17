@@ -76,7 +76,6 @@ module.exports = function (aktiverNode, parentNode, strukturtyp, dsId, beschrift
         window.apf.beschrifteOrdnerApzieljahr(aktiverNode);
         delete localStorage.apzielVonApzieljahr;
     } else if (strukturtyp !== "jberUebersicht") {
-        console.log('strukturtyp: ', strukturtyp);
         window.apf["beschrifteOrdner" + capitaliseFirstLetter(strukturtyp)](aktiverNode);
     }
     // node selecten
