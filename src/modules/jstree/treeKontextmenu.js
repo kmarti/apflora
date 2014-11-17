@@ -24,7 +24,7 @@ var returnFunction = function (node) {
     aktiverNode = node;
     aktiverNodeText = $.jstree._reference(aktiverNode).get_text(aktiverNode);
     // parent nur ermitteln, wenn parents exisiteren - sonst gibt es einen Fehler
-    if ($(aktiverNode).attr("typ").slice(0, 9) !== "ap_ordner" && $(aktiverNode).attr("typ") !== "idealbiotop") {
+    if ($(aktiverNode).attr("typ").slice(0, 8) !== "apOrdner" && $(aktiverNode).attr("typ") !== "idealbiotop") {
         parentNode = $.jstree._reference(aktiverNode)._get_parent(aktiverNode);
         parentNodeText = $.jstree._reference(parentNode).get_text(parentNode);
     }
@@ -1328,7 +1328,7 @@ var returnFunction = function (node) {
             };
         }
         return items;
-    case "pop_ordner_popber":
+    case "popOrdnerPopber":
         return {
             "neu": {
                 "label": "neuer Populations-Bericht",
@@ -1416,7 +1416,7 @@ var returnFunction = function (node) {
                 }
             }
         };
-    case "pop_ordner_massnber":
+    case "popOrdnerMassnber":
         return {
             "neu": {
                 "label": "neuer Massnahmen-Bericht",
@@ -1995,7 +1995,7 @@ var returnFunction = function (node) {
             };
         }
         return items;
-    case "tpop_ordner_massn":
+    case "tpopOrdnerMassn":
         items = {
             "neu": {
                 "label": "neue Massnahme",
@@ -2199,7 +2199,7 @@ var returnFunction = function (node) {
             };
         }
         return items;
-    case "tpop_ordner_tpopber":
+    case "tpopOrdnerTpopber":
         return {
             "neu": {
                 "label": "neuer Teilpopulations-Bericht",

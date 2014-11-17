@@ -649,6 +649,8 @@ a {
 
 #forms form {
     padding: 7px 7px 7px 7px;
+    /* initial ausgeblendet */
+    display: none:;
 }
 
 form h1 {

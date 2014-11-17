@@ -256,7 +256,7 @@ module.exports = function (ApArtId) {
                     melde("Fehler: Die Massnahme wurde nicht verschoben");
                 });
             }
-            if (zielNodeTyp === "tpop_ordner_massn") {
+            if (zielNodeTyp === "tpopOrdnerMassn") {
                 $.ajax({
                     type: 'post',
                     url: 'api/v1/update/apflora/tabelle=tblTeilPopMassnahme/tabelleIdFeld=TPopId/tabelleId=' + zielNodeId + '/feld=TPopMassnId/wert=' + herkunftNodeId + '/user=' + sessionStorage.user

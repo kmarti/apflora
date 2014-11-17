@@ -2,10 +2,10 @@
 'use strict';
 
 
-var _ = require('underscore'),
+var _                   = require('underscore'),
     erstellePopMassnBer = require('./popMassnBer');
 
-var returnFunction = function (popMassnBerListe, pop) {
+module.exports = function (popMassnBerListe, pop) {
     var popMassnberOrdner = {},
         massnberVonPop,
         popMassnberNode;
@@ -19,7 +19,7 @@ var returnFunction = function (popMassnBerListe, pop) {
     popMassnberOrdner.data = 'Massnahmen-Berichte (' + massnberVonPop.length + ')';
     popMassnberOrdner.attr = {
         id: pop.PopId,
-        typ: 'pop_ordner_massnber'
+        typ: 'popOrdnerMassnber'
     };
     popMassnberOrdner.children = [];
 
@@ -31,5 +31,3 @@ var returnFunction = function (popMassnBerListe, pop) {
 
     return popMassnberOrdner;
 };
-
-module.exports = returnFunction;

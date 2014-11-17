@@ -18,8 +18,8 @@ var returnFunction = function (tpopBerListe, tpop) {
     // tpopOrdnerTpopber aufbauen
     tpopTpopberOrdner.data = 'Teilpopulations-Berichte (' + tpopberVonTpop.length + ')';
     tpopTpopberOrdner.attr = {
-        id: 'tpop_ordner_tpopber' + tpop.TPopId,
-        typ: 'tpop_ordner_tpopber'
+        id: 'tpopOrdnerTpopber' + tpop.TPopId,
+        typ: 'tpopOrdnerTpopber'
     };
     tpopTpopberOrdner.children = [];
 

@@ -1,23 +1,23 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $  = require('jquery'),
-    _  = require('underscore'),
-    ol = require('ol');
+var $                                        = require('jquery'),
+    _                                        = require('underscore'),
+    ol                                       = require('ol'),
+    frageNameFuerEbene                       = require('./frageNameFuerEbene'),
+    entferneModifyInteractionFuerVectorLayer = require('./entferneModifyInteractionFuerVectorLayer'),
+    defaultStyle                             = require('./defaultStyle'),
+    aktualisiereEbeneInLocalStorage          = require('./aktualisiereEbeneInLocalStorage');
 
 var returnFunction = function (vectorlayer) {
-    var frageNameFuerEbene                       = require('./frageNameFuerEbene'),
-        entferneModifyInteractionFuerVectorLayer = require('./entferneModifyInteractionFuerVectorLayer'),
-        defaultStyle                             = require('./defaultStyle'),
-        aktualisiereEbeneInLocalStorage          = require('./aktualisiereEbeneInLocalStorage'),
-        layerTitle,
+    var layerTitle,
         $geom_type_select;
 
     if (vectorlayer === 'neuer_layer') {
         vectorlayer = new ol.layer.Vector({
-            guid: window.apf.erstelleGuid(),
-            source: new ol.source.Vector(),
-            title: 'neue Ebene',
+            guid:      window.apf.erstelleGuid(),
+            source:    new ol.source.Vector(),
+            title:     'neue Ebene',
             kategorie: 'Eigene Ebenen',
             style: function (feature, resolution) {
                 return defaultStyle[feature.getGeometry().getType()];
@@ -39,7 +39,7 @@ var returnFunction = function (vectorlayer) {
     entferneModifyInteractionFuerVectorLayer();
 
     // select interaction erstellen
-    window.apf.olmap.select_interaction_für_vectorlayer = new ol.interaction.Select({
+    window.apf.olmap.selectInteractionFuerVectorlayer = new ol.interaction.Select({
         layers: function (layer) {
             // selectable sind nur features aus dem gewählten layer
             return layer.get('title') === layerTitle;
@@ -47,9 +47,9 @@ var returnFunction = function (vectorlayer) {
     });
 
     // selected features sollen modifiziert werden können
-    window.apf.olmap.selected_features = window.apf.olmap.select_interaction_für_vectorlayer.getFeatures();
+    window.apf.olmap.selectedFeatures = window.apf.olmap.selectInteractionFuerVectorlayer.getFeatures();
 
-    window.apf.olmap.selected_features.on('add', function (event) {
+    window.apf.olmap.selectedFeatures.on('add', function (event) {
         // now listen if the feature is changed
         var feature = event.element,
             feature_id = feature.getId();
@@ -72,9 +72,9 @@ var returnFunction = function (vectorlayer) {
         $(document).on('keyup', function (event) {
             if (event.keyCode == 46) {
                 // alle gewählten features aus select_interaction und source entfernen
-                window.apf.olmap.selected_features.forEach(function (selected_feature) {
+                window.apf.olmap.selectedFeatures.forEach(function (selected_feature) {
                     var selected_feature_id = selected_feature.getId();
-                    window.apf.olmap.selected_features.remove(selected_feature);
+                    window.apf.olmap.selectedFeatures.remove(selected_feature);
                     // features aus vectorlayer_source entfernen
                     var vectorlayer_features = vectorlayer.getSource().getFeatures();
                     vectorlayer_features.forEach(function (source_feature) {
@@ -94,7 +94,7 @@ var returnFunction = function (vectorlayer) {
         $.jstree._reference("[typ='apOrdnerPop']").deselect_all();
     });
 
-    window.apf.olmap.selected_features.on('remove', function (event) {
+    window.apf.olmap.selectedFeatures.on('remove', function (event) {
         var feature = event.element,
             feature_id = feature.getId(),
             feature_index = window.apf.olmap.modified_features.indexOf(feature_id);
@@ -108,7 +108,7 @@ var returnFunction = function (vectorlayer) {
 
     // global definieren: wird benötigt, um später (beim Klick auf 'Ebene bearbeiten') festzustellen, ob eine modify-interaction existiert
     window.apf.olmap.modify_interaction_für_vectorlayer = new ol.interaction.Modify({
-        features: window.apf.olmap.select_interaction_für_vectorlayer.getFeatures(),
+        features: window.apf.olmap.selectInteractionFuerVectorlayer.getFeatures(),
         // the SHIFT key must be pressed to delete vertices, so
         // that new vertices can be drawn at the same position
         // of existing vertices
@@ -143,7 +143,7 @@ var returnFunction = function (vectorlayer) {
     }
 
     addDrawInteraction();
-    window.apf.olmap.map.addInteraction(window.apf.olmap.select_interaction_für_vectorlayer);
+    window.apf.olmap.map.addInteraction(window.apf.olmap.selectInteractionFuerVectorlayer);
     window.apf.olmap.map.addInteraction(window.apf.olmap.modify_interaction_für_vectorlayer);
 };
 

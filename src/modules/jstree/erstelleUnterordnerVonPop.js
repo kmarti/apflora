@@ -18,14 +18,14 @@ module.exports = function (popNode, popId) {
         "data": "Populations-Berichte",
         "attr": {
             "id": popId,
-            "typ": "pop_ordner_popber"
+            "typ": "popOrdnerPopber"
         }
     });
     $.jstree._reference(popNode).create_node(popNode, "last", {
         "data": "Massnahmen-Berichte",
         "attr": {
             "id": popId,
-            "typ": "pop_ordner_massnber"
+            "typ": "popOrdnerMassnber"
         }
     });
 };

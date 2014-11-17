@@ -2,10 +2,10 @@
 'use strict';
 
 
-var _ = require('underscore'),
+var _              = require('underscore'),
     erstellePopBer = require('./popBer');
 
-var returnFunction = function (popBerListe, pop) {
+module.exports = function (popBerListe, pop) {
     var popPopberOrdner = {},
         popberVonPop,
         popBerNode;
@@ -19,18 +19,15 @@ var returnFunction = function (popBerListe, pop) {
     popPopberOrdner.data = 'Populations-Berichte (' + popberVonPop.length + ')';
     popPopberOrdner.attr = {
         id: pop.PopId,
-        typ: 'pop_ordner_popber'
+        typ: 'popOrdnerPopber'
     };
     popPopberOrdner.children = [];
 
     // popber aufbauen
     _.each(popberVonPop, function (popber) {
-
         popBerNode = erstellePopBer(popber);
         popPopberOrdner.children.push(popBerNode);
     });
 
     return popPopberOrdner;
 };
-
-module.exports = returnFunction;

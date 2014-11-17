@@ -10,10 +10,10 @@ var returnFunction = function (input_div) {
     input_div = input_div || null;
     if (window.apf.olmap.modify_interaction_für_vectorlayer) {
         window.apf.olmap.map.removeInteraction(window.apf.olmap.modify_interaction_für_vectorlayer);
-        window.apf.olmap.map.removeInteraction(window.apf.olmap.select_interaction_für_vectorlayer);
+        window.apf.olmap.map.removeInteraction(window.apf.olmap.selectInteractionFuerVectorlayer);
         window.apf.olmap.map.removeInteraction(window.apf.olmap.draw_interaction_für_vectorlayer);
         delete window.apf.olmap.modify_interaction_für_vectorlayer;
-        delete window.apf.olmap.select_interaction_für_vectorlayer;
+        delete window.apf.olmap.selectInteractionFuerVectorlayer;
         delete window.apf.olmap.draw_interaction_für_vectorlayer;
     }
     // alle buttons im layer-tool zurückstellen

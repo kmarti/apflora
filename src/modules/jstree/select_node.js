@@ -37,7 +37,7 @@ module.exports = function (event, data, ApArtId) {
     // node öffnen
     $.jstree._reference(node).open_node(node);
     // richtiges Formular initiieren
-    if (nodeTyp.slice(0, 3) === "ap_" || nodeTyp === "apzieljahr") {
+    if (nodeTyp.slice(0, 2) === "ap" || nodeTyp === "apzieljahr") {
         // verhindern, dass bereits offene Seiten nochmals geöffnet werden
         if (!$("#ap").is(':visible') || localStorage.apId !== nodeId) {
             localStorage.apId = nodeId;
@@ -50,7 +50,7 @@ module.exports = function (event, data, ApArtId) {
             localStorage.popId = nodeId;
             initiierePop(ApArtId, nodeId);
         }
-    } else if (nodeTyp === "apziel" || nodeTyp === "zielber_ordner") {
+    } else if (nodeTyp === "apziel" || nodeTyp === "zielberOrdner") {
         // verhindern, dass bereits offene Seiten nochmals geöffnet werden
         if (!$("#apziel").is(':visible') || localStorage.apzielId !== nodeId) {
             localStorage.apzielId = nodeId;
@@ -112,7 +112,7 @@ module.exports = function (event, data, ApArtId) {
             localStorage.popmassnberId = nodeId;
             initiierePopMassnBer();
         }
-    } else if (nodeTyp === "tpop" || nodeTyp.slice(0, 5) === "tpop_") {
+    } else if (nodeTyp === "tpop" || nodeTyp.slice(0, 4) === "tpop") {
         // verhindern, dass bereits offene Seiten nochmals geöffnet werden
         if (!$("#tpop").is(':visible') || localStorage.tpopId !== nodeId) {
             localStorage.tpopId = nodeId;

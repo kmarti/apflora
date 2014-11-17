@@ -230,7 +230,7 @@ var speichern = function (that) {
             } else {
                 popberbeschriftung = "(kein Jahr): (kein Status)";
             }
-            $tree.jstree("rename_node", "[typ='pop_ordner_popber'] #" + localStorage.popberId, popberbeschriftung);
+            $tree.jstree("rename_node", "[typ='popOrdnerPopber'] #" + localStorage.popberId, popberbeschriftung);
             break;
         case "PopMassnBerJahr":
         case "PopMassnBerErfolgsbeurteilung":
@@ -245,7 +245,7 @@ var speichern = function (that) {
             } else {
                 popmassnberbeschriftung = "(kein Jahr): (nicht beurteilt)";
             }
-            $tree.jstree("rename_node", "[typ='pop_ordner_massnber'] #" + localStorage.popmassnberId, popmassnberbeschriftung);
+            $tree.jstree("rename_node", "[typ='popOrdnerMassnber'] #" + localStorage.popmassnberId, popmassnberbeschriftung);
             break;
         case "TPopNr":
         case "TPopFlurname":
@@ -280,7 +280,7 @@ var speichern = function (that) {
             tpopberentwicklungLabel = $("label[for='" + $('input[name="TPopBerEntwicklung"]:checked').attr('id') + "']").text();
             tpopberjahr        = $TPopBerJahr.val()      || "(kein Jahr)";
             tpopberentwicklung = tpopberentwicklungLabel || "(keine Beurteilung)";
-            $tree.jstree("rename_node", "[typ='tpop_ordner_tpopber'] #" + localStorage.tpopberId, tpopberjahr + ": " + tpopberentwicklung);
+            $tree.jstree("rename_node", "[typ='tpopOrdnerTpopber'] #" + localStorage.tpopberId, tpopberjahr + ": " + tpopberentwicklung);
             break;
         case "TPopMassnJahr":
         case "TPopMassnTyp":
@@ -297,7 +297,7 @@ var speichern = function (that) {
                 tpopmassnbezeichnung = "(kein Jahr): (kein Typ)";
             }
             tpopmassnbezeichnung = window.apf.erstelleLabelFuerMassnahme($TPopMassnJahr.val(), $TPopMassnTypChecked.text());
-            $tree.jstree("rename_node", "[typ='tpop_ordner_massn'] #" + localStorage.tpopmassnId, tpopmassnbezeichnung);
+            $tree.jstree("rename_node", "[typ='tpopOrdnerMassn'] #" + localStorage.tpopmassnId, tpopmassnbezeichnung);
             break;
         case "TPopMassnBerJahr":
         case "TPopMassnBerErfolgsbeurteilung":

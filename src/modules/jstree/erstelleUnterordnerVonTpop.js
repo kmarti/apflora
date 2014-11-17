@@ -11,7 +11,7 @@ module.exports = function (tpopNode, tpopId) {
         "data": "Massnahmen",
         "attr": {
             "id": tpopId,
-            "typ": "tpop_ordner_massn"
+            "typ": "tpopOrdnerMassn"
         }
     });
     $.jstree._reference(tpopNode).create_node(tpopNode, "last", {
@@ -39,7 +39,7 @@ module.exports = function (tpopNode, tpopId) {
         "data": "Teilpopulations-Berichte",
         "attr": {
             "id": tpopId,
-            "typ": "tpop_ordner_tpopber"
+            "typ": "tpopOrdnerTpopber"
         }
     });
     $.jstree._reference(tpopNode).create_node(tpopNode, "last", {

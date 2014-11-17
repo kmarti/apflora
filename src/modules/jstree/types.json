@@ -8,17 +8,17 @@
             "valid_children": "pop"
         },
         "pop": {
-            "valid_children": ["popOrdnerTpop", "pop_ordner_popber", "pop_ordner_massnber"],
+            "valid_children": ["popOrdnerTpop", "popOrdnerPopber", "popOrdnerMassnber"],
             "new_node": "neue Population"
         },
         "popOrdnerTpop": {
             "valid_children": "tpop"
         },
         "tpop": {
-            "valid_children": ["tpop_ordner_massn", "tpopOrdnerMassnber", "tpopOrdnerFeldkontr", "tpopOrdnerFreiwkontr", "tpop_ordner_tpopber", "tpopOrdnerBeobZugeordnet"],
+            "valid_children": ["tpopOrdnerMassn", "tpopOrdnerMassnber", "tpopOrdnerFeldkontr", "tpopOrdnerFreiwkontr", "tpopOrdnerTpopber", "tpopOrdnerBeobZugeordnet"],
             "new_node": "neue Teilpopulation"
         },
-        "tpop_ordner_massn": {
+        "tpopOrdnerMassn": {
             "valid_children": "tpopmassn"
         },
         "tpopmassn": {
@@ -46,7 +46,7 @@
             "valid_children": "none",
             "new_node": "neue Freiwilligen-Kontrolle"
         },
-        "tpop_ordner_tpopber": {
+        "tpopOrdnerTpopber": {
             "valid_children": "tpopber"
         },
         "tpopber": {
@@ -59,14 +59,14 @@
         "beobZugeordnet": {
             "valid_children": "none"
         },
-        "pop_ordner_popber": {
+        "popOrdnerPopber": {
             "valid_children": "popber"
         },
         "popber": {
             "valid_children": "none",
             "new_node": "neuer Populations-Bericht"
         },
-        "pop_ordner_massnber": {
+        "popOrdnerMassnber": {
             "valid_children": "massnber"
         },
         "massnber": {

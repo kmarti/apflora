@@ -13,7 +13,7 @@ var _          = require('underscore'),
         database: 'alexande_apflora'
     });
 
-var returnFunction = function (request, reply) {
+module.exports = function (request, reply) {
     var apId = decodeURIComponent(request.params.apId),
         zielIds;
 
@@ -23,7 +23,7 @@ var returnFunction = function (request, reply) {
             connection.query(
                 'SELECT ZielId, ZielTyp, ZielJahr, ZielBezeichnung FROM tblZiel WHERE ApArtId = ' + apId + ' ORDER BY ZielTyp, ZielBezeichnung',
                 function (err, apzielListe) {
-                    if (err) callback(err);
+                    if (err) { callback(err); }
                     callback(null, apzielListe);
                 }
             );
@@ -36,7 +36,7 @@ var returnFunction = function (request, reply) {
             connection.query(
                 'SELECT ZielBerId, ZielId, ZielBerJahr, ZielBerErreichung FROM tblZielBericht where ZielId in (' + zielIds.join() + ') ORDER BY ZielBerJahr, ZielBerErreichung',
                 function (err, zielberListe) {
-                    if (err) callback(err);
+                    if (err) { callback(err); }
                     // das Ergebnis der vorigen Abfrage anfügen
                     var resultArray = [apzielListe, zielberListe];
                     callback(null, resultArray);
@@ -45,34 +45,34 @@ var returnFunction = function (request, reply) {
         }
     ], function (err, result) {
         if (result) {
-            var apzielListe = result[0] || [],
-                zielberListe = result[1] || [],
+            var apzielListe               = result[0] || [],
+                zielberListe              = result[1] || [],
                 apzieljahre,
                 apziele,
                 zielbere,
-                apzieleOrdnerNode = {},
+                apzieleOrdnerNode         = {},
                 apzieleOrdnerNodeChildren = [],
-                apzieljahrNode = {},
-                apzieljahrNodeChildren = [],
-                apzielNode = {},
-                apzielNodeChildren = [],
-                apzielOrdnerNode = {},
-                apzielOrdnerNodeChildren = [],
-                zielberNode = {};
+                apzieljahrNode            = {},
+                apzieljahrNodeChildren    = [],
+                apzielNode                = {},
+                apzielNodeChildren        = [],
+                apzielOrdnerNode          = {},
+                apzielOrdnerNodeChildren  = [],
+                zielberNode               = {};
 
             // in der apzielliste alls ZielJahr NULL mit '(kein Jahr)' ersetzen
             _.each(apzielListe, function (apziel) {
-                if (!apziel.ZielJahr) apziel.ZielJahr = '(kein Jahr)';
+                apziel.ZielJahr = apziel.ZielJahr || '(kein Jahr)';
             });
 
             apzieljahre = _.union(_.pluck(apzielListe, 'ZielJahr'));
             // nodes für apzieljahre aufbauen
             apzieleOrdnerNode.data = 'AP-Ziele (' + apzielListe.length + ')';
             apzieleOrdnerNode.attr = {
-                id: 'apOrdnerApziel' + apId,
+                id:  'apOrdnerApziel' + apId,
                 typ: 'apOrdnerApziel'
             };
-            apzieleOrdnerNodeChildren = [];
+            apzieleOrdnerNodeChildren  = [];
             apzieleOrdnerNode.children = apzieleOrdnerNodeChildren;
 
             _.each(apzieljahre, function (zielJahr) {
@@ -80,14 +80,14 @@ var returnFunction = function (request, reply) {
                     return apziel.ZielJahr === zielJahr;
                 });
                 // nodes für apziele aufbauen
-                apzieljahrNode = {};
-                apzieljahrNode.data = zielJahr + ' (' + apziele.length + ')';
+                apzieljahrNode          = {};
+                apzieljahrNode.data     = zielJahr + ' (' + apziele.length + ')';
                 apzieljahrNode.metadata = [apId];
                 apzieljahrNode.attr = {
                     id: apId,
                     typ: 'apzieljahr'
                 };
-                apzieljahrNodeChildren = [];
+                apzieljahrNodeChildren  = [];
                 apzieljahrNode.children = apzieljahrNodeChildren;
                 apzieleOrdnerNodeChildren.push(apzieljahrNode);
 
@@ -96,24 +96,24 @@ var returnFunction = function (request, reply) {
                         return zielber.ZielId === apziel.ZielId;
                     });
                     // node für apziele aufbauen
-                    apzielNode = {};
+                    apzielNode      = {};
                     apzielNode.data = apziel.ZielBezeichnung || '(Ziel nicht beschrieben)';
                     apzielNode.attr = {
                         id: apziel.ZielId,
                         typ: 'apziel'
                     };
-                    apzielNodeChildren = [];
+                    apzielNodeChildren  = [];
                     apzielNode.children = apzielNodeChildren;
                     apzieljahrNodeChildren.push(apzielNode);
 
                     // ...und gleich seinen node für zielber-Ordner aufbauen
-                    apzielOrdnerNode = {};
+                    apzielOrdnerNode      = {};
                     apzielOrdnerNode.data = 'Ziel-Berichte (' + zielbere.length + ')';
                     apzielOrdnerNode.attr = {
                         id: apziel.ZielId,
                         typ: 'zielber_ordner'
                     };
-                    apzielOrdnerNodeChildren = [];
+                    apzielOrdnerNodeChildren  = [];
                     apzielOrdnerNode.children = apzielOrdnerNodeChildren;
                     apzielNodeChildren.push(apzielOrdnerNode);
 
@@ -129,7 +129,7 @@ var returnFunction = function (request, reply) {
                             data = '(kein jahr): (keine Entwicklung)';
                         }
                         // nodes für zielbere aufbauen
-                        zielberNode = {};
+                        zielberNode      = {};
                         zielberNode.data = data;
                         zielberNode.attr = {
                             id: zielber.ZielBerId,
@@ -145,5 +145,3 @@ var returnFunction = function (request, reply) {
         }
     });
 };
-
-module.exports = returnFunction;

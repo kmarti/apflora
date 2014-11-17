@@ -16,7 +16,30 @@ var _                         = require('underscore'),
     erstellePopMassnBerOrdner = require('./popMassnBerOrdner'),
     erstellePopBerOrdner      = require('./popBerOrdner');
 
-var returnFunction = function (request, reply) {
+// erhält die höchste PopNr der Liste und die aktuelle
+// stellt der aktuellen PopNr soviele Nullen voran, dass
+// alle Nummern dieselbe Anzahl stellen haben
+function ergaenzePopNrUmFuehrendeNullen(popNrMax, popNr) {
+    /*jslint white: true, plusplus: true*/
+    if (!popNr && popNr !== 0)       { return null; }
+    if (!popNrMax && popNrMax !== 0) { return null; }
+
+    // Nummern in Strings umwandeln
+    popNrMax = popNrMax.toString();
+    popNr    = popNr.toString();
+
+    var stellendifferenz = popNrMax.length - popNr.length;
+
+    // Voranzustellende Nullen generieren
+    while (stellendifferenz > 0) {
+        popNr = '0' + popNr;
+        stellendifferenz--;
+    }
+    
+    return popNr;
+}
+
+module.exports = function (request, reply) {
     var apId = decodeURIComponent(request.params.apId);
 
     // zuerst die popliste holen
@@ -121,7 +144,8 @@ var returnFunction = function (request, reply) {
             var popBerListe      = results.popBerListe      || [],
                 popMassnBerListe = results.popMassnBerListe || [],
                 popOrdnerNode    = {},
-                popOrdnerNodeChildren;
+                popOrdnerNodeChildren,
+                popNrMax;
 
             // node für apOrdnerPop aufbauen
             popOrdnerNode.data     = 'Populationen (' + popListe.length + ')';
@@ -134,7 +158,7 @@ var returnFunction = function (request, reply) {
 
             // PopNr: Je nach Anzahl Stellen der maximalen PopNr bei denjenigen mit weniger Nullen
             // Nullen voranstellen, damit sie im tree auch als String richtig sortiert werden
-            var popNrMax = _.max(popListe, function (pop) {
+            popNrMax = _.max(popListe, function (pop) {
                 return pop.PopNr;
             }).PopNr;
 
@@ -143,35 +167,35 @@ var returnFunction = function (request, reply) {
                     popNodeChildren = [],
                     popMassnberOrdnerNode,
                     popBerOrdnerNode,
-                    popTpopOrdnerNode;
+                    popTpopOrdnerNode,
+                    data,
+                    popSort;
 
-                pop.PopNr = ergänzePopNrUmFührendeNullen(popNrMax, pop.PopNr);
+                pop.PopNr = ergaenzePopNrUmFuehrendeNullen(popNrMax, pop.PopNr);
 
                 // nodes für pop aufbauen
-                var data,
-                    popSort;
                 if (pop.PopName && pop.PopNr) {
-                    data = pop.PopNr + ": " + pop.PopName;
+                    data    = pop.PopNr + ": " + pop.PopName;
                     popSort = pop.PopNr;
                 } else if (pop.PopNr) {
-                    data = pop.PopNr + ": (kein Name)";
+                    data    = pop.PopNr + ": (kein Name)";
                     popSort = pop.PopNr;
                 } else if (pop.PopName) {
-                    data = "(keine Nr): " + pop.PopName;
+                    data    = "(keine Nr): " + pop.PopName;
                     // pop ohne Nummern zuunterst sortieren
                     popSort = 1000;
                 } else {
-                    data = "(keine Nr, kein Name)";
+                    data    = "(keine Nr, kein Name)";
                     popSort = 1000;
                 }
 
                 popNode.data = data;
                 popNode.attr = {
-                    id: pop.PopId,
-                    typ: 'pop',
+                    id:   pop.PopId,
+                    typ:  'pop',
                     sort: popSort
                 };
-                // popNode.children ist ein Array, der enthält: popOrdnerTpop, pop_ordner_popber, pop_ordner_massnber
+                // popNode.children ist ein Array, der enthält: popOrdnerTpop, popOrdnerPopber, popOrdnerMassnber
                 popNode.children = popNodeChildren;
 
                 popOrdnerNodeChildren.push(popNode);
@@ -192,27 +216,3 @@ var returnFunction = function (request, reply) {
         });
     });
 };
-
-module.exports = returnFunction;
-
-// erhält die höchste PopNr der Liste und die aktuelle
-// stellt der aktuellen PopNr soviele Nullen voran, dass
-// alle Nummern dieselbe Anzahl stellen haben
-function ergänzePopNrUmFührendeNullen(popNrMax, popNr) {
-    if (!popNr && popNr !== 0) return null;
-    if (!popNrMax && popNrMax !== 0) return null;
-
-    // Nummern in Strings umwandeln
-    popNrMax = popNrMax.toString();
-    popNr = popNr.toString();
-
-    var stellendifferenz = popNrMax.length - popNr.length;
-
-    // Voranzustellende Nullen generieren
-    while (stellendifferenz > 0) {
-        popNr = '0' + popNr;
-        stellendifferenz--;
-    }
-    
-    return popNr;
-}
