@@ -33,7 +33,7 @@ var returnFunction = function (pixel, coordinate) {
                         '<tr><td><p>Bemerkun_1:</p></td><td><p>' + (feature.get('Bemerkun_1') || "") + '</p></td></tr></table>';
                 } else {
                     popup_text += '<h3>' + feature.get('popup_title') + '</h3>';
-                    popup_text += feature.get('popup_content');
+                    popup_text += feature.get('popupContent');
                 }
                 if (index + 1 < features_mit_typ.length) {
                     popup_text += '<hr>';
@@ -51,7 +51,7 @@ var returnFunction = function (pixel, coordinate) {
                     '<tr><td><p>Bemerkun_1:</p></td><td><p>' + (features_mit_typ[0].get('Bemerkun_1') || "") + '</p></td></tr></table>';
                 popup_title = 'Objekt ID: ' + features_mit_typ[0].get('OBJECTID');
             } else {
-                popup_text = features_mit_typ[0].get('popup_content');
+                popup_text = features_mit_typ[0].get('popupContent');
                 popup_title = features_mit_typ[0].get('popup_title');
             }
             // als Koordinaten die Koordinate des popups nehmen

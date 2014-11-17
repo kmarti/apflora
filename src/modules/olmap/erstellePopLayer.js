@@ -10,12 +10,12 @@ var $  = require('jquery'),
     ol = require('ol');
 
 var returnFunction = function (popliste, popidMarkiert, visible) {
-    var pop_layer_erstellt = $.Deferred(),
+    var popLayerErstellt = $.Deferred(),
         markers = [],
         marker,
-        my_label,
-        my_name,
-        popup_content,
+        myLabel,
+        myName,
+        popupContent,
         pop_mit_nr_layer,
         selected_features,
         stylePop = require('./stylePop');
@@ -32,20 +32,20 @@ var returnFunction = function (popliste, popidMarkiert, visible) {
     }
 
     _.each(popliste, function (pop) {
-        my_name = pop.PopName || '(kein Name)';
-        popup_content = window.apf.olmap.erstelleContentFuerPop(pop);
+        myName = pop.PopName || '(kein Name)';
+        popupContent = window.apf.olmap.erstelleContentFuerPop(pop);
 
         // tooltip bzw. label vorbereiten: nullwerte ausblenden
-        my_label = (pop.PopNr ? pop.PopNr.toString() : '?');
+        myLabel = (pop.PopNr ? pop.PopNr.toString() : '?');
 
         // marker erstellen...
         marker = new ol.Feature({
             geometry: new ol.geom.Point([pop.PopXKoord, pop.PopYKoord]),
-            popNr: my_label,
-            pop_name: my_name,
-            name: my_label, // noch benötigt? TODO: entfernen
-            popup_content: popup_content,
-            popup_title: my_name,
+            popNr: myLabel,
+            pop_name: myName,
+            name: myLabel, // noch benötigt? TODO: entfernen
+            popupContent: popupContent,
+            popup_title: myName,
             // Koordinaten werden gebraucht, damit das popup richtig platziert werden kann
             xkoord: pop.PopXKoord,
             ykoord: pop.PopYKoord,
@@ -88,8 +88,8 @@ var returnFunction = function (popliste, popidMarkiert, visible) {
             .button("refresh");
     }
 
-    pop_layer_erstellt.resolve();
-    return pop_layer_erstellt.promise();
+    popLayerErstellt.resolve();
+    return popLayerErstellt.promise();
 };
 
 module.exports = returnFunction;

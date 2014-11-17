@@ -1,8 +1,11 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $ = require('jquery'),
-    ol = require('ol');
+var $                                 = require('jquery'),
+    ol                                = require('ol'),
+    erstelleModifyInteractionFuerTPop = require('./erstelleModifyInteractionFuerTPop'),
+    zeigeTPop                         = require('./zeigeTPop'),
+    styleTPop                         = require('./styleTPop');
 
 var returnFunction = function (tpop) {
     var bounds,
@@ -11,9 +14,7 @@ var returnFunction = function (tpop) {
         y_max,
         y_min,
         new_feature,
-        erstelleModifyInteractionFuerTPop = require('./erstelleModifyInteractionFuerTPop'),
-        zeigeTPop = require('./zeigeTPop'),
-        styleTPop = require('./styleTPop');
+        modifySource;
 
     // tpop hat keine PopNr
     // Infos von Pop müssen ergänzt werden, weil sie als Label angezeigt werden
@@ -25,11 +26,11 @@ var returnFunction = function (tpop) {
         window.apf.olmap.deactivateMenuItems();
 
         // modify-layer erstellen
-        window.apf.olmap.modify_source = new ol.source.Vector();
+        modifySource = new ol.source.Vector();
         var modify_layer = new ol.layer.Vector({
             title: 'verortende Teilpopulation',
             kategorie: 'AP Flora',
-            source: window.apf.olmap.modify_source,
+            source: modifySource,
             style: function (feature, resolution) {
                 return styleTPop(feature, resolution, false, true);
             }
@@ -46,9 +47,9 @@ var returnFunction = function (tpop) {
             // wenn schon eine Koordinate existiert:
             // tpop als feature zum modify hinzufügen
             new_feature = new ol.Feature(new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]));
-            window.apf.olmap.modify_source.addFeature(new_feature);
+            modifySource.addFeature(new_feature);
             // modify-handler erstellen
-            erstelleModifyInteractionFuerTPop();
+            erstelleModifyInteractionFuerTPop(modifySource);
             // Karte zum richtigen Ausschnitt zoomen
             window.apf.olmap.map.updateSize();
             window.apf.olmap.map.getView().fitExtent(bounds, window.apf.olmap.map.getSize());
@@ -59,7 +60,7 @@ var returnFunction = function (tpop) {
         } else {
             // wenn keine Koordinate existiert:
             window.apf.olmap.draw_interaction = new ol.interaction.Draw({
-                source: window.apf.olmap.modify_source,
+                source: modifySource,
                 type: /** @type {ol.geom.GeometryType} */ ('Point')
             });
             window.apf.olmap.map.addInteraction(window.apf.olmap.draw_interaction);
@@ -70,20 +71,20 @@ var returnFunction = function (tpop) {
                 tpop.TPopXKoord  = parseInt(coordinates[0], 10);
                 tpop.TPopYKoord = parseInt(coordinates[1], 10);
                 $.when(window.apf.aktualisiereKoordinatenVonTPop(tpop)).then(function () {
-                    // marker in tpop_layer ergänzen
-                    // tpop_layer holen
+                    // marker in tpopLayer ergänzen
+                    // tpopLayer holen
                     var layers            = window.apf.olmap.map.getLayers().getArray(),
-                        tpop_layer_nr     = $('#olmap_layertree_Teilpopulationen').val(),
-                        tpop_layer        = layers[tpop_layer_nr],
-                        tpop_layer_source = tpop_layer.getSource();
+                        tpopLayerNr     = $('#olmap_layertree_Teilpopulationen').val(),
+                        tpopLayer        = layers[tpopLayerNr],
+                        tpopLayerSource = tpopLayer.getSource();
                     // marker ergänzen
-                    tpop_layer_source.addFeature(window.apf.olmap.erstelleMarkerFürTPopLayer(tpop));
+                    tpopLayerSource.addFeature(window.apf.olmap.erstelleMarkerFürTPopLayer(tpop));
                     // selects entfernen - aus unerfindlichem Grund ist der neue Marker selektiert
                     window.apf.olmap.removeSelectFeaturesInSelectableLayers();
                 });
                 window.apf.olmap.map.removeInteraction(window.apf.olmap.draw_interaction);
                 // modify-interaction erstellen
-                erstelleModifyInteractionFuerTPop();
+                erstelleModifyInteractionFuerTPop(modifySource);
             }, this);
             // verzögern, sonst funktioniert es nicht
             setTimeout(function () {

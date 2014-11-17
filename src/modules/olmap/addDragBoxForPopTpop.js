@@ -25,10 +25,10 @@ var returnFunction = function () {
             layers = window.apf.olmap.map.getLayers().getArray(),
             pop_layer_nr = $('#olmap_layertree_Populationen').val(),
             pop_layer = layers[pop_layer_nr],
-            tpop_layer_nr = $('#olmap_layertree_Teilpopulationen').val(),
-            tpop_layer = layers[tpop_layer_nr],
+            tpopLayerNr = $('#olmap_layertree_Teilpopulationen').val(),
+            tpopLayer = layers[tpopLayerNr],
             pop_layer_source = pop_layer.getSource(),
-            tpop_layer_source = tpop_layer.getSource(),
+            tpopLayerSource = tpopLayer.getSource(),
             selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
 
         if (pop_layer.get('visible') === true) {
@@ -36,8 +36,8 @@ var returnFunction = function () {
                 selected_features.push(feature);
             });
         }
-        if (tpop_layer.get('visible') === true) {
-            tpop_layer_source.forEachFeatureInExtent(extent, function (feature) {
+        if (tpopLayer.get('visible') === true) {
+            tpopLayerSource.forEachFeatureInExtent(extent, function (feature) {
                 selected_features.push(feature);
             });
         }

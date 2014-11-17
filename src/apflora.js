@@ -901,9 +901,9 @@ window.apf.olmap.stapleLayerZuoberst = function (layer_title) {
 
 window.apf.olmap.entferneModifyInteractionFuerTpop = function () {
     'use strict';
-    if (window.apf.olmap.modify_interaction) {
-        window.apf.olmap.map.removeInteraction(window.apf.olmap.modify_interaction);
-        delete window.apf.olmap.modify_interaction;
+    if (window.apf.olmap.modifyInteraction) {
+        window.apf.olmap.map.removeInteraction(window.apf.olmap.modifyInteraction);
+        delete window.apf.olmap.modifyInteraction;
     }
 };
 
@@ -1079,7 +1079,7 @@ window.apf.olmap.erstelleMarkerFürTPopLayer = function (tpop) {
         tpop_nr_label: window.apf.erstelleTPopNrLabel(tpop.PopNr, tpop.TPopNr),
         tpop_name: tpop.TPopFlurname || '(kein Name)',
         name: window.apf.erstelleTPopNrLabel(tpop.PopNr, tpop.TPopNr),  // brauchts das noch? TODO: entfernen
-        popup_content: window.apf.olmap.erstelleContentFuerTPop(tpop),
+        popupContent: window.apf.olmap.erstelleContentFuerTPop(tpop),
         popup_title: tpop.Artname,
         // koordinaten werden benötigt damit das popup am richtigen Ort verankert wird
         xkoord: tpop.TPopXKoord,

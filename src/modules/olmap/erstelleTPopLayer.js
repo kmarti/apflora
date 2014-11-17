@@ -12,7 +12,7 @@ var $  = require('jquery'),
 
 var returnFunction = function (tpopListe, tpopid_markiert, visible) {
     var tpop_layer_erstellt = $.Deferred(),
-        tpop_layer,
+        tpopLayer,
         markers = [],
         marker,
         selected_features,
@@ -43,7 +43,7 @@ var returnFunction = function (tpopListe, tpopid_markiert, visible) {
     });
 
     // layer für Marker erstellen
-    tpop_layer = new ol.layer.Vector({
+    tpopLayer = new ol.layer.Vector({
         title: 'Teilpopulationen',
         source: new ol.source.Vector({
                 features: markers
@@ -52,11 +52,11 @@ var returnFunction = function (tpopListe, tpopid_markiert, visible) {
             return styleTPop(feature, resolution);
         }
     });
-    tpop_layer.set('visible', visible);
-    tpop_layer.set('kategorie', 'AP Flora');
+    tpopLayer.set('visible', visible);
+    tpopLayer.set('kategorie', 'AP Flora');
     
     // ...und der Karte hinzufügen
-    window.apf.olmap.map.addLayer(tpop_layer);
+    window.apf.olmap.map.addLayer(tpopLayer);
 
     if (selected_features && selected_features.length > 0) {
         setTimeout(function () {
