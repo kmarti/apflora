@@ -2572,6 +2572,18 @@
                         window.apf.olmap.erstelleModifyInteractionFürVectorLayer('neuer_layer');
                     });
 
+                $('#google_karten_div')
+                    .on('click', '.oeffneBeob', function (event) {
+                        console.log("event oeffneBeob click: $(this).data('beob') = ", $(this).data('beob'));
+                        event.preventDefault();
+                        window.apf.oeffneBeob($(this).data('beob'));
+                    })
+                    .on('click', '.oeffneBeobInNeuemTab', function (event) {
+                        console.log("event oeffneBeobInNeuemTab click: $(this).data('beob') = ", $(this).data('beob'));
+                        event.preventDefault();
+                        window.apf.oeffneBeobInNeuemTab($(this).data('beob'));
+                    });
+
                 $('#GeoAdminKarte')
                     .on('click', '#olmap_exportieren', function (event) {
                         window.apf.olmap.exportiereKarte(event);

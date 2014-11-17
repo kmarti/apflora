@@ -176,9 +176,8 @@ var returnFunction = function (beobListe, tpopListe) {
             '<p>Projekt: ' + Projekt + '</p>' +
             '<p>Ort: ' + Ort + '</p>' +
             '<p>Koordinaten: ' + beob.X + ' / ' + beob.Y + '</p>' +
-            '<p><a href="#" onclick="window.apf.oeffneBeob(\'' + beob.NO_NOTE + '\')">Formular anstelle Karte öffnen<\/a></p>' +
-            //'<p><a href="#" onclick="window.apf.oeffneFormularAlsPopup(\'beob\', ' + beob.NO_NOTE + ')">Formular neben der Karte öffnen<\/a></p>' +
-            '<p><a href="#" onclick="window.apf.oeffneBeobInNeuemTab(\'' + beob.NO_NOTE + '\')">Formular in neuem Fenster öffnen<\/a></p>' +
+            '<p><a href="#" class="oeffneBeob" data-beob=\'' + JSON.stringify(beob) + '\'>Formular anstelle Karte öffnen<\/a></p>' +
+            '<p><a href="#" class="oeffneBeobInNeuemTab" data-beob=\'' + JSON.stringify(beob) + '\')">Formular in neuem Fenster öffnen<\/a></p>' +
             '</div>' +
             '</div>';
         makeListener(map, marker_beob, contentstring_beob, infowindow_beob);

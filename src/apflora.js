@@ -1142,7 +1142,6 @@ window.apf.oeffneTPopInNeuemTab = function (tpopId) {
 
 window.apf.öffnePop = function (popId) {
     'use strict';
-    console.log('popId = ', popId);
     localStorage.popId = popId;
     $.jstree._reference("[typ='pop']#" + popId).deselect_all();
     $("#tree").jstree("select_node", "[typ='pop']#" + popId);
@@ -1153,16 +1152,23 @@ window.apf.öffnePopInNeuemTab = function (popId) {
     window.open("index.html?ap=" + localStorage.apId + "&pop=" + popId, "_blank");
 };
 
-window.apf.oeffneBeob = function (beobId) {
+window.apf.oeffneBeob = function (beob) {
     'use strict';
-    localStorage.beobId = beobId;
-    $.jstree._reference("[typ='beob_nicht_beurteilt']#beob" + beobId).deselect_all();
-    $("#tree").jstree("select_node", "[typ='beob_nicht_beurteilt']#beob" + beobId);
+    var initiiereBeob = require('./modules/initiiereBeob'),
+        beobStatus,
+        beobTyp;
+
+    beobStatus = (beob.BeobNichtZuordnen ? 'nicht_zuzuordnen' : 'nicht_beurteilt');
+    beobTyp = (isNaN(beob.NO_NOTE) ? 'evab' : 'infospezies');
+
+    localStorage.beobtyp = beobTyp;
+    initiiereBeob(beobTyp, beob.NO_NOTE, beobStatus);
 };
 
-window.apf.oeffneBeobInNeuemTab = function (beobId) {
+window.apf.oeffneBeobInNeuemTab = function (beob) {
     'use strict';
-    window.open("index.html?ap="+localStorage.apId + "&beob_nicht_beurteilt=" + beobId, "_blank");
+    var beobStatus = (beob.BeobNichtZuordnen ? 'beob_nicht_zuzuordnen' : 'beob_nicht_beurteilt');
+    window.open("index.html?ap=" + localStorage.apId + "&" + beobStatus + "=" + beob.NO_NOTE, "_blank");
 };
 
 window.apf.öffneTPopBeob = function (beobId) {
