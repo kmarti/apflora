@@ -798,11 +798,13 @@ select {
 }
 
 [type=number] {
-    width: 150px;
+    width: 160px;
 }
 
 .Datum {
-    width: 150px;
+    width: 160px;
+    /*chrome übersteuert sonst die Schrift für das eigene Kalender-Widget*/
+    font-family: Arial, Verdana, Helvetica, sans-serif;
 }
 
 #forms input,

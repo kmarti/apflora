@@ -623,7 +623,7 @@
                                         <label id="TPopKontrDatum_label" for='TPopKontrDatum'>Datum:</label>
                                     </td>
                                     <td class="Datenfelder">
-                                        <input id="TPopKontrDatum" name="TPopKontrDatum" class="speichern Datum" formular="tpopfeldkontr" type="text" placeholder='Muster: "1.1.2000"' pattern="[0-9]{4}\.[0-9]{1,2}\.[0-9]{1,2}" title="Jahr vierstellig eingeben">
+                                        <input id="TPopKontrDatum" name="TPopKontrDatum" class="speichern Datum" formular="tpopfeldkontr" type="date" placeholder='Muster: "1.1.2000"' pattern="[0-9]{4}\.[0-9]{1,2}\.[0-9]{1,2}" title="Jahr vierstellig eingeben">
                                     </td>
                                 </tr>
                                 <tr id='fieldcontain_TPopKontrTyp' class='fieldcontain feld_tpopfeldkontr TPopKontrTyp'>
@@ -1220,7 +1220,7 @@
                                 <label id="TPopMassnDatum_label" for='TPopMassnDatum'>Datum:</label>
                             </td>
                             <td class="Datenfelder">
-                                <input id="TPopMassnDatum" name="TPopMassnDatum" class="speichern Datum" formular="tpopmassn" type="text" placeholder='Muster: "1.1.2000"' pattern="[0-9]{4}\.[0-9]{1,2}\.[0-9]{1,2}" title="Jahr vierstellig eingeben">
+                                <input id="TPopMassnDatum" name="TPopMassnDatum" class="speichern Datum" formular="tpopmassn" type="date" placeholder='Muster: "1.10.2000"' pattern="[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4}" title="Jahr vierstellig eingeben">
                             </td>
                         </tr>
                         <tr class='fieldcontain TPopMassnTyp'>
@@ -1591,7 +1591,7 @@
                                 <label id="JBerDatum_label" for='JBerDatum'>Datum:</label>
                             </td>
                             <td class="Datenfelder">
-                                <input id="JBerDatum" name="JBerDatum" class="speichern Datum" formular="jber" type="text" placeholder='Muster: "1.1.2000"' pattern="[0-9]{4}\.[0-9]{1,2}\.[0-9]{1,2}" title="Jahr vierstellig eingeben">
+                                <input id="JBerDatum" name="JBerDatum" class="speichern Datum" formular="jber" type="date" placeholder='Muster: "1.1.2000"' pattern="[0-9]{4}\.[0-9]{1,2}\.[0-9]{1,2}" title="Jahr vierstellig eingeben">
                             </td>
                         </tr>
                         <tr class='fieldcontain JBerBearb'>
@@ -1676,7 +1676,7 @@
                                 <label id="IbErstelldatum_label" for='IbErstelldatum'>Erstelldatum:</label>
                             </td>
                             <td class="Datenfelder">
-                                <input id="IbErstelldatum" name="IbErstelldatum" class="speichern Datum" formular="idealbiotop" type="text" placeholder='Muster: "1.1.2000"' pattern="[0-9]{4}\.[0-9]{1,2}\.[0-9]{1,2}" title="Jahr vierstellig eingeben">
+                                <input id="IbErstelldatum" name="IbErstelldatum" class="speichern Datum" formular="idealbiotop" type="date" placeholder='Muster: "1.1.2000"' pattern="[0-9]{4}\.[0-9]{1,2}\.[0-9]{1,2}" title="Jahr vierstellig eingeben">
                             </td>
                         </tr>
                     </table>
@@ -2762,6 +2762,7 @@
             $("#tpopfeldkontr").on("change", "#TPopKontrJahr", function() {
                 var Objekt,
                     $TPopKontrDatum = $("#TPopKontrDatum");
+
                 if ($TPopKontrDatum.val()) {
                     $TPopKontrDatum.val(null);
                     Objekt = {};
@@ -2775,6 +2776,7 @@
             $("#tpopmassn").on("change", "#TPopMassnJahr", function() {
                 var Objekt,
                     $TPopMassnDatum = $("#TPopMassnDatum");
+
                 if ($TPopMassnDatum.val()) {
                     $TPopMassnDatum.val(null);
                     Objekt = {};

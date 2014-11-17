@@ -11,8 +11,8 @@ var $                       = require('jquery'),
     zeigeFormular           = require('../zeigeFormular'),
     makeListenerMarkerClick = require('./makeListenerMarkerClick');
 
-var returnFunction = function (tpop_beob_liste) {
-    var anz_tpop_beob,
+module.exports = function (tpopBeobListe) {
+    var anzTpopBeob,
         infowindow = new google.maps.InfoWindow(),
         lat,
         lng,
@@ -27,26 +27,33 @@ var returnFunction = function (tpop_beob_liste) {
         markerOptions,
         markerCluster,
         datum,
-        titel;
+        titel,
+        autor,
+        projekt,
+        ort;
 
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
     zeigeFormular("google_karte");
-    window.apf.gmap.markersArray = [];
+    window.apf.gmap.markersArray    = [];
     window.apf.gmap.infoWindowArray = [];
     // TPopListe bearbeiten:
     // Objekte löschen, die keine Koordinaten haben
     // Lat und Lng ergänzen
-    _.each(tpop_beob_liste, function (tpop_beob) {
-        tpop_beob.Lat = chToWgsLat(parseInt(tpop_beob.X, 10), parseInt(tpop_beob.Y, 10));
-        tpop_beob.Lng = chToWgsLng(parseInt(tpop_beob.X, 10), parseInt(tpop_beob.Y, 10));
+    _.each(tpopBeobListe, function (tpopBeob, index) {
+        if (tpopBeob.X && tpopBeob.Y) {
+            tpopBeob.Lat = chToWgsLat(parseInt(tpopBeob.X, 10), parseInt(tpopBeob.Y, 10));
+            tpopBeob.Lng = chToWgsLng(parseInt(tpopBeob.X, 10), parseInt(tpopBeob.Y, 10));
+        } else {
+            tpopBeobListe.splice(index, 1);
+        }
     });
     // TPop zählen
-    anz_tpop_beob = tpop_beob_liste.length;
+    anzTpopBeob = tpopBeobListe.length;
     // Karte mal auf Zürich zentrieren, falls in den TPopBeobListe.rows keine Koordinaten kommen
     // auf die die Karte ausgerichtet werden kann
-    lat = 47.383333;
-    lng = 8.533333;
-    latlng = new google.maps.LatLng(lat, lng);
+    lat     = 47.383333;
+    lng     = 8.533333;
+    latlng  = new google.maps.LatLng(lat, lng);
     options = {
         zoom: 15,
         center: latlng,
@@ -61,8 +68,7 @@ var returnFunction = function (tpop_beob_liste) {
             ]
         }
     };
-    map = new google.maps.Map(document.getElementById("google_karten_div"), options);
-    window.apf.gmap.map = map;
+    window.apf.gmap.map = map = new google.maps.Map($("#google_karten_div"), options);
     // Versuch: SVO einblenden
     //loadWMS(map, "//wms.zh.ch/FnsSVOZHWMS?");
     //loadWMS(map, "//www.gis.zh.ch/scripts/wmsfnssvo2.asp?");
@@ -72,10 +78,10 @@ var returnFunction = function (tpop_beob_liste) {
 
     // für alle Orte Marker erstellen
     markers = [];
-    _.each(tpop_beob_liste, function (tpop_beob) {
-        datum = tpop_beob.Datum;
-        latlng2 = new google.maps.LatLng(tpop_beob.Lat, tpop_beob.Lng);
-        if (anz_tpop_beob === 1) {
+    _.each(tpopBeobListe, function (tpopBeob) {
+        datum   = tpopBeob.Datum;
+        latlng2 = new google.maps.LatLng(tpopBeob.Lat, tpopBeob.Lng);
+        if (anzTpopBeob === 1) {
             // map.fitbounds setzt zu hohen zoom, wenn nur eine TPopBeob Koordinaten hat > verhindern
             latlng = latlng2;
         } else {
@@ -83,36 +89,32 @@ var returnFunction = function (tpop_beob_liste) {
             bounds.extend(latlng2);
         }
         // title muss String sein
-        if (datum) {
-            titel = datum.toString();
-        } else {
-            titel = "";
-        }
+        titel = (datum ? datum.toString() : '');
         marker = new MarkerWithLabel({
-            map: map,
-            position: latlng2,
+            map:          map,
+            position:     latlng2,
             // title muss String sein
-            title: titel,
+            title:        titel,
             labelContent: titel,
-            labelAnchor: new google.maps.Point(75, 0),
-            labelClass: "MapLabel",
-            icon: "img/flora_icon_violett.png"
+            labelAnchor:  new google.maps.Point(75, 0),
+            labelClass:   "MapLabel",
+            icon:         "img/flora_icon_violett.png"
         });
         markers.push(marker);
-        var Autor = tpop_beob.Autor || "(keiner)",
-            Projekt = tpop_beob.PROJET || "(keines)",
-            Ort = tpop_beob.DESC_LOCALITE || "(keiner)";
+        autor = tpopBeob.Autor || "(keiner)";
+        projekt = tpopBeob.PROJET || "(keines)";
+        ort = tpopBeob.DESC_LOCALITE || "(keiner)";
         contentString = '<div id="content">' +
             '<div id="siteNotice">' +
             '</div>' +
             '<div id="bodyContent" class="GmInfowindow">' +
             '<h3>' + datum + '</h3>' +
-            '<p>Autor: ' + Autor + '</p>' +
-            '<p>Projekt: ' + Projekt + '</p>' +
-            '<p>Ort: ' + Ort + '</p>' +
-            '<p>Koordinaten: ' + tpop_beob.X + ' / ' + tpop_beob.Y + '</p>' +
-            '<p><a href="#" onclick="window.apf.öffneTPopBeob(\'' + tpop_beob.NO_NOTE + '\')">Formular anstelle Karte öffnen<\/a></p>' +
-            '<p><a href="#" onclick="window.apf.öffneTPopBeobInNeuemTab(\'' + tpop_beob.NO_NOTE + '\')">Formular in neuem Fenster öffnen<\/a></p>' +
+            '<p>Autor: ' + autor + '</p>' +
+            '<p>Projekt: ' + projekt + '</p>' +
+            '<p>Ort: ' + ort + '</p>' +
+            '<p>Koordinaten: ' + tpopBeob.X + ' / ' + tpopBeob.Y + '</p>' +
+            '<p><a href="#" onclick="window.apf.öffneTPopBeob(\'' + tpopBeob.NO_NOTE + '\')">Formular anstelle Karte öffnen<\/a></p>' +
+            '<p><a href="#" onclick="window.apf.öffneTPopBeobInNeuemTab(\'' + tpopBeob.NO_NOTE + '\')">Formular in neuem Fenster öffnen<\/a></p>' +
             '</div>' +
             '</div>';
         makeListenerMarkerClick(map, marker, contentString, infowindow);
@@ -126,7 +128,7 @@ var returnFunction = function (tpop_beob_liste) {
         }]
     };
     markerCluster = new MarkerClusterer(map, markers, markerOptions);
-    if (anz_tpop_beob === 1) {
+    if (anzTpopBeob === 1) {
         // map.fitbounds setzt zu hohen zoom, wenn nur eine Beobachtung erfasst wurde > verhindern
         map.setCenter(latlng);
         map.setZoom(18);
@@ -135,5 +137,3 @@ var returnFunction = function (tpop_beob_liste) {
         map.fitBounds(bounds);
     }
 };
-
-module.exports = returnFunction;

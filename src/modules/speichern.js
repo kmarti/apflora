@@ -58,7 +58,8 @@ var speichern = function (that) {
         $BerJahr,
         $BerTitel,
         aabeschriftung,
-        $tree         = $("#tree");
+        $tree = $("#tree"),
+        jahr;
 
     if (window.apf.pruefeSchreibvoraussetzungen()) {
         formular = $(that).attr("formular");
@@ -75,6 +76,23 @@ var speichern = function (that) {
             feldwert = $('input:checkbox[name=' + feldname + ']:checked').val();
         } else if (feldtyp && feldtyp === "radio") {
             feldwert = $('input:radio[name=' + feldname + ']:checked').val();
+        } else if (feldtyp && feldtyp === "date") {
+            // testen, ob der Benutzer das Datum im verlangten Format erfasst hat
+            feldwert = $("#" + feldname).val();
+            if (feldwert) {
+                if (/[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4}/.test(feldwert)) {
+                    // ja: Reihenfolge kehren - mysql will das so
+                    //var dataArray = feldwert.split('.');
+                    feldwert = feldwert.split('.').reverse().join('.');
+                } else if (/[0-9]{4}\-[0-9]{1,2}\-[0-9]{1,2}/.test(feldwert)) {
+                    // so übergibt der Kalender von Chrome
+                    feldwert = feldwert.split('-').join('.');
+                } else {
+                    $("#" + feldname).focus();
+                    return;
+                }
+            }
+            // Hinweis: Leerwerte werden weiter gegeben, damit ein Datum entfernt werden kann
         } else {
             // textarea, input, select
             feldwert = $("#" + feldname).val();
@@ -105,6 +123,8 @@ var speichern = function (that) {
             }
             // Wenn in feldkontr Datum erfasst, auch Jahr speichern
             if (feldname === "TPopKontrDatum" && feldwert) {
+                jahr = feldwert.split('.')[0];
+                $('#TPopKontrJahr').val(jahr);
                 objekt          = {};
                 objekt.name     = "TPopKontrJahr";
                 objekt.formular = "tpopfeldkontr";
@@ -112,6 +132,8 @@ var speichern = function (that) {
             }
             // dito bei tpopmassn
             if (feldname === "TPopMassnDatum" && feldwert) {
+                jahr = feldwert.split('.')[0];
+                $('#TPopMassnJahr').val(jahr);
                 objekt          = {};
                 objekt.name     = "TPopMassnJahr";
                 objekt.formular = "tpopmassn";

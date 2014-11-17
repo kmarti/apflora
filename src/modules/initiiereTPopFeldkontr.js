@@ -116,7 +116,13 @@ module.exports = function (apId, popId, tpopId, feldKontrId, kontrTyp) {
             // mit Daten beliefern
             $TPopKontrJahr.val(data.TPopKontrJahr);
             if (data.TPopKontrDatum) {
-                $("#TPopKontrDatum").val(dateFormat(data.TPopKontrDatum, 'yyyy.mm.dd'));
+                // chrome akzeptiert nur - getrennte Daten. Und zeigt sie dann gemäss Pattern korrekt an
+                // die übrigen stellen mit - getrennte Daten leider mit - dar
+                if (!!window.chrome) {
+                    $("#TPopKontrDatum").val(dateFormat(data.TPopKontrDatum, 'yyyy-mm-dd'));
+                } else {
+                    $("#TPopKontrDatum").val(dateFormat(data.TPopKontrDatum, 'dd.mm.yyyy'));
+                }
             }
             $("#TPopKontrMethode1" + data.TPopKontrMethode1).prop("checked", true);
             $("#TPopKontrAnz1").val(data.TPopKontrAnz1);

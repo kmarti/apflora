@@ -6,7 +6,8 @@ var $                 = require('jquery'),
     erstelleArtlisten = require('./erstelleArtlisten'),
     waehleApliste     = require('./waehleApliste'),
     speichern         = require('./speichern'),
-    oeffneUri         = require('./oeffneUri');
+    oeffneUri         = require('./oeffneUri'),
+    isDateSupported   = require('./isDateSupported');
 
 module.exports = function () {
     // jQuery ui widgets initiieren
@@ -56,22 +57,25 @@ module.exports = function () {
         wochentageLang = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
 
     $.datepicker.setDefaults({
-        buttonImage: "style/images/calendar.gif",
+        buttonImage:     "style/images/calendar.gif",
         buttonImageOnly: true,
-        dateFormat: "yy.mm.dd",
-        altFormat: "yy.mm.dd",
-        monthNames: monate,
-        dayNamesMin: wochentageKurz,
-        dayNames: wochentageLang,
-        firstDay: 1,
-        showOn: "button",
-        defaultDate: +0,
+        dateFormat:      "dd.mm.yy",
+        altFormat:       "dd.mm.yy",
+        monthNames:      monate,
+        dayNamesMin:     wochentageKurz,
+        dayNames:        wochentageLang,
+        firstDay:        1,
+        showOn:          "button",
+        defaultDate:     +0,
         onSelect: function () {
             speichern(this);
         }
     });
 
-    $("#TPopKontrDatum, #TPopMassnDatum, #JBerDatum, #IbErstelldatum").datepicker();
+    // datepicker nur initialisieren, wenn der Browser keinen eigenen hat (z.B. Chrome)
+    if (!isDateSupported()) {
+        $("#TPopKontrDatum, #TPopMassnDatum, #JBerDatum, #IbErstelldatum").datepicker();
+    }
 
     // Auswahllisten aufbauen
     erstelleArtlisten();

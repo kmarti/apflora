@@ -41,7 +41,13 @@ var initiiereIdealbiotop = function (apId) {
 
             // Felder mit Daten beliefern
             if (data.IbErstelldatum) {
-                $("#IbErstelldatum").val(dateFormat(data.IbErstelldatum, 'yyyy.mm.dd'));
+                // chrome akzeptiert nur - getrennte Daten. Und zeigt sie dann gemäss Pattern korrekt an
+                // die übrigen stellen mit - getrennte Daten leider mit - dar
+                if (!!window.chrome) {
+                    $("#IbErstelldatum").val(dateFormat(data.IbErstelldatum, 'yyyy-mm-dd'));
+                } else {
+                    $("#IbErstelldatum").val(dateFormat(data.IbErstelldatum, 'dd.mm.yyyy'));
+                }
             }
             $("#IbHoehenlage").val(data.IbHoehenlage);
             $("#IbRegion").val(data.IbRegion);

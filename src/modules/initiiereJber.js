@@ -68,7 +68,13 @@ module.exports = function (apId, apBerId) {
             $("#JBerCTxt").val(data.JBerCTxt);
             $("#JBerDTxt").val(data.JBerDTxt);
             if (data.JBerDatum) {
-                $("#JBerDatum").val(dateFormat(data.JBerDatum, 'yyyy.mm.dd'));
+                // chrome akzeptiert nur - getrennte Daten. Und zeigt sie dann gemäss Pattern korrekt an
+                // die übrigen stellen mit - getrennte Daten leider mit - dar
+                if (!!window.chrome) {
+                    $("#JBerDatum").val(dateFormat(data.JBerDatum, 'yyyy-mm-dd'));
+                } else {
+                    $("#JBerDatum").val(dateFormat(data.JBerDatum, 'dd.mm.yyyy'));
+                }
             }
             // adressen holen, um JBerBearb zu füllen
             getAdressenHtml(function (html) {

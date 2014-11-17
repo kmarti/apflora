@@ -40,12 +40,11 @@ module.exports = function (tpopListe) {
     // Objekte löschen, die keine Koordinaten haben
     // Lat und Lng ergänzen
     _.each(tpopListe, function (tpop, index) {
-        if (!tpop.TPopXKoord || !tpop.TPopYKoord) {
-            // tpop einsetzen geht nicht, weil Chrome Fehler meldet
-            delete tpopListe[index];
-        } else {
+        if (tpop.TPopXKoord && tpop.TPopYKoord) {
             tpop.Lat = chToWgsLat(parseInt(tpop.TPopXKoord, 10), parseInt(tpop.TPopYKoord, 10));
             tpop.Lng = chToWgsLng(parseInt(tpop.TPopXKoord, 10), parseInt(tpop.TPopYKoord, 10));
+        } else {
+            delete tpopListe[index];
         }
     });
 
@@ -54,18 +53,17 @@ module.exports = function (tpopListe) {
 
     // Karte mal auf Zürich zentrieren, falls in den TPopListe keine Koordinaten kommen
     // auf die die Karte ausgerichtet werden kann
-    lat = 47.383333;
-    lng = 8.533333;
-    latlng = new google.maps.LatLng(lat, lng);
+    lat     = 47.383333;
+    lng     = 8.533333;
+    latlng  = new google.maps.LatLng(lat, lng);
     options = {
-        zoom: 15,
-        center: latlng,
+        zoom:              15,
+        center:            latlng,
         streetViewControl: false,
-        mapTypeId: google.maps.MapTypeId.SATELLITE
+        mapTypeId:         google.maps.MapTypeId.SATELLITE
     };
 
-    map = new google.maps.Map(document.getElementById("google_karten_div"), options);
-    window.apf.gmap.map = map;
+    window.apf.gmap.map = map = new google.maps.Map(document.getElementById("google_karten_div"), options);
     bounds = new google.maps.LatLngBounds();
 
     // für alle TPop Marker erstellen

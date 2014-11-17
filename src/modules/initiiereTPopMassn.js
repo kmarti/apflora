@@ -92,7 +92,13 @@ module.exports = function (apId, popId, tpopId, massnId) {
                 .limiter(255, $("#TPopMassnTxt_limit"));
             $("#TPopMassnJahr").val(data.TPopMassnJahr);
             if (data.TPopMassnDatum) {
-                $("#TPopMassnDatum").val(dateFormat(data.TPopMassnDatum, 'yyyy.mm.dd'));
+                // chrome akzeptiert nur - getrennte Daten. Und zeigt sie dann gemäss Pattern korrekt an
+                // die übrigen stellen mit - getrennte Daten leider mit - dar
+                if (!!window.chrome) {
+                    $("#TPopMassnDatum").val(dateFormat(data.TPopMassnDatum, 'yyyy-mm-dd'));
+                } else {
+                    $("#TPopMassnDatum").val(dateFormat(data.TPopMassnDatum, 'dd.mm.yyyy'));
+                }
             }
             // Adressen holen, um TPopMassnBearb zu füllen
             getAdressenHtml(function (html) {
