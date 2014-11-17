@@ -1,18 +1,18 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $               = require('jquery'),
-    _               = require('underscore'),
-    google          = require('google'),
-    MarkerWithLabel = require('MarkerWithLabel'),
-    MarkerClusterer = require('MarkerClusterer'),
-    chToWgsLng      = require('../../lib/chToWgsLng'),
-    chToWgsLat      = require('../../lib/chToWgsLat'),
-    zeigeFormular   = require('../zeigeFormular'),
-    makeListener    = require('./makeListener');
+var $                       = require('jquery'),
+    _                       = require('underscore'),
+    google                  = require('google'),
+    MarkerWithLabel         = require('MarkerWithLabel'),
+    MarkerClusterer         = require('MarkerClusterer'),
+    chToWgsLng              = require('../../lib/chToWgsLng'),
+    chToWgsLat              = require('../../lib/chToWgsLat'),
+    zeigeFormular           = require('../zeigeFormular'),
+    makeListenerMarkerClick = require('./makeListenerMarkerClick');
 
 module.exports = function (beobListe) {
-    var anz_beob,
+    var anzBeob,
         infowindow = new google.maps.InfoWindow(),
         lat,
         lng,
@@ -48,17 +48,17 @@ module.exports = function (beobListe) {
         }
     });
     // TPop zählen
-    anz_beob = beobListe.length;
+    anzBeob = beobListe.length;
     // Karte mal auf Zürich zentrieren, falls in den BeobListe.rows keine Koordinaten kommen
     // auf die die Karte ausgerichtet werden kann
     lat     = 47.383333;
     lng     = 8.533333;
     latlng  = new google.maps.LatLng(lat, lng);
     options = {
-        zoom: 15,
-        center: latlng,
+        zoom:              15,
+        center:            latlng,
         streetViewControl: false,
-        mapTypeId: google.maps.MapTypeId.SATELLITE,
+        mapTypeId:         google.maps.MapTypeId.SATELLITE,
         mapTypeControlOptions: {
             mapTypeIds: [
                 google.maps.MapTypeId.ROADMAP,
@@ -77,7 +77,7 @@ module.exports = function (beobListe) {
     _.each(beobListe, function (beob) {
         datum = beob.Datum;
         latlng2 = new google.maps.LatLng(beob.Lat, beob.Lng);
-        if (anz_beob === 1) {
+        if (anzBeob === 1) {
             // map.fitbounds setzt zu hohen zoom, wenn nur eine Beob Koordinaten hat > verhindern
             latlng = latlng2;
         } else {
@@ -89,13 +89,13 @@ module.exports = function (beobListe) {
         // A_NOTE muss String sein
         aNote = (beob.A_NOTE ? beob.A_NOTE.toString() : '');
         marker = new MarkerWithLabel({
-            map: map,
-            position: latlng2,
-            title: titel,
+            map:          map,
+            position:     latlng2,
+            title:        titel,
             labelContent: aNote,
-            labelAnchor: new google.maps.Point(75, 0),
-            labelClass: "MapLabel",
-            icon: "img/flora_icon_violett.png"
+            labelAnchor:  new google.maps.Point(75, 0),
+            labelClass:   "MapLabel",
+            icon:         "img/flora_icon_violett.png"
         });
         // dem Marker einen Typ und eine id geben
         // damit drag and drop möglich werden soll
@@ -103,7 +103,7 @@ module.exports = function (beobListe) {
         // marker.set("id", Beob.BeobId);
         marker.metadata = {
             typ: "beob_nicht_beurteilt",
-            id: beob.NO_NOTE
+            id:  beob.NO_NOTE
         };
         markers.push(marker);
         autor   = beob.Autor         || "(keiner)";
@@ -122,7 +122,7 @@ module.exports = function (beobListe) {
             '<p><a href="#" class="oeffneBeobInNeuemTab" data-beob=\'' + JSON.stringify(beob) + '\')">Formular in neuem Fenster öffnen<\/a></p>' +
             '</div>' +
             '</div>';
-        makeListener(map, marker, contentString, infowindow);
+        makeListenerMarkerClick(map, marker, contentString, infowindow);
     });
     markerOptions = {
         maxZoom: 17,
@@ -133,7 +133,7 @@ module.exports = function (beobListe) {
         }]
     };
     markerCluster = new MarkerClusterer(map, markers, markerOptions);
-    if (anz_beob === 1) {
+    if (anzBeob === 1) {
         // map.fitbounds setzt zu hohen zoom, wenn nur eine Beobachtung erfasst wurde > verhindern
         map.setCenter(latlng);
         map.setZoom(18);

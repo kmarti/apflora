@@ -1,5 +1,4 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
-/*global google*/
 'use strict';
 
 var _                            = require('underscore'),
@@ -11,7 +10,7 @@ var _                            = require('underscore'),
     chToWgsLng                   = require('../../lib/chToWgsLng'),
     zeigeFormular                = require('../zeigeFormular'),
     beschrifteTPopMitNrFuerKarte = require('../beschrifteTPopMitNrFuerKarte'),
-    makeListener                 = require('./makeListener');
+    makeListenerMarkerClick      = require('./makeListenerMarkerClick');
 
 module.exports = function (tpopListe) {
     var anzTpop,
@@ -106,7 +105,7 @@ module.exports = function (tpopListe) {
             '<p><a href="#" onclick="window.apf.oeffneTPopInNeuemTab(\'' + tpop.TPopId + '\')">Formular in neuem Fenster öffnen<\/a></p>' +
             '</div>' +
             '</div>';
-        makeListener(map, marker, contentString, infowindow);
+        makeListenerMarkerClick(map, marker, contentString, infowindow);
     });
     markerOptions = {
         maxZoom: 17,

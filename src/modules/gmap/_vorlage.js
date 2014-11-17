@@ -4,8 +4,6 @@
 var $      = require('jquery'),
     google = require('google');
 
-var returnFunction = function () {
+module.exports = function () {
     
 };
-
-module.exports = returnFunction;

@@ -1028,9 +1028,9 @@ window.apf.olmap.erstelleContentFuerPop = function (pop) {
         '<tr><td><p>Typ:</p></td><td><p>Population</p></td></tr>' +
         '<tr><td><p>Koordinaten:</p></td><td><p>' + pop.PopXKoord + ' / ' + pop.PopYKoord + '</p></td></tr>' +
         '</table>' +
-        '<p><a href="#" onclick="window.apf.öffnePop(\'' + pop.PopId + '\')">Formular anstelle Karte öffnen<\/a></p>' +
+        '<p><a href="#" onclick="window.apf.oeffnePop(\'' + pop.PopId + '\')">Formular anstelle Karte öffnen<\/a></p>' +
         '<p><a href="#" onclick="window.apf.oeffneFormularAlsPopup(\'pop\', ' + pop.PopId + ')">Formular neben der Karte öffnen<\/a></p>' +
-        '<p><a href="#" onclick="window.apf.öffnePopInNeuemTab(\'' + pop.PopId + '\')">Formular in neuem Fenster öffnen<\/a></p>';
+        '<p><a href="#" onclick="window.apf.oeffnePopInNeuemTab(\'' + pop.PopId + '\')">Formular in neuem Fenster öffnen<\/a></p>';
 };
 
 
@@ -1140,14 +1140,14 @@ window.apf.oeffneTPopInNeuemTab = function (tpopId) {
     window.open("index.html?ap=" + localStorage.apId + "&pop=" + localStorage.popId + "&tpop=" + tpopId, "_blank");
 };
 
-window.apf.öffnePop = function (popId) {
+window.apf.oeffnePop = function (popId) {
     'use strict';
     localStorage.popId = popId;
     $.jstree._reference("[typ='pop']#" + popId).deselect_all();
     $("#tree").jstree("select_node", "[typ='pop']#" + popId);
 };
 
-window.apf.öffnePopInNeuemTab = function (popId) {
+window.apf.oeffnePopInNeuemTab = function (popId) {
     'use strict';
     window.open("index.html?ap=" + localStorage.apId + "&pop=" + popId, "_blank");
 };

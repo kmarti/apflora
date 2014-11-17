@@ -1,15 +1,15 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $               = require('jquery'),
-    _               = require('underscore'),
-    google          = require('google'),
-    MarkerWithLabel = require('MarkerWithLabel'),
-    MarkerClusterer = require('MarkerClusterer'),
-    chToWgsLng      = require('../../lib/chToWgsLng'),
-    chToWgsLat      = require('../../lib/chToWgsLat'),
-    zeigeFormular   = require('../zeigeFormular'),
-    makeListener    = require('./makeListener');
+var $                       = require('jquery'),
+    _                       = require('underscore'),
+    google                  = require('google'),
+    MarkerWithLabel         = require('MarkerWithLabel'),
+    MarkerClusterer         = require('MarkerClusterer'),
+    chToWgsLng              = require('../../lib/chToWgsLng'),
+    chToWgsLat              = require('../../lib/chToWgsLat'),
+    zeigeFormular           = require('../zeigeFormular'),
+    makeListenerMarkerClick = require('./makeListenerMarkerClick');
 
 var returnFunction = function (tpop_beob_liste) {
     var anz_tpop_beob,
@@ -115,7 +115,7 @@ var returnFunction = function (tpop_beob_liste) {
             '<p><a href="#" onclick="window.apf.öffneTPopBeobInNeuemTab(\'' + tpop_beob.NO_NOTE + '\')">Formular in neuem Fenster öffnen<\/a></p>' +
             '</div>' +
             '</div>';
-        makeListener(map, marker, contentString, infowindow);
+        makeListenerMarkerClick(map, marker, contentString, infowindow);
     });
     markerOptions = {
         maxZoom: 17,

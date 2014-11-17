@@ -7,7 +7,7 @@ var $       = require('jquery'),
     ddInChX = require('../../lib/ddInChX'),
     melde   = require('../melde');
 
-module.exports = function (latLng, map, marker, TPop) {
+module.exports = function (latLng, map, marker, tpop) {
     var lat,
         lng,
         contentString,
@@ -21,7 +21,7 @@ module.exports = function (latLng, map, marker, TPop) {
         return;
     }
 
-    title = (TPop && TPop.TPopFlurname ? TPop.TPopFlurname : "neue Teilpopulation");
+    title = (tpop && tpop.TPopFlurname ? tpop.TPopFlurname : "neue Teilpopulation");
     lat   = latLng.lat();
     lng   = latLng.lng();
     X     = ddInChY(lat, lng);
