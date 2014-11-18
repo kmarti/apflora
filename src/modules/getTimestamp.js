@@ -1,7 +1,7 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var dateFormat = require('dateFormat');
+var dateFormat = require('dateformat');
 
 module.exports = function () {
     var now = new Date();
