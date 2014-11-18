@@ -6,8 +6,8 @@
 'use strict';
 
 
-var config = {},
-    dbPassfile   = require('../../dbPass.json');
+var config         = {},
+    dbPassfile     = require('../../dbPass.json');
 
 config.db          = {};
 config.db.userName = dbPassfile.user;
@@ -18,183 +18,183 @@ config.db.passWord = dbPassfile.pass;
 // wird benutzt, um mit denselben Abfragen in diesen Tabelle durchzuführen: update, insert, delete
 config.tables = [
     {
-        database: 'apflora',
-        tabelleInDb: 'tblAktionsplan',
-        tabelleIdFeld: 'ApArtId',
-        mutWannFeld: 'MutWann',
-        mutWerFeld: 'MutWer',
-        form: 'ap',
+        database:          'apflora',
+        tabelleInDb:       'tblAktionsplan',
+        tabelleIdFeld:     'ApArtId',
+        mutWannFeld:       'MutWann',
+        mutWerFeld:        'MutWer',
+        form:              'ap',
         initiiereFunktion: 'initiiereAp',
-        treeTyp: 'gibt es nicht!'
+        treeTyp:           'gibt es nicht!'
     },
     {
-        database: 'apflora',
-        tabelleInDb: 'tblPopulation',
-        tabelleIdFeld: 'PopId',
-        mutWannFeld: 'MutWann',
-        mutWerFeld: 'MutWer',
-        form: 'pop',
+        database:          'apflora',
+        tabelleInDb:       'tblPopulation',
+        tabelleIdFeld:     'PopId',
+        mutWannFeld:       'MutWann',
+        mutWerFeld:        'MutWer',
+        form:              'pop',
         initiiereFunktion: 'initiierePop',
-        treeTyp: 'pop'
+        treeTyp:           'pop'
     },
     {
-        database: 'apflora',
-        tabelleInDb: 'tblTeilpopulation',
-        tabelleIdFeld: 'TPopId',
-        mutWannFeld: 'MutWann',
-        mutWerFeld: 'MutWer',
-        form: 'tpop',
+        database:          'apflora',
+        tabelleInDb:       'tblTeilpopulation',
+        tabelleIdFeld:     'TPopId',
+        mutWannFeld:       'MutWann',
+        mutWerFeld:        'MutWer',
+        form:              'tpop',
         initiiereFunktion: 'initiiereTPop',
-        treeTyp: 'tpop'
+        treeTyp:           'tpop'
     },
     {
-        database: 'apflora',
-        tabelleInDb: 'tblTeilPopFeldkontrolle',
-        tabelleIdFeld: 'TPopKontrId',
-        mutWannFeld: 'MutWann',
-        mutWerFeld: 'MutWer',
-        form: 'tpopfeldkontr',
+        database:          'apflora',
+        tabelleInDb:       'tblTeilPopFeldkontrolle',
+        tabelleIdFeld:     'TPopKontrId',
+        mutWannFeld:       'MutWann',
+        mutWerFeld:        'MutWer',
+        form:              'tpopfeldkontr',
         initiiereFunktion: 'initiiereTPopFeldkontr',
-        treeTyp: 'tpopfeldkontr'
+        treeTyp:           'tpopfeldkontr'
     },
     {
-        database: 'apflora',
-        tabelleInDb: 'tblTeilPopMassnahme',
-        tabelleIdFeld: 'TPopMassnId',
-        mutWannFeld: 'MutWann',
-        mutWerFeld: 'MutWer',
-        form: 'tpopmassn',
+        database:          'apflora',
+        tabelleInDb:       'tblTeilPopMassnahme',
+        tabelleIdFeld:     'TPopMassnId',
+        mutWannFeld:       'MutWann',
+        mutWerFeld:        'MutWer',
+        form:              'tpopmassn',
         initiiereFunktion: 'initiiereTPopMassn',
-        treeTyp: 'tpopmassn'
+        treeTyp:           'tpopmassn'
     },
     {
-        database: 'apflora',
-        tabelleInDb: 'tblZiel',
-        tabelleIdFeld: 'ZielId',
-        mutWannFeld: 'MutWann',
-        mutWerFeld: 'MutWer',
-        form: 'apziel',
+        database:          'apflora',
+        tabelleInDb:       'tblZiel',
+        tabelleIdFeld:     'ZielId',
+        mutWannFeld:       'MutWann',
+        mutWerFeld:        'MutWer',
+        form:              'apziel',
         initiiereFunktion: 'initiiereApziel',
-        treeTyp: 'apziel'
+        treeTyp:           'apziel'
     },
     {
-        database: 'apflora',
-        tabelleInDb: 'tblZielBericht',
-        tabelleIdFeld: 'ZielBerId',
-        mutWannFeld: 'MutWann',
-        mutWerFeld: 'MutWer',
-        form: 'zielber',
+        database:          'apflora',
+        tabelleInDb:       'tblZielBericht',
+        tabelleIdFeld:     'ZielBerId',
+        mutWannFeld:       'MutWann',
+        mutWerFeld:        'MutWer',
+        form:              'zielber',
         initiiereFunktion: 'initiiereZielber',
-        treeTyp: 'zielber'
+        treeTyp:           'zielber'
     },
     {
-        database: 'apflora',
-        tabelleInDb: 'tblErfKrit',
-        tabelleIdFeld: 'ErfkritId',
-        mutWannFeld: 'MutWann',
-        mutWerFeld: 'MutWer',
-        form: 'erfkrit',
+        database:          'apflora',
+        tabelleInDb:       'tblErfKrit',
+        tabelleIdFeld:     'ErfkritId',
+        mutWannFeld:       'MutWann',
+        mutWerFeld:        'MutWer',
+        form:              'erfkrit',
         initiiereFunktion: 'initiiereErfkrit',
-        treeTyp: 'erfkrit'
+        treeTyp:           'erfkrit'
     },
     {
-        database: 'apflora',
-        tabelleInDb: 'tblJBer',
-        tabelleIdFeld: 'JBerId',
-        mutWannFeld: 'MutWann',
-        mutWerFeld: 'MutWer',
-        form: 'jber',
+        database:          'apflora',
+        tabelleInDb:       'tblJBer',
+        tabelleIdFeld:     'JBerId',
+        mutWannFeld:       'MutWann',
+        mutWerFeld:        'MutWer',
+        form:              'jber',
         initiiereFunktion: 'initiiereJber',
-        treeTyp: 'jber'
+        treeTyp:           'jber'
     },
     {
-        database: 'apflora',
-        tabelleInDb: 'tblJBerUebersicht',
-        tabelleIdFeld: 'JbuJahr',
-        mutWannFeld: 'MutWann',
-        mutWerFeld: 'MutWer',
-        form: 'jberUebersicht',
+        database:          'apflora',
+        tabelleInDb:       'tblJBerUebersicht',
+        tabelleIdFeld:     'JbuJahr',
+        mutWannFeld:       'MutWann',
+        mutWerFeld:        'MutWer',
+        form:              'jberUebersicht',
         initiiereFunktion: 'initiiereJberUebersicht',
-        treeTyp: 'jberUebersicht'
+        treeTyp:           'jberUebersicht'
     },
     {
-        database: 'apflora',
-        tabelleInDb: 'tblBer',
-        tabelleIdFeld: 'BerId',
-        mutWannFeld: 'MutWann',
-        mutWerFeld: 'MutWer',
-        form: 'ber',
+        database:          'apflora',
+        tabelleInDb:       'tblBer',
+        tabelleIdFeld:     'BerId',
+        mutWannFeld:       'MutWann',
+        mutWerFeld:        'MutWer',
+        form:              'ber',
         initiiereFunktion: 'initiiereBer',
-        treeTyp: 'ber'
+        treeTyp:           'ber'
     },
     {
-        database: 'apflora',
-        tabelleInDb: 'tblIdealbiotop',
-        tabelleIdFeld: 'IbApArtId',
-        mutWannFeld: 'MutWann',
-        mutWerFeld: 'MutWer',
-        form: 'idealbiotop',
+        database:          'apflora',
+        tabelleInDb:       'tblIdealbiotop',
+        tabelleIdFeld:     'IbApArtId',
+        mutWannFeld:       'MutWann',
+        mutWerFeld:        'MutWer',
+        form:              'idealbiotop',
         initiiereFunktion: 'initiiereIdealbiotop',
-        treeTyp: 'idealbiotop'
+        treeTyp:           'idealbiotop'
     },
     {
-        database: 'apflora',
-        tabelleInDb: 'tblAssozArten',
-        tabelleIdFeld: 'AaId',
-        mutWannFeld: 'MutWann',
-        mutWerFeld: 'MutWer',
-        form: 'assozarten',
+        database:          'apflora',
+        tabelleInDb:       'tblAssozArten',
+        tabelleIdFeld:     'AaId',
+        mutWannFeld:       'MutWann',
+        mutWerFeld:        'MutWer',
+        form:              'assozarten',
         initiiereFunktion: 'initiiereAssozart',
-        treeTyp: 'assozarten'
+        treeTyp:           'assozarten'
     },
     {
-        database: 'apflora',
-        tabelleInDb: 'tblPopBericht',
-        tabelleIdFeld: 'PopBerId',
-        mutWannFeld: 'MutWann',
-        mutWerFeld: 'MutWer',
-        form: 'popber',
+        database:          'apflora',
+        tabelleInDb:       'tblPopBericht',
+        tabelleIdFeld:     'PopBerId',
+        mutWannFeld:       'MutWann',
+        mutWerFeld:        'MutWer',
+        form:              'popber',
         initiiereFunktion: 'initiierePopBer',
-        treeTyp: 'popber'
+        treeTyp:           'popber'
     },
     {
-        database: 'apflora',
-        tabelleInDb: 'tblPopMassnBericht',
-        tabelleIdFeld: 'PopMassnBerId',
-        mutWannFeld: 'MutWann',
-        mutWerFeld: 'MutWer',
-        form: 'popmassnber',
+        database:          'apflora',
+        tabelleInDb:       'tblPopMassnBericht',
+        tabelleIdFeld:     'PopMassnBerId',
+        mutWannFeld:       'MutWann',
+        mutWerFeld:        'MutWer',
+        form:              'popmassnber',
         initiiereFunktion: 'initiierePopMassnBer',
-        treeTyp: 'popmassnber'
+        treeTyp:           'popmassnber'
     },
     {
-        database: 'apflora',
-        tabelleInDb: 'tblTeilPopBericht',
-        tabelleIdFeld: 'TPopBerId',
-        mutWannFeld: 'MutWann',
-        mutWerFeld: 'MutWer',
-        form: 'tpopber',
+        database:          'apflora',
+        tabelleInDb:       'tblTeilPopBericht',
+        tabelleIdFeld:     'TPopBerId',
+        mutWannFeld:       'MutWann',
+        mutWerFeld:        'MutWer',
+        form:              'tpopber',
         initiiereFunktion: 'initiiereTPopBer',
-        treeTyp: 'tpopber'
+        treeTyp:           'tpopber'
     },
     {
-        database: 'apflora',
-        tabelleInDb: 'tblTeilPopMassnBericht',
-        tabelleIdFeld: 'TPopMassnBerId',
-        mutWannFeld: 'MutWann',
-        mutWerFeld: 'MutWer',
-        form: 'tpopmassnber',
+        database:          'apflora',
+        tabelleInDb:       'tblTeilPopMassnBericht',
+        tabelleIdFeld:     'TPopMassnBerId',
+        mutWannFeld:       'MutWann',
+        mutWerFeld:        'MutWer',
+        form:              'tpopmassnber',
         initiiereFunktion: 'initiiereTPopMassnBer',
-        treeTyp: 'tpopmassnber'
+        treeTyp:           'tpopmassnber'
     },
     {
-        database: 'apflora',
-        tabelleInDb: 'tblBeobZuordnung',
-        tabelleIdFeld: 'NO_NOTE',
-        mutWannFeld: 'BeobMutWann',
-        mutWerFeld: 'BeobMutWer',
+        database:          'apflora',
+        tabelleInDb:       'tblBeobZuordnung',
+        tabelleIdFeld:     'NO_NOTE',
+        mutWannFeld:       'BeobMutWann',
+        mutWerFeld:        'BeobMutWer',
         initiiereFunktion: '',
-        treeTyp: 'drei verschiedene!'
+        treeTyp:           'drei verschiedene!'
     }
 ];
 
