@@ -206,16 +206,14 @@ var returnFunction = function (node) {
                 "label": "neuer AP-Bericht",
                 "icon": "style/images/neu.png",
                 "action": function () {
-                    var insertJber = $.ajax({
+                    $.ajax({
                         type: 'post',
                         url: 'api/v1/insert/apflora/tabelle=tblJBer/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
-                    });
-                    insertJber.done(function (id) {
+                    }).done(function (id) {
                         var strukturtyp = "jber",
                             beschriftung = "neuer AP-Bericht";
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    });
-                    insertJber.fail(function () {
+                    }).fail(function () {
                         melde("Fehler: Keinen neuen AP-Bericht erstellt");
                     });
                 }
@@ -227,16 +225,14 @@ var returnFunction = function (node) {
                 "label": "neuer AP-Bericht",
                 "icon": "style/images/neu.png",
                 "action": function () {
-                    var insertJber_2 = $.ajax({
+                    $.ajax({
                         type: 'post',
                         url: 'api/v1/insert/apflora/tabelle=tblJBer/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.user
-                    });
-                    insertJber_2.done(function (id) {
+                    }).done(function (id) {
                         var strukturtyp = "jber",
                             beschriftung = "neuer AP-Bericht";
                         insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    });
-                    insertJber_2.fail(function () {
+                    }).fail(function () {
                         melde("Fehler: Keinen neuen AP-Bericht erstellt");
                     });
                 }
@@ -260,20 +256,19 @@ var returnFunction = function (node) {
                     $("#loeschen_dialog_mitteilung").html("Der AP-Bericht '" + bezeichnung + "' wird gelöscht.");
                     $("#loeschen_dialog").dialog({
                         resizable: false,
-                        height:'auto',
-                        width: 400,
-                        modal: true,
+                        height:    'auto',
+                        width:     400,
+                        modal:     true,
                         buttons: {
                             "ja, löschen!": function () {
                                 $(this).dialog("close");
                                 // Variable zum rückgängig machen erstellen
-                                window.apf.deleted = window.apf.jber;
+                                window.apf.deleted    = window.apf.jber;
                                 window.apf.deleted.typ = "jber";
-                                var deleteJber = $.ajax({
+                                $.ajax({
                                     type: 'delete',
                                     url: 'api/v1/apflora/tabelle=tblJBer/tabelleIdFeld=JBerId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
-                                });
-                                deleteJber.done(function () {
+                                }).done(function () {
                                     delete localStorage.jberId;
                                     delete window.apf.jber;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
@@ -281,8 +276,7 @@ var returnFunction = function (node) {
                                     window.apf.beschrifteOrdnerJber(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Der AP-Bericht '" + bezeichnung + "' wurde gelöscht.");
-                                });
-                                deleteJber.fail(function () {
+                                }).fail(function () {
                                     melde("Fehler: Der AP-Bericht wurde nicht gelöscht");
                                 });
                             },
@@ -297,21 +291,19 @@ var returnFunction = function (node) {
         // Wenn noch keine existiert, kann einen neue Übersicht zu allen Arten erstellt werden
         if ($.jstree._reference(aktiverNode)._get_children(aktiverNode).length === 0) {
             items.neu_jber_uebersicht = {
-                "label": "neue Übersicht zu allen Arten",
+                "label":            "neue Übersicht zu allen Arten",
                 "separator_before": true,
-                "icon": "style/images/neu.png",
+                "icon":             "style/images/neu.png",
                 "action": function () {
-                    var insertJberUebersicht = $.ajax({
+                    $.ajax({
                         type: 'post',
                         url: 'api/v1/insert/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wert=' + $.jstree._reference(aktiverNode).get_text(aktiverNode) + '/user=' + sessionStorage.user
-                    });
-                    insertJberUebersicht.done(function () {
+                    }).done(function () {
                         var strukturtyp = "jberUebersicht",
                             dsId = $.jstree._reference(aktiverNode).get_text(aktiverNode),
                             beschriftung = "neue Übersicht zu allen Arten";
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, dsId, beschriftung);
-                    });
-                    insertJberUebersicht.fail(function () {
+                    }).fail(function () {
                         melde("Fehler: Keine Übersicht zu allen Arten erstellt");
                     });
                 }
@@ -322,7 +314,7 @@ var returnFunction = function (node) {
         return {
             "loeschen": {
                 "label": "lösche Übersicht zu allen Arten",
-                "icon": "style/images/loeschen.png",
+                "icon":  "style/images/loeschen.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
@@ -337,27 +329,25 @@ var returnFunction = function (node) {
                     $("#loeschen_dialog_mitteilung").html("Die Übersicht zu allen Arten wird gelöscht");
                     $("#loeschen_dialog").dialog({
                         resizable: false,
-                        height:'auto',
-                        width: 400,
-                        modal: true,
+                        height:    'auto',
+                        width:     400,
+                        modal:     true,
                         buttons: {
                             "ja, löschen!": function () {
                                 $(this).dialog("close");
                                 // Variable zum rückgängig machen erstellen
-                                window.apf.deleted = window.apf.jberUebersicht;
+                                window.apf.deleted     = window.apf.jberUebersicht;
                                 window.apf.deleted.typ = "jberUebersicht";
-                                var deleteJberUebersicht = $.ajax({
+                                $.ajax({
                                     type: 'delete',
                                     url: 'api/v1/apflora/tabelle=tblJBerUebersicht/tabelleIdFeld=JbuJahr/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
-                                });
-                                deleteJberUebersicht.done(function () {
+                                }).done(function () {
                                     delete localStorage.jberUebersichtId;
                                     delete window.apf.jberUebersicht;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz('Die Übersicht für den AP-Bericht des Jahrs "' + window.apf.deleted.JbuJahr + '" wurde gelöscht.');
-                                });
-                                deleteJberUebersicht.fail(function () {
+                                }).fail(function () {
                                     melde("Fehler: Die Übersicht zu allen Arten wurde nicht gelöscht");
                                 });
                             },
@@ -375,16 +365,14 @@ var returnFunction = function (node) {
                 "label": "neuer Bericht",
                 "icon": "style/images/neu.png",
                 "action": function () {
-                    var insertBer = $.ajax({
+                    $.ajax({
                         type: 'post',
                         url: 'api/v1/insert/apflora/tabelle=tblBer/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) +'/user=' + sessionStorage.user
-                    });
-                    insertBer.done(function (id) {
-                        var strukturtyp = "ber",
+                    }).done(function (id) {
+                        var strukturtyp  = "ber",
                             beschriftung = "neuer Bericht";
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    });
-                    insertBer.fail(function () {
+                    }).fail(function () {
                         melde("Fehler: Keinen neuen Bericht erstellt");
                     });
                 }
@@ -429,20 +417,19 @@ var returnFunction = function (node) {
                     $("#loeschen_dialog_mitteilung").html("Der Bericht '" + bezeichnung + "' wird gelöscht.");
                     $("#loeschen_dialog").dialog({
                         resizable: false,
-                        height:'auto',
-                        width: 400,
-                        modal: true,
+                        height:    'auto',
+                        width:     400,
+                        modal:     true,
                         buttons: {
                             "ja, löschen!": function () {
                                 $(this).dialog("close");
                                 // Variable zum rückgängig machen erstellen
-                                window.apf.deleted = window.apf.ber;
+                                window.apf.deleted     = window.apf.ber;
                                 window.apf.deleted.typ = "ber";
-                                var deleteBer = $.ajax({
+                                $.ajax({
                                     type: 'delete',
                                     url: 'api/v1/apflora/tabelle=tblBer/tabelleIdFeld=BerId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
-                                });
-                                deleteBer.done(function () {
+                                }).done(function () {
                                     delete localStorage.berId;
                                     delete window.apf.ber;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
@@ -450,8 +437,7 @@ var returnFunction = function (node) {
                                     window.apf.beschrifteOrdnerBer(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Der Bericht '" + bezeichnung + "' wurde gelöscht.");
-                                });
-                                deleteBer.fail(function () {
+                                }).fail(function () {
                                     melde("Fehler: Der Bericht wurde nicht gelöscht");
                                 });
                             },
@@ -469,16 +455,14 @@ var returnFunction = function (node) {
                 "label": "neue assoziierte Art",
                 "icon": "style/images/neu.png",
                 "action": function () {
-                    var insertAssozarten = $.ajax({
+                    $.ajax({
                         type: 'post',
                         url: 'api/v1/insert/apflora/tabelle=tblAssozArten/feld=AaApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
-                    });
-                    insertAssozarten.done(function (id) {
-                        var strukturtyp = "assozarten",
+                    }).done(function (id) {
+                        var strukturtyp  = "assozarten",
                             beschriftung = "neue assoziierte Art";
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    });
-                    insertAssozarten.fail(function () {
+                    }).fail(function () {
                         melde("Fehler: keine assoziierte Art erstellt");
                     });
                 }
@@ -507,6 +491,8 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/loeschen.png",
                 "action": function () {
+                    var bezeichnung;
+
                     // nur aktualisieren, wenn Schreibrechte bestehen
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
@@ -517,24 +503,23 @@ var returnFunction = function (node) {
                     $.jstree._reference(aktiverNode).open_all(aktiverNode);
                     $.jstree._reference(aktiverNode).deselect_all();
                     $.jstree._reference(aktiverNode).select_node(aktiverNode);
-                    var bezeichnung = $.jstree._reference(aktiverNode).get_text(aktiverNode);
+                    bezeichnung = $.jstree._reference(aktiverNode).get_text(aktiverNode);
                     $("#loeschen_dialog_mitteilung").html("Die assoziierte Art '" + bezeichnung + "' wird gelöscht.");
                     $("#loeschen_dialog").dialog({
                         resizable: false,
-                        height:'auto',
-                        width: 400,
-                        modal: true,
+                        height:    'auto',
+                        width:     400,
+                        modal:     true,
                         buttons: {
                             "ja, löschen!": function () {
                                 $(this).dialog("close");
                                 // Variable zum rückgängig machen erstellen
-                                window.apf.deleted = window.apf.assozarten;
+                                window.apf.deleted     = window.apf.assozarten;
                                 window.apf.deleted.typ = "assozarten";
-                                var deleteAssozarten = $.ajax({
+                                $.ajax({
                                     type: 'delete',
                                     url: 'api/v1/apflora/tabelle=tblAssozArten/tabelleIdFeld=AaId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
-                                });
-                                deleteAssozarten.done(function () {
+                                }).done(function () {
                                     delete localStorage.assozartenId;
                                     delete window.apf.assozarten;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
@@ -542,8 +527,7 @@ var returnFunction = function (node) {
                                     window.apf.beschrifteOrdnerAssozarten(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Die assoziierte Art '" + bezeichnung + "' wurde gelöscht.");
-                                });
-                                deleteAssozarten.fail(function () {
+                                }).fail(function () {
                                     melde("Fehler: Die assoziierte Art wurde nicht gelöscht");
                                 });
                             },
@@ -566,10 +550,12 @@ var returnFunction = function (node) {
                 }
             },
             "loeschen": {
-                "label": "löschen",
+                "label":            "löschen",
                 "separator_before": true,
-                "icon": "style/images/loeschen.png",
+                "icon":             "style/images/loeschen.png",
                 "action": function () {
+                    var bezeichnung;
+
                     // nur aktualisieren, wenn Schreibrechte bestehen
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
@@ -580,24 +566,23 @@ var returnFunction = function (node) {
                     $.jstree._reference(aktiverNode).open_all(aktiverNode);
                     $.jstree._reference(aktiverNode).deselect_all();
                     $.jstree._reference(aktiverNode).select_node(aktiverNode);
-                    var bezeichnung = $.jstree._reference(aktiverNode).get_text(aktiverNode);
+                    bezeichnung = $.jstree._reference(aktiverNode).get_text(aktiverNode);
                     $("#loeschen_dialog_mitteilung").html("Die Population '" + bezeichnung + "' wird gelöscht.");
                     $("#loeschen_dialog").dialog({
                         resizable: false,
-                        height:'auto',
-                        width: 400,
-                        modal: true,
+                        height:    'auto',
+                        width:     400,
+                        modal:     true,
                         buttons: {
                             "ja, löschen!": function () {
                                 $(this).dialog("close");
                                 // Variable zum rückgängig machen erstellen
-                                window.apf.deleted = window.apf.pop;
+                                window.apf.deleted     = window.apf.pop;
                                 window.apf.deleted.typ = "pop";
-                                var deletePop = $.ajax({
+                                $.ajax({
                                     type: 'delete',
                                     url: 'api/v1/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
-                                });
-                                deletePop.done(function () {
+                                }).done(function () {
                                     delete localStorage.popId;
                                     delete window.apf.pop;
                                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
@@ -605,8 +590,7 @@ var returnFunction = function (node) {
                                     window.apf.beschrifteOrdnerPop(parentNode);
                                     // Hinweis zum rückgängig machen anzeigen
                                     frageObUndeleteDatensatz("Population '" + bezeichnung + "' wurde gelöscht.");
-                                });
-                                deletePop.fail(function () {
+                                }).fail(function () {
                                     melde("Fehler: Die Population wurde nicht gelöscht");
                                 });
                             },
@@ -642,18 +626,16 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon.png",
                 "action": function () {
-                    var getPopKarte = $.ajax({
+                    $.ajax({
                         type: 'get',
                         url: 'api/v1/popKarte/popId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
-                    });
-                    getPopKarte.done(function (data) {
+                    }).done(function (data) {
                         if (data && data.length > 0) {
                             zeigeTPopAufGmap(data);
                         } else {
                             melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
                         }
-                    });
-                    getPopKarte.fail(function () {
+                    }).fail(function () {
                         melde("Fehler: Keine Teilpopulationen erhalten");
                     });
                 }
@@ -685,27 +667,24 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    var popid = window.apf.popId;
-                    var apartid = erstelleIdAusDomAttributId($(parentNode).attr("id"));
+                    var popid = window.apf.popId,
+                        apartid = erstelleIdAusDomAttributId($(parentNode).attr("id"));
                     // db aktualisieren
-                    var updatePop_2 = $.ajax({
+                    $.ajax({
                         type: 'post',
                         url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + popid + '/feld=ApArtId/wert=' + apartid + '/user=' + sessionStorage.user
-                    });
-                    updatePop_2.done(function () {
+                    }).done(function () {
                         // Baum wieder aufbauen
-                        $.when(window.apf.erstelleTree(apartid))
-                            .then(function () {
-                                // dann den eingefügten Node wählen
-                                $("#tree").jstree("select_node", "[typ='pop']#" + popid);
-                            });
+                        $.when(window.apf.erstelleTree(apartid)).then(function () {
+                            // dann den eingefügten Node wählen
+                            $("#tree").jstree("select_node", "[typ='pop']#" + popid);
+                        });
                         // einfügen soll nicht mehr angezeigt werden
                         delete window.apf.popZumVerschiebenGemerkt;
                         // nicht mehr benötigte Variablen entfernen
                         delete window.apf.popBezeichnung;
                         delete window.apf.popId;
-                    });
-                    updatePop_2.fail(function () {
+                    }).fail(function () {
                         melde("Fehler: Die Population wurde nicht verschoben");
                     });
                 }
