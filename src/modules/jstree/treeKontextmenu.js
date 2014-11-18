@@ -14,6 +14,8 @@ var _                                         = require('underscore'),
     zeigePop                                  = require('../olmap/zeigePop'),
     insertNeuePop                             = require('./insertNeuePop'),
     loeschePop                                = require('./loeschePop'),
+    schneidePopAus                            = require('./schneidePopAus'),
+    fuegeAusgeschnittenePopEin                = require('./fuegeAusgeschnittenePopEin'),
     insertNeuesApziel                         = require('./insertNeuesApziel'),
     loescheApziel                             = require('./loescheApziel'),
     insertNeuenZielber                        = require('./insertNeuenZielber'),
@@ -28,7 +30,6 @@ var _                                         = require('underscore'),
     loescheJberuebersicht                     = require('./loescheJberuebersicht'),
     insertNeueAssozart                        = require('./insertNeueAssozart'),
     loescheAssozart                           = require('./loescheAssozart'),
-    fuegeAusgeschnittenePopEin                = require('./fuegeAusgeschnittenePopEin'),
     zeigePopsAufOlmap                         = require('./zeigePopsAufOlmap'),
     zeigePopsAufGmap                          = require('./zeigePopsAufGmap'),
     zeigePopAufOlmap                          = require('./zeigePopAufOlmap'),
@@ -358,6 +359,9 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/ausschneiden.png",
                 "action": function () {
+                    schneidePopAus();
+
+
                     // nur aktualisieren, wenn Schreibrechte bestehen
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
                         return;
