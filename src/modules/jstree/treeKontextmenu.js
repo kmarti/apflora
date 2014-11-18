@@ -17,6 +17,7 @@ var _                                         = require('underscore'),
     loescheApziel                             = require('./loescheApziel'),
     insertNeuenZielber                        = require('./insertNeuenZielber'),
     loescheZielber                            = require('./loescheZielber'),
+    insertNeuesErfkrit                        = require('./insertNeuesErfkrit'),
     fuegeAusgeschnittenePopEin                = require('./fuegeAusgeschnittenePopEin'),
     zeigePopsAufOlmap                         = require('./zeigePopsAufOlmap'),
     zeigePopsAufGmap                          = require('./zeigePopsAufGmap');
@@ -167,20 +168,9 @@ var returnFunction = function (node) {
         return {
             "neu": {
                 "label": "neues Erfolgskriterium",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
-                    var insertErfkrit = $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblErfKrit/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
-                    });
-                    insertErfkrit.done(function (id) {
-                        var strukturtyp = "erfkrit",
-                            beschriftung = "neues Erfolgskriterium";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    });
-                    insertErfkrit.fail(function () {
-                        melde("Fehler: Kein neues Erfolgskriterium erstellt");
-                    });
+                    insertNeuesErfkrit(aktiverNode, parentNode, $(aktiverNode).attr("id"));
                 }
             }
         };
@@ -188,20 +178,9 @@ var returnFunction = function (node) {
         return {
             "neu": {
                 "label": "neues Erfolgskriterium",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
-                    var insertErfkrit_2 = $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblErfKrit/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.user
-                    });
-                    insertErfkrit_2.done(function (id) {
-                        var strukturtyp = "erfkrit",
-                            beschriftung = "neues Erfolgskriterium";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    });
-                    insertErfkrit_2.fail(function () {
-                        melde("Fehler: Kein neues Erfolgskriterium erstellt");
-                    });
+                    insertNeuesErfkrit(aktiverNode, parentNode, $(parentNode).attr("id"));
                 }
             },
             "loeschen": {
