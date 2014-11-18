@@ -14,6 +14,7 @@ var _                                         = require('underscore'),
     zeigePop                                  = require('../olmap/zeigePop'),
     insertNeuePop                             = require('./insertNeuePop'),
     loeschePop                                = require('./loeschePop'),
+    insertNeueTpop                            = require('./insertNeueTpop'),
     schneidePopAus                            = require('./schneidePopAus'),
     fuegeAusgeschnittenePopEin                = require('./fuegeAusgeschnittenePopEin'),
     insertNeuesApziel                         = require('./insertNeuesApziel'),
@@ -33,9 +34,10 @@ var _                                         = require('underscore'),
     zeigePopsAufOlmap                         = require('./zeigePopsAufOlmap'),
     zeigePopsAufGmap                          = require('./zeigePopsAufGmap'),
     zeigePopAufOlmap                          = require('./zeigePopAufOlmap'),
-    zeigePopAufGmap                           = require('./zeigePopAufGmap');
+    zeigePopAufGmap                           = require('./zeigePopAufGmap'),
+    zeigeTpopsAufOlmap                        = require('./zeigeTpopsAufOlmap');
 
-var returnFunction = function (node) {
+module.exports = function (node) {
     var items,
         aktiverNode,
         aktiverNodeText,
@@ -135,7 +137,7 @@ var returnFunction = function (node) {
         return {
             "neu": {
                 "label": "neues Ziel",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
                     grandparentNode = $.jstree._reference(parentNode)._get_parent(parentNode);
                     insertNeuesApziel(aktiverNode, parentNode, $(grandparentNode).attr("id"));
@@ -170,9 +172,9 @@ var returnFunction = function (node) {
                 }
             },
             "loeschen": {
-                "label": "löschen",
+                "label":            "löschen",
                 "separator_before": true,
-                "icon": "style/images/loeschen.png",
+                "icon":             "style/images/loeschen.png",
                 "action": function () {
                     loescheZielber(aktiverNode, parentNode);
                 }
@@ -198,9 +200,9 @@ var returnFunction = function (node) {
                 }
             },
             "loeschen": {
-                "label": "löschen",
+                "label":            "löschen",
                 "separator_before": true,
-                "icon": "style/images/loeschen.png",
+                "icon":             "style/images/loeschen.png",
                 "action": function () {
                     loescheErfkrit(aktiverNode, parentNode);
                 }
@@ -210,7 +212,7 @@ var returnFunction = function (node) {
         return {
             "untergeordneteKnotenOeffnen": {
                 "label": "untergeordnete Knoten öffnen",
-                "icon": "style/images/tree16x16.png",
+                "icon":  "style/images/tree16x16.png",
                 "action": function () {
                     $.jstree._reference(node).open_all(node);
                 }
@@ -227,7 +229,7 @@ var returnFunction = function (node) {
         items = {
             "neu": {
                 "label": "neuer AP-Bericht",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
                     insertNeuenJber(aktiverNode, parentNode, $(parentNode).attr("id"));
                 }
@@ -278,15 +280,15 @@ var returnFunction = function (node) {
         return {
             "neu": {
                 "label": "neuer Bericht",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
                     insertNeuenBer(aktiverNode, parentNode, erstelleIdAusDomAttributId($(parentNode).attr("id")));
                 }
             },
             "loeschen": {
-                "label": "löschen",
+                "label":            "löschen",
                 "separator_before": true,
-                "icon": "style/images/loeschen.png",
+                "icon":             "style/images/loeschen.png",
                 "action": function () {
                     loescheBer(aktiverNode, parentNode);
                 }
@@ -296,7 +298,7 @@ var returnFunction = function (node) {
         return {
             "neu": {
                 "label": "neue assoziierte Art",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
                     insertNeueAssozart(aktiverNode, parentNode, erstelleIdAusDomAttributId($(aktiverNode).attr("id")));
                 }
@@ -306,15 +308,15 @@ var returnFunction = function (node) {
         return {
             "neu": {
                 "label": "neue assoziierte Art",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
                     insertNeueAssozart(aktiverNode, parentNode, erstelleIdAusDomAttributId($(parentNode).attr("id")));
                 }
             },
             "loeschen": {
-                "label": "löschen",
+                "label":            "löschen",
                 "separator_before": true,
-                "icon": "style/images/loeschen.png",
+                "icon":             "style/images/loeschen.png",
                 "action": function () {
                     loescheAssozart(aktiverNode, parentNode);
                 }
@@ -338,17 +340,17 @@ var returnFunction = function (node) {
                 }
             },
             "GeoAdminMaps": {
-                "label": "auf CH-Karten zeigen",
+                "label":            "auf CH-Karten zeigen",
                 "separator_before": true,
-                "icon": "style/images/flora_icon_gelb.png",
+                "icon":             "style/images/flora_icon_gelb.png",
                 "action": function () {
                     zeigePopAufOlmap($(aktiverNode).attr("id"));
                 }
             },
             "GoogleMaps": {
-                "label": "auf Google-Karten zeigen",
+                "label":            "auf Google-Karten zeigen",
                 "separator_before": true,
-                "icon": "style/images/flora_icon.png",
+                "icon":             "style/images/flora_icon.png",
                 "action": function () {
                     zeigePopAufGmap($(aktiverNode).attr("id"));
                 }
@@ -356,9 +358,9 @@ var returnFunction = function (node) {
         };
         if (!window.apf.popZumVerschiebenGemerkt) {
             items.ausschneiden = {
-                "label": "zum Verschieben merken",
+                "label":            "zum Verschieben merken",
                 "separator_before": true,
-                "icon": "style/images/ausschneiden.png",
+                "icon":             "style/images/ausschneiden.png",
                 "action": function () {
                     schneidePopAus(aktiverNode);
                 }
@@ -366,9 +368,9 @@ var returnFunction = function (node) {
         }
         if (window.apf.popZumVerschiebenGemerkt) {
             items.einfuegen = {
-                "label": "'" + window.apf.popBezeichnung + "' einfügen",
+                "label":            "'" + window.apf.popBezeichnung + "' einfügen",
                 "separator_before": true,
-                "icon": "style/images/einfuegen.png",
+                "icon":             "style/images/einfuegen.png",
                 "action": function () {
                     fuegeAusgeschnittenePopEin($(parentNode).attr("id"));
                 }
@@ -379,50 +381,30 @@ var returnFunction = function (node) {
         items = {
             "untergeordneteKnotenOeffnen": {
                 "label": "untergeordnete Knoten öffnen",
-                "icon": "style/images/tree16x16.png",
+                "icon":  "style/images/tree16x16.png",
                 "action": function () {
                     $.jstree._reference(node).open_all(node);
                 }
             },
             "neu": {
                 "label": "neue Teilpopulation",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
-                    $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblTeilpopulation/feld=PopId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
-                    }).done(function (id) {
-                        var strukturtyp = "tpop",
-                            beschriftung = "neue Teilpopulation";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    }).fail(function () {
-                        melde("Fehler: Keine neue Teilpopulation erstellt");
-                    });
+                    insertNeueTpop(aktiverNode, parentNode, $(aktiverNode).attr("id"));
                 }
             },
             "GeoAdminMaps": {
-                "label": "auf CH-Karten zeigen",
+                "label":            "auf CH-Karten zeigen",
                 "separator_before": true,
-                "icon": "style/images/flora_icon_gelb.png",
+                "icon":             "style/images/flora_icon_gelb.png",
                 "action": function () {
-                    $.ajax({
-                        type: 'get',
-                        url: 'api/v1/tpopsKarte/popId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
-                    }).done(function (data) {
-                        if (data.length > 0) {
-                            zeigeTPopAufOlmap(data);
-                        } else {
-                            melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
-                        }
-                    }).fail(function () {
-                        melde("Fehler: Keine Teilpopulationen erhalten");
-                    });
+                    zeigeTpopsAufOlmap($(aktiverNode).attr("id"));
                 }
             },
             "GoogleMaps": {
-                "label": "auf Google-Karten zeigen",
+                "label":            "auf Google-Karten zeigen",
                 "separator_before": true,
-                "icon": "style/images/flora_icon.png",
+                "icon":             "style/images/flora_icon.png",
                 "action": function () {
                     var getPopKarte_2 = $.ajax({
                         type: 'get',
@@ -443,9 +425,9 @@ var returnFunction = function (node) {
         };
         if (window.apf.tpopNodeAusgeschnitten) {
             items.einfuegen = {
-                "label": $.jstree._reference(window.apf.tpopNodeAusgeschnitten).get_text(window.apf.tpopNodeAusgeschnitten) + " einfügen",
+                "label":            $.jstree._reference(window.apf.tpopNodeAusgeschnitten).get_text(window.apf.tpopNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
-                "icon": "style/images/einfuegen.png",
+                "icon":             "style/images/einfuegen.png",
                 "action": function () {
                     $.jstree._reference(aktiverNode).move_node(window.apf.tpopNodeAusgeschnitten, aktiverNode, "first", false);
                 }
@@ -457,9 +439,9 @@ var returnFunction = function (node) {
             label += (window.apf.tpopObjektKopiert.TPopFlurname || "(kein Flurname)");
             items.einfuegen = {
                 //"label": $.jstree._reference(window.apf.tpopNodeKopiert).get_text(window.apf.tpopNodeKopiert) + " einfügen",
-                "label": label + " einfügen",
+                "label":            label + " einfügen",
                 "separator_before": true,
-                "icon": "style/images/einfuegen.png",
+                "icon":             "style/images/einfuegen.png",
                 "action": function () {
                     window.apf.tpopKopiertInPopOrdnerTpopEinfuegen(aktiverNode);
                 }
@@ -470,33 +452,22 @@ var returnFunction = function (node) {
         items = {
             "untergeordneteKnotenOeffnen": {
                 "label": "untergeordnete Knoten öffnen",
-                "icon": "style/images/tree16x16.png",
+                "icon":  "style/images/tree16x16.png",
                 "action": function () {
                     $.jstree._reference(node).open_all(node);
                 }
             },
             "neu": {
                 "label": "neue Teilpopulation",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
-                    var insertTPop_2 = $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblTeilpopulation/feld=PopId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.user
-                    });
-                    insertTPop_2.done(function (id) {
-                        var strukturtyp = "tpop",
-                            beschriftung = "neue Teilpopulation";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    });
-                    insertTPop_2.fail(function () {
-                        melde("Fehler: Keine neue Teilpopulation erstellt");
-                    });
+                    insertNeueTpop(aktiverNode, parentNode, $(parentNode).attr("id"));
                 }
             },
             "loeschen": {
-                "label": "löschen",
+                "label":            "löschen",
                 "separator_before": true,
-                "icon": "style/images/loeschen.png",
+                "icon":             "style/images/loeschen.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
@@ -545,9 +516,9 @@ var returnFunction = function (node) {
                 }
             },
             "GeoAdminMaps": {
-                "label": "auf CH-Karten zeigen",
+                "label":            "auf CH-Karten zeigen",
                 "separator_before": true,
-                "icon": "style/images/flora_icon_gelb.png",
+                "icon":             "style/images/flora_icon_gelb.png",
                 "action": function () {
                     $.ajax({
                         type: 'get',
@@ -564,9 +535,9 @@ var returnFunction = function (node) {
                 }
             },
             "verortenGeoAdmin": {
-                "label": "auf CH-Karten verorten",
+                "label":            "auf CH-Karten verorten",
                 "separator_before": true,
-                "icon": "style/images/flora_icon_rot.png",
+                "icon":             "style/images/flora_icon_rot.png",
                 "action": function () {
                     var verorteTPop = require('../olmap/verorteTPop');
                     $.ajax({
@@ -580,9 +551,9 @@ var returnFunction = function (node) {
                 }
             },
             "GoogleMaps": {
-                "label": "auf Google-Karten zeigen",
+                "label":            "auf Google-Karten zeigen",
                 "separator_before": true,
-                "icon": "style/images/flora_icon.png",
+                "icon":             "style/images/flora_icon.png",
                 "action": function () {
                     $.ajax({
                         type: 'get',
@@ -599,9 +570,9 @@ var returnFunction = function (node) {
                 }
             },
             "verorten": {
-                "label": "auf Google-Karten verorten",
+                "label":            "auf Google-Karten verorten",
                 "separator_before": true,
-                "icon": "style/images/flora_icon_rot.png",
+                "icon":             "style/images/flora_icon_rot.png",
                 "action": function () {
                     var verorteTPop = require('../gmap/verorteTPop');
                     $.ajax({
@@ -615,9 +586,9 @@ var returnFunction = function (node) {
                 }
             },
             "GisBrowser": {
-                "label": "im GIS-Browser zeigen",
+                "label":            "im GIS-Browser zeigen",
                 "separator_before": true,
-                "icon": "style/images/wappen_zuerich.png",
+                "icon":             "style/images/wappen_zuerich.png",
                 "action": function () {
                     zeigeBeobKoordinatenImGisBrowser();
                 }
@@ -626,9 +597,9 @@ var returnFunction = function (node) {
         if (!window.apf.tpopNodeAusgeschnitten) {
             items.ausschneiden = {
                 //"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
-                "label": "ausschneiden",
+                "label":            "ausschneiden",
                 "separator_before": true,
-                "icon": "style/images/ausschneiden.png",
+                "icon":             "style/images/ausschneiden.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
@@ -644,9 +615,9 @@ var returnFunction = function (node) {
         }
         if (!window.apf.tpopNodeAusgeschnitten) {
             items.kopieren = {
-                "label": "kopieren",
+                "label":            "kopieren",
                 "separator_before": true,
-                "icon": "style/images/kopieren.png",
+                "icon":             "style/images/kopieren.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
@@ -672,9 +643,9 @@ var returnFunction = function (node) {
             label += ": ";
             label += (window.apf.tpopObjektKopiert.TPopFlurname || "(kein Flurname)");
             items.einfuegen = {
-                "label": label + " einfügen",
+                "label":            label + " einfügen",
                 "separator_before": true,
-                "icon": "style/images/einfuegen.png",
+                "icon":             "style/images/einfuegen.png",
                 "action": function () {
                     window.apf.tpopKopiertInPopOrdnerTpopEinfuegen(parentNode);
                 }
@@ -682,9 +653,9 @@ var returnFunction = function (node) {
         }
         if (window.apf.tpopNodeAusgeschnitten) {
             items.einfuegen = {
-                "label": $.jstree._reference(window.apf.tpopNodeAusgeschnitten).get_text(window.apf.tpopNodeAusgeschnitten) + " einfügen",
+                "label":            $.jstree._reference(window.apf.tpopNodeAusgeschnitten).get_text(window.apf.tpopNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
-                "icon": "style/images/einfuegen.png",
+                "icon":             "style/images/einfuegen.png",
                 "action": function () {
                     $.jstree._reference(parentNode).move_node(window.apf.tpopNodeAusgeschnitten, parentNode, "first", false);
                 }
@@ -695,7 +666,7 @@ var returnFunction = function (node) {
         return {
             "neu": {
                 "label": "neuer Populations-Bericht",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
                     var insertPopber = $.ajax({
                         type: 'post',
@@ -716,7 +687,7 @@ var returnFunction = function (node) {
         return {
             "neu": {
                 "label": "neuer Populations-Bericht",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
                     var insertPopber_2 = $.ajax({
                         type: 'post',
@@ -733,9 +704,9 @@ var returnFunction = function (node) {
                 }
             },
             "loeschen": {
-                "label": "löschen",
+                "label":            "löschen",
                 "separator_before": true,
-                "icon": "style/images/loeschen.png",
+                "icon":             "style/images/loeschen.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
@@ -781,7 +752,7 @@ var returnFunction = function (node) {
         return {
             "neu": {
                 "label": "neuer Massnahmen-Bericht",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
                     $.ajax({
                         type: 'post',
@@ -800,7 +771,7 @@ var returnFunction = function (node) {
         return {
             "neu": {
                 "label": "neuer Massnahmen-Bericht",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
                     var insertPopMassnBer_2 = $.ajax({
                         type: 'post',
@@ -817,9 +788,9 @@ var returnFunction = function (node) {
                 }
             },
             "loeschen": {
-                "label": "löschen",
+                "label":            "löschen",
                 "separator_before": true,
-                "icon": "style/images/loeschen.png",
+                "icon":             "style/images/loeschen.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
@@ -884,7 +855,7 @@ var returnFunction = function (node) {
             items.einfuegen = {
                 "label": $.jstree._reference(window.apf.tpopfeldkontrNodeAusgeschnitten).get_text(window.apf.tpopfeldkontrNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
-                "icon": "style/images/einfuegen.png",
+                "icon":             "style/images/einfuegen.png",
                 "action": function () {
                     $.jstree._reference(aktiverNode).move_node(window.apf.tpopfeldkontrNodeAusgeschnitten, aktiverNode, "first", false);
                 }
@@ -892,9 +863,9 @@ var returnFunction = function (node) {
         }
         if (window.apf.tpopfeldkontrNodeKopiert) {
             items.einfuegen = {
-                "label": $.jstree._reference(window.apf.tpopfeldkontrNodeKopiert).get_text(window.apf.tpopfeldkontrNodeKopiert) + " einfügen",
+                "label":            $.jstree._reference(window.apf.tpopfeldkontrNodeKopiert).get_text(window.apf.tpopfeldkontrNodeKopiert) + " einfügen",
                 "separator_before": true,
-                "icon": "style/images/einfuegen.png",
+                "icon":             "style/images/einfuegen.png",
                 "action": function () {
                     // und an die DB schicken
                     $.ajax({
@@ -915,7 +886,7 @@ var returnFunction = function (node) {
         items = {
             "neu": {
                 "label": "neue Feldkontrolle",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
                     var insertTPopFeldKontr_2 = $.ajax({
                         type: 'post',
@@ -932,9 +903,9 @@ var returnFunction = function (node) {
                 }
             },
             "loeschen": {
-                "label": "löschen",
+                "label":            "löschen",
                 "separator_before": true,
-                "icon": "style/images/loeschen.png",
+                "icon":             "style/images/loeschen.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
@@ -976,9 +947,9 @@ var returnFunction = function (node) {
                 }
             },
             "biotop_kopieren": {
-                "label": "Biotop kopieren",
+                "label":            "Biotop kopieren",
                 "separator_before": true,
-                "icon": "style/images/kopieren.png",
+                "icon":             "style/images/kopieren.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
@@ -1081,9 +1052,9 @@ var returnFunction = function (node) {
         if (!window.apf.tpopfeldkontrNodeAusgeschnitten) {
             items.ausschneiden = {
                 //"label": "Feldkontrolle ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
-                "label": "ausschneiden",
+                "label":            "ausschneiden",
                 "separator_before": true,
-                "icon": "style/images/ausschneiden.png",
+                "icon":             "style/images/ausschneiden.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
@@ -1099,9 +1070,9 @@ var returnFunction = function (node) {
         }
         if (!window.apf.tpopfeldkontrNodeAusgeschnitten) {
             items.kopieren = {
-                "label": "kopieren",
+                "label":            "kopieren",
                 "separator_before": true,
-                "icon": "style/images/kopieren.png",
+                "icon":             "style/images/kopieren.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
@@ -1126,7 +1097,7 @@ var returnFunction = function (node) {
             items.einfuegen = {
                 "label": $.jstree._reference(window.apf.tpopfeldkontrNodeAusgeschnitten).get_text(window.apf.tpopfeldkontrNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
-                "icon": "style/images/einfuegen.png",
+                "icon":             "style/images/einfuegen.png",
                 "action": function () {
                     $.jstree._reference(parentNode).move_node(window.apf.tpopfeldkontrNodeAusgeschnitten, parentNode, "first", false);
                 }
@@ -1134,9 +1105,9 @@ var returnFunction = function (node) {
         }
         if (window.apf.tpopfeldkontrNodeKopiert) {
             items.einfuegen = {
-                "label": $.jstree._reference(window.apf.tpopfeldkontrNodeKopiert).get_text(window.apf.tpopfeldkontrNodeKopiert) + " einfügen",
+                "label":            $.jstree._reference(window.apf.tpopfeldkontrNodeKopiert).get_text(window.apf.tpopfeldkontrNodeKopiert) + " einfügen",
                 "separator_before": true,
-                "icon": "style/images/einfuegen.png",
+                "icon":             "style/images/einfuegen.png",
                 "action": function () {
                     // und an die DB schicken
                     $.ajax({
@@ -1157,7 +1128,7 @@ var returnFunction = function (node) {
         items = {
             "neu": {
                 "label": "neue Freiwilligen-Kontrolle",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
                     $.ajax({
                         type: 'post',
@@ -1176,7 +1147,7 @@ var returnFunction = function (node) {
             items.einfuegen = {
                 "label": $.jstree._reference(window.apf.tpopfreiwkontrNodeAusgeschnitten).get_text(window.apf.tpopfreiwkontrNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
-                "icon": "style/images/einfuegen.png",
+                "icon":             "style/images/einfuegen.png",
                 "action": function () {
                     $.jstree._reference(aktiverNode).move_node(window.apf.tpopfreiwkontrNodeAusgeschnitten, aktiverNode, "first", false);
                 }
@@ -1186,7 +1157,7 @@ var returnFunction = function (node) {
             items.einfuegen = {
                 "label": $.jstree._reference(window.apf.tpopfreiwkontrNodeKopiert).get_text(window.apf.tpopfreiwkontrNodeKopiert) + " einfügen",
                 "separator_before": true,
-                "icon": "style/images/einfuegen.png",
+                "icon":             "style/images/einfuegen.png",
                 "action": function () {
                     // und an die DB schicken
                     $.ajax({
@@ -1207,7 +1178,7 @@ var returnFunction = function (node) {
         items = {
             "neu": {
                 "label": "neue Freiwilligen-Kontrolle",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
                     var insertTPopFeldKontr_4 = $.ajax({
                         type: 'post',
@@ -1224,9 +1195,9 @@ var returnFunction = function (node) {
                 }
             },
             "loeschen": {
-                "label": "löschen",
+                "label":            "löschen",
                 "separator_before": true,
-                "icon": "style/images/loeschen.png",
+                "icon":             "style/images/loeschen.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
@@ -1272,9 +1243,9 @@ var returnFunction = function (node) {
         if (!window.apf.tpopfreiwkontrNodeAusgeschnitten) {
             items.ausschneiden = {
                 //"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
-                "label": "ausschneiden",
+                "label":            "ausschneiden",
                 "separator_before": true,
-                "icon": "style/images/ausschneiden.png",
+                "icon":             "style/images/ausschneiden.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
@@ -1290,9 +1261,9 @@ var returnFunction = function (node) {
         }
         if (!window.apf.tpopfreiwkontrNodeAusgeschnitten) {
             items.kopieren = {
-                "label": "kopieren",
+                "label":            "kopieren",
                 "separator_before": true,
-                "icon": "style/images/kopieren.png",
+                "icon":             "style/images/kopieren.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
@@ -1317,7 +1288,7 @@ var returnFunction = function (node) {
             items.einfuegen = {
                 "label": $.jstree._reference(window.apf.tpopfreiwkontrNodeAusgeschnitten).get_text(window.apf.tpopfreiwkontrNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
-                "icon": "style/images/einfuegen.png",
+                "icon":             "style/images/einfuegen.png",
                 "action": function () {
                     $.jstree._reference(parentNode).move_node(window.apf.tpopfreiwkontrNodeAusgeschnitten, parentNode, "first", false);
                     localStorage.tpopfreiwkontr = true;
@@ -1328,7 +1299,7 @@ var returnFunction = function (node) {
             items.einfuegen = {
                 "label": $.jstree._reference(window.apf.tpopfreiwkontrNodeKopiert).get_text(window.apf.tpopfreiwkontrNodeKopiert) + " einfügen",
                 "separator_before": true,
-                "icon": "style/images/einfuegen.png",
+                "icon":             "style/images/einfuegen.png",
                 "action": function () {
                     $.ajax({
                         type: 'post',
@@ -1348,7 +1319,7 @@ var returnFunction = function (node) {
         items = {
             "neu": {
                 "label": "neue Massnahme",
-                "icon": "style/images/neu.png",
+                "icon":              "style/images/neu.png",
                 "action": function () {
                     $.ajax({
                         type: 'post',
@@ -1367,7 +1338,7 @@ var returnFunction = function (node) {
             items.einfuegen = {
                 "label": $.jstree._reference(window.apf.tpopmassnNodeAusgeschnitten).get_text(window.apf.tpopmassnNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
-                "icon": "style/images/einfuegen.png",
+                "icon":             "style/images/einfuegen.png",
                 "action": function () {
                     $.jstree._reference(aktiverNode).move_node(window.apf.tpopmassnNodeAusgeschnitten, aktiverNode, "first", false);
                 }
@@ -1377,7 +1348,7 @@ var returnFunction = function (node) {
             items.einfuegen = {
                 "label": $.jstree._reference(window.apf.tpopmassnNodeKopiert).get_text(window.apf.tpopmassnNodeKopiert) + " einfügen",
                 "separator_before": true,
-                "icon": "style/images/einfuegen.png",
+                "icon":             "style/images/einfuegen.png",
                 "action": function () {
                     var insertTPopMassnKopie = $.ajax({
                         type: 'post',
@@ -1399,7 +1370,7 @@ var returnFunction = function (node) {
         items = {
             "neu": {
                 "label": "neue Massnahme",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
                     var insertTPopMassn_2 = $.ajax({
                         type: 'post',
@@ -1416,9 +1387,9 @@ var returnFunction = function (node) {
                 }
             },
             "loeschen": {
-                "label": "löschen",
+                "label":            "löschen",
                 "separator_before": true,
-                "icon": "style/images/loeschen.png",
+                "icon":             "style/images/loeschen.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
@@ -1463,9 +1434,9 @@ var returnFunction = function (node) {
         if (!window.apf.tpopmassnNodeAusgeschnitten) {
             items.ausschneiden = {
                 //"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
-                "label": "ausschneiden",
+                "label":            "ausschneiden",
                 "separator_before": true,
-                "icon": "style/images/ausschneiden.png",
+                "icon":             "style/images/ausschneiden.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
@@ -1481,9 +1452,9 @@ var returnFunction = function (node) {
         }
         if (!window.apf.tpopmassnNodeAusgeschnitten) {
             items.kopieren = {
-                "label": "kopieren",
+                "label":            "kopieren",
                 "separator_before": true,
-                "icon": "style/images/kopieren.png",
+                "icon":             "style/images/kopieren.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
@@ -1516,7 +1487,7 @@ var returnFunction = function (node) {
             items.einfuegen = {
                 "label": $.jstree._reference(window.apf.tpopmassnNodeAusgeschnitten).get_text(window.apf.tpopmassnNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
-                "icon": "style/images/einfuegen.png",
+                "icon":             "style/images/einfuegen.png",
                 "action": function () {
                     $.jstree._reference(parentNode).move_node(window.apf.tpopmassnNodeAusgeschnitten, parentNode, "first", false);
                 }
@@ -1526,7 +1497,7 @@ var returnFunction = function (node) {
             items.einfuegen = {
                 "label": $.jstree._reference(window.apf.tpopmassnNodeKopiert).get_text(window.apf.tpopmassnNodeKopiert) + " einfügen",
                 "separator_before": true,
-                "icon": "style/images/einfuegen.png",
+                "icon":             "style/images/einfuegen.png",
                 "action": function () {
                     var insertTPopMassnKopie_2 = $.ajax({
                         type: 'post',
@@ -1548,7 +1519,7 @@ var returnFunction = function (node) {
         return {
             "neu": {
                 "label": "neuer Teilpopulations-Bericht",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
                     $.ajax({
                         type: 'post',
@@ -1567,7 +1538,7 @@ var returnFunction = function (node) {
         return {
             "neu": {
                 "label": "neuer Teilpopulations-Bericht",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
                     var insertTPopBer_2 = $.ajax({
                         type: 'post',
@@ -1584,9 +1555,9 @@ var returnFunction = function (node) {
                 }
             },
             "loeschen": {
-                "label": "löschen",
+                "label":            "löschen",
                 "separator_before": true,
-                "icon": "style/images/loeschen.png",
+                "icon":             "style/images/loeschen.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
@@ -1631,9 +1602,9 @@ var returnFunction = function (node) {
     case "tpopOrdnerBeobZugeordnet":
         items = {
             "GoogleMaps": {
-                "label": "auf Luftbild zeigen",
+                "label":            "auf Luftbild zeigen",
                 "separator_before": true,
-                "icon": "style/images/flora_icon.png",
+                "icon":             "style/images/flora_icon.png",
                 "action": function () {
                     var zeigeTPopBeob = require('../gmap/zeigeTPopBeob');
                     $.ajax({
@@ -1656,7 +1627,7 @@ var returnFunction = function (node) {
             items.einfuegen = {
                 "label": $.jstree._reference(window.apf.beobZugeordnetNodeAusgeschnitten).get_text(window.apf.beobZugeordnetNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
-                "icon": "style/images/einfuegen.png",
+                "icon":             "style/images/einfuegen.png",
                 "action": function () {
                     $.jstree._reference(aktiverNode).move_node(window.apf.beobZugeordnetNodeAusgeschnitten, aktiverNode, "first", false);
                 }
@@ -1666,7 +1637,7 @@ var returnFunction = function (node) {
             items.einfuegen = {
                 "label": $.jstree._reference(window.apf.beobNodeAusgeschnitten).get_text(window.apf.beobNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
-                "icon": "style/images/einfuegen.png",
+                "icon":             "style/images/einfuegen.png",
                 "action": function () {
                     $("#tree").jstree("move_node", window.apf.beobNodeAusgeschnitten, aktiverNode, "first");
                 }
@@ -1676,9 +1647,9 @@ var returnFunction = function (node) {
     case "beobZugeordnet":
         items = {
             "GoogleMaps": {
-                "label": "auf Luftbild zeigen",
+                "label":            "auf Luftbild zeigen",
                 "separator_before": true,
-                "icon": "style/images/flora_icon.png",
+                "icon":             "style/images/flora_icon.png",
                 "action": function () {
                     var zeigeTPopBeob = require('../gmap/zeigeTPopBeob');
                     $.ajax({
@@ -1696,9 +1667,9 @@ var returnFunction = function (node) {
                 }
             },
             "GoogleMapsMitTPopTPopBeob": {
-                "label": "auf Luftbild einer neuen<br>&nbsp;&nbsp;&nbsp;Teilpopulation zuordnen",
+                "label":            "auf Luftbild einer neuen<br>&nbsp;&nbsp;&nbsp;Teilpopulation zuordnen",
                 "separator_before": true,
-                "icon": "style/images/flora_icon_violett.png",
+                "icon":             "style/images/flora_icon_violett.png",
                 "action": function () {
                     var zeigeBeobUndTPop = require('../gmap/zeigeBeobUndTPop'),
                         zeigeBeob        = require('../gmap/zeigeBeob');
@@ -1727,9 +1698,9 @@ var returnFunction = function (node) {
                 }
             },
             "GisBrowser": {
-                "label": "im GIS-Browser zeigen",
+                "label":            "im GIS-Browser zeigen",
                 "separator_before": true,
-                "icon": "style/images/wappen_zuerich.png",
+                "icon":             "style/images/wappen_zuerich.png",
                 "action": function () {
                     zeigeBeobKoordinatenImGisBrowser();
                 }
@@ -1738,9 +1709,9 @@ var returnFunction = function (node) {
         if (!window.apf.beobZugeordnetNodeAusgeschnitten) {
             items.ausschneiden = {
                 //"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
-                "label": "ausschneiden",
+                "label":            "ausschneiden",
                 "separator_before": true,
-                "icon": "style/images/ausschneiden.png",
+                "icon":             "style/images/ausschneiden.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
@@ -1754,7 +1725,7 @@ var returnFunction = function (node) {
             items.einfuegen_beob_zugeordnet = {
                 "label": $.jstree._reference(window.apf.beobZugeordnetNodeAusgeschnitten).get_text(window.apf.beobZugeordnetNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
-                "icon": "style/images/einfuegen.png",
+                "icon":             "style/images/einfuegen.png",
                 "action": function () {
                     $.jstree._reference(parentNode).move_node(window.apf.beobZugeordnetNodeAusgeschnitten, parentNode, "first", false);
                 }
@@ -1764,7 +1735,7 @@ var returnFunction = function (node) {
             items.einfuegen_beob = {
                 "label": $.jstree._reference(window.apf.beobNodeAusgeschnitten).get_text(window.apf.beobNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
-                "icon": "style/images/einfuegen.png",
+                "icon":             "style/images/einfuegen.png",
                 "action": function () {
                     $.jstree._reference(parentNode).move_node(window.apf.beobNodeAusgeschnitten, parentNode, "first", false);
                 }
@@ -1775,7 +1746,7 @@ var returnFunction = function (node) {
         return {
             "neu": {
                 "label": "neuer Massnahmen-Bericht",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
                     $.ajax({
                         type: 'post',
@@ -1794,7 +1765,7 @@ var returnFunction = function (node) {
         return {
             "neu": {
                 "label": "neuer Massnahmen-Bericht",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
                     var insertTPopMassBer_2 = $.ajax({
                         type: 'post',
@@ -1811,9 +1782,9 @@ var returnFunction = function (node) {
                 }
             },
             "loeschen": {
-                "label": "löschen",
+                "label":            "löschen",
                 "separator_before": true,
-                "icon": "style/images/loeschen.png",
+                "icon":             "style/images/loeschen.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
@@ -1858,9 +1829,9 @@ var returnFunction = function (node) {
     case "apOrdnerBeobNichtBeurteilt":
         items = {
             "GoogleMaps": {
-                "label": "auf Luftbild zeigen",
+                "label":            "auf Luftbild zeigen",
                 "separator_before": true,
-                "icon": "style/images/flora_icon_violett.png",
+                "icon":             "style/images/flora_icon_violett.png",
                 "action": function () {
                     var zeigeBeob = require('../gmap/zeigeBeob');
                     $.ajax({
@@ -1880,7 +1851,7 @@ var returnFunction = function (node) {
             "GoogleMapsMitTPop": {
                 "label": "auf Luftbild Teilpopulationen<br>&nbsp;&nbsp;&nbsp;zuordnen<br>&nbsp;&nbsp;&nbsp;Tipp: Beobachtungen auf<br>&nbsp;&nbsp;&nbsp;Teilpopulationen ziehen!",
                 "separator_before": true,
-                "icon": "style/images/flora_icon_violett.png",
+                "icon":             "style/images/flora_icon_violett.png",
                 "action": function () {
                     var zeigeBeobUndTPop = require('../gmap/zeigeBeobUndTPop'),
                         zeigeBeob        = require('../gmap/zeigeBeob');
@@ -1912,7 +1883,7 @@ var returnFunction = function (node) {
             items.einfuegen = {
                 "label": $.jstree._reference(window.apf.beobZugeordnetNodeAusgeschnitten).get_text(window.apf.beobZugeordnetNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
-                "icon": "style/images/einfuegen.png",
+                "icon":             "style/images/einfuegen.png",
                 "action": function () {
                     $("#tree").jstree("move_node", window.apf.beobZugeordnetNodeAusgeschnitten, aktiverNode, "first");
                 }
@@ -1922,9 +1893,9 @@ var returnFunction = function (node) {
     case "beobNichtBeurteilt":
         items = {
             "GoogleMaps": {
-                "label": "auf Luftbild zeigen",
+                "label":            "auf Luftbild zeigen",
                 "separator_before": true,
-                "icon": "style/images/flora_icon_violett.png",
+                "icon":             "style/images/flora_icon_violett.png",
                 "action": function () {
                     var zeigeBeob = require('../gmap/zeigeBeob');
                     $.ajax({
@@ -1943,9 +1914,9 @@ var returnFunction = function (node) {
                 }
             },
             "GoogleMapsMitTPopBeob": {
-                "label": "auf Luftbild einer Teilpopulation<br>&nbsp;&nbsp;&nbsp;zuordnen",
+                "label":            "auf Luftbild einer Teilpopulation<br>&nbsp;&nbsp;&nbsp;zuordnen",
                 "separator_before": true,
-                "icon": "style/images/flora_icon_violett.png",
+                "icon":             "style/images/flora_icon_violett.png",
                 "action": function () {
                     var zeigeBeobUndTPop = require('../gmap/zeigeBeobUndTPop'),
                         zeigeBeob        = require('../gmap/zeigeBeob');
@@ -1974,9 +1945,9 @@ var returnFunction = function (node) {
                 }
             },
             "GisBrowser": {
-                "label": "im GIS-Browser zeigen",
+                "label":            "im GIS-Browser zeigen",
                 "separator_before": true,
-                "icon": "style/images/wappen_zuerich.png",
+                "icon":             "style/images/wappen_zuerich.png",
                 "action": function () {
                     zeigeBeobKoordinatenImGisBrowser();
                 }
@@ -1985,9 +1956,9 @@ var returnFunction = function (node) {
         if (!window.apf.beobNodeAusgeschnitten) {
             items.ausschneiden = {
                 //"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
-                "label": "ausschneiden",
+                "label":            "ausschneiden",
                 "separator_before": true,
-                "icon": "style/images/ausschneiden.png",
+                "icon":             "style/images/ausschneiden.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
@@ -2001,7 +1972,7 @@ var returnFunction = function (node) {
             items.einfuegen = {
                 "label": $.jstree._reference(window.apf.beobZugeordnetNodeAusgeschnitten).get_text(window.apf.beobZugeordnetNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
-                "icon": "style/images/einfuegen.png",
+                "icon":             "style/images/einfuegen.png",
                 "action": function () {
                     $("#tree").jstree("move_node", window.apf.beobZugeordnetNodeAusgeschnitten, parentNode, "first");
                 }
@@ -2011,9 +1982,9 @@ var returnFunction = function (node) {
     case "apOrdnerBeobNichtZuzuordnen":
         items = {
             "GoogleMaps": {
-                "label": "auf Luftbild zeigen",
+                "label":            "auf Luftbild zeigen",
                 "separator_before": true,
-                "icon": "style/images/flora_icon_violett.png",
+                "icon":             "style/images/flora_icon_violett.png",
                 "action": function () {
                     var zeigeBeob = require('../gmap/zeigeBeob');
                     $.ajax({
@@ -2035,7 +2006,7 @@ var returnFunction = function (node) {
             items.einfuegen = {
                 "label": $.jstree._reference(window.apf.beobZugeordnetNodeAusgeschnitten).get_text(window.apf.beobZugeordnetNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
-                "icon": "style/images/einfuegen.png",
+                "icon":             "style/images/einfuegen.png",
                 "action": function () {
                     $("#tree").jstree("move_node", window.apf.beobZugeordnetNodeAusgeschnitten, aktiverNode, "first");
                 }
@@ -2045,9 +2016,9 @@ var returnFunction = function (node) {
     case "beobNichtZuzuordnen":
         items = {
             "GoogleMaps": {
-                "label": "auf Luftbild zeigen",
+                "label":            "auf Luftbild zeigen",
                 "separator_before": true,
-                "icon": "style/images/flora_icon_violett.png",
+                "icon":             "style/images/flora_icon_violett.png",
                 "action": function () {
                     var zeigeBeob = require('../gmap/zeigeBeob');
                     $.ajax({
@@ -2066,9 +2037,9 @@ var returnFunction = function (node) {
                 }
             },
             "GisBrowser": {
-                "label": "im GIS-Browser zeigen",
+                "label":            "im GIS-Browser zeigen",
                 "separator_before": true,
-                "icon": "style/images/wappen_zuerich.png",
+                "icon":             "style/images/wappen_zuerich.png",
                 "action": function () {
                     zeigeBeobKoordinatenImGisBrowser();
                 }
@@ -2077,9 +2048,9 @@ var returnFunction = function (node) {
         if (!window.apf.beobNodeAusgeschnitten) {
             items.ausschneiden = {
                 //"label": "ausschneiden<br>&nbsp;&nbsp;&nbsp;Tipp: drag and drop me!",
-                "label": "ausschneiden",
+                "label":            "ausschneiden",
                 "separator_before": true,
-                "icon": "style/images/ausschneiden.png",
+                "icon":             "style/images/ausschneiden.png",
                 "action": function () {
                     // nur aktualisieren, wenn Schreibrechte bestehen
                     if (!window.apf.pruefeSchreibvoraussetzungen()) {
@@ -2093,7 +2064,7 @@ var returnFunction = function (node) {
             items.einfuegen = {
                 "label": $.jstree._reference(window.apf.beobZugeordnetNodeAusgeschnitten).get_text(window.apf.beobZugeordnetNodeAusgeschnitten) + " einfügen",
                 "separator_before": true,
-                "icon": "style/images/einfuegen.png",
+                "icon":             "style/images/einfuegen.png",
                 "action": function () {
                     $("#tree").jstree("move_node", window.apf.beobZugeordnetNodeAusgeschnitten, parentNode, "first");
                 }
@@ -2102,5 +2073,3 @@ var returnFunction = function (node) {
         return items;
     }
 };
-
-module.exports = returnFunction;
