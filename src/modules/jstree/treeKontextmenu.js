@@ -23,7 +23,8 @@ var _                                         = require('underscore'),
     loescheJber                               = require('./loescheJber'),
     fuegeAusgeschnittenePopEin                = require('./fuegeAusgeschnittenePopEin'),
     zeigePopsAufOlmap                         = require('./zeigePopsAufOlmap'),
-    zeigePopsAufGmap                          = require('./zeigePopsAufGmap');
+    zeigePopsAufGmap                          = require('./zeigePopsAufGmap'),
+    insertNeuenJberuebersicht                 = require('./insertNeuenJberuebersicht');
 
 var returnFunction = function (node) {
     var items,
@@ -230,24 +231,15 @@ var returnFunction = function (node) {
                 }
             }
         };
-        // Wenn noch keine existiert, kann einen neue Übersicht zu allen Arten erstellt werden
-        if ($.jstree._reference(aktiverNode)._get_children(aktiverNode).length === 0) {
-            items.neu_jber_uebersicht = {
+        // Wenn noch keine existiert und ein Jahr erfasst wurde, kann einen neue Übersicht zu allen Arten erstellt werden
+        if ($.jstree._reference(aktiverNode)._get_children(aktiverNode).length === 0 && !isNaN($.jstree._reference(aktiverNode).get_text(aktiverNode))) {
+            items.neuJberUebersicht = {
                 "label":            "neue Übersicht zu allen Arten",
                 "separator_before": true,
                 "icon":             "style/images/neu.png",
                 "action": function () {
-                    $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblJBerUebersicht/feld=JbuJahr/wert=' + $.jstree._reference(aktiverNode).get_text(aktiverNode) + '/user=' + sessionStorage.user
-                    }).done(function () {
-                        var strukturtyp = "jberUebersicht",
-                            dsId = $.jstree._reference(aktiverNode).get_text(aktiverNode),
-                            beschriftung = "neue Übersicht zu allen Arten";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, dsId, beschriftung);
-                    }).fail(function () {
-                        melde("Fehler: Keine Übersicht zu allen Arten erstellt");
-                    });
+                    var jahr = $.jstree._reference(aktiverNode).get_text(aktiverNode);
+                    insertNeuenJberuebersicht(aktiverNode, parentNode, jahr);
                 }
             };
         }
