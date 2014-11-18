@@ -15,7 +15,7 @@ module.exports = function (nodeApId) {
         // Baum neu aufbauen
         $.when(window.apf.erstelleTree(apId)).then(function () {
             // dann den eingefügten Node wählen
-            $("#tree").jstree("select_node", "[typ='pop']#" + localStorage.popId);
+            $("#tree").jstree("select_node", "[typ='pop']#" + window.apf.popId);
         });
         // einfügen soll nicht mehr angezeigt werden
         delete window.apf.popZumVerschiebenGemerkt;

@@ -359,20 +359,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/ausschneiden.png",
                 "action": function () {
-                    schneidePopAus();
-
-
-                    // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
-                        return;
-                    }
-                    // Jetzt die PopId merken - ihr muss danach eine andere ApArtId zugeteilt werden
-                    window.apf.popId = erstelleIdAusDomAttributId($(aktiverNode).attr("id"));
-                    // merken, dass ein node ausgeschnitten wurde
-                    window.apf.popZumVerschiebenGemerkt = true;
-                    // und wie er heisst (um es später im Kontextmenü anzuzeigen)
-                    window.apf.popBezeichnung = $("#PopNr").val() + " " + $("#PopName").val();
-
+                    schneidePopAus(aktiverNode);
                 }
             };
         }
@@ -382,26 +369,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
-                    var popid = window.apf.popId,
-                        apartid = erstelleIdAusDomAttributId($(parentNode).attr("id"));
-                    // db aktualisieren
-                    $.ajax({
-                        type: 'post',
-                        url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + popid + '/feld=ApArtId/wert=' + apartid + '/user=' + sessionStorage.user
-                    }).done(function () {
-                        // Baum wieder aufbauen
-                        $.when(window.apf.erstelleTree(apartid)).then(function () {
-                            // dann den eingefügten Node wählen
-                            $("#tree").jstree("select_node", "[typ='pop']#" + popid);
-                        });
-                        // einfügen soll nicht mehr angezeigt werden
-                        delete window.apf.popZumVerschiebenGemerkt;
-                        // nicht mehr benötigte Variablen entfernen
-                        delete window.apf.popBezeichnung;
-                        delete window.apf.popId;
-                    }).fail(function () {
-                        melde("Fehler: Die Population wurde nicht verschoben");
-                    });
+                    fuegeAusgeschnittenePopEin($(parentNode).attr("id"));
                 }
             };
         }
