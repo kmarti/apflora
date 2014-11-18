@@ -14,6 +14,7 @@ var _                                         = require('underscore'),
     zeigePop                                  = require('../olmap/zeigePop'),
     insertNeuePop                             = require('./insertNeuePop'),
     insertNeuesApziel                         = require('./insertNeuesApziel'),
+    fuegeAusgeschnittenePopEin                = require('./fuegeAusgeschnittenePopEin'),
     zeigePopsAufOlmap                         = require('./zeigePopsAufOlmap'),
     zeigePopsAufGmap                          = require('./zeigePopsAufGmap');
 
@@ -51,17 +52,17 @@ var returnFunction = function (node) {
                 }
             },
             "GeoAdminMaps": {
-                "label": "auf CH-Karten zeigen",
+                "label":            "auf CH-Karten zeigen",
                 "separator_before": true,
-                "icon": "style/images/flora_icon_gelb.png",
+                "icon":             "style/images/flora_icon_gelb.png",
                 "action": function () {
                     zeigePopsAufOlmap($(aktiverNode).attr("id"));
                 }
             },
             "GoogleMaps": {
-                "label": "auf Google-Karten zeigen",
+                "label":            "auf Google-Karten zeigen",
                 "separator_before": true,
-                "icon": "style/images/flora_icon.png",
+                "icon":             "style/images/flora_icon.png",
                 "action": function () {
                     zeigePopsAufGmap($(aktiverNode).attr("id"));
                 }
@@ -69,28 +70,11 @@ var returnFunction = function (node) {
         };
         if (window.apf.popZumVerschiebenGemerkt) {
             items.einfuegen = {
-                "label": "'" + window.apf.popBezeichnung + "' einfügen",
+                "label":            "'" + window.apf.popBezeichnung + "' einfügen",
                 "separator_before": true,
-                "icon": "style/images/einfuegen.png",
+                "icon":             "style/images/einfuegen.png",
                 "action": function () {
-                    // db aktualisieren
-                    $.ajax({
-                        type: 'post',
-                        url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + window.apf.popId + '/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
-                    }).done(function () {
-                        // Baum neu aufbauen
-                        $.when(window.apf.erstelleTree(erstelleIdAusDomAttributId($(aktiverNode).attr("id")))).then(function () {
-                            // dann den eingefügten Node wählen
-                            $("#tree").jstree("select_node", "[typ='pop']#" + localStorage.popId);
-                        });
-                        // einfügen soll nicht mehr angezeigt werden
-                        delete window.apf.popZumVerschiebenGemerkt;
-                        // nicht mehr benötigte Variablen entfernen
-                        delete window.apf.popBezeichnung;
-                        delete window.apf.popId;
-                    }).fail(function () {
-                        melde("Fehler: Die Population wurde nicht verschoben");
-                    });
+                    fuegeAusgeschnittenePopEin($(aktiverNode).attr("id"));
                 }
             };
         }
@@ -99,14 +83,14 @@ var returnFunction = function (node) {
         return {
             "untergeordneteKnotenOeffnen": {
                 "label": "untergeordnete Knoten öffnen",
-                "icon": "style/images/tree16x16.png",
+                "icon":  "style/images/tree16x16.png",
                 "action": function () {
                     $.jstree._reference(node).open_all(node);
                 }
             },
             "neu": {
                 "label": "neues Ziel",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
                     insertNeuesApziel(aktiverNode, parentNode, $(aktiverNode).attr("id"));
                 }
@@ -116,14 +100,14 @@ var returnFunction = function (node) {
         return {
             "untergeordneteKnotenOeffnen": {
                 "label": "untergeordnete Knoten öffnen",
-                "icon": "style/images/tree16x16.png",
+                "icon":  "style/images/tree16x16.png",
                 "action": function () {
                     $.jstree._reference(node).open_all(node);
                 }
             },
             "neu": {
                 "label": "neues Ziel",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
                     insertNeuesApziel(aktiverNode, parentNode, $(parentNode).attr("id"));
                 }
