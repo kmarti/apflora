@@ -6,9 +6,7 @@ var $                          = require('jquery'),
     melde                      = require('../melde'),
     frageObUndeleteDatensatz   = require('../frageObUndeleteDatensatz');
 
-module.exports = function (aktiverNode, parentNode) {
-    var bezeichnung;
-
+module.exports = function (aktiverNode) {
     // nur aktualisieren, wenn Schreibrechte bestehen
     if (!window.apf.pruefeSchreibvoraussetzungen()) {
         return;
@@ -19,8 +17,7 @@ module.exports = function (aktiverNode, parentNode) {
     $.jstree._reference(aktiverNode).open_all(aktiverNode);
     $.jstree._reference(aktiverNode).deselect_all();
     $.jstree._reference(aktiverNode).select_node(aktiverNode);
-    bezeichnung = $.jstree._reference(aktiverNode).get_text(aktiverNode);
-    $("#loeschen_dialog_mitteilung").html("Der Ziel-Bericht '" + bezeichnung + "' wird gelöscht.");
+    $("#loeschen_dialog_mitteilung").html("Die Übersicht zu allen Arten wird gelöscht");
     $("#loeschen_dialog").dialog({
         resizable: false,
         height:    'auto',
@@ -30,21 +27,19 @@ module.exports = function (aktiverNode, parentNode) {
             "ja, löschen!": function () {
                 $(this).dialog("close");
                 // Variable zum rückgängig machen erstellen
-                window.apf.deleted     = window.apf.zielber;
-                window.apf.deleted.typ = "zielber";
+                window.apf.deleted     = window.apf.jberUebersicht;
+                window.apf.deleted.typ = "jberUebersicht";
                 $.ajax({
                     type: 'delete',
-                    url: 'api/v1/apflora/tabelle=tblZielBericht/tabelleIdFeld=ZielBerId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
+                    url: 'api/v1/apflora/tabelle=tblJBerUebersicht/tabelleIdFeld=JbuJahr/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
                 }).done(function () {
-                    delete localStorage.zielberId;
-                    delete window.apf.zielber;
+                    delete localStorage.jberUebersichtId;
+                    delete window.apf.jberUebersicht;
                     $.jstree._reference(aktiverNode).delete_node(aktiverNode);
-                    // Parent Node-Beschriftung: Anzahl anpassen
-                    window.apf.beschrifteOrdnerZielber(parentNode);
                     // Hinweis zum rückgängig machen anzeigen
-                    frageObUndeleteDatensatz("Der Ziel-Bericht '" + bezeichnung + "' wurde gelöscht.");
+                    frageObUndeleteDatensatz('Die Übersicht für den AP-Bericht des Jahrs "' + window.apf.deleted.JbuJahr + '" wurde gelöscht.');
                 }).fail(function () {
-                    melde("Fehler: Der Ziel-Bericht wurde nicht gelöscht");
+                    melde("Fehler: Die Übersicht zu allen Arten wurde nicht gelöscht");
                 });
             },
             "abbrechen": function () {

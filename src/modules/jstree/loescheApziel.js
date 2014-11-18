@@ -1,7 +1,7 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $ = require('jquery'),
+var $                          = require('jquery'),
     erstelleIdAusDomAttributId = require('../erstelleIdAusDomAttributId'),
     melde                      = require('../melde'),
     frageObUndeleteDatensatz   = require('../frageObUndeleteDatensatz');
