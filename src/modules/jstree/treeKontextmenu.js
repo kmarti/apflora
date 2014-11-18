@@ -18,6 +18,7 @@ var _                                         = require('underscore'),
     insertNeuenZielber                        = require('./insertNeuenZielber'),
     loescheZielber                            = require('./loescheZielber'),
     insertNeuesErfkrit                        = require('./insertNeuesErfkrit'),
+    loescheErfkrit                            = require('./loescheErfkrit'),
     fuegeAusgeschnittenePopEin                = require('./fuegeAusgeschnittenePopEin'),
     zeigePopsAufOlmap                         = require('./zeigePopsAufOlmap'),
     zeigePopsAufGmap                          = require('./zeigePopsAufGmap');
@@ -188,51 +189,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/loeschen.png",
                 "action": function () {
-                    // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
-                        return;
-                    }
-                    // selektieren, falls direkt mit der rechten Maustaste gewählt wurde
-                    $.jstree._reference(aktiverNode).deselect_all();
-                    // alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
-                    $.jstree._reference(aktiverNode).open_all(aktiverNode);
-                    $.jstree._reference(aktiverNode).deselect_all();
-                    $.jstree._reference(aktiverNode).select_node(aktiverNode);
-                    var bezeichnung = $.jstree._reference(aktiverNode).get_text(aktiverNode);
-                    $("#loeschen_dialog_mitteilung").html("Das Erfolgskriterium '" + bezeichnung + "' wird gelöscht.");
-                    $("#loeschen_dialog").dialog({
-                        resizable: false,
-                        height:'auto',
-                        width: 400,
-                        modal: true,
-                        buttons: {
-                            "ja, löschen!": function () {
-                                $(this).dialog("close");
-                                // Variable zum rückgängig machen erstellen
-                                window.apf.deleted = window.apf.erfkrit;
-                                window.apf.deleted.typ = "erfkrit";
-                                var deleteErfkrit = $.ajax({
-                                    type: 'delete',
-                                    url: 'api/v1/apflora/tabelle=tblErfKrit/tabelleIdFeld=ErfkritId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
-                                });
-                                deleteErfkrit.done(function () {
-                                    delete localStorage.erfkritId;
-                                    delete window.apf.erfkrit;
-                                    $.jstree._reference(aktiverNode).delete_node(aktiverNode);
-                                    // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifteOrdnerErfkrit(parentNode);
-                                    // Hinweis zum rückgängig machen anzeigen
-                                    frageObUndeleteDatensatz("Das Erfolgskriterium '" + bezeichnung + "' wurde gelöscht.");
-                                });
-                                deleteErfkrit.fail(function () {
-                                    melde("Fehler: Das Erfolgskriterium wurde nicht gelöscht");
-                                });
-                            },
-                            "abbrechen": function () {
-                                $(this).dialog("close");
-                            }
-                        }
-                    });
+                    loescheErfkrit(aktiverNode, parentNode);
                 }
             }
         };
