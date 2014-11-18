@@ -31,7 +31,8 @@ var _                                         = require('underscore'),
     fuegeAusgeschnittenePopEin                = require('./fuegeAusgeschnittenePopEin'),
     zeigePopsAufOlmap                         = require('./zeigePopsAufOlmap'),
     zeigePopsAufGmap                          = require('./zeigePopsAufGmap'),
-    zeigePopAufOlmap                          = require('./zeigePopAufOlmap');
+    zeigePopAufOlmap                          = require('./zeigePopAufOlmap'),
+    zeigePopAufGmap                           = require('./zeigePopAufGmap');
 
 var returnFunction = function (node) {
     var items,
@@ -347,18 +348,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon.png",
                 "action": function () {
-                    $.ajax({
-                        type: 'get',
-                        url: 'api/v1/popKarte/popId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
-                    }).done(function (data) {
-                        if (data && data.length > 0) {
-                            zeigeTPopAufGmap(data);
-                        } else {
-                            melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
-                        }
-                    }).fail(function () {
-                        melde("Fehler: Keine Teilpopulationen erhalten");
-                    });
+                    zeigePopAufGmap($(aktiverNode).attr("id"));
                 }
             }
         };
