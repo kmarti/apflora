@@ -13,7 +13,9 @@ var _                                         = require('underscore'),
     erstelleIdAusDomAttributId                = require('../erstelleIdAusDomAttributId'),
     zeigePop                                  = require('../olmap/zeigePop'),
     insertNeuePop                             = require('./insertNeuePop'),
-    insertNeuesApziel                         = require('./insertNeuesApziel');
+    insertNeuesApziel                         = require('./insertNeuesApziel'),
+    zeigePopsAufOlmap                         = require('./zeigePopsAufOlmap'),
+    zeigePopsAufGmap                          = require('./zeigePopsAufGmap');
 
 var returnFunction = function (node) {
     var items,
@@ -53,18 +55,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_gelb.png",
                 "action": function () {
-                    $.ajax({
-                        type: 'get',
-                        url: 'api/v1/popsChKarte/apId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
-                    }).done(function (data) {
-                        if (data && data.length > 0) {
-                            zeigePop(data);
-                        } else {
-                            melde("Die Population hat keine Koordinaten", "Aktion abgebrochen");
-                        }
-                    }).fail(function () {
-                        melde("Fehler: Keine Daten erhalten");
-                    });
+                    zeigePopsAufOlmap($(aktiverNode).attr("id"));
                 }
             },
             "GoogleMaps": {
@@ -72,18 +63,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon.png",
                 "action": function () {
-                    $.ajax({
-                        type: 'get',
-                        url: 'api/v1/apKarte/apId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
-                    }).done(function (data) {
-                        if (data && data.length > 0) {
-                            zeigeTPopAufGmap(data);
-                        } else {
-                            melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
-                        }
-                    }).fail(function () {
-                        melde("Fehler: Keine Daten erhalten");
-                    });
+                    zeigePopsAufGmap($(aktiverNode).attr("id"));
                 }
             }
         };
