@@ -13,6 +13,7 @@ var _                                         = require('underscore'),
     erstelleIdAusDomAttributId                = require('../erstelleIdAusDomAttributId'),
     zeigePop                                  = require('../olmap/zeigePop'),
     insertNeuePop                             = require('./insertNeuePop'),
+    loeschePop                                = require('./loeschePop'),
     insertNeuesApziel                         = require('./insertNeuesApziel'),
     loescheApziel                             = require('./loescheApziel'),
     insertNeuenZielber                        = require('./insertNeuenZielber'),
@@ -29,7 +30,8 @@ var _                                         = require('underscore'),
     loescheAssozart                           = require('./loescheAssozart'),
     fuegeAusgeschnittenePopEin                = require('./fuegeAusgeschnittenePopEin'),
     zeigePopsAufOlmap                         = require('./zeigePopsAufOlmap'),
-    zeigePopsAufGmap                          = require('./zeigePopsAufGmap');
+    zeigePopsAufGmap                          = require('./zeigePopsAufGmap'),
+    zeigePopAufOlmap                          = require('./zeigePopAufOlmap');
 
 var returnFunction = function (node) {
     var items,
@@ -321,7 +323,6 @@ var returnFunction = function (node) {
                 "label": "neue Population",
                 "icon":  "style/images/neu.png",
                 "action": function () {
-                    console.log('aktiverNode: ', aktiverNode);
                     insertNeuePop(aktiverNode, parentNode, $(parentNode).attr("id"));
                 }
             },
@@ -330,51 +331,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/loeschen.png",
                 "action": function () {
-                    var bezeichnung;
-
-                    // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
-                        return;
-                    }
-                    // selektieren, falls direkt mit der rechten Maustaste gewählt wurde
-                    $.jstree._reference(aktiverNode).deselect_all();
-                    // alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
-                    $.jstree._reference(aktiverNode).open_all(aktiverNode);
-                    $.jstree._reference(aktiverNode).deselect_all();
-                    $.jstree._reference(aktiverNode).select_node(aktiverNode);
-                    bezeichnung = $.jstree._reference(aktiverNode).get_text(aktiverNode);
-                    $("#loeschen_dialog_mitteilung").html("Die Population '" + bezeichnung + "' wird gelöscht.");
-                    $("#loeschen_dialog").dialog({
-                        resizable: false,
-                        height:    'auto',
-                        width:     400,
-                        modal:     true,
-                        buttons: {
-                            "ja, löschen!": function () {
-                                $(this).dialog("close");
-                                // Variable zum rückgängig machen erstellen
-                                window.apf.deleted     = window.apf.pop;
-                                window.apf.deleted.typ = "pop";
-                                $.ajax({
-                                    type: 'delete',
-                                    url: 'api/v1/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
-                                }).done(function () {
-                                    delete localStorage.popId;
-                                    delete window.apf.pop;
-                                    $.jstree._reference(aktiverNode).delete_node(aktiverNode);
-                                    // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifteOrdnerPop(parentNode);
-                                    // Hinweis zum rückgängig machen anzeigen
-                                    frageObUndeleteDatensatz("Population '" + bezeichnung + "' wurde gelöscht.");
-                                }).fail(function () {
-                                    melde("Fehler: Die Population wurde nicht gelöscht");
-                                });
-                            },
-                            "abbrechen": function () {
-                                $(this).dialog("close");
-                            }
-                        }
-                    });
+                    loeschePop(aktiverNode, parentNode);
                 }
             },
             "GeoAdminMaps": {
@@ -382,19 +339,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_gelb.png",
                 "action": function () {
-                    var zeigePop = require('../olmap/zeigePop');
-                    $.ajax({
-                        type: 'get',
-                        url: 'api/v1/popChKarte/popId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
-                    }).done(function (data) {
-                        if (data && data.length > 0) {
-                            zeigePop(data);
-                        } else {
-                            melde("Die Population hat keine Koordinaten", "Aktion abgebrochen");
-                        }
-                    }).fail(function () {
-                        melde("Fehler: Keine Populationen erhalten");
-                    });
+                    zeigePopAufOlmap($(aktiverNode).attr("id"));
                 }
             },
             "GoogleMaps": {
