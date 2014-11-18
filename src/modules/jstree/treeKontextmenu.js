@@ -19,6 +19,7 @@ var _                                         = require('underscore'),
     loescheZielber                            = require('./loescheZielber'),
     insertNeuesErfkrit                        = require('./insertNeuesErfkrit'),
     loescheErfkrit                            = require('./loescheErfkrit'),
+    insertNeuenBer                            = require('./insertNeuenBer'),
     insertNeuenJber                           = require('./insertNeuenJber'),
     loescheJber                               = require('./loescheJber'),
     insertNeuenJberuebersicht                 = require('./insertNeuenJberuebersicht'),
@@ -259,39 +260,19 @@ var returnFunction = function (node) {
         return {
             "neu": {
                 "label": "neuer Bericht",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
-                    $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblBer/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) +'/user=' + sessionStorage.user
-                    }).done(function (id) {
-                        var strukturtyp  = "ber",
-                            beschriftung = "neuer Bericht";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    }).fail(function () {
-                        melde("Fehler: Keinen neuen Bericht erstellt");
-                    });
+                    insertNeuenBer(aktiverNode, parentNode, erstelleIdAusDomAttributId($(aktiverNode).attr("id")));
                 }
             }
         };
     case "ber":
         return {
             "neu": {
-                "label": "Neuer Bericht",
+                "label": "neuer Bericht",
                 "icon": "style/images/neu.png",
                 "action": function () {
-                    var insertBer_2 = $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblBer/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) +'/user=' + sessionStorage.user
-                    });
-                    insertBer_2.done(function (id) {
-                        var strukturtyp = "ber",
-                            beschriftung = "neuer Bericht";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    });
-                    insertBer_2.fail(function () {
-                        melde("Fehler: Keinen neuen Bericht erstellt");
-                    });
+                    insertNeuenBer(aktiverNode, parentNode, erstelleIdAusDomAttributId($(parentNode).attr("id")));
                 }
             },
             "loeschen": {
