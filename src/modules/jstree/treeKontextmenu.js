@@ -20,10 +20,13 @@ var _                                         = require('underscore'),
     insertNeuesErfkrit                        = require('./insertNeuesErfkrit'),
     loescheErfkrit                            = require('./loescheErfkrit'),
     insertNeuenBer                            = require('./insertNeuenBer'),
+    loescheBer                                = require('./loescheBer'),
     insertNeuenJber                           = require('./insertNeuenJber'),
     loescheJber                               = require('./loescheJber'),
     insertNeuenJberuebersicht                 = require('./insertNeuenJberuebersicht'),
     loescheJberuebersicht                     = require('./loescheJberuebersicht'),
+    insertNeueAssozart                        = require('./insertNeueAssozart'),
+    loescheAssozart                           = require('./loescheAssozart'),
     fuegeAusgeschnittenePopEin                = require('./fuegeAusgeschnittenePopEin'),
     zeigePopsAufOlmap                         = require('./zeigePopsAufOlmap'),
     zeigePopsAufGmap                          = require('./zeigePopsAufGmap');
@@ -280,49 +283,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/loeschen.png",
                 "action": function () {
-                    // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
-                        return;
-                    }
-                    // selektieren, falls direkt mit der rechten Maustaste gewählt wurde
-                    $.jstree._reference(aktiverNode).deselect_all();
-                    // alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
-                    $.jstree._reference(aktiverNode).open_all(aktiverNode);
-                    $.jstree._reference(aktiverNode).deselect_all();
-                    $.jstree._reference(aktiverNode).select_node(aktiverNode);
-                    var bezeichnung = $.jstree._reference(aktiverNode).get_text(aktiverNode);
-                    $("#loeschen_dialog_mitteilung").html("Der Bericht '" + bezeichnung + "' wird gelöscht.");
-                    $("#loeschen_dialog").dialog({
-                        resizable: false,
-                        height:    'auto',
-                        width:     400,
-                        modal:     true,
-                        buttons: {
-                            "ja, löschen!": function () {
-                                $(this).dialog("close");
-                                // Variable zum rückgängig machen erstellen
-                                window.apf.deleted     = window.apf.ber;
-                                window.apf.deleted.typ = "ber";
-                                $.ajax({
-                                    type: 'delete',
-                                    url: 'api/v1/apflora/tabelle=tblBer/tabelleIdFeld=BerId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
-                                }).done(function () {
-                                    delete localStorage.berId;
-                                    delete window.apf.ber;
-                                    $.jstree._reference(aktiverNode).delete_node(aktiverNode);
-                                    // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifteOrdnerBer(parentNode);
-                                    // Hinweis zum rückgängig machen anzeigen
-                                    frageObUndeleteDatensatz("Der Bericht '" + bezeichnung + "' wurde gelöscht.");
-                                }).fail(function () {
-                                    melde("Fehler: Der Bericht wurde nicht gelöscht");
-                                });
-                            },
-                            "abbrechen": function () {
-                                $(this).dialog("close");
-                            }
-                        }
-                    });
+                    loescheBer(aktiverNode, parentNode);
                 }
             }
         };
@@ -332,16 +293,7 @@ var returnFunction = function (node) {
                 "label": "neue assoziierte Art",
                 "icon": "style/images/neu.png",
                 "action": function () {
-                    $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblAssozArten/feld=AaApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
-                    }).done(function (id) {
-                        var strukturtyp  = "assozarten",
-                            beschriftung = "neue assoziierte Art";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    }).fail(function () {
-                        melde("Fehler: keine assoziierte Art erstellt");
-                    });
+                    insertNeueAssozart(aktiverNode, parentNode, erstelleIdAusDomAttributId($(aktiverNode).attr("id")));
                 }
             }
         };
@@ -351,16 +303,7 @@ var returnFunction = function (node) {
                 "label": "neue assoziierte Art",
                 "icon": "style/images/neu.png",
                 "action": function () {
-                    $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblAssozArten/feld=AaApArtId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.user
-                    }).done(function (id) {
-                        var strukturtyp = "assozarten",
-                            beschriftung = "neue assoziierte Art";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    }).fail(function () {
-                        melde("Fehler: Keine assoziierte Art erstellt");
-                    });
+                    insertNeueAssozart(aktiverNode, parentNode, erstelleIdAusDomAttributId($(parentNode).attr("id")));
                 }
             },
             "loeschen": {
@@ -368,51 +311,7 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/loeschen.png",
                 "action": function () {
-                    var bezeichnung;
-
-                    // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
-                        return;
-                    }
-                    // selektieren, falls direkt mit der rechten Maustaste gewählt wurde
-                    $.jstree._reference(aktiverNode).deselect_all();
-                    // alle tieferen Knoten öffnen um zu zeigen, was mit gelöscht wird
-                    $.jstree._reference(aktiverNode).open_all(aktiverNode);
-                    $.jstree._reference(aktiverNode).deselect_all();
-                    $.jstree._reference(aktiverNode).select_node(aktiverNode);
-                    bezeichnung = $.jstree._reference(aktiverNode).get_text(aktiverNode);
-                    $("#loeschen_dialog_mitteilung").html("Die assoziierte Art '" + bezeichnung + "' wird gelöscht.");
-                    $("#loeschen_dialog").dialog({
-                        resizable: false,
-                        height:    'auto',
-                        width:     400,
-                        modal:     true,
-                        buttons: {
-                            "ja, löschen!": function () {
-                                $(this).dialog("close");
-                                // Variable zum rückgängig machen erstellen
-                                window.apf.deleted     = window.apf.assozarten;
-                                window.apf.deleted.typ = "assozarten";
-                                $.ajax({
-                                    type: 'delete',
-                                    url: 'api/v1/apflora/tabelle=tblAssozArten/tabelleIdFeld=AaId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
-                                }).done(function () {
-                                    delete localStorage.assozartenId;
-                                    delete window.apf.assozarten;
-                                    $.jstree._reference(aktiverNode).delete_node(aktiverNode);
-                                    // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifteOrdnerAssozarten(parentNode);
-                                    // Hinweis zum rückgängig machen anzeigen
-                                    frageObUndeleteDatensatz("Die assoziierte Art '" + bezeichnung + "' wurde gelöscht.");
-                                }).fail(function () {
-                                    melde("Fehler: Die assoziierte Art wurde nicht gelöscht");
-                                });
-                            },
-                            "abbrechen": function () {
-                                $(this).dialog("close");
-                            }
-                        }
-                    });
+                    loescheAssozart(aktiverNode, parentNode);
                 }
             }
         };
