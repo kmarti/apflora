@@ -19,6 +19,7 @@ var _                                         = require('underscore'),
     loescheZielber                            = require('./loescheZielber'),
     insertNeuesErfkrit                        = require('./insertNeuesErfkrit'),
     loescheErfkrit                            = require('./loescheErfkrit'),
+    insertNeuenApber                          = require('./insertNeuenApber'),
     fuegeAusgeschnittenePopEin                = require('./fuegeAusgeschnittenePopEin'),
     zeigePopsAufOlmap                         = require('./zeigePopsAufOlmap'),
     zeigePopsAufGmap                          = require('./zeigePopsAufGmap');
@@ -204,18 +205,9 @@ var returnFunction = function (node) {
             },
             "neu": {
                 "label": "neuer AP-Bericht",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
-                    $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblJBer/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
-                    }).done(function (id) {
-                        var strukturtyp = "jber",
-                            beschriftung = "neuer AP-Bericht";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    }).fail(function () {
-                        melde("Fehler: Keinen neuen AP-Bericht erstellt");
-                    });
+                    insertNeuenApber(aktiverNode, parentNode, $(aktiverNode).attr("id"));
                 }
             }
         };
@@ -225,16 +217,7 @@ var returnFunction = function (node) {
                 "label": "neuer AP-Bericht",
                 "icon": "style/images/neu.png",
                 "action": function () {
-                    $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblJBer/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.user
-                    }).done(function (id) {
-                        var strukturtyp = "jber",
-                            beschriftung = "neuer AP-Bericht";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    }).fail(function () {
-                        melde("Fehler: Keinen neuen AP-Bericht erstellt");
-                    });
+                    insertNeuenApber(aktiverNode, parentNode, $(parentNode).attr("id"));
                 }
             },
             "loeschen": {
