@@ -7,19 +7,19 @@ var $                                         = require('jquery'),
     insertNeuenNodeAufGleicherHierarchiestufe = require('./insertNeuenNodeAufGleicherHierarchiestufe'),
     melde                                     = require('../melde');
 
-module.exports = function (aktiverNode, parentNode, nodeApId) {
+module.exports = function (aktiverNode, parentNode, nodeZielId) {
     $.ajax({
         type: 'post',
-        url: 'api/v1/insert/apflora/tabelle=tblPopulation/feld=ApArtId/wert=' + erstelleIdAusDomAttributId(nodeApId) + '/user=' + sessionStorage.user
+        url: 'api/v1/insert/apflora/tabelle=tblZielBericht/feld=ZielId/wert=' + erstelleIdAusDomAttributId(nodeZielId) + '/user=' + sessionStorage.user
     }).done(function (id) {
-        var strukturtyp  = "pop",
-            beschriftung = "neue Population";
-        if ($(aktiverNode).attr("id") === nodeApId) {
+        var strukturtyp  = "zielber",
+            beschriftung = "neuer Ziel-Bericht";
+        if ($(aktiverNode).attr("id") === nodeZielId) {
             insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
         } else {
             insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
         }
     }).fail(function () {
-        melde("Fehler: Keine neue Population erstellt");
+        melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
     });
 };

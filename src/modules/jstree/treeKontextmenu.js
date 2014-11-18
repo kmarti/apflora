@@ -15,6 +15,7 @@ var _                                         = require('underscore'),
     insertNeuePop                             = require('./insertNeuePop'),
     insertNeuesApziel                         = require('./insertNeuesApziel'),
     loescheApziel                             = require('./loescheApziel'),
+    insertNeuenZielber                        = require('./insertNeuenZielber'),
     fuegeAusgeschnittenePopEin                = require('./fuegeAusgeschnittenePopEin'),
     zeigePopsAufOlmap                         = require('./zeigePopsAufOlmap'),
     zeigePopsAufGmap                          = require('./zeigePopsAufGmap');
@@ -137,18 +138,9 @@ var returnFunction = function (node) {
         return {
             "neu": {
                 "label": "neuer Ziel-Bericht",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
-                    $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblZielBericht/feld=ZielId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
-                    }).done(function (id) {
-                        var strukturtyp  = "zielber",
-                            beschriftung = "neuer Ziel-Bericht";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    }).fail(function () {
-                        melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
-                    });
+                    insertNeuenZielber(aktiverNode, parentNode, $(aktiverNode).attr("id"));
                 }
             }
         };
@@ -156,18 +148,9 @@ var returnFunction = function (node) {
         return {
             "neu": {
                 "label": "neuer Ziel-Bericht",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
-                    $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblZielBericht/feld=ZielId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.user
-                    }).done(function (id) {
-                        var strukturtyp  = "zielber",
-                            beschriftung = "neuer Ziel-Bericht";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    }).fail(function () {
-                        melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
-                    });
+                    insertNeuenZielber(aktiverNode, parentNode, $(parentNode).attr("id"));
                 }
             },
             "loeschen": {
