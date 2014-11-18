@@ -10,7 +10,9 @@ var _                                         = require('underscore'),
     frageObUndeleteDatensatz                  = require('../frageObUndeleteDatensatz'),
     melde                                     = require('../melde'),
     zeigeBeobKoordinatenImGisBrowser          = require('../zeigeBeobKoordinatenImGisBrowser'),
-    erstelleIdAusDomAttributId                = require('../erstelleIdAusDomAttributId');
+    erstelleIdAusDomAttributId                = require('../erstelleIdAusDomAttributId'),
+    zeigePop                                  = require('../olmap/zeigePop'),
+    insertNeuesApziel                         = require('./insertNeuesApziel');
 
 var returnFunction = function (node) {
     var items,
@@ -21,11 +23,11 @@ var returnFunction = function (node) {
         grandparentNode;
 
     // relevante nodes zwischenspeichern
-    aktiverNode = node;
+    aktiverNode     = node;
     aktiverNodeText = $.jstree._reference(aktiverNode).get_text(aktiverNode);
     // parent nur ermitteln, wenn parents exisiteren - sonst gibt es einen Fehler
     if ($(aktiverNode).attr("typ").slice(0, 8) !== "apOrdner" && $(aktiverNode).attr("typ") !== "idealbiotop") {
-        parentNode = $.jstree._reference(aktiverNode)._get_parent(aktiverNode);
+        parentNode     = $.jstree._reference(aktiverNode)._get_parent(aktiverNode);
         parentNodeText = $.jstree._reference(parentNode).get_text(parentNode);
     }
     switch ($(aktiverNode).attr("typ")) {
@@ -42,16 +44,14 @@ var returnFunction = function (node) {
                 "label": "neue Population",
                 "icon": "style/images/neu.png",
                 "action": function () {
-                    var insertPop = $.ajax({
+                    $.ajax({
                         type: 'post',
                         url: 'api/v1/insert/apflora/tabelle=tblPopulation/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
-                    });
-                    insertPop.done(function (id) {
+                    }).done(function (id) {
                         var strukturtyp = "pop",
                             beschriftung = "neue Population";
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    });
-                    insertPop.fail(function () {
+                    }).fail(function () {
                         melde("Fehler: Keine neue Population erstellt");
                     });
                 }
@@ -61,7 +61,6 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon_gelb.png",
                 "action": function () {
-                    var zeigePop = require('../olmap/zeigePop');
                     $.ajax({
                         type: 'get',
                         url: 'api/v1/popsChKarte/apId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
@@ -81,48 +80,43 @@ var returnFunction = function (node) {
                 "separator_before": true,
                 "icon": "style/images/flora_icon.png",
                 "action": function () {
-                    var getApKarte = $.ajax({
+                    $.ajax({
                         type: 'get',
                         url: 'api/v1/apKarte/apId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
-                    });
-                    getApKarte.done(function (data) {
+                    }).done(function (data) {
                         if (data && data.length > 0) {
                             zeigeTPopAufGmap(data);
                         } else {
                             melde("Es gibt keine Teilpopulation mit Koordinaten", "Aktion abgebrochen");
                         }
-                    });
-                    getApKarte.fail(function () {
+                    }).fail(function () {
                         melde("Fehler: Keine Daten erhalten");
                     });
                 }
             }
         };
-        if (window.apf.pop_zum_verschieben_gemerkt) {
+        if (window.apf.popZumVerschiebenGemerkt) {
             items.einfuegen = {
-                "label": "'" + window.apf.pop_bezeichnung + "' einfügen",
+                "label": "'" + window.apf.popBezeichnung + "' einfügen",
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
                     // db aktualisieren
-                    var updatePop = $.ajax({
+                    $.ajax({
                         type: 'post',
                         url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + window.apf.popId + '/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
-                    });
-                    updatePop.done(function () {
+                    }).done(function () {
                         // Baum neu aufbauen
-                        $.when(window.apf.erstelleTree(erstelleIdAusDomAttributId($(aktiverNode).attr("id"))))
-                            .then(function () {
-                                // dann den eingefügten Node wählen
-                                $("#tree").jstree("select_node", "[typ='pop']#" + localStorage.popId);
-                            });
+                        $.when(window.apf.erstelleTree(erstelleIdAusDomAttributId($(aktiverNode).attr("id")))).then(function () {
+                            // dann den eingefügten Node wählen
+                            $("#tree").jstree("select_node", "[typ='pop']#" + localStorage.popId);
+                        });
                         // einfügen soll nicht mehr angezeigt werden
-                        delete window.apf.pop_zum_verschieben_gemerkt;
+                        delete window.apf.popZumVerschiebenGemerkt;
                         // nicht mehr benötigte Variablen entfernen
-                        delete window.apf.pop_bezeichnung;
+                        delete window.apf.popBezeichnung;
                         delete window.apf.popId;
-                    });
-                    updatePop.fail(function () {
+                    }).fail(function () {
                         melde("Fehler: Die Population wurde nicht verschoben");
                     });
                 }
@@ -142,22 +136,7 @@ var returnFunction = function (node) {
                 "label": "neues Ziel",
                 "icon": "style/images/neu.png",
                 "action": function () {
-                    var insertApziel = $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
-                    });
-                    insertApziel.done(function (id) {
-                        var strukturtyp = "apziel",
-                            beschriftung = "neues Ziel";
-                        // mitteilen, dass von ganz oben ein apziel erstellt wird und daher noch ein Zwischenordner erstellt werden muss
-                        localStorage.apzielVonOrdnerApziel = true;
-                        // zur Sicherheit den anderen Zeiger löschen
-                        delete localStorage.apzielVonApzieljahr;
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    });
-                    insertApziel.fail(function () {
-                        melde("Fehler: Keine neues AP-Ziel erstellt");
-                    });
+                    insertNeuesApziel(aktiverNode, parentNode, $(aktiverNode).attr("id"));
                 }
             }
         };
@@ -174,21 +153,7 @@ var returnFunction = function (node) {
                 "label": "neues Ziel",
                 "icon": "style/images/neu.png",
                 "action": function () {
-                    var insertApziel_2 = $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.user
-                    });
-                    insertApziel_2.done(function (id) {
-                        var strukturtyp = "apziel",
-                            beschriftung = "neues Ziel";
-                        localStorage.apzielVonApzieljahr = true;
-                        // zur Sicherheit den anderen Zeiger löschen
-                        delete localStorage.apzielVonOrdnerApziel;
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    });
-                    insertApziel_2.fail(function () {
-                        melde("Fehler: Keine neues Ziel erstellt");
-                    });
+                    insertNeuesApziel(aktiverNode, parentNode, $(parentNode).attr("id"));
                 }
             }
         };
@@ -198,23 +163,8 @@ var returnFunction = function (node) {
                 "label": "neues Ziel",
                 "icon": "style/images/neu.png",
                 "action": function () {
-                    // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
-                        return;
-                    }
                     grandparentNode = $.jstree._reference(parentNode)._get_parent(parentNode);
-                    var insertApziel_3 = $.ajax( {
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(grandparentNode).attr("id")) + '/user=' + sessionStorage.user
-                    });
-                    insertApziel_3.done(function (id) {
-                        var strukturtyp = "apziel",
-                            beschriftung = "neues Ziel";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    });
-                    insertApziel_3.fail(function () {
-                        melde("Fehler: Kein neues AP-Ziel erstellt");
-                    });
+                    insertNeuesApziel(aktiverNode, parentNode, $(grandparentNode).attr("id"));
                 }
             },
             "loeschen": {
@@ -275,22 +225,20 @@ var returnFunction = function (node) {
                 }
             }
         };
-    case "zielber_ordner":
+    case "zielberOrdner":
         return {
             "neu": {
                 "label": "neuer Ziel-Bericht",
                 "icon": "style/images/neu.png",
                 "action": function () {
-                    var insertZielber = $.ajax({
+                    $.ajax({
                         type: 'post',
                         url: 'api/v1/insert/apflora/tabelle=tblZielBericht/feld=ZielId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
-                    });
-                    insertZielber.done(function (id) {
-                        var strukturtyp = "zielber",
+                    }).done(function (id) {
+                        var strukturtyp  = "zielber",
                             beschriftung = "neuer Ziel-Bericht";
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    });
-                    insertZielber.fail(function () {
+                    }).fail(function () {
                         melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
                     });
                 }
@@ -302,16 +250,14 @@ var returnFunction = function (node) {
                 "label": "neuer Ziel-Bericht",
                 "icon": "style/images/neu.png",
                 "action": function () {
-                    var insertZielber_2 = $.ajax({
+                    $.ajax({
                         type: 'post',
                         url: 'api/v1/insert/apflora/tabelle=tblZielBericht/feld=ZielId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.user
-                    });
-                    insertZielber_2.done(function (id) {
-                        var strukturtyp = "zielber",
+                    }).done(function (id) {
+                        var strukturtyp  = "zielber",
                             beschriftung = "neuer Ziel-Bericht";
                         insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    });
-                    insertZielber_2.fail(function () {
+                    }).fail(function () {
                         melde("Fehler: Keinen neuen Ziel-Bericht erstellt");
                     });
                 }
@@ -939,7 +885,7 @@ var returnFunction = function (node) {
                 }
             }
         };
-        if (!window.apf.pop_zum_verschieben_gemerkt) {
+        if (!window.apf.popZumVerschiebenGemerkt) {
             items.ausschneiden = {
                 "label": "zum Verschieben merken",
                 "separator_before": true,
@@ -952,16 +898,16 @@ var returnFunction = function (node) {
                     // Jetzt die PopId merken - ihr muss danach eine andere ApArtId zugeteilt werden
                     window.apf.popId = erstelleIdAusDomAttributId($(aktiverNode).attr("id"));
                     // merken, dass ein node ausgeschnitten wurde
-                    window.apf.pop_zum_verschieben_gemerkt = true;
+                    window.apf.popZumVerschiebenGemerkt = true;
                     // und wie er heisst (um es später im Kontextmenü anzuzeigen)
-                    window.apf.pop_bezeichnung = $("#PopNr").val() + " " + $("#PopName").val();
+                    window.apf.popBezeichnung = $("#PopNr").val() + " " + $("#PopName").val();
 
                 }
             };
         }
-        if (window.apf.pop_zum_verschieben_gemerkt) {
+        if (window.apf.popZumVerschiebenGemerkt) {
             items.einfuegen = {
-                "label": "'" + window.apf.pop_bezeichnung + "' einfügen",
+                "label": "'" + window.apf.popBezeichnung + "' einfügen",
                 "separator_before": true,
                 "icon": "style/images/einfuegen.png",
                 "action": function () {
@@ -980,9 +926,9 @@ var returnFunction = function (node) {
                                 $("#tree").jstree("select_node", "[typ='pop']#" + popid);
                             });
                         // einfügen soll nicht mehr angezeigt werden
-                        delete window.apf.pop_zum_verschieben_gemerkt;
+                        delete window.apf.popZumVerschiebenGemerkt;
                         // nicht mehr benötigte Variablen entfernen
-                        delete window.apf.pop_bezeichnung;
+                        delete window.apf.popBezeichnung;
                         delete window.apf.popId;
                     });
                     updatePop_2.fail(function () {

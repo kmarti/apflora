@@ -60,7 +60,7 @@ module.exports = function (aktiverNode, parentNode, strukturtyp, dsId, beschrift
             "data": "0 Ziel-Berichte",
             "attr": {
                 "id": dsId,
-                "typ": "zielber_ordner"
+                "typ": "zielberOrdner"
             }
         });
         // im create_node-Event von jstree wird Jahr eingefügt und gespeichert

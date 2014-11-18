@@ -111,7 +111,7 @@ module.exports = function (request, reply) {
                     apzielOrdnerNode.data = 'Ziel-Berichte (' + zielbere.length + ')';
                     apzielOrdnerNode.attr = {
                         id: apziel.ZielId,
-                        typ: 'zielber_ordner'
+                        typ: 'zielberOrdner'
                     };
                     apzielOrdnerNodeChildren  = [];
                     apzielOrdnerNode.children = apzielOrdnerNodeChildren;

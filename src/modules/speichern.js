@@ -332,7 +332,7 @@ var speichern = function (that) {
             } else {
                 zielberbeschriftung = "(kein Jahr): (keine Beurteilung)";
             }
-            $tree.jstree("rename_node", "[typ='zielber_ordner'] #" + localStorage.zielberId, zielberbeschriftung);
+            $tree.jstree("rename_node", "[typ='zielberOrdner'] #" + localStorage.zielberId, zielberbeschriftung);
             break;
         case "ErfkritErreichungsgrad":
         case "ErfkritTxt":

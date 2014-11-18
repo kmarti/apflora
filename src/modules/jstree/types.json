@@ -80,10 +80,10 @@
             "valid_children": "apziel"
         },
         "apziel": {
-            "valid_children": "zielber_ordner",
+            "valid_children": "zielberOrdner",
             "new_node": "neues AP-Ziel"
         },
-        "zielber_ordner": {
+        "zielberOrdner": {
             "valid_children": "zielber"
         },
         "zielber": {
