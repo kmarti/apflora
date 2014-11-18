@@ -1856,7 +1856,7 @@ window.apf.prüfeAnmeldung = function () {
 
 // erwartet aktuelle Werte für jahr und typ
 // erstellt den label für den Baum
-window.apf.erstelleLabelFürFeldkontrolle = function (jahr, typ) {
+window.apf.erstelleLabelFuerFeldkontrolle = function (jahr, typ) {
     'use strict';
     if (typeof jahr === "undefined") {
         jahr = "(kein Jahr)";
