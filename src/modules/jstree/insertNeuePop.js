@@ -8,22 +8,19 @@ var $                                         = require('jquery'),
     melde                                     = require('../melde');
 
 module.exports = function (aktiverNode, parentNode, nodeApId) {
+    console.log('nodeApId: ', nodeApId);
     $.ajax({
         type: 'post',
-        url: 'api/v1/insert/apflora/tabelle=tblZiel/feld=ApArtId/wert=' + erstelleIdAusDomAttributId(nodeApId) + '/user=' + sessionStorage.user
+        url: 'api/v1/insert/apflora/tabelle=tblPopulation/feld=ApArtId/wert=' + erstelleIdAusDomAttributId(nodeApId) + '/user=' + sessionStorage.user
     }).done(function (id) {
-        var strukturtyp  = "apziel",
-            beschriftung = "neues Ziel";
-        // mitteilen, dass von ganz oben ein apziel erstellt wird und daher noch ein Zwischenordner erstellt werden muss
-        localStorage.apzielVonOrdnerApziel = true;
-        // zur Sicherheit den anderen Zeiger löschen
-        delete localStorage.apzielVonApzieljahr;
+        var strukturtyp  = "pop",
+            beschriftung = "neue Population";
         if ($(aktiverNode).attr("id") === nodeApId) {
             insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
         } else {
             insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
         }
     }).fail(function () {
-        melde("Fehler: Kein neues AP-Ziel erstellt");
+        melde("Fehler: Keine neue Population erstellt");
     });
 };

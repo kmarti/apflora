@@ -12,6 +12,7 @@ var _                                         = require('underscore'),
     zeigeBeobKoordinatenImGisBrowser          = require('../zeigeBeobKoordinatenImGisBrowser'),
     erstelleIdAusDomAttributId                = require('../erstelleIdAusDomAttributId'),
     zeigePop                                  = require('../olmap/zeigePop'),
+    insertNeuePop                             = require('./insertNeuePop'),
     insertNeuesApziel                         = require('./insertNeuesApziel');
 
 var returnFunction = function (node) {
@@ -35,25 +36,16 @@ var returnFunction = function (node) {
         items = {
             "untergeordneteKnotenOeffnen": {
                 "label": "untergeordnete Knoten öffnen",
-                "icon": "style/images/tree16x16.png",
+                "icon":  "style/images/tree16x16.png",
                 "action": function () {
                     $.jstree._reference(node).open_all(node);
                 }
             },
             "neu": {
                 "label": "neue Population",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
-                    $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblPopulation/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
-                    }).done(function (id) {
-                        var strukturtyp = "pop",
-                            beschriftung = "neue Population";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    }).fail(function () {
-                        melde("Fehler: Keine neue Population erstellt");
-                    });
+                    insertNeuePop(aktiverNode, parentNode, $(aktiverNode).attr("id"));
                 }
             },
             "GeoAdminMaps": {
@@ -775,20 +767,10 @@ var returnFunction = function (node) {
         items = {
             "neu": {
                 "label": "neue Population",
-                "icon": "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
-                    var insertPop_2 = $.ajax( {
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblPopulation/feld=ApArtId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.user
-                    });
-                    insertPop_2.done(function (id) {
-                        var strukturtyp = "pop",
-                            beschriftung = "neue Population";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    });
-                    insertPop_2.fail(function () {
-                        melde("Fehler: Keine neue Population erstellt");
-                    });
+                    console.log('aktiverNode: ', aktiverNode);
+                    insertNeuePop(aktiverNode, parentNode, $(parentNode).attr("id"));
                 }
             },
             "loeschen": {

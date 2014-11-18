@@ -33,9 +33,6 @@ module.exports = function (apId, apZielId) {
         apZielId = localStorage.apzielId;
     }
 
-    console.log('initiiereApziel: apId = ', apId);
-    console.log('initiiereApziel: apZielId = ', apZielId);
-
     var $ZielJahr = $("#ZielJahr");
 
     // Felder zurücksetzen
