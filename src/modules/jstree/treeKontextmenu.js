@@ -40,6 +40,7 @@ var _                                         = require('underscore'),
     insertKopierteTpopmassn                   = require('./insertKopierteTpopmassn'),
     insertNeuenTpopber                        = require('./insertNeuenTpopber'),
     loescheTpopber                            = require('./loescheTpopber'),
+    zeigeTpopbeobZugeordnetAufGmap            = require('./zeigeTpopbeobZugeordnetAufGmap'),
     loescheTpopmassn                          = require('./loescheTpopmassn'),
     schneideTpopmassnAus                      = require('./schneideTpopmassnAus'),
     insertNeuesApziel                         = require('./insertNeuesApziel'),
@@ -972,19 +973,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/flora_icon.png",
                 "action": function () {
-                    var zeigeTPopBeob = require('../gmap/zeigeTPopBeob');
-                    $.ajax({
-                        type: 'get',
-                        url: '/api/v1/beobKarte/apId=/tpopId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/beobId=/nichtZuzuordnen='
-                    }).done(function (data) {
-                        if (data) {
-                            zeigeTPopBeob(data);
-                        } else {
-                            melde("Es gibt keine Beobachtungen mit Koordinaten", "Aktion abgebrochen");
-                        }
-                    }).fail(function () {
-                        melde("Fehler: Keine Daten erhalten");
-                    });
+                    zeigeTpopbeobZugeordnetAufGmap($(aktiverNode).attr("id"));
                 }
             }
         };

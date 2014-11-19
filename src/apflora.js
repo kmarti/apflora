@@ -29,6 +29,11 @@ window.apf.setzeWindowAp = function (id) {
     });
 };
 
+window.apf.pruefeObAngemeldet = function () {
+    'use strict';
+    require('./modules/pruefeObAngemeldet')();
+};
+
 // setzt window.apf.pop und localStorage.popId
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowPop = function (id) {
@@ -1828,7 +1833,7 @@ window.apf.kopiereKoordinatenInPop = function (x_koord, y_koord) {
 };
 
 // wird in index.html benutzt
-window.apf.prüfeAnmeldung = function () {
+window.apf.pruefeAnmeldung = function () {
     'use strict';
     require('./modules/pruefeAnmeldung')();
 };

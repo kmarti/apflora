@@ -32,6 +32,8 @@ module.exports = function (tpopBeobListe) {
         projekt,
         ort;
 
+    console.log('tpopBeobListe: ', tpopBeobListe);
+
     // vor Erneuerung zeigen - sonst klappt Wiederaufruf nicht, wenn die Karte schon angezeigt ist
     zeigeFormular("google_karte");
     window.apf.gmap.markersArray    = [];
@@ -41,19 +43,23 @@ module.exports = function (tpopBeobListe) {
     // Lat und Lng ergänzen
     _.each(tpopBeobListe, function (tpopBeob, index) {
         if (tpopBeob.X && tpopBeob.Y) {
-            tpopBeob.Lat = chToWgsLat(parseInt(tpopBeob.X, 10), parseInt(tpopBeob.Y, 10));
-            tpopBeob.Lng = chToWgsLng(parseInt(tpopBeob.X, 10), parseInt(tpopBeob.Y, 10));
+            if (!tpopBeob.Lat || !tpopBeob.Lng) {
+                tpopBeob.Lat = chToWgsLat(parseInt(tpopBeob.X, 10), parseInt(tpopBeob.Y, 10));
+                tpopBeob.Lng = chToWgsLng(parseInt(tpopBeob.X, 10), parseInt(tpopBeob.Y, 10));
+            }
         } else {
             tpopBeobListe.splice(index, 1);
         }
     });
     // TPop zählen
     anzTpopBeob = tpopBeobListe.length;
+    console.log('anzTpopBeob: ', anzTpopBeob);
     // Karte mal auf Zürich zentrieren, falls in den TPopBeobListe.rows keine Koordinaten kommen
     // auf die die Karte ausgerichtet werden kann
     lat     = 47.383333;
     lng     = 8.533333;
     latlng  = new google.maps.LatLng(lat, lng);
+    console.log('latlng: ', latlng);
     options = {
         zoom: 15,
         center: latlng,
@@ -78,9 +84,11 @@ module.exports = function (tpopBeobListe) {
 
     // für alle Orte Marker erstellen
     markers = [];
-    _.each(tpopBeobListe, function (tpopBeob) {
+    _.each(tpopBeobListe, function (tpopBeob, index) {
+        console.log('verarbeite tpopBeob Nr. ' + index);
         datum   = tpopBeob.Datum;
         latlng2 = new google.maps.LatLng(tpopBeob.Lat, tpopBeob.Lng);
+        console.log('latlng2: ', latlng2);
         if (anzTpopBeob === 1) {
             // map.fitbounds setzt zu hohen zoom, wenn nur eine TPopBeob Koordinaten hat > verhindern
             latlng = latlng2;
@@ -128,11 +136,16 @@ module.exports = function (tpopBeobListe) {
         }]
     };
     markerCluster = new MarkerClusterer(map, markers, markerOptions);
+    console.log('markerCluster: ', markerCluster);
     if (anzTpopBeob === 1) {
+        console.log('anzTpopBeob = 1');
         // map.fitbounds setzt zu hohen zoom, wenn nur eine Beobachtung erfasst wurde > verhindern
         map.setCenter(latlng);
+        console.log('map center set');
         map.setZoom(18);
+        console.log('map with zoom set: ', map);
     } else {
+        console.log('anzTpopBeob = else');
         // Karte auf Ausschnitt anpassen
         map.fitBounds(bounds);
     }

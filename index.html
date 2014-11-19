@@ -2359,31 +2359,8 @@
             window.apf.olmap = window.apf.olmap || {};
 
             $(document).ready(function () {
-                var $Useranmeldung = $("#anmelde_dialog").dialog( {
-                    autoOpen: false,
-                    height: 320,
-                    width: 310,
-                    modal: true,
-                    closeOnEscape: false,
-                    buttons: {
-                        "anmelden": function() {
-                            window.apf.prüfeAnmeldung();
-                        }
-                    },
-                    open: function (event, ui) {
-                        $(".ui-dialog-titlebar-close", ui.dialog).hide();
-                        //Reaktion auf Enter-Taste in anmelde_dialog
-                        $("#anmelde_dialog").on("keydown", function (e) {
-                            if (e.keyCode == $.ui.keyCode.ENTER) {
-                                window.apf.prüfeAnmeldung();
-                            }
-                        });
-                    }
-                });
 
-                if (!sessionStorage.user) {
-                    $Useranmeldung.dialog("open");
-                }
+                window.apf.pruefeObAngemeldet();
 
                 // dataType ist immer json
                 // Bei jedem Lesezugriff soll geprüft werden, ob alle Voraussetzungen erfüllt sind
