@@ -415,7 +415,7 @@ option {
 }
 
 /* pattern: wenn nicht erfüllt, markieren */
-:invalid {
+input:invalid {
     border: 2px solid #ff0000;
 }
 
