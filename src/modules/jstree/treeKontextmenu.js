@@ -38,7 +38,8 @@ var _                                         = require('underscore'),
     zeigePopAufGmap                           = require('./zeigePopAufGmap'),
     zeigeTpopsAufOlmap                        = require('./zeigeTpopsAufOlmap'),
     zeigeTpopAufOlmap                         = require('./zeigeTpopAufOlmap'),
-    verorteTpopAufOlmap                       = require('./verorteTpopAufOlmap');
+    verorteTpopAufOlmap                       = require('./verorteTpopAufOlmap'),
+    zeigeTpopAufGmap                          = require('./zeigeTpopAufGmap');
 
 module.exports = function (node) {
     var items,
@@ -496,18 +497,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/flora_icon.png",
                 "action": function () {
-                    $.ajax({
-                        type: 'get',
-                        url: 'api/v1/tpopKarte/tpopId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
-                    }).done(function (data) {
-                        if (data.length > 0) {
-                            zeigeTPopAufGmap(data);
-                        } else {
-                            melde("Die Teilpopulation hat keine Koordinaten", "Aktion abgebrochen");
-                        }
-                    }).fail(function () {
-                        melde("Fehler: Keine Daten erhalten");
-                    });
+                    zeigeTpopAufGmap($(aktiverNode).attr("id"));
                 }
             },
             "verorten": {
