@@ -33,6 +33,10 @@ var _                                         = require('underscore'),
     insertNeueFreiwkontrolle                  = require('./insertNeueFreiwkontrolle'),
     insertKopierteFreiwkontr                  = require('./insertKopierteFreiwkontr'),
     loescheFreiwkontrolle                     = require('./loescheFreiwkontrolle'),
+    schneideFreiwkontrAus                     = require('./schneideFreiwkontrAus'),
+    kopiereFreiwkontr                         = require('./kopiereFreiwkontr'),
+    insertNeueMassnahme                       = require('./insertNeueMassnahme'),
+    insertKopierteMassnahme                   = require('./insertKopierteMassnahme'),
     insertNeuesApziel                         = require('./insertNeuesApziel'),
     loescheApziel                             = require('./loescheApziel'),
     insertNeuenZielber                        = require('./insertNeuenZielber'),
@@ -801,15 +805,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/ausschneiden.png",
                 "action": function () {
-                    // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
-                        return;
-                    }
-                    window.apf.tpopfreiwkontrNodeAusgeschnitten = aktiverNode;
-                    // es macht keinen Sinn mehr, den kopierten node zu behalten
-                    // und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
-                    delete window.apf.tpopfreiwkontrNodeKopiert;
-                    delete window.apf.tpopfreiwkontrObjektKopiert;
+                    schneideFreiwkontrAus(aktiverNode);
                 }
             };
         }
@@ -819,22 +815,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/kopieren.png",
                 "action": function () {
-                    // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
-                        return;
-                    }
-                    window.apf.tpopfreiwkontrNodeKopiert = aktiverNode;
-                    // Daten des Objekts holen
-                    var getTPopFeldkontr_3 = $.ajax({
-                        type: 'get',
-                        url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + erstelleIdAusDomAttributId($(window.apf.tpopfreiwkontrNodeKopiert).attr("id"))
-                    });
-                    getTPopFeldkontr_3.done(function (data) {
-                        window.apf.tpopfreiwkontrObjektKopiert = data[0];
-                    });
-                    getTPopFeldkontr_3.fail(function () {
-                        melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht kopiert");
-                    });
+                    kopiereFreiwkontr(aktiverNode);
                 }
             };
         }
@@ -864,18 +845,9 @@ module.exports = function (node) {
         items = {
             "neu": {
                 "label": "neue Massnahme",
-                "icon":              "style/images/neu.png",
+                "icon":  "style/images/neu.png",
                 "action": function () {
-                    $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopMassnahme/feld=TPopId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
-                    }).done(function (id) {
-                        var strukturtyp  = "tpopmassn",
-                            beschriftung = "neue Massnahme";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    }).fail(function () {
-                        melde("Fehler: Keine neue Massnahme erstellt");
-                    });
+                    insertNeueMassnahme(aktiverNode, parentNode, $(aktiverNode).attr("id"));
                 }
             }
         };
@@ -895,18 +867,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/einfuegen.png",
                 "action": function () {
-                    var insertTPopMassnKopie = $.ajax({
-                        type: 'post',
-                        url: 'api/v1/tpopmassnInsertKopie/tpopId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopMassnId=' + erstelleIdAusDomAttributId($(window.apf.tpopmassnNodeKopiert).attr("id")) + '/user=' + sessionStorage.user
-                    });
-                    insertTPopMassnKopie.done(function (id) {
-                        var strukturtyp  = "tpopmassn",
-                            beschriftung = window.apf.erstelleLabelFuerMassnahme(window.apf.tpopmassn_objekt_kopiert.TPopMassnJahr, window.apf.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt);
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    });
-                    insertTPopMassnKopie.fail(function () {
-                        melde("Fehler: Die Massnahme wurde nicht erstellt");
-                    });
+                    insertKopierteMassnahme(aktiverNode, parentNode, $(aktiverNode).attr("id"));
                 }
             };
         }
@@ -917,18 +878,7 @@ module.exports = function (node) {
                 "label": "neue Massnahme",
                 "icon":  "style/images/neu.png",
                 "action": function () {
-                    var insertTPopMassn_2 = $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopMassnahme/feld=TPopId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.user
-                    });
-                    insertTPopMassn_2.done(function (id) {
-                        var strukturtyp = "tpopmassn",
-                            beschriftung = "neue Massnahme";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    });
-                    insertTPopMassn_2.fail(function () {
-                        melde("Fehler: Keine neue Massnahme erstellt");
-                    });
+                    insertNeueMassnahme(aktiverNode, parentNode, $(parentNode).attr("id"));
                 }
             },
             "loeschen": {
@@ -1044,18 +994,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/einfuegen.png",
                 "action": function () {
-                    var insertTPopMassnKopie_2 = $.ajax({
-                        type: 'post',
-                        url: 'api/v1/tpopmassnInsertKopie/tpopId=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/tpopMassnId=' + erstelleIdAusDomAttributId($(window.apf.tpopmassnNodeKopiert).attr("id")) + '/user=' + sessionStorage.user
-                    });
-                    insertTPopMassnKopie_2.done(function (id) {
-                        var strukturtyp = "tpopmassn",
-                            beschriftung = window.apf.erstelleLabelFuerMassnahme(window.apf.tpopmassn_objekt_kopiert.TPopMassnJahr, window.apf.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt);
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    });
-                    insertTPopMassnKopie_2.fail(function () {
-                        melde("Fehler: Die Massnahme wurde nicht erstellt");
-                    });
+                    insertKopierteMassnahme(aktiverNode, parentNode, $(parentNode).attr("id"));
                 }
             };
         }
