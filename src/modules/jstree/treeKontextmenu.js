@@ -25,6 +25,7 @@ var _                                         = require('underscore'),
     insertKopierteTpop                        = require('./insertKopierteTpop'),
     insertNeueFeldkontrolle                   = require('./insertNeueFeldkontrolle'),
     loescheFeldkontrolle                      = require('./loescheFeldkontrolle'),
+    kopiereFeldkontrBiotop                    = require('./kopiereFeldkontrBiotop'),
     insertNeuesApziel                         = require('./insertNeuesApziel'),
     loescheApziel                             = require('./loescheApziel'),
     insertNeuenZielber                        = require('./insertNeuenZielber'),
@@ -691,74 +692,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/kopieren.png",
                 "action": function () {
-                    // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
-                        return;
-                    }
-                    delete window.apf.feldkontrBiotop;
-                    window.apf.feldkontrBiotop = {};
-                    var $TPopKontrFlaeche = $("#TPopKontrFlaeche");
-                    if ($TPopKontrFlaeche.val()) {
-                        window.apf.feldkontrBiotop.TPopKontrFlaeche = $TPopKontrFlaeche.val();
-                    }
-                    var $TPopKontrLeb = $("#TPopKontrLeb");
-                    if ($TPopKontrLeb.val()) {
-                        window.apf.feldkontrBiotop.TPopKontrLeb = $TPopKontrLeb.val();
-                    }
-                    var $TPopKontrLebUmg = $("#TPopKontrLebUmg");
-                    if ($TPopKontrLebUmg.val()) {
-                        window.apf.feldkontrBiotop.TPopKontrLebUmg = $TPopKontrLebUmg.val();
-                    }
-                    var $TPopKontrVegTyp = $("#TPopKontrVegTyp");
-                    if ($TPopKontrVegTyp.val()) {
-                        window.apf.feldkontrBiotop.TPopKontrVegTyp = $TPopKontrVegTyp.val();
-                    }
-                    var $TPopKontrKonkurrenz = $("#TPopKontrKonkurrenz");
-                    if ($TPopKontrKonkurrenz.val()) {
-                        window.apf.feldkontrBiotop.TPopKontrKonkurrenz = $TPopKontrKonkurrenz.val();
-                    }
-                    var $TPopKontrMoosschicht = $("#TPopKontrMoosschicht");
-                    if ($TPopKontrMoosschicht.val()) {
-                        window.apf.feldkontrBiotop.TPopKontrMoosschicht = $TPopKontrMoosschicht.val();
-                    }
-                    var $TPopKontrKrautschicht = $("#TPopKontrKrautschicht");
-                    if ($TPopKontrKrautschicht.val()) {
-                        window.apf.feldkontrBiotop.TPopKontrKrautschicht = $TPopKontrKrautschicht.val();
-                    }
-                    var $TPopKontrStrauchschicht = $("#TPopKontrStrauchschicht");
-                    if ($TPopKontrStrauchschicht.val()) {
-                        window.apf.feldkontrBiotop.TPopKontrStrauchschicht = $TPopKontrStrauchschicht.val();
-                    }
-                    var $TPopKontrBaumschicht = $("#TPopKontrBaumschicht");
-                    if ($TPopKontrBaumschicht.val()) {
-                        window.apf.feldkontrBiotop.TPopKontrBaumschicht = $TPopKontrBaumschicht.val();
-                    }
-                    var $TPopKontrBodenTyp = $("#TPopKontrBodenTyp");
-                    if ($TPopKontrBodenTyp.val()) {
-                        window.apf.feldkontrBiotop.TPopKontrBodenTyp = $TPopKontrBodenTyp.val();
-                    }
-                    var $TPopKontrBodenKalkgehalt = $("#TPopKontrBodenKalkgehalt");
-                    if ($TPopKontrBodenKalkgehalt.val()) {
-                        window.apf.feldkontrBiotop.TPopKontrBodenKalkgehalt = $TPopKontrBodenKalkgehalt.val();
-                    }
-                    if ($("#TPopKontrBodenDurchlaessigkeit").val()) {
-                        window.apf.feldkontrBiotop.TPopKontrBodenDurchlaessigkeit = $("#TPopKontrBodenDurchlaessigkeit").val();
-                    }
-                    if ($("#TPopKontrBodenHumus").val()) {
-                        window.apf.feldkontrBiotop.TPopKontrBodenHumus = $("#TPopKontrBodenHumus").val();
-                    }
-                    if ($("#TPopKontrBodenNaehrstoffgehalt").val()) {
-                        window.apf.feldkontrBiotop.TPopKontrBodenNaehrstoffgehalt = $("#TPopKontrBodenNaehrstoffgehalt").val();
-                    }
-                    if ($("#TPopKontrBodenAbtrag").val()) {
-                        window.apf.feldkontrBiotop.TPopKontrBodenAbtrag = $("#TPopKontrBodenAbtrag").val();
-                    }
-                    if ($("#TPopKontrWasserhaushalt").val()) {
-                        window.apf.feldkontrBiotop.TPopKontrWasserhaushalt = $("#TPopKontrWasserhaushalt").val();
-                    }
-                    if ($("#TPopKontrHandlungsbedarf").val()) {
-                        window.apf.feldkontrBiotop.TPopKontrHandlungsbedarf = $("#TPopKontrHandlungsbedarf").val();
-                    }
+                    kopiereFeldkontrBiotop();
                 }
             }
         };
