@@ -4,18 +4,17 @@
 var _                                         = require('underscore'),
     $                                         = require('jquery'),
     zeigeTPopAufGmap                          = require('../gmap/zeigeTPop'),
-    zeigeTPopAufOlmap                         = require('../olmap/zeigeTPop'),
     insertNeuenNodeEineHierarchiestufeTiefer  = require('./insertNeuenNodeEineHierarchiestufeTiefer'),
     insertNeuenNodeAufGleicherHierarchiestufe = require('./insertNeuenNodeAufGleicherHierarchiestufe'),
     frageObUndeleteDatensatz                  = require('../frageObUndeleteDatensatz'),
     melde                                     = require('../melde'),
     zeigeBeobKoordinatenImGisBrowser          = require('../zeigeBeobKoordinatenImGisBrowser'),
     erstelleIdAusDomAttributId                = require('../erstelleIdAusDomAttributId'),
-    zeigePop                                  = require('../olmap/zeigePop'),
     insertNeuePop                             = require('./insertNeuePop'),
     loeschePop                                = require('./loeschePop'),
     schneidePopAus                            = require('./schneidePopAus'),
     fuegeAusgeschnittenePopEin                = require('./fuegeAusgeschnittenePopEin'),
+    insertNeuenPopber                         = require('./insertNeuenPopber'),
     insertNeueTpop                            = require('./insertNeueTpop'),
     loescheTpop                               = require('./loescheTpop'),
     schneideTpopAus                           = require('./schneideTpopAus'),
@@ -453,7 +452,6 @@ module.exports = function (node) {
                 "icon":             "style/images/einfuegen.png",
                 "action": function () {
                     insertKopierteTpop(aktiverNode, parentNode, $(aktiverNode).attr("id"));
-                    //window.apf.tpopKopiertInPopOrdnerTpopEinfuegen(aktiverNode);
                 }
             };
         }
@@ -555,7 +553,6 @@ module.exports = function (node) {
                 "icon":             "style/images/einfuegen.png",
                 "action": function () {
                     insertKopierteTpop(aktiverNode, parentNode, $(parentNode).attr("id"));
-                    //window.apf.tpopKopiertInPopOrdnerTpopEinfuegen(parentNode);
                 }
             };
         }
@@ -576,18 +573,7 @@ module.exports = function (node) {
                 "label": "neuer Populations-Bericht",
                 "icon":  "style/images/neu.png",
                 "action": function () {
-                    var insertPopber = $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblPopBericht/feld=PopId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
-                    });
-                    insertPopber.done(function (id) {
-                        var strukturtyp = "popber",
-                            beschriftung = "neuer Populations-Bericht";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    });
-                    insertPopber.fail(function () {
-                        melde("Fehler: Keinen neuen Populations-Bericht erstellt");
-                    });
+                    insertNeuenPopber(aktiverNode, parentNode, $(aktiverNode).attr("id"));
                 }
             }
         };
@@ -597,18 +583,7 @@ module.exports = function (node) {
                 "label": "neuer Populations-Bericht",
                 "icon":  "style/images/neu.png",
                 "action": function () {
-                    var insertPopber_2 = $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblPopBericht/feld=PopId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.user
-                    });
-                    insertPopber_2.done(function (id) {
-                        var strukturtyp = "popber",
-                            beschriftung = "neuer Populations-Bericht";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    });
-                    insertPopber_2.fail(function () {
-                        melde("Fehler: Keinen neuen Populations-Bericht erstellt");
-                    });
+                    insertNeuenPopber(aktiverNode, parentNode, $(parentNode).attr("id"));
                 }
             },
             "loeschen": {

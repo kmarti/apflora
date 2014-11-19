@@ -732,27 +732,6 @@ window.apf.beschrifteOrdnerBeobNichtNuzuordnen = function (node) {
     $.jstree._reference(node).rename_node(node, anzTxt);
 };
 
-window.apf.tpopKopiertInPopOrdnerTpopEinfuegen = function (aktiverNode) {
-    'use strict';
-    var insertNeuenNodeEineHierarchiestufeTiefer = require('./modules/jstree/insertNeuenNodeEineHierarchiestufeTiefer'),
-        melde                                    = require('./modules/melde'),
-        erstelleIdAusDomAttributId               = require('./modules/erstelleIdAusDomAttributId');
-
-    $.ajax({
-        type: 'post',
-        url: 'api/v1/tpopInsertKopie/popId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopId=' + erstelleIdAusDomAttributId($(window.apf.tpopNodeKopiert).attr("id")) + '/user=' + sessionStorage.user
-    }).done(function (id) {
-        var strukturtyp = "tpop",
-            beschriftung = window.apf.tpopObjektKopiert.TPopFlurname;
-        if (window.apf.tpopObjektKopiert.TPopNr) {
-            beschriftung = window.apf.tpopObjektKopiert.TPopNr + ': ' + window.apf.tpopObjektKopiert.TPopFlurname;
-        }
-        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, "", strukturtyp, id, beschriftung);
-    }).fail(function () {
-        melde("Fehler: Die Teilpopulation wurde nicht erstellt");
-    });
-};
-
 window.apf.pruefeLesevoraussetzungen = function () {
     'use strict';
     // kontrollieren, ob der User offline ist
