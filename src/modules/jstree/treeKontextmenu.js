@@ -38,6 +38,8 @@ var _                                         = require('underscore'),
     insertNeueTpopmassnn                      = require('./insertNeueTpopmassnn'),
     kopiereTpopmassn                          = require('./kopiereTpopmassn'),
     insertKopierteTpopmassn                   = require('./insertKopierteTpopmassn'),
+    insertNeuenTpopber                        = require('./insertNeuenTpopber'),
+    loescheTpopber                            = require('./loescheTpopber'),
     loescheTpopmassn                          = require('./loescheTpopmassn'),
     schneideTpopmassnAus                      = require('./schneideTpopmassnAus'),
     insertNeuesApziel                         = require('./insertNeuesApziel'),
@@ -941,16 +943,7 @@ module.exports = function (node) {
                 "label": "neuer Teilpopulations-Bericht",
                 "icon":  "style/images/neu.png",
                 "action": function () {
-                    $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopBericht/feld=TPopId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
-                    }).done(function (id) {
-                        var strukturtyp  = "tpopber",
-                            beschriftung = "neuer Teilpopulations-Bericht";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    }).fail(function () {
-                        melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
-                    });
+                    insertNeuenTpopber(aktiverNode, parentNode, $(aktiverNode).attr("id"));
                 }
             }
         };
@@ -960,18 +953,7 @@ module.exports = function (node) {
                 "label": "neuer Teilpopulations-Bericht",
                 "icon":  "style/images/neu.png",
                 "action": function () {
-                    var insertTPopBer_2 = $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopBericht/feld=TPopId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.user
-                    });
-                    insertTPopBer_2.done(function (id) {
-                        var strukturtyp = "tpopber",
-                            beschriftung = "neuer Teilpopulations-Bericht";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    });
-                    insertTPopBer_2.fail(function () {
-                        melde("Fehler: Keinen neuen Teilpopulations-Bericht erstellt");
-                    });
+                    insertNeuenTpopber(aktiverNode, parentNode, $(parentNode).attr("id"));
                 }
             },
             "loeschen": {
@@ -979,43 +961,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/loeschen.png",
                 "action": function () {
-                    // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
-                        return;
-                    }
-                    var bezeichnung = $.jstree._reference(aktiverNode).get_text(aktiverNode);
-                    $("#loeschen_dialog_mitteilung").html("Der Teilpopulations-Bericht '" + bezeichnung + "' wird gelöscht.");
-                    $("#loeschen_dialog").dialog({
-                        resizable: false,
-                        height:    'auto',
-                        width:     400,
-                        modal:     true,
-                        buttons: {
-                            "ja, löschen!": function () {
-                                $(this).dialog("close");
-                                // Variable zum rückgängig machen erstellen
-                                window.apf.deleted     = window.apf.tpopber;
-                                window.apf.deleted.typ = "tpopber";
-                                $.ajax({
-                                    type: 'delete',
-                                    url: 'api/v1/apflora/tabelle=tblTeilPopBericht/tabelleIdFeld=TPopBerId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
-                                }).done(function () {
-                                    delete localStorage.tpopberId;
-                                    delete window.apf.tpopber;
-                                    $.jstree._reference(aktiverNode).delete_node(aktiverNode);
-                                    // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifteOrdnerTpopber(parentNode);
-                                    // Hinweis zum rückgängig machen anzeigen
-                                    frageObUndeleteDatensatz("Der Teilpopulations-Bericht '" + bezeichnung + "' wurde gelöscht.");
-                                }).fail(function () {
-                                    melde("Fehler: Der Teilpopulations-Bericht wurde nicht gelöscht");
-                                });
-                            },
-                            "abbrechen": function () {
-                                $(this).dialog("close");
-                            }
-                        }
-                    });
+                    loescheTpopber(aktiverNode, parentNode);
                 }
             }
         };
