@@ -1,7 +1,8 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $ = require('jquery');
+var $               = require('jquery'),
+    pruefeAnmeldung = require('./pruefeAnmeldung');
 
 module.exports = function () {
     var $Useranmeldung = $("#anmelde_dialog").dialog({
@@ -12,7 +13,7 @@ module.exports = function () {
         closeOnEscape: false,
         buttons: {
             "anmelden": function () {
-                window.apf.pruefeAnmeldung();
+                pruefeAnmeldung();
             }
         },
         open: function (event, ui) {
@@ -20,7 +21,7 @@ module.exports = function () {
             //Reaktion auf Enter-Taste in anmelde_dialog
             $("#anmelde_dialog").on("keydown", function (e) {
                 if (e.keyCode == $.ui.keyCode.ENTER) {
-                    window.apf.pruefeAnmeldung();
+                    pruefeAnmeldung();
                 }
             });
         }

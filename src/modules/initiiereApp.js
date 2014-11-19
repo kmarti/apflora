@@ -1,15 +1,35 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $                 = require('jquery'),
-    clearLocalStorage = require('./clearLocalStorage'),
-    erstelleArtlisten = require('./erstelleArtlisten'),
-    waehleApliste     = require('./waehleApliste'),
-    speichern         = require('./speichern'),
-    oeffneUri         = require('./oeffneUri'),
-    isDateSupported   = require('./isDateSupported');
+var $                  = require('jquery'),
+    clearLocalStorage  = require('./clearLocalStorage'),
+    erstelleArtlisten  = require('./erstelleArtlisten'),
+    waehleApliste      = require('./waehleApliste'),
+    speichern          = require('./speichern'),
+    oeffneUri          = require('./oeffneUri'),
+    isDateSupported    = require('./isDateSupported'),
+    pruefeObAngemeldet = require('./pruefeObAngemeldet');
 
 module.exports = function () {
+    // benötigte globale Variabeln initialisieren
+    window.apf = window.apf || {};
+    window.apf.gmap = window.apf.gmap || {};
+    window.apf.olmap = window.apf.olmap || {};
+
+    pruefeObAngemeldet();
+
+    // dataType ist immer json
+    // Bei jedem Lesezugriff soll geprüft werden, ob alle Voraussetzungen erfüllt sind
+    // v.a., ob der User online ist
+    $.ajaxSetup({
+        dataType: 'json',
+        beforeSend: function () {
+            if (!window.apf.pruefeLesevoraussetzungen()) {
+                return false;
+            }
+        }
+    });
+
     // jQuery ui widgets initiieren
     $("#programm_wahl").buttonset({
         create: function () {

@@ -29,11 +29,6 @@ window.apf.setzeWindowAp = function (id) {
     });
 };
 
-window.apf.pruefeObAngemeldet = function () {
-    'use strict';
-    require('./modules/pruefeObAngemeldet')();
-};
-
 // setzt window.apf.pop und localStorage.popId
 // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
 window.apf.setzeWindowPop = function (id) {
@@ -1830,12 +1825,6 @@ window.apf.kopiereKoordinatenInPop = function (x_koord, y_koord) {
         // auffordern, die Koordinaten zu vergeben und Speichern abbrechen
         melde("Sie müssen zuerst Koordinaten erfassen", "Koordinaten nicht kopiert");
     }
-};
-
-// wird in index.html benutzt
-window.apf.pruefeAnmeldung = function () {
-    'use strict';
-    require('./modules/pruefeAnmeldung')();
 };
 
 // erwartet aktuelle Werte für jahr und typ

@@ -33,9 +33,11 @@ module.exports = function (programm) {
             hinweisText = 'Artförderprogramm wählen';
         }
 
-        $ap_waehlen_text
-            .attr('placeholder', hinweisText)
-            .focus();
+        $ap_waehlen_text.attr('placeholder', hinweisText);
+
+        if (!$("#anmelde_dialog").dialog("isOpen")) {
+            $ap_waehlen_text.focus();
+        }
 
         aplisteErstellt.resolve();
     });

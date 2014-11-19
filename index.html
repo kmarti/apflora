@@ -2332,7 +2332,7 @@
         <div id="anmelde_dialog" title="Anmeldung erforderlich">
             <p id="anmeldung_rueckmeldung" style="margin: 16px 0 16px 0;">Logins werden von Topos vergeben</p>
             <label for="anmeldung_name" style="display:block;">Name</label>
-            <input type="text" id="anmeldung_name" style="width:270px; margin: 2px 0 2px 0;">
+            <input type="text" id="anmeldung_name" style="width:270px; margin: 2px 0 2px 0;" autofocus>
             <label for="anmeldung_passwort" style="display:block;">Passwort</label>
             <input type="password" id="anmeldung_passwort" style="width:270px; margin: 2px 0 2px 0;">
         </div>
@@ -2351,37 +2351,10 @@
         </div>
 
         <script>
-            /*jslint node: true, browser: true, nomen: true, todo: true */
-            'use strict';
-            // benötigte globale Variabeln initialisieren
-            window.apf = window.apf || {};
-            window.apf.gmap = window.apf.gmap || {};
-            window.apf.olmap = window.apf.olmap || {};
 
             $(document).ready(function () {
 
-                window.apf.pruefeObAngemeldet();
-
-                // dataType ist immer json
-                // Bei jedem Lesezugriff soll geprüft werden, ob alle Voraussetzungen erfüllt sind
-                // v.a., ob der User online ist
-                $.ajaxSetup({
-                    dataType: 'json',
-                    beforeSend: function() {
-                        if (!window.apf.pruefeLesevoraussetzungen()) {
-                            return false;
-                        }
-                    }
-                });
-
                 window.apf.initiiereApp();
-
-                // sicherstellen, dass die Rücktaste des Browsers benutzt werden kann
-                // 3.11.2014: ausgeschaltet, weil beim Aufruf von Exporten wiederholt öffneUri aufgerufen wurde
-                /*$(window).on('popstate', function() {
-                	console.log('event: window popstate');
-                    window.apf.öffneUri();
-                });*/
 
                 $('#olmap_layertree')
                     .on('click', '.olmap_layertree_checkbox', function (event) {
