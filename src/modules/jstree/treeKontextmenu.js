@@ -1006,19 +1006,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/flora_icon.png",
                 "action": function () {
-                    var zeigeTPopBeob = require('../gmap/zeigeTPopBeob');
-                    $.ajax({
-                        type: 'get',
-                        url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/nichtZuzuordnen='
-                    }).done(function (data) {
-                        if (data) {
-                            zeigeTPopBeob(data);
-                        } else {
-                            melde("Die Beobachtung hat keine Koordinaten", "Aktion abgebrochen");
-                        }
-                    }).fail(function () {
-                        melde("Fehler: Keine Daten erhalten");
-                    });
+                    zeigeTpopbeobZugeordnetAufGmap(null, $(aktiverNode).attr("id"));
                 }
             },
             "GoogleMapsMitTPopTPopBeob": {

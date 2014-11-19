@@ -6,10 +6,18 @@ var $                          = require('jquery'),
     melde                      = require('../melde'),
     zeigeTPopBeob              = require('../gmap/zeigeTPopBeob');
 
-module.exports = function (nodeTpopId) {
+module.exports = function (nodeTpopId, nodeBeobId) {
+    var tpopId          = '',
+        beobId          = '';
+
+    // id's vorbereiten
+    if (nodeTpopId) { tpopId = erstelleIdAusDomAttributId(nodeTpopId); }
+    if (nodeBeobId) { beobId = erstelleIdAusDomAttributId(nodeBeobId); }
+
+    // es ist immer nur eine der id's gegeben
     $.ajax({
         type: 'get',
-        url: '/api/v1/beobKarte/apId=/tpopId=' + erstelleIdAusDomAttributId(nodeTpopId) + '/beobId=/nichtZuzuordnen='
+        url: '/api/v1/beobKarte/apId=/tpopId=' + tpopId + '/beobId=' + beobId + '/nichtZuzuordnen='
     }).done(function (data) {
         if (data) {
             zeigeTPopBeob(data);
