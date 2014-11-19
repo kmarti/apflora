@@ -30,6 +30,7 @@ var _                                         = require('underscore'),
     schneideFeldkontrAus                      = require('./schneideFeldkontrAus'),
     kopiereFeldkontr                          = require('./kopiereFeldkontr'),
     insertKopierteFeldkontr                   = require('./insertKopierteFeldkontr'),
+    insertNeueFreiwkontrolle                  = require('./insertNeueFreiwkontrolle'),
     insertNeuesApziel                         = require('./insertNeuesApziel'),
     loescheApziel                             = require('./loescheApziel'),
     insertNeuenZielber                        = require('./insertNeuenZielber'),
@@ -748,16 +749,7 @@ module.exports = function (node) {
                 "label": "neue Freiwilligen-Kontrolle",
                 "icon":  "style/images/neu.png",
                 "action": function () {
-                    $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/feldkontr/tpopId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopKontrtyp=tpopfreiwkontr/user=' + sessionStorage.user
-                    }).done(function (id) {
-                        var strukturtyp  = "tpopfreiwkontr",
-                            beschriftung = "neue Freiwilligen-Kontrolle";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    }).fail(function () {
-                        melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
-                    });
+                    insertNeueFreiwkontrolle(aktiverNode, parentNode, $(aktiverNode).attr("id"));
                 }
             }
         };
@@ -798,18 +790,7 @@ module.exports = function (node) {
                 "label": "neue Freiwilligen-Kontrolle",
                 "icon":  "style/images/neu.png",
                 "action": function () {
-                    var insertTPopFeldKontr_4 = $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/feldkontr/tpopId=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/tpopKontrtyp=tpopfreiwkontr/user=' + sessionStorage.user
-                    });
-                    insertTPopFeldKontr_4.done(function (id) {
-                        var strukturtyp = "tpopfreiwkontr",
-                            beschriftung = "neue Freiwilligen-Kontrolle";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    });
-                    insertTPopFeldKontr_4.fail(function () {
-                        melde("Fehler: Keine neue Freiwilligen-Kontrolle erstellt");
-                    });
+                    insertNeueFreiwkontrolle(aktiverNode, parentNode, $(parentNode).attr("id"));
                 }
             },
             "loeschen": {
