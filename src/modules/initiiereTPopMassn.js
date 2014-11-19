@@ -15,9 +15,6 @@ var $               = require('jquery'),
     melde           = require('./melde');
 
 module.exports = function (apId, popId, tpopId, massnId) {
-
-    console.log('initiiereTPopMassn');
-
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.apId) {
         // Anwendung neu initiieren

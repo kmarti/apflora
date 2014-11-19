@@ -35,9 +35,11 @@ var _                                         = require('underscore'),
     loescheFreiwkontrolle                     = require('./loescheFreiwkontrolle'),
     schneideFreiwkontrAus                     = require('./schneideFreiwkontrAus'),
     kopiereFreiwkontr                         = require('./kopiereFreiwkontr'),
-    insertNeueMassnahme                       = require('./insertNeueMassnahme'),
-    insertKopierteMassnahme                   = require('./insertKopierteMassnahme'),
+    insertNeueTpopmassnn                      = require('./insertNeueTpopmassnn'),
+    kopiereTpopmassn                          = require('./kopiereTpopmassn'),
+    insertKopierteTpopmassn                   = require('./insertKopierteTpopmassn'),
     loescheTpopmassn                          = require('./loescheTpopmassn'),
+    schneideTpopmassnAus                      = require('./schneideTpopmassnAus'),
     insertNeuesApziel                         = require('./insertNeuesApziel'),
     loescheApziel                             = require('./loescheApziel'),
     insertNeuenZielber                        = require('./insertNeuenZielber'),
@@ -848,7 +850,7 @@ module.exports = function (node) {
                 "label": "neue Massnahme",
                 "icon":  "style/images/neu.png",
                 "action": function () {
-                    insertNeueMassnahme(aktiverNode, parentNode, $(aktiverNode).attr("id"));
+                    insertNeueTpopmassnn(aktiverNode, parentNode, $(aktiverNode).attr("id"));
                 }
             }
         };
@@ -868,7 +870,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/einfuegen.png",
                 "action": function () {
-                    insertKopierteMassnahme(aktiverNode, parentNode, $(aktiverNode).attr("id"));
+                    insertKopierteTpopmassn(aktiverNode, parentNode, $(aktiverNode).attr("id"));
                 }
             };
         }
@@ -879,7 +881,7 @@ module.exports = function (node) {
                 "label": "neue Massnahme",
                 "icon":  "style/images/neu.png",
                 "action": function () {
-                    insertNeueMassnahme(aktiverNode, parentNode, $(parentNode).attr("id"));
+                    insertNeueTpopmassnn(aktiverNode, parentNode, $(parentNode).attr("id"));
                 }
             },
             "loeschen": {
@@ -898,15 +900,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/ausschneiden.png",
                 "action": function () {
-                    // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
-                        return;
-                    }
-                    window.apf.tpopmassnNodeAusgeschnitten = aktiverNode;
-                    // es macht keinen Sinn mehr, den kopierten node zu behalten
-                    // und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
-                    delete window.apf.tpopmassnNodeKopiert;
-                    delete window.apf.tpopmassn_objekt_kopiert;
+                    schneideTpopmassnAus(aktiverNode);
                 }
             };
         }
@@ -916,30 +910,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/kopieren.png",
                 "action": function () {
-                    // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
-                        return;
-                    }
-                    window.apf.tpopmassnNodeKopiert = aktiverNode;
-                    // Daten des Objekts holen
-                    var getTPopMassn_2 = $.ajax({
-                            type: 'get',
-                            url: 'api/v1/apflora/tabelle=tblTeilPopMassnahme/feld=TPopMassnId/wertNumber=' + erstelleIdAusDomAttributId($(window.apf.tpopmassnNodeKopiert).attr("id"))
-                        }),
-                        $TPopMassnTypChecked = $("#TPopMassnTyp option:checked");
-                    getTPopMassn_2.done(function (data) {
-                        if (data && data[0]) {
-                            window.apf.tpopmassn_objekt_kopiert = data[0];
-                            // den Beurteilungstext holen - ist nur mühsam aus der DB zu holen
-                            window.apf.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt = "";
-                            if ($TPopMassnTypChecked.text()) {
-                                window.apf.tpopmassn_objekt_kopiert.TPopMassnBerErfolgsbeurteilung_txt = $TPopMassnTypChecked.text();
-                            }
-                        }
-                    });
-                    getTPopMassn_2.fail(function () {
-                        melde("Fehler: Die Massnahme wurde nicht kopiert");
-                    });
+                    kopiereTpopmassn(aktiverNode);
                 }
             };
         }
@@ -959,7 +930,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/einfuegen.png",
                 "action": function () {
-                    insertKopierteMassnahme(aktiverNode, parentNode, $(parentNode).attr("id"));
+                    insertKopierteTpopmassn(aktiverNode, parentNode, $(parentNode).attr("id"));
                 }
             };
         }
