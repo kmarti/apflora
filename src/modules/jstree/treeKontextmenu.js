@@ -19,6 +19,8 @@ var _                                         = require('underscore'),
     insertNeueTpop                            = require('./insertNeueTpop'),
     loescheTpop                               = require('./loescheTpop'),
     schneideTpopAus                           = require('./schneideTpopAus'),
+    kopiereTpop                               = require('./kopiereTpop'),
+    insertKopierteTpop                        = require('./insertKopierteTpop'),
     insertNeuesApziel                         = require('./insertNeuesApziel'),
     loescheApziel                             = require('./loescheApziel'),
     insertNeuenZielber                        = require('./insertNeuenZielber'),
@@ -443,13 +445,15 @@ module.exports = function (node) {
             label = window.apf.tpopObjektKopiert.TPopNr || "(keine Nr.)";
             label += ": ";
             label += (window.apf.tpopObjektKopiert.TPopFlurname || "(kein Flurname)");
+            label += " einfügen";
             items.einfuegen = {
                 //"label": $.jstree._reference(window.apf.tpopNodeKopiert).get_text(window.apf.tpopNodeKopiert) + " einfügen",
-                "label":            label + " einfügen",
+                "label":            label,
                 "separator_before": true,
                 "icon":             "style/images/einfuegen.png",
                 "action": function () {
-                    window.apf.tpopKopiertInPopOrdnerTpopEinfuegen(aktiverNode);
+                    insertKopierteTpop(aktiverNode, parentNode, $(aktiverNode).attr("id"));
+                    //window.apf.tpopKopiertInPopOrdnerTpopEinfuegen(aktiverNode);
                 }
             };
         }
@@ -536,22 +540,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/kopieren.png",
                 "action": function () {
-                    // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
-                        return;
-                    }
-                    window.apf.tpopNodeKopiert = aktiverNode;
-                    // Daten des Objekts holen
-                    var getTPop_4 = $.ajax({
-                        type: 'get',
-                        url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + erstelleIdAusDomAttributId($(tpop_node_kopiert).attr("id"))
-                    });
-                    getTPop_4.done(function (data) {
-                        window.apf.tpopObjektKopiert = data[0];
-                    });
-                    getTPop_4.fail(function () {
-                        melde("Fehler: Die Teilpopulation wurde nicht kopiert");
-                    });
+                    kopiereTpop(aktiverNode);
                 }
             };
         }
@@ -559,12 +548,14 @@ module.exports = function (node) {
             label = window.apf.tpopObjektKopiert.TPopNr || "(keine Nr.)";
             label += ": ";
             label += (window.apf.tpopObjektKopiert.TPopFlurname || "(kein Flurname)");
+            label += " einfügen";
             items.einfuegen = {
-                "label":            label + " einfügen",
+                "label":            label,
                 "separator_before": true,
                 "icon":             "style/images/einfuegen.png",
                 "action": function () {
-                    window.apf.tpopKopiertInPopOrdnerTpopEinfuegen(parentNode);
+                    insertKopierteTpop(aktiverNode, parentNode, $(parentNode).attr("id"));
+                    //window.apf.tpopKopiertInPopOrdnerTpopEinfuegen(parentNode);
                 }
             };
         }

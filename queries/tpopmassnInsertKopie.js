@@ -22,6 +22,16 @@ var returnFunction = function (request, callback) {
         function (callback) {
             // Temporäre Tabelle erstellen mit dem zu kopierenden Datensatz
             connection.query(
+                'DROP TABLE IF EXISTS tmp',
+                function (err) {
+                    // nur allfällige Fehler weiterleiten
+                    callback(err, null);
+                }
+            );
+        },
+        function (callback) {
+            // Temporäre Tabelle erstellen mit dem zu kopierenden Datensatz
+            connection.query(
                 'CREATE TEMPORARY TABLE tmp SELECT * FROM tblTeilPopMassnahme WHERE TPopMassnId =' + tpopMassnId,
                 function (err) {
                     // nur allfällige Fehler weiterleiten
@@ -49,7 +59,7 @@ var returnFunction = function (request, callback) {
         }
     ], function (err, results) {
         // neue id zurück liefern
-        return results[2];
+        callback(err, results[3]);
     });
 };
 
