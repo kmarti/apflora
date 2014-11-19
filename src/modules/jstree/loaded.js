@@ -5,7 +5,6 @@ var $           = require('jquery'),
     initiiereAp = require('../initiiereAp');
 
 module.exports = function (ApArtId) {
-
     window.apf.setzeTreehoehe();
     $("#suchen").show();
     $("#exportieren_2").show();
@@ -37,7 +36,7 @@ module.exports = function (ApArtId) {
         delete window.apf.tpopfeldkontrZeigen;
     }
     if (window.apf.tpopfreiwkontrZeigen) {
-        $("#tree").jstree("select_node", "[typ='tpopfreiwkontr']#" + localStorage.tpopfeldkontrId);
+        $("#tree").jstree("select_node", "#tpopfreiwkontr" + localStorage.tpopfeldkontrId);
         // diese Markierung entfernen, damit das nächste mal nicht mehr diese tpopfreiwkontr geöffnet wird
         delete window.apf.tpopfreiwkontrZeigen;
     }
