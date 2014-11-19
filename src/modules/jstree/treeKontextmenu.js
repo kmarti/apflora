@@ -29,6 +29,7 @@ var _                                         = require('underscore'),
     insertKopiertesFeldkontrBiotop            = require('./insertKopiertesFeldkontrBiotop'),
     schneideFeldkontrAus                      = require('./schneideFeldkontrAus'),
     kopiereFeldkontr                          = require('./kopiereFeldkontr'),
+    insertKopierteFeldkontr                   = require('./insertKopierteFeldkontr'),
     insertNeuesApziel                         = require('./insertNeuesApziel'),
     loescheApziel                             = require('./loescheApziel'),
     insertNeuenZielber                        = require('./insertNeuenZielber'),
@@ -658,17 +659,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/einfuegen.png",
                 "action": function () {
-                    // und an die DB schicken
-                    $.ajax({
-                        type: 'post',
-                        url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopKontrId=' + erstelleIdAusDomAttributId($(window.apf.tpopfeldkontrNodeKopiert).attr("id")) + '/user=' + sessionStorage.user
-                    }).done(function (id) {
-                        var strukturtyp = "tpopfeldkontr",
-                            beschriftung = window.apf.erstelleLabelFuerFeldkontrolle(window.apf.tpopfeldkontrObjektKopiert.TPopKontrJahr, window.apf.tpopfeldkontrObjektKopiert.TPopKontrTyp);
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    }).fail(function () {
-                        melde("Fehler: Die Feldkontrolle wurde nicht erstellt");
-                    });
+                    insertKopierteFeldkontr(aktiverNode, parentNode, $(aktiverNode).attr("id"));
                 }
             };
         }
@@ -746,17 +737,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/einfuegen.png",
                 "action": function () {
-                    // und an die DB schicken
-                    $.ajax({
-                        type: 'post',
-                        url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/tpopKontrId=' + erstelleIdAusDomAttributId($(window.apf.tpopfeldkontrNodeKopiert).attr("id")) + '/user=' + sessionStorage.user
-                    }).done(function (id) {
-                        var strukturtyp = "tpopfeldkontr",
-                            beschriftung = window.apf.erstelleLabelFuerFeldkontrolle(window.apf.tpopfeldkontrObjektKopiert.TPopKontrJahr, window.apf.tpopfeldkontrObjektKopiert.TPopKontrTyp);
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    }).fail(function () {
-                        melde("Fehler: Die Feldkontrolle wurde nicht erstellt");
-                    });
+                    insertKopierteFeldkontr(aktiverNode, parentNode, $(parentNode).attr("id"));
                 }
             };
         }
