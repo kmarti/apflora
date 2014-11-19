@@ -24,6 +24,7 @@ var _                                         = require('underscore'),
     kopiereTpop                               = require('./kopiereTpop'),
     insertKopierteTpop                        = require('./insertKopierteTpop'),
     insertNeueFeldkontrolle                   = require('./insertNeueFeldkontrolle'),
+    loescheFeldkontrolle                      = require('./loescheFeldkontrolle'),
     insertNeuesApziel                         = require('./insertNeuesApziel'),
     loescheApziel                             = require('./loescheApziel'),
     insertNeuenZielber                        = require('./insertNeuenZielber'),
@@ -682,43 +683,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/loeschen.png",
                 "action": function () {
-                    // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
-                        return;
-                    }
-                    var bezeichnung = $.jstree._reference(aktiverNode).get_text(aktiverNode);
-                    $("#loeschen_dialog_mitteilung").html("Die Feldkontrolle '" + bezeichnung + "' wird gelöscht.");
-                    $("#loeschen_dialog").dialog({
-                        resizable: false,
-                        height:    'auto',
-                        width:     400,
-                        modal:     true,
-                        buttons: {
-                            "ja, löschen!": function () {
-                                $(this).dialog("close");
-                                // Variable zum rückgängig machen erstellen
-                                window.apf.deleted     = window.apf.tpopfeldkontr;
-                                window.apf.deleted.typ = "tpopfeldkontr";
-                                $.ajax({
-                                    type: 'delete',
-                                    url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/tabelleIdFeld=TPopKontrId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
-                                }).done(function () {
-                                    delete localStorage.tpopfeldkontrId;
-                                    delete window.apf.tpopfeldkontr;
-                                    $.jstree._reference(aktiverNode).delete_node(aktiverNode);
-                                    // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifteOrdnerTpopfeldkontr(parentNode);
-                                    // Hinweis zum rückgängig machen anzeigen
-                                    frageObUndeleteDatensatz("Die Feldkontrolle '" + bezeichnung + "' wurde gelöscht.");
-                                }).fail(function () {
-                                    melde("Fehler: Die Feldkontrolle wurde nicht gelöscht");
-                                });
-                            },
-                            "abbrechen": function () {
-                                $(this).dialog("close");
-                            }
-                        }
-                    });
+                    loescheFeldkontrolle(aktiverNode, parentNode);
                 }
             },
             "biotop_kopieren": {
