@@ -26,6 +26,7 @@ var _                                         = require('underscore'),
     insertNeueFeldkontrolle                   = require('./insertNeueFeldkontrolle'),
     loescheFeldkontrolle                      = require('./loescheFeldkontrolle'),
     kopiereFeldkontrBiotop                    = require('./kopiereFeldkontrBiotop'),
+    insertKopiertesFeldkontrBiotop            = require('./insertKopiertesFeldkontrBiotop'),
     insertNeuesApziel                         = require('./insertNeuesApziel'),
     loescheApziel                             = require('./loescheApziel'),
     insertNeuenZielber                        = require('./insertNeuenZielber'),
@@ -702,24 +703,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/einfuegen.png",
                 "action": function () {
-                    var data = {};
-                    data.id = erstelleIdAusDomAttributId($(aktiverNode).attr("id"));
-                    data.user = sessionStorage.user;
-                    // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
-                        return;
-                    }
-                    _.each(window.apf.feldkontrBiotop, function (value, key) {
-                        $("#" + key).val(value);
-                        data[key] = value;
-                    });
-                    // jetzt alles speichern
-                    $.ajax({
-                        type: 'post',
-                        url: 'api/v1/updateMultiple/apflora/tabelle=tblTeilPopFeldkontrolle/felder=' + JSON.stringify(data)
-                    }).fail(function () {
-                        melde("Fehler: Das kopierte Biotop wurde nicht eingefügt");
-                    });
+                    insertKopiertesFeldkontrBiotop($(aktiverNode).attr("id"));
                 }
             };
         }

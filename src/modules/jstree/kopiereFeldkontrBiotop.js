@@ -23,7 +23,7 @@ module.exports = function () {
         tpopKontrHandlungsbedarf       = $("#TPopKontrHandlungsbedarf").val(),
         fkb;
 
-    // nur aktualisieren, wenn Schreibrechte bestehen
+    // nur fortfahren, wenn Schreibrechte bestehen
     if (!window.apf.pruefeSchreibvoraussetzungen()) {
         return;
     }
