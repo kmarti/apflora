@@ -8,11 +8,11 @@ var $ = require('jquery');
 var returnFunction = function (input_div) {
     var $modify_layer = $('.modify_layer');
     input_div = input_div || null;
-    if (window.apf.olmap.modify_interaction_für_vectorlayer) {
-        window.apf.olmap.map.removeInteraction(window.apf.olmap.modify_interaction_für_vectorlayer);
+    if (window.apf.olmap.modifyInteractionFuerVectorlayer) {
+        window.apf.olmap.map.removeInteraction(window.apf.olmap.modifyInteractionFuerVectorlayer);
         window.apf.olmap.map.removeInteraction(window.apf.olmap.selectInteractionFuerVectorlayer);
         window.apf.olmap.map.removeInteraction(window.apf.olmap.draw_interaction_für_vectorlayer);
-        delete window.apf.olmap.modify_interaction_für_vectorlayer;
+        delete window.apf.olmap.modifyInteractionFuerVectorlayer;
         delete window.apf.olmap.selectInteractionFuerVectorlayer;
         delete window.apf.olmap.draw_interaction_für_vectorlayer;
     }

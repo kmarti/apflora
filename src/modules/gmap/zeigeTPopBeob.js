@@ -71,7 +71,8 @@ module.exports = function (tpopBeobListe) {
         }
     };
     // document.getElementById("google_karten_div") verwenden statt $("#google_karten_div")!!!!
-    window.apf.gmap.map = map = new google.maps.Map(document.getElementById("google_karten_div"), options);
+    // ruler.js braucht window.map
+    window.apf.gmap.map = window.map = map = new google.maps.Map(document.getElementById("google_karten_div"), options);
     // Versuch: SVO einblenden
     //loadWMS(map, "//wms.zh.ch/FnsSVOZHWMS?");
     //loadWMS(map, "//www.gis.zh.ch/scripts/wmsfnssvo2.asp?");

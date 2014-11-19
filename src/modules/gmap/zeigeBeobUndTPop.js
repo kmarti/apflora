@@ -82,7 +82,8 @@ module.exports = function (beobListe, tpopListe) {
         streetViewControl: false,
         mapTypeId:         google.maps.MapTypeId.SATELLITE
     };
-    window.apf.gmap.map = map = new google.maps.Map(document.getElementById("google_karten_div"), options);
+    // ruler.js braucht window.map
+    window.apf.gmap.map = window.map = map = new google.maps.Map(document.getElementById("google_karten_div"), options);
     bounds = new google.maps.LatLngBounds();
 
     // für alle TPop Marker erstellen

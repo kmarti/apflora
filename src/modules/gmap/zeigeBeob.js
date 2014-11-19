@@ -68,8 +68,8 @@ module.exports = function (beobListe) {
             ]
         }
     };
-    map = new google.maps.Map(document.getElementById("google_karten_div"), options);
-    window.apf.gmap.map = map;
+    // ruler.js braucht window.map
+    window.apf.gmap.map = window.map = map = new google.maps.Map(document.getElementById("google_karten_div"), options);
     bounds = new google.maps.LatLngBounds();
 
     // für alle Orte Marker erstellen

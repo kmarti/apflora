@@ -920,7 +920,7 @@ window.apf.olmap.entferneModifyInteractionFuerVectorLayer = function (input_div)
 };
 
 // wird in index.html benutzt
-window.apf.olmap.erstelleModifyInteractionFürVectorLayer = function (vectorlayer) {
+window.apf.olmap.erstelleModifyInteractionFuerVectorLayer = function (vectorlayer) {
     'use strict';
     require('./modules/olmap/erstelleModifyInteractionFuerVectorLayer')(vectorlayer);
 };
@@ -1897,7 +1897,7 @@ window.apf.melde = function (meldung, title) {
 };
 
 // wird in index.html benutzt
-window.apf.löscheAp = function (apId) {
+window.apf.loescheAp = function (apId) {
     'use strict';
     require('./modules/loescheAp')(apId);
 };

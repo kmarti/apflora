@@ -107,7 +107,7 @@ var returnFunction = function (vectorlayer) {
     });
 
     // global definieren: wird benötigt, um später (beim Klick auf 'Ebene bearbeiten') festzustellen, ob eine modify-interaction existiert
-    window.apf.olmap.modify_interaction_für_vectorlayer = new ol.interaction.Modify({
+    window.apf.olmap.modifyInteractionFuerVectorlayer = new ol.interaction.Modify({
         features: window.apf.olmap.selectInteractionFuerVectorlayer.getFeatures(),
         // the SHIFT key must be pressed to delete vertices, so
         // that new vertices can be drawn at the same position
@@ -144,7 +144,7 @@ var returnFunction = function (vectorlayer) {
 
     addDrawInteraction();
     window.apf.olmap.map.addInteraction(window.apf.olmap.selectInteractionFuerVectorlayer);
-    window.apf.olmap.map.addInteraction(window.apf.olmap.modify_interaction_für_vectorlayer);
+    window.apf.olmap.map.addInteraction(window.apf.olmap.modifyInteractionFuerVectorlayer);
 };
 
 module.exports = returnFunction;

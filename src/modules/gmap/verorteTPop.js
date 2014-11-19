@@ -52,8 +52,8 @@ module.exports = function (tpop) {
         mapTypeId:         google.maps.MapTypeId.SATELLITE
     };
 
-    // Karte gründen
-    window.apf.gmap.map = map = new google.maps.Map(mapCanvas[0], options);
+    // Karte gründen. ruler.js braucht window.map
+    window.apf.gmap.map = window.map = map = new google.maps.Map(mapCanvas[0], options);
 
     if (verorted) {
         // marker erstellen
