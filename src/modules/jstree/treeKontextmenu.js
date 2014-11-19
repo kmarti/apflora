@@ -39,7 +39,8 @@ var _                                         = require('underscore'),
     zeigeTpopsAufOlmap                        = require('./zeigeTpopsAufOlmap'),
     zeigeTpopAufOlmap                         = require('./zeigeTpopAufOlmap'),
     verorteTpopAufOlmap                       = require('./verorteTpopAufOlmap'),
-    zeigeTpopAufGmap                          = require('./zeigeTpopAufGmap');
+    zeigeTpopAufGmap                          = require('./zeigeTpopAufGmap'),
+    verorteTpopAufGmap                        = require('./verorteTpopAufGmap');
 
 module.exports = function (node) {
     var items,
@@ -505,15 +506,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/flora_icon_rot.png",
                 "action": function () {
-                    var verorteTPop = require('../gmap/verorteTPop');
-                    $.ajax({
-                        type: 'get',
-                        url: 'api/v1/apflora/tabelle=tblTeilpopulation/feld=TPopId/wertNumber=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
-                    }).done(function (data) {
-                        verorteTPop(data[0]);
-                    }).fail(function () {
-                        melde("Fehler: Keine Daten erhalten");
-                    });
+                    verorteTpopAufGmap($(aktiverNode).attr("id"));
                 }
             },
             "GisBrowser": {
