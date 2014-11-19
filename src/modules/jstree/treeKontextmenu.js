@@ -28,6 +28,7 @@ var _                                         = require('underscore'),
     kopiereFeldkontrBiotop                    = require('./kopiereFeldkontrBiotop'),
     insertKopiertesFeldkontrBiotop            = require('./insertKopiertesFeldkontrBiotop'),
     schneideFeldkontrAus                      = require('./schneideFeldkontrAus'),
+    kopiereFeldkontr                          = require('./kopiereFeldkontr'),
     insertNeuesApziel                         = require('./insertNeuesApziel'),
     loescheApziel                             = require('./loescheApziel'),
     insertNeuenZielber                        = require('./insertNeuenZielber'),
@@ -725,22 +726,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/kopieren.png",
                 "action": function () {
-                    // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
-                        return;
-                    }
-                    window.apf.tpopfeldkontrNodeKopiert = aktiverNode;
-                    // Daten des Objekts holen
-                    var getTPopFeldkontr_2 = $.ajax({
-                        type: 'get',
-                        url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + erstelleIdAusDomAttributId($(window.apf.tpopfeldkontrNodeKopiert).attr("id"))
-                    });
-                    getTPopFeldkontr_2.done(function (data) {
-                        window.apf.tpopfeldkontrObjektKopiert = data[0];
-                    });
-                    getTPopFeldkontr_2.fail(function () {
-                        melde("Fehler: Die Feldkontrolle wurde nicht kopiert");
-                    });
+                    kopiereFeldkontr(aktiverNode);
                 }
             };
         }
