@@ -31,6 +31,7 @@ var _                                         = require('underscore'),
     kopiereFeldkontr                          = require('./kopiereFeldkontr'),
     insertKopierteFeldkontr                   = require('./insertKopierteFeldkontr'),
     insertNeueFreiwkontrolle                  = require('./insertNeueFreiwkontrolle'),
+    insertKopierteFreiwkontr                  = require('./insertKopierteFreiwkontr'),
     insertNeuesApziel                         = require('./insertNeuesApziel'),
     loescheApziel                             = require('./loescheApziel'),
     insertNeuenZielber                        = require('./insertNeuenZielber'),
@@ -769,17 +770,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/einfuegen.png",
                 "action": function () {
-                    // und an die DB schicken
-                    $.ajax({
-                        type: 'post',
-                        url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopKontrId=' + erstelleIdAusDomAttributId($(window.apf.tpopfreiwkontrNodeKopiert).attr("id")) + '/user=' + sessionStorage.user
-                    }).done(function (id) {
-                        var strukturtyp = "tpopfreiwkontr",
-                            beschriftung = window.apf.tpopfreiwkontr_objekt_kopiert.TPopKontrJahr;
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    }).fail(function () {
-                        melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
-                    });
+                    insertKopierteFreiwkontr(aktiverNode, parentNode, $(aktiverNode).attr("id"));
                 }
             };
         }
@@ -854,7 +845,7 @@ module.exports = function (node) {
                     // es macht keinen Sinn mehr, den kopierten node zu behalten
                     // und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
                     delete window.apf.tpopfreiwkontrNodeKopiert;
-                    delete window.apf.tpopfreiwkontr_objekt_kopiert;
+                    delete window.apf.tpopfreiwkontrObjektKopiert;
                 }
             };
         }
@@ -875,7 +866,7 @@ module.exports = function (node) {
                         url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + erstelleIdAusDomAttributId($(window.apf.tpopfreiwkontrNodeKopiert).attr("id"))
                     });
                     getTPopFeldkontr_3.done(function (data) {
-                        window.apf.tpopfreiwkontr_objekt_kopiert = data[0];
+                        window.apf.tpopfreiwkontrObjektKopiert = data[0];
                     });
                     getTPopFeldkontr_3.fail(function () {
                         melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht kopiert");
@@ -900,16 +891,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/einfuegen.png",
                 "action": function () {
-                    $.ajax({
-                        type: 'post',
-                        url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/tpopKontrId=' + erstelleIdAusDomAttributId($(window.apf.tpopfreiwkontrNodeKopiert).attr("id")) + '/user=' + sessionStorage.user
-                    }).done(function (id) {
-                        var strukturtyp = "tpopfreiwkontr",
-                            beschriftung = window.apf.tpopfreiwkontr_objekt_kopiert.TPopKontrJahr;
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    }).fail(function () {
-                        melde("Fehler: Die Freiwilligen-Kontrolle wurde nicht erstellt");
-                    });
+                    insertKopierteFreiwkontr(aktiverNode, parentNode, $(parentNode).attr("id"));
                 }
             };
         }

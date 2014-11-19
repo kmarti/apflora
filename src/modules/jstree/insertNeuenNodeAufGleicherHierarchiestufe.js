@@ -13,11 +13,17 @@ module.exports = function (aktiverNode, parentNode, strukturtyp, dsId, beschrift
     var neuerNode,
         grandparentNode;
 
+    // Beschriftung muss String sein
+    if (beschriftung && typeof beschriftung !== 'String') {
+        beschriftung = beschriftung.toString();
+    }
+
     // id global verfügbar machen
     localStorage[strukturtyp + "Id"] = dsId;
     // letzte globale Variable entfernen
     delete window.apf[strukturtyp];
     // neuen Node bauen
+    console.log('beschriftung: ', beschriftung);
     neuerNode = $.jstree._reference(parentNode).create_node(parentNode, "last", {
         "data": beschriftung,
         "attr": {

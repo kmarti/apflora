@@ -15,6 +15,11 @@ module.exports = function (aktiverNode, parentNode, strukturtyp, dsId, beschrift
     var neuerNode,
         neueApzieleNode;
 
+    // Beschriftung muss String sein
+    if (beschriftung && typeof beschriftung !== 'String') {
+        beschriftung = beschriftung.toString();
+    }
+
     // id global verfügbar machen
     localStorage[strukturtyp + "Id"] = dsId;
     // letzte globale Variable entfernen

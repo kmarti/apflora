@@ -1,4 +1,4 @@
-/*jslint node: true, browser: true, nomen: true, todo: true */
+    /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
 /**
@@ -33,6 +33,7 @@ fn.initiiereTPopMassnBer   = require('./initiiereTPopMassnBer');
 fn.initiiereTPopBer        = require('./initiiereTPopBer');
 
 module.exports = function (strukturtyp) {
+    console.log('strukturtyp = ', strukturtyp);
     if (strukturtyp === "tpopfreiwkontr") {
         // der Initiierung mitteilen, dass es eine Freiwilligenkontrolle ist und keine Feldkontrolle
         localStorage.tpopfreiwkontr = true;
