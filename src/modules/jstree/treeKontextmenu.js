@@ -27,6 +27,7 @@ var _                                         = require('underscore'),
     loescheFeldkontrolle                      = require('./loescheFeldkontrolle'),
     kopiereFeldkontrBiotop                    = require('./kopiereFeldkontrBiotop'),
     insertKopiertesFeldkontrBiotop            = require('./insertKopiertesFeldkontrBiotop'),
+    schneideFeldkontrAus                      = require('./schneideFeldkontrAus'),
     insertNeuesApziel                         = require('./insertNeuesApziel'),
     loescheApziel                             = require('./loescheApziel'),
     insertNeuenZielber                        = require('./insertNeuenZielber'),
@@ -662,7 +663,7 @@ module.exports = function (node) {
                         url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopKontrId=' + erstelleIdAusDomAttributId($(window.apf.tpopfeldkontrNodeKopiert).attr("id")) + '/user=' + sessionStorage.user
                     }).done(function (id) {
                         var strukturtyp = "tpopfeldkontr",
-                            beschriftung = window.apf.erstelleLabelFuerFeldkontrolle(window.apf.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.apf.tpopfeldkontr_objekt_kopiert.TPopKontrTyp);
+                            beschriftung = window.apf.erstelleLabelFuerFeldkontrolle(window.apf.tpopfeldkontrObjektKopiert.TPopKontrJahr, window.apf.tpopfeldkontrObjektKopiert.TPopKontrTyp);
                         insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     }).fail(function () {
                         melde("Fehler: Die Feldkontrolle wurde nicht erstellt");
@@ -714,15 +715,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/ausschneiden.png",
                 "action": function () {
-                    // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
-                        return;
-                    }
-                    window.apf.tpopfeldkontrNodeAusgeschnitten = aktiverNode;
-                    // es macht keinen Sinn mehr, den kopierten node zu behalten
-                    // und stellt sicher, dass nun der ausgeschnittene mit "einfügen" angeboten wird
-                    delete window.apf.tpopfeldkontrNodeKopiert;
-                    delete window.apf.tpopfeldkontr_objekt_kopiert;
+                    schneideFeldkontrAus(aktiverNode);
                 }
             };
         }
@@ -743,7 +736,7 @@ module.exports = function (node) {
                         url: 'api/v1/apflora/tabelle=tblTeilPopFeldkontrolle/feld=TPopKontrId/wertNumber=' + erstelleIdAusDomAttributId($(window.apf.tpopfeldkontrNodeKopiert).attr("id"))
                     });
                     getTPopFeldkontr_2.done(function (data) {
-                        window.apf.tpopfeldkontr_objekt_kopiert = data[0];
+                        window.apf.tpopfeldkontrObjektKopiert = data[0];
                     });
                     getTPopFeldkontr_2.fail(function () {
                         melde("Fehler: Die Feldkontrolle wurde nicht kopiert");
@@ -773,7 +766,7 @@ module.exports = function (node) {
                         url: 'api/v1/tpopfeldkontrInsertKopie/tpopId=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/tpopKontrId=' + erstelleIdAusDomAttributId($(window.apf.tpopfeldkontrNodeKopiert).attr("id")) + '/user=' + sessionStorage.user
                     }).done(function (id) {
                         var strukturtyp = "tpopfeldkontr",
-                            beschriftung = window.apf.erstelleLabelFuerFeldkontrolle(window.apf.tpopfeldkontr_objekt_kopiert.TPopKontrJahr, window.apf.tpopfeldkontr_objekt_kopiert.TPopKontrTyp);
+                            beschriftung = window.apf.erstelleLabelFuerFeldkontrolle(window.apf.tpopfeldkontrObjektKopiert.TPopKontrJahr, window.apf.tpopfeldkontrObjektKopiert.TPopKontrTyp);
                         insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
                     }).fail(function () {
                         melde("Fehler: Die Feldkontrolle wurde nicht erstellt");
