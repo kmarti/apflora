@@ -16,6 +16,7 @@ var _                                         = require('underscore'),
     fuegeAusgeschnittenePopEin                = require('./fuegeAusgeschnittenePopEin'),
     insertNeuenPopber                         = require('./insertNeuenPopber'),
     loeschePopber                             = require('./loeschePopber'),
+    insertNeuenMassnber                       = require('./insertNeuenMassnber'),
     insertNeueTpop                            = require('./insertNeueTpop'),
     loescheTpop                               = require('./loescheTpop'),
     schneideTpopAus                           = require('./schneideTpopAus'),
@@ -602,16 +603,7 @@ module.exports = function (node) {
                 "label": "neuer Massnahmen-Bericht",
                 "icon":  "style/images/neu.png",
                 "action": function () {
-                    $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblPopMassnBericht/feld=PopId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
-                    }).done(function (id) {
-                        var strukturtyp  = "popmassnber",
-                            beschriftung = "neuer Massnahmen-Bericht";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    }).fail(function () {
-                        melde("Fehler: Es wurde kein neuer Massnahmen-Bericht erstellt");
-                    });
+                    insertNeuenMassnber(aktiverNode, parentNode, $(aktiverNode).attr("id"));
                 }
             }
         };
@@ -621,18 +613,7 @@ module.exports = function (node) {
                 "label": "neuer Massnahmen-Bericht",
                 "icon":  "style/images/neu.png",
                 "action": function () {
-                    var insertPopMassnBer_2 = $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblPopMassnBericht/feld=PopId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.user
-                    });
-                    insertPopMassnBer_2.done(function (id) {
-                        var strukturtyp = "popmassnber",
-                            beschriftung = "neuer Massnahmen-Bericht";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    });
-                    insertPopMassnBer_2.fail(function () {
-                        melde("Fehler: Es wurde kein neuer Massnahmen-Bericht erstellt");
-                    });
+                    insertNeuenMassnber(aktiverNode, parentNode, $(parentNode).attr("id"));
                 }
             },
             "loeschen": {
