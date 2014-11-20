@@ -2,7 +2,6 @@
 'use strict';
 
 var $               = require('jquery'),
-    initiiereApp    = require('./initiiereApp'),
     initiiereAp     = require('./initiiereAp'),
     initiiereApziel = require('./initiiereApziel'),
     zeigeFormular   = require('./zeigeFormular'),
@@ -14,7 +13,7 @@ module.exports = function (apId, apZielId, zielberId) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.apId) {
         // Anwendung neu initiieren
-        initiiereApp();
+        window.apf.initiiereApp();
         return;
     }
     if (!apZielId && !localStorage.apzielId) {

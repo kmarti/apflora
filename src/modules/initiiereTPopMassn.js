@@ -5,7 +5,6 @@ var $               = require('jquery'),
     dateFormat      = require('dateformat'),
     _               = require('underscore'),
     limiter         = require('../lib/limiter'),
-    initiiereApp    = require('./initiiereApp'),
     initiiereAp     = require('./initiiereAp'),
     initiierePop    = require('./initiierePop'),
     initiiereTPop   = require('./initiiereTPop'),
@@ -18,7 +17,7 @@ module.exports = function (apId, popId, tpopId, massnId) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.apId) {
         // Anwendung neu initiieren
-        initiiereApp();
+        window.apf.initiiereApp();
         return;
     }
     if (!popId && !localStorage.popId && !window.apf.pop && (window.apf.pop && !window.apf.pop.PopId)) {

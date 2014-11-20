@@ -17,7 +17,6 @@ var $             = require('jquery'),
     _             = require('underscore'),
     melde         = require('./melde'),
     zeigeFormular = require('./zeigeFormular'),
-    initiiereApp  = require('./initiiereApp'),
     waehleApliste = require('./waehleApliste'),
     oeffneUri     = require('./oeffneUri');
 

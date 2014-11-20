@@ -1,17 +1,33 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
+'use strict';
 
-var _      = require('underscore'),
-    $      = require('jquery'),
-    google = require('google'),
-    saveAs = require('saveAs');
+var _                  = require('underscore'),
+    $                  = require('jquery'),
+    google             = require('google'),
+    saveAs             = require('saveAs'),
+    pruefeObAngemeldet = require('./pruefeObAngemeldet'),
+    isDateSupported    = require('./isDateSupported');
+
+// benötigte globale Variabeln initialisieren
+window.apf       = window.apf       || {};
+window.apf.gmap  = window.apf.gmap  || {};
+window.apf.olmap = window.apf.olmap || {};
 
 var initiiereApp = function () {
-    window.apf.initiiereApp = initiiereApp;
+    // das muss aus unerfindlichem Grund direkt von index.htm. aus aufgerufen werden
+    // sonst wirkt jquery-ui nicht
+    window.apf.pruefeObAngemeldet = function () {
+        pruefeObAngemeldet();
+    };
+
+    // ...und wegen oberem, muss auch diese Funktion in index.html bereit stehen
+    window.apf.isDateSupported = function () {
+        return isDateSupported();
+    };
 
     // setzt window.apf und localStorage.apId
     // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
     window.apf.setzeWindowAp = function (id) {
-        'use strict';
         localStorage.apId = id;
         $.ajax({
             type: 'get',
@@ -28,7 +44,6 @@ var initiiereApp = function () {
     // setzt window.apf.pop und localStorage.popId
     // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
     window.apf.setzeWindowPop = function (id) {
-        'use strict';
         localStorage.popId = id;
         $.ajax({
             type: 'get',
@@ -45,7 +60,6 @@ var initiiereApp = function () {
     // setzt window.apf.apziel und localStorage.apzielId
     // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
     window.apf.setzeWindowApziel = function (id) {
-        'use strict';
         localStorage.apzielId = id;
         $.ajax({
             type: 'get',
@@ -62,7 +76,6 @@ var initiiereApp = function () {
     // setzt window.apf.zielber und localStorage.zielberId
     // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
     window.apf.setzeWindowZielber = function (id) {
-        'use strict';
         localStorage.zielberId = id;
         $.ajax({
             type: 'get',
@@ -79,7 +92,6 @@ var initiiereApp = function () {
     // setzt window.apf.erfkrit und localStorage.erfkritId
     // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
     window.apf.setzeWindowErfkrit = function (id) {
-        'use strict';
         localStorage.erfkritId = id;
         $.ajax({
             type: 'get',
@@ -96,7 +108,6 @@ var initiiereApp = function () {
     // setzt window.apf.jber und localStorage.jberId
     // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
     window.apf.setzeWindowJber = function (id) {
-        'use strict';
         localStorage.jberId = id;
         $.ajax({
             type: 'get',
@@ -113,7 +124,6 @@ var initiiereApp = function () {
     // setzt window.apf.jberUebersicht und localStorage.jberUebersichtId
     // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
     window.apf.setzeWindowJberUebersicht = function (id) {
-        'use strict';
         localStorage.jberUebersichtId = id;
         $.ajax({
             type: 'get',
@@ -130,7 +140,6 @@ var initiiereApp = function () {
     // setzt window.apf.ber und localStorage.berId
     // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
     window.apf.setzeWindowBer = function (id) {
-        'use strict';
         localStorage.berId = id;
         $.ajax({
             type: 'get',
@@ -148,7 +157,6 @@ var initiiereApp = function () {
     // setzt window.apf.idealbiotop und localStorage.idealbiotopId
     // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
     window.apf.setzeWindowIdealbiotop = function (id) {
-        'use strict';
         localStorage.idealbiotopId = id;
         $.ajax({
             type: 'get',
@@ -165,7 +173,6 @@ var initiiereApp = function () {
     // setzt window.apf.assozarten und localStorage.assozartenId
     // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
     window.apf.setzeWindowAssozarten = function (id) {
-        'use strict';
         localStorage.assozartenId = id;
         $.ajax({
             type: 'get',
@@ -182,7 +189,6 @@ var initiiereApp = function () {
     // setzt window.apf.popmassnber und localStorage.popmassnberId
     // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
     window.apf.setzeWindowPopmassnber = function (id) {
-        'use strict';
         localStorage.popmassnberId = id;
         $.ajax({
             type: 'get',
@@ -199,7 +205,6 @@ var initiiereApp = function () {
     // setzt window.apf.tpop und localStorage.tpopId
     // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
     window.apf.setzeWindowTpop = function (id) {
-        'use strict';
         localStorage.tpopId = id;
         $.ajax({
             type: 'get',
@@ -214,7 +219,6 @@ var initiiereApp = function () {
     };
 
     window.apf.downloadFileFromView = function (view, filename, format) {
-        'use strict';
         // löst einen Download aus
         // als Formate steht momentan nur csv (und teilweise kml) zur Verfügung, weil xlsx leider nicht funktioniert hat
         var getTimestamp       = require('./getTimestamp'),
@@ -257,7 +261,6 @@ var initiiereApp = function () {
     };
 
     window.apf.downloadFileFromViewWehreIdIn = function (view, idName, idListe, filename, format) {
-        'use strict';
         // löst einen Download aus
         // als Formate steht momentan nur csv zur Verfügung, weil xlsx leider nicht funktioniert hat
         var getTimestamp = require('./getTimestamp'),
@@ -275,7 +278,6 @@ var initiiereApp = function () {
     // setzt window.apf.popber und localStorage.popberId
     // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
     window.apf.setzeWindowPopber = function (id) {
-        'use strict';
         localStorage.popberId = id;
         $.ajax({
             type: 'get',
@@ -292,7 +294,6 @@ var initiiereApp = function () {
     // setzt window.apf.tpopfeldkontr und localStorage.tpopfeldkontrId
     // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
     window.apf.setzeWindowTpopfeldkontr = function (id) {
-        'use strict';
         localStorage.tpopfeldkontrId = id;
         $.ajax({
             type: 'get',
@@ -309,7 +310,6 @@ var initiiereApp = function () {
     // setzt window.apf.tpopmassn und localStorage.tpopmassnId
     // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
     window.apf.setzeWindowTpopmassn = function (id) {
-        'use strict';
         localStorage.tpopmassnId = id;
         $.ajax({
             type: 'get',
@@ -326,7 +326,6 @@ var initiiereApp = function () {
     // setzt window.apf.tpopmassnber und localStorage.tpopmassnberId
     // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
     window.apf.setzeWindowTpopmassnber = function (id) {
-        'use strict';
         localStorage.tpopmassnberId = id;
         $.ajax({
             type: 'get',
@@ -343,7 +342,6 @@ var initiiereApp = function () {
     // setzt window.apf.tpopber und localStorage.tpopberId
     // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
     window.apf.setzeWindowTpopber = function (id) {
-        'use strict';
         localStorage.tpopberId = id;
         $.ajax({
             type: 'get',
@@ -358,7 +356,6 @@ var initiiereApp = function () {
     };
 
     window.apf.initiiereExporte = function (anchor) {
-        'use strict';
         var zeigeFormular = require('./zeigeFormular');
         $("#testart_div").hide();
         $("#forms_titelzeile").hide();
@@ -371,7 +368,6 @@ var initiiereApp = function () {
 
     // leert alle Felder und stellt ihre Breite ein
     window.apf.leereFelderVonFormular = function (Formular) {
-        'use strict';
         $('#' + Formular).find('input[type="text"]').each(function () {
             $(this).val("");
         });
@@ -385,7 +381,6 @@ var initiiereApp = function () {
 
     // begrenzt die maximale Höhe des Baums auf die Seitenhöhe, wenn nötig
     window.apf.setzeTreehoehe = function () {
-        'use strict';
         if ($(window).width() > 1000) {
             if (($(".jstree-no-icons").height() + 157) > $(window).height()) {
                 $("#tree").css("max-height", $(window).height() - 139);
@@ -399,7 +394,6 @@ var initiiereApp = function () {
     };
 
     window.apf.setzeKartenhoehe = function () {
-        'use strict';
         var lytMaxHeight = window.apf.berechneOlmapLayertreeMaxhoehe,
             forms_height,
             max_width;
@@ -437,7 +431,6 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.blendeOlmapExportieren = function () {
-        'use strict';
         var map_size,
             anz_kartenpixel,
             tooltip_title;
@@ -460,7 +453,6 @@ var initiiereApp = function () {
     };
 
     window.apf.berechneOlmapLayertreeMaxhoehe = function () {
-        'use strict';
         var lytMaxHeight;
         if ($(window).width() > 1000) {
             lytMaxHeight = $(window).height() - 115;
@@ -472,7 +464,6 @@ var initiiereApp = function () {
     };
 
     (function ($) {
-        'use strict';
         $.fn.hasScrollBar = function () {
             return this.get(0).scrollHeight > this.height();
         };
@@ -480,7 +471,6 @@ var initiiereApp = function () {
 
     // setzt die Höhe von textareas so, dass der Text genau rein passt
     window.apf.fitTextareaToContent = function (id, maxHeight) {
-        'use strict';
         var text = id && id.style ? id : document.getElementById(id),
             adjustedHeight;
 
@@ -506,7 +496,6 @@ var initiiereApp = function () {
     };
 
     window.apf.erstelleApliste = function (programm, callback) {
-        'use strict';
         var setzeAutocompleteFuerApliste = require('./setzeAutocompleteFuerApliste');
         window.apf.apliste = window.apf.apliste || {};
 
@@ -538,20 +527,17 @@ var initiiereApp = function () {
 
     // wird in index.html benutzt
     window.apf.waehleApListe = function (programm) {
-        'use strict';
         require('./waehleApliste')(programm);
     };
 
     // diese Funktion kann nicht modularisiert werden, weil jstree nicht für node entwickelt wurde!!!!
     window.apf.erstelleTree = function (ApArtId) {
-        'use strict';
         require('./jstree/erstelleTree')(ApArtId);
     };
 
     // übernimmt einen node
     // zählt dessen children und passt die Beschriftung an
     window.apf.beschrifteOrdnerPop = function (node) {
-        'use strict';
         var anz = $(node).find("> ul > li").length,
             anzTxt = "Populationen (" + anz + ")";
         $.jstree._reference(node).rename_node(node, anzTxt);
@@ -560,7 +546,6 @@ var initiiereApp = function () {
     // übernimmt einen node
     // zählt dessen children und passt die Beschriftung an
     window.apf.beschrifteOrdnerApziel = function (node) {
-        'use strict';
         var anz = 0,
             anzTxt;
         $($.jstree._reference(node)._get_children(node)).each(function () {
@@ -575,7 +560,6 @@ var initiiereApp = function () {
     // übernimmt einen node
     // zählt dessen children und passt die Beschriftung an
     window.apf.beschrifteOrdnerApzieljahr = function (node) {
-        'use strict';
         var anz = $(node).find("> ul > li").length,
             anzTxt;
 
@@ -587,7 +571,6 @@ var initiiereApp = function () {
     // übernimmt einen node
     // zählt dessen children und passt die Beschriftung an
     window.apf.beschrifteOrdnerZielber = function (node) {
-        'use strict';
         var anz = $(node).find("> ul > li").length,
             anzTxt = "Ziel-Berichte (" + anz + ")";
         $.jstree._reference(node).rename_node(node, anzTxt);
@@ -596,7 +579,6 @@ var initiiereApp = function () {
     // übernimmt einen node
     // zählt dessen children und passt die Beschriftung an
     window.apf.beschrifteOrdnerErfkrit = function (node) {
-        'use strict';
         var anz = $(node).find("> ul > li").length,
             anzTxt = "AP-Erfolgskriterien (" + anz + ")";
         $.jstree._reference(node).rename_node(node, anzTxt);
@@ -605,7 +587,6 @@ var initiiereApp = function () {
     // übernimmt einen node
     // zählt dessen children und passt die Beschriftung an
     window.apf.beschrifteOrdnerJber = function (node) {
-        'use strict';
         var anz = $(node).find("> ul > li").length,
             anzTxt = "AP-Berichte (" + anz + ")";
         $.jstree._reference(node).rename_node(node, anzTxt);
@@ -614,7 +595,6 @@ var initiiereApp = function () {
     // übernimmt einen node
     // zählt dessen children und passt die Beschriftung an
     window.apf.beschrifteOrdnerBer = function (node) {
-        'use strict';
         var anz = $(node).find("> ul > li").length,
             anzTxt = "Berichte (" + anz + ")";
         $.jstree._reference(node).rename_node(node, anzTxt);
@@ -623,7 +603,6 @@ var initiiereApp = function () {
     // übernimmt einen node
     // zählt dessen children und passt die Beschriftung an
     window.apf.beschrifteOrdnerAssozarten = function (node) {
-        'use strict';
         var anz = $(node).find("> ul > li").length,
             anzTxt = "assoziierte Arten (" + anz + ")";
         $.jstree._reference(node).rename_node(node, anzTxt);
@@ -632,7 +611,6 @@ var initiiereApp = function () {
     // übernimmt einen node
     // zählt dessen children und passt die Beschriftung an
     window.apf.beschrifteOrdnerTpop = function (node) {
-        'use strict';
         var anz = $(node).find("> ul > li").length,
             anzTxt = "Teilpopulationen (" + anz + ")";
         $.jstree._reference(node).rename_node(node, anzTxt);
@@ -641,7 +619,6 @@ var initiiereApp = function () {
     // übernimmt einen node
     // zählt dessen children und passt die Beschriftung an
     window.apf.beschrifteOrdnerPopber = function (node) {
-        'use strict';
         var anz = $(node).find("> ul > li").length,
             anzTxt = "Populations-Berichte (" + anz + ")";
         $.jstree._reference(node).rename_node(node, anzTxt);
@@ -650,7 +627,6 @@ var initiiereApp = function () {
     // übernimmt einen node
     // zählt dessen children und passt die Beschriftung an
     window.apf.beschrifteOrdnerPopmassnber = function (node) {
-        'use strict';
         var anz = $(node).find("> ul > li").length,
             anzTxt = "Massnahmen-Berichte (" + anz + ")";
         $.jstree._reference(node).rename_node(node, anzTxt);
@@ -659,7 +635,6 @@ var initiiereApp = function () {
     // übernimmt einen node
     // zählt dessen children und passt die Beschriftung an
     window.apf.beschrifteOrdnerTpopmassnber = function (node) {
-        'use strict';
         var anz = $(node).find("> ul > li").length,
             anzTxt = "Massnahmen-Berichte (" + anz + ")";
         $.jstree._reference(node).rename_node(node, anzTxt);
@@ -668,7 +643,6 @@ var initiiereApp = function () {
     // übernimmt einen node
     // zählt dessen children und passt die Beschriftung an
     window.apf.beschrifteOrdnerTpopmassn = function (node) {
-        'use strict';
         var anz = $(node).find("> ul > li").length,
             anzTxt = "Massnahmen (" + anz + ")";
         $.jstree._reference(node).rename_node(node, anzTxt);
@@ -677,7 +651,6 @@ var initiiereApp = function () {
     // übernimmt einen node
     // zählt dessen children und passt die Beschriftung an
     window.apf.beschrifteOrdnerTpopber = function (node) {
-        'use strict';
         var anz = $(node).find("> ul > li").length,
             anzTxt = "Teilpopulations-Berichte (" + anz + ")";
         $.jstree._reference(node).rename_node(node, anzTxt);
@@ -686,7 +659,6 @@ var initiiereApp = function () {
     // übernimmt einen node
     // zählt dessen children und passt die Beschriftung an
     window.apf.beschrifteOrdnerTpopfeldkontr = function (node) {
-        'use strict';
         var anz = $(node).find("> ul > li").length,
             anzTxt = "Feldkontrollen (" + anz + ")";
         $.jstree._reference(node).rename_node(node, anzTxt);
@@ -695,7 +667,6 @@ var initiiereApp = function () {
     // übernimmt einen node
     // zählt dessen children und passt die Beschriftung an
     window.apf.beschrifteOrdnerTpopfreiwkontr = function (node) {
-        'use strict';
         var anz = $(node).find("> ul > li").length,
             anzTxt = "Freiwilligen-Kontrollen (" + anz + ")";
         $.jstree._reference(node).rename_node(node, anzTxt);
@@ -704,7 +675,6 @@ var initiiereApp = function () {
     // übernimmt einen node
     // zählt dessen children und passt die Beschriftung an
     window.apf.beschrifteOrdnerBeobZugeordnet = function (node) {
-        'use strict';
         var anz = $(node).find("> ul > li").length,
             anzTxt = "Beobachtungen (" + anz + ")";
         $.jstree._reference(node).rename_node(node, anzTxt);
@@ -713,7 +683,6 @@ var initiiereApp = function () {
     // übernimmt einen node
     // zählt dessen children und passt die Beschriftung an
     window.apf.beschrifteOrdnerBeobNichtBeurteilt = function (node) {
-        'use strict';
         var anz = $(node).find("> ul > li").length,
             anzTxt = "nicht beurteilte Beobachtungen (" + anz + ")";
         $.jstree._reference(node).rename_node(node, anzTxt);
@@ -722,14 +691,12 @@ var initiiereApp = function () {
     // übernimmt einen node
     // zählt dessen children und passt die Beschriftung an
     window.apf.beschrifteOrdnerBeobNichtNuzuordnen = function (node) {
-        'use strict';
         var anz = $(node).find("> ul > li").length,
             anzTxt = "nicht zuzuordnende Beobachtungen (" + anz + ")";
         $.jstree._reference(node).rename_node(node, anzTxt);
     };
 
     window.apf.pruefeLesevoraussetzungen = function () {
-        'use strict';
         // kontrollieren, ob der User offline ist
         if (!navigator.onLine) {
             console.log('offline');
@@ -750,7 +717,6 @@ var initiiereApp = function () {
     };
 
     window.apf.pruefeSchreibvoraussetzungen = function () {
-        'use strict';
         var melde = require('./melde');
 
         // kontrollieren, ob der User online ist
@@ -768,12 +734,10 @@ var initiiereApp = function () {
     // vorläufig indirekt aufrufen, damit $ übergeben wird
     // später durch jstree 3 ablösen
     window.apf.speichern = function (that) {
-        'use strict';
         require('./speichern')(that);
     };
 
     (function ($) {
-        'use strict';
         // friendly helper //tinyurl.com/6aow6yn
         // Läuft durch alle Felder im Formular
         // Wenn ein Wert enthalten ist, wird Feldname und Wert ins Objekt geschrieben
@@ -799,7 +763,6 @@ var initiiereApp = function () {
     })(jQuery);
 
     window.apf.olmap.getLayerNames = function () {
-        'use strict';
         var layer_objekt_array = window.apf.olmap.map.getLayers().getArray(),
             layers = _.map(layer_objekt_array, function (layer_objekt) {
                 if (layer_objekt.values_ && layer_objekt.values_.title) {
@@ -810,7 +773,6 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.getLayersWithTitle = function () {
-        'use strict';
         var layers_array = window.apf.olmap.map.getLayers().getArray(),
             layers = _.map(layers_array, function (layer) {
                 if (layer.get('title')) {
@@ -821,7 +783,6 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.entferneLayerNachName = function (name) {
-        'use strict';
         var layers_array = window.apf.olmap.getLayersWithTitle(),
             layername,
             layer_kategorie,
@@ -842,7 +803,6 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.entferneAlleApfloraLayer = function () {
-        'use strict';
         var initiiereLayertree = require('./olmap/initiiereLayertree');
         if (window.apf.olmap && window.apf.olmap.map) {
             // getLayers retourniert ein Objekt!!!
@@ -868,7 +828,6 @@ var initiiereApp = function () {
     };
 
     window.apf.aktualisiereKoordinatenVonTPop = function (tpop) {
-        'use strict';
         var koord_aktualisiert = $.Deferred();
         // Datensatz updaten
         $.ajax({
@@ -886,7 +845,6 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.stapleLayerZuoberst = function (layer_title) {
-        'use strict';
         var layers = window.apf.olmap.map.getLayers(),
             layers_array = window.apf.olmap.map.getLayers().getArray(),
             top_layer,
@@ -902,7 +860,6 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.entferneModifyInteractionFuerTpop = function () {
-        'use strict';
         if (window.apf.olmap.modifyInteraction) {
             window.apf.olmap.map.removeInteraction(window.apf.olmap.modifyInteraction);
             delete window.apf.olmap.modifyInteraction;
@@ -911,24 +868,20 @@ var initiiereApp = function () {
 
     // wird in index.html benutzt
     window.apf.olmap.entferneModifyInteractionFuerVectorLayer = function (input_div) {
-        'use strict';
         require('./olmap/entferneModifyInteractionFuerVectorLayer')(input_div);
     };
 
     // wird in index.html benutzt
     window.apf.olmap.erstelleModifyInteractionFuerVectorLayer = function (vectorlayer) {
-        'use strict';
         require('./olmap/erstelleModifyInteractionFuerVectorLayer')(vectorlayer);
     };
 
     // wird in index.html benutzt
     window.apf.olmap.exportiereLayer = function (layer, selected_value) {
-        'use strict';
         require('./olmap/exportiereLayer')(layer, selected_value);
     };
 
     window.apf.download = function (filename, text) {
-        'use strict';
         var pom = document.createElement('a');
         pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
         pom.setAttribute('download', filename);
@@ -936,7 +889,6 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.istLayerSichtbarNachName = function (layername) {
-        'use strict';
         var layer_objekt_array,
             layer_ist_sichtbar;
         // prüfen, ob eine map existiert
@@ -954,7 +906,6 @@ var initiiereApp = function () {
 
     // dieser Funktion kann man einen Wert zum speichern übergeben
     window.apf.speichereWert = function (tabelle, id, feld, wert) {
-        'use strict';
         var melde = require('./melde');
 
         $.ajax({
@@ -972,7 +923,6 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.erstelleContentFuerTPop = function (tpop) {
-        'use strict';
         var myFlurname = tpop.TPopFlurname || '(kein Flurname)';
         return '<table>' +
             '<tr><td><p>Typ:</p></td><td><p>Teilpopulation</p></td></tr>' +
@@ -988,7 +938,6 @@ var initiiereApp = function () {
     // retourniert features
     // übergibt man einen Typ, werden nur features dieses Typs retourniert
     window.apf.olmap.listSelectedFeatures = function (typ) {
-        'use strict';
         var selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray(),
             features_to_return;
         features_to_return = _.filter(selected_features, function (feature) {
@@ -1003,7 +952,6 @@ var initiiereApp = function () {
 
     // sucht features an einem Ort in der Karte
     window.apf.olmap.sucheFeatures = function (pixel) {
-        'use strict';
         var features = [];
         window.apf.olmap.map.forEachFeatureAtPixel(pixel, function (feature, layer) {
             features.push(feature);
@@ -1012,7 +960,6 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.entfernePopupOverlays = function () {
-        'use strict';
         var overlays = window.apf.olmap.map.getOverlays().getArray(),
             zu_löschender_overlay = [];
         _.each(overlays, function (overlay) {
@@ -1030,7 +977,6 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.erstelleContentFuerPop = function (pop) {
-        'use strict';
         return '<table>' +
             '<tr><td><p>Typ:</p></td><td><p>Population</p></td></tr>' +
             '<tr><td><p>Koordinaten:</p></td><td><p>' + pop.PopXKoord + ' / ' + pop.PopYKoord + '</p></td></tr>' +
@@ -1043,14 +989,12 @@ var initiiereApp = function () {
 
     // ermöglicht es, nach dem toolip zu sortieren
     window.apf.vergleicheTPopZumSortierenNachTooltip = function (a,b) {
-        'use strict';
         if (a.tooltip < b.tooltip) {return -1;}
         if (a.tooltip > b.tooltip) {return 1;}
         return 0;
     };
 
     window.apf.deaktiviereGeoAdminAuswahl = function () {
-        'use strict';
         if (window.apf.olmap.auswahlPolygonLayer) {
             window.apf.olmap.auswahlPolygonLayer.removeAllFeatures();
         }
@@ -1065,7 +1009,6 @@ var initiiereApp = function () {
     };
 
     window.apf.erstelleTPopNrLabel = function (popnr, tpopnr) {
-        'use strict';
         // tooltip bzw. label vorbereiten: nullwerte ausblenden
         if (popnr && tpopnr) {
             return popnr + '/' + tpopnr;
@@ -1079,7 +1022,6 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.erstelleMarkerFürTPopLayer = function (tpop) {
-        'use strict';
         return new ol.Feature({
             geometry: new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]),
             tpopNr: tpop.TPopNr,
@@ -1098,7 +1040,6 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.onFeatureSelect = function (feature) {
-        'use strict';
         var popup = new OpenLayers.Popup.FramedCloud("popup",
                 feature.geometry.getBounds().getCenterLonLat(),
                 null,
@@ -1114,14 +1055,12 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.onFeatureUnselect = function (feature) {
-        'use strict';
         feature.popup.hide();
     };
 
     // GoogleMap: alle Marker löschen
     // benutzt wo in GoogleMaps Marker gesetzt und verschoben werden
     window.apf.gmap.clearMarkers = function () {
-        'use strict';
         _.each(window.apf.gmap.markersArray, function (marker) {
             marker.setMap(null);
         });
@@ -1130,38 +1069,32 @@ var initiiereApp = function () {
     // GoogleMap: alle InfoWindows löschen
     // benutzt wo in GoogleMaps Infowindows neu gesetzt werden müssen, weil die Daten verändert wurden
     window.apf.gmap.clearInfoWindows = function () {
-        'use strict';
         _.each(window.apf.gmap.infoWindowArray, function (info_window) {
             info_window.setMap(null);
         });
     };
 
     window.apf.oeffneTPop = function (tpopId) {
-        'use strict';
         localStorage.tpopId = tpopId;
         $.jstree._reference("[typ='tpop']#" + tpopId).deselect_all();
         $("#tree").jstree("select_node", "[typ='tpop']#" + tpopId);
     };
 
     window.apf.oeffneTPopInNeuemTab = function (tpopId) {
-        'use strict';
         window.open("index.html?ap=" + localStorage.apId + "&pop=" + localStorage.popId + "&tpop=" + tpopId, "_blank");
     };
 
     window.apf.oeffnePop = function (popId) {
-        'use strict';
         localStorage.popId = popId;
         $.jstree._reference("[typ='pop']#" + popId).deselect_all();
         $("#tree").jstree("select_node", "[typ='pop']#" + popId);
     };
 
     window.apf.oeffnePopInNeuemTab = function (popId) {
-        'use strict';
         window.open("index.html?ap=" + localStorage.apId + "&pop=" + popId, "_blank");
     };
 
     window.apf.oeffneBeob = function (beob) {
-        'use strict';
         var initiiereBeob = require('./initiiereBeob'),
             beobStatus,
             beobTyp;
@@ -1174,20 +1107,17 @@ var initiiereApp = function () {
     };
 
     window.apf.oeffneBeobInNeuemTab = function (beob) {
-        'use strict';
         var beobStatus = (beob.BeobNichtZuordnen ? 'beobNichtZuzuordnen' : 'beobNichtBeurteilt');
         window.open("index.html?ap=" + localStorage.apId + "&" + beobStatus + "=" + beob.NO_NOTE, "_blank");
     };
 
     window.apf.öffneTPopBeob = function (beobId) {
-        'use strict';
         localStorage.beobId = beobId;
         $.jstree._reference("[typ='beobZugeordnet']#beob" + beobId).deselect_all();
         $("#tree").jstree("select_node", "[typ='beobZugeordnet']#beob" + beobId);
     };
 
     window.apf.öffneTPopBeobInNeuemTab = function (beobId) {
-        'use strict';
         window.open("index.html?ap="+localStorage.apId + "&pop=" + localStorage.popId + "&tpop=" + localStorage.tpopId + "&beobNichtBeurteilt=" + beobId, "_blank");
     };
 
@@ -1444,7 +1374,6 @@ var initiiereApp = function () {
 
     // offenbar nicht benutzt
     window.apf.getInternetExplorerVersion = function () {
-        'use strict';
     // Returns the version of Internet Explorer or a -1
     // (indicating the use of another browser).
       var rv = -1; // Return value assumes failure.
@@ -1459,7 +1388,6 @@ var initiiereApp = function () {
 
     // deaktiviert Messen und Auswählen
     window.apf.olmap.deactivateMenuItems = function () {
-        'use strict';
         // messen deaktivieren
         window.apf.olmap.removeMeasureInteraction();
         // Auswählen deaktivieren
@@ -1473,7 +1401,6 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.removeSelectFeaturesInSelectableLayers = function () {
-        'use strict';
         if (window.apf.olmap.map.olmap_select_interaction) {
             window.apf.olmap.map.removeInteraction(window.apf.olmap.map.olmap_select_interaction);
             delete window.apf.olmap.map.olmap_select_interaction;
@@ -1483,7 +1410,6 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.addSelectFeaturesInSelectableLayers = function () {
-        'use strict';
         var addDragBoxForPopTpop = require('./olmap/addDragBoxForPopTpop'),
             stylePop             = require('./olmap/stylePop'),
             styleTPop            = require('./olmap/styleTPop');
@@ -1514,7 +1440,6 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.getSelectedFeatures = function () {
-        'use strict';
         if (window.apf.olmap.map.olmap_select_interaction) {
             return window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
         }
@@ -1522,7 +1447,6 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.getSelectedFeaturesOfType = function (type) {
-        'use strict';
         var features_array = window.apf.olmap.getSelectedFeatures(),
             return_array = [],
             feature_type;
@@ -1539,7 +1463,6 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.removeDragBox = function () {
-        'use strict';
         if (window.apf.olmap.drag_box_interaction) {
             window.apf.olmap.map.removeInteraction(window.apf.olmap.drag_box_interaction);
             //window.apf.olmap.drag_box_interaction.off('boxend');
@@ -1548,7 +1471,6 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.addShowFeatureInfoOnClick = function () {
-        'use strict';
         window.apf.olmap.map.on('singleclick', function (event) {
             var pixel = event.pixel,
                 coordinate = event.coordinate,
@@ -1566,7 +1488,6 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.prüfeObPopTpopGewähltWurden = function () {
-        'use strict';
         var popSelected = [],
             tpopSelected = [],
             erstelleListeDerAusgewaehltenPopTPop = require('./erstelleListeDerAusgewaehltenPopTPop');
@@ -1584,7 +1505,6 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.changeCursorOverFeature = function () {
-        'use strict';
         $(window.apf.olmap.map.getViewport()).on('mousemove', function (e) {
             var pixel = window.apf.olmap.map.getEventPixel(e.originalEvent),
                 hit = window.apf.olmap.map.forEachFeatureAtPixel(pixel, function (feature, layer) {
@@ -1599,7 +1519,6 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.addMousePositionControl = function () {
-        'use strict';
         var mousePositionControl = new ol.control.MousePosition({
             //This is the format we want the coordinate in
             //The number argument in createStringXY is the number of decimal places
@@ -1611,7 +1530,6 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.addFullScreenControl = function () {
-        'use strict';
         var myFullScreenControl = new ol.control.FullScreen();
         window.apf.olmap.map.addControl(myFullScreenControl);
         // auf Deutsch beschriften
@@ -1620,12 +1538,10 @@ var initiiereApp = function () {
 
     // wird in index.html benutzt
     window.apf.olmap.frageNameFuerEbene = function (eigene_ebene) {
-        'use strict';
         return require('./olmap/frageNameFuerEbene')(eigene_ebene);
     };
 
     window.apf.olmap.nenneEbeneUm = function (layer, title) {
-        'use strict';
         var initiiereLayertree              = require('./olmap/initiiereLayertree'),
             aktualisiereEbeneInLocalStorage = require('./olmap/aktualisiereEbeneInLocalStorage');
         layer.set('title', title);
@@ -1636,18 +1552,15 @@ var initiiereApp = function () {
 
     // wird in index.html benutzt
     window.apf.olmap.initiiereLayertree = function (active_kategorie) {
-        'use strict';
         require('./olmap/initiiereLayertree')(active_kategorie);
     };
 
     // wird in index.html verwendet
     window.apf.oeffneFormularAlsPopup = function (formularname, id) {
-        'use strict';
         require('./oeffneFormularAlsPopup')(formularname, id);
     };
 
     window.apf.olmap.detailplanStyle = function (feature, resolution) {
-        'use strict';
         return new ol.style.Style({
             fill: new ol.style.Fill({
                 color: 'rgba(250, 58, 15, 0.1)'
@@ -1660,7 +1573,6 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.detailplanStyleSelected = function (feature, resolution) {
-        'use strict';
         return new ol.style.Style({
             fill: new ol.style.Fill({
                 color: 'rgba(15, 85, 250, 0.1)'
@@ -1674,18 +1586,15 @@ var initiiereApp = function () {
 
     // wird in index.js benutzt
     window.apf.olmap.stylePop = function (feature, resolution, selected) {
-        'use strict';
         return require('./olmap/stylePop')(feature, resolution, selected);
     };
 
     // wird in index.js benutzt
     window.apf.olmap.styleTPop = function (feature, resolution, selected, verorten) {
-        'use strict';
         return require('./olmap/styleTPop')(feature, resolution, selected, verorten);
     };
 
     window.apf.olmap.messe = function (element) {
-        'use strict';
         var addMeasureInteraction = require('./olmap/addMeasureInteraction');
         window.apf.olmap.deactivateMenuItems();
         if (element.value === 'line' && element.checked) {
@@ -1698,7 +1607,6 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.removeMeasureInteraction = function () {
-        'use strict';
         window.apf.olmap.entferneLayerNachName('messen');
         window.apf.olmap.map.removeInteraction(window.apf.olmap.drawMeasure);
         delete window.apf.olmap.drawMeasure;
@@ -1712,7 +1620,6 @@ var initiiereApp = function () {
      * @return {string}
     */
     window.apf.olmap.formatLength = function (line) {
-        'use strict';
         var length = Math.round(line.getLength() * 100) / 100,
             output;
         if (length > 100) {
@@ -1729,7 +1636,6 @@ var initiiereApp = function () {
      * @return {string}
     */
     window.apf.olmap.formatArea = function (polygon) {
-        'use strict';
         var area = polygon.getArea(),
             output;
         if (area > 10000) {
@@ -1741,25 +1647,21 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.wähleAus = function () {
-        'use strict';
         window.apf.olmap.deactivateMenuItems();
         window.apf.olmap.addSelectFeaturesInSelectableLayers();
     };
 
     window.apf.olmap.schliesseLayeroptionen = function () {
-        'use strict';
         $("#olmap_layertree").accordion("option", "active", false);
     };
 
     // wird aufgerufen, wenn der ap geändert wird
     // wird in index.html benutzt
     window.apf.waehleAp = function (apId) {
-        'use strict';
         require('./waehleAp')(apId);
     };
 
     window.apf.kopiereKoordinatenInPop = function (x_koord, y_koord) {
-        'use strict';
         var melde = require('./melde');
 
         // prüfen, ob X- und Y-Koordinaten vergeben sind
@@ -1792,7 +1694,6 @@ var initiiereApp = function () {
     // erwartet aktuelle Werte für jahr und typ
     // erstellt den label für den Baum
     window.apf.erstelleLabelFuerFeldkontrolle = function (jahr, typ) {
-        'use strict';
         if (typeof jahr === "undefined") {
             jahr = "(kein Jahr)";
         }
@@ -1805,7 +1706,6 @@ var initiiereApp = function () {
     // erwartet aktuelle Werte für jahr und beurteilung
     // erstellt den label für den Baum
     window.apf.erstelleLabelFuerMassnahme = function (jahr, beurteilung) {
-        'use strict';
         if (typeof jahr === "undefined") {
             jahr = "(kein Jahr)";
         }
@@ -1818,7 +1718,6 @@ var initiiereApp = function () {
     // gibt HTML zurück, mit dem die Informationen über eine Beobachtung dargestellt werden
     // erwartet die Daten der Beobachtung
     window.apf.erstelleFelderFuerBeob = function (data, beobtyp) {
-        'use strict';
         // Titel für Beob im Formular erstellen
         var beobtitel = "<h1>Informationen aus ";
         if (beobtyp === "infospezies") {
@@ -1854,38 +1753,32 @@ var initiiereApp = function () {
 
 
     window.apf.melde = function (meldung, title) {
-        'use strict';
         require('./melde')(meldung, title);
     };
 
     // wird in index.html benutzt
     window.apf.loescheAp = function (apId) {
-        'use strict';
         require('./loescheAp')(apId);
     };
 
     // wird in index.html benutzt
     window.apf.undeleteDatensatz = function () {
-        'use strict';
         require('./undeleteDatensatz')();
     };
 
     // wird in index benutzt
     window.apf.olmap.exportiereKarte = function (event) {
-        'use strict';
         require('./olmap/exportiereKarte')(event);
     };
 
     // hier behalten, damit $ eingefügt werden kann
     window.apf.treeKontextmenu = function (node) {
-        'use strict';
         return require('./jstree/treeKontextmenu')(node);
     };
 
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
     (function ($) {
-        'use strict';
         $.fn.extend( {
             limiter: function (limit, elem) {
                 $(this).on("keyup focus", function () {
@@ -1907,12 +1800,13 @@ var initiiereApp = function () {
     // erstellt einen guid
     // Quelle: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
     window.apf.erstelleGuid = function () {
-        'use strict';
         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
             var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
             return v.toString(16);
         });
     };
 };
+
+window.apf.initiiereApp = initiiereApp;
 
 module.exports = initiiereApp;

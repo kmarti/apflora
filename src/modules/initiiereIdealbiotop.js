@@ -3,7 +3,6 @@
 
 var $                            = require('jquery'),
     dateFormat                   = require('dateformat'),
-    initiiereApp                 = require('./initiiereApp'),
     initiiereAp                  = require('./initiiereAp'),
     pruefeSchreibvoraussetzungen = require('./pruefeSchreibvoraussetzungen'),
     zeigeFormular                = require('./zeigeFormular'),
@@ -13,7 +12,7 @@ var initiiereIdealbiotop = function (apId) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!localStorage.apId && !apId) {
         // es fehlen benötigte Daten > zurück zum Anfang
-        initiiereApp();
+        window.apf.initiiereApp();
         return;
     }
 

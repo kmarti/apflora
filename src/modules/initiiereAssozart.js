@@ -3,7 +3,6 @@
 
 var $             = require('jquery'),
     _             = require('underscore'),
-    initiiereApp  = require('./initiiereApp'),
     initiiereAp   = require('./initiiereAp'),
     zeigeFormular = require('./zeigeFormular'),
     melde         = require('./melde');
@@ -12,7 +11,7 @@ module.exports = function (apId, assozId) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.apId) {
         // Anwendung neu initiieren
-        initiiereApp();
+        window.apf.initiiereApp();
         return;
     }
     if (!assozId && !localStorage.assozartenId) {

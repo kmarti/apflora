@@ -2,7 +2,6 @@
 'use strict';
 
 var $               = require('jquery'),
-    initiiereApp    = require('./initiiereApp'),
     getAdressenHtml = require('./getAdressenHtml'),
     zeigeFormular   = require('./zeigeFormular'),
     melde           = require('./melde');
@@ -12,7 +11,7 @@ module.exports = function (apId) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!localStorage.apId && !apId) {
         // es fehlen benötigte Daten > zurück zum Anfang
-        initiiereApp();
+        window.apf.initiiereApp();
         return;
     }
 

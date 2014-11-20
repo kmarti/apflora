@@ -4,7 +4,6 @@
 var $               = require('jquery'),
     _               = require('underscore'),
     limiter         = require('../lib/limiter'),
-    initiiereApp    = require('./initiiereApp'),
     initiiereAp     = require('./initiiereAp'),
     initiierePop    = require('./initiierePop'),
     getAdressenHtml = require('./getAdressenHtml'),
@@ -15,7 +14,7 @@ module.exports = function (apId, popId, tpopId, ohneZuZeigen) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.apId) {
         // Anwendung neu initiieren
-        initiiereApp();
+        window.apf.initiiereApp();
         return;
     }
     if (!popId && !localStorage.popId && !window.apf.pop && (window.apf.pop && !window.apf.pop.PopId)) {

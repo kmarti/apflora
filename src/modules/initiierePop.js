@@ -3,7 +3,6 @@
 
 var $             = require('jquery'),
     limiter       = require('../lib/limiter'),
-    initiiereApp  = require('./initiiereApp'),
     initiiereAp   = require('./initiiereAp'),
     zeigeFormular = require('./zeigeFormular'),
     melde         = require('./melde');
@@ -15,7 +14,7 @@ module.exports = function (apId, popId, ohneZuZeigen) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.apId) {
         // Anwendung neu initiieren
-        initiiereApp();
+        window.apf.initiiereApp();
         return;
     }
     if (!popId && !localStorage.popId && !window.apf.pop && (window.apf.pop && !window.apf.pop.PopId)) {

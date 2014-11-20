@@ -7,6 +7,7 @@ var $           = require('jquery'),
     removeruler = require('removeruler');
 
 module.exports = function () {
+    console.log('setup events');
     $('#olmap_layertree')
         .on('click', '.olmap_layertree_checkbox', function (event) {
             var layers = window.apf.olmap.map.getLayers().getArray();

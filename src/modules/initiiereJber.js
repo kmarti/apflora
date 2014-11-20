@@ -4,7 +4,6 @@
 var $               = require('jquery'),
     dateFormat      = require('dateformat'),
     limiter         = require('../lib/limiter'),
-    initiiereApp    = require('./initiiereApp'),
     initiiereAp     = require('./initiiereAp'),
     getAdressenHtml = require('./getAdressenHtml'),
     zeigeFormular   = require('./zeigeFormular'),
@@ -14,7 +13,7 @@ module.exports = function (apId, apBerId) {
     // prüfen, ob voraussetzungen gegeben sind
     if (!apId && !localStorage.apId) {
         // Anwendung neu initiieren
-        initiiereApp();
+        window.apf.initiiereApp();
         return;
     }
     if (!apBerId && !localStorage.jberId) {

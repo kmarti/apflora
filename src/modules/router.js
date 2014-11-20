@@ -2,7 +2,6 @@
 'use strict';
 
 var Backbone                = require('backbone'),
-    initiiereApp            = require('./initiiereApp'),
     initiiereAp             = require('./initiiereAp'),
     initiiereAssozart       = require('./initiiereAssozart'),
     initiiereIdealbiotop    = require('./initiiereIdealbiotop'),
@@ -49,7 +48,7 @@ module.exports = Backbone.Router.extend({
     },
     home: function () {
         console.log('route zu index');
-        initiiereApp();
+        window.apf.initiiereApp();
     },
     ap: function (apId) {
         console.log('route zu ap ', apId);
