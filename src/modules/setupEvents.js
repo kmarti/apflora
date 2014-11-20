@@ -6,7 +6,8 @@ var $                             = require('jquery'),
     addruler                      = require('addruler'),
     removeruler                   = require('removeruler'),
     downloadFileFromView          = require('./downloadFileFromView'),
-    downloadFileFromViewWehreIdIn = require('./downloadFileFromViewWehreIdIn');
+    downloadFileFromViewWehreIdIn = require('./downloadFileFromViewWehreIdIn'),
+    fitTextareaToContent          = require('./fitTextareaToContent');
 
 module.exports = function () {
     $('#olmap_layertree')
@@ -247,7 +248,7 @@ module.exports = function () {
             window.apf.kopiereKoordinatenInPop($("#TPopXKoord").val(), $("#TPopYKoord").val());
         })
         .on("keyup focus", "textarea", function () {
-            window.apf.fitTextareaToContent(this, document.documentElement.clientHeight);
+            fitTextareaToContent(this, document.documentElement.clientHeight);
         });
 
     // verhindern, dass Zahlen durch Scrollen am Mausrad aus Versehen verändert werden

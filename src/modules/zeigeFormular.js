@@ -7,8 +7,9 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $              = require('jquery'),
-    initiiereOlmap = require('./olmap/initiiereOlmap');
+var $                    = require('jquery'),
+    initiiereOlmap       = require('./olmap/initiiereOlmap'),
+    fitTextareaToContent = require('./fitTextareaToContent');
 
 module.exports = function (Formularname) {
     var formularAngezeigt = $.Deferred(),
@@ -80,7 +81,7 @@ module.exports = function (Formularname) {
                 if ($(this).attr("id") === Formularname) {
                     $(this).show();
                     $('textarea').each(function () {
-                        window.apf.fitTextareaToContent(this, document.documentElement.clientHeight);
+                        fitTextareaToContent(this, document.documentElement.clientHeight);
                     });
                 }
             });

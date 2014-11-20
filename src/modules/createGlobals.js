@@ -390,32 +390,6 @@ var initiiereApp = function () {
         };
     })(jQuery);
 
-    // setzt die Höhe von textareas so, dass der Text genau rein passt
-    window.apf.fitTextareaToContent = function (id, maxHeight) {
-        var text = id && id.style ? id : document.getElementById(id),
-            adjustedHeight;
-
-        if (!text) {
-            return;
-        }
-
-        /* Accounts for rows being deleted, pixel value may need adjusting */
-        if (text.clientHeight == text.scrollHeight) {
-            text.style.height = "30px";
-        }
-
-        adjustedHeight = text.clientHeight;
-        if (!maxHeight || maxHeight > adjustedHeight) {
-            adjustedHeight = Math.max(text.scrollHeight, adjustedHeight);
-            if (maxHeight) {
-                adjustedHeight = Math.min(maxHeight, adjustedHeight);
-            }
-            if (adjustedHeight > text.clientHeight) {
-                text.style.height = adjustedHeight + "px";
-            }
-        }
-    };
-
     window.apf.erstelleApliste = function (programm, callback) {
         var setzeAutocompleteFuerApliste = require('./setzeAutocompleteFuerApliste');
         window.apf.apliste = window.apf.apliste || {};
