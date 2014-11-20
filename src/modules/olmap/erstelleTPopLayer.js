@@ -60,7 +60,7 @@ var returnFunction = function (tpopListe, tpopid_markiert, visible) {
 
     if (selected_features && selected_features.length > 0) {
         setTimeout(function () {
-            window.apf.olmap.prüfeObPopTpopGewähltWurden();
+            window.apf.olmap.pruefeObPopTpopGewaehltWurden();
         }, 100);
         // Schaltfläche olmap_auswaehlen aktivieren
         $('#olmap_auswaehlen')

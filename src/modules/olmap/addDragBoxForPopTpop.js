@@ -4,8 +4,8 @@
 var $  = require('jquery'),
     ol = require('ol');
 
-var returnFunction = function () {
-    window.apf.olmap.drag_box_interaction = new ol.interaction.DragBox({
+module.exports = function () {
+    window.apf.olmap.dragBoxInteraction = new ol.interaction.DragBox({
         /* dragbox interaction is active only if alt key is pressed */
         condition: ol.events.condition.altKeyOnly,
         /* style the box */
@@ -19,33 +19,31 @@ var returnFunction = function () {
             })
         })
     });
-    window.apf.olmap.drag_box_interaction.on('boxend', function (event) {
-        var geometry = window.apf.olmap.drag_box_interaction.getGeometry(),
-            extent = geometry.getExtent(),
-            layers = window.apf.olmap.map.getLayers().getArray(),
-            pop_layer_nr = $('#olmap_layertree_Populationen').val(),
-            pop_layer = layers[pop_layer_nr],
-            tpopLayerNr = $('#olmap_layertree_Teilpopulationen').val(),
-            tpopLayer = layers[tpopLayerNr],
-            pop_layer_source = pop_layer.getSource(),
-            tpopLayerSource = tpopLayer.getSource(),
-            selected_features = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
+    window.apf.olmap.dragBoxInteraction.on('boxend', function () {
+        var geometry         = window.apf.olmap.dragBoxInteraction.getGeometry(),
+            extent           = geometry.getExtent(),
+            layers           = window.apf.olmap.map.getLayers().getArray(),
+            popLayerNr       = $('#olmap_layertree_Populationen').val(),
+            popLayer         = layers[popLayerNr],
+            tpopLayerNr      = $('#olmap_layertree_Teilpopulationen').val(),
+            tpopLayer        = layers[tpopLayerNr],
+            popLayerSource   = popLayer.getSource(),
+            tpopLayerSource  = tpopLayer.getSource(),
+            selectedFeatures = window.apf.olmap.map.olmap_select_interaction.getFeatures().getArray();
 
-        if (pop_layer.get('visible') === true) {
-            pop_layer_source.forEachFeatureInExtent(extent, function (feature) {
-                selected_features.push(feature);
+        if (popLayer.get('visible') === true) {
+            popLayerSource.forEachFeatureInExtent(extent, function (feature) {
+                selectedFeatures.push(feature);
             });
         }
         if (tpopLayer.get('visible') === true) {
             tpopLayerSource.forEachFeatureInExtent(extent, function (feature) {
-                selected_features.push(feature);
+                selectedFeatures.push(feature);
             });
         }
         setTimeout(function () {
-            window.apf.olmap.prüfeObPopTpopGewähltWurden();
+            window.apf.olmap.pruefeObPopTpopGewaehltWurden();
         }, 100);
     });
-    window.apf.olmap.map.addInteraction(window.apf.olmap.drag_box_interaction);
+    window.apf.olmap.map.addInteraction(window.apf.olmap.dragBoxInteraction);
 };
-
-module.exports = returnFunction;

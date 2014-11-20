@@ -118,19 +118,19 @@ var returnFunction = function (vectorlayer) {
     });
 
     $geom_type_select.on('selectmenuchange', function (event) {
-        window.apf.olmap.map.removeInteraction(window.apf.olmap.draw_interaction_für_vectorlayer);
+        window.apf.olmap.map.removeInteraction(window.apf.olmap.drawInteractionFuerVectorlayer);
         addDrawInteraction();
     });
 
     function addDrawInteraction() {
         if ($geom_type_select.val() !== 'leerwert') {
-            window.apf.olmap.draw_interaction_für_vectorlayer = new ol.interaction.Draw({
+            window.apf.olmap.drawInteractionFuerVectorlayer = new ol.interaction.Draw({
                 source: vectorlayer.getSource(),
                 type: /** @type {ol.geom.GeometryType} */ ($geom_type_select.val())
             });
-            window.apf.olmap.map.addInteraction(window.apf.olmap.draw_interaction_für_vectorlayer);
+            window.apf.olmap.map.addInteraction(window.apf.olmap.drawInteractionFuerVectorlayer);
             // bei 'drawend' würde man Änderungen in die DB schreiben
-            window.apf.olmap.draw_interaction_für_vectorlayer.on('drawend', function (event) {
+            window.apf.olmap.drawInteractionFuerVectorlayer.on('drawend', function (event) {
                 var id = _.uniqueId();
                 event.feature.setId(id);
                 window.apf.olmap.modified_features = window.apf.olmap.modified_features || [];

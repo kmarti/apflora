@@ -10,15 +10,15 @@ var $  = require('jquery'),
     ol = require('ol'),
     _  = require('underscore');
 
-var returnFunction = function (layer, remove) {
+module.exports = function (layer, remove) {
     // mit der guid kontrollieren, ob die Ebene schon existiert
-    var guid = layer.get('guid'),
+    var guid         = layer.get('guid'),
         eigeneEbenen = [],
         format,
         dataParsed;
 
-    if (localStorage.olmap_eigene_ebenen) {
-        eigeneEbenen = JSON.parse(localStorage.olmap_eigene_ebenen);
+    if (localStorage.olmapEigeneEbenen) {
+        eigeneEbenen = JSON.parse(localStorage.olmapEigeneEbenen);
     }
 
     if (guid) {
@@ -29,17 +29,17 @@ var returnFunction = function (layer, remove) {
         });
         // wenn die Ebene nicht entfernt werden sollte, mit den aktuellen Daten ergänzen
         if (!remove) {
-            format = new ol.format.GeoJSON();
-            dataParsed = format.writeFeatures(layer.getSource().getFeatures());
+            format               = new ol.format.GeoJSON();
+            dataParsed           = format.writeFeatures(layer.getSource().getFeatures());
             // alle zugefügten Eigenschaften anfügen
-            dataParsed.title = layer.get('title');
-            dataParsed.guid = guid;
+            dataParsed.title     = layer.get('title');
+            dataParsed.guid      = guid;
             dataParsed.kategorie = layer.get('kategorie');
             eigeneEbenen.push(dataParsed);
         }
         try {
             // TODO: wenn rueteren.kml importiert wurde erscheint Fehler 'Converting circular structure to JSON'
-            localStorage.olmap_eigene_ebenen = JSON.stringify(eigeneEbenen);
+            localStorage.olmapEigeneEbenen = JSON.stringify(eigeneEbenen);
         } catch (e) {
             console.log('Ebene konnte nicht in localStorage gespeichert werden. Fehlermeldung: ' + e);
             $('#eigene_layer_meldung_' + layer.get('title').replace(" ", "_"))
@@ -48,5 +48,3 @@ var returnFunction = function (layer, remove) {
         }
     }
 };
-
-module.exports = returnFunction;

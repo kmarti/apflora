@@ -1,176 +1,176 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $  = require('jquery'),
-    _  = require('underscore'),
-    ol = require('ol'),
-    ga = require('ga');
+var $            = require('jquery'),
+    _            = require('underscore'),
+    ol           = require('ol'),
+    ga           = require('ga'),
+    defaultStyle = require('./defaultStyle');
 
-var returnFunction = function () {
-    var bing_styles_object,
-        bing_styles,
-        bing_layers,
-        ch_ortholuftbild_layer,
-        ch_lk_grau_layer,
-        ch_lk_farbe_layer,
-        ch_siegriedkarte_layer,
-        ch_gemeinden_layer,
-        ch_kantone_layer,
-        ch_parzellen_layer,
-        ch_am_layer,
-        ch_am_wander_layer,
-        ch_auen_layer,
-        ch_fm_layer,
-        ch_hm_layer,
-        ch_tww_layer,
-        ch_vogelreservate_layer,
-        detailpläne_layer_source,
-        detailpläne_layer,
-        zh_av_layer,
-        zh_kartierungen_layer_source,
-        load_zh_kartierungen_layer_source,
-        zh_kartierungen_layer,
-        zh_svo_farbig_layer,
-        zh_svo_grau_layer,
-        zh_lichte_wälder_layer,
-        zh_waldkartierung_layer,
-        zh_gemeinden_layer,
-        zh_ortholuftbild_layer_1,
-        zh_ortholuftbild_layer,
-        zh_üp_layer,
-        zh_basiskarten_layer,
-        zh_höhenmodell_layer,
-        layers_prov,
+module.exports = function () {
+    var bingStylesObject,
+        bingStyles,
+        bingLayers,
+        chOrtholuftbildLayer,
+        chLkGrauLayer,
+        chLkFarbeLayer,
+        chSiegriedkarteLayer,
+        chGemeindenLayer,
+        chKantoneLayer,
+        chParzellenLayer,
+        chAmLayer,
+        chAmWanderLayer,
+        chAuenLayer,
+        chFmLayer,
+        chHmLayer,
+        chTwwLayer,
+        chVogelreservateLayer,
+        detailplaeneLayerSource,
+        detailplaeneLayer,
+        zhAvLayer,
+        zhKartierungenLayerSource,
+        loadZhKartierungenLayerLource,
+        zhKartierungenLayer,
+        zhSvoFarbigLayer,
+        zhSvoGrauLayer,
+        zhLichteWaelderLayer,
+        zhWaldkartierungLayer,
+        zhGemeindenLayer,
+        zhOrtholuftbildLayer1,
+        zhOrtholuftbildLayer,
+        zhUepLayer,
+        zhBasiskartenLayer,
+        zhHoehenmodellLayer,
+        layersProv,
         layers,
-        defaultStyle = require('./defaultStyle'),
         styleFunction,
-        eigene_ebenen,
-        eigene_ebenen_layers;
+        eigeneEbenen,
+        eigeneEbenenLayers;
 
     // bing-maps wäre schön
     // ol3 can't reproject raster tiles yet though
     // daher werden die Layer noch nicht angezeigt
-    bing_styles_object = {
-        'Aerial': 'Bing Luftbild',
+    bingStylesObject = {
+        'Aerial':           'Bing Luftbild',
         'AerialWithLabels': 'Bing Luftbild beschriftet',
-        'Road': 'Bing Strassenkarte'
+        'Road':             'Bing Strassenkarte'
     };
-    bing_styles = _.keys(bing_styles_object);
-    bing_layers = [];
+    bingStyles = _.keys(bingStylesObject);
+    bingLayers = [];
 
-    _.each(bing_styles, function (bing_style) {
-        bing_layers.push(new ol.layer.Tile({
-            title: bing_styles_object[bing_style],
+    _.each(bingStyles, function (bing_style) {
+        bingLayers.push(new ol.layer.Tile({
+            title:     bingStylesObject[bing_style],
             kategorie: 'Welt Hintergrund',
-            visible: false,
-            preload: Infinity,
+            visible:   false,
+            preload:   Infinity,
             source: new ol.source.BingMaps({
                 //projection: new ol.proj.EPSG21781(),
                 //projection: projection,
                 projection: 'EPSG:21781',
-                key: 'AjGOtB_ygBplpxXtKiiHtm-GERjSg9TFEoCmuBI_Yz4VWy0unRGUDo9GOZHA46Pf',
+                key:        'AjGOtB_ygBplpxXtKiiHtm-GERjSg9TFEoCmuBI_Yz4VWy0unRGUDo9GOZHA46Pf',
                 imagerySet: bing_style
             })
         }));
     });
 
-    ch_ortholuftbild_layer = ga.layer.create('ch.swisstopo.swissimage');
-    ch_ortholuftbild_layer.set('title', 'Luftbild CH');
-    ch_ortholuftbild_layer.set('visible', false);
-    ch_ortholuftbild_layer.set('kategorie', 'Hintergrund');
+    chOrtholuftbildLayer = ga.layer.create('ch.swisstopo.swissimage');
+    chOrtholuftbildLayer.set('title', 'Luftbild CH');
+    chOrtholuftbildLayer.set('visible', false);
+    chOrtholuftbildLayer.set('kategorie', 'Hintergrund');
 
-    ch_lk_grau_layer = ga.layer.create('ch.swisstopo.pixelkarte-grau');
-    ch_lk_grau_layer.set('title', 'Landeskarten CH grau');
-    ch_lk_grau_layer.set('visible', false);
-    ch_lk_grau_layer.set('kategorie', 'Hintergrund');
+    chLkGrauLayer = ga.layer.create('ch.swisstopo.pixelkarte-grau');
+    chLkGrauLayer.set('title', 'Landeskarten CH grau');
+    chLkGrauLayer.set('visible', false);
+    chLkGrauLayer.set('kategorie', 'Hintergrund');
 
-    ch_lk_farbe_layer = ga.layer.create('ch.swisstopo.pixelkarte-farbe');
-    ch_lk_farbe_layer.set('title', 'Landeskarten CH farbig');
-    ch_lk_farbe_layer.set('visible', true);
-    ch_lk_farbe_layer.set('kategorie', 'Hintergrund');
+    chLkFarbeLayer = ga.layer.create('ch.swisstopo.pixelkarte-farbe');
+    chLkFarbeLayer.set('title', 'Landeskarten CH farbig');
+    chLkFarbeLayer.set('visible', true);
+    chLkFarbeLayer.set('kategorie', 'Hintergrund');
 
-    ch_siegriedkarte_layer = ga.layer.create('ch.swisstopo.hiks-siegfried');
-    ch_siegriedkarte_layer.set('title', 'Siegfriedkarte 1881');
-    ch_siegriedkarte_layer.set('visible', false);
-    ch_siegriedkarte_layer.set('kategorie', 'Hintergrund');
+    chSiegriedkarteLayer = ga.layer.create('ch.swisstopo.hiks-siegfried');
+    chSiegriedkarteLayer.set('title', 'Siegfriedkarte 1881');
+    chSiegriedkarteLayer.set('visible', false);
+    chSiegriedkarteLayer.set('kategorie', 'Hintergrund');
 
-    ch_gemeinden_layer = ga.layer.create('ch.swisstopo-vd.geometa-gemeinde');
-    ch_gemeinden_layer.set('title', 'Gemeinden');
-    ch_gemeinden_layer.set('visible', false);
-    ch_gemeinden_layer.set('kategorie', 'CH Sachinformationen');
+    chGemeindenLayer = ga.layer.create('ch.swisstopo-vd.geometa-gemeinde');
+    chGemeindenLayer.set('title', 'Gemeinden');
+    chGemeindenLayer.set('visible', false);
+    chGemeindenLayer.set('kategorie', 'CH Sachinformationen');
 
-    ch_kantone_layer = ga.layer.create('ch.swisstopo.swissboundaries3d-kanton-flaeche.fill');
-    ch_kantone_layer.set('title', 'Kantone');
-    ch_kantone_layer.set('visible', false);
-    ch_kantone_layer.set('crossOrigin', null);
-    ch_kantone_layer.set('kategorie', 'CH Sachinformationen');
+    chKantoneLayer = ga.layer.create('ch.swisstopo.swissboundaries3d-kanton-flaeche.fill');
+    chKantoneLayer.set('title', 'Kantone');
+    chKantoneLayer.set('visible', false);
+    chKantoneLayer.set('crossOrigin', null);
+    chKantoneLayer.set('kategorie', 'CH Sachinformationen');
 
-    ch_parzellen_layer = ga.layer.create('ch.kantone.cadastralwebmap-farbe');
-    ch_parzellen_layer.set('title', 'Parzellen');
-    ch_parzellen_layer.set('visible', false);
-    ch_kantone_layer.set('crossOrigin', null);
-    ch_parzellen_layer.set('kategorie', 'CH Sachinformationen');
+    chParzellenLayer = ga.layer.create('ch.kantone.cadastralwebmap-farbe');
+    chParzellenLayer.set('title', 'Parzellen');
+    chParzellenLayer.set('visible', false);
+    chKantoneLayer.set('crossOrigin', null);
+    chParzellenLayer.set('kategorie', 'CH Sachinformationen');
 
-    ch_am_layer = ga.layer.create('ch.bafu.bundesinventare-amphibien');
-    ch_am_layer.set('title', 'Amphibien');
-    ch_am_layer.set('visible', false);
-    ch_am_layer.set('kategorie', 'CH Biotopinventare');
+    chAmLayer = ga.layer.create('ch.bafu.bundesinventare-amphibien');
+    chAmLayer.set('title', 'Amphibien');
+    chAmLayer.set('visible', false);
+    chAmLayer.set('kategorie', 'CH Biotopinventare');
 
-    ch_am_wander_layer = ga.layer.create('ch.bafu.bundesinventare-amphibien_wanderobjekte');
-    ch_am_wander_layer.set('title', 'Amphibien Wanderobjekte');
-    ch_am_wander_layer.set('visible', false);
-    ch_am_wander_layer.set('kategorie', 'CH Biotopinventare');
+    chAmWanderLayer = ga.layer.create('ch.bafu.bundesinventare-amphibien_wanderobjekte');
+    chAmWanderLayer.set('title', 'Amphibien Wanderobjekte');
+    chAmWanderLayer.set('visible', false);
+    chAmWanderLayer.set('kategorie', 'CH Biotopinventare');
 
-    ch_auen_layer = ga.layer.create('ch.bafu.bundesinventare-auen');
-    ch_auen_layer.set('title', 'Auen');
-    ch_auen_layer.set('visible', false);
-    ch_auen_layer.set('kategorie', 'CH Biotopinventare');
+    chAuenLayer = ga.layer.create('ch.bafu.bundesinventare-auen');
+    chAuenLayer.set('title', 'Auen');
+    chAuenLayer.set('visible', false);
+    chAuenLayer.set('kategorie', 'CH Biotopinventare');
 
-    ch_fm_layer = ga.layer.create('ch.bafu.bundesinventare-flachmoore');
-    ch_fm_layer.set('title', 'Flachmoore');
-    ch_fm_layer.set('visible', false);
-    ch_fm_layer.set('kategorie', 'CH Biotopinventare');
+    chFmLayer = ga.layer.create('ch.bafu.bundesinventare-flachmoore');
+    chFmLayer.set('title', 'Flachmoore');
+    chFmLayer.set('visible', false);
+    chFmLayer.set('kategorie', 'CH Biotopinventare');
 
-    ch_hm_layer = ga.layer.create('ch.bafu.bundesinventare-hochmoore');
-    ch_hm_layer.set('title', 'Hochchmoore');
-    ch_hm_layer.set('visible', false);
-    ch_hm_layer.set('kategorie', 'CH Biotopinventare');
+    chHmLayer = ga.layer.create('ch.bafu.bundesinventare-hochmoore');
+    chHmLayer.set('title', 'Hochchmoore');
+    chHmLayer.set('visible', false);
+    chHmLayer.set('kategorie', 'CH Biotopinventare');
 
-    ch_tww_layer = ga.layer.create('ch.bafu.bundesinventare-trockenwiesen_trockenweiden');
-    ch_tww_layer.set('title', 'Trockenwiesen und -weiden');
-    ch_tww_layer.set('visible', false);
-    ch_tww_layer.set('kategorie', 'CH Biotopinventare');
+    chTwwLayer = ga.layer.create('ch.bafu.bundesinventare-trockenwiesen_trockenweiden');
+    chTwwLayer.set('title', 'Trockenwiesen und -weiden');
+    chTwwLayer.set('visible', false);
+    chTwwLayer.set('kategorie', 'CH Biotopinventare');
 
-    ch_vogelreservate_layer = ga.layer.create('ch.bafu.bundesinventare-vogelreservate');
-    ch_vogelreservate_layer.set('title', 'Vogelreservate');
-    ch_vogelreservate_layer.set('visible', false);
-    ch_vogelreservate_layer.set('kategorie', 'CH Biotopinventare');
+    chVogelreservateLayer = ga.layer.create('ch.bafu.bundesinventare-vogelreservate');
+    chVogelreservateLayer.set('title', 'Vogelreservate');
+    chVogelreservateLayer.set('visible', false);
+    chVogelreservateLayer.set('kategorie', 'CH Biotopinventare');
 
-    detailpläne_layer_source = new ol.source.GeoJSON({
+    detailplaeneLayerSource = new ol.source.GeoJSON({
         url: 'geojson/detailplaene.geojson'/*,
          myTyp: 'Detailplan'*/    // funktioniert nicht
     });
     /* funktioniert nicht:
-     detailpläne_layer_source.forEachFeature(function (feature) {
+     detailplaeneLayerSource.forEachFeature(function (feature) {
      feature.setValues('myTyp', 'Detailplan');
      });*/
 
-    detailpläne_layer = new ol.layer.Vector({
-        title: 'Detailpläne',
-        opacity: 1,
-        visible: false,
+    detailplaeneLayer = new ol.layer.Vector({
+        title:     'Detailpläne',
+        opacity:   1,
+        visible:   false,
         kategorie: 'AP Flora',
         selectable: true,
-        source: detailpläne_layer_source,
-        style: window.apf.olmap.detailplanStyle()
+        source:     detailplaeneLayerSource,
+        style:      window.apf.olmap.detailplanStyle()
     });
 
     // ausgeschaltet, da es nicht funktioniert (authorization required)
-    zh_av_layer = new ol.layer.Tile({
-        title: 'Amtliche Vermessung',
-        visible: false,
+    zhAvLayer = new ol.layer.Tile({
+        title:     'Amtliche Vermessung',
+        visible:   false,
         kategorie: 'ZH Sachinformationen',
-        source: new ol.source.TileWMS({
+        source:    new ol.source.TileWMS({
             url: '//agabriel:4zC6MgjM@wms.zh.ch/avwms',
             //url: '//wms.zh.ch/avwms',
             crossOrigin: null,
@@ -181,10 +181,10 @@ var returnFunction = function () {
     });
 
     // OL3 hat noch Probleme und bereinigt die Methoden für WFS - zuwarten
-    zh_kartierungen_layer_source = new ol.source.ServerVector({
+    zhKartierungenLayerSource = new ol.source.ServerVector({
         //format: new ol.format.GeoJSON(),    // holt nicht mal die Daten
         format: new ol.format.WFS({    // holt die Daten - sollte aber bald die Attrribute nicht mehr benötigen
-            featureNS: '//maps.zh.ch',
+            featureNS:   '//maps.zh.ch',
             featureType: 'polygon'
         }),
         //format: new ol.format.GML(),
@@ -201,7 +201,7 @@ var returnFunction = function () {
                     bbox: extent.join(',') + ',EPSG:21781'
                 },
                 dataType: 'jsonp',
-                jsonpCallback: 'load_zh_kartierungen_layer_source'
+                jsonpCallback: 'loadZhKartierungenLayerLource'
             });
         },
         strategy: ol.loadingstrategy.createTile(new ol.tilegrid.XYZ({
@@ -210,17 +210,17 @@ var returnFunction = function () {
         projection: 'EPSG:21781'
     });
 
-    load_zh_kartierungen_layer_source = function (response) {
-          zh_kartierungen_layer_source.addFeatures(zh_kartierungen_layer_source.readFeatures(response));    // funktioniert nicht!
+    loadZhKartierungenLayerLource = function (response) {
+        zhKartierungenLayerSource.addFeatures(zhKartierungenLayerSource.readFeatures(response));    // funktioniert nicht!
     };
 
-    zh_kartierungen_layer = new ol.layer.Vector({
-        title: 'Lebensraum-Kartierungen',
-        opacity: 0.7,
-        visible: false,
+    zhKartierungenLayer = new ol.layer.Vector({
+        title:     'Lebensraum-Kartierungen',
+        opacity:   0.7,
+        visible:   false,
         kategorie: 'ZH Sachinformationen',
-        source: zh_kartierungen_layer_source,
-        style: new ol.style.Style({
+        source:    zhKartierungenLayerSource,
+        style:     new ol.style.Style({
             stroke: new ol.style.Stroke({
                 color: 'rgba(0, 0, 255, 1.0)',
                 width: 2
@@ -228,12 +228,12 @@ var returnFunction = function () {
         })
     });
 
-    zh_svo_farbig_layer = new ol.layer.Tile({
-        title: 'SVO farbig',
-        opacity: 0.7,
-        visible: false,
+    zhSvoFarbigLayer = new ol.layer.Tile({
+        title:      'SVO farbig',
+        opacity:    0.7,
+        visible:    false,
         kategorie: 'ZH Sachinformationen',
-        legende: true,
+        legende:   true,
         legende_url: 'http://wms.zh.ch/FnsSVOZHWMS?version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=zonen-schutzverordnungen&format=image/png&STYLE=default',
         source: new ol.source.TileWMS({
             url: '//wms.zh.ch/FnsSVOZHWMS',
@@ -244,11 +244,11 @@ var returnFunction = function () {
         })
     });
 
-    zh_svo_grau_layer = new ol.layer.Tile({
-        title: 'SVO schwarz/weiss',
-        visible: false,
+    zhSvoGrauLayer = new ol.layer.Tile({
+        title:     'SVO schwarz/weiss',
+        visible:   false,
         kategorie: 'ZH Sachinformationen',
-        legende: true,
+        legende:   true,
         legende_url: 'http://wms.zh.ch/FnsSVOZHWMS?version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=zonen-schutzverordnungen-raster&format=image/png&STYLE=default',
         source: new ol.source.TileWMS({
             url: '//wms.zh.ch/FnsSVOZHWMS',
@@ -260,11 +260,11 @@ var returnFunction = function () {
         })
     });
 
-    zh_lichte_wälder_layer = new ol.layer.Tile({
-        title: 'Wälder: lichte',
-        visible: false,
+    zhLichteWaelderLayer = new ol.layer.Tile({
+        title:     'Wälder: lichte',
+        visible:   false,
         kategorie: 'ZH Sachinformationen',
-        legende: true,
+        legende:   true,
         legende_url: 'http://wms.zh.ch/FnsLWZHWMS?version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=objekte-lichte-waelder-kanton-zuerich&format=image/png&STYLE=default',
         source: new ol.source.TileWMS({
             url: '//maps.zh.ch/wms/FnsLWZH',
@@ -277,26 +277,26 @@ var returnFunction = function () {
     });
 
     // nicht eingeschaltet, da ohne Legende wenig brauchbar
-    zh_waldkartierung_layer = new ol.layer.Tile({
-        title: 'Wälder: Vegetation',
-        visible: false,
+    zhWaldkartierungLayer = new ol.layer.Tile({
+        title:     'Wälder: Vegetation',
+        visible:   false,
         kategorie: 'ZH Sachinformationen',
-        legende: true,
+        legende:   true,
         legende_url: 'http://wms.zh.ch/WaldVKWMS?version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=waldgesellschaften&format=image/png&STYLE=default',
         source: new ol.source.TileWMS({
             url: '//maps.zh.ch/wms/WaldVKWMS',
             crossOrigin: null,
             params: {
-                'layers': 'waldgesellschaften',
+                'layers':     'waldgesellschaften',
                 'singleTile': true
             }
         })
     });
 
     // nicht im Gebrauch
-    zh_gemeinden_layer = new ol.layer.Tile({
-        title: 'Kanton',
-        visible: false,
+    zhGemeindenLayer = new ol.layer.Tile({
+        title:     'Kanton',
+        visible:   false,
         kategorie: 'ZH Sachinformationen',
         source: new ol.source.TileWMS({
             url: '//maps.zh.ch/wms/BASISKARTEZH',
@@ -309,9 +309,9 @@ var returnFunction = function () {
     });
 
     // error 401 (Authorization required)
-    zh_ortholuftbild_layer_1 = new ol.layer.Tile({
-        title: 'Luftbild',
-        visible: false,
+    zhOrtholuftbildLayer1 = new ol.layer.Tile({
+        title:     'Luftbild',
+        visible:   false,
         kategorie: 'Hintergrund',
         source: new ol.source.TileWMS({
             url: '//agabriel:4zC6MgjM@wms.zh.ch/OrthoZHWMS',
@@ -324,9 +324,9 @@ var returnFunction = function () {
     });
 
     // error 401 (Authorization required)
-    zh_ortholuftbild_layer = new ol.layer.Tile({
-        title: 'Luftbild ZH',
-        visible: false,
+    zhOrtholuftbildLayer = new ol.layer.Tile({
+        title:     'Luftbild ZH',
+        visible:   false,
         kategorie: 'Hintergrund',
         source: new ol.source.TileWMS({
             url: '//maps.zh.ch/wms/OrthoBackgroundZH',
@@ -338,9 +338,9 @@ var returnFunction = function () {
         })
     });
 
-    zh_üp_layer = new ol.layer.Tile({
-        title: 'Übersichtsplan ZH',
-        visible: false,
+    zhUepLayer = new ol.layer.Tile({
+        title:     'Übersichtsplan ZH',
+        visible:   false,
         kategorie: 'Hintergrund',
         source: new ol.source.TileWMS({
             url: 'http://wms.zh.ch/upwms',
@@ -352,9 +352,9 @@ var returnFunction = function () {
         })
     });
 
-    zh_basiskarten_layer = new ol.layer.Tile({
-        title: 'Landeskarten ZH',
-        visible: false,
+    zhBasiskartenLayer = new ol.layer.Tile({
+        title:     'Landeskarten ZH',
+        visible:   false,
         kategorie: 'Hintergrund',
         source: new ol.source.TileWMS({
             url: '//maps.zh.ch/wms/BASISKARTEZH',
@@ -366,9 +366,9 @@ var returnFunction = function () {
         })
     });
 
-    zh_höhenmodell_layer = new ol.layer.Tile({
-        title: 'Höhenmodell ZH',
-        visible: false,
+    zhHoehenmodellLayer = new ol.layer.Tile({
+        title:     'Höhenmodell ZH',
+        visible:   false,
         kategorie: 'Hintergrund',
         source: new ol.source.TileWMS({
             url: '//maps.zh.ch/wms/DTMBackgroundZH',
@@ -381,74 +381,78 @@ var returnFunction = function () {
     });
 
     // Zunächst alle Layer definieren
-    layers_prov = [
-        zh_höhenmodell_layer,
-        zh_ortholuftbild_layer,
-        ch_ortholuftbild_layer,
-        zh_basiskarten_layer,
-        ch_lk_grau_layer,
-        ch_lk_farbe_layer,
-        ch_siegriedkarte_layer,
-        ch_parzellen_layer,
-        ch_gemeinden_layer,
-        ch_am_layer,
-        ch_am_wander_layer,
-        ch_auen_layer,
-        ch_fm_layer,
-        ch_hm_layer,
-        ch_tww_layer,
-        ch_vogelreservate_layer,
-        ch_kantone_layer,
-        zh_üp_layer,
-        zh_svo_farbig_layer,
-        zh_svo_grau_layer,
-        //zh_kartierungen_layer,    // warten, das OL3 mit WFS noch nicht funktioniert
-        zh_lichte_wälder_layer,
-        zh_waldkartierung_layer,
-        detailpläne_layer
+    layersProv = [
+        zhHoehenmodellLayer,
+        zhOrtholuftbildLayer,
+        chOrtholuftbildLayer,
+        zhBasiskartenLayer,
+        chLkGrauLayer,
+        chLkFarbeLayer,
+        chSiegriedkarteLayer,
+        chParzellenLayer,
+        chGemeindenLayer,
+        chAmLayer,
+        chAmWanderLayer,
+        chAuenLayer,
+        chFmLayer,
+        chHmLayer,
+        chTwwLayer,
+        chVogelreservateLayer,
+        chKantoneLayer,
+        zhUepLayer,
+        zhSvoFarbigLayer,
+        zhSvoGrauLayer,
+        //zhKartierungenLayer,    // warten, das OL3 mit WFS noch nicht funktioniert
+        zhLichteWaelderLayer,
+        zhWaldkartierungLayer,
+        detailplaeneLayer
     ];
 
     // bing-layers vorne setzen
     // bing-maps wäre schön
     // ol3 can't reproject raster tiles yet though
     // daher werden die Layer noch nicht angezeigt
-    //var layers = layers_prov.concat(bing_layers);
-    layers = layers_prov;
+    //var layers = layersProv.concat(bingLayers);
+    layers = layersProv;
 
     // prüfen, ob in localStorage eigene Layer existieren
     // ausgeschaltet, weil die LayerObjekte von OL3 rekursiv sind und nicht für die localStorage stringified werden können
-    if (localStorage.olmap_eigene_ebenen) {
+    if (localStorage.olmapEigeneEbenen) {
         // drag and drop geo-files
         styleFunction = function (feature, resolution) {
             var featureStyleFunction = feature.getStyleFunction();
+
             if (featureStyleFunction) {
                 return featureStyleFunction.call(feature, resolution);
             }
             return defaultStyle[feature.getGeometry().getType()];
         };
         // diese hinzufügen
-        eigene_ebenen = JSON.parse(localStorage.olmap_eigene_ebenen);
-        eigene_ebenen_layers = [];
-        _.each(eigene_ebenen, function (ebene) {
-            var format = new ol.format.GeoJSON(),
-                features = format.readFeatures(ebene);
-            //window.eigene_ebenen.push(features);
-            var vectorSource = new ol.source.Vector({
+        eigeneEbenen = JSON.parse(localStorage.olmapEigeneEbenen);
+        eigeneEbenenLayers = [];
+        _.each(eigeneEbenen, function (ebene) {
+            var format,
+                features,
+                vectorSource,
+                layer;
+
+            format = new ol.format.GeoJSON();
+            features = format.readFeatures(ebene);
+            //window.eigeneEbenen.push(features);
+            vectorSource = new ol.source.Vector({
                 features: features
             });
-            var layer = new ol.layer.Vector({
-                guid: ebene.guid,
-                source: vectorSource,
-                style: styleFunction,
-                title: ebene.title,
+            layer = new ol.layer.Vector({
+                guid:      ebene.guid,
+                source:    vectorSource,
+                style:     styleFunction,
+                title:     ebene.title,
                 kategorie: ebene.kategorie
             });
-            eigene_ebenen_layers.push(layer);
+            eigeneEbenenLayers.push(layer);
         });
-        layers = layers.concat(eigene_ebenen_layers);
+        layers = layers.concat(eigeneEbenenLayers);
     }
 
     return layers;
 };
-
-module.exports = returnFunction;

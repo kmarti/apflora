@@ -1465,10 +1465,10 @@ var initiiereApp = function () {
     };
 
     window.apf.olmap.removeDragBox = function () {
-        if (window.apf.olmap.drag_box_interaction) {
-            window.apf.olmap.map.removeInteraction(window.apf.olmap.drag_box_interaction);
-            //window.apf.olmap.drag_box_interaction.off('boxend');
-            delete window.apf.olmap.drag_box_interaction;
+        if (window.apf.olmap.dragBoxInteraction) {
+            window.apf.olmap.map.removeInteraction(window.apf.olmap.dragBoxInteraction);
+            //window.apf.olmap.dragBoxInteraction.off('boxend');
+            delete window.apf.olmap.dragBoxInteraction;
         }
     };
 
@@ -1484,12 +1484,12 @@ var initiiereApp = function () {
             // prüfen, ob pop / tpop gewählt wurden
             // verzögern, weil die neuste selection sonst nicht erfasst wird
             setTimeout(function () {
-                window.apf.olmap.prüfeObPopTpopGewähltWurden();
+                window.apf.olmap.pruefeObPopTpopGewaehltWurden();
             }, 100);
         });
     };
 
-    window.apf.olmap.prüfeObPopTpopGewähltWurden = function () {
+    window.apf.olmap.pruefeObPopTpopGewaehltWurden = function () {
         var popSelected = [],
             tpopSelected = [],
             erstelleListeDerAusgewaehltenPopTPop = require('./erstelleListeDerAusgewaehltenPopTPop');

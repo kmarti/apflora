@@ -6,9 +6,9 @@
 var $  = require('jquery'),
     ol = require('ol');
 
-var returnFunction = function (type) {
+module.exports = function (type) {
     var source,
-        messen_layer,
+        messenLayer,
         // Currently drawed feature
         // @type {ol.Feature}
         sketch = null,
@@ -20,11 +20,11 @@ var returnFunction = function (type) {
     // allfällige Resten entfernen
     window.apf.olmap.removeMeasureInteraction();
     // neu aufbauen
-    source = new ol.source.Vector();
-    messen_layer = new ol.layer.Vector({
-        title: 'messen',
+    source      = new ol.source.Vector();
+    messenLayer = new ol.layer.Vector({
+        title:  'messen',
         source: source,
-        style: new ol.style.Style({
+        style:  new ol.style.Style({
             fill: new ol.style.Fill({
                 color: 'rgba(255, 255, 255, 0.2)'
             }),
@@ -43,7 +43,7 @@ var returnFunction = function (type) {
         })
     });
 
-    window.apf.olmap.map.addLayer(messen_layer);
+    window.apf.olmap.map.addLayer(messenLayer);
 
     // handle pointer move
     // @param {Event} evt
@@ -51,6 +51,7 @@ var returnFunction = function (type) {
         if (sketch) {
             var output,
                 geom = (sketch.getGeometry());
+
             if (geom instanceof ol.geom.Polygon) {
                 output = window.apf.olmap.formatArea(/** @type {ol.geom.Polygon} */ (geom));
 
@@ -72,8 +73,8 @@ var returnFunction = function (type) {
     window.apf.olmap.drawMeasure.on('drawstart',
         function (evt) {
             // set sketch
-            sketch = evt.feature;
-            sketchElement = document.createElement('li');
+            sketch         = evt.feature;
+            sketchElement  = document.createElement('li');
             var outputList = document.getElementById('ergebnisMessung');
             if (outputList.childNodes) {
                 outputList.insertBefore(sketchElement, outputList.firstChild);
@@ -82,13 +83,9 @@ var returnFunction = function (type) {
             }
         }, this);
 
-    window.apf.olmap.drawMeasure.on('drawend',
-        function (evt) {
-            // unset sketch
-            sketch = null;
-            sketchElement = null;
-        },
-        this);
+    window.apf.olmap.drawMeasure.on('drawend', function () {
+        // unset sketch
+        sketch        = null;
+        sketchElement = null;
+    }, this);
 };
-
-module.exports = returnFunction;
