@@ -40,6 +40,8 @@ var _                                         = require('underscore'),
     insertKopierteTpopmassn                   = require('./insertKopierteTpopmassn'),
     insertNeuenTpopber                        = require('./insertNeuenTpopber'),
     loescheTpopber                            = require('./loescheTpopber'),
+    insertNeuenTpopmassnber                   = require('./insertNeuenTpopmassnber'),
+    loescheTpopmassnber                       = require('./loescheTpopmassnber'),
     zeigeTpopbeobZugeordnetAufGmap            = require('./zeigeTpopbeobZugeordnetAufGmap'),
     loescheTpopmassn                          = require('./loescheTpopmassn'),
     schneideTpopmassnAus                      = require('./schneideTpopmassnAus'),
@@ -1066,16 +1068,7 @@ module.exports = function (node) {
                 "label": "neuer Massnahmen-Bericht",
                 "icon":  "style/images/neu.png",
                 "action": function () {
-                    $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopMassnBericht/feld=TPopId/wert=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/user=' + sessionStorage.user
-                    }).done(function (id) {
-                        var strukturtyp =  "tpopmassnber",
-                            beschriftung = "neuer Massnahmen-Bericht";
-                        insertNeuenNodeEineHierarchiestufeTiefer(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    }).fail(function () {
-                        melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
-                    });
+                    insertNeuenTpopmassnber(aktiverNode, parentNode, $(aktiverNode).attr("id"));
                 }
             }
         };
@@ -1085,18 +1078,7 @@ module.exports = function (node) {
                 "label": "neuer Massnahmen-Bericht",
                 "icon":  "style/images/neu.png",
                 "action": function () {
-                    var insertTPopMassBer_2 = $.ajax({
-                        type: 'post',
-                        url: 'api/v1/insert/apflora/tabelle=tblTeilPopMassnBericht/feld=TPopId/wert=' + erstelleIdAusDomAttributId($(parentNode).attr("id")) + '/user=' + sessionStorage.user
-                    });
-                    insertTPopMassBer_2.done(function (id) {
-                        var strukturtyp = "tpopmassnber",
-                            beschriftung = "neuer Massnahmen-Bericht";
-                        insertNeuenNodeAufGleicherHierarchiestufe(aktiverNode, parentNode, strukturtyp, id, beschriftung);
-                    });
-                    insertTPopMassBer_2.fail(function () {
-                        melde("Fehler: Keinen neuen Massnahmen-Bericht erstellt");
-                    });
+                    insertNeuenTpopmassnber(aktiverNode, parentNode, $(parentNode).attr("id"));
                 }
             },
             "loeschen": {
@@ -1104,43 +1086,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/loeschen.png",
                 "action": function () {
-                    // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
-                        return;
-                    }
-                    var bezeichnung = $.jstree._reference(aktiverNode).get_text(aktiverNode);
-                    $("#loeschen_dialog_mitteilung").html("Der Massnahmen-Bericht '" + bezeichnung + "' wird gelöscht.");
-                    $("#loeschen_dialog").dialog({
-                        resizable: false,
-                        height:    'auto',
-                        width:     400,
-                        modal:     true,
-                        buttons: {
-                            "ja, löschen!": function () {
-                                $(this).dialog("close");
-                                // Variable zum rückgängig machen erstellen
-                                window.apf.deleted     = window.apf.tpopmassnber;
-                                window.apf.deleted.typ = "tpopmassnber";
-                                $.ajax({
-                                    type: 'delete',
-                                    url: 'api/v1/apflora/tabelle=tblTeilPopMassnBericht/tabelleIdFeld=TPopMassnBerId/tabelleId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id"))
-                                }).done(function () {
-                                    delete localStorage.tpopmassnberId;
-                                    delete window.apf.tpopmassnber;
-                                    $.jstree._reference(aktiverNode).delete_node(aktiverNode);
-                                    // Parent Node-Beschriftung: Anzahl anpassen
-                                    window.apf.beschrifteOrdnerPopmassnber(parentNode);
-                                    // Hinweis zum rückgängig machen anzeigen
-                                    frageObUndeleteDatensatz("Der Massnahmen-Bericht '" + bezeichnung + "' wurde gelöscht.");
-                                }).fail(function () {
-                                    melde("Fehler: Der Massnahmen-Bericht wurde nicht gelöscht");
-                                });
-                            },
-                            "abbrechen": function () {
-                                $(this).dialog("close");
-                            }
-                        }
-                    });
+                    loescheTpopmassnber(aktiverNode, parentNode);
                 }
             }
         };

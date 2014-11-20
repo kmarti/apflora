@@ -23,7 +23,6 @@ module.exports = function (aktiverNode, parentNode, strukturtyp, dsId, beschrift
     // letzte globale Variable entfernen
     delete window.apf[strukturtyp];
     // neuen Node bauen
-    console.log('beschriftung: ', beschriftung);
     neuerNode = $.jstree._reference(parentNode).create_node(parentNode, "last", {
         "data": beschriftung,
         "attr": {
