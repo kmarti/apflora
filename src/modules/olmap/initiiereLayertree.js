@@ -3,145 +3,145 @@
 // <li><input type="checkbox" id="olmap_layertree_Ebene 1"><label for="olmap_layertree_Ebene 1">Ebene 1</label></li><hr>
 // active_kategorie: der Bereich dieser Kategorie soll offen sein
 
-/*jslint node: true, browser: true, nomen: true, todo: true */
+/*jslint node: true, browser: true, nomen: true, todo: true, plusplus: true */
 'use strict';
 
 var _ = require('underscore'),
     $ = require('jquery');
 
-var returnFunction = function (active_kategorie) {
+module.exports = function (active_kategorie) {
     var layertitel,
         visible,
         kategorie,
         //html_welt_hintergrund = '<h3>Welt Hintergrund</h3><div>',
-        html_ch_hintergrund = '<h3>Hintergrund</h3><div>',
-        html_ch_sachinfos = '<h3>CH Sachinformationen</h3><div>',
-        html_ch_biotopinv = '<h3>CH Biotopinventare</h3><div>',
-        html_zh_sachinfos = '<h3>ZH Sachinformationen</h3><div>',
-        html_apflora = '<h3>ZH AP Flora</h3><div>',
-        html_prov,
+        htmlChHintergrund        = '<h3>Hintergrund</h3><div>',
+        htmlChSachinfos          = '<h3>CH Sachinformationen</h3><div>',
+        htmlChBiotopinv          = '<h3>CH Biotopinventare</h3><div>',
+        htmlZhSachinfos          = '<h3>ZH Sachinformationen</h3><div>',
+        htmlApflora              = '<h3>ZH AP Flora</h3><div>',
+        htmlProv,
         html,
-        $olmap_layertree_layers = $('#olmap_layertree_layers'),
+        $olmap_layertree_layers  = $('#olmap_layertree_layers'),
         $ga_karten_div_accordion = $("#ga_karten_div").find(".accordion"),
-        layers = window.apf.olmap.map.getLayers().getArray(),
-        html_eigene_layer_text,
-        html_eigene_layer = '<hr>',
-        eigene_layer_zähler = 0,
-        initialize_modify_layer = false,
+        layers                   = window.apf.olmap.map.getLayers().getArray(),
+        htmlEigeneLayerText,
+        htmlEigeneLayer          = '<hr>',
+        eigeneLayerZaehler       = 0,
+        initializeModifyLayer    = false,
         active,
-        export_layer_select_ids = [],
+        exportLayerSelectIds     = [],
         legende,
-        legende_url,
-        initialize_legende = false;
+        legendeUrl,
+        initializeLegende        = false;
 
-    html_eigene_layer_text = '<h3>Eigene Ebenen</h3>';
-    html_eigene_layer_text += '<div>';
-    html_eigene_layer_text += '<p>Einfach eine der folgenden Dateitypen auf die Karte ziehen:</p>';
-    html_eigene_layer_text += '<ul>';
-    html_eigene_layer_text += '<li>GPX</li>';
-    html_eigene_layer_text += '<li>GeoJSON</li>';
-    html_eigene_layer_text += '<li>IGC</li>';
-    html_eigene_layer_text += '<li>KML</li>';
-    html_eigene_layer_text += '<li>TopoJSON</li>';
-    html_eigene_layer_text += '</ul>';
-    html_eigene_layer_text += '<div id="olmap_eigene_ebenen_beta_container">';
-    html_eigene_layer_text += '<p style="font-size:10px; line-height:0.9em;">Open Layers 3 ist noch in der Beta-Phase.<br>Daher funktionieren eigene Layer nicht immer fehlerfrei.</p>';
-    html_eigene_layer_text += '</div>';
-    html_eigene_layer_text += '<div id="olmap_neues_layer_container">';
-    html_eigene_layer_text += '<input type="checkbox" class="neues_layer" id="olmap_neues_layer">';
-    html_eigene_layer_text += '<label for="olmap_neues_layer" class="neues_layer_label">neue Ebene erstellen</label>';
-    html_eigene_layer_text += '</div>';
+    htmlEigeneLayerText  = '<h3>Eigene Ebenen</h3>';
+    htmlEigeneLayerText += '<div>';
+    htmlEigeneLayerText += '<p>Einfach eine der folgenden Dateitypen auf die Karte ziehen:</p>';
+    htmlEigeneLayerText += '<ul>';
+    htmlEigeneLayerText += '<li>GPX</li>';
+    htmlEigeneLayerText += '<li>GeoJSON</li>';
+    htmlEigeneLayerText += '<li>IGC</li>';
+    htmlEigeneLayerText += '<li>KML</li>';
+    htmlEigeneLayerText += '<li>TopoJSON</li>';
+    htmlEigeneLayerText += '</ul>';
+    htmlEigeneLayerText += '<div id="olmap_eigene_ebenen_beta_container">';
+    htmlEigeneLayerText += '<p style="font-size:10px; line-height:0.9em;">Open Layers 3 ist noch in der Beta-Phase.<br>Daher funktionieren eigene Layer nicht immer fehlerfrei.</p>';
+    htmlEigeneLayerText += '</div>';
+    htmlEigeneLayerText += '<div id="olmap_neues_layer_container">';
+    htmlEigeneLayerText += '<input type="checkbox" class="neues_layer" id="olmap_neues_layer">';
+    htmlEigeneLayerText += '<label for="olmap_neues_layer" class="neues_layer_label">neue Ebene erstellen</label>';
+    htmlEigeneLayerText += '</div>';
 
     // accordion zerstören, damit es neu aufgebaut werden kann
     // um es zu zerstören muss es initiiert sein!
     $ga_karten_div_accordion
-        .accordion({collapsible:true, active: false, heightStyle: 'content'})
+        .accordion({collapsible: true, active: false, heightStyle: 'content'})
         .accordion("destroy");
 
     _.each(layers, function (layer, index) {
-        layertitel = layer.get('title') || '(Ebene ohne Titel)';
-        visible = layer.get('visible');
-        kategorie = layer.get('kategorie');
-        legende = layer.get('legende') || false;
-        legende_url = layer.get('legende_url') || null;
+        layertitel = layer.get('title')      || '(Ebene ohne Titel)';
+        visible    = layer.get('visible');
+        kategorie  = layer.get('kategorie');
+        legende    = layer.get('legende')    || false;
+        legendeUrl = layer.get('legendeUrl') || null;
 
         if (layertitel !== 'messen') {
-            html_prov = '<li><input type="checkbox" class="olmap_layertree_checkbox" id="olmap_layertree_' + layertitel + '" value="' + index + '"';
+            htmlProv = '<li><input type="checkbox" class="olmap_layertree_checkbox" id="olmap_layertree_' + layertitel + '" value="' + index + '"';
             // sichtbare Layer sollen gecheckt sein
             if (visible) {
-                html_prov += ' checked="checked"';
+                htmlProv += ' checked="checked"';
             }
-            html_prov += '>';
-            html_prov += '<label for="olmap_layertree_' + layertitel + '">' + layertitel + '</label>';
+            htmlProv += '>';
+            htmlProv += '<label for="olmap_layertree_' + layertitel + '">' + layertitel + '</label>';
             // bei pop und tpop muss style gewählt werden können
             if (layertitel === 'Populationen') {
-                html_prov += '<div class="layeroptionen">';
-                html_prov += '<label for="layertree_pop_nr" class="layertree_pop_style popNr">Nr.</label>';
-                html_prov += '<input type="checkbox" id="layertree_pop_nr" class="layertree_pop_style popNr" checked="checked"> ';
-                html_prov += '<label for="layertree_pop_name" class="layertree_pop_style pop_name">Namen</label>';
-                html_prov += '<input type="checkbox" id="layertree_pop_name" class="layertree_pop_style pop_name">';
-                html_prov += '</div>';
+                htmlProv += '<div class="layeroptionen">';
+                htmlProv += '<label for="layertree_pop_nr" class="layertree_pop_style popNr">Nr.</label>';
+                htmlProv += '<input type="checkbox" id="layertree_pop_nr" class="layertree_pop_style popNr" checked="checked"> ';
+                htmlProv += '<label for="layertree_pop_name" class="layertree_pop_style pop_name">Namen</label>';
+                htmlProv += '<input type="checkbox" id="layertree_pop_name" class="layertree_pop_style pop_name">';
+                htmlProv += '</div>';
             }
             if (layertitel === 'Teilpopulationen') {
-                html_prov += '<div class="layeroptionen">';
-                html_prov += '<label for="layertree_tpop_nr" class="layertree_tpop_style tpopNr">Nr.</label>';
-                html_prov += '<input type="checkbox" id="layertree_tpop_nr" class="layertree_tpop_style tpopNr" checked="checked"> ';
-                html_prov += '<label for="layertree_tpop_name" class="layertree_tpop_style tpop_name">Namen</label>';
-                html_prov += '<input type="checkbox" id="layertree_tpop_name" class="layertree_tpop_style tpop_name">';
-                html_prov += '</div>';
+                htmlProv += '<div class="layeroptionen">';
+                htmlProv += '<label for="layertree_tpop_nr" class="layertree_tpop_style tpopNr">Nr.</label>';
+                htmlProv += '<input type="checkbox" id="layertree_tpop_nr" class="layertree_tpop_style tpopNr" checked="checked"> ';
+                htmlProv += '<label for="layertree_tpop_name" class="layertree_tpop_style tpop_name">Namen</label>';
+                htmlProv += '<input type="checkbox" id="layertree_tpop_name" class="layertree_tpop_style tpop_name">';
+                htmlProv += '</div>';
             }
             if (kategorie === 'Eigene Ebenen') {
-                html_prov += '<div class="layeroptionen">';
-                html_prov += '<input type="checkbox" class="modify_layer" id="modify_layer_' + layertitel.replace(" ", "_") + '">';
-                html_prov += '<label for="modify_layer_' + layertitel.replace(" ", "_") + '" title="Ebene bearbeiten" class="modify_layer_label"></label>';
-                html_prov += '<select id="modify_layer_geom_type_' + layertitel.replace(" ", "_") + '" class="modify_layer_geom_type apf_tooltip" title="Neue Objekte zeichnen oder<br>bestehende Objekte auswählen, um sie zu verändern"><option id="modify_layer_geom_type_leerwert" value="leerwert" selected>Objekt auswählen</option><option value="Point">Punkt zeichnen</option><option value="LineString">Linie zeichnen</option><option value="Polygon">Polygon zeichnen</option></select>';
-                html_prov += '<div class="non_modify_options">';
-                    html_prov += '<select id="export2_layer_geom_type_' + layertitel.replace(" ", "_") + '" class="export_layer_select apf_tooltip" title="Ebene exportieren<br>Wählen Sie ein Format"><option value="leerwert" selected>exportieren</option><option value="GeoJSON">GeoJSON</option><option value="KML">KML</option><option value="GPX">GPX</option></select>';
-                html_prov += '<input type="checkbox" class="rename_layer" id="rename_layer_' + layertitel.replace(" ", "_") + '">';
-                html_prov += '<label for="rename_layer_' + layertitel.replace(" ", "_") + '" title="Ebene umbenennen" class="rename_layer_label"></label>';
-                html_prov += '<input type="checkbox" class="entferne_layer" id="entferne_layer_' + layertitel.replace(" ", "_") + '">';
-                html_prov += '<label for="entferne_layer_' + layertitel.replace(" ", "_") + '" title="Ebene entfernen" class="entferne_layer_label"></label>';
-                html_prov += '</div>';
-                html_prov += '<div id="eigene_layer_meldung_' + layertitel.replace(" ", "_") + '" class="eigene_layer_meldung"></div>';
-                html_prov += '</div>';
-                initialize_modify_layer = true;
+                htmlProv += '<div class="layeroptionen">';
+                htmlProv += '<input type="checkbox" class="modify_layer" id="modify_layer_' + layertitel.replace(" ", "_") + '">';
+                htmlProv += '<label for="modify_layer_' + layertitel.replace(" ", "_") + '" title="Ebene bearbeiten" class="modify_layer_label"></label>';
+                htmlProv += '<select id="modify_layer_geom_type_' + layertitel.replace(" ", "_") + '" class="modify_layer_geom_type apf_tooltip" title="Neue Objekte zeichnen oder<br>bestehende Objekte auswählen, um sie zu verändern"><option id="modify_layer_geom_type_leerwert" value="leerwert" selected>Objekt auswählen</option><option value="Point">Punkt zeichnen</option><option value="LineString">Linie zeichnen</option><option value="Polygon">Polygon zeichnen</option></select>';
+                htmlProv += '<div class="non_modify_options">';
+                htmlProv += '<select id="export2_layer_geom_type_' + layertitel.replace(" ", "_") + '" class="export_layer_select apf_tooltip" title="Ebene exportieren<br>Wählen Sie ein Format"><option value="leerwert" selected>exportieren</option><option value="GeoJSON">GeoJSON</option><option value="KML">KML</option><option value="GPX">GPX</option></select>';
+                htmlProv += '<input type="checkbox" class="rename_layer" id="rename_layer_' + layertitel.replace(" ", "_") + '">';
+                htmlProv += '<label for="rename_layer_' + layertitel.replace(" ", "_") + '" title="Ebene umbenennen" class="rename_layer_label"></label>';
+                htmlProv += '<input type="checkbox" class="entferne_layer" id="entferne_layer_' + layertitel.replace(" ", "_") + '">';
+                htmlProv += '<label for="entferne_layer_' + layertitel.replace(" ", "_") + '" title="Ebene entfernen" class="entferne_layer_label"></label>';
+                htmlProv += '</div>';
+                htmlProv += '<div id="eigene_layer_meldung_' + layertitel.replace(" ", "_") + '" class="eigene_layer_meldung"></div>';
+                htmlProv += '</div>';
+                initializeModifyLayer = true;
                 // diese ids werden gebraucht, um tooltips zu erstellen
-                export_layer_select_ids.push('export2_layer_geom_type_' + layertitel.replace(" ", "_"));
+                exportLayerSelectIds.push('export2_layer_geom_type_' + layertitel.replace(" ", "_"));
             }
-            if (legende && legende_url) {
+            if (legende && legendeUrl) {
                 // Symbol ergänzen
                 // beim hovern erscheint popup mit Legende
-                html_prov += '<a class="ui-icon ui-icon-info olmap_layertreee_legende" href="' + legende_url + '" target="_blank" title="' + legende_url + '"></a>';
-                initialize_legende = true;
+                htmlProv += '<a class="ui-icon ui-icon-info olmap_layertreee_legende" href="' + legendeUrl + '" target="_blank" title="' + legendeUrl + '"></a>';
+                initializeLegende = true;
             }
-            html_prov += '</li>';
-            html_prov += '<hr>';
+            htmlProv += '</li>';
+            htmlProv += '<hr>';
             switch (kategorie) {
             /*case "Welt Hintergrund":
-                html_welt_hintergrund += html_prov;
+                html_welt_hintergrund += htmlProv;
                 break;*/
             case "Hintergrund":
-                html_ch_hintergrund += html_prov;
+                htmlChHintergrund += htmlProv;
                 break;
             case "CH Sachinformationen":
-                html_ch_sachinfos += html_prov;
+                htmlChSachinfos += htmlProv;
                 break;
             case "CH Biotopinventare":
-                html_ch_biotopinv += html_prov;
+                htmlChBiotopinv += htmlProv;
                 break;
             case "ZH Sachinformationen":
-                html_zh_sachinfos += html_prov;
+                htmlZhSachinfos += htmlProv;
                 break;
             case "AP Flora":
-                html_apflora += html_prov;
+                htmlApflora += htmlProv;
                 break;
             case "Eigene Ebenen":
-                html_eigene_layer += html_prov;
-                eigene_layer_zähler++;
+                htmlEigeneLayer += htmlProv;
+                eigeneLayerZaehler++;
                 break;
             default:
-                //html_eigene_layer += html_prov;
-                //eigene_layer_zähler++;
+                //htmlEigeneLayer += htmlProv;
+                //eigeneLayerZaehler++;
                 break;
             }
         }
@@ -149,33 +149,33 @@ var returnFunction = function (active_kategorie) {
 
     // letztes <hr> abschneiden
     // aber nur, wenn layers ergänzt wurden
-    // wenn keine Layers ergänzt wurden: Layertitel nicht anzeigen (nur bei html_apflora von Bedeutung)
+    // wenn keine Layers ergänzt wurden: Layertitel nicht anzeigen (nur bei htmlApflora von Bedeutung)
     //html_welt_hintergrund = html_welt_hintergrund.substring(0, (html_welt_hintergrund.length - 4));
-    html_ch_hintergrund = html_ch_hintergrund.substring(0, (html_ch_hintergrund.length - 4));
-    html_ch_sachinfos = html_ch_sachinfos.substring(0, (html_ch_sachinfos.length - 4));
-    html_ch_biotopinv = html_ch_biotopinv.substring(0, (html_ch_biotopinv.length - 4));
-    html_zh_sachinfos = html_zh_sachinfos.substring(0, (html_zh_sachinfos.length - 4));
-    if (eigene_layer_zähler > 0) {
-        html_eigene_layer = html_eigene_layer.substring(0, (html_eigene_layer.length - 4));
+    htmlChHintergrund = htmlChHintergrund.substring(0, (htmlChHintergrund.length - 4));
+    htmlChSachinfos   = htmlChSachinfos.substring(0, (htmlChSachinfos.length - 4));
+    htmlChBiotopinv   = htmlChBiotopinv.substring(0, (htmlChBiotopinv.length - 4));
+    htmlZhSachinfos   = htmlZhSachinfos.substring(0, (htmlZhSachinfos.length - 4));
+    if (eigeneLayerZaehler > 0) {
+        htmlEigeneLayer = htmlEigeneLayer.substring(0, (htmlEigeneLayer.length - 4));
     }
-    if (html_apflora !== '<h3>ZH AP Flora</h3><div>') {
-        html_apflora = html_apflora.substring(0, (html_apflora.length - 4));
+    if (htmlApflora !== '<h3>ZH AP Flora</h3><div>') {
+        htmlApflora = htmlApflora.substring(0, (htmlApflora.length - 4));
     } else {
-        html_apflora = '';
+        htmlApflora = '';
     }
     // unteraccordions abschliessen
     //html_welt_hintergrund += '</div>';
-    html_ch_hintergrund += '</div>';
-    html_ch_sachinfos += '</div>';
-    html_ch_biotopinv += '</div>';
-    html_zh_sachinfos += '</div>';
-    html_apflora += '</div>';
-    if (eigene_layer_zähler > 0) {
-        html_eigene_layer_text += html_eigene_layer;
+    htmlChHintergrund += '</div>';
+    htmlChSachinfos   += '</div>';
+    htmlChBiotopinv   += '</div>';
+    htmlZhSachinfos   += '</div>';
+    htmlApflora       += '</div>';
+    if (eigeneLayerZaehler > 0) {
+        htmlEigeneLayerText += htmlEigeneLayer;
     }
-    html_eigene_layer_text += '</div>';
+    htmlEigeneLayerText += '</div>';
     // alles zusammensetzen
-    html = /*html_welt_hintergrund + */html_ch_hintergrund + html_ch_sachinfos + html_ch_biotopinv + html_zh_sachinfos + html_apflora + html_eigene_layer_text;
+    html = /*html_welt_hintergrund + */htmlChHintergrund + htmlChSachinfos + htmlChBiotopinv + htmlZhSachinfos + htmlApflora + htmlEigeneLayerText;
     // und einsetzen
     $olmap_layertree_layers.html(html);
     // erst jetzt initiieren, sonst stimmt die Höhe nicht
@@ -183,12 +183,12 @@ var returnFunction = function (active_kategorie) {
         // ohne die erste Aktivierung funktioniert es nicht
         $ga_karten_div_accordion.accordion({
             collapsible: true,
-            active: false,
+            active:      false,
             heightStyle: 'content'
         });
         $ga_karten_div_accordion.accordion({
             collapsible: true,
-            active: 0,
+            active:      0,
             heightStyle: 'content'
         });
         if (active_kategorie === 'Eigene Ebenen') {
@@ -196,13 +196,13 @@ var returnFunction = function (active_kategorie) {
         }
         $('#olmap_layertree_layers').accordion({
             collapsible: true,
-            active: active,
+            active:      active,
             heightStyle: 'content'
         });
     } else {
         $ga_karten_div_accordion.accordion({
             collapsible: true,
-            active: false,
+            active:      false,
             heightStyle: 'content'
         });
     }
@@ -217,22 +217,22 @@ var returnFunction = function (active_kategorie) {
         .button('refresh');
     $('.export_layer_select').selectmenu();
     // jetzt tooltips erstellen
-    _.each(export_layer_select_ids, function (id) {
+    _.each(exportLayerSelectIds, function (id) {
         // give the selectmenu a tooltip
         $('#' + id + '-button').tooltip({
             tooltipClass: "tooltip-styling-hinterlegt",
-            items: 'span',
-            content: 'Ebene exportieren<br>Wählen Sie ein Format',
+            items:        'span',
+            content:      'Ebene exportieren<br>Wählen Sie ein Format',
             position: {
                 my: 'left bottom-5',
                 at: 'left top'
             }
         });
     });
-    if (initialize_modify_layer) {
+    if (initializeModifyLayer) {
         $('.modify_layer')
             .button({
-                icons: {primary: 'ui-icon-locked'},
+                icons: { primary: 'ui-icon-locked' },
                 text: false
             })
             .button('refresh');
@@ -252,18 +252,18 @@ var returnFunction = function (active_kategorie) {
             });
         $('.rename_layer')
             .button({
-                icons: {primary: 'ui-icon-tag'},
+                icons: { primary: 'ui-icon-tag' },
                 text: false
             })
             .button('refresh');
         $('.entferne_layer')
             .button({
-                icons: {primary: 'ui-icon-closethick'},
+                icons: { primary: 'ui-icon-closethick' },
                 text: false
             })
             .button('refresh');
     }
-    if (initialize_legende) {
+    if (initializeLegende) {
         $(".olmap_layertreee_legende").tooltip({
             tooltipClass: "tooltip_olmap_layertree_legende",
             position: {
@@ -285,5 +285,3 @@ var returnFunction = function (active_kategorie) {
         });
     }
 };
-
-module.exports = returnFunction;

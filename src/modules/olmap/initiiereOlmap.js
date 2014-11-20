@@ -1,15 +1,14 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $  = require('jquery'),
-    ol = require('ol'),
-    ga = require('ga');
+var $                      = require('jquery'),
+    ol                     = require('ol'),
+    ga                     = require('ga'),
+    initiiereLayertree     = require('./initiiereLayertree'),
+    createLayers           = require('./createLayers'),
+    addDragAndDropGeofiles = require('./addDragAndDropGeofiles');
 
-var returnFunction = function () {
-    var initiiereLayertree     = require('./initiiereLayertree'),
-        createLayers           = require('./createLayers'),
-        addDragAndDropGeofiles = require('./addDragAndDropGeofiles');
-
+module.exports = function () {
     // allfällige Apflora-Ebenen entfernen
     window.apf.olmap.entferneAlleApfloraLayer();
     // allfällige Modify-Interaktion entfernen
@@ -41,5 +40,3 @@ var returnFunction = function () {
         });
     }
 };
-
-module.exports = returnFunction;

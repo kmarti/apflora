@@ -7,14 +7,15 @@ var $                                 = require('jquery'),
     zeigeTPop                         = require('./zeigeTPop'),
     styleTPop                         = require('./styleTPop');
 
-var returnFunction = function (tpop) {
+module.exports = function (tpop) {
     var bounds,
-        x_max,
-        x_min,
-        y_max,
-        y_min,
-        new_feature,
-        modifySource;
+        xMax,
+        xMin,
+        yMax,
+        yMin,
+        newFeature,
+        modifySource,
+        modifyLayer;
 
     // tpop hat keine PopNr
     // Infos von Pop müssen ergänzt werden, weil sie als Label angezeigt werden
@@ -27,27 +28,27 @@ var returnFunction = function (tpop) {
 
         // modify-layer erstellen
         modifySource = new ol.source.Vector();
-        var modify_layer = new ol.layer.Vector({
-            title: 'verortende Teilpopulation',
+        modifyLayer  = new ol.layer.Vector({
+            title:     'verortende Teilpopulation',
             kategorie: 'AP Flora',
-            source: modifySource,
+            source:    modifySource,
             style: function (feature, resolution) {
                 return styleTPop(feature, resolution, false, true);
             }
         });
-        window.apf.olmap.map.addLayer(modify_layer);
+        window.apf.olmap.map.addLayer(modifyLayer);
 
         if (tpop && tpop.TPopXKoord && tpop.TPopYKoord) {
             // bounds vernünftig erweitern, damit Punkt nicht in eine Ecke zu liegen kommt
-            x_max = parseInt(tpop.TPopXKoord, 10) + 200;
-            x_min = parseInt(tpop.TPopXKoord, 10) - 200;
-            y_max = parseInt(tpop.TPopYKoord, 10) + 200;
-            y_min = parseInt(tpop.TPopYKoord, 10) - 200;
-            bounds = [x_min, y_min, x_max, y_max];
+            xMax   = parseInt(tpop.TPopXKoord, 10) + 200;
+            xMin   = parseInt(tpop.TPopXKoord, 10) - 200;
+            yMax   = parseInt(tpop.TPopYKoord, 10) + 200;
+            yMin   = parseInt(tpop.TPopYKoord, 10) - 200;
+            bounds = [xMin, yMin, xMax, yMax];
             // wenn schon eine Koordinate existiert:
             // tpop als feature zum modify hinzufügen
-            new_feature = new ol.Feature(new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]));
-            modifySource.addFeature(new_feature);
+            newFeature = new ol.Feature(new ol.geom.Point([tpop.TPopXKoord, tpop.TPopYKoord]));
+            modifySource.addFeature(newFeature);
             // modify-handler erstellen
             erstelleModifyInteractionFuerTPop(modifySource);
             // Karte zum richtigen Ausschnitt zoomen
@@ -68,14 +69,14 @@ var returnFunction = function (tpop) {
             window.apf.olmap.draw_interaction.once('drawend', function (event) {
                 var coordinates = event.feature.getGeometry().getCoordinates();
                 // Koordinaten in tpop ergänzen
-                tpop.TPopXKoord  = parseInt(coordinates[0], 10);
+                tpop.TPopXKoord = parseInt(coordinates[0], 10);
                 tpop.TPopYKoord = parseInt(coordinates[1], 10);
                 $.when(window.apf.aktualisiereKoordinatenVonTPop(tpop)).then(function () {
                     // marker in tpopLayer ergänzen
                     // tpopLayer holen
-                    var layers            = window.apf.olmap.map.getLayers().getArray(),
+                    var layers          = window.apf.olmap.map.getLayers().getArray(),
                         tpopLayerNr     = $('#olmap_layertree_Teilpopulationen').val(),
-                        tpopLayer        = layers[tpopLayerNr],
+                        tpopLayer       = layers[tpopLayerNr],
                         tpopLayerSource = tpopLayer.getSource();
                     // marker ergänzen
                     tpopLayerSource.addFeature(window.apf.olmap.erstelleMarkerFuerTPopLayer(tpop));
@@ -93,5 +94,3 @@ var returnFunction = function (tpop) {
         }
     });
 };
-
-module.exports = returnFunction;
