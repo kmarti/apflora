@@ -6,7 +6,8 @@ var $                      = require('jquery'),
     ga                     = require('ga'),
     initiiereLayertree     = require('./initiiereLayertree'),
     createLayers           = require('./createLayers'),
-    addDragAndDropGeofiles = require('./addDragAndDropGeofiles');
+    addDragAndDropGeofiles = require('./addDragAndDropGeofiles'),
+    blendeOlmapExportieren = require('./blendeOlmapExportieren');
 
 module.exports = function () {
     // allfällige Apflora-Ebenen entfernen
@@ -36,7 +37,7 @@ module.exports = function () {
         window.apf.olmap.map.on('change:size', function () {
             // steuern, ob das Export-Tool sichtbar ist
             // wenn es bei hoher Pixelzahl sichtbar ist, gibt es Probleme
-            window.apf.olmap.blendeOlmapExportieren();
+            blendeOlmapExportieren();
         });
     }
 };

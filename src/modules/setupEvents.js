@@ -1,10 +1,12 @@
 /*jslint node: true, browser: true, nomen: true, todo: true */
 'use strict';
 
-var $           = require('jquery'),
-    _           = require('underscore'),
-    addruler    = require('addruler'),
-    removeruler = require('removeruler');
+var $                             = require('jquery'),
+    _                             = require('underscore'),
+    addruler                      = require('addruler'),
+    removeruler                   = require('removeruler'),
+    downloadFileFromView          = require('./downloadFileFromView'),
+    downloadFileFromViewWehreIdIn = require('./downloadFileFromViewWehreIdIn');
 
 module.exports = function () {
     $('#olmap_layertree')
@@ -416,9 +418,9 @@ module.exports = function () {
                         pop_id_liste += ",";
                     }
                 });
-                window.apf.downloadFileFromViewWehreIdIn('vPop', 'PopId', pop_id_liste, 'Populationen', 'csv');
+                downloadFileFromViewWehreIdIn('vPop', 'PopId', pop_id_liste, 'Populationen', 'csv');
             } else {
-                window.apf.downloadFileFromView('vPop', 'Populationen', 'xlsx');
+                downloadFileFromView('vPop', 'Populationen', 'csv');
             }
             return false; // this is critical to stop the click event which will trigger a normal file download!
         })
@@ -432,9 +434,9 @@ module.exports = function () {
                         tpop_id_liste += ",";
                     }
                 });
-                window.apf.downloadFileFromViewWehreIdIn('vKontr', 'TPop ID', tpop_id_liste, 'Kontrollen', 'csv');
+                downloadFileFromViewWehreIdIn('vKontr', 'TPop ID', tpop_id_liste, 'Kontrollen', 'csv');
             } else {
-                window.apf.downloadFileFromView('vKontr', 'Kontrollen', 'csv');
+                downloadFileFromView('vKontr', 'Kontrollen', 'csv');
             }
             return false; // this is critical to stop the click event which will trigger a normal file download!
         })
@@ -448,9 +450,9 @@ module.exports = function () {
                         tpop_id_liste += ",";
                     }
                 });
-                window.apf.downloadFileFromViewWehreIdIn('vTPop', 'TPop ID', tpop_id_liste, 'Teilpopulationen', 'csv');
+                downloadFileFromViewWehreIdIn('vTPop', 'TPop ID', tpop_id_liste, 'Teilpopulationen', 'csv');
             } else {
-                window.apf.downloadFileFromView('vTPop', 'Teilpopulationen', 'csv');
+                downloadFileFromView('vTPop', 'Teilpopulationen', 'csv');
             }
             return false; // this is critical to stop the click event which will trigger a normal file download!
         })
@@ -464,9 +466,9 @@ module.exports = function () {
                         tpop_id_liste += ",";
                     }
                 });
-                window.apf.downloadFileFromViewWehreIdIn('vMassn', 'TPop ID', tpop_id_liste, 'Massnahmen', 'csv');
+                downloadFileFromViewWehreIdIn('vMassn', 'TPop ID', tpop_id_liste, 'Massnahmen', 'csv');
             } else {
-                window.apf.downloadFileFromView('vMassn', 'Massnahmen', 'csv');
+                downloadFileFromView('vMassn', 'Massnahmen', 'csv');
             }
             return false; // this is critical to stop the click event which will trigger a normal file download!
         });
@@ -477,123 +479,123 @@ module.exports = function () {
 
     $("#exporte")
         .on("click", "#export_ap", function () {
-            window.apf.downloadFileFromView('vProgramme', 'Programme', 'csv');
+            downloadFileFromView('vProgramme', 'Programme', 'csv');
             return false; // this is critical to stop the click event which will trigger a normal file download!
         })
         .on("click", "#export_ap_ohne_pop", function () {
-            window.apf.downloadFileFromView('vApOhnePop', 'ProgrammeOhnePopulationen', 'csv');
+            downloadFileFromView('vApOhnePop', 'ProgrammeOhnePopulationen', 'csv');
             return false;
         })
         .on("click", "#export_ap_anz_massn", function () {
-            window.apf.downloadFileFromView('vApAnzMassn', 'ProgrammeAnzahlMassnahmen', 'csv');
+            downloadFileFromView('vApAnzMassn', 'ProgrammeAnzahlMassnahmen', 'csv');
             return false;
         })
         .on("click", "#export_ap_anz_kontr", function () {
-            window.apf.downloadFileFromView('vApAnzKontr', 'ProgrammeAnzahlKontrollen', 'csv');
+            downloadFileFromView('vApAnzKontr', 'ProgrammeAnzahlKontrollen', 'csv');
             return false;
         })
         .on("click", "#export_jber", function () {
-            window.apf.downloadFileFromView('vApJahresberichte', 'Jahresberichte', 'csv');
+            downloadFileFromView('vApJahresberichte', 'Jahresberichte', 'csv');
             return false;
         })
         .on("click", "#export_jber_massn", function () {
-            window.apf.downloadFileFromView('vApJahresberichteUndMassnahmen', 'ApJahresberichteUndMassnahmen', 'csv');
+            downloadFileFromView('vApJahresberichteUndMassnahmen', 'ApJahresberichteUndMassnahmen', 'csv');
             return false;
         })
         .on("click", "#export_apziel", function () {
-            window.apf.downloadFileFromView('vApZiele', 'ApZiele', 'csv');
+            downloadFileFromView('vApZiele', 'ApZiele', 'csv');
             return false;
         })
         .on("click", "#export_zielber", function () {
-            window.apf.downloadFileFromView('vZielBer', 'Zielberichte', 'csv');
+            downloadFileFromView('vZielBer', 'Zielberichte', 'csv');
             return false;
         })
         .on("click", "#export_ber", function () {
-            window.apf.downloadFileFromView('vBer', 'Berichte', 'csv');
+            downloadFileFromView('vBer', 'Berichte', 'csv');
             return false;
         })
         .on("click", "#export_erfkrit", function () {
-            window.apf.downloadFileFromView('vErfKrit', 'Erfolgskriterien', 'csv');
+            downloadFileFromView('vErfKrit', 'Erfolgskriterien', 'csv');
             return false;
         })
         .on("click", "#export_idealbiotop", function () {
-            window.apf.downloadFileFromView('vIdealbiotop', 'Idealbiotope', 'csv');
+            downloadFileFromView('vIdealbiotop', 'Idealbiotope', 'csv');
             return false;
         })
         .on("click", "#export_assoz_arten", function () {
-            window.apf.downloadFileFromView('vAssozArten', 'AssoziierteArten', 'csv');
+            downloadFileFromView('vAssozArten', 'AssoziierteArten', 'csv');
             return false;
         })
         .on("click", "#export_pop_fuer_kml", function () {
-            window.apf.downloadFileFromView('vPopFuerKml', 'ApFloraPopulationen', 'kml');
+            downloadFileFromView('vPopFuerKml', 'ApFloraPopulationen', 'kml');
             return false;
         })
         .on("click", "#export_pop_fuer_kml_namen", function () {
-            window.apf.downloadFileFromView('vPopFuerKmlNamen', 'PopulationenNachNamen', 'kml');
+            downloadFileFromView('vPopFuerKmlNamen', 'PopulationenNachNamen', 'kml');
             return false;
         })
         .on("click", "#export_pop_ohne_tpop", function () {
-            window.apf.downloadFileFromView('vPopOhneTPop', 'PopulationenOhneTeilpopulationen', 'csv');
+            downloadFileFromView('vPopOhneTPop', 'PopulationenOhneTeilpopulationen', 'csv');
             return false;
         })
         .on("click", "#export_pop_von_ap_ohne_status", function () {
-            window.apf.downloadFileFromView('vPopVonApOhneStatus', 'PopulationenVonApArtenOhneStatus', 'csv');
+            downloadFileFromView('vPopVonApOhneStatus', 'PopulationenVonApArtenOhneStatus', 'csv');
             return false;
         })
         .on("click", "#export_pop_ohne_koord", function () {
-            window.apf.downloadFileFromView('vPopOhneKoord', 'PopulationenOhneKoordinaten', 'csv');
+            downloadFileFromView('vPopOhneKoord', 'PopulationenOhneKoordinaten', 'csv');
             return false;
         })
         .on("click", "#export_pop_mit_massnber_anz_massn", function () {
-            window.apf.downloadFileFromView('vPopMassnberAnzMassn', 'PopulationenAnzMassnProMassnber', 'csv');
+            downloadFileFromView('vPopMassnberAnzMassn', 'PopulationenAnzMassnProMassnber', 'csv');
             return false;
         })
         .on("click", "#export_pop_anz_massn", function () {
-            window.apf.downloadFileFromView('vPopAnzMassn', 'PopulationenAnzahlMassnahmen', 'csv');
+            downloadFileFromView('vPopAnzMassn', 'PopulationenAnzahlMassnahmen', 'csv');
             return false;
         })
         .on("click", "#export_pop_anz_kontr", function () {
-            window.apf.downloadFileFromView('vPopAnzKontr', 'PopulationenAnzahlKontrollen', 'csv');
+            downloadFileFromView('vPopAnzKontr', 'PopulationenAnzahlKontrollen', 'csv');
             return false;
         })
         .on("click", "#export_popber_massnber", function () {
-            window.apf.downloadFileFromView('vPop_BerUndMassnBer', 'PopulationenPopUndMassnBerichte', 'csv');
+            downloadFileFromView('vPop_BerUndMassnBer', 'PopulationenPopUndMassnBerichte', 'csv');
             return false;
         })
         .on("click", "#export_tpop_fuer_kml", function () {
-            window.apf.downloadFileFromView('vTPopFuerKml', 'Teilpopulationen', 'kml');
+            downloadFileFromView('vTPopFuerKml', 'Teilpopulationen', 'kml');
             return false;
         })
         .on("click", "#export_tpop_fuer_kml_namen", function () {
-            window.apf.downloadFileFromView('vTPopFuerKmlNamen', 'TeilpopulationenNachNamen', 'kml');
+            downloadFileFromView('vTPopFuerKmlNamen', 'TeilpopulationenNachNamen', 'kml');
             return false;
         })
         .on("click", "#export_tpop_ohne_bekannt_seit", function () {
-            window.apf.downloadFileFromView('vTPopOhneBekanntSeit', 'TeilpopulationenVonApArtenOhneBekanntSeit', 'csv');
+            downloadFileFromView('vTPopOhneBekanntSeit', 'TeilpopulationenVonApArtenOhneBekanntSeit', 'csv');
             return false;
         })
         .on("click", "#export_tpop_anz_massn", function () {
-            window.apf.downloadFileFromView('vTPopAnzMassn', 'TeilpopulationenAnzahlMassnahmen', 'csv');
+            downloadFileFromView('vTPopAnzMassn', 'TeilpopulationenAnzahlMassnahmen', 'csv');
             return false;
         })
         .on("click", "#export_tpop_anz_kontr_inkl_letzte", function () {
-            window.apf.downloadFileFromView('vTPopAnzKontrInklLetzteKontr', 'TeilpopulationenAnzahlKontrollenInklusiveLetzteKontrolle', 'csv');
+            downloadFileFromView('vTPopAnzKontrInklLetzteKontr', 'TeilpopulationenAnzahlKontrollenInklusiveLetzteKontrolle', 'csv');
             return false;
         })
         .on("click", "#export_tpopber_massnber", function () {
-            window.apf.downloadFileFromView('vTPop_BerUndMassnBer', 'TeilpopulationenTPopUndMassnBerichte', 'csv');
+            downloadFileFromView('vTPop_BerUndMassnBer', 'TeilpopulationenTPopUndMassnBerichte', 'csv');
             return false;
         })
         .on("click", "#export_kontr_anz_pro_zaehleinheit", function () {
-            window.apf.downloadFileFromView('vKontrAnzProZaehleinheit', 'KontrollenAnzahlProZaehleinheit', 'csv');
+            downloadFileFromView('vKontrAnzProZaehleinheit', 'KontrollenAnzahlProZaehleinheit', 'csv');
             return false;
         })
         .on("click", "#export_beob", function () {
-            window.apf.downloadFileFromView('vBeob', 'Beobachtungen', 'csv');
+            downloadFileFromView('vBeob', 'Beobachtungen', 'csv');
             return false;
         })
         .on("click", "#export_datenstruktur", function () {
-            window.apf.downloadFileFromView('vDatenstruktur', 'Datenstruktur', 'csv');
+            downloadFileFromView('vDatenstruktur', 'Datenstruktur', 'csv');
             return false;
         })
         .on("click", "#export_datenstruktur_grafisch", function () {

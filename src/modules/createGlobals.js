@@ -218,63 +218,6 @@ var initiiereApp = function () {
         });
     };
 
-    window.apf.downloadFileFromView = function (view, filename, format) {
-        // löst einen Download aus
-        // als Formate steht momentan nur csv (und teilweise kml) zur Verfügung, weil xlsx leider nicht funktioniert hat
-        var getTimestamp       = require('./getTimestamp'),
-            createBlobDataXlsx = require('./createBlobDataXlsx'),
-            url,
-            blob,
-            blobData;
-
-        format = format || 'csv';
-
-        if (format === 'xlsx') {
-            // Daten als json holen
-            // TODO: wird als text/html geholt!!!????
-            $.ajax({
-                /*beforeSend: function(xhrObj){
-                        xhrObj.setRequestHeader("Content-Type","application/json");
-                        xhrObj.setRequestHeader("Accept","application/json");
-                },*/
-                type: 'get',
-                url: 'api/v1/exportView/xlsx/view=' + view,
-                //contentType: "application/json",
-                dataType: 'json',
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
-                }
-            }).done(function (data) {
-                // als Blob verpacken und downloaden
-                blobData = createBlobDataXlsx(data);
-                blob     = new Blob([blobData], {type: "application/octet-stream;charset=utf-8;"});
-                saveAs(blob, filename + "_" + getTimestamp() + '.xlsx');
-            });
-        } else {
-            url = 'api/v1/exportView/' + format + '/view=' + view + '/filename=' + filename + '_' + getTimestamp();
-            $.fileDownload(url, {
-                preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-                failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-            });
-        }
-    };
-
-    window.apf.downloadFileFromViewWehreIdIn = function (view, idName, idListe, filename, format) {
-        // löst einen Download aus
-        // als Formate steht momentan nur csv zur Verfügung, weil xlsx leider nicht funktioniert hat
-        var getTimestamp = require('./getTimestamp'),
-            url;
-
-        format = format || 'csv';
-        url = 'api/v1/exportViewWhereIdIn/' + format + '/view=' + view + '/idName=' + idName + '/idListe=' + idListe + '/filename=' + filename + '_' + getTimestamp();
-
-        $.fileDownload(url, {
-            preparingMessageHtml: "Der Download wird vorbereitet, bitte warten...",
-            failMessageHtml: "Beim Aufbereiten des Downloads ist ein Problem aufgetreten, bitte nochmals versuchen."
-        });
-    };
-
     // setzt window.apf.popber und localStorage.popberId
     // wird benötigt, wenn beim App-Start direkt ein deep link geöffnet wird
     window.apf.setzeWindowPopber = function (id) {
@@ -428,28 +371,6 @@ var initiiereApp = function () {
         } else {
             $("#forms").height('auto');
         }
-    };
-
-    window.apf.olmap.blendeOlmapExportieren = function () {
-        var map_size,
-            anz_kartenpixel,
-            tooltip_title;
-
-        map_size = window.apf.olmap.map.getSize();
-        // resolution nicht berücksichtigen - das funktionierte nicht zuverlässig und gab Probleme
-        anz_kartenpixel = /*window.apf.olmap.map.getView().getResolution() * */map_size[0] * map_size[1];
-        $('#olmap_exportieren').button();
-        if (anz_kartenpixel > 500000) {
-            $('#olmap_exportieren').button("disable");
-            tooltip_title = 'Karte als png herunterladen<br>Diese Funktion ist inaktiv<br>Um sie zu aktivieren, müssen Sie die Karte verkleinern<br>Packen Sie dazu die untere rechte Ecke und ziehen Sie sie nach oben links';
-        } else {
-            $('#olmap_exportieren').button("enable");
-            tooltip_title = 'Karte als png herunterladen';
-        }
-        $("#olmap_exportieren_div").tooltip({
-            tooltipClass: "tooltip-styling-hinterlegt",
-            content: tooltip_title
-        });
     };
 
     window.apf.berechneOlmapLayertreeMaxhoehe = function () {

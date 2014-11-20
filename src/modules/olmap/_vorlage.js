@@ -4,8 +4,6 @@
 var $  = require('jquery'),
     ol = require('ol');
 
-var returnFunction = function () {
+module.exports = function () {
     
 };
-
-module.exports = returnFunction;
