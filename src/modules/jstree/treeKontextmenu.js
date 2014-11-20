@@ -72,7 +72,7 @@ var _                                         = require('underscore'),
     zeigeBeobNichtBeurteiltAufGmap            = require('./zeigeBeobNichtBeurteiltAufGmap'),
     zeigeBeobNichtBeurteiltUndTpopAufGmap     = require('./zeigeBeobNichtBeurteiltUndTpopAufGmap'),
     schneideBeobZugeordnetAus                 = require('./schneideBeobZugeordnetAus'),
-    schneideBeobNichtBeurteiltAus             = require('./schneideBeobNichtBeurteiltAus'),
+    schneideBeobAus             = require('./schneideBeobAus'),
     zeigeBeobNichtZuzuordnenAufGmap           = require('./zeigeBeobNichtZuzuordnenAufGmap');
 
 module.exports = function (node) {
@@ -1158,7 +1158,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/ausschneiden.png",
                 "action": function () {
-                    schneideBeobNichtBeurteiltAus(aktiverNode);
+                    schneideBeobAus(aktiverNode);
                 }
             };
         }
@@ -1221,11 +1221,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/ausschneiden.png",
                 "action": function () {
-                    // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
-                        return;
-                    }
-                    window.apf.beobNodeAusgeschnitten = aktiverNode;
+                    schneideBeobAus(aktiverNode);
                 }
             };
         }
