@@ -69,8 +69,8 @@ var _                                         = require('underscore'),
     zeigeTpopAufGmap                          = require('./zeigeTpopAufGmap'),
     verorteTpopAufGmap                        = require('./verorteTpopAufGmap'),
     zeigeTpopUndBeobAufGmap                   = require('./zeigeTpopUndBeobAufGmap'),
-    zeigeTpopbeobNichtBeurteiltAufGmap        = require('./zeigeTpopbeobNichtBeurteiltAufGmap'),
-    zeigeTpopbeobNichtBeurteiltUndTpopAufGmap = require('./zeigeTpopbeobNichtBeurteiltUndTpopAufGmap'),
+    zeigeBeobNichtBeurteiltAufGmap            = require('./zeigeBeobNichtBeurteiltAufGmap'),
+    zeigeBeobNichtBeurteiltUndTpopAufGmap     = require('./zeigeBeobNichtBeurteiltUndTpopAufGmap'),
     schneideBeobZugeordnetAus                 = require('./schneideBeobZugeordnetAus');
 
 module.exports = function (node) {
@@ -1099,7 +1099,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/flora_icon_violett.png",
                 "action": function () {
-                    zeigeTpopbeobNichtBeurteiltAufGmap($(aktiverNode).attr("id"));
+                    zeigeBeobNichtBeurteiltAufGmap($(aktiverNode).attr("id"));
                 }
             },
             "GoogleMapsMitTPop": {
@@ -1107,7 +1107,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/flora_icon_violett.png",
                 "action": function () {
-                    zeigeTpopbeobNichtBeurteiltUndTpopAufGmap($(aktiverNode).attr("id"));
+                    zeigeBeobNichtBeurteiltUndTpopAufGmap($(aktiverNode).attr("id"));
                 }
             }
         };
@@ -1129,20 +1129,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/flora_icon_violett.png",
                 "action": function () {
-                    var zeigeBeob = require('../gmap/zeigeBeob');
-                    $.ajax({
-                        type: 'get',
-                        url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/nichtZuzuordnen='
-                    }).done(function (data) {
-                        if (data && data[0]) {
-                            // zeigeBeob erwartet einen Array von Beob
-                            zeigeBeob(data);
-                        } else {
-                            melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
-                        }
-                    }).fail(function () {
-                        melde("Fehler: Keine Daten erhalten");
-                    });
+                    zeigeBeobNichtBeurteiltAufGmap(null, $(aktiverNode).attr("id"));
                 }
             },
             "GoogleMapsMitTPopBeob": {
