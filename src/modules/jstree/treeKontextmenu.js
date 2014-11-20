@@ -65,7 +65,8 @@ var _                                         = require('underscore'),
     zeigeTpopAufOlmap                         = require('./zeigeTpopAufOlmap'),
     verorteTpopAufOlmap                       = require('./verorteTpopAufOlmap'),
     zeigeTpopAufGmap                          = require('./zeigeTpopAufGmap'),
-    verorteTpopAufGmap                        = require('./verorteTpopAufGmap');
+    verorteTpopAufGmap                        = require('./verorteTpopAufGmap'),
+    zeigeTpopUndBeobAufGmap                   = require('./zeigeTpopUndBeobAufGmap');
 
 module.exports = function (node) {
     var items,
@@ -1014,30 +1015,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/flora_icon_violett.png",
                 "action": function () {
-                    var zeigeBeobUndTPop = require('../gmap/zeigeBeobUndTPop'),
-                        zeigeBeob        = require('../gmap/zeigeBeob');
-                    $.ajax({
-                        type: 'get',
-                        url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/nichtZuzuordnen='
-                    }).done(function (beob) {
-                        if (beob && beob[0]) {
-                            // Array belassen -zeigeBeob benötigt einen Array
-                            $.ajax({
-                                type: 'get',
-                                url: 'api/v1/apKarte/apId=' + localStorage.apId
-                            }).done(function (tpop) {
-                                if (tpop && tpop.length > 0) {
-                                    zeigeBeobUndTPop(beob, tpop);
-                                } else {
-                                    zeigeBeob(beob);
-                                }
-                            });
-                        } else {
-                            melde("Die Beobachtung hat keine Koordinaten<br>Bitte im Formular zuordnen", "Aktion abgebrochen");
-                        }
-                    }).fail(function () {
-                        melde("Fehler: Keine Daten erhalten");
-                    });
+                    zeigeTpopUndBeobAufGmap($(aktiverNode).attr("id"));
                 }
             },
             "GisBrowser": {
