@@ -71,7 +71,9 @@ var _                                         = require('underscore'),
     zeigeTpopUndBeobAufGmap                   = require('./zeigeTpopUndBeobAufGmap'),
     zeigeBeobNichtBeurteiltAufGmap            = require('./zeigeBeobNichtBeurteiltAufGmap'),
     zeigeBeobNichtBeurteiltUndTpopAufGmap     = require('./zeigeBeobNichtBeurteiltUndTpopAufGmap'),
-    schneideBeobZugeordnetAus                 = require('./schneideBeobZugeordnetAus');
+    schneideBeobZugeordnetAus                 = require('./schneideBeobZugeordnetAus'),
+    schneideBeobNichtBeurteiltAus             = require('./schneideBeobNichtBeurteiltAus'),
+    zeigeBeobNichtZuzuordnenAufGmap           = require('./zeigeBeobNichtZuzuordnenAufGmap');
 
 module.exports = function (node) {
     var items,
@@ -1156,11 +1158,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/ausschneiden.png",
                 "action": function () {
-                    // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
-                        return;
-                    }
-                    window.apf.beobNodeAusgeschnitten = aktiverNode;
+                    schneideBeobNichtBeurteiltAus(aktiverNode);
                 }
             };
         }
@@ -1182,19 +1180,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/flora_icon_violett.png",
                 "action": function () {
-                    var zeigeBeob = require('../gmap/zeigeBeob');
-                    $.ajax({
-                        type: 'get',
-                        url: '/api/v1/beobKarte/apId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/tpopId=/beobId=/nichtZuzuordnen=1'
-                    }).done(function (data) {
-                        if (data.length > 0) {
-                            zeigeBeob(data);
-                        } else {
-                            melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
-                        }
-                    }).fail(function () {
-                        melde("Fehler: Keine Daten erhalten");
-                    });
+                    zeigeBeobNichtZuzuordnenAufGmap($(aktiverNode).attr("id"));
                 }
             }
         };
@@ -1216,20 +1202,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/flora_icon_violett.png",
                 "action": function () {
-                    var zeigeBeob = require('../gmap/zeigeBeob');
-                    $.ajax({
-                        type: 'get',
-                        url: '/api/v1/beobKarte/apId=/tpopId=/beobId=' + erstelleIdAusDomAttributId($(aktiverNode).attr("id")) + '/nichtZuzuordnen='
-                    }).done(function (data) {
-                        if (data && data[0]) {
-                            // zeigeBeob erwaret einen Array, daher diesen belassen
-                            zeigeBeob(data);
-                        } else {
-                            melde("Es gibt keine Beobachtung mit Koordinaten", "Aktion abgebrochen");
-                        }
-                    }).fail(function () {
-                        melde("Fehler: Keine Daten erhalten");
-                    });
+                    zeigeBeobNichtZuzuordnenAufGmap(null, $(aktiverNode).attr("id"));
                 }
             },
             "GisBrowser": {
