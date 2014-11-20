@@ -1471,36 +1471,6 @@ var initiiereApp = function () {
         $("#olmap_layertree").accordion("option", "active", false);
     };
 
-    window.apf.kopiereKoordinatenInPop = function (x_koord, y_koord) {
-        var melde = require('./melde');
-
-        // prüfen, ob X- und Y-Koordinaten vergeben sind
-        if (x_koord > 100000 && y_koord > 100000) {
-            // Koordinaten der Pop nachführen
-            $.ajax({
-                type: 'post',
-                url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + localStorage.popId + '/feld=PopXKoord/wert=' + x_koord + '/user=' + sessionStorage.user
-            }).done(function () {
-                $.ajax({
-                    type: 'post',
-                    url: 'api/v1/update/apflora/tabelle=tblPopulation/tabelleIdFeld=PopId/tabelleId=' + localStorage.popId + '/feld=PopYKoord/wert=' + y_koord + '/user=' + sessionStorage.user
-                }).done(function () {
-                    $("#kopiereKoordinatenInPopRueckmeldung").fadeIn('slow');
-                    setTimeout(function () {
-                        $("#kopiereKoordinatenInPopRueckmeldung").fadeOut('slow');
-                    }, 3000);
-                }).fail(function () {
-                    melde("Fehler: Y-Koordinate wurde nicht kopiert (die X-Koordinate offenbar schon)");
-                });
-            }).fail(function () {
-                melde("Fehler: Koordinaten wurden nicht kopiert");
-            });
-        } else {
-            // auffordern, die Koordinaten zu vergeben und Speichern abbrechen
-            melde("Sie müssen zuerst Koordinaten erfassen", "Koordinaten nicht kopiert");
-        }
-    };
-
     // erwartet aktuelle Werte für jahr und typ
     // erstellt den label für den Baum
     window.apf.erstelleLabelFuerFeldkontrolle = function (jahr, typ) {

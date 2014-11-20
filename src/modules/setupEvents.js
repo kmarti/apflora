@@ -21,7 +21,8 @@ var $                             = require('jquery'),
     waehleAp                      = require('./waehleAp'),
     loescheAp                     = require('./loescheAp'),
     undeleteDatensatz             = require('./undeleteDatensatz'),
-    melde                         = require('./melde');
+    melde                         = require('./melde'),
+    kopiereKoordinatenInPop       = require('./kopiereKoordinatenInPop');
 
 module.exports = function () {
     $('#olmap_layertree')
@@ -260,7 +261,7 @@ module.exports = function () {
             speichern(this);
         })
         .on("click", "#kopiereKoordinatenInPop", function () {
-            window.apf.kopiereKoordinatenInPop($("#TPopXKoord").val(), $("#TPopYKoord").val());
+            kopiereKoordinatenInPop($("#TPopXKoord").val(), $("#TPopYKoord").val());
         })
         .on("keyup focus", "textarea", function () {
             fitTextareaToContent(this, document.documentElement.clientHeight);
