@@ -13,7 +13,7 @@ var _                                         = require('underscore'),
     insertNeuePop                             = require('./insertNeuePop'),
     loeschePop                                = require('./loeschePop'),
     schneidePopAus                            = require('./schneidePopAus'),
-    fuegeAusgeschnittenePopEin                = require('./fuegeAusgeschnittenePopEin'),
+    insertAusgeschnittenePop                  = require('./insertAusgeschnittenePop'),
     insertNeuenPopber                         = require('./insertNeuenPopber'),
     loeschePopber                             = require('./loeschePopber'),
     insertNeuenPopmassnber                    = require('./insertNeuenPopmassnber'),
@@ -66,7 +66,8 @@ var _                                         = require('underscore'),
     verorteTpopAufOlmap                       = require('./verorteTpopAufOlmap'),
     zeigeTpopAufGmap                          = require('./zeigeTpopAufGmap'),
     verorteTpopAufGmap                        = require('./verorteTpopAufGmap'),
-    zeigeTpopUndBeobAufGmap                   = require('./zeigeTpopUndBeobAufGmap');
+    zeigeTpopUndBeobAufGmap                   = require('./zeigeTpopUndBeobAufGmap'),
+    schneideBeobZugeordnetAus                 = require('./schneideBeobZugeordnetAus');
 
 module.exports = function (node) {
     var items,
@@ -125,7 +126,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/einfuegen.png",
                 "action": function () {
-                    fuegeAusgeschnittenePopEin($(aktiverNode).attr("id"));
+                    insertAusgeschnittenePop($(aktiverNode).attr("id"));
                 }
             };
         }
@@ -403,7 +404,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/einfuegen.png",
                 "action": function () {
-                    fuegeAusgeschnittenePopEin($(parentNode).attr("id"));
+                    insertAusgeschnittenePop($(parentNode).attr("id"));
                 }
             };
         }
@@ -1034,11 +1035,7 @@ module.exports = function (node) {
                 "separator_before": true,
                 "icon":             "style/images/ausschneiden.png",
                 "action": function () {
-                    // nur aktualisieren, wenn Schreibrechte bestehen
-                    if (!window.apf.pruefeSchreibvoraussetzungen()) {
-                        return;
-                    }
-                    window.apf.beobZugeordnetNodeAusgeschnitten = aktiverNode;
+                    schneideBeobZugeordnetAus(aktiverNode);
                 }
             };
         }
