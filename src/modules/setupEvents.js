@@ -15,7 +15,12 @@ var $                             = require('jquery'),
     exportiereLayer               = require('./olmap/exportiereLayer'),
     frageNameFuerEbene            = require('./olmap/frageNameFuerEbene'),
     initiiereLayertree            = require('./olmap/initiiereLayertree'),
-    stylePop                      = require('./olmap/stylePop');
+    stylePop                      = require('./olmap/stylePop'),
+    styleTPop                     = require('./olmap/styleTPop'),
+    exportiereKarte               = require('./olmap/exportiereKarte'),
+    waehleAp                      = require('./waehleAp'),
+    loescheAp                     = require('./loescheAp'),
+    undeleteDatensatz             = require('./undeleteDatensatz');
 
 module.exports = function () {
     $('#olmap_layertree')
@@ -25,8 +30,8 @@ module.exports = function () {
         })
         .on('click', '.layertree_pop_style', function () {
             var layers = window.apf.olmap.map.getLayers().getArray(),
-                layer = $('#olmap_layertree_Populationen').val(),
-                that = this;
+                layer  = $('#olmap_layertree_Populationen').val(),
+                that   = this;
             // style setzen
             layers[layer].setStyle(stylePop);
             // jeweils andere box unchecken
@@ -38,10 +43,10 @@ module.exports = function () {
         })
         .on('click', '.layertree_tpop_style', function () {
             var layers = window.apf.olmap.map.getLayers().getArray(),
-                layer = $('#olmap_layertree_Teilpopulationen').val(),
-                that = this;
+                layer  = $('#olmap_layertree_Teilpopulationen').val(),
+                that   = this;
             // style setzen
-            layers[layer].setStyle(window.apf.olmap.styleTPop);
+            layers[layer].setStyle(styleTPop);
             // jeweils andere box unchecken
             if ($(that).hasClass('tpopNr') && that.checked) {
                 // andere box unchecken
@@ -198,7 +203,7 @@ module.exports = function () {
 
     $('#GeoAdminKarte')
         .on('click', '#olmap_exportieren', function (event) {
-            window.apf.olmap.exportiereKarte(event);
+            exportiereKarte(event);
         });
 
     $("#ber").on("change", "#BerURL", function () {
@@ -300,7 +305,7 @@ module.exports = function () {
                         width: 500,
                         buttons: {
                             ja: function () {
-                                window.apf.loescheAp(localStorage.apId);
+                                loescheAp(localStorage.apId);
                                 $(this).dialog("close");
                             },
                             nein: function () {
@@ -312,10 +317,10 @@ module.exports = function () {
         })
         .on("change", "#ap_waehlen", function () {
             var value = this.value || localStorage.apId;
-            window.apf.waehleAp(value);
+            waehleAp(value);
         })
         .on("click", "#ap_waehlen_text_loeschen", function () {
-            window.apf.waehleAp();
+            waehleAp();
             $('#ap_waehlen_text').focus();
         });
 
@@ -357,7 +362,7 @@ module.exports = function () {
 
     $("#undelete_div").on("click", "#undelete", function (event) {
         event.preventDefault();
-        window.apf.undeleteDatensatz();
+        undeleteDatensatz();
     });
 
     //Suche steuern

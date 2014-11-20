@@ -1410,11 +1410,6 @@ var initiiereApp = function () {
         });
     };
 
-    // wird in index.js benutzt
-    window.apf.olmap.styleTPop = function (feature, resolution, selected, verorten) {
-        return require('./olmap/styleTPop')(feature, resolution, selected, verorten);
-    };
-
     window.apf.olmap.messe = function (element) {
         var addMeasureInteraction = require('./olmap/addMeasureInteraction');
         window.apf.olmap.deactivateMenuItems();
@@ -1474,12 +1469,6 @@ var initiiereApp = function () {
 
     window.apf.olmap.schliesseLayeroptionen = function () {
         $("#olmap_layertree").accordion("option", "active", false);
-    };
-
-    // wird aufgerufen, wenn der ap geändert wird
-    // wird in index.html benutzt
-    window.apf.waehleAp = function (apId) {
-        require('./waehleAp')(apId);
     };
 
     window.apf.kopiereKoordinatenInPop = function (x_koord, y_koord) {
@@ -1575,21 +1564,6 @@ var initiiereApp = function () {
 
     window.apf.melde = function (meldung, title) {
         require('./melde')(meldung, title);
-    };
-
-    // wird in index.html benutzt
-    window.apf.loescheAp = function (apId) {
-        require('./loescheAp')(apId);
-    };
-
-    // wird in index.html benutzt
-    window.apf.undeleteDatensatz = function () {
-        require('./undeleteDatensatz')();
-    };
-
-    // wird in index benutzt
-    window.apf.olmap.exportiereKarte = function (event) {
-        require('./olmap/exportiereKarte')(event);
     };
 
     // hier behalten, damit $ eingefügt werden kann
