@@ -1,40 +1,73 @@
 {
-    "folders":
-    [
-        {
-            "follow_symlinks": true,
-            "path": "/",
-            "folder_exclude_patterns": ["*"]
-        },
-        {
-            "follow_symlinks": true,
-            "path": "geojson"
-        },
-        {
-            "follow_symlinks": true,
-            "path": "gulp-tasks"
-        },
-        {
-            "follow_symlinks": true,
-            "path": "kml"
-        },
-        {
-            "follow_symlinks": true,
-            "path": "queries"
-        },
-        {
-            "follow_symlinks": true,
-            "path": "sql"
-        },
-        {
-            "follow_symlinks": true,
-            "path": "src",
-            "file_exclude_patterns": ["apflora_browserified.js", "apflora_built.js", "apflora_built.js.map", "hammer.js", "jquery.cookie.js", "jquery.fileDownload.js", "jquery.hammer.js", "jquery.hotkeys.js", "jquery.js", "jquery.jstree.js", "jquery.qtip.js", "jquery.ui.touch-punch.js", "jquery-migrate.js", "jquery-ui.js", "jsuri.js", "markerclusterer.js", "markerwithlabel.js", "proj4.js", "ruler.js", "underscore.js"]
-        },
-        {
-            "follow_symlinks": true,
-            "path": "style",
-            "file_exclude_patterns": ["apflora_built.css", "apflora_built.css.map", "main_built.css", "main_built.css.map", "jquery.qtip.css", "jquery-ui.css"]
-        }
-    ]
+	"folders":
+	[
+		{
+			"follow_symlinks": true,
+			"path": "geojson"
+		},
+		{
+			"folder_exclude_patterns":
+			[
+				"*"
+			],
+			"follow_symlinks": true,
+			"path": ""
+		},
+		{
+			"follow_symlinks": true,
+			"path": "gulp-tasks"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "kml"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "queries"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "sql"
+		},
+		{
+			"file_exclude_patterns":
+			[
+				"apflora_browserified.js",
+				"apflora_built.js",
+				"apflora_built.js.map",
+				"hammer.js",
+				"jquery.cookie.js",
+				"jquery.fileDownload.js",
+				"jquery.hammer.js",
+				"jquery.hotkeys.js",
+				"jquery.js",
+				"jquery.jstree.js",
+				"jquery.qtip.js",
+				"jquery.ui.touch-punch.js",
+				"jquery-migrate.js",
+				"jquery-ui.js",
+				"jsuri.js",
+				"markerclusterer.js",
+				"markerwithlabel.js",
+				"proj4.js",
+				"ruler.js",
+				"underscore.js"
+			],
+			"follow_symlinks": true,
+			"path": "src"
+		},
+		{
+			"file_exclude_patterns":
+			[
+				"apflora_built.css",
+				"apflora_built.css.map",
+				"main_built.css",
+				"main_built.css.map",
+				"jquery.qtip.css",
+				"jquery-ui.css"
+			],
+			"follow_symlinks": true,
+			"path": "style"
+		}
+	]
 }

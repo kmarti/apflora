@@ -109,5 +109,7 @@ module.exports = function () {
         oeffneUri();
     });
 
-    setupEvents();
+    window.apf.setupEvents = function () {
+        setupEvents();
+    };
 };
