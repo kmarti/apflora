@@ -1561,16 +1561,6 @@ var initiiereApp = function () {
         return beobtitel + html_beobfelder;
     };
 
-
-    window.apf.melde = function (meldung, title) {
-        require('./melde')(meldung, title);
-    };
-
-    // hier behalten, damit $ eingefügt werden kann
-    window.apf.treeKontextmenu = function (node) {
-        return require('./jstree/treeKontextmenu')(node);
-    };
-
     // damit kann man die verbleibende Anzahl Zeichen, die in einem Feld erfasst werden, anzeigen
     // Quelle: https://www.scriptiny.com/2012/09/jquery-input-textarea-limiter/
     (function ($) {

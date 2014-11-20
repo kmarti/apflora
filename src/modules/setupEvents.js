@@ -20,7 +20,8 @@ var $                             = require('jquery'),
     exportiereKarte               = require('./olmap/exportiereKarte'),
     waehleAp                      = require('./waehleAp'),
     loescheAp                     = require('./loescheAp'),
-    undeleteDatensatz             = require('./undeleteDatensatz');
+    undeleteDatensatz             = require('./undeleteDatensatz'),
+    melde                         = require('./melde');
 
 module.exports = function () {
     $('#olmap_layertree')
@@ -184,7 +185,7 @@ module.exports = function () {
                     }
                 });
             } else {
-                window.apf.melde('Fehler: Layer nicht entfernt');
+                melde('Fehler: Layer nicht entfernt');
             }
         })
         .on('click', '.neues_layer', function () {
