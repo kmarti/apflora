@@ -43,7 +43,7 @@ module.exports = function (popliste, popidMarkiert, visible) {
             pop_name:     myName,
             name:         myLabel, // noch benötigt? TODO: entfernen
             popupContent: popupContent,
-            popup_title:  myName,
+            popupTitle:  myName,
             // Koordinaten werden gebraucht, damit das popup richtig platziert werden kann
             xkoord:       pop.PopXKoord,
             ykoord:       pop.PopYKoord,

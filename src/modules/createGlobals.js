@@ -1032,7 +1032,7 @@ var initiiereApp = function () {
             tpop_name: tpop.TPopFlurname || '(kein Name)',
             name: window.apf.erstelleTPopNrLabel(tpop.PopNr, tpop.TPopNr),  // brauchts das noch? TODO: entfernen
             popupContent: window.apf.olmap.erstelleContentFuerTPop(tpop),
-            popup_title: tpop.Artname,
+            popupTitle: tpop.Artname,
             // koordinaten werden benötigt damit das popup am richtigen Ort verankert wird
             xkoord: tpop.TPopXKoord,
             ykoord: tpop.TPopYKoord,

@@ -8,21 +8,21 @@ var $                  = require('jquery'),
     erstellePopLayer   = require('./erstellePopLayer');
 
 module.exports = function (overlayPopVisible, overlayPopnrVisible, popidMarkiert) {
-    var pop_gezeigt = $.Deferred();
+    var popGezeigt = $.Deferred();
 
     $.ajax({
         type: 'get',
         url: 'api/v1/popKarteAlle/apId=' + window.apf.ap.ApArtId
-    }).done(function (PopListe) {
+    }).done(function (popListe) {
         // Layer für Symbole und Beschriftung erstellen
-        $.when(erstellePopLayer(PopListe, popidMarkiert, overlayPopVisible)).then(function () {
+        $.when(erstellePopLayer(popListe, popidMarkiert, overlayPopVisible)).then(function () {
             // layertree neu aufbauen
             initiiereLayertree();
-            pop_gezeigt.resolve();
+            popGezeigt.resolve();
         });
     }).fail(function () {
         melde("Fehler: Es konnten keine Populationen aus der Datenbank abgerufen werden");
-        pop_gezeigt.resolve();
+        popGezeigt.resolve();
     });
-    return pop_gezeigt.promise();
+    return popGezeigt.promise();
 };

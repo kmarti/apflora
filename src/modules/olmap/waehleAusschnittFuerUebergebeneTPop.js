@@ -8,39 +8,37 @@
 var _  = require('underscore'),
     ol = require('ol');
 
-var returnFunction = function (tpop_liste_markiert) {
+module.exports = function (tpopListeMarkiert) {
     var bounds,
-        xkoord_array = [],
-        ykoord_array = [],
-        x_max,
-        y_max,
-        x_min,
-        y_min,
+        xArray = [],
+        yArray = [],
+        xMax,
+        yMax,
+        xMin,
+        yMin,
         tpopidMarkiert = [];
 
     // bounds der anzuzeigenden bestimmen
-    if (tpop_liste_markiert && tpop_liste_markiert.length > 0) {
-        _.each(tpop_liste_markiert, function (tpop) {
+    if (tpopListeMarkiert && tpopListeMarkiert.length > 0) {
+        _.each(tpopListeMarkiert, function (tpop) {
             tpopidMarkiert.push(tpop.TPopId);
-            xkoord_array.push(tpop.TPopXKoord);
-            ykoord_array.push(tpop.TPopYKoord);
+            xArray.push(tpop.TPopXKoord);
+            yArray.push(tpop.TPopYKoord);
         });
         // extent berechnen
         // puffern, damit immer alles sichtbar ist
         // underscore retourniert strings, also in Zahlen umwandeln
-        x_max = parseInt(_.max(xkoord_array), 10) + 70;
-        x_min = parseInt(_.min(xkoord_array), 10) - 70;
-        y_max = parseInt(_.max(ykoord_array), 10) + 70;
-        y_min = parseInt(_.min(ykoord_array), 10) - 70;
-        bounds = [x_min, y_min, x_max, y_max];
+        xMax   = parseInt(_.max(xArray), 10) + 70;
+        xMin   = parseInt(_.min(xArray), 10) - 70;
+        yMax   = parseInt(_.max(yArray), 10) + 70;
+        yMin   = parseInt(_.min(yArray), 10) - 70;
+        bounds = [xMin, yMin, xMax, yMax];
     } else {
         // keine tpop übergeben, Kanton anzeigen
         bounds = [669000, 222000, 717000, 284000];
     }
     return {
-        bounds: bounds,
+        bounds:         bounds,
         tpopidMarkiert: tpopidMarkiert
     };
 };
-
-module.exports = returnFunction;

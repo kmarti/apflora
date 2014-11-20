@@ -6,57 +6,57 @@ var $  = require('jquery'),
     ol = require('ol');
 
 // braucht $ wegen $.qtip
-var returnFunction = function (pixel, coordinate) {
+module.exports = function (pixel, coordinate) {
     var features = window.apf.olmap.sucheFeatures(pixel),
         overlay,
-        popup_id,
-        popup_id_array = [],
+        popupId,
+        popupIdArray = [],
         koordinaten,
-        popup_title,
-        popup_text = '',
-        features_mit_typ;
+        popupTitle,
+        popupText = '',
+        featuresMitTyp;
 
     // es scheint auch weitere Features zu geben (z.B. wenn man genau auf die Koordinate einer Pop klickt)
     // nur die gewollten behalten
-    features_mit_typ = _.filter(features, function (feature) {
-        return feature.get('myTyp') ||  feature.get('popup_title');
+    featuresMitTyp = _.filter(features, function (feature) {
+        return feature.get('myTyp') ||  feature.get('popupTitle');
     });
-    if (features_mit_typ && features_mit_typ.length > 0) {
-        // wenn mehrere features_mit_typ vorkommen: die Infos aller sammeln und anzeigen
-        if (features_mit_typ.length > 1) {
-            _.each(features_mit_typ, function (feature, index) {
+    if (featuresMitTyp && featuresMitTyp.length > 0) {
+        // wenn mehrere featuresMitTyp vorkommen: die Infos aller sammeln und anzeigen
+        if (featuresMitTyp.length > 1) {
+            _.each(featuresMitTyp, function (feature, index) {
                 if (feature.get('myTyp') === 'Detailplan') {
-                    popup_text += '<h3>Objekt ID: ' + feature.get('OBJECTID') + '</h3>';
-                    popup_text += '<table><tr><td><p>Typ:</p></td><td><p>Detailplan</p></td></tr>' +
+                    popupText += '<h3>Objekt ID: ' + feature.get('OBJECTID') + '</h3>';
+                    popupText += '<table><tr><td><p>Typ:</p></td><td><p>Detailplan</p></td></tr>' +
                         '<tr><td><p>Fläche:</p></td><td><p>' + parseInt(feature.get('SHAPE_Area') / 10, 10) + '</p></td></tr>' +
                         '<tr><td><p>Bemerkunge:</p></td><td><p>' + (feature.get('Bemerkunge') || "") + '</p></td></tr>' +
                         '<tr><td><p>Bemerkun_1:</p></td><td><p>' + (feature.get('Bemerkun_1') || "") + '</p></td></tr></table>';
                 } else {
-                    popup_text += '<h3>' + feature.get('popup_title') + '</h3>';
-                    popup_text += feature.get('popupContent');
+                    popupText += '<h3>' + feature.get('popupTitle') + '</h3>';
+                    popupText += feature.get('popupContent');
                 }
-                if (index + 1 < features_mit_typ.length) {
-                    popup_text += '<hr>';
+                if (index + 1 < featuresMitTyp.length) {
+                    popupText += '<hr>';
                 }
             });
-            popup_title = features_mit_typ.length + ' Treffer';
+            popupTitle = featuresMitTyp.length + ' Treffer';
             // als Koordinaten den Ort des Klicks nehmen
             koordinaten = coordinate;
         } else {
             // es gibt nur einen feature
-            if (features_mit_typ[0].get('myTyp') === 'Detailplan') {
-                popup_text = '<table><tr><td><p>Typ:</p></td><td><p>Detailplan</p></td></tr>' +
-                    '<tr><td><p>Fläche:</p></td><td><p>' + parseInt(features_mit_typ[0].get('SHAPE_Area') / 10, 10) + '</p></td></tr>' +
-                    '<tr><td><p>Bemerkunge:</p></td><td><p>' + (features_mit_typ[0].get('Bemerkunge') || "") + '</p></td></tr>' +
-                    '<tr><td><p>Bemerkun_1:</p></td><td><p>' + (features_mit_typ[0].get('Bemerkun_1') || "") + '</p></td></tr></table>';
-                popup_title = 'Objekt ID: ' + features_mit_typ[0].get('OBJECTID');
+            if (featuresMitTyp[0].get('myTyp') === 'Detailplan') {
+                popupText = '<table><tr><td><p>Typ:</p></td><td><p>Detailplan</p></td></tr>' +
+                    '<tr><td><p>Fläche:</p></td><td><p>' + parseInt(featuresMitTyp[0].get('SHAPE_Area') / 10, 10) + '</p></td></tr>' +
+                    '<tr><td><p>Bemerkunge:</p></td><td><p>' + (featuresMitTyp[0].get('Bemerkunge') || "") + '</p></td></tr>' +
+                    '<tr><td><p>Bemerkun_1:</p></td><td><p>' + (featuresMitTyp[0].get('Bemerkun_1') || "") + '</p></td></tr></table>';
+                popupTitle = 'Objekt ID: ' + featuresMitTyp[0].get('OBJECTID');
             } else {
-                popup_text = features_mit_typ[0].get('popupContent');
-                popup_title = features_mit_typ[0].get('popup_title');
+                popupText  = featuresMitTyp[0].get('popupContent');
+                popupTitle = featuresMitTyp[0].get('popupTitle');
             }
             // als Koordinaten die Koordinate des popups nehmen
-            if (features_mit_typ[0].get('xkoord') && features_mit_typ[0].get('ykoord')) {
-                koordinaten = [features_mit_typ[0].get('xkoord'), features_mit_typ[0].get('ykoord')];
+            if (featuresMitTyp[0].get('xkoord') && featuresMitTyp[0].get('ykoord')) {
+                koordinaten = [featuresMitTyp[0].get('xkoord'), featuresMitTyp[0].get('ykoord')];
             } else {
                 koordinaten = coordinate;
             }
@@ -66,25 +66,25 @@ var returnFunction = function (pixel, coordinate) {
         $('.olmap_popup').each(function () {
             $(this).qtip({
                 content: {
-                    text: popup_text,
-                    title: popup_title,
+                    text:   popupText,
+                    title:  popupTitle,
                     button: 'Close'
                 },
                 style: {
                     // Use the jQuery UI widget classes
-                    widget: true,
+                    widget:  true,
                     // Remove the default styling
-                    def: false,
+                    def:     false,
                     classes: 'olmap_popup_styling',
                     tip: {
-                        width: 20,
+                        width:  20,
                         height: 20
                     }
                 },
                 position: {
-                    my: 'top left',
-                    at: 'bottom right',
-                    target: $(this),
+                    my:       'top left',
+                    at:       'bottom right',
+                    target:   $(this),
                     viewport: $('#GeoAdminKarte')
                 }
             });
@@ -93,13 +93,13 @@ var returnFunction = function (pixel, coordinate) {
 
         // id des popups ermitteln
         $('.qtip').each(function () {
-            popup_id_array.push($(this).attr('data-qtip-id'));
+            popupIdArray.push($(this).attr('data-qtip-id'));
         });
-        popup_id = _.max(popup_id_array);
+        popupId = _.max(popupIdArray);
 
         // die mit qtip erzeugte div dem overlay übergeben
         overlay = new ol.Overlay({
-            element: $('#qtip-' + popup_id)
+            element: $('#qtip-' + popupId)
         });
         window.apf.olmap.map.addOverlay(overlay);
         overlay.setPosition(koordinaten);
@@ -109,5 +109,3 @@ var returnFunction = function (pixel, coordinate) {
         window.apf.olmap.entfernePopupOverlays();
     }
 };
-
-module.exports = returnFunction;
